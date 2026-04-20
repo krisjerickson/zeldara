@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quests of Zeldara — Village Color Palettes</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d0d10;font-family:'Segoe UI',system-ui,sans-serif;color:#fff;padding:30px 20px 60px}
+h1{text-align:center;font-size:22px;color:#cce;margin-bottom:6px;letter-spacing:1px}
+.subtitle{text-align:center;font-size:12px;color:#556;margin-bottom:34px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:1300px;margin:0 auto}
+
+/* ── CARD ── */
+.card{border-radius:16px;overflow:hidden;border:2px solid rgba(255,255,255,.08);transition:transform .2s,border-color .2s;cursor:pointer}
+.card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.25)}
+.card-label{padding:12px 18px 10px;display:flex;align-items:center;gap:12px}
+.card-num{font-size:11px;color:#556;font-weight:700;min-width:20px}
+.card-name{font-size:15px;font-weight:700;letter-spacing:.5px}
+.card-desc{font-size:11px;opacity:.65;margin-top:1px}
+.card-screen{position:relative;height:260px;display:flex;align-items:stretch}
+
+/* ── VILLAGE MAP ── */
+.village-map{flex:1;display:grid;grid-template-rows:repeat(13,1fr);padding:12px;gap:2px;position:relative}
+.map-row{display:grid;grid-template-columns:repeat(16,1fr);gap:2px}
+.t{border-radius:2px;transition:opacity .2s}
+
+/* ── PALETTE SWATCHES ── */
+.swatches{width:130px;flex-shrink:0;display:flex;flex-direction:column;gap:4px;padding:12px 12px 12px 6px;justify-content:center}
+.swatch{display:flex;align-items:center;gap:7px;font-size:10px}
+.sw-box{width:18px;height:18px;border-radius:3px;flex-shrink:0;border:1px solid rgba(255,255,255,.12)}
+.sw-lbl{opacity:.75;font-size:9px}
+
+/* ── SELECTED BANNER ── */
+#selection-banner{display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.92);border:1px solid rgba(255,255,255,.25);padding:12px 28px;border-radius:10px;font-size:15px;font-weight:600;z-index:999;animation:pop-in .3s ease}
+@keyframes pop-in{from{opacity:0;transform:translateX(-50%) scale(.9)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+</style>
+</head>
+<body>
+<h1>⚔ Village Color Palettes</h1>
+<p class="subtitle">Click a palette to select it · 10 styles for the village area</p>
+
+<div class="grid" id="grid"></div>
+<div id="selection-banner"></div>
+
+<script>
+// ── TILE TYPE INDICES ──
+// 0=sky/bg, 1=grass, 2=grass2, 3=tree, 4=village_floor, 5=stone_floor,
+// 6=building_wall, 7=door, 8=path, 9=flower, 10=dirt, 11=rock
+
+// 13-column × 13-row village map layout
+// Each row is 16 tiles
+const MAP = [
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,3,1,1,1,1,1,1,1,3,1,1,1,1],
+  [1,1,1,1,1,1,9,1,9,1,1,1,1,1,1,1],
+  [1,1,1,4,4,4,4,4,4,4,4,4,4,1,1,1],
+  [1,1,4,6,6,7,6,5,6,7,6,6,4,4,1,1],
+  [1,1,4,6,6,6,5,5,5,6,6,6,4,4,1,1],
+  [1,1,4,4,5,5,5,5,5,5,5,4,4,1,1,1],
+  [1,8,8,8,8,8,8,8,8,8,8,8,8,8,8,1],
+  [1,1,4,4,5,5,5,5,5,5,5,4,4,1,1,1],
+  [1,1,4,6,6,6,5,5,5,6,6,6,4,4,1,1],
+  [1,1,4,6,6,7,6,5,6,7,6,6,4,4,1,1],
+  [1,1,1,4,4,4,4,4,4,4,4,4,4,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+];
+
+// ── 10 PALETTES ──
+// Each palette: [label, card-bg, card-name-color, sky-bg, swatch-text-color, ...tile-colors]
+// Tile order: sky(bg), grass1, grass2, tree, village_floor, stone_floor, building_wall, door, path, flower, dirt, rock
+const PALETTES = [
+  {
+    name:'🌿 Classic Spring',
+    desc:'Default warm greens · Sandy stone · Earthy paths',
+    cardBg:'linear-gradient(135deg,#1a2e0a,#0e1a06)',
+    nameCl:'#aaee66',
+    sky:'#1e3008',
+    colors:['#4a9a2e','#5aaa3e','#1a5a0a','#d0c090','#b0a888','#907860','#6a4820','#c8a870','#dd88aa','#9a7a50','#7a7a7a'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+  {
+    name:'🍂 Autumn Harvest',
+    desc:'Amber grass · Terracotta walls · Warm ember tones',
+    cardBg:'linear-gradient(135deg,#1e1005,#140a03)',
+    nameCl:'#f0a840',
+    sky:'#1a0e04',
+    colors:['#9a7814','#aa8820','#7a3808','#d8a858','#b08858','#8a6240','#5a3210','#c0a050','#ee9944','#a07840','#8a7860'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+  {
+    name:'🌙 Twilight Dusk',
+    desc:'Blue-purple hour · Muted greens · Indigo shadows',
+    cardBg:'linear-gradient(135deg,#100818,#08040e)',
+    nameCl:'#cc99ff',
+    sky:'#0c0618',
+    colors:['#2a4458','#304858','#162840','#a090b8','#8880a8','#685890','#3a2868','#9888a8','#aa66cc','#4a4060','#5a5870'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+  {
+    name:'🌕 Moonlit Night',
+    desc:'Silver & shadow · Near-black grass · Pale stone',
+    cardBg:'linear-gradient(135deg,#080a14,#04060c)',
+    nameCl:'#99aabb',
+    sky:'#040608',
+    colors:['#283828','#303e30','#182418','#c0bcc8','#a0a0b8','#888898','#444464','#b0aab0','#8888cc','#3a3830','#606068'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+  {
+    name:'🌅 Rosy Dawn',
+    desc:'Pink-gold sunrise · Fresh morning greens · Warm stone',
+    cardBg:'linear-gradient(135deg,#1e0e08,#160a06)',
+    nameCl:'#ffaa88',
+    sky:'#1a0c08',
+    colors:['#3a7a18','#4a8828','#1a5010','#e8cc88','#c8a880','#a87858','#7a4828','#ddb868','#ffaa88','#a07850','#887060'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+  {
+    name:'🌲 Verdant Lush',
+    desc:'Deep emerald greens · Rich earth · Saturated foliage',
+    cardBg:'linear-gradient(135deg,#061408,#040e06)',
+    nameCl:'#66ee88',
+    sky:'#041006',
+    colors:['#2a7a08','#3a8a18','#0a4806','#c8c070','#a0a870','#6a7848','#3a5018','#b0a848','#ee88bb','#9a8048','#6a6850'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+  {
+    name:'❄️ Frost & Fog',
+    desc:'Winter grey-blue · Frosted stone · Snow-tipped trees',
+    cardBg:'linear-gradient(135deg,#0a1018,#060c12)',
+    nameCl:'#aaddff',
+    sky:'#0a1020',
+    colors:['#385848','#446858','#284038','#c8ccd4','#a8b0c0','#7888a0','#384868','#c0c8d0','#88aacc','#504848','#6a7888'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+  {
+    name:'🌾 Wheat & Ochre',
+    desc:'Dry golden grasses · Sun-baked clay walls · Dusty paths',
+    cardBg:'linear-gradient(135deg,#1a1404,#100e03)',
+    nameCl:'#ddcc44',
+    sky:'#181205',
+    colors:['#b09830','#c0a840','#6a6818','#e8d070','#c8b860','#b09040','#805820','#e0cc60','#ffcc44','#a89040','#887838'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+  {
+    name:'🔮 Arcane Village',
+    desc:'Magical teal-purple earth · Glowing stone · Mystic flora',
+    cardBg:'linear-gradient(135deg,#080418,#060312)',
+    nameCl:'#bb88ff',
+    sky:'#060212',
+    colors:['#1a4840','#2a5850','#0a2838','#c0a0e8','#a080d0','#7860b0','#3a2080','#b090d0','#ee66ff','#4a3060','#504068'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+  {
+    name:'🏆 Golden Realm',
+    desc:'Bright gold-green · Rich amber stone · Festival warmth',
+    cardBg:'linear-gradient(135deg,#161004,#0e0a02)',
+    nameCl:'#ffdd44',
+    sky:'#100c04',
+    colors:['#6a9a18','#78aa28','#3a7808','#f0d870','#d0b850','#b89040','#7a5818','#e8cc60','#ff8844','#a88838','#887828'],
+    labels:['Grass','Grass 2','Tree','Village Floor','Stone','Wall','Door','Path','Flower','Dirt','Rock'],
+  },
+];
+
+function buildCard(pal, idx) {
+  var card = document.createElement('div');
+  card.className = 'card';
+  card.onclick = function(){ selectPalette(idx+1, pal.name); };
+
+  // Label
+  var label = document.createElement('div');
+  label.className = 'card-label';
+  label.style.background = pal.cardBg;
+  label.innerHTML = '<span class="card-num">0'+(idx+1<10?'0'+(idx+1):idx+1)+'</span>'
+    +'<div><div class="card-name" style="color:'+pal.nameCl+'">'+pal.name+'</div>'
+    +'<div class="card-desc">'+pal.desc+'</div></div>';
+
+  // Screen
+  var screen = document.createElement('div');
+  screen.className = 'card-screen';
+  screen.style.background = pal.sky;
+
+  // Village map
+  var map = document.createElement('div');
+  map.className = 'village-map';
+
+  MAP.forEach(function(row) {
+    var rowEl = document.createElement('div');
+    rowEl.className = 'map-row';
+    row.forEach(function(tileType) {
+      var t = document.createElement('div');
+      t.className = 't';
+      var col = getTileColor(tileType, pal.colors);
+      t.style.background = col;
+      // Add subtle size/shade variation for grass tiles
+      if(tileType === 2) t.style.opacity = '0.85'; // grass2 slightly different
+      rowEl.appendChild(t);
+    });
+    map.appendChild(rowEl);
+  });
+
+  // Swatches panel
+  var swatches = document.createElement('div');
+  swatches.className = 'swatches';
+
+  var swatchMap = [
+    {ti:0, label:'Grass'},
+    {ti:3, label:'Tree'},
+    {ti:4, label:'Floor'},
+    {ti:5, label:'Stone'},
+    {ti:6, label:'Wall'},
+    {ti:7, label:'Door'},
+    {ti:8, label:'Path'},
+  ];
+
+  swatchMap.forEach(function(s) {
+    var col = getTileColor(s.ti, pal.colors);
+    var sw = document.createElement('div');
+    sw.className = 'swatch';
+    sw.innerHTML = '<div class="sw-box" style="background:'+col+'"></div>'
+      +'<span class="sw-lbl" style="color:'+pal.nameCl+';opacity:.9">'+s.label+'<br>'
+      +'<span style="opacity:.5;font-size:8px">'+col.toUpperCase()+'</span></span>';
+    swatches.appendChild(sw);
+  });
+
+  screen.appendChild(map);
+  screen.appendChild(swatches);
+  card.appendChild(label);
+  card.appendChild(screen);
+  return card;
+}
+
+// Map tile type index → palette color
+// Tile indices in MAP: 1=grass1, 2=grass2, 3=tree, 4=village_floor, 5=stone_floor,
+//                      6=building_wall, 7=door, 8=path, 9=flower, 10=dirt, 11=rock
+function getTileColor(type, c) {
+  var m = {1:c[0], 2:c[1], 3:c[2], 4:c[3], 5:c[4], 6:c[5], 7:c[6], 8:c[7], 9:c[8], 10:c[9], 11:c[10]};
+  return m[type] || '#222';
+}
+
+function selectPalette(num, name) {
+  var b = document.getElementById('selection-banner');
+  b.style.display = 'block';
+  b.textContent = '✅ Selected: ' + name + ' — let me know to implement it!';
+  // Brief pulse on the card
+  var cards = document.querySelectorAll('.card');
+  cards.forEach(function(c,i) {
+    c.style.border = (i===num-1) ? '2px solid rgba(255,255,255,.6)' : '2px solid rgba(255,255,255,.08)';
+  });
+}
+
+// Build all cards
+var grid = document.getElementById('grid');
+PALETTES.forEach(function(pal, i) {
+  grid.appendChild(buildCard(pal, i));
+});
+</script>
+</body>
+</html>

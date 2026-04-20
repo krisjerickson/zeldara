@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quests of Zeldara — Theme Mocks</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0d0d10; font-family:'Segoe UI',system-ui,sans-serif; color:#fff; padding:30px 20px 60px; }
+
+h1 { text-align:center; font-size:22px; color:#cce; margin-bottom:6px; letter-spacing:1px; }
+.subtitle { text-align:center; font-size:12px; color:#556; margin-bottom:34px; }
+
+.grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:28px; max-width:1300px; margin:0 auto; }
+
+/* ─── THEME CARD ──────────────────────────────────────────── */
+.card { border-radius:16px; overflow:hidden; border:2px solid rgba(255,255,255,.08); transition:transform .2s, border-color .2s; cursor:pointer; }
+.card:hover { transform:translateY(-3px); border-color:rgba(255,255,255,.25); }
+.card-label { padding:12px 18px 10px; display:flex; align-items:center; gap:10px; }
+.card-num { font-size:11px; color:#556; font-weight:700; min-width:20px; }
+.card-name { font-size:15px; font-weight:700; letter-spacing:.5px; }
+.card-desc { font-size:11px; opacity:.65; margin-top:1px; }
+.card-screen { position:relative; height:240px; overflow:hidden; }
+
+/* ─── MINI HUD ELEMENTS (shared structure) ─────────────────── */
+.mini-hud { position:absolute; inset:0; pointer-events:none; }
+.m-panel { position:absolute; border-radius:9px; padding:8px 12px; backdrop-filter:blur(6px); }
+.m-stats { top:12px; left:12px; width:160px; }
+.m-region { top:12px; left:50%; transform:translateX(-50%); text-align:center; padding:7px 18px; white-space:nowrap; }
+.m-region-name { font-size:11px; font-weight:600; margin-bottom:2px; }
+.m-dots { font-size:10px; letter-spacing:3px; }
+.m-srow { display:flex; align-items:center; gap:5px; margin-bottom:4px; }
+.m-srow:last-child { margin-bottom:0; }
+.m-ico { font-size:11px; width:16px; text-align:center; }
+.m-barb { flex:1; height:6px; border-radius:3px; overflow:hidden; opacity:.85; }
+.m-barf { height:100%; border-radius:3px; }
+.m-val { font-size:9px; min-width:38px; text-align:right; opacity:.8; }
+.m-gold { font-size:9px; font-weight:700; }
+
+.m-actionbar { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); display:flex; gap:5px; }
+.m-btn { padding:5px 12px; border-radius:6px; font-size:10px; font-weight:600; cursor:default; }
+
+.m-iconbar { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); display:flex; gap:4px; }
+.m-slot { border-radius:6px; padding:3px 5px; text-align:center; min-width:36px; }
+.m-key { font-size:6px; opacity:.5; text-transform:uppercase; }
+.m-sico { font-size:12px; line-height:1.2; }
+.m-slbl { font-size:6px; opacity:.6; margin-top:1px; }
+
+.m-modal-peek { position:absolute; bottom:0; right:16px; width:170px; border-radius:10px 10px 0 0; padding:10px 12px; }
+.m-modal-title { font-size:10px; font-weight:700; margin-bottom:6px; letter-spacing:.5px; text-transform:uppercase; }
+.m-stat-row { display:flex; justify-content:space-between; font-size:9px; padding:2px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+.m-sv { font-weight:700; }
+
+.m-notif { position:absolute; top:55px; left:50%; transform:translateX(-50%); padding:5px 14px; border-radius:6px; font-size:10px; white-space:nowrap; border-width:1px; border-style:solid; }
+
+/* Animated elements */
+@keyframes shimmer { 0%,100%{opacity:.3} 50%{opacity:.9} }
+@keyframes flicker { 0%,100%{opacity:.7} 40%{opacity:.4} 60%{opacity:.9} }
+@keyframes aurora-drift { 0%{transform:translateX(-10%) scaleY(.8)} 50%{transform:translateX(10%) scaleY(1.2)} 100%{transform:translateX(-10%) scaleY(.8)} }
+@keyframes star-streak { 0%{transform:translateX(0) translateY(0);opacity:0} 10%{opacity:1} 100%{transform:translateX(-180px) translateY(40px);opacity:0} }
+@keyframes twinkle { 0%,100%{opacity:.2;transform:scale(.7)} 50%{opacity:1;transform:scale(1)} }
+@keyframes lava-glow { 0%,100%{opacity:.35;transform:scaleX(.9)} 50%{opacity:.6;transform:scaleX(1.1)} }
+@keyframes float-up { 0%{transform:translateY(0);opacity:.6} 100%{transform:translateY(-40px);opacity:0} }
+@keyframes wave { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-8px)} }
+@keyframes dust-drift { 0%{transform:translateX(0) translateY(0);opacity:0} 20%{opacity:.5} 100%{transform:translateX(60px) translateY(-20px);opacity:0} }
+@keyframes pulse-ring { 0%,100%{transform:scale(1);opacity:.25} 50%{transform:scale(1.08);opacity:.5} }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 1 — SUNLIT GRASSLANDS
+═══════════════════════════════════════════════════════════════════ */
+.t1 .card-label { background:linear-gradient(135deg,#1a2e0a,#0e1a06); }
+.t1 .card-name { color:#aaee66; }
+.t1 .card-screen { background:linear-gradient(175deg,#1e3a08 0%,#2d5510 35%,#1a2e08 70%,#0e1a06 100%); }
+.t1 .m-panel { background:rgba(8,20,3,.78); border:1px solid rgba(120,200,60,.22); }
+.t1 .m-region-name { color:#c8f068; }
+.t1 .m-dots { color:#88cc44; }
+.t1 .m-val { color:#c8e0a0; }
+.t1 .m-gold { color:#f0d060; }
+.t1 .m-barb { background:rgba(180,220,80,.12); }
+.t1-hp { background:linear-gradient(90deg,#44dd66,#88ff44); }
+.t1-mp { background:linear-gradient(90deg,#44aaff,#88ccff); }
+.t1-xp { background:linear-gradient(90deg,#88aaff,#bbccff); }
+.t1 .m-btn { background:rgba(8,20,3,.75); border:1px solid rgba(120,200,60,.3); color:#aadd66; }
+.t1 .m-slot { background:rgba(8,20,3,.7); border:1px solid rgba(120,200,60,.2); }
+.t1 .m-key { color:#6a9 }
+.t1 .m-slbl { color:#89b }
+.t1 .m-modal-peek { background:linear-gradient(160deg,#0e1e04,#0a1503); border:1px solid rgba(120,200,60,.25); }
+.t1 .m-modal-title { color:#aadd66; }
+.t1 .m-sv { color:#c8f068; }
+.t1 .m-notif { background:rgba(8,20,3,.88); border-color:rgba(120,200,60,.4); color:#c8f068; }
+/* grass blades */
+.t1-grass { position:absolute; bottom:0; left:0; right:0; height:30px; background:linear-gradient(0deg,#1a3208 0%,transparent 100%); }
+.t1-grass::before { content:''; position:absolute; bottom:0; left:0; right:0; height:18px;
+  background:repeating-linear-gradient(90deg, transparent 0px, transparent 3px, rgba(80,160,30,.25) 3px, rgba(80,160,30,.25) 4px); }
+.t1-sun { position:absolute; top:18px; right:30px; width:40px; height:40px; border-radius:50%;
+  background:radial-gradient(circle,#fffbe0 0%,#f0d060 40%,transparent 70%);
+  box-shadow:0 0 20px 6px rgba(240,200,60,.3); animation:shimmer 3s ease-in-out infinite; }
+.t1-cloud { position:absolute; border-radius:40px; background:rgba(255,255,240,.07); }
+.t1-c1 { width:70px; height:16px; top:30px; left:40px; }
+.t1-c2 { width:50px; height:12px; top:50px; left:80px; }
+.t1-firefly { position:absolute; width:3px; height:3px; border-radius:50%; background:#aaff44; animation:twinkle 2s ease-in-out infinite; }
+.t1-f1{top:100px;left:60px;animation-delay:.3s}
+.t1-f2{top:140px;left:120px;animation-delay:1.1s}
+.t1-f3{top:90px;left:200px;animation-delay:.7s}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 2 — ENCHANTED FOREST
+═══════════════════════════════════════════════════════════════════ */
+.t2 .card-label { background:linear-gradient(135deg,#051a10,#031209); }
+.t2 .card-name { color:#44eebb; }
+.t2 .card-screen { background:linear-gradient(175deg,#051a0f 0%,#08251a 40%,#041510 70%,#02100a 100%); }
+.t2 .m-panel { background:rgba(2,12,8,.8); border:1px solid rgba(40,200,130,.22); }
+.t2 .m-region-name { color:#44eebb; }
+.t2 .m-dots { color:#22cc88; }
+.t2 .m-val { color:#99ddcc; }
+.t2 .m-gold { color:#ddee44; }
+.t2 .m-barb { background:rgba(40,200,100,.1); }
+.t2-hp { background:linear-gradient(90deg,#22dd88,#44ffaa); }
+.t2-mp { background:linear-gradient(90deg,#2266ff,#44aaee); }
+.t2-xp { background:linear-gradient(90deg,#44aaff,#88ddff); }
+.t2 .m-btn { background:rgba(2,12,8,.8); border:1px solid rgba(40,200,130,.28); color:#44eebb; }
+.t2 .m-slot { background:rgba(2,12,8,.72); border:1px solid rgba(40,200,130,.22); }
+.t2 .m-key { color:#2a9 }
+.t2 .m-slbl { color:#3ab }
+.t2 .m-modal-peek { background:linear-gradient(160deg,#051a10,#031209); border:1px solid rgba(40,200,130,.28); }
+.t2 .m-modal-title { color:#44eebb; }
+.t2 .m-sv { color:#44eebb; }
+.t2 .m-notif { background:rgba(2,12,8,.9); border-color:rgba(40,200,130,.45); color:#44eebb; }
+/* floating spores */
+.t2-spore { position:absolute; width:4px; height:4px; border-radius:50%; background:rgba(60,255,160,.5); animation:float-up 3s ease-in infinite; }
+.t2-s1{bottom:20px;left:50px;animation-delay:0s}
+.t2-s2{bottom:20px;left:130px;animation-delay:.8s}
+.t2-s3{bottom:20px;left:220px;animation-delay:1.6s}
+.t2-s4{bottom:20px;left:310px;animation-delay:.4s}
+.t2-s5{bottom:20px;left:400px;animation-delay:2.0s}
+.t2-s6{bottom:20px;left:480px;animation-delay:1.2s}
+.t2-glow { position:absolute; border-radius:50%; background:radial-gradient(circle,rgba(40,200,110,.12) 0%,transparent 70%); }
+.t2-g1 { width:150px;height:80px;bottom:0;left:20px; }
+.t2-g2 { width:100px;height:60px;bottom:0;left:180px; }
+.t2-mushroom { position:absolute; bottom:12px; font-size:18px; animation:shimmer 2.5s ease-in-out infinite; }
+.t2-m1{left:28px} .t2-m2{left:200px;animation-delay:.9s} .t2-m3{left:380px;animation-delay:1.4s}
+.t2-vine { position:absolute; width:2px; background:linear-gradient(180deg,transparent,rgba(40,160,80,.3)); }
+.t2-v1{height:60px;top:0;left:80px} .t2-v2{height:80px;top:0;right:100px}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 3 — AURORA BOREALIS + STAR STREAKS ★ FEATURED
+═══════════════════════════════════════════════════════════════════ */
+.t3 .card-label { background:linear-gradient(135deg,#050820,#040615); border:2px solid rgba(80,255,180,.2); }
+.t3 .card-name { color:#88ffdd; }
+.t3 .card-screen { background:radial-gradient(ellipse at 50% 80%,#020818 0%,#010510 60%,#000308 100%); }
+.t3 .m-panel { background:rgba(2,6,24,.82); border:1px solid rgba(80,220,200,.22); }
+.t3 .m-region-name { color:#88ffdd; }
+.t3 .m-dots { color:#44ddbb; }
+.t3 .m-val { color:#aaccee; }
+.t3 .m-gold { color:#ffee88; }
+.t3 .m-barb { background:rgba(60,180,200,.1); }
+.t3-hp { background:linear-gradient(90deg,#44ffaa,#88ffcc); }
+.t3-mp { background:linear-gradient(90deg,#4488ff,#88ccff); }
+.t3-xp { background:linear-gradient(90deg,#aa88ff,#ddbbff); }
+.t3 .m-btn { background:rgba(2,6,24,.8); border:1px solid rgba(80,220,200,.28); color:#88ffdd; }
+.t3 .m-slot { background:rgba(2,6,24,.72); border:1px solid rgba(80,220,200,.22); }
+.t3 .m-key { color:#5ac }
+.t3 .m-slbl { color:#7ad }
+.t3 .m-modal-peek { background:linear-gradient(160deg,#050820,#040615); border:1px solid rgba(80,220,200,.28); }
+.t3 .m-modal-title { color:#88ffdd; }
+.t3 .m-sv { color:#88ffdd; }
+.t3 .m-notif { background:rgba(2,6,24,.9); border-color:rgba(80,255,200,.45); color:#88ffdd; }
+/* Aurora bands */
+.t3-aurora { position:absolute; width:200%; height:120px; left:-50%; border-radius:50%; filter:blur(18px); opacity:.55; animation:aurora-drift 6s ease-in-out infinite; }
+.t3-a1 { top:20px; background:linear-gradient(90deg,transparent 5%,rgba(0,255,160,.35) 20%,rgba(0,200,255,.3) 40%,rgba(80,60,255,.25) 60%,rgba(0,255,160,.2) 80%,transparent 95%); animation-duration:7s; }
+.t3-a2 { top:50px; background:linear-gradient(90deg,transparent 10%,rgba(80,60,255,.25) 25%,rgba(0,255,200,.3) 45%,rgba(180,80,255,.2) 65%,transparent 90%); animation-duration:9s; animation-direction:reverse; }
+.t3-a3 { top:75px; background:linear-gradient(90deg,transparent 15%,rgba(0,200,255,.2) 30%,rgba(0,255,160,.25) 55%,transparent 85%); animation-duration:11s; }
+/* Stars */
+.t3-star { position:absolute; border-radius:50%; background:#fff; animation:twinkle 2s ease-in-out infinite; }
+/* Star streaks */
+.t3-streak { position:absolute; height:1px; background:linear-gradient(90deg,rgba(255,255,255,.9),transparent); animation:star-streak 2s linear infinite; }
+.t3-k1{width:60px;top:40px;left:80%;animation-delay:0s}
+.t3-k2{width:45px;top:85px;left:70%;animation-delay:.7s}
+.t3-k3{width:80px;top:25px;left:60%;animation-delay:1.4s}
+.t3-k4{width:35px;top:110px;left:85%;animation-delay:2.1s}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 4 — VOLCANIC ASHLANDS
+═══════════════════════════════════════════════════════════════════ */
+.t4 .card-label { background:linear-gradient(135deg,#1a0603,#100402); }
+.t4 .card-name { color:#ff8844; }
+.t4 .card-screen { background:linear-gradient(175deg,#1a0603 0%,#250a04 40%,#180503 70%,#0d0202 100%); }
+.t4 .m-panel { background:rgba(12,3,2,.82); border:1px solid rgba(255,80,20,.22); }
+.t4 .m-region-name { color:#ff8844; }
+.t4 .m-dots { color:#dd5522; }
+.t4 .m-val { color:#ddbb99; }
+.t4 .m-gold { color:#ffdd44; }
+.t4 .m-barb { background:rgba(200,60,20,.12); }
+.t4-hp { background:linear-gradient(90deg,#ff4444,#ff8822); }
+.t4-mp { background:linear-gradient(90deg,#2244ff,#4488ff); }
+.t4-xp { background:linear-gradient(90deg,#884422,#cc7733); }
+.t4 .m-btn { background:rgba(12,3,2,.8); border:1px solid rgba(255,80,20,.3); color:#ff8844; }
+.t4 .m-slot { background:rgba(12,3,2,.72); border:1px solid rgba(255,80,20,.22); }
+.t4 .m-key { color:#a64 }
+.t4 .m-slbl { color:#b75 }
+.t4 .m-modal-peek { background:linear-gradient(160deg,#1a0603,#100402); border:1px solid rgba(255,80,20,.28); }
+.t4 .m-modal-title { color:#ff8844; }
+.t4 .m-sv { color:#ff9955; }
+.t4 .m-notif { background:rgba(12,3,2,.9); border-color:rgba(255,100,30,.45); color:#ff9955; }
+.t4-lava { position:absolute; bottom:0; left:0; right:0; height:25px;
+  background:linear-gradient(90deg,#cc2200,#ff6600,#ee4400,#ff8800,#cc3300);
+  background-size:200% 100%; animation:wave 2s ease-in-out infinite;
+  filter:blur(2px); opacity:.7; }
+.t4-lava2 { bottom:10px; height:15px; opacity:.4; animation-delay:.5s; animation-direction:reverse; }
+.t4-glow { position:absolute; bottom:0; left:0; right:0; height:60px;
+  background:linear-gradient(0deg,rgba(200,60,0,.3) 0%,transparent 100%);
+  animation:lava-glow 2.5s ease-in-out infinite; }
+.t4-ember { position:absolute; width:3px; height:3px; border-radius:50%; background:#ff8800; animation:float-up 2.5s ease-in infinite; }
+.t4-e1{bottom:20px;left:60px;animation-delay:.2s}
+.t4-e2{bottom:20px;left:160px;animation-delay:1.1s}
+.t4-e3{bottom:20px;left:280px;animation-delay:.6s}
+.t4-e4{bottom:20px;left:400px;animation-delay:1.8s}
+.t4-ash { position:absolute; background:rgba(80,60,50,.3); border-radius:50%; animation:dust-drift 4s linear infinite; }
+.t4-a1{width:4px;height:4px;bottom:60px;left:100px;animation-delay:.3s}
+.t4-a2{width:3px;height:3px;bottom:80px;left:250px;animation-delay:1.5s}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 5 — DESERT DUNES
+═══════════════════════════════════════════════════════════════════ */
+.t5 .card-label { background:linear-gradient(135deg,#1e1206,#150d04); }
+.t5 .card-name { color:#ffcc66; }
+.t5 .card-screen { background:linear-gradient(175deg,#2a1a06 0%,#3d2508 40%,#2a1806 70%,#180f04 100%); }
+.t5 .m-panel { background:rgba(16,10,3,.8); border:1px solid rgba(220,160,60,.22); }
+.t5 .m-region-name { color:#ffcc66; }
+.t5 .m-dots { color:#ddaa44; }
+.t5 .m-val { color:#ddc8a0; }
+.t5 .m-gold { color:#ffdd44; }
+.t5 .m-barb { background:rgba(200,140,40,.12); }
+.t5-hp { background:linear-gradient(90deg,#ff6644,#ffaa44); }
+.t5-mp { background:linear-gradient(90deg,#4488cc,#77aadd); }
+.t5-xp { background:linear-gradient(90deg,#aa8844,#ddbb66); }
+.t5 .m-btn { background:rgba(16,10,3,.8); border:1px solid rgba(220,160,60,.28); color:#ffcc66; }
+.t5 .m-slot { background:rgba(16,10,3,.72); border:1px solid rgba(220,160,60,.22); }
+.t5 .m-key { color:#a83 }
+.t5 .m-slbl { color:#b94 }
+.t5 .m-modal-peek { background:linear-gradient(160deg,#1e1206,#150d04); border:1px solid rgba(220,160,60,.28); }
+.t5 .m-modal-title { color:#ffcc66; }
+.t5 .m-sv { color:#ffdd88; }
+.t5 .m-notif { background:rgba(16,10,3,.9); border-color:rgba(220,160,60,.45); color:#ffcc66; }
+.t5-dune { position:absolute; bottom:0; left:-10%; width:120%; height:40px; border-radius:50%; background:rgba(160,110,40,.2); }
+.t5-d2 { bottom:5px; left:-5%; height:25px; background:rgba(180,130,60,.15); }
+.t5-heat { position:absolute; bottom:0; left:0; right:0; height:80px;
+  background:linear-gradient(0deg,rgba(220,150,40,.15) 0%,transparent 100%);
+  animation:shimmer 3s ease-in-out infinite; }
+.t5-dust { position:absolute; border-radius:50%; background:rgba(200,160,80,.2); animation:dust-drift 5s linear infinite; }
+.t5-d1-p{width:5px;height:5px;bottom:50px;left:80px;animation-delay:.5s}
+.t5-d2-p{width:4px;height:4px;bottom:70px;left:220px;animation-delay:2s}
+.t5-cactus { position:absolute; bottom:16px; font-size:16px; }
+.t5-c1{left:35px} .t5-c2{left:340px}
+.t5-sun2 { position:absolute; top:20px; right:40px; width:35px; height:35px; border-radius:50%;
+  background:radial-gradient(circle,#fff8e0 0%,#ffcc44 45%,transparent 70%);
+  box-shadow:0 0 30px 8px rgba(255,200,60,.3); animation:shimmer 4s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 6 — ARCTIC TUNDRA
+═══════════════════════════════════════════════════════════════════ */
+.t6 .card-label { background:linear-gradient(135deg,#060e1a,#040a12); }
+.t6 .card-name { color:#aaddff; }
+.t6 .card-screen { background:linear-gradient(175deg,#080e20 0%,#0c1628 40%,#070d1a 70%,#040810 100%); }
+.t6 .m-panel { background:rgba(4,8,18,.82); border:1px solid rgba(140,200,255,.22); }
+.t6 .m-region-name { color:#aaddff; }
+.t6 .m-dots { color:#88bbee; }
+.t6 .m-val { color:#bbd4ee; }
+.t6 .m-gold { color:#ffe888; }
+.t6 .m-barb { background:rgba(100,160,220,.1); }
+.t6-hp { background:linear-gradient(90deg,#44ddff,#88eeff); }
+.t6-mp { background:linear-gradient(90deg,#4466ee,#88aaff); }
+.t6-xp { background:linear-gradient(90deg,#8899ff,#aabbff); }
+.t6 .m-btn { background:rgba(4,8,18,.8); border:1px solid rgba(140,200,255,.28); color:#aaddff; }
+.t6 .m-slot { background:rgba(4,8,18,.72); border:1px solid rgba(140,200,255,.2); }
+.t6 .m-key { color:#68a }
+.t6 .m-slbl { color:#79b }
+.t6 .m-modal-peek { background:linear-gradient(160deg,#060e1a,#040a12); border:1px solid rgba(140,200,255,.28); }
+.t6 .m-modal-title { color:#aaddff; }
+.t6 .m-sv { color:#aaddff; }
+.t6 .m-notif { background:rgba(4,8,18,.9); border-color:rgba(140,220,255,.45); color:#aaddff; }
+/* snowflakes */
+.t6-snow { position:absolute; color:rgba(200,230,255,.55); font-size:12px; animation:float-up 4s linear infinite; }
+.t6-sn1{bottom:20px;left:40px;animation-delay:.2s;font-size:8px}
+.t6-sn2{bottom:20px;left:120px;animation-delay:1.2s;font-size:10px}
+.t6-sn3{bottom:20px;left:220px;animation-delay:.6s;font-size:7px}
+.t6-sn4{bottom:20px;left:340px;animation-delay:2s;font-size:9px}
+.t6-sn5{bottom:20px;left:450px;animation-delay:1.6s;font-size:8px}
+.t6-ice { position:absolute; bottom:0; left:0; right:0; height:20px;
+  background:linear-gradient(0deg,rgba(180,220,255,.15) 0%,transparent 100%); }
+.t6-frost { position:absolute; bottom:0; left:0; right:0;
+  background:repeating-linear-gradient(90deg,transparent 0px,transparent 12px,rgba(180,220,255,.06) 12px,rgba(180,220,255,.06) 14px); height:12px; }
+.t6-crystal { position:absolute; bottom:10px; font-size:14px; opacity:.5; }
+.t6-cr1{left:60px} .t6-cr2{left:300px} .t6-cr3{left:480px}
+.t6-moon { position:absolute; top:18px; right:35px; width:30px; height:30px; border-radius:50%;
+  background:radial-gradient(circle,#e8f0ff 0%,#aac8ee 50%,transparent 70%);
+  box-shadow:0 0 15px 4px rgba(140,190,255,.2); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 7 — DEEP OCEAN ABYSS
+═══════════════════════════════════════════════════════════════════ */
+.t7 .card-label { background:linear-gradient(135deg,#020c14,#010810); }
+.t7 .card-name { color:#44eeff; }
+.t7 .card-screen { background:radial-gradient(ellipse at 30% 60%,#020c18 0%,#010810 60%,#000508 100%); }
+.t7 .m-panel { background:rgba(1,6,12,.84); border:1px solid rgba(0,180,220,.22); }
+.t7 .m-region-name { color:#44eeff; }
+.t7 .m-dots { color:#22ccdd; }
+.t7 .m-val { color:#88ccdd; }
+.t7 .m-gold { color:#ddee66; }
+.t7 .m-barb { background:rgba(0,160,200,.1); }
+.t7-hp { background:linear-gradient(90deg,#22eecc,#44ffee); }
+.t7-mp { background:linear-gradient(90deg,#2244cc,#4488ff); }
+.t7-xp { background:linear-gradient(90deg,#4488cc,#66aadd); }
+.t7 .m-btn { background:rgba(1,6,12,.82); border:1px solid rgba(0,180,220,.28); color:#44eeff; }
+.t7 .m-slot { background:rgba(1,6,12,.74); border:1px solid rgba(0,180,220,.2); }
+.t7 .m-key { color:#2ac }
+.t7 .m-slbl { color:#3bd }
+.t7 .m-modal-peek { background:linear-gradient(160deg,#020c14,#010810); border:1px solid rgba(0,180,220,.28); }
+.t7 .m-modal-title { color:#44eeff; }
+.t7 .m-sv { color:#44eeff; }
+.t7 .m-notif { background:rgba(1,6,12,.9); border-color:rgba(0,200,240,.45); color:#44eeff; }
+/* bubble particles */
+.t7-bubble { position:absolute; border-radius:50%; border:1px solid rgba(60,200,220,.3); animation:float-up 3.5s ease-in infinite; }
+.t7-b1{width:6px;height:6px;bottom:10px;left:55px;animation-delay:.3s}
+.t7-b2{width:4px;height:4px;bottom:10px;left:150px;animation-delay:1.1s}
+.t7-b3{width:8px;height:8px;bottom:10px;left:260px;animation-delay:.7s}
+.t7-b4{width:5px;height:5px;bottom:10px;left:370px;animation-delay:1.9s}
+.t7-b5{width:4px;height:4px;bottom:10px;left:460px;animation-delay:.5s}
+.t7-ray { position:absolute; top:0; width:3px; height:100%; opacity:.06;
+  background:linear-gradient(180deg,rgba(0,200,240,.8) 0%,transparent 100%); }
+.t7-r1{left:60px;transform:skewX(8deg)} .t7-r2{left:180px;transform:skewX(-5deg)} .t7-r3{left:310px;transform:skewX(6deg)} .t7-r4{left:440px;transform:skewX(-9deg)}
+.t7-biolum { position:absolute; border-radius:50%; animation:shimmer 2.5s ease-in-out infinite; }
+.t7-bl1{width:8px;height:8px;bottom:30px;left:80px;background:rgba(0,255,200,.3);animation-delay:.5s}
+.t7-bl2{width:6px;height:6px;bottom:50px;left:240px;background:rgba(60,180,255,.3);animation-delay:1.3s}
+.t7-bl3{width:10px;height:10px;bottom:25px;left:400px;background:rgba(0,240,180,.25);animation-delay:.8s}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 8 — ARCANE VOID
+═══════════════════════════════════════════════════════════════════ */
+.t8 .card-label { background:linear-gradient(135deg,#0e0516,#0a0310); }
+.t8 .card-name { color:#dd88ff; }
+.t8 .card-screen { background:radial-gradient(ellipse at 50% 50%,#0e0518 0%,#08031288 50%,#04010a 100%); }
+.t8 .m-panel { background:rgba(6,2,12,.84); border:1px solid rgba(160,60,255,.22); }
+.t8 .m-region-name { color:#dd88ff; }
+.t8 .m-dots { color:#bb66ee; }
+.t8 .m-val { color:#ccaadd; }
+.t8 .m-gold { color:#ffee88; }
+.t8 .m-barb { background:rgba(140,40,200,.12); }
+.t8-hp { background:linear-gradient(90deg,#cc44ee,#ff88ff); }
+.t8-mp { background:linear-gradient(90deg,#4444ff,#8866ff); }
+.t8-xp { background:linear-gradient(90deg,#8844cc,#bbaaff); }
+.t8 .m-btn { background:rgba(6,2,12,.82); border:1px solid rgba(160,60,255,.28); color:#dd88ff; }
+.t8 .m-slot { background:rgba(6,2,12,.74); border:1px solid rgba(160,60,255,.2); }
+.t8 .m-key { color:#a6c }
+.t8 .m-slbl { color:#b7d }
+.t8 .m-modal-peek { background:linear-gradient(160deg,#0e0516,#0a0310); border:1px solid rgba(160,60,255,.28); }
+.t8 .m-modal-title { color:#dd88ff; }
+.t8 .m-sv { color:#dd88ff; }
+.t8 .m-notif { background:rgba(6,2,12,.9); border-color:rgba(180,80,255,.45); color:#dd88ff; }
+/* rune circles */
+.t8-rune { position:absolute; border-radius:50%; border:1px solid rgba(160,60,255,.2); animation:pulse-ring 3s ease-in-out infinite; }
+.t8-r1{width:80px;height:80px;top:80px;left:60px;animation-delay:0s}
+.t8-r2{width:50px;height:50px;top:100px;left:300px;animation-delay:.8s}
+.t8-r3{width:120px;height:120px;top:60px;left:380px;animation-delay:1.5s}
+.t8-orb { position:absolute; border-radius:50%; filter:blur(8px); animation:shimmer 2s ease-in-out infinite; }
+.t8-o1{width:20px;height:20px;bottom:40px;left:80px;background:rgba(180,60,255,.4);animation-delay:.3s}
+.t8-o2{width:14px;height:14px;top:50px;left:240px;background:rgba(80,60,255,.4);animation-delay:1.1s}
+.t8-o3{width:16px;height:16px;bottom:60px;left:420px;background:rgba(220,80,255,.35);animation-delay:.7s}
+.t8-spark { position:absolute; width:2px; height:2px; border-radius:50%; background:#dd88ff; animation:twinkle 1.5s ease-in-out infinite; }
+.t8-sp1{top:90px;left:140px;animation-delay:.2s}
+.t8-sp2{top:130px;left:210px;animation-delay:.9s}
+.t8-sp3{top:70px;left:330px;animation-delay:.5s}
+.t8-sp4{top:120px;left:480px;animation-delay:1.3s}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 9 — SKY KINGDOM CELESTIAL
+═══════════════════════════════════════════════════════════════════ */
+.t9 .card-label { background:linear-gradient(135deg,#100c1a,#0c0814); }
+.t9 .card-name { color:#ffddaa; }
+.t9 .card-screen { background:linear-gradient(175deg,#14102a 0%,#1e1840 40%,#110e22 70%,#080618 100%); }
+.t9 .m-panel { background:rgba(8,6,16,.82); border:1px solid rgba(220,180,100,.22); }
+.t9 .m-region-name { color:#ffddaa; }
+.t9 .m-dots { color:#ddbb88; }
+.t9 .m-val { color:#ddd0b8; }
+.t9 .m-gold { color:#ffdd44; }
+.t9 .m-barb { background:rgba(200,160,60,.1); }
+.t9-hp { background:linear-gradient(90deg,#ff8844,#ffcc66); }
+.t9-mp { background:linear-gradient(90deg,#6688ff,#99aaff); }
+.t9-xp { background:linear-gradient(90deg,#aa88ff,#ccbbff); }
+.t9 .m-btn { background:rgba(8,6,16,.8); border:1px solid rgba(220,180,100,.28); color:#ffddaa; }
+.t9 .m-slot { background:rgba(8,6,16,.72); border:1px solid rgba(220,180,100,.2); }
+.t9 .m-key { color:#a87 }
+.t9 .m-slbl { color:#b98 }
+.t9 .m-modal-peek { background:linear-gradient(160deg,#100c1a,#0c0814); border:1px solid rgba(220,180,100,.28); }
+.t9 .m-modal-title { color:#ffddaa; }
+.t9 .m-sv { color:#ffddaa; }
+.t9 .m-notif { background:rgba(8,6,16,.9); border-color:rgba(220,180,100,.45); color:#ffddaa; }
+/* clouds */
+.t9-cloud { position:absolute; border-radius:50px; background:rgba(255,240,220,.05); filter:blur(3px); }
+.t9-c1{width:90px;height:24px;top:35px;left:30px}
+.t9-c2{width:70px;height:18px;top:55px;left:80px}
+.t9-c3{width:110px;height:22px;top:28px;left:260px}
+.t9-c4{width:60px;height:16px;top:48px;left:290px}
+.t9-star2 { position:absolute; border-radius:50%; background:#fff; animation:twinkle 3s ease-in-out infinite; }
+.t9-s1{width:2px;height:2px;top:60px;left:50px;animation-delay:.3s}
+.t9-s2{width:3px;height:3px;top:40px;left:180px;animation-delay:1.2s}
+.t9-s3{width:2px;height:2px;top:75px;left:380px;animation-delay:.7s}
+.t9-s4{width:2px;height:2px;top:50px;left:500px;animation-delay:1.8s}
+.t9-temple { position:absolute; bottom:12px; font-size:20px; opacity:.35; }
+.t9-t1{left:30px} .t9-t2{right:30px}
+.t9-sunburst { position:absolute; top:15px; left:50%; transform:translateX(-50%); width:50px; height:50px; border-radius:50%;
+  background:radial-gradient(circle,rgba(255,220,130,.2) 0%,rgba(220,160,60,.08) 50%,transparent 70%); animation:shimmer 4s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME 10 — BLOOD MOON CRIMSON
+═══════════════════════════════════════════════════════════════════ */
+.t10 .card-label { background:linear-gradient(135deg,#130306,#0d0204); }
+.t10 .card-name { color:#ff4466; }
+.t10 .card-screen { background:radial-gradient(ellipse at 50% 30%,#1a0306 0%,#0e0204 50%,#060102 100%); }
+.t10 .m-panel { background:rgba(8,1,3,.84); border:1px solid rgba(200,30,60,.22); }
+.t10 .m-region-name { color:#ff4466; }
+.t10 .m-dots { color:#dd2244; }
+.t10 .m-val { color:#ddbbbb; }
+.t10 .m-gold { color:#ffcc44; }
+.t10 .m-barb { background:rgba(180,30,50,.12); }
+.t10-hp { background:linear-gradient(90deg,#ff2244,#ff6688); }
+.t10-mp { background:linear-gradient(90deg,#441188,#8844cc); }
+.t10-xp { background:linear-gradient(90deg,#882244,#cc4466); }
+.t10 .m-btn { background:rgba(8,1,3,.82); border:1px solid rgba(200,30,60,.3); color:#ff4466; }
+.t10 .m-slot { background:rgba(8,1,3,.74); border:1px solid rgba(200,30,60,.22); }
+.t10 .m-key { color:#a36 }
+.t10 .m-slbl { color:#b47 }
+.t10 .m-modal-peek { background:linear-gradient(160deg,#130306,#0d0204); border:1px solid rgba(200,30,60,.28); }
+.t10 .m-modal-title { color:#ff4466; }
+.t10 .m-sv { color:#ff4466; }
+.t10 .m-notif { background:rgba(8,1,3,.9); border-color:rgba(220,40,70,.45); color:#ff4466; }
+/* blood moon */
+.t10-moon2 { position:absolute; top:15px; right:40px; width:44px; height:44px; border-radius:50%;
+  background:radial-gradient(circle,#ff2222 0%,#aa1122 40%,transparent 70%);
+  box-shadow:0 0 20px 6px rgba(200,20,40,.35); animation:flicker 3s ease-in-out infinite; }
+.t10-haze { position:absolute; inset:0; background:radial-gradient(ellipse at 50% 20%,rgba(160,10,20,.15) 0%,transparent 70%); }
+.t10-mist { position:absolute; bottom:0; left:0; right:0; height:30px;
+  background:linear-gradient(0deg,rgba(100,5,10,.35) 0%,transparent 100%); }
+.t10-spark2 { position:absolute; width:2px; height:2px; border-radius:50%; background:#ff4466; animation:twinkle 2s ease-in-out infinite; }
+.t10-sp1{top:60px;left:60px;animation-delay:.2s}
+.t10-sp2{top:80px;left:160px;animation-delay:.9s}
+.t10-sp3{top:50px;left:280px;animation-delay:.5s}
+.t10-sp4{top:100px;left:400px;animation-delay:1.3s}
+.t10-sp5{top:70px;left:500px;animation-delay:.8s}
+.t10-chain { position:absolute; bottom:14px; font-size:14px; opacity:.3; }
+.t10-ch1{left:40px} .t10-ch2{left:300px}
+</style>
+</head>
+<body>
+
+<h1>⚔ Quests of Zeldara — Theme Mocks</h1>
+<p class="subtitle">Click a theme to select · Building off current grasslands → 10 visual identities</p>
+
+<div class="grid">
+
+  <!-- ═══ THEME 1 — SUNLIT GRASSLANDS ═══════════════════════════ -->
+  <div class="card t1" onclick="selectTheme(1,'Sunlit Grasslands')">
+    <div class="card-label">
+      <span class="card-num">01</span>
+      <div><div class="card-name">🌿 Sunlit Grasslands</div><div class="card-desc">Warm greens · Amber sun · Firefly glow · Base theme evolution</div></div>
+    </div>
+    <div class="card-screen">
+      <div class="t1-cloud t1-c1"></div><div class="t1-cloud t1-c2"></div>
+      <div class="t1-sun"></div>
+      <div class="t1-firefly t1-f1"></div><div class="t1-firefly t1-f2"></div><div class="t1-firefly t1-f3"></div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t1">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t1-hp" style="width:75%"></div></div><span class="m-val">22/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t1-mp" style="width:50%"></div></div><span class="m-val">25/50</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t1-xp" style="width:40%"></div></div><span class="m-val">Lv 3</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">320g</span></div>
+        </div>
+        <div class="m-panel m-region t1">
+          <div class="m-region-name">SE Grasslands</div>
+          <div class="m-dots">● ● ○ ○</div>
+        </div>
+        <div class="m-notif t1">🌿 Area unlocked!</div>
+        <div class="m-modal-peek t1">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">12</span></div>
+          <div class="m-stat-row"><span>DEF</span><span class="m-sv">8</span></div>
+          <div class="m-stat-row"><span>Speed</span><span class="m-sv">+15%</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t1">🗺️ Map</div>
+          <div class="m-btn t1">📜 Quests</div>
+          <div class="m-btn t1">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t1"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t1"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t1"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t1"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+      <div class="t1-grass"></div>
+    </div>
+  </div>
+
+  <!-- ═══ THEME 2 — ENCHANTED FOREST ═══════════════════════════ -->
+  <div class="card t2" onclick="selectTheme(2,'Enchanted Forest')">
+    <div class="card-label">
+      <span class="card-num">02</span>
+      <div><div class="card-name">🍄 Enchanted Forest</div><div class="card-desc">Bioluminescent teal · Spore glow · Mycelium greens</div></div>
+    </div>
+    <div class="card-screen">
+      <div class="t2-vine t2-v1"></div><div class="t2-vine t2-v2"></div>
+      <div class="t2-glow t2-g1"></div><div class="t2-glow t2-g2"></div>
+      <div class="t2-spore t2-s1"></div><div class="t2-spore t2-s2"></div><div class="t2-spore t2-s3"></div>
+      <div class="t2-spore t2-s4"></div><div class="t2-spore t2-s5"></div><div class="t2-spore t2-s6"></div>
+      <div class="t2-mushroom t2-m1">🍄</div><div class="t2-mushroom t2-m2">🍄</div><div class="t2-mushroom t2-m3">🍄</div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t2">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t2-hp" style="width:60%"></div></div><span class="m-val">18/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t2-mp" style="width:80%"></div></div><span class="m-val">40/50</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t2-xp" style="width:60%"></div></div><span class="m-val">Lv 4</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">580g</span></div>
+        </div>
+        <div class="m-panel m-region t2">
+          <div class="m-region-name">Whispering Woods</div>
+          <div class="m-dots">● ● ● ○</div>
+        </div>
+        <div class="m-notif t2">🍄 Spore cloud active!</div>
+        <div class="m-modal-peek t2">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">18</span></div>
+          <div class="m-stat-row"><span>MP Regen</span><span class="m-sv">6.0/s</span></div>
+          <div class="m-stat-row"><span>Cooldown</span><span class="m-sv">-24%</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t2">🗺️ Map</div>
+          <div class="m-btn t2">📜 Quests</div>
+          <div class="m-btn t2">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t2"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t2"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t2"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t2"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ THEME 3 — AURORA BOREALIS ★ FEATURED ════════════════ -->
+  <div class="card t3" onclick="selectTheme(3,'Aurora Borealis')">
+    <div class="card-label" style="border-bottom:1px solid rgba(80,255,180,.12)">
+      <span class="card-num">03</span>
+      <div>
+        <div class="card-name">🌌 Aurora Borealis <span style="font-size:9px;background:rgba(80,255,180,.15);border:1px solid rgba(80,255,180,.3);color:#88ffdd;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle">FEATURED</span></div>
+        <div class="card-desc">Deep midnight blue · Animated aurora bands · Star streaks · Constellation glow</div>
+      </div>
+    </div>
+    <div class="card-screen">
+      <!-- Stars scattered -->
+      <div class="t3-star" style="width:2px;height:2px;top:18px;left:30px;animation-delay:.2s"></div>
+      <div class="t3-star" style="width:2px;height:2px;top:35px;left:90px;animation-delay:.8s"></div>
+      <div class="t3-star" style="width:3px;height:3px;top:12px;left:160px;animation-delay:1.4s"></div>
+      <div class="t3-star" style="width:2px;height:2px;top:28px;left:240px;animation-delay:.5s"></div>
+      <div class="t3-star" style="width:2px;height:2px;top:45px;left:340px;animation-delay:1.9s"></div>
+      <div class="t3-star" style="width:3px;height:3px;top:20px;left:420px;animation-delay:.3s"></div>
+      <div class="t3-star" style="width:2px;height:2px;top:55px;left:500px;animation-delay:1.1s"></div>
+      <!-- Aurora bands -->
+      <div class="t3-aurora t3-a1"></div>
+      <div class="t3-aurora t3-a2"></div>
+      <div class="t3-aurora t3-a3"></div>
+      <!-- Star streaks -->
+      <div class="t3-streak t3-k1"></div>
+      <div class="t3-streak t3-k2"></div>
+      <div class="t3-streak t3-k3"></div>
+      <div class="t3-streak t3-k4"></div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t3">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t3-hp" style="width:90%"></div></div><span class="m-val">27/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t3-mp" style="width:70%"></div></div><span class="m-val">35/50</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t3-xp" style="width:55%"></div></div><span class="m-val">Lv 5</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">1,240g</span></div>
+        </div>
+        <div class="m-panel m-region t3">
+          <div class="m-region-name">Aurora Highlands</div>
+          <div class="m-dots">● ● ● ●</div>
+        </div>
+        <div class="m-notif t3">🌌 Phantom Veil active!</div>
+        <div class="m-modal-peek t3">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">28</span></div>
+          <div class="m-stat-row"><span>MP Regen</span><span class="m-sv">7.5/s</span></div>
+          <div class="m-stat-row"><span>Cooldown</span><span class="m-sv">-52%</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t3">🗺️ Map</div>
+          <div class="m-btn t3">📜 Quests</div>
+          <div class="m-btn t3">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t3"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t3"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t3"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t3"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ THEME 4 — VOLCANIC ASHLANDS ═══════════════════════════ -->
+  <div class="card t4" onclick="selectTheme(4,'Volcanic Ashlands')">
+    <div class="card-label">
+      <span class="card-num">04</span>
+      <div><div class="card-name">🌋 Volcanic Ashlands</div><div class="card-desc">Charcoal base · Lava glow · Ember particles · Heat distortion</div></div>
+    </div>
+    <div class="card-screen">
+      <div class="t4-glow"></div>
+      <div class="t4-ember t4-e1"></div><div class="t4-ember t4-e2"></div><div class="t4-ember t4-e3"></div><div class="t4-ember t4-e4"></div>
+      <div class="t4-ash t4-a1"></div><div class="t4-ash t4-a2"></div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t4">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t4-hp" style="width:45%"></div></div><span class="m-val">14/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t4-mp" style="width:30%"></div></div><span class="m-val">15/50</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t4-xp" style="width:70%"></div></div><span class="m-val">Lv 6</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">940g</span></div>
+        </div>
+        <div class="m-panel m-region t4">
+          <div class="m-region-name">NW Ashlands</div>
+          <div class="m-dots">● ● ● ○</div>
+        </div>
+        <div class="m-notif t4">🔥 Berserker active!</div>
+        <div class="m-modal-peek t4">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">38 ×2</span></div>
+          <div class="m-stat-row"><span>DEF</span><span class="m-sv">6 ÷2</span></div>
+          <div class="m-stat-row"><span>Speed</span><span class="m-sv">+50%</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t4">🗺️ Map</div>
+          <div class="m-btn t4">📜 Quests</div>
+          <div class="m-btn t4">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t4"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t4"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t4"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t4"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+      <div class="t4-lava"></div>
+      <div class="t4-lava t4-lava2"></div>
+    </div>
+  </div>
+
+  <!-- ═══ THEME 5 — DESERT DUNES ════════════════════════════════ -->
+  <div class="card t5" onclick="selectTheme(5,'Desert Dunes')">
+    <div class="card-label">
+      <span class="card-num">05</span>
+      <div><div class="card-name">🏜️ Desert Dunes</div><div class="card-desc">Warm amber · Sandstone · Mirage shimmer · Cactus silhouettes</div></div>
+    </div>
+    <div class="card-screen">
+      <div class="t5-sun2"></div>
+      <div class="t5-dune"></div><div class="t5-dune t5-d2"></div>
+      <div class="t5-heat"></div>
+      <div class="t5-dust t5-d1-p"></div><div class="t5-dust t5-d2-p"></div>
+      <div class="t5-cactus t5-c1">🌵</div><div class="t5-cactus t5-c2">🌵</div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t5">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t5-hp" style="width:55%"></div></div><span class="m-val">16/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t5-mp" style="width:25%"></div></div><span class="m-val">12/50</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t5-xp" style="width:35%"></div></div><span class="m-val">Lv 3</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">210g</span></div>
+        </div>
+        <div class="m-panel m-region t5">
+          <div class="m-region-name">Sunscorch Wastes</div>
+          <div class="m-dots">● ● ○ ○</div>
+        </div>
+        <div class="m-notif t5">☀️ Heat shimmer!</div>
+        <div class="m-modal-peek t5">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">15</span></div>
+          <div class="m-stat-row"><span>DEF</span><span class="m-sv">9</span></div>
+          <div class="m-stat-row"><span>Speed</span><span class="m-sv">+22%</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t5">🗺️ Map</div>
+          <div class="m-btn t5">📜 Quests</div>
+          <div class="m-btn t5">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t5"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t5"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t5"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t5"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ THEME 6 — ARCTIC TUNDRA ════════════════════════════════ -->
+  <div class="card t6" onclick="selectTheme(6,'Arctic Tundra')">
+    <div class="card-label">
+      <span class="card-num">06</span>
+      <div><div class="card-name">❄️ Arctic Tundra</div><div class="card-desc">Ice blue · Frost whites · Crystal formations · Moonlit snow</div></div>
+    </div>
+    <div class="card-screen">
+      <div class="t6-moon"></div>
+      <div class="t6-snow t6-sn1">❄</div><div class="t6-snow t6-sn2">*</div><div class="t6-snow t6-sn3">❄</div>
+      <div class="t6-snow t6-sn4">*</div><div class="t6-snow t6-sn5">❄</div>
+      <div class="t6-crystal t6-cr1">💎</div><div class="t6-crystal t6-cr2">💎</div><div class="t6-crystal t6-cr3">💎</div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t6">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t6-hp" style="width:85%"></div></div><span class="m-val">25/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t6-mp" style="width:65%"></div></div><span class="m-val">32/50</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t6-xp" style="width:50%"></div></div><span class="m-val">Lv 4</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">680g</span></div>
+        </div>
+        <div class="m-panel m-region t6">
+          <div class="m-region-name">Frostpeak Tundra</div>
+          <div class="m-dots">● ● ● ○</div>
+        </div>
+        <div class="m-notif t6">❄️ Ice Shards cast!</div>
+        <div class="m-modal-peek t6">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">22</span></div>
+          <div class="m-stat-row"><span>DEF</span><span class="m-sv">14</span></div>
+          <div class="m-stat-row"><span>MP Regen</span><span class="m-sv">5.5/s</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t6">🗺️ Map</div>
+          <div class="m-btn t6">📜 Quests</div>
+          <div class="m-btn t6">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t6"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t6"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t6"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t6"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+      <div class="t6-ice"></div><div class="t6-frost"></div>
+    </div>
+  </div>
+
+  <!-- ═══ THEME 7 — DEEP OCEAN ABYSS ════════════════════════════ -->
+  <div class="card t7" onclick="selectTheme(7,'Deep Ocean Abyss')">
+    <div class="card-label">
+      <span class="card-num">07</span>
+      <div><div class="card-name">🌊 Deep Ocean Abyss</div><div class="card-desc">Teal-black depths · Bioluminescent orbs · Light rays · Rising bubbles</div></div>
+    </div>
+    <div class="card-screen">
+      <div class="t7-ray t7-r1"></div><div class="t7-ray t7-r2"></div><div class="t7-ray t7-r3"></div><div class="t7-ray t7-r4"></div>
+      <div class="t7-bubble t7-b1"></div><div class="t7-bubble t7-b2"></div><div class="t7-bubble t7-b3"></div><div class="t7-bubble t7-b4"></div><div class="t7-bubble t7-b5"></div>
+      <div class="t7-biolum t7-bl1"></div><div class="t7-biolum t7-bl2"></div><div class="t7-biolum t7-bl3"></div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t7">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t7-hp" style="width:70%"></div></div><span class="m-val">21/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t7-mp" style="width:90%"></div></div><span class="m-val">45/50</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t7-xp" style="width:80%"></div></div><span class="m-val">Lv 5</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">760g</span></div>
+        </div>
+        <div class="m-panel m-region t7">
+          <div class="m-region-name">Abyssal Trench</div>
+          <div class="m-dots">● ● ● ○</div>
+        </div>
+        <div class="m-notif t7">🌊 Sea Pearl found!</div>
+        <div class="m-modal-peek t7">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">24</span></div>
+          <div class="m-stat-row"><span>DEF</span><span class="m-sv">16</span></div>
+          <div class="m-stat-row"><span>MP Regen</span><span class="m-sv">7.0/s</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t7">🗺️ Map</div>
+          <div class="m-btn t7">📜 Quests</div>
+          <div class="m-btn t7">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t7"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t7"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t7"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t7"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ THEME 8 — ARCANE VOID ═══════════════════════════════════ -->
+  <div class="card t8" onclick="selectTheme(8,'Arcane Void')">
+    <div class="card-label">
+      <span class="card-num">08</span>
+      <div><div class="card-name">🔮 Arcane Void</div><div class="card-desc">Deep violet · Floating rune circles · Arcane orbs · Mystic sparks</div></div>
+    </div>
+    <div class="card-screen">
+      <div class="t8-rune t8-r1"></div><div class="t8-rune t8-r2"></div><div class="t8-rune t8-r3"></div>
+      <div class="t8-orb t8-o1"></div><div class="t8-orb t8-o2"></div><div class="t8-orb t8-o3"></div>
+      <div class="t8-spark t8-sp1"></div><div class="t8-spark t8-sp2"></div><div class="t8-spark t8-sp3"></div><div class="t8-spark t8-sp4"></div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t8">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t8-hp" style="width:65%"></div></div><span class="m-val">19/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t8-mp" style="width:95%"></div></div><span class="m-val">75/80</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t8-xp" style="width:88%"></div></div><span class="m-val">Lv 7</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">2,100g</span></div>
+        </div>
+        <div class="m-panel m-region t8">
+          <div class="m-region-name">Void Sanctum</div>
+          <div class="m-dots">● ● ● ●</div>
+        </div>
+        <div class="m-notif t8">🔮 Void Orb launched!</div>
+        <div class="m-modal-peek t8">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">42</span></div>
+          <div class="m-stat-row"><span>MP Regen</span><span class="m-sv">8.0/s</span></div>
+          <div class="m-stat-row"><span>Cooldown</span><span class="m-sv">-80%</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t8">🗺️ Map</div>
+          <div class="m-btn t8">📜 Quests</div>
+          <div class="m-btn t8">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t8"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t8"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t8"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t8"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ THEME 9 — SKY KINGDOM CELESTIAL ════════════════════════ -->
+  <div class="card t9" onclick="selectTheme(9,'Sky Kingdom Celestial')">
+    <div class="card-label">
+      <span class="card-num">09</span>
+      <div><div class="card-name">☁️ Sky Kingdom Celestial</div><div class="card-desc">Warm gold · Dusk purple · Cloud silhouettes · Temple architecture</div></div>
+    </div>
+    <div class="card-screen">
+      <div class="t9-sunburst"></div>
+      <div class="t9-cloud t9-c1"></div><div class="t9-cloud t9-c2"></div>
+      <div class="t9-cloud t9-c3"></div><div class="t9-cloud t9-c4"></div>
+      <div class="t9-star2 t9-s1"></div><div class="t9-star2 t9-s2"></div><div class="t9-star2 t9-s3"></div><div class="t9-star2 t9-s4"></div>
+      <div class="t9-temple t9-t1">⛩️</div><div class="t9-temple t9-t2">🗼</div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t9">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t9-hp" style="width:100%"></div></div><span class="m-val">30/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t9-mp" style="width:60%"></div></div><span class="m-val">30/50</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t9-xp" style="width:95%"></div></div><span class="m-val">Lv 8</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">3,800g</span></div>
+        </div>
+        <div class="m-panel m-region t9">
+          <div class="m-region-name">Sky Port Citadel</div>
+          <div class="m-dots">● ● ● ●</div>
+        </div>
+        <div class="m-notif t9">✨ Sky Sword equipped!</div>
+        <div class="m-modal-peek t9">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">45</span></div>
+          <div class="m-stat-row"><span>DEF</span><span class="m-sv">28</span></div>
+          <div class="m-stat-row"><span>Speed</span><span class="m-sv">+30%</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t9">🗺️ Map</div>
+          <div class="m-btn t9">📜 Quests</div>
+          <div class="m-btn t9">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t9"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t9"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t9"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t9"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ THEME 10 — BLOOD MOON CRIMSON ══════════════════════════ -->
+  <div class="card t10" onclick="selectTheme(10,'Blood Moon Crimson')">
+    <div class="card-label">
+      <span class="card-num">10</span>
+      <div><div class="card-name">🌑 Blood Moon Crimson</div><div class="card-desc">Deep crimson · Pulsing moon · Red mist · Gothic severity</div></div>
+    </div>
+    <div class="card-screen">
+      <div class="t10-moon2"></div>
+      <div class="t10-haze"></div>
+      <div class="t10-spark2 t10-sp1"></div><div class="t10-spark2 t10-sp2"></div>
+      <div class="t10-spark2 t10-sp3"></div><div class="t10-spark2 t10-sp4"></div><div class="t10-spark2 t10-sp5"></div>
+      <div class="t10-chain t10-ch1">⛓️</div><div class="t10-chain t10-ch2">⛓️</div>
+      <div class="mini-hud">
+        <div class="m-panel m-stats t10">
+          <div class="m-srow"><span class="m-ico">❤️</span><div class="m-barb"><div class="m-barf t10-hp" style="width:35%"></div></div><span class="m-val">10/30</span></div>
+          <div class="m-srow"><span class="m-ico">💧</span><div class="m-barb"><div class="m-barf t10-mp" style="width:55%"></div></div><span class="m-val">27/50</span></div>
+          <div class="m-srow"><span class="m-ico">⭐</span><div class="m-barb"><div class="m-barf t10-xp" style="width:75%"></div></div><span class="m-val">Lv 6</span></div>
+          <div class="m-srow"><span class="m-ico">💰</span><span class="m-gold">1,440g</span></div>
+        </div>
+        <div class="m-panel m-region t10">
+          <div class="m-region-name">Blood Moon Keep</div>
+          <div class="m-dots">● ● ● ●</div>
+        </div>
+        <div class="m-notif t10">🌑 Second Wind used!</div>
+        <div class="m-modal-peek t10">
+          <div class="m-modal-title">Inventory</div>
+          <div class="m-stat-row"><span>ATK</span><span class="m-sv">35</span></div>
+          <div class="m-stat-row"><span>DEF</span><span class="m-sv">22</span></div>
+          <div class="m-stat-row"><span>Cooldown</span><span class="m-sv">-60%</span></div>
+        </div>
+        <div class="m-actionbar">
+          <div class="m-btn t10">🗺️ Map</div>
+          <div class="m-btn t10">📜 Quests</div>
+          <div class="m-btn t10">🎒 Bag</div>
+        </div>
+        <div class="m-iconbar">
+          <div class="m-slot t10"><div class="m-key">SPC</div><div class="m-sico">⚔️</div><div class="m-slbl">Attack</div></div>
+          <div class="m-slot t10"><div class="m-key">CTRL</div><div class="m-sico">🏹</div><div class="m-slbl">Ranged</div></div>
+          <div class="m-slot t10"><div class="m-key">X</div><div class="m-sico">✨</div><div class="m-slbl">Spell</div></div>
+          <div class="m-slot t10"><div class="m-key">Z</div><div class="m-sico">⚡</div><div class="m-slbl">Special</div></div>
+        </div>
+      </div>
+      <div class="t10-mist"></div>
+    </div>
+  </div>
+
+</div><!-- /grid -->
+
+<!-- Selection feedback -->
+<div id="selection-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,200,120,.12);border-top:1px solid rgba(0,200,120,.3);padding:14px 24px;text-align:center;font-size:14px;color:#44ffaa;z-index:999;backdrop-filter:blur(8px)">
+  ✅ <strong id="selection-name"></strong> selected — share this with your developer to apply!
+  <button onclick="document.getElementById('selection-banner').style.display='none'" style="margin-left:16px;background:rgba(0,200,120,.2);border:1px solid rgba(0,200,120,.3);color:#44ffaa;padding:4px 12px;border-radius:5px;cursor:pointer;font-family:inherit">Dismiss</button>
+</div>
+
+<script>
+function selectTheme(num, name) {
+  document.querySelectorAll('.card').forEach(c => c.style.outline = 'none');
+  document.querySelector('.t' + num).style.outline = '2px solid rgba(0,220,130,.6)';
+  document.querySelector('.t' + num).style.outlineOffset = '3px';
+  document.getElementById('selection-name').textContent = '#' + String(num).padStart(2,'0') + ' ' + name;
+  document.getElementById('selection-banner').style.display = 'block';
+}
+</script>
+</body>
+</html>
