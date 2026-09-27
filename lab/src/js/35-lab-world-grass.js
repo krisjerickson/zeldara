@@ -1,5 +1,7 @@
 // ── World designs: shared kinds, decorations and particles ─────────────
-function WK(id,a,b,o){ return Object.assign({id:id,a:a,b:b},o||{}); }
+var WK_SOFT={grass:1,wild:1,heath:1,heather:1,meadow:1,marsh:1,moss:1,mud:1,scorch:1,dust:1,ash:1,soil:1,bloom:1,snow:1,earth:1,crust:1,grey:1,sheen:1,verge:1,shore:1,scar:1,char:1,glass:1,rubble:1,isle:1,aisle:1,crop:0};
+function WK(id,a,b,o){ return Object.assign({id:id,a:a,b:b,soft:!!WK_SOFT[id]},o||{}); }
+var WK_PATH=function(a,b){ return WK('path',a||'#8e826c',b||'#a89a7e',{pattern:'cobble',grout:'#4a4032',flat:true}); };
 var WDECO={
   grass:function(col,dens){ return function(ctx,px,py,R){ if(!R.chance(dens||0.35))return; ctx.strokeStyle=col; ctx.lineWidth=1.3; for(var i=0;i<4;i++){ var bx=px+R.f()*30, by=py+8+R.f()*22; ctx.beginPath(); ctx.moveTo(bx,by); ctx.lineTo(bx+R.f()*4-2,by-4-R.f()*5); ctx.stroke(); } }; },
   dots:function(cols,dens,sz){ return function(ctx,px,py,R){ if(!R.chance(dens||0.3))return; for(var i=0;i<3;i++){ ctx.fillStyle=R.pick(cols); ctx.fillRect(px+R.f()*30,py+R.f()*30,sz||2,sz||2); } }; },
@@ -53,7 +55,7 @@ var WORLD_DESIGNS=[];
 WORLD_DESIGNS.push(
 { id:'fairy_rings', quad:1, seed:101, name:'Fairy-Ring Meadows', tagline:'Glowing mushroom rings in wildflower meadows', runeCol:'#e0a8ff',
   blurb:'Rolling meadows dotted with fairy rings: circles of glowing toadstools around faint rune circles that brighten as you step inside. Wildflowers, lone oaks and violet motes. The largest, the Queen\'s Ring, is the landmark.',
-  ground:G_GRASS, kinds:[WK('wild','#3f7a34','#5c9a44',{deco:WDECO.grass('rgba(30,70,25,.6)',0.6)}),WK('path','#8a7454','#a08a64',{sc:0.3,deco:WDECO.dots(['#6f5d44','#b8a07a'],0.4)})],
+  ground:G_GRASS, kinds:[WK('wild','#3f7a34','#5c9a44',{deco:WDECO.grass('rgba(30,70,25,.6)',0.6)}),WK_PATH('#8a7e68','#a4967a')],
   hills:{sc:0.06,k:1.2},
   layout:function(c){ c.noise('wild',0.09,0.58); c.line('path',[[4,52],[18,44],[30,40],[44,30],[56,12]],2.4,5); },
   props:function(c){ c.place('mushring',24,14,8,8,{solid:false,n:16,col:'#e8a6ff',rune:'#e0a8ff',claim:true}); c.landmark(24,14,8,8,'The Queen\'s Ring — the oldest fairy ring. Its runes wake when you step inside.');
@@ -76,7 +78,7 @@ WORLD_DESIGNS.push(
 
 { id:'windmill_hills', quad:1, seed:107, name:'Windmill Hills', tagline:'Rolling hills, windmills and glyph kites', runeCol:'#ffd27a',
   blurb:'Big rolling green hills with golden crop strips, three windmills with turning sails, and kites painted with glowing glyphs tugging at their strings high above. Rune marks on each windmill brighten as you pass.',
-  ground:WK('grass','#5f9a45','#86b85a',{sc:0.1,deco:WDECO.grass('rgba(50,100,35,.5)',0.3)}), kinds:[WK('crop','#c9b35a','#dcc56c',{sc:0.3,deco:function(ctx,px,py){ ctx.fillStyle='rgba(140,110,40,.35)'; for(var i=0;i<LT;i+=6)ctx.fillRect(px,py+i,LT,2); }}),WK('path','#9a8460','#b09a74',{sc:0.3})],
+  ground:WK('grass','#5f9a45','#86b85a',{sc:0.1,deco:WDECO.grass('rgba(50,100,35,.5)',0.3)}), kinds:[WK('crop','#c9b35a','#dcc56c',{sc:0.3,deco:function(ctx,px,py){ ctx.fillStyle='rgba(140,110,40,.35)'; for(var i=0;i<LT;i+=6)ctx.fillRect(px,py+i,LT,2); }}),WK_PATH('#948870','#ae9f82')],
   hills:{sc:0.045,k:2.6},
   layout:function(c){ for(var i=0;i<5;i++){ var y0=c.R.i(4,54),x0=c.R.i(2,40); c.rect('crop',x0,y0,c.R.i(8,16),c.R.i(3,5)); } c.line('path',[[2,40],[20,34],[34,36],[58,28]],2.2,4); c.line('path',[[30,36],[28,58]],2,3); },
   props:function(c){ [[12,20],[40,14],[46,44]].forEach(function(q,i){ c.place('windmill',q[0],q[1],2,2,{rune:'#ffd27a'}); }); c.landmark(11,18,4,4,'Old Mill — the miller paints a luck rune on every mill.');
@@ -87,9 +89,10 @@ WORLD_DESIGNS.push(
 { id:'firefly_river', quad:1, seed:109, name:'Firefly River Valley', tagline:'A winding river, willows and fireflies', runeCol:'#c8ff80',
   blurb:'A lazy river winds down the valley between sandy banks and weeping willows. Two old bridges cross it; the stone one is carved with runes and hung with lanterns. Fireflies swarm over the water.',
   ground:WK('grass','#3e6e3a','#5a8a4a',{sc:0.12,deco:WDECO.grass('rgba(30,60,25,.55)',0.4)}),
-  kinds:[WK('water','#23607f','#3a86a6',{solid:true,liquid:true,shore:'#d8f0e8',sc:0.08,deco:WDECO.ripple('#ffffff')}),WK('sand','#b8a57a','#cdb98c',{sc:0.3}),WK('bridge','#8a6a44','#8a6a44',{deco:WDECO.planks('#8a6a44',true)}),WK('stonebridge','#a09a8a','#b0aa98',{deco:WDECO.flag('#c8c0b0')})],
+  kinds:[WK('water','#23607f','#3a86a6',{solid:true,liquid:true,shore:'#d8f0e8',sc:0.08,deco:WDECO.ripple('#ffffff')}),WK('sand','#b8a57a','#cdb98c',{sc:0.3}),WK('bridge','#8a6a44','#9a7a50',{pattern:'planks',vert:false,flat:true}),WK('stonebridge','#a09a8a','#bab2a0',{pattern:'brick',grout:'#5a544a',flat:true})],
   layout:function(c){ var pts=[[8,0],[14,12],[26,20],[24,32],[34,42],[48,48],[54,60]]; c.line('sand',pts,9,6); c.line('water',pts,5.5,6); c.rect('bridge',10,11,9,2,['water','sand']); c.rect('stonebridge',25,33,2,8,['water','sand']); c.rect('stonebridge',21,33,10,3,['water','sand']); },
-  props:function(c){ c.landmark(21,32,10,4,'Lantern Bridge — the runes on its stones light up at dusk.'); [[21,32],[30,32],[21,36],[30,36]].forEach(function(q){ c.place('lantern',q[0],q[1],1,1,{col:'#ffe08a'}); });
+  props:function(c){ c.place('rail',21,32,10,1,{solid:false,any:true,claim:false,stone:true}); c.place('rail',21,36,4,1,{solid:false,any:true,claim:false,stone:true}); c.place('rail',27,36,4,1,{solid:false,any:true,claim:false,stone:true}); c.place('rail',10,10,9,1,{solid:false,any:true,claim:false}); c.place('rail',10,13,9,1,{solid:false,any:true,claim:false});
+    c.landmark(21,32,10,4,'Lantern Bridge — the runes on its stones light up at dusk.'); [[21,32],[30,32],[21,36],[30,36]].forEach(function(q){ c.place('lantern',q[0],q[1],1,1,{col:'#ffe08a'}); });
     c.place('runeglyph',25,34,2,1,{solid:false,any:true,col:'#c8ff80',size:14});
     c.scatter('tree',16,{kind:'willow',col:'#4f8a44',col2:'#7ab860',on:'grass'}); c.scatter('reeds',30,{on:['sand','grass'],solid:false,n:8}); c.scatter('tree',8,{kind:'round',col:'#3a6e34',on:'grass'}); c.scatter('flowers',25,{solid:false,claim:false,on:'grass',cols:['#fff3a8','#c8e0ff']}); },
   particles:[WPART.fireflies({x:6*LT,y:4*LT,w:48*LT,h:56*LT})], nightA:0.55 },
@@ -119,10 +122,10 @@ WORLD_DESIGNS.push(
 { id:'amphitheatre', quad:1, seed:131, name:'Sunken Amphitheatre Ruins', tagline:'Grass-grown stone tiers around a rune stage', runeCol:'#8fe8ff',
   blurb:'A huge ruined amphitheatre sunk into the meadow: rings of stone seating step down to a round stage carved with a rune circle. Broken columns ring the top; grass and flowers have claimed the seats.',
   ground:WK('grass','#58884a','#72a05a',{sc:0.12,deco:WDECO.grass('rgba(40,80,30,.45)',0.3)}),
-  kinds:[WK('tier','#aaa292','#bab2a2',{deco:function(ctx,px,py,R){ ctx.fillStyle='rgba(0,0,0,.22)'; ctx.fillRect(px,py+LT-5,LT,4); if(R.chance(0.3)){ ctx.fillStyle='rgba(90,140,70,.5)'; ctx.fillRect(px+R.f()*20,py+R.f()*20,10,5);} }}),WK('stage','#c8c0ae','#d4ccba',{deco:WDECO.flag('#e0d8c8')}),WK('ruinwall','#8a8272','#9a9282',{solid:true,wall:{top:'#b0a896',face:'#80786a',runes:0.06}})],
+  kinds:[WK('tier','#a8a090','#bcb4a2',{pattern:'tier',flat:true}),WK('stage','#c4bcaa','#d6cebc',{pattern:'slab',flat:true}),WK('ruinwall','#8a8272','#9a9282',{solid:true,wall:{top:'#b0a896',face:'#80786a',runes:0.06}})],
   layout:function(c){ var cx=30,cy=28; [15,12,9].forEach(function(r){ c.ring('tier',cx,cy,r,2.2); }); c.blob('stage',cx,cy,5,0.1); c.ring('ruinwall',cx,cy,18,1.2); for(var k=0;k<4;k++){ var a=k*Math.PI/2+0.4; for(var d=-2;d<=2;d++)for(var e=16;e<=20;e++)c.set(Math.round(cx+Math.cos(a)*e+d*Math.sin(a)),Math.round(cy+Math.sin(a)*e-d*Math.cos(a)),'grass','ruinwall'); } },
   spawnAt:[30,52],
-  props:function(c){ c.place('runecircle',27,25,7,7,{solid:false,col:'#8fe8ff',n:10}); c.landmark(26,24,9,9,'The Singing Stage — whisper here and the runes answer.');
+  props:function(c){ [[25,23],[35,23],[25,33],[35,33],[30,22],[30,34],[24,28],[36,28]].forEach(function(q){ c.place('block',q[0],q[1],1,1,{rune:'#8fe8ff'}); }); c.place('runecircle',27,25,7,7,{solid:false,col:'#8fe8ff',n:10}); c.landmark(26,24,9,9,'The Singing Stage — whisper here and the runes answer.');
     for(var k=0;k<14;k++){ var a=k/14*Math.PI*2; c.place('column',Math.round(30+Math.cos(a)*21),Math.round(28+Math.sin(a)*21),1,1,{broken:c.R.chance(0.6),moss:true,rune:k%4===0?'#8fe8ff':null,col:'#cfc6b2'}); }
     c.scatter('flowers',40,{solid:false,claim:false,cols:['#fff3a8','#ffffff','#ffd6e8']}); c.scatter('tree',14,{kind:'round',col:'#3f7234',away:[30,28,22]}); c.scatter('rock',10,{col:'#b8b0a0',moss:'#6a9a50'}); },
   particles:[WPART.motes('#c8f4ff',150)] },
@@ -140,7 +143,7 @@ WORLD_DESIGNS.push(
 
 { id:'crystal_grass', quad:1, seed:139, name:'Crystal-tipped Tallgrass', tagline:'Waist-high grass with glowing crystal tips', runeCol:'#9ff0ff',
   blurb:'Fields of tall grass whose tips have grown into little crystals that chime and glow. You wade through it (it hides you as you pass). Bigger crystal clusters break through the turf here and there.',
-  ground:WK('grass','#4a8a6a','#62a47e',{sc:0.12,deco:WDECO.grass('rgba(30,80,60,.5)',0.35)}),kinds:[WK('path','#8a8468','#a09a7a',{sc:0.3})],
+  ground:WK('grass','#4a8a6a','#62a47e',{sc:0.12,deco:WDECO.grass('rgba(30,80,60,.5)',0.35)}),kinds:[WK_PATH('#8a8a78','#a2a290')],
   layout:function(c){ c.line('path',[[0,30],[20,26],[40,34],[60,30]],2,4); },
   draw:{ tallgrass:function(c,ctx,x,y,w,h,o){ var R=c.R; addSprite(c.m,x+w/2,y+h,w+16,70,function(g,W,H){ for(var i=0;i<16;i++){ var bx=4+R.f()*(W-8), hh=26+R.f()*30; g.strokeStyle=R.pick(['#5aa07a','#6ab88a','#4a8a66']); g.lineWidth=2; g.beginPath(); g.moveTo(bx,H-2); g.quadraticCurveTo(bx+R.f()*6-3,H-hh/2,bx+R.f()*8-4,H-hh); g.stroke(); if(R.chance(0.6)){ g.fillStyle=R.pick(['#bff4ff','#dff8ff','#c8b8ff']); g.beginPath(); g.moveTo(bx,H-hh-6); g.lineTo(bx+2.5,H-hh); g.lineTo(bx,H-hh+3); g.lineTo(bx-2.5,H-hh); g.fill(); } } }); if(R.chance(0.35))addLight(c.m,x+w/2,y-10,46,'#9ff0ff',0.3,{react:true,rune:true}); } },
   props:function(c){ for(var i=0;i<160;i++){ var p=c.randomOpen('grass'); if(p)c.place('tallgrass',p.x,p.y,1,1,{solid:false}); }
@@ -150,7 +153,7 @@ WORLD_DESIGNS.push(
 
 { id:'waystone_road', quad:1, seed:149, name:'Waystone Ancient Road', tagline:'An old paved road lined with rune waystones', runeCol:'#6fe3f5',
   blurb:'A broad paved road from an older age crosses the grassland, lined with waystones whose runes light up one after another as you walk. A ley line runs under the paving, and a ruined arch marks the old gate.',
-  ground:G_GRASS, kinds:[WK('road','#a09a8a','#b4ae9c',{sc:0.4,deco:WDECO.flag('#c8c2b0','#403a30')}),WK('verge','#7a8a5a','#8a9a66',{sc:0.3})],
+  ground:G_GRASS, kinds:[WK('road','#a09a8a','#b8b2a0',{pattern:'flag',grout:'#4a443a',rim:'#6a6458',rimW:2,flat:true,moss:true}),WK('verge','#7a8a5a','#8a9a66',{sc:0.3})],
   hills:{sc:0.05,k:1},
   layout:function(c){ var pts=[[0,44],[16,38],[30,30],[44,20],[60,14]]; c.line('verge',pts,6,2); c.line('road',pts,3.4,2); c.line('verge',[[30,30],[34,48],[36,60]],4,3); c.line('road',[[30,30],[34,48],[36,60]],2.4,3); },
   props:function(c){ var pts=[[4,39],[12,36],[20,32],[36,24],[44,17],[52,12],[33,40],[35,52]]; pts.forEach(function(q){ c.place('stone',q[0],q[1],1,1,{rune:'#6fe3f5',tall:46,col:'#9a9690'}); });

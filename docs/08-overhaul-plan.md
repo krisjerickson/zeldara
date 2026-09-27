@@ -14,6 +14,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Also found and fixed in Phase 1: all five volcano scenes crashed on entry (missing `_attachSafetyEscape`), a `self` bug in the bullet-hell climb, dungeon replays where the boss never spawned and the reward chest stayed locked, and Wind Sprite being unobtainable.
 
 - **Phase 3a (Integrate tower + dungeon picks): done** — all 20 Lab designs are in the game as 5 sites per quadrant (8 boss, 12 bonus), 4–8 floors each, island dungeons give familiars. See changelog [85]–[93].
+- **Phase 3 (World integration): designed, not built.** Kris picked all 40 world designs. Decisions: world 4× (1200×1200), natural borders + craftsman gates, waystone fast travel (several per region), hand-placed zones. Map generator + Lab World Map done (changelog [97]). Build steps:
+  1. Swap worldgen to `buildWorldMap` (1200²): map classes → game tiles (mount terrain kept: deep water/alligator, boulders/boar, thin magma/unicorn, lava/salamander), `getTileSection` from the region grid, village + buildings on the lake shore, sites/harbors/skyports from the map, endgame volcanoes offshore.
+  2. Chunk renderer that paints each 16×16 chunk with its zone's Lab look (crisp field + patterns + depth-sorted props), streamed a few chunks per frame; zone "ambient" rules fill each ~15–30k-tile zone and the zone's Lab sample is stamped once as its landmark.
+  3. Gates: impassable until the craftsman is freed (section lock kept as a safety net); gate art per craftsman.
+  4. Waystones: touch to activate, menu to travel between activated ones in unlocked regions.
+  5. Monsters, fog, minimap, sandbox teleports, save migration (new world → new positions), tests.
 - **Phase 2 (Selector pages): in progress** — Design Lab live with Towers (10), Dungeons (10) and the Sprite pilot (30 prompts). Waiting on Kris: picks in the Lab + pilot images in `sprites/incoming/`. World quadrant selector (40 designs) is live in the Lab — waiting on Kris's picks (2–3 per quadrant).
 - Design Lab: https://claude.ai/artifact/MnYcjcTXfpWm4YuiErDLHd — picks in DB collection `picks`.
 - Playable build: https://claude.ai/artifact/7p3eXrHtD4iLbm6MLbg4jz

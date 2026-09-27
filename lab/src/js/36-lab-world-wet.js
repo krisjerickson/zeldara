@@ -2,8 +2,8 @@
 var W_DEEP=function(a,b){ return WK('deep',a||'#123a44',b||'#1d5460',{solid:true,liquid:true,shore:'#bfe8d8',sc:0.08,deco:WDECO.ripple('#cfefff')}); };
 var W_SHALLOW=function(a,b){ return WK('shallow',a||'#3a6a5a',b||'#4a7e68',{liquid:true,shore:'#cfe8c8',sc:0.12,deco:WDECO.ripple('#dff4e8')}); };
 var W_MUD=WK('mud','#4a4630','#5a5638',{sc:0.2,deco:WDECO.dots(['#3a3624','#6a6644'],0.35)});
-var W_WALK=WK('walk','#7a5e3c','#7a5e3c',{deco:WDECO.planks('#7a5e3c')});
-var W_WALKV=WK('walkv','#7a5e3c','#7a5e3c',{deco:WDECO.planks('#7a5e3c',true)});
+var W_WALK=WK('walk','#7a5e3c','#8a6e48',{pattern:'planks',flat:true});
+var W_WALKV=WK('walkv','#7a5e3c','#8a6e48',{pattern:'planks',vert:true,flat:true});
 WPROP.lanternlily=function(c,ctx,x,y,w,h,o){ var R=c.R, col=o.col||'#ffd27a'; addSprite(c.m,x+w/2,y+h,36,70,function(g,W,H){ g.fillStyle='#3f7a3a'; g.beginPath(); g.ellipse(W/2,H-6,14,5,0,0,Math.PI*2); g.fill(); g.strokeStyle='#4f8a44'; g.lineWidth=2.5; g.beginPath(); g.moveTo(W/2,H-6); g.quadraticCurveTo(W/2+8,H-30,W/2,H-46); g.stroke(); var gr=g.createRadialGradient(W/2,H-52,1,W/2,H-50,10); gr.addColorStop(0,'#fffbe0'); gr.addColorStop(1,col); g.fillStyle=gr; g.beginPath(); g.ellipse(W/2,H-50,7,10,0,0,Math.PI*2); g.fill(); g.strokeStyle=shade(col,-0.2); g.lineWidth=1; g.beginPath(); g.moveTo(W/2-6,H-54); g.lineTo(W/2+6,H-54); g.moveTo(W/2-7,H-48); g.lineTo(W/2+7,H-48); g.stroke(); }); addLight(c.m,x+w/2,y+h-50,70,col,0.45,{pulse:0.3,period:1800+R.i(0,1600)}); };
 WPROP.frog=function(c,ctx,x,y,w,h,o){ var R=c.R, col=o.col||'#7dff9a'; addSprite(c.m,x+w/2,y+h-8,22,18,function(g,W,H){ g.fillStyle=col; g.beginPath(); g.ellipse(W/2,H-6,7,5,0,0,Math.PI*2); g.fill(); g.fillStyle='#fff'; g.beginPath(); g.arc(W/2-3,H-10,2,0,Math.PI*2); g.arc(W/2+3,H-10,2,0,Math.PI*2); g.fill(); g.fillStyle='#000'; g.fillRect(W/2-3,H-10,1,1); g.fillRect(W/2+3,H-10,1,1); }); c.m.sprites[c.m.sprites.length-1].bob=3; addLight(c.m,x+w/2,y+h-12,36,col,0.55,{pulse:0.6,period:900+R.i(0,1400)}); };
 WPROP.roof=function(c,ctx,x,y,w,h,o){ var R=c.R, col=R.pick(['#7a4b32','#6a3f2a','#5a5a6a']); softShadow(ctx,x+w/2,y+h-6,w/2,8,0.3); addSprite(c.m,x+w/2,y+h,w+10,h+60,function(g,W,H){ var bh=H-8; g.fillStyle=col; g.beginPath(); g.moveTo(4,bh); g.lineTo(W/2,bh-h-34); g.lineTo(W-4,bh); g.fill(); g.fillStyle=shade(col,0.18); g.beginPath(); g.moveTo(W/2,bh-h-34); g.lineTo(W-4,bh); g.lineTo(W/2+6,bh); g.fill(); g.strokeStyle='rgba(0,0,0,.25)'; for(var i=1;i<5;i++){ g.beginPath(); g.moveTo(4+i*(W/2-4)/5,bh-i*(h+34)/5); g.lineTo(W-4-i*(W/2-4)/5,bh-i*(h+34)/5); g.stroke(); } if(o.chimney){ g.fillStyle='#6a625a'; g.fillRect(W*0.68,bh-h-20,8,18);} g.fillStyle='rgba(120,170,160,.35)'; g.fillRect(0,bh-2,W,10); }); };
@@ -66,7 +66,7 @@ WORLD_DESIGNS.push(
 
 { id:'stilt_walkways', quad:2, seed:217, name:'Misty Stilt Walkways', tagline:'Plank walks between huts on stilts', runeCol:'#a8e0ff',
   blurb:'A fishing village on stilts over deep water, joined by plank walkways. Mist rolls across the surface, lanterns hang at the corners, and a rune buoy marks the safe channel.',
-  ground:W_DEEP('#1a3e4a','#244e5a'), kinds:[W_WALK,W_WALKV,WK('deck','#8a6e4a','#8a6e4a',{deco:WDECO.planks('#8a6e4a')})],
+  ground:W_DEEP('#1a3e4a','#244e5a'), kinds:[W_WALK,W_WALKV,WK('deck','#8a6e4a','#9a7e56',{pattern:'planks',flat:true})],
   layout:function(c){ var nodes=[[8,10],[24,8],[42,12],[52,28],[36,30],[18,26],[10,44],[28,48],[46,46]];
     nodes.forEach(function(n){ c.rect('deck',n[0]-2,n[1]-2,5,5); });
     [[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[5,6],[6,7],[7,8],[8,3],[4,7]].forEach(function(e){ var a=nodes[e[0]],b=nodes[e[1]]; c.rect('walk',Math.min(a[0],b[0]),a[1],Math.abs(a[0]-b[0])+1,1,'deep'); c.rect('walkv',b[0],Math.min(a[1],b[1]),1,Math.abs(a[1]-b[1])+1,'deep'); }); c.nodes=nodes; },
@@ -78,7 +78,7 @@ WORLD_DESIGNS.push(
 
 { id:'sunken_spires', quad:2, seed:219, name:'Sunken Temple Spires', tagline:'Rune spires rising from green shallows', runeCol:'#6fffe0',
   blurb:'The spires of a sunken temple rise out of warm shallows, their runes still glowing. Broken stairs and paving surface in places, and ley lines run spire to spire under the water.',
-  ground:W_SHALLOW('#2e5a4e','#3a6c5c'), kinds:[W_DEEP('#123a38','#1a4c48'),WK('paving','#8a8a78','#9a9a88',{deco:WDECO.flag('#aaa896')}),WK('isle','#5a7a4a','#6a8a56',{sc:0.2})],
+  ground:W_SHALLOW('#2e5a4e','#3a6c5c'), kinds:[W_DEEP('#123a38','#1a4c48'),WK('paving','#8a8a78','#a2a290',{pattern:'flag',moss:true,flat:true}),WK('isle','#5a7a4a','#6a8a56',{sc:0.2})],
   layout:function(c){ c.noise('deep',0.08,0.62); for(var i=0;i<6;i++)c.blob('paving',c.R.i(8,52),c.R.i(8,52),c.R.i(2,4),0.5); c.blob('isle',30,46,5,0.5); },
   spawnAt:[30,46],
   props:function(c){ var sp=[[14,14],[44,12],[48,38],[16,40],[30,24]]; sp.forEach(function(q,i){ c.place('spire',q[0],q[1],2,2,{any:true,ht:140+i*14,rune:'#6fffe0'}); });
@@ -110,7 +110,7 @@ WORLD_DESIGNS.push(
 
 { id:'turtle_isles', quad:2, seed:229, name:'Giant Turtle-Shell Isles', tagline:'Islands that are the backs of sleeping turtles', runeCol:'#9fffc8',
   blurb:'Several round islands in a warm lagoon turn out to be the mossy shells of giant sleeping turtles, joined by sandbars. Their heads rest at the water\'s edge; one ancient shell carries a rune pattern.',
-  ground:W_DEEP('#1c5060','#27687a'), kinds:[WK('shell','#6a7a4a','#7c8c56',{sc:0.25,deco:function(ctx,px,py,R,n,x,y){ ctx.strokeStyle='rgba(40,50,25,.45)'; ctx.lineWidth=2; var cx=px+16+(y%2)*16, cy=py+16; ctx.beginPath(); for(var i=0;i<6;i++){ var a=i/6*Math.PI*2; ctx[i?'lineTo':'moveTo'](cx+Math.cos(a)*14,cy+Math.sin(a)*14); } ctx.closePath(); ctx.stroke(); }}),WK('sand','#c8b88a','#d8c89a',{sc:0.3}),W_SHALLOW('#3a7a7a','#4a8a88')],
+  ground:W_DEEP('#1c5060','#27687a'), kinds:[WK('shell','#5e6e44','#7c8c56',{pattern:'scute',flat:true,rim:'#3a4428',rimW:2}),WK('sand','#c8b88a','#d8c89a',{sc:0.3}),W_SHALLOW('#3a7a7a','#4a8a88')],
   layout:function(c){ var isl=[[18,18,8],[42,16,7],[44,42,9],[16,44,7],[30,30,5]]; isl.forEach(function(q){ c.blob('shallow',q[0],q[1],q[2]+2,0.3); c.blob('shell',q[0],q[1],q[2],0.15); }); c.isl=isl;
     [[0,4],[1,4],[2,4],[3,4]].forEach(function(e){ c.line('sand',[[isl[e[0]][0],isl[e[0]][1]],[isl[e[1]][0],isl[e[1]][1]]],2.4,3,['deep','shallow']); }); },
   spawnAt:[30,30],

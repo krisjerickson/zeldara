@@ -24,6 +24,12 @@ class LabWalkScene extends Phaser.Scene{
     var baseKey='base_'+(LabApp.seq++);
     this.textures.addCanvas(baseKey, m.base);
     this.add.image(0,0,baseKey).setOrigin(0,0).setDepth(-10);
+    // Flowing lava (masked scrolling layers) + bursts
+    this._flows=[]; this._burstEm=null;
+    (m.flows||[]).forEach(function(F,i){ var mk='flowmask_'+baseKey+'_'+i, pk='flowpat_'+baseKey+'_'+i; if(i===0)self.textures.addCanvas(mk,F.mask); else mk='flowmask_'+baseKey+'_0'; self.textures.addCanvas(pk,F.pattern);
+      var ts=self.add.tileSprite(0,0,m.w*LT,m.h*LT,pk).setOrigin(0,0).setDepth(-9).setAlpha(F.a).setBlendMode(Phaser.BlendModes.ADD);
+      var mi=self.make.image({x:0,y:0,key:mk,add:false}).setOrigin(0,0); ts.setMask(mi.createBitmapMask()); ts._flow=F; self._flows.push(ts); });
+    if(m.bursts&&m.bursts.cells.length){ this._burstEm=this.add.particles(0,0,'dot',{speed:{min:30,max:90},angle:{min:200,max:340},gravityY:120,lifespan:{min:400,max:900},scale:{start:0.7,end:0},alpha:{start:1,end:0},tint:m.bursts.cols.map(hexNum),blendMode:'ADD',emitting:false}).setDepth(5500); this._burstT=0; }
     // Light shafts (under sprites, additive)
     m.shafts.forEach(function(s,i){
       var k='shaft_'+baseKey+'_'+i; self.textures.addCanvas(k,s.canvas);
@@ -168,6 +174,11 @@ class LabWalkScene extends Phaser.Scene{
       o.setAlpha(Math.min(1,L.a*nb*(0.72+0.28*Math.sin(tt*1.6+i*0.9))*(1+1.6*near))); o.setScale((L.r/64)*(1+0.35*near)); });
     this._lightObjs.forEach(function(o,i){ if(o._flicker){ o.setAlpha(o._base.a*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))); } });
     if(this.map.tick)this.map.tick(this,dt,this._t);
+    if(this._flows)this._flows.forEach(function(ts){ ts.tilePositionX+=ts._flow.vx*dt; ts.tilePositionY+=ts._flow.vy*dt; });
+    if(this._burstEm){ this._burstT-=dt; if(this._burstT<=0){ this._burstT=0.12+Math.random()*0.25; var cells=this.map.bursts.cells, v=this.cameras.main.worldView;
+      for(var bt=0;bt<6;bt++){ var cc=cells[(Math.random()*cells.length)|0], bx=cc[0]*LT+Math.random()*LT, by=cc[1]*LT+Math.random()*LT; if(bx<v.x-40||bx>v.right+40||by<v.y-40||by>v.bottom+40)continue;
+        this._burstEm.explode(4+((Math.random()*6)|0),bx,by); var fl=this.add.image(bx,by,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xffa040).setAlpha(0.5).setScale(0.5).setDepth(-3);
+        this.tweens.add({targets:fl,alpha:0,scale:0.9,duration:420,onComplete:function(){ fl.destroy(); }}); break; } } }
     if(this.darkRT&&this.darkRT.visible)this._drawDark();
     // Inspect prompt
     var L=this._nearLabel();
@@ -239,7 +250,8 @@ var LabApp={
     var self=this, el=document.getElementById('lab-tabs');
     el.innerHTML=LAB_TABS.map(function(t){
       var n=t.designs.length, picked=t.designs.filter(function(d){var p=self.picks[self.key(t.id,d.id)];return p&&p.verdict;}).length;
-      if(t.render&&window.SPRITE_PILOT){ n=SPRITE_PILOT.pilot.reduce(function(a,c){return a+c.variants.length;},0); picked=Object.keys(self.picks).filter(function(k){return k.indexOf(t.id+'-')===0&&self.picks[k].verdict;}).length; }
+      if(t.id==='map'){ return '<button class="lab-tab" role="tab" data-tab="map" aria-selected="'+(t.id===self.tab)+'">'+t.name+'<span class="n" style="color:var(--rune)">new</span></button>'; }
+      if(t.id==='sprites'&&window.SPRITE_PILOT){ n=SPRITE_PILOT.pilot.reduce(function(a,c){return a+c.variants.length;},0); picked=Object.keys(self.picks).filter(function(k){return k.indexOf(t.id+'-')===0&&self.picks[k].verdict;}).length; }
       return '<button class="lab-tab" role="tab" data-tab="'+t.id+'" aria-selected="'+(t.id===self.tab)+'">'+t.name+
         (n?'<span class="n">'+picked+'/'+n+'</span>':'<span class="n soon">soon</span>')+'</button>';
     }).join('');
