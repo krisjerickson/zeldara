@@ -119,9 +119,9 @@ function _buildGameWorld(){
   // ── 3. village ──
   var buildings=buildVillage(tiles);
   for(var y4=CENTER_Y-VILLAGE_RADIUS-2;y4<=CENTER_Y+VILLAGE_RADIUS+2;y4++)for(var x4=CENTER_X-VILLAGE_RADIUS-2;x4<=CENTER_X+VILLAGE_RADIUS+2;x4++){ var k4=y4*W+x4, t4=tiles[y4][x4]; reserved[k4]=1;
-    if(t4===T.BUILDING_WALL)kind[k4]=G(WSK.wall); else if(t4===T.VILLAGE_FLOOR||t4===T.STONE_FLOOR||t4===T.PATH||t4===T.DOOR||t4===T.STABLES_FLOOR)kind[k4]=G(WSK.vpave); }
+    if(t4===T.BUILDING_WALL)kind[k4]=G(WSK.wall); else if(t4===T.PATH||t4===T.DOOR)kind[k4]=G(WSK.vpave); else if(t4===T.STONE_FLOOR||t4===T.STABLES_FLOOR)kind[k4]=G(WSK.plaza); else if(t4===T.VILLAGE_FLOOR)kind[k4]=G(WSK.vgrass); }  // lighter village: cobbles only on the streets
   // ── 4. zone landmarks: each zone's Lab sample stamped at its heart ──
-  var props=[], landmarks=[], ley=[], nzs=vnoise(WORLD_SEED+818), stampSpawns=[];
+  var props=[], landmarks=[], ley=[], shafts=[], stampParts=[], nzs=vnoise(WORLD_SEED+818), stampSpawns=[];
   var addProp=function(p){ props.push(p); };
   skins.forEach(function(s,zi){ var z=s.z, Z=s.Z, c;
     try{ c=buildWorld(Z,Z.seed,{layoutOnly:true}); }catch(e){ return; }
@@ -130,12 +130,28 @@ function _buildGameWorld(){
       if(region[wk]!==z.r||!(wc===WM.LAND||wc===WM.ROAD||wc===WM.PEAK||wc===WM.BEACH))continue; if(reserved[wk])continue;
       var dd=Math.hypot(lx-29.5,ly-29.5)+(nzs(wx*0.15,wy*0.15)-0.5)*7; if(dd>28.5)continue;
       var sk=K[c.t[ly*60+lx]]; setTK(wx,wy,_wgKindT(sk,z.r),G(sk)); applied[ly*60+lx]=1; reserved[wk]=2; }
-    c.obst.forEach(function(ob){ for(var a=0;a<ob.h;a++)for(var b=0;b<ob.w;b++){ var q=(ob.y+a)*60+ob.x+b; if(q<0||q>=3600||!applied[q])return; }
-      addProp({prop:ob.prop,x:ox+ob.x,y:oy+ob.y,w:ob.w,h:ob.h,o:ob.o,zi:zi});
-      if(ob.o.solid!==false)for(var a2=0;a2<ob.h;a2++)for(var b2=0;b2<ob.w;b2++){ var X=ox+ob.x+b2, Y=oy+ob.y+a2; if(!ALWAYS_BLOCKED.has(tiles[Y][X]))tiles[Y][X]=T.PROP; } });
-    c.landmarks.forEach(function(L){ landmarks.push({x:(ox+L.x)*LT,y:(oy+L.y)*LT,w:L.w*LT,h:L.h*LT,text:L.text,zone:z.id}); });
+    // props: keep the Lab layout; a set piece that falls off the land (coast,
+    // region edge) slides to the nearest spot inside the stamp, and its
+    // landmark moves with it, so every Lab feature exists somewhere.
+    var used=new Uint8Array(3600), moved=[];
+    var fits=function(x,y,w,h){ if(x<0||y<0||x+w>60||y+h>60)return false; for(var a=0;a<h;a++)for(var b=0;b<w;b++){ var q=(y+a)*60+x+b; if(!applied[q]||used[q])return false; } return true; };
+    var take=function(x,y,w,h){ for(var a=0;a<h;a++)for(var b=0;b<w;b++)used[(y+a)*60+x+b]=1; };
+    var big=function(ob){ return ob.w*ob.h>=6||/runecircle|skull|altar|shrine|statue|arch|tower|temple|mushring/.test(ob.prop); };
+    c.obst.forEach(function(ob){ var x=ob.x, y=ob.y;
+      if(!fits(x,y,ob.w,ob.h)){ if(!big(ob))return; var best=null;
+        for(var r=1;r<=18&&!best;r++)for(var dy=-r;dy<=r&&!best;dy++)for(var dx=-r;dx<=r;dx++){ if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue; if(fits(ob.x+dx,ob.y+dy,ob.w,ob.h)){ best=[dx,dy]; break; } }
+        if(!best)return; x=ob.x+best[0]; y=ob.y+best[1]; moved.push({x:ob.x,y:ob.y,w:ob.w,h:ob.h,dx:best[0],dy:best[1]}); }
+      if(ob.o.solid!==false||ob.o.claim)take(x,y,ob.w,ob.h);
+      addProp({prop:ob.prop,x:ox+x,y:oy+y,w:ob.w,h:ob.h,o:ob.o,zi:zi});
+      if(ob.o.solid!==false)for(var a2=0;a2<ob.h;a2++)for(var b2=0;b2<ob.w;b2++){ var X=ox+x+b2, Y=oy+y+a2; if(!ALWAYS_BLOCKED.has(tiles[Y][X]))tiles[Y][X]=T.PROP; } });
+    c.landmarks.forEach(function(L){ var lx=L.x, ly=L.y; moved.some(function(mv){ if(L.x<mv.x+mv.w&&L.x+L.w>mv.x&&L.y<mv.y+mv.h&&L.y+L.h>mv.y){ lx+=mv.dx; ly+=mv.dy; return true; } return false; });
+      landmarks.push({x:(ox+lx)*LT,y:(oy+ly)*LT,w:L.w*LT,h:L.h*LT,text:L.text.replace(/^Press M: /,'Seen from above (world map, B): '),zone:z.id}); });
+    // particles the design emits from its layout (e.g. the Starfall crater's sparks)
+    (c.m.particles||[]).forEach(function(P){ if(!P.area)return; var ax=P.area.x/LT, ay=P.area.y/LT; var q=Math.floor(ay+P.area.h/LT/2)*60+Math.floor(ax+P.area.w/LT/2); if(q<0||q>=3600||!applied[q])return;
+      stampParts.push(Object.assign({},P,{area:{x:P.area.x+ox*LT,y:P.area.y+oy*LT,w:P.area.w,h:P.area.h},_w:1})); });
     c.ley.forEach(function(L){ var pts=L.pts.map(function(p){return [ox+p[0],oy+p[1]];}), xs=pts.map(function(p){return p[0];}), ys=pts.map(function(p){return p[1];});
       ley.push({pts:pts,col:L.col,bx0:Math.min.apply(null,xs),bx1:Math.max.apply(null,xs),by0:Math.min.apply(null,ys),by1:Math.max.apply(null,ys)}); });
+    (c.m.shafts||[]).forEach(function(sh){ shafts.push({canvas:sh.canvas,x:sh.x+ox*LT,y:sh.y+oy*LT,a:sh.a,sway:sh.sway}); });
     stampSpawns.push({x:ox+c.sp.x,y:oy+c.sp.y,zi:zi}); });
   tm.stamps=Date.now()-t0;
   // ── 5. trails: carve from a point to the nearest road, staying in its region ──
@@ -225,14 +241,17 @@ function _buildGameWorld(){
   // ── 10. ambient props: each zone's own Lab props at the Lab's density ──
   _wgAmbientProps({W:W,H:H,cls:cls,region:region,zone:zone,tiles:tiles,kind:kind,reserved:reserved,skins:skins,addProp:addProp});
   tm.props=Date.now()-t0;
-  var byChunk={}; props.forEach(function(p){ var key=Math.floor(p.x/WCH)+'_'+Math.floor(p.y/WCH); (byChunk[key]=byChunk[key]||[]).push(p); });
+  // each prop is listed in every chunk its footprint (+2 tiles) touches: the ground
+  // part and lights are painted where they fall; tall sprites only in the anchor chunk
+  var byChunk={}; props.forEach(function(p){ var c0=Math.floor((p.x-2)/WCH), c1=Math.floor((p.x+p.w+1)/WCH), r0=Math.floor((p.y-2)/WCH), r1=Math.floor((p.y+p.h+1)/WCH);
+    for(var cy=r0;cy<=r1;cy++)for(var cx=c0;cx<=c1;cx++){ var key=cx+'_'+cy; (byChunk[key]=byChunk[key]||[]).push(p); } });
   // props sort by foot so flat ones paint in order
   // smooth centre-lines for roads, bridges and trails (painted as curves, not tile steps)
   var lines=[]; for(var ri=0;ri<M.roadPts.length;ri+=2)lines.push(M.roadPts[ri],M.roadPts[ri+1],1.75);
   gates.forEach(function(g){ for(var d=-20;d<=20;d+=0.5)lines.push(g.dir==='v'?g.x+0.5:g.x+d+0.5, g.dir==='v'?g.y+d+0.5:g.y+0.5, 2.6); });
   trailLines.forEach(function(L){ for(var i=0;i<L.length;i++){ var sx=0,sy=0,n=0; for(var j=Math.max(0,i-3);j<=Math.min(L.length-1,i+3);j++){ sx+=L[j][0]; sy+=L[j][1]; n++; } lines.push(sx/n,sy/n,1.1); } });
   var wd={tiles:tiles,kind:kind,buildings:buildings,lines:new Float32Array(lines),sites:sites,gates:gates,waystones:waystones,caches:caches,volcanoAnchors:anchors,
-    props:props,propsByChunk:byChunk,landmarks:landmarks,ley:ley,
+    props:props,propsByChunk:byChunk,landmarks:landmarks,ley:ley,shafts:shafts,stampParts:stampParts,
     map:M,region:region,zone:zone,cls:cls,baseVer:0,
     spawnX:CENTER_X*TILE+TILE/2, spawnY:CENTER_Y*TILE+TILE/2};
   _wgApplyGates(wd,{rescued:[],unlockedSections:[1]});

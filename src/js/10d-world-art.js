@@ -7,6 +7,7 @@
 var WS_REGION_TINT={1:{roof:'#3d5f9a',stone:'#b8b2a4',rune:'#6fe3f5'},2:{roof:'#2f6e66',stone:'#9aa296',rune:'#7fffd8'},3:{roof:'#8a4a2e',stone:'#b0a490',rune:'#ffc860'},4:{roof:'#3a2a2a',stone:'#6a605a',rune:'#ff8a40'}};
 function _wsTex(scene,key,w,h,draw){ if(!scene.textures.exists(key)){ var c=mkCanvas(w,h); draw(c.getContext('2d'),w,h,rngOf(_wpHash(key.length,w,h))); scene.textures.addCanvas(key,c); } return key; }
 function _wsGlow(scene,x,y,r,col,a,o){ if(!scene.textures.exists('glow')&&scene._wrInit)scene._wrInit(); var im=scene.add.image(x,y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(col)).setAlpha(a).setScale(r/64).setDepth(o&&o.depth!==undefined?o.depth:WR_DEPTH(y)+0.001);
+  (scene._glowObjs=scene._glowObjs||[]).push(im);
   if(o&&o.flicker)scene.tweens.add({targets:im,alpha:a*0.55,duration:140+Math.random()*120,yoyo:true,repeat:-1});
   else if(o&&o.pulse)scene.tweens.add({targets:im,alpha:a*0.5,scale:(r/64)*0.85,duration:1600,yoyo:true,repeat:-1,ease:'Sine.inOut'});
   return im; }

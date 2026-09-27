@@ -54,6 +54,7 @@ with game(new=True) as g:
     ok_c=all(c[1] for c in fa['caches'] if c[0] in (1,2)) and all(c[1] for c in fb['caches'] if c[0]==3) and all(c[1] for c in fu['caches'] if c[0]==4)
     check('...and each opens up with the right mount (Alligator / Boar / Unicorn)', ok_c, (fa['caches'],fb['caches'],fu['caches']))
     # waystone activation via Tab + travel costs
+    g.js("(()=>{var ws=game.scene.getScene('World'); ws.playerState.activatedWaystones=['ws_village']; ws._syncGates&&ws._syncGates(true); Object.values(ws._wsObjs||{}).forEach(o=>ws._drawWaystone(o.w));})()")  # Unlock All (above) now also lights every waystone
     g.js("(()=>{var ws=game.scene.getScene('World'),w=ws.wd.waystones.find(q=>q.region===1); ws.player.x=w.x*TILE+16; ws.player.y=(w.y+1)*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y);})()")
     g.wait(500); g.key('Tab',120); g.wait(400)
     r=g.ws("{act:ps.activatedWaystones.length, id:ws.wd.waystones.find(q=>q.region===1).id, on:ps.activatedWaystones.indexOf(ws.wd.waystones.find(q=>q.region===1).id)>=0}")
@@ -96,3 +97,4 @@ with game(new=False, save=old) as g:
     errs+=g.errs
 check('No JS errors', not errs, errs[:4])
 print('%d/%d'%(sum(res),len(res)))
+import sys; sys.exit(0 if all(res) else 1)

@@ -40,6 +40,10 @@ function sbRevealMap(){
   if(ws._save) ws._save();
   showNotif('🗺️ Full map revealed','#88aaff');
 }
+function sbNight(){
+  var ws=_sbWs(); if(!ws)return; ws._forceNight=ws._forceNight===undefined?1:ws._forceNight===1?0:undefined;
+  showNotif(ws._forceNight===undefined?'🌗 Day/night cycle':ws._forceNight?'🌙 Night':'☀️ Day','#bfe8ff');
+}
 function sbAllWaystones(){
   var ws=_sbWs(); if(!ws||!ws.wd) return; var ps=ws.playerState;
   ps.activatedWaystones=ws.wd.waystones.map(function(w){return w.id;});
@@ -101,7 +105,9 @@ function sbUnlockAll(){
   // …and build every crossing (all four craftsmen count as freed)
   var ps=ws.playerState; if(!ps.rescued)ps.rescued=[]; [1,2,3,4].forEach(function(s){ if(ps.rescued.indexOf(s)<0)ps.rescued.push(s); });
   if(ws._syncGates)ws._syncGates(true); if(ws._refreshVillageNPCs)ws._refreshVillageNPCs();
-  ws._emitUI();showNotif('All regions unlocked + all 12 crossings open!','#ffdd44');
+  // …and every waystone joins the travel network
+  if(ws.wd&&ws.wd.waystones){ ps.activatedWaystones=ws.wd.waystones.map(function(w){return w.id;}); ws.wd.waystones.forEach(function(w){ ws._drawWaystone(w); }); ws._expVer=(ws._expVer||0)+1; }
+  ws._emitUI();showNotif('All regions unlocked · 12 crossings open · 17 waystones active','#ffdd44');
 }
 function sbGodMode(){
   var ws=_sbWs();if(!ws)return;

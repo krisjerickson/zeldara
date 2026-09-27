@@ -45,8 +45,8 @@ Object.assign(WorldScene.prototype,{
       if(cx*cs>v.x+v.width+cs*2.2||(cx+1)*cs<v.x-cs*2.2||cy*cs>v.y+v.height+cs*2.2||(cy+1)*cs<v.y-cs*2.2){ self._wrUnmount(ch); W.chunks.delete(k); } });
     // runes near the hero brighten
     if(this.player){ var hx=this.player.x, hy=this.player.y, tt=(this._wrT=(this._wrT||0)+0.016);
-      W.chunks.forEach(function(ch){ ch.react.forEach(function(o,i){ var L=o._base, near=Math.max(0,1-Math.hypot(hx-o.x,hy-o.y)/150);
-        o.setAlpha(Math.min(1,L.a*0.8*(0.72+0.28*Math.sin(tt*1.6+i*0.9))*(1+1.6*near))); o.setScale((L.r/64)*(1+0.35*near)); }); }); }
+      W.chunks.forEach(function(ch){ ch.react.forEach(function(o,i){ var L=o._base; if(o._flicker&&!L.react){ o.setAlpha(L.a*0.8*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))*(1+0.5*(self._night||0))); return; } var near=Math.max(0,1-Math.hypot(hx-o.x,hy-o.y)/150);
+        o.setAlpha(Math.min(1,L.a*0.8*(0.72+0.28*Math.sin(tt*1.6+i*0.9))*(1+1.6*near)*(1+0.6*(self._night||0)))); o.setScale((L.r/64)*(1+0.35*near)); }); }); }
   },
   _refreshChunkAt(tx,ty){
     if(!this._wr)return; var cx=Math.floor(tx/WCH), cy=Math.floor(ty/WCH), key=cx+'_'+cy;
@@ -58,37 +58,56 @@ Object.assign(WorldScene.prototype,{
     var addTex=function(k,cv){ self.textures.addCanvas(k,cv); keys.push(k); return k; };
     objs.push(this.add.image(x0,y0,addTex(tag,o.canvas)).setOrigin(0,0).setDepth(-10));
     if(o.lavaMask){ var mk=addTex(tag+'_m',o.lavaMask);
+      // both flowing layers share ONE bitmap mask (each mask costs extra full-screen passes)
+      var lc=this.add.container(x0,y0).setDepth(-9), mi=self.make.image({x:x0,y:y0,key:mk,add:false}).setOrigin(0,0);
       [[0,0.7,7,4],[1,0.45,-5,6]].forEach(function(q){ var pk='wlava_'+q[0]; if(!self.textures.exists(pk))self.textures.addCanvas(pk,_lavaPattern(WORLD_SEED,q[0]));
-        var ts=self.add.tileSprite(x0,y0,WCH*LT,WCH*LT,pk).setOrigin(0,0).setDepth(-9).setAlpha(q[1]).setBlendMode(Phaser.BlendModes.ADD);
-        var mi=self.make.image({x:x0,y:y0,key:mk,add:false}).setOrigin(0,0); ts.setMask(mi.createBitmapMask()); ts._flow={vx:q[2],vy:q[3]}; ts.tilePositionX=x0; ts.tilePositionY=y0; objs.push(ts); objs.push(mi); });
+        var ts=self.make.tileSprite({x:0,y:0,width:WCH*LT,height:WCH*LT,key:pk,add:false}).setOrigin(0,0).setAlpha(q[1]).setBlendMode(Phaser.BlendModes.ADD);
+        ts._flow={vx:q[2],vy:q[3]}; ts.tilePositionX=x0; ts.tilePositionY=y0; lc.add(ts); });
+      lc.setMask(mi.createBitmapMask()); lc._lava=lc.list; objs.push(lc); objs.push(mi);
     }
     if(o.ley){ var li=this.add.image(x0,y0,addTex(tag+'_ley',o.ley)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.8).setDepth(-5); objs.push(li);
       this.tweens.add({targets:li,alpha:0.5,duration:2200,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
-    // sprites → one atlas per chunk (shelf-packed)
-    if(o.sprites.length){
-      var AW=2048, x=0, y=0, rowH=0, pos=[];
-      o.sprites.forEach(function(sp){ var w=sp.canvas.width, h=sp.canvas.height; if(x+w>AW){ x=0; y+=rowH+2; rowH=0; } pos.push([x,y]); x+=w+2; rowH=Math.max(rowH,h); });
-      var AH=Math.min(8192,y+rowH+2), atlas=mkCanvas(AW,AH), ag=atlas.getContext('2d');
-      o.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height<=AH)ag.drawImage(sp.canvas,pos[i][0],pos[i][1]); });
-      var at=addTex(tag+'_a',atlas), tex=this.textures.get(at);
-      o.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height>AH)return; var fn='s'+i; tex.add(fn,0,pos[i][0],pos[i][1],sp.canvas.width,sp.canvas.height);
+    // sprites → the chunk's atlas (packed by the paint job)
+    if(o.atlas){ var at=addTex(tag+'_a',o.atlas), tex=this.textures.get(at);
+      o.sprites.forEach(function(sp,i){ if(!sp.ap)return; var fn='s'+i; tex.add(fn,0,sp.ap[0],sp.ap[1],sp.aw,sp.ah);
         var im=self.add.image(sp.x,sp.y,at,fn).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.depth!==undefined&&sp.depth>=7000?WR_DEPTH(sp.y)+0.5:WR_DEPTH(sp.depth!==undefined?sp.depth:sp.y));
         if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
         if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
         objs.push(im); });
     }
+    (o.shafts||[]).forEach(function(sh,i){ var k=addTex(tag+'_sh'+i,sh.canvas); var im=self.add.image(sh.x,sh.y,k).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.5).setDepth(-5); objs.push(im);
+      if(sh.sway)self.tweens.add({targets:im,alpha:(sh.a||0.5)*0.6,duration:2200+i*170,yoyo:true,repeat:-1,ease:'Sine.inOut'}); });
+    (o.particles||[]).forEach(function(p){ var e=self._wrEmitter(p,p.area); if(e)objs.push(e); });
     o.lights.forEach(function(L,i){ var d=L.depth!==undefined&&L.depth<0?-4:WR_DEPTH(L.y)+0.0001;
       var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a*0.8).setScale(L.r/64).setDepth(d);
       if(L.pulse&&!L.react)self.tweens.add({targets:im,alpha:L.a*0.8*(1-L.pulse),scale:(L.r/64)*(1-L.pulse*0.25),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
-      im._base=L; if(L.react)react.push(im); objs.push(im); });
-    return {objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy};
+      if(L.flicker)im._flicker=L.flicker;
+      im._base=L; if(L.react||L.flicker)react.push(im); objs.push(im); });
+    return {objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy,lava:o.lavaCells&&o.lavaCells.length?o.lavaCells:null};
+  },
+  // A Lab particle spec → Phaser emitter over an area (world px)
+  _wrEmitter(p,a){
+    if(!a)return null;
+    var cfg={ x:{min:0,max:a.w}, y:{min:0,max:a.h}, lifespan:p.life||{min:3000,max:6000}, speedX:p.vx||{min:-6,max:6}, speedY:p.vy||{min:-10,max:-3},
+      scale:p.scale||{start:0.5,end:0}, alpha:p.alpha||{start:0.8,end:0}, tint:p.tints?p.tints.map(hexNum):hexNum(p.col||'#ffffff'),
+      frequency:p.freq||120, quantity:p.qty||1, blendMode:p.blend===false?'NORMAL':'ADD', rotate:p.rotate||0, gravityY:p.gravity||0 };
+    var e=this.add.particles(a.x,a.y,p.tex||'dot',cfg); e.setDepth(p.depth!==undefined&&p.depth>=6000?WR_DEPTH(a.y+a.h)+0.6:WR_DEPTH(a.y+a.h)); return e;
   },
   _wrUnmount(ch){
     var self=this; ch.objs.forEach(function(o){ self.tweens.killTweensOf(o); o.destroy(); });
     ch.keys.forEach(function(k){ if(self.textures.exists(k))self.textures.remove(k); });
   },
   _wrTick(dt){
-    if(!this._wr)return;
-    this._wr.chunks.forEach(function(ch){ ch.objs.forEach(function(o){ if(o._flow){ o.tilePositionX+=o._flow.vx*dt; o.tilePositionY+=o._flow.vy*dt; } }); });
+    if(!this._wr)return; var W=this._wr, lavaCh=[];
+    W.chunks.forEach(function(ch){ if(ch.lava)lavaCh.push(ch); ch.objs.forEach(function(o){ if(o._lava)o._lava.forEach(function(t){ t.tilePositionX+=t._flow.vx*dt; t.tilePositionY+=t._flow.vy*dt; }); }); });
+    // lava bursts (as in the Lab): little sprays of sparks from the molten ground in view
+    if(!lavaCh.length)return; W.burstT=(W.burstT||0)-dt; if(W.burstT>0)return; W.burstT=0.12+Math.random()*0.25;
+    if(!W.burstEm)W.burstEm=this.add.particles(0,0,'dot',{speed:{min:30,max:90},angle:{min:200,max:340},gravityY:120,lifespan:{min:400,max:900},scale:{start:0.7,end:0},alpha:{start:1,end:0},tint:[0xffd070,0xff8a30,0xffe8a0],blendMode:'ADD',emitting:false});
+    var v=this.cameras.main.worldView;
+    for(var bt=0;bt<6;bt++){ var ch=lavaCh[(Math.random()*lavaCh.length)|0], cc=ch.lava[(Math.random()*ch.lava.length)|0], bx=cc[0]+Math.random()*LT, by=cc[1]+Math.random()*LT;
+      if(bx<v.x-40||bx>v.right+40||by<v.y-40||by>v.bottom+40)continue;
+      W.burstEm.setDepth(WR_DEPTH(by)); W.burstEm.explode(4+((Math.random()*6)|0),bx,by);
+      var fl=this.add.image(bx,by,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xffa040).setAlpha(0.5).setScale(0.5).setDepth(-3);
+      this.tweens.add({targets:fl,alpha:0,scale:0.9,duration:420,onComplete:function(){ fl.destroy(); }}); break; }
   }
 });

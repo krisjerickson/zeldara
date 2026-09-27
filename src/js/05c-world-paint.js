@@ -117,69 +117,120 @@ var _WPN=null;   // global noise for the painter (warp, colour, variation, hills
 function _wpNoise(){ if(!_WPN)_WPN={w2:vnoise(WORLD_SEED+1306),w:vnoise(WORLD_SEED+1301),c:vnoise(WORLD_SEED+1302),v:vnoise(WORLD_SEED+1303),h:vnoise(WORLD_SEED+1304),h2:vnoise(WORLD_SEED+1305)}; return _WPN; }
 function _wpHash(x,y,s){ var n=(x*374761393+y*668265263+(s||0)*1442695041)|0; n=(n^(n>>>13))*1274126177|0; return ((n^(n>>>16))>>>0); }
 
+// ── The field (samples → kinds → colours) as a pure function over plain data,
+// so it can run in a Web Worker (off the main thread) or in slices here.
+var WP_KT=null;    // kinds as flat typed tables (shared with the worker)
+function _wpKindTables(){
+  if(WP_KT&&WP_KT.n===WK_REG.list.length)return WP_KT;
+  var L=WK_REG.list, n=L.length, T8=function(){ return new Uint8Array(n); }, F=function(m){ return new Float32Array(n*(m||1)); };
+  var t={n:n,soft:T8(),nowarp:T8(),pat:T8(),wall:T8(),noFace:T8(),liquid:T8(),road:T8(),strata:T8(),flat:T8(),rimW:T8(),hasRim:T8(),hasShore:T8(),sc:F(),A:F(3),B:F(3),face:F(3),face2:F(3),rim:F(3),shore:F(3)};
+  L.forEach(function(k,i){ t.soft[i]=k.soft?1:0; t.nowarp[i]=k.nowarp?1:0; t.pat[i]=k.pattern?1:0; t.wall[i]=k.wall?1:0; t.noFace[i]=k.wall&&k.wall.noFace?1:0; t.liquid[i]=k.liquid?1:0; t.road[i]=k.roadish?1:0; t.strata[i]=k.wall&&k.wall.strata?1:0; t.flat[i]=k.flat?1:0;
+    t.sc[i]=k.sc||0.18; var A=k.wall?k._top:k._a, B=k.wall?k._top2:k._b; for(var c=0;c<3;c++){ t.A[i*3+c]=A[c]; t.B[i*3+c]=B[c]; if(k.wall){ t.face[i*3+c]=k._face[c]; t.face2[i*3+c]=k._face2[c]; } if(k._rim)t.rim[i*3+c]=k._rim[c]; if(k._shore)t.shore[i*3+c]=k._shore[c]; }
+    t.hasRim[i]=k._rim?1:0; t.rimW[i]=k.rimW||1; t.hasShore[i]=k._shore?1:0; });
+  WP_KT=t; return t;
+}
+// D: {S,GW,SW,tx0,ty0,wx0,wy0,WW,kwin,zwin,hills(Float32 256*2),lines(Float32 x,y,r),seaK,seed,KT}; out: D.kb, D.px
+function _wpField(D,stage,r0,r1){
+  var S=D.S, SW=D.SW, GW=D.GW, tx0=D.tx0, ty0=D.ty0, KT=D.KT, kb=D.kb, px=D.px;
+  if(!D.N){ var sd=D.seed; D.N={w:vnoise(sd+1301),w2:vnoise(sd+1306),c:vnoise(sd+1302),v:vnoise(sd+1303),h:vnoise(sd+1304),h2:vnoise(sd+1305)};
+    // bucket road/trail centre-lines by 2-tile cells
+    var LG=Math.ceil(GW/2), cells=new Array(LG*LG), LP=D.lines; D.LG=LG; D.cells=cells;
+    for(var li=0;li<LP.length;li+=3){ var lxp=LP[li]-tx0, lyp=LP[li+1]-ty0, lr=LP[li+2];
+      for(var gy=Math.floor((lyp-lr)/2);gy<=Math.floor((lyp+lr)/2);gy++)for(var gx=Math.floor((lxp-lr)/2);gx<=Math.floor((lxp+lr)/2);gx++){ if(gx<0||gy<0||gx>=LG||gy>=LG)continue; var ci=gy*LG+gx; (cells[ci]||(cells[ci]=[])).push(li); } } }
+  var N=D.N, WW=D.WW, kwin=D.kwin, zwin=D.zwin, wx0=D.wx0, wy0=D.wy0, LP2=D.lines, cells2=D.cells, LG2=D.LG;
+  var kAt=function(x,y){ x-=wx0; y-=wy0; if(x<0||y<0||x>=WW||y>=WW)return D.seaK; return kwin[y*WW+x]; };
+  if(stage===0){
+    var lineAt=function(fx,fy){ var gx=Math.floor((fx-tx0)/2), gy=Math.floor((fy-ty0)/2); if(gx<0||gy<0||gx>=LG2||gy>=LG2)return -1; var Lc=cells2[gy*LG2+gx]; if(!Lc)return -1; var best=-1, bd=1;
+      for(var i=0;i<Lc.length;i++){ var q=Lc[i], dx=fx-LP2[q], dy=fy-LP2[q+1], r=LP2[q+2], dd=(dx*dx+dy*dy)/(r*r); if(dd<bd){ bd=dd; best=q; } } return best; };
+    var NB=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1],[2,0],[-2,0],[0,2],[0,-2]];
+    var under=function(tx,ty){ for(var i=0;i<NB.length;i++){ var kq=kAt(tx+NB[i][0],ty+NB[i][1]); if(!KT.road[kq])return kq; } return kAt(tx,ty); };
+    for(var py=r0;py<r1;py++)for(var pxx=0;pxx<SW;pxx++){
+      var fx=(pxx+0.5)/S+tx0, fy=(py+0.5)/S+ty0, ku=kAt(fx|0,fy|0), lq=lineAt(fx,fy);
+      if(lq>=0){ var kl=kAt(LP2[lq]|0,LP2[lq+1]|0); if(KT.road[kl]){ kb[py*SW+pxx]=kl; continue; } }
+      if(KT.road[ku])ku=under(fx|0,fy|0);
+      var dwx=(N.w(fx*0.55,fy*0.55)-0.5)*1.25+(N.w2(fx*1.9,fy*1.9)-0.5)*0.32, dwy=(N.w(fx*0.55+40,fy*0.55+40)-0.5)*1.25+(N.w2(fx*1.9+17,fy*1.9+17)-0.5)*0.32;
+      var kw=kAt(Math.floor(fx+dwx),Math.floor(fy+dwy));
+      if(KT.pat[ku]||KT.wall[ku]||KT.pat[kw]||KT.wall[kw])kw=kAt(Math.floor(fx+dwx*0.45),Math.floor(fy+dwy*0.45));
+      if(KT.road[kw])kw=ku;
+      kb[py*SW+pxx]=(KT.nowarp[ku]||KT.nowarp[kw])?ku:kw; }
+    return;
+  }
+  var FH=Math.round(S*0.75), A=KT.A, B=KT.B, sc=KT.sc;
+  var col=[0,0,0], colK=function(k,fx,fy,o){ var n=N.c(fx*sc[k],fy*sc[k]), tt=n*1.15-0.05; tt=tt<0?0:tt>1?1:tt; var i3=k*3; o[0]=A[i3]+(B[i3]-A[i3])*tt; o[1]=A[i3+1]+(B[i3+1]-A[i3+1])*tt; o[2]=A[i3+2]+(B[i3+2]-A[i3+2])*tt; return o; };
+  var cc=[0,0,0];
+  for(var py2=r0;py2<r1;py2++)for(var px2=0;px2<SW;px2++){
+    var ki=kb[py2*SW+px2], fx2=(px2+0.5)/S+tx0, fy2=(py2+0.5)/S+ty0; colK(ki,fx2,fy2,col); var r=col[0], g=col[1], b=col[2];
+    if(KT.soft[ki]){ var x0=Math.floor(fx2-0.5), y0=Math.floor(fy2-0.5), ax=fx2-0.5-x0, ay=fy2-0.5-y0, c0r=r, c0g=g, c0b=b; r=0;g=0;b=0;
+      for(var j=0;j<2;j++)for(var i=0;i<2;i++){ var kk2=kAt(x0+i,y0+j), wgt=(i?ax:1-ax)*(j?ay:1-ay); if(KT.soft[kk2]){ colK(kk2,fx2,fy2,cc); r+=cc[0]*wgt; g+=cc[1]*wgt; b+=cc[2]*wgt; } else { r+=c0r*wgt; g+=c0g*wgt; b+=c0b*wgt; } } }
+    var f=1+(N.v(fx2*0.9,fy2*0.9)-0.5)*0.12;
+    if(!KT.liquid[ki]&&!KT.flat[ki]){ var zx=(fx2|0)-wx0, zy=(fy2|0)-wy0, zi=(zx<0||zy<0||zx>=WW||zy>=WW)?255:zwin[zy*WW+zx];
+      if(zi!==255&&D.hills[zi*2]>0){ var hs=D.hills[zi*2], hk=D.hills[zi*2+1];
+        var h1=N.h((fx2-0.6)*hs,(fy2-0.6)*hs)+N.h2((fx2-0.6)*hs*2.3,(fy2-0.6)*hs*2.3)*0.35, h2=N.h((fx2+0.6)*hs,(fy2+0.6)*hs)+N.h2((fx2+0.6)*hs*2.3,(fy2+0.6)*hs*2.3)*0.35; f*=1+(h1-h2)*hk; } }
+    if(KT.wall[ki]){ var rel=N.h(fx2*0.6,fy2*0.6)-N.h(fx2*0.6+0.3,fy2*0.6+0.3); f*=1+rel*1.1+(N.v(fx2*2.6,fy2*2.6)-0.5)*0.22;
+      if(!KT.noFace[ki]){ for(var qf=1;qf<=FH;qf++){ var yb=py2+qf; if(yb>=SW)break; if(!KT.wall[kb[yb*SW+px2]]){ var tf=1-qf/FH, i3=ki*3;
+          r=KT.face[i3]+(KT.face2[i3]-KT.face[i3])*tf; g=KT.face[i3+1]+(KT.face2[i3+1]-KT.face[i3+1])*tf; b=KT.face[i3+2]+(KT.face2[i3+2]-KT.face[i3+2])*tf;
+          if(KT.strata[ki]&&((Math.floor(fy2*S)+(fx2*0.7|0))%5===0)){ r*=0.8; g*=0.8; b*=0.8; } if(qf===FH){ r*=1.18; g*=1.18; b*=1.18; } break; } } } }
+    else { for(var qs=1;qs<=3;qs++){ var ya=py2-qs; if(ya<0)break; var kaq=kb[ya*SW+px2]; if(KT.wall[kaq]&&!KT.noFace[kaq]){ var sh=0.62+qs*0.1; r*=sh; g*=sh; b*=sh; break; } } }
+    var edgeK=-1, dist=9;
+    for(var q=1;q<=3&&edgeK<0;q++){ for(var e=0;e<4;e++){ var ex=px2+(e===0?q:e===1?-q:0), ey=py2+(e===2?q:e===3?-q:0); if(ex<0||ey<0||ex>=SW||ey>=SW)continue; var kn=kb[ey*SW+ex]; if(kn!==ki&&!(KT.soft[ki]&&KT.soft[kn])){ edgeK=kn; dist=q; break; } } }
+    if(edgeK>=0){ var i3b=ki*3;
+      if(KT.liquid[ki]&&!KT.liquid[edgeK]&&KT.hasShore[ki]&&dist<=2){ var e1=dist===1?0.7:0.35; r+=(KT.shore[i3b]-r)*e1; g+=(KT.shore[i3b+1]-g)*e1; b+=(KT.shore[i3b+2]-b)*e1; }
+      else if(!KT.liquid[ki]&&KT.liquid[edgeK]&&dist<=3){ f*=0.72+0.09*dist; }
+      else if(KT.hasRim[ki]&&dist<=KT.rimW[ki]){ r=KT.rim[i3b]; g=KT.rim[i3b+1]; b=KT.rim[i3b+2]; }
+      else if(!KT.soft[ki]&&dist===1){ f*=0.82; } }
+    var i4=(py2*SW+px2)*4; r*=f; g*=f; b*=f; px[i4]=r>255?255:r; px[i4+1]=g>255?255:g; px[i4+2]=b>255?255:b; px[i4+3]=255; }
+}
+// One Web Worker paints fields off the main thread; if workers aren't allowed
+// here, the same function runs in small slices on the main thread instead.
+var _WPW={w:null,tried:false,seq:0,cb:{},kt:null};
+function _wpWorker(){
+  if(_WPW.tried)return _WPW.w; _WPW.tried=true;
+  try{
+    var src='var vnoise='+vnoise.toString()+';\nvar _wpField='+_wpField.toString()+';\nvar KT=null;\n'+
+      'onmessage=function(e){ var D=e.data; if(D.kt){ KT=D.kt; return; } D.KT=KT; var t0=performance.now(); _wpField(D,0,0,D.SW); var t1=performance.now(); _wpField(D,1,0,D.SW); postMessage({id:D.id,kb:D.kb,px:D.px,ms:[t1-t0,performance.now()-t1]},[D.kb.buffer,D.px.buffer]); };';
+    var w=new Worker(URL.createObjectURL(new Blob([src],{type:'text/javascript'})));
+    w.onmessage=function(e){ var cb=_WPW.cb[e.data.id]; delete _WPW.cb[e.data.id]; if(cb)cb(e.data); };
+    w.onerror=function(ev){ _WPW.err=ev&&ev.message; _WPW.w=null; Object.keys(_WPW.cb).forEach(function(id){ var cb=_WPW.cb[id]; delete _WPW.cb[id]; cb(null); }); };
+    _WPW.w=w;
+  }catch(e){ _WPW.w=null; }
+  return _WPW.w;
+}
+
 // Returns a job: call job.step(budgetMs) until it returns true; then job.out.
 function wpChunkJob(wd,cx,cy){
-  _wkInit(); var skins=_wzSkins(), N=_wpNoise(), KL=WK_REG.list, W=WORLD_W, H=WORLD_H, kind=wd.kind, zone=wd.zone;
+  _wkInit(); var skins=_wzSkins(), N=_wpNoise(), KL=WK_REG.list, W=WORLD_W, H=WORLD_H, kind=wd.kind, zone=wd.zone, KT=_wpKindTables();
   var MG=1, GW=WCH+2*MG, S=WP_S, SW=GW*S, tx0=cx*WCH-MG, ty0=cy*WCH-MG, ox=tx0*LT, oy=ty0*LT;
   var kAt=function(tx,ty){ if(tx<0||ty<0||tx>=W||ty>=H)return WSK.sea._gi; return kind[ty*W+tx]; };
-  var kb=new Uint16Array(SW*SW), cv=mkCanvas(WCH*LT,WCH*LT), ctx=cv.getContext('2d'), pq=null, lo=mkCanvas(SW,SW), lx=lo.getContext('2d'), img=lx.createImageData(SW,SW), d=img.data;
+  var cv=mkCanvas(WCH*LT,WCH*LT), ctx=cv.getContext('2d'), pq=null, kb=null;
   ctx.translate(-MG*LT,-MG*LT);   // draw in margin coordinates; the margin itself is clipped away
-  var out={cx:cx,cy:cy,canvas:null,sprites:[],lights:[],lavaMask:null,ley:null}, phase=0, row=0;
-  // smooth roads/trails: centre-line points near this chunk, bucketed in 2-tile cells
-  var LG=Math.ceil(GW/2), lcell=null, LP=wd.lines;
-  if(LP){ for(var li=0;li<LP.length;li+=3){ var lxp=LP[li]-tx0, lyp=LP[li+1]-ty0, lr=LP[li+2]; if(lxp<-lr-1||lyp<-lr-1||lxp>GW+lr+1||lyp>GW+lr+1)continue;
-      if(!lcell)lcell=new Array(LG*LG); for(var gy=Math.floor((lyp-lr)/2);gy<=Math.floor((lyp+lr)/2);gy++)for(var gx=Math.floor((lxp-lr)/2);gx<=Math.floor((lxp+lr)/2);gx++){ if(gx<0||gy<0||gx>=LG||gy>=LG)continue; var ci=gy*LG+gx; (lcell[ci]||(lcell[ci]=[])).push(li); } } }
-  var lineAt=function(fx,fy){ if(!lcell)return -1; var gx=Math.floor((fx-tx0)/2), gy=Math.floor((fy-ty0)/2); if(gx<0||gy<0||gx>=LG||gy>=LG)return -1; var L=lcell[gy*LG+gx]; if(!L)return -1; var best=-1, bd=1;
-    for(var i=0;i<L.length;i++){ var q=L[i], dx=fx-LP[q], dy=fy-LP[q+1], r=LP[q+2], d=(dx*dx+dy*dy)/(r*r); if(d<bd){ bd=d; best=q; } } return best; };
-  var under=function(tx,ty){ var nb=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1],[2,0],[-2,0],[0,2],[0,-2]]; for(var i=0;i<nb.length;i++){ var kq=kAt(tx+nb[i][0],ty+nb[i][1]); if(!KL[kq].roadish)return kq; } return kAt(tx,ty); };
-  var colK=function(k,fx,fy){ var n=N.c(fx*(k.sc||0.18),fy*(k.sc||0.18)), tt=Math.min(1,Math.max(0,n*1.15-0.05)); var A=k.wall?k._top:k._a, B=k.wall?k._top2:k._b; return [A[0]+(B[0]-A[0])*tt,A[1]+(B[1]-A[1])*tt,A[2]+(B[2]-A[2])*tt]; };
-  var FH=Math.round(S*0.75);   // cliff face height in samples (~24 px)
-  var hill=function(tx,ty){ var zi=(tx<0||ty<0||tx>=W||ty>=H)?255:zone[ty*W+tx]; return zi===255?null:skins[zi].hills; };
-  var job={out:out,step:function(budget){
+  var out={cx:cx,cy:cy,canvas:null,sprites:[],lights:[],particles:[],lavaMask:null,ley:null}, phase=0, row=0, waiting=false, glowCells={};
+  // field input: a window of the kind/zone grids (chunk + 4-tile margin), nearby road lines, zone hills
+  var MW=4, WW=GW+2*MW, wx0=tx0-MW, wy0=ty0-MW, kwin=new Uint16Array(WW*WW), zwin=new Uint8Array(WW*WW);
+  for(var yy=0;yy<WW;yy++)for(var xx=0;xx<WW;xx++){ var X=wx0+xx, Y=wy0+yy; kwin[yy*WW+xx]=kAt(X,Y); zwin[yy*WW+xx]=(X<0||Y<0||X>=W||Y>=H)?255:zone[Y*W+X]; }
+  var lines=[]; if(wd.lines){ var LP=wd.lines; for(var li=0;li<LP.length;li+=3){ var lxp=LP[li]-tx0, lyp=LP[li+1]-ty0, lr=LP[li+2]; if(lxp<-lr-1||lyp<-lr-1||lxp>GW+lr+1||lyp>GW+lr+1)continue; lines.push(LP[li],LP[li+1],lr); } }
+  if(!_WPW.hills){ var hl=new Float32Array(512); skins.forEach(function(s,i){ if(s.hills){ hl[i*2]=s.hills.sc; hl[i*2+1]=s.hills.k; } }); _WPW.hills=hl; }
+  var D={S:S,GW:GW,SW:SW,tx0:tx0,ty0:ty0,wx0:wx0,wy0:wy0,WW:WW,kwin:kwin,zwin:zwin,hills:_WPW.hills,lines:new Float32Array(lines),seaK:WSK.sea._gi,seed:WORLD_SEED,
+    kb:new Uint16Array(SW*SW),px:new Uint8ClampedArray(SW*SW*4)};
+  var finishField=function(){ var lo=mkCanvas(SW,SW), lx=lo.getContext('2d'), img=lx.createImageData(SW,SW); img.data.set(D.px); lx.putImageData(img,0,0);
+    ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='medium'; ctx.drawImage(lo,0,0,GW*LT,GW*LT); kb=D.kb; phase=2; };
+  var job={out:out,phase:function(){return phase;},step:function(budget){
     var t0=performance.now();
     while(performance.now()-t0<budget){
-      if(phase===0){ // 1. kind per sample (noise-warped lookup → organic edges)
-        for(var py=row;py<SW&&py<row+12;py++)for(var px=0;px<SW;px++){
-          var fx=(px+0.5)/S+tx0, fy=(py+0.5)/S+ty0, ku=kAt(fx|0,fy|0);
-          var lq=lineAt(fx,fy);
-          if(lq>=0){ var kl=kAt(LP[lq]|0,LP[lq+1]|0); if(KL[kl].roadish){ kb[py*SW+px]=kl; continue; } }
-          if(KL[ku].roadish)ku=under(fx|0,fy|0);
-          var dwx=(N.w(fx*0.55,fy*0.55)-0.5)*1.25+(N.w2(fx*1.9,fy*1.9)-0.5)*0.32, dwy=(N.w(fx*0.55+40,fy*0.55+40)-0.5)*1.25+(N.w2(fx*1.9+17,fy*1.9+17)-0.5)*0.32;
-          var kw=kAt(Math.floor(fx+dwx),Math.floor(fy+dwy));
-          if(KL[ku].pattern||KL[ku].wall||KL[kw].pattern||KL[kw].wall)kw=kAt(Math.floor(fx+dwx*0.45),Math.floor(fy+dwy*0.45));   // built things & walls keep their shape
-          if(KL[kw].roadish)kw=ku;
-          kb[py*SW+px]=(KL[ku].nowarp||KL[kw].nowarp)?ku:kw; }
-        row+=12; if(row>=SW){ phase=1; row=0; } continue; }
-      if(phase===1){ // 2. colour: palette noise, soft blends, hills, rims, wet bands
-        for(var py2=row;py2<SW&&py2<row+8;py2++)for(var px2=0;px2<SW;px2++){
-          var ki=kb[py2*SW+px2], k=KL[ki], fx2=(px2+0.5)/S+tx0, fy2=(py2+0.5)/S+ty0, c0=colK(k,fx2,fy2), r=c0[0], g=c0[1], b=c0[2];
-          if(k.soft){ var x0=Math.floor(fx2-0.5), y0=Math.floor(fy2-0.5), ax=fx2-0.5-x0, ay=fy2-0.5-y0; r=0;g=0;b=0;
-            for(var j=0;j<2;j++)for(var i=0;i<2;i++){ var kk2=KL[kAt(x0+i,y0+j)], wgt=(i?ax:1-ax)*(j?ay:1-ay), cc=kk2.soft?colK(kk2,fx2,fy2):c0; r+=cc[0]*wgt; g+=cc[1]*wgt; b+=cc[2]*wgt; } }
-          var f=1+(N.v(fx2*0.9,fy2*0.9)-0.5)*0.12;
-          if(!k.liquid&&!k.flat){ var hl=hill(fx2|0,fy2|0); if(hl){ var hg=function(x,y){ return N.h(x*hl.sc,y*hl.sc)+N.h2(x*hl.sc*2.3,y*hl.sc*2.3)*0.35; }; f*=1+(hg(fx2-0.6,fy2-0.6)-hg(fx2+0.6,fy2+0.6))*hl.k; } }
-          if(k.wall){ var rel=N.h(fx2*0.6,fy2*0.6)-N.h(fx2*0.6+0.3,fy2*0.6+0.3); f*=1+rel*1.1+(N.v(fx2*2.6,fy2*2.6)-0.5)*0.22; }
-          if(k.wall&&!k.wall.noFace){ // 3/4 cliff face where the wall meets open ground below (follows the warped edge)
-            for(var qf=1;qf<=FH;qf++){ var yb=py2+qf; if(yb>=SW)break; var kbq=KL[kb[yb*SW+px2]]; if(!kbq.wall){ var tf=1-qf/FH, fr=k._face, f2=k._face2;
-              r=fr[0]+(f2[0]-fr[0])*tf; g=fr[1]+(f2[1]-fr[1])*tf; b=fr[2]+(f2[2]-fr[2])*tf; if(k.wall.strata&&((Math.floor(fy2*S)+(fx2*0.7|0))%5===0)){ r*=0.8; g*=0.8; b*=0.8; } if(qf===FH){ r*=1.18; g*=1.18; b*=1.18; } break; } } }
-          else if(!k.wall){ for(var qs=1;qs<=3;qs++){ var ya=py2-qs; if(ya<0)break; var kaq=KL[kb[ya*SW+px2]]; if(kaq.wall&&!kaq.wall.noFace){ r*=0.62+qs*0.1; g*=0.62+qs*0.1; b*=0.62+qs*0.1; break; } } }
-          var edgeK=-1, dist=9;
-          for(var q=1;q<=3&&edgeK<0;q++){ for(var e=0;e<4;e++){ var ex=px2+(e===0?q:e===1?-q:0), ey=py2+(e===2?q:e===3?-q:0); if(ex<0||ey<0||ex>=SW||ey>=SW)continue; var kn=kb[ey*SW+ex]; if(kn!==ki&&!(k.soft&&KL[kn].soft)){ edgeK=kn; dist=q; break; } } }
-          if(edgeK>=0){ var o=KL[edgeK];
-            if(k.liquid&&!o.liquid&&k._shore&&dist<=2){ var e1=dist===1?0.7:0.35; r+=(k._shore[0]-r)*e1; g+=(k._shore[1]-g)*e1; b+=(k._shore[2]-b)*e1; }
-            else if(!k.liquid&&o.liquid&&dist<=3){ f*=0.72+0.09*dist; }
-            else if(k._rim&&dist<=(k.rimW||1)){ r=k._rim[0]; g=k._rim[1]; b=k._rim[2]; }
-            else if(!k.soft&&dist===1){ f*=0.82; } }
-          var i4=(py2*SW+px2)*4; d[i4]=Math.min(255,r*f); d[i4+1]=Math.min(255,g*f); d[i4+2]=Math.min(255,b*f); d[i4+3]=255; }
-        row+=8; if(row>=SW){ lx.putImageData(img,0,0); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='medium'; ctx.drawImage(lo,0,0,GW*LT,GW*LT); phase=2; } continue; }
-      if(phase===2){ // 3. built-surface patterns (world-aligned), one kind per step, clipped to its bounding box
+      if(phase===0){ // 1–2. the field: in the worker if we can, else in slices here
+        var wk=_wpWorker();
+        if(wk){ if(!waiting){ waiting=true; var id=++_WPW.seq; if(_WPW.kt!==KT){ wk.postMessage({kt:KT}); _WPW.kt=KT; }
+            _WPW.cb[id]=function(res){ waiting=false; if(!res){ phase=0.5; row=0; D.KT=KT; return; } D.kb=res.kb; D.px=res.px; _WPW.ms=res.ms; var tf=performance.now(); finishField(); _WPW.finMs=performance.now()-tf; };
+            D.id=id; var msg={}; for(var k0 in D)if(k0!=='KT'&&k0!=='N'&&k0!=='cells')msg[k0]=D[k0]; wk.postMessage(msg,[msg.kb.buffer,msg.px.buffer]); }
+          return false; }
+        phase=0.5; row=0; D.KT=KT; continue; }
+      if(phase===0.5){ _wpField(D,0,row,Math.min(SW,row+12)); row+=12; if(row>=SW){ phase=1; row=0; } continue; }
+      if(phase===1){ _wpField(D,1,row,Math.min(SW,row+8)); row+=8; if(row>=SW)finishField(); continue; }
+      if(phase===2){ // 3. built-surface patterns: cached world-aligned tiles, clipped to each kind
         if(!pq){ pq=[]; var bb={};
           for(var sy=0;sy<SW;sy++)for(var sx=0;sx<SW;sx++){ var kq=kb[sy*SW+sx], kd=KL[kq]; if(!kd.pattern||!WPATTERN[kd.pattern])continue; var b0=bb[kq]||(bb[kq]=[sx,sy,sx,sy]); if(sx<b0[0])b0[0]=sx; if(sy<b0[1])b0[1]=sy; if(sx>b0[2])b0[2]=sx; if(sy>b0[3])b0[3]=sy; }
           Object.keys(bb).forEach(function(kq){ pq.push([+kq,bb[kq]]); }); }
         if(!pq.length){ phase=3; row=0; continue; }
-        var item=pq.shift(), kq2=item[0], b=item[1], bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by;
-        var sub=new Uint16Array(bw*S*bh*S); for(var yy=0;yy<bh*S;yy++)for(var xx=0;xx<bw*S;xx++)sub[yy*bw*S+xx]=kb[(yy+by*S)*SW+xx+bx*S];
-        var pc={W:bw,H:bh,S:S,kb:sub,K:KL,ox:ox+bx*LT,oy:oy+by*LT,salt:(cx*73856093^cy*19349663)&0xffff,smoothMask:true};
-        ctx.save(); ctx.translate(bx*LT,by*LT); WPATTERN[KL[kq2].pattern](ctx,pc,kq2,KL[kq2]); ctx.restore();
+        var item=pq.shift(); _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1]);
         continue; }
       if(phase===3){ // 4. per-tile decoration, liquid glints, kind glows, walls
         var fake=_wpFakeC(wd,out,ox,oy);
@@ -188,46 +239,86 @@ function wpChunkJob(wd,cx,cy){
           if(kk.deco)kk.deco(ctx,p4x,p4y,R,N.c(wtx*0.2,wty*0.2),tx,ty,fake);
           if(kk.liquid&&R.chance(0.08)){ ctx.fillStyle='rgba(255,255,255,.18)'; ctx.fillRect(p4x+R.f()*20,p4y+R.f()*26,8+R.f()*8,1.5); }
           var inner=tx>=MG&&ty>=MG&&tx<GW-MG&&ty<GW-MG;
-          if(inner&&kk.glow&&R.chance(1/(kk.glow.every||6)))out.lights.push({x:ox+p4x+16,y:oy+p4y+16,r:kk.glow.r||90,col:kk.glow.col,a:kk.glow.a||0.35,pulse:0.3,period:1800+R.i(0,1500),depth:-4,_w:1});
+          var gcell=((ty>>3)*8+(tx>>3));
+          if(inner&&kk.glow&&!glowCells[gcell]&&R.chance(1/(kk.glow.every||6))&&(glowCells[gcell]=1))out.lights.push({x:ox+p4x+16,y:oy+p4y+16,r:kk.glow.r||90,col:kk.glow.col,a:kk.glow.a||0.35,pulse:0.3,period:1800+R.i(0,1500),depth:-4,_w:1});
           if(kk.wall&&!kk.wall.noFace)_wpWall(ctx,kk,KL,kAt,wtx,wty,p4x,p4y,R,fake);
         }
-        out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } });
+        out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } }); out.particles.forEach(function(P){ if(!P._w&&P.area){ P.area=Object.assign({},P.area,{x:P.area.x+ox,y:P.area.y+oy}); P._w=1; } });
         row+=8; if(row>=GW){ phase=4; } continue; }
       if(phase===4){ // 5. props anchored in this chunk (flat ones paint; tall ones become sprites)
         var list=(wd.propsByChunk&&wd.propsByChunk[cx+'_'+cy])||[], fk=_wpFakeC(wd,out,ox,oy);
         list.forEach(function(p){ var Z=p.zi>=0?skins[p.zi].Z:null, fn=WPROP[p.prop]||(Z&&Z.draw&&Z.draw[p.prop]); if(!fn)return;
           fk.R=rngOf(_wpHash(p.x,p.y,11)); var n0=out.sprites.length, nl=out.lights.length;
-          try{ fn(fk,ctx,(p.x-tx0)*LT,(p.y-ty0)*LT,p.w*LT,p.h*LT,p.o||{},(Z&&Z.pal)||{}); }catch(e){}
+          try{ fn(fk,ctx,(p.x-tx0)*LT,(p.y-ty0)*LT,p.w*LT,p.h*LT,p.o||{},(Z&&Z.pal)||{}); }catch(e){ var ek=p.prop+': '+e.message; WP_ERR[ek]=(WP_ERR[ek]||0)+1; }
+          if(Math.floor(p.x/WCH)!==cx||Math.floor(p.y/WCH)!==cy)out.sprites.length=n0;   // tall parts belong to the anchor chunk
           for(var si=n0;si<out.sprites.length;si++){ var sp=out.sprites[si]; sp.x+=ox; sp.y+=oy; if(sp.depth!==undefined&&sp.depth<7000)sp.depth+=oy; }
-          for(var li=nl;li<out.lights.length;li++){ var L=out.lights[li]; if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } } });
+          for(var li=nl;li<out.lights.length;li++){ var L=out.lights[li]; L.zi=p.zi; if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } } });
+        out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } }); out.particles.forEach(function(P){ if(!P._w&&P.area){ P.area=Object.assign({},P.area,{x:P.area.x+ox,y:P.area.y+oy}); P._w=1; } });
         phase=5; continue; }
       if(phase===5){ // 6. lava flow mask + ley lines, then crop the margin
         var lavaS=null; for(var q2=0;q2<kb.length;q2++){ if(KL[kb[q2]].lava){ lavaS=true; break; } }
         var inW=WCH*LT; out.canvas=cv;
+        if(lavaS){ out.lavaCells=[]; for(var ly2=0;ly2<WCH;ly2++)for(var lx2=0;lx2<WCH;lx2++){ if(KL[kAt(cx*WCH+lx2,cy*WCH+ly2)].lava&&((lx2*7+ly2*13)%5===0))out.lavaCells.push([(cx*WCH+lx2)*LT,(cy*WCH+ly2)*LT]); } }
         if(lavaS){ var mc=mkCanvas(SW,SW), mx=mc.getContext('2d'), im=mx.createImageData(SW,SW), dd=im.data; for(var i8=0;i8<SW*SW;i8++)if(KL[kb[i8]].lava)dd[i8*4+3]=255; mx.putImageData(im,0,0);
           var mask=mkCanvas(inW,inW), mk=mask.getContext('2d'); mk.imageSmoothingEnabled=true; mk.drawImage(mc,MG*S,MG*S,WCH*S,WCH*S,0,0,inW,inW); out.lavaMask=mask; }
         var ley=(wd.ley||[]).filter(function(L){ return L.bx1>=cx*WCH-4&&L.bx0<=(cx+1)*WCH+4&&L.by1>=cy*WCH-4&&L.by0<=(cy+1)*WCH+4; });
         if(ley.length){ var lc=mkCanvas(inW,inW), l2=lc.getContext('2d'); l2.lineCap='round'; l2.lineJoin='round';
           ley.forEach(function(L){ [[14,0.10],[7,0.22],[2.5,0.75]].forEach(function(st){ l2.strokeStyle=rgba(L.col,st[1]); l2.lineWidth=st[0]; l2.beginPath(); L.pts.forEach(function(p,i){ var X=(p[0]-cx*WCH)*LT+16,Y=(p[1]-cy*WCH)*LT+16; if(i)l2.lineTo(X,Y); else l2.moveTo(X,Y); }); l2.stroke(); }); });
-          out.ley=lc; }
+          out.ley=lc;
+          // pulsing glow beads along each ley line (as in the Lab); the chunk filter below keeps ours
+          ley.forEach(function(L){ for(var q6=0;q6<L.pts.length-1;q6++){ var a6=L.pts[q6], b6=L.pts[q6+1]; for(var u=0.25;u<1;u+=0.5)out.lights.push({x:(a6[0]+(b6[0]-a6[0])*u)*LT+16,y:(a6[1]+(b6[1]-a6[1])*u)*LT+16,r:50,col:L.col,a:0.28,pulse:0.5,period:2400,depth:-4,noCut:true,_w:1}); } }); }
         // keep lights/sprites anchored inside this chunk only (the margin repeats neighbours)
-        out.lights=out.lights.filter(function(L){ return L.x>=cx*WCH*LT&&L.x<(cx+1)*WCH*LT&&L.y>=cy*WCH*LT&&L.y<(cy+1)*WCH*LT; });
-        phase=6; return true; }
+        var inC=function(x,y){ return x>=cx*WCH*LT&&x<(cx+1)*WCH*LT&&y>=cy*WCH*LT&&y<(cy+1)*WCH*LT; };
+        out.lights=out.lights.filter(function(L){ return inC(L.x,L.y); });
+        out.particles=out.particles.filter(function(P){ return P.area&&inC(P.area.x+P.area.w/2,P.area.y+P.area.h/2); });
+        (wd.stampParts||[]).forEach(function(P){ if(inC(P.area.x+P.area.w/2,P.area.y+P.area.h/2))out.particles.push(P); });
+        out.shafts=(wd.shafts||[]).filter(function(sh){ return inC(sh.x+sh.canvas.width/2,sh.y); });
+        phase=6; continue; }
+      if(phase===6){ // 7. pack tall sprites into one atlas canvas (so mounting is just an upload)
+        if(out.sprites.length){ var AW=2048, ax=0, ay=0, rowH=0, pos=[];
+          out.sprites.forEach(function(sp){ var w=sp.canvas.width, h=sp.canvas.height; if(ax+w>AW){ ax=0; ay+=rowH+2; rowH=0; } pos.push([ax,ay]); ax+=w+2; rowH=Math.max(rowH,h); });
+          var AH=Math.min(8192,ay+rowH+2), atlas=mkCanvas(ax>0&&ay===0?Math.min(AW,ax):AW,AH), ag=atlas.getContext('2d');
+          out.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height<=AH){ ag.drawImage(sp.canvas,pos[i][0],pos[i][1]); sp.ap=pos[i]; } sp.aw=sp.canvas.width; sp.ah=sp.canvas.height; });
+          out.atlas=atlas; }
+        phase=7; return true; }
       return true;
     }
     return false; }};
   return job;
 }
+// Built-surface patterns from cached tiles: each patterned kind is drawn once
+// into a repeating tile (periods chosen so rows line up across the repeat),
+// then laid on a world-aligned grid and clipped to where that kind is.
+var _WPC={}, WP_ERR={};   // WP_ERR: prop draw failures (audited by tests/audit_lab_world.py)
+function _wpWarmPatterns(){ _wkInit(); var KL=WK_REG.list; for(var i=0;i<KL.length;i++){ if(KL[i].pattern&&WPATTERN[KL[i].pattern]&&!_WPC[i])_wpPatTile(i); } }
+var WP_TILE={cobble:[528,506],flag:[512,510],brick:[512,512],tier:[504,512],hex:[500.56,510],scute:[478,414],planks:[512,512]};
+function _wpPatTile(ki){
+  if(_WPC[ki])return _WPC[ki]; var k=WK_REG.list[ki], sz=WP_TILE[k.pattern]||[512,512];
+  if(k.pattern==='slab'){ var z=k.slabSize||LT; sz=[z*Math.max(1,Math.round(512/z)),z*Math.max(1,Math.round(512/z))]; }
+  var tw=Math.round(sz[0]), th=Math.round(sz[1]), nt=Math.ceil(Math.max(tw,th)/LT)+2, c={W:nt,H:nt,S:1,kb:new Uint16Array(nt*nt).fill(ki),K:WK_REG.list,ox:0,oy:0,salt:0};
+  var big=mkCanvas(nt*LT,nt*LT), bg=big.getContext('2d'); WPATTERN[k.pattern](bg,c,ki,k);
+  var t=mkCanvas(tw,th); t.getContext('2d').drawImage(big,0,0,tw,th,0,0,tw,th); _WPC[ki]={cv:t,w:tw,h:th}; return _WPC[ki];
+}
+function _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,ki,b){
+  var bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by;
+  var P=_wpPatTile(ki), W2=bw*LT, H2=bh*LT, lay=mkCanvas(W2,H2), g=lay.getContext('2d');
+  g.fillStyle=g.createPattern(P.cv,'repeat'); var wx=ox+bx*LT, wy=oy+by*LT, sx=((wx%P.w)+P.w)%P.w, sy=((wy%P.h)+P.h)%P.h;
+  g.save(); g.translate(-sx,-sy); g.fillRect(0,0,W2+sx,H2+sy); g.restore();
+  var mc=mkCanvas(bw*S,bh*S), mx=mc.getContext('2d'), im=mx.createImageData(bw*S,bh*S), dd=im.data;
+  for(var yy=0;yy<bh*S;yy++)for(var xx=0;xx<bw*S;xx++){ if(kb[(yy+by*S)*SW+xx+bx*S]===ki)dd[(yy*bw*S+xx)*4+3]=255; }
+  mx.putImageData(im,0,0); g.globalCompositeOperation='destination-in'; g.imageSmoothingEnabled=true; g.drawImage(mc,0,0,W2,H2);
+  ctx.drawImage(lay,bx*LT,by*LT);
+}
 // A stand-in for the Lab builder context, enough for props and deco to draw.
 function _wpFakeC(wd,out,ox,oy){
-  return {m:{sprites:out.sprites,lights:out.lights,particles:[],labels:[],shafts:[]},R:rngOf(1),W:WORLD_W,H:WORLD_H,
+  return {m:{sprites:out.sprites,lights:out.lights,particles:out.particles,labels:[],shafts:[]},R:rngOf(1),W:WORLD_W,H:WORLD_H,
     get:function(){return -1;},is:function(){return false;}};
 }
 function _wpWall(ctx,kw,KL,kAt,x5,y5,p5x,p5y,R,fake){
   // the field already paints tops and faces; add rock texture on the top surface
   for(var q=0;q<3;q++){ if(!R.chance(0.6))continue; ctx.fillStyle=rgba(shade(kw.wall.top,R.chance(0.5)?0.16:-0.28),0.5); ctx.fillRect(p5x+R.f()*26,p5y+R.f()*20,3+R.f()*5,2); }
   if(R.chance(0.25)){ ctx.strokeStyle=rgba(shade(kw.wall.top,-0.4),0.45); ctx.lineWidth=1; ctx.beginPath(); var x=p5x+R.f()*30, y=p5y+R.f()*20; ctx.moveTo(x,y); ctx.lineTo(x+R.f()*12-6,y+R.f()*10); ctx.stroke(); }
-  if(kw.wall.runes&&R.chance(kw.wall.runes*0.5)&&!KL[kAt(x5,y5+1)].wall)drawRune(ctx,p5x+16,p5y+LT-8,10,'#6fe3f5',R.i(0,9));
+  if(kw.wall.runes&&R.chance(kw.wall.runes)&&!KL[kAt(x5,y5+1)].wall){ drawRune(ctx,p5x+16,p5y+LT-8,11,'#6fe3f5',R.i(0,9)); addLight(fake.m,p5x+16,p5y+LT-8,56,'#6fe3f5',0.35,{react:true,rune:true}); }
 }
 // Average colour of a kind (world map / minimap)
 function _wkAvg(ki){ var k=WK_REG.list[ki]; if(!k)return [0,0,0]; if(!k._avg){ var a=k._a,b=k._b, f=k.wall?0.8:1; k._avg=[(a[0]+b[0])/2*f,(a[1]+b[1])/2*f,(a[2]+b[2])/2*f]; } return k._avg; }

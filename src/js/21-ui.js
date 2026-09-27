@@ -285,21 +285,29 @@ function _wmRenderSide(ws){
     h+='<h4>Waystones</h4><div class="wm-note">'+act.length+' / '+wd.waystones.length+' active. Stand at one and press <b>[Tab]</b> to travel.</div>';
     h+='<div class="wm-note">Drag to pan · wheel or buttons to zoom · only explored land is shown.</div>';
   }
-  side.innerHTML=h;
+  // only touch the DOM when the panel changed — rebuilding it on every
+  // redraw swallowed clicks on the travel buttons (mousedown/up hit different nodes)
+  if(side._h!==h){ side._h=h; side.innerHTML=h; }
 }
 (function(){
   document.addEventListener('click',function(e){
     var zb=e.target.closest&&e.target.closest('.wmap-z'); var ws=game&&game.scene?game.scene.getScene('World'):null;
     if(zb&&ws){ var z=+zb.dataset.z; if(z===0){ WMAP.cx=ws.player.x/TILE; WMAP.cy=ws.player.y/TILE; if(WMAP.zoom<2)WMAP.zoom=2; } else { WMAP.zoom=z; WMAP.cx=ws.player.x/TILE; WMAP.cy=ws.player.y/TILE; } renderMinimap(ws.wd,null,null,null,0,null,true); return; }
     var wb=e.target.closest&&e.target.closest('.wm-ws'); if(wb&&!wb.disabled&&ws&&ws._travelTo){ ws._travelTo(wb.dataset.ws); return; }
-  });
+  },true);  // capture: the modal box stops click propagation
   var cvOf=function(){ return document.getElementById('minimap-canvas'); };
   var toTile=function(e){ var cv=cvOf(), r=cv.getBoundingClientRect(), v=_wmView(); return [v.x+(e.clientX-r.left)/r.width*v.w, v.y+(e.clientY-r.top)/r.height*v.h]; };
   document.addEventListener('mousedown',function(e){ if(e.target.id!=='minimap-canvas')return; WMAP.drag={x:e.clientX,y:e.clientY,cx:WMAP.cx,cy:WMAP.cy,moved:false}; e.target.classList.add('drag'); });
   document.addEventListener('mouseup',function(e){ var d=WMAP.drag; WMAP.drag=null; var cv=cvOf(); if(cv)cv.classList.remove('drag');
-    if(d&&!d.moved&&e.target.id==='minimap-canvas'&&WMAP.travel){ var ws=game.scene.getScene('World'), t=toTile(e), best=null,bd=1e9;
+    if(d&&!d.moved&&e.target.id==='minimap-canvas'){ var ws=game.scene.getScene('World'), t=toTile(e), best=null,bd=1e9;
       (ws.wd.waystones||[]).forEach(function(w){ var dd=Math.hypot(w.x-t[0],w.y-t[1]); if(dd<bd){bd=dd;best=w;} });
-      var tol=_wmView().w/WMAP.side*14; if(best&&bd<tol&&(ws.playerState.activatedWaystones||[]).indexOf(best.id)>=0&&best.id!==WMAP.travel)ws._travelTo(best.id); } });
+      var tol=_wmView().w/WMAP.side*18; if(!best||bd>tol)return;
+      var ps=ws.playerState, on=(ps.activatedWaystones||[]).indexOf(best.id)>=0;
+      if(!on&&!_wmExplored(ps,best.x,best.y))return;
+      if(!WMAP.travel){ showNotif('🔷 Stand at a waystone and press [Tab] to travel from it','#6fe3f5'); return; }
+      if(best.id===WMAP.travel){ showNotif('🔷 You are here','#6fe3f5'); return; }
+      if(!on){ showNotif('🔷 '+best.name+' is not active yet — touch it first','#ff9a70'); return; }
+      ws._travelTo(best.id); } });
   document.addEventListener('mousemove',function(e){
     var cv=cvOf(); if(!cv)return; var ws=game&&game.scene?game.scene.getScene('World'):null; if(!ws||!ws.wd)return;
     if(WMAP.drag){ var r=cv.getBoundingClientRect(), v=_wmView(), dx=(e.clientX-WMAP.drag.x)/r.width*v.w, dy=(e.clientY-WMAP.drag.y)/r.height*v.h; if(Math.abs(e.clientX-WMAP.drag.x)+Math.abs(e.clientY-WMAP.drag.y)>4)WMAP.drag.moved=true;

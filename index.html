@@ -647,6 +647,7 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
           <button class="sb-btn" onclick="sbVolcanoUnlock()" style="border-color:rgba(255,100,40,.5);color:#ffaa66">🌋 Unlock Volcano Quest + 4 Keys</button>
           <button class="sb-btn" onclick="sbRevealMap()" style="border-color:rgba(120,180,255,.4);color:#88aaff">🗺️ Reveal Map</button>
           <button class="sb-btn" onclick="sbAllWaystones()" style="border-color:rgba(111,227,245,.4);color:#6fe3f5">🔷 All Waystones</button>
+          <button class="sb-btn" onclick="sbNight()" style="border-color:rgba(160,180,255,.4);color:#bfd0ff">🌙 Night / Day / Cycle</button>
           <button class="sb-btn" onclick="sbGoBigVolcano()" style="border-color:rgba(255,100,40,.5);color:#ffaa66">→ Big Volcano</button>
           <button class="sb-btn" onclick="sbGoMiniVolcano()" style="border-color:rgba(255,100,40,.5);color:#ffaa66">→ Next Mini-Volcano</button>
           <button class="sb-btn" onclick="sbSpawnMonsters()">Spawn All Monsters</button>
@@ -2430,9 +2431,9 @@ function _buildGameWorld(){
   // ── 3. village ──
   var buildings=buildVillage(tiles);
   for(var y4=CENTER_Y-VILLAGE_RADIUS-2;y4<=CENTER_Y+VILLAGE_RADIUS+2;y4++)for(var x4=CENTER_X-VILLAGE_RADIUS-2;x4<=CENTER_X+VILLAGE_RADIUS+2;x4++){ var k4=y4*W+x4, t4=tiles[y4][x4]; reserved[k4]=1;
-    if(t4===T.BUILDING_WALL)kind[k4]=G(WSK.wall); else if(t4===T.VILLAGE_FLOOR||t4===T.STONE_FLOOR||t4===T.PATH||t4===T.DOOR||t4===T.STABLES_FLOOR)kind[k4]=G(WSK.vpave); }
+    if(t4===T.BUILDING_WALL)kind[k4]=G(WSK.wall); else if(t4===T.PATH||t4===T.DOOR)kind[k4]=G(WSK.vpave); else if(t4===T.STONE_FLOOR||t4===T.STABLES_FLOOR)kind[k4]=G(WSK.plaza); else if(t4===T.VILLAGE_FLOOR)kind[k4]=G(WSK.vgrass); }  // lighter village: cobbles only on the streets
   // ── 4. zone landmarks: each zone's Lab sample stamped at its heart ──
-  var props=[], landmarks=[], ley=[], nzs=vnoise(WORLD_SEED+818), stampSpawns=[];
+  var props=[], landmarks=[], ley=[], shafts=[], stampParts=[], nzs=vnoise(WORLD_SEED+818), stampSpawns=[];
   var addProp=function(p){ props.push(p); };
   skins.forEach(function(s,zi){ var z=s.z, Z=s.Z, c;
     try{ c=buildWorld(Z,Z.seed,{layoutOnly:true}); }catch(e){ return; }
@@ -2441,12 +2442,28 @@ function _buildGameWorld(){
       if(region[wk]!==z.r||!(wc===WM.LAND||wc===WM.ROAD||wc===WM.PEAK||wc===WM.BEACH))continue; if(reserved[wk])continue;
       var dd=Math.hypot(lx-29.5,ly-29.5)+(nzs(wx*0.15,wy*0.15)-0.5)*7; if(dd>28.5)continue;
       var sk=K[c.t[ly*60+lx]]; setTK(wx,wy,_wgKindT(sk,z.r),G(sk)); applied[ly*60+lx]=1; reserved[wk]=2; }
-    c.obst.forEach(function(ob){ for(var a=0;a<ob.h;a++)for(var b=0;b<ob.w;b++){ var q=(ob.y+a)*60+ob.x+b; if(q<0||q>=3600||!applied[q])return; }
-      addProp({prop:ob.prop,x:ox+ob.x,y:oy+ob.y,w:ob.w,h:ob.h,o:ob.o,zi:zi});
-      if(ob.o.solid!==false)for(var a2=0;a2<ob.h;a2++)for(var b2=0;b2<ob.w;b2++){ var X=ox+ob.x+b2, Y=oy+ob.y+a2; if(!ALWAYS_BLOCKED.has(tiles[Y][X]))tiles[Y][X]=T.PROP; } });
-    c.landmarks.forEach(function(L){ landmarks.push({x:(ox+L.x)*LT,y:(oy+L.y)*LT,w:L.w*LT,h:L.h*LT,text:L.text,zone:z.id}); });
+    // props: keep the Lab layout; a set piece that falls off the land (coast,
+    // region edge) slides to the nearest spot inside the stamp, and its
+    // landmark moves with it, so every Lab feature exists somewhere.
+    var used=new Uint8Array(3600), moved=[];
+    var fits=function(x,y,w,h){ if(x<0||y<0||x+w>60||y+h>60)return false; for(var a=0;a<h;a++)for(var b=0;b<w;b++){ var q=(y+a)*60+x+b; if(!applied[q]||used[q])return false; } return true; };
+    var take=function(x,y,w,h){ for(var a=0;a<h;a++)for(var b=0;b<w;b++)used[(y+a)*60+x+b]=1; };
+    var big=function(ob){ return ob.w*ob.h>=6||/runecircle|skull|altar|shrine|statue|arch|tower|temple|mushring/.test(ob.prop); };
+    c.obst.forEach(function(ob){ var x=ob.x, y=ob.y;
+      if(!fits(x,y,ob.w,ob.h)){ if(!big(ob))return; var best=null;
+        for(var r=1;r<=18&&!best;r++)for(var dy=-r;dy<=r&&!best;dy++)for(var dx=-r;dx<=r;dx++){ if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue; if(fits(ob.x+dx,ob.y+dy,ob.w,ob.h)){ best=[dx,dy]; break; } }
+        if(!best)return; x=ob.x+best[0]; y=ob.y+best[1]; moved.push({x:ob.x,y:ob.y,w:ob.w,h:ob.h,dx:best[0],dy:best[1]}); }
+      if(ob.o.solid!==false||ob.o.claim)take(x,y,ob.w,ob.h);
+      addProp({prop:ob.prop,x:ox+x,y:oy+y,w:ob.w,h:ob.h,o:ob.o,zi:zi});
+      if(ob.o.solid!==false)for(var a2=0;a2<ob.h;a2++)for(var b2=0;b2<ob.w;b2++){ var X=ox+x+b2, Y=oy+y+a2; if(!ALWAYS_BLOCKED.has(tiles[Y][X]))tiles[Y][X]=T.PROP; } });
+    c.landmarks.forEach(function(L){ var lx=L.x, ly=L.y; moved.some(function(mv){ if(L.x<mv.x+mv.w&&L.x+L.w>mv.x&&L.y<mv.y+mv.h&&L.y+L.h>mv.y){ lx+=mv.dx; ly+=mv.dy; return true; } return false; });
+      landmarks.push({x:(ox+lx)*LT,y:(oy+ly)*LT,w:L.w*LT,h:L.h*LT,text:L.text.replace(/^Press M: /,'Seen from above (world map, B): '),zone:z.id}); });
+    // particles the design emits from its layout (e.g. the Starfall crater's sparks)
+    (c.m.particles||[]).forEach(function(P){ if(!P.area)return; var ax=P.area.x/LT, ay=P.area.y/LT; var q=Math.floor(ay+P.area.h/LT/2)*60+Math.floor(ax+P.area.w/LT/2); if(q<0||q>=3600||!applied[q])return;
+      stampParts.push(Object.assign({},P,{area:{x:P.area.x+ox*LT,y:P.area.y+oy*LT,w:P.area.w,h:P.area.h},_w:1})); });
     c.ley.forEach(function(L){ var pts=L.pts.map(function(p){return [ox+p[0],oy+p[1]];}), xs=pts.map(function(p){return p[0];}), ys=pts.map(function(p){return p[1];});
       ley.push({pts:pts,col:L.col,bx0:Math.min.apply(null,xs),bx1:Math.max.apply(null,xs),by0:Math.min.apply(null,ys),by1:Math.max.apply(null,ys)}); });
+    (c.m.shafts||[]).forEach(function(sh){ shafts.push({canvas:sh.canvas,x:sh.x+ox*LT,y:sh.y+oy*LT,a:sh.a,sway:sh.sway}); });
     stampSpawns.push({x:ox+c.sp.x,y:oy+c.sp.y,zi:zi}); });
   tm.stamps=Date.now()-t0;
   // ── 5. trails: carve from a point to the nearest road, staying in its region ──
@@ -2536,14 +2553,17 @@ function _buildGameWorld(){
   // ── 10. ambient props: each zone's own Lab props at the Lab's density ──
   _wgAmbientProps({W:W,H:H,cls:cls,region:region,zone:zone,tiles:tiles,kind:kind,reserved:reserved,skins:skins,addProp:addProp});
   tm.props=Date.now()-t0;
-  var byChunk={}; props.forEach(function(p){ var key=Math.floor(p.x/WCH)+'_'+Math.floor(p.y/WCH); (byChunk[key]=byChunk[key]||[]).push(p); });
+  // each prop is listed in every chunk its footprint (+2 tiles) touches: the ground
+  // part and lights are painted where they fall; tall sprites only in the anchor chunk
+  var byChunk={}; props.forEach(function(p){ var c0=Math.floor((p.x-2)/WCH), c1=Math.floor((p.x+p.w+1)/WCH), r0=Math.floor((p.y-2)/WCH), r1=Math.floor((p.y+p.h+1)/WCH);
+    for(var cy=r0;cy<=r1;cy++)for(var cx=c0;cx<=c1;cx++){ var key=cx+'_'+cy; (byChunk[key]=byChunk[key]||[]).push(p); } });
   // props sort by foot so flat ones paint in order
   // smooth centre-lines for roads, bridges and trails (painted as curves, not tile steps)
   var lines=[]; for(var ri=0;ri<M.roadPts.length;ri+=2)lines.push(M.roadPts[ri],M.roadPts[ri+1],1.75);
   gates.forEach(function(g){ for(var d=-20;d<=20;d+=0.5)lines.push(g.dir==='v'?g.x+0.5:g.x+d+0.5, g.dir==='v'?g.y+d+0.5:g.y+0.5, 2.6); });
   trailLines.forEach(function(L){ for(var i=0;i<L.length;i++){ var sx=0,sy=0,n=0; for(var j=Math.max(0,i-3);j<=Math.min(L.length-1,i+3);j++){ sx+=L[j][0]; sy+=L[j][1]; n++; } lines.push(sx/n,sy/n,1.1); } });
   var wd={tiles:tiles,kind:kind,buildings:buildings,lines:new Float32Array(lines),sites:sites,gates:gates,waystones:waystones,caches:caches,volcanoAnchors:anchors,
-    props:props,propsByChunk:byChunk,landmarks:landmarks,ley:ley,
+    props:props,propsByChunk:byChunk,landmarks:landmarks,ley:ley,shafts:shafts,stampParts:stampParts,
     map:M,region:region,zone:zone,cls:cls,baseVer:0,
     spawnX:CENTER_X*TILE+TILE/2, spawnY:CENTER_Y*TILE+TILE/2};
   _wgApplyGates(wd,{rescued:[],unlockedSections:[1]});
@@ -2706,69 +2726,120 @@ var _WPN=null;   // global noise for the painter (warp, colour, variation, hills
 function _wpNoise(){ if(!_WPN)_WPN={w2:vnoise(WORLD_SEED+1306),w:vnoise(WORLD_SEED+1301),c:vnoise(WORLD_SEED+1302),v:vnoise(WORLD_SEED+1303),h:vnoise(WORLD_SEED+1304),h2:vnoise(WORLD_SEED+1305)}; return _WPN; }
 function _wpHash(x,y,s){ var n=(x*374761393+y*668265263+(s||0)*1442695041)|0; n=(n^(n>>>13))*1274126177|0; return ((n^(n>>>16))>>>0); }
 
+// ── The field (samples → kinds → colours) as a pure function over plain data,
+// so it can run in a Web Worker (off the main thread) or in slices here.
+var WP_KT=null;    // kinds as flat typed tables (shared with the worker)
+function _wpKindTables(){
+  if(WP_KT&&WP_KT.n===WK_REG.list.length)return WP_KT;
+  var L=WK_REG.list, n=L.length, T8=function(){ return new Uint8Array(n); }, F=function(m){ return new Float32Array(n*(m||1)); };
+  var t={n:n,soft:T8(),nowarp:T8(),pat:T8(),wall:T8(),noFace:T8(),liquid:T8(),road:T8(),strata:T8(),flat:T8(),rimW:T8(),hasRim:T8(),hasShore:T8(),sc:F(),A:F(3),B:F(3),face:F(3),face2:F(3),rim:F(3),shore:F(3)};
+  L.forEach(function(k,i){ t.soft[i]=k.soft?1:0; t.nowarp[i]=k.nowarp?1:0; t.pat[i]=k.pattern?1:0; t.wall[i]=k.wall?1:0; t.noFace[i]=k.wall&&k.wall.noFace?1:0; t.liquid[i]=k.liquid?1:0; t.road[i]=k.roadish?1:0; t.strata[i]=k.wall&&k.wall.strata?1:0; t.flat[i]=k.flat?1:0;
+    t.sc[i]=k.sc||0.18; var A=k.wall?k._top:k._a, B=k.wall?k._top2:k._b; for(var c=0;c<3;c++){ t.A[i*3+c]=A[c]; t.B[i*3+c]=B[c]; if(k.wall){ t.face[i*3+c]=k._face[c]; t.face2[i*3+c]=k._face2[c]; } if(k._rim)t.rim[i*3+c]=k._rim[c]; if(k._shore)t.shore[i*3+c]=k._shore[c]; }
+    t.hasRim[i]=k._rim?1:0; t.rimW[i]=k.rimW||1; t.hasShore[i]=k._shore?1:0; });
+  WP_KT=t; return t;
+}
+// D: {S,GW,SW,tx0,ty0,wx0,wy0,WW,kwin,zwin,hills(Float32 256*2),lines(Float32 x,y,r),seaK,seed,KT}; out: D.kb, D.px
+function _wpField(D,stage,r0,r1){
+  var S=D.S, SW=D.SW, GW=D.GW, tx0=D.tx0, ty0=D.ty0, KT=D.KT, kb=D.kb, px=D.px;
+  if(!D.N){ var sd=D.seed; D.N={w:vnoise(sd+1301),w2:vnoise(sd+1306),c:vnoise(sd+1302),v:vnoise(sd+1303),h:vnoise(sd+1304),h2:vnoise(sd+1305)};
+    // bucket road/trail centre-lines by 2-tile cells
+    var LG=Math.ceil(GW/2), cells=new Array(LG*LG), LP=D.lines; D.LG=LG; D.cells=cells;
+    for(var li=0;li<LP.length;li+=3){ var lxp=LP[li]-tx0, lyp=LP[li+1]-ty0, lr=LP[li+2];
+      for(var gy=Math.floor((lyp-lr)/2);gy<=Math.floor((lyp+lr)/2);gy++)for(var gx=Math.floor((lxp-lr)/2);gx<=Math.floor((lxp+lr)/2);gx++){ if(gx<0||gy<0||gx>=LG||gy>=LG)continue; var ci=gy*LG+gx; (cells[ci]||(cells[ci]=[])).push(li); } } }
+  var N=D.N, WW=D.WW, kwin=D.kwin, zwin=D.zwin, wx0=D.wx0, wy0=D.wy0, LP2=D.lines, cells2=D.cells, LG2=D.LG;
+  var kAt=function(x,y){ x-=wx0; y-=wy0; if(x<0||y<0||x>=WW||y>=WW)return D.seaK; return kwin[y*WW+x]; };
+  if(stage===0){
+    var lineAt=function(fx,fy){ var gx=Math.floor((fx-tx0)/2), gy=Math.floor((fy-ty0)/2); if(gx<0||gy<0||gx>=LG2||gy>=LG2)return -1; var Lc=cells2[gy*LG2+gx]; if(!Lc)return -1; var best=-1, bd=1;
+      for(var i=0;i<Lc.length;i++){ var q=Lc[i], dx=fx-LP2[q], dy=fy-LP2[q+1], r=LP2[q+2], dd=(dx*dx+dy*dy)/(r*r); if(dd<bd){ bd=dd; best=q; } } return best; };
+    var NB=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1],[2,0],[-2,0],[0,2],[0,-2]];
+    var under=function(tx,ty){ for(var i=0;i<NB.length;i++){ var kq=kAt(tx+NB[i][0],ty+NB[i][1]); if(!KT.road[kq])return kq; } return kAt(tx,ty); };
+    for(var py=r0;py<r1;py++)for(var pxx=0;pxx<SW;pxx++){
+      var fx=(pxx+0.5)/S+tx0, fy=(py+0.5)/S+ty0, ku=kAt(fx|0,fy|0), lq=lineAt(fx,fy);
+      if(lq>=0){ var kl=kAt(LP2[lq]|0,LP2[lq+1]|0); if(KT.road[kl]){ kb[py*SW+pxx]=kl; continue; } }
+      if(KT.road[ku])ku=under(fx|0,fy|0);
+      var dwx=(N.w(fx*0.55,fy*0.55)-0.5)*1.25+(N.w2(fx*1.9,fy*1.9)-0.5)*0.32, dwy=(N.w(fx*0.55+40,fy*0.55+40)-0.5)*1.25+(N.w2(fx*1.9+17,fy*1.9+17)-0.5)*0.32;
+      var kw=kAt(Math.floor(fx+dwx),Math.floor(fy+dwy));
+      if(KT.pat[ku]||KT.wall[ku]||KT.pat[kw]||KT.wall[kw])kw=kAt(Math.floor(fx+dwx*0.45),Math.floor(fy+dwy*0.45));
+      if(KT.road[kw])kw=ku;
+      kb[py*SW+pxx]=(KT.nowarp[ku]||KT.nowarp[kw])?ku:kw; }
+    return;
+  }
+  var FH=Math.round(S*0.75), A=KT.A, B=KT.B, sc=KT.sc;
+  var col=[0,0,0], colK=function(k,fx,fy,o){ var n=N.c(fx*sc[k],fy*sc[k]), tt=n*1.15-0.05; tt=tt<0?0:tt>1?1:tt; var i3=k*3; o[0]=A[i3]+(B[i3]-A[i3])*tt; o[1]=A[i3+1]+(B[i3+1]-A[i3+1])*tt; o[2]=A[i3+2]+(B[i3+2]-A[i3+2])*tt; return o; };
+  var cc=[0,0,0];
+  for(var py2=r0;py2<r1;py2++)for(var px2=0;px2<SW;px2++){
+    var ki=kb[py2*SW+px2], fx2=(px2+0.5)/S+tx0, fy2=(py2+0.5)/S+ty0; colK(ki,fx2,fy2,col); var r=col[0], g=col[1], b=col[2];
+    if(KT.soft[ki]){ var x0=Math.floor(fx2-0.5), y0=Math.floor(fy2-0.5), ax=fx2-0.5-x0, ay=fy2-0.5-y0, c0r=r, c0g=g, c0b=b; r=0;g=0;b=0;
+      for(var j=0;j<2;j++)for(var i=0;i<2;i++){ var kk2=kAt(x0+i,y0+j), wgt=(i?ax:1-ax)*(j?ay:1-ay); if(KT.soft[kk2]){ colK(kk2,fx2,fy2,cc); r+=cc[0]*wgt; g+=cc[1]*wgt; b+=cc[2]*wgt; } else { r+=c0r*wgt; g+=c0g*wgt; b+=c0b*wgt; } } }
+    var f=1+(N.v(fx2*0.9,fy2*0.9)-0.5)*0.12;
+    if(!KT.liquid[ki]&&!KT.flat[ki]){ var zx=(fx2|0)-wx0, zy=(fy2|0)-wy0, zi=(zx<0||zy<0||zx>=WW||zy>=WW)?255:zwin[zy*WW+zx];
+      if(zi!==255&&D.hills[zi*2]>0){ var hs=D.hills[zi*2], hk=D.hills[zi*2+1];
+        var h1=N.h((fx2-0.6)*hs,(fy2-0.6)*hs)+N.h2((fx2-0.6)*hs*2.3,(fy2-0.6)*hs*2.3)*0.35, h2=N.h((fx2+0.6)*hs,(fy2+0.6)*hs)+N.h2((fx2+0.6)*hs*2.3,(fy2+0.6)*hs*2.3)*0.35; f*=1+(h1-h2)*hk; } }
+    if(KT.wall[ki]){ var rel=N.h(fx2*0.6,fy2*0.6)-N.h(fx2*0.6+0.3,fy2*0.6+0.3); f*=1+rel*1.1+(N.v(fx2*2.6,fy2*2.6)-0.5)*0.22;
+      if(!KT.noFace[ki]){ for(var qf=1;qf<=FH;qf++){ var yb=py2+qf; if(yb>=SW)break; if(!KT.wall[kb[yb*SW+px2]]){ var tf=1-qf/FH, i3=ki*3;
+          r=KT.face[i3]+(KT.face2[i3]-KT.face[i3])*tf; g=KT.face[i3+1]+(KT.face2[i3+1]-KT.face[i3+1])*tf; b=KT.face[i3+2]+(KT.face2[i3+2]-KT.face[i3+2])*tf;
+          if(KT.strata[ki]&&((Math.floor(fy2*S)+(fx2*0.7|0))%5===0)){ r*=0.8; g*=0.8; b*=0.8; } if(qf===FH){ r*=1.18; g*=1.18; b*=1.18; } break; } } } }
+    else { for(var qs=1;qs<=3;qs++){ var ya=py2-qs; if(ya<0)break; var kaq=kb[ya*SW+px2]; if(KT.wall[kaq]&&!KT.noFace[kaq]){ var sh=0.62+qs*0.1; r*=sh; g*=sh; b*=sh; break; } } }
+    var edgeK=-1, dist=9;
+    for(var q=1;q<=3&&edgeK<0;q++){ for(var e=0;e<4;e++){ var ex=px2+(e===0?q:e===1?-q:0), ey=py2+(e===2?q:e===3?-q:0); if(ex<0||ey<0||ex>=SW||ey>=SW)continue; var kn=kb[ey*SW+ex]; if(kn!==ki&&!(KT.soft[ki]&&KT.soft[kn])){ edgeK=kn; dist=q; break; } } }
+    if(edgeK>=0){ var i3b=ki*3;
+      if(KT.liquid[ki]&&!KT.liquid[edgeK]&&KT.hasShore[ki]&&dist<=2){ var e1=dist===1?0.7:0.35; r+=(KT.shore[i3b]-r)*e1; g+=(KT.shore[i3b+1]-g)*e1; b+=(KT.shore[i3b+2]-b)*e1; }
+      else if(!KT.liquid[ki]&&KT.liquid[edgeK]&&dist<=3){ f*=0.72+0.09*dist; }
+      else if(KT.hasRim[ki]&&dist<=KT.rimW[ki]){ r=KT.rim[i3b]; g=KT.rim[i3b+1]; b=KT.rim[i3b+2]; }
+      else if(!KT.soft[ki]&&dist===1){ f*=0.82; } }
+    var i4=(py2*SW+px2)*4; r*=f; g*=f; b*=f; px[i4]=r>255?255:r; px[i4+1]=g>255?255:g; px[i4+2]=b>255?255:b; px[i4+3]=255; }
+}
+// One Web Worker paints fields off the main thread; if workers aren't allowed
+// here, the same function runs in small slices on the main thread instead.
+var _WPW={w:null,tried:false,seq:0,cb:{},kt:null};
+function _wpWorker(){
+  if(_WPW.tried)return _WPW.w; _WPW.tried=true;
+  try{
+    var src='var vnoise='+vnoise.toString()+';\nvar _wpField='+_wpField.toString()+';\nvar KT=null;\n'+
+      'onmessage=function(e){ var D=e.data; if(D.kt){ KT=D.kt; return; } D.KT=KT; var t0=performance.now(); _wpField(D,0,0,D.SW); var t1=performance.now(); _wpField(D,1,0,D.SW); postMessage({id:D.id,kb:D.kb,px:D.px,ms:[t1-t0,performance.now()-t1]},[D.kb.buffer,D.px.buffer]); };';
+    var w=new Worker(URL.createObjectURL(new Blob([src],{type:'text/javascript'})));
+    w.onmessage=function(e){ var cb=_WPW.cb[e.data.id]; delete _WPW.cb[e.data.id]; if(cb)cb(e.data); };
+    w.onerror=function(ev){ _WPW.err=ev&&ev.message; _WPW.w=null; Object.keys(_WPW.cb).forEach(function(id){ var cb=_WPW.cb[id]; delete _WPW.cb[id]; cb(null); }); };
+    _WPW.w=w;
+  }catch(e){ _WPW.w=null; }
+  return _WPW.w;
+}
+
 // Returns a job: call job.step(budgetMs) until it returns true; then job.out.
 function wpChunkJob(wd,cx,cy){
-  _wkInit(); var skins=_wzSkins(), N=_wpNoise(), KL=WK_REG.list, W=WORLD_W, H=WORLD_H, kind=wd.kind, zone=wd.zone;
+  _wkInit(); var skins=_wzSkins(), N=_wpNoise(), KL=WK_REG.list, W=WORLD_W, H=WORLD_H, kind=wd.kind, zone=wd.zone, KT=_wpKindTables();
   var MG=1, GW=WCH+2*MG, S=WP_S, SW=GW*S, tx0=cx*WCH-MG, ty0=cy*WCH-MG, ox=tx0*LT, oy=ty0*LT;
   var kAt=function(tx,ty){ if(tx<0||ty<0||tx>=W||ty>=H)return WSK.sea._gi; return kind[ty*W+tx]; };
-  var kb=new Uint16Array(SW*SW), cv=mkCanvas(WCH*LT,WCH*LT), ctx=cv.getContext('2d'), pq=null, lo=mkCanvas(SW,SW), lx=lo.getContext('2d'), img=lx.createImageData(SW,SW), d=img.data;
+  var cv=mkCanvas(WCH*LT,WCH*LT), ctx=cv.getContext('2d'), pq=null, kb=null;
   ctx.translate(-MG*LT,-MG*LT);   // draw in margin coordinates; the margin itself is clipped away
-  var out={cx:cx,cy:cy,canvas:null,sprites:[],lights:[],lavaMask:null,ley:null}, phase=0, row=0;
-  // smooth roads/trails: centre-line points near this chunk, bucketed in 2-tile cells
-  var LG=Math.ceil(GW/2), lcell=null, LP=wd.lines;
-  if(LP){ for(var li=0;li<LP.length;li+=3){ var lxp=LP[li]-tx0, lyp=LP[li+1]-ty0, lr=LP[li+2]; if(lxp<-lr-1||lyp<-lr-1||lxp>GW+lr+1||lyp>GW+lr+1)continue;
-      if(!lcell)lcell=new Array(LG*LG); for(var gy=Math.floor((lyp-lr)/2);gy<=Math.floor((lyp+lr)/2);gy++)for(var gx=Math.floor((lxp-lr)/2);gx<=Math.floor((lxp+lr)/2);gx++){ if(gx<0||gy<0||gx>=LG||gy>=LG)continue; var ci=gy*LG+gx; (lcell[ci]||(lcell[ci]=[])).push(li); } } }
-  var lineAt=function(fx,fy){ if(!lcell)return -1; var gx=Math.floor((fx-tx0)/2), gy=Math.floor((fy-ty0)/2); if(gx<0||gy<0||gx>=LG||gy>=LG)return -1; var L=lcell[gy*LG+gx]; if(!L)return -1; var best=-1, bd=1;
-    for(var i=0;i<L.length;i++){ var q=L[i], dx=fx-LP[q], dy=fy-LP[q+1], r=LP[q+2], d=(dx*dx+dy*dy)/(r*r); if(d<bd){ bd=d; best=q; } } return best; };
-  var under=function(tx,ty){ var nb=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1],[2,0],[-2,0],[0,2],[0,-2]]; for(var i=0;i<nb.length;i++){ var kq=kAt(tx+nb[i][0],ty+nb[i][1]); if(!KL[kq].roadish)return kq; } return kAt(tx,ty); };
-  var colK=function(k,fx,fy){ var n=N.c(fx*(k.sc||0.18),fy*(k.sc||0.18)), tt=Math.min(1,Math.max(0,n*1.15-0.05)); var A=k.wall?k._top:k._a, B=k.wall?k._top2:k._b; return [A[0]+(B[0]-A[0])*tt,A[1]+(B[1]-A[1])*tt,A[2]+(B[2]-A[2])*tt]; };
-  var FH=Math.round(S*0.75);   // cliff face height in samples (~24 px)
-  var hill=function(tx,ty){ var zi=(tx<0||ty<0||tx>=W||ty>=H)?255:zone[ty*W+tx]; return zi===255?null:skins[zi].hills; };
-  var job={out:out,step:function(budget){
+  var out={cx:cx,cy:cy,canvas:null,sprites:[],lights:[],particles:[],lavaMask:null,ley:null}, phase=0, row=0, waiting=false, glowCells={};
+  // field input: a window of the kind/zone grids (chunk + 4-tile margin), nearby road lines, zone hills
+  var MW=4, WW=GW+2*MW, wx0=tx0-MW, wy0=ty0-MW, kwin=new Uint16Array(WW*WW), zwin=new Uint8Array(WW*WW);
+  for(var yy=0;yy<WW;yy++)for(var xx=0;xx<WW;xx++){ var X=wx0+xx, Y=wy0+yy; kwin[yy*WW+xx]=kAt(X,Y); zwin[yy*WW+xx]=(X<0||Y<0||X>=W||Y>=H)?255:zone[Y*W+X]; }
+  var lines=[]; if(wd.lines){ var LP=wd.lines; for(var li=0;li<LP.length;li+=3){ var lxp=LP[li]-tx0, lyp=LP[li+1]-ty0, lr=LP[li+2]; if(lxp<-lr-1||lyp<-lr-1||lxp>GW+lr+1||lyp>GW+lr+1)continue; lines.push(LP[li],LP[li+1],lr); } }
+  if(!_WPW.hills){ var hl=new Float32Array(512); skins.forEach(function(s,i){ if(s.hills){ hl[i*2]=s.hills.sc; hl[i*2+1]=s.hills.k; } }); _WPW.hills=hl; }
+  var D={S:S,GW:GW,SW:SW,tx0:tx0,ty0:ty0,wx0:wx0,wy0:wy0,WW:WW,kwin:kwin,zwin:zwin,hills:_WPW.hills,lines:new Float32Array(lines),seaK:WSK.sea._gi,seed:WORLD_SEED,
+    kb:new Uint16Array(SW*SW),px:new Uint8ClampedArray(SW*SW*4)};
+  var finishField=function(){ var lo=mkCanvas(SW,SW), lx=lo.getContext('2d'), img=lx.createImageData(SW,SW); img.data.set(D.px); lx.putImageData(img,0,0);
+    ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='medium'; ctx.drawImage(lo,0,0,GW*LT,GW*LT); kb=D.kb; phase=2; };
+  var job={out:out,phase:function(){return phase;},step:function(budget){
     var t0=performance.now();
     while(performance.now()-t0<budget){
-      if(phase===0){ // 1. kind per sample (noise-warped lookup → organic edges)
-        for(var py=row;py<SW&&py<row+12;py++)for(var px=0;px<SW;px++){
-          var fx=(px+0.5)/S+tx0, fy=(py+0.5)/S+ty0, ku=kAt(fx|0,fy|0);
-          var lq=lineAt(fx,fy);
-          if(lq>=0){ var kl=kAt(LP[lq]|0,LP[lq+1]|0); if(KL[kl].roadish){ kb[py*SW+px]=kl; continue; } }
-          if(KL[ku].roadish)ku=under(fx|0,fy|0);
-          var dwx=(N.w(fx*0.55,fy*0.55)-0.5)*1.25+(N.w2(fx*1.9,fy*1.9)-0.5)*0.32, dwy=(N.w(fx*0.55+40,fy*0.55+40)-0.5)*1.25+(N.w2(fx*1.9+17,fy*1.9+17)-0.5)*0.32;
-          var kw=kAt(Math.floor(fx+dwx),Math.floor(fy+dwy));
-          if(KL[ku].pattern||KL[ku].wall||KL[kw].pattern||KL[kw].wall)kw=kAt(Math.floor(fx+dwx*0.45),Math.floor(fy+dwy*0.45));   // built things & walls keep their shape
-          if(KL[kw].roadish)kw=ku;
-          kb[py*SW+px]=(KL[ku].nowarp||KL[kw].nowarp)?ku:kw; }
-        row+=12; if(row>=SW){ phase=1; row=0; } continue; }
-      if(phase===1){ // 2. colour: palette noise, soft blends, hills, rims, wet bands
-        for(var py2=row;py2<SW&&py2<row+8;py2++)for(var px2=0;px2<SW;px2++){
-          var ki=kb[py2*SW+px2], k=KL[ki], fx2=(px2+0.5)/S+tx0, fy2=(py2+0.5)/S+ty0, c0=colK(k,fx2,fy2), r=c0[0], g=c0[1], b=c0[2];
-          if(k.soft){ var x0=Math.floor(fx2-0.5), y0=Math.floor(fy2-0.5), ax=fx2-0.5-x0, ay=fy2-0.5-y0; r=0;g=0;b=0;
-            for(var j=0;j<2;j++)for(var i=0;i<2;i++){ var kk2=KL[kAt(x0+i,y0+j)], wgt=(i?ax:1-ax)*(j?ay:1-ay), cc=kk2.soft?colK(kk2,fx2,fy2):c0; r+=cc[0]*wgt; g+=cc[1]*wgt; b+=cc[2]*wgt; } }
-          var f=1+(N.v(fx2*0.9,fy2*0.9)-0.5)*0.12;
-          if(!k.liquid&&!k.flat){ var hl=hill(fx2|0,fy2|0); if(hl){ var hg=function(x,y){ return N.h(x*hl.sc,y*hl.sc)+N.h2(x*hl.sc*2.3,y*hl.sc*2.3)*0.35; }; f*=1+(hg(fx2-0.6,fy2-0.6)-hg(fx2+0.6,fy2+0.6))*hl.k; } }
-          if(k.wall){ var rel=N.h(fx2*0.6,fy2*0.6)-N.h(fx2*0.6+0.3,fy2*0.6+0.3); f*=1+rel*1.1+(N.v(fx2*2.6,fy2*2.6)-0.5)*0.22; }
-          if(k.wall&&!k.wall.noFace){ // 3/4 cliff face where the wall meets open ground below (follows the warped edge)
-            for(var qf=1;qf<=FH;qf++){ var yb=py2+qf; if(yb>=SW)break; var kbq=KL[kb[yb*SW+px2]]; if(!kbq.wall){ var tf=1-qf/FH, fr=k._face, f2=k._face2;
-              r=fr[0]+(f2[0]-fr[0])*tf; g=fr[1]+(f2[1]-fr[1])*tf; b=fr[2]+(f2[2]-fr[2])*tf; if(k.wall.strata&&((Math.floor(fy2*S)+(fx2*0.7|0))%5===0)){ r*=0.8; g*=0.8; b*=0.8; } if(qf===FH){ r*=1.18; g*=1.18; b*=1.18; } break; } } }
-          else if(!k.wall){ for(var qs=1;qs<=3;qs++){ var ya=py2-qs; if(ya<0)break; var kaq=KL[kb[ya*SW+px2]]; if(kaq.wall&&!kaq.wall.noFace){ r*=0.62+qs*0.1; g*=0.62+qs*0.1; b*=0.62+qs*0.1; break; } } }
-          var edgeK=-1, dist=9;
-          for(var q=1;q<=3&&edgeK<0;q++){ for(var e=0;e<4;e++){ var ex=px2+(e===0?q:e===1?-q:0), ey=py2+(e===2?q:e===3?-q:0); if(ex<0||ey<0||ex>=SW||ey>=SW)continue; var kn=kb[ey*SW+ex]; if(kn!==ki&&!(k.soft&&KL[kn].soft)){ edgeK=kn; dist=q; break; } } }
-          if(edgeK>=0){ var o=KL[edgeK];
-            if(k.liquid&&!o.liquid&&k._shore&&dist<=2){ var e1=dist===1?0.7:0.35; r+=(k._shore[0]-r)*e1; g+=(k._shore[1]-g)*e1; b+=(k._shore[2]-b)*e1; }
-            else if(!k.liquid&&o.liquid&&dist<=3){ f*=0.72+0.09*dist; }
-            else if(k._rim&&dist<=(k.rimW||1)){ r=k._rim[0]; g=k._rim[1]; b=k._rim[2]; }
-            else if(!k.soft&&dist===1){ f*=0.82; } }
-          var i4=(py2*SW+px2)*4; d[i4]=Math.min(255,r*f); d[i4+1]=Math.min(255,g*f); d[i4+2]=Math.min(255,b*f); d[i4+3]=255; }
-        row+=8; if(row>=SW){ lx.putImageData(img,0,0); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='medium'; ctx.drawImage(lo,0,0,GW*LT,GW*LT); phase=2; } continue; }
-      if(phase===2){ // 3. built-surface patterns (world-aligned), one kind per step, clipped to its bounding box
+      if(phase===0){ // 1–2. the field: in the worker if we can, else in slices here
+        var wk=_wpWorker();
+        if(wk){ if(!waiting){ waiting=true; var id=++_WPW.seq; if(_WPW.kt!==KT){ wk.postMessage({kt:KT}); _WPW.kt=KT; }
+            _WPW.cb[id]=function(res){ waiting=false; if(!res){ phase=0.5; row=0; D.KT=KT; return; } D.kb=res.kb; D.px=res.px; _WPW.ms=res.ms; var tf=performance.now(); finishField(); _WPW.finMs=performance.now()-tf; };
+            D.id=id; var msg={}; for(var k0 in D)if(k0!=='KT'&&k0!=='N'&&k0!=='cells')msg[k0]=D[k0]; wk.postMessage(msg,[msg.kb.buffer,msg.px.buffer]); }
+          return false; }
+        phase=0.5; row=0; D.KT=KT; continue; }
+      if(phase===0.5){ _wpField(D,0,row,Math.min(SW,row+12)); row+=12; if(row>=SW){ phase=1; row=0; } continue; }
+      if(phase===1){ _wpField(D,1,row,Math.min(SW,row+8)); row+=8; if(row>=SW)finishField(); continue; }
+      if(phase===2){ // 3. built-surface patterns: cached world-aligned tiles, clipped to each kind
         if(!pq){ pq=[]; var bb={};
           for(var sy=0;sy<SW;sy++)for(var sx=0;sx<SW;sx++){ var kq=kb[sy*SW+sx], kd=KL[kq]; if(!kd.pattern||!WPATTERN[kd.pattern])continue; var b0=bb[kq]||(bb[kq]=[sx,sy,sx,sy]); if(sx<b0[0])b0[0]=sx; if(sy<b0[1])b0[1]=sy; if(sx>b0[2])b0[2]=sx; if(sy>b0[3])b0[3]=sy; }
           Object.keys(bb).forEach(function(kq){ pq.push([+kq,bb[kq]]); }); }
         if(!pq.length){ phase=3; row=0; continue; }
-        var item=pq.shift(), kq2=item[0], b=item[1], bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by;
-        var sub=new Uint16Array(bw*S*bh*S); for(var yy=0;yy<bh*S;yy++)for(var xx=0;xx<bw*S;xx++)sub[yy*bw*S+xx]=kb[(yy+by*S)*SW+xx+bx*S];
-        var pc={W:bw,H:bh,S:S,kb:sub,K:KL,ox:ox+bx*LT,oy:oy+by*LT,salt:(cx*73856093^cy*19349663)&0xffff,smoothMask:true};
-        ctx.save(); ctx.translate(bx*LT,by*LT); WPATTERN[KL[kq2].pattern](ctx,pc,kq2,KL[kq2]); ctx.restore();
+        var item=pq.shift(); _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1]);
         continue; }
       if(phase===3){ // 4. per-tile decoration, liquid glints, kind glows, walls
         var fake=_wpFakeC(wd,out,ox,oy);
@@ -2777,46 +2848,86 @@ function wpChunkJob(wd,cx,cy){
           if(kk.deco)kk.deco(ctx,p4x,p4y,R,N.c(wtx*0.2,wty*0.2),tx,ty,fake);
           if(kk.liquid&&R.chance(0.08)){ ctx.fillStyle='rgba(255,255,255,.18)'; ctx.fillRect(p4x+R.f()*20,p4y+R.f()*26,8+R.f()*8,1.5); }
           var inner=tx>=MG&&ty>=MG&&tx<GW-MG&&ty<GW-MG;
-          if(inner&&kk.glow&&R.chance(1/(kk.glow.every||6)))out.lights.push({x:ox+p4x+16,y:oy+p4y+16,r:kk.glow.r||90,col:kk.glow.col,a:kk.glow.a||0.35,pulse:0.3,period:1800+R.i(0,1500),depth:-4,_w:1});
+          var gcell=((ty>>3)*8+(tx>>3));
+          if(inner&&kk.glow&&!glowCells[gcell]&&R.chance(1/(kk.glow.every||6))&&(glowCells[gcell]=1))out.lights.push({x:ox+p4x+16,y:oy+p4y+16,r:kk.glow.r||90,col:kk.glow.col,a:kk.glow.a||0.35,pulse:0.3,period:1800+R.i(0,1500),depth:-4,_w:1});
           if(kk.wall&&!kk.wall.noFace)_wpWall(ctx,kk,KL,kAt,wtx,wty,p4x,p4y,R,fake);
         }
-        out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } });
+        out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } }); out.particles.forEach(function(P){ if(!P._w&&P.area){ P.area=Object.assign({},P.area,{x:P.area.x+ox,y:P.area.y+oy}); P._w=1; } });
         row+=8; if(row>=GW){ phase=4; } continue; }
       if(phase===4){ // 5. props anchored in this chunk (flat ones paint; tall ones become sprites)
         var list=(wd.propsByChunk&&wd.propsByChunk[cx+'_'+cy])||[], fk=_wpFakeC(wd,out,ox,oy);
         list.forEach(function(p){ var Z=p.zi>=0?skins[p.zi].Z:null, fn=WPROP[p.prop]||(Z&&Z.draw&&Z.draw[p.prop]); if(!fn)return;
           fk.R=rngOf(_wpHash(p.x,p.y,11)); var n0=out.sprites.length, nl=out.lights.length;
-          try{ fn(fk,ctx,(p.x-tx0)*LT,(p.y-ty0)*LT,p.w*LT,p.h*LT,p.o||{},(Z&&Z.pal)||{}); }catch(e){}
+          try{ fn(fk,ctx,(p.x-tx0)*LT,(p.y-ty0)*LT,p.w*LT,p.h*LT,p.o||{},(Z&&Z.pal)||{}); }catch(e){ var ek=p.prop+': '+e.message; WP_ERR[ek]=(WP_ERR[ek]||0)+1; }
+          if(Math.floor(p.x/WCH)!==cx||Math.floor(p.y/WCH)!==cy)out.sprites.length=n0;   // tall parts belong to the anchor chunk
           for(var si=n0;si<out.sprites.length;si++){ var sp=out.sprites[si]; sp.x+=ox; sp.y+=oy; if(sp.depth!==undefined&&sp.depth<7000)sp.depth+=oy; }
-          for(var li=nl;li<out.lights.length;li++){ var L=out.lights[li]; if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } } });
+          for(var li=nl;li<out.lights.length;li++){ var L=out.lights[li]; L.zi=p.zi; if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } } });
+        out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } }); out.particles.forEach(function(P){ if(!P._w&&P.area){ P.area=Object.assign({},P.area,{x:P.area.x+ox,y:P.area.y+oy}); P._w=1; } });
         phase=5; continue; }
       if(phase===5){ // 6. lava flow mask + ley lines, then crop the margin
         var lavaS=null; for(var q2=0;q2<kb.length;q2++){ if(KL[kb[q2]].lava){ lavaS=true; break; } }
         var inW=WCH*LT; out.canvas=cv;
+        if(lavaS){ out.lavaCells=[]; for(var ly2=0;ly2<WCH;ly2++)for(var lx2=0;lx2<WCH;lx2++){ if(KL[kAt(cx*WCH+lx2,cy*WCH+ly2)].lava&&((lx2*7+ly2*13)%5===0))out.lavaCells.push([(cx*WCH+lx2)*LT,(cy*WCH+ly2)*LT]); } }
         if(lavaS){ var mc=mkCanvas(SW,SW), mx=mc.getContext('2d'), im=mx.createImageData(SW,SW), dd=im.data; for(var i8=0;i8<SW*SW;i8++)if(KL[kb[i8]].lava)dd[i8*4+3]=255; mx.putImageData(im,0,0);
           var mask=mkCanvas(inW,inW), mk=mask.getContext('2d'); mk.imageSmoothingEnabled=true; mk.drawImage(mc,MG*S,MG*S,WCH*S,WCH*S,0,0,inW,inW); out.lavaMask=mask; }
         var ley=(wd.ley||[]).filter(function(L){ return L.bx1>=cx*WCH-4&&L.bx0<=(cx+1)*WCH+4&&L.by1>=cy*WCH-4&&L.by0<=(cy+1)*WCH+4; });
         if(ley.length){ var lc=mkCanvas(inW,inW), l2=lc.getContext('2d'); l2.lineCap='round'; l2.lineJoin='round';
           ley.forEach(function(L){ [[14,0.10],[7,0.22],[2.5,0.75]].forEach(function(st){ l2.strokeStyle=rgba(L.col,st[1]); l2.lineWidth=st[0]; l2.beginPath(); L.pts.forEach(function(p,i){ var X=(p[0]-cx*WCH)*LT+16,Y=(p[1]-cy*WCH)*LT+16; if(i)l2.lineTo(X,Y); else l2.moveTo(X,Y); }); l2.stroke(); }); });
-          out.ley=lc; }
+          out.ley=lc;
+          // pulsing glow beads along each ley line (as in the Lab); the chunk filter below keeps ours
+          ley.forEach(function(L){ for(var q6=0;q6<L.pts.length-1;q6++){ var a6=L.pts[q6], b6=L.pts[q6+1]; for(var u=0.25;u<1;u+=0.5)out.lights.push({x:(a6[0]+(b6[0]-a6[0])*u)*LT+16,y:(a6[1]+(b6[1]-a6[1])*u)*LT+16,r:50,col:L.col,a:0.28,pulse:0.5,period:2400,depth:-4,noCut:true,_w:1}); } }); }
         // keep lights/sprites anchored inside this chunk only (the margin repeats neighbours)
-        out.lights=out.lights.filter(function(L){ return L.x>=cx*WCH*LT&&L.x<(cx+1)*WCH*LT&&L.y>=cy*WCH*LT&&L.y<(cy+1)*WCH*LT; });
-        phase=6; return true; }
+        var inC=function(x,y){ return x>=cx*WCH*LT&&x<(cx+1)*WCH*LT&&y>=cy*WCH*LT&&y<(cy+1)*WCH*LT; };
+        out.lights=out.lights.filter(function(L){ return inC(L.x,L.y); });
+        out.particles=out.particles.filter(function(P){ return P.area&&inC(P.area.x+P.area.w/2,P.area.y+P.area.h/2); });
+        (wd.stampParts||[]).forEach(function(P){ if(inC(P.area.x+P.area.w/2,P.area.y+P.area.h/2))out.particles.push(P); });
+        out.shafts=(wd.shafts||[]).filter(function(sh){ return inC(sh.x+sh.canvas.width/2,sh.y); });
+        phase=6; continue; }
+      if(phase===6){ // 7. pack tall sprites into one atlas canvas (so mounting is just an upload)
+        if(out.sprites.length){ var AW=2048, ax=0, ay=0, rowH=0, pos=[];
+          out.sprites.forEach(function(sp){ var w=sp.canvas.width, h=sp.canvas.height; if(ax+w>AW){ ax=0; ay+=rowH+2; rowH=0; } pos.push([ax,ay]); ax+=w+2; rowH=Math.max(rowH,h); });
+          var AH=Math.min(8192,ay+rowH+2), atlas=mkCanvas(ax>0&&ay===0?Math.min(AW,ax):AW,AH), ag=atlas.getContext('2d');
+          out.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height<=AH){ ag.drawImage(sp.canvas,pos[i][0],pos[i][1]); sp.ap=pos[i]; } sp.aw=sp.canvas.width; sp.ah=sp.canvas.height; });
+          out.atlas=atlas; }
+        phase=7; return true; }
       return true;
     }
     return false; }};
   return job;
 }
+// Built-surface patterns from cached tiles: each patterned kind is drawn once
+// into a repeating tile (periods chosen so rows line up across the repeat),
+// then laid on a world-aligned grid and clipped to where that kind is.
+var _WPC={}, WP_ERR={};   // WP_ERR: prop draw failures (audited by tests/audit_lab_world.py)
+function _wpWarmPatterns(){ _wkInit(); var KL=WK_REG.list; for(var i=0;i<KL.length;i++){ if(KL[i].pattern&&WPATTERN[KL[i].pattern]&&!_WPC[i])_wpPatTile(i); } }
+var WP_TILE={cobble:[528,506],flag:[512,510],brick:[512,512],tier:[504,512],hex:[500.56,510],scute:[478,414],planks:[512,512]};
+function _wpPatTile(ki){
+  if(_WPC[ki])return _WPC[ki]; var k=WK_REG.list[ki], sz=WP_TILE[k.pattern]||[512,512];
+  if(k.pattern==='slab'){ var z=k.slabSize||LT; sz=[z*Math.max(1,Math.round(512/z)),z*Math.max(1,Math.round(512/z))]; }
+  var tw=Math.round(sz[0]), th=Math.round(sz[1]), nt=Math.ceil(Math.max(tw,th)/LT)+2, c={W:nt,H:nt,S:1,kb:new Uint16Array(nt*nt).fill(ki),K:WK_REG.list,ox:0,oy:0,salt:0};
+  var big=mkCanvas(nt*LT,nt*LT), bg=big.getContext('2d'); WPATTERN[k.pattern](bg,c,ki,k);
+  var t=mkCanvas(tw,th); t.getContext('2d').drawImage(big,0,0,tw,th,0,0,tw,th); _WPC[ki]={cv:t,w:tw,h:th}; return _WPC[ki];
+}
+function _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,ki,b){
+  var bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by;
+  var P=_wpPatTile(ki), W2=bw*LT, H2=bh*LT, lay=mkCanvas(W2,H2), g=lay.getContext('2d');
+  g.fillStyle=g.createPattern(P.cv,'repeat'); var wx=ox+bx*LT, wy=oy+by*LT, sx=((wx%P.w)+P.w)%P.w, sy=((wy%P.h)+P.h)%P.h;
+  g.save(); g.translate(-sx,-sy); g.fillRect(0,0,W2+sx,H2+sy); g.restore();
+  var mc=mkCanvas(bw*S,bh*S), mx=mc.getContext('2d'), im=mx.createImageData(bw*S,bh*S), dd=im.data;
+  for(var yy=0;yy<bh*S;yy++)for(var xx=0;xx<bw*S;xx++){ if(kb[(yy+by*S)*SW+xx+bx*S]===ki)dd[(yy*bw*S+xx)*4+3]=255; }
+  mx.putImageData(im,0,0); g.globalCompositeOperation='destination-in'; g.imageSmoothingEnabled=true; g.drawImage(mc,0,0,W2,H2);
+  ctx.drawImage(lay,bx*LT,by*LT);
+}
 // A stand-in for the Lab builder context, enough for props and deco to draw.
 function _wpFakeC(wd,out,ox,oy){
-  return {m:{sprites:out.sprites,lights:out.lights,particles:[],labels:[],shafts:[]},R:rngOf(1),W:WORLD_W,H:WORLD_H,
+  return {m:{sprites:out.sprites,lights:out.lights,particles:out.particles,labels:[],shafts:[]},R:rngOf(1),W:WORLD_W,H:WORLD_H,
     get:function(){return -1;},is:function(){return false;}};
 }
 function _wpWall(ctx,kw,KL,kAt,x5,y5,p5x,p5y,R,fake){
   // the field already paints tops and faces; add rock texture on the top surface
   for(var q=0;q<3;q++){ if(!R.chance(0.6))continue; ctx.fillStyle=rgba(shade(kw.wall.top,R.chance(0.5)?0.16:-0.28),0.5); ctx.fillRect(p5x+R.f()*26,p5y+R.f()*20,3+R.f()*5,2); }
   if(R.chance(0.25)){ ctx.strokeStyle=rgba(shade(kw.wall.top,-0.4),0.45); ctx.lineWidth=1; ctx.beginPath(); var x=p5x+R.f()*30, y=p5y+R.f()*20; ctx.moveTo(x,y); ctx.lineTo(x+R.f()*12-6,y+R.f()*10); ctx.stroke(); }
-  if(kw.wall.runes&&R.chance(kw.wall.runes*0.5)&&!KL[kAt(x5,y5+1)].wall)drawRune(ctx,p5x+16,p5y+LT-8,10,'#6fe3f5',R.i(0,9));
+  if(kw.wall.runes&&R.chance(kw.wall.runes)&&!KL[kAt(x5,y5+1)].wall){ drawRune(ctx,p5x+16,p5y+LT-8,11,'#6fe3f5',R.i(0,9)); addLight(fake.m,p5x+16,p5y+LT-8,56,'#6fe3f5',0.35,{react:true,rune:true}); }
 }
 // Average colour of a kind (world map / minimap)
 function _wkAvg(ki){ var k=WK_REG.list[ki]; if(!k)return [0,0,0]; if(!k._avg){ var a=k._a,b=k._b, f=k.wall?0.8:1; k._avg=[(a[0]+b[0])/2*f,(a[1]+b[1])/2*f,(a[2]+b[2])/2*f]; } return k._avg; }
@@ -5855,6 +5966,7 @@ class WorldScene extends Phaser.Scene{
     if(!this._newGame)this._loadSave();
     this._refreshVillageNPCs();
     this._initTravel();
+    this._runicInit();
     this._initWorldMonsters();
     this._updateFog();
     this._revealFog();
@@ -5913,6 +6025,7 @@ class WorldScene extends Phaser.Scene{
       sceneRef._updateFog();sceneRef._emitUI();sceneRef._save();
     });
     // paint the chunks on screen before the first frame (the rest stream in)
+    _wpWarmPatterns();          // one-off pattern tiles now (loading), not as hitches mid-walk
     this._updateChunks(true);
     this._ready=true;
   }
@@ -5949,6 +6062,7 @@ class WorldScene extends Phaser.Scene{
     }
     this._checkInteraction();
     this._tickTravel(dt);
+    this._runicTick(dt);
     this._updateSiteLabels();
     this._revealFog();
     this._drawWorldFog();
@@ -8731,6 +8845,7 @@ Object.assign(WorldScene.prototype,{
   // Called at the top of _checkInteraction; true = handled this frame.
   _checkWaystone(){
     if(this._checkCache())return true;
+    if(this._checkLandmark&&this._checkLandmark())return true;
     var w=this._nearWaystone();
     if(!w){ if(this._interactPrompt&&this._interactPrompt._ws){this._interactPrompt.destroy();this._interactPrompt=null;} return false; }
     var on=(this.playerState.activatedWaystones||[]).indexOf(w.id)>=0;
@@ -8859,8 +8974,8 @@ Object.assign(WorldScene.prototype,{
       if(cx*cs>v.x+v.width+cs*2.2||(cx+1)*cs<v.x-cs*2.2||cy*cs>v.y+v.height+cs*2.2||(cy+1)*cs<v.y-cs*2.2){ self._wrUnmount(ch); W.chunks.delete(k); } });
     // runes near the hero brighten
     if(this.player){ var hx=this.player.x, hy=this.player.y, tt=(this._wrT=(this._wrT||0)+0.016);
-      W.chunks.forEach(function(ch){ ch.react.forEach(function(o,i){ var L=o._base, near=Math.max(0,1-Math.hypot(hx-o.x,hy-o.y)/150);
-        o.setAlpha(Math.min(1,L.a*0.8*(0.72+0.28*Math.sin(tt*1.6+i*0.9))*(1+1.6*near))); o.setScale((L.r/64)*(1+0.35*near)); }); }); }
+      W.chunks.forEach(function(ch){ ch.react.forEach(function(o,i){ var L=o._base; if(o._flicker&&!L.react){ o.setAlpha(L.a*0.8*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))*(1+0.5*(self._night||0))); return; } var near=Math.max(0,1-Math.hypot(hx-o.x,hy-o.y)/150);
+        o.setAlpha(Math.min(1,L.a*0.8*(0.72+0.28*Math.sin(tt*1.6+i*0.9))*(1+1.6*near)*(1+0.6*(self._night||0)))); o.setScale((L.r/64)*(1+0.35*near)); }); }); }
   },
   _refreshChunkAt(tx,ty){
     if(!this._wr)return; var cx=Math.floor(tx/WCH), cy=Math.floor(ty/WCH), key=cx+'_'+cy;
@@ -8872,38 +8987,57 @@ Object.assign(WorldScene.prototype,{
     var addTex=function(k,cv){ self.textures.addCanvas(k,cv); keys.push(k); return k; };
     objs.push(this.add.image(x0,y0,addTex(tag,o.canvas)).setOrigin(0,0).setDepth(-10));
     if(o.lavaMask){ var mk=addTex(tag+'_m',o.lavaMask);
+      // both flowing layers share ONE bitmap mask (each mask costs extra full-screen passes)
+      var lc=this.add.container(x0,y0).setDepth(-9), mi=self.make.image({x:x0,y:y0,key:mk,add:false}).setOrigin(0,0);
       [[0,0.7,7,4],[1,0.45,-5,6]].forEach(function(q){ var pk='wlava_'+q[0]; if(!self.textures.exists(pk))self.textures.addCanvas(pk,_lavaPattern(WORLD_SEED,q[0]));
-        var ts=self.add.tileSprite(x0,y0,WCH*LT,WCH*LT,pk).setOrigin(0,0).setDepth(-9).setAlpha(q[1]).setBlendMode(Phaser.BlendModes.ADD);
-        var mi=self.make.image({x:x0,y:y0,key:mk,add:false}).setOrigin(0,0); ts.setMask(mi.createBitmapMask()); ts._flow={vx:q[2],vy:q[3]}; ts.tilePositionX=x0; ts.tilePositionY=y0; objs.push(ts); objs.push(mi); });
+        var ts=self.make.tileSprite({x:0,y:0,width:WCH*LT,height:WCH*LT,key:pk,add:false}).setOrigin(0,0).setAlpha(q[1]).setBlendMode(Phaser.BlendModes.ADD);
+        ts._flow={vx:q[2],vy:q[3]}; ts.tilePositionX=x0; ts.tilePositionY=y0; lc.add(ts); });
+      lc.setMask(mi.createBitmapMask()); lc._lava=lc.list; objs.push(lc); objs.push(mi);
     }
     if(o.ley){ var li=this.add.image(x0,y0,addTex(tag+'_ley',o.ley)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.8).setDepth(-5); objs.push(li);
       this.tweens.add({targets:li,alpha:0.5,duration:2200,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
-    // sprites → one atlas per chunk (shelf-packed)
-    if(o.sprites.length){
-      var AW=2048, x=0, y=0, rowH=0, pos=[];
-      o.sprites.forEach(function(sp){ var w=sp.canvas.width, h=sp.canvas.height; if(x+w>AW){ x=0; y+=rowH+2; rowH=0; } pos.push([x,y]); x+=w+2; rowH=Math.max(rowH,h); });
-      var AH=Math.min(8192,y+rowH+2), atlas=mkCanvas(AW,AH), ag=atlas.getContext('2d');
-      o.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height<=AH)ag.drawImage(sp.canvas,pos[i][0],pos[i][1]); });
-      var at=addTex(tag+'_a',atlas), tex=this.textures.get(at);
-      o.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height>AH)return; var fn='s'+i; tex.add(fn,0,pos[i][0],pos[i][1],sp.canvas.width,sp.canvas.height);
+    // sprites → the chunk's atlas (packed by the paint job)
+    if(o.atlas){ var at=addTex(tag+'_a',o.atlas), tex=this.textures.get(at);
+      o.sprites.forEach(function(sp,i){ if(!sp.ap)return; var fn='s'+i; tex.add(fn,0,sp.ap[0],sp.ap[1],sp.aw,sp.ah);
         var im=self.add.image(sp.x,sp.y,at,fn).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.depth!==undefined&&sp.depth>=7000?WR_DEPTH(sp.y)+0.5:WR_DEPTH(sp.depth!==undefined?sp.depth:sp.y));
         if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
         if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
         objs.push(im); });
     }
+    (o.shafts||[]).forEach(function(sh,i){ var k=addTex(tag+'_sh'+i,sh.canvas); var im=self.add.image(sh.x,sh.y,k).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.5).setDepth(-5); objs.push(im);
+      if(sh.sway)self.tweens.add({targets:im,alpha:(sh.a||0.5)*0.6,duration:2200+i*170,yoyo:true,repeat:-1,ease:'Sine.inOut'}); });
+    (o.particles||[]).forEach(function(p){ var e=self._wrEmitter(p,p.area); if(e)objs.push(e); });
     o.lights.forEach(function(L,i){ var d=L.depth!==undefined&&L.depth<0?-4:WR_DEPTH(L.y)+0.0001;
       var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a*0.8).setScale(L.r/64).setDepth(d);
       if(L.pulse&&!L.react)self.tweens.add({targets:im,alpha:L.a*0.8*(1-L.pulse),scale:(L.r/64)*(1-L.pulse*0.25),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
-      im._base=L; if(L.react)react.push(im); objs.push(im); });
-    return {objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy};
+      if(L.flicker)im._flicker=L.flicker;
+      im._base=L; if(L.react||L.flicker)react.push(im); objs.push(im); });
+    return {objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy,lava:o.lavaCells&&o.lavaCells.length?o.lavaCells:null};
+  },
+  // A Lab particle spec → Phaser emitter over an area (world px)
+  _wrEmitter(p,a){
+    if(!a)return null;
+    var cfg={ x:{min:0,max:a.w}, y:{min:0,max:a.h}, lifespan:p.life||{min:3000,max:6000}, speedX:p.vx||{min:-6,max:6}, speedY:p.vy||{min:-10,max:-3},
+      scale:p.scale||{start:0.5,end:0}, alpha:p.alpha||{start:0.8,end:0}, tint:p.tints?p.tints.map(hexNum):hexNum(p.col||'#ffffff'),
+      frequency:p.freq||120, quantity:p.qty||1, blendMode:p.blend===false?'NORMAL':'ADD', rotate:p.rotate||0, gravityY:p.gravity||0 };
+    var e=this.add.particles(a.x,a.y,p.tex||'dot',cfg); e.setDepth(p.depth!==undefined&&p.depth>=6000?WR_DEPTH(a.y+a.h)+0.6:WR_DEPTH(a.y+a.h)); return e;
   },
   _wrUnmount(ch){
     var self=this; ch.objs.forEach(function(o){ self.tweens.killTweensOf(o); o.destroy(); });
     ch.keys.forEach(function(k){ if(self.textures.exists(k))self.textures.remove(k); });
   },
   _wrTick(dt){
-    if(!this._wr)return;
-    this._wr.chunks.forEach(function(ch){ ch.objs.forEach(function(o){ if(o._flow){ o.tilePositionX+=o._flow.vx*dt; o.tilePositionY+=o._flow.vy*dt; } }); });
+    if(!this._wr)return; var W=this._wr, lavaCh=[];
+    W.chunks.forEach(function(ch){ if(ch.lava)lavaCh.push(ch); ch.objs.forEach(function(o){ if(o._lava)o._lava.forEach(function(t){ t.tilePositionX+=t._flow.vx*dt; t.tilePositionY+=t._flow.vy*dt; }); }); });
+    // lava bursts (as in the Lab): little sprays of sparks from the molten ground in view
+    if(!lavaCh.length)return; W.burstT=(W.burstT||0)-dt; if(W.burstT>0)return; W.burstT=0.12+Math.random()*0.25;
+    if(!W.burstEm)W.burstEm=this.add.particles(0,0,'dot',{speed:{min:30,max:90},angle:{min:200,max:340},gravityY:120,lifespan:{min:400,max:900},scale:{start:0.7,end:0},alpha:{start:1,end:0},tint:[0xffd070,0xff8a30,0xffe8a0],blendMode:'ADD',emitting:false});
+    var v=this.cameras.main.worldView;
+    for(var bt=0;bt<6;bt++){ var ch=lavaCh[(Math.random()*lavaCh.length)|0], cc=ch.lava[(Math.random()*ch.lava.length)|0], bx=cc[0]+Math.random()*LT, by=cc[1]+Math.random()*LT;
+      if(bx<v.x-40||bx>v.right+40||by<v.y-40||by>v.bottom+40)continue;
+      W.burstEm.setDepth(WR_DEPTH(by)); W.burstEm.explode(4+((Math.random()*6)|0),bx,by);
+      var fl=this.add.image(bx,by,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xffa040).setAlpha(0.5).setScale(0.5).setDepth(-3);
+      this.tweens.add({targets:fl,alpha:0,scale:0.9,duration:420,onComplete:function(){ fl.destroy(); }}); break; }
   }
 });
 // ═══════════════════════════════════════════════════════════════════════
@@ -8915,6 +9049,7 @@ Object.assign(WorldScene.prototype,{
 var WS_REGION_TINT={1:{roof:'#3d5f9a',stone:'#b8b2a4',rune:'#6fe3f5'},2:{roof:'#2f6e66',stone:'#9aa296',rune:'#7fffd8'},3:{roof:'#8a4a2e',stone:'#b0a490',rune:'#ffc860'},4:{roof:'#3a2a2a',stone:'#6a605a',rune:'#ff8a40'}};
 function _wsTex(scene,key,w,h,draw){ if(!scene.textures.exists(key)){ var c=mkCanvas(w,h); draw(c.getContext('2d'),w,h,rngOf(_wpHash(key.length,w,h))); scene.textures.addCanvas(key,c); } return key; }
 function _wsGlow(scene,x,y,r,col,a,o){ if(!scene.textures.exists('glow')&&scene._wrInit)scene._wrInit(); var im=scene.add.image(x,y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(col)).setAlpha(a).setScale(r/64).setDepth(o&&o.depth!==undefined?o.depth:WR_DEPTH(y)+0.001);
+  (scene._glowObjs=scene._glowObjs||[]).push(im);
   if(o&&o.flicker)scene.tweens.add({targets:im,alpha:a*0.55,duration:140+Math.random()*120,yoyo:true,repeat:-1});
   else if(o&&o.pulse)scene.tweens.add({targets:im,alpha:a*0.5,scale:(r/64)*0.85,duration:1600,yoyo:true,repeat:-1,ease:'Sine.inOut'});
   return im; }
@@ -9015,6 +9150,64 @@ function _wsWaystoneArt(scene,w,on){
   if(on)parts.push(_wsGlow(scene,x,y-60,70,'#6fe3f5',0.4,{pulse:true}));
   return parts;
 }
+// ═══════════════════════════════════════════════════════════════════════
+// ║ RUNIC WORLD (Phase 3) — the Lab's atmosphere in the game world:
+// ║   • each zone's own particles (motes, fireflies, petals, embers, ash,
+// ║     snow, mist, wind) drift around the camera while you're in it
+// ║   • landmarks: [Tab] near one tells its story (as in the Lab)
+// ║   • day & night: a slow cycle; at night the land darkens and runes,
+// ║     ley lines, lanterns and glowing plants shine brighter
+// ═══════════════════════════════════════════════════════════════════════
+var WR_DAY={period:720, night:[0.62,0.88]};   // seconds per day; night = fraction of the day in darkness
+Object.assign(WorldScene.prototype,{
+  _runicInit(){
+    this._zfx={key:null,em:[]};
+    this._dayT=(this.playerState&&this.playerState.dayT)||60;
+    var self=this; this.events.once('shutdown',function(){ if(self._darkRT)self._darkRT.destroy(); self._darkRT=null; });
+  },
+  // 0 = full day … 1 = full night
+  _nightAmt(){
+    if(this._forceNight!==undefined)return this._forceNight;
+    var f=(this._dayT%WR_DAY.period)/WR_DAY.period, a=WR_DAY.night[0], b=WR_DAY.night[1], ramp=0.04;
+    if(f<a-ramp||f>b+ramp)return 0; if(f>=a&&f<=b)return 1; return f<a?(f-(a-ramp))/ramp:1-(f-b)/ramp;
+  },
+  _runicTick(dt){
+    if(!this.player||!this._zfx)return;
+    this._dayT+=dt; if(this.playerState)this.playerState.dayT=this._dayT%WR_DAY.period;
+    var cam=this.cameras.main, dw=cam.width/cam.zoom, dh=cam.height/cam.zoom, vx=cam.scrollX+(cam.width-dw)/2, vy=cam.scrollY+(cam.height-dh)/2;
+    // zone particles follow the view
+    var tx=Math.floor(this.player.x/TILE), ty=Math.floor(this.player.y/TILE), z=_wmZoneAt(tx,ty), key=z?z.id:null;
+    if(key!==this._zfx.key){ this._zfx.em.forEach(function(e){ e.stop(); e.scene.time.delayedCall(9000,function(){ e.destroy(); }); }); this._zfx.em=[]; this._zfx.key=key;
+      var Z=key?WZ_DESIGN[key]:null, self=this; if(Z)(Z.particles||[]).forEach(function(p){ var q=Object.assign({},p); if(q.freq)q.freq=Math.max(40,q.freq*1.6); var e=self._wrEmitter(q,{x:0,y:0,w:dw+200,h:dh+200}); if(e){ e.setDepth(p.depth!==undefined&&p.depth>=6000?10.95:10.9); self._zfx.em.push(e); } }); }
+    this._zfx.em.forEach(function(e){ e.setPosition(vx-100,vy-100); });
+    // night
+    var n=this._nightAmt(); this._night=n;
+    if(n>0.001){
+      if(!this._darkRT){ this._darkRT=this.add.renderTexture(0,0,Math.ceil(dw)+64,Math.ceil(dh)+64).setOrigin(0,0).setDepth(11.2); this._holeImg=this.make.image({x:0,y:0,key:'dark_hole',add:false}); this._makeHoleTex(); }
+      var rt=this._darkRT; if(rt.width<dw+64||rt.height<dh+64)rt.resize(Math.ceil(dw)+64,Math.ceil(dh)+64);
+      rt.setPosition(vx-32,vy-32).setVisible(true); var ZD=this._zfx.key?WZ_DESIGN[this._zfx.key]:null; rt.clear(); rt.fill(hexNum((ZD&&ZD.nightCol)||'#060a1c'),((ZD&&ZD.nightA)||0.6)*n);
+      var hole=this._holeImg, ox=vx-32, oy=vy-32, cut=function(x,y,r,a){ if(x<vx-r||x>vx+dw+r||y<vy-r||y>vy+dh+r)return; hole.setScale(r/128); hole.setAlpha(a); rt.erase(hole,x-ox,y-oy); };
+      cut(this.player.x,this.player.y-14,200*(1+0.03*Math.sin(this._dayT*9)),1);
+      var self=this, cnt=0;
+      if(this._wr)this._wr.chunks.forEach(function(ch){ ch.objs.forEach(function(o){ if(cnt>90||!o._base||o._base.noCut)return; cnt++; cut(o.x,o.y,o._base.r*0.9,Math.min(1,o.alpha*1.6)); }); });
+      (this._glowObjs||[]).forEach(function(o){ cut(o.x,o.y,o.scale*64*0.9,Math.min(1,o.alpha*1.8)); });
+    } else if(this._darkRT)this._darkRT.setVisible(false);
+  },
+  _makeHoleTex(){ if(this.textures.exists('dark_hole'))return; var h=mkCanvas(256,256), q=h.getContext('2d'), g3=q.createRadialGradient(128,128,0,128,128,128);
+    g3.addColorStop(0,'rgba(255,255,255,1)'); g3.addColorStop(0.55,'rgba(255,255,255,0.75)'); g3.addColorStop(1,'rgba(255,255,255,0)'); q.fillStyle=g3; q.fillRect(0,0,256,256); this.textures.addCanvas('dark_hole',h); this._holeImg.setTexture('dark_hole'); },
+  // Landmark stories ([Tab] near one); returns true when a prompt is showing
+  _checkLandmark(){
+    var L=null, px=this.player.x, py=this.player.y-8, bd=48;
+    (this.wd.landmarks||[]).forEach(function(q){ var cx=Math.max(q.x,Math.min(px,q.x+q.w)), cy=Math.max(q.y,Math.min(py,q.y+q.h)), d=Math.hypot(px-cx,py-cy); if(d<bd){bd=d;L=q;} });
+    if(!L){ if(this._interactPrompt&&this._interactPrompt._lm){this._interactPrompt.destroy();this._interactPrompt=null;} return false; }
+    var title=L.text.indexOf('—')>0&&L.text.indexOf('—')<48?L.text.split('—')[0].trim():((WZ_DESIGN[L.zone]&&WZ_DESIGN[L.zone].name)||'Inspect');
+    if(!this._interactPrompt||this._interactPrompt._lm!==L){ if(this._interactPrompt)this._interactPrompt.destroy();
+      this._interactPrompt=this.add.text(px,py-44,'[Tab] '+title,{fontSize:'10px',color:'#fff8d0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._interactPrompt._lm=L; }
+    this._interactPrompt.setPosition(px,py-44);
+    if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ showNotif('ᚱ '+L.text,'#fff0c0'); var ps=this.playerState; if(!ps.readLandmarks)ps.readLandmarks=[]; if(ps.readLandmarks.indexOf(L.zone)<0)ps.readLandmarks.push(L.zone); }
+    return true;
+  }
+});
 // ─── BuildingScene ──────────────────────────────
 const INT_W=10,INT_H=8;
 class BuildingScene extends Phaser.Scene{
@@ -13418,21 +13611,29 @@ function _wmRenderSide(ws){
     h+='<h4>Waystones</h4><div class="wm-note">'+act.length+' / '+wd.waystones.length+' active. Stand at one and press <b>[Tab]</b> to travel.</div>';
     h+='<div class="wm-note">Drag to pan · wheel or buttons to zoom · only explored land is shown.</div>';
   }
-  side.innerHTML=h;
+  // only touch the DOM when the panel changed — rebuilding it on every
+  // redraw swallowed clicks on the travel buttons (mousedown/up hit different nodes)
+  if(side._h!==h){ side._h=h; side.innerHTML=h; }
 }
 (function(){
   document.addEventListener('click',function(e){
     var zb=e.target.closest&&e.target.closest('.wmap-z'); var ws=game&&game.scene?game.scene.getScene('World'):null;
     if(zb&&ws){ var z=+zb.dataset.z; if(z===0){ WMAP.cx=ws.player.x/TILE; WMAP.cy=ws.player.y/TILE; if(WMAP.zoom<2)WMAP.zoom=2; } else { WMAP.zoom=z; WMAP.cx=ws.player.x/TILE; WMAP.cy=ws.player.y/TILE; } renderMinimap(ws.wd,null,null,null,0,null,true); return; }
     var wb=e.target.closest&&e.target.closest('.wm-ws'); if(wb&&!wb.disabled&&ws&&ws._travelTo){ ws._travelTo(wb.dataset.ws); return; }
-  });
+  },true);  // capture: the modal box stops click propagation
   var cvOf=function(){ return document.getElementById('minimap-canvas'); };
   var toTile=function(e){ var cv=cvOf(), r=cv.getBoundingClientRect(), v=_wmView(); return [v.x+(e.clientX-r.left)/r.width*v.w, v.y+(e.clientY-r.top)/r.height*v.h]; };
   document.addEventListener('mousedown',function(e){ if(e.target.id!=='minimap-canvas')return; WMAP.drag={x:e.clientX,y:e.clientY,cx:WMAP.cx,cy:WMAP.cy,moved:false}; e.target.classList.add('drag'); });
   document.addEventListener('mouseup',function(e){ var d=WMAP.drag; WMAP.drag=null; var cv=cvOf(); if(cv)cv.classList.remove('drag');
-    if(d&&!d.moved&&e.target.id==='minimap-canvas'&&WMAP.travel){ var ws=game.scene.getScene('World'), t=toTile(e), best=null,bd=1e9;
+    if(d&&!d.moved&&e.target.id==='minimap-canvas'){ var ws=game.scene.getScene('World'), t=toTile(e), best=null,bd=1e9;
       (ws.wd.waystones||[]).forEach(function(w){ var dd=Math.hypot(w.x-t[0],w.y-t[1]); if(dd<bd){bd=dd;best=w;} });
-      var tol=_wmView().w/WMAP.side*14; if(best&&bd<tol&&(ws.playerState.activatedWaystones||[]).indexOf(best.id)>=0&&best.id!==WMAP.travel)ws._travelTo(best.id); } });
+      var tol=_wmView().w/WMAP.side*18; if(!best||bd>tol)return;
+      var ps=ws.playerState, on=(ps.activatedWaystones||[]).indexOf(best.id)>=0;
+      if(!on&&!_wmExplored(ps,best.x,best.y))return;
+      if(!WMAP.travel){ showNotif('🔷 Stand at a waystone and press [Tab] to travel from it','#6fe3f5'); return; }
+      if(best.id===WMAP.travel){ showNotif('🔷 You are here','#6fe3f5'); return; }
+      if(!on){ showNotif('🔷 '+best.name+' is not active yet — touch it first','#ff9a70'); return; }
+      ws._travelTo(best.id); } });
   document.addEventListener('mousemove',function(e){
     var cv=cvOf(); if(!cv)return; var ws=game&&game.scene?game.scene.getScene('World'):null; if(!ws||!ws.wd)return;
     if(WMAP.drag){ var r=cv.getBoundingClientRect(), v=_wmView(), dx=(e.clientX-WMAP.drag.x)/r.width*v.w, dy=(e.clientY-WMAP.drag.y)/r.height*v.h; if(Math.abs(e.clientX-WMAP.drag.x)+Math.abs(e.clientY-WMAP.drag.y)>4)WMAP.drag.moved=true;
@@ -14470,6 +14671,10 @@ function sbRevealMap(){
   if(ws._save) ws._save();
   showNotif('🗺️ Full map revealed','#88aaff');
 }
+function sbNight(){
+  var ws=_sbWs(); if(!ws)return; ws._forceNight=ws._forceNight===undefined?1:ws._forceNight===1?0:undefined;
+  showNotif(ws._forceNight===undefined?'🌗 Day/night cycle':ws._forceNight?'🌙 Night':'☀️ Day','#bfe8ff');
+}
 function sbAllWaystones(){
   var ws=_sbWs(); if(!ws||!ws.wd) return; var ps=ws.playerState;
   ps.activatedWaystones=ws.wd.waystones.map(function(w){return w.id;});
@@ -14531,7 +14736,9 @@ function sbUnlockAll(){
   // …and build every crossing (all four craftsmen count as freed)
   var ps=ws.playerState; if(!ps.rescued)ps.rescued=[]; [1,2,3,4].forEach(function(s){ if(ps.rescued.indexOf(s)<0)ps.rescued.push(s); });
   if(ws._syncGates)ws._syncGates(true); if(ws._refreshVillageNPCs)ws._refreshVillageNPCs();
-  ws._emitUI();showNotif('All regions unlocked + all 12 crossings open!','#ffdd44');
+  // …and every waystone joins the travel network
+  if(ws.wd&&ws.wd.waystones){ ps.activatedWaystones=ws.wd.waystones.map(function(w){return w.id;}); ws.wd.waystones.forEach(function(w){ ws._drawWaystone(w); }); ws._expVer=(ws._expVer||0)+1; }
+  ws._emitUI();showNotif('All regions unlocked · 12 crossings open · 17 waystones active','#ffdd44');
 }
 function sbGodMode(){
   var ws=_sbWs();if(!ws)return;

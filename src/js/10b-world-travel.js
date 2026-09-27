@@ -106,6 +106,7 @@ Object.assign(WorldScene.prototype,{
   // Called at the top of _checkInteraction; true = handled this frame.
   _checkWaystone(){
     if(this._checkCache())return true;
+    if(this._checkLandmark&&this._checkLandmark())return true;
     var w=this._nearWaystone();
     if(!w){ if(this._interactPrompt&&this._interactPrompt._ws){this._interactPrompt.destroy();this._interactPrompt=null;} return false; }
     var on=(this.playerState.activatedWaystones||[]).indexOf(w.id)>=0;

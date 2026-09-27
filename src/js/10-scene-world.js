@@ -130,6 +130,7 @@ class WorldScene extends Phaser.Scene{
     if(!this._newGame)this._loadSave();
     this._refreshVillageNPCs();
     this._initTravel();
+    this._runicInit();
     this._initWorldMonsters();
     this._updateFog();
     this._revealFog();
@@ -188,6 +189,7 @@ class WorldScene extends Phaser.Scene{
       sceneRef._updateFog();sceneRef._emitUI();sceneRef._save();
     });
     // paint the chunks on screen before the first frame (the rest stream in)
+    _wpWarmPatterns();          // one-off pattern tiles now (loading), not as hitches mid-walk
     this._updateChunks(true);
     this._ready=true;
   }
@@ -224,6 +226,7 @@ class WorldScene extends Phaser.Scene{
     }
     this._checkInteraction();
     this._tickTravel(dt);
+    this._runicTick(dt);
     this._updateSiteLabels();
     this._revealFog();
     this._drawWorldFog();
