@@ -33,7 +33,7 @@ class LabWalkScene extends Phaser.Scene{
     // Tall sprites, depth-sorted by foot y
     m.sprites.forEach(function(s,i){
       var k='spr_'+baseKey+'_'+i; self.textures.addCanvas(k,s.canvas);
-      var im=self.add.image(s.x,s.y,k).setOrigin(0.5,1).setDepth(s.depth!==undefined?s.depth:s.y);
+      var im=self.add.image(s.x,s.y,k).setOrigin(s.ox!==undefined?s.ox:0.5,s.oy!==undefined?s.oy:1).setDepth(s.depth!==undefined?s.depth:s.y);
       if(s.bob)self.tweens.add({targets:im,y:s.y-s.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(s.spin)self.tweens.add({targets:im,angle:360,duration:s.spin,repeat:-1});
     });
@@ -41,7 +41,7 @@ class LabWalkScene extends Phaser.Scene{
     this._lightObjs=[];
     m.lights.forEach(function(L,i){
       var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a).setScale(L.r/64).setDepth(L.depth!==undefined?L.depth:5000);
-      if(L.pulse)self.tweens.add({targets:im,alpha:L.a*(1-L.pulse),scale:(L.r/64)*(1-L.pulse*0.25),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+      if(L.pulse&&!L.react)self.tweens.add({targets:im,alpha:L.a*(1-L.pulse),scale:(L.r/64)*(1-L.pulse*0.25),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(L.flicker)im._flicker=L.flicker;
       im._base=L; self._lightObjs.push(im);
     });
@@ -57,9 +57,11 @@ class LabWalkScene extends Phaser.Scene{
     this.cameras.main.setZoom(LabApp.zoom);
     this.cameras.main.startFollow(this.hero,true,0.12,0.12);
     // Hero light (always follows; matters in dark maps)
-    if(m.dark>0){
+    if(m.dark>0||m.night){
       this.heroLight=this.add.image(sp.x,sp.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(m.heroLightCol||'#ffcc88')).setAlpha(0.35).setScale((m.heroLight||150)/64).setDepth(5001);
       this._initDark();
+      // World samples start in daylight; N toggles night (runes glow brighter)
+      if(!(m.dark>0)){ this._night=!!LabApp.night; this.darkRT.setVisible(this._night); this.heroLight.setVisible(this._night); }
     }
     this.keys=this.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT,SHIFT,TAB');
     this.input.keyboard.on('keydown-TAB',function(e){ if(e&&e.originalEvent)e.originalEvent.preventDefault(); self._inspect(); });
@@ -67,6 +69,7 @@ class LabWalkScene extends Phaser.Scene{
     this.input.keyboard.on('keydown-M',function(){ if(LabApp.typing())return; self._overview=!self._overview; var cam=self.cameras.main;
       if(self._overview){ var z=Math.min(cam.width/(m.w*LT),cam.height/(m.h*LT)); cam.stopFollow(); cam.setZoom(z); cam.centerOn(m.w*LT/2,m.h*LT/2); LabApp.toast('Overview — press M again to walk'); }
       else { cam.setZoom(LabApp.zoom); cam.startFollow(self.hero,true,0.12,0.12); } });
+    this.input.keyboard.on('keydown-N',function(){ if(LabApp.typing()||!m.night)return; self._night=!self._night; LabApp.night=self._night; self.darkRT.setVisible(self._night); self.heroLight.setVisible(self._night); LabApp.toast(self._night?'Night — runes and ley lines glow brighter':'Day'); });
     this.input.keyboard.on('keydown-L',function(){ if(LabApp.typing()||!self.darkRT)return; self.darkRT.setVisible(!self.darkRT.visible); LabApp.toast(self.darkRT.visible?'Lighting on':'Lighting off — full layout visible'); });
     this.prompt=this.add.text(0,0,'',{fontSize:'9px',fontFamily:'Segoe UI',color:'#fff8d0',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(0.5,1).setDepth(100000);
     this._t=0;
@@ -112,7 +115,8 @@ class LabWalkScene extends Phaser.Scene{
   }
   _drawDark(){
     var m=this.map, rt=this.darkRT, hole=this._holeImg, cam=this.cameras.main;
-    rt.clear(); rt.fill(hexNum(m.darkCol||'#000000'), m.dark);
+    var nightOn=!(m.dark>0)&&m.night;
+    rt.clear(); rt.fill(hexNum(nightOn?m.night.col:(m.darkCol||'#000000')), nightOn?m.night.a:m.dark);
     var v=cam.worldView, pad=200;
     var self=this;
     function cut(x,y,r,a){
@@ -158,6 +162,10 @@ class LabWalkScene extends Phaser.Scene{
     if(this.heroLight)this.heroLight.setPosition(this.hero.x,this.hero.y-14);
     // Flicker
     var tt=this._t;
+    // Runes pulse slowly and brighten as you walk near (brighter still at night)
+    var hx=this.hero.x, hy=this.hero.y, nb=this._night?1.5:1;
+    this._lightObjs.forEach(function(o,i){ var L=o._base; if(!L.react)return; var near=Math.max(0,1-Math.hypot(hx-o.x,hy-o.y)/150);
+      o.setAlpha(Math.min(1,L.a*nb*(0.72+0.28*Math.sin(tt*1.6+i*0.9))*(1+1.6*near))); o.setScale((L.r/64)*(1+0.35*near)); });
     this._lightObjs.forEach(function(o,i){ if(o._flicker){ o.setAlpha(o._base.a*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))); } });
     if(this.map.tick)this.map.tick(this,dt,this._t);
     if(this.darkRT&&this.darkRT.visible)this._drawDark();
@@ -174,7 +182,7 @@ class LabWalkScene extends Phaser.Scene{
 var LAB_TABS=[];          // filled by 31-/32-/33- files: {id,name,blurb,designs:[...],regionLabel}
 var LAB_REGIONS=[{k:1,n:'Grasslands'},{k:2,n:'Wetlands'},{k:3,n:'Highlands'},{k:4,n:'Ashlands'}];
 var LabApp={
-  seq:0, zoom:1.7, game:null, tab:null, idx:0, picks:{}, db:null, overlayOpen:false, thumbs:{},
+  seq:0, zoom:1.7, game:null, tab:null, idx:0, picks:{}, db:null, overlayOpen:false, thumbs:{}, groups:{}, _tq:[], _tbusy:false,
   typing:function(){ var a=document.activeElement; return !!(a&&(a.tagName==='TEXTAREA'||a.tagName==='INPUT')); },
   key:function(tab,id){ return tab+'-'+id; },
   toast:function(msg){
@@ -242,7 +250,7 @@ var LabApp={
       var m=d.build(d.seed||7), W=m.base.width, H=m.base.height, s=Math.min(360/W,240/H);
       var c=mkCanvas(W*s,H*s), x=c.getContext('2d');
       x.drawImage(m.base,0,0,W*s,H*s);
-      m.sprites.slice().sort(function(a,b){return a.y-b.y;}).forEach(function(sp){ x.drawImage(sp.canvas,(sp.x-sp.canvas.width/2)*s,(sp.y-sp.canvas.height)*s,sp.canvas.width*s,sp.canvas.height*s); });
+      m.sprites.slice().sort(function(a,b){return (a.depth!==undefined?a.depth:a.y)-(b.depth!==undefined?b.depth:b.y);}).forEach(function(sp){ var ox=sp.ox!==undefined?sp.ox:0.5, oy=sp.oy!==undefined?sp.oy:1; x.drawImage(sp.canvas,(sp.x-sp.canvas.width*ox)*s,(sp.y-sp.canvas.height*oy)*s,sp.canvas.width*s,sp.canvas.height*s); });
       x.globalCompositeOperation='lighter';
       m.lights.forEach(function(L){ glowSpot(x,L.x*s,L.y*s,L.r*s,L.col,Math.min(0.5,L.a*0.8)); });
       x.globalCompositeOperation='source-over';
@@ -257,20 +265,35 @@ var LabApp={
     if(t.render){ el.className='custom'; el.innerHTML=t.render(); this.renderTabs(); return; }
     el.className='';
     if(!t.designs.length){ el.innerHTML='<p class="lab-empty">'+(t.empty||'Coming next round.')+'</p>'; this.renderTabs(); return; }
-    el.innerHTML=t.designs.map(function(d,i){
-      var th=self.thumbOf(t.id,d), p=self.picks[self.key(t.id,d.id)]||{};
+    // Optional sub-groups (World: one chip per quadrant) + lazy thumbnails
+    var grp=t.groups?this.curGroup(t):null, head='';
+    if(t.groups){
+      head='<div class="lab-groups">'+t.groups.map(function(G){ var ds=t.designs.filter(function(d){return d.group===G.k;}), pk=ds.filter(function(d){var p=self.picks[self.key(t.id,d.id)];return p&&p.verdict==='pick';}).length;
+        return '<button class="lab-grp" data-grp="'+G.k+'" aria-pressed="'+(G.k===grp)+'">'+G.n+' <span class="n">'+pk+' picked</span></button>'; }).join('')+'</div>';
+    }
+    this._tq=[];
+    el.innerHTML=head+'<div class="lab-cards">'+t.designs.map(function(d,i){
+      if(grp!==null&&d.group!==grp)return '';
+      var th=t.lazy&&!self.thumbs[t.id+'-'+d.id]?(self._tq.push({t:t,d:d}),{url:''}):self.thumbOf(t.id,d), p=self.picks[self.key(t.id,d.id)]||{};
       var regs=(p.regions||[]).map(function(r){var R=LAB_REGIONS.find(function(x){return x.k===r;});return R?R.n:'';}).join(', ');
       return '<button class="lab-card" data-open="'+i+'" data-verdict="'+(p.verdict||'')+'">'+
-        '<span class="thumb" style="background-image:url('+th.url+')"></span>'+
+        '<span class="thumb" id="th-'+t.id+'-'+d.id+'" style="'+(th.url?'background-image:url('+th.url+')':'')+'">'+(th.url?'':'<i class="rendering">painting…</i>')+'</span>'+
         '<span class="num">'+(i+1)+'</span>'+
         (p.verdict?'<span class="verdict v-'+p.verdict+'">'+({pick:'Pick',maybe:'Maybe',no:'No'})[p.verdict]+'</span>':'')+
         '<span class="cap"><b>'+d.name+'</b><span>'+d.tagline+'</span>'+(regs?'<em>For: '+regs+'</em>':'')+'</span></button>';
-    }).join('');
-    this.renderTabs();
+    }).join('')+'</div>';
+    this.renderTabs(); this.pumpThumbs();
+  },
+  curGroup:function(t){ var g=this.groups[t.id]; if(g===undefined||!t.groups.some(function(G){return G.k===g;}))g=this.groups[t.id]=t.groups[0].k; return g; },
+  pumpThumbs:function(){
+    var self=this; if(this._tbusy)return; var job=this._tq.shift(); if(!job)return; this._tbusy=true;
+    setTimeout(function(){ var th=self.thumbOf(job.t.id,job.d); var el=document.getElementById('th-'+job.t.id+'-'+job.d.id); if(el){ el.style.backgroundImage='url('+th.url+')'; el.innerHTML=''; } self._tbusy=false; self.pumpThumbs(); },20);
   },
   // ── Walk view ──
-  open:function(i){
+  open:function(i,step){
     var t=this.tabObj(); if(!t.designs.length)return;
+    if(step&&t.groups){ var g=t.designs[this.idx].group, list=[]; t.designs.forEach(function(d,j){ if(d.group===g)list.push(j); });
+      var at=list.indexOf(this.idx); i=list[(at+step+list.length)%list.length]; }
     this.idx=(i+t.designs.length)%t.designs.length;
     var d=t.designs[this.idx];
     document.body.classList.add('walking');
@@ -290,6 +313,7 @@ var LabApp={
     } else start();
   },
   close:function(){
+    var t=this.tabObj(); if(t&&t.groups&&t.designs[this.idx])this.groups[t.id]=t.designs[this.idx].group;
     document.body.classList.remove('walking');
     if(this.game&&this.game.scene.isActive('LabWalk'))this.game.scene.stop('LabWalk');
     this.renderGrid();
@@ -309,7 +333,7 @@ var LabApp={
       ['pick','maybe','no'].map(function(v){return '<button class="vbtn" data-v="'+v+'" aria-pressed="'+(p.verdict===v)+'">'+({pick:'Pick',maybe:'Maybe',no:'No'})[v]+'</button>';}).join('')+'</div>'+
       regionsUI+
       '<div class="sec-l">Notes for Claude</div><textarea id="lab-notes" placeholder="What you like, what to change, mix-and-match ideas…">'+(p.notes||'').replace(/</g,'&lt;')+'</textarea>'+
-      '<div class="keys"><b>WASD</b> walk · <b>Shift</b> run · <b>Tab</b> inspect · <b>M</b> overview'+(t.id==='dungeons'?' · <b>L</b> lights on/off':'')+' · <b>[ ]</b> prev/next · <b>Esc</b> back</div>';
+      '<div class="keys"><b>WASD</b> walk · <b>Shift</b> run · <b>Tab</b> inspect · <b>M</b> overview'+(t.id==='dungeons'?' · <b>L</b> lights on/off':'')+(t.id==='world'?' · <b>N</b> night':'')+' · <b>[ ]</b> prev/next · <b>Esc</b> back</div>';
   },
   bind:function(){
     var self=this;
@@ -317,8 +341,9 @@ var LabApp={
       var tb=e.target.closest('.lab-tab'); if(tb){ self.tab=tb.dataset.tab; self.idx=0; if(document.body.classList.contains('walking'))self.close(); self.renderGrid(); return; }
       var op=e.target.closest('[data-open]'); if(op){ self.open(+op.dataset.open); return; }
       if(e.target.id==='lab-back'){ self.close(); return; }
-      if(e.target.id==='lab-prev'){ self.open(self.idx-1); return; }
-      if(e.target.id==='lab-next'){ self.open(self.idx+1); return; }
+      if(e.target.id==='lab-prev'){ self.open(self.idx-1,-1); return; }
+      if(e.target.id==='lab-next'){ self.open(self.idx+1,1); return; }
+      var gb=e.target.closest('.lab-grp'); if(gb){ self.groups[self.tab]=+gb.dataset.grp; self.renderGrid(); return; }
       var vb=e.target.closest('.vbtn'); if(vb&&!vb.classList.contains('sp-v')&&self.currentKey()){ var k=self.currentKey(); var p=self.picks[k]=self.picks[k]||{}; p.verdict=p.verdict===vb.dataset.v?null:vb.dataset.v; self.renderPanel(); self.persist(k); self.renderTabs(); return; }
       var rb=e.target.closest('.reg'); if(rb){ var k2=self.currentKey(); var p2=self.picks[k2]=self.picks[k2]||{}; p2.regions=p2.regions||[]; var r=+rb.dataset.reg, i=p2.regions.indexOf(r); if(i>=0)p2.regions.splice(i,1); else p2.regions.push(r); self.renderPanel(); self.persist(k2); return; }
     });
@@ -335,8 +360,8 @@ var LabApp={
     document.addEventListener('keydown',function(e){
       if(!document.body.classList.contains('walking')||self.typing())return;
       if(e.key==='Escape'){ self.close(); }
-      else if(e.key===']'){ self.open(self.idx+1); }
-      else if(e.key==='['){ self.open(self.idx-1); }
+      else if(e.key===']'){ self.open(self.idx+1,1); }
+      else if(e.key==='['){ self.open(self.idx-1,-1); }
       else if(e.key==='Tab'){ e.preventDefault(); }
     });
   }

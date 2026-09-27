@@ -12,5 +12,7 @@ LAB_TABS.push({
   designs:DUNGEON_DESIGNS.map(function(D){ return { id:D.id, name:D.name, tagline:D.tagline, blurb:D.blurb, seed:D.seed,
     facts:null, build:function(seed){ var m=buildCavern(D,seed); this.facts=['About <b>'+m.stats.spawns+'</b> monster spawns (classic floors have 7–15)','Walkable area: '+m.stats.open+' tiles']; return m; } }; })
 });
-LAB_TABS.push({ id:'world', name:'World', blurb:'<b>World quadrants</b>: 10 designs × 4 quadrants, walkable samples with the glowing runic theme.', empty:'Coming next round: 40 walkable quadrant samples (10 each for Grasslands, Wetlands, Highlands and Ashlands).', designs:[] });
+LAB_TABS.push({ id:'world', name:'World', lazy:true, groups:LAB_REGIONS.map(function(R){return {k:R.k,n:R.n};}),
+  blurb:'<b>World quadrants</b>: 10 walkable designs per quadrant (60 × 60 tiles each). You chose to <b>pick 2–3 per quadrant</b>; they become sub-zones blended with soft borders, so no two parts of a region look alike. Runes pulse and brighten as you walk near; ley lines link landmarks. Press <b>N</b> for night, <b>Tab</b> near a landmark for its story.',
+  empty:'Loading…', designs:[] });
 LAB_TABS.push({ id:'sprites', name:'Sprites', blurb:'<b>Sprite gallery</b>: 5 options per character, matched to your hero.', empty:'Starting with the pilot: 6 characters × 5 options. The prompts and style guide are ready. Once you save the generated images into <code>sprites/incoming/</code>, they show up here to pick from.', designs:[] });
