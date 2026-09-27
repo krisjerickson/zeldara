@@ -1,0 +1,252 @@
+<div id="app">
+  <div id="phaser-root"></div>
+  <div id="world-labels"></div>
+  <!-- World fog of war overlay canvas (below HUD at z-index 51) -->
+  <canvas id="world-fog-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:51;image-rendering:pixelated"></canvas>
+  <!-- Always-visible minimap HUD (bottom-right corner) -->
+  <div id="minimap-hud" style="position:fixed;bottom:100px;right:12px;z-index:150;pointer-events:none;display:none">
+    <canvas id="minimap-hud-canvas" width="140" height="140" style="border:1px solid rgba(255,255,255,.22);border-radius:7px;background:rgba(0,0,0,.75);display:block;image-rendering:pixelated"></canvas>
+    <div style="text-align:center;font-size:8px;color:rgba(255,255,255,.35);margin-top:2px;letter-spacing:.5px">MAP</div>
+  </div>
+  <div id="ambient-layer" style="position:absolute;inset:0;pointer-events:none;z-index:50;overflow:hidden"></div>
+  <div id="hud">
+<div id=\"damage-flash\"></div>
+<div id="fire-overlay"></div>
+    <div class="hpanel" id="stats-panel">
+      <div class="srow"><span class="sico">❤️</span><div class="barb"><div class="barf" id="hp-bar" style="width:100%;background:#44ff88"></div></div><span class="sval" id="hp-val">30/30</span></div>
+      <div class="srow"><span class="sico">💧</span><div class="barb"><div class="barf" id="mana-bar" style="width:100%"></div></div><span class="sval" id="mana-val">50/50</span></div>
+      <div class="srow"><span class="sico">⭐</span><div class="barb"><div class="barf" id="xp-bar" style="width:0%"></div></div><span class="sval" id="lv-val">Lv 1</span></div>
+      <div class="srow"><span class="sico">💰</span><span class="sval" style="color:#ffd700" id="gold-val">50g</span></div>
+    </div>
+    <div class="hpanel" id="region-panel">
+      <div class="rname" id="region-name">Village Center</div>
+      <div class="rdots" id="section-dots"></div>
+    </div>
+    <div class="hpanel" id="comp-panel" style="display:none">
+      <span id="mount-disp"></span><span id="familiar-disp"></span>
+    </div>
+    <div id="buffs-hud"></div>
+    <div id="volcano-quest"><div class="vq-title">🌋 The Volcano Lord stirs</div><div class="vq-keys" id="vq-keys">🔑 0 / 4 keys</div></div>
+    <div id="ctrl-hint">WASD: Move &nbsp;|&nbsp; Space: Attack &nbsp;|&nbsp; Tab: Interact &nbsp;|&nbsp; B: Map &nbsp;|&nbsp; M: Mounts &nbsp;|&nbsp; Q: Quests &nbsp;|&nbsp; I: Inventory &nbsp;|&nbsp; X: Spell &nbsp;|&nbsp; N: Familiar &nbsp;|&nbsp; Esc: Close menu</div>
+  </div>
+  <!-- Action bar and icon bar live outside #hud so they persist in all scenes -->
+  <div id="action-bar">
+    <button class="abtn" onclick="toggleModal('map')">🗺️ Map</button>
+    <button class="abtn" onclick="toggleModal('quests')">📜 Quests</button>
+    <button class="abtn" onclick="toggleModal('inventory')">🎒 Inventory <span style="font-size:9px;opacity:0.5">(I)</span></button>
+    <button id="home-btn" class="abtn abtn-sm" style="display:none;color:#88ffcc;border-color:rgba(68,200,150,.5)" onclick="doHomecast()">🏠 Home</button>
+    <button class="abtn abtn-sm" onclick="toggleModal('controls')">❓</button>
+    <button class="abtn abtn-sm" onclick="openSandbox()">🔧</button>
+  </div>
+  <!-- Homecast progress overlay -->
+  <div id="homecast-overlay" style="display:none;position:fixed;top:44%;left:50%;transform:translate(-50%,-50%);background:rgba(5,10,22,.93);border:2px solid #44aaaa;padding:14px 28px;border-radius:12px;z-index:400;text-align:center;color:#88ffcc;font-family:'Segoe UI',sans-serif;font-size:13px;pointer-events:none">
+    🏠 Returning home…
+    <div style="margin-top:8px;background:#223;border-radius:4px;width:180px;height:8px">
+      <div id="homecast-bar" style="background:#44aaaa;height:100%;border-radius:4px;width:0%"></div>
+    </div>
+    <div id="homecast-hint" style="font-size:10px;color:#556;margin-top:4px">Getting hit cancels</div>
+  </div>
+  <div id="action-icon-bar" style="pointer-events:all">
+    <div class="aib-slot" onclick="showQuickPick('attack')" title="Switch melee weapon"><div class="aib-key">SPC</div><div class="aib-ico">⚔️</div><div class="aib-lbl">Attack</div></div>
+    <div class="aib-slot" onclick="showQuickPick('ranged')" title="Switch ranged weapon"><div class="aib-key">CTRL</div><div class="aib-ico">🏹</div><div class="aib-lbl">Ranged</div><div id="ammo-hud" style="font-size:9px;color:#88ccff;margin-top:1px">— ammo</div></div>
+    <div class="aib-slot" onclick="doCycleAmmo()" title="Cycle ammo type"><div class="aib-key">C</div><div class="aib-ico">🪃</div><div class="aib-lbl">Ammo</div><div id="ammo-type-hud" style="font-size:9px;color:#88ccff;margin-top:1px">—</div></div>
+    <div class="aib-slot" onclick="showQuickPick('defend')" title="Switch armor"><div class="aib-key">SHIFT</div><div class="aib-ico">🛡️</div><div class="aib-lbl">Defend</div></div>
+    <div class="aib-slot" onclick="showQuickPick('potion')" title="Use potion"><div class="aib-key">P</div><div class="aib-ico">🧪</div><div class="aib-lbl">Potion</div></div>
+    <div class="aib-slot" onclick="showQuickPick('food')" title="Eat food"><div class="aib-key">O</div><div class="aib-ico">🍞</div><div class="aib-lbl">Food</div></div>
+    <div class="aib-slot" id="action-spell-slot" onclick="showQuickPick('spell')" title="Switch spell"><div class="aib-key">X</div><div class="aib-ico">✨</div><div class="aib-lbl">Spell</div></div>
+    <div class="aib-slot" onclick="toggleModal('mounts')" title="Mount/dismount"><div class="aib-key">M</div><div class="aib-ico">🐎</div><div class="aib-lbl">Mount</div></div>
+    <div class="aib-slot" onclick="showQuickPick('familiar')" title="Familiar"><div class="aib-key">N</div><div class="aib-ico">🐾</div><div class="aib-lbl">Familiar</div></div>
+    <div class="aib-slot" onclick="showQuickPick('special')" title="Special ability"><div class="aib-key">Z</div><div class="aib-ico">⚡</div><div class="aib-lbl">Special</div></div>
+  </div>
+  <div id="quick-pick-popup" style="display:none;position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:rgba(5,10,22,.97);border:1px solid rgba(100,180,255,.3);border-radius:10px;padding:12px 14px;min-width:220px;max-width:340px;z-index:500;max-height:55vh;overflow-y:auto;pointer-events:all"></div>
+  <div id="dungeon-hud">
+    <div id="dng-top">
+      <div id="dng-title">⚔️ Dungeon — Floor 1/3</div>
+      <div id="dng-bars" style="flex:1;display:flex;flex-direction:column;gap:4px;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 12px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:12px">❤️</span>
+          <div id="dng-hp-bar-bg" style="flex:1;height:9px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden"><div id="dng-hp-bar" style="width:100%;height:100%;border-radius:4px;background:#44ff88;transition:width .3s"></div></div>
+          <span id="dng-hp-txt" style="font-size:11px;color:#ddd;min-width:54px;text-align:right">30/30</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:12px">⭐</span>
+          <div id="dng-xp-bar-bg" style="flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden"><div id="dng-xp-bar" style="width:0%;height:100%;border-radius:3px;background:#ffdd44;transition:width .3s"></div></div>
+          <span id="dng-lv-txt" style="font-size:10px;color:#ffdd88;min-width:54px;text-align:right">Lv 1</span>
+        </div>
+      </div>
+      <div id="dng-gold-box" style="background:rgba(0,0,0,.75);border:1px solid rgba(255,200,0,.2);border-radius:8px;padding:6px 10px;font-size:11px;color:#ffd700">
+        <span id="dng-gold-txt">💰 0g</span>
+      </div>
+      <button id="dng-exit-btn" onclick="window._dngExit&&window._dngExit()">🚪 Flee</button>
+    </div>
+    <div id="dng-hint">WASD: Move &nbsp;|&nbsp; SPACE: Attack &nbsp;|&nbsp; Tab: Interact (stairs/chests)</div>
+  </div>
+  <div id="item-found-popup" style="display:none;position:fixed;bottom:160px;left:50%;transform:translateX(-50%);background:rgba(5,12,25,.97);border:1px solid rgba(100,200,255,.35);border-radius:10px;padding:14px 18px;min-width:280px;max-width:360px;z-index:600;pointer-events:all;box-shadow:0 4px 24px rgba(0,0,0,.8)">
+    <div id="ifp-title" style="font-size:12px;font-weight:700;color:#aaccff;margin-bottom:10px;text-align:center"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      <div id="ifp-old" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:7px;padding:8px;font-size:11px;color:#99aacc"></div>
+      <div id="ifp-new" style="background:rgba(0,200,100,.07);border:1px solid rgba(0,200,100,.3);border-radius:7px;padding:8px;font-size:11px;color:#99ccaa"></div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button id="ifp-equip" style="flex:1;padding:7px;background:rgba(0,200,100,.2);border:1px solid rgba(0,200,100,.5);color:#44ffaa;border-radius:6px;cursor:pointer;font-size:12px;font-family:inherit">Equip New</button>
+      <button id="ifp-keep" style="flex:1;padding:7px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#889;border-radius:6px;cursor:pointer;font-size:12px;font-family:inherit">Keep in Inventory</button>
+    </div>
+  </div>
+  <div id="notif-area"></div>
+
+  <!-- Map Modal -->
+  <div class="overlay" id="modal-map" style="display:none" onclick="closeModal('map')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="mhdr"><span>🗺️ World Map</span><button class="mcls" onclick="closeModal('map')">✕</button></div>
+      <canvas id="minimap-canvas" style="image-rendering:pixelated;max-width:85vw;max-height:60vh;display:block;margin:0 auto"></canvas>
+      <div style="margin-top:10px;font-size:11px;color:#667;text-align:center">
+        <span style="color:#8844ff">■</span> Dungeon &nbsp;<span style="color:#4488ff">■</span> Tower &nbsp;<span style="color:#ffaa44">■</span> Camp &nbsp;<span style="color:#44aaff">■</span> Harbor &nbsp;<span style="color:#44ffff">■</span> Skyport &nbsp;<span style="color:#fff">●</span> You &nbsp;<span style="color:#333">■</span> Unexplored
+      </div>
+    </div>
+  </div>
+
+  <!-- Quests Modal -->
+  <div class="overlay" id="modal-quests" style="display:none" onclick="closeModal('quests')">
+    <div class="modal" style="min-width:460px" onclick="event.stopPropagation()">
+      <div class="mhdr"><span>📜 Quest Journal</span><button class="mcls" onclick="closeModal('quests')">✕</button></div>
+      <div id="quest-list-container"></div>
+    </div>
+  </div>
+
+  <!-- Inventory Modal -->
+    <div class="overlay" id="modal-inventory" style="display:none" onclick="closeModal('inventory')">
+    <div class="modal" style="min-width:700px;max-width:860px;width:96vw;max-height:92vh;overflow-y:auto" onclick="event.stopPropagation()">
+      <div class="mhdr"><span>🎒 Character &amp; Inventory</span><button class="mcls" onclick="closeModal('inventory')">✕</button></div>
+      <div id="inv-tabs" style="display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:8px"></div>
+      <div id="inv-content" style="overflow-y:auto;max-height:60vh"></div>
+    </div>
+  </div>
+
+  <!-- Camp/Shop Modal -->
+  <div class="overlay" id="modal-camp" style="display:none" onclick="closeModal('camp')">
+    <div class="modal" style="min-width:380px" onclick="event.stopPropagation()">
+      <div class="mhdr"><span id="camp-title">⛺ Camp</span><button class="mcls" onclick="closeModal('camp')">✕</button></div>
+      <div id="camp-content"></div>
+    </div>
+  </div>
+
+  <!-- Mounts Modal -->
+  <div class="overlay" id="modal-mounts" style="display:none" onclick="closeModal('mounts')">
+    <div class="modal" style="min-width:340px" onclick="event.stopPropagation()">
+      <div class="mhdr"><span>🐎 Mounts</span><button class="mcls" onclick="closeModal('mounts')">✕</button></div>
+      <div id="mounts-content"></div>
+    </div>
+  </div>
+
+  <!-- Controls Modal -->
+  <div class="overlay" id="modal-controls" style="display:none" onclick="closeModal('controls')">
+    <div class="modal" style="min-width:380px" onclick="event.stopPropagation()">
+      <div class="mhdr"><span>❓ Controls Reference</span><button class="mcls" onclick="closeModal('controls')">✕</button></div>
+      <div style="font-size:11px;color:#667;margin-bottom:12px">Keyboard controls for Quests of Zeldara V2</div>
+      <div style="font-size:12px;font-weight:600;color:#88aacc;margin-bottom:6px">Movement & Interaction</div>
+      <div class="ctrl-row"><span class="ctrl-key">WASD / ↑↓←→</span><span class="ctrl-desc">Move character</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">Tab</span><span class="ctrl-desc">Interact / Enter building or dungeon</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">M</span><span class="ctrl-desc">Open world map</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">Q</span><span class="ctrl-desc">Open quest journal</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">I</span><span class="ctrl-desc">Open inventory & equipment</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">ESC</span><span class="ctrl-desc">Close modal / menu</span></div>
+      <div style="font-size:12px;font-weight:600;color:#88aacc;margin:10px 0 6px">Combat</div>
+      <div class="ctrl-row"><span class="ctrl-key">Space</span><span class="ctrl-desc">Attack (melee or ranged)</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">Ctrl</span><span class="ctrl-desc">Toggle melee / ranged mode</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">Shift</span><span class="ctrl-desc">Shield block — hold to reduce damage + chance to fully block (needs shield equipped)</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">Z</span><span class="ctrl-desc">Use equipped special ability</span></div>
+      <div style="font-size:12px;font-weight:600;color:#88aacc;margin:10px 0 6px">Items & Skills</div>
+      <div class="ctrl-row"><span class="ctrl-key">P</span><span class="ctrl-desc">Use health potion</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">O</span><span class="ctrl-desc">Eat food</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">X</span><span class="ctrl-desc">Select / cast equipped spell</span></div>
+      <div style="font-size:12px;font-weight:600;color:#88aacc;margin:10px 0 6px">Mounts & Familiars</div>
+      <div class="ctrl-row"><span class="ctrl-key">M</span><span class="ctrl-desc">Mount / dismount (hold-toggle)</span></div>
+      <div class="ctrl-row"><span class="ctrl-key">N</span><span class="ctrl-desc">Summon / dismiss familiar</span></div>
+      <div style="display:flex;gap:10px;margin-top:16px;justify-content:center">
+        <button onclick="doSaveGame()" style="padding:8px 18px;background:#1a3322;border:1px solid #00cc88;color:#00cc88;font-size:13px;cursor:pointer;border-radius:4px">Save Game</button>
+        <button onclick="doReturnToTitle()" style="padding:8px 18px;background:#1a2233;border:1px solid #4488cc;color:#4488cc;font-size:13px;cursor:pointer;border-radius:4px">Main Menu</button>
+      </div>
+      <div style="margin-top:12px;font-size:10px;color:#445;text-align:center">🌲 Trees slow movement to 33% speed &nbsp;|&nbsp; 🐎 Mounts increase speed</div>
+    </div>
+  </div>
+
+  <!-- Sandbox Modal -->
+  <div class="overlay" id="modal-sandbox" style="display:none" onclick="closeModal('sandbox')">
+    <div class="modal" style="min-width:360px" onclick="event.stopPropagation()">
+      <div class="mhdr"><span>🔧 Developer Sandbox</span><button class="mcls" onclick="closeModal('sandbox')">✕</button></div>
+      <div id="sandbox-content">
+        <p style="font-size:12px;color:#667;margin-bottom:12px">Enter password to access dev tools.</p>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <input id="sb-pw" type="password" placeholder="Password..." style="flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:7px 12px;color:#fff;font-size:13px;font-family:inherit;outline:none">
+          <button onclick="checkSandboxPw()" style="padding:7px 16px;background:rgba(0,200,100,.2);border:1px solid rgba(0,200,100,.35);color:#44ff88;border-radius:7px;cursor:pointer;font-family:inherit">Unlock</button>
+        </div>
+        <div id="sandbox-panel" style="display:none">
+          <button class="sb-btn" onclick="sbGold()">+1000 Gold</button>
+          <button class="sb-btn" onclick="sbLevel()">Level Up</button>
+          <button class="sb-btn" onclick="sbHeal()">Full HP</button>
+          <button class="sb-btn" onclick="sbUnlockAll()">Unlock All Sections</button>
+          <button class="sb-btn" onclick="sbGodMode()">Toggle God Mode</button>
+          <button class="sb-btn" onclick="sbHorse()">Give Horse</button>
+          <button class="sb-btn" onclick="sbTeleport(0)">→ Village</button>
+          <button class="sb-btn" onclick="sbTeleport(1)">→ Section 1</button>
+          <button class="sb-btn" onclick="sbTeleport(2)">→ Section 2</button>
+          <button class="sb-btn" onclick="sbTeleport(3)">→ Section 3</button>
+          <button class="sb-btn" onclick="sbTeleport(4)">→ Section 4</button>
+          <button class="sb-btn" onclick="sbAllItems()">Give All Items</button>
+          <button class="sb-btn" onclick="sbEnableAllItems()">Enable All in Shops</button>
+          <button class="sb-btn" onclick="sbAllSpells()">Give All Spells</button>
+          <button class="sb-btn" onclick="sbAllFood()">Give All Food</button>
+          <button class="sb-btn" onclick="sbAllMountsAndFamiliars()">All Mounts &amp; Familiars</button>
+          <button class="sb-btn" onclick="sbAllSkills()">All Special Skills</button>
+          <button class="sb-btn" onclick="sbCompleteQuests()">Complete All Quests</button>
+          <button class="sb-btn" onclick="sbVolcanoUnlock()" style="border-color:rgba(255,100,40,.5);color:#ffaa66">🌋 Unlock Volcano Quest + 4 Keys</button>
+          <button class="sb-btn" onclick="sbRevealMap()" style="border-color:rgba(120,180,255,.4);color:#88aaff">🗺️ Reveal Map</button>
+          <button class="sb-btn" onclick="sbGoBigVolcano()" style="border-color:rgba(255,100,40,.5);color:#ffaa66">→ Big Volcano</button>
+          <button class="sb-btn" onclick="sbGoMiniVolcano()" style="border-color:rgba(255,100,40,.5);color:#ffaa66">→ Next Mini-Volcano</button>
+          <button class="sb-btn" onclick="sbSpawnMonsters()">Spawn All Monsters</button>
+          <button class="sb-btn" onclick="sbReset()" style="border-color:rgba(255,80,80,.4);color:#ff8888">Reset Save</button>
+          <hr style="border-color:rgba(255,255,255,.1);margin:10px 0">
+          <div style="font-size:10px;color:#778;margin-bottom:8px;text-align:center;letter-spacing:.5px;text-transform:uppercase">🗺️ Adventure Sites</div>
+          <div style="display:flex;flex-direction:column;gap:5px;width:100%">
+            <div class="sb-site-row">
+              <div class="sb-site-lbl" style="color:#cc88ff">⚔️ Dungeon</div>
+              <button class="sb-sec-btn" style="border-color:rgba(160,80,255,.4);color:#cc88ff" onclick="sbGoDungeon(1)">1</button>
+              <button class="sb-sec-btn" style="border-color:rgba(160,80,255,.4);color:#cc88ff" onclick="sbGoDungeon(2)">2</button>
+              <button class="sb-sec-btn" style="border-color:rgba(160,80,255,.4);color:#cc88ff" onclick="sbGoDungeon(3)">3</button>
+              <button class="sb-sec-btn" style="border-color:rgba(160,80,255,.4);color:#cc88ff" onclick="sbGoDungeon(4)">4</button>
+            </div>
+            <div class="sb-site-row">
+              <div class="sb-site-lbl" style="color:#88aaff">🗼 Tower</div>
+              <button class="sb-sec-btn" style="border-color:rgba(60,100,220,.4);color:#88aaff" onclick="sbGoTower(1)">1</button>
+              <button class="sb-sec-btn" style="border-color:rgba(60,100,220,.4);color:#88aaff" onclick="sbGoTower(2)">2</button>
+              <button class="sb-sec-btn" style="border-color:rgba(60,100,220,.4);color:#88aaff" onclick="sbGoTower(3)">3</button>
+              <button class="sb-sec-btn" style="border-color:rgba(60,100,220,.4);color:#88aaff" onclick="sbGoTower(4)">4</button>
+            </div>
+            <div class="sb-site-row">
+              <div class="sb-site-lbl" style="color:#88ccff">⚓ Island</div>
+              <button class="sb-sec-btn" style="border-color:rgba(30,140,200,.4);color:#88ccff" onclick="sbGoHarbor(1)">1</button>
+              <button class="sb-sec-btn" style="border-color:rgba(30,140,200,.4);color:#88ccff" onclick="sbGoHarbor(2)">2</button>
+              <button class="sb-sec-btn" style="border-color:rgba(30,140,200,.4);color:#88ccff" onclick="sbGoHarbor(3)">3</button>
+              <button class="sb-sec-btn" style="border-color:rgba(30,140,200,.4);color:#88ccff" onclick="sbGoHarbor(4)">4</button>
+            </div>
+            <div class="sb-site-row">
+              <div class="sb-site-lbl" style="color:#44ffee">🎈 Skyport</div>
+              <button class="sb-sec-btn" style="border-color:rgba(0,200,180,.4);color:#44ffee" onclick="sbGoSkyport(1)">1</button>
+              <button class="sb-sec-btn" style="border-color:rgba(0,200,180,.4);color:#44ffee" onclick="sbGoSkyport(2)">2</button>
+              <button class="sb-sec-btn" style="border-color:rgba(0,200,180,.4);color:#44ffee" onclick="sbGoSkyport(3)">3</button>
+              <button class="sb-sec-btn" style="border-color:rgba(0,200,180,.4);color:#44ffee" onclick="sbGoSkyport(4)">4</button>
+            </div>
+            <div class="sb-site-row">
+              <div class="sb-site-lbl" style="color:#ffaa66">🦇 Cave</div>
+              <button class="sb-sec-btn" style="border-color:rgba(180,80,20,.4);color:#ffaa66;flex:1" onclick="sbGoCave()">Ember Cave (Sec 3)</button>
+            </div>
+          </div>
+          <hr style="border-color:rgba(255,255,255,.1);margin:10px 0">
+          <button class="sb-btn" id="sb-bot-btn" onclick="sbRunBot()" style="border-color:rgba(0,200,255,.4);color:#44eeff;width:100%">🤖 Run Full Bot</button>
+          <div id="sb-bot-log" style="margin-top:8px;max-height:260px;overflow-y:auto;font-size:10px;font-family:monospace;background:rgba(0,0,0,.4);border-radius:6px;padding:6px;display:none"></div>
+        </div>
+        <div id="sb-godmode-status" style="font-size:11px;color:#ffaa44;margin-top:8px;display:none">⚡ God Mode: ON</div>
+      </div>
+    </div>
+  </div>
+</div>

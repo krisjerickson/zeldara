@@ -11,12 +11,13 @@
 5. **`05-dev-tools-and-testing.md`** — sandbox cheat panel, debugging patterns, common pitfalls, self-testing approaches
 6. **`06-changelog.md`** — high-level session log of what's been built and why
 7. **`07-review-and-roadmap.md`** — Sept 2026 review: bugs, missing story, graphics plan, sprite plan, hosting
+8. **`08-overhaul-plan.md`** — the phased overhaul plan + where Kris's decisions live (Decision Board DB)
 
 ## Quick facts (30-second briefing)
 
-- **Active game file**: `C:\Claude\games\Zeldara-v4\index.html` (repo root; git repo `krisjerickson/zeldara`, hosted on Vercel) — a single ~11,400-line hand-crafted HTML page with all game code, sprites (base64-inlined), CSS, and DOM inside it. Phaser 3.60 is loaded from CDN.
+- **Source**: `C:\Claude\games\Zeldara-v4\src\` (+ `assets\`). **Built game**: `index.html`, produced by `node build.mjs --check`. Edit `src/`, never `index.html`. Phaser 3.60 is loaded from CDN.
 - **Do NOT use** `archive/` (old Vite/React skeleton + stale April builds) or `C:\Claude\games\zeldara-v4-game.html` (pre-repo snapshot). All active work lives in `index.html`.
-- **Editing**: patch `index.html` directly via `node -e`, `Edit` tool, or Python scripts. Verify with `new Function(scriptBlock)` in Node to catch syntax errors before saving.
+- **Editing**: change files in `src/js/` (one file per scene/system), then `node build.mjs --check`. Headless tests live in `tests/` (doc 05).
 - **Testing**: open `index.html` directly in Chrome (double-click, or `file://` URL). Save/load uses `localStorage['qoz_v2']`.
 - **Sprites**: all hero sprites (walk/attack/bow/horse) are base64-inlined as JS consts near the top of the inline `<script>`. Source PNGs sit in `sprites/hero/*/`.
 
@@ -31,7 +32,7 @@
 ## Golden rules (things NOT to break)
 
 1. **Never edit `#hud` visibility inline** without also handling sleep/wake correctly. Every sub-scene MUST show `#hud` back on exit and hide `#dungeon-hud`. Canonical pattern lives in `DungeonScene._exitToWorld` (see doc 02).
-2. **When adding a new scene**, always: register the class in `game.scene:[...]`, bind ESC-safety BEFORE the try block, use the `_heroAddSprite` + `_heroAnimate` helpers, restore HUD on exit, call `worldScene._emitUI()` on exit.
+2. **When adding a new scene**, always: register the class in `game.scene:[...]` (20-game-config.js) and in `_SCENE_PRIORITY` (24-pause-input.js), call `_attachSafetyEscape(this)` BEFORE the try block, use `_heroAddSprite` + `_heroAnimate`, `_heroStowMount` if mounts aren't allowed, `_heroDied` on death, restore HUD + `worldScene._emitUI()` on exit.
 3. **Damage formula**: melee = base ATK (which includes level bumps) + lHand sword atk + non-weapon-slot atk bonuses. **NEVER** sum rHand (bow), mWeapon, or spell into melee damage (see `calcStatsFromState`).
 4. **`file://` protocol**: game is designed to open from disk. All script is classic (no ES modules), Phaser loads from cdnjs, sprites are base64-inlined.
 5. **Save format**: `localStorage['qoz_v2']` — a JSON blob of `playerState` + `worldX/worldY`. `ps.exploredGrid` is a Uint8Array; serialized as `exploredGridArr` and rehydrated on load.

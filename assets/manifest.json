@@ -1,0 +1,300 @@
+{
+ "blocks": [
+  {
+   "type": "array",
+   "name": "HERO_WALK_FRAMES_FRONT",
+   "files": [
+    {
+     "file": "hero/walk_frames_front_0.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_front_1.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_front_2.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_front_3.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_front_4.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_front_5.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_front_6.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_front_7.png",
+     "mime": "image/png"
+    }
+   ]
+  },
+  {
+   "type": "array",
+   "name": "HERO_WALK_FRAMES_SIDE",
+   "files": [
+    {
+     "file": "hero/walk_frames_side_0.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_side_1.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_side_2.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_side_3.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_side_4.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_side_5.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_side_6.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_side_7.png",
+     "mime": "image/png"
+    }
+   ]
+  },
+  {
+   "type": "array",
+   "name": "HERO_WALK_FRAMES_BACK",
+   "files": [
+    {
+     "file": "hero/walk_frames_back_0.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_back_1.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_back_2.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/walk_frames_back_3.png",
+     "mime": "image/png"
+    }
+   ]
+  },
+  {
+   "type": "array",
+   "name": "HERO_ATTACK_FRAMES",
+   "files": [
+    {
+     "file": "hero/attack_frames_0.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/attack_frames_1.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/attack_frames_2.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/attack_frames_3.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/attack_frames_4.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/attack_frames_5.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/attack_frames_6.png",
+     "mime": "image/png"
+    }
+   ]
+  },
+  {
+   "type": "array",
+   "name": "HERO_BOW_FRAMES",
+   "files": [
+    {
+     "file": "hero/bow_frames_0.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/bow_frames_1.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/bow_frames_2.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/bow_frames_3.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/bow_frames_4.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/bow_frames_5.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/bow_frames_6.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/bow_frames_7.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/bow_frames_8.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/bow_frames_9.png",
+     "mime": "image/png"
+    }
+   ]
+  },
+  {
+   "type": "raw",
+   "text": "// Horse-mount riding sprites (8 frames per direction)"
+  },
+  {
+   "type": "array",
+   "name": "HERO_HORSE_FRONT",
+   "files": [
+    {
+     "file": "hero/horse_front_0.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_front_1.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_front_2.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_front_3.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_front_4.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_front_5.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_front_6.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_front_7.png",
+     "mime": "image/png"
+    }
+   ]
+  },
+  {
+   "type": "array",
+   "name": "HERO_HORSE_SIDE",
+   "files": [
+    {
+     "file": "hero/horse_side_0.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_side_1.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_side_2.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_side_3.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_side_4.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_side_5.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_side_6.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_side_7.png",
+     "mime": "image/png"
+    }
+   ]
+  },
+  {
+   "type": "array",
+   "name": "HERO_HORSE_BACK",
+   "files": [
+    {
+     "file": "hero/horse_back_0.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_back_1.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_back_2.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_back_3.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_back_4.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_back_5.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_back_6.png",
+     "mime": "image/png"
+    },
+    {
+     "file": "hero/horse_back_7.png",
+     "mime": "image/png"
+    }
+   ]
+  }
+ ]
+}

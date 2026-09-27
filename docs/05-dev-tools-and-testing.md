@@ -36,6 +36,20 @@ Roster (all globals, `sb*`-prefixed):
 3. If it mutates player state, call `ws._emitUI(); ws._save();` at the end.
 4. Show a `showNotif(...)` toast so the user sees the effect.
 
+## Headless test suite (Phase 1) — `tests/`
+
+Playwright + Chromium, run from the repo root after `node build.mjs`:
+
+| File | Covers |
+|---|---|
+| `tests/test_phase1_core.py` | pause in world/dungeon, menu hotkeys, buff freeze, X spell in dungeon, mount stow/restore, death flow, all 5 volcano scenes load + Esc, familiar damage, info pop-up (25 checks) |
+| `tests/test_boss_arenas.py` | all 8 dungeons/towers × first-clear/rematch: guardian reachable and ≤5 tiles from the portal; portal opens; claim returns to World (19 checks) |
+| `tests/test_phase1_saves_familiars.py` | v2 save migration + backup, pause in Cave/Sky, each familiar ability, familiar UI (16 checks) |
+
+Setup and notes are at the top of `tests/harness.py`. The harness serves `index.html` from a fake origin,
+swaps the cdnjs Phaser URL for a local copy, and sets `game.loop.smoothStep=false`: headless Chromium renders
+at ~3–13 fps and with smoothing on, game time runs 5–20× slower than real time (timers look "stuck").
+
 ## Playtesting patterns
 
 ### Manual test loop
@@ -58,7 +72,7 @@ Use the Chrome MCP tools to actually run and inspect:
 This catches HUD-visibility bugs, scene-transition hangs, and JS exceptions that don't surface via code review.
 
 ### Static self-check (near-zero cost, catches most bugs)
-After every patch to `index.html`:
+After every change (the build does this with `--check`):
 ```js
 const fs = require('fs');
 const html = fs.readFileSync(PATH,'utf8');
@@ -78,6 +92,8 @@ Canonical templates:
 
 ## Common pitfalls
 
+0. **Keyboard shortcuts belong in `24-pause-input.js`.** Per-scene bindings only fire while that scene runs (why X never worked in dungeons). Menus must be registered in `PAUSE_OVERLAYS` or the game keeps running under them.
+
 1. **Unescaped apostrophes in `onclick` strings.** Inline HTML like `onclick="window._foo('bar')"` inside a JS string literal will terminate the string if the outer quotes are the same. Use `"..."` outside + `'...'` inside (or `\"...\"` when generating from JS).
 
 2. **`_atkOnlySlots` / `_defOnlySlots` in `calcPlayerStats`.** These maps EXCLUDE weapon slots from the atk/def sum. When adding a new slot, decide whether it's a weapon slot (add to `_atkOnlySlots`) or an armor/accessory (leave out).
@@ -94,7 +110,9 @@ Canonical templates:
 
 8. **Base64 sprite HUGE bundles.** Every new sprite frame you inline adds ~13 KB to the file. Prefer reusing existing frames or resizing.
 
-9. **Player death in a sub-scene.** Currently sub-scenes handle this inconsistently. If you add a new one, be sure `ps.hp <= 0` triggers `_exitToWorld` cleanly so the world can play its death sequence.
+9. **Player death in a sub-scene** → always `_heroDied(this)` (09-hero-core.js).
+
+10. **`self` inside a method** must be `var self=this` — an undefined `self` silently resolves to `window.self`.
 
 ## Testing checklist for new scenes
 

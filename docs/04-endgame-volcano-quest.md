@@ -44,6 +44,14 @@ Runs automatically on `WorldScene.create()` when `_finalQuestUnlocked(ps)` is tr
 - **Only converts OCEAN tiles** — will never overwrite existing land.
 - **Batched chunk refresh** — refreshes at 4 chunks per animation frame (`requestAnimationFrame`) so a 30-chunk update doesn't freeze the main loop.
 
+## Phase 1 fixes (Sept 2026)
+
+- **All 5 scenes crashed on entry** in the Jun 9 build (`_attachSafetyEscape is not defined`). Fixed.
+- `VolcanoBulletHellScene.update` used `self` without defining it (hit the global `window.self`). Fixed.
+- Dying in any volcano scene (including the boss rush) now uses the shared death flow instead of returning
+  to the world with 0 HP. Boss-rush defeat shows the banner for 1.6 s, then `_heroDied`.
+- Mounts are stowed on entry and restored on return.
+
 ## The 5 volcano scenes
 
 Every scene shares the safety-ESC pattern (see doc 02). Every scene's `_exitToWorld` restores `#hud`, calls `worldScene._emitUI()`.

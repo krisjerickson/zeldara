@@ -53,28 +53,18 @@ _exitToWorld(reward) {
 
 **Failure to restore `#hud`** on exit was the volcano soft-lock bug (fixed in session #65).
 
-## Safety-ESC pattern (added session #66)
+## Safety-ESC pattern
 
-Every volcano scene now uses this in `create()` to guarantee ESC always exits, even if the rest of `create()` throws:
+`_attachSafetyEscape(scene)` and `_showSceneError(scene, err)` are called at the top of every volcano
+scene's `create()`. **In the Jun 9 build they were referenced but never defined**, so all 5 volcano scenes
+threw on entry and the endgame was unreachable. Phase 1 defines them in `src/js/09-hero-core.js`:
 
-```js
-create() {
-  this._sceneKey = 'MySceneKey';
-  _attachSafetyEscape(this);  // binds keydown-ESC that always wakes World
-  var _self_safety = this;
-  try {
-    // ... normal create body ...
-  } catch (_safetyErr) {
-    console.error('MyScene.create', _safetyErr);
-    _showSceneError(_self_safety, _safetyErr); // on-screen banner
-  }
-}
-```
-
-- `_attachSafetyEscape(scene)` — removes any existing ESC listener, then adds one that hides `#dungeon-hud`, shows `#hud`, stops the scene by its `_sceneKey`, wakes World, calls `worldScene._emitUI()`.
-- `_showSceneError(scene, err)` — draws a red banner with the error message + "Press ESC to return to the world".
-
-**Use this on every new sub-scene going forward.**
+- `_attachSafetyEscape(scene)` binds the scene's Esc to `scene._exitToWorld()` (falls back to a forced
+  return: hide `#dungeon-hud`, show `#hud`, stop scene, wake World).
+- `_showSceneError(scene, err)` shows a DOM banner (`#scene-error-banner`, pauses the game) with a
+  "Return to the world" button.
+- The global key handler only intercepts Esc while a menu is open, so Esc closes menus first and
+  otherwise reaches the scene.
 
 ## Hero API (shared global helpers)
 
@@ -111,14 +101,24 @@ Defined near the top of the inline script, right after the frame consts. Every s
 - **`_heroApplyShield(scene, ps, rawDmg, x, y)`** — Wrap incoming damage. Returns 0 on full block (15% + 2%/DEF chance), or `rawDmg * 0.75` on passive reduction, or `rawDmg` if not shielding.
 - **`_heroShieldFlash(scene, x, y, fullBlock)`** — VFX helper for shield hits.
 
-### Familiars (auto-attack + orbit)
+### Familiars v2 (Phase 1 · B2) — `09-hero-core.js`
 
-- **`_heroFamiliarsTick(scene, dt)`** — Per-frame:
-  1. Reads `worldScene.playerState.familiar/familiar2/familiar3` (up to `_maxFamiliarSlots(ps)`).
-  2. Spawns/updates emoji visuals orbiting the player.
-  3. Runs per-slot attack timer; on cooldown expiry calls `_heroFamiliarFire`.
-  4. Ticks projectiles in `scene._famProj`, damaging monsters on hit.
-- **`_heroFamiliarFire(scene, fid, fdef, playerXY, monsters)`** — Depending on `fdef.type` fires a projectile at the nearest monster or spawns an AoE pulse around the player.
+- Numbers + text live in `FAMILIAR_ABILITIES` (single source for combat AND the info pop-up).
+- Damage scales `×(1 + 0.12·(level−1))`. Up to `_maxFamiliarSlots(ps)` familiars active (slots
+  `familiar`, `familiar2`, `familiar3`).
+
+| Familiar | Ability | Effect |
+|---|---|---|
+| 🪲 Firefly | Ember Spark (2.5 s, 260 px) | homing ember + burn 3 s; dungeon sight radius 7 → 10 tiles |
+| 🌀 Wind Sprite | Gale Burst (4 s, r 95) | AoE damage, knockback 70 px (wall-aware), delays next attack |
+| 🐡 Sea Sprite | Tide Ward (20 s) | bubble refunds the next hit taken; heals 1.5% max HP every 3 s |
+| 🦉 Storm Hawk | Chain Lightning (3 s, 280 px) | bolt + 2 chain jumps at 70% |
+| ❄️ Frost Wisp | Frost Nova (5 s, r 100) | AoE damage + 50% slow for 3 s |
+
+- Wind Sprite is now obtainable: first NE sky-port clear (it was never awarded before).
+- `showFamiliarInfo(fid)` opens the pop-up; `_familiarCardHTML(fid, ps, onclick, withInfoBtn)` renders a
+  card (inventory footer + N picker); `_toggleFamiliar(fid)` is slot-aware equip/unequip.
+- **Do not call `_heroFamiliarsTick` from a scene** — `_heroUpkeep` drives it (see below).
 
 ### Buffs
 
@@ -141,6 +141,35 @@ Defined near the top of the inline script, right after the frame consts. Every s
 
 - **`_inBossRush()`** — `true` if `game.scene.isActive('VolcanoBossRush')`. Used to gate `_quickUsePotion` and `window._useItem` so no healing during boss rush.
 
+## Hero Core v2 (Phase 1) — `src/js/09-hero-core.js`
+
+Scene-agnostic helpers so a mechanic written once works in every scene.
+
+- `_heroCtx(scene)` → `{key, ws, ps, x, y, dir, monsters}` — knows each scene's player fields
+  (`px/py` Dungeon, `_px/_py` Cave, `player.x/y` elsewhere) and monster list (`worldMonsters` / `monsters` / `_mons`).
+- `_heroHitMonster(scene, mon, dmg, opts)` / `_heroKillMonster(scene, mon)` — damage + float text + flash +
+  hp bar + the scene's own death/reward routine.
+- `_heroCastSpell(scene)` — X key everywhere. World keeps its own `_castSpell`; other scenes get projectile /
+  nova / meteor / thunder-step / poison-mist spells with the same `SPELL_DATA`. Blocked indoors and in the sky.
+- `_heroSlow`, `_heroBurn`, `_heroStatusTick` — status effects in any scene (World uses its native `mon._slow`).
+- `_heroStowMount(scene)` / `_heroRestoreMount(ws)` — auto-dismount in Dungeon/Tower/Cave/Volcano scenes,
+  remount when World or Island wakes. Island overworld keeps the mount.
+- `_heroDied(scene)` — ONE death flow: fade, stop the scene (and the Island if you came from one), wake World,
+  `ws._worldPlayerDied()` (village, 25% HP, −10% gold).
+- `_heroUpkeep(dt)` — runs every frame from `game.events 'poststep'` for the active play scene (not while
+  paused): mana regen + spell projectiles (non-World), familiars, familiar projectiles, status effects.
+
+## Universal pause (Phase 1 · B1) — `src/js/24-pause-input.js`
+
+- Any overlay in `PAUSE_OVERLAYS` visible ⇒ every running scene is `scene.pause()`d; resume when the last one
+  closes. Detection is a `MutationObserver` on `<body>` (+ 400 ms safety poll).
+- Buff end-times are pushed forward by the paused duration. Keys are reset on resume (no stuck walking).
+- `_anyModalOpen()` now returns true whenever the game is paused or any overlay is open.
+- **New overlay?** Give it an id and add it to `PAUSE_OVERLAYS` (and to `_closeAllOverlays` if Esc should close it).
+- **All keyboard shortcuts are in one document-level handler** there: I/Q/M/B toggle their menus, N/O open the
+  familiar/food pickers, Esc closes menus, and gameplay keys Ctrl/X/Z/C/P dispatch to `_activePlayScene()`.
+  Don't bind these per scene.
+
 ## Scene-transition checklist (paste into every new scene PR)
 
 - [ ] Class registered in `scene: [...]` array
@@ -154,4 +183,7 @@ Defined near the top of the inline script, right after the frame consts. Every s
 - [ ] Each frame in `update`: call `_heroAnimate(this, sprite, st, vx, vy, dt, atkTimer, bowTimer)`
 - [ ] `_exitToWorld()` restores `#hud`, hides `#dungeon-hud`, stops scene, wakes World, calls `worldScene._emitUI()`
 - [ ] Global CTRL handler dispatches to this scene (if bow makes sense here) — see the `keydown-Control` listener
-- [ ] If it's a combat scene: call `_heroShieldTick`, `_heroFamiliarsTick`, `_heroUpdateProjs` each frame
+- [ ] If it's a combat scene: call `_heroShieldTick` and `_heroUpdateProjs` each frame. Familiars, spells, status effects and mana are automatic (`_heroUpkeep`) as long as the scene exposes its player position and monster list the way `_heroCtx` expects
+- [ ] Special area (no mounts)? call `_heroStowMount(this)` at the top of `create()`
+- [ ] Player death → `_heroDied(this)` (never exit with 0 HP)
+- [ ] Add the scene key to `_SCENE_PRIORITY` in `24-pause-input.js` so X/Ctrl/P reach it

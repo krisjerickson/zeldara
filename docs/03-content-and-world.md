@@ -68,7 +68,11 @@ Every monster def has: `name, icon, hp, atk, def, xp, gMin, gMax, sec, color, r,
 **Section 3 (SW):** stone_golem, harpy, boss `iron_sentinel`
 **Section 4 (NW):** fire_imp, ash_wraith, boss `shadow_lord`
 
-Tower bosses (per section): dark_warlock, storm_mage, rock_dragon, lava_titan.
+Guardians actually used by the code (`DungeonScene._getBossKey`) — the older docs had these swapped:
+- **Dungeon** guardians: goblin_king, swamp_witch, rock_dragon, lava_titan (s1–s4)
+- **Tower** guardians: dark_warlock, storm_mage, iron_sentinel, shadow_lord (s1–s4)
+
+Every last floor ends in a **boss arena**: the guardian spawns on the shortest path 3 tiles before the sealed exit portal (the boss-chest tile), is leashed there unless you are within 6 tiles, and the portal opens when it dies. Replays: guardian returns at +25% HP/ATK/DEF with a rematch reward (gold + gem + drop), first-clear rewards are not repeated. See `_ensureBossArena` in `12-scene-dungeon.js`.
 
 **AtkTypes** (drive AI in the world/dungeon/island monster update):
 - `melee`, `stomp` (AoE), `arrow`, `scatter_arrow`, `flame`, `bog_flame`, `scatter_flame`, `heat_seek`, `lightning`
@@ -92,20 +96,14 @@ sky_glider / storm_drake / ember_phoenix / void_serpent — Sky Port rewards
 - Movement speed: `baseSpd = 180 * (mount?.spdMult ?? 1) * (1+spdBonus) * bogMult * spdBuffMult(1.25 if spdUp active) * shallowMult`.
 - Only the horse mount uses custom sprites (`hero_horse_front/side/back_0..7`). Other mounts show the on-foot hero + a floating emoji icon overhead (unless mount === 'horse' — icon hidden there).
 
-## Familiars (`FAMILIARS`)
+## Familiars (`FAMILIARS` + `FAMILIAR_ABILITIES`)
 
-Each familiar has: `n, icon, sec, atkInterval, dmg, type ('projectile'|'aoe'), projSpeed?/aoeR?, desc`.
+`FAMILIARS` (03-data.js) holds name/icon/section; abilities, damage and text live in `FAMILIAR_ABILITIES`
+(09-hero-core.js). See doc 02 "Familiars v2" for the table.
 
-Roster:
-- firefly (sec 1, projectile)
-- wind_sprite (sec 1, aoe)
-- sea_sprite (sec 2, projectile)
-- storm_hawk (sec 3, projectile)
-- frost_wisp (sec 4, aoe)
-
-- `_maxFamiliarSlots(ps)`: 1 slot base, 2 at 2+ islands cleared, 3 at 4+ islands cleared. Slots are `ps.familiar`, `ps.familiar2`, `ps.familiar3`.
-- Visual: emoji floats in a slow orbit around the player. Auto-attacks every `atkInterval` seconds. See `_heroFamiliarsTick`.
-- N key opens the familiar quick-pick popup to swap active familiar(s).
+- How to get them: Firefly / Sea Sprite / Storm Hawk / Frost Wisp = clear the NE / SE / SW / NW harbor island;
+  Wind Sprite = first NE sky-port clear.
+- Slots: 1 base, 2 at 2+ islands cleared, 3 at 4+ islands. N opens the picker (click to add/remove, ⓘ for details).
 
 ## Items (`ITEMS`)
 

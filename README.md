@@ -9,7 +9,9 @@ A top-down action-adventure built with Phaser 3.60. The whole game is one self-c
 ## Repo layout
 | Path | What it is |
 |---|---|
-| `index.html` | ★ The game: all code, CSS and base64 sprites in one file. **Edit this.** |
+| `index.html` | ★ The built game: one self-contained file. **Generated — don't edit.** |
+| `src/`, `assets/`, `build.mjs` | The source. Edit `src/js/*.js`, then `node build.mjs --check` rebuilds `index.html`. |
+| `tests/` | Headless Playwright tests (see `docs/05-dev-tools-and-testing.md`). |
 | `docs/` | AI memory docs (architecture, scenes, content, endgame, dev tools, changelog, roadmap). Read `docs/README.md` first. |
 | `sprites/` | Editable source PNGs for the hero (and sample monster sprites). Inlined into `index.html` as base64. |
 | `design-mocks/` | Static theme and palette mockups. |

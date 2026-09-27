@@ -3,3 +3,7 @@ archive/
 docs/
 sprites/
 design-mocks/
+src/
+assets/
+tests/
+build.mjs
