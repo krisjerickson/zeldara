@@ -60,3 +60,26 @@ if (process.argv.includes('--check')) {
 
 fs.writeFileSync(path.join(ROOT, 'index.html'), out);
 console.log(`✓ index.html  ${(out.length / 1024).toFixed(0)} KB  from ${jsFiles.length} JS files`);
+
+// ── Design Lab (Phase 2): lab/src → lab/index.html (+ lab/lab.artifact.html for publishing)
+// Reuses the game's hero sprites + hero API so the lab walks with the real hero.
+if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
+  const shared = ['00-header.js', '01-sprite-data.js', '02-hero-api.js']
+    .map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('');
+  const labDir = path.join(ROOT, 'lab/src/js');
+  const labFiles = fs.readdirSync(labDir).filter(f => f.endsWith('.js')).sort();
+  const labJs = shared + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join('');
+  if (/<\/script>/i.test(labJs)) throw new Error('Literal </script> in lab JS');
+  const lab = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs);
+  if (process.argv.includes('--check')) {
+    const re = /<script(?![^>]*src=)[^>]*>([\s\S]*?)<\/script>/g; let m;
+    while ((m = re.exec(lab))) new Function(m[1]);
+  }
+  fs.writeFileSync(path.join(ROOT, 'lab/index.html'), lab);
+  // Artifact variant: no doctype/html/head/body wrappers (the host adds them)
+  const title = lab.match(/<title>[\s\S]*?<\/title>/)[0];
+  const head = lab.slice(lab.indexOf('</title>') + 8, lab.indexOf('</head>'));
+  const body = lab.slice(lab.indexOf('<body>') + 6, lab.lastIndexOf('</body>'));
+  fs.writeFileSync(path.join(ROOT, 'lab/lab.artifact.html'), title + head.replace(/<meta[^>]*>\s*/g, '') + body);
+  console.log(`✓ lab/index.html  ${(lab.length / 1024).toFixed(0)} KB  from ${labFiles.length} lab files`);
+}

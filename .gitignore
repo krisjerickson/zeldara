@@ -8,3 +8,5 @@ desktop.ini
 src/js/01-sprite-data.js
 tests/.phaser/
 __pycache__/
+tests/.labshots/
+lab/lab.artifact.html

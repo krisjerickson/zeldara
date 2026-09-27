@@ -12,6 +12,7 @@
 6. **`06-changelog.md`** — high-level session log of what's been built and why
 7. **`07-review-and-roadmap.md`** — Sept 2026 review: bugs, missing story, graphics plan, sprite plan, hosting
 8. **`08-overhaul-plan.md`** — the phased overhaul plan + where Kris's decisions live (Decision Board DB)
+9. **`09-sprite-style-bible.md`** — hero style rules + sprite prompts (pilot)
 
 ## Quick facts (30-second briefing)
 

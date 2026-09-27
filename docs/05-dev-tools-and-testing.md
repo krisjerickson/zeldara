@@ -44,6 +44,7 @@ Playwright + Chromium, run from the repo root after `node build.mjs`:
 |---|---|
 | `tests/test_phase1_core.py` | pause in world/dungeon, menu hotkeys, buff freeze, X spell in dungeon, mount stow/restore, death flow, all 5 volcano scenes load + Esc, familiar damage, info pop-up (25 checks) |
 | `tests/test_boss_arenas.py` | all 8 dungeons/towers × first-clear/rematch: guardian reachable and ≤5 tiles from the portal; portal opens; claim returns to World (19 checks) |
+| `tests/test_lab_walk.py` | Design Lab: every tower/dungeon builds, all walkable area reachable from the spawn, walk scene starts and the hero moves (20 designs) |
 | `tests/test_phase1_saves_familiars.py` | v2 save migration + backup, pause in Cave/Sky, each familiar ability, familiar UI (16 checks) |
 
 Setup and notes are at the top of `tests/harness.py`. The harness serves `index.html` from a fake origin,
