@@ -18,7 +18,7 @@ class CaveScene extends Phaser.Scene{
     this.islandScene=d.islandScene;
     this.sec=d.sec||1;
     this.floor=d.floor||0;
-    this.maxFloors=3;
+    this.maxFloors=d.maxFloors||4;
     this._data=d;
   }
   create(){
@@ -318,7 +318,10 @@ class CaveScene extends Phaser.Scene{
     var nearExit=Math.hypot(this._px-((this._exitTile.x+0.5)*CV),this._py-((this._exitTile.y+0.5)*CV))<40;
     var nearEntry=Math.hypot(this._px-((this._entryTile.x+0.5)*CV),this._py-((this._entryTile.y+0.5)*CV))<40;
     if(nearExit&&Phaser.Input.Keyboard.JustDown(k.TAB)){
-      if(this._isLastFloor)this._exitToCave();
+      if(this._isLastFloor){
+        if(!this._bossDefeated){ showNotif('The guardian still guards the exit — defeat it first!','#ff6666'); }
+        else this._claimCaveGuardian();
+      }
       else this._goNextFloor();
     }
     if(nearEntry&&Phaser.Input.Keyboard.JustDown(k.TAB)&&this.floor>0)this._goPrevFloor();
@@ -437,7 +440,7 @@ class CaveScene extends Phaser.Scene{
         self.ps.xp+=xp;self.ps.gold+=gold;
         self._floatText(mon.x,mon.y-36,'+'+xp+' xp +'+gold+'g','#44ffaa');
         self.worldScene._checkLevelUp(self.ps);
-        if(mon.isBoss){self._bossDefeated=true;}
+        if(mon.isBoss){self._bossDefeated=true;showNotif('🏆 '+mon.def.name+' defeated! The exit is open — [Tab] at the exit to claim the island.','#ffdd44');}
       }
     });
     if(!hit)this._floatText(this._px,this._py-22,'miss','#555');
@@ -447,12 +450,23 @@ class CaveScene extends Phaser.Scene{
     this.tweens.add({targets:t,y:y-36,alpha:0,duration:1100,onComplete:function(){t.destroy();}});
   }
   _playerDied(){ if(this._dying)return; this._dying=true; _heroDied(this); }
+  // Beating the cave guardian clears the island → familiar (same as the island dungeons)
+  _claimCaveGuardian(){
+    if(this._claimed)return; this._claimed=true;
+    var ps=this.ps, sec=this.sec, g=80*sec; ps.gold+=g;
+    if(!ps.inventory)ps.inventory=[]; ps.inventory.push(['gem_ruby','gem_sapphire','gem_emerald','skystone'][sec-1]||'gem_ruby');
+    showNotif('+'+g+'g + gem — the island guardian is beaten!','#44ffaa');
+    var isl=game.scene.getScene('Island');
+    if(isl&&isl._onIslandCleared&&(game.scene.isActive('Island')||game.scene.isSleeping('Island'))){ isl._islandCleared=true; isl._onIslandCleared(); }
+    else _awardIslandFamiliar(ps,sec);
+    this._exitToCave();
+  }
   _goNextFloor(){
-    this.scene.restart({worldScene:this.worldScene,islandScene:this.islandScene,sec:this.sec,floor:this.floor+1});
+    this.scene.restart({worldScene:this.worldScene,islandScene:this.islandScene,sec:this.sec,floor:this.floor+1,maxFloors:this.maxFloors});
   }
   _goPrevFloor(){
     if(this.floor===0)this._exitToCave();
-    else this.scene.restart({worldScene:this.worldScene,islandScene:this.islandScene,sec:this.sec,floor:this.floor-1});
+    else this.scene.restart({worldScene:this.worldScene,islandScene:this.islandScene,sec:this.sec,floor:this.floor-1,maxFloors:this.maxFloors});
   }
   _exitToCave(){
     this.scene.stop('Cave');

@@ -6,7 +6,7 @@
 // ║ localStorage['qoz_v2_backup_v<old>'] so nothing is ever lost.
 // ║ To change the save shape later: bump SAVE_VERSION and add a step.
 // ═══════════════════════════════════════════════════════════════════════
-var SAVE_VERSION=3;
+var SAVE_VERSION=4;
 var _SAVE_TRANSIENT=['_seaState'];   // runtime-only fields never written to disk
 
 function _migrateSave(d, raw){
@@ -22,6 +22,20 @@ function _migrateSave(d, raw){
     if(!Array.isArray(d.ownedFamiliars))d.ownedFamiliars=[];
     ['familiar','familiar2','familiar3'].forEach(function(k){ if(d[k]&&!FAMILIARS[d[k]])d[k]=null; });
     if(!d.buffs)d.buffs={};
+  }
+  if(v<4){
+    // Phase 3: towers/dungeons use the Lab designs (new floor sizes) → old
+    // per-floor fog no longer lines up. Harbor/sky-port quests now complete
+    // (they never did before), so backfill them from what was already won.
+    d.dungeonFog={};
+    if(!Array.isArray(d.completedQuests))d.completedQuests=[];
+    (d.completedIslands||[]).forEach(function(sec){ var k='s'+sec+'_harbor'; if(d.completedQuests.indexOf(k)<0)d.completedQuests.push(k); });
+    (d.lockedSites||[]).forEach(function(id){ if(/^s[1-4]_skyport$/.test(id)&&d.completedQuests.indexOf(id)<0)d.completedQuests.push(id); });
+    if(!Array.isArray(d.bonusCleared))d.bonusCleared=[];
+    if(!Array.isArray(d.relics))d.relics=[];
+    if(!Array.isArray(d.rescued))d.rescued=[];
+    // Tower bosses already beaten → their craftsman is already free
+    [1,2,3,4].forEach(function(sec){ if(d.completedQuests.indexOf('s'+sec+'_tower')>=0&&d.rescued.indexOf(sec)<0)d.rescued.push(sec); });
   }
   _SAVE_TRANSIENT.forEach(function(k){ delete d[k]; });
   d.saveVersion=SAVE_VERSION;

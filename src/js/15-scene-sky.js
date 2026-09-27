@@ -283,6 +283,7 @@ class SkyScene extends Phaser.Scene{
     if(!ps.lockedSites)ps.lockedSites=[];
     var siteId=this.site?this.site.id:'s1_skyport';
     if(!ps.lockedSites.includes(siteId))ps.lockedSites.push(siteId);
+    _completeQuest(ps,'s'+((this.site&&this.site.section)||1)+'_skyport');
     // First NE sky-port clear awards the Wind Sprite familiar (was unobtainable).
     if((this.site&&this.site.section||1)===1){
       if(!ps.ownedFamiliars)ps.ownedFamiliars=[];

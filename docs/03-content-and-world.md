@@ -101,7 +101,7 @@ sky_glider / storm_drake / ember_phoenix / void_serpent — Sky Port rewards
 `FAMILIARS` (03-data.js) holds name/icon/section; abilities, damage and text live in `FAMILIAR_ABILITIES`
 (09-hero-core.js). See doc 02 "Familiars v2" for the table.
 
-- How to get them: Firefly / Sea Sprite / Storm Hawk / Frost Wisp = clear the NE / SE / SW / NW harbor island;
+- How to get them: Firefly / Sea Sprite / Storm Hawk / Frost Wisp = beat the guardian at the bottom of the NE / SE / SW / NW island's dungeon (Pirate Cave / Bog Grotto / Ember Cave / Frost Spire);
   Wind Sprite = first NE sky-port clear.
 - Slots: 1 base, 2 at 2+ islands cleared, 3 at 4+ islands. N opens the picker (click to add/remove, ⓘ for details).
 
@@ -136,7 +136,20 @@ Four types, four sections, so 16 quests total:
 | `harbor` | Island expedition (harbor site) | `s{sec}_harbor` |
 | `skyport` | Sky Port mini-game | `s{sec}_skyport` |
 
-**Boss rewards** (`BOSS_REWARDS[qKey]`): dungeon bosses grant mounts (s1→alligator, s2→boar, s3→lava_unicorn, s4→dragon-not-quite), tower bosses grant section unlock + 2 rings each.
+**Boss rewards** (`BOSS_REWARDS[qKey]`): ★ boss dungeons grant mounts (s1→alligator, s2→boar, s3→lava_unicorn, s4→ash_salamander), ★ boss towers grant section unlock + 2 rings and free a craftsman.
+
+## Tower & dungeon sites (Phase 3a — `src/js/07d-site-roster.js`)
+
+| Quadrant | ★ Boss tower | ★ Boss dungeon | Bonus sites | Floors |
+|---|---|---|---|---|
+| 1 NE Grasslands | Silverwood Palace | Sunken Courtyard | Elven Library, White Keep, Mushroom Forest | 4–5 |
+| 2 SE Wetlands | Frost Cathedral | Underground Lake Ring | Moonglass Spire, Crystal Grotto, Root Hollow | 5–6 |
+| 3 SW Highlands | Starlit Observatory | Bone Pit | Sky Cloister, Rivendell Twilight Hall, Pillared Hall | 6–7 |
+| 4 NW Ashlands | Dawn Sanctum | Lava Archipelago | Reflecting Hall, Boulder Field, Spiral Chasm | 7–8 |
+
+- Boss sites keep ids `s{sec}_tower` / `s{sec}_dungeon`; bonus ids are `s{sec}_b_<design>`.
+- Bonus ending: elite mini-boss (`_bonusMiniBossKey`) + treasure vault; first clear gives a relic (`SITE_RELICS`, +3 max HP, `ps.relics`), tracked in `ps.bonusCleared`.
+- Island dungeons: `ISL_ADV[sec]` has `design`/`kind`/`floors`; guardian = `HARBOR_ISLANDS[sec].boss` registered as `MDEFS['isl_boss_'+sec]`.
 
 **All 16 quests must complete for the Dragon mount** (session #64) — enforced by `ALL_QUESTS` list inside `_bossKilled`.
 

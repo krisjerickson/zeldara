@@ -43,13 +43,14 @@ class WorldScene extends Phaser.Scene{
     var siteIcons={dungeon:'⚔️',tower:'🗼',camp:'⛺',harbor:'⚓',skyport:'🎈',volcano_main:'🌋',volcano_mini:'🔥'};
     var self=this;
     wd.sites.forEach(function(s){
-      self.add.rectangle(s.tx*TILE+TILE*1.5,s.ty*TILE+TILE*1.5,TILE*3,TILE*3,siteColors[s.type],.88).setDepth(2).setStrokeStyle(2,0x8877cc,.5);
+      self.add.rectangle(s.tx*TILE+TILE*1.5,s.ty*TILE+TILE*1.5,TILE*3,TILE*3,siteColors[s.type],.88).setDepth(2).setStrokeStyle(2,s.boss?0xffd24a:0x8877cc,s.boss?.9:.5);
       var ico=self.add.text(s.tx*TILE+TILE*1.5,s.ty*TILE+TILE*1.5,siteIcons[s.type],{fontSize:'22px',fontFamily:'serif'}).setOrigin(.5).setDepth(3);
+      if(s.boss)self.add.text(s.tx*TILE+TILE*2.6,s.ty*TILE+TILE*0.4,'★',{fontSize:'14px',color:'#ffd24a',fontFamily:'serif',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(3);
       // DOM label (crisp HiDPI). World-space pos is tracked; per-frame
       // _updateWorldLabels() projects to screen coords.
       var lblEl=document.createElement('div');
       lblEl.className='wlbl site hidden';
-      lblEl.textContent=s.type.charAt(0).toUpperCase()+s.type.slice(1);
+      lblEl.textContent=_siteLabel(s);
       var lblHost=document.getElementById('world-labels');
       if(lblHost)lblHost.appendChild(lblEl);
       self.siteObjs.push({s:s,ico:ico,lblEl:lblEl,wx:s.tx*TILE+TILE*1.5,wy:s.ty*TILE-2});
@@ -141,6 +142,7 @@ class WorldScene extends Phaser.Scene{
     ownedFamiliars:[],
     skills:[],lockedSites:[]  };
     if(!this._newGame)this._loadSave();
+    this._refreshVillageNPCs();
     this._initWorldMonsters();
     this._updateFog();
     this._revealFog();
@@ -195,6 +197,7 @@ class WorldScene extends Phaser.Scene{
       }
       sceneRef._cancelHomeCast(false); // ensure overlay is hidden on return
       sceneRef._lastThemeSec=null; // force theme re-apply on section detection
+      sceneRef._refreshVillageNPCs();
       sceneRef._updateFog();sceneRef._emitUI();sceneRef._save();
     });
     this._ready=true;
@@ -2665,6 +2668,19 @@ class WorldScene extends Phaser.Scene{
       var doorCY=b.worldY+(b.h-1)*TILE+TILE/2;
       if(Math.hypot(px-doorCX,py-doorCY)<TILE*2){nearBuilding=b;break;}
     }
+    // Rescued craftsmen in the village
+    if(!nearBuilding&&this._villageNPCs){
+      var nearNPC=this._villageNPCs.find(function(n){return Math.hypot(px-n.x,py-n.y)<TILE*1.6;});
+      if(nearNPC){
+        if(!this._interactPrompt||this._interactPrompt._npc!==nearNPC.id){
+          if(this._interactPrompt)this._interactPrompt.destroy();
+          this._interactPrompt=this.add.text(nearNPC.x,nearNPC.y-30,'[Tab] Talk to '+nearNPC.n,{fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
+          this._interactPrompt._npc=nearNPC.id;
+        }
+        if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))showNotif(nearNPC.icon+' '+nearNPC.line,'#ffe9a8');
+        return;
+      } else if(this._interactPrompt&&this._interactPrompt._npc){this._interactPrompt.destroy();this._interactPrompt=null;}
+    }
     var nearSite=null;
     if(!nearBuilding){
       for(var i=0;i<this.sites.length;i++){
@@ -2684,7 +2700,7 @@ class WorldScene extends Phaser.Scene{
     } else if(nearSite){
       if(!this._interactPrompt){
         this._interactPrompt=this.add.text(nearSite.tx*TILE+TILE*1.5,nearSite.ty*TILE-18,
-          '[Tab] Enter '+nearSite.type.charAt(0).toUpperCase()+nearSite.type.slice(1),
+          '[Tab] Enter '+_siteLabel(nearSite),
           {fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
       }
       if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))this._enterSite(nearSite);
@@ -2721,6 +2737,23 @@ class WorldScene extends Phaser.Scene{
     }
   }
 
+  // Craftsmen freed from the boss towers live in the village square.
+  _refreshVillageNPCs(){
+    var ps=this.playerState||{}, self=this, have=(ps.rescued||[]);
+    if(!this._villageNPCs)this._villageNPCs=[];
+    var spots={1:[-6,-4],2:[-2,-4],3:[2,-4],4:[6,-4]};
+    have.forEach(function(sec){
+      if(self._villageNPCs.some(function(n){return n.sec===sec;}))return;
+      var C=CRAFTSMEN[sec]; if(!C)return;
+      var x=(CENTER_X+spots[sec][0])*TILE+TILE/2, y=(CENTER_Y+spots[sec][1])*TILE+TILE/2;
+      self.add.ellipse(x,y+12,22,7,0x000000,0.3).setDepth(4);
+      self.add.circle(x,y,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9).setDepth(4);
+      self.add.text(x,y,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5).setDepth(5);
+      self.add.text(x,y-20,C.n,{fontSize:'8px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+      self._villageNPCs.push({sec:sec,id:C.id,n:C.n,icon:C.icon,line:C.village,x:x,y:y});
+    });
+  }
+
   _enterBuilding(building){
     if(this._interactPrompt){this._interactPrompt.destroy();this._interactPrompt=null;}
     this._cancelHomeCast(false); // cancel homecast silently when entering a building
@@ -2743,7 +2776,7 @@ class WorldScene extends Phaser.Scene{
     this._cancelHomeCast(false);
     var hb=document.getElementById('home-btn');if(hb)hb.style.display='none';
     if(site.type==='dungeon'||site.type==='tower'){
-      var maxFloors={1:3,2:4,3:5,4:6}[site.section]||3;
+      var maxFloors=site.floors||({1:3,2:4,3:5,4:6}[site.section]||3);
       // Choose theme: towers use tower palette; dungeons vary by section
       var dngTheme=site.type==='tower'?'tower':({1:'dungeon',2:'dungeon',3:'cave_dungeon',4:'volcano'}[site.section]||'dungeon');
       this.scene.sleep('World');

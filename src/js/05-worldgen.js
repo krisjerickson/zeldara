@@ -437,7 +437,9 @@ function buildVillage(tiles){
 }
 
 function placeSites(tiles,rng,sec){
-  var types=['dungeon','tower','camp','harbor','skyport'];
+  // Boss tower + boss dungeon first, then camp/harbor/skyport, then the 3 bonus sites.
+  var roster=_rosterSitesFor(sec);
+  var types=roster.filter(function(r){return r.boss;}).concat(['camp','harbor','skyport'],roster.filter(function(r){return r.bonus;}));
   var used=[],out=[];
   // Tiles that block access and should be cleared around a site
   var CLEAR_SET=new Set([T.ROCK,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T.SMALL_BOULDER,T.DARK_ROCK,T.OBSIDIAN]);
@@ -520,7 +522,8 @@ function placeSites(tiles,rng,sec){
     return null;
   }
 
-  types.forEach(function(type){
+  types.forEach(function(entry){
+    var type=typeof entry==='string'?entry:entry.type;
     var placed=false,att=0;
     while(!placed&&att<300){
       att++;
@@ -543,7 +546,7 @@ function placeSites(tiles,rng,sec){
       }
       if(tx<3||ty<3||tx>=WORLD_W-6||ty>=WORLD_H-6)continue;
       if(type!=='harbor'&&getTileSection(tx,ty)!==sec)continue;
-      if(used.some(function(p){return Math.hypot(p[0]-tx,p[1]-ty)<20;}))continue;
+      if(used.some(function(p){return Math.hypot(p[0]-tx,p[1]-ty)<(att<200?20:14);}))continue;
       // Clear impassable tiles immediately around the site
       clearAroundSite(tx,ty,5);
       // For dungeons and towers: also carve a guaranteed walkable path back to village
@@ -594,7 +597,7 @@ function placeSites(tiles,rng,sec){
         tiles[ty+2][tx+1]=T.DOOR;
       }
       used.push([tx,ty]);
-      out.push({type:type,section:sec,tx:tx,ty:ty,id:'s'+sec+'_'+type});
+      out.push(typeof entry==='string'?{type:type,section:sec,tx:tx,ty:ty,id:'s'+sec+'_'+type}:Object.assign({},entry,{tx:tx,ty:ty}));
       placed=true;
     }
   });
@@ -609,6 +612,7 @@ function canPassTile(t,mount){
     if(t===T.BUILDING_WALL)return false;
     return true;
   }
+  if(mount==='ash_salamander'&&(t===T.THIN_MAGMA||t===T.DEEP_MAGMA))return true;
   if(ALWAYS_BLOCKED.has(t))return false;
   if(t===T.DEEP_WATER)return mount==='alligator';
   if(t===T.SMALL_BOULDER)return mount==='boar';

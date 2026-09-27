@@ -73,10 +73,30 @@ function renderQuestList(unlockedSections,completed,active,scene){
         else if(isAct)h+='<span class="qbadge">ACTIVE</span>';
         h+='</div>';
       }
+      h+=_journalSitesHTML(sec,scene);
     }
     h+='</div>';
   }
   c.innerHTML=h;
+}
+// Towers & dungeons of one section, with boss/bonus status (journal)
+function _journalSitesHTML(sec,scene){
+  var ps=scene&&scene.playerState||{}, sites=((scene&&scene.sites)||[]).filter(function(s){return s.section===sec&&s.design&&(s.type==='tower'||s.type==='dungeon');});
+  if(!sites.length)return '';
+  var h='<div class="qdesc" style="margin:8px 0 4px;letter-spacing:.06em;text-transform:uppercase;opacity:.75">Towers &amp; dungeons</div>';
+  sites.forEach(function(s){
+    var done, desc;
+    if(s.boss){
+      done=(ps.completedQuests||[]).includes(s.id);
+      if(s.type==='tower')desc='★ Boss tower · '+s.floors+' floors · frees '+(CRAFTSMEN[sec]?CRAFTSMEN[sec].n:'a craftsman');
+      else { var rw=BOSS_REWARDS[s.id], mt=rw&&rw.mount&&MOUNTS[rw.mount]; desc='★ Boss dungeon · '+s.floors+' floors · mount: '+(mt?mt.icon+' '+mt.n:'—'); }
+    } else {
+      done=(ps.bonusCleared||[]).includes(s.id);
+      desc='Bonus · '+s.floors+' floors · elite guard + treasure vault · relic: '+(done?(SITE_RELICS[s.design]||'?'):'???');
+    }
+    h+='<div class="qitem '+(done?'qdone':'')+'"><div class="qico">'+(s.type==='tower'?'🗼':'⚔️')+'</div><div class="qinf"><div class="qtit">'+s.name+(done?' ✓':'')+'</div><div class="qdesc">'+desc+'</div></div></div>';
+  });
+  return h;
 }
 window._acceptQuest=function(k){var ws=game.scene.getScene('World');if(ws)ws.acceptQuest(k);closeModal('quests');};
 
@@ -169,7 +189,7 @@ function renderMinimap(wd,player,unlockedSections,exploredGrid,expVer,activeQues
     wd.sites.forEach(function(s){
       if(!ul.includes(s.section))return;
       var sx=s.tx+1, sy=s.ty+1; // centre of the 3-tile site block
-      var questKey='s'+s.section+'_'+s.type;
+      var questKey=s.bonus?null:'s'+s.section+'_'+s.type;
       var isQuest=activeQuest===questKey;
 
       if(isQuest){
@@ -195,18 +215,18 @@ function renderMinimap(wd,player,unlockedSections,exploredGrid,expVer,activeQues
         // Label below the marker: site type
         ctx.save();
         ctx.fillStyle='rgba(0,0,0,0.65)';
-        ctx.fillRect(sx-18,sy+10,36,12);
+        ctx.fillRect(sx-55,sy+10,110,12);
         ctx.fillStyle='#ffff88';
         ctx.font='bold 9px sans-serif';
         ctx.textAlign='center';ctx.textBaseline='top';
-        ctx.fillText((s.type.charAt(0).toUpperCase()+s.type.slice(1))+' S'+s.section,sx,sy+11);
+        ctx.fillText((s.name||(s.type.charAt(0).toUpperCase()+s.type.slice(1)))+' S'+s.section,sx,sy+11);
         ctx.restore();
       } else {
         // ── Regular site: 5×5 dot ──────────────────────────────────────────
         ctx.fillStyle=sc[s.type]||'#fff';
         ctx.fillRect(sx-2,sy-2,5,5);
         // thin dark border for legibility
-        ctx.strokeStyle='rgba(0,0,0,0.5)';ctx.lineWidth=0.5;
+        ctx.strokeStyle=s.boss?'#ffd24a':'rgba(0,0,0,0.5)';ctx.lineWidth=s.boss?1.2:0.5;
         ctx.strokeRect(sx-2,sy-2,5,5);
       }
     });

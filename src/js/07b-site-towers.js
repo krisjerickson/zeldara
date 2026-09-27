@@ -45,8 +45,27 @@ var ROOM_NOTES={
 
 // ── Builder ────────────────────────────────────────────────────────────
 var TB={OUT:0,WALL:1,FLOOR:2,WIN:3,GLASS:4,DOOR:5};
-function buildTower(S, planId, seed){
-  var P=TOWER_PLANS[planId], R=rngOf(seed*977+planId.length*31), pad=2;
+// opts: {mirror:bool, shuffle:bool, last:bool}  (the game varies floors with these)
+var TOWER_SHUFFLE_TYPES=['library','study','bedroom','gallery','dining','chapel','music','conservatory'];
+function towerPlanVariant(P, opts, R){
+  if(!opts||(!opts.mirror&&!opts.shuffle))return P;
+  var Q=JSON.parse(JSON.stringify(P));
+  if(opts.mirror){
+    Q.rooms.forEach(function(r){ r.x=P.w-r.x-r.w; });
+    Q.carve.forEach(function(c){ c[0]=P.w-c[0]-c[2]; });
+    Q.entry=[P.w-P.entry[0]-2,P.entry[1]]; Q.stairs=[P.w-1-P.stairs[0],P.stairs[1]];
+  }
+  if(opts.shuffle){
+    var idx=[]; Q.rooms.forEach(function(r,i){ if(TOWER_SHUFFLE_TYPES.indexOf(r.type)>=0)idx.push(i); });
+    var types=idx.map(function(i){return Q.rooms[i].type;});
+    for(var k=types.length-1;k>0;k--){ var j=Math.floor(R.f()*(k+1)); var t=types[k]; types[k]=types[j]; types[j]=t; }
+    idx.forEach(function(i,n){ Q.rooms[i].type=types[n]; });
+  }
+  return Q;
+}
+function buildTower(S, planId, seed, opts){
+  opts=opts||{};
+  var R=rngOf(seed*977+planId.length*31), P=towerPlanVariant(TOWER_PLANS[planId],opts,R), pad=2;
   var W=P.w+pad*2, H=P.h+pad*2, m=newMap(W,H);
   var cell=new Uint8Array(W*H), room=new Int16Array(W*H).fill(-1);
   var at=function(x,y){return (x<0||y<0||x>=W||y>=H)?TB.OUT:cell[y*W+x];};
@@ -97,9 +116,12 @@ function buildTower(S, planId, seed){
     return n===open;
   };
   var nearDoor=function(x,y){ for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){ if(at(x+dx,y+dy)===TB.DOOR)return true; } return false; };
+  // Keep the stairs (and the cells around them) free of furniture so the way up is always walkable.
+  var stX=P.stairs[0]+pad, stY=P.stairs[1]+pad;
+  var nearStairs=function(x,y){ return Math.abs(x-stX)<=1&&Math.abs(y-stY)<=1; };
   var tryPlace=function(type,x,y,w,h,ri,solid){
     var flat=solid===false;
-    for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++){ var X=x+xx,Y=y+yy; if(at(X,Y)!==TB.FLOOR||room[Y*W+X]!==ri)return false; if(!flat&&(occupied[Y*W+X]||nearDoor(X,Y)))return false; }
+    for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++){ var X=x+xx,Y=y+yy; if(at(X,Y)!==TB.FLOOR||room[Y*W+X]!==ri)return false; if(nearStairs(X,Y))return false; if(!flat&&(occupied[Y*W+X]||nearDoor(X,Y)))return false; }
     if(flat){ items.push({type:type,x:x,y:y,w:w,h:h,room:ri,solid:false}); return true; }
     if(solid!==false){
       for(var yy2=0;yy2<h;yy2++)for(var xx2=0;xx2<w;xx2++)m.solid[(y+yy2)*W+x+xx2]=1;
@@ -133,7 +155,8 @@ function buildTower(S, planId, seed){
     }
   });
   // stairs up (walkable marker)
-  var st=P.stairs; items.push({type:'stairs',x:st[0]+pad,y:st[1]+pad,w:1,h:1,solid:false,room:-1});
+  var st=P.stairs; if(!opts.last)items.push({type:'stairs',x:st[0]+pad,y:st[1]+pad,w:1,h:1,solid:false,room:-1});
+  m.site={entry:{x:ex,y:ey}, exit:{x:st[0]+pad,y:st[1]+pad}};
   // ── paint ──
   var cv=mkCanvas(W*LT,H*LT), ctx=cv.getContext('2d');
   S.paintExterior(ctx,W,H,m,R);
@@ -389,7 +412,7 @@ var TOWER_STYLES=[
     center:'pool', shaftSkew:10, shaftA:0.25,
     particles:[{col:'#ffffff',freq:400,scale:{start:0.5,end:0},alpha:{start:0.5,end:0},vx:{min:10,max:30}}],
     extra:function(m,ctx,W,H,R){ var clouds=[]; for(var i=0;i<9;i++){ (function(i){ var cy=R.chance(0.5)?R.f()*LT*1.6:(H-2)*LT+R.f()*LT*1.6; addSprite(m,R.f()*W*LT,cy+30,120,40,function(c,w,h){ c.fillStyle='rgba(255,255,255,.85)'; for(var j=0;j<6;j++){ c.beginPath(); c.arc(20+j*16,22+Math.sin(j*1.3)*5,14,0,Math.PI*2); c.fill(); } }); clouds.push(m.sprites.length-1); })(i); }
-      m.tick=function(scene,dt){ if(!scene._cloudImgs){ scene._cloudImgs=scene.children.list.filter(function(o){return o.texture&&o.texture.key&&o.texture.key.indexOf('spr_')===0&&o.width===120&&o.height===40;}); } scene._cloudImgs.forEach(function(o,i){ o.x+=dt*(8+i%3*5); if(o.x>W*LT+70)o.x=-70; o.setDepth(9000); }); }; } }),
+      m.tick=function(scene,dt){ if(!scene._cloudImgs){ scene._cloudImgs=scene.children.list.filter(function(o){return o.texture&&o.texture.key&&o.texture.key.indexOf('spr_')===0&&o.width===120&&o.height===40;}); } scene._cloudImgs.forEach(function(o,i){ o.x+=dt*(8+i%3*5); if(o.x>W*LT+70)o.x=-70; o.setDepth(scene._ld?scene._ld(9000):9000); }); }; } }),
 
   towerStyle({ id:'silverwood', name:'Silverwood Palace', plan:'rotunda', seed:61, glass:0.2, windowEvery:3,
     tagline:'Living white trees grown into the walls',
@@ -456,9 +479,3 @@ var TOWER_STYLES=[
 ];
 var TOWER_STYLES_BY_ID={}; TOWER_STYLES.forEach(function(s){TOWER_STYLES_BY_ID[s.id]=s;});
 
-LAB_TABS.push({
-  id:'towers', name:'Towers',
-  regionLabel:'Use this look for which tower?',
-  blurb:'<b>10 tower looks</b>, all light, white and blue with windows and glass (Rivendell × Hyrule Castle), each on a house-style floor plan: mostly rooms, short halls, furniture to walk around. No monsters. Mark <b>Pick / Maybe / No</b>, and tag the tower(s) each look should be used for (you chose one look per tower).',
-  designs:TOWER_STYLES.map(function(S){ return { id:S.id, name:S.name, tagline:S.tagline, blurb:S.blurb, facts:S.facts, seed:S.seed, build:function(seed){ return buildTower(S,S.plan,seed); } }; })
-});

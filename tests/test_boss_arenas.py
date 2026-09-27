@@ -8,7 +8,7 @@ def check(n,ok,info=''):
 LAUNCH = """(([typ,sec,done])=>{var ws=game.scene.getScene('World');var ps=ws.playerState;
   ps.completedQuests=done?['s'+sec+'_'+typ]:[];
   var site=ws.wd.sites.find(s=>s.type===typ&&s.section===sec);
-  var mf={1:3,2:4,3:5,4:6}[sec];
+  var mf=site.floors||{1:3,2:4,3:5,4:6}[sec];
   ws.scene.sleep('World');
   ws.scene.launch('Dungeon',{site:site,floor:mf-1,maxFloors:mf,worldScene:ws,theme:typ==='tower'?'tower':'dungeon'});})"""
 REACH = """(()=>{var d=game.scene.getScene('Dungeon');var b=d.monsters.find(m=>m.isBoss);if(!b)return {boss:false};
@@ -33,7 +33,10 @@ with game() as g:
     g.js(LAUNCH+'(["dungeon",1,false])'); g.wait(1300)
     g.js("var d=game.scene.getScene('Dungeon');var b=d.monsters.find(m=>m.isBoss);b.hp=0;d._monsterDied(b)"); g.wait(400)
     check('Portal unlocked after boss', g.js("game.scene.getScene('Dungeon').interactables.find(i=>i.type==='boss_chest').locked===false"))
-    g.js("var d=game.scene.getScene('Dungeon');var c=d.interactables.find(i=>i.type==='boss_chest');d.px=c.x;d.py=c.y;d._interact()"); g.wait(3000)
+    g.js("var d=game.scene.getScene('Dungeon');var c=d.interactables.find(i=>i.type==='boss_chest');d.px=c.x;d.py=c.y;d._interact()"); g.wait(2000)
+    for _ in range(30):
+        if g.js("game.scene.isActive('World')"): break
+        g.wait(250)
     check('Claim returns to World with quest done', g.js("game.scene.isActive('World')") and g.ws("ps.completedQuests.includes('s1_dungeon') && ps.ownedMounts.includes('alligator')"), g.active())
     errs=[e for e in g.errs if 'GL Driver' not in e]
     check('No JS errors', not errs, errs[:4])

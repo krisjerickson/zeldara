@@ -13,6 +13,7 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phase 1 (Foundation & fixes): done** — A1, A3, B1–B6, B8, B9 built and covered by 60 headless checks (`tests/`). See changelog [69]–[80]. A2 (Design Lab playground) moves to the start of Phase 2.
 - Also found and fixed in Phase 1: all five volcano scenes crashed on entry (missing `_attachSafetyEscape`), a `self` bug in the bullet-hell climb, dungeon replays where the boss never spawned and the reward chest stayed locked, and Wind Sprite being unobtainable.
 
+- **Phase 3a (Integrate tower + dungeon picks): done** — all 20 Lab designs are in the game as 5 sites per quadrant (8 boss, 12 bonus), 4–8 floors each, island dungeons give familiars. See changelog [85]–[93].
 - **Phase 2 (Selector pages): in progress** — Design Lab live with Towers (10), Dungeons (10) and the Sprite pilot (30 prompts). Waiting on Kris: picks in the Lab + pilot images in `sprites/incoming/`. Next: World quadrant selector (40 designs).
 - Design Lab: https://claude.ai/artifact/MnYcjcTXfpWm4YuiErDLHd — picks in DB collection `picks`.
 - Playable build: https://claude.ai/artifact/7p3eXrHtD4iLbm6MLbg4jz

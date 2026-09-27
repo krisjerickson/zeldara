@@ -39,7 +39,8 @@ function caveGrid(W,H,R,fill,iters,shape){
 }
 
 // Generic dungeon build: design supplies layout(ctx) + painters.
-function buildCavern(D, seed){
+function buildCavern(D, seed, opts){
+  opts=opts||{};
   var R=rngOf(seed*131+D.id.length*7), W=D.w||52, H=D.h||40, m=newMap(W,H);
   var g=D.layout?D.layout(W,H,R):caveGrid(W,H,R,D.fill||0.42,D.iters||5,D.shape);
   // hazard grid (lava/water/pit): solid but painted differently
@@ -104,13 +105,14 @@ function buildCavern(D, seed){
   // stairs + sealed portal (farthest reachable point = guardian arena)
   var reach=floodReach(m,sp.x,sp.y), far=null, fd=-1;
   for(var y3=2;y3<H-2;y3++)for(var x3=2;x3<W-2;x3++){ if(!reach[y3*W+x3])continue; var d=Math.abs(x3-sp.x)+Math.abs(y3-sp.y); if(d>fd&&open(x3+1,y3)&&open(x3-1,y3)&&open(x3,y3-1)){fd=d;far={x:x3,y:y3};} }
-  cavernMarkers(m,ctx,sp,far,P);
+  cavernMarkers(m,ctx,sp,far,P,opts);
+  m.site={entry:{x:sp.x,y:sp.y}, exit:far};
   // monster spawn density
   var openN=0; for(var k3=0;k3<W*H;k3++)if(!m.solid[k3]&&reach[k3])openN++;
   var spawnN=Math.round(openN/(D.density||42));
   var placed=0, tries=0;
   while(placed<spawnN&&tries<4000){ tries++; var x4=R.i(2,W-3),y4=R.i(2,H-3); if(m.solid[y4*W+x4]||!reach[y4*W+x4])continue; if(Math.hypot(x4-sp.x,y4-sp.y)<7)continue;
-    var px4=x4*LT+LT/2,py4=y4*LT+LT/2; ctx.strokeStyle='rgba(255,70,70,.55)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(px4,py4,9,0,Math.PI*2); ctx.stroke(); ctx.fillStyle='rgba(255,60,60,.18)'; ctx.fill(); placed++; }
+    var px4=x4*LT+LT/2,py4=y4*LT+LT/2; if(opts.game){ placed++; continue; } ctx.strokeStyle='rgba(255,70,70,.55)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(px4,py4,9,0,Math.PI*2); ctx.stroke(); ctx.fillStyle='rgba(255,60,60,.18)'; ctx.fill(); placed++; }
   m.stats={spawns:placed,open:openN};
   m.base=cv; m.bg=P.void||'#07060a'; m.dark=Math.min(0.72,D.dark===undefined?0.72:D.dark); m.darkCol=P.darkCol||'#030205';
   m.heroLight=D.heroLight||215; m.heroLightCol=D.heroLightCol||'#ffc880';
@@ -131,9 +133,18 @@ function paintHazardField(ctx,c,colorFn){
   lx.putImageData(img,0,0);
   ctx.save(); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high'; ctx.drawImage(lo,0,0,W*LT,H*LT); ctx.restore();
 }
-function cavernMarkers(m,ctx,sp,far,P){
+function cavernMarkers(m,ctx,sp,far,P,opts){
   var sx=sp.x*LT, sy=(sp.y+1)*LT-6;
   for(var i=0;i<4;i++){ ctx.fillStyle=shade(P.rockTop,0.1-i*0.08); ctx.fillRect(sx-4,sy-i*5,LT+8,5); }
+  if(far&&opts&&opts.game&&!opts.last){
+    // stairs leading down: dark steps receding into the floor
+    var fx0=far.x*LT, fy0=far.y*LT;
+    for(var s=0;s<5;s++){ ctx.fillStyle=shade(P.floorA,-0.15-s*0.13); ctx.fillRect(fx0-4+s*2,fy0+2+s*5.5,LT+8-s*4,5.5); }
+    ctx.fillStyle='rgba(255,220,150,.8)'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('▼',fx0+LT/2,fy0-2);
+    addLight(m,fx0+LT/2,fy0+LT/2,70,'#ffd9a0',0.3,{pulse:0.3,depth:-4});
+    return;
+  }
+  if(far&&opts&&opts.game)return; // the game draws its own exit portal on the last floor
   if(far){
     var fx=far.x*LT+LT/2, fy=far.y*LT+LT/2;
     ctx.fillStyle='rgba(60,0,20,.8)'; ctx.beginPath(); ctx.arc(fx,fy,14,0,Math.PI*2); ctx.fill();
@@ -252,11 +263,3 @@ var DUNGEON_DESIGNS=[
     extra:function(c){ c.m.particles.push({col:'#c8c0ff',freq:80,scale:{start:0.3,end:0},alpha:{start:0.6,end:0},vy:{min:-50,max:-20},vx:{min:-10,max:10},life:{min:1500,max:3000},area:{x:c.W*LT*0.3,y:c.H*LT*0.3,w:c.W*LT*0.4,h:c.H*LT*0.4}}); addLight(c.m,c.W*LT/2,c.H*LT/2,120,'#b0a0ff',0.35,{pulse:0.3,depth:-4}); } },
 ];
 
-LAB_TABS.push({
-  id:'dungeons', name:'Dungeons', regionLabel:'Best suited to which region?',
-  blurb:'<b>10 Open Cavern layouts</b> for the new second dungeon type: wide open floors with obstacles to walk around. You chose a 50/50 mix with the classic rooms-and-corridors dungeons. The dark and your torch light preview dungeon lighting (idea H14). <span class="ring"></span> rings mark monster spawns (about 2× a classic floor). The red portal is where the guardian would stand. Tag regions if a layout fits one best.',
-  designs:DUNGEON_DESIGNS.map(function(D){ return { id:D.id, name:D.name, tagline:D.tagline, blurb:D.blurb, seed:D.seed,
-    facts:null, build:function(seed){ var m=buildCavern(D,seed); this.facts=['About <b>'+m.stats.spawns+'</b> monster spawns (classic floors have 7–15)','Walkable area: '+m.stats.open+' tiles']; return m; } }; })
-});
-LAB_TABS.push({ id:'world', name:'World', blurb:'<b>World quadrants</b>: 10 designs × 4 quadrants, walkable samples with the glowing runic theme.', empty:'Coming next round: 40 walkable quadrant samples (10 each for Grasslands, Wetlands, Highlands and Ashlands).', designs:[] });
-LAB_TABS.push({ id:'sprites', name:'Sprites', blurb:'<b>Sprite gallery</b>: 5 options per character, matched to your hero.', empty:'Starting with the pilot: 6 characters × 5 options. The prompts and style guide are ready. Once you save the generated images into <code>sprites/incoming/</code>, they show up here to pick from.', designs:[] });

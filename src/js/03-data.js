@@ -11,10 +11,11 @@ const ISL_VIL_R=14;               // village clear radius
 
 // ── Island adventure spot definitions (one per section) ──────────────────
 const ISL_ADV={
-  1:{type:'dungeon',  label:'⚔️ Pirate Cave',  icon:'⚔️'},
-  2:{type:'volcano',  label:'🌋 Bog Volcano',   icon:'🌋'},
-  3:{type:'cave',     label:'🦇 Ember Cave',    icon:'🦇'},
-  4:{type:'tower_island',label:'🗼 Ice Tower',  icon:'🗼'},
+  // Each island has a dungeon; its guardian (HARBOR_ISLANDS[sec].boss) waits on the last floor and gives the familiar.
+  1:{type:'dungeon',     label:'⚔️ Pirate Cave', icon:'⚔️', kind:'dungeon', design:'lake_ring',       floors:4},
+  2:{type:'volcano',     label:'🍄 Bog Grotto',  icon:'🍄', kind:'dungeon', design:'mushroom_forest', floors:4},
+  3:{type:'cave',        label:'🦇 Ember Cave',  icon:'🦇', floors:4},
+  4:{type:'tower_island',label:'🗼 Frost Spire', icon:'🗼', kind:'tower',   design:'moonglass',       floors:5},
 };
 
 // Section names & accents (0=village, 1-4=quadrants)
@@ -115,6 +116,7 @@ const MOUNTS={
   alligator:  {n:'Alligator',   icon:'🐊',spdMult:1.3,cost:0,  sec:1,canCross:[T.DEEP_WATER,T.SHALLOW_WATER]},
   boar:       {n:'Battle Boar', icon:'🐗',spdMult:1.4,cost:0,  sec:2,canCross:[T.SMALL_BOULDER]},
   lava_unicorn:{n:'Lava Unicorn',icon:'🦄',spdMult:1.5,cost:0, sec:3,canCross:[T.THIN_MAGMA]},
+  ash_salamander:{n:'Ash Salamander',icon:'🦎',spdMult:1.5,cost:0,sec:4,canCross:[T.THIN_MAGMA,T.DEEP_MAGMA],desc:'Walks on lava — shallow and deep'},
   dragon:     {n:'Dragon',      icon:'🐉',spdMult:2.0,cost:0,  sec:4,canCross:'land_and_deep',desc:'Flies over all terrain except sea water'},
   sky_eagle:  {n:'Sky Eagle',   icon:'🦅',spdMult:1.9,cost:0,  sec:4,canCross:'all',desc:'Swift aerial mount from the Sky Port'},
   // ── Skyport-exclusive mounts ─────────────────────────────────────────────
@@ -137,9 +139,9 @@ function _maxFamiliarSlots(ps){
   return ci>=4?3:ci>=2?2:1;
 }
 const MAIN_QUEST_DEFS={
-  dungeon:{title:'Dungeon Crawl',   icon:'⚔️',desc:'Fight to the deepest floor and defeat the guardian at the exit portal. Reward: mount + gold.'},
-  tower:  {title:'Tower Rescue',    icon:'🗼',desc:'Climb every floor and defeat the guardian at the top. Reward: unlocks the next region + 2 rings.'},
-  harbor: {title:'Island Expedition',icon:'⚓',desc:'Sail to the island, clear its adventure. Reward: a familiar.'},
+  dungeon:{title:'Dungeon Crawl',   icon:'⚔️',desc:'Find the ★ dungeon, fight to the deepest floor and defeat the guardian at the exit portal. Reward: mount + gold.'},
+  tower:  {title:'Tower Rescue',    icon:'🗼',desc:'Climb the ★ tower, defeat the guardian at the top and free the captive craftsman. Reward: next region + 2 rings.'},
+  harbor: {title:'Island Expedition',icon:'⚓',desc:'Sail to the island and defeat the guardian at the bottom of its dungeon. Reward: a familiar.'},
   skyport:{title:'Sky Exploration', icon:'🎈',desc:'Defend the sky city through every wave. Reward: pick a weapon, sky mount or gem.'},
 };
 const MDEFS={
@@ -485,7 +487,7 @@ const BOSS_REWARDS={
   s1_dungeon:{mount:'alligator',   message:'🐊 Alligator mount unlocked!',   color:'#44ffaa'},
   s2_dungeon:{mount:'boar',        message:'🐗 Battle Boar mount unlocked!',  color:'#ffaa44'},
   s3_dungeon:{mount:'lava_unicorn',message:'🦄 Lava Unicorn mount unlocked!', color:'#ff88ff'},
-  s4_dungeon:{message:'⚔️ Shadow Lord defeated! One step closer to the dragon…',color:'#ff4444'},
+  s4_dungeon:{mount:'ash_salamander',message:'🦎 Ash Salamander mount unlocked — it walks on lava!',color:'#ff8844'},
   s1_tower:  {unlockSection:2,rings:['ruby_ring','speed_ring'],message:'🌿 SE Wetlands unlocked! Found 2 rings!',color:'#44aaff'},
   s2_tower:  {unlockSection:3,rings:['sapphire_ring','power_ring'],message:'🏔️ SW Highlands unlocked! Found 2 rings!',color:'#ffddaa'},
   s3_tower:  {unlockSection:4,rings:['emerald_ring','warding_ring'],message:'🌋 NW Ashlands unlocked! Found 2 rings!',color:'#ffaa66'},

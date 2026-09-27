@@ -1,6 +1,14 @@
 // ─── DungeonScene ───────────────────────────────
+// Explored-fog per floor is saved run-length packed ("r<n>,<n>,…" alternating 0/1 runs)
+function _fogPack(a){ var out=[],cur=0,n=0; for(var i=0;i<a.length;i++){ var v=a[i]?1:0; if(v===cur)n++; else { out.push(n); cur=v; n=1; } } out.push(n); return 'r'+out.join(','); }
+function _fogUnpack(src,len){
+  var a=new Uint8Array(len);
+  if(typeof src==='string'&&src.charAt(0)==='r'){ var runs=src.slice(1).split(','),p=0,v=0; for(var i=0;i<runs.length&&p<len;i++){ var n=+runs[i]; if(v)for(var k=0;k<n&&p+k<len;k++)a[p+k]=1; p+=n; v^=1; } }
+  else if(src&&src.length===len){ for(var j=0;j<len;j++)a[j]=src[j]?1:0; }
+  return a;
+}
 const DNG={WALL:0,FLOOR:1,UP:2,DOWN:3,CHEST:4,BOSS_CHEST:5};
-const DW=42,DH=32;
+var DW=42,DH=32; // current floor size (Lab-design floors resize these per floor)
 class DungeonScene extends Phaser.Scene{
   constructor(){super({key:'Dungeon'})}
   init(data){
@@ -11,29 +19,48 @@ class DungeonScene extends Phaser.Scene{
     this.worldScene=data.worldScene;this._initData=data;
     this._returnScene=data.returnScene||'World'; // which scene to wake on exit
     this._theme=data.theme||'dungeon'; // 'dungeon','volcano','cave_dungeon','tower_island'
+    this._site=data.site; this._arriveAt=data.arriveAt||null;
+    this._isIsland=!!(this.siteId&&this.siteId.indexOf('isl_adv_')===0);
+    this._isBonus=!!data.site.bonus;
   }
   create(){
     _heroStowMount(this);
     window._dngExit=function(){var ds=game.scene.getScene('Dungeon');if(ds)ds._exitToWorld(null);};
     this._ready=false;
     try{
-      this.dtiles=this._generateDungeon();
-      if(this.isLastFloor)this._ensureBossArena(this.dtiles);
-      this._renderDungeon();
-      // Animated FX layer (runes, embers, drips, torches, mist)
-      this._dFXGfx=this.add.graphics().setDepth(1);
-      this._dFXTime=0;this._embers=[];this._drips=[];this._mistParticles=[];
+      this._lab=null;this._captive=null;this._entryPx=null;this._exitPx=null;this._spawnPt=null;
+      this._darkRT=null;this._heroGlow=null;this._lightObjs=[];this._portalOpen=null;
+      this.bossChestTile=null;this.stairsDownTile=null;this.bossSpawnX=undefined;this.bossSpawnY=undefined;
+      this._claimed=false;
+      var spec=_siteFloorSpec(this._site,this.floor,this.maxFloors);
+      var isTowerTheme=this.siteType==='tower'||this._theme==='tower_island';
+      if(spec){
+        // ── Lab-design floor (Phase 3): painted map + y-sorted sprites + lights
+        this._buildLabFloor(spec);
+        if(this.isLastFloor)this._ensureBossArena(this.dtiles);
+        this._renderLabMap(this._lab);
+        this.cameras.main.setBackgroundColor(this._lab.bg||'#000');
+      } else {
+        DW=42;DH=32;
+        this.dtiles=this._generateDungeon();
+        if(this.isLastFloor)this._ensureBossArena(this.dtiles);
+        this._renderDungeon();
+        // Animated FX layer (runes, embers, drips, torches, mist)
+        this._dFXGfx=this.add.graphics().setDepth(1);
+        this._dFXTime=0;this._embers=[];this._drips=[];this._mistParticles=[];
+        var bgCol=isTowerTheme?'#110a06':({dungeon:'#0a0812',volcano:'#1a0402',cave_dungeon:'#080a04'}[this._theme]||'#0a0812');
+        this.cameras.main.setBackgroundColor(bgCol);
+      }
       this.cameras.main.setBounds(0,0,DW*TILE,DH*TILE);
       this.cameras.main.setZoom(1.6);
-      // Theme-based background color
-      var isTowerTheme=this.siteType==='tower'||this._theme==='tower_island';
-      var bgCol=isTowerTheme?'#110a06':({dungeon:'#0a0812',volcano:'#1a0402',cave_dungeon:'#080a04'}[this._theme]||'#0a0812');
-      this.cameras.main.setBackgroundColor(bgCol);
       applyTheme(this.isLastFloor?'blood-moon':isTowerTheme?'aurora':'void');
       this._spawnPlayer();
+      this.hero=this.pCont; // Lab map tick functions follow "scene.hero"
       this.monsters=[];this._spawnMonsters();
       this.interactables=[];this._buildInteractables();
       if(this.isLastFloor)this._drawExitPortal();
+      if(this._lab)this._drawLabStairs();
+      if(this._lab&&this.isLastFloor&&this.siteType==='tower'&&this._site.boss&&!this._isIsland)this._placeCaptive();
       // Restore state for previously visited floors
       var savedState=(this._initData.floorStates||{})[this.floor];
       if(savedState)this._restoreFloorState(savedState);
@@ -242,6 +269,184 @@ class DungeonScene extends Phaser.Scene{
     }
     return tiles;
   }
+  // ═══ Lab-design floors (Phase 3) ═════════════════════════════════════
+  // Depth scheme on Lab floors (keeps every hero/UI effect, which uses
+  // depths 8–40, above the map): base -10, shafts -5, floor glows -4,
+  // y-sorted sprites/hero/monsters 10–10.02, lights 11.5, particles 12,
+  // darkness 12.5, overhead 12.6, monster shots 12.9, fog 25.
+  _ld(d){
+    if(d===undefined||d===null)return 11.5;
+    if(d<0)return d;
+    if(d>=9000)return 12.7; if(d>=8000)return 12.6; if(d>=7000)return 12.5;
+    if(d>=6000)return 12+(d-6000)/100000; if(d>=5000)return 11.5;
+    return 10+d/100000;
+  }
+  _yDepth(y){ return 10+y/100000; }
+  _buildLabFloor(spec){
+    var m=_buildSiteFloor(spec); this._lab=m; this._labSpec=spec;
+    DW=m.w; DH=m.h;
+    var tiles=[]; for(var r=0;r<DH;r++){ var row=new Uint8Array(DW); for(var c=0;c<DW;c++)row[c]=m.solid[r*DW+c]?DNG.WALL:DNG.FLOOR; tiles.push(row); }
+    this.rooms=[];
+    var en=m.site.entry, ex=m.site.exit;
+    if(!ex){ ex={x:en.x,y:Math.max(2,en.y-6)}; }
+    // Entry: stairs back down (tower) / up (dungeon); floor 0 = the way out
+    tiles[en.y][en.x]=DNG.UP; this.stairsUpTile={x:en.x,y:en.y};
+    if(spec.kind==='tower'){ tiles[en.y][en.x+1]=DNG.FLOOR; this._entryPx={x:(en.x+1)*TILE,y:en.y*TILE+TILE/2}; }
+    else this._entryPx={x:en.x*TILE+TILE/2,y:en.y*TILE+TILE/2};
+    this._exitPx={x:ex.x*TILE+TILE/2,y:ex.y*TILE+TILE/2};
+    if(this.isLastFloor){ tiles[ex.y][ex.x]=DNG.BOSS_CHEST; this.bossChestTile={x:ex.x,y:ex.y}; this.bossSpawnX=this._exitPx.x; this.bossSpawnY=this._exitPx.y; }
+    else { tiles[ex.y][ex.x]=DNG.DOWN; this.stairsDownTile={x:ex.x,y:ex.y}; }
+    this.dtiles=tiles;
+    this._spawnPt={x:m.spawn.x,y:m.spawn.y};
+    // Reachable open cells (for monsters, chests, arrival spots)
+    var seen=new Uint8Array(DW*DH), q=[en.y*DW+en.x]; seen[q[0]]=1;
+    for(var qi=0;qi<q.length;qi++){ var cc=q[qi],cx=cc%DW,cy=(cc/DW)|0;
+      [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var nx=cx+d[0],ny=cy+d[1]; if(nx<0||ny<0||nx>=DW||ny>=DH)return; var k=ny*DW+nx; if(!seen[k]&&tiles[ny][nx]!==DNG.WALL){seen[k]=1;q.push(k);} }); }
+    this._labReach=seen;
+    // Chests: a few seeded spots away from the stairs
+    var R=rngOf(spec.seed*17+5), want=spec.kind==='tower'?2:3, got=0, self=this;
+    for(var t=0;t<600&&got<want;t++){
+      var x=R.i(2,DW-3), y=R.i(2,DH-3);
+      if(!seen[y*DW+x]||tiles[y][x]!==DNG.FLOOR)continue;
+      if(Math.hypot(x-en.x,y-en.y)<7||Math.hypot(x-ex.x,y-ex.y)<5)continue;
+      // keep chests off narrow lanes: need 3 open neighbours
+      var nb=0; [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ if(tiles[y+d[1]][x+d[0]]!==DNG.WALL)nb++; }); if(nb<3)continue;
+      tiles[y][x]=DNG.CHEST; got++;
+    }
+    // Arriving from the floor above/below: stand next to that floor's stairs
+    if(this._arriveAt==='exit'){
+      var best=null,bd=1e9;
+      for(var yy=Math.max(1,ex.y-4);yy<=Math.min(DH-2,ex.y+4);yy++)for(var xx=Math.max(1,ex.x-4);xx<=Math.min(DW-2,ex.x+4);xx++){
+        if(!seen[yy*DW+xx]||tiles[yy][xx]!==DNG.FLOOR)continue;
+        var dd=Math.abs(Math.hypot(xx-ex.x,yy-ex.y)-2); if(dd<bd){bd=dd;best={x:xx,y:yy};}
+      }
+      if(best)this._spawnPt={x:best.x*TILE+TILE/2,y:best.y*TILE+TILE/2};
+    }
+  }
+  _labTextures(){
+    var tx=this.textures;
+    if(!tx.exists('glow')){ var c=mkCanvas(128,128), x=c.getContext('2d'), g=x.createRadialGradient(64,64,0,64,64,64);
+      g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.35,'rgba(255,255,255,0.45)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); tx.addCanvas('glow',c); }
+    if(!tx.exists('dot')){ var d=mkCanvas(8,8), y=d.getContext('2d'), g2=y.createRadialGradient(4,4,0,4,4,4);
+      g2.addColorStop(0,'rgba(255,255,255,1)'); g2.addColorStop(1,'rgba(255,255,255,0)'); y.fillStyle=g2; y.fillRect(0,0,8,8); tx.addCanvas('dot',d); }
+    if(!tx.exists('leaf')){ var l=mkCanvas(10,6), z=l.getContext('2d'); z.fillStyle='#fff'; z.beginPath(); z.ellipse(5,3,5,2.2,0.4,0,Math.PI*2); z.fill(); tx.addCanvas('leaf',l); }
+    if(!tx.exists('dark_hole')){ var h=mkCanvas(256,256), qq=h.getContext('2d'), g3=qq.createRadialGradient(128,128,0,128,128,128);
+      g3.addColorStop(0,'rgba(255,255,255,1)'); g3.addColorStop(0.55,'rgba(255,255,255,0.75)'); g3.addColorStop(1,'rgba(255,255,255,0)'); qq.fillStyle=g3; qq.fillRect(0,0,256,256); tx.addCanvas('dark_hole',h); }
+  }
+  _renderLabMap(m){
+    var self=this, tag='dl'+(DungeonScene._seq=(DungeonScene._seq||0)+1), keys=[];
+    this._labTextures();
+    var addTex=function(k,cv){ self.textures.addCanvas(k,cv); keys.push(k); return k; };
+    this.add.image(0,0,addTex('base_'+tag,m.base)).setOrigin(0,0).setDepth(-10);
+    m.shafts.forEach(function(sh,i){
+      var im=self.add.image(sh.x,sh.y,addTex('shaft_'+tag+'_'+i,sh.canvas)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.5).setDepth(-5);
+      if(sh.sway)self.tweens.add({targets:im,alpha:(sh.a||0.5)*0.6,duration:2200+i*170,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+    });
+    m.sprites.forEach(function(sp,i){
+      var im=self.add.image(sp.x,sp.y,addTex('spr_'+tag+'_'+i,sp.canvas)).setOrigin(0.5,1).setDepth(self._ld(sp.depth!==undefined?sp.depth:sp.y));
+      if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+      if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
+    });
+    this._lightObjs=[];
+    m.lights.forEach(function(L,i){
+      var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a).setScale(L.r/64).setDepth(self._ld(L.depth));
+      if(L.pulse)self.tweens.add({targets:im,alpha:L.a*(1-L.pulse),scale:(L.r/64)*(1-L.pulse*0.25),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+      if(L.flicker)im._flicker=L.flicker;
+      im._base=L; self._lightObjs.push(im);
+    });
+    m.particles.forEach(function(p){
+      var a=p.area||{x:0,y:0,w:m.w*LT,h:m.h*LT};
+      var e=self.add.particles(0,0,p.tex||'dot',{ x:{min:a.x,max:a.x+a.w}, y:{min:a.y,max:a.y+a.h}, lifespan:p.life||{min:3000,max:6000},
+        speedX:p.vx||{min:-6,max:6}, speedY:p.vy||{min:-10,max:-3}, scale:p.scale||{start:0.5,end:0}, alpha:p.alpha||{start:0.8,end:0},
+        tint:p.tints?p.tints.map(hexNum):hexNum(p.col||'#ffffff'), frequency:p.freq||120, quantity:p.qty||1,
+        blendMode:p.blend===false?'NORMAL':'ADD', rotate:p.rotate||0, gravityY:p.gravity||0 });
+      e.setDepth(self._ld(p.depth!==undefined?p.depth:6000));
+    });
+    // Darkness with light holes (dark caverns); capped so fights stay readable
+    this._labDark=Math.min(0.6,m.dark||0);
+    if(this._labDark>0){
+      this._darkRT=this.add.renderTexture(0,0,m.w*LT,m.h*LT).setOrigin(0,0).setDepth(12.5);
+      this._holeImg=this.make.image({x:0,y:0,key:'dark_hole',add:false});
+      this._heroGlow=this.add.image(0,0,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(m.heroLightCol||'#ffcc88')).setAlpha(0.3).setScale(Math.max(230,m.heroLight||0)/64).setDepth(11.5);
+    }
+    this._labT=0;
+    // Free this floor's textures once the scene is gone (every floor change restarts the scene)
+    this.events.once('shutdown',function(){ self.tweens.killAll(); setTimeout(function(){ keys.forEach(function(k){ try{ if(game.textures.exists(k))game.textures.remove(k); }catch(e){} }); },60); });
+  }
+  _labUpdate(dt){
+    var m=this._lab; if(!m)return;
+    this._labT+=dt; var tt=this._labT;
+    this._lightObjs.forEach(function(o,i){ if(o._flicker)o.setAlpha(o._base.a*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))); });
+    if(m.tick){ try{ m.tick(this,dt,tt); }catch(e){} }
+    if(this._darkRT){
+      var rt=this._darkRT, hole=this._holeImg, v=this.cameras.main.worldView, pad=200;
+      var fire=_heroFamiliarActive(this.worldScene.playerState,'firefly');
+      var heroR=Math.max(230,m.heroLight||0)*(fire?1.3:1);
+      if(this._heroGlow)this._heroGlow.setPosition(this.px,this.py-14);
+      rt.clear(); rt.fill(hexNum(m.darkCol||'#000000'),this._labDark);
+      var cut=function(x,y,r,a){ if(x<v.x-pad-r||x>v.right+pad+r||y<v.y-pad-r||y>v.bottom+pad+r)return; hole.setScale(r/128); hole.setAlpha(a); rt.erase(hole,x,y); };
+      cut(this.px,this.py-14,heroR*(1+0.03*Math.sin(tt*9)),1);
+      this._lightObjs.forEach(function(o){ var L=o._base; if(L.noCut)return; cut(o.x,o.y,L.r*(L.cut||0.9),Math.min(1,o.alpha*1.6)); });
+    }
+  }
+  // Stairs markers + floor labels on Lab floors
+  _drawLabStairs(){
+    var isTower=this.siteType==='tower', f=this.floor, st={fontSize:'8px',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'};
+    var e=this._entryPx;
+    if(isTower&&f>0){
+      // stairs down at the entry
+      var g=this.add.graphics().setDepth(-3);
+      for(var i=0;i<5;i++){ g.fillStyle(0x1a1c2a,0.35+i*0.1).fillRect(e.x-26+i*2,e.y-12+i*5,52-i*4,5); }
+    }
+    var entryTxt=f===0?(isTower?'🚪 Exit':'▲ Exit'):(isTower?'▼ Floor '+f:'▲ Floor '+f);
+    this.add.text(e.x,e.y-22,entryTxt,Object.assign({color:'#fff4c8'},st)).setOrigin(.5,1).setDepth(13);
+    if(!this.isLastFloor){
+      var x=this._exitPx;
+      this.add.text(x.x,x.y-20,(isTower?'▲ Floor ':'▼ Floor ')+(f+2),Object.assign({color:isTower?'#cfe8ff':'#ffcf8a'},st)).setOrigin(.5,1).setDepth(13);
+    }
+  }
+  // The captive craftsman at the top of a boss tower
+  _placeCaptive(){
+    var C=CRAFTSMEN[this.siteSection]; if(!C||!this.bossChestTile)return;
+    var ps=this.worldScene.playerState;
+    if((ps.rescued||[]).includes(this.siteSection))return; // already freed
+    var bc=this.bossChestTile, best=null, bd=1e9, bx=Math.floor(this.bossSpawnX/TILE), by=Math.floor(this.bossSpawnY/TILE);
+    for(var y=bc.y-3;y<=bc.y+3;y++)for(var x=bc.x-3;x<=bc.x+3;x++){
+      if(x<1||y<1||x>=DW-1||y>=DH-1||this.dtiles[y][x]!==DNG.FLOOR||!this._labReach[y*DW+x])continue;
+      if(Math.abs(x-bx)+Math.abs(y-by)<3)continue;
+      var d=Math.abs(Math.hypot(x-bc.x,y-bc.y)-2); if(d<bd){bd=d;best={x:x,y:y};}
+    }
+    if(!best)return;
+    var cx=best.x*TILE+TILE/2, cy=best.y*TILE+TILE/2;
+    var cont=this.add.container(cx,cy).setDepth(this._yDepth(cy));
+    cont.add(this.add.ellipse(0,12,22,7,0x000000,0.35));
+    cont.add(this.add.circle(0,0,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9));
+    cont.add(this.add.text(0,0,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5));
+    var bars=this.add.graphics(); bars.lineStyle(2,0x9aa0b0,1); for(var i=-12;i<=12;i+=6){ bars.lineBetween(i,-18,i,14); } bars.strokeRect(-14,-18,28,32); cont.add(bars);
+    var lbl=this.add.text(0,-26,'⛓ '+C.n,{fontSize:'8px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); cont.add(lbl);
+    this._captive={cont:cont,bars:bars,lbl:lbl,C:C};
+  }
+  _freeCaptive(){
+    var c=this._captive; if(!c||c.freed)return; c.freed=true;
+    c.bars.destroy(); c.lbl.setText('✨ '+c.C.n+' — free!').setColor('#aaffcc');
+    this.tweens.add({targets:c.cont,y:c.cont.y-6,duration:300,yoyo:true,repeat:2});
+    showNotif(c.C.icon+' '+c.C.freed,'#ffe9a8');
+  }
+  _spawnMonstersLab(regTypes){
+    var spec=this._labSpec, R=rngOf(spec.seed*31+7), en=this.stairsUpTile, ex=this.bossChestTile||this.stairsDownTile;
+    var base=spec.kind==='tower'?7:10, per=spec.kind==='tower'?1.5:2;
+    var n=Math.round(base+this.floor*per), cap=(this._lab.stats&&this._lab.stats.spawns)||n; if(spec.kind==='dungeon')n=Math.min(n,Math.max(8,cap));
+    var mult=1+this.floor*0.05, placed=0;
+    for(var t=0;t<3000&&placed<n;t++){
+      var x=R.i(1,DW-2), y=R.i(1,DH-2);
+      if(!this._labReach[y*DW+x]||this.dtiles[y][x]===DNG.WALL)continue;
+      if(Math.hypot(x-en.x,y-en.y)<7)continue;
+      if(this.isLastFloor&&ex&&Math.hypot(x-ex.x,y-ex.y)<4)continue;
+      var type=regTypes[R.i(0,regTypes.length-1)]; if(!type)break;
+      this._spawnMonster(type,x*TILE+TILE/2,y*TILE+TILE/2,false,mult,true);
+      placed++;
+    }
+  }
   // Guardians stay by the exit portal unless you are close enough to fight.
   _leashBoss(dt){
     var self=this;
@@ -258,13 +463,14 @@ class DungeonScene extends Phaser.Scene{
   _drawExitPortal(){
     var bc=this.bossChestTile; if(!bc)return;
     var x=bc.x*TILE+TILE/2, y=bc.y*TILE+TILE/2, self=this;
-    var ring=this.add.circle(x,y,15,0x000000,0).setStrokeStyle(3,0xaa2244,0.9).setDepth(3);
-    var core=this.add.circle(x,y,11,0x440011,0.7).setDepth(3);
-    var lbl=this.add.text(x,y-26,'⛓ Sealed Exit',{fontSize:'8px',color:'#ff8899',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(4);
+    var vault=this._isBonus, zb=this._lab?-3:3, zl=this._lab?13:4;
+    var ring=this.add.circle(x,y,15,0x000000,0).setStrokeStyle(3,vault?0xc89a2a:0xaa2244,0.9).setDepth(zb);
+    var core=this.add.circle(x,y,11,vault?0x3a2a08:0x440011,0.7).setDepth(zb);
+    var lbl=this.add.text(x,y-26,vault?'⛓ Sealed Vault':'⛓ Sealed Exit',{fontSize:'8px',color:vault?'#ffd27a':'#ff8899',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(zl);
     var tw=this.tweens.add({targets:ring,scaleX:1.15,scaleY:1.15,alpha:0.6,duration:700,yoyo:true,repeat:-1});
     this._portalOpen=function(){
       ring.setStrokeStyle(3,0x66ffee,1); core.setFillStyle(0x44ccff,0.55);
-      lbl.setText('★ Exit Portal').setColor('#aaffee');
+      lbl.setText(vault?'💎 Treasure Vault':'★ Exit Portal').setColor(vault?'#ffe9a8':'#aaffee');
       var burst=self.add.circle(x,y,6,0xaaffff,0.8).setDepth(5);
       self.tweens.add({targets:burst,scaleX:8,scaleY:8,alpha:0,duration:600,onComplete:function(){burst.destroy();}});
     };
@@ -294,8 +500,8 @@ class DungeonScene extends Phaser.Scene{
       }
       return prev;
     };
-    var prev=bfs();
-    if(prev[key(bc.x,bc.y)]===-2){
+    var prev=bfs(), noCarve=!!this._lab;
+    if(prev[key(bc.x,bc.y)]===-2&&!noCarve){
       // carve from nearest reachable tile to the portal
       var best=null,bd=1e9;
       for(var y=1;y<H-1;y++)for(var x=1;x<W-1;x++){
@@ -316,8 +522,8 @@ class DungeonScene extends Phaser.Scene{
     var pick=path[Math.min(3,path.length-1)];
     if(pick===undefined)pick=key(bc.x,bc.y);
     var bx=pick%W, by=(pick/W)|0;
-    // Clear a small arena around the guardian so it can fight
-    for(var yy=by-1;yy<=by+1;yy++)for(var xx=bx-1;xx<=bx+1;xx++){
+    // Clear a small arena around the guardian so it can fight (legacy floors only)
+    if(!noCarve)for(var yy=by-1;yy<=by+1;yy++)for(var xx=bx-1;xx<=bx+1;xx++){
       if(xx>0&&yy>0&&xx<W-1&&yy<H-1&&tiles[yy][xx]===DNG.WALL)tiles[yy][xx]=DNG.FLOOR;
     }
     this.bossSpawnX=bx*TILE+TILE/2; this.bossSpawnY=by*TILE+TILE/2;
@@ -607,18 +813,33 @@ class DungeonScene extends Phaser.Scene{
   }
 
   _buildInteractables(){
-    this.interactables.push({type:'stairs_up',x:this.stairsUpTile.x*TILE+TILE/2,y:this.stairsUpTile.y*TILE+TILE/2});
+    var ep=this._entryPx||{x:this.stairsUpTile.x*TILE+TILE/2,y:this.stairsUpTile.y*TILE+TILE/2};
+    this.interactables.push({type:'stairs_up',x:ep.x,y:ep.y});
     if(!this.isLastFloor&&this.stairsDownTile)
       this.interactables.push({type:'stairs_down',x:this.stairsDownTile.x*TILE+TILE/2,y:this.stairsDownTile.y*TILE+TILE/2});
     for(var ty=0;ty<DH;ty++)for(var tx=0;tx<DW;tx++)
-      if(this.dtiles[ty][tx]===DNG.CHEST)this.interactables.push({type:'chest',tx:tx,ty:ty,x:tx*TILE+TILE/2,y:ty*TILE+TILE/2,opened:false});
+      if(this.dtiles[ty][tx]===DNG.CHEST){
+        var ch={type:'chest',tx:tx,ty:ty,x:tx*TILE+TILE/2,y:ty*TILE+TILE/2,opened:false};
+        if(this._lab)ch.gfx=this._drawLabChest(tx,ty);
+        this.interactables.push(ch);
+      }
     if(this.isLastFloor&&this.bossChestTile)
       this.interactables.push({type:'boss_chest',tx:this.bossChestTile.x,ty:this.bossChestTile.y,x:this.bossChestTile.x*TILE+TILE/2,y:this.bossChestTile.y*TILE+TILE/2,opened:false,locked:true});
   }
+  _drawLabChest(tx,ty){
+    var x=tx*TILE+TILE/2, y=ty*TILE+TILE-4, g=this.add.graphics().setDepth(this._yDepth(y));
+    g.fillStyle(0x000000,0.3).fillEllipse(x,y,26,7);
+    g.fillStyle(0x6a3c10,1).fillRoundedRect(x-11,y-17,22,15,2);
+    g.fillStyle(0x8a5418,1).fillRoundedRect(x-11,y-21,22,7,3);
+    g.fillStyle(0xd4a000,1).fillRect(x-11,y-15,22,2).fillRect(x-2,y-17,4,6);
+    g.fillStyle(0xffee88,1).fillCircle(x,y-13,1.5);
+    return g;
+  }
   _spawnPlayer(){
     var sx=this.stairsUpTile.x*TILE+TILE/2,sy=(this.stairsUpTile.y+1)*TILE+TILE/2;
+    if(this._spawnPt){sx=this._spawnPt.x;sy=this._spawnPt.y;}
     this.px=sx;this.py=sy;this.pdir='down';this.p_bobPhase=0;
-    var cont=this.add.container(sx,sy).setDepth(10);
+    var cont=this.add.container(sx,sy).setDepth(this._lab?this._yDepth(sy):10);
     var shadow=this.add.ellipse(0,12,20,6,0x000000,.3);
     var body=this.add.rectangle(0,2,16,18,0x4488dd).setVisible(false);
     var head=this.add.circle(0,-11,8,0xf0c880).setVisible(false);
@@ -637,9 +858,13 @@ class DungeonScene extends Phaser.Scene{
     // Use the full siteId as the done-check so island adventure dungeons
     // don't falsely inherit completion state from main-world dungeons/towers
     var qKey=this.siteId||('s'+this.siteSection+'_'+this.siteType);
-    var done=ps.completedQuests&&ps.completedQuests.includes(qKey);
+    var done=this._isIsland?(ps.completedIslands||[]).includes(this.siteSection)
+            :this._isBonus?(ps.bonusCleared||[]).includes(this.siteId)
+            :(ps.completedQuests&&ps.completedQuests.includes(qKey));
     var regTypes=[];
     for(var k in MDEFS){if(MDEFS[k].sec===this.siteSection&&!MDEFS[k].boss)regTypes.push(k);}
+    if(this._lab){ this._spawnMonstersLab(regTypes); }
+    else {
     var spawnRooms=this.isLastFloor?this.rooms.slice(1,-1):this.rooms.slice(1);
     var monCount=7+this.floor*2+Math.floor(Math.random()*3); // harder: 7-9 on floor 0, scales up
     for(var i=0;i<monCount;i++){
@@ -650,23 +875,27 @@ class DungeonScene extends Phaser.Scene{
       var mtype=regTypes[Math.floor(Math.random()*regTypes.length)];
       if(mtype)this._spawnMonster(mtype,mx,my,false);
     }
+    }
     this._wasDone=!!done;
     if(this.isLastFloor){
       var bk=this._getBossKey();
       if(bk){
         this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
-        showNotif(done?'⚔️ The guardian has returned, stronger (+25%)!':'⚔️ The guardian blocks the exit portal!', '#ffaa66');
+        if(this._isBonus)showNotif(done?'⚔️ A stronger elite guards the vault again (+25%)!':'💎 An elite guards the treasure vault!','#ffaa66');
+        else showNotif(done?'⚔️ The guardian has returned, stronger (+25%)!':'⚔️ The guardian blocks the exit portal!', '#ffaa66');
       }
     }
   }
   _getBossKey(){
     var t=this.siteType,s=this.siteSection;
+    if(this._isIsland){ var ik=_islandBossKey(s); if(ik)return ik; }
+    if(this._isBonus){ var ek=_bonusMiniBossKey(s); if(ek)return ek; }
     return t==='dungeon'?['goblin_king','swamp_witch','rock_dragon','lava_titan'][s-1]:['dark_warlock','storm_mage','iron_sentinel','shadow_lord'][s-1];
   }
-  _spawnMonster(type,wx,wy,isBoss,mult){
+  _spawnMonster(type,wx,wy,isBoss,mult,quiet){
     var def=MDEFS[type];if(!def)return;
-    if(mult&&mult!==1)def=Object.assign({},def,{hp:Math.round(def.hp*mult),atk:Math.round(def.atk*mult),def:Math.round((def.def||0)*mult),name:def.name+' (Rematch)'});
-    var cont=this.add.container(wx,wy).setDepth(isBoss?12:10);
+    if(mult&&mult!==1)def=Object.assign({},def,{hp:Math.round(def.hp*mult),atk:Math.round(def.atk*mult),def:Math.round((def.def||0)*mult),name:quiet?def.name:def.name+' (Rematch)'});
+    var cont=this.add.container(wx,wy).setDepth(this._lab?this._yDepth(wy):(isBoss?12:10));
     var shadow=this.add.ellipse(0,def.r+2,def.r*2.2,7,0x000000,.3);
     var body=this.add.circle(0,0,def.r,def.color);
     var icon=this.add.text(0,0,def.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
@@ -684,7 +913,7 @@ class DungeonScene extends Phaser.Scene{
       this._movePlayer(dt);
       this._updateMonsters(dt);
       this._leashBoss(dt);
-      this._updateDungeonFX(dt);
+      if(this._lab)this._labUpdate(dt); else this._updateDungeonFX(dt);
       if(Phaser.Input.Keyboard.JustDown(this.keys.SPACE))this._playerAttack();
       if(this._dngFogExplored)this._dngRevealFog(false);
     }
@@ -718,6 +947,7 @@ class DungeonScene extends Phaser.Scene{
     if(this.playerIFrames>0)this.pBody.setFillStyle(Math.floor(this.playerIFrames*10)%2===0?0xff4444:0x4488dd);
     else this.pBody.setFillStyle(0x4488dd);
     this.pCont.setPosition(this.px,this.py);
+    if(this._lab)this.pCont.setDepth(this._yDepth(this.py));
     if(this.pWalkSt){this.pWalkSt.dir=this.pdir;_heroAnimate(this,this.pSprite,this.pWalkSt,vx,vy,dt,(this.playerAtkTimer||0),(this.pBowTimer||0));}
     _heroShieldTick(this, this.px, this.py);
   }
@@ -728,9 +958,7 @@ class DungeonScene extends Phaser.Scene{
     var key=this.siteId+'_'+this.floor;
     if(!ps.dungeonFog)ps.dungeonFog={};
     if(ps.dungeonFog[key]){
-      var saved=ps.dungeonFog[key];
-      this._dngFogExplored=new Uint8Array(DW*DH);
-      for(var i=0;i<Math.min(saved.length,DW*DH);i++)this._dngFogExplored[i]=saved[i];
+      this._dngFogExplored=_fogUnpack(ps.dungeonFog[key],DW*DH);
     }else{
       this._dngFogExplored=new Uint8Array(DW*DH);
     }
@@ -756,7 +984,7 @@ class DungeonScene extends Phaser.Scene{
       // Persist fog to playerState
       var ps=this.worldScene.playerState;
       if(!ps.dungeonFog)ps.dungeonFog={};
-      ps.dungeonFog[this.siteId+'_'+this.floor]=Array.from(fog);
+      ps.dungeonFog[this.siteId+'_'+this.floor]=_fogPack(fog);
     }
     _drawMinimapHud(null,this);
   }
@@ -916,6 +1144,7 @@ class DungeonScene extends Phaser.Scene{
         if(self._canGoD(mon.x,wny))mon.y=wny; else mon.wanderVy*=-1;
       }
       mon.cont.setPosition(mon.x,mon.y);
+      if(self._lab)mon.cont.setDepth(self._yDepth(mon.y));
       mon.atkTimer=Math.max(0,mon.atkTimer-dt);
       if(mon.atkTimer>0||self.playerIFrames>0)return;
       // Stomp attack: full AoE in section 2 (wetlands); melee fallback elsewhere
@@ -954,7 +1183,7 @@ class DungeonScene extends Phaser.Scene{
         var _atkAng=playerAng;
         toFire.forEach(function(offset){
           var fAng=_atkAng+offset;
-          var vis2=self.add.circle(mon.x,mon.y,cfg.r,cfg.col).setDepth(12);
+          var vis2=self.add.circle(mon.x,mon.y,cfg.r,cfg.col).setDepth(self._lab?12.9:12);
           var monAtk2=mon.monAtk!==undefined?mon.monAtk:mon.def.atk;
           self.dngProj.push({vis:vis2,x:mon.x,y:mon.y,vx:Math.cos(fAng)*finalSpd,vy:Math.sin(fAng)*finalSpd,
             dmg:Math.max(1,Math.round(monAtk2*0.5)),life:cfg.life,isBoss:mon.isBoss,bounces:0,bog:cfg.bog||false});
@@ -1038,16 +1267,15 @@ class DungeonScene extends Phaser.Scene{
   }
   _onBossDefeated(mon){
     this._bossDefeated=true;
-    var qKey='s'+this.siteSection+'_'+this.siteType;
     var ps=this.worldScene.playerState;
-    if(!ps.completedQuests)ps.completedQuests=[];
-    if(!ps.completedQuests.includes(qKey))ps.completedQuests.push(qKey);
-    if(ps.activeQuest===qKey)ps.activeQuest=null;
+    // Only the quadrant's ★ boss sites count for the main quests (bonus + island dungeons have their own tracking)
+    if(!this._isIsland&&!this._isBonus)_completeQuest(ps,'s'+this.siteSection+'_'+this.siteType);
     var bc=this.interactables.find(function(i){return i.type==='boss_chest';});
     if(bc)bc.locked=false;
     if(this._portalOpen)this._portalOpen();
+    if(this._captive)this._freeCaptive();
     showNotif('🏆 '+mon.def.name+' defeated!','#ffdd44');
-    showNotif('The exit portal is open — [Tab] to claim your reward and leave','#aaffaa');
+    showNotif(this._isBonus?'The treasure vault is open — [Tab] to claim it':'The exit portal is open — [Tab] to claim your reward and leave','#aaffaa');
     var self=this;
     for(var i=0;i<8;i++){
       var star=this.add.text(mon.x,mon.y,'⭐',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5).setDepth(25);
@@ -1129,13 +1357,14 @@ class DungeonScene extends Phaser.Scene{
       // Save current floor state before going back up
       var fs=this._initData.floorStates||{};
       fs[this.floor]=this._saveFloorState();
-      this.scene.restart(Object.assign({},this._initData,{floor:this.floor-1,floorStates:fs}));
+      this.scene.restart(Object.assign({},this._initData,{floor:this.floor-1,floorStates:fs,arriveAt:'exit'}));
     } else if(near.type==='stairs_down'){
       var fs2=this._initData.floorStates||{};
       fs2[this.floor]=this._saveFloorState();
-      this.scene.restart(Object.assign({},this._initData,{floor:this.floor+1,floorStates:fs2}));
+      this.scene.restart(Object.assign({},this._initData,{floor:this.floor+1,floorStates:fs2,arriveAt:null}));
     } else if(near.type==='chest'){
       near.opened=true;this._openChest();showNotif('Chest opened!','#ffaa44');
+      if(near.gfx)near.gfx.setAlpha(0.35);
       var g=this.add.graphics().setDepth(5);
       g.fillStyle(0xffd700,.6).fillRect(near.tx*TILE+6,near.ty*TILE+9,TILE-12,5);
       this.tweens.add({targets:g,alpha:0,duration:800,onComplete:function(){g.destroy();}});
@@ -1146,50 +1375,63 @@ class DungeonScene extends Phaser.Scene{
     }
   }
   _openBossChest(){
-    // Use siteId for island adventures so they don't overwrite main-world quest keys
-    var isIslAdv=this.siteId&&this.siteId.startsWith('isl_adv_');
-    var qKey=isIslAdv?this.siteId:('s'+this.siteSection+'_'+this.siteType);
-    var rw=isIslAdv?{message:'🏝️ Island dungeon cleared! Rewarded!',color:'#44ffaa',islandAdv:true}:BOSS_REWARDS[qKey];
-    var ps=this.worldScene.playerState;
+    var ps=this.worldScene.playerState, sec=this.siteSection, self=this;
+    if(!ps.inventory)ps.inventory=[];
+    var gem=['gem_ruby','gem_sapphire','gem_emerald','skystone'][sec-1]||'gem_ruby';
+    // ── Island dungeon: the guardian's defeat clears the island → familiar
+    if(this._isIsland){
+      var goldAdv=80*sec; ps.gold+=goldAdv; ps.inventory.push(gem);
+      showNotif('+'+goldAdv+'g + gem — the island guardian is beaten!','#44ffaa');
+      _completeQuest(ps,'s'+sec+'_harbor');
+      var isl=game.scene.getScene('Island');
+      if(isl&&isl._onIslandCleared&&(game.scene.isActive('Island')||game.scene.isSleeping('Island'))){ isl._islandCleared=true; isl._onIslandCleared(); }
+      else _awardIslandFamiliar(ps,sec);
+      this.time.delayedCall(1500,function(){self._exitToWorld(null);});return;
+    }
+    // ── Bonus site: treasure vault (replayable)
+    if(this._isBonus){
+      if(!ps.bonusCleared)ps.bonusCleared=[];
+      if(this._wasDone){
+        var g3=30*sec+10*this.maxFloors; ps.gold+=g3; this._dropItem(sec);
+        showNotif('💎 Vault refilled: +'+g3+'g','#ffdd44');
+      } else {
+        ps.bonusCleared.push(this.siteId);
+        var g4=60*sec+15*this.maxFloors; ps.gold+=g4; ps.inventory.push(gem);
+        var gear=[['iron_sword','leather'],['long_sword','chain_mail'],['great_sword','plate_armor'],['flame_blade','dragon_armor']][sec-1]||['iron_sword'];
+        var gi=gear[Math.floor(Math.random()*gear.length)]; if(ITEMS[gi])ps.inventory.push(gi);
+        if(!ps.relics)ps.relics=[];
+        var relic=SITE_RELICS[this._site.design]||'Old Relic';
+        if(!ps.relics.includes(this._site.design)){ ps.relics.push(this._site.design); ps.maxHp+=3; ps.hp=Math.min(ps.maxHp,ps.hp+3); }
+        showNotif('💎 Treasure vault! +'+g4+'g, a gem'+(ITEMS[gi]?' and '+ITEMS[gi].icon+' '+ITEMS[gi].name:''),'#ffdd44');
+        this.time.delayedCall(700,function(){showNotif('📜 Relic found: '+relic+' (+3 max HP) — '+ps.relics.length+' relics','#ffe9a8');});
+      }
+      this.time.delayedCall(2000,function(){self._exitToWorld(null);});return;
+    }
+    // ── Quadrant boss site
+    var qKey='s'+sec+'_'+this.siteType;
+    var rw=BOSS_REWARDS[qKey];
     if(!rw){showNotif('Mysterious chest... empty.','#aaa');this._exitToWorld(null);return;}
     // Lock this site for the rest of this life
     if(!ps.lockedSites)ps.lockedSites=[];
-    var siteId=this.siteId||('s'+this.siteSection+'_'+this.siteType);
-    if(!ps.lockedSites.includes(siteId))ps.lockedSites.push(siteId);
+    if(!ps.lockedSites.includes(this.siteId))ps.lockedSites.push(this.siteId);
     // Rematch (already cleared before this run): gold + potion + gem, no first-clear rewards
-    if(this._wasDone&&!rw.islandAdv){
-      var sec=this.siteSection, g2=75*sec;
-      ps.gold+=g2; if(!ps.inventory)ps.inventory=[];
-      ps.inventory.push(['gem_ruby','gem_sapphire','gem_emerald','skystone'][sec-1]||'gem_ruby');
+    if(this._wasDone){
+      var g2=75*sec; ps.gold+=g2; ps.inventory.push(gem);
       showNotif('⚔️ Rematch won! +'+g2+'g and a gem','#ffdd44');
       this._dropItem(sec);
-      var self3=this;this.time.delayedCall(1500,function(){self3._exitToWorld(null);});return;
-    }
-    // For island adventures, give a gold bonus + item instead of quest reward
-    if(rw.islandAdv){
-      var goldAdv=80*this.siteSection;ps.gold+=goldAdv;
-      ps.inventory.push(['gem_ruby','gem_sapphire','gem_emerald','skystone'][this.siteSection-1]||'gem_ruby');
-      showNotif('+'+goldAdv+'g + gem — Island dungeon cleared!','#44ffaa');
-      var self2=this;this.time.delayedCall(1500,function(){self2._exitToWorld(null);});return;
+      this.time.delayedCall(1500,function(){self._exitToWorld(null);});return;
     }
     var reward={completedQuest:qKey,message:rw.message,color:rw.color};
-    if(rw.mount){if(!ps.ownedMounts)ps.ownedMounts=[];if(!ps.ownedMounts.includes(rw.mount)){ps.ownedMounts.push(rw.mount);if(!ps.mount)ps.mount=rw.mount;}}
-    if(rw.rings){rw.rings.forEach(function(r){if(!ps.inventory)ps.inventory=[];ps.inventory.push(r);var ri=ITEMS[r];if(ri)showNotif('💍 Found: '+ri.name,'#ffccff');})}
+    if(rw.mount){if(!ps.ownedMounts)ps.ownedMounts=[];if(!ps.ownedMounts.includes(rw.mount)){ps.ownedMounts.push(rw.mount);if(!ps.mount&&!ps._stowedMount)ps._stowedMount=rw.mount;}}
+    if(rw.rings){rw.rings.forEach(function(r){ps.inventory.push(r);var ri=ITEMS[r];if(ri)showNotif('💍 Found: '+ri.name,'#ffccff');});}
     if(rw.unlockSection)reward.unlockSection=rw.unlockSection;
-    var goldBonus=50*this.siteSection;ps.gold+=goldBonus;
-    showNotif('+'+goldBonus+'g','#ffd700');showNotif(rw.message,rw.color||'#ffdd44');
-    // ── Dragon mount: unlock when ALL quests completed ──
-    var ALL_QUESTS=['s1_dungeon','s1_tower','s1_harbor','s1_skyport','s2_dungeon','s2_tower','s2_harbor','s2_skyport','s3_dungeon','s3_tower','s3_harbor','s3_skyport','s4_dungeon','s4_tower','s4_harbor','s4_skyport'];
-    var doneQuests=ps.completedQuests||[];
-    var allDone=ALL_QUESTS.every(function(qk){return doneQuests.includes(qk);});
-    if(allDone&&(!ps.ownedMounts||!ps.ownedMounts.includes('dragon'))){
-      if(!ps.ownedMounts)ps.ownedMounts=[];
-      ps.ownedMounts.push('dragon');
-      if(!ps.mount)ps.mount='dragon';
-      this.time.delayedCall(500,function(){showNotif('🐉 ALL QUESTS COMPLETE — Dragon Mount Unlocked!','#ff4444');});
-      this.time.delayedCall(1000,function(){showNotif('🐉 The Dragon flies over all land and deep water!','#ffaa44');});
+    // Boss tower: the captive craftsman moves to the village
+    if(this.siteType==='tower'){
+      if(!ps.rescued)ps.rescued=[];
+      if(!ps.rescued.includes(sec)){ ps.rescued.push(sec); var C=CRAFTSMEN[sec]; if(C)this.time.delayedCall(900,function(){showNotif(C.icon+' '+C.n+' has moved into the village!','#ffe9a8');}); }
     }
-    var self=this;
+    var goldBonus=50*sec;ps.gold+=goldBonus;
+    showNotif('+'+goldBonus+'g','#ffd700');showNotif(rw.message,rw.color||'#ffdd44');
     this.time.delayedCall(2000,function(){self._exitToWorld(reward);});
   }
   _updateInteractPrompt(){
@@ -1197,17 +1439,18 @@ class DungeonScene extends Phaser.Scene{
     var near=this.interactables.find(function(i){return !i.opened&&Math.hypot(self.px-i.x,self.py-i.y)<TILE*1.8;});
     if(near){
       var txt='[Tab] ';
-      if(near.type==='stairs_up')txt+=this.floor===0?(this.siteType==='tower'?'Exit Tower':'Exit Dungeon'):(this.siteType==='tower'?'Climb Up (Floor '+(this.floor+2)+')':'Go Down (Floor '+(this.floor+2)+')');
-      else if(near.type==='stairs_down')txt+=(this.siteType==='tower'?'Climb Up':'Descend')+' (Floor '+(this.floor+2)+'/'+this.maxFloors+')';
+      var tw=this.siteType==='tower';
+      if(near.type==='stairs_up')txt+=this.floor===0?(tw?'Leave the Tower':'Leave the Dungeon'):(tw?'Go Down to Floor '+this.floor:'Climb Up to Floor '+this.floor);
+      else if(near.type==='stairs_down')txt+=(tw?'Climb Up':'Descend')+' to Floor '+(this.floor+2)+'/'+this.maxFloors;
       else if(near.type==='chest')txt+='Open Chest';
-      else if(near.type==='boss_chest')txt+=near.locked?'Sealed — defeat the guardian':'★ Claim reward & exit';
+      else if(near.type==='boss_chest')txt+=near.locked?(this._isBonus?'Vault sealed — defeat the elite':'Sealed — defeat the guardian'):(this._isBonus?'💎 Open the treasure vault':'★ Claim reward & exit');
       if(this.interactPrompt)this.interactPrompt.setText(txt).setPosition(this.px,this.py-52).setVisible(true);
     } else if(this.interactPrompt) this.interactPrompt.setVisible(false);
   }
   _updateDungeonHUD(){
     if(!this.worldScene||!this.worldScene.playerState)return;
     var ps=this.worldScene.playerState;
-    var label=this.siteType==='tower'?'🗼 Tower':'⚔️ Dungeon';
+    var label=(this.siteType==='tower'?'🗼 ':'⚔️ ')+((this._site&&this._site.name)||(this.siteType==='tower'?'Tower':'Dungeon'))+(this._site&&this._site.boss?' ★':'');
     document.getElementById('dng-title').textContent=label+' — Floor '+(this.floor+1)+'/'+this.maxFloors;
     // HP bar
     var hpPct=Math.min(100,ps.hp/ps.maxHp*100);
@@ -1251,6 +1494,7 @@ class DungeonScene extends Phaser.Scene{
       this.interactables.forEach(function(i){
         if(!state.opened.some(function(o){return Math.abs(o.x-i.x)<4&&Math.abs(o.y-i.y)<4;}))return;
         if(i.type==='chest'||i.type==='boss_chest')i.opened=true;
+        if(i.gfx)i.gfx.setAlpha(0.35);
       });
     }
   }
@@ -1261,8 +1505,7 @@ class DungeonScene extends Phaser.Scene{
     // Record exit time for respawn system
     if(ws&&ws.playerState){
       if(!ws.playerState.siteExitTimes)ws.playerState.siteExitTimes={};
-      var qk='s'+this.siteSection+'_'+this.siteType;
-      ws.playerState.siteExitTimes[qk]=Date.now();
+      ws.playerState.siteExitTimes[this.siteId||('s'+this.siteSection+'_'+this.siteType)]=Date.now();
     }
     this.scene.stop('Dungeon');
     this.scene.wake(this._returnScene||'World');

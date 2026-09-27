@@ -961,10 +961,11 @@ const ISL_VIL_R=14;               // village clear radius
 
 // ── Island adventure spot definitions (one per section) ──────────────────
 const ISL_ADV={
-  1:{type:'dungeon',  label:'⚔️ Pirate Cave',  icon:'⚔️'},
-  2:{type:'volcano',  label:'🌋 Bog Volcano',   icon:'🌋'},
-  3:{type:'cave',     label:'🦇 Ember Cave',    icon:'🦇'},
-  4:{type:'tower_island',label:'🗼 Ice Tower',  icon:'🗼'},
+  // Each island has a dungeon; its guardian (HARBOR_ISLANDS[sec].boss) waits on the last floor and gives the familiar.
+  1:{type:'dungeon',     label:'⚔️ Pirate Cave', icon:'⚔️', kind:'dungeon', design:'lake_ring',       floors:4},
+  2:{type:'volcano',     label:'🍄 Bog Grotto',  icon:'🍄', kind:'dungeon', design:'mushroom_forest', floors:4},
+  3:{type:'cave',        label:'🦇 Ember Cave',  icon:'🦇', floors:4},
+  4:{type:'tower_island',label:'🗼 Frost Spire', icon:'🗼', kind:'tower',   design:'moonglass',       floors:5},
 };
 
 // Section names & accents (0=village, 1-4=quadrants)
@@ -1065,6 +1066,7 @@ const MOUNTS={
   alligator:  {n:'Alligator',   icon:'🐊',spdMult:1.3,cost:0,  sec:1,canCross:[T.DEEP_WATER,T.SHALLOW_WATER]},
   boar:       {n:'Battle Boar', icon:'🐗',spdMult:1.4,cost:0,  sec:2,canCross:[T.SMALL_BOULDER]},
   lava_unicorn:{n:'Lava Unicorn',icon:'🦄',spdMult:1.5,cost:0, sec:3,canCross:[T.THIN_MAGMA]},
+  ash_salamander:{n:'Ash Salamander',icon:'🦎',spdMult:1.5,cost:0,sec:4,canCross:[T.THIN_MAGMA,T.DEEP_MAGMA],desc:'Walks on lava — shallow and deep'},
   dragon:     {n:'Dragon',      icon:'🐉',spdMult:2.0,cost:0,  sec:4,canCross:'land_and_deep',desc:'Flies over all terrain except sea water'},
   sky_eagle:  {n:'Sky Eagle',   icon:'🦅',spdMult:1.9,cost:0,  sec:4,canCross:'all',desc:'Swift aerial mount from the Sky Port'},
   // ── Skyport-exclusive mounts ─────────────────────────────────────────────
@@ -1087,9 +1089,9 @@ function _maxFamiliarSlots(ps){
   return ci>=4?3:ci>=2?2:1;
 }
 const MAIN_QUEST_DEFS={
-  dungeon:{title:'Dungeon Crawl',   icon:'⚔️',desc:'Fight to the deepest floor and defeat the guardian at the exit portal. Reward: mount + gold.'},
-  tower:  {title:'Tower Rescue',    icon:'🗼',desc:'Climb every floor and defeat the guardian at the top. Reward: unlocks the next region + 2 rings.'},
-  harbor: {title:'Island Expedition',icon:'⚓',desc:'Sail to the island, clear its adventure. Reward: a familiar.'},
+  dungeon:{title:'Dungeon Crawl',   icon:'⚔️',desc:'Find the ★ dungeon, fight to the deepest floor and defeat the guardian at the exit portal. Reward: mount + gold.'},
+  tower:  {title:'Tower Rescue',    icon:'🗼',desc:'Climb the ★ tower, defeat the guardian at the top and free the captive craftsman. Reward: next region + 2 rings.'},
+  harbor: {title:'Island Expedition',icon:'⚓',desc:'Sail to the island and defeat the guardian at the bottom of its dungeon. Reward: a familiar.'},
   skyport:{title:'Sky Exploration', icon:'🎈',desc:'Defend the sky city through every wave. Reward: pick a weapon, sky mount or gem.'},
 };
 const MDEFS={
@@ -1435,7 +1437,7 @@ const BOSS_REWARDS={
   s1_dungeon:{mount:'alligator',   message:'🐊 Alligator mount unlocked!',   color:'#44ffaa'},
   s2_dungeon:{mount:'boar',        message:'🐗 Battle Boar mount unlocked!',  color:'#ffaa44'},
   s3_dungeon:{mount:'lava_unicorn',message:'🦄 Lava Unicorn mount unlocked!', color:'#ff88ff'},
-  s4_dungeon:{message:'⚔️ Shadow Lord defeated! One step closer to the dragon…',color:'#ff4444'},
+  s4_dungeon:{mount:'ash_salamander',message:'🦎 Ash Salamander mount unlocked — it walks on lava!',color:'#ff8844'},
   s1_tower:  {unlockSection:2,rings:['ruby_ring','speed_ring'],message:'🌿 SE Wetlands unlocked! Found 2 rings!',color:'#44aaff'},
   s2_tower:  {unlockSection:3,rings:['sapphire_ring','power_ring'],message:'🏔️ SW Highlands unlocked! Found 2 rings!',color:'#ffddaa'},
   s3_tower:  {unlockSection:4,rings:['emerald_ring','warding_ring'],message:'🌋 NW Ashlands unlocked! Found 2 rings!',color:'#ffaa66'},
@@ -2131,7 +2133,9 @@ function buildVillage(tiles){
 }
 
 function placeSites(tiles,rng,sec){
-  var types=['dungeon','tower','camp','harbor','skyport'];
+  // Boss tower + boss dungeon first, then camp/harbor/skyport, then the 3 bonus sites.
+  var roster=_rosterSitesFor(sec);
+  var types=roster.filter(function(r){return r.boss;}).concat(['camp','harbor','skyport'],roster.filter(function(r){return r.bonus;}));
   var used=[],out=[];
   // Tiles that block access and should be cleared around a site
   var CLEAR_SET=new Set([T.ROCK,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T.SMALL_BOULDER,T.DARK_ROCK,T.OBSIDIAN]);
@@ -2214,7 +2218,8 @@ function placeSites(tiles,rng,sec){
     return null;
   }
 
-  types.forEach(function(type){
+  types.forEach(function(entry){
+    var type=typeof entry==='string'?entry:entry.type;
     var placed=false,att=0;
     while(!placed&&att<300){
       att++;
@@ -2237,7 +2242,7 @@ function placeSites(tiles,rng,sec){
       }
       if(tx<3||ty<3||tx>=WORLD_W-6||ty>=WORLD_H-6)continue;
       if(type!=='harbor'&&getTileSection(tx,ty)!==sec)continue;
-      if(used.some(function(p){return Math.hypot(p[0]-tx,p[1]-ty)<20;}))continue;
+      if(used.some(function(p){return Math.hypot(p[0]-tx,p[1]-ty)<(att<200?20:14);}))continue;
       // Clear impassable tiles immediately around the site
       clearAroundSite(tx,ty,5);
       // For dungeons and towers: also carve a guaranteed walkable path back to village
@@ -2288,7 +2293,7 @@ function placeSites(tiles,rng,sec){
         tiles[ty+2][tx+1]=T.DOOR;
       }
       used.push([tx,ty]);
-      out.push({type:type,section:sec,tx:tx,ty:ty,id:'s'+sec+'_'+type});
+      out.push(typeof entry==='string'?{type:type,section:sec,tx:tx,ty:ty,id:'s'+sec+'_'+type}:Object.assign({},entry,{tx:tx,ty:ty}));
       placed=true;
     }
   });
@@ -2303,6 +2308,7 @@ function canPassTile(t,mount){
     if(t===T.BUILDING_WALL)return false;
     return true;
   }
+  if(mount==='ash_salamander'&&(t===T.THIN_MAGMA||t===T.DEEP_MAGMA))return true;
   if(ALWAYS_BLOCKED.has(t))return false;
   if(t===T.DEEP_WATER)return mount==='alligator';
   if(t===T.SMALL_BOULDER)return mount==='boar';
@@ -2566,6 +2572,928 @@ function _setAmbient(theme){
 }
 
 // ═══════════════════════════════════════════════════════════════════════
+// ║ SITE ART — shared by the game (towers & dungeons) and the Design Lab.
+// ║ Canvas painters + a tiny map model. Builders (07b towers, 07c caverns)
+// ║ return a map: pre-painted base canvas, depth-sorted sprites, lights,
+// ║ particles, light shafts and a solid grid. The game's DungeonScene turns
+// ║ that into floors (12-scene-dungeon.js); the Lab walks it directly.
+// ═══════════════════════════════════════════════════════════════════════
+var LT = 32; // lab tile size (same as the game)
+
+// ── Tiny utilities ─────────────────────────────────────────────────────
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function rngOf(seed){ var r=mulberry32(seed); return { f:r, i:function(a,b){return a+Math.floor(r()*(b-a+1));}, pick:function(arr){return arr[Math.floor(r()*arr.length)];}, chance:function(p){return r()<p;} }; }
+function hexToRgb(h){ h=h.replace('#',''); if(h.length===3)h=h.split('').map(function(c){return c+c;}).join(''); var n=parseInt(h,16); return [n>>16&255,n>>8&255,n&255]; }
+function rgbToHex(r,g,b){ return '#'+[r,g,b].map(function(v){v=Math.max(0,Math.min(255,Math.round(v)));return (v<16?'0':'')+v.toString(16);}).join(''); }
+function shade(h,f){ var c=hexToRgb(h); return f>=0? rgbToHex(c[0]+(255-c[0])*f,c[1]+(255-c[1])*f,c[2]+(255-c[2])*f) : rgbToHex(c[0]*(1+f),c[1]*(1+f),c[2]*(1+f)); }
+function mix(a,b,t){ var x=hexToRgb(a),y=hexToRgb(b); return rgbToHex(x[0]+(y[0]-x[0])*t,x[1]+(y[1]-x[1])*t,x[2]+(y[2]-x[2])*t); }
+function rgba(h,a){ var c=hexToRgb(h); return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')'; }
+function hexNum(h){ return parseInt(h.replace('#',''),16); }
+function mkCanvas(w,h){ var c=document.createElement('canvas'); c.width=Math.max(1,Math.ceil(w)); c.height=Math.max(1,Math.ceil(h)); return c; }
+function rr(ctx,x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function softShadow(ctx,cx,cy,rx,ry,a){ var g=ctx.createRadialGradient(cx,cy,0,cx,cy,rx); g.addColorStop(0,'rgba(0,0,0,'+a+')'); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.save(); ctx.translate(cx,cy); ctx.scale(1,ry/rx); ctx.translate(-cx,-cy); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rx,0,Math.PI*2); ctx.fill(); ctx.restore(); }
+function glowSpot(ctx,cx,cy,r,col,a){ var g=ctx.createRadialGradient(cx,cy,0,cx,cy,r); g.addColorStop(0,rgba(col,a)); g.addColorStop(1,rgba(col,0)); ctx.fillStyle=g; ctx.fillRect(cx-r,cy-r,r*2,r*2); }
+
+// ── Map model ──────────────────────────────────────────────────────────
+// Designs call newMap(w,h) and fill it in.
+function newMap(w,h){
+  return { w:w, h:h, T:LT, solid:new Uint8Array(w*h), base:null, sprites:[], lights:[], particles:[],
+    shafts:[], labels:[], spawn:{x:w*LT/2,y:h*LT/2}, dark:0, bg:'#000000', tick:null, stats:{} };
+}
+function mapSolid(m,tx,ty){ if(tx<0||ty<0||tx>=m.w||ty>=m.h)return true; return m.solid[ty*m.w+tx]===1; }
+function setSolid(m,tx,ty,v){ if(tx<0||ty<0||tx>=m.w||ty>=m.h)return; m.solid[ty*m.w+tx]=v?1:0; }
+// A tall sprite drawn into its own canvas: fn(ctx, w, h) with (w/2, h) = foot point.
+function addSprite(m, x, y, w, h, fn){ var c=mkCanvas(w,h); fn(c.getContext('2d'),w,h); m.sprites.push({canvas:c,x:x,y:y}); }
+function addLight(m, x, y, r, col, a, opts){ m.lights.push(Object.assign({x:x,y:y,r:r,col:col,a:a},opts||{})); }
+function addLabel(m, tx, ty, tw, th, text){ m.labels.push({x:tx*LT,y:ty*LT,w:tw*LT,h:th*LT,text:text}); }
+
+// Reachability helper for generators: returns Uint8Array of cells reachable from (sx,sy).
+function floodReach(m,sx,sy){
+  var seen=new Uint8Array(m.w*m.h), q=[sy*m.w+sx]; if(mapSolid(m,sx,sy))return seen; seen[q[0]]=1;
+  for(var i=0;i<q.length;i++){ var c=q[i],x=c%m.w,y=(c/m.w)|0;
+    [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var nx=x+d[0],ny=y+d[1]; if(mapSolid(m,nx,ny))return; var k=ny*m.w+nx; if(!seen[k]){seen[k]=1;q.push(k);} }); }
+  return seen;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// ║ TOWER SELECTOR (Phase 2 · C3 look + C2 floor plans)
+// ║ Floors are laid out like a house: mostly rooms with open space, short
+// ║ hallways, furniture you walk around. 3 hand-made floor plans; every
+// ║ style re-furnishes them with its own look. No monsters.
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── Floor plans (interior coordinates; the builder adds walls + a 2-tile exterior band)
+// rooms: {x,y,w,h,type,shape?}  carve: extra floor rects (halls, doors)  entry: [x,y] door on the south wall
+var TOWER_PLANS={
+  grand:{ w:36,h:26, name:'Grand floor (9 rooms around an atrium)',
+    rooms:[
+      {x:1,y:1,w:10,h:9,type:'library'},{x:12,y:1,w:12,h:6,type:'study'},{x:25,y:1,w:10,h:9,type:'bedroom'},
+      {x:1,y:11,w:10,h:6,type:'gallery'},{x:12,y:8,w:12,h:10,type:'atrium'},{x:25,y:11,w:10,h:6,type:'dining'},
+      {x:1,y:18,w:10,h:7,type:'chapel'},{x:12,y:19,w:12,h:6,type:'hall'},{x:25,y:18,w:10,h:7,type:'music'}],
+    carve:[[11,4,1,2],[24,4,1,2],[17,7,2,1],[11,13,1,2],[24,13,1,2],[5,10,2,1],[29,10,2,1],[5,17,2,1],[29,17,2,1],[17,18,2,1],[11,21,1,2],[24,21,1,2]],
+    entry:[17,25], stairs:[18,3] },
+  gallery:{ w:38,h:24, name:'Long hall (rooms off a central gallery)',
+    rooms:[
+      {x:1,y:1,w:8,h:9,type:'library'},{x:10,y:1,w:9,h:9,type:'bedroom'},{x:20,y:1,w:8,h:9,type:'study'},{x:29,y:1,w:8,h:9,type:'music'},
+      {x:1,y:11,w:36,h:2,type:'corridor'},
+      {x:1,y:14,w:11,h:9,type:'dining'},{x:13,y:14,w:12,h:9,type:'atrium'},{x:26,y:14,w:11,h:9,type:'conservatory'}],
+    carve:[[4,10,2,1],[14,10,2,1],[23,10,2,1],[32,10,2,1],[6,13,2,1],[18,13,2,1],[31,13,2,1],[9,5,1,2],[28,5,1,2]],
+    entry:[18,23], stairs:[23,3] },
+  rotunda:{ w:36,h:28, name:'Rotunda (round hall with wings)',
+    rooms:[
+      {x:9,y:5,w:18,h:18,type:'rotunda',shape:'circle'},
+      {x:1,y:1,w:9,h:8,type:'library'},{x:26,y:1,w:9,h:8,type:'bedroom'},
+      {x:1,y:19,w:9,h:8,type:'dining'},{x:26,y:19,w:9,h:8,type:'study'},
+      {x:13,y:1,w:10,h:3,type:'chapel'},
+      {x:1,y:10,w:6,h:8,type:'gallery'},{x:29,y:10,w:6,h:8,type:'conservatory'},
+      {x:14,y:24,w:8,h:3,type:'hall'}],
+    carve:[[17,4,2,2],[7,13,3,2],[26,13,3,2],[17,22,2,2],[5,9,2,1],[30,9,2,1],[5,18,2,1],[30,18,2,1],[10,4,3,1],[23,4,3,1],[10,23,1,1],[25,23,1,1],[10,20,2,1],[24,20,2,1],[10,6,2,1],[24,6,2,1]],
+    entry:[17,27], stairs:[18,2] },
+};
+
+var ROOM_NOTES={
+  library:'Library — tall shelves, a reading table, a lectern.', study:'Study — desk, map table, candles.',
+  bedroom:'Bedroom — canopy bed, wardrobe, nightstands.', gallery:'Gallery — statues and paintings of the tower’s history.',
+  atrium:'Atrium — the heart of the floor, open and bright.', dining:'Dining hall — long table and chandelier.',
+  chapel:'Shrine — altar, benches, candles.', hall:'Entrance hall — you arrive here from the floor below.',
+  music:'Music room — harp and piano.', corridor:'Gallery walk — the long hall that joins every room.',
+  conservatory:'Conservatory — glass garden with planters.', rotunda:'Rotunda — a round hall under the dome.'
+};
+
+// ── Builder ────────────────────────────────────────────────────────────
+var TB={OUT:0,WALL:1,FLOOR:2,WIN:3,GLASS:4,DOOR:5};
+// opts: {mirror:bool, shuffle:bool, last:bool}  (the game varies floors with these)
+var TOWER_SHUFFLE_TYPES=['library','study','bedroom','gallery','dining','chapel','music','conservatory'];
+function towerPlanVariant(P, opts, R){
+  if(!opts||(!opts.mirror&&!opts.shuffle))return P;
+  var Q=JSON.parse(JSON.stringify(P));
+  if(opts.mirror){
+    Q.rooms.forEach(function(r){ r.x=P.w-r.x-r.w; });
+    Q.carve.forEach(function(c){ c[0]=P.w-c[0]-c[2]; });
+    Q.entry=[P.w-P.entry[0]-2,P.entry[1]]; Q.stairs=[P.w-1-P.stairs[0],P.stairs[1]];
+  }
+  if(opts.shuffle){
+    var idx=[]; Q.rooms.forEach(function(r,i){ if(TOWER_SHUFFLE_TYPES.indexOf(r.type)>=0)idx.push(i); });
+    var types=idx.map(function(i){return Q.rooms[i].type;});
+    for(var k=types.length-1;k>0;k--){ var j=Math.floor(R.f()*(k+1)); var t=types[k]; types[k]=types[j]; types[j]=t; }
+    idx.forEach(function(i,n){ Q.rooms[i].type=types[n]; });
+  }
+  return Q;
+}
+function buildTower(S, planId, seed, opts){
+  opts=opts||{};
+  var R=rngOf(seed*977+planId.length*31), P=towerPlanVariant(TOWER_PLANS[planId],opts,R), pad=2;
+  var W=P.w+pad*2, H=P.h+pad*2, m=newMap(W,H);
+  var cell=new Uint8Array(W*H), room=new Int16Array(W*H).fill(-1);
+  var at=function(x,y){return (x<0||y<0||x>=W||y>=H)?TB.OUT:cell[y*W+x];};
+  var set=function(x,y,v){ if(x>=0&&y>=0&&x<W&&y<H)cell[y*W+x]=v; };
+  // building shell = walls
+  for(var y=pad;y<pad+P.h;y++)for(var x=pad;x<pad+P.w;x++)set(x,y,TB.WALL);
+  // rooms
+  P.rooms.forEach(function(r,ri){
+    for(var yy=0;yy<r.h;yy++)for(var xx=0;xx<r.w;xx++){
+      if(r.shape==='circle'){ var cx=(r.w-1)/2, cy=(r.h-1)/2; if(Math.hypot((xx-cx)/(r.w/2),(yy-cy)/(r.h/2))>0.98)continue; }
+      var X=r.x+xx+pad, Y=r.y+yy+pad; set(X,Y,TB.FLOOR); room[Y*W+X]=ri;
+    }
+  });
+  P.carve.forEach(function(c){ for(var yy=0;yy<c[3];yy++)for(var xx=0;xx<c[2];xx++){ var X=c[0]+xx+pad,Y=c[1]+yy+pad; if(at(X,Y)===TB.WALL)set(X,Y,TB.DOOR); } });
+  var ex=P.entry[0]+pad, ey=P.entry[1]+pad; set(ex,ey,TB.DOOR); set(ex+1,ey,TB.DOOR);
+  var isOpen=function(x,y){var v=at(x,y);return v===TB.FLOOR||v===TB.DOOR;};
+  // windows on outer walls
+  for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){
+    if(at(x2,y2)!==TB.WALL)continue;
+    var outer=(at(x2-1,y2)===TB.OUT||at(x2+1,y2)===TB.OUT||at(x2,y2-1)===TB.OUT||at(x2,y2+1)===TB.OUT);
+    if(!outer)continue;
+    var inside=isOpen(x2,y2+1)||isOpen(x2,y2-1)||isOpen(x2-1,y2)||isOpen(x2+1,y2);
+    if(!inside)continue;
+    var along=(at(x2,y2-1)===TB.OUT||at(x2,y2+1)===TB.OUT)?x2:y2;
+    if(along%S.windowEvery===0&&!(isOpen(x2-1,y2)&&isOpen(x2+1,y2)))set(x2,y2,TB.WIN);
+  }
+  // interior glass partitions (per room pair)
+  var pairGlass={};
+  for(var y3=0;y3<H;y3++)for(var x3=0;x3<W;x3++){
+    if(at(x3,y3)!==TB.WALL)continue;
+    var a=-1,b=-1;
+    if(isOpen(x3,y3-1)&&isOpen(x3,y3+1)){a=room[(y3-1)*W+x3];b=room[(y3+1)*W+x3];}
+    else if(isOpen(x3-1,y3)&&isOpen(x3+1,y3)){a=room[y3*W+x3-1];b=room[y3*W+x3+1];}
+    if(a<0||b<0||a===b)continue;
+    var key=Math.min(a,b)+'_'+Math.max(a,b);
+    if(pairGlass[key]===undefined)pairGlass[key]=R.chance(S.glass||0);
+    if(pairGlass[key]&&!(at(x3-1,y3)===TB.DOOR||at(x3+1,y3)===TB.DOOR||at(x3,y3-1)===TB.DOOR||at(x3,y3+1)===TB.DOOR))set(x3,y3,TB.GLASS);
+  }
+  for(var i=0;i<W*H;i++)m.solid[i]=(cell[i]===TB.FLOOR||cell[i]===TB.DOOR)?0:1;
+  m.spawn={x:(ex+1)*LT, y:(ey-1)*LT+LT-4};
+  m.bg=S.pal.outside||'#9cc6e8';
+  // ── furniture plan (solid cells decided before painting) ──
+  var items=[];   // {type,x,y,w,h,room}
+  var occupied=new Uint8Array(W*H);
+  var reachOK=function(){
+    var seen=floodReach(m,Math.floor(m.spawn.x/LT),Math.floor(m.spawn.y/LT)), n=0, open=0;
+    for(var k=0;k<W*H;k++){ if(!m.solid[k]){ open++; if(seen[k])n++; } }
+    return n===open;
+  };
+  var nearDoor=function(x,y){ for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){ if(at(x+dx,y+dy)===TB.DOOR)return true; } return false; };
+  // Keep the stairs (and the cells around them) free of furniture so the way up is always walkable.
+  var stX=P.stairs[0]+pad, stY=P.stairs[1]+pad;
+  var nearStairs=function(x,y){ return Math.abs(x-stX)<=1&&Math.abs(y-stY)<=1; };
+  var tryPlace=function(type,x,y,w,h,ri,solid){
+    var flat=solid===false;
+    for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++){ var X=x+xx,Y=y+yy; if(at(X,Y)!==TB.FLOOR||room[Y*W+X]!==ri)return false; if(nearStairs(X,Y))return false; if(!flat&&(occupied[Y*W+X]||nearDoor(X,Y)))return false; }
+    if(flat){ items.push({type:type,x:x,y:y,w:w,h:h,room:ri,solid:false}); return true; }
+    if(solid!==false){
+      for(var yy2=0;yy2<h;yy2++)for(var xx2=0;xx2<w;xx2++)m.solid[(y+yy2)*W+x+xx2]=1;
+      if(!reachOK()){ for(var yy3=0;yy3<h;yy3++)for(var xx3=0;xx3<w;xx3++)m.solid[(y+yy3)*W+x+xx3]=0; return false; }
+    }
+    for(var yy4=0;yy4<h;yy4++)for(var xx4=0;xx4<w;xx4++)occupied[(y+yy4)*W+x+xx4]=1;
+    items.push({type:type,x:x,y:y,w:w,h:h,room:ri,solid:solid!==false}); return true;
+  };
+  P.rooms.forEach(function(r,ri){
+    var rx=r.x+pad, ry=r.y+pad, rw=r.w, rh=r.h, cx=rx+Math.floor(rw/2), cy=ry+Math.floor(rh/2);
+    var alongNorth=function(type,w,h,step,solid){ for(var x=rx+1;x+w<=rx+rw-1;x+=step){ if(at(x,ry-1)===TB.WALL||at(x,ry-1)===TB.WIN)tryPlace(type,x,ry,w,h,ri,solid); } };
+    var corners=function(type){ [[rx,ry],[rx+rw-1,ry],[rx,ry+rh-1],[rx+rw-1,ry+rh-1]].forEach(function(c){ tryPlace(type,c[0],c[1],1,1,ri); }); };
+    var rug=function(w,h){ tryPlace('rug',cx-Math.floor(w/2),cy-Math.floor(h/2),w,h,ri,false); };
+    switch(r.type){
+      case 'library': alongNorth('bookshelf',2,1,2); rug(4,3); tryPlace('table',cx-1,cy,2,1,ri); tryPlace('chair',cx-2,cy,1,1,ri); tryPlace('chair',cx+1,cy,1,1,ri); tryPlace('lectern',rx+1,ry+rh-2,1,1,ri); corners('plant'); break;
+      case 'study': tryPlace('desk',cx-1,ry+1,2,1,ri); tryPlace('chair',cx,ry+2,1,1,ri); tryPlace('bookshelf',rx+1,ry,2,1,ri); tryPlace('globe',rx+rw-2,ry+1,1,1,ri); tryPlace('maptable',cx-1,ry+rh-2,3,1,ri); tryPlace('candelabra',rx,ry+rh-1,1,1,ri); break;
+      case 'bedroom': tryPlace('bed',cx-1,ry,2,3,ri); tryPlace('nightstand',cx-2,ry,1,1,ri); tryPlace('nightstand',cx+1,ry,1,1,ri); tryPlace('wardrobe',rx,ry,2,1,ri); rug(3,2); tryPlace('chair',rx+rw-2,ry+rh-2,1,1,ri); tryPlace('plant',rx+rw-1,ry,1,1,ri); break;
+      case 'dining': var tl=Math.min(6,rw-4); tryPlace('longtable',cx-Math.floor(tl/2),cy-1,tl,2,ri); for(var c1=0;c1<tl;c1+=2){ tryPlace('chair',cx-Math.floor(tl/2)+c1,cy-2,1,1,ri); tryPlace('chair',cx-Math.floor(tl/2)+c1,cy+1,1,1,ri);} alongNorth('sideboard',2,1,4); items.push({type:'chandelier',x:cx,y:cy,w:0,h:0,room:ri,solid:false}); break;
+      case 'chapel': tryPlace('altar',cx-1,ry,2,1,ri); for(var pr=ry+2;pr<ry+rh-1;pr+=2){ tryPlace('pew',rx+1,pr,Math.max(2,Math.floor(rw/2)-2),1,ri); tryPlace('pew',cx+1,pr,Math.max(2,Math.floor(rw/2)-2),1,ri);} tryPlace('candelabra',cx-2,ry,1,1,ri); tryPlace('candelabra',cx+1,ry,1,1,ri); break;
+      case 'gallery': for(var gx=rx+1;gx<rx+rw-1;gx+=3){ tryPlace('statue',gx,ry,1,1,ri); tryPlace('statue',gx,ry+rh-1,1,1,ri);} tryPlace('bench',cx-1,cy,2,1,ri); break;
+      case 'music': tryPlace('piano',rx+1,ry+1,3,2,ri); tryPlace('harp',rx+rw-2,ry+1,1,1,ri); rug(4,3); tryPlace('chair',cx,cy+1,1,1,ri); tryPlace('chair',cx-2,cy+1,1,1,ri); corners('plant'); break;
+      case 'conservatory': for(var py=ry+1;py<ry+rh-1;py+=3)for(var px=rx+1;px<rx+rw-1;px+=3)tryPlace(R.chance(0.35)?'tree':'planter',px,py,1,1,ri); tryPlace('pool',cx-1,cy,2,2,ri); break;
+      case 'hall': tryPlace('runner',cx-1,ry,2,rh,ri,false); tryPlace('statue',cx-3,ry,1,1,ri); tryPlace('statue',cx+2,ry,1,1,ri); tryPlace('bench',rx+1,cy,2,1,ri); tryPlace('bench',rx+rw-3,cy,2,1,ri); corners('plant'); break;
+      case 'corridor': for(var hx=rx+2;hx<rx+rw-2;hx+=6)tryPlace('plant',hx,ry,1,1,ri); tryPlace('runner',rx,ry+1,rw,1,ri,false); break;
+      case 'atrium': case 'rotunda':
+        var cs=S.center||'fountain', sz=cs==='orrery'||cs==='pool'?4:3;
+        tryPlace('center_'+cs,cx-Math.floor(sz/2),cy-Math.floor(sz/2),sz,sz,ri);
+        [[rx+1,ry+1],[rx+rw-2,ry+1],[rx+1,ry+rh-2],[rx+rw-2,ry+rh-2]].forEach(function(c){ tryPlace(S.pillar||'pillar',c[0],c[1],1,1,ri); });
+        tryPlace('bench',cx-1,ry+rh-2,2,1,ri); tryPlace('bench',cx-1,ry+1,2,1,ri);
+        break;
+    }
+  });
+  // stairs up (walkable marker)
+  var st=P.stairs; if(!opts.last)items.push({type:'stairs',x:st[0]+pad,y:st[1]+pad,w:1,h:1,solid:false,room:-1});
+  m.site={entry:{x:ex,y:ey}, exit:{x:st[0]+pad,y:st[1]+pad}};
+  // ── paint ──
+  var cv=mkCanvas(W*LT,H*LT), ctx=cv.getContext('2d');
+  S.paintExterior(ctx,W,H,m,R);
+  var roomType=function(x,y){ var ri=room[y*W+x]; return ri>=0?P.rooms[ri].type:'hall'; };
+  for(var y4=0;y4<H;y4++)for(var x4=0;x4<W;x4++){
+    var v=at(x4,y4); if(v===TB.OUT)continue;
+    if(v===TB.FLOOR||v===TB.DOOR||v===TB.GLASS){
+      var rt=v===TB.GLASS?'hall':(v===TB.DOOR?(roomType(x4,y4-1)||'hall'):roomType(x4,y4));
+      S.floor(ctx,x4*LT,y4*LT,x4,y4,rt,R);
+      if(v===TB.DOOR){ ctx.fillStyle=rgba(S.pal.trim,0.55); ctx.fillRect(x4*LT,y4*LT+LT/2-2,LT,4); }
+    }
+  }
+  // room-level floor accents (medallions etc.)
+  P.rooms.forEach(function(r){ if(S.roomAccent)S.roomAccent(ctx,(r.x+pad)*LT,(r.y+pad)*LT,r.w*LT,r.h*LT,r.type,R,r); });
+  // ambient occlusion under walls
+  for(var y5=0;y5<H;y5++)for(var x5=0;x5<W;x5++){
+    var v5=at(x5,y5); if(v5!==TB.FLOOR&&v5!==TB.DOOR)continue;
+    if(at(x5,y5-1)===TB.WALL||at(x5,y5-1)===TB.WIN){ var g=ctx.createLinearGradient(0,y5*LT,0,y5*LT+14); g.addColorStop(0,'rgba(0,0,0,'+(S.ao||0.22)+')'); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g; ctx.fillRect(x5*LT,y5*LT,LT,14); }
+    if(at(x5-1,y5)===TB.WALL||at(x5-1,y5)===TB.WIN){ var g2=ctx.createLinearGradient(x5*LT,0,x5*LT+8,0); g2.addColorStop(0,'rgba(0,0,0,'+((S.ao||0.22)*0.6)+')'); g2.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g2; ctx.fillRect(x5*LT,y5*LT,8,LT); }
+  }
+  // flat furniture (rugs, runners, pools…) before walls & tall pieces
+  items.forEach(function(it){ if(TOWER_FLAT[it.type])TOWER_FLAT[it.type](ctx,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R); });
+  // walls, windows, glass
+  for(var y6=0;y6<H;y6++)for(var x6=0;x6<W;x6++){
+    var v6=at(x6,y6); if(v6!==TB.WALL&&v6!==TB.WIN&&v6!==TB.GLASS)continue;
+    var faceVisible=isOpen(x6,y6+1);
+    var outN=at(x6,y6-1)===TB.OUT, outS=at(x6,y6+1)===TB.OUT, outW=at(x6-1,y6)===TB.OUT, outE=at(x6+1,y6)===TB.OUT;
+    if(v6===TB.GLASS)towerGlass(ctx,x6*LT,y6*LT,S,faceVisible);
+    else towerWall(ctx,x6*LT,y6*LT,S,faceVisible,v6===TB.WIN,{n:outN,s:outS,w:outW,e:outE},R,m);
+  }
+  // crisp edges where walls meet walkable floor (reads as solid mass in 3/4 view)
+  ctx.lineWidth=2; ctx.strokeStyle=rgba(shade(S.pal.wallFace,-0.55),0.55);
+  for(var y7=0;y7<H;y7++)for(var x7=0;x7<W;x7++){
+    var v7=at(x7,y7); if(v7!==TB.WALL&&v7!==TB.WIN)continue;
+    var px7=x7*LT, py7=y7*LT; ctx.beginPath();
+    if(isOpen(x7,y7+1)){ctx.moveTo(px7,py7+LT);ctx.lineTo(px7+LT,py7+LT);}
+    if(isOpen(x7,y7-1)){ctx.moveTo(px7,py7+1);ctx.lineTo(px7+LT,py7+1);}
+    if(isOpen(x7-1,y7)){ctx.moveTo(px7+1,py7);ctx.lineTo(px7+1,py7+LT);}
+    if(isOpen(x7+1,y7)){ctx.moveTo(px7+LT-1,py7);ctx.lineTo(px7+LT-1,py7+LT);}
+    ctx.stroke();
+  }
+  // tall / raised furniture become sprites
+  items.forEach(function(it){
+    var fn=TOWER_TALL[it.type]; if(!fn)return;
+    fn(m,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R);
+  });
+  // labels
+  P.rooms.forEach(function(r){ addLabel(m,r.x+pad,r.y+pad,r.w,r.h,ROOM_NOTES[r.type]||r.type); });
+  items.forEach(function(it){ if(TOWER_LABEL[it.type])addLabel(m,it.x,it.y,Math.max(1,it.w),Math.max(1,it.h),TOWER_LABEL[it.type](S)); });
+  if(S.extra)S.extra(m,ctx,W,H,R,{cell:cell,room:room,at:at,items:items,pad:pad,plan:P});
+  if(S.particles)S.particles.forEach(function(p){ m.particles.push(Object.assign({area:{x:pad*LT,y:pad*LT,w:P.w*LT,h:P.h*LT}},p)); });
+  m.base=cv;
+  m.stats={rooms:P.rooms.length,plan:P.name};
+  return m;
+}
+
+// ── Walls ──────────────────────────────────────────────────────────────
+function towerWall(ctx,x,y,S,face,win,out,R,m){
+  var p=S.pal, top=face?9:LT;
+  // top face
+  var g=ctx.createLinearGradient(x,y,x,y+top); g.addColorStop(0,shade(p.wallTop,0.12)); g.addColorStop(1,p.wallTop);
+  ctx.fillStyle=g; ctx.fillRect(x,y,LT,top);
+  ctx.fillStyle=rgba(p.trim,0.55); ctx.fillRect(x,y+top-1.5,LT,1.5);
+  if(face){
+    var fh=LT-top, g2=ctx.createLinearGradient(x,y+top,x,y+LT);
+    g2.addColorStop(0,shade(p.wallFace,-0.04)); g2.addColorStop(1,shade(p.wallFace,-0.24));
+    ctx.fillStyle=g2; ctx.fillRect(x,y+top,LT,fh);
+    // base trim
+    ctx.fillStyle=shade(p.trim,-0.1); ctx.fillRect(x,y+LT-3,LT,3);
+    if(S.wallDetail)S.wallDetail(ctx,x,y+top,LT,fh,R);
+    if(win){
+      if(S.windowFace)S.windowFace(ctx,x,y+top,LT,fh,R);
+      else towerWindowArch(ctx,x+7,y+top+2,LT-14,fh-6,S);
+      // light shaft falling onto the floor below (north-wall windows)
+      if(out.n)towerShaft(m,x,y+LT,S,R);
+    }
+  } else if(win){
+    // window seen from above on a side wall: a luminous slit
+    var gg=ctx.createLinearGradient(x,y,x+LT,y); gg.addColorStop(0,rgba(S.pal.glassA,0.9)); gg.addColorStop(1,rgba(S.pal.glassB,0.9));
+    ctx.fillStyle=gg; if(out.w||out.e)ctx.fillRect(x+LT/2-4,y+4,8,LT-8); else ctx.fillRect(x+4,y+LT/2-4,LT-8,8);
+    if(out.w||out.e){ var sx=out.w?x+LT:x-LT*2; addLight(m,out.w?x+LT+20:x-20,y+LT/2,46,S.pal.light,0.22,{depth:-4,noCut:true}); }
+  }
+}
+function towerWindowArch(ctx,x,y,w,h,S){
+  var p=S.pal;
+  ctx.fillStyle=shade(p.trim,-0.15); rr(ctx,x-2,y-1,w+4,h+2,w/2); ctx.fill();
+  var g=ctx.createLinearGradient(x,y,x,y+h); g.addColorStop(0,p.glassA); g.addColorStop(1,p.glassB);
+  ctx.fillStyle=g; rr(ctx,x,y,w,h,w/2-1); ctx.fill();
+  ctx.strokeStyle=rgba(p.trim,0.9); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x+w/2,y+2); ctx.lineTo(x+w/2,y+h); ctx.moveTo(x,y+h*0.55); ctx.lineTo(x+w,y+h*0.55); ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.45)'; ctx.fillRect(x+2,y+4,2,h*0.4);
+}
+function towerShaft(m,x,y,S,R){
+  var len=LT*(3.2+R.f()*1.2), w=LT*1.3, skew=S.shaftSkew===undefined?14:S.shaftSkew;
+  var c=mkCanvas(w+Math.abs(skew)+4,len), ctx=c.getContext('2d');
+  var g=ctx.createLinearGradient(0,0,0,len); g.addColorStop(0,rgba(S.pal.light,0.8)); g.addColorStop(1,rgba(S.pal.light,0));
+  ctx.fillStyle=g; ctx.beginPath(); var o=skew<0?-skew:0;
+  ctx.moveTo(o+6,0); ctx.lineTo(o+w-6,0); ctx.lineTo(o+w+skew,len); ctx.lineTo(o+skew,len); ctx.closePath(); ctx.fill();
+  m.shafts.push({canvas:c,x:x-2-o+ (LT-w)/2,y:y,a:S.shaftA||0.34,sway:true});
+}
+function towerGlass(ctx,x,y,S,face){
+  var p=S.pal;
+  ctx.fillStyle=rgba(p.glassA,0.35); ctx.fillRect(x+2,y,LT-4,LT);
+  ctx.fillStyle=rgba('#ffffff',0.5); ctx.fillRect(x+5,y+3,2,LT-10);
+  ctx.strokeStyle=rgba(p.trim,0.85); ctx.lineWidth=2; ctx.strokeRect(x+2,y+1,LT-4,LT-2);
+  if(face){ ctx.fillStyle=rgba(p.glassB,0.25); ctx.fillRect(x+2,y+LT-8,LT-4,8); }
+}
+
+// ── Furniture painters ─────────────────────────────────────────────────
+// Flat pieces go on the base canvas; tall pieces become depth-sorted sprites.
+var TOWER_FLAT={
+  rug:function(ctx,x,y,w,h,S){ var p=S.pal; rr(ctx,x+4,y+4,w-8,h-8,6); ctx.fillStyle=p.fabric; ctx.fill(); ctx.strokeStyle=p.fabric2; ctx.lineWidth=3; rr(ctx,x+9,y+9,w-18,h-18,4); ctx.stroke(); ctx.fillStyle=rgba(p.fabric2,0.5); ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2,w/6,h/6,0,0,Math.PI*2); ctx.fill(); },
+  runner:function(ctx,x,y,w,h,S){ var p=S.pal; ctx.fillStyle=p.fabric; ctx.fillRect(x+6,y,w-12,h); ctx.fillStyle=p.fabric2; ctx.fillRect(x+8,y,2,h); ctx.fillRect(x+w-10,y,2,h); if(w>h){ ctx.fillStyle=p.fabric; ctx.fillRect(x,y+6,w,h-12); ctx.fillStyle=p.fabric2; ctx.fillRect(x,y+8,w,2); ctx.fillRect(x,y+h-10,w,2);} },
+  pool:function(ctx,x,y,w,h,S){ var p=S.pal; rr(ctx,x+2,y+2,w-4,h-4,8); ctx.fillStyle=shade(p.trim,-0.2); ctx.fill(); rr(ctx,x+5,y+5,w-10,h-10,6); var g=ctx.createLinearGradient(x,y,x+w,y+h); g.addColorStop(0,p.water||'#7ec8f0'); g.addColorStop(1,shade(p.water||'#7ec8f0',-0.3)); ctx.fillStyle=g; ctx.fill(); ctx.fillStyle='rgba(255,255,255,.35)'; ctx.fillRect(x+9,y+9,w*0.4,2); },
+  stairs:function(ctx,x,y,w,h,S){ var p=S.pal; for(var i=0;i<5;i++){ ctx.fillStyle=shade(p.floorA,-0.05*i-0.05); ctx.fillRect(x+2,y+2+i*5.5,LT-4,5); ctx.fillStyle=rgba('#ffffff',0.25); ctx.fillRect(x+2,y+2+i*5.5,LT-4,1);} ctx.fillStyle=rgba(p.accent,0.9); ctx.font='bold 9px sans-serif'; ctx.textAlign='center'; ctx.fillText('▲',x+LT/2,y+LT-2); },
+  table:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,0); },
+  longtable:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,1); },
+  desk:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,2); },
+  maptable:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,3); },
+  sideboard:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,4); },
+  bench:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-4,w/2,5,0.25); ctx.fillStyle=shade(p.wood,-0.1); ctx.fillRect(x+3,y+10,w-6,10); ctx.fillStyle=p.wood; ctx.fillRect(x+3,y+8,w-6,7); ctx.fillStyle=p.fabric; ctx.fillRect(x+5,y+9,w-10,4); },
+  pew:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-4,w/2,5,0.25); ctx.fillStyle=shade(p.wood,-0.25); ctx.fillRect(x+2,y+4,w-4,6); ctx.fillStyle=p.wood; ctx.fillRect(x+2,y+10,w-4,12); ctx.fillStyle=shade(p.wood,0.15); ctx.fillRect(x+2,y+10,w-4,2); },
+  chair:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+16,y+26,9,4,0.25); ctx.fillStyle=shade(p.wood,-0.2); ctx.fillRect(x+9,y+6,14,5); ctx.fillStyle=p.wood; rr(ctx,x+9,y+11,14,13,3); ctx.fill(); ctx.fillStyle=p.fabric; rr(ctx,x+11,y+13,10,8,2); ctx.fill(); },
+  nightstand:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+16,y+27,10,4,0.25); ctx.fillStyle=p.wood; rr(ctx,x+7,y+10,18,16,2); ctx.fill(); ctx.fillStyle=shade(p.wood,0.18); ctx.fillRect(x+7,y+10,18,4); glowSpot(ctx,x+16,y+10,10,p.light,0.5); ctx.fillStyle=p.light; ctx.beginPath(); ctx.arc(x+16,y+10,3,0,Math.PI*2); ctx.fill(); },
+  bed:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-4,w/2,8,0.3); ctx.fillStyle=shade(p.wood,-0.1); rr(ctx,x+3,y+2,w-6,h-4,4); ctx.fill(); ctx.fillStyle=p.wood; ctx.fillRect(x+3,y+2,w-6,10); ctx.fillStyle='#f6f4ee'; rr(ctx,x+7,y+12,w-14,12,4); ctx.fill(); var g=ctx.createLinearGradient(x,y+24,x,y+h); g.addColorStop(0,p.fabric); g.addColorStop(1,shade(p.fabric,-0.2)); ctx.fillStyle=g; rr(ctx,x+5,y+24,w-10,h-30,5); ctx.fill(); ctx.strokeStyle=p.fabric2; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x+6,y+34); ctx.lineTo(x+w-6,y+34); ctx.stroke(); },
+  altar:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-3,w/2,5,0.3); ctx.fillStyle=shade(p.wallFace,0.1); rr(ctx,x+3,y+8,w-6,20,3); ctx.fill(); ctx.fillStyle=p.fabric; ctx.fillRect(x+w/2-6,y+8,12,20); ctx.fillStyle=p.accent; ctx.beginPath(); ctx.arc(x+w/2,y+6,5,0,Math.PI*2); ctx.fill(); glowSpot(ctx,x+w/2,y+6,20,p.light,0.5); },
+  center_fountain:function(ctx,x,y,w,h,S){ var p=S.pal, cx=x+w/2, cy=y+h/2; softShadow(ctx,cx,cy+6,w/2,h/2.4,0.25); ctx.fillStyle=shade(p.trim,-0.1); ctx.beginPath(); ctx.arc(cx,cy,w/2-2,0,Math.PI*2); ctx.fill(); var g=ctx.createRadialGradient(cx,cy,4,cx,cy,w/2-6); g.addColorStop(0,shade(p.water||'#8fd3f5',0.3)); g.addColorStop(1,p.water||'#6bb8e0'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,w/2-6,0,Math.PI*2); ctx.fill(); ctx.fillStyle=p.wallTop; ctx.beginPath(); ctx.arc(cx,cy,8,0,Math.PI*2); ctx.fill(); },
+  center_pool:function(ctx,x,y,w,h,S){ TOWER_FLAT.pool(ctx,x,y,w,h,S); },
+  center_starmap:function(ctx,x,y,w,h,S,R){ var p=S.pal, cx=x+w/2, cy=y+h/2; ctx.fillStyle='#0c1636'; ctx.beginPath(); ctx.arc(cx,cy,w/2-2,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=p.accent; ctx.lineWidth=2; ctx.stroke(); for(var i=0;i<40;i++){ var a=R.f()*Math.PI*2, r=R.f()*(w/2-6); ctx.fillStyle='rgba(255,255,255,'+(0.4+R.f()*0.6)+')'; ctx.fillRect(cx+Math.cos(a)*r,cy+Math.sin(a)*r,1.5,1.5);} ctx.strokeStyle=rgba(p.accent,0.6); ctx.lineWidth=1; ctx.beginPath(); for(var j=0;j<6;j++){ var a2=j/6*Math.PI*2; ctx.lineTo(cx+Math.cos(a2)*w*0.3,cy+Math.sin(a2)*h*0.3);} ctx.closePath(); ctx.stroke(); },
+};
+function towerTableTop(ctx,x,y,w,h,S,kind){
+  var p=S.pal; softShadow(ctx,x+w/2,y+h-2,w/2,7,0.28);
+  ctx.fillStyle=shade(p.wood,-0.25); rr(ctx,x+3,y+8,w-6,h-8,3); ctx.fill();
+  var g=ctx.createLinearGradient(x,y+4,x,y+h-4); g.addColorStop(0,shade(p.wood,0.15)); g.addColorStop(1,p.wood);
+  ctx.fillStyle=g; rr(ctx,x+3,y+4,w-6,h-10,3); ctx.fill();
+  if(kind===1){ ctx.fillStyle=p.fabric2; ctx.fillRect(x+6,y+h/2-4,w-12,4); for(var i=x+14;i<x+w-10;i+=28){ ctx.fillStyle='#eef'; ctx.beginPath(); ctx.arc(i,y+h/2-2,3,0,Math.PI*2); ctx.fill(); } }
+  if(kind===2){ ctx.fillStyle='#f4f0e2'; ctx.fillRect(x+10,y+8,12,9); ctx.fillStyle=p.accent; ctx.fillRect(x+w-16,y+7,3,8); }
+  if(kind===3){ ctx.fillStyle='#e8dcb4'; ctx.fillRect(x+8,y+7,w-16,h-16); ctx.strokeStyle='rgba(90,70,40,.6)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x+12,y+12); ctx.bezierCurveTo(x+w/2,y+6,x+w/2,y+18,x+w-12,y+10); ctx.stroke(); }
+  if(kind===4){ ctx.fillStyle=p.fabric2; ctx.fillRect(x+8,y+8,6,6); ctx.fillStyle=p.accent; ctx.fillRect(x+w-14,y+7,5,7); }
+}
+function towerSpriteBox(m,x,y,w,h,fn){ addSprite(m,x+w/2,y+h,w+8,h+48,function(ctx,cw,ch){ ctx.translate(4,48); fn(ctx,w,h); }); }
+var TOWER_TALL={
+  bookshelf:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ var top=-34; ctx.fillStyle=shade(p.wood,-0.3); ctx.fillRect(0,top,w,h-top); ctx.fillStyle=p.wood; ctx.fillRect(2,top+2,w-4,h-top-6); var cols=['#7a3b3b','#3b5a7a','#6a7a3b','#8a6a2a','#5a3b7a','#2f6f6f','#c8b27a']; for(var s=0;s<4;s++){ var sy=top+4+s*13; ctx.fillStyle=shade(p.wood,-0.35); ctx.fillRect(3,sy+10,w-6,2); for(var bx=4;bx<w-6;){ var bw=3+(bx*7+s*3)%4, bh=7+(bx+s)%3; ctx.fillStyle=cols[(bx+s*5)%cols.length]; ctx.fillRect(bx,sy+10-bh,bw,bh); bx+=bw+1; } } ctx.fillStyle=shade(p.wood,0.2); ctx.fillRect(0,top,w,3); }); },
+  wardrobe:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ var top=-36; ctx.fillStyle=shade(p.wood,-0.2); rr(ctx,0,top,w,h-top,3); ctx.fill(); ctx.fillStyle=p.wood; ctx.fillRect(3,top+4,w/2-4,h-top-8); ctx.fillRect(w/2+1,top+4,w/2-4,h-top-8); ctx.fillStyle=p.accent; ctx.fillRect(w/2-3,top+26,2,6); ctx.fillRect(w/2+1,top+26,2,6); ctx.fillStyle=shade(p.wood,0.2); ctx.fillRect(0,top,w,3); }); },
+  lectern:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,10,4,0.3); ctx.fillStyle=shade(p.wood,-0.2); ctx.fillRect(w/2-3,h-26,6,22); ctx.fillStyle=p.wood; ctx.beginPath(); ctx.moveTo(w/2-12,h-24); ctx.lineTo(w/2+12,h-28); ctx.lineTo(w/2+12,h-20); ctx.lineTo(w/2-12,h-16); ctx.fill(); ctx.fillStyle='#f5efd9'; ctx.fillRect(w/2-9,h-25,8,6); ctx.fillRect(w/2+1,h-26,8,6); }); },
+  globe:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,9,3,0.3); ctx.fillStyle=p.metal; ctx.fillRect(w/2-2,h-18,4,14); ctx.fillStyle='#5fa0c8'; ctx.beginPath(); ctx.arc(w/2,h-26,10,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#8cbf6a'; ctx.beginPath(); ctx.ellipse(w/2-3,h-28,4,6,0.5,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=p.metal; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(w/2,h-26,12,Math.PI*0.2,Math.PI*1.2); ctx.stroke(); }); },
+  candelabra:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,8,3,0.3); ctx.fillStyle=p.metal; ctx.fillRect(w/2-1.5,h-34,3,30); ctx.fillRect(w/2-10,h-32,20,2); [-9,0,9].forEach(function(o){ ctx.fillStyle='#f6f0dc'; ctx.fillRect(w/2+o-1.5,h-40,3,8); ctx.fillStyle='#ffd27a'; ctx.beginPath(); ctx.ellipse(w/2+o,h-43,2,3.5,0,0,Math.PI*2); ctx.fill(); }); }); addLight(m,x+w/2,y+h-42,70,'#ffcf80',0.45,{flicker:0.35,depth:y+h+1}); },
+  statue:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,12,4,0.3); ctx.fillStyle=shade(p.statue||p.wallTop,-0.15); ctx.fillRect(w/2-11,h-12,22,10); var g=ctx.createLinearGradient(0,h-52,0,h-12); g.addColorStop(0,shade(p.statue||p.wallTop,0.15)); g.addColorStop(1,shade(p.statue||p.wallTop,-0.1)); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(w/2-7,h-12); ctx.lineTo(w/2-5,h-38); ctx.lineTo(w/2+5,h-38); ctx.lineTo(w/2+7,h-12); ctx.fill(); ctx.beginPath(); ctx.arc(w/2,h-43,6,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.moveTo(w/2+5,h-36); ctx.lineTo(w/2+14,h-50); ctx.lineTo(w/2+12,h-52); ctx.lineTo(w/2+3,h-40); ctx.fill(); }); },
+  pillar:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,13,4,0.3); ctx.fillStyle=shade(p.wallTop,-0.12); ctx.fillRect(w/2-12,h-8,24,6); var g=ctx.createLinearGradient(w/2-9,0,w/2+9,0); g.addColorStop(0,shade(p.wallTop,-0.12)); g.addColorStop(0.45,shade(p.wallTop,0.2)); g.addColorStop(1,shade(p.wallTop,-0.2)); ctx.fillStyle=g; ctx.fillRect(w/2-9,h-60,18,52); ctx.fillStyle=rgba(p.trim,0.8); ctx.fillRect(w/2-11,h-64,22,5); for(var i=-6;i<=6;i+=4){ ctx.fillStyle='rgba(0,0,0,.07)'; ctx.fillRect(w/2+i,h-58,1,48);} }); },
+  plant:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,9,3,0.3); ctx.fillStyle=p.pot||shade(p.wallFace,-0.15); rr(ctx,w/2-7,h-14,14,11,3); ctx.fill(); for(var i=0;i<9;i++){ var a=-Math.PI/2+(i-4)*0.32; ctx.strokeStyle=i%2?p.plant:shade(p.plant,0.2); ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(w/2,h-13); ctx.quadraticCurveTo(w/2+Math.cos(a)*8,h-22,w/2+Math.cos(a)*14,h-13+Math.sin(a)*22); ctx.stroke(); } }); },
+  planter:function(m,x,y,w,h,S){ TOWER_TALL.plant(m,x,y,w,h,S); },
+  tree:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h,70,90,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-4,16,5,0.3); ctx.fillStyle=p.bark||'#e8e2d4'; ctx.fillRect(cw/2-4,ch-40,8,36); for(var i=0;i<14;i++){ var a=i/14*Math.PI*2; ctx.fillStyle=i%3?p.plant:shade(p.plant,0.25); ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*16,ch-52+Math.sin(a)*12,11,0,Math.PI*2); ctx.fill(); } ctx.fillStyle=shade(p.plant,0.3); ctx.beginPath(); ctx.arc(cw/2-4,ch-58,10,0,Math.PI*2); ctx.fill(); }); },
+  harp:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,9,3,0.3); ctx.strokeStyle=p.accent; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(w/2-8,h-4); ctx.lineTo(w/2-8,h-46); ctx.quadraticCurveTo(w/2+12,h-44,w/2+8,h-8); ctx.closePath(); ctx.stroke(); ctx.strokeStyle='rgba(255,255,255,.7)'; ctx.lineWidth=0.7; for(var i=0;i<6;i++){ ctx.beginPath(); ctx.moveTo(w/2-8,h-40+i*6); ctx.lineTo(w/2-6+i*2.4,h-8); ctx.stroke(); } }); },
+  piano:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,w/2,6,0.3); ctx.fillStyle=p.pianoCol||'#1b1b22'; ctx.beginPath(); ctx.moveTo(4,h-26); ctx.lineTo(w-4,h-26); ctx.quadraticCurveTo(w,h-4,w/2,h-4); ctx.lineTo(4,h-4); ctx.closePath(); ctx.fill(); ctx.fillStyle='#fdfdfd'; ctx.fillRect(6,h-30,w-12,6); for(var k=8;k<w-8;k+=5){ ctx.fillStyle='#222'; ctx.fillRect(k,h-30,2,3);} ctx.fillStyle=rgba('#ffffff',0.2); ctx.fillRect(8,h-22,w-24,2); }); },
+  chandelier:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x*1+LT/2,y+LT*1.2,60,120,function(ctx,cw,ch){ ctx.fillStyle=p.metal; ctx.fillRect(cw/2-1,0,2,40); ctx.beginPath(); ctx.ellipse(cw/2,44,22,6,0,0,Math.PI*2); ctx.strokeStyle=p.metal; ctx.lineWidth=2; ctx.stroke(); for(var i=0;i<6;i++){ var a=i/6*Math.PI*2; ctx.fillStyle='#ffe6a8'; ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*20,40+Math.sin(a)*5,2.5,0,Math.PI*2); ctx.fill(); } }); m.sprites[m.sprites.length-1].depth=8000; addLight(m,x+LT/2,y-10,120,'#ffe2a0',0.35,{flicker:0.15}); },
+  center_crystal:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h-8,w+10,h+80,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-6,w/2-4,10,0.25); var pts=[[0,-96],[-14,-40],[0,-6],[14,-40]]; var g=ctx.createLinearGradient(cw/2-14,0,cw/2+14,0); g.addColorStop(0,rgba(p.glassA,0.95)); g.addColorStop(0.5,'rgba(255,255,255,0.95)'); g.addColorStop(1,rgba(p.glassB,0.95)); ctx.fillStyle=g; ctx.beginPath(); pts.forEach(function(q,i){ ctx[i?'lineTo':'moveTo'](cw/2+q[0],ch+q[1]); }); ctx.closePath(); ctx.fill(); [[-26,-36,-18],[24,-30,-14]].forEach(function(q){ ctx.beginPath(); ctx.moveTo(cw/2+q[0],ch+q[1]); ctx.lineTo(cw/2+q[0]-7,ch-12); ctx.lineTo(cw/2+q[0]+7,ch-12); ctx.closePath(); ctx.fill(); }); }); m.sprites[m.sprites.length-1].bob=4; addLight(m,x+w/2,y+h/2-30,150,p.light,0.55,{pulse:0.35,period:2400}); },
+  center_orrery:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h/2+40,120,120,function(ctx,cw,ch){ var cx=cw/2, cy=ch/2-10; ctx.strokeStyle=rgba(p.accent,0.9); ctx.lineWidth=1.5; [18,32,46].forEach(function(r){ ctx.beginPath(); ctx.ellipse(cx,cy,r,r*0.45,0,0,Math.PI*2); ctx.stroke(); }); var sg=ctx.createRadialGradient(cx,cy,1,cx,cy,9); sg.addColorStop(0,'#fff8d0'); sg.addColorStop(1,'#f0b040'); ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(cx,cy,8,0,Math.PI*2); ctx.fill(); [['#8fc4ff',18,0.4],['#e0a070',32,2.2],['#a0e0c0',46,4.1]].forEach(function(q){ ctx.fillStyle=q[0]; ctx.beginPath(); ctx.arc(cx+Math.cos(q[2])*q[1],cy+Math.sin(q[2])*q[1]*0.45,4,0,Math.PI*2); ctx.fill(); }); ctx.fillStyle=p.metal; ctx.fillRect(cx-2,cy+6,4,ch-cy-12); }); addLight(m,x+w/2,y+h/2-10,110,'#ffd98a',0.5,{pulse:0.25}); },
+  center_tree:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h-4,150,170,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-8,40,12,0.3); var g=ctx.createLinearGradient(cw/2-12,0,cw/2+12,0); g.addColorStop(0,'#d8d4c8'); g.addColorStop(0.5,'#fbfaf5'); g.addColorStop(1,'#cfcabb'); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(cw/2-16,ch-6); ctx.quadraticCurveTo(cw/2-6,ch-60,cw/2-10,ch-100); ctx.lineTo(cw/2+10,ch-100); ctx.quadraticCurveTo(cw/2+6,ch-60,cw/2+16,ch-6); ctx.fill(); for(var i=0;i<26;i++){ var a=i/26*Math.PI*2, r=30+(i*13%20); ctx.fillStyle=i%3?rgba(p.plant,0.9):rgba(shade(p.plant,0.35),0.9); ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*r*1.3,ch-118+Math.sin(a)*r*0.6,16,0,Math.PI*2); ctx.fill(); } for(var j=0;j<18;j++){ ctx.fillStyle='rgba(255,255,230,.8)'; ctx.fillRect(cw/2-50+(j*37%100),ch-150+(j*23%60),2,2);} }); addLight(m,x+w/2,y-20,160,'#f6ffd8',0.35,{pulse:0.2,period:3000}); },
+  center_fountain:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h/2+6,40,60,function(ctx,cw,ch){ ctx.fillStyle=p.wallTop; ctx.fillRect(cw/2-4,ch-40,8,34); ctx.beginPath(); ctx.ellipse(cw/2,ch-40,12,4,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='rgba(200,235,255,.8)'; ctx.lineWidth=1.5; for(var i=-1;i<=1;i+=2){ ctx.beginPath(); ctx.moveTo(cw/2,ch-44); ctx.quadraticCurveTo(cw/2+i*10,ch-58,cw/2+i*16,ch-30); ctx.stroke(); } }); addLight(m,x+w/2,y+h/2,90,p.water||'#9ad8ff',0.3,{pulse:0.3}); },
+  center_pool:function(m,x,y,w,h,S){ addLight(m,x+w/2,y+h/2,110,'#bfe8ff',0.35,{pulse:0.25,period:2600}); },
+  center_starmap:function(){},
+  crystalpillar:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h,36,90,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-4,12,4,0.3); var g=ctx.createLinearGradient(cw/2-10,0,cw/2+10,0); g.addColorStop(0,rgba(p.glassA,0.9)); g.addColorStop(0.5,'rgba(255,255,255,.95)'); g.addColorStop(1,rgba(p.glassB,0.9)); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(cw/2,ch-84); ctx.lineTo(cw/2+10,ch-66); ctx.lineTo(cw/2+9,ch-6); ctx.lineTo(cw/2-9,ch-6); ctx.lineTo(cw/2-10,ch-66); ctx.closePath(); ctx.fill(); }); addLight(m,x+w/2,y+h-40,60,p.light,0.4,{pulse:0.4,period:1700}); },
+  whitetree:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h,80,110,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-4,14,5,0.3); ctx.fillStyle='#f4f2ea'; ctx.beginPath(); ctx.moveTo(cw/2-8,ch-4); ctx.quadraticCurveTo(cw/2-2,ch-50,cw/2-6,ch-70); ctx.lineTo(cw/2+6,ch-70); ctx.quadraticCurveTo(cw/2+2,ch-50,cw/2+8,ch-4); ctx.fill(); for(var i=0;i<12;i++){ var a=i/12*Math.PI*2; ctx.fillStyle=i%2?rgba(p.plant,0.9):rgba(shade(p.plant,0.3),0.9); ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*20,ch-80+Math.sin(a)*10,10,0,Math.PI*2); ctx.fill(); } }); },
+  telescope:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,10,3,0.3); ctx.strokeStyle=p.metal; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(w/2,h-22); ctx.lineTo(w/2-9,h-3); ctx.moveTo(w/2,h-22); ctx.lineTo(w/2+9,h-3); ctx.moveTo(w/2,h-22); ctx.lineTo(w/2,h-3); ctx.stroke(); ctx.save(); ctx.translate(w/2,h-24); ctx.rotate(-0.7); ctx.fillStyle=p.accent; ctx.fillRect(-4,-22,8,30); ctx.fillStyle=p.metal; ctx.fillRect(-5,-24,10,4); ctx.restore(); }); },
+};
+var TOWER_LABEL={
+  stairs:function(){return 'Stairs up — the next floor of the tower.';},
+  center_fountain:function(){return 'Fountain — the centerpiece of this floor.';},
+  center_crystal:function(){return 'Moonglass crystal — it hums with light.';},
+  center_orrery:function(){return 'Orrery — brass planets turn around a lamp-sun.';},
+  center_tree:function(){return 'White tree — living wood grown through the floor.';},
+  center_pool:function(){return 'Reflecting pool — the sky moves across it.';},
+  center_starmap:function(){return 'Star map — constellations inlaid in the floor.';},
+  piano:function(){return 'Piano — elven lacquer, still in tune.';},
+  altar:function(){return 'Altar — light gathers here at dawn.';},
+};
+
+// ── Floor patterns ─────────────────────────────────────────────────────
+var FLOORS={
+  marble:function(ctx,x,y,tx,ty,base,vein,R){ var big=((tx>>1)+(ty>>1))%2; ctx.fillStyle=big?base:shade(base,-0.05); ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba(vein,0.25); ctx.lineWidth=1; if((tx*7+ty*3)%5===0){ ctx.beginPath(); ctx.moveTo(x+R.f()*LT,y); ctx.bezierCurveTo(x+R.f()*LT,y+10,x+R.f()*LT,y+22,x+R.f()*LT,y+LT); ctx.stroke(); } if(tx%2===0){ctx.fillStyle=rgba(vein,0.18);ctx.fillRect(x,y,1,LT);} if(ty%2===0){ctx.fillStyle=rgba(vein,0.18);ctx.fillRect(x,y,LT,1);} },
+  checker:function(ctx,x,y,tx,ty,a,b){ ctx.fillStyle=(tx+ty)%2?a:b; ctx.fillRect(x,y,LT,LT); ctx.fillStyle='rgba(255,255,255,.12)'; ctx.fillRect(x,y,LT,1); ctx.fillStyle='rgba(0,0,0,.06)'; ctx.fillRect(x,y+LT-1,LT,1); },
+  planks:function(ctx,x,y,tx,ty,a,b,R){ for(var i=0;i<4;i++){ var yy=y+i*8; ctx.fillStyle=((ty*4+i)*5+tx*3)%7<3?a:shade(a,-0.04); ctx.fillRect(x,yy,LT,8); ctx.fillStyle=rgba(b,0.35); ctx.fillRect(x,yy+7,LT,1); if((tx+i+ty)%3===0){ctx.fillRect(x+((ty*11+i*7)%28),yy,1,8);} } },
+  herring:function(ctx,x,y,tx,ty,a,b){ ctx.fillStyle=a; ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba(b,0.4); ctx.lineWidth=1; for(var i=-LT;i<LT*2;i+=8){ ctx.beginPath(); if((tx+ty)%2){ctx.moveTo(x+i,y);ctx.lineTo(x+i+LT,y+LT);} else {ctx.moveTo(x+i+LT,y);ctx.lineTo(x+i,y+LT);} ctx.stroke(); } },
+  hex:function(ctx,x,y,tx,ty,a,b,R){ ctx.fillStyle=a; ctx.fillRect(x,y,LT,LT); var g=ctx.createRadialGradient(x+16,y+16,2,x+16,y+16,22); g.addColorStop(0,rgba('#ffffff',0.35)); g.addColorStop(1,rgba(b,0.15)); ctx.fillStyle=g; ctx.beginPath(); for(var i=0;i<6;i++){ var an=Math.PI/6+i*Math.PI/3; ctx.lineTo(x+16+Math.cos(an)*15,y+16+Math.sin(an)*15);} ctx.closePath(); ctx.fill(); ctx.strokeStyle=rgba(b,0.5); ctx.stroke(); },
+  slab:function(ctx,x,y,tx,ty,a,b,R){ ctx.fillStyle=((tx*13+ty*7)%3===0)?shade(a,-0.04):a; ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba(b,0.3); ctx.lineWidth=1; ctx.strokeRect(x+0.5,y+0.5,LT-1,LT-1); if(R.chance(0.08)){ ctx.fillStyle=rgba(b,0.2); ctx.fillRect(x+R.i(4,24),y+R.i(4,24),3,1);} },
+  stars:function(ctx,x,y,tx,ty,a,b,R){ ctx.fillStyle=a; ctx.fillRect(x,y,LT,LT); for(var i=0;i<3;i++){ ctx.fillStyle='rgba(255,255,255,'+(0.3+R.f()*0.6)+')'; ctx.fillRect(x+R.f()*LT,y+R.f()*LT,1.3,1.3);} ctx.fillStyle=rgba(b,0.25); ctx.fillRect(x,y,LT,1); ctx.fillRect(x,y,1,LT); },
+  ice:function(ctx,x,y,tx,ty,a,b,R){ var g=ctx.createLinearGradient(x,y,x+LT,y+LT); g.addColorStop(0,shade(a,0.12)); g.addColorStop(1,a); ctx.fillStyle=g; ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba('#ffffff',0.5); ctx.lineWidth=0.8; if(R.chance(0.35)){ ctx.beginPath(); ctx.moveTo(x+R.f()*LT,y+R.f()*LT); ctx.lineTo(x+R.f()*LT,y+R.f()*LT); ctx.lineTo(x+R.f()*LT,y+R.f()*LT); ctx.stroke(); } ctx.strokeStyle=rgba(b,0.25); ctx.strokeRect(x+0.5,y+0.5,LT-1,LT-1); },
+};
+
+// ── Exteriors ──────────────────────────────────────────────────────────
+function extSky(top,bottom,cloudA){ return function(ctx,W,H,m,R){ var g=ctx.createLinearGradient(0,0,0,H*LT); g.addColorStop(0,top); g.addColorStop(1,bottom); ctx.fillStyle=g; ctx.fillRect(0,0,W*LT,H*LT); for(var i=0;i<40;i++){ var cx=R.f()*W*LT, cy=R.f()*H*LT; ctx.fillStyle='rgba(255,255,255,'+(cloudA*(0.4+R.f()*0.6))+')'; for(var j=0;j<5;j++){ ctx.beginPath(); ctx.arc(cx+j*14-28,cy+Math.sin(j)*6,16+R.f()*10,0,Math.PI*2); ctx.fill(); } } }; }
+function extNight(top,bottom){ return function(ctx,W,H,m,R){ var g=ctx.createLinearGradient(0,0,0,H*LT); g.addColorStop(0,top); g.addColorStop(1,bottom); ctx.fillStyle=g; ctx.fillRect(0,0,W*LT,H*LT); for(var i=0;i<500;i++){ ctx.fillStyle='rgba(255,255,255,'+(0.2+R.f()*0.8)+')'; var s=R.chance(0.08)?2:1; ctx.fillRect(R.f()*W*LT,R.f()*H*LT,s,s);} }; }
+function extGarden(grassA,grassB,water){ return function(ctx,W,H,m,R){ ctx.fillStyle=grassA; ctx.fillRect(0,0,W*LT,H*LT); for(var i=0;i<1800;i++){ ctx.fillStyle=R.chance(0.5)?grassB:shade(grassA,0.1); ctx.fillRect(R.f()*W*LT,R.f()*H*LT,1.5,3);} if(water){ ctx.fillStyle=water; ctx.fillRect(0,0,W*LT,LT*1.4); ctx.fillStyle='rgba(255,255,255,.35)'; for(var k=0;k<60;k++)ctx.fillRect(R.f()*W*LT,R.f()*LT*1.3,8,1); } for(var t=0;t<30;t++){ var tx=R.f()*W*LT, ty=R.chance(0.5)?R.f()*LT*1.8:H*LT-R.f()*LT*1.8; if(R.chance(0.5)){tx=R.chance(0.5)?R.f()*LT*1.8:W*LT-R.f()*LT*1.8; ty=R.f()*H*LT;} softShadow(ctx,tx,ty+8,14,5,0.25); ctx.fillStyle=shade(grassA,-0.25); ctx.beginPath(); ctx.arc(tx,ty,13,0,Math.PI*2); ctx.fill(); ctx.fillStyle=shade(grassA,-0.05); ctx.beginPath(); ctx.arc(tx-3,ty-3,8,0,Math.PI*2); ctx.fill(); } }; }
+
+// ═══════════════════════════════════════════════════════════════════════
+// ║ The 10 tower styles
+// ═══════════════════════════════════════════════════════════════════════
+function towerStyle(o){ return Object.assign({windowEvery:3,glass:0.25,ao:0.2},o); }
+var TOWER_STYLES=[
+  towerStyle({ id:'rivendell', name:'Rivendell Twilight Hall', plan:'grand', seed:11,
+    tagline:'Warm white stone, arched glass, dusk light',
+    blurb:'Honey-white stone under an evening sky. Tall arched windows pour amber light across leaf-inlaid floors, lanterns glow in the halls, and leaves drift in through open arches.',
+    facts:['Plan: Grand floor (9 rooms around an atrium)','Centerpiece: fountain','Light: amber dusk shafts, lanterns'],
+    pal:{outside:'#3b3350',wallTop:'#efe6d2',wallFace:'#e2d6bc',trim:'#c9a86a',floorA:'#f1ead9',floorB:'#d8c9a8',glassA:'#ffd9a0',glassB:'#b98fc9',light:'#ffc98a',wood:'#b58b5e',fabric:'#7a8f6a',fabric2:'#d9c38e',metal:'#b8975c',plant:'#6f8f5a',accent:'#d8b270',water:'#8fc6d8',statue:'#f3ecdc'},
+    paintExterior:function(ctx,W,H,m,R){ extSky('#2f2a4a','#d99a7a',0.18)(ctx,W,H,m,R); ctx.fillStyle='rgba(210,235,255,.55)'; for(var i=0;i<3;i++){ var x=(5+i*13)*LT; ctx.fillRect(x,0,10,LT*1.8); } },
+    floor:function(ctx,x,y,tx,ty,rt,R){ var p=this.pal; if(rt==='library'||rt==='bedroom'||rt==='study')FLOORS.planks(ctx,x,y,tx,ty,'#d9bf98','#8a6a44',R); else FLOORS.marble(ctx,x,y,tx,ty,p.floorA,'#b59a6a',R); if((tx*3+ty*5)%11===0){ ctx.strokeStyle=rgba('#7f9a60',0.45); ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(x+6,y+26); ctx.quadraticCurveTo(x+16,y+4,x+26,y+26); ctx.stroke(); } },
+    center:'fountain', shaftSkew:18, shaftA:0.4,
+    particles:[{tex:'leaf',tints:['#d9a55a','#b8c46a','#e08a4a'],freq:500,vx:{min:10,max:25},vy:{min:8,max:18},scale:{start:0.9,end:0.6},alpha:{start:0.9,end:0},life:{min:6000,max:9000},blend:false,rotate:{min:0,max:360},depth:6500},
+               {col:'#ffd9a0',freq:180,scale:{start:0.35,end:0},alpha:{start:0.7,end:0}}] }),
+
+  towerStyle({ id:'hyrule_keep', name:'White Keep', plan:'gallery', seed:21, windowEvery:2, glass:0.1,
+    tagline:'Limestone, royal blue runners, gold trim',
+    blurb:'A royal keep in bright daylight: white limestone checkerboard floors, royal blue runners edged in gold, and banners carrying the winged-sword crest of the realm between tall windows.',
+    facts:['Plan: Long hall (rooms off a central gallery)','Centerpiece: fountain','Light: crisp noon shafts'],
+    pal:{outside:'#8fc2ea',wallTop:'#f6f4ee',wallFace:'#e9e5da',trim:'#d4af37',floorA:'#f7f5ef',floorB:'#dcd8cc',glassA:'#e6f4ff',glassB:'#9ccbf0',light:'#fff6d8',wood:'#8b6a48',fabric:'#23479a',fabric2:'#e0c060',metal:'#d4af37',plant:'#4f8a4f',accent:'#d4af37',water:'#8fd0f2',statue:'#f2f0ea'},
+    paintExterior:extGarden('#6fa35a','#5b8f48','#7cc0e8'),
+    floor:function(ctx,x,y,tx,ty,rt,R){ if(rt==='bedroom'||rt==='library')FLOORS.herring(ctx,x,y,tx,ty,'#cfb08a','#8a6a48'); else FLOORS.checker(ctx,x,y,tx,ty,'#f7f5ef','#dedad0'); },
+    wallDetail:function(ctx,x,y,w,h,R){ if(((x/LT)|0)%4===1){ ctx.fillStyle='#23479a'; ctx.fillRect(x+9,y+1,14,h-6); ctx.fillStyle='#d4af37'; ctx.fillRect(x+9,y+1,14,2); ctx.beginPath(); ctx.moveTo(x+16,y+5); ctx.lineTo(x+16,y+h-9); ctx.strokeStyle='#e8d38a'; ctx.lineWidth=1.5; ctx.stroke(); ctx.beginPath(); ctx.moveTo(x+11,y+8); ctx.lineTo(x+16,y+11); ctx.lineTo(x+21,y+8); ctx.stroke(); ctx.fillStyle='#23479a'; ctx.beginPath(); ctx.moveTo(x+9,y+h-5); ctx.lineTo(x+16,y+h-1); ctx.lineTo(x+23,y+h-5); ctx.fill(); } },
+    center:'fountain', shaftSkew:6, shaftA:0.3,
+    particles:[{col:'#fff6d8',freq:220,scale:{start:0.3,end:0},alpha:{start:0.6,end:0}}] }),
+
+  towerStyle({ id:'moonglass', name:'Moonglass Spire', plan:'rotunda', seed:31, glass:0.6,
+    tagline:'Glowing crystal floors under a night sky',
+    blurb:'Pale crystal tiles that glow softly as you walk, silver-blue walls, crystal pillars and a great humming moonglass crystal under the dome. Stars wheel past every window.',
+    facts:['Plan: Rotunda (round hall with wings)','Centerpiece: moonglass crystal','Light: floor glow that follows you, crystal pulses'],
+    pal:{outside:'#0b1230',wallTop:'#d9e6f5',wallFace:'#b8cce6',trim:'#9fc0e8',floorA:'#cfe0f5',floorB:'#8fb0dc',glassA:'#bfe0ff',glassB:'#6f8fe0',light:'#aee0ff',wood:'#9aa8c8',fabric:'#5a6fb8',fabric2:'#cfe0ff',metal:'#c0d0e8',plant:'#7fb0c8',accent:'#bfe0ff',water:'#9ad0ff',statue:'#e8f0fa'},
+    paintExterior:extNight('#050818','#1a2560'),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.hex(ctx,x,y,tx,ty,this.pal.floorA,this.pal.floorB,R); },
+    windowFace:function(ctx,x,y,w,h,R){ ctx.fillStyle='#0b1230'; rr(ctx,x+6,y+1,w-12,h-5,8); ctx.fill(); for(var i=0;i<6;i++){ctx.fillStyle='#fff';ctx.fillRect(x+8+R.f()*(w-16),y+3+R.f()*(h-9),1,1);} ctx.strokeStyle='#cfe4ff'; ctx.lineWidth=1.5; rr(ctx,x+6,y+1,w-12,h-5,8); ctx.stroke(); },
+    center:'crystal', pillar:'crystalpillar', shaftSkew:0, shaftA:0.18, ao:0.15,
+    particles:[{col:'#bfe0ff',freq:90,scale:{start:0.45,end:0},alpha:{start:0.9,end:0},vy:{min:-14,max:-4}}],
+    extra:function(m){ m.tick=function(scene){ if(!scene._floorGlow){ scene._floorGlow=scene.add.image(0,0,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xaee0ff).setAlpha(0.35).setScale(1.3).setDepth(-3);} scene._floorGlow.setPosition(scene.hero.x,scene.hero.y); }; } }),
+
+  towerStyle({ id:'elven_library', name:'Elven Library', plan:'grand', seed:41, glass:0.35, windowEvery:4,
+    tagline:'Carved white wood, skylights, floating lanterns',
+    blurb:'Every room is a reading room. Pale carved-wood floors, shelves in every wing, square skylights dropping pools of light, and paper lanterns that float and bob above the tables.',
+    facts:['Plan: Grand floor','Centerpiece: white tree growing through the atrium','Light: skylight pools, floating lanterns'],
+    pal:{outside:'#a8c9a0',wallTop:'#f3eee2',wallFace:'#e6dcc6',trim:'#b9a27a',floorA:'#efe3cc',floorB:'#c9b08a',glassA:'#f4fbff',glassB:'#bfe0f0',light:'#fff2cc',wood:'#e2cfa8',fabric:'#6b8fa8',fabric2:'#e8d9b0',metal:'#b9a27a',plant:'#79a86a',accent:'#c8a860',water:'#9fd4e8',statue:'#f5f0e4',bark:'#f0ece0'},
+    paintExterior:extGarden('#8fb482','#7aa06e',null),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.planks(ctx,x,y,tx,ty,'#efe3cc','#b89f78',R); },
+    roomAccent:function(ctx,x,y,w,h,rt,R){ if(rt==='atrium'||rt==='hall')return; var cx=x+w/2, cy=y+h/2; ctx.fillStyle='rgba(255,250,220,.28)'; ctx.fillRect(cx-LT,cy-LT,LT*2,LT*2); },
+    center:'tree', shaftSkew:0, shaftA:0.22,
+    particles:[{col:'#fff2cc',freq:260,scale:{start:0.3,end:0},alpha:{start:0.6,end:0}}],
+    extra:function(m,ctx,W,H,R,info){ info.plan.rooms.forEach(function(r){ if(r.type==='atrium')return; var cx=(r.x+info.pad+r.w/2)*LT, cy=(r.y+info.pad+r.h/2)*LT; addLight(m,cx,cy,70,'#fff2cc',0.3,{pulse:0.15,depth:-4,noCut:true}); for(var k=0;k<2;k++){ var lx=cx+(k?30:-30), ly=cy-20; addSprite(m,lx,ly+60,18,24,function(c,w,h){ var g=c.createRadialGradient(w/2,10,1,w/2,10,9); g.addColorStop(0,'#fff6d0'); g.addColorStop(1,'#f0c070'); c.fillStyle=g; rr(c,w/2-6,3,12,15,5); c.fill(); c.fillStyle='rgba(120,80,30,.6)'; c.fillRect(w/2-4,17,8,2); }); m.sprites[m.sprites.length-1].bob=6; addLight(m,lx,ly+48,46,'#ffe0a0',0.35,{flicker:0.2}); } }); } }),
+
+  towerStyle({ id:'sky_cloister', name:'Sky Cloister', plan:'gallery', seed:51, windowEvery:1, glass:0,
+    tagline:'Open balconies above the clouds',
+    blurb:'The outer walls give way to open arches and low balustrades, and the clouds drift right past the floor. White stone, pale blue silk and wind-blown curtains; it feels like standing in the sky.',
+    facts:['Plan: Long hall','Every outer wall is an open arch','Animated clouds and drifting light'],
+    pal:{outside:'#bfe0ff',wallTop:'#fbfbf8',wallFace:'#eceee8',trim:'#a9c8e8',floorA:'#f8f8f4',floorB:'#dfe6ee',glassA:'#d8eeff',glassB:'#a8d4ff',light:'#ffffff',wood:'#c9b79a',fabric:'#a8c8ea',fabric2:'#ffffff',metal:'#b9c8d8',plant:'#86b88a',accent:'#9fc8f0',water:'#a8dcff',statue:'#fafaf6'},
+    paintExterior:extSky('#9ccff5','#e8f6ff',0.55),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.slab(ctx,x,y,tx,ty,'#f8f8f4','#b8c8d8',R); },
+    windowFace:function(ctx,x,y,w,h,R){ var g=ctx.createLinearGradient(x,y,x,y+h); g.addColorStop(0,'#9ccff5'); g.addColorStop(1,'#e8f6ff'); ctx.fillStyle=g; rr(ctx,x+3,y,w-6,h-3,10); ctx.fill(); ctx.fillStyle='rgba(255,255,255,.8)'; ctx.beginPath(); ctx.arc(x+10+R.f()*10,y+h-10,5,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#e8ecf0'; ctx.fillRect(x+3,y+h-7,w-6,4); for(var i=x+6;i<x+w-4;i+=5)ctx.fillRect(i,y+h-11,2,5); },
+    center:'pool', shaftSkew:10, shaftA:0.25,
+    particles:[{col:'#ffffff',freq:400,scale:{start:0.5,end:0},alpha:{start:0.5,end:0},vx:{min:10,max:30}}],
+    extra:function(m,ctx,W,H,R){ var clouds=[]; for(var i=0;i<9;i++){ (function(i){ var cy=R.chance(0.5)?R.f()*LT*1.6:(H-2)*LT+R.f()*LT*1.6; addSprite(m,R.f()*W*LT,cy+30,120,40,function(c,w,h){ c.fillStyle='rgba(255,255,255,.85)'; for(var j=0;j<6;j++){ c.beginPath(); c.arc(20+j*16,22+Math.sin(j*1.3)*5,14,0,Math.PI*2); c.fill(); } }); clouds.push(m.sprites.length-1); })(i); }
+      m.tick=function(scene,dt){ if(!scene._cloudImgs){ scene._cloudImgs=scene.children.list.filter(function(o){return o.texture&&o.texture.key&&o.texture.key.indexOf('spr_')===0&&o.width===120&&o.height===40;}); } scene._cloudImgs.forEach(function(o,i){ o.x+=dt*(8+i%3*5); if(o.x>W*LT+70)o.x=-70; o.setDepth(scene._ld?scene._ld(9000):9000); }); }; } }),
+
+  towerStyle({ id:'silverwood', name:'Silverwood Palace', plan:'rotunda', seed:61, glass:0.2, windowEvery:3,
+    tagline:'Living white trees grown into the walls',
+    blurb:'The palace was grown, not built. White-barked trees stand in as pillars, leaf-shaped windows scatter green-gold light, and soft moss inlays run between pale stone slabs.',
+    facts:['Plan: Rotunda','Centerpiece: great white tree','Pillars: living silverwood trees'],
+    pal:{outside:'#557a4f',wallTop:'#f0efe6',wallFace:'#dcdcc8',trim:'#9fb77a',floorA:'#eeede2',floorB:'#b7c7a0',glassA:'#e8ffcf',glassB:'#9fd08a',light:'#f0ffc8',wood:'#cbbd98',fabric:'#7aa06a',fabric2:'#eef2d8',metal:'#b8b890',plant:'#6f9f58',accent:'#c8d890',water:'#9fd8c8',statue:'#f2f2e8'},
+    paintExterior:extGarden('#5f8a52','#4f7a44',null),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.slab(ctx,x,y,tx,ty,'#eeede2','#9fb77a',R); if((tx+ty)%3===0){ ctx.fillStyle='rgba(111,159,88,.35)'; ctx.fillRect(x,y+LT-2,LT,2);} },
+    windowFace:function(ctx,x,y,w,h,R){ ctx.fillStyle='#9fb77a'; ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2-1,8,h/2-3,0,0,Math.PI*2); ctx.fill(); var g=ctx.createLinearGradient(x,y,x,y+h); g.addColorStop(0,'#e8ffcf'); g.addColorStop(1,'#9fd08a'); ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2-1,6,h/2-5,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#6f9f58'; ctx.beginPath(); ctx.moveTo(x+w/2,y+4); ctx.lineTo(x+w/2,y+h-6); ctx.stroke(); },
+    center:'tree', pillar:'whitetree', shaftSkew:12, shaftA:0.3,
+    particles:[{tex:'leaf',tints:['#b8d88a','#e8f0a0','#8fc070'],freq:600,vx:{min:-10,max:10},vy:{min:6,max:14},scale:{start:0.8,end:0.5},alpha:{start:0.9,end:0},life:{min:6000,max:9000},blend:false,rotate:{min:0,max:360},depth:6500},
+               {col:'#f0ffc8',freq:300,scale:{start:0.35,end:0},alpha:{start:0.7,end:0}}] }),
+
+  towerStyle({ id:'frost_cathedral', name:'Frost Cathedral', plan:'grand', seed:71, windowEvery:2, glass:0.3,
+    tagline:'Ice-blue stone and stained glass',
+    blurb:'Cool blue-white stone with a faint frost sheen. Stained-glass windows throw pools of blue, violet and teal light across the floor, chandeliers glitter, and a fine frost mist hangs in the air.',
+    facts:['Plan: Grand floor','Centerpiece: moonglass crystal','Light: coloured stained-glass pools'],
+    pal:{outside:'#cfe4f4',wallTop:'#eef6fb',wallFace:'#d2e4f0',trim:'#8fb8d8',floorA:'#e4f0f8',floorB:'#a8c8e0',glassA:'#7fb0ff',glassB:'#b07fe0',light:'#bfe0ff',wood:'#a8b8c8',fabric:'#4a6fa8',fabric2:'#d8e8f8',metal:'#c8d8e8',plant:'#7fa8b8',accent:'#8fb8f0',water:'#b8e0ff',statue:'#f0f6fb'},
+    paintExterior:extSky('#b8d8f0','#f0f8ff',0.4),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.ice(ctx,x,y,tx,ty,this.pal.floorA,this.pal.floorB,R); },
+    windowFace:function(ctx,x,y,w,h,R){ var cols=['#5f8fff','#a06fe0','#4fc8c0','#f0c060','#7fb0ff']; ctx.fillStyle='#6f8fa8'; rr(ctx,x+5,y,w-10,h-3,9); ctx.fill(); for(var i=0;i<6;i++){ ctx.fillStyle=cols[(i+((x/LT)|0))%cols.length]; ctx.fillRect(x+7+(i%2)*(w-14)/2,y+2+Math.floor(i/2)*((h-7)/3),(w-14)/2-1,(h-7)/3-1);} },
+    center:'crystal', shaftSkew:8, shaftA:0.32,
+    particles:[{col:'#e8f4ff',freq:70,scale:{start:0.4,end:0.1},alpha:{start:0.5,end:0},vy:{min:2,max:10},vx:{min:-4,max:4},life:{min:4000,max:7000}}],
+    extra:function(m){ var cols=['#6f8fff','#b07fe0','#4fd0c8']; m.shafts.forEach(function(s,i){ var c=s.canvas, x=c.getContext('2d'); x.globalCompositeOperation='source-atop'; x.fillStyle=cols[i%3]; x.globalAlpha=0.65; x.fillRect(0,0,c.width,c.height); }); } }),
+
+  towerStyle({ id:'observatory', name:'Starlit Observatory', plan:'rotunda', seed:81, glass:0.4, windowEvery:2,
+    tagline:'Midnight blue, brass, a star map floor',
+    blurb:'An astronomer’s tower: deep blue floors inlaid with twinkling constellations, white stone walls, brass telescopes, and a turning orrery under the dome. Blue and white, but lit by night.',
+    facts:['Plan: Rotunda','Centerpiece: brass orrery over a star map','Light: lamp-sun, twinkling floor stars'],
+    pal:{outside:'#070b22',wallTop:'#eceff6',wallFace:'#cfd6e8',trim:'#c8a860',floorA:'#1b2856',floorB:'#3a4a88',glassA:'#2a3a88',glassB:'#0b1238',light:'#ffe2a0',wood:'#6a5a4a',fabric:'#2a3a78',fabric2:'#c8a860',metal:'#c8a860',plant:'#5f8fa0',accent:'#e8c878',water:'#5f8fd0',statue:'#e8ecf4',pianoCol:'#e8e4d8'},
+    paintExterior:extNight('#03061a','#141c48'),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.stars(ctx,x,y,tx,ty,this.pal.floorA,this.pal.floorB,R); },
+    roomAccent:function(ctx,x,y,w,h,rt,R){ if(rt==='rotunda'){ TOWER_FLAT.center_starmap(ctx,x+w/2-LT*3,y+h/2-LT*3,LT*6,LT*6,this,R); } },
+    center:'orrery', shaftSkew:0, shaftA:0.12,
+    particles:[{col:'#ffffff',freq:120,scale:{start:0.3,end:0},alpha:{start:1,end:0},vx:{min:-1,max:1},vy:{min:-1,max:1},life:{min:1200,max:2600}}],
+    extra:function(m,ctx,W,H,R,info){ info.plan.rooms.forEach(function(r){ if(r.type==='study'||r.type==='library'){ TOWER_TALL.telescope(m,(r.x+info.pad+r.w-2)*LT,(r.y+info.pad+r.h-2)*LT,LT,LT,TOWER_STYLES_BY_ID.observatory); } }); } }),
+
+  towerStyle({ id:'reflecting_hall', name:'Reflecting Hall', plan:'gallery', seed:91, glass:0.15,
+    tagline:'Shallow pools mirroring white pillars',
+    blurb:'Long shallow pools run through the halls and mirror the pillars and the sky. White stone and sky blue, with slow ripples of light moving over every surface.',
+    facts:['Plan: Long hall','Centerpiece: reflecting pool','Light: rippling water caustics'],
+    pal:{outside:'#a8d4f0',wallTop:'#fafaf7',wallFace:'#e8ecef',trim:'#b8d0e0',floorA:'#f5f6f3',floorB:'#d6dde2',glassA:'#e0f2ff',glassB:'#a8d0f0',light:'#e8f8ff',wood:'#c8b8a0',fabric:'#8fb8d8',fabric2:'#f4f8fb',metal:'#b8c8d0',plant:'#7fb08a',accent:'#9fd0f0',water:'#8fd0f5',statue:'#fbfbf8'},
+    paintExterior:extGarden('#79a870','#6a9862','#8ccaf0'),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.marble(ctx,x,y,tx,ty,'#f5f6f3','#9fb8c8',R); },
+    center:'pool', shaftSkew:10, shaftA:0.26,
+    extra:function(m,ctx,W,H,R,info){
+      // extra pools along the gallery walk
+      var ci=info.plan.rooms.findIndex(function(r){return r.type==='corridor';}); if(ci<0)return;
+      var r=info.plan.rooms[ci];
+      for(var x=r.x+info.pad+3;x<r.x+info.pad+r.w-4;x+=8){ var y=r.y+info.pad; TOWER_FLAT.pool(ctx,x*LT,y*LT+4,LT*3,LT*2-8,this); addLight(m,(x+1.5)*LT,(y+1)*LT,60,'#bfe8ff',0.25,{pulse:0.4,period:1900+x*30,depth:-4,noCut:true}); }
+      m.particles.push({col:'#dff4ff',freq:140,scale:{start:0.35,end:0},alpha:{start:0.6,end:0}});
+    } }),
+
+  towerStyle({ id:'dawn_sanctum', name:'Dawn Sanctum', plan:'grand', seed:101, windowEvery:2, glass:0.2,
+    tagline:'White, pale blue, soft gold at sunrise',
+    blurb:'The first light of morning, all the time. White stone with pale blue accents, gold filigree medallions in every room, and strong golden light shafts full of drifting dust motes.',
+    facts:['Plan: Grand floor','Centerpiece: fountain','Light: long golden morning shafts'],
+    pal:{outside:'#f3d9b0',wallTop:'#fbf8f2',wallFace:'#efe8da',trim:'#e0c070',floorA:'#fbf7ee',floorB:'#e0d4b8',glassA:'#fff0c8',glassB:'#a8d0f0',light:'#ffe7a8',wood:'#c8a878',fabric:'#9fc0e0',fabric2:'#e8c870',metal:'#e0c070',plant:'#86a86a',accent:'#e8c060',water:'#a8d8f0',statue:'#fbf8f2'},
+    paintExterior:extSky('#f7c89a','#fbeede',0.35),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.marble(ctx,x,y,tx,ty,'#fbf7ee','#d8c090',R); },
+    roomAccent:function(ctx,x,y,w,h,rt,R){ var cx=x+w/2, cy=y+h/2, r=Math.min(w,h)*0.32; ctx.strokeStyle='rgba(224,192,112,.55)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke(); ctx.lineWidth=1; for(var i=0;i<12;i++){ var a=i/12*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*r*0.4,cy+Math.sin(a)*r*0.4); ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r); ctx.stroke(); } },
+    center:'fountain', shaftSkew:28, shaftA:0.45,
+    particles:[{col:'#ffe7a8',freq:60,scale:{start:0.3,end:0},alpha:{start:0.8,end:0},vx:{min:-3,max:3},vy:{min:-3,max:3},life:{min:4000,max:8000}}] }),
+];
+var TOWER_STYLES_BY_ID={}; TOWER_STYLES.forEach(function(s){TOWER_STYLES_BY_ID[s.id]=s;});
+
+// ═══════════════════════════════════════════════════════════════════════
+// ║ DUNGEON SELECTOR (Phase 2 · C1) — 10 "Open Cavern" layouts
+// ║ Wide open floors broken up by obstacles you walk around, with room for
+// ║ ~2× the monsters of a classic room-and-corridor floor. Red rings show
+// ║ where monsters would spawn; the sealed portal marks the guardian arena.
+// ═══════════════════════════════════════════════════════════════════════
+var DG={ROCK:1,OPEN:0};
+
+function vnoise(seed){ var h=function(x,y){ var n=(x*374761393+y*668265263+seed*1442695041)|0; n=(n^(n>>>13))*1274126177|0; return ((n^(n>>>16))>>>0)/4294967296; };
+  return function(x,y){ var xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi, s=function(t){return t*t*(3-2*t);};
+    var a=h(xi,yi),b=h(xi+1,yi),c=h(xi,yi+1),d=h(xi+1,yi+1), u=s(xf),v=s(yf); return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v; }; }
+
+// Cellular-automata cave: returns Uint8Array (1 rock, 0 open), largest region kept.
+function caveGrid(W,H,R,fill,iters,shape){
+  var g=new Uint8Array(W*H);
+  for(var y=0;y<H;y++)for(var x=0;x<W;x++){
+    var edge=x<2||y<2||x>=W-2||y>=H-2;
+    var dx=(x-W/2)/(W/2), dy=(y-H/2)/(H/2), r=Math.sqrt(dx*dx+dy*dy);
+    var f=fill+(shape==='round'?Math.max(0,r-0.72)*2.2:Math.max(0,Math.max(Math.abs(dx),Math.abs(dy))-0.8)*2);
+    g[y*W+x]=edge||R.f()<f?1:0;
+  }
+  for(var it=0;it<iters;it++){
+    var n=new Uint8Array(W*H);
+    for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){
+      if(x2<1||y2<1||x2>=W-1||y2>=H-1){n[y2*W+x2]=1;continue;}
+      var c=0; for(var j=-1;j<=1;j++)for(var i=-1;i<=1;i++)c+=g[(y2+j)*W+x2+i];
+      n[y2*W+x2]=c>=5?1:0;
+    }
+    g=n;
+  }
+  // keep largest open region
+  var lab=new Int32Array(W*H).fill(-1), best=-1, bestN=0, id=0;
+  for(var k=0;k<W*H;k++){ if(g[k]||lab[k]>=0)continue; var q=[k],n2=0; lab[k]=id;
+    for(var qi=0;qi<q.length;qi++){ var c2=q[qi],cx=c2%W,cy=(c2/W)|0; n2++;
+      [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var nx=cx+d[0],ny=cy+d[1]; if(nx<0||ny<0||nx>=W||ny>=H)return; var kk=ny*W+nx; if(!g[kk]&&lab[kk]<0){lab[kk]=id;q.push(kk);} }); }
+    if(n2>bestN){bestN=n2;best=id;} id++; }
+  for(var k2=0;k2<W*H;k2++)if(!g[k2]&&lab[k2]!==best)g[k2]=1;
+  return g;
+}
+
+// Generic dungeon build: design supplies layout(ctx) + painters.
+function buildCavern(D, seed, opts){
+  opts=opts||{};
+  var R=rngOf(seed*131+D.id.length*7), W=D.w||52, H=D.h||40, m=newMap(W,H);
+  var g=D.layout?D.layout(W,H,R):caveGrid(W,H,R,D.fill||0.42,D.iters||5,D.shape);
+  // hazard grid (lava/water/pit): solid but painted differently
+  var hazard=new Uint8Array(W*H);
+  var ctxInfo={W:W,H:H,R:R,g:g,hazard:hazard,m:m,obst:[]};
+  if(D.hazards)D.hazards(ctxInfo);
+  var open=function(x,y){ return x>=0&&y>=0&&x<W&&y<H&&!g[y*W+x]&&!hazard[y*W+x]; };
+  // spawn: lowest open cell near the middle
+  var sp=null; for(var y=H-3;y>2&&!sp;y--)for(var dx=0;dx<W/2&&!sp;dx++){ [W/2+dx|0,W/2-dx|0].forEach(function(x){ if(!sp&&open(x,y)&&open(x,y-1)&&open(x+1,y))sp={x:x,y:y}; }); }
+  if(!sp)sp={x:W>>1,y:H>>1};
+  for(var i=0;i<W*H;i++)m.solid[i]=(g[i]||hazard[i])?1:0;
+  m.spawn={x:sp.x*LT+LT/2,y:sp.y*LT+LT-4};
+  // Cells you can't walk to (islets in a lake, etc.) stay painted as floor but count as blocked.
+  (function(){ var r0=floodReach(m,sp.x,sp.y); for(var k=0;k<W*H;k++)if(!m.solid[k]&&!r0[k])m.solid[k]=1; })();
+  // obstacles (design places them via ctxInfo.place)
+  var occ=new Uint8Array(W*H);
+  var reachCount=function(){ var s=floodReach(m,sp.x,sp.y),n=0,o=0; for(var k=0;k<W*H;k++){ if(!m.solid[k]){o++; if(s[k])n++;} } return n===o; };
+  ctxInfo.place=function(kind,x,y,w,h,opts){
+    for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++){ var X=x+xx,Y=y+yy; if(!open(X,Y)||occ[Y*W+X])return false; if(Math.abs(X-sp.x)<3&&Math.abs(Y-sp.y)<3)return false; }
+    for(var yy2=0;yy2<h;yy2++)for(var xx2=0;xx2<w;xx2++)m.solid[(y+yy2)*W+x+xx2]=1;
+    if(!(opts&&opts.skipReach)&&!reachCount()){ for(var yy3=0;yy3<h;yy3++)for(var xx3=0;xx3<w;xx3++)m.solid[(y+yy3)*W+x+xx3]=0; return false; }
+    for(var yy4=0;yy4<h;yy4++)for(var xx4=0;xx4<w;xx4++)occ[(y+yy4)*W+x+xx4]=1;
+    ctxInfo.obst.push(Object.assign({kind:kind,x:x,y:y,w:w,h:h},opts||{})); return true;
+  };
+  ctxInfo.randomOpen=function(tries){ for(var t=0;t<(tries||200);t++){ var x=R.i(2,W-3),y=R.i(2,H-3); if(open(x,y)&&!occ[y*W+x])return {x:x,y:y}; } return null; };
+  if(D.obstacles)D.obstacles(ctxInfo);
+  // ── paint ──
+  var cv=mkCanvas(W*LT,H*LT), ctx=cv.getContext('2d'), P=D.pal, nz=vnoise(seed);
+  ctx.fillStyle=P.void||'#07060a'; ctx.fillRect(0,0,W*LT,H*LT);
+  for(var ty=0;ty<H;ty++)for(var tx=0;tx<W;tx++){
+    var k=ty*W+tx, px=tx*LT, py=ty*LT;
+    if(!g[k]){
+      var n=nz(tx*0.15,ty*0.15), n2=nz(tx*0.6+50,ty*0.6+50);
+      ctx.fillStyle=mix(P.floorA,P.floorB,n*0.8); ctx.fillRect(px,py,LT,LT);
+      ctx.fillStyle=rgba(P.floorC||shade(P.floorA,-0.2),0.25+n2*0.25);
+      for(var s=0;s<3;s++)ctx.fillRect(px+R.f()*LT,py+R.f()*LT,2,2);
+      if(R.chance(0.06)){ ctx.strokeStyle=rgba(shade(P.floorA,-0.4),0.5); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(px+R.f()*LT,py+R.f()*LT); ctx.lineTo(px+R.f()*LT,py+R.f()*LT); ctx.stroke(); }
+      if(D.floorDeco)D.floorDeco(ctx,px,py,tx,ty,R,n);
+    }
+  }
+  if(D.paintHazards)D.paintHazards(ctx,ctxInfo,nz);
+  // rock with 3/4 faces
+  for(var ry=0;ry<H;ry++)for(var rx=0;rx<W;rx++){
+    var kk=ry*W+rx; if(!g[kk])continue;
+    var px2=rx*LT, py2=ry*LT, near=false;
+    for(var j2=-1;j2<=1&&!near;j2++)for(var i2=-1;i2<=1;i2++){ var X=rx+i2,Y=ry+j2; if(X>=0&&Y>=0&&X<W&&Y<H&&!g[Y*W+X]&&!hazard[Y*W+X]){near=true;break;} }
+    if(!near){ ctx.fillStyle=P.void||'#07060a'; ctx.fillRect(px2,py2,LT,LT); continue; }
+    var faceOpen=ry+1<H&&!g[(ry+1)*W+rx]&&!hazard[(ry+1)*W+rx];
+    var top=faceOpen?12:LT;
+    var gg=ctx.createLinearGradient(px2,py2,px2,py2+top); gg.addColorStop(0,shade(P.rockTop,0.1)); gg.addColorStop(1,P.rockTop);
+    ctx.fillStyle=gg; ctx.fillRect(px2,py2,LT,top);
+    for(var q=0;q<4;q++){ ctx.fillStyle=rgba(shade(P.rockTop,R.chance(0.5)?0.2:-0.25),0.6); ctx.fillRect(px2+R.f()*28,py2+R.f()*(top-3),4,2); }
+    if(faceOpen){ var fg=ctx.createLinearGradient(px2,py2+top,px2,py2+LT); fg.addColorStop(0,P.rockFace); fg.addColorStop(1,shade(P.rockFace,-0.35)); ctx.fillStyle=fg; ctx.fillRect(px2,py2+top,LT,LT-top);
+      ctx.strokeStyle=rgba(shade(P.rockFace,-0.5),0.7); ctx.lineWidth=1; for(var c=0;c<2;c++){ var cx=px2+4+R.f()*24; ctx.beginPath(); ctx.moveTo(cx,py2+top+2); ctx.lineTo(cx+R.f()*6-3,py2+LT-2); ctx.stroke(); }
+      var sg=ctx.createLinearGradient(0,py2+LT,0,py2+LT+10); sg.addColorStop(0,'rgba(0,0,0,.35)'); sg.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=sg; ctx.fillRect(px2,py2+LT,LT,10); }
+    if(D.rockDeco)D.rockDeco(ctx,px2,py2,rx,ry,R,faceOpen,m);
+    // irregular rubble along exposed side edges
+    [[-1,0],[1,0]].forEach(function(d){ var X=rx+d[0]; if(X<0||X>=W||g[ry*W+X]||hazard[ry*W+X])return; for(var b=0;b<3;b++){ var bx=d[0]<0?px2+R.f()*5:px2+LT-R.f()*5, by=py2+6+R.f()*(LT-10); ctx.fillStyle=shade(P.rockTop,-0.1+R.f()*0.2); ctx.beginPath(); ctx.arc(bx,by,3+R.f()*4,0,Math.PI*2); ctx.fill(); } });
+  }
+  // obstacles
+  ctxInfo.obst.forEach(function(o){ var fn=D.draw[o.kind]; if(fn)fn(m,ctx,o.x*LT,o.y*LT,o.w*LT,o.h*LT,R,o,P); });
+  // stairs + sealed portal (farthest reachable point = guardian arena)
+  var reach=floodReach(m,sp.x,sp.y), far=null, fd=-1;
+  for(var y3=2;y3<H-2;y3++)for(var x3=2;x3<W-2;x3++){ if(!reach[y3*W+x3])continue; var d=Math.abs(x3-sp.x)+Math.abs(y3-sp.y); if(d>fd&&open(x3+1,y3)&&open(x3-1,y3)&&open(x3,y3-1)){fd=d;far={x:x3,y:y3};} }
+  cavernMarkers(m,ctx,sp,far,P,opts);
+  m.site={entry:{x:sp.x,y:sp.y}, exit:far};
+  // monster spawn density
+  var openN=0; for(var k3=0;k3<W*H;k3++)if(!m.solid[k3]&&reach[k3])openN++;
+  var spawnN=Math.round(openN/(D.density||42));
+  var placed=0, tries=0;
+  while(placed<spawnN&&tries<4000){ tries++; var x4=R.i(2,W-3),y4=R.i(2,H-3); if(m.solid[y4*W+x4]||!reach[y4*W+x4])continue; if(Math.hypot(x4-sp.x,y4-sp.y)<7)continue;
+    var px4=x4*LT+LT/2,py4=y4*LT+LT/2; if(opts.game){ placed++; continue; } ctx.strokeStyle='rgba(255,70,70,.55)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(px4,py4,9,0,Math.PI*2); ctx.stroke(); ctx.fillStyle='rgba(255,60,60,.18)'; ctx.fill(); placed++; }
+  m.stats={spawns:placed,open:openN};
+  m.base=cv; m.bg=P.void||'#07060a'; m.dark=Math.min(0.72,D.dark===undefined?0.72:D.dark); m.darkCol=P.darkCol||'#030205';
+  m.heroLight=D.heroLight||215; m.heroLightCol=D.heroLightCol||'#ffc880';
+  (D.particles||[]).forEach(function(p){ m.particles.push(p); });
+  if(D.extra)D.extra(ctxInfo);
+  addLabel(m,sp.x-1,sp.y,3,1,'Entrance — stairs back up.');
+  if(far)addLabel(m,far.x-1,far.y-1,3,3,'Sealed exit portal — the guardian waits here on the last floor.');
+  return m;
+}
+// Smooth hazard field: paint at 1/8 resolution and upscale with smoothing, so
+// lava / water / pits get soft organic shorelines instead of square tiles.
+function paintHazardField(ctx,c,colorFn){
+  var S=4, W=c.W, H=c.H, lo=mkCanvas(W*S,H*S), lx=lo.getContext('2d'), img=lx.createImageData(W*S,H*S), d=img.data;
+  for(var py=0;py<H*S;py++)for(var px=0;px<W*S;px++){
+    var tx=(px/S)|0, ty=(py/S)|0; if(!c.hazard[ty*W+tx]||c.g[ty*W+tx])continue;
+    var col=colorFn(px/S,py/S), i=(py*W*S+px)*4; d[i]=col[0]; d[i+1]=col[1]; d[i+2]=col[2]; d[i+3]=255;
+  }
+  lx.putImageData(img,0,0);
+  ctx.save(); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high'; ctx.drawImage(lo,0,0,W*LT,H*LT); ctx.restore();
+}
+function cavernMarkers(m,ctx,sp,far,P,opts){
+  var sx=sp.x*LT, sy=(sp.y+1)*LT-6;
+  for(var i=0;i<4;i++){ ctx.fillStyle=shade(P.rockTop,0.1-i*0.08); ctx.fillRect(sx-4,sy-i*5,LT+8,5); }
+  if(far&&opts&&opts.game&&!opts.last){
+    // stairs leading down: dark steps receding into the floor
+    var fx0=far.x*LT, fy0=far.y*LT;
+    for(var s=0;s<5;s++){ ctx.fillStyle=shade(P.floorA,-0.15-s*0.13); ctx.fillRect(fx0-4+s*2,fy0+2+s*5.5,LT+8-s*4,5.5); }
+    ctx.fillStyle='rgba(255,220,150,.8)'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('▼',fx0+LT/2,fy0-2);
+    addLight(m,fx0+LT/2,fy0+LT/2,70,'#ffd9a0',0.3,{pulse:0.3,depth:-4});
+    return;
+  }
+  if(far&&opts&&opts.game)return; // the game draws its own exit portal on the last floor
+  if(far){
+    var fx=far.x*LT+LT/2, fy=far.y*LT+LT/2;
+    ctx.fillStyle='rgba(60,0,20,.8)'; ctx.beginPath(); ctx.arc(fx,fy,14,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#b0284a'; ctx.lineWidth=3; ctx.stroke();
+    addLight(m,fx,fy,90,'#ff3a6a',0.45,{pulse:0.4,period:1400});
+  }
+}
+// Obstacle sprite helpers
+function rockBlob(ctx,cx,cy,r,col,R){ softShadow(ctx,cx,cy+r*0.55,r*1.1,r*0.4,0.45); var g=ctx.createRadialGradient(cx-r*0.35,cy-r*0.45,r*0.1,cx,cy,r*1.1); g.addColorStop(0,shade(col,0.25)); g.addColorStop(1,shade(col,-0.35)); ctx.fillStyle=g; ctx.beginPath(); for(var i=0;i<9;i++){ var a=i/9*Math.PI*2, rr2=r*(0.82+R.f()*0.3); ctx.lineTo(cx+Math.cos(a)*rr2,cy+Math.sin(a)*rr2*0.8); } ctx.closePath(); ctx.fill(); }
+
+// ═══════════════════════════════════════════════════════════════════════
+var DUNGEON_DESIGNS=[
+  { id:'boulder_field', name:'Boulder Field', seed:3, tagline:'Wide cavern strewn with rock clusters',
+    blurb:'A huge open cavern floor broken up by boulder clusters of every size. Easy to read and good for big fights: you kite monsters around the rocks.',
+    fill:0.37, iters:5, density:40,
+    pal:{floorA:'#4a3f36',floorB:'#5d5046',floorC:'#2e2620',rockTop:'#6d6258',rockFace:'#4a4038',void:'#0a0806'},
+    obstacles:function(c){ for(var i=0;i<70;i++){ var p=c.randomOpen(); if(!p)continue; var big=c.R.chance(0.35); c.place('boulder',p.x,p.y,big?2:1,big?2:1); } },
+    draw:{ boulder:function(m,ctx,x,y,w,h,R,o,P){ addSprite(m,x+w/2,y+h,w+16,h+30,function(c,cw,ch){ rockBlob(c,cw/2,ch-h/2-4,w/2+2,'#7a6e62',R); if(w>LT)rockBlob(c,cw/2+10,ch-h/2+4,w/4,'#6a5e52',R); }); } },
+    extra:function(c){ var W=c.W,H=c.H,m=c.m; for(var i=0;i<14;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT+16,110,'#ffb060',0.45,{flicker:0.4,depth:-4}); } },
+    particles:[{col:'#c8b090',freq:160,scale:{start:0.25,end:0},alpha:{start:0.5,end:0},vy:{min:-4,max:4}}] },
+
+  { id:'pillared_hall', name:'Pillared Hall', seed:5, tagline:'Grid of ancient columns, some fallen',
+    blurb:'A vast underground hall held up by rows of stone columns. Some have collapsed into rubble, opening lanes and cover. Braziers burn along the aisles.',
+    density:38,
+    layout:function(W,H,R){ var g=new Uint8Array(W*H).fill(1); for(var y=3;y<H-3;y++)for(var x=3;x<W-3;x++){ var edge=(x<5||x>W-6||y<5||y>H-6)&&R.chance(0.35); g[y*W+x]=edge?1:0; } return g; },
+    pal:{floorA:'#3c4458',floorB:'#4a5268',floorC:'#262c3a',rockTop:'#667088',rockFace:'#454c62',void:'#07080d'},
+    floorDeco:function(ctx,px,py,tx,ty){ ctx.strokeStyle='rgba(0,0,0,.25)'; ctx.lineWidth=1; ctx.strokeRect(px+0.5,py+0.5,LT-1,LT-1); },
+    obstacles:function(c){ for(var y=6;y<c.H-6;y+=4)for(var x=6;x<c.W-6;x+=5){ if(c.R.chance(0.2))c.place('rubble',x,y,2,1); else c.place('column',x,y,1,1); } },
+    draw:{ column:function(m,ctx,x,y,w,h,R,o,P){ addSprite(m,x+w/2,y+h,40,110,function(c,cw,ch){ softShadow(c,cw/2,ch-4,15,5,0.45); var g=c.createLinearGradient(cw/2-11,0,cw/2+11,0); g.addColorStop(0,'#4a5268'); g.addColorStop(0.45,'#8a94ac'); g.addColorStop(1,'#3a4056'); c.fillStyle=g; c.fillRect(cw/2-11,ch-96,22,90); c.fillStyle='#7a849c'; c.fillRect(cw/2-14,ch-100,28,7); c.fillRect(cw/2-14,ch-10,28,6); }); addLight(m,x+w/2,y-8,70,'#ffa050',0.28,{flicker:0.3,depth:-4}); },
+      rubble:function(m,ctx,x,y,w,h,R){ for(var i=0;i<4;i++)rockBlob(ctx,x+6+R.f()*(w-12),y+10+R.f()*10,7+R.f()*6,'#6a7288',R); } },
+    particles:[{col:'#ffb070',freq:220,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:-18,max:-6}}] },
+
+  { id:'crystal_grotto', name:'Crystal Grotto', seed:7, tagline:'Glowing crystal clusters as cover',
+    blurb:'Cyan and violet crystal clusters grow out of the floor and light the cave from within. The glow makes this the brightest open dungeon, and the clusters make natural cover.',
+    fill:0.4, iters:5, density:42, dark:0.72,
+    pal:{floorA:'#252a45',floorB:'#2f3658',floorC:'#141830',rockTop:'#454c78',rockFace:'#2c3158',void:'#05060f'},
+    obstacles:function(c){ for(var i=0;i<46;i++){ var p=c.randomOpen(); if(p)c.place('crystal',p.x,p.y,1,1,{col:c.R.pick(['#6fe8ff','#b58cff','#8fb0ff'])}); } },
+    draw:{ crystal:function(m,ctx,x,y,w,h,R,o){ addSprite(m,x+w/2,y+h,50,80,function(c,cw,ch){ softShadow(c,cw/2,ch-4,14,4,0.4); for(var i=0;i<4;i++){ var ox=(i-1.5)*7, hh=26+R.f()*30; var g=c.createLinearGradient(cw/2+ox-5,0,cw/2+ox+5,0); g.addColorStop(0,rgba(o.col,0.95)); g.addColorStop(0.5,'rgba(255,255,255,.95)'); g.addColorStop(1,rgba(shade(o.col,-0.3),0.95)); c.fillStyle=g; c.beginPath(); c.moveTo(cw/2+ox,ch-4-hh); c.lineTo(cw/2+ox+6,ch-10); c.lineTo(cw/2+ox,ch-3); c.lineTo(cw/2+ox-6,ch-10); c.closePath(); c.fill(); } }); addLight(m,x+w/2,y,100,o.col,0.55,{pulse:0.35,period:1600+R.i(0,900),depth:-4}); } },
+    particles:[{col:'#9fe8ff',freq:90,scale:{start:0.4,end:0},alpha:{start:0.9,end:0},vy:{min:-10,max:-2}}] },
+
+  { id:'mushroom_forest', name:'Mushroom Forest', seed:9, tagline:'Giant glowing fungi and spore light',
+    blurb:'Giant mushrooms tower over a soft mossy floor. Their caps glow teal and violet, and spores drift everywhere. Walk between the stalks while monsters lurk under the caps.',
+    fill:0.39, iters:5, density:44, dark:0.78,
+    pal:{floorA:'#233224',floorB:'#2f4430',floorC:'#162016',rockTop:'#3e4a3a',rockFace:'#283224',void:'#050805'},
+    floorDeco:function(ctx,px,py,tx,ty,R){ if(R.chance(0.2)){ ctx.fillStyle='rgba(120,255,200,.25)'; ctx.fillRect(px+R.f()*28,py+R.f()*28,2,2);} },
+    obstacles:function(c){ for(var i=0;i<42;i++){ var p=c.randomOpen(); if(p){ var big=c.R.chance(0.3); c.place('shroom',p.x,p.y,big?2:1,1,{col:c.R.pick(['#4fe0c0','#b07fff','#ff8fd0']),big:big}); } } },
+    draw:{ shroom:function(m,ctx,x,y,w,h,R,o){ var s=o.big?1.7:1; addSprite(m,x+w/2,y+h,90*s,110*s,function(c,cw,ch){ softShadow(c,cw/2,ch-4,16*s,5*s,0.4); c.fillStyle='#e8e0cc'; c.beginPath(); c.moveTo(cw/2-6*s,ch-4); c.quadraticCurveTo(cw/2-2*s,ch-40*s,cw/2-5*s,ch-60*s); c.lineTo(cw/2+5*s,ch-60*s); c.quadraticCurveTo(cw/2+2*s,ch-40*s,cw/2+6*s,ch-4); c.fill(); var g=c.createRadialGradient(cw/2,ch-68*s,2,cw/2,ch-62*s,34*s); g.addColorStop(0,shade(o.col,0.4)); g.addColorStop(1,shade(o.col,-0.35)); c.fillStyle=g; c.beginPath(); c.ellipse(cw/2,ch-62*s,34*s,16*s,0,Math.PI,0); c.quadraticCurveTo(cw/2,ch-50*s,cw/2-34*s,ch-62*s); c.fill(); c.fillStyle='rgba(255,255,255,.6)'; for(var i=0;i<6;i++){ c.beginPath(); c.arc(cw/2-24*s+i*9*s,ch-68*s+Math.sin(i)*4,2*s,0,Math.PI*2); c.fill(); } }); addLight(m,x+w/2,y-30*s,90*s,o.col,0.45,{pulse:0.3,period:2200+R.i(0,1200),depth:-4}); } },
+    particles:[{tints:['#7fffd0','#c8a0ff'],freq:50,scale:{start:0.35,end:0},alpha:{start:0.8,end:0},vx:{min:-6,max:6},vy:{min:-6,max:2},life:{min:4000,max:8000}}] },
+
+  { id:'lava_archipelago', name:'Lava Archipelago', seed:13, tagline:'Rock islands linked by bridges over lava',
+    blurb:'Islands of cooled rock float in a sea of lava, joined by narrow stone bridges. The lava lights everything orange; fights happen on the islands and the bridges are choke points.',
+    density:40, dark:0.6,
+    layout:function(W,H,R){ var g=new Uint8Array(W*H).fill(1); for(var y=2;y<H-2;y++)for(var x=2;x<W-2;x++)g[y*W+x]=0; return g; },
+    hazards:function(c){ var W=c.W,H=c.H,R=c.R,hz=c.hazard; hz.fill(1); for(var y=0;y<H;y++)for(var x=0;x<W;x++)if(c.g[y*W+x])hz[y*W+x]=0;
+      var isl=[]; for(var i=0;i<11;i++){ isl.push({x:R.i(7,W-8),y:R.i(6,H-7),r:R.i(3,6)}); } isl.push({x:W>>1,y:H-6,r:5});
+      isl.forEach(function(s){ for(var y=s.y-s.r-1;y<=s.y+s.r+1;y++)for(var x=s.x-s.r-1;x<=s.x+s.r+1;x++){ if(x<2||y<2||x>=W-2||y>=H-2)continue; if(Math.hypot((x-s.x)*1.0,(y-s.y)*1.2)<=s.r+R.f()*0.8)hz[y*W+x]=0; } });
+      // bridges: connect each island to its nearest predecessor
+      for(var a=1;a<isl.length;a++){ var b=0,bd=1e9; for(var j=0;j<a;j++){ var d=Math.hypot(isl[a].x-isl[j].x,isl[a].y-isl[j].y); if(d<bd){bd=d;b=j;} } var x0=isl[a].x,y0=isl[a].y,x1=isl[b].x,y1=isl[b].y; while(x0!==x1){ hz[y0*W+x0]=0; hz[(y0+1)*W+x0]=0; x0+=x0<x1?1:-1; } while(y0!==y1){ hz[y0*W+x0]=0; hz[y0*W+x0+1]=0; y0+=y0<y1?1:-1; } }
+    },
+    paintHazards:function(ctx,c,nz){ var A=hexToRgb('#ff5a10'),B=hexToRgb('#ffc848'),C=hexToRgb('#7a1200'); paintHazardField(ctx,c,function(x,y){ var n=nz(x*0.35,y*0.35), n2=nz(x*1.3+9,y*1.3+9); var t=Math.min(1,Math.max(0,n*1.3-0.15)); var col=[A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t]; if(n2<0.28){ var k=(0.28-n2)*3; col=[col[0]+(C[0]-col[0])*k,col[1]+(C[1]-col[1])*k,col[2]+(C[2]-col[2])*k]; } return col; }); },
+    pal:{floorA:'#3a2e2a',floorB:'#4a3a32',floorC:'#1e1612',rockTop:'#4a3a34',rockFace:'#2e221e',void:'#1a0600',darkCol:'#1a0500'},
+    obstacles:function(c){ for(var i=0;i<22;i++){ var p=c.randomOpen(); if(p)c.place('obsidian',p.x,p.y,1,1); } },
+    draw:{ obsidian:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,40,60,function(c,cw,ch){ softShadow(c,cw/2,ch-4,12,4,0.4); c.fillStyle='#161018'; c.beginPath(); c.moveTo(cw/2-10,ch-4); c.lineTo(cw/2-4,ch-40); c.lineTo(cw/2+3,ch-30); c.lineTo(cw/2+10,ch-4); c.fill(); c.strokeStyle='rgba(255,120,60,.6)'; c.beginPath(); c.moveTo(cw/2-4,ch-38); c.lineTo(cw/2-2,ch-10); c.stroke(); }); } },
+    extra:function(c){ var m=c.m; for(var i=0;i<30;i++){ var x=c.R.i(2,c.W-3),y=c.R.i(2,c.H-3); if(c.hazard[y*c.W+x])addLight(m,x*LT+16,y*LT+16,150,'#ff6a20',0.35,{pulse:0.25,period:2000+i*90,depth:-4,cut:0.8}); } },
+    particles:[{tints:['#ffb040','#ff6020'],freq:40,scale:{start:0.5,end:0},alpha:{start:1,end:0},vy:{min:-40,max:-15},vx:{min:-8,max:8},life:{min:1500,max:3000}}] },
+
+  { id:'sunken_courtyard', name:'Sunken Courtyard', seed:17, tagline:'Ruined temple walls and statues',
+    blurb:'An ancient temple courtyard swallowed by the earth: broken wall segments, toppled statues and puddles of rainwater under a mossy ceiling. The walls make a loose maze with lots of open ground.',
+    fill:0.34, iters:5, density:40,
+    pal:{floorA:'#4a4a3a',floorB:'#5a5a46',floorC:'#2a2a1e',rockTop:'#5f5f4c',rockFace:'#3e3e30',void:'#070705'},
+    floorDeco:function(ctx,px,py,tx,ty,R){ if((tx+ty)%2===0){ ctx.strokeStyle='rgba(0,0,0,.18)'; ctx.strokeRect(px+1,py+1,LT-2,LT-2);} if(R.chance(0.12)){ ctx.fillStyle='rgba(110,150,70,.4)'; ctx.fillRect(px+R.f()*20,py+R.f()*20,10,6);} },
+    obstacles:function(c){ for(var i=0;i<24;i++){ var p=c.randomOpen(); if(!p)continue; var horiz=c.R.chance(0.5), len=c.R.i(3,6); var ok=c.place('ruinwall',p.x,p.y,horiz?len:1,horiz?1:len); } for(var j=0;j<16;j++){ var q=c.randomOpen(); if(q)c.place('statue',q.x,q.y,1,1); } for(var k=0;k<10;k++){ var r=c.randomOpen(); if(r)c.place('puddle',r.x,r.y,2,1,{skipReach:false}); } },
+    draw:{ ruinwall:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,w+6,h+36,function(c,cw,ch){ var top=ch-h-30; c.fillStyle='#5a5a48'; c.fillRect(3,top+10,w,h+20); c.fillStyle='#7a7a62'; c.fillRect(3,top,w,h+10-0); for(var i=0;i<w;i+=LT/2){ c.fillStyle='rgba(0,0,0,.2)'; c.fillRect(3+i,top,1,h+30);} for(var j=0;j<5;j++){ c.fillStyle='rgba(100,150,70,.55)'; c.fillRect(3+R.f()*(w-8),top+R.f()*10,8,4);} c.clearRect(3+R.f()*w,top-2,10,8); }); },
+      statue:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,40,70,function(c,cw,ch){ softShadow(c,cw/2,ch-4,12,4,0.4); c.fillStyle='#8a8a74'; c.fillRect(cw/2-10,ch-12,20,9); c.fillStyle='#9a9a82'; c.beginPath(); c.moveTo(cw/2-7,ch-12); c.lineTo(cw/2-5,ch-42); c.lineTo(cw/2+5,ch-42); c.lineTo(cw/2+7,ch-12); c.fill(); c.beginPath(); c.arc(cw/2,ch-47,6,0,Math.PI*2); c.fill(); c.fillStyle='rgba(100,150,70,.6)'; c.fillRect(cw/2-6,ch-30,5,8); }); },
+      puddle:function(m,ctx,x,y,w,h,R){ ctx.fillStyle='rgba(90,140,170,.55)'; ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2,w/2-2,h/2-4,0,0,Math.PI*2); ctx.fill(); ctx.fillStyle='rgba(255,255,255,.25)'; ctx.fillRect(x+w/2-8,y+h/2-2,10,1); addLight(m,x+w/2,y+h/2,50,'#a8d8ff',0.18,{pulse:0.5,depth:-4,noCut:true}); } },
+    extra:function(c){ for(var i=0;i<10;i++){ var p=c.randomOpen(); if(p)addLight(c.m,p.x*LT+16,p.y*LT,95,'#ffbf70',0.4,{flicker:0.35,depth:-4}); } },
+    particles:[{col:'#d8e0a0',freq:200,scale:{start:0.3,end:0},alpha:{start:0.5,end:0}}] },
+
+  { id:'lake_ring', name:'Underground Lake Ring', seed:19, tagline:'Walkable shore around a dark lake',
+    blurb:'A still black lake fills the middle of the cavern, and the fight happens on the wide shore that rings it, with a few rocky islets you can reach by stepping stones. Fireflies drift over the water.',
+    density:40, shape:'round', fill:0.36, iters:5,
+    hazards:function(c){ var W=c.W,H=c.H,R=c.R; var cx=W/2,cy=H/2-1; for(var y=0;y<H;y++)for(var x=0;x<W;x++){ var d=Math.hypot((x-cx)/(W*0.27),(y-cy)/(H*0.26)); if(d<1+(R.f()-0.5)*0.12&&!c.g[y*W+x])c.hazard[y*W+x]=1; }
+      for(var s=0;s<5;s++){ var ang=s/5*Math.PI*2+0.3; var sx=Math.round(cx+Math.cos(ang)*W*0.2), sy=Math.round(cy+Math.sin(ang)*H*0.18); for(var yy=sy-1;yy<=sy+1;yy++)for(var xx=sx-1;xx<=sx+1;xx++)c.hazard[yy*W+xx]=0; } },
+    paintHazards:function(ctx,c,nz){ var A=hexToRgb('#04101a'),B=hexToRgb('#123447'); paintHazardField(ctx,c,function(x,y){ var n=nz(x*0.3,y*0.3), sh=nz(x*2.5,y*0.6)>0.78?40:0; return [A[0]+(B[0]-A[0])*n+sh*0.6,A[1]+(B[1]-A[1])*n+sh,A[2]+(B[2]-A[2])*n+sh*1.2]; }); },
+    pal:{floorA:'#3a3e3a',floorB:'#4a5048',floorC:'#1e221e',rockTop:'#555c52',rockFace:'#363c34',void:'#040606'},
+    obstacles:function(c){ for(var i=0;i<30;i++){ var p=c.randomOpen(); if(p)c.place('rock',p.x,p.y,1,1); } },
+    draw:{ rock:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,44,44,function(c,cw,ch){ rockBlob(c,cw/2,ch-18,14,'#6a7268',R); }); } },
+    extra:function(c){ var m=c.m; m.particles.push({tints:['#e8ff80','#a8ff80'],freq:120,scale:{start:0.5,end:0.1},alpha:{start:1,end:0},vx:{min:-10,max:10},vy:{min:-10,max:10},life:{min:2500,max:5000},area:{x:c.W*LT*0.25,y:c.H*LT*0.25,w:c.W*LT*0.5,h:c.H*LT*0.5}}); addLight(m,c.W*LT/2,c.H*LT/2-LT,300,'#3a7aa8',0.3,{pulse:0.3,period:4000,depth:-4,noCut:true}); for(var i=0;i<10;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT,90,'#ffc070',0.4,{flicker:0.35,depth:-4}); } } },
+
+  { id:'bone_pit', name:'Bone Pit', seed:23, tagline:'Giant rib cages and skulls as obstacles',
+    blurb:'The graveyard of something enormous. Giant rib cages arch over the floor like fences and skulls the size of houses block the way. Pale ghost-lights drift between the bones.',
+    fill:0.38, iters:5, density:40, dark:0.82,
+    pal:{floorA:'#3a3630',floorB:'#4a443a',floorC:'#221e1a',rockTop:'#5a544a',rockFace:'#3a3630',void:'#060504'},
+    floorDeco:function(ctx,px,py,tx,ty,R){ if(R.chance(0.1)){ ctx.fillStyle='rgba(230,220,190,.35)'; ctx.fillRect(px+R.f()*26,py+R.f()*26,6,2);} },
+    obstacles:function(c){ for(var i=0;i<16;i++){ var p=c.randomOpen(); if(!p)continue; for(var r=0;r<5;r++)c.place('rib',p.x+r*2,p.y,1,1); } for(var j=0;j<6;j++){ var q=c.randomOpen(); if(q)c.place('skull',q.x,q.y,2,2); } },
+    draw:{ rib:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,50,90,function(c,cw,ch){ c.strokeStyle='#e8e0cc'; c.lineWidth=5; c.lineCap='round'; c.beginPath(); c.moveTo(cw/2-2,ch-4); c.quadraticCurveTo(cw/2-18,ch-50,cw/2+6,ch-80); c.stroke(); c.strokeStyle='rgba(0,0,0,.2)'; c.lineWidth=2; c.stroke(); }); },
+      skull:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,90,80,function(c,cw,ch){ softShadow(c,cw/2,ch-6,34,8,0.45); c.fillStyle='#e6dcc4'; c.beginPath(); c.ellipse(cw/2,ch-34,32,26,0,0,Math.PI*2); c.fill(); c.fillRect(cw/2-20,ch-18,40,14); c.fillStyle='#1a1410'; c.beginPath(); c.ellipse(cw/2-12,ch-36,8,9,0,0,Math.PI*2); c.ellipse(cw/2+12,ch-36,8,9,0,0,Math.PI*2); c.fill(); for(var i=-3;i<=3;i++)c.fillRect(cw/2+i*5-1,ch-16,2,8); }); addLight(m,x+w/2-12,y+h-36,30,'#7fffd0',0.5,{pulse:0.5,depth:y+h+1}); } },
+    extra:function(c){ var m=c.m; m.particles.push({col:'#9fffe0',freq:300,scale:{start:0.9,end:0.2},alpha:{start:0.5,end:0},vx:{min:-8,max:8},vy:{min:-8,max:2},life:{min:4000,max:7000}}); for(var i=0;i<12;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT+16,80,'#8fffd8',0.3,{pulse:0.5,period:2600,depth:-4}); } } },
+
+  { id:'root_hollow', name:'Root Hollow', seed:29, tagline:'Tangled roots make soft lanes',
+    blurb:'The underside of an ancient tree. Thick roots snake across the floor in long curves and split the cave into winding lanes; amber sap glows in the bark and roots hang from above.',
+    fill:0.36, iters:5, density:42, dark:0.8,
+    pal:{floorA:'#3a2e22',floorB:'#4a3a2a',floorC:'#201810',rockTop:'#4e3e2c',rockFace:'#32281c',void:'#070504'},
+    obstacles:function(c){ var W=c.W,H=c.H,R=c.R; for(var i=0;i<14;i++){ var x=R.i(4,W-5),y=R.i(4,H-5),a=R.f()*Math.PI*2,len=R.i(8,16); for(var s=0;s<len;s++){ a+=R.f()*0.6-0.3; x+=Math.round(Math.cos(a)); y+=Math.round(Math.sin(a)); c.place('root',x,y,1,1,{a:a}); } } },
+    draw:{ root:function(m,ctx,x,y,w,h,R,o){ ctx.save(); ctx.translate(x+w/2,y+h/2); ctx.rotate(o.a); softShadow(ctx,0,8,20,6,0.35); var g=ctx.createLinearGradient(0,-10,0,10); g.addColorStop(0,'#8a6a44'); g.addColorStop(1,'#4a3420'); ctx.fillStyle=g; rr(ctx,-20,-11,40,22,11); ctx.fill(); ctx.strokeStyle='rgba(30,20,10,.6)'; ctx.lineWidth=1; for(var i=-15;i<15;i+=6){ ctx.beginPath(); ctx.moveTo(i,-9); ctx.lineTo(i+4,9); ctx.stroke(); } if(R.chance(0.15)){ ctx.fillStyle='#ffb040'; ctx.fillRect(-3,-3,6,3); } ctx.restore(); if(R.chance(0.08))addLight(m,x+w/2,y+h/2,50,'#ffb040',0.35,{pulse:0.5,depth:-4}); } },
+    extra:function(c){ var m=c.m; for(var i=0;i<18;i++){ var p=c.randomOpen(); if(!p)continue; addSprite(m,p.x*LT+16,p.y*LT+10,20,70,function(cc,cw,ch){ cc.strokeStyle='#5a4028'; cc.lineWidth=3; cc.beginPath(); cc.moveTo(cw/2,0); cc.quadraticCurveTo(cw/2+6,ch/2,cw/2-2,ch-6); cc.stroke(); }); m.sprites[m.sprites.length-1].depth=8000; } m.particles.push({col:'#ffc060',freq:260,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:4,max:12}}); } },
+
+  { id:'spiral_chasm', name:'Spiral Chasm', seed:31, tagline:'Open floor spiralling around a pit',
+    blurb:'A round chamber around a bottomless pit. The walkable floor spirals inward in a wide ramp to a central platform, where the guardian would stand. Wind howls up from below.',
+    density:40, shape:'round', fill:0.3, iters:4, dark:0.78,
+    hazards:function(c){ var W=c.W,H=c.H,cx=W/2,cy=H/2; for(var y=0;y<H;y++)for(var x=0;x<W;x++){ if(c.g[y*W+x])continue; var dx=x-cx,dy=(y-cy)*1.25, r=Math.hypot(dx,dy), a=Math.atan2(dy,dx); if(r<3.2||r>17)continue; var t=(a+Math.PI)/(Math.PI*2); var band=(r/4.2+t)%1; if(band<0.42)c.hazard[y*W+x]=1; } },
+    paintHazards:function(ctx,c,nz){ var W=c.W,H=c.H; paintHazardField(ctx,c,function(x,y){ var n=nz(x*0.5,y*0.5); return [4+n*14,3+n*10,10+n*22]; }); for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){ if(c.hazard[y2*W+x2]||c.g[y2*W+x2])continue; if(y2+1<H&&c.hazard[(y2+1)*W+x2]){ var fg=ctx.createLinearGradient(0,y2*LT+LT-10,0,y2*LT+LT+16); fg.addColorStop(0,'#3a3448'); fg.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=fg; ctx.fillRect(x2*LT,y2*LT+LT-10,LT,26);} } },
+    pal:{floorA:'#35303e',floorB:'#433c4e',floorC:'#1c1824',rockTop:'#514a5e',rockFace:'#332e3e',void:'#040308'},
+    obstacles:function(c){ for(var i=0;i<12;i++){ var p=c.randomOpen(); if(p)c.place('stone',p.x,p.y,1,1); } },
+    draw:{ stone:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,40,60,function(c,cw,ch){ softShadow(c,cw/2,ch-4,11,4,0.4); c.fillStyle='#6a6278'; c.fillRect(cw/2-7,ch-46,14,42); c.fillStyle='#8a80a0'; c.fillRect(cw/2-7,ch-46,14,4); c.fillStyle='#9ff0ff'; c.fillRect(cw/2-2,ch-36,4,10); }); addLight(m,x+w/2,y-20,60,'#9ff0ff',0.35,{pulse:0.5,depth:-4}); } },
+    extra:function(c){ c.m.particles.push({col:'#c8c0ff',freq:80,scale:{start:0.3,end:0},alpha:{start:0.6,end:0},vy:{min:-50,max:-20},vx:{min:-10,max:10},life:{min:1500,max:3000},area:{x:c.W*LT*0.3,y:c.H*LT*0.3,w:c.W*LT*0.4,h:c.H*LT*0.4}}); addLight(c.m,c.W*LT/2,c.H*LT/2,120,'#b0a0ff',0.35,{pulse:0.3,depth:-4}); } },
+];
+
+// ═══════════════════════════════════════════════════════════════════════
+// ║ SITE ROSTER (Phase 3 · C2/C4) — all 20 Design Lab picks in the game.
+// ║ Each quadrant has 5 tower/dungeon sites. One tower + one dungeon are
+// ║ the quadrant's boss sites (★): boss towers free a craftsman and open
+// ║ the next region, boss dungeons give a mount. The other 3 are bonus
+// ║ sites: an elite mini-boss guards a treasure vault (replayable).
+// ║ Floors are built from the Lab designs, one template per site, varied
+// ║ per floor (tower plan/mirror/room shuffle; cavern seed).
+// ═══════════════════════════════════════════════════════════════════════
+var SITE_FLOORS={1:[4,5],2:[5,6],3:[6,7],4:[7,8]};   // floors by region; boss sites use the top
+var SITE_ROSTER={
+  1:[{kind:'tower',design:'silverwood',boss:true},{kind:'dungeon',design:'sunken_courtyard',boss:true},
+     {kind:'tower',design:'elven_library'},{kind:'tower',design:'hyrule_keep'},{kind:'dungeon',design:'mushroom_forest'}],
+  2:[{kind:'tower',design:'frost_cathedral',boss:true},{kind:'dungeon',design:'lake_ring',boss:true},
+     {kind:'tower',design:'moonglass'},{kind:'dungeon',design:'crystal_grotto'},{kind:'dungeon',design:'root_hollow'}],
+  3:[{kind:'tower',design:'observatory',boss:true},{kind:'dungeon',design:'bone_pit',boss:true},
+     {kind:'tower',design:'sky_cloister'},{kind:'tower',design:'rivendell'},{kind:'dungeon',design:'pillared_hall'}],
+  4:[{kind:'tower',design:'dawn_sanctum',boss:true},{kind:'dungeon',design:'lava_archipelago',boss:true},
+     {kind:'tower',design:'reflecting_hall'},{kind:'dungeon',design:'boulder_field'},{kind:'dungeon',design:'spiral_chasm'}]
+};
+// Captive craftsmen held at the top of each boss tower
+var CRAFTSMEN={
+  1:{id:'builder', n:'Bram the Builder',     icon:'🔨', freed:'Bram: "Free at last! I\'ll raise the bridge to the Wetlands."',
+     village:'Bram: "The Wetlands bridge holds! Next I want to fix up this village."'},
+  2:{id:'mechanic',n:'Mira the Mechanic',    icon:'⚙️', freed:'Mira: "Thank you! My lift will carry you up to the Highlands."',
+     village:'Mira: "The Highland lift runs smooth. Gears never lie."'},
+  3:{id:'forger',  n:'Dunn the Dwarf Forger',icon:'⚒️', freed:'Dunn: "Ha! Let me at my anvil — an iron bridge to the Ashlands it is!"',
+     village:'Dunn: "That iron bridge will outlast us all."'},
+  4:{id:'captain', n:'Captain Vela',         icon:'🧭', freed:'Vela: "You found me! The sky ports are yours to command."',
+     village:'Vela: "The winds are kind today. The sky ports await you."'}
+};
+// Lore relic in each bonus site's treasure vault (+3 max HP each, kept forever)
+var SITE_RELICS={
+  rivendell:'Twilight Lantern', hyrule_keep:'White Keep Banner', moonglass:'Moonglass Prism', elven_library:'Leaf-bound Codex',
+  sky_cloister:'Cloud Bell', silverwood:'Silverwood Circlet', frost_cathedral:'Frozen Hymnal', observatory:'Star Chart Fragment',
+  reflecting_hall:'Mirror Shard', dawn_sanctum:'Dawn Sigil', boulder_field:'Miner\'s Charm', pillared_hall:'Column Keystone',
+  crystal_grotto:'Singing Crystal', mushroom_forest:'Glowcap Spores', lava_archipelago:'Obsidian Idol', sunken_courtyard:'Temple Seal',
+  lake_ring:'Black Pearl', bone_pit:'Titan\'s Tooth', root_hollow:'Amber Heartwood', spiral_chasm:'Wind Whistle'
+};
+
+function _siteHash(str){ var h=2166136261; for(var i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function _dungeonDesignById(id){ for(var i=0;i<DUNGEON_DESIGNS.length;i++)if(DUNGEON_DESIGNS[i].id===id)return DUNGEON_DESIGNS[i]; return null; }
+function _siteDesignName(kind,id){ var d=kind==='tower'?TOWER_STYLES_BY_ID[id]:_dungeonDesignById(id); return d?d.name:id; }
+
+// Build the world's tower/dungeon site list for one quadrant (boss sites first).
+function _rosterSitesFor(sec){
+  var lohi=SITE_FLOORS[sec]||[4,5], bonusN=0;
+  return (SITE_ROSTER[sec]||[]).map(function(r){
+    var floors=r.boss?lohi[1]:lohi[bonusN++%2];
+    return { type:r.kind, section:sec, design:r.design, boss:!!r.boss, bonus:!r.boss, floors:floors,
+      name:_siteDesignName(r.kind,r.design),
+      id:r.boss?('s'+sec+'_'+r.kind):('s'+sec+'_b_'+r.design) };
+  });
+}
+
+// Floor recipe for a site that uses a Lab design (null → legacy generator).
+function _siteFloorSpec(site, floor, maxFloors){
+  if(!site||!site.design)return null;
+  var h=_siteHash(site.id), last=floor===maxFloors-1, seed=(h%99991)+floor*7919+13;
+  if(site.type==='tower'){
+    var S=TOWER_STYLES_BY_ID[site.design]; if(!S)return null;
+    var plans=[S.plan].concat(['grand','gallery','rotunda'].filter(function(p){return p!==S.plan;}));
+    var plan=plans[(floor+(h>>>5))%3];
+    return { kind:'tower', style:S, plan:plan, seed:seed, last:last,
+      mirror:((h>>>2)+floor)%2===1, shuffle:floor>0||(h%2===1) };
+  }
+  var D=_dungeonDesignById(site.design); if(!D)return null;
+  return { kind:'dungeon', design:D, seed:seed, last:last };
+}
+function _buildSiteFloor(spec){
+  if(spec.kind==='tower')return buildTower(spec.style, spec.plan, spec.seed, {mirror:spec.mirror, shuffle:spec.shuffle, last:spec.last});
+  return buildCavern(spec.design, spec.seed, {game:true, last:spec.last});
+}
+
+// Elite mini-boss for bonus sites: the section's toughest regular monster, buffed.
+function _bonusMiniBossKey(sec){
+  var key='elite_'+sec; if(MDEFS[key])return key;
+  var best=null; for(var k in MDEFS){ var d=MDEFS[k]; if(d.sec===sec&&!d.boss&&(!best||d.hp>MDEFS[best].hp))best=k; }
+  if(!best)return null; var b=MDEFS[best];
+  MDEFS[key]=Object.assign({},b,{ name:'Elite '+b.name, hp:Math.round(b.hp*3.2+30*sec), atk:Math.round(b.atk*1.4)+2, def:(b.def||0)+2,
+    r:(b.r||10)+5, xp:b.xp*6, gMin:b.gMin*4, gMax:b.gMax*4, boss:true, elite:true });
+  return key;
+}
+// Island guardians live in the island's dungeon now (the familiar comes from them).
+function _islandBossKey(sec){
+  var key='isl_boss_'+sec; if(MDEFS[key])return key;
+  var isl=(typeof HARBOR_ISLANDS!=='undefined')&&HARBOR_ISLANDS[sec]; if(!isl||!isl.boss)return null; var b=isl.boss;
+  MDEFS[key]={ name:b.name, icon:b.icon, hp:b.hp, atk:b.atk, def:b.def||0, xp:Math.round(b.hp*1.6), gMin:30*sec, gMax:45*sec, sec:sec,
+    color:b.col||0x884422, r:b.r||18, spd:b.spd||40, moveType:b.moveType||'normal', atkType:b.atkType||'melee', boss:true };
+  return key;
+}
+
+// All four regional quests + islands + sky ports → Dragon mount (single check, called from every completion)
+var ALL_MAIN_QUESTS=['s1_dungeon','s1_tower','s1_harbor','s1_skyport','s2_dungeon','s2_tower','s2_harbor','s2_skyport','s3_dungeon','s3_tower','s3_harbor','s3_skyport','s4_dungeon','s4_tower','s4_harbor','s4_skyport'];
+function _completeQuest(ps,key){
+  if(!ps.completedQuests)ps.completedQuests=[];
+  if(!ps.completedQuests.includes(key))ps.completedQuests.push(key);
+  if(ps.activeQuest===key)ps.activeQuest=null;
+  var allDone=ALL_MAIN_QUESTS.every(function(q){return ps.completedQuests.includes(q);});
+  if(allDone&&(!ps.ownedMounts||!ps.ownedMounts.includes('dragon'))){
+    if(!ps.ownedMounts)ps.ownedMounts=[];
+    ps.ownedMounts.push('dragon'); if(!ps.mount&&!ps._stowedMount){ if(game.scene.isActive('World'))ps.mount='dragon'; else ps._stowedMount='dragon'; }
+    setTimeout(function(){showNotif('🐉 ALL QUESTS COMPLETE — Dragon Mount Unlocked!','#ff4444');},500);
+    setTimeout(function(){showNotif('🐉 The Dragon flies over all land and deep water!','#ffaa44');},1000);
+  }
+}
+function _siteLabel(s){
+  if(s.name)return (s.boss?'★ ':'')+s.name+(s.type==='tower'?' (Tower)':' (Dungeon)');
+  return s.type.charAt(0).toUpperCase()+s.type.slice(1);
+}
+
+// Island familiar (awarded when the island dungeon's guardian falls)
+function _awardIslandFamiliar(ps,sec){
+  if(!ps.completedIslands)ps.completedIslands=[];
+  var first=!ps.completedIslands.includes(sec);
+  if(first)ps.completedIslands.push(sec);
+  var famId={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'}[sec], famDef=FAMILIARS[famId];
+  if(famId&&famDef&&(!ps.ownedFamiliars||!ps.ownedFamiliars.includes(famId))){
+    if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
+    ps.ownedFamiliars.push(famId);
+    setTimeout(function(){showNotif(famDef.icon+' '+famDef.n+' familiar unlocked!','#88eeff');},300);
+    if(!ps.familiar)ps.familiar=famId;
+    else if(!ps.familiar2&&_maxFamiliarSlots(ps)>=2)ps.familiar2=famId;
+    else if(!ps.familiar3&&_maxFamiliarSlots(ps)>=3)ps.familiar3=famId;
+  }
+  if(first){
+    var n=ps.completedIslands.length;
+    if(n===2)setTimeout(function(){showNotif('✨ Familiar slot 2 unlocked! (2 islands cleared)','#88eeff');},800);
+    if(n===4)setTimeout(function(){showNotif('✨ Familiar slot 3 unlocked! (All islands cleared!)','#88eeff');},800);
+  }
+  _completeQuest(ps,'s'+sec+'_harbor');
+}
+// ═══════════════════════════════════════════════════════════════════════
 // ║ SAVE VERSIONING  (Phase 1 · panel A3)
 // ║ Saves live in localStorage['qoz_v2'] (key kept so existing saves load).
 // ║ Each save now carries saveVersion. _migrateSave() upgrades older saves
@@ -2573,7 +3501,7 @@ function _setAmbient(theme){
 // ║ localStorage['qoz_v2_backup_v<old>'] so nothing is ever lost.
 // ║ To change the save shape later: bump SAVE_VERSION and add a step.
 // ═══════════════════════════════════════════════════════════════════════
-var SAVE_VERSION=3;
+var SAVE_VERSION=4;
 var _SAVE_TRANSIENT=['_seaState'];   // runtime-only fields never written to disk
 
 function _migrateSave(d, raw){
@@ -2589,6 +3517,20 @@ function _migrateSave(d, raw){
     if(!Array.isArray(d.ownedFamiliars))d.ownedFamiliars=[];
     ['familiar','familiar2','familiar3'].forEach(function(k){ if(d[k]&&!FAMILIARS[d[k]])d[k]=null; });
     if(!d.buffs)d.buffs={};
+  }
+  if(v<4){
+    // Phase 3: towers/dungeons use the Lab designs (new floor sizes) → old
+    // per-floor fog no longer lines up. Harbor/sky-port quests now complete
+    // (they never did before), so backfill them from what was already won.
+    d.dungeonFog={};
+    if(!Array.isArray(d.completedQuests))d.completedQuests=[];
+    (d.completedIslands||[]).forEach(function(sec){ var k='s'+sec+'_harbor'; if(d.completedQuests.indexOf(k)<0)d.completedQuests.push(k); });
+    (d.lockedSites||[]).forEach(function(id){ if(/^s[1-4]_skyport$/.test(id)&&d.completedQuests.indexOf(id)<0)d.completedQuests.push(id); });
+    if(!Array.isArray(d.bonusCleared))d.bonusCleared=[];
+    if(!Array.isArray(d.relics))d.relics=[];
+    if(!Array.isArray(d.rescued))d.rescued=[];
+    // Tower bosses already beaten → their craftsman is already free
+    [1,2,3,4].forEach(function(sec){ if(d.completedQuests.indexOf('s'+sec+'_tower')>=0&&d.rescued.indexOf(sec)<0)d.rescued.push(sec); });
   }
   _SAVE_TRANSIENT.forEach(function(k){ delete d[k]; });
   d.saveVersion=SAVE_VERSION;
@@ -3217,13 +4159,14 @@ class WorldScene extends Phaser.Scene{
     var siteIcons={dungeon:'⚔️',tower:'🗼',camp:'⛺',harbor:'⚓',skyport:'🎈',volcano_main:'🌋',volcano_mini:'🔥'};
     var self=this;
     wd.sites.forEach(function(s){
-      self.add.rectangle(s.tx*TILE+TILE*1.5,s.ty*TILE+TILE*1.5,TILE*3,TILE*3,siteColors[s.type],.88).setDepth(2).setStrokeStyle(2,0x8877cc,.5);
+      self.add.rectangle(s.tx*TILE+TILE*1.5,s.ty*TILE+TILE*1.5,TILE*3,TILE*3,siteColors[s.type],.88).setDepth(2).setStrokeStyle(2,s.boss?0xffd24a:0x8877cc,s.boss?.9:.5);
       var ico=self.add.text(s.tx*TILE+TILE*1.5,s.ty*TILE+TILE*1.5,siteIcons[s.type],{fontSize:'22px',fontFamily:'serif'}).setOrigin(.5).setDepth(3);
+      if(s.boss)self.add.text(s.tx*TILE+TILE*2.6,s.ty*TILE+TILE*0.4,'★',{fontSize:'14px',color:'#ffd24a',fontFamily:'serif',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(3);
       // DOM label (crisp HiDPI). World-space pos is tracked; per-frame
       // _updateWorldLabels() projects to screen coords.
       var lblEl=document.createElement('div');
       lblEl.className='wlbl site hidden';
-      lblEl.textContent=s.type.charAt(0).toUpperCase()+s.type.slice(1);
+      lblEl.textContent=_siteLabel(s);
       var lblHost=document.getElementById('world-labels');
       if(lblHost)lblHost.appendChild(lblEl);
       self.siteObjs.push({s:s,ico:ico,lblEl:lblEl,wx:s.tx*TILE+TILE*1.5,wy:s.ty*TILE-2});
@@ -3315,6 +4258,7 @@ class WorldScene extends Phaser.Scene{
     ownedFamiliars:[],
     skills:[],lockedSites:[]  };
     if(!this._newGame)this._loadSave();
+    this._refreshVillageNPCs();
     this._initWorldMonsters();
     this._updateFog();
     this._revealFog();
@@ -3369,6 +4313,7 @@ class WorldScene extends Phaser.Scene{
       }
       sceneRef._cancelHomeCast(false); // ensure overlay is hidden on return
       sceneRef._lastThemeSec=null; // force theme re-apply on section detection
+      sceneRef._refreshVillageNPCs();
       sceneRef._updateFog();sceneRef._emitUI();sceneRef._save();
     });
     this._ready=true;
@@ -5839,6 +6784,19 @@ class WorldScene extends Phaser.Scene{
       var doorCY=b.worldY+(b.h-1)*TILE+TILE/2;
       if(Math.hypot(px-doorCX,py-doorCY)<TILE*2){nearBuilding=b;break;}
     }
+    // Rescued craftsmen in the village
+    if(!nearBuilding&&this._villageNPCs){
+      var nearNPC=this._villageNPCs.find(function(n){return Math.hypot(px-n.x,py-n.y)<TILE*1.6;});
+      if(nearNPC){
+        if(!this._interactPrompt||this._interactPrompt._npc!==nearNPC.id){
+          if(this._interactPrompt)this._interactPrompt.destroy();
+          this._interactPrompt=this.add.text(nearNPC.x,nearNPC.y-30,'[Tab] Talk to '+nearNPC.n,{fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
+          this._interactPrompt._npc=nearNPC.id;
+        }
+        if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))showNotif(nearNPC.icon+' '+nearNPC.line,'#ffe9a8');
+        return;
+      } else if(this._interactPrompt&&this._interactPrompt._npc){this._interactPrompt.destroy();this._interactPrompt=null;}
+    }
     var nearSite=null;
     if(!nearBuilding){
       for(var i=0;i<this.sites.length;i++){
@@ -5858,7 +6816,7 @@ class WorldScene extends Phaser.Scene{
     } else if(nearSite){
       if(!this._interactPrompt){
         this._interactPrompt=this.add.text(nearSite.tx*TILE+TILE*1.5,nearSite.ty*TILE-18,
-          '[Tab] Enter '+nearSite.type.charAt(0).toUpperCase()+nearSite.type.slice(1),
+          '[Tab] Enter '+_siteLabel(nearSite),
           {fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
       }
       if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))this._enterSite(nearSite);
@@ -5895,6 +6853,23 @@ class WorldScene extends Phaser.Scene{
     }
   }
 
+  // Craftsmen freed from the boss towers live in the village square.
+  _refreshVillageNPCs(){
+    var ps=this.playerState||{}, self=this, have=(ps.rescued||[]);
+    if(!this._villageNPCs)this._villageNPCs=[];
+    var spots={1:[-6,-4],2:[-2,-4],3:[2,-4],4:[6,-4]};
+    have.forEach(function(sec){
+      if(self._villageNPCs.some(function(n){return n.sec===sec;}))return;
+      var C=CRAFTSMEN[sec]; if(!C)return;
+      var x=(CENTER_X+spots[sec][0])*TILE+TILE/2, y=(CENTER_Y+spots[sec][1])*TILE+TILE/2;
+      self.add.ellipse(x,y+12,22,7,0x000000,0.3).setDepth(4);
+      self.add.circle(x,y,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9).setDepth(4);
+      self.add.text(x,y,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5).setDepth(5);
+      self.add.text(x,y-20,C.n,{fontSize:'8px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+      self._villageNPCs.push({sec:sec,id:C.id,n:C.n,icon:C.icon,line:C.village,x:x,y:y});
+    });
+  }
+
   _enterBuilding(building){
     if(this._interactPrompt){this._interactPrompt.destroy();this._interactPrompt=null;}
     this._cancelHomeCast(false); // cancel homecast silently when entering a building
@@ -5917,7 +6892,7 @@ class WorldScene extends Phaser.Scene{
     this._cancelHomeCast(false);
     var hb=document.getElementById('home-btn');if(hb)hb.style.display='none';
     if(site.type==='dungeon'||site.type==='tower'){
-      var maxFloors={1:3,2:4,3:5,4:6}[site.section]||3;
+      var maxFloors=site.floors||({1:3,2:4,3:5,4:6}[site.section]||3);
       // Choose theme: towers use tower palette; dungeons vary by section
       var dngTheme=site.type==='tower'?'tower':({1:'dungeon',2:'dungeon',3:'cave_dungeon',4:'volcano'}[site.section]||'dungeon');
       this.scene.sleep('World');
@@ -6369,8 +7344,16 @@ class BuildingScene extends Phaser.Scene{
 }
 
 // ─── DungeonScene ───────────────────────────────
+// Explored-fog per floor is saved run-length packed ("r<n>,<n>,…" alternating 0/1 runs)
+function _fogPack(a){ var out=[],cur=0,n=0; for(var i=0;i<a.length;i++){ var v=a[i]?1:0; if(v===cur)n++; else { out.push(n); cur=v; n=1; } } out.push(n); return 'r'+out.join(','); }
+function _fogUnpack(src,len){
+  var a=new Uint8Array(len);
+  if(typeof src==='string'&&src.charAt(0)==='r'){ var runs=src.slice(1).split(','),p=0,v=0; for(var i=0;i<runs.length&&p<len;i++){ var n=+runs[i]; if(v)for(var k=0;k<n&&p+k<len;k++)a[p+k]=1; p+=n; v^=1; } }
+  else if(src&&src.length===len){ for(var j=0;j<len;j++)a[j]=src[j]?1:0; }
+  return a;
+}
 const DNG={WALL:0,FLOOR:1,UP:2,DOWN:3,CHEST:4,BOSS_CHEST:5};
-const DW=42,DH=32;
+var DW=42,DH=32; // current floor size (Lab-design floors resize these per floor)
 class DungeonScene extends Phaser.Scene{
   constructor(){super({key:'Dungeon'})}
   init(data){
@@ -6381,29 +7364,48 @@ class DungeonScene extends Phaser.Scene{
     this.worldScene=data.worldScene;this._initData=data;
     this._returnScene=data.returnScene||'World'; // which scene to wake on exit
     this._theme=data.theme||'dungeon'; // 'dungeon','volcano','cave_dungeon','tower_island'
+    this._site=data.site; this._arriveAt=data.arriveAt||null;
+    this._isIsland=!!(this.siteId&&this.siteId.indexOf('isl_adv_')===0);
+    this._isBonus=!!data.site.bonus;
   }
   create(){
     _heroStowMount(this);
     window._dngExit=function(){var ds=game.scene.getScene('Dungeon');if(ds)ds._exitToWorld(null);};
     this._ready=false;
     try{
-      this.dtiles=this._generateDungeon();
-      if(this.isLastFloor)this._ensureBossArena(this.dtiles);
-      this._renderDungeon();
-      // Animated FX layer (runes, embers, drips, torches, mist)
-      this._dFXGfx=this.add.graphics().setDepth(1);
-      this._dFXTime=0;this._embers=[];this._drips=[];this._mistParticles=[];
+      this._lab=null;this._captive=null;this._entryPx=null;this._exitPx=null;this._spawnPt=null;
+      this._darkRT=null;this._heroGlow=null;this._lightObjs=[];this._portalOpen=null;
+      this.bossChestTile=null;this.stairsDownTile=null;this.bossSpawnX=undefined;this.bossSpawnY=undefined;
+      this._claimed=false;
+      var spec=_siteFloorSpec(this._site,this.floor,this.maxFloors);
+      var isTowerTheme=this.siteType==='tower'||this._theme==='tower_island';
+      if(spec){
+        // ── Lab-design floor (Phase 3): painted map + y-sorted sprites + lights
+        this._buildLabFloor(spec);
+        if(this.isLastFloor)this._ensureBossArena(this.dtiles);
+        this._renderLabMap(this._lab);
+        this.cameras.main.setBackgroundColor(this._lab.bg||'#000');
+      } else {
+        DW=42;DH=32;
+        this.dtiles=this._generateDungeon();
+        if(this.isLastFloor)this._ensureBossArena(this.dtiles);
+        this._renderDungeon();
+        // Animated FX layer (runes, embers, drips, torches, mist)
+        this._dFXGfx=this.add.graphics().setDepth(1);
+        this._dFXTime=0;this._embers=[];this._drips=[];this._mistParticles=[];
+        var bgCol=isTowerTheme?'#110a06':({dungeon:'#0a0812',volcano:'#1a0402',cave_dungeon:'#080a04'}[this._theme]||'#0a0812');
+        this.cameras.main.setBackgroundColor(bgCol);
+      }
       this.cameras.main.setBounds(0,0,DW*TILE,DH*TILE);
       this.cameras.main.setZoom(1.6);
-      // Theme-based background color
-      var isTowerTheme=this.siteType==='tower'||this._theme==='tower_island';
-      var bgCol=isTowerTheme?'#110a06':({dungeon:'#0a0812',volcano:'#1a0402',cave_dungeon:'#080a04'}[this._theme]||'#0a0812');
-      this.cameras.main.setBackgroundColor(bgCol);
       applyTheme(this.isLastFloor?'blood-moon':isTowerTheme?'aurora':'void');
       this._spawnPlayer();
+      this.hero=this.pCont; // Lab map tick functions follow "scene.hero"
       this.monsters=[];this._spawnMonsters();
       this.interactables=[];this._buildInteractables();
       if(this.isLastFloor)this._drawExitPortal();
+      if(this._lab)this._drawLabStairs();
+      if(this._lab&&this.isLastFloor&&this.siteType==='tower'&&this._site.boss&&!this._isIsland)this._placeCaptive();
       // Restore state for previously visited floors
       var savedState=(this._initData.floorStates||{})[this.floor];
       if(savedState)this._restoreFloorState(savedState);
@@ -6612,6 +7614,184 @@ class DungeonScene extends Phaser.Scene{
     }
     return tiles;
   }
+  // ═══ Lab-design floors (Phase 3) ═════════════════════════════════════
+  // Depth scheme on Lab floors (keeps every hero/UI effect, which uses
+  // depths 8–40, above the map): base -10, shafts -5, floor glows -4,
+  // y-sorted sprites/hero/monsters 10–10.02, lights 11.5, particles 12,
+  // darkness 12.5, overhead 12.6, monster shots 12.9, fog 25.
+  _ld(d){
+    if(d===undefined||d===null)return 11.5;
+    if(d<0)return d;
+    if(d>=9000)return 12.7; if(d>=8000)return 12.6; if(d>=7000)return 12.5;
+    if(d>=6000)return 12+(d-6000)/100000; if(d>=5000)return 11.5;
+    return 10+d/100000;
+  }
+  _yDepth(y){ return 10+y/100000; }
+  _buildLabFloor(spec){
+    var m=_buildSiteFloor(spec); this._lab=m; this._labSpec=spec;
+    DW=m.w; DH=m.h;
+    var tiles=[]; for(var r=0;r<DH;r++){ var row=new Uint8Array(DW); for(var c=0;c<DW;c++)row[c]=m.solid[r*DW+c]?DNG.WALL:DNG.FLOOR; tiles.push(row); }
+    this.rooms=[];
+    var en=m.site.entry, ex=m.site.exit;
+    if(!ex){ ex={x:en.x,y:Math.max(2,en.y-6)}; }
+    // Entry: stairs back down (tower) / up (dungeon); floor 0 = the way out
+    tiles[en.y][en.x]=DNG.UP; this.stairsUpTile={x:en.x,y:en.y};
+    if(spec.kind==='tower'){ tiles[en.y][en.x+1]=DNG.FLOOR; this._entryPx={x:(en.x+1)*TILE,y:en.y*TILE+TILE/2}; }
+    else this._entryPx={x:en.x*TILE+TILE/2,y:en.y*TILE+TILE/2};
+    this._exitPx={x:ex.x*TILE+TILE/2,y:ex.y*TILE+TILE/2};
+    if(this.isLastFloor){ tiles[ex.y][ex.x]=DNG.BOSS_CHEST; this.bossChestTile={x:ex.x,y:ex.y}; this.bossSpawnX=this._exitPx.x; this.bossSpawnY=this._exitPx.y; }
+    else { tiles[ex.y][ex.x]=DNG.DOWN; this.stairsDownTile={x:ex.x,y:ex.y}; }
+    this.dtiles=tiles;
+    this._spawnPt={x:m.spawn.x,y:m.spawn.y};
+    // Reachable open cells (for monsters, chests, arrival spots)
+    var seen=new Uint8Array(DW*DH), q=[en.y*DW+en.x]; seen[q[0]]=1;
+    for(var qi=0;qi<q.length;qi++){ var cc=q[qi],cx=cc%DW,cy=(cc/DW)|0;
+      [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var nx=cx+d[0],ny=cy+d[1]; if(nx<0||ny<0||nx>=DW||ny>=DH)return; var k=ny*DW+nx; if(!seen[k]&&tiles[ny][nx]!==DNG.WALL){seen[k]=1;q.push(k);} }); }
+    this._labReach=seen;
+    // Chests: a few seeded spots away from the stairs
+    var R=rngOf(spec.seed*17+5), want=spec.kind==='tower'?2:3, got=0, self=this;
+    for(var t=0;t<600&&got<want;t++){
+      var x=R.i(2,DW-3), y=R.i(2,DH-3);
+      if(!seen[y*DW+x]||tiles[y][x]!==DNG.FLOOR)continue;
+      if(Math.hypot(x-en.x,y-en.y)<7||Math.hypot(x-ex.x,y-ex.y)<5)continue;
+      // keep chests off narrow lanes: need 3 open neighbours
+      var nb=0; [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ if(tiles[y+d[1]][x+d[0]]!==DNG.WALL)nb++; }); if(nb<3)continue;
+      tiles[y][x]=DNG.CHEST; got++;
+    }
+    // Arriving from the floor above/below: stand next to that floor's stairs
+    if(this._arriveAt==='exit'){
+      var best=null,bd=1e9;
+      for(var yy=Math.max(1,ex.y-4);yy<=Math.min(DH-2,ex.y+4);yy++)for(var xx=Math.max(1,ex.x-4);xx<=Math.min(DW-2,ex.x+4);xx++){
+        if(!seen[yy*DW+xx]||tiles[yy][xx]!==DNG.FLOOR)continue;
+        var dd=Math.abs(Math.hypot(xx-ex.x,yy-ex.y)-2); if(dd<bd){bd=dd;best={x:xx,y:yy};}
+      }
+      if(best)this._spawnPt={x:best.x*TILE+TILE/2,y:best.y*TILE+TILE/2};
+    }
+  }
+  _labTextures(){
+    var tx=this.textures;
+    if(!tx.exists('glow')){ var c=mkCanvas(128,128), x=c.getContext('2d'), g=x.createRadialGradient(64,64,0,64,64,64);
+      g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.35,'rgba(255,255,255,0.45)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); tx.addCanvas('glow',c); }
+    if(!tx.exists('dot')){ var d=mkCanvas(8,8), y=d.getContext('2d'), g2=y.createRadialGradient(4,4,0,4,4,4);
+      g2.addColorStop(0,'rgba(255,255,255,1)'); g2.addColorStop(1,'rgba(255,255,255,0)'); y.fillStyle=g2; y.fillRect(0,0,8,8); tx.addCanvas('dot',d); }
+    if(!tx.exists('leaf')){ var l=mkCanvas(10,6), z=l.getContext('2d'); z.fillStyle='#fff'; z.beginPath(); z.ellipse(5,3,5,2.2,0.4,0,Math.PI*2); z.fill(); tx.addCanvas('leaf',l); }
+    if(!tx.exists('dark_hole')){ var h=mkCanvas(256,256), qq=h.getContext('2d'), g3=qq.createRadialGradient(128,128,0,128,128,128);
+      g3.addColorStop(0,'rgba(255,255,255,1)'); g3.addColorStop(0.55,'rgba(255,255,255,0.75)'); g3.addColorStop(1,'rgba(255,255,255,0)'); qq.fillStyle=g3; qq.fillRect(0,0,256,256); tx.addCanvas('dark_hole',h); }
+  }
+  _renderLabMap(m){
+    var self=this, tag='dl'+(DungeonScene._seq=(DungeonScene._seq||0)+1), keys=[];
+    this._labTextures();
+    var addTex=function(k,cv){ self.textures.addCanvas(k,cv); keys.push(k); return k; };
+    this.add.image(0,0,addTex('base_'+tag,m.base)).setOrigin(0,0).setDepth(-10);
+    m.shafts.forEach(function(sh,i){
+      var im=self.add.image(sh.x,sh.y,addTex('shaft_'+tag+'_'+i,sh.canvas)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.5).setDepth(-5);
+      if(sh.sway)self.tweens.add({targets:im,alpha:(sh.a||0.5)*0.6,duration:2200+i*170,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+    });
+    m.sprites.forEach(function(sp,i){
+      var im=self.add.image(sp.x,sp.y,addTex('spr_'+tag+'_'+i,sp.canvas)).setOrigin(0.5,1).setDepth(self._ld(sp.depth!==undefined?sp.depth:sp.y));
+      if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+      if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
+    });
+    this._lightObjs=[];
+    m.lights.forEach(function(L,i){
+      var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a).setScale(L.r/64).setDepth(self._ld(L.depth));
+      if(L.pulse)self.tweens.add({targets:im,alpha:L.a*(1-L.pulse),scale:(L.r/64)*(1-L.pulse*0.25),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+      if(L.flicker)im._flicker=L.flicker;
+      im._base=L; self._lightObjs.push(im);
+    });
+    m.particles.forEach(function(p){
+      var a=p.area||{x:0,y:0,w:m.w*LT,h:m.h*LT};
+      var e=self.add.particles(0,0,p.tex||'dot',{ x:{min:a.x,max:a.x+a.w}, y:{min:a.y,max:a.y+a.h}, lifespan:p.life||{min:3000,max:6000},
+        speedX:p.vx||{min:-6,max:6}, speedY:p.vy||{min:-10,max:-3}, scale:p.scale||{start:0.5,end:0}, alpha:p.alpha||{start:0.8,end:0},
+        tint:p.tints?p.tints.map(hexNum):hexNum(p.col||'#ffffff'), frequency:p.freq||120, quantity:p.qty||1,
+        blendMode:p.blend===false?'NORMAL':'ADD', rotate:p.rotate||0, gravityY:p.gravity||0 });
+      e.setDepth(self._ld(p.depth!==undefined?p.depth:6000));
+    });
+    // Darkness with light holes (dark caverns); capped so fights stay readable
+    this._labDark=Math.min(0.6,m.dark||0);
+    if(this._labDark>0){
+      this._darkRT=this.add.renderTexture(0,0,m.w*LT,m.h*LT).setOrigin(0,0).setDepth(12.5);
+      this._holeImg=this.make.image({x:0,y:0,key:'dark_hole',add:false});
+      this._heroGlow=this.add.image(0,0,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(m.heroLightCol||'#ffcc88')).setAlpha(0.3).setScale(Math.max(230,m.heroLight||0)/64).setDepth(11.5);
+    }
+    this._labT=0;
+    // Free this floor's textures once the scene is gone (every floor change restarts the scene)
+    this.events.once('shutdown',function(){ self.tweens.killAll(); setTimeout(function(){ keys.forEach(function(k){ try{ if(game.textures.exists(k))game.textures.remove(k); }catch(e){} }); },60); });
+  }
+  _labUpdate(dt){
+    var m=this._lab; if(!m)return;
+    this._labT+=dt; var tt=this._labT;
+    this._lightObjs.forEach(function(o,i){ if(o._flicker)o.setAlpha(o._base.a*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))); });
+    if(m.tick){ try{ m.tick(this,dt,tt); }catch(e){} }
+    if(this._darkRT){
+      var rt=this._darkRT, hole=this._holeImg, v=this.cameras.main.worldView, pad=200;
+      var fire=_heroFamiliarActive(this.worldScene.playerState,'firefly');
+      var heroR=Math.max(230,m.heroLight||0)*(fire?1.3:1);
+      if(this._heroGlow)this._heroGlow.setPosition(this.px,this.py-14);
+      rt.clear(); rt.fill(hexNum(m.darkCol||'#000000'),this._labDark);
+      var cut=function(x,y,r,a){ if(x<v.x-pad-r||x>v.right+pad+r||y<v.y-pad-r||y>v.bottom+pad+r)return; hole.setScale(r/128); hole.setAlpha(a); rt.erase(hole,x,y); };
+      cut(this.px,this.py-14,heroR*(1+0.03*Math.sin(tt*9)),1);
+      this._lightObjs.forEach(function(o){ var L=o._base; if(L.noCut)return; cut(o.x,o.y,L.r*(L.cut||0.9),Math.min(1,o.alpha*1.6)); });
+    }
+  }
+  // Stairs markers + floor labels on Lab floors
+  _drawLabStairs(){
+    var isTower=this.siteType==='tower', f=this.floor, st={fontSize:'8px',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'};
+    var e=this._entryPx;
+    if(isTower&&f>0){
+      // stairs down at the entry
+      var g=this.add.graphics().setDepth(-3);
+      for(var i=0;i<5;i++){ g.fillStyle(0x1a1c2a,0.35+i*0.1).fillRect(e.x-26+i*2,e.y-12+i*5,52-i*4,5); }
+    }
+    var entryTxt=f===0?(isTower?'🚪 Exit':'▲ Exit'):(isTower?'▼ Floor '+f:'▲ Floor '+f);
+    this.add.text(e.x,e.y-22,entryTxt,Object.assign({color:'#fff4c8'},st)).setOrigin(.5,1).setDepth(13);
+    if(!this.isLastFloor){
+      var x=this._exitPx;
+      this.add.text(x.x,x.y-20,(isTower?'▲ Floor ':'▼ Floor ')+(f+2),Object.assign({color:isTower?'#cfe8ff':'#ffcf8a'},st)).setOrigin(.5,1).setDepth(13);
+    }
+  }
+  // The captive craftsman at the top of a boss tower
+  _placeCaptive(){
+    var C=CRAFTSMEN[this.siteSection]; if(!C||!this.bossChestTile)return;
+    var ps=this.worldScene.playerState;
+    if((ps.rescued||[]).includes(this.siteSection))return; // already freed
+    var bc=this.bossChestTile, best=null, bd=1e9, bx=Math.floor(this.bossSpawnX/TILE), by=Math.floor(this.bossSpawnY/TILE);
+    for(var y=bc.y-3;y<=bc.y+3;y++)for(var x=bc.x-3;x<=bc.x+3;x++){
+      if(x<1||y<1||x>=DW-1||y>=DH-1||this.dtiles[y][x]!==DNG.FLOOR||!this._labReach[y*DW+x])continue;
+      if(Math.abs(x-bx)+Math.abs(y-by)<3)continue;
+      var d=Math.abs(Math.hypot(x-bc.x,y-bc.y)-2); if(d<bd){bd=d;best={x:x,y:y};}
+    }
+    if(!best)return;
+    var cx=best.x*TILE+TILE/2, cy=best.y*TILE+TILE/2;
+    var cont=this.add.container(cx,cy).setDepth(this._yDepth(cy));
+    cont.add(this.add.ellipse(0,12,22,7,0x000000,0.35));
+    cont.add(this.add.circle(0,0,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9));
+    cont.add(this.add.text(0,0,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5));
+    var bars=this.add.graphics(); bars.lineStyle(2,0x9aa0b0,1); for(var i=-12;i<=12;i+=6){ bars.lineBetween(i,-18,i,14); } bars.strokeRect(-14,-18,28,32); cont.add(bars);
+    var lbl=this.add.text(0,-26,'⛓ '+C.n,{fontSize:'8px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); cont.add(lbl);
+    this._captive={cont:cont,bars:bars,lbl:lbl,C:C};
+  }
+  _freeCaptive(){
+    var c=this._captive; if(!c||c.freed)return; c.freed=true;
+    c.bars.destroy(); c.lbl.setText('✨ '+c.C.n+' — free!').setColor('#aaffcc');
+    this.tweens.add({targets:c.cont,y:c.cont.y-6,duration:300,yoyo:true,repeat:2});
+    showNotif(c.C.icon+' '+c.C.freed,'#ffe9a8');
+  }
+  _spawnMonstersLab(regTypes){
+    var spec=this._labSpec, R=rngOf(spec.seed*31+7), en=this.stairsUpTile, ex=this.bossChestTile||this.stairsDownTile;
+    var base=spec.kind==='tower'?7:10, per=spec.kind==='tower'?1.5:2;
+    var n=Math.round(base+this.floor*per), cap=(this._lab.stats&&this._lab.stats.spawns)||n; if(spec.kind==='dungeon')n=Math.min(n,Math.max(8,cap));
+    var mult=1+this.floor*0.05, placed=0;
+    for(var t=0;t<3000&&placed<n;t++){
+      var x=R.i(1,DW-2), y=R.i(1,DH-2);
+      if(!this._labReach[y*DW+x]||this.dtiles[y][x]===DNG.WALL)continue;
+      if(Math.hypot(x-en.x,y-en.y)<7)continue;
+      if(this.isLastFloor&&ex&&Math.hypot(x-ex.x,y-ex.y)<4)continue;
+      var type=regTypes[R.i(0,regTypes.length-1)]; if(!type)break;
+      this._spawnMonster(type,x*TILE+TILE/2,y*TILE+TILE/2,false,mult,true);
+      placed++;
+    }
+  }
   // Guardians stay by the exit portal unless you are close enough to fight.
   _leashBoss(dt){
     var self=this;
@@ -6628,13 +7808,14 @@ class DungeonScene extends Phaser.Scene{
   _drawExitPortal(){
     var bc=this.bossChestTile; if(!bc)return;
     var x=bc.x*TILE+TILE/2, y=bc.y*TILE+TILE/2, self=this;
-    var ring=this.add.circle(x,y,15,0x000000,0).setStrokeStyle(3,0xaa2244,0.9).setDepth(3);
-    var core=this.add.circle(x,y,11,0x440011,0.7).setDepth(3);
-    var lbl=this.add.text(x,y-26,'⛓ Sealed Exit',{fontSize:'8px',color:'#ff8899',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(4);
+    var vault=this._isBonus, zb=this._lab?-3:3, zl=this._lab?13:4;
+    var ring=this.add.circle(x,y,15,0x000000,0).setStrokeStyle(3,vault?0xc89a2a:0xaa2244,0.9).setDepth(zb);
+    var core=this.add.circle(x,y,11,vault?0x3a2a08:0x440011,0.7).setDepth(zb);
+    var lbl=this.add.text(x,y-26,vault?'⛓ Sealed Vault':'⛓ Sealed Exit',{fontSize:'8px',color:vault?'#ffd27a':'#ff8899',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(zl);
     var tw=this.tweens.add({targets:ring,scaleX:1.15,scaleY:1.15,alpha:0.6,duration:700,yoyo:true,repeat:-1});
     this._portalOpen=function(){
       ring.setStrokeStyle(3,0x66ffee,1); core.setFillStyle(0x44ccff,0.55);
-      lbl.setText('★ Exit Portal').setColor('#aaffee');
+      lbl.setText(vault?'💎 Treasure Vault':'★ Exit Portal').setColor(vault?'#ffe9a8':'#aaffee');
       var burst=self.add.circle(x,y,6,0xaaffff,0.8).setDepth(5);
       self.tweens.add({targets:burst,scaleX:8,scaleY:8,alpha:0,duration:600,onComplete:function(){burst.destroy();}});
     };
@@ -6664,8 +7845,8 @@ class DungeonScene extends Phaser.Scene{
       }
       return prev;
     };
-    var prev=bfs();
-    if(prev[key(bc.x,bc.y)]===-2){
+    var prev=bfs(), noCarve=!!this._lab;
+    if(prev[key(bc.x,bc.y)]===-2&&!noCarve){
       // carve from nearest reachable tile to the portal
       var best=null,bd=1e9;
       for(var y=1;y<H-1;y++)for(var x=1;x<W-1;x++){
@@ -6686,8 +7867,8 @@ class DungeonScene extends Phaser.Scene{
     var pick=path[Math.min(3,path.length-1)];
     if(pick===undefined)pick=key(bc.x,bc.y);
     var bx=pick%W, by=(pick/W)|0;
-    // Clear a small arena around the guardian so it can fight
-    for(var yy=by-1;yy<=by+1;yy++)for(var xx=bx-1;xx<=bx+1;xx++){
+    // Clear a small arena around the guardian so it can fight (legacy floors only)
+    if(!noCarve)for(var yy=by-1;yy<=by+1;yy++)for(var xx=bx-1;xx<=bx+1;xx++){
       if(xx>0&&yy>0&&xx<W-1&&yy<H-1&&tiles[yy][xx]===DNG.WALL)tiles[yy][xx]=DNG.FLOOR;
     }
     this.bossSpawnX=bx*TILE+TILE/2; this.bossSpawnY=by*TILE+TILE/2;
@@ -6977,18 +8158,33 @@ class DungeonScene extends Phaser.Scene{
   }
 
   _buildInteractables(){
-    this.interactables.push({type:'stairs_up',x:this.stairsUpTile.x*TILE+TILE/2,y:this.stairsUpTile.y*TILE+TILE/2});
+    var ep=this._entryPx||{x:this.stairsUpTile.x*TILE+TILE/2,y:this.stairsUpTile.y*TILE+TILE/2};
+    this.interactables.push({type:'stairs_up',x:ep.x,y:ep.y});
     if(!this.isLastFloor&&this.stairsDownTile)
       this.interactables.push({type:'stairs_down',x:this.stairsDownTile.x*TILE+TILE/2,y:this.stairsDownTile.y*TILE+TILE/2});
     for(var ty=0;ty<DH;ty++)for(var tx=0;tx<DW;tx++)
-      if(this.dtiles[ty][tx]===DNG.CHEST)this.interactables.push({type:'chest',tx:tx,ty:ty,x:tx*TILE+TILE/2,y:ty*TILE+TILE/2,opened:false});
+      if(this.dtiles[ty][tx]===DNG.CHEST){
+        var ch={type:'chest',tx:tx,ty:ty,x:tx*TILE+TILE/2,y:ty*TILE+TILE/2,opened:false};
+        if(this._lab)ch.gfx=this._drawLabChest(tx,ty);
+        this.interactables.push(ch);
+      }
     if(this.isLastFloor&&this.bossChestTile)
       this.interactables.push({type:'boss_chest',tx:this.bossChestTile.x,ty:this.bossChestTile.y,x:this.bossChestTile.x*TILE+TILE/2,y:this.bossChestTile.y*TILE+TILE/2,opened:false,locked:true});
   }
+  _drawLabChest(tx,ty){
+    var x=tx*TILE+TILE/2, y=ty*TILE+TILE-4, g=this.add.graphics().setDepth(this._yDepth(y));
+    g.fillStyle(0x000000,0.3).fillEllipse(x,y,26,7);
+    g.fillStyle(0x6a3c10,1).fillRoundedRect(x-11,y-17,22,15,2);
+    g.fillStyle(0x8a5418,1).fillRoundedRect(x-11,y-21,22,7,3);
+    g.fillStyle(0xd4a000,1).fillRect(x-11,y-15,22,2).fillRect(x-2,y-17,4,6);
+    g.fillStyle(0xffee88,1).fillCircle(x,y-13,1.5);
+    return g;
+  }
   _spawnPlayer(){
     var sx=this.stairsUpTile.x*TILE+TILE/2,sy=(this.stairsUpTile.y+1)*TILE+TILE/2;
+    if(this._spawnPt){sx=this._spawnPt.x;sy=this._spawnPt.y;}
     this.px=sx;this.py=sy;this.pdir='down';this.p_bobPhase=0;
-    var cont=this.add.container(sx,sy).setDepth(10);
+    var cont=this.add.container(sx,sy).setDepth(this._lab?this._yDepth(sy):10);
     var shadow=this.add.ellipse(0,12,20,6,0x000000,.3);
     var body=this.add.rectangle(0,2,16,18,0x4488dd).setVisible(false);
     var head=this.add.circle(0,-11,8,0xf0c880).setVisible(false);
@@ -7007,9 +8203,13 @@ class DungeonScene extends Phaser.Scene{
     // Use the full siteId as the done-check so island adventure dungeons
     // don't falsely inherit completion state from main-world dungeons/towers
     var qKey=this.siteId||('s'+this.siteSection+'_'+this.siteType);
-    var done=ps.completedQuests&&ps.completedQuests.includes(qKey);
+    var done=this._isIsland?(ps.completedIslands||[]).includes(this.siteSection)
+            :this._isBonus?(ps.bonusCleared||[]).includes(this.siteId)
+            :(ps.completedQuests&&ps.completedQuests.includes(qKey));
     var regTypes=[];
     for(var k in MDEFS){if(MDEFS[k].sec===this.siteSection&&!MDEFS[k].boss)regTypes.push(k);}
+    if(this._lab){ this._spawnMonstersLab(regTypes); }
+    else {
     var spawnRooms=this.isLastFloor?this.rooms.slice(1,-1):this.rooms.slice(1);
     var monCount=7+this.floor*2+Math.floor(Math.random()*3); // harder: 7-9 on floor 0, scales up
     for(var i=0;i<monCount;i++){
@@ -7020,23 +8220,27 @@ class DungeonScene extends Phaser.Scene{
       var mtype=regTypes[Math.floor(Math.random()*regTypes.length)];
       if(mtype)this._spawnMonster(mtype,mx,my,false);
     }
+    }
     this._wasDone=!!done;
     if(this.isLastFloor){
       var bk=this._getBossKey();
       if(bk){
         this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
-        showNotif(done?'⚔️ The guardian has returned, stronger (+25%)!':'⚔️ The guardian blocks the exit portal!', '#ffaa66');
+        if(this._isBonus)showNotif(done?'⚔️ A stronger elite guards the vault again (+25%)!':'💎 An elite guards the treasure vault!','#ffaa66');
+        else showNotif(done?'⚔️ The guardian has returned, stronger (+25%)!':'⚔️ The guardian blocks the exit portal!', '#ffaa66');
       }
     }
   }
   _getBossKey(){
     var t=this.siteType,s=this.siteSection;
+    if(this._isIsland){ var ik=_islandBossKey(s); if(ik)return ik; }
+    if(this._isBonus){ var ek=_bonusMiniBossKey(s); if(ek)return ek; }
     return t==='dungeon'?['goblin_king','swamp_witch','rock_dragon','lava_titan'][s-1]:['dark_warlock','storm_mage','iron_sentinel','shadow_lord'][s-1];
   }
-  _spawnMonster(type,wx,wy,isBoss,mult){
+  _spawnMonster(type,wx,wy,isBoss,mult,quiet){
     var def=MDEFS[type];if(!def)return;
-    if(mult&&mult!==1)def=Object.assign({},def,{hp:Math.round(def.hp*mult),atk:Math.round(def.atk*mult),def:Math.round((def.def||0)*mult),name:def.name+' (Rematch)'});
-    var cont=this.add.container(wx,wy).setDepth(isBoss?12:10);
+    if(mult&&mult!==1)def=Object.assign({},def,{hp:Math.round(def.hp*mult),atk:Math.round(def.atk*mult),def:Math.round((def.def||0)*mult),name:quiet?def.name:def.name+' (Rematch)'});
+    var cont=this.add.container(wx,wy).setDepth(this._lab?this._yDepth(wy):(isBoss?12:10));
     var shadow=this.add.ellipse(0,def.r+2,def.r*2.2,7,0x000000,.3);
     var body=this.add.circle(0,0,def.r,def.color);
     var icon=this.add.text(0,0,def.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
@@ -7054,7 +8258,7 @@ class DungeonScene extends Phaser.Scene{
       this._movePlayer(dt);
       this._updateMonsters(dt);
       this._leashBoss(dt);
-      this._updateDungeonFX(dt);
+      if(this._lab)this._labUpdate(dt); else this._updateDungeonFX(dt);
       if(Phaser.Input.Keyboard.JustDown(this.keys.SPACE))this._playerAttack();
       if(this._dngFogExplored)this._dngRevealFog(false);
     }
@@ -7088,6 +8292,7 @@ class DungeonScene extends Phaser.Scene{
     if(this.playerIFrames>0)this.pBody.setFillStyle(Math.floor(this.playerIFrames*10)%2===0?0xff4444:0x4488dd);
     else this.pBody.setFillStyle(0x4488dd);
     this.pCont.setPosition(this.px,this.py);
+    if(this._lab)this.pCont.setDepth(this._yDepth(this.py));
     if(this.pWalkSt){this.pWalkSt.dir=this.pdir;_heroAnimate(this,this.pSprite,this.pWalkSt,vx,vy,dt,(this.playerAtkTimer||0),(this.pBowTimer||0));}
     _heroShieldTick(this, this.px, this.py);
   }
@@ -7098,9 +8303,7 @@ class DungeonScene extends Phaser.Scene{
     var key=this.siteId+'_'+this.floor;
     if(!ps.dungeonFog)ps.dungeonFog={};
     if(ps.dungeonFog[key]){
-      var saved=ps.dungeonFog[key];
-      this._dngFogExplored=new Uint8Array(DW*DH);
-      for(var i=0;i<Math.min(saved.length,DW*DH);i++)this._dngFogExplored[i]=saved[i];
+      this._dngFogExplored=_fogUnpack(ps.dungeonFog[key],DW*DH);
     }else{
       this._dngFogExplored=new Uint8Array(DW*DH);
     }
@@ -7126,7 +8329,7 @@ class DungeonScene extends Phaser.Scene{
       // Persist fog to playerState
       var ps=this.worldScene.playerState;
       if(!ps.dungeonFog)ps.dungeonFog={};
-      ps.dungeonFog[this.siteId+'_'+this.floor]=Array.from(fog);
+      ps.dungeonFog[this.siteId+'_'+this.floor]=_fogPack(fog);
     }
     _drawMinimapHud(null,this);
   }
@@ -7286,6 +8489,7 @@ class DungeonScene extends Phaser.Scene{
         if(self._canGoD(mon.x,wny))mon.y=wny; else mon.wanderVy*=-1;
       }
       mon.cont.setPosition(mon.x,mon.y);
+      if(self._lab)mon.cont.setDepth(self._yDepth(mon.y));
       mon.atkTimer=Math.max(0,mon.atkTimer-dt);
       if(mon.atkTimer>0||self.playerIFrames>0)return;
       // Stomp attack: full AoE in section 2 (wetlands); melee fallback elsewhere
@@ -7324,7 +8528,7 @@ class DungeonScene extends Phaser.Scene{
         var _atkAng=playerAng;
         toFire.forEach(function(offset){
           var fAng=_atkAng+offset;
-          var vis2=self.add.circle(mon.x,mon.y,cfg.r,cfg.col).setDepth(12);
+          var vis2=self.add.circle(mon.x,mon.y,cfg.r,cfg.col).setDepth(self._lab?12.9:12);
           var monAtk2=mon.monAtk!==undefined?mon.monAtk:mon.def.atk;
           self.dngProj.push({vis:vis2,x:mon.x,y:mon.y,vx:Math.cos(fAng)*finalSpd,vy:Math.sin(fAng)*finalSpd,
             dmg:Math.max(1,Math.round(monAtk2*0.5)),life:cfg.life,isBoss:mon.isBoss,bounces:0,bog:cfg.bog||false});
@@ -7408,16 +8612,15 @@ class DungeonScene extends Phaser.Scene{
   }
   _onBossDefeated(mon){
     this._bossDefeated=true;
-    var qKey='s'+this.siteSection+'_'+this.siteType;
     var ps=this.worldScene.playerState;
-    if(!ps.completedQuests)ps.completedQuests=[];
-    if(!ps.completedQuests.includes(qKey))ps.completedQuests.push(qKey);
-    if(ps.activeQuest===qKey)ps.activeQuest=null;
+    // Only the quadrant's ★ boss sites count for the main quests (bonus + island dungeons have their own tracking)
+    if(!this._isIsland&&!this._isBonus)_completeQuest(ps,'s'+this.siteSection+'_'+this.siteType);
     var bc=this.interactables.find(function(i){return i.type==='boss_chest';});
     if(bc)bc.locked=false;
     if(this._portalOpen)this._portalOpen();
+    if(this._captive)this._freeCaptive();
     showNotif('🏆 '+mon.def.name+' defeated!','#ffdd44');
-    showNotif('The exit portal is open — [Tab] to claim your reward and leave','#aaffaa');
+    showNotif(this._isBonus?'The treasure vault is open — [Tab] to claim it':'The exit portal is open — [Tab] to claim your reward and leave','#aaffaa');
     var self=this;
     for(var i=0;i<8;i++){
       var star=this.add.text(mon.x,mon.y,'⭐',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5).setDepth(25);
@@ -7499,13 +8702,14 @@ class DungeonScene extends Phaser.Scene{
       // Save current floor state before going back up
       var fs=this._initData.floorStates||{};
       fs[this.floor]=this._saveFloorState();
-      this.scene.restart(Object.assign({},this._initData,{floor:this.floor-1,floorStates:fs}));
+      this.scene.restart(Object.assign({},this._initData,{floor:this.floor-1,floorStates:fs,arriveAt:'exit'}));
     } else if(near.type==='stairs_down'){
       var fs2=this._initData.floorStates||{};
       fs2[this.floor]=this._saveFloorState();
-      this.scene.restart(Object.assign({},this._initData,{floor:this.floor+1,floorStates:fs2}));
+      this.scene.restart(Object.assign({},this._initData,{floor:this.floor+1,floorStates:fs2,arriveAt:null}));
     } else if(near.type==='chest'){
       near.opened=true;this._openChest();showNotif('Chest opened!','#ffaa44');
+      if(near.gfx)near.gfx.setAlpha(0.35);
       var g=this.add.graphics().setDepth(5);
       g.fillStyle(0xffd700,.6).fillRect(near.tx*TILE+6,near.ty*TILE+9,TILE-12,5);
       this.tweens.add({targets:g,alpha:0,duration:800,onComplete:function(){g.destroy();}});
@@ -7516,50 +8720,63 @@ class DungeonScene extends Phaser.Scene{
     }
   }
   _openBossChest(){
-    // Use siteId for island adventures so they don't overwrite main-world quest keys
-    var isIslAdv=this.siteId&&this.siteId.startsWith('isl_adv_');
-    var qKey=isIslAdv?this.siteId:('s'+this.siteSection+'_'+this.siteType);
-    var rw=isIslAdv?{message:'🏝️ Island dungeon cleared! Rewarded!',color:'#44ffaa',islandAdv:true}:BOSS_REWARDS[qKey];
-    var ps=this.worldScene.playerState;
+    var ps=this.worldScene.playerState, sec=this.siteSection, self=this;
+    if(!ps.inventory)ps.inventory=[];
+    var gem=['gem_ruby','gem_sapphire','gem_emerald','skystone'][sec-1]||'gem_ruby';
+    // ── Island dungeon: the guardian's defeat clears the island → familiar
+    if(this._isIsland){
+      var goldAdv=80*sec; ps.gold+=goldAdv; ps.inventory.push(gem);
+      showNotif('+'+goldAdv+'g + gem — the island guardian is beaten!','#44ffaa');
+      _completeQuest(ps,'s'+sec+'_harbor');
+      var isl=game.scene.getScene('Island');
+      if(isl&&isl._onIslandCleared&&(game.scene.isActive('Island')||game.scene.isSleeping('Island'))){ isl._islandCleared=true; isl._onIslandCleared(); }
+      else _awardIslandFamiliar(ps,sec);
+      this.time.delayedCall(1500,function(){self._exitToWorld(null);});return;
+    }
+    // ── Bonus site: treasure vault (replayable)
+    if(this._isBonus){
+      if(!ps.bonusCleared)ps.bonusCleared=[];
+      if(this._wasDone){
+        var g3=30*sec+10*this.maxFloors; ps.gold+=g3; this._dropItem(sec);
+        showNotif('💎 Vault refilled: +'+g3+'g','#ffdd44');
+      } else {
+        ps.bonusCleared.push(this.siteId);
+        var g4=60*sec+15*this.maxFloors; ps.gold+=g4; ps.inventory.push(gem);
+        var gear=[['iron_sword','leather'],['long_sword','chain_mail'],['great_sword','plate_armor'],['flame_blade','dragon_armor']][sec-1]||['iron_sword'];
+        var gi=gear[Math.floor(Math.random()*gear.length)]; if(ITEMS[gi])ps.inventory.push(gi);
+        if(!ps.relics)ps.relics=[];
+        var relic=SITE_RELICS[this._site.design]||'Old Relic';
+        if(!ps.relics.includes(this._site.design)){ ps.relics.push(this._site.design); ps.maxHp+=3; ps.hp=Math.min(ps.maxHp,ps.hp+3); }
+        showNotif('💎 Treasure vault! +'+g4+'g, a gem'+(ITEMS[gi]?' and '+ITEMS[gi].icon+' '+ITEMS[gi].name:''),'#ffdd44');
+        this.time.delayedCall(700,function(){showNotif('📜 Relic found: '+relic+' (+3 max HP) — '+ps.relics.length+' relics','#ffe9a8');});
+      }
+      this.time.delayedCall(2000,function(){self._exitToWorld(null);});return;
+    }
+    // ── Quadrant boss site
+    var qKey='s'+sec+'_'+this.siteType;
+    var rw=BOSS_REWARDS[qKey];
     if(!rw){showNotif('Mysterious chest... empty.','#aaa');this._exitToWorld(null);return;}
     // Lock this site for the rest of this life
     if(!ps.lockedSites)ps.lockedSites=[];
-    var siteId=this.siteId||('s'+this.siteSection+'_'+this.siteType);
-    if(!ps.lockedSites.includes(siteId))ps.lockedSites.push(siteId);
+    if(!ps.lockedSites.includes(this.siteId))ps.lockedSites.push(this.siteId);
     // Rematch (already cleared before this run): gold + potion + gem, no first-clear rewards
-    if(this._wasDone&&!rw.islandAdv){
-      var sec=this.siteSection, g2=75*sec;
-      ps.gold+=g2; if(!ps.inventory)ps.inventory=[];
-      ps.inventory.push(['gem_ruby','gem_sapphire','gem_emerald','skystone'][sec-1]||'gem_ruby');
+    if(this._wasDone){
+      var g2=75*sec; ps.gold+=g2; ps.inventory.push(gem);
       showNotif('⚔️ Rematch won! +'+g2+'g and a gem','#ffdd44');
       this._dropItem(sec);
-      var self3=this;this.time.delayedCall(1500,function(){self3._exitToWorld(null);});return;
-    }
-    // For island adventures, give a gold bonus + item instead of quest reward
-    if(rw.islandAdv){
-      var goldAdv=80*this.siteSection;ps.gold+=goldAdv;
-      ps.inventory.push(['gem_ruby','gem_sapphire','gem_emerald','skystone'][this.siteSection-1]||'gem_ruby');
-      showNotif('+'+goldAdv+'g + gem — Island dungeon cleared!','#44ffaa');
-      var self2=this;this.time.delayedCall(1500,function(){self2._exitToWorld(null);});return;
+      this.time.delayedCall(1500,function(){self._exitToWorld(null);});return;
     }
     var reward={completedQuest:qKey,message:rw.message,color:rw.color};
-    if(rw.mount){if(!ps.ownedMounts)ps.ownedMounts=[];if(!ps.ownedMounts.includes(rw.mount)){ps.ownedMounts.push(rw.mount);if(!ps.mount)ps.mount=rw.mount;}}
-    if(rw.rings){rw.rings.forEach(function(r){if(!ps.inventory)ps.inventory=[];ps.inventory.push(r);var ri=ITEMS[r];if(ri)showNotif('💍 Found: '+ri.name,'#ffccff');})}
+    if(rw.mount){if(!ps.ownedMounts)ps.ownedMounts=[];if(!ps.ownedMounts.includes(rw.mount)){ps.ownedMounts.push(rw.mount);if(!ps.mount&&!ps._stowedMount)ps._stowedMount=rw.mount;}}
+    if(rw.rings){rw.rings.forEach(function(r){ps.inventory.push(r);var ri=ITEMS[r];if(ri)showNotif('💍 Found: '+ri.name,'#ffccff');});}
     if(rw.unlockSection)reward.unlockSection=rw.unlockSection;
-    var goldBonus=50*this.siteSection;ps.gold+=goldBonus;
-    showNotif('+'+goldBonus+'g','#ffd700');showNotif(rw.message,rw.color||'#ffdd44');
-    // ── Dragon mount: unlock when ALL quests completed ──
-    var ALL_QUESTS=['s1_dungeon','s1_tower','s1_harbor','s1_skyport','s2_dungeon','s2_tower','s2_harbor','s2_skyport','s3_dungeon','s3_tower','s3_harbor','s3_skyport','s4_dungeon','s4_tower','s4_harbor','s4_skyport'];
-    var doneQuests=ps.completedQuests||[];
-    var allDone=ALL_QUESTS.every(function(qk){return doneQuests.includes(qk);});
-    if(allDone&&(!ps.ownedMounts||!ps.ownedMounts.includes('dragon'))){
-      if(!ps.ownedMounts)ps.ownedMounts=[];
-      ps.ownedMounts.push('dragon');
-      if(!ps.mount)ps.mount='dragon';
-      this.time.delayedCall(500,function(){showNotif('🐉 ALL QUESTS COMPLETE — Dragon Mount Unlocked!','#ff4444');});
-      this.time.delayedCall(1000,function(){showNotif('🐉 The Dragon flies over all land and deep water!','#ffaa44');});
+    // Boss tower: the captive craftsman moves to the village
+    if(this.siteType==='tower'){
+      if(!ps.rescued)ps.rescued=[];
+      if(!ps.rescued.includes(sec)){ ps.rescued.push(sec); var C=CRAFTSMEN[sec]; if(C)this.time.delayedCall(900,function(){showNotif(C.icon+' '+C.n+' has moved into the village!','#ffe9a8');}); }
     }
-    var self=this;
+    var goldBonus=50*sec;ps.gold+=goldBonus;
+    showNotif('+'+goldBonus+'g','#ffd700');showNotif(rw.message,rw.color||'#ffdd44');
     this.time.delayedCall(2000,function(){self._exitToWorld(reward);});
   }
   _updateInteractPrompt(){
@@ -7567,17 +8784,18 @@ class DungeonScene extends Phaser.Scene{
     var near=this.interactables.find(function(i){return !i.opened&&Math.hypot(self.px-i.x,self.py-i.y)<TILE*1.8;});
     if(near){
       var txt='[Tab] ';
-      if(near.type==='stairs_up')txt+=this.floor===0?(this.siteType==='tower'?'Exit Tower':'Exit Dungeon'):(this.siteType==='tower'?'Climb Up (Floor '+(this.floor+2)+')':'Go Down (Floor '+(this.floor+2)+')');
-      else if(near.type==='stairs_down')txt+=(this.siteType==='tower'?'Climb Up':'Descend')+' (Floor '+(this.floor+2)+'/'+this.maxFloors+')';
+      var tw=this.siteType==='tower';
+      if(near.type==='stairs_up')txt+=this.floor===0?(tw?'Leave the Tower':'Leave the Dungeon'):(tw?'Go Down to Floor '+this.floor:'Climb Up to Floor '+this.floor);
+      else if(near.type==='stairs_down')txt+=(tw?'Climb Up':'Descend')+' to Floor '+(this.floor+2)+'/'+this.maxFloors;
       else if(near.type==='chest')txt+='Open Chest';
-      else if(near.type==='boss_chest')txt+=near.locked?'Sealed — defeat the guardian':'★ Claim reward & exit';
+      else if(near.type==='boss_chest')txt+=near.locked?(this._isBonus?'Vault sealed — defeat the elite':'Sealed — defeat the guardian'):(this._isBonus?'💎 Open the treasure vault':'★ Claim reward & exit');
       if(this.interactPrompt)this.interactPrompt.setText(txt).setPosition(this.px,this.py-52).setVisible(true);
     } else if(this.interactPrompt) this.interactPrompt.setVisible(false);
   }
   _updateDungeonHUD(){
     if(!this.worldScene||!this.worldScene.playerState)return;
     var ps=this.worldScene.playerState;
-    var label=this.siteType==='tower'?'🗼 Tower':'⚔️ Dungeon';
+    var label=(this.siteType==='tower'?'🗼 ':'⚔️ ')+((this._site&&this._site.name)||(this.siteType==='tower'?'Tower':'Dungeon'))+(this._site&&this._site.boss?' ★':'');
     document.getElementById('dng-title').textContent=label+' — Floor '+(this.floor+1)+'/'+this.maxFloors;
     // HP bar
     var hpPct=Math.min(100,ps.hp/ps.maxHp*100);
@@ -7621,6 +8839,7 @@ class DungeonScene extends Phaser.Scene{
       this.interactables.forEach(function(i){
         if(!state.opened.some(function(o){return Math.abs(o.x-i.x)<4&&Math.abs(o.y-i.y)<4;}))return;
         if(i.type==='chest'||i.type==='boss_chest')i.opened=true;
+        if(i.gfx)i.gfx.setAlpha(0.35);
       });
     }
   }
@@ -7631,8 +8850,7 @@ class DungeonScene extends Phaser.Scene{
     // Record exit time for respawn system
     if(ws&&ws.playerState){
       if(!ws.playerState.siteExitTimes)ws.playerState.siteExitTimes={};
-      var qk='s'+this.siteSection+'_'+this.siteType;
-      ws.playerState.siteExitTimes[qk]=Date.now();
+      ws.playerState.siteExitTimes[this.siteId||('s'+this.siteSection+'_'+this.siteType)]=Date.now();
     }
     this.scene.stop('Dungeon');
     this.scene.wake(this._returnScene||'World');
@@ -7654,7 +8872,7 @@ const HARBOR_ISLANDS={
      boss:{icon:'☠️',name:'Pirate Captain',hp:130,atk:12,def:4,col:0x551100,r:18,spd:52,moveType:'rush',atkType:'melee',boss:true},
      shopItems:['sea_trident','captains_coat','sea_shell_buckler','sea_pearl_neck','pearl'],
      lootItems:['sea_trident','captains_coat','sea_shell_buckler','sea_pearl_neck','pearl'],
-     questText:'Clear the pirate camp and defeat their captain!',
+     questText:'Storm the Pirate Cave and defeat the Pirate Captain on its lowest floor!',
   },
   2:{name:'Bog Isle',theme:'Swamp',bgWater:0x0a3a1a,bgLand:0x1a4a1a,
      enemies:[
@@ -7665,7 +8883,7 @@ const HARBOR_ISLANDS={
      boss:{icon:'🧌',name:'Swamp Titan',hp:170,atk:16,def:6,col:0x2a4a10,r:20,spd:36,moveType:'normal',atkType:'stomp',boss:true},
      shopItems:['long_sword','stormshield','sea_pearl_neck','gem_ruby','pearl'],
      lootItems:['long_sword','stormshield','warriors_talis','gem_ruby'],
-     questText:'Drive the swamp monsters back into the deep!',
+     questText:'Descend the Bog Grotto and defeat the Swamp Titan at the bottom!',
   },
   3:{name:'Ember Isle',theme:'Volcanic',bgWater:0x3a0a00,bgLand:0x4a1a0a,
      enemies:[
@@ -7676,7 +8894,7 @@ const HARBOR_ISLANDS={
      boss:{icon:'🌋',name:'Lava Colossus',hp:210,atk:20,def:8,col:0xaa1100,r:22,spd:30,moveType:'normal',atkType:'stomp',boss:true},
      shopItems:['flame_sword','stormshield','warriors_talis','gem_ruby','gem_sapphire'],
      lootItems:['flame_sword','stormshield','guardians_ward','gem_emerald'],
-     questText:'Quench the volcanic fury and slay the Lava Colossus!',
+     questText:'Brave the Ember Cave and slay the Lava Colossus in its depths!',
   },
   4:{name:'Frost Isle',theme:'Frozen',bgWater:0x0a1a3a,bgLand:0x1a2a4a,
      enemies:[
@@ -7687,7 +8905,7 @@ const HARBOR_ISLANDS={
      boss:{icon:'🧊',name:'Frost Lord',hp:260,atk:24,def:10,col:0x2233aa,r:24,spd:28,moveType:'teleport',atkType:'melee',boss:true},
      shopItems:['sky_sword','obsidian_shield','dragon_amulet','skystone'],
      lootItems:['sky_sword','obsidian_shield','dragon_amulet','skystone'],
-     questText:'Break the Frost Lord\'s grip on the island!',
+     questText:'Climb the Frost Spire and break the Frost Lord\'s grip on the island!',
   },
 };
 // ─── IslandScene — full tile-based island world ───────────────────────────
@@ -7891,45 +9109,25 @@ class IslandScene extends Phaser.Scene{
         isBoss:!!isBoss,_md:{},wanderVx:(Math.random()-.5)*30,wanderVy:(Math.random()-.5)*30,wanderTimer:0});
     };
     for(var i=0;i<count;i++)_spawnOne(defs[i%defs.length],false);
-    // Spawn boss
-    if(isl.boss)_spawnOne(isl.boss,true);
+    // (The island guardian lives in the island dungeon now — see _enterAdventure.)
   }
   _checkIslandClear(){
-    // Called after each kill — if boss is dead, trigger completion
-    var boss=this.monsters.find(function(m){return m.isBoss&&!m.dead;});
-    var allDead=this.monsters.every(function(m){return m.dead;});
-    if(!this._islandCleared&&(allDead||(!boss&&this.monsters.some(function(m){return m.isBoss;})&&this.monsters.filter(function(m){return m.isBoss;}).every(function(m){return m.dead;})))){
-      this._islandCleared=true;
-      this._onIslandCleared();
+    // The island guardian now waits at the bottom of the island's dungeon; clearing
+    // the surface just points the way there.
+    if(this._surfaceCleared)return;
+    if(this.monsters.every(function(m){return m.dead;})){
+      this._surfaceCleared=true;
+      var adv=ISL_ADV[this.sec]||ISL_ADV[1];
+      showNotif('🏝️ Surface cleared! The guardian waits at the bottom of the '+adv.label.replace(/^\S+\s/,'')+'.','#44ffaa');
     }
   }
   _onIslandCleared(){
-    var ps=this.playerState,sec=this.sec,self=this;
+    var ps=this.playerState,sec=this.sec;
     var siteId=this.site?this.site.id:'harbor_'+sec;
     // Lock site until death
     if(!ps.lockedSites)ps.lockedSites=[];
     if(!ps.lockedSites.includes(siteId))ps.lockedSites.push(siteId);
-    // Track completed islands
-    if(!ps.completedIslands)ps.completedIslands=[];
-    if(!ps.completedIslands.includes(sec))ps.completedIslands.push(sec);
-    // Award a familiar
-    var famBySec={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'};
-    var famId=famBySec[sec];
-    var famDef=FAMILIARS[famId];
-    if(famId&&famDef&&(!ps.ownedFamiliars||!ps.ownedFamiliars.includes(famId))){
-      if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
-      ps.ownedFamiliars.push(famId);
-      this.time.delayedCall(300,function(){showNotif(famDef.icon+' '+famDef.n+' familiar unlocked!','#88eeff');});
-      // Auto-equip in first available slot
-      if(!ps.familiar)ps.familiar=famId;
-      else if(!ps.familiar2&&_maxFamiliarSlots(ps)>=2)ps.familiar2=famId;
-      else if(!ps.familiar3&&_maxFamiliarSlots(ps)>=3)ps.familiar3=famId;
-    }
-    var slots=_maxFamiliarSlots(ps);
-    if(slots>=2&&ps.completedIslands.length===2)
-      this.time.delayedCall(800,function(){showNotif('✨ Familiar slot 2 unlocked! (2 islands cleared)','#88eeff');});
-    if(slots>=3||ps.completedIslands.length===4)
-      this.time.delayedCall(800,function(){showNotif('✨ Familiar slot 3 unlocked! (All islands cleared!)','#88eeff');});
+    _awardIslandFamiliar(ps,sec);
     var goldBonus=40*sec;ps.gold+=goldBonus;
     showNotif('🏝️ Island cleared! +'+goldBonus+'g','#44ffaa');
     this.worldScene._emitUI();
@@ -8159,14 +9357,14 @@ class IslandScene extends Phaser.Scene{
     var adv=ISL_ADV[this.sec]||ISL_ADV[1];
     if(adv.type==='cave'){
       this.scene.sleep('Island');
-      this.scene.launch('Cave',{worldScene:this.worldScene,islandScene:this,sec:this.sec});
+      this.scene.launch('Cave',{worldScene:this.worldScene,islandScene:this,sec:this.sec,maxFloors:adv.floors||4});
     } else {
       var theme=adv.type==='volcano'?'volcano':adv.type==='tower_island'?'tower_island':'cave_dungeon';
-      var sType=adv.type==='tower_island'?'tower':'dungeon';
-      var dSite={id:'isl_adv_'+this.sec+'_'+adv.type,type:sType,section:this.sec};
-      var maxFloors=adv.type==='tower_island'?4:3;
+      var sType=adv.kind||(adv.type==='tower_island'?'tower':'dungeon');
+      var dSite={id:'isl_adv_'+this.sec+'_'+adv.type,type:sType,section:this.sec,design:adv.design,island:true,
+        name:adv.label.replace(/^\S+\s/,''),floors:adv.floors||4};
       this.scene.sleep('Island');
-      this.scene.launch('Dungeon',{site:dSite,floor:0,maxFloors:maxFloors,worldScene:this.worldScene,returnScene:'Island',theme:theme});
+      this.scene.launch('Dungeon',{site:dSite,floor:0,maxFloors:dSite.floors,worldScene:this.worldScene,returnScene:'Island',theme:theme});
       document.getElementById('dungeon-hud').style.display='block';
     }
   }
@@ -8222,7 +9420,7 @@ class CaveScene extends Phaser.Scene{
     this.islandScene=d.islandScene;
     this.sec=d.sec||1;
     this.floor=d.floor||0;
-    this.maxFloors=3;
+    this.maxFloors=d.maxFloors||4;
     this._data=d;
   }
   create(){
@@ -8522,7 +9720,10 @@ class CaveScene extends Phaser.Scene{
     var nearExit=Math.hypot(this._px-((this._exitTile.x+0.5)*CV),this._py-((this._exitTile.y+0.5)*CV))<40;
     var nearEntry=Math.hypot(this._px-((this._entryTile.x+0.5)*CV),this._py-((this._entryTile.y+0.5)*CV))<40;
     if(nearExit&&Phaser.Input.Keyboard.JustDown(k.TAB)){
-      if(this._isLastFloor)this._exitToCave();
+      if(this._isLastFloor){
+        if(!this._bossDefeated){ showNotif('The guardian still guards the exit — defeat it first!','#ff6666'); }
+        else this._claimCaveGuardian();
+      }
       else this._goNextFloor();
     }
     if(nearEntry&&Phaser.Input.Keyboard.JustDown(k.TAB)&&this.floor>0)this._goPrevFloor();
@@ -8641,7 +9842,7 @@ class CaveScene extends Phaser.Scene{
         self.ps.xp+=xp;self.ps.gold+=gold;
         self._floatText(mon.x,mon.y-36,'+'+xp+' xp +'+gold+'g','#44ffaa');
         self.worldScene._checkLevelUp(self.ps);
-        if(mon.isBoss){self._bossDefeated=true;}
+        if(mon.isBoss){self._bossDefeated=true;showNotif('🏆 '+mon.def.name+' defeated! The exit is open — [Tab] at the exit to claim the island.','#ffdd44');}
       }
     });
     if(!hit)this._floatText(this._px,this._py-22,'miss','#555');
@@ -8651,12 +9852,23 @@ class CaveScene extends Phaser.Scene{
     this.tweens.add({targets:t,y:y-36,alpha:0,duration:1100,onComplete:function(){t.destroy();}});
   }
   _playerDied(){ if(this._dying)return; this._dying=true; _heroDied(this); }
+  // Beating the cave guardian clears the island → familiar (same as the island dungeons)
+  _claimCaveGuardian(){
+    if(this._claimed)return; this._claimed=true;
+    var ps=this.ps, sec=this.sec, g=80*sec; ps.gold+=g;
+    if(!ps.inventory)ps.inventory=[]; ps.inventory.push(['gem_ruby','gem_sapphire','gem_emerald','skystone'][sec-1]||'gem_ruby');
+    showNotif('+'+g+'g + gem — the island guardian is beaten!','#44ffaa');
+    var isl=game.scene.getScene('Island');
+    if(isl&&isl._onIslandCleared&&(game.scene.isActive('Island')||game.scene.isSleeping('Island'))){ isl._islandCleared=true; isl._onIslandCleared(); }
+    else _awardIslandFamiliar(ps,sec);
+    this._exitToCave();
+  }
   _goNextFloor(){
-    this.scene.restart({worldScene:this.worldScene,islandScene:this.islandScene,sec:this.sec,floor:this.floor+1});
+    this.scene.restart({worldScene:this.worldScene,islandScene:this.islandScene,sec:this.sec,floor:this.floor+1,maxFloors:this.maxFloors});
   }
   _goPrevFloor(){
     if(this.floor===0)this._exitToCave();
-    else this.scene.restart({worldScene:this.worldScene,islandScene:this.islandScene,sec:this.sec,floor:this.floor-1});
+    else this.scene.restart({worldScene:this.worldScene,islandScene:this.islandScene,sec:this.sec,floor:this.floor-1,maxFloors:this.maxFloors});
   }
   _exitToCave(){
     this.scene.stop('Cave');
@@ -8958,6 +10170,7 @@ class SkyScene extends Phaser.Scene{
     if(!ps.lockedSites)ps.lockedSites=[];
     var siteId=this.site?this.site.id:'s1_skyport';
     if(!ps.lockedSites.includes(siteId))ps.lockedSites.push(siteId);
+    _completeQuest(ps,'s'+((this.site&&this.site.section)||1)+'_skyport');
     // First NE sky-port clear awards the Wind Sprite familiar (was unobtainable).
     if((this.site&&this.site.section||1)===1){
       if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
@@ -10122,10 +11335,30 @@ function renderQuestList(unlockedSections,completed,active,scene){
         else if(isAct)h+='<span class="qbadge">ACTIVE</span>';
         h+='</div>';
       }
+      h+=_journalSitesHTML(sec,scene);
     }
     h+='</div>';
   }
   c.innerHTML=h;
+}
+// Towers & dungeons of one section, with boss/bonus status (journal)
+function _journalSitesHTML(sec,scene){
+  var ps=scene&&scene.playerState||{}, sites=((scene&&scene.sites)||[]).filter(function(s){return s.section===sec&&s.design&&(s.type==='tower'||s.type==='dungeon');});
+  if(!sites.length)return '';
+  var h='<div class="qdesc" style="margin:8px 0 4px;letter-spacing:.06em;text-transform:uppercase;opacity:.75">Towers &amp; dungeons</div>';
+  sites.forEach(function(s){
+    var done, desc;
+    if(s.boss){
+      done=(ps.completedQuests||[]).includes(s.id);
+      if(s.type==='tower')desc='★ Boss tower · '+s.floors+' floors · frees '+(CRAFTSMEN[sec]?CRAFTSMEN[sec].n:'a craftsman');
+      else { var rw=BOSS_REWARDS[s.id], mt=rw&&rw.mount&&MOUNTS[rw.mount]; desc='★ Boss dungeon · '+s.floors+' floors · mount: '+(mt?mt.icon+' '+mt.n:'—'); }
+    } else {
+      done=(ps.bonusCleared||[]).includes(s.id);
+      desc='Bonus · '+s.floors+' floors · elite guard + treasure vault · relic: '+(done?(SITE_RELICS[s.design]||'?'):'???');
+    }
+    h+='<div class="qitem '+(done?'qdone':'')+'"><div class="qico">'+(s.type==='tower'?'🗼':'⚔️')+'</div><div class="qinf"><div class="qtit">'+s.name+(done?' ✓':'')+'</div><div class="qdesc">'+desc+'</div></div></div>';
+  });
+  return h;
 }
 window._acceptQuest=function(k){var ws=game.scene.getScene('World');if(ws)ws.acceptQuest(k);closeModal('quests');};
 
@@ -10218,7 +11451,7 @@ function renderMinimap(wd,player,unlockedSections,exploredGrid,expVer,activeQues
     wd.sites.forEach(function(s){
       if(!ul.includes(s.section))return;
       var sx=s.tx+1, sy=s.ty+1; // centre of the 3-tile site block
-      var questKey='s'+s.section+'_'+s.type;
+      var questKey=s.bonus?null:'s'+s.section+'_'+s.type;
       var isQuest=activeQuest===questKey;
 
       if(isQuest){
@@ -10244,18 +11477,18 @@ function renderMinimap(wd,player,unlockedSections,exploredGrid,expVer,activeQues
         // Label below the marker: site type
         ctx.save();
         ctx.fillStyle='rgba(0,0,0,0.65)';
-        ctx.fillRect(sx-18,sy+10,36,12);
+        ctx.fillRect(sx-55,sy+10,110,12);
         ctx.fillStyle='#ffff88';
         ctx.font='bold 9px sans-serif';
         ctx.textAlign='center';ctx.textBaseline='top';
-        ctx.fillText((s.type.charAt(0).toUpperCase()+s.type.slice(1))+' S'+s.section,sx,sy+11);
+        ctx.fillText((s.name||(s.type.charAt(0).toUpperCase()+s.type.slice(1)))+' S'+s.section,sx,sy+11);
         ctx.restore();
       } else {
         // ── Regular site: 5×5 dot ──────────────────────────────────────────
         ctx.fillStyle=sc[s.type]||'#fff';
         ctx.fillRect(sx-2,sy-2,5,5);
         // thin dark border for legibility
-        ctx.strokeStyle='rgba(0,0,0,0.5)';ctx.lineWidth=0.5;
+        ctx.strokeStyle=s.boss?'#ffd24a':'rgba(0,0,0,0.5)';ctx.lineWidth=s.boss?1.2:0.5;
         ctx.strokeRect(sx-2,sy-2,5,5);
       }
     });

@@ -468,13 +468,11 @@ function _heroInArc(dir, dx, dy){
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-// ║ ZELDARA DESIGN LAB — core engine (Phase 2 · A2)
-// ║
-// ║ A walkable preview engine shared by every selector tab. Each design is a
-// ║ plain object { id, name, blurb, build(seed) → map }. The engine paints
-// ║ nothing itself: designs return a map with a pre-painted base canvas, tall
-// ║ sprites (depth-sorted against the hero), lights, particles and colliders.
-// ║ The hero is the real game hero (02-hero-api.js + sprite data).
+// ║ SITE ART — shared by the game (towers & dungeons) and the Design Lab.
+// ║ Canvas painters + a tiny map model. Builders (07b towers, 07c caverns)
+// ║ return a map: pre-painted base canvas, depth-sorted sprites, lights,
+// ║ particles, light shafts and a solid grid. The game's DungeonScene turns
+// ║ that into floors (12-scene-dungeon.js); the Lab walks it directly.
 // ═══════════════════════════════════════════════════════════════════════
 var LT = 32; // lab tile size (same as the game)
 
@@ -512,6 +510,895 @@ function floodReach(m,sx,sy){
     [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var nx=x+d[0],ny=y+d[1]; if(mapSolid(m,nx,ny))return; var k=ny*m.w+nx; if(!seen[k]){seen[k]=1;q.push(k);} }); }
   return seen;
 }
+
+// ═══════════════════════════════════════════════════════════════════════
+// ║ TOWER SELECTOR (Phase 2 · C3 look + C2 floor plans)
+// ║ Floors are laid out like a house: mostly rooms with open space, short
+// ║ hallways, furniture you walk around. 3 hand-made floor plans; every
+// ║ style re-furnishes them with its own look. No monsters.
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── Floor plans (interior coordinates; the builder adds walls + a 2-tile exterior band)
+// rooms: {x,y,w,h,type,shape?}  carve: extra floor rects (halls, doors)  entry: [x,y] door on the south wall
+var TOWER_PLANS={
+  grand:{ w:36,h:26, name:'Grand floor (9 rooms around an atrium)',
+    rooms:[
+      {x:1,y:1,w:10,h:9,type:'library'},{x:12,y:1,w:12,h:6,type:'study'},{x:25,y:1,w:10,h:9,type:'bedroom'},
+      {x:1,y:11,w:10,h:6,type:'gallery'},{x:12,y:8,w:12,h:10,type:'atrium'},{x:25,y:11,w:10,h:6,type:'dining'},
+      {x:1,y:18,w:10,h:7,type:'chapel'},{x:12,y:19,w:12,h:6,type:'hall'},{x:25,y:18,w:10,h:7,type:'music'}],
+    carve:[[11,4,1,2],[24,4,1,2],[17,7,2,1],[11,13,1,2],[24,13,1,2],[5,10,2,1],[29,10,2,1],[5,17,2,1],[29,17,2,1],[17,18,2,1],[11,21,1,2],[24,21,1,2]],
+    entry:[17,25], stairs:[18,3] },
+  gallery:{ w:38,h:24, name:'Long hall (rooms off a central gallery)',
+    rooms:[
+      {x:1,y:1,w:8,h:9,type:'library'},{x:10,y:1,w:9,h:9,type:'bedroom'},{x:20,y:1,w:8,h:9,type:'study'},{x:29,y:1,w:8,h:9,type:'music'},
+      {x:1,y:11,w:36,h:2,type:'corridor'},
+      {x:1,y:14,w:11,h:9,type:'dining'},{x:13,y:14,w:12,h:9,type:'atrium'},{x:26,y:14,w:11,h:9,type:'conservatory'}],
+    carve:[[4,10,2,1],[14,10,2,1],[23,10,2,1],[32,10,2,1],[6,13,2,1],[18,13,2,1],[31,13,2,1],[9,5,1,2],[28,5,1,2]],
+    entry:[18,23], stairs:[23,3] },
+  rotunda:{ w:36,h:28, name:'Rotunda (round hall with wings)',
+    rooms:[
+      {x:9,y:5,w:18,h:18,type:'rotunda',shape:'circle'},
+      {x:1,y:1,w:9,h:8,type:'library'},{x:26,y:1,w:9,h:8,type:'bedroom'},
+      {x:1,y:19,w:9,h:8,type:'dining'},{x:26,y:19,w:9,h:8,type:'study'},
+      {x:13,y:1,w:10,h:3,type:'chapel'},
+      {x:1,y:10,w:6,h:8,type:'gallery'},{x:29,y:10,w:6,h:8,type:'conservatory'},
+      {x:14,y:24,w:8,h:3,type:'hall'}],
+    carve:[[17,4,2,2],[7,13,3,2],[26,13,3,2],[17,22,2,2],[5,9,2,1],[30,9,2,1],[5,18,2,1],[30,18,2,1],[10,4,3,1],[23,4,3,1],[10,23,1,1],[25,23,1,1],[10,20,2,1],[24,20,2,1],[10,6,2,1],[24,6,2,1]],
+    entry:[17,27], stairs:[18,2] },
+};
+
+var ROOM_NOTES={
+  library:'Library — tall shelves, a reading table, a lectern.', study:'Study — desk, map table, candles.',
+  bedroom:'Bedroom — canopy bed, wardrobe, nightstands.', gallery:'Gallery — statues and paintings of the tower’s history.',
+  atrium:'Atrium — the heart of the floor, open and bright.', dining:'Dining hall — long table and chandelier.',
+  chapel:'Shrine — altar, benches, candles.', hall:'Entrance hall — you arrive here from the floor below.',
+  music:'Music room — harp and piano.', corridor:'Gallery walk — the long hall that joins every room.',
+  conservatory:'Conservatory — glass garden with planters.', rotunda:'Rotunda — a round hall under the dome.'
+};
+
+// ── Builder ────────────────────────────────────────────────────────────
+var TB={OUT:0,WALL:1,FLOOR:2,WIN:3,GLASS:4,DOOR:5};
+// opts: {mirror:bool, shuffle:bool, last:bool}  (the game varies floors with these)
+var TOWER_SHUFFLE_TYPES=['library','study','bedroom','gallery','dining','chapel','music','conservatory'];
+function towerPlanVariant(P, opts, R){
+  if(!opts||(!opts.mirror&&!opts.shuffle))return P;
+  var Q=JSON.parse(JSON.stringify(P));
+  if(opts.mirror){
+    Q.rooms.forEach(function(r){ r.x=P.w-r.x-r.w; });
+    Q.carve.forEach(function(c){ c[0]=P.w-c[0]-c[2]; });
+    Q.entry=[P.w-P.entry[0]-2,P.entry[1]]; Q.stairs=[P.w-1-P.stairs[0],P.stairs[1]];
+  }
+  if(opts.shuffle){
+    var idx=[]; Q.rooms.forEach(function(r,i){ if(TOWER_SHUFFLE_TYPES.indexOf(r.type)>=0)idx.push(i); });
+    var types=idx.map(function(i){return Q.rooms[i].type;});
+    for(var k=types.length-1;k>0;k--){ var j=Math.floor(R.f()*(k+1)); var t=types[k]; types[k]=types[j]; types[j]=t; }
+    idx.forEach(function(i,n){ Q.rooms[i].type=types[n]; });
+  }
+  return Q;
+}
+function buildTower(S, planId, seed, opts){
+  opts=opts||{};
+  var R=rngOf(seed*977+planId.length*31), P=towerPlanVariant(TOWER_PLANS[planId],opts,R), pad=2;
+  var W=P.w+pad*2, H=P.h+pad*2, m=newMap(W,H);
+  var cell=new Uint8Array(W*H), room=new Int16Array(W*H).fill(-1);
+  var at=function(x,y){return (x<0||y<0||x>=W||y>=H)?TB.OUT:cell[y*W+x];};
+  var set=function(x,y,v){ if(x>=0&&y>=0&&x<W&&y<H)cell[y*W+x]=v; };
+  // building shell = walls
+  for(var y=pad;y<pad+P.h;y++)for(var x=pad;x<pad+P.w;x++)set(x,y,TB.WALL);
+  // rooms
+  P.rooms.forEach(function(r,ri){
+    for(var yy=0;yy<r.h;yy++)for(var xx=0;xx<r.w;xx++){
+      if(r.shape==='circle'){ var cx=(r.w-1)/2, cy=(r.h-1)/2; if(Math.hypot((xx-cx)/(r.w/2),(yy-cy)/(r.h/2))>0.98)continue; }
+      var X=r.x+xx+pad, Y=r.y+yy+pad; set(X,Y,TB.FLOOR); room[Y*W+X]=ri;
+    }
+  });
+  P.carve.forEach(function(c){ for(var yy=0;yy<c[3];yy++)for(var xx=0;xx<c[2];xx++){ var X=c[0]+xx+pad,Y=c[1]+yy+pad; if(at(X,Y)===TB.WALL)set(X,Y,TB.DOOR); } });
+  var ex=P.entry[0]+pad, ey=P.entry[1]+pad; set(ex,ey,TB.DOOR); set(ex+1,ey,TB.DOOR);
+  var isOpen=function(x,y){var v=at(x,y);return v===TB.FLOOR||v===TB.DOOR;};
+  // windows on outer walls
+  for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){
+    if(at(x2,y2)!==TB.WALL)continue;
+    var outer=(at(x2-1,y2)===TB.OUT||at(x2+1,y2)===TB.OUT||at(x2,y2-1)===TB.OUT||at(x2,y2+1)===TB.OUT);
+    if(!outer)continue;
+    var inside=isOpen(x2,y2+1)||isOpen(x2,y2-1)||isOpen(x2-1,y2)||isOpen(x2+1,y2);
+    if(!inside)continue;
+    var along=(at(x2,y2-1)===TB.OUT||at(x2,y2+1)===TB.OUT)?x2:y2;
+    if(along%S.windowEvery===0&&!(isOpen(x2-1,y2)&&isOpen(x2+1,y2)))set(x2,y2,TB.WIN);
+  }
+  // interior glass partitions (per room pair)
+  var pairGlass={};
+  for(var y3=0;y3<H;y3++)for(var x3=0;x3<W;x3++){
+    if(at(x3,y3)!==TB.WALL)continue;
+    var a=-1,b=-1;
+    if(isOpen(x3,y3-1)&&isOpen(x3,y3+1)){a=room[(y3-1)*W+x3];b=room[(y3+1)*W+x3];}
+    else if(isOpen(x3-1,y3)&&isOpen(x3+1,y3)){a=room[y3*W+x3-1];b=room[y3*W+x3+1];}
+    if(a<0||b<0||a===b)continue;
+    var key=Math.min(a,b)+'_'+Math.max(a,b);
+    if(pairGlass[key]===undefined)pairGlass[key]=R.chance(S.glass||0);
+    if(pairGlass[key]&&!(at(x3-1,y3)===TB.DOOR||at(x3+1,y3)===TB.DOOR||at(x3,y3-1)===TB.DOOR||at(x3,y3+1)===TB.DOOR))set(x3,y3,TB.GLASS);
+  }
+  for(var i=0;i<W*H;i++)m.solid[i]=(cell[i]===TB.FLOOR||cell[i]===TB.DOOR)?0:1;
+  m.spawn={x:(ex+1)*LT, y:(ey-1)*LT+LT-4};
+  m.bg=S.pal.outside||'#9cc6e8';
+  // ── furniture plan (solid cells decided before painting) ──
+  var items=[];   // {type,x,y,w,h,room}
+  var occupied=new Uint8Array(W*H);
+  var reachOK=function(){
+    var seen=floodReach(m,Math.floor(m.spawn.x/LT),Math.floor(m.spawn.y/LT)), n=0, open=0;
+    for(var k=0;k<W*H;k++){ if(!m.solid[k]){ open++; if(seen[k])n++; } }
+    return n===open;
+  };
+  var nearDoor=function(x,y){ for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){ if(at(x+dx,y+dy)===TB.DOOR)return true; } return false; };
+  // Keep the stairs (and the cells around them) free of furniture so the way up is always walkable.
+  var stX=P.stairs[0]+pad, stY=P.stairs[1]+pad;
+  var nearStairs=function(x,y){ return Math.abs(x-stX)<=1&&Math.abs(y-stY)<=1; };
+  var tryPlace=function(type,x,y,w,h,ri,solid){
+    var flat=solid===false;
+    for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++){ var X=x+xx,Y=y+yy; if(at(X,Y)!==TB.FLOOR||room[Y*W+X]!==ri)return false; if(nearStairs(X,Y))return false; if(!flat&&(occupied[Y*W+X]||nearDoor(X,Y)))return false; }
+    if(flat){ items.push({type:type,x:x,y:y,w:w,h:h,room:ri,solid:false}); return true; }
+    if(solid!==false){
+      for(var yy2=0;yy2<h;yy2++)for(var xx2=0;xx2<w;xx2++)m.solid[(y+yy2)*W+x+xx2]=1;
+      if(!reachOK()){ for(var yy3=0;yy3<h;yy3++)for(var xx3=0;xx3<w;xx3++)m.solid[(y+yy3)*W+x+xx3]=0; return false; }
+    }
+    for(var yy4=0;yy4<h;yy4++)for(var xx4=0;xx4<w;xx4++)occupied[(y+yy4)*W+x+xx4]=1;
+    items.push({type:type,x:x,y:y,w:w,h:h,room:ri,solid:solid!==false}); return true;
+  };
+  P.rooms.forEach(function(r,ri){
+    var rx=r.x+pad, ry=r.y+pad, rw=r.w, rh=r.h, cx=rx+Math.floor(rw/2), cy=ry+Math.floor(rh/2);
+    var alongNorth=function(type,w,h,step,solid){ for(var x=rx+1;x+w<=rx+rw-1;x+=step){ if(at(x,ry-1)===TB.WALL||at(x,ry-1)===TB.WIN)tryPlace(type,x,ry,w,h,ri,solid); } };
+    var corners=function(type){ [[rx,ry],[rx+rw-1,ry],[rx,ry+rh-1],[rx+rw-1,ry+rh-1]].forEach(function(c){ tryPlace(type,c[0],c[1],1,1,ri); }); };
+    var rug=function(w,h){ tryPlace('rug',cx-Math.floor(w/2),cy-Math.floor(h/2),w,h,ri,false); };
+    switch(r.type){
+      case 'library': alongNorth('bookshelf',2,1,2); rug(4,3); tryPlace('table',cx-1,cy,2,1,ri); tryPlace('chair',cx-2,cy,1,1,ri); tryPlace('chair',cx+1,cy,1,1,ri); tryPlace('lectern',rx+1,ry+rh-2,1,1,ri); corners('plant'); break;
+      case 'study': tryPlace('desk',cx-1,ry+1,2,1,ri); tryPlace('chair',cx,ry+2,1,1,ri); tryPlace('bookshelf',rx+1,ry,2,1,ri); tryPlace('globe',rx+rw-2,ry+1,1,1,ri); tryPlace('maptable',cx-1,ry+rh-2,3,1,ri); tryPlace('candelabra',rx,ry+rh-1,1,1,ri); break;
+      case 'bedroom': tryPlace('bed',cx-1,ry,2,3,ri); tryPlace('nightstand',cx-2,ry,1,1,ri); tryPlace('nightstand',cx+1,ry,1,1,ri); tryPlace('wardrobe',rx,ry,2,1,ri); rug(3,2); tryPlace('chair',rx+rw-2,ry+rh-2,1,1,ri); tryPlace('plant',rx+rw-1,ry,1,1,ri); break;
+      case 'dining': var tl=Math.min(6,rw-4); tryPlace('longtable',cx-Math.floor(tl/2),cy-1,tl,2,ri); for(var c1=0;c1<tl;c1+=2){ tryPlace('chair',cx-Math.floor(tl/2)+c1,cy-2,1,1,ri); tryPlace('chair',cx-Math.floor(tl/2)+c1,cy+1,1,1,ri);} alongNorth('sideboard',2,1,4); items.push({type:'chandelier',x:cx,y:cy,w:0,h:0,room:ri,solid:false}); break;
+      case 'chapel': tryPlace('altar',cx-1,ry,2,1,ri); for(var pr=ry+2;pr<ry+rh-1;pr+=2){ tryPlace('pew',rx+1,pr,Math.max(2,Math.floor(rw/2)-2),1,ri); tryPlace('pew',cx+1,pr,Math.max(2,Math.floor(rw/2)-2),1,ri);} tryPlace('candelabra',cx-2,ry,1,1,ri); tryPlace('candelabra',cx+1,ry,1,1,ri); break;
+      case 'gallery': for(var gx=rx+1;gx<rx+rw-1;gx+=3){ tryPlace('statue',gx,ry,1,1,ri); tryPlace('statue',gx,ry+rh-1,1,1,ri);} tryPlace('bench',cx-1,cy,2,1,ri); break;
+      case 'music': tryPlace('piano',rx+1,ry+1,3,2,ri); tryPlace('harp',rx+rw-2,ry+1,1,1,ri); rug(4,3); tryPlace('chair',cx,cy+1,1,1,ri); tryPlace('chair',cx-2,cy+1,1,1,ri); corners('plant'); break;
+      case 'conservatory': for(var py=ry+1;py<ry+rh-1;py+=3)for(var px=rx+1;px<rx+rw-1;px+=3)tryPlace(R.chance(0.35)?'tree':'planter',px,py,1,1,ri); tryPlace('pool',cx-1,cy,2,2,ri); break;
+      case 'hall': tryPlace('runner',cx-1,ry,2,rh,ri,false); tryPlace('statue',cx-3,ry,1,1,ri); tryPlace('statue',cx+2,ry,1,1,ri); tryPlace('bench',rx+1,cy,2,1,ri); tryPlace('bench',rx+rw-3,cy,2,1,ri); corners('plant'); break;
+      case 'corridor': for(var hx=rx+2;hx<rx+rw-2;hx+=6)tryPlace('plant',hx,ry,1,1,ri); tryPlace('runner',rx,ry+1,rw,1,ri,false); break;
+      case 'atrium': case 'rotunda':
+        var cs=S.center||'fountain', sz=cs==='orrery'||cs==='pool'?4:3;
+        tryPlace('center_'+cs,cx-Math.floor(sz/2),cy-Math.floor(sz/2),sz,sz,ri);
+        [[rx+1,ry+1],[rx+rw-2,ry+1],[rx+1,ry+rh-2],[rx+rw-2,ry+rh-2]].forEach(function(c){ tryPlace(S.pillar||'pillar',c[0],c[1],1,1,ri); });
+        tryPlace('bench',cx-1,ry+rh-2,2,1,ri); tryPlace('bench',cx-1,ry+1,2,1,ri);
+        break;
+    }
+  });
+  // stairs up (walkable marker)
+  var st=P.stairs; if(!opts.last)items.push({type:'stairs',x:st[0]+pad,y:st[1]+pad,w:1,h:1,solid:false,room:-1});
+  m.site={entry:{x:ex,y:ey}, exit:{x:st[0]+pad,y:st[1]+pad}};
+  // ── paint ──
+  var cv=mkCanvas(W*LT,H*LT), ctx=cv.getContext('2d');
+  S.paintExterior(ctx,W,H,m,R);
+  var roomType=function(x,y){ var ri=room[y*W+x]; return ri>=0?P.rooms[ri].type:'hall'; };
+  for(var y4=0;y4<H;y4++)for(var x4=0;x4<W;x4++){
+    var v=at(x4,y4); if(v===TB.OUT)continue;
+    if(v===TB.FLOOR||v===TB.DOOR||v===TB.GLASS){
+      var rt=v===TB.GLASS?'hall':(v===TB.DOOR?(roomType(x4,y4-1)||'hall'):roomType(x4,y4));
+      S.floor(ctx,x4*LT,y4*LT,x4,y4,rt,R);
+      if(v===TB.DOOR){ ctx.fillStyle=rgba(S.pal.trim,0.55); ctx.fillRect(x4*LT,y4*LT+LT/2-2,LT,4); }
+    }
+  }
+  // room-level floor accents (medallions etc.)
+  P.rooms.forEach(function(r){ if(S.roomAccent)S.roomAccent(ctx,(r.x+pad)*LT,(r.y+pad)*LT,r.w*LT,r.h*LT,r.type,R,r); });
+  // ambient occlusion under walls
+  for(var y5=0;y5<H;y5++)for(var x5=0;x5<W;x5++){
+    var v5=at(x5,y5); if(v5!==TB.FLOOR&&v5!==TB.DOOR)continue;
+    if(at(x5,y5-1)===TB.WALL||at(x5,y5-1)===TB.WIN){ var g=ctx.createLinearGradient(0,y5*LT,0,y5*LT+14); g.addColorStop(0,'rgba(0,0,0,'+(S.ao||0.22)+')'); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g; ctx.fillRect(x5*LT,y5*LT,LT,14); }
+    if(at(x5-1,y5)===TB.WALL||at(x5-1,y5)===TB.WIN){ var g2=ctx.createLinearGradient(x5*LT,0,x5*LT+8,0); g2.addColorStop(0,'rgba(0,0,0,'+((S.ao||0.22)*0.6)+')'); g2.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g2; ctx.fillRect(x5*LT,y5*LT,8,LT); }
+  }
+  // flat furniture (rugs, runners, pools…) before walls & tall pieces
+  items.forEach(function(it){ if(TOWER_FLAT[it.type])TOWER_FLAT[it.type](ctx,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R); });
+  // walls, windows, glass
+  for(var y6=0;y6<H;y6++)for(var x6=0;x6<W;x6++){
+    var v6=at(x6,y6); if(v6!==TB.WALL&&v6!==TB.WIN&&v6!==TB.GLASS)continue;
+    var faceVisible=isOpen(x6,y6+1);
+    var outN=at(x6,y6-1)===TB.OUT, outS=at(x6,y6+1)===TB.OUT, outW=at(x6-1,y6)===TB.OUT, outE=at(x6+1,y6)===TB.OUT;
+    if(v6===TB.GLASS)towerGlass(ctx,x6*LT,y6*LT,S,faceVisible);
+    else towerWall(ctx,x6*LT,y6*LT,S,faceVisible,v6===TB.WIN,{n:outN,s:outS,w:outW,e:outE},R,m);
+  }
+  // crisp edges where walls meet walkable floor (reads as solid mass in 3/4 view)
+  ctx.lineWidth=2; ctx.strokeStyle=rgba(shade(S.pal.wallFace,-0.55),0.55);
+  for(var y7=0;y7<H;y7++)for(var x7=0;x7<W;x7++){
+    var v7=at(x7,y7); if(v7!==TB.WALL&&v7!==TB.WIN)continue;
+    var px7=x7*LT, py7=y7*LT; ctx.beginPath();
+    if(isOpen(x7,y7+1)){ctx.moveTo(px7,py7+LT);ctx.lineTo(px7+LT,py7+LT);}
+    if(isOpen(x7,y7-1)){ctx.moveTo(px7,py7+1);ctx.lineTo(px7+LT,py7+1);}
+    if(isOpen(x7-1,y7)){ctx.moveTo(px7+1,py7);ctx.lineTo(px7+1,py7+LT);}
+    if(isOpen(x7+1,y7)){ctx.moveTo(px7+LT-1,py7);ctx.lineTo(px7+LT-1,py7+LT);}
+    ctx.stroke();
+  }
+  // tall / raised furniture become sprites
+  items.forEach(function(it){
+    var fn=TOWER_TALL[it.type]; if(!fn)return;
+    fn(m,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R);
+  });
+  // labels
+  P.rooms.forEach(function(r){ addLabel(m,r.x+pad,r.y+pad,r.w,r.h,ROOM_NOTES[r.type]||r.type); });
+  items.forEach(function(it){ if(TOWER_LABEL[it.type])addLabel(m,it.x,it.y,Math.max(1,it.w),Math.max(1,it.h),TOWER_LABEL[it.type](S)); });
+  if(S.extra)S.extra(m,ctx,W,H,R,{cell:cell,room:room,at:at,items:items,pad:pad,plan:P});
+  if(S.particles)S.particles.forEach(function(p){ m.particles.push(Object.assign({area:{x:pad*LT,y:pad*LT,w:P.w*LT,h:P.h*LT}},p)); });
+  m.base=cv;
+  m.stats={rooms:P.rooms.length,plan:P.name};
+  return m;
+}
+
+// ── Walls ──────────────────────────────────────────────────────────────
+function towerWall(ctx,x,y,S,face,win,out,R,m){
+  var p=S.pal, top=face?9:LT;
+  // top face
+  var g=ctx.createLinearGradient(x,y,x,y+top); g.addColorStop(0,shade(p.wallTop,0.12)); g.addColorStop(1,p.wallTop);
+  ctx.fillStyle=g; ctx.fillRect(x,y,LT,top);
+  ctx.fillStyle=rgba(p.trim,0.55); ctx.fillRect(x,y+top-1.5,LT,1.5);
+  if(face){
+    var fh=LT-top, g2=ctx.createLinearGradient(x,y+top,x,y+LT);
+    g2.addColorStop(0,shade(p.wallFace,-0.04)); g2.addColorStop(1,shade(p.wallFace,-0.24));
+    ctx.fillStyle=g2; ctx.fillRect(x,y+top,LT,fh);
+    // base trim
+    ctx.fillStyle=shade(p.trim,-0.1); ctx.fillRect(x,y+LT-3,LT,3);
+    if(S.wallDetail)S.wallDetail(ctx,x,y+top,LT,fh,R);
+    if(win){
+      if(S.windowFace)S.windowFace(ctx,x,y+top,LT,fh,R);
+      else towerWindowArch(ctx,x+7,y+top+2,LT-14,fh-6,S);
+      // light shaft falling onto the floor below (north-wall windows)
+      if(out.n)towerShaft(m,x,y+LT,S,R);
+    }
+  } else if(win){
+    // window seen from above on a side wall: a luminous slit
+    var gg=ctx.createLinearGradient(x,y,x+LT,y); gg.addColorStop(0,rgba(S.pal.glassA,0.9)); gg.addColorStop(1,rgba(S.pal.glassB,0.9));
+    ctx.fillStyle=gg; if(out.w||out.e)ctx.fillRect(x+LT/2-4,y+4,8,LT-8); else ctx.fillRect(x+4,y+LT/2-4,LT-8,8);
+    if(out.w||out.e){ var sx=out.w?x+LT:x-LT*2; addLight(m,out.w?x+LT+20:x-20,y+LT/2,46,S.pal.light,0.22,{depth:-4,noCut:true}); }
+  }
+}
+function towerWindowArch(ctx,x,y,w,h,S){
+  var p=S.pal;
+  ctx.fillStyle=shade(p.trim,-0.15); rr(ctx,x-2,y-1,w+4,h+2,w/2); ctx.fill();
+  var g=ctx.createLinearGradient(x,y,x,y+h); g.addColorStop(0,p.glassA); g.addColorStop(1,p.glassB);
+  ctx.fillStyle=g; rr(ctx,x,y,w,h,w/2-1); ctx.fill();
+  ctx.strokeStyle=rgba(p.trim,0.9); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x+w/2,y+2); ctx.lineTo(x+w/2,y+h); ctx.moveTo(x,y+h*0.55); ctx.lineTo(x+w,y+h*0.55); ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,0.45)'; ctx.fillRect(x+2,y+4,2,h*0.4);
+}
+function towerShaft(m,x,y,S,R){
+  var len=LT*(3.2+R.f()*1.2), w=LT*1.3, skew=S.shaftSkew===undefined?14:S.shaftSkew;
+  var c=mkCanvas(w+Math.abs(skew)+4,len), ctx=c.getContext('2d');
+  var g=ctx.createLinearGradient(0,0,0,len); g.addColorStop(0,rgba(S.pal.light,0.8)); g.addColorStop(1,rgba(S.pal.light,0));
+  ctx.fillStyle=g; ctx.beginPath(); var o=skew<0?-skew:0;
+  ctx.moveTo(o+6,0); ctx.lineTo(o+w-6,0); ctx.lineTo(o+w+skew,len); ctx.lineTo(o+skew,len); ctx.closePath(); ctx.fill();
+  m.shafts.push({canvas:c,x:x-2-o+ (LT-w)/2,y:y,a:S.shaftA||0.34,sway:true});
+}
+function towerGlass(ctx,x,y,S,face){
+  var p=S.pal;
+  ctx.fillStyle=rgba(p.glassA,0.35); ctx.fillRect(x+2,y,LT-4,LT);
+  ctx.fillStyle=rgba('#ffffff',0.5); ctx.fillRect(x+5,y+3,2,LT-10);
+  ctx.strokeStyle=rgba(p.trim,0.85); ctx.lineWidth=2; ctx.strokeRect(x+2,y+1,LT-4,LT-2);
+  if(face){ ctx.fillStyle=rgba(p.glassB,0.25); ctx.fillRect(x+2,y+LT-8,LT-4,8); }
+}
+
+// ── Furniture painters ─────────────────────────────────────────────────
+// Flat pieces go on the base canvas; tall pieces become depth-sorted sprites.
+var TOWER_FLAT={
+  rug:function(ctx,x,y,w,h,S){ var p=S.pal; rr(ctx,x+4,y+4,w-8,h-8,6); ctx.fillStyle=p.fabric; ctx.fill(); ctx.strokeStyle=p.fabric2; ctx.lineWidth=3; rr(ctx,x+9,y+9,w-18,h-18,4); ctx.stroke(); ctx.fillStyle=rgba(p.fabric2,0.5); ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2,w/6,h/6,0,0,Math.PI*2); ctx.fill(); },
+  runner:function(ctx,x,y,w,h,S){ var p=S.pal; ctx.fillStyle=p.fabric; ctx.fillRect(x+6,y,w-12,h); ctx.fillStyle=p.fabric2; ctx.fillRect(x+8,y,2,h); ctx.fillRect(x+w-10,y,2,h); if(w>h){ ctx.fillStyle=p.fabric; ctx.fillRect(x,y+6,w,h-12); ctx.fillStyle=p.fabric2; ctx.fillRect(x,y+8,w,2); ctx.fillRect(x,y+h-10,w,2);} },
+  pool:function(ctx,x,y,w,h,S){ var p=S.pal; rr(ctx,x+2,y+2,w-4,h-4,8); ctx.fillStyle=shade(p.trim,-0.2); ctx.fill(); rr(ctx,x+5,y+5,w-10,h-10,6); var g=ctx.createLinearGradient(x,y,x+w,y+h); g.addColorStop(0,p.water||'#7ec8f0'); g.addColorStop(1,shade(p.water||'#7ec8f0',-0.3)); ctx.fillStyle=g; ctx.fill(); ctx.fillStyle='rgba(255,255,255,.35)'; ctx.fillRect(x+9,y+9,w*0.4,2); },
+  stairs:function(ctx,x,y,w,h,S){ var p=S.pal; for(var i=0;i<5;i++){ ctx.fillStyle=shade(p.floorA,-0.05*i-0.05); ctx.fillRect(x+2,y+2+i*5.5,LT-4,5); ctx.fillStyle=rgba('#ffffff',0.25); ctx.fillRect(x+2,y+2+i*5.5,LT-4,1);} ctx.fillStyle=rgba(p.accent,0.9); ctx.font='bold 9px sans-serif'; ctx.textAlign='center'; ctx.fillText('▲',x+LT/2,y+LT-2); },
+  table:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,0); },
+  longtable:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,1); },
+  desk:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,2); },
+  maptable:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,3); },
+  sideboard:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,4); },
+  bench:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-4,w/2,5,0.25); ctx.fillStyle=shade(p.wood,-0.1); ctx.fillRect(x+3,y+10,w-6,10); ctx.fillStyle=p.wood; ctx.fillRect(x+3,y+8,w-6,7); ctx.fillStyle=p.fabric; ctx.fillRect(x+5,y+9,w-10,4); },
+  pew:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-4,w/2,5,0.25); ctx.fillStyle=shade(p.wood,-0.25); ctx.fillRect(x+2,y+4,w-4,6); ctx.fillStyle=p.wood; ctx.fillRect(x+2,y+10,w-4,12); ctx.fillStyle=shade(p.wood,0.15); ctx.fillRect(x+2,y+10,w-4,2); },
+  chair:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+16,y+26,9,4,0.25); ctx.fillStyle=shade(p.wood,-0.2); ctx.fillRect(x+9,y+6,14,5); ctx.fillStyle=p.wood; rr(ctx,x+9,y+11,14,13,3); ctx.fill(); ctx.fillStyle=p.fabric; rr(ctx,x+11,y+13,10,8,2); ctx.fill(); },
+  nightstand:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+16,y+27,10,4,0.25); ctx.fillStyle=p.wood; rr(ctx,x+7,y+10,18,16,2); ctx.fill(); ctx.fillStyle=shade(p.wood,0.18); ctx.fillRect(x+7,y+10,18,4); glowSpot(ctx,x+16,y+10,10,p.light,0.5); ctx.fillStyle=p.light; ctx.beginPath(); ctx.arc(x+16,y+10,3,0,Math.PI*2); ctx.fill(); },
+  bed:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-4,w/2,8,0.3); ctx.fillStyle=shade(p.wood,-0.1); rr(ctx,x+3,y+2,w-6,h-4,4); ctx.fill(); ctx.fillStyle=p.wood; ctx.fillRect(x+3,y+2,w-6,10); ctx.fillStyle='#f6f4ee'; rr(ctx,x+7,y+12,w-14,12,4); ctx.fill(); var g=ctx.createLinearGradient(x,y+24,x,y+h); g.addColorStop(0,p.fabric); g.addColorStop(1,shade(p.fabric,-0.2)); ctx.fillStyle=g; rr(ctx,x+5,y+24,w-10,h-30,5); ctx.fill(); ctx.strokeStyle=p.fabric2; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x+6,y+34); ctx.lineTo(x+w-6,y+34); ctx.stroke(); },
+  altar:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-3,w/2,5,0.3); ctx.fillStyle=shade(p.wallFace,0.1); rr(ctx,x+3,y+8,w-6,20,3); ctx.fill(); ctx.fillStyle=p.fabric; ctx.fillRect(x+w/2-6,y+8,12,20); ctx.fillStyle=p.accent; ctx.beginPath(); ctx.arc(x+w/2,y+6,5,0,Math.PI*2); ctx.fill(); glowSpot(ctx,x+w/2,y+6,20,p.light,0.5); },
+  center_fountain:function(ctx,x,y,w,h,S){ var p=S.pal, cx=x+w/2, cy=y+h/2; softShadow(ctx,cx,cy+6,w/2,h/2.4,0.25); ctx.fillStyle=shade(p.trim,-0.1); ctx.beginPath(); ctx.arc(cx,cy,w/2-2,0,Math.PI*2); ctx.fill(); var g=ctx.createRadialGradient(cx,cy,4,cx,cy,w/2-6); g.addColorStop(0,shade(p.water||'#8fd3f5',0.3)); g.addColorStop(1,p.water||'#6bb8e0'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,w/2-6,0,Math.PI*2); ctx.fill(); ctx.fillStyle=p.wallTop; ctx.beginPath(); ctx.arc(cx,cy,8,0,Math.PI*2); ctx.fill(); },
+  center_pool:function(ctx,x,y,w,h,S){ TOWER_FLAT.pool(ctx,x,y,w,h,S); },
+  center_starmap:function(ctx,x,y,w,h,S,R){ var p=S.pal, cx=x+w/2, cy=y+h/2; ctx.fillStyle='#0c1636'; ctx.beginPath(); ctx.arc(cx,cy,w/2-2,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=p.accent; ctx.lineWidth=2; ctx.stroke(); for(var i=0;i<40;i++){ var a=R.f()*Math.PI*2, r=R.f()*(w/2-6); ctx.fillStyle='rgba(255,255,255,'+(0.4+R.f()*0.6)+')'; ctx.fillRect(cx+Math.cos(a)*r,cy+Math.sin(a)*r,1.5,1.5);} ctx.strokeStyle=rgba(p.accent,0.6); ctx.lineWidth=1; ctx.beginPath(); for(var j=0;j<6;j++){ var a2=j/6*Math.PI*2; ctx.lineTo(cx+Math.cos(a2)*w*0.3,cy+Math.sin(a2)*h*0.3);} ctx.closePath(); ctx.stroke(); },
+};
+function towerTableTop(ctx,x,y,w,h,S,kind){
+  var p=S.pal; softShadow(ctx,x+w/2,y+h-2,w/2,7,0.28);
+  ctx.fillStyle=shade(p.wood,-0.25); rr(ctx,x+3,y+8,w-6,h-8,3); ctx.fill();
+  var g=ctx.createLinearGradient(x,y+4,x,y+h-4); g.addColorStop(0,shade(p.wood,0.15)); g.addColorStop(1,p.wood);
+  ctx.fillStyle=g; rr(ctx,x+3,y+4,w-6,h-10,3); ctx.fill();
+  if(kind===1){ ctx.fillStyle=p.fabric2; ctx.fillRect(x+6,y+h/2-4,w-12,4); for(var i=x+14;i<x+w-10;i+=28){ ctx.fillStyle='#eef'; ctx.beginPath(); ctx.arc(i,y+h/2-2,3,0,Math.PI*2); ctx.fill(); } }
+  if(kind===2){ ctx.fillStyle='#f4f0e2'; ctx.fillRect(x+10,y+8,12,9); ctx.fillStyle=p.accent; ctx.fillRect(x+w-16,y+7,3,8); }
+  if(kind===3){ ctx.fillStyle='#e8dcb4'; ctx.fillRect(x+8,y+7,w-16,h-16); ctx.strokeStyle='rgba(90,70,40,.6)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x+12,y+12); ctx.bezierCurveTo(x+w/2,y+6,x+w/2,y+18,x+w-12,y+10); ctx.stroke(); }
+  if(kind===4){ ctx.fillStyle=p.fabric2; ctx.fillRect(x+8,y+8,6,6); ctx.fillStyle=p.accent; ctx.fillRect(x+w-14,y+7,5,7); }
+}
+function towerSpriteBox(m,x,y,w,h,fn){ addSprite(m,x+w/2,y+h,w+8,h+48,function(ctx,cw,ch){ ctx.translate(4,48); fn(ctx,w,h); }); }
+var TOWER_TALL={
+  bookshelf:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ var top=-34; ctx.fillStyle=shade(p.wood,-0.3); ctx.fillRect(0,top,w,h-top); ctx.fillStyle=p.wood; ctx.fillRect(2,top+2,w-4,h-top-6); var cols=['#7a3b3b','#3b5a7a','#6a7a3b','#8a6a2a','#5a3b7a','#2f6f6f','#c8b27a']; for(var s=0;s<4;s++){ var sy=top+4+s*13; ctx.fillStyle=shade(p.wood,-0.35); ctx.fillRect(3,sy+10,w-6,2); for(var bx=4;bx<w-6;){ var bw=3+(bx*7+s*3)%4, bh=7+(bx+s)%3; ctx.fillStyle=cols[(bx+s*5)%cols.length]; ctx.fillRect(bx,sy+10-bh,bw,bh); bx+=bw+1; } } ctx.fillStyle=shade(p.wood,0.2); ctx.fillRect(0,top,w,3); }); },
+  wardrobe:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ var top=-36; ctx.fillStyle=shade(p.wood,-0.2); rr(ctx,0,top,w,h-top,3); ctx.fill(); ctx.fillStyle=p.wood; ctx.fillRect(3,top+4,w/2-4,h-top-8); ctx.fillRect(w/2+1,top+4,w/2-4,h-top-8); ctx.fillStyle=p.accent; ctx.fillRect(w/2-3,top+26,2,6); ctx.fillRect(w/2+1,top+26,2,6); ctx.fillStyle=shade(p.wood,0.2); ctx.fillRect(0,top,w,3); }); },
+  lectern:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,10,4,0.3); ctx.fillStyle=shade(p.wood,-0.2); ctx.fillRect(w/2-3,h-26,6,22); ctx.fillStyle=p.wood; ctx.beginPath(); ctx.moveTo(w/2-12,h-24); ctx.lineTo(w/2+12,h-28); ctx.lineTo(w/2+12,h-20); ctx.lineTo(w/2-12,h-16); ctx.fill(); ctx.fillStyle='#f5efd9'; ctx.fillRect(w/2-9,h-25,8,6); ctx.fillRect(w/2+1,h-26,8,6); }); },
+  globe:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,9,3,0.3); ctx.fillStyle=p.metal; ctx.fillRect(w/2-2,h-18,4,14); ctx.fillStyle='#5fa0c8'; ctx.beginPath(); ctx.arc(w/2,h-26,10,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#8cbf6a'; ctx.beginPath(); ctx.ellipse(w/2-3,h-28,4,6,0.5,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=p.metal; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(w/2,h-26,12,Math.PI*0.2,Math.PI*1.2); ctx.stroke(); }); },
+  candelabra:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,8,3,0.3); ctx.fillStyle=p.metal; ctx.fillRect(w/2-1.5,h-34,3,30); ctx.fillRect(w/2-10,h-32,20,2); [-9,0,9].forEach(function(o){ ctx.fillStyle='#f6f0dc'; ctx.fillRect(w/2+o-1.5,h-40,3,8); ctx.fillStyle='#ffd27a'; ctx.beginPath(); ctx.ellipse(w/2+o,h-43,2,3.5,0,0,Math.PI*2); ctx.fill(); }); }); addLight(m,x+w/2,y+h-42,70,'#ffcf80',0.45,{flicker:0.35,depth:y+h+1}); },
+  statue:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,12,4,0.3); ctx.fillStyle=shade(p.statue||p.wallTop,-0.15); ctx.fillRect(w/2-11,h-12,22,10); var g=ctx.createLinearGradient(0,h-52,0,h-12); g.addColorStop(0,shade(p.statue||p.wallTop,0.15)); g.addColorStop(1,shade(p.statue||p.wallTop,-0.1)); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(w/2-7,h-12); ctx.lineTo(w/2-5,h-38); ctx.lineTo(w/2+5,h-38); ctx.lineTo(w/2+7,h-12); ctx.fill(); ctx.beginPath(); ctx.arc(w/2,h-43,6,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.moveTo(w/2+5,h-36); ctx.lineTo(w/2+14,h-50); ctx.lineTo(w/2+12,h-52); ctx.lineTo(w/2+3,h-40); ctx.fill(); }); },
+  pillar:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,13,4,0.3); ctx.fillStyle=shade(p.wallTop,-0.12); ctx.fillRect(w/2-12,h-8,24,6); var g=ctx.createLinearGradient(w/2-9,0,w/2+9,0); g.addColorStop(0,shade(p.wallTop,-0.12)); g.addColorStop(0.45,shade(p.wallTop,0.2)); g.addColorStop(1,shade(p.wallTop,-0.2)); ctx.fillStyle=g; ctx.fillRect(w/2-9,h-60,18,52); ctx.fillStyle=rgba(p.trim,0.8); ctx.fillRect(w/2-11,h-64,22,5); for(var i=-6;i<=6;i+=4){ ctx.fillStyle='rgba(0,0,0,.07)'; ctx.fillRect(w/2+i,h-58,1,48);} }); },
+  plant:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,9,3,0.3); ctx.fillStyle=p.pot||shade(p.wallFace,-0.15); rr(ctx,w/2-7,h-14,14,11,3); ctx.fill(); for(var i=0;i<9;i++){ var a=-Math.PI/2+(i-4)*0.32; ctx.strokeStyle=i%2?p.plant:shade(p.plant,0.2); ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(w/2,h-13); ctx.quadraticCurveTo(w/2+Math.cos(a)*8,h-22,w/2+Math.cos(a)*14,h-13+Math.sin(a)*22); ctx.stroke(); } }); },
+  planter:function(m,x,y,w,h,S){ TOWER_TALL.plant(m,x,y,w,h,S); },
+  tree:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h,70,90,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-4,16,5,0.3); ctx.fillStyle=p.bark||'#e8e2d4'; ctx.fillRect(cw/2-4,ch-40,8,36); for(var i=0;i<14;i++){ var a=i/14*Math.PI*2; ctx.fillStyle=i%3?p.plant:shade(p.plant,0.25); ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*16,ch-52+Math.sin(a)*12,11,0,Math.PI*2); ctx.fill(); } ctx.fillStyle=shade(p.plant,0.3); ctx.beginPath(); ctx.arc(cw/2-4,ch-58,10,0,Math.PI*2); ctx.fill(); }); },
+  harp:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,9,3,0.3); ctx.strokeStyle=p.accent; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(w/2-8,h-4); ctx.lineTo(w/2-8,h-46); ctx.quadraticCurveTo(w/2+12,h-44,w/2+8,h-8); ctx.closePath(); ctx.stroke(); ctx.strokeStyle='rgba(255,255,255,.7)'; ctx.lineWidth=0.7; for(var i=0;i<6;i++){ ctx.beginPath(); ctx.moveTo(w/2-8,h-40+i*6); ctx.lineTo(w/2-6+i*2.4,h-8); ctx.stroke(); } }); },
+  piano:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,w/2,6,0.3); ctx.fillStyle=p.pianoCol||'#1b1b22'; ctx.beginPath(); ctx.moveTo(4,h-26); ctx.lineTo(w-4,h-26); ctx.quadraticCurveTo(w,h-4,w/2,h-4); ctx.lineTo(4,h-4); ctx.closePath(); ctx.fill(); ctx.fillStyle='#fdfdfd'; ctx.fillRect(6,h-30,w-12,6); for(var k=8;k<w-8;k+=5){ ctx.fillStyle='#222'; ctx.fillRect(k,h-30,2,3);} ctx.fillStyle=rgba('#ffffff',0.2); ctx.fillRect(8,h-22,w-24,2); }); },
+  chandelier:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x*1+LT/2,y+LT*1.2,60,120,function(ctx,cw,ch){ ctx.fillStyle=p.metal; ctx.fillRect(cw/2-1,0,2,40); ctx.beginPath(); ctx.ellipse(cw/2,44,22,6,0,0,Math.PI*2); ctx.strokeStyle=p.metal; ctx.lineWidth=2; ctx.stroke(); for(var i=0;i<6;i++){ var a=i/6*Math.PI*2; ctx.fillStyle='#ffe6a8'; ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*20,40+Math.sin(a)*5,2.5,0,Math.PI*2); ctx.fill(); } }); m.sprites[m.sprites.length-1].depth=8000; addLight(m,x+LT/2,y-10,120,'#ffe2a0',0.35,{flicker:0.15}); },
+  center_crystal:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h-8,w+10,h+80,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-6,w/2-4,10,0.25); var pts=[[0,-96],[-14,-40],[0,-6],[14,-40]]; var g=ctx.createLinearGradient(cw/2-14,0,cw/2+14,0); g.addColorStop(0,rgba(p.glassA,0.95)); g.addColorStop(0.5,'rgba(255,255,255,0.95)'); g.addColorStop(1,rgba(p.glassB,0.95)); ctx.fillStyle=g; ctx.beginPath(); pts.forEach(function(q,i){ ctx[i?'lineTo':'moveTo'](cw/2+q[0],ch+q[1]); }); ctx.closePath(); ctx.fill(); [[-26,-36,-18],[24,-30,-14]].forEach(function(q){ ctx.beginPath(); ctx.moveTo(cw/2+q[0],ch+q[1]); ctx.lineTo(cw/2+q[0]-7,ch-12); ctx.lineTo(cw/2+q[0]+7,ch-12); ctx.closePath(); ctx.fill(); }); }); m.sprites[m.sprites.length-1].bob=4; addLight(m,x+w/2,y+h/2-30,150,p.light,0.55,{pulse:0.35,period:2400}); },
+  center_orrery:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h/2+40,120,120,function(ctx,cw,ch){ var cx=cw/2, cy=ch/2-10; ctx.strokeStyle=rgba(p.accent,0.9); ctx.lineWidth=1.5; [18,32,46].forEach(function(r){ ctx.beginPath(); ctx.ellipse(cx,cy,r,r*0.45,0,0,Math.PI*2); ctx.stroke(); }); var sg=ctx.createRadialGradient(cx,cy,1,cx,cy,9); sg.addColorStop(0,'#fff8d0'); sg.addColorStop(1,'#f0b040'); ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(cx,cy,8,0,Math.PI*2); ctx.fill(); [['#8fc4ff',18,0.4],['#e0a070',32,2.2],['#a0e0c0',46,4.1]].forEach(function(q){ ctx.fillStyle=q[0]; ctx.beginPath(); ctx.arc(cx+Math.cos(q[2])*q[1],cy+Math.sin(q[2])*q[1]*0.45,4,0,Math.PI*2); ctx.fill(); }); ctx.fillStyle=p.metal; ctx.fillRect(cx-2,cy+6,4,ch-cy-12); }); addLight(m,x+w/2,y+h/2-10,110,'#ffd98a',0.5,{pulse:0.25}); },
+  center_tree:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h-4,150,170,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-8,40,12,0.3); var g=ctx.createLinearGradient(cw/2-12,0,cw/2+12,0); g.addColorStop(0,'#d8d4c8'); g.addColorStop(0.5,'#fbfaf5'); g.addColorStop(1,'#cfcabb'); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(cw/2-16,ch-6); ctx.quadraticCurveTo(cw/2-6,ch-60,cw/2-10,ch-100); ctx.lineTo(cw/2+10,ch-100); ctx.quadraticCurveTo(cw/2+6,ch-60,cw/2+16,ch-6); ctx.fill(); for(var i=0;i<26;i++){ var a=i/26*Math.PI*2, r=30+(i*13%20); ctx.fillStyle=i%3?rgba(p.plant,0.9):rgba(shade(p.plant,0.35),0.9); ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*r*1.3,ch-118+Math.sin(a)*r*0.6,16,0,Math.PI*2); ctx.fill(); } for(var j=0;j<18;j++){ ctx.fillStyle='rgba(255,255,230,.8)'; ctx.fillRect(cw/2-50+(j*37%100),ch-150+(j*23%60),2,2);} }); addLight(m,x+w/2,y-20,160,'#f6ffd8',0.35,{pulse:0.2,period:3000}); },
+  center_fountain:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h/2+6,40,60,function(ctx,cw,ch){ ctx.fillStyle=p.wallTop; ctx.fillRect(cw/2-4,ch-40,8,34); ctx.beginPath(); ctx.ellipse(cw/2,ch-40,12,4,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='rgba(200,235,255,.8)'; ctx.lineWidth=1.5; for(var i=-1;i<=1;i+=2){ ctx.beginPath(); ctx.moveTo(cw/2,ch-44); ctx.quadraticCurveTo(cw/2+i*10,ch-58,cw/2+i*16,ch-30); ctx.stroke(); } }); addLight(m,x+w/2,y+h/2,90,p.water||'#9ad8ff',0.3,{pulse:0.3}); },
+  center_pool:function(m,x,y,w,h,S){ addLight(m,x+w/2,y+h/2,110,'#bfe8ff',0.35,{pulse:0.25,period:2600}); },
+  center_starmap:function(){},
+  crystalpillar:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h,36,90,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-4,12,4,0.3); var g=ctx.createLinearGradient(cw/2-10,0,cw/2+10,0); g.addColorStop(0,rgba(p.glassA,0.9)); g.addColorStop(0.5,'rgba(255,255,255,.95)'); g.addColorStop(1,rgba(p.glassB,0.9)); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(cw/2,ch-84); ctx.lineTo(cw/2+10,ch-66); ctx.lineTo(cw/2+9,ch-6); ctx.lineTo(cw/2-9,ch-6); ctx.lineTo(cw/2-10,ch-66); ctx.closePath(); ctx.fill(); }); addLight(m,x+w/2,y+h-40,60,p.light,0.4,{pulse:0.4,period:1700}); },
+  whitetree:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h,80,110,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-4,14,5,0.3); ctx.fillStyle='#f4f2ea'; ctx.beginPath(); ctx.moveTo(cw/2-8,ch-4); ctx.quadraticCurveTo(cw/2-2,ch-50,cw/2-6,ch-70); ctx.lineTo(cw/2+6,ch-70); ctx.quadraticCurveTo(cw/2+2,ch-50,cw/2+8,ch-4); ctx.fill(); for(var i=0;i<12;i++){ var a=i/12*Math.PI*2; ctx.fillStyle=i%2?rgba(p.plant,0.9):rgba(shade(p.plant,0.3),0.9); ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*20,ch-80+Math.sin(a)*10,10,0,Math.PI*2); ctx.fill(); } }); },
+  telescope:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,10,3,0.3); ctx.strokeStyle=p.metal; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(w/2,h-22); ctx.lineTo(w/2-9,h-3); ctx.moveTo(w/2,h-22); ctx.lineTo(w/2+9,h-3); ctx.moveTo(w/2,h-22); ctx.lineTo(w/2,h-3); ctx.stroke(); ctx.save(); ctx.translate(w/2,h-24); ctx.rotate(-0.7); ctx.fillStyle=p.accent; ctx.fillRect(-4,-22,8,30); ctx.fillStyle=p.metal; ctx.fillRect(-5,-24,10,4); ctx.restore(); }); },
+};
+var TOWER_LABEL={
+  stairs:function(){return 'Stairs up — the next floor of the tower.';},
+  center_fountain:function(){return 'Fountain — the centerpiece of this floor.';},
+  center_crystal:function(){return 'Moonglass crystal — it hums with light.';},
+  center_orrery:function(){return 'Orrery — brass planets turn around a lamp-sun.';},
+  center_tree:function(){return 'White tree — living wood grown through the floor.';},
+  center_pool:function(){return 'Reflecting pool — the sky moves across it.';},
+  center_starmap:function(){return 'Star map — constellations inlaid in the floor.';},
+  piano:function(){return 'Piano — elven lacquer, still in tune.';},
+  altar:function(){return 'Altar — light gathers here at dawn.';},
+};
+
+// ── Floor patterns ─────────────────────────────────────────────────────
+var FLOORS={
+  marble:function(ctx,x,y,tx,ty,base,vein,R){ var big=((tx>>1)+(ty>>1))%2; ctx.fillStyle=big?base:shade(base,-0.05); ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba(vein,0.25); ctx.lineWidth=1; if((tx*7+ty*3)%5===0){ ctx.beginPath(); ctx.moveTo(x+R.f()*LT,y); ctx.bezierCurveTo(x+R.f()*LT,y+10,x+R.f()*LT,y+22,x+R.f()*LT,y+LT); ctx.stroke(); } if(tx%2===0){ctx.fillStyle=rgba(vein,0.18);ctx.fillRect(x,y,1,LT);} if(ty%2===0){ctx.fillStyle=rgba(vein,0.18);ctx.fillRect(x,y,LT,1);} },
+  checker:function(ctx,x,y,tx,ty,a,b){ ctx.fillStyle=(tx+ty)%2?a:b; ctx.fillRect(x,y,LT,LT); ctx.fillStyle='rgba(255,255,255,.12)'; ctx.fillRect(x,y,LT,1); ctx.fillStyle='rgba(0,0,0,.06)'; ctx.fillRect(x,y+LT-1,LT,1); },
+  planks:function(ctx,x,y,tx,ty,a,b,R){ for(var i=0;i<4;i++){ var yy=y+i*8; ctx.fillStyle=((ty*4+i)*5+tx*3)%7<3?a:shade(a,-0.04); ctx.fillRect(x,yy,LT,8); ctx.fillStyle=rgba(b,0.35); ctx.fillRect(x,yy+7,LT,1); if((tx+i+ty)%3===0){ctx.fillRect(x+((ty*11+i*7)%28),yy,1,8);} } },
+  herring:function(ctx,x,y,tx,ty,a,b){ ctx.fillStyle=a; ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba(b,0.4); ctx.lineWidth=1; for(var i=-LT;i<LT*2;i+=8){ ctx.beginPath(); if((tx+ty)%2){ctx.moveTo(x+i,y);ctx.lineTo(x+i+LT,y+LT);} else {ctx.moveTo(x+i+LT,y);ctx.lineTo(x+i,y+LT);} ctx.stroke(); } },
+  hex:function(ctx,x,y,tx,ty,a,b,R){ ctx.fillStyle=a; ctx.fillRect(x,y,LT,LT); var g=ctx.createRadialGradient(x+16,y+16,2,x+16,y+16,22); g.addColorStop(0,rgba('#ffffff',0.35)); g.addColorStop(1,rgba(b,0.15)); ctx.fillStyle=g; ctx.beginPath(); for(var i=0;i<6;i++){ var an=Math.PI/6+i*Math.PI/3; ctx.lineTo(x+16+Math.cos(an)*15,y+16+Math.sin(an)*15);} ctx.closePath(); ctx.fill(); ctx.strokeStyle=rgba(b,0.5); ctx.stroke(); },
+  slab:function(ctx,x,y,tx,ty,a,b,R){ ctx.fillStyle=((tx*13+ty*7)%3===0)?shade(a,-0.04):a; ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba(b,0.3); ctx.lineWidth=1; ctx.strokeRect(x+0.5,y+0.5,LT-1,LT-1); if(R.chance(0.08)){ ctx.fillStyle=rgba(b,0.2); ctx.fillRect(x+R.i(4,24),y+R.i(4,24),3,1);} },
+  stars:function(ctx,x,y,tx,ty,a,b,R){ ctx.fillStyle=a; ctx.fillRect(x,y,LT,LT); for(var i=0;i<3;i++){ ctx.fillStyle='rgba(255,255,255,'+(0.3+R.f()*0.6)+')'; ctx.fillRect(x+R.f()*LT,y+R.f()*LT,1.3,1.3);} ctx.fillStyle=rgba(b,0.25); ctx.fillRect(x,y,LT,1); ctx.fillRect(x,y,1,LT); },
+  ice:function(ctx,x,y,tx,ty,a,b,R){ var g=ctx.createLinearGradient(x,y,x+LT,y+LT); g.addColorStop(0,shade(a,0.12)); g.addColorStop(1,a); ctx.fillStyle=g; ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba('#ffffff',0.5); ctx.lineWidth=0.8; if(R.chance(0.35)){ ctx.beginPath(); ctx.moveTo(x+R.f()*LT,y+R.f()*LT); ctx.lineTo(x+R.f()*LT,y+R.f()*LT); ctx.lineTo(x+R.f()*LT,y+R.f()*LT); ctx.stroke(); } ctx.strokeStyle=rgba(b,0.25); ctx.strokeRect(x+0.5,y+0.5,LT-1,LT-1); },
+};
+
+// ── Exteriors ──────────────────────────────────────────────────────────
+function extSky(top,bottom,cloudA){ return function(ctx,W,H,m,R){ var g=ctx.createLinearGradient(0,0,0,H*LT); g.addColorStop(0,top); g.addColorStop(1,bottom); ctx.fillStyle=g; ctx.fillRect(0,0,W*LT,H*LT); for(var i=0;i<40;i++){ var cx=R.f()*W*LT, cy=R.f()*H*LT; ctx.fillStyle='rgba(255,255,255,'+(cloudA*(0.4+R.f()*0.6))+')'; for(var j=0;j<5;j++){ ctx.beginPath(); ctx.arc(cx+j*14-28,cy+Math.sin(j)*6,16+R.f()*10,0,Math.PI*2); ctx.fill(); } } }; }
+function extNight(top,bottom){ return function(ctx,W,H,m,R){ var g=ctx.createLinearGradient(0,0,0,H*LT); g.addColorStop(0,top); g.addColorStop(1,bottom); ctx.fillStyle=g; ctx.fillRect(0,0,W*LT,H*LT); for(var i=0;i<500;i++){ ctx.fillStyle='rgba(255,255,255,'+(0.2+R.f()*0.8)+')'; var s=R.chance(0.08)?2:1; ctx.fillRect(R.f()*W*LT,R.f()*H*LT,s,s);} }; }
+function extGarden(grassA,grassB,water){ return function(ctx,W,H,m,R){ ctx.fillStyle=grassA; ctx.fillRect(0,0,W*LT,H*LT); for(var i=0;i<1800;i++){ ctx.fillStyle=R.chance(0.5)?grassB:shade(grassA,0.1); ctx.fillRect(R.f()*W*LT,R.f()*H*LT,1.5,3);} if(water){ ctx.fillStyle=water; ctx.fillRect(0,0,W*LT,LT*1.4); ctx.fillStyle='rgba(255,255,255,.35)'; for(var k=0;k<60;k++)ctx.fillRect(R.f()*W*LT,R.f()*LT*1.3,8,1); } for(var t=0;t<30;t++){ var tx=R.f()*W*LT, ty=R.chance(0.5)?R.f()*LT*1.8:H*LT-R.f()*LT*1.8; if(R.chance(0.5)){tx=R.chance(0.5)?R.f()*LT*1.8:W*LT-R.f()*LT*1.8; ty=R.f()*H*LT;} softShadow(ctx,tx,ty+8,14,5,0.25); ctx.fillStyle=shade(grassA,-0.25); ctx.beginPath(); ctx.arc(tx,ty,13,0,Math.PI*2); ctx.fill(); ctx.fillStyle=shade(grassA,-0.05); ctx.beginPath(); ctx.arc(tx-3,ty-3,8,0,Math.PI*2); ctx.fill(); } }; }
+
+// ═══════════════════════════════════════════════════════════════════════
+// ║ The 10 tower styles
+// ═══════════════════════════════════════════════════════════════════════
+function towerStyle(o){ return Object.assign({windowEvery:3,glass:0.25,ao:0.2},o); }
+var TOWER_STYLES=[
+  towerStyle({ id:'rivendell', name:'Rivendell Twilight Hall', plan:'grand', seed:11,
+    tagline:'Warm white stone, arched glass, dusk light',
+    blurb:'Honey-white stone under an evening sky. Tall arched windows pour amber light across leaf-inlaid floors, lanterns glow in the halls, and leaves drift in through open arches.',
+    facts:['Plan: Grand floor (9 rooms around an atrium)','Centerpiece: fountain','Light: amber dusk shafts, lanterns'],
+    pal:{outside:'#3b3350',wallTop:'#efe6d2',wallFace:'#e2d6bc',trim:'#c9a86a',floorA:'#f1ead9',floorB:'#d8c9a8',glassA:'#ffd9a0',glassB:'#b98fc9',light:'#ffc98a',wood:'#b58b5e',fabric:'#7a8f6a',fabric2:'#d9c38e',metal:'#b8975c',plant:'#6f8f5a',accent:'#d8b270',water:'#8fc6d8',statue:'#f3ecdc'},
+    paintExterior:function(ctx,W,H,m,R){ extSky('#2f2a4a','#d99a7a',0.18)(ctx,W,H,m,R); ctx.fillStyle='rgba(210,235,255,.55)'; for(var i=0;i<3;i++){ var x=(5+i*13)*LT; ctx.fillRect(x,0,10,LT*1.8); } },
+    floor:function(ctx,x,y,tx,ty,rt,R){ var p=this.pal; if(rt==='library'||rt==='bedroom'||rt==='study')FLOORS.planks(ctx,x,y,tx,ty,'#d9bf98','#8a6a44',R); else FLOORS.marble(ctx,x,y,tx,ty,p.floorA,'#b59a6a',R); if((tx*3+ty*5)%11===0){ ctx.strokeStyle=rgba('#7f9a60',0.45); ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(x+6,y+26); ctx.quadraticCurveTo(x+16,y+4,x+26,y+26); ctx.stroke(); } },
+    center:'fountain', shaftSkew:18, shaftA:0.4,
+    particles:[{tex:'leaf',tints:['#d9a55a','#b8c46a','#e08a4a'],freq:500,vx:{min:10,max:25},vy:{min:8,max:18},scale:{start:0.9,end:0.6},alpha:{start:0.9,end:0},life:{min:6000,max:9000},blend:false,rotate:{min:0,max:360},depth:6500},
+               {col:'#ffd9a0',freq:180,scale:{start:0.35,end:0},alpha:{start:0.7,end:0}}] }),
+
+  towerStyle({ id:'hyrule_keep', name:'White Keep', plan:'gallery', seed:21, windowEvery:2, glass:0.1,
+    tagline:'Limestone, royal blue runners, gold trim',
+    blurb:'A royal keep in bright daylight: white limestone checkerboard floors, royal blue runners edged in gold, and banners carrying the winged-sword crest of the realm between tall windows.',
+    facts:['Plan: Long hall (rooms off a central gallery)','Centerpiece: fountain','Light: crisp noon shafts'],
+    pal:{outside:'#8fc2ea',wallTop:'#f6f4ee',wallFace:'#e9e5da',trim:'#d4af37',floorA:'#f7f5ef',floorB:'#dcd8cc',glassA:'#e6f4ff',glassB:'#9ccbf0',light:'#fff6d8',wood:'#8b6a48',fabric:'#23479a',fabric2:'#e0c060',metal:'#d4af37',plant:'#4f8a4f',accent:'#d4af37',water:'#8fd0f2',statue:'#f2f0ea'},
+    paintExterior:extGarden('#6fa35a','#5b8f48','#7cc0e8'),
+    floor:function(ctx,x,y,tx,ty,rt,R){ if(rt==='bedroom'||rt==='library')FLOORS.herring(ctx,x,y,tx,ty,'#cfb08a','#8a6a48'); else FLOORS.checker(ctx,x,y,tx,ty,'#f7f5ef','#dedad0'); },
+    wallDetail:function(ctx,x,y,w,h,R){ if(((x/LT)|0)%4===1){ ctx.fillStyle='#23479a'; ctx.fillRect(x+9,y+1,14,h-6); ctx.fillStyle='#d4af37'; ctx.fillRect(x+9,y+1,14,2); ctx.beginPath(); ctx.moveTo(x+16,y+5); ctx.lineTo(x+16,y+h-9); ctx.strokeStyle='#e8d38a'; ctx.lineWidth=1.5; ctx.stroke(); ctx.beginPath(); ctx.moveTo(x+11,y+8); ctx.lineTo(x+16,y+11); ctx.lineTo(x+21,y+8); ctx.stroke(); ctx.fillStyle='#23479a'; ctx.beginPath(); ctx.moveTo(x+9,y+h-5); ctx.lineTo(x+16,y+h-1); ctx.lineTo(x+23,y+h-5); ctx.fill(); } },
+    center:'fountain', shaftSkew:6, shaftA:0.3,
+    particles:[{col:'#fff6d8',freq:220,scale:{start:0.3,end:0},alpha:{start:0.6,end:0}}] }),
+
+  towerStyle({ id:'moonglass', name:'Moonglass Spire', plan:'rotunda', seed:31, glass:0.6,
+    tagline:'Glowing crystal floors under a night sky',
+    blurb:'Pale crystal tiles that glow softly as you walk, silver-blue walls, crystal pillars and a great humming moonglass crystal under the dome. Stars wheel past every window.',
+    facts:['Plan: Rotunda (round hall with wings)','Centerpiece: moonglass crystal','Light: floor glow that follows you, crystal pulses'],
+    pal:{outside:'#0b1230',wallTop:'#d9e6f5',wallFace:'#b8cce6',trim:'#9fc0e8',floorA:'#cfe0f5',floorB:'#8fb0dc',glassA:'#bfe0ff',glassB:'#6f8fe0',light:'#aee0ff',wood:'#9aa8c8',fabric:'#5a6fb8',fabric2:'#cfe0ff',metal:'#c0d0e8',plant:'#7fb0c8',accent:'#bfe0ff',water:'#9ad0ff',statue:'#e8f0fa'},
+    paintExterior:extNight('#050818','#1a2560'),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.hex(ctx,x,y,tx,ty,this.pal.floorA,this.pal.floorB,R); },
+    windowFace:function(ctx,x,y,w,h,R){ ctx.fillStyle='#0b1230'; rr(ctx,x+6,y+1,w-12,h-5,8); ctx.fill(); for(var i=0;i<6;i++){ctx.fillStyle='#fff';ctx.fillRect(x+8+R.f()*(w-16),y+3+R.f()*(h-9),1,1);} ctx.strokeStyle='#cfe4ff'; ctx.lineWidth=1.5; rr(ctx,x+6,y+1,w-12,h-5,8); ctx.stroke(); },
+    center:'crystal', pillar:'crystalpillar', shaftSkew:0, shaftA:0.18, ao:0.15,
+    particles:[{col:'#bfe0ff',freq:90,scale:{start:0.45,end:0},alpha:{start:0.9,end:0},vy:{min:-14,max:-4}}],
+    extra:function(m){ m.tick=function(scene){ if(!scene._floorGlow){ scene._floorGlow=scene.add.image(0,0,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xaee0ff).setAlpha(0.35).setScale(1.3).setDepth(-3);} scene._floorGlow.setPosition(scene.hero.x,scene.hero.y); }; } }),
+
+  towerStyle({ id:'elven_library', name:'Elven Library', plan:'grand', seed:41, glass:0.35, windowEvery:4,
+    tagline:'Carved white wood, skylights, floating lanterns',
+    blurb:'Every room is a reading room. Pale carved-wood floors, shelves in every wing, square skylights dropping pools of light, and paper lanterns that float and bob above the tables.',
+    facts:['Plan: Grand floor','Centerpiece: white tree growing through the atrium','Light: skylight pools, floating lanterns'],
+    pal:{outside:'#a8c9a0',wallTop:'#f3eee2',wallFace:'#e6dcc6',trim:'#b9a27a',floorA:'#efe3cc',floorB:'#c9b08a',glassA:'#f4fbff',glassB:'#bfe0f0',light:'#fff2cc',wood:'#e2cfa8',fabric:'#6b8fa8',fabric2:'#e8d9b0',metal:'#b9a27a',plant:'#79a86a',accent:'#c8a860',water:'#9fd4e8',statue:'#f5f0e4',bark:'#f0ece0'},
+    paintExterior:extGarden('#8fb482','#7aa06e',null),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.planks(ctx,x,y,tx,ty,'#efe3cc','#b89f78',R); },
+    roomAccent:function(ctx,x,y,w,h,rt,R){ if(rt==='atrium'||rt==='hall')return; var cx=x+w/2, cy=y+h/2; ctx.fillStyle='rgba(255,250,220,.28)'; ctx.fillRect(cx-LT,cy-LT,LT*2,LT*2); },
+    center:'tree', shaftSkew:0, shaftA:0.22,
+    particles:[{col:'#fff2cc',freq:260,scale:{start:0.3,end:0},alpha:{start:0.6,end:0}}],
+    extra:function(m,ctx,W,H,R,info){ info.plan.rooms.forEach(function(r){ if(r.type==='atrium')return; var cx=(r.x+info.pad+r.w/2)*LT, cy=(r.y+info.pad+r.h/2)*LT; addLight(m,cx,cy,70,'#fff2cc',0.3,{pulse:0.15,depth:-4,noCut:true}); for(var k=0;k<2;k++){ var lx=cx+(k?30:-30), ly=cy-20; addSprite(m,lx,ly+60,18,24,function(c,w,h){ var g=c.createRadialGradient(w/2,10,1,w/2,10,9); g.addColorStop(0,'#fff6d0'); g.addColorStop(1,'#f0c070'); c.fillStyle=g; rr(c,w/2-6,3,12,15,5); c.fill(); c.fillStyle='rgba(120,80,30,.6)'; c.fillRect(w/2-4,17,8,2); }); m.sprites[m.sprites.length-1].bob=6; addLight(m,lx,ly+48,46,'#ffe0a0',0.35,{flicker:0.2}); } }); } }),
+
+  towerStyle({ id:'sky_cloister', name:'Sky Cloister', plan:'gallery', seed:51, windowEvery:1, glass:0,
+    tagline:'Open balconies above the clouds',
+    blurb:'The outer walls give way to open arches and low balustrades, and the clouds drift right past the floor. White stone, pale blue silk and wind-blown curtains; it feels like standing in the sky.',
+    facts:['Plan: Long hall','Every outer wall is an open arch','Animated clouds and drifting light'],
+    pal:{outside:'#bfe0ff',wallTop:'#fbfbf8',wallFace:'#eceee8',trim:'#a9c8e8',floorA:'#f8f8f4',floorB:'#dfe6ee',glassA:'#d8eeff',glassB:'#a8d4ff',light:'#ffffff',wood:'#c9b79a',fabric:'#a8c8ea',fabric2:'#ffffff',metal:'#b9c8d8',plant:'#86b88a',accent:'#9fc8f0',water:'#a8dcff',statue:'#fafaf6'},
+    paintExterior:extSky('#9ccff5','#e8f6ff',0.55),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.slab(ctx,x,y,tx,ty,'#f8f8f4','#b8c8d8',R); },
+    windowFace:function(ctx,x,y,w,h,R){ var g=ctx.createLinearGradient(x,y,x,y+h); g.addColorStop(0,'#9ccff5'); g.addColorStop(1,'#e8f6ff'); ctx.fillStyle=g; rr(ctx,x+3,y,w-6,h-3,10); ctx.fill(); ctx.fillStyle='rgba(255,255,255,.8)'; ctx.beginPath(); ctx.arc(x+10+R.f()*10,y+h-10,5,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#e8ecf0'; ctx.fillRect(x+3,y+h-7,w-6,4); for(var i=x+6;i<x+w-4;i+=5)ctx.fillRect(i,y+h-11,2,5); },
+    center:'pool', shaftSkew:10, shaftA:0.25,
+    particles:[{col:'#ffffff',freq:400,scale:{start:0.5,end:0},alpha:{start:0.5,end:0},vx:{min:10,max:30}}],
+    extra:function(m,ctx,W,H,R){ var clouds=[]; for(var i=0;i<9;i++){ (function(i){ var cy=R.chance(0.5)?R.f()*LT*1.6:(H-2)*LT+R.f()*LT*1.6; addSprite(m,R.f()*W*LT,cy+30,120,40,function(c,w,h){ c.fillStyle='rgba(255,255,255,.85)'; for(var j=0;j<6;j++){ c.beginPath(); c.arc(20+j*16,22+Math.sin(j*1.3)*5,14,0,Math.PI*2); c.fill(); } }); clouds.push(m.sprites.length-1); })(i); }
+      m.tick=function(scene,dt){ if(!scene._cloudImgs){ scene._cloudImgs=scene.children.list.filter(function(o){return o.texture&&o.texture.key&&o.texture.key.indexOf('spr_')===0&&o.width===120&&o.height===40;}); } scene._cloudImgs.forEach(function(o,i){ o.x+=dt*(8+i%3*5); if(o.x>W*LT+70)o.x=-70; o.setDepth(scene._ld?scene._ld(9000):9000); }); }; } }),
+
+  towerStyle({ id:'silverwood', name:'Silverwood Palace', plan:'rotunda', seed:61, glass:0.2, windowEvery:3,
+    tagline:'Living white trees grown into the walls',
+    blurb:'The palace was grown, not built. White-barked trees stand in as pillars, leaf-shaped windows scatter green-gold light, and soft moss inlays run between pale stone slabs.',
+    facts:['Plan: Rotunda','Centerpiece: great white tree','Pillars: living silverwood trees'],
+    pal:{outside:'#557a4f',wallTop:'#f0efe6',wallFace:'#dcdcc8',trim:'#9fb77a',floorA:'#eeede2',floorB:'#b7c7a0',glassA:'#e8ffcf',glassB:'#9fd08a',light:'#f0ffc8',wood:'#cbbd98',fabric:'#7aa06a',fabric2:'#eef2d8',metal:'#b8b890',plant:'#6f9f58',accent:'#c8d890',water:'#9fd8c8',statue:'#f2f2e8'},
+    paintExterior:extGarden('#5f8a52','#4f7a44',null),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.slab(ctx,x,y,tx,ty,'#eeede2','#9fb77a',R); if((tx+ty)%3===0){ ctx.fillStyle='rgba(111,159,88,.35)'; ctx.fillRect(x,y+LT-2,LT,2);} },
+    windowFace:function(ctx,x,y,w,h,R){ ctx.fillStyle='#9fb77a'; ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2-1,8,h/2-3,0,0,Math.PI*2); ctx.fill(); var g=ctx.createLinearGradient(x,y,x,y+h); g.addColorStop(0,'#e8ffcf'); g.addColorStop(1,'#9fd08a'); ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2-1,6,h/2-5,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#6f9f58'; ctx.beginPath(); ctx.moveTo(x+w/2,y+4); ctx.lineTo(x+w/2,y+h-6); ctx.stroke(); },
+    center:'tree', pillar:'whitetree', shaftSkew:12, shaftA:0.3,
+    particles:[{tex:'leaf',tints:['#b8d88a','#e8f0a0','#8fc070'],freq:600,vx:{min:-10,max:10},vy:{min:6,max:14},scale:{start:0.8,end:0.5},alpha:{start:0.9,end:0},life:{min:6000,max:9000},blend:false,rotate:{min:0,max:360},depth:6500},
+               {col:'#f0ffc8',freq:300,scale:{start:0.35,end:0},alpha:{start:0.7,end:0}}] }),
+
+  towerStyle({ id:'frost_cathedral', name:'Frost Cathedral', plan:'grand', seed:71, windowEvery:2, glass:0.3,
+    tagline:'Ice-blue stone and stained glass',
+    blurb:'Cool blue-white stone with a faint frost sheen. Stained-glass windows throw pools of blue, violet and teal light across the floor, chandeliers glitter, and a fine frost mist hangs in the air.',
+    facts:['Plan: Grand floor','Centerpiece: moonglass crystal','Light: coloured stained-glass pools'],
+    pal:{outside:'#cfe4f4',wallTop:'#eef6fb',wallFace:'#d2e4f0',trim:'#8fb8d8',floorA:'#e4f0f8',floorB:'#a8c8e0',glassA:'#7fb0ff',glassB:'#b07fe0',light:'#bfe0ff',wood:'#a8b8c8',fabric:'#4a6fa8',fabric2:'#d8e8f8',metal:'#c8d8e8',plant:'#7fa8b8',accent:'#8fb8f0',water:'#b8e0ff',statue:'#f0f6fb'},
+    paintExterior:extSky('#b8d8f0','#f0f8ff',0.4),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.ice(ctx,x,y,tx,ty,this.pal.floorA,this.pal.floorB,R); },
+    windowFace:function(ctx,x,y,w,h,R){ var cols=['#5f8fff','#a06fe0','#4fc8c0','#f0c060','#7fb0ff']; ctx.fillStyle='#6f8fa8'; rr(ctx,x+5,y,w-10,h-3,9); ctx.fill(); for(var i=0;i<6;i++){ ctx.fillStyle=cols[(i+((x/LT)|0))%cols.length]; ctx.fillRect(x+7+(i%2)*(w-14)/2,y+2+Math.floor(i/2)*((h-7)/3),(w-14)/2-1,(h-7)/3-1);} },
+    center:'crystal', shaftSkew:8, shaftA:0.32,
+    particles:[{col:'#e8f4ff',freq:70,scale:{start:0.4,end:0.1},alpha:{start:0.5,end:0},vy:{min:2,max:10},vx:{min:-4,max:4},life:{min:4000,max:7000}}],
+    extra:function(m){ var cols=['#6f8fff','#b07fe0','#4fd0c8']; m.shafts.forEach(function(s,i){ var c=s.canvas, x=c.getContext('2d'); x.globalCompositeOperation='source-atop'; x.fillStyle=cols[i%3]; x.globalAlpha=0.65; x.fillRect(0,0,c.width,c.height); }); } }),
+
+  towerStyle({ id:'observatory', name:'Starlit Observatory', plan:'rotunda', seed:81, glass:0.4, windowEvery:2,
+    tagline:'Midnight blue, brass, a star map floor',
+    blurb:'An astronomer’s tower: deep blue floors inlaid with twinkling constellations, white stone walls, brass telescopes, and a turning orrery under the dome. Blue and white, but lit by night.',
+    facts:['Plan: Rotunda','Centerpiece: brass orrery over a star map','Light: lamp-sun, twinkling floor stars'],
+    pal:{outside:'#070b22',wallTop:'#eceff6',wallFace:'#cfd6e8',trim:'#c8a860',floorA:'#1b2856',floorB:'#3a4a88',glassA:'#2a3a88',glassB:'#0b1238',light:'#ffe2a0',wood:'#6a5a4a',fabric:'#2a3a78',fabric2:'#c8a860',metal:'#c8a860',plant:'#5f8fa0',accent:'#e8c878',water:'#5f8fd0',statue:'#e8ecf4',pianoCol:'#e8e4d8'},
+    paintExterior:extNight('#03061a','#141c48'),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.stars(ctx,x,y,tx,ty,this.pal.floorA,this.pal.floorB,R); },
+    roomAccent:function(ctx,x,y,w,h,rt,R){ if(rt==='rotunda'){ TOWER_FLAT.center_starmap(ctx,x+w/2-LT*3,y+h/2-LT*3,LT*6,LT*6,this,R); } },
+    center:'orrery', shaftSkew:0, shaftA:0.12,
+    particles:[{col:'#ffffff',freq:120,scale:{start:0.3,end:0},alpha:{start:1,end:0},vx:{min:-1,max:1},vy:{min:-1,max:1},life:{min:1200,max:2600}}],
+    extra:function(m,ctx,W,H,R,info){ info.plan.rooms.forEach(function(r){ if(r.type==='study'||r.type==='library'){ TOWER_TALL.telescope(m,(r.x+info.pad+r.w-2)*LT,(r.y+info.pad+r.h-2)*LT,LT,LT,TOWER_STYLES_BY_ID.observatory); } }); } }),
+
+  towerStyle({ id:'reflecting_hall', name:'Reflecting Hall', plan:'gallery', seed:91, glass:0.15,
+    tagline:'Shallow pools mirroring white pillars',
+    blurb:'Long shallow pools run through the halls and mirror the pillars and the sky. White stone and sky blue, with slow ripples of light moving over every surface.',
+    facts:['Plan: Long hall','Centerpiece: reflecting pool','Light: rippling water caustics'],
+    pal:{outside:'#a8d4f0',wallTop:'#fafaf7',wallFace:'#e8ecef',trim:'#b8d0e0',floorA:'#f5f6f3',floorB:'#d6dde2',glassA:'#e0f2ff',glassB:'#a8d0f0',light:'#e8f8ff',wood:'#c8b8a0',fabric:'#8fb8d8',fabric2:'#f4f8fb',metal:'#b8c8d0',plant:'#7fb08a',accent:'#9fd0f0',water:'#8fd0f5',statue:'#fbfbf8'},
+    paintExterior:extGarden('#79a870','#6a9862','#8ccaf0'),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.marble(ctx,x,y,tx,ty,'#f5f6f3','#9fb8c8',R); },
+    center:'pool', shaftSkew:10, shaftA:0.26,
+    extra:function(m,ctx,W,H,R,info){
+      // extra pools along the gallery walk
+      var ci=info.plan.rooms.findIndex(function(r){return r.type==='corridor';}); if(ci<0)return;
+      var r=info.plan.rooms[ci];
+      for(var x=r.x+info.pad+3;x<r.x+info.pad+r.w-4;x+=8){ var y=r.y+info.pad; TOWER_FLAT.pool(ctx,x*LT,y*LT+4,LT*3,LT*2-8,this); addLight(m,(x+1.5)*LT,(y+1)*LT,60,'#bfe8ff',0.25,{pulse:0.4,period:1900+x*30,depth:-4,noCut:true}); }
+      m.particles.push({col:'#dff4ff',freq:140,scale:{start:0.35,end:0},alpha:{start:0.6,end:0}});
+    } }),
+
+  towerStyle({ id:'dawn_sanctum', name:'Dawn Sanctum', plan:'grand', seed:101, windowEvery:2, glass:0.2,
+    tagline:'White, pale blue, soft gold at sunrise',
+    blurb:'The first light of morning, all the time. White stone with pale blue accents, gold filigree medallions in every room, and strong golden light shafts full of drifting dust motes.',
+    facts:['Plan: Grand floor','Centerpiece: fountain','Light: long golden morning shafts'],
+    pal:{outside:'#f3d9b0',wallTop:'#fbf8f2',wallFace:'#efe8da',trim:'#e0c070',floorA:'#fbf7ee',floorB:'#e0d4b8',glassA:'#fff0c8',glassB:'#a8d0f0',light:'#ffe7a8',wood:'#c8a878',fabric:'#9fc0e0',fabric2:'#e8c870',metal:'#e0c070',plant:'#86a86a',accent:'#e8c060',water:'#a8d8f0',statue:'#fbf8f2'},
+    paintExterior:extSky('#f7c89a','#fbeede',0.35),
+    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.marble(ctx,x,y,tx,ty,'#fbf7ee','#d8c090',R); },
+    roomAccent:function(ctx,x,y,w,h,rt,R){ var cx=x+w/2, cy=y+h/2, r=Math.min(w,h)*0.32; ctx.strokeStyle='rgba(224,192,112,.55)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke(); ctx.lineWidth=1; for(var i=0;i<12;i++){ var a=i/12*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*r*0.4,cy+Math.sin(a)*r*0.4); ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r); ctx.stroke(); } },
+    center:'fountain', shaftSkew:28, shaftA:0.45,
+    particles:[{col:'#ffe7a8',freq:60,scale:{start:0.3,end:0},alpha:{start:0.8,end:0},vx:{min:-3,max:3},vy:{min:-3,max:3},life:{min:4000,max:8000}}] }),
+];
+var TOWER_STYLES_BY_ID={}; TOWER_STYLES.forEach(function(s){TOWER_STYLES_BY_ID[s.id]=s;});
+
+// ═══════════════════════════════════════════════════════════════════════
+// ║ DUNGEON SELECTOR (Phase 2 · C1) — 10 "Open Cavern" layouts
+// ║ Wide open floors broken up by obstacles you walk around, with room for
+// ║ ~2× the monsters of a classic room-and-corridor floor. Red rings show
+// ║ where monsters would spawn; the sealed portal marks the guardian arena.
+// ═══════════════════════════════════════════════════════════════════════
+var DG={ROCK:1,OPEN:0};
+
+function vnoise(seed){ var h=function(x,y){ var n=(x*374761393+y*668265263+seed*1442695041)|0; n=(n^(n>>>13))*1274126177|0; return ((n^(n>>>16))>>>0)/4294967296; };
+  return function(x,y){ var xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi, s=function(t){return t*t*(3-2*t);};
+    var a=h(xi,yi),b=h(xi+1,yi),c=h(xi,yi+1),d=h(xi+1,yi+1), u=s(xf),v=s(yf); return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v; }; }
+
+// Cellular-automata cave: returns Uint8Array (1 rock, 0 open), largest region kept.
+function caveGrid(W,H,R,fill,iters,shape){
+  var g=new Uint8Array(W*H);
+  for(var y=0;y<H;y++)for(var x=0;x<W;x++){
+    var edge=x<2||y<2||x>=W-2||y>=H-2;
+    var dx=(x-W/2)/(W/2), dy=(y-H/2)/(H/2), r=Math.sqrt(dx*dx+dy*dy);
+    var f=fill+(shape==='round'?Math.max(0,r-0.72)*2.2:Math.max(0,Math.max(Math.abs(dx),Math.abs(dy))-0.8)*2);
+    g[y*W+x]=edge||R.f()<f?1:0;
+  }
+  for(var it=0;it<iters;it++){
+    var n=new Uint8Array(W*H);
+    for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){
+      if(x2<1||y2<1||x2>=W-1||y2>=H-1){n[y2*W+x2]=1;continue;}
+      var c=0; for(var j=-1;j<=1;j++)for(var i=-1;i<=1;i++)c+=g[(y2+j)*W+x2+i];
+      n[y2*W+x2]=c>=5?1:0;
+    }
+    g=n;
+  }
+  // keep largest open region
+  var lab=new Int32Array(W*H).fill(-1), best=-1, bestN=0, id=0;
+  for(var k=0;k<W*H;k++){ if(g[k]||lab[k]>=0)continue; var q=[k],n2=0; lab[k]=id;
+    for(var qi=0;qi<q.length;qi++){ var c2=q[qi],cx=c2%W,cy=(c2/W)|0; n2++;
+      [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var nx=cx+d[0],ny=cy+d[1]; if(nx<0||ny<0||nx>=W||ny>=H)return; var kk=ny*W+nx; if(!g[kk]&&lab[kk]<0){lab[kk]=id;q.push(kk);} }); }
+    if(n2>bestN){bestN=n2;best=id;} id++; }
+  for(var k2=0;k2<W*H;k2++)if(!g[k2]&&lab[k2]!==best)g[k2]=1;
+  return g;
+}
+
+// Generic dungeon build: design supplies layout(ctx) + painters.
+function buildCavern(D, seed, opts){
+  opts=opts||{};
+  var R=rngOf(seed*131+D.id.length*7), W=D.w||52, H=D.h||40, m=newMap(W,H);
+  var g=D.layout?D.layout(W,H,R):caveGrid(W,H,R,D.fill||0.42,D.iters||5,D.shape);
+  // hazard grid (lava/water/pit): solid but painted differently
+  var hazard=new Uint8Array(W*H);
+  var ctxInfo={W:W,H:H,R:R,g:g,hazard:hazard,m:m,obst:[]};
+  if(D.hazards)D.hazards(ctxInfo);
+  var open=function(x,y){ return x>=0&&y>=0&&x<W&&y<H&&!g[y*W+x]&&!hazard[y*W+x]; };
+  // spawn: lowest open cell near the middle
+  var sp=null; for(var y=H-3;y>2&&!sp;y--)for(var dx=0;dx<W/2&&!sp;dx++){ [W/2+dx|0,W/2-dx|0].forEach(function(x){ if(!sp&&open(x,y)&&open(x,y-1)&&open(x+1,y))sp={x:x,y:y}; }); }
+  if(!sp)sp={x:W>>1,y:H>>1};
+  for(var i=0;i<W*H;i++)m.solid[i]=(g[i]||hazard[i])?1:0;
+  m.spawn={x:sp.x*LT+LT/2,y:sp.y*LT+LT-4};
+  // Cells you can't walk to (islets in a lake, etc.) stay painted as floor but count as blocked.
+  (function(){ var r0=floodReach(m,sp.x,sp.y); for(var k=0;k<W*H;k++)if(!m.solid[k]&&!r0[k])m.solid[k]=1; })();
+  // obstacles (design places them via ctxInfo.place)
+  var occ=new Uint8Array(W*H);
+  var reachCount=function(){ var s=floodReach(m,sp.x,sp.y),n=0,o=0; for(var k=0;k<W*H;k++){ if(!m.solid[k]){o++; if(s[k])n++;} } return n===o; };
+  ctxInfo.place=function(kind,x,y,w,h,opts){
+    for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++){ var X=x+xx,Y=y+yy; if(!open(X,Y)||occ[Y*W+X])return false; if(Math.abs(X-sp.x)<3&&Math.abs(Y-sp.y)<3)return false; }
+    for(var yy2=0;yy2<h;yy2++)for(var xx2=0;xx2<w;xx2++)m.solid[(y+yy2)*W+x+xx2]=1;
+    if(!(opts&&opts.skipReach)&&!reachCount()){ for(var yy3=0;yy3<h;yy3++)for(var xx3=0;xx3<w;xx3++)m.solid[(y+yy3)*W+x+xx3]=0; return false; }
+    for(var yy4=0;yy4<h;yy4++)for(var xx4=0;xx4<w;xx4++)occ[(y+yy4)*W+x+xx4]=1;
+    ctxInfo.obst.push(Object.assign({kind:kind,x:x,y:y,w:w,h:h},opts||{})); return true;
+  };
+  ctxInfo.randomOpen=function(tries){ for(var t=0;t<(tries||200);t++){ var x=R.i(2,W-3),y=R.i(2,H-3); if(open(x,y)&&!occ[y*W+x])return {x:x,y:y}; } return null; };
+  if(D.obstacles)D.obstacles(ctxInfo);
+  // ── paint ──
+  var cv=mkCanvas(W*LT,H*LT), ctx=cv.getContext('2d'), P=D.pal, nz=vnoise(seed);
+  ctx.fillStyle=P.void||'#07060a'; ctx.fillRect(0,0,W*LT,H*LT);
+  for(var ty=0;ty<H;ty++)for(var tx=0;tx<W;tx++){
+    var k=ty*W+tx, px=tx*LT, py=ty*LT;
+    if(!g[k]){
+      var n=nz(tx*0.15,ty*0.15), n2=nz(tx*0.6+50,ty*0.6+50);
+      ctx.fillStyle=mix(P.floorA,P.floorB,n*0.8); ctx.fillRect(px,py,LT,LT);
+      ctx.fillStyle=rgba(P.floorC||shade(P.floorA,-0.2),0.25+n2*0.25);
+      for(var s=0;s<3;s++)ctx.fillRect(px+R.f()*LT,py+R.f()*LT,2,2);
+      if(R.chance(0.06)){ ctx.strokeStyle=rgba(shade(P.floorA,-0.4),0.5); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(px+R.f()*LT,py+R.f()*LT); ctx.lineTo(px+R.f()*LT,py+R.f()*LT); ctx.stroke(); }
+      if(D.floorDeco)D.floorDeco(ctx,px,py,tx,ty,R,n);
+    }
+  }
+  if(D.paintHazards)D.paintHazards(ctx,ctxInfo,nz);
+  // rock with 3/4 faces
+  for(var ry=0;ry<H;ry++)for(var rx=0;rx<W;rx++){
+    var kk=ry*W+rx; if(!g[kk])continue;
+    var px2=rx*LT, py2=ry*LT, near=false;
+    for(var j2=-1;j2<=1&&!near;j2++)for(var i2=-1;i2<=1;i2++){ var X=rx+i2,Y=ry+j2; if(X>=0&&Y>=0&&X<W&&Y<H&&!g[Y*W+X]&&!hazard[Y*W+X]){near=true;break;} }
+    if(!near){ ctx.fillStyle=P.void||'#07060a'; ctx.fillRect(px2,py2,LT,LT); continue; }
+    var faceOpen=ry+1<H&&!g[(ry+1)*W+rx]&&!hazard[(ry+1)*W+rx];
+    var top=faceOpen?12:LT;
+    var gg=ctx.createLinearGradient(px2,py2,px2,py2+top); gg.addColorStop(0,shade(P.rockTop,0.1)); gg.addColorStop(1,P.rockTop);
+    ctx.fillStyle=gg; ctx.fillRect(px2,py2,LT,top);
+    for(var q=0;q<4;q++){ ctx.fillStyle=rgba(shade(P.rockTop,R.chance(0.5)?0.2:-0.25),0.6); ctx.fillRect(px2+R.f()*28,py2+R.f()*(top-3),4,2); }
+    if(faceOpen){ var fg=ctx.createLinearGradient(px2,py2+top,px2,py2+LT); fg.addColorStop(0,P.rockFace); fg.addColorStop(1,shade(P.rockFace,-0.35)); ctx.fillStyle=fg; ctx.fillRect(px2,py2+top,LT,LT-top);
+      ctx.strokeStyle=rgba(shade(P.rockFace,-0.5),0.7); ctx.lineWidth=1; for(var c=0;c<2;c++){ var cx=px2+4+R.f()*24; ctx.beginPath(); ctx.moveTo(cx,py2+top+2); ctx.lineTo(cx+R.f()*6-3,py2+LT-2); ctx.stroke(); }
+      var sg=ctx.createLinearGradient(0,py2+LT,0,py2+LT+10); sg.addColorStop(0,'rgba(0,0,0,.35)'); sg.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=sg; ctx.fillRect(px2,py2+LT,LT,10); }
+    if(D.rockDeco)D.rockDeco(ctx,px2,py2,rx,ry,R,faceOpen,m);
+    // irregular rubble along exposed side edges
+    [[-1,0],[1,0]].forEach(function(d){ var X=rx+d[0]; if(X<0||X>=W||g[ry*W+X]||hazard[ry*W+X])return; for(var b=0;b<3;b++){ var bx=d[0]<0?px2+R.f()*5:px2+LT-R.f()*5, by=py2+6+R.f()*(LT-10); ctx.fillStyle=shade(P.rockTop,-0.1+R.f()*0.2); ctx.beginPath(); ctx.arc(bx,by,3+R.f()*4,0,Math.PI*2); ctx.fill(); } });
+  }
+  // obstacles
+  ctxInfo.obst.forEach(function(o){ var fn=D.draw[o.kind]; if(fn)fn(m,ctx,o.x*LT,o.y*LT,o.w*LT,o.h*LT,R,o,P); });
+  // stairs + sealed portal (farthest reachable point = guardian arena)
+  var reach=floodReach(m,sp.x,sp.y), far=null, fd=-1;
+  for(var y3=2;y3<H-2;y3++)for(var x3=2;x3<W-2;x3++){ if(!reach[y3*W+x3])continue; var d=Math.abs(x3-sp.x)+Math.abs(y3-sp.y); if(d>fd&&open(x3+1,y3)&&open(x3-1,y3)&&open(x3,y3-1)){fd=d;far={x:x3,y:y3};} }
+  cavernMarkers(m,ctx,sp,far,P,opts);
+  m.site={entry:{x:sp.x,y:sp.y}, exit:far};
+  // monster spawn density
+  var openN=0; for(var k3=0;k3<W*H;k3++)if(!m.solid[k3]&&reach[k3])openN++;
+  var spawnN=Math.round(openN/(D.density||42));
+  var placed=0, tries=0;
+  while(placed<spawnN&&tries<4000){ tries++; var x4=R.i(2,W-3),y4=R.i(2,H-3); if(m.solid[y4*W+x4]||!reach[y4*W+x4])continue; if(Math.hypot(x4-sp.x,y4-sp.y)<7)continue;
+    var px4=x4*LT+LT/2,py4=y4*LT+LT/2; if(opts.game){ placed++; continue; } ctx.strokeStyle='rgba(255,70,70,.55)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(px4,py4,9,0,Math.PI*2); ctx.stroke(); ctx.fillStyle='rgba(255,60,60,.18)'; ctx.fill(); placed++; }
+  m.stats={spawns:placed,open:openN};
+  m.base=cv; m.bg=P.void||'#07060a'; m.dark=Math.min(0.72,D.dark===undefined?0.72:D.dark); m.darkCol=P.darkCol||'#030205';
+  m.heroLight=D.heroLight||215; m.heroLightCol=D.heroLightCol||'#ffc880';
+  (D.particles||[]).forEach(function(p){ m.particles.push(p); });
+  if(D.extra)D.extra(ctxInfo);
+  addLabel(m,sp.x-1,sp.y,3,1,'Entrance — stairs back up.');
+  if(far)addLabel(m,far.x-1,far.y-1,3,3,'Sealed exit portal — the guardian waits here on the last floor.');
+  return m;
+}
+// Smooth hazard field: paint at 1/8 resolution and upscale with smoothing, so
+// lava / water / pits get soft organic shorelines instead of square tiles.
+function paintHazardField(ctx,c,colorFn){
+  var S=4, W=c.W, H=c.H, lo=mkCanvas(W*S,H*S), lx=lo.getContext('2d'), img=lx.createImageData(W*S,H*S), d=img.data;
+  for(var py=0;py<H*S;py++)for(var px=0;px<W*S;px++){
+    var tx=(px/S)|0, ty=(py/S)|0; if(!c.hazard[ty*W+tx]||c.g[ty*W+tx])continue;
+    var col=colorFn(px/S,py/S), i=(py*W*S+px)*4; d[i]=col[0]; d[i+1]=col[1]; d[i+2]=col[2]; d[i+3]=255;
+  }
+  lx.putImageData(img,0,0);
+  ctx.save(); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high'; ctx.drawImage(lo,0,0,W*LT,H*LT); ctx.restore();
+}
+function cavernMarkers(m,ctx,sp,far,P,opts){
+  var sx=sp.x*LT, sy=(sp.y+1)*LT-6;
+  for(var i=0;i<4;i++){ ctx.fillStyle=shade(P.rockTop,0.1-i*0.08); ctx.fillRect(sx-4,sy-i*5,LT+8,5); }
+  if(far&&opts&&opts.game&&!opts.last){
+    // stairs leading down: dark steps receding into the floor
+    var fx0=far.x*LT, fy0=far.y*LT;
+    for(var s=0;s<5;s++){ ctx.fillStyle=shade(P.floorA,-0.15-s*0.13); ctx.fillRect(fx0-4+s*2,fy0+2+s*5.5,LT+8-s*4,5.5); }
+    ctx.fillStyle='rgba(255,220,150,.8)'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('▼',fx0+LT/2,fy0-2);
+    addLight(m,fx0+LT/2,fy0+LT/2,70,'#ffd9a0',0.3,{pulse:0.3,depth:-4});
+    return;
+  }
+  if(far&&opts&&opts.game)return; // the game draws its own exit portal on the last floor
+  if(far){
+    var fx=far.x*LT+LT/2, fy=far.y*LT+LT/2;
+    ctx.fillStyle='rgba(60,0,20,.8)'; ctx.beginPath(); ctx.arc(fx,fy,14,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#b0284a'; ctx.lineWidth=3; ctx.stroke();
+    addLight(m,fx,fy,90,'#ff3a6a',0.45,{pulse:0.4,period:1400});
+  }
+}
+// Obstacle sprite helpers
+function rockBlob(ctx,cx,cy,r,col,R){ softShadow(ctx,cx,cy+r*0.55,r*1.1,r*0.4,0.45); var g=ctx.createRadialGradient(cx-r*0.35,cy-r*0.45,r*0.1,cx,cy,r*1.1); g.addColorStop(0,shade(col,0.25)); g.addColorStop(1,shade(col,-0.35)); ctx.fillStyle=g; ctx.beginPath(); for(var i=0;i<9;i++){ var a=i/9*Math.PI*2, rr2=r*(0.82+R.f()*0.3); ctx.lineTo(cx+Math.cos(a)*rr2,cy+Math.sin(a)*rr2*0.8); } ctx.closePath(); ctx.fill(); }
+
+// ═══════════════════════════════════════════════════════════════════════
+var DUNGEON_DESIGNS=[
+  { id:'boulder_field', name:'Boulder Field', seed:3, tagline:'Wide cavern strewn with rock clusters',
+    blurb:'A huge open cavern floor broken up by boulder clusters of every size. Easy to read and good for big fights: you kite monsters around the rocks.',
+    fill:0.37, iters:5, density:40,
+    pal:{floorA:'#4a3f36',floorB:'#5d5046',floorC:'#2e2620',rockTop:'#6d6258',rockFace:'#4a4038',void:'#0a0806'},
+    obstacles:function(c){ for(var i=0;i<70;i++){ var p=c.randomOpen(); if(!p)continue; var big=c.R.chance(0.35); c.place('boulder',p.x,p.y,big?2:1,big?2:1); } },
+    draw:{ boulder:function(m,ctx,x,y,w,h,R,o,P){ addSprite(m,x+w/2,y+h,w+16,h+30,function(c,cw,ch){ rockBlob(c,cw/2,ch-h/2-4,w/2+2,'#7a6e62',R); if(w>LT)rockBlob(c,cw/2+10,ch-h/2+4,w/4,'#6a5e52',R); }); } },
+    extra:function(c){ var W=c.W,H=c.H,m=c.m; for(var i=0;i<14;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT+16,110,'#ffb060',0.45,{flicker:0.4,depth:-4}); } },
+    particles:[{col:'#c8b090',freq:160,scale:{start:0.25,end:0},alpha:{start:0.5,end:0},vy:{min:-4,max:4}}] },
+
+  { id:'pillared_hall', name:'Pillared Hall', seed:5, tagline:'Grid of ancient columns, some fallen',
+    blurb:'A vast underground hall held up by rows of stone columns. Some have collapsed into rubble, opening lanes and cover. Braziers burn along the aisles.',
+    density:38,
+    layout:function(W,H,R){ var g=new Uint8Array(W*H).fill(1); for(var y=3;y<H-3;y++)for(var x=3;x<W-3;x++){ var edge=(x<5||x>W-6||y<5||y>H-6)&&R.chance(0.35); g[y*W+x]=edge?1:0; } return g; },
+    pal:{floorA:'#3c4458',floorB:'#4a5268',floorC:'#262c3a',rockTop:'#667088',rockFace:'#454c62',void:'#07080d'},
+    floorDeco:function(ctx,px,py,tx,ty){ ctx.strokeStyle='rgba(0,0,0,.25)'; ctx.lineWidth=1; ctx.strokeRect(px+0.5,py+0.5,LT-1,LT-1); },
+    obstacles:function(c){ for(var y=6;y<c.H-6;y+=4)for(var x=6;x<c.W-6;x+=5){ if(c.R.chance(0.2))c.place('rubble',x,y,2,1); else c.place('column',x,y,1,1); } },
+    draw:{ column:function(m,ctx,x,y,w,h,R,o,P){ addSprite(m,x+w/2,y+h,40,110,function(c,cw,ch){ softShadow(c,cw/2,ch-4,15,5,0.45); var g=c.createLinearGradient(cw/2-11,0,cw/2+11,0); g.addColorStop(0,'#4a5268'); g.addColorStop(0.45,'#8a94ac'); g.addColorStop(1,'#3a4056'); c.fillStyle=g; c.fillRect(cw/2-11,ch-96,22,90); c.fillStyle='#7a849c'; c.fillRect(cw/2-14,ch-100,28,7); c.fillRect(cw/2-14,ch-10,28,6); }); addLight(m,x+w/2,y-8,70,'#ffa050',0.28,{flicker:0.3,depth:-4}); },
+      rubble:function(m,ctx,x,y,w,h,R){ for(var i=0;i<4;i++)rockBlob(ctx,x+6+R.f()*(w-12),y+10+R.f()*10,7+R.f()*6,'#6a7288',R); } },
+    particles:[{col:'#ffb070',freq:220,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:-18,max:-6}}] },
+
+  { id:'crystal_grotto', name:'Crystal Grotto', seed:7, tagline:'Glowing crystal clusters as cover',
+    blurb:'Cyan and violet crystal clusters grow out of the floor and light the cave from within. The glow makes this the brightest open dungeon, and the clusters make natural cover.',
+    fill:0.4, iters:5, density:42, dark:0.72,
+    pal:{floorA:'#252a45',floorB:'#2f3658',floorC:'#141830',rockTop:'#454c78',rockFace:'#2c3158',void:'#05060f'},
+    obstacles:function(c){ for(var i=0;i<46;i++){ var p=c.randomOpen(); if(p)c.place('crystal',p.x,p.y,1,1,{col:c.R.pick(['#6fe8ff','#b58cff','#8fb0ff'])}); } },
+    draw:{ crystal:function(m,ctx,x,y,w,h,R,o){ addSprite(m,x+w/2,y+h,50,80,function(c,cw,ch){ softShadow(c,cw/2,ch-4,14,4,0.4); for(var i=0;i<4;i++){ var ox=(i-1.5)*7, hh=26+R.f()*30; var g=c.createLinearGradient(cw/2+ox-5,0,cw/2+ox+5,0); g.addColorStop(0,rgba(o.col,0.95)); g.addColorStop(0.5,'rgba(255,255,255,.95)'); g.addColorStop(1,rgba(shade(o.col,-0.3),0.95)); c.fillStyle=g; c.beginPath(); c.moveTo(cw/2+ox,ch-4-hh); c.lineTo(cw/2+ox+6,ch-10); c.lineTo(cw/2+ox,ch-3); c.lineTo(cw/2+ox-6,ch-10); c.closePath(); c.fill(); } }); addLight(m,x+w/2,y,100,o.col,0.55,{pulse:0.35,period:1600+R.i(0,900),depth:-4}); } },
+    particles:[{col:'#9fe8ff',freq:90,scale:{start:0.4,end:0},alpha:{start:0.9,end:0},vy:{min:-10,max:-2}}] },
+
+  { id:'mushroom_forest', name:'Mushroom Forest', seed:9, tagline:'Giant glowing fungi and spore light',
+    blurb:'Giant mushrooms tower over a soft mossy floor. Their caps glow teal and violet, and spores drift everywhere. Walk between the stalks while monsters lurk under the caps.',
+    fill:0.39, iters:5, density:44, dark:0.78,
+    pal:{floorA:'#233224',floorB:'#2f4430',floorC:'#162016',rockTop:'#3e4a3a',rockFace:'#283224',void:'#050805'},
+    floorDeco:function(ctx,px,py,tx,ty,R){ if(R.chance(0.2)){ ctx.fillStyle='rgba(120,255,200,.25)'; ctx.fillRect(px+R.f()*28,py+R.f()*28,2,2);} },
+    obstacles:function(c){ for(var i=0;i<42;i++){ var p=c.randomOpen(); if(p){ var big=c.R.chance(0.3); c.place('shroom',p.x,p.y,big?2:1,1,{col:c.R.pick(['#4fe0c0','#b07fff','#ff8fd0']),big:big}); } } },
+    draw:{ shroom:function(m,ctx,x,y,w,h,R,o){ var s=o.big?1.7:1; addSprite(m,x+w/2,y+h,90*s,110*s,function(c,cw,ch){ softShadow(c,cw/2,ch-4,16*s,5*s,0.4); c.fillStyle='#e8e0cc'; c.beginPath(); c.moveTo(cw/2-6*s,ch-4); c.quadraticCurveTo(cw/2-2*s,ch-40*s,cw/2-5*s,ch-60*s); c.lineTo(cw/2+5*s,ch-60*s); c.quadraticCurveTo(cw/2+2*s,ch-40*s,cw/2+6*s,ch-4); c.fill(); var g=c.createRadialGradient(cw/2,ch-68*s,2,cw/2,ch-62*s,34*s); g.addColorStop(0,shade(o.col,0.4)); g.addColorStop(1,shade(o.col,-0.35)); c.fillStyle=g; c.beginPath(); c.ellipse(cw/2,ch-62*s,34*s,16*s,0,Math.PI,0); c.quadraticCurveTo(cw/2,ch-50*s,cw/2-34*s,ch-62*s); c.fill(); c.fillStyle='rgba(255,255,255,.6)'; for(var i=0;i<6;i++){ c.beginPath(); c.arc(cw/2-24*s+i*9*s,ch-68*s+Math.sin(i)*4,2*s,0,Math.PI*2); c.fill(); } }); addLight(m,x+w/2,y-30*s,90*s,o.col,0.45,{pulse:0.3,period:2200+R.i(0,1200),depth:-4}); } },
+    particles:[{tints:['#7fffd0','#c8a0ff'],freq:50,scale:{start:0.35,end:0},alpha:{start:0.8,end:0},vx:{min:-6,max:6},vy:{min:-6,max:2},life:{min:4000,max:8000}}] },
+
+  { id:'lava_archipelago', name:'Lava Archipelago', seed:13, tagline:'Rock islands linked by bridges over lava',
+    blurb:'Islands of cooled rock float in a sea of lava, joined by narrow stone bridges. The lava lights everything orange; fights happen on the islands and the bridges are choke points.',
+    density:40, dark:0.6,
+    layout:function(W,H,R){ var g=new Uint8Array(W*H).fill(1); for(var y=2;y<H-2;y++)for(var x=2;x<W-2;x++)g[y*W+x]=0; return g; },
+    hazards:function(c){ var W=c.W,H=c.H,R=c.R,hz=c.hazard; hz.fill(1); for(var y=0;y<H;y++)for(var x=0;x<W;x++)if(c.g[y*W+x])hz[y*W+x]=0;
+      var isl=[]; for(var i=0;i<11;i++){ isl.push({x:R.i(7,W-8),y:R.i(6,H-7),r:R.i(3,6)}); } isl.push({x:W>>1,y:H-6,r:5});
+      isl.forEach(function(s){ for(var y=s.y-s.r-1;y<=s.y+s.r+1;y++)for(var x=s.x-s.r-1;x<=s.x+s.r+1;x++){ if(x<2||y<2||x>=W-2||y>=H-2)continue; if(Math.hypot((x-s.x)*1.0,(y-s.y)*1.2)<=s.r+R.f()*0.8)hz[y*W+x]=0; } });
+      // bridges: connect each island to its nearest predecessor
+      for(var a=1;a<isl.length;a++){ var b=0,bd=1e9; for(var j=0;j<a;j++){ var d=Math.hypot(isl[a].x-isl[j].x,isl[a].y-isl[j].y); if(d<bd){bd=d;b=j;} } var x0=isl[a].x,y0=isl[a].y,x1=isl[b].x,y1=isl[b].y; while(x0!==x1){ hz[y0*W+x0]=0; hz[(y0+1)*W+x0]=0; x0+=x0<x1?1:-1; } while(y0!==y1){ hz[y0*W+x0]=0; hz[y0*W+x0+1]=0; y0+=y0<y1?1:-1; } }
+    },
+    paintHazards:function(ctx,c,nz){ var A=hexToRgb('#ff5a10'),B=hexToRgb('#ffc848'),C=hexToRgb('#7a1200'); paintHazardField(ctx,c,function(x,y){ var n=nz(x*0.35,y*0.35), n2=nz(x*1.3+9,y*1.3+9); var t=Math.min(1,Math.max(0,n*1.3-0.15)); var col=[A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t]; if(n2<0.28){ var k=(0.28-n2)*3; col=[col[0]+(C[0]-col[0])*k,col[1]+(C[1]-col[1])*k,col[2]+(C[2]-col[2])*k]; } return col; }); },
+    pal:{floorA:'#3a2e2a',floorB:'#4a3a32',floorC:'#1e1612',rockTop:'#4a3a34',rockFace:'#2e221e',void:'#1a0600',darkCol:'#1a0500'},
+    obstacles:function(c){ for(var i=0;i<22;i++){ var p=c.randomOpen(); if(p)c.place('obsidian',p.x,p.y,1,1); } },
+    draw:{ obsidian:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,40,60,function(c,cw,ch){ softShadow(c,cw/2,ch-4,12,4,0.4); c.fillStyle='#161018'; c.beginPath(); c.moveTo(cw/2-10,ch-4); c.lineTo(cw/2-4,ch-40); c.lineTo(cw/2+3,ch-30); c.lineTo(cw/2+10,ch-4); c.fill(); c.strokeStyle='rgba(255,120,60,.6)'; c.beginPath(); c.moveTo(cw/2-4,ch-38); c.lineTo(cw/2-2,ch-10); c.stroke(); }); } },
+    extra:function(c){ var m=c.m; for(var i=0;i<30;i++){ var x=c.R.i(2,c.W-3),y=c.R.i(2,c.H-3); if(c.hazard[y*c.W+x])addLight(m,x*LT+16,y*LT+16,150,'#ff6a20',0.35,{pulse:0.25,period:2000+i*90,depth:-4,cut:0.8}); } },
+    particles:[{tints:['#ffb040','#ff6020'],freq:40,scale:{start:0.5,end:0},alpha:{start:1,end:0},vy:{min:-40,max:-15},vx:{min:-8,max:8},life:{min:1500,max:3000}}] },
+
+  { id:'sunken_courtyard', name:'Sunken Courtyard', seed:17, tagline:'Ruined temple walls and statues',
+    blurb:'An ancient temple courtyard swallowed by the earth: broken wall segments, toppled statues and puddles of rainwater under a mossy ceiling. The walls make a loose maze with lots of open ground.',
+    fill:0.34, iters:5, density:40,
+    pal:{floorA:'#4a4a3a',floorB:'#5a5a46',floorC:'#2a2a1e',rockTop:'#5f5f4c',rockFace:'#3e3e30',void:'#070705'},
+    floorDeco:function(ctx,px,py,tx,ty,R){ if((tx+ty)%2===0){ ctx.strokeStyle='rgba(0,0,0,.18)'; ctx.strokeRect(px+1,py+1,LT-2,LT-2);} if(R.chance(0.12)){ ctx.fillStyle='rgba(110,150,70,.4)'; ctx.fillRect(px+R.f()*20,py+R.f()*20,10,6);} },
+    obstacles:function(c){ for(var i=0;i<24;i++){ var p=c.randomOpen(); if(!p)continue; var horiz=c.R.chance(0.5), len=c.R.i(3,6); var ok=c.place('ruinwall',p.x,p.y,horiz?len:1,horiz?1:len); } for(var j=0;j<16;j++){ var q=c.randomOpen(); if(q)c.place('statue',q.x,q.y,1,1); } for(var k=0;k<10;k++){ var r=c.randomOpen(); if(r)c.place('puddle',r.x,r.y,2,1,{skipReach:false}); } },
+    draw:{ ruinwall:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,w+6,h+36,function(c,cw,ch){ var top=ch-h-30; c.fillStyle='#5a5a48'; c.fillRect(3,top+10,w,h+20); c.fillStyle='#7a7a62'; c.fillRect(3,top,w,h+10-0); for(var i=0;i<w;i+=LT/2){ c.fillStyle='rgba(0,0,0,.2)'; c.fillRect(3+i,top,1,h+30);} for(var j=0;j<5;j++){ c.fillStyle='rgba(100,150,70,.55)'; c.fillRect(3+R.f()*(w-8),top+R.f()*10,8,4);} c.clearRect(3+R.f()*w,top-2,10,8); }); },
+      statue:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,40,70,function(c,cw,ch){ softShadow(c,cw/2,ch-4,12,4,0.4); c.fillStyle='#8a8a74'; c.fillRect(cw/2-10,ch-12,20,9); c.fillStyle='#9a9a82'; c.beginPath(); c.moveTo(cw/2-7,ch-12); c.lineTo(cw/2-5,ch-42); c.lineTo(cw/2+5,ch-42); c.lineTo(cw/2+7,ch-12); c.fill(); c.beginPath(); c.arc(cw/2,ch-47,6,0,Math.PI*2); c.fill(); c.fillStyle='rgba(100,150,70,.6)'; c.fillRect(cw/2-6,ch-30,5,8); }); },
+      puddle:function(m,ctx,x,y,w,h,R){ ctx.fillStyle='rgba(90,140,170,.55)'; ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2,w/2-2,h/2-4,0,0,Math.PI*2); ctx.fill(); ctx.fillStyle='rgba(255,255,255,.25)'; ctx.fillRect(x+w/2-8,y+h/2-2,10,1); addLight(m,x+w/2,y+h/2,50,'#a8d8ff',0.18,{pulse:0.5,depth:-4,noCut:true}); } },
+    extra:function(c){ for(var i=0;i<10;i++){ var p=c.randomOpen(); if(p)addLight(c.m,p.x*LT+16,p.y*LT,95,'#ffbf70',0.4,{flicker:0.35,depth:-4}); } },
+    particles:[{col:'#d8e0a0',freq:200,scale:{start:0.3,end:0},alpha:{start:0.5,end:0}}] },
+
+  { id:'lake_ring', name:'Underground Lake Ring', seed:19, tagline:'Walkable shore around a dark lake',
+    blurb:'A still black lake fills the middle of the cavern, and the fight happens on the wide shore that rings it, with a few rocky islets you can reach by stepping stones. Fireflies drift over the water.',
+    density:40, shape:'round', fill:0.36, iters:5,
+    hazards:function(c){ var W=c.W,H=c.H,R=c.R; var cx=W/2,cy=H/2-1; for(var y=0;y<H;y++)for(var x=0;x<W;x++){ var d=Math.hypot((x-cx)/(W*0.27),(y-cy)/(H*0.26)); if(d<1+(R.f()-0.5)*0.12&&!c.g[y*W+x])c.hazard[y*W+x]=1; }
+      for(var s=0;s<5;s++){ var ang=s/5*Math.PI*2+0.3; var sx=Math.round(cx+Math.cos(ang)*W*0.2), sy=Math.round(cy+Math.sin(ang)*H*0.18); for(var yy=sy-1;yy<=sy+1;yy++)for(var xx=sx-1;xx<=sx+1;xx++)c.hazard[yy*W+xx]=0; } },
+    paintHazards:function(ctx,c,nz){ var A=hexToRgb('#04101a'),B=hexToRgb('#123447'); paintHazardField(ctx,c,function(x,y){ var n=nz(x*0.3,y*0.3), sh=nz(x*2.5,y*0.6)>0.78?40:0; return [A[0]+(B[0]-A[0])*n+sh*0.6,A[1]+(B[1]-A[1])*n+sh,A[2]+(B[2]-A[2])*n+sh*1.2]; }); },
+    pal:{floorA:'#3a3e3a',floorB:'#4a5048',floorC:'#1e221e',rockTop:'#555c52',rockFace:'#363c34',void:'#040606'},
+    obstacles:function(c){ for(var i=0;i<30;i++){ var p=c.randomOpen(); if(p)c.place('rock',p.x,p.y,1,1); } },
+    draw:{ rock:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,44,44,function(c,cw,ch){ rockBlob(c,cw/2,ch-18,14,'#6a7268',R); }); } },
+    extra:function(c){ var m=c.m; m.particles.push({tints:['#e8ff80','#a8ff80'],freq:120,scale:{start:0.5,end:0.1},alpha:{start:1,end:0},vx:{min:-10,max:10},vy:{min:-10,max:10},life:{min:2500,max:5000},area:{x:c.W*LT*0.25,y:c.H*LT*0.25,w:c.W*LT*0.5,h:c.H*LT*0.5}}); addLight(m,c.W*LT/2,c.H*LT/2-LT,300,'#3a7aa8',0.3,{pulse:0.3,period:4000,depth:-4,noCut:true}); for(var i=0;i<10;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT,90,'#ffc070',0.4,{flicker:0.35,depth:-4}); } } },
+
+  { id:'bone_pit', name:'Bone Pit', seed:23, tagline:'Giant rib cages and skulls as obstacles',
+    blurb:'The graveyard of something enormous. Giant rib cages arch over the floor like fences and skulls the size of houses block the way. Pale ghost-lights drift between the bones.',
+    fill:0.38, iters:5, density:40, dark:0.82,
+    pal:{floorA:'#3a3630',floorB:'#4a443a',floorC:'#221e1a',rockTop:'#5a544a',rockFace:'#3a3630',void:'#060504'},
+    floorDeco:function(ctx,px,py,tx,ty,R){ if(R.chance(0.1)){ ctx.fillStyle='rgba(230,220,190,.35)'; ctx.fillRect(px+R.f()*26,py+R.f()*26,6,2);} },
+    obstacles:function(c){ for(var i=0;i<16;i++){ var p=c.randomOpen(); if(!p)continue; for(var r=0;r<5;r++)c.place('rib',p.x+r*2,p.y,1,1); } for(var j=0;j<6;j++){ var q=c.randomOpen(); if(q)c.place('skull',q.x,q.y,2,2); } },
+    draw:{ rib:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,50,90,function(c,cw,ch){ c.strokeStyle='#e8e0cc'; c.lineWidth=5; c.lineCap='round'; c.beginPath(); c.moveTo(cw/2-2,ch-4); c.quadraticCurveTo(cw/2-18,ch-50,cw/2+6,ch-80); c.stroke(); c.strokeStyle='rgba(0,0,0,.2)'; c.lineWidth=2; c.stroke(); }); },
+      skull:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,90,80,function(c,cw,ch){ softShadow(c,cw/2,ch-6,34,8,0.45); c.fillStyle='#e6dcc4'; c.beginPath(); c.ellipse(cw/2,ch-34,32,26,0,0,Math.PI*2); c.fill(); c.fillRect(cw/2-20,ch-18,40,14); c.fillStyle='#1a1410'; c.beginPath(); c.ellipse(cw/2-12,ch-36,8,9,0,0,Math.PI*2); c.ellipse(cw/2+12,ch-36,8,9,0,0,Math.PI*2); c.fill(); for(var i=-3;i<=3;i++)c.fillRect(cw/2+i*5-1,ch-16,2,8); }); addLight(m,x+w/2-12,y+h-36,30,'#7fffd0',0.5,{pulse:0.5,depth:y+h+1}); } },
+    extra:function(c){ var m=c.m; m.particles.push({col:'#9fffe0',freq:300,scale:{start:0.9,end:0.2},alpha:{start:0.5,end:0},vx:{min:-8,max:8},vy:{min:-8,max:2},life:{min:4000,max:7000}}); for(var i=0;i<12;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT+16,80,'#8fffd8',0.3,{pulse:0.5,period:2600,depth:-4}); } } },
+
+  { id:'root_hollow', name:'Root Hollow', seed:29, tagline:'Tangled roots make soft lanes',
+    blurb:'The underside of an ancient tree. Thick roots snake across the floor in long curves and split the cave into winding lanes; amber sap glows in the bark and roots hang from above.',
+    fill:0.36, iters:5, density:42, dark:0.8,
+    pal:{floorA:'#3a2e22',floorB:'#4a3a2a',floorC:'#201810',rockTop:'#4e3e2c',rockFace:'#32281c',void:'#070504'},
+    obstacles:function(c){ var W=c.W,H=c.H,R=c.R; for(var i=0;i<14;i++){ var x=R.i(4,W-5),y=R.i(4,H-5),a=R.f()*Math.PI*2,len=R.i(8,16); for(var s=0;s<len;s++){ a+=R.f()*0.6-0.3; x+=Math.round(Math.cos(a)); y+=Math.round(Math.sin(a)); c.place('root',x,y,1,1,{a:a}); } } },
+    draw:{ root:function(m,ctx,x,y,w,h,R,o){ ctx.save(); ctx.translate(x+w/2,y+h/2); ctx.rotate(o.a); softShadow(ctx,0,8,20,6,0.35); var g=ctx.createLinearGradient(0,-10,0,10); g.addColorStop(0,'#8a6a44'); g.addColorStop(1,'#4a3420'); ctx.fillStyle=g; rr(ctx,-20,-11,40,22,11); ctx.fill(); ctx.strokeStyle='rgba(30,20,10,.6)'; ctx.lineWidth=1; for(var i=-15;i<15;i+=6){ ctx.beginPath(); ctx.moveTo(i,-9); ctx.lineTo(i+4,9); ctx.stroke(); } if(R.chance(0.15)){ ctx.fillStyle='#ffb040'; ctx.fillRect(-3,-3,6,3); } ctx.restore(); if(R.chance(0.08))addLight(m,x+w/2,y+h/2,50,'#ffb040',0.35,{pulse:0.5,depth:-4}); } },
+    extra:function(c){ var m=c.m; for(var i=0;i<18;i++){ var p=c.randomOpen(); if(!p)continue; addSprite(m,p.x*LT+16,p.y*LT+10,20,70,function(cc,cw,ch){ cc.strokeStyle='#5a4028'; cc.lineWidth=3; cc.beginPath(); cc.moveTo(cw/2,0); cc.quadraticCurveTo(cw/2+6,ch/2,cw/2-2,ch-6); cc.stroke(); }); m.sprites[m.sprites.length-1].depth=8000; } m.particles.push({col:'#ffc060',freq:260,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:4,max:12}}); } },
+
+  { id:'spiral_chasm', name:'Spiral Chasm', seed:31, tagline:'Open floor spiralling around a pit',
+    blurb:'A round chamber around a bottomless pit. The walkable floor spirals inward in a wide ramp to a central platform, where the guardian would stand. Wind howls up from below.',
+    density:40, shape:'round', fill:0.3, iters:4, dark:0.78,
+    hazards:function(c){ var W=c.W,H=c.H,cx=W/2,cy=H/2; for(var y=0;y<H;y++)for(var x=0;x<W;x++){ if(c.g[y*W+x])continue; var dx=x-cx,dy=(y-cy)*1.25, r=Math.hypot(dx,dy), a=Math.atan2(dy,dx); if(r<3.2||r>17)continue; var t=(a+Math.PI)/(Math.PI*2); var band=(r/4.2+t)%1; if(band<0.42)c.hazard[y*W+x]=1; } },
+    paintHazards:function(ctx,c,nz){ var W=c.W,H=c.H; paintHazardField(ctx,c,function(x,y){ var n=nz(x*0.5,y*0.5); return [4+n*14,3+n*10,10+n*22]; }); for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){ if(c.hazard[y2*W+x2]||c.g[y2*W+x2])continue; if(y2+1<H&&c.hazard[(y2+1)*W+x2]){ var fg=ctx.createLinearGradient(0,y2*LT+LT-10,0,y2*LT+LT+16); fg.addColorStop(0,'#3a3448'); fg.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=fg; ctx.fillRect(x2*LT,y2*LT+LT-10,LT,26);} } },
+    pal:{floorA:'#35303e',floorB:'#433c4e',floorC:'#1c1824',rockTop:'#514a5e',rockFace:'#332e3e',void:'#040308'},
+    obstacles:function(c){ for(var i=0;i<12;i++){ var p=c.randomOpen(); if(p)c.place('stone',p.x,p.y,1,1); } },
+    draw:{ stone:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,40,60,function(c,cw,ch){ softShadow(c,cw/2,ch-4,11,4,0.4); c.fillStyle='#6a6278'; c.fillRect(cw/2-7,ch-46,14,42); c.fillStyle='#8a80a0'; c.fillRect(cw/2-7,ch-46,14,4); c.fillStyle='#9ff0ff'; c.fillRect(cw/2-2,ch-36,4,10); }); addLight(m,x+w/2,y-20,60,'#9ff0ff',0.35,{pulse:0.5,depth:-4}); } },
+    extra:function(c){ c.m.particles.push({col:'#c8c0ff',freq:80,scale:{start:0.3,end:0},alpha:{start:0.6,end:0},vy:{min:-50,max:-20},vx:{min:-10,max:10},life:{min:1500,max:3000},area:{x:c.W*LT*0.3,y:c.H*LT*0.3,w:c.W*LT*0.4,h:c.H*LT*0.4}}); addLight(c.m,c.W*LT/2,c.H*LT/2,120,'#b0a0ff',0.35,{pulse:0.3,depth:-4}); } },
+];
+
+// ═══════════════════════════════════════════════════════════════════════
+// ║ SITE ROSTER (Phase 3 · C2/C4) — all 20 Design Lab picks in the game.
+// ║ Each quadrant has 5 tower/dungeon sites. One tower + one dungeon are
+// ║ the quadrant's boss sites (★): boss towers free a craftsman and open
+// ║ the next region, boss dungeons give a mount. The other 3 are bonus
+// ║ sites: an elite mini-boss guards a treasure vault (replayable).
+// ║ Floors are built from the Lab designs, one template per site, varied
+// ║ per floor (tower plan/mirror/room shuffle; cavern seed).
+// ═══════════════════════════════════════════════════════════════════════
+var SITE_FLOORS={1:[4,5],2:[5,6],3:[6,7],4:[7,8]};   // floors by region; boss sites use the top
+var SITE_ROSTER={
+  1:[{kind:'tower',design:'silverwood',boss:true},{kind:'dungeon',design:'sunken_courtyard',boss:true},
+     {kind:'tower',design:'elven_library'},{kind:'tower',design:'hyrule_keep'},{kind:'dungeon',design:'mushroom_forest'}],
+  2:[{kind:'tower',design:'frost_cathedral',boss:true},{kind:'dungeon',design:'lake_ring',boss:true},
+     {kind:'tower',design:'moonglass'},{kind:'dungeon',design:'crystal_grotto'},{kind:'dungeon',design:'root_hollow'}],
+  3:[{kind:'tower',design:'observatory',boss:true},{kind:'dungeon',design:'bone_pit',boss:true},
+     {kind:'tower',design:'sky_cloister'},{kind:'tower',design:'rivendell'},{kind:'dungeon',design:'pillared_hall'}],
+  4:[{kind:'tower',design:'dawn_sanctum',boss:true},{kind:'dungeon',design:'lava_archipelago',boss:true},
+     {kind:'tower',design:'reflecting_hall'},{kind:'dungeon',design:'boulder_field'},{kind:'dungeon',design:'spiral_chasm'}]
+};
+// Captive craftsmen held at the top of each boss tower
+var CRAFTSMEN={
+  1:{id:'builder', n:'Bram the Builder',     icon:'🔨', freed:'Bram: "Free at last! I\'ll raise the bridge to the Wetlands."',
+     village:'Bram: "The Wetlands bridge holds! Next I want to fix up this village."'},
+  2:{id:'mechanic',n:'Mira the Mechanic',    icon:'⚙️', freed:'Mira: "Thank you! My lift will carry you up to the Highlands."',
+     village:'Mira: "The Highland lift runs smooth. Gears never lie."'},
+  3:{id:'forger',  n:'Dunn the Dwarf Forger',icon:'⚒️', freed:'Dunn: "Ha! Let me at my anvil — an iron bridge to the Ashlands it is!"',
+     village:'Dunn: "That iron bridge will outlast us all."'},
+  4:{id:'captain', n:'Captain Vela',         icon:'🧭', freed:'Vela: "You found me! The sky ports are yours to command."',
+     village:'Vela: "The winds are kind today. The sky ports await you."'}
+};
+// Lore relic in each bonus site's treasure vault (+3 max HP each, kept forever)
+var SITE_RELICS={
+  rivendell:'Twilight Lantern', hyrule_keep:'White Keep Banner', moonglass:'Moonglass Prism', elven_library:'Leaf-bound Codex',
+  sky_cloister:'Cloud Bell', silverwood:'Silverwood Circlet', frost_cathedral:'Frozen Hymnal', observatory:'Star Chart Fragment',
+  reflecting_hall:'Mirror Shard', dawn_sanctum:'Dawn Sigil', boulder_field:'Miner\'s Charm', pillared_hall:'Column Keystone',
+  crystal_grotto:'Singing Crystal', mushroom_forest:'Glowcap Spores', lava_archipelago:'Obsidian Idol', sunken_courtyard:'Temple Seal',
+  lake_ring:'Black Pearl', bone_pit:'Titan\'s Tooth', root_hollow:'Amber Heartwood', spiral_chasm:'Wind Whistle'
+};
+
+function _siteHash(str){ var h=2166136261; for(var i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function _dungeonDesignById(id){ for(var i=0;i<DUNGEON_DESIGNS.length;i++)if(DUNGEON_DESIGNS[i].id===id)return DUNGEON_DESIGNS[i]; return null; }
+function _siteDesignName(kind,id){ var d=kind==='tower'?TOWER_STYLES_BY_ID[id]:_dungeonDesignById(id); return d?d.name:id; }
+
+// Build the world's tower/dungeon site list for one quadrant (boss sites first).
+function _rosterSitesFor(sec){
+  var lohi=SITE_FLOORS[sec]||[4,5], bonusN=0;
+  return (SITE_ROSTER[sec]||[]).map(function(r){
+    var floors=r.boss?lohi[1]:lohi[bonusN++%2];
+    return { type:r.kind, section:sec, design:r.design, boss:!!r.boss, bonus:!r.boss, floors:floors,
+      name:_siteDesignName(r.kind,r.design),
+      id:r.boss?('s'+sec+'_'+r.kind):('s'+sec+'_b_'+r.design) };
+  });
+}
+
+// Floor recipe for a site that uses a Lab design (null → legacy generator).
+function _siteFloorSpec(site, floor, maxFloors){
+  if(!site||!site.design)return null;
+  var h=_siteHash(site.id), last=floor===maxFloors-1, seed=(h%99991)+floor*7919+13;
+  if(site.type==='tower'){
+    var S=TOWER_STYLES_BY_ID[site.design]; if(!S)return null;
+    var plans=[S.plan].concat(['grand','gallery','rotunda'].filter(function(p){return p!==S.plan;}));
+    var plan=plans[(floor+(h>>>5))%3];
+    return { kind:'tower', style:S, plan:plan, seed:seed, last:last,
+      mirror:((h>>>2)+floor)%2===1, shuffle:floor>0||(h%2===1) };
+  }
+  var D=_dungeonDesignById(site.design); if(!D)return null;
+  return { kind:'dungeon', design:D, seed:seed, last:last };
+}
+function _buildSiteFloor(spec){
+  if(spec.kind==='tower')return buildTower(spec.style, spec.plan, spec.seed, {mirror:spec.mirror, shuffle:spec.shuffle, last:spec.last});
+  return buildCavern(spec.design, spec.seed, {game:true, last:spec.last});
+}
+
+// Elite mini-boss for bonus sites: the section's toughest regular monster, buffed.
+function _bonusMiniBossKey(sec){
+  var key='elite_'+sec; if(MDEFS[key])return key;
+  var best=null; for(var k in MDEFS){ var d=MDEFS[k]; if(d.sec===sec&&!d.boss&&(!best||d.hp>MDEFS[best].hp))best=k; }
+  if(!best)return null; var b=MDEFS[best];
+  MDEFS[key]=Object.assign({},b,{ name:'Elite '+b.name, hp:Math.round(b.hp*3.2+30*sec), atk:Math.round(b.atk*1.4)+2, def:(b.def||0)+2,
+    r:(b.r||10)+5, xp:b.xp*6, gMin:b.gMin*4, gMax:b.gMax*4, boss:true, elite:true });
+  return key;
+}
+// Island guardians live in the island's dungeon now (the familiar comes from them).
+function _islandBossKey(sec){
+  var key='isl_boss_'+sec; if(MDEFS[key])return key;
+  var isl=(typeof HARBOR_ISLANDS!=='undefined')&&HARBOR_ISLANDS[sec]; if(!isl||!isl.boss)return null; var b=isl.boss;
+  MDEFS[key]={ name:b.name, icon:b.icon, hp:b.hp, atk:b.atk, def:b.def||0, xp:Math.round(b.hp*1.6), gMin:30*sec, gMax:45*sec, sec:sec,
+    color:b.col||0x884422, r:b.r||18, spd:b.spd||40, moveType:b.moveType||'normal', atkType:b.atkType||'melee', boss:true };
+  return key;
+}
+
+// All four regional quests + islands + sky ports → Dragon mount (single check, called from every completion)
+var ALL_MAIN_QUESTS=['s1_dungeon','s1_tower','s1_harbor','s1_skyport','s2_dungeon','s2_tower','s2_harbor','s2_skyport','s3_dungeon','s3_tower','s3_harbor','s3_skyport','s4_dungeon','s4_tower','s4_harbor','s4_skyport'];
+function _completeQuest(ps,key){
+  if(!ps.completedQuests)ps.completedQuests=[];
+  if(!ps.completedQuests.includes(key))ps.completedQuests.push(key);
+  if(ps.activeQuest===key)ps.activeQuest=null;
+  var allDone=ALL_MAIN_QUESTS.every(function(q){return ps.completedQuests.includes(q);});
+  if(allDone&&(!ps.ownedMounts||!ps.ownedMounts.includes('dragon'))){
+    if(!ps.ownedMounts)ps.ownedMounts=[];
+    ps.ownedMounts.push('dragon'); if(!ps.mount&&!ps._stowedMount){ if(game.scene.isActive('World'))ps.mount='dragon'; else ps._stowedMount='dragon'; }
+    setTimeout(function(){showNotif('🐉 ALL QUESTS COMPLETE — Dragon Mount Unlocked!','#ff4444');},500);
+    setTimeout(function(){showNotif('🐉 The Dragon flies over all land and deep water!','#ffaa44');},1000);
+  }
+}
+function _siteLabel(s){
+  if(s.name)return (s.boss?'★ ':'')+s.name+(s.type==='tower'?' (Tower)':' (Dungeon)');
+  return s.type.charAt(0).toUpperCase()+s.type.slice(1);
+}
+
+// Island familiar (awarded when the island dungeon's guardian falls)
+function _awardIslandFamiliar(ps,sec){
+  if(!ps.completedIslands)ps.completedIslands=[];
+  var first=!ps.completedIslands.includes(sec);
+  if(first)ps.completedIslands.push(sec);
+  var famId={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'}[sec], famDef=FAMILIARS[famId];
+  if(famId&&famDef&&(!ps.ownedFamiliars||!ps.ownedFamiliars.includes(famId))){
+    if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
+    ps.ownedFamiliars.push(famId);
+    setTimeout(function(){showNotif(famDef.icon+' '+famDef.n+' familiar unlocked!','#88eeff');},300);
+    if(!ps.familiar)ps.familiar=famId;
+    else if(!ps.familiar2&&_maxFamiliarSlots(ps)>=2)ps.familiar2=famId;
+    else if(!ps.familiar3&&_maxFamiliarSlots(ps)>=3)ps.familiar3=famId;
+  }
+  if(first){
+    var n=ps.completedIslands.length;
+    if(n===2)setTimeout(function(){showNotif('✨ Familiar slot 2 unlocked! (2 islands cleared)','#88eeff');},800);
+    if(n===4)setTimeout(function(){showNotif('✨ Familiar slot 3 unlocked! (All islands cleared!)','#88eeff');},800);
+  }
+  _completeQuest(ps,'s'+sec+'_harbor');
+}
+// ═══════════════════════════════════════════════════════════════════════
+// ║ ZELDARA DESIGN LAB — core engine (Phase 2 · A2)
+// ║
+// ║ A walkable preview engine shared by every selector tab. Each design is a
+// ║ plain object { id, name, blurb, build(seed) → map }. The engine paints
+// ║ nothing itself: designs return a map with a pre-painted base canvas, tall
+// ║ sprites (depth-sorted against the hero), lights, particles and colliders.
+// ║ The hero is the real game hero (02-hero-api.js + sprite data).
+// ═══════════════════════════════════════════════════════════════════════
+// Shared utilities + map model live in src/js/07-site-art.js (also used by the game).
 
 // ═══════════════════════════════════════════════════════════════════════
 // ║ Walk scene
@@ -855,723 +1742,13 @@ function _heroRegisterTextures(scene){
     ['hero_attack_',HERO_ATTACK_FRAMES],['hero_bow_',HERO_BOW_FRAMES],['hero_horse_front_',HERO_HORSE_FRONT],['hero_horse_side_',HERO_HORSE_SIDE],['hero_horse_back_',HERO_HORSE_BACK]];
   sets.forEach(function(s){ s[1].forEach(function(uri,i){ if(!scene.textures.exists(s[0]+i))scene.textures.addBase64(s[0]+i,uri); }); });
 }
-// ═══════════════════════════════════════════════════════════════════════
-// ║ TOWER SELECTOR (Phase 2 · C3 look + C2 floor plans)
-// ║ Floors are laid out like a house: mostly rooms with open space, short
-// ║ hallways, furniture you walk around. 3 hand-made floor plans; every
-// ║ style re-furnishes them with its own look. No monsters.
-// ═══════════════════════════════════════════════════════════════════════
-
-// ── Floor plans (interior coordinates; the builder adds walls + a 2-tile exterior band)
-// rooms: {x,y,w,h,type,shape?}  carve: extra floor rects (halls, doors)  entry: [x,y] door on the south wall
-var TOWER_PLANS={
-  grand:{ w:36,h:26, name:'Grand floor (9 rooms around an atrium)',
-    rooms:[
-      {x:1,y:1,w:10,h:9,type:'library'},{x:12,y:1,w:12,h:6,type:'study'},{x:25,y:1,w:10,h:9,type:'bedroom'},
-      {x:1,y:11,w:10,h:6,type:'gallery'},{x:12,y:8,w:12,h:10,type:'atrium'},{x:25,y:11,w:10,h:6,type:'dining'},
-      {x:1,y:18,w:10,h:7,type:'chapel'},{x:12,y:19,w:12,h:6,type:'hall'},{x:25,y:18,w:10,h:7,type:'music'}],
-    carve:[[11,4,1,2],[24,4,1,2],[17,7,2,1],[11,13,1,2],[24,13,1,2],[5,10,2,1],[29,10,2,1],[5,17,2,1],[29,17,2,1],[17,18,2,1],[11,21,1,2],[24,21,1,2]],
-    entry:[17,25], stairs:[18,3] },
-  gallery:{ w:38,h:24, name:'Long hall (rooms off a central gallery)',
-    rooms:[
-      {x:1,y:1,w:8,h:9,type:'library'},{x:10,y:1,w:9,h:9,type:'bedroom'},{x:20,y:1,w:8,h:9,type:'study'},{x:29,y:1,w:8,h:9,type:'music'},
-      {x:1,y:11,w:36,h:2,type:'corridor'},
-      {x:1,y:14,w:11,h:9,type:'dining'},{x:13,y:14,w:12,h:9,type:'atrium'},{x:26,y:14,w:11,h:9,type:'conservatory'}],
-    carve:[[4,10,2,1],[14,10,2,1],[23,10,2,1],[32,10,2,1],[6,13,2,1],[18,13,2,1],[31,13,2,1],[9,5,1,2],[28,5,1,2]],
-    entry:[18,23], stairs:[23,3] },
-  rotunda:{ w:36,h:28, name:'Rotunda (round hall with wings)',
-    rooms:[
-      {x:9,y:5,w:18,h:18,type:'rotunda',shape:'circle'},
-      {x:1,y:1,w:9,h:8,type:'library'},{x:26,y:1,w:9,h:8,type:'bedroom'},
-      {x:1,y:19,w:9,h:8,type:'dining'},{x:26,y:19,w:9,h:8,type:'study'},
-      {x:13,y:1,w:10,h:3,type:'chapel'},
-      {x:1,y:10,w:6,h:8,type:'gallery'},{x:29,y:10,w:6,h:8,type:'conservatory'},
-      {x:14,y:24,w:8,h:3,type:'hall'}],
-    carve:[[17,4,2,2],[7,13,3,2],[26,13,3,2],[17,22,2,2],[5,9,2,1],[30,9,2,1],[5,18,2,1],[30,18,2,1],[10,4,3,1],[23,4,3,1],[10,23,1,1],[25,23,1,1],[10,20,2,1],[24,20,2,1],[10,6,2,1],[24,6,2,1]],
-    entry:[17,27], stairs:[18,2] },
-};
-
-var ROOM_NOTES={
-  library:'Library — tall shelves, a reading table, a lectern.', study:'Study — desk, map table, candles.',
-  bedroom:'Bedroom — canopy bed, wardrobe, nightstands.', gallery:'Gallery — statues and paintings of the tower’s history.',
-  atrium:'Atrium — the heart of the floor, open and bright.', dining:'Dining hall — long table and chandelier.',
-  chapel:'Shrine — altar, benches, candles.', hall:'Entrance hall — you arrive here from the floor below.',
-  music:'Music room — harp and piano.', corridor:'Gallery walk — the long hall that joins every room.',
-  conservatory:'Conservatory — glass garden with planters.', rotunda:'Rotunda — a round hall under the dome.'
-};
-
-// ── Builder ────────────────────────────────────────────────────────────
-var TB={OUT:0,WALL:1,FLOOR:2,WIN:3,GLASS:4,DOOR:5};
-function buildTower(S, planId, seed){
-  var P=TOWER_PLANS[planId], R=rngOf(seed*977+planId.length*31), pad=2;
-  var W=P.w+pad*2, H=P.h+pad*2, m=newMap(W,H);
-  var cell=new Uint8Array(W*H), room=new Int16Array(W*H).fill(-1);
-  var at=function(x,y){return (x<0||y<0||x>=W||y>=H)?TB.OUT:cell[y*W+x];};
-  var set=function(x,y,v){ if(x>=0&&y>=0&&x<W&&y<H)cell[y*W+x]=v; };
-  // building shell = walls
-  for(var y=pad;y<pad+P.h;y++)for(var x=pad;x<pad+P.w;x++)set(x,y,TB.WALL);
-  // rooms
-  P.rooms.forEach(function(r,ri){
-    for(var yy=0;yy<r.h;yy++)for(var xx=0;xx<r.w;xx++){
-      if(r.shape==='circle'){ var cx=(r.w-1)/2, cy=(r.h-1)/2; if(Math.hypot((xx-cx)/(r.w/2),(yy-cy)/(r.h/2))>0.98)continue; }
-      var X=r.x+xx+pad, Y=r.y+yy+pad; set(X,Y,TB.FLOOR); room[Y*W+X]=ri;
-    }
-  });
-  P.carve.forEach(function(c){ for(var yy=0;yy<c[3];yy++)for(var xx=0;xx<c[2];xx++){ var X=c[0]+xx+pad,Y=c[1]+yy+pad; if(at(X,Y)===TB.WALL)set(X,Y,TB.DOOR); } });
-  var ex=P.entry[0]+pad, ey=P.entry[1]+pad; set(ex,ey,TB.DOOR); set(ex+1,ey,TB.DOOR);
-  var isOpen=function(x,y){var v=at(x,y);return v===TB.FLOOR||v===TB.DOOR;};
-  // windows on outer walls
-  for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){
-    if(at(x2,y2)!==TB.WALL)continue;
-    var outer=(at(x2-1,y2)===TB.OUT||at(x2+1,y2)===TB.OUT||at(x2,y2-1)===TB.OUT||at(x2,y2+1)===TB.OUT);
-    if(!outer)continue;
-    var inside=isOpen(x2,y2+1)||isOpen(x2,y2-1)||isOpen(x2-1,y2)||isOpen(x2+1,y2);
-    if(!inside)continue;
-    var along=(at(x2,y2-1)===TB.OUT||at(x2,y2+1)===TB.OUT)?x2:y2;
-    if(along%S.windowEvery===0&&!(isOpen(x2-1,y2)&&isOpen(x2+1,y2)))set(x2,y2,TB.WIN);
-  }
-  // interior glass partitions (per room pair)
-  var pairGlass={};
-  for(var y3=0;y3<H;y3++)for(var x3=0;x3<W;x3++){
-    if(at(x3,y3)!==TB.WALL)continue;
-    var a=-1,b=-1;
-    if(isOpen(x3,y3-1)&&isOpen(x3,y3+1)){a=room[(y3-1)*W+x3];b=room[(y3+1)*W+x3];}
-    else if(isOpen(x3-1,y3)&&isOpen(x3+1,y3)){a=room[y3*W+x3-1];b=room[y3*W+x3+1];}
-    if(a<0||b<0||a===b)continue;
-    var key=Math.min(a,b)+'_'+Math.max(a,b);
-    if(pairGlass[key]===undefined)pairGlass[key]=R.chance(S.glass||0);
-    if(pairGlass[key]&&!(at(x3-1,y3)===TB.DOOR||at(x3+1,y3)===TB.DOOR||at(x3,y3-1)===TB.DOOR||at(x3,y3+1)===TB.DOOR))set(x3,y3,TB.GLASS);
-  }
-  for(var i=0;i<W*H;i++)m.solid[i]=(cell[i]===TB.FLOOR||cell[i]===TB.DOOR)?0:1;
-  m.spawn={x:(ex+1)*LT, y:(ey-1)*LT+LT-4};
-  m.bg=S.pal.outside||'#9cc6e8';
-  // ── furniture plan (solid cells decided before painting) ──
-  var items=[];   // {type,x,y,w,h,room}
-  var occupied=new Uint8Array(W*H);
-  var reachOK=function(){
-    var seen=floodReach(m,Math.floor(m.spawn.x/LT),Math.floor(m.spawn.y/LT)), n=0, open=0;
-    for(var k=0;k<W*H;k++){ if(!m.solid[k]){ open++; if(seen[k])n++; } }
-    return n===open;
-  };
-  var nearDoor=function(x,y){ for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){ if(at(x+dx,y+dy)===TB.DOOR)return true; } return false; };
-  var tryPlace=function(type,x,y,w,h,ri,solid){
-    var flat=solid===false;
-    for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++){ var X=x+xx,Y=y+yy; if(at(X,Y)!==TB.FLOOR||room[Y*W+X]!==ri)return false; if(!flat&&(occupied[Y*W+X]||nearDoor(X,Y)))return false; }
-    if(flat){ items.push({type:type,x:x,y:y,w:w,h:h,room:ri,solid:false}); return true; }
-    if(solid!==false){
-      for(var yy2=0;yy2<h;yy2++)for(var xx2=0;xx2<w;xx2++)m.solid[(y+yy2)*W+x+xx2]=1;
-      if(!reachOK()){ for(var yy3=0;yy3<h;yy3++)for(var xx3=0;xx3<w;xx3++)m.solid[(y+yy3)*W+x+xx3]=0; return false; }
-    }
-    for(var yy4=0;yy4<h;yy4++)for(var xx4=0;xx4<w;xx4++)occupied[(y+yy4)*W+x+xx4]=1;
-    items.push({type:type,x:x,y:y,w:w,h:h,room:ri,solid:solid!==false}); return true;
-  };
-  P.rooms.forEach(function(r,ri){
-    var rx=r.x+pad, ry=r.y+pad, rw=r.w, rh=r.h, cx=rx+Math.floor(rw/2), cy=ry+Math.floor(rh/2);
-    var alongNorth=function(type,w,h,step,solid){ for(var x=rx+1;x+w<=rx+rw-1;x+=step){ if(at(x,ry-1)===TB.WALL||at(x,ry-1)===TB.WIN)tryPlace(type,x,ry,w,h,ri,solid); } };
-    var corners=function(type){ [[rx,ry],[rx+rw-1,ry],[rx,ry+rh-1],[rx+rw-1,ry+rh-1]].forEach(function(c){ tryPlace(type,c[0],c[1],1,1,ri); }); };
-    var rug=function(w,h){ tryPlace('rug',cx-Math.floor(w/2),cy-Math.floor(h/2),w,h,ri,false); };
-    switch(r.type){
-      case 'library': alongNorth('bookshelf',2,1,2); rug(4,3); tryPlace('table',cx-1,cy,2,1,ri); tryPlace('chair',cx-2,cy,1,1,ri); tryPlace('chair',cx+1,cy,1,1,ri); tryPlace('lectern',rx+1,ry+rh-2,1,1,ri); corners('plant'); break;
-      case 'study': tryPlace('desk',cx-1,ry+1,2,1,ri); tryPlace('chair',cx,ry+2,1,1,ri); tryPlace('bookshelf',rx+1,ry,2,1,ri); tryPlace('globe',rx+rw-2,ry+1,1,1,ri); tryPlace('maptable',cx-1,ry+rh-2,3,1,ri); tryPlace('candelabra',rx,ry+rh-1,1,1,ri); break;
-      case 'bedroom': tryPlace('bed',cx-1,ry,2,3,ri); tryPlace('nightstand',cx-2,ry,1,1,ri); tryPlace('nightstand',cx+1,ry,1,1,ri); tryPlace('wardrobe',rx,ry,2,1,ri); rug(3,2); tryPlace('chair',rx+rw-2,ry+rh-2,1,1,ri); tryPlace('plant',rx+rw-1,ry,1,1,ri); break;
-      case 'dining': var tl=Math.min(6,rw-4); tryPlace('longtable',cx-Math.floor(tl/2),cy-1,tl,2,ri); for(var c1=0;c1<tl;c1+=2){ tryPlace('chair',cx-Math.floor(tl/2)+c1,cy-2,1,1,ri); tryPlace('chair',cx-Math.floor(tl/2)+c1,cy+1,1,1,ri);} alongNorth('sideboard',2,1,4); items.push({type:'chandelier',x:cx,y:cy,w:0,h:0,room:ri,solid:false}); break;
-      case 'chapel': tryPlace('altar',cx-1,ry,2,1,ri); for(var pr=ry+2;pr<ry+rh-1;pr+=2){ tryPlace('pew',rx+1,pr,Math.max(2,Math.floor(rw/2)-2),1,ri); tryPlace('pew',cx+1,pr,Math.max(2,Math.floor(rw/2)-2),1,ri);} tryPlace('candelabra',cx-2,ry,1,1,ri); tryPlace('candelabra',cx+1,ry,1,1,ri); break;
-      case 'gallery': for(var gx=rx+1;gx<rx+rw-1;gx+=3){ tryPlace('statue',gx,ry,1,1,ri); tryPlace('statue',gx,ry+rh-1,1,1,ri);} tryPlace('bench',cx-1,cy,2,1,ri); break;
-      case 'music': tryPlace('piano',rx+1,ry+1,3,2,ri); tryPlace('harp',rx+rw-2,ry+1,1,1,ri); rug(4,3); tryPlace('chair',cx,cy+1,1,1,ri); tryPlace('chair',cx-2,cy+1,1,1,ri); corners('plant'); break;
-      case 'conservatory': for(var py=ry+1;py<ry+rh-1;py+=3)for(var px=rx+1;px<rx+rw-1;px+=3)tryPlace(R.chance(0.35)?'tree':'planter',px,py,1,1,ri); tryPlace('pool',cx-1,cy,2,2,ri); break;
-      case 'hall': tryPlace('runner',cx-1,ry,2,rh,ri,false); tryPlace('statue',cx-3,ry,1,1,ri); tryPlace('statue',cx+2,ry,1,1,ri); tryPlace('bench',rx+1,cy,2,1,ri); tryPlace('bench',rx+rw-3,cy,2,1,ri); corners('plant'); break;
-      case 'corridor': for(var hx=rx+2;hx<rx+rw-2;hx+=6)tryPlace('plant',hx,ry,1,1,ri); tryPlace('runner',rx,ry+1,rw,1,ri,false); break;
-      case 'atrium': case 'rotunda':
-        var cs=S.center||'fountain', sz=cs==='orrery'||cs==='pool'?4:3;
-        tryPlace('center_'+cs,cx-Math.floor(sz/2),cy-Math.floor(sz/2),sz,sz,ri);
-        [[rx+1,ry+1],[rx+rw-2,ry+1],[rx+1,ry+rh-2],[rx+rw-2,ry+rh-2]].forEach(function(c){ tryPlace(S.pillar||'pillar',c[0],c[1],1,1,ri); });
-        tryPlace('bench',cx-1,ry+rh-2,2,1,ri); tryPlace('bench',cx-1,ry+1,2,1,ri);
-        break;
-    }
-  });
-  // stairs up (walkable marker)
-  var st=P.stairs; items.push({type:'stairs',x:st[0]+pad,y:st[1]+pad,w:1,h:1,solid:false,room:-1});
-  // ── paint ──
-  var cv=mkCanvas(W*LT,H*LT), ctx=cv.getContext('2d');
-  S.paintExterior(ctx,W,H,m,R);
-  var roomType=function(x,y){ var ri=room[y*W+x]; return ri>=0?P.rooms[ri].type:'hall'; };
-  for(var y4=0;y4<H;y4++)for(var x4=0;x4<W;x4++){
-    var v=at(x4,y4); if(v===TB.OUT)continue;
-    if(v===TB.FLOOR||v===TB.DOOR||v===TB.GLASS){
-      var rt=v===TB.GLASS?'hall':(v===TB.DOOR?(roomType(x4,y4-1)||'hall'):roomType(x4,y4));
-      S.floor(ctx,x4*LT,y4*LT,x4,y4,rt,R);
-      if(v===TB.DOOR){ ctx.fillStyle=rgba(S.pal.trim,0.55); ctx.fillRect(x4*LT,y4*LT+LT/2-2,LT,4); }
-    }
-  }
-  // room-level floor accents (medallions etc.)
-  P.rooms.forEach(function(r){ if(S.roomAccent)S.roomAccent(ctx,(r.x+pad)*LT,(r.y+pad)*LT,r.w*LT,r.h*LT,r.type,R,r); });
-  // ambient occlusion under walls
-  for(var y5=0;y5<H;y5++)for(var x5=0;x5<W;x5++){
-    var v5=at(x5,y5); if(v5!==TB.FLOOR&&v5!==TB.DOOR)continue;
-    if(at(x5,y5-1)===TB.WALL||at(x5,y5-1)===TB.WIN){ var g=ctx.createLinearGradient(0,y5*LT,0,y5*LT+14); g.addColorStop(0,'rgba(0,0,0,'+(S.ao||0.22)+')'); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g; ctx.fillRect(x5*LT,y5*LT,LT,14); }
-    if(at(x5-1,y5)===TB.WALL||at(x5-1,y5)===TB.WIN){ var g2=ctx.createLinearGradient(x5*LT,0,x5*LT+8,0); g2.addColorStop(0,'rgba(0,0,0,'+((S.ao||0.22)*0.6)+')'); g2.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g2; ctx.fillRect(x5*LT,y5*LT,8,LT); }
-  }
-  // flat furniture (rugs, runners, pools…) before walls & tall pieces
-  items.forEach(function(it){ if(TOWER_FLAT[it.type])TOWER_FLAT[it.type](ctx,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R); });
-  // walls, windows, glass
-  for(var y6=0;y6<H;y6++)for(var x6=0;x6<W;x6++){
-    var v6=at(x6,y6); if(v6!==TB.WALL&&v6!==TB.WIN&&v6!==TB.GLASS)continue;
-    var faceVisible=isOpen(x6,y6+1);
-    var outN=at(x6,y6-1)===TB.OUT, outS=at(x6,y6+1)===TB.OUT, outW=at(x6-1,y6)===TB.OUT, outE=at(x6+1,y6)===TB.OUT;
-    if(v6===TB.GLASS)towerGlass(ctx,x6*LT,y6*LT,S,faceVisible);
-    else towerWall(ctx,x6*LT,y6*LT,S,faceVisible,v6===TB.WIN,{n:outN,s:outS,w:outW,e:outE},R,m);
-  }
-  // crisp edges where walls meet walkable floor (reads as solid mass in 3/4 view)
-  ctx.lineWidth=2; ctx.strokeStyle=rgba(shade(S.pal.wallFace,-0.55),0.55);
-  for(var y7=0;y7<H;y7++)for(var x7=0;x7<W;x7++){
-    var v7=at(x7,y7); if(v7!==TB.WALL&&v7!==TB.WIN)continue;
-    var px7=x7*LT, py7=y7*LT; ctx.beginPath();
-    if(isOpen(x7,y7+1)){ctx.moveTo(px7,py7+LT);ctx.lineTo(px7+LT,py7+LT);}
-    if(isOpen(x7,y7-1)){ctx.moveTo(px7,py7+1);ctx.lineTo(px7+LT,py7+1);}
-    if(isOpen(x7-1,y7)){ctx.moveTo(px7+1,py7);ctx.lineTo(px7+1,py7+LT);}
-    if(isOpen(x7+1,y7)){ctx.moveTo(px7+LT-1,py7);ctx.lineTo(px7+LT-1,py7+LT);}
-    ctx.stroke();
-  }
-  // tall / raised furniture become sprites
-  items.forEach(function(it){
-    var fn=TOWER_TALL[it.type]; if(!fn)return;
-    fn(m,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R);
-  });
-  // labels
-  P.rooms.forEach(function(r){ addLabel(m,r.x+pad,r.y+pad,r.w,r.h,ROOM_NOTES[r.type]||r.type); });
-  items.forEach(function(it){ if(TOWER_LABEL[it.type])addLabel(m,it.x,it.y,Math.max(1,it.w),Math.max(1,it.h),TOWER_LABEL[it.type](S)); });
-  if(S.extra)S.extra(m,ctx,W,H,R,{cell:cell,room:room,at:at,items:items,pad:pad,plan:P});
-  if(S.particles)S.particles.forEach(function(p){ m.particles.push(Object.assign({area:{x:pad*LT,y:pad*LT,w:P.w*LT,h:P.h*LT}},p)); });
-  m.base=cv;
-  m.stats={rooms:P.rooms.length,plan:P.name};
-  return m;
-}
-
-// ── Walls ──────────────────────────────────────────────────────────────
-function towerWall(ctx,x,y,S,face,win,out,R,m){
-  var p=S.pal, top=face?9:LT;
-  // top face
-  var g=ctx.createLinearGradient(x,y,x,y+top); g.addColorStop(0,shade(p.wallTop,0.12)); g.addColorStop(1,p.wallTop);
-  ctx.fillStyle=g; ctx.fillRect(x,y,LT,top);
-  ctx.fillStyle=rgba(p.trim,0.55); ctx.fillRect(x,y+top-1.5,LT,1.5);
-  if(face){
-    var fh=LT-top, g2=ctx.createLinearGradient(x,y+top,x,y+LT);
-    g2.addColorStop(0,shade(p.wallFace,-0.04)); g2.addColorStop(1,shade(p.wallFace,-0.24));
-    ctx.fillStyle=g2; ctx.fillRect(x,y+top,LT,fh);
-    // base trim
-    ctx.fillStyle=shade(p.trim,-0.1); ctx.fillRect(x,y+LT-3,LT,3);
-    if(S.wallDetail)S.wallDetail(ctx,x,y+top,LT,fh,R);
-    if(win){
-      if(S.windowFace)S.windowFace(ctx,x,y+top,LT,fh,R);
-      else towerWindowArch(ctx,x+7,y+top+2,LT-14,fh-6,S);
-      // light shaft falling onto the floor below (north-wall windows)
-      if(out.n)towerShaft(m,x,y+LT,S,R);
-    }
-  } else if(win){
-    // window seen from above on a side wall: a luminous slit
-    var gg=ctx.createLinearGradient(x,y,x+LT,y); gg.addColorStop(0,rgba(S.pal.glassA,0.9)); gg.addColorStop(1,rgba(S.pal.glassB,0.9));
-    ctx.fillStyle=gg; if(out.w||out.e)ctx.fillRect(x+LT/2-4,y+4,8,LT-8); else ctx.fillRect(x+4,y+LT/2-4,LT-8,8);
-    if(out.w||out.e){ var sx=out.w?x+LT:x-LT*2; addLight(m,out.w?x+LT+20:x-20,y+LT/2,46,S.pal.light,0.22,{depth:-4,noCut:true}); }
-  }
-}
-function towerWindowArch(ctx,x,y,w,h,S){
-  var p=S.pal;
-  ctx.fillStyle=shade(p.trim,-0.15); rr(ctx,x-2,y-1,w+4,h+2,w/2); ctx.fill();
-  var g=ctx.createLinearGradient(x,y,x,y+h); g.addColorStop(0,p.glassA); g.addColorStop(1,p.glassB);
-  ctx.fillStyle=g; rr(ctx,x,y,w,h,w/2-1); ctx.fill();
-  ctx.strokeStyle=rgba(p.trim,0.9); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x+w/2,y+2); ctx.lineTo(x+w/2,y+h); ctx.moveTo(x,y+h*0.55); ctx.lineTo(x+w,y+h*0.55); ctx.stroke();
-  ctx.fillStyle='rgba(255,255,255,0.45)'; ctx.fillRect(x+2,y+4,2,h*0.4);
-}
-function towerShaft(m,x,y,S,R){
-  var len=LT*(3.2+R.f()*1.2), w=LT*1.3, skew=S.shaftSkew===undefined?14:S.shaftSkew;
-  var c=mkCanvas(w+Math.abs(skew)+4,len), ctx=c.getContext('2d');
-  var g=ctx.createLinearGradient(0,0,0,len); g.addColorStop(0,rgba(S.pal.light,0.8)); g.addColorStop(1,rgba(S.pal.light,0));
-  ctx.fillStyle=g; ctx.beginPath(); var o=skew<0?-skew:0;
-  ctx.moveTo(o+6,0); ctx.lineTo(o+w-6,0); ctx.lineTo(o+w+skew,len); ctx.lineTo(o+skew,len); ctx.closePath(); ctx.fill();
-  m.shafts.push({canvas:c,x:x-2-o+ (LT-w)/2,y:y,a:S.shaftA||0.34,sway:true});
-}
-function towerGlass(ctx,x,y,S,face){
-  var p=S.pal;
-  ctx.fillStyle=rgba(p.glassA,0.35); ctx.fillRect(x+2,y,LT-4,LT);
-  ctx.fillStyle=rgba('#ffffff',0.5); ctx.fillRect(x+5,y+3,2,LT-10);
-  ctx.strokeStyle=rgba(p.trim,0.85); ctx.lineWidth=2; ctx.strokeRect(x+2,y+1,LT-4,LT-2);
-  if(face){ ctx.fillStyle=rgba(p.glassB,0.25); ctx.fillRect(x+2,y+LT-8,LT-4,8); }
-}
-
-// ── Furniture painters ─────────────────────────────────────────────────
-// Flat pieces go on the base canvas; tall pieces become depth-sorted sprites.
-var TOWER_FLAT={
-  rug:function(ctx,x,y,w,h,S){ var p=S.pal; rr(ctx,x+4,y+4,w-8,h-8,6); ctx.fillStyle=p.fabric; ctx.fill(); ctx.strokeStyle=p.fabric2; ctx.lineWidth=3; rr(ctx,x+9,y+9,w-18,h-18,4); ctx.stroke(); ctx.fillStyle=rgba(p.fabric2,0.5); ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2,w/6,h/6,0,0,Math.PI*2); ctx.fill(); },
-  runner:function(ctx,x,y,w,h,S){ var p=S.pal; ctx.fillStyle=p.fabric; ctx.fillRect(x+6,y,w-12,h); ctx.fillStyle=p.fabric2; ctx.fillRect(x+8,y,2,h); ctx.fillRect(x+w-10,y,2,h); if(w>h){ ctx.fillStyle=p.fabric; ctx.fillRect(x,y+6,w,h-12); ctx.fillStyle=p.fabric2; ctx.fillRect(x,y+8,w,2); ctx.fillRect(x,y+h-10,w,2);} },
-  pool:function(ctx,x,y,w,h,S){ var p=S.pal; rr(ctx,x+2,y+2,w-4,h-4,8); ctx.fillStyle=shade(p.trim,-0.2); ctx.fill(); rr(ctx,x+5,y+5,w-10,h-10,6); var g=ctx.createLinearGradient(x,y,x+w,y+h); g.addColorStop(0,p.water||'#7ec8f0'); g.addColorStop(1,shade(p.water||'#7ec8f0',-0.3)); ctx.fillStyle=g; ctx.fill(); ctx.fillStyle='rgba(255,255,255,.35)'; ctx.fillRect(x+9,y+9,w*0.4,2); },
-  stairs:function(ctx,x,y,w,h,S){ var p=S.pal; for(var i=0;i<5;i++){ ctx.fillStyle=shade(p.floorA,-0.05*i-0.05); ctx.fillRect(x+2,y+2+i*5.5,LT-4,5); ctx.fillStyle=rgba('#ffffff',0.25); ctx.fillRect(x+2,y+2+i*5.5,LT-4,1);} ctx.fillStyle=rgba(p.accent,0.9); ctx.font='bold 9px sans-serif'; ctx.textAlign='center'; ctx.fillText('▲',x+LT/2,y+LT-2); },
-  table:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,0); },
-  longtable:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,1); },
-  desk:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,2); },
-  maptable:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,3); },
-  sideboard:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,4); },
-  bench:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-4,w/2,5,0.25); ctx.fillStyle=shade(p.wood,-0.1); ctx.fillRect(x+3,y+10,w-6,10); ctx.fillStyle=p.wood; ctx.fillRect(x+3,y+8,w-6,7); ctx.fillStyle=p.fabric; ctx.fillRect(x+5,y+9,w-10,4); },
-  pew:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-4,w/2,5,0.25); ctx.fillStyle=shade(p.wood,-0.25); ctx.fillRect(x+2,y+4,w-4,6); ctx.fillStyle=p.wood; ctx.fillRect(x+2,y+10,w-4,12); ctx.fillStyle=shade(p.wood,0.15); ctx.fillRect(x+2,y+10,w-4,2); },
-  chair:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+16,y+26,9,4,0.25); ctx.fillStyle=shade(p.wood,-0.2); ctx.fillRect(x+9,y+6,14,5); ctx.fillStyle=p.wood; rr(ctx,x+9,y+11,14,13,3); ctx.fill(); ctx.fillStyle=p.fabric; rr(ctx,x+11,y+13,10,8,2); ctx.fill(); },
-  nightstand:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+16,y+27,10,4,0.25); ctx.fillStyle=p.wood; rr(ctx,x+7,y+10,18,16,2); ctx.fill(); ctx.fillStyle=shade(p.wood,0.18); ctx.fillRect(x+7,y+10,18,4); glowSpot(ctx,x+16,y+10,10,p.light,0.5); ctx.fillStyle=p.light; ctx.beginPath(); ctx.arc(x+16,y+10,3,0,Math.PI*2); ctx.fill(); },
-  bed:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-4,w/2,8,0.3); ctx.fillStyle=shade(p.wood,-0.1); rr(ctx,x+3,y+2,w-6,h-4,4); ctx.fill(); ctx.fillStyle=p.wood; ctx.fillRect(x+3,y+2,w-6,10); ctx.fillStyle='#f6f4ee'; rr(ctx,x+7,y+12,w-14,12,4); ctx.fill(); var g=ctx.createLinearGradient(x,y+24,x,y+h); g.addColorStop(0,p.fabric); g.addColorStop(1,shade(p.fabric,-0.2)); ctx.fillStyle=g; rr(ctx,x+5,y+24,w-10,h-30,5); ctx.fill(); ctx.strokeStyle=p.fabric2; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(x+6,y+34); ctx.lineTo(x+w-6,y+34); ctx.stroke(); },
-  altar:function(ctx,x,y,w,h,S){ var p=S.pal; softShadow(ctx,x+w/2,y+h-3,w/2,5,0.3); ctx.fillStyle=shade(p.wallFace,0.1); rr(ctx,x+3,y+8,w-6,20,3); ctx.fill(); ctx.fillStyle=p.fabric; ctx.fillRect(x+w/2-6,y+8,12,20); ctx.fillStyle=p.accent; ctx.beginPath(); ctx.arc(x+w/2,y+6,5,0,Math.PI*2); ctx.fill(); glowSpot(ctx,x+w/2,y+6,20,p.light,0.5); },
-  center_fountain:function(ctx,x,y,w,h,S){ var p=S.pal, cx=x+w/2, cy=y+h/2; softShadow(ctx,cx,cy+6,w/2,h/2.4,0.25); ctx.fillStyle=shade(p.trim,-0.1); ctx.beginPath(); ctx.arc(cx,cy,w/2-2,0,Math.PI*2); ctx.fill(); var g=ctx.createRadialGradient(cx,cy,4,cx,cy,w/2-6); g.addColorStop(0,shade(p.water||'#8fd3f5',0.3)); g.addColorStop(1,p.water||'#6bb8e0'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,w/2-6,0,Math.PI*2); ctx.fill(); ctx.fillStyle=p.wallTop; ctx.beginPath(); ctx.arc(cx,cy,8,0,Math.PI*2); ctx.fill(); },
-  center_pool:function(ctx,x,y,w,h,S){ TOWER_FLAT.pool(ctx,x,y,w,h,S); },
-  center_starmap:function(ctx,x,y,w,h,S,R){ var p=S.pal, cx=x+w/2, cy=y+h/2; ctx.fillStyle='#0c1636'; ctx.beginPath(); ctx.arc(cx,cy,w/2-2,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=p.accent; ctx.lineWidth=2; ctx.stroke(); for(var i=0;i<40;i++){ var a=R.f()*Math.PI*2, r=R.f()*(w/2-6); ctx.fillStyle='rgba(255,255,255,'+(0.4+R.f()*0.6)+')'; ctx.fillRect(cx+Math.cos(a)*r,cy+Math.sin(a)*r,1.5,1.5);} ctx.strokeStyle=rgba(p.accent,0.6); ctx.lineWidth=1; ctx.beginPath(); for(var j=0;j<6;j++){ var a2=j/6*Math.PI*2; ctx.lineTo(cx+Math.cos(a2)*w*0.3,cy+Math.sin(a2)*h*0.3);} ctx.closePath(); ctx.stroke(); },
-};
-function towerTableTop(ctx,x,y,w,h,S,kind){
-  var p=S.pal; softShadow(ctx,x+w/2,y+h-2,w/2,7,0.28);
-  ctx.fillStyle=shade(p.wood,-0.25); rr(ctx,x+3,y+8,w-6,h-8,3); ctx.fill();
-  var g=ctx.createLinearGradient(x,y+4,x,y+h-4); g.addColorStop(0,shade(p.wood,0.15)); g.addColorStop(1,p.wood);
-  ctx.fillStyle=g; rr(ctx,x+3,y+4,w-6,h-10,3); ctx.fill();
-  if(kind===1){ ctx.fillStyle=p.fabric2; ctx.fillRect(x+6,y+h/2-4,w-12,4); for(var i=x+14;i<x+w-10;i+=28){ ctx.fillStyle='#eef'; ctx.beginPath(); ctx.arc(i,y+h/2-2,3,0,Math.PI*2); ctx.fill(); } }
-  if(kind===2){ ctx.fillStyle='#f4f0e2'; ctx.fillRect(x+10,y+8,12,9); ctx.fillStyle=p.accent; ctx.fillRect(x+w-16,y+7,3,8); }
-  if(kind===3){ ctx.fillStyle='#e8dcb4'; ctx.fillRect(x+8,y+7,w-16,h-16); ctx.strokeStyle='rgba(90,70,40,.6)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(x+12,y+12); ctx.bezierCurveTo(x+w/2,y+6,x+w/2,y+18,x+w-12,y+10); ctx.stroke(); }
-  if(kind===4){ ctx.fillStyle=p.fabric2; ctx.fillRect(x+8,y+8,6,6); ctx.fillStyle=p.accent; ctx.fillRect(x+w-14,y+7,5,7); }
-}
-function towerSpriteBox(m,x,y,w,h,fn){ addSprite(m,x+w/2,y+h,w+8,h+48,function(ctx,cw,ch){ ctx.translate(4,48); fn(ctx,w,h); }); }
-var TOWER_TALL={
-  bookshelf:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ var top=-34; ctx.fillStyle=shade(p.wood,-0.3); ctx.fillRect(0,top,w,h-top); ctx.fillStyle=p.wood; ctx.fillRect(2,top+2,w-4,h-top-6); var cols=['#7a3b3b','#3b5a7a','#6a7a3b','#8a6a2a','#5a3b7a','#2f6f6f','#c8b27a']; for(var s=0;s<4;s++){ var sy=top+4+s*13; ctx.fillStyle=shade(p.wood,-0.35); ctx.fillRect(3,sy+10,w-6,2); for(var bx=4;bx<w-6;){ var bw=3+(bx*7+s*3)%4, bh=7+(bx+s)%3; ctx.fillStyle=cols[(bx+s*5)%cols.length]; ctx.fillRect(bx,sy+10-bh,bw,bh); bx+=bw+1; } } ctx.fillStyle=shade(p.wood,0.2); ctx.fillRect(0,top,w,3); }); },
-  wardrobe:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ var top=-36; ctx.fillStyle=shade(p.wood,-0.2); rr(ctx,0,top,w,h-top,3); ctx.fill(); ctx.fillStyle=p.wood; ctx.fillRect(3,top+4,w/2-4,h-top-8); ctx.fillRect(w/2+1,top+4,w/2-4,h-top-8); ctx.fillStyle=p.accent; ctx.fillRect(w/2-3,top+26,2,6); ctx.fillRect(w/2+1,top+26,2,6); ctx.fillStyle=shade(p.wood,0.2); ctx.fillRect(0,top,w,3); }); },
-  lectern:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,10,4,0.3); ctx.fillStyle=shade(p.wood,-0.2); ctx.fillRect(w/2-3,h-26,6,22); ctx.fillStyle=p.wood; ctx.beginPath(); ctx.moveTo(w/2-12,h-24); ctx.lineTo(w/2+12,h-28); ctx.lineTo(w/2+12,h-20); ctx.lineTo(w/2-12,h-16); ctx.fill(); ctx.fillStyle='#f5efd9'; ctx.fillRect(w/2-9,h-25,8,6); ctx.fillRect(w/2+1,h-26,8,6); }); },
-  globe:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,9,3,0.3); ctx.fillStyle=p.metal; ctx.fillRect(w/2-2,h-18,4,14); ctx.fillStyle='#5fa0c8'; ctx.beginPath(); ctx.arc(w/2,h-26,10,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#8cbf6a'; ctx.beginPath(); ctx.ellipse(w/2-3,h-28,4,6,0.5,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=p.metal; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(w/2,h-26,12,Math.PI*0.2,Math.PI*1.2); ctx.stroke(); }); },
-  candelabra:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,8,3,0.3); ctx.fillStyle=p.metal; ctx.fillRect(w/2-1.5,h-34,3,30); ctx.fillRect(w/2-10,h-32,20,2); [-9,0,9].forEach(function(o){ ctx.fillStyle='#f6f0dc'; ctx.fillRect(w/2+o-1.5,h-40,3,8); ctx.fillStyle='#ffd27a'; ctx.beginPath(); ctx.ellipse(w/2+o,h-43,2,3.5,0,0,Math.PI*2); ctx.fill(); }); }); addLight(m,x+w/2,y+h-42,70,'#ffcf80',0.45,{flicker:0.35,depth:y+h+1}); },
-  statue:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,12,4,0.3); ctx.fillStyle=shade(p.statue||p.wallTop,-0.15); ctx.fillRect(w/2-11,h-12,22,10); var g=ctx.createLinearGradient(0,h-52,0,h-12); g.addColorStop(0,shade(p.statue||p.wallTop,0.15)); g.addColorStop(1,shade(p.statue||p.wallTop,-0.1)); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(w/2-7,h-12); ctx.lineTo(w/2-5,h-38); ctx.lineTo(w/2+5,h-38); ctx.lineTo(w/2+7,h-12); ctx.fill(); ctx.beginPath(); ctx.arc(w/2,h-43,6,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.moveTo(w/2+5,h-36); ctx.lineTo(w/2+14,h-50); ctx.lineTo(w/2+12,h-52); ctx.lineTo(w/2+3,h-40); ctx.fill(); }); },
-  pillar:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,13,4,0.3); ctx.fillStyle=shade(p.wallTop,-0.12); ctx.fillRect(w/2-12,h-8,24,6); var g=ctx.createLinearGradient(w/2-9,0,w/2+9,0); g.addColorStop(0,shade(p.wallTop,-0.12)); g.addColorStop(0.45,shade(p.wallTop,0.2)); g.addColorStop(1,shade(p.wallTop,-0.2)); ctx.fillStyle=g; ctx.fillRect(w/2-9,h-60,18,52); ctx.fillStyle=rgba(p.trim,0.8); ctx.fillRect(w/2-11,h-64,22,5); for(var i=-6;i<=6;i+=4){ ctx.fillStyle='rgba(0,0,0,.07)'; ctx.fillRect(w/2+i,h-58,1,48);} }); },
-  plant:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,9,3,0.3); ctx.fillStyle=p.pot||shade(p.wallFace,-0.15); rr(ctx,w/2-7,h-14,14,11,3); ctx.fill(); for(var i=0;i<9;i++){ var a=-Math.PI/2+(i-4)*0.32; ctx.strokeStyle=i%2?p.plant:shade(p.plant,0.2); ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(w/2,h-13); ctx.quadraticCurveTo(w/2+Math.cos(a)*8,h-22,w/2+Math.cos(a)*14,h-13+Math.sin(a)*22); ctx.stroke(); } }); },
-  planter:function(m,x,y,w,h,S){ TOWER_TALL.plant(m,x,y,w,h,S); },
-  tree:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h,70,90,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-4,16,5,0.3); ctx.fillStyle=p.bark||'#e8e2d4'; ctx.fillRect(cw/2-4,ch-40,8,36); for(var i=0;i<14;i++){ var a=i/14*Math.PI*2; ctx.fillStyle=i%3?p.plant:shade(p.plant,0.25); ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*16,ch-52+Math.sin(a)*12,11,0,Math.PI*2); ctx.fill(); } ctx.fillStyle=shade(p.plant,0.3); ctx.beginPath(); ctx.arc(cw/2-4,ch-58,10,0,Math.PI*2); ctx.fill(); }); },
-  harp:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,9,3,0.3); ctx.strokeStyle=p.accent; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(w/2-8,h-4); ctx.lineTo(w/2-8,h-46); ctx.quadraticCurveTo(w/2+12,h-44,w/2+8,h-8); ctx.closePath(); ctx.stroke(); ctx.strokeStyle='rgba(255,255,255,.7)'; ctx.lineWidth=0.7; for(var i=0;i<6;i++){ ctx.beginPath(); ctx.moveTo(w/2-8,h-40+i*6); ctx.lineTo(w/2-6+i*2.4,h-8); ctx.stroke(); } }); },
-  piano:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,w/2,6,0.3); ctx.fillStyle=p.pianoCol||'#1b1b22'; ctx.beginPath(); ctx.moveTo(4,h-26); ctx.lineTo(w-4,h-26); ctx.quadraticCurveTo(w,h-4,w/2,h-4); ctx.lineTo(4,h-4); ctx.closePath(); ctx.fill(); ctx.fillStyle='#fdfdfd'; ctx.fillRect(6,h-30,w-12,6); for(var k=8;k<w-8;k+=5){ ctx.fillStyle='#222'; ctx.fillRect(k,h-30,2,3);} ctx.fillStyle=rgba('#ffffff',0.2); ctx.fillRect(8,h-22,w-24,2); }); },
-  chandelier:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x*1+LT/2,y+LT*1.2,60,120,function(ctx,cw,ch){ ctx.fillStyle=p.metal; ctx.fillRect(cw/2-1,0,2,40); ctx.beginPath(); ctx.ellipse(cw/2,44,22,6,0,0,Math.PI*2); ctx.strokeStyle=p.metal; ctx.lineWidth=2; ctx.stroke(); for(var i=0;i<6;i++){ var a=i/6*Math.PI*2; ctx.fillStyle='#ffe6a8'; ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*20,40+Math.sin(a)*5,2.5,0,Math.PI*2); ctx.fill(); } }); m.sprites[m.sprites.length-1].depth=8000; addLight(m,x+LT/2,y-10,120,'#ffe2a0',0.35,{flicker:0.15}); },
-  center_crystal:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h-8,w+10,h+80,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-6,w/2-4,10,0.25); var pts=[[0,-96],[-14,-40],[0,-6],[14,-40]]; var g=ctx.createLinearGradient(cw/2-14,0,cw/2+14,0); g.addColorStop(0,rgba(p.glassA,0.95)); g.addColorStop(0.5,'rgba(255,255,255,0.95)'); g.addColorStop(1,rgba(p.glassB,0.95)); ctx.fillStyle=g; ctx.beginPath(); pts.forEach(function(q,i){ ctx[i?'lineTo':'moveTo'](cw/2+q[0],ch+q[1]); }); ctx.closePath(); ctx.fill(); [[-26,-36,-18],[24,-30,-14]].forEach(function(q){ ctx.beginPath(); ctx.moveTo(cw/2+q[0],ch+q[1]); ctx.lineTo(cw/2+q[0]-7,ch-12); ctx.lineTo(cw/2+q[0]+7,ch-12); ctx.closePath(); ctx.fill(); }); }); m.sprites[m.sprites.length-1].bob=4; addLight(m,x+w/2,y+h/2-30,150,p.light,0.55,{pulse:0.35,period:2400}); },
-  center_orrery:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h/2+40,120,120,function(ctx,cw,ch){ var cx=cw/2, cy=ch/2-10; ctx.strokeStyle=rgba(p.accent,0.9); ctx.lineWidth=1.5; [18,32,46].forEach(function(r){ ctx.beginPath(); ctx.ellipse(cx,cy,r,r*0.45,0,0,Math.PI*2); ctx.stroke(); }); var sg=ctx.createRadialGradient(cx,cy,1,cx,cy,9); sg.addColorStop(0,'#fff8d0'); sg.addColorStop(1,'#f0b040'); ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(cx,cy,8,0,Math.PI*2); ctx.fill(); [['#8fc4ff',18,0.4],['#e0a070',32,2.2],['#a0e0c0',46,4.1]].forEach(function(q){ ctx.fillStyle=q[0]; ctx.beginPath(); ctx.arc(cx+Math.cos(q[2])*q[1],cy+Math.sin(q[2])*q[1]*0.45,4,0,Math.PI*2); ctx.fill(); }); ctx.fillStyle=p.metal; ctx.fillRect(cx-2,cy+6,4,ch-cy-12); }); addLight(m,x+w/2,y+h/2-10,110,'#ffd98a',0.5,{pulse:0.25}); },
-  center_tree:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h-4,150,170,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-8,40,12,0.3); var g=ctx.createLinearGradient(cw/2-12,0,cw/2+12,0); g.addColorStop(0,'#d8d4c8'); g.addColorStop(0.5,'#fbfaf5'); g.addColorStop(1,'#cfcabb'); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(cw/2-16,ch-6); ctx.quadraticCurveTo(cw/2-6,ch-60,cw/2-10,ch-100); ctx.lineTo(cw/2+10,ch-100); ctx.quadraticCurveTo(cw/2+6,ch-60,cw/2+16,ch-6); ctx.fill(); for(var i=0;i<26;i++){ var a=i/26*Math.PI*2, r=30+(i*13%20); ctx.fillStyle=i%3?rgba(p.plant,0.9):rgba(shade(p.plant,0.35),0.9); ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*r*1.3,ch-118+Math.sin(a)*r*0.6,16,0,Math.PI*2); ctx.fill(); } for(var j=0;j<18;j++){ ctx.fillStyle='rgba(255,255,230,.8)'; ctx.fillRect(cw/2-50+(j*37%100),ch-150+(j*23%60),2,2);} }); addLight(m,x+w/2,y-20,160,'#f6ffd8',0.35,{pulse:0.2,period:3000}); },
-  center_fountain:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h/2+6,40,60,function(ctx,cw,ch){ ctx.fillStyle=p.wallTop; ctx.fillRect(cw/2-4,ch-40,8,34); ctx.beginPath(); ctx.ellipse(cw/2,ch-40,12,4,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='rgba(200,235,255,.8)'; ctx.lineWidth=1.5; for(var i=-1;i<=1;i+=2){ ctx.beginPath(); ctx.moveTo(cw/2,ch-44); ctx.quadraticCurveTo(cw/2+i*10,ch-58,cw/2+i*16,ch-30); ctx.stroke(); } }); addLight(m,x+w/2,y+h/2,90,p.water||'#9ad8ff',0.3,{pulse:0.3}); },
-  center_pool:function(m,x,y,w,h,S){ addLight(m,x+w/2,y+h/2,110,'#bfe8ff',0.35,{pulse:0.25,period:2600}); },
-  center_starmap:function(){},
-  crystalpillar:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h,36,90,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-4,12,4,0.3); var g=ctx.createLinearGradient(cw/2-10,0,cw/2+10,0); g.addColorStop(0,rgba(p.glassA,0.9)); g.addColorStop(0.5,'rgba(255,255,255,.95)'); g.addColorStop(1,rgba(p.glassB,0.9)); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(cw/2,ch-84); ctx.lineTo(cw/2+10,ch-66); ctx.lineTo(cw/2+9,ch-6); ctx.lineTo(cw/2-9,ch-6); ctx.lineTo(cw/2-10,ch-66); ctx.closePath(); ctx.fill(); }); addLight(m,x+w/2,y+h-40,60,p.light,0.4,{pulse:0.4,period:1700}); },
-  whitetree:function(m,x,y,w,h,S){ var p=S.pal; addSprite(m,x+w/2,y+h,80,110,function(ctx,cw,ch){ softShadow(ctx,cw/2,ch-4,14,5,0.3); ctx.fillStyle='#f4f2ea'; ctx.beginPath(); ctx.moveTo(cw/2-8,ch-4); ctx.quadraticCurveTo(cw/2-2,ch-50,cw/2-6,ch-70); ctx.lineTo(cw/2+6,ch-70); ctx.quadraticCurveTo(cw/2+2,ch-50,cw/2+8,ch-4); ctx.fill(); for(var i=0;i<12;i++){ var a=i/12*Math.PI*2; ctx.fillStyle=i%2?rgba(p.plant,0.9):rgba(shade(p.plant,0.3),0.9); ctx.beginPath(); ctx.arc(cw/2+Math.cos(a)*20,ch-80+Math.sin(a)*10,10,0,Math.PI*2); ctx.fill(); } }); },
-  telescope:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ softShadow(ctx,w/2,h-4,10,3,0.3); ctx.strokeStyle=p.metal; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(w/2,h-22); ctx.lineTo(w/2-9,h-3); ctx.moveTo(w/2,h-22); ctx.lineTo(w/2+9,h-3); ctx.moveTo(w/2,h-22); ctx.lineTo(w/2,h-3); ctx.stroke(); ctx.save(); ctx.translate(w/2,h-24); ctx.rotate(-0.7); ctx.fillStyle=p.accent; ctx.fillRect(-4,-22,8,30); ctx.fillStyle=p.metal; ctx.fillRect(-5,-24,10,4); ctx.restore(); }); },
-};
-var TOWER_LABEL={
-  stairs:function(){return 'Stairs up — the next floor of the tower.';},
-  center_fountain:function(){return 'Fountain — the centerpiece of this floor.';},
-  center_crystal:function(){return 'Moonglass crystal — it hums with light.';},
-  center_orrery:function(){return 'Orrery — brass planets turn around a lamp-sun.';},
-  center_tree:function(){return 'White tree — living wood grown through the floor.';},
-  center_pool:function(){return 'Reflecting pool — the sky moves across it.';},
-  center_starmap:function(){return 'Star map — constellations inlaid in the floor.';},
-  piano:function(){return 'Piano — elven lacquer, still in tune.';},
-  altar:function(){return 'Altar — light gathers here at dawn.';},
-};
-
-// ── Floor patterns ─────────────────────────────────────────────────────
-var FLOORS={
-  marble:function(ctx,x,y,tx,ty,base,vein,R){ var big=((tx>>1)+(ty>>1))%2; ctx.fillStyle=big?base:shade(base,-0.05); ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba(vein,0.25); ctx.lineWidth=1; if((tx*7+ty*3)%5===0){ ctx.beginPath(); ctx.moveTo(x+R.f()*LT,y); ctx.bezierCurveTo(x+R.f()*LT,y+10,x+R.f()*LT,y+22,x+R.f()*LT,y+LT); ctx.stroke(); } if(tx%2===0){ctx.fillStyle=rgba(vein,0.18);ctx.fillRect(x,y,1,LT);} if(ty%2===0){ctx.fillStyle=rgba(vein,0.18);ctx.fillRect(x,y,LT,1);} },
-  checker:function(ctx,x,y,tx,ty,a,b){ ctx.fillStyle=(tx+ty)%2?a:b; ctx.fillRect(x,y,LT,LT); ctx.fillStyle='rgba(255,255,255,.12)'; ctx.fillRect(x,y,LT,1); ctx.fillStyle='rgba(0,0,0,.06)'; ctx.fillRect(x,y+LT-1,LT,1); },
-  planks:function(ctx,x,y,tx,ty,a,b,R){ for(var i=0;i<4;i++){ var yy=y+i*8; ctx.fillStyle=((ty*4+i)*5+tx*3)%7<3?a:shade(a,-0.04); ctx.fillRect(x,yy,LT,8); ctx.fillStyle=rgba(b,0.35); ctx.fillRect(x,yy+7,LT,1); if((tx+i+ty)%3===0){ctx.fillRect(x+((ty*11+i*7)%28),yy,1,8);} } },
-  herring:function(ctx,x,y,tx,ty,a,b){ ctx.fillStyle=a; ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba(b,0.4); ctx.lineWidth=1; for(var i=-LT;i<LT*2;i+=8){ ctx.beginPath(); if((tx+ty)%2){ctx.moveTo(x+i,y);ctx.lineTo(x+i+LT,y+LT);} else {ctx.moveTo(x+i+LT,y);ctx.lineTo(x+i,y+LT);} ctx.stroke(); } },
-  hex:function(ctx,x,y,tx,ty,a,b,R){ ctx.fillStyle=a; ctx.fillRect(x,y,LT,LT); var g=ctx.createRadialGradient(x+16,y+16,2,x+16,y+16,22); g.addColorStop(0,rgba('#ffffff',0.35)); g.addColorStop(1,rgba(b,0.15)); ctx.fillStyle=g; ctx.beginPath(); for(var i=0;i<6;i++){ var an=Math.PI/6+i*Math.PI/3; ctx.lineTo(x+16+Math.cos(an)*15,y+16+Math.sin(an)*15);} ctx.closePath(); ctx.fill(); ctx.strokeStyle=rgba(b,0.5); ctx.stroke(); },
-  slab:function(ctx,x,y,tx,ty,a,b,R){ ctx.fillStyle=((tx*13+ty*7)%3===0)?shade(a,-0.04):a; ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba(b,0.3); ctx.lineWidth=1; ctx.strokeRect(x+0.5,y+0.5,LT-1,LT-1); if(R.chance(0.08)){ ctx.fillStyle=rgba(b,0.2); ctx.fillRect(x+R.i(4,24),y+R.i(4,24),3,1);} },
-  stars:function(ctx,x,y,tx,ty,a,b,R){ ctx.fillStyle=a; ctx.fillRect(x,y,LT,LT); for(var i=0;i<3;i++){ ctx.fillStyle='rgba(255,255,255,'+(0.3+R.f()*0.6)+')'; ctx.fillRect(x+R.f()*LT,y+R.f()*LT,1.3,1.3);} ctx.fillStyle=rgba(b,0.25); ctx.fillRect(x,y,LT,1); ctx.fillRect(x,y,1,LT); },
-  ice:function(ctx,x,y,tx,ty,a,b,R){ var g=ctx.createLinearGradient(x,y,x+LT,y+LT); g.addColorStop(0,shade(a,0.12)); g.addColorStop(1,a); ctx.fillStyle=g; ctx.fillRect(x,y,LT,LT); ctx.strokeStyle=rgba('#ffffff',0.5); ctx.lineWidth=0.8; if(R.chance(0.35)){ ctx.beginPath(); ctx.moveTo(x+R.f()*LT,y+R.f()*LT); ctx.lineTo(x+R.f()*LT,y+R.f()*LT); ctx.lineTo(x+R.f()*LT,y+R.f()*LT); ctx.stroke(); } ctx.strokeStyle=rgba(b,0.25); ctx.strokeRect(x+0.5,y+0.5,LT-1,LT-1); },
-};
-
-// ── Exteriors ──────────────────────────────────────────────────────────
-function extSky(top,bottom,cloudA){ return function(ctx,W,H,m,R){ var g=ctx.createLinearGradient(0,0,0,H*LT); g.addColorStop(0,top); g.addColorStop(1,bottom); ctx.fillStyle=g; ctx.fillRect(0,0,W*LT,H*LT); for(var i=0;i<40;i++){ var cx=R.f()*W*LT, cy=R.f()*H*LT; ctx.fillStyle='rgba(255,255,255,'+(cloudA*(0.4+R.f()*0.6))+')'; for(var j=0;j<5;j++){ ctx.beginPath(); ctx.arc(cx+j*14-28,cy+Math.sin(j)*6,16+R.f()*10,0,Math.PI*2); ctx.fill(); } } }; }
-function extNight(top,bottom){ return function(ctx,W,H,m,R){ var g=ctx.createLinearGradient(0,0,0,H*LT); g.addColorStop(0,top); g.addColorStop(1,bottom); ctx.fillStyle=g; ctx.fillRect(0,0,W*LT,H*LT); for(var i=0;i<500;i++){ ctx.fillStyle='rgba(255,255,255,'+(0.2+R.f()*0.8)+')'; var s=R.chance(0.08)?2:1; ctx.fillRect(R.f()*W*LT,R.f()*H*LT,s,s);} }; }
-function extGarden(grassA,grassB,water){ return function(ctx,W,H,m,R){ ctx.fillStyle=grassA; ctx.fillRect(0,0,W*LT,H*LT); for(var i=0;i<1800;i++){ ctx.fillStyle=R.chance(0.5)?grassB:shade(grassA,0.1); ctx.fillRect(R.f()*W*LT,R.f()*H*LT,1.5,3);} if(water){ ctx.fillStyle=water; ctx.fillRect(0,0,W*LT,LT*1.4); ctx.fillStyle='rgba(255,255,255,.35)'; for(var k=0;k<60;k++)ctx.fillRect(R.f()*W*LT,R.f()*LT*1.3,8,1); } for(var t=0;t<30;t++){ var tx=R.f()*W*LT, ty=R.chance(0.5)?R.f()*LT*1.8:H*LT-R.f()*LT*1.8; if(R.chance(0.5)){tx=R.chance(0.5)?R.f()*LT*1.8:W*LT-R.f()*LT*1.8; ty=R.f()*H*LT;} softShadow(ctx,tx,ty+8,14,5,0.25); ctx.fillStyle=shade(grassA,-0.25); ctx.beginPath(); ctx.arc(tx,ty,13,0,Math.PI*2); ctx.fill(); ctx.fillStyle=shade(grassA,-0.05); ctx.beginPath(); ctx.arc(tx-3,ty-3,8,0,Math.PI*2); ctx.fill(); } }; }
-
-// ═══════════════════════════════════════════════════════════════════════
-// ║ The 10 tower styles
-// ═══════════════════════════════════════════════════════════════════════
-function towerStyle(o){ return Object.assign({windowEvery:3,glass:0.25,ao:0.2},o); }
-var TOWER_STYLES=[
-  towerStyle({ id:'rivendell', name:'Rivendell Twilight Hall', plan:'grand', seed:11,
-    tagline:'Warm white stone, arched glass, dusk light',
-    blurb:'Honey-white stone under an evening sky. Tall arched windows pour amber light across leaf-inlaid floors, lanterns glow in the halls, and leaves drift in through open arches.',
-    facts:['Plan: Grand floor (9 rooms around an atrium)','Centerpiece: fountain','Light: amber dusk shafts, lanterns'],
-    pal:{outside:'#3b3350',wallTop:'#efe6d2',wallFace:'#e2d6bc',trim:'#c9a86a',floorA:'#f1ead9',floorB:'#d8c9a8',glassA:'#ffd9a0',glassB:'#b98fc9',light:'#ffc98a',wood:'#b58b5e',fabric:'#7a8f6a',fabric2:'#d9c38e',metal:'#b8975c',plant:'#6f8f5a',accent:'#d8b270',water:'#8fc6d8',statue:'#f3ecdc'},
-    paintExterior:function(ctx,W,H,m,R){ extSky('#2f2a4a','#d99a7a',0.18)(ctx,W,H,m,R); ctx.fillStyle='rgba(210,235,255,.55)'; for(var i=0;i<3;i++){ var x=(5+i*13)*LT; ctx.fillRect(x,0,10,LT*1.8); } },
-    floor:function(ctx,x,y,tx,ty,rt,R){ var p=this.pal; if(rt==='library'||rt==='bedroom'||rt==='study')FLOORS.planks(ctx,x,y,tx,ty,'#d9bf98','#8a6a44',R); else FLOORS.marble(ctx,x,y,tx,ty,p.floorA,'#b59a6a',R); if((tx*3+ty*5)%11===0){ ctx.strokeStyle=rgba('#7f9a60',0.45); ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(x+6,y+26); ctx.quadraticCurveTo(x+16,y+4,x+26,y+26); ctx.stroke(); } },
-    center:'fountain', shaftSkew:18, shaftA:0.4,
-    particles:[{tex:'leaf',tints:['#d9a55a','#b8c46a','#e08a4a'],freq:500,vx:{min:10,max:25},vy:{min:8,max:18},scale:{start:0.9,end:0.6},alpha:{start:0.9,end:0},life:{min:6000,max:9000},blend:false,rotate:{min:0,max:360},depth:6500},
-               {col:'#ffd9a0',freq:180,scale:{start:0.35,end:0},alpha:{start:0.7,end:0}}] }),
-
-  towerStyle({ id:'hyrule_keep', name:'White Keep', plan:'gallery', seed:21, windowEvery:2, glass:0.1,
-    tagline:'Limestone, royal blue runners, gold trim',
-    blurb:'A royal keep in bright daylight: white limestone checkerboard floors, royal blue runners edged in gold, and banners carrying the winged-sword crest of the realm between tall windows.',
-    facts:['Plan: Long hall (rooms off a central gallery)','Centerpiece: fountain','Light: crisp noon shafts'],
-    pal:{outside:'#8fc2ea',wallTop:'#f6f4ee',wallFace:'#e9e5da',trim:'#d4af37',floorA:'#f7f5ef',floorB:'#dcd8cc',glassA:'#e6f4ff',glassB:'#9ccbf0',light:'#fff6d8',wood:'#8b6a48',fabric:'#23479a',fabric2:'#e0c060',metal:'#d4af37',plant:'#4f8a4f',accent:'#d4af37',water:'#8fd0f2',statue:'#f2f0ea'},
-    paintExterior:extGarden('#6fa35a','#5b8f48','#7cc0e8'),
-    floor:function(ctx,x,y,tx,ty,rt,R){ if(rt==='bedroom'||rt==='library')FLOORS.herring(ctx,x,y,tx,ty,'#cfb08a','#8a6a48'); else FLOORS.checker(ctx,x,y,tx,ty,'#f7f5ef','#dedad0'); },
-    wallDetail:function(ctx,x,y,w,h,R){ if(((x/LT)|0)%4===1){ ctx.fillStyle='#23479a'; ctx.fillRect(x+9,y+1,14,h-6); ctx.fillStyle='#d4af37'; ctx.fillRect(x+9,y+1,14,2); ctx.beginPath(); ctx.moveTo(x+16,y+5); ctx.lineTo(x+16,y+h-9); ctx.strokeStyle='#e8d38a'; ctx.lineWidth=1.5; ctx.stroke(); ctx.beginPath(); ctx.moveTo(x+11,y+8); ctx.lineTo(x+16,y+11); ctx.lineTo(x+21,y+8); ctx.stroke(); ctx.fillStyle='#23479a'; ctx.beginPath(); ctx.moveTo(x+9,y+h-5); ctx.lineTo(x+16,y+h-1); ctx.lineTo(x+23,y+h-5); ctx.fill(); } },
-    center:'fountain', shaftSkew:6, shaftA:0.3,
-    particles:[{col:'#fff6d8',freq:220,scale:{start:0.3,end:0},alpha:{start:0.6,end:0}}] }),
-
-  towerStyle({ id:'moonglass', name:'Moonglass Spire', plan:'rotunda', seed:31, glass:0.6,
-    tagline:'Glowing crystal floors under a night sky',
-    blurb:'Pale crystal tiles that glow softly as you walk, silver-blue walls, crystal pillars and a great humming moonglass crystal under the dome. Stars wheel past every window.',
-    facts:['Plan: Rotunda (round hall with wings)','Centerpiece: moonglass crystal','Light: floor glow that follows you, crystal pulses'],
-    pal:{outside:'#0b1230',wallTop:'#d9e6f5',wallFace:'#b8cce6',trim:'#9fc0e8',floorA:'#cfe0f5',floorB:'#8fb0dc',glassA:'#bfe0ff',glassB:'#6f8fe0',light:'#aee0ff',wood:'#9aa8c8',fabric:'#5a6fb8',fabric2:'#cfe0ff',metal:'#c0d0e8',plant:'#7fb0c8',accent:'#bfe0ff',water:'#9ad0ff',statue:'#e8f0fa'},
-    paintExterior:extNight('#050818','#1a2560'),
-    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.hex(ctx,x,y,tx,ty,this.pal.floorA,this.pal.floorB,R); },
-    windowFace:function(ctx,x,y,w,h,R){ ctx.fillStyle='#0b1230'; rr(ctx,x+6,y+1,w-12,h-5,8); ctx.fill(); for(var i=0;i<6;i++){ctx.fillStyle='#fff';ctx.fillRect(x+8+R.f()*(w-16),y+3+R.f()*(h-9),1,1);} ctx.strokeStyle='#cfe4ff'; ctx.lineWidth=1.5; rr(ctx,x+6,y+1,w-12,h-5,8); ctx.stroke(); },
-    center:'crystal', pillar:'crystalpillar', shaftSkew:0, shaftA:0.18, ao:0.15,
-    particles:[{col:'#bfe0ff',freq:90,scale:{start:0.45,end:0},alpha:{start:0.9,end:0},vy:{min:-14,max:-4}}],
-    extra:function(m){ m.tick=function(scene){ if(!scene._floorGlow){ scene._floorGlow=scene.add.image(0,0,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xaee0ff).setAlpha(0.35).setScale(1.3).setDepth(-3);} scene._floorGlow.setPosition(scene.hero.x,scene.hero.y); }; } }),
-
-  towerStyle({ id:'elven_library', name:'Elven Library', plan:'grand', seed:41, glass:0.35, windowEvery:4,
-    tagline:'Carved white wood, skylights, floating lanterns',
-    blurb:'Every room is a reading room. Pale carved-wood floors, shelves in every wing, square skylights dropping pools of light, and paper lanterns that float and bob above the tables.',
-    facts:['Plan: Grand floor','Centerpiece: white tree growing through the atrium','Light: skylight pools, floating lanterns'],
-    pal:{outside:'#a8c9a0',wallTop:'#f3eee2',wallFace:'#e6dcc6',trim:'#b9a27a',floorA:'#efe3cc',floorB:'#c9b08a',glassA:'#f4fbff',glassB:'#bfe0f0',light:'#fff2cc',wood:'#e2cfa8',fabric:'#6b8fa8',fabric2:'#e8d9b0',metal:'#b9a27a',plant:'#79a86a',accent:'#c8a860',water:'#9fd4e8',statue:'#f5f0e4',bark:'#f0ece0'},
-    paintExterior:extGarden('#8fb482','#7aa06e',null),
-    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.planks(ctx,x,y,tx,ty,'#efe3cc','#b89f78',R); },
-    roomAccent:function(ctx,x,y,w,h,rt,R){ if(rt==='atrium'||rt==='hall')return; var cx=x+w/2, cy=y+h/2; ctx.fillStyle='rgba(255,250,220,.28)'; ctx.fillRect(cx-LT,cy-LT,LT*2,LT*2); },
-    center:'tree', shaftSkew:0, shaftA:0.22,
-    particles:[{col:'#fff2cc',freq:260,scale:{start:0.3,end:0},alpha:{start:0.6,end:0}}],
-    extra:function(m,ctx,W,H,R,info){ info.plan.rooms.forEach(function(r){ if(r.type==='atrium')return; var cx=(r.x+info.pad+r.w/2)*LT, cy=(r.y+info.pad+r.h/2)*LT; addLight(m,cx,cy,70,'#fff2cc',0.3,{pulse:0.15,depth:-4,noCut:true}); for(var k=0;k<2;k++){ var lx=cx+(k?30:-30), ly=cy-20; addSprite(m,lx,ly+60,18,24,function(c,w,h){ var g=c.createRadialGradient(w/2,10,1,w/2,10,9); g.addColorStop(0,'#fff6d0'); g.addColorStop(1,'#f0c070'); c.fillStyle=g; rr(c,w/2-6,3,12,15,5); c.fill(); c.fillStyle='rgba(120,80,30,.6)'; c.fillRect(w/2-4,17,8,2); }); m.sprites[m.sprites.length-1].bob=6; addLight(m,lx,ly+48,46,'#ffe0a0',0.35,{flicker:0.2}); } }); } }),
-
-  towerStyle({ id:'sky_cloister', name:'Sky Cloister', plan:'gallery', seed:51, windowEvery:1, glass:0,
-    tagline:'Open balconies above the clouds',
-    blurb:'The outer walls give way to open arches and low balustrades, and the clouds drift right past the floor. White stone, pale blue silk and wind-blown curtains; it feels like standing in the sky.',
-    facts:['Plan: Long hall','Every outer wall is an open arch','Animated clouds and drifting light'],
-    pal:{outside:'#bfe0ff',wallTop:'#fbfbf8',wallFace:'#eceee8',trim:'#a9c8e8',floorA:'#f8f8f4',floorB:'#dfe6ee',glassA:'#d8eeff',glassB:'#a8d4ff',light:'#ffffff',wood:'#c9b79a',fabric:'#a8c8ea',fabric2:'#ffffff',metal:'#b9c8d8',plant:'#86b88a',accent:'#9fc8f0',water:'#a8dcff',statue:'#fafaf6'},
-    paintExterior:extSky('#9ccff5','#e8f6ff',0.55),
-    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.slab(ctx,x,y,tx,ty,'#f8f8f4','#b8c8d8',R); },
-    windowFace:function(ctx,x,y,w,h,R){ var g=ctx.createLinearGradient(x,y,x,y+h); g.addColorStop(0,'#9ccff5'); g.addColorStop(1,'#e8f6ff'); ctx.fillStyle=g; rr(ctx,x+3,y,w-6,h-3,10); ctx.fill(); ctx.fillStyle='rgba(255,255,255,.8)'; ctx.beginPath(); ctx.arc(x+10+R.f()*10,y+h-10,5,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#e8ecf0'; ctx.fillRect(x+3,y+h-7,w-6,4); for(var i=x+6;i<x+w-4;i+=5)ctx.fillRect(i,y+h-11,2,5); },
-    center:'pool', shaftSkew:10, shaftA:0.25,
-    particles:[{col:'#ffffff',freq:400,scale:{start:0.5,end:0},alpha:{start:0.5,end:0},vx:{min:10,max:30}}],
-    extra:function(m,ctx,W,H,R){ var clouds=[]; for(var i=0;i<9;i++){ (function(i){ var cy=R.chance(0.5)?R.f()*LT*1.6:(H-2)*LT+R.f()*LT*1.6; addSprite(m,R.f()*W*LT,cy+30,120,40,function(c,w,h){ c.fillStyle='rgba(255,255,255,.85)'; for(var j=0;j<6;j++){ c.beginPath(); c.arc(20+j*16,22+Math.sin(j*1.3)*5,14,0,Math.PI*2); c.fill(); } }); clouds.push(m.sprites.length-1); })(i); }
-      m.tick=function(scene,dt){ if(!scene._cloudImgs){ scene._cloudImgs=scene.children.list.filter(function(o){return o.texture&&o.texture.key&&o.texture.key.indexOf('spr_')===0&&o.width===120&&o.height===40;}); } scene._cloudImgs.forEach(function(o,i){ o.x+=dt*(8+i%3*5); if(o.x>W*LT+70)o.x=-70; o.setDepth(9000); }); }; } }),
-
-  towerStyle({ id:'silverwood', name:'Silverwood Palace', plan:'rotunda', seed:61, glass:0.2, windowEvery:3,
-    tagline:'Living white trees grown into the walls',
-    blurb:'The palace was grown, not built. White-barked trees stand in as pillars, leaf-shaped windows scatter green-gold light, and soft moss inlays run between pale stone slabs.',
-    facts:['Plan: Rotunda','Centerpiece: great white tree','Pillars: living silverwood trees'],
-    pal:{outside:'#557a4f',wallTop:'#f0efe6',wallFace:'#dcdcc8',trim:'#9fb77a',floorA:'#eeede2',floorB:'#b7c7a0',glassA:'#e8ffcf',glassB:'#9fd08a',light:'#f0ffc8',wood:'#cbbd98',fabric:'#7aa06a',fabric2:'#eef2d8',metal:'#b8b890',plant:'#6f9f58',accent:'#c8d890',water:'#9fd8c8',statue:'#f2f2e8'},
-    paintExterior:extGarden('#5f8a52','#4f7a44',null),
-    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.slab(ctx,x,y,tx,ty,'#eeede2','#9fb77a',R); if((tx+ty)%3===0){ ctx.fillStyle='rgba(111,159,88,.35)'; ctx.fillRect(x,y+LT-2,LT,2);} },
-    windowFace:function(ctx,x,y,w,h,R){ ctx.fillStyle='#9fb77a'; ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2-1,8,h/2-3,0,0,Math.PI*2); ctx.fill(); var g=ctx.createLinearGradient(x,y,x,y+h); g.addColorStop(0,'#e8ffcf'); g.addColorStop(1,'#9fd08a'); ctx.fillStyle=g; ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2-1,6,h/2-5,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#6f9f58'; ctx.beginPath(); ctx.moveTo(x+w/2,y+4); ctx.lineTo(x+w/2,y+h-6); ctx.stroke(); },
-    center:'tree', pillar:'whitetree', shaftSkew:12, shaftA:0.3,
-    particles:[{tex:'leaf',tints:['#b8d88a','#e8f0a0','#8fc070'],freq:600,vx:{min:-10,max:10},vy:{min:6,max:14},scale:{start:0.8,end:0.5},alpha:{start:0.9,end:0},life:{min:6000,max:9000},blend:false,rotate:{min:0,max:360},depth:6500},
-               {col:'#f0ffc8',freq:300,scale:{start:0.35,end:0},alpha:{start:0.7,end:0}}] }),
-
-  towerStyle({ id:'frost_cathedral', name:'Frost Cathedral', plan:'grand', seed:71, windowEvery:2, glass:0.3,
-    tagline:'Ice-blue stone and stained glass',
-    blurb:'Cool blue-white stone with a faint frost sheen. Stained-glass windows throw pools of blue, violet and teal light across the floor, chandeliers glitter, and a fine frost mist hangs in the air.',
-    facts:['Plan: Grand floor','Centerpiece: moonglass crystal','Light: coloured stained-glass pools'],
-    pal:{outside:'#cfe4f4',wallTop:'#eef6fb',wallFace:'#d2e4f0',trim:'#8fb8d8',floorA:'#e4f0f8',floorB:'#a8c8e0',glassA:'#7fb0ff',glassB:'#b07fe0',light:'#bfe0ff',wood:'#a8b8c8',fabric:'#4a6fa8',fabric2:'#d8e8f8',metal:'#c8d8e8',plant:'#7fa8b8',accent:'#8fb8f0',water:'#b8e0ff',statue:'#f0f6fb'},
-    paintExterior:extSky('#b8d8f0','#f0f8ff',0.4),
-    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.ice(ctx,x,y,tx,ty,this.pal.floorA,this.pal.floorB,R); },
-    windowFace:function(ctx,x,y,w,h,R){ var cols=['#5f8fff','#a06fe0','#4fc8c0','#f0c060','#7fb0ff']; ctx.fillStyle='#6f8fa8'; rr(ctx,x+5,y,w-10,h-3,9); ctx.fill(); for(var i=0;i<6;i++){ ctx.fillStyle=cols[(i+((x/LT)|0))%cols.length]; ctx.fillRect(x+7+(i%2)*(w-14)/2,y+2+Math.floor(i/2)*((h-7)/3),(w-14)/2-1,(h-7)/3-1);} },
-    center:'crystal', shaftSkew:8, shaftA:0.32,
-    particles:[{col:'#e8f4ff',freq:70,scale:{start:0.4,end:0.1},alpha:{start:0.5,end:0},vy:{min:2,max:10},vx:{min:-4,max:4},life:{min:4000,max:7000}}],
-    extra:function(m){ var cols=['#6f8fff','#b07fe0','#4fd0c8']; m.shafts.forEach(function(s,i){ var c=s.canvas, x=c.getContext('2d'); x.globalCompositeOperation='source-atop'; x.fillStyle=cols[i%3]; x.globalAlpha=0.65; x.fillRect(0,0,c.width,c.height); }); } }),
-
-  towerStyle({ id:'observatory', name:'Starlit Observatory', plan:'rotunda', seed:81, glass:0.4, windowEvery:2,
-    tagline:'Midnight blue, brass, a star map floor',
-    blurb:'An astronomer’s tower: deep blue floors inlaid with twinkling constellations, white stone walls, brass telescopes, and a turning orrery under the dome. Blue and white, but lit by night.',
-    facts:['Plan: Rotunda','Centerpiece: brass orrery over a star map','Light: lamp-sun, twinkling floor stars'],
-    pal:{outside:'#070b22',wallTop:'#eceff6',wallFace:'#cfd6e8',trim:'#c8a860',floorA:'#1b2856',floorB:'#3a4a88',glassA:'#2a3a88',glassB:'#0b1238',light:'#ffe2a0',wood:'#6a5a4a',fabric:'#2a3a78',fabric2:'#c8a860',metal:'#c8a860',plant:'#5f8fa0',accent:'#e8c878',water:'#5f8fd0',statue:'#e8ecf4',pianoCol:'#e8e4d8'},
-    paintExterior:extNight('#03061a','#141c48'),
-    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.stars(ctx,x,y,tx,ty,this.pal.floorA,this.pal.floorB,R); },
-    roomAccent:function(ctx,x,y,w,h,rt,R){ if(rt==='rotunda'){ TOWER_FLAT.center_starmap(ctx,x+w/2-LT*3,y+h/2-LT*3,LT*6,LT*6,this,R); } },
-    center:'orrery', shaftSkew:0, shaftA:0.12,
-    particles:[{col:'#ffffff',freq:120,scale:{start:0.3,end:0},alpha:{start:1,end:0},vx:{min:-1,max:1},vy:{min:-1,max:1},life:{min:1200,max:2600}}],
-    extra:function(m,ctx,W,H,R,info){ info.plan.rooms.forEach(function(r){ if(r.type==='study'||r.type==='library'){ TOWER_TALL.telescope(m,(r.x+info.pad+r.w-2)*LT,(r.y+info.pad+r.h-2)*LT,LT,LT,TOWER_STYLES_BY_ID.observatory); } }); } }),
-
-  towerStyle({ id:'reflecting_hall', name:'Reflecting Hall', plan:'gallery', seed:91, glass:0.15,
-    tagline:'Shallow pools mirroring white pillars',
-    blurb:'Long shallow pools run through the halls and mirror the pillars and the sky. White stone and sky blue, with slow ripples of light moving over every surface.',
-    facts:['Plan: Long hall','Centerpiece: reflecting pool','Light: rippling water caustics'],
-    pal:{outside:'#a8d4f0',wallTop:'#fafaf7',wallFace:'#e8ecef',trim:'#b8d0e0',floorA:'#f5f6f3',floorB:'#d6dde2',glassA:'#e0f2ff',glassB:'#a8d0f0',light:'#e8f8ff',wood:'#c8b8a0',fabric:'#8fb8d8',fabric2:'#f4f8fb',metal:'#b8c8d0',plant:'#7fb08a',accent:'#9fd0f0',water:'#8fd0f5',statue:'#fbfbf8'},
-    paintExterior:extGarden('#79a870','#6a9862','#8ccaf0'),
-    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.marble(ctx,x,y,tx,ty,'#f5f6f3','#9fb8c8',R); },
-    center:'pool', shaftSkew:10, shaftA:0.26,
-    extra:function(m,ctx,W,H,R,info){
-      // extra pools along the gallery walk
-      var ci=info.plan.rooms.findIndex(function(r){return r.type==='corridor';}); if(ci<0)return;
-      var r=info.plan.rooms[ci];
-      for(var x=r.x+info.pad+3;x<r.x+info.pad+r.w-4;x+=8){ var y=r.y+info.pad; TOWER_FLAT.pool(ctx,x*LT,y*LT+4,LT*3,LT*2-8,this); addLight(m,(x+1.5)*LT,(y+1)*LT,60,'#bfe8ff',0.25,{pulse:0.4,period:1900+x*30,depth:-4,noCut:true}); }
-      m.particles.push({col:'#dff4ff',freq:140,scale:{start:0.35,end:0},alpha:{start:0.6,end:0}});
-    } }),
-
-  towerStyle({ id:'dawn_sanctum', name:'Dawn Sanctum', plan:'grand', seed:101, windowEvery:2, glass:0.2,
-    tagline:'White, pale blue, soft gold at sunrise',
-    blurb:'The first light of morning, all the time. White stone with pale blue accents, gold filigree medallions in every room, and strong golden light shafts full of drifting dust motes.',
-    facts:['Plan: Grand floor','Centerpiece: fountain','Light: long golden morning shafts'],
-    pal:{outside:'#f3d9b0',wallTop:'#fbf8f2',wallFace:'#efe8da',trim:'#e0c070',floorA:'#fbf7ee',floorB:'#e0d4b8',glassA:'#fff0c8',glassB:'#a8d0f0',light:'#ffe7a8',wood:'#c8a878',fabric:'#9fc0e0',fabric2:'#e8c870',metal:'#e0c070',plant:'#86a86a',accent:'#e8c060',water:'#a8d8f0',statue:'#fbf8f2'},
-    paintExterior:extSky('#f7c89a','#fbeede',0.35),
-    floor:function(ctx,x,y,tx,ty,rt,R){ FLOORS.marble(ctx,x,y,tx,ty,'#fbf7ee','#d8c090',R); },
-    roomAccent:function(ctx,x,y,w,h,rt,R){ var cx=x+w/2, cy=y+h/2, r=Math.min(w,h)*0.32; ctx.strokeStyle='rgba(224,192,112,.55)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke(); ctx.lineWidth=1; for(var i=0;i<12;i++){ var a=i/12*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*r*0.4,cy+Math.sin(a)*r*0.4); ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r); ctx.stroke(); } },
-    center:'fountain', shaftSkew:28, shaftA:0.45,
-    particles:[{col:'#ffe7a8',freq:60,scale:{start:0.3,end:0},alpha:{start:0.8,end:0},vx:{min:-3,max:3},vy:{min:-3,max:3},life:{min:4000,max:8000}}] }),
-];
-var TOWER_STYLES_BY_ID={}; TOWER_STYLES.forEach(function(s){TOWER_STYLES_BY_ID[s.id]=s;});
-
+// Lab tabs for the shared tower/cavern builders (src/js/07b, 07c).
 LAB_TABS.push({
   id:'towers', name:'Towers',
   regionLabel:'Use this look for which tower?',
   blurb:'<b>10 tower looks</b>, all light, white and blue with windows and glass (Rivendell × Hyrule Castle), each on a house-style floor plan: mostly rooms, short halls, furniture to walk around. No monsters. Mark <b>Pick / Maybe / No</b>, and tag the tower(s) each look should be used for (you chose one look per tower).',
   designs:TOWER_STYLES.map(function(S){ return { id:S.id, name:S.name, tagline:S.tagline, blurb:S.blurb, facts:S.facts, seed:S.seed, build:function(seed){ return buildTower(S,S.plan,seed); } }; })
 });
-// ═══════════════════════════════════════════════════════════════════════
-// ║ DUNGEON SELECTOR (Phase 2 · C1) — 10 "Open Cavern" layouts
-// ║ Wide open floors broken up by obstacles you walk around, with room for
-// ║ ~2× the monsters of a classic room-and-corridor floor. Red rings show
-// ║ where monsters would spawn; the sealed portal marks the guardian arena.
-// ═══════════════════════════════════════════════════════════════════════
-var DG={ROCK:1,OPEN:0};
-
-function vnoise(seed){ var h=function(x,y){ var n=(x*374761393+y*668265263+seed*1442695041)|0; n=(n^(n>>>13))*1274126177|0; return ((n^(n>>>16))>>>0)/4294967296; };
-  return function(x,y){ var xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi, s=function(t){return t*t*(3-2*t);};
-    var a=h(xi,yi),b=h(xi+1,yi),c=h(xi,yi+1),d=h(xi+1,yi+1), u=s(xf),v=s(yf); return a+(b-a)*u+(c-a)*v+(a-b-c+d)*u*v; }; }
-
-// Cellular-automata cave: returns Uint8Array (1 rock, 0 open), largest region kept.
-function caveGrid(W,H,R,fill,iters,shape){
-  var g=new Uint8Array(W*H);
-  for(var y=0;y<H;y++)for(var x=0;x<W;x++){
-    var edge=x<2||y<2||x>=W-2||y>=H-2;
-    var dx=(x-W/2)/(W/2), dy=(y-H/2)/(H/2), r=Math.sqrt(dx*dx+dy*dy);
-    var f=fill+(shape==='round'?Math.max(0,r-0.72)*2.2:Math.max(0,Math.max(Math.abs(dx),Math.abs(dy))-0.8)*2);
-    g[y*W+x]=edge||R.f()<f?1:0;
-  }
-  for(var it=0;it<iters;it++){
-    var n=new Uint8Array(W*H);
-    for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){
-      if(x2<1||y2<1||x2>=W-1||y2>=H-1){n[y2*W+x2]=1;continue;}
-      var c=0; for(var j=-1;j<=1;j++)for(var i=-1;i<=1;i++)c+=g[(y2+j)*W+x2+i];
-      n[y2*W+x2]=c>=5?1:0;
-    }
-    g=n;
-  }
-  // keep largest open region
-  var lab=new Int32Array(W*H).fill(-1), best=-1, bestN=0, id=0;
-  for(var k=0;k<W*H;k++){ if(g[k]||lab[k]>=0)continue; var q=[k],n2=0; lab[k]=id;
-    for(var qi=0;qi<q.length;qi++){ var c2=q[qi],cx=c2%W,cy=(c2/W)|0; n2++;
-      [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var nx=cx+d[0],ny=cy+d[1]; if(nx<0||ny<0||nx>=W||ny>=H)return; var kk=ny*W+nx; if(!g[kk]&&lab[kk]<0){lab[kk]=id;q.push(kk);} }); }
-    if(n2>bestN){bestN=n2;best=id;} id++; }
-  for(var k2=0;k2<W*H;k2++)if(!g[k2]&&lab[k2]!==best)g[k2]=1;
-  return g;
-}
-
-// Generic dungeon build: design supplies layout(ctx) + painters.
-function buildCavern(D, seed){
-  var R=rngOf(seed*131+D.id.length*7), W=D.w||52, H=D.h||40, m=newMap(W,H);
-  var g=D.layout?D.layout(W,H,R):caveGrid(W,H,R,D.fill||0.42,D.iters||5,D.shape);
-  // hazard grid (lava/water/pit): solid but painted differently
-  var hazard=new Uint8Array(W*H);
-  var ctxInfo={W:W,H:H,R:R,g:g,hazard:hazard,m:m,obst:[]};
-  if(D.hazards)D.hazards(ctxInfo);
-  var open=function(x,y){ return x>=0&&y>=0&&x<W&&y<H&&!g[y*W+x]&&!hazard[y*W+x]; };
-  // spawn: lowest open cell near the middle
-  var sp=null; for(var y=H-3;y>2&&!sp;y--)for(var dx=0;dx<W/2&&!sp;dx++){ [W/2+dx|0,W/2-dx|0].forEach(function(x){ if(!sp&&open(x,y)&&open(x,y-1)&&open(x+1,y))sp={x:x,y:y}; }); }
-  if(!sp)sp={x:W>>1,y:H>>1};
-  for(var i=0;i<W*H;i++)m.solid[i]=(g[i]||hazard[i])?1:0;
-  m.spawn={x:sp.x*LT+LT/2,y:sp.y*LT+LT-4};
-  // Cells you can't walk to (islets in a lake, etc.) stay painted as floor but count as blocked.
-  (function(){ var r0=floodReach(m,sp.x,sp.y); for(var k=0;k<W*H;k++)if(!m.solid[k]&&!r0[k])m.solid[k]=1; })();
-  // obstacles (design places them via ctxInfo.place)
-  var occ=new Uint8Array(W*H);
-  var reachCount=function(){ var s=floodReach(m,sp.x,sp.y),n=0,o=0; for(var k=0;k<W*H;k++){ if(!m.solid[k]){o++; if(s[k])n++;} } return n===o; };
-  ctxInfo.place=function(kind,x,y,w,h,opts){
-    for(var yy=0;yy<h;yy++)for(var xx=0;xx<w;xx++){ var X=x+xx,Y=y+yy; if(!open(X,Y)||occ[Y*W+X])return false; if(Math.abs(X-sp.x)<3&&Math.abs(Y-sp.y)<3)return false; }
-    for(var yy2=0;yy2<h;yy2++)for(var xx2=0;xx2<w;xx2++)m.solid[(y+yy2)*W+x+xx2]=1;
-    if(!(opts&&opts.skipReach)&&!reachCount()){ for(var yy3=0;yy3<h;yy3++)for(var xx3=0;xx3<w;xx3++)m.solid[(y+yy3)*W+x+xx3]=0; return false; }
-    for(var yy4=0;yy4<h;yy4++)for(var xx4=0;xx4<w;xx4++)occ[(y+yy4)*W+x+xx4]=1;
-    ctxInfo.obst.push(Object.assign({kind:kind,x:x,y:y,w:w,h:h},opts||{})); return true;
-  };
-  ctxInfo.randomOpen=function(tries){ for(var t=0;t<(tries||200);t++){ var x=R.i(2,W-3),y=R.i(2,H-3); if(open(x,y)&&!occ[y*W+x])return {x:x,y:y}; } return null; };
-  if(D.obstacles)D.obstacles(ctxInfo);
-  // ── paint ──
-  var cv=mkCanvas(W*LT,H*LT), ctx=cv.getContext('2d'), P=D.pal, nz=vnoise(seed);
-  ctx.fillStyle=P.void||'#07060a'; ctx.fillRect(0,0,W*LT,H*LT);
-  for(var ty=0;ty<H;ty++)for(var tx=0;tx<W;tx++){
-    var k=ty*W+tx, px=tx*LT, py=ty*LT;
-    if(!g[k]){
-      var n=nz(tx*0.15,ty*0.15), n2=nz(tx*0.6+50,ty*0.6+50);
-      ctx.fillStyle=mix(P.floorA,P.floorB,n*0.8); ctx.fillRect(px,py,LT,LT);
-      ctx.fillStyle=rgba(P.floorC||shade(P.floorA,-0.2),0.25+n2*0.25);
-      for(var s=0;s<3;s++)ctx.fillRect(px+R.f()*LT,py+R.f()*LT,2,2);
-      if(R.chance(0.06)){ ctx.strokeStyle=rgba(shade(P.floorA,-0.4),0.5); ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(px+R.f()*LT,py+R.f()*LT); ctx.lineTo(px+R.f()*LT,py+R.f()*LT); ctx.stroke(); }
-      if(D.floorDeco)D.floorDeco(ctx,px,py,tx,ty,R,n);
-    }
-  }
-  if(D.paintHazards)D.paintHazards(ctx,ctxInfo,nz);
-  // rock with 3/4 faces
-  for(var ry=0;ry<H;ry++)for(var rx=0;rx<W;rx++){
-    var kk=ry*W+rx; if(!g[kk])continue;
-    var px2=rx*LT, py2=ry*LT, near=false;
-    for(var j2=-1;j2<=1&&!near;j2++)for(var i2=-1;i2<=1;i2++){ var X=rx+i2,Y=ry+j2; if(X>=0&&Y>=0&&X<W&&Y<H&&!g[Y*W+X]&&!hazard[Y*W+X]){near=true;break;} }
-    if(!near){ ctx.fillStyle=P.void||'#07060a'; ctx.fillRect(px2,py2,LT,LT); continue; }
-    var faceOpen=ry+1<H&&!g[(ry+1)*W+rx]&&!hazard[(ry+1)*W+rx];
-    var top=faceOpen?12:LT;
-    var gg=ctx.createLinearGradient(px2,py2,px2,py2+top); gg.addColorStop(0,shade(P.rockTop,0.1)); gg.addColorStop(1,P.rockTop);
-    ctx.fillStyle=gg; ctx.fillRect(px2,py2,LT,top);
-    for(var q=0;q<4;q++){ ctx.fillStyle=rgba(shade(P.rockTop,R.chance(0.5)?0.2:-0.25),0.6); ctx.fillRect(px2+R.f()*28,py2+R.f()*(top-3),4,2); }
-    if(faceOpen){ var fg=ctx.createLinearGradient(px2,py2+top,px2,py2+LT); fg.addColorStop(0,P.rockFace); fg.addColorStop(1,shade(P.rockFace,-0.35)); ctx.fillStyle=fg; ctx.fillRect(px2,py2+top,LT,LT-top);
-      ctx.strokeStyle=rgba(shade(P.rockFace,-0.5),0.7); ctx.lineWidth=1; for(var c=0;c<2;c++){ var cx=px2+4+R.f()*24; ctx.beginPath(); ctx.moveTo(cx,py2+top+2); ctx.lineTo(cx+R.f()*6-3,py2+LT-2); ctx.stroke(); }
-      var sg=ctx.createLinearGradient(0,py2+LT,0,py2+LT+10); sg.addColorStop(0,'rgba(0,0,0,.35)'); sg.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=sg; ctx.fillRect(px2,py2+LT,LT,10); }
-    if(D.rockDeco)D.rockDeco(ctx,px2,py2,rx,ry,R,faceOpen,m);
-    // irregular rubble along exposed side edges
-    [[-1,0],[1,0]].forEach(function(d){ var X=rx+d[0]; if(X<0||X>=W||g[ry*W+X]||hazard[ry*W+X])return; for(var b=0;b<3;b++){ var bx=d[0]<0?px2+R.f()*5:px2+LT-R.f()*5, by=py2+6+R.f()*(LT-10); ctx.fillStyle=shade(P.rockTop,-0.1+R.f()*0.2); ctx.beginPath(); ctx.arc(bx,by,3+R.f()*4,0,Math.PI*2); ctx.fill(); } });
-  }
-  // obstacles
-  ctxInfo.obst.forEach(function(o){ var fn=D.draw[o.kind]; if(fn)fn(m,ctx,o.x*LT,o.y*LT,o.w*LT,o.h*LT,R,o,P); });
-  // stairs + sealed portal (farthest reachable point = guardian arena)
-  var reach=floodReach(m,sp.x,sp.y), far=null, fd=-1;
-  for(var y3=2;y3<H-2;y3++)for(var x3=2;x3<W-2;x3++){ if(!reach[y3*W+x3])continue; var d=Math.abs(x3-sp.x)+Math.abs(y3-sp.y); if(d>fd&&open(x3+1,y3)&&open(x3-1,y3)&&open(x3,y3-1)){fd=d;far={x:x3,y:y3};} }
-  cavernMarkers(m,ctx,sp,far,P);
-  // monster spawn density
-  var openN=0; for(var k3=0;k3<W*H;k3++)if(!m.solid[k3]&&reach[k3])openN++;
-  var spawnN=Math.round(openN/(D.density||42));
-  var placed=0, tries=0;
-  while(placed<spawnN&&tries<4000){ tries++; var x4=R.i(2,W-3),y4=R.i(2,H-3); if(m.solid[y4*W+x4]||!reach[y4*W+x4])continue; if(Math.hypot(x4-sp.x,y4-sp.y)<7)continue;
-    var px4=x4*LT+LT/2,py4=y4*LT+LT/2; ctx.strokeStyle='rgba(255,70,70,.55)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(px4,py4,9,0,Math.PI*2); ctx.stroke(); ctx.fillStyle='rgba(255,60,60,.18)'; ctx.fill(); placed++; }
-  m.stats={spawns:placed,open:openN};
-  m.base=cv; m.bg=P.void||'#07060a'; m.dark=Math.min(0.72,D.dark===undefined?0.72:D.dark); m.darkCol=P.darkCol||'#030205';
-  m.heroLight=D.heroLight||215; m.heroLightCol=D.heroLightCol||'#ffc880';
-  (D.particles||[]).forEach(function(p){ m.particles.push(p); });
-  if(D.extra)D.extra(ctxInfo);
-  addLabel(m,sp.x-1,sp.y,3,1,'Entrance — stairs back up.');
-  if(far)addLabel(m,far.x-1,far.y-1,3,3,'Sealed exit portal — the guardian waits here on the last floor.');
-  return m;
-}
-// Smooth hazard field: paint at 1/8 resolution and upscale with smoothing, so
-// lava / water / pits get soft organic shorelines instead of square tiles.
-function paintHazardField(ctx,c,colorFn){
-  var S=4, W=c.W, H=c.H, lo=mkCanvas(W*S,H*S), lx=lo.getContext('2d'), img=lx.createImageData(W*S,H*S), d=img.data;
-  for(var py=0;py<H*S;py++)for(var px=0;px<W*S;px++){
-    var tx=(px/S)|0, ty=(py/S)|0; if(!c.hazard[ty*W+tx]||c.g[ty*W+tx])continue;
-    var col=colorFn(px/S,py/S), i=(py*W*S+px)*4; d[i]=col[0]; d[i+1]=col[1]; d[i+2]=col[2]; d[i+3]=255;
-  }
-  lx.putImageData(img,0,0);
-  ctx.save(); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high'; ctx.drawImage(lo,0,0,W*LT,H*LT); ctx.restore();
-}
-function cavernMarkers(m,ctx,sp,far,P){
-  var sx=sp.x*LT, sy=(sp.y+1)*LT-6;
-  for(var i=0;i<4;i++){ ctx.fillStyle=shade(P.rockTop,0.1-i*0.08); ctx.fillRect(sx-4,sy-i*5,LT+8,5); }
-  if(far){
-    var fx=far.x*LT+LT/2, fy=far.y*LT+LT/2;
-    ctx.fillStyle='rgba(60,0,20,.8)'; ctx.beginPath(); ctx.arc(fx,fy,14,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle='#b0284a'; ctx.lineWidth=3; ctx.stroke();
-    addLight(m,fx,fy,90,'#ff3a6a',0.45,{pulse:0.4,period:1400});
-  }
-}
-// Obstacle sprite helpers
-function rockBlob(ctx,cx,cy,r,col,R){ softShadow(ctx,cx,cy+r*0.55,r*1.1,r*0.4,0.45); var g=ctx.createRadialGradient(cx-r*0.35,cy-r*0.45,r*0.1,cx,cy,r*1.1); g.addColorStop(0,shade(col,0.25)); g.addColorStop(1,shade(col,-0.35)); ctx.fillStyle=g; ctx.beginPath(); for(var i=0;i<9;i++){ var a=i/9*Math.PI*2, rr2=r*(0.82+R.f()*0.3); ctx.lineTo(cx+Math.cos(a)*rr2,cy+Math.sin(a)*rr2*0.8); } ctx.closePath(); ctx.fill(); }
-
-// ═══════════════════════════════════════════════════════════════════════
-var DUNGEON_DESIGNS=[
-  { id:'boulder_field', name:'Boulder Field', seed:3, tagline:'Wide cavern strewn with rock clusters',
-    blurb:'A huge open cavern floor broken up by boulder clusters of every size. Easy to read and good for big fights: you kite monsters around the rocks.',
-    fill:0.37, iters:5, density:40,
-    pal:{floorA:'#4a3f36',floorB:'#5d5046',floorC:'#2e2620',rockTop:'#6d6258',rockFace:'#4a4038',void:'#0a0806'},
-    obstacles:function(c){ for(var i=0;i<70;i++){ var p=c.randomOpen(); if(!p)continue; var big=c.R.chance(0.35); c.place('boulder',p.x,p.y,big?2:1,big?2:1); } },
-    draw:{ boulder:function(m,ctx,x,y,w,h,R,o,P){ addSprite(m,x+w/2,y+h,w+16,h+30,function(c,cw,ch){ rockBlob(c,cw/2,ch-h/2-4,w/2+2,'#7a6e62',R); if(w>LT)rockBlob(c,cw/2+10,ch-h/2+4,w/4,'#6a5e52',R); }); } },
-    extra:function(c){ var W=c.W,H=c.H,m=c.m; for(var i=0;i<14;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT+16,110,'#ffb060',0.45,{flicker:0.4,depth:-4}); } },
-    particles:[{col:'#c8b090',freq:160,scale:{start:0.25,end:0},alpha:{start:0.5,end:0},vy:{min:-4,max:4}}] },
-
-  { id:'pillared_hall', name:'Pillared Hall', seed:5, tagline:'Grid of ancient columns, some fallen',
-    blurb:'A vast underground hall held up by rows of stone columns. Some have collapsed into rubble, opening lanes and cover. Braziers burn along the aisles.',
-    density:38,
-    layout:function(W,H,R){ var g=new Uint8Array(W*H).fill(1); for(var y=3;y<H-3;y++)for(var x=3;x<W-3;x++){ var edge=(x<5||x>W-6||y<5||y>H-6)&&R.chance(0.35); g[y*W+x]=edge?1:0; } return g; },
-    pal:{floorA:'#3c4458',floorB:'#4a5268',floorC:'#262c3a',rockTop:'#667088',rockFace:'#454c62',void:'#07080d'},
-    floorDeco:function(ctx,px,py,tx,ty){ ctx.strokeStyle='rgba(0,0,0,.25)'; ctx.lineWidth=1; ctx.strokeRect(px+0.5,py+0.5,LT-1,LT-1); },
-    obstacles:function(c){ for(var y=6;y<c.H-6;y+=4)for(var x=6;x<c.W-6;x+=5){ if(c.R.chance(0.2))c.place('rubble',x,y,2,1); else c.place('column',x,y,1,1); } },
-    draw:{ column:function(m,ctx,x,y,w,h,R,o,P){ addSprite(m,x+w/2,y+h,40,110,function(c,cw,ch){ softShadow(c,cw/2,ch-4,15,5,0.45); var g=c.createLinearGradient(cw/2-11,0,cw/2+11,0); g.addColorStop(0,'#4a5268'); g.addColorStop(0.45,'#8a94ac'); g.addColorStop(1,'#3a4056'); c.fillStyle=g; c.fillRect(cw/2-11,ch-96,22,90); c.fillStyle='#7a849c'; c.fillRect(cw/2-14,ch-100,28,7); c.fillRect(cw/2-14,ch-10,28,6); }); addLight(m,x+w/2,y-8,70,'#ffa050',0.28,{flicker:0.3,depth:-4}); },
-      rubble:function(m,ctx,x,y,w,h,R){ for(var i=0;i<4;i++)rockBlob(ctx,x+6+R.f()*(w-12),y+10+R.f()*10,7+R.f()*6,'#6a7288',R); } },
-    particles:[{col:'#ffb070',freq:220,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:-18,max:-6}}] },
-
-  { id:'crystal_grotto', name:'Crystal Grotto', seed:7, tagline:'Glowing crystal clusters as cover',
-    blurb:'Cyan and violet crystal clusters grow out of the floor and light the cave from within. The glow makes this the brightest open dungeon, and the clusters make natural cover.',
-    fill:0.4, iters:5, density:42, dark:0.72,
-    pal:{floorA:'#252a45',floorB:'#2f3658',floorC:'#141830',rockTop:'#454c78',rockFace:'#2c3158',void:'#05060f'},
-    obstacles:function(c){ for(var i=0;i<46;i++){ var p=c.randomOpen(); if(p)c.place('crystal',p.x,p.y,1,1,{col:c.R.pick(['#6fe8ff','#b58cff','#8fb0ff'])}); } },
-    draw:{ crystal:function(m,ctx,x,y,w,h,R,o){ addSprite(m,x+w/2,y+h,50,80,function(c,cw,ch){ softShadow(c,cw/2,ch-4,14,4,0.4); for(var i=0;i<4;i++){ var ox=(i-1.5)*7, hh=26+R.f()*30; var g=c.createLinearGradient(cw/2+ox-5,0,cw/2+ox+5,0); g.addColorStop(0,rgba(o.col,0.95)); g.addColorStop(0.5,'rgba(255,255,255,.95)'); g.addColorStop(1,rgba(shade(o.col,-0.3),0.95)); c.fillStyle=g; c.beginPath(); c.moveTo(cw/2+ox,ch-4-hh); c.lineTo(cw/2+ox+6,ch-10); c.lineTo(cw/2+ox,ch-3); c.lineTo(cw/2+ox-6,ch-10); c.closePath(); c.fill(); } }); addLight(m,x+w/2,y,100,o.col,0.55,{pulse:0.35,period:1600+R.i(0,900),depth:-4}); } },
-    particles:[{col:'#9fe8ff',freq:90,scale:{start:0.4,end:0},alpha:{start:0.9,end:0},vy:{min:-10,max:-2}}] },
-
-  { id:'mushroom_forest', name:'Mushroom Forest', seed:9, tagline:'Giant glowing fungi and spore light',
-    blurb:'Giant mushrooms tower over a soft mossy floor. Their caps glow teal and violet, and spores drift everywhere. Walk between the stalks while monsters lurk under the caps.',
-    fill:0.39, iters:5, density:44, dark:0.78,
-    pal:{floorA:'#233224',floorB:'#2f4430',floorC:'#162016',rockTop:'#3e4a3a',rockFace:'#283224',void:'#050805'},
-    floorDeco:function(ctx,px,py,tx,ty,R){ if(R.chance(0.2)){ ctx.fillStyle='rgba(120,255,200,.25)'; ctx.fillRect(px+R.f()*28,py+R.f()*28,2,2);} },
-    obstacles:function(c){ for(var i=0;i<42;i++){ var p=c.randomOpen(); if(p){ var big=c.R.chance(0.3); c.place('shroom',p.x,p.y,big?2:1,1,{col:c.R.pick(['#4fe0c0','#b07fff','#ff8fd0']),big:big}); } } },
-    draw:{ shroom:function(m,ctx,x,y,w,h,R,o){ var s=o.big?1.7:1; addSprite(m,x+w/2,y+h,90*s,110*s,function(c,cw,ch){ softShadow(c,cw/2,ch-4,16*s,5*s,0.4); c.fillStyle='#e8e0cc'; c.beginPath(); c.moveTo(cw/2-6*s,ch-4); c.quadraticCurveTo(cw/2-2*s,ch-40*s,cw/2-5*s,ch-60*s); c.lineTo(cw/2+5*s,ch-60*s); c.quadraticCurveTo(cw/2+2*s,ch-40*s,cw/2+6*s,ch-4); c.fill(); var g=c.createRadialGradient(cw/2,ch-68*s,2,cw/2,ch-62*s,34*s); g.addColorStop(0,shade(o.col,0.4)); g.addColorStop(1,shade(o.col,-0.35)); c.fillStyle=g; c.beginPath(); c.ellipse(cw/2,ch-62*s,34*s,16*s,0,Math.PI,0); c.quadraticCurveTo(cw/2,ch-50*s,cw/2-34*s,ch-62*s); c.fill(); c.fillStyle='rgba(255,255,255,.6)'; for(var i=0;i<6;i++){ c.beginPath(); c.arc(cw/2-24*s+i*9*s,ch-68*s+Math.sin(i)*4,2*s,0,Math.PI*2); c.fill(); } }); addLight(m,x+w/2,y-30*s,90*s,o.col,0.45,{pulse:0.3,period:2200+R.i(0,1200),depth:-4}); } },
-    particles:[{tints:['#7fffd0','#c8a0ff'],freq:50,scale:{start:0.35,end:0},alpha:{start:0.8,end:0},vx:{min:-6,max:6},vy:{min:-6,max:2},life:{min:4000,max:8000}}] },
-
-  { id:'lava_archipelago', name:'Lava Archipelago', seed:13, tagline:'Rock islands linked by bridges over lava',
-    blurb:'Islands of cooled rock float in a sea of lava, joined by narrow stone bridges. The lava lights everything orange; fights happen on the islands and the bridges are choke points.',
-    density:40, dark:0.6,
-    layout:function(W,H,R){ var g=new Uint8Array(W*H).fill(1); for(var y=2;y<H-2;y++)for(var x=2;x<W-2;x++)g[y*W+x]=0; return g; },
-    hazards:function(c){ var W=c.W,H=c.H,R=c.R,hz=c.hazard; hz.fill(1); for(var y=0;y<H;y++)for(var x=0;x<W;x++)if(c.g[y*W+x])hz[y*W+x]=0;
-      var isl=[]; for(var i=0;i<11;i++){ isl.push({x:R.i(7,W-8),y:R.i(6,H-7),r:R.i(3,6)}); } isl.push({x:W>>1,y:H-6,r:5});
-      isl.forEach(function(s){ for(var y=s.y-s.r-1;y<=s.y+s.r+1;y++)for(var x=s.x-s.r-1;x<=s.x+s.r+1;x++){ if(x<2||y<2||x>=W-2||y>=H-2)continue; if(Math.hypot((x-s.x)*1.0,(y-s.y)*1.2)<=s.r+R.f()*0.8)hz[y*W+x]=0; } });
-      // bridges: connect each island to its nearest predecessor
-      for(var a=1;a<isl.length;a++){ var b=0,bd=1e9; for(var j=0;j<a;j++){ var d=Math.hypot(isl[a].x-isl[j].x,isl[a].y-isl[j].y); if(d<bd){bd=d;b=j;} } var x0=isl[a].x,y0=isl[a].y,x1=isl[b].x,y1=isl[b].y; while(x0!==x1){ hz[y0*W+x0]=0; hz[(y0+1)*W+x0]=0; x0+=x0<x1?1:-1; } while(y0!==y1){ hz[y0*W+x0]=0; hz[y0*W+x0+1]=0; y0+=y0<y1?1:-1; } }
-    },
-    paintHazards:function(ctx,c,nz){ var A=hexToRgb('#ff5a10'),B=hexToRgb('#ffc848'),C=hexToRgb('#7a1200'); paintHazardField(ctx,c,function(x,y){ var n=nz(x*0.35,y*0.35), n2=nz(x*1.3+9,y*1.3+9); var t=Math.min(1,Math.max(0,n*1.3-0.15)); var col=[A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t]; if(n2<0.28){ var k=(0.28-n2)*3; col=[col[0]+(C[0]-col[0])*k,col[1]+(C[1]-col[1])*k,col[2]+(C[2]-col[2])*k]; } return col; }); },
-    pal:{floorA:'#3a2e2a',floorB:'#4a3a32',floorC:'#1e1612',rockTop:'#4a3a34',rockFace:'#2e221e',void:'#1a0600',darkCol:'#1a0500'},
-    obstacles:function(c){ for(var i=0;i<22;i++){ var p=c.randomOpen(); if(p)c.place('obsidian',p.x,p.y,1,1); } },
-    draw:{ obsidian:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,40,60,function(c,cw,ch){ softShadow(c,cw/2,ch-4,12,4,0.4); c.fillStyle='#161018'; c.beginPath(); c.moveTo(cw/2-10,ch-4); c.lineTo(cw/2-4,ch-40); c.lineTo(cw/2+3,ch-30); c.lineTo(cw/2+10,ch-4); c.fill(); c.strokeStyle='rgba(255,120,60,.6)'; c.beginPath(); c.moveTo(cw/2-4,ch-38); c.lineTo(cw/2-2,ch-10); c.stroke(); }); } },
-    extra:function(c){ var m=c.m; for(var i=0;i<30;i++){ var x=c.R.i(2,c.W-3),y=c.R.i(2,c.H-3); if(c.hazard[y*c.W+x])addLight(m,x*LT+16,y*LT+16,150,'#ff6a20',0.35,{pulse:0.25,period:2000+i*90,depth:-4,cut:0.8}); } },
-    particles:[{tints:['#ffb040','#ff6020'],freq:40,scale:{start:0.5,end:0},alpha:{start:1,end:0},vy:{min:-40,max:-15},vx:{min:-8,max:8},life:{min:1500,max:3000}}] },
-
-  { id:'sunken_courtyard', name:'Sunken Courtyard', seed:17, tagline:'Ruined temple walls and statues',
-    blurb:'An ancient temple courtyard swallowed by the earth: broken wall segments, toppled statues and puddles of rainwater under a mossy ceiling. The walls make a loose maze with lots of open ground.',
-    fill:0.34, iters:5, density:40,
-    pal:{floorA:'#4a4a3a',floorB:'#5a5a46',floorC:'#2a2a1e',rockTop:'#5f5f4c',rockFace:'#3e3e30',void:'#070705'},
-    floorDeco:function(ctx,px,py,tx,ty,R){ if((tx+ty)%2===0){ ctx.strokeStyle='rgba(0,0,0,.18)'; ctx.strokeRect(px+1,py+1,LT-2,LT-2);} if(R.chance(0.12)){ ctx.fillStyle='rgba(110,150,70,.4)'; ctx.fillRect(px+R.f()*20,py+R.f()*20,10,6);} },
-    obstacles:function(c){ for(var i=0;i<24;i++){ var p=c.randomOpen(); if(!p)continue; var horiz=c.R.chance(0.5), len=c.R.i(3,6); var ok=c.place('ruinwall',p.x,p.y,horiz?len:1,horiz?1:len); } for(var j=0;j<16;j++){ var q=c.randomOpen(); if(q)c.place('statue',q.x,q.y,1,1); } for(var k=0;k<10;k++){ var r=c.randomOpen(); if(r)c.place('puddle',r.x,r.y,2,1,{skipReach:false}); } },
-    draw:{ ruinwall:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,w+6,h+36,function(c,cw,ch){ var top=ch-h-30; c.fillStyle='#5a5a48'; c.fillRect(3,top+10,w,h+20); c.fillStyle='#7a7a62'; c.fillRect(3,top,w,h+10-0); for(var i=0;i<w;i+=LT/2){ c.fillStyle='rgba(0,0,0,.2)'; c.fillRect(3+i,top,1,h+30);} for(var j=0;j<5;j++){ c.fillStyle='rgba(100,150,70,.55)'; c.fillRect(3+R.f()*(w-8),top+R.f()*10,8,4);} c.clearRect(3+R.f()*w,top-2,10,8); }); },
-      statue:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,40,70,function(c,cw,ch){ softShadow(c,cw/2,ch-4,12,4,0.4); c.fillStyle='#8a8a74'; c.fillRect(cw/2-10,ch-12,20,9); c.fillStyle='#9a9a82'; c.beginPath(); c.moveTo(cw/2-7,ch-12); c.lineTo(cw/2-5,ch-42); c.lineTo(cw/2+5,ch-42); c.lineTo(cw/2+7,ch-12); c.fill(); c.beginPath(); c.arc(cw/2,ch-47,6,0,Math.PI*2); c.fill(); c.fillStyle='rgba(100,150,70,.6)'; c.fillRect(cw/2-6,ch-30,5,8); }); },
-      puddle:function(m,ctx,x,y,w,h,R){ ctx.fillStyle='rgba(90,140,170,.55)'; ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2,w/2-2,h/2-4,0,0,Math.PI*2); ctx.fill(); ctx.fillStyle='rgba(255,255,255,.25)'; ctx.fillRect(x+w/2-8,y+h/2-2,10,1); addLight(m,x+w/2,y+h/2,50,'#a8d8ff',0.18,{pulse:0.5,depth:-4,noCut:true}); } },
-    extra:function(c){ for(var i=0;i<10;i++){ var p=c.randomOpen(); if(p)addLight(c.m,p.x*LT+16,p.y*LT,95,'#ffbf70',0.4,{flicker:0.35,depth:-4}); } },
-    particles:[{col:'#d8e0a0',freq:200,scale:{start:0.3,end:0},alpha:{start:0.5,end:0}}] },
-
-  { id:'lake_ring', name:'Underground Lake Ring', seed:19, tagline:'Walkable shore around a dark lake',
-    blurb:'A still black lake fills the middle of the cavern, and the fight happens on the wide shore that rings it, with a few rocky islets you can reach by stepping stones. Fireflies drift over the water.',
-    density:40, shape:'round', fill:0.36, iters:5,
-    hazards:function(c){ var W=c.W,H=c.H,R=c.R; var cx=W/2,cy=H/2-1; for(var y=0;y<H;y++)for(var x=0;x<W;x++){ var d=Math.hypot((x-cx)/(W*0.27),(y-cy)/(H*0.26)); if(d<1+(R.f()-0.5)*0.12&&!c.g[y*W+x])c.hazard[y*W+x]=1; }
-      for(var s=0;s<5;s++){ var ang=s/5*Math.PI*2+0.3; var sx=Math.round(cx+Math.cos(ang)*W*0.2), sy=Math.round(cy+Math.sin(ang)*H*0.18); for(var yy=sy-1;yy<=sy+1;yy++)for(var xx=sx-1;xx<=sx+1;xx++)c.hazard[yy*W+xx]=0; } },
-    paintHazards:function(ctx,c,nz){ var A=hexToRgb('#04101a'),B=hexToRgb('#123447'); paintHazardField(ctx,c,function(x,y){ var n=nz(x*0.3,y*0.3), sh=nz(x*2.5,y*0.6)>0.78?40:0; return [A[0]+(B[0]-A[0])*n+sh*0.6,A[1]+(B[1]-A[1])*n+sh,A[2]+(B[2]-A[2])*n+sh*1.2]; }); },
-    pal:{floorA:'#3a3e3a',floorB:'#4a5048',floorC:'#1e221e',rockTop:'#555c52',rockFace:'#363c34',void:'#040606'},
-    obstacles:function(c){ for(var i=0;i<30;i++){ var p=c.randomOpen(); if(p)c.place('rock',p.x,p.y,1,1); } },
-    draw:{ rock:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,44,44,function(c,cw,ch){ rockBlob(c,cw/2,ch-18,14,'#6a7268',R); }); } },
-    extra:function(c){ var m=c.m; m.particles.push({tints:['#e8ff80','#a8ff80'],freq:120,scale:{start:0.5,end:0.1},alpha:{start:1,end:0},vx:{min:-10,max:10},vy:{min:-10,max:10},life:{min:2500,max:5000},area:{x:c.W*LT*0.25,y:c.H*LT*0.25,w:c.W*LT*0.5,h:c.H*LT*0.5}}); addLight(m,c.W*LT/2,c.H*LT/2-LT,300,'#3a7aa8',0.3,{pulse:0.3,period:4000,depth:-4,noCut:true}); for(var i=0;i<10;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT,90,'#ffc070',0.4,{flicker:0.35,depth:-4}); } } },
-
-  { id:'bone_pit', name:'Bone Pit', seed:23, tagline:'Giant rib cages and skulls as obstacles',
-    blurb:'The graveyard of something enormous. Giant rib cages arch over the floor like fences and skulls the size of houses block the way. Pale ghost-lights drift between the bones.',
-    fill:0.38, iters:5, density:40, dark:0.82,
-    pal:{floorA:'#3a3630',floorB:'#4a443a',floorC:'#221e1a',rockTop:'#5a544a',rockFace:'#3a3630',void:'#060504'},
-    floorDeco:function(ctx,px,py,tx,ty,R){ if(R.chance(0.1)){ ctx.fillStyle='rgba(230,220,190,.35)'; ctx.fillRect(px+R.f()*26,py+R.f()*26,6,2);} },
-    obstacles:function(c){ for(var i=0;i<16;i++){ var p=c.randomOpen(); if(!p)continue; for(var r=0;r<5;r++)c.place('rib',p.x+r*2,p.y,1,1); } for(var j=0;j<6;j++){ var q=c.randomOpen(); if(q)c.place('skull',q.x,q.y,2,2); } },
-    draw:{ rib:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,50,90,function(c,cw,ch){ c.strokeStyle='#e8e0cc'; c.lineWidth=5; c.lineCap='round'; c.beginPath(); c.moveTo(cw/2-2,ch-4); c.quadraticCurveTo(cw/2-18,ch-50,cw/2+6,ch-80); c.stroke(); c.strokeStyle='rgba(0,0,0,.2)'; c.lineWidth=2; c.stroke(); }); },
-      skull:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,90,80,function(c,cw,ch){ softShadow(c,cw/2,ch-6,34,8,0.45); c.fillStyle='#e6dcc4'; c.beginPath(); c.ellipse(cw/2,ch-34,32,26,0,0,Math.PI*2); c.fill(); c.fillRect(cw/2-20,ch-18,40,14); c.fillStyle='#1a1410'; c.beginPath(); c.ellipse(cw/2-12,ch-36,8,9,0,0,Math.PI*2); c.ellipse(cw/2+12,ch-36,8,9,0,0,Math.PI*2); c.fill(); for(var i=-3;i<=3;i++)c.fillRect(cw/2+i*5-1,ch-16,2,8); }); addLight(m,x+w/2-12,y+h-36,30,'#7fffd0',0.5,{pulse:0.5,depth:y+h+1}); } },
-    extra:function(c){ var m=c.m; m.particles.push({col:'#9fffe0',freq:300,scale:{start:0.9,end:0.2},alpha:{start:0.5,end:0},vx:{min:-8,max:8},vy:{min:-8,max:2},life:{min:4000,max:7000}}); for(var i=0;i<12;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT+16,80,'#8fffd8',0.3,{pulse:0.5,period:2600,depth:-4}); } } },
-
-  { id:'root_hollow', name:'Root Hollow', seed:29, tagline:'Tangled roots make soft lanes',
-    blurb:'The underside of an ancient tree. Thick roots snake across the floor in long curves and split the cave into winding lanes; amber sap glows in the bark and roots hang from above.',
-    fill:0.36, iters:5, density:42, dark:0.8,
-    pal:{floorA:'#3a2e22',floorB:'#4a3a2a',floorC:'#201810',rockTop:'#4e3e2c',rockFace:'#32281c',void:'#070504'},
-    obstacles:function(c){ var W=c.W,H=c.H,R=c.R; for(var i=0;i<14;i++){ var x=R.i(4,W-5),y=R.i(4,H-5),a=R.f()*Math.PI*2,len=R.i(8,16); for(var s=0;s<len;s++){ a+=R.f()*0.6-0.3; x+=Math.round(Math.cos(a)); y+=Math.round(Math.sin(a)); c.place('root',x,y,1,1,{a:a}); } } },
-    draw:{ root:function(m,ctx,x,y,w,h,R,o){ ctx.save(); ctx.translate(x+w/2,y+h/2); ctx.rotate(o.a); softShadow(ctx,0,8,20,6,0.35); var g=ctx.createLinearGradient(0,-10,0,10); g.addColorStop(0,'#8a6a44'); g.addColorStop(1,'#4a3420'); ctx.fillStyle=g; rr(ctx,-20,-11,40,22,11); ctx.fill(); ctx.strokeStyle='rgba(30,20,10,.6)'; ctx.lineWidth=1; for(var i=-15;i<15;i+=6){ ctx.beginPath(); ctx.moveTo(i,-9); ctx.lineTo(i+4,9); ctx.stroke(); } if(R.chance(0.15)){ ctx.fillStyle='#ffb040'; ctx.fillRect(-3,-3,6,3); } ctx.restore(); if(R.chance(0.08))addLight(m,x+w/2,y+h/2,50,'#ffb040',0.35,{pulse:0.5,depth:-4}); } },
-    extra:function(c){ var m=c.m; for(var i=0;i<18;i++){ var p=c.randomOpen(); if(!p)continue; addSprite(m,p.x*LT+16,p.y*LT+10,20,70,function(cc,cw,ch){ cc.strokeStyle='#5a4028'; cc.lineWidth=3; cc.beginPath(); cc.moveTo(cw/2,0); cc.quadraticCurveTo(cw/2+6,ch/2,cw/2-2,ch-6); cc.stroke(); }); m.sprites[m.sprites.length-1].depth=8000; } m.particles.push({col:'#ffc060',freq:260,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:4,max:12}}); } },
-
-  { id:'spiral_chasm', name:'Spiral Chasm', seed:31, tagline:'Open floor spiralling around a pit',
-    blurb:'A round chamber around a bottomless pit. The walkable floor spirals inward in a wide ramp to a central platform, where the guardian would stand. Wind howls up from below.',
-    density:40, shape:'round', fill:0.3, iters:4, dark:0.78,
-    hazards:function(c){ var W=c.W,H=c.H,cx=W/2,cy=H/2; for(var y=0;y<H;y++)for(var x=0;x<W;x++){ if(c.g[y*W+x])continue; var dx=x-cx,dy=(y-cy)*1.25, r=Math.hypot(dx,dy), a=Math.atan2(dy,dx); if(r<3.2||r>17)continue; var t=(a+Math.PI)/(Math.PI*2); var band=(r/4.2+t)%1; if(band<0.42)c.hazard[y*W+x]=1; } },
-    paintHazards:function(ctx,c,nz){ var W=c.W,H=c.H; paintHazardField(ctx,c,function(x,y){ var n=nz(x*0.5,y*0.5); return [4+n*14,3+n*10,10+n*22]; }); for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){ if(c.hazard[y2*W+x2]||c.g[y2*W+x2])continue; if(y2+1<H&&c.hazard[(y2+1)*W+x2]){ var fg=ctx.createLinearGradient(0,y2*LT+LT-10,0,y2*LT+LT+16); fg.addColorStop(0,'#3a3448'); fg.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=fg; ctx.fillRect(x2*LT,y2*LT+LT-10,LT,26);} } },
-    pal:{floorA:'#35303e',floorB:'#433c4e',floorC:'#1c1824',rockTop:'#514a5e',rockFace:'#332e3e',void:'#040308'},
-    obstacles:function(c){ for(var i=0;i<12;i++){ var p=c.randomOpen(); if(p)c.place('stone',p.x,p.y,1,1); } },
-    draw:{ stone:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,40,60,function(c,cw,ch){ softShadow(c,cw/2,ch-4,11,4,0.4); c.fillStyle='#6a6278'; c.fillRect(cw/2-7,ch-46,14,42); c.fillStyle='#8a80a0'; c.fillRect(cw/2-7,ch-46,14,4); c.fillStyle='#9ff0ff'; c.fillRect(cw/2-2,ch-36,4,10); }); addLight(m,x+w/2,y-20,60,'#9ff0ff',0.35,{pulse:0.5,depth:-4}); } },
-    extra:function(c){ c.m.particles.push({col:'#c8c0ff',freq:80,scale:{start:0.3,end:0},alpha:{start:0.6,end:0},vy:{min:-50,max:-20},vx:{min:-10,max:10},life:{min:1500,max:3000},area:{x:c.W*LT*0.3,y:c.H*LT*0.3,w:c.W*LT*0.4,h:c.H*LT*0.4}}); addLight(c.m,c.W*LT/2,c.H*LT/2,120,'#b0a0ff',0.35,{pulse:0.3,depth:-4}); } },
-];
 
 LAB_TABS.push({
   id:'dungeons', name:'Dungeons', regionLabel:'Best suited to which region?',

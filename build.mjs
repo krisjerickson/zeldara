@@ -64,8 +64,9 @@ console.log(`✓ index.html  ${(out.length / 1024).toFixed(0)} KB  from ${jsFile
 // ── Design Lab (Phase 2): lab/src → lab/index.html (+ lab/lab.artifact.html for publishing)
 // Reuses the game's hero sprites + hero API so the lab walks with the real hero.
 if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
-  const shared = ['00-header.js', '01-sprite-data.js', '02-hero-api.js']
-    .map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('');
+  const sharedFiles = ['00-header.js', '01-sprite-data.js', '02-hero-api.js']
+    .concat(jsFiles.filter(f => /^07/.test(f)));
+  const shared = sharedFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('');
   const labDir = path.join(ROOT, 'lab/src/js');
   const labFiles = fs.readdirSync(labDir).filter(f => f.endsWith('.js')).sort();
   const labJs = shared + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join('');

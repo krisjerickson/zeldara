@@ -10,7 +10,7 @@ const HARBOR_ISLANDS={
      boss:{icon:'☠️',name:'Pirate Captain',hp:130,atk:12,def:4,col:0x551100,r:18,spd:52,moveType:'rush',atkType:'melee',boss:true},
      shopItems:['sea_trident','captains_coat','sea_shell_buckler','sea_pearl_neck','pearl'],
      lootItems:['sea_trident','captains_coat','sea_shell_buckler','sea_pearl_neck','pearl'],
-     questText:'Clear the pirate camp and defeat their captain!',
+     questText:'Storm the Pirate Cave and defeat the Pirate Captain on its lowest floor!',
   },
   2:{name:'Bog Isle',theme:'Swamp',bgWater:0x0a3a1a,bgLand:0x1a4a1a,
      enemies:[
@@ -21,7 +21,7 @@ const HARBOR_ISLANDS={
      boss:{icon:'🧌',name:'Swamp Titan',hp:170,atk:16,def:6,col:0x2a4a10,r:20,spd:36,moveType:'normal',atkType:'stomp',boss:true},
      shopItems:['long_sword','stormshield','sea_pearl_neck','gem_ruby','pearl'],
      lootItems:['long_sword','stormshield','warriors_talis','gem_ruby'],
-     questText:'Drive the swamp monsters back into the deep!',
+     questText:'Descend the Bog Grotto and defeat the Swamp Titan at the bottom!',
   },
   3:{name:'Ember Isle',theme:'Volcanic',bgWater:0x3a0a00,bgLand:0x4a1a0a,
      enemies:[
@@ -32,7 +32,7 @@ const HARBOR_ISLANDS={
      boss:{icon:'🌋',name:'Lava Colossus',hp:210,atk:20,def:8,col:0xaa1100,r:22,spd:30,moveType:'normal',atkType:'stomp',boss:true},
      shopItems:['flame_sword','stormshield','warriors_talis','gem_ruby','gem_sapphire'],
      lootItems:['flame_sword','stormshield','guardians_ward','gem_emerald'],
-     questText:'Quench the volcanic fury and slay the Lava Colossus!',
+     questText:'Brave the Ember Cave and slay the Lava Colossus in its depths!',
   },
   4:{name:'Frost Isle',theme:'Frozen',bgWater:0x0a1a3a,bgLand:0x1a2a4a,
      enemies:[
@@ -43,7 +43,7 @@ const HARBOR_ISLANDS={
      boss:{icon:'🧊',name:'Frost Lord',hp:260,atk:24,def:10,col:0x2233aa,r:24,spd:28,moveType:'teleport',atkType:'melee',boss:true},
      shopItems:['sky_sword','obsidian_shield','dragon_amulet','skystone'],
      lootItems:['sky_sword','obsidian_shield','dragon_amulet','skystone'],
-     questText:'Break the Frost Lord\'s grip on the island!',
+     questText:'Climb the Frost Spire and break the Frost Lord\'s grip on the island!',
   },
 };
 // ─── IslandScene — full tile-based island world ───────────────────────────
@@ -247,45 +247,25 @@ class IslandScene extends Phaser.Scene{
         isBoss:!!isBoss,_md:{},wanderVx:(Math.random()-.5)*30,wanderVy:(Math.random()-.5)*30,wanderTimer:0});
     };
     for(var i=0;i<count;i++)_spawnOne(defs[i%defs.length],false);
-    // Spawn boss
-    if(isl.boss)_spawnOne(isl.boss,true);
+    // (The island guardian lives in the island dungeon now — see _enterAdventure.)
   }
   _checkIslandClear(){
-    // Called after each kill — if boss is dead, trigger completion
-    var boss=this.monsters.find(function(m){return m.isBoss&&!m.dead;});
-    var allDead=this.monsters.every(function(m){return m.dead;});
-    if(!this._islandCleared&&(allDead||(!boss&&this.monsters.some(function(m){return m.isBoss;})&&this.monsters.filter(function(m){return m.isBoss;}).every(function(m){return m.dead;})))){
-      this._islandCleared=true;
-      this._onIslandCleared();
+    // The island guardian now waits at the bottom of the island's dungeon; clearing
+    // the surface just points the way there.
+    if(this._surfaceCleared)return;
+    if(this.monsters.every(function(m){return m.dead;})){
+      this._surfaceCleared=true;
+      var adv=ISL_ADV[this.sec]||ISL_ADV[1];
+      showNotif('🏝️ Surface cleared! The guardian waits at the bottom of the '+adv.label.replace(/^\S+\s/,'')+'.','#44ffaa');
     }
   }
   _onIslandCleared(){
-    var ps=this.playerState,sec=this.sec,self=this;
+    var ps=this.playerState,sec=this.sec;
     var siteId=this.site?this.site.id:'harbor_'+sec;
     // Lock site until death
     if(!ps.lockedSites)ps.lockedSites=[];
     if(!ps.lockedSites.includes(siteId))ps.lockedSites.push(siteId);
-    // Track completed islands
-    if(!ps.completedIslands)ps.completedIslands=[];
-    if(!ps.completedIslands.includes(sec))ps.completedIslands.push(sec);
-    // Award a familiar
-    var famBySec={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'};
-    var famId=famBySec[sec];
-    var famDef=FAMILIARS[famId];
-    if(famId&&famDef&&(!ps.ownedFamiliars||!ps.ownedFamiliars.includes(famId))){
-      if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
-      ps.ownedFamiliars.push(famId);
-      this.time.delayedCall(300,function(){showNotif(famDef.icon+' '+famDef.n+' familiar unlocked!','#88eeff');});
-      // Auto-equip in first available slot
-      if(!ps.familiar)ps.familiar=famId;
-      else if(!ps.familiar2&&_maxFamiliarSlots(ps)>=2)ps.familiar2=famId;
-      else if(!ps.familiar3&&_maxFamiliarSlots(ps)>=3)ps.familiar3=famId;
-    }
-    var slots=_maxFamiliarSlots(ps);
-    if(slots>=2&&ps.completedIslands.length===2)
-      this.time.delayedCall(800,function(){showNotif('✨ Familiar slot 2 unlocked! (2 islands cleared)','#88eeff');});
-    if(slots>=3||ps.completedIslands.length===4)
-      this.time.delayedCall(800,function(){showNotif('✨ Familiar slot 3 unlocked! (All islands cleared!)','#88eeff');});
+    _awardIslandFamiliar(ps,sec);
     var goldBonus=40*sec;ps.gold+=goldBonus;
     showNotif('🏝️ Island cleared! +'+goldBonus+'g','#44ffaa');
     this.worldScene._emitUI();
@@ -515,14 +495,14 @@ class IslandScene extends Phaser.Scene{
     var adv=ISL_ADV[this.sec]||ISL_ADV[1];
     if(adv.type==='cave'){
       this.scene.sleep('Island');
-      this.scene.launch('Cave',{worldScene:this.worldScene,islandScene:this,sec:this.sec});
+      this.scene.launch('Cave',{worldScene:this.worldScene,islandScene:this,sec:this.sec,maxFloors:adv.floors||4});
     } else {
       var theme=adv.type==='volcano'?'volcano':adv.type==='tower_island'?'tower_island':'cave_dungeon';
-      var sType=adv.type==='tower_island'?'tower':'dungeon';
-      var dSite={id:'isl_adv_'+this.sec+'_'+adv.type,type:sType,section:this.sec};
-      var maxFloors=adv.type==='tower_island'?4:3;
+      var sType=adv.kind||(adv.type==='tower_island'?'tower':'dungeon');
+      var dSite={id:'isl_adv_'+this.sec+'_'+adv.type,type:sType,section:this.sec,design:adv.design,island:true,
+        name:adv.label.replace(/^\S+\s/,''),floors:adv.floors||4};
       this.scene.sleep('Island');
-      this.scene.launch('Dungeon',{site:dSite,floor:0,maxFloors:maxFloors,worldScene:this.worldScene,returnScene:'Island',theme:theme});
+      this.scene.launch('Dungeon',{site:dSite,floor:0,maxFloors:dSite.floors,worldScene:this.worldScene,returnScene:'Island',theme:theme});
       document.getElementById('dungeon-hud').style.display='block';
     }
   }

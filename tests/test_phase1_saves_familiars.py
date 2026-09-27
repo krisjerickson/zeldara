@@ -14,10 +14,10 @@ old_save=json.dumps({"hp":40,"maxHp":50,"atk":6,"def":1,"gold":321,"level":4,"xp
   "skills":[],"lockedSites":[],"_seaState":{"ready":True},"px":9616,"py":9616})
 with game(new=False, save=old_save) as g:
     check('Old save loads', g.ws("ps.gold===321 && ps.level===4"), g.ws("({g:ps.gold,l:ps.level})"))
-    check('Migrated: remounted + versioned', g.ws("ps.mount==='horse' && ps.saveVersion===3 && !ps._stowedMount"))
+    check('Migrated: remounted + versioned', g.ws("ps.mount==='horse' && ps.saveVersion===SAVE_VERSION && !ps._stowedMount"))
     check('Backup of old save kept', g.js("!!localStorage.getItem('qoz_v2_backup_v2')"))
     g.js("game.scene.getScene('World')._save()")
-    check('New save has saveVersion 3', g.js("JSON.parse(localStorage.getItem('qoz_v2')).saveVersion===3"))
+    check('New save has current saveVersion', g.js("JSON.parse(localStorage.getItem('qoz_v2')).saveVersion===SAVE_VERSION"))
 
 with game() as g:
     ps="game.scene.getScene('World').playerState"
