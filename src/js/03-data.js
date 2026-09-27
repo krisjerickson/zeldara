@@ -1,6 +1,9 @@
-const WORLD_W=600, WORLD_H=600;
-const CENTER_X=300, CENTER_Y=300;
-const ISLAND_RADIUS=265, VILLAGE_RADIUS=22;
+// Phase 3: the 1200 × 1200 continent (see 07e-world-map.js / 05b-world-build.js).
+// CENTER_X/Y is the VILLAGE centre (on the Grasslands shore of Mirror Lake),
+// not the middle of the map.
+const WORLD_W=1200, WORLD_H=1200;
+const CENTER_X=690, CENTER_Y=520;
+const ISLAND_RADIUS=265, VILLAGE_RADIUS=26;   // ISLAND_RADIUS: legacy (old round island), unused by the new world
 const CHUNK=16; // tiles per dynamic chunk
 
 // ── Harbor Island Map constants (25% of main world) ──────────────────────
@@ -26,9 +29,12 @@ const SECTION_ACCENTS={0:'#ffdd88',1:'#aaffaa',2:'#aaccff',3:'#ffddaa',4:'#ffaa8
 const EXP_SCALE=8;
 const EXP_W=Math.ceil(WORLD_W/EXP_SCALE);
 const EXP_H=Math.ceil(WORLD_H/EXP_SCALE);
-const EXP_REVEAL_R=5;
+const EXP_REVEAL_R=5;   // cells (= 40 tiles)
 
+// Region grid from the world map (0 = village + Mirror Lake, 1-4 = regions).
+var _WREG=null, _WZONE=null, _WCLS=null;
 function getTileSection(tx,ty){
+  if(_WREG){ if(tx<0||ty<0||tx>=WORLD_W||ty>=WORLD_H)return 0; return _WREG[(ty|0)*WORLD_W+(tx|0)]; }
   const dx=tx-CENTER_X, dy=ty-CENTER_Y;
   if(Math.hypot(dx,dy)<VILLAGE_RADIUS) return 0;
   if(dx>=0 && dy<0) return 1;
@@ -37,6 +43,7 @@ function getTileSection(tx,ty){
   return 4;
 }
 function isOnIsland(tx,ty){
+  if(_WCLS){ if(tx<0||ty<0||tx>=WORLD_W||ty>=WORLD_H)return false; var c=_WCLS[(ty|0)*WORLD_W+(tx|0)]; return c!==WM.OCEAN&&c!==WM.SHALLOW; }
   return Math.hypot(tx-CENTER_X,ty-CENTER_Y)<ISLAND_RADIUS;
 }
 
@@ -44,9 +51,9 @@ const T={
   GRASS:0,GRASS2:1,DIRT:2,PATH:3,TREE:4,ROCK:5,FLOWER:6,
   SHALLOW_WATER:7,DEEP_WATER:8,REED:9,MUD:10,LILY:11,
   ROCKY_GROUND:12,SMALL_BOULDER:13,LARGE_BOULDER:14,GRAVEL:15,DRY_GRASS:16,
-  DARK_ROCK:20,ASH_GROUND:21,THIN_MAGMA:22,DEEP_MAGMA:23,OBSIDIAN:24,
-  VILLAGE_FLOOR:40,STONE_FLOOR:41,BUILDING_WALL:42,DOOR:43,SAND:44,STABLES_FLOOR:46,
-  OCEAN:50,BEACH:51
+  DARK_ROCK:20,ASH_GROUND:21,THIN_MAGMA:22,DEEP_MAGMA:23,OBSIDIAN:24,CLIFF:25,
+  VILLAGE_FLOOR:40,STONE_FLOOR:41,BUILDING_WALL:42,DOOR:43,SAND:44,BRIDGE:45,STABLES_FLOOR:46,
+  OCEAN:50,BEACH:51,REEF:52
 };
 const TILE_COLORS={
   [T.GRASS]:0x4a9a2e,[T.GRASS2]:0x5aaa3e,[T.DIRT]:0x9a7a50,[T.PATH]:0xc8a870,
@@ -55,7 +62,8 @@ const TILE_COLORS={
   [T.ROCKY_GROUND]:0x8a7860,[T.SMALL_BOULDER]:0x6a6050,[T.LARGE_BOULDER]:0x4a4035,[T.GRAVEL]:0xaaa090,[T.DRY_GRASS]:0xb8a050,
   [T.DARK_ROCK]:0x3a2820,[T.ASH_GROUND]:0x5a4840,[T.THIN_MAGMA]:0xdd4400,[T.DEEP_MAGMA]:0xaa1100,[T.OBSIDIAN]:0x181010,
   [T.VILLAGE_FLOOR]:0xd0c090,[T.STONE_FLOOR]:0xb0a888,[T.BUILDING_WALL]:0x907860,[T.DOOR]:0x6a4820,[T.SAND]:0xe0d090,[T.STABLES_FLOOR]:0xc09050,
-  [T.OCEAN]:0x0a2060,[T.BEACH]:0xe8d090
+  [T.OCEAN]:0x0a2060,[T.BEACH]:0xe8d090,
+  [T.CLIFF]:0x5a5048,[T.BRIDGE]:0x8a6440,[T.REEF]:0x1d5c8c
 };
 // ─── Per-section tile colour palettes ───────────────────────────────────
 // Keys match getTileSection() return values (0 = village).
@@ -107,16 +115,28 @@ const SECTION_TILE_COLORS={
 };
 
 // Tiles that block movement (TREE removed — passable at 33% speed)
-const ALWAYS_BLOCKED=new Set([T.ROCK,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T.BUILDING_WALL,T.OCEAN]);
+const ALWAYS_BLOCKED=new Set([T.ROCK,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T.BUILDING_WALL,T.OCEAN,T.CLIFF,T.REEF]);
+// Signature terrain (Phase 3): walkable on foot but slow; a mount that lists
+// the tile in canCross moves over it at full speed. (Deep water, large boulders
+// and deep lava stay in ALWAYS_BLOCKED for anyone without such a mount.)
+const FOOT_SLOW={[T.SHALLOW_WATER]:0.35,[T.REED]:0.5,[T.MUD]:0.45,[T.LILY]:0.45,[T.SMALL_BOULDER]:0.3,[T.THIN_MAGMA]:0.3};
+function terrainSpeedMult(t,mount){
+  var md=mount&&MOUNTS[mount];
+  if(md){ if(mount==='dragon'||md.canCross==='all')return 1; if(Array.isArray(md.canCross)&&md.canCross.indexOf(t)>=0)return 1; }
+  return FOOT_SLOW[t]||1;
+}
 // Tiles that destroy projectiles (trees tracked separately with treePen counter — 10 hits before blocked)
-const PROJ_WALL_TILES=new Set([T.ROCK,T.SMALL_BOULDER,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T.BUILDING_WALL,T.OCEAN]);
+const PROJ_WALL_TILES=new Set([T.ROCK,T.SMALL_BOULDER,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T.BUILDING_WALL,T.OCEAN,T.CLIFF,T.REEF]);
 
 const MOUNTS={
   horse:      {n:'Horse',       icon:'🐎',spdMult:1.6,cost:200,sec:1,desc:'Fast land travel'},
-  alligator:  {n:'Alligator',   icon:'🐊',spdMult:1.3,cost:0,  sec:1,canCross:[T.DEEP_WATER,T.SHALLOW_WATER]},
-  boar:       {n:'Battle Boar', icon:'🐗',spdMult:1.4,cost:0,  sec:2,canCross:[T.SMALL_BOULDER]},
-  lava_unicorn:{n:'Lava Unicorn',icon:'🦄',spdMult:1.5,cost:0, sec:3,canCross:[T.THIN_MAGMA]},
-  ash_salamander:{n:'Ash Salamander',icon:'🦎',spdMult:1.5,cost:0,sec:4,canCross:[T.THIN_MAGMA,T.DEEP_MAGMA],desc:'Walks on lava — shallow and deep'},
+  // Key mounts (one per region's boss dungeon) — each crosses the NEXT region's
+  // signature terrain at full speed (on foot it is slow, its deepest parts blocked).
+  alligator:  {n:'Alligator',   icon:'🐊',spdMult:1.3,cost:0,  sec:1,canCross:[T.DEEP_WATER,T.SHALLOW_WATER,T.REED,T.MUD,T.LILY],desc:'Swims the Wetlands — water & marsh at full speed'},
+  boar:       {n:'Battle Boar', icon:'🐗',spdMult:1.4,cost:0,  sec:2,canCross:[T.SMALL_BOULDER,T.LARGE_BOULDER],desc:'Charges through Highland boulder fields at full speed'},
+  lava_unicorn:{n:'Lava Unicorn',icon:'🦄',spdMult:1.5,cost:0, sec:3,canCross:[T.THIN_MAGMA],desc:'Gallops over Ashland lava crust — no burns'},
+  // id kept as ash_salamander so saves keep it; it is the Ash Dragon now
+  ash_salamander:{n:'Ash Dragon',icon:'🐲',spdMult:1.7,cost:0,sec:4,canCross:[T.DEEP_WATER,T.SHALLOW_WATER,T.REED,T.MUD,T.LILY,T.SMALL_BOULDER,T.LARGE_BOULDER,T.THIN_MAGMA,T.DEEP_MAGMA],desc:'Every region\'s terrain at full speed, and the deep-lava causeways to the volcano isles'},
   dragon:     {n:'Dragon',      icon:'🐉',spdMult:2.0,cost:0,  sec:4,canCross:'land_and_deep',desc:'Flies over all terrain except sea water'},
   sky_eagle:  {n:'Sky Eagle',   icon:'🦅',spdMult:1.9,cost:0,  sec:4,canCross:'all',desc:'Swift aerial mount from the Sky Port'},
   // ── Skyport-exclusive mounts ─────────────────────────────────────────────
@@ -487,7 +507,7 @@ const BOSS_REWARDS={
   s1_dungeon:{mount:'alligator',   message:'🐊 Alligator mount unlocked!',   color:'#44ffaa'},
   s2_dungeon:{mount:'boar',        message:'🐗 Battle Boar mount unlocked!',  color:'#ffaa44'},
   s3_dungeon:{mount:'lava_unicorn',message:'🦄 Lava Unicorn mount unlocked!', color:'#ff88ff'},
-  s4_dungeon:{mount:'ash_salamander',message:'🦎 Ash Salamander mount unlocked — it walks on lava!',color:'#ff8844'},
+  s4_dungeon:{mount:'ash_salamander',message:'🐲 Ash Dragon mount unlocked — water, boulders and lava are all open road now!',color:'#ff8844'},
   s1_tower:  {unlockSection:2,rings:['ruby_ring','speed_ring'],message:'🌿 SE Wetlands unlocked! Found 2 rings!',color:'#44aaff'},
   s2_tower:  {unlockSection:3,rings:['sapphire_ring','power_ring'],message:'🏔️ SW Highlands unlocked! Found 2 rings!',color:'#ffddaa'},
   s3_tower:  {unlockSection:4,rings:['emerald_ring','warding_ring'],message:'🌋 NW Ashlands unlocked! Found 2 rings!',color:'#ffaa66'},

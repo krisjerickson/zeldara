@@ -6,7 +6,7 @@
 // ║ localStorage['qoz_v2_backup_v<old>'] so nothing is ever lost.
 // ║ To change the save shape later: bump SAVE_VERSION and add a step.
 // ═══════════════════════════════════════════════════════════════════════
-var SAVE_VERSION=4;
+var SAVE_VERSION=5;
 var _SAVE_TRANSIENT=['_seaState'];   // runtime-only fields never written to disk
 
 function _migrateSave(d, raw){
@@ -36,6 +36,13 @@ function _migrateSave(d, raw){
     if(!Array.isArray(d.rescued))d.rescued=[];
     // Tower bosses already beaten → their craftsman is already free
     [1,2,3,4].forEach(function(sec){ if(d.completedQuests.indexOf('s'+sec+'_tower')>=0&&d.rescued.indexOf(sec)<0)d.rescued.push(sec); });
+  }
+  if(v<5){
+    // Phase 3: the world is now the 1200 × 1200 continent. Old positions and
+    // the old 75×75 exploration grid don't line up with it: start at the
+    // village with a fresh map (progress, items and quests are kept).
+    delete d.px; delete d.py; delete d.exploredGridArr;
+    d.activatedWaystones=['ws_village']; d.visitedZones=[];
   }
   _SAVE_TRANSIENT.forEach(function(k){ delete d[k]; });
   d.saveVersion=SAVE_VERSION;

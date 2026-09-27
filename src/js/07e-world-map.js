@@ -2,11 +2,12 @@
 // ║ WORLD MAP (Phase 3 · D1/D2) — the 1200 × 1200 island
 // ║ No longer a circle cut in quarters: a rugged continent (bays, fjords,
 // ║ capes, offshore islets) whose four regions are divided by natural
-// ║ borders meeting at a central lake:
-// ║   Grasslands↔Wetlands  Silverrun river   — Builder's bridge (gate 1)
-// ║   Wetlands↔Highlands   the Great Scarp   — Mechanic's lift  (gate 2)
-// ║   Highlands↔Ashlands   Cinder Chasm      — Forger's iron bridge (gate 3)
-// ║   Ashlands↔Grasslands  Ember Wall ridge  — no crossing
+// ║ borders meeting at a central lake. Each border has THREE crossings
+// ║ (lakeside, middle, coast) that open together when its craftsman is freed:
+// ║   Grasslands↔Wetlands  Silverrun river   — Bram's bridges     (s1 tower)
+// ║   Wetlands↔Highlands   the Great Scarp   — Mira's lifts       (s2 tower)
+// ║   Highlands↔Ashlands   Cinder Chasm      — Dunn's iron bridges(s3 tower)
+// ║   Ashlands↔Grasslands  Ember Wall ridge  — Vela's passes      (s4 tower)
 // ║ Each region holds its 10 Lab designs as hand-placed sub-zones, plus
 // ║ roads, rivers, sites, harbors and rune waystones (fast travel).
 // ║ Shared by the game (world generation) and the Design Lab (Map tab).
@@ -52,6 +53,17 @@ var WMAP_WAYSTONE_ZONES={1:['waystone_road','firefly_river','amphitheatre','gian
 var WMAP_VOLCANOES=[{id:'volcano_main',type:'volcano_main',section:3,x:60,y:1160},{id:'volcano_n',type:'volcano_mini',section:1,x:1170,y:40},
   {id:'volcano_e',type:'volcano_mini',section:2,x:1170,y:1170},{id:'volcano_s',type:'volcano_mini',section:3,x:30,y:860},{id:'volcano_w',type:'volcano_mini',section:4,x:30,y:30}];
 
+// The four borders and their three crossings each (lakeside → coast).
+// arm: which border arm (E river, S cliff, W chasm, N ridge); dir: 'v' = cross
+// north/south, 'h' = cross east/west. sides: [region before, region after] along dir.
+var WMAP_BORDERS=[
+  {id:'silverrun',name:'Silverrun',   arm:'E',dir:'v',sides:[1,2],craftsman:1,kind:'bridge',icon:'🔨',names:['Lakeside Bridge','Millrace Bridge','Estuary Bridge']},
+  {id:'scarp',    name:'Great Scarp', arm:'S',dir:'h',sides:[3,2],craftsman:2,kind:'lift',  icon:'⚙️',names:['Lakeside Lift','Scarp Lift','Seacliff Lift']},
+  {id:'chasm',    name:'Cinder Chasm',arm:'W',dir:'v',sides:[4,3],craftsman:3,kind:'iron',  icon:'⚒️',names:['Lakeside Iron Bridge','Chasm Iron Bridge','Cape Iron Bridge']},
+  {id:'ember',    name:'Ember Wall',  arm:'N',dir:'h',sides:[4,1],craftsman:4,kind:'pass',  icon:'🧭',names:['Lakeside Pass','Ember Pass','Northcoast Pass']}
+];
+var WMAP_GATE_T=[0.16,0.5,0.82];
+var WMAP_STAMP_R=30;   // radius (tiles) of the zone's Lab sample stamped at its heart   // where along each arm the crossings sit
 function buildWorldMap(seed){
   seed=seed||12345;
   WMAP_ZONES.forEach(function(z){ if(z.x0===undefined){z.x0=z.x;z.y0=z.y;} z.x=z.x0; z.y=z.y0; });
@@ -90,11 +102,11 @@ function buildWorldMap(seed){
   var lakeR=function(x,y){ return 52+(n3(x/20,y/20)-0.5)*22; };
   for(var y4=CY-90;y4<CY+90;y4++)for(var x4=CX-90;x4<CX+90;x4++){ var dd=Math.hypot(x4-CX,y4-CY); if(dd<lakeR(x4,y4)){ cls[y4*W+x4]=WM.LAKE; region[y4*W+x4]=0; } }
   var paint=function(x,y,r,c,onlyLand){ for(var yy=Math.floor(y-r);yy<=y+r;yy++)for(var xx=Math.floor(x-r);xx<=x+r;xx++){ if(xx<0||yy<0||xx>=W||yy>=H)continue; if((xx-x)*(xx-x)+(yy-y)*(yy-y)>r*r)continue; var k=yy*W+xx; if(onlyLand&&(cls[k]===WM.OCEAN))continue; if(cls[k]===WM.LAKE&&c!==WM.LAKE)continue; cls[k]=c; } };
-  var arms=[];
-  for(var x5=CX+40;x5<W;x5++){ var yy5=armY(x5), c5=cls[Math.round(yy5)*W+x5]; if(c5===WM.OCEAN||c5===WM.SHALLOW)break; paint(x5,yy5,4+n2(x5/30,0)*3,WM.RIVER,true); }       // east: Silverrun river
-  for(var y6=CY+40;y6<H;y6++){ var xx6=armX(y6), c6=cls[y6*W+Math.round(xx6)]; if(c6===WM.OCEAN||c6===WM.SHALLOW)break; paint(xx6,y6,2.5,WM.CLIFF,true); }                     // south: Great Scarp
-  for(var x7=CX-40;x7>=0;x7--){ var yy7=armY(x7), c7=cls[Math.round(yy7)*W+x7]; if(c7===WM.OCEAN||c7===WM.SHALLOW)break; paint(x7,yy7,4+n2(x7/30,5)*2.5,WM.CHASM,true); }  // west: Cinder Chasm
-  for(var y8=CY-40;y8>=0;y8--){ var xx8=armX(y8), c8=cls[y8*W+Math.round(xx8)]; if(c8===WM.OCEAN||c8===WM.SHALLOW)break; paint(xx8,y8,6+n2(3,y8/30)*4,WM.RIDGE,true); }     // north: Ember Wall
+  var armEnd={};
+  for(var x5=CX+40;x5<W;x5++){ var yy5=armY(x5), c5=cls[Math.round(yy5)*W+x5]; if(c5===WM.OCEAN||c5===WM.SHALLOW)break; paint(x5,yy5,4+n2(x5/30,0)*3,WM.RIVER,true); armEnd.E=x5; }       // east: Silverrun river
+  for(var y6=CY+40;y6<H;y6++){ var xx6=armX(y6), c6=cls[y6*W+Math.round(xx6)]; if(c6===WM.OCEAN||c6===WM.SHALLOW)break; paint(xx6,y6,2.5,WM.CLIFF,true); armEnd.S=y6; }                     // south: Great Scarp
+  for(var x7=CX-40;x7>=0;x7--){ var yy7=armY(x7), c7=cls[Math.round(yy7)*W+x7]; if(c7===WM.OCEAN||c7===WM.SHALLOW)break; paint(x7,yy7,4+n2(x7/30,5)*2.5,WM.CHASM,true); armEnd.W=x7; }  // west: Cinder Chasm
+  for(var y8=CY-40;y8>=0;y8--){ var xx8=armX(y8), c8=cls[y8*W+Math.round(xx8)]; if(c8===WM.OCEAN||c8===WM.SHALLOW)break; paint(xx8,y8,6+n2(3,y8/30)*4,WM.RIDGE,true); armEnd.N=y8; }     // north: Ember Wall
   // ── 4. village on the Grasslands shore of the lake ──
   var village={x:690,y:520,r:30};
   for(var y9=village.y-village.r;y9<=village.y+village.r;y9++)for(var x9=village.x-village.r;x9<=village.x+village.r;x9++){ if(Math.hypot(x9-village.x,y9-village.y)<=village.r){ var k9=y9*W+x9; cls[k9]=WM.VILLAGE; region[k9]=0; } }
@@ -118,27 +130,46 @@ function buildWorldMap(seed){
   for(var y11=0;y11<H;y11++)for(var x11=0;x11<W;x11++){ var i11=y11*W+x11, rg2=region[i11]; if(!rg2||cls[i11]===WM.OCEAN)continue;
     var wx=x11+(n1(x11/60,y11/60)-0.5)*80, wy=y11+(n2(x11/60+9,y11/60+9)-0.5)*80, best=255, bd=1e18;
     var zs=zr[rg2]; for(var zz=0;zz<zs.length;zz++){ var dz=(zs[zz].x-wx)*(zs[zz].x-wx)+(zs[zz].y-wy)*(zs[zz].y-wy); if(dz<bd){bd=dz;best=zs[zz].idx;} } zone[i11]=best; }
-  // ── 7. gates across the borders ──
-  var gates=[
-    {id:'gate_builder', name:"Builder's Bridge", from:1,to:2, x:740, y:Math.round(armY(740)), dir:'v', craftsman:1},
-    {id:'gate_lift',    name:"Mechanic's Lift",  from:2,to:3, x:Math.round(armX(780)), y:780, dir:'h', craftsman:2},
-    {id:'gate_iron',    name:"Forger's Iron Bridge",from:3,to:4, x:470, y:Math.round(armY(470)), dir:'v', craftsman:3}];
-  gates.forEach(function(g){ for(var d=-12;d<=12;d++)for(var w=-2;w<=2;w++){ var gx=g.dir==='v'?g.x+w:g.x+d, gy=g.dir==='v'?g.y+d:g.y+w; if(gx<0||gy<0||gx>=W||gy>=H)continue; var k=gy*W+gx; if(cls[k]===WM.RIVER||cls[k]===WM.CLIFF||cls[k]===WM.CHASM)cls[k]=WM.GATE; } });
+  // ── 7. gates: three crossings per border (lakeside, middle, coast) ──
+  // Each spot is nudged along the arm until solid land waits on both banks.
+  var gates=[], landish=function(c){ return c===WM.LAND||c===WM.BEACH; };
+  var gatePos=function(B,p){ return B.dir==='v'?{x:p,y:Math.round(armY(p))}:{x:Math.round(armX(p)),y:p}; };
+  var bankOk=function(B,g){ for(var sd=-1;sd<=1;sd+=2)for(var d=14;d<=22;d++)for(var w=-2;w<=2;w++){ var gx=B.dir==='v'?g.x+w:g.x+sd*d, gy=B.dir==='v'?g.y+sd*d:g.y+w; if(gx<0||gy<0||gx>=W||gy>=H)return false; var k=gy*W+gx; if(!landish(cls[k]))return false; if(region[k]!==B.sides[sd<0?0:1])return false; } return true; };
+  WMAP_BORDERS.forEach(function(B){
+    var start=B.arm==='E'?CX+40:B.arm==='W'?CX-40:B.arm==='S'?CY+40:CY-40, end=armEnd[B.arm], L=end-start;
+    WMAP_GATE_T.forEach(function(t,gi){
+      var base=Math.round(start+L*t), best=null;
+      for(var off=0;off<120&&!best;off+=2)for(var sg=-1;sg<=1&&!best;sg+=2){ var p=base+sg*off; if((p-start)*(end-p)<=0)continue; var g=gatePos(B,p); if(bankOk(B,g))best=g; }
+      if(!best)best=gatePos(B,base);
+      gates.push({id:'gate_'+B.id+'_'+(gi+1),border:B.id,borderName:B.name,name:B.names[gi],icon:B.icon,kind:B.kind,x:best.x,y:best.y,dir:B.dir,
+        from:B.sides[0],to:B.sides[1],craftsman:B.craftsman,idx:gi});
+    });
+  });
+  var gateAt=new Uint8Array(N);   // gate index+1 on every crossing cell
+  gates.forEach(function(g,gi){ g.cells=[]; for(var d=-13;d<=13;d++)for(var w=-2;w<=2;w++){ var gx=g.dir==='v'?g.x+w:g.x+d, gy=g.dir==='v'?g.y+d:g.y+w; if(gx<0||gy<0||gx>=W||gy>=H)continue; var k=gy*W+gx; if(cls[k]===WM.RIVER||cls[k]===WM.CLIFF||cls[k]===WM.CHASM||cls[k]===WM.RIDGE){ g.cells.push([k,cls[k]]); cls[k]=WM.GATE; gateAt[k]=gi+1; } } });
   // ── 8. roads: village → zones of each region (via the gates) ──
-  var road=function(a,b){ var L=Math.hypot(b[0]-a[0],b[1]-a[1]); for(var u=0;u<=L;u+=0.5){ var tt=u/L, px=a[0]+(b[0]-a[0])*tt+Math.sin(tt*Math.PI)*(n3(a[0]/50+u/60,a[1]/50)-0.5)*40, py=a[1]+(b[1]-a[1])*tt+Math.sin(tt*Math.PI)*(n4(a[1]/50+u/60,a[0]/50)-0.5)*40;
-      for(var yy=Math.floor(py-1.5);yy<=py+1.5;yy++)for(var xx=Math.floor(px-1.5);xx<=px+1.5;xx++){ if(xx<0||yy<0||xx>=W||yy>=H)continue; var k=yy*W+xx, c=cls[k];
+  var roadPts=[];   // road centre-line samples (smooth roads when painted)
+  var road=function(a,b,rg){ var L=Math.hypot(b[0]-a[0],b[1]-a[1]); for(var u=0;u<=L;u+=0.5){ var tt=u/L, px=a[0]+(b[0]-a[0])*tt+Math.sin(tt*Math.PI)*(n3(a[0]/50+u/60,a[1]/50)-0.5)*40, py=a[1]+(b[1]-a[1])*tt+Math.sin(tt*Math.PI)*(n4(a[1]/50+u/60,a[0]/50)-0.5)*40; roadPts.push(px+0.5,py+0.5);
+      for(var yy=Math.floor(py-1.5);yy<=py+1.5;yy++)for(var xx=Math.floor(px-1.5);xx<=px+1.5;xx++){ if(xx<0||yy<0||xx>=W||yy>=H)continue; var k=yy*W+xx, c=cls[k]; if(rg&&region[k]!==rg&&c!==WM.VILLAGE)continue;
         if(c===WM.LAND||c===WM.BEACH||c===WM.PEAK)cls[k]=WM.ROAD; else if(c===WM.RIVER||c===WM.LAKE||c===WM.SHALLOW||c===WM.OCEAN)cls[k]=WM.BRIDGE; } } };
-  var mst=function(pts){ var inT=[0], edges=[]; while(inT.length<pts.length){ var best=null,bd=1e18; inT.forEach(function(a){ pts.forEach(function(p,j){ if(inT.indexOf(j)>=0)return; var d=Math.hypot(p[0]-pts[a][0],p[1]-pts[a][1]); if(d<bd){bd=d;best=[a,j];} }); }); inT.push(best[1]); edges.push(best); } edges.forEach(function(e){ road(pts[e[0]],pts[e[1]]); }); };
-  var gateSide=function(g,side){ return g.dir==='v'?[g.x,g.y+(side<0?-15:15)]:[g.x+(side<0?-15:15),g.y]; };
+  var mst=function(pts,rg){ var inT=[0], edges=[]; while(inT.length<pts.length){ var best=null,bd=1e18; inT.forEach(function(a){ pts.forEach(function(p,j){ if(inT.indexOf(j)>=0)return; var d=Math.hypot(p[0]-pts[a][0],p[1]-pts[a][1]); if(d<bd){bd=d;best=[a,j];} }); }); inT.push(best[1]); edges.push(best); } edges.forEach(function(e){ road(pts[e[0]],pts[e[1]],rg); }); };
+  // a point 16 tiles onto the bank of region r
+  var gateSide=function(g,r){ var side=(r===g.from)?-1:1; return g.dir==='v'?[g.x,g.y+side*16]:[g.x+side*16,g.y]; };
   var hearts=function(r){ return zr[r].map(function(z){return [z.x,z.y];}); };
-  mst([[village.x,village.y],gateSide(gates[0],-1)].concat(hearts(1)));
-  mst([gateSide(gates[0],1),gateSide(gates[1],1)].concat(hearts(2)));
-  mst([gateSide(gates[1],-1),gateSide(gates[2],1)].concat(hearts(3)));
-  mst([gateSide(gates[2],-1)].concat(hearts(4)));
+  var sidesOf=function(r){ return gates.filter(function(g){return g.from===r||g.to===r;}).map(function(g){ return gateSide(g,r); }); };
+  mst([[village.x,village.y]].concat(sidesOf(1),hearts(1)),1);
+  [2,3,4].forEach(function(r){ mst(sidesOf(r).concat(hearts(r)),r); });
   // ── 9. sites, harbors, waystones ──
   var zoneById={}; WMAP_ZONES.forEach(function(z){ zoneById[z.id]=z; });
   var reach=worldMapReach({W:W,H:H,cls:cls,village:village});
-  var nearOpen=function(x,y,off){ var best=null,bd=1e9; for(var rr=0;rr<40&&!best;rr+=2)for(var a=0;a<16;a++){ var px=Math.round(x+off[0]+Math.cos(a/16*Math.PI*2)*rr), py=Math.round(y+off[1]+Math.sin(a/16*Math.PI*2)*rr); if(px<4||py<4||px>=W-4||py>=H-4)continue; var ok=!!reach[py*W+px]; for(var q=-2;q<=4&&ok;q++)for(var r=-2;r<=4;r++){ var c=cls[(py+q)*W+px+r]; if(c!==WM.LAND){ok=false;break;} } if(ok){best={x:px,y:py};break;} } return best||{x:x,y:y}; };
+  // Each zone heart holds that zone's Lab sample (60×60, the landmark), so sites
+  // and waystones go on a ring just outside it, in the direction of `off`.
+  var nearOpen=function(x,y,off,minR){ minR=minR===undefined?WMAP_STAMP_R+6:minR; var a0=Math.atan2(off[1],off[0]), best=null;
+    for(var rr=minR;rr<minR+60&&!best;rr+=3)for(var ai=0;ai<24&&!best;ai++){ var a=a0+(ai%2?1:-1)*Math.ceil(ai/2)*Math.PI/12, px=Math.round(x+Math.cos(a)*rr), py=Math.round(y+Math.sin(a)*rr);
+      if(px<4||py<4||px>=W-4||py>=H-4)continue; var k0=py*W+px; if(!reach[k0]||zone[k0]!==zone[y*W+x])continue; var ok=true;
+      for(var q=-2;q<=4&&ok;q++)for(var r=-2;r<=4;r++){ var c=cls[(py+q)*W+px+r]; if(c!==WM.LAND){ok=false;break;} } if(ok)best={x:px,y:py}; }
+    if(!best)for(var rr2=minR;rr2<minR+60&&!best;rr2+=2)for(var a2=0;a2<32&&!best;a2++){ var px2=Math.round(x+Math.cos(a2/32*Math.PI*2)*rr2), py2=Math.round(y+Math.sin(a2/32*Math.PI*2)*rr2); if(px2<4||py2<4||px2>=W-4||py2>=H-4)continue; var k2=py2*W+px2; if(reach[k2]&&cls[k2]===WM.LAND)best={x:px2,y:py2}; }
+    return best||{x:x,y:y}; };
   var sites=[];
   SITE_ROSTER&&[1,2,3,4].forEach(function(sec){ (SITE_ROSTER[sec]||[]).forEach(function(r){ var z=zoneById[WMAP_SITE_ZONE[r.design]]; if(!z)return; var p=nearOpen(z.x,z.y,[10,6]); sites.push({kind:r.kind,design:r.design,boss:!!r.boss,section:sec,x:p.x,y:p.y,zone:z.id}); });
     ['camp','skyport'].forEach(function(t){ var z=zoneById[WMAP_SITE_ZONE[t+sec]]; var p=nearOpen(z.x,z.y,[-12,8]); sites.push({kind:t,section:sec,x:p.x,y:p.y,zone:z.id}); });
@@ -146,19 +177,21 @@ function buildWorldMap(seed){
     var hz=zoneById[WMAP_SITE_ZONE['harbor'+sec]], ang=Math.atan2(hz.y-CY,hz.x-CX), hx=hz.x, hy=hz.y, last=null;
     for(var st=0;st<400;st++){ hx+=Math.cos(ang); hy+=Math.sin(ang); var k=Math.round(hy)*W+Math.round(hx); if(k<0||k>=N)break; if(cls[k]===WM.OCEAN||cls[k]===WM.SHALLOW)break; if((cls[k]===WM.BEACH||cls[k]===WM.LAND)&&reach[k])last={x:Math.round(hx),y:Math.round(hy)}; }
     if(last)sites.push({kind:'harbor',section:sec,x:last.x,y:last.y,angle:ang,zone:hz.id}); });
-  var waystones=[{id:'ws_village',name:'Village Waystone',region:0,x:village.x+10,y:village.y+14}];
+  var waystones=[{id:'ws_village',name:'Village Waystone',region:0,x:village.x+4,y:village.y+3}];
   [1,2,3,4].forEach(function(r){ WMAP_WAYSTONE_ZONES[r].forEach(function(zid,i){ var z=zoneById[zid], p=nearOpen(z.x,z.y,[-6,-10]); waystones.push({id:'ws_'+zid,name:_wmZoneName(zid)+' Waystone',region:r,x:p.x,y:p.y,zone:zid}); }); });
   // coast distance (for ocean depth colouring) — cheap 2-pass chamfer
   for(var i12=0;i12<N;i12++)coastDist[i12]=(cls[i12]===WM.OCEAN||cls[i12]===WM.SHALLOW)?1e6:0;
   for(var y13=1;y13<H;y13++)for(var x13=1;x13<W;x13++){ var k13=y13*W+x13; coastDist[k13]=Math.min(coastDist[k13],coastDist[k13-1]+1,coastDist[k13-W]+1); }
   for(var y14=H-2;y14>=0;y14--)for(var x14=W-2;x14>=0;x14--){ var k14=y14*W+x14; coastDist[k14]=Math.min(coastDist[k14],coastDist[k14+1]+1,coastDist[k14+W]+1); }
-  return {W:W,H:H,cls:cls,region:region,zone:zone,height:height,coastDist:coastDist,village:village,gates:gates,sites:sites,waystones:waystones,volcanoes:WMAP_VOLCANOES,zones:WMAP_ZONES,
+  return {W:W,H:H,cls:cls,region:region,zone:zone,gateAt:gateAt,roadPts:roadPts,height:height,coastDist:coastDist,village:village,gates:gates,sites:sites,waystones:waystones,volcanoes:WMAP_VOLCANOES,zones:WMAP_ZONES,
     armX:armX, armY:armY};
 }
 function _wmZoneName(id){ if(typeof WORLD_DESIGNS!=='undefined'){ var d=WORLD_DESIGNS.find(function(z){return z.id===id;}); if(d)return d.name; } return id.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();}); }
 // Walkability check used by tests / the Lab: flood fill from the village through
-// open land, roads, bridges and gates (ignores region locks).
-function worldMapReach(M){ var W=M.W,H=M.H,cls=M.cls,seen=new Uint8Array(W*H),q=[M.village.y*W+M.village.x]; seen[q[0]]=1;
-  var walk=function(c){ return c===WM.LAND||c===WM.BEACH||c===WM.ROAD||c===WM.BRIDGE||c===WM.VILLAGE||c===WM.GATE; };
-  for(var i=0;i<q.length;i++){ var k=q[i],x=k%W,y=(k/W)|0; if(x>0&&!seen[k-1]&&walk(cls[k-1])){seen[k-1]=1;q.push(k-1);} if(x<W-1&&!seen[k+1]&&walk(cls[k+1])){seen[k+1]=1;q.push(k+1);} if(y>0&&!seen[k-W]&&walk(cls[k-W])){seen[k-W]=1;q.push(k-W);} if(y<H-1&&!seen[k+W]&&walk(cls[k+W])){seen[k+W]=1;q.push(k+W);} }
+// open land, roads, bridges and gates (ignores region locks). openGate(g) → false
+// keeps that crossing shut (default: all open).
+function worldMapReach(M,openGate){ var W=M.W,H=M.H,cls=M.cls,seen=new Uint8Array(W*H),q=[M.village.y*W+M.village.x]; seen[q[0]]=1;
+  var gOpen=M.gates?M.gates.map(function(g){ return !openGate||!!openGate(g); }):[];
+  var walk=function(c,k){ if(c===WM.GATE)return !M.gateAt||!M.gateAt[k]||gOpen[M.gateAt[k]-1]; return c===WM.LAND||c===WM.BEACH||c===WM.ROAD||c===WM.BRIDGE||c===WM.VILLAGE; };
+  for(var i=0;i<q.length;i++){ var k=q[i],x=k%W,y=(k/W)|0; if(x>0&&!seen[k-1]&&walk(cls[k-1],k-1)){seen[k-1]=1;q.push(k-1);} if(x<W-1&&!seen[k+1]&&walk(cls[k+1],k+1)){seen[k+1]=1;q.push(k+1);} if(y>0&&!seen[k-W]&&walk(cls[k-W],k-W)){seen[k-W]=1;q.push(k-W);} if(y<H-1&&!seen[k+W]&&walk(cls[k+W],k+W)){seen[k+W]=1;q.push(k+W);} }
   return seen; }

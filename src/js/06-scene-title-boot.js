@@ -45,7 +45,7 @@ class BootScene extends Phaser.Scene{
     this.add.rectangle(w/2,h/2+8,420,20,0x111122).setStrokeStyle(1,0x00f5ff);
     this._bar=this.add.rectangle(w/2-206,h/2+8,4,18,0x00f5ff).setOrigin(0,.5);
     this._pct=this.add.text(w/2,h/2+26,'Generating world...0%',{fontSize:'11px',color:'#6688aa',fontFamily:'Segoe UI'}).setOrigin(.5);
-    this.add.text(w/2,h/2+50,'600 × 600 tiles — circular island world',{fontSize:'9px',color:'#334455',fontFamily:'Segoe UI'}).setOrigin(.5);
+    this.add.text(w/2,h/2+50,'1200 × 1200 tiles — four regions, twelve crossings, seventeen waystones',{fontSize:'9px',color:'#334455',fontFamily:'Segoe UI'}).setOrigin(.5);
     var self=this;
     this.time.delayedCall(50,function(){self._startGen();});
   }

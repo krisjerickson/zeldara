@@ -72,13 +72,8 @@ function _volcanoSiteDefs(){
   // back to the main island so the player can walk over.
   // Big volcano: large new landmass in the bottom-left (SW corner), also
   // bridged from the main island.
-  return [
-    {type:'volcano_main',section:3,tx:50,           ty:WORLD_H-65,id:'volcano_main'},
-    {type:'volcano_mini',section:1,tx:CENTER_X+210, ty:CENTER_Y-210,id:'volcano_n'},
-    {type:'volcano_mini',section:2,tx:CENTER_X+210, ty:CENTER_Y+210,id:'volcano_e'},
-    {type:'volcano_mini',section:3,tx:CENTER_X-210, ty:CENTER_Y+210,id:'volcano_s'},
-    {type:'volcano_mini',section:4,tx:CENTER_X-210, ty:CENTER_Y-210,id:'volcano_w'},
-  ];
+  // Phase 3: positions come from the world map (offshore, one per corner).
+  return WMAP_VOLCANOES.map(function(v){ return {type:v.type,section:v.section,tx:v.x-1,ty:v.y-1,id:v.id}; });
 }
 // Carve out ocean → lava/rock terrain around the big volcano site so it
 // looks like a real volcanic island emerged from the sea. Run once per
@@ -93,11 +88,12 @@ function _carveBigVolcanoTerrain(ws){
   var defs=_volcanoSiteDefs();
   var changed=[];
 
-  function isOcean(t){ return t===T.OCEAN||t===T.SHALLOW_WATER||t===T.DEEP_WATER||t===T.BEACH; }
+  function isOcean(t){ return t===T.OCEAN||t===T.REEF||t===T.SHALLOW_WATER||t===T.BEACH; }
   function setTile(tx,ty,nt){
     if(tx<0||tx>=WORLD_W||ty<0||ty>=WORLD_H)return;
     if(!isOcean(tiles[ty][tx]))return; // never overwrite land
     tiles[ty][tx]=nt;
+    if(ws.wd.kind&&WSK){ var vk=nt===T.DEEP_MAGMA?WSK.lava:nt===T.THIN_MAGMA?WSK.crust:WSK.ashsand; ws.wd.kind[ty*WORLD_W+tx]=vk._gi; }
     changed.push([tx,ty]);
   }
 
@@ -126,7 +122,7 @@ function _carveBigVolcanoTerrain(ws){
     }
   }
 
-  // Land bridge — 3-tile-wide path between two world points. Only carves
+  // Lava causeway between two world points (Ash Dragon territory). Only carves
   // ocean tiles; lands on existing terrain become no-ops.
   function carveBridge(x1,y1,x2,y2,halfWidth){
     var steps=Math.max(Math.abs(x2-x1), Math.abs(y2-y1)) * 2;
@@ -138,10 +134,8 @@ function _carveBigVolcanoTerrain(ws){
       var bx=x1+nx*t, by=y1+ny*t;
       for(var w=-halfWidth; w<=halfWidth; w++){
         var ox=Math.round(bx + px*w), oy=Math.round(by + py*w);
-        // Mostly dark rock with occasional ash/path for visual variation
-        var r=Math.random();
-        var nt = r<0.55?T.DARK_ROCK : r<0.85?T.ROCKY_GROUND : T.ASH_GROUND;
-        setTile(ox,oy,nt);
+        // Phase 3: a molten causeway — only the Ash Dragon (or the Dragon) crosses it
+        setTile(ox,oy,T.DEEP_MAGMA);
       }
     }
   }
@@ -152,10 +146,9 @@ function _carveBigVolcanoTerrain(ws){
     var R = isBig?28:8;
     carveIsland(cx, cy, R, isBig);
     // Bridge: from main-island edge all the way to the door plaza (no buffer).
-    var ang=Math.atan2(cy-CENTER_Y, cx-CENTER_X);
-    var startX = CENTER_X + Math.cos(ang)*(ISLAND_RADIUS-4);
-    var startY = CENTER_Y + Math.sin(ang)*(ISLAND_RADIUS-4);
-    carveBridge(startX, startY, cx, cy, isBig?3:2);
+    // Bridge: from the nearest shore of the volcano's region (found at build).
+    var an=ws.wd.volcanoAnchors&&ws.wd.volcanoAnchors[d.id];
+    if(an)carveBridge(an.x, an.y, cx, cy, isBig?3:2);
     // Door plaza — force the 3×3 site tile area to be walkable DARK_ROCK,
     // overwriting whatever was carved there (lava, ocean, etc.). This is
     // where the player stands to TAB the door.
@@ -163,6 +156,7 @@ function _carveBigVolcanoTerrain(ws){
       var ptx=d.tx+px, pty=d.ty+py;
       if(ptx<0||ptx>=WORLD_W||pty<0||pty>=WORLD_H)continue;
       tiles[pty][ptx]=T.DARK_ROCK;
+      if(ws.wd.kind&&WSK)ws.wd.kind[pty*WORLD_W+ptx]=WSK.plaza._gi;
       changed.push([ptx,pty]);
     }
   });
@@ -170,9 +164,10 @@ function _carveBigVolcanoTerrain(ws){
   // Refresh affected chunks. Each refresh is wrapped in try-catch so one
   // bad chunk can't abort the whole carve, and batched across animation
   // frames so we don't freeze the browser.
+  if(changed.length)ws.wd.baseVer=(ws.wd.baseVer||0)+1;   // world map redraws the new islands
   if(ws._refreshChunkAt && changed.length){
     var seen={};
-    var CHUNK_TILES=20;
+    var CHUNK_TILES=CHUNK;
     var chunksToRefresh=[];
     changed.forEach(function(p){
       var k=Math.floor(p[0]/CHUNK_TILES)+','+Math.floor(p[1]/CHUNK_TILES);

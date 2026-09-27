@@ -34,10 +34,18 @@ function sbRevealMap(){
   var ws=_sbWs(); if(!ws||!ws.playerState||!ws.playerState.exploredGrid) return;
   var g=ws.playerState.exploredGrid;
   for(var i=0;i<g.length;i++) g[i]=1;
+  ws.playerState.visitedZones=WMAP_ZONES.map(function(z){return z.id;});   // names on the full map too
   ws._expVer=(ws._expVer||0)+1; // bump so minimap re-caches
   if(ws._emitUI) ws._emitUI();
   if(ws._save) ws._save();
   showNotif('🗺️ Full map revealed','#88aaff');
+}
+function sbAllWaystones(){
+  var ws=_sbWs(); if(!ws||!ws.wd) return; var ps=ws.playerState;
+  ps.activatedWaystones=ws.wd.waystones.map(function(w){return w.id;});
+  ws.wd.waystones.forEach(function(w){ ws._drawWaystone(w); });
+  ws._expVer=(ws._expVer||0)+1; if(ws._save)ws._save();
+  showNotif('🔷 All '+ps.activatedWaystones.length+' waystones activated','#6fe3f5');
 }
 function _sbTeleportTo(tx, ty){
   var ws=_sbWs(); if(!ws||!ws.player) return false;
@@ -90,7 +98,10 @@ function sbHeal(){var ws=_sbWs();if(ws){ws.playerState.hp=ws.playerState.maxHp;w
 function sbUnlockAll(){
   var ws=_sbWs();if(!ws)return;
   for(var i=1;i<=4;i++)ws.unlockSection(i);
-  ws._emitUI();showNotif('All sections unlocked!','#ffdd44');
+  // …and build every crossing (all four craftsmen count as freed)
+  var ps=ws.playerState; if(!ps.rescued)ps.rescued=[]; [1,2,3,4].forEach(function(s){ if(ps.rescued.indexOf(s)<0)ps.rescued.push(s); });
+  if(ws._syncGates)ws._syncGates(true); if(ws._refreshVillageNPCs)ws._refreshVillageNPCs();
+  ws._emitUI();showNotif('All regions unlocked + all 12 crossings open!','#ffdd44');
 }
 function sbGodMode(){
   var ws=_sbWs();if(!ws)return;
@@ -108,14 +119,9 @@ function sbTeleport(sec){
   var ws=_sbWs();if(!ws)return;
   var x,y;
   if(sec===0){x=CENTER_X*TILE+TILE/2;y=CENTER_Y*TILE+TILE/2;}
-  else{
-    var d=ISLAND_RADIUS*0.6*TILE;
-    if(sec===1){x=(CENTER_X+d/TILE)*TILE;y=(CENTER_Y-d/TILE)*TILE;}
-    else if(sec===2){x=(CENTER_X+d/TILE)*TILE;y=(CENTER_Y+d/TILE)*TILE;}
-    else if(sec===3){x=(CENTER_X-d/TILE)*TILE;y=(CENTER_Y+d/TILE)*TILE;}
-    else{x=(CENTER_X-d/TILE)*TILE;y=(CENTER_Y-d/TILE)*TILE;}
-  }
+  else{ var c=ws._getSectionCenter(sec); x=c.x*TILE+TILE/2; y=c.y*TILE+TILE/2; }
   ws.player.x=x;ws.player.y=y;ws.player.cont.setPosition(x,y);
+  if(ws.cameras&&ws.cameras.main)ws.cameras.main.centerOn(x,y);
   ws._emitUI();showNotif('Teleported!','#44ffaa');closeModal('sandbox');
 }
 function sbSpawnMonsters(){
@@ -352,7 +358,7 @@ function sbRunBot(){
       else logWarn('Tower sec 2 NOT found');
     }},
     {ms:80,fn:function(){
-      _botTeleport(ws,(CENTER_X+120)*TILE,(CENTER_Y+120)*TILE);
+      var _c2=ws._getSectionCenter(2); _botTeleport(ws,_c2.x*TILE,_c2.y*TILE);
       var killed=killNearby(5);
       logOk('Sec 2 patrol — killed '+killed+' monsters');
     }},

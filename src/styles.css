@@ -377,3 +377,40 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
 #sl-bar button:disabled{opacity:.35;cursor:default}
 #sl-bar .lbl{padding:0 6px;color:#9ff0ff;font-weight:600;white-space:nowrap}
 #modal-sitelab{z-index:320}
+
+/* ── Minimap HUD + Full World Map (Phase 3) ─────────────────────────── */
+#minimap-hud{position:fixed;bottom:100px;right:12px;z-index:150;pointer-events:none}
+.mmh-wrap{position:relative;width:170px;height:170px}
+#minimap-hud-canvas{width:170px;height:170px;border:1px solid rgba(255,255,255,.25);border-radius:8px;background:#05080f;display:block;box-shadow:0 2px 10px rgba(0,0,0,.6)}
+#mmh-full{position:absolute;top:4px;right:4px;pointer-events:auto;cursor:pointer;width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,.35);background:rgba(10,16,30,.85);color:#fff;font-size:15px;line-height:1;padding:0}
+#mmh-full:hover{background:rgba(40,70,120,.95);border-color:#8fd0ff}
+#mmh-zone{text-align:center;font:600 10px 'Segoe UI',sans-serif;color:#e8f0ff;margin-top:3px;text-shadow:0 1px 2px #000,0 0 4px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}
+#mmh-zone small{color:#9fb0cc;font-weight:400}
+#zone-banner{position:fixed;top:128px;left:50%;transform:translateX(-50%);z-index:140;pointer-events:none;text-align:center;opacity:0;transition:opacity .6s}
+#zone-banner.on{opacity:1}
+#zone-banner .zb-name{font:700 22px Georgia,serif;color:#fff4d8;text-shadow:0 2px 6px #000,0 0 14px rgba(0,0,0,.8);letter-spacing:.5px}
+#zone-banner .zb-reg{font:600 11px 'Segoe UI',sans-serif;color:#b8c8e0;text-shadow:0 1px 3px #000;letter-spacing:2px;text-transform:uppercase}
+.wmap-modal{padding:14px 16px;max-height:94vh;max-width:96vw;overflow:hidden}
+.wmap-modal .mhdr{margin-bottom:10px;gap:10px}
+.wmap-tools{display:flex;gap:4px;margin-left:auto}
+.wmap-z{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:#cdd;border-radius:6px;padding:3px 9px;cursor:pointer;font-size:12px}
+.wmap-z.on,.wmap-z:hover{background:rgba(90,150,255,.25);border-color:#8fb8ff;color:#fff}
+.wmap-body{display:flex;gap:14px;align-items:stretch}
+#wmap-wrap{position:relative;flex:none;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.15);background:#05080f}
+#minimap-canvas{display:block;cursor:grab}
+#minimap-canvas.drag{cursor:grabbing}
+#wmap-tip{position:absolute;display:none;pointer-events:none;background:rgba(6,10,20,.92);border:1px solid rgba(255,255,255,.25);border-radius:6px;padding:4px 8px;font:12px 'Segoe UI',sans-serif;color:#eef;white-space:nowrap;z-index:2}
+#wmap-tip span{color:#9ab}
+#wmap-side{width:240px;flex:none;overflow-y:auto;font:12px 'Segoe UI',sans-serif;color:#cdd6e8}
+#wmap-side h4{margin:10px 0 4px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#8fa4c8}
+#wmap-side h4:first-child{margin-top:0}
+.wm-lg{display:flex;align-items:center;gap:7px;margin:3px 0}
+.wm-lg i{display:inline-block;width:12px;height:12px;border-radius:3px;flex:none}
+.wm-ws{display:flex;align-items:center;gap:6px;width:100%;text-align:left;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:#dfe8ff;border-radius:6px;padding:5px 7px;margin:3px 0;cursor:pointer;font:12px 'Segoe UI',sans-serif}
+.wm-ws:hover:not([disabled]){background:rgba(111,227,245,.16);border-color:#6fe3f5}
+.wm-ws[disabled]{opacity:.45;cursor:default}
+.wm-ws.here{border-color:#ffd24a;background:rgba(255,210,74,.1);cursor:default}
+.wm-ws b{flex:1;font-weight:600}
+.wm-ws em{font-style:normal;color:#ffd700;font-size:11px}
+.wm-ws em.free{color:#7fe0a0}
+.wm-note{color:#8a97b0;font-size:11px;line-height:1.4;margin:6px 0}

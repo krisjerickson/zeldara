@@ -130,6 +130,31 @@ function drawTileToCtx(ctx,px,py,tv,pal,vi){
     ctx.fillStyle=toH(dc);ctx.globalAlpha=.22;
     pebbles.forEach(function(p){ctx.beginPath();ctx.arc(px+p[0],py+p[1],p[2],0,Math.PI*2);ctx.fill();});
 
+  } else if(tv===T.CLIFF){
+    // Border cliff / ridge: layered rock strata with a lit top edge
+    lg(0,0,0,ts,toH(lc),toH(dc),.55);
+    ctx.globalAlpha=.45;ctx.fillStyle=toH(dk(dc));
+    [5,13,22].forEach(function(y0,ii){ctx.fillRect(px,py+y0+((pv+ii)%3),ts,2);});
+    ctx.globalAlpha=.35;ctx.fillStyle=toH(lc);
+    [9,18,27].forEach(function(y0,ii){ctx.fillRect(px+((pv*7+ii*11)%20),py+y0,10,1);});
+    ctx.globalAlpha=.5;ctx.strokeStyle=toH(dk(dc));ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(px+[6,20,12,26][pv],py);ctx.lineTo(px+[10,16,8,22][pv],py+ts*.5);ctx.lineTo(px+[7,19,13,24][pv],py+ts);ctx.stroke();
+  } else if(tv===T.BRIDGE){
+    // Plank deck with dark gaps and rail posts
+    ctx.globalAlpha=1;ctx.fillStyle=toH(dc);
+    for(var bi=0;bi<ts;bi+=6)ctx.fillRect(px,py+bi,ts,1);
+    ctx.globalAlpha=.35;ctx.fillStyle=toH(lc);
+    for(var bj=2;bj<ts;bj+=6)ctx.fillRect(px+((pv*5+bj)%9),py+bj,ts-10,1);
+    ctx.globalAlpha=.6;ctx.fillStyle=toH(dk(dc));
+    ctx.fillRect(px+3,py+14,2,2);ctx.fillRect(px+ts-5,py+20,2,2);
+  } else if(tv===T.REEF){
+    // Sunlit shallows over sand: lighter water, sandy speckle, soft wave lines
+    lg(0,0,0,ts,'rgba(120,200,230,.25)','rgba(20,70,130,.35)',.9);
+    ctx.fillStyle='rgba(230,215,160,.18)';ctx.globalAlpha=1;
+    [[5,7],[19,4],[12,20],[25,24],[8,27]].forEach(function(q,ii){if((ii+pv)%2)ctx.fillRect(px+q[0],py+q[1],3,2);});
+    ctx.fillStyle='rgba(200,240,255,.28)';
+    var rOff=[0,ts*.12,ts*.06,ts*.18][pv];
+    [.28,.66].forEach(function(fy){ctx.fillRect(px+4,py+fy*ts+rOff,ts-8,1.5);});
   } else if(tv===T.OCEAN){
     lg(0,0,0,ts,'rgba(30,80,160,.3)','rgba(6,24,90,.5)',.9);
     ctx.fillStyle='rgba(120,180,255,.22)';ctx.globalAlpha=1;
@@ -337,59 +362,13 @@ function drawTileToCtx(ctx,px,py,tv,pal,vi){
   ctx.globalAlpha=1;
 }
 
-// ─── World Generation (Circular Island) ─────────
+// ─── World Generation ─────────
+// Phase 3: the 1200 × 1200 continent is built from the world map
+// (07e-world-map.js) by _buildGameWorld() in 05b-world-build.js.
 var _worldData=null;
 function generateWorld(){
   if(_worldData)return _worldData;
-  var tiles=[];
-  for(var y=0;y<WORLD_H;y++){tiles.push(new Uint8Array(WORLD_W));}
-  
-  var genGrasslands=function(x,y){
-    var n1=noise(x,y,8,1),n2=noise(x,y,3,2);
-    return n1>.80?T.TREE:n1>.72?T.ROCK:n2>.85?T.FLOWER:n2<.15?T.DIRT:n1>.55?T.GRASS2:T.GRASS;
-  };
-  var genWetlands=function(x,y){
-    var n1=noise(x,y,12,10),n2=noise(x,y,5,11);
-    return n1<.28?T.DEEP_WATER:n1<.42?T.SHALLOW_WATER:n1<.50?T.REED:n2>.80?T.MUD:n2<.12?T.LILY:T.GRASS;
-  };
-  var genHighlands=function(x,y){
-    var n1=noise(x,y,10,20),n2=noise(x,y,4,21);
-    return n1>.78?T.LARGE_BOULDER:n1>.62?T.SMALL_BOULDER:n2>.80?T.GRAVEL:n2<.15?T.DRY_GRASS:T.ROCKY_GROUND;
-  };
-  var genAshlands=function(x,y){
-    var n1=noise(x,y,11,30),n2=noise(x,y,5,31);
-    return n1<.22?T.DEEP_MAGMA:n1<.40?T.THIN_MAGMA:n2>.85?T.OBSIDIAN:n2<.10?T.ASH_GROUND:T.DARK_ROCK;
-  };
-  var secGen={1:genGrasslands,2:genWetlands,3:genHighlands,4:genAshlands};
-
-  for(var ty=0;ty<WORLD_H;ty++){
-    for(var tx=0;tx<WORLD_W;tx++){
-      if(!isOnIsland(tx,ty)){
-        tiles[ty][tx]=T.OCEAN;
-      } else {
-        var distToEdge=ISLAND_RADIUS-Math.hypot(tx-CENTER_X,ty-CENTER_Y);
-        if(distToEdge<4){
-          tiles[ty][tx]=T.BEACH;
-        } else {
-          var sec=getTileSection(tx,ty);
-          if(sec===0){
-            tiles[ty][tx]=T.GRASS;
-          } else {
-            tiles[ty][tx]=secGen[sec](tx,ty);
-          }
-        }
-      }
-    }
-  }
-  var buildings=buildVillage(tiles);
-  var sites=[];
-  for(var s=1;s<=4;s++){
-    var srng=new PRNG(WORLD_SEED+s*997);
-    var secSites=placeSites(tiles,srng,s);
-    for(var i=0;i<secSites.length;i++)sites.push(secSites[i]);
-  }
-  _worldData={tiles:tiles,buildings:buildings,sites:sites,
-    spawnX:CENTER_X*TILE+TILE/2, spawnY:CENTER_Y*TILE+TILE/2};
+  _worldData=_buildGameWorld();
   return _worldData;
 }
 
@@ -436,188 +415,16 @@ function buildVillage(tiles){
   return bdefs.map(function(b){return Object.assign({},b,{worldX:(vx+b.dx)*TILE,worldY:(vy+b.dy)*TILE});});
 }
 
-function placeSites(tiles,rng,sec){
-  // Boss tower + boss dungeon first, then camp/harbor/skyport, then the 3 bonus sites.
-  var roster=_rosterSitesFor(sec);
-  var types=roster.filter(function(r){return r.boss;}).concat(['camp','harbor','skyport'],roster.filter(function(r){return r.bonus;}));
-  var used=[],out=[];
-  // Tiles that block access and should be cleared around a site
-  var CLEAR_SET=new Set([T.ROCK,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T.SMALL_BOULDER,T.DARK_ROCK,T.OBSIDIAN]);
-
-  function clearAroundSite(tx,ty,radius){
-    for(var dy=-radius;dy<=radius+2;dy++){
-      for(var dx=-radius;dx<=radius+2;dx++){
-        var nx=tx+dx,ny=ty+dy;
-        if(nx<0||ny<0||nx>=WORLD_W||ny>=WORLD_H)continue;
-        if(dy>=0&&dy<=2&&dx>=0&&dx<=2)continue;
-        if(CLEAR_SET.has(tiles[ny][nx]))tiles[ny][nx]=T.GRAVEL;
-      }
-    }
-  }
-
-  // Carve a 3-tile-wide corridor from the site door back to the village edge,
-  // clearing any impassable tiles along the way so the site is always reachable.
-  function carvePathToSite(tx,ty){
-    // Start just below the door (site bottom centre)
-    var cx=tx+1, cy=ty+3;
-    var ex=CENTER_X, ey=CENTER_Y;
-    var maxSteps=ISLAND_RADIUS*2;
-    for(var step=0;step<maxSteps;step++){
-      // Stop once we reach the village edge
-      if(Math.hypot(cx-ex,cy-ey)<=VILLAGE_RADIUS+3)break;
-      // Clear a 3-wide swath (1 tile either side of the line) at this position
-      var dxNorm=ex-cx, dyNorm=ey-cy;
-      var len=Math.hypot(dxNorm,dyNorm);
-      var perpX=-dyNorm/len, perpY=dxNorm/len; // perpendicular direction
-      for(var w=-1;w<=1;w++){
-        var px=Math.round(cx+perpX*w);
-        var py=Math.round(cy+perpY*w);
-        if(px>=0&&py>=0&&px<WORLD_W&&py<WORLD_H){
-          if(CLEAR_SET.has(tiles[py][px]))tiles[py][px]=T.GRAVEL;
-        }
-      }
-      // Step one tile toward village center
-      cx+=Math.sign(ex-cx)||(Math.random()<0.5?1:-1);
-      cy+=Math.sign(ey-cy)||(Math.random()<0.5?1:-1);
-    }
-  }
-
-  function findHarborPos(sec){
-    // Harbor: cast ray from center to the island coastline edge (beach/water boundary)
-    for(var att=0;att<600;att++){
-      var angle;
-      if(sec===1) angle=(Math.random()*.8-.4)*Math.PI/2;
-      else if(sec===2) angle=(Math.random()*.8+.2)*Math.PI/2;
-      else if(sec===3) angle=Math.PI+(Math.random()*.8-.4)*Math.PI/2;
-      else angle=Math.PI+(Math.random()*.8+.2)*Math.PI/2;
-      // Target the beach strip — just inside the island edge
-      var dist=ISLAND_RADIUS-6+Math.random()*3; // radius ~259-262
-      // Offset by -1 so 3×3 footprint is centered on the ray hit point
-      var tx=Math.floor(CENTER_X+Math.cos(angle)*dist-1);
-      var ty=Math.floor(CENTER_Y+Math.sin(angle)*dist-1);
-      if(tx<3||ty<3||tx>=WORLD_W-6||ty>=WORLD_H-6)continue;
-      // Section check on footprint center
-      if(getTileSection(tx+1,ty+1)!==sec)continue;
-      // Outward unit vector (away from center, toward water)
-      var oDx=Math.round(Math.cos(angle)),oDy=Math.round(Math.sin(angle));
-      // Water must exist outward from the footprint center within 8 steps
-      var hasWater=false;
-      for(var step=2;step<=8;step++){
-        var wx=tx+1+oDx*step,wy=ty+1+oDy*step;
-        if(wx>=0&&wx<WORLD_W&&wy>=0&&wy<WORLD_H){
-          var wt=tiles[wy]&&tiles[wy][wx];
-          if(wt===T.OCEAN||wt===T.SHALLOW_WATER){hasWater=true;break;}
-        }
-      }
-      if(!hasWater)continue;
-      // Footprint must have at least 5 non-ocean land tiles
-      var landCount=0;
-      for(var dy2=0;dy2<3;dy2++)for(var dx2=0;dx2<3;dx2++){
-        var ft=tiles[ty+dy2]&&tiles[ty+dy2][tx+dx2];
-        if(ft!==undefined&&ft!==T.OCEAN)landCount++;
-      }
-      if(landCount<5)continue;
-      return [tx,ty,true,angle]; // 4th element = outward angle toward water
-    }
-    return null;
-  }
-
-  types.forEach(function(entry){
-    var type=typeof entry==='string'?entry:entry.type;
-    var placed=false,att=0;
-    while(!placed&&att<300){
-      att++;
-      var tx,ty;
-      var coastResult=null;
-      if(type==='harbor'){
-        coastResult=findHarborPos(sec);
-        if(!coastResult)continue;
-        tx=coastResult[0];ty=coastResult[1];var harbAngle=coastResult[3]||0;
-      } else {
-        var minD=VILLAGE_RADIUS+10, maxD=ISLAND_RADIUS-8;
-        var angle;
-        if(sec===1) angle=(Math.random()*.9-.45)*Math.PI/2;
-        else if(sec===2) angle=(Math.random()*.9+.1)*Math.PI/2;
-        else if(sec===3) angle=Math.PI+(Math.random()*.9-.45)*Math.PI/2;
-        else angle=Math.PI+(Math.random()*.9+.1)*Math.PI/2;
-        var dist=minD+Math.random()*(maxD-minD);
-        tx=Math.floor(CENTER_X+Math.cos(angle)*dist);
-        ty=Math.floor(CENTER_Y+Math.sin(angle)*dist);
-      }
-      if(tx<3||ty<3||tx>=WORLD_W-6||ty>=WORLD_H-6)continue;
-      if(type!=='harbor'&&getTileSection(tx,ty)!==sec)continue;
-      if(used.some(function(p){return Math.hypot(p[0]-tx,p[1]-ty)<(att<200?20:14);}))continue;
-      // Clear impassable tiles immediately around the site
-      clearAroundSite(tx,ty,5);
-      // For dungeons and towers: also carve a guaranteed walkable path back to village
-      if(type==='dungeon'||type==='tower'||type==='camp'||type==='skyport')carvePathToSite(tx,ty);
-      // Place the site structure
-      if(type==='harbor'){
-        // Harbor: orient building toward water, door faces water, wall faces land
-        var hoDx=Math.round(Math.cos(harbAngle)),hoDy=Math.round(Math.sin(harbAngle));
-        // Stone floor on land tiles only
-        for(var dy2=0;dy2<3;dy2++)for(var dx2=0;dx2<3;dx2++){
-          var hft=tiles[ty+dy2]&&tiles[ty+dy2][tx+dx2];
-          if(hft!==undefined&&hft!==T.OCEAN)tiles[ty+dy2][tx+dx2]=T.STONE_FLOOR;
-        }
-        // Wall on inward face, door on outward face (toward water)
-        if(Math.abs(hoDy)>=Math.abs(hoDx)){
-          if(hoDy>0){ // water is south
-            for(var dx2=0;dx2<3;dx2++)tiles[ty][tx+dx2]=T.BUILDING_WALL;
-            tiles[ty+2][tx+1]=T.DOOR;
-          } else { // water is north
-            for(var dx2=0;dx2<3;dx2++)if(tiles[ty+2])tiles[ty+2][tx+dx2]=T.BUILDING_WALL;
-            if(tiles[ty])tiles[ty][tx+1]=T.DOOR;
-          }
-        } else {
-          if(hoDx>0){ // water is east
-            for(var dy2=0;dy2<3;dy2++)if(tiles[ty+dy2])tiles[ty+dy2][tx]=T.BUILDING_WALL;
-            if(tiles[ty+1])tiles[ty+1][tx+2]=T.DOOR;
-          } else { // water is west
-            for(var dy2=0;dy2<3;dy2++)if(tiles[ty+dy2])tiles[ty+dy2][tx+2]=T.BUILDING_WALL;
-            if(tiles[ty+1])tiles[ty+1][tx]=T.DOOR;
-          }
-        }
-        // Extend a dock pier outward into shallow water (3 tiles deep, 3 tiles wide)
-        for(var step=1;step<=4;step++){
-          var pdx=Math.round(tx+1+hoDx*(2+step)),pdy=Math.round(ty+1+hoDy*(2+step));
-          for(var pw=-1;pw<=1;pw++){
-            var px2=pdx+pw*Math.abs(hoDy),py2=pdy+pw*Math.abs(hoDx);
-            if(px2>=0&&px2<WORLD_W&&py2>=0&&py2<WORLD_H)
-              tiles[py2][px2]=T.SHALLOW_WATER;
-          }
-        }
-      } else {
-        // Standard site placement
-        for(var dy2=0;dy2<3;dy2++)for(var dx2=0;dx2<3;dx2++){
-          if(tiles[ty+dy2][tx+dx2]!==T.OCEAN) // never overwrite ocean
-            tiles[ty+dy2][tx+dx2]=T.STONE_FLOOR;
-        }
-        for(var dx2=0;dx2<3;dx2++)tiles[ty][tx+dx2]=T.BUILDING_WALL;
-        tiles[ty+2][tx+1]=T.DOOR;
-      }
-      used.push([tx,ty]);
-      out.push(typeof entry==='string'?{type:type,section:sec,tx:tx,ty:ty,id:'s'+sec+'_'+type}:Object.assign({},entry,{tx:tx,ty:ty}));
-      placed=true;
-    }
-  });
-  return out;
-}
-
 function canPassTile(t,mount){
-  // Dragon can cross most blocked tiles EXCEPT ocean (sea water)
+  // Dragon (all quests) flies over everything except the sea and walls
   if(mount==='dragon'){
-    if(t===T.OCEAN)return false; // sea water blocked even for dragon
-    if(t===T.DEEP_WATER||t===T.SMALL_BOULDER||t===T.THIN_MAGMA||t===T.ROCK||t===T.LARGE_BOULDER||t===T.DEEP_MAGMA)return true;
-    if(t===T.BUILDING_WALL)return false;
+    if(t===T.OCEAN||t===T.REEF||t===T.BUILDING_WALL)return false;
     return true;
   }
-  if(mount==='ash_salamander'&&(t===T.THIN_MAGMA||t===T.DEEP_MAGMA))return true;
+  var md=mount&&MOUNTS[mount];
+  if(md&&Array.isArray(md.canCross)&&md.canCross.indexOf(t)>=0)return true;
   if(ALWAYS_BLOCKED.has(t))return false;
-  if(t===T.DEEP_WATER)return mount==='alligator';
-  if(t===T.SMALL_BOULDER)return mount==='boar';
-  if(t===T.THIN_MAGMA)return mount==='lava_unicorn';
-  return true;
+  return true;   // slow tiles (FOOT_SLOW) are walkable, just slow
 }
 
 // ─── Island Tile Generator ────────────────────────────────────────────────

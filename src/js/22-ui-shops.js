@@ -734,15 +734,9 @@ function toggleModal(id){
   // Inventory hides the bottom action bars while open.
   if(id==='inventory'){ document.body.classList.toggle('bars-hidden', opening); }
   // Force immediate minimap render when map opens
-  if(id==='map'&&opening){
-    var ws=game&&game.scene?game.scene.getScene('World'):null;
-    if(ws&&ws.wd&&ws.player){
-      var ps=ws.playerState;
-      renderMinimap(ws.wd,ws.player,ps.unlockedSections,ps.exploredGrid,ws._expVer||0,ps.activeQuest);
-    }
-  }
+  if(id==='map'&&opening){ e.style.display='none'; openWorldMap(); }
 }
-function closeModal(id){var e=document.getElementById('modal-'+id);if(e)e.style.display='none';if(id==='inventory')document.body.classList.remove('bars-hidden');}
+function closeModal(id){var e=document.getElementById('modal-'+id);if(e)e.style.display='none';if(id==='map'){ if(typeof WMAP!=='undefined')WMAP.travel=null; document.body.classList.remove('bars-hidden'); }if(id==='inventory')document.body.classList.remove('bars-hidden');}
 function showNotif(msg,col){
   var a=document.getElementById('notif-area'),d=document.createElement('div');
   d.className='notif';d.style.color=col||'#ffffff';d.textContent=msg;a.appendChild(d);

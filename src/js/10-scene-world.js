@@ -3,6 +3,7 @@ class WorldScene extends Phaser.Scene{
   constructor(){super('World')}
   init(d){this._newGame=!!(d&&d.newGame);}
   create(){
+    this._wr=null;
     this.wd=generateWorld();
     var wd=this.wd;
     this.tiles=wd.tiles;
@@ -23,29 +24,13 @@ class WorldScene extends Phaser.Scene{
     // Dynamic chunk system
     this.activeChunks=new Map();
 
-    // Section banners
-    var secPositions={
-      1:{x:CENTER_X+80, y:CENTER_Y-80},
-      2:{x:CENTER_X+80, y:CENTER_Y+80},
-      3:{x:CENTER_X-80, y:CENTER_Y+80},
-      4:{x:CENTER_X-80, y:CENTER_Y-80},
-    };
-    for(var sid=1;sid<=4;sid++){
-      var sp=secPositions[sid];
-      var accent=SECTION_ACCENTS[sid];
-      this.add.text(sp.x*TILE,sp.y*TILE,'Section '+sid+'\n'+SECTION_NAMES[sid],
-        {fontSize:'11px',color:accent,fontFamily:'Segoe UI',fontStyle:'bold',align:'center',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(8);
-    }
-
     // Adventure site objects
     this.siteObjs=[];
     var siteColors={dungeon:0x4422aa,tower:0x2244aa,camp:0xaa6622,harbor:0x224499,skyport:0x111833,volcano_main:0x661100,volcano_mini:0x882200};
     var siteIcons={dungeon:'⚔️',tower:'🗼',camp:'⛺',harbor:'⚓',skyport:'🎈',volcano_main:'🌋',volcano_mini:'🔥'};
     var self=this;
     wd.sites.forEach(function(s){
-      self.add.rectangle(s.tx*TILE+TILE*1.5,s.ty*TILE+TILE*1.5,TILE*3,TILE*3,siteColors[s.type],.88).setDepth(2).setStrokeStyle(2,s.boss?0xffd24a:0x8877cc,s.boss?.9:.5);
-      var ico=self.add.text(s.tx*TILE+TILE*1.5,s.ty*TILE+TILE*1.5,siteIcons[s.type],{fontSize:'22px',fontFamily:'serif'}).setOrigin(.5).setDepth(3);
-      if(s.boss)self.add.text(s.tx*TILE+TILE*2.6,s.ty*TILE+TILE*0.4,'★',{fontSize:'14px',color:'#ffd24a',fontFamily:'serif',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(3);
+      var ico=_wsSiteArt(self,s);
       // DOM label (crisp HiDPI). World-space pos is tracked; per-frame
       // _updateWorldLabels() projects to screen coords.
       var lblEl=document.createElement('div');
@@ -93,6 +78,7 @@ class WorldScene extends Phaser.Scene{
     this.cameras.main.startFollow(this.player.cont,true,.1,.1);
     this.cameras.main.setBounds(0,0,WORLD_W*TILE,WORLD_H*TILE);
     this.cameras.main.setZoom(1.4);
+    this.cameras.main.centerOn(this.player.x,this.player.y);
     // Snap camera immediately to player — avoids black ocean during initial lerp pan
 
     // Animated flow overlay (water ripples + magma flow)
@@ -143,6 +129,7 @@ class WorldScene extends Phaser.Scene{
     skills:[],lockedSites:[]  };
     if(!this._newGame)this._loadSave();
     this._refreshVillageNPCs();
+    this._initTravel();
     this._initWorldMonsters();
     this._updateFog();
     this._revealFog();
@@ -200,6 +187,8 @@ class WorldScene extends Phaser.Scene{
       sceneRef._refreshVillageNPCs();
       sceneRef._updateFog();sceneRef._emitUI();sceneRef._save();
     });
+    // paint the chunks on screen before the first frame (the rest stream in)
+    this._updateChunks(true);
     this._ready=true;
   }
 
@@ -234,11 +223,12 @@ class WorldScene extends Phaser.Scene{
       this._updateSpecials(dt);
     }
     this._checkInteraction();
+    this._tickTravel(dt);
     this._updateSiteLabels();
     this._revealFog();
     this._drawWorldFog();
     this._emitUI();
-    this._updateFlow(dt);
+    this._wrTick(dt);
     this._updateLife(dt);
     this._updateLargeAnimals(dt);
     this._updateLavaAndBurn(dt);
@@ -314,8 +304,8 @@ class WorldScene extends Phaser.Scene{
     var tyMin=Math.max(0,Math.floor(wv.y/TILE)-1);
     var tyMax=Math.min(WORLD_H-1,Math.ceil((wv.y+wv.height)/TILE)+1);
 
-    // ── Grass blade sway ──────────────────────────────────
-    for(var sty=tyMin;sty<=tyMax;sty++){
+    // ── Grass blade sway (off: the Lab-painted ground has its own blades) ──
+    for(var sty=tyMin;sty<=tyMax&&false;sty++){
       for(var stx=txMin;stx<=txMax;stx++){
         var stv=this.tiles[sty]?this.tiles[sty][stx]:T.OCEAN;
         if(stv===T.GRASS||stv===T.GRASS2||stv===T.DRY_GRASS){
@@ -662,22 +652,11 @@ class WorldScene extends Phaser.Scene{
     for(var sec=1;sec<=4;sec++){
       var types=secPairs[sec];
       for(var ti=0;ti<types.length;ti++){
-        for(var ci=0;ci<4;ci++){  // 4 of each type per section = 8 per section total
+        for(var ci=0;ci<8;ci++){  // 8 of each type per region = 16 per region (4× the old world)
         var mtype=types[ti];
         var def=LADEFS[mtype];
-        var attempts=0,tx,ty;
-        do{
-          attempts++;
-          var angle,dist=VILLAGE_RADIUS+15+rng.next()*(ISLAND_RADIUS-VILLAGE_RADIUS-25);
-          if(sec===1)angle=(-0.45+rng.next()*0.9)*Math.PI/2;
-          else if(sec===2)angle=(0.1+rng.next()*0.8)*Math.PI/2;
-          else if(sec===3)angle=Math.PI+(-0.45+rng.next()*0.9)*Math.PI/2;
-          else angle=Math.PI+(0.1+rng.next()*0.8)*Math.PI/2;
-          tx=Math.floor(CENTER_X+Math.cos(angle)*dist);
-          ty=Math.floor(CENTER_Y+Math.sin(angle)*dist);
-        }while(attempts<60&&(!isOnIsland(tx,ty)||getTileSection(tx,ty)!==sec||
-          ALWAYS_BLOCKED.has(this.tiles[ty]?this.tiles[ty][tx]:T.OCEAN)));
-        if(attempts>=60)continue;
+        var _rl=this._randLand(rng,sec,VILLAGE_RADIUS+20); if(!_rl)continue;
+        var tx=_rl.tx,ty=_rl.ty;
         this._largeAnimals.push({
           type:mtype,def:def,
           x:tx*TILE+TILE/2,y:ty*TILE+TILE/2,
@@ -1104,7 +1083,7 @@ class WorldScene extends Phaser.Scene{
         if(mon.respawnTimer<=0&&self.playerState.unlockedSections.includes(mon.section)){
           mon.dead=false; mon.hp=mon.maxHp;
           mon.x=mon.spawnX; mon.y=mon.spawnY;
-          mon.cont.setPosition(mon.x,mon.y); mon.cont.setAlpha(1);
+          mon.cont.setPosition(mon.x,mon.y); mon.cont.setDepth(WR_DEPTH(mon.y)); mon.cont.setAlpha(1);
           mon.hpFill.displayWidth=28; mon.state='wander';
           mon._md={};
         }
@@ -1114,6 +1093,8 @@ class WorldScene extends Phaser.Scene{
       mon.cont.setVisible(true);
 
       var dx=px-mon.x, dy=py-mon.y, dist=Math.hypot(dx,dy);
+      // 4× world: monsters far off-screen sleep (no AI, not drawn)
+      if(dist>1700){ mon.cont.setVisible(false); if(mon.state!=='wander'){mon.state='wander';} return; }
       var mdef=mon.def;
       var spd=mdef.spd||50;
       if(!mon._md)mon._md={};
@@ -1453,64 +1434,6 @@ class WorldScene extends Phaser.Scene{
     showNotif('HP restored to 25%','#44ffaa');
   }
 
-  _updateChunks(){
-    var cam=this.cameras.main;
-    var scrollX=cam.scrollX,scrollY=cam.scrollY;
-    var zoom=cam.zoom;
-    var vw=cam.width/zoom,vh=cam.height/zoom;
-    var camCX=Math.floor(scrollX/(CHUNK*TILE));
-    var camCY=Math.floor(scrollY/(CHUNK*TILE));
-    var numCX=Math.ceil(vw/(CHUNK*TILE))+2;
-    var numCY=Math.ceil(vh/(CHUNK*TILE))+2;
-    var needed=new Set();
-    for(var dy=-1;dy<=numCY;dy++){
-      for(var dx=-1;dx<=numCX;dx++){
-        var cx=camCX+dx, cy=camCY+dy;
-        if(cx<0||cy<0||cx*CHUNK>=WORLD_W||cy*CHUNK>=WORLD_H)continue;
-        var key=cx+'_'+cy;
-        needed.add(key);
-        if(!this.activeChunks.has(key))this._createChunk(cx,cy);
-      }
-    }
-    var self=this;
-    this.activeChunks.forEach(function(chunk,key){
-      if(!needed.has(key)){
-        chunk.img.destroy();
-        if(self.textures.exists('wchunk_'+key))self.textures.remove('wchunk_'+key);
-        self.activeChunks.delete(key);
-      }
-    });
-  }
-
-  _refreshChunkAt(tx,ty){
-    var cx=Math.floor(tx/CHUNK),cy=Math.floor(ty/CHUNK);
-    var key=cx+'_'+cy;
-    var old=this.activeChunks?this.activeChunks.get(key):null;
-    if(old&&old.img){old.img.destroy();this.activeChunks.delete(key);}
-    this._createChunk(cx,cy);
-  }
-  _createChunk(cx,cy){
-    var cw=Math.min(CHUNK,WORLD_W-cx*CHUNK);
-    var ch=Math.min(CHUNK,WORLD_H-cy*CHUNK);
-    var canvas=document.createElement('canvas');
-    canvas.width=cw*TILE; canvas.height=ch*TILE;
-    var ctx=canvas.getContext('2d');
-    for(var ly=0;ly<ch;ly++){
-      for(var lx=0;lx<cw;lx++){
-        var tx=cx*CHUNK+lx, ty=cy*CHUNK+ly;
-        var _sec=getTileSection(tx,ty);
-        var _pal=SECTION_TILE_COLORS[_sec]||null;
-        var _vi=(((tx*2654435761)^(ty*2246822519))>>>0)%12;
-        drawTileToCtx(ctx,lx*TILE,ly*TILE,this.tiles[ty]?this.tiles[ty][tx]:T.OCEAN,_pal,_vi);
-      }
-    }
-    var key=cx+'_'+cy;
-    if(this.textures.exists('wchunk_'+key))this.textures.remove('wchunk_'+key);
-    this.textures.addCanvas('wchunk_'+key,canvas);
-    var img=this.add.image(cx*CHUNK*TILE,cy*CHUNK*TILE,'wchunk_'+key).setOrigin(0,0).setDepth(0);
-    this.activeChunks.set(key,{img:img,canvas:canvas});
-  }
-
   _movePlayer(dt){
     if(_gameBlocked())return;
     var k=this.keys,p=this.player,ps=this.playerState;
@@ -1527,9 +1450,9 @@ class WorldScene extends Phaser.Scene{
     // Wetlands shallow water: 20% slow unless mount can cross water
     var _pTx=Math.floor(p.x/TILE),_pTy=Math.floor(p.y/TILE);
     var _curTile=this.tiles[_pTy]?this.tiles[_pTy][_pTx]:T.OCEAN;
-    var _inShallow=_curTile===T.SHALLOW_WATER&&getTileSection(_pTx,_pTy)===2;
-    var _mountCrossWater=mdef&&(mdef.canCross==='all'||(Array.isArray(mdef.canCross)&&mdef.canCross.includes(T.SHALLOW_WATER)));
-    var shallowMult=(_inShallow&&!_mountCrossWater)?0.8:1;
+    // Signature terrain: slow on foot (water, marsh, boulders, lava crust),
+    // full speed on the mount that crosses it.
+    var shallowMult=terrainSpeedMult(_curTile,mount);
     var baseSpd=180*(mdef?mdef.spdMult:1)*(1+(_stats.spdBonus||0))*bogMult*_spdMult*shallowMult*_heroBuffMult(ps,'spdUp');
     var vx=0,vy=0;
     // SHIFT = shield block mode
@@ -1564,7 +1487,7 @@ class WorldScene extends Phaser.Scene{
     if(vx||vy)p._bobPhase+=dt*8;
     var bob=Math.sin(p._bobPhase)*2*(vx||vy?1:0);
     p.head.setY(-12+bob);
-    p.cont.setPosition(p.x,p.y);
+    p.cont.setPosition(p.x,p.y); p.cont.setDepth(WR_DEPTH(p.y));
     if(p.sprite){
       _heroAnimate(this, p.sprite, p, vx, vy, dt, this.worldAtkTimer, this.worldBowTimer);
     }
@@ -2236,23 +2159,12 @@ class WorldScene extends Phaser.Scene{
     var self=this;
     for(var sec=1;sec<=4;sec++){
       // Pod spawning: clusters of 2-10 monsters, ~140 total per section, mixed types
-      var podMonsSpawned=0, podMonsTarget=98;
+      var podMonsSpawned=0, podMonsTarget=200;   // ~2× the old density over 4× the land
       var podTypes=regTypes[sec]||['goblin'];
       while(podMonsSpawned<podMonsTarget){
         // Find a valid pod center tile
-        var pcAttempts=0,pcTx,pcTy;
-        do{
-          pcAttempts++;
-          var pcAngle,pcDist=VILLAGE_RADIUS+12+rng.next()*(ISLAND_RADIUS-VILLAGE_RADIUS-20);
-          if(sec===1)pcAngle=(-0.45+rng.next()*0.9)*Math.PI/2;
-          else if(sec===2)pcAngle=(0.1+rng.next()*0.8)*Math.PI/2;
-          else if(sec===3)pcAngle=Math.PI+(-0.45+rng.next()*0.9)*Math.PI/2;
-          else pcAngle=Math.PI+(0.1+rng.next()*0.8)*Math.PI/2;
-          pcTx=Math.floor(CENTER_X+Math.cos(pcAngle)*pcDist);
-          pcTy=Math.floor(CENTER_Y+Math.sin(pcAngle)*pcDist);
-        }while(pcAttempts<50&&(!isOnIsland(pcTx,pcTy)||getTileSection(pcTx,pcTy)!==sec||
-          ALWAYS_BLOCKED.has(self.tiles[pcTy]?self.tiles[pcTy][pcTx]:T.OCEAN)));
-        if(pcAttempts>=50){podMonsSpawned++;continue;}
+        var _pc=self._randLand(rng,sec); if(!_pc){podMonsSpawned++;continue;}
+        var pcTx=_pc.tx,pcTy=_pc.ty;
         // Spawn 2-10 monsters in this pod, mixed types, within ±4 tiles of center
         var podSize=2+Math.floor(rng.next()*9);
         for(var pi=0;pi<podSize&&podMonsSpawned<podMonsTarget;pi++){
@@ -2261,6 +2173,8 @@ class WorldScene extends Phaser.Scene{
           if(tx<0||tx>=WORLD_W||ty<0||ty>=WORLD_H)continue;
           if(!isOnIsland(tx,ty)||getTileSection(tx,ty)!==sec)continue;
           if(ALWAYS_BLOCKED.has(self.tiles[ty]?self.tiles[ty][tx]:T.OCEAN))continue;
+          if(Math.hypot(tx-CENTER_X,ty-CENTER_Y)<VILLAGE_RADIUS+12)continue;
+          if(self._nearSafeSpot(tx,ty,12))continue;
           var mtype=podTypes[Math.floor(rng.next()*podTypes.length)];
           var mdef=MDEFS[mtype];
           if(!mdef)continue;
@@ -2296,19 +2210,8 @@ class WorldScene extends Phaser.Scene{
       // Spawn exactly 1 boss-tier monster per section
       var btype=bossTypes[sec];
       if(btype&&MDEFS[btype]){
-        var bAttempts=0,btx,bty;
-        do{
-          bAttempts++;
-          var bangle,bdist=VILLAGE_RADIUS+40+rng.next()*(ISLAND_RADIUS-VILLAGE_RADIUS-50);
-          if(sec===1)bangle=(-0.45+rng.next()*0.9)*Math.PI/2;
-          else if(sec===2)bangle=(0.1+rng.next()*0.8)*Math.PI/2;
-          else if(sec===3)bangle=Math.PI+(-0.45+rng.next()*0.9)*Math.PI/2;
-          else bangle=Math.PI+(0.1+rng.next()*0.8)*Math.PI/2;
-          btx=Math.floor(CENTER_X+Math.cos(bangle)*bdist);
-          bty=Math.floor(CENTER_Y+Math.sin(bangle)*bdist);
-        }while(bAttempts<60&&(!isOnIsland(btx,bty)||getTileSection(btx,bty)!==sec||
-          ALWAYS_BLOCKED.has(self.tiles[bty]?self.tiles[bty][btx]:T.OCEAN)));
-        if(bAttempts<60){
+        var _bp=self._randLand(rng,sec,VILLAGE_RADIUS+60), btx=_bp?_bp.tx:0, bty=_bp?_bp.ty:0;
+        if(_bp){
           var bmdef=MDEFS[btype];
           var bwx=btx*TILE+TILE/2,bwy=bty*TILE+TILE/2;
           var bcont=self.add.container(bwx,bwy).setDepth(9);
@@ -2540,61 +2443,17 @@ class WorldScene extends Phaser.Scene{
     var mh=document.getElementById('minimap-hud');if(mh)mh.style.display='none';
   }
 
+  // Locked regions are now sealed by their borders: the crossings stay shut
+  // until the craftsman is freed (10b-world-travel.js). Called on wake/unlock.
   _updateFog(){
-    this.fogObjs.forEach(function(o){if(o&&o.forEach)o.forEach(function(x){x.destroy();});else if(o)o.destroy();});
-    this.fogObjs=[];
-    var ul=this.playerState?this.playerState.unlockedSections:[1];
-    var self=this;
-    // Use VR buffer so the entire village circle stays unfogged regardless of which sections are locked.
-    // Each locked section is drawn as TWO rectangles that together cover the quadrant
-    // but leave a VR-tile gap around the center (the village area).
-    var VR=VILLAGE_RADIUS+2;
-    var SEC_RECTS={
-      1:[{x1:CENTER_X+VR,y1:0,          x2:WORLD_W,     y2:CENTER_Y},
-         {x1:CENTER_X,   y1:0,          x2:CENTER_X+VR, y2:CENTER_Y-VR}],
-      2:[{x1:CENTER_X+VR,y1:CENTER_Y,   x2:WORLD_W,     y2:WORLD_H},
-         {x1:CENTER_X,   y1:CENTER_Y+VR,x2:CENTER_X+VR, y2:WORLD_H}],
-      3:[{x1:0,          y1:CENTER_Y,   x2:CENTER_X-VR, y2:WORLD_H},
-         {x1:CENTER_X-VR,y1:CENTER_Y+VR,x2:CENTER_X,    y2:WORLD_H}],
-      4:[{x1:0,          y1:0,          x2:CENTER_X-VR, y2:CENTER_Y},
-         {x1:CENTER_X-VR,y1:0,          x2:CENTER_X,    y2:CENTER_Y-VR}],
-    };
-    // Label position: centre of the main (larger) rect of each section
-    var SEC_LABEL={
-      1:{lx:(CENTER_X+VR+WORLD_W)/2, ly:CENTER_Y/2},
-      2:{lx:(CENTER_X+VR+WORLD_W)/2, ly:(CENTER_Y+VR+WORLD_H)/2},
-      3:{lx:(CENTER_X-VR)/2,         ly:(CENTER_Y+VR+WORLD_H)/2},
-      4:{lx:(CENTER_X-VR)/2,         ly:CENTER_Y/2},
-    };
-    for(var sec=1;sec<=4;sec++){
-      if(!ul.includes(sec)){
-        var rects=SEC_RECTS[sec];
-        var grp=[];
-        for(var ri=0;ri<rects.length;ri++){
-          var b=rects[ri];
-          var rw=(b.x2-b.x1)*TILE, rh=(b.y2-b.y1)*TILE;
-          if(rw<=0||rh<=0)continue;
-          var rcx=(b.x1+b.x2)/2*TILE, rcy=(b.y1+b.y2)/2*TILE;
-          grp.push(self.add.rectangle(rcx,rcy,rw,rh,0x000000,.85).setDepth(7));
-        }
-        var lc=SEC_LABEL[sec];
-        var prevSec=sec-1;
-        var unlockMsg=prevSec>0?'Complete Section '+prevSec+' Tower to unlock':'Start unlocked';
-        var lbl=self.add.text(lc.lx*TILE,lc.ly*TILE,
-          '\uD83D\uDD12 '+SECTION_NAMES[sec]+'\n'+unlockMsg,
-          {fontSize:'13px',color:'#556677',fontFamily:'Segoe UI',align:'center',stroke:'#000',strokeThickness:4}).setOrigin(.5).setDepth(8);
-        grp.push(lbl);
-        self.fogObjs.push(grp);
-      }
-    }
+    if(this._gateObjs)this._syncGates(true);
   }
 
+  // A safe spot in a region (tile coords): its first waystone.
   _getSectionCenter(sec){
-    var d=ISLAND_RADIUS*0.55;
-    if(sec===1)return{x:CENTER_X+d,y:CENTER_Y-d};
-    if(sec===2)return{x:CENTER_X+d,y:CENTER_Y+d};
-    if(sec===3)return{x:CENTER_X-d,y:CENTER_Y+d};
-    return{x:CENTER_X-d,y:CENTER_Y-d};
+    var w=this.wd&&this.wd.waystones?this.wd.waystones.find(function(q){return q.region===sec;}):null;
+    if(w)return{x:w.x,y:w.y+2};
+    return{x:CENTER_X,y:CENTER_Y};
   }
 
   unlockSection(id){
@@ -2659,6 +2518,7 @@ class WorldScene extends Phaser.Scene{
   }
 
   _checkInteraction(){
+    if(this._checkWaystone&&this._checkWaystone())return;
     var px=this.player.x, py=this.player.y;
     var self=this;
     var nearBuilding=null;

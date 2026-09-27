@@ -100,33 +100,87 @@ function _journalSitesHTML(sec,scene){
 }
 window._acceptQuest=function(k){var ws=game.scene.getScene('World');if(ws)ws.acceptQuest(k);closeModal('quests');};
 
-// Minimap: 1px-per-tile offscreen cache + display canvas overlay
-var _mmCache=null,_mmCacheCtx=null,_mmLastExpVer=-1;
-
-function _buildMinimapCache(wd,exploredGrid,expVer){
-  if(!_mmCache){
-    _mmCache=document.createElement('canvas');
-    _mmCache.width=WORLD_W;_mmCache.height=WORLD_H;
-    _mmCacheCtx=_mmCache.getContext('2d');
+// ═══ World maps (Phase 3): HUD minimap around you + Full World Map ═════
+// Both draw from one 1-px-per-tile base image of the world (rebuilt only when
+// terrain changes: gates opening, volcano islands) and one fog mask at the
+// exploration-grid resolution (1 cell = 8 tiles), smoothed when scaled up.
+var _wmBaseCv=null,_wmBaseVer=-1,_wmFogCv=null,_wmFogVer=-1,_wmFogPs=null;
+var WM_MINI_TILES=150;                       // HUD minimap: ~150 tiles across
+function _wmBase(wd){
+  var ver=wd.baseVer||0; if(_wmBaseCv&&_wmBaseVer===ver)return _wmBaseCv;
+  if(!_wmBaseCv){ _wmBaseCv=document.createElement('canvas'); _wmBaseCv.width=WORLD_W; _wmBaseCv.height=WORLD_H; }
+  var g=_wmBaseCv.getContext('2d'), img=g.createImageData(WORLD_W,WORLD_H), d=img.data, kind=wd.kind, nz=vnoise(WORLD_SEED+1402);
+  for(var ty=0;ty<WORLD_H;ty++)for(var tx=0;tx<WORLD_W;tx++){ var k=ty*WORLD_W+tx, c=_wkAvg(kind[k]), tv=wd.tiles[ty][tx], f=0.92+nz(tx*0.08,ty*0.08)*0.16;
+    if(tv===T.PROP)f*=0.72;                                    // trees, rocks, ruins read as darker specks
+    if(tv===T.OCEAN&&wd.map&&wd.map.coastDist){ var cd=Math.min(1,wd.map.coastDist[k]/120); f*=1-cd*0.45; }
+    var i=k*4; d[i]=c[0]*f; d[i+1]=c[1]*f; d[i+2]=c[2]*f; d[i+3]=255; }
+  g.putImageData(img,0,0); _wmBaseVer=ver; return _wmBaseCv;
+}
+function _wmFog(ps,ver){
+  if(!_wmFogCv){ _wmFogCv=document.createElement('canvas'); _wmFogCv.width=EXP_W; _wmFogCv.height=EXP_H; }
+  if(_wmFogVer===ver&&_wmFogPs===ps)return _wmFogCv;
+  var g=_wmFogCv.getContext('2d'), img=g.createImageData(EXP_W,EXP_H), d=img.data, eg=ps.exploredGrid;
+  for(var i=0;i<EXP_W*EXP_H;i++){ var j=i*4; d[j]=5;d[j+1]=8;d[j+2]=15;d[j+3]=eg&&eg[i]?0:255; }
+  g.putImageData(img,0,0); _wmFogVer=ver; _wmFogPs=ps; return _wmFogCv;
+}
+function _wmExplored(ps,tx,ty){ var eg=ps&&ps.exploredGrid; if(!eg)return false; var cx=Math.floor(tx/EXP_SCALE),cy=Math.floor(ty/EXP_SCALE); return cx>=0&&cy>=0&&cx<EXP_W&&cy<EXP_H&&!!eg[cy*EXP_W+cx]; }
+function _wmZoneAt(tx,ty){ if(!_WZONE)return null; var z=_WZONE[ty*WORLD_W+tx]; return z===255?null:WMAP_ZONES[z]; }
+function _wmZoneLabel(tx,ty){
+  tx=Math.floor(tx);ty=Math.floor(ty);
+  var z=_wmZoneAt(tx,ty), sec=getTileSection(tx,ty);
+  if(Math.hypot(tx-CENTER_X,ty-CENTER_Y)<VILLAGE_RADIUS+4)return {name:'Village',region:'Mirror Lake shore'};
+  if(!z)return {name:WM_REGION_NAMES[sec]||'',region:''};
+  return {name:_wmZoneName(z.id),region:WM_REGION_NAMES[z.r]};
+}
+var _WM_SITE_ICO={dungeon:'⚔',tower:'🗼',camp:'⛺',harbor:'⚓',skyport:'🎈',volcano_main:'🌋',volcano_mini:'🔥'};
+var _WM_BORDER_COL={silverrun:'#7fd0ff',scarp:'#ffd27a',chasm:'#ff8a5a',ember:'#e0a0ff'};
+// Draw a view (tile rect v={x,y,w,h}) of the world into ctx (cw×ch px).
+function _wmDrawView(ctx,cw,ch,ws,v,o){
+  o=o||{}; var wd=ws.wd, ps=ws.playerState, sc=cw/v.w;
+  var X=function(tx){return (tx-v.x)*sc;}, Y=function(ty){return (ty-v.y)*sc;};
+  ctx.save(); ctx.fillStyle='#05080f'; ctx.fillRect(0,0,cw,ch);
+  ctx.imageSmoothingEnabled=sc<1; ctx.drawImage(_wmBase(wd),v.x,v.y,v.w,v.h,0,0,cw,ch);
+  ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+  ctx.drawImage(_wmFog(ps,ws._expVer||0),v.x/EXP_SCALE,v.y/EXP_SCALE,v.w/EXP_SCALE,v.h/EXP_SCALE,0,0,cw,ch);
+  var inV=function(tx,ty,m){ m=m||4; return tx>=v.x-m&&ty>=v.y-m&&tx<=v.x+v.w+m&&ty<=v.y+v.h+m; };
+  var lbl=function(txt,x,y,col,size,weight){ ctx.font=(weight||600)+' '+size+'px "Segoe UI",sans-serif'; ctx.lineWidth=Math.max(2,size/4); ctx.strokeStyle='rgba(0,0,0,.85)'; ctx.strokeText(txt,x,y); ctx.fillStyle=col; ctx.fillText(txt,x,y); };
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  var big=!!o.full, U=big?1:0.8;   // marker scale
+  // zone + region names (full map only, visited zones only)
+  var vz=ps.visitedZones||[];
+  if(big&&o.labels!==false){
+    WMAP_ZONES.forEach(function(z){ if(vz.indexOf(z.id)<0||!inV(z.x,z.y))return; lbl(_wmZoneName(z.id),X(z.x),Y(z.y)-14*U,'rgba(255,255,255,.92)',Math.max(10,Math.min(14,sc*9)),600); });
+    [[1,960,40],[2,900,1165],[3,250,1165],[4,260,40]].forEach(function(q){ var seen=WMAP_ZONES.some(function(z){return z.r===q[0]&&vz.indexOf(z.id)>=0;}); if(!seen||!inV(q[1],q[2],60))return; lbl(WM_REGION_NAMES[q[0]].toUpperCase(),X(q[1]),Y(q[2]),'rgba(255,238,200,.9)',Math.max(14,Math.min(22,sc*16)),700); });
   }
-  var img=_mmCacheCtx.createImageData(WORLD_W,WORLD_H);
-  for(var ty=0;ty<WORLD_H;ty++){
-    var row=wd.tiles[ty];
-    for(var tx=0;tx<WORLD_W;tx++){
-      var tileVal=row?row[tx]:T.OCEAN;
-      var col=TILE_COLORS[tileVal];
-      if(col===undefined)col=0x0a2060;
-      var cellX=Math.floor(tx/EXP_SCALE),cellY=Math.floor(ty/EXP_SCALE);
-      var explored=exploredGrid&&exploredGrid[cellY*EXP_W+cellX];
-      var r,g,b;
-      if(!explored){r=0x04;g=0x06;b=0x10;}
-      else{r=(col>>16)&0xff;g=(col>>8)&0xff;b=col&0xff;}
-      var idx=(ty*WORLD_W+tx)*4;
-      img.data[idx]=r;img.data[idx+1]=g;img.data[idx+2]=b;img.data[idx+3]=255;
-    }
-  }
-  _mmCacheCtx.putImageData(img,0,0);
-  _mmLastExpVer=expVer;
+  // village
+  if(inV(CENTER_X,CENTER_Y)){ ctx.fillStyle='#e9c46a'; ctx.strokeStyle='#000'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(X(CENTER_X),Y(CENTER_Y),(big?8:6),0,Math.PI*2); ctx.fill(); ctx.stroke(); if(big)lbl('Village',X(CENTER_X),Y(CENTER_Y)+18,'#ffe9a8',12,700); }
+  // crossings (explored only)
+  (wd.gates||[]).forEach(function(G){ if(!inV(G.x,G.y)||!_wmExplored(ps,G.x,G.y))return; var gx=X(G.x),gy=Y(G.y), r=(big?9:6), col=_WM_BORDER_COL[G.border]||'#ff9a60';
+    ctx.fillStyle=G.open?col:'#40404a'; ctx.strokeStyle=G.open?'#000':col; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(gx,gy-r); ctx.lineTo(gx+r,gy); ctx.lineTo(gx,gy+r); ctx.lineTo(gx-r,gy); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.font=(big?11:8)+'px serif'; ctx.fillStyle='#fff'; ctx.fillText(G.open?G.icon:'🔒',gx,gy+1);
+    if(big&&o.labels!==false){ var lx=G.dir==='v'?gx:gx+r+6, ly=G.dir==='v'?gy+r+10:gy-r-6; ctx.textAlign=G.dir==='v'?'center':'left'; lbl(G.name,lx,ly,G.open?col:'#b8b8c8',11,700); ctx.textAlign='center'; } });
+  // sites (explored only; the active quest's site always)
+  (wd.sites||[]).forEach(function(S){ var sx=S.tx+1.5, sy=S.ty+1.5; if(!inV(sx,sy))return; var q=ps.activeQuest&&!S.bonus&&ps.activeQuest==='s'+S.section+'_'+S.type;
+    if(!q&&!_wmExplored(ps,sx,sy))return; var px=X(sx),py=Y(sy), r=(big?8:5);
+    if(q){ ctx.fillStyle='rgba(255,255,80,.35)'; ctx.beginPath(); ctx.arc(px,py,r*2,0,Math.PI*2); ctx.fill(); }
+    ctx.fillStyle='rgba(0,0,0,.65)'; ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=q?'#ffff44':S.boss?'#ffd24a':'#c8b8ff'; ctx.lineWidth=q?2.5:1.5; ctx.stroke();
+    ctx.font=(big?10:7)+'px serif'; ctx.fillStyle='#fff'; ctx.fillText(_WM_SITE_ICO[S.type]||'•',px,py+1);
+    if(q&&big)lbl('Quest: '+(S.name||S.type),px,py+r*2+8,'#ffff88',11,700); });
+  // hidden caches (explored, unopened)
+  var oc=ps.openedCaches||[];
+  (wd.caches||[]).forEach(function(c){ if(oc.indexOf(c.id)>=0||!inV(c.x,c.y)||!_wmExplored(ps,c.x,c.y))return; var px=X(c.x),py=Y(c.y), r=big?5:3.5;
+    ctx.fillStyle='#ffd24a'; ctx.strokeStyle='#3a2208'; ctx.lineWidth=1.5; ctx.fillRect(px-r,py-r*0.8,r*2,r*1.6); ctx.strokeRect(px-r,py-r*0.8,r*2,r*1.6); });
+  // waystones
+  var act=ps.activatedWaystones||[];
+  (wd.waystones||[]).forEach(function(Wy){ if(!inV(Wy.x,Wy.y))return; var on=act.indexOf(Wy.id)>=0; if(!on&&!_wmExplored(ps,Wy.x,Wy.y))return;
+    var px=X(Wy.x),py=Y(Wy.y), w=(big?7:5), h=(big?14:10); if(o.travel&&Wy.id===o.travel){ ctx.strokeStyle='#ffd24a'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(px,py,h,0,Math.PI*2); ctx.stroke(); }
+    if(on){ ctx.save(); ctx.shadowColor='#6fe3f5'; ctx.shadowBlur=big?10:6; ctx.fillStyle='#6fe3f5'; ctx.fillRect(px-w/2,py-h/2,w,h); ctx.restore(); } else { ctx.fillStyle='#50606a'; ctx.fillRect(px-w/2,py-h/2,w,h); }
+    ctx.strokeStyle='#002830'; ctx.lineWidth=1.2; ctx.strokeRect(px-w/2,py-h/2,w,h); });
+  // player arrow
+  if(ws.player){ var ptx=ws.player.x/TILE, pty=ws.player.y/TILE, a={up:-Math.PI/2,down:Math.PI/2,left:Math.PI,right:0}[ws.player.dir]||Math.PI/2;
+    var px2=X(ptx),py2=Y(pty), s2=big?9:7; ctx.save(); ctx.translate(px2,py2); ctx.rotate(a);
+    ctx.fillStyle='#00ffcc'; ctx.strokeStyle='#002a22'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(s2,0); ctx.lineTo(-s2*0.7,s2*0.65); ctx.lineTo(-s2*0.35,0); ctx.lineTo(-s2*0.7,-s2*0.65); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); }
+  ctx.restore();
 }
 
 // ─── Always-visible HUD Minimap ─────────────────────────────────────────────
@@ -135,6 +189,7 @@ function _drawMinimapHud(ws,dng){
   var ctx=cv.getContext('2d');
   var cw=cv.width,ch=cv.height;
   ctx.fillStyle='rgba(5,8,18,0.85)';ctx.fillRect(0,0,cw,ch);
+  var zl=document.getElementById('mmh-zone');
   if(dng&&dng.dtiles&&dng._dngFogExplored){
     // ── Dungeon minimap ──
     var scaleX=cw/DW,scaleY=ch/DH;
@@ -149,126 +204,125 @@ function _drawMinimapHud(ws,dng){
         ctx.fillRect(tx*scaleX,ty*scaleY,scaleX+.5,scaleY+.5);
       }
     }
-    // Player dot
     var ppx=(dng.px/TILE)*scaleX,ppy=(dng.py/TILE)*scaleY;
-    ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(ppx,ppy,2.5,0,Math.PI*2);ctx.fill();
-  } else if(ws&&ws.wd&&ws.playerState&&ws.playerState.exploredGrid){
-    // ── World minimap (scaled from cache) ──
-    var ps=ws.playerState;
-    var ver=ws._expVer||0;
-    if(ver!==_mmLastExpVer||!_mmCache)_buildMinimapCache(ws.wd,ps.exploredGrid,ver);
-    if(_mmCache){
-      ctx.drawImage(_mmCache,0,0,WORLD_W,WORLD_H,0,0,cw,ch);
-      // Player dot
-      var wpx=(ws.player.x/TILE)*(cw/WORLD_W);
-      var wpy=(ws.player.y/TILE)*(ch/WORLD_H);
-      ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(wpx,wpy,2,0,Math.PI*2);ctx.fill();
-      ctx.strokeStyle='rgba(255,255,255,.6)';ctx.lineWidth=1;ctx.stroke();
-    }
+    ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(ppx,ppy,4,0,Math.PI*2);ctx.fill();
+    if(zl)zl.innerHTML='&nbsp;';
+  } else if(ws&&ws.wd&&ws.playerState&&ws.playerState.exploredGrid&&ws.player){
+    // ── World minimap: ~150 tiles around the hero ──
+    var n=WM_MINI_TILES, ptx=ws.player.x/TILE, pty=ws.player.y/TILE;
+    var v={x:Math.max(0,Math.min(WORLD_W-n,ptx-n/2)),y:Math.max(0,Math.min(WORLD_H-n,pty-n/2)),w:n,h:n};
+    _wmDrawView(ctx,cw,ch,ws,v,{full:false});
+    if(zl){ var L=_wmZoneLabel(ptx,pty); zl.innerHTML=L.name+(L.region?' <small>· '+L.region+'</small>':''); }
   }
-  // Border
-  ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=1;ctx.strokeRect(.5,.5,cw-1,ch-1);
+  ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=2;ctx.strokeRect(1,1,cw-2,ch-2);
 }
 
-function renderMinimap(wd,player,unlockedSections,exploredGrid,expVer,activeQuest){
+// ─── Full World Map (B / 🗺 button) — also the waystone travel screen ─────
+var WMAP={zoom:1,cx:null,cy:null,travel:null,drag:null,hover:null,last:0};
+function openWorldMap(opts){
+  opts=opts||{};
+  var ws=game&&game.scene?game.scene.getScene('World'):null; if(!ws||!ws.wd)return;
+  var el=document.getElementById('modal-map'); if(!el)return;
+  if(typeof _closeAllOverlays==='function'&&el.style.display==='none')_closeAllOverlays();
+  WMAP.travel=opts.travelFrom||null;
+  el.style.display='flex'; document.body.classList.add('bars-hidden');
+  if(opts.travelFrom||WMAP.cx===null){ WMAP.zoom=opts.travelFrom?1:WMAP.zoom; }
+  WMAP.cx=ws.player.x/TILE; WMAP.cy=ws.player.y/TILE;
+  _wmSizeCanvas(); renderMinimap(ws.wd,ws.player,ws.playerState.unlockedSections,ws.playerState.exploredGrid,ws._expVer||0,ws.playerState.activeQuest,true);
+  _wmRenderSide(ws);
+}
+function _wmSizeCanvas(){
+  var cv=document.getElementById('minimap-canvas'); if(!cv)return;
+  var side=Math.max(320,Math.min(window.innerHeight*0.94-90,window.innerWidth*0.96-300));
+  var dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.style.width=side+'px'; cv.style.height=side+'px';
+  if(cv.width!==Math.round(side*dpr)){ cv.width=Math.round(side*dpr); cv.height=Math.round(side*dpr); }
+  WMAP.dpr=dpr; WMAP.side=side;
+}
+function _wmView(){
+  var n=WORLD_W/WMAP.zoom, cx=WMAP.cx===null?WORLD_W/2:WMAP.cx, cy=WMAP.cy===null?WORLD_H/2:WMAP.cy;
+  if(WMAP.zoom<=1){ cx=WORLD_W/2; cy=WORLD_H/2; }
+  return {x:Math.max(0,Math.min(WORLD_W-n,cx-n/2)),y:Math.max(0,Math.min(WORLD_H-n,cy-n/2)),w:n,h:n};
+}
+function renderMinimap(wd,player,unlockedSections,exploredGrid,expVer,activeQuest,force){
   var cv=document.getElementById('minimap-canvas');if(!cv||!wd)return;
   var mapModal=document.getElementById('modal-map');
   if(!mapModal||mapModal.style.display==='none')return;
-  if(cv.width!==WORLD_W){cv.width=WORLD_W;cv.height=WORLD_H;}
-  var ver=expVer||0;
-  if(ver!==_mmLastExpVer||!_mmCache)_buildMinimapCache(wd,exploredGrid,ver);
+  var now=Date.now(); if(!force&&now-WMAP.last<90)return; WMAP.last=now;
+  var ws=game.scene.getScene('World'); if(!ws||!ws.playerState)return;
   var ctx=cv.getContext('2d');
-  ctx.drawImage(_mmCache,0,0);
-
-  // ── Site markers ─────────────────────────────────────────────────────────
-  var ul=unlockedSections||[1];
-  var sc={dungeon:'#8844ff',tower:'#4488ff',camp:'#ffaa44',harbor:'#44aaff',skyport:'#44ffff'};
-  // Site type icons for the quest marker
-  var si={dungeon:'⚔',tower:'🗼',camp:'⛺',harbor:'⚓',skyport:'🎈'};
-  if(wd.sites){
-    wd.sites.forEach(function(s){
-      if(!ul.includes(s.section))return;
-      var sx=s.tx+1, sy=s.ty+1; // centre of the 3-tile site block
-      var questKey=s.bonus?null:'s'+s.section+'_'+s.type;
-      var isQuest=activeQuest===questKey;
-
-      if(isQuest){
-        // ── Big glowing quest marker ────────────────────────────────────────
-        // Outer glow ring
-        ctx.save();
-        ctx.globalAlpha=0.35;
-        ctx.fillStyle=sc[s.type]||'#ffff00';
-        ctx.beginPath();ctx.arc(sx,sy,13,0,Math.PI*2);ctx.fill();
-        ctx.globalAlpha=1;
-        // Filled circle
-        ctx.fillStyle=sc[s.type]||'#ffff00';
-        ctx.beginPath();ctx.arc(sx,sy,8,0,Math.PI*2);ctx.fill();
-        // Bright yellow border
-        ctx.strokeStyle='#ffff44';ctx.lineWidth=2;
-        ctx.beginPath();ctx.arc(sx,sy,8,0,Math.PI*2);ctx.stroke();
-        // "!" text in centre
-        ctx.fillStyle='#ffffff';
-        ctx.font='bold 11px sans-serif';
-        ctx.textAlign='center';ctx.textBaseline='middle';
-        ctx.fillText('!',sx,sy);
-        ctx.restore();
-        // Label below the marker: site type
-        ctx.save();
-        ctx.fillStyle='rgba(0,0,0,0.65)';
-        ctx.fillRect(sx-55,sy+10,110,12);
-        ctx.fillStyle='#ffff88';
-        ctx.font='bold 9px sans-serif';
-        ctx.textAlign='center';ctx.textBaseline='top';
-        ctx.fillText((s.name||(s.type.charAt(0).toUpperCase()+s.type.slice(1)))+' S'+s.section,sx,sy+11);
-        ctx.restore();
-      } else {
-        // ── Regular site: 5×5 dot ──────────────────────────────────────────
-        ctx.fillStyle=sc[s.type]||'#fff';
-        ctx.fillRect(sx-2,sy-2,5,5);
-        // thin dark border for legibility
-        ctx.strokeStyle=s.boss?'#ffd24a':'rgba(0,0,0,0.5)';ctx.lineWidth=s.boss?1.2:0.5;
-        ctx.strokeRect(sx-2,sy-2,5,5);
-      }
-    });
-  }
-
-  // ── Player dot ───────────────────────────────────────────────────────────
-  if(player){
-    var ppx=Math.round(player.x/TILE),ppy=Math.round(player.y/TILE);
-    // outer ring
-    ctx.save();
-    ctx.globalAlpha=0.4;
-    ctx.fillStyle='#ffffff';
-    ctx.beginPath();ctx.arc(ppx,ppy,5,0,Math.PI*2);ctx.fill();
-    ctx.globalAlpha=1;
-    // solid dot
-    ctx.fillStyle='#00ffcc';
-    ctx.beginPath();ctx.arc(ppx,ppy,3,0,Math.PI*2);ctx.fill();
-    ctx.strokeStyle='#003322';ctx.lineWidth=0.8;ctx.stroke();
-    ctx.restore();
-  }
-
-  // ── Legend ───────────────────────────────────────────────────────────────
-  var legend=[
-    {col:'#8844ff',label:'Dungeon'},
-    {col:'#4488ff',label:'Tower'},
-    {col:'#ffaa44',label:'Camp'},
-    {col:'#44ffff',label:'Harbor/Sky'},
-    {col:'#00ffcc',label:'You'},
-  ];
-  var lx=6,ly=WORLD_H-6-legend.length*12;
-  ctx.save();
-  ctx.fillStyle='rgba(0,0,0,0.55)';
-  ctx.fillRect(lx-2,ly-3,78,legend.length*12+6);
-  legend.forEach(function(l,i){
-    ctx.fillStyle=l.col;
-    ctx.fillRect(lx,ly+i*12+1,8,8);
-    ctx.fillStyle='#ccc';
-    ctx.font='8px sans-serif';ctx.textAlign='left';ctx.textBaseline='top';
-    ctx.fillText(l.label,lx+11,ly+i*12+1);
-  });
-  ctx.restore();
+  _wmDrawView(ctx,cv.width,cv.height,ws,_wmView(),{full:true,travel:WMAP.travel});
+  document.querySelectorAll('.wmap-z').forEach(function(b){ b.classList.toggle('on',+b.dataset.z===WMAP.zoom); });
 }
+function _wmCost(ws,from,to){
+  if(!from||!to||from.id===to.id)return 0;
+  if(to.region===0)return 0;                                   // going home is always free
+  var rf=from.region===0?1:from.region;                        // the village sits on the Grasslands shore
+  if(rf===to.region)return 0;                                  // same region: free
+  return 10+Math.round(Math.hypot(to.x-from.x,to.y-from.y)/15); // across regions: gold by distance
+}
+function _wmRenderSide(ws){
+  var side=document.getElementById('wmap-side'), title=document.getElementById('wmap-title'); if(!side)return;
+  var ps=ws.playerState, wd=ws.wd, act=ps.activatedWaystones||[];
+  var from=WMAP.travel?wd.waystones.find(function(w){return w.id===WMAP.travel;}):null;
+  if(title)title.textContent=from?'🔷 '+from.name+' — travel':'🗺️ World Map';
+  var h='';
+  if(from){
+    h+='<h4>Travel to</h4><div class="wm-note">Free within a region · gold to cross into another region · home is always free. 💰 '+ps.gold+'g</div>';
+    [0,1,2,3,4].forEach(function(r){
+      var list=wd.waystones.filter(function(w){return w.region===r&&act.indexOf(w.id)>=0;}); if(!list.length)return;
+      h+='<h4>'+(r===0?'Village':WM_REGION_NAMES[r])+'</h4>';
+      list.forEach(function(w){ var here=w.id===from.id, c=_wmCost(ws,from,w), poor=c>ps.gold;
+        h+='<button class="wm-ws'+(here?' here':'')+'" data-ws="'+w.id+'"'+(here||poor?' disabled':'')+'><b>'+w.name.replace(' Waystone','')+'</b>'+(here?'<em class="free">you are here</em>':c?'<em>'+c+'g</em>':'<em class="free">free</em>')+'</button>'; });
+    });
+    var locked=wd.waystones.length-act.length;
+    if(locked>0)h+='<div class="wm-note">'+locked+' more waystone'+(locked>1?'s':'')+' to find. Touch one with [Tab] to add it to the network.</div>';
+  } else {
+    h+='<h4>Legend</h4>'+[['#e9c46a','Village'],['#6fe3f5','Waystone (active)'],['#50606a','Waystone (not yet touched)'],['#ffd24a','★ Boss site'],['#c8b8ff','Tower / dungeon / camp'],['#7fd0ff','Crossing (open)'],['#40404a','Crossing (🔒 not built yet)'],['#ffd24a','Hidden cache (use your mount)'],['#00ffcc','You']].map(function(l){return '<div class="wm-lg"><i style="background:'+l[0]+'"></i>'+l[1]+'</div>';}).join('');
+    h+='<h4>Crossings</h4>';
+    WMAP_BORDERS.forEach(function(B){ var gs=wd.gates.filter(function(g){return g.border===B.id;}), open=gs.length&&gs[0].open, C=CRAFTSMEN[B.craftsman];
+      h+='<div class="wm-lg"><i style="background:'+(open?_WM_BORDER_COL[B.id]:'#40404a')+'"></i><span><b>'+B.name+'</b> · '+(open?B.icon+' open (3 crossings)':'🔒 free '+(C?C.n:'the craftsman'))+'</span></div>'; });
+    h+='<h4>Waystones</h4><div class="wm-note">'+act.length+' / '+wd.waystones.length+' active. Stand at one and press <b>[Tab]</b> to travel.</div>';
+    h+='<div class="wm-note">Drag to pan · wheel or buttons to zoom · only explored land is shown.</div>';
+  }
+  side.innerHTML=h;
+}
+(function(){
+  document.addEventListener('click',function(e){
+    var zb=e.target.closest&&e.target.closest('.wmap-z'); var ws=game&&game.scene?game.scene.getScene('World'):null;
+    if(zb&&ws){ var z=+zb.dataset.z; if(z===0){ WMAP.cx=ws.player.x/TILE; WMAP.cy=ws.player.y/TILE; if(WMAP.zoom<2)WMAP.zoom=2; } else { WMAP.zoom=z; WMAP.cx=ws.player.x/TILE; WMAP.cy=ws.player.y/TILE; } renderMinimap(ws.wd,null,null,null,0,null,true); return; }
+    var wb=e.target.closest&&e.target.closest('.wm-ws'); if(wb&&!wb.disabled&&ws&&ws._travelTo){ ws._travelTo(wb.dataset.ws); return; }
+  });
+  var cvOf=function(){ return document.getElementById('minimap-canvas'); };
+  var toTile=function(e){ var cv=cvOf(), r=cv.getBoundingClientRect(), v=_wmView(); return [v.x+(e.clientX-r.left)/r.width*v.w, v.y+(e.clientY-r.top)/r.height*v.h]; };
+  document.addEventListener('mousedown',function(e){ if(e.target.id!=='minimap-canvas')return; WMAP.drag={x:e.clientX,y:e.clientY,cx:WMAP.cx,cy:WMAP.cy,moved:false}; e.target.classList.add('drag'); });
+  document.addEventListener('mouseup',function(e){ var d=WMAP.drag; WMAP.drag=null; var cv=cvOf(); if(cv)cv.classList.remove('drag');
+    if(d&&!d.moved&&e.target.id==='minimap-canvas'&&WMAP.travel){ var ws=game.scene.getScene('World'), t=toTile(e), best=null,bd=1e9;
+      (ws.wd.waystones||[]).forEach(function(w){ var dd=Math.hypot(w.x-t[0],w.y-t[1]); if(dd<bd){bd=dd;best=w;} });
+      var tol=_wmView().w/WMAP.side*14; if(best&&bd<tol&&(ws.playerState.activatedWaystones||[]).indexOf(best.id)>=0&&best.id!==WMAP.travel)ws._travelTo(best.id); } });
+  document.addEventListener('mousemove',function(e){
+    var cv=cvOf(); if(!cv)return; var ws=game&&game.scene?game.scene.getScene('World'):null; if(!ws||!ws.wd)return;
+    if(WMAP.drag){ var r=cv.getBoundingClientRect(), v=_wmView(), dx=(e.clientX-WMAP.drag.x)/r.width*v.w, dy=(e.clientY-WMAP.drag.y)/r.height*v.h; if(Math.abs(e.clientX-WMAP.drag.x)+Math.abs(e.clientY-WMAP.drag.y)>4)WMAP.drag.moved=true;
+      if(WMAP.zoom>1&&WMAP.drag.moved){ WMAP.cx=Math.max(v.w/2,Math.min(WORLD_W-v.w/2,WMAP.drag.cx-dx)); WMAP.cy=Math.max(v.h/2,Math.min(WORLD_H-v.h/2,WMAP.drag.cy-dy)); renderMinimap(ws.wd,null,null,null,0,null,true); } return; }
+    var tip=document.getElementById('wmap-tip'); if(!tip)return;
+    if(e.target.id!=='minimap-canvas'){ tip.style.display='none'; return; }
+    var t=toTile(e), ps=ws.playerState, txt='';
+    if(!_wmExplored(ps,t[0],t[1])){ txt='<span>Unexplored</span>'; }
+    else {
+      var near=function(list,f){ var best=null,bd=_wmView().w/WMAP.side*12; (list||[]).forEach(function(o){ var p=f(o), dd=Math.hypot(p[0]-t[0],p[1]-t[1]); if(dd<bd){bd=dd;best=o;} }); return best; };
+      var W1=near(ws.wd.waystones,function(o){return [o.x,o.y];}), G=near(ws.wd.gates,function(o){return [o.x,o.y];}), S=near(ws.wd.sites,function(o){return [o.tx+1.5,o.ty+1.5];});
+      if(W1){ var on=(ps.activatedWaystones||[]).indexOf(W1.id)>=0, from=WMAP.travel&&ws.wd.waystones.find(function(w){return w.id===WMAP.travel;});
+        txt='<b>🔷 '+W1.name+'</b>'+(on?(from&&W1.id!==from.id?' <span>· click to travel ('+(_wmCost(ws,from,W1)||'free')+(_wmCost(ws,from,W1)?'g':'')+')</span>':''):' <span>· touch it to activate</span>'); }
+      else if(G){ var C=CRAFTSMEN[G.craftsman]; txt='<b>'+(G.open?G.icon:'🔒')+' '+G.name+'</b> <span>· '+G.borderName+(G.open?'':' · free '+(C?C.n:'the craftsman'))+'</span>'; }
+      else if(S){ txt='<b>'+(_WM_SITE_ICO[S.type]||'')+' '+_siteLabel(S)+'</b>'; }
+      else { var L=_wmZoneLabel(t[0],t[1]); txt='<b>'+L.name+'</b>'+(L.region?' <span>· '+L.region+'</span>':''); }
+    }
+    var rr=cv.getBoundingClientRect(); tip.innerHTML=txt; tip.style.display='block'; tip.style.left=Math.min(e.clientX-rr.left+14,rr.width-180)+'px'; tip.style.top=(e.clientY-rr.top+14)+'px';
+  });
+  document.addEventListener('wheel',function(e){ if(e.target.id!=='minimap-canvas')return; e.preventDefault(); var ws=game.scene.getScene('World'); if(!ws)return;
+    var zs=[1,2,4,8], i=zs.indexOf(WMAP.zoom); if(i<0)i=0; var t=toTile(e); i=Math.max(0,Math.min(zs.length-1,i+(e.deltaY<0?1:-1))); WMAP.zoom=zs[i]; WMAP.cx=t[0]; WMAP.cy=t[1]; renderMinimap(ws.wd,null,null,null,0,null,true); },{passive:false});
+  window.addEventListener('resize',function(){ var el=document.getElementById('modal-map'); if(el&&el.style.display!=='none')_wmSizeCanvas(); });
+})();
 
 function updateInventoryModal(ps){
   if(!ps){var ws=game&&game.scene?game.scene.getScene('World'):null;if(!ws||!ws.playerState)return;ps=ws.playerState;}

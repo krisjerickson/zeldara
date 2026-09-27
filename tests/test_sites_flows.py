@@ -102,7 +102,7 @@ with game() as g:
     # ── Journal
     g.js("var ws=game.scene.getScene('World');renderQuestList(ws.playerState.unlockedSections,ws.playerState.completedQuests,ws.playerState.activeQuest,ws);")
     html=g.js("document.getElementById('quest-list-container').innerHTML")
-    check('Journal lists towers & dungeons with status', 'Silverwood Palace' in html and 'Moonglass Spire ✓' in html and 'Ash Salamander' in html)
+    check('Journal lists towers & dungeons with status', 'Silverwood Palace' in html and 'Moonglass Spire ✓' in html and 'Ash Dragon' in html)
     errs=[e for e in g.errs if 'GL Driver' not in e]
     check('No JS errors', not errs, errs[:4])
 
@@ -112,6 +112,6 @@ old=json.dumps({"hp":40,"maxHp":50,"atk":6,"def":1,"gold":10,"level":4,"xp":0,"m
   "activeQuest":None,"completedQuests":["s1_tower"],"dungeonFog":{"s1_dungeon_0":[1,1,0]},"godMode":False,"ownedFamiliars":["firefly","sea_sprite"],
   "skills":[],"lockedSites":["s1_skyport"],"saveVersion":3})
 with game(new=False, save=old) as g:
-    check('v3 save migrates: harbor/skyport quests backfilled, Bram rescued, fog reset', g.ws("ps.saveVersion===4&&ps.completedQuests.includes('s1_harbor')&&ps.completedQuests.includes('s2_harbor')&&ps.completedQuests.includes('s1_skyport')&&ps.rescued.includes(1)&&Object.keys(ps.dungeonFog).length===0"))
+    check('v3 save migrates (to v5): harbor/skyport quests backfilled, Bram rescued, fog reset', g.ws("ps.saveVersion===5&&ps.completedQuests.includes('s1_harbor')&&ps.completedQuests.includes('s2_harbor')&&ps.completedQuests.includes('s1_skyport')&&ps.rescued.includes(1)&&Object.keys(ps.dungeonFog).length===0"))
     check('Rescued craftsman appears in the village on load', g.ws("(ws._villageNPCs||[]).length===1"))
 print('%d/%d'%(sum(res),len(res)))

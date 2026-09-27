@@ -1,0 +1,94 @@
+// ═══════════════════════════════════════════════════════════════════════
+// ║ WORLD RENDER (Phase 3 · step 2) — streams Lab-painted chunks around the
+// ║ camera (05c-world-paint.js does the painting in small time slices), and
+// ║ mounts their props as depth-sorted sprites, rune glows, lava flows and
+// ║ ley lines. Depth band: ground < 0 < props/hero/monsters (10 + y/1e5).
+// ═══════════════════════════════════════════════════════════════════════
+var WR_DEPTH=function(y){ return 10+y/100000; };
+Object.assign(WorldScene.prototype,{
+  _wrInit(){
+    if(this._wr)return;
+    this._wr={chunks:new Map(),jobs:new Map(),seq:0};
+    this.cameras.main.setBackgroundColor('#0f3764');
+    var self=this;
+    [['glow',128,function(x){ var g=x.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.35,'rgba(255,255,255,0.45)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); }],
+     ['dot',8,function(x){ var g=x.createRadialGradient(4,4,0,4,4,4); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,8,8); }],
+     ['leaf',10,function(x){ x.fillStyle='#fff'; x.beginPath(); x.ellipse(5,3,5,2.2,0.4,0,Math.PI*2); x.fill(); }]].forEach(function(q){
+      if(self.textures.exists(q[0]))return; var c=mkCanvas(q[1],q[0]==='leaf'?6:q[1]); q[2](c.getContext('2d')); self.textures.addCanvas(q[0],c); });
+    this.events.once('shutdown',function(){ self._wr.chunks.forEach(function(ch){ self._wrUnmount(ch); }); self._wr.chunks.clear(); });
+  },
+  // Keys of chunks the camera needs (visible first), plus a one-chunk halo
+  _wrNeeded(){
+    var cam=this.cameras.main, cs=WCH*TILE, out=[], dw=cam.width/cam.zoom, dh=cam.height/cam.zoom;
+    var v={x:cam.scrollX+(cam.width-dw)/2, y:cam.scrollY+(cam.height-dh)/2, width:dw, height:dh};
+    var x0=Math.floor(v.x/cs)-1, x1=Math.floor((v.x+v.width)/cs)+1, y0=Math.floor(v.y/cs)-1, y1=Math.floor((v.y+v.height)/cs)+1, n=Math.ceil(WORLD_W/WCH);
+    var mx=v.x+v.width/2, my=v.y+v.height/2;
+    for(var cy=y0;cy<=y1;cy++)for(var cx=x0;cx<=x1;cx++){ if(cx<0||cy<0||cx>=n||cy>=n)continue;
+      var vis=!((cx+1)*cs<v.x||cx*cs>v.x+v.width||(cy+1)*cs<v.y||cy*cs>v.y+v.height);
+      out.push({key:cx+'_'+cy,cx:cx,cy:cy,vis:vis,d:Math.hypot((cx+0.5)*cs-mx,(cy+0.5)*cs-my)}); }
+    out.sort(function(a,b){ return (b.vis-a.vis)||(a.d-b.d); });
+    return out;
+  },
+  _updateChunks(sync){
+    if(!this._wr)this._wrInit();
+    var W=this._wr, self=this, need=this._wrNeeded(), keep={};
+    need.forEach(function(n){ keep[n.key]=1; if(!W.chunks.has(n.key)&&!W.jobs.has(n.key))W.jobs.set(n.key,{n:n,job:wpChunkJob(self.wd,n.cx,n.cy)}); });
+    // run paint jobs: visible chunks first; more time while something visible is missing
+    var missingVis=need.some(function(n){ return n.vis&&!W.chunks.has(n.key); });
+    var budget=sync?1e9:(missingVis?14:6), t0=performance.now();
+    for(var i=0;i<need.length;i++){ var n=need[i], J=W.jobs.get(n.key); if(!J)continue; if(sync&&!n.vis)continue;
+      var left=budget-(performance.now()-t0); if(left<=0)break;
+      if(J.job.step(left)){ W.jobs.delete(n.key); var old=W.chunks.get(n.key); if(old)this._wrUnmount(old); W.chunks.set(n.key,this._wrMount(J.job.out)); } }
+    // drop far chunks (and stale jobs)
+    W.jobs.forEach(function(J,k){ if(!keep[k]&&!J.refresh)W.jobs.delete(k); });
+    W.chunks.forEach(function(ch,k){ if(keep[k])return; var p=k.split('_'), cx=+p[0], cy=+p[1], cam=self.cameras.main, dw=cam.width/cam.zoom, dh=cam.height/cam.zoom, v={x:cam.scrollX+(cam.width-dw)/2,y:cam.scrollY+(cam.height-dh)/2,width:dw,height:dh}, cs=WCH*TILE;
+      if(cx*cs>v.x+v.width+cs*2.2||(cx+1)*cs<v.x-cs*2.2||cy*cs>v.y+v.height+cs*2.2||(cy+1)*cs<v.y-cs*2.2){ self._wrUnmount(ch); W.chunks.delete(k); } });
+    // runes near the hero brighten
+    if(this.player){ var hx=this.player.x, hy=this.player.y, tt=(this._wrT=(this._wrT||0)+0.016);
+      W.chunks.forEach(function(ch){ ch.react.forEach(function(o,i){ var L=o._base, near=Math.max(0,1-Math.hypot(hx-o.x,hy-o.y)/150);
+        o.setAlpha(Math.min(1,L.a*0.8*(0.72+0.28*Math.sin(tt*1.6+i*0.9))*(1+1.6*near))); o.setScale((L.r/64)*(1+0.35*near)); }); }); }
+  },
+  _refreshChunkAt(tx,ty){
+    if(!this._wr)return; var cx=Math.floor(tx/WCH), cy=Math.floor(ty/WCH), key=cx+'_'+cy;
+    this._wr.jobs.set(key,{n:{key:key,cx:cx,cy:cy},job:wpChunkJob(this.wd,cx,cy),refresh:true});
+  },
+  _createChunk(cx,cy){ this._refreshChunkAt(cx*WCH,cy*WCH); },
+  _wrMount(o){
+    var self=this, tag='wc'+(this._wr.seq++), objs=[], keys=[], react=[], x0=o.cx*WCH*LT, y0=o.cy*WCH*LT;
+    var addTex=function(k,cv){ self.textures.addCanvas(k,cv); keys.push(k); return k; };
+    objs.push(this.add.image(x0,y0,addTex(tag,o.canvas)).setOrigin(0,0).setDepth(-10));
+    if(o.lavaMask){ var mk=addTex(tag+'_m',o.lavaMask);
+      [[0,0.7,7,4],[1,0.45,-5,6]].forEach(function(q){ var pk='wlava_'+q[0]; if(!self.textures.exists(pk))self.textures.addCanvas(pk,_lavaPattern(WORLD_SEED,q[0]));
+        var ts=self.add.tileSprite(x0,y0,WCH*LT,WCH*LT,pk).setOrigin(0,0).setDepth(-9).setAlpha(q[1]).setBlendMode(Phaser.BlendModes.ADD);
+        var mi=self.make.image({x:x0,y:y0,key:mk,add:false}).setOrigin(0,0); ts.setMask(mi.createBitmapMask()); ts._flow={vx:q[2],vy:q[3]}; ts.tilePositionX=x0; ts.tilePositionY=y0; objs.push(ts); objs.push(mi); });
+    }
+    if(o.ley){ var li=this.add.image(x0,y0,addTex(tag+'_ley',o.ley)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.8).setDepth(-5); objs.push(li);
+      this.tweens.add({targets:li,alpha:0.5,duration:2200,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
+    // sprites → one atlas per chunk (shelf-packed)
+    if(o.sprites.length){
+      var AW=2048, x=0, y=0, rowH=0, pos=[];
+      o.sprites.forEach(function(sp){ var w=sp.canvas.width, h=sp.canvas.height; if(x+w>AW){ x=0; y+=rowH+2; rowH=0; } pos.push([x,y]); x+=w+2; rowH=Math.max(rowH,h); });
+      var AH=Math.min(8192,y+rowH+2), atlas=mkCanvas(AW,AH), ag=atlas.getContext('2d');
+      o.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height<=AH)ag.drawImage(sp.canvas,pos[i][0],pos[i][1]); });
+      var at=addTex(tag+'_a',atlas), tex=this.textures.get(at);
+      o.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height>AH)return; var fn='s'+i; tex.add(fn,0,pos[i][0],pos[i][1],sp.canvas.width,sp.canvas.height);
+        var im=self.add.image(sp.x,sp.y,at,fn).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.depth!==undefined&&sp.depth>=7000?WR_DEPTH(sp.y)+0.5:WR_DEPTH(sp.depth!==undefined?sp.depth:sp.y));
+        if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+        if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
+        objs.push(im); });
+    }
+    o.lights.forEach(function(L,i){ var d=L.depth!==undefined&&L.depth<0?-4:WR_DEPTH(L.y)+0.0001;
+      var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a*0.8).setScale(L.r/64).setDepth(d);
+      if(L.pulse&&!L.react)self.tweens.add({targets:im,alpha:L.a*0.8*(1-L.pulse),scale:(L.r/64)*(1-L.pulse*0.25),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+      im._base=L; if(L.react)react.push(im); objs.push(im); });
+    return {objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy};
+  },
+  _wrUnmount(ch){
+    var self=this; ch.objs.forEach(function(o){ self.tweens.killTweensOf(o); o.destroy(); });
+    ch.keys.forEach(function(k){ if(self.textures.exists(k))self.textures.remove(k); });
+  },
+  _wrTick(dt){
+    if(!this._wr)return;
+    this._wr.chunks.forEach(function(ch){ ch.objs.forEach(function(o){ if(o._flow){ o.tilePositionX+=o._flow.vx*dt; o.tilePositionY+=o._flow.vy*dt; } }); });
+  }
+});

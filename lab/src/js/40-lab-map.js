@@ -1,16 +1,16 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ MAP tab — review the new 1200 × 1200 island before it goes in the game
 // ═══════════════════════════════════════════════════════════════════════
-var LabMap={ M:null, img:null, zoom:1, show:{zones:true,labels:true,sites:true,ways:true} };
+var LabMap={ M:null, img:null, zoom:1, show:{zones:true,labels:true,sites:true,ways:true,gates:true} };
 LAB_TABS.splice(LAB_TABS.findIndex(function(t){return t.id==='world';})+1,0,{
   id:'map', name:'World Map', designs:[],
-  blurb:'<b>The new island</b> (1200 × 1200 tiles, 4× today): a rugged coast with bays, fjords, capes and islets. Four regions meet at <b>Mirror Lake</b>, split by natural borders: the Silverrun river, the Great Scarp, the Cinder Chasm and the Ember Wall. You cross three of them where a freed craftsman builds the way (⛩). Each region holds its 10 designs as sub-zones. <b>Hover</b> to see a zone, <b>click</b> to walk its sample. Notes on the layout go in the box below.',
+  blurb:'<b>The new island</b> (1200 × 1200 tiles, 4× today): a rugged coast with bays, fjords, capes and islets. Four regions meet at <b>Mirror Lake</b>, split by natural borders: the Silverrun river, the Great Scarp, the Cinder Chasm and the Ember Wall. Each border has <b>three crossings</b> (lakeside, middle, coast) that all open when its craftsman is freed: Bram\'s bridges, Mira\'s lifts, Dunn\'s iron bridges, and Vela\'s passes through the Ember Wall. Each region holds its 10 designs as sub-zones. <b>Hover</b> to see a zone, <b>click</b> to walk its sample. Notes on the layout go in the box below.',
   render:function(){
     setTimeout(LabMap.draw,30);
     var p=LabApp.picks['map-layout']||{};
     return '<div class="map-bar"><span class="map-lg">'+
-      [['#e9c46a','Village'],['#6fe3f5','Waystone (fast travel)'],['#ffd24a','★ Boss site'],['#c8b8ff','Tower / dungeon'],['#ff9a60','Gate'],['#ff5a2a','Endgame volcano (hidden)']].map(function(l){ return '<i style="background:'+l[0]+'"></i>'+l[1]; }).join('')+'</span>'+
-      '<span class="map-tg">'+['zones','labels','sites','ways'].map(function(k){ return '<button class="map-t" data-t="'+k+'" aria-pressed="'+LabMap.show[k]+'">'+({zones:'Zone borders',labels:'Names',sites:'Sites',ways:'Waystones'})[k]+'</button>'; }).join('')+
+      [['#e9c46a','Village'],['#6fe3f5','Waystone (fast travel)'],['#ffd24a','★ Boss site'],['#c8b8ff','Tower / dungeon'],['#ff9a60','Crossing (3 per border)'],['#ff5a2a','Endgame volcano (hidden)']].map(function(l){ return '<i style="background:'+l[0]+'"></i>'+l[1]; }).join('')+'</span>'+
+      '<span class="map-tg">'+['zones','labels','gates','sites','ways'].map(function(k){ return '<button class="map-t" data-t="'+k+'" aria-pressed="'+LabMap.show[k]+'">'+({zones:'Zone borders',labels:'Names',gates:'Crossings',sites:'Sites',ways:'Waystones'})[k]+'</button>'; }).join('')+
       '<button class="map-z" data-z="1">Fit</button><button class="map-z" data-z="2">2×</button><button class="map-z" data-z="3">3×</button></span></div>'+
       '<div id="map-wrap"><canvas id="map-cv" width="1200" height="1200"></canvas><div id="map-tip"></div></div>'+
       '<div class="map-notes"><div class="sec-l">Notes on the map layout</div><textarea id="map-notes" placeholder="Move a zone, change a border, add a lake…">'+(p.notes||'').replace(/</g,'&lt;')+'</textarea></div>';
@@ -44,9 +44,12 @@ LabMap.draw=function(){
   // village
   g.fillStyle='#e9c46a'; g.strokeStyle='#000'; g.lineWidth=2; g.beginPath(); g.arc(M.village.x,M.village.y,9,0,Math.PI*2); g.fill(); g.stroke();
   if(sh.labels){ g.font='700 13px sans-serif'; g.lineWidth=3; g.strokeText('Village',M.village.x,M.village.y+20); g.fillStyle='#ffe9a8'; g.fillText('Village',M.village.x,M.village.y+20); }
-  // gates
-  M.gates.forEach(function(G){ g.fillStyle='#ff9a60'; g.strokeStyle='#000'; g.lineWidth=2; g.beginPath(); g.moveTo(G.x,G.y-10); g.lineTo(G.x+9,G.y); g.lineTo(G.x,G.y+10); g.lineTo(G.x-9,G.y); g.closePath(); g.fill(); g.stroke();
-    if(sh.labels){ g.font='600 11px sans-serif'; g.lineWidth=3; g.strokeText(G.name,G.x,G.y+20); g.fillStyle='#ffd0b0'; g.fillText(G.name,G.x,G.y+20); } });
+  // crossings: 3 per border, colour-coded by the craftsman who builds them
+  var BC={silverrun:'#7fd0ff',scarp:'#ffd27a',chasm:'#ff8a5a',ember:'#e0a0ff'};
+  if(sh.gates)M.gates.forEach(function(G){ var col=BC[G.border]||'#ff9a60'; g.fillStyle=col; g.strokeStyle='#000'; g.lineWidth=2; g.beginPath(); g.moveTo(G.x,G.y-10); g.lineTo(G.x+9,G.y); g.lineTo(G.x,G.y+10); g.lineTo(G.x-9,G.y); g.closePath(); g.fill(); g.stroke();
+    g.font='12px serif'; g.fillStyle='#000'; g.fillText(G.icon,G.x,G.y+1);
+    var lx=G.dir==='v'?G.x:G.x+14, ly=G.dir==='v'?G.y+22:G.y-16; g.textAlign=G.dir==='v'?'center':'left';
+    g.font='700 12px sans-serif'; g.lineWidth=3.5; g.strokeStyle='rgba(0,0,0,.9)'; g.strokeText(G.name,lx,ly); g.fillStyle=col; g.fillText(G.name,lx,ly); g.textAlign='center'; });
   if(sh.sites)M.sites.forEach(function(S){ var col=S.boss?'#ffd24a':S.kind==='tower'||S.kind==='dungeon'?'#c8b8ff':'#ffffff', ic={tower:'🗼',dungeon:'⚔',camp:'⛺',harbor:'⚓',skyport:'🎈'}[S.kind];
     g.fillStyle='rgba(0,0,0,.6)'; g.beginPath(); g.arc(S.x,S.y,9,0,Math.PI*2); g.fill(); g.strokeStyle=col; g.lineWidth=2; g.stroke(); g.font='11px serif'; g.fillStyle='#fff'; g.fillText(ic,S.x,S.y+1); });
   if(sh.ways)M.waystones.forEach(function(Wy){ g.save(); g.shadowColor='#6fe3f5'; g.shadowBlur=8; g.fillStyle='#6fe3f5'; g.fillRect(Wy.x-4,Wy.y-8,8,16); g.restore(); g.strokeStyle='#003040'; g.lineWidth=1.5; g.strokeRect(Wy.x-4,Wy.y-8,8,16); });
@@ -63,9 +66,11 @@ document.addEventListener('mousemove',function(e){
   if(e.target.id!=='map-cv'||!LabMap.M){ return; }
   var cv=e.target, r=cv.getBoundingClientRect(), x=Math.floor((e.clientX-r.left)/r.width*1200), y=Math.floor((e.clientY-r.top)/r.height*1200), M=LabMap.M, i=y*M.W+x, tip=document.getElementById('map-tip');
   var z=M.zone[i], cl=M.cls[i], rg=M.region[i], txt='';
-  var cname={0:'Open sea',1:'Shallows',2:'Beach',4:'Lake',5:'River',6:'Cliff (Great Scarp)',7:'Lava chasm',8:'Ember Wall ridge',9:'Road',10:'Bridge',11:'Village',12:'Mountain',13:'Gate'}[cl];
+  var cname={0:'Open sea',1:'Shallows',2:'Beach',4:'Lake',5:'River',6:'Cliff (Great Scarp)',7:'Lava chasm',8:'Ember Wall ridge',9:'Road',10:'Bridge',11:'Village',12:'Mountain',13:'Crossing'}[cl];
   LabMap._hoverZone=null;
-  if(z!==255&&(cl===WM.LAND||cl===WM.ROAD||cl===WM.PEAK||cl===WM.BEACH)){ var zid=WMAP_ZONES[z].id; LabMap._hoverZone=zid; txt='<b>'+_wmZoneName(zid)+'</b> · '+WM_REGION_NAMES[rg]+(cl!==WM.LAND?' · '+cname:'')+'<br><span>click to walk the sample</span>'; }
+  var gi=M.gateAt?M.gateAt[i]:0;
+  if(gi){ var G=M.gates[gi-1], C=typeof CRAFTSMEN!=='undefined'?CRAFTSMEN[G.craftsman]:null; txt='<b>'+G.icon+' '+G.name+'</b> · '+G.borderName+'<br><span>'+WM_REGION_NAMES[G.from]+' ↔ '+WM_REGION_NAMES[G.to]+' · opens when '+(C?C.n:'the craftsman')+' is freed</span>'; }
+  else if(z!==255&&(cl===WM.LAND||cl===WM.ROAD||cl===WM.PEAK||cl===WM.BEACH)){ var zid=WMAP_ZONES[z].id; LabMap._hoverZone=zid; txt='<b>'+_wmZoneName(zid)+'</b> · '+WM_REGION_NAMES[rg]+(cl!==WM.LAND?' · '+cname:'')+'<br><span>click to walk the sample</span>'; }
   else txt=cname||WM_REGION_NAMES[rg];
   tip.innerHTML=txt; tip.style.left=(e.clientX-r.left+14)+'px'; tip.style.top=(e.clientY-r.top+14)+'px'; tip.style.display='block';
   cv.style.cursor=LabMap._hoverZone?'pointer':'default';

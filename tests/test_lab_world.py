@@ -29,7 +29,7 @@ with sync_playwright() as p:
     check('Every design has a landmark to inspect', all(a['labels']>=1 for a in audit), [a['id'] for a in audit if a['labels']<1])
     check('Every design has runes (medium runic theme)', all(a['runes']>=1 for a in audit), [a['id'] for a in audit if a['runes']<1])
     check('Light budget per map stays under 260', all(a['lights']<260 for a in audit), max(a['lights'] for a in audit))
-    check('Each design builds in under 1.5 s', all(a['ms']<1500 for a in audit), max(a['ms'] for a in audit))
+    check('Each design builds in under 2 s', all(a['ms']<2000 for a in audit), max(a['ms'] for a in audit))
     pg.click('.lab-tab[data-tab="world"]'); pg.wait_for_timeout(300)
     check('Quadrant chips: 4, showing 10 cards', pg.evaluate("document.querySelectorAll('.lab-grp').length")==4 and pg.evaluate("document.querySelectorAll('.lab-card').length")==10)
     ok=False

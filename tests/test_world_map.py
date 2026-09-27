@@ -1,5 +1,5 @@
 """World Map (Phase 3 design): 1200x1200 rugged island, 4 regions + lake, 40 zones,
-3 craftsman gates, sites/harbors/waystones all reachable from the village."""
+12 craftsman crossings (3 per border), sites/harbors/waystones all reachable from the village."""
 import re, os, json
 from playwright.sync_api import sync_playwright
 HERE=os.path.dirname(os.path.abspath(__file__))
@@ -22,14 +22,21 @@ with sync_playwright() as p:
       var regionOk=WMAP_ZONES.every(function(z,zi){ return M.region[z.y*W+z.x]===z.r; });
       var gatesOnBorder=M.gates.every(function(g){ return M.cls[g.y*W+g.x]===WM.GATE; });
       var gateReg=M.gates.map(function(g){ var a=g.dir==='v'?[g.x,g.y-16]:[g.x-16,g.y], b=g.dir==='v'?[g.x,g.y+16]:[g.x+16,g.y]; return [M.region[a[1]*W+a[0]],M.region[b[1]*W+b[0]]]; });
-      return {ms:Math.round(ms),W:W,H:M.H,oceanFrac:ocean/(W*M.H),edgeLand:edgeLand,zones:WMAP_ZONES.map(function(z,zi){ var c=zc[zi]||[0,0]; return [z.id,z.r,c[0],c[1]]; }),
+      var regs=function(seen){ var r={}; for(var i=0;i<W*M.H;i++)if(seen[i])r[M.region[i]]=1; return Object.keys(r).map(Number).filter(function(x){return x>0;}).sort(); };
+      var iso={none:regs(worldMapReach(M,function(){return false;}))}; ['silverrun','scarp','chasm','ember'].forEach(function(b){ iso[b]=regs(worldMapReach(M,function(g){return g.border===b;})); });
+      return {iso:iso,gateNames:M.gates.map(function(g){return [g.border,g.name];}),ms:Math.round(ms),W:W,H:M.H,oceanFrac:ocean/(W*M.H),edgeLand:edgeLand,zones:WMAP_ZONES.map(function(z,zi){ var c=zc[zi]||[0,0]; return [z.id,z.r,c[0],c[1]]; }),
         regionOk:regionOk,gatesOnBorder:gatesOnBorder,gateReg:gateReg,sites:M.sites.map(function(s){return [s.kind,s.section,!!seen[s.y*W+s.x]];}),ways:M.waystones.map(function(w){return [w.region,!!seen[w.y*W+w.x]];})}; })()""")
     check('Map is 1200x1200 (4x the old 600x600)', r['W']==1200 and r['H']==1200)
     check('Island, not a square: 25-50% sea, no land on the map edge', 0.25<r['oceanFrac']<0.5 and r['edgeLand']==0, (round(r['oceanFrac'],2),r['edgeLand']))
     ok_z=lambda z: z[2]>3000 and (z[3]>0.6*z[2] or z[0]=='floating_rocks')  # floating_rocks is mostly offshore islets by design
     check('40 zones, each with a real area (>3000 tiles, mostly reachable)', len(r['zones'])==40 and all(ok_z(z) for z in r['zones']), [z for z in r['zones'] if not ok_z(z)])
     check('Every zone heart lies in its own region', r['regionOk'])
-    check('3 gates sit on the borders and join the right regions', r['gatesOnBorder'] and [sorted(g) for g in r['gateReg']]==[[1,2],[2,3],[3,4]], r['gateReg'])
+    want={'silverrun':[1,2],'scarp':[2,3],'chasm':[3,4],'ember':[1,4]}
+    check('12 crossings: 3 per border, on the border, joining the right regions', len(r['gateReg'])==12 and r['gatesOnBorder'] and all(sorted(r['gateReg'][i])==want[r['gateNames'][i][0]] for i in range(12)) and all(sum(1 for g in r['gateNames'] if g[0]==b)==3 for b in want), r['gateReg'])
+    check('Every crossing has its own name', len(set(g[1] for g in r['gateNames']))==12)
+    iso=r['iso']
+    check('Borders seal the regions: with every crossing shut only the Grasslands are reachable', iso['none']==[1], iso)
+    check('Each border opens exactly its own neighbour', iso['silverrun']==[1,2] and iso['ember']==[1,4] and iso['scarp']==[1] and iso['chasm']==[1], iso)
     check('32 sites (5 towers/dungeons + camp + skyport + harbor per region), all reachable', len(r['sites'])==32 and all(s[2] for s in r['sites']), [s for s in r['sites'] if not s[2]])
     check('Waystones: village + 4 per region, all reachable', len(r['ways'])==17 and all(w[1] for w in r['ways']) and all(sum(1 for w in r['ways'] if w[0]==q)==4 for q in [1,2,3,4]))
     check('Map builds in under 3 s', r['ms']<3000, r['ms'])
