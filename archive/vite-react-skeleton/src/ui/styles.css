@@ -1,0 +1,134 @@
+/* ═══════════════════════════════════════
+   QUESTS OF ZELDARA V2 — UI Styles
+═══════════════════════════════════════ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #000; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; color: #fff; }
+#app-root { position: relative; width: 100vw; height: 100vh; }
+
+/* ── HUD ─────────────────────────────── */
+#hud { position: absolute; inset: 0; pointer-events: none; z-index: 100; }
+#hud button { pointer-events: all; }
+
+.hud-panel {
+  position: absolute;
+  background: rgba(0,0,0,0.65);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 8px 12px;
+  backdrop-filter: blur(4px);
+}
+
+.hud-stats { top: 12px; left: 12px; min-width: 180px; }
+.stat-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+.stat-row:last-child { margin-bottom: 0; }
+.stat-icon { font-size: 14px; width: 20px; text-align: center; }
+.bar-bg { flex: 1; height: 8px; background: rgba(255,255,255,0.12); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s ease; }
+.stat-val { font-size: 11px; color: #ddd; min-width: 44px; text-align: right; }
+.stat-val.gold { color: #ffd700; }
+
+.hud-section { top: 12px; left: 50%; transform: translateX(-50%); text-align: center; min-width: 200px; }
+.section-name { font-size: 13px; font-weight: 600; color: #aaddff; }
+.section-unlocked { font-size: 16px; letter-spacing: 4px; margin-top: 4px; }
+.sec-dot.unlocked { color: #44ffaa; }
+.sec-dot.locked { color: #444; }
+
+.hud-companions { top: 12px; right: 12px; font-size: 13px; display: flex; flex-direction: column; gap: 4px; }
+
+.hud-bottom {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 8px;
+}
+.hud-btn {
+  background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.2);
+  color: #ddd; padding: 8px 16px; border-radius: 8px; font-size: 13px;
+  cursor: pointer; transition: all 0.15s; font-family: inherit;
+}
+.hud-btn:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.5); color: #fff; }
+
+.hud-controls {
+  position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%);
+  font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.3px;
+}
+
+/* ── Modals ──────────────────────────── */
+.modal-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; backdrop-filter: blur(3px);
+}
+.modal {
+  background: linear-gradient(160deg, #0e1a2a 0%, #0a0e18 100%);
+  border: 1px solid rgba(0,200,255,0.25); border-radius: 14px;
+  padding: 20px; min-width: 380px; max-width: 92vw;
+  max-height: 85vh; overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+}
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 17px; font-weight: 600; color: #aaddff; margin-bottom: 14px;
+  padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.modal-close {
+  background: none; border: 1px solid rgba(255,255,255,0.2); color: #aaa;
+  width: 26px; height: 26px; border-radius: 6px; cursor: pointer; font-size: 14px;
+  transition: all 0.15s;
+}
+.modal-close:hover { background: rgba(255,60,60,0.3); color: #fff; border-color: #ff4444; }
+
+/* Modal tabs */
+.modal-tabs { display: flex; gap: 4px; margin-bottom: 14px; }
+.tab {
+  flex: 1; padding: 7px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1); color: #888; border-radius: 6px;
+  cursor: pointer; font-size: 12px; transition: all 0.15s; font-family: inherit;
+}
+.tab.active { background: rgba(0,200,255,0.15); border-color: rgba(0,200,255,0.4); color: #00f5ff; }
+.tab:hover:not(.active) { background: rgba(255,255,255,0.08); color: #ccc; }
+
+/* ── Map Modal ───────────────────────── */
+.map-modal { max-width: 95vw; }
+.map-legend { margin-top: 10px; font-size: 11px; color: #888; text-align: center; }
+
+/* ── Quest Log ───────────────────────── */
+.quest-modal { min-width: 460px; }
+.quest-list { display: flex; flex-direction: column; gap: 10px; }
+.quest-section-group { border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; }
+.quest-section-group.locked { opacity: 0.45; }
+.quest-section-header {
+  padding: 8px 12px; background: rgba(255,255,255,0.05);
+  font-size: 12px; font-weight: 600; color: #aaccff;
+}
+.quest-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; border-top: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.15s;
+}
+.quest-item:hover { background: rgba(255,255,255,0.04); }
+.quest-item.done { opacity: 0.5; }
+.quest-item.active { background: rgba(255,220,0,0.07); border-left: 3px solid #ffdd44; }
+.quest-icon { font-size: 20px; flex-shrink: 0; }
+.quest-info { flex: 1; }
+.quest-title { font-size: 13px; font-weight: 600; color: #ddeeff; }
+.quest-item.done .quest-title { text-decoration: line-through; color: #666; }
+.quest-desc { font-size: 11px; color: #8899aa; margin-top: 3px; line-height: 1.4; }
+.quest-accept {
+  flex-shrink: 0; padding: 5px 12px; background: rgba(0,200,100,0.2);
+  border: 1px solid rgba(0,200,100,0.4); color: #00ff88; border-radius: 6px;
+  cursor: pointer; font-size: 11px; font-family: inherit; transition: all 0.15s;
+}
+.quest-accept:hover { background: rgba(0,200,100,0.35); }
+.quest-active-badge {
+  flex-shrink: 0; padding: 4px 8px; background: rgba(255,220,0,0.2);
+  border: 1px solid #ffdd44; color: #ffdd44; border-radius: 6px; font-size: 10px;
+}
+.quest-placeholder { color: #667; font-size: 13px; padding: 20px; text-align: center; line-height: 1.7; }
+
+/* ── Inventory ───────────────────────── */
+.inv-modal { text-align: center; }
+.inv-coming-soon { padding: 30px 0; color: #aaa; line-height: 2; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }

@@ -1,29 +1,22 @@
-# Quests of Zeldara V2
+# Quests of Zeldara (V4)
 
-## Option A — Play Immediately (no setup needed)
-Open `dist/game.html` in your browser. Uses CDN-loaded Phaser 3 + React.
-Requires internet connection for first load (CDN libraries cache after that).
+A top-down action-adventure built with Phaser 3.60. The whole game is one self-contained `index.html`.
 
-## Option B — Full Development Setup (recommended for contributing)
-Requires Node.js 18+
+## Play
+- **Online:** deployed on Vercel from the `main` branch (every push auto-deploys).
+- **Offline:** double-click `index.html` in Chrome. It needs internet once so Phaser can load from cdnjs.
 
-```bash
-cd "quests-of-zeldara-v2"
-npm install
-npm run dev      # live dev server at http://localhost:5173
-npm run build    # build to dist/
-```
+## Repo layout
+| Path | What it is |
+|---|---|
+| `index.html` | ★ The game: all code, CSS and base64 sprites in one file. **Edit this.** |
+| `docs/` | AI memory docs (architecture, scenes, content, endgame, dev tools, changelog, roadmap). Read `docs/README.md` first. |
+| `sprites/` | Editable source PNGs for the hero (and sample monster sprites). Inlined into `index.html` as base64. |
+| `design-mocks/` | Static theme and palette mockups. |
+| `archive/` | Dormant Vite/React skeleton and old April builds. Not deployed and not used. |
+| `vercel.json`, `.vercelignore` | Static hosting config: no build step, only `index.html` ships. |
 
-## Architecture
-- **Engine**: Phaser 3 (scene management, rendering, physics, input)
-- **UI**: React 18 (HUD, modals, quest log, inventory)
-- **Bundler**: Vite 5
-- **Language**: JavaScript (ES2022 modules)
+## Deploying
+Vercel → Import `krisjerickson/zeldara` → Framework **Other**, no build command, output `.`. `vercel.json` already sets these.
 
-## Sections
-| Section | Name | Terrain | Barrier to unlock |
-|---------|------|---------|-------------------|
-| 1 | The Grasslands | Flat grass, few trees/rocks | *Starting area* |
-| 2 | The Wetlands   | Lakes, streams, mud | Deep River (bridge from S1 Tower builder) |
-| 3 | The Highlands  | Rocky ground, boulders | Boulder Wall (elevator from S2 Tower mechanic) |
-| 4 | The Ashlands   | Magma, obsidian, ash | Magma River (metal bridge from S3 Dwarf forger) |
+Saves use `localStorage['qoz_v2']`. That storage is per-domain, so saves from `file://` and from the Vercel URL are separate.

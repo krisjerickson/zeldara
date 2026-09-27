@@ -1,0 +1,5 @@
+# Only the game (index.html) needs to be deployed; sprites are base64-inlined.
+archive/
+docs/
+sprites/
+design-mocks/
