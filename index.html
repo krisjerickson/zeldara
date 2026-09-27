@@ -349,6 +349,41 @@ body.theme-celestial{
 body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:10050;
   font:600 12px 'Segoe UI',sans-serif;letter-spacing:.08em;color:#cfefff;background:rgba(8,16,32,.85);
   border:1px solid rgba(111,227,245,.5);border-radius:99px;padding:4px 14px;pointer-events:none}
+
+/* ── Site Lab (sandbox) ─────────────────────────────── */
+.sb-lab-btn{width:100%;background:rgba(111,227,245,.14);border-color:rgba(111,227,245,.45);color:#9ff0ff;font-weight:600;padding:9px 14px}
+.sb-lab-btn:hover{background:rgba(111,227,245,.28)}
+.sl-modal{width:min(1120px,96vw);max-height:90vh}
+.sl-modal .mhdr small{font-size:11px;font-weight:400;color:#8a93b0;margin-left:8px}
+#sl-opts{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:12px;font-size:12px;color:#aab3cc}
+.sl-opt{display:flex;gap:4px;align-items:center}
+.sl-opt>span{margin-right:4px;color:#7d86a3;text-transform:uppercase;letter-spacing:.06em;font-size:10px}
+.sl-seg{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:#aab3cc;border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;font-family:inherit}
+.sl-seg[aria-pressed="true"]{background:rgba(111,227,245,.18);border-color:#6fe3f5;color:#e8fbff}
+#sl-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.sl-tab{background:transparent;border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:5px 12px;color:#9aa3bf;font-size:12px;cursor:pointer;font-family:inherit}
+.sl-tab[aria-selected="true"]{background:rgba(111,227,245,.14);border-color:#6fe3f5;color:#fff}
+.sl-tab .n{font-size:10px;color:#6f7896;margin-left:5px}
+#sl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.sl-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.sl-card.boss{border-color:rgba(255,210,74,.55)}
+.sl-thumb{aspect-ratio:3/2;background:#05060c center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#59607a;font-size:11px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sl-body{padding:9px 11px 11px;display:flex;flex-direction:column;gap:4px}
+.sl-name{font-size:14px;font-weight:600;color:#f1ecdd}
+.sl-name .st{color:#ffd24a}
+.sl-meta{font-size:11px;color:#8d96b3}
+.sl-rw{font-size:11px;color:#b9c7a8}
+.sl-done{color:#7fd89a;font-size:11px}
+.sl-floors{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.sl-fl{min-width:28px;padding:4px 6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#cfd6ea;border-radius:5px;font-size:11px;cursor:pointer;font-family:inherit}
+.sl-fl:hover{background:rgba(111,227,245,.22);border-color:#6fe3f5;color:#fff}
+.sl-fl.last{border-color:rgba(255,120,120,.5);color:#ffb0b0}
+#sl-bar{position:absolute;top:62px;left:12px;z-index:150;display:flex;gap:6px;align-items:center;background:rgba(6,10,22,.88);border:1px solid rgba(111,227,245,.45);border-radius:10px;padding:6px 8px;font-size:12px;color:#dfe8ff;pointer-events:all;max-width:min(520px,60vw);flex-wrap:wrap;justify-content:flex-start}
+#sl-bar button{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#dfe8ff;border-radius:6px;padding:4px 9px;font-size:12px;cursor:pointer;font-family:inherit}
+#sl-bar button:hover{background:rgba(111,227,245,.25)}
+#sl-bar button:disabled{opacity:.35;cursor:default}
+#sl-bar .lbl{padding:0 6px;color:#9ff0ff;font-weight:600;white-space:nowrap}
+#modal-sitelab{z-index:320}
 </style>
 </head>
 <body>
@@ -524,6 +559,17 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
     </div>
   </div>
 
+  <!-- Site Lab (sandbox): every implemented tower/dungeon, any floor -->
+  <div class="overlay" id="modal-sitelab" style="display:none" onclick="closeModal('sitelab')">
+    <div class="modal sl-modal" onclick="event.stopPropagation()">
+      <div class="mhdr"><span>🧪 Site Lab <small>every tower &amp; dungeon in the game — pick a floor to jump in</small></span><button class="mcls" onclick="closeModal('sitelab')">✕</button></div>
+      <div id="sl-opts"></div>
+      <div id="sl-tabs" role="tablist"></div>
+      <div id="sl-grid"></div>
+    </div>
+  </div>
+  <div id="sl-bar" style="display:none"></div>
+
   <!-- Sandbox Modal -->
   <div class="overlay" id="modal-sandbox" style="display:none" onclick="closeModal('sandbox')">
     <div class="modal" style="min-width:360px" onclick="event.stopPropagation()">
@@ -535,6 +581,7 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
           <button onclick="checkSandboxPw()" style="padding:7px 16px;background:rgba(0,200,100,.2);border:1px solid rgba(0,200,100,.35);color:#44ff88;border-radius:7px;cursor:pointer;font-family:inherit">Unlock</button>
         </div>
         <div id="sandbox-panel" style="display:none">
+          <button class="sb-btn sb-lab-btn" onclick="openSiteLab()">🧪 Site Lab — jump into any tower, dungeon or island dungeon, any floor</button>
           <button class="sb-btn" onclick="sbGold()">+1000 Gold</button>
           <button class="sb-btn" onclick="sbLevel()">Level Up</button>
           <button class="sb-btn" onclick="sbHeal()">Full HP</button>
@@ -7367,6 +7414,7 @@ class DungeonScene extends Phaser.Scene{
     this._site=data.site; this._arriveAt=data.arriveAt||null;
     this._isIsland=!!(this.siteId&&this.siteId.indexOf('isl_adv_')===0);
     this._isBonus=!!data.site.bonus;
+    this._inspect=data.inspect||null; // Site Lab (sandbox) inspect options: {mons,fog,dark}
   }
   create(){
     _heroStowMount(this);
@@ -7414,6 +7462,12 @@ class DungeonScene extends Phaser.Scene{
       this._updateDungeonHUD();
       // Dungeon fog of war — persistent radius-based reveal
       this._initDngFog();
+      if(this._inspect){
+        if(!this._inspect.fog){ this._dngFogExplored.fill(1); this._dngFogGfx.setVisible(false); this._dngRevealFog(true); }
+        if(this._inspect.dark===false&&this._darkRT){ this._darkRT.setVisible(false); if(this._heroGlow)this._heroGlow.setVisible(false); }
+        _slShowBar(this);
+        this.events.once('shutdown',function(){ _slHideBar(); });
+      }
     }catch(err){console.error('DungeonScene.create error:',err);}
     // Keys MUST init outside try-catch — if anything above throws,
     // keys would be undefined and update() would crash on k.LEFT.isDown
@@ -8169,7 +8223,7 @@ class DungeonScene extends Phaser.Scene{
         this.interactables.push(ch);
       }
     if(this.isLastFloor&&this.bossChestTile)
-      this.interactables.push({type:'boss_chest',tx:this.bossChestTile.x,ty:this.bossChestTile.y,x:this.bossChestTile.x*TILE+TILE/2,y:this.bossChestTile.y*TILE+TILE/2,opened:false,locked:true});
+      this.interactables.push({type:'boss_chest',tx:this.bossChestTile.x,ty:this.bossChestTile.y,x:this.bossChestTile.x*TILE+TILE/2,y:this.bossChestTile.y*TILE+TILE/2,opened:false,locked:!(this._inspect&&this._inspect.mons==='none')});
   }
   _drawLabChest(tx,ty){
     var x=tx*TILE+TILE/2, y=ty*TILE+TILE-4, g=this.add.graphics().setDepth(this._yDepth(y));
@@ -8208,7 +8262,9 @@ class DungeonScene extends Phaser.Scene{
             :(ps.completedQuests&&ps.completedQuests.includes(qKey));
     var regTypes=[];
     for(var k in MDEFS){if(MDEFS[k].sec===this.siteSection&&!MDEFS[k].boss)regTypes.push(k);}
-    if(this._lab){ this._spawnMonstersLab(regTypes); }
+    var im=this._inspect&&this._inspect.mons;
+    if(im==='boss'||im==='none'){ /* Site Lab: no regular monsters */ }
+    else if(this._lab){ this._spawnMonstersLab(regTypes); }
     else {
     var spawnRooms=this.isLastFloor?this.rooms.slice(1,-1):this.rooms.slice(1);
     var monCount=7+this.floor*2+Math.floor(Math.random()*3); // harder: 7-9 on floor 0, scales up
@@ -8222,7 +8278,7 @@ class DungeonScene extends Phaser.Scene{
     }
     }
     this._wasDone=!!done;
-    if(this.isLastFloor){
+    if(this.isLastFloor&&im!=='none'){
       var bk=this._getBossKey();
       if(bk){
         this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
@@ -8326,6 +8382,7 @@ class DungeonScene extends Phaser.Scene{
     }
     if(changed||force){
       this._dngRedrawFog();
+      if(this._inspect){ _drawMinimapHud(null,this); return; } // Site Lab: never write fog into the save
       // Persist fog to playerState
       var ps=this.worldScene.playerState;
       if(!ps.dungeonFog)ps.dungeonFog={};
@@ -13013,7 +13070,7 @@ function sbRunBot(){
 // ║ in the overworld, e.g. X for spells).
 // ═══════════════════════════════════════════════════════════════════════
 var PAUSE_OVERLAYS=[
-  'modal-map','modal-quests','modal-inventory','modal-camp','modal-mounts','modal-controls','modal-sandbox',
+  'modal-map','modal-quests','modal-inventory','modal-camp','modal-mounts','modal-controls','modal-sandbox','modal-sitelab',
   'slot-picker-modal','quick-pick-popup','item-found-popup',
   'tavern-menu-overlay','skyport-shop-overlay','familiar-info-modal','scene-error-banner'
 ];
@@ -13165,6 +13222,180 @@ document.addEventListener('keydown',function(e){
 // Drive the shared hero systems (familiars, spells, status effects, mana)
 // once per frame for whichever scene is being played.
 game.events.on('poststep',function(time,delta){ _heroUpkeep(delta); });
+// ═══════════════════════════════════════════════════════════════════════
+// ║ SITE LAB (sandbox) — inspect every implemented tower & dungeon.
+// ║ Built from the live game data (SITE_ROSTER via the world's sites, and
+// ║ ISL_ADV for the island dungeons), so anything added later shows up
+// ║ here automatically. Pick a floor to jump straight in; an inspect bar
+// ║ then lets you step floor to floor, zoom out, and toggle lights / fog.
+// ║ Open it from the password-protected Developer Sandbox.
+// ═══════════════════════════════════════════════════════════════════════
+var SITE_LAB={tab:null, thumbs:{}, queue:[], busy:false,
+  opts:{mons:'all', god:true, fog:false, dark:true}};
+(function(){ try{ var o=JSON.parse(localStorage.getItem('zeldara_sitelab')||'null'); if(o){ if(o.opts)Object.assign(SITE_LAB.opts,o.opts); if(o.tab)SITE_LAB.tab=o.tab; } }catch(e){} })();
+function _slSavePrefs(){ try{ localStorage.setItem('zeldara_sitelab',JSON.stringify({opts:SITE_LAB.opts,tab:SITE_LAB.tab})); }catch(e){} }
+
+// All inspectable sites, grouped: 4 quadrants + the harbor islands.
+function _slCatalog(){
+  var ws=game.scene.getScene('World'), sites=(ws&&ws.wd&&ws.wd.sites)||[], groups=[];
+  [1,2,3,4].forEach(function(sec){
+    groups.push({id:'q'+sec, name:SECTION_NAMES[sec].replace(/^(NE|SE|SW|NW) /,''), sites:sites.filter(function(s){return s.section===sec&&s.design&&(s.type==='tower'||s.type==='dungeon');})});
+  });
+  var isl=[];
+  [1,2,3,4].forEach(function(sec){
+    var a=ISL_ADV[sec]; if(!a)return;
+    var name=a.label.replace(/^\S+\s/,'');
+    if(a.type==='cave')isl.push({id:'isl_cave_'+sec, cave:true, type:'dungeon', section:sec, name:name, floors:a.floors||4, island:true});
+    else isl.push({id:'isl_adv_'+sec+'_'+a.type, type:a.kind||(a.type==='tower_island'?'tower':'dungeon'), section:sec, design:a.design, island:true, name:name, floors:a.floors||4, _theme:a.type==='volcano'?'volcano':a.type==='tower_island'?'tower_island':'cave_dungeon'});
+  });
+  groups.push({id:'isl', name:'Harbor islands', sites:isl});
+  return groups;
+}
+function _slGuardian(s){
+  var sec=s.section;
+  if(s.island){ var b=HARBOR_ISLANDS[sec]&&HARBOR_ISLANDS[sec].boss; return b?b.icon+' '+b.name:'—'; }
+  if(s.bonus){ var k=_bonusMiniBossKey(sec); return k?MDEFS[k].icon+' '+MDEFS[k].name:'—'; }
+  var key=s.type==='dungeon'?['goblin_king','swamp_witch','rock_dragon','lava_titan'][sec-1]:['dark_warlock','storm_mage','iron_sentinel','shadow_lord'][sec-1];
+  return MDEFS[key]?MDEFS[key].icon+' '+MDEFS[key].name:'—';
+}
+function _slReward(s){
+  var sec=s.section;
+  if(s.island){ var fam={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'}[sec], f=FAMILIARS[fam]; return 'Familiar: '+(f?f.icon+' '+f.n:fam); }
+  if(s.bonus)return 'Treasure vault · relic: '+(SITE_RELICS[s.design]||'?');
+  if(s.type==='tower')return 'Frees '+(CRAFTSMEN[sec]?CRAFTSMEN[sec].icon+' '+CRAFTSMEN[sec].n:'a craftsman')+' · opens next region';
+  var rw=BOSS_REWARDS[s.id], m=rw&&rw.mount&&MOUNTS[rw.mount]; return 'Mount: '+(m?m.icon+' '+m.n:'—');
+}
+function _slDone(s,ps){
+  if(s.island)return (ps.completedIslands||[]).includes(s.section);
+  if(s.bonus)return (ps.bonusCleared||[]).includes(s.id);
+  return (ps.completedQuests||[]).includes(s.id);
+}
+
+function openSiteLab(){
+  var ws=game.scene.getScene('World');
+  if(!ws||!ws.playerState||!ws.wd){ showNotif('Start or load a game first!','#ff4444'); return; }
+  closeModal('sandbox');
+  var groups=_slCatalog();
+  if(!SITE_LAB.tab||!groups.some(function(g){return g.id===SITE_LAB.tab;}))SITE_LAB.tab=groups[0].id;
+  _slRenderOpts(); _slRenderTabs(groups); _slRenderGrid(groups);
+  var el=document.getElementById('modal-sitelab'); if(el)el.style.display='flex';
+}
+function _slRenderOpts(){
+  var o=SITE_LAB.opts, seg=function(key,val,label){ return '<button class="sl-seg" data-k="'+key+'" data-v="'+val+'" aria-pressed="'+(String(o[key])===String(val))+'">'+label+'</button>'; };
+  var h='<div class="sl-opt"><span>Monsters</span>'+seg('mons','all','All')+seg('mons','boss','Guardian only')+seg('mons','none','None')+'</div>'+
+        '<div class="sl-opt"><span>God mode</span>'+seg('god','true','On')+seg('god','false','Off')+'</div>'+
+        '<div class="sl-opt"><span>Fog of war</span>'+seg('fog','false','Reveal floor')+seg('fog','true','Normal')+'</div>'+
+        '<div class="sl-opt"><span>Lighting</span>'+seg('dark','true','On')+seg('dark','false','Off')+'</div>';
+  var el=document.getElementById('sl-opts'); el.innerHTML=h;
+  el.querySelectorAll('.sl-seg').forEach(function(b){ b.onclick=function(){
+    var k=b.dataset.k, v=b.dataset.v; SITE_LAB.opts[k]=(v==='true'?true:v==='false'?false:v); _slSavePrefs(); _slRenderOpts(); }; });
+}
+function _slRenderTabs(groups){
+  var el=document.getElementById('sl-tabs');
+  el.innerHTML=groups.map(function(g){ return '<button class="sl-tab" role="tab" data-g="'+g.id+'" aria-selected="'+(g.id===SITE_LAB.tab)+'">'+g.name+'<span class="n">'+g.sites.length+'</span></button>'; }).join('');
+  el.querySelectorAll('.sl-tab').forEach(function(b){ b.onclick=function(){ SITE_LAB.tab=b.dataset.g; _slSavePrefs(); _slRenderTabs(groups); _slRenderGrid(groups); }; });
+}
+function _slRenderGrid(groups){
+  var g=groups.find(function(x){return x.id===SITE_LAB.tab;}), ps=game.scene.getScene('World').playerState, el=document.getElementById('sl-grid');
+  SITE_LAB._sites={}; SITE_LAB.queue=[];
+  el.innerHTML=g.sites.map(function(s){
+    SITE_LAB._sites[s.id]=s;
+    var kind=s.island?(s.cave?'Island cave':'Island '+s.type):(s.boss?'★ Boss '+s.type:'Bonus '+s.type);
+    var fl=''; for(var f=0;f<s.floors;f++){ var last=f===s.floors-1; fl+='<button class="sl-fl'+(last?' last':'')+'" data-s="'+s.id+'" data-f="'+f+'" title="'+(last?(s.bonus?'Vault floor':'Guardian floor'):'Floor '+(f+1))+'">'+(f+1)+(last?' ☠':'')+'</button>'; }
+    var th=SITE_LAB.thumbs[s.id];
+    if(!th&&!s.cave)SITE_LAB.queue.push(s.id);
+    return '<div class="sl-card'+(s.boss?' boss':'')+'"><div class="sl-thumb" id="slth-'+s.id+'" style="'+(th?'background-image:url('+th+')':'')+'">'+(th?'':(s.cave?'Side-view cave':'rendering…'))+'</div>'+
+      '<div class="sl-body"><div class="sl-name">'+(s.boss?'<span class="st">★</span> ':'')+s.name+'</div>'+
+      '<div class="sl-meta">'+kind+' · '+s.floors+' floors · guardian '+_slGuardian(s)+'</div>'+
+      '<div class="sl-rw">'+_slReward(s)+'</div>'+(_slDone(s,ps)?'<div class="sl-done">✓ cleared in this save</div>':'')+
+      '<div class="sl-floors">'+fl+'</div></div></div>';
+  }).join('');
+  el.querySelectorAll('.sl-fl').forEach(function(b){ b.onclick=function(){ _slLaunch(b.dataset.s,+b.dataset.f); }; });
+  _slPumpThumbs();
+}
+// Thumbnails of floor 1, rendered one at a time so the page stays responsive.
+function _slPumpThumbs(){
+  if(SITE_LAB.busy)return;
+  var id=SITE_LAB.queue.shift(); if(!id)return;
+  SITE_LAB.busy=true;
+  setTimeout(function(){
+    try{
+      var s=SITE_LAB._sites[id], spec=_siteFloorSpec(s,0,s.floors);
+      if(spec){
+        var m=_buildSiteFloor(spec), W=m.w*LT, H=m.h*LT, tw=300, sc=tw/W, c=mkCanvas(tw,Math.round(tw*2/3)), x=c.getContext('2d');
+        x.fillStyle=m.bg||'#000'; x.fillRect(0,0,c.width,c.height);
+        var oy=(c.height-H*sc)/2; x.save(); x.translate(0,oy); x.scale(sc,sc); x.drawImage(m.base,0,0);
+        m.sprites.slice().sort(function(a,b){return a.y-b.y;}).forEach(function(sp){ x.drawImage(sp.canvas,sp.x-sp.canvas.width/2,sp.y-sp.canvas.height); });
+        x.restore();
+        SITE_LAB.thumbs[id]=c.toDataURL('image/jpeg',0.8);
+        var el=document.getElementById('slth-'+id); if(el){ el.style.backgroundImage='url('+SITE_LAB.thumbs[id]+')'; el.textContent=''; }
+      }
+    }catch(e){ console.warn('Site Lab thumbnail failed',id,e); }
+    SITE_LAB.busy=false; _slPumpThumbs();
+  },30);
+}
+
+// Jump into a site's floor with the chosen inspect options.
+function _slLaunch(id,floor){
+  var ws=game.scene.getScene('World'); if(!ws||!ws.player)return;
+  var s=SITE_LAB._sites&&SITE_LAB._sites[id]; if(!s)return;
+  closeModal('sitelab'); closeModal('sandbox');
+  var ps=ws.playerState, o=SITE_LAB.opts;
+  ps.godMode=!!o.god; var gs=document.getElementById('sb-godmode-status'); if(gs)gs.style.display=ps.godMode?'':'none';
+  if(ps.hp<=0)ps.hp=ps.maxHp;
+  // Let the pause system resume the current scene first (it resumes whatever it paused
+  // when the menu closes), then stop it, then launch the chosen floor.
+  setTimeout(function(){ _sbStopAdventure(); setTimeout(_go,150); },80);
+  function _go(){
+    if(!game.scene.isSleeping('World'))ws.scene.sleep('World');
+    document.getElementById('hud').style.display='none';
+    document.getElementById('dungeon-hud').style.display='block';
+    if(s.cave){ ws.scene.launch('Cave',{worldScene:ws,islandScene:null,sec:s.section,floor:floor,maxFloors:s.floors}); return; }
+    var theme=s._theme||(s.type==='tower'?'tower':'dungeon');
+    ws.scene.launch('Dungeon',{site:s,floor:floor,maxFloors:s.floors,worldScene:ws,theme:theme,
+      inspect:{mons:o.mons,fog:!!o.fog,dark:!!o.dark,from:'sitelab'}});
+  }
+}
+
+// ── Inspect bar (shown while a Site-Lab floor is open) ─────────────────
+function _slShowBar(scene){
+  var bar=document.getElementById('sl-bar'); if(!bar)return;
+  var name=(scene._site&&scene._site.name)||'Site', f=scene.floor, n=scene.maxFloors;
+  bar.innerHTML='<button data-a="prev" '+(f<=0?'disabled':'')+' title="Previous floor  [">◀</button>'+
+    '<span class="lbl">🧪 '+name+' · Floor '+(f+1)+'/'+n+(scene.isLastFloor?' ☠':'')+'</span>'+
+    '<button data-a="next" '+(f>=n-1?'disabled':'')+' title="Next floor  ]">▶</button>'+
+    '<button data-a="over" title="Zoom out to the whole floor">⤢ Overview</button>'+
+    '<button data-a="fog">🌫 Fog '+(scene._inspect.fog?'on':'off')+'</button>'+
+    (scene._darkRT?'<button data-a="dark">💡 Lights '+(scene._darkRT.visible?'on':'off')+'</button>':'')+
+    '<button data-a="mons" title="Rebuilds the floor">👾 '+({all:'All monsters',boss:'Guardian only',none:'No monsters'}[scene._inspect.mons]||'All monsters')+'</button>'+
+    '<button data-a="lab">🧪 Lab</button><button data-a="exit">⏏ Exit</button>';
+  bar.style.display='flex';
+  bar.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ _slBarAction(b.dataset.a); b.blur(); var cv=document.querySelector('#phaser-root canvas'); if(cv)cv.focus&&cv.focus(); }; });
+}
+function _slHideBar(){ var bar=document.getElementById('sl-bar'); if(bar){ bar.style.display='none'; bar.innerHTML=''; } }
+function _slBarAction(a){
+  var d=game.scene.getScene('Dungeon'); if(!d||!game.scene.isActive('Dungeon')||!d._inspect)return;
+  var go=function(f,patch){ d.scene.restart(Object.assign({},d._initData,{floor:f,floorStates:{},arriveAt:null},patch||{})); };
+  if(a==='prev'&&d.floor>0)go(d.floor-1);
+  else if(a==='next'&&d.floor<d.maxFloors-1)go(d.floor+1);
+  else if(a==='over'){
+    var cam=d.cameras.main; d._slOver=!d._slOver;
+    if(d._slOver){ var z=Math.min(cam.width/(DW*TILE),cam.height/(DH*TILE)); cam.stopFollow(); cam.setBounds(0,0,DW*TILE,DH*TILE); cam.setZoom(z); cam.centerOn(DW*TILE/2,DH*TILE/2); }
+    else { cam.setZoom(1.6); cam.startFollow(d.pCont,true,.12,.12); }
+  }
+  else if(a==='fog'){ d._inspect.fog=!d._inspect.fog; SITE_LAB.opts.fog=d._inspect.fog; _slSavePrefs(); d._dngFogExplored.fill(d._inspect.fog?0:1); if(d._dngFogGfx)d._dngFogGfx.setVisible(d._inspect.fog); d._dngRevealFog(true); _slShowBar(d); }
+  else if(a==='dark'){ if(d._darkRT){ d._darkRT.setVisible(!d._darkRT.visible); if(d._heroGlow)d._heroGlow.setVisible(d._darkRT.visible); d._inspect.dark=d._darkRT.visible; SITE_LAB.opts.dark=d._inspect.dark; _slSavePrefs(); } _slShowBar(d); }
+  else if(a==='mons'){ var order=['all','boss','none']; var nx=order[(order.indexOf(d._inspect.mons)+1)%3]; SITE_LAB.opts.mons=nx; _slSavePrefs(); go(d.floor,{inspect:Object.assign({},d._inspect,{mons:nx})}); }
+  else if(a==='lab'){ openSiteLab(); }
+  else if(a==='exit'){ d._exitToWorld(null); }
+}
+document.addEventListener('keydown',function(e){
+  if(e.key!=='['&&e.key!==']')return;
+  if(typeof _isTyping==='function'&&_isTyping())return;
+  var d=game&&game.scene&&game.scene.getScene('Dungeon');
+  if(!d||!game.scene.isActive('Dungeon')||!d._inspect||(typeof _openOverlays==='function'&&_openOverlays().length))return;
+  _slBarAction(e.key==='['?'prev':'next');
+});
 </script>
 <div id="slot-picker-modal" class="overlay" style="display:none">
   <div class="modal" style="min-width:300px;max-width:360px">

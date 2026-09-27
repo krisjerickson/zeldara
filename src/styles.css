@@ -342,3 +342,38 @@ body.theme-celestial{
 body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:10050;
   font:600 12px 'Segoe UI',sans-serif;letter-spacing:.08em;color:#cfefff;background:rgba(8,16,32,.85);
   border:1px solid rgba(111,227,245,.5);border-radius:99px;padding:4px 14px;pointer-events:none}
+
+/* ── Site Lab (sandbox) ─────────────────────────────── */
+.sb-lab-btn{width:100%;background:rgba(111,227,245,.14);border-color:rgba(111,227,245,.45);color:#9ff0ff;font-weight:600;padding:9px 14px}
+.sb-lab-btn:hover{background:rgba(111,227,245,.28)}
+.sl-modal{width:min(1120px,96vw);max-height:90vh}
+.sl-modal .mhdr small{font-size:11px;font-weight:400;color:#8a93b0;margin-left:8px}
+#sl-opts{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:12px;font-size:12px;color:#aab3cc}
+.sl-opt{display:flex;gap:4px;align-items:center}
+.sl-opt>span{margin-right:4px;color:#7d86a3;text-transform:uppercase;letter-spacing:.06em;font-size:10px}
+.sl-seg{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);color:#aab3cc;border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;font-family:inherit}
+.sl-seg[aria-pressed="true"]{background:rgba(111,227,245,.18);border-color:#6fe3f5;color:#e8fbff}
+#sl-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.sl-tab{background:transparent;border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:5px 12px;color:#9aa3bf;font-size:12px;cursor:pointer;font-family:inherit}
+.sl-tab[aria-selected="true"]{background:rgba(111,227,245,.14);border-color:#6fe3f5;color:#fff}
+.sl-tab .n{font-size:10px;color:#6f7896;margin-left:5px}
+#sl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.sl-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.sl-card.boss{border-color:rgba(255,210,74,.55)}
+.sl-thumb{aspect-ratio:3/2;background:#05060c center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#59607a;font-size:11px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sl-body{padding:9px 11px 11px;display:flex;flex-direction:column;gap:4px}
+.sl-name{font-size:14px;font-weight:600;color:#f1ecdd}
+.sl-name .st{color:#ffd24a}
+.sl-meta{font-size:11px;color:#8d96b3}
+.sl-rw{font-size:11px;color:#b9c7a8}
+.sl-done{color:#7fd89a;font-size:11px}
+.sl-floors{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.sl-fl{min-width:28px;padding:4px 6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#cfd6ea;border-radius:5px;font-size:11px;cursor:pointer;font-family:inherit}
+.sl-fl:hover{background:rgba(111,227,245,.22);border-color:#6fe3f5;color:#fff}
+.sl-fl.last{border-color:rgba(255,120,120,.5);color:#ffb0b0}
+#sl-bar{position:absolute;top:62px;left:12px;z-index:150;display:flex;gap:6px;align-items:center;background:rgba(6,10,22,.88);border:1px solid rgba(111,227,245,.45);border-radius:10px;padding:6px 8px;font-size:12px;color:#dfe8ff;pointer-events:all;max-width:min(520px,60vw);flex-wrap:wrap;justify-content:flex-start}
+#sl-bar button{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);color:#dfe8ff;border-radius:6px;padding:4px 9px;font-size:12px;cursor:pointer;font-family:inherit}
+#sl-bar button:hover{background:rgba(111,227,245,.25)}
+#sl-bar button:disabled{opacity:.35;cursor:default}
+#sl-bar .lbl{padding:0 6px;color:#9ff0ff;font-weight:600;white-space:nowrap}
+#modal-sitelab{z-index:320}

@@ -170,6 +170,17 @@
     </div>
   </div>
 
+  <!-- Site Lab (sandbox): every implemented tower/dungeon, any floor -->
+  <div class="overlay" id="modal-sitelab" style="display:none" onclick="closeModal('sitelab')">
+    <div class="modal sl-modal" onclick="event.stopPropagation()">
+      <div class="mhdr"><span>🧪 Site Lab <small>every tower &amp; dungeon in the game — pick a floor to jump in</small></span><button class="mcls" onclick="closeModal('sitelab')">✕</button></div>
+      <div id="sl-opts"></div>
+      <div id="sl-tabs" role="tablist"></div>
+      <div id="sl-grid"></div>
+    </div>
+  </div>
+  <div id="sl-bar" style="display:none"></div>
+
   <!-- Sandbox Modal -->
   <div class="overlay" id="modal-sandbox" style="display:none" onclick="closeModal('sandbox')">
     <div class="modal" style="min-width:360px" onclick="event.stopPropagation()">
@@ -181,6 +192,7 @@
           <button onclick="checkSandboxPw()" style="padding:7px 16px;background:rgba(0,200,100,.2);border:1px solid rgba(0,200,100,.35);color:#44ff88;border-radius:7px;cursor:pointer;font-family:inherit">Unlock</button>
         </div>
         <div id="sandbox-panel" style="display:none">
+          <button class="sb-btn sb-lab-btn" onclick="openSiteLab()">🧪 Site Lab — jump into any tower, dungeon or island dungeon, any floor</button>
           <button class="sb-btn" onclick="sbGold()">+1000 Gold</button>
           <button class="sb-btn" onclick="sbLevel()">Level Up</button>
           <button class="sb-btn" onclick="sbHeal()">Full HP</button>

@@ -29,6 +29,14 @@ Roster (all globals, `sb*`-prefixed):
 | **→ Big Volcano** | `sbGoBigVolcano` | Teleports to SW corner volcano |
 | **→ Next Mini-Volcano** | `sbGoMiniVolcano` | Cycles N→E→S→W |
 
+## Site Lab (sandbox) — inspect every tower & dungeon
+Open the sandbox (🔧, password as before) → **🧪 Site Lab**. Code: `src/js/25-site-lab.js`.
+- Tabs: the 4 quadrants + Harbor islands. Cards come from the live game data (world sites built from `SITE_ROSTER`, plus `ISL_ADV`), so any site added later appears automatically. Each card: floor-1 thumbnail, ★ boss / bonus / island, floors, guardian, reward, "cleared in this save", and one chip per floor (☠ = guardian/vault floor).
+- Options (remembered in localStorage `zeldara_sitelab`): Monsters All / Guardian only / None (None also opens the exit/vault), God mode, Fog of war (reveal floor / normal), Lighting on/off.
+- Click a floor chip to jump straight in. An inspect bar (top-left) gives ◀ ▶ floor stepping (also `[` / `]`), ⤢ Overview (whole floor), fog, lights, monster mode (rebuilds the floor), 🧪 Lab and ⏏ Exit.
+- Inspect runs never write dungeon fog into the save. Rewards still work if you claim them (it's a sandbox).
+- Ember Cave (side view) opens on the chosen floor; the inspect options don't apply there.
+
 ## How to ADD a dev button (recipe)
 
 1. Add the `<button>` markup inside `#sandbox-panel` (search "class=\"sb-btn\"" for the block).
@@ -50,6 +58,8 @@ Playwright + Chromium, run from the repo root after `node build.mjs`:
 Setup and notes are at the top of `tests/harness.py`. The harness serves `index.html` from a fake origin,
 swaps the cdnjs Phaser URL for a local copy, and sets `game.loop.smoothStep=false`: headless Chromium renders
 at ~3–13 fps and with smoothing on, game time runs 5–20× slower than real time (timers look "stuck").
+
+- `tests/test_sites_expansion.py`, `tests/test_sites_flows.py`, `tests/test_site_lab.py` — Phase 3a sites (122 floors), their flows, and the sandbox Site Lab.
 
 ## Playtesting patterns
 

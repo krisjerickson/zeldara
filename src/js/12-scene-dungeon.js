@@ -22,6 +22,7 @@ class DungeonScene extends Phaser.Scene{
     this._site=data.site; this._arriveAt=data.arriveAt||null;
     this._isIsland=!!(this.siteId&&this.siteId.indexOf('isl_adv_')===0);
     this._isBonus=!!data.site.bonus;
+    this._inspect=data.inspect||null; // Site Lab (sandbox) inspect options: {mons,fog,dark}
   }
   create(){
     _heroStowMount(this);
@@ -69,6 +70,12 @@ class DungeonScene extends Phaser.Scene{
       this._updateDungeonHUD();
       // Dungeon fog of war — persistent radius-based reveal
       this._initDngFog();
+      if(this._inspect){
+        if(!this._inspect.fog){ this._dngFogExplored.fill(1); this._dngFogGfx.setVisible(false); this._dngRevealFog(true); }
+        if(this._inspect.dark===false&&this._darkRT){ this._darkRT.setVisible(false); if(this._heroGlow)this._heroGlow.setVisible(false); }
+        _slShowBar(this);
+        this.events.once('shutdown',function(){ _slHideBar(); });
+      }
     }catch(err){console.error('DungeonScene.create error:',err);}
     // Keys MUST init outside try-catch — if anything above throws,
     // keys would be undefined and update() would crash on k.LEFT.isDown
@@ -824,7 +831,7 @@ class DungeonScene extends Phaser.Scene{
         this.interactables.push(ch);
       }
     if(this.isLastFloor&&this.bossChestTile)
-      this.interactables.push({type:'boss_chest',tx:this.bossChestTile.x,ty:this.bossChestTile.y,x:this.bossChestTile.x*TILE+TILE/2,y:this.bossChestTile.y*TILE+TILE/2,opened:false,locked:true});
+      this.interactables.push({type:'boss_chest',tx:this.bossChestTile.x,ty:this.bossChestTile.y,x:this.bossChestTile.x*TILE+TILE/2,y:this.bossChestTile.y*TILE+TILE/2,opened:false,locked:!(this._inspect&&this._inspect.mons==='none')});
   }
   _drawLabChest(tx,ty){
     var x=tx*TILE+TILE/2, y=ty*TILE+TILE-4, g=this.add.graphics().setDepth(this._yDepth(y));
@@ -863,7 +870,9 @@ class DungeonScene extends Phaser.Scene{
             :(ps.completedQuests&&ps.completedQuests.includes(qKey));
     var regTypes=[];
     for(var k in MDEFS){if(MDEFS[k].sec===this.siteSection&&!MDEFS[k].boss)regTypes.push(k);}
-    if(this._lab){ this._spawnMonstersLab(regTypes); }
+    var im=this._inspect&&this._inspect.mons;
+    if(im==='boss'||im==='none'){ /* Site Lab: no regular monsters */ }
+    else if(this._lab){ this._spawnMonstersLab(regTypes); }
     else {
     var spawnRooms=this.isLastFloor?this.rooms.slice(1,-1):this.rooms.slice(1);
     var monCount=7+this.floor*2+Math.floor(Math.random()*3); // harder: 7-9 on floor 0, scales up
@@ -877,7 +886,7 @@ class DungeonScene extends Phaser.Scene{
     }
     }
     this._wasDone=!!done;
-    if(this.isLastFloor){
+    if(this.isLastFloor&&im!=='none'){
       var bk=this._getBossKey();
       if(bk){
         this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
@@ -981,6 +990,7 @@ class DungeonScene extends Phaser.Scene{
     }
     if(changed||force){
       this._dngRedrawFog();
+      if(this._inspect){ _drawMinimapHud(null,this); return; } // Site Lab: never write fog into the save
       // Persist fog to playerState
       var ps=this.worldScene.playerState;
       if(!ps.dungeonFog)ps.dungeonFog={};

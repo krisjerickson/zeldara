@@ -15,7 +15,7 @@
 // ║ in the overworld, e.g. X for spells).
 // ═══════════════════════════════════════════════════════════════════════
 var PAUSE_OVERLAYS=[
-  'modal-map','modal-quests','modal-inventory','modal-camp','modal-mounts','modal-controls','modal-sandbox',
+  'modal-map','modal-quests','modal-inventory','modal-camp','modal-mounts','modal-controls','modal-sandbox','modal-sitelab',
   'slot-picker-modal','quick-pick-popup','item-found-popup',
   'tavern-menu-overlay','skyport-shop-overlay','familiar-info-modal','scene-error-banner'
 ];
