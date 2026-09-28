@@ -107,7 +107,9 @@ function sbUnlockAll(){
   if(ws._syncGates)ws._syncGates(true); if(ws._refreshVillageNPCs)ws._refreshVillageNPCs();
   // …and every waystone joins the travel network
   if(ws.wd&&ws.wd.waystones){ ps.activatedWaystones=ws.wd.waystones.map(function(w){return w.id;}); ws.wd.waystones.forEach(function(w){ ws._drawWaystone(w); }); ws._expVer=(ws._expVer||0)+1; }
-  ws._emitUI();showNotif('All regions unlocked · 12 crossings open · 17 waystones active','#ffdd44');
+  // …and the boss towers/dungeons are unsealed (their bonus sites count as cleared)
+  if(!ps.bonusCleared)ps.bonusCleared=[]; (ws.wd.sites||[]).forEach(function(s){ if(s.bonus&&ps.bonusCleared.indexOf(s.id)<0)ps.bonusCleared.push(s.id); });
+  ws._emitUI();showNotif('All regions unlocked · 12 crossings open · 17 waystones active · boss sites unsealed','#ffdd44');
 }
 function sbGodMode(){
   var ws=_sbWs();if(!ws)return;

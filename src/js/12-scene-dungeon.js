@@ -22,6 +22,7 @@ class DungeonScene extends Phaser.Scene{
     this._site=data.site; this._arriveAt=data.arriveAt||null;
     this._isIsland=!!(this.siteId&&this.siteId.indexOf('isl_adv_')===0);
     this._isBonus=!!data.site.bonus;
+    this._castle=CastleRun.of(data.site);   // castle-island dungeon (07t/09c)
     this._inspect=data.inspect||null; // Site Lab (sandbox) inspect options: {mons,fog,dark}
   }
   create(){
@@ -34,6 +35,9 @@ class DungeonScene extends Phaser.Scene{
       this.bossChestTile=null;this.stairsDownTile=null;this.bossSpawnX=undefined;this.bossSpawnY=undefined;
       this._claimed=false;
       var spec=_siteFloorSpec(this._site,this.floor,this.maxFloors);
+      // multi-phase guardians: phase 2+ is fought in its own arena (09b-boss-phases.js)
+      this._bossPhase=(this._initData.bossPhase)||1; this._bossGroup=null; this._bossKey=null; this._bpEv=null; this._phaseLock=false;
+      if(this._bossPhase>1&&this.isLastFloor&&!this._isIsland&&!this._isBonus){ var abk=this._getBossKey(), aspec=BossPhases.arenaSpec(abk,this._bossPhase,(spec&&spec.seed||7)+this._bossPhase*101); if(aspec)spec=aspec; }
       var isTowerTheme=this.siteType==='tower'||this._theme==='tower_island';
       if(spec){
         // ── Lab-design floor (Phase 3): painted map + y-sorted sprites + lights
@@ -62,6 +66,7 @@ class DungeonScene extends Phaser.Scene{
       if(this.isLastFloor)this._drawExitPortal();
       if(this._lab)this._drawLabStairs();
       if(this._lab&&this.isLastFloor&&this.siteType==='tower'&&this._site.boss&&!this._isIsland)this._placeCaptive();
+      if(this._lab&&this.isLastFloor&&this._castle)CastleRun.placeTeacher(this,this._castle);
       // Restore state for previously visited floors
       var savedState=(this._initData.floorStates||{})[this.floor];
       if(savedState)this._restoreFloorState(savedState);
@@ -70,6 +75,7 @@ class DungeonScene extends Phaser.Scene{
       this._updateDungeonHUD();
       // Dungeon fog of war — persistent radius-based reveal
       this._initDngFog();
+      if(this._bossPhase>1&&this._dngFogExplored){ this._dngFogExplored.fill(1); if(this._dngFogGfx)this._dngFogGfx.setVisible(false); this._dngRevealFog(true); }
       if(this._inspect){
         if(!this._inspect.fog){ this._dngFogExplored.fill(1); this._dngFogGfx.setVisible(false); this._dngRevealFog(true); }
         if(this._inspect.dark===false&&this._darkRT){ this._darkRT.setVisible(false); if(this._heroGlow)this._heroGlow.setVisible(false); }
@@ -311,7 +317,7 @@ class DungeonScene extends Phaser.Scene{
       [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var nx=cx+d[0],ny=cy+d[1]; if(nx<0||ny<0||nx>=DW||ny>=DH)return; var k=ny*DW+nx; if(!seen[k]&&tiles[ny][nx]!==DNG.WALL){seen[k]=1;q.push(k);} }); }
     this._labReach=seen;
     // Chests: a few seeded spots away from the stairs
-    var R=rngOf(spec.seed*17+5), want=spec.kind==='tower'?2:3, got=0, self=this;
+    var R=rngOf(spec.seed*17+5), want=this._bossPhase>1?0:(spec.kind==='tower'?2:3), got=0, self=this;
     for(var t=0;t<600&&got<want;t++){
       var x=R.i(2,DW-3), y=R.i(2,DH-3);
       if(!seen[y*DW+x]||tiles[y][x]!==DNG.FLOOR)continue;
@@ -458,7 +464,7 @@ class DungeonScene extends Phaser.Scene{
   _leashBoss(dt){
     var self=this;
     this.monsters.forEach(function(m){
-      if(!m.isBoss||m.dead||self.bossSpawnX===undefined)return;
+      if(!m.isBoss||m.dead||m.mx||self.bossSpawnX===undefined)return;
       var toPlayer=Math.hypot(self.px-m.x,self.py-m.y);
       var hx=self.bossSpawnX-m.x, hy=self.bossSpawnY-m.y, home=Math.hypot(hx,hy);
       if(toPlayer>TILE*6&&home>TILE*1.5){
@@ -866,15 +872,18 @@ class DungeonScene extends Phaser.Scene{
     // don't falsely inherit completion state from main-world dungeons/towers
     var qKey=this.siteId||('s'+this.siteSection+'_'+this.siteType);
     var done=this._isIsland?(ps.completedIslands||[]).includes(this.siteSection)
+            :this._castle?CastleRun.done(ps,this._castle.key)
             :this._isBonus?(ps.bonusCleared||[]).includes(this.siteId)
             :(ps.completedQuests&&ps.completedQuests.includes(qKey));
     var regTypes=[];
     for(var k in MDEFS){if(MDEFS[k].sec===this.siteSection&&!MDEFS[k].boss)regTypes.push(k);}
     var im=this._inspect&&this._inspect.mons;
     if(im==='boss'||im==='none'){ /* Site Lab: no regular monsters */ }
+    else if(this._lab&&this._bossPhase>1){ /* boss arena: only the boss (and its summons) */ }
     else if(this._lab){ this._spawnMonstersLab(regTypes); }
     else {
     var spawnRooms=this.isLastFloor?this.rooms.slice(1,-1):this.rooms.slice(1);
+    if(this._bossPhase>1)spawnRooms=[];
     var monCount=7+this.floor*2+Math.floor(Math.random()*3); // harder: 7-9 on floor 0, scales up
     for(var i=0;i<monCount;i++){
       if(!spawnRooms.length)break;
@@ -885,10 +894,16 @@ class DungeonScene extends Phaser.Scene{
     }
     }
     this._wasDone=!!done;
-    if(this.isLastFloor&&im!=='none'){
+    if(this.isLastFloor&&im!=='none'&&this._castle){
+      CastleRun.spawnWarden(this,this._castle,this.bossSpawnX,this.bossSpawnY,done?1.25:1);
+      showNotif(done?'⚔️ '+CHAR_BY_ID[this._castle.warden].name+' is back, stronger (+25%)!':'⛓ '+CHAR_BY_ID[this._castle.warden].name+' guards the captive master!','#ffaa66');
+    } else if(this.isLastFloor&&im!=='none'){
       var bk=this._getBossKey();
-      if(bk){
-        this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
+      var multi=bk&&!this._isIsland&&!this._isBonus&&BossPhases.count(bk)>1;
+      if(multi&&this._bossPhase>1){ BossPhases.spawn(this,bk,this._bossPhase,this.bossSpawnX,this.bossSpawnY,done?1.25:1); }
+      else if(bk){
+        var bmon=this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
+        if(multi&&bmon){ this._bossGroup=[bmon]; this._bossKey=bk; this._bossPhase=1; this._bpEv=[]; BossPhases.hud(this,true); }
         if(this._isBonus)showNotif(done?'⚔️ A stronger elite guards the vault again (+25%)!':'💎 An elite guards the treasure vault!','#ffaa66');
         else showNotif(done?'⚔️ The guardian has returned, stronger (+25%)!':'⚔️ The guardian blocks the exit portal!', '#ffaa66');
       }
@@ -929,6 +944,7 @@ class DungeonScene extends Phaser.Scene{
       this._movePlayer(dt);
       this._updateMonsters(dt);
       this._leashBoss(dt);
+      if(this._bossGroup)BossPhases.tick(this,dt);
       if(this._lab)this._labUpdate(dt); else this._updateDungeonFX(dt);
       if(Phaser.Input.Keyboard.JustDown(this.keys.SPACE))this._playerAttack();
       if(this._dngFogExplored)this._dngRevealFog(false);
@@ -1265,7 +1281,7 @@ class DungeonScene extends Phaser.Scene{
       if(mon.dead||Math.hypot(mon.x-self.px,mon.y-self.py)>78)return;
       if(!_heroInArc(self.pdir||'right',mon.x-self.px,mon.y-self.py))return;
       var dmg=Math.max(1,atk-(mon.def.def||0)+Math.floor(Math.random()*5-2));
-      mon.hp-=dmg;hit=true;
+      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#ffdd44');
       mon.body.setFillStyle(0xffffff);
       var bodyRef=mon.body,monDef=mon.def;
@@ -1288,15 +1304,17 @@ class DungeonScene extends Phaser.Scene{
     this.tweens.add({targets:cont,alpha:0,scaleX:1.5,scaleY:1.5,duration:500,ease:'Power2',onComplete:function(){cont.destroy();}});
   }
   _onBossDefeated(mon){
+    if(!this._isIsland&&!this._isBonus&&!this._castle&&BossPhases.onDefeated(this,mon))return;   // next phase / allies still fighting
     this._bossDefeated=true;
     var ps=this.worldScene.playerState;
     // Only the quadrant's ★ boss sites count for the main quests (bonus + island dungeons have their own tracking)
-    if(!this._isIsland&&!this._isBonus)_completeQuest(ps,'s'+this.siteSection+'_'+this.siteType);
+    if(!this._isIsland&&!this._isBonus&&!this._castle)_completeQuest(ps,'s'+this.siteSection+'_'+this.siteType);
     var bc=this.interactables.find(function(i){return i.type==='boss_chest';});
     if(bc)bc.locked=false;
     if(this._portalOpen)this._portalOpen();
     if(this._captive)this._freeCaptive();
     showNotif('🏆 '+mon.def.name+' defeated!','#ffdd44');
+    if(this._castle)showNotif('🎓 The master is free — [Tab] the portal chest to learn their skill','#ffe9a8'); else
     showNotif(this._isBonus?'The treasure vault is open — [Tab] to claim it':'The exit portal is open — [Tab] to claim your reward and leave','#aaffaa');
     var self=this;
     for(var i=0;i<8;i++){
@@ -1400,6 +1418,8 @@ class DungeonScene extends Phaser.Scene{
     var ps=this.worldScene.playerState, sec=this.siteSection, self=this;
     if(!ps.inventory)ps.inventory=[];
     var gem=['gem_ruby','gem_sapphire','gem_emerald','skystone'][sec-1]||'gem_ruby';
+    // ── Castle: free the teacher → learn their skill
+    if(this._castle){ CastleRun.claim(this); return; }
     // ── Island dungeon: the guardian's defeat clears the island → familiar
     if(this._isIsland){
       var goldAdv=80*sec; ps.gold+=goldAdv; ps.inventory.push(gem);

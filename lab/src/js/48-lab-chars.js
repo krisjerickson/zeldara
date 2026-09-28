@@ -27,7 +27,7 @@ var ChTab={ cat:'npc', vis:new Set(), hero:null,
     var hint={npc:'Shop keepers, the four craftsmen, village folk (more appear as the village grows) and the island NPCs. Frames loop idle → their job (pouring, hammering, waving…).',
       mount:'Each mount walks in its side view, then shows front and back; the right half shows the hero riding it as in the game. The horse keeps its hand-painted rider sprite in play.',
       familiar:'Familiars orbit the hero and play their action frame when they attack.',
-      boss:'Bosses are drawn about twice monster size in the game, with a pulsing aura in their colour.'}[this.cat];
+      boss:'Bosses are drawn about twice monster size in the game, with a pulsing aura in their colour. The ★ dungeon and tower guardians now fight in phases (2 in the Grasslands up to 5 in the Ashlands): each later phase moves to a new arena and brings an evolved form, listed under “Evolved forms”. No need to review these yet.'}[this.cat];
     return cats+'<p class="mn-hint"><b>All of these are already in the game.</b> '+hint+' Mark each one and leave notes; ChatGPT sprites can replace them later with the same ids.</p><div class="mn-grid">'+cards+'</div>';
   },
   refresh:function(){ var self=this; document.querySelectorAll('.ch-card').forEach(function(c){ var R=CHAR_BY_ID[c.dataset.cid], p=LabApp.picks[self.key(R)]||{}; c.dataset.verdict=p.verdict||'';

@@ -53,22 +53,28 @@ var CHX={
   monBody:function(scene,name,def){ if(typeof MON_ROSTER==='undefined'||!name)return null; var n=name.toLowerCase(), R=MON_BY_ID[CHX.ISL_LOOK[n]]||MON_ROSTER.find(function(r){ return r.name.toLowerCase()===n; });
     if(!R){ var lk=Object.keys(MON_LEGACY).find(function(k){ var M=MDEFS[MON_LEGACY[k]]; return M&&M.name.toLowerCase()===n; }); R=lk&&MON_BY_ID[lk]; }
     if(!R)return null; var im=monLegacyBody(scene,R.id,Object.assign({color:def.color||def.col},def)); return im; },
-  // ── mounts: drawn under the hero; the hero sits in the saddle (legs hidden) ──
-  MOUNT_SEAT:{quad:-12,drake:-13,gator:-6,bird:-13,serpent:-9,glider:null},
+  // ── mounts: drawn under the hero; the hero sits ON the back (legs hidden), and in the front
+  //    view the mount's head is drawn over the rider so it reads as sitting behind the neck ──
+  MOUNT_SC:1.9, MOUNT_KEEP:0.58,
+  MOUNT_SEAT:{quad:-3,drake:-4,gator:6,bird:-3,serpent:4,glider:null},   // hero sprite y (feet line) per mount kind
   mountTick:function(scene,p,mount,moving,dt){
     var R=mount&&mount!=='horse'?CHAR_BY_ID['mt_'+mount]:null, sp=p.sprite;
-    if(!R){ if(p.mountSpr&&p.mountSpr.visible){ p.mountSpr.setVisible(false); sp.setY(14); sp.setCrop(); if(p._mtShadow)p._mtShadow.setScale(1); } return false; }
-    if(!p.mountSpr||!p.mountSpr.scene){ p.mountSpr=scene.add.image(0,16,CHX.tex(scene,R),'0').setOrigin(0.5,1).setScale(1.7); p.mountSpr._manual=true; p.cont.addAt(p.mountSpr,p.cont.getIndex(sp)); p._mtShadow=p.cont.list[0]; }
-    var mk=CHX.tex(scene,R); if(p.mountSpr.texture.key!==mk)p.mountSpr.setTexture(mk,'0');
-    p.mountSpr.setVisible(true); if(p._mtShadow&&p._mtShadow.setScale)p._mtShadow.setScale(1.7,1.3);
-    p._mtT=(p._mtT||0)+dt*(moving?1:0.25); var d=p.dir, f;
+    if(!R){ if(p.mountSpr&&p.mountSpr.visible){ p.mountSpr.setVisible(false); if(p.mountHead)p.mountHead.setVisible(false); sp.setY(14); sp.setCrop(); if(p._mtShadow)p._mtShadow.setScale(1); } return false; }
+    var mk=CHX.tex(scene,R);
+    if(!p.mountSpr||!p.mountSpr.scene){ p.mountSpr=scene.add.image(0,16,mk,'0').setOrigin(0.5,1).setScale(CHX.MOUNT_SC); p.mountSpr._manual=true; p.cont.addAt(p.mountSpr,p.cont.getIndex(sp)); p._mtShadow=p.cont.list[0];
+      p.mountHead=scene.add.image(0,16,mk,'8').setOrigin(0.5,1).setScale(CHX.MOUNT_SC).setVisible(false); p.cont.addAt(p.mountHead,p.cont.getIndex(sp)+1); }
+    if(p.mountSpr.texture.key!==mk){ p.mountSpr.setTexture(mk,'0'); p.mountHead.setTexture(mk,'8'); }
+    p.mountSpr.setVisible(true); if(p._mtShadow&&p._mtShadow.setScale)p._mtShadow.setScale(1.9,1.4);
+    p._mtT=(p._mtT||0)+dt*(moving?1:0.25); var d=p.dir, f, front=false, ph=moving?Math.floor(p._mtT*6)%2:0;
     if(d==='left'||d==='right'){ f=moving?Math.floor(p._mtT*9)%4:0; p.mountSpr.setFlipX(d==='left'); }
-    else { f=(d==='up'?6:4)+(moving?Math.floor(p._mtT*6)%2:0); p.mountSpr.setFlipX(false); }
+    else { f=(d==='up'?6:4)+ph; front=d!=='up'; p.mountSpr.setFlipX(false); }
     p.mountSpr.setFrame(String(f));
     var seat=CHX.MOUNT_SEAT[R.spec.kind];
-    if(seat===null){ p.mountSpr.setY(-26); sp.setY(14); sp.setCrop(); p.cont.bringToTop(p.mountSpr); }   // glider: hang below the canopy
-    else { var bob=moving?Math.round(Math.sin(p._mtT*18))*1:0; p.mountSpr.setY(16); sp.setY(seat+15+bob);
-      sp.setCrop(0,0,sp.frame.width,Math.round(sp.frame.height*0.64)); if(p.cont.getIndex(p.mountSpr)>p.cont.getIndex(sp))p.cont.moveBelow(p.mountSpr,sp); }
+    if(seat===null){ p.mountHead.setVisible(false); p.mountSpr.setY(-30); sp.setY(14); sp.setCrop(); p.cont.bringToTop(p.mountSpr); return true; }   // glider: hang below the canopy
+    var bob=moving?Math.round(Math.sin(p._mtT*18)):0, headOver=front&&(R.spec.kind==='quad'||R.spec.kind==='drake'||R.spec.kind==='bird'); p.mountSpr.setY(16); sp.setY(seat+bob-(headOver?9:front?4:0));
+    sp.setCrop(0,0,sp.frame.width,Math.round(sp.frame.height*CHX.MOUNT_KEEP));
+    if(p.cont.getIndex(p.mountSpr)>p.cont.getIndex(sp))p.cont.moveBelow(p.mountSpr,sp);
+    p.mountHead.setVisible(headOver); if(headOver){ p.mountHead.setFrame(String(8+ph)); if(p.cont.getIndex(p.mountHead)<p.cont.getIndex(sp))p.cont.moveAbove(p.mountHead,sp); }
     return true; }
 };
 

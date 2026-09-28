@@ -46,6 +46,8 @@ var WMAP_SITE_ZONE={
   camp3:'petrified_forest', skyport3:'glacier_peaks', harbor3:'runic_mesas',
   camp4:'emberflower_fields', skyport4:'ashsnow_forest', harbor4:'sulfur_geysers'
 };
+// Extra harbors (castle islands B, C, D) per region
+var WMAP_EXTRA_HARBORS={1:['crystal_grass','amphitheatre','blossom_terraces'],2:['rune_stepping','turtle_isles','wisp_cattails'],3:['starfall_crater','giants_chessboard','glacier_peaks'],4:['chained_rocks','dragon_valley','basalt_forest']};
 // Rune waystones (fast travel): village + 4 per region, placed in these zones
 var WMAP_WAYSTONE_ZONES={1:['waystone_road','firefly_river','amphitheatre','giant_bones'],2:['lantern_lilies','sunken_spires','wisp_cattails','glow_mangroves'],
   3:['dwarven_stairs','runic_mesas','geode_canyons','glacier_peaks'],4:['emberflower_fields','forge_ruins','sulfur_geysers','dragon_valley']};
@@ -176,9 +178,14 @@ function buildWorldMap(seed){
   SITE_ROSTER&&[1,2,3,4].forEach(function(sec){ (SITE_ROSTER[sec]||[]).forEach(function(r){ var z=zoneById[WMAP_SITE_ZONE[r.design]]; if(!z)return; var p=nearOpen(z.x,z.y,[10,6]); sites.push({kind:r.kind,design:r.design,boss:!!r.boss,section:sec,x:p.x,y:p.y,zone:z.id}); });
     ['camp','skyport'].forEach(function(t){ var z=zoneById[WMAP_SITE_ZONE[t+sec]]; var p=nearOpen(z.x,z.y,[-12,8]); sites.push({kind:t,section:sec,x:p.x,y:p.y,zone:z.id}); });
     // harbor: walk from the zone heart outward (away from the lake) to the coast
-    var hz=zoneById[WMAP_SITE_ZONE['harbor'+sec]], ang=Math.atan2(hz.y-CY,hz.x-CX), hx=hz.x, hy=hz.y, last=null;
-    for(var st=0;st<400;st++){ hx+=Math.cos(ang); hy+=Math.sin(ang); var k=Math.round(hy)*W+Math.round(hx); if(k<0||k>=N)break; if(cls[k]===WM.OCEAN||cls[k]===WM.SHALLOW)break; if((cls[k]===WM.BEACH||cls[k]===WM.LAND)&&reach[k])last={x:Math.round(hx),y:Math.round(hy)}; }
-    if(last)sites.push({kind:'harbor',section:sec,x:last.x,y:last.y,angle:ang,zone:hz.id}); });
+    // 4 harbors per region: A (familiar island) + B/C/D (castle islands)
+    [WMAP_SITE_ZONE['harbor'+sec]].concat(WMAP_EXTRA_HARBORS[sec]).forEach(function(zid,hi){
+      var hz=zoneById[zid], ang0=Math.atan2(hz.y-CY,hz.x-CX), ang=ang0, last=null;
+      // walk outward to the coast; if that line never reaches open water, swing the heading
+      for(var tr=0;tr<9&&!last;tr++){ ang=ang0+(tr%2?1:-1)*Math.ceil(tr/2)*0.3; var hx=hz.x, hy=hz.y, cand=null, sea=false;
+        for(var st=0;st<400;st++){ hx+=Math.cos(ang); hy+=Math.sin(ang); var k=Math.round(hy)*W+Math.round(hx); if(k<0||k>=N)break; if(cls[k]===WM.OCEAN||cls[k]===WM.SHALLOW){ sea=true; break; } if((cls[k]===WM.BEACH||cls[k]===WM.LAND)&&reach[k])cand={x:Math.round(hx),y:Math.round(hy)}; }
+        if(sea&&cand&&!sites.some(function(o){ return o.kind==='harbor'&&Math.hypot(o.x-cand.x,o.y-cand.y)<40; }))last=cand; }
+      if(last)sites.push({kind:'harbor',section:sec,x:last.x,y:last.y,angle:ang,zone:hz.id,isle:'abcd'[hi]}); }); });
   var waystones=[{id:'ws_village',name:'Village Waystone',region:0,x:village.x+4,y:village.y+3}];
   [1,2,3,4].forEach(function(r){ WMAP_WAYSTONE_ZONES[r].forEach(function(zid,i){ var z=zoneById[zid], p=nearOpen(z.x,z.y,[-6,-10]); waystones.push({id:'ws_'+zid,name:_wmZoneName(zid)+' Waystone',region:r,x:p.x,y:p.y,zone:zid}); }); });
   // coast distance (for ocean depth colouring) — cheap 2-pass chamfer

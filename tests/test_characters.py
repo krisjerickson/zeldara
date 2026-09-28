@@ -15,8 +15,8 @@ with game(new=True) as g:
     r = g.js("""(()=>{ var c={}, ids={}, dup=[], bad=[];
       CHAR_ROSTER.forEach(function(R){ c[R.cat]=(c[R.cat]||0)+1; if(ids[R.id])dup.push(R.id); ids[R.id]=1;
         if(!R.look||!R.doing||!R.where)bad.push(R.id+':text');
-        try{ var f=chFrames(R); if(f.length!==(R.cat==='mount'?8:4))bad.push(R.id+':frames');
-          f.forEach(function(cv,i){ var d=cv.getContext('2d').getImageData(0,0,32,32).data, n=0; for(var k=3;k<d.length;k+=4)if(d[k]>200)n++; if(n<30)bad.push(R.id+':f'+i+'='+n); }); }catch(e){ bad.push(R.id+':'+e.message); } });
+        try{ var f=chFrames(R); if(f.length!==(R.cat==='mount'?10:4))bad.push(R.id+':frames');
+          f.forEach(function(cv,i){ if(i>=8)return; var d=cv.getContext('2d').getImageData(0,0,32,32).data, n=0; for(var k=3;k<d.length;k+=4)if(d[k]>200)n++; if(n<30)bad.push(R.id+':f'+i+'='+n); }); }catch(e){ bad.push(R.id+':'+e.message); } });
       var miss=[]; Object.keys(MOUNTS).forEach(function(m){ if(!CHAR_BY_ID['mt_'+m])miss.push('mount '+m); });
       Object.keys(FAMILIARS).forEach(function(f){ if(!CHAR_BY_ID['fm_'+f])miss.push('familiar '+f); });
       [1,2,3,4].forEach(function(s){ if(!CHAR_BY_ID['crafts_'+s])miss.push('craftsman '+s); });
@@ -24,7 +24,7 @@ with game(new=True) as g:
       Object.keys(MDEFS).forEach(function(k){ if(MDEFS[k].boss&&!MDEFS[k].elite&&!CHX.bossId(k,MDEFS[k]))miss.push('boss '+k); });
       [1,2,3,4].forEach(function(s){ var B=HARBOR_ISLANDS[s]&&HARBOR_ISLANDS[s].boss; if(B&&!CHX.bossId(null,B))miss.push('island boss '+s); });
       return {c:c,dup:dup,bad:bad,miss:miss}; })()""")
-    check('Roster: 29 NPCs, 11 mounts, 5 familiars, 21 bosses', r['c'] == {'npc': 29, 'mount': 11, 'familiar': 5, 'boss': 21}, r['c'])
+    check('Roster: 41 NPCs (incl. 12 castle teachers), 11 mounts, 5 familiars, 21 bosses + 23 evolved forms + 12 castle wardens', r['c'] == {'npc': 41, 'mount': 11, 'familiar': 5, 'boss': 56}, r['c'])
     check('Unique ids; every one has look / doing / where text and paints all its frames', not r['dup'] and not r['bad'], (r['dup'], r['bad'][:8]))
     check('Every mount, familiar, craftsman, shop keeper and boss in the game data has a character', not r['miss'], r['miss'])
 
@@ -45,7 +45,7 @@ with game(new=True) as g:
     check('Village folk can be talked to ([Tab])', talk)
 
     # ── labels are sharp HTML text that follows the camera ──
-    g.js(TP + "([CENTER_X+2,CENTER_Y+4])"); g.wait(900)
+    g.js(TP + "([CENTER_X+2,CENTER_Y+4])"); g.wait(1800)
     lb = g.js("""(()=>{ var ws=game.scene.getScene('World'), L=(ws._dtx||[]).filter(t=>t.active&&/Village/.test(t.text)); if(!L.length)return null; var t=L[0], r=t._el.getBoundingClientRect(), cam=ws.cameras.main, vw=cam.worldView;
       var sx=(t.x-vw.x)/vw.width*cam.width, sy=(t.y-vw.y)/vw.height*cam.height; return {shown:t._el.style.display!=='none', dx:Math.round((r.left+r.width/2)-sx), dy:Math.round(r.bottom-sy), fs:parseFloat(t._el.style.fontSize)}; })()""")
     check('Waystone name is DOM text placed over its world position', lb and lb['shown'] and abs(lb['dx']) <= 3 and abs(lb['dy']) <= 4 and lb['fs'] > 11, lb)

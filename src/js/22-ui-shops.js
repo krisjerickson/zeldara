@@ -367,7 +367,7 @@ function showQuickPick(type){
     var specs=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='special';});
     if(!specs.length){
       h+='<div style="color:#445;font-size:11px">No special abilities in inventory.<br>';
-      h+='<span style="font-size:10px;color:#334">Buy from the Sorcerer\'s Apothecary.</span></div>';
+      h+='<span style="font-size:10px;color:#334">Free a master from an island castle to learn one.</span></div>';
     }
     specs.forEach(function(id){
       var it=ITEMS[id];if(!it)return;
@@ -501,7 +501,7 @@ var BUILDING_SLOTS={
   armory:   function(it){ return (it.slot==='lHand')||(it.slot==='rHand')||(it.slot==='shield')||(it.slot==='head')||(it.type==='ammo'); },
   clothing: function(it){ return it.slot==='feet'||it.slot==='pants'||it.slot==='gauntlets'||it.slot==='back'; },
   jeweler:  function(it){ return it.slot==='neck'||it.slot==='ring'||it.slot==='gem'; },
-  apothecary: function(it){ return it.slot==='spell'||it.slot==='mWeapon'||it.slot==='use'||it.slot==='special'; },
+  apothecary: function(it){ return it.slot==='spell'||it.slot==='mWeapon'||it.slot==='use'; },   // specials are taught by castle masters, not sold
   merchant: function(it){ return it.slot==='food'||it.slot==='body'; },
 };
 var BUILDING_TITLES={
@@ -533,7 +533,7 @@ function openBuildingShop(btype,ps,worldScene){
   if(btype==='merchant'&&_merchantShopMode==='sell'){
     // ── Sell mode: show sellable inventory items ──
     var inv=ps.inventory||[];
-    var SELLABLE=function(it){return it&&(it.slot==='lHand'||it.slot==='rHand'||it.slot==='mWeapon'||it.slot==='body'||it.slot==='head'||it.slot==='shield'||it.slot==='feet'||it.slot==='pants'||it.slot==='gauntlets'||it.slot==='back'||it.slot==='neck'||it.slot==='ring'||it.slot==='gem'||it.slot==='food'||it.slot==='use'||it.slot==='spell'||it.slot==='special')&&it.sell;};
+    var SELLABLE=function(it){return it&&(it.slot==='lHand'||it.slot==='rHand'||it.slot==='mWeapon'||it.slot==='body'||it.slot==='head'||it.slot==='shield'||it.slot==='feet'||it.slot==='pants'||it.slot==='gauntlets'||it.slot==='back'||it.slot==='neck'||it.slot==='ring'||it.slot==='gem'||it.slot==='food'||it.slot==='use'||it.slot==='spell')&&it.sell;};   // learned skills (special) can't be sold
     var sellableItems=inv.map(function(id,idx){return {id:id,idx:idx,it:ITEMS[id]};}).filter(function(e){return SELLABLE(e.it);});
     if(sellableItems.length===0){
       h+='<p style="color:#445;font-size:12px;padding:12px">Nothing to sell. Items with a sell value will appear here.</p>';

@@ -19,7 +19,7 @@ with sync_playwright() as p:
     pg.goto("http://lab.test/"); pg.wait_for_timeout(2500)
     pg.screenshot(path=SHOTS + '/grid-towers.png')
     # connectivity audit
-    audit = pg.evaluate("""(()=>{ var out=[]; LAB_TABS.forEach(function(t){ t.designs.forEach(function(d){
+    audit = pg.evaluate("""(()=>{ var out=[]; LAB_TABS.forEach(function(t){ t.designs.forEach(function(d){ if(typeof d.build!=='function')return;
         var m=d.build(d.seed||7); var sx=Math.floor(m.spawn.x/LT), sy=Math.floor(m.spawn.y/LT);
         var seen=floodReach(m,sx,sy), open=0, reach=0; for(var k=0;k<m.w*m.h;k++){ if(!m.solid[k]){open++; if(seen[k])reach++;} }
         out.push([t.id,d.id,open,reach,m.sprites.length,m.lights.length,!mapSolid(m,sx,sy)]); }); }); return out; })()""")

@@ -37,7 +37,7 @@ with sync_playwright() as p:
     iso=r['iso']
     check('Borders seal the regions: with every crossing shut only the Grasslands are reachable', iso['none']==[1], iso)
     check('Each border opens exactly its own neighbour', iso['silverrun']==[1,2] and iso['ember']==[1,4] and iso['scarp']==[1] and iso['chasm']==[1], iso)
-    check('32 sites (5 towers/dungeons + camp + skyport + harbor per region), all reachable', len(r['sites'])==32 and all(s[2] for s in r['sites']), [s for s in r['sites'] if not s[2]])
+    check('44 sites (5 towers/dungeons + camp + skyport + 4 harbors per region), all reachable', len(r['sites'])==44 and all(s[2] for s in r['sites']) and all(sum(1 for s in r['sites'] if s[0]=='harbor' and s[1]==q)==4 for q in [1,2,3,4]), [s for s in r['sites'] if not s[2]])
     check('Waystones: village + 4 per region, all reachable', len(r['ways'])==17 and all(w[1] for w in r['ways']) and all(sum(1 for w in r['ways'] if w[0]==q)==4 for q in [1,2,3,4]))
     check('Map builds in under 3 s', r['ms']<3000, r['ms'])
     pg.click('.lab-tab[data-tab="map"]'); pg.wait_for_timeout(4000)

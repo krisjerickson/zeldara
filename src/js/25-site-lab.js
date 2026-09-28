@@ -25,10 +25,12 @@ function _slCatalog(){
     else isl.push({id:'isl_adv_'+sec+'_'+a.type, type:a.kind||(a.type==='tower_island'?'tower':'dungeon'), section:sec, design:a.design, island:true, name:name, floors:a.floors||4, _theme:a.type==='volcano'?'volcano':a.type==='tower_island'?'tower_island':'cave_dungeon'});
   });
   groups.push({id:'isl', name:'Harbor islands', sites:isl});
+  if(typeof CASTLE_ISLANDS!=='undefined')groups.push({id:'castles', name:'Island castles', sites:Object.keys(CASTLE_ISLANDS).map(function(k){ return CastleRun.site(k); })});
   return groups;
 }
 function _slGuardian(s){
   var sec=s.section;
+  if(s.castle){ var W=CHAR_BY_ID[CASTLE_ISLANDS[s.castle].warden]; return '⛓ '+(W?W.name:'Warden'); }
   if(s.island){ var b=HARBOR_ISLANDS[sec]&&HARBOR_ISLANDS[sec].boss; return b?b.icon+' '+b.name:'—'; }
   if(s.bonus){ var k=_bonusMiniBossKey(sec); return k?MDEFS[k].icon+' '+MDEFS[k].name:'—'; }
   var key=s.type==='dungeon'?['goblin_king','swamp_witch','rock_dragon','lava_titan'][sec-1]:['dark_warlock','storm_mage','iron_sentinel','shadow_lord'][sec-1];
@@ -36,12 +38,14 @@ function _slGuardian(s){
 }
 function _slReward(s){
   var sec=s.section;
+  if(s.castle){ var it=ITEMS[CASTLE_ISLANDS[s.castle].skill]; return 'Teaches: '+(it?it.icon+' '+it.name:'?'); }
   if(s.island){ var fam={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'}[sec], f=FAMILIARS[fam]; return 'Familiar: '+(f?f.icon+' '+f.n:fam); }
   if(s.bonus)return 'Treasure vault · relic: '+(SITE_RELICS[s.design]||'?');
   if(s.type==='tower')return 'Frees '+(CRAFTSMEN[sec]?CRAFTSMEN[sec].icon+' '+CRAFTSMEN[sec].n:'a craftsman')+' · opens next region';
   var rw=BOSS_REWARDS[s.id], m=rw&&rw.mount&&MOUNTS[rw.mount]; return 'Mount: '+(m?m.icon+' '+m.n:'—');
 }
 function _slDone(s,ps){
+  if(s.castle)return (ps.castlesDone||[]).includes(s.castle);
   if(s.island)return (ps.completedIslands||[]).includes(s.section);
   if(s.bonus)return (ps.bonusCleared||[]).includes(s.id);
   return (ps.completedQuests||[]).includes(s.id);
@@ -76,7 +80,7 @@ function _slRenderGrid(groups){
   SITE_LAB._sites={}; SITE_LAB.queue=[];
   el.innerHTML=g.sites.map(function(s){
     SITE_LAB._sites[s.id]=s;
-    var kind=s.island?(s.cave?'Island cave':'Island '+s.type):(s.boss?'★ Boss '+s.type:'Bonus '+s.type);
+    var kind=s.castle?'Castle':s.island?(s.cave?'Island cave':'Island '+s.type):(s.boss?'★ Boss '+s.type:'Bonus '+s.type);
     var fl=''; for(var f=0;f<s.floors;f++){ var last=f===s.floors-1; fl+='<button class="sl-fl'+(last?' last':'')+'" data-s="'+s.id+'" data-f="'+f+'" title="'+(last?(s.bonus?'Vault floor':'Guardian floor'):'Floor '+(f+1))+'">'+(f+1)+(last?' ☠':'')+'</button>'; }
     var th=SITE_LAB.thumbs[s.id];
     if(!th&&!s.cave)SITE_LAB.queue.push(s.id);

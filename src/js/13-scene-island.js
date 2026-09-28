@@ -56,6 +56,8 @@ class IslandScene extends Phaser.Scene{
     var sec=this.site?this.site.section||1:1;
     this.sec=sec;
     this.islData=HARBOR_ISLANDS[sec]||HARBOR_ISLANDS[1];
+    this.castle=CastleRun.of(this.site);
+    if(this.castle)this.islData=_castleIslandData(this.castle,this.islData);
     this._done=false;this._chunks=new Map();
     applyTheme(this.site&&this.site.type==='skyport'?'arctic':'ocean');
     document.getElementById('hud').style.display='none';
@@ -99,7 +101,7 @@ class IslandScene extends Phaser.Scene{
     try{
     var sec=this.sec,isl=this.islData;
     // Generate tile map
-    this._imap=generateIsland(sec);
+    this._imap=generateIsland(sec,this.castle?7919+'bcd'.indexOf(this.castle.key.slice(-1))*104729:0);
     this._chunks=new Map();
     // Background & camera
     var bgCols={1:0x1a5a8a,2:0x0a2a14,3:0x1a0800,4:0x0a1428};
@@ -210,12 +212,13 @@ class IslandScene extends Phaser.Scene{
     if(!CHX.sprite(this,'isl_well',wx-6,wy+12,1.45)){ this.add.text(wx,wy,'\uD83D\uDC9A',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5); }
     domText(this,wx,wy+20,'[Tab] Heal 10g',{fontSize:'8px',color:'#88ffaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     this._wellNPC={x:wx,y:wy,r:36};
-    // Adventure spot
-    var adv=ISL_ADV[this.sec]||ISL_ADV[1];
+    // Adventure spot (castle islands: the castle gate)
+    var adv=this.castle?{icon:'🏰',label:'🏰 '+(TOWER_STYLES_BY_ID[this.castle.castle]||{name:this.castle.name}).name}:(ISL_ADV[this.sec]||ISL_ADV[1]);
     var ax=imap.advPos.tx*TILE+TILE/2,ay=imap.advPos.ty*TILE+TILE/2;
     var advRing=this.add.circle(ax,ay,22,0,0).setStrokeStyle(3,0xffdd44).setDepth(4);
     this.tweens.add({targets:advRing,scaleX:1.15,scaleY:1.15,duration:900,yoyo:true,repeat:-1,ease:'Sine.easeInOut'});
-    this.add.text(ax,ay,adv.icon,{fontSize:'18px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
+    if(this.castle&&_castleGateTex(this,this.castle))this.add.image(ax,ay+8,'castle_gate_'+this.castle.key).setOrigin(.5,1).setDepth(5);
+    else this.add.text(ax,ay,adv.icon,{fontSize:'18px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
     var gd=CHX.sprite(this,'isl_guide',ax-30,ay+12,1.45); if(gd)gd.setDepth(5);
     domText(this,ax,ay+28,adv.label,{fontSize:'8px',color:'#ffdd88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     domText(this,ax,ay+38,'[Tab] Enter',{fontSize:'7px',color:'#ffeeaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
@@ -254,6 +257,7 @@ class IslandScene extends Phaser.Scene{
     if(this._surfaceCleared)return;
     if(this.monsters.every(function(m){return m.dead;})){
       this._surfaceCleared=true;
+      if(this.castle){ showNotif('🏝️ Surface cleared! '+CHAR_BY_ID[this.castle.warden].name+' waits at the top of the castle.','#44ffaa'); return; }
       var adv=ISL_ADV[this.sec]||ISL_ADV[1];
       showNotif('🏝️ Surface cleared! The guardian waits at the bottom of the '+adv.label.replace(/^\S+\s/,'')+'.','#44ffaa');
     }
@@ -438,7 +442,7 @@ class IslandScene extends Phaser.Scene{
       if(Math.hypot(mon.x-p.x,mon.y-p.y)>68)return;
       if(!_heroInArc(p.dir||'right',mon.x-p.x,mon.y-p.y))return;
       var dmg=Math.max(1,stats.atk-(mon.def.def||0)+Math.floor(Math.random()*4-2));
-      mon.hp-=dmg;hit=true;
+      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-20,'-'+dmg,'#ffdd44');
       mon.body.setFillStyle(0xffffff);
       self.time.delayedCall(100,function(){if(!mon.dead)mon.body.setFillStyle(mon.def.col||0x884422);});
@@ -491,6 +495,9 @@ class IslandScene extends Phaser.Scene{
     this._updateHUD();
   }
   _enterAdventure(){
+    if(this.castle){ var cs=CastleRun.site(this.castle.key); this.scene.sleep('Island');
+      this.scene.launch('Dungeon',{site:cs,floor:0,maxFloors:cs.floors,worldScene:this.worldScene,returnScene:'Island',theme:'tower'});
+      document.getElementById('dungeon-hud').style.display='block'; return; }
     var adv=ISL_ADV[this.sec]||ISL_ADV[1];
     if(adv.type==='cave'){
       this.scene.sleep('Island');
@@ -537,3 +544,21 @@ class IslandScene extends Phaser.Scene{
   }
 }
 
+
+// castle islands: surface monsters come from the quadrant roster (07t CASTLE_ISLANDS.en)
+function _castleIslandData(C,base){ var ens=C.en.map(function(id,i){ var R=MON_BY_ID[id], b=base.enemies[i%base.enemies.length]; if(!R)return b;
+    return Object.assign({},b,{name:R.name,icon:'',hp:Math.round(b.hp*1.15),atk:Math.round(b.atk*1.1)}); });
+  var T=CHAR_BY_ID[C.teacher], it=ITEMS[C.skill];
+  return Object.assign({},base,{name:C.name,enemies:ens,questText:'Storm the castle, defeat '+(CHAR_BY_ID[C.warden]||{name:'its warden'}).name+' and free '+(T?T.name:'the master')+' — they will teach you '+(it?it.name:'a skill')+'.'}); }
+// a small painted castle gate for the island's adventure spot
+function _castleGateTex(scene,C){ var key='castle_gate_'+C.key; if(scene.textures.exists(key))return true; var S=TOWER_STYLES_BY_ID[C.castle]; if(!S)return false; var p=S.pal;
+  var cv=mkCanvas(96,84), x=cv.getContext('2d');
+  softShadow(x,48,80,44,6,0.35);
+  x.fillStyle=shade(p.wallFace,-0.15); x.fillRect(8,24,20,58); x.fillRect(68,24,20,58);                 // towers
+  x.fillStyle=p.wallFace; x.fillRect(24,36,48,46);                                                         // wall
+  x.fillStyle=p.wallTop; for(var i=0;i<5;i++){ x.fillRect(8+i*4.5-(i%2),18,4,6); x.fillRect(68+i*4.5-(i%2),18,4,6); } for(var j=0;j<6;j++)x.fillRect(26+j*8,30,5,6);
+  x.fillStyle=p.trim; x.fillRect(8,22,20,3); x.fillRect(68,22,20,3); x.fillRect(24,34,48,3);
+  x.fillStyle='#1a1410'; rr(x,38,52,20,30,9); x.fill(); x.strokeStyle=p.metal||'#888'; x.lineWidth=1.5; for(var k=0;k<4;k++){ x.beginPath(); x.moveTo(41+k*5,55); x.lineTo(41+k*5,82); x.stroke(); }
+  x.fillStyle=p.fabric||'#a33'; x.fillRect(16,4,2,16); x.beginPath(); x.moveTo(18,4); x.lineTo(28,8); x.lineTo(18,12); x.fill(); x.fillRect(76,4,2,16); x.beginPath(); x.moveTo(78,4); x.lineTo(88,8); x.lineTo(78,12); x.fill();
+  x.fillStyle=p.glassA||'#ffd'; x.fillRect(15,40,5,8); x.fillRect(76,40,5,8);
+  scene.textures.addCanvas(key,cv); return true; }

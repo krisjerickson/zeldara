@@ -153,28 +153,29 @@ function _mtPaintSide(G,S,f){ var P=S.pal, F=','+(S.feat||'')+',', H=function(q)
     G.e(28,15+y,3.5,3,b); G.op(29,14+y,P[3]); if(H('wings'))G.tri(12,17+y,6,6+y+wu,18,17+y,shade(d,0.2)); if(H('smoke'))for(var sm=0;sm<4;sm++)G.op(2+sm*3,14+y-(sm%2),rgba(a,0.6)); }
   if(S.kind==='drake'){ S=Object.assign({},S,{kind:'quad',feat:(S.feat||'')+',wings,spikes,horns,tailup'}); _mtPaintSide(G,S,f); }
 }
-function _mtPaintFront(G,S,f,back){ var P=S.pal, F=','+(S.feat||'')+',', H=function(q){ return _msHas(F,q); }, b=P[0], d=P[1], a=P[2], y=f?-1:0, wu=f?5:-2, kd=S.kind==='drake'?'quad':S.kind;
+function _mtPaintFront(G,S,f,back,headOnly){ var P=S.pal, F=','+(S.feat||'')+',', H=function(q){ return _msHas(F,q); }, b=P[0], d=P[1], a=P[2], y=f?-1:0, wu=f?5:-2, kd=S.kind==='drake'?'quad':S.kind;
   if(kd==='quad'||kd==='gator'){ var wide=kd==='gator';
-    if(H('wings')||S.kind==='drake'){ G.tri(12,15+y,1,6+y+wu,10,20+y,shade(a,0.1)); G.tri(20,15+y,31,6+y+wu,22,20+y,shade(a,0.1)); }
+    if(!headOnly){ if(H('wings')||S.kind==='drake'){ G.tri(12,15+y,1,6+y+wu,10,20+y,shade(a,0.1)); G.tri(20,15+y,31,6+y+wu,22,20+y,shade(a,0.1)); }
     G.r(12-(f?0:1),21+y,3,7,d); G.r(17+(f?0:1),21+y,3,7,d);
     G.e(16,18+y,wide?9:6,5,b);
-    if(H('saddle'))G.r(12,12+y,8,3,'#7a4a28');
+    if(H('saddle'))G.r(12,12+y,8,3,'#7a4a28'); }
     if(!back){ G.e(16,11+y,wide?6:4,4,b); G.r(14,13+y,5,3,shade(b,-0.1)); G.op(14,10+y,P[3]); G.op(18,10+y,P[3]);
       if(H('horn'))G.l(16,7+y,16,2+y,'#ffe0a0'); if(H('horns')||S.kind==='drake'){ G.l(13,8+y,11,4+y,'#e8dcc0'); G.l(19,8+y,21,4+y,'#e8dcc0'); }
       if(H('tusks')){ G.op(13,14+y,'#fff4e0'); G.op(19,14+y,'#fff4e0'); } if(H('mane')||H('flamemane'))G.r(14,7+y,5,2,H('flamemane')?'#ff8030':d); }
     else { G.l(16,20+y,16,27+y+(f?-1:0),H('flamemane')?'#ff8030':d); if(H('mane')||H('flamemane'))G.r(14,9+y,5,3,H('flamemane')?'#ff8030':d); }
-    if(H('lavacracks'))for(var c=0;c<3;c++)G.op(12+c*4,18+y,'#ff9030');
+    if(H('lavacracks')&&!headOnly)for(var c=0;c<3;c++)G.op(12+c*4,18+y,'#ff9030');
   }
-  if(kd==='bird'){ G.tri(15,14+y,1,8+y+wu,12,20+y,d); G.tri(17,14+y,31,8+y+wu,20,20+y,d); G.e(16,17+y,5,6,b);
+  if(kd==='bird'){ if(!headOnly){ G.tri(15,14+y,1,8+y+wu,12,20+y,d); G.tri(17,14+y,31,8+y+wu,20,20+y,d); G.e(16,17+y,5,6,b); }
     if(!back){ G.e(16,10+y,3,3,b); G.tri(15,12+y,17,12+y,16,15+y,a); G.op(15,9+y,P[3]); G.op(17,9+y,P[3]); } else G.tri(13,22+y,19,22+y,16,28+y,d);
-    if(H('flames'))for(var fl=0;fl<5;fl++)G.op(12+fl*2,24+y,fl%2?'#ffd060':'#ff6020'); if(H('saddle'))G.r(13,13+y,6,2,'#7a4a28'); }
-  if(kd==='glider'){ G.tri(1,16+y,31,16+y,16,12+y,a); G.r(2,16+y,28,1,d); G.l(16,16+y,16,24+y,'#8a6a3a'); G.r(12,24+y,9,2,'#8a6a3a'); }
-  if(kd==='serpent'){ G.e(16,24+y,9,3,b); G.e(16,19+y,6,3,b); G.e(16,14+y,4,3,b); if(!back){ G.e(16,9+y,4,3,b); G.op(14,8+y,P[3]); G.op(18,8+y,P[3]); }
-    if(H('wings')){ G.tri(12,16+y,2,8+y+wu,11,20+y,shade(d,0.2)); G.tri(20,16+y,30,8+y+wu,21,20+y,shade(d,0.2)); } }
+    if(!headOnly){ if(H('flames'))for(var fl=0;fl<5;fl++)G.op(12+fl*2,24+y,fl%2?'#ffd060':'#ff6020'); if(H('saddle'))G.r(13,13+y,6,2,'#7a4a28'); } }
+  if(kd==='glider'&&!headOnly){ G.tri(1,16+y,31,16+y,16,12+y,a); G.r(2,16+y,28,1,d); G.l(16,16+y,16,24+y,'#8a6a3a'); G.r(12,24+y,9,2,'#8a6a3a'); }
+  if(kd==='serpent'){ if(!headOnly){ G.e(16,24+y,9,3,b); G.e(16,19+y,6,3,b); G.e(16,14+y,4,3,b); } if(!back){ G.e(16,9+y,4,3,b); G.op(14,8+y,P[3]); G.op(18,8+y,P[3]); }
+    if(H('wings')&&!headOnly){ G.tri(12,16+y,2,8+y+wu,11,20+y,shade(d,0.2)); G.tri(20,16+y,30,8+y+wu,21,20+y,shade(d,0.2)); } }
 }
-function mtFrames(S){ if(S._fr)return S._fr; S._fr=[0,1,2,3,4,5,6,7].map(function(i){ var G=_msGrid();
-    if(i<4)_mtPaintSide(G,S,i); else _mtPaintFront(G,S,i%2,i>=6); _msShadeOutline(G);
-    var cv=mkCanvas(32,32), x=cv.getContext('2d'); x.fillStyle='rgba(0,0,0,.28)'; x.beginPath(); x.ellipse(16,29.5,11,2,0,0,Math.PI*2); x.fill();
+// frames 0-3 side, 4-5 front, 6-7 back, 8-9 front head only (drawn over the rider in game)
+function mtFrames(S){ if(S._fr)return S._fr; S._fr=[0,1,2,3,4,5,6,7,8,9].map(function(i){ var G=_msGrid();
+    if(i<4)_mtPaintSide(G,S,i); else if(i<8)_mtPaintFront(G,S,i%2,i>=6); else _mtPaintFront(G,S,i%2,false,true); _msShadeOutline(G);
+    var cv=mkCanvas(32,32), x=cv.getContext('2d'); if(i<8){ x.fillStyle='rgba(0,0,0,.28)'; x.beginPath(); x.ellipse(16,29.5,11,2,0,0,Math.PI*2); x.fill(); }
     for(var k=0;k<1024;k++){ if(G.c[k]){ x.fillStyle=G.c[k]; x.fillRect(k%32,(k/32)|0,1,1); } }
     for(var k2=0;k2<1024;k2++){ if(G.o[k2]){ x.fillStyle=G.o[k2]; x.fillRect(k2%32,(k2/32)|0,1,1); } }
     return cv; });
@@ -328,6 +329,31 @@ CH('boss','Volcano boss rush','boss_vr_ashen_knight','Ashen Knight',['biped','lu
 CH('boss','Volcano boss rush','boss_vr_pyrokraken','Pyrokraken',['kraken','pulse','#8a2a1a,#4a1008,#ffb040,#ffe060',''],'Boss rush · wave 8','A fire kraken with glowing suckers.','Lashes tentacles in fiery rings.');
 CH('boss','Volcano boss rush','boss_vr_inferno_wraith','Inferno Wraith',['wraith','cast','#8a2a1a,#3a0a08,#ff6020,#ffe060','flames,crown,chains'],'Boss rush · wave 9','A crowned wraith wreathed in fire and chains.','Hurls fire and drifts through walls of flame.');
 CH('boss','Volcano boss rush','boss_volcano_lord','Volcano Lord',['brute','slam','#4a1a10,#1a0806,#ff6020,#ffe060','horns,spikes,glowcore,crown'],'The volcano summit · final wave','A horned magma giant with a molten core and a crown of spikes.','Slams the ground in rings of fire — the final battle.');
+
+// ── bosses · evolved forms (multi-phase guardians, 09b-boss-phases.js) ──
+CH('boss','Evolved forms','bf_goblin_king_2','Goblin Warlord',['biped','lunge','#2e8a22,#1e4a12,#e8c040,#ff4020','crown,cape,axe,ears,tusks,armor,shield,horns'],'Goblin King · phase 2 · The Throne Warren','Bigger, horned and armoured; a war-axe and a spiked shield.','Charges, cleaves in a wide arc and hurls fire-pots.');
+CH('boss','Evolved forms','bf_dark_warlock_2','Hexlord Warlock',['caster','cast','#5a1a8a,#1a0830,#ff60ff,#ffe060','hood,horns,staff,runes,wings,crown'],'Dark Warlock · phase 2 · The Moonlit Canopy','Grows shadow wings and a crown of runes.','Blinks around, fires fans of homing hexes and a sweeping beam.');
+CH('boss','Evolved forms','bf_swamp_witch_2','Bog Hag',['caster','cast','#4a6a2a,#1a2a10,#a0ff40,#ff4040','hat,cauldron,staff,plague,runes'],'Swamp Witch · phase 2 · The Sunken Grotto','A plague-masked hag trailing bog gas.','Poison clouds, lobbed brew and bog frogs; a ✨ ward only spells break.');
+CH('boss','Evolved forms','bf_swamp_witch_3','Mire Matriarch',['frog','lunge','#3a6a2a,#1a3a10,#c0ff60,#ffe040','spots,glow'],'Swamp Witch · phase 3 · The Cauldron Pit','The witch becomes a giant glowing toad-queen.','Leaps, tongue-pulls you in, drains life, calls leeches; ✨ ward and 🏹 guard.');
+CH('boss','Evolved forms','bf_storm_mage_2','Tempest Mage',['caster','beam','#2a4a9a,#0a1a4a,#fff080,#ffffff','hat,beard,staff,runes,wings'],'Storm Mage · phase 2 · The Cathedral Rooftop','Storm-winged, lightning crackling in his beard.','Lightning beams, gusts that shove you to the edge; 🏹 guard only arrows break.');
+CH('boss','Evolved forms','bf_storm_mage_3','Storm Avatar',['wisp','pulse','#e0f4ff,#6090ff,#fff080,#2040a0','wings'],'Storm Mage · phase 3 · The Eye of the Storm','Pure living storm: a crackling ball of cloud and light.','Gapped lightning rings, strikes if you stand still, storm sprites; ✨ ward.');
+CH('boss','Evolved forms','bf_rock_dragon_2','Crystal Drake',['drake','breath','#6a7a9a,#3a4a6a,#80e0ff,#ffffff','crystals'],'Rock Dragon · phase 2 · The Geode Hollow','Its stone scales turn to glowing crystal.','Crystal breath, shard volleys that ricochet, crystal golemlings; 🛡 plate.');
+CH('boss','Evolved forms','bf_rock_dragon_3','Earthshaker Wyrm',['drake','slam','#6a5a4a,#3a2a1a,#ffb040,#ff4020','crystals,moss'],'Rock Dragon · phase 3 · The Chasm Bridge','A mossy, ancient wyrm that shakes the mountain.','Slams that crack the bridge, charges, falling rocks; 🛡 plate + ✨ ward.');
+CH('boss','Evolved forms','bf_rock_dragon_4','Mountain Tyrant',['drake','breath','#4a4a52,#1a1a22,#ff6030,#ffe060','crystals'],'Rock Dragon · phase 4 · The Dragon\'s Summit','The final form: basalt-black with a molten throat.','Fire breath, meteors, and two Crystal Drakelings fight beside it.');
+CH('boss','Evolved forms','bf_drakeling','Crystal Drakeling',['drake','lunge','#8aa0c0,#4a5a7a,#9fe8ff,#ffffff',''],'Rock Dragon · phase 4 ally','A young crystal drake.','Darting lunges and crystal spit.');
+CH('boss','Evolved forms','bf_iron_sentinel_2','Siege Sentinel',['construct','slam','#7a7e86,#3a3e46,#ffb040,#ff4020','rivets,hammer,gears,vents'],'Iron Sentinel · phase 2 · The Gear Hall','Bolted-on siege plates and a steam hammer.','Hammer slams, mortar lobs, repair drones; 🛡 plate.');
+CH('boss','Evolved forms','bf_iron_sentinel_3','Colossus Engine',['golem','slam','#6a6e76,#2a2e36,#80e0ff,#ffffff','rivets,columns'],'Iron Sentinel · phase 3 · The Observatory Dome','A towering engine of plates and star-lenses.','Rotating star-beams, pulls you in, shock rings; 🛡 plate + 🏹 guard.');
+CH('boss','Evolved forms','bf_iron_sentinel_4','Sentinel Prime',['construct','beam','#c8a040,#6a5020,#ff4020,#ffffff','rivets,drill,gears,vents'],'Iron Sentinel · phase 4 · The Star Forge','Gold-plated, a drill arm and a furnace heart.','Drill charges, beams, walls; two Forge Guardians fight with it.');
+CH('boss','Evolved forms','bf_forge_guardian','Forge Guardian',['construct','slam','#5a5e66,#2a2e36,#ff9030,#ffe060','hammer,vents'],'Iron Sentinel · phase 4 ally','A soot-black forge construct.','Hammer slams that leave burning slag.');
+CH('boss','Evolved forms','bf_lava_titan_2','Magma Titan',['golem','slam','#7a2a1a,#3a1008,#ff9030,#ffe060','glowcore,crystals'],'Lava Titan · phase 2 · The Cooling Crust','Cracks glow brighter; lava runs down its arms.','Slams leave lava pools, lobbed magma, magma vents; 🛡 plate.');
+CH('boss','Evolved forms','bf_lava_titan_3','Obsidian Colossus',['golem','slam','#2a2226,#0a0608,#ff6030,#ff4020','crystals,columns,glowcore'],'Lava Titan · phase 3 · The Lava Falls Terrace','Cooled into jagged black glass.','Glass-shard fans, reflecting armour, charred zombies; 🛡 plate + 🏹 guard.');
+CH('boss','Evolved forms','bf_lava_titan_4','Molten Behemoth',['brute','slam','#8a2a10,#3a0a04,#ffb040,#ffe060','horns,spikes,glowcore'],'Lava Titan · phase 4 · The Caldera Rim','A horned molten beast.','Charges, burning aura, meteor marks; ✨ ward + 🛡 plate + 🏹 guard.');
+CH('boss','Evolved forms','bf_lava_titan_5','Heart of the Volcano',['orb','pulse','#ff6020,#8a1a08,#ffe060,#ffffff',''],'Lava Titan · phase 5 · The Heart of the Volcano','The titan\'s burning heart, bare and furious.','Fire rings, meteors, lava everywhere; two Magma Titans guard it.');
+CH('boss','Evolved forms','bf_shadow_lord_2','Umbral Lord',['wraith','cast','#1a0a2a,#05020a,#c040ff,#ff3050','crown,chains'],'Shadow Lord · phase 2 · The Shattered Sanctum','Darker, chains dragging behind.','Blind clouds, homing shadows, drain; ✨ ward.');
+CH('boss','Evolved forms','bf_shadow_lord_3','Eclipse Knight',['biped','lunge','#2a1a3a,#0a0610,#ffd060,#ff3050','armor,helmet,sword,shield,cape,horns'],'Shadow Lord · phase 3 · The Hall of Mirrors','A black knight with an eclipse-gold edge.','Sword combos, swaps places with you, mirror echoes; 🛡 plate + 🏹 guard.');
+CH('boss','Evolved forms','bf_shadow_lord_4','Void Sovereign',['eye','beam','#1a0a2a,#05020a,#c040ff,#ff60ff','tentacles,crystals'],'Shadow Lord · phase 4 · The Starless Void','A great eye in the void, tendrils trailing.','Twin beams, gravity pull, void rifts, shadow wraiths; ✨ ward + 🏹 guard + 🛡 plate.');
+CH('boss','Evolved forms','bf_shadow_lord_5','Shadow Lord Ascendant',['wraith','cast','#0a0610,#000000,#ffe080,#ffffff','crown,flames,chains'],'Shadow Lord · phase 5 · The Dawn Altar','The last form, crowned in stolen dawn-fire.','Everything at once — and two Shadow Twins fight beside it.');
+CH('boss','Evolved forms','bf_shadow_twin','Shadow Twin',['wraith','cast','#3a1a5a,#1a0a2a,#ff60ff,#ffffff','flames'],'Shadow Lord · phase 5 ally','A flickering copy of the Shadow Lord.','Blinks and fires homing shadow bolts.');
 
 // quick lookups used by the game
 var CHAR_NPC_FOR_BUILDING={tavern:'npc_tavern',shop:'npc_shop',forge:'npc_forge',guild:'npc_guild',stables:'npc_stables',armory:'npc_armory',clothing:'npc_clothing',jeweler:'npc_jeweler',apothecary:'npc_apothecary',merchant:'npc_merchant'};

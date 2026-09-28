@@ -130,6 +130,51 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
 - **[116] Black village background (graphics memory).** On Kris's Intel Iris Xe the ground went black in the village while building names and doors kept working — the browser dropping the game's WebGL graphics. Fixes: (a) world chunks and dungeon floors go to the GPU through `gpuTex()` (`07-site-art.js`) instead of Phaser's `addCanvas`, which kept a full CPU pixel copy of every 1024² canvas (plus a GPU read-back stall on each mount) — the canvas is shrunk to 1×1 after upload, so each chunk now costs one texture instead of three copies; (b) far chunks are dropped sooner (1.3 chunks outside the view, was 2.2); (c) if the graphics are lost anyway, the game saves, shows "Refreshing graphics…", reloads and continues straight back where you were (`20-game-config.js` + Title auto-continue). Test: forced `WEBGL_lose_context` → back in the world with gold and position kept.
 - **[117] Crisp text everywhere.** Every Phaser text (monster/NPC names, prompts, waystone names, damage numbers, all scenes) is now rasterised at its scene's zoom (world 1.4×, dungeon 1.6×, buildings 2.2× → 2–3× resolution) with smooth filtering, instead of 1× text pixel-doubled by the camera (`04-helpers.js`, factory patch — no call sites changed).
 - **[118] Characters: NPCs, mounts, familiars, bosses** (`07s-char-sprites.js`, `10g-characters.js`). 66 pixel stand-ins built like the monsters: 29 NPCs (10 shop keepers, 4 craftsmen, 11 village folk, 4 island NPCs — new `person` body plan with hair, hats, aprons and tools, idle + "doing their job" frames), 11 mounts (side walk ×4 + front + back), 5 familiars, 21 bosses (8 guardians, 4 island guardians, 8 boss-rush bosses + the Volcano Lord). In game: shop keepers inside buildings, craftsmen in the square and in their tower cells, **village folk who appear as the village grows** (3 → 11, wander, [Tab] to talk), island NPCs, **mounts drawn under the hero** (hero seated, all directions; the horse keeps its painted rider), orbiting familiars, and every boss (world, dungeon/tower, island cave, boss rush) with a pulsing aura. Island monsters without their own art borrow a roster look-alike. Tome shows all of them. Design Lab **Characters** tab (Looks good / Tweak / Redo + notes; mounts preview the hero riding). Tests: `test_characters.py` (15), `test_lab_chars.py` (7).
+
+### Round 2 (Sept 28 2026) — Kris's nine-point list
+- **[119] Sealed boss sites** (Kris, round 2). Each quadrant's ★ tower and ★ dungeon open only once every other tower and dungeon in that quadrant is cleared (`_bossSiteGate` in `07d`; islands and the sky port don't count). The world label shows 🔒 done/total, entering lists what is left, the journal shows the seal. Sandbox Unlock All clears the bonus sites.
+- **[120] Multi-phase guardians** (`09b-boss-phases.js`, arenas in `07u-boss-arenas.js`). Phase 1 is fought on the site's top floor; every later phase moves to its own arena (20 arenas: hazards, props, events such as marked tiles, lobs, geysers, wind, rifts, waves) with an evolved form (23 new boss sprites), new moves, more health and defence.
+  - Grasslands 2 phases (no extra health, no summons) · Wetlands 3 · Highlands 4 · Ashlands 5.
+  - Extra health bars from the Wetlands on: ✨ Ward (spells + familiars), 🏹 Guard (arrows), 🛡 Plate (melee). Other damage chips them at 15%, so you can never get stuck.
+  - Summons from the Wetlands on; the Highlands and Ashlands finales have several bosses at once (e.g. the Shadow Lord and its twin).
+  - Boss HUD: name, phase pips, health + extra bars.
+- **[121] World camps** (`10h-world-camps.js`). About two thirds of the world's monsters now guard something: 132 camps (33 per quadrant) of 60 themed types (15 per quadrant, e.g. goblin cookfire, bee-keeper's hives, drowned shrine, dwarf ore cart, ember forge). Rewards: food to gather, one-time treasure chests, healing and mana springs, 2-minute blessings, XP runes, arrows, gems. Clearing a group plays a fanfare with confetti and a banner. Food, springs, shrines and racks come back after about 10 minutes; chests, gems and runes are one-time. One third keep roaming.
+- **[122] Splitting monsters split once** — their children just die.
+- **[123] Mount seat.** The hero now sits on top of the mount (legs hidden, seat height per mount kind); in the front view the mount's head is drawn over the rider.
+- **[124] Island castles, teachers and skills** (`07t-castles.js`, `09c-castles.js`).
+  - 4 harbors per quadrant (16 in all), each sailing to its own island: island A has the familiar dungeon (as before); islands B, C and D each have a castle.
+  - 12 castle looks, 3 per quadrant:
+    - Grasslands: Thornwood Keep, Sunflower Château, Windmill Bastion.
+    - Wetlands: Lotus Water Palace, Drowned Abbey, Mangrove Fort.
+    - Highlands: Dwarven Hold, Glacier Citadel, Eyrie Castle.
+    - Ashlands: Obsidian Bastille, Ember Sanctum, Bone Throne Keep.
+  - Each castle has 2–4 floors. The top floor has a one-phase warden (12 new bosses) holding a master teacher (12 new NPCs) in a cage.
+  - Beat the warden and open the portal chest: the teacher teaches you their skill, which is equipped automatically if your special slot is empty (Z).
+  - Skills are no longer sold. There are 12 in all, 3 per quadrant, stronger in later quadrants:
+    - Grasslands: Sprint, Roll, Whirlwind.
+    - Wetlands: Smoke Bomb, Shield Bash, Blink.
+    - Highlands: War Stomp, Second Wind, Berserker.
+    - Ashlands: Phantom Veil, and two new skills — ⏳ Time Slow (enemies near you run at 30% for 4 s) and ☄️ Meteor Strike.
+  - The skills tab lists the twelve masters (learned / where to find them).
+  - Tome entries for castles, wardens, teachers and skills (who teaches what, and where).
+- **[125] Village interiors repainted** (`07v-interiors.js`, `11-scene-building.js`). All 12 buildings use the tower look: painted back walls with their own shelves, windows and décor, themed floors, depth-sorted furniture, rugs, warm lights, window light shafts and particles. Each room fits its keeper:
+  - Rolf's bar, kegs and fireplace.
+  - Tilda's shelves and scales.
+  - Your home: bed, hearth and bookshelf.
+  - Garrick's forge hearth, anvil and racks.
+  - Oswin's guild hall and map table.
+  - The quest board hall.
+  - Hana's stalls with horses.
+  - Brask's armour stands and shield wall.
+  - Pell's mannequins, cloth and mirror.
+  - Iva's gem cases and safe.
+  - Morwen's cauldron, potions and herbs.
+  - Benno's bakery oven and cakes.
+
+  The rooms are larger (14×10 tiles) and you talk to the keeper across their counter.
+- **[126] Design Lab tabs:** **Castles** (12, by quadrant), **Boss Arenas** (20) and **Interiors** (12) — all already in the game; mark any you want changed. The Characters tab now has 41 NPCs and 56 bosses (evolved forms + castle wardens; no review needed for bosses yet).
+- **[127] Tests:** new `tests/test_round2.py` (18 checks: seal, split-once, camps + celebration, mount seat, skills not sold, 4 harbors per quadrant, a full castle run → skill learned, Time Slow + Meteor, 12 interiors reachable, Tome links, Q1 2-phase and Q4 5-phase guardians end to end). Counts updated in `test_characters`, `test_lab_chars`, `test_tome`, `test_world_map` (44 sites).
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).
@@ -150,3 +195,6 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
 - Save key = `qoz_v2` in localStorage.
 - Save every 30s in WorldScene.update. Saves carry `saveVersion`; bump `SAVE_VERSION` + add a migration step when the shape changes.
 - Any menu open = game paused (Phase 1). Death anywhere = village, 25% HP, −10% gold.
+- ★ boss sites are sealed until the quadrant's other towers + dungeons are cleared ([119]).
+- Skills (special attacks) are only taught by castle masters — never sold, never sellable ([124]).
+- Castle ids: harbor `s{sec}_harbor_{b|c|d}` → island key `q{sec}_{b|c|d}` (`CASTLE_ISLANDS`), castle dungeon site `isl_castle_<key>`; saves: `ps.castlesDone`, `ps.skillsLearned`, `ps.campsDone`.

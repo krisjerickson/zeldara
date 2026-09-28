@@ -43,7 +43,8 @@ Object.assign(WorldScene.prototype,{
     this.worldMonsters.push(mon); return mon; },
   // replaces the old 2-types-per-region pods
   _spawnRosterPods(){ var self=this, rng=new PRNG(WORLD_SEED+77777), wd=this.wd;
-    for(var sec=1;sec<=4;sec++){ var spawned=0, target=200, guard=0;
+    var campGuards=this._initCamps(new PRNG(WORLD_SEED+55555));   // two thirds guard camps (10h-world-camps.js)
+    for(var sec=1;sec<=4;sec++){ var spawned=0, target=Math.max(40,Math.round((campGuards[sec]||0)/2)), guard=0;   // one third roam
       while(spawned<target&&guard++<2000){ var pc=self._randLand(rng,sec); if(!pc)continue;
         var zi=wd.zone[pc.ty*WORLD_W+pc.tx], z=zi===255?null:WMAP_ZONES[zi], zname=z?_wmZoneName(z.id):'';
         var nearW=false, nearL=false; for(var yy=-5;yy<=5&&!(nearW&&nearL);yy+=2)for(var xx=-5;xx<=5;xx+=2){ var t=self.tiles[pc.ty+yy]&&self.tiles[pc.ty+yy][pc.tx+xx]; if(t===T.SHALLOW_WATER||t===T.DEEP_WATER)nearW=true; if(t===T.THIN_MAGMA||t===T.DEEP_MAGMA)nearL=true; }

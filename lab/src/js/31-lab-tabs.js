@@ -16,3 +16,23 @@ LAB_TABS.push({ id:'world', name:'World', lazy:true, groups:LAB_REGIONS.map(func
   blurb:'<b>World quadrants</b>: 10 walkable designs per quadrant (60 × 60 tiles each). You chose to <b>pick 2–3 per quadrant</b>; they become sub-zones blended with soft borders, so no two parts of a region look alike. Runes pulse and brighten as you walk near; ley lines link landmarks. Press <b>N</b> for night, <b>Tab</b> near a landmark for its story.',
   empty:'Loading…', designs:[] });
 LAB_TABS.push({ id:'sprites', name:'Sprites', blurb:'<b>Sprite gallery</b>: 5 options per character, matched to your hero.', empty:'Starting with the pilot: 6 characters × 5 options. The prompts and style guide are ready. Once you save the generated images into <code>sprites/incoming/</code>, they show up here to pick from.', designs:[] });
+
+// Island castles (src/js/07t-castles.js) — 12 looks, 3 per quadrant, already chosen and in the game.
+LAB_TABS.push({ id:'castles', name:'Castles', groups:[1,2,3,4].map(function(q){ return {k:q,n:WM_REGION_NAMES[q]}; }),
+  blurb:'<b>12 island castles</b>, three per quadrant, each on its own island reached from its own harbor. Each is a different look (castle palette, floors, centerpiece and weather). A one-phase warden on the top floor holds a master captive; free them to learn their skill (your special attack, Z). <b>Already picked and in the game</b> — mark any you want changed.',
+  designs:CASTLE_STYLES.map(function(S){ var C=CASTLE_ISLANDS[Object.keys(CASTLE_ISLANDS).find(function(k){ return CASTLE_ISLANDS[k].castle===S.id; })], W=C&&CHAR_BY_ID[C.warden], T=C&&CHAR_BY_ID[C.teacher];
+    return { id:S.id, name:S.name, group:S.q, tagline:S.tagline, blurb:S.blurb, seed:S.seed,
+      facts:S.facts.concat(C?['Island: '+C.name+' · '+C.floors+' floors','Warden: '+(W?W.name:'?'),'Captive: '+(T?T.name+' — '+T.doing.split(' — ')[0].toLowerCase():'?')]:[]),
+      build:function(seed){ return buildTower(S,S.plan,seed,{last:true}); } }; }) });
+
+// Boss arenas (src/js/07u-boss-arenas.js) — where phases 2+ of the ★ guardians are fought.
+LAB_TABS.push({ id:'arenas', name:'Boss Arenas',
+  blurb:'<b>20 boss arenas</b> for the multi-phase ★ guardians: phase 1 is fought on the site\'s top floor, every later phase moves to one of these (with its own hazards and events). Already in the game — mark any you want changed.',
+  designs:Object.keys(BOSS_ARENAS).map(function(k){ var D=BOSS_ARENAS[k]; return { id:k, name:D.name, tagline:D.tagline, blurb:D.blurb, seed:D.seed, facts:null,
+    build:function(seed){ return buildCavern(D,seed); } }; }) });
+
+// Village interiors (src/js/07v-interiors.js) — every building, painted in the tower style.
+LAB_TABS.push({ id:'interiors', name:'Interiors',
+  blurb:'<b>12 village interiors</b>, repainted in the same lit style as the towers. Each room is themed to its building and keeper (the bar and kegs for Rolf, the forge hearth for Garrick, cauldron and potion shelves for Morwen…). Already in the game — mark any you want changed.',
+  designs:INTERIOR_TYPES.map(function(t,i){ var T=INTERIOR_THEMES[t]; return { id:t, name:T.name, tagline:T.blurb.split('.')[0], blurb:T.blurb, seed:100+i, facts:['Walls: '+T.wall+' · floor: '+T.floor,'Keeper: '+(T.npc&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[T.npc]?CHAR_BY_ID[T.npc].name:'—')],
+    build:function(){ return buildInterior(t); } }; }) });

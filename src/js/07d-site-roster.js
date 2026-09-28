@@ -105,8 +105,18 @@ function _completeQuest(ps,key){
     setTimeout(function(){showNotif('🐉 The Dragon flies over all land and deep water!','#ffaa44');},1000);
   }
 }
+// Quadrant boss tower + dungeon stay sealed until every bonus tower/dungeon of that quadrant is cleared
+// (already-beaten boss sites stay open for rematches).
+function _bossSiteGate(ps,site,sites){
+  if(!site||!site.boss||(site.type!=='tower'&&site.type!=='dungeon'))return null;
+  if((ps.completedQuests||[]).includes(site.id))return {open:true,need:0,done:0,left:[]};
+  var bon=(sites||[]).filter(function(s){ return s.bonus&&s.section===site.section&&(s.type==='tower'||s.type==='dungeon'); }),
+      cl=ps.bonusCleared||[], left=bon.filter(function(s){ return cl.indexOf(s.id)<0; });
+  return {open:!left.length,need:bon.length,done:bon.length-left.length,left:left};
+}
 function _siteLabel(s){
   if(s.name)return (s.boss?'★ ':'')+s.name+(s.type==='tower'?' (Tower)':' (Dungeon)');
+  if(s.type==='harbor'){ var C=s.castle&&typeof CASTLE_ISLANDS!=='undefined'&&CASTLE_ISLANDS[s.castle]; return C?'Harbor → '+C.name+' (castle)':'Harbor → '+((typeof HARBOR_ISLANDS!=='undefined'&&HARBOR_ISLANDS[s.section])||{name:'Island'}).name+' (familiar)'; }
   return s.type.charAt(0).toUpperCase()+s.type.slice(1);
 }
 

@@ -90,18 +90,19 @@ MX.dmgOut=function(scene){ var S=scene._mxs; return S&&S.shrinkT>0?0.7:1; };
 // ── spawning ──────────────────────────────────────────────────────────
 MX.spawn=function(scene,rid,x,y,o){ o=o||{}; var R=MON_BY_ID[rid]; if(!R)return null; var kit=MX.kit(rid); if(!kit)return null;
   var q=o.q||R.q, s=MX.stats(R,q), sc=MX.scaleOf(R)*(o.scale||1), A=MX.A(scene);
+  if(o.stats)Object.assign(s,o.stats);
   if(o.hpMult){ s.hp=Math.round(s.hp*o.hpMult); } if(o.alpha){ s.hp=Math.round(s.hp*1.6); s.atk=Math.round(s.atk*1.3); sc*=1.2; }
   var cont=scene.add.container(x,y).setDepth(A.depth(y));
   var shadow=scene.add.ellipse(0,s.r*0.9+2,s.r*2.3,7,0x000000,.3);
   var spr=scene.add.image(0,4,MX.tex(scene,R),'0').setOrigin(0.5,0.85).setScale(sc);
   var hpBg=scene.add.rectangle(0,-(32*sc*0.8+6),28,4,0x000000,.7), hpFill=scene.add.rectangle(-14,-(32*sc*0.8+6),28,4,0xff3333).setOrigin(0,.5);
   var lvCol=s.lv>=15?'#ff4444':s.lv>=10?'#ff8844':s.lv>=5?'#ffdd44':'#88ff88';
-  var nameT=scene.add.text(0,-(32*sc*0.8+14),(o.alpha?'Alpha ':'')+R.name+' Lv.'+s.lv,{fontSize:'7px',color:'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); nameT.setColor(lvCol);
+  var nameT=scene.add.text(0,-(32*sc*0.8+14),(o.alpha?'Alpha ':'')+(o.name||R.name)+' Lv.'+s.lv,{fontSize:'7px',color:'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); nameT.setColor(lvCol);
   cont.add([shadow,spr,hpBg,hpFill,nameT]);
   var col=parseInt(R.spec.pal[0].slice(1),16);
   spr.setFillStyle=function(c){ if(c===0xffffff)this.setTintFill(0xffffff); else if(c===undefined||c===col)this.clearTint(); else this.setTint(c); return this; };
   var mon={mx:true,rid:rid,R:R,kit:kit,cont:cont,body:spr,spr:spr,hpFill:hpFill,hpBg:hpBg,nameT:nameT,type:'mx_'+rid,
-    def:{name:R.name,icon:'',r:s.r,color:col,xp:s.xp,gMin:s.gMin,gMax:s.gMax,atk:s.atk,def:s.def,spd:s.spd,sec:q,hp:s.hp,atkType:'mx',moveType:'mx'},
+    def:{name:o.name||R.name,icon:'',r:s.r,color:col,xp:s.xp,gMin:s.gMin,gMax:s.gMax,atk:s.atk,def:s.def,spd:s.spd,sec:q,hp:s.hp,atkType:'mx',moveType:'mx'},
     maxHp:s.hp,_hp:s.hp,x:x,y:y,spawnX:x,spawnY:y,level:s.lv,monAtk:s.atk,monDef:s.def,dead:false,state:'wander',atkTimer:0,respawnTimer:0,
     temp:!!o.temp,alpha:!!o.alpha,tags:R.tags,_m:null,_scene:scene};
   Object.defineProperty(mon,'hp',{get:function(){ return this._hp; },set:function(v){ MX.onHp(this,v); },configurable:true,enumerable:true});
@@ -114,7 +115,7 @@ MX.reset=function(mon){ var k=mon.kit, m=mon._m={t:Math.random()*3,cd:{},busy:nu
 
 // ── damage taken (all scene damage code goes through mon.hp -= dmg) ──
 MX.onHp=function(mon,v){ var m=mon._m, old=mon._hp, d=old-v; if(!m||d<=0){ mon._hp=Math.min(mon.maxHp,v); return; }
-  var sc=mon._scene, A=sc&&sc._mxA, P=A?A.p():{x:mon.x,y:mon.y}, dist=Math.hypot(P.x-mon.x,P.y-mon.y), kind=dist<95?'melee':'ranged', say=function(t,c){ if(A&&(m._sayT||0)<=0){ A.float(mon.x,mon.y-mon.def.r-18,t,c||'#bfe6ff'); m._sayT=0.5; } };
+  var sc=mon._scene, A=sc&&sc._mxA, P=A?A.p():{x:mon.x,y:mon.y}, dist=Math.hypot(P.x-mon.x,P.y-mon.y), kind=MX._src||(dist<95?'melee':'ranged'), say=function(t,c){ if(A&&(m._sayT||0)<=0){ A.float(mon.x,mon.y-mon.def.r-18,t,c||'#bfe6ff'); m._sayT=0.5; } };
   m.hurtT=4; m.aggro=true; m.lastHit=kind;
   if(m.hidden||m.invuln>0||m.down>0){ d=0; say(m.hidden?'hidden':'immune'); }
   var defs=mon.kit.def;
@@ -130,6 +131,7 @@ MX.onHp=function(mon,v){ var m=mon._m, old=mon._hp, d=old-v; if(!m||d<=0){ mon._
     else if(D.name==='weak'&&p.k===kind){ d*=p.m||2; }
   }
   if(d>0&&sc)d*=MX.dmgOut(sc);
+  if(d>0&&mon.bars&&MX._barHit)d=MX._barHit(mon,d,kind,say);
   d=Math.round(d*10)/10; var nv=old-d;
   if(nv<=0){ var rv=defs.find(function(D){ return D.name==='revive'; });
     if(rv&&!m.revived){ m.revived=true; m.down=rv.p.t||5; mon._hp=1; mon.cont.setAlpha(0.55); say('…it will rise again','#e0d8c0'); MX.ev(mon,'def_revive_down'); return; } }
@@ -139,7 +141,8 @@ MX.onHp=function(mon,v){ var m=mon._m, old=mon._hp, d=old-v; if(!m||d<=0){ mon._
 };
 MX.onDeath=function(A,mon){ var defs=mon.kit.def, P=A.p();
   defs.forEach(function(D){ var p=D.p;
-    if(D.name==='split'){ for(var i=0;i<(p.n||2);i++){ var c=A.spawn(p.id||mon.rid,mon.x+(i-0.5)*20,mon.y+6,{q:mon.def.sec,hpMult:p.hp||0.4,scale:p.sc||0.75}); if(c){ c._m.aggro=true; c._m.noSplit=true; } } MX.ev(mon,'def_split'); }
+    if(D.name==='split'){ if(mon.noSplit||(mon._m&&mon._m.noSplit))return;   // split children never split again — they just die
+      for(var i=0;i<(p.n||2);i++){ var c=A.spawn(p.id||mon.rid,mon.x+(i-0.5)*20,mon.y+6,{q:mon.def.sec,hpMult:p.hp||0.4,scale:p.sc||0.75}); if(c){ c._m.aggro=true; c._m.noSplit=true; c.noSplit=true; } } MX.ev(mon,'def_split'); }
     else if(D.name==='explode'){ MX.fxRing(A,mon.x,mon.y,p.r||50,p.col||'#ff9040'); if(Math.hypot(P.x-mon.x,P.y-mon.y)<(p.r||50)){ A.hurt(mon.def.atk*(p.m||0.8),'BOOM','#ff9040',false); if(p.st)MX.status(A,p.st,p.t||3); } if(p.zone)MX.zone(A,{x:mon.x,y:mon.y,r:p.r||50,t:p.zt||3,st:p.zone,col:p.col}); MX.ev(mon,'def_explode'); }
   }); };
 
@@ -192,7 +195,7 @@ MX.step=function(A,mon,ang,spd,dt,fly,noSteer){ var x0=mon.x, y0=mon.y, n=MX._tr
   mon.x=x0; mon.y=y0; var side=(m&&m.side)||1, tries=[0.7,1.3,1.9,2.5];
   for(var i=0;i<tries.length;i++)for(var j=0;j<2;j++){ var sg=j?-side:side; if(MX._try(A,mon,ang+sg*tries[i],spd,dt,fly)===2){ if(m)m.side=sg; return false; } mon.x=x0; mon.y=y0; }
   MX._try(A,mon,ang,spd,dt,fly); return true; };
-MX.wander=function(A,mon,m,dt,spd,fly){ m.wt=(m.wt||0)-dt; if(m.wt<=0){ m.wt=2+Math.random()*3; var back=Math.hypot(mon.x-mon.spawnX,mon.y-mon.spawnY)>180; m.wa=back?Math.atan2(mon.spawnY-mon.y,mon.spawnX-mon.x):Math.random()*Math.PI*2; m.ws=Math.random()<0.3?0:spd*0.35; }
+MX.wander=function(A,mon,m,dt,spd,fly){ m.wt=(m.wt||0)-dt; if(m.wt<=0){ m.wt=2+Math.random()*3; var back=Math.hypot(mon.x-mon.spawnX,mon.y-mon.spawnY)>(mon.leashR||180); m.wa=back?Math.atan2(mon.spawnY-mon.y,mon.spawnX-mon.x):Math.random()*Math.PI*2; m.ws=Math.random()<0.3?0:spd*0.35; }
   if(m.ws&&MX.step(A,mon,m.wa,m.ws,dt,fly))m.wa+=Math.PI*0.7; };
 
 // ── movement modules ──────────────────────────────────────────────────

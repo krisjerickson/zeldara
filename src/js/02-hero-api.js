@@ -192,7 +192,7 @@ function _heroUpdateProjs(scene, mode, dt){
       pr.hit=true;
       var monDef=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
       var dmg=Math.max(1,pr.dmg-monDef+Math.floor(Math.random()*3));
-      mon.hp-=dmg;
+      MX._src='ranged'; mon.hp-=dmg; MX._src=null;
       if(scene._floatText)scene._floatText(mon.x,mon.y-(mon.def.r||10)-10,'-'+dmg,'#aaddff');
       mon.body.setFillStyle(0xffffff);
       var dRef=mon.def;

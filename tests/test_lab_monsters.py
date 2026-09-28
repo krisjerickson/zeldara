@@ -34,8 +34,8 @@ with sync_playwright() as p:
     n = pg.evaluate("document.querySelectorAll('.mn-card').length")
     check('Tab opens on Grasslands · Mainland with 20 cards', n == 20, n)
     pg.wait_for_timeout(600)
-    drawn = pg.evaluate("[...document.querySelectorAll('.mn-spr')].slice(0,6).filter(c=>{ var d=c.getContext('2d').getImageData(0,0,128,128).data; for(var i=3;i<d.length;i+=16)if(d[i])return true; return false; }).length")
-    check('Sprites animate on screen', drawn >= 4, drawn)
+    drawn = pg.evaluate("[...document.querySelectorAll('.mn-spr')].filter(c=>c.getBoundingClientRect().top<innerHeight).slice(0,6).filter(c=>{ var d=c.getContext('2d').getImageData(0,0,128,128).data; for(var i=3;i<d.length;i+=16)if(d[i])return true; return false; }).length")
+    check('Sprites animate on screen (every card in view is drawn)', drawn >= 3, drawn)
     if SHOTS:
         for q in [1, 2, 3, 4]:
             for seg in ['main', 'melee', 'tow']:

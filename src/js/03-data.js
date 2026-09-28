@@ -455,17 +455,19 @@ const ITEMS={
   dungeon_coin:   {name:'Dungeon Coin',      icon:'🪙',goldVal:15, slot:'gem',desc:'Worth 15g — ancient currency'},
   fire_opal:      {name:'Fire Opal',         icon:'🧡',goldVal:90, slot:'gem',desc:'Worth 90g — rare fire opal'},
   moon_shard:     {name:'Moon Shard',        icon:'🌙',goldVal:150,slot:'gem',desc:'Worth 150g — sky loot'},
-  // ─── Special Abilities (special slot) — equip and activate with Z ──────
+  // ─── Special Abilities (special slot) — taught by the castle masters (07t), activate with Z ──────
   sp_sprint:      {name:'Sprint',       icon:'🏃',slot:'special',skillId:'sprint',      cd:8,  secReq:1,buy:60, sell:20,desc:'Z: 2× speed for 3 seconds (no cost)'},
   sp_roll:        {name:'Roll',         icon:'🔄',slot:'special',skillId:'roll',        cd:4,  secReq:1,buy:50, sell:15,desc:'Z: Dash 3 tiles + 0.6s invincibility'},
   sp_blink:       {name:'Blink',        icon:'✨',slot:'special',skillId:'blink',       cd:8,  secReq:2,buy:120,sell:40,desc:'Z: Teleport 5 tiles forward through walls'},
-  sp_war_stomp:   {name:'War Stomp',    icon:'👊',slot:'special',skillId:'war_stomp',   cd:10, secReq:2,buy:110,sell:35,desc:'Z: Shockwave stuns + damages all nearby enemies'},
-  sp_whirlwind:   {name:'Whirlwind',    icon:'🌀',slot:'special',skillId:'whirlwind',   cd:8,  secReq:2,buy:100,sell:30,desc:'Z: Spin-attack all adjacent enemies, push them back'},
+  sp_war_stomp:   {name:'War Stomp',    icon:'👊',slot:'special',skillId:'war_stomp',   cd:10, secReq:3,buy:110,sell:35,desc:'Z: Shockwave stuns + damages all nearby enemies'},
+  sp_whirlwind:   {name:'Whirlwind',    icon:'🌀',slot:'special',skillId:'whirlwind',   cd:8,  secReq:1,buy:100,sell:30,desc:'Z: Spin-attack all adjacent enemies, push them back'},
   sp_smokebomb:   {name:'Smoke Bomb',   icon:'💨',slot:'special',skillId:'smoke_bomb',  cd:16, secReq:2,buy:90, sell:28,desc:'Z: Drop smoke cloud — enemies lose aggro for 4s'},
   sp_shieldbash:  {name:'Shield Bash',  icon:'🛡️',slot:'special',skillId:'shield_bash', cd:8,  secReq:2,buy:130,sell:40,desc:'Z: Charge + stun first enemy (requires shield)'},
   sp_berserker:   {name:'Berserker',    icon:'⚔️',slot:'special',skillId:'berserker',   cd:25, secReq:3,buy:200,sell:65,desc:'Z: 2× ATK + 1.5× speed, −50% DEF for 5s'},
   sp_secondwind:  {name:'Second Wind',  icon:'💚',slot:'special',skillId:'second_wind',  cd:45, secReq:3,buy:180,sell:55,desc:'Z: Instantly restore 30% max HP'},
-  sp_phantom:     {name:'Phantom Veil', icon:'👻',slot:'special',skillId:'phantom_veil', cd:20, secReq:3,buy:250,sell:80,desc:'Z: Phase through enemies + invulnerable for 3s'},
+  sp_phantom:     {name:'Phantom Veil', icon:'👻',slot:'special',skillId:'phantom_veil', cd:20, secReq:4,buy:250,sell:80,desc:'Z: Phase through enemies + invulnerable for 3s'},
+  sp_timeslow:    {name:'Time Slow',    icon:'⏳',slot:'special',skillId:'time_slow',    cd:24, secReq:4,buy:280,sell:90,desc:'Z: Enemies near you move and attack at 30% speed for 4s'},
+  sp_meteor:      {name:'Meteor Strike',icon:'☄️',slot:'special',skillId:'meteor',       cd:18, secReq:4,buy:300,sell:95,desc:'Z: Call a meteor onto the nearest enemy — big area damage + burn'},
 };
 
 // ─── Spell Definitions ──────────────────────────────────────────────────────

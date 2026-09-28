@@ -448,3 +448,26 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
 /* DOM text for world labels & prompts (04b-dom-text.js) — sharp at any screen DPI */
 .dtx-host{position:absolute;inset:0;pointer-events:none;z-index:40;overflow:hidden}
 .dtx{position:absolute;left:0;top:0;white-space:pre;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-weight:600;line-height:1.15;letter-spacing:.15px;will-change:transform;-webkit-font-smoothing:antialiased}
+/* multi-phase boss HUD (09b-boss-phases.js) */
+#boss-hud{position:absolute;top:64px;left:50%;transform:translateX(-50%);width:min(520px,86vw);z-index:120;pointer-events:none;display:none;font-family:'Segoe UI',system-ui,sans-serif}
+#boss-hud .bh-name{display:flex;justify-content:space-between;align-items:baseline;color:#ffe0a0;font-weight:700;font-size:15px;text-shadow:0 1px 3px #000;margin-bottom:3px}
+#boss-hud .bh-ph{font-size:11px;color:#e8d8c0;font-weight:600;display:inline-flex;gap:4px;align-items:center}
+#boss-hud .bh-ph i{width:9px;height:9px;border-radius:50%;border:1px solid #e8c080;display:inline-block} #boss-hud .bh-ph i.on{background:#ff9040}
+#boss-hud .bh-bar{position:relative;height:16px;margin:2px 0;background:rgba(10,8,14,.78);border:1px solid rgba(255,255,255,.18);border-radius:4px;overflow:hidden}
+#boss-hud .bh-bar.dim{opacity:.45}
+#boss-hud .bh-bar b{position:absolute;left:0;top:0;bottom:0;transition:width .15s}
+#boss-hud .bh-bar span{position:relative;font-size:11px;line-height:16px;font-weight:600;padding-left:6px;color:#fff;text-shadow:0 1px 2px #000}
+/* camp cleared banner (10h-world-camps.js) */
+#camp-banner{position:absolute;top:150px;left:50%;transform:translateX(-50%) scale(.8);z-index:130;pointer-events:none;text-align:center;opacity:0;transition:opacity .35s,transform .35s cubic-bezier(.2,1.6,.4,1)}
+#camp-banner.on{opacity:1;transform:translateX(-50%) scale(1)}
+#camp-banner .cb-t{font:700 24px Georgia,serif;color:#ffe9a8;text-shadow:0 2px 8px #000,0 0 18px rgba(255,200,80,.6)}
+#camp-banner .cb-s{font:600 12px 'Segoe UI',sans-serif;color:#e8f0ff;text-shadow:0 1px 3px #000;margin-top:2px}
+
+/* skills tab — the twelve masters */
+.sk-masters{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:6px}
+.sk-m{display:grid;grid-template-columns:22px 1fr;column-gap:6px;align-items:center;padding:6px 8px;border-radius:7px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);opacity:.6}
+.sk-m span{grid-row:span 2;font-size:18px;filter:grayscale(1)}
+.sk-m b{font-size:11px;color:#cdd}
+.sk-m i{font-size:9px;color:#778;font-style:normal}
+.sk-m.got{opacity:1;border-color:rgba(255,220,120,.35);background:rgba(255,220,120,.06)}
+.sk-m.got span{filter:none}

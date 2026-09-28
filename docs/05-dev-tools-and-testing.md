@@ -61,6 +61,8 @@ at ~3–13 fps and with smoothing on, game time runs 5–20× slower than real t
 
 - `tests/test_sites_expansion.py`, `tests/test_sites_flows.py`, `tests/test_site_lab.py` — Phase 3a sites (122 floors), their flows, and the sandbox Site Lab.
 - Phase 3–4: `test_village.py` (stages, doors, gates, harbour), `test_tome.py`, `test_monsters.py` (every roster monster alone in an arena — moves, attacks, projectiles reach the player; `python tests/test_monsters.py <id>` for one), `test_monster_sites.py` (80/15/5 in dungeons/towers), `test_characters.py` (NPCs, folk, mounts under the hero, familiars, all bosses, Tome), `test_lab_monsters.py`, `test_lab_chars.py`, `audit_lab_world.py`.
+- Round 2: `test_round2.py` (18 checks — boss-site seal, split-once, camps + celebration, mount seat, skills not sold, 4 harbors per quadrant, a full castle run → skill learned, Time Slow + Meteor, the 12 painted interiors, Tome links, Q1 2-phase and Q4 5-phase guardians end to end).
+- Site Lab has an **Island castles** tab (all 12 castle dungeons, warden and skill on each card).
 - Run them one after another (each launches its own headless Chromium); the full set takes ~1.5 h because `test_monsters.py` runs all 240.
 - Real-GPU checks: the headless browser uses software GL, so frame rate and GPU-memory problems (e.g. the black-ground bug on Intel Iris Xe, [116]) only show on a real machine. A debug copy of the game can post stats (texture MB, chunks, context lost, fps) to its parent frame — append `tests/gpu_diag_snippet.html` to a copy of the build.
 

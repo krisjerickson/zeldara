@@ -9,6 +9,8 @@ def check(name, ok, info=''):
     print(('PASS ' if ok else 'FAIL ') + name + ('  ' + str(info) if info else ''))
 
 def enter_site(g, typ, sec):
+    # ★ boss sites are sealed until the quadrant's other sites are cleared (round 2) — open the seal
+    g.js("(()=>{var ws=game.scene.getScene('World'); ws.playerState.bonusCleared=ws.wd.sites.filter(s=>s.bonus).map(s=>s.id);})()")
     g.js(f"_sbGoToSiteEntry('{typ}',{sec})"); g.wait(400)
     g.key('Tab', 80); g.wait(1500)
 

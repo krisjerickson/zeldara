@@ -23,7 +23,7 @@ with game(new=True) as g:
     r=g.ws("{W:WORLD_W,H:WORLD_H,ms:ws.wd.buildMs,px:Math.floor(ws.player.x/TILE),py:Math.floor(ws.player.y/TILE),sites:ws.sites.length,gates:ws.wd.gates.length,open:ws.wd.gates.filter(g=>g.open).length,ways:ws.wd.waystones.length,caches:ws.wd.caches.length,act:ps.activatedWaystones}")
     check('Game world is the 1200x1200 continent, built in < 6 s', r['W']==1200 and r['H']==1200 and r['ms']<6000, r['ms'])
     check('New game starts in the village with only the village waystone active', (r['px'],r['py'])==(690,520) and r['act']==['ws_village'], (r['px'],r['py'],r['act']))
-    check('32 sites, 12 crossings (all shut), 17 waystones, 18 hidden caches', r['sites']==32 and r['gates']==12 and r['open']==0 and r['ways']==17 and r['caches']==18, r)
+    check('44 sites (incl. 16 harbors), 12 crossings (all shut), 17 waystones, 18 hidden caches', r['sites']==44 and r['gates']==12 and r['open']==0 and r['ways']==17 and r['caches']==18, r)
     f=g.js(f"({FLOOD})(null)")
     check('On foot at the start, the borders keep you in the Grasslands', f['regions']==[1], f['regions'])
     # signature terrain coverage per region (share of the region's land tiles)

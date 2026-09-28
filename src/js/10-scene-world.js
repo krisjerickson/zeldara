@@ -147,6 +147,7 @@ class WorldScene extends Phaser.Scene{
     this.events.on('sleep',function(){
       sceneRef._worldSleepTime=Date.now();
       sceneRef._hideWorldFog(); // hide fog canvas while in dungeon
+      var zb=document.getElementById('zone-banner'); if(zb)zb.style.visibility='hidden';
       // Clean up meat pickups on sleep so they don't float when we return
       if(sceneRef._meatPickups){
         sceneRef._meatPickups.forEach(function(mp){
@@ -161,6 +162,7 @@ class WorldScene extends Phaser.Scene{
       document.getElementById('hud').style.display='';
       document.getElementById('dungeon-hud').style.display='none';
       sceneRef._initWorldFog(); // re-init fog canvas on return from dungeon
+      var zb2=document.getElementById('zone-banner'); if(zb2)zb2.style.visibility='';
       sceneRef._worldFogDirty=true;
       var elapsed=Date.now()-(sceneRef._worldSleepTime||0);
       // Reset overworld monster HP to full when player returns
@@ -229,6 +231,7 @@ class WorldScene extends Phaser.Scene{
     this._checkInteraction();
     this._tickTravel(dt);
     this._villageFolkTick(dt);
+    this._campTick(dt);
     this._runicTick(dt);
     this._updateSiteLabels();
     this._revealFog();
@@ -1086,7 +1089,7 @@ class WorldScene extends Phaser.Scene{
     this.worldMonsters.forEach(function(mon){
       // Respawn
       if(mon.dead){
-        if(mon.temp)return;
+        if(mon.temp||mon.campId)return;   // camp guards come back with their camp
         mon.respawnTimer-=dt;
         if(mon.respawnTimer<=0&&self.playerState.unlockedSections.includes(mon.section)){
           mon.dead=false; mon.hp=mon.maxHp;
@@ -1577,6 +1580,8 @@ class WorldScene extends Phaser.Scene{
     var p=this.player,self=this;
     // Cooldown
     if(this._specialCd>0)this._specialCd=Math.max(0,this._specialCd-dt);
+    // Time Slow timer (engine monsters near the hero run at 30% — see 09c)
+    if(this._timeSlow>0){ this._timeSlow=Math.max(0,this._timeSlow-dt); if(this._tsRing){ this._tsRing.setPosition(p.x,p.y); if(this._timeSlow<=0){ this._tsRing.destroy(); this._tsRing=null; } } }
     // Sprint timer
     if(this._sprintTimer>0){
       this._sprintTimer-=dt;
@@ -1756,6 +1761,32 @@ class WorldScene extends Phaser.Scene{
       var hvs=self.add.circle(p.x,p.y,8,0x44ff88,0.55).setDepth(12);
       self.tweens.add({targets:hvs,radius:40,alpha:0,duration:440,onComplete:function(){hvs.destroy();}});
       self._emitUI();
+
+    } else if(id==='time_slow'){
+      this._timeSlow=4.0;
+      if(this._tsRing)this._tsRing.destroy();
+      this._tsRing=self.add.circle(p.x,p.y,220,0x9fe8ff,0.08).setStrokeStyle(2,0x9fe8ff,0.5).setDepth(6);
+      var tsf=self.add.circle(p.x,p.y,10,0x9fe8ff,0.5).setDepth(12);
+      self.tweens.add({targets:tsf,radius:220,alpha:0,duration:500,onComplete:function(){tsf.destroy();}});
+      this._floatText(p.x,p.y-32,'⏳ TIME SLOW!','#9fe8ff');
+
+    } else if(id==='meteor'){
+      // target: the nearest living enemy to the aim point (or the aim point itself)
+      var aimX=p.x+Math.cos(ang)*TILE*4, aimY=p.y+Math.sin(ang)*TILE*4, tgt=null, bd=TILE*9;
+      self.worldMonsters.forEach(function(m){ if(m.dead)return; var d=Math.hypot(m.x-aimX,m.y-aimY); if(d<bd){bd=d;tgt=m;} });
+      var mx0=tgt?tgt.x:aimX, my0=tgt?tgt.y:aimY, mR=64, mDmg=Math.ceil(stats.atk*2.4+12);
+      var mark=self.add.circle(mx0,my0,mR,0xff6020,0.12).setStrokeStyle(2,0xff8040,0.8).setDepth(6);
+      var rock=self.add.circle(mx0-160,my0-260,12,0xffa040,1).setStrokeStyle(3,0xff4010,0.9).setDepth(20);
+      this._floatText(p.x,p.y-32,'☄️ METEOR!','#ff9040');
+      self.tweens.add({targets:rock,x:mx0,y:my0,duration:600,ease:'Quad.easeIn',onComplete:function(){
+        rock.destroy(); mark.destroy(); self.cameras.main.shake(220,0.012);
+        var boom=self.add.circle(mx0,my0,10,0xffc060,0.8).setDepth(12);
+        self.tweens.add({targets:boom,radius:mR+10,alpha:0,duration:450,onComplete:function(){boom.destroy();}});
+        self.worldMonsters.forEach(function(m){ if(m.dead)return; if(Math.hypot(m.x-mx0,m.y-my0)<mR+(m.def&&m.def.r||10)){
+          MX._src='spell'; m.hp=Math.max(0,m.hp-mDmg); MX._src=null; if(m.hpFill)m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
+          if(m._m)m._m.burn=Math.max(m._m.burn||0,3); self._floatText(m.x,m.y-22,'-'+mDmg,'#ff9040');
+          if(m.hp<=0)self._worldMonsterDied(m); } });
+      }});
 
     } else if(id==='phantom_veil'){
       this._phantomTimer=3.0;
@@ -2014,7 +2045,7 @@ class WorldScene extends Phaser.Scene{
         pr.hit=true;hitAny=true;
         var monDef=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
         var dmg=Math.max(1,pr.dmg-monDef+Math.floor(Math.random()*3));
-        mon.hp-=dmg;
+        MX._src='ranged'; mon.hp-=dmg; MX._src=null;
         self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#aaddff');
         mon.body.setFillStyle(0xffffff);
         var bRef=mon.body,dRef=mon.def;
@@ -2299,7 +2330,7 @@ class WorldScene extends Phaser.Scene{
       if(!_heroInArc(dir,mon.x-px,mon.y-py))return;
       var monDefVal=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
       var dmg=Math.max(1,stats.atk-monDefVal+Math.floor(Math.random()*4-2));
-      mon.hp-=dmg; hit=true;
+      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#ffdd44');
       mon.body.setFillStyle(0xffffff);
       var bodyRef=mon.body,monDef=mon.def;
@@ -2357,6 +2388,7 @@ class WorldScene extends Phaser.Scene{
     this._floatText(mon.x,mon.y-40,'+'+gGain+'g','#ffd700');
     this._checkLevelUp(ps);
     mon.respawnTimer=75;
+    if(mon.campId)this._campGuardDied(mon);
     var cont=mon.cont;
     this.tweens.add({targets:cont,alpha:0,scaleX:1.4,scaleY:1.4,duration:500,ease:'Power2',onComplete:function(){cont.setAlpha(0);}});
   }
@@ -2651,6 +2683,11 @@ class WorldScene extends Phaser.Scene{
     // Cancel homecast and hide button when entering any site
     this._cancelHomeCast(false);
     var hb=document.getElementById('home-btn');if(hb)hb.style.display='none';
+    var gate=_bossSiteGate(ps,site,this.wd.sites);
+    if(gate&&!gate.open){
+      this._showNotif('🔒 '+site.name+' is sealed — clear the other towers & dungeons of the '+(SECTION_NAMES[site.section]||'region')+' first ('+gate.done+'/'+gate.need+'): '+gate.left.map(function(s){return s.name;}).join(', '),'#ffb080');
+      if(hb)hb.style.display=''; return;
+    }
     if(site.type==='dungeon'||site.type==='tower'){
       var maxFloors=site.floors||({1:3,2:4,3:5,4:6}[site.section]||3);
       // Choose theme: towers use tower palette; dungeons vary by section
@@ -2699,6 +2736,7 @@ class WorldScene extends Phaser.Scene{
   }
 
   _updateSiteLabels(){
+    var self=this;
     // Position + visibility for every world-space DOM label. Site labels show
     // when the player is within ~5 tiles. Building labels stay visible at
     // longer range. Both project to screen coords via the camera transform.
@@ -2725,6 +2763,7 @@ class WorldScene extends Phaser.Scene{
         obj.lblEl.style.left=p2[0]+'px';
         obj.lblEl.style.top=p2[1]+'px';
         obj.lblEl.classList.remove('hidden');
+        if(obj.s.boss){ var gt=_bossSiteGate(self.playerState,obj.s,self.wd.sites), txt=_siteLabel(obj.s)+(gt&&!gt.open?'  🔒 '+gt.done+'/'+gt.need:''); if(obj.lblEl.textContent!==txt)obj.lblEl.textContent=txt; }
       } else {
         obj.lblEl.classList.add('hidden');
       }

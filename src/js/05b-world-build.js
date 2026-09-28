@@ -198,7 +198,7 @@ function _buildGameWorld(){
   M.sites.forEach(function(S){
     var tx=S.x-1, ty=S.y-1, obj;
     if(S.kind==='harbor'){
-      obj={type:'harbor',section:S.section,tx:tx,ty:ty,id:'s'+S.section+'_harbor',zone:S.zone,angle:S.angle||0};
+      var isl=S.isle&&S.isle!=='a'?S.isle:''; obj={type:'harbor',section:S.section,tx:tx,ty:ty,id:'s'+S.section+'_harbor'+(isl?'_'+isl:''),isle:isl||'a',castle:isl?'q'+S.section+'_'+isl:null,zone:S.zone,angle:S.angle||0};
       clearAround(S.x,S.y,3); harborBuild(tx,ty,S.angle||0); trail(S.x,S.y);
     } else {
       if(S.kind==='tower'||S.kind==='dungeon')obj=Object.assign({},roster[S.design],{tx:tx,ty:ty,zone:S.zone});

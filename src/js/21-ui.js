@@ -87,9 +87,11 @@ function _journalSitesHTML(sec,scene){
   sites.forEach(function(s){
     var done, desc;
     if(s.boss){
-      done=(ps.completedQuests||[]).includes(s.id);
+      done=(ps.completedQuests||[]).includes(s.id); var gt=_bossSiteGate(ps,s,sites);
+      var seal=gt&&!gt.open?' · 🔒 sealed until the other '+gt.need+' are cleared ('+gt.done+'/'+gt.need+')':'';
       if(s.type==='tower')desc='★ Boss tower · '+s.floors+' floors · frees '+(CRAFTSMEN[sec]?CRAFTSMEN[sec].n:'a craftsman');
       else { var rw=BOSS_REWARDS[s.id], mt=rw&&rw.mount&&MOUNTS[rw.mount]; desc='★ Boss dungeon · '+s.floors+' floors · mount: '+(mt?mt.icon+' '+mt.n:'—'); }
+      if(seal)desc+=seal;
     } else {
       done=(ps.bonusCleared||[]).includes(s.id);
       desc='Bonus · '+s.floors+' floors · elite guard + treasure vault · relic: '+(done?(SITE_RELICS[s.design]||'?'):'???');
@@ -467,7 +469,7 @@ function updateInventoryModal(ps){
       h+='<button class="ir-equip" style="background:rgba(200,80,80,.15);border-color:rgba(200,80,80,.4);color:#ff8888" onclick="window._unequipSlot(\x27special\x27)">Remove</button></div>';
     }
     if(!skItems.length&&!curSk){
-      h+='<p style="color:#445;font-size:12px;padding:12px">No skills yet. Use sandbox \'Give All Items\' or find skill books in dungeons.</p>';
+      h+='<p style="color:#445;font-size:12px;padding:12px">No skills yet. Each quadrant has three castle islands (reached from their own harbors) — free the master held in each castle and they will teach you a skill.</p>';
     }else{
       h+='<div class="item-list">';
       skItems.forEach(function(id){
@@ -476,6 +478,12 @@ function updateInventoryModal(ps){
       });
       h+='</div>';
     }
+    // the twelve masters (castle islands): learned or still to find
+    if(typeof CASTLE_ISLANDS!=='undefined'){ var learned=ps.skillsLearned||[];
+      h+='<div style="margin-top:14px;font-size:12px;font-weight:600;color:#ffe9a8">🎓 The twelve masters <span style="font-size:9px;color:#667;font-weight:400">— '+learned.length+'/12 skills learned</span></div><div class="sk-masters">';
+      Object.keys(CASTLE_ISLANDS).forEach(function(k){ var C=CASTLE_ISLANDS[k], it=ITEMS[C.skill], T=CHAR_BY_ID[C.teacher], got=learned.indexOf(C.skill)>=0;
+        h+='<div class="sk-m'+(got?' got':'')+'"><span>'+(it?it.icon:'?')+'</span><b>'+(it?it.name:C.skill)+'</b><i>'+(got?'Learned from '+(T?T.name:'a master'):'Held in '+(TOWER_STYLES_BY_ID[C.castle]||{name:C.name}).name+' · '+WM_REGION_NAMES[C.sec])+'</i></div>'; });
+      h+='</div>'; }
   }
   // ── Familiars footer (always shown at bottom of inventory) ───────────
   var ownedFams=ps.ownedFamiliars||[];

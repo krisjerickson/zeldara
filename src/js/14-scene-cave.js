@@ -429,7 +429,7 @@ class CaveScene extends Phaser.Scene{
       if(Math.hypot(mon.x-self._px,mon.y-self._py)>65)return;
       if(Math.abs(mon.x-self._px)>60)return;
       var dmg=Math.max(1,stats.atk-(mon.def.def||0)+Math.floor(Math.random()*4-2));
-      mon.hp-=dmg;hit=true;
+      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-20,'-'+dmg,'#ffdd44');
       mon.body.setFillStyle(0xffffff);
       self.time.delayedCall(100,function(){if(!mon.dead)mon.body.setFillStyle(mon.def.col||0x884422);});

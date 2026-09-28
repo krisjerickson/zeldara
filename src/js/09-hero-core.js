@@ -65,7 +65,7 @@ function _heroHitMonster(scene, mon, raw, opts){
   opts=opts||{};
   var def=opts.pure?0:((mon.monDef!==undefined?mon.monDef:(mon.def&&mon.def.def))||0);
   var dmg=Math.max(1,Math.round(raw)-def+(opts.pure?0:Math.floor(Math.random()*3)));
-  mon.hp-=dmg;
+  MX._src=opts.src||'spell'; mon.hp-=dmg; MX._src=null;   // spells + familiars: breaks ✨ wards
   var r=(mon.def&&mon.def.r)||10;
   _heroFloat(scene, mon.x, mon.y-r-10, '-'+dmg+(opts.suffix||''), opts.col||'#aaddff');
   if(mon.body&&mon.body.setFillStyle){

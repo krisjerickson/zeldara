@@ -429,16 +429,16 @@ function canPassTile(t,mount){
 
 // ─── Island Tile Generator ────────────────────────────────────────────────
 function generateIsland(sec,seed){
-  var rng=new PRNG((seed||WORLD_SEED)^(sec*0x9e3779b9));
+  var rng=new PRNG((seed||WORLD_SEED)^(sec*0x9e3779b9)); var _iso=seed?(seed%97)*13:0;
   var tiles=[];
   for(var y=0;y<ISL_H;y++)tiles.push(new Uint8Array(ISL_W));
 
   // Per-section terrain generators
   var genBySec={
-    1:function(x,y){var n1=noise(x,y,6,100+sec),n2=noise(x,y,3,200+sec);return n1>.78?T.TREE:n1>.68?T.ROCK:n2>.85?T.FLOWER:n2<.12?T.DIRT:T.GRASS;},
-    2:function(x,y){var n1=noise(x,y,8,100+sec),n2=noise(x,y,4,200+sec);return n1<.28?T.DEEP_WATER:n1<.42?T.SHALLOW_WATER:n1<.50?T.REED:n2>.78?T.MUD:T.GRASS;},
-    3:function(x,y){var n1=noise(x,y,9,100+sec),n2=noise(x,y,4,200+sec);return n1<.20?T.DEEP_MAGMA:n1<.38?T.THIN_MAGMA:n2>.80?T.OBSIDIAN:T.DARK_ROCK;},
-    4:function(x,y){var n1=noise(x,y,8,100+sec),n2=noise(x,y,4,200+sec);return n1>.76?T.LARGE_BOULDER:n1>.60?T.SMALL_BOULDER:n2>.78?T.GRAVEL:T.ROCKY_GROUND;},
+    1:function(x,y){var n1=noise(x,y,6,100+sec+_iso),n2=noise(x,y,3,200+sec+_iso);return n1>.78?T.TREE:n1>.68?T.ROCK:n2>.85?T.FLOWER:n2<.12?T.DIRT:T.GRASS;},
+    2:function(x,y){var n1=noise(x,y,8,100+sec+_iso),n2=noise(x,y,4,200+sec+_iso);return n1<.28?T.DEEP_WATER:n1<.42?T.SHALLOW_WATER:n1<.50?T.REED:n2>.78?T.MUD:T.GRASS;},
+    3:function(x,y){var n1=noise(x,y,9,100+sec+_iso),n2=noise(x,y,4,200+sec+_iso);return n1<.20?T.DEEP_MAGMA:n1<.38?T.THIN_MAGMA:n2>.80?T.OBSIDIAN:T.DARK_ROCK;},
+    4:function(x,y){var n1=noise(x,y,8,100+sec+_iso),n2=noise(x,y,4,200+sec+_iso);return n1>.76?T.LARGE_BOULDER:n1>.60?T.SMALL_BOULDER:n2>.78?T.GRAVEL:T.ROCKY_GROUND;},
   };
   var genFn=genBySec[sec]||genBySec[1];
   var ALWAYS_BLK_ISL=new Set([T.OCEAN,T.DEEP_WATER,T.ROCK,T.LARGE_BOULDER,T.DEEP_MAGMA,T.TREE]);
