@@ -122,6 +122,36 @@ body.walking main{max-width:none;padding:0}
   #lab-panel{border-left:0;border-top:1px solid var(--soft)}
 }
 @media (prefers-reduced-motion:reduce){ .lab-card{transition:none} #lab-toast{transition:none} }
+/* Monsters tab */
+.mn-strat{background:var(--surface);border:1px solid var(--soft);border-radius:10px;padding:10px 14px;margin:0 0 14px}
+.mn-strat summary{cursor:pointer;font-family:var(--display);letter-spacing:.04em;color:var(--text)}
+.mn-strat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px}
+.mn-strat-grid b{font-weight:500} .mn-strat-grid p{margin:4px 0 0;color:var(--muted);font-size:.85rem;line-height:1.4}
+.mn-pct{font-family:var(--mono);color:var(--rune)}
+.mn-segs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 6px}
+.mn-seg,.mn-sh{background:transparent;border:1px solid var(--line);border-radius:8px;padding:5px 12px;color:var(--muted);display:inline-flex;gap:8px;align-items:center}
+.mn-seg[aria-pressed="true"],.mn-sh[aria-pressed="true"]{border-color:var(--rune);color:var(--text);background:var(--rune-dim)}
+.mn-seg .n{font-family:var(--mono);font-size:.72rem;color:var(--faint)} .mn-seg .n.done{color:var(--pick)} .mn-seg .n.over{color:var(--maybe)}
+.mn-show{margin-left:auto;display:inline-flex;gap:6px}
+.mn-hint{color:var(--muted);font-size:.85rem;margin:6px 0 14px;max-width:90ch} .mn-hint b{color:var(--text);font-weight:500}
+.mn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.mn-card{background:var(--surface);border:1px solid var(--soft);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.mn-card[data-verdict="pick"]{border-color:var(--pick)} .mn-card[data-verdict="maybe"]{border-color:var(--maybe)} .mn-card[data-verdict="no"]{opacity:.55}
+.mn-top{display:flex;gap:12px;align-items:flex-start}
+.mn-spr{width:96px;height:96px;flex:none;image-rendering:pixelated;background:radial-gradient(circle at 50% 60%,#2a3458 0,#161c30 70%);border-radius:8px;border:1px solid var(--line)}
+.mn-head{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mn-head b{font-family:var(--display);font-weight:400;font-size:1.08rem;letter-spacing:.03em}
+.mn-stars{color:var(--amber);font-size:.8rem;letter-spacing:1px} .mn-stars i{color:var(--line);font-style:normal}
+.mn-role{font-family:var(--mono);font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.mn-reuse{font-size:.75rem;color:var(--rune)}
+.mn-tags{display:flex;flex-wrap:wrap;gap:4px}
+.mn-tag{font-size:.7rem;border-radius:999px;padding:1px 8px;border:1px solid var(--line);color:var(--muted)}
+.mn-tag.pack{border-color:rgba(240,180,76,.5);color:var(--amber)} .mn-tag.night{border-color:rgba(160,150,255,.5);color:#b8b0ff} .mn-tag.ter{color:var(--faint)}
+.mn-card dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:.84rem;line-height:1.35}
+.mn-card dt{color:var(--faint);font-family:var(--mono);font-size:.7rem;text-transform:uppercase;padding-top:2px} .mn-card dd{margin:0;color:var(--text)}
+.mn-kit{font-family:var(--mono);font-size:.7rem;color:var(--rune);opacity:.85}
+.mn-notes{background:var(--ink);border:1px solid var(--line);border-radius:7px;color:var(--text);padding:6px 8px;font:inherit;font-size:.82rem;resize:vertical;width:100%;box-sizing:border-box}
+@media (max-width:520px){ .mn-grid{grid-template-columns:1fr} .mn-show{margin-left:0} }
 </style>
 </head>
 <body>

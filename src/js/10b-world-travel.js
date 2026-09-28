@@ -106,9 +106,9 @@ Object.assign(WorldScene.prototype,{
   // Called at the top of _checkInteraction; true = handled this frame.
   _checkWaystone(){
     if(this._checkCache())return true;
-    if(this._checkLandmark&&this._checkLandmark())return true;
-    var w=this._nearWaystone();
-    if(!w){ if(this._interactPrompt&&this._interactPrompt._ws){this._interactPrompt.destroy();this._interactPrompt=null;} return false; }
+    var w=this._nearWaystone();   // waystones win over landmark stories
+    if(!w){ if(this._interactPrompt&&this._interactPrompt._ws){this._interactPrompt.destroy();this._interactPrompt=null;} return !!(this._checkLandmark&&this._checkLandmark()); }
+    if(this._interactPrompt&&this._interactPrompt._lm){ this._interactPrompt.destroy(); this._interactPrompt=null; }
     var on=(this.playerState.activatedWaystones||[]).indexOf(w.id)>=0;
     var label=on?'[Tab] Travel — '+w.name:'[Tab] Activate '+w.name;
     if(!this._interactPrompt||this._interactPrompt._ws!==w.id+on){
@@ -173,6 +173,9 @@ Object.assign(WorldScene.prototype,{
 
   // ── per-frame: minimap redraw + zone banner ──
   _tickTravel(dt){
+    // the village grows when a craftsman comes home
+    this._vT=(this._vT||0)+dt; if(this._vT>1){ this._vT=0; var vs=villageStageOf(this.playerState); if(this.wd&&vs!==this.wd.villageStage){ var self=this;
+      villageApply(this.wd,vs).forEach(function(q){ self._refreshChunkAt(q[0]*WCH,q[1]*WCH); }); showNotif('🏘 The village has grown!','#ffe9a8'); } }
     this._travelTick=(this._travelTick||0)+dt;
     if(this._travelTick<0.12)return; this._travelTick=0;
     _drawMinimapHud(this,null);
@@ -181,7 +184,7 @@ Object.assign(WorldScene.prototype,{
     var key=inVillage?'village':z?z.id:null;
     if(key&&key!==this._zoneKey){
       this._zoneKey=key; var ps=this.playerState;
-      if(z&&ps.visitedZones.indexOf(z.id)<0)ps.visitedZones.push(z.id);
+      if(z&&ps.visitedZones.indexOf(z.id)<0){ ps.visitedZones.push(z.id); if(typeof Tome!=='undefined')Tome.see('place','zone_'+z.id); }
       var el=document.getElementById('zone-banner');
       if(el){ el.querySelector('.zb-name').textContent=inVillage?'The Village':_wmZoneName(z.id); el.querySelector('.zb-reg').textContent=inVillage?'Mirror Lake shore':WM_REGION_NAMES[z.r];
         el.classList.add('on'); clearTimeout(this._zbT); this._zbT=setTimeout(function(){el.classList.remove('on');},2600); }

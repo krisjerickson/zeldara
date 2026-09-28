@@ -728,6 +728,7 @@ window._equipMount=function(mid){
 };
 
 function toggleModal(id){
+  if(id==='tome'){ var te=document.getElementById('modal-tome'); if(te&&te.style.display!=='none')closeModal('tome'); else if(typeof Tome!=='undefined')Tome.open(); return; }
   var e=document.getElementById('modal-'+id);if(!e)return;
   var opening=e.style.display==='none';
   e.style.display=opening?'flex':'none';
@@ -736,7 +737,7 @@ function toggleModal(id){
   // Force immediate minimap render when map opens
   if(id==='map'&&opening){ e.style.display='none'; openWorldMap(); }
 }
-function closeModal(id){var e=document.getElementById('modal-'+id);if(e)e.style.display='none';if(id==='map'){ if(typeof WMAP!=='undefined')WMAP.travel=null; document.body.classList.remove('bars-hidden'); }if(id==='inventory')document.body.classList.remove('bars-hidden');}
+function closeModal(id){var e=document.getElementById('modal-'+id);if(e)e.style.display='none';if(id==='tome')document.body.classList.remove('bars-hidden');if(id==='map'){ if(typeof WMAP!=='undefined')WMAP.travel=null; document.body.classList.remove('bars-hidden'); }if(id==='inventory')document.body.classList.remove('bars-hidden');}
 function showNotif(msg,col){
   var a=document.getElementById('notif-area'),d=document.createElement('div');
   d.className='notif';d.style.color=col||'#ffffff';d.textContent=msg;a.appendChild(d);

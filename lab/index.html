@@ -122,6 +122,36 @@ body.walking main{max-width:none;padding:0}
   #lab-panel{border-left:0;border-top:1px solid var(--soft)}
 }
 @media (prefers-reduced-motion:reduce){ .lab-card{transition:none} #lab-toast{transition:none} }
+/* Monsters tab */
+.mn-strat{background:var(--surface);border:1px solid var(--soft);border-radius:10px;padding:10px 14px;margin:0 0 14px}
+.mn-strat summary{cursor:pointer;font-family:var(--display);letter-spacing:.04em;color:var(--text)}
+.mn-strat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px}
+.mn-strat-grid b{font-weight:500} .mn-strat-grid p{margin:4px 0 0;color:var(--muted);font-size:.85rem;line-height:1.4}
+.mn-pct{font-family:var(--mono);color:var(--rune)}
+.mn-segs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 6px}
+.mn-seg,.mn-sh{background:transparent;border:1px solid var(--line);border-radius:8px;padding:5px 12px;color:var(--muted);display:inline-flex;gap:8px;align-items:center}
+.mn-seg[aria-pressed="true"],.mn-sh[aria-pressed="true"]{border-color:var(--rune);color:var(--text);background:var(--rune-dim)}
+.mn-seg .n{font-family:var(--mono);font-size:.72rem;color:var(--faint)} .mn-seg .n.done{color:var(--pick)} .mn-seg .n.over{color:var(--maybe)}
+.mn-show{margin-left:auto;display:inline-flex;gap:6px}
+.mn-hint{color:var(--muted);font-size:.85rem;margin:6px 0 14px;max-width:90ch} .mn-hint b{color:var(--text);font-weight:500}
+.mn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.mn-card{background:var(--surface);border:1px solid var(--soft);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.mn-card[data-verdict="pick"]{border-color:var(--pick)} .mn-card[data-verdict="maybe"]{border-color:var(--maybe)} .mn-card[data-verdict="no"]{opacity:.55}
+.mn-top{display:flex;gap:12px;align-items:flex-start}
+.mn-spr{width:96px;height:96px;flex:none;image-rendering:pixelated;background:radial-gradient(circle at 50% 60%,#2a3458 0,#161c30 70%);border-radius:8px;border:1px solid var(--line)}
+.mn-head{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mn-head b{font-family:var(--display);font-weight:400;font-size:1.08rem;letter-spacing:.03em}
+.mn-stars{color:var(--amber);font-size:.8rem;letter-spacing:1px} .mn-stars i{color:var(--line);font-style:normal}
+.mn-role{font-family:var(--mono);font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.mn-reuse{font-size:.75rem;color:var(--rune)}
+.mn-tags{display:flex;flex-wrap:wrap;gap:4px}
+.mn-tag{font-size:.7rem;border-radius:999px;padding:1px 8px;border:1px solid var(--line);color:var(--muted)}
+.mn-tag.pack{border-color:rgba(240,180,76,.5);color:var(--amber)} .mn-tag.night{border-color:rgba(160,150,255,.5);color:#b8b0ff} .mn-tag.ter{color:var(--faint)}
+.mn-card dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:.84rem;line-height:1.35}
+.mn-card dt{color:var(--faint);font-family:var(--mono);font-size:.7rem;text-transform:uppercase;padding-top:2px} .mn-card dd{margin:0;color:var(--text)}
+.mn-kit{font-family:var(--mono);font-size:.7rem;color:var(--rune);opacity:.85}
+.mn-notes{background:var(--ink);border:1px solid var(--line);border-radius:7px;color:var(--text);padding:6px 8px;font:inherit;font-size:.82rem;resize:vertical;width:100%;box-sizing:border-box}
+@media (max-width:520px){ .mn-grid{grid-template-columns:1fr} .mn-show{margin-left:0} }
 </style>
 </head>
 <body>
@@ -1519,6 +1549,8 @@ function buildWorldMap(seed){
   // ── 4. village on the Grasslands shore of the lake ──
   var village={x:690,y:520,r:30};
   for(var y9=village.y-village.r;y9<=village.y+village.r;y9++)for(var x9=village.x-village.r;x9<=village.x+village.r;x9++){ if(Math.hypot(x9-village.x,y9-village.y)<=village.r){ var k9=y9*W+x9; cls[k9]=WM.VILLAGE; region[k9]=0; } }
+  // harbour bay: Mirror Lake reaches into the village's south-west quarter (07l VR_BAY)
+  if(typeof VR_BAY==='function')for(var yb=village.y-8;yb<=village.y+50;yb++)for(var xb=village.x-60;xb<=village.x+4;xb++){ if(!VR_BAY(xb-village.x,yb-village.y))continue; var kb=yb*W+xb; if(cls[kb]===WM.RIDGE||cls[kb]===WM.RIVER||cls[kb]===WM.CLIFF)continue; cls[kb]=WM.LAKE; region[kb]=0; }
   // ── 5. relief: mountains & inner lakes & rivers, by region ──
   var mtn=vnoise(seed+91);
   for(var y10=0;y10<H;y10++)for(var x10=0;x10<W;x10++){ var i10=y10*W+x10; if(cls[i10]!==WM.LAND)continue; var rg=region[i10], m=mtn(x10/38,y10/38);
@@ -2491,6 +2523,12 @@ function villBuilding(g,W,H,o,R){
   var gr2=g.createLinearGradient(0,wt-rh2,0,wt); gr2.addColorStop(0,shade(roof,0.18)); gr2.addColorStop(1,shade(roof,-0.22));
   g.fillStyle=gr2; g.beginPath(); g.moveTo(x0-ov,wt+4); g.lineTo(x0+10,wt-rh2); g.lineTo(x0+bw-10,wt-rh2); g.lineTo(x0+bw+ov,wt+4); g.closePath(); g.fill();
   g.strokeStyle=rgba(shade(roof,-0.45),0.45); g.lineWidth=1; for(var ry=wt-rh2+7;ry<wt+2;ry+=7){ var tt=(ry-(wt-rh2))/(rh2+4); g.beginPath(); g.moveTo(x0+10-(18*tt),ry); g.lineTo(x0+bw-10+(18*tt),ry); g.stroke(); }
+  var rp=o.roofPat;
+  if(rp==='tile'||rp==='shingle'){ for(var ry2=wt-rh2+6,row=0;ry2<wt+2;ry2+=rp==='tile'?6:7,row++){ var tt2=(ry2-(wt-rh2))/(rh2+4), xa=x0+10-18*tt2, xb=x0+bw-10+18*tt2;
+      g.fillStyle=rgba(shade(roof,rp==='tile'?-0.4:-0.35),0.55); for(var sx2=xa+(row%2)*5;sx2<xb-4;sx2+=10){ g.beginPath(); g.arc(sx2+5,ry2,5,0,Math.PI); g.fill(); }
+      g.fillStyle=rgba(shade(roof,0.25),0.35); for(var sx3=xa+(row%2)*5;sx3<xb-4;sx3+=10)g.fillRect(sx3+3,ry2+1,4,1); } }
+  else if(rp==='thatch'){ g.strokeStyle=rgba(shade(roof,-0.35),0.5); g.lineWidth=1; for(var tx2=x0-6;tx2<x0+bw+6;tx2+=3){ g.beginPath(); g.moveTo(tx2+(W/2-tx2)*0.12,wt-rh2+4); g.lineTo(tx2,wt+4); g.stroke(); }
+    g.fillStyle=shade(roof,-0.3); for(var fx=x0-ov;fx<x0+bw+ov;fx+=4)g.fillRect(fx,wt+2,3,3+((fx/4)%2)*2); }
   if(o.wall==='slate'||style==='stone'){ g.strokeStyle=rgba(shade(roof,-0.5),0.35); for(var rx=x0;rx<x0+bw;rx+=10){ g.beginPath(); g.moveTo(rx,wt-rh2+2); g.lineTo(rx+(rx-W/2)*0.08,wt+2); g.stroke(); } }
   g.fillStyle=shade(roof,-0.35); g.fillRect(x0+8,wt-rh2-3,bw-16,5); g.fillStyle='rgba(0,0,0,.25)'; g.fillRect(x0-ov,wt+2,bw+ov*2,3);
   if(o.chimney){ var chx=x0+bw*0.72; g.fillStyle=style==='wood'?'#6a5a4a':'#8a7e70'; g.fillRect(chx,wt-rh2-18,12,26); g.fillStyle='rgba(0,0,0,.3)'; g.fillRect(chx,wt-rh2-18,12,3); }
@@ -2504,7 +2542,11 @@ function _villDoor(g,x,base,o){ g.fillStyle='#2a1a10'; g.beginPath(); g.moveTo(x
 function _villWindow(g,x,y,o){ g.fillStyle='#3a2a1a'; g.fillRect(x-8,y-1,16,15); g.fillStyle=o.lit===false?'#4a5a6a':'#ffd98a'; g.fillRect(x-6,y+1,12,11); g.fillStyle='#3a2a1a'; g.fillRect(x-0.75,y+1,1.5,11); g.fillRect(x-6,y+6,12,1.5); if(o.flowers){ g.fillStyle='#5a3a22'; g.fillRect(x-9,y+13,18,4); g.fillStyle='#ff8ab0'; for(var i=0;i<4;i++){ g.beginPath(); g.arc(x-6+i*4,y+12,2,0,Math.PI*2); g.fill(); } } }
 
 WPROP.vbuild=function(c,ctx,x,y,w,h,o){ var R=c.R; addSprite(c.m,x+w/2,y+h,w+40,h+170,function(g,W,H){ villBuilding(g,W,H,Object.assign({w:w/LT,h:h/LT},o),R); });
-  if(o.lit!==false){ addLight(c.m,x+w/2-18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); addLight(c.m,x+w/2+18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); } };
+  if(o.lit!==false){ if((o.nl||2)>=2){ addLight(c.m,x+w/2-18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); addLight(c.m,x+w/2+18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); } else addLight(c.m,x+w/2,y+h-34,54,'#ffc870',0.3,{flicker:0.2}); }
+  if(o.smoke&&o.chimney){ var wallH=o.wallH||46, sx, sy;   // chimney smoke (the grove village's smokestacks)
+    if(o.style==='round'){ var rh=o.roofH||(52+(w/LT)*6); sx=x+w/2+(w/2-2)*0.3+4; sy=y+h-6-wallH-rh*0.6; }
+    else { var rh2=Math.round(h*0.55)+(o.roofH||26); sx=x+w*0.72+6; sy=y+h-6-wallH-rh2-18; }
+    wParticlesAt(c,sx-4,sy-4,8,4,{tints:['#d8d4cc','#b8b4ac','#e8e4dc'],freq:260,vy:{min:-26,max:-12},vx:{min:4,max:12},scale:{start:0.6,end:2.4},alpha:{start:0.45,end:0},life:{min:2600,max:4200},blend:false,depth:6500}); } };
 WPROP.fountain=function(c,ctx,x,y,w,h,o){ var cx=x+w/2, cy=y+h/2, rc=o.rune||'#6fe3f5';
   ctx.fillStyle='#8a8478'; ctx.beginPath(); ctx.ellipse(cx,cy,w/2,h/2.4,0,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#b8b2a4'; ctx.beginPath(); ctx.ellipse(cx,cy-3,w/2-3,h/2.4-3,0,0,Math.PI*2); ctx.fill();
   var gw=ctx.createRadialGradient(cx,cy,2,cx,cy,w/2); gw.addColorStop(0,'#6ad0e8'); gw.addColorStop(1,'#2a7aa0'); ctx.fillStyle=gw; ctx.beginPath(); ctx.ellipse(cx,cy-2,w/2-8,h/2.4-8,0,0,Math.PI*2); ctx.fill();
@@ -2584,6 +2626,1671 @@ function villageDesign(S,stage){
     },
     particles:[WPART.motes('#fff4c8',200)].concat(st>=5?[WPART.petals(['#ffd6e8','#fff3a8','#c8e0ff'])]:[]) };
 }
+// ═══════════════════════════════════════════════════════════════════════
+// ║ THE HOME VILLAGE (Phase 3, Kris's pick): Runestone Hamlet, plus
+// ║ borrowed pieces — market carts, windmills, walls with turrets, glowing
+// ║ lanterns by the doors, chimney smoke, many roof types, fountains, harbour
+// ║ stone streets and neat vegetable gardens.
+// ║ It GROWS in 5 stages (1 + craftsmen freed): outward and denser.
+// ║   buildings: 13 → 20 → 28 → 36 → 44 (stage 1 ≈ 30% of the final count;
+// ║   the final town is ~2× as dense as the old stage-5 design)
+// ║ villagePlan(stage, ok) returns a layout in tiles relative to the village
+// ║ centre; the game (villageApply, 05d) and the Lab (village tab) render it.
+// ═══════════════════════════════════════════════════════════════════════
+var VILLAGE_CORE=[   // the enterable buildings (fixed; doors at the bottom centre)
+  {dx:-12,dy:-12,w:5,h:4,type:'tavern'}, {dx:7,dy:-12,w:5,h:4,type:'shop'}, {dx:-12,dy:6,w:4,h:4,type:'house'},
+  {dx:8,dy:6,w:4,h:4,type:'forge'}, {dx:-4,dy:-14,w:4,h:3,type:'guild'}, {dx:14,dy:-4,w:6,h:5,type:'stables'},
+  {dx:-20,dy:-8,w:5,h:4,type:'armory'}, {dx:-20,dy:4,w:5,h:4,type:'clothing'}, {dx:0,dy:14,w:5,h:4,type:'jeweler'},
+  {dx:10,dy:14,w:6,h:4,type:'apothecary'}, {dx:9,dy:-19,w:5,h:4,type:'merchant'}];
+var VR={ R:[20,24,28,31,33], disk:[24,28,32,37,37], total:[13,20,28,36,44], houses:[2,9,17,25,33], carts:[1,3,5,7,9], gardens:[2,3,4,6,8],
+  mills:[0,1,2,2,3], trees:[10,14,18,22,26], wallR:35 };
+// looks for the enterable buildings (borrowed from all four styles)
+var VR_CORE_LOOK={ tavern:{style:'timber',roof:'#a8452e',roofPat:'tile',sign:'#c84a3a'}, shop:{style:'timber',roof:'#3d5f9a',roofPat:'tile',awning:'#3a7ac8',sign:'#3a7ac8'},
+  house:{style:'round',roof:'#b8964a'}, forge:{style:'stone',roof:'#4a5060',roofPat:'slate',sign:'#6a6a70',smoke:true},
+  guild:{style:'stone',roof:'#5a5a6a',roofPat:'slate',sign:'#e0c060'}, stables:{style:'wood',roof:'#8a6440',roofPat:'shingle',sign:'#8a6440',wallH:40},
+  armory:{style:'stone',roof:'#3e4656',roofPat:'slate',sign:'#8a8a90'}, clothing:{style:'timber',roof:'#6a3a5a',roofPat:'tile',awning:'#b070d0',sign:'#b070d0'},
+  jeweler:{style:'round',roof:'#c4a25a',sign:'#40c0d0'}, apothecary:{style:'wood',roof:'#3f6a3a',roofPat:'shingle',sign:'#60a060'},
+  merchant:{style:'timber',roof:'#8a5a2a',roofPat:'tile',awning:'#e0a030',sign:'#f0c040'} };
+var VR_HOUSE_LOOKS=[ // weights: runestone round cottages first, then the other villages' houses
+  {w:4,style:'round',roofs:['#b8964a','#a88a44','#c4a25a']},
+  {w:2,style:'wood',roofPat:'shingle',roofs:['#3f6a3a','#4f7a44','#5a4a7a']},
+  {w:2,style:'timber',roofPat:'tile',roofs:['#a8452e','#3d5f9a','#8a5a2a','#6a3a5a']},
+  {w:2,style:'stone',roofPat:'slate',roofs:['#4a5060','#5a5a6a','#3e4656']},
+  {w:1,style:'timber',roofPat:'thatch',roofs:['#b8964a','#a88a44']}];
+
+function villagePlan(stage,ok,water){
+  var st=Math.max(1,Math.min(5,stage||1)), s=st-1, N=41, SZ=N*2+1, occ=new Uint8Array(SZ*SZ), R=rngOf(90210);
+  ok=ok||function(){ return true; }; var WA=water||function(dx,dy){ return VR_BAY(dx,dy); };
+  var land=function(x,y){ return ok(x,y)&&!WA(x,y); };
+  var id=function(x,y){ return (y+N)*SZ+x+N; }, inb=function(x,y){ return x>=-N&&y>=-N&&x<=N&&y<=N; };
+  var mark=function(x,y,w,h,m,v){ for(var j=-m;j<h+m;j++)for(var i=-m;i<w+m;i++){ if(inb(x+i,y+j))occ[id(x+i,y+j)]=Math.max(occ[id(x+i,y+j)],v||1); } };
+  var free=function(x,y,w,h){ for(var j=0;j<h;j++)for(var i=0;i<w;i++){ if(!inb(x+i,y+j)||occ[id(x+i,y+j)]||!land(x+i,y+j))return false; } return true; };
+  var plan={stage:st,R:VR.R[s],disk:VR.disk[s],cells:[],props:[],solid:[],landmarks:[],ley:[],houses:0};
+  var cellKind={};   // "x,y" -> kind id (streets / green / plazas / soil)
+  var setK=function(x,y,k){ cellKind[x+','+y]=k; };
+  // ── the fixed skeleton (the same at every stage, so houses never move) ──
+  VILLAGE_CORE.forEach(function(b){ mark(b.dx,b.dy,b.w,b.h,1,2); mark(b.dx-1,b.dy+b.h,b.w+2,2,0,2); });   // keep the doorstep clear
+  for(var gy=-10;gy<=10;gy++)for(var gx=-10;gx<=10;gx++)if(Math.hypot(gx+0.5,gy+0.5)<=9.6)occ[id(gx,gy)]=2;       // the runestone green
+  // ── the harbour (all stages planned now so houses leave room for it) ──
+  var H=null; (function(){
+    var wc=[], sx=0, sy=0; for(var y=-46;y<=46;y++)for(var x=-46;x<=46;x++){ if(Math.hypot(x,y)>46||!WA(x,y))continue; wc.push([x,y]); if(Math.hypot(x,y)<=38){ sx+=x; sy+=y; } }
+    if(!wc.length)return; var L0=Math.hypot(sx,sy)||1, ux=sx/L0, uy=sy/L0;   // direction from the green to the water
+    var shore=[]; for(var y2=-36;y2<=36;y2++)for(var x2=-36;x2<=36;x2++){ var d=Math.hypot(x2,y2); if(d>34||d<12||!land(x2,y2))continue; var wn=[[1,0],[-1,0],[0,1],[0,-1]].filter(function(q){ return WA(x2+q[0],y2+q[1]); }).length; if(wn)shore.push({x:x2,y:y2,d:d,a:(x2*ux+y2*uy)/d}); }
+    if(!shore.length)return; shore.sort(function(a,b){ return (b.a*10-Math.abs(b.d-22)*0.25)-(a.a*10-Math.abs(a.d-22)*0.25); });
+    var A=shore[0], isW=function(x,y){ return WA(x,y); }, used={}, key=function(x,y){ return x+','+y; };
+    var dirTo=function(x,y){ var bx=0, by=0; for(var j=-7;j<=7;j++)for(var i=-7;i<=7;i++){ if(isW(x+i,y+j)){ bx+=i; by+=j; } } var l=Math.hypot(bx,by)||1; return [bx/l,by/l]; };
+    var pierFrom=function(sx0,sy0,len){ var dv=dirTo(sx0,sy0), cells=[], ends=null; for(var k=1;k<=len;k++){ var cx=Math.round(sx0+dv[0]*k), cy=Math.round(sy0+dv[1]*k), cx2=Math.round(sx0+dv[0]*k-dv[1]), cy2=Math.round(sy0+dv[1]*k+dv[0]);
+        if(!isW(cx,cy))break; cells.push([cx,cy]); if(isW(cx2,cy2))cells.push([cx2,cy2]); ends=[cx,cy]; } return {cells:cells,end:ends,dir:dv}; };
+    H={anchor:A,dir:[ux,uy]};
+    H.pier1=pierFrom(A.x,A.y,8);
+    // boardwalk: water cells along the shore within 12 tiles of the anchor
+    H.walk=[]; shore.forEach(function(q){ if(Math.hypot(q.x-A.x,q.y-A.y)>12)return; [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(o){ var x=q.x+o[0], y=q.y+o[1]; if(isW(x,y)&&!used[key(x,y)]){ used[key(x,y)]=1; H.walk.push([x,y]); } }); });
+    H.pier1.cells.forEach(function(c){ used[key(c[0],c[1])]=1; });
+    var rectW=function(x,y,w,h,m){ for(var j=-m;j<h+m;j++)for(var i=-m;i<w+m;i++){ if(!isW(x+i,y+j)||used[key(x+i,y+j)])return false; } return true; };
+    var findRect=function(w,h,m,minD,maxD,near){ var best=null, bd=1e9; for(var y=A.y-maxD;y<=A.y+maxD;y++)for(var x=A.x-maxD;x<=A.x+maxD;x++){ var d=Math.hypot(x+w/2-A.x,y+h/2-A.y); if(d<minD||d>maxD||!rectW(x,y,w,h,m))continue; var sc=near?near(x,y):d; if(sc<bd){ bd=sc; best=[x,y]; } } if(best)for(var j=0;j<h;j++)for(var i=0;i<w;i++)used[key(best[0]+i,best[1]+j)]=1; return best; };
+    var walkSet={}; H.walk.forEach(function(c){ walkSet[key(c[0],c[1])]=1; });
+    var nearWalk=function(x,y){ var bd=99; H.walk.forEach(function(c){ var d=Math.hypot(c[0]-(x+2),c[1]-(y+1)); if(d<bd)bd=d; }); return bd; };
+    H.boathouse=findRect(4,3,0,3,12,nearWalk);
+    H.stilt=findRect(4,3,1,5,16,function(x,y){ return Math.abs(nearWalk(x,y)-5); });
+    if(H.stilt){ var dx0=H.stilt[0]+2, dy0=H.stilt[1]+3, bw=null, bd2=99; H.walk.forEach(function(c){ var d=Math.hypot(c[0]-dx0,c[1]-dy0); if(d<bd2){ bd2=d; bw=c; } });
+      H.stiltWalk=[]; if(bw){ var n=Math.ceil(bd2*2); for(var k=0;k<=n;k++){ var x=Math.round(bw[0]+(dx0-bw[0])*k/n), y=Math.round(bw[1]+(dy0-bw[1])*k/n); if(isW(x,y)&&!(x>=H.stilt[0]&&x<H.stilt[0]+4&&y>=H.stilt[1]&&y<H.stilt[1]+3)){ H.stiltWalk.push([x,y]); used[key(x,y)]=1; } } } }
+    var far=shore.filter(function(q){ var d=Math.hypot(q.x-A.x,q.y-A.y); return d>=7&&d<=11; }).sort(function(a,b){ return b.a-a.a; })[0];
+    H.pier2=far?pierFrom(far.x,far.y,7):null; if(H.pier2)H.pier2.cells.forEach(function(c){ used[key(c[0],c[1])]=1; });
+    H.quay=shore.filter(function(q){ return Math.hypot(q.x-A.x,q.y-A.y)<=10; }).map(function(q){ return [q.x,q.y]; });
+    // reserve the land by the water: fishing hut + quay
+    H.quay.forEach(function(c){ mark(c[0],c[1],1,1,0,2); });
+    H.hut=null; for(var r=2;r<8&&!H.hut;r++)for(var j=-r;j<=r&&!H.hut;j++)for(var i=-r;i<=r;i++){ var x=A.x-Math.round(ux*3)+i, y=A.y-Math.round(uy*3)+j; if(free(x,y,3,3)){ H.hut=[x,y]; mark(x,y,3,3,1,2); break; } }
+  })();
+  var streets=[   // [x0,y0,x1,y1,width,kind,fromStage]
+    [1,-9,1,-40,2,'vstreet',1],[-1.5,9,-1.5,40,2.5,'vstreet',1],[9,2,40,2,2,'vstreet',1],[-9,2,-40,2,2,'vstreet',1]];
+  [45,135,225,315].forEach(function(a){ var r=a*Math.PI/180; streets.push([Math.cos(r)*9.5,Math.sin(r)*9.5,Math.cos(r)*26,Math.sin(r)*26,2,'vlane',3]); });
+  if(H)streets.push([Math.sign(H.dir[0])*6,Math.sign(H.dir[1])*6,H.anchor.x-H.dir[0],H.anchor.y-H.dir[1],2,'vlane',1]);
+  var street=new Map();   // cell -> {kind, stage}
+  var rast=function(x0,y0,x1,y1,w,k,from){ var L=Math.hypot(x1-x0,y1-y0), n=Math.ceil(L*2)+1;
+    for(var i=0;i<=n;i++){ var px=x0+(x1-x0)*i/n, py=y0+(y1-y0)*i/n; for(var yy=Math.floor(py-w);yy<=Math.ceil(py+w);yy++)for(var xx=Math.floor(px-w);xx<=Math.ceil(px+w);xx++){
+      if(!inb(xx,yy))continue; var tx=xx+0.5-x0, ty=yy+0.5-y0, t=Math.max(0,Math.min(1,(tx*(x1-x0)+ty*(y1-y0))/(L*L||1))), dx=xx+0.5-(x0+(x1-x0)*t), dy=yy+0.5-(y0+(y1-y0)*t);
+      if(Math.hypot(dx,dy)>w/2)continue; if(occ[id(xx,yy)]===2||WA(xx,yy))continue; if(Math.hypot(xx+0.5,yy+0.5)>36.5)continue; var key=xx+','+yy, cur=street.get(key); if(!cur||cur.from>from)street.set(key,{k:k,from:from,x:xx,y:yy}); } } };
+  streets.forEach(function(q){ rast(q[0],q[1],q[2],q[3],q[4],q[5],q[6]); });
+  var ring=function(r,w,k,from){ for(var a=0;a<360;a+=0.6){ var t=a*Math.PI/180; rast(Math.cos(t)*r,Math.sin(t)*r,Math.cos(t+0.011)*r,Math.sin(t+0.011)*r,w,k,from); } };
+  ring(15,2,'vlane',2); ring(26,2,'vlane',4);
+  street.forEach(function(v){ occ[id(v.x,v.y)]=Math.max(occ[id(v.x,v.y)],1); });
+  // plazas with fountains (the harbour town's water fountain)
+  var plazas=[{x:8,y:-7,w:6,h:4,from:2,fx:10,fy:-6},{x:-15,y:-4,w:6,h:4,from:4,fx:-14,fy:-4}];
+  plazas.forEach(function(p){ mark(p.x,p.y,p.w,p.h,1,2); });
+  // town wall: an octagon with turrets at the corners and 4 gates
+  var W8=[]; for(var v=0;v<8;v++){ var a8=(22.5+v*45)*Math.PI/180; W8.push([Math.round(Math.cos(a8)*VR.wallR),Math.round(Math.sin(a8)*VR.wallR)]); }
+  var wallCells=[]; for(var e=0;e<8;e++){ var A=W8[e], B=W8[(e+1)%8], n2=Math.max(Math.abs(B[0]-A[0]),Math.abs(B[1]-A[1]));
+    for(var i2=0;i2<=n2;i2++){ var cx=Math.round(A[0]+(B[0]-A[0])*i2/n2), cy=Math.round(A[1]+(B[1]-A[1])*i2/n2); var gate=(Math.abs(cx)<=3&&Math.abs(cy)>20)||(Math.abs(cy-1.5)<=3&&Math.abs(cx)>20)||WA(cx,cy)||WA(cx,cy+1); wallCells.push({x:cx,y:cy,e:e,gate:gate}); occ[id(cx,cy)]=2; if(inb(cx,cy+1))occ[id(cx,cy+1)]=Math.max(occ[id(cx,cy+1)],1); } }
+  W8.forEach(function(q){ mark(q[0]-1,q[1]-1,3,3,1,2); });
+  // fixed spots: windmills and the craftsmen's buildings
+  var spots={ mill:[[24,-19],[-29,-7],[19,24]], bram:[19,17], mira:[18,-24], dunn:[-27,-11], vela:[-17,-25] };
+  var claim=function(p,w,h){ for(var r=0;r<6;r++)for(var dy=-r;dy<=r;dy++)for(var dx=-r;dx<=r;dx++){ if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue; var x=p[0]+dx, y=p[1]+dy; if(free(x,y,w,h)&&Math.hypot(x+w/2,y+h/2)<33.5){ mark(x,y,w,h,1,2); return [x,y]; } } return null; };
+  var special={ mill:spots.mill.map(function(p){ return claim(p,2,2); }), bram:claim(spots.bram,5,3), mira:claim(spots.mira,4,3), dunn:claim(spots.dunn,5,3), vela:claim(spots.vela,4,2) };
+  // ── house lots: near a street, inner lots first (the same order at every stage) ──
+  var near=function(x,y){ for(var dy=0;dy<=3;dy++)for(var dx=-2;dx<=2;dx++){ if(street.has((x+dx)+','+(y+dy)))return true; } return false; };
+  // market carts along the east & west streets (claimed first so houses leave room)
+  var carts=[], cartSpots=[]; for(var cx2=11;cx2<=31;cx2+=3){ cartSpots.push([cx2,0],[cx2,3],[-cx2-1,0],[-cx2-1,3]); }
+  cartSpots.sort(function(a,b){ return Math.abs(a[0])-Math.abs(b[0]); });
+  cartSpots.forEach(function(q){ if(carts.length<VR.carts[4]&&free(q[0],q[1],2,1)){ mark(q[0],q[1],2,1,0,2); carts.push({x:q[0],y:q[1]}); } });
+  var cand=[]; for(var y=-34;y<=33;y++)for(var x=-34;x<=33;x++){ var d=Math.hypot(x+2,y+1.5); if(d<10||d>32.5)continue; cand.push({x:x,y:y,d:d+R.f()*3}); }
+  cand.sort(function(a,b){ return a.d-b.d; });
+  var lots=[], gardens=[];
+  cand.forEach(function(c){ if(lots.length>=VR.houses[4]+4)return; var w=R.pick([3,4,4,5]); if(!free(c.x,c.y,w,3)||!near(c.x+Math.floor(w/2),c.y+3))return; if(Math.hypot(c.x+w,c.y+3)>33.5||Math.hypot(c.x,c.y)>33.5)return; mark(c.x,c.y,w,3,1,2); mark(c.x-1,c.y+3,w+2,2,0,2); lots.push({x:c.x,y:c.y,w:w,h:3,d:Math.hypot(c.x+w/2,c.y+1.5)}); });
+  cand.forEach(function(c){ if(gardens.length>=VR.gardens[4]||c.d<17)return; var w=R.pick([4,5]); if(!free(c.x,c.y,w,3))return; if(Math.hypot(c.x+w,c.y+3)>33.5)return; mark(c.x,c.y,w,3,1,2); gardens.push({x:c.x,y:c.y,w:w,h:3,d:Math.hypot(c.x+w/2,c.y+1.5)}); });
+  // market carts along the east street and the market plaza
+  // ── render this stage ──
+  var P=function(prop,x,y,w,h,o,solid){ plan.props.push({prop:prop,x:x,y:y,w:w,h:h,o:o||{}}); if(solid)for(var j=0;j<h;j++)for(var i=0;i<w;i++)plan.solid.push([x+i,y+j]); };
+  var Rs=VR.R[s], inR=function(x,y,w,h){ return Math.hypot(x+w/2,y+h/2)<=Rs+0.5; };
+  // ground kinds
+  street.forEach(function(v){ if(v.from<=st&&Math.hypot(v.x+0.5,v.y+0.5)<=VR.disk[s]-0.5)setK(v.x,v.y,v.k); });
+  for(var gy2=-10;gy2<=10;gy2++)for(var gx2=-10;gx2<=10;gx2++){ var dg=Math.hypot(gx2+0.5,gy2+0.5); if(dg<=9.6)setK(gx2,gy2,dg>8.6&&st>=2?'vpave':'vgreen'); }
+  VILLAGE_CORE.forEach(function(b){ for(var j=0;j<b.h;j++)for(var i=0;i<b.w;i++)setK(b.dx+i,b.dy+j,'vgrass'); for(var i2=0;i2<b.w;i2++)setK(b.dx+i2,b.dy+b.h,'vpave'); });
+  plazas.forEach(function(p){ if(p.from>st)return; for(var j=0;j<p.h;j++)for(var i=0;i<p.w;i++)setK(p.x+i,p.y+j,'vplaza'); P('fountain',p.fx,p.fy,3,3,{rune:'#6fe3f5'},true); });
+  // the runestone green: rune circle, standing stones, well; ley lines grow with the village
+  P('runecircle',-3,-3,7,7,{col:'#6fe3f5',n:12,solid:false});
+  var stones=[]; for(var k=0;k<8;k++){ var a=(k/8+1/16)*Math.PI*2, sx=Math.round(Math.cos(a)*7.4), sy=Math.round(Math.sin(a)*7.4); if(Math.abs(sx-4)<=1&&Math.abs(sy-3)<=1)continue; stones.push([sx,sy]); P('stone',sx,sy,1,1,{rune:'#6fe3f5',tall:44+(k%3)*8},true); }
+  P('well',-6,3,1,1,{},true);
+  if(st>=2)plan.ley.push({pts:stones.concat([stones[0]]),col:'#6fe3f5'});
+  if(st>=4)[[0,-9],[0,9],[9,0],[-9,0]].forEach(function(q){ plan.ley.push({pts:[[q[0]*0.8,q[1]*0.8],[q[0]*3.6,q[1]*3.6]],col:'#6fe3f5'}); });
+  // core buildings (enterable) — drawn with the Lab's house painter
+  VILLAGE_CORE.forEach(function(b){ var L=VR_CORE_LOOK[b.type]||{}; P('vbuild',b.dx,b.dy,b.w,b.h,Object.assign({doorX:Math.floor(b.w/2),chimney:true,flowers:st>=3,core:b.type},L),false);
+    P('lantern',b.dx+Math.floor(b.w/2)+(b.w>=5?2:1),b.dy+b.h,1,1,{col:'#ffd27a'},false); });
+  // houses: the first N lots within this stage's radius
+  var HW=[]; VR_HOUSE_LOOKS.forEach(function(L,i){ for(var q=0;q<L.w;q++)HW.push(i); });
+  // buildings = enterable + houses + fishing hut + craftsmen's halls + boathouse + lake house → VR.total[s]
+  var extra=(H&&H.hut?1:0)+(st>=2&&special.bram?1:0)+(st>=2&&H&&H.boathouse?1:0)+(st>=3&&special.mira?1:0)+(st>=3&&H&&H.stilt?1:0)+(st>=4&&special.dunn?1:0), wantH=Math.max(0,VR.total[s]-VILLAGE_CORE.length-extra);
+  var nh=0; lots.forEach(function(l,i){ if(nh>=wantH||!inR(l.x,l.y,l.w,l.h))return; nh++;
+    var HR=rngOf(7001+i*31), L=VR_HOUSE_LOOKS[HR.pick(HW)], ch=HR.chance(0.75);
+    P('vbuild',l.x,l.y,l.w,l.h,{style:L.style,roof:HR.pick(L.roofs),roofPat:L.roofPat,chimney:ch,smoke:ch&&HR.chance(0.72),flowers:HR.chance(st>=3?0.7:0.35),doorX:Math.floor(l.w/2),nl:1,wallH:L.style==='round'?40:44},true);
+    var lx=l.x+Math.floor(l.w/2)+1; if(lx<l.x+l.w)P('lantern',lx,l.y+l.h,1,1,{col:HR.pick(['#ffd27a','#ffc070','#9fe8ff'])},false);
+    if(HR.chance(0.5))P('flowers',l.x-1,l.y+l.h,1,1,{n:6,solid:false},false); });
+  plan.houses=VILLAGE_CORE.length+nh+extra;
+  // vegetable gardens (neat rows, the harbour town's gardens tidied up)
+  var ng=0; gardens.forEach(function(gd){ if(ng>=VR.gardens[s]||Math.hypot(gd.x+gd.w/2,gd.y+1.5)>Rs+2)return; ng++; for(var j=0;j<3;j++)for(var i=0;i<gd.w;i++)setK(gd.x+i,gd.y+j,'vsoil'); P('vegplot',gd.x,gd.y,gd.w,3,{seed:ng},false); });
+  // market carts (from the market town)
+  carts.filter(function(c){ return Math.abs(c.x)+2<=Rs; }).slice(0,VR.carts[s]).forEach(function(c,i){ P('cart',c.x,c.y,2,1,{col:['#c84a3a','#3a7ac8','#e0a030','#4a9a5a','#b070d0'][i%5]},true); });
+  // windmills (from the market & grove towns)
+  special.mill.slice(0,VR.mills[s]).forEach(function(q){ if(q)P('windmill',q[0],q[1],2,2,{rune:'#ffd27a'},true); });
+  // the craftsmen's buildings
+  if(st>=2&&special.bram){ var b2=special.bram; P('vbuild',b2[0],b2[1],5,3,{style:'wood',roof:'#8a6440',roofPat:'shingle',sign:'#c89040',doorX:2,nl:1},true); P('pebbles',b2[0]+5,b2[1]+1,2,2,{},false);
+    plan.landmarks.push({x:b2[0],y:b2[1],w:5,h:4,text:'Bram\'s Builder\'s Yard — he laid the harbour-stone streets and the ring roads.'}); }
+  if(st>=3&&special.mira){ var b3=special.mira; P('vbuild',b3[0],b3[1],4,3,{style:'stone',roof:'#6a6a70',roofPat:'slate',sign:'#c0c0c8',doorX:2,smoke:true,chimney:true,nl:1},true);
+    [[3,-11],[-2,-11],[3,11],[-4,11],[11,4],[-11,4],[11,-1],[-11,-1]].forEach(function(q){ P('lamppost',q[0],q[1],1,1,{},false); });
+    plan.landmarks.push({x:b3[0],y:b3[1],w:4,h:4,text:'Mira\'s Workshop — gears, lamps and the windmills that power them.'}); }
+  if(st>=4&&special.dunn){ var b4=special.dunn; P('vbuild',b4[0],b4[1],5,3,{style:'stone',roof:'#3a3a40',roofPat:'slate',sign:'#ff8a40',chimney:true,smoke:true,doorX:2,nl:1},true); P('anvil',b4[0]+5,b4[1]+2,1,1,{},false); P('statue',-4,5,1,1,{},true);
+    plan.landmarks.push({x:b4[0],y:b4[1],w:5,h:4,text:'Dunn\'s Forge Hall — the finest steel on the island, and the statue he cast for the green.'}); }
+  if(st>=5&&special.vela){ var b5=special.vela; P('balloondock',b5[0],b5[1],4,2,{},true); plan.landmarks.push({x:b5[0],y:b5[1],w:4,h:3,text:'Vela\'s Sky Dock — balloons to every corner of the world.'}); }
+  // town wall & turrets (the walled harbour town's): gates from stage 3, the full ring from stage 4
+  if(st>=3){ var gatesOnly=st===3;
+    wallCells.forEach(function(c){ if(c.gate||WA(c.x,c.y))return; if(gatesOnly&&!(Math.abs(c.x)<=7&&Math.abs(c.y)>20))return; plan.solid.push([c.x,c.y]); });
+    for(var e2=0;e2<8;e2++){ var A2=W8[e2], B2=W8[(e2+1)%8], cells=wallCells.filter(function(c){ return c.e===e2&&!c.gate&&(!gatesOnly||(Math.abs(c.x)<=7&&Math.abs(c.y)>20)); });
+      for(var i3=0;i3<cells.length;i3+=4){ var seg=cells.slice(i3,i3+4), xs=seg.map(function(q){return q.x;}), ys=seg.map(function(q){return q.y;}), x0=Math.min.apply(null,xs), y0=Math.min.apply(null,ys);
+        P('vwall',x0,y0,Math.max.apply(null,xs)-x0+1,Math.max.apply(null,ys)-y0+1,{pts:seg.map(function(q){return [q.x-x0,q.y-y0];})},false); } }
+    var gt=[[-5,-33],[4,-33],[-5,31],[4,31]], towers=gatesOnly?gt:W8.map(function(q){return [q[0]-1,q[1]-1];}).concat(gt,[[-33,-3],[-33,5],[31,-3],[31,5]]);
+    towers.forEach(function(q){ P('tower',q[0],q[1],2,2,{flag:st>=5?'#6fe3f5':'#c84a3a'},true); });
+  } else { // before the wall: dry-stone walls round the sheep pen (runestone)
+    P('fence',22,8,7,1,{kind:'stone'},false); for(var sh=0;sh<3;sh++)P('sheep',23+sh*2,10,1,1,{},false); }
+  // ── the harbour, growing with the village ──
+  plan.walk=[];
+  if(H){ var pc=function(list){ (list||[]).forEach(function(c){ setK(c[0],c[1],'vpier'); plan.walk.push(c); }); };
+    var p1=H.pier1.cells.slice(0,st>=2?99:8); pc(p1);
+    if(H.hut)P('vbuild',H.hut[0],H.hut[1],3,3,{style:'wood',roof:'#4f7a44',roofPat:'shingle',sign:'#4a9ad0',doorX:1,chimney:true,smoke:true,nl:1},true);
+    if(st>=2){ pc(H.walk); if(H.boathouse)P('boathouse',H.boathouse[0],H.boathouse[1],4,3,{},true); }
+    if(st>=3){ if(H.stilt){ pc(H.stiltWalk); P('stilthouse',H.stilt[0],H.stilt[1],4,3,{roof:'#3f6a3a'},true); plan.landmarks.push({x:H.stilt[0],y:H.stilt[1],w:4,h:3,text:'The Lake House — built on stilts over Mirror Lake. Fishers swear the lake glows beneath it on quiet nights.'}); }
+      if(H.pier2)pc(H.pier2.cells); }
+    if(st>=4)H.quay.forEach(function(c){ setK(c[0],c[1],'vquay'); });
+    if(st>=5&&H.pier1.end){ var e=H.pier1.end; P('lighthouse',e[0],e[1],1,1,{},true); for(var li=2;li<p1.length;li+=4)P('lantern',p1[li][0],p1[li][1],1,1,{col:'#ffd27a'},false); }
+    // boats moored beside the piers
+    var boatSpots=[], taken={}; plan.walk.forEach(function(c){ taken[c[0]+','+c[1]]=1; });
+    [H.pier1].concat(st>=3&&H.pier2?[H.pier2]:[]).forEach(function(pr){ if(!pr||!pr.dir)return; var dv=pr.dir; pr.cells.forEach(function(c,i){ if(i%3!==2)return; [[-dv[1]*2,dv[0]*2],[dv[1]*2,-dv[0]*2]].forEach(function(o){ var x=Math.round(c[0]+o[0]), y=Math.round(c[1]+o[1]); if(WA(x,y)&&WA(x+1,y)&&WA(x+2,y)&&!taken[x+','+y]&&!taken[(x+1)+','+y]){ taken[x+','+y]=taken[(x+1)+','+y]=taken[(x+2)+','+y]=1; boatSpots.push([x,y]); } }); }); });
+    boatSpots.slice(0,[1,2,3,4,6][s]).forEach(function(b,i){ P('boatv',b[0],b[1],3,1,{any:true,sail:st>=3&&i%2===0},false); });
+    plan.landmarks.push({x:H.anchor.x-1,y:H.anchor.y-1,w:3,h:3,text:st>=4?'Mirror Harbour — stone quay, boathouse and piers. Boats sail from here across the lake.':'The fishing pier — the village\'s way onto Mirror Lake.'});
+  }
+  // trees, bushes and flowers around the edge; banners & festival lights at the end
+  var tr=rngOf(4242), nt=0; for(var t=0;t<400&&nt<VR.trees[s];t++){ var an=tr.f()*Math.PI*2, rr=Rs-6+tr.f()*9, tx=Math.round(Math.cos(an)*rr), ty=Math.round(Math.sin(an)*rr);
+    if(!free(tx,ty,1,1)||street.has(tx+','+ty)||Math.hypot(tx,ty)>VR.disk[s]-1)continue; mark(tx,ty,1,1,0,1); nt++; P(tr.chance(0.7)?'tree':'bush',tx,ty,1,1,{kind:'round',col:tr.pick(['#3f7a3a','#4a7a3a','#2f6a2a']),col2:'#6aa452'},true); }
+  if(st>=5){ [[-6,-9],[6,-9],[-6,9],[6,9],[-9,-6],[9,-6]].forEach(function(q){ P('banner',q[0],q[1],1,1,{},false); });
+    for(var f=0;f<12;f++){ var af=f/12*Math.PI*2; P('lantern',Math.round(Math.cos(af)*11),Math.round(Math.sin(af)*11),1,1,{col:['#ffd27a','#ff9ab0','#9fe8ff'][f%3]},false); } }
+  plan.landmarks.push({x:-3,y:-3,w:7,h:7,text:'The Runestone Green — the heart of the village. The stones hum louder with every craftsman who comes home.'});
+  plan.kinds=cellKind;
+  return plan;
+}
+
+// ── new props for the village ──
+WPROP.cart=function(c,ctx,x,y,w,h,o){ var col=o.col||'#c84a3a', R=c.R; addSprite(c.m,x+w/2,y+h,w+24,70,function(g,W,H){ softShadow(g,W/2,H-4,W/2-6,5,0.35);
+  g.fillStyle='#6a4a2e'; g.fillRect(8,H-30,W-16,12); g.fillStyle='#8a6440'; g.fillRect(8,H-32,W-16,3);
+  var goods=['#e05050','#f0c040','#80c050','#e08030','#b070d0','#d8c8a0']; for(var i=0;i<(W-20)/6;i++){ g.fillStyle=R.pick(goods); g.beginPath(); g.arc(12+i*6,H-34-(i%2)*2,3.2,0,Math.PI*2); g.fill(); }
+  for(var s=0;s<W-14;s+=9){ g.fillStyle=(s/9)%2?col:'#f4ecd8'; g.fillRect(7+s,H-56,9,5); } g.fillStyle='#5a3a22'; g.fillRect(9,H-56,3,26); g.fillRect(W-12,H-56,3,26);
+  [[14,H-12],[W-14,H-12]].forEach(function(q){ g.fillStyle='#3a2a1a'; g.beginPath(); g.arc(q[0],q[1],8,0,Math.PI*2); g.fill(); g.fillStyle='#8a6a44'; g.beginPath(); g.arc(q[0],q[1],5.5,0,Math.PI*2); g.fill(); g.strokeStyle='#3a2a1a'; g.lineWidth=1.5; g.beginPath(); g.moveTo(q[0]-5,q[1]); g.lineTo(q[0]+5,q[1]); g.moveTo(q[0],q[1]-5); g.lineTo(q[0],q[1]+5); g.stroke(); });
+  g.strokeStyle='#5a3a22'; g.lineWidth=3; g.beginPath(); g.moveTo(W-8,H-22); g.lineTo(W-1,H-16); g.stroke(); }); };
+WPROP.vegplot=function(c,ctx,x,y,w,h,o){ var R=c.R; // neat rows: cabbages, carrots, leeks, pumpkins
+  ctx.fillStyle='#5a3e24'; ctx.fillRect(x+3,y+3,w-6,h-6);
+  var rows=Math.floor((h-8)/12), crops=['cab','car','leek','pump'];
+  for(var r=0;r<rows;r++){ var cy=y+8+r*12, kind=crops[(r+(o.seed||0))%4]; ctx.fillStyle='rgba(0,0,0,.25)'; ctx.fillRect(x+6,cy+7,w-12,2);
+    for(var cx=x+10;cx<x+w-8;cx+=10){ if(kind==='cab'){ ctx.fillStyle='#6aa84a'; ctx.beginPath(); ctx.arc(cx,cy+3,4.2,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#9ad070'; ctx.beginPath(); ctx.arc(cx-1,cy+2,2,0,Math.PI*2); ctx.fill(); }
+      else if(kind==='car'){ ctx.fillStyle='#e07a2a'; ctx.fillRect(cx-1,cy+3,3,3); ctx.strokeStyle='#5aa040'; ctx.lineWidth=1.3; ctx.beginPath(); ctx.moveTo(cx,cy+3); ctx.lineTo(cx-3,cy-3); ctx.moveTo(cx,cy+3); ctx.lineTo(cx+3,cy-3); ctx.moveTo(cx,cy+3); ctx.lineTo(cx,cy-4); ctx.stroke(); }
+      else if(kind==='leek'){ ctx.fillStyle='#e8e4c8'; ctx.fillRect(cx-1,cy,3,6); ctx.fillStyle='#4a8a3a'; ctx.fillRect(cx-2,cy-5,2,6); ctx.fillRect(cx+1,cy-6,2,7); }
+      else { ctx.fillStyle='#e08a2a'; ctx.beginPath(); ctx.ellipse(cx,cy+3,5,4,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#b0601a'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(cx,cy-1); ctx.lineTo(cx,cy+7); ctx.stroke(); ctx.fillStyle='#4a7a2a'; ctx.fillRect(cx-1,cy-3,2,3); } } }
+  addSprite(c.m,x+w/2,y+h,w+6,30,function(g,W,H){ g.fillStyle='#8a6440'; g.fillRect(3,H-14,W-6,2); g.fillRect(3,H-8,W-6,2); for(var p=3;p<=W-4;p+=12)g.fillRect(p,H-18,3,15); });
+  addSprite(c.m,x+w/2,y+4,w+6,24,function(g,W,H){ g.fillStyle='#8a6440'; g.fillRect(3,H-12,W-6,2); g.fillRect(3,H-6,W-6,2); for(var p=3;p<=W-4;p+=12)g.fillRect(p,H-15,3,12); });
+  var sp=c.m.sprites[c.m.sprites.length-1]; sp.depth=y+4; };
+WPROP.vwall=function(c,ctx,x,y,w,h,o){ var pts=o.pts||[[0,0]], top=46; // a run of town wall, blocks drawn back to front
+  addSprite(c.m,x+w/2,y+h,w+8,h+top+10,function(g,W,H){ var ox=4, oy=H-h-2; pts.slice().sort(function(a,b){return a[1]-b[1];}).forEach(function(p){ var px=ox+p[0]*LT, py=oy+p[1]*LT;
+      var gf=g.createLinearGradient(0,py+LT-top,0,py+LT); gf.addColorStop(0,'#a8a296'); gf.addColorStop(1,'#6e6a62'); g.fillStyle=gf; g.fillRect(px,py+LT-top+10,LT,top-10);
+      g.fillStyle='rgba(0,0,0,.2)'; for(var yy=py+LT-top+18;yy<py+LT;yy+=9){ g.fillRect(px,yy,LT,1.2); for(var xx=px+((yy/9)%2)*8;xx<px+LT;xx+=16)g.fillRect(xx,yy,1.2,9); }
+      g.fillStyle='#bdb6a8'; g.fillRect(px,py+LT-top,LT,12); g.fillStyle='#8a8478'; for(var m=0;m<2;m++)g.fillRect(px+2+m*16,py+LT-top-7,11,8); }); });
+  var sp=c.m.sprites[c.m.sprites.length-1]; sp.oy=1; };
+
+// ground kinds for the village (shared by the game and the Lab)
+var VR_KINDS={
+  vstreet:WK('vstreet','#9a9486','#b0aa9a',{pattern:'flag',grout:'#5a564e',flat:true,rim:'#7a766c',rimW:1,nowarp:true}),   // harbour stones
+  vlane:WK('vlane','#9a8660','#aa9670',{sc:0.3,deco:WDECO.dots(['#8a7650','#b8a888'],0.3)}),
+  vgreen:WK('vgreen','#78a058','#90b468',{sc:0.15,deco:WDECO.grass('rgba(60,100,40,.5)',0.4)}),
+  vplaza:WK('vplaza','#b4ac98','#c6beaa',{pattern:'slab',flat:true}),
+  vsoil:WK('vsoil','#5a3e24','#6a4a2e',{sc:0.3}),
+  vpave:WK('vpave','#a8a08a','#bab29c',{pattern:'flag',grout:'#5a564e',flat:true}),
+  vgrass:WK('grass','#6b8a4a','#86a05a',{sc:0.12,deco:WDECO.grass('rgba(40,80,30,.45)',0.35)}),
+  vpier:WK('vpier','#8a6a44','#9a7a50',{pattern:'planks',vert:true,flat:true,nowarp:true}),
+  vquay:WK('vquay','#9a9486','#b0aa9a',{pattern:'brick',grout:'#4a463e',flat:true,nowarp:true}),
+  vwater:WK('water','#1d5878','#2a6f92',{solid:true,liquid:true,shore:'#d8f0e8',sc:0.06,deco:WDECO.ripple('#ffffff')}) };
+// The harbour bay: Mirror Lake reaches into the village's south-west quarter
+// (carved by the world map; simulated by the Lab preview).
+function VR_BAY(dx,dy){ if(Math.hypot(dx+23,dy-23)<13.5)return true; var ax=-23, ay=23, bx=-46, by=40, t=Math.max(0,Math.min(1,((dx-ax)*(bx-ax)+(dy-ay)*(by-ay))/((bx-ax)*(bx-ax)+(by-ay)*(by-ay)))); return Math.hypot(dx-(ax+(bx-ax)*t),dy-(ay+(by-ay)*t))<7.5; }
+// Lab preview: the same plan on an 80×80 sample
+function villagePlusDesign(stage){
+  var K=VR_KINDS, plan=villagePlan(stage), O=48;
+  return { id:'village_runestone_plus_'+stage, quad:0, w:96, h:96, seed:900+stage, name:'Runestone Hamlet+ · Stage '+stage, runeCol:'#6fe3f5',
+    ground:K.vgrass, kinds:[K.vstreet,K.vlane,K.vgreen,K.vplaza,K.vpave,K.vsoil,K.vwater,K.vpier,K.vquay], hills:{sc:0.05,k:0.4}, spawnAt:[O+1,O+11],
+    layout:function(c){ for(var y=0;y<96;y++)for(var x=0;x<96;x++)if(VR_BAY(x-O,y-O))c.set(x,y,'water'); Object.keys(plan.kinds).forEach(function(k){ var q=k.split(','); c.set(+q[0]+O,+q[1]+O,plan.kinds[k]); }); },
+    props:function(c){ plan.props.forEach(function(p){ c.obst.push({prop:p.prop,x:p.x+O,y:p.y+O,w:p.w,h:p.h,o:p.o}); });
+      plan.solid.forEach(function(q){ var x=q[0]+O, y=q[1]+O; if(x>=0&&y>=0&&x<96&&y<96)c.m.solid[y*96+x]=1; });
+      plan.landmarks.forEach(function(L){ c.landmark(L.x+O,L.y+O,L.w,L.h,L.text); });
+      plan.ley.forEach(function(L){ c.leyLine(L.pts.map(function(p){ return [p[0]+O,p[1]+O]; }),L.col); }); },
+    particles:[WPART.motes('#fff4c8',200)].concat(stage>=5?[WPART.petals(['#ffd6e8','#fff3a8','#c8e0ff'])]:[]) };
+}
+// ── harbour props ──
+WPROP.boathouse=function(c,ctx,x,y,w,h,o){ addSprite(c.m,x+w/2,y+h,w+30,h+120,function(g,W,H){ var x0=15, bw=w, base=H-4;
+  g.fillStyle='rgba(0,0,0,.25)'; g.fillRect(x0,base-6,bw,6);
+  for(var p=0;p<5;p++){ g.fillStyle='#4a3424'; g.fillRect(x0+4+p*(bw-12)/4,base-18,5,18); }
+  g.fillStyle='#8a6440'; g.fillRect(x0,base-22,bw,5);
+  var wt=base-70; g.fillStyle='#8a6440'; g.fillRect(x0+4,wt,bw-8,48); g.fillStyle='rgba(0,0,0,.25)'; for(var py=wt+6;py<base-22;py+=7)g.fillRect(x0+4,py,bw-8,1.4);
+  g.fillStyle='#1a2a3a'; g.beginPath(); g.moveTo(x0+bw/2-22,base-22); g.lineTo(x0+bw/2-22,wt+14); g.quadraticCurveTo(x0+bw/2,wt,x0+bw/2+22,wt+14); g.lineTo(x0+bw/2+22,base-22); g.fill();
+  g.fillStyle='#6a4a2e'; g.beginPath(); g.moveTo(x0+bw/2-16,base-26); g.lineTo(x0+bw/2+16,base-26); g.lineTo(x0+bw/2+10,base-34); g.lineTo(x0+bw/2-10,base-34); g.fill();   // a boat inside
+  var roof='#3f6a3a'; g.fillStyle=shade(roof,-0.1); g.beginPath(); g.moveTo(x0-8,wt+4); g.lineTo(x0+bw/2,wt-40); g.lineTo(x0+bw+8,wt+4); g.fill();
+  g.fillStyle=rgba(shade(roof,-0.4),0.55); for(var ry=wt-30;ry<wt+4;ry+=7){ var t=(ry-(wt-40))/44; for(var sx=x0+bw/2-(bw/2+8)*t;sx<x0+bw/2+(bw/2+8)*t-4;sx+=10){ g.beginPath(); g.arc(sx+5,ry,5,0,Math.PI); g.fill(); } }
+  drawRune(g,x0+bw/2,wt-14,8,'#6fe3f5',2); });
+  addLight(c.m,x+w/2,y+h-60,60,'#ffd27a',0.3,{flicker:0.2}); };
+WPROP.stilthouse=function(c,ctx,x,y,w,h,o){ var roof=o.roof||'#3f6a3a'; addSprite(c.m,x+w/2,y+h,w+40,h+170,function(g,W,H){ var x0=20, bw=w, base=H-6;
+  for(var p=0;p<4;p++){ g.fillStyle='#3a2818'; g.fillRect(x0+6+p*(bw-18)/3,base-40,5,40); g.fillStyle='rgba(200,240,255,.35)'; g.fillRect(x0+4+p*(bw-18)/3,base-3,9,2); }
+  g.fillStyle='#7a5a38'; g.fillRect(x0-6,base-46,bw+12,7); g.fillStyle='#5a3e24'; for(var r=x0-6;r<x0+bw+6;r+=8)g.fillRect(r,base-58,2,12); g.fillRect(x0-6,base-58,bw+12,2);
+  var wt=base-100; g.fillStyle='#9a7248'; g.fillRect(x0+2,wt,bw-4,54); g.fillStyle='rgba(0,0,0,.2)'; for(var py=wt+6;py<base-46;py+=7)g.fillRect(x0+2,py,bw-4,1.4);
+  [[x0+bw*0.25,wt+14],[x0+bw*0.75,wt+14]].forEach(function(q){ g.fillStyle='#3a2a1a'; g.fillRect(q[0]-8,q[1]-1,16,15); g.fillStyle='#ffd98a'; g.fillRect(q[0]-6,q[1]+1,12,11); });
+  g.fillStyle='#2a1a10'; g.fillRect(x0+bw/2-7,base-72,14,26);
+  g.fillStyle=shade(roof,-0.05); g.beginPath(); g.moveTo(x0-10,wt+6); g.lineTo(x0+10,wt-34); g.lineTo(x0+bw-10,wt-34); g.lineTo(x0+bw+10,wt+6); g.fill();
+  g.fillStyle=rgba(shade(roof,-0.4),0.5); for(var ry=wt-28;ry<wt+6;ry+=7){ for(var sx=x0-6+((ry/7)%2)*5;sx<x0+bw+4;sx+=10){ g.beginPath(); g.arc(sx+5,ry,5,0,Math.PI); g.fill(); } }
+  g.fillStyle='#6a625a'; g.fillRect(x0+bw*0.7,wt-46,9,20); });
+  addLight(c.m,x+w/2,y+h-90,70,'#ffc870',0.35,{flicker:0.2});
+  wParticlesAt(c,x+w*0.7-2,y+h-6-100-48,8,4,{tints:['#d8d4cc','#b8b4ac'],freq:300,vy:{min:-24,max:-10},vx:{min:4,max:10},scale:{start:0.6,end:2.2},alpha:{start:0.4,end:0},life:{min:2600,max:4000},blend:false,depth:6500}); };
+WPROP.lighthouse=function(c,ctx,x,y,w,h,o){ addSprite(c.m,x+w/2,y+h,70,230,function(g,W,H){ var cx=W/2, base=H-6; softShadow(g,cx,base,22,6,0.35);
+  var gr=g.createLinearGradient(cx-16,0,cx+16,0); gr.addColorStop(0,'#c8c0b0'); gr.addColorStop(0.5,'#f4ecdc'); gr.addColorStop(1,'#a8a090');
+  g.fillStyle=gr; g.beginPath(); g.moveTo(cx-18,base); g.lineTo(cx-11,base-150); g.lineTo(cx+11,base-150); g.lineTo(cx+18,base); g.fill();
+  g.fillStyle='#b84a3a'; [base-30,base-80,base-130].forEach(function(yy,i){ var t=(base-yy)/150, hw=18-7*t; g.fillRect(cx-hw,yy-10,hw*2,12); });
+  g.fillStyle='#3a3a42'; g.fillRect(cx-15,base-156,30,6); g.fillStyle='#ffe08a'; g.fillRect(cx-9,base-178,18,22); g.fillStyle='#3a3a42'; g.beginPath(); g.moveTo(cx-13,base-178); g.lineTo(cx,base-196); g.lineTo(cx+13,base-178); g.fill();
+  drawRune(g,cx,base-100,8,'#6fe3f5',4); });
+  addLight(c.m,x+w/2,y+h-190,160,'#ffe8a0',0.5,{pulse:0.35,period:2600}); addLight(c.m,x+w/2,y+h-100,40,'#6fe3f5',0.3,{react:true,rune:true}); };
+// ═══════════════════════════════════════════════════════════════════════
+// ║ MONSTER SELECTOR — basic pixel sprites (32×32), generated from a small
+// ║ spec: body plan + palette + features + attack animation. These are only
+// ║ stand-ins for choosing; the picked monsters get ChatGPT sprites later.
+// ║   spec = {plan, anim, pal:[body, dark, accent, eye], feat:'horns,club'}
+// ║   frames: 0/1 idle (bob), 2 wind-up, 3 strike (attack effect)
+// ═══════════════════════════════════════════════════════════════════════
+var MS_OUT='#16110d';
+function _msGrid(){
+  var G={c:new Array(1024).fill(null),o:new Array(1024).fill(null)};
+  var put=function(arr,x,y,col){ x=Math.round(x); y=Math.round(y); if(x<0||y<0||x>31||y>31||!col)return; arr[y*32+x]=col; };
+  G.p=function(x,y,c){ put(G.c,x,y,c); };
+  G.r=function(x,y,w,h,c){ for(var j=0;j<h;j++)for(var i=0;i<w;i++)put(G.c,x+i,y+j,c); };
+  G.e=function(cx,cy,rx,ry,c){ for(var y=Math.floor(cy-ry);y<=Math.ceil(cy+ry);y++)for(var x=Math.floor(cx-rx);x<=Math.ceil(cx+rx);x++){ var dx=(x-cx)/(rx+0.35), dy=(y-cy)/(ry+0.35); if(dx*dx+dy*dy<=1)put(G.c,x,y,c); } };
+  G.l=function(x0,y0,x1,y1,c,arr){ x0=Math.round(x0); y0=Math.round(y0); x1=Math.round(x1); y1=Math.round(y1); var dx=Math.abs(x1-x0), dy=-Math.abs(y1-y0), sx=x0<x1?1:-1, sy=y0<y1?1:-1, er=dx+dy;
+    for(var n=0;n<80;n++){ put(arr||G.c,x0,y0,c); if(x0===x1&&y0===y1)break; var e2=2*er; if(e2>=dy){er+=dy;x0+=sx;} if(e2<=dx){er+=dx;y0+=sy;} } };
+  G.tri=function(ax,ay,bx,by,cx,cy,c){ var minx=Math.min(ax,bx,cx),maxx=Math.max(ax,bx,cx),miny=Math.min(ay,by,cy),maxy=Math.max(ay,by,cy);
+    var s=function(px,py,qx,qy,rx,ry){ return (px-rx)*(qy-ry)-(qx-rx)*(py-ry); };
+    for(var y=Math.floor(miny);y<=Math.ceil(maxy);y++)for(var x=Math.floor(minx);x<=Math.ceil(maxx);x++){ var d1=s(x,y,ax,ay,bx,by),d2=s(x,y,bx,by,cx,cy),d3=s(x,y,cx,cy,ax,ay); if(!((d1<0||d2<0||d3<0)&&(d1>0||d2>0||d3>0)))put(G.c,x,y,c); } };
+  // overlay (not outlined / shaded): eyes, glows, effects
+  G.op=function(x,y,c){ put(G.o,x,y,c); };
+  G.or=function(x,y,w,h,c){ for(var j=0;j<h;j++)for(var i=0;i<w;i++)put(G.o,x+i,y+j,c); };
+  G.ol=function(x0,y0,x1,y1,c){ G.l(x0,y0,x1,y1,c,G.o); };
+  G.oe=function(cx,cy,rx,ry,c,ring){ for(var y=Math.floor(cy-ry-1);y<=Math.ceil(cy+ry+1);y++)for(var x=Math.floor(cx-rx-1);x<=Math.ceil(cx+rx+1);x++){ var dx=(x-cx)/(rx+0.35), dy=(y-cy)/(ry+0.35), d=dx*dx+dy*dy; if(ring?(d<=1&&d>=0.62):d<=1)put(G.o,x,y,c); } };
+  return G;
+}
+function _msShadeOutline(G){
+  var c=G.c, out=c.slice();
+  for(var y=0;y<32;y++)for(var x=0;x<32;x++){ var k=y*32+x, v=c[k]; if(!v)continue;
+    var up=y>0?c[k-32]:null, dn=y<31?c[k+32]:null, lf=x>0?c[k-1]:null, rt=x<31?c[k+1]:null;
+    if(v.charAt(0)!=='#')continue;
+    if(!up)out[k]=shade(v,0.24); else if(!dn||!rt)out[k]=shade(v,-0.26); else if(!lf)out[k]=shade(v,0.1); }
+  for(var y2=0;y2<32;y2++)for(var x2=0;x2<32;x2++){ var k2=y2*32+x2; if(c[k2])continue;
+    if((y2>0&&c[k2-32])||(y2<31&&c[k2+32])||(x2>0&&c[k2-1])||(x2<31&&c[k2+1]))out[k2]=MS_OUT; }
+  G.c=out;
+}
+function _msHas(F,f){ return F.indexOf(','+f+',')>=0; }
+
+// ── body plans ──────────────────────────────────────────────────────────
+// pose: {dy, lx (lean), step (0/1 legs), wing (0 up / 1 down), atk (0 idle, 1 wind-up, 2 strike)}
+var MS_PLANS={
+  biped:function(G,P,F,o){ var x=16+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2];
+    if(_msHas(F,'cape'))G.r(x-5,13+y,10,12,a);
+    if(_msHas(F,'wings')){ G.tri(x-3,14+y,x-12,6+y+(o.wing?6:0),x-5,21+y,shade(d,0.2)); }
+    if(_msHas(F,'stilts')){ G.r(x-3,24+y,1,6,'#6a4a2a'); G.r(x+2,24+y,1,6,'#6a4a2a'); G.r(x-3,21+y,2,4,d); G.r(x+1,21+y,2,4,d); }
+    else { G.r(x-3,22+y+(o.step?1:0),2,6-(o.step?1:0),d); G.r(x+1,22+y+(o.step?0:1),2,6-(o.step?0:1),d); }
+    G.r(x-4,14+y,8,9,_msHas(F,'armor')?'#8a8e96':d); G.r(x-4,14+y,8,2,b);
+    var ay=o.atk===1?-3:0; G.r(x-6,15+y,2,6,b); G.r(x+4,15+y+ay,2,6,b);
+    var ears=_msHas(F,'ears'); G.e(x,9+y,4,4,_msHas(F,'skull')?'#e8e0cc':b); if(ears){ G.tri(x-4,8+y,x-8,5+y,x-4,11+y,b); G.tri(x+4,8+y,x+8,5+y,x+4,11+y,b); }
+    if(_msHas(F,'hood')){ G.e(x,8+y,5,5,d); G.e(x+1,10+y,3,3,b); }
+    if(_msHas(F,'helmet')){ G.r(x-4,4+y,9,4,'#8a8e96'); G.p(x,3+y,a); }
+    if(_msHas(F,'horns')){ G.l(x-3,6+y,x-6,1+y,'#e8dcc0'); G.l(x+3,6+y,x+6,1+y,'#e8dcc0'); }
+    if(_msHas(F,'crown')){ G.r(x-3,3+y,7,2,'#e8c040'); G.p(x-3,2+y,'#e8c040'); G.p(x,2+y,'#e8c040'); G.p(x+3,2+y,'#e8c040'); }
+    if(_msHas(F,'hat')){ G.tri(x-6,6+y,x+6,6+y,x+2,-4+y,d); G.r(x-6,5+y,13,2,d); }
+    if(_msHas(F,'mushcap')){ G.e(x,5+y,7,3,a); G.op(x-3,4+y,'#fff4e0'); G.op(x+2,3+y,'#fff4e0'); }
+    if(_msHas(F,'shield'))G.r(x-9,14+y,4,7,a);
+    var hx=x+5, hy=18+y+ay;
+    if(_msHas(F,'sword')||_msHas(F,'dagger'))G.l(hx,hy,hx+(o.atk===2?7:3),hy-(o.atk===2?1:6),'#dfe6ee');
+    if(_msHas(F,'club')){ G.l(hx,hy,hx+3,hy-7,'#6a4a2a'); G.e(hx+3,hy-8,2,2,'#7a5a3a'); }
+    if(_msHas(F,'spear'))G.l(hx-1,hy+4,hx+(o.atk===2?9:3),hy-(o.atk===2?4:10),'#9a8a70');
+    if(_msHas(F,'axe')){ G.l(hx,hy,hx+2,hy-7,'#6a4a2a'); G.r(hx+2,hy-9,3,4,'#c8ccd4'); }
+    if(_msHas(F,'hammer')){ G.l(hx,hy,hx+2,hy-7,'#6a4a2a'); G.r(hx,hy-10,6,3,a); }
+    if(_msHas(F,'bow')){ G.l(hx+2,hy-7,hx+2,hy+3,'#7a5a3a'); G.ol(hx+1,hy-6,hx+1,hy+2,'#e8e0d0'); }
+    if(_msHas(F,'sling')||_msHas(F,'rock'))G.e(hx+1,hy-1,1,1,'#8a8478');
+    if(_msHas(F,'staff')){ G.l(hx+1,hy+8,hx+1,hy-10,'#6a4a2a'); G.oe(hx+1,hy-11,1.4,1.4,a); }
+    if(_msHas(F,'lantern')){ G.l(hx,hy,hx,hy+3,'#3a3026'); G.oe(hx,hy+5,1.4,1.6,'#ffd070'); }
+    if(_msHas(F,'net'))G.ol(hx,hy-3,hx+4,hy+2,'#d8d0b0');
+    G.op(x+1,9+y,P[3]); G.op(x+3,9+y,P[3]);
+    if(_msHas(F,'tusks')){ G.op(x+1,12+y,'#fff4e0'); G.op(x+3,12+y,'#fff4e0'); }
+  },
+  brute:function(G,P,F,o){ var x=15+o.lx, y=o.dy+(o.atk===2&&o.anim==='slam'?1:0), b=P[0], d=P[1], a=P[2];
+    G.r(x-6,23+y,4,6,d); G.r(x+2,23+y,4,6,d);
+    G.e(x,17+y,9,7,b); if(_msHas(F,'moss')){ G.e(x-3,12+y,5,2,'#5a8a3a'); } if(_msHas(F,'belly'))G.e(x+1,19+y,5,4,shade(b,0.15));
+    var ay=o.atk===1?-6:o.atk===2?2:0; G.r(x-11,13+y+ay,4,11,b); G.r(x+8,13+y+ay,4,11,b);
+    G.e(x+1,10+y,4,3.5,b);
+    if(_msHas(F,'mushcap')){ G.e(x+1,6+y,9,4,a); G.op(x-3,5+y,'#fff4e0'); G.op(x+2,4+y,'#fff4e0'); G.op(x+6,6+y,'#fff4e0'); }
+    if(_msHas(F,'horns')){ G.l(x-2,8+y,x-5,4+y,'#e8dcc0'); G.l(x+4,8+y,x+7,4+y,'#e8dcc0'); }
+    if(_msHas(F,'club')){ G.l(x+10,22+y+ay,x+13,10+y+ay,'#6a4a2a'); G.e(x+13,9+y+ay,2.5,2.5,'#7a5a3a'); }
+    if(_msHas(F,'spikes'))for(var i=0;i<4;i++)G.tri(x-6+i*4,11+y,x-4+i*4,6+y,x-2+i*4,11+y,a);
+    if(_msHas(F,'shell'))G.e(x-2,15+y,7,5,a);
+    if(_msHas(F,'glowcore'))G.oe(x,17+y,2,2,a);
+    G.op(x,10+y,P[3]); G.op(x+3,10+y,P[3]); if(_msHas(F,'tusks')){ G.op(x-1,13+y,'#fff4e0'); G.op(x+4,13+y,'#fff4e0'); }
+  },
+  quad:function(G,P,F,o,small){ var s=small?0.7:1, x=15+o.lx, y=o.dy+(small?4:0), b=P[0], d=P[1], a=P[2];
+    var lg=function(px,ph){ G.r(px,22+y+(ph?1:0),2,(small?4:6)-(ph?1:0),d); };
+    lg(x-6*s,o.step); lg(x-3*s,!o.step); lg(x+3*s,o.step); lg(x+6*s,!o.step);
+    if(_msHas(F,'tail'))G.l(x-8*s,19+y,x-12*s,15+y,b);
+    if(_msHas(F,'wings')){ G.tri(x-2,17+y,x-10,5+y+(o.wing?7:0),x+4,15+y,shade(d,0.25)); }
+    G.e(x,19+y,8*s,4.5*s,b);
+    if(_msHas(F,'spikes')||_msHas(F,'mane'))for(var i=0;i<5;i++)G.tri(x-6*s+i*3*s,16+y,x-5*s+i*3*s,12+y,x-4*s+i*3*s,16+y,_msHas(F,'mane')?d:a);
+    if(_msHas(F,'shell'))G.e(x-1,16+y,7*s,4*s,a);
+    if(_msHas(F,'crystals'))for(var j=0;j<3;j++)G.tri(x-4+j*4,16+y,x-3+j*4,9+y,x-1+j*4,16+y,a);
+    var hx=x+(9+(o.atk===2?3:0))*s, hy=15+y+(o.atk===1?2:0);
+    G.e(hx,hy,4*s,3.5*s,b); G.r(hx+2*s,hy+1,3*s,2*s,shade(b,-0.1));
+    if(_msHas(F,'ears')){ G.tri(hx-2,hy-2,hx-3,hy-(small?9:7),hx,hy-2,b); G.tri(hx,hy-2,hx+1,hy-(small?9:7),hx+2,hy-2,b); }
+    if(_msHas(F,'horns')){ G.l(hx-1,hy-3,hx-3,hy-8,'#e8dcc0'); G.l(hx+1,hy-3,hx+3,hy-8,'#e8dcc0'); }
+    if(_msHas(F,'antlers')){ G.l(hx,hy-3,hx-2,hy-9,'#c8b088'); G.l(hx-2,hy-7,hx-5,hy-8,'#c8b088'); G.l(hx+1,hy-3,hx+3,hy-9,'#c8b088'); }
+    if(_msHas(F,'tusks'))G.op(hx+4*s,hy+2,'#fff4e0');
+    G.op(hx+1,hy-1,P[3]);
+  },
+  small:function(G,P,F,o){ MS_PLANS.quad(G,P,F,o,true); },
+  serpent:function(G,P,F,o){ var x=14+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2], st=o.atk===2?4:o.atk===1?-2:0;
+    G.e(x,25+y,9,3,b); G.e(x+1,22+y,6,2.5,b); G.e(x+4,19+y,3,2.5,b); G.e(x+6+st*0.5,15+y,2.5,3,b);
+    if(_msHas(F,'hood'))G.e(x+7+st*0.5,11+y,4,3,a);
+    G.e(x+8+st,10+y-(st>0?1:0),3.5,2.5,b);
+    for(var i=0;i<4;i++)G.p(x-6+i*4,24+y,d);
+    if(_msHas(F,'fins')){ G.tri(x-4,23+y,x-2,19+y,x,23+y,a); G.tri(x+2,20+y,x+4,16+y,x+5,20+y,a); }
+    if(_msHas(F,'water')){ G.or(1,27,30,1,'rgba(120,200,255,.55)'); G.or(4,28,24,1,'rgba(120,200,255,.35)'); }
+    G.op(x+9+st,9+y,P[3]); if(o.atk===2)G.ol(x+12+st,11+y,x+14+st,12+y,'#ff6070');
+  },
+  bird:function(G,P,F,o){ var x=16+o.lx, y=o.dy-2+(o.atk===2&&o.anim==='dive'?4:0), b=P[0], d=P[1], a=P[2];
+    var wu=o.wing?7:-2;
+    G.tri(x-2,14+y,x-13,6+y+wu,x-3,19+y,d); G.tri(x+1,14+y,x+11,4+y+wu,x+3,19+y,shade(d,0.15));
+    G.e(x,16+y,5,4.5,b); G.tri(x-4,18+y,x-9,22+y,x-3,20+y,d);
+    if(_msHas(F,'harpy')){ G.e(x+3,10+y,3,3,'#e8c0a0'); G.r(x,7+y,6,2,a); G.r(x,8+y,2,5,a); }
+    else { G.e(x+4,11+y,3,3,b); G.tri(x+6,11+y,x+10,12+y,x+6,13+y,a); }
+    if(_msHas(F,'talons')){ G.l(x-1,20+y,x-1,23+y,'#d8c080'); G.l(x+2,20+y,x+2,23+y,'#d8c080'); }
+    if(_msHas(F,'stone')){ G.p(x-1,15+y,shade(b,-0.3)); G.p(x+2,17+y,shade(b,-0.3)); }
+    if(_msHas(F,'flames'))for(var i=0;i<4;i++)G.op(x-6+i*2,20+y+(i%2),'#ffb040');
+    G.op(x+5,11+y,P[3]);
+  },
+  insect:function(G,P,F,o){ var x=15+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2];
+    for(var i=0;i<3;i++){ G.l(x-3+i*4,21+y,x-5+i*4+(o.step&&i%2?1:0),27+y,d); }
+    if(_msHas(F,'wings')){ G.e(x-2,12+y-(o.wing?2:0),5,3,'rgba(220,240,255,.7)'); G.e(x+3,11+y-(o.wing?2:0),4,3,'rgba(220,240,255,.6)'); }
+    G.e(x-5,20+y,5,4,b); if(_msHas(F,'stripes')){ G.r(x-7,18+y,1,5,d); G.r(x-4,17+y,1,7,d); }
+    G.e(x+1,19+y,3,3,d); G.e(x+6,17+y,3,3,b);
+    if(_msHas(F,'scythes')){ var ra=o.atk===2?4:0; G.l(x+4,17+y,x+8+ra,10+y,a); G.l(x+8+ra,10+y,x+10+ra,14+y,a); }
+    if(_msHas(F,'mandibles')){ G.p(x+9,19+y,a); G.p(x+10,18+y,a); }
+    if(_msHas(F,'stinger'))G.tri(x-10,20+y,x-14+(o.atk===2?-2:0),22+y,x-10,22+y,a);
+    if(_msHas(F,'antennae')){ G.l(x+6,15+y,x+9,10+y,d); G.l(x+7,15+y,x+11,11+y,d); }
+    if(_msHas(F,'ball')){ G.e(x-9+(o.atk===2?-4:0),20+y,5,5,'#7a5a3a'); }
+    G.op(x+7,16+y,P[3]);
+  },
+  spider:function(G,P,F,o){ var x=15+o.lx, y=o.dy, b=P[0], d=P[1];
+    for(var i=0;i<4;i++){ var k=(o.step?1:-1)*(i%2?1:-1); G.l(x-2+i*2,20+y,x-10+i*2,14+y+k,d); G.l(x-10+i*2,14+y+k,x-12+i*3,26+y,d); G.l(x+2+i*1,20+y,x+10+i*1,14+y-k,d); G.l(x+10+i,14+y-k,x+13+i,26+y,d); }
+    G.e(x-3,20+y,6,5,b); G.e(x+4,20+y,3,3,b); if(_msHas(F,'crystals'))G.tri(x-6,17+y,x-4,11+y,x-2,17+y,P[2]);
+    G.op(x+5,19+y,P[3]); G.op(x+6,20+y,P[3]); G.op(x+4,20+y,P[3]);
+  },
+  blob:function(G,P,F,o){ var x=16+o.lx, sq=o.atk===2?1.25:o.dy?0.9:1, b=P[0], a=P[2];
+    G.e(x,28-6/sq,9*sq,6/sq,b); G.r(x-9*sq,26,18*sq,3,b);
+    if(_msHas(F,'clover')){ G.e(x-1,19,1.5,1.5,a); G.e(x+2,19,1.5,1.5,a); G.e(x-1,16,1.5,1.5,a); G.e(x+2,16,1.5,1.5,a); }
+    if(_msHas(F,'crown')){ G.r(x-3,20-4/sq,7,2,'#e8c040'); }
+    if(_msHas(F,'flames'))for(var i=0;i<5;i++)G.op(x-6+i*3,21-6/sq-(i%2),'#ffb040');
+    G.op(x-4,24-3/sq,'rgba(255,255,255,.55)'); G.op(x-3,23-3/sq,'rgba(255,255,255,.55)');
+    G.op(x+1,24,P[3]); G.op(x+4,24,P[3]);
+  },
+  wisp:function(G,P,F,o){ var x=16+o.lx, y=o.dy*2, a=P[2];
+    G.oe(x,14+y,9,9,rgba(a,0.18)); G.oe(x,14+y,7,7,rgba(a,0.28));
+    G.e(x,14+y,5,5,P[0]); for(var i=0;i<4;i++)G.p(x-2+i+(o.step?1:0),20+y+i,P[1]);
+    if(_msHas(F,'wings')){ G.e(x-6,11+y-(o.wing?2:0),3,2,'rgba(230,240,255,.8)'); G.e(x+6,11+y-(o.wing?2:0),3,2,'rgba(230,240,255,.8)'); }
+    if(_msHas(F,'lantern')){ G.r(x-3,8+y,7,2,'#3a3026'); G.r(x-3,19+y,7,2,'#3a3026'); }
+    if(_msHas(F,'candle')){ G.r(x-2,14+y,5,9,'#f0e8d0'); G.oe(x,11+y,1.5,2.5,'#ffc040'); }
+    G.op(x-2,13+y,P[3]); G.op(x+2,13+y,P[3]);
+  },
+  caster:function(G,P,F,o){ var x=16+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2];
+    if(_msHas(F,'wings'))G.tri(x-3,13+y,x-13,4+y+(o.wing?6:0),x-4,22+y,shade(a,0.3));
+    G.tri(x-8,29+y,x+8,29+y,x,11+y,d); G.r(x-7,26+y,14,3,d);
+    if(_msHas(F,'belt'))G.r(x-4,19+y,8,1,a);
+    G.e(x,9+y,3.5,3.5,b);
+    if(_msHas(F,'hood')||!_msHas(F,'hat')){ G.e(x,8+y,5,4.5,d); G.e(x+1,10+y,2.5,2.5,b); }
+    if(_msHas(F,'hat')){ G.tri(x-7,6+y,x+7,6+y,x+3,-5+y,d); G.r(x-7,5+y,15,2,d); G.p(x+3,-3+y,a); }
+    if(_msHas(F,'horns')){ G.l(x-3,5+y,x-6,1+y,'#e8dcc0'); G.l(x+3,5+y,x+6,1+y,'#e8dcc0'); }
+    if(_msHas(F,'crown'))G.r(x-3,4+y,7,1,'#e8c040');
+    if(_msHas(F,'beard'))G.tri(x-2,11+y,x+3,11+y,x+1,17+y,'#e8e4dc');
+    var ay=o.atk>=1?-4:0;
+    if(_msHas(F,'book')){ G.r(x-9,15+y,5,4,a); G.p(x-7,15+y,'#fff'); }
+    if(_msHas(F,'staff')){ G.l(x+7,27+y,x+7,6+y+ay,'#6a4a2a'); G.oe(x+7,5+y+ay,1.6,1.6,a); }
+    else if(_msHas(F,'wand'))G.ol(x+5,16+y+ay,x+9,12+y+ay,a);
+    else { G.r(x+5,15+y+ay,2,5,b); G.oe(x+7,13+y+ay,1.8,1.8,a); }
+    if(_msHas(F,'cauldron')){ G.e(x-9,26,4,3,'#2a2a30'); G.oe(x-9,23,3,1,'#80ff60'); }
+    if(_msHas(F,'mask'))G.r(x-1,8+y,5,3,'#e8e0cc');
+    if(_msHas(F,'plague')){ G.tri(x+2,10+y,x+8,12+y,x+2,12+y,'#e8e0cc'); }
+    G.op(x+1,9+y,P[3]); G.op(x+3,9+y,P[3]);
+    if(_msHas(F,'runes'))for(var i=0;i<3;i++)G.op(x-8+i*8,3+y+(o.step?1:0)+(i%2),a);
+  },
+  plant:function(G,P,F,o){ var x=16+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2];
+    if(_msHas(F,'vines')){ var r=o.atk===2?6:0; G.l(x-3,24+y,x-10-r,18+y,d); G.l(x+3,24+y,x+10+r,17+y,d); }
+    G.r(x-3,17+y,6,11,b); G.r(x-6,27,12,2,d);
+    if(_msHas(F,'flower')){ for(var i=0;i<6;i++){ var an=i/6*Math.PI*2; G.e(x+Math.cos(an)*5,12+y+Math.sin(an)*5,2.5,2.5,a); } G.e(x,12+y,3,3,P[1]); }
+    else if(_msHas(F,'bulb')){ G.e(x,13+y,6,5,a); if(o.atk===2)G.or(x+2,12+y,5,2,'#301010'); }
+    else { G.e(x,13+y,9,5,a); G.op(x-4,11+y,'#fff4e0'); G.op(x+3,10+y,'#fff4e0'); G.op(x+6,13+y,'#fff4e0'); }
+    if(_msHas(F,'thorns'))for(var t=0;t<3;t++){ G.p(x-4,19+y+t*3,'#e8dcc0'); G.p(x+3,20+y+t*3,'#e8dcc0'); }
+    G.op(x-1,20+y,P[3]); G.op(x+2,20+y,P[3]);
+    if(_msHas(F,'spores')&&o.atk===2)for(var s=0;s<8;s++)G.op(x-9+s*2.5,8+(s%3)*3,rgba(a,0.8));
+  },
+  tree:function(G,P,F,o){ var x=16+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2];
+    G.r(x-4,13+y,8,16,b); G.r(x-6,27,12,2,b); var r=o.atk===2?5:0;
+    G.l(x-3,15+y,x-11-r,9+y,b); G.l(x+3,14+y,x+11+r,8+y,b);
+    G.e(x,8+y,9,6,a); if(_msHas(F,'moss'))for(var i=0;i<4;i++)G.l(x-6+i*4,12+y,x-6+i*4,16+y+(i%2)*2,'#6a9a4a');
+    G.or(x-2,17+y,4,1,'#1a1008'); G.op(x-2,15+y,P[3]); G.op(x+1,15+y,P[3]);
+  },
+  crab:function(G,P,F,o){ var x=16+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2], cl=o.atk===2?3:0;
+    for(var i=0;i<3;i++){ G.l(x-5+i*2,23+y,x-9+i*2,28+y,d); G.l(x+5-i*2,23+y,x+9-i*2,28+y,d); }
+    G.e(x-9-cl,16+y,3,2.5,b); G.e(x+9+cl,16+y,3,2.5,b); G.l(x-6,20+y,x-8-cl,18+y,b); G.l(x+6,20+y,x+8+cl,18+y,b);
+    G.e(x,21+y,8,5,b); if(_msHas(F,'crystals'))for(var j=0;j<4;j++)G.tri(x-6+j*4,18+y,x-5+j*4,11+y,x-3+j*4,18+y,a);
+    if(_msHas(F,'shell'))G.e(x,19+y,6,3,a);
+    G.l(x-2,16+y,x-2,14+y,d); G.l(x+2,16+y,x+2,14+y,d); G.op(x-2,13+y,P[3]); G.op(x+2,13+y,P[3]);
+  },
+  frog:function(G,P,F,o){ var x=15+o.lx, y=o.dy*2, b=P[0], d=P[1], a=P[2];
+    G.e(x-4,26+y,4,2,d); G.e(x+4,26+y,4,2,d);
+    G.e(x,22+y,8,5,b); G.e(x,24+y,5,3,shade(b,0.25)); G.e(x-4,16+y,2.5,2.5,b); G.e(x+4,16+y,2.5,2.5,b);
+    if(_msHas(F,'spots'))for(var i=0;i<4;i++)G.p(x-5+i*3,20+y+(i%2),a);
+    if(_msHas(F,'glow'))G.oe(x,21+y,3,2,rgba(a,0.6));
+    G.op(x-4,16+y,P[3]); G.op(x+4,16+y,P[3]);
+    if(o.atk===2)G.ol(x+6,21+y,x+15,20+y,'#ff7090');
+  },
+  golem:function(G,P,F,o){ var x=16+o.lx, y=o.dy+(o.atk===2&&o.anim==='slam'?1:0), b=P[0], d=P[1], a=P[2], ay=o.atk===1?-5:o.atk===2?2:0;
+    G.r(x-6,23+y,4,6,d); G.r(x+2,23+y,4,6,d);
+    G.r(x-8,12+y,16,11,b); G.r(x-4,5+y,8,7,b);
+    G.r(x-12,12+y+ay,4,11,b); G.r(x+8,12+y+ay,4,11,b);
+    if(_msHas(F,'crystals')){ G.tri(x-10,12+y,x-8,5+y,x-6,12+y,a); G.tri(x+6,12+y,x+8,4+y,x+10,12+y,a); }
+    if(_msHas(F,'moss')){ G.r(x-8,12+y,7,2,'#5a8a3a'); G.r(x-4,5+y,4,1,'#5a8a3a'); }
+    if(_msHas(F,'columns'))for(var i=0;i<3;i++)G.r(x-7+i*5,13+y,1,9,shade(b,-0.3));
+    if(_msHas(F,'rivets'))for(var j=0;j<4;j++)G.p(x-6+j*4,13+y,'#d8dce4');
+    if(_msHas(F,'chess')){ G.r(x-4,2+y,8,3,b); G.p(x-4,1+y,b); G.p(x,1+y,b); G.p(x+3,1+y,b); }
+    G.oe(x,17+y,2,2,a); G.op(x-2,8+y,P[3]); G.op(x+1,8+y,P[3]);
+  },
+  wraith:function(G,P,F,o){ var x=16+o.lx, y=o.dy*2-1, b=P[0], d=P[1], a=P[2];
+    G.e(x,17+y,6,6,d); G.e(x-1,22+y,4,3,d); G.e(x-2,25+y,2.5,2,d); G.p(x-3+(o.step?1:0),28+y,d);
+    G.e(x,9+y,5,5,d); G.e(x+1,10+y,3,3,'#0a0810');
+    var ay=o.atk>=1?-3:0; G.l(x-5,15+y,x-10,19+y+ay,d); G.l(x+5,15+y,x+10+(o.atk===2?3:0),18+y+ay,d);
+    if(_msHas(F,'chains')){ G.ol(x-7,20+y,x-10,26+y,'#9a9aa4'); }
+    if(_msHas(F,'crown'))G.r(x-3,4+y,7,1,'#e8c040');
+    if(_msHas(F,'flames'))for(var i=0;i<5;i++)G.op(x-4+i*2,3+y+(i%2),'#ffb040');
+    G.oe(x,17+y,7,7,rgba(a,0.15)); G.op(x,10+y,P[3]); G.op(x+2,10+y,P[3]);
+  },
+  drake:function(G,P,F,o){ MS_PLANS.quad(G,P,','+F.slice(1)+'wings,tail,spikes,horns,',o); if(o.atk===2&&o.anim!=='breath'){} },
+  construct:function(G,P,F,o){ var x=16+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2];
+    G.r(x-5,24+y,3,5,d); G.r(x+2,24+y,3,5,d); G.r(x-7,12+y,14,12,b); G.r(x-4,6+y,8,6,b); G.r(x-4,8+y,8,2,'#1a1a20');
+    var ay=o.atk===1?-4:0; G.r(x-10,13+y+ay,3,9,d); G.r(x+7,13+y+ay,3,9,d);
+    if(_msHas(F,'hammer')){ G.l(x+8,21+y+ay,x+11,9+y+ay,'#5a4a3a'); G.r(x+9,5+y+ay,6,4,a); }
+    if(_msHas(F,'drill')){ G.tri(x+9,15+y,x+9,21+y,x+16,18+y,a); }
+    if(_msHas(F,'gears'))G.oe(x,17+y,3,3,a,true); else G.oe(x,17+y,2,2,a);
+    if(_msHas(F,'vents'))for(var i=0;i<3;i++)G.op(x-4+i*3,4+y-(o.step?1:0),'rgba(220,220,220,.6)');
+    G.op(x-2,8+y,P[3]); G.op(x+1,8+y,P[3]);
+  },
+  bat:function(G,P,F,o){ var x=16+o.lx, y=o.dy*2-3, b=P[0], d=P[1], wu=o.wing?5:-3;
+    G.tri(x-2,14+y,x-14,8+y+wu,x-4,18+y,d); G.tri(x+2,14+y,x+14,8+y+wu,x+4,18+y,d);
+    G.e(x,15+y,3.5,3.5,b); G.tri(x-3,12+y,x-2,8+y,x-1,12+y,b); G.tri(x+1,12+y,x+2,8+y,x+3,12+y,b);
+    if(_msHas(F,'crystals'))G.tri(x-1,18+y,x,23+y,x+1,18+y,P[2]);
+    G.op(x-1,14+y,P[3]); G.op(x+1,14+y,P[3]);
+  },
+  eel:function(G,P,F,o){ var x=o.lx, y=o.dy, b=P[0], a=P[2], ph=o.step?1:0;
+    for(var i=0;i<22;i++){ var yy=20+Math.round(Math.sin((i+ph*2)*0.5)*3)+y-(o.atk===2&&i>16?(i-16):0); G.r(4+i+x,yy,1,3,b); if(i%3===0)G.p(4+i+x,yy+1,a); }
+    G.e(27+x,17+y-(o.atk===2?5:0),3,2.5,b);
+    if(_msHas(F,'water')||_msHas(F,'lava')){ var wc=_msHas(F,'lava')?'rgba(255,140,40,.7)':'rgba(120,200,255,.55)'; G.or(1,25,30,1,wc); G.or(4,26,24,1,wc); }
+    G.op(28+x,16+y-(o.atk===2?5:0),P[3]);
+  },
+  turtle:function(G,P,F,o){ var x=15+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2], hide=o.atk===1;
+    G.r(x-7,24+y,3,3,b); G.r(x+4,24+y,3,3,b);
+    G.e(x,19+y,9,6,a); for(var i=0;i<3;i++)G.r(x-5+i*4,16+y,2,2,shade(a,-0.25));
+    if(!hide){ G.e(x+10+(o.atk===2?2:0),19+y,3,2.5,b); G.op(x+11+(o.atk===2?2:0),18+y,P[3]); }
+  },
+  swarm:function(G,P,F,o){ var R=rngOf(7+(o.step?3:0)+o.atk*11), n=_msHas(F,'many')?22:14;
+    for(var i=0;i<n;i++){ var px=6+R.f()*20+(o.atk===2?4:0), py=8+R.f()*16; G.p(px,py,P[0]); G.p(px+1,py,P[1]); G.op(px,py-1,rgba(P[2],0.7)); } },
+  book:function(G,P,F,o){ var x=16+o.lx, y=o.dy*2, f=o.wing?3:0;
+    G.tri(x,16+y,x-11,10+y+f,x-10,20+y,P[0]); G.tri(x,16+y,x+11,10+y+f,x+10,20+y,P[0]);
+    G.tri(x,17+y,x-9,12+y+f,x-8,19+y,'#f0e8d8'); G.tri(x,17+y,x+9,12+y+f,x+8,19+y,'#f0e8d8');
+    G.op(x-4,14+y,P[3]); G.op(x+4,14+y,P[3]); for(var i=0;i<3;i++)G.op(x-6+i*6,23+y+(i%2),rgba(P[2],0.8));
+  },
+  eye:function(G,P,F,o){ var x=16+o.lx, y=o.dy*2;
+    if(_msHas(F,'crystals'))for(var i=0;i<6;i++){ var an=i/6*Math.PI*2; G.tri(x+Math.cos(an)*6,14+y+Math.sin(an)*6,x+Math.cos(an)*11,14+y+Math.sin(an)*11,x+Math.cos(an+0.3)*6,14+y+Math.sin(an+0.3)*6,P[2]); }
+    if(_msHas(F,'tentacles'))for(var t=0;t<4;t++)G.l(x-4+t*3,19+y,x-5+t*3+(o.step?1:-1),27+y,P[1]);
+    G.e(x,14+y,7,7,P[0]); G.e(x+1,14+y,4,4,P[2]); G.op(x+2,14+y,'#101010'); G.op(x+2,13+y,'#101010'); G.op(x-1,11+y,'rgba(255,255,255,.8)');
+    if(o.atk===1)G.r(x-7,8+y,15,4,P[1]);
+  },
+  orb:function(G,P,F,o){ var x=16+o.lx, y=o.dy*2;
+    G.oe(x,14+y,10,10,rgba(P[2],0.5),true); G.e(x,14+y,6,6,P[0]); G.r(x-6,14+y,13,1,P[1]);
+    for(var i=0;i<4;i++){ var an=i/4*Math.PI*2+(o.step?0.4:0); G.op(x+Math.cos(an)*9,14+y+Math.sin(an)*9,P[2]); }
+    G.op(x,13+y,P[3]); G.op(x+1,13+y,P[3]);
+  },
+  chesspiece:function(G,P,F,o){ var x=16+o.lx, y=o.dy, b=P[0], a=P[2];
+    G.r(x-7,25+y,14,4,b); G.r(x-5,21+y,10,4,b); G.r(x-4,13+y,8,8,b);
+    if(_msHas(F,'rook')){ G.r(x-6,7+y,12,6,b); G.r(x-6,5+y,3,2,b); G.r(x-1,5+y,3,2,b); G.r(x+4,5+y,3,2,b); }
+    else { G.tri(x-5,13+y,x+1,3+y,x+7,11+y,b); G.r(x+4,9+y,4,3,b); G.p(x,4+y,a); }
+    G.oe(x,17+y,1.5,1.5,a); G.op(x+2,8+y,P[3]);
+  }
+};
+// ── effects on the strike frame ────────────────────────────────────────
+var MS_FX={
+  lunge:function(G,P){ for(var i=0;i<7;i++){ var an=-1.1+i*0.35; G.op(20+Math.cos(an)*9,16+Math.sin(an)*9,i%2?'#ffffff':P[2]); } },
+  shoot:function(G,P){ G.or(26,14,3,3,P[2]); G.ol(20,15,25,15,rgba(P[2],0.5)); G.op(29,15,'#ffffff'); },
+  spit:function(G,P){ G.oe(27,12,2,2,P[2]); G.op(24,14,rgba(P[2],0.6)); G.op(22,16,rgba(P[2],0.4)); },
+  cast:function(G,P){ G.oe(16,15,13,13,rgba(P[2],0.85),true); for(var i=0;i<6;i++){ var an=i/6*Math.PI*2; G.op(16+Math.cos(an)*9,15+Math.sin(an)*9,'#ffffff'); } },
+  slam:function(G,P){ for(var i=0;i<12;i++){ G.op(3+i*2.3,30-(i%2),'rgba(210,200,180,.9)'); } G.oe(16,29,14,2,'rgba(210,200,180,.35)',true); },
+  breath:function(G,P){ for(var i=0;i<14;i++){ var d=i*0.55; G.or(23+i*0.6,13-d*0.45,1,Math.max(1,d),i%3?P[2]:'#ffe080'); } },
+  burrow:function(G,P){ for(var k=22*32;k<1024;k++){ G.c[k]=null; } for(var x=2;x<30;x++){ var h=Math.round(3-Math.abs(x-16)/6); if(h>0)G.or(x,28-h,1,h+1,'#6a4a2a'); } },
+  blink:function(G,P){ for(var y=0;y<32;y++)for(var x=0;x<32;x++)if((x+y)%2&&G.c[y*32+x])G.c[y*32+x]=null; for(var i=0;i<6;i++)G.op(6+i*4,6+(i%3)*8,'#ffffff'); },
+  spin:function(G,P){ G.oe(16,17,12,6,'rgba(255,255,255,.7)',true); },
+  dive:function(G,P){ for(var i=0;i<4;i++)G.ol(4+i*3,6+i*2,8+i*3,10+i*2,'rgba(255,255,255,.7)'); },
+  pulse:function(G,P){ G.oe(16,17,14,10,rgba(P[2],0.75),true); G.oe(16,17,9,6,rgba(P[2],0.45),true); },
+  summon:function(G,P){ G.oe(26,26,4,1.5,rgba(P[2],0.9),true); G.or(25,21,3,4,rgba(P[2],0.6)); },
+  beam:function(G,P){ G.or(20,14,12,2,P[2]); G.or(20,13,12,1,rgba(P[2],0.4)); G.or(20,16,12,1,rgba(P[2],0.4)); },
+  lob:function(G,P){ G.oe(24,6,2,2,P[2]); G.op(21,8,rgba(P[2],0.5)); G.oe(28,28,3,1,rgba(P[2],0.5),true); }
+};
+function msPaint(spec,frame){
+  var G=_msGrid(), F=','+(spec.feat||'')+',', P=spec.pal;
+  var o={dy:frame===1?-1:0, lx:frame===2?-1:frame===3&&(spec.anim==='lunge'||spec.anim==='dive')?2:0, step:frame%2, wing:frame===1||frame===3?1:0, atk:frame===2?1:frame===3?2:0, anim:spec.anim};
+  (MS_PLANS[spec.plan]||MS_PLANS.biped)(G,P,F,o);
+  _msShadeOutline(G);
+  if(frame===2&&(spec.anim==='cast'||spec.anim==='shoot'||spec.anim==='beam'))G.oe(16,15,4,4,rgba(P[2],0.45));
+  if(frame===3&&MS_FX[spec.anim])MS_FX[spec.anim](G,P);
+  var cv=mkCanvas(32,32), x=cv.getContext('2d');
+  x.fillStyle='rgba(0,0,0,.28)'; x.beginPath(); x.ellipse(16,29.5,9,2,0,0,Math.PI*2); x.fill();
+  for(var k=0;k<1024;k++){ var c=G.c[k]; if(c){ x.fillStyle=c; x.fillRect(k%32,(k/32)|0,1,1); } }
+  for(var k2=0;k2<1024;k2++){ var c2=G.o[k2]; if(c2){ x.fillStyle=c2; x.fillRect(k2%32,(k2/32)|0,1,1); } }
+  return cv;
+}
+function msFrames(spec){ if(!spec._fr)spec._fr=[0,1,2,3].map(function(f){ return msPaint(spec,f); }); return spec._fr; }
+
+// ── roster helper (43–46: one file per quadrant) ────────────────────────
+// seg: main (mainland) · dun (dungeon: role melee/ranged) · tow (tower: magic)
+// tags: pack · night · T:<where it spawns>   reuse: existing game monster id
+var MON_ROSTER=[];
+function MON(q,seg,role,tier,id,name,spr,tags,look,move,atk,def,sp,reuse){
+  var pal=spr[2].split(',');
+  MON_ROSTER.push({q:q,seg:seg,role:role||(seg==='tow'?'magic':seg==='main'?'mainland':''),tier:tier,id:id,name:name,
+    spec:{plan:spr[0],anim:spr[1],pal:pal,feat:spr[3]||''},tags:tags?tags.split('|'):[],look:look,move:move,atk:atk,def:def,sp:sp,reuse:reuse||null});
+}
+// ═══ NE GRASSLANDS — "Fae meadows & old stones" ═══════════════════════
+// Level 1–5. One clear mechanic each: learn to dodge, flank, time a block.
+// ── Mainland (20 candidates → pick 10) ──
+MON(1,'main','',1,'meadow_goblin','Meadow Goblin',['biped','lunge','#6fa040,#5a4028,#c8a060,#ff3030','ears,dagger'],'pack|T:roads, fields',
+ 'Scrawny green goblin in a patched leather vest with a rusty knife.',
+ 'Darts in, stabs, darts back out (pulse). Moves in packs of 3.',
+ 'Quick knife jab; the pack takes turns so one is always closing in.',
+ 'Flees at low HP to fetch friends.',
+ 'If one escapes it returns 20 s later with 2 more goblins.','goblin');
+MON(1,'main','',1,'thistle_hog','Thistle Hog',['quad','lunge','#8a6a4a,#4a3424,#c8b070,#ff4020','tusks,spikes,tail'],'T:meadows, crop strips',
+ 'Stocky boar whose back bristles with purple thistle spines.',
+ 'Paws the ground for 1 s, then charges in a straight line and cannot turn.',
+ 'Charge hits for heavy damage and knockback.',
+ 'Spines: melee hits from above/behind prick you for 1 damage.',
+ 'Hits a wall, rock or tree on a miss → stunned 2 s (bait it into obstacles).');
+MON(1,'main','',1,'puffcap','Puffcap',['plant','pulse','#e8dcc0,#6a5a40,#d86aa0,#301020','mushcap,spores'],'T:fairy rings, forest edges',
+ 'Waddling toadstool with a pink spotted cap and sleepy eyes.',
+ 'Hides as a normal mushroom; hops slowly after you once woken.',
+ 'Puffs a spore cloud (2-tile radius) that slows you 40% for 2 s.',
+ 'Ducks under its cap after 2 quick hits (0.8 s invulnerable).',
+ 'Spore clouds make other monsters inside them sneeze and miss their next attack.');
+MON(1,'main','',2,'hedge_sprite','Hedge Sprite',['wisp','dive','#b8f0a0,#4a8a3a,#80ff80,#203010','wings'],'T:hedges, bushes, blossom terraces',
+ 'Thumb-sized leafy fae with dragonfly wings and a mischievous grin.',
+ 'Flits erratically, never flies in a straight line for more than 1 s.',
+ 'Dive-pinch for 1 damage — and steals 5–15 gold.',
+ 'Tiny hitbox; dodges the first arrow shot at it.',
+ 'Thief: flies off with your gold; catch it within 15 s to get double back.');
+MON(1,'main','',2,'tunnel_nipper','Tunnel Nipper',['small','burrow','#a88a6a,#5a4030,#e8c0a0,#101010','ears,tail'],'pack|T:soft ground, meadows',
+ 'Pink-nosed mole-rat with oversized front teeth.',
+ 'Travels underground; only a moving dirt ridge shows where it is.',
+ 'Pops up under you with a bite, then stays above ground for 1.5 s.',
+ 'Immune while underground.',
+ 'Pops up next to buried treasure sometimes — follow the ridge when it is alone.');
+MON(1,'main','',2,'scarecrow_warden','Scarecrow Warden',['biped','shoot','#c8a060,#7a5a3a,#3a3a4a,#ffb020','hat,stilts'],'night|T:windmill hills, crop strips',
+ 'Straw scarecrow on a pole, stitched grin, glowing pumpkin-orange eyes.',
+ 'Stands still like decoration until you pass, then hops after you on its pole.',
+ 'Throws 3 crows that home in weakly and peck.',
+ 'Fire damage x2; arrows pass through the straw (half damage).',
+ 'Only animates at night — in daytime it is a harmless prop you can loot.');
+MON(1,'main','',2,'bumble_knight','Bumble Knight',['insect','dive','#f0c030,#3a2a18,#fff0a0,#101010','wings,stripes,stinger,antennae'],'pack|T:blossom terraces, flowers',
+ 'Fat fuzzy bumblebee the size of a dog, with a tiny acorn helmet.',
+ 'Flies in lazy figure-8 loops around its flower patch.',
+ 'Dive-sting with a short knockback; leaves its stinger and slows down.',
+ 'After stinging it cannot attack again for 4 s.',
+ 'Guards a hive prop: breaking the hive frees 3 small bees but drops honey (heals).');
+MON(1,'main','',2,'dustwing_moth','Dustwing Moth',['bat','pulse','#d8d0b8,#8a8070,#e8e0ff,#303060','crystals'],'night|T:near lamps, waystones, lanterns',
+ 'Pale moth with owl-eye patterns on its wings.',
+ 'Drawn to light: circles waystones, lanterns and you at night.',
+ 'Wing-dust burst that shrinks your light radius for 5 s.',
+ 'Weak but flutters out of reach every few seconds.',
+ 'Several moths around you make the night overlay much darker.');
+MON(1,'main','',3,'runestone_crawler','Runestone Crawler',['golem','beam','#8a8578,#5a564e,#7fe8ff,#7fe8ff','moss'],'T:standing stones, stone circles',
+ 'A mossy standing stone on stubby legs with a single cyan rune.',
+ 'Disguised as a standing stone; crawls slowly when you are within 3 tiles.',
+ 'Fires a telegraphed straight ley beam (1 s warning line).',
+ 'Only takes damage while its rune glows (during and just after the beam).',
+ 'Standing on a ley line makes its beam twice as long.');
+MON(1,'main','',1,'jackalope','Jackalope',['small','lunge','#b89a70,#6a5038,#e8dcc0,#101010','ears,antlers'],'T:open meadows',
+ 'Hare with little antlers, twitchy nose.',
+ 'Very fast zig-zag hops; stops dead, then bolts.',
+ 'Head-butt that knocks you back 2 tiles.',
+ 'Hard to hit; stops moving for 0.5 s right after each head-butt.',
+ 'Runs away at low HP; catching it drops a lucky antler (small crit bonus).');
+MON(1,'main','',3,'kite_rider','Goblin Kite-Rider',['bird','lob','#c8a060,#6a4a30,#ff7a6a,#ff3030','harpy'],'T:windmill hills, ridges',
+ 'Goblin clinging to a glyph-painted kite, cackling.',
+ 'Circles high above; only its shadow shows on the ground.',
+ 'Drops pebbles from above — the landing spot is marked by a shrinking circle.',
+ 'Untargetable in the air; lands after 3 drops (or if you cut the kite string).',
+ 'Land-and-fight: once down it is a weak goblin with a hurt ego.');
+MON(1,'main','',3,'bramble_wolf','Bramble Wolf',['quad','lunge','#5a6a4a,#2a3424,#a0c060,#ffe040','ears,mane,tail'],'pack|night|T:forest edges, bones',
+ 'Wolf whose fur is tangled brambles and thorns.',
+ 'Pack of 3 + alpha: circles, then two flank while one feints.',
+ 'Bite; the alpha\'s howl gives the pack +30% speed for 4 s.',
+ 'Thorn coat reflects 1 damage on melee hits.',
+ 'Kill the alpha first and the others scatter.');
+MON(1,'main','',3,'barrow_skeleton','Barrow Skeleton',['biped','shoot','#e8e0cc,#8a8070,#c8a060,#ff3030','skull,bow'],'night|T:giant bones, amphitheatre',
+ 'Moss-stained skeleton archer in a rotted cloak.',
+ 'Keeps its distance, steps sideways to line up shots.',
+ 'Arrow volley (reuses the Skeleton\'s arrow attack).',
+ 'Falls into a bone pile on death…',
+ '…and reassembles after 5 s unless you step on the pile.','skeleton');
+MON(1,'main','',1,'clover_slime','Clover Slime',['blob','slam','#7ac050,#3a7030,#ffffff,#102010','clover'],'T:everywhere green',
+ 'Bouncy green slime with a four-leaf clover floating inside.',
+ 'Hops toward you in slow arcs.',
+ 'Body-slam on landing.',
+ 'Splits into 2 small slimes when hit by a heavy attack.',
+ 'The clover drops as a charm: +5% gold find for the rest of the day.');
+MON(1,'main','',3,'harvest_mantis','Harvest Mantis',['insect','lunge','#8ac060,#4a7030,#e8f0a0,#ff4040','scythes,antennae'],'T:crystal tallgrass, crop fields',
+ 'Tall green mantis with sickle arms, hides in tall grass.',
+ 'Motionless in tall grass; you only see its eyes glint.',
+ 'Double scythe lunge with long reach.',
+ 'Parry window: blocking just before the lunge stuns it for 2 s.',
+ 'Teaches the block timing that towers later demand.');
+MON(1,'main','',4,'pooka','Pooka',['quad','blink','#3a3a44,#1a1a20,#ffd040,#ffd040','ears,mane,tail'],'night|T:fairy rings',
+ 'Looks like a black rabbit… until it becomes a shaggy black goblin-horse.',
+ 'Blinks between fairy rings.',
+ 'Kick combo; sometimes swaps places with you.',
+ 'Can\'t be hit while blinking.',
+ 'Trickster: stand inside a fairy ring and it can\'t blink — it has to fight fair.');
+MON(1,'main','',3,'hill_gnoll','Hill Gnoll',['brute','lob','#b09060,#5a4028,#8a8478,#ff3030','tusks'],'T:ridges, slopes',
+ 'Hyena-faced gnoll with a sack of rocks.',
+ 'Retreats uphill and keeps range.',
+ 'Lobs boulders in arcs (landing circle shown).',
+ 'Boulders stay as obstacles for 10 s — use them as cover.',
+ 'Laughs when it misses; the laugh calls nearby gnolls.');
+MON(1,'main','',4,'echo_phantom','Echo Phantom',['wraith','pulse','#c8d0e8,#6a7088,#9fe8ff,#ffffff',''],'night|T:amphitheatre ruins',
+ 'See-through actor\'s ghost wearing a cracked theatre mask.',
+ 'Drifts; always keeps the distance of your last attack.',
+ 'Echo: repeats the last attack you used back at you, 1.5 s later.',
+ 'Immune to the attack type you just used.',
+ 'Vary your attacks — spam one move and it becomes a mirror.');
+MON(1,'main','',4,'floatrock_gargoyle','Floatrock Gargoyle',['bird','dive','#8a8478,#5a564e,#9ff0ff,#9ff0ff','stone,talons'],'T:floating-rock meadow',
+ 'Stone gargoyle perched on the floating islands.',
+ 'Stone and invulnerable while perched; swoops when you pass under.',
+ 'Swoop claw, then climbs back up.',
+ 'Flesh (hittable) for 3 s after each swoop.',
+ 'Two perched on the same rock swoop one after the other.');
+MON(1,'main','',2,'dung_roller','Dung Roller Beetle',['insect','lunge','#3a4a6a,#1a2030,#8a6a4a,#ff4040','ball,antennae'],'T:meadows, herder paths',
+ 'Shiny blue beetle pushing a big ball of mud.',
+ 'Rolls the ball at you; the ball bounces off rocks.',
+ 'Ball hit: knockback + dirt (slow 1 s).',
+ 'Hide behind the ball — it can\'t see through it.',
+ 'Break the ball and the beetle panics and runs.');
+
+// ── Dungeon (10 melee + 10 ranged → pick 5 + 5) ──
+MON(1,'dun','melee',1,'goblin_cutthroat','Goblin Cutthroat',['biped','lunge','#5a8a3a,#2a2a30,#c8c8d0,#ff3030','ears,hood,dagger'],'',
+ 'Hooded goblin with two daggers.','Circles to get behind you.','Backstab: x2 damage from behind.','Dodge-rolls away after each stab.','Quiet — no footstep sound until it attacks.');
+MON(1,'dun','melee',1,'tunnel_brute','Goblin Tunnel Brute',['brute','spin','#6a9a40,#4a3424,#a0a0a8,#ff3030','tusks'],'',
+ 'Big goblin with a miner\'s shovel and a lamp helmet.','Slow; digs through loose dirt walls.','180° shovel sweep with knockback.','Front armor: hit it from the side.','Knocks you into walls for extra damage.');
+MON(1,'dun','melee',2,'root_gnasher','Root Gnasher',['plant','burrow','#6a4a30,#3a2a18,#a0c060,#ff6030','bulb,thorns'],'',
+ 'A snapping bulb on a tangle of roots.','Tunnels through root walls, surfaces next to you.','Snap bite that roots you 1 s.','Can only be hit above ground.','Cut roots on the walls to block its tunnels.');
+MON(1,'dun','melee',2,'bone_hound','Bone Hound',['quad','lunge','#e8e0cc,#8a8070,#ff6040,#ff3030','tail'],'pack',
+ 'Skeletal dog with glowing ember eyes.','Fast; chains up to 3 bites.','Lunging bite chain.','Crumbles fast (low HP) but reassembles once.','Loves bones: throw a bone item to distract it.');
+MON(1,'dun','melee',2,'shield_goblin','Shield Goblin',['biped','lunge','#6a9a40,#5a4028,#b08040,#ff3030','ears,shield,spear'],'',
+ 'Goblin behind a big wooden door-shield.','Advances slowly shield-first.','Spear poke from behind the shield.','Blocks all frontal damage and arrows.','Flank it or use a heavy hit to knock the shield aside.');
+MON(1,'dun','melee',2,'capmaul','Capmaul',['brute','slam','#e8dcc0,#8a6a4a,#d86aa0,#301020','mushcap'],'',
+ 'Hulking mushroom man with a fist-sized cap.','Lumbers; jumps to close gaps.','Belly-flop slam leaving a spore puddle (slow).','Spore puddles heal other fungi.','Burning the puddles stops the healing.');
+MON(1,'dun','melee',1,'rat_swarm','Rat Swarm',['swarm','lunge','#8a7a6a,#4a3a30,#ff8080,#ff3030','many'],'pack',
+ 'A squeaking carpet of rats.','Flows around obstacles, surrounds you.','Many tiny bites (damage over time while inside).','Each hit kills a few rats; the swarm shrinks.','Afraid of fire and light.');
+MON(1,'dun','melee',3,'barrow_knight','Barrow Knight',['biped','lunge','#b8b0a0,#5a5a60,#c8a060,#80c0ff','skull,helmet,sword,shield'],'',
+ 'Armored skeleton knight with a notched greatsword.','Steady walk; never runs.','Telegraphed overhead strike.','Shield blocks the front; parry the overhead to stun.','Drops its shield at half HP and gets faster.');
+MON(1,'dun','melee',3,'clay_golemling','Clay Golemling',['golem','lunge','#b87a50,#7a4a30,#ffd080,#ffd080',''],'',
+ 'Knee-high clay golem with a handprint on its chest.','Waddles toward you.','Grab: holds you until you mash to break free.','Soft: blunt hits deal double.','Two golemlings merge into a bigger one if they touch.');
+MON(1,'dun','melee',1,'boarling','Rabid Boarling',['small','lunge','#8a6a4a,#4a3424,#fff4e0,#ff2020','tusks,tail'],'pack',
+ 'Foaming little boar.','Charges with speed that ramps up.','Tusk charge.','Stunned when hitting walls.','Comes in litters of 3–4.');
+MON(1,'dun','ranged',1,'goblin_slinger','Goblin Slinger',['biped','shoot','#6fa040,#5a4028,#8a8478,#ff3030','ears,sling'],'',
+ 'Goblin with a leather sling.','Keeps 5 tiles away; runs when approached.','Sling stones.','Cowardly: stops shooting when you are close.','Sits on ledges you have to find a way up to.');
+MON(1,'dun','ranged',1,'skeleton_archer','Skeleton Archer',['biped','shoot','#e8e0cc,#8a8070,#c8a060,#ff3030','skull,bow'],'',
+ 'Classic skeleton with a bow.','Holds position, sidesteps.','3-arrow volley (existing Skeleton attack).','Brittle: crumbles in 3 hits.','Rises again unless its skull is kicked away.','skeleton');
+MON(1,'dun','ranged',2,'spore_spitter','Spore Spitter',['plant','spit','#a88ac0,#5a4a6a,#d0ff80,#301020','bulb'],'',
+ 'Purple pitcher plant rooted in the floor.','Stationary; turns to face you.','Lobs spore balls that leave a slowing cloud.','Closes its lid when you are adjacent.','Burn it or hit it from behind.');
+MON(1,'dun','ranged',2,'blowgun_goblin','Blowgun Goblin',['biped','shoot','#6fa040,#5a4028,#80e0a0,#ff3030','ears,hood'],'',
+ 'Goblin peeking over a crate with a blowpipe.','Hides behind cover; peeks out to shoot.','Sleep dart: drowsy (-30% speed) for 3 s.','Only hittable while peeking.','Break its crate and it panics.');
+MON(1,'dun','ranged',2,'glowworm','Glowworm Lurker',['serpent','spit','#e0f0a0,#6a7a40,#b0ff60,#101010',''],'',
+ 'Pale glowing worm hanging from the ceiling.','Clings to the ceiling; drops a glowing thread to aim.','Acid drip — the landing spot glows first.','Only reachable with ranged attacks or when it drops.','Its glow lights dark rooms.');
+MON(1,'dun','ranged',3,'bone_ballista','Bone Ballista',['construct','beam','#e8e0cc,#6a5a40,#c8a060,#ff3030',''],'',
+ 'Skeleton crew manning a ballista made of ribs.','Stationary, slow turn.','Piercing bolt down a whole corridor (long telegraph).','Hit the crew, not the machine.','Its bolts break wooden barriers — lure it.');
+MON(1,'dun','ranged',2,'trap_kobold','Trap-Setter Kobold',['biped','lob','#c07040,#5a3a20,#c8c8d0,#ffe040','ears,tail'],'',
+ 'Little lizard-dog in a tool belt.','Runs around placing snares.','Throws knives; snares root you 1.5 s.','Weak in melee.','Snares it placed stay after it dies — watch your step.');
+MON(1,'dun','ranged',2,'hive_keeper','Hive Keeper',['biped','lob','#c8a060,#6a4a30,#f0c030,#301010','hood'],'',
+ 'Veiled beekeeper goblin carrying clay hives.','Keeps range.','Throws hives that burst into 3 angry bees.','Smoke (fire) calms the bees.','Drops honey (heals).');
+MON(1,'dun','ranged',3,'shade_sniper','Shade Sniper Imp',['biped','beam','#3a3a50,#1a1a28,#ff4060,#ff4060','ears,horns'],'',
+ 'Shadowy imp, only its red eyes show.','Invisible until it fires.','Red aim-line for 1.5 s, then a heavy bolt.','Visible for 2 s after each shot.','Stand in light and it can\'t hide.');
+MON(1,'dun','ranged',1,'pebble_sprite','Pebble Sprite',['wisp','shoot','#a8a090,#6a6458,#e8e0d0,#301010',''],'pack',
+ 'A grumpy pebble with tiny wings.','Floats around the room edges.','Pebbles that ricochet off walls once.','Tiny; dies in 1 hit.','Comes in groups of 3–5.');
+
+// ── Tower (20 candidates → pick 10) — magical ──
+MON(1,'tow','',1,'pixie_hexer','Pixie Hexer',['wisp','cast','#ffd0f0,#c080b0,#ff80d0,#301030','wings'],'',
+ 'Tiny pink pixie with a star-tipped wand.','Flits in circles.','Shrink hex: you deal -30% damage for 4 s.','Hard to hit; low HP.','Hexes stack — dodge the sparkle ring.');
+MON(1,'tow','',2,'glyph_scribe','Glyph Scribe',['caster','cast','#e8d0b0,#4a6a9a,#7fe8ff,#101010','hood,book,runes'],'',
+ 'Robed scholar goblin scribbling in a floating book.','Walks backwards away from you.','Writes runes on the floor that explode 2 s later.','Book shield blocks one hit every 5 s.','Step on an unfinished rune to smudge it.');
+MON(1,'tow','',2,'dawn_acolyte','Dawn Acolyte',['caster','pulse','#f0e0c0,#e8e4dc,#ffd070,#303030','hood,staff'],'',
+ 'White-robed acolyte with a sun-disc staff.','Stays behind other monsters.','Heals allies in a pulse.','Weak itself.','Kill it first or the room never ends.');
+MON(1,'tow','',1,'grimoire','Snapping Grimoire',['book','lunge','#6a3a2a,#3a1a10,#ffd070,#ff3030',''],'',
+ 'Flying leather book with teeth along its pages.','Flaps like a bat.','Page-cut projectiles, then snapping bite.','Closes (armored) when you hit it from the front.','Drops a spell page (scroll).');
+MON(1,'tow','',2,'candle_wraith','Candle Wraith',['wisp','pulse','#f0e8d0,#8a8070,#ffc040,#301010','candle'],'',
+ 'A floating candle with a face in its flame.','Drifts slowly toward you.','Its flame grows with every hit it lands (bigger burn aura).','Water/ice snuffs it out instantly.','Lights the dark rooms of the tower.');
+MON(1,'tow','',3,'ley_mote','Ley Mote',['orb','beam','#9ff0ff,#4a8aa0,#7fe8ff,#ffffff',''],'pack',
+ 'Floating cyan orb humming with ley energy.','Drifts; links to other motes.','Tethers to other motes: the beams between them burn you.','Each mote alone is fragile.','Break one link and the net collapses.');
+MON(1,'tow','',3,'mirror_sprite','Mirror Sprite',['wisp','blink','#e0f0ff,#8aa0c0,#ffffff,#3060ff','wings'],'',
+ 'Glassy fairy with a mirror-shard shield.','Creates 2 illusion copies and shuffles them.','Glints that dazzle (brief blur).','Only the copy that casts a shadow is real.','Hitting a copy makes it shatter harmlessly.');
+MON(1,'tow','',2,'petal_witch','Petal Witch',['caster','cast','#f0c8d8,#8a3a5a,#ffc6de,#301030','hat'],'',
+ 'Young witch in a rose-petal cloak.','Floats slowly, keeps distance.','Petal storm that pushes you back.','Petal shield absorbs arrows.','Pushback into spikes or pits is her real danger.');
+MON(1,'tow','',3,'clockwork_owl','Clockwork Owl',['bird','dive','#c8a060,#6a4a30,#ffd070,#80ffff','talons'],'',
+ 'Brass owl with glowing lens eyes.','Only moves when you are NOT facing it.','Silent dive from behind.','Freezes when you look at it.','Keep turning — or back into a corner.');
+MON(1,'tow','',4,'fae_enchantress','Fae Enchantress',['caster','cast','#e8f0d0,#5a8a4a,#e0a8ff,#e0a8ff','wings,crown,wand'],'',
+ 'Tall fae noble with butterfly wings.','Glides; teleports when cornered.','Charm: reverses your controls for 3 s.','Charm fails if you are standing on a rune circle.','Her charmed ring can be taken as loot.');
+MON(1,'tow','',3,'sentry_orb','Runic Sentry Orb',['orb','beam','#8a8e96,#3a3e46,#7fe8ff,#7fe8ff',''],'',
+ 'Stone orb banded with runes on a pedestal.','Stationary, rotating.','Sweeping beam — hide behind pillars.','Invulnerable while sweeping.','Hit it from behind while it turns.');
+MON(1,'tow','',2,'apprentice_conjurer','Apprentice Conjurer',['caster','summon','#e8d0b0,#4a5a9a,#b0a0ff,#101010','hat,wand'],'',
+ 'Nervous apprentice with a too-big hat.','Runs away.','Summons 2 slimes from portals.','Barely any HP.','Kill him and his summons pop.');
+MON(1,'tow','',3,'starlight_wisp','Starlight Wisp',['wisp','blink','#fff8d0,#c8b070,#ffffa0,#303010',''],'',
+ 'Golden star with a comet tail.','Blinks around the room.','Leaves star mines that pop when you step close.','Fragile.','Mines last 8 s — clean up by luring it away.');
+MON(1,'tow','',2,'ink_imp','Ink Imp',['biped','spit','#2a2a3a,#101018,#6a6aff,#ffffff','ears,horns'],'',
+ 'Tiny imp made of wet ink.','Hops between inkwells.','Ink splash blinds (dark vignette) for 3 s.','Splits into ink drops on death.','Drops splatter the floor (slippery).');
+MON(1,'tow','',3,'wind_sylph','Wind Sylph',['wraith','pulse','#e0f4ff,#9ac0e0,#ffffff,#3080ff',''],'',
+ 'Translucent air spirit with streaming hair.','Swirls around you.','Gust that pushes you 3 tiles — toward hazards.','Intangible between gusts.','Only hittable right after a gust.');
+MON(1,'tow','',3,'illusionist_gnome','Illusionist Gnome',['caster','blink','#e8c0a0,#6a3a8a,#ff80ff,#101010','hat,beard,wand'],'',
+ 'Bearded gnome with a spiral wand.','Teleports short hops.','Swaps positions with you (surprise!).','Decoy hat — hitting the hat does nothing.','Swaps you into its own traps if you aren\'t careful.');
+MON(1,'tow','',2,'rose_dryad','Rose Dryad',['tree','cast','#8a6a4a,#4a3424,#ff8aa0,#ffffff','moss'],'',
+ 'Young tree-woman with roses in her hair.','Rooted; moves between pots.','Vines root you if you stand still more than 1 s.','Thorny: melee hurts you 1.','Keep moving and she can\'t catch you.');
+MON(1,'tow','',1,'lantern_familiar','Lantern Familiar',['wisp','shoot','#ffe0a0,#6a4a2a,#ffd070,#301010','lantern'],'',
+ 'Floating paper lantern with tiny wings.','Follows other monsters.','Lights up; shoots small sparks.','Fragile.','Killing it makes the room dark.');
+MON(1,'tow','',3,'chime_spirit','Chime Spirit',['wisp','pulse','#c8e0ff,#6a88b0,#9fe8ff,#ffffff',''],'',
+ 'Floating crystal chimes with a face.','Floats in the room centre.','Sound rings expand outward with a gap — step through the gap.','Only hittable between rings.','Faster rings at low HP.');
+MON(1,'tow','',4,'wand_knight','Gilded Wand-Knight',['biped','cast','#c8ccd4,#6a7080,#ffd070,#80c0ff','helmet,shield,armor,staff'],'',
+ 'Animated gilded armor wielding a wand like a sword.','Marches; blocks.','Alternates wand bolts and a wand slash.','Mirror shield reflects spells.','Physical attacks break the shield after 3 hits.');
+// ═══ SE WETLANDS — "Bog, mist & the drowned" ══════════════════════════
+// Level 5–10. Adds status effects: slow, poison, pull, sink, blind.
+// ── Mainland ──
+MON(2,'main','',2,'bog_serpent','Bog Serpent',['serpent','breath','#2a8a4a,#14502a,#80ff60,#ffe040','fins,water'],'T:shallow water, marsh',
+ 'Long green serpent with fin ridges, rising from the bog.',
+ 'Hides submerged — only ripples show — then rushes out.',
+ 'Bog-flame: a cone of green swamp fire (existing attack).',
+ 'Invulnerable while submerged.',
+ 'Surfaces when you stand still near water for 2 s.','bog_serpent');
+MON(2,'main','',3,'mud_troll','Mud Troll',['brute','slam','#5a4a28,#3a2e18,#8a7a50,#ff6030','moss,belly'],'T:mud flats, bog edges',
+ 'Hulking troll caked in dripping mud.',
+ 'Zig-zag lumber (existing).',
+ 'Stomp (existing) that throws mud: slow 30% for 2 s.',
+ 'Regenerates while standing in mud.',
+ 'Lure it onto dry land to stop the regeneration.','mud_troll');
+MON(2,'main','',2,'lily_lurker','Lily Lurker',['plant','lunge','#3a8a6a,#1a4a3a,#ffd27a,#ff3030','bulb'],'T:lantern lilies, ponds',
+ 'A lantern lily pad that is really the top of a big snapping jaw.',
+ 'Hidden among real lily pads.',
+ 'Snap + drag: pulls you 2 tiles into the water.',
+ 'Only its glowing lure is weak.',
+ 'Its lure glows a slightly different colour from real lilies.');
+MON(2,'main','',1,'glowfrog','Glowfrog Croaker',['frog','lunge','#40c0a0,#1a6a5a,#b0ff80,#101010','spots,glow'],'pack|night|T:glow-frog pools',
+ 'Chubby frog with bioluminescent spots.',
+ 'Leaps in arcs from pad to pad.',
+ 'Tongue lash that pulls you to it.',
+ 'Poison skin: touching it poisons you (2 dmg/s, 3 s).',
+ 'A croak chorus of 3+ frogs makes the tongue pulls chain.');
+MON(2,'main','',2,'leech_swarm','Leech Swarm',['swarm','lunge','#3a2a3a,#1a101a,#c04060,#ff3030','many'],'T:shallow water',
+ 'Wriggling cloud of black leeches under the water.',
+ 'Drifts toward you in shallow water.',
+ 'Latches on: drains 1 HP/s until you leave the water or dodge-roll.',
+ 'Fire or salt breaks the swarm.',
+ 'Latched leeches slow you 10% each.');
+MON(2,'main','',2,'mire_crab','Mire Crab',['crab','lunge','#6a8a5a,#3a4a30,#a0c080,#101010','shell'],'T:mud flats, shores',
+ 'Moss-backed crab with one oversized claw.',
+ 'Scuttles sideways; always faces you.',
+ 'Claw grab + pinch (hold 1 s).',
+ 'Shell blocks everything from the front.',
+ 'A heavy hit flips it on its back — 3 s helpless.');
+MON(2,'main','',3,'will_o_wisp','Will-o\'-Wisp',['wisp','pulse','#c0f0ff,#4a8aa0,#80e0ff,#ffffff',''],'night|T:marsh, deep water edges',
+ 'A pale floating flame that bobs just out of reach.',
+ 'Drifts away as you approach, toward deep water.',
+ 'Lure: slowly pulls you toward it while you are near.',
+ 'Can only be hurt by ranged attacks or magic.',
+ 'Kill it to break the pull — or follow it to a hidden cache.');
+MON(2,'main','',3,'peat_walker','Peat Walker',['wraith','summon','#5a4a38,#2a2018,#80a060,#c0ff80','chains'],'night|T:bogs, drowned village',
+ 'Leathery bog-mummy wrapped in reeds.',
+ 'Slow walk; sinks and resurfaces.',
+ 'Summons grabbing mud-hands around you (root 1 s).',
+ 'Hands are separate targets; the body is tough.',
+ 'Keep moving — the hands appear where you stood.');
+MON(2,'main','',3,'shellback','Snapping Shellback',['turtle','spin','#6a8a4a,#3a4a28,#8a7a50,#ff3030',''],'T:turtle-shell isles',
+ 'Big snapping turtle with a mossy, runed shell.',
+ 'Slow walk; spins in its shell for fast attacks.',
+ 'Shell spin that ricochets around the area.',
+ 'Retracted = invulnerable.',
+ 'Hit it right after a spin (dizzy 2 s).');
+MON(2,'main','',4,'mangrove_strangler','Mangrove Strangler',['tree','lunge','#4a3a2a,#2a2018,#4fe0ff,#4fe0ff','moss'],'T:mangroves',
+ 'Mangrove tree with glowing blue roots and a knot for a face.',
+ 'Stationary.',
+ 'Root lashes from the ground anywhere in a 5-tile radius (glow warning).',
+ 'Immune to arrows; burns easily.',
+ 'Stand on stones — roots can\'t reach through rock.');
+MON(2,'main','',2,'bloodgnats','Bloodgnat Cloud',['swarm','dive','#a04050,#501820,#ff8080,#ff3030',''],'pack|T:reeds, cattails',
+ 'A buzzing red cloud of mosquitoes.',
+ 'Hit-and-run passes.',
+ 'Each pass adds a "bitten" stack: -5% speed, max 5.',
+ 'Scatters and reforms when hit.',
+ 'Standing in smoke or near fire clears the stacks.');
+MON(2,'main','',4,'reed_stalker','Reed Stalker',['insect','lunge','#8a9a50,#4a5028,#e0e8a0,#ff4040','scythes,antennae'],'T:wisp cattails',
+ 'Tall reed-coloured mantis-heron hybrid.',
+ 'Invisible while inside cattails.',
+ 'Ambush lunge, then retreats into the reeds.',
+ 'Revealed for 3 s after each attack.',
+ 'Cut or burn the reeds to take its cover away.');
+MON(2,'main','',3,'waterlogged_revenant','Waterlogged Revenant',['biped','lob','#6a8a8a,#2a4a4a,#a0d0d0,#80ffff','skull'],'night|T:drowned village',
+ 'Drowned villager in dripping rags.',
+ 'Climbs out of flooded houses.',
+ 'Throws broken roof tiles in arcs.',
+ 'Waterlogged: fire does half damage.',
+ 'Ring the village bell (prop) and they all return to the water.');
+MON(2,'main','',4,'stormeel','Storm Eel',['eel','pulse','#3a5a8a,#1a2a4a,#80e0ff,#ffff80','water'],'T:rivers, deep water edges',
+ 'Long eel crackling with blue electricity.',
+ 'Swims along rivers and pools.',
+ 'Charges the whole pool — any water tile near it shocks you.',
+ 'Only hittable when it leaps.',
+ 'Stay on dry land when it glows.');
+MON(2,'main','',3,'heron_knight','Heron Knight',['bird','lunge','#d8e0e8,#5a6a7a,#e8c040,#101010','talons'],'T:shallows, stilt walkways',
+ 'Tall white heron in a little helmet, beak like a spear.',
+ 'Wades; leaps back after each strike.',
+ 'Precise long-range beak stab (3 tiles).',
+ 'Parries arrows with its wings.',
+ 'Bait the stab, then close in while it recovers.');
+MON(2,'main','',4,'moss_golem','Moss Golem',['golem','slam','#6a8a5a,#3a5a30,#80ff80,#80ff80','moss'],'T:willow cathedral, mossy ruins',
+ 'Stone golem blanketed in thick wet moss.',
+ 'Slow; drinks from pools to heal.',
+ 'Slam with a moss shockwave (slow).',
+ 'Moss armor absorbs damage until burned off.',
+ 'Fire strips the armor; then it takes full damage.');
+MON(2,'main','',2,'slime_newts','Slime Newts',['small','spit','#e08040,#8a4020,#c0ff60,#101010','tail'],'pack|T:pools, mud',
+ 'Bright orange newts in groups of 4.',
+ 'Scatter and regroup quickly.',
+ 'Spit slime: slows 20%, stacks.',
+ 'Tiny; low HP.',
+ 'Slime puddles make you slide.');
+MON(2,'main','',3,'stilt_bandit','Stilt Bandit',['biped','lob','#c8a070,#4a5a4a,#d8d0b0,#ff4040','hood,stilts,net'],'pack|T:stilt walkways',
+ 'Marsh bandit on tall stilts with a fishing net.',
+ 'Strides over water.',
+ 'Throws a net: roots you 2 s.',
+ 'Knock out a stilt and it falls in the water (stunned).',
+ 'Bandits steal a random item stack if the net lands.');
+MON(2,'main','',4,'fog_phantom','Fog Phantom',['wraith','blink','#c8d0d0,#7a8888,#e0f0f0,#ffffff',''],'night|T:misty areas',
+ 'A face in the fog with trailing mist arms.',
+ 'Only visible within 3 tiles.',
+ 'Mist touch drains your light radius and 2 HP.',
+ 'Intangible except when attacking.',
+ 'Lanterns and fire reveal it from farther away.');
+MON(2,'main','',5,'bog_hydra','Bog Hydra',['serpent','breath','#3a7a4a,#1a4a2a,#c0ff60,#ffe040','hood,water'],'T:sunken spires (one per zone)',
+ 'Three-headed serpent rising from a sunken temple pool.',
+ 'Stays in its pool; heads weave independently.',
+ 'Each head: bite, poison spit, or water jet.',
+ 'Cut heads regrow unless burned within 5 s.',
+ 'A mini-boss for the brave; guards a big chest.');
+
+// ── Dungeon ──
+MON(2,'dun','melee',2,'drowned_guard','Drowned Guard',['biped','lunge','#6a8a8a,#3a4a50,#c8ccd4,#80ffff','helmet,spear,armor'],'',
+ 'Waterlogged temple guard with a halberd.','Steady advance.','Wide halberd sweep; drips leave slowing puddles.','Armor: halved damage from the front.','Parry the sweep to stagger it.');
+MON(2,'dun','melee',2,'sludge_brute','Sludge Brute',['brute','slam','#5a6a40,#2a3420,#a0c060,#ffff60','belly'],'',
+ 'A big ooze with a skull floating inside.','Slow ooze.','Engulf slam.','Hits make it spit out small slimes.','Kill the minis fast or it re-absorbs them.');
+MON(2,'dun','melee',3,'gator_raider','Gator Raider',['biped','lunge','#4a7a40,#2a4020,#c8c8d0,#ffe040','tail,shield,spear'],'',
+ 'Lizardfolk warrior with a turtle-shell shield.','Charges from a distance.','Charge, then tail swipe knockback.','Shield-first.','Tail swipe knocks you into water/pits.');
+MON(2,'dun','melee',3,'crypt_crawler','Crypt Crawler',['insect','lunge','#8a4a3a,#4a2018,#ffb060,#ff3030','mandibles,antennae'],'',
+ 'Giant centipede with rust-red plates.','Fast, wiggles along walls.','Poison bite (DoT).','Each body segment is separately hittable; cut it in half = 2 smaller crawlers.','Kill the head to kill the whole thing.');
+MON(2,'dun','melee',3,'leech_knight','Leech Knight',['biped','lunge','#5a3a4a,#2a1a28,#c04060,#ff3030','helmet,sword'],'',
+ 'Knight in rusted armor, leeches for a plume.','Relentless walk.','Every hit heals it.','Tough.','Fire makes the leeches drop off (no healing).');
+MON(2,'dun','melee',2,'mold_zombie','Mold Zombie',['biped','pulse','#8a9a70,#4a5040,#d0e080,#ffff80','skull'],'pack',
+ 'Shambling corpse covered in yellow mold.','Slow shamble in groups.','Claw swipe.','On death: poison cloud (3 s).','Kill them at range.');
+MON(2,'dun','melee',3,'barnacle_brute','Barnacle Brute',['brute','slam','#8a8a80,#4a4a48,#e8e0d0,#ff6030','shell,spikes'],'',
+ 'Giant crusted in barnacles.','Slow.','Heavy two-handed slam.','Barnacle armor breaks off in chunks (3 stages).','Each armor break makes it faster.');
+MON(2,'dun','melee',3,'rootbound_thrall','Rootbound Thrall',['biped','summon','#6a5a40,#3a2a18,#80c060,#c0ff80','hood'],'',
+ 'Villager puppet held up by roots.','Jerky puppet movement.','Roots burst from the floor around you.','Cutting the roots on the wall frees (kills) it.','Pitiful — frees a ghostly thank-you.');
+MON(2,'dun','melee',1,'skitter_crabs','Skitter Crabs',['crab','lunge','#c06a40,#6a3420,#ffb080,#101010',''],'pack',
+ 'A scuttling pack of palm-sized crabs.','Surround you.','Pinches.','Each dies in one hit.','Six at once.');
+MON(2,'dun','melee',4,'naga_guard','Naga Temple Guard',['serpent','spin','#3a8a8a,#1a4a4a,#e8c040,#ffe040','hood'],'',
+ 'Serpent-bodied warrior with two curved swords.','Slithers fast.','Dual-slash combo (3 hits).','Deflects arrows with spinning blades.','Pause after the combo = your opening.');
+MON(2,'dun','ranged',1,'spitfrog','Spitfrog Sniper',['frog','spit','#6a9a40,#3a5a20,#c0ff40,#ff3030','spots'],'',
+ 'Frog with a pouch cheek full of poison.','Hops to vantage points.','Arcing poison globs.','Low HP.','Globs leave poison puddles for 4 s.');
+MON(2,'dun','ranged',2,'harpoon_lizard','Harpoon Lizard',['biped','shoot','#4a7a40,#5a4028,#c8c8d0,#ffe040','tail,spear'],'',
+ 'Lizardfolk fisher with a harpoon on a rope.','Keeps range.','Harpoon: pulls you to it.','Weak up close.','Cut the rope (attack it) to break free.');
+MON(2,'dun','ranged',2,'bubble_crab','Bubble Crab',['crab','shoot','#8ac0d0,#4a7080,#e0f8ff,#101010','shell'],'',
+ 'Blue crab that blows big bubbles.','Sidesteps.','Bubble traps you: you float helpless for 1.5 s.','Shell blocks frontal hits.','Pop bubbles with any attack.');
+MON(2,'dun','ranged',3,'mud_mortar','Mud Mortar Troll',['brute','lob','#6a5a38,#3a2e18,#8a7a50,#ff6030','belly'],'',
+ 'Squat troll with a hollow log mortar.','Stationary.','Lobs mud bombs; each leaves a slowing puddle.','Tough; slow to turn.','Get behind it — it can\'t turn quickly.');
+MON(2,'dun','ranged',3,'dart_naga','Dart Naga',['serpent','shoot','#4a8a6a,#1a4a3a,#a0ff80,#ffe040','hood'],'',
+ 'Naga hiding in wall alcoves.','Pops in and out of alcoves.','Poison darts in a spread.','Only hittable while out.','Alcoves glow before it appears.');
+MON(2,'dun','ranged',2,'coral_archer','Coral Archer',['biped','shoot','#e08a7a,#8a4a40,#ffd0c0,#ffffff','bow'],'',
+ 'Skeletal archer grown over with pink coral.','Holds position.','Arrows that ricochet off walls once.','Coral armor on the front.','Aim for the back.');
+MON(2,'dun','ranged',3,'ink_squid','Ink Squid',['eye','spit','#8a6aa0,#4a3a60,#303050,#ffffff','tentacles'],'',
+ 'Floating squid with big sad eyes.','Floats over water.','Ink cloud blind + beak jab.','Squirts away when hit.','Ink clouds hide you too — use them.');
+MON(2,'dun','ranged',2,'eel_turret','Hole Eel',['eel','beam','#4a6a8a,#1a2a4a,#80e0ff,#ffff80','water'],'pack',
+ 'Eel living in floor water-holes.','Pops out of a random hole.','Water jet in a line.','Only out for 2 s.','Plug a hole with a crate or rock.');
+MON(2,'dun','ranged',2,'gnat_caller','Gnat Caller',['caster','summon','#8a7a5a,#4a4030,#ff8080,#ffe040','hood'],'',
+ 'Hunched swamp hermit with a jar of gnats.','Keeps away.','Releases homing gnat swarms.','Weak.','Break the jar (its pack) and the gnats attack him.');
+MON(2,'dun','ranged',4,'lantern_thrower','Bog Lantern Thrower',['biped','lob','#5a4a3a,#2a2018,#ffd070,#ffb040','hood,lantern'],'',
+ 'Goblin marsh-lighter with a crate of lanterns.','Stays near marsh gas pockets.','Throws lit lanterns — gas pockets explode.','Afraid of water.','Detonate the gas while it stands in it.');
+
+// ── Tower ──
+MON(2,'tow','',2,'swamp_witch','Swamp Witch',['caster','cast','#7a9a60,#3a4a3a,#80ff60,#ffe040','hat,cauldron'],'',
+ 'Green-skinned witch with a bubbling cauldron.','Orbits the room (existing).','Flame spells (existing) + cauldron spawns frogs.','Cauldron shield while brewing.','Tip the cauldron over to stop the frogs.','swamp_witch');
+MON(2,'tow','',3,'tide_caller','Tide Caller',['caster','pulse','#8ab0d0,#2a4a7a,#80e0ff,#ffffff','hood,staff'],'',
+ 'Robed priest with a conch-shell staff.','Stands on a dais.','Raises the water: the whole floor floods (slow) every 10 s.','Dais is dry — get up there.','Low water reveals hidden floor spikes.');
+MON(2,'tow','',3,'mist_weaver','Mist Weaver',['caster','blink','#d0e0e0,#6a8888,#e0f0f0,#80ffff','hood'],'',
+ 'Veiled sorceress trailing fog.','Hides in her own fog.','Makes 3 mist clones that each cast weak bolts.','Clones pop in 1 hit.','The real one leaves wet footprints.');
+MON(2,'tow','',3,'moon_moth_mage','Moon Moth Mage',['bat','beam','#e0e0ff,#6a6aa0,#c0c0ff,#ffffff',''],'night',
+ 'Huge pale moth with a crescent on its wings.','Flutters high.','Moonbeams that follow your path with a delay.','Only hittable when it lands.','Stronger at night.');
+MON(2,'tow','',3,'hex_toad','Hex Toad',['frog','cast','#6a4a8a,#3a2a4a,#c080ff,#ffe040','spots,glow'],'',
+ 'Big warty purple toad wearing a tiny crown.','Hops.','Curse: turns you into a frog for 3 s (weak hop attack only).','Tongue parries.','Kiss… no. Break its crown to lift curses.');
+MON(2,'tow','',3,'rain_spirit','Rain Spirit',['wisp','pulse','#a0c0e0,#4a6a8a,#80c0ff,#ffffff',''],'',
+ 'A small grumpy raincloud with a face.','Floats above you.','Lightning strike if you stand still > 1.5 s.','Hard to hit (it is above you).','Hit it by jumping/using a lightning spell.');
+MON(2,'tow','',4,'reflecting_nymph','Reflecting Nymph',['caster','blink','#c0f0ff,#5a8aa0,#ffffff,#3060ff','crown,wand'],'',
+ 'Water nymph with a mirror-like skin.','Glides between mirrors.','Reflects all projectiles back.','Only melee hurts her.','Mirrors on the walls can be broken to trap her.');
+MON(2,'tow','',3,'leech_warlock','Leech Warlock',['caster','beam','#5a3a4a,#2a1a28,#c04060,#ff3030','hood,staff'],'',
+ 'Pallid warlock with a leech-crowned staff.','Keeps distance.','Life-drain tether beam (heals him).','Breaks line-of-sight tethers.','Hide behind a pillar to cut the tether.');
+MON(2,'tow','',4,'bubble_siren','Bubble Siren',['caster','pulse','#80d0c0,#2a6a6a,#e0fff8,#ffffff','crown'],'',
+ 'Mermaid-like siren on a floating bubble.','Floats.','Song: pulls you toward her; bubbles trap you.','Bubble shield.','Plug your ears: an item or spell negates the pull.');
+MON(2,'tow','',3,'lily_oracle','Lily Oracle',['plant','cast','#3a8a6a,#1a4a3a,#ffd27a,#ffffff','flower'],'',
+ 'A giant glowing lily with a face in its bloom.','Stationary.','Marks tiles that will be struck 2 s later (in a pattern).','Only hittable after each strike.','Learn the pattern and it is easy.');
+MON(2,'tow','',3,'mire_shaman','Mire Shaman',['caster','summon','#6a5a3a,#3a2a18,#80c060,#ffe040','mask,staff'],'',
+ 'Masked lizard shaman in reed robes.','Runs between totems.','Places totems: slow totem, heal totem, spit totem.','Weak alone.','Totems first!');
+MON(2,'tow','',4,'coral_enchantress','Coral Enchantress',['caster','cast','#f0a0a0,#8a3a4a,#ffc0c0,#ffffff','crown,staff'],'',
+ 'Coral-crowned sorceress.','Glides.','Grows coral walls that reshape the room.','Walls block her own spells too.','Trap her behind her own walls.');
+MON(2,'tow','',3,'water_elemental','Water Elemental',['blob','slam','#60a0e0,#2a5a9a,#c0e8ff,#ffffff',''],'',
+ 'A walking wave with a glowing core.','Flows toward you.','Crashing wave slam with knockback.','Splits into puddles when hit; they reform.','Freeze it (ice) and it shatters.');
+MON(2,'tow','',4,'frost_lotus','Frost-lotus Priestess',['caster','cast','#e0f0ff,#6a8ab0,#a0e0ff,#ffffff','hood,staff'],'',
+ 'Priestess with a frozen lotus on her staff.','Glides over ice.','Freezes water into slippery ice; ice lances.','Ice shield.','Fire melts her ice floor under her.');
+MON(2,'tow','',4,'kelp_wraith','Kelp Wraith',['wraith','summon','#3a6a4a,#1a3a28,#80ffa0,#ffffff',''],'',
+ 'Ghost wrapped in dripping kelp.','Drifts.','Kelp tentacles grab you from the floor.','Intangible while tentacles are out.','Cut 3 tentacles to make it solid.');
+MON(2,'tow','',2,'rune_eels','Rune Eel Familiars',['eel','spin','#4a8aa0,#1a4a5a,#7fe8ff,#ffffff',''],'pack',
+ 'Two little glowing eels orbiting a caster.','Orbit their master.','Shield their master; zap you when close.','Weak.','Kill them first to expose the caster.');
+MON(2,'tow','',3,'glass_jelly','Glass Jellyfish',['wisp','pulse','#c0e8ff,#6a9ac0,#a0f0ff,#ffffff',''],'pack',
+ 'Floating see-through jellyfish.','Drift in slow currents.','Electric pulse ring.','Passive until touched.','Chain lightning between jellies.');
+MON(2,'tow','',4,'plague_alchemist','Plague Alchemist',['caster','lob','#3a3a3a,#1a1a1a,#80ff60,#ffe040','hood,plague'],'',
+ 'Beak-masked alchemist with a belt of potions.','Keeps distance.','Throws random potions: poison, slow, fire or… heal (you).','Drinks a shield potion at half HP.','Risky loot: random potions.');
+MON(2,'tow','',4,'storm_heron','Storm Heron Spirit',['bird','dive','#d0e0ff,#5a6a9a,#ffff80,#ffffff','talons'],'',
+ 'Spectral heron crackling with lightning.','Circles.','Dive-bombs trailing lightning.','Intangible except when diving.','Summoned in pairs by tower mages.');
+MON(2,'tow','',5,'bell_ringer','Drowned Bell-ringer',['wraith','pulse','#8aa0a0,#3a4a50,#e8c040,#ffffff','chains'],'',
+ 'Ghost of a drowned priest with a huge bell.','Stays in the belfry.','Each toll damages everyone not behind cover.','Invulnerable while ringing.','Hit the bell (not him) to crack it.');
+// ═══ SW HIGHLANDS — "Stone, wind & starlight" ═════════════════════════
+// Level 10–15. Adds knockback, shields, terrain changes, height, ice.
+// ── Mainland ──
+MON(3,'main','',3,'mesa_golem','Mesa Golem',['golem','slam','#a88a6a,#6a5a48,#ffb060,#ffd080','moss'],'T:runic mesas, boulder fields',
+ 'Sandstone golem that sleeps as a boulder.',
+ 'Looks like a boulder until you get within 4 tiles (existing Stone Golem).',
+ 'Stomp shockwave (existing): jump or dodge-roll through it.',
+ 'Stone skin: arrows do half damage.',
+ 'Its glowing core is a weak spot after each stomp.','stone_golem');
+MON(3,'main','',3,'cliff_harpy','Cliff Harpy',['bird','dive','#b88a6a,#6a4a3a,#e8c040,#ff3030','harpy,talons'],'pack|T:cliffs, ridges',
+ 'Wild-haired harpy with bronze feathers.',
+ 'Orbits above you (existing).',
+ 'Feather scatter (existing) + a dive-grab that lifts and drops you (knockback).',
+ 'Takes double damage from arrows mid-dive.',
+ 'Drops you off ledges onto lower ground if you let it.','harpy');
+MON(3,'main','',2,'crag_ram','Crag Ram',['quad','lunge','#d8d0c0,#6a6058,#c8b088,#ffb020','horns,mane'],'T:herder terraces, slopes',
+ 'Shaggy white ram with huge curled horns.',
+ 'Stamps twice, then charges.',
+ 'Charge with long knockback — can knock you off a terrace to the level below.',
+ 'Horns block frontal hits during the charge.',
+ 'Stand with your back to a wall and it knocks itself out.');
+MON(3,'main','',3,'frost_wolf','Frost Wolf',['quad','breath','#d8e8f0,#6a8aa0,#a0e0ff,#40c0ff','ears,mane,tail'],'pack|night|T:glacier peaks, snow',
+ 'Blue-grey wolf with icicles in its fur.',
+ 'Pack of 3 + alpha; circles and flanks.',
+ 'Frost breath: slows 40% for 2 s; bites.',
+ 'Thick fur: -30% physical damage.',
+ 'The alpha\'s howl calls a blizzard (vision down).');
+MON(3,'main','',3,'geode_crab','Geode Crab',['crab','shoot','#6a6a7a,#3a3a48,#c080ff,#ffffff','crystals'],'T:geode canyons',
+ 'Grey crab with a purple crystal geode for a back.',
+ 'Sidesteps, keeps its back to you.',
+ 'Fires crystal shards from its back.',
+ 'Crystals reflect your projectiles unless you hit its soft front.',
+ 'Break a crystal to get gems.');
+MON(3,'main','',4,'gale_roc','Gale Roc',['bird','pulse','#8a7a6a,#4a3a2a,#f4f8ff,#ffe040','talons'],'T:wind-harp ridges, peaks',
+ 'Huge eagle with wind-streamers on its wings.',
+ 'Soars; lands on peaks.',
+ 'Wing gust that pushes you 4 tiles; carries and drops rocks.',
+ 'Gusts blow away your arrows.',
+ 'Fight it with your back to a wall.');
+MON(3,'main','',2,'rockslide_beetle','Rockslide Beetle',['insect','spin','#8a8478,#4a4640,#c8b088,#ff4040','antennae'],'T:slopes, cliff bases',
+ 'Armadillo-beetle with a stone shell.',
+ 'Curls into a ball and rolls downhill.',
+ 'Rolling ram; bounces off rocks unpredictably.',
+ 'Invulnerable while rolling.',
+ 'Dizzy for 2 s after crashing.');
+MON(3,'main','',4,'yeti_stomper','Yeti Stomper',['brute','slam','#f0f4f8,#9aa8b8,#a0e0ff,#40a0ff','horns'],'T:glacier peaks',
+ 'Towering white yeti with blue horns.',
+ 'Slow stomp; throws snowballs.',
+ 'Snowballs grow as they roll; stomp freezes the ground (you slide).',
+ 'Thick fur; fire does double.',
+ 'Sliding on its ice sends you into its arms.');
+MON(3,'main','',4,'chess_knight','Chess Knight',['chesspiece','lunge','#2a2a30,#101014,#e8c040,#ff3030',''],'T:giant\'s chessboard',
+ 'Giant black stone knight chess piece with a glowing eye.',
+ 'Moves only in L-shaped jumps, square by square.',
+ 'Lands on you = crushing damage.',
+ 'Invulnerable while jumping.',
+ 'Stand where no L-jump can reach you — chess knowledge pays off.');
+MON(3,'main','',4,'chess_rook','Chess Rook',['chesspiece','slam','#e8e4d8,#8a8478,#e8c040,#ff3030','rook'],'T:giant\'s chessboard',
+ 'Giant white rook with glowing slits.',
+ 'Slides in straight lines until it hits something.',
+ 'Crushes whatever it slides into.',
+ 'Stunned 3 s after hitting a wall.',
+ 'Pairs with the Chess Knight as a "chess set".');
+MON(3,'main','',3,'starfall_shard','Starfall Shard',['wisp','dive','#fff8d0,#c8b070,#9fe8ff,#303010',''],'night|T:starfall crater',
+ 'A falling-star fragment, blazing cyan-white.',
+ 'Streaks in straight lines at night.',
+ 'Ram; explodes on death (knockback).',
+ 'Very fast, fragile.',
+ 'Drops star-metal used by the craftsmen.');
+MON(3,'main','',3,'automaton_miner','Dwarven Automaton',['construct','burrow','#b87a40,#5a3a20,#ffd070,#80ffff','drill,rivets,vents'],'T:dwarven stairs, mine entrances',
+ 'Old dwarven mining machine, still running.',
+ 'Drills through rock walls to reach you.',
+ 'Drill arm combo.',
+ 'Heavy armor; weak vents on its back.',
+ 'Drops ore; sometimes opens new shortcuts by drilling.');
+MON(3,'main','',3,'snow_owl','Night Watcher Owl',['bird','dive','#f0f0f0,#8a8a8a,#ffe040,#101010','talons'],'night|T:petrified forest, peaks',
+ 'Silent snowy owl with enormous eyes.',
+ 'Perches; silent swoop.',
+ 'Talon swoop.',
+ 'Hoots when it sees you: nearby monsters come.',
+ 'Kill it before it hoots — or sneak past.');
+MON(3,'main','',4,'harp_spectre','Wind-harp Spectre',['wraith','pulse','#d8e0ff,#6a70a0,#fff0a0,#ffffff',''],'T:wind-harp ridges',
+ 'Ghostly bard with a spectral harp.',
+ 'Floats between the great wind-harps.',
+ 'Plays notes: waves of sound projectiles, stronger when the wind blows.',
+ 'Only visible while playing.',
+ 'Silence the wind-harp next to it to weaken it.');
+MON(3,'main','',4,'ridge_troll','Ridge Troll',['brute','lob','#7a8a7a,#4a5a4a,#8a8478,#ffe040','tusks,moss'],'night|T:ridges, mesas',
+ 'Grey mountain troll with lichen and a big nose.',
+ 'Active only at night.',
+ 'Boulder throw, club slam.',
+ 'Regenerates; at dawn it turns to stone.',
+ 'Survive until sunrise and it becomes a statue (with loot).');
+MON(3,'main','',2,'craglings','Craglings',['small','slam','#8a8478,#4a4640,#ffb060,#ffd080','spikes'],'pack|T:boulder fields',
+ 'Pebble-imps with glowing cracks.',
+ 'Run in groups of 4–6.',
+ 'Headbutts.',
+ 'Tiny.',
+ 'Four or more touching merge into a Rock Golem.');
+MON(3,'main','',5,'glacier_wyrm','Glacier Wyrm',['serpent','burrow','#c0e8ff,#5a8ab0,#e0f8ff,#40a0ff','spikes'],'T:glacier peaks',
+ 'Long ice-blue serpent that swims through ice.',
+ 'Tunnels under ice and snow.',
+ 'Surfaces with a line of ice spikes, then bites.',
+ 'Only hittable when surfaced.',
+ 'Fire melts the ice it swims in.');
+MON(3,'main','',4,'bristleback_bear','Bristleback Bear',['quad','slam','#6a4a30,#3a2818,#c8a070,#ff3030','ears,spikes'],'T:petrified forest, herder terraces',
+ 'Huge brown bear with stone-like spikes on its back.',
+ 'Walks, then rears up.',
+ 'Double-paw slam.',
+ 'Enrages at half HP (faster, stronger).',
+ 'Honey or fish items distract it.');
+MON(3,'main','',3,'mesa_scorpion','Mesa Scorpion',['insect','lunge','#c09060,#6a4a30,#ffb040,#101010','stinger,mandibles'],'T:runic mesas, sand',
+ 'Sand-coloured scorpion the size of a cart.',
+ 'Burrows in sand, surfaces behind you.',
+ 'Pinch-hold, then tail stab poison.',
+ 'Hard carapace; soft underside when it rears.',
+ 'Pinch hold can be broken by a dodge roll.');
+MON(3,'main','',5,'glass_wyvern','Glass-winged Wyvern',['drake','breath','#8ab0c0,#3a5a6a,#e0f8ff,#ffe040',''],'T:geode canyons, starfall crater',
+ 'Young wyvern whose wings are crystal membranes.',
+ 'Hovers; lands to breathe.',
+ 'Sonic screech (stun 0.5 s) + crystal breath.',
+ 'Crystal wings reflect light-based spells.',
+ 'Rare; its scales are top crafting material.');
+
+// ── Dungeon ──
+MON(3,'dun','melee',3,'dwarf_axeman','Dwarf Revenant Axeman',['biped','spin','#8a9aa0,#4a5058,#c8ccd4,#80ffff','helmet,axe,armor'],'',
+ 'Ghostly dwarf with a two-handed axe.','Steady; charges when far.','Whirlwind axe spin.','Armor.','Dizzy after spinning 3 times.');
+MON(3,'dun','melee',3,'crystal_golemling','Crystal Golemling',['golem','slam','#a080d0,#5a4080,#e0c0ff,#ffffff','crystals'],'',
+ 'Small golem of purple crystal.','Waddles.','Slam; shards fly off when hit.','Shards spike you if you stand close.','Blunt damage shatters it fast.');
+MON(3,'dun','melee',2,'deep_mole','Deep Mole Brute',['brute','burrow','#5a4a40,#2a2018,#ff8080,#101010','tusks'],'',
+ 'Giant mole with drill claws.','Tunnels.','Claw combo when it surfaces.','Underground = immune.','Lures you over thin floors that collapse.');
+MON(3,'dun','melee',3,'frost_ghoul','Frost Ghoul',['biped','lunge','#c0d8e8,#5a7088,#a0e0ff,#40c0ff','skull'],'pack',
+ 'Frozen corpse with icicle claws.','Fast shamble.','3 hits in a row freeze you for 1 s.','Fire x2.','Comes in pairs.');
+MON(3,'dun','melee',3,'gargoyle_sentry','Stone Gargoyle',['bird','dive','#7a7a80,#3a3a40,#ff6060,#ff3030','stone,talons'],'',
+ 'Classic gargoyle statue.','Statue until you are close.','Knockback swoop.','Stone form = invulnerable.','Hit it while it swoops.');
+MON(3,'dun','melee',4,'cave_troll','Cave Troll',['brute','slam','#6a7a70,#3a4a40,#8a8478,#ffe040','club,tusks'],'',
+ 'Huge grey troll with a stalactite club.','Lumbers.','Club sweep; grabs and throws you.','Tough.','Throws you into other monsters (damages them too).');
+MON(3,'dun','melee',4,'labyrinth_bull','Labyrinth Bull',['brute','lunge','#6a4a3a,#3a2818,#c8b088,#ff2020','horns'],'',
+ 'Minotaur with a broken horn.','Paces, then charges down corridors.','Horn charge.','Gets stuck in walls for 3 s when it misses.','Use corridors to make it miss.');
+MON(3,'dun','melee',3,'crystal_spider','Crystal Spider',['spider','spit','#c0e0ff,#5a7090,#a0e0ff,#ff4080','crystals'],'',
+ 'Glassy spider with a crystal abdomen.','Wall-crawls.','Web shot (slow) + bite.','Fragile but fast.','Webs across doorways — burn them.');
+MON(3,'dun','melee',4,'shieldwall_dwarves','Shield-wall Dwarves',['biped','lunge','#9aa8b0,#4a5058,#e8c040,#80ffff','helmet,shield,spear'],'pack',
+ 'Two ghost dwarves locked shield to shield.','Advance together.','Spear pokes over the shields.','Front is impenetrable.','Split them up (lure one) to get around.');
+MON(3,'dun','melee',2,'rock_hopper','Rock Hopper',['small','slam','#8a8478,#4a4640,#ffb060,#ffd080','spikes'],'pack',
+ 'Hopping rock imps.','Bounce off walls.','Bounce-slam.','Low HP.','Bounces get faster each wall hit.');
+MON(3,'dun','ranged',3,'iron_sentinel','Iron Sentinel',['construct','shoot','#8a8e96,#3a3e46,#7fe8ff,#7fe8ff','rivets'],'',
+ 'Rune-plated iron guardian (existing).','Slow walk.','Scatter bolts (existing).','Heavy armor.','Rune plates can be knocked off for weak spots.','iron_sentinel');
+MON(3,'dun','ranged',3,'dwarf_crossbow','Ghost Crossbowman',['biped','shoot','#9aa8b0,#4a5058,#c8a060,#80ffff','helmet,bow'],'',
+ 'Ghost dwarf with a heavy crossbow.','Holds a chokepoint.','Piercing bolts through several targets.','Reload pause of 2 s.','Rush it during the reload.');
+MON(3,'dun','ranged',3,'geode_spitter','Geode Spitter',['plant','spit','#6a6a7a,#3a3a48,#c080ff,#ffffff','bulb'],'',
+ 'A cracked geode that opens like a mouth.','Stationary.','Shoots crystal shards that stick in the floor and explode later.','Closed = invulnerable.','Hit it while it is open.');
+MON(3,'dun','ranged',2,'icicle_bats','Icicle Bats',['bat','lob','#c0d8e8,#5a7088,#a0e0ff,#40c0ff','crystals'],'pack',
+ 'Pale bats hanging from the ceiling.','Flock.','Drop icicles (shadow warning).','Fragile.','A flock of 5.');
+MON(3,'dun','ranged',4,'minecart_bomber','Minecart Bomber',['biped','lob','#6fa040,#5a4028,#ff6040,#ff3030','ears,helmet'],'',
+ 'Goblin sapper riding a minecart.','Zooms along rails.','Throws dynamite.','Hard to catch.','Switch the rails to send it crashing.');
+MON(3,'dun','ranged',3,'echo_bat','Echo Bat',['bat','pulse','#6a5a7a,#3a2a4a,#ff80ff,#ffff80',''],'',
+ 'Big-eared purple bat.','Hangs, then circles.','Sonar pulse: marks you — marked targets take +25% damage.','Fragile.','Break line of sight to lose the mark.');
+MON(3,'dun','ranged',3,'boulder_goblin','Boulder Roller Goblin',['biped','spin','#6fa040,#5a4028,#8a8478,#ff3030','ears'],'',
+ 'Goblin at the top of a sloped corridor.','Stays up top.','Rolls boulders down the corridor.','Weak.','Side alcoves are safe.');
+MON(3,'dun','ranged',3,'frost_archer','Frost Archer',['biped','shoot','#c0d8e8,#5a7088,#a0e0ff,#40c0ff','hood,bow'],'',
+ 'Ice-elf archer.','Kites.','Arrows slow and leave frozen trails.','Evasive.','Fire arrows cancel the frost.');
+MON(3,'dun','ranged',2,'lantern_kobold','Oil Kobold',['biped','lob','#c07040,#5a3a20,#ffb040,#ffe040','ears,tail,lantern'],'',
+ 'Kobold with oil flasks.','Keeps range.','Throws oil (slick), then a lantern (fire).','Weak.','Oil slicks burn monsters too.');
+MON(3,'dun','ranged',4,'prism_eye','Prism Eye',['eye','beam','#e0e0ff,#6a6aa0,#ff80ff,#ffffff','crystals'],'',
+ 'Floating eye inside a crystal ring.','Hovers.','Beam that refracts off crystal pillars into 2–3 beams.','Only hittable when blinking.','Break the pillars to simplify the beams.');
+
+// ── Tower ──
+MON(3,'tow','',3,'storm_mage','Storm Mage',['caster','shoot','#c8d0e8,#3a4a8a,#ffff80,#80c0ff','hat,staff'],'',
+ 'Blue-robed mage with crackling staff (existing).','Strafes (existing).','Chain lightning (existing).','Static shield when cornered.','Lightning jumps between metal objects.','storm_mage');
+MON(3,'tow','',4,'astronomer_lich','Astronomer Lich',['caster','cast','#e8e0cc,#2a2a5a,#9fe8ff,#9fe8ff','hood,beard,staff,runes'],'',
+ 'Skeletal astronomer with a star-map cloak.','Floats near telescopes.','Calls small meteors onto marked constellation tiles.','Bone shield that regrows.','Step on the constellation\'s centre star to cancel it.');
+MON(3,'tow','',3,'frost_cantor','Frost Cantor',['caster','beam','#e0f0ff,#5a7aa0,#a0e0ff,#ffffff','hood,book'],'',
+ 'Choir-monk singing ice into being.','Paces.','Freeze ray + ice walls.','Ice armor.','Fire melts walls and armor.');
+MON(3,'tow','',4,'gravity_adept','Gravity Adept',['caster','pulse','#c0a0e0,#4a2a6a,#e0a8ff,#ffffff','hood,runes'],'',
+ 'Monk floating cross-legged with orbiting stones.','Hovers.','Gravity well: pulls you and loose objects together.','Orbiting stones block shots.','Items pulled in hit him too.');
+MON(3,'tow','',3,'cloud_sylph','Cloud Sylph',['wraith','pulse','#f0f4ff,#9aa8c0,#ffffff,#3080ff',''],'',
+ 'A cloud with a playful face.','Drifts.','Rain (slow) and small lightning strikes.','Intangible as a cloud.','Solid only when it condenses to attack.');
+MON(3,'tow','',5,'chessmaster','Chessmaster Wraith',['wraith','cast','#2a2a30,#101014,#e8c040,#e8c040','crown'],'',
+ 'Crowned wraith holding a king piece.','Stays on the back row.','Commands chess pieces; "check" forces you 1 tile in a direction.','Protected while pieces live.','Knock over its king piece to end the game.');
+MON(3,'tow','',3,'crystal_resonator','Crystal Resonator',['orb','pulse','#c080ff,#4a2a6a,#e0c0ff,#ffffff',''],'',
+ 'Humming crystal tuning fork on a pedestal.','Stationary.','Resonance: all crystals in the room shatter into shards.','Invulnerable until the crystals are gone.','Break crystals yourself first, safely.');
+MON(3,'tow','',4,'wind_monk','Wind Monk',['biped','lunge','#e8d8b8,#c86a3a,#f4f8ff,#101010','hood'],'',
+ 'Barefoot monk in orange robes.','Dashes and dodges.','Air-palm: knockback into walls.','Dodges your first attack each round.','Counters if you attack twice in a row.');
+MON(3,'tow','',4,'aurora_spirit','Aurora Spirit',['wraith','beam','#a0ffd0,#3a8a6a,#c080ff,#ffffff',''],'night',
+ 'Spirit of ribbons of green and violet light.','Weaves across the room.','Light ribbons form damaging lanes.','Hittable only where ribbons cross.','Stronger at night.');
+MON(3,'tow','',4,'orrery','Clockwork Orrery',['orb','spin','#c8a060,#6a4a30,#ffd070,#ffffff',''],'',
+ 'Brass planetary model come alive.','Stationary; planets orbit.','Orbiting planets sweep the room.','Core protected by the planets.','Hit planets to stop them one by one.');
+MON(3,'tow','',3,'stone_druid','Stone-speaker Druid',['caster','summon','#a88a6a,#5a4a38,#80c060,#ffe040','beard,staff'],'',
+ 'Old druid with a stone-headed staff.','Slow.','Raises pillars under you (launches you).','Pillar shield.','Pillars stay: use them as cover.');
+MON(3,'tow','',4,'blizzard_witch','Blizzard Witch',['caster','cast','#e0f0ff,#3a5a8a,#a0e0ff,#ffffff','hat'],'',
+ 'Witch in a snowflake-lace hat.','Glides.','Snow veil (vision down) + ice clones.','Clones explode into slow.','Warmth (fire) clears the veil.');
+MON(3,'tow','',3,'echo_sage','Echo Sage',['caster','cast','#d8c8a8,#6a5a48,#ffe0a0,#ffffff','beard,book'],'',
+ 'Ancient sage whose words echo.','Stands still.','Every spell repeats once, 1 s later.','Weak up close.','Dodge twice.');
+MON(3,'tow','',4,'seraph','Cloister Seraph',['caster','beam','#fff8e0,#e8e4dc,#ffe080,#80c0ff','wings,crown,staff'],'',
+ 'Winged guardian of the sky cloister.','Hovers high.','Holy beams from above.','Bubble shield when hit 3 times quickly.','Wait out the bubble.');
+MON(3,'tow','',4,'rune_statue','Rune Sentinel Statue',['golem','lunge','#8a8e96,#3a3e46,#7fe8ff,#7fe8ff','moss'],'',
+ 'Stone statue with a covered face.','Only moves when you are not looking at it.','Grabs you from behind.','Invulnerable while watched.','Mirrors let you watch two at once.');
+MON(3,'tow','',3,'telescope_eye','Telescope Eye',['eye','beam','#c8a060,#6a4a30,#ffd070,#ffffff',''],'',
+ 'A brass telescope with a real eye in the lens.','Stationary; tracks you slowly.','Long-range laser.','Only the lens is weak.','Keep moving sideways — it tracks too slowly.');
+MON(3,'tow','',2,'hailstone_imp','Hailstone Imp',['biped','lob','#c0d8e8,#5a7088,#ffffff,#40c0ff','ears,horns'],'pack',
+ 'Tiny icy imp with a bag of hail.','Hops about.','Throws bouncing hailstones.','Fragile.','Groups of 3.');
+MON(3,'tow','',4,'spellblade','Frostbound Spellblade',['biped','lunge','#a0c0e0,#3a5a7a,#a0e0ff,#40c0ff','helmet,sword,armor'],'',
+ 'Knight with a frost-runed blade.','Advances.','Alternates sword combos and ice bolts.','Parries physical hits.','Magic breaks his guard.');
+MON(3,'tow','',4,'thunderbird','Thunderbird',['bird','dive','#e0d080,#6a5a28,#ffff80,#ffffff','talons'],'',
+ 'Crackling golden bird of storms.','Summoned by storm casters.','Lightning dive-bomb.','Fast.','Kill the summoner to banish it.');
+MON(3,'tow','',5,'void_scholar','Void Scholar',['caster','blink','#3a2a5a,#1a102a,#c080ff,#ffffff','hood,book,runes'],'',
+ 'Scholar whose robe is a starry void.','Opens paired portals.','Sends his spells (and yours) through portals.','Blinks between portals.','Shoot through a portal to hit him from behind.');
+// ═══ NW ASHLANDS — "Fire, glass & dragon bones" ═══════════════════════
+// Level 15–20. Combines mechanics: burn zones, armor break, rebirth,
+// summons, multi-phase fights.
+// ── Mainland ──
+MON(4,'main','',3,'fire_imp','Fire Imp',['biped','shoot','#e05a2a,#8a2a10,#ffb040,#ffff80','ears,horns,tail'],'pack|T:ember fields, lava edges',
+ 'Grinning red imp with a flickering tail.',
+ 'Zig-zags (existing).',
+ 'Heat-seeking fireballs (existing).',
+ 'Immune to burn.',
+ 'Imps hop into lava pools and come out healed.','fire_imp');
+MON(4,'main','',4,'ash_wraith','Ash Wraith',['wraith','blink','#6a6060,#2a2626,#ff8040,#ffb040','flames'],'night|T:burned cathedral, ash forest',
+ 'A figure of drifting ash with ember eyes (existing).',
+ 'Teleports (existing).',
+ 'Heat-seek bolts (existing) + an ash cloud that blinds.',
+ 'Intangible while teleporting.',
+ 'Wind or water disperses it for 3 s.','ash_wraith');
+MON(4,'main','',5,'lava_titan','Lava Titan',['golem','slam','#4a3a38,#2a1a18,#ff6a20,#ffd040','crystals'],'T:magma channels (rare)',
+ 'Towering basalt giant with lava running through its cracks (existing).',
+ 'Slow; every step leaves a lava footprint.',
+ 'Stomp (existing) + lava pools.',
+ 'Cooling armor: ice/water hardens a section, then heavy hits break it.',
+ 'Elite: drops the rarest Ashlands ore.','lava_titan');
+MON(4,'main','',5,'rock_dragon','Rock Dragon',['drake','breath','#6a5a4a,#3a2a20,#ff8a30,#ffe040',''],'T:dragon skeleton valley (one)',
+ 'Rock-scaled young dragon (existing).',
+ 'Rushes (existing), takes short flights.',
+ 'Scatter flame (existing).',
+ 'Scales deflect arrows from the front.',
+ 'A roaming mini-boss; its roar warns the whole zone.','rock_dragon');
+MON(4,'main','',3,'magma_slug','Magma Slug',['blob','spit','#ff6a20,#8a2a10,#ffd040,#101010','flames'],'T:magma channels, lava crust',
+ 'Fat glowing slug with a cooling crust shell.',
+ 'Slow; leaves a burning trail.',
+ 'Spits lava blobs.',
+ 'Cooled (by ice/water) its shell hardens — then shatters with one heavy hit.',
+ 'Trails block paths for 6 s.');
+MON(4,'main','',3,'cinder_hounds','Cinder Hounds',['quad','lunge','#3a2a28,#1a1010,#ff6020,#ffb040','ears,mane,tail'],'pack|T:ember fields, basalt forest',
+ 'Black hounds with glowing ember manes.',
+ 'Pack of 4: two flank, two chase.',
+ 'Flaming bite (burn).',
+ 'Explode into embers on death (small burst).',
+ 'Fight them away from each other — chain explosions hurt.');
+MON(4,'main','',4,'obsidian_stalker','Obsidian Stalker',['biped','lunge','#2a2a38,#101018,#c080ff,#ff4060','armor,sword'],'T:obsidian glass fields',
+ 'Humanoid carved from black volcanic glass.',
+ 'Flickers between glass spires.',
+ 'Glass blade combo.',
+ 'Reflects projectiles; shatters into glass shards (area) when killed.',
+ 'Back away when it dies.');
+MON(4,'main','',3,'sulfur_toad','Sulfur Toad',['frog','pulse','#d8c040,#8a7020,#f0f080,#ff3030','spots'],'T:sulfur geyser flats',
+ 'Yellow toad that inflates when angry.',
+ 'Rides geyser blasts to hop far.',
+ 'Inflates and bursts into a sulfur gas cloud (poison).',
+ 'Pops early if hit while inflating (harmless).',
+ 'Its gas + fire = explosion.');
+MON(4,'main','',2,'ember_mimic','Ember-flower Mimic',['plant','lunge','#3a2a28,#1a1010,#ff8040,#ffff80','flower,thorns'],'T:ember-flower fields',
+ 'Looks exactly like a glowing ember flower.',
+ 'Stationary until you come close.',
+ 'Burning bite and a fire-petal spray.',
+ 'Only hittable once revealed.',
+ 'Real ember flowers sway; mimics don\'t.');
+MON(4,'main','',4,'basalt_golem','Basalt Golem',['golem','slam','#4a4a50,#2a2a30,#ff6a20,#ffb040','columns'],'T:basalt column forest',
+ 'Golem made of hexagonal basalt columns.',
+ 'Slow march.',
+ 'Column slam; shockwave in a line.',
+ 'Armor break: each heavy hit knocks a column off — the columns stay as obstacles.',
+ 'Fully stripped it becomes fast and fragile.');
+MON(4,'main','',4,'bone_revenant','Dragon-bone Revenant',['biped','shoot','#e8e0cc,#8a7a60,#ff8a30,#ff4020','skull,spear,helmet'],'night|T:dragon skeleton valley',
+ 'Undead dragon-knight in armor made of dragon bone.',
+ 'Rises from bone piles.',
+ 'Bone spear throws, then a charge.',
+ 'Revives once while its spear is on the ground.',
+ 'Pick up (or break) the spear to stop the revival.');
+MON(4,'main','',4,'forge_automaton','Forge Automaton',['construct','slam','#8a5a3a,#3a2418,#ff8a30,#ffd040','hammer,vents,rivets'],'T:forge-city ruins',
+ 'Iron smith-construct with a glowing hammer.',
+ 'Clanking walk.',
+ 'Molten hammer slam (burn).',
+ 'Overheats after 3 slams: vents steam, 3 s vulnerable.',
+ 'Water makes it overheat instantly.');
+MON(4,'main','',3,'ash_moths','Ash Moth Swarm',['swarm','pulse','#8a8480,#4a4440,#ff8040,#ffb040',''],'night|T:ash-snow forest',
+ 'A flurry of grey moths shedding ash.',
+ 'Swarms toward light.',
+ 'Ash-coat: your light radius shrinks and you move 15% slower (stacks).',
+ 'Scatters when hit.',
+ 'Stand in water or rain to wash the ash off.');
+MON(4,'main','',4,'lava_eel','Lava Eel',['eel','spit','#ff6a20,#8a2a10,#ffd040,#ffff80','lava'],'T:lava channels, magma rivers',
+ 'Glowing eel that swims in molten rock.',
+ 'Moves along lava channels.',
+ 'Leaps and spits lava arcs.',
+ 'Only hittable when it leaps.',
+ 'Unicorn/Dragon mounts can chase it across the crust.');
+MON(4,'main','',4,'chained_gargoyle','Chained Gargoyle',['bird','spin','#5a5058,#2a2428,#ff8040,#ff4020','stone,talons'],'T:chained floating rocks',
+ 'Gargoyle chained to a floating rock.',
+ 'Swings on its chain in wide arcs.',
+ 'Arc swoops.',
+ 'Chain limits its reach.',
+ 'Break the chain: it falls and fights on the ground (weaker, but free).');
+MON(4,'main','',3,'pyre_cultist','Pyre Cultist',['caster','summon','#8a2a20,#3a1010,#ff8040,#ffe040','hood'],'pack|T:burned cathedral, forge ruins',
+ 'Red-hooded dragon cultist.',
+ 'Groups of 3 around a pyre.',
+ 'Sets runes on the ground aflame.',
+ 'Weak.',
+ 'If one falls, another sacrifices itself to buff the last.');
+MON(4,'main','',4,'salamander_wyrmling','Salamander Wyrmling',['quad','breath','#e07030,#8a3010,#ffd040,#ffff80','spikes,tail'],'T:lava crust, cliffs',
+ 'Orange lizard with a flame crest.',
+ 'Climbs walls and cliffs (ignores terrain).',
+ 'Fire breath cone.',
+ 'Fire immune.',
+ 'Ambushes from cliff faces.');
+MON(4,'main','',3,'cinder_scorpion','Cinder Scorpion',['insect','lunge','#3a2a28,#1a1010,#ff6020,#ffb040','stinger,mandibles'],'T:ash fields',
+ 'Black scorpion with a glowing tail.',
+ 'Burrows in ash; surfaces nearby.',
+ 'Fire-sting: long burn DoT.',
+ 'Armored back.',
+ 'Dust cloud when it surfaces — watch for it.');
+MON(4,'main','',5,'scorched_paladin','Scorched Paladin',['biped','lunge','#6a5a50,#2a2420,#ff8a30,#ffe040','helmet,sword,shield,armor,cape'],'T:burned cathedral',
+ 'Undead paladin in fire-blackened armor.',
+ 'Steady advance; charges when far.',
+ 'Flaming sword combo (4 hits).',
+ 'Holy shield blocks the front; parry window on the 4th hit.',
+ 'Mini-boss of the cathedral; drops a blessed item.');
+MON(4,'main','',5,'phoenix_chick','Phoenix Chick',['bird','breath','#ff8a30,#c03010,#ffe040,#101010','flames,talons'],'T:ember fields, volcano slopes',
+ 'Fluffy young phoenix, all flame.',
+ 'Flutters.',
+ 'Fire breath + dive.',
+ 'When killed it leaves an egg…',
+ '…that hatches again in 5 s unless you break it.');
+
+// ── Dungeon ──
+MON(4,'dun','melee',4,'magma_brute','Magma Brute',['brute','slam','#4a3a38,#2a1a18,#ff6a20,#ffd040','glowcore'],'',
+ 'Molten-fisted brute.','Lumbers.','Burning fist combo.','Heat aura hurts when close.','Ice spells cool the aura.');
+MON(4,'dun','melee',4,'glass_blademaster','Obsidian Blademaster',['biped','lunge','#2a2a38,#101018,#c080ff,#ff4060','sword,helmet'],'',
+ 'Duelist of volcanic glass.','Fast dashes.','3-hit blade combo.','Fragile: heavy hits shatter it.','Glass shards on death.');
+MON(4,'dun','melee',4,'hellhound','Hellhound Alpha',['quad','lunge','#2a1a18,#101010,#ff4020,#ffff40','ears,mane,spikes,tail'],'pack',
+ 'Big black hound with a fiery mane.','Leads 2 hounds.','Flame pounce.','Tough.','Kill the alpha to rout the pack.');
+MON(4,'dun','melee',3,'ember_berserker','Ember Berserker',['biped','spin','#b04a2a,#5a2010,#ff8040,#ffff80','horns,axe'],'',
+ 'Horned warrior with a burning axe.','Walks, then rushes.','Spinning axe.','Rage: every hit on it makes it faster.','Kill it quickly or not at all.');
+MON(4,'dun','melee',4,'bonepit_ghoul','Bone-pit Ghoul',['biped','summon','#8a8070,#3a3028,#ff6040,#ff3030','skull'],'',
+ 'Ghoul half-buried in a pile of bones.','Stays in its bone pile.','Arms grab from the pile and drag you in.','Burrowed = hard to hit.','Burn the bone pile.');
+MON(4,'dun','melee',3,'slag_golem','Slag Golem',['golem','slam','#6a5a50,#3a2a20,#ff8030,#ffb040',''],'',
+ 'Lumpy golem of cooling slag.','Slow.','Slam.','Splits into 3 slag blobs when "killed".','Kill the blobs before they re-merge.');
+MON(4,'dun','melee',4,'salamander_warrior','Salamander Warrior',['biped','lunge','#e07030,#8a3010,#c8c8d0,#ffff80','tail,spear,shield'],'',
+ 'Lizardfolk warrior with a flaming spear.','Agile.','Spear thrusts + tail whip.','Fire immune; shield.','Tail whip knocks you into lava if nearby.');
+MON(4,'dun','melee',4,'chain_warden','Chain Warden',['brute','lunge','#5a5058,#2a2428,#9a9aa4,#ff4020','spikes'],'',
+ 'Huge jailer wrapped in chains.','Slow.','Chain hook pulls you in, then a smash.','Armor.','Dodge the hook.');
+MON(4,'dun','melee',2,'charred_zombies','Charred Zombies',['biped','pulse','#3a3030,#1a1414,#ff6020,#ffb040','skull'],'pack',
+ 'Burnt shambling corpses.','Slow horde.','Claw.','Explode into flames on death.','Don\'t kill them next to you.');
+MON(4,'dun','melee',3,'molten_mimic','Molten Mimic',['construct','lunge','#8a5a3a,#3a2418,#ffd040,#ff3030',''],'',
+ 'A treasure chest with lava for a tongue.','Hops.','Bite + lava lick.','Looks like any chest.','Drops real treasure.');
+MON(4,'dun','ranged',3,'imp_bombardier','Imp Bombardier',['biped','lob','#e05a2a,#8a2a10,#ffb040,#ffff80','ears,horns,tail'],'pack',
+ 'Imp with a satchel of fire bombs.','Keeps range, hops.','Arcing fire bombs.','Fragile.','Groups of 3.');
+MON(4,'dun','ranged',3,'magma_vent','Magma Spitter',['plant','spit','#4a3a38,#2a1a18,#ff6a20,#ffff80','bulb'],'',
+ 'A living vent in the floor.','Stationary.','Lava blob volley.','Only its mouth is weak.','Plug it with a boulder.');
+MON(4,'dun','ranged',4,'obsidian_archer','Obsidian Archer',['biped','shoot','#2a2a38,#101018,#c080ff,#ff4060','bow,hood'],'',
+ 'Glass-skinned archer.','Kites.','Glass arrows that shatter into 3 on walls.','Fragile.','Fight it in open rooms, not corridors.');
+MON(4,'dun','ranged',4,'ember_sniper','Ember Sniper Cultist',['caster','beam','#8a2a20,#3a1010,#ff8040,#ffe040','hood,staff'],'',
+ 'Cultist channelling a thin beam of fire.','Stays far.','Long channelled beam (aim line).','Interrupt it with any hit.','Beam leaves burning ground.');
+MON(4,'dun','ranged',3,'sulfur_beetle','Sulfur Bomber Beetle',['insect','lob','#d8c040,#8a7020,#f0f080,#ff3030','antennae'],'',
+ 'Yellow bombardier beetle.','Scuttles.','Flings sulfur bombs (gas clouds).','Its shell is weak from behind.','Gas + fire = boom.');
+MON(4,'dun','ranged',2,'cinder_slinger','Cinder Slinger',['biped','shoot','#6fa040,#5a4028,#ff6020,#ff3030','ears,sling'],'',
+ 'Goblin with a flaming sling.','Keeps range.','Flaming stones that ignite grass.','Weak.','Burning ground blocks your path.');
+MON(4,'dun','ranged',4,'pit_serpent','Lava Pit Serpent',['serpent','shoot','#ff6a20,#8a2a10,#ffd040,#ffff80','hood'],'',
+ 'Serpent that rises from lava pools.','Submerges and moves between pools.','Fireball volleys.','Only hittable when up.','Pools bubble before it rises.');
+MON(4,'dun','ranged',3,'ash_crossbow','Ash Crossbowman',['biped','shoot','#6a6060,#2a2626,#ff8040,#ffb040','helmet,bow'],'',
+ 'Soot-covered soldier with a heavy crossbow.','Holds position.','Bolts that leave burning ground.','Armor.','Slow reload.');
+MON(4,'dun','ranged',4,'brimstone_eye','Brimstone Eye',['eye','beam','#e05a2a,#6a2010,#ffe040,#ffffff','tentacles'],'',
+ 'Floating eye wreathed in flame.','Hovers.','Tracking heat ray.','Blinks = vulnerable.','Mirrors (obsidian) reflect its ray.');
+MON(4,'dun','ranged',3,'flame_kite','Flame Kite Goblin',['bird','lob','#c8a060,#6a4a30,#ff6020,#ff3030','harpy'],'',
+ 'Goblin on a burning kite.','Circles above.','Drops fire pots.','Untargetable up high.','Kite burns out after 20 s and it crashes.');
+
+// ── Tower ──
+MON(4,'tow','',4,'dark_warlock','Dark Warlock',['caster','blink','#3a2a3a,#1a101a,#c040ff,#ff4060','hood,horns,staff'],'',
+ 'Horned warlock in black robes (existing).','Teleports (existing).','Heat-seek bolts (existing) + a curse.','Shield when hit 3 times.','Curse: your healing is halved for 10 s.','dark_warlock');
+MON(4,'tow','',3,'pyromancer','Pyromancer',['caster','pulse','#e05a2a,#6a2010,#ffb040,#ffff80','hat,staff'],'',
+ 'Flame-haired mage.','Keeps range.','Fire rings expanding from him.','Fire immune.','Jump through the ring gaps.');
+MON(4,'tow','',4,'obsidian_sorceress','Obsidian Sorceress',['caster','cast','#2a2a38,#101018,#c080ff,#ff4060','crown,staff'],'',
+ 'Sorceress in glass armor.','Glides.','Glass prisons trap you (break out with hits).','Reflects projectiles.','Prison shards can hurt her.');
+MON(4,'tow','',5,'cinder_lich','Cinder Lich',['caster','summon','#e8e0cc,#2a1a18,#ff6020,#ff4020','hood,crown,staff,runes'],'',
+ 'Burning lich with a crown of embers.','Floats.','Raises charred skeletons; fire nova.','Phylactery (an urn in the room) makes it immortal.','Break the urn first.');
+MON(4,'tow','',4,'magma_elemental','Magma Elemental',['blob','slam','#ff6a20,#8a2a10,#ffd040,#ffff80','flames'],'',
+ 'A walking pool of magma.','Flows.','Slam; leaves lava floor zones.','Splits into 2 when hit with water.','Cool it with ice to make it solid and breakable.');
+MON(4,'tow','',4,'forge_artificer','Forge Artificer',['construct','summon','#8a5a3a,#3a2418,#ffd040,#80ffff','gears'],'',
+ 'Clockwork smith.','Runs around.','Builds flame turrets (3 max).','Weak.','Stop it before the turrets are done.');
+MON(4,'tow','',5,'flame_djinn','Flame Djinn',['wraith','spin','#ff8040,#8a2a10,#ffe040,#ffffff','flames'],'',
+ 'Djinn whose lower half is a fire whirlwind.','Swirls.','Fire tornado pulls you in.','Intangible spin.','Hit it when it stops to laugh.');
+MON(4,'tow','',4,'smoke_wraith','Smoke Wraith',['wraith','blink','#6a6060,#2a2626,#c0c0c0,#ff4040',''],'',
+ 'Figure of choking smoke.','Hides in smoke clouds.','Smoke clones + choke (slow + dmg).','Intangible inside smoke.','Wind clears the smoke.');
+MON(4,'tow','',3,'ash_oracle','Ash Oracle',['caster','cast','#8a8480,#3a3430,#ff8040,#ffe040','hood,mask'],'',
+ 'Masked seer sifting ash.','Stationary.','Predicts eruptions: marked tiles erupt in a sequence.','Weak.','Learn the sequence.');
+MON(4,'tow','',3,'imp_summoner','Brimstone Summoner',['caster','summon','#8a2a20,#3a1010,#ff6020,#ffe040','horns,book'],'',
+ 'Horned summoner with a burning tome.','Keeps distance.','Opens imp portals.','Weak.','Close portals by hitting them.');
+MON(4,'tow','',4,'dragon_priest','Dragon Cult Priest',['caster','breath','#8a2a20,#3a1010,#ff8040,#ffe040','hood,staff,crown'],'',
+ 'High priest in a dragon-skull mask.','Channels.','Dragon breath cone via a skull staff; buffs cultists.','Protected by cultists.','Take the staff and the breath stops.');
+MON(4,'tow','',5,'soul_furnace','Soul Furnace',['construct','pulse','#4a3a38,#2a1a18,#ff6a20,#ff4020','vents'],'',
+ 'A walking iron furnace with a grate for a mouth.','Slow.','Absorbs the souls of monsters that die nearby — grows stronger.','Armor.','Kill it first, or kill others far from it.');
+MON(4,'tow','',4,'eclipse_witch','Eclipse Witch',['caster','cast','#2a2a3a,#101018,#ffd040,#ffffff','hat'],'',
+ 'Witch with a black-sun pendant.','Floats.','Darkens the room; only lit circles are safe.','Visible only in light.','Light braziers to fight her.');
+MON(4,'tow','',3,'salamander_sage','Salamander Sage',['caster','cast','#e07030,#8a3010,#ffd040,#ffff80','beard,staff,tail'],'',
+ 'Old lizard mage with a flame beard.','Walks.','Fire shield that reflects melee.','Fire immune.','Ice breaks the shield.');
+MON(4,'tow','',5,'meteor_caller','Meteor Caller',['caster','lob','#8a4a2a,#3a1a10,#ff8030,#ffe040','hood,staff,runes'],'',
+ 'Mage with a star-iron staff.','Stands at a window.','Meteors crash and leave magma pools.','Weak up close.','Rush him.');
+MON(4,'tow','',4,'chainmaster','Chainmaster Warlock',['caster','beam','#3a2a3a,#1a101a,#9a9aa4,#ff4060','hood,staff'],'',
+ 'Warlock with spectral chains.','Walks backwards.','Chains tether you to a pillar.','Break chains by moving the other way.','Tethered too long = heavy damage.');
+MON(4,'tow','',5,'phoenix_mage','Phoenix Mage',['caster','cast','#ff8a30,#c03010,#ffe040,#ffffff','wings,crown,staff'],'',
+ 'Mage with fiery phoenix wings.','Flies across the room.','Fire feathers; rebirth once at 0 HP.','Rebirth takes 3 s — interrupt it.','Drops a phoenix feather (revive item).');
+MON(4,'tow','',4,'volcanic_hexer','Volcanic Hexer',['caster','cast','#6a3a2a,#2a1410,#ff6020,#80e0ff','hood,mask,wand'],'',
+ 'Hexer with a half-fire, half-ice mask.','Hops.','Alternating curses: burn while moving / freeze while still.','Weak.','Watch the mask colour to know which curse.');
+MON(4,'tow','',5,'ember_construct','Runic Ember Construct',['golem','beam','#4a3a38,#2a1a18,#ff8030,#7fe8ff','columns'],'',
+ 'Stone construct covered in rune plates.','Slow.','Rune beams; shield up.','Shield drops only when you hit its rune plates in the right order.','The order is shown by flickering runes.');
+MON(4,'tow','',3,'flame_wisp','Flame Wisp',['wisp','shoot','#ffb040,#c03010,#ffe040,#301010',''],'pack',
+ 'Little living flame.','Orbits casters.','Small fire darts.','Fragile.','Feeds a caster\'s fire shield.');
+// ═══════════════════════════════════════════════════════════════════════
+// ║ MONSTER KITS — how each roster monster moves, attacks and defends.
+// ║ "move k=v | attack k=v | defence k=v"  (modules in 09-monster-engine)
+// ║ Monsters marked "reuse" keep their original game code (MON_LEGACY).
+// ═══════════════════════════════════════════════════════════════════════
+var MON_LEGACY={meadow_goblin:'goblin',barrow_skeleton:'skeleton',skeleton_archer:'skeleton',bog_serpent:'bog_serpent',mud_troll:'mud_troll',swamp_witch:'swamp_witch',
+  mesa_golem:'stone_golem',cliff_harpy:'harpy',iron_sentinel:'iron_sentinel',storm_mage:'storm_mage',fire_imp:'fire_imp',ash_wraith:'ash_wraith',lava_titan:'lava_titan',rock_dragon:'rock_dragon',dark_warlock:'dark_warlock'};
+var MON_KIT_SRC={}; var MKIT=function(id,s){ MON_KIT_SRC[id]=s; };
+// ── GRASSLANDS · mainland ──
+MKIT('thistle_hog','charge wind=1 mult=4.2 stun=2 kb=70 | melee m=0.8 | thorns d=1');
+MKIT('puffcap','ambush r=95 then=lumber spd=40 | cloud at=self rad=56 st=slow v=0.4 dur=3 cd=4 wind=0.3 r=60 | bubble n=2 t=0.8');
+MKIT('hedge_sprite','flit | melee m=0.4 steal=12 cd=2 | tiny c=0.3 | flee');
+MKIT('tunnel_nipper','burrow near=30 pop=1.6 | melee m=1 wind=0.1');
+MKIT('scarecrow_warden','disguise r=90 then=chase | shoot p=feather n=3 sp=0.35 homing=1 spd=150 m=0.45 cd=3 | weak k=fire m=2 | immune k=ranged');
+MKIT('bumble_knight','orbit r=90 | lunge r=110 spd=380 m=1.1 kb=30 cd=4 fly=1');
+MKIT('dustwing_moth','drift keep=40 | cloud at=player rad=60 st=blind dur=3 cd=6 | tiny c=0.2');
+MKIT('runestone_crawler','disguise r=100 then=lumber | beam wind=1 len=300 w=10 col=#7fe8ff cd=4 | armor n=99 red=0.95');
+MKIT('jackalope','zigzag | melee m=0.8 kb=60 wind=0.15 | dodge cd=3 | flee');
+MKIT('kite_rider','orbit r=130 | lob n=1 rad=26 t=0.9 cd=1.6 col=#9a8a78 | immune k=melee');
+MKIT('bramble_wolf','chase s=1.1 | lunge r=90 m=1 cd=2.2 | thorns d=1');
+MKIT('clover_slime','leap every=1.4 d=70 | melee m=0.8 | split n=2 hp=0.4');
+MKIT('harvest_mantis','ambush r=80 then=chase | sweep r=70 arc=1.6 wind=0.55 m=1.4 cd=2.4 | dodge cd=5');
+MKIT('pooka','blink every=2.2 d=90 | melee n=2 m=0.8 kb=40 | swap cd=8 r=160');
+MKIT('hill_gnoll','kite range=200 | lob n=1 rad=30 t=1.1 obstacle=1 ot=8 cd=2.6');
+MKIT('echo_phantom','drift keep=90 | echo cd=2.2 m=1 | dodge cd=3');
+MKIT('floatrock_gargoyle','perch r=140 soft=3');
+MKIT('dung_roller','roll spd=220 b=3 cd=4 | melee m=0.6');
+// ── GRASSLANDS · dungeon ──
+MKIT('goblin_cutthroat','flit | melee n=2 m=0.9 wind=0.15 | dodge cd=3');
+MKIT('tunnel_brute','lumber | sweep r=62 arc=3.1 wind=0.6 m=1.3 kb=60 | front red=0.6');
+MKIT('root_gnasher','burrow spd=70 near=32 pop=1.4 | grab r=30 root=1');
+MKIT('bone_hound','chase s=1.2 | melee n=3 m=0.6 wind=0.1 | revive t=4');
+MKIT('shield_goblin','lumber | melee m=1 r=40 | front red=1');
+MKIT('capmaul','leap every=2.2 d=80 | slam r=60 wind=0.5 zone=slow zt=4');
+MKIT('rat_swarm','chase s=1.1 | melee m=0.35 wind=0 cd=0.5 | tiny c=0.35');
+MKIT('barrow_knight','lumber | sweep r=58 arc=2 wind=0.8 m=1.6 cd=2.6 | front red=0.7 | enrage');
+MKIT('clay_golemling','lumber | grab r=30 root=1.4 | weak k=melee m=1.6');
+MKIT('boarling','charge wind=0.5 mult=3.4 stun=1.5 dur=0.8 | melee m=0.6');
+MKIT('goblin_slinger','kite range=170 | shoot p=rock spd=230 m=0.7 cd=1.8 min=40');
+MKIT('spore_spitter','still | lob rad=34 t=0.9 zone=slow zt=4 col=#d0ff80 cd=2.6 | front red=1');
+MKIT('blowgun_goblin','kite range=190 | shoot p=dart spd=320 m=0.5 st=drowsy t=3 cd=2.4 | dodge cd=4');
+MKIT('glowworm','still | marks n=3 rad=20 delay=1 spread=90 col=#b0ff60 cd=3 | immune k=melee');
+MKIT('bone_ballista','still | beam wind=1.4 len=420 w=12 col=#e8e0cc m=1.6 cd=4.5 | armor n=6 red=0.6');
+MKIT('trap_kobold','kite range=160 | trap k=snare n=2 cd=4.5 | shoot p=dart m=0.5 spd=260 cd=2');
+MKIT('hive_keeper','kite range=190 | lob rad=26 t=0.9 summon=bumble_knight sn=2 cd=6');
+MKIT('shade_sniper','kite range=260 | beam wind=1.5 len=420 w=6 col=#ff4060 m=1.5 cd=3.5 | dodge cd=3');
+MKIT('pebble_sprite','flit | shoot p=rock ric=1 spd=260 m=0.4 cd=1.6 | tiny c=0.3');
+// ── GRASSLANDS · tower ──
+MKIT('pixie_hexer','flit | shoot p=orb homing=1 spd=150 st=shrink t=4 m=0.3 cd=3 | tiny c=0.3');
+MKIT('glyph_scribe','kite range=170 | marks n=3 rad=24 delay=2 spread=100 col=#7fe8ff cd=3.5 | bubble n=3 t=1.5');
+MKIT('dawn_acolyte','kite range=200 | shoot p=spark spd=220 m=0.5 cd=2.5 | heal r=180 a=0.2 cd=4');
+MKIT('grimoire','flit | shoot p=spark n=3 sp=0.25 spd=240 m=0.4 cd=2.2 | melee m=0.8 | front red=0.8');
+MKIT('candle_wraith','drift keep=30 | aura r=46 m=0.3 st=burn t=2 | weak k=melee m=1.5');
+MKIT('ley_mote','drift keep=100 | drain r=180 m=0.2 dur=3 col=#7fe8ff | tiny c=0.2');
+MKIT('mirror_sprite','blink every=3 d=110 | shoot p=spark n=2 sp=0.2 spd=240 m=0.45 cd=2 | tiny c=0.45');
+MKIT('petal_witch','kite range=180 | gust r=160 dist=130 m=0.4 cd=3 | shoot p=spark n=5 sp=0.18 spd=200 m=0.35 col=#ffc6de cd=2.6 | reflect');
+MKIT('clockwork_owl','weeping | melee m=1.3 r=36');
+MKIT('fae_enchantress','blink every=3.5 d=140 | shoot p=orb homing=1 spd=140 st=reverse t=3 m=0.3 cd=4.5 | shoot p=spark n=3 sp=0.3 m=0.5 cd=2');
+MKIT('sentry_orb','still | beam wind=0.9 len=320 w=10 col=#7fe8ff m=1.1 cd=2.5 | front red=1');
+MKIT('apprentice_conjurer','kite range=210 s=1.2 | summon id=clover_slime n=2 max=4 cd=7 | flee');
+MKIT('starlight_wisp','blink every=2.4 d=100 | trap k=mine n=2 cd=4 | tiny c=0.25');
+MKIT('ink_imp','flit | shoot p=ink spd=200 st=blind t=3 m=0.3 cd=3.5 | split n=2 hp=0.3 sc=0.6');
+MKIT('wind_sylph','orbit r=120 | gust r=170 dist=150 m=0.5 cd=2.5 | immune k=melee');
+MKIT('illusionist_gnome','blink every=2.8 d=90 | swap r=200 cd=6 | shoot p=orb m=0.5 cd=2.4 | dodge cd=4');
+MKIT('rose_dryad','still | strike still=1.1 col=#80c040 st=root t=1.2 | thorns d=1');
+MKIT('lantern_familiar','drift keep=70 | shoot p=spark spd=240 m=0.35 cd=1.5');
+MKIT('chime_spirit','still | ring spd=130 max=240 gap=1 col=#9fe8ff m=0.8 cd=2.8');
+MKIT('wand_knight','chase | melee m=1.1 | shoot p=bolt spd=260 m=0.7 cd=2.6 | reflect | armor n=3 red=0.6');
+// ── WETLANDS · mainland ──
+MKIT('lily_lurker','ambush r=95 then=still | pull r=130 keep=24 m=0.6 cd=3.5 | melee m=1.1');
+MKIT('glowfrog','leap every=1.3 d=80 | pull r=150 keep=30 m=0.4 cd=4 | thorns d=1 | aura r=24 m=0.2 st=poison t=3 v=1');
+MKIT('leech_swarm','swim surf=90 up=4 | melee m=0.3 st=slow v=0.2 t=2 cd=0.8 wind=0 | tiny c=0.3');
+MKIT('mire_crab','chase s=0.9 | grab r=30 root=1 | front red=1');
+MKIT('will_o_wisp','drift keep=150 | lure r=180 str=3 | immune k=melee');
+MKIT('peat_walker','lumber | marks n=4 rad=18 delay=0.9 spread=60 col=#80a060 st=root t=1 cd=3.5 | armor n=3 red=0.5');
+MKIT('shellback','chase s=0.7 | roll spd=240 b=4 cd=4.5 | front red=0.7');
+MKIT('mangrove_strangler','still | marks n=5 rad=22 delay=1 spread=180 col=#4fe0ff st=root t=1 cd=3 | immune k=ranged | weak k=melee m=1.3');
+MKIT('bloodgnats','flit | melee m=0.3 st=slow v=0.1 t=4 cd=1 wind=0 | tiny c=0.35');
+MKIT('reed_stalker','ambush r=80 then=chase | lunge r=110 m=1.4 cd=2.8 | dodge cd=4');
+MKIT('waterlogged_revenant','lumber | lob rad=24 t=1 col=#a0d0d0 cd=2.2 | weak k=melee m=1.2');
+MKIT('stormeel','swim surf=160 up=2.2 | ring spd=160 max=160 gap=0 col=#80e0ff m=0.8 cd=3');
+MKIT('heron_knight','kite range=90 | lunge r=120 spd=500 m=1.3 cd=2.4 | reflect');
+MKIT('moss_golem','lumber | slam r=70 zone=slow zt=3 m=1.2 | armor n=4 red=0.6 | regen r=1.5 on=water');
+MKIT('slime_newts','zigzag | shoot p=poison spd=200 st=slow v=0.2 t=2 m=0.4 cd=2.2');
+MKIT('stilt_bandit','kite range=150 | shoot p=net spd=200 st=root t=2 m=0.3 cd=4 | melee m=0.6 steal=15 | weak k=melee m=1.4');
+MKIT('fog_phantom','drift keep=20 | melee m=0.9 st=dim t=4 | immune k=ranged | bubble n=2 t=1');
+MKIT('bog_hydra','still | shoot p=poison n=3 sp=0.3 spd=200 st=poison t=3 v=2 m=0.6 cd=2.2 | breath r=120 col=#80ff60 st=poison m=1 cd=3.5 | beam wind=0.8 len=260 w=12 col=#80c8ff m=1 cd=4 | regen r=1');
+// ── WETLANDS · dungeon ──
+MKIT('drowned_guard','lumber | sweep r=66 arc=2.4 wind=0.6 m=1.3 zone=slow zt=3 | front red=0.5');
+MKIT('sludge_brute','lumber | slam r=56 m=1.2 | split id=clover_slime n=2 hp=0.5');
+MKIT('gator_raider','charge wind=0.6 mult=3.6 stun=1.5 | sweep r=50 arc=3.1 kb=70 m=1 | front red=0.7');
+MKIT('crypt_crawler','zigzag | melee m=1 st=poison t=3 v=2 | split n=2 hp=0.4 sc=0.7');
+MKIT('leech_knight','chase | melee m=1 | drain r=40 m=0.3 dur=2 | weak k=melee m=1');
+MKIT('mold_zombie','lumber | melee m=0.9 | explode r=56 m=0.5 zone=poison zt=3');
+MKIT('barnacle_brute','lumber | slam r=64 m=1.5 | armor n=5 red=0.7');
+MKIT('rootbound_thrall','lumber | marks n=3 rad=18 delay=0.9 spread=70 col=#80c060 st=root t=1 cd=3');
+MKIT('skitter_crabs','zigzag | melee m=0.5 wind=0.1 | tiny c=0.2');
+MKIT('naga_guard','chase s=1.1 | melee n=3 m=0.7 | reflect');
+MKIT('spitfrog','leap every=2 d=70 | lob rad=26 t=0.9 zone=poison zt=4 col=#c0ff40 st=poison t=3 cd=2.4');
+MKIT('harpoon_lizard','kite range=170 | pull r=190 keep=30 m=0.7 cd=4 | shoot p=arrow spd=280 m=0.6 cd=2');
+MKIT('bubble_crab','kite range=150 | shoot p=bubble spd=150 st=root t=1.5 m=0.3 cd=3.5 | front red=1');
+MKIT('mud_mortar','still | lob rad=32 t=1.2 zone=slow zt=4 n=2 col=#8a7a50 cd=3 | front red=0.8');
+MKIT('dart_naga','ambush r=200 then=kite | shoot p=dart n=3 sp=0.25 spd=300 st=poison t=3 m=0.45 cd=2.4 | dodge cd=3');
+MKIT('coral_archer','kite range=190 | shoot p=arrow ric=1 spd=280 m=0.7 cd=2 | front red=0.8');
+MKIT('ink_squid','drift keep=110 | cloud at=player rad=56 st=blind dur=3 cd=5 | shoot p=ink spd=200 m=0.6 cd=2.2 | flee');
+MKIT('eel_turret','still | beam wind=0.6 len=260 w=12 col=#80c8ff m=1 cd=2.8 | bubble n=2 t=1.5');
+MKIT('gnat_caller','kite range=200 | summon id=bloodgnats n=2 max=3 cd=6 | flee');
+MKIT('lantern_thrower','kite range=190 | lob rad=34 t=1 zone=burn zt=3 col=#ffb040 st=burn cd=2.8 | weak k=melee m=1.5');
+// ── WETLANDS · tower ──
+MKIT('tide_caller','still | cloud at=self rad=200 st=slow v=0.35 dur=4 cd=9 | shoot p=water n=3 sp=0.3 spd=220 m=0.5 cd=2.4');
+MKIT('mist_weaver','blink every=3 d=120 | summon id=fog_phantom n=2 max=3 hp=0.3 cd=8 | shoot p=bolt m=0.5 cd=2.2');
+MKIT('moon_moth_mage','orbit r=140 | beam wind=0.7 len=300 w=9 col=#c0c0ff m=1 cd=2.8 | immune k=melee');
+MKIT('hex_toad','leap every=1.8 d=70 | shoot p=orb homing=1 spd=140 st=frog t=3 m=0.3 cd=5 | pull r=140 m=0.5 cd=4');
+MKIT('rain_spirit','hover | strike still=1.3 col=#80c0ff m=1.1 | immune k=melee');
+MKIT('reflecting_nymph','blink every=3 d=110 | shoot p=water spd=240 m=0.6 cd=2.2 | reflect');
+MKIT('leech_warlock','kite range=160 | drain r=180 m=0.3 dur=3 col=#c04060 | shoot p=orb m=0.5 cd=2.6');
+MKIT('bubble_siren','drift keep=120 | lure r=200 str=1.4 | shoot p=bubble spd=150 st=root t=1.5 m=0.3 cd=3.5 | bubble n=3 t=2');
+MKIT('lily_oracle','still | marks n=6 rad=22 delay=1.4 seq=0.15 spread=160 col=#ffd27a cd=3.5 | bubble n=2 t=1.2');
+MKIT('mire_shaman','kite range=200 | summon id=slime_newts n=2 max=4 cd=7 | cloud at=player rad=50 st=slow dur=4 cd=5 | heal r=160 a=0.15 cd=5');
+MKIT('coral_enchantress','drift keep=150 | wall dur=6 col=#f0a0a0 cd=6 | shoot p=shard n=3 sp=0.25 m=0.5 cd=2.4');
+MKIT('water_elemental','chase | slam r=60 kb=80 m=1.1 | split n=2 hp=0.35 sc=0.7');
+MKIT('frost_lotus','kite range=180 | beam wind=0.8 len=280 w=9 col=#a0e0ff st=freeze t=1 m=0.9 cd=3 | armor n=3 red=0.6');
+MKIT('kelp_wraith','drift keep=90 | marks n=4 rad=20 delay=0.9 spread=90 col=#80ffa0 st=root t=1.2 cd=3.5 | bubble n=3 t=2');
+MKIT('rune_eels','orbit r=36 | melee r=46 m=0.5 st=slow v=0.2 t=1.5 wind=0.1 | tiny c=0.25');
+MKIT('glass_jelly','drift keep=40 | ring spd=120 max=110 col=#a0f0ff m=0.7 cd=3 | aura r=26 m=0.25');
+MKIT('plague_alchemist','kite range=200 | lob rad=30 t=1 zone=poison zt=4 col=#80ff60 cd=2.4 | lob rad=30 t=1 zone=slow zt=4 col=#88c0ff cd=3.2 | bubble n=4 t=2');
+MKIT('storm_heron','orbit r=130 | lunge r=160 spd=520 m=1.3 cd=2.8 fly=1 | immune k=melee');
+MKIT('bell_ringer','still | ring spd=110 max=300 gap=1 col=#e8c040 m=1.2 cd=3.5 | bubble n=3 t=2.5');
+// ── HIGHLANDS · mainland ──
+MKIT('crag_ram','charge wind=0.8 mult=4.5 stun=2 kb=130 | front red=0.6');
+MKIT('frost_wolf','chase s=1.1 | breath r=90 cone=0.5 col=#a0e0ff st=slow v=0.4 m=0.7 cd=3 | melee m=0.9');
+MKIT('geode_crab','kite range=150 | shoot p=shard n=3 sp=0.3 spd=250 m=0.6 cd=2.2 | reflect | front red=0.7');
+MKIT('gale_roc','orbit r=160 | gust r=190 dist=160 m=0.4 cd=3 | lob rad=28 t=1 col=#8a8478 cd=4');
+MKIT('rockslide_beetle','roll spd=260 b=4 dizzy=2 cd=3.5 | front red=0.6');
+MKIT('yeti_stomper','lumber | lob rad=30 t=1 zone=slow zt=4 col=#ffffff st=slow cd=2.8 | slam r=80 zone=slow zt=4 m=1.3 | weak k=melee m=1');
+MKIT('chess_knight','chessL every=1.3 | melee m=1.3 r=30');
+MKIT('chess_rook','rook slide=280 stun=3');
+MKIT('starfall_shard','charge wind=0.4 mult=5 stun=0.6 dur=0.9 | explode r=56 m=0.8 col=#9fe8ff | tiny c=0.2');
+MKIT('automaton_miner','burrow near=34 pop=2.5 | melee n=3 m=0.7 | armor n=4 red=0.6');
+MKIT('snow_owl','perch r=150 soft=2.5 | summon id=frost_wolf n=1 max=2 cd=12 r=300');
+MKIT('harp_spectre','drift keep=150 | ring spd=140 max=220 gap=1 col=#fff0a0 m=0.8 cd=2.6 | shoot p=spark n=5 sp=0.15 spd=210 m=0.4 cd=3 | bubble n=3 t=1.5');
+MKIT('ridge_troll','lumber | lob rad=32 t=1.1 col=#8a8478 m=1.2 cd=3 | sweep r=62 arc=2.4 m=1.3 kb=70 | regen r=1.2');
+MKIT('craglings','zigzag | melee m=0.6 wind=0.1 | tiny c=0.15');
+MKIT('glacier_wyrm','burrow near=40 pop=2.2 | marks n=5 rad=18 delay=0.7 seq=0.1 spread=120 col=#a0e0ff st=slow m=0.8 cd=3 | melee m=1.3');
+MKIT('bristleback_bear','chase | slam r=58 wind=0.7 m=1.5 | enrage | thorns d=1');
+MKIT('mesa_scorpion','burrow near=32 pop=2 | grab r=30 root=1 | melee m=1.1 st=poison t=3 v=2');
+MKIT('glass_wyvern','orbit r=140 | ring spd=200 max=140 col=#e0f8ff st=slow v=0.5 t=0.8 m=0.3 cd=4 | breath r=120 col=#e0f8ff st=slow m=1.2 cd=3 | reflect');
+// ── HIGHLANDS · dungeon ──
+MKIT('dwarf_axeman','chase | sweep r=58 arc=6.2 wind=0.5 m=1.2 cd=2 | armor n=3 red=0.6');
+MKIT('crystal_golemling','lumber | slam r=52 m=1 | thorns d=2 | weak k=melee m=1.5');
+MKIT('deep_mole','burrow near=32 pop=1.8 | melee n=3 m=0.7');
+MKIT('frost_ghoul','chase s=1.1 | melee m=0.8 st=slow v=0.35 t=2 | weak k=melee m=1.2');
+MKIT('gargoyle_sentry','perch r=110 soft=2.5');
+MKIT('cave_troll','lumber | sweep r=66 arc=2.6 wind=0.7 m=1.5 kb=110 | grab r=34 root=1.2');
+MKIT('labyrinth_bull','charge wind=0.7 mult=4.8 stun=3 dur=1.3 kb=90');
+MKIT('crystal_spider','chase s=1.2 | shoot p=web spd=240 st=slow v=0.45 t=3 m=0.3 cd=3 | melee m=0.9 | weak k=melee m=1.3');
+MKIT('shieldwall_dwarves','lumber | melee m=1 r=44 | front red=1 arc=1.4');
+MKIT('rock_hopper','roll spd=240 b=5 cd=2.5 dizzy=1');
+MKIT('dwarf_crossbow','kite range=210 | shoot p=bolt pierce=1 spd=360 m=1 cd=3');
+MKIT('geode_spitter','still | shoot p=shard n=3 sp=0.3 spd=240 m=0.5 stick=1.5 cd=2.8 | bubble n=2 t=1.5');
+MKIT('icicle_bats','flit | lob rad=20 t=0.7 col=#a0e0ff m=0.8 cd=2.2 | tiny c=0.3');
+MKIT('minecart_bomber','kite range=200 s=1.4 | lob rad=36 t=1 col=#ff6040 m=1.3 cd=2.4 | dodge cd=4');
+MKIT('echo_bat','flit | ring spd=170 max=180 col=#ff80ff st=mark t=5 m=0.2 cd=4.5 | tiny c=0.3');
+MKIT('boulder_goblin','kite range=240 | shoot p=rock size=11 spd=200 m=1.3 pierce=1 cd=3');
+MKIT('frost_archer','kite range=220 | shoot p=ice spd=300 st=slow v=0.35 t=2.5 zone=slow zr=24 m=0.7 cd=2');
+MKIT('lantern_kobold','kite range=180 | lob rad=34 t=1 zone=slow zt=4 col=#6a5a3a cd=4 | lob rad=26 t=0.9 zone=burn zt=3 col=#ffb040 st=burn cd=3');
+MKIT('prism_eye','drift keep=150 | beam wind=0.9 len=320 w=8 col=#ff80ff m=1 cd=2.6 | beam wind=1.1 len=320 w=8 col=#80e0ff m=0.8 cd=3.4 | bubble n=3 t=1.5');
+// ── HIGHLANDS · tower ──
+MKIT('astronomer_lich','kite range=210 | marks n=4 rad=30 delay=1.6 spread=150 col=#9fe8ff zone=burn cd=4 | bubble n=3 t=2 | revive t=5');
+MKIT('frost_cantor','kite range=190 | beam wind=0.8 len=300 w=9 col=#a0e0ff st=freeze t=1 m=0.9 cd=3 | wall dur=5 col=#c0e8ff cd=7 | armor n=3 red=0.5');
+MKIT('gravity_adept','drift keep=130 | lure r=220 str=1.8 | shoot p=rock n=4 all=1 spd=160 m=0.5 cd=2.8 | reflect');
+MKIT('cloud_sylph','hover | cloud at=player rad=64 st=slow dur=3 cd=5 | strike still=1.4 col=#ffff80 m=1 | immune k=melee');
+MKIT('chessmaster','still | summon id=chess_knight n=1 max=2 cd=9 | gust r=220 dist=40 m=0.2 cd=3 | bubble n=3 t=3');
+MKIT('crystal_resonator','still | ring spd=160 max=260 gap=1 col=#c080ff m=1 cd=3.2 | shoot p=shard n=8 all=1 spd=200 m=0.4 cd=4.5 | front red=0.5');
+MKIT('wind_monk','chase s=1.2 | gust r=90 dist=150 m=0.8 cd=2.4 | dodge cd=2.5');
+MKIT('aurora_spirit','drift keep=120 | beam wind=0.9 len=340 w=10 col=#a0ffd0 m=0.9 cd=2.4 | beam wind=1.2 len=340 w=10 col=#c080ff m=0.9 cd=3.1 | immune k=melee');
+MKIT('orrery','still | ring spd=100 max=200 gap=1 col=#ffd070 m=0.8 cd=2.4 | shoot p=orb n=4 all=1 spd=160 m=0.4 cd=3 | armor n=4 red=0.8');
+MKIT('stone_druid','kite range=170 | marks n=3 rad=22 delay=0.9 spread=80 col=#a88a6a obstacle=1 m=1 kb=60 cd=3.5 | front red=0.5');
+MKIT('blizzard_witch','kite range=180 | cloud at=player rad=90 st=blind dur=3 cd=7 | shoot p=ice n=3 sp=0.2 spd=240 st=slow v=0.3 t=2 m=0.5 cd=2.2');
+MKIT('echo_sage','still | shoot p=orb n=1 spd=200 m=0.7 cd=1.4 | shoot p=orb n=1 spd=200 m=0.7 cd=1.4 wind=1 | weak k=melee m=1.5');
+MKIT('seraph','hover | beam wind=1 len=320 w=12 col=#ffe080 m=1.1 cd=2.8 | bubble n=3 t=2');
+MKIT('rune_statue','weeping | grab r=34 root=1.5 m=1.2');
+MKIT('telescope_eye','still | beam wind=1.3 len=460 w=7 col=#ffd070 m=1.3 cd=3');
+MKIT('hailstone_imp','flit | shoot p=ice ric=2 spd=260 m=0.4 cd=1.8 | tiny c=0.3');
+MKIT('spellblade','chase | melee n=2 m=0.9 | shoot p=ice spd=280 st=slow v=0.3 t=2 m=0.6 cd=2.8 | front red=0.6');
+MKIT('thunderbird','orbit r=150 | lunge r=180 spd=560 m=1.2 cd=2.4 fly=1 | strike still=1.5 col=#ffff80');
+MKIT('void_scholar','blink every=2.5 d=140 | shoot p=orb homing=1 spd=160 m=0.7 cd=2 | swap r=240 cd=7 | dodge cd=3');
+// ── ASHLANDS · mainland ──
+MKIT('magma_slug','lumber | shoot p=lava spd=180 zone=burn zr=26 m=0.8 cd=2.6 | aura r=22 st=burn t=2 | armor n=2 red=0.8');
+MKIT('cinder_hounds','chase s=1.15 | lunge r=100 m=1 st=burn t=2 cd=2.4 | explode r=46 m=0.5 st=burn');
+MKIT('obsidian_stalker','blink every=2 d=26 | melee r=40 n=3 m=0.8 | reflect | explode r=50 m=0.6 col=#c080ff');
+MKIT('sulfur_toad','leap every=1.5 d=80 | cloud at=self rad=60 st=poison v=2 dur=4 cd=5 | explode r=60 m=0.4 zone=poison zt=4 col=#d8c040');
+MKIT('ember_mimic','disguise r=85 then=still | melee m=1.3 st=burn t=3 | shoot p=fire n=5 sp=0.25 spd=200 m=0.4 cd=2.8');
+MKIT('basalt_golem','lumber | slam r=80 m=1.3 | beam wind=0.8 len=220 w=16 col=#ff6a20 m=1 cd=4 | armor n=6 red=0.7');
+MKIT('bone_revenant','kite range=160 | shoot p=bone spd=260 m=1 cd=2.2 | lunge r=120 m=1.2 cd=4 | revive t=5');
+MKIT('forge_automaton','lumber | slam r=66 m=1.5 zone=burn zt=2 | armor n=3 red=0.7 | weak k=melee m=1.2');
+MKIT('ash_moths','flit | cloud at=player rad=70 st=dim dur=4 cd=5 | melee m=0.3 st=slow v=0.15 t=3 | tiny c=0.35');
+MKIT('lava_eel','swim in=lava surf=160 up=2 | lob rad=26 t=0.8 zone=burn zt=3 col=#ff6a20 st=burn cd=2');
+MKIT('chained_gargoyle','orbit r=110 | lunge r=140 spd=480 m=1.2 cd=2.5 fly=1 | armor n=3 red=0.5');
+MKIT('pyre_cultist','kite range=170 | marks n=4 rad=22 delay=1 spread=110 col=#ff8040 zone=burn cd=3.5 | heal r=150 a=0.25 cd=6');
+MKIT('salamander_wyrmling','hover | breath r=120 cone=0.55 col=#ff9040 st=burn m=1.1 cd=2.8 | immune k=ranged');
+MKIT('cinder_scorpion','burrow near=34 pop=2 | melee m=1.1 st=burn t=4 | front red=0.6');
+MKIT('scorched_paladin','chase | melee n=4 m=0.8 st=burn t=2 | front red=0.8 | enrage');
+MKIT('phoenix_chick','flit | breath r=110 col=#ffb040 st=burn m=1 cd=3 | lunge r=130 m=1 cd=3.5 fly=1 | revive t=5');
+// ── ASHLANDS · dungeon ──
+MKIT('magma_brute','lumber | melee n=2 m=1.1 st=burn t=2 | aura r=40 m=0.3 st=burn t=2');
+MKIT('glass_blademaster','flit | melee n=3 m=0.9 | weak k=melee m=1.8 | explode r=44 m=0.5 col=#c080ff');
+MKIT('hellhound','chase s=1.25 | lunge r=110 m=1.3 st=burn t=2 cd=2.2 | summon id=cinder_hounds n=1 max=2 cd=10');
+MKIT('ember_berserker','chase | sweep r=58 arc=6.2 m=1.2 cd=2.2 | enrage');
+MKIT('bonepit_ghoul','still | pull r=150 keep=20 m=0.7 cd=3.5 | grab r=32 root=1.5 m=1 | front red=0.5');
+MKIT('slag_golem','lumber | slam r=56 m=1.2 | split n=3 hp=0.35 sc=0.6');
+MKIT('salamander_warrior','chase s=1.1 | melee n=2 m=1 | sweep r=54 arc=3.1 kb=90 m=0.8 cd=3 | front red=0.7');
+MKIT('chain_warden','lumber | pull r=170 keep=26 m=0.6 cd=4 | slam r=58 m=1.5 | armor n=4 red=0.6');
+MKIT('charred_zombies','lumber | melee m=0.9 | explode r=52 m=0.7 st=burn zone=burn zt=2');
+MKIT('molten_mimic','disguise r=85 then=leap | melee n=2 m=1.2 st=burn t=2');
+MKIT('imp_bombardier','flit | lob rad=30 t=0.9 zone=burn zt=3 col=#ff7030 st=burn cd=2.2 | tiny c=0.25');
+MKIT('magma_vent','still | lob rad=28 t=0.9 n=3 zone=lava zt=3 col=#ff6a20 cd=3 | immune k=ranged');
+MKIT('obsidian_archer','kite range=200 | shoot p=glass spd=300 m=0.8 ric=1 cd=2 | weak k=melee m=1.6');
+MKIT('ember_sniper','kite range=260 | beam wind=1.4 len=440 w=7 col=#ff8040 zone=burn m=1.4 cd=3.2');
+MKIT('sulfur_beetle','zigzag | lob rad=34 t=1 zone=poison zt=4 col=#d8c040 cd=3 | front red=0.8');
+MKIT('cinder_slinger','kite range=180 | shoot p=fire spd=250 zone=burn zr=22 m=0.7 cd=1.8');
+MKIT('pit_serpent','swim in=lava surf=200 up=2.5 | shoot p=fire n=3 sp=0.2 spd=240 m=0.7 cd=1.6');
+MKIT('ash_crossbow','kite range=210 | shoot p=bolt spd=320 zone=burn zr=22 m=0.9 cd=2.8 | armor n=3 red=0.5');
+MKIT('brimstone_eye','drift keep=140 | beam wind=0.7 len=320 w=9 col=#ff8040 st=burn m=1 cd=2.4 | bubble n=3 t=1.5');
+MKIT('flame_kite','orbit r=140 | lob rad=26 t=0.8 zone=burn zt=3 col=#ff6020 cd=1.6 | immune k=melee');
+// ── ASHLANDS · tower ──
+MKIT('pyromancer','kite range=180 | ring spd=150 max=220 gap=1 col=#ff7030 st=burn m=0.9 cd=3 | shoot p=fire n=3 sp=0.25 m=0.6 cd=2.2 | immune k=fire');
+MKIT('obsidian_sorceress','drift keep=150 | shoot p=orb homing=1 spd=150 st=root t=2 m=0.5 cd=4 | shoot p=glass n=5 sp=0.2 m=0.5 cd=2.6 | reflect');
+MKIT('cinder_lich','kite range=200 | summon id=charred_zombies n=2 max=4 cd=8 | ring spd=160 max=200 col=#ff4020 st=burn m=0.9 cd=4 | revive t=6');
+MKIT('magma_elemental','chase | slam r=64 zone=lava zt=4 m=1.2 | split n=2 hp=0.35 sc=0.7');
+MKIT('forge_artificer','kite range=200 s=1.2 | summon id=magma_vent n=1 max=3 cd=7 | flee');
+MKIT('flame_djinn','orbit r=90 | lure r=180 str=1.5 | aura r=50 m=0.35 st=burn t=2 | immune k=melee');
+MKIT('smoke_wraith','blink every=2.6 d=100 | cloud at=player rad=70 st=blind dur=3 cd=5 | melee m=0.9 st=slow v=0.3 t=2 | bubble n=2 t=1.5');
+MKIT('ash_oracle','still | marks n=7 rad=24 delay=1.3 seq=0.18 spread=180 col=#ff8040 zone=burn cd=4 | weak k=melee m=1.6');
+MKIT('imp_summoner','kite range=210 | summon id=imp_bombardier n=2 max=4 cd=7 | shoot p=fire m=0.5 cd=2.4');
+MKIT('dragon_priest','kite range=150 | breath r=140 cone=0.6 col=#ff7030 st=burn m=1.3 cd=3 | heal r=180 a=0.2 cd=5');
+MKIT('soul_furnace','lumber | aura r=56 m=0.4 st=burn t=2 | slam r=70 m=1.4 | armor n=5 red=0.6 | regen r=0.8');
+MKIT('eclipse_witch','drift keep=160 | cloud at=player rad=120 st=blind dur=4 cd=7 | shoot p=orb homing=1 spd=160 m=0.7 cd=2.2');
+MKIT('salamander_sage','kite range=170 | shoot p=fire n=3 sp=0.3 m=0.6 cd=2.2 | thorns d=3 | immune k=fire');
+MKIT('meteor_caller','kite range=230 | lob n=3 rad=34 t=1.4 zone=lava zt=4 col=#ff8030 m=1.2 cd=4 | weak k=melee m=1.6');
+MKIT('chainmaster','kite range=180 | pull r=200 keep=40 m=0.4 cd=3.5 | grab r=34 root=2 | drain r=160 m=0.25 dur=2.5 col=#9a9aa4');
+MKIT('phoenix_mage','orbit r=150 | shoot p=fire n=5 sp=0.2 spd=240 m=0.5 cd=2.2 | breath r=120 st=burn m=1 cd=3.5 | revive t=3');
+MKIT('volcanic_hexer','flit | shoot p=orb homing=1 spd=150 st=burn t=3 m=0.4 cd=3 | shoot p=orb homing=1 spd=150 st=freeze t=1 m=0.4 cd=3.6');
+MKIT('ember_construct','lumber | beam wind=1 len=300 w=12 col=#7fe8ff m=1.2 cd=3 | armor n=6 red=0.85 | bubble n=4 t=2');
+MKIT('flame_wisp','orbit r=70 | shoot p=fire spd=250 m=0.4 cd=1.4 | tiny c=0.35');
 // ═══════════════════════════════════════════════════════════════════════
 // ║ ZELDARA DESIGN LAB — core engine (Phase 2 · A2)
 // ║
@@ -3363,15 +5070,103 @@ document.addEventListener('input',function(e){ if(e.target.id!=='map-notes')retu
 (function(){
   var at=LAB_TABS.findIndex(function(t){return t.id==='map';});
   var tab={ id:'village', name:'Village', lazy:true,
-    groups:VILLAGE_STYLES.map(function(S,i){ return {k:i+1,n:S.name}; }),
+    groups:[{k:0,n:'Your village (Runestone+)'}].concat(VILLAGE_STYLES.map(function(S,i){ return {k:i+1,n:S.name}; })),
     blurb:'<b>Pick a look for the home village.</b> Four styles, each shown at its <b>five growth stages</b>: the village grows every time you free a craftsman — Bram paves the streets and bridges the creek, Mira adds her workshop, windmill and street lamps, Dunn his forge hall and a statue, and Vela a sky dock with banners and festival lights. Mark the style you like with <b>Pick</b> (any stage card) and add notes, e.g. mixing parts of two styles.',
     designs:[] };
+  for(var st0=1;st0<=5;st0++)(function(st){ var pl=villagePlan(st);
+    tab.designs.push({ id:'runestone_plus_'+st, name:'Runestone Hamlet+ — '+['I','II','III','IV','V'][st-1], group:0, tagline:'Stage '+st+': '+VILLAGE_STAGES[st-1]+' · '+pl.houses+' buildings',
+      blurb:'<b>Your pick</b>: the Runestone Hamlet with houses, carts, windmills, walls & turrets, lanterns, chimney smoke, fountains, harbour-stone streets and vegetable gardens from the other villages. It grows outward (radius '+pl.R+' tiles) and gets denser: <b>'+pl.houses+'</b> buildings at this stage (13 → 44).', seed:900+st, facts:null,
+      build:function(seed){ var m=buildWorld(villagePlusDesign(st),seed); this.facts=[pl.houses+' buildings · '+m.stats.props+' props · '+m.stats.runes+' rune lights']; return m; } });
+  })(st0);
   VILLAGE_STYLES.forEach(function(S,i){ for(var st=1;st<=5;st++)(function(st){
     tab.designs.push({ id:S.id+'_'+st, name:S.name+' — '+['I','II','III','IV','V'][st-1], group:i+1,
       tagline:'Stage '+st+': '+VILLAGE_STAGES[st-1], blurb:S.blurb+'<br><br><b>Stage '+st+'</b> — '+VILLAGE_STAGES[st-1]+'.', seed:500+i*10+st, facts:null,
       build:function(seed){ var m=buildWorld(villageDesign(S,st),seed); this.facts=[m.stats.props+' buildings & props · '+m.stats.runes+' rune lights']; return m; } });
   })(st); });
   LAB_TABS.splice(at>=0?at+1:LAB_TABS.length,0,tab);
+})();
+// ═══════════════════════════════════════════════════════════════════════
+// ║ MONSTERS tab — 240 candidates (4 quadrants × mainland 20 / dungeon
+// ║ 10 melee + 10 ranged / tower 20). Kris down-selects to half.
+// ═══════════════════════════════════════════════════════════════════════
+var MON_SEGS=[{k:'main',n:'Mainland',want:10,f:function(m){return m.seg==='main';}},
+  {k:'melee',n:'Dungeon · melee',want:5,f:function(m){return m.seg==='dun'&&m.role==='melee';}},
+  {k:'ranged',n:'Dungeon · ranged',want:5,f:function(m){return m.seg==='dun'&&m.role==='ranged';}},
+  {k:'tow',n:'Tower · magic',want:10,f:function(m){return m.seg==='tow';}}];
+var MON_REUSE_NAMES={goblin:'Goblin',skeleton:'Skeleton',mud_troll:'Mud Troll',bog_serpent:'Bog Serpent',swamp_witch:'Swamp Witch',stone_golem:'Stone Golem',harpy:'Harpy',iron_sentinel:'Iron Sentinel',fire_imp:'Fire Imp',ash_wraith:'Ash Wraith',dark_warlock:'Dark Warlock',storm_mage:'Storm Mage',rock_dragon:'Rock Dragon',lava_titan:'Lava Titan'};
+var MonTab={ q:1, seg:'main', show:'all', vis:new Set(), t0:0,
+  key:function(m){ return 'monsters-'+m.id; },
+  list:function(){ var S=MON_SEGS.find(function(s){return s.k===MonTab.seg;}); return MON_ROSTER.filter(function(m){ if(m.q!==MonTab.q||!S.f(m))return false; var p=LabApp.picks[MonTab.key(m)]||{};
+    if(MonTab.show==='picked')return p.verdict==='pick'; if(MonTab.show==='open')return !p.verdict; return true; }); },
+  count:function(q,S,v){ return MON_ROSTER.filter(function(m){ var p=LabApp.picks[MonTab.key(m)]; return m.q===q&&S.f(m)&&p&&p.verdict===v; }).length; },
+  strategy:function(){
+    return '<details class="mn-strat"><summary>Spawn strategy (what these picks feed into)</summary><div class="mn-strat-grid">'+
+      '<div><b>Three segments per quadrant</b><p>Mainland monsters roam the open world; dungeon monsters are ruthless melee or sneaky ranged fighters; tower monsters are magical (mages, sprites, warlocks, creatures of magic).</p></div>'+
+      '<div><b>80 / 15 / 5 rule</b><p><span class="mn-pct">80%</span> this quadrant + this segment · <span class="mn-pct">15%</span> this quadrant, another segment · <span class="mn-pct">5%</span> visitors from another quadrant, <i>scaled to the local level</i>.</p></div>'+
+      '<div><b>Where they spawn</b><p>Mainland monsters favour their terrain (the <em>T:</em> tag): water monsters near water, lava monsters on crust. Some only come out at <b>night</b>; some spawn in <b>packs</b> with a leader.</p></div>'+
+      '<div><b>Difficulty</b><p>Grasslands monsters have one clear mechanic each. Wetlands add status effects, Highlands add terrain, shields and knockback, and Ashlands combine several and add rebirth and armor-break fights. Tiers ★1–5 run within each quadrant.</p></div>'+
+      '</div></details>';
+  },
+  render:function(){
+    var self=this, S=MON_SEGS.find(function(s){return s.k===self.seg;});
+    var qs='<div class="lab-groups">'+LAB_REGIONS.map(function(R){ var pk=MON_ROSTER.filter(function(m){ var p=LabApp.picks[self.key(m)]; return m.q===R.k&&p&&p.verdict==='pick'; }).length;
+      return '<button class="lab-grp mn-q" data-q="'+R.k+'" aria-pressed="'+(R.k===self.q)+'">'+R.n+' <span class="n">'+pk+'/30 picked</span></button>'; }).join('')+'</div>';
+    var segs='<div class="mn-segs">'+MON_SEGS.map(function(s){ var n=self.count(self.q,s,'pick'), tot=MON_ROSTER.filter(function(m){return m.q===self.q&&s.f(m);}).length;
+      return '<button class="mn-seg" data-seg="'+s.k+'" aria-pressed="'+(s.k===self.seg)+'">'+s.n+' <span class="n'+(n>s.want?' over':n===s.want?' done':'')+'">'+n+' / '+s.want+' of '+tot+'</span></button>'; }).join('')+
+      '<span class="mn-show">'+[['all','All'],['open','Undecided'],['picked','Picked']].map(function(o){ return '<button class="mn-sh" data-sh="'+o[0]+'" aria-pressed="'+(self.show===o[0])+'">'+o[1]+'</button>'; }).join('')+'</span></div>';
+    var cards=this.list().map(function(m){ var p=LabApp.picks[self.key(m)]||{}, stars='★★★★★'.slice(0,m.tier)+'<i>'+'★★★★★'.slice(m.tier)+'</i>';
+      var tags=m.tags.map(function(t){ if(t==='pack')return '<span class="mn-tag pack">Pack</span>'; if(t==='night')return '<span class="mn-tag night">Night only</span>'; if(t.indexOf('T:')===0)return '<span class="mn-tag ter">'+t.slice(2)+'</span>'; return ''; }).join('');
+      var role=m.seg==='dun'?(m.role==='melee'?'Melee':'Ranged'):m.seg==='tow'?'Magic':'Mainland';
+      return '<article class="mn-card" data-mid="'+m.id+'" data-verdict="'+(p.verdict||'')+'">'+
+        '<div class="mn-top"><canvas class="mn-spr" width="128" height="128" data-mid="'+m.id+'"></canvas>'+
+        '<div class="mn-head"><b>'+m.name+'</b><span class="mn-stars" title="Difficulty within the quadrant">'+stars+'</span><span class="mn-role">'+role+'</span>'+
+        (m.reuse?'<span class="mn-reuse">Uses the existing '+(MON_REUSE_NAMES[m.reuse]||m.reuse)+'</span>':'')+'<div class="mn-tags">'+tags+'</div></div></div>'+
+        '<div class="mn-kit">In game: '+(typeof MON_LEGACY!=='undefined'&&MON_LEGACY[m.id]?'original '+(MON_REUSE_NAMES[MON_LEGACY[m.id]]||MON_LEGACY[m.id])+' code':((typeof MON_KIT_SRC!=='undefined'&&MON_KIT_SRC[m.id])||'').split('|').map(function(t){ return t.trim().split(/\s+/)[0]; }).join(' · '))+'</div>'+
+        '<dl><dt>Looks</dt><dd>'+m.look+'</dd><dt>Moves</dt><dd>'+m.move+'</dd><dt>Attacks</dt><dd>'+m.atk+'</dd><dt>Defends</dt><dd>'+m.def+'</dd><dt>Special</dt><dd>'+m.sp+'</dd></dl>'+
+        '<div class="sp-actions">'+['pick','maybe','no'].map(function(vv){return '<button class="vbtn mn-v" data-mid="'+m.id+'" data-v="'+vv+'" aria-pressed="'+(p.verdict===vv)+'">'+({pick:'Pick',maybe:'Maybe',no:'No'})[vv]+'</button>';}).join('')+'</div>'+
+        '<textarea class="mn-notes" data-mid="'+m.id+'" rows="2" placeholder="Notes (optional): tweaks, names, ideas…">'+(p.notes||'').replace(/</g,'&lt;')+'</textarea></article>';
+    }).join('');
+    setTimeout(function(){ self.bindSprites(); },0);
+    return this.strategy()+qs+segs+'<p class="mn-hint">'+S.n+': pick <b>'+S.want+'</b> for '+LAB_REGIONS[self.q-1].n+'. The sprites are rough stand-ins that loop idle → wind-up → attack; the picked monsters get proper ChatGPT sprites later.</p><div class="mn-grid">'+(cards||'<p class="lab-empty">Nothing here with this filter.</p>')+'</div>';
+  },
+  refresh:function(){ // in-place verdict update (keeps typing focus)
+    var self=this; document.querySelectorAll('.mn-card').forEach(function(c){ var m=MON_ROSTER.find(function(x){return x.id===c.dataset.mid;}), p=LabApp.picks[self.key(m)]||{}; c.dataset.verdict=p.verdict||'';
+      c.querySelectorAll('.mn-v').forEach(function(b){ b.setAttribute('aria-pressed',String(p.verdict===b.dataset.v)); }); });
+    document.querySelectorAll('.mn-seg .n').forEach(function(n,i){ var s=MON_SEGS[i], k=self.count(self.q,s,'pick'), tot=MON_ROSTER.filter(function(m){return m.q===self.q&&s.f(m);}).length; n.textContent=k+' / '+s.want+' of '+tot; n.className='n'+(k>s.want?' over':k===s.want?' done':''); });
+    document.querySelectorAll('.mn-q .n').forEach(function(n,i){ var q=i+1; n.textContent=MON_ROSTER.filter(function(m){ var p=LabApp.picks[self.key(m)]; return m.q===q&&p&&p.verdict==='pick'; }).length+'/30 picked'; });
+  },
+  bindSprites:function(){
+    var self=this; this.vis.clear();
+    if(this._io)this._io.disconnect();
+    this._io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting)self.vis.add(e.target); else self.vis.delete(e.target); }); },{rootMargin:'100px'});
+    document.querySelectorAll('.mn-spr').forEach(function(cv){ self._io.observe(cv); cv._m=MON_ROSTER.find(function(m){return m.id===cv.dataset.mid;}); cv._ph=Math.floor(Math.random()*10); cv._last=-1; });
+    if(!this._raf)this._loop();
+  },
+  _loop:function(){ var self=this, SEQ=[0,1,0,1,0,1,0,2,3,3];
+    this._raf=requestAnimationFrame(function(t){ self._raf=null; if(LabApp.tab!=='monsters'){ return; }
+      var step=Math.floor(t/190);
+      self.vis.forEach(function(cv){ if(!cv.isConnected||!cv._m)return; var f=SEQ[(step+cv._ph)%SEQ.length]; if(f===cv._last)return; cv._last=f;
+        var fr=msFrames(cv._m.spec), x=cv.getContext('2d'); x.clearRect(0,0,128,128); x.imageSmoothingEnabled=false; x.drawImage(fr[f],0,0,128,128); });
+      self._loop(); });
+  }
+};
+(function(){
+  var at=LAB_TABS.findIndex(function(t){return t.id==='village';});
+  var tab={ id:'monsters', name:'Monsters',
+    blurb:'<b>Monster gallery — all 240 are in the game</b> (your pick: every one). Per quadrant: 20 mainland, 10 dungeon melee, 10 dungeon ranged and 20 tower mages & magical creatures. The "In game" line shows the engine modules each one uses; the 15 existing monsters keep their original attacks. Notes are still welcome for tweaks.',
+    designs:MON_ROSTER.map(function(m){ return {id:m.id,name:m.name+' ('+LAB_REGIONS[m.q-1].n+' · '+(m.seg==='dun'?'dungeon '+m.role:m.seg==='tow'?'tower':'mainland')+')'}; }),
+    render:function(){ return MonTab.render(); } };
+  LAB_TABS.splice(at>=0?at+1:LAB_TABS.length,0,tab);
+  // snapshot re-renders: update verdicts in place so a half-typed note keeps focus
+  var orig=LabApp.renderGrid;
+  LabApp.renderGrid=function(quiet){ if(this.tab==='monsters'&&quiet&&document.querySelector('.mn-card')){ MonTab.refresh(); this.renderTabs(); return; } return orig.call(this,quiet); };
+  document.addEventListener('click',function(e){
+    var q=e.target.closest('.mn-q'); if(q){ MonTab.q=+q.dataset.q; LabApp.renderGrid(); return; }
+    var s=e.target.closest('.mn-seg'); if(s){ MonTab.seg=s.dataset.seg; LabApp.renderGrid(); return; }
+    var sh=e.target.closest('.mn-sh'); if(sh){ MonTab.show=sh.dataset.sh; LabApp.renderGrid(); return; }
+    var v=e.target.closest('.mn-v'); if(v){ var k='monsters-'+v.dataset.mid, p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=p.verdict===v.dataset.v?null:v.dataset.v; LabApp.persist(k); MonTab.refresh(); LabApp.renderTabs(); return; }
+  });
+  document.addEventListener('input',function(e){ var ta=e.target.closest&&e.target.closest('.mn-notes'); if(!ta)return; var k='monsters-'+ta.dataset.mid, p=LabApp.picks[k]=LabApp.picks[k]||{}; p.notes=ta.value; LabApp.persist(k,900); });
 })();
 
 LabApp.init();

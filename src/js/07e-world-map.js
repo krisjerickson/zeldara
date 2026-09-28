@@ -110,6 +110,8 @@ function buildWorldMap(seed){
   // ── 4. village on the Grasslands shore of the lake ──
   var village={x:690,y:520,r:30};
   for(var y9=village.y-village.r;y9<=village.y+village.r;y9++)for(var x9=village.x-village.r;x9<=village.x+village.r;x9++){ if(Math.hypot(x9-village.x,y9-village.y)<=village.r){ var k9=y9*W+x9; cls[k9]=WM.VILLAGE; region[k9]=0; } }
+  // harbour bay: Mirror Lake reaches into the village's south-west quarter (07l VR_BAY)
+  if(typeof VR_BAY==='function')for(var yb=village.y-8;yb<=village.y+50;yb++)for(var xb=village.x-60;xb<=village.x+4;xb++){ if(!VR_BAY(xb-village.x,yb-village.y))continue; var kb=yb*W+xb; if(cls[kb]===WM.RIDGE||cls[kb]===WM.RIVER||cls[kb]===WM.CLIFF)continue; cls[kb]=WM.LAKE; region[kb]=0; }
   // ── 5. relief: mountains & inner lakes & rivers, by region ──
   var mtn=vnoise(seed+91);
   for(var y10=0;y10<H;y10++)for(var x10=0;x10<W;x10++){ var i10=y10*W+x10; if(cls[i10]!==WM.LAND)continue; var rg=region[i10], m=mtn(x10/38,y10/38);

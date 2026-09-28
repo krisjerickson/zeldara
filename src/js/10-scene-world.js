@@ -128,6 +128,7 @@ class WorldScene extends Phaser.Scene{
     ownedFamiliars:[],
     skills:[],lockedSites:[]  };
     if(!this._newGame)this._loadSave();
+    villageApply(this.wd,villageStageOf(this.playerState));   // the village at its current stage (grows as craftsmen are freed)
     this._refreshVillageNPCs();
     this._initTravel();
     this._runicInit();
@@ -1079,16 +1080,18 @@ class WorldScene extends Phaser.Scene{
       return pr.life>0&&!pr.hit;
     });
 
+    MX.tickScene(this,dt);
     this.worldMonsters.forEach(function(mon){
       // Respawn
       if(mon.dead){
+        if(mon.temp)return;
         mon.respawnTimer-=dt;
         if(mon.respawnTimer<=0&&self.playerState.unlockedSections.includes(mon.section)){
           mon.dead=false; mon.hp=mon.maxHp;
           mon.x=mon.spawnX; mon.y=mon.spawnY;
           mon.cont.setPosition(mon.x,mon.y); mon.cont.setDepth(WR_DEPTH(mon.y)); mon.cont.setAlpha(1);
           mon.hpFill.displayWidth=28; mon.state='wander';
-          mon._md={};
+          mon._md={}; if(mon.mx)MX.reset(mon);
         }
         return;
       }
@@ -1106,6 +1109,8 @@ class WorldScene extends Phaser.Scene{
       // Stun: skip all movement/attacks while stunned
       if(mon._stun>0){mon._stun-=dt;return;}
 
+      if(dist<280&&mon.rid&&typeof Tome!=='undefined')Tome.see('monster',mon.rid);
+      if(mon.mx){ MX.tick(self,mon,dt); return; }
       // Smoke bomb: force wander if player is inside smoke cloud
       if(self._smokeBomb&&self._smokeBomb.life>0){
         var sb=self._smokeBomb;
@@ -1481,6 +1486,7 @@ class WorldScene extends Phaser.Scene{
     if(U){vy=-baseSpd;if(!L&&!R)p.dir='up';}
     if(D){vy= baseSpd;if(!L&&!R)p.dir='down';}
     if(vx&&vy){vx*=.707;vy*=.707;}
+    var _mm=MX.moveMods(this); if(_mm.rev){vx=-vx;vy=-vy;} vx*=_mm.mult; vy*=_mm.mult;   // monster effects: slow / root / charm
     var nx=p.x+vx*dt, ny=p.y+vy*dt;
     var tileAtX=this.tiles[Math.floor(p.y/TILE)]?this.tiles[Math.floor(p.y/TILE)][Math.floor(p.x/TILE)]:T.OCEAN;
     var onTree=tileAtX===T.TREE;
@@ -1786,6 +1792,7 @@ class WorldScene extends Phaser.Scene{
       if(tx<0||tx>=WORLD_W||ty<0||ty>=WORLD_H)return false;
       var tileVal=this.tiles[ty]?this.tiles[ty][tx]:T.OCEAN;
       if(!canPassTile(tileVal,mount))return false;
+      if(this._mxFx&&MX.blocked(this,cx,cy))return false;
       // Section lock
       var sec=getTileSection(tx,ty);
       if(sec>0&&!this.playerState.unlockedSections.includes(sec))return false;
@@ -2146,6 +2153,7 @@ class WorldScene extends Phaser.Scene{
   // ─── World Monsters ───────────────────────────
   _initWorldMonsters(){
     this.worldMonsters=[];
+    this._spawnRosterPods();   // the 240-monster roster (10f): 80/15/5, terrain, packs, night
     // 6 types per section: 4 regulars + 2 elites (boss-tier, rarer)
     // Regular enemy types per section (no bosses in list — bosses spawned separately below)
     var regTypes={
@@ -2162,7 +2170,7 @@ class WorldScene extends Phaser.Scene{
     var self=this;
     for(var sec=1;sec<=4;sec++){
       // Pod spawning: clusters of 2-10 monsters, ~140 total per section, mixed types
-      var podMonsSpawned=0, podMonsTarget=200;   // ~2× the old density over 4× the land
+      var podMonsSpawned=0, podMonsTarget=0;   // ~2× the old density over 4× the land
       var podTypes=regTypes[sec]||['goblin'];
       while(podMonsSpawned<podMonsTarget){
         // Find a valid pod center tile
@@ -2604,7 +2612,7 @@ class WorldScene extends Phaser.Scene{
   _refreshVillageNPCs(){
     var ps=this.playerState||{}, self=this, have=(ps.rescued||[]);
     if(!this._villageNPCs)this._villageNPCs=[];
-    var spots={1:[-6,-4],2:[-2,-4],3:[2,-4],4:[6,-4]};
+    var spots={1:[-5,-4],2:[-2,-4],3:[2,-4],4:[5,-4]};
     have.forEach(function(sec){
       if(self._villageNPCs.some(function(n){return n.sec===sec;}))return;
       var C=CRAFTSMEN[sec]; if(!C)return;
@@ -2618,6 +2626,7 @@ class WorldScene extends Phaser.Scene{
   }
 
   _enterBuilding(building){
+    if(typeof Tome!=='undefined')Tome.see('character','npc_'+building.type);
     if(this._interactPrompt){this._interactPrompt.destroy();this._interactPrompt=null;}
     this._cancelHomeCast(false); // cancel homecast silently when entering a building
     var hb=document.getElementById('home-btn');if(hb)hb.style.display='none';
@@ -2627,6 +2636,7 @@ class WorldScene extends Phaser.Scene{
   }
 
   _enterSite(site){
+    if(typeof Tome!=='undefined')Tome.see('place','site_'+site.id);
     if(this._interactPrompt){this._interactPrompt.destroy();this._interactPrompt=null;}
     // Respawn check: if away from this site for >60s, allow full replay
     var ps=this.playerState;

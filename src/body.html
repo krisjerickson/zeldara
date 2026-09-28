@@ -31,13 +31,14 @@
     </div>
     <div id="buffs-hud"></div>
     <div id="volcano-quest"><div class="vq-title">🌋 The Volcano Lord stirs</div><div class="vq-keys" id="vq-keys">🔑 0 / 4 keys</div></div>
-    <div id="ctrl-hint">WASD: Move &nbsp;|&nbsp; Space: Attack &nbsp;|&nbsp; Tab: Interact &nbsp;|&nbsp; B: Map &nbsp;|&nbsp; M: Mounts &nbsp;|&nbsp; Q: Quests &nbsp;|&nbsp; I: Inventory &nbsp;|&nbsp; X: Spell &nbsp;|&nbsp; N: Familiar &nbsp;|&nbsp; Esc: Close menu</div>
+    <div id="ctrl-hint">WASD: Move &nbsp;|&nbsp; Space: Attack &nbsp;|&nbsp; Tab: Interact &nbsp;|&nbsp; B: Map &nbsp;|&nbsp; T: Tome &nbsp;|&nbsp; M: Mounts &nbsp;|&nbsp; Q: Quests &nbsp;|&nbsp; I: Inventory &nbsp;|&nbsp; X: Spell &nbsp;|&nbsp; N: Familiar &nbsp;|&nbsp; Esc: Close menu</div>
   </div>
   <!-- Action bar and icon bar live outside #hud so they persist in all scenes -->
   <div id="action-bar">
     <button class="abtn" onclick="toggleModal('map')">🗺️ Map</button>
     <button class="abtn" onclick="toggleModal('quests')">📜 Quests</button>
     <button class="abtn" onclick="toggleModal('inventory')">🎒 Inventory <span style="font-size:9px;opacity:0.5">(I)</span></button>
+    <button class="abtn" id="tome-btn" onclick="toggleModal('tome')">📖 Tome <span style="font-size:9px;opacity:0.5">(T)</span></button>
     <button id="home-btn" class="abtn abtn-sm" style="display:none;color:#88ffcc;border-color:rgba(68,200,150,.5)" onclick="doHomecast()">🏠 Home</button>
     <button class="abtn abtn-sm" onclick="toggleModal('controls')">❓</button>
     <button class="abtn abtn-sm" onclick="openSandbox()">🔧</button>

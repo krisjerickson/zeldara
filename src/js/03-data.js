@@ -3,7 +3,7 @@
 // not the middle of the map.
 const WORLD_W=1200, WORLD_H=1200;
 const CENTER_X=690, CENTER_Y=520;
-const ISLAND_RADIUS=265, VILLAGE_RADIUS=26;   // ISLAND_RADIUS: legacy (old round island), unused by the new world
+const ISLAND_RADIUS=265; var VILLAGE_RADIUS=26;   // ISLAND_RADIUS: legacy (old round island), unused by the new world
 const CHUNK=16; // tiles per dynamic chunk
 
 // ── Harbor Island Map constants (25% of main world) ──────────────────────

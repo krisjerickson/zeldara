@@ -449,8 +449,8 @@ class DungeonScene extends Phaser.Scene{
       if(!this._labReach[y*DW+x]||this.dtiles[y][x]===DNG.WALL)continue;
       if(Math.hypot(x-en.x,y-en.y)<7)continue;
       if(this.isLastFloor&&ex&&Math.hypot(x-ex.x,y-ex.y)<4)continue;
-      var type=regTypes[R.i(0,regTypes.length-1)]; if(!type)break;
-      this._spawnMonster(type,x*TILE+TILE/2,y*TILE+TILE/2,false,mult,true);
+      var mon=this._spawnRosterMonster(x*TILE+TILE/2,y*TILE+TILE/2);   // roster, 80/15/5 (floor depth adds 5%/floor)
+      if(mon&&mult!==1){ mon.maxHp=Math.round(mon.maxHp*mult); mon.hp=mon.maxHp; if(mon._hp!==undefined)mon._hp=mon.maxHp; }
       placed++;
     }
   }
@@ -881,8 +881,7 @@ class DungeonScene extends Phaser.Scene{
       var room=spawnRooms[Math.floor(Math.random()*spawnRooms.length)];
       var mx=(room.x+1+Math.floor(Math.random()*(room.w-2)))*TILE+TILE/2;
       var my=(room.y+1+Math.floor(Math.random()*(room.h-2)))*TILE+TILE/2;
-      var mtype=regTypes[Math.floor(Math.random()*regTypes.length)];
-      if(mtype)this._spawnMonster(mtype,mx,my,false);
+      this._spawnRosterMonster(mx,my);   // 80/15/5 from the roster (dungeon: melee+ranged · tower: magic)
     }
     }
     this._wasDone=!!done;
@@ -895,24 +894,31 @@ class DungeonScene extends Phaser.Scene{
       }
     }
   }
+  _spawnRosterMonster(mx,my){
+    var q=this.siteSection||1, seg=this.siteType==='tower'?'tow':'dun', pick=monPick({next:Math.random},q,seg), R=pick.R;
+    if(MON_LEGACY[R.id]){ var key='rs_'+R.id; if(!MDEFS[key]){ var base=MDEFS[MON_LEGACY[R.id]], st=MX.stats(R,q); MDEFS[key]=Object.assign({},base,{boss:false,name:R.name,hp:st.hp,atk:st.atk,def:st.def,xp:st.xp,gMin:st.gMin,gMax:st.gMax,r:Math.min(base.r,13),sec:q}); }
+      return this._spawnMonster(key,mx,my,false,1,false,R.id); }
+    var mon=MX.spawn(this,R.id,mx,my,{q:q}); if(mon){ mon.isBoss=false; this.monsters.push(mon); } return mon;
+  }
   _getBossKey(){
     var t=this.siteType,s=this.siteSection;
     if(this._isIsland){ var ik=_islandBossKey(s); if(ik)return ik; }
     if(this._isBonus){ var ek=_bonusMiniBossKey(s); if(ek)return ek; }
     return t==='dungeon'?['goblin_king','swamp_witch','rock_dragon','lava_titan'][s-1]:['dark_warlock','storm_mage','iron_sentinel','shadow_lord'][s-1];
   }
-  _spawnMonster(type,wx,wy,isBoss,mult,quiet){
+  _spawnMonster(type,wx,wy,isBoss,mult,quiet,rid){
     var def=MDEFS[type];if(!def)return;
     if(mult&&mult!==1)def=Object.assign({},def,{hp:Math.round(def.hp*mult),atk:Math.round(def.atk*mult),def:Math.round((def.def||0)*mult),name:quiet?def.name:def.name+' (Rematch)'});
     var cont=this.add.container(wx,wy).setDepth(this._lab?this._yDepth(wy):(isBoss?12:10));
     var shadow=this.add.ellipse(0,def.r+2,def.r*2.2,7,0x000000,.3);
-    var body=this.add.circle(0,0,def.r,def.color);
-    var icon=this.add.text(0,0,def.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
+    var body=(rid&&monLegacyBody(this,rid,def))||this.add.circle(0,0,def.r,def.color);
+    var icon=this.add.text(0,0,rid?'':def.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
     var hpBg=this.add.rectangle(0,-(def.r+8),32,5,0x000000,.7);
     var hpFill=this.add.rectangle(-16,-(def.r+8),32,5,isBoss?0xff4400:0xff2222).setOrigin(0,.5);
     var nameT=this.add.text(0,-(def.r+17),def.name+(isBoss?' ★':''),{fontSize:'8px',color:isBoss?'#ffaa44':'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
     cont.add([shadow,body,icon,hpBg,hpFill,nameT]);
-    this.monsters.push({cont:cont,body:body,hpFill:hpFill,type:type,def:def,hp:def.hp,maxHp:def.hp,x:wx,y:wy,dir:'down',atkTimer:0,wanderTimer:0,wanderVx:0,wanderVy:0,state:'wander',dead:false,isBoss:!!isBoss});
+    var mon0={cont:cont,body:body,hpFill:hpFill,type:type,def:def,hp:def.hp,maxHp:def.hp,x:wx,y:wy,dir:'down',atkTimer:0,wanderTimer:0,wanderVx:0,wanderVy:0,state:'wander',dead:false,isBoss:!!isBoss,rid:rid||null};
+    this.monsters.push(mon0); return mon0;
   }
   update(_,ms){
     if(!this._ready||this._playerDead)return;
@@ -946,6 +952,7 @@ class DungeonScene extends Phaser.Scene{
     if(k.UP.isDown||k.W.isDown){vy=-spd;if(!k.LEFT.isDown&&!k.A.isDown&&!k.RIGHT.isDown&&!k.D.isDown)this.pdir='up';}
     if(k.DOWN.isDown||k.S.isDown){vy=spd;if(!k.LEFT.isDown&&!k.A.isDown&&!k.RIGHT.isDown&&!k.D.isDown)this.pdir='down';}
     if(vx&&vy){vx*=.707;vy*=.707;}
+    var _mm=MX.moveMods(this); if(_mm.rev){vx=-vx;vy=-vy;} vx*=_mm.mult; vy*=_mm.mult;
     var nx=this.px+vx*dt,ny=this.py+vy*dt;
     if(this._canGoD(nx,this.py))this.px=nx;
     if(this._canGoD(this.px,ny))this.py=ny;
@@ -1016,6 +1023,7 @@ class DungeonScene extends Phaser.Scene{
       if(tx<0||tx>=DW||ty<0||ty>=DH)return false;
       if(this.dtiles[ty][tx]===DNG.WALL)return false;
     }
+    if(this._mxFx&&MX.blocked(this,nx,ny))return false;
     return true;
   }
   _updateMonsters(dt){
@@ -1074,8 +1082,11 @@ class DungeonScene extends Phaser.Scene{
         return true;
       });
     }
+    MX.tickScene(this,dt);
     this.monsters.forEach(function(mon){
       if(mon.dead)return;
+      if(mon.mx){ MX.tick(self,mon,dt); return; }
+      if(mon.rid&&typeof Tome!=='undefined'&&Math.hypot(self.px-mon.x,self.py-mon.y)<280)Tome.see('monster',mon.rid);
       var dx=self.px-mon.x,dy=self.py-mon.y,dist=Math.hypot(dx,dy);
       var at=mon.def.atkType||'melee';
       var isRanged=['arrow','flame','bog_flame','heat_seek','scatter','scatter_arrow','scatter_flame','lightning'].includes(at);

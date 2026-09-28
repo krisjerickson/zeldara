@@ -15,7 +15,7 @@
 // ║ in the overworld, e.g. X for spells).
 // ═══════════════════════════════════════════════════════════════════════
 var PAUSE_OVERLAYS=[
-  'modal-map','modal-quests','modal-inventory','modal-camp','modal-mounts','modal-controls','modal-sandbox','modal-sitelab',
+  'modal-map','modal-quests','modal-inventory','modal-camp','modal-mounts','modal-controls','modal-sandbox','modal-sitelab','modal-tome',
   'slot-picker-modal','quick-pick-popup','item-found-popup',
   'tavern-menu-overlay','skyport-shop-overlay','familiar-info-modal','scene-error-banner'
 ];
@@ -86,7 +86,7 @@ function _pauseSync(){
 })();
 
 function _closeAllOverlays(){
-  ['map','quests','inventory','camp','mounts','controls','sandbox'].forEach(function(id){closeModal(id);});
+  ['map','quests','inventory','camp','mounts','controls','sandbox','tome'].forEach(function(id){closeModal(id);});
   ['slot-picker-modal','quick-pick-popup','item-found-popup','familiar-info-modal','scene-error-banner'].forEach(function(id){
     var el=document.getElementById(id); if(el)el.style.display='none';
   });
@@ -108,7 +108,7 @@ function _activePlayScene(includePaused){
 }
 
 // ── The one keyboard handler ─────────────────────────────────────────────
-var _MENU_HOTKEYS={i:'inventory',q:'quests',m:'mounts',b:'map'};
+var _MENU_HOTKEYS={i:'inventory',q:'quests',m:'mounts',b:'map',t:'tome'};
 document.addEventListener('keydown',function(e){
   if(_isTyping())return;
   if(!game||!game.scene||game.scene.isActive('Title')||game.scene.isActive('Boot'))return;
