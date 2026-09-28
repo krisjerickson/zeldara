@@ -352,11 +352,11 @@ function showQuickPick(type){
     mweaps.forEach(function(id){var it=ITEMS[id];if(!it)return;var i=inv.indexOf(id);h+=itemRow(id,i,"window._equipItem("+i+",'mWeapon');document.getElementById('quick-pick-popup').style.display='none'",'Equip');});
     if(curMW)h+='<div class="sp-row" onclick="window._unequipSlot(\'mWeapon\');document.getElementById(\'quick-pick-popup\').style.display=\'none\'" style="color:#ff8888;font-size:11px;margin-top:4px">Remove magic weapon</div>';
 
-  } else if(type==='familiar'||type==='familiar2'||type==='familiar3'){
+  } else if(type==='familiar'||type==='familiar2'||type==='familiar3'||type==='familiar4'){
     var fams=ps?ps.ownedFamiliars||[]:[];
     var slotsN=ps?_maxFamiliarSlots(ps):1;
-    h+='<div style="font-size:9px;color:#667;margin:-4px 0 6px">'+slotsN+' slot'+(slotsN>1?'s':'')+' open · click to add/remove · ⓘ for details</div>';
-    if(!fams.length)h+='<div style="color:#445;font-size:11px">No familiars yet.<br><span style="font-size:10px;color:#556">Clear harbor islands to earn familiars.</span></div>';
+    h+='<div style="font-size:9px;color:#667;margin:-4px 0 6px">'+slotsN+' of 4 active slot'+(slotsN>1?'s':'')+' open'+(slotsN<4?' (each Fairy King opens one more)':'')+' · click to add/remove · ⓘ for skills</div>';
+    if(!fams.length)h+='<div style="color:#445;font-size:11px">No familiars yet.<br><span style="font-size:10px;color:#556">Each quadrant\'s familiar island (its first harbor) gives an elemental spirit.</span></div>';
     fams.forEach(function(fid){ h+=_familiarCardHTML(fid, ps, "_toggleFamiliar('"+fid+"');showQuickPick('familiar');showQuickPick('familiar')", true); });
 
   } else if(type==='special'){

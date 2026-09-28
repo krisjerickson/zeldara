@@ -441,6 +441,7 @@ class IslandScene extends Phaser.Scene{
       if(mon.dead)return;
       if(Math.hypot(mon.x-p.x,mon.y-p.y)>68)return;
       if(!_heroInArc(p.dir||'right',mon.x-p.x,mon.y-p.y))return;
+      if(!_heroLOS(self,p.x,p.y,mon.x,mon.y))return;   // no hitting through walls
       var dmg=Math.max(1,stats.atk-(mon.def.def||0)+Math.floor(Math.random()*4-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-20,'-'+dmg,'#ffdd44');

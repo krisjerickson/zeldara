@@ -172,6 +172,7 @@ function _wmDrawView(ctx,cw,ch,ws,v,o){
   var oc=ps.openedCaches||[];
   (wd.caches||[]).forEach(function(c){ if(oc.indexOf(c.id)>=0||!inV(c.x,c.y)||!_wmExplored(ps,c.x,c.y))return; var px=X(c.x),py=Y(c.y), r=big?5:3.5;
     ctx.fillStyle='#ffd24a'; ctx.strokeStyle='#3a2208'; ctx.lineWidth=1.5; ctx.fillRect(px-r,py-r*0.8,r*2,r*1.6); ctx.strokeRect(px-r,py-r*0.8,r*2,r*1.6); });
+  if(typeof _wmFairyMarks==='function')_wmFairyMarks(ctx,wd,ps,X,Y,inV,big,lbl);
   // waystones
   var act=ps.activatedWaystones||[];
   (wd.waystones||[]).forEach(function(Wy){ if(!inV(Wy.x,Wy.y))return; var on=act.indexOf(Wy.id)>=0; if(!on&&!_wmExplored(ps,Wy.x,Wy.y))return;

@@ -4,7 +4,7 @@
 // ║ each "looks good / tweak / redo" with notes; mounts preview the hero
 // ║ riding in all three directions.
 // ═══════════════════════════════════════════════════════════════════════
-var CHT_CATS=[{k:'npc',n:'NPCs'},{k:'mount',n:'Mounts'},{k:'familiar',n:'Familiars'},{k:'boss',n:'Bosses'}];
+var CHT_CATS=[{k:'npc',n:'NPCs'},{k:'mount',n:'Mounts'},{k:'boss',n:'Bosses'}];   // familiars: their own Lab tab (spirit familiars)
 var CHT_SEAT={quad:-12,drake:-13,gator:-6,bird:-13,serpent:-9,glider:null};
 var ChTab={ cat:'npc', vis:new Set(), hero:null,
   key:function(R){ return 'chars-'+R.id; },

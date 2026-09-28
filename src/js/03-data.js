@@ -153,11 +153,7 @@ const FAMILIARS={
   storm_hawk: {n:'Storm Hawk',  icon:'🦉',sec:3,atkInterval:2.5,dmg:9, type:'projectile',projSpeed:320,desc:'Chain Lightning — jumps between 3 enemies'},
   frost_wisp: {n:'Frost Wisp',  icon:'❄️',sec:4,atkInterval:5.0,dmg:22,type:'aoe',       aoeR:85,      desc:'Frost Nova — damages and slows enemies 50%'},
 };
-// Helper: how many familiar slots a player has
-function _maxFamiliarSlots(ps){
-  var ci=(ps.completedIslands||[]).length;
-  return ci>=4?3:ci>=2?2:1;
-}
+// (familiar slots: _maxFamiliarSlots in 09d-familiars.js — 1 + Fairy Kings)
 const MAIN_QUEST_DEFS={
   dungeon:{title:'Dungeon Crawl',   icon:'⚔️',desc:'Find the ★ dungeon, fight to the deepest floor and defeat the guardian at the exit portal. Reward: mount + gold.'},
   tower:  {title:'Tower Rescue',    icon:'🗼',desc:'Climb the ★ tower, defeat the guardian at the top and free the captive craftsman. Reward: next region + 2 rings.'},

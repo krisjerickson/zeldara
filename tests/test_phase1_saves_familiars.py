@@ -34,29 +34,28 @@ with game() as g:
         g.js(f"game.scene.stop('{key}');game.scene.wake('World');document.getElementById('hud').style.display=''"); g.wait(500)
 
     # Familiar abilities, one at a time, in the world
-    g.ws("(ps.level=6, ps.ownedFamiliars=['firefly','wind_sprite','sea_sprite','storm_hawk','frost_wisp'])")
+    g.ws("(ps.level=6, ps.ownedFamiliars=['fam_grass','fam_water','fam_earth','fam_fire'], ps.famLevels={fam_grass:6,fam_water:6,fam_earth:6,fam_fire:6})")
     def arena(fid, wait=9000):
-        g.ws(f"(ps.familiar='{fid}', ps.familiar2=null, ps.familiar3=null, ws.worldMonsters.forEach(m=>{{m.dead=true;m.cont&&m.cont.destroy();}}), ws.worldMonsters=[])")
+        g.ws(f"(ps.familiar='{fid}', ps.familiar2=null, ps.familiar3=null, ps.familiar4=null, ws.worldMonsters.forEach(m=>{{m.dead=true;m.cont&&m.cont.destroy();}}), ws.worldMonsters=[])")
         g.js("sbSpawnMonsters()")
         # pull a few monsters close and freeze their AI so effects are measurable
         g.ws("ws.worldMonsters.slice(0,4).forEach((m,i)=>{m.x=ws.player.x+60+i*12;m.y=ws.player.y+20;m.cont.setPosition(m.x,m.y);m.hp=m.maxHp=999;})")
         g.wait(wait)
-    arena('firefly')
-    check('Firefly ignites (burn applied)', g.ws("ws.worldMonsters.some(m=>m._burnT>0||m.hp<999)"))
-    arena('frost_wisp')
-    check('Frost Wisp slows', g.ws("ws.worldMonsters.some(m=>(m._slow>0||m._slowT>0)&&m.hp<999)"))
-    x0=None
-    arena('wind_sprite')
-    check('Wind Sprite damages', g.ws("ws.worldMonsters.slice(0,4).some(m=>m.hp<999)"))
-    g.ws("(ps.familiar='sea_sprite', ps.hp=ps.maxHp)"); g.wait(1500)
+    arena('fam_fire')
+    check('Fire spirit ignites (burn applied)', g.ws("ws.worldMonsters.some(m=>m._burnT>0||m.hp<999)"))
+    arena('fam_water')
+    check('Water spirit slows', g.ws("ws.worldMonsters.some(m=>(m._slow>0||m._slowT>0)&&m.hp<999)"))
+    arena('fam_grass')
+    check('Grass spirit damages', g.ws("ws.worldMonsters.slice(0,4).some(m=>m.hp<999)"))
+    g.ws("(ps.familiar='fam_water', ps.hp=ps.maxHp)"); g.wait(2500)
     g.ws("(ps.hp=Math.max(1,ps.hp-7))"); g.wait(600)
-    check('Sea Sprite bubble refunds a hit', g.ws("ps.hp===ps.maxHp || ps._seaState && ps._seaState.ready===false"), g.ws("({hp:ps.hp,max:ps.maxHp,st:ps._seaState})"))
+    check('Water spirit Tide Ward refunds a hit', g.ws("ps.hp===ps.maxHp || ps._famWard && ps._famWard.fam_water && ps._famWard.fam_water.ready===false"), g.ws("({hp:ps.hp,max:ps.maxHp,st:ps._famWard})"))
     # Familiar UI
     g.key('n'); g.wait(400)
-    check('N picker lists abilities', g.js("document.getElementById('quick-pick-popup').innerHTML.includes('Chain Lightning')"))
+    check('N picker lists abilities', g.js("document.getElementById('quick-pick-popup').innerHTML.includes('Tidal Wave')"))
     g.key('Escape'); g.wait(200)
     g.key('i'); g.wait(400)
-    check('Inventory lists familiar abilities', g.js("document.getElementById('modal-inventory').innerHTML.includes('Frost Nova')"))
+    check('Inventory lists familiar skills', g.js("document.getElementById('modal-inventory').innerHTML.includes('Inferno')"))
     g.key('i'); g.wait(200)
     check('Title subtitle updated', True)
     errs=[e for e in g.errs if 'GL Driver' not in e]

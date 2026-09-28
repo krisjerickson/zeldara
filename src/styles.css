@@ -471,3 +471,33 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
 .sk-m i{font-size:9px;color:#778;font-style:normal}
 .sk-m.got{opacity:1;border-color:rgba(255,220,120,.35);background:rgba(255,220,120,.06)}
 .sk-m.got span{filter:none}
+/* spirit familiar info */
+.fam-modal{min-width:320px;max-width:440px}
+.fam-top{display:flex;gap:10px;align-items:center;margin:4px 0 8px}
+.fam-top canvas{background:radial-gradient(circle,#1c2a3a,#0a1018);border-radius:10px;flex:none}
+.fam-top p{font-size:12px;color:#bcd;line-height:1.45;margin:0}
+.fam-sk{border-top:1px solid rgba(255,255,255,.07);padding:5px 0;opacity:.55}
+.fam-sk.got{opacity:1}
+.fam-sk b{font-size:11.5px;color:#def}
+.fam-sk span{font-size:10px;color:#fd8;margin-left:4px}
+.fam-sk i{display:block;font-style:normal;font-size:10.5px;color:#9ab;line-height:1.35}
+.fam-sk em{display:block;font-style:normal;font-size:9.5px;color:#8c9}
+/* fairy dialogue + trials */
+.fairy-modal{max-width:520px;min-width:360px;border:2px solid #ffe0ff;background:linear-gradient(160deg,#1a1430,#10182a)}
+.ft-row{display:flex;gap:12px;align-items:flex-start}
+.ft-row canvas{flex:none;background:radial-gradient(circle,#2a2448,#0e0c1c);border-radius:12px}
+.ft-name{font-weight:700;font-size:14px;margin-bottom:4px}
+.ft-text{font-size:12.5px;line-height:1.5;color:#e6e0f4}
+.ft-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.ft-btns button{background:rgba(255,220,255,.12);border:1px solid rgba(255,220,255,.4);color:#ffe8ff;border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer}
+.ft-btns button:first-child{background:rgba(160,120,255,.35)}
+#trial-hud{display:none;position:absolute;top:74px;left:50%;transform:translateX(-50%);z-index:45;padding:7px 14px;border-radius:9px;background:rgba(30,16,50,.85);border:1px solid rgba(220,180,255,.6);color:#f4e8ff;font:600 13px 'Segoe UI',sans-serif;box-shadow:0 0 18px rgba(180,120,255,.45);pointer-events:none;white-space:nowrap}
+/* Tome by quadrant */
+.tome-sec{border-radius:10px;padding:6px 8px 8px;margin-bottom:8px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.tome-sec h4{margin:0 0 6px;font:700 13px Georgia,serif;color:#3a2a18;letter-spacing:.04em}
+.tome-sec h4 span{font:600 10px 'Segoe UI',sans-serif;color:#6a5a44;margin-left:6px}
+.tome-sec .tome-card{background:rgba(255,255,255,.62);border-color:rgba(60,40,20,.18);color:#2a1e10}
+.tome-sec .tome-card.locked b{color:#8a7a64}
+.tome-sec .tome-card.sel{border-color:#b07a20;background:#fff8e0}
+.tome-spr.smooth{image-rendering:auto}
+.tome-q button.tq1{border-left:4px solid #9cd07a}.tome-q button.tq2{border-left:4px solid #7ab8e0}.tome-q button.tq3{border-left:4px solid #c8a878}.tome-q button.tq4{border-left:4px solid #e08a6a}

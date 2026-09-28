@@ -39,7 +39,7 @@ function _slGuardian(s){
 function _slReward(s){
   var sec=s.section;
   if(s.castle){ var it=ITEMS[CASTLE_ISLANDS[s.castle].skill]; return 'Teaches: '+(it?it.icon+' '+it.name:'?'); }
-  if(s.island){ var fam={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'}[sec], f=FAMILIARS[fam]; return 'Familiar: '+(f?f.icon+' '+f.n:fam); }
+  if(s.island){ var f=FAMILIARS[FAM_BY_SEC[sec]]; return 'Familiar: '+(f?f.icon+' '+f.n:'?'); }
   if(s.bonus)return 'Treasure vault · relic: '+(SITE_RELICS[s.design]||'?');
   if(s.type==='tower')return 'Frees '+(CRAFTSMEN[sec]?CRAFTSMEN[sec].icon+' '+CRAFTSMEN[sec].n:'a craftsman')+' · opens next region';
   var rw=BOSS_REWARDS[s.id], m=rw&&rw.mount&&MOUNTS[rw.mount]; return 'Mount: '+(m?m.icon+' '+m.n:'—');

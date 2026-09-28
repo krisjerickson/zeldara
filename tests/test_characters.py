@@ -18,13 +18,13 @@ with game(new=True) as g:
         try{ var f=chFrames(R); if(f.length!==(R.cat==='mount'?10:4))bad.push(R.id+':frames');
           f.forEach(function(cv,i){ if(i>=8)return; var d=cv.getContext('2d').getImageData(0,0,32,32).data, n=0; for(var k=3;k<d.length;k+=4)if(d[k]>200)n++; if(n<30)bad.push(R.id+':f'+i+'='+n); }); }catch(e){ bad.push(R.id+':'+e.message); } });
       var miss=[]; Object.keys(MOUNTS).forEach(function(m){ if(!CHAR_BY_ID['mt_'+m])miss.push('mount '+m); });
-      Object.keys(FAMILIARS).forEach(function(f){ if(!CHAR_BY_ID['fm_'+f])miss.push('familiar '+f); });
+      Object.keys(FAMILIARS).forEach(function(f){ if(!SPIRIT_BY_ID[FAMILIARS[f].design])miss.push('familiar '+f); });
       [1,2,3,4].forEach(function(s){ if(!CHAR_BY_ID['crafts_'+s])miss.push('craftsman '+s); });
       Object.keys(CHAR_NPC_FOR_BUILDING).forEach(function(b){ if(!CHAR_BY_ID[CHAR_NPC_FOR_BUILDING[b]])miss.push('npc '+b); });
       Object.keys(MDEFS).forEach(function(k){ if(MDEFS[k].boss&&!MDEFS[k].elite&&!CHX.bossId(k,MDEFS[k]))miss.push('boss '+k); });
       [1,2,3,4].forEach(function(s){ var B=HARBOR_ISLANDS[s]&&HARBOR_ISLANDS[s].boss; if(B&&!CHX.bossId(null,B))miss.push('island boss '+s); });
       return {c:c,dup:dup,bad:bad,miss:miss}; })()""")
-    check('Roster: 41 NPCs (incl. 12 castle teachers), 11 mounts, 5 familiars, 21 bosses + 23 evolved forms + 12 castle wardens', r['c'] == {'npc': 41, 'mount': 11, 'familiar': 5, 'boss': 56}, r['c'])
+    check('Roster: 41 NPCs (incl. 12 castle teachers), 11 mounts, 21 bosses + 23 evolved forms + 12 castle wardens (familiars are spirits now)', r['c'] == {'npc': 41, 'mount': 11, 'boss': 56}, r['c'])
     check('Unique ids; every one has look / doing / where text and paints all its frames', not r['dup'] and not r['bad'], (r['dup'], r['bad'][:8]))
     check('Every mount, familiar, craftsman, shop keeper and boss in the game data has a character', not r['miss'], r['miss'])
 
@@ -64,7 +64,7 @@ with game(new=True) as g:
     for m in ['alligator', 'boar', 'lava_unicorn', 'ash_salamander', 'dragon', 'sky_eagle', 'sky_glider', 'storm_drake', 'ember_phoenix', 'void_serpent']:
         g.js(f"game.scene.getScene('World').playerState.mount='{m}'")
         for k, want in [('ArrowRight', [0, 1, 2, 3]), ('ArrowDown', [4, 5]), ('ArrowUp', [6, 7])]:
-            g.key(k, 260)
+            g.key(k, 700)
             s = g.js("(()=>{ var p=game.scene.getScene('World').player; return {vis:!!(p.mountSpr&&p.mountSpr.visible), tex:p.mountSpr&&p.mountSpr.texture.key, f:p.mountSpr&&+p.mountSpr.frame.name, crop:p.sprite.isCropped, icon:p.mountLbl.text}; })()")
             glider = m == 'sky_glider'
             if not (s['vis'] and s['tex'] == 'ch_mt_' + m and s['f'] in want and (glider or s['crop']) and s['icon'] == ''): bad.append((m, k, s))
@@ -77,10 +77,10 @@ with game(new=True) as g:
     check('Dismounting hides the mount and restores the hero', not dm['vis'] and not dm['crop'] and dm['y'] == 14, dm)
 
     # ── familiars ──
-    g.js("(()=>{ var ps=game.scene.getScene('World').playerState; ps.ownedFamiliars=Object.keys(FAMILIARS); ps.completedIslands=[1,2,3,4]; ps.familiar='firefly'; ps.familiar2='storm_hawk'; ps.familiar3='frost_wisp'; })()")
+    g.js("(()=>{ var ps=game.scene.getScene('World').playerState; ps.ownedFamiliars=Object.keys(FAMILIARS); ps.completedIslands=[1,2,3,4]; ps.fairyKings=['k2','k3']; ps.familiar='fam_grass'; ps.familiar2='fam_earth'; ps.familiar3='fam_fire'; })()")
     g.wait(900)
     fv = g.js("(()=>{ var ws=game.scene.getScene('World'), V=ws._famVisuals||{}; return Object.keys(V).map(k=>[k, V[k].texture?V[k].texture.key:'text']); })()")
-    check('Equipped familiars orbit as pixel sprites', len(fv) == 3 and all(t == 'ch_fm_' + k for k, t in fv), fv)
+    check('Equipped familiars fly as spirit sprites', len(fv) == 3 and all(t.startswith('spirit_') for k, t in fv), fv)
 
     # ── dungeon + tower guardians ──
     LAUNCH = """(([typ,sec])=>{var ws=game.scene.getScene('World');var site=ws.wd.sites.find(s=>s.type===typ&&s.section===sec);var mf=site.floors||{1:3,2:4,3:5,4:6}[sec];

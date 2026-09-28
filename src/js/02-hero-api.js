@@ -184,6 +184,7 @@ function _heroUpdateProjs(scene, mode, dt){
     pr.x+=pr.vx*dt;pr.y+=pr.vy*dt;pr.vis.setPosition(pr.x,pr.y);
     // Wall collision (dungeon/towers only — island is open)
     if(mode==='dungeon'&&scene._canGoD&&!scene._canGoD(pr.x,pr.y)){pr.vis.destroy();return false;}
+    if(mode!=='dungeon'&&typeof _heroWallAt==='function'&&_heroWallAt(scene,pr.x,pr.y)){pr.vis.destroy();return false;}
     if(pr.hit)return false;
     monsters.forEach(function(mon){
       if(mon.dead||pr.hit)return;

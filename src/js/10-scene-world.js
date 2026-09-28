@@ -115,7 +115,7 @@ class WorldScene extends Phaser.Scene{
     this.playerState={
       hp:30,maxHp:30,atk:3,def:0,gold:0,level:1,xp:0,
       mana:50,maxMana:50,
-      mount:null,ownedMounts:[],familiar:null,familiar2:null,familiar3:null,completedIslands:[],
+      mount:null,ownedMounts:[],familiar:null,familiar2:null,familiar3:null,familiar4:null,famLevels:{},fairyKings:[],fairyQuests:{},completedIslands:[],
       unlockedSections:[1],
       equip:{lHand:'wooden_sword',rHand:null,mWeapon:null,body:null,shield:null,head:null,feet:null,pants:null,gauntlets:null,ring1:null,ring2:null,ring3:null,ring4:null,ring5:null,ring6:null,ring7:null,ring8:null,ring9:null,ring10:null,neck:null,back:null,spell:null,special:null},
       inventory:[],
@@ -232,6 +232,7 @@ class WorldScene extends Phaser.Scene{
     this._tickTravel(dt);
     this._villageFolkTick(dt);
     this._campTick(dt);
+    this._fairyTick(dt);
     this._runicTick(dt);
     this._updateSiteLabels();
     this._revealFog();
@@ -1091,7 +1092,8 @@ class WorldScene extends Phaser.Scene{
       if(mon.dead){
         if(mon.temp||mon.campId)return;   // camp guards come back with their camp
         mon.respawnTimer-=dt;
-        if(mon.respawnTimer<=0&&self.playerState.unlockedSections.includes(mon.section)){
+        // packs stay dead while you are in the area: respawn only once you are well away (~30 tiles)
+        if(mon.respawnTimer<=0&&Math.hypot(px-mon.spawnX,py-mon.spawnY)>TILE*30&&self.playerState.unlockedSections.includes(mon.section)){
           mon.dead=false; mon.hp=mon.maxHp;
           mon.x=mon.spawnX; mon.y=mon.spawnY;
           mon.cont.setPosition(mon.x,mon.y); mon.cont.setDepth(WR_DEPTH(mon.y)); mon.cont.setAlpha(1);
@@ -2188,6 +2190,7 @@ class WorldScene extends Phaser.Scene{
   _initWorldMonsters(){
     this.worldMonsters=[];
     this._spawnRosterPods();   // the 240-monster roster (10f): 80/15/5, terrain, packs, night
+    try{ this._initFairies(); }catch(e){ console.error('fairies',e); }   // fairies, kings, dig spots (10i)
     // 6 types per section: 4 regulars + 2 elites (boss-tier, rarer)
     // Regular enemy types per section (no bosses in list — bosses spawned separately below)
     var regTypes={
@@ -2328,6 +2331,7 @@ class WorldScene extends Phaser.Scene{
       if(mon.dead)return;
       if(Math.hypot(mon.x-px,mon.y-py)>90)return;
       if(!_heroInArc(dir,mon.x-px,mon.y-py))return;
+      if(!_heroLOS(self,px,py,mon.x,mon.y))return;   // no hitting through walls
       var monDefVal=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
       var dmg=Math.max(1,stats.atk-monDefVal+Math.floor(Math.random()*4-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
@@ -2565,6 +2569,7 @@ class WorldScene extends Phaser.Scene{
   }
 
   _checkInteraction(){
+    if(this._checkFairy&&this._checkFairy())return;
     if(this._checkWaystone&&this._checkWaystone())return;
     var px=this.player.x, py=this.player.y;
     var self=this;
@@ -2943,6 +2948,7 @@ class WorldScene extends Phaser.Scene{
       if(!this.playerState.completedIslands)this.playerState.completedIslands=[];
       if(this.playerState.familiar2===undefined)this.playerState.familiar2=null;
       if(this.playerState.familiar3===undefined)this.playerState.familiar3=null;
+      _famMigrate(this.playerState);
       if(!this.playerState.skills)this.playerState.skills=[];
       if(!this.playerState.ammo)this.playerState.ammo={arrow_normal:20};
       if(!this.playerState.mana)this.playerState.mana=50;

@@ -281,16 +281,6 @@ CH('mount','Sky Port','mt_void_serpent','Void Serpent',['serpent','#3a2a5a,#1a10
   'Sky Port 4 reward','A winged shadow serpent of violet scales trailing purple smoke.','Undulates through the air, fastest of all.');
 
 // ── familiars ──
-CH('familiar','Grasslands','fm_firefly','Firefly',['firefly','shoot','#e8d040,#6a5a20,#ffe860,#201810','wings,antennae'],
-  'Grasslands island expedition','A plump golden firefly with a glowing abdomen.','Orbits you, then flicks an Ember Spark at the nearest enemy.');
-CH('familiar','Grasslands','fm_wind_sprite','Wind Sprite',['swirl','pulse','#c8f0e0,#80c0a0,#ffffff,#205040','leaves'],
-  'Grasslands island expedition','A spiralling gust with bright eyes and a few tumbling leaves.','Swirls round you and bursts outward — Gale Burst knocks enemies back.');
-CH('familiar','Wetlands','fm_sea_sprite','Sea Sprite',['fish','spit','#60b0e0,#2a5a8a,#9fe0ff,#ffffff','bubble,spines'],
-  'Wetlands island expedition','A little puffer-sprite with fin-wings, blowing bubbles.','Spits water darts; a bubble ward blocks one hit every 20 s.');
-CH('familiar','Highlands','fm_storm_hawk','Storm Hawk',['bird','shoot','#5a6a8a,#2a3a5a,#9fe0ff,#ffe060','talons'],
-  'Highlands island expedition','A slate-blue hawk with lightning-bright eyes.','Dives and calls Chain Lightning that jumps between 3 enemies.');
-CH('familiar','Ashlands','fm_frost_wisp','Frost Wisp',['wisp','pulse','#dff4ff,#80b0e0,#9fe0ff,#2050a0','wings'],
-  'Ashlands island expedition','A cold blue wisp in a halo of frost crystals.','Pulses a Frost Nova that damages and slows enemies 50%.');
 
 // ── bosses · dungeon guardians ──
 CH('boss','Dungeon guardians','boss_goblin_king','Goblin King',['biped','lunge','#3a9a2a,#2a5a1a,#e8c040,#ff4020','crown,cape,club,ears,tusks'],

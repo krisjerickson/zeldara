@@ -478,6 +478,36 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
 .sk-m i{font-size:9px;color:#778;font-style:normal}
 .sk-m.got{opacity:1;border-color:rgba(255,220,120,.35);background:rgba(255,220,120,.06)}
 .sk-m.got span{filter:none}
+/* spirit familiar info */
+.fam-modal{min-width:320px;max-width:440px}
+.fam-top{display:flex;gap:10px;align-items:center;margin:4px 0 8px}
+.fam-top canvas{background:radial-gradient(circle,#1c2a3a,#0a1018);border-radius:10px;flex:none}
+.fam-top p{font-size:12px;color:#bcd;line-height:1.45;margin:0}
+.fam-sk{border-top:1px solid rgba(255,255,255,.07);padding:5px 0;opacity:.55}
+.fam-sk.got{opacity:1}
+.fam-sk b{font-size:11.5px;color:#def}
+.fam-sk span{font-size:10px;color:#fd8;margin-left:4px}
+.fam-sk i{display:block;font-style:normal;font-size:10.5px;color:#9ab;line-height:1.35}
+.fam-sk em{display:block;font-style:normal;font-size:9.5px;color:#8c9}
+/* fairy dialogue + trials */
+.fairy-modal{max-width:520px;min-width:360px;border:2px solid #ffe0ff;background:linear-gradient(160deg,#1a1430,#10182a)}
+.ft-row{display:flex;gap:12px;align-items:flex-start}
+.ft-row canvas{flex:none;background:radial-gradient(circle,#2a2448,#0e0c1c);border-radius:12px}
+.ft-name{font-weight:700;font-size:14px;margin-bottom:4px}
+.ft-text{font-size:12.5px;line-height:1.5;color:#e6e0f4}
+.ft-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.ft-btns button{background:rgba(255,220,255,.12);border:1px solid rgba(255,220,255,.4);color:#ffe8ff;border-radius:7px;padding:6px 12px;font-size:12px;cursor:pointer}
+.ft-btns button:first-child{background:rgba(160,120,255,.35)}
+#trial-hud{display:none;position:absolute;top:74px;left:50%;transform:translateX(-50%);z-index:45;padding:7px 14px;border-radius:9px;background:rgba(30,16,50,.85);border:1px solid rgba(220,180,255,.6);color:#f4e8ff;font:600 13px 'Segoe UI',sans-serif;box-shadow:0 0 18px rgba(180,120,255,.45);pointer-events:none;white-space:nowrap}
+/* Tome by quadrant */
+.tome-sec{border-radius:10px;padding:6px 8px 8px;margin-bottom:8px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.tome-sec h4{margin:0 0 6px;font:700 13px Georgia,serif;color:#3a2a18;letter-spacing:.04em}
+.tome-sec h4 span{font:600 10px 'Segoe UI',sans-serif;color:#6a5a44;margin-left:6px}
+.tome-sec .tome-card{background:rgba(255,255,255,.62);border-color:rgba(60,40,20,.18);color:#2a1e10}
+.tome-sec .tome-card.locked b{color:#8a7a64}
+.tome-sec .tome-card.sel{border-color:#b07a20;background:#fff8e0}
+.tome-spr.smooth{image-rendering:auto}
+.tome-q button.tq1{border-left:4px solid #9cd07a}.tome-q button.tq2{border-left:4px solid #7ab8e0}.tome-q button.tq3{border-left:4px solid #c8a878}.tome-q button.tq4{border-left:4px solid #e08a6a}
 </style>
 </head>
 <body>
@@ -700,6 +730,7 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
           <button class="sb-btn" onclick="sbAllSpells()">Give All Spells</button>
           <button class="sb-btn" onclick="sbAllFood()">Give All Food</button>
           <button class="sb-btn" onclick="sbAllMountsAndFamiliars()">All Mounts &amp; Familiars</button>
+          <button class="sb-btn" onclick="sbFairyMax()">✨ Familiars Lv 6 + 4 Slots</button>
           <button class="sb-btn" onclick="sbAllSkills()">All Special Skills</button>
           <button class="sb-btn" onclick="sbCompleteQuests()">Complete All Quests</button>
           <button class="sb-btn" onclick="sbVolcanoUnlock()" style="border-color:rgba(255,100,40,.5);color:#ffaa66">🌋 Unlock Volcano Quest + 4 Keys</button>
@@ -1025,6 +1056,7 @@ function _heroUpdateProjs(scene, mode, dt){
     pr.x+=pr.vx*dt;pr.y+=pr.vy*dt;pr.vis.setPosition(pr.x,pr.y);
     // Wall collision (dungeon/towers only — island is open)
     if(mode==='dungeon'&&scene._canGoD&&!scene._canGoD(pr.x,pr.y)){pr.vis.destroy();return false;}
+    if(mode!=='dungeon'&&typeof _heroWallAt==='function'&&_heroWallAt(scene,pr.x,pr.y)){pr.vis.destroy();return false;}
     if(pr.hit)return false;
     monsters.forEach(function(mon){
       if(mon.dead||pr.hit)return;
@@ -1254,11 +1286,7 @@ const FAMILIARS={
   storm_hawk: {n:'Storm Hawk',  icon:'🦉',sec:3,atkInterval:2.5,dmg:9, type:'projectile',projSpeed:320,desc:'Chain Lightning — jumps between 3 enemies'},
   frost_wisp: {n:'Frost Wisp',  icon:'❄️',sec:4,atkInterval:5.0,dmg:22,type:'aoe',       aoeR:85,      desc:'Frost Nova — damages and slows enemies 50%'},
 };
-// Helper: how many familiar slots a player has
-function _maxFamiliarSlots(ps){
-  var ci=(ps.completedIslands||[]).length;
-  return ci>=4?3:ci>=2?2:1;
-}
+// (familiar slots: _maxFamiliarSlots in 09d-familiars.js — 1 + Fairy Kings)
 const MAIN_QUEST_DEFS={
   dungeon:{title:'Dungeon Crawl',   icon:'⚔️',desc:'Find the ★ dungeon, fight to the deepest floor and defeat the guardian at the exit portal. Reward: mount + gold.'},
   tower:  {title:'Tower Rescue',    icon:'🗼',desc:'Climb the ★ tower, defeat the guardian at the top and free the captive craftsman. Reward: next region + 2 rings.'},
@@ -2595,7 +2623,7 @@ function _buildGameWorld(){
     c.ley.forEach(function(L){ var pts=L.pts.map(function(p){return [ox+p[0],oy+p[1]];}), xs=pts.map(function(p){return p[0];}), ys=pts.map(function(p){return p[1];});
       ley.push({pts:pts,col:L.col,bx0:Math.min.apply(null,xs),bx1:Math.max.apply(null,xs),by0:Math.min.apply(null,ys),by1:Math.max.apply(null,ys)}); });
     (c.m.shafts||[]).forEach(function(sh){ shafts.push({canvas:sh.canvas,x:sh.x+ox*LT,y:sh.y+oy*LT,a:sh.a,sway:sh.sway}); });
-    stampSpawns.push({x:ox+c.sp.x,y:oy+c.sp.y,zi:zi}); });
+    stampSpawns.push({x:ox+c.sp.x,y:oy+c.sp.y,zi:zi,zone:z.id}); });
   tm.stamps=Date.now()-t0;
   // ── 5. trails: carve from a point to the nearest road, staying in its region ──
   var BUILT=new Set([T.BUILDING_WALL,T.DOOR,T.STONE_FLOOR,T.STABLES_FLOOR,T.VILLAGE_FLOOR]);
@@ -2694,7 +2722,7 @@ function _buildGameWorld(){
   gates.forEach(function(g){ for(var d=-20;d<=20;d+=0.5)lines.push(g.dir==='v'?g.x+0.5:g.x+d+0.5, g.dir==='v'?g.y+d+0.5:g.y+0.5, 2.6); });
   trailLines.forEach(function(L){ for(var i=0;i<L.length;i++){ var sx=0,sy=0,n=0; for(var j=Math.max(0,i-3);j<=Math.min(L.length-1,i+3);j++){ sx+=L[j][0]; sy+=L[j][1]; n++; } lines.push(sx/n,sy/n,1.1); } });
   var wd={tiles:tiles,kind:kind,buildings:buildings,lines:new Float32Array(lines),sites:sites,gates:gates,waystones:waystones,caches:caches,volcanoAnchors:anchors,
-    props:props,propsByChunk:byChunk,landmarks:landmarks,ley:ley,shafts:shafts,stampParts:stampParts,
+    props:props,propsByChunk:byChunk,landmarks:landmarks,runeSpots:stampSpawns,ley:ley,shafts:shafts,stampParts:stampParts,
     map:M,region:region,zone:zone,cls:cls,baseVer:0,
     spawnX:CENTER_X*TILE+TILE/2, spawnY:CENTER_Y*TILE+TILE/2};
   _wgApplyGates(wd,{rescued:[],unlockedSections:[1]});
@@ -4210,21 +4238,14 @@ function _awardIslandFamiliar(ps,sec){
   if(!ps.completedIslands)ps.completedIslands=[];
   var first=!ps.completedIslands.includes(sec);
   if(first)ps.completedIslands.push(sec);
-  var famId={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'}[sec], famDef=FAMILIARS[famId];
+  var famId=FAM_BY_SEC[sec], famDef=FAMILIARS[famId];
   if(famId&&famDef&&(!ps.ownedFamiliars||!ps.ownedFamiliars.includes(famId))){
     if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
-    ps.ownedFamiliars.push(famId);
-    setTimeout(function(){showNotif(famDef.icon+' '+famDef.n+' familiar unlocked!','#88eeff');},300);
-    if(!ps.familiar)ps.familiar=famId;
-    else if(!ps.familiar2&&_maxFamiliarSlots(ps)>=2)ps.familiar2=famId;
-    else if(!ps.familiar3&&_maxFamiliarSlots(ps)>=3)ps.familiar3=famId;
+    ps.ownedFamiliars.push(famId); if(!ps.famLevels)ps.famLevels={}; ps.famLevels[famId]=ps.famLevels[famId]||1;
+    setTimeout(function(){showNotif(famDef.icon+' '+famDef.n+' — a '+SPIRIT_ELEMENTS[famDef.el].name.toLowerCase()+' spirit — is now your familiar!','#88eeff');},300);
+    setTimeout(function(){showNotif('✨ The '+TOME_QN[sec]+' fairies by the runestones can teach it new skills.','#c0ffe0');},2200);
+    var max=_maxFamiliarSlots(ps); for(var i=0;i<max;i++){ if(!ps[FAM_SLOTS[i]]){ ps[FAM_SLOTS[i]]=famId; break; } }
   }
-  if(first){
-    var n=ps.completedIslands.length;
-    if(n===2)setTimeout(function(){showNotif('✨ Familiar slot 2 unlocked! (2 islands cleared)','#88eeff');},800);
-    if(n===4)setTimeout(function(){showNotif('✨ Familiar slot 3 unlocked! (All islands cleared!)','#88eeff');},800);
-  }
-  _completeQuest(ps,'s'+sec+'_harbor');
 }
 // ═══════════════════════════════════════════════════════════════════════
 // ║ WORLD MAP (Phase 3 · D1/D2) — the 1200 × 1200 island
@@ -7370,16 +7391,6 @@ CH('mount','Sky Port','mt_void_serpent','Void Serpent',['serpent','#3a2a5a,#1a10
   'Sky Port 4 reward','A winged shadow serpent of violet scales trailing purple smoke.','Undulates through the air, fastest of all.');
 
 // ── familiars ──
-CH('familiar','Grasslands','fm_firefly','Firefly',['firefly','shoot','#e8d040,#6a5a20,#ffe860,#201810','wings,antennae'],
-  'Grasslands island expedition','A plump golden firefly with a glowing abdomen.','Orbits you, then flicks an Ember Spark at the nearest enemy.');
-CH('familiar','Grasslands','fm_wind_sprite','Wind Sprite',['swirl','pulse','#c8f0e0,#80c0a0,#ffffff,#205040','leaves'],
-  'Grasslands island expedition','A spiralling gust with bright eyes and a few tumbling leaves.','Swirls round you and bursts outward — Gale Burst knocks enemies back.');
-CH('familiar','Wetlands','fm_sea_sprite','Sea Sprite',['fish','spit','#60b0e0,#2a5a8a,#9fe0ff,#ffffff','bubble,spines'],
-  'Wetlands island expedition','A little puffer-sprite with fin-wings, blowing bubbles.','Spits water darts; a bubble ward blocks one hit every 20 s.');
-CH('familiar','Highlands','fm_storm_hawk','Storm Hawk',['bird','shoot','#5a6a8a,#2a3a5a,#9fe0ff,#ffe060','talons'],
-  'Highlands island expedition','A slate-blue hawk with lightning-bright eyes.','Dives and calls Chain Lightning that jumps between 3 enemies.');
-CH('familiar','Ashlands','fm_frost_wisp','Frost Wisp',['wisp','pulse','#dff4ff,#80b0e0,#9fe0ff,#2050a0','wings'],
-  'Ashlands island expedition','A cold blue wisp in a halo of frost crystals.','Pulses a Frost Nova that damages and slows enemies 50%.');
 
 // ── bosses · dungeon guardians ──
 CH('boss','Dungeon guardians','boss_goblin_king','Goblin King',['biped','lunge','#3a9a2a,#2a5a1a,#e8c040,#ff4020','crown,cape,club,ears,tusks'],
@@ -7940,6 +7951,252 @@ function buildInterior(type){ var T=INTERIOR_THEMES[type]||INTERIOR_THEMES.shop,
 // every building type the village can have
 var INTERIOR_TYPES=Object.keys(INTERIOR_THEMES);
 // ═══════════════════════════════════════════════════════════════════════
+// ║ SPIRIT FAMILIARS + FAIRIES (Phase 4c) — shared by the game and the Lab
+// ║ Familiars are glowing elemental spirits (patronus-like): a bright core,
+// ║ a translucent body, a luminous rim and drifting motes. 3 designs per
+// ║ element; Kris picks one per element in the Lab (FAMILIAR_PICK holds the
+// ║ current choice). Each quadrant's island gives its element's familiar:
+// ║   Grasslands = grass · Wetlands = water · Highlands = earth · Ashlands = fire
+// ║ Fairies (10 designs per quadrant, pick one each) live around runestones
+// ║ and teach the familiar its skills.
+// ═══════════════════════════════════════════════════════════════════════
+var SPIRIT_ELEMENTS={
+  grass:{q:1,name:'Grass',col:'#8dffa0',deep:'#2f9a58',core:'#f0fff0',mote:'#c8ffb0'},
+  water:{q:2,name:'Water',col:'#80dcff',deep:'#2a78c8',core:'#f0fbff',mote:'#c0f0ff'},
+  earth:{q:3,name:'Earth',col:'#f0b870',deep:'#8a5a2a',core:'#fff4e0',mote:'#ffd8a0'},
+  fire: {q:4,name:'Fire', col:'#ffa050',deep:'#d0381a',core:'#fff6d0',mote:'#ffd070'}
+};
+var SPIRIT_DESIGNS=[
+  {id:'grove_elder',el:'grass',name:'Grove Elder',body:'tree',move:'follow',sz:1.15,tagline:'A walking spirit tree',blurb:'An ancient tree-spirit that strides behind you on root-legs, leaves of light drifting from its crown.'},
+  {id:'thornback_stag',el:'grass',name:'Thornback Stag',body:'stag',move:'follow',sz:1.1,tagline:'A great stag with vine antlers',blurb:'A proud stag of green light, its antlers woven from flowering vines. It trots at your heel and lowers its antlers to charge.'},
+  {id:'bloom_moth',el:'grass',name:'Bloom Moth',body:'moth',move:'hover',sz:1,tagline:'A luminous moth of petals',blurb:'A huge moth whose wings are living petals. It flutters around you and scatters glowing pollen.'},
+  {id:'tide_serpent',el:'water',name:'Tide Serpent',body:'serpent',move:'hover',sz:1.1,tagline:'A sea dragon that swims through the air',blurb:'A long water-dragon with fin crests that coils through the air around you as if it were the sea.'},
+  {id:'sky_whale',el:'water',name:'Spirit Whale',body:'whale',move:'hover',sz:1.05,tagline:'A small sky-whale of moonlit water',blurb:'A gentle whale of glowing water that glides above you, trailing bubbles of light and singing softly.'},
+  {id:'mist_kitsune',el:'water',name:'Mist Kitsune',body:'fox',move:'follow',sz:1,tagline:'A fox with tails of flowing water',blurb:'A nimble fox-spirit with three tails of running water. It darts along behind you, leaving ripples in the air.'},
+  {id:'stone_colossus',el:'earth',name:'Stone Colossus',body:'golem',move:'follow',sz:1.15,tagline:'A walking mountain of amber light',blurb:'A broad earth-spirit of glowing stone and crystal veins that thuds along behind you and shakes the ground.'},
+  {id:'canyon_tortoise',el:'earth',name:'Canyon Tortoise',body:'tortoise',move:'follow',sz:1.1,tagline:'An ancient tortoise carrying a mesa',blurb:'A slow, wise tortoise-spirit whose shell is a tiny glowing mesa with crystal peaks.'},
+  {id:'dust_griffin',el:'earth',name:'Dust Griffin',body:'griffin',move:'hover',sz:1.05,tagline:'A griffin of sand and sunstone',blurb:'An eagle-lion of swirling golden dust that circles above you and dives at your foes.'},
+  {id:'ember_dragon',el:'fire',name:'Ember Dragon',body:'dragon',move:'hover',sz:1.15,tagline:'A young dragon made of flame',blurb:'A dragon of pure fire with glowing wings, circling you and breathing embers.'},
+  {id:'phoenix',el:'fire',name:'Phoenix',body:'phoenix',move:'hover',sz:1.1,tagline:'The firebird reborn',blurb:'A phoenix of gold and crimson flame with a long trailing tail of sparks.'},
+  {id:'cinder_wolf',el:'fire',name:'Cinder Wolf',body:'wolf',move:'follow',sz:1.05,tagline:'A wolf with a mane of fire',blurb:'A lean wolf-spirit whose mane and tail are living flames; it runs at your side, leaving burning paw-prints.'}
+];
+var SPIRIT_BY_ID={}; SPIRIT_DESIGNS.forEach(function(D){ SPIRIT_BY_ID[D.id]=D; });
+// current pick per element (Kris chooses in the Lab; the game reads this)
+var FAMILIAR_PICK={grass:'grove_elder',water:'tide_serpent',earth:'stone_colossus',fire:'ember_dragon'};
+
+// ── spirit painter: 4 frames of 112×112, drawn around (56,60) facing right ──
+function _spGlowFill(x,E,cx,cy,r){ var g=x.createRadialGradient(cx,cy,r*0.08,cx,cy,r); g.addColorStop(0,rgba(E.core,0.8)); g.addColorStop(0.4,rgba(E.col,0.55)); g.addColorStop(1,rgba(E.deep,0.18)); return g; }
+function _spShape(x,E,cx,cy,r,draw){ x.save(); x.beginPath(); draw(x); x.closePath(); x.shadowColor=E.col; x.shadowBlur=14; x.fillStyle=_spGlowFill(x,E,cx,cy,r); x.fill(); x.shadowBlur=0; x.lineWidth=1.6; x.strokeStyle=rgba(E.core,0.85); x.stroke(); x.restore(); }
+function _spEll(x,E,cx,cy,rx,ry,rot){ _spShape(x,E,cx,cy,Math.max(rx,ry),function(c){ c.ellipse(cx,cy,rx,ry,rot||0,0,Math.PI*2); }); }
+function _spPoly(x,E,pts,cx,cy,r){ _spShape(x,E,cx,cy,r,function(c){ c.moveTo(pts[0][0],pts[0][1]); for(var i=1;i<pts.length;i++){ var p=pts[i]; if(p.length===4)c.quadraticCurveTo(p[0],p[1],p[2],p[3]); else c.lineTo(p[0],p[1]); } }); }
+function _spLine(x,E,pts,w,a){ x.save(); x.shadowColor=E.col; x.shadowBlur=8; x.strokeStyle=rgba(E.core,a||0.9); x.lineWidth=w; x.lineCap='round'; x.lineJoin='round'; x.beginPath(); x.moveTo(pts[0][0],pts[0][1]); for(var i=1;i<pts.length;i++){ var p=pts[i]; if(p.length===4)x.quadraticCurveTo(p[0],p[1],p[2],p[3]); else x.lineTo(p[0],p[1]); } x.stroke(); x.restore(); }
+function _spEye(x,cx,cy,r){ x.save(); x.shadowColor='#ffffff'; x.shadowBlur=6; x.fillStyle='#ffffff'; x.beginPath(); x.arc(cx,cy,r||1.8,0,Math.PI*2); x.fill(); x.restore(); }
+function _spMotes(x,E,f,n,cx,cy,spread){ for(var i=0;i<n;i++){ var a=i*2.39+f*0.5, d=(i*7%spread)+6; x.fillStyle=rgba(i%3?E.mote:E.core,0.55+0.35*((i+f)%2)); x.beginPath(); x.arc(cx+Math.cos(a)*d,cy+Math.sin(a)*d*0.8,(i%4?1.1:1.8),0,Math.PI*2); x.fill(); } }
+var SPIRIT_BODIES={
+  tree:function(x,E,f){ var sw=[0,2,0,-2][f];
+    _spPoly(x,E,[[48,96],[46,70],[40,64],[47,62],[50,52],[62,52],[65,62],[72,64],[66,70],[64,96],[60,96],[58,74],[54,74],[52,96]],56,74,26);
+    _spEll(x,E,56+sw*0.5,34,26,20); _spEll(x,E,40+sw,42,14,11); _spEll(x,E,72+sw,42,14,11); _spEll(x,E,56+sw,20,14,11);
+    _spLine(x,E,[[48,96],[40,102+(f%2)*2]],3,0.7); _spLine(x,E,[[64,96],[72,102-(f%2)*2]],3,0.7);
+    _spLine(x,E,[[56,70],[56,48],[46,38]],1.5,0.6); _spLine(x,E,[[56,56],[66,40]],1.5,0.6);
+    _spEye(x,52,62,1.8); _spEye(x,60,62,1.8); for(var i=0;i<5;i++){ x.fillStyle=rgba(E.mote,0.8); x.beginPath(); x.ellipse(36+i*9+sw,58+((i*13+f*5)%30),2.2,1.2,0.6,0,Math.PI*2); x.fill(); } },
+  stag:function(x,E,f){ var l=[[0,0],[3,-3],[0,0],[-3,3]][f];
+    _spEll(x,E,52,64,22,12); _spPoly(x,E,[[66,58],[74,40],[82,38],[88,44],[84,48],[76,50],[72,64]],76,50,18);
+    [[36,70,l[0]],[44,72,l[1]],[60,72,l[1]],[68,70,l[0]]].forEach(function(g){ _spLine(x,E,[[g[0],g[1]],[g[0]+g[2],96]],3.2,0.85); });
+    _spLine(x,E,[[78,38],[74,24],[66,16]],2.4); _spLine(x,E,[[75,28],[82,18],[88,14]],2); _spLine(x,E,[[74,24],[70,12]],1.8); _spLine(x,E,[[82,38],[92,26],[98,24]],2.2); _spLine(x,E,[[92,26],[94,16]],1.8);
+    [[66,16],[88,14],[98,24],[70,12]].forEach(function(p){ x.fillStyle=rgba('#ffb0e0',0.9); x.beginPath(); x.arc(p[0],p[1],2.2,0,Math.PI*2); x.fill(); });
+    _spLine(x,E,[[30,60],[24,56+(f%2)*3]],2.5,0.7); _spEye(x,82,42,1.6); },
+  moth:function(x,E,f){ var w=[1,0.75,0.45,0.75][f];
+    _spPoly(x,E,[[56,58],[20,30+(1-w)*18],[14,48],[26,62],[56,62]],36,50,26); _spPoly(x,E,[[56,58],[92,30+(1-w)*18],[98,48],[86,62],[56,62]],76,50,26);
+    _spPoly(x,E,[[56,62],[28,68],[24,84*w+60*(1-w)],[40,82],[56,66]],42,72,18); _spPoly(x,E,[[56,62],[84,68],[88,84*w+60*(1-w)],[72,82],[56,66]],70,72,18);
+    _spEll(x,E,56,62,5,14); _spLine(x,E,[[54,48],[46,36]],1.3); _spLine(x,E,[[58,48],[66,36]],1.3);
+    [[34,46],[78,46],[38,74],[74,74]].forEach(function(p){ x.fillStyle=rgba('#ffe0f0',0.7); x.beginPath(); x.arc(p[0],p[1],3.2*w+1,0,Math.PI*2); x.fill(); }); _spEye(x,54,52,1.2); _spEye(x,58,52,1.2); },
+  serpent:function(x,E,f){ var ph=f*Math.PI/2, pts=[]; for(var i=0;i<=10;i++){ var t=i/10; pts.push([14+t*74,62+Math.sin(t*Math.PI*2.2+ph)*13*(1-t*0.4)]); }
+    for(var j=0;j<pts.length-1;j++){ var r=4+j*0.9; _spEll(x,E,pts[j][0],pts[j][1],r+2,r); }
+    var h=pts[10]; _spPoly(x,E,[[h[0]-4,h[1]-8],[h[0]+14,h[1]-4],[h[0]+18,h[1]+2],[h[0]+6,h[1]+6],[h[0]-4,h[1]+6]],h[0]+6,h[1],14);
+    _spPoly(x,E,[[h[0]-2,h[1]-7],[h[0]-10,h[1]-20],[h[0]+4,h[1]-9]],h[0]-3,h[1]-12,9); for(var k=2;k<9;k+=2){ var p=pts[k]; _spPoly(x,E,[[p[0]-3,p[1]-5],[p[0]-1,p[1]-14],[p[0]+4,p[1]-5]],p[0],p[1]-9,6); }
+    _spLine(x,E,[[h[0]+14,h[1]+2],[h[0]+26,h[1]+6+(f%2)*3]],1.2,0.7); _spEye(x,h[0]+8,h[1]-2,1.8); },
+  whale:function(x,E,f){ var t=[0,3,0,-3][f];
+    _spPoly(x,E,[[14,56+t],[26,52],[40,44],[62,42],[84,48],[96,58],[88,70],[64,76],[38,74],[24,64]],58,58,36);
+    _spPoly(x,E,[[16,56+t],[4,44+t*2],[10,58],[4,70-t*2],[16,62]],12,58,12); _spPoly(x,E,[[60,72],[52,86],[68,76]],60,78,10);
+    x.strokeStyle=rgba(E.core,0.35); x.lineWidth=1; for(var i=0;i<4;i++){ x.beginPath(); x.moveTo(52+i*8,66); x.lineTo(56+i*8,74); x.stroke(); }
+    for(var b=0;b<4;b++){ x.strokeStyle=rgba(E.core,0.7); x.beginPath(); x.arc(70+b*5,36-b*6-(f*2)%6,2+b*0.6,0,Math.PI*2); x.stroke(); } _spEye(x,84,56,1.8); },
+  fox:function(x,E,f){ var l=[[0,0],[3,-3],[0,0],[-3,3]][f];
+    _spEll(x,E,54,66,18,10); _spPoly(x,E,[[66,60],[76,50],[88,52],[94,58],[84,62],[74,68]],80,58,14); _spPoly(x,E,[[74,52],[76,40],[82,50]],77,47,6); _spPoly(x,E,[[80,51],[86,40],[88,53]],84,47,6);
+    [[42,72,l[0]],[48,74,l[1]],[60,74,l[1]],[66,72,l[0]]].forEach(function(g){ _spLine(x,E,[[g[0],g[1]],[g[0]+g[2],94]],2.6,0.85); });
+    for(var t=0;t<3;t++){ var a=-0.9+t*0.45+Math.sin(f*1.6+t)*0.12; _spPoly(x,E,[[38,62],[38+Math.cos(Math.PI+a)*18,62+Math.sin(Math.PI+a)*18-6],[38+Math.cos(Math.PI+a)*34,62+Math.sin(Math.PI+a)*34-10],[40+Math.cos(Math.PI+a)*20,64+Math.sin(Math.PI+a)*20]],28,54,18); }
+    _spEye(x,86,56,1.6); },
+  golem:function(x,E,f){ var s=[0,1,0,-1][f];
+    _spPoly(x,E,[[38,40],[74,40],[80,56],[76,76],[36,76],[32,56]],56,58,26); _spPoly(x,E,[[46,24],[66,24],[70,38],[42,38]],56,31,14);
+    _spPoly(x,E,[[30,42],[20,48],[18,72+s],[28,74+s],[32,56]],25,58,14); _spPoly(x,E,[[82,42],[92,48],[94,72-s],[84,74-s],[80,56]],87,58,14);
+    _spPoly(x,E,[[40,76],[38,96+s],[52,96+s],[52,76]],46,86,11); _spPoly(x,E,[[60,76],[60,96-s],[74,96-s],[72,76]],66,86,11);
+    x.strokeStyle=rgba('#fff0c0',0.8); x.lineWidth=1.4; x.beginPath(); x.moveTo(46,46); x.lineTo(56,58); x.lineTo(50,70); x.moveTo(66,48); x.lineTo(58,60); x.stroke();
+    [[48,32],[64,32]].forEach(function(p){ _spEye(x,p[0],p[1],2.2); }); _spPoly(x,E,[[54,18],[58,8],[62,20]],58,14,6); },
+  tortoise:function(x,E,f){ var l=[0,2,0,-2][f];
+    _spEll(x,E,52,72,32,14); _spPoly(x,E,[[24,70],[30,52],[42,44],[50,34],[58,42],[66,36],[76,50],[82,70]],52,56,30);
+    _spPoly(x,E,[[48,36],[52,22],[56,36]],52,30,8); _spPoly(x,E,[[62,40],[66,28],[70,42]],66,35,7);
+    _spPoly(x,E,[[82,66],[92,60],[100,64],[98,72],[86,74]],92,67,10);
+    [[28,80,-l],[44,84,l],[62,84,-l],[76,80,l]].forEach(function(g){ _spEll(x,E,g[0]+g[2],g[1]+6,5,5); });
+    x.strokeStyle=rgba(E.core,0.4); x.lineWidth=1; x.beginPath(); x.moveTo(34,62); x.lineTo(70,62); x.moveTo(52,46); x.lineTo(52,70); x.stroke(); _spEye(x,94,64,1.6); },
+  griffin:function(x,E,f){ var w=[1,0.6,0.2,0.6][f];
+    _spPoly(x,E,[[52,58],[22,30+(1-w)*30],[12,40+(1-w)*20],[28,56],[48,64]],32,50,24); _spPoly(x,E,[[60,56],[88,26+(1-w)*30],[98,36+(1-w)*20],[82,54],[64,64]],80,48,24);
+    _spEll(x,E,56,64,18,10); _spPoly(x,E,[[70,58],[80,48],[90,50],[98,56],[88,58],[80,64]],84,55,12);
+    _spLine(x,E,[[38,64],[24,70],[18,64]],2.4); _spLine(x,E,[[48,72],[46,86]],2.4); _spLine(x,E,[[62,72],[64,86]],2.4); _spEye(x,86,53,1.6); },
+  dragon:function(x,E,f){ var w=[1,0.6,0.25,0.6][f];
+    _spPoly(x,E,[[48,54],[28,22+(1-w)*28],[14,26+(1-w)*18],[22,42],[10,50],[30,54],[44,62]],30,44,26);
+    _spPoly(x,E,[[60,52],[76,20+(1-w)*28],[92,22+(1-w)*18],[86,40],[98,46],[78,54],[64,62]],80,42,26);
+    _spEll(x,E,54,62,18,11); _spPoly(x,E,[[66,56],[76,42],[86,40],[96,46],[90,50],[80,52],[74,62]],82,48,14);
+    _spPoly(x,E,[[82,40],[86,30],[88,40]],85,36,5); _spPoly(x,E,[[38,64],[24,70],[12,64],[4,70],[16,74],[30,72]],20,68,16);
+    _spLine(x,E,[[48,70],[46,84]],2.6); _spLine(x,E,[[60,70],[62,84]],2.6); x.fillStyle=rgba('#fff0a0',0.9); x.beginPath(); x.arc(99,48+(f%2),2.5,0,Math.PI*2); x.fill(); _spEye(x,88,45,1.7); },
+  phoenix:function(x,E,f){ var w=[1,0.65,0.3,0.65][f];
+    _spPoly(x,E,[[52,54],[24,26+(1-w)*28],[10,30+(1-w)*20],[20,44],[14,54],[36,58],[48,62]],30,46,26);
+    _spPoly(x,E,[[60,54],[84,26+(1-w)*28],[98,30+(1-w)*20],[90,44],[96,54],[74,58],[62,62]],78,46,26);
+    _spEll(x,E,56,60,10,13); _spEll(x,E,60,44,7,7); _spPoly(x,E,[[66,43],[74,45],[66,47]],69,45,5);
+    for(var t=0;t<3;t++)_spPoly(x,E,[[52+t*4,70],[40+t*8,98+Math.sin(f+t)*3],[48+t*8,96],[56+t*4,72]],50+t*6,84,16);
+    _spPoly(x,E,[[58,38],[56,26],[62,32],[64,22],[66,34]],61,31,8); _spEye(x,62,43,1.5); },
+  wolf:function(x,E,f){ var l=[[0,0],[4,-4],[0,0],[-4,4]][f];
+    _spEll(x,E,52,64,22,11); _spPoly(x,E,[[68,58],[78,48],[92,50],[98,58],[88,62],[76,70]],84,58,16); _spPoly(x,E,[[76,50],[78,38],[84,49]],80,45,6); _spPoly(x,E,[[82,49],[88,38],[90,51]],86,45,6);
+    [[38,70,l[0]],[46,72,l[1]],[58,72,l[1]],[66,70,l[0]]].forEach(function(g){ _spLine(x,E,[[g[0],g[1]],[g[0]+g[2],94]],3,0.85); });
+    _spPoly(x,E,[[62,54],[66,40+(f%2)*2],[70,50],[74,38-(f%2)*2],[76,52]],70,48,10);
+    _spPoly(x,E,[[32,60],[18,52+Math.sin(f)*4],[8,40+Math.cos(f)*4],[16,56],[30,66]],20,54,16); _spEye(x,90,54,1.6); }
+};
+function spiritFrames(D){ if(D._fr)return D._fr; var E=SPIRIT_ELEMENTS[D.el];
+  D._fr=[0,1,2,3].map(function(f){ var c=mkCanvas(112,112), x=c.getContext('2d');
+    var g=x.createRadialGradient(56,58,4,56,58,54); g.addColorStop(0,rgba(E.col,0.28)); g.addColorStop(1,rgba(E.col,0)); x.fillStyle=g; x.fillRect(0,0,112,112);
+    // flowing wisps streaming out behind the spirit (patronus trail)
+    x.save(); x.globalCompositeOperation='lighter'; for(var w=0;w<5;w++){ var y0=48+w*6, ph=f*0.8+w; x.strokeStyle=rgba(w%2?E.col:E.mote,0.22+0.06*(w%3)); x.lineWidth=2.5-w*0.3; x.lineCap='round';
+      x.beginPath(); x.moveTo(44,y0); x.bezierCurveTo(30,y0+Math.sin(ph)*8,20,y0-Math.cos(ph)*8,4+w*2,y0+Math.sin(ph+1)*6); x.stroke(); } x.restore();
+    x.globalCompositeOperation='lighter'; (SPIRIT_BODIES[D.body]||SPIRIT_BODIES.fox)(x,E,f); x.globalCompositeOperation='source-over';
+    _spMotes(x,E,f,14,56,60,44); return c; });
+  return D._fr; }
+
+// ── fairies: 10 designs per quadrant ──
+var FAIRY_DESIGNS=[
+  // Grasslands
+  ['clover_pixie','Clover Pixie','#8dff8a','#ffe060','leaf','A tiny pixie with four-leaf clover wings and a dandelion hat.'],
+  ['bluebell_sprite','Bluebell Sprite','#a0b8ff','#e8e0ff','bell','Wears a bluebell flower as a skirt; rings softly when she flies.'],
+  ['thistle_imp','Thistle Imp','#d090ff','#90d070','spiky','A cheeky purple imp with thistle-down hair and moth wings.'],
+  ['honey_fae','Honey Fae','#ffd060','#fff0b0','round','A round honey-gold fae with bee-striped wings, trailing sweet light.'],
+  ['dew_wisp','Dewdrop Wisp','#b0fff0','#ffffff','drop','A fairy inside a floating dewdrop that glints like glass.'],
+  ['acorn_knight','Acorn Knight','#c8a060','#80c050','helm','A brave little knight in an acorn-cap helmet with grass-blade sword.'],
+  ['poppy_dancer','Poppy Dancer','#ff6070','#ffd0d0','petal','Twirls in a red poppy dress, scattering petals.'],
+  ['meadow_moth','Meadow Moth-fae','#f0e0a0','#a0d080','moth','A soft moth-winged fae with feathery antennae.'],
+  ['sunbeam_sylph','Sunbeam Sylph','#fff080','#ffffff','star','Made of a slanting sunbeam; hard to look straight at.'],
+  ['rune_pixie','Rune Pixie','#80ffd0','#c0fff0','rune','Glowing runes circle her; she guards the old waystones.'],
+  // Wetlands
+  ['lily_nymph','Lily Nymph','#f0a0d0','#a0e0c0','petal','Rides a lotus petal; her hair is a waterfall.'],
+  ['glowfrog_fae','Glowfrog Fae','#80ff90','#e0ff80','round','A frog-riding fairy with a lantern of swamp light.'],
+  ['mist_maiden','Mist Maiden','#c0e0ff','#ffffff','mist','Half made of fog; fades in and out as she speaks.'],
+  ['reed_piper','Reed Piper','#a0c070','#e0f0a0','leaf','Plays a reed flute that makes ripples in the air.'],
+  ['bubble_sprite','Bubble Sprite','#90e0ff','#ffffff','drop','Lives inside a big soap-bubble that never pops.'],
+  ['dragonfly_fae','Dragonfly Fae','#60e0e0','#a0ffb0','moth','Four long dragonfly wings, iridescent teal.'],
+  ['moon_lantern','Moon Lantern','#e0e8ff','#ffe8a0','bell','Carries a paper moon lantern across the marsh.'],
+  ['kelp_wisp','Kelp Wisp','#50c090','#b0ffd0','spiky','Streaming kelp-ribbon hair that floats as if underwater.'],
+  ['pearl_fae','Pearl Fae','#f8f0ff','#c0e0ff','star','Wings of mother-of-pearl, shimmering pink and blue.'],
+  ['rain_sprite','Rain Sprite','#80b0ff','#d0e8ff','rune','Brings a tiny rain cloud wherever she goes.'],
+  // Highlands
+  ['crystal_pixie','Crystal Pixie','#c0a0ff','#ffffff','star','Wings of faceted crystal that throw rainbows.'],
+  ['snowflake_fae','Snowflake Fae','#e0f4ff','#ffffff','spiky','Each wing is a perfect snowflake; she leaves frost.'],
+  ['ember_moth','Hearth Moth','#ffb060','#fff0c0','moth','A warm moth-fae who keeps the herders\' fires lit.'],
+  ['bellflower_sprite','Heather Sprite','#c080e0','#f0d0ff','bell','Wears heather and sings to the mountain goats.'],
+  ['gem_gnome_fae','Gem Gnome-fae','#e0a040','#80e0ff','helm','A gnome-fairy in a gem-studded cap, pick-axe in hand.'],
+  ['wind_harp_fae','Wind-harp Fae','#a0ffe0','#ffffff','mist','Her wings hum like the wind-harps on the ridges.'],
+  ['starfall_sprite','Starfall Sprite','#fff0a0','#a0c0ff','star','Fell from the sky as a shooting star and stayed.'],
+  ['moss_hermit','Moss Hermit','#90b070','#d0e0a0','leaf','An old mossy fairy with a lichen beard and walking stick.'],
+  ['aurora_fae','Aurora Fae','#80ffc0','#c080ff','rune','Trails ribbons of northern lights.'],
+  ['geode_sprite','Geode Sprite','#a060e0','#e0c0ff','round','Lives in a split geode that opens like a clam.'],
+  // Ashlands
+  ['cinder_pixie','Cinder Pixie','#ff8040','#ffd060','spiky','Hair of flickering flame, wings of cooling ash.'],
+  ['obsidian_fae','Obsidian Fae','#302838','#ff6040','star','Wings of black glass with glowing lava veins.'],
+  ['ash_moth','Ash Moth-fae','#b8b0a8','#ff9060','moth','Grey ash-wings that glow orange at the edges.'],
+  ['salamander_rider','Salamander Rider','#ff6030','#ffe080','round','Rides a tiny salamander through the embers.'],
+  ['smoke_wisp','Smoke Wisp','#a0a0b0','#ffe0c0','mist','Made of curling smoke with two bright ember eyes.'],
+  ['phoenix_chick','Phoenix Chick-fae','#ffc040','#ff5020','petal','A fairy who hatched from a phoenix egg; very proud.'],
+  ['lava_lantern','Lava Lantern','#ff7030','#fff0a0','bell','Carries a lantern of molten rock.'],
+  ['sulfur_sprite','Sulfur Sprite','#f0e040','#fff8b0','drop','Yellow, fizzy and smells faintly of eggs; very friendly.'],
+  ['ember_knight','Ember Knight','#d05030','#ffc060','helm','A tiny knight in blackened armour with a flame sword.'],
+  ['rune_flame','Rune Flame','#ff9060','#ffe0a0','rune','Burning runes orbit her; she guards the ember channels.']
+].map(function(a,i){ return {id:a[0],name:a[1],col:a[2],col2:a[3],style:a[4],look:a[5],q:1+Math.floor(i/10)}; });
+var FAIRY_BY_ID={}; FAIRY_DESIGNS.forEach(function(F){ FAIRY_BY_ID[F.id]=F; });
+var FAIRY_PICK={1:'clover_pixie',2:'lily_nymph',3:'crystal_pixie',4:'cinder_pixie'};
+function fairyFrames(F){ if(F._fr)return F._fr;
+  F._fr=[0,1,2,3].map(function(f){ var c=mkCanvas(48,48), x=c.getContext('2d'), cx=24, cy=24+[0,-1,-2,-1][f], w=[1,0.7,0.35,0.7][f];
+    var g=x.createRadialGradient(cx,cy,1,cx,cy,22); g.addColorStop(0,rgba(F.col,0.5)); g.addColorStop(1,rgba(F.col,0)); x.fillStyle=g; x.fillRect(0,0,48,48);
+    // wings
+    x.save(); x.globalAlpha=0.7; x.fillStyle=rgba(F.col2,0.75); x.strokeStyle=rgba('#ffffff',0.8); x.lineWidth=0.8;
+    var wing=function(sx,top){ x.beginPath(); x.ellipse(cx+sx*6*w,cy-(top?5:-1),(top?9:6)*w+1.5,top?5:3.5,sx*(top?-0.5:0.4),0,Math.PI*2); x.fill(); x.stroke(); };
+    if(F.style==='moth'){ x.beginPath(); x.moveTo(cx,cy-2); x.lineTo(cx-14*w,cy-10); x.lineTo(cx-12*w,cy+4); x.closePath(); x.moveTo(cx,cy-2); x.lineTo(cx+14*w,cy-10); x.lineTo(cx+12*w,cy+4); x.closePath(); x.fill(); x.stroke(); }
+    else { wing(-1,true); wing(1,true); wing(-1,false); wing(1,false); } x.restore();
+    // body
+    x.fillStyle=F.col; x.beginPath(); x.ellipse(cx,cy+3,3,5,0,0,Math.PI*2); x.fill();
+    if(F.style==='bell'||F.style==='petal'){ x.fillStyle=F.col2; x.beginPath(); x.moveTo(cx-5,cy+8); x.quadraticCurveTo(cx,cy-1,cx+5,cy+8); x.closePath(); x.fill(); }
+    x.fillStyle='#ffe8d8'; x.beginPath(); x.arc(cx,cy-3,3,0,Math.PI*2); x.fill();
+    if(F.style==='helm'){ x.fillStyle=F.col; x.beginPath(); x.arc(cx,cy-4,3.4,Math.PI,0); x.fill(); }
+    else if(F.style==='spiky'){ x.fillStyle=F.col; for(var s=-2;s<=2;s++){ x.beginPath(); x.moveTo(cx+s*1.5-1,cy-5); x.lineTo(cx+s*2,cy-9-Math.abs(s)*0.5); x.lineTo(cx+s*1.5+1,cy-5); x.fill(); } }
+    else if(F.style==='leaf'){ x.fillStyle='#70c050'; x.beginPath(); x.ellipse(cx+1,cy-7,3,1.6,-0.4,0,Math.PI*2); x.fill(); }
+    else { x.fillStyle=F.col; x.fillRect(cx-3,cy-6,6,2); }
+    x.fillStyle='#2a1a3a'; x.fillRect(cx-1.5,cy-3.5,1,1); x.fillRect(cx+0.5,cy-3.5,1,1);
+    if(F.style==='drop'){ x.strokeStyle=rgba('#ffffff',0.6); x.lineWidth=1; x.beginPath(); x.arc(cx,cy,11,0,Math.PI*2); x.stroke(); }
+    if(F.style==='rune'){ x.fillStyle=F.col2; for(var r=0;r<5;r++){ var a=r*1.26+f*0.4; x.fillRect(cx+Math.cos(a)*13-1,cy+Math.sin(a)*9-1,2,3); } }
+    if(F.style==='star'){ x.fillStyle='#ffffff'; for(var st=0;st<4;st++){ var a2=st*1.57+f*0.3; x.fillRect(cx+Math.cos(a2)*12,cy+Math.sin(a2)*12,1.5,1.5); } }
+    if(F.style==='mist'){ x.fillStyle=rgba(F.col2,0.35); for(var m=0;m<4;m++){ x.beginPath(); x.arc(cx-6+m*4,cy+10+(m%2)*2,3,0,Math.PI*2); x.fill(); } }
+    for(var k=0;k<5;k++){ x.fillStyle=rgba('#ffffff',0.8); x.fillRect(cx-10+((k*9+f*3)%20),cy+8+((k*5+f*2)%10),1,1); }
+    return c; });
+  return F._fr; }
+// the fairy king (Wetlands, Highlands, Ashlands) — a crowned fairy three times the size
+function fairyKingFrames(q){ var key='_kfr'+q; if(fairyKingFrames[key])return fairyKingFrames[key]; var F=FAIRY_BY_ID[FAIRY_PICK[q]]||FAIRY_DESIGNS[(q-1)*10];
+  fairyKingFrames[key]=fairyFrames(F).map(function(fr,i){ var c=mkCanvas(96,104), x=c.getContext('2d'); x.imageSmoothingEnabled=true; x.drawImage(fr,0,8,96,96);
+    x.fillStyle='#ffd84a'; x.beginPath(); x.moveTo(38,28); x.lineTo(40,18); x.lineTo(44,24); x.lineTo(48,14); x.lineTo(52,24); x.lineTo(56,18); x.lineTo(58,28); x.closePath(); x.fill(); x.strokeStyle='#fff6c0'; x.lineWidth=1; x.stroke();
+    x.fillStyle='#ff5070'; x.beginPath(); x.arc(48,24,1.8,0,Math.PI*2); x.fill(); return c; });
+  return fairyKingFrames[key]; }
+
+// ── familiar trial ideas (Kris picks which to use; ★ = playable now) ──
+var FAMILIAR_TRIALS=[
+  {id:'rune_targets',name:'Rune Target Practice',ok:true,text:'Glowing rune targets pop up around the fairy\'s stone. Lead your familiar close to each one so it strikes it before it fades. Hit 8 in time.'},
+  {id:'guardian',name:'Guard the Runestone',ok:true,text:'Shadow wisps pour out of the ground and rush the fairy\'s runestone. You and your familiar keep them off it for 40 seconds.'},
+  {id:'echo_path',name:'Echo Path',ok:true,text:'Rune tiles around the stone light up in a sequence. Your familiar shows the order; walk the tiles in the same order (4, then 5, then 6 steps).'},
+  {id:'orb_harvest',name:'Element Harvest',ok:true,text:'Orbs of all four elements drift around the circle. Collect the ones that match your familiar\'s element (it glows when one is near) and avoid the others.'},
+  {id:'hold_circle',name:'Hold the Circle',ok:true,text:'Stand inside a shrinking rune circle for 30 seconds while monsters close in; your familiar\'s skills have to keep them out.'},
+  {id:'shadow_duel',name:'Shadow Duel',ok:true,text:'A shadow copy of your familiar steps out of the stone and fights you both. Beat it (used for the Fairy King\'s trial).'},
+  {id:'light_stones',name:'Light the Stones',ok:false,text:'Carry your familiar\'s glow to five dark standing stones around the zone before the light runs out (a race across the map).'},
+  {id:'sprite_tag',name:'Catch the Trickster',ok:false,text:'A mischievous sprite blinks from place to place. Get close to it five times — your familiar sniffs out where it will appear next.'},
+  {id:'rune_lock',name:'Rune Lock Puzzle',ok:false,text:'Rotate four rune stones so their symbols match the pattern your familiar draws in the air.'},
+  {id:'escort',name:'Escort the Seedling',ok:false,text:'A glowing seedling walks slowly to the next rune space; you and your familiar protect it on the way.'}
+];
+var FAMILIAR_TRIAL_PICK=['rune_targets','echo_path','orb_harvest','guardian','hold_circle'];   // fairy 1…5 of each quadrant
+
+// familiar skills by element (base + 5 fairy lessons)
+// skills: [base, lv2 … lv6]. kind: proj | nova | heal | ward | rain | aura | wave | laststand
+var FAM_SKILLS={
+  grass:[
+    {name:'Thorn Dart',kind:'proj',cd:2.4,dmg:7,range:260,fx:'root',t:0.6,text:'Fires a thorn at the nearest enemy; it roots them for a moment.'},
+    {name:'Healing Bloom',kind:'heal',cd:9,pct:0.06,text:'A flower of light opens at your feet and heals you 6% of your max health.'},
+    {name:'Vine Snare',kind:'nova',cd:8,dmg:6,radius:110,fx:'root',t:2,text:'Vines burst from the ground around you and hold every enemy nearby for 2 s.'},
+    {name:'Spore Cloud',kind:'nova',cd:7,dmg:4,radius:95,fx:'poison',t:4,text:'Releases glowing spores that poison enemies around you for 4 s.'},
+    {name:'Bark Ward',kind:'ward',cd:18,text:'A shell of living bark blocks the next hit you take (recharges in 18 s).'},
+    {name:'Wild Growth',kind:'nova',cd:14,dmg:18,radius:150,fx:'root',t:1.5,heal:0.1,text:'The meadow rises: heavy damage to every enemy around you, roots them, and heals you 10%.'}],
+  water:[
+    {name:'Water Bolt',kind:'proj',cd:2.2,dmg:7,range:270,fx:'slow',t:2,text:'A bolt of water that slows the target by 40%.'},
+    {name:'Tide Ward',kind:'ward',cd:20,text:'A bubble blocks the next hit you take (recharges in 20 s).'},
+    {name:'Whirlpool',kind:'nova',cd:8,dmg:6,radius:130,fx:'pull',text:'A whirlpool drags nearby enemies in toward you and hurts them.'},
+    {name:'Frost Lance',kind:'proj',cd:5,dmg:12,range:320,fx:'freeze',t:1.2,pierce:true,text:'A lance of ice that pierces a line of enemies and freezes them.'},
+    {name:'Rain of Renewal',kind:'heal',cd:22,pct:0.03,ticks:5,text:'Soft rain heals you 3% every second for 5 s.'},
+    {name:'Tidal Wave',kind:'wave',cd:13,dmg:20,len:220,wid:70,fx:'push',text:'A great wave rolls out where you face, crushing and pushing back everything in its path.'}],
+  earth:[
+    {name:'Stone Shard',kind:'proj',cd:2.6,dmg:9,range:240,fx:'knock',text:'Hurls a shard of stone that knocks the target back.'},
+    {name:'Stone Skin',kind:'ward',cd:14,text:'Your skin turns to stone: blocks the next hit (recharges in 14 s).'},
+    {name:'Quake',kind:'nova',cd:9,dmg:9,radius:115,fx:'stun',t:1.2,text:'Stamps the ground: enemies nearby are stunned.'},
+    {name:'Boulder Toss',kind:'rain',cd:7,dmg:16,n:1,rad:55,range:280,text:'Lobs a boulder that smashes a group of enemies.'},
+    {name:'Crystal Spikes',kind:'nova',cd:10,dmg:14,radius:140,fx:'slow',t:2,text:'A ring of crystal spikes erupts around you, hurting and slowing enemies.'},
+    {name:'Avalanche',kind:'rain',cd:15,dmg:22,n:5,rad:50,range:300,text:'Five boulders thunder down on the enemies around you.'}],
+  fire:[
+    {name:'Ember Bolt',kind:'proj',cd:2.2,dmg:8,range:260,fx:'burn',t:3,text:'Spits an ember that sets the target on fire.'},
+    {name:'Flame Aura',kind:'aura',cd:1,dmg:3,radius:70,text:'Enemies that come close burn every second.'},
+    {name:'Fireball',kind:'proj',cd:6,dmg:14,range:300,fx:'splash',rad:70,text:'A fireball that explodes, burning everything around the target.'},
+    {name:'Blaze Dash',kind:'wave',cd:9,dmg:14,len:200,wid:40,fx:'burn',text:'Your familiar streaks forward in a line of fire, burning everything it passes.'},
+    {name:'Rekindle',kind:'laststand',cd:40,pct:0.3,text:'When you fall below 30% health, flames close your wounds for 30% of your max health (once every 40 s).'},
+    {name:'Inferno',kind:'nova',cd:16,dmg:26,radius:170,fx:'burn',t:4,text:'A pillar of fire engulfs everything around you.'}]
+};
+// ═══════════════════════════════════════════════════════════════════════
 // ║ SAVE VERSIONING  (Phase 1 · panel A3)
 // ║ Saves live in localStorage['qoz_v2'] (key kept so existing saves load).
 // ║ Each save now carries saveVersion. _migrateSave() upgrades older saves
@@ -7947,8 +8204,8 @@ var INTERIOR_TYPES=Object.keys(INTERIOR_THEMES);
 // ║ localStorage['qoz_v2_backup_v<old>'] so nothing is ever lost.
 // ║ To change the save shape later: bump SAVE_VERSION and add a step.
 // ═══════════════════════════════════════════════════════════════════════
-var SAVE_VERSION=5;
-var _SAVE_TRANSIENT=['_seaState'];   // runtime-only fields never written to disk
+var SAVE_VERSION=6;
+var _SAVE_TRANSIENT=['_seaState','_famWard','_famLastHp'];   // runtime-only fields never written to disk
 
 function _migrateSave(d, raw){
   var v=d.saveVersion||2;              // saves before versioning = v2
@@ -7984,6 +8241,10 @@ function _migrateSave(d, raw){
     // village with a fresh map (progress, items and quests are kept).
     delete d.px; delete d.py; delete d.exploredGridArr;
     d.activatedWaystones=['ws_village']; d.visitedZones=[];
+  }
+  if(v<6){
+    // Phase 4c: familiars are the four elemental spirits (fam_grass/water/earth/fire)
+    _famMigrate(d);
   }
   _SAVE_TRANSIENT.forEach(function(k){ delete d[k]; });
   d.saveVersion=SAVE_VERSION;
@@ -8050,6 +8311,18 @@ function _heroOpenAt(scene, x, y){
   }
   return true;
 }
+// ── line of sight: no attacking through walls ──
+var LOS_WALL_TILES=new Set([T.ROCK,T.LARGE_BOULDER,T.BUILDING_WALL,T.CLIFF]); if(T.PROP!==undefined)LOS_WALL_TILES.add(T.PROP);
+var HIGH_WALL_TILES=new Set([T.BUILDING_WALL,T.CLIFF]);   // what flying spirits can't pass
+function _heroWallAt(scene,x,y,high){ var key=scene.sys.settings.key, tx=Math.floor(x/TILE), ty=Math.floor(y/TILE), WS=high?HIGH_WALL_TILES:LOS_WALL_TILES;
+  if(key==='Dungeon'&&scene.dtiles){ var r=scene.dtiles[ty]; return !r||r[tx]===undefined||r[tx]===DNG.WALL; }
+  if(key==='Cave'&&scene._isSolid)return scene._isSolid(Math.floor(x/CV),Math.floor(y/CV));
+  if(key==='World'&&scene.tiles){ var t=(scene.tiles[ty]||[])[tx]; return t!==undefined&&WS.has(t); }
+  if(key==='Island'&&scene._imap){ var t2=(scene._imap.tiles[ty]||[])[tx]; return t2!==undefined&&WS.has(t2); }
+  return false; }
+// true when nothing solid lies between (x0,y0) and (x1,y1); the ends themselves are ignored
+function _heroLOS(scene,x0,y0,x1,y1,high){ var d=Math.hypot(x1-x0,y1-y0); if(d<14)return true; var n=Math.ceil(d/6);
+  for(var i=1;i<n;i++){ var f=i/n; if(f*d<8||(1-f)*d<10)continue; if(_heroWallAt(scene,x0+(x1-x0)*f,y0+(y1-y0)*f,high))return false; } return true; }
 function _heroFloat(scene, x, y, msg, col){
   if(scene._floatText){ scene._floatText(x,y,msg,col); return; }
   var t=scene.add.text(x,y,msg,{fontSize:'12px',color:col||'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(40);
@@ -8329,118 +8602,7 @@ function _heroStatusTick(scene, dt){
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// ║ FAMILIARS v2 (B2) — each has a signature ability; damage scales +12%
-// ║ per player level. Ability data lives in FAMILIAR_ABILITIES so the
-// ║ info pop-up and the combat code read the same numbers.
-// ═══════════════════════════════════════════════════════════════════════
-var FAMILIAR_ABILITIES={
-  firefly:{ ability:'Ember Spark', kind:'Ignite', cd:2.5, dmg:6, range:260,
-    text:'Shoots an ember at the nearest enemy and sets it on fire (burns for 3 s). Also lights up dark dungeons: you see 3 tiles further.',
-    burn:{dur:3, dpsMult:0.35}, where:'Clear the NE Grasslands harbor island' },
-  wind_sprite:{ ability:'Gale Burst', kind:'Knockback', cd:4, dmg:8, radius:95, push:70,
-    text:'A gust around you that damages every enemy in range, shoves them back and interrupts their next attack.',
-    where:'Complete the NE Grasslands sky port' },
-  sea_sprite:{ ability:'Tide Ward', kind:'Shield + heal', cd:20, dmg:0, heal:0.015, healEvery:3,
-    text:'A water bubble absorbs the next hit you take, then recharges after 20 s. Heals 1.5% of your max HP every 3 s.',
-    where:'Clear the SE Wetlands harbor island' },
-  storm_hawk:{ ability:'Chain Lightning', kind:'Chain', cd:3, dmg:7, range:280, chains:2,
-    text:'Calls lightning on the nearest enemy, which then jumps to 2 more enemies close by (70% damage each jump).',
-    where:'Clear the SW Highlands harbor island' },
-  frost_wisp:{ ability:'Frost Nova', kind:'Slow', cd:5, dmg:12, radius:100, slow:0.5, slowDur:3,
-    text:'A freezing burst around you that damages every enemy in range and slows them by 50% for 3 s.',
-    where:'Clear the NW Ashlands harbor island' },
-};
-function _familiarLevelMult(ps){ return 1+0.12*(((ps&&ps.level)||1)-1); }
-function _familiarDamage(fid, ps){ var a=FAMILIAR_ABILITIES[fid]; return a?Math.round(a.dmg*_familiarLevelMult(ps)):0; }
-function _heroActiveFamiliars(ps){
-  var out=[], slots=['familiar','familiar2','familiar3'], max=_maxFamiliarSlots(ps);
-  for(var i=0;i<max;i++){ var f=ps[slots[i]]; if(f&&FAMILIARS[f]&&out.indexOf(f)<0)out.push(f); }
-  return out;
-}
-function _heroFamiliarActive(ps, fid){ return !!ps&&_heroActiveFamiliars(ps).indexOf(fid)>=0; }
-
-// Per-frame familiar driver. Replaces the old _heroFamiliarsTick/_heroFamiliarFire.
-function _heroFamiliarsTick(scene, dt){
-  var c=_heroCtx(scene), ps=c.ps; if(!ps)return;
-  var fams=_heroActiveFamiliars(ps);
-  if(!scene._famVisuals)scene._famVisuals={};
-  if(!scene._famTimers)scene._famTimers={};
-  // Remove visuals for familiars no longer active
-  Object.keys(scene._famVisuals).forEach(function(f){ if(fams.indexOf(f)<0){ var v=scene._famVisuals[f]; if(v&&v.destroy)v.destroy(); if(v&&v._aura)v._aura.destroy(); delete scene._famVisuals[f]; } });
-  var mult=_familiarLevelMult(ps);
-  fams.forEach(function(fid,i){
-    var fd=FAMILIARS[fid], ab=FAMILIAR_ABILITIES[fid]; if(!fd||!ab)return;
-    var v=scene._famVisuals[fid];
-    if(!v||!v.active){
-      v=CHX.sprite(scene,'fm_'+fid,c.x,c.y,0.8,{origin:[0.5,0.55],act:false})||scene.add.text(c.x,c.y,fd.icon,{fontSize:'15px',fontFamily:'serif'}).setOrigin(.5);
-      v.setDepth(21);
-      v._ang=(i/Math.max(1,fams.length))*Math.PI*2;
-      v._aura=scene.add.circle(c.x,c.y,9,{firefly:0xffcc55,wind_sprite:0x99ffcc,sea_sprite:0x55aaff,storm_hawk:0xffee55,frost_wisp:0xaaddff}[fid]||0xffffff,0.28).setDepth(20);
-      scene._famVisuals[fid]=v;
-    }
-    v._ang+=dt*1.7;
-    var ox=Math.cos(v._ang)*(22+i*5), oy=Math.sin(v._ang)*(22+i*5)*0.55-14;
-    v.setPosition(c.x+ox,c.y+oy); v._aura.setPosition(c.x+ox,c.y+oy);
-    v._aura.setScale(1+0.18*Math.sin(Date.now()/220+i));
-    if(scene._famTimers[fid]===undefined)scene._famTimers[fid]=Math.min(1.5,ab.cd);
-    // Sea Sprite runs on its own passive logic below
-    if(fid==='sea_sprite')return;
-    scene._famTimers[fid]-=dt;
-    if(scene._famTimers[fid]>0)return;
-    var fired=_heroFamiliarAct(scene, fid, ab, {x:c.x+ox,y:c.y+oy}, c, mult);
-    if(fired&&v._ch)CHX.busy(v,0.6);
-    scene._famTimers[fid]=fired?ab.cd:0.4; // retry soon if nothing was in range
-  });
-  _heroSeaSprite(scene, c, ps, dt);
-}
-function _heroFamiliarAct(scene, fid, ab, from, c, mult){
-  var mons=c.monsters.filter(function(m){return !m.dead;});
-  var dmg=ab.dmg*mult;
-  function nearest(range){ var b=null,bd=range; mons.forEach(function(m){var d=Math.hypot(m.x-c.x,m.y-c.y); if(d<bd){bd=d;b=m;}}); return b; }
-  if(fid==='firefly'){
-    var t=nearest(ab.range); if(!t)return false;
-    var a=Math.atan2(t.y-from.y,t.x-from.x);
-    if(!scene._famProj2)scene._famProj2=[];
-    var dot=scene.add.circle(from.x,from.y,5,0xffaa33,1).setDepth(18);
-    var glow=scene.add.circle(from.x,from.y,10,0xff6600,0.35).setDepth(17);
-    scene._famProj2.push({vis:dot,glow:glow,x:from.x,y:from.y,vx:Math.cos(a)*300,vy:Math.sin(a)*300,tgt:t,life:1.4,
-      onHit:function(m){ _heroHitMonster(scene,m,dmg,{col:'#ffbb55'}); _heroBurn(m,ab.burn.dur,Math.max(1,dmg*ab.burn.dpsMult)); }});
-    return true;
-  }
-  if(fid==='storm_hawk'){
-    var t2=nearest(ab.range); if(!t2)return false;
-    _heroBolt(scene,from.x,from.y,t2.x,t2.y,0xffee55);
-    var d=_heroHitMonster(scene,t2,dmg,{col:'#ffff88',suffix:'⚡'});
-    _heroChain(scene,t2,ab.chains,Math.max(1,d*0.7),mons);
-    return true;
-  }
-  if(fid==='wind_sprite'||fid==='frost_wisp'){
-    var inR=mons.filter(function(m){return Math.hypot(m.x-c.x,m.y-c.y)<=ab.radius;});
-    if(!inR.length)return false;
-    var col=fid==='frost_wisp'?0xaaddff:0x99ffcc;
-    var ring=scene.add.circle(c.x,c.y,6,col,0.45).setDepth(8);
-    scene.tweens.add({targets:ring,scaleX:ab.radius/6,scaleY:ab.radius/6,alpha:0,duration:420,onComplete:function(){ring.destroy();}});
-    inR.forEach(function(m){
-      _heroHitMonster(scene,m,dmg,{col:fid==='frost_wisp'?'#bbeeff':'#bbffdd'});
-      if(m.dead)return;
-      if(fid==='frost_wisp')_heroSlow(scene,m,ab.slowDur,ab.slow);
-      else{
-        var a2=Math.atan2(m.y-c.y,m.x-c.x), step=6, moved=0;
-        while(moved<ab.push){
-          var nx2=m.x+Math.cos(a2)*step, ny2=m.y+Math.sin(a2)*step;
-          if(!_heroMonsterCanStand(scene,nx2,ny2))break;
-          m.x=nx2; m.y=ny2; moved+=step;
-        }
-        if(m.cont)m.cont.setPosition(m.x,m.y);
-        m._lastX=m.x; m._lastY=m.y;
-        m.atkTimer=Math.max(m.atkTimer||0,1.2);
-      }
-    });
-    return true;
-  }
-  return false;
-}
+// (Familiars live in 09d-familiars.js — elemental spirit familiars.)
 function _heroMonsterCanStand(scene,x,y){
   var key=scene.sys.settings.key;
   if(key==='World'&&scene._canGoMonster)return scene._canGoMonster(x,y);
@@ -8449,102 +8611,6 @@ function _heroMonsterCanStand(scene,x,y){
   if(key==='VolcanoBossRush')return x>40&&x<scene.W-40&&y>40&&y<scene.H-40;
   return _heroOpenAt(scene,x,y);
 }
-function _heroFamProjTick(scene, dt){
-  if(!scene._famProj2||!scene._famProj2.length)return;
-  scene._famProj2=scene._famProj2.filter(function(p){
-    p.life-=dt;
-    if(p.life<=0||!p.vis.active){p.vis.destroy();p.glow.destroy();return false;}
-    if(p.tgt&&!p.tgt.dead){ var a=Math.atan2(p.tgt.y-p.y,p.tgt.x-p.x); p.vx=Math.cos(a)*300; p.vy=Math.sin(a)*300; }
-    p.x+=p.vx*dt; p.y+=p.vy*dt; p.vis.setPosition(p.x,p.y); p.glow.setPosition(p.x,p.y);
-    if(p.tgt&&!p.tgt.dead&&Math.hypot(p.tgt.x-p.x,p.tgt.y-p.y)<((p.tgt.def&&p.tgt.def.r)||10)+6){
-      p.onHit(p.tgt); p.vis.destroy(); p.glow.destroy(); return false;
-    }
-    return true;
-  });
-}
-// Sea Sprite: heal over time + bubble that refunds the next hit taken.
-function _heroSeaSprite(scene, c, ps, dt){
-  var st=ps._seaState||(ps._seaState={ready:true,cd:0,healT:0,lastHp:ps.hp});
-  var on=_heroFamiliarActive(ps,'sea_sprite');
-  if(!on){ st.lastHp=ps.hp; if(scene._seaBubble){scene._seaBubble.destroy();scene._seaBubble=null;} return; }
-  var ab=FAMILIAR_ABILITIES.sea_sprite;
-  // Bubble refund: HP went down since last frame and the bubble is up
-  if(ps.hp<st.lastHp&&st.ready&&ps.hp>0&&!ps.godMode){
-    var lost=st.lastHp-ps.hp; ps.hp=st.lastHp;
-    st.ready=false; st.cd=ab.cd;
-    _heroFloat(scene,c.x,c.y-34,'💧 Blocked '+lost,'#77ccff');
-  }
-  if(!st.ready){ st.cd-=dt; if(st.cd<=0){ st.ready=true; _heroFloat(scene,c.x,c.y-34,'💧 Tide Ward ready','#77ccff'); } }
-  st.healT+=dt;
-  if(st.healT>=ab.healEvery){ st.healT=0; if(ps.hp<ps.maxHp&&ps.hp>0){ var h=Math.max(1,Math.round(ps.maxHp*ab.heal)); ps.hp=Math.min(ps.maxHp,ps.hp+h); } }
-  st.lastHp=ps.hp;
-  // Bubble visual
-  if(st.ready){
-    if(!scene._seaBubble||!scene._seaBubble.active){ scene._seaBubble=scene.add.circle(c.x,c.y-12,22,0x55aaff,0.12).setStrokeStyle(1.5,0x88ccff,0.7).setDepth(19); }
-    scene._seaBubble.setPosition(c.x,c.y-12).setAlpha(0.7+0.3*Math.sin(Date.now()/300));
-  } else if(scene._seaBubble){ scene._seaBubble.destroy(); scene._seaBubble=null; }
-}
-
-// ── Familiar info pop-up (opens from inventory, N picker, anywhere) ─────
-function showFamiliarInfo(fid){
-  var f=FAMILIARS[fid], ab=FAMILIAR_ABILITIES[fid]; if(!f||!ab)return;
-  var ws=_heroWS(), ps=ws&&ws.playerState;
-  var el=document.getElementById('familiar-info-modal');
-  if(!el){
-    el=document.createElement('div'); el.id='familiar-info-modal'; el.className='overlay';
-    el.style.cssText='display:none;z-index:10010';
-    el.onclick=function(e){ if(e.target===el)el.style.display='none'; };
-    document.body.appendChild(el);
-  }
-  var owned=ps&&(ps.ownedFamiliars||[]).indexOf(fid)>=0, active=_heroFamiliarActive(ps,fid);
-  var rows=[];
-  if(ab.dmg)rows.push(['Damage at your level', _familiarDamage(fid,ps)+' <span style="color:#667">(base '+ab.dmg+', +12% per level)</span>']);
-  rows.push([fid==='sea_sprite'?'Shield recharge':'Cooldown', ab.cd+' s']);
-  if(ab.range)rows.push(['Range', ab.range+' px']);
-  if(ab.radius)rows.push(['Radius', ab.radius+' px']);
-  if(fid==='firefly')rows.push(['Burn', Math.max(1,Math.round(_familiarDamage(fid,ps)*ab.burn.dpsMult))+' dmg/s for '+ab.burn.dur+' s']);
-  if(fid==='sea_sprite')rows.push(['Healing', Math.max(1,Math.round(((ps&&ps.maxHp)||30)*ab.heal))+' HP every '+ab.healEvery+' s']);
-  if(fid==='storm_hawk')rows.push(['Chain', ab.chains+' extra targets at 70%']);
-  if(fid==='frost_wisp')rows.push(['Slow', '50% for '+ab.slowDur+' s']);
-  rows.push(['How to get it', ab.where]);
-  el.innerHTML='<div class="modal" style="min-width:300px;max-width:380px" onclick="event.stopPropagation()">'+
-    '<div class="mhdr"><span>'+f.icon+' '+f.n+'</span><button class="mcls" onclick="document.getElementById(\'familiar-info-modal\').style.display=\'none\'">✕</button></div>'+
-    '<div style="padding:4px 2px 2px">'+
-    '<div style="font-size:13px;color:#aee;font-weight:600;margin-bottom:2px">'+ab.ability+' <span style="font-size:10px;color:#79a;border:1px solid #356;border-radius:4px;padding:0 5px;margin-left:4px">'+ab.kind+'</span></div>'+
-    '<div style="font-size:12px;color:#bcd;line-height:1.45;margin:6px 0 10px">'+ab.text+'</div>'+
-    rows.map(function(r){return '<div style="display:flex;justify-content:space-between;gap:12px;font-size:11px;padding:4px 0;border-top:1px solid rgba(255,255,255,.06)"><span style="color:#889">'+r[0]+'</span><span style="color:#dde;text-align:right">'+r[1]+'</span></div>';}).join('')+
-    '<div style="margin-top:10px;font-size:11px;color:'+(active?'#9f9':owned?'#aac':'#776')+'">'+(active?'● Active':owned?'Owned — press N to equip':'Not found yet')+'</div>'+
-    '</div></div>';
-  el.style.display='flex';
-}
-
-// One familiar card, used by the inventory footer and the N picker.
-function _familiarCardHTML(fid, ps, onclick, withInfoBtn){
-  var f=FAMILIARS[fid], ab=FAMILIAR_ABILITIES[fid]; if(!f||!ab)return '';
-  var active=_heroFamiliarActive(ps,fid);
-  var stat=ab.dmg?(_familiarDamage(fid,ps)+' dmg · every '+ab.cd+' s'):('shield every '+ab.cd+' s · heals');
-  return '<div class="sp-row" style="display:block;cursor:pointer;border:1px solid '+(active?'rgba(100,200,100,.45)':'rgba(255,255,255,.06)')+';border-radius:6px;margin-bottom:5px;padding:6px 8px" onclick="'+onclick+'">'+
-    '<div style="display:flex;align-items:center;gap:7px">'+
-      '<span style="font-size:18px">'+f.icon+'</span>'+
-      '<span style="flex:1"><span style="font-size:12px;font-weight:600;color:#def">'+f.n+'</span> <span style="font-size:10px;color:#8ab">· '+ab.ability+'</span></span>'+
-      (active?'<span style="font-size:9px;color:#9f9">● ACTIVE</span>':'')+
-      (withInfoBtn?'<span title="Details" onclick="event.stopPropagation();showFamiliarInfo(\''+fid+'\')" style="font-size:13px;color:#8cf;padding:0 4px;cursor:pointer">ⓘ</span>':'')+
-    '</div>'+
-    '<div style="font-size:10px;color:#88a;margin-top:3px;line-height:1.35">'+ab.text+'</div>'+
-    '<div style="font-size:9px;color:#668;margin-top:2px">'+stat+'</div>'+
-  '</div>';
-}
-
-// Slot-aware equip toggle used by the N picker: click an active familiar to
-// remove it; click an owned one to put it in the first free slot (or slot 1).
-function _toggleFamiliar(fid){
-  var ws=_heroWS(); if(!ws)return; var ps=ws.playerState;
-  var slots=['familiar','familiar2','familiar3'], max=_maxFamiliarSlots(ps);
-  for(var i=0;i<3;i++){ if(ps[slots[i]]===fid){ ps[slots[i]]=null; ws._emitUI(); return; } }
-  for(var j=0;j<max;j++){ if(!ps[slots[j]]){ ps[slots[j]]=fid; ws._emitUI(); return; } }
-  ps.familiar=fid; ws._emitUI();
-}
-
 // ═══════════════════════════════════════════════════════════════════════
 // ║ Per-frame upkeep for whichever scene the player is in. World keeps its
 // ║ own spell/mana code; everything else gets it here, so sub-scenes no
@@ -8736,7 +8802,12 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   if(A.world&&getTileSection(Math.floor(P.x/TILE),Math.floor(P.y/TILE))===0)m.aggro=false;   // the village is safe
   var spd=(k.move.p.spd||mon.def.spd)*(m.enraged?1.4:1)*(mon._slow>0?0.5:1)*(m.armorOff?1.3:1); if(mon._slow>0)mon._slow-=dt;
   // movement
-  if(!m.busy||m.busy.moveOk){ if(m.flee&&m.aggro){ MX.step(A,mon,Math.atan2(-dy,-dx),spd*1.2,dt); }
+  // shooters keep their distance: a monster whose attacks are all ranged backs away when you close in
+  if(k._ranged===undefined){ var RG={shoot:1,lob:1,beam:1,breath:1,ring:1,marks:1,summon:1,cloud:1,wall:1,echo:1,strike:1,trap:1}, stay={still:1,kite:1,burrow:1,perch:1,swim:1,disguise:1,ambush:1,weeping:1,guard:1,rook:1,chessL:1,orbit:1};
+    k._ranged=k.atk.length>0&&k.atk.some(function(a){ return a.name==='shoot'||a.name==='lob'||a.name==='beam'||a.name==='breath'; })&&k.atk.every(function(a){ return RG[a.name]; })&&!stay[k.move.name]; }
+  var backOff=k._ranged&&m.aggro&&!mon.isBoss&&!m.hidden&&dist<(k.move.p.keep||140)&&(!m.busy||m.busy.moveOk);
+  if(backOff){ MX.step(A,mon,Math.atan2(-dy,-dx),spd*0.9,dt); }
+  else if(!m.busy||m.busy.moveOk){ if(m.flee&&m.aggro){ MX.step(A,mon,Math.atan2(-dy,-dx),spd*1.2,dt); }
     else (MX.MOVE[k.move.name]||MX.MOVE.chase)(A,mon,m,P,dist,dt,spd,k.move.p); }
   // face the player (shield monsters turn slowly)
   var want=Math.atan2(dy,dx), turn=k.def.some(function(D){ return D.name==='front'; })?1.8:12, dd=Math.atan2(Math.sin(want-m.face),Math.cos(want-m.face)); m.face+=Math.max(-turn*dt,Math.min(turn*dt,dd));
@@ -8871,7 +8942,7 @@ MX.ATK={
   lob:{range:260,wind:0.35,cd:2.6,want:function(A,mon,m,P,d,p){ return d<=(p.r||260)&&d>40; },
     fire:function(A,mon,m,P,p){ var n=p.n||1; for(var i=0;i<n;i++){ var tx=P.x+(i?(Math.random()-0.5)*90:0), ty=P.y+(i?(Math.random()-0.5)*90:0), T0=p.t||1.0, rad=p.rad||28;
         MX.tele.circle(A,tx,ty,rad,p.col||'#ff5030',T0); var ball=A.scene.add.circle(mon.x,mon.y-10,p.size||6,MX.col(p.col||'#9a8a78')).setDepth(A.depth(ty)+5);
-        (function(tx,ty){ A.scene.tweens.add({targets:ball,x:tx,y:ty,duration:T0*1000,ease:'Sine.inOut',onUpdate:function(tw){ ball.setScale(1+Math.sin(tw.progress*Math.PI)*1.2); },onComplete:function(){ ball.destroy(); MX.fxRing(A,tx,ty,rad,p.col||'#c8b090'); var P2=A.p(); if(!mon.dead&&Math.hypot(P2.x-tx,P2.y-ty)<=rad+6)MX.hitP(A,mon,p,1); if(p.zone)MX.zone(A,{x:tx,y:ty,r:p.zr||rad,t:p.zt||3,st:p.zone,v:p.v}); if(p.summon&&!mon.dead)for(var s=0;s<(p.sn||3);s++)A.spawn(p.summon,tx+(s-1)*14,ty,{q:mon.def.sec}); if(p.obstacle)MX.wall(A,tx,ty,26,26,p.ot||8); }}); })(tx,ty); } }},
+        (function(tx,ty){ A.scene.tweens.add({targets:ball,x:tx,y:ty,duration:T0*1000,ease:'Sine.inOut',onUpdate:function(tw){ ball.setScale(1+Math.sin(tw.progress*Math.PI)*1.2); },onComplete:function(){ ball.destroy(); MX.fxRing(A,tx,ty,rad,p.col||'#c8b090'); var P2=A.p(); if(!mon.dead&&Math.hypot(P2.x-tx,P2.y-ty)<=rad+6)MX.hitP(A,mon,p,1); if(p.zone)MX.zone(A,{x:tx,y:ty,r:p.zr||rad,t:p.zt||3,st:p.zone,v:p.v}); if(p.summon&&!mon.dead&&(!m.summoned||mon.isBoss)){ m.summoned=true; for(var s=0;s<(p.sn||3);s++){ var sc=A.spawn(p.summon,tx+(s-1)*14,ty,{q:mon.def.sec}); if(sc){ sc._m.summoned=true; sc._m.noSplit=true; sc.noSplit=true; sc.temp=true; } } } if(p.obstacle)MX.wall(A,tx,ty,26,26,p.ot||8); }}); })(tx,ty); } }},
   beam:{range:340,wind:1.0,cd:3.4,start:function(A,mon,m,P,p){ var a=Math.atan2(P.y-mon.y,P.x-mon.x); m.busy.a0=a; MX.tele.line(A,mon.x,mon.y-6,a,p.len||340,p.col||'#ff4040',p.wind||1.0); },
     fire:function(A,mon,m,P,p,b){ var L=p.len||340, a=b.a0, ex=mon.x+Math.cos(a)*L, ey=mon.y-6+Math.sin(a)*L, g=A.scene.add.graphics().setDepth(A.depth(mon.y)+2); g.lineStyle(p.w||10,MX.col(p.col||'#ff6060'),0.85); g.lineBetween(mon.x,mon.y-6,ex,ey); g.lineStyle(3,0xffffff,0.9); g.lineBetween(mon.x,mon.y-6,ex,ey); A.scene.tweens.add({targets:g,alpha:0,duration:350,onComplete:function(){ g.destroy(); }});
       var t=Math.max(0,Math.min(1,((P.x-mon.x)*Math.cos(a)+(P.y-mon.y+6)*Math.sin(a))/L)), qx=mon.x+Math.cos(a)*L*t, qy=mon.y-6+Math.sin(a)*L*t; if(Math.hypot(P.x-qx,P.y-qy)<(p.w||10)+10)MX.hitP(A,mon,p,1.3,p.label||'',p.col); }},
@@ -8889,8 +8960,8 @@ MX.ATK={
   gust:{range:150,wind:0.5,cd:3.5,start:function(A,mon,m,P,p){ MX.tele.cone(A,mon.x,mon.y,Math.atan2(P.y-mon.y,P.x-mon.x),p.r||150,0.5,'#e0f4ff',p.wind||0.5); },
     fire:function(A,mon,m,P,p){ var d=Math.hypot(P.x-mon.x,P.y-mon.y); for(var i=0;i<10;i++)MX.fxDot(A,mon.x+(P.x-mon.x)*i/10,mon.y+(P.y-mon.y)*i/10,'#f4f8ff',0.8); if(d<=(p.r||150)){ var l=d||1; MX.push(A,(P.x-mon.x)/l,(P.y-mon.y)/l,p.dist||110); if(p.m)MX.hitP(A,mon,p,p.m); else MX.ev(mon,'hit'); A.float(P.x,P.y-40,'whoosh!','#e0f4ff'); } }},
   grab:{range:32,wind:0.3,cd:3.5,fire:function(A,mon,m,P,p){ if(Math.hypot(P.x-mon.x,P.y-mon.y)<=(p.r||34)+8){ if(MX.hitP(A,mon,p,0.8,'grabbed','#ffb060'))MX.status(A,'root',p.root||1.2); } }},
-  summon:{range:260,wind:0.7,cd:9,want:function(A,mon,m,P,d,p){ m.children=m.children.filter(function(c){ return !c.dead; }); return d<=(p.r||260)&&m.children.length<(p.max||4); },start:function(A,mon){ MX.fxRing(A,mon.x,mon.y,26,'#c0a0ff'); },
-    fire:function(A,mon,m,P,p){ for(var i=0;i<(p.n||2);i++){ var a=Math.random()*Math.PI*2, x=mon.x+Math.cos(a)*30, y=mon.y+Math.sin(a)*30; if(!A.canGoM(x,y,mon))continue; var c=A.spawn(p.id,x,y,{q:mon.def.sec,hpMult:p.hp||0.6}); if(c){ c._m.aggro=true; m.children.push(c); MX.fxRing(A,x,y,18,'#c0a0ff'); } } }},
+  summon:{range:260,wind:0.7,cd:9,want:function(A,mon,m,P,d,p){ if(m.summoned&&!mon.isBoss)return false; m.children=m.children.filter(function(c){ return !c.dead; }); return d<=(p.r||260)&&m.children.length<(p.max||4); },start:function(A,mon){ MX.fxRing(A,mon.x,mon.y,26,'#c0a0ff'); },
+    fire:function(A,mon,m,P,p){ for(var i=0;i<(p.n||2);i++){ var a=Math.random()*Math.PI*2, x=mon.x+Math.cos(a)*30, y=mon.y+Math.sin(a)*30; if(!A.canGoM(x,y,mon))continue; var c=A.spawn(p.id,x,y,{q:mon.def.sec,hpMult:p.hp||0.6}); m.summoned=true; if(c){ c._m.aggro=true; c._m.summoned=true; c._m.noSplit=true; c.noSplit=true; c.temp=true; m.children.push(c); MX.fxRing(A,x,y,18,'#c0a0ff'); } } }},
   trap:{range:220,wind:0.4,cd:5,fire:function(A,mon,m,P,p){ for(var i=0;i<(p.n||1);i++){ var x=P.x+(i?(Math.random()-0.5)*80:0), y=P.y+(i?(Math.random()-0.5)*80:0), k=p.k||'snare', g=A.scene.add.circle(x,y,9,MX.col(k==='mine'?'#ffd060':k==='rune'?'#9fe8ff':'#8a6a44'),0.55).setStrokeStyle(2,0x000000,0.5).setDepth(A.depth(y)-0.02); MX.fx(A).traps.push({x:x,y:y,k:k,arm:0.6,t:p.life||12,g:g,src:mon,p:p}); } }},
   cloud:{range:200,wind:0.4,cd:5,fire:function(A,mon,m,P,p){ var self=p.at==='self', x=self?mon.x:P.x, y=self?mon.y:P.y; MX.zone(A,{x:x,y:y,r:p.rad||50,t:p.dur||4,st:p.st||'slow',v:p.v,dps:p.dps?mon.def.atk*p.dps:0,src:mon}); }},
   drain:{range:170,wind:0.5,cd:5,moveOk:true,fire:function(A,mon,m,P,p,b){ b.g=A.scene.add.graphics().setDepth(A.depth(mon.y)+1); b.acc=0; },
@@ -9116,6 +9187,149 @@ var CastleRun={
 };
 // ── Time Slow: engine monsters near the hero move and attack at 30% ──
 (function(){ var _t=MX.tick; MX.tick=function(scene,mon,dt){ if(scene&&scene._timeSlow>0){ var P=scene.player||{}; if(Math.hypot((P.x||0)-mon.x,(P.y||0)-mon.y)<220)dt*=0.3; } return _t.call(this,scene,mon,dt); }; })();
+// ═══════════════════════════════════════════════════════════════════════
+// ║ FAMILIARS v3 — elemental spirit familiars (Phase 4c)
+// ║ One familiar per quadrant (its island dungeon): grass, water, earth, fire.
+// ║ The look comes from the design Kris picked (FAMILIAR_PICK, 07w). Each
+// ║ starts with 1 skill and learns up to 5 more from its quadrant's fairies
+// ║ (level 1 → 6); all learned skills run on their own cooldowns and grow
+// ║ with the familiar's level and yours. Active familiars: 1, +1 for each
+// ║ Fairy King (Wetlands, Highlands, Ashlands) → up to 4 at once.
+// ║ Movement: "hover" spirits circle above you, "follow" spirits walk behind.
+// ═══════════════════════════════════════════════════════════════════════
+var FAM_BY_EL={grass:'fam_grass',water:'fam_water',earth:'fam_earth',fire:'fam_fire'}, FAM_EL={fam_grass:'grass',fam_water:'water',fam_earth:'earth',fam_fire:'fire'};
+var FAM_BY_SEC={1:'fam_grass',2:'fam_water',3:'fam_earth',4:'fam_fire'};
+var FAM_ICON={grass:'🌿',water:'💧',earth:'🪨',fire:'🔥'};
+// (skills: FAM_SKILLS in 07w-spirits.js, shared with the Lab)
+// ── data: the 4 familiars (names/looks follow the Lab pick) ──
+Object.keys(FAMILIARS).forEach(function(k){ delete FAMILIARS[k]; });
+function _famDesign(fid){ var el=FAM_EL[fid]; return SPIRIT_BY_ID[FAMILIAR_PICK[el]]||SPIRIT_DESIGNS.find(function(D){ return D.el===el; }); }
+['grass','water','earth','fire'].forEach(function(el){ var fid=FAM_BY_EL[el], E=SPIRIT_ELEMENTS[el];
+  Object.defineProperty(FAMILIARS,fid,{enumerable:true,configurable:true,get:function(){ var D=_famDesign(fid); return {n:D.name,icon:FAM_ICON[el],sec:E.q,el:el,design:D.id,desc:D.tagline+' — '+E.name+' spirit'}; }}); });
+function _famLevel(ps,fid){ return Math.max(1,Math.min(6,((ps&&ps.famLevels)||{})[fid]||1)); }
+function _famSkills(ps,fid){ return FAM_SKILLS[FAM_EL[fid]].slice(0,_famLevel(ps,fid)); }
+function _famMult(ps,fid){ return (1+0.12*(((ps&&ps.level)||1)-1))*(1+0.15*(_famLevel(ps,fid)-1)); }
+function _maxFamiliarSlots(ps){ return Math.min(4,1+((ps&&ps.fairyKings)||[]).length); }
+var FAM_SLOTS=['familiar','familiar2','familiar3','familiar4'];
+function _heroActiveFamiliars(ps){ var out=[], max=_maxFamiliarSlots(ps); for(var i=0;i<max;i++){ var f=ps[FAM_SLOTS[i]]; if(f&&FAM_EL[f]&&out.indexOf(f)<0&&(ps.ownedFamiliars||[]).indexOf(f)>=0)out.push(f); } return out; }
+function _heroFamiliarActive(ps,fid){ return !!ps&&_heroActiveFamiliars(ps).indexOf(fid)>=0; }
+function _familiarDamage(fid,ps){ var s=FAM_SKILLS[FAM_EL[fid]][0]; return Math.round(s.dmg*_famMult(ps,fid)); }
+function _toggleFamiliar(fid){ var ws=_heroWS(); if(!ws)return; var ps=ws.playerState, max=_maxFamiliarSlots(ps);
+  for(var i=0;i<4;i++){ if(ps[FAM_SLOTS[i]]===fid){ ps[FAM_SLOTS[i]]=null; ws._emitUI(); return; } }
+  for(var j=0;j<max;j++){ if(!ps[FAM_SLOTS[j]]){ ps[FAM_SLOTS[j]]=fid; ws._emitUI(); return; } }
+  ps.familiar=fid; ws._emitUI(); }
+// migrate old familiars (firefly, wind sprite, sea sprite, storm hawk, frost wisp)
+var FAM_OLD={firefly:'fam_grass',wind_sprite:'fam_grass',sea_sprite:'fam_water',storm_hawk:'fam_earth',frost_wisp:'fam_fire'};
+function _famMigrate(d){ var own=[]; (d.ownedFamiliars||[]).forEach(function(f){ var n=FAM_OLD[f]||f; if(FAM_EL[n]&&own.indexOf(n)<0)own.push(n); });
+  (d.completedIslands||[]).forEach(function(sec){ var n=FAM_BY_SEC[sec]; if(n&&own.indexOf(n)<0)own.push(n); });
+  d.ownedFamiliars=own; FAM_SLOTS.forEach(function(k){ var f=d[k]; d[k]=f?(FAM_OLD[f]||f):null; if(d[k]&&!FAM_EL[d[k]])d[k]=null; });
+  if(!d.familiar&&own.length)d.familiar=own[0]; if(!d.famLevels)d.famLevels={}; if(!Array.isArray(d.fairyKings))d.fairyKings=[]; if(!d.fairyQuests)d.fairyQuests={}; return d; }
+
+// ── textures ──
+function _famTex(scene,D){ var key='spirit_'+D.id; if(scene.textures.exists(key))return key; var fr=spiritFrames(D), cv=mkCanvas(448,112), x=cv.getContext('2d'); fr.forEach(function(f,i){ x.drawImage(f,i*112,0); });
+  var t=scene.textures.addCanvas(key,cv); for(var i=0;i<4;i++)t.add(String(i),0,i*112,0,112,112); return key; }
+function _famDepth(scene,y,hover){ var k=scene.sys.settings.key; if(k==='World'||k==='Dungeon')return hover?12.65:10+y/100000+0.000005; return 21; }
+
+// ── per-frame driver (all scenes) ──
+function _heroFamiliarsTick(scene,dt){
+  var c=_heroCtx(scene), ps=c.ps; if(!ps)return;
+  var fams=_heroActiveFamiliars(ps);
+  if(!scene._famVisuals)scene._famVisuals={}; if(!scene._famTimers)scene._famTimers={};
+  Object.keys(scene._famVisuals).forEach(function(f){ if(fams.indexOf(f)<0){ var v=scene._famVisuals[f]; if(v){ if(v._halo)v._halo.destroy(); if(v._em)v._em.destroy(); v.destroy(); } delete scene._famVisuals[f]; } });
+  // hero trail for "follow" spirits
+  var tr=scene._famTrail||(scene._famTrail=[]); var lt=tr[tr.length-1]; if(lt&&Math.hypot(lt.x-c.x,lt.y-c.y)>160){ tr.length=0; lt=null; } if(!lt||Math.hypot(lt.x-c.x,lt.y-c.y)>3){ tr.push({x:c.x,y:c.y}); if(tr.length>80)tr.shift(); }
+  var nFollow=0, nHover=0;
+  fams.forEach(function(fid,i){ var D=_famDesign(fid), E=SPIRIT_ELEMENTS[D.el], v=scene._famVisuals[fid];
+    if(!v||!v.active){ var key=_famTex(scene,D); v=scene.add.image(c.x,c.y,key,'0').setScale(0.5*(D.sz||1)).setAlpha(0.92);
+      if(!scene.textures.exists('glow')&&typeof CHX!=='undefined')CHX.glow(scene);
+      v._halo=scene.add.image(c.x,c.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(E.col)).setAlpha(0.35).setScale(0.75);
+      if(scene.textures.exists('dot')){ v._em=scene.add.particles(0,0,'dot',{follow:v,lifespan:900,speed:{min:4,max:18},scale:{start:0.45,end:0},alpha:{start:0.8,end:0},tint:[hexNum(E.col),hexNum(E.mote),0xffffff],frequency:70,blendMode:'ADD'}); }
+      v.x=c.x; v.y=c.y; v._t=Math.random()*6; scene._famVisuals[fid]=v; }
+    v._t+=dt; var hover=D.move==='hover', tx, ty;
+    if(hover){ var a=v._t*1.2+nHover*Math.PI; tx=c.x+Math.cos(a)*34; ty=c.y-30+Math.sin(a)*10+Math.sin(v._t*3)*3; nHover++; }
+    else { var back=Math.min(tr.length-1,10+nFollow*9), p=tr[tr.length-1-back]||{x:c.x,y:c.y}; tx=p.x-(back<10?20:0); ty=p.y+2; nFollow++; }
+    if(Math.hypot(tx-v.x,ty-v.y)>260){ v.x=tx; v.y=ty; } var dx=tx-v.x, dy=ty-v.y; v.x+=dx*Math.min(1,dt*(hover?5:7)); v.y+=dy*Math.min(1,dt*(hover?5:7));
+    if(Math.abs(dx)>1.5)v.setFlipX(dx<0); else if(!hover)v.setFlipX(c.x<v.x);
+    v.setFrame(String(Math.floor(v._t*(hover?7:6))%4)); v.setDepth(_famDepth(scene,v.y,hover));
+    v._halo.setPosition(v.x,v.y).setDepth(_famDepth(scene,v.y,true)-0.001).setScale(0.7+0.08*Math.sin(v._t*3));
+    if(v._em)v._em.setDepth(_famDepth(scene,v.y,true)-0.002);
+    // skills
+    var T=scene._famTimers[fid]||(scene._famTimers[fid]={}), mult=_famMult(ps,fid);
+    _famSkills(ps,fid).forEach(function(S,si){ if(T[si]===undefined)T[si]=Math.min(1.2+si*0.7,S.cd); T[si]-=dt; if(T[si]>0)return;
+      var ok=_famCast(scene,fid,S,v,c,ps,mult,E); T[si]=ok?S.cd*(1-0.04*(_famLevel(ps,fid)-1)):0.35; if(ok&&S.kind!=='aura'){ v._halo.setAlpha(0.8); scene.tweens.add({targets:v._halo,alpha:0.35,duration:400}); } });
+  });
+  _famWardTick(scene,c,ps,dt);
+}
+function _famNearest(c,mons,from,range,scene){ var b=null,bd=range; mons.forEach(function(m){ if(m.dead||m._m&&m._m.hidden)return; var d=Math.hypot(m.x-from.x,m.y-from.y); if(d<bd&&(typeof _heroLOS!=='function'||_heroLOS(scene,from.x,from.y,m.x,m.y,true))){bd=d;b=m;} }); return b; }
+function _famFx(scene,m,S,E,mult){ if(m.dead)return; var f=S.fx;
+  if(f==='root'||f==='freeze'||f==='stun'){ if(m._m){ m._m.stunT=Math.max(m._m.stunT||0,S.t||1); } else { m._stun=Math.max(m._stun||0,S.t||1); m.atkTimer=Math.max(m.atkTimer||0,S.t||1); } if(typeof _heroSlow==='function')_heroSlow(scene,m,S.t||1,0.05); }
+  else if(f==='slow')_heroSlow(scene,m,S.t||2,0.6);
+  else if(f==='burn'||f==='poison')_heroBurn(m,S.t||3,Math.max(1,S.dmg*mult*0.3));
+  else if(f==='knock'||f==='push'){ var a=Math.atan2(m.y-scene._famOy,m.x-scene._famOx); for(var st=0,mv=0;mv<(f==='push'?80:45);mv+=6){ var nx=m.x+Math.cos(a)*6, ny=m.y+Math.sin(a)*6; if(!_heroMonsterCanStand(scene,nx,ny))break; m.x=nx; m.y=ny; } if(m.cont)m.cont.setPosition(m.x,m.y); m._lastX=m.x; m._lastY=m.y; }
+  else if(f==='pull'){ var d=Math.hypot(scene._famOx-m.x,scene._famOy-m.y)||1, k=Math.min(60,d-24)/d; if(k>0){ var nx2=m.x+(scene._famOx-m.x)*k, ny2=m.y+(scene._famOy-m.y)*k; if(_heroMonsterCanStand(scene,nx2,ny2)){ m.x=nx2; m.y=ny2; if(m.cont)m.cont.setPosition(m.x,m.y); m._lastX=m.x; m._lastY=m.y; } } } }
+function _famRing(scene,x,y,r,col,dur){ var g=scene.add.circle(x,y,8,hexNum(col),0.35).setStrokeStyle(3,hexNum(col),0.9).setDepth(12.6); scene.tweens.add({targets:g,radius:r,alpha:0,duration:dur||450,onComplete:function(){ g.destroy(); }}); }
+function _famCast(scene,fid,S,v,c,ps,mult,E){ var mons=c.monsters.filter(function(m){ return !m.dead; }), dmg=(S.dmg||0)*mult; scene._famOx=c.x; scene._famOy=c.y;
+  if(S.kind==='proj'){ var t=_famNearest(c,mons,v,S.range,scene); if(!t)return false;
+    if(!scene._famProj2)scene._famProj2=[]; var a=Math.atan2(t.y-v.y,t.x-v.x), sp=S.pierce?420:320;
+    var dot=scene.add.image(v.x,v.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(E.col)).setScale(S.fx==='splash'?0.3:0.2).setDepth(12.7), core=scene.add.circle(v.x,v.y,S.fx==='splash'?5:3,hexNum(E.core),1).setDepth(12.71);
+    var hitSet=[];
+    scene._famProj2.push({vis:core,glow:dot,x:v.x,y:v.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,tgt:S.pierce?null:t,life:1.4,pierce:!!S.pierce,hitSet:hitSet,
+      onHit:function(m){ _heroHitMonster(scene,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult);
+        if(S.fx==='splash'){ _famRing(scene,m.x,m.y,S.rad||70,E.col,350); mons.forEach(function(m2){ if(m2!==m&&!m2.dead&&Math.hypot(m2.x-m.x,m2.y-m.y)<(S.rad||70)){ _heroHitMonster(scene,m2,dmg*0.6,{pure:true,col:E.col}); _heroBurn(m2,3,Math.max(1,dmg*0.15)); } }); } }});
+    return true; }
+  if(S.kind==='nova'){ var inR=mons.filter(function(m){ return Math.hypot(m.x-c.x,m.y-c.y)<=S.radius&&_heroLOS(scene,c.x,c.y,m.x,m.y,true); }); if(!inR.length&&!S.heal)return false; if(!inR.length&&S.heal&&ps.hp>=ps.maxHp)return false;
+    _famRing(scene,c.x,c.y,S.radius,E.col); inR.forEach(function(m){ if(dmg)_heroHitMonster(scene,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult); });
+    if(S.heal)_famHeal(scene,c,ps,S.heal); return true; }
+  if(S.kind==='heal'){ if(ps.hp>=ps.maxHp||ps.hp<=0)return false; var n=S.ticks||1, i=0; var tick=function(){ if(ps.hp>0)_famHeal(scene,_heroCtx(scene),ps,S.pct); }; tick();
+    if(n>1)scene.time.addEvent({delay:1000,repeat:n-2,callback:tick}); return true; }
+  if(S.kind==='ward'){ var st=ps._famWard||(ps._famWard={}); if(st[fid]&&st[fid].ready)return false; st[fid]={ready:true,col:E.col,name:S.name}; _heroFloat(scene,c.x,c.y-36,'✨ '+S.name,E.col); return true; }
+  if(S.kind==='rain'){ var ts=mons.filter(function(m){ return Math.hypot(m.x-c.x,m.y-c.y)<=S.range; }); if(!ts.length)return false; ts.sort(function(a,b){ return Math.hypot(a.x-c.x,a.y-c.y)-Math.hypot(b.x-c.x,b.y-c.y); });
+    for(var k=0;k<S.n;k++){ (function(t2,delay){ var x=t2.x+(k?(Math.random()-0.5)*40:0), y=t2.y+(k?(Math.random()-0.5)*40:0); var rock=scene.add.circle(x-40,y-160,9,hexNum(E.deep),1).setStrokeStyle(2,hexNum(E.col),1).setDepth(12.7);
+      scene.tweens.add({targets:rock,x:x,y:y,duration:420,delay:delay,ease:'Quad.easeIn',onComplete:function(){ rock.destroy(); _famRing(scene,x,y,S.rad,E.col,300); if(scene.cameras&&scene.cameras.main)scene.cameras.main.shake(90,0.004);
+        _heroCtx(scene).monsters.forEach(function(m){ if(!m.dead&&Math.hypot(m.x-x,m.y-y)<S.rad)_heroHitMonster(scene,m,dmg,{col:E.col}); }); }}); })(ts[k%ts.length],k*140); }
+    return true; }
+  if(S.kind==='aura'){ var hit=false; mons.forEach(function(m){ if(Math.hypot(m.x-c.x,m.y-c.y)<=S.radius){ _heroHitMonster(scene,m,dmg,{pure:true,col:E.col,suffix:'🔥'}); hit=true; } }); if(hit)_famRing(scene,c.x,c.y,S.radius,E.col,260); return hit; }
+  if(S.kind==='wave'){ var fa=_heroDirAngle(c.dir), tg=_famNearest(c,mons,c,S.len,scene); if(tg)fa=Math.atan2(tg.y-c.y,tg.x-c.x); else return false;
+    var ex=c.x+Math.cos(fa)*S.len, ey=c.y+Math.sin(fa)*S.len, g=scene.add.graphics().setDepth(12.6); g.lineStyle(S.wid*0.6,hexNum(E.col),0.35); g.lineBetween(c.x,c.y,ex,ey); g.lineStyle(4,hexNum(E.core),0.9); g.lineBetween(c.x,c.y,ex,ey);
+    scene.tweens.add({targets:g,alpha:0,duration:420,onComplete:function(){ g.destroy(); }});
+    mons.forEach(function(m){ var px=m.x-c.x, py=m.y-c.y, along=px*Math.cos(fa)+py*Math.sin(fa), side=Math.abs(-px*Math.sin(fa)+py*Math.cos(fa)); if(along>0&&along<S.len&&side<S.wid/2+((m.def&&m.def.r)||10)){ _heroHitMonster(scene,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult); } });
+    return true; }
+  if(S.kind==='laststand'){ if(ps.hp<=0||ps.hp>ps.maxHp*S.pct)return false; _famHeal(scene,c,ps,S.pct); _famRing(scene,c.x,c.y,80,E.col); _heroFloat(scene,c.x,c.y-44,'🔥 '+S.name+'!',E.col); return true; }
+  return false; }
+function _famHeal(scene,c,ps,pct){ var h=Math.max(1,Math.round(ps.maxHp*pct)); ps.hp=Math.min(ps.maxHp,ps.hp+h); _heroFloat(scene,c.x,c.y-30,'+'+h+' HP','#80ff90'); var ws=_heroWS(); if(ws&&ws._emitUI)ws._emitUI(); }
+// wards: refund the next hit
+function _famWardTick(scene,c,ps,dt){ var st=ps._famWard; if(!st){ ps._famLastHp=ps.hp; return; } var ready=Object.keys(st).filter(function(k){ return st[k]&&st[k].ready&&_heroFamiliarActive(ps,k); });
+  if(ready.length&&ps._famLastHp!==undefined&&ps.hp<ps._famLastHp&&ps.hp>0&&!ps.godMode){ var lost=ps._famLastHp-ps.hp; ps.hp=ps._famLastHp; var w=st[ready[0]]; w.ready=false; _heroFloat(scene,c.x,c.y-36,'🛡 '+w.name+' blocked '+lost,w.col); }
+  ps._famLastHp=ps.hp;
+  if(ready.length){ var col=st[ready[0]].col; if(!scene._famBubble||!scene._famBubble.active)scene._famBubble=scene.add.circle(c.x,c.y-12,22,hexNum(col),0.1).setStrokeStyle(1.5,hexNum(col),0.7).setDepth(12.6); scene._famBubble.setPosition(c.x,c.y-12).setAlpha(0.7+0.3*Math.sin(Date.now()/300)); }
+  else if(scene._famBubble){ scene._famBubble.destroy(); scene._famBubble=null; } }
+function _heroSeaSprite(){}   // (old Sea Sprite passive — now the water spirit's Tide Ward)
+// projectiles (pierce + follow)
+function _heroFamProjTick(scene,dt){ if(!scene._famProj2||!scene._famProj2.length)return; var mons=_heroCtx(scene).monsters;
+  scene._famProj2=scene._famProj2.filter(function(p){ p.life-=dt; var kill=function(){ p.vis.destroy(); p.glow.destroy(); return false; };
+    if(p.life<=0||!p.vis.active)return kill();
+    if(p.tgt&&!p.tgt.dead){ var a=Math.atan2(p.tgt.y-p.y,p.tgt.x-p.x), sp=Math.hypot(p.vx,p.vy); p.vx=Math.cos(a)*sp; p.vy=Math.sin(a)*sp; }
+    p.x+=p.vx*dt; p.y+=p.vy*dt; p.vis.setPosition(p.x,p.y); p.glow.setPosition(p.x,p.y);
+    if(typeof _heroWallAt==='function'&&_heroWallAt(scene,p.x,p.y,true))return kill();
+    if(p.pierce){ mons.forEach(function(m){ if(m.dead||p.hitSet.indexOf(m)>=0)return; if(Math.hypot(m.x-p.x,m.y-p.y)<((m.def&&m.def.r)||10)+8){ p.hitSet.push(m); p.onHit(m); } }); return true; }
+    if(p.tgt&&!p.tgt.dead&&Math.hypot(p.tgt.x-p.x,p.tgt.y-p.y)<((p.tgt.def&&p.tgt.def.r)||10)+6){ p.onHit(p.tgt); return kill(); }
+    if(p.tgt&&p.tgt.dead)return kill();
+    return true; }); }
+
+// ── info pop-up + cards ──
+function showFamiliarInfo(fid){ var f=FAMILIARS[fid]; if(!f)return; var ws=_heroWS(), ps=ws&&ws.playerState, D=_famDesign(fid), E=SPIRIT_ELEMENTS[D.el], L=_famLevel(ps,fid), mult=_famMult(ps,fid);
+  var el=document.getElementById('familiar-info-modal'); if(!el){ el=document.createElement('div'); el.id='familiar-info-modal'; el.className='overlay'; el.style.cssText='display:none;z-index:10010'; el.onclick=function(e){ if(e.target===el)el.style.display='none'; }; document.body.appendChild(el); }
+  var owned=ps&&(ps.ownedFamiliars||[]).indexOf(fid)>=0, active=_heroFamiliarActive(ps,fid);
+  var sk=FAM_SKILLS[D.el].map(function(S,i){ var got=i<L; return '<div class="fam-sk'+(got?' got':'')+'"><b>'+(i?'Lv '+(i+1):'Base')+' · '+S.name+'</b>'+(S.dmg&&got?' <span>'+Math.round(S.dmg*mult)+' dmg</span>':'')+'<i>'+S.text+'</i>'+(got?'':'<em>'+(i===L?'Next: ask a '+TOME_QN[E.q]+' fairy':'Learned later from a '+TOME_QN[E.q]+' fairy')+'</em>')+'</div>'; }).join('');
+  el.innerHTML='<div class="modal fam-modal" onclick="event.stopPropagation()"><div class="mhdr"><span>'+f.icon+' '+f.n+' <small style="color:'+E.col+'">Level '+L+' / 6 · '+E.name+' spirit · '+(D.move==='hover'?'hovers around you':'follows behind you')+'</small></span><button class="mcls" onclick="document.getElementById(\'familiar-info-modal\').style.display=\'none\'">✕</button></div>'+
+    '<div class="fam-top"><canvas id="fam-info-cv" width="112" height="112"></canvas><p>'+D.blurb+'</p></div>'+sk+
+    '<div style="margin-top:8px;font-size:11px;color:'+(active?'#9f9':owned?'#aac':'#776')+'">'+(active?'● Active':owned?'Owned — press N to set it active':'Not found yet — clear the '+TOME_QN[E.q]+' familiar island')+'</div></div>';
+  el.style.display='flex'; var cv=document.getElementById('fam-info-cv'); if(cv){ var i2=0, fr=spiritFrames(D), x=cv.getContext('2d'); clearInterval(el._t); el._t=setInterval(function(){ if(!cv.isConnected){ clearInterval(el._t); return; } x.clearRect(0,0,112,112); x.drawImage(fr[i2++%4],0,0); },160); } }
+function _familiarCardHTML(fid,ps,onclick,withInfoBtn){ var f=FAMILIARS[fid]; if(!f)return ''; var D=_famDesign(fid), E=SPIRIT_ELEMENTS[D.el], active=_heroFamiliarActive(ps,fid), L=_famLevel(ps,fid), sk=_famSkills(ps,fid);
+  return '<div class="sp-row" style="display:block;cursor:pointer;border:1px solid '+(active?'rgba(100,200,100,.45)':'rgba(255,255,255,.06)')+';border-left:3px solid '+E.col+';border-radius:6px;margin-bottom:5px;padding:6px 8px" onclick="'+onclick+'">'+
+    '<div style="display:flex;align-items:center;gap:7px"><span style="font-size:18px">'+f.icon+'</span><span style="flex:1"><span style="font-size:12px;font-weight:600;color:#def">'+f.n+'</span> <span style="font-size:10px;color:'+E.col+'">Lv '+L+'</span></span>'+
+    (active?'<span style="font-size:9px;color:#9f9">● ACTIVE</span>':'')+(withInfoBtn?'<span title="Details" onclick="event.stopPropagation();showFamiliarInfo(\''+fid+'\')" style="font-size:13px;color:#8cf;padding:0 4px;cursor:pointer">ⓘ</span>':'')+'</div>'+
+    '<div style="font-size:10px;color:#88a;margin-top:3px;line-height:1.35">Skills: '+sk.map(function(S){ return S.name; }).join(' · ')+'</div></div>'; }
 // ─── WorldScene ─────────────────────────────────
 class WorldScene extends Phaser.Scene{
   constructor(){super('World')}
@@ -9233,7 +9447,7 @@ class WorldScene extends Phaser.Scene{
     this.playerState={
       hp:30,maxHp:30,atk:3,def:0,gold:0,level:1,xp:0,
       mana:50,maxMana:50,
-      mount:null,ownedMounts:[],familiar:null,familiar2:null,familiar3:null,completedIslands:[],
+      mount:null,ownedMounts:[],familiar:null,familiar2:null,familiar3:null,familiar4:null,famLevels:{},fairyKings:[],fairyQuests:{},completedIslands:[],
       unlockedSections:[1],
       equip:{lHand:'wooden_sword',rHand:null,mWeapon:null,body:null,shield:null,head:null,feet:null,pants:null,gauntlets:null,ring1:null,ring2:null,ring3:null,ring4:null,ring5:null,ring6:null,ring7:null,ring8:null,ring9:null,ring10:null,neck:null,back:null,spell:null,special:null},
       inventory:[],
@@ -9350,6 +9564,7 @@ class WorldScene extends Phaser.Scene{
     this._tickTravel(dt);
     this._villageFolkTick(dt);
     this._campTick(dt);
+    this._fairyTick(dt);
     this._runicTick(dt);
     this._updateSiteLabels();
     this._revealFog();
@@ -10209,7 +10424,8 @@ class WorldScene extends Phaser.Scene{
       if(mon.dead){
         if(mon.temp||mon.campId)return;   // camp guards come back with their camp
         mon.respawnTimer-=dt;
-        if(mon.respawnTimer<=0&&self.playerState.unlockedSections.includes(mon.section)){
+        // packs stay dead while you are in the area: respawn only once you are well away (~30 tiles)
+        if(mon.respawnTimer<=0&&Math.hypot(px-mon.spawnX,py-mon.spawnY)>TILE*30&&self.playerState.unlockedSections.includes(mon.section)){
           mon.dead=false; mon.hp=mon.maxHp;
           mon.x=mon.spawnX; mon.y=mon.spawnY;
           mon.cont.setPosition(mon.x,mon.y); mon.cont.setDepth(WR_DEPTH(mon.y)); mon.cont.setAlpha(1);
@@ -11306,6 +11522,7 @@ class WorldScene extends Phaser.Scene{
   _initWorldMonsters(){
     this.worldMonsters=[];
     this._spawnRosterPods();   // the 240-monster roster (10f): 80/15/5, terrain, packs, night
+    try{ this._initFairies(); }catch(e){ console.error('fairies',e); }   // fairies, kings, dig spots (10i)
     // 6 types per section: 4 regulars + 2 elites (boss-tier, rarer)
     // Regular enemy types per section (no bosses in list — bosses spawned separately below)
     var regTypes={
@@ -11446,6 +11663,7 @@ class WorldScene extends Phaser.Scene{
       if(mon.dead)return;
       if(Math.hypot(mon.x-px,mon.y-py)>90)return;
       if(!_heroInArc(dir,mon.x-px,mon.y-py))return;
+      if(!_heroLOS(self,px,py,mon.x,mon.y))return;   // no hitting through walls
       var monDefVal=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
       var dmg=Math.max(1,stats.atk-monDefVal+Math.floor(Math.random()*4-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
@@ -11683,6 +11901,7 @@ class WorldScene extends Phaser.Scene{
   }
 
   _checkInteraction(){
+    if(this._checkFairy&&this._checkFairy())return;
     if(this._checkWaystone&&this._checkWaystone())return;
     var px=this.player.x, py=this.player.y;
     var self=this;
@@ -12061,6 +12280,7 @@ class WorldScene extends Phaser.Scene{
       if(!this.playerState.completedIslands)this.playerState.completedIslands=[];
       if(this.playerState.familiar2===undefined)this.playerState.familiar2=null;
       if(this.playerState.familiar3===undefined)this.playerState.familiar3=null;
+      _famMigrate(this.playerState);
       if(!this.playerState.skills)this.playerState.skills=[];
       if(!this.playerState.ammo)this.playerState.ammo={arrow_normal:20};
       if(!this.playerState.mana)this.playerState.mana=50;
@@ -12944,6 +13164,229 @@ Object.assign(WorldScene.prototype,{
     C.loot.forEach(function(L){ L.im.destroy(); if(L.gl)L.gl.destroy(); }); C.loot=[];
     C.guards.forEach(function(m){ m.dead=false; if(m.mx)MX.reset(m); m.hp=m.maxHp; m.x=m.spawnX; m.y=m.spawnY; m.cont.setPosition(m.x,m.y).setAlpha(1).setScale(1); if(m.hpFill)m.hpFill.displayWidth=28; }); }
 });
+// ═══════════════════════════════════════════════════════════════════════
+// ║ FAIRIES, DIGGING, FAMILIAR QUESTS + TRIALS, FAIRY KINGS (Phase 4c)
+// ║ • 5 fairies per quadrant flit around its 4 waystones + one rune circle.
+// ║   Before you own that quadrant's familiar they just chat (and hint at
+// ║   the island). Afterwards fairy n teaches skill n+1: find the object she
+// ║   asks for (dig with G at another rune space — the Tome quest page, the
+// ║   map ring and sparkles show where), bring it back, and your familiar
+// ║   passes her trial → it learns the skill.
+// ║ • Fairy Kings (Wetlands, Highlands, Ashlands) hold court in huge rune
+// ║   henges: three objects + the hardest trial → one more active familiar.
+// ═══════════════════════════════════════════════════════════════════════
+var FAIRY_NAMES={1:['Pip','Bramble','Clover','Wren','Sorrel'],2:['Lily','Marsh','Ripple','Nixie','Fenna'],3:['Flint','Aster','Quartz','Heather','Tor'],4:['Ember','Cinder','Ashe','Soot','Pyra']};
+var FAIRY_EXTRA_ZONE={1:'fairy_rings',2:'rune_stepping',3:'runic_mesas',4:'magma_channels'};
+var FAIRY_KING_ZONE={2:'sunken_spires',3:'windharp_ridges',4:'chained_rocks'};
+var FAIRY_KING_NAMES={2:'Oberyn, King of the Mere',3:'Cairnwyn, King of the Peaks',4:'Pyrrhus, King of the Embers'};
+// objects: [id, name, icon, dig zone, where-words]
+var FAIRY_OBJECTS={
+  1:[['silver_acorn','Silver Acorn','🌰','windmill_hills','under the old windmill hill'],['dew_pearl','Dewdrop Pearl','🫧','blossom_terraces','between the blossom terraces'],['bell_flower','Singing Bluebell','🔔','standing_stones','inside the ring of standing stones'],['sun_shard','Sunstone Shard','🌞','crystal_grass','among the crystal-tipped grass'],['sky_feather','Sky-roc Feather','🪶','floating_rocks','beneath the floating rocks']],
+  2:[['moon_lily','Moonlily Bulb','🪷','glowfrog_pools','by the glow-frog pools'],['tide_shell','Tide-song Shell','🐚','turtle_isles','on the turtle-shell isles'],['willow_ring','Willow Ring','💍','willow_cathedral','under the willow cathedral'],['drowned_bell','Drowned Bell','🔔','drowned_village','in the drowned village'],['stilt_lantern','Marsh Lantern','🏮','stilt_walkways','below the stilt walkways']],
+  3:[['geode_heart','Geode Heart','💜','geode_canyons','deep in the geode canyons'],['golem_eye','Golem Eye','👁️','golem_graveyard','in the golem graveyard'],['stone_bishop','Stone Bishop','♝','giants_chessboard','on the giant\'s chessboard'],['herder_horn','Herder\'s Horn','📯','herder_terraces','on the herder terraces'],['star_iron','Star-iron','☄️','starfall_crater','in the starfall crater']],
+  4:[['ember_seed','Ember Seed','🌱','emberflower_fields','in the ember-flower fields'],['obsidian_key','Obsidian Key','🗝️','obsidian_glass','out on the obsidian glass'],['ash_bloom','Ash-snow Bloom','❄️','ashsnow_forest','in the ash-snow forest'],['basalt_rune','Basalt Rune','🪨','basalt_forest','among the basalt columns'],['dragon_tooth','Dragon Tooth','🦷','dragon_valley','in the dragon skeleton valley']]
+};
+var FAIRY_KING_OBJECTS={
+  2:[['crown_pearl','Crown Pearl','⚪','lantern_lilies','among the lantern lilies'],['mere_harp','Mere Harp','🪕','glow_mangroves','under the glowing mangroves'],['wisp_jar','Jar of Wisps','🫙','wisp_cattails','in the wisp cattail maze']],
+  3:[['frost_crown','Frost Circlet','👑','glacier_peaks','up on the glacier peaks'],['dwarf_anvil','Dwarf Anvil-charm','⚒️','dwarven_stairs','by the dwarven stairs'],['petrified_heart','Petrified Heart','🪵','petrified_forest','in the petrified forest']],
+  4:[['forge_ember','Undying Ember','🔥','forge_ruins','in the forge-city ruins'],['sulfur_crystal','Sulfur Crystal','💛','sulfur_geysers','among the sulfur geysers'],['cathedral_bell','Cathedral Bell','🛎️','burned_cathedral','in the burned cathedral']]
+};
+var FAIRY_CHAT=['Oh! A big one! Hello, big one.','Do you have a fairy companion? No? The spirits of the islands pick brave friends, you know.','The runestones hum at night. We dance when they hum.','I once rode a dragonfly all the way to the lake. Once.','Mind the monsters near the camps — they get grumpy.'];
+function _fairyZoneName(zid){ return _wmZoneName(zid); }
+function _fairyObj(q,i){ var a=FAIRY_OBJECTS[q][i]; return {id:a[0],name:a[1],icon:a[2],zone:a[3],where:a[4]}; }
+function _kingObj(q,i){ var a=FAIRY_KING_OBJECTS[q][i]; return {id:a[0],name:a[1],icon:a[2],zone:a[3],where:a[4]}; }
+function _dirWord(dx,dy){ var a=Math.atan2(dy,dx)*180/Math.PI, d=['east','south-east','south','south-west','west','north-west','north','north-east']; return d[((Math.round(a/45)%8)+8)%8]; }
+
+// ── fairy + henge textures ──
+function _fairyTex(scene,F){ var key='fairy_'+F.id; if(scene.textures.exists(key))return key; var fr=fairyFrames(F), cv=mkCanvas(192,48), x=cv.getContext('2d'); fr.forEach(function(f,i){ x.drawImage(f,i*48,0); }); var t=scene.textures.addCanvas(key,cv); for(var i=0;i<4;i++)t.add(String(i),0,i*48,0,48,48); return key; }
+function _kingTex(scene,q){ var key='fairyking_'+q; if(scene.textures.exists(key))return key; var fr=fairyKingFrames(q), cv=mkCanvas(384,104), x=cv.getContext('2d'); fr.forEach(function(f,i){ x.drawImage(f,i*96,0); }); var t=scene.textures.addCanvas(key,cv); for(var i=0;i<4;i++)t.add(String(i),0,i*96,0,96,104); return key; }
+function _hengeStoneTex(scene,q,kind){ var key='henge_'+q+'_'+kind; if(scene.textures.exists(key))return key; var pal={2:['#8a9a94','#5a6a66','#7fe0c8'],3:['#a8a098','#6a645c','#bfe8ff'],4:['#4a4048','#2a2228','#ff8040']}[q], w=kind==='tri'?78:30, h=kind==='tri'?96:70, cv=mkCanvas(w,h), x=cv.getContext('2d');
+  softShadow(x,w/2,h-4,w/2,6,0.45);
+  var col=function(px,py,pw,ph){ var g=x.createLinearGradient(px,0,px+pw,0); g.addColorStop(0,shade(pal[0],0.12)); g.addColorStop(0.6,pal[0]); g.addColorStop(1,pal[1]); x.fillStyle=g; x.fillRect(px,py,pw,ph); x.fillStyle='rgba(0,0,0,.15)'; x.fillRect(px+pw-3,py,3,ph); x.fillStyle=rgba('#ffffff',0.12); x.fillRect(px,py,pw,3); };
+  if(kind==='tri'){ col(6,20,20,h-24); col(w-26,20,20,h-24); col(2,8,w-4,16); x.fillStyle=pal[2]; x.globalAlpha=0.85; ['ᚱ','ᚢ','ᚾ','ᛖ'].forEach(function(r,i){ x.font='bold 10px serif'; x.fillText(r,11+(i%2)*(w-30),40+Math.floor(i/2)*22); }); x.globalAlpha=1; }
+  else { col(4,6,w-8,h-10); x.fillStyle=pal[2]; x.globalAlpha=0.8; x.font='bold 11px serif'; x.fillText('ᛟ',w/2-4,h/2); x.globalAlpha=1; }
+  scene.textures.addCanvas(key,cv); return key; }
+function _hengeAltarTex(scene,q){ var key='henge_altar_'+q; if(scene.textures.exists(key))return key; var glow={2:'#7fe0c8',3:'#bfe8ff',4:'#ff8040'}[q], cv=mkCanvas(96,56), x=cv.getContext('2d'); softShadow(x,48,48,44,8,0.4);
+  x.fillStyle='#6a6660'; x.beginPath(); x.ellipse(48,40,42,12,0,0,Math.PI*2); x.fill(); x.fillStyle='#8a8680'; x.beginPath(); x.ellipse(48,34,38,10,0,0,Math.PI*2); x.fill();
+  x.strokeStyle=glow; x.lineWidth=2; x.shadowColor=glow; x.shadowBlur=8; x.beginPath(); x.ellipse(48,34,30,7,0,0,Math.PI*2); x.stroke(); for(var i=0;i<8;i++){ var a=i/8*Math.PI*2; x.fillStyle=glow; x.fillRect(48+Math.cos(a)*24-1,34+Math.sin(a)*5-1,3,3); }
+  scene.textures.addCanvas(key,cv); return key; }
+
+Object.assign(WorldScene.prototype,{
+  // find a walkable tile near (tx,ty)
+  _fairySpot(tx,ty,minR){ minR=minR||0; for(var r=minR;r<40;r++)for(var a=0;a<Math.max(8,r*6);a++){ var an=a/Math.max(8,r*6)*Math.PI*2, x=Math.round(tx+Math.cos(an)*r), y=Math.round(ty+Math.sin(an)*r); if(y<2||x<2||y>=WORLD_H-2||x>=WORLD_W-2)continue; var t=this.tiles[y][x]; if(canPassTile(t)&&!(FOOT_SLOW&&FOOT_SLOW[t]))return {x:x,y:y}; } return {x:tx,y:ty}; },
+  _runeSpot(zid){ var s=(this.wd.runeSpots||[]).find(function(p){ return p.zone===zid; }); if(s)return {x:s.x,y:s.y}; var z=WMAP_ZONES.find(function(z){ return z.id===zid; }); return z?this._fairySpot(z.x,z.y):null; },
+  _initFairies(){ var self=this, wd=this.wd; this._fairies=[]; this._kings=[]; this._digSpots={};
+    [1,2,3,4].forEach(function(q){ var F=FAIRY_BY_ID[FAIRY_PICK[q]]||FAIRY_DESIGNS[(q-1)*10];
+      var homes=wd.waystones.filter(function(w){ return w.region===q; }).map(function(w){ return {x:w.x,y:w.y,name:w.name.replace(/^Waystone (.+) Waystone$/,'$1 Waystone'),zone:w.zone,ws:true}; });
+      var ex=self._runeSpot(FAIRY_EXTRA_ZONE[q]); if(ex)homes.push({x:ex.x,y:ex.y,name:'the rune circle of '+_fairyZoneName(FAIRY_EXTRA_ZONE[q]),zone:FAIRY_EXTRA_ZONE[q]});
+      homes.slice(0,5).forEach(function(h,i){ var p=self._fairySpot(h.x+(i%2?3:-3),h.y+2,0);
+        self._fairies.push({q:q,i:i,id:'f'+q+'_'+i,name:FAIRY_NAMES[q][i],F:F,x:p.x*TILE+16,y:p.y*TILE+16,home:h,t:Math.random()*6,spr:null}); });
+      // dig spots for the fairies' objects: beside the rune space of their zones
+      FAIRY_OBJECTS[q].forEach(function(a,i){ var o=_fairyObj(q,i), r=self._runeSpot(o.zone); if(!r)return; var p=self._fairySpot(r.x+4,r.y+3,1); self._digSpots[o.id]={x:p.x,y:p.y,obj:o,q:q,zone:o.zone}; });
+      if(FAIRY_KING_OBJECTS[q])FAIRY_KING_OBJECTS[q].forEach(function(a,i){ var o=_kingObj(q,i), r=self._runeSpot(o.zone); if(!r)return; var p=self._fairySpot(r.x-4,r.y+4,1); self._digSpots[o.id]={x:p.x,y:p.y,obj:o,q:q,zone:o.zone,king:true}; });
+      if(FAIRY_KING_ZONE[q]){ var r=self._runeSpot(FAIRY_KING_ZONE[q]), c=self._hengeSpot(r.x,r.y+26); self._kings.push({q:q,id:'k'+q,name:FAIRY_KING_NAMES[q],x:c.x*TILE+16,y:c.y*TILE+16,tx:c.x,ty:c.y,t:0}); }
+    });
+    this._fairyVisT=0; },
+  // a 15×15 open patch for the henge (search outward)
+  _hengeSpot(tx,ty){ for(var r=0;r<40;r+=2)for(var a=0;a<16;a++){ var x=Math.round(tx+Math.cos(a/16*Math.PI*2)*r), y=Math.round(ty+Math.sin(a/16*Math.PI*2)*r), ok=true;
+      for(var dy=-7;dy<=7&&ok;dy+=2)for(var dx=-7;dx<=7;dx+=2){ var t=(this.tiles[y+dy]||[])[x+dx]; if(t===undefined||!canPassTile(t)){ ok=false; break; } } if(ok)return {x:x,y:y}; } return this._fairySpot(tx,ty); },
+  _hengeBuild(K){ if(K.built)return; K.built=true; var self=this, n=10, R=6.2*TILE;
+    for(var i=0;i<n;i++){ var a=i/n*Math.PI*2-Math.PI/2, x=K.x+Math.cos(a)*R, y=K.y+Math.sin(a)*R*0.8, kind=i%2?'post':'tri'; this.add.image(x,y,_hengeStoneTex(this,K.q,kind)).setOrigin(0.5,1).setDepth(WR_DEPTH(y)); }
+    for(var j=0;j<5;j++){ var a2=j/5*Math.PI*2+0.3, x2=K.x+Math.cos(a2)*R*0.55, y2=K.y+Math.sin(a2)*R*0.45; this.add.image(x2,y2,_hengeStoneTex(this,K.q,'post')).setOrigin(0.5,1).setScale(0.8).setDepth(WR_DEPTH(y2)); }
+    this.add.image(K.x,K.y+20,_hengeAltarTex(this,K.q)).setOrigin(0.5,1).setDepth(WR_DEPTH(K.y-10));
+    CHX.glow(this); K.glow=this.add.image(K.x,K.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum({2:'#7fe0c8',3:'#bfe8ff',4:'#ff8040'}[K.q])).setAlpha(0.35).setScale(3.2).setDepth(WR_DEPTH(K.y)+0.001);
+    this.tweens.add({targets:K.glow,alpha:0.18,duration:2200,yoyo:true,repeat:-1});
+    K.spr=this.add.image(K.x,K.y-26,_kingTex(this,K.q),'0').setOrigin(0.5,1).setDepth(WR_DEPTH(K.y)+0.002);
+    K.lbl=domText(this,K.x,K.y-120,'👑 '+K.name,{fontSize:'10px',color:'#fff0a0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20); },
+  // per-frame: show fairies/kings near the player, animate, sparkles at active dig spots
+  _fairyTick(dt){ if(!this._fairies||!this.player)return; var self=this, px=this.player.x, py=this.player.y, ps=this.playerState;
+    this._fairies.forEach(function(f){ var near=Math.hypot(px-f.x,py-f.y)<1100;
+      if(near&&!f.spr){ f.spr=self.add.image(f.x,f.y,_fairyTex(self,f.F),'0').setScale(1.15); CHX.glow(self); f.glow=self.add.image(f.x,f.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(f.F.col)).setAlpha(0.4).setScale(0.6);
+        f.lbl=domText(self,f.x,f.y-30,'✨ '+f.name,{fontSize:'9px',color:'#ffe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20); }
+      if(!near&&f.spr){ f.spr.destroy(); f.glow.destroy(); f.lbl.destroy(); f.spr=null; }
+      if(!f.spr)return; f.t+=dt; var hx=f.home.ws?f.home.x*TILE+16:f.x, hy=f.home.ws?f.home.y*TILE+16:f.y, fx=hx+Math.cos(f.t*0.9)*70+Math.sin(f.t*2.1)*6, fy=hy-18+Math.sin(f.t*1.3)*16;
+      f.cx=fx; f.cy=fy; f.spr.setPosition(fx,fy).setFrame(String(Math.floor(f.t*10)%4)).setFlipX(Math.cos(f.t*0.9+Math.PI/2)<0).setDepth(WR_DEPTH(fy+30)); f.glow.setPosition(fx,fy).setDepth(WR_DEPTH(fy+30)-0.00001); f.lbl.setPosition(fx,fy-24);
+      var st=self._fairyState(f); f.lbl.setText((st.mark?st.mark+' ':'✨ ')+f.name); });
+    (this._kings||[]).forEach(function(K){ var near=Math.hypot(px-K.x,py-K.y)<1400; if(near)self._hengeBuild(K); if(!K.spr)return; K.t+=dt; K.spr.setFrame(String(Math.floor(K.t*8)%4)).setY(K.y-26+Math.sin(K.t*1.6)*5); });
+    // sparkles where an active quest's object is buried
+    this._fairyVisT-=dt; if(this._fairyVisT<=0){ this._fairyVisT=0.35; var act=this._activeDigs();
+      act.forEach(function(D){ var sx=D.x*TILE+16, sy=D.y*TILE+16, d=Math.hypot(px-sx,py-sy); if(d<TILE*12){ var n=d<TILE*3?4:2; for(var i=0;i<n;i++){ var s=self.add.circle(sx+(Math.random()-0.5)*26,sy+(Math.random()-0.5)*18,d<TILE*3?2.4:1.6,0xfff0a0,1).setDepth(WR_DEPTH(sy)+0.01); self.tweens.add({targets:s,y:s.y-18,alpha:0,duration:900,onComplete:function(){ s.destroy(); }}); } } }); }
+    // dig prompt
+    var nd=this._activeDigs().find(function(D){ return Math.hypot(px-(D.x*TILE+16),py-(D.y*TILE+16))<TILE*2.2; });
+    if(nd&&!this._digPrompt){ this._digPrompt=domText(this,px,py-50,'[G] Dig here',{fontSize:'10px',color:'#fff0a0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20); }
+    if(this._digPrompt){ if(!nd){ this._digPrompt.destroy(); this._digPrompt=null; } else this._digPrompt.setPosition(px,py-50); }
+    if(this._trial)this._trialTick(dt); },
+  _activeDigs(){ var ps=this.playerState, Q=ps.fairyQuests||{}, out=[], self=this; Object.keys(Q).forEach(function(k){ var S=Q[k]; if(!S||S.st!=='seek')return; (S.need||[]).forEach(function(oid){ if((S.got||[]).indexOf(oid)<0&&self._digSpots[oid])out.push(self._digSpots[oid]); }); }); return out; },
+  // where this fairy's story stands
+  _fairyState(f){ var ps=this.playerState, fid=FAM_BY_SEC[f.q], own=(ps.ownedFamiliars||[]).indexOf(fid)>=0, L=own?_famLevel(ps,fid):0, qk='q'+f.q+'_f'+f.i, S=(ps.fairyQuests||{})[qk];
+    if(!own)return {k:'chat'}; if(L>f.i+1)return {k:'done'}; if(L<f.i+1)return {k:'wait'};
+    if(!S)return {k:'offer',mark:'❗'}; if(S.st==='seek'){ var ok=(S.got||[]).length>=S.need.length; return {k:ok?'ready':'seek',mark:ok?'⭐':'❔',S:S}; } return {k:'offer',mark:'❗'}; },
+  _checkFairy(){ if(!this._fairies)return false; var px=this.player.x, py=this.player.y, f=null, bd=TILE*1.9;
+    this._fairies.forEach(function(x){ if(!x.spr)return; var d=Math.hypot(px-x.cx,py-(x.cy+18)); if(d<bd){bd=d;f=x;} });
+    var K=null; (this._kings||[]).forEach(function(k){ if(k.spr&&Math.hypot(px-k.x,py-k.y)<TILE*3)K=k; });
+    // the waystone wins when you are closer to it than to the fairy (so [Tab] still activates / travels)
+    if(f&&this._nearWaystone){ var w=this._nearWaystone(); if(w&&Math.hypot(px-(w.x*TILE+16),py-(w.y*TILE+16))<bd)f=null; }
+    var tgt=f||K; if(!tgt){ if(this._interactPrompt&&this._interactPrompt._fairy){ this._interactPrompt.destroy(); this._interactPrompt=null; } return false; }
+    var id=tgt.id; if(!this._interactPrompt||this._interactPrompt._fairy!==id){ if(this._interactPrompt)this._interactPrompt.destroy(); this._interactPrompt=domText(this,tgt.x,tgt.y-(K&&!f?130:52),'[Tab] Talk to '+(f?f.name:K.name),{fontSize:'10px',color:'#ffe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); this._interactPrompt._fairy=id; }
+    if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(f)this._talkFairy(f); else this._talkKing(K); }
+    return true; },
+  _talkFairy(f){ var self=this, ps=this.playerState, st=this._fairyState(f), fid=FAM_BY_SEC[f.q], fam=FAMILIARS[fid], o=_fairyObj(f.q,f.i), qk='q'+f.q+'_f'+f.i, isl=(HARBOR_ISLANDS[f.q]||{}).name||'the island';
+    if(st.k==='chat'){ var line=f.i===0?'Do you have a fairy companion? No? Every quadrant has a spirit sleeping on its familiar island — here that\'s '+isl+', from the first harbor. Win it, then come back: we fairies can teach it things!':FAIRY_CHAT[(f.i+Math.floor(Date.now()/9000))%FAIRY_CHAT.length];
+      return FairyTalk.show(f,line,[{t:'Bye!'}]); }
+    if(st.k==='done')return FairyTalk.show(f,'Your '+fam.n+' is shining brighter every day. I taught it '+FAM_SKILLS[fam.el][f.i+1].name+' — use it well!',[{t:'Thank you!'}]);
+    if(st.k==='wait'){ var prev=this._fairies.find(function(x){ return x.q===f.q&&x.i===_famLevel(ps,fid)-1; }); return FairyTalk.show(f,'Ooh, a '+fam.n+'! It isn\'t ready for my lesson yet. First visit '+(prev?prev.name+' near '+prev.home.name:'my sisters')+' — she teaches the lesson before mine.',[{t:'I\'ll go'}]); }
+    var skill=FAM_SKILLS[fam.el][f.i+1], tr=FAMILIAR_TRIALS.find(function(t){ return t.id===FAMILIAR_TRIAL_PICK[f.i]; })||FAMILIAR_TRIALS[0];
+    if(st.k==='offer')return FairyTalk.show(f,'What a lovely '+fam.n+'! I could teach it <b>'+skill.name+'</b> — '+skill.text.toLowerCase()+' But first, fetch me the <b>'+o.icon+' '+o.name+'</b>. It\'s buried '+o.where+' in <b>'+_fairyZoneName(o.zone)+'</b>, beside the runes at its heart.'+(ps.hasTrowel?'':' Here — take this <b>Fairy Trowel</b>. Press <b>G</b> to dig.'),[{t:'I\'ll find it!',f:function(){ self._fairyAccept(qk,[o.id],f.q,'Fairy '+f.name); }},{t:'Later'}]);
+    if(st.k==='seek')return FairyTalk.show(f,'The '+o.icon+' '+o.name+' is buried '+o.where+' in '+_fairyZoneName(o.zone)+'. '+this._digHint(o.id)+' Look for golden sparkles, then press <b>G</b> to dig. (Your Tome\'s Quests page and the map show the area too.)',[{t:'On my way'}]);
+    if(st.k==='ready')return FairyTalk.show(f,'You found it! '+o.icon+' Now your '+fam.n+' must show me what it can do. <b>Trial: '+tr.name+'</b> — '+tr.text,[{t:'Start the trial',f:function(){ self._trialStart(tr.id,f,{fid:fid,q:f.q},function(){ self._fairyWin(f,qk,fid,skill); },function(){ showNotif('The trial failed — talk to '+f.name+' to try again.','#ffb0a0'); }); }},{t:'Not yet'}]); },
+  _talkKing(K){ var self=this, ps=this.playerState, fid=FAM_BY_SEC[K.q], fam=FAMILIARS[fid], own=(ps.ownedFamiliars||[]).indexOf(fid)>=0, qk='king'+K.q, S=(ps.fairyQuests||{})[qk], done=(ps.fairyKings||[]).indexOf(K.id)>=0, need=FAIRY_KING_OBJECTS[K.q].map(function(a){ return a[0]; });
+    var Kf={name:K.name,F:FAIRY_BY_ID[FAIRY_PICK[K.q]],king:K.q};
+    if(done)return FairyTalk.show(Kf,'Go well, champion. Your familiars fly together now — '+_maxFamiliarSlots(ps)+' at once.',[{t:'Farewell'}]);
+    if(!own||_famLevel(ps,fid)<3)return FairyTalk.show(Kf,'I am '+K.name+'. Only a hero whose '+TOME_QN[K.q]+' spirit has learned at least two fairy lessons may take my trial. '+(own?'Your '+fam.n+' knows '+(_famLevel(ps,fid)-1)+'.':'You have no '+TOME_QN[K.q]+' spirit yet — its island waits beyond the first harbor.'),[{t:'I understand'}]);
+    if(!S||S.st!=='seek')return FairyTalk.show(Kf,'Bring me three treasures of this land: '+FAIRY_KING_OBJECTS[K.q].map(function(a){ return a[2]+' <b>'+a[1]+'</b> ('+a[4]+' in '+_fairyZoneName(a[3])+')'; }).join(', ')+'. Then you and your spirit will face my trial. Win, and one more familiar may fly at your side.',[{t:'I accept',f:function(){ self._fairyAccept(qk,need,K.q,K.name,true); }},{t:'Later'}]);
+    if((S.got||[]).length<need.length)return FairyTalk.show(Kf,'You have '+(S.got||[]).length+' of 3. Still missing: '+need.filter(function(id){ return S.got.indexOf(id)<0; }).map(function(id){ var D=self._digSpots[id]; return D.obj.icon+' '+D.obj.name+' — '+D.obj.where+' in '+_fairyZoneName(D.zone); }).join('; ')+'.',[{t:'Onward'}]);
+    return FairyTalk.show(Kf,'All three! Now — hold my circle against the shadows, then face the shadow of your own spirit.',[{t:'Begin the King\'s trial',f:function(){ self._trialStart('king',K,{fid:fid,q:K.q},function(){ self._kingWin(K,qk); },function(){ showNotif('The King\'s trial failed — speak to him again when ready.','#ffb0a0'); }); }},{t:'Not yet'}]); },
+  _fairyAccept(qk,need,q,who,king){ var ps=this.playerState; if(!ps.fairyQuests)ps.fairyQuests={}; ps.fairyQuests[qk]={st:'seek',need:need,got:[],q:q,who:who,king:!!king,t:Date.now()};
+    if(!ps.hasTrowel){ ps.hasTrowel=true; showNotif('🪏 Fairy Trowel — press G to dig','#fff0a0'); }
+    showNotif('📜 Quest added to your Tome: '+need.map(function(id){ var D=this._digSpots[id]; return D?D.obj.icon+' '+D.obj.name:id; },this).join(', '),'#ffe8ff'); if(typeof Tome!=='undefined')Tome.see('quest',qk); this._save&&this._save(); },
+  _digHint(oid){ var D=this._digSpots[oid]; if(!D)return ''; var ws=this.wd.waystones.filter(function(w){ return w.region===D.q; }), best=null, bd=1e9; ws.forEach(function(w){ var d=Math.hypot(w.x-D.x,w.y-D.y); if(d<bd){bd=d;best=w;} });
+    return best?'From the '+best.name+', head '+_dirWord(D.x-best.x,D.y-best.y)+' about '+Math.round(bd)+' steps.':''; },
+  _dig(){ var ps=this.playerState, px=this.player.x, py=this.player.y, self=this; if(!ps.hasTrowel){ showNotif('You need a Fairy Trowel to dig — ask a fairy by the runestones.','#c8b8a0'); return; }
+    if(this._digCd>Date.now())return; this._digCd=Date.now()+600;
+    for(var i=0;i<10;i++){ var d=this.add.circle(px+(Math.random()-0.5)*10,py+10,2+Math.random()*2,0x7a5a3a,1).setDepth(WR_DEPTH(py)+0.01); this.tweens.add({targets:d,x:d.x+(Math.random()-0.5)*40,y:d.y-10-Math.random()*16,alpha:0,duration:500,onComplete:function(){ this.targets[0].destroy(); }}); }
+    var hole=this.add.ellipse(px,py+12,18,7,0x3a2a1a,0.8).setDepth(WR_DEPTH(py)-0.001); this.tweens.add({targets:hole,alpha:0,delay:4000,duration:1500,onComplete:function(){ hole.destroy(); }});
+    var D=this._activeDigs().find(function(D){ return Math.hypot(px-(D.x*TILE+16),py-(D.y*TILE+16))<TILE*1.8; });
+    if(!D){ var near=this._activeDigs().find(function(D){ return Math.hypot(px-(D.x*TILE+16),py-(D.y*TILE+16))<TILE*12; }); showNotif(near?'Only dirt… the sparkles are close — keep looking!':'Only dirt here.','#c8b8a0'); return; }
+    var Q=ps.fairyQuests, qk=Object.keys(Q).find(function(k){ return Q[k].st==='seek'&&Q[k].need.indexOf(D.obj.id)>=0; }); if(!qk)return; Q[qk].got.push(D.obj.id);
+    campCelebrate(this,px,py,D.obj.icon+' '+D.obj.name+' found!',Q[qk].got.length>=Q[qk].need.length?'Bring it to '+Q[qk].who:(Q[qk].need.length-Q[qk].got.length)+' more to find');
+    if(typeof Tome!=='undefined')Tome.see('quest',qk); this._save&&this._save(); },
+  _fairyWin(f,qk,fid,skill){ var ps=this.playerState; ps.famLevels=ps.famLevels||{}; ps.famLevels[fid]=_famLevel(ps,fid)+1; ps.fairyQuests[qk].st='done';
+    campCelebrate(this,this.player.x,this.player.y,FAMILIARS[fid].n+' learned '+skill.name+'!','Level '+ps.famLevels[fid]+' / 6'); if(typeof Tome!=='undefined')Tome.see('quest',qk); this._emitUI(); this._save&&this._save(); },
+  _kingWin(K,qk){ var ps=this.playerState; if(!ps.fairyKings)ps.fairyKings=[]; if(ps.fairyKings.indexOf(K.id)<0)ps.fairyKings.push(K.id); ps.fairyQuests[qk].st='done';
+    campCelebrate(this,this.player.x,this.player.y,'The King\'s blessing!','Up to '+_maxFamiliarSlots(ps)+' familiars can be active — press N'); if(typeof Tome!=='undefined')Tome.see('quest',qk); this._emitUI(); this._save&&this._save(); }
+});
+
+// ── dialogue box ──
+var FairyTalk={ show:function(f,html,btns){ var el=document.getElementById('fairy-talk'); if(!el){ el=document.createElement('div'); el.id='fairy-talk'; el.className='overlay'; el.style.display='none'; el.onclick=function(e){ if(e.target===el)FairyTalk.close(); }; document.body.appendChild(el); }
+    var col=f.F?f.F.col:'#ffe0ff';
+    el.innerHTML='<div class="modal fairy-modal" onclick="event.stopPropagation()" style="border-color:'+col+'"><div class="ft-row"><canvas id="ft-cv" width="96" height="96"></canvas><div><div class="ft-name" style="color:'+col+'">'+(f.king?'👑 ':'✨ ')+f.name+'</div><div class="ft-text">'+html+'</div></div></div><div class="ft-btns">'+btns.map(function(b,i){ return '<button data-i="'+i+'">'+b.t+'</button>'; }).join('')+'</div></div>';
+    el.style.display='flex'; el.querySelectorAll('.ft-btns button').forEach(function(b){ b.onclick=function(){ var B=btns[+b.dataset.i]; FairyTalk.close(); if(B.f)setTimeout(B.f,30); }; });
+    var cv=document.getElementById('ft-cv'), x=cv.getContext('2d'), fr=f.king?fairyKingFrames(f.king):fairyFrames(f.F), i=0; clearInterval(FairyTalk._t); FairyTalk._t=setInterval(function(){ if(!cv.isConnected){ clearInterval(FairyTalk._t); return; } x.clearRect(0,0,96,96); x.imageSmoothingEnabled=true; if(f.king)x.drawImage(fr[i++%4],0,0,88,96); else x.drawImage(fr[i++%4],0,0,96,96); },120); },
+  close:function(){ var el=document.getElementById('fairy-talk'); if(el)el.style.display='none'; } };
+
+// ── trials ──
+MX.MOVE.seek=function(A,mon,m,P,d,dt,spd,p){ var T=mon._seek; if(!T)return MX.MOVE.chase(A,mon,m,P,d,dt,spd,p); if(d<60&&m.aggro)return MX.MOVE.chase(A,mon,m,P,d,dt,spd,p); if(Math.hypot(T.x-mon.x,T.y-mon.y)>14)MX.step(A,mon,Math.atan2(T.y-mon.y,T.x-mon.x),spd,dt,true); };
+function _trialMobId(q){ var L=MON_ROSTER.filter(function(R){ return R.q===q&&R.seg==='main'&&R.tier<=2&&!MON_LEGACY[R.id]&&MX.KITS[R.id]&&!/split|summon|burrow|revive|explode/.test(MX.KITS[R.id]); }); return L.length?L[(q*7)%L.length].id:null; }
+function _trialShadeId(q){ var rid='trial_shade_'+q; if(MON_BY_ID[rid])return rid; var base=MON_ROSTER.find(function(R){ return R.q===q&&(R.spec.plan==='wisp'||R.spec.plan==='wraith'); })||MON_ROSTER.find(function(R){ return R.spec.plan==='wisp'; });
+  MON_BY_ID[rid]={id:rid,name:'Shadow Wisp',q:q,seg:'main',role:'',tier:1,spec:Object.assign({},base.spec,{pal:['#3a2a5a','#1a1030','#b080ff','#ff60ff'],_fr:null}),tags:[]}; MX.KITS[rid]='seek spd=48 | melee m=0.6 cd=1.4'; return rid; }
+function _trialDuelId(q,fid){ var rid='trial_duel_'+fid; if(MON_BY_ID[rid])return rid; var D=_famDesign(fid), C=CHAR_BY_ID['bf_shadow_twin']||CHAR_BY_ID['boss_shadow_lord'];
+  MON_BY_ID[rid]={id:rid,name:'Shadow '+D.name,q:q,seg:'boss',role:'boss',tier:5,spec:C.spec,tags:[]};
+  MX.KITS[rid]={2:'orbit r=130 | shoot p=orb n=3 sp=0.25 m=0.7 cd=2.2 | ring spd=140 max=220 gap=1 m=0.8 cd=4.5',3:'orbit r=130 | shoot p=orb n=4 sp=0.25 m=0.8 cd=2 | ring spd=150 max=230 gap=1 m=0.9 cd=4 | lunge r=180 m=1 cd=5',4:'orbit r=140 | shoot p=orb n=5 sp=0.2 m=0.9 cd=1.8 | ring spd=160 max=240 gap=1 m=1 cd=3.6 | lunge r=200 m=1.1 cd=4.5 | marks n=4 rad=26 delay=1.2 spread=140 col=#b080ff m=0.9 cd=6'}[q]||'chase | melee';
+  return rid; }
+Object.assign(WorldScene.prototype,{
+  _trialStart(kind,host,o,win,lose){ if(this._trial)return; var self=this, cx=host.home&&host.home.ws?host.home.x*TILE+16:host.x, cy=(host.home&&host.home.ws?host.home.y*TILE+16:host.y)+(host.home?30:0);
+    var T=this._trial={kind:kind,cx:cx,cy:cy,t:0,o:o,win:win,lose:lose,mobs:[],fx:[],el:SPIRIT_ELEMENTS[FAM_EL[o.fid]]};
+    this.playerState.hp=Math.max(this.playerState.hp,Math.round(this.playerState.maxHp*0.8));
+    var ring=this.add.circle(cx,cy,6*TILE,0xffffff,0).setStrokeStyle(2,hexNum(T.el.col),0.6).setDepth(WR_DEPTH(cy)-0.01); T.fx.push(ring);
+    var el=document.getElementById('trial-hud'); if(!el){ el=document.createElement('div'); el.id='trial-hud'; (document.getElementById('app')||document.body).appendChild(el); } el.style.display='block';
+    ({rune_targets:function(){ T.need=8; T.hits=0; T.miss=0; T.next=0.5; T.targets=[]; T.time=75; },
+      guardian:function(){ T.time=40; T.stone=6; T.next=1; },
+      echo_path:function(){ T.round=0; T.lens=[4,5,6]; T.tiles=[]; for(var i=0;i<6;i++){ var a=i/6*Math.PI*2; var x=cx+Math.cos(a)*3.4*TILE, y=cy+Math.sin(a)*2.6*TILE, g=self.add.circle(x,y,18,hexNum(T.el.deep),0.35).setStrokeStyle(2,hexNum(T.el.col),0.8).setDepth(WR_DEPTH(y)-0.01); T.tiles.push({x:x,y:y,g:g}); T.fx.push(g); } T.mist=0; self._echoRound(); },
+      orb_harvest:function(){ T.need=8; T.got=0; T.time=50; T.orbs=[]; for(var i=0;i<14;i++)self._trialOrb(); },
+      hold_circle:function(){ T.time=30; T.out=0; T.next=1.5; },
+      king:function(){ T.stage=1; T.time=30; T.out=0; T.next=1.2; }
+    })[kind](); showNotif('✨ Trial begins!','#ffe8ff'); },
+  _trialMob(id,x,y,o){ var q=this._trial.o.q, mon=MX.spawn(this,id,x,y,Object.assign({q:q,temp:true},o||{})); if(!mon)return null; mon.section=q; mon.respawnTimer=0; mon._m.aggro=true; mon._trialMob=true; this.worldMonsters.push(mon); this._trial.mobs.push(mon); return mon; },
+  _trialOrb(){ var T=this._trial, els=['grass','water','earth','fire'], e=Math.random()<0.45?FAM_EL[T.o.fid]:els[Math.floor(Math.random()*4)], a=Math.random()*Math.PI*2, r=(1.5+Math.random()*4)*TILE, E=SPIRIT_ELEMENTS[e];
+    var g=this.add.circle(T.cx+Math.cos(a)*r,T.cy+Math.sin(a)*r*0.8,8,hexNum(E.col),0.85).setStrokeStyle(2,0xffffff,0.8).setDepth(12.64); T.orbs.push({g:g,e:e,a:a,r:r,sp:(Math.random()<0.5?-1:1)*(0.2+Math.random()*0.3)}); T.fx.push(g); },
+  _echoRound(){ var T=this._trial, self=this, n=T.lens[T.round]; T.seq=[]; for(var i=0;i<n;i++){ var k; do{ k=Math.floor(Math.random()*6); }while(T.seq.length&&T.seq[T.seq.length-1]===k); T.seq.push(k); } T.pos=-1; T.show=true;
+    T.seq.forEach(function(k,i){ self.time.delayedCall(700+i*700,function(){ if(!self._trial)return; var t=T.tiles[k]; t.g.setFillStyle(hexNum(T.el.col),0.9); self.time.delayedCall(420,function(){ if(t.g.active)t.g.setFillStyle(hexNum(T.el.deep),0.35); }); }); });
+    this.time.delayedCall(700+n*700,function(){ if(self._trial){ T.show=false; T.pos=0; showNotif('Now walk the tiles in the same order ('+n+')','#ffe8ff'); } }); },
+  _trialEnd(ok){ var T=this._trial; if(!T)return; this._trial=null; var self=this;
+    T.mobs.forEach(function(m){ if(!m.dead){ m._hp=0; m.dead=true; if(m.cont)m.cont.destroy(); } }); this.worldMonsters=this.worldMonsters.filter(function(m){ return !m._trialMob; });
+    T.fx.forEach(function(g){ if(g&&g.destroy)g.destroy(); }); (T.targets||[]).forEach(function(t){ t.g.destroy(); });
+    var el=document.getElementById('trial-hud'); if(el)el.style.display='none';
+    if(ok){ showNotif('🏆 Trial passed!','#aaffcc'); T.win&&T.win(); } else { T.lose&&T.lose(); } },
+  _trialTick(dt){ var T=this._trial, self=this, px=this.player.x, py=this.player.y, ps=this.playerState; if(!T)return; T.t+=dt; if(T.time!==undefined)T.time-=dt;
+    if(ps.hp<=0)return this._trialEnd(false);
+    if(Math.hypot(px-T.cx,py-T.cy)>TILE*16){ showNotif('You left the trial circle.','#ffb0a0'); return this._trialEnd(false); }
+    var fams=Object.keys(this._famVisuals||{}).map(function(k){ return self._famVisuals[k]; }), famNear=function(x,y,r){ return fams.some(function(v){ return Math.hypot(v.x-x,v.y-y)<r; })||Math.hypot(px-x,py-y)<r*0.8; };
+    var hud='', K=T.kind;
+    if(K==='rune_targets'){ T.next-=dt; if(T.next<=0&&T.targets.length<2&&T.hits+T.targets.length<T.need){ T.next=1.2; var a=Math.random()*Math.PI*2, r=(2+Math.random()*4)*TILE, x=T.cx+Math.cos(a)*r, y=T.cy+Math.sin(a)*r*0.8;
+        var g=this.add.star(x,y,6,7,15,hexNum(T.el.col),0.9).setStrokeStyle(2,0xffffff,0.9).setDepth(12.64); this.tweens.add({targets:g,angle:360,duration:3000,repeat:-1}); T.targets.push({g:g,x:x,y:y,life:7}); }
+      T.targets=T.targets.filter(function(t){ t.life-=dt; t.g.setAlpha(Math.min(1,t.life/2)); if(famNear(t.x,t.y,40)){ T.hits++; campCelebrate&&SFX.pickup&&SFX.pickup(); _famRing(self,t.x,t.y,40,T.el.col,300); t.g.destroy(); return false; } if(t.life<=0){ T.miss++; t.g.destroy(); return false; } return true; });
+      hud='Rune Target Practice — lead your familiar to the stars: '+T.hits+' / '+T.need+' · missed '+T.miss+' / 4 · '+Math.ceil(T.time)+' s';
+      if(T.hits>=T.need)return this._trialEnd(true); if(T.miss>=4||T.time<=0)return this._trialEnd(false); }
+    else if(K==='guardian'){ T.next-=dt; if(T.next<=0&&T.time>3){ T.next=2.4-Math.min(1.2,T.t*0.02); var a2=Math.random()*Math.PI*2, m=this._trialMob(_trialShadeId(T.o.q),T.cx+Math.cos(a2)*9*TILE,T.cy+Math.sin(a2)*7*TILE); if(m){ m._seek={x:T.cx,y:T.cy}; m.maxHp=Math.round(m.maxHp*0.8); m._hp=m.maxHp; } }
+      T.mobs.forEach(function(m){ if(!m.dead&&Math.hypot(m.x-T.cx,m.y-T.cy)<28){ T.stone--; _famRing(self,T.cx,T.cy,50,'#b080ff',300); m._hp=0; m.dead=true; if(m.cont)m.cont.setVisible(false); } });
+      hud='Guard the Runestone — keep the shadow wisps off it: stone '+'◆'.repeat(Math.max(0,T.stone))+' · '+Math.ceil(T.time)+' s';
+      if(T.stone<=0)return this._trialEnd(false); if(T.time<=0)return this._trialEnd(true); }
+    else if(K==='echo_path'){ if(!T.show&&T.pos>=0){ T.tiles.forEach(function(t,k){ var on=Math.hypot(px-t.x,py-t.y)<22; if(on&&!t.on){ t.on=true; if(k===T.seq[T.pos]){ t.g.setFillStyle(0xffffff,0.8); self.time.delayedCall(250,function(){ if(t.g.active)t.g.setFillStyle(hexNum(T.el.deep),0.35); }); T.pos++; if(T.pos>=T.seq.length){ T.round++; if(T.round>=T.lens.length)return self._trialEnd(true); showNotif('✔ Round '+T.round+' of 3!','#aaffcc'); T.pos=-1; T.show=true; self.time.delayedCall(600,function(){ if(self._trial)self._echoRound(); }); } }
+            else { T.mist++; t.g.setFillStyle(0xff4040,0.8); self.time.delayedCall(300,function(){ if(t.g.active)t.g.setFillStyle(hexNum(T.el.deep),0.35); }); if(T.mist>=3)return self._trialEnd(false); showNotif('✖ Wrong tile — watch again','#ffb0a0'); T.pos=-1; T.show=true; self.time.delayedCall(700,function(){ if(self._trial)self._echoRound(); }); } }
+          if(!on)t.on=false; }); }
+      if(!this._trial)return; hud='Echo Path — round '+(T.round+1)+' / 3 · '+(T.show?'watch the tiles…':'step on them in order ('+Math.max(0,T.pos)+' / '+T.seq.length+')')+' · mistakes '+T.mist+' / 3'; }
+    else if(K==='orb_harvest'){ T.orbs=T.orbs.filter(function(o){ o.a+=o.sp*dt; var x=T.cx+Math.cos(o.a)*o.r, y=T.cy+Math.sin(o.a)*o.r*0.8; o.g.setPosition(x,y); if(Math.hypot(px-x,py-y)<20){ if(o.e===FAM_EL[T.o.fid]){ T.got++; _famRing(self,x,y,30,T.el.col,250); } else { T.got=Math.max(0,T.got-1); ps.hp=Math.max(1,ps.hp-Math.ceil(ps.maxHp*0.05)); _famRing(self,x,y,30,'#ff4040',250); } o.g.destroy(); self._trialOrb(); return false; } return true; });
+      hud='Element Harvest — collect '+T.el.name.toLowerCase()+' orbs, avoid the others: '+T.got+' / '+T.need+' · '+Math.ceil(T.time)+' s';
+      if(T.got>=T.need)return this._trialEnd(true); if(T.time<=0)return this._trialEnd(false); }
+    else if(K==='hold_circle'||(K==='king'&&T.stage===1)){ var R=(2+4*Math.max(0,T.time)/30)*TILE; T.fx[0].setRadius(R); var inside=Math.hypot(px-T.cx,py-T.cy)<R; if(!inside)T.out+=dt;
+      T.next-=dt; if(T.next<=0&&T.time>2){ T.next=K==='king'?1.4:2.2; var a3=Math.random()*Math.PI*2, id=_trialMobId(T.o.q); if(id)this._trialMob(id,T.cx+Math.cos(a3)*8*TILE,T.cy+Math.sin(a3)*6*TILE,K==='king'?{hpMult:1.3}:{}); }
+      hud=(K==='king'?'👑 King\'s Trial 1/2 — ':'')+'Hold the Circle — stay inside: '+Math.ceil(Math.max(0,T.time))+' s · outside '+T.out.toFixed(1)+' / 3 s';
+      if(T.out>=3)return this._trialEnd(false);
+      if(T.time<=0){ if(K==='hold_circle')return this._trialEnd(true); T.stage=2; T.fx[0].setRadius(6*TILE); showNotif('The shadow of your spirit steps out of the stones!','#d0b0ff'); var q=T.o.q, base=MDEFS[['dark_warlock','storm_mage','iron_sentinel','shadow_lord'][q-1]];
+        var boss=MX.spawn(this,_trialDuelId(q,T.o.fid),T.cx,T.cy-2*TILE,{q:q,temp:true,stats:{hp:Math.round(base.hp*1.1),atk:Math.round(base.atk*0.8),def:base.def||0,lv:base.lvMax||base.lvMin||5,xp:Math.round(base.xp*0.5),gMin:base.gMin,gMax:base.gMax,r:18},scale:2});
+        if(boss){ boss._m.aggro=true; boss._trialMob=true; boss.isBoss=true; boss.section=q; this.worldMonsters.push(boss); T.mobs.push(boss); T.duel=boss; boss.spr.setTint(0x8060c0); } } }
+    else if(K==='king'&&T.stage===2){ hud='👑 King\'s Trial 2/2 — defeat the Shadow '+_famDesign(T.o.fid).name+': '+(T.duel?Math.max(0,Math.round(T.duel.hp))+' / '+T.duel.maxHp:'');
+      if(!T.duel||T.duel.dead)return this._trialEnd(true); }
+    var el=document.getElementById('trial-hud'); if(el&&el._h!==hud){ el._h=hud; el.textContent=hud; } }
+});
+
+// ── world-map marks: fairies (explored), kings, and the area of each active dig ──
+function _wmFairyMarks(ctx,wd,ps,X,Y,inV,big,lbl){ var ws=game.scene.getScene('World'); if(!ws||!ws._fairies)return;
+  ws._fairies.forEach(function(f){ var tx=f.x/TILE, ty=f.y/TILE; if(!inV(tx,ty)||!_wmExplored(ps,tx,ty))return; ctx.fillStyle=f.F.col; ctx.beginPath(); ctx.arc(X(tx),Y(ty),big?4:3,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#2a1030'; ctx.lineWidth=1; ctx.stroke(); var st=ws._fairyState(f); if(big&&st.mark){ ctx.font='11px serif'; ctx.fillText(st.mark,X(tx)+8,Y(ty)-6); } });
+  (ws._kings||[]).forEach(function(K){ var tx=K.x/TILE, ty=K.y/TILE; if(!inV(tx,ty)||!_wmExplored(ps,tx,ty))return; ctx.font=(big?14:10)+'px serif'; ctx.fillText('👑',X(tx),Y(ty)); if(big)lbl('Fairy King',X(tx),Y(ty)+14,'#fff0a0',10,700); });
+  ws._activeDigs().forEach(function(D){ var ox=((D.obj.id.charCodeAt(0)*7)%9)-4, oy=((D.obj.id.charCodeAt(1)*5)%9)-4, cx=X(D.x+ox), cy=Y(D.y+oy), r=Math.max(8,Math.abs(X(D.x+10)-X(D.x)));
+    ctx.save(); ctx.setLineDash([4,3]); ctx.strokeStyle='#fff0a0'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke(); ctx.restore(); ctx.font=(big?13:9)+'px serif'; ctx.fillText('🪏',cx,cy+4); if(big)lbl('Dig: '+D.obj.name,cx,cy+r+10,'#fff0a0',10,700); }); }
+function sbFairyMax(){ var ws=_sbWs&&_sbWs(); if(!ws)return; var ps=ws.playerState; ps.ownedFamiliars=['fam_grass','fam_water','fam_earth','fam_fire']; ps.famLevels={fam_grass:6,fam_water:6,fam_earth:6,fam_fire:6}; ps.fairyKings=['k2','k3','k4']; ps.hasTrowel=true; ps.familiar='fam_grass'; ps.familiar2='fam_water'; ps.familiar3='fam_earth'; ps.familiar4='fam_fire'; ws._emitUI(); showNotif('All 4 spirit familiars at level 6, 4 active','#88eeff'); }
 // ─── BuildingScene ──────────────────────────────
 var INT_W=14,INT_H=10;   // set from the painted map (07v-interiors.js)
 class BuildingScene extends Phaser.Scene{
@@ -13481,7 +13924,7 @@ class DungeonScene extends Phaser.Scene{
     if(m.tick){ try{ m.tick(this,dt,tt); }catch(e){} }
     if(this._darkRT){
       var rt=this._darkRT, hole=this._holeImg, v=this.cameras.main.worldView, pad=200;
-      var fire=_heroFamiliarActive(this.worldScene.playerState,'firefly');
+      var fire=(_heroActiveFamiliars(this.worldScene.playerState).length>0);
       var heroR=Math.max(230,m.heroLight||0)*(fire?1.3:1);
       if(this._heroGlow)this._heroGlow.setPosition(this.px,this.py-14);
       rt.clear(); rt.fill(hexNum(m.darkCol||'#000000'),this._labDark);
@@ -14091,7 +14534,7 @@ class DungeonScene extends Phaser.Scene{
     var ptx=Math.floor(this.px/TILE),pty=Math.floor(this.py/TILE);
     if(!force&&ptx===this._dngFogTile.tx&&pty===this._dngFogTile.ty)return;
     this._dngFogTile={tx:ptx,ty:pty};
-    var R=_heroFamiliarActive(this.worldScene.playerState,'firefly')?10:7,fog=this._dngFogExplored,changed=false;
+    var R=(_heroActiveFamiliars(this.worldScene.playerState).length>0)?10:7,fog=this._dngFogExplored,changed=false;
     for(var dy=-R;dy<=R;dy++){
       for(var dx=-R;dx<=R;dx++){
         if(dx*dx+dy*dy>R*R)continue;
@@ -14368,6 +14811,7 @@ class DungeonScene extends Phaser.Scene{
     this.monsters.forEach(function(mon){
       if(mon.dead||Math.hypot(mon.x-self.px,mon.y-self.py)>78)return;
       if(!_heroInArc(self.pdir||'right',mon.x-self.px,mon.y-self.py))return;
+      if(!_heroLOS(self,self.px,self.py,mon.x,mon.y))return;   // no hitting through walls
       var dmg=Math.max(1,atk-(mon.def.def||0)+Math.floor(Math.random()*5-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#ffdd44');
@@ -15088,6 +15532,7 @@ class IslandScene extends Phaser.Scene{
       if(mon.dead)return;
       if(Math.hypot(mon.x-p.x,mon.y-p.y)>68)return;
       if(!_heroInArc(p.dir||'right',mon.x-p.x,mon.y-p.y))return;
+      if(!_heroLOS(self,p.x,p.y,mon.x,mon.y))return;   // no hitting through walls
       var dmg=Math.max(1,stats.atk-(mon.def.def||0)+Math.floor(Math.random()*4-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-20,'-'+dmg,'#ffdd44');
@@ -15639,6 +16084,7 @@ class CaveScene extends Phaser.Scene{
       if(mon.dead)return;
       if(Math.hypot(mon.x-self._px,mon.y-self._py)>65)return;
       if(Math.abs(mon.x-self._px)>60)return;
+      if(!_heroLOS(self,self._px,self._py-10,mon.x,mon.y-10))return;   // no hitting through walls
       var dmg=Math.max(1,stats.atk-(mon.def.def||0)+Math.floor(Math.random()*4-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-20,'-'+dmg,'#ffdd44');
@@ -15980,15 +16426,7 @@ class SkyScene extends Phaser.Scene{
     var siteId=this.site?this.site.id:'s1_skyport';
     if(!ps.lockedSites.includes(siteId))ps.lockedSites.push(siteId);
     _completeQuest(ps,'s'+((this.site&&this.site.section)||1)+'_skyport');
-    // First NE sky-port clear awards the Wind Sprite familiar (was unobtainable).
-    if((this.site&&this.site.section||1)===1){
-      if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
-      if(ps.ownedFamiliars.indexOf('wind_sprite')<0){
-        ps.ownedFamiliars.push('wind_sprite');
-        if(!ps.familiar)ps.familiar='wind_sprite';
-        showNotif('🌀 Wind Sprite familiar unlocked!','#88eeff');
-      }
-    }
+    // (the NE sky port used to give the Wind Sprite familiar; familiars now come from the islands)
     // Victory!
     this.waveTxt.setText('All waves cleared! Choose your reward:');
     var W=this.W,H=this.H;
@@ -17261,6 +17699,7 @@ function _wmDrawView(ctx,cw,ch,ws,v,o){
   var oc=ps.openedCaches||[];
   (wd.caches||[]).forEach(function(c){ if(oc.indexOf(c.id)>=0||!inV(c.x,c.y)||!_wmExplored(ps,c.x,c.y))return; var px=X(c.x),py=Y(c.y), r=big?5:3.5;
     ctx.fillStyle='#ffd24a'; ctx.strokeStyle='#3a2208'; ctx.lineWidth=1.5; ctx.fillRect(px-r,py-r*0.8,r*2,r*1.6); ctx.strokeRect(px-r,py-r*0.8,r*2,r*1.6); });
+  if(typeof _wmFairyMarks==='function')_wmFairyMarks(ctx,wd,ps,X,Y,inV,big,lbl);
   // waystones
   var act=ps.activatedWaystones||[];
   (wd.waystones||[]).forEach(function(Wy){ if(!inV(Wy.x,Wy.y))return; var on=act.indexOf(Wy.id)>=0; if(!on&&!_wmExplored(ps,Wy.x,Wy.y))return;
@@ -18009,11 +18448,11 @@ function showQuickPick(type){
     mweaps.forEach(function(id){var it=ITEMS[id];if(!it)return;var i=inv.indexOf(id);h+=itemRow(id,i,"window._equipItem("+i+",'mWeapon');document.getElementById('quick-pick-popup').style.display='none'",'Equip');});
     if(curMW)h+='<div class="sp-row" onclick="window._unequipSlot(\'mWeapon\');document.getElementById(\'quick-pick-popup\').style.display=\'none\'" style="color:#ff8888;font-size:11px;margin-top:4px">Remove magic weapon</div>';
 
-  } else if(type==='familiar'||type==='familiar2'||type==='familiar3'){
+  } else if(type==='familiar'||type==='familiar2'||type==='familiar3'||type==='familiar4'){
     var fams=ps?ps.ownedFamiliars||[]:[];
     var slotsN=ps?_maxFamiliarSlots(ps):1;
-    h+='<div style="font-size:9px;color:#667;margin:-4px 0 6px">'+slotsN+' slot'+(slotsN>1?'s':'')+' open · click to add/remove · ⓘ for details</div>';
-    if(!fams.length)h+='<div style="color:#445;font-size:11px">No familiars yet.<br><span style="font-size:10px;color:#556">Clear harbor islands to earn familiars.</span></div>';
+    h+='<div style="font-size:9px;color:#667;margin:-4px 0 6px">'+slotsN+' of 4 active slot'+(slotsN>1?'s':'')+' open'+(slotsN<4?' (each Fairy King opens one more)':'')+' · click to add/remove · ⓘ for skills</div>';
+    if(!fams.length)h+='<div style="color:#445;font-size:11px">No familiars yet.<br><span style="font-size:10px;color:#556">Each quadrant\'s familiar island (its first harbor) gives an elemental spirit.</span></div>';
     fams.forEach(function(fid){ h+=_familiarCardHTML(fid, ps, "_toggleFamiliar('"+fid+"');showQuickPick('familiar');showQuickPick('familiar')", true); });
 
   } else if(type==='special'){
@@ -18921,7 +19360,7 @@ function sbRunBot(){
 var PAUSE_OVERLAYS=[
   'modal-map','modal-quests','modal-inventory','modal-camp','modal-mounts','modal-controls','modal-sandbox','modal-sitelab','modal-tome',
   'slot-picker-modal','quick-pick-popup','item-found-popup',
-  'tavern-menu-overlay','skyport-shop-overlay','familiar-info-modal','scene-error-banner'
+  'tavern-menu-overlay','skyport-shop-overlay','familiar-info-modal','scene-error-banner','fairy-talk'
 ];
 var _PAUSE={active:false, since:0, scenes:[]};
 
@@ -19045,7 +19484,7 @@ document.addEventListener('keydown',function(e){
   }
 
   // Everything below is a gameplay action: blocked while paused.
-  var gameplay={control:1,x:1,z:1,c:1,p:1};
+  var gameplay={control:1,x:1,z:1,c:1,p:1,g:1};
   if(!gameplay[k])return;
   e.preventDefault();
   if(_PAUSE.active||_openOverlays().length)return;
@@ -19061,6 +19500,8 @@ document.addEventListener('keydown',function(e){
   } else if(k==='z'){
     if(sc===ws2&&ws2._useSpecial)ws2._useSpecial();
     else showNotif('Specials can only be used in the overworld','#8899aa');
+  } else if(k==='g'){
+    if(sc===ws2&&ws2._dig)ws2._dig(); else showNotif('You can only dig outdoors','#8899aa');
   } else if(k==='c'){
     doCycleAmmo();
   } else if(k==='p'){
@@ -19112,7 +19553,7 @@ function _slGuardian(s){
 function _slReward(s){
   var sec=s.section;
   if(s.castle){ var it=ITEMS[CASTLE_ISLANDS[s.castle].skill]; return 'Teaches: '+(it?it.icon+' '+it.name:'?'); }
-  if(s.island){ var fam={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'}[sec], f=FAMILIARS[fam]; return 'Familiar: '+(f?f.icon+' '+f.n:fam); }
+  if(s.island){ var f=FAMILIARS[FAM_BY_SEC[sec]]; return 'Familiar: '+(f?f.icon+' '+f.n:'?'); }
   if(s.bonus)return 'Treasure vault · relic: '+(SITE_RELICS[s.design]||'?');
   if(s.type==='tower')return 'Frees '+(CRAFTSMEN[sec]?CRAFTSMEN[sec].icon+' '+CRAFTSMEN[sec].n:'a craftsman')+' · opens next region';
   var rw=BOSS_REWARDS[s.id], m=rw&&rw.mount&&MOUNTS[rw.mount]; return 'Mount: '+(m?m.icon+' '+m.n:'—');
@@ -19255,7 +19696,8 @@ document.addEventListener('keydown',function(e){
 // ║ items, places and characters. Undiscovered entries show as ???
 // ║ silhouettes with a hint where to look. Saved in playerState.tome.
 // ═══════════════════════════════════════════════════════════════════════
-var TOME_CATS=[{k:'monster',n:'Monsters',i:'👹'},{k:'mount',n:'Mounts',i:'🐎'},{k:'familiar',n:'Familiars',i:'🪲'},{k:'spell',n:'Spells',i:'✨'},{k:'item',n:'Items',i:'🎒'},{k:'place',n:'Places',i:'🗺️'},{k:'character',n:'Characters',i:'🧑'}];
+var TOME_CATS=[{k:'monster',n:'Monsters',i:'👹'},{k:'mount',n:'Mounts',i:'🐎'},{k:'familiar',n:'Familiars',i:'🌟'},{k:'spell',n:'Spells',i:'✨'},{k:'item',n:'Items',i:'🎒'},{k:'place',n:'Places',i:'🗺️'},{k:'character',n:'Characters',i:'🧑'},{k:'quest',n:'Quests',i:'📜'}];
+var TOME_QCOL=['#ece6d8','#e3f1d6','#d9ebf5','#ece3d4','#f5dfd6'];   // village/other, Grasslands, Wetlands, Highlands, Ashlands
 var TOME_QN=['','Grasslands','Wetlands','Highlands','Ashlands'];
 var TOME_MOVE_TXT={pulse:'darts in and out',zigzag:'zig-zags toward you',rush:'rushes in short bursts',orbit:'circles around you',teleport:'teleports closer',strafe:'strafes sideways at range',normal:'walks straight at you'};
 var TOME_ATK_TXT={melee:'hits in melee',arrow:'shoots arrows',scatter:'fires a 3-way spread',scatter_arrow:'fires 3-way arrow spreads',scatter_flame:'fires 3-way flame spreads',flame:'throws fire (burns)',bog_flame:'spits bog flame (slows)',heat_seek:'fires homing fireballs',lightning:'fires lightning bolts',stomp:'stomps a shockwave'};
@@ -19273,6 +19715,7 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     var items=[]; (ps.inventory||[]).forEach(function(it){ items.push(typeof it==='string'?it:(it&&(it.id||it.key))); }); Object.keys(ps.equip||{}).forEach(function(k){ items.push(ps.equip[k]); });
     items.forEach(function(id){ if(id&&ITEMS[id]){ mark('item',id); if(ITEMS[id].spellId)mark('spell',ITEMS[id].spellId); } });
     (ps.visitedZones||[]).forEach(function(z){ mark('place','zone_'+z); }); (ps.rescued||[]).forEach(function(s){ var C=CRAFTSMEN[s]; if(C)mark('character','crafts_'+s); });
+    Object.keys(ps.fairyQuests||{}).forEach(function(k){ mark('quest',k); });
     (ps.castlesDone||[]).forEach(function(k){ var C=typeof CASTLE_ISLANDS!=='undefined'&&CASTLE_ISLANDS[k]; if(!C)return; mark('character',C.teacher); mark('monster',C.warden); mark('place','castle_'+k); });
     (ps.completedQuests||[]).forEach(function(q){ var m=q.match(/^s(\d)_(dungeon|tower)$/); if(m){ var bk=m[2]==='dungeon'?['goblin_king','swamp_witch','rock_dragon','lava_titan'][m[1]-1]:['dark_warlock','storm_mage','iron_sentinel','shadow_lord'][m[1]-1]; mark('monster','boss_'+bk); } }); },
   // ── catalogue ──
@@ -19281,6 +19724,7 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     else if(cat==='mount')out=Object.keys(MOUNTS); else if(cat==='familiar')out=Object.keys(FAMILIARS); else if(cat==='spell')out=Object.keys(SPELL_DATA);
     else if(cat==='item')out=Object.keys(ITEMS).filter(function(k){ return ITEMS[k].slot!=='material'||k==='wood_log'; });
     else if(cat==='place'){ WMAP_ZONES.forEach(function(z){ out.push('zone_'+z.id); }); out.push('village'); if(typeof BOSS_ARENAS!=='undefined')Object.keys(BOSS_ARENAS).forEach(function(k){ out.push('arena_'+k); }); if(typeof CAMP_BY_ID!=='undefined')Object.keys(CAMP_BY_ID).forEach(function(k){ out.push('camp_'+k); }); if(typeof CASTLE_ISLANDS!=='undefined')Object.keys(CASTLE_ISLANDS).forEach(function(k){ out.push('castle_'+k); }); var ws=game.scene.getScene('World'); ((ws&&ws.wd&&ws.wd.sites)||[]).forEach(function(s){ out.push('site_'+s.id); }); }
+    else if(cat==='quest'){ [1,2,3,4].forEach(function(q){ for(var i=0;i<5;i++)out.push('q'+q+'_f'+i); if(FAIRY_KING_OBJECTS[q])out.push('king'+q); }); }
     else if(cat==='character'){ CHAR_ROSTER.forEach(function(R){ if(R.cat==='npc')out.push(R.id); }); out.push('npc_house'); }
     return out; },
   entry:function(cat,id){
@@ -19295,7 +19739,9 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
         lines:[['Looks',R.look],['Moves',R.move],['Attacks',R.atk],['Defends',R.def],['Special',R.sp],['Where',seg+(where?' — '+where:'')+(R.tags.indexOf('pack')>=0?' · in packs with an alpha':'')+(R.tags.indexOf('night')>=0?' · night only':'')]]}; }
     if(cat==='mount'){ var M=MOUNTS[id]; if(!M)return null; var cc=Array.isArray(M.canCross)?M.canCross.map(function(t){ return Object.keys(T).find(function(k){ return T[k]===t; }); }).filter(Boolean).map(function(s){ return s.toLowerCase().replace(/_/g,' '); }).join(', '):M.canCross;
       var CM=CHAR_BY_ID['mt_'+id]; return {name:M.n,icon:M.icon,spec:CM&&CM.spec,look:CM&&CM.look,sub:'Mount · '+(M.spdMult||1)+'× speed',hint:M.cost?'Sold at the stables':'Won in the '+TOME_QN[M.sec]||'',lines:(CM?[['Looks',CM.look]]:[]).concat([['What it does',M.desc],['Crosses',cc||'roads & grass'],['Tip','Press M to mount / dismount. Signature terrain is slow on foot but full speed on the right mount.']])}; }
-    if(cat==='familiar'){ var F=FAMILIARS[id]; if(!F)return null; var CF=CHAR_BY_ID['fm_'+id]; return {name:F.n,icon:F.icon,spec:CF&&CF.spec,sub:'Familiar · '+TOME_QN[F.sec],hint:'Reward for an island expedition in the '+TOME_QN[F.sec],lines:(CF?[['Looks',CF.look],['Does',CF.doing]]:[]).concat([['Power',F.desc],['Attack',(F.type==='aoe'?'Pulses around you ('+F.aoeR+' px)':'Fires at the nearest enemy')+' every '+F.atkInterval+' s for '+F.dmg+' damage'],['Tip','Press N to choose familiars; more slots open as you clear islands.']])}; }
+    if(cat==='familiar'){ var F=FAMILIARS[id]; if(!F)return null; var D=_famDesign(id), E=SPIRIT_ELEMENTS[D.el], ps0=Tome.ps(), L=ps0?_famLevel(ps0,id):1;
+      return {name:F.n,spec:{_cf:spiritFrames(D)},q:E.q,sub:'Familiar · '+E.name+' spirit · '+TOME_QN[E.q],hint:'A spirit sleeping on the '+TOME_QN[E.q]+' familiar island (its first harbor)',
+        lines:[['Looks',D.blurb],['Moves',D.move==='hover'?'Hovers and circles around you':'Walks along behind you'],['Skills',FAM_SKILLS[D.el].map(function(S,i){ return (i<L?'<b>':'<span style="opacity:.55">')+(i?'Lv '+(i+1):'Base')+' · '+S.name+(i<L?'</b>':'</span>')+' — '+S.text; }).join('<br>')],['Level up','Each of the five '+TOME_QN[E.q]+' fairies by the runestones teaches one more skill: find the object she asks for (dig with G), then pass her trial.'],['Tip','Press N to choose active familiars. Each Fairy King (Wetlands, Highlands, Ashlands) lets one more fly with you — up to 4.']]}; }
     if(cat==='spell'){ var S=SPELL_DATA[id]; if(!S)return null; return {name:S.name,icon:'✨',sub:'Spell · '+S.manaCost+' mana',hint:'Learned from a spell tome (shops & chests)',lines:[['Effect',({slow:'slows the target',splash:'explodes in an area',chain:'jumps between enemies',nova:'burns everything around you',none:'pierces through enemies',stun:'teleports you and stuns enemies'}[S.effect]||S.effect)],['Cost',S.manaCost+' mana · '+S.cooldown+' s cooldown'],['Tip','Equip the tome in the spell slot and press X.']]}; }
     if(cat==='item'&&typeof CASTLE_BY_SKILL!=='undefined'&&CASTLE_BY_SKILL[id]){ var IS=ITEMS[id], CS=CASTLE_ISLANDS[CASTLE_BY_SKILL[id]], TS=CHAR_BY_ID[CS.teacher], SS=TOWER_STYLES_BY_ID[CS.castle];
       return {name:IS.name,icon:IS.icon,sub:'Skill · special attack (Z) · '+TOME_QN[CS.sec],hint:'Taught by a master held in a '+TOME_QN[CS.sec]+' island castle',lines:[['Effect',IS.desc],['Cooldown',IS.cd+' s'],['Teacher',(TS?TS.name:'?')+' — held in '+(SS?SS.name:CS.name)+' on '+CS.name],['Tip','Skills are never sold: free the master to learn it. Equip one in the Special slot (skills tab) and press Z.']]}; }
@@ -19309,13 +19755,31 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     if(cat==='place'){ if(id==='village')return {name:'The Village',icon:'🏘',sub:'Home · Mirror Lake shore',hint:'Where it all begins',lines:[['About','A runestone hamlet on the shore of Mirror Lake. It grows every time a craftsman comes home: harbour, walls, windmills and more.']]};
       if(id.indexOf('zone_')===0){ var Z=WZ_DESIGN[id.slice(5)]||(WORLD_DESIGNS||[]).find(function(d){ return d.id===id.slice(5); }); if(!Z)return null; return {name:Z.name,icon:'🗺️',sub:'Region · '+TOME_QN[Z.quad],hint:'Somewhere in the '+TOME_QN[Z.quad],lines:[['About',Z.tagline+'.'],['Details',(Z.blurb||'').replace(/<[^>]+>/g,'')]]}; }
       if(id.indexOf('site_')===0){ var ws=game.scene.getScene('World'), s=ws&&ws.wd&&ws.wd.sites.find(function(x){ return 'site_'+x.id===id; }); if(!s)return null; return {name:_siteLabel(s),icon:{tower:'🗼',dungeon:'⚔️',harbor:'⚓',skyport:'🎈',camp:'⛺',volcano:'🌋'}[s.type]||'📍',sub:(s.type||'site')+' · '+TOME_QN[s.sec||getTileSection(s.tx,s.ty)],hint:'A '+(s.type||'site')+' in the '+TOME_QN[s.sec||getTileSection(s.tx,s.ty)],lines:[['About',(MAIN_QUEST_DEFS[s.type]&&MAIN_QUEST_DEFS[s.type].desc)||'Explore it to find out.']]}; } }
+    if(cat==='quest'){ var ws=game.scene.getScene('World'), ps1=Tome.ps(), S=((ps1&&ps1.fairyQuests)||{})[id], km=id.match(/^king(\d)$/), fm=id.match(/^q(\d)_f(\d)$/); if(!km&&!fm)return null;
+      var st=!S?'Not started':S.st==='done'?'✔ Complete':(S.got||[]).length>=S.need.length?'Found everything — return and take the trial':'Searching ('+(S.got||[]).length+' / '+S.need.length+' found)';
+      var objLine=function(o){ var got=S&&(S.got||[]).indexOf(o.id)>=0; return (got?'✔ ':'')+o.icon+' <b>'+o.name+'</b> — buried '+o.where+' in <b>'+_wmZoneName(o.zone)+'</b>, next to the runes at its heart.'+(!got&&ws&&ws._digHint?' '+ws._digHint(o.id):''); };
+      if(km){ var q=+km[1]; return {name:FAIRY_KING_NAMES[q]+'\'s Trial',icon:'👑',q:q,sub:'Fairy King quest · '+TOME_QN[q],hint:'A Fairy King holds court in a great rune henge in the '+TOME_QN[q]+'. His trial needs a '+TOME_QN[q]+' spirit with two fairy lessons.',
+        lines:[['Status',st],['Find',FAIRY_KING_OBJECTS[q].map(function(a,i){ return objLine(_kingObj(q,i)); }).join('<br>')],['How','Press G to dig. Golden sparkles appear when you are close, and the world map (B) circles the area with a 🪏.'],['Trial','Hold the King\'s circle against waves of monsters for 30 s, then defeat the shadow of your own spirit.'],['Reward','One more familiar can be active at once (up to 4).']]}; }
+      var q2=+fm[1], i2=+fm[2], o=_fairyObj(q2,i2), el=Object.keys(SPIRIT_ELEMENTS).find(function(k){ return SPIRIT_ELEMENTS[k].q===q2; }), sk=FAM_SKILLS[el][i2+1], tr=FAMILIAR_TRIALS.find(function(t){ return t.id===FAMILIAR_TRIAL_PICK[i2]; })||FAMILIAR_TRIALS[0];
+      var f=ws&&ws._fairies&&ws._fairies.find(function(x){ return x.q===q2&&x.i===i2; });
+      return {name:FAIRY_NAMES[q2][i2]+'\'s Lesson: '+sk.name,icon:o.icon,q:q2,sub:'Fairy quest '+(i2+1)+' of 5 · '+TOME_QN[q2],hint:'The fairy '+FAIRY_NAMES[q2][i2]+' lives '+(f?'near '+f.home.name:'by a runestone')+' in the '+TOME_QN[q2]+'.',
+        lines:[['Status',st],['Fairy',FAIRY_NAMES[q2][i2]+' — '+(f?'flits around '+f.home.name:'by the runestones')],['Find',objLine(o)],['How','Press G to dig. Golden sparkles appear when you are close, and the world map (B) circles the area with a 🪏.'],['Trial',tr.name+' — '+tr.text],['Teaches',sk.name+' — '+sk.text]]}; }
     if(cat==='character'){ var CN=CHAR_BY_ID[id]; if(CN){ var C0=id.indexOf('crafts_')===0?CRAFTSMEN[+id.slice(7)]:null;
         return {name:CN.name,spec:CN.spec,sub:CN.sub.replace(/s$/,'')+' · '+CN.where,hint:'Look for them: '+CN.where,lines:[['Looks',CN.look],['Does',CN.doing]].concat(C0?[['Says',C0.village||''],['Tip','Freeing a craftsman opens the next region and grows the village.']]:CN.extra?[['Also',CN.extra]]:[])}; }
       if(id.indexOf('crafts_')===0){ var C=CRAFTSMEN[+id.slice(7)]; if(!C)return null; return {name:C.n,icon:C.icon,sub:'Craftsman',hint:'A captive in a '+TOME_QN[+id.slice(7)]+' tower',lines:[['About',C.village||''],['Tip','Freeing a craftsman opens the next region and grows the village.']]}; }
       var nm={tavern:'The Tavern Keeper',shop:'The Shopkeeper',house:'Your Home',forge:'The Blacksmith',guild:'The Guild Master',stables:'The Stable Master',armory:'The Armourer',clothing:'The Tailor',jeweler:'The Jeweller',apothecary:"The Sorcerer's Apothecary",merchant:'The Travelling Merchant'}[id.slice(4)];
       return nm?{name:nm,icon:'🧑',sub:'Villager',hint:'Somewhere in the village',lines:[['About','Walk up to their door and press Tab.']]}:null; }
     return null; },
-  frames:function(spec){ return spec.mount?mtFrames(spec):msFrames(spec); },
+  frames:function(spec){ return spec._cf||(spec.mount?mtFrames(spec):msFrames(spec)); },
+  // which quadrant an entry belongs to (0 = village / everywhere)
+  qOf:function(cat,id,e){ if(e&&e.q!==undefined)return e.q; var n;
+    if(cat==='monster'){ var R=MON_BY_ID[id]; if(R&&R.q)return R.q; var B=MDEFS[id.slice(5)]; if(B&&B.sec)return B.sec; var cw=typeof CASTLE_ISLANDS!=='undefined'&&Object.keys(CASTLE_ISLANDS).find(function(k){ return CASTLE_ISLANDS[k].warden===id; }); if(cw)return CASTLE_ISLANDS[cw].sec; if(typeof BOSS_PHASES!=='undefined'){ var q0=0; Object.keys(BOSS_PHASES).forEach(function(k){ BOSS_PHASES[k].phases.forEach(function(P){ if(P&&(P.form===id||(P.allies||[]).some(function(a){ return a.form===id; })))q0=BOSS_PHASES[k].q; }); }); if(q0)return q0; } return 0; }
+    if(cat==='mount')return (MOUNTS[id]&&MOUNTS[id].sec)||0;
+    if(cat==='item'){ n=typeof CASTLE_BY_SKILL!=='undefined'&&CASTLE_BY_SKILL[id]; if(n)return CASTLE_ISLANDS[n].sec; return (ITEMS[id]&&ITEMS[id].secReq)||0; }
+    if(cat==='spell'){ var it=Object.keys(ITEMS).find(function(k){ return ITEMS[k].spellId===id; }); return it&&ITEMS[it].secReq||0; }
+    if(cat==='place'){ if(id.indexOf('zone_')===0){ var z=WMAP_ZONES.find(function(z){ return 'zone_'+z.id===id; }); return z?z.r:0; } if(id.indexOf('camp_')===0){ var C=CAMP_BY_ID[id.slice(5)]; return C?C.q:0; } if(id.indexOf('castle_')===0)return CASTLE_ISLANDS[id.slice(7)].sec; if(id.indexOf('arena_')===0){ var qa=0; Object.keys(BOSS_PHASES).forEach(function(k){ BOSS_PHASES[k].phases.forEach(function(P){ if(P&&P.arena===id.slice(6))qa=BOSS_PHASES[k].q; }); }); return qa; } if(id.indexOf('site_')===0){ var m=id.match(/^site_s(\d)/); return m?+m[1]:0; } return 0; }
+    if(cat==='character'){ if(id.indexOf('crafts_')===0)return +id.slice(7); var tc=typeof CASTLE_ISLANDS!=='undefined'&&Object.keys(CASTLE_ISLANDS).find(function(k){ return CASTLE_ISLANDS[k].teacher===id; }); if(tc)return CASTLE_ISLANDS[tc].sec; return 0; }
+    return 0; },
   // ── UI ──
   open:function(){ Tome.sync(); var el=document.getElementById('modal-tome'); if(!el){ el=document.createElement('div'); el.className='overlay'; el.id='modal-tome'; el.style.display='none'; el.onclick=function(){ closeModal('tome'); };
       el.innerHTML='<div class="modal tome-modal" onclick="event.stopPropagation()"><div class="mhdr"><span>📖 The Zeldara Tome</span><button class="mcls" onclick="closeModal(\'tome\')">✕</button></div><div class="tome-body"><div id="tome-tabs"></div><div class="tome-main"><div id="tome-grid"></div><div id="tome-detail"></div></div></div></div>';
@@ -19325,17 +19789,20 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     el.style.display='flex'; document.body.classList.add('bars-hidden'); Tome.render(); },
   render:function(){ var b=Tome.book(); if(!b)return; var cat=Tome.ui.cat;
     document.getElementById('tome-tabs').innerHTML=TOME_CATS.map(function(c){ var L=Tome.list(c.k), n=L.filter(function(id){ return b[c.k][id]; }).length; return '<button data-tcat="'+c.k+'" class="'+(c.k===cat?'on':'')+'">'+c.i+' '+c.n+' <span>'+n+' / '+L.length+'</span></button>'; }).join('');
-    var ids=Tome.list(cat); if(cat==='monster'){ var q=Tome.ui.q; if(q)ids=ids.filter(function(id){ var R=MON_BY_ID[id]; return R?R.q===q:MDEFS[id.slice(5)]&&MDEFS[id.slice(5)].sec===q; }); }
-    var qbar=cat==='monster'?'<div class="tome-q">'+['All','Grasslands','Wetlands','Highlands','Ashlands'].map(function(n,i){ return '<button data-tq="'+i+'" class="'+(i===Tome.ui.q?'on':'')+'">'+n+'</button>'; }).join('')+'</div>':'';
-    document.getElementById('tome-grid').innerHTML=qbar+'<div class="tome-cards">'+ids.map(function(id){ var e=Tome.entry(cat,id), got=!!b[cat][id]; if(!e)return ''; var ic=e.spec?'<canvas class="tome-spr'+(got?'':' dark')+'" data-spr="'+id+'" width="48" height="48"></canvas>':'<span class="tome-ic'+(got?'':' dark')+'">'+(e.icon||'•')+'</span>';
-      return '<button class="tome-card'+(got?'':' locked')+(Tome.ui.sel===id?' sel':'')+'" data-tid="'+id+'">'+ic+'<b>'+(got?e.name:'???')+'</b></button>'; }).join('')+'</div>';
-    document.querySelectorAll('#tome-grid canvas[data-spr]').forEach(function(cv){ var e0=Tome.entry(cat,cv.dataset.spr); if(!e0||!e0.spec)return; var x=cv.getContext('2d'); x.imageSmoothingEnabled=false; x.drawImage(Tome.frames(e0.spec)[0],0,0,48,48); if(cv.classList.contains('dark')){ x.globalCompositeOperation='source-atop'; x.fillStyle='#0c0a14'; x.fillRect(0,0,48,48); } });
+    var ids=Tome.list(cat), qf=Tome.ui.q, groups=[[],[],[],[],[]];
+    ids.forEach(function(id){ var e=Tome.entry(cat,id); if(!e)return; var q=Tome.qOf(cat,id,e); if(qf&&q!==qf)return; groups[q].push([id,e]); });
+    var qbar='<div class="tome-q">'+['All','Grasslands','Wetlands','Highlands','Ashlands'].map(function(n,i){ return '<button data-tq="'+i+'" class="'+(i===Tome.ui.q?'on':'')+(i?' tq'+i:'')+'">'+n+'</button>'; }).join('')+'</div>';
+    var card=function(p){ var id=p[0], e=p[1], got=!!b[cat][id], ic=e.spec?'<canvas class="tome-spr'+(got?'':' dark')+(e.spec._cf?' smooth':'')+'" data-spr="'+id+'" width="48" height="48"></canvas>':'<span class="tome-ic'+(got?'':' dark')+'">'+(e.icon||'•')+'</span>';
+      return '<button class="tome-card'+(got?'':' locked')+(Tome.ui.sel===id?' sel':'')+'" data-tid="'+id+'">'+ic+'<b>'+(got?e.name:'???')+'</b></button>'; };
+    document.getElementById('tome-grid').innerHTML=qbar+[1,2,3,4,0].map(function(q){ var G=groups[q]; if(!G.length)return ''; var n=G.filter(function(p){ return b[cat][p[0]]; }).length;
+      return '<section class="tome-sec q'+q+'" style="background:'+TOME_QCOL[q]+'"><h4>'+(q?TOME_QN[q]:'Village & everywhere')+' <span>'+n+' / '+G.length+'</span></h4><div class="tome-cards">'+G.map(card).join('')+'</div></section>'; }).join('');
+    document.querySelectorAll('#tome-grid canvas[data-spr]').forEach(function(cv){ var e0=Tome.entry(cat,cv.dataset.spr); if(!e0||!e0.spec)return; var x=cv.getContext('2d'); x.imageSmoothingEnabled=!!e0.spec._cf; x.drawImage(Tome.frames(e0.spec)[0],0,0,48,48); if(cv.classList.contains('dark')){ x.globalCompositeOperation='source-atop'; x.fillStyle='#0c0a14'; x.fillRect(0,0,48,48); } });
     var sel=Tome.ui.sel, det=document.getElementById('tome-detail');
     if(!sel){ det.innerHTML='<p class="tome-empty">Pick an entry. Things you have met, owned or visited are written in; the rest show as ??? with a hint.</p>'; return; }
     var e=Tome.entry(cat,sel), got=!!b[cat][sel];
     if(!got){ det.innerHTML='<h3>???</h3><p class="tome-hint">'+(e?e.hint:'')+'</p>'; return; }
     det.innerHTML=(e.spec?'<canvas id="tome-big" width="128" height="128"></canvas>':'<div class="tome-bigic">'+(e.icon||'')+'</div>')+'<h3>'+e.name+'</h3><div class="tome-sub">'+e.sub+'</div><dl>'+e.lines.map(function(l){ return '<dt>'+l[0]+'</dt><dd>'+l[1]+'</dd>'; }).join('')+'</dl>';
-    if(e.spec){ var cv=document.getElementById('tome-big'), fr=Tome.frames(e.spec), SEQ=e.spec.mount?[0,1,2,3,0,1,2,3,4,5,4,5,6,7,6,7]:[0,1,0,1,2,3,3], i=0; clearInterval(Tome._anim); var draw=function(){ if(!cv.isConnected){ clearInterval(Tome._anim); return; } var x=cv.getContext('2d'); x.clearRect(0,0,128,128); x.imageSmoothingEnabled=false; x.drawImage(fr[SEQ[i++%SEQ.length]],0,0,128,128); }; draw(); Tome._anim=setInterval(draw,220); } }
+    if(e.spec){ var cv=document.getElementById('tome-big'), fr=Tome.frames(e.spec), SEQ=e.spec._cf?[0,1,2,3]:e.spec.mount?[0,1,2,3,0,1,2,3,4,5,4,5,6,7,6,7]:[0,1,0,1,2,3,3], i=0; clearInterval(Tome._anim); var draw=function(){ if(!cv.isConnected){ clearInterval(Tome._anim); return; } var x=cv.getContext('2d'); x.clearRect(0,0,128,128); x.imageSmoothingEnabled=!!e.spec._cf; x.drawImage(fr[SEQ[i++%SEQ.length]],0,0,128,128); }; draw(); Tome._anim=setInterval(draw,220); } }
 };
 </script>
 <div id="slot-picker-modal" class="overlay" style="display:none">

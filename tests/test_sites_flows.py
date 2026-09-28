@@ -67,7 +67,7 @@ with game() as g:
     check('Back up → arrive beside that floor\'s stairs down', ok and near<4, near)
     g.js("game.scene.getScene('Dungeon')._exitToWorld(null)"); back_to_world(g); g.wait(300)
     # ── Island dungeons → familiars
-    for sec,boss,fam,kind in [(1,'Pirate Captain','firefly','dungeon'),(2,'Swamp Titan','sea_sprite','dungeon'),(4,'Frost Lord','frost_wisp','tower')]:
+    for sec,boss,fam,kind in [(1,'Pirate Captain','fam_grass','dungeon'),(2,'Swamp Titan','fam_water','dungeon'),(4,'Frost Lord','fam_fire','tower')]:
         g.js("(sec=>{var ws=game.scene.getScene('World');var h=ws.wd.sites.find(s=>s.type==='harbor'&&s.section===sec);ws.scene.sleep('World');ws.scene.launch('Island',{site:h,worldScene:ws,skipCutscene:true});})(%d)"%sec)
         for _ in range(30):
             if g.js("!!(game.scene.isActive('Island')&&game.scene.getScene('Island').monsters)"): break
@@ -98,7 +98,7 @@ with game() as g:
     g.wait(400)
     check('Ember Cave has 4 floors; guardian on the last', g.js("(()=>{var c=game.scene.getScene('Cave');return c.maxFloors===4&&c._isLastFloor&&c._mons.some(m=>m.isBoss);})()"))
     g.js("var c=game.scene.getScene('Cave');c._bossDefeated=true;c._claimCaveGuardian();"); back_to_world(g); g.wait(400)
-    check('Ember Cave guardian → Storm Hawk familiar', g.ws("ps.ownedFamiliars.includes('storm_hawk')&&ps.completedIslands.includes(3)"))
+    check('Ember Cave guardian → earth spirit familiar', g.ws("ps.ownedFamiliars.includes('fam_earth')&&ps.completedIslands.includes(3)"))
     # ── Journal
     g.js("var ws=game.scene.getScene('World');renderQuestList(ws.playerState.unlockedSections,ws.playerState.completedQuests,ws.playerState.activeQuest,ws);")
     html=g.js("document.getElementById('quest-list-container').innerHTML")
@@ -112,6 +112,6 @@ old=json.dumps({"hp":40,"maxHp":50,"atk":6,"def":1,"gold":10,"level":4,"xp":0,"m
   "activeQuest":None,"completedQuests":["s1_tower"],"dungeonFog":{"s1_dungeon_0":[1,1,0]},"godMode":False,"ownedFamiliars":["firefly","sea_sprite"],
   "skills":[],"lockedSites":["s1_skyport"],"saveVersion":3})
 with game(new=False, save=old) as g:
-    check('v3 save migrates (to v5): harbor/skyport quests backfilled, Bram rescued, fog reset', g.ws("ps.saveVersion===5&&ps.completedQuests.includes('s1_harbor')&&ps.completedQuests.includes('s2_harbor')&&ps.completedQuests.includes('s1_skyport')&&ps.rescued.includes(1)&&Object.keys(ps.dungeonFog).length===0"))
+    check('v3 save migrates (to v6): harbor/skyport quests backfilled, Bram rescued, fog reset, old familiars → spirits', g.ws("ps.saveVersion===6&&ps.ownedFamiliars.join()==='fam_grass,fam_water'&&ps.completedQuests.includes('s1_harbor')&&ps.completedQuests.includes('s2_harbor')&&ps.completedQuests.includes('s1_skyport')&&ps.rescued.includes(1)&&Object.keys(ps.dungeonFog).length===0"))
     check('Rescued craftsman appears in the village on load', g.ws("(ws._villageNPCs||[]).filter(n=>!n.folk).length===1"))
 print('%d/%d'%(sum(res),len(res)))

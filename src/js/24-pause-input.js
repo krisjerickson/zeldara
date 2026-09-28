@@ -17,7 +17,7 @@
 var PAUSE_OVERLAYS=[
   'modal-map','modal-quests','modal-inventory','modal-camp','modal-mounts','modal-controls','modal-sandbox','modal-sitelab','modal-tome',
   'slot-picker-modal','quick-pick-popup','item-found-popup',
-  'tavern-menu-overlay','skyport-shop-overlay','familiar-info-modal','scene-error-banner'
+  'tavern-menu-overlay','skyport-shop-overlay','familiar-info-modal','scene-error-banner','fairy-talk'
 ];
 var _PAUSE={active:false, since:0, scenes:[]};
 
@@ -141,7 +141,7 @@ document.addEventListener('keydown',function(e){
   }
 
   // Everything below is a gameplay action: blocked while paused.
-  var gameplay={control:1,x:1,z:1,c:1,p:1};
+  var gameplay={control:1,x:1,z:1,c:1,p:1,g:1};
   if(!gameplay[k])return;
   e.preventDefault();
   if(_PAUSE.active||_openOverlays().length)return;
@@ -157,6 +157,8 @@ document.addEventListener('keydown',function(e){
   } else if(k==='z'){
     if(sc===ws2&&ws2._useSpecial)ws2._useSpecial();
     else showNotif('Specials can only be used in the overworld','#8899aa');
+  } else if(k==='g'){
+    if(sc===ws2&&ws2._dig)ws2._dig(); else showNotif('You can only dig outdoors','#8899aa');
   } else if(k==='c'){
     doCycleAmmo();
   } else if(k==='p'){

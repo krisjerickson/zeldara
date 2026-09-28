@@ -71,8 +71,12 @@ with game(new=True) as g:
 
     # ── new skills work in the world ──
     r = g.ws("""(()=>{ ps.equip.special='sp_timeslow'; ws._specialCd=0; ws._useSpecial(); var ts=ws._timeSlow; ps.equip.special='sp_meteor'; ws._specialCd=0;
-      var m=ws.worldMonsters.find(m=>!m.dead&&m.mx); ws.player.x=m.x-60; ws.player.y=m.y; ws.player.cont.setPosition(m.x-60,m.y); window._mm=ws.worldMonsters.filter(m=>!m.dead).map(m=>[m,m.hp]); ws._useSpecial(); return ts; })()""")
-    g.wait(2500)
+      var w=ws.wd.waystones.find(w=>w.region===1), sp=ws._fairySpot(w.x+6,w.y+6,2); ws.player.x=sp.x*TILE+16; ws.player.y=sp.y*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); ws.player.dir='right'; ws.pdir='right';
+      var m=MX.spawn(ws,'thistle_hog',ws.player.x+110,ws.player.y,{q:1}); m.section=1; ws.worldMonsters.push(m); m._m.stunT=10; m.maxHp=m._hp=500;
+      window._mm=ws.worldMonsters.filter(m=>!m.dead).map(m=>[m,m.hp]); ws._aimOverride=0; ws._useSpecial(); return ts; })()""")
+    for _ in range(20):
+        g.wait(500)
+        if g.ws("window._mm.reduce((a,e)=>a+Math.max(0,e[1]-(e[0].dead?0:e[0].hp)),0)>0"): break
     hurt = g.ws("window._mm.reduce((a,e)=>a+Math.max(0,e[1]-(e[0].dead?0:e[0].hp)),0)")
     check('Time Slow and Meteor Strike fire from the Z key', r and r > 3 and hurt > 0, (r, hurt))
 

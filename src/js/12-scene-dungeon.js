@@ -393,7 +393,7 @@ class DungeonScene extends Phaser.Scene{
     if(m.tick){ try{ m.tick(this,dt,tt); }catch(e){} }
     if(this._darkRT){
       var rt=this._darkRT, hole=this._holeImg, v=this.cameras.main.worldView, pad=200;
-      var fire=_heroFamiliarActive(this.worldScene.playerState,'firefly');
+      var fire=(_heroActiveFamiliars(this.worldScene.playerState).length>0);
       var heroR=Math.max(230,m.heroLight||0)*(fire?1.3:1);
       if(this._heroGlow)this._heroGlow.setPosition(this.px,this.py-14);
       rt.clear(); rt.fill(hexNum(m.darkCol||'#000000'),this._labDark);
@@ -1003,7 +1003,7 @@ class DungeonScene extends Phaser.Scene{
     var ptx=Math.floor(this.px/TILE),pty=Math.floor(this.py/TILE);
     if(!force&&ptx===this._dngFogTile.tx&&pty===this._dngFogTile.ty)return;
     this._dngFogTile={tx:ptx,ty:pty};
-    var R=_heroFamiliarActive(this.worldScene.playerState,'firefly')?10:7,fog=this._dngFogExplored,changed=false;
+    var R=(_heroActiveFamiliars(this.worldScene.playerState).length>0)?10:7,fog=this._dngFogExplored,changed=false;
     for(var dy=-R;dy<=R;dy++){
       for(var dx=-R;dx<=R;dx++){
         if(dx*dx+dy*dy>R*R)continue;
@@ -1280,6 +1280,7 @@ class DungeonScene extends Phaser.Scene{
     this.monsters.forEach(function(mon){
       if(mon.dead||Math.hypot(mon.x-self.px,mon.y-self.py)>78)return;
       if(!_heroInArc(self.pdir||'right',mon.x-self.px,mon.y-self.py))return;
+      if(!_heroLOS(self,self.px,self.py,mon.x,mon.y))return;   // no hitting through walls
       var dmg=Math.max(1,atk-(mon.def.def||0)+Math.floor(Math.random()*5-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#ffdd44');

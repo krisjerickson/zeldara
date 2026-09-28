@@ -125,19 +125,12 @@ function _awardIslandFamiliar(ps,sec){
   if(!ps.completedIslands)ps.completedIslands=[];
   var first=!ps.completedIslands.includes(sec);
   if(first)ps.completedIslands.push(sec);
-  var famId={1:'firefly',2:'sea_sprite',3:'storm_hawk',4:'frost_wisp'}[sec], famDef=FAMILIARS[famId];
+  var famId=FAM_BY_SEC[sec], famDef=FAMILIARS[famId];
   if(famId&&famDef&&(!ps.ownedFamiliars||!ps.ownedFamiliars.includes(famId))){
     if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
-    ps.ownedFamiliars.push(famId);
-    setTimeout(function(){showNotif(famDef.icon+' '+famDef.n+' familiar unlocked!','#88eeff');},300);
-    if(!ps.familiar)ps.familiar=famId;
-    else if(!ps.familiar2&&_maxFamiliarSlots(ps)>=2)ps.familiar2=famId;
-    else if(!ps.familiar3&&_maxFamiliarSlots(ps)>=3)ps.familiar3=famId;
+    ps.ownedFamiliars.push(famId); if(!ps.famLevels)ps.famLevels={}; ps.famLevels[famId]=ps.famLevels[famId]||1;
+    setTimeout(function(){showNotif(famDef.icon+' '+famDef.n+' — a '+SPIRIT_ELEMENTS[famDef.el].name.toLowerCase()+' spirit — is now your familiar!','#88eeff');},300);
+    setTimeout(function(){showNotif('✨ The '+TOME_QN[sec]+' fairies by the runestones can teach it new skills.','#c0ffe0');},2200);
+    var max=_maxFamiliarSlots(ps); for(var i=0;i<max;i++){ if(!ps[FAM_SLOTS[i]]){ ps[FAM_SLOTS[i]]=famId; break; } }
   }
-  if(first){
-    var n=ps.completedIslands.length;
-    if(n===2)setTimeout(function(){showNotif('✨ Familiar slot 2 unlocked! (2 islands cleared)','#88eeff');},800);
-    if(n===4)setTimeout(function(){showNotif('✨ Familiar slot 3 unlocked! (All islands cleared!)','#88eeff');},800);
-  }
-  _completeQuest(ps,'s'+sec+'_harbor');
 }

@@ -175,6 +175,49 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
 - **[126] Design Lab tabs:** **Castles** (12, by quadrant), **Boss Arenas** (20) and **Interiors** (12) — all already in the game; mark any you want changed. The Characters tab now has 41 NPCs and 56 bosses (evolved forms + castle wardens; no review needed for bosses yet).
 - **[127] Tests:** new `tests/test_round2.py` (18 checks: seal, split-once, camps + celebration, mount seat, skills not sold, 4 harbors per quadrant, a full castle run → skill learned, Time Slow + Meteor, 12 interiors reachable, Tome links, Q1 2-phase and Q4 5-phase guardians end to end). Counts updated in `test_characters`, `test_lab_chars`, `test_tome`, `test_world_map` (44 sites).
 
+### Round 3 (Sept 28 2026) — Kris's six-point list
+- **[128] No attacking through walls.** Sword swings in the world, dungeons, towers, islands and caves need a clear line to the monster (`_heroLOS` in `09-hero-core.js`: building walls, cliffs, rocks and solid props block; ends of the line are ignored so monsters hugging a wall can still be hit). Island arrows now stop at walls too.
+- **[129] Shooters keep their distance.** A monster whose attacks are all ranged (shoot / lob / beam / breath …) backs away when you get within ~140 px, then turns and fires (engine rule in `MX.tick`; bosses excluded).
+- **[130] Spawns happen once.**
+  - Summoners call their helpers once per fight. When those helpers die, no more come (bosses still summon).
+  - Summoned and lobbed-in helpers never split or summon themselves.
+  - Roaming packs stay dead while you're nearby and come back only after you've gone about 30 tiles away.
+- **[131] Spirit familiars** (`07w-spirits.js`, `09d-familiars.js`). The old five familiars are replaced by four elemental spirits, one per quadrant island:
+  - The elements are 🌿 grass (Grasslands), 💧 water (Wetlands), 🪨 earth (Highlands) and 🔥 fire (Ashlands).
+  - They look patronus-like: a glowing translucent body, a luminous rim, a bright core, streaming wisps and drifting motes.
+  - **12 designs**, 3 per element. Kris picks one per element in the Lab. The ★ defaults in play now are Grove Elder, Tide Serpent, Stone Colossus and Ember Dragon.
+  - **Hover spirits** circle above you. **Follow spirits** walk your trail behind you.
+  - **6 skills each**: a base skill plus 5 fairy lessons.
+    - Grass: Thorn Dart, Healing Bloom, Vine Snare, Spore Cloud, Bark Ward, Wild Growth.
+    - Water: Water Bolt, Tide Ward, Whirlpool, Frost Lance, Rain of Renewal, Tidal Wave.
+    - Earth: Stone Shard, Stone Skin, Quake, Boulder Toss, Crystal Spikes, Avalanche.
+    - Fire: Ember Bolt, Flame Aura, Fireball, Blaze Dash, Rekindle, Inferno.
+  - All learned skills run on their own cooldowns. They scale +15% per familiar level and +12% per hero level, and cooldowns get 4% shorter per level.
+  - **Active familiars:** 1, plus 1 per Fairy King, up to 4. Press N to choose.
+  - Save v6 migrates the old familiars to their element's spirit.
+- **[132] Fairies, digging and familiar trials** (`10i-world-fairies.js`).
+  - **Where they are:** 5 fairies per quadrant flit around its 4 waystones and one rune circle.
+  - **Before you have that quadrant's familiar,** they only chat and point you to the familiar island.
+  - **After you have it,** fairy *n* teaches skill *n+1*, in order (the others tell you whom to visit first). Each lesson works like this:
+    1. She asks for an object and, the first time, gives you the **Fairy Trowel**.
+    2. The object is buried by the rune space of another zone in the quadrant.
+    3. Hints are strong:
+       - The zone name, the spot ("next to the runes at its heart") and the direction and distance from the nearest waystone.
+       - A 🪏 ring on the world map.
+       - Golden sparkles within 12 tiles, and a "[G] Dig here" prompt.
+       - The Tome's **Quests** chapter holds all of it.
+    4. **G digs.**
+    5. Bring the object back and your familiar takes her **trial**. When it passes, the familiar learns the skill and there's a celebration.
+  - **Trials built so far:** Rune Target Practice, Echo Path, Element Harvest, Guard the Runestone and Hold the Circle. There are 10 ideas in the Lab for Kris to pick from; Light the Stones, Catch the Trickster, Rune Lock and Escort are not built yet.
+- **[133] Fairy Kings** in huge rune henges: Oberyn (Wetlands, Sunken Temple Spires), Cairnwyn (Highlands, Wind-harp Ridges) and Pyrrhus (Ashlands, Chained Floating Rocks).
+  - **Requirement:** that quadrant's spirit must have learned two fairy lessons.
+  - **Quest:** dig up 3 treasures, then take a two-part trial: hold the shrinking circle against waves for 30 s, then defeat the shadow of your own spirit.
+  - **Reward:** +1 active familiar.
+  - Sandbox has a **"✨ Familiars Lv 6 + 4 Slots"** button.
+- **[134] The Tome is arranged by quadrant.** Every chapter is grouped Grasslands / Wetlands / Highlands / Ashlands / Village & everywhere, each on its own light colour, with a quadrant filter on every chapter. The new **📜 Quests** chapter lists the 20 fairy lessons and 3 King trials with status, objects, dig hints, trial and reward. Familiar entries show the animated spirit and its skill tree.
+- **[135] Design Lab:** new **Familiars** (12 spirits; pick 1 per element), **Fairies** (40 looks, 10 per quadrant; pick 1 per quadrant; kings wear a crown on the same look) and **Familiar Trials** (10 ideas; pick the ones you like) tabs. The old pixel familiars are removed from the Characters tab.
+- **[136] Tests:** new `tests/test_round3.py` (19 checks: walls, shooters, summon once, packs, spirits + migration + slots + scaling, fairies → quest → dig → trial → skill, every trial type, King → slot, Tome by quadrant). Familiar checks in `test_phase1_core`, `test_phase1_saves_familiars`, `test_characters`, `test_sites_flows` updated to the spirits; save version 6. Headless note: the full world runs at ~2–3 fps in software GL, so tests poll for results instead of fixed waits.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).
@@ -197,4 +240,5 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
 - Any menu open = game paused (Phase 1). Death anywhere = village, 25% HP, −10% gold.
 - ★ boss sites are sealed until the quadrant's other towers + dungeons are cleared ([119]).
 - Skills (special attacks) are only taught by castle masters — never sold, never sellable ([124]).
+- Familiars: ids `fam_grass/water/earth/fam_fire`; look = `FAMILIAR_PICK[element]` (07w); levels `ps.famLevels`; active slots `familiar`…`familiar4`, count = 1 + `ps.fairyKings.length`; quests `ps.fairyQuests` (`q{q}_f{i}`, `king{q}`), `ps.hasTrowel` ([131]–[133]).
 - Castle ids: harbor `s{sec}_harbor_{b|c|d}` → island key `q{sec}_{b|c|d}` (`CASTLE_ISLANDS`), castle dungeon site `isl_castle_<key>`; saves: `ps.castlesDone`, `ps.skillsLearned`, `ps.campsDone`.

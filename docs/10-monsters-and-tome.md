@@ -27,7 +27,7 @@
 3. Run `python tests/test_monsters.py <id>` — it checks that it spawns, uses its kit and acts on the player.
 
 ## The Zeldara Tome (`26-tome.js`)
-- T key or the 📖 Tome button. Chapters: Monsters (240 + 56 bosses: guardians, evolved phase forms, castle wardens), Mounts, Familiars, Spells, Items, Places (40 zones, the village, all sites, 20 boss arenas, 60 camp types, 12 castles), Characters (craftsmen + villagers).
+- T key or the 📖 Tome button. Chapters (each grouped by quadrant, light colour per quadrant): Monsters (240 + 56 bosses: guardians, evolved phase forms, castle wardens), Mounts, Familiars, Spells, Items, Places (40 zones, the village, all sites, 20 boss arenas, 60 camp types, 12 castles), Characters (craftsmen + villagers).
 - Entries fill in when you meet a monster (within ~280 px), own a mount/familiar/item/spell, visit a zone or site, or enter a building; locked ones show a ??? silhouette and a hint.
 - Stored in `playerState.tome` (saved with the game).
 
@@ -44,3 +44,9 @@
 - **Multi-phase guardians** (`09b-boss-phases.js`): `BOSS_PHASES[key].phases[n] = {form, arena, hp, sc, bars, allies, intro, kit, ev}`. Each phase form is registered as an engine monster `bp_<key>_<n>` (allies `…_a<j>`). Phase 2+ restarts the Dungeon scene with `{bossPhase}` in its arena (`BOSS_ARENAS`, `07u-boss-arenas.js`). Damage type comes from `MX._src` ('melee' / 'ranged' / 'spell'); extra health bars (`mon.bars`) take full damage only from their type (`BOSS_BAR_INFO`), 15% otherwise.
 - **Camps** (`10h-world-camps.js`): `CAMP_TYPES[q]` (15 each) — guards are engine monsters with `campId` + a short leash; `_campTick` handles loot pickup and respawn; `campCelebrate()` = fanfare (WebAudio `SFX`) + confetti + `#camp-banner`.
 - **Castle wardens** (`09c-castles.js`): `cwd_<key>` engine monsters with the kit in `CASTLE_ISLANDS[key].kit`; one phase; `CastleRun.placeTeacher / claim / learn`.
+
+## Round 3 (Sept 28 2026)
+- **Line of sight:** `_heroLOS(scene,x0,y0,x1,y1,high)` / `_heroWallAt` — `LOS_WALL_TILES` (walls, cliffs, rocks, props) for the hero; `high` = only walls + cliffs (flying spirits).
+- **Engine rules:** shooters (all attacks ranged, not kite/still/burrow…) back off inside `k.move.p.keep||140`; `summon` fires once per monster (`m.summoned`, bosses exempt), helpers are `temp` + `noSplit`; world respawn waits until the player is 30+ tiles away. New move `seek` (walk to `mon._seek`, fight you if close) for trial wisps.
+- **Familiars** (`07w-spirits.js` data + painters, `09d-familiars.js` runtime): `SPIRIT_DESIGNS` (12), `FAMILIAR_PICK`, `FAM_SKILLS[element]` (kinds proj / nova / heal / ward / rain / aura / wave / laststand), `_famCast`, `_heroFamiliarsTick` (hover orbit or trail-follow), wards refund the next hit.
+- **Fairies** (`10i-world-fairies.js`): `FAIRY_DESIGNS` (40) + `FAIRY_PICK`, fairies on `wd.waystones` + `wd.runeSpots` (each zone's stamp spawn), `FAIRY_OBJECTS` / `FAIRY_KING_OBJECTS` → `_digSpots`, `FairyTalk` dialogue (pauses the game), trials `_trialStart/_trialTick/_trialEnd` (`rune_targets`, `guardian`, `echo_path`, `orb_harvest`, `hold_circle`, `king`), `_wmFairyMarks` on the world map.

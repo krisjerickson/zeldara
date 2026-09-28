@@ -75,13 +75,13 @@ with game() as g:
         check(f'{key} loads and Esc returns', ok and back, g.active())
 
     # ── B2 familiars ──
-    g.ws("(ps.ownedFamiliars=['firefly','storm_hawk','frost_wisp','sea_sprite','wind_sprite'], ps.familiar='storm_hawk', ps.level=5)")
+    g.ws("(ps.ownedFamiliars=['fam_grass','fam_water','fam_earth','fam_fire'], ps.familiar='fam_earth', ps.level=5)")
     g.js("sbSpawnMonsters()"); g.wait(200)
     hp_before = g.ws("ws.worldMonsters.filter(m=>!m.dead).reduce((a,m)=>a+m.hp,0)")
     g.wait(12000)
     hp_after = g.ws("ws.worldMonsters.filter(m=>!m.dead).reduce((a,m)=>a+m.hp,0)")
-    check('Storm Hawk damages monsters', hp_after < hp_before, (hp_before, hp_after))
-    g.js("showFamiliarInfo('frost_wisp')"); g.wait(300)
+    check('Earth spirit damages monsters', hp_after < hp_before, (hp_before, hp_after))
+    g.js("showFamiliarInfo('fam_fire')"); g.wait(300)
     check('Familiar info popup opens + pauses', g.js("document.getElementById('familiar-info-modal').style.display==='flex' && isGamePaused()"))
     g.key('Escape'); g.wait(200)
 

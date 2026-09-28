@@ -52,6 +52,18 @@ function _heroOpenAt(scene, x, y){
   }
   return true;
 }
+// ── line of sight: no attacking through walls ──
+var LOS_WALL_TILES=new Set([T.ROCK,T.LARGE_BOULDER,T.BUILDING_WALL,T.CLIFF]); if(T.PROP!==undefined)LOS_WALL_TILES.add(T.PROP);
+var HIGH_WALL_TILES=new Set([T.BUILDING_WALL,T.CLIFF]);   // what flying spirits can't pass
+function _heroWallAt(scene,x,y,high){ var key=scene.sys.settings.key, tx=Math.floor(x/TILE), ty=Math.floor(y/TILE), WS=high?HIGH_WALL_TILES:LOS_WALL_TILES;
+  if(key==='Dungeon'&&scene.dtiles){ var r=scene.dtiles[ty]; return !r||r[tx]===undefined||r[tx]===DNG.WALL; }
+  if(key==='Cave'&&scene._isSolid)return scene._isSolid(Math.floor(x/CV),Math.floor(y/CV));
+  if(key==='World'&&scene.tiles){ var t=(scene.tiles[ty]||[])[tx]; return t!==undefined&&WS.has(t); }
+  if(key==='Island'&&scene._imap){ var t2=(scene._imap.tiles[ty]||[])[tx]; return t2!==undefined&&WS.has(t2); }
+  return false; }
+// true when nothing solid lies between (x0,y0) and (x1,y1); the ends themselves are ignored
+function _heroLOS(scene,x0,y0,x1,y1,high){ var d=Math.hypot(x1-x0,y1-y0); if(d<14)return true; var n=Math.ceil(d/6);
+  for(var i=1;i<n;i++){ var f=i/n; if(f*d<8||(1-f)*d<10)continue; if(_heroWallAt(scene,x0+(x1-x0)*f,y0+(y1-y0)*f,high))return false; } return true; }
 function _heroFloat(scene, x, y, msg, col){
   if(scene._floatText){ scene._floatText(x,y,msg,col); return; }
   var t=scene.add.text(x,y,msg,{fontSize:'12px',color:col||'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(40);
@@ -331,118 +343,7 @@ function _heroStatusTick(scene, dt){
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// ║ FAMILIARS v2 (B2) — each has a signature ability; damage scales +12%
-// ║ per player level. Ability data lives in FAMILIAR_ABILITIES so the
-// ║ info pop-up and the combat code read the same numbers.
-// ═══════════════════════════════════════════════════════════════════════
-var FAMILIAR_ABILITIES={
-  firefly:{ ability:'Ember Spark', kind:'Ignite', cd:2.5, dmg:6, range:260,
-    text:'Shoots an ember at the nearest enemy and sets it on fire (burns for 3 s). Also lights up dark dungeons: you see 3 tiles further.',
-    burn:{dur:3, dpsMult:0.35}, where:'Clear the NE Grasslands harbor island' },
-  wind_sprite:{ ability:'Gale Burst', kind:'Knockback', cd:4, dmg:8, radius:95, push:70,
-    text:'A gust around you that damages every enemy in range, shoves them back and interrupts their next attack.',
-    where:'Complete the NE Grasslands sky port' },
-  sea_sprite:{ ability:'Tide Ward', kind:'Shield + heal', cd:20, dmg:0, heal:0.015, healEvery:3,
-    text:'A water bubble absorbs the next hit you take, then recharges after 20 s. Heals 1.5% of your max HP every 3 s.',
-    where:'Clear the SE Wetlands harbor island' },
-  storm_hawk:{ ability:'Chain Lightning', kind:'Chain', cd:3, dmg:7, range:280, chains:2,
-    text:'Calls lightning on the nearest enemy, which then jumps to 2 more enemies close by (70% damage each jump).',
-    where:'Clear the SW Highlands harbor island' },
-  frost_wisp:{ ability:'Frost Nova', kind:'Slow', cd:5, dmg:12, radius:100, slow:0.5, slowDur:3,
-    text:'A freezing burst around you that damages every enemy in range and slows them by 50% for 3 s.',
-    where:'Clear the NW Ashlands harbor island' },
-};
-function _familiarLevelMult(ps){ return 1+0.12*(((ps&&ps.level)||1)-1); }
-function _familiarDamage(fid, ps){ var a=FAMILIAR_ABILITIES[fid]; return a?Math.round(a.dmg*_familiarLevelMult(ps)):0; }
-function _heroActiveFamiliars(ps){
-  var out=[], slots=['familiar','familiar2','familiar3'], max=_maxFamiliarSlots(ps);
-  for(var i=0;i<max;i++){ var f=ps[slots[i]]; if(f&&FAMILIARS[f]&&out.indexOf(f)<0)out.push(f); }
-  return out;
-}
-function _heroFamiliarActive(ps, fid){ return !!ps&&_heroActiveFamiliars(ps).indexOf(fid)>=0; }
-
-// Per-frame familiar driver. Replaces the old _heroFamiliarsTick/_heroFamiliarFire.
-function _heroFamiliarsTick(scene, dt){
-  var c=_heroCtx(scene), ps=c.ps; if(!ps)return;
-  var fams=_heroActiveFamiliars(ps);
-  if(!scene._famVisuals)scene._famVisuals={};
-  if(!scene._famTimers)scene._famTimers={};
-  // Remove visuals for familiars no longer active
-  Object.keys(scene._famVisuals).forEach(function(f){ if(fams.indexOf(f)<0){ var v=scene._famVisuals[f]; if(v&&v.destroy)v.destroy(); if(v&&v._aura)v._aura.destroy(); delete scene._famVisuals[f]; } });
-  var mult=_familiarLevelMult(ps);
-  fams.forEach(function(fid,i){
-    var fd=FAMILIARS[fid], ab=FAMILIAR_ABILITIES[fid]; if(!fd||!ab)return;
-    var v=scene._famVisuals[fid];
-    if(!v||!v.active){
-      v=CHX.sprite(scene,'fm_'+fid,c.x,c.y,0.8,{origin:[0.5,0.55],act:false})||scene.add.text(c.x,c.y,fd.icon,{fontSize:'15px',fontFamily:'serif'}).setOrigin(.5);
-      v.setDepth(21);
-      v._ang=(i/Math.max(1,fams.length))*Math.PI*2;
-      v._aura=scene.add.circle(c.x,c.y,9,{firefly:0xffcc55,wind_sprite:0x99ffcc,sea_sprite:0x55aaff,storm_hawk:0xffee55,frost_wisp:0xaaddff}[fid]||0xffffff,0.28).setDepth(20);
-      scene._famVisuals[fid]=v;
-    }
-    v._ang+=dt*1.7;
-    var ox=Math.cos(v._ang)*(22+i*5), oy=Math.sin(v._ang)*(22+i*5)*0.55-14;
-    v.setPosition(c.x+ox,c.y+oy); v._aura.setPosition(c.x+ox,c.y+oy);
-    v._aura.setScale(1+0.18*Math.sin(Date.now()/220+i));
-    if(scene._famTimers[fid]===undefined)scene._famTimers[fid]=Math.min(1.5,ab.cd);
-    // Sea Sprite runs on its own passive logic below
-    if(fid==='sea_sprite')return;
-    scene._famTimers[fid]-=dt;
-    if(scene._famTimers[fid]>0)return;
-    var fired=_heroFamiliarAct(scene, fid, ab, {x:c.x+ox,y:c.y+oy}, c, mult);
-    if(fired&&v._ch)CHX.busy(v,0.6);
-    scene._famTimers[fid]=fired?ab.cd:0.4; // retry soon if nothing was in range
-  });
-  _heroSeaSprite(scene, c, ps, dt);
-}
-function _heroFamiliarAct(scene, fid, ab, from, c, mult){
-  var mons=c.monsters.filter(function(m){return !m.dead;});
-  var dmg=ab.dmg*mult;
-  function nearest(range){ var b=null,bd=range; mons.forEach(function(m){var d=Math.hypot(m.x-c.x,m.y-c.y); if(d<bd){bd=d;b=m;}}); return b; }
-  if(fid==='firefly'){
-    var t=nearest(ab.range); if(!t)return false;
-    var a=Math.atan2(t.y-from.y,t.x-from.x);
-    if(!scene._famProj2)scene._famProj2=[];
-    var dot=scene.add.circle(from.x,from.y,5,0xffaa33,1).setDepth(18);
-    var glow=scene.add.circle(from.x,from.y,10,0xff6600,0.35).setDepth(17);
-    scene._famProj2.push({vis:dot,glow:glow,x:from.x,y:from.y,vx:Math.cos(a)*300,vy:Math.sin(a)*300,tgt:t,life:1.4,
-      onHit:function(m){ _heroHitMonster(scene,m,dmg,{col:'#ffbb55'}); _heroBurn(m,ab.burn.dur,Math.max(1,dmg*ab.burn.dpsMult)); }});
-    return true;
-  }
-  if(fid==='storm_hawk'){
-    var t2=nearest(ab.range); if(!t2)return false;
-    _heroBolt(scene,from.x,from.y,t2.x,t2.y,0xffee55);
-    var d=_heroHitMonster(scene,t2,dmg,{col:'#ffff88',suffix:'⚡'});
-    _heroChain(scene,t2,ab.chains,Math.max(1,d*0.7),mons);
-    return true;
-  }
-  if(fid==='wind_sprite'||fid==='frost_wisp'){
-    var inR=mons.filter(function(m){return Math.hypot(m.x-c.x,m.y-c.y)<=ab.radius;});
-    if(!inR.length)return false;
-    var col=fid==='frost_wisp'?0xaaddff:0x99ffcc;
-    var ring=scene.add.circle(c.x,c.y,6,col,0.45).setDepth(8);
-    scene.tweens.add({targets:ring,scaleX:ab.radius/6,scaleY:ab.radius/6,alpha:0,duration:420,onComplete:function(){ring.destroy();}});
-    inR.forEach(function(m){
-      _heroHitMonster(scene,m,dmg,{col:fid==='frost_wisp'?'#bbeeff':'#bbffdd'});
-      if(m.dead)return;
-      if(fid==='frost_wisp')_heroSlow(scene,m,ab.slowDur,ab.slow);
-      else{
-        var a2=Math.atan2(m.y-c.y,m.x-c.x), step=6, moved=0;
-        while(moved<ab.push){
-          var nx2=m.x+Math.cos(a2)*step, ny2=m.y+Math.sin(a2)*step;
-          if(!_heroMonsterCanStand(scene,nx2,ny2))break;
-          m.x=nx2; m.y=ny2; moved+=step;
-        }
-        if(m.cont)m.cont.setPosition(m.x,m.y);
-        m._lastX=m.x; m._lastY=m.y;
-        m.atkTimer=Math.max(m.atkTimer||0,1.2);
-      }
-    });
-    return true;
-  }
-  return false;
-}
+// (Familiars live in 09d-familiars.js — elemental spirit familiars.)
 function _heroMonsterCanStand(scene,x,y){
   var key=scene.sys.settings.key;
   if(key==='World'&&scene._canGoMonster)return scene._canGoMonster(x,y);
@@ -451,102 +352,6 @@ function _heroMonsterCanStand(scene,x,y){
   if(key==='VolcanoBossRush')return x>40&&x<scene.W-40&&y>40&&y<scene.H-40;
   return _heroOpenAt(scene,x,y);
 }
-function _heroFamProjTick(scene, dt){
-  if(!scene._famProj2||!scene._famProj2.length)return;
-  scene._famProj2=scene._famProj2.filter(function(p){
-    p.life-=dt;
-    if(p.life<=0||!p.vis.active){p.vis.destroy();p.glow.destroy();return false;}
-    if(p.tgt&&!p.tgt.dead){ var a=Math.atan2(p.tgt.y-p.y,p.tgt.x-p.x); p.vx=Math.cos(a)*300; p.vy=Math.sin(a)*300; }
-    p.x+=p.vx*dt; p.y+=p.vy*dt; p.vis.setPosition(p.x,p.y); p.glow.setPosition(p.x,p.y);
-    if(p.tgt&&!p.tgt.dead&&Math.hypot(p.tgt.x-p.x,p.tgt.y-p.y)<((p.tgt.def&&p.tgt.def.r)||10)+6){
-      p.onHit(p.tgt); p.vis.destroy(); p.glow.destroy(); return false;
-    }
-    return true;
-  });
-}
-// Sea Sprite: heal over time + bubble that refunds the next hit taken.
-function _heroSeaSprite(scene, c, ps, dt){
-  var st=ps._seaState||(ps._seaState={ready:true,cd:0,healT:0,lastHp:ps.hp});
-  var on=_heroFamiliarActive(ps,'sea_sprite');
-  if(!on){ st.lastHp=ps.hp; if(scene._seaBubble){scene._seaBubble.destroy();scene._seaBubble=null;} return; }
-  var ab=FAMILIAR_ABILITIES.sea_sprite;
-  // Bubble refund: HP went down since last frame and the bubble is up
-  if(ps.hp<st.lastHp&&st.ready&&ps.hp>0&&!ps.godMode){
-    var lost=st.lastHp-ps.hp; ps.hp=st.lastHp;
-    st.ready=false; st.cd=ab.cd;
-    _heroFloat(scene,c.x,c.y-34,'💧 Blocked '+lost,'#77ccff');
-  }
-  if(!st.ready){ st.cd-=dt; if(st.cd<=0){ st.ready=true; _heroFloat(scene,c.x,c.y-34,'💧 Tide Ward ready','#77ccff'); } }
-  st.healT+=dt;
-  if(st.healT>=ab.healEvery){ st.healT=0; if(ps.hp<ps.maxHp&&ps.hp>0){ var h=Math.max(1,Math.round(ps.maxHp*ab.heal)); ps.hp=Math.min(ps.maxHp,ps.hp+h); } }
-  st.lastHp=ps.hp;
-  // Bubble visual
-  if(st.ready){
-    if(!scene._seaBubble||!scene._seaBubble.active){ scene._seaBubble=scene.add.circle(c.x,c.y-12,22,0x55aaff,0.12).setStrokeStyle(1.5,0x88ccff,0.7).setDepth(19); }
-    scene._seaBubble.setPosition(c.x,c.y-12).setAlpha(0.7+0.3*Math.sin(Date.now()/300));
-  } else if(scene._seaBubble){ scene._seaBubble.destroy(); scene._seaBubble=null; }
-}
-
-// ── Familiar info pop-up (opens from inventory, N picker, anywhere) ─────
-function showFamiliarInfo(fid){
-  var f=FAMILIARS[fid], ab=FAMILIAR_ABILITIES[fid]; if(!f||!ab)return;
-  var ws=_heroWS(), ps=ws&&ws.playerState;
-  var el=document.getElementById('familiar-info-modal');
-  if(!el){
-    el=document.createElement('div'); el.id='familiar-info-modal'; el.className='overlay';
-    el.style.cssText='display:none;z-index:10010';
-    el.onclick=function(e){ if(e.target===el)el.style.display='none'; };
-    document.body.appendChild(el);
-  }
-  var owned=ps&&(ps.ownedFamiliars||[]).indexOf(fid)>=0, active=_heroFamiliarActive(ps,fid);
-  var rows=[];
-  if(ab.dmg)rows.push(['Damage at your level', _familiarDamage(fid,ps)+' <span style="color:#667">(base '+ab.dmg+', +12% per level)</span>']);
-  rows.push([fid==='sea_sprite'?'Shield recharge':'Cooldown', ab.cd+' s']);
-  if(ab.range)rows.push(['Range', ab.range+' px']);
-  if(ab.radius)rows.push(['Radius', ab.radius+' px']);
-  if(fid==='firefly')rows.push(['Burn', Math.max(1,Math.round(_familiarDamage(fid,ps)*ab.burn.dpsMult))+' dmg/s for '+ab.burn.dur+' s']);
-  if(fid==='sea_sprite')rows.push(['Healing', Math.max(1,Math.round(((ps&&ps.maxHp)||30)*ab.heal))+' HP every '+ab.healEvery+' s']);
-  if(fid==='storm_hawk')rows.push(['Chain', ab.chains+' extra targets at 70%']);
-  if(fid==='frost_wisp')rows.push(['Slow', '50% for '+ab.slowDur+' s']);
-  rows.push(['How to get it', ab.where]);
-  el.innerHTML='<div class="modal" style="min-width:300px;max-width:380px" onclick="event.stopPropagation()">'+
-    '<div class="mhdr"><span>'+f.icon+' '+f.n+'</span><button class="mcls" onclick="document.getElementById(\'familiar-info-modal\').style.display=\'none\'">✕</button></div>'+
-    '<div style="padding:4px 2px 2px">'+
-    '<div style="font-size:13px;color:#aee;font-weight:600;margin-bottom:2px">'+ab.ability+' <span style="font-size:10px;color:#79a;border:1px solid #356;border-radius:4px;padding:0 5px;margin-left:4px">'+ab.kind+'</span></div>'+
-    '<div style="font-size:12px;color:#bcd;line-height:1.45;margin:6px 0 10px">'+ab.text+'</div>'+
-    rows.map(function(r){return '<div style="display:flex;justify-content:space-between;gap:12px;font-size:11px;padding:4px 0;border-top:1px solid rgba(255,255,255,.06)"><span style="color:#889">'+r[0]+'</span><span style="color:#dde;text-align:right">'+r[1]+'</span></div>';}).join('')+
-    '<div style="margin-top:10px;font-size:11px;color:'+(active?'#9f9':owned?'#aac':'#776')+'">'+(active?'● Active':owned?'Owned — press N to equip':'Not found yet')+'</div>'+
-    '</div></div>';
-  el.style.display='flex';
-}
-
-// One familiar card, used by the inventory footer and the N picker.
-function _familiarCardHTML(fid, ps, onclick, withInfoBtn){
-  var f=FAMILIARS[fid], ab=FAMILIAR_ABILITIES[fid]; if(!f||!ab)return '';
-  var active=_heroFamiliarActive(ps,fid);
-  var stat=ab.dmg?(_familiarDamage(fid,ps)+' dmg · every '+ab.cd+' s'):('shield every '+ab.cd+' s · heals');
-  return '<div class="sp-row" style="display:block;cursor:pointer;border:1px solid '+(active?'rgba(100,200,100,.45)':'rgba(255,255,255,.06)')+';border-radius:6px;margin-bottom:5px;padding:6px 8px" onclick="'+onclick+'">'+
-    '<div style="display:flex;align-items:center;gap:7px">'+
-      '<span style="font-size:18px">'+f.icon+'</span>'+
-      '<span style="flex:1"><span style="font-size:12px;font-weight:600;color:#def">'+f.n+'</span> <span style="font-size:10px;color:#8ab">· '+ab.ability+'</span></span>'+
-      (active?'<span style="font-size:9px;color:#9f9">● ACTIVE</span>':'')+
-      (withInfoBtn?'<span title="Details" onclick="event.stopPropagation();showFamiliarInfo(\''+fid+'\')" style="font-size:13px;color:#8cf;padding:0 4px;cursor:pointer">ⓘ</span>':'')+
-    '</div>'+
-    '<div style="font-size:10px;color:#88a;margin-top:3px;line-height:1.35">'+ab.text+'</div>'+
-    '<div style="font-size:9px;color:#668;margin-top:2px">'+stat+'</div>'+
-  '</div>';
-}
-
-// Slot-aware equip toggle used by the N picker: click an active familiar to
-// remove it; click an owned one to put it in the first free slot (or slot 1).
-function _toggleFamiliar(fid){
-  var ws=_heroWS(); if(!ws)return; var ps=ws.playerState;
-  var slots=['familiar','familiar2','familiar3'], max=_maxFamiliarSlots(ps);
-  for(var i=0;i<3;i++){ if(ps[slots[i]]===fid){ ps[slots[i]]=null; ws._emitUI(); return; } }
-  for(var j=0;j<max;j++){ if(!ps[slots[j]]){ ps[slots[j]]=fid; ws._emitUI(); return; } }
-  ps.familiar=fid; ws._emitUI();
-}
-
 // ═══════════════════════════════════════════════════════════════════════
 // ║ Per-frame upkeep for whichever scene the player is in. World keeps its
 // ║ own spell/mana code; everything else gets it here, so sub-scenes no

@@ -84,7 +84,7 @@ with game(new=True) as g:
     # save + reload keeps waystones / caches / zones
     g.ws("ws._save()")
     sv=g.js("JSON.parse(localStorage.getItem('qoz_v2'))")
-    check('Save keeps waystones, visited zones and opened caches (save v5)', sv['saveVersion']==5 and len(sv['activatedWaystones'])==17 and isinstance(sv.get('visitedZones'),list) and isinstance(sv.get('openedCaches'),list), sv['saveVersion'])
+    check('Save keeps waystones, visited zones and opened caches (save v6)', sv['saveVersion']==6 and len(sv['activatedWaystones'])==17 and isinstance(sv.get('visitedZones'),list) and isinstance(sv.get('openedCaches'),list), sv['saveVersion'])
     errs=list(g.errs)
 
 # an old v4 save (old 600x600 world) migrates: back at the village, fresh map, progress kept

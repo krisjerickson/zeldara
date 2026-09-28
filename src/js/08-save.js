@@ -6,8 +6,8 @@
 // ║ localStorage['qoz_v2_backup_v<old>'] so nothing is ever lost.
 // ║ To change the save shape later: bump SAVE_VERSION and add a step.
 // ═══════════════════════════════════════════════════════════════════════
-var SAVE_VERSION=5;
-var _SAVE_TRANSIENT=['_seaState'];   // runtime-only fields never written to disk
+var SAVE_VERSION=6;
+var _SAVE_TRANSIENT=['_seaState','_famWard','_famLastHp'];   // runtime-only fields never written to disk
 
 function _migrateSave(d, raw){
   var v=d.saveVersion||2;              // saves before versioning = v2
@@ -43,6 +43,10 @@ function _migrateSave(d, raw){
     // village with a fresh map (progress, items and quests are kept).
     delete d.px; delete d.py; delete d.exploredGridArr;
     d.activatedWaystones=['ws_village']; d.visitedZones=[];
+  }
+  if(v<6){
+    // Phase 4c: familiars are the four elemental spirits (fam_grass/water/earth/fire)
+    _famMigrate(d);
   }
   _SAVE_TRANSIENT.forEach(function(k){ delete d[k]; });
   d.saveVersion=SAVE_VERSION;

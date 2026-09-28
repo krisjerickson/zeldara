@@ -20,7 +20,7 @@ with sync_playwright() as p:
     pg.goto("http://lab.test/"); pg.wait_for_timeout(1500)
     pg.click('.lab-tab[data-tab="characters"]'); pg.wait_for_timeout(900)
     counts = {}
-    for cat, n in [('npc', 41), ('mount', 11), ('familiar', 5), ('boss', 56)]:
+    for cat, n in [('npc', 41), ('mount', 11), ('boss', 56)]:
         pg.click(f'.ch-cat[data-cat="{cat}"]'); pg.wait_for_timeout(700)
         counts[cat] = pg.evaluate("document.querySelectorAll('.ch-card').length")
         drawn = pg.evaluate("[...document.querySelectorAll('.ch-spr')].slice(0,6).filter(c=>{ var d=c.getContext('2d').getImageData(0,0,c.width,c.height).data; for(var i=3;i<d.length;i+=16)if(d[i])return true; return false; }).length")

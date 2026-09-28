@@ -26,8 +26,10 @@ with game(new=True) as g:
         check(f'{typ} {sid}: roster monsters with pixel sprites', r['n'] > 0 and r['spr'] == r['n'], r)
         # let one fight: move the player next to the nearest non-boss monster and watch
         g.js("""(()=>{ var d=game.scene.getScene('Dungeon'), ps=d.worldScene.playerState; ps.maxHp=99999; ps.hp=99999; var m=d.monsters.filter(x=>!x.isBoss&&!x.dead).sort(function(a,b){ return Math.hypot(a.x-d.px,a.y-d.py)-Math.hypot(b.x-d.px,b.y-d.py); })[0]; if(!m)return; window._dm=m; d.px=m.x-50; d.py=m.y; if(!d._canGoD(d.px,d.py)){ d.px=m.x; d.py=m.y+40; } d.pCont.setPosition(d.px,d.py); window._dhp=ps.hp; MX.log={}; })()""")
-        g.wait(4000)
-        f = g.js("(()=>{ var d=game.scene.getScene('Dungeon'); return {dmg:window._dhp-d.worldScene.playerState.hp, rid:window._dm&&window._dm.rid, ev:window._dm&&MX.log[window._dm.rid]}; })()")
+        for _ in range(24):   # headless runs at a few fps: poll up to ~12 s
+            g.wait(500)
+            f = g.js("(()=>{ var d=game.scene.getScene('Dungeon'); return {dmg:window._dhp-d.worldScene.playerState.hp, rid:window._dm&&window._dm.rid, ev:window._dm&&MX.log[window._dm.rid]}; })()")
+            if f['dmg'] > 0 or (f['ev'] and any(k.startswith('atk_') for k in f['ev'])): break
         check(f'{typ} {sid}: its monsters attack the player', f['dmg'] > 0 or (f['ev'] and any(k.startswith('atk_') for k in f['ev'])), f)
     g.js("(()=>{ var d=game.scene.getScene('Dungeon'); if(d)d.scene.stop(); var ws=game.scene.getScene('World'); ws.scene.wake('World'); })()")
     check('Dungeons are melee + ranged, towers are magic (mostly)', sum(v for k, v in seen['dungeon'].items() if k.startswith('dun')) >= sum(seen['dungeon'].values()) * 0.6 and seen['tower'].get('tow', 0) >= sum(seen['tower'].values()) * 0.6, seen)

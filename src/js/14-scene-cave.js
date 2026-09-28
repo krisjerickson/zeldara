@@ -428,6 +428,7 @@ class CaveScene extends Phaser.Scene{
       if(mon.dead)return;
       if(Math.hypot(mon.x-self._px,mon.y-self._py)>65)return;
       if(Math.abs(mon.x-self._px)>60)return;
+      if(!_heroLOS(self,self._px,self._py-10,mon.x,mon.y-10))return;   // no hitting through walls
       var dmg=Math.max(1,stats.atk-(mon.def.def||0)+Math.floor(Math.random()*4-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
       self._floatText(mon.x,mon.y-20,'-'+dmg,'#ffdd44');

@@ -152,7 +152,7 @@ function _buildGameWorld(){
     c.ley.forEach(function(L){ var pts=L.pts.map(function(p){return [ox+p[0],oy+p[1]];}), xs=pts.map(function(p){return p[0];}), ys=pts.map(function(p){return p[1];});
       ley.push({pts:pts,col:L.col,bx0:Math.min.apply(null,xs),bx1:Math.max.apply(null,xs),by0:Math.min.apply(null,ys),by1:Math.max.apply(null,ys)}); });
     (c.m.shafts||[]).forEach(function(sh){ shafts.push({canvas:sh.canvas,x:sh.x+ox*LT,y:sh.y+oy*LT,a:sh.a,sway:sh.sway}); });
-    stampSpawns.push({x:ox+c.sp.x,y:oy+c.sp.y,zi:zi}); });
+    stampSpawns.push({x:ox+c.sp.x,y:oy+c.sp.y,zi:zi,zone:z.id}); });
   tm.stamps=Date.now()-t0;
   // ── 5. trails: carve from a point to the nearest road, staying in its region ──
   var BUILT=new Set([T.BUILDING_WALL,T.DOOR,T.STONE_FLOOR,T.STABLES_FLOOR,T.VILLAGE_FLOOR]);
@@ -251,7 +251,7 @@ function _buildGameWorld(){
   gates.forEach(function(g){ for(var d=-20;d<=20;d+=0.5)lines.push(g.dir==='v'?g.x+0.5:g.x+d+0.5, g.dir==='v'?g.y+d+0.5:g.y+0.5, 2.6); });
   trailLines.forEach(function(L){ for(var i=0;i<L.length;i++){ var sx=0,sy=0,n=0; for(var j=Math.max(0,i-3);j<=Math.min(L.length-1,i+3);j++){ sx+=L[j][0]; sy+=L[j][1]; n++; } lines.push(sx/n,sy/n,1.1); } });
   var wd={tiles:tiles,kind:kind,buildings:buildings,lines:new Float32Array(lines),sites:sites,gates:gates,waystones:waystones,caches:caches,volcanoAnchors:anchors,
-    props:props,propsByChunk:byChunk,landmarks:landmarks,ley:ley,shafts:shafts,stampParts:stampParts,
+    props:props,propsByChunk:byChunk,landmarks:landmarks,runeSpots:stampSpawns,ley:ley,shafts:shafts,stampParts:stampParts,
     map:M,region:region,zone:zone,cls:cls,baseVer:0,
     spawnX:CENTER_X*TILE+TILE/2, spawnY:CENTER_Y*TILE+TILE/2};
   _wgApplyGates(wd,{rescued:[],unlockedSections:[1]});

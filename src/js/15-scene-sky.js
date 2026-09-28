@@ -284,15 +284,7 @@ class SkyScene extends Phaser.Scene{
     var siteId=this.site?this.site.id:'s1_skyport';
     if(!ps.lockedSites.includes(siteId))ps.lockedSites.push(siteId);
     _completeQuest(ps,'s'+((this.site&&this.site.section)||1)+'_skyport');
-    // First NE sky-port clear awards the Wind Sprite familiar (was unobtainable).
-    if((this.site&&this.site.section||1)===1){
-      if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
-      if(ps.ownedFamiliars.indexOf('wind_sprite')<0){
-        ps.ownedFamiliars.push('wind_sprite');
-        if(!ps.familiar)ps.familiar='wind_sprite';
-        showNotif('🌀 Wind Sprite familiar unlocked!','#88eeff');
-      }
-    }
+    // (the NE sky port used to give the Wind Sprite familiar; familiars now come from the islands)
     // Victory!
     this.waveTxt.setText('All waves cleared! Choose your reward:');
     var W=this.W,H=this.H;
