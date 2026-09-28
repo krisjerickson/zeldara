@@ -96,7 +96,7 @@ MKIT('barnacle_brute','lumber | slam r=64 m=1.5 | armor n=5 red=0.7');
 MKIT('rootbound_thrall','lumber | marks n=3 rad=18 delay=0.9 spread=70 col=#80c060 st=root t=1 cd=3');
 MKIT('skitter_crabs','zigzag | melee m=0.5 wind=0.1 | tiny c=0.2');
 MKIT('naga_guard','chase s=1.1 | melee n=3 m=0.7 | reflect');
-MKIT('spitfrog','leap every=2 d=70 | lob rad=26 t=0.9 zone=poison zt=4 col=#c0ff40 st=poison t=3 cd=2.4');
+MKIT('spitfrog','leap every=2 d=70 | lob rad=26 ft=0.9 zone=poison zt=4 col=#c0ff40 st=poison t=3 cd=2.4');
 MKIT('harpoon_lizard','kite range=170 | pull r=190 keep=30 m=0.7 cd=4 | shoot p=arrow spd=280 m=0.6 cd=2');
 MKIT('bubble_crab','kite range=150 | shoot p=bubble spd=150 st=root t=1.5 m=0.3 cd=3.5 | front red=1');
 MKIT('mud_mortar','still | lob rad=32 t=1.2 zone=slow zt=4 n=2 col=#8a7a50 cd=3 | front red=0.8');
