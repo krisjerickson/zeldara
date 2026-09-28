@@ -508,6 +508,10 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
 .tome-sec .tome-card.sel{border-color:#b07a20;background:#fff8e0}
 .tome-spr.smooth{image-rendering:auto}
 .tome-q button.tq1{border-left:4px solid #9cd07a}.tome-q button.tq2{border-left:4px solid #7ab8e0}.tome-q button.tq3{border-left:4px solid #c8a878}.tome-q button.tq4{border-left:4px solid #e08a6a}
+#boss-hud.elite{width:min(640px,90vw)}
+#boss-hud.elite .bh-name{font-size:18px;color:#ffd060}
+#boss-hud.elite .bh-bar{height:24px;border-color:rgba(255,208,96,.6)}
+#boss-hud.elite .bh-bar span{line-height:24px;font-size:12.5px}
 </style>
 </head>
 <body>
@@ -552,7 +556,6 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
     <button class="abtn" onclick="toggleModal('quests')">📜 Quests</button>
     <button class="abtn" onclick="toggleModal('inventory')">🎒 Inventory <span style="font-size:9px;opacity:0.5">(I)</span></button>
     <button class="abtn" id="tome-btn" onclick="toggleModal('tome')">📖 Tome <span style="font-size:9px;opacity:0.5">(T)</span></button>
-    <button id="home-btn" class="abtn abtn-sm" style="display:none;color:#88ffcc;border-color:rgba(68,200,150,.5)" onclick="doHomecast()">🏠 Home</button>
     <button class="abtn abtn-sm" onclick="toggleModal('controls')">❓</button>
     <button class="abtn abtn-sm" onclick="openSandbox()">🔧</button>
   </div>
@@ -1252,6 +1255,9 @@ const ALWAYS_BLOCKED=new Set([T.ROCK,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T
 // Signature terrain (Phase 3): walkable on foot but slow; a mount that lists
 // the tile in canCross moves over it at full speed. (Deep water, large boulders
 // and deep lava stay in ALWAYS_BLOCKED for anyone without such a mount.)
+// Mounts that keep you safe from fire and magma (campfires, Ashlands lava crust)
+var FIRE_SAFE_MOUNTS=['lava_unicorn','dragon','ash_salamander'];
+function _fireSafeMount(ps){ return !!(ps&&ps.mount&&FIRE_SAFE_MOUNTS.indexOf(ps.mount)>=0); }
 const FOOT_SLOW={[T.SHALLOW_WATER]:0.35,[T.REED]:0.5,[T.MUD]:0.45,[T.LILY]:0.45,[T.SMALL_BOULDER]:0.3,[T.THIN_MAGMA]:0.3};
 function terrainSpeedMult(t,mount){
   var md=mount&&MOUNTS[mount];
@@ -4190,7 +4196,7 @@ function _bonusMiniBossKey(sec){
   var key='elite_'+sec; if(MDEFS[key])return key;
   var best=null; for(var k in MDEFS){ var d=MDEFS[k]; if(d.sec===sec&&!d.boss&&(!best||d.hp>MDEFS[best].hp))best=k; }
   if(!best)return null; var b=MDEFS[best];
-  MDEFS[key]=Object.assign({},b,{ name:'Elite '+b.name, hp:Math.round(b.hp*3.2+30*sec), atk:Math.round(b.atk*1.4)+2, def:(b.def||0)+2,
+  MDEFS[key]=Object.assign({},b,{ name:'Elite '+b.name, hp:Math.round(b.hp*8+60*sec), _base:best, atk:Math.round(b.atk*1.4)+2, def:(b.def||0)+2,
     r:(b.r||10)+5, xp:b.xp*6, gMin:b.gMin*4, gMax:b.gMax*4, boss:true, elite:true,
     _rid:(typeof MON_LEGACY!=='undefined')?Object.keys(MON_LEGACY).find(function(k){ return MON_LEGACY[k]===best; }):null });
   return key;
@@ -7703,6 +7709,14 @@ var BOSS_ARENAS={
   dawn_altar:_bpArena({id:'dawn_altar',name:'The Dawn Altar',tag:'A golden altar floor lit by the first light of dawn',shape:'moat',haz:'sky',props:6,prop:'pillar',w:34,h:30,dark:0.15,pal:{floorA:'#8a7a5a',floorB:'#9a8a66',floorC:'#5a4e38',rockTop:'#a89a74',rockFace:'#6a5e44',void:'#281a10'},particles:[{tints:['#ffe8a0','#ffffff'],freq:80,scale:{start:0.4,end:0},alpha:{start:1,end:0},vy:{min:-20,max:-5}}]})
 };
 
+
+// ── elite dens: the last floor of every bonus (treasure-vault) site is one room — the elite + its plain kin ──
+var ELITE_ARENAS={
+  1:_bpArena({id:'elite_den_1',name:'The Elite\'s Meadow Den',tag:'A ring of mossy standing stones around a trampled clearing',shape:'round',haz:'water',props:6,prop:'pillar',w:28,h:24,dark:0.25,pal:{floorA:'#5a7040',floorB:'#6a8048',floorC:'#3a4a28',rockTop:'#6a7a58',rockFace:'#44503a',void:'#0a1006'},particles:[{tints:['#e0ffb0'],freq:260,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:-8,max:-2}}]}),
+  2:_bpArena({id:'elite_den_2',name:'The Elite\'s Drowned Den',tag:'A flooded hall of green stone, lit by glowing moss',shape:'round',haz:'water',props:6,prop:'crystal',glow:'#80ffc0',w:28,h:24,dark:0.4,pal:{floorA:'#3a5048',floorB:'#46605a',floorC:'#22302c',rockTop:'#3a4a44',rockFace:'#22302c',void:'#040a08'},particles:[{tints:['#a0ffd0'],freq:220,scale:{start:0.3,end:0},alpha:{start:0.8,end:0},vy:{min:-10,max:-3}}]}),
+  3:_bpArena({id:'elite_den_3',name:'The Elite\'s Stone Den',tag:'A carved granite hall ringed with rune pillars',shape:'round',haz:'void',props:6,prop:'pillar',w:28,h:24,dark:0.35,pal:{floorA:'#6a6660',floorB:'#7a766e',floorC:'#44403a',rockTop:'#6a645c',rockFace:'#44403a',void:'#08070a'},particles:[{tints:['#c0e8ff'],freq:240,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:-6,max:-1}}]}),
+  4:_bpArena({id:'elite_den_4',name:'The Elite\'s Ember Den',tag:'A scorched obsidian hall with burning braziers',shape:'round',haz:'lava',props:6,prop:'brazier',w:28,h:24,dark:0.35,pal:{floorA:'#3a3032',floorB:'#4a3a38',floorC:'#221a1c',rockTop:'#3a3032',rockFace:'#221a1c',void:'#120404'},particles:[{tints:['#ffb070','#ff7030'],freq:120,scale:{start:0.35,end:0},alpha:{start:0.9,end:0},vy:{min:-30,max:-10}}]})
+};
 // ═══════════════════════════════════════════════════════════════════════
 // ║ VILLAGE INTERIORS (Phase 4b) — every village building painted in the
 // ║ same soft, lit style as the towers: a back wall with its own shelves,
@@ -8579,7 +8593,7 @@ function _heroSlow(scene, m, dur, factor){
   if(scene.sys.settings.key==='World')m._slow=Math.max(m._slow||0,dur);
   if(m.body&&m.body.setStrokeStyle)m.body.setStrokeStyle(2,0x88ddff);
 }
-function _heroBurn(m, dur, dps){ m._burnT=Math.max(m._burnT||0,dur); m._burnDps=Math.max(m._burnDps||0,dps); m._burnTick=m._burnTick||0; }
+function _heroBurn(m, dur, dps){ var K=m.kit&&m.kit.def; if(K){ if(K.some(function(D){ return D.name==='immune'&&D.p.k==='fire'; }))return; if(K.some(function(D){ return D.name==='weak'&&D.p.k==='fire'; }))dps*=2; } m._burnT=Math.max(m._burnT||0,dur); m._burnDps=Math.max(m._burnDps||0,dps); m._burnTick=m._burnTick||0; }
 function _heroStatusTick(scene, dt){
   var key=scene.sys.settings.key;
   _heroCtx(scene).monsters.forEach(function(m){
@@ -9096,10 +9110,10 @@ var BossPhases={
     BossPhases.hud(scene,true); return out; },
   // HUD: name, phase pips, HP + extra health bars
   hud:function(scene,show){ var el=document.getElementById('boss-hud'); if(!el){ el=document.createElement('div'); el.id='boss-hud'; (document.getElementById('app')||document.body).appendChild(el); }
-    if(!show){ el.style.display='none'; return; } el.style.display='block'; scene.events.once('shutdown',function(){ el.style.display='none'; }); scene.events.once('sleep',function(){ el.style.display='none'; }); },
+    if(!show){ el.style.display='none'; return; } el.style.display='block'; el.classList.toggle('elite',String(scene._bossKey||'').indexOf('elite_')===0); scene.events.once('shutdown',function(){ el.style.display='none'; }); scene.events.once('sleep',function(){ el.style.display='none'; }); },
   hudTick:function(scene){ var el=document.getElementById('boss-hud'); if(!el||el.style.display==='none')return; var L=(scene._bossGroup||[]).filter(function(m){ return m&&!m.dead; }); var key=scene._bossKey, n=BossPhases.count(key), ph=scene._bossPhase||1;
     var boss=(scene._bossGroup||[])[0]; if(!boss){ el.style.display='none'; return; }
-    var html='<div class="bh-name">'+boss.def.name+(n>1?'<span class="bh-ph">'+Array.from({length:n},function(_,i){ return '<i class="'+(i<ph?'on':'')+'"></i>'; }).join('')+' Phase '+ph+' / '+n+'</span>':'<span class="bh-ph">Castle warden</span>')+'</div>';
+    var html='<div class="bh-name">'+boss.def.name+(n>1?'<span class="bh-ph">'+Array.from({length:n},function(_,i){ return '<i class="'+(i<ph?'on':'')+'"></i>'; }).join('')+' Phase '+ph+' / '+n+'</span>':'<span class="bh-ph">'+(String(key).indexOf('elite_')===0?'★ Elite':'Castle warden')+'</span>')+'</div>';
     var bar=function(label,v,max,col,dim){ return '<div class="bh-bar'+(dim?' dim':'')+'"><b style="width:'+Math.max(0,Math.min(100,v/max*100))+'%;background:'+col+'"></b><span>'+label+'</span></div>'; };
     L.forEach(function(m,i){ var pct=m.hp/m.maxHp; if(i>0){ html+=bar(m.def.name,m.hp,m.maxHp,'#e05050'); return; }
       (m.bars||[]).forEach(function(b){ if(b.hp<=0)return; var act=pct<=b.at; html+=bar(b.ic+' '+b.n+(act?' — '+b.hint:' (at '+Math.round(b.at*100)+'% HP)'),b.hp,b.max,b.col,!act); });
@@ -10689,8 +10703,8 @@ class WorldScene extends Phaser.Scene{
       this._burnDmgAccum=(this._burnDmgAccum||0)+dt;
       if(this._burnDmgAccum>=1){
         this._burnDmgAccum-=1;
-        ps.hp=Math.max(0,ps.hp-3);
-        this._floatText(p.x,p.y-38,'-3 🔥','#ff6600');
+        var bd=(this._lavaTime>0||this._inFire)?0:Math.max(1,Math.round(ps.maxHp*0.02));   // (magma itself hurts more while you stand in it)
+        if(bd){ ps.hp=Math.max(0,ps.hp-bd); this._floatText(p.x,p.y-38,'-'+bd+' 🔥','#ff6600'); }
         this._emitUI();
         if(ps.hp<=0){this._burnTime=0;this._showFireOverlay(false);this._worldPlayerDied();return;}
       }
@@ -10706,20 +10720,22 @@ class WorldScene extends Phaser.Scene{
     var mnt=ps.mount;
     var mountDef=mnt&&MOUNTS[mnt];
     // Dragon's wings carry the rider above the heat — full lava immunity.
-    var hasLavaProt=mountDef&&(mnt==='dragon'||mountDef.canCross==='all'||mountDef.canCross==='land_and_deep'||(Array.isArray(mountDef.canCross)&&mountDef.canCross.indexOf(T.THIN_MAGMA)>=0));
+    // Only the Lava Unicorn and the dragons (Dragon, Ash Dragon) keep you safe from magma and fire.
+    var hasLavaProt=_fireSafeMount(ps);
     // Boots with lava protection (slot check for future items)
     if(!hasLavaProt&&ps.equipped){
       var btSlot=ps.equipped.boots;
       if(btSlot&&(btSlot==='lava_boots'||btSlot==='obsidian_boots'))hasLavaProt=true;
     }
     if((tile===T.THIN_MAGMA||tile===T.DEEP_MAGMA)&&!hasLavaProt){
+      if(!(this._lavaTime>0))this._lavaDmgAccum=1;   // the first touch stings at once
       this._lavaTime=(this._lavaTime||0)+dt;
-      // Refresh burn visual while on lava
-      if((this._burnTime||0)<0.5){this._burnTime=3;this._burnDmgAccum=this._burnDmgAccum||0;}
+      // standing in magma keeps you burning; 3 s more after you step out
+      this._burnTime=3;this._burnDmgAccum=this._burnDmgAccum||0;
       this._lavaDmgAccum=(this._lavaDmgAccum||0)+dt;
       if(this._lavaDmgAccum>=1){
         this._lavaDmgAccum-=1;
-        var dps=Math.min(30,2+Math.floor(this._lavaTime/5));
+        var dps=Math.max(2,Math.round(ps.maxHp*0.05));
         ps.hp=Math.max(0,ps.hp-dps);
         var lfl=document.getElementById('damage-flash');
         if(lfl){lfl.style.opacity='0.18';clearTimeout(this._flashT);this._flashT=setTimeout(function(){lfl.style.opacity='0';},280);}
@@ -12197,9 +12213,7 @@ class WorldScene extends Phaser.Scene{
     updateHUD(Object.assign({},ps,{atk:stats.atk,def:stats.def,section:_sec}));
     renderQuestList(ps.unlockedSections,ps.completedQuests,ps.activeQuest,this);
     renderMinimap(this.wd,this.player,ps.unlockedSections,ps.exploredGrid,this._expVer||0,ps.activeQuest);
-    // Show home button only in World scene
-    var hb=document.getElementById('home-btn');
-    if(hb)hb.style.display='';
+    // (no Home button — waystones are the way back; the village waystone is free)
   }
 
   // ── Homecast — 3-second channelled teleport back to village ──────────────
@@ -13132,20 +13146,30 @@ Object.assign(WorldScene.prototype,{
     var gl=this.textures.exists('glow')?this.add.image(x,y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xfff0a0).setAlpha(0.35).setScale(0.35).setDepth(WR_DEPTH(y)):null;
     if(gl)this.tweens.add({targets:gl,alpha:0.12,duration:700,yoyo:true,repeat:-1});
     C.loot.push({im:im,gl:gl,x:x,y:y,item:item,kind:kind,qty:qty||1,born:Date.now()}); },
-  _campTick(dt){ if(!this._camps||!this.player)return; var self=this, px=this.player.x, py=this.player.y, ps=this.playerState, near=null;
+  _campTick(dt){ if(!this._camps||!this.player)return; var self=this, px=this.player.x, py=this.player.y, ps=this.playerState, near=null, inFire=null;
     this._campT=(this._campT||0)+dt;
     this._camps.forEach(function(C){ var d=Math.hypot(px-C.x,py-C.y);
       if(d<900&&C.spr&&C.state!=='spent'&&/campfire|lantern|moonwell|obelisk|crystal|totem|cauldron/.test(C.T.prop)){ var f=Math.floor(self._campT*4+C.x)%2; if(C.state==='guarded'||C.T.prop==='campfire'||C.T.prop==='lantern')C.spr.setFrame(String(f)); }
+      // a lit campfire burns you (unless you ride the Lava Unicorn or a dragon)
+      if(C.T.prop==='campfire'&&C.state!=='spent'&&Math.hypot(px-C.x,py-(C.y+8))<20)inFire=C;
       // pick-ups: walk over them
       for(var i=C.loot.length-1;i>=0;i--){ var L=C.loot[i]; if(Date.now()-L.born<600)continue; if(Math.hypot(px-L.x,py-L.y)<26){ self._campCollect(C,L); C.loot.splice(i,1); } }
       if(C.state==='open'&&d<TILE*1.8&&/chest|well|mana|buff|xp/.test(C.T.r.k))near=C;
       // respawn food / wells / shrines / racks after a while (when you're far away)
       if((C.state==='open'||C.state==='used')&&C.T.r.k!=='chest'&&C.T.r.k!=='gems'&&C.T.r.k!=='xp'&&Date.now()-C.clearedAt>CAMP_RESPAWN_S*1000&&d>TILE*30)self._campRespawn(C); });
+    this._fireTick(dt,!!inFire&&!_fireSafeMount(ps));
     // [Tab] at an open chest / well / shrine / stone
     if(near){ if(!this._campPrompt||this._campPrompt._c!==near){ if(this._campPrompt)this._campPrompt.destroy(); var verb={chest:'Open chest',well:'Drink (heal)',mana:'Drink (mana)',buff:'Receive blessing',xp:'Read the runes'}[near.T.r.k];
         this._campPrompt=domText(this,near.x,near.y-46,'[Tab] '+verb,{fontSize:'10px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._campPrompt._c=near; }
       if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))this._campUse(near); }
     else if(this._campPrompt){ this._campPrompt.destroy(); this._campPrompt=null; } },
+  // campfire burn: 5% max HP per second while in the flames, then the 3 s burn (10-scene-world)
+  _fireTick(dt,on){ var ps=this.playerState, p=this.player; if(!on){ this._fireAcc=0; this._inFire=false; return; } if(ps.godMode||ps.hp<=0)return;
+    if(!this._inFire){ this._inFire=true; this._fireAcc=1; showNotif('🔥 The campfire burns you! (the Lava Unicorn or a dragon mount keeps you safe)','#ff9060'); }
+    this._burnTime=3; this._fireAcc+=dt; if(this._fireAcc<1)return; this._fireAcc-=1;
+    var d=Math.max(2,Math.round(ps.maxHp*0.05)); ps.hp=Math.max(0,ps.hp-d); this._floatText(p.x,p.y-28,'-'+d+' 🔥','#ff6a20');
+    var fl=document.getElementById('damage-flash'); if(fl){ fl.style.opacity='0.18'; clearTimeout(this._flashT); this._flashT=setTimeout(function(){ fl.style.opacity='0'; },280); }
+    this._emitUI(); if(ps.hp<=0)this._worldPlayerDied(); },
   _campCollect(C,L){ var ps=this.playerState; SFX.pickup(); if(L.gl)L.gl.destroy(); var im=L.im; this.tweens.add({targets:im,y:im.y-24,alpha:0,duration:350,onComplete:function(){ im.destroy(); }});
     if(L.kind==='gold'){ ps.gold+=L.qty; this._floatText(L.x,L.y-20,'+'+L.qty+'g','#ffd700'); }
     else if(L.kind==='ammo'){ ps.ammo=ps.ammo||{}; ps.ammo[L.item]=(ps.ammo[L.item]||0)+L.qty; this._floatText(L.x,L.y-20,'+'+L.qty+' '+(ITEMS[L.item]?ITEMS[L.item].name:L.item),'#ffe9a8'); }
@@ -13568,6 +13592,8 @@ class DungeonScene extends Phaser.Scene{
       var spec=_siteFloorSpec(this._site,this.floor,this.maxFloors);
       // multi-phase guardians: phase 2+ is fought in its own arena (09b-boss-phases.js)
       this._bossPhase=(this._initData.bossPhase)||1; this._bossGroup=null; this._bossKey=null; this._bpEv=null; this._phaseLock=false;
+      // bonus (treasure-vault) sites: the last floor is one room — the elite's den
+      if(this._isBonus&&this.isLastFloor&&typeof ELITE_ARENAS!=='undefined'){ spec={kind:'dungeon',design:ELITE_ARENAS[this.siteSection]||ELITE_ARENAS[1],seed:(spec&&spec.seed||7)+313,last:true}; }
       if(this._bossPhase>1&&this.isLastFloor&&!this._isIsland&&!this._isBonus){ var abk=this._getBossKey(), aspec=BossPhases.arenaSpec(abk,this._bossPhase,(spec&&spec.seed||7)+this._bossPhase*101); if(aspec)spec=aspec; }
       var isTowerTheme=this.siteType==='tower'||this._theme==='tower_island';
       if(spec){
@@ -14411,6 +14437,7 @@ class DungeonScene extends Phaser.Scene{
     var im=this._inspect&&this._inspect.mons;
     if(im==='boss'||im==='none'){ /* Site Lab: no regular monsters */ }
     else if(this._lab&&this._bossPhase>1){ /* boss arena: only the boss (and its summons) */ }
+    else if(this._lab&&this._isBonus&&this.isLastFloor){ /* elite den: only the elite and its plain kin (below) */ }
     else if(this._lab){ this._spawnMonstersLab(regTypes); }
     else {
     var spawnRooms=this.isLastFloor?this.rooms.slice(1,-1):this.rooms.slice(1);
@@ -14435,11 +14462,16 @@ class DungeonScene extends Phaser.Scene{
       else if(bk){
         var bmon=this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
         if(multi&&bmon){ this._bossGroup=[bmon]; this._bossKey=bk; this._bossPhase=1; this._bpEv=[]; BossPhases.hud(this,true); }
-        if(this._isBonus)showNotif(done?'⚔️ A stronger elite guards the vault again (+25%)!':'💎 An elite guards the treasure vault!','#ffaa66');
+        if(this._isBonus&&bmon){ this._spawnEliteKin(bk,done); this._bossGroup=[bmon]; this._bossKey=bk; this._bossPhase=1; this._bpEv=[]; BossPhases.hud(this,true); }
+        if(this._isBonus)showNotif(done?'⚔️ A stronger elite guards the vault again (+25%)!':'💎 '+bmon.def.name+' guards the treasure vault with its kin!','#ffaa66');
         else showNotif(done?'⚔️ The guardian has returned, stronger (+25%)!':'⚔️ The guardian blocks the exit portal!', '#ffaa66');
       }
     }
   }
+  // the elite's kin: plain versions of the same monster (3 in the Grasslands … 6 in the Ashlands)
+  _spawnEliteKin(ek,done){ var E=MDEFS[ek], base=E&&E._base; if(!base||!MDEFS[base])return; var n=2+this.siteSection, R=rngOf((this._labSpec&&this._labSpec.seed||7)*17+3), placed=0, bx=this.bossSpawnX/TILE, by=this.bossSpawnY/TILE, en=this.stairsUpTile||{x:bx,y:by+6};
+    for(var t=0;t<2000&&placed<n;t++){ var x=R.i(2,DW-3), y=R.i(2,DH-3); if(this.dtiles[y][x]===DNG.WALL||(this._labReach&&!this._labReach[y*DW+x]))continue; if(Math.hypot(x-en.x,y-en.y)<6||Math.hypot(x-bx,y-by)<2.5)continue;
+      var m=this._spawnMonster(base,x*TILE+TILE/2,y*TILE+TILE/2,false,done?1.25:1,true,E._rid); if(m){ m.eliteKin=true; placed++; } } }
   _spawnRosterMonster(mx,my){
     var q=this.siteSection||1, seg=this.siteType==='tower'?'tow':'dun', pick=monPick({next:Math.random},q,seg), R=pick.R;
     if(MON_LEGACY[R.id]){ var key='rs_'+R.id; if(!MDEFS[key]){ var base=MDEFS[MON_LEGACY[R.id]], st=MX.stats(R,q); MDEFS[key]=Object.assign({},base,{boss:false,name:R.name,hp:st.hp,atk:st.atk,def:st.def,xp:st.xp,gMin:st.gMin,gMax:st.gMax,r:Math.min(base.r,13),sec:q}); }
@@ -14845,6 +14877,7 @@ class DungeonScene extends Phaser.Scene{
     if(bc)bc.locked=false;
     if(this._portalOpen)this._portalOpen();
     if(this._captive)this._freeCaptive();
+    if(this._isBonus)BossPhases.hud(this,false);
     showNotif('🏆 '+mon.def.name+' defeated!','#ffdd44');
     if(this._castle)showNotif('🎓 The master is free — [Tab] the portal chest to learn their skill','#ffe9a8'); else
     showNotif(this._isBonus?'The treasure vault is open — [Tab] to claim it':'The exit portal is open — [Tab] to claim your reward and leave','#aaffaa');
@@ -19701,6 +19734,30 @@ var TOME_QCOL=['#ece6d8','#e3f1d6','#d9ebf5','#ece3d4','#f5dfd6'];   // village/
 var TOME_QN=['','Grasslands','Wetlands','Highlands','Ashlands'];
 var TOME_MOVE_TXT={pulse:'darts in and out',zigzag:'zig-zags toward you',rush:'rushes in short bursts',orbit:'circles around you',teleport:'teleports closer',strafe:'strafes sideways at range',normal:'walks straight at you'};
 var TOME_ATK_TXT={melee:'hits in melee',arrow:'shoots arrows',scatter:'fires a 3-way spread',scatter_arrow:'fires 3-way arrow spreads',scatter_flame:'fires 3-way flame spreads',flame:'throws fire (burns)',bog_flame:'spits bog flame (slows)',heat_seek:'fires homing fireballs',lightning:'fires lightning bolts',stomp:'stomps a shockwave'};
+// immunities, weaknesses and defences read straight from the monster's engine kit
+var TOME_DMG={melee:'sword (melee)',ranged:'arrows & thrown weapons',spell:'spells',fire:'fire & burning'};
+function _tomeDefLines(rid){ var K=typeof MX!=='undefined'&&MX.kit(rid); if(!K)return [['Immune to','Nothing — every kind of attack works.']];
+  var imm=[], weak=[], other=[], mv=K.move.name;
+  K.def.forEach(function(D){ var p=D.p;
+    if(D.name==='immune')imm.push(TOME_DMG[p.k]||p.k);
+    else if(D.name==='reflect')imm.push('arrows & thrown weapons (reflects them back)');
+    else if(D.name==='weak')weak.push((TOME_DMG[p.k]||p.k)+' (×'+(p.m||2)+' damage)');
+    else if(D.name==='front')other.push('Shield in front: blocks '+(p.red!==undefined&&p.red<1?Math.round(p.red*100)+'% of ':'')+'hits from the front — attack from the side or behind');
+    else if(D.name==='armor')other.push('Armour: the first '+(p.n||3)+' hits do '+Math.round((1-(p.red||0.7))*100)+'% damage, then it breaks');
+    else if(D.name==='bubble')other.push('Bubble: after '+(p.n||3)+' quick hits it becomes immune for '+(p.t||2)+' s — pace your attacks');
+    else if(D.name==='dodge')other.push('Dodges one attack every '+(p.cd||4)+' s');
+    else if(D.name==='tiny')other.push('Tiny: '+Math.round((p.c||0.25)*100)+'% of attacks miss');
+    else if(D.name==='thorns')other.push('Thorns: hurts you each time you hit it with your sword');
+    else if(D.name==='revive')other.push('Rises again once — stand on its bones to finish it');
+    else if(D.name==='regen')other.push('Regenerates'+(p.on?' while on '+p.on:''));
+    else if(D.name==='split')other.push('Splits once when killed');
+    else if(D.name==='explode')other.push('Explodes when it dies — step back');
+    else if(D.name==='enrage')other.push('Enrages below half health');
+    else if(D.name==='heal')other.push('Heals nearby allies');
+    else if(D.name==='aura')other.push('Hurts you when you stand close');
+  });
+  if(mv==='burrow'||mv==='ambush'||mv==='disguise')imm.push('everything while hidden ('+mv+')');
+  return [['Immune to',imm.length?imm.join(', '):'Nothing — every kind of attack works.']].concat(weak.length?[['Weak to',weak.join(', ')]]:[]).concat(other.length?[['Defences',other.join('<br>')]]:[]); }
 var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
   ps:function(){ var ws=game&&game.scene&&game.scene.getScene('World'); return ws&&ws.playerState; },
   book:function(){ var ps=Tome.ps(); if(!ps)return null; if(!ps.tome||typeof ps.tome!=='object')ps.tome={}; TOME_CATS.forEach(function(c){ if(!ps.tome[c.k])ps.tome[c.k]={}; }); return ps.tome; },
@@ -19732,11 +19789,11 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
         if(!B)return {name:CB.name,spec:CB.spec,sub:'Boss · '+CB.sub,hint:'Waits in: '+CB.where,lines:[['Looks',CB.look],['Fights',CB.doing],['Where',CB.where],['Tip','Bosses hit hard but slowly — keep moving and strike after each attack.']]};
         return {name:B.name,icon:B.icon,spec:CB&&CB.spec,sub:'Boss · '+TOME_QN[B.sec]+' guardian',hint:'Guards a ★ '+(['goblin_king','swamp_witch','rock_dragon','lava_titan'].indexOf(id.slice(5))>=0?'dungeon':'tower')+' in the '+TOME_QN[B.sec],
         lines:(CB?[['Looks',CB.look]]:[]).concat(BOSS_PHASES[id.slice(5)]?[['Phases',BOSS_PHASES[id.slice(5)].phases.map(function(P,i){ if(!P)return '1 · '+B.name+' (on the last floor)'; var F=CHAR_BY_ID[P.form]; return (i+1)+' · '+(F?F.name:'?')+' — '+BOSS_ARENAS[P.arena].name+(P.bars?' · '+P.bars.map(function(b){ return BOSS_BAR_INFO[b.k].ic+' '+BOSS_BAR_INFO[b.k].n; }).join(' '):'')+(P.allies?' · with allies':''); }).join('<br>')],['Extra health','✨ Ward: spells & familiars · 🏹 Guard: arrows · 🛡 Plate: sword. Other attacks only chip it (15%).']]:[]).concat([['Fights',(TOME_MOVE_TXT[B.moveType]||'moves')+'; '+(TOME_ATK_TXT[B.atkType]||'attacks')+'.'],['Strength','HP '+B.hp+' · ATK '+B.atk+' · DEF '+(B.def||0)],['Tip','Bosses hit hard but slowly — keep moving and strike after each attack.']])}; }
-      var CB2=CHAR_BY_ID[id]; if(CB2&&CB2.cat==='boss'){ var isW=id.indexOf('cw_')===0; return {name:CB2.name,spec:CB2.spec,sub:'Boss · '+CB2.sub,hint:'Waits in: '+CB2.where,lines:[['Looks',CB2.look],['Fights',CB2.doing],['Where',CB2.where],['Tip',isW?'A one-phase warden holding a master captive. Beat it, then open the portal chest to learn the master\'s skill.':'A later phase of a ★ guardian fight.']]}; }
+      var CB2=CHAR_BY_ID[id]; if(CB2&&CB2.cat==='boss'){ var isW=id.indexOf('cw_')===0, rk=isW&&typeof CASTLE_ISLANDS!=='undefined'?'cwd_'+Object.keys(CASTLE_ISLANDS).find(function(k){ return CASTLE_ISLANDS[k].warden===id; }):null; if(!rk&&typeof BOSS_PHASES!=='undefined')Object.keys(BOSS_PHASES).forEach(function(k){ BOSS_PHASES[k].phases.forEach(function(P){ if(P&&P.form===id)rk=P.rid; }); }); return {name:CB2.name,spec:CB2.spec,sub:'Boss · '+CB2.sub,hint:'Waits in: '+CB2.where,lines:[['Looks',CB2.look],['Fights',CB2.doing],['Where',CB2.where]].concat(rk?_tomeDefLines(rk):[]).concat([['Tip',isW?'A one-phase warden holding a master captive. Beat it, then open the portal chest to learn the master\'s skill.':'A later phase of a ★ guardian fight.']])}; }
       var R=MON_BY_ID[id]; if(!R)return null; var seg={main:'roams the '+TOME_QN[R.q],dun:TOME_QN[R.q]+' dungeons ('+R.role+')',tow:TOME_QN[R.q]+' towers (magic)'}[R.seg];
       var where=(R.tags.find(function(t){ return t.indexOf('T:')===0; })||'').slice(2);
       return {name:R.name,spec:R.spec,sub:TOME_QN[R.q]+' · '+{main:'Mainland',dun:'Dungeon',tow:'Tower'}[R.seg]+' · '+'★★★★★'.slice(0,R.tier),hint:'Found: '+seg+(where?' — '+where:'')+(R.tags.indexOf('night')>=0?' · only at night':''),
-        lines:[['Looks',R.look],['Moves',R.move],['Attacks',R.atk],['Defends',R.def],['Special',R.sp],['Where',seg+(where?' — '+where:'')+(R.tags.indexOf('pack')>=0?' · in packs with an alpha':'')+(R.tags.indexOf('night')>=0?' · night only':'')]]}; }
+        lines:[['Looks',R.look],['Moves',R.move],['Attacks',R.atk],['Defends',R.def]].concat(MON_LEGACY[id]?[['Immune to','Nothing — every kind of attack works.']]:_tomeDefLines(id)).concat([['Special',R.sp],['Where',seg+(where?' — '+where:'')+(R.tags.indexOf('pack')>=0?' · in packs with an alpha':'')+(R.tags.indexOf('night')>=0?' · night only':'')]])}; }
     if(cat==='mount'){ var M=MOUNTS[id]; if(!M)return null; var cc=Array.isArray(M.canCross)?M.canCross.map(function(t){ return Object.keys(T).find(function(k){ return T[k]===t; }); }).filter(Boolean).map(function(s){ return s.toLowerCase().replace(/_/g,' '); }).join(', '):M.canCross;
       var CM=CHAR_BY_ID['mt_'+id]; return {name:M.n,icon:M.icon,spec:CM&&CM.spec,look:CM&&CM.look,sub:'Mount · '+(M.spdMult||1)+'× speed',hint:M.cost?'Sold at the stables':'Won in the '+TOME_QN[M.sec]||'',lines:(CM?[['Looks',CM.look]]:[]).concat([['What it does',M.desc],['Crosses',cc||'roads & grass'],['Tip','Press M to mount / dismount. Signature terrain is slow on foot but full speed on the right mount.']])}; }
     if(cat==='familiar'){ var F=FAMILIARS[id]; if(!F)return null; var D=_famDesign(id), E=SPIRIT_ELEMENTS[D.el], ps0=Tome.ps(), L=ps0?_famLevel(ps0,id):1;

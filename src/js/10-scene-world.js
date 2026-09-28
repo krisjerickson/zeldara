@@ -1357,8 +1357,8 @@ class WorldScene extends Phaser.Scene{
       this._burnDmgAccum=(this._burnDmgAccum||0)+dt;
       if(this._burnDmgAccum>=1){
         this._burnDmgAccum-=1;
-        ps.hp=Math.max(0,ps.hp-3);
-        this._floatText(p.x,p.y-38,'-3 🔥','#ff6600');
+        var bd=(this._lavaTime>0||this._inFire)?0:Math.max(1,Math.round(ps.maxHp*0.02));   // (magma itself hurts more while you stand in it)
+        if(bd){ ps.hp=Math.max(0,ps.hp-bd); this._floatText(p.x,p.y-38,'-'+bd+' 🔥','#ff6600'); }
         this._emitUI();
         if(ps.hp<=0){this._burnTime=0;this._showFireOverlay(false);this._worldPlayerDied();return;}
       }
@@ -1374,20 +1374,22 @@ class WorldScene extends Phaser.Scene{
     var mnt=ps.mount;
     var mountDef=mnt&&MOUNTS[mnt];
     // Dragon's wings carry the rider above the heat — full lava immunity.
-    var hasLavaProt=mountDef&&(mnt==='dragon'||mountDef.canCross==='all'||mountDef.canCross==='land_and_deep'||(Array.isArray(mountDef.canCross)&&mountDef.canCross.indexOf(T.THIN_MAGMA)>=0));
+    // Only the Lava Unicorn and the dragons (Dragon, Ash Dragon) keep you safe from magma and fire.
+    var hasLavaProt=_fireSafeMount(ps);
     // Boots with lava protection (slot check for future items)
     if(!hasLavaProt&&ps.equipped){
       var btSlot=ps.equipped.boots;
       if(btSlot&&(btSlot==='lava_boots'||btSlot==='obsidian_boots'))hasLavaProt=true;
     }
     if((tile===T.THIN_MAGMA||tile===T.DEEP_MAGMA)&&!hasLavaProt){
+      if(!(this._lavaTime>0))this._lavaDmgAccum=1;   // the first touch stings at once
       this._lavaTime=(this._lavaTime||0)+dt;
-      // Refresh burn visual while on lava
-      if((this._burnTime||0)<0.5){this._burnTime=3;this._burnDmgAccum=this._burnDmgAccum||0;}
+      // standing in magma keeps you burning; 3 s more after you step out
+      this._burnTime=3;this._burnDmgAccum=this._burnDmgAccum||0;
       this._lavaDmgAccum=(this._lavaDmgAccum||0)+dt;
       if(this._lavaDmgAccum>=1){
         this._lavaDmgAccum-=1;
-        var dps=Math.min(30,2+Math.floor(this._lavaTime/5));
+        var dps=Math.max(2,Math.round(ps.maxHp*0.05));
         ps.hp=Math.max(0,ps.hp-dps);
         var lfl=document.getElementById('damage-flash');
         if(lfl){lfl.style.opacity='0.18';clearTimeout(this._flashT);this._flashT=setTimeout(function(){lfl.style.opacity='0';},280);}
@@ -2865,9 +2867,7 @@ class WorldScene extends Phaser.Scene{
     updateHUD(Object.assign({},ps,{atk:stats.atk,def:stats.def,section:_sec}));
     renderQuestList(ps.unlockedSections,ps.completedQuests,ps.activeQuest,this);
     renderMinimap(this.wd,this.player,ps.unlockedSections,ps.exploredGrid,this._expVer||0,ps.activeQuest);
-    // Show home button only in World scene
-    var hb=document.getElementById('home-btn');
-    if(hb)hb.style.display='';
+    // (no Home button — waystones are the way back; the village waystone is free)
   }
 
   // ── Homecast — 3-second channelled teleport back to village ──────────────

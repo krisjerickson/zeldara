@@ -320,7 +320,7 @@ function _heroSlow(scene, m, dur, factor){
   if(scene.sys.settings.key==='World')m._slow=Math.max(m._slow||0,dur);
   if(m.body&&m.body.setStrokeStyle)m.body.setStrokeStyle(2,0x88ddff);
 }
-function _heroBurn(m, dur, dps){ m._burnT=Math.max(m._burnT||0,dur); m._burnDps=Math.max(m._burnDps||0,dps); m._burnTick=m._burnTick||0; }
+function _heroBurn(m, dur, dps){ var K=m.kit&&m.kit.def; if(K){ if(K.some(function(D){ return D.name==='immune'&&D.p.k==='fire'; }))return; if(K.some(function(D){ return D.name==='weak'&&D.p.k==='fire'; }))dps*=2; } m._burnT=Math.max(m._burnT||0,dur); m._burnDps=Math.max(m._burnDps||0,dps); m._burnTick=m._burnTick||0; }
 function _heroStatusTick(scene, dt){
   var key=scene.sys.settings.key;
   _heroCtx(scene).monsters.forEach(function(m){

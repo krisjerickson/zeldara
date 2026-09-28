@@ -62,3 +62,11 @@ var BOSS_ARENAS={
   dawn_altar:_bpArena({id:'dawn_altar',name:'The Dawn Altar',tag:'A golden altar floor lit by the first light of dawn',shape:'moat',haz:'sky',props:6,prop:'pillar',w:34,h:30,dark:0.15,pal:{floorA:'#8a7a5a',floorB:'#9a8a66',floorC:'#5a4e38',rockTop:'#a89a74',rockFace:'#6a5e44',void:'#281a10'},particles:[{tints:['#ffe8a0','#ffffff'],freq:80,scale:{start:0.4,end:0},alpha:{start:1,end:0},vy:{min:-20,max:-5}}]})
 };
 
+
+// ── elite dens: the last floor of every bonus (treasure-vault) site is one room — the elite + its plain kin ──
+var ELITE_ARENAS={
+  1:_bpArena({id:'elite_den_1',name:'The Elite\'s Meadow Den',tag:'A ring of mossy standing stones around a trampled clearing',shape:'round',haz:'water',props:6,prop:'pillar',w:28,h:24,dark:0.25,pal:{floorA:'#5a7040',floorB:'#6a8048',floorC:'#3a4a28',rockTop:'#6a7a58',rockFace:'#44503a',void:'#0a1006'},particles:[{tints:['#e0ffb0'],freq:260,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:-8,max:-2}}]}),
+  2:_bpArena({id:'elite_den_2',name:'The Elite\'s Drowned Den',tag:'A flooded hall of green stone, lit by glowing moss',shape:'round',haz:'water',props:6,prop:'crystal',glow:'#80ffc0',w:28,h:24,dark:0.4,pal:{floorA:'#3a5048',floorB:'#46605a',floorC:'#22302c',rockTop:'#3a4a44',rockFace:'#22302c',void:'#040a08'},particles:[{tints:['#a0ffd0'],freq:220,scale:{start:0.3,end:0},alpha:{start:0.8,end:0},vy:{min:-10,max:-3}}]}),
+  3:_bpArena({id:'elite_den_3',name:'The Elite\'s Stone Den',tag:'A carved granite hall ringed with rune pillars',shape:'round',haz:'void',props:6,prop:'pillar',w:28,h:24,dark:0.35,pal:{floorA:'#6a6660',floorB:'#7a766e',floorC:'#44403a',rockTop:'#6a645c',rockFace:'#44403a',void:'#08070a'},particles:[{tints:['#c0e8ff'],freq:240,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:-6,max:-1}}]}),
+  4:_bpArena({id:'elite_den_4',name:'The Elite\'s Ember Den',tag:'A scorched obsidian hall with burning braziers',shape:'round',haz:'lava',props:6,prop:'brazier',w:28,h:24,dark:0.35,pal:{floorA:'#3a3032',floorB:'#4a3a38',floorC:'#221a1c',rockTop:'#3a3032',rockFace:'#221a1c',void:'#120404'},particles:[{tints:['#ffb070','#ff7030'],freq:120,scale:{start:0.35,end:0},alpha:{start:0.9,end:0},vy:{min:-30,max:-10}}]})
+};

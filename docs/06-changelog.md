@@ -218,6 +218,23 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
 - **[135] Design Lab:** new **Familiars** (12 spirits; pick 1 per element), **Fairies** (40 looks, 10 per quadrant; pick 1 per quadrant; kings wear a crown on the same look) and **Familiar Trials** (10 ideas; pick the ones you like) tabs. The old pixel familiars are removed from the Characters tab.
 - **[136] Tests:** new `tests/test_round3.py` (19 checks: walls, shooters, summon once, packs, spirits + migration + slots + scaling, fairies → quest → dig → trial → skill, every trial type, King → slot, Tome by quadrant). Familiar checks in `test_phase1_core`, `test_phase1_saves_familiars`, `test_characters`, `test_sites_flows` updated to the spirits; save version 6. Headless note: the full world runs at ~2–3 fps in software GL, so tests poll for results instead of fixed waits.
 
+### Round 4 (Sept 28 2026)
+- **[137] No Home button.** The 🏠 Home recall is gone (button and teleport). Waystones are the way back; the village waystone is free, and dying still sends you home.
+- **[138] Fire hurts.**
+  - **Campfires:** a lit campfire at a camp burns you if you step into it.
+  - **Magma:** Ashlands lava crust does the same.
+  - **Damage:** about 5% of max HP per second while you're in it, plus a 3-second burn (2% per second) after you step out. The first touch stings at once.
+  - **Protection:** only the **Lava Unicorn, the Dragon and the Ash Dragon** keep you safe (`FIRE_SAFE_MOUNTS` / `_fireSafeMount` in `03-data.js`). Sky-port fliers no longer protect you.
+- **[139] Tome immunities.**
+  - Every roster monster, castle warden and evolved boss form now lists what it is **Immune to**, what it is **Weak to**, and its **Defences** (shield in front, armour, bubble, dodge, thorns, revive, regen, split, explode and more), read from its engine kit (`_tomeDefLines` in `26-tome.js`).
+  - "Immune to fire" and "Weak to fire" now also work in play: burning skips fire-immune monsters and does double damage to fire-weak ones.
+- **[140] Elite dens.**
+  - **Room:** the last floor of all 12 bonus (treasure-vault) towers and dungeons is now **one room**, with a den per quadrant (`ELITE_ARENAS` in `07u`).
+  - **Who's in it:** only the elite and its plain kin, 3 in the Grasslands up to 6 in the Ashlands.
+  - **Elite HP:** about 8× a normal monster.
+  - **Health bar:** a big named bar at the top of the screen (★ Elite) that disappears when it falls; then the vault opens.
+- **[141] Tests:** new `tests/test_round4.py` (8 checks). Build note: `node build.mjs` doesn't catch class-syntax slips; run the inline-script parse check (docs/05) after edits.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).
@@ -232,7 +249,7 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
 
 - Player starts on wooden sword, 0 gold, no ammo (session #64 lock).
 - Dragon mount = 16 quests (not 8); `ALL_MAIN_QUESTS` + `_completeQuest()` in 07d.
-- Dragon mount = lava-immune.
+- Fire/magma safety = Lava Unicorn, Dragon, Ash Dragon only ([138]).
 - Boss rush = no healing.
 - Melee damage = sword + level + non-weapon slot bonuses only (no bow leak).
 - Save key = `qoz_v2` in localStorage.

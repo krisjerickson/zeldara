@@ -501,3 +501,7 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
 .tome-sec .tome-card.sel{border-color:#b07a20;background:#fff8e0}
 .tome-spr.smooth{image-rendering:auto}
 .tome-q button.tq1{border-left:4px solid #9cd07a}.tome-q button.tq2{border-left:4px solid #7ab8e0}.tome-q button.tq3{border-left:4px solid #c8a878}.tome-q button.tq4{border-left:4px solid #e08a6a}
+#boss-hud.elite{width:min(640px,90vw)}
+#boss-hud.elite .bh-name{font-size:18px;color:#ffd060}
+#boss-hud.elite .bh-bar{height:24px;border-color:rgba(255,208,96,.6)}
+#boss-hud.elite .bh-bar span{line-height:24px;font-size:12.5px}

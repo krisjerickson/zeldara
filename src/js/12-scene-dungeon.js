@@ -37,6 +37,8 @@ class DungeonScene extends Phaser.Scene{
       var spec=_siteFloorSpec(this._site,this.floor,this.maxFloors);
       // multi-phase guardians: phase 2+ is fought in its own arena (09b-boss-phases.js)
       this._bossPhase=(this._initData.bossPhase)||1; this._bossGroup=null; this._bossKey=null; this._bpEv=null; this._phaseLock=false;
+      // bonus (treasure-vault) sites: the last floor is one room — the elite's den
+      if(this._isBonus&&this.isLastFloor&&typeof ELITE_ARENAS!=='undefined'){ spec={kind:'dungeon',design:ELITE_ARENAS[this.siteSection]||ELITE_ARENAS[1],seed:(spec&&spec.seed||7)+313,last:true}; }
       if(this._bossPhase>1&&this.isLastFloor&&!this._isIsland&&!this._isBonus){ var abk=this._getBossKey(), aspec=BossPhases.arenaSpec(abk,this._bossPhase,(spec&&spec.seed||7)+this._bossPhase*101); if(aspec)spec=aspec; }
       var isTowerTheme=this.siteType==='tower'||this._theme==='tower_island';
       if(spec){
@@ -880,6 +882,7 @@ class DungeonScene extends Phaser.Scene{
     var im=this._inspect&&this._inspect.mons;
     if(im==='boss'||im==='none'){ /* Site Lab: no regular monsters */ }
     else if(this._lab&&this._bossPhase>1){ /* boss arena: only the boss (and its summons) */ }
+    else if(this._lab&&this._isBonus&&this.isLastFloor){ /* elite den: only the elite and its plain kin (below) */ }
     else if(this._lab){ this._spawnMonstersLab(regTypes); }
     else {
     var spawnRooms=this.isLastFloor?this.rooms.slice(1,-1):this.rooms.slice(1);
@@ -904,11 +907,16 @@ class DungeonScene extends Phaser.Scene{
       else if(bk){
         var bmon=this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
         if(multi&&bmon){ this._bossGroup=[bmon]; this._bossKey=bk; this._bossPhase=1; this._bpEv=[]; BossPhases.hud(this,true); }
-        if(this._isBonus)showNotif(done?'⚔️ A stronger elite guards the vault again (+25%)!':'💎 An elite guards the treasure vault!','#ffaa66');
+        if(this._isBonus&&bmon){ this._spawnEliteKin(bk,done); this._bossGroup=[bmon]; this._bossKey=bk; this._bossPhase=1; this._bpEv=[]; BossPhases.hud(this,true); }
+        if(this._isBonus)showNotif(done?'⚔️ A stronger elite guards the vault again (+25%)!':'💎 '+bmon.def.name+' guards the treasure vault with its kin!','#ffaa66');
         else showNotif(done?'⚔️ The guardian has returned, stronger (+25%)!':'⚔️ The guardian blocks the exit portal!', '#ffaa66');
       }
     }
   }
+  // the elite's kin: plain versions of the same monster (3 in the Grasslands … 6 in the Ashlands)
+  _spawnEliteKin(ek,done){ var E=MDEFS[ek], base=E&&E._base; if(!base||!MDEFS[base])return; var n=2+this.siteSection, R=rngOf((this._labSpec&&this._labSpec.seed||7)*17+3), placed=0, bx=this.bossSpawnX/TILE, by=this.bossSpawnY/TILE, en=this.stairsUpTile||{x:bx,y:by+6};
+    for(var t=0;t<2000&&placed<n;t++){ var x=R.i(2,DW-3), y=R.i(2,DH-3); if(this.dtiles[y][x]===DNG.WALL||(this._labReach&&!this._labReach[y*DW+x]))continue; if(Math.hypot(x-en.x,y-en.y)<6||Math.hypot(x-bx,y-by)<2.5)continue;
+      var m=this._spawnMonster(base,x*TILE+TILE/2,y*TILE+TILE/2,false,done?1.25:1,true,E._rid); if(m){ m.eliteKin=true; placed++; } } }
   _spawnRosterMonster(mx,my){
     var q=this.siteSection||1, seg=this.siteType==='tower'?'tow':'dun', pick=monPick({next:Math.random},q,seg), R=pick.R;
     if(MON_LEGACY[R.id]){ var key='rs_'+R.id; if(!MDEFS[key]){ var base=MDEFS[MON_LEGACY[R.id]], st=MX.stats(R,q); MDEFS[key]=Object.assign({},base,{boss:false,name:R.name,hp:st.hp,atk:st.atk,def:st.def,xp:st.xp,gMin:st.gMin,gMax:st.gMax,r:Math.min(base.r,13),sec:q}); }
@@ -1314,6 +1322,7 @@ class DungeonScene extends Phaser.Scene{
     if(bc)bc.locked=false;
     if(this._portalOpen)this._portalOpen();
     if(this._captive)this._freeCaptive();
+    if(this._isBonus)BossPhases.hud(this,false);
     showNotif('🏆 '+mon.def.name+' defeated!','#ffdd44');
     if(this._castle)showNotif('🎓 The master is free — [Tab] the portal chest to learn their skill','#ffe9a8'); else
     showNotif(this._isBonus?'The treasure vault is open — [Tab] to claim it':'The exit portal is open — [Tab] to claim your reward and leave','#aaffaa');

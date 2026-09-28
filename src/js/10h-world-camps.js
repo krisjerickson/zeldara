@@ -182,20 +182,30 @@ Object.assign(WorldScene.prototype,{
     var gl=this.textures.exists('glow')?this.add.image(x,y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xfff0a0).setAlpha(0.35).setScale(0.35).setDepth(WR_DEPTH(y)):null;
     if(gl)this.tweens.add({targets:gl,alpha:0.12,duration:700,yoyo:true,repeat:-1});
     C.loot.push({im:im,gl:gl,x:x,y:y,item:item,kind:kind,qty:qty||1,born:Date.now()}); },
-  _campTick(dt){ if(!this._camps||!this.player)return; var self=this, px=this.player.x, py=this.player.y, ps=this.playerState, near=null;
+  _campTick(dt){ if(!this._camps||!this.player)return; var self=this, px=this.player.x, py=this.player.y, ps=this.playerState, near=null, inFire=null;
     this._campT=(this._campT||0)+dt;
     this._camps.forEach(function(C){ var d=Math.hypot(px-C.x,py-C.y);
       if(d<900&&C.spr&&C.state!=='spent'&&/campfire|lantern|moonwell|obelisk|crystal|totem|cauldron/.test(C.T.prop)){ var f=Math.floor(self._campT*4+C.x)%2; if(C.state==='guarded'||C.T.prop==='campfire'||C.T.prop==='lantern')C.spr.setFrame(String(f)); }
+      // a lit campfire burns you (unless you ride the Lava Unicorn or a dragon)
+      if(C.T.prop==='campfire'&&C.state!=='spent'&&Math.hypot(px-C.x,py-(C.y+8))<20)inFire=C;
       // pick-ups: walk over them
       for(var i=C.loot.length-1;i>=0;i--){ var L=C.loot[i]; if(Date.now()-L.born<600)continue; if(Math.hypot(px-L.x,py-L.y)<26){ self._campCollect(C,L); C.loot.splice(i,1); } }
       if(C.state==='open'&&d<TILE*1.8&&/chest|well|mana|buff|xp/.test(C.T.r.k))near=C;
       // respawn food / wells / shrines / racks after a while (when you're far away)
       if((C.state==='open'||C.state==='used')&&C.T.r.k!=='chest'&&C.T.r.k!=='gems'&&C.T.r.k!=='xp'&&Date.now()-C.clearedAt>CAMP_RESPAWN_S*1000&&d>TILE*30)self._campRespawn(C); });
+    this._fireTick(dt,!!inFire&&!_fireSafeMount(ps));
     // [Tab] at an open chest / well / shrine / stone
     if(near){ if(!this._campPrompt||this._campPrompt._c!==near){ if(this._campPrompt)this._campPrompt.destroy(); var verb={chest:'Open chest',well:'Drink (heal)',mana:'Drink (mana)',buff:'Receive blessing',xp:'Read the runes'}[near.T.r.k];
         this._campPrompt=domText(this,near.x,near.y-46,'[Tab] '+verb,{fontSize:'10px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._campPrompt._c=near; }
       if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))this._campUse(near); }
     else if(this._campPrompt){ this._campPrompt.destroy(); this._campPrompt=null; } },
+  // campfire burn: 5% max HP per second while in the flames, then the 3 s burn (10-scene-world)
+  _fireTick(dt,on){ var ps=this.playerState, p=this.player; if(!on){ this._fireAcc=0; this._inFire=false; return; } if(ps.godMode||ps.hp<=0)return;
+    if(!this._inFire){ this._inFire=true; this._fireAcc=1; showNotif('🔥 The campfire burns you! (the Lava Unicorn or a dragon mount keeps you safe)','#ff9060'); }
+    this._burnTime=3; this._fireAcc+=dt; if(this._fireAcc<1)return; this._fireAcc-=1;
+    var d=Math.max(2,Math.round(ps.maxHp*0.05)); ps.hp=Math.max(0,ps.hp-d); this._floatText(p.x,p.y-28,'-'+d+' 🔥','#ff6a20');
+    var fl=document.getElementById('damage-flash'); if(fl){ fl.style.opacity='0.18'; clearTimeout(this._flashT); this._flashT=setTimeout(function(){ fl.style.opacity='0'; },280); }
+    this._emitUI(); if(ps.hp<=0)this._worldPlayerDied(); },
   _campCollect(C,L){ var ps=this.playerState; SFX.pickup(); if(L.gl)L.gl.destroy(); var im=L.im; this.tweens.add({targets:im,y:im.y-24,alpha:0,duration:350,onComplete:function(){ im.destroy(); }});
     if(L.kind==='gold'){ ps.gold+=L.qty; this._floatText(L.x,L.y-20,'+'+L.qty+'g','#ffd700'); }
     else if(L.kind==='ammo'){ ps.ammo=ps.ammo||{}; ps.ammo[L.item]=(ps.ammo[L.item]||0)+L.qty; this._floatText(L.x,L.y-20,'+'+L.qty+' '+(ITEMS[L.item]?ITEMS[L.item].name:L.item),'#ffe9a8'); }

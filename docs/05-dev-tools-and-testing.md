@@ -64,6 +64,7 @@ at ~3–13 fps and with smoothing on, game time runs 5–20× slower than real t
 - Round 2: `test_round2.py` (18 checks — boss-site seal, split-once, camps + celebration, mount seat, skills not sold, 4 harbors per quadrant, a full castle run → skill learned, Time Slow + Meteor, the 12 painted interiors, Tome links, Q1 2-phase and Q4 5-phase guardians end to end).
 - Round 3: `test_round3.py` (19 checks). The headless world runs at ~2–3 fps (software GL + 800 monsters + camps), so new tests poll with `until(...)` instead of fixed waits; timers (`setTimeout`) can lag by seconds.
 - Sandbox: **✨ Familiars Lv 6 + 4 Slots** (`sbFairyMax`).
+- Round 4: `test_round4.py` (8 checks). After `node build.mjs`, also run the inline-script parse check — the build does not catch a stray comma inside a class body.
 - Site Lab has an **Island castles** tab (all 12 castle dungeons, warden and skill on each card).
 - Run them one after another (each launches its own headless Chromium); the full set takes ~1.5 h because `test_monsters.py` runs all 240.
 - Real-GPU checks: the headless browser uses software GL, so frame rate and GPU-memory problems (e.g. the black-ground bug on Intel Iris Xe, [116]) only show on a real machine. A debug copy of the game can post stats (texture MB, chunks, context lost, fps) to its parent frame — append `tests/gpu_diag_snippet.html` to a copy of the build.

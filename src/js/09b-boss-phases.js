@@ -90,10 +90,10 @@ var BossPhases={
     BossPhases.hud(scene,true); return out; },
   // HUD: name, phase pips, HP + extra health bars
   hud:function(scene,show){ var el=document.getElementById('boss-hud'); if(!el){ el=document.createElement('div'); el.id='boss-hud'; (document.getElementById('app')||document.body).appendChild(el); }
-    if(!show){ el.style.display='none'; return; } el.style.display='block'; scene.events.once('shutdown',function(){ el.style.display='none'; }); scene.events.once('sleep',function(){ el.style.display='none'; }); },
+    if(!show){ el.style.display='none'; return; } el.style.display='block'; el.classList.toggle('elite',String(scene._bossKey||'').indexOf('elite_')===0); scene.events.once('shutdown',function(){ el.style.display='none'; }); scene.events.once('sleep',function(){ el.style.display='none'; }); },
   hudTick:function(scene){ var el=document.getElementById('boss-hud'); if(!el||el.style.display==='none')return; var L=(scene._bossGroup||[]).filter(function(m){ return m&&!m.dead; }); var key=scene._bossKey, n=BossPhases.count(key), ph=scene._bossPhase||1;
     var boss=(scene._bossGroup||[])[0]; if(!boss){ el.style.display='none'; return; }
-    var html='<div class="bh-name">'+boss.def.name+(n>1?'<span class="bh-ph">'+Array.from({length:n},function(_,i){ return '<i class="'+(i<ph?'on':'')+'"></i>'; }).join('')+' Phase '+ph+' / '+n+'</span>':'<span class="bh-ph">Castle warden</span>')+'</div>';
+    var html='<div class="bh-name">'+boss.def.name+(n>1?'<span class="bh-ph">'+Array.from({length:n},function(_,i){ return '<i class="'+(i<ph?'on':'')+'"></i>'; }).join('')+' Phase '+ph+' / '+n+'</span>':'<span class="bh-ph">'+(String(key).indexOf('elite_')===0?'★ Elite':'Castle warden')+'</span>')+'</div>';
     var bar=function(label,v,max,col,dim){ return '<div class="bh-bar'+(dim?' dim':'')+'"><b style="width:'+Math.max(0,Math.min(100,v/max*100))+'%;background:'+col+'"></b><span>'+label+'</span></div>'; };
     L.forEach(function(m,i){ var pct=m.hp/m.maxHp; if(i>0){ html+=bar(m.def.name,m.hp,m.maxHp,'#e05050'); return; }
       (m.bars||[]).forEach(function(b){ if(b.hp<=0)return; var act=pct<=b.at; html+=bar(b.ic+' '+b.n+(act?' — '+b.hint:' (at '+Math.round(b.at*100)+'% HP)'),b.hp,b.max,b.col,!act); });

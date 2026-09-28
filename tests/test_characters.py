@@ -46,8 +46,11 @@ with game(new=True) as g:
 
     # ── labels are sharp HTML text that follows the camera ──
     g.js(TP + "([CENTER_X+2,CENTER_Y+4])"); g.wait(1800)
-    lb = g.js("""(()=>{ var ws=game.scene.getScene('World'), L=(ws._dtx||[]).filter(t=>t.active&&/Village/.test(t.text)); if(!L.length)return null; var t=L[0], r=t._el.getBoundingClientRect(), cam=ws.cameras.main, vw=cam.worldView;
-      var sx=(t.x-vw.x)/vw.width*cam.width, sy=(t.y-vw.y)/vw.height*cam.height; return {shown:t._el.style.display!=='none', dx:Math.round((r.left+r.width/2)-sx), dy:Math.round(r.bottom-sy), fs:parseFloat(t._el.style.fontSize)}; })()""")
+    for _ in range(16):   # labels follow the camera a frame later; headless runs at a few fps
+        lb = g.js("""(()=>{ var ws=game.scene.getScene('World'), L=(ws._dtx||[]).filter(t=>t.active&&/Village/.test(t.text)); if(!L.length)return null; var t=L[0], r=t._el.getBoundingClientRect(), cam=ws.cameras.main, vw=cam.worldView;
+          var sx=(t.x-vw.x)/vw.width*cam.width, sy=(t.y-vw.y)/vw.height*cam.height; return {shown:t._el.style.display!=='none', dx:Math.round((r.left+r.width/2)-sx), dy:Math.round(r.bottom-sy), fs:parseFloat(t._el.style.fontSize)}; })()""")
+        if lb and abs(lb['dx']) <= 3 and abs(lb['dy']) <= 4: break
+        g.wait(500)
     check('Waystone name is DOM text placed over its world position', lb and lb['shown'] and abs(lb['dx']) <= 3 and abs(lb['dy']) <= 4 and lb['fs'] > 11, lb)
     # ── shop keeper inside a building ──
     g.js("(()=>{ var ws=game.scene.getScene('World'); var b=ws.buildings.find(b=>b.type==='tavern'); ws._enterBuilding(b); })()"); g.wait(1500)

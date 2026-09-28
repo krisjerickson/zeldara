@@ -9,6 +9,30 @@ var TOME_QCOL=['#ece6d8','#e3f1d6','#d9ebf5','#ece3d4','#f5dfd6'];   // village/
 var TOME_QN=['','Grasslands','Wetlands','Highlands','Ashlands'];
 var TOME_MOVE_TXT={pulse:'darts in and out',zigzag:'zig-zags toward you',rush:'rushes in short bursts',orbit:'circles around you',teleport:'teleports closer',strafe:'strafes sideways at range',normal:'walks straight at you'};
 var TOME_ATK_TXT={melee:'hits in melee',arrow:'shoots arrows',scatter:'fires a 3-way spread',scatter_arrow:'fires 3-way arrow spreads',scatter_flame:'fires 3-way flame spreads',flame:'throws fire (burns)',bog_flame:'spits bog flame (slows)',heat_seek:'fires homing fireballs',lightning:'fires lightning bolts',stomp:'stomps a shockwave'};
+// immunities, weaknesses and defences read straight from the monster's engine kit
+var TOME_DMG={melee:'sword (melee)',ranged:'arrows & thrown weapons',spell:'spells',fire:'fire & burning'};
+function _tomeDefLines(rid){ var K=typeof MX!=='undefined'&&MX.kit(rid); if(!K)return [['Immune to','Nothing — every kind of attack works.']];
+  var imm=[], weak=[], other=[], mv=K.move.name;
+  K.def.forEach(function(D){ var p=D.p;
+    if(D.name==='immune')imm.push(TOME_DMG[p.k]||p.k);
+    else if(D.name==='reflect')imm.push('arrows & thrown weapons (reflects them back)');
+    else if(D.name==='weak')weak.push((TOME_DMG[p.k]||p.k)+' (×'+(p.m||2)+' damage)');
+    else if(D.name==='front')other.push('Shield in front: blocks '+(p.red!==undefined&&p.red<1?Math.round(p.red*100)+'% of ':'')+'hits from the front — attack from the side or behind');
+    else if(D.name==='armor')other.push('Armour: the first '+(p.n||3)+' hits do '+Math.round((1-(p.red||0.7))*100)+'% damage, then it breaks');
+    else if(D.name==='bubble')other.push('Bubble: after '+(p.n||3)+' quick hits it becomes immune for '+(p.t||2)+' s — pace your attacks');
+    else if(D.name==='dodge')other.push('Dodges one attack every '+(p.cd||4)+' s');
+    else if(D.name==='tiny')other.push('Tiny: '+Math.round((p.c||0.25)*100)+'% of attacks miss');
+    else if(D.name==='thorns')other.push('Thorns: hurts you each time you hit it with your sword');
+    else if(D.name==='revive')other.push('Rises again once — stand on its bones to finish it');
+    else if(D.name==='regen')other.push('Regenerates'+(p.on?' while on '+p.on:''));
+    else if(D.name==='split')other.push('Splits once when killed');
+    else if(D.name==='explode')other.push('Explodes when it dies — step back');
+    else if(D.name==='enrage')other.push('Enrages below half health');
+    else if(D.name==='heal')other.push('Heals nearby allies');
+    else if(D.name==='aura')other.push('Hurts you when you stand close');
+  });
+  if(mv==='burrow'||mv==='ambush'||mv==='disguise')imm.push('everything while hidden ('+mv+')');
+  return [['Immune to',imm.length?imm.join(', '):'Nothing — every kind of attack works.']].concat(weak.length?[['Weak to',weak.join(', ')]]:[]).concat(other.length?[['Defences',other.join('<br>')]]:[]); }
 var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
   ps:function(){ var ws=game&&game.scene&&game.scene.getScene('World'); return ws&&ws.playerState; },
   book:function(){ var ps=Tome.ps(); if(!ps)return null; if(!ps.tome||typeof ps.tome!=='object')ps.tome={}; TOME_CATS.forEach(function(c){ if(!ps.tome[c.k])ps.tome[c.k]={}; }); return ps.tome; },
@@ -40,11 +64,11 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
         if(!B)return {name:CB.name,spec:CB.spec,sub:'Boss · '+CB.sub,hint:'Waits in: '+CB.where,lines:[['Looks',CB.look],['Fights',CB.doing],['Where',CB.where],['Tip','Bosses hit hard but slowly — keep moving and strike after each attack.']]};
         return {name:B.name,icon:B.icon,spec:CB&&CB.spec,sub:'Boss · '+TOME_QN[B.sec]+' guardian',hint:'Guards a ★ '+(['goblin_king','swamp_witch','rock_dragon','lava_titan'].indexOf(id.slice(5))>=0?'dungeon':'tower')+' in the '+TOME_QN[B.sec],
         lines:(CB?[['Looks',CB.look]]:[]).concat(BOSS_PHASES[id.slice(5)]?[['Phases',BOSS_PHASES[id.slice(5)].phases.map(function(P,i){ if(!P)return '1 · '+B.name+' (on the last floor)'; var F=CHAR_BY_ID[P.form]; return (i+1)+' · '+(F?F.name:'?')+' — '+BOSS_ARENAS[P.arena].name+(P.bars?' · '+P.bars.map(function(b){ return BOSS_BAR_INFO[b.k].ic+' '+BOSS_BAR_INFO[b.k].n; }).join(' '):'')+(P.allies?' · with allies':''); }).join('<br>')],['Extra health','✨ Ward: spells & familiars · 🏹 Guard: arrows · 🛡 Plate: sword. Other attacks only chip it (15%).']]:[]).concat([['Fights',(TOME_MOVE_TXT[B.moveType]||'moves')+'; '+(TOME_ATK_TXT[B.atkType]||'attacks')+'.'],['Strength','HP '+B.hp+' · ATK '+B.atk+' · DEF '+(B.def||0)],['Tip','Bosses hit hard but slowly — keep moving and strike after each attack.']])}; }
-      var CB2=CHAR_BY_ID[id]; if(CB2&&CB2.cat==='boss'){ var isW=id.indexOf('cw_')===0; return {name:CB2.name,spec:CB2.spec,sub:'Boss · '+CB2.sub,hint:'Waits in: '+CB2.where,lines:[['Looks',CB2.look],['Fights',CB2.doing],['Where',CB2.where],['Tip',isW?'A one-phase warden holding a master captive. Beat it, then open the portal chest to learn the master\'s skill.':'A later phase of a ★ guardian fight.']]}; }
+      var CB2=CHAR_BY_ID[id]; if(CB2&&CB2.cat==='boss'){ var isW=id.indexOf('cw_')===0, rk=isW&&typeof CASTLE_ISLANDS!=='undefined'?'cwd_'+Object.keys(CASTLE_ISLANDS).find(function(k){ return CASTLE_ISLANDS[k].warden===id; }):null; if(!rk&&typeof BOSS_PHASES!=='undefined')Object.keys(BOSS_PHASES).forEach(function(k){ BOSS_PHASES[k].phases.forEach(function(P){ if(P&&P.form===id)rk=P.rid; }); }); return {name:CB2.name,spec:CB2.spec,sub:'Boss · '+CB2.sub,hint:'Waits in: '+CB2.where,lines:[['Looks',CB2.look],['Fights',CB2.doing],['Where',CB2.where]].concat(rk?_tomeDefLines(rk):[]).concat([['Tip',isW?'A one-phase warden holding a master captive. Beat it, then open the portal chest to learn the master\'s skill.':'A later phase of a ★ guardian fight.']])}; }
       var R=MON_BY_ID[id]; if(!R)return null; var seg={main:'roams the '+TOME_QN[R.q],dun:TOME_QN[R.q]+' dungeons ('+R.role+')',tow:TOME_QN[R.q]+' towers (magic)'}[R.seg];
       var where=(R.tags.find(function(t){ return t.indexOf('T:')===0; })||'').slice(2);
       return {name:R.name,spec:R.spec,sub:TOME_QN[R.q]+' · '+{main:'Mainland',dun:'Dungeon',tow:'Tower'}[R.seg]+' · '+'★★★★★'.slice(0,R.tier),hint:'Found: '+seg+(where?' — '+where:'')+(R.tags.indexOf('night')>=0?' · only at night':''),
-        lines:[['Looks',R.look],['Moves',R.move],['Attacks',R.atk],['Defends',R.def],['Special',R.sp],['Where',seg+(where?' — '+where:'')+(R.tags.indexOf('pack')>=0?' · in packs with an alpha':'')+(R.tags.indexOf('night')>=0?' · night only':'')]]}; }
+        lines:[['Looks',R.look],['Moves',R.move],['Attacks',R.atk],['Defends',R.def]].concat(MON_LEGACY[id]?[['Immune to','Nothing — every kind of attack works.']]:_tomeDefLines(id)).concat([['Special',R.sp],['Where',seg+(where?' — '+where:'')+(R.tags.indexOf('pack')>=0?' · in packs with an alpha':'')+(R.tags.indexOf('night')>=0?' · night only':'')]])}; }
     if(cat==='mount'){ var M=MOUNTS[id]; if(!M)return null; var cc=Array.isArray(M.canCross)?M.canCross.map(function(t){ return Object.keys(T).find(function(k){ return T[k]===t; }); }).filter(Boolean).map(function(s){ return s.toLowerCase().replace(/_/g,' '); }).join(', '):M.canCross;
       var CM=CHAR_BY_ID['mt_'+id]; return {name:M.n,icon:M.icon,spec:CM&&CM.spec,look:CM&&CM.look,sub:'Mount · '+(M.spdMult||1)+'× speed',hint:M.cost?'Sold at the stables':'Won in the '+TOME_QN[M.sec]||'',lines:(CM?[['Looks',CM.look]]:[]).concat([['What it does',M.desc],['Crosses',cc||'roads & grass'],['Tip','Press M to mount / dismount. Signature terrain is slow on foot but full speed on the right mount.']])}; }
     if(cat==='familiar'){ var F=FAMILIARS[id]; if(!F)return null; var D=_famDesign(id), E=SPIRIT_ELEMENTS[D.el], ps0=Tome.ps(), L=ps0?_famLevel(ps0,id):1;

@@ -119,6 +119,9 @@ const ALWAYS_BLOCKED=new Set([T.ROCK,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T
 // Signature terrain (Phase 3): walkable on foot but slow; a mount that lists
 // the tile in canCross moves over it at full speed. (Deep water, large boulders
 // and deep lava stay in ALWAYS_BLOCKED for anyone without such a mount.)
+// Mounts that keep you safe from fire and magma (campfires, Ashlands lava crust)
+var FIRE_SAFE_MOUNTS=['lava_unicorn','dragon','ash_salamander'];
+function _fireSafeMount(ps){ return !!(ps&&ps.mount&&FIRE_SAFE_MOUNTS.indexOf(ps.mount)>=0); }
 const FOOT_SLOW={[T.SHALLOW_WATER]:0.35,[T.REED]:0.5,[T.MUD]:0.45,[T.LILY]:0.45,[T.SMALL_BOULDER]:0.3,[T.THIN_MAGMA]:0.3};
 function terrainSpeedMult(t,mount){
   var md=mount&&MOUNTS[mount];

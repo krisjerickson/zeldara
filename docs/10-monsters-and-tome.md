@@ -50,3 +50,7 @@
 - **Engine rules:** shooters (all attacks ranged, not kite/still/burrow…) back off inside `k.move.p.keep||140`; `summon` fires once per monster (`m.summoned`, bosses exempt), helpers are `temp` + `noSplit`; world respawn waits until the player is 30+ tiles away. New move `seek` (walk to `mon._seek`, fight you if close) for trial wisps.
 - **Familiars** (`07w-spirits.js` data + painters, `09d-familiars.js` runtime): `SPIRIT_DESIGNS` (12), `FAMILIAR_PICK`, `FAM_SKILLS[element]` (kinds proj / nova / heal / ward / rain / aura / wave / laststand), `_famCast`, `_heroFamiliarsTick` (hover orbit or trail-follow), wards refund the next hit.
 - **Fairies** (`10i-world-fairies.js`): `FAIRY_DESIGNS` (40) + `FAIRY_PICK`, fairies on `wd.waystones` + `wd.runeSpots` (each zone's stamp spawn), `FAIRY_OBJECTS` / `FAIRY_KING_OBJECTS` → `_digSpots`, `FairyTalk` dialogue (pauses the game), trials `_trialStart/_trialTick/_trialEnd` (`rune_targets`, `guardian`, `echo_path`, `orb_harvest`, `hold_circle`, `king`), `_wmFairyMarks` on the world map.
+
+## Round 4 (Sept 28 2026)
+- Tome monster pages add **Immune to / Weak to / Defences** from the kit (`_tomeDefLines(rid)`); immune/weak `k=fire` affect burning (`_heroBurn`).
+- Elites (`_bonusMiniBossKey`): HP `base×8 + 60×quadrant`, `_base` = the plain monster; the bonus site's last floor is `ELITE_ARENAS[quadrant]` with `2+quadrant` kin (`_spawnEliteKin`); boss HUD in `elite` style.
