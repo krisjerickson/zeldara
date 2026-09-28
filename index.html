@@ -452,6 +452,9 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
 .tome-empty,.tome-hint{color:#6a5030;font-style:italic}
 #tome-btn.tome-new{box-shadow:0 0 0 2px #ffd27a,0 0 14px #ffd27a}
 @media (max-width:760px){ .tome-main{flex-direction:column} }
+/* DOM text for world labels & prompts (04b-dom-text.js) — sharp at any screen DPI */
+.dtx-host{position:absolute;inset:0;pointer-events:none;z-index:40;overflow:hidden}
+.dtx{position:absolute;left:0;top:0;white-space:pre;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-weight:600;line-height:1.15;letter-spacing:.15px;will-change:transform;-webkit-font-smoothing:antialiased}
 </style>
 </head>
 <body>
@@ -1589,6 +1592,23 @@ const BOSS_REWARDS={
   s4_tower:  {rings:['dragon_ring','celestial_ring'],message:'🗼 All tower quests cleared! Found 2 legendary rings!',color:'#ffdd44'},
 };
 
+// ─── Crisp text everywhere ───────────────────────────
+// Every Phaser text is rasterised at the zoom its scene's camera uses (world 1.4×, dungeon 1.6×,
+// building 2.2×…) and filtered smoothly, so it reads like the HTML labels instead of blocky
+// pixel-doubled 1× text (the game renders pixel art with antialias off).
+var ZT_ZOOM={World:1.4,Island:1.5,Cave:1.5,Dungeon:1.6,Building:2.2,Sky:1.4};
+var ZT_FONT="'Segoe UI',system-ui,-apple-system,sans-serif";
+(function(){
+  var F=Phaser.GameObjects.GameObjectFactory.prototype, C=Phaser.GameObjects.GameObjectCreator.prototype, LIN=Phaser.Textures.FilterMode.LINEAR;
+  var prep=function(scene,style){ style=Object.assign({},style||{}); var k=scene&&scene.sys&&scene.sys.settings.key, z=ZT_ZOOM[k]||1;
+    if(!style.resolution)style.resolution=Math.min(3,Math.max(2,Math.ceil(z)));
+    if(style.fontFamily==='Segoe UI')style.fontFamily=ZT_FONT;
+    return style; };
+  var fin=function(t){ if(t&&t.texture&&t.scene&&t.scene.sys.game.renderer.type===Phaser.WEBGL)t.texture.setFilter(LIN); return t; };
+  var oa=F.text; F.text=function(x,y,txt,style){ return fin(oa.call(this,x,y,txt,prep(this.scene,style))); };
+  var om=C.text; C.text=function(cfg,add){ cfg=Object.assign({},cfg||{}); cfg.style=prep(this.scene,cfg.style); return fin(om.call(this,cfg,add)); };
+})();
+
 // ─── Input Guards & Helpers ──────────────────────────
 function _isTyping(){
   var ae=document.activeElement;
@@ -1834,6 +1854,60 @@ function _heroBuffMult(ps, key){
   return _heroBuffActive(ps, key) ? 1.25 : 1.0;
 }
 
+// ═══════════════════════════════════════════════════════════════════════
+// ║ DOM TEXT — world-space labels drawn as HTML (like the building names),
+// ║ so they are as sharp as the page on any screen (the game canvas itself
+// ║ renders at CSS resolution). Drop-in for scene.add.text on stand-alone
+// ║ labels and prompts: same x / y / alpha / origin API, tweens work on it.
+// ║   domText(scene, x, y, text, style) → proxy
+// ═══════════════════════════════════════════════════════════════════════
+function _dtxHost(scene){
+  if(scene._dtxHost&&scene._dtxHost.isConnected)return scene._dtxHost;
+  var app=document.getElementById('app')||document.body, h=document.createElement('div'); h.className='dtx-host'; app.appendChild(h); scene._dtxHost=h;
+  scene._dtx=[];
+  scene.events.on('postupdate',function(){ _dtxProject(scene); });
+  scene.events.on('sleep',function(){ h.style.display='none'; });
+  scene.events.on('pause',function(){ h.style.display='none'; });
+  scene.events.on('resume',function(){ h.style.display=''; });
+  scene.events.on('wake',function(){ h.style.display=''; });
+  scene.events.once('shutdown',function(){ (scene._dtx||[]).forEach(function(t){ t.active=false; }); scene._dtx=[]; if(h.parentNode)h.parentNode.removeChild(h); scene._dtxHost=null; });
+  return h;
+}
+function _dtxProject(scene){
+  var L=scene._dtx; if(!L||!L.length)return; var cam=scene.cameras.main, vw=cam.worldView, z=cam.zoom, cw=cam.width, ch=cam.height;
+  for(var i=L.length-1;i>=0;i--){ var t=L[i]; if(!t.active){ L.splice(i,1); continue; }
+    var sx, sy; if(t.scrollFactorX===0){ sx=cam.x+(t.x-cw/2)*z+cw/2; sy=cam.y+(t.y-ch/2)*z+ch/2; }
+    else { sx=cam.x+(t.x-vw.x)/vw.width*cw; sy=cam.y+(t.y-vw.y)/vw.height*ch; }
+    var on=t.visible&&t.alpha>0.01&&sx>-300&&sx<cw+300&&sy>-120&&sy<ch+120, el=t._el;
+    if(!on){ if(el.style.display!=='none')el.style.display='none'; continue; }
+    if(el.style.display==='none')el.style.display='';
+    var fs=Math.round(t._fs*z*t.scaleY*10)/10; if(t._lastFs!==fs){ el.style.fontSize=fs+'px'; t._lastFs=fs; }
+    el.style.transform='translate('+Math.round(sx)+'px,'+Math.round(sy)+'px) translate('+(-t.originX*100)+'%,'+(-t.originY*100)+'%)';
+    var a=Math.round(t.alpha*100)/100; if(t._lastA!==a){ el.style.opacity=a; t._lastA=a; }
+    if(t._lastD!==t.depth){ el.style.zIndex=Math.round(t.depth*10); t._lastD=t.depth; } }
+}
+function domText(scene,x,y,txt,style){
+  style=style||{}; var host=_dtxHost(scene), el=document.createElement('div'); el.className='dtx';
+  var sw=style.strokeThickness||0, sc=style.stroke||'#000';
+  el.style.color=style.color||'#fff'; if(style.fontStyle&&/bold/.test(style.fontStyle))el.style.fontWeight='700';
+  if(style.align)el.style.textAlign=style.align;
+  if(sw)el.style.textShadow=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]].map(function(d){ return d[0]*Math.max(1,sw/2.4)+'px '+d[1]*Math.max(1,sw/2.4)+'px 0 '+sc; }).join(',')+',0 0 3px '+sc;
+  el.textContent=txt; host.appendChild(el);
+  var t={ _el:el, _fs:parseFloat(style.fontSize)||12, scene:scene, x:x, y:y, alpha:1, visible:true, active:true, originX:0, originY:0, depth:0, scaleX:1, scaleY:1, scrollFactorX:1, text:txt, type:'DomText',
+    setText:function(s){ s=String(s); if(s!==this.text){ this.text=s; el.textContent=s; } return this; },
+    setOrigin:function(ox,oy){ this.originX=ox; this.originY=oy===undefined?ox:oy; return this; },
+    setDepth:function(d){ this.depth=d; return this; }, setPosition:function(nx,ny){ this.x=nx; if(ny!==undefined)this.y=ny; return this; },
+    setX:function(v){ this.x=v; return this; }, setY:function(v){ this.y=v; return this; },
+    setAlpha:function(a){ this.alpha=a; return this; }, setVisible:function(v){ this.visible=!!v; return this; },
+    setScale:function(a,b){ this.scaleX=a; this.scaleY=b===undefined?a:b; return this; },
+    setScrollFactor:function(f){ this.scrollFactorX=f; return this; },
+    setColor:function(c){ el.style.color=c; return this; }, setFontSize:function(f){ this._fs=parseFloat(f)||this._fs; this._lastFs=null; return this; },
+    setStyle:function(s){ if(s&&s.color)el.style.color=s.color; if(s&&s.fontSize)this.setFontSize(s.fontSize); return this; },
+    setShadow:function(){ return this; }, setStroke:function(){ return this; }, setWordWrapWidth:function(){ return this; },
+    destroy:function(){ if(!this.active)return; this.active=false; if(el.parentNode)el.parentNode.removeChild(el); if(scene.tweens)scene.tweens.killTweensOf(this); }
+  };
+  t.setOrigin(0,0); scene._dtx.push(t); return t;
+}
 // ─── PRNG & Noise ────────────────────────────────
 class PRNG{
   constructor(s){this.s=(s>>>0)||1}
@@ -3034,6 +3108,9 @@ class TitleScene extends Phaser.Scene{
     if(hasSave){
       var cBtn=this._mkBtn(w/2,h*0.5+70,'CONTINUE',0x4488cc);
       cBtn.on('pointerup',function(){self.scene.start('Boot',{newGame:false});});
+      // back from a graphics reset (20-game-config.js): continue straight away
+      var rs=null; try{ rs=sessionStorage.getItem('qoz_resume'); sessionStorage.removeItem('qoz_resume'); }catch(e){}
+      if(rs&&Date.now()-(+rs)<60000)this.time.delayedCall(60,function(){ self.scene.start('Boot',{newGame:false}); });
     }
   }
   _mkBtn(x,y,label,col){
@@ -3206,6 +3283,10 @@ function mix(a,b,t){ var x=hexToRgb(a),y=hexToRgb(b); return rgbToHex(x[0]+(y[0]
 function rgba(h,a){ var c=hexToRgb(h); return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')'; }
 function hexNum(h){ return parseInt(h.replace('#',''),16); }
 function mkCanvas(w,h){ var c=document.createElement('canvas'); c.width=Math.max(1,Math.ceil(w)); c.height=Math.max(1,Math.ceil(h)); return c; }
+// A big painted canvas → a GPU texture. Phaser's addCanvas keeps a full CPU pixel copy of every canvas
+// (getImageData: a GPU read-back stall + 4 MB per 1024² chunk) and the canvas itself; with WebGL we only
+// need the uploaded texture, so the canvas is shrunk to 1×1 right after upload (frees its memory).
+function gpuTex(scene,key,cv){ scene.textures.addImage(key,cv); if(scene.game.renderer&&scene.game.renderer.type===Phaser.WEBGL){ cv.width=1; cv.height=1; } return key; }
 function rr(ctx,x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 function softShadow(ctx,cx,cy,rx,ry,a){ var g=ctx.createRadialGradient(cx,cy,0,cx,cy,rx); g.addColorStop(0,'rgba(0,0,0,'+a+')'); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.save(); ctx.translate(cx,cy); ctx.scale(1,ry/rx); ctx.translate(-cx,-cy); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rx,0,Math.PI*2); ctx.fill(); ctx.restore(); }
 function glowSpot(ctx,cx,cy,r,col,a){ var g=ctx.createRadialGradient(cx,cy,0,cx,cy,r); g.addColorStop(0,rgba(col,a)); g.addColorStop(1,rgba(col,0)); ctx.fillStyle=g; ctx.fillRect(cx-r,cy-r,r*2,r*2); }
@@ -4057,7 +4138,8 @@ function _bonusMiniBossKey(sec){
   var best=null; for(var k in MDEFS){ var d=MDEFS[k]; if(d.sec===sec&&!d.boss&&(!best||d.hp>MDEFS[best].hp))best=k; }
   if(!best)return null; var b=MDEFS[best];
   MDEFS[key]=Object.assign({},b,{ name:'Elite '+b.name, hp:Math.round(b.hp*3.2+30*sec), atk:Math.round(b.atk*1.4)+2, def:(b.def||0)+2,
-    r:(b.r||10)+5, xp:b.xp*6, gMin:b.gMin*4, gMax:b.gMax*4, boss:true, elite:true });
+    r:(b.r||10)+5, xp:b.xp*6, gMin:b.gMin*4, gMax:b.gMax*4, boss:true, elite:true,
+    _rid:(typeof MON_LEGACY!=='undefined')?Object.keys(MON_LEGACY).find(function(k){ return MON_LEGACY[k]===best; }):null });
   return key;
 }
 // Island guardians live in the island's dungeon now (the familiar comes from them).
@@ -6964,6 +7046,341 @@ MKIT('volcanic_hexer','flit | shoot p=orb homing=1 spd=150 st=burn t=3 m=0.4 cd=
 MKIT('ember_construct','lumber | beam wind=1 len=300 w=12 col=#7fe8ff m=1.2 cd=3 | armor n=6 red=0.85 | bubble n=4 t=2');
 MKIT('flame_wisp','orbit r=70 | shoot p=fire spd=250 m=0.4 cd=1.4 | tiny c=0.35');
 // ═══════════════════════════════════════════════════════════════════════
+// ║ CHARACTERS (Phase 4) — pixel stand-ins for every NPC, mount, familiar
+// ║ and boss, built like the monster roster (07m): a small spec → 32×32
+// ║ frames. ChatGPT sprites can replace them later (same ids).
+// ║   NPCs    : plan 'person' — skin, hair, clothes, hats, tools, 4 frames
+// ║             (0/1 idle · 2/3 their trade: pour, hammer, wave, sew …)
+// ║   mounts  : side view (4 walk frames) + front + back (2 each)
+// ║   familiars / bosses: monster plans (+ fish, swirl, kraken), bosses
+// ║             drawn bigger in game with an aura
+// ═══════════════════════════════════════════════════════════════════════
+
+// ── NPC body plan ─────────────────────────────────────────────────────
+// pal: [shirt, trousers/robe, accent, eye, skin, hair]
+MS_PLANS.person=function(G,P,F,o){
+  var H=function(f){ return _msHas(F,f); };
+  var kid=H('child'), dw=H('dwarf'), big=H('big');
+  var x=16+o.lx, y=o.dy+(kid?6:dw?3:0), sh=P[0], dk=P[1], ac=P[2], sk=P[4]||'#f0c8a0', hr=P[5]||'#5a3a20';
+  var bw=dw||big?10:kid?6:8, bx=x-bw/2, ty=kid?16:14, th=kid?6:dw?8:9;
+  if(H('cape'))G.r(bx-1,ty,bw+2,13,shade(ac,-0.2));
+  // legs / robe
+  if(H('robe')||H('dress')){ G.tri(bx-2,29,bx+bw+2,29,x,ty+2,dk); G.r(bx-2,27,bw+4,2,dk); if(H('dress'))G.r(bx,ty+th-1,bw,1,ac); }
+  else { var lh=kid?4:dw?4:6, ly=ty+th; G.r(x-3,ly+(o.step?1:0),2,lh-(o.step?1:0),dk); G.r(x+1,ly+(o.step?0:1),2,lh-(o.step?0:1),dk);
+    G.r(x-3,ly+lh-1,2,1,'#3a2a1a'); G.r(x+1,ly+lh-1,2,1,'#3a2a1a'); }
+  // torso
+  G.r(bx,ty,bw,th,sh);
+  if(H('vest'))G.r(bx,ty,2,th,ac),G.r(bx+bw-2,ty,2,th,ac);
+  if(H('apron')){ G.r(x-3,ty+2,6,th+(H('robe')?6:3),'#ece2cc'); G.r(x-3,ty+2,6,1,'#c8b898'); }
+  if(H('leather'))G.r(x-3,ty+1,6,th+2,'#7a5030');
+  if(H('armor')){ G.r(bx,ty,bw,th-2,'#9aa0aa'); G.r(bx,ty,bw,1,'#c8ccd4'); }
+  if(H('belt'))G.r(bx,ty+th-3,bw,1,ac);
+  if(H('sash'))G.l(bx,ty,bx+bw-1,ty+th-2,ac);
+  if(H('chains')){ G.ol(bx-2,ty+4,bx+bw+1,ty+4,'#a8a8b0'); G.ol(bx-2,ty+6,bx+bw+1,ty+6,'#8a8a92'); }
+  // arms: left idle, right does the job (atk 1 = wind-up, 2 = action)
+  var an=o.anim, a1=o.atk===1, a2=o.atk===2;
+  G.r(bx-2,ty+1,2,6,sh); G.p(bx-2,ty+7,sk);
+  var rx=bx+bw, ry=ty+1+(a1&&an!=='pour'?-3:0);
+  if(an==='wave'&&o.atk){ G.r(rx,ty-4+(a2?1:0),2,6,sh); G.p(rx+(a2?1:0),ty-5,sk); }
+  else { G.r(rx,ry,2,6,sh); G.p(rx,ry+6,sk); }
+  var hx=rx+1, hy=ry+6;
+  // head, hair, face
+  var hy0=ty-5, hrx=kid?3.5:4;
+  G.e(x,hy0,hrx,4,sk);
+  if(!H('bald')&&!H('hood')&&!H('helmet')){
+    G.r(x-4,hy0-4,9,3,hr);
+    if(H('long')){ G.r(x-5,hy0-2,2,8,hr); G.r(x+4,hy0-2,2,8,hr); }
+    else { G.p(x-4,hy0-1,hr); G.p(x+4,hy0-1,hr); }
+    if(H('bun'))G.e(x,hy0-5,2,2,hr);
+    if(H('braids')){ G.r(x-5,hy0,1,7,hr); G.r(x+5,hy0,1,7,hr); G.p(x-5,hy0+7,ac); G.p(x+5,hy0+7,ac); }
+    if(H('pony'))G.r(x-6,hy0-2,2,5,hr);
+  }
+  if(H('beard'))G.tri(x-4,hy0+1,x+4,hy0+1,x,hy0+(dw?9:7),H('grey')?'#dcd8d0':hr);
+  if(H('moustache'))G.r(x-2,hy0+2,5,1,H('grey')?'#dcd8d0':hr);
+  // hats
+  if(H('chefhat')){ G.e(x,hy0-6,4,3,'#f4f0e8'); G.r(x-3,hy0-4,7,2,'#f4f0e8'); }
+  if(H('cap'))G.r(x-4,hy0-5,9,2,ac),G.r(x+2,hy0-3,4,1,ac);
+  if(H('tricorn')){ G.tri(x-7,hy0-3,x+7,hy0-3,x,hy0-8,'#2a2226'); G.p(x,hy0-6,ac); }
+  if(H('wizard')){ G.tri(x-6,hy0-3,x+6,hy0-3,x+3,hy0-11,dk); G.r(x-6,hy0-4,13,2,dk); G.op(x+2,hy0-8,ac); G.op(x-2,hy0-5,ac); }
+  if(H('hood')){ G.e(x,hy0-1,5,5,dk); G.e(x+1,hy0+1,3,3,sk); }
+  if(H('helmet')){ G.r(x-4,hy0-5,9,4,'#8a8e96'); G.r(x-4,hy0-1,1,3,'#8a8e96'); G.r(x+4,hy0-1,1,3,'#8a8e96'); G.p(x,hy0-6,ac); }
+  if(H('scarf'))G.r(x-4,hy0-5,9,3,ac),G.p(x-5,hy0-2,ac);
+  if(H('straw')){ G.r(x-7,hy0-3,15,1,'#e0c070'); G.r(x-4,hy0-6,9,3,'#e0c070'); G.r(x-4,hy0-4,9,1,ac); }
+  if(H('bandana'))G.r(x-4,hy0-4,9,2,ac),G.p(x+5,hy0-3,ac);
+  if(H('crown')){ G.r(x-3,hy0-6,7,2,'#e8c040'); G.p(x-3,hy0-7,'#e8c040'); G.p(x,hy0-7,'#e8c040'); G.p(x+3,hy0-7,'#e8c040'); }
+  if(H('goggles')){ G.r(x-3,hy0-1,7,2,'#6a4a2a'); G.op(x-2,hy0-1,'#9fe0ff'); G.op(x+2,hy0-1,'#9fe0ff'); }
+  if(H('feather'))G.l(x+3,hy0-5,x+7,hy0-10,ac);
+  if(!H('goggles')){ G.op(x-1,hy0,P[3]); G.op(x+2,hy0,P[3]); }
+  if(H('rosy')){ G.op(x-3,hy0+2,'rgba(230,120,120,.55)'); G.op(x+3,hy0+2,'rgba(230,120,120,.55)'); }
+  // tools in the right hand
+  var sw=a2?1:0;
+  if(H('mug')){ G.r(hx-1+sw,hy-2,3,3,'#c89040'); G.op(hx-1+sw,hy-3,'#fff4d0'); if(an==='pour'&&a2){ G.ol(hx+2,hy-1,hx+4,hy+4,'#e8b040'); } }
+  if(H('hammer')){ var hh=a2?4:a1?-6:0; G.l(hx,hy,hx+2,hy-6+hh,'#6a4a2a'); G.r(hx,hy-8+hh,5,3,'#8a8e96'); if(a2)G.op(hx+5,hy+1,'#ffd070'); }
+  if(H('scroll')){ G.r(hx-1,hy-3,4,5,'#efe4c4'); G.r(hx-1,hy-3,4,1,'#b89868'); }
+  if(H('quill'))G.ol(hx+1,hy-1,hx+4,hy-6,'#f4f4f4');
+  if(H('scissors')){ G.ol(hx,hy-1,hx+3+sw,hy-4,'#dfe6ee'); G.ol(hx,hy-1,hx+3,hy-2+sw,'#dfe6ee'); }
+  if(H('gem')){ G.oe(hx+1,hy-2,1.5,1.5,ac); if(a2)G.op(hx+3,hy-4,'#ffffff'); }
+  if(H('potion')){ G.r(hx,hy-3,3,4,rgba(ac,0.9)); G.r(hx+1,hy-4,1,1,'#d8d0c0'); if(a2)G.op(hx+1,hy-6,shade(ac,0.5)); }
+  if(H('bread')){ G.e(hx+1,hy-1,2.5,1.5,'#d8a050'); }
+  if(H('rod')){ G.l(hx,hy,hx+6,hy-9-(a2?2:0),'#8a6a3a'); G.ol(hx+6,hy-9-(a2?2:0),hx+7,hy+2,'rgba(230,230,230,.8)'); }
+  if(H('broom')){ G.l(hx,hy-4,hx+1,hy+6,'#8a6a3a'); G.r(hx-1+(a2?1:0),hy+6,4,2,'#d8b860'); }
+  if(H('spyglass'))G.l(hx,hy,hx+4,hy-4-(a1||a2?2:0),'#c8a040');
+  if(H('wrench')){ G.l(hx,hy,hx+3,hy-5,'#a8acb4'); G.p(hx+4,hy-6,'#a8acb4'); G.p(hx+2,hy-6,'#a8acb4'); }
+  if(H('sword'))G.l(hx,hy,hx+(a2?6:2),hy-(a2?1:7),'#dfe6ee');
+  if(H('spear'))G.l(hx,hy+5,hx+2,hy-10,'#9a8a70'),G.p(hx+2,hy-11,'#dfe6ee');
+  if(H('pitchfork')){ G.l(hx,hy+5,hx+1,hy-9,'#8a6a3a'); G.p(hx-1,hy-10,'#a8acb4'); G.p(hx+1,hy-10,'#a8acb4'); G.p(hx+3,hy-10,'#a8acb4'); }
+  if(H('lamp')){ G.l(hx,hy,hx,hy-9,'#3a3026'); G.oe(hx,hy-10,1.5,1.8,a2?'#ffe8a0':'#ffc060'); }
+  if(H('staff')){ G.l(hx+1,hy+8,hx+1,hy-10,'#6a4a2a'); G.oe(hx+1,hy-11,1.4,1.4,ac); }
+  if(H('ball'))G.e(hx+1+(a2?2:0),hy-1-(a2?4:0),1.5,1.5,ac);
+  if(H('key'))G.op(hx+1,hy-1,'#e8c040'),G.op(hx+2,hy-1,'#e8c040');
+  if(H('book'))G.r(bx-4,ty+3,4,4,ac);
+  if(H('sack'))G.e(bx-3,ty+7,3,3,'#b89868');
+  if(H('parrot')){ G.e(bx,ty-1,1.5,1.5,'#e04030'); G.p(bx+1,ty-1,'#ffd040'); }
+  if(H('shield'))G.r(bx-4,ty+1,3,6,ac);
+};
+MS_FX.pour=function(G,P){ G.op(24,22,'rgba(255,220,140,.8)'); };
+MS_FX.hammer=function(G,P){ for(var i=0;i<5;i++)G.op(20+i*2,20-(i%2)*2,i%2?'#ffd070':'#ffffff'); };
+MS_FX.wave=function(G,P){ G.op(25,6,'rgba(255,255,255,.7)'); G.op(26,8,'rgba(255,255,255,.5)'); };
+MS_FX.sparkle=function(G,P){ for(var i=0;i<4;i++){ var an=i/4*Math.PI*2; G.op(22+Math.cos(an)*3,12+Math.sin(an)*3,'#ffffff'); } };
+
+// ── familiar plans ────────────────────────────────────────────────────
+MS_PLANS.fish=function(G,P,F,o){ var x=15+o.lx, y=o.dy*2, b=P[0], d=P[1], a=P[2], t=o.step?2:-2;
+  G.tri(x-7,16+y,x-12,11+y+t,x-12,21+y-t,a); G.e(x,16+y,7,5,b); G.e(x+1,18+y,5,2,shade(b,0.25));
+  G.tri(x-2,11+y,x+2,7+y,x+4,12+y,a); if(_msHas(F,'bubble'))G.oe(x+10,10+y-(o.step?1:0),2,2,'rgba(200,240,255,.8)',true);
+  if(_msHas(F,'spines'))for(var i=0;i<4;i++)G.p(x-4+i*3,11+y,a);
+  G.op(x+4,15+y,P[3]); G.op(x+5,15+y,'#101010');
+};
+MS_PLANS.swirl=function(G,P,F,o){ var x=16+o.lx, y=o.dy*2, ph=o.step?0.6:0;
+  for(var i=0;i<26;i++){ var t=i/26*Math.PI*3.2+ph, r=2+i*0.38; G.op(x+Math.cos(t)*r,15+y+Math.sin(t)*r*0.7,i%4?P[1]:P[2]); }
+  G.e(x,15+y,2.5,2.5,P[0]); G.op(x-1,14+y,P[3]); G.op(x+1,14+y,P[3]);
+  if(_msHas(F,'leaves'))for(var j=0;j<3;j++)G.op(x-9+j*9,6+y+(j%2)*3,'#8ad060');
+};
+MS_PLANS.kraken=function(G,P,F,o){ var x=16+o.lx, y=o.dy, b=P[0], d=P[1], a=P[2];
+  for(var t=0;t<6;t++){ var sx=x-9+t*3.5, w=(o.step?1:-1)*((t%2)?1:-1); G.l(sx,20+y,sx+w*2,25+y,b); G.l(sx+w*2,25+y,sx-w,29,b); G.op(sx+w*2,26+y,a); }
+  G.e(x,13+y,8,8,b); G.e(x,10+y,6,4,shade(b,0.15)); for(var i=0;i<3;i++)G.op(x-5+i*5,16+y,rgba(a,0.9));
+  G.op(x-3,12+y,P[3]); G.op(x+3,12+y,P[3]); if(o.atk===2)G.oe(x,13+y,11,11,rgba(a,0.5),true);
+};
+
+MS_PLANS.firefly=function(G,P,F,o){ MS_PLANS.insect(G,P,F,o); G.oe(10+o.lx,20+o.dy,5,4.5,rgba(P[2],o.step?0.55:0.8)); G.oe(10+o.lx,20+o.dy,8,7,rgba(P[2],0.18)); };
+// ── mounts: side view + front + back ──────────────────────────────────
+// spec: {kind: quad|gator|bird|glider|serpent, pal:[body,dark,accent,eye], feat}
+// frames: side 0-3 (walk / flap), front 4-5, back 6-7
+function _mtPaintSide(G,S,f){ var P=S.pal, F=','+(S.feat||'')+',', H=function(q){ return _msHas(F,q); }, b=P[0], d=P[1], a=P[2], st=f%2, y=(f===1||f===3)?-1:0, wu=(f===1||f===3)?6:-2;
+  if(S.kind==='quad'){ var lg=function(px,ph,up){ G.r(px,21+y+(ph?1:0),2,7-(ph?1:0),d); G.r(px,27+y,2,1,H('hooves')?'#2a2226':d); };
+    var k=f%4; lg(6,k===0||k===2?0:1); lg(9,k===1||k===3?0:1); lg(20,k===1||k===3?0:1); lg(23,k===0||k===2?0:1);
+    if(H('wings'))G.tri(12,15+y,4,3+y+wu,18,14+y,shade(a,0.1));
+    G.e(15,17+y,10,5,b); if(H('belly'))G.e(15,19+y,7,2.5,shade(b,0.2));
+    if(H('saddle')){ G.r(12,12+y,7,3,'#7a4a28'); G.r(11,14+y,9,1,'#5a3418'); }
+    var low=H('lowhead'), hy2=low?15:8;
+    if(low){ G.e(24,15+y,4,4,b); G.e(28,16+y,3.5,3,b); G.r(29,17+y,3,2,shade(b,-0.12)); G.tri(26,12+y,27,9+y,28,12+y,b); }
+    else { G.tri(20,16+y,25,6+y,27,13+y,b); G.e(26,8+y,3,2.5,b); G.r(27,8+y,4,3,b); G.r(29,10+y,2,1,shade(b,-0.2)); G.tri(24,6+y,25,3+y,26,6+y,b); }
+    if(H('mane'))for(var i=0;i<6;i++)G.r(19+i,13-i+y,1,2,d);
+    if(H('flamemane'))for(var j=0;j<6;j++)G.op(20+j,12-j+y-(st?1:0),j%2?'#ffb040':'#ff6020');
+    if(H('horn'))G.l(27,5+y,30,0+y,'#ffe0a0');
+    if(H('tusks')){ G.op(30,18+y,'#fff4e0'); G.op(30,17+y,'#fff4e0'); }
+    if(H('bristles'))for(var k2=0;k2<6;k2++)G.p(9+k2*2,12+y,d);
+    if(H('spikes'))for(var s=0;s<5;s++)G.tri(8+s*3,13+y,9+s*3,9+y,10+s*3,13+y,a);
+    if(H('horns')){ G.l(26,5+y,24,1+y,'#e8dcc0'); G.l(28,5+y,28,1+y,'#e8dcc0'); }
+    G.l(5,15+y,1,H('tailup')?9+y:20+y,H('flamemane')?'#ff8030':d);
+    if(H('lavacracks'))for(var c=0;c<4;c++)G.op(9+c*4,18+y+(c%2),'#ff9030');
+    G.op(low?28:27,low?15+y:7+y,P[3]);
+  }
+  if(S.kind==='gator'){ var sw=(f%2)?1:-1; G.e(14,21+y,11,4,b); G.tri(3,21+y,-1,19+y+sw,4,23+y,b);
+    G.r(22,20+y,9,3,b); G.r(22,23+y,8,1,shade(b,0.3)); for(var t=0;t<4;t++)G.p(23+t*2,23+y,'#fff4e0');
+    for(var r=0;r<6;r++)G.p(6+r*3,17+y,d); G.r(7,24+y+(st?1:0),2,3,d); G.r(19,24+y+(st?0:1),2,3,d);
+    if(H('saddle')){ G.r(11,15+y,7,3,'#7a4a28'); } G.op(24,19+y,P[3]); if(H('water')){ G.or(0,27,32,1,'rgba(120,200,255,.55)'); } }
+  if(S.kind==='bird'){ G.tri(14,15+y,4,5+y+wu,18,16+y,d); G.e(15,17+y,8,5,b); G.tri(7,17+y,1,14+y,6,20+y,d);
+    G.e(24,11+y,3.5,3,b); G.tri(27,11+y,31,13+y,27,14+y,a); if(H('crest'))G.tri(22,8+y,24,3+y,25,8+y,a);
+    if(H('flames'))for(var fl=0;fl<6;fl++)G.op(3+fl*2,20+y+(fl%2),fl%2?'#ffd060':'#ff6020');
+    if(H('saddle'))G.r(13,12+y,6,2,'#7a4a28');
+    G.tri(14,15+y,9,3+y+wu,20,15+y,shade(d,0.2)); G.l(15,22+y,15,25+y,'#d8c080'); G.l(18,22+y,18,25+y,'#d8c080'); G.op(25,10+y,P[3]); }
+  if(S.kind==='glider'){ G.tri(2,15+y,30,15+y,16,9+y+(st?1:0),a); G.r(4,15+y,24,1,d); G.l(16,15+y,16,22+y,'#8a6a3a');
+    G.r(12,22+y,9,2,'#8a6a3a'); for(var g=0;g<4;g++)G.op(5+g*7,14+y,'rgba(255,255,255,.7)'); if(st)G.op(1,17,'rgba(255,255,255,.5)'); }
+  if(S.kind==='serpent'){ for(var i2=0;i2<24;i2++){ var yy=19+Math.round(Math.sin((i2+f*1.5)*0.45)*3)+y; G.r(3+i2,yy,1,4,b); if(i2%3===0)G.op(3+i2,yy+1,a); }
+    G.e(28,15+y,3.5,3,b); G.op(29,14+y,P[3]); if(H('wings'))G.tri(12,17+y,6,6+y+wu,18,17+y,shade(d,0.2)); if(H('smoke'))for(var sm=0;sm<4;sm++)G.op(2+sm*3,14+y-(sm%2),rgba(a,0.6)); }
+  if(S.kind==='drake'){ S=Object.assign({},S,{kind:'quad',feat:(S.feat||'')+',wings,spikes,horns,tailup'}); _mtPaintSide(G,S,f); }
+}
+function _mtPaintFront(G,S,f,back){ var P=S.pal, F=','+(S.feat||'')+',', H=function(q){ return _msHas(F,q); }, b=P[0], d=P[1], a=P[2], y=f?-1:0, wu=f?5:-2, kd=S.kind==='drake'?'quad':S.kind;
+  if(kd==='quad'||kd==='gator'){ var wide=kd==='gator';
+    if(H('wings')||S.kind==='drake'){ G.tri(12,15+y,1,6+y+wu,10,20+y,shade(a,0.1)); G.tri(20,15+y,31,6+y+wu,22,20+y,shade(a,0.1)); }
+    G.r(12-(f?0:1),21+y,3,7,d); G.r(17+(f?0:1),21+y,3,7,d);
+    G.e(16,18+y,wide?9:6,5,b);
+    if(H('saddle'))G.r(12,12+y,8,3,'#7a4a28');
+    if(!back){ G.e(16,11+y,wide?6:4,4,b); G.r(14,13+y,5,3,shade(b,-0.1)); G.op(14,10+y,P[3]); G.op(18,10+y,P[3]);
+      if(H('horn'))G.l(16,7+y,16,2+y,'#ffe0a0'); if(H('horns')||S.kind==='drake'){ G.l(13,8+y,11,4+y,'#e8dcc0'); G.l(19,8+y,21,4+y,'#e8dcc0'); }
+      if(H('tusks')){ G.op(13,14+y,'#fff4e0'); G.op(19,14+y,'#fff4e0'); } if(H('mane')||H('flamemane'))G.r(14,7+y,5,2,H('flamemane')?'#ff8030':d); }
+    else { G.l(16,20+y,16,27+y+(f?-1:0),H('flamemane')?'#ff8030':d); if(H('mane')||H('flamemane'))G.r(14,9+y,5,3,H('flamemane')?'#ff8030':d); }
+    if(H('lavacracks'))for(var c=0;c<3;c++)G.op(12+c*4,18+y,'#ff9030');
+  }
+  if(kd==='bird'){ G.tri(15,14+y,1,8+y+wu,12,20+y,d); G.tri(17,14+y,31,8+y+wu,20,20+y,d); G.e(16,17+y,5,6,b);
+    if(!back){ G.e(16,10+y,3,3,b); G.tri(15,12+y,17,12+y,16,15+y,a); G.op(15,9+y,P[3]); G.op(17,9+y,P[3]); } else G.tri(13,22+y,19,22+y,16,28+y,d);
+    if(H('flames'))for(var fl=0;fl<5;fl++)G.op(12+fl*2,24+y,fl%2?'#ffd060':'#ff6020'); if(H('saddle'))G.r(13,13+y,6,2,'#7a4a28'); }
+  if(kd==='glider'){ G.tri(1,16+y,31,16+y,16,12+y,a); G.r(2,16+y,28,1,d); G.l(16,16+y,16,24+y,'#8a6a3a'); G.r(12,24+y,9,2,'#8a6a3a'); }
+  if(kd==='serpent'){ G.e(16,24+y,9,3,b); G.e(16,19+y,6,3,b); G.e(16,14+y,4,3,b); if(!back){ G.e(16,9+y,4,3,b); G.op(14,8+y,P[3]); G.op(18,8+y,P[3]); }
+    if(H('wings')){ G.tri(12,16+y,2,8+y+wu,11,20+y,shade(d,0.2)); G.tri(20,16+y,30,8+y+wu,21,20+y,shade(d,0.2)); } }
+}
+function mtFrames(S){ if(S._fr)return S._fr; S._fr=[0,1,2,3,4,5,6,7].map(function(i){ var G=_msGrid();
+    if(i<4)_mtPaintSide(G,S,i); else _mtPaintFront(G,S,i%2,i>=6); _msShadeOutline(G);
+    var cv=mkCanvas(32,32), x=cv.getContext('2d'); x.fillStyle='rgba(0,0,0,.28)'; x.beginPath(); x.ellipse(16,29.5,11,2,0,0,Math.PI*2); x.fill();
+    for(var k=0;k<1024;k++){ if(G.c[k]){ x.fillStyle=G.c[k]; x.fillRect(k%32,(k/32)|0,1,1); } }
+    for(var k2=0;k2<1024;k2++){ if(G.o[k2]){ x.fillStyle=G.o[k2]; x.fillRect(k2%32,(k2/32)|0,1,1); } }
+    return cv; });
+  return S._fr; }
+
+// ── the roster ────────────────────────────────────────────────────────
+// CH(cat, id, name, spec, where, look, doing, extra)
+//   cat: npc · mount · familiar · boss      spec: [plan, anim, 'pal', 'feat'] (mount: [kind, 'pal', 'feat'])
+var CHAR_ROSTER=[], CHAR_BY_ID={};
+function CH(cat,sub,id,name,spr,where,look,doing,extra){
+  var spec=cat==='mount'?{mount:true,kind:spr[0],pal:spr[1].split(','),feat:spr[2]||''}:{plan:spr[0],anim:spr[1],pal:spr[2].split(','),feat:spr[3]||''};
+  var R={cat:cat,sub:sub,id:id,name:name,spec:spec,where:where,look:look,doing:doing,extra:extra||''}; CHAR_ROSTER.push(R); CHAR_BY_ID[id]=R; return R; }
+function chFrames(R){ return R.spec.mount?mtFrames(R.spec):msFrames(R.spec); }
+
+// ── NPCs · village shops (building interiors) ──
+CH('npc','Village shops','npc_tavern','Rolf the Bartender',['person','pour','#8a4a2a,#3a2a20,#e8b040,#201810,#e8b890,#6a3a1a','apron,beard,moustache,mug,rosy,big'],
+  'The Tavern','Barrel-chested, ginger beard, rolled sleeves, a leather apron and a foaming mug.','Polishes a mug, then pours a frothy ale when you walk up.');
+CH('npc','Village shops','npc_shop','Tilda the Merchant',['person','wave','#3a8a9a,#2a4a5a,#e8c060,#201810,#f0c8a0,#8a5a2a','bun,vest,sack,scarf'],
+  'The General Shop','A brisk trader in a teal vest and head-scarf, a bulging coin sack on her hip.','Waves you in and pats the sack of goods.');
+CH('npc','Village shops','npc_forge','Garrick the Blacksmith',['person','hammer','#5a4a40,#2a2220,#ff9030,#201810,#d8a078,#2a1a10','bald,beard,leather,hammer,big'],
+  'The Forge','Bald and broad, soot on his cheeks, a heavy leather apron and a smith\'s hammer.','Strikes the anvil — sparks fly on every blow.');
+CH('npc','Village shops','npc_guild','Master Oswin',['person','read','#5a3a7a,#2a1a3a,#e8c040,#201810,#e8c0a0,#c8c8c8','robe,grey,beard,scroll,quill'],
+  'The Guild','An old scholar in a violet robe with a long grey beard, scroll and quill in hand.','Unrolls a scroll and scribbles your next bounty.');
+CH('npc','Village shops','npc_stables','Hana the Stable Master',['person','wave','#8a6a3a,#3a4a2a,#c84030,#201810,#e8b890,#3a2a1a','straw,braids,pitchfork'],
+  'The Stables','A cheerful rancher in a straw hat and braids, leaning on a pitchfork.','Tips her hat and points you to the horses.');
+CH('npc','Village shops','npc_armory','Sergeant Brask',['person','wave','#9aa0aa,#3a3a44,#c83030,#201810,#d8a888,#4a3a2a','armor,helmet,moustache,spear,shield'],
+  'The Armory','A retired soldier in dented plate, a red plume and a spear held at attention.','Stamps the spear and salutes.');
+CH('npc','Village shops','npc_clothing','Pell the Tailor',['person','sew','#c86a8a,#4a3a5a,#ffe0a0,#201810,#f0c8a0,#2a2a2a','long,sash,scissors,rosy'],
+  'The Clothing shop','A slender tailor in a rose coat with a gold sash and measuring tape.','Snips the air with bright scissors.');
+CH('npc','Village shops','npc_jeweler','Iva the Jeweler',['person','polish','#2a5a6a,#1a2a3a,#60e0ff,#201810,#f0d0b0,#e8d8a0','long,goggles,gem'],
+  'The Jeweler','Blonde, brass loupe-goggles pushed over her eyes, a glowing gem between her fingers.','Holds the gem to the light — it sparkles.');
+CH('npc','Village shops','npc_apothecary','Morwen the Sorcerer',['person','stir','#3a2a5a,#1a1a2a,#b070ff,#c0a0ff,#e0d0e0,#1a1a2a','wizard,robe,potion,long'],
+  'The Sorcerer\'s Apothecary','A tall sorceress in a starry pointed hat, violet robe and a bubbling potion.','Swirls the potion; purple sparks rise.');
+CH('npc','Village shops','npc_merchant','Benno the Baker',['person','knead','#f0e8d8,#8a6a4a,#d8a050,#201810,#f0c8a0,#8a5a2a','chefhat,apron,bread,rosy,big'],
+  'The Merchant (bakery & food)','Round-cheeked, flour on his apron, a tall chef\'s hat and a fresh loaf.','Kneads and lifts a warm loaf.');
+
+// ── NPCs · the four craftsmen (freed from the towers) ──
+CH('npc','Craftsmen','crafts_1','Bram the Builder',['person','hammer','#c89040,#4a3a2a,#e8e0c0,#201810,#e8b890,#6a4a2a','cap,beard,belt,hammer,big'],
+  'Grasslands tower (captive) → village square','A big-shouldered builder in a canvas cap, tool belt and mallet.','Taps a peg with his mallet — raised the Wetlands bridge.');
+CH('npc','Craftsmen','crafts_2','Mira the Mechanic',['person','wave','#4a6a8a,#2a3a4a,#e8a030,#201810,#f0c8a0,#c84a20','pony,goggles,wrench,belt'],
+  'Wetlands tower (captive) → village square','A red-haired tinkerer with brass goggles and a big wrench, grease on her sleeves.','Spins the wrench and gives a thumbs-up — built the Highland lift.');
+CH('npc','Craftsmen','crafts_3','Dunn the Dwarf Forger',['person','hammer','#7a3a2a,#3a2a20,#ff9030,#201810,#d8a078,#b86a2a','dwarf,beard,braids,leather,hammer'],
+  'Highlands tower (captive) → village square','A stout dwarf with a braided copper beard, forge apron and a war hammer.','Swings the hammer overhead — forged the iron bridge to the Ashlands.');
+CH('npc','Craftsmen','crafts_4','Captain Vela',['person','look','#2a4a7a,#1a2a3a,#e8c040,#201810,#e8c0a0,#1a1a1a','tricorn,feather,cape,spyglass,long'],
+  'Ashlands tower (captive) → village square','A sky captain in a navy coat, feathered tricorn and cape, spyglass ready.','Scans the horizon with her spyglass — commands the sky ports.');
+
+// ── NPCs · village folk (appear as the village grows) ──
+CH('npc','Village folk','vf_elder','Elder Runa',['person','wave','#5a7a5a,#2a3a2a,#60e0d0,#201810,#e8c8b0,#e8e4dc','robe,long,grey,staff'],
+  'By the runestone (stage 1+)','The village elder: silver hair to her waist, green robe, a staff with a glowing rune.','Leans on her staff; the rune pulses when you pass.','Tells the story of the Runestone Green.');
+CH('npc','Village folk','vf_farmer','Tob the Farmer',['person','dig','#6a8a3a,#5a4a2a,#e0c070,#201810,#e0b080,#6a4a2a','straw,pitchfork,belt'],
+  'The vegetable gardens (stage 1+)','Sun-browned farmer in a straw hat, green smock and pitchfork.','Turns the soil in the tidy garden rows.');
+CH('npc','Village folk','vf_fisher','Old Nell the Fisher',['person','fish','#3a6a8a,#2a3a4a,#e8e0c0,#201810,#e8c0a0,#c8c8c8','scarf,rod,grey'],
+  'On the pier (stage 1+)','A weathered fisherwoman in a blue oilskin and head-scarf, rod over the water.','Casts the line and waits for a bite.');
+CH('npc','Village folk','vf_kid1','Pip',['person','play','#e0a030,#3a4a6a,#ff6040,#201810,#f0c8a0,#8a5a2a','child,ball,rosy'],
+  'The village green (stage 2+)','A small kid in a mustard shirt, bouncing a red ball.','Tosses the ball and chases it round the fountain.');
+CH('npc','Village folk','vf_boatwright','Hesk the Boatwright',['person','hammer','#6a5a4a,#3a2a20,#c8a060,#201810,#d8a888,#2a2a2a','bandana,leather,hammer,beard'],
+  'The boathouse (stage 2+)','A wiry boat builder in a red bandana and leather apron.','Hammers planks on a hull.');
+CH('npc','Village folk','vf_guard','Watchman Corr',['person','stand','#4a5a7a,#2a2a3a,#e8c040,#201810,#e0b890,#3a2a1a','armor,helmet,spear,shield'],
+  'At the gates (stage 3+)','A gate guard in blue livery and a steel cap, spear upright.','Stands watch; salutes when you pass the gate.');
+CH('npc','Village folk','vf_miller','Greta the Miller',['person','carry','#e8dcc0,#6a5a4a,#c8a060,#201810,#f0c8a0,#c8a060','scarf,sack,apron'],
+  'By the windmill (stage 2+)','Flour-dusted miller in a pale dress and scarf, a sack over her shoulder.','Hauls sacks of flour from the mill.');
+CH('npc','Village folk','vf_kid2','Wren',['person','play','#60a0e0,#4a3a5a,#ffe060,#201810,#e8c0a0,#1a1a1a','child,pony,rosy'],
+  'Near the carts (stage 3+)','A quick kid with a black ponytail and a sky-blue tunic.','Skips between the market carts.');
+CH('npc','Village folk','vf_vendor','Marta the Cart Vendor',['person','wave','#c84030,#4a3a2a,#e8e0c0,#201810,#f0c8a0,#6a3a1a','bun,apron,bread'],
+  'The market carts (stage 3+)','A vendor in a red dress and white apron holding up fresh produce.','Calls out the day\'s prices.');
+CH('npc','Village folk','vf_lamplighter','Old Fenwick',['person','light','#3a3a4a,#2a2a30,#ffc060,#201810,#e8c0a0,#c8c8c8','cap,grey,beard,lamp'],
+  'The lamp-posts at dusk (stage 4+)','A stooped lamplighter in a grey coat carrying a long lighting pole.','Walks the streets at dusk lighting each lantern.');
+CH('npc','Village folk','vf_keeper','Ilsa the Lighthouse Keeper',['person','look','#2a3a5a,#1a2a3a,#ffe080,#201810,#e8c0a0,#6a3a1a','cap,long,spyglass,cape'],
+  'The lighthouse (stage 5)','A lighthouse keeper in a navy pea-coat, cap and spyglass.','Watches the lake for boats.');
+
+// ── NPCs · harbor islands ──
+CH('npc','Harbor islands','isl_harbor','Harbormaster Quill',['person','wave','#2a4a6a,#1a2a3a,#e8c040,#201810,#d8a888,#8a8a8a','tricorn,grey,moustache,key'],
+  'Every island harbor','A grizzled harbormaster in a navy coat and tricorn, keys to the ferry on his belt.','Rings you back to the mainland ferry.');
+CH('npc','Harbor islands','isl_trader','Coral the Island Trader',['person','wave','#e07050,#3a5a5a,#60d0c0,#201810,#c8906a,#1a1a1a','scarf,long,sack,parrot'],
+  'Every island shop','A sun-browned trader with a coral scarf and a parrot on her shoulder.','Shows off exotic wares; the parrot squawks.');
+CH('npc','Harbor islands','isl_well','Sister Mael',['person','heal','#e8e4dc,#8a9aa0,#60e090,#201810,#f0d0b0,#c8a060','hood,robe,potion'],
+  'Every island healing well','A healer in white hooded robes with a vial of green well-water.','Blesses the well; green motes rise and heal you.');
+CH('npc','Harbor islands','isl_guide','Ranger Holt',['person','point','#4a6a3a,#3a3a2a,#e8c060,#201810,#d8a888,#4a2a1a','hood,belt,spear'],
+  'Island dungeon entrances','A hooded island ranger in moss green, leaning on a spear by the dungeon mouth.','Points the way into the guardian\'s dungeon.');
+
+// ── mounts ──
+CH('mount','Stables','mt_horse','Horse',['quad','#8a5a3a,#4a2a1a,#e8e0d0,#101010','mane,hooves,saddle'],
+  'Bought at the stables (200 g)','A bay horse with a dark mane and a leather saddle (keeps its hand-painted rider sprite in the game).','Trots; mane and tail sway.');
+CH('mount','Key mounts','mt_alligator','Alligator',['gator','#4a7a3a,#2a4a20,#e0d890,#e8d040','saddle,water'],
+  'Grasslands boss dungeon','A broad swamp gator with a ridged back and a small saddle behind the head.','Paddles with a swishing tail; swims water and marsh at full speed.');
+CH('mount','Key mounts','mt_boar','Battle Boar',['quad','#6a4a3a,#3a2a20,#c8b8a0,#ff5030','bristles,tusks,saddle,belly,lowhead'],
+  'Wetlands boss dungeon','A hulking war boar with bristling back, ivory tusks and red eyes.','Charges with a head-down trot; smashes through boulder fields.');
+CH('mount','Key mounts','mt_lava_unicorn','Lava Unicorn',['quad','#3a2a2a,#1a1010,#ff8030,#ffd060','flamemane,horn,hooves,lavacracks,saddle'],
+  'Highlands boss dungeon','An obsidian unicorn with a mane of fire, a glowing horn and lava-cracked hide.','Gallops leaving ember sparks; walks on lava crust.');
+CH('mount','Key mounts','mt_ash_salamander','Ash Dragon',['drake','#5a4a4a,#2a2020,#ff7030,#ffd060','lavacracks,saddle'],
+  'Ashlands boss dungeon','A soot-grey dragon with ember-lit cracks, stubby wings and a curling tail.','Lumbers with wings half-open; crosses every region\'s terrain.');
+CH('mount','Legend','mt_dragon','Dragon',['drake','#b83a2a,#6a1a10,#e8c040,#ffe060','belly,saddle'],
+  'All 16 quests complete','A crimson dragon with golden horns, belly plates and wide wings.','Wings beat slowly as it flies over all but the sea.');
+CH('mount','Legend','mt_sky_eagle','Sky Eagle',['bird','#8a6a4a,#4a3a2a,#e8c040,#101010','crest,saddle'],
+  'Sky Port reward','A giant golden-brown eagle with a crested head and a riding saddle.','Glides with wide flaps; flies over everything.');
+CH('mount','Sky Port','mt_sky_glider','Sky Glider',['glider','#e8e0d0,#8a6a4a,#60a0e0,#101010',''],
+  'Sky Port 1 reward','A blue-and-white canvas glider with a wooden frame and harness.','Rides the wind — the canopy flutters.');
+CH('mount','Sky Port','mt_storm_drake','Storm Drake',['drake','#3a5a8a,#1a2a4a,#9fe0ff,#ffffff','saddle'],
+  'Sky Port 2 reward','A storm-blue drake with pale lightning veins on its wings.','Crackles as it flies; sparks trail its wingtips.');
+CH('mount','Sky Port','mt_ember_phoenix','Ember Phoenix',['bird','#e85020,#8a2010,#ffd060,#fff0a0','flames,crest,saddle'],
+  'Sky Port 3 reward','A blazing phoenix — flame-red feathers with a fiery tail.','Leaves a trail of embers; crosses magma.');
+CH('mount','Sky Port','mt_void_serpent','Void Serpent',['serpent','#3a2a5a,#1a1030,#c070ff,#ff60ff','wings,smoke'],
+  'Sky Port 4 reward','A winged shadow serpent of violet scales trailing purple smoke.','Undulates through the air, fastest of all.');
+
+// ── familiars ──
+CH('familiar','Grasslands','fm_firefly','Firefly',['firefly','shoot','#e8d040,#6a5a20,#ffe860,#201810','wings,antennae'],
+  'Grasslands island expedition','A plump golden firefly with a glowing abdomen.','Orbits you, then flicks an Ember Spark at the nearest enemy.');
+CH('familiar','Grasslands','fm_wind_sprite','Wind Sprite',['swirl','pulse','#c8f0e0,#80c0a0,#ffffff,#205040','leaves'],
+  'Grasslands island expedition','A spiralling gust with bright eyes and a few tumbling leaves.','Swirls round you and bursts outward — Gale Burst knocks enemies back.');
+CH('familiar','Wetlands','fm_sea_sprite','Sea Sprite',['fish','spit','#60b0e0,#2a5a8a,#9fe0ff,#ffffff','bubble,spines'],
+  'Wetlands island expedition','A little puffer-sprite with fin-wings, blowing bubbles.','Spits water darts; a bubble ward blocks one hit every 20 s.');
+CH('familiar','Highlands','fm_storm_hawk','Storm Hawk',['bird','shoot','#5a6a8a,#2a3a5a,#9fe0ff,#ffe060','talons'],
+  'Highlands island expedition','A slate-blue hawk with lightning-bright eyes.','Dives and calls Chain Lightning that jumps between 3 enemies.');
+CH('familiar','Ashlands','fm_frost_wisp','Frost Wisp',['wisp','pulse','#dff4ff,#80b0e0,#9fe0ff,#2050a0','wings'],
+  'Ashlands island expedition','A cold blue wisp in a halo of frost crystals.','Pulses a Frost Nova that damages and slows enemies 50%.');
+
+// ── bosses · dungeon guardians ──
+CH('boss','Dungeon guardians','boss_goblin_king','Goblin King',['biped','lunge','#3a9a2a,#2a5a1a,#e8c040,#ff4020','crown,cape,club,ears,tusks'],
+  'Grasslands ★ dungeon (exit portal)','A fat goblin king with a crooked crown, red cape and spiked club.','Rushes you and throws a fan of arrows (scatter shot).');
+CH('boss','Dungeon guardians','boss_swamp_witch','Swamp Witch',['caster','cast','#6a8a4a,#2a3a20,#80ff60,#ffe040','hat,cauldron,staff,beard'],
+  'Wetlands ★ dungeon (exit portal)','A crooked bog witch in a moss-green hat with a bubbling cauldron.','Circles you and hurls green bog-flame.');
+CH('boss','Dungeon guardians','boss_rock_dragon','Rock Dragon',['drake','breath','#7a7a80,#4a4a50,#ff9040,#ffd040','crystals'],
+  'Highlands ★ dungeon (exit portal)','A stone-scaled dragon with crystal spines and a molten throat.','Charges, then sprays a spread of fire.');
+CH('boss','Dungeon guardians','boss_lava_titan','Lava Titan',['golem','slam','#5a2a20,#2a1010,#ff7020,#ffe060','glowcore,crystals'],
+  'Ashlands ★ dungeon (exit portal)','A towering golem of cooled magma with a blazing core.','Slow; stomps shockwaves around itself.');
+// ── bosses · tower guardians ──
+CH('boss','Tower guardians','boss_dark_warlock','Dark Warlock',['caster','cast','#4a2a6a,#1a1030,#c070ff,#ff60ff','hood,horns,staff,runes'],
+  'Grasslands ★ tower (top floor)','A horned warlock in a violet hood, runes orbiting his staff.','Blinks around the room and fires homing hexes.');
+CH('boss','Tower guardians','boss_storm_mage','Storm Mage',['caster','beam','#3a5a9a,#1a2a4a,#9fe0ff,#ffffff','hat,beard,staff,runes'],
+  'Wetlands ★ tower (top floor)','A white-bearded mage in a storm-blue hat, lightning on his staff.','Strafes and calls lightning bolts.');
+CH('boss','Tower guardians','boss_iron_sentinel','Iron Sentinel',['construct','slam','#8a8e96,#4a4e56,#ffb040,#ff4020','rivets,hammer,gears,vents'],
+  'Highlands ★ tower (top floor)','A riveted iron colossus with a furnace eye and a piston hammer.','Marches forward and fires scatter bolts.');
+CH('boss','Tower guardians','boss_shadow_lord','Shadow Lord',['wraith','cast','#2a1a3a,#0a0610,#b040ff,#ff3050','crown,flames,chains'],
+  'Ashlands ★ tower (top floor)','A crowned shadow with violet flames and trailing chains.','Teleports and launches seeking shadow bolts.');
+// ── bosses · island guardians ──
+CH('boss','Island guardians','boss_isl_1','Pirate Captain',['person','slash','#6a1a1a,#2a1a1a,#e8c040,#201810,#d8a078,#1a1a1a','tricorn,beard,cape,sword,parrot'],
+  'Pirate Cave (Grasslands island)','A pirate captain in a crimson coat and tricorn, cutlass drawn, parrot on the shoulder.','Rushes in with cutlass slashes.');
+CH('boss','Island guardians','boss_isl_2','Swamp Titan',['brute','slam','#3a5a2a,#1a2a10,#80c040,#ffe040','moss,club,horns'],
+  'Bog Grotto (Wetlands island)','A moss-covered troll titan with a log club.','Stomps the ground — shockwave rings.');
+CH('boss','Island guardians','boss_isl_3','Lava Colossus',['golem','slam','#6a2a1a,#2a1008,#ff9030,#ffe060','glowcore,columns'],
+  'Ember Cave (Highlands island)','A basalt colossus with lava running between its columns.','Heavy stomps that shake the cave.');
+CH('boss','Island guardians','boss_isl_4','Frost Lord',['caster','cast','#9ad0f0,#3a5a8a,#dff4ff,#2050c0','crown,staff,beard'],
+  'Frost Spire (Ashlands island)','An ice-crowned lord in pale blue robes with a frozen staff.','Teleports and strikes with frost.');
+// ── bosses · volcano boss rush ──
+CH('boss','Volcano boss rush','boss_vr_ember_wraith','Ember Wraith',['wraith','cast','#5a2a1a,#2a1008,#ff9040,#ffe060','flames'],'Boss rush · wave 2','A hooded wraith of smoke with ember eyes.','Drifts at you in swirling sparks.');
+CH('boss','Volcano boss rush','boss_vr_magma_spitter','Magma Spitter',['serpent','spit','#a03a1a,#5a1a0a,#ffb040,#ffe060','hood'],'Boss rush · wave 3','A hooded magma cobra.','Spits globs of lava.');
+CH('boss','Volcano boss rush','boss_vr_obsidian_golem','Obsidian Golem',['golem','slam','#2a2226,#141014,#b060ff,#ff60ff','crystals'],'Boss rush · wave 4','A glassy black golem with violet crystal shards.','Slow, crushing slams.');
+CH('boss','Volcano boss rush','boss_vr_cinder_phoenix','Cinder Phoenix',['bird','dive','#e86020,#8a2a10,#ffd060,#fff0a0','flames,talons'],'Boss rush · wave 5','A blazing phoenix trailing cinders.','Fast swooping dives.');
+CH('boss','Volcano boss rush','boss_vr_lava_wyrm','Lava Wyrm',['eel','lunge','#c83a1a,#6a1a0a,#ffc040,#ffe060','lava'],'Boss rush · wave 6','A long lava wyrm rising from the magma.','Lunges out of the lava.');
+CH('boss','Volcano boss rush','boss_vr_ashen_knight','Ashen Knight',['biped','lunge','#5a5050,#2a2424,#ff7030,#ff4020','armor,helmet,sword,shield,cape'],'Boss rush · wave 7','A charred knight in ash-grey plate with an ember-red cape.','Charges with sword lunges.');
+CH('boss','Volcano boss rush','boss_vr_pyrokraken','Pyrokraken',['kraken','pulse','#8a2a1a,#4a1008,#ffb040,#ffe060',''],'Boss rush · wave 8','A fire kraken with glowing suckers.','Lashes tentacles in fiery rings.');
+CH('boss','Volcano boss rush','boss_vr_inferno_wraith','Inferno Wraith',['wraith','cast','#8a2a1a,#3a0a08,#ff6020,#ffe060','flames,crown,chains'],'Boss rush · wave 9','A crowned wraith wreathed in fire and chains.','Hurls fire and drifts through walls of flame.');
+CH('boss','Volcano boss rush','boss_volcano_lord','Volcano Lord',['brute','slam','#4a1a10,#1a0806,#ff6020,#ffe060','horns,spikes,glowcore,crown'],'The volcano summit · final wave','A horned magma giant with a molten core and a crown of spikes.','Slams the ground in rings of fire — the final battle.');
+
+// quick lookups used by the game
+var CHAR_NPC_FOR_BUILDING={tavern:'npc_tavern',shop:'npc_shop',forge:'npc_forge',guild:'npc_guild',stables:'npc_stables',armory:'npc_armory',clothing:'npc_clothing',jeweler:'npc_jeweler',apothecary:'npc_apothecary',merchant:'npc_merchant'};
+var CHAR_BOSS_FOR_MDEF={goblin_king:'boss_goblin_king',swamp_witch:'boss_swamp_witch',rock_dragon:'boss_rock_dragon',lava_titan:'boss_lava_titan',dark_warlock:'boss_dark_warlock',storm_mage:'boss_storm_mage',iron_sentinel:'boss_iron_sentinel',shadow_lord:'boss_shadow_lord',isl_boss_1:'boss_isl_1',isl_boss_2:'boss_isl_2',isl_boss_3:'boss_isl_3',isl_boss_4:'boss_isl_4'};
+var CHAR_BOSS_BY_NAME={}; CHAR_ROSTER.forEach(function(R){ if(R.cat==='boss')CHAR_BOSS_BY_NAME[R.name.toUpperCase()]=R.id; });
+// ═══════════════════════════════════════════════════════════════════════
 // ║ SAVE VERSIONING  (Phase 1 · panel A3)
 // ║ Saves live in localStorage['qoz_v2'] (key kept so existing saves load).
 // ║ Each save now carries saveVersion. _migrateSave() upgrades older saves
@@ -7397,7 +7814,8 @@ function _heroFamiliarsTick(scene, dt){
     var fd=FAMILIARS[fid], ab=FAMILIAR_ABILITIES[fid]; if(!fd||!ab)return;
     var v=scene._famVisuals[fid];
     if(!v||!v.active){
-      v=scene.add.text(c.x,c.y,fd.icon,{fontSize:'15px',fontFamily:'serif'}).setOrigin(.5).setDepth(21);
+      v=CHX.sprite(scene,'fm_'+fid,c.x,c.y,0.8,{origin:[0.5,0.55],act:false})||scene.add.text(c.x,c.y,fd.icon,{fontSize:'15px',fontFamily:'serif'}).setOrigin(.5);
+      v.setDepth(21);
       v._ang=(i/Math.max(1,fams.length))*Math.PI*2;
       v._aura=scene.add.circle(c.x,c.y,9,{firefly:0xffcc55,wind_sprite:0x99ffcc,sea_sprite:0x55aaff,storm_hawk:0xffee55,frost_wisp:0xaaddff}[fid]||0xffffff,0.28).setDepth(20);
       scene._famVisuals[fid]=v;
@@ -7412,6 +7830,7 @@ function _heroFamiliarsTick(scene, dt){
     scene._famTimers[fid]-=dt;
     if(scene._famTimers[fid]>0)return;
     var fired=_heroFamiliarAct(scene, fid, ab, {x:c.x+ox,y:c.y+oy}, c, mult);
+    if(fired&&v._ch)CHX.busy(v,0.6);
     scene._famTimers[fid]=fired?ab.cd:0.4; // retry soon if nothing was in range
   });
   _heroSeaSprite(scene, c, ps, dt);
@@ -8084,6 +8503,7 @@ class WorldScene extends Phaser.Scene{
     if(!this._newGame)this._loadSave();
     villageApply(this.wd,villageStageOf(this.playerState));   // the village at its current stage (grows as craftsmen are freed)
     this._refreshVillageNPCs();
+    this._villageFolkInit();
     this._initTravel();
     this._runicInit();
     this._initWorldMonsters();
@@ -8181,6 +8601,7 @@ class WorldScene extends Phaser.Scene{
     }
     this._checkInteraction();
     this._tickTravel(dt);
+    this._villageFolkTick(dt);
     this._runicTick(dt);
     this._updateSiteLabels();
     this._revealFog();
@@ -9457,7 +9878,8 @@ class WorldScene extends Phaser.Scene{
     // Mount icon overhead — hidden for 'horse' since the rider sprite already
     // shows the horse. Other mounts (alligator, boar, lava unicorn, dragon,
     // sky eagle) still show their emoji so you can tell what you're riding.
-    p.mountLbl.setText(mount && mount!=='horse' ? (MOUNTS[mount].icon) : '');
+    var _mtDrawn=CHX.mountTick(this,p,mount,!!(vx||vy),dt);   // pixel mount under the hero (10g)
+    p.mountLbl.setText(mount && mount!=='horse' && !_mtDrawn ? (MOUNTS[mount].icon) : '');
     p.eyeL.setY(p.dir==='up'?-16:-13);
     p.eyeR.setY(p.dir==='up'?-16:-13);
     p.body.setFillStyle(mount?0x8844aa:0x4488dd);
@@ -10181,18 +10603,19 @@ class WorldScene extends Phaser.Scene{
           var bwx=btx*TILE+TILE/2,bwy=bty*TILE+TILE/2;
           var bcont=self.add.container(bwx,bwy).setDepth(9);
           var bshadow=self.add.ellipse(0,bmdef.r+2,bmdef.r*2.2,7,0x000000,.3);
-          var bbody=self.add.circle(0,0,bmdef.r,bmdef.color);
-          var bicon=self.add.text(0,0,bmdef.icon,{fontSize:'16px',fontFamily:'serif'}).setOrigin(.5,.5);
-          var bhpBg=self.add.rectangle(0,-(bmdef.r+10),34,5,0x000000,.7);
-          var bhpFill=self.add.rectangle(-17,-(bmdef.r+10),34,5,0xff3333).setOrigin(0,.5);
-          var bnameT=self.add.text(0,-(bmdef.r+20),bmdef.name,{fontSize:'8px',color:'#ffdd88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
+          var bbody=CHX.bossBody(self,btype,bmdef,bcont)||self.add.circle(0,0,bmdef.r,bmdef.color);
+          var bicon=self.add.text(0,0,bbody._ch?'':bmdef.icon,{fontSize:'16px',fontFamily:'serif'}).setOrigin(.5,.5);
+          var _bt=bbody._ch?bmdef.r+24:bmdef.r;   // the pixel boss stands taller than the old circle
+          var bhpBg=self.add.rectangle(0,-(_bt+10),34,5,0x000000,.7);
+          var bhpFill=self.add.rectangle(-17,-(_bt+10),34,5,0xff3333).setOrigin(0,.5);
+          var bnameT=self.add.text(0,-(_bt+20),bmdef.name,{fontSize:'8px',color:'#ffdd88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
           var bLvMin=bmdef.lvMin||3,bLvMax=bmdef.lvMax||6;
           var bLevel=bLvMin+Math.floor(rng.next()*(bLvMax-bLvMin+1));
           var bHp=Math.round(bmdef.hp*(1+(bLevel-1)*0.10));
           var bAtk=bmdef.atk+(bLevel-1);
           var bDef=bmdef.def+( bmdef.def>=3 ? Math.floor((bLevel-1)*0.5) : 0 );
           var bLvCol=bLevel>=15?'#ff4444':bLevel>=10?'#ff8844':bLevel>=5?'#ffdd44':'#88ff88';
-          var bLvBadge=self.add.text(0,-(bmdef.r+28),'★ Lv.'+bLevel,{fontSize:'7px',color:bLvCol,fontFamily:'Segoe UI',fontStyle:'bold',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(10);
+          var bLvBadge=self.add.text(0,-(_bt+28),'★ Lv.'+bLevel,{fontSize:'7px',color:bLvCol,fontFamily:'Segoe UI',fontStyle:'bold',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(10);
           bcont.add([bshadow,bbody,bicon,bhpBg,bhpFill,bnameT,bLvBadge]);
           self.worldMonsters.push({cont:bcont,body:bbody,hpFill:bhpFill,type:btype,def:bmdef,
             hp:bHp,maxHp:bHp,x:bwx,y:bwy,spawnX:bwx,spawnY:bwy,
@@ -10341,7 +10764,7 @@ class WorldScene extends Phaser.Scene{
   }
 
   _floatText(x,y,msg,col){
-    var t=this.add.text(x,y,msg,{fontSize:'13px',color:col,fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20);
+    var t=domText(this,x,y,msg,{fontSize:'13px',color:col,fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20);
     this.tweens.add({targets:t,y:y-40,alpha:0,duration:1400,ease:'Power2',onComplete:function(){t.destroy();}});
   }
 
@@ -10499,7 +10922,7 @@ class WorldScene extends Phaser.Scene{
       if(nearNPC){
         if(!this._interactPrompt||this._interactPrompt._npc!==nearNPC.id){
           if(this._interactPrompt)this._interactPrompt.destroy();
-          this._interactPrompt=this.add.text(nearNPC.x,nearNPC.y-30,'[Tab] Talk to '+nearNPC.n,{fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
+          this._interactPrompt=domText(this,nearNPC.x,nearNPC.y-30,'[Tab] Talk to '+nearNPC.n,{fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
           this._interactPrompt._npc=nearNPC.id;
         }
         if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))showNotif(nearNPC.icon+' '+nearNPC.line,'#ffe9a8');
@@ -10571,10 +10994,9 @@ class WorldScene extends Phaser.Scene{
       if(self._villageNPCs.some(function(n){return n.sec===sec;}))return;
       var C=CRAFTSMEN[sec]; if(!C)return;
       var x=(CENTER_X+spots[sec][0])*TILE+TILE/2, y=(CENTER_Y+spots[sec][1])*TILE+TILE/2;
-      self.add.ellipse(x,y+12,22,7,0x000000,0.3).setDepth(4);
-      self.add.circle(x,y,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9).setDepth(4);
-      self.add.text(x,y,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5).setDepth(5);
-      self.add.text(x,y-20,C.n,{fontSize:'8px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+      var cim=CHX.sprite(self,'crafts_'+sec,x,y+12,1.5); if(cim)cim.setDepth(WR_DEPTH(y));
+      else { self.add.circle(x,y,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9).setDepth(4); self.add.text(x,y,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5).setDepth(5); }
+      domText(self,x,y-34,C.n,{fontSize:'9px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(WR_DEPTH(y)+0.5);
       self._villageNPCs.push({sec:sec,id:C.id,n:C.n,icon:C.icon,line:C.village,x:x,y:y});
     });
   }
@@ -10752,7 +11174,7 @@ class WorldScene extends Phaser.Scene{
   _showNotif(msg,col){
     showNotif(msg,col||'#ffffff');
     var p=this.player;
-    var t=this.add.text(p.x,p.y-60,msg,{fontSize:'14px',color:col||'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:4,align:'center'}).setOrigin(.5).setDepth(20);
+    var t=domText(this,p.x,p.y-60,msg,{fontSize:'14px',color:col||'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:4,align:'center'}).setOrigin(.5).setDepth(20);
     this.tweens.add({targets:t,y:t.y-50,alpha:0,duration:2200,ease:'Power2',onComplete:function(){t.destroy();}});
   }
 
@@ -10921,7 +11343,7 @@ Object.assign(WorldScene.prototype,{
     }
     var C=CRAFTSMEN[g.craftsman], txt=(g.open?g.icon+' ':'🔒 ')+g.name+(g.open?'':'\n'+(C?'free '+C.n:''));
     var lx=cx+along[0]*(half+TILE*1.5), ly=cy+along[1]*(half+TILE*1.5)-30;
-    parts.push(this.add.text(lx,ly,txt,{fontSize:'10px',color:g.open?'#ffe9a8':'#ffb0a0',fontFamily:'Segoe UI',align:'center',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(8));
+    parts.push(domText(this,lx,ly,txt,{fontSize:'10px',color:g.open?'#ffe9a8':'#ffb0a0',fontFamily:'Segoe UI',align:'center',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(8));
     this._gateObjs[g.id]={open:g.open,parts:parts};
   },
 
@@ -10930,7 +11352,7 @@ Object.assign(WorldScene.prototype,{
     var old=this._wsObjs[w.id]; if(old)old.parts.forEach(function(o){o.destroy();});
     var on=(this.playerState.activatedWaystones||[]).indexOf(w.id)>=0;
     var x=w.x*TILE+TILE/2, y=w.y*TILE+TILE/2, parts=_wsWaystoneArt(this,w,on);
-    parts.push(this.add.text(x,y-110,w.name.replace(' Waystone',''),{fontSize:'9px',color:on?'#bff6ff':'#9aa6b0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(8));
+    parts.push(domText(this,x,y-110,w.name.replace(' Waystone',''),{fontSize:'9px',color:on?'#bff6ff':'#9aa6b0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(8));
     this._wsObjs[w.id]={on:on,parts:parts,w:w,x:x,y:y};
   },
   _nearWaystone(){
@@ -10954,7 +11376,7 @@ Object.assign(WorldScene.prototype,{
     for(var i=0;i<(this.wd.caches||[]).length;i++){ var q=this.wd.caches[i]; if(ps.openedCaches.indexOf(q.id)>=0)continue; if(Math.hypot(px-(q.x*TILE+TILE/2),py-(q.y*TILE+TILE/2))<TILE*1.8){c=q;break;} }
     if(!c){ if(this._interactPrompt&&this._interactPrompt._cache){this._interactPrompt.destroy();this._interactPrompt=null;} return false; }
     if(!this._interactPrompt||this._interactPrompt._cache!==c.id){ if(this._interactPrompt)this._interactPrompt.destroy();
-      this._interactPrompt=this.add.text(c.x*TILE+TILE/2,c.y*TILE-18,'[Tab] Open hidden cache',{fontSize:'10px',color:'#ffe08a',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._interactPrompt._cache=c.id; }
+      this._interactPrompt=domText(this,c.x*TILE+TILE/2,c.y*TILE-18,'[Tab] Open hidden cache',{fontSize:'10px',color:'#ffe08a',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._interactPrompt._cache=c.id; }
     if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))this._openCache(c);
     return true;
   },
@@ -10980,7 +11402,7 @@ Object.assign(WorldScene.prototype,{
     var label=on?'[Tab] Travel — '+w.name:'[Tab] Activate '+w.name;
     if(!this._interactPrompt||this._interactPrompt._ws!==w.id+on){
       if(this._interactPrompt)this._interactPrompt.destroy();
-      this._interactPrompt=this.add.text(w.x*TILE+TILE/2,w.y*TILE-44,label,{fontSize:'10px',color:'#bff6ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
+      this._interactPrompt=domText(this,w.x*TILE+TILE/2,w.y*TILE-44,label,{fontSize:'10px',color:'#bff6ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
       this._interactPrompt._ws=w.id+on;
     }
     if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(on)this._openTravel(w); else this._activateWaystone(w); }
@@ -11042,7 +11464,7 @@ Object.assign(WorldScene.prototype,{
   _tickTravel(dt){
     // the village grows when a craftsman comes home
     this._vT=(this._vT||0)+dt; if(this._vT>1){ this._vT=0; var vs=villageStageOf(this.playerState); if(this.wd&&vs!==this.wd.villageStage){ var self=this;
-      villageApply(this.wd,vs).forEach(function(q){ self._refreshChunkAt(q[0]*WCH,q[1]*WCH); }); showNotif('🏘 The village has grown!','#ffe9a8'); } }
+      villageApply(this.wd,vs).forEach(function(q){ self._refreshChunkAt(q[0]*WCH,q[1]*WCH); }); showNotif('🏘 The village has grown!','#ffe9a8'); this._villageFolkInit(); } }
     this._travelTick=(this._travelTick||0)+dt;
     if(this._travelTick<0.12)return; this._travelTick=0;
     _drawMinimapHud(this,null);
@@ -11102,7 +11524,7 @@ Object.assign(WorldScene.prototype,{
     // drop far chunks (and stale jobs)
     W.jobs.forEach(function(J,k){ if(!keep[k]&&!J.refresh)W.jobs.delete(k); });
     W.chunks.forEach(function(ch,k){ if(keep[k])return; var p=k.split('_'), cx=+p[0], cy=+p[1], cam=self.cameras.main, dw=cam.width/cam.zoom, dh=cam.height/cam.zoom, v={x:cam.scrollX+(cam.width-dw)/2,y:cam.scrollY+(cam.height-dh)/2,width:dw,height:dh}, cs=WCH*TILE;
-      if(cx*cs>v.x+v.width+cs*2.2||(cx+1)*cs<v.x-cs*2.2||cy*cs>v.y+v.height+cs*2.2||(cy+1)*cs<v.y-cs*2.2){ self._wrUnmount(ch); W.chunks.delete(k); } });
+      if(cx*cs>v.x+v.width+cs*1.3||(cx+1)*cs<v.x-cs*1.3||cy*cs>v.y+v.height+cs*1.3||(cy+1)*cs<v.y-cs*1.3){ self._wrUnmount(ch); W.chunks.delete(k); } });
     // runes near the hero brighten
     if(this.player){ var hx=this.player.x, hy=this.player.y, tt=(this._wrT=(this._wrT||0)+0.016);
       W.chunks.forEach(function(ch){ ch.react.forEach(function(o,i){ var L=o._base; if(o._flicker&&!L.react){ o.setAlpha(L.a*0.8*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))*(1+0.5*(self._night||0))); return; } var near=Math.max(0,1-Math.hypot(hx-o.x,hy-o.y)/150);
@@ -11115,7 +11537,7 @@ Object.assign(WorldScene.prototype,{
   _createChunk(cx,cy){ this._refreshChunkAt(cx*WCH,cy*WCH); },
   _wrMount(o){
     var self=this, tag='wc'+(this._wr.seq++), objs=[], keys=[], react=[], x0=o.cx*WCH*LT, y0=o.cy*WCH*LT;
-    var addTex=function(k,cv){ self.textures.addCanvas(k,cv); keys.push(k); return k; };
+    var addTex=function(k,cv){ gpuTex(self,k,cv); keys.push(k); return k; };
     objs.push(this.add.image(x0,y0,addTex(tag,o.canvas)).setOrigin(0,0).setDepth(-10));
     if(o.lavaMask){ var mk=addTex(tag+'_m',o.lavaMask);
       // both flowing layers share ONE bitmap mask (each mask costs extra full-screen passes)
@@ -11333,7 +11755,7 @@ Object.assign(WorldScene.prototype,{
     if(!L){ if(this._interactPrompt&&this._interactPrompt._lm){this._interactPrompt.destroy();this._interactPrompt=null;} return false; }
     var title=L.text.indexOf('—')>0&&L.text.indexOf('—')<48?L.text.split('—')[0].trim():((WZ_DESIGN[L.zone]&&WZ_DESIGN[L.zone].name)||'Inspect');
     if(!this._interactPrompt||this._interactPrompt._lm!==L){ if(this._interactPrompt)this._interactPrompt.destroy();
-      this._interactPrompt=this.add.text(px,py-44,'[Tab] '+title,{fontSize:'10px',color:'#fff8d0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._interactPrompt._lm=L; }
+      this._interactPrompt=domText(this,px,py-44,'[Tab] '+title,{fontSize:'10px',color:'#fff8d0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._interactPrompt._lm=L; }
     this._interactPrompt.setPosition(px,py-44);
     if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ showNotif('ᚱ '+L.text,'#fff0c0'); var ps=this.playerState; if(!ps.readLandmarks)ps.readLandmarks=[]; if(ps.readLandmarks.indexOf(L.zone)<0)ps.readLandmarks.push(L.zone); }
     return true;
@@ -11398,6 +11820,123 @@ Object.assign(WorldScene.prototype,{
           if(self._spawnRosterMon(R.id,tx*TILE+TILE/2,ty*TILE+TILE/2,sec,rng,{alpha:pack&&i===0}))spawned++; } } }
   }
 });
+// ═══════════════════════════════════════════════════════════════════════
+// ║ CHARACTERS IN THE GAME (Phase 4) — the pixel stand-ins from 07s used
+// ║ everywhere the game used emoji: shop keepers, craftsmen (free and
+// ║ captive), village folk (more as the village grows), island NPCs,
+// ║ mounts under the hero, orbiting familiars and every boss.
+// ║ CHX.sprite() registers the image with a per-scene animator (idle bob,
+// ║ now-and-then "doing their job" frames, facing from movement).
+// ═══════════════════════════════════════════════════════════════════════
+var CHX={
+  tex:function(scene,R){ var key='ch_'+R.id; if(scene.textures.exists(key))return key;
+    var fr=chFrames(R), n=fr.length, cv=mkCanvas(32*n,32), x=cv.getContext('2d'); fr.forEach(function(f,i){ x.drawImage(f,i*32,0); });
+    var tx=scene.textures.addCanvas(key,cv); for(var i=0;i<n;i++)tx.add(String(i),0,i*32,0,32,32);
+    if(tx.setFilter)tx.setFilter(Phaser.Textures.FilterMode.NEAREST); return key; },
+  glow:function(scene){ if(scene.textures.exists('glow'))return 'glow'; var c=mkCanvas(128,128), x=c.getContext('2d'), g=x.createRadialGradient(64,64,0,64,64,64);
+    g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.35,'rgba(255,255,255,0.45)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); scene.textures.addCanvas('glow',c); return 'glow'; },
+  // a character image; o: {origin:[x,y], act:true (does its job now and then), face:true (flip by movement)}
+  sprite:function(scene,id,x,y,sc,o){ var R=CHAR_BY_ID[id]; if(!R||!scene.add)return null; o=o||{};
+    var im=scene.add.image(x,y,CHX.tex(scene,R),'0').setScale(sc||1.45).setDepth(o.depth!==undefined?o.depth:5);
+    if(o.origin)im.setOrigin(o.origin[0],o.origin[1]); else im.setOrigin(0.5,0.9);
+    im._ch=R; im._t=Math.random()*3; if(R.cat==='npc'||R.cat==='boss'){ im._tomeId=id; im._tomeCat=R.cat==='npc'?'character':'monster'; } im._act=o.act!==false; im._face=o.face!==false; im._nextAct=2+Math.random()*6;
+    CHX._reg(scene,im); return im; },
+  _reg:function(scene,im){ if(!scene._chAnim){ scene._chAnim=[]; scene.events.on('update',function(t,ms){ CHX._tick(scene,ms/1000); });
+      scene.events.once('shutdown',function(){ scene._chAnim=[]; }); }
+    scene._chAnim.push(im); },
+  _tick:function(scene,dt){ var L=scene._chAnim; if(!L||!L.length)return; if(typeof _anyModalOpen==='function'&&_anyModalOpen())return;
+    for(var i=L.length-1;i>=0;i--){ var im=L[i]; if(!im||!im.scene||!im.active){ L.splice(i,1); continue; } if(im._manual)continue;
+      im._t+=dt; var f;
+      if(im._tomeId&&typeof Tome!=='undefined'&&(im._seenT=(im._seenT||0)-dt)<=0){ im._seenT=0.5; var pp=CHX.ppos(scene), wx=im.parentContainer?im.parentContainer.x:im.x, wy=im.parentContainer?im.parentContainer.y:im.y;
+        if(pp&&Math.hypot(pp.x-wx,pp.y-wy)<(im._tomeCat==='character'?110:300)&&im.visible&&(!im.parentContainer||im.parentContainer.visible)){ Tome.see(im._tomeCat||'monster',im._tomeId); im._tomeId=null; } }
+      if(im._busy>0){ im._busy-=dt; f=Math.floor(im._t*5)%2?3:2; }
+      else { f=Math.floor(im._t*1.8)%2; if(im._act){ im._nextAct-=dt; if(im._nextAct<=0){ im._busy=1.1; im._nextAct=4+Math.random()*7; } } }
+      im.setFrame(String(f));
+      if(im._face){ var px=im.parentContainer?im.parentContainer.x:im.x; if(im._lx!==undefined&&Math.abs(px-im._lx)>0.3)im.setFlipX(px<im._lx); im._lx=px; } } },
+  ppos:function(s){ if(s.player&&s.player.x!==undefined)return s.player; if(s.px!==undefined)return {x:s.px,y:s.py}; if(s._px!==undefined)return {x:s._px,y:s._py}; return null; },
+  busy:function(im,s){ if(im)im._busy=Math.max(im._busy||0,s||1.1); },
+
+  // ── bosses ──
+  bossId:function(type,def){ if(CHAR_BOSS_FOR_MDEF[type])return CHAR_BOSS_FOR_MDEF[type];
+    var n=def&&def.name?def.name.replace(/ \(Rematch\)$/,'').toUpperCase():''; return CHAR_BOSS_BY_NAME[n]||null; },
+  // a boss body for a monster container (keeps the setFillStyle hit-flash API of the old circle)
+  bossBody:function(scene,type,def,cont){ var id=CHX.bossId(type,def), R=id&&CHAR_BY_ID[id]; if(!R)return null;
+    var r=def.r||18, sc=Math.max(1.9,r*0.118), col=hexNum(R.spec.pal[2]||'#ffffff');
+    if(cont){ var au=scene.add.image(0,2,CHX.glow(scene)).setBlendMode(Phaser.BlendModes.ADD).setTint(col).setAlpha(0.35).setScale(r/40); cont.add(au);
+      scene.tweens.add({targets:au,alpha:0.12,scale:r/34,duration:900,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
+    var im=CHX.sprite(scene,id,0,r*0.55,sc,{origin:[0.5,0.9]}), base=def.color;
+    im.setFillStyle=function(c){ if(c===0xffffff)this.setTintFill(0xffffff); else if(c===undefined||c===base)this.clearTint(); else this.setTint(c); return this; };
+    im.setStrokeStyle=function(){ return this; };
+    return im; },
+
+  // a roster monster body by display name (volcano swarm imps, island monsters with a roster look-alike)
+  ISL_LOOK:{'sea pirate':'stilt_bandit','giant crab':'mire_crab','shell knight':'barnacle_brute','bog frog':'glowfrog','water serpent':'bog_serpent','giant mosquito':'bloodgnats',
+    'lava lizard':'salamander_wyrmling','magma sprite':'phoenix_chick','ice wraith':'frost_ghoul','snow golem':'crystal_golemling'},
+  monBody:function(scene,name,def){ if(typeof MON_ROSTER==='undefined'||!name)return null; var n=name.toLowerCase(), R=MON_BY_ID[CHX.ISL_LOOK[n]]||MON_ROSTER.find(function(r){ return r.name.toLowerCase()===n; });
+    if(!R){ var lk=Object.keys(MON_LEGACY).find(function(k){ var M=MDEFS[MON_LEGACY[k]]; return M&&M.name.toLowerCase()===n; }); R=lk&&MON_BY_ID[lk]; }
+    if(!R)return null; var im=monLegacyBody(scene,R.id,Object.assign({color:def.color||def.col},def)); return im; },
+  // ── mounts: drawn under the hero; the hero sits in the saddle (legs hidden) ──
+  MOUNT_SEAT:{quad:-12,drake:-13,gator:-6,bird:-13,serpent:-9,glider:null},
+  mountTick:function(scene,p,mount,moving,dt){
+    var R=mount&&mount!=='horse'?CHAR_BY_ID['mt_'+mount]:null, sp=p.sprite;
+    if(!R){ if(p.mountSpr&&p.mountSpr.visible){ p.mountSpr.setVisible(false); sp.setY(14); sp.setCrop(); if(p._mtShadow)p._mtShadow.setScale(1); } return false; }
+    if(!p.mountSpr||!p.mountSpr.scene){ p.mountSpr=scene.add.image(0,16,CHX.tex(scene,R),'0').setOrigin(0.5,1).setScale(1.7); p.mountSpr._manual=true; p.cont.addAt(p.mountSpr,p.cont.getIndex(sp)); p._mtShadow=p.cont.list[0]; }
+    var mk=CHX.tex(scene,R); if(p.mountSpr.texture.key!==mk)p.mountSpr.setTexture(mk,'0');
+    p.mountSpr.setVisible(true); if(p._mtShadow&&p._mtShadow.setScale)p._mtShadow.setScale(1.7,1.3);
+    p._mtT=(p._mtT||0)+dt*(moving?1:0.25); var d=p.dir, f;
+    if(d==='left'||d==='right'){ f=moving?Math.floor(p._mtT*9)%4:0; p.mountSpr.setFlipX(d==='left'); }
+    else { f=(d==='up'?6:4)+(moving?Math.floor(p._mtT*6)%2:0); p.mountSpr.setFlipX(false); }
+    p.mountSpr.setFrame(String(f));
+    var seat=CHX.MOUNT_SEAT[R.spec.kind];
+    if(seat===null){ p.mountSpr.setY(-26); sp.setY(14); sp.setCrop(); p.cont.bringToTop(p.mountSpr); }   // glider: hang below the canopy
+    else { var bob=moving?Math.round(Math.sin(p._mtT*18))*1:0; p.mountSpr.setY(16); sp.setY(seat+15+bob);
+      sp.setCrop(0,0,sp.frame.width,Math.round(sp.frame.height*0.64)); if(p.cont.getIndex(p.mountSpr)>p.cont.getIndex(sp))p.cont.moveBelow(p.mountSpr,sp); }
+    return true; }
+};
+
+// ── village folk: more of them as the village grows ─────────────────────
+var VILLAGE_FOLK=[
+  {id:'vf_elder',st:1,spot:'green',   r:1.5, line:'The Runestone has stood here since before the lake had a name. It hums when heroes pass.'},
+  {id:'vf_farmer',st:1,spot:'vegplot',r:2,   line:'Carrots on the left, beans on the right — rows as straight as a rune!'},
+  {id:'vf_fisher',st:1,spot:'pier',   r:0.6, line:'The lake gives when it wants to. Patience, dear.'},
+  {id:'vf_kid1',st:2,spot:'fountain', r:3,   line:'Bet you can\'t catch me! …Okay, you probably can.'},
+  {id:'vf_boatwright',st:2,spot:'boathouse',r:1.5,line:'Every plank sings if you fit it right. This one\'s a tenor.'},
+  {id:'vf_miller',st:2,spot:'windmill',r:2,  line:'Wind\'s good today — plenty of flour for Benno\'s bread.'},
+  {id:'vf_guard',st:3,spot:'gate',    r:1,   line:'All quiet at the gate. Monsters don\'t like our runes.'},
+  {id:'vf_kid2',st:3,spot:'cart',     r:3,   line:'Marta gives me an apple if I sweep round the carts!'},
+  {id:'vf_vendor',st:3,spot:'cart',   r:1,   line:'Fresh from the gardens! Two coppers a bunch!'},
+  {id:'vf_lamplighter',st:4,spot:'lamppost',r:4,line:'One lantern at a time, and the whole village glows.'},
+  {id:'vf_keeper',st:5,spot:'lighthouse',r:1.2,line:'The light guides every boat home — and you too, traveller.'}
+];
+Object.assign(WorldScene.prototype,{
+  _villageFolkSpot(kind,i){ var wd=this.wd, cx=CENTER_X, cy=CENTER_Y, P=(wd.props||[]).filter(function(p){ return p.vill; }), self=this;
+    var near=function(tx,ty){ for(var r=0;r<9;r++)for(var a=0;a<Math.max(1,r*8);a++){ var an=a/Math.max(1,r*8)*Math.PI*2, x=Math.round(tx+Math.cos(an)*r), y=Math.round(ty+Math.sin(an)*r);
+        var wx=x*TILE+TILE/2, wy=y*TILE+TILE/2; if(self._canGo(wx,wy,null))return {x:wx,y:wy}; } return null; };
+    var pick=function(name){ var L=P.filter(function(p){ return p.prop===name; }); if(!L.length)return null; var p=L[i%L.length]; return near(p.x+p.w/2,p.y+p.h+0.5); };
+    if(kind==='green')return near(cx+2,cy+3);
+    if(kind==='pier'){ var best=null, bd=-1; for(var dy=-40;dy<=40;dy++)for(var dx=-40;dx<=40;dx++){ var x=cx+dx, y=cy+dy; if(wd.tiles[y]&&wd.tiles[y][x]===T.BRIDGE){ var d=Math.hypot(dx,dy); if(d>bd){bd=d;best={x:x*TILE+TILE/2,y:y*TILE+TILE/2};} } } return best; }
+    if(kind==='gate')return near(cx-2,cy+Math.min(33,(wd.villageStage>=3?31:24)));
+    return pick(kind)||near(cx+(i%2?4:-4),cy+5);
+  },
+  _villageFolkInit(){ var st=(this.wd&&this.wd.villageStage)||1, self=this;
+    if(!this._folk)this._folk=[]; if(!this._villageNPCs)this._villageNPCs=[];
+    VILLAGE_FOLK.forEach(function(F,i){ var have=self._folk.find(function(f){ return f.F.id===F.id; });
+      if(F.st>st){ if(have){ have.im.destroy(); self._folk.splice(self._folk.indexOf(have),1); self._villageNPCs=self._villageNPCs.filter(function(n){ return n.id!==F.id; }); } return; }
+      var s=self._villageFolkSpot(F.spot,i); if(!s)return;
+      if(have){ have.hx=s.x; have.hy=s.y; return; }
+      var R=CHAR_BY_ID[F.id], im=CHX.sprite(self,F.id,s.x,s.y+12,1.45); if(!im)return; im.setDepth(WR_DEPTH(s.y));
+      var npc={id:F.id,n:R.name,icon:'💬',line:F.line,x:s.x,y:s.y,folk:true};
+      self._folk.push({F:F,im:im,hx:s.x,hy:s.y,x:s.x,y:s.y,tx:s.x,ty:s.y,wait:1+Math.random()*3,npc:npc}); self._villageNPCs.push(npc); });
+  },
+  _villageFolkTick(dt){ if(!this._folk||!this._folk.length)return; var self=this, px=this.player.x, py=this.player.y;
+    this._folk.forEach(function(f){ var near=Math.hypot(px-f.x,py-f.y)<TILE*1.8;
+      if(near){ if(f.im.setFlipX)f.im.setFlipX(px<f.x); return; }                // stops to chat when you're close
+      if(f.wait>0){ f.wait-=dt; if(f.wait<=0){ var a=Math.random()*Math.PI*2, d=Math.random()*f.F.r*TILE; f.tx=f.hx+Math.cos(a)*d; f.ty=f.hy+Math.sin(a)*d; } return; }
+      var dx=f.tx-f.x, dy=f.ty-f.y, L=Math.hypot(dx,dy); if(L<2){ f.wait=2+Math.random()*4; CHX.busy(f.im,1.2); return; }
+      var sp=f.F.id.indexOf('kid')>0?46:26, nx=f.x+dx/L*sp*dt, ny=f.y+dy/L*sp*dt;
+      if(self._canGo(nx,ny,null)){ f.x=nx; f.y=ny; f.im.setPosition(nx,ny+12).setDepth(WR_DEPTH(ny)); f.im.setFlipX(dx<0); f.npc.x=nx; f.npc.y=ny; } else f.wait=1; });
+  }
+});
 // ─── BuildingScene ──────────────────────────────
 const INT_W=10,INT_H=8;
 class BuildingScene extends Phaser.Scene{
@@ -11445,7 +11984,7 @@ class BuildingScene extends Phaser.Scene{
         }
       }
     }
-    this.add.text(INT_W*TILE/2,(INT_H-1)*TILE+2,'▼ Exit',{fontSize:'7px',color:'#cc9944',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5,0).setDepth(3);
+    domText(this,INT_W*TILE/2,(INT_H-1)*TILE+2,'▼ Exit',{fontSize:'7px',color:'#cc9944',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5,0).setDepth(3);
     this._drawFurniture(g,type);
   }
   _drawFurniture(g,type){
@@ -11512,8 +12051,10 @@ class BuildingScene extends Phaser.Scene{
     var nx=INT_W/2*TILE,ny=INT_H/2*TILE-TILE;
     this.npcX=nx;this.npcY=ny;
     var cont=this.add.container(nx,ny).setDepth(9);
-    cont.add([this.add.ellipse(0,14,20,6,0x000000,.3),this.add.rectangle(0,2,16,18,info.color),this.add.circle(0,-11,8,0xf0c080),this.add.text(0,-11,info.icon,{fontSize:'12px',fontFamily:'serif'}).setOrigin(.5,.5)]);
-    this.add.text(nx,ny-28,info.name,{fontSize:'8px',color:'#ffeecc',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(12);
+    var chId=CHAR_NPC_FOR_BUILDING[type], chR=chId&&CHAR_BY_ID[chId];
+    if(chR){ cont.add(this.add.ellipse(0,14,20,6,0x000000,.3)); this._npcSpr=CHX.sprite(this,chId,0,16,1.25); cont.add(this._npcSpr); info.name=chR.name; }
+    else cont.add([this.add.ellipse(0,14,20,6,0x000000,.3),this.add.rectangle(0,2,16,18,info.color),this.add.circle(0,-11,8,0xf0c080),this.add.text(0,-11,info.icon,{fontSize:'12px',fontFamily:'serif'}).setOrigin(.5,.5)]);
+    domText(this,nx,ny-(chR?34:28),info.name,{fontSize:'8px',color:'#ffeecc',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(12);
   }
   update(_,ms){
     var dt=ms/1000;
@@ -11932,7 +12473,7 @@ class DungeonScene extends Phaser.Scene{
   _renderLabMap(m){
     var self=this, tag='dl'+(DungeonScene._seq=(DungeonScene._seq||0)+1), keys=[];
     this._labTextures();
-    var addTex=function(k,cv){ self.textures.addCanvas(k,cv); keys.push(k); return k; };
+    var addTex=function(k,cv){ gpuTex(self,k,cv); keys.push(k); return k; };
     this.add.image(0,0,addTex('base_'+tag,m.base)).setOrigin(0,0).setDepth(-10);
     m.shafts.forEach(function(sh,i){
       var im=self.add.image(sh.x,sh.y,addTex('shaft_'+tag+'_'+i,sh.canvas)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.5).setDepth(-5);
@@ -12016,8 +12557,8 @@ class DungeonScene extends Phaser.Scene{
     var cx=best.x*TILE+TILE/2, cy=best.y*TILE+TILE/2;
     var cont=this.add.container(cx,cy).setDepth(this._yDepth(cy));
     cont.add(this.add.ellipse(0,12,22,7,0x000000,0.35));
-    cont.add(this.add.circle(0,0,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9));
-    cont.add(this.add.text(0,0,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5));
+    var cSpr=CHX.sprite(this,'crafts_'+this.siteSection,0,14,1.3,{act:false,face:false});
+    if(cSpr){ cSpr.setTint(0xc8c0b8); cont.add(cSpr); } else { cont.add(this.add.circle(0,0,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9)); cont.add(this.add.text(0,0,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5)); }
     var bars=this.add.graphics(); bars.lineStyle(2,0x9aa0b0,1); for(var i=-12;i<=12;i+=6){ bars.lineBetween(i,-18,i,14); } bars.strokeRect(-14,-18,28,32); cont.add(bars);
     var lbl=this.add.text(0,-26,'⛓ '+C.n,{fontSize:'8px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); cont.add(lbl);
     this._captive={cont:cont,bars:bars,lbl:lbl,C:C};
@@ -12500,11 +13041,12 @@ class DungeonScene extends Phaser.Scene{
     if(mult&&mult!==1)def=Object.assign({},def,{hp:Math.round(def.hp*mult),atk:Math.round(def.atk*mult),def:Math.round((def.def||0)*mult),name:quiet?def.name:def.name+' (Rematch)'});
     var cont=this.add.container(wx,wy).setDepth(this._lab?this._yDepth(wy):(isBoss?12:10));
     var shadow=this.add.ellipse(0,def.r+2,def.r*2.2,7,0x000000,.3);
-    var body=(rid&&monLegacyBody(this,rid,def))||this.add.circle(0,0,def.r,def.color);
-    var icon=this.add.text(0,0,rid?'':def.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
-    var hpBg=this.add.rectangle(0,-(def.r+8),32,5,0x000000,.7);
-    var hpFill=this.add.rectangle(-16,-(def.r+8),32,5,isBoss?0xff4400:0xff2222).setOrigin(0,.5);
-    var nameT=this.add.text(0,-(def.r+17),def.name+(isBoss?' ★':''),{fontSize:'8px',color:isBoss?'#ffaa44':'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
+    var body=(isBoss&&CHX.bossBody(this,type,def,cont))||(rid&&monLegacyBody(this,rid,def))||(def.elite&&def._rid&&monLegacyBody(this,def._rid,def))||this.add.circle(0,0,def.r,def.color);
+    var icon=this.add.text(0,0,(rid||body.setTexture)?'':def.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
+    var _tr=body._ch?def.r+22:def.r;
+    var hpBg=this.add.rectangle(0,-(_tr+8),32,5,0x000000,.7);
+    var hpFill=this.add.rectangle(-16,-(_tr+8),32,5,isBoss?0xff4400:0xff2222).setOrigin(0,.5);
+    var nameT=this.add.text(0,-(_tr+17),def.name+(isBoss?' ★':''),{fontSize:'8px',color:isBoss?'#ffaa44':'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
     cont.add([shadow,body,icon,hpBg,hpFill,nameT]);
     var mon0={cont:cont,body:body,hpFill:hpFill,type:type,def:def,hp:def.hp,maxHp:def.hp,x:wx,y:wy,dir:'down',atkTimer:0,wanderTimer:0,wanderVx:0,wanderVy:0,state:'wander',dead:false,isBoss:!!isBoss,rid:rid||null};
     this.monsters.push(mon0); return mon0;
@@ -13323,21 +13865,19 @@ class IslandScene extends Phaser.Scene{
     var self=this,imap=this._imap,isl=this.islData;
     // Harbor-back NPC
     var hx=imap.harborPos.tx*TILE+TILE/2,hy=imap.harborPos.ty*TILE+TILE/2;
-    this.add.circle(hx,hy,16,0x2244aa).setDepth(4);
-    this.add.text(hx,hy,'\u2693',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
-    this.add.text(hx,hy+22,'[Tab] Return',{fontSize:'8px',color:'#88aaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    if(!CHX.sprite(this,'isl_harbor',hx,hy+12,1.45)){ this.add.circle(hx,hy,16,0x2244aa).setDepth(4); this.add.text(hx,hy,'\u2693',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5); }
+    domText(this,hx,hy+22,'[Tab] Return',{fontSize:'8px',color:'#88aaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     this._harborNPC={x:hx,y:hy,r:36};
     // Shop NPC
     var sx=imap.shopPos.tx*TILE+TILE/2,sy=imap.shopPos.ty*TILE+TILE/2;
-    this.add.circle(sx,sy,16,0x4488aa).setDepth(4);
-    this.add.text(sx,sy,'\uD83D\uDED2',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
-    this.add.text(sx,sy+22,'[Tab] Shop',{fontSize:'8px',color:'#88aaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    if(!CHX.sprite(this,'isl_trader',sx,sy+12,1.45)){ this.add.circle(sx,sy,16,0x4488aa).setDepth(4); this.add.text(sx,sy,'\uD83D\uDED2',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5); }
+    domText(this,sx,sy+22,'[Tab] Shop',{fontSize:'8px',color:'#88aaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     this._shopNPC={x:sx,y:sy,r:36};
     // Healing well
     var wx=imap.wellPos.tx*TILE+TILE/2,wy=imap.wellPos.ty*TILE+TILE/2;
-    this.add.circle(wx,wy,14,0x44aa66).setDepth(4);
-    this.add.text(wx,wy,'\uD83D\uDC9A',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
-    this.add.text(wx,wy+20,'[Tab] Heal 10g',{fontSize:'8px',color:'#88ffaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    this.add.circle(wx+14,wy+4,7,0x44aa66,0.8).setDepth(4);
+    if(!CHX.sprite(this,'isl_well',wx-6,wy+12,1.45)){ this.add.text(wx,wy,'\uD83D\uDC9A',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5); }
+    domText(this,wx,wy+20,'[Tab] Heal 10g',{fontSize:'8px',color:'#88ffaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     this._wellNPC={x:wx,y:wy,r:36};
     // Adventure spot
     var adv=ISL_ADV[this.sec]||ISL_ADV[1];
@@ -13345,8 +13885,9 @@ class IslandScene extends Phaser.Scene{
     var advRing=this.add.circle(ax,ay,22,0,0).setStrokeStyle(3,0xffdd44).setDepth(4);
     this.tweens.add({targets:advRing,scaleX:1.15,scaleY:1.15,duration:900,yoyo:true,repeat:-1,ease:'Sine.easeInOut'});
     this.add.text(ax,ay,adv.icon,{fontSize:'18px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
-    this.add.text(ax,ay+28,adv.label,{fontSize:'8px',color:'#ffdd88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
-    this.add.text(ax,ay+38,'[Tab] Enter',{fontSize:'7px',color:'#ffeeaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    var gd=CHX.sprite(this,'isl_guide',ax-30,ay+12,1.45); if(gd)gd.setDepth(5);
+    domText(this,ax,ay+28,adv.label,{fontSize:'8px',color:'#ffdd88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    domText(this,ax,ay+38,'[Tab] Enter',{fontSize:'7px',color:'#ffeeaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     this._advNPC={x:ax,y:ay,r:44};
   }
   _spawnMonsters(){
@@ -13363,8 +13904,8 @@ class IslandScene extends Phaser.Scene{
       }while((self._imap.blockedFn(Math.floor(mx/TILE),Math.floor(my/TILE)))&&tries<30);
       var r=d.r||10;
       var econt=self.add.container(mx,my).setDepth(8);
-      var ebody=self.add.circle(0,0,r,d.col||0x884422);
-      var eico=self.add.text(0,0,d.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
+      var ebody=(isBoss&&CHX.bossBody(self,null,d,econt))||CHX.monBody(self,d.name,d)||self.add.circle(0,0,r,d.col||0x884422);
+      var eico=self.add.text(0,0,ebody.setTexture?'':d.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
       var ehpBg=self.add.rectangle(0,-(r+9),isBoss?40:30,5,0x000,.8);
       var ehpFill=self.add.rectangle(isBoss?-20:-15,-(r+9),isBoss?40:30,5,isBoss?0xff8800:0xff3333).setOrigin(0,.5);
       var eName=self.add.text(0,-(r+18),d.name+(isBoss?' ★':''),{fontSize:isBoss?'9px':'7px',color:isBoss?'#ffdd44':'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
@@ -13634,7 +14175,7 @@ class IslandScene extends Phaser.Scene{
     }
   }
   _floatText(x,y,msg,col){
-    var t=this.add.text(x,y,msg,{fontSize:'12px',color:col||'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(30);
+    var t=domText(this,x,y,msg,{fontSize:'12px',color:col||'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(30);
     this.tweens.add({targets:t,y:y-40,alpha:0,duration:1200,onComplete:function(){t.destroy();}});
   }
   _islandMonsterDied(mon){
@@ -13896,8 +14437,8 @@ class CaveScene extends Phaser.Scene{
         mx=(tx2+0.5)*CV;my=(ty2+0.5)*CV;tries++;
       }while((this._isSolid(tx2,ty2)||ty2<1)&&tries<20);
       var econt=this.add.container(mx,my-10).setDepth(9);
-      var ebody=this.add.circle(0,0,d.r||11,d.col||0x884422);
-      var eico=this.add.text(0,0,d.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5);
+      var ebody=(d.boss&&CHX.bossBody(this,null,d,econt))||CHX.monBody(this,d.name,d)||this.add.circle(0,0,d.r||11,d.col||0x884422);
+      var eico=this.add.text(0,0,ebody.setTexture?'':d.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5);
       var ehpBg=this.add.rectangle(0,-(d.r+10),32,5,0x000,.8);
       var ehpFill=this.add.rectangle(-16,-(d.r+10),32,5,d.boss?0xff8800:0xff3333).setOrigin(0,.5);
       var eName=this.add.text(0,-(d.r+20),d.name,{fontSize:'7px',color:'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
@@ -15354,11 +15895,12 @@ class VolcanoBossRushScene extends Phaser.Scene {
     var total=this.bosses.length;
     function spawnOne(b, x, y){
       var cont=self.add.container(x, y).setDepth(9);
-      var body=self.add.circle(0,0,b.r,b.color).setStrokeStyle(2,0x000000,0.5);
-      var icon=self.add.text(0,0,b.icon,{fontSize:(b.r*1.4)+'px',fontFamily:'serif'}).setOrigin(.5);
-      var hpBg=self.add.rectangle(0,-b.r-12,b.r*2.2,5,0x000000,0.8);
-      var hpFill=self.add.rectangle(-b.r*1.1,-b.r-12,b.r*2.2,5,0xff3333).setOrigin(0,.5);
-      var nameT=self.add.text(0,-b.r-22,b.name,{fontSize:'10px',color:'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
+      var body=CHX.bossBody(self,null,b,cont)||CHX.monBody(self,b.name,b)||self.add.circle(0,0,b.r,b.color).setStrokeStyle(2,0x000000,0.5);
+      var icon=self.add.text(0,0,body.setTexture?'':b.icon,{fontSize:(b.r*1.4)+'px',fontFamily:'serif'}).setOrigin(.5);
+      var tr=body.setTexture?b.r+20:b.r;
+      var hpBg=self.add.rectangle(0,-tr-12,b.r*2.2,5,0x000000,0.8);
+      var hpFill=self.add.rectangle(-b.r*1.1,-tr-12,b.r*2.2,5,0xff3333).setOrigin(0,.5);
+      var nameT=self.add.text(0,-tr-22,b.name,{fontSize:'10px',color:'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
       cont.add([body,icon,hpBg,hpFill,nameT]);
       return {cont:cont,body:body,hpFill:hpFill,def:b,hp:b.hp,maxHp:b.hp,x:x,y:y,atkTimer:1.5,isBoss:true,dead:false};
     }
@@ -15525,6 +16067,23 @@ var game=new Phaser.Game({
 // Keyboard shortcuts: see 24-pause-input.js (one global handler for every scene).
 
 
+
+// ─── Graphics reset guard ───────────────────────
+// If the browser drops the WebGL context (GPU memory pressure, driver reset — seen on integrated
+// graphics), Phaser 3.60 can't recover: the canvas goes black while the DOM labels keep working.
+// Save, then reload straight back into the game (the Title scene auto-continues once).
+game.events.once(Phaser.Core.Events.READY,function(){
+  var cv=game.canvas, fired=false; if(!cv||!cv.addEventListener||game.renderer.type!==Phaser.WEBGL)return;
+  cv.addEventListener('webglcontextlost',function(e){
+    e.preventDefault(); if(fired)return; fired=true;
+    try{ var ws=game.scene.getScene('World'); if(ws&&ws.player&&ws.playerState)ws._save(); }catch(err){}
+    try{ sessionStorage.setItem('qoz_resume',String(Date.now())); }catch(err){}
+    var o=document.createElement('div'); o.id='gl-reset'; o.textContent='✨ Refreshing graphics…';
+    o.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#070b16;color:#bff6ff;font:600 20px Segoe UI,system-ui,sans-serif;z-index:9999';
+    document.body.appendChild(o);
+    setTimeout(function(){ location.reload(); },700);
+  },false);
+});
 // ─── UI Bridge ──────────────────────────────────
 function updateHUD(state){
   var hp=state.hp,maxHp=state.maxHp,gold=state.gold,level=state.level,xp=state.xp;
@@ -17700,31 +18259,36 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     (ps.completedQuests||[]).forEach(function(q){ var m=q.match(/^s(\d)_(dungeon|tower)$/); if(m){ var bk=m[2]==='dungeon'?['goblin_king','swamp_witch','rock_dragon','lava_titan'][m[1]-1]:['dark_warlock','storm_mage','iron_sentinel','shadow_lord'][m[1]-1]; mark('monster','boss_'+bk); } }); },
   // ── catalogue ──
   list:function(cat){ var out=[];
-    if(cat==='monster'){ MON_ROSTER.forEach(function(R){ out.push(R.id); }); ['goblin_king','swamp_witch','rock_dragon','lava_titan','dark_warlock','storm_mage','iron_sentinel','shadow_lord'].forEach(function(b){ if(MDEFS[b])out.push('boss_'+b); }); }
+    if(cat==='monster'){ MON_ROSTER.forEach(function(R){ out.push(R.id); }); CHAR_ROSTER.forEach(function(R){ if(R.cat==='boss')out.push(R.id); }); }
     else if(cat==='mount')out=Object.keys(MOUNTS); else if(cat==='familiar')out=Object.keys(FAMILIARS); else if(cat==='spell')out=Object.keys(SPELL_DATA);
     else if(cat==='item')out=Object.keys(ITEMS).filter(function(k){ return ITEMS[k].slot!=='material'||k==='wood_log'; });
     else if(cat==='place'){ WMAP_ZONES.forEach(function(z){ out.push('zone_'+z.id); }); out.push('village'); var ws=game.scene.getScene('World'); ((ws&&ws.wd&&ws.wd.sites)||[]).forEach(function(s){ out.push('site_'+s.id); }); }
-    else if(cat==='character'){ [1,2,3,4].forEach(function(s){ if(CRAFTSMEN[s])out.push('crafts_'+s); }); VILLAGE_CORE.forEach(function(b){ out.push('npc_'+b.type); }); }
+    else if(cat==='character'){ CHAR_ROSTER.forEach(function(R){ if(R.cat==='npc')out.push(R.id); }); out.push('npc_house'); }
     return out; },
   entry:function(cat,id){
-    if(cat==='monster'){ if(id.indexOf('boss_')===0){ var B=MDEFS[id.slice(5)]; if(!B)return null; return {name:B.name,icon:B.icon,sub:'Boss · '+TOME_QN[B.sec]+' guardian',hint:'Guards a ★ '+(['goblin_king','swamp_witch','rock_dragon','lava_titan'].indexOf(id.slice(5))>=0?'dungeon':'tower')+' in the '+TOME_QN[B.sec],
-        lines:[['Fights',(TOME_MOVE_TXT[B.moveType]||'moves')+'; '+(TOME_ATK_TXT[B.atkType]||'attacks')+'.'],['Strength','HP '+B.hp+' · ATK '+B.atk+' · DEF '+(B.def||0)],['Tip','Bosses hit hard but slowly — keep moving and strike after each attack.']]}; }
+    if(cat==='monster'){ if(id.indexOf('boss_')===0){ var B=MDEFS[id.slice(5)], CB=CHAR_BY_ID[id]; if(!B&&!CB)return null;
+        if(!B)return {name:CB.name,spec:CB.spec,sub:'Boss · '+CB.sub,hint:'Waits in: '+CB.where,lines:[['Looks',CB.look],['Fights',CB.doing],['Where',CB.where],['Tip','Bosses hit hard but slowly — keep moving and strike after each attack.']]};
+        return {name:B.name,icon:B.icon,spec:CB&&CB.spec,sub:'Boss · '+TOME_QN[B.sec]+' guardian',hint:'Guards a ★ '+(['goblin_king','swamp_witch','rock_dragon','lava_titan'].indexOf(id.slice(5))>=0?'dungeon':'tower')+' in the '+TOME_QN[B.sec],
+        lines:(CB?[['Looks',CB.look]]:[]).concat([['Fights',(TOME_MOVE_TXT[B.moveType]||'moves')+'; '+(TOME_ATK_TXT[B.atkType]||'attacks')+'.'],['Strength','HP '+B.hp+' · ATK '+B.atk+' · DEF '+(B.def||0)],['Tip','Bosses hit hard but slowly — keep moving and strike after each attack.']])}; }
       var R=MON_BY_ID[id]; if(!R)return null; var seg={main:'roams the '+TOME_QN[R.q],dun:TOME_QN[R.q]+' dungeons ('+R.role+')',tow:TOME_QN[R.q]+' towers (magic)'}[R.seg];
       var where=(R.tags.find(function(t){ return t.indexOf('T:')===0; })||'').slice(2);
       return {name:R.name,spec:R.spec,sub:TOME_QN[R.q]+' · '+{main:'Mainland',dun:'Dungeon',tow:'Tower'}[R.seg]+' · '+'★★★★★'.slice(0,R.tier),hint:'Found: '+seg+(where?' — '+where:'')+(R.tags.indexOf('night')>=0?' · only at night':''),
         lines:[['Looks',R.look],['Moves',R.move],['Attacks',R.atk],['Defends',R.def],['Special',R.sp],['Where',seg+(where?' — '+where:'')+(R.tags.indexOf('pack')>=0?' · in packs with an alpha':'')+(R.tags.indexOf('night')>=0?' · night only':'')]]}; }
     if(cat==='mount'){ var M=MOUNTS[id]; if(!M)return null; var cc=Array.isArray(M.canCross)?M.canCross.map(function(t){ return Object.keys(T).find(function(k){ return T[k]===t; }); }).filter(Boolean).map(function(s){ return s.toLowerCase().replace(/_/g,' '); }).join(', '):M.canCross;
-      return {name:M.n,icon:M.icon,sub:'Mount · '+(M.spdMult||1)+'× speed',hint:M.cost?'Sold at the stables':'Won in the '+TOME_QN[M.sec]||'',lines:[['What it does',M.desc],['Crosses',cc||'roads & grass'],['Tip','Press M to mount / dismount. Signature terrain is slow on foot but full speed on the right mount.']]}; }
-    if(cat==='familiar'){ var F=FAMILIARS[id]; if(!F)return null; return {name:F.n,icon:F.icon,sub:'Familiar · '+TOME_QN[F.sec],hint:'Reward for an island expedition in the '+TOME_QN[F.sec],lines:[['Power',F.desc],['Attack',(F.type==='aoe'?'Pulses around you ('+F.aoeR+' px)':'Fires at the nearest enemy')+' every '+F.atkInterval+' s for '+F.dmg+' damage'],['Tip','Press N to choose familiars; more slots open as you clear islands.']]}; }
+      var CM=CHAR_BY_ID['mt_'+id]; return {name:M.n,icon:M.icon,spec:CM&&CM.spec,look:CM&&CM.look,sub:'Mount · '+(M.spdMult||1)+'× speed',hint:M.cost?'Sold at the stables':'Won in the '+TOME_QN[M.sec]||'',lines:(CM?[['Looks',CM.look]]:[]).concat([['What it does',M.desc],['Crosses',cc||'roads & grass'],['Tip','Press M to mount / dismount. Signature terrain is slow on foot but full speed on the right mount.']])}; }
+    if(cat==='familiar'){ var F=FAMILIARS[id]; if(!F)return null; var CF=CHAR_BY_ID['fm_'+id]; return {name:F.n,icon:F.icon,spec:CF&&CF.spec,sub:'Familiar · '+TOME_QN[F.sec],hint:'Reward for an island expedition in the '+TOME_QN[F.sec],lines:(CF?[['Looks',CF.look],['Does',CF.doing]]:[]).concat([['Power',F.desc],['Attack',(F.type==='aoe'?'Pulses around you ('+F.aoeR+' px)':'Fires at the nearest enemy')+' every '+F.atkInterval+' s for '+F.dmg+' damage'],['Tip','Press N to choose familiars; more slots open as you clear islands.']])}; }
     if(cat==='spell'){ var S=SPELL_DATA[id]; if(!S)return null; return {name:S.name,icon:'✨',sub:'Spell · '+S.manaCost+' mana',hint:'Learned from a spell tome (shops & chests)',lines:[['Effect',({slow:'slows the target',splash:'explodes in an area',chain:'jumps between enemies',nova:'burns everything around you',none:'pierces through enemies',stun:'teleports you and stuns enemies'}[S.effect]||S.effect)],['Cost',S.manaCost+' mana · '+S.cooldown+' s cooldown'],['Tip','Equip the tome in the spell slot and press X.']]}; }
     if(cat==='item'){ var I=ITEMS[id]; if(!I)return null; return {name:I.name,icon:I.icon,sub:'Item · '+(I.slot||'misc'),hint:I.buy?'Sold in the village':'Found in chests or dropped by monsters',lines:[['Use',I.desc||''],['Value',(I.buy?'Buy '+I.buy+'g · ':'')+(I.sell?'sell '+I.sell+'g':'')]]}; }
     if(cat==='place'){ if(id==='village')return {name:'The Village',icon:'🏘',sub:'Home · Mirror Lake shore',hint:'Where it all begins',lines:[['About','A runestone hamlet on the shore of Mirror Lake. It grows every time a craftsman comes home: harbour, walls, windmills and more.']]};
       if(id.indexOf('zone_')===0){ var Z=WZ_DESIGN[id.slice(5)]||(WORLD_DESIGNS||[]).find(function(d){ return d.id===id.slice(5); }); if(!Z)return null; return {name:Z.name,icon:'🗺️',sub:'Region · '+TOME_QN[Z.quad],hint:'Somewhere in the '+TOME_QN[Z.quad],lines:[['About',Z.tagline+'.'],['Details',(Z.blurb||'').replace(/<[^>]+>/g,'')]]}; }
       if(id.indexOf('site_')===0){ var ws=game.scene.getScene('World'), s=ws&&ws.wd&&ws.wd.sites.find(function(x){ return 'site_'+x.id===id; }); if(!s)return null; return {name:_siteLabel(s),icon:{tower:'🗼',dungeon:'⚔️',harbor:'⚓',skyport:'🎈',camp:'⛺',volcano:'🌋'}[s.type]||'📍',sub:(s.type||'site')+' · '+TOME_QN[s.sec||getTileSection(s.tx,s.ty)],hint:'A '+(s.type||'site')+' in the '+TOME_QN[s.sec||getTileSection(s.tx,s.ty)],lines:[['About',(MAIN_QUEST_DEFS[s.type]&&MAIN_QUEST_DEFS[s.type].desc)||'Explore it to find out.']]}; } }
-    if(cat==='character'){ if(id.indexOf('crafts_')===0){ var C=CRAFTSMEN[+id.slice(7)]; if(!C)return null; return {name:C.n,icon:C.icon,sub:'Craftsman',hint:'A captive in a '+TOME_QN[+id.slice(7)]+' tower',lines:[['About',C.village||''],['Tip','Freeing a craftsman opens the next region and grows the village.']]}; }
+    if(cat==='character'){ var CN=CHAR_BY_ID[id]; if(CN){ var C0=id.indexOf('crafts_')===0?CRAFTSMEN[+id.slice(7)]:null;
+        return {name:CN.name,spec:CN.spec,sub:CN.sub.replace(/s$/,'')+' · '+CN.where,hint:'Look for them: '+CN.where,lines:[['Looks',CN.look],['Does',CN.doing]].concat(C0?[['Says',C0.village||''],['Tip','Freeing a craftsman opens the next region and grows the village.']]:CN.extra?[['Also',CN.extra]]:[])}; }
+      if(id.indexOf('crafts_')===0){ var C=CRAFTSMEN[+id.slice(7)]; if(!C)return null; return {name:C.n,icon:C.icon,sub:'Craftsman',hint:'A captive in a '+TOME_QN[+id.slice(7)]+' tower',lines:[['About',C.village||''],['Tip','Freeing a craftsman opens the next region and grows the village.']]}; }
       var nm={tavern:'The Tavern Keeper',shop:'The Shopkeeper',house:'Your Home',forge:'The Blacksmith',guild:'The Guild Master',stables:'The Stable Master',armory:'The Armourer',clothing:'The Tailor',jeweler:'The Jeweller',apothecary:"The Sorcerer's Apothecary",merchant:'The Travelling Merchant'}[id.slice(4)];
       return nm?{name:nm,icon:'🧑',sub:'Villager',hint:'Somewhere in the village',lines:[['About','Walk up to their door and press Tab.']]}:null; }
     return null; },
+  frames:function(spec){ return spec.mount?mtFrames(spec):msFrames(spec); },
   // ── UI ──
   open:function(){ Tome.sync(); var el=document.getElementById('modal-tome'); if(!el){ el=document.createElement('div'); el.className='overlay'; el.id='modal-tome'; el.style.display='none'; el.onclick=function(){ closeModal('tome'); };
       el.innerHTML='<div class="modal tome-modal" onclick="event.stopPropagation()"><div class="mhdr"><span>📖 The Zeldara Tome</span><button class="mcls" onclick="closeModal(\'tome\')">✕</button></div><div class="tome-body"><div id="tome-tabs"></div><div class="tome-main"><div id="tome-grid"></div><div id="tome-detail"></div></div></div></div>';
@@ -17738,13 +18302,13 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     var qbar=cat==='monster'?'<div class="tome-q">'+['All','Grasslands','Wetlands','Highlands','Ashlands'].map(function(n,i){ return '<button data-tq="'+i+'" class="'+(i===Tome.ui.q?'on':'')+'">'+n+'</button>'; }).join('')+'</div>':'';
     document.getElementById('tome-grid').innerHTML=qbar+'<div class="tome-cards">'+ids.map(function(id){ var e=Tome.entry(cat,id), got=!!b[cat][id]; if(!e)return ''; var ic=e.spec?'<canvas class="tome-spr'+(got?'':' dark')+'" data-spr="'+id+'" width="48" height="48"></canvas>':'<span class="tome-ic'+(got?'':' dark')+'">'+(e.icon||'•')+'</span>';
       return '<button class="tome-card'+(got?'':' locked')+(Tome.ui.sel===id?' sel':'')+'" data-tid="'+id+'">'+ic+'<b>'+(got?e.name:'???')+'</b></button>'; }).join('')+'</div>';
-    document.querySelectorAll('#tome-grid canvas[data-spr]').forEach(function(cv){ var R=MON_BY_ID[cv.dataset.spr]; if(!R)return; var x=cv.getContext('2d'); x.imageSmoothingEnabled=false; x.drawImage(msFrames(R.spec)[0],0,0,48,48); if(cv.classList.contains('dark')){ x.globalCompositeOperation='source-atop'; x.fillStyle='#0c0a14'; x.fillRect(0,0,48,48); } });
+    document.querySelectorAll('#tome-grid canvas[data-spr]').forEach(function(cv){ var e0=Tome.entry(cat,cv.dataset.spr); if(!e0||!e0.spec)return; var x=cv.getContext('2d'); x.imageSmoothingEnabled=false; x.drawImage(Tome.frames(e0.spec)[0],0,0,48,48); if(cv.classList.contains('dark')){ x.globalCompositeOperation='source-atop'; x.fillStyle='#0c0a14'; x.fillRect(0,0,48,48); } });
     var sel=Tome.ui.sel, det=document.getElementById('tome-detail');
     if(!sel){ det.innerHTML='<p class="tome-empty">Pick an entry. Things you have met, owned or visited are written in; the rest show as ??? with a hint.</p>'; return; }
     var e=Tome.entry(cat,sel), got=!!b[cat][sel];
     if(!got){ det.innerHTML='<h3>???</h3><p class="tome-hint">'+(e?e.hint:'')+'</p>'; return; }
     det.innerHTML=(e.spec?'<canvas id="tome-big" width="128" height="128"></canvas>':'<div class="tome-bigic">'+(e.icon||'')+'</div>')+'<h3>'+e.name+'</h3><div class="tome-sub">'+e.sub+'</div><dl>'+e.lines.map(function(l){ return '<dt>'+l[0]+'</dt><dd>'+l[1]+'</dd>'; }).join('')+'</dl>';
-    if(e.spec){ var cv=document.getElementById('tome-big'), fr=msFrames(e.spec), SEQ=[0,1,0,1,2,3,3], i=0; clearInterval(Tome._anim); var draw=function(){ if(!cv.isConnected){ clearInterval(Tome._anim); return; } var x=cv.getContext('2d'); x.clearRect(0,0,128,128); x.imageSmoothingEnabled=false; x.drawImage(fr[SEQ[i++%SEQ.length]],0,0,128,128); }; draw(); Tome._anim=setInterval(draw,220); } }
+    if(e.spec){ var cv=document.getElementById('tome-big'), fr=Tome.frames(e.spec), SEQ=e.spec.mount?[0,1,2,3,0,1,2,3,4,5,4,5,6,7,6,7]:[0,1,0,1,2,3,3], i=0; clearInterval(Tome._anim); var draw=function(){ if(!cv.isConnected){ clearInterval(Tome._anim); return; } var x=cv.getContext('2d'); x.clearRect(0,0,128,128); x.imageSmoothingEnabled=false; x.drawImage(fr[SEQ[i++%SEQ.length]],0,0,128,128); }; draw(); Tome._anim=setInterval(draw,220); } }
 };
 </script>
 <div id="slot-picker-modal" class="overlay" style="display:none">

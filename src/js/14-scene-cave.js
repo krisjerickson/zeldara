@@ -229,8 +229,8 @@ class CaveScene extends Phaser.Scene{
         mx=(tx2+0.5)*CV;my=(ty2+0.5)*CV;tries++;
       }while((this._isSolid(tx2,ty2)||ty2<1)&&tries<20);
       var econt=this.add.container(mx,my-10).setDepth(9);
-      var ebody=this.add.circle(0,0,d.r||11,d.col||0x884422);
-      var eico=this.add.text(0,0,d.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5);
+      var ebody=(d.boss&&CHX.bossBody(this,null,d,econt))||CHX.monBody(this,d.name,d)||this.add.circle(0,0,d.r||11,d.col||0x884422);
+      var eico=this.add.text(0,0,ebody.setTexture?'':d.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5);
       var ehpBg=this.add.rectangle(0,-(d.r+10),32,5,0x000,.8);
       var ehpFill=this.add.rectangle(-16,-(d.r+10),32,5,d.boss?0xff8800:0xff3333).setOrigin(0,.5);
       var eName=this.add.text(0,-(d.r+20),d.name,{fontSize:'7px',color:'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);

@@ -54,7 +54,7 @@ Object.assign(WorldScene.prototype,{
     }
     var C=CRAFTSMEN[g.craftsman], txt=(g.open?g.icon+' ':'🔒 ')+g.name+(g.open?'':'\n'+(C?'free '+C.n:''));
     var lx=cx+along[0]*(half+TILE*1.5), ly=cy+along[1]*(half+TILE*1.5)-30;
-    parts.push(this.add.text(lx,ly,txt,{fontSize:'10px',color:g.open?'#ffe9a8':'#ffb0a0',fontFamily:'Segoe UI',align:'center',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(8));
+    parts.push(domText(this,lx,ly,txt,{fontSize:'10px',color:g.open?'#ffe9a8':'#ffb0a0',fontFamily:'Segoe UI',align:'center',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(8));
     this._gateObjs[g.id]={open:g.open,parts:parts};
   },
 
@@ -63,7 +63,7 @@ Object.assign(WorldScene.prototype,{
     var old=this._wsObjs[w.id]; if(old)old.parts.forEach(function(o){o.destroy();});
     var on=(this.playerState.activatedWaystones||[]).indexOf(w.id)>=0;
     var x=w.x*TILE+TILE/2, y=w.y*TILE+TILE/2, parts=_wsWaystoneArt(this,w,on);
-    parts.push(this.add.text(x,y-110,w.name.replace(' Waystone',''),{fontSize:'9px',color:on?'#bff6ff':'#9aa6b0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(8));
+    parts.push(domText(this,x,y-110,w.name.replace(' Waystone',''),{fontSize:'9px',color:on?'#bff6ff':'#9aa6b0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(8));
     this._wsObjs[w.id]={on:on,parts:parts,w:w,x:x,y:y};
   },
   _nearWaystone(){
@@ -87,7 +87,7 @@ Object.assign(WorldScene.prototype,{
     for(var i=0;i<(this.wd.caches||[]).length;i++){ var q=this.wd.caches[i]; if(ps.openedCaches.indexOf(q.id)>=0)continue; if(Math.hypot(px-(q.x*TILE+TILE/2),py-(q.y*TILE+TILE/2))<TILE*1.8){c=q;break;} }
     if(!c){ if(this._interactPrompt&&this._interactPrompt._cache){this._interactPrompt.destroy();this._interactPrompt=null;} return false; }
     if(!this._interactPrompt||this._interactPrompt._cache!==c.id){ if(this._interactPrompt)this._interactPrompt.destroy();
-      this._interactPrompt=this.add.text(c.x*TILE+TILE/2,c.y*TILE-18,'[Tab] Open hidden cache',{fontSize:'10px',color:'#ffe08a',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._interactPrompt._cache=c.id; }
+      this._interactPrompt=domText(this,c.x*TILE+TILE/2,c.y*TILE-18,'[Tab] Open hidden cache',{fontSize:'10px',color:'#ffe08a',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._interactPrompt._cache=c.id; }
     if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))this._openCache(c);
     return true;
   },
@@ -113,7 +113,7 @@ Object.assign(WorldScene.prototype,{
     var label=on?'[Tab] Travel — '+w.name:'[Tab] Activate '+w.name;
     if(!this._interactPrompt||this._interactPrompt._ws!==w.id+on){
       if(this._interactPrompt)this._interactPrompt.destroy();
-      this._interactPrompt=this.add.text(w.x*TILE+TILE/2,w.y*TILE-44,label,{fontSize:'10px',color:'#bff6ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
+      this._interactPrompt=domText(this,w.x*TILE+TILE/2,w.y*TILE-44,label,{fontSize:'10px',color:'#bff6ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
       this._interactPrompt._ws=w.id+on;
     }
     if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(on)this._openTravel(w); else this._activateWaystone(w); }
@@ -175,7 +175,7 @@ Object.assign(WorldScene.prototype,{
   _tickTravel(dt){
     // the village grows when a craftsman comes home
     this._vT=(this._vT||0)+dt; if(this._vT>1){ this._vT=0; var vs=villageStageOf(this.playerState); if(this.wd&&vs!==this.wd.villageStage){ var self=this;
-      villageApply(this.wd,vs).forEach(function(q){ self._refreshChunkAt(q[0]*WCH,q[1]*WCH); }); showNotif('🏘 The village has grown!','#ffe9a8'); } }
+      villageApply(this.wd,vs).forEach(function(q){ self._refreshChunkAt(q[0]*WCH,q[1]*WCH); }); showNotif('🏘 The village has grown!','#ffe9a8'); this._villageFolkInit(); } }
     this._travelTick=(this._travelTick||0)+dt;
     if(this._travelTick<0.12)return; this._travelTick=0;
     _drawMinimapHud(this,null);

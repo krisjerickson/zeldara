@@ -343,7 +343,7 @@ class DungeonScene extends Phaser.Scene{
   _renderLabMap(m){
     var self=this, tag='dl'+(DungeonScene._seq=(DungeonScene._seq||0)+1), keys=[];
     this._labTextures();
-    var addTex=function(k,cv){ self.textures.addCanvas(k,cv); keys.push(k); return k; };
+    var addTex=function(k,cv){ gpuTex(self,k,cv); keys.push(k); return k; };
     this.add.image(0,0,addTex('base_'+tag,m.base)).setOrigin(0,0).setDepth(-10);
     m.shafts.forEach(function(sh,i){
       var im=self.add.image(sh.x,sh.y,addTex('shaft_'+tag+'_'+i,sh.canvas)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.5).setDepth(-5);
@@ -427,8 +427,8 @@ class DungeonScene extends Phaser.Scene{
     var cx=best.x*TILE+TILE/2, cy=best.y*TILE+TILE/2;
     var cont=this.add.container(cx,cy).setDepth(this._yDepth(cy));
     cont.add(this.add.ellipse(0,12,22,7,0x000000,0.35));
-    cont.add(this.add.circle(0,0,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9));
-    cont.add(this.add.text(0,0,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5));
+    var cSpr=CHX.sprite(this,'crafts_'+this.siteSection,0,14,1.3,{act:false,face:false});
+    if(cSpr){ cSpr.setTint(0xc8c0b8); cont.add(cSpr); } else { cont.add(this.add.circle(0,0,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9)); cont.add(this.add.text(0,0,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5)); }
     var bars=this.add.graphics(); bars.lineStyle(2,0x9aa0b0,1); for(var i=-12;i<=12;i+=6){ bars.lineBetween(i,-18,i,14); } bars.strokeRect(-14,-18,28,32); cont.add(bars);
     var lbl=this.add.text(0,-26,'⛓ '+C.n,{fontSize:'8px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); cont.add(lbl);
     this._captive={cont:cont,bars:bars,lbl:lbl,C:C};
@@ -911,11 +911,12 @@ class DungeonScene extends Phaser.Scene{
     if(mult&&mult!==1)def=Object.assign({},def,{hp:Math.round(def.hp*mult),atk:Math.round(def.atk*mult),def:Math.round((def.def||0)*mult),name:quiet?def.name:def.name+' (Rematch)'});
     var cont=this.add.container(wx,wy).setDepth(this._lab?this._yDepth(wy):(isBoss?12:10));
     var shadow=this.add.ellipse(0,def.r+2,def.r*2.2,7,0x000000,.3);
-    var body=(rid&&monLegacyBody(this,rid,def))||this.add.circle(0,0,def.r,def.color);
-    var icon=this.add.text(0,0,rid?'':def.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
-    var hpBg=this.add.rectangle(0,-(def.r+8),32,5,0x000000,.7);
-    var hpFill=this.add.rectangle(-16,-(def.r+8),32,5,isBoss?0xff4400:0xff2222).setOrigin(0,.5);
-    var nameT=this.add.text(0,-(def.r+17),def.name+(isBoss?' ★':''),{fontSize:'8px',color:isBoss?'#ffaa44':'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
+    var body=(isBoss&&CHX.bossBody(this,type,def,cont))||(rid&&monLegacyBody(this,rid,def))||(def.elite&&def._rid&&monLegacyBody(this,def._rid,def))||this.add.circle(0,0,def.r,def.color);
+    var icon=this.add.text(0,0,(rid||body.setTexture)?'':def.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
+    var _tr=body._ch?def.r+22:def.r;
+    var hpBg=this.add.rectangle(0,-(_tr+8),32,5,0x000000,.7);
+    var hpFill=this.add.rectangle(-16,-(_tr+8),32,5,isBoss?0xff4400:0xff2222).setOrigin(0,.5);
+    var nameT=this.add.text(0,-(_tr+17),def.name+(isBoss?' ★':''),{fontSize:'8px',color:isBoss?'#ffaa44':'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
     cont.add([shadow,body,icon,hpBg,hpFill,nameT]);
     var mon0={cont:cont,body:body,hpFill:hpFill,type:type,def:def,hp:def.hp,maxHp:def.hp,x:wx,y:wy,dir:'down',atkTimer:0,wanderTimer:0,wanderVx:0,wanderVy:0,state:'wander',dead:false,isBoss:!!isBoss,rid:rid||null};
     this.monsters.push(mon0); return mon0;

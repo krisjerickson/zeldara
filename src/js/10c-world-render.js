@@ -42,7 +42,7 @@ Object.assign(WorldScene.prototype,{
     // drop far chunks (and stale jobs)
     W.jobs.forEach(function(J,k){ if(!keep[k]&&!J.refresh)W.jobs.delete(k); });
     W.chunks.forEach(function(ch,k){ if(keep[k])return; var p=k.split('_'), cx=+p[0], cy=+p[1], cam=self.cameras.main, dw=cam.width/cam.zoom, dh=cam.height/cam.zoom, v={x:cam.scrollX+(cam.width-dw)/2,y:cam.scrollY+(cam.height-dh)/2,width:dw,height:dh}, cs=WCH*TILE;
-      if(cx*cs>v.x+v.width+cs*2.2||(cx+1)*cs<v.x-cs*2.2||cy*cs>v.y+v.height+cs*2.2||(cy+1)*cs<v.y-cs*2.2){ self._wrUnmount(ch); W.chunks.delete(k); } });
+      if(cx*cs>v.x+v.width+cs*1.3||(cx+1)*cs<v.x-cs*1.3||cy*cs>v.y+v.height+cs*1.3||(cy+1)*cs<v.y-cs*1.3){ self._wrUnmount(ch); W.chunks.delete(k); } });
     // runes near the hero brighten
     if(this.player){ var hx=this.player.x, hy=this.player.y, tt=(this._wrT=(this._wrT||0)+0.016);
       W.chunks.forEach(function(ch){ ch.react.forEach(function(o,i){ var L=o._base; if(o._flicker&&!L.react){ o.setAlpha(L.a*0.8*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))*(1+0.5*(self._night||0))); return; } var near=Math.max(0,1-Math.hypot(hx-o.x,hy-o.y)/150);
@@ -55,7 +55,7 @@ Object.assign(WorldScene.prototype,{
   _createChunk(cx,cy){ this._refreshChunkAt(cx*WCH,cy*WCH); },
   _wrMount(o){
     var self=this, tag='wc'+(this._wr.seq++), objs=[], keys=[], react=[], x0=o.cx*WCH*LT, y0=o.cy*WCH*LT;
-    var addTex=function(k,cv){ self.textures.addCanvas(k,cv); keys.push(k); return k; };
+    var addTex=function(k,cv){ gpuTex(self,k,cv); keys.push(k); return k; };
     objs.push(this.add.image(x0,y0,addTex(tag,o.canvas)).setOrigin(0,0).setDepth(-10));
     if(o.lavaMask){ var mk=addTex(tag+'_m',o.lavaMask);
       // both flowing layers share ONE bitmap mask (each mask costs extra full-screen passes)

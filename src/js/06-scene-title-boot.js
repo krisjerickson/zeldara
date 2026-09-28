@@ -21,6 +21,9 @@ class TitleScene extends Phaser.Scene{
     if(hasSave){
       var cBtn=this._mkBtn(w/2,h*0.5+70,'CONTINUE',0x4488cc);
       cBtn.on('pointerup',function(){self.scene.start('Boot',{newGame:false});});
+      // back from a graphics reset (20-game-config.js): continue straight away
+      var rs=null; try{ rs=sessionStorage.getItem('qoz_resume'); sessionStorage.removeItem('qoz_resume'); }catch(e){}
+      if(rs&&Date.now()-(+rs)<60000)this.time.delayedCall(60,function(){ self.scene.start('Boot',{newGame:false}); });
     }
   }
   _mkBtn(x,y,label,col){

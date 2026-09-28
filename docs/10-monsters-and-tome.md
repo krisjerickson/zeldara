@@ -1,4 +1,4 @@
-# Monsters, spawning & the Zeldara Tome (Phase 4, Sept 2026)
+# Monsters, characters, spawning & the Zeldara Tome (Phase 4, Sept 2026)
 
 ## The roster
 - 240 monsters, all kept by Kris: per quadrant 20 **mainland**, 10 **dungeon melee**, 10 **dungeon ranged**, 20 **tower** (magic).
@@ -27,6 +27,14 @@
 3. Run `python tests/test_monsters.py <id>` — it checks that it spawns, uses its kit and acts on the player.
 
 ## The Zeldara Tome (`26-tome.js`)
-- T key or the 📖 Tome button. Chapters: Monsters (240 + 8 bosses), Mounts, Familiars, Spells, Items, Places (40 zones, the village, all sites), Characters (craftsmen + villagers).
+- T key or the 📖 Tome button. Chapters: Monsters (240 + 21 bosses), Mounts, Familiars, Spells, Items, Places (40 zones, the village, all sites), Characters (craftsmen + villagers).
 - Entries fill in when you meet a monster (within ~280 px), own a mount/familiar/item/spell, visit a zone or site, or enter a building; locked ones show a ??? silhouette and a hint.
 - Stored in `playerState.tome` (saved with the game).
+
+## Characters (NPCs, mounts, familiars, bosses) — `07s-char-sprites.js`, `10g-characters.js`
+- `CH(cat, group, id, name, spec, where, look, doing, extra)` → `CHAR_ROSTER` / `CHAR_BY_ID` (66 entries). Ids: `npc_<building type>`, `crafts_<1-4>`, `vf_*` (village folk), `isl_*`, `mt_<MOUNTS key>`, `fm_<FAMILIARS key>`, `boss_<MDEFS key>` / `boss_isl_<n>` / `boss_vr_*` / `boss_volcano_lord`.
+- NPCs use the `person` body plan (pal: shirt, trousers, accent, eye, skin, hair; features for hair, beard, hats, apron/armour, tools). Frames 0/1 idle, 2/3 their job.
+- Mounts: `mtFrames(spec)` → 8 frames (side walk 0–3, front 4–5, back 6–7), kinds quad / gator / bird / glider / serpent / drake. In game `CHX.mountTick` draws the mount in the player container and seats the hero (legs cropped; glider hangs above).
+- `CHX.sprite(scene, id, x, y, scale, opts)` registers the image with a per-scene animator (idle, occasional job frames, facing by movement, Tome "seen" when near). `CHX.bossBody` gives bosses their sprite + aura and keeps the `setFillStyle` hit-flash API.
+- Village folk: `VILLAGE_FOLK` (stage 1: elder, farmer, fisher → stage 5: 11 incl. the lighthouse keeper), placed by the village plan's props, wander, [Tab] to talk.
+- Adding one: add a `CH(...)` line; for a new boss map it in `CHAR_BOSS_FOR_MDEF` (or match by name); run `tests/test_characters.py`.

@@ -45,7 +45,7 @@ class BuildingScene extends Phaser.Scene{
         }
       }
     }
-    this.add.text(INT_W*TILE/2,(INT_H-1)*TILE+2,'▼ Exit',{fontSize:'7px',color:'#cc9944',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5,0).setDepth(3);
+    domText(this,INT_W*TILE/2,(INT_H-1)*TILE+2,'▼ Exit',{fontSize:'7px',color:'#cc9944',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5,0).setDepth(3);
     this._drawFurniture(g,type);
   }
   _drawFurniture(g,type){
@@ -112,8 +112,10 @@ class BuildingScene extends Phaser.Scene{
     var nx=INT_W/2*TILE,ny=INT_H/2*TILE-TILE;
     this.npcX=nx;this.npcY=ny;
     var cont=this.add.container(nx,ny).setDepth(9);
-    cont.add([this.add.ellipse(0,14,20,6,0x000000,.3),this.add.rectangle(0,2,16,18,info.color),this.add.circle(0,-11,8,0xf0c080),this.add.text(0,-11,info.icon,{fontSize:'12px',fontFamily:'serif'}).setOrigin(.5,.5)]);
-    this.add.text(nx,ny-28,info.name,{fontSize:'8px',color:'#ffeecc',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(12);
+    var chId=CHAR_NPC_FOR_BUILDING[type], chR=chId&&CHAR_BY_ID[chId];
+    if(chR){ cont.add(this.add.ellipse(0,14,20,6,0x000000,.3)); this._npcSpr=CHX.sprite(this,chId,0,16,1.25); cont.add(this._npcSpr); info.name=chR.name; }
+    else cont.add([this.add.ellipse(0,14,20,6,0x000000,.3),this.add.rectangle(0,2,16,18,info.color),this.add.circle(0,-11,8,0xf0c080),this.add.text(0,-11,info.icon,{fontSize:'12px',fontFamily:'serif'}).setOrigin(.5,.5)]);
+    domText(this,nx,ny-(chR?34:28),info.name,{fontSize:'8px',color:'#ffeecc',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(12);
   }
   update(_,ms){
     var dt=ms/1000;

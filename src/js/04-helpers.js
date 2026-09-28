@@ -1,3 +1,20 @@
+// ─── Crisp text everywhere ───────────────────────────
+// Every Phaser text is rasterised at the zoom its scene's camera uses (world 1.4×, dungeon 1.6×,
+// building 2.2×…) and filtered smoothly, so it reads like the HTML labels instead of blocky
+// pixel-doubled 1× text (the game renders pixel art with antialias off).
+var ZT_ZOOM={World:1.4,Island:1.5,Cave:1.5,Dungeon:1.6,Building:2.2,Sky:1.4};
+var ZT_FONT="'Segoe UI',system-ui,-apple-system,sans-serif";
+(function(){
+  var F=Phaser.GameObjects.GameObjectFactory.prototype, C=Phaser.GameObjects.GameObjectCreator.prototype, LIN=Phaser.Textures.FilterMode.LINEAR;
+  var prep=function(scene,style){ style=Object.assign({},style||{}); var k=scene&&scene.sys&&scene.sys.settings.key, z=ZT_ZOOM[k]||1;
+    if(!style.resolution)style.resolution=Math.min(3,Math.max(2,Math.ceil(z)));
+    if(style.fontFamily==='Segoe UI')style.fontFamily=ZT_FONT;
+    return style; };
+  var fin=function(t){ if(t&&t.texture&&t.scene&&t.scene.sys.game.renderer.type===Phaser.WEBGL)t.texture.setFilter(LIN); return t; };
+  var oa=F.text; F.text=function(x,y,txt,style){ return fin(oa.call(this,x,y,txt,prep(this.scene,style))); };
+  var om=C.text; C.text=function(cfg,add){ cfg=Object.assign({},cfg||{}); cfg.style=prep(this.scene,cfg.style); return fin(om.call(this,cfg,add)); };
+})();
+
 // ─── Input Guards & Helpers ──────────────────────────
 function _isTyping(){
   var ae=document.activeElement;

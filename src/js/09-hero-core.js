@@ -375,7 +375,8 @@ function _heroFamiliarsTick(scene, dt){
     var fd=FAMILIARS[fid], ab=FAMILIAR_ABILITIES[fid]; if(!fd||!ab)return;
     var v=scene._famVisuals[fid];
     if(!v||!v.active){
-      v=scene.add.text(c.x,c.y,fd.icon,{fontSize:'15px',fontFamily:'serif'}).setOrigin(.5).setDepth(21);
+      v=CHX.sprite(scene,'fm_'+fid,c.x,c.y,0.8,{origin:[0.5,0.55],act:false})||scene.add.text(c.x,c.y,fd.icon,{fontSize:'15px',fontFamily:'serif'}).setOrigin(.5);
+      v.setDepth(21);
       v._ang=(i/Math.max(1,fams.length))*Math.PI*2;
       v._aura=scene.add.circle(c.x,c.y,9,{firefly:0xffcc55,wind_sprite:0x99ffcc,sea_sprite:0x55aaff,storm_hawk:0xffee55,frost_wisp:0xaaddff}[fid]||0xffffff,0.28).setDepth(20);
       scene._famVisuals[fid]=v;
@@ -390,6 +391,7 @@ function _heroFamiliarsTick(scene, dt){
     scene._famTimers[fid]-=dt;
     if(scene._famTimers[fid]>0)return;
     var fired=_heroFamiliarAct(scene, fid, ab, {x:c.x+ox,y:c.y+oy}, c, mult);
+    if(fired&&v._ch)CHX.busy(v,0.6);
     scene._famTimers[fid]=fired?ab.cd:0.4; // retry soon if nothing was in range
   });
   _heroSeaSprite(scene, c, ps, dt);

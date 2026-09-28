@@ -78,7 +78,8 @@ function _bonusMiniBossKey(sec){
   var best=null; for(var k in MDEFS){ var d=MDEFS[k]; if(d.sec===sec&&!d.boss&&(!best||d.hp>MDEFS[best].hp))best=k; }
   if(!best)return null; var b=MDEFS[best];
   MDEFS[key]=Object.assign({},b,{ name:'Elite '+b.name, hp:Math.round(b.hp*3.2+30*sec), atk:Math.round(b.atk*1.4)+2, def:(b.def||0)+2,
-    r:(b.r||10)+5, xp:b.xp*6, gMin:b.gMin*4, gMax:b.gMax*4, boss:true, elite:true });
+    r:(b.r||10)+5, xp:b.xp*6, gMin:b.gMin*4, gMax:b.gMax*4, boss:true, elite:true,
+    _rid:(typeof MON_LEGACY!=='undefined')?Object.keys(MON_LEGACY).find(function(k){ return MON_LEGACY[k]===best; }):null });
   return key;
 }
 // Island guardians live in the island's dungeon now (the familiar comes from them).

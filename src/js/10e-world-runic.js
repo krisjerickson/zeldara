@@ -50,7 +50,7 @@ Object.assign(WorldScene.prototype,{
     if(!L){ if(this._interactPrompt&&this._interactPrompt._lm){this._interactPrompt.destroy();this._interactPrompt=null;} return false; }
     var title=L.text.indexOf('—')>0&&L.text.indexOf('—')<48?L.text.split('—')[0].trim():((WZ_DESIGN[L.zone]&&WZ_DESIGN[L.zone].name)||'Inspect');
     if(!this._interactPrompt||this._interactPrompt._lm!==L){ if(this._interactPrompt)this._interactPrompt.destroy();
-      this._interactPrompt=this.add.text(px,py-44,'[Tab] '+title,{fontSize:'10px',color:'#fff8d0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._interactPrompt._lm=L; }
+      this._interactPrompt=domText(this,px,py-44,'[Tab] '+title,{fontSize:'10px',color:'#fff8d0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); this._interactPrompt._lm=L; }
     this._interactPrompt.setPosition(px,py-44);
     if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ showNotif('ᚱ '+L.text,'#fff0c0'); var ps=this.playerState; if(!ps.readLandmarks)ps.readLandmarks=[]; if(ps.readLandmarks.indexOf(L.zone)<0)ps.readLandmarks.push(L.zone); }
     return true;

@@ -17,6 +17,10 @@ function mix(a,b,t){ var x=hexToRgb(a),y=hexToRgb(b); return rgbToHex(x[0]+(y[0]
 function rgba(h,a){ var c=hexToRgb(h); return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')'; }
 function hexNum(h){ return parseInt(h.replace('#',''),16); }
 function mkCanvas(w,h){ var c=document.createElement('canvas'); c.width=Math.max(1,Math.ceil(w)); c.height=Math.max(1,Math.ceil(h)); return c; }
+// A big painted canvas → a GPU texture. Phaser's addCanvas keeps a full CPU pixel copy of every canvas
+// (getImageData: a GPU read-back stall + 4 MB per 1024² chunk) and the canvas itself; with WebGL we only
+// need the uploaded texture, so the canvas is shrunk to 1×1 right after upload (frees its memory).
+function gpuTex(scene,key,cv){ scene.textures.addImage(key,cv); if(scene.game.renderer&&scene.game.renderer.type===Phaser.WEBGL){ cv.width=1; cv.height=1; } return key; }
 function rr(ctx,x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 function softShadow(ctx,cx,cy,rx,ry,a){ var g=ctx.createRadialGradient(cx,cy,0,cx,cy,rx); g.addColorStop(0,'rgba(0,0,0,'+a+')'); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.save(); ctx.translate(cx,cy); ctx.scale(1,ry/rx); ctx.translate(-cx,-cy); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,rx,0,Math.PI*2); ctx.fill(); ctx.restore(); }
 function glowSpot(ctx,cx,cy,r,col,a){ var g=ctx.createRadialGradient(cx,cy,0,cx,cy,r); g.addColorStop(0,rgba(col,a)); g.addColorStop(1,rgba(col,0)); ctx.fillStyle=g; ctx.fillRect(cx-r,cy-r,r*2,r*2); }

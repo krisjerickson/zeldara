@@ -445,3 +445,6 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
 .tome-empty,.tome-hint{color:#6a5030;font-style:italic}
 #tome-btn.tome-new{box-shadow:0 0 0 2px #ffd27a,0 0 14px #ffd27a}
 @media (max-width:760px){ .tome-main{flex-direction:column} }
+/* DOM text for world labels & prompts (04b-dom-text.js) — sharp at any screen DPI */
+.dtx-host{position:absolute;inset:0;pointer-events:none;z-index:40;overflow:hidden}
+.dtx{position:absolute;left:0;top:0;white-space:pre;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-weight:600;line-height:1.15;letter-spacing:.15px;will-change:transform;-webkit-font-smoothing:antialiased}

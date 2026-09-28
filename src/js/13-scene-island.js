@@ -196,21 +196,19 @@ class IslandScene extends Phaser.Scene{
     var self=this,imap=this._imap,isl=this.islData;
     // Harbor-back NPC
     var hx=imap.harborPos.tx*TILE+TILE/2,hy=imap.harborPos.ty*TILE+TILE/2;
-    this.add.circle(hx,hy,16,0x2244aa).setDepth(4);
-    this.add.text(hx,hy,'\u2693',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
-    this.add.text(hx,hy+22,'[Tab] Return',{fontSize:'8px',color:'#88aaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    if(!CHX.sprite(this,'isl_harbor',hx,hy+12,1.45)){ this.add.circle(hx,hy,16,0x2244aa).setDepth(4); this.add.text(hx,hy,'\u2693',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5); }
+    domText(this,hx,hy+22,'[Tab] Return',{fontSize:'8px',color:'#88aaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     this._harborNPC={x:hx,y:hy,r:36};
     // Shop NPC
     var sx=imap.shopPos.tx*TILE+TILE/2,sy=imap.shopPos.ty*TILE+TILE/2;
-    this.add.circle(sx,sy,16,0x4488aa).setDepth(4);
-    this.add.text(sx,sy,'\uD83D\uDED2',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
-    this.add.text(sx,sy+22,'[Tab] Shop',{fontSize:'8px',color:'#88aaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    if(!CHX.sprite(this,'isl_trader',sx,sy+12,1.45)){ this.add.circle(sx,sy,16,0x4488aa).setDepth(4); this.add.text(sx,sy,'\uD83D\uDED2',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5); }
+    domText(this,sx,sy+22,'[Tab] Shop',{fontSize:'8px',color:'#88aaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     this._shopNPC={x:sx,y:sy,r:36};
     // Healing well
     var wx=imap.wellPos.tx*TILE+TILE/2,wy=imap.wellPos.ty*TILE+TILE/2;
-    this.add.circle(wx,wy,14,0x44aa66).setDepth(4);
-    this.add.text(wx,wy,'\uD83D\uDC9A',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
-    this.add.text(wx,wy+20,'[Tab] Heal 10g',{fontSize:'8px',color:'#88ffaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    this.add.circle(wx+14,wy+4,7,0x44aa66,0.8).setDepth(4);
+    if(!CHX.sprite(this,'isl_well',wx-6,wy+12,1.45)){ this.add.text(wx,wy,'\uD83D\uDC9A',{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5); }
+    domText(this,wx,wy+20,'[Tab] Heal 10g',{fontSize:'8px',color:'#88ffaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     this._wellNPC={x:wx,y:wy,r:36};
     // Adventure spot
     var adv=ISL_ADV[this.sec]||ISL_ADV[1];
@@ -218,8 +216,9 @@ class IslandScene extends Phaser.Scene{
     var advRing=this.add.circle(ax,ay,22,0,0).setStrokeStyle(3,0xffdd44).setDepth(4);
     this.tweens.add({targets:advRing,scaleX:1.15,scaleY:1.15,duration:900,yoyo:true,repeat:-1,ease:'Sine.easeInOut'});
     this.add.text(ax,ay,adv.icon,{fontSize:'18px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(5);
-    this.add.text(ax,ay+28,adv.label,{fontSize:'8px',color:'#ffdd88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
-    this.add.text(ax,ay+38,'[Tab] Enter',{fontSize:'7px',color:'#ffeeaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    var gd=CHX.sprite(this,'isl_guide',ax-30,ay+12,1.45); if(gd)gd.setDepth(5);
+    domText(this,ax,ay+28,adv.label,{fontSize:'8px',color:'#ffdd88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+    domText(this,ax,ay+38,'[Tab] Enter',{fontSize:'7px',color:'#ffeeaa',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
     this._advNPC={x:ax,y:ay,r:44};
   }
   _spawnMonsters(){
@@ -236,8 +235,8 @@ class IslandScene extends Phaser.Scene{
       }while((self._imap.blockedFn(Math.floor(mx/TILE),Math.floor(my/TILE)))&&tries<30);
       var r=d.r||10;
       var econt=self.add.container(mx,my).setDepth(8);
-      var ebody=self.add.circle(0,0,r,d.col||0x884422);
-      var eico=self.add.text(0,0,d.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
+      var ebody=(isBoss&&CHX.bossBody(self,null,d,econt))||CHX.monBody(self,d.name,d)||self.add.circle(0,0,r,d.col||0x884422);
+      var eico=self.add.text(0,0,ebody.setTexture?'':d.icon,{fontSize:isBoss?'20px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
       var ehpBg=self.add.rectangle(0,-(r+9),isBoss?40:30,5,0x000,.8);
       var ehpFill=self.add.rectangle(isBoss?-20:-15,-(r+9),isBoss?40:30,5,isBoss?0xff8800:0xff3333).setOrigin(0,.5);
       var eName=self.add.text(0,-(r+18),d.name+(isBoss?' ★':''),{fontSize:isBoss?'9px':'7px',color:isBoss?'#ffdd44':'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
@@ -507,7 +506,7 @@ class IslandScene extends Phaser.Scene{
     }
   }
   _floatText(x,y,msg,col){
-    var t=this.add.text(x,y,msg,{fontSize:'12px',color:col||'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(30);
+    var t=domText(this,x,y,msg,{fontSize:'12px',color:col||'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(30);
     this.tweens.add({targets:t,y:y-40,alpha:0,duration:1200,onComplete:function(){t.destroy();}});
   }
   _islandMonsterDied(mon){

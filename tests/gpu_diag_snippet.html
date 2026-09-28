@@ -1,0 +1,30 @@
+<!-- Append to a copy of the built game (debug builds only): posts GPU/texture stats to the parent frame every 2 s and accepts a few fixed test commands (new, tp, stage, night, god, walk). Never ship in the real game. -->
+<script>
+// ── GPU diagnostics (debug build only): reports to the parent frame every 2 s ──
+(function(){
+  var st={lost:0,lostAt:null,errs:[],t0:Date.now()};
+  window.addEventListener('error',function(e){ if(st.errs.length<20)st.errs.push(String(e.message).slice(0,160)); });
+  function texMB(){ var t=0; try{ Object.keys(game.textures.list).forEach(function(k){ (game.textures.list[k].source||[]).forEach(function(s){ t+=s.width*s.height*4; }); }); }catch(e){} return Math.round(t/1048576); }
+  function hook(){ if(typeof game==='undefined'||!game.canvas){ setTimeout(hook,500); return; }
+    game.canvas.addEventListener('webglcontextlost',function(){ st.lost++; st.lostAt=Math.round((Date.now()-st.t0)/1000); },false); }
+  hook();
+  setInterval(function(){ try{
+    var ws=game.scene.getScene('World'), p=ws&&ws.player, gl=game.renderer&&game.renderer.gl;
+    var d={type:'zdiag', sec:Math.round((Date.now()-st.t0)/1000), lost:st.lost, lostAt:st.lostAt, glLost:gl?gl.isContextLost():null, fps:Math.round(game.loop.actualFps),
+      texMB:texMB(), ntex:Object.keys(game.textures.list).length, chunks:ws&&ws._wr?ws._wr.chunks.size:null, jobs:ws&&ws._wr?ws._wr.jobs.size:null,
+      scenes:game.scene.getScenes(true).map(function(s){return s.sys.settings.key;}).join(','), tile:p?[Math.round(p.x/32),Math.round(p.y/32)]:null,
+      night:ws?ws._night:null, stage:(typeof villageStageOf==='function'&&ws&&ws.playerState)?villageStageOf(ws.playerState):null,
+      heap:performance.memory?Math.round(performance.memory.usedJSHeapSize/1048576):null, errs:st.errs.slice(-5)};
+    parent.postMessage(d,'*'); }catch(e){ parent.postMessage({type:'zdiag',err:String(e)},'*'); } },2000);
+  // fixed debug commands from the parent (no eval)
+  window.addEventListener('message',function(ev){ var m=ev.data; if(!m||m.type!=='zcmd')return; try{
+    var ws=game.scene.getScene('World');
+    if(m.cmd==='new'){ try{localStorage.removeItem('qoz_v2');}catch(e){} game.scene.getScene('Title').scene.start('Boot',{newGame:true}); }
+    if(m.cmd==='tp'&&ws&&ws.player){ ws.player.x=m.x*32; ws.player.y=m.y*32; ws.player.cont.setPosition(ws.player.x,ws.player.y); ws.cameras.main.centerOn(ws.player.x,ws.player.y); }
+    if(m.cmd==='stage'&&ws){ ws.playerState.rescued=[1,2,3,4].slice(0,m.n); }
+    if(m.cmd==='night'&&ws){ ws._forceNight=m.v; }
+    if(m.cmd==='god'&&ws){ ws.playerState.godMode=true; }
+    if(m.cmd==='walk'&&ws&&ws.player){ var k=m.k, until=Date.now()+m.ms; var ev2=function(t){ window.dispatchEvent(new KeyboardEvent(t,{key:k,code:k,keyCode:{ArrowLeft:37,ArrowUp:38,ArrowRight:39,ArrowDown:40}[k],bubbles:true})); }; ev2('keydown'); setTimeout(function(){ ev2('keyup'); },m.ms); }
+  }catch(e){ parent.postMessage({type:'zdiag',cmdErr:String(e)},'*'); } });
+})();
+</script>

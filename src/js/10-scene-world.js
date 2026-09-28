@@ -130,6 +130,7 @@ class WorldScene extends Phaser.Scene{
     if(!this._newGame)this._loadSave();
     villageApply(this.wd,villageStageOf(this.playerState));   // the village at its current stage (grows as craftsmen are freed)
     this._refreshVillageNPCs();
+    this._villageFolkInit();
     this._initTravel();
     this._runicInit();
     this._initWorldMonsters();
@@ -227,6 +228,7 @@ class WorldScene extends Phaser.Scene{
     }
     this._checkInteraction();
     this._tickTravel(dt);
+    this._villageFolkTick(dt);
     this._runicTick(dt);
     this._updateSiteLabels();
     this._revealFog();
@@ -1503,7 +1505,8 @@ class WorldScene extends Phaser.Scene{
     // Mount icon overhead — hidden for 'horse' since the rider sprite already
     // shows the horse. Other mounts (alligator, boar, lava unicorn, dragon,
     // sky eagle) still show their emoji so you can tell what you're riding.
-    p.mountLbl.setText(mount && mount!=='horse' ? (MOUNTS[mount].icon) : '');
+    var _mtDrawn=CHX.mountTick(this,p,mount,!!(vx||vy),dt);   // pixel mount under the hero (10g)
+    p.mountLbl.setText(mount && mount!=='horse' && !_mtDrawn ? (MOUNTS[mount].icon) : '');
     p.eyeL.setY(p.dir==='up'?-16:-13);
     p.eyeR.setY(p.dir==='up'?-16:-13);
     p.body.setFillStyle(mount?0x8844aa:0x4488dd);
@@ -2227,18 +2230,19 @@ class WorldScene extends Phaser.Scene{
           var bwx=btx*TILE+TILE/2,bwy=bty*TILE+TILE/2;
           var bcont=self.add.container(bwx,bwy).setDepth(9);
           var bshadow=self.add.ellipse(0,bmdef.r+2,bmdef.r*2.2,7,0x000000,.3);
-          var bbody=self.add.circle(0,0,bmdef.r,bmdef.color);
-          var bicon=self.add.text(0,0,bmdef.icon,{fontSize:'16px',fontFamily:'serif'}).setOrigin(.5,.5);
-          var bhpBg=self.add.rectangle(0,-(bmdef.r+10),34,5,0x000000,.7);
-          var bhpFill=self.add.rectangle(-17,-(bmdef.r+10),34,5,0xff3333).setOrigin(0,.5);
-          var bnameT=self.add.text(0,-(bmdef.r+20),bmdef.name,{fontSize:'8px',color:'#ffdd88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
+          var bbody=CHX.bossBody(self,btype,bmdef,bcont)||self.add.circle(0,0,bmdef.r,bmdef.color);
+          var bicon=self.add.text(0,0,bbody._ch?'':bmdef.icon,{fontSize:'16px',fontFamily:'serif'}).setOrigin(.5,.5);
+          var _bt=bbody._ch?bmdef.r+24:bmdef.r;   // the pixel boss stands taller than the old circle
+          var bhpBg=self.add.rectangle(0,-(_bt+10),34,5,0x000000,.7);
+          var bhpFill=self.add.rectangle(-17,-(_bt+10),34,5,0xff3333).setOrigin(0,.5);
+          var bnameT=self.add.text(0,-(_bt+20),bmdef.name,{fontSize:'8px',color:'#ffdd88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
           var bLvMin=bmdef.lvMin||3,bLvMax=bmdef.lvMax||6;
           var bLevel=bLvMin+Math.floor(rng.next()*(bLvMax-bLvMin+1));
           var bHp=Math.round(bmdef.hp*(1+(bLevel-1)*0.10));
           var bAtk=bmdef.atk+(bLevel-1);
           var bDef=bmdef.def+( bmdef.def>=3 ? Math.floor((bLevel-1)*0.5) : 0 );
           var bLvCol=bLevel>=15?'#ff4444':bLevel>=10?'#ff8844':bLevel>=5?'#ffdd44':'#88ff88';
-          var bLvBadge=self.add.text(0,-(bmdef.r+28),'★ Lv.'+bLevel,{fontSize:'7px',color:bLvCol,fontFamily:'Segoe UI',fontStyle:'bold',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(10);
+          var bLvBadge=self.add.text(0,-(_bt+28),'★ Lv.'+bLevel,{fontSize:'7px',color:bLvCol,fontFamily:'Segoe UI',fontStyle:'bold',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(10);
           bcont.add([bshadow,bbody,bicon,bhpBg,bhpFill,bnameT,bLvBadge]);
           self.worldMonsters.push({cont:bcont,body:bbody,hpFill:bhpFill,type:btype,def:bmdef,
             hp:bHp,maxHp:bHp,x:bwx,y:bwy,spawnX:bwx,spawnY:bwy,
@@ -2387,7 +2391,7 @@ class WorldScene extends Phaser.Scene{
   }
 
   _floatText(x,y,msg,col){
-    var t=this.add.text(x,y,msg,{fontSize:'13px',color:col,fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20);
+    var t=domText(this,x,y,msg,{fontSize:'13px',color:col,fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20);
     this.tweens.add({targets:t,y:y-40,alpha:0,duration:1400,ease:'Power2',onComplete:function(){t.destroy();}});
   }
 
@@ -2545,7 +2549,7 @@ class WorldScene extends Phaser.Scene{
       if(nearNPC){
         if(!this._interactPrompt||this._interactPrompt._npc!==nearNPC.id){
           if(this._interactPrompt)this._interactPrompt.destroy();
-          this._interactPrompt=this.add.text(nearNPC.x,nearNPC.y-30,'[Tab] Talk to '+nearNPC.n,{fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
+          this._interactPrompt=domText(this,nearNPC.x,nearNPC.y-30,'[Tab] Talk to '+nearNPC.n,{fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
           this._interactPrompt._npc=nearNPC.id;
         }
         if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))showNotif(nearNPC.icon+' '+nearNPC.line,'#ffe9a8');
@@ -2617,10 +2621,9 @@ class WorldScene extends Phaser.Scene{
       if(self._villageNPCs.some(function(n){return n.sec===sec;}))return;
       var C=CRAFTSMEN[sec]; if(!C)return;
       var x=(CENTER_X+spots[sec][0])*TILE+TILE/2, y=(CENTER_Y+spots[sec][1])*TILE+TILE/2;
-      self.add.ellipse(x,y+12,22,7,0x000000,0.3).setDepth(4);
-      self.add.circle(x,y,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9).setDepth(4);
-      self.add.text(x,y,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5).setDepth(5);
-      self.add.text(x,y-20,C.n,{fontSize:'8px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(5);
+      var cim=CHX.sprite(self,'crafts_'+sec,x,y+12,1.5); if(cim)cim.setDepth(WR_DEPTH(y));
+      else { self.add.circle(x,y,12,0x6a5a3a,1).setStrokeStyle(2,0xffd27a,0.9).setDepth(4); self.add.text(x,y,C.icon,{fontSize:'14px',fontFamily:'serif'}).setOrigin(.5).setDepth(5); }
+      domText(self,x,y-34,C.n,{fontSize:'9px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(WR_DEPTH(y)+0.5);
       self._villageNPCs.push({sec:sec,id:C.id,n:C.n,icon:C.icon,line:C.village,x:x,y:y});
     });
   }
@@ -2798,7 +2801,7 @@ class WorldScene extends Phaser.Scene{
   _showNotif(msg,col){
     showNotif(msg,col||'#ffffff');
     var p=this.player;
-    var t=this.add.text(p.x,p.y-60,msg,{fontSize:'14px',color:col||'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:4,align:'center'}).setOrigin(.5).setDepth(20);
+    var t=domText(this,p.x,p.y-60,msg,{fontSize:'14px',color:col||'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:4,align:'center'}).setOrigin(.5).setDepth(20);
     this.tweens.add({targets:t,y:t.y-50,alpha:0,duration:2200,ease:'Power2',onComplete:function(){t.destroy();}});
   }
 

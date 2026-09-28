@@ -113,5 +113,5 @@ old=json.dumps({"hp":40,"maxHp":50,"atk":6,"def":1,"gold":10,"level":4,"xp":0,"m
   "skills":[],"lockedSites":["s1_skyport"],"saveVersion":3})
 with game(new=False, save=old) as g:
     check('v3 save migrates (to v5): harbor/skyport quests backfilled, Bram rescued, fog reset', g.ws("ps.saveVersion===5&&ps.completedQuests.includes('s1_harbor')&&ps.completedQuests.includes('s2_harbor')&&ps.completedQuests.includes('s1_skyport')&&ps.rescued.includes(1)&&Object.keys(ps.dungeonFog).length===0"))
-    check('Rescued craftsman appears in the village on load', g.ws("(ws._villageNPCs||[]).length===1"))
+    check('Rescued craftsman appears in the village on load', g.ws("(ws._villageNPCs||[]).filter(n=>!n.folk).length===1"))
 print('%d/%d'%(sum(res),len(res)))

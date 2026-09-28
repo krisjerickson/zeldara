@@ -830,11 +830,12 @@ class VolcanoBossRushScene extends Phaser.Scene {
     var total=this.bosses.length;
     function spawnOne(b, x, y){
       var cont=self.add.container(x, y).setDepth(9);
-      var body=self.add.circle(0,0,b.r,b.color).setStrokeStyle(2,0x000000,0.5);
-      var icon=self.add.text(0,0,b.icon,{fontSize:(b.r*1.4)+'px',fontFamily:'serif'}).setOrigin(.5);
-      var hpBg=self.add.rectangle(0,-b.r-12,b.r*2.2,5,0x000000,0.8);
-      var hpFill=self.add.rectangle(-b.r*1.1,-b.r-12,b.r*2.2,5,0xff3333).setOrigin(0,.5);
-      var nameT=self.add.text(0,-b.r-22,b.name,{fontSize:'10px',color:'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
+      var body=CHX.bossBody(self,null,b,cont)||CHX.monBody(self,b.name,b)||self.add.circle(0,0,b.r,b.color).setStrokeStyle(2,0x000000,0.5);
+      var icon=self.add.text(0,0,body.setTexture?'':b.icon,{fontSize:(b.r*1.4)+'px',fontFamily:'serif'}).setOrigin(.5);
+      var tr=body.setTexture?b.r+20:b.r;
+      var hpBg=self.add.rectangle(0,-tr-12,b.r*2.2,5,0x000000,0.8);
+      var hpFill=self.add.rectangle(-b.r*1.1,-tr-12,b.r*2.2,5,0xff3333).setOrigin(0,.5);
+      var nameT=self.add.text(0,-tr-22,b.name,{fontSize:'10px',color:'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
       cont.add([body,icon,hpBg,hpFill,nameT]);
       return {cont:cont,body:body,hpFill:hpFill,def:b,hp:b.hp,maxHp:b.hp,x:x,y:y,atkTimer:1.5,isBoss:true,dead:false};
     }
