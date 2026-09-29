@@ -96,7 +96,7 @@ function _closeAllOverlays(){
 
 // Which scene is the player currently playing in (topmost running scene)?
 var _SCENE_PRIORITY=['VolcanoBossRush','VolcanoMaze','VolcanoBulletHell','VolcanoPuzzle','VolcanoEscape',
-  'Cave','Sky','Dungeon','Building','Island','World'];
+  'Sky','Dungeon','Building','Island','World'];
 function _activePlayScene(includePaused){
   if(!game||!game.scene)return null;
   for(var i=0;i<_SCENE_PRIORITY.length;i++){
@@ -122,6 +122,8 @@ document.addEventListener('keydown',function(e){
   }
 
   // Menu hotkeys toggle their own menu and work everywhere.
+  // M next to your waiting mount: hop back on
+  if(k==='m'&&!_openOverlays().length&&(game.scene.isActive('World')||game.scene.isActive('Island'))){ var _wsm=_owScene(); if(_wsm&&_wsm._nearParkedMount&&_wsm._nearParkedMount()){ e.preventDefault(); _wsm._remount(); return; } }
   if(_MENU_HOTKEYS[k]){
     e.preventDefault();
     var id=_MENU_HOTKEYS[k], el=document.getElementById('modal-'+id);
@@ -149,20 +151,19 @@ document.addEventListener('keydown',function(e){
   var ws2=game.scene.getScene('World');
   if(k==='control'){
     var key=sc.sys.settings.key;
-    if(key==='World')_fireWorldBow(sc);
+    if(_isOverworld(sc))_fireWorldBow(sc);
     else if(key==='Dungeon')_fireSceneBow(sc,'dungeon');
-    else if(key==='Island')_fireSceneBow(sc,'island');
   } else if(k==='x'){
     _heroCastSpell(sc);
   } else if(k==='z'){
-    if(sc===ws2&&ws2._useSpecial)ws2._useSpecial();
+    if(_isOverworld(sc)&&sc._useSpecial)sc._useSpecial();
     else showNotif('Specials can only be used in the overworld','#8899aa');
   } else if(k==='g'){
-    if(sc===ws2&&ws2._dig)ws2._dig(); else showNotif('You can only dig outdoors','#8899aa');
+    if(_isOverworld(sc)&&sc._dig)sc._dig(); else showNotif('You can only dig outdoors','#8899aa');
   } else if(k==='c'){
     doCycleAmmo();
   } else if(k==='p'){
-    if(ws2)ws2._quickUsePotion();
+    if(_isOverworld(sc)&&sc._quickUsePotion)sc._quickUsePotion(); else if(ws2)ws2._quickUsePotion();
   }
 });
 

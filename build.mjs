@@ -64,9 +64,14 @@ console.log(`✓ index.html  ${(out.length / 1024).toFixed(0)} KB  from ${jsFile
 // ── Design Lab (Phase 2): lab/src → lab/index.html (+ lab/lab.artifact.html for publishing)
 // Reuses the game's hero sprites + hero API so the lab walks with the real hero.
 if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
-  const sharedFiles = ['00-header.js', '01-sprite-data.js', '02-hero-api.js']
+  // 03-data (items, monsters, spells) + 09b (boss phases) feed the Bosses / Mage Towers tabs;
+  // the Lab has no monster engine, so 09b gets a stub MX to hang its helpers on.
+  const sharedFiles = ['00-header.js', '01-sprite-data.js', '02-hero-api.js', '03-data.js']
     .concat(jsFiles.filter(f => /^07/.test(f)));
-  const shared = sharedFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('');
+  const shared = sharedFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('')
+    + '\nif(typeof MX==="undefined"){ var MX={KITS:(typeof MON_KIT_SRC!=="undefined"?MON_KIT_SRC:{})}; }'
+    + '\nif(typeof MON_BY_ID==="undefined"){ var MON_BY_ID={}; (typeof MON_ROSTER!=="undefined"?MON_ROSTER:[]).forEach(function(R){ MON_BY_ID[R.id]=R; }); }\n'
+    + fs.readFileSync(path.join(jsDir, '09b-boss-phases.js'), 'utf8');
   const labDir = path.join(ROOT, 'lab/src/js');
   const labFiles = fs.readdirSync(labDir).filter(f => f.endsWith('.js')).sort();
   const labJs = shared + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join('');

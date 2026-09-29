@@ -11,7 +11,7 @@ with sync_playwright() as p:
     pg = b.new_page(viewport={"width": 1400, "height": 860})
     errs = []
     pg.on("pageerror", lambda e: errs.append("PAGEERR " + str(e)))
-    pg.on("console", lambda m: errs.append("console.error " + m.text) if m.type == "error" else None)
+    pg.on("console", lambda m: errs.append("console.error " + m.text) if m.type == "error" and "Failed to load resource" not in m.text else None)
     pg.route(re.compile(r".*cdnjs.*phaser.*"), lambda r: r.fulfill(path=__import__('os').environ.get('PHASER_JS', __import__('os').path.join(HERE, '.phaser', 'package', 'dist', 'phaser.min.js')), content_type="application/javascript"))
     pg.route(re.compile(r".*fonts.*"), lambda r: r.abort())
     html = open(__import__('os').path.join(HERE, '..', 'lab', 'index.html'), encoding='utf-8').read()

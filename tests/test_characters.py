@@ -24,7 +24,7 @@ with game(new=True) as g:
       Object.keys(MDEFS).forEach(function(k){ if(MDEFS[k].boss&&!MDEFS[k].elite&&!CHX.bossId(k,MDEFS[k]))miss.push('boss '+k); });
       [1,2,3,4].forEach(function(s){ var B=HARBOR_ISLANDS[s]&&HARBOR_ISLANDS[s].boss; if(B&&!CHX.bossId(null,B))miss.push('island boss '+s); });
       return {c:c,dup:dup,bad:bad,miss:miss}; })()""")
-    check('Roster: 41 NPCs (incl. 12 castle teachers), 11 mounts, 21 bosses + 23 evolved forms + 12 castle wardens (familiars are spirits now)', r['c'] == {'npc': 41, 'mount': 11, 'boss': 56}, r['c'])
+    check('Roster: 41 NPCs (incl. 12 castle teachers), 11 mounts, 21 bosses + 23 evolved forms + 12 castle wardens + 16 mage-tower masters (familiars are spirits now)', r['c'] == {'npc': 41, 'mount': 11, 'boss': 72}, r['c'])
     check('Unique ids; every one has look / doing / where text and paints all its frames', not r['dup'] and not r['bad'], (r['dup'], r['bad'][:8]))
     check('Every mount, familiar, craftsman, shop keeper and boss in the game data has a character', not r['miss'], r['miss'])
 

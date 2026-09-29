@@ -14,7 +14,20 @@ function _wsGlow(scene,x,y,r,col,a,o){ if(!scene.textures.exists('glow')&&scene.
 function _wsSiteArt(scene,s){
   if(!scene.textures.exists('glow'))scene._wrInit&&scene._wrInit();
   var fx=(s.tx+1.5)*TILE, fy=(s.ty+3)*TILE-2, r=s.section||1, tint=WS_REGION_TINT[r]||WS_REGION_TINT[1], key, img;
-  if(s.type==='tower'){
+  if(s.mage){
+    var MG=MAGE_BY_KEY[s.mage], MS=MAGE_STYLE_BY_ID[s.design]||{pal:{}}, orb=(MS.pal&&MS.pal.rune)||'#c080ff';
+    key=_wsTex(scene,'site_mage_'+s.mage,120,260,function(g,W,H,R){
+      softShadow(g,W/2,H-8,46,11,0.45); var bx=W/2, top=H-212, st=shade('#6a6078',(r-2)*0.05);
+      // a twisting spire: narrowing stone rings, a pointed roof, a floating orb
+      for(var i=0;i<7;i++){ var y0=H-10-i*26, w0=34-i*3.2, off=Math.sin(i*0.9)*5; var gr=g.createLinearGradient(bx-w0,0,bx+w0,0); gr.addColorStop(0,shade(st,-0.35)); gr.addColorStop(0.45,shade(st,0.15)); gr.addColorStop(1,shade(st,-0.45)); g.fillStyle=gr; g.beginPath(); g.moveTo(bx-w0+off,y0); g.lineTo(bx-w0+3+off,y0-27); g.lineTo(bx+w0-3+off,y0-27); g.lineTo(bx+w0+off,y0); g.closePath(); g.fill(); g.fillStyle=rgba(orb,0.55); g.fillRect(bx-w0+off,y0-3,w0*2,2); }
+      var ry=H-10-7*26; g.fillStyle='#3a2a5a'; g.beginPath(); g.moveTo(bx-16,ry); g.lineTo(bx+4,ry-46); g.lineTo(bx+16,ry); g.fill(); g.fillStyle='#5a4a8a'; g.beginPath(); g.moveTo(bx+4,ry-46); g.lineTo(bx+16,ry); g.lineTo(bx+6,ry); g.fill();
+      [[H-70],[H-122],[H-170]].forEach(function(q,j){ g.fillStyle='#140e1e'; rr(g,bx-5+Math.sin(j)*3,q[0],10,15,5); g.fill(); g.fillStyle=rgba(orb,0.9); rr(g,bx-3+Math.sin(j)*3,q[0]+2,6,11,3); g.fill(); });
+      g.fillStyle='#2a1e36'; g.beginPath(); g.moveTo(bx-13,H-8); g.lineTo(bx-13,H-34); g.quadraticCurveTo(bx,H-50,bx+13,H-34); g.lineTo(bx+13,H-8); g.fill(); g.fillStyle=rgba(orb,0.35); g.fillRect(bx-10,H-32,20,24);
+      var og=g.createRadialGradient(bx+4,ry-62,1,bx+4,ry-62,13); og.addColorStop(0,'#ffffff'); og.addColorStop(0.4,orb); og.addColorStop(1,rgba(orb,0)); g.fillStyle=og; g.beginPath(); g.arc(bx+4,ry-62,13,0,Math.PI*2); g.fill();
+      for(var k=0;k<5;k++){ var a=k/5*Math.PI*2; drawRune(g,bx+Math.cos(a)*40,H-120+Math.sin(a)*60,7,orb,R.i(0,9)); } });
+    img=scene.add.image(fx,fy+2,key).setOrigin(0.5,1).setDepth(WR_DEPTH(fy));
+    _wsGlow(scene,fx+4,fy-250,50,orb,0.5,{pulse:true}); _wsGlow(scene,fx,fy-30,40,orb,0.3,{pulse:true});
+  } else if(s.type==='tower'){
     key=_wsTex(scene,'site_tower_'+r+(s.boss?'_b':''),130,240,function(g,W,H,R){
       softShadow(g,W/2,H-8,54,12,0.45);
       var bx=W/2, top=H-200, bw=40;

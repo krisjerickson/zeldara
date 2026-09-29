@@ -54,6 +54,7 @@ function _wkInit(){
   Object.keys(WSK).forEach(function(n){ var v=WSK[n]; if(v&&v.id)_wkReg(v); else for(var r in v)_wkReg(v[r]); });
   [WSK.bridge,WSK.bridgev,WSK.iron,WSK.lift,WSK.pass].forEach(function(k){ k.roadish=true; }); for(var r0 in WSK.road){ WSK.road[r0].roadish=true; WSK.trail[r0].roadish=true; }
   WORLD_DESIGNS.forEach(function(Z){ _wkReg(Z.ground); (Z.kinds||[]).forEach(_wkReg); });
+  (typeof ISLAND_DESIGNS!=='undefined'?ISLAND_DESIGNS:[]).concat(typeof EMBER_CAVE_DESIGNS!=='undefined'?[]:[]).forEach(function(Z){ _wkReg(Z.ground); (Z.kinds||[]).forEach(_wkReg); });   // round 6 islands
 }
 
 // ── Zone skins: how each zone's design dresses the world ───────────────
@@ -247,7 +248,7 @@ function wpChunkJob(wd,cx,cy){
         row+=8; if(row>=GW){ phase=4; } continue; }
       if(phase===4){ // 5. props anchored in this chunk (flat ones paint; tall ones become sprites)
         var list=(wd.propsByChunk&&wd.propsByChunk[cx+'_'+cy])||[], fk=_wpFakeC(wd,out,ox,oy);
-        list.forEach(function(p){ var Z=p.zi>=0?skins[p.zi].Z:null, fn=WPROP[p.prop]||(Z&&Z.draw&&Z.draw[p.prop]); if(!fn)return;
+        list.forEach(function(p){ var Z=p.Z||(p.zi>=0&&p.zi!==255?skins[p.zi].Z:null), fn=WPROP[p.prop]||(Z&&Z.draw&&Z.draw[p.prop]); if(!fn)return;
           fk.R=rngOf(_wpHash(p.x,p.y,11)); var n0=out.sprites.length, nl=out.lights.length;
           try{ fn(fk,ctx,(p.x-tx0)*LT,(p.y-ty0)*LT,p.w*LT,p.h*LT,p.o||{},(Z&&Z.pal)||{}); }catch(e){ var ek=p.prop+': '+e.message; WP_ERR[ek]=(WP_ERR[ek]||0)+1; }
           if(Math.floor(p.x/WCH)!==cx||Math.floor(p.y/WCH)!==cy)out.sprites.length=n0;   // tall parts belong to the anchor chunk

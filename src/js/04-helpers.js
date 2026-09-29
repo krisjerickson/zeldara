@@ -2,7 +2,7 @@
 // Every Phaser text is rasterised at the zoom its scene's camera uses (world 1.4×, dungeon 1.6×,
 // building 2.2×…) and filtered smoothly, so it reads like the HTML labels instead of blocky
 // pixel-doubled 1× text (the game renders pixel art with antialias off).
-var ZT_ZOOM={World:1.4,Island:1.5,Cave:1.5,Dungeon:1.6,Building:2.2,Sky:1.4};
+var ZT_ZOOM={World:1.4,Island:1.5,Dungeon:1.6,Building:2.2,Sky:1.4};
 var ZT_FONT="'Segoe UI',system-ui,-apple-system,sans-serif";
 (function(){
   var F=Phaser.GameObjects.GameObjectFactory.prototype, C=Phaser.GameObjects.GameObjectCreator.prototype, LIN=Phaser.Textures.FilterMode.LINEAR;

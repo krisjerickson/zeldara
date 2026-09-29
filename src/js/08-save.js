@@ -6,7 +6,7 @@
 // ║ localStorage['qoz_v2_backup_v<old>'] so nothing is ever lost.
 // ║ To change the save shape later: bump SAVE_VERSION and add a step.
 // ═══════════════════════════════════════════════════════════════════════
-var SAVE_VERSION=6;
+var SAVE_VERSION=7;
 var _SAVE_TRANSIENT=['_seaState','_famWard','_famLastHp'];   // runtime-only fields never written to disk
 
 function _migrateSave(d, raw){
@@ -47,6 +47,14 @@ function _migrateSave(d, raw){
   if(v<6){
     // Phase 4c: familiars are the four elemental spirits (fam_grass/water/earth/fire)
     _famMigrate(d);
+  }
+  if(v<7){
+    // Round 6: the old side-view Ember Cave never completed its harbor quest (so the Dragon could never
+    // be earned). Any cleared familiar island now counts. Familiars pick one special (default: newest).
+    if(!Array.isArray(d.completedQuests))d.completedQuests=[];
+    (d.completedIslands||[]).forEach(function(sec){ var k='s'+sec+'_harbor'; if(d.completedQuests.indexOf(k)<0)d.completedQuests.push(k); });
+    if(!d.famSpecial)d.famSpecial={};
+    if(typeof ALL_MAIN_QUESTS!=='undefined'&&ALL_MAIN_QUESTS.every(function(q){ return d.completedQuests.indexOf(q)>=0; })){ if(!Array.isArray(d.ownedMounts))d.ownedMounts=[]; if(d.ownedMounts.indexOf('dragon')<0)d.ownedMounts.push('dragon'); }
   }
   _SAVE_TRANSIENT.forEach(function(k){ delete d[k]; });
   d.saveVersion=SAVE_VERSION;

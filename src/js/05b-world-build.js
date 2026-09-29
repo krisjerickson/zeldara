@@ -212,6 +212,22 @@ function _buildGameWorld(){
     }
     sites.push(obj);
   });
+  // ── 6b. mage towers (round 5): 4 per quadrant on open land, well away from the other sites ──
+  if(typeof MAGE_TOWERS!=='undefined'){ var rmg=rngOf(WORLD_SEED+4242), magePos=[];
+    [1,2,3,4].forEach(function(r){ var list=MAGE_TOWERS.filter(function(M){ return M.q===r; }), got=0;
+      for(var at=0;at<9000&&got<list.length;at++){ var x=Math.floor(rmg.f()*W), y=Math.floor(rmg.f()*H), k=y*W+x; if(region[k]!==r)continue;
+        var ok=true; for(var dy=-3;dy<=5&&ok;dy++)for(var dx=-3;dx<=3;dx++){ var xx=x+dx,yy=y+dy; if(xx<2||yy<2||xx>=W-2||yy>=H-2){ ok=false; break; } var kk=yy*W+xx; if(cls[kk]!==WM.LAND||reserved[kk]||region[kk]!==r){ ok=false; break; } }
+        if(!ok)continue; var far=at>6500?14:22;
+        if(sites.some(function(s){ return Math.abs(s.tx+1-x)<far&&Math.abs(s.ty+1-y)<far; })||magePos.some(function(p){ return Math.hypot(p.x-x,p.y-y)<40; }))continue;
+        if(Math.hypot(x-CENTER_X,y-CENTER_Y)<VILLAGE_RADIUS+30)continue;
+        var M=list[got], tx=x-1, ty=y-1, zi=zone[k];
+        var obj={type:'tower',section:r,tx:tx,ty:ty,id:'mage_'+M.key,mage:M.key,design:_mageBg(M),name:M.name,floors:M.floors,zone:(WMAP_ZONES[zi]||{}).id};
+        clearAround(x,y+1,4);
+        for(var dy2=-1;dy2<=3;dy2++)for(var dx2=-1;dx2<=3;dx2++){ var X=tx+dx2, Y=ty+dy2; if(cls[Y*W+X]===WM.LAND)kind[Y*W+X]=G(WSK.plaza); }
+        for(var dy1=0;dy1<3;dy1++)for(var dx1=0;dx1<3;dx1++)tiles[ty+dy1][tx+dx1]=T.STONE_FLOOR;
+        for(var dx3=0;dx3<3;dx3++)tiles[ty][tx+dx3]=T.BUILDING_WALL;
+        tiles[ty+2][tx+1]=T.DOOR; trail(tx+1,ty+4);
+        sites.push(obj); magePos.push({x:x,y:y}); got++; } }); }
   var rank=function(s){ return s.boss?0:(s.type==='camp'||s.type==='harbor'||s.type==='skyport')?1:2; };
   sites.sort(function(a,b){ return a.section-b.section||rank(a)-rank(b); });
   // ── 7. waystones: a small plaza + trail ──

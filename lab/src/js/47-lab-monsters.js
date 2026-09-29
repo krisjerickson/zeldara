@@ -79,5 +79,5 @@ var MonTab={ q:1, seg:'main', show:'all', vis:new Set(), t0:0,
     var sh=e.target.closest('.mn-sh'); if(sh){ MonTab.show=sh.dataset.sh; LabApp.renderGrid(); return; }
     var v=e.target.closest('.mn-v'); if(v){ var k='monsters-'+v.dataset.mid, p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=p.verdict===v.dataset.v?null:v.dataset.v; LabApp.persist(k); MonTab.refresh(); LabApp.renderTabs(); return; }
   });
-  document.addEventListener('input',function(e){ var ta=e.target.closest&&e.target.closest('.mn-notes'); if(!ta)return; var k='monsters-'+ta.dataset.mid, p=LabApp.picks[k]=LabApp.picks[k]||{}; p.notes=ta.value; LabApp.persist(k,900); });
+  document.addEventListener('input',function(e){ var ta=e.target.closest&&e.target.closest('.mn-notes[data-mid]'); if(!ta)return; var k='monsters-'+ta.dataset.mid, p=LabApp.picks[k]=LabApp.picks[k]||{}; p.notes=ta.value; LabApp.persist(k,900); });
 })();

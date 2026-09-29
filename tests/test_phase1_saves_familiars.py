@@ -21,9 +21,8 @@ with game(new=False, save=old_save) as g:
 
 with game() as g:
     ps="game.scene.getScene('World').playerState"
-    # Pause in Building, Cave, Sky
+    # Pause in Sky (the old Cave scene was removed in round 6)
     for key,launch in [
-        ('Cave',"ws.scene.sleep('World');ws.scene.launch('Cave',{worldScene:ws,sec:1})"),
         ('Sky',"ws.scene.sleep('World');ws.scene.launch('Sky',{worldScene:ws,site:ws.wd.sites.find(s=>s.type==='skyport')})"),
     ]:
         g.js("(()=>{var ws=game.scene.getScene('World');"+launch+"})()"); g.wait(2500)
@@ -35,6 +34,8 @@ with game() as g:
 
     # Familiar abilities, one at a time, in the world
     g.ws("(ps.level=6, ps.ownedFamiliars=['fam_grass','fam_water','fam_earth','fam_fire'], ps.famLevels={fam_grass:6,fam_water:6,fam_earth:6,fam_fire:6})")
+    # an open spot (round 6: familiars need line of sight — no walls/trees between them and the targets)
+    g.ws("""(()=>{ for(var i=0;i<800;i++){ var tx=Math.floor(CENTER_X+(Math.random()-0.5)*200), ty=Math.floor(CENTER_Y+(Math.random()-0.5)*200); if(getTileSection(tx,ty)!==1)continue; var ok=true; for(var dx=-1;dx<=4&&ok;dx++)for(var dy=-1;dy<=2&&ok;dy++){ if(!canPassTile(ws.tiles[ty+dy][tx+dx])||SIGHT_BLOCK_TILES.has(ws.tiles[ty+dy][tx+dx]))ok=false; } if(ok){ ws.player.x=tx*TILE+16; ws.player.y=ty*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); break; } } })()"""); g.wait(800)
     def arena(fid, wait=9000):
         g.ws(f"(ps.familiar='{fid}', ps.familiar2=null, ps.familiar3=null, ps.familiar4=null, ws.worldMonsters.forEach(m=>{{m.dead=true;m.cont&&m.cont.destroy();}}), ws.worldMonsters=[])")
         g.js("sbSpawnMonsters()")
@@ -47,12 +48,15 @@ with game() as g:
     check('Water spirit slows', g.ws("ws.worldMonsters.some(m=>(m._slow>0||m._slowT>0)&&m.hp<999)"))
     arena('fam_grass')
     check('Grass spirit damages', g.ws("ws.worldMonsters.slice(0,4).some(m=>m.hp<999)"))
-    g.ws("(ps.familiar='fam_water', ps.hp=ps.maxHp)"); g.wait(2500)
+    g.ws("(ps.familiar='fam_water', ps.famSpecial={fam_water:1}, ps.hp=ps.maxHp)")   # special = Tide Ward
+    for _ in range(40):
+        if g.ws("!!(ps._famWard&&ps._famWard.fam_water&&ps._famWard.fam_water.ready)"): break
+        g.wait(500)
     g.ws("(ps.hp=Math.max(1,ps.hp-7))"); g.wait(600)
     check('Water spirit Tide Ward refunds a hit', g.ws("ps.hp===ps.maxHp || ps._famWard && ps._famWard.fam_water && ps._famWard.fam_water.ready===false"), g.ws("({hp:ps.hp,max:ps.maxHp,st:ps._famWard})"))
     # Familiar UI
     g.key('n'); g.wait(400)
-    check('N picker lists abilities', g.js("document.getElementById('quick-pick-popup').innerHTML.includes('Tidal Wave')"))
+    check('N picker lists each familiar with its chosen special', g.js("document.getElementById('quick-pick-popup').innerHTML.includes('special: <b')"))
     g.key('Escape'); g.wait(200)
     g.key('i'); g.wait(400)
     check('Inventory lists familiar skills', g.js("document.getElementById('modal-inventory').innerHTML.includes('Inferno')"))

@@ -306,7 +306,7 @@ CH('boss','Island guardians','boss_isl_1','Pirate Captain',['person','slash','#6
 CH('boss','Island guardians','boss_isl_2','Swamp Titan',['brute','slam','#3a5a2a,#1a2a10,#80c040,#ffe040','moss,club,horns'],
   'Bog Grotto (Wetlands island)','A moss-covered troll titan with a log club.','Stomps the ground — shockwave rings.');
 CH('boss','Island guardians','boss_isl_3','Lava Colossus',['golem','slam','#6a2a1a,#2a1008,#ff9030,#ffe060','glowcore,columns'],
-  'Ember Cave (Highlands island)','A basalt colossus with lava running between its columns.','Heavy stomps that shake the cave.');
+  'Ember Cave (Highlands island)','A basalt colossus with lava running between its columns.','Heavy stomps that shake the cave floor.');
 CH('boss','Island guardians','boss_isl_4','Frost Lord',['caster','cast','#9ad0f0,#3a5a8a,#dff4ff,#2050c0','crown,staff,beard'],
   'Frost Spire (Ashlands island)','An ice-crowned lord in pale blue robes with a frozen staff.','Teleports and strikes with frost.');
 // ── bosses · volcano boss rush ──

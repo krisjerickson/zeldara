@@ -60,7 +60,7 @@ function _heroNewState(initialDir){
   return {dir:initialDir||'down',_walkFrame:0,_walkTimer:0,_wasMoving:false,_lastSet:null};
 }
 function _heroAnimate(scene, sprite, st, vx, vy, dt, atkTimer, bowTimer){
-  if(!sprite)return;
+  if(!sprite||!sprite.scene)return;   // destroyed with its scene
   // Bow attack overlay — checked first so CTRL never visually fires the sword.
   // 10 frames over the 0.7s draw cycle.
   if(bowTimer&&bowTimer>0){

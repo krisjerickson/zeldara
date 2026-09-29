@@ -31,7 +31,10 @@ with game() as g:
                 g.js("game.scene.getScene('Dungeon')._exitToWorld(null)"); g.wait(600)
     # Kill boss -> portal opens -> claim -> back to World
     g.js(LAUNCH+'(["dungeon",1,false])'); g.wait(1300)
-    g.js("var d=game.scene.getScene('Dungeon');var b=d.monsters.find(m=>m.isBoss);b.hp=0;d._monsterDied(b)"); g.wait(400)
+    # ★ bosses have phases (round 4): keep felling whatever boss stands until the fight is over
+    for _ in range(12):
+        if g.js("!!game.scene.getScene('Dungeon')._bossDefeated"): break
+        g.js("var d=game.scene.getScene('Dungeon');var b=d.monsters.find(m=>m.isBoss&&!m.dead);if(b){b.hp=0;if(!b.dead)d._monsterDied(b);}"); g.wait(1800)
     check('Portal unlocked after boss', g.js("game.scene.getScene('Dungeon').interactables.find(i=>i.type==='boss_chest').locked===false"))
     g.js("var d=game.scene.getScene('Dungeon');var c=d.interactables.find(i=>i.type==='boss_chest');d.px=c.x;d.py=c.y;d._interact()"); g.wait(2000)
     for _ in range(30):

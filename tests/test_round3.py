@@ -86,31 +86,29 @@ with game(new=True) as g:
     check('Digging (G) away from the spot finds nothing; at the sparkles it finds the object', miss == 0 and got == 'silver_acorn', (miss, got))
     f0 = g.ws("[ws._fairies[0].x,ws._fairies[0].y]")
     g.js(TP + "([%d,%d])" % (f0[0], f0[1] + 40)); g.wait(1200)
-    g.ws("ws._talkFairy(ws._fairies[0])"); g.wait(300); g.js("document.querySelector('#fairy-talk .ft-btns button').click()"); until(g, "!!ws._trial")
-    k = g.ws("ws._trial&&ws._trial.kind")
-    g.ws("(ws._trial.hits=8)"); until(g, "!ws._trial")
-    check('Bringing it back starts the familiar trial; passing it teaches the next skill', k == 'rune_targets' and g.ws("_famLevel(ps,'fam_grass')===2 && ps.fairyQuests.q1_f0.st==='done'"), (k, g.ws("ps.famLevels"), g.js("[isGamePaused(), _openOverlays(), game.scene.getScene('World').sys.isPaused(), game.loop.frame, document.getElementById('trial-hud').textContent]")))
-    # each trial type runs and can be won
-    kinds = {}
-    for kind in ['guardian', 'echo_path', 'orb_harvest', 'hold_circle']:
-        g.js(TP + "([%d,%d])" % (f0[0], f0[1] + 40)); g.wait(300)
-        g.ws("(()=>{ ws._trialStart('%s',ws._fairies[0],{fid:'fam_grass',q:1},function(){window._tw='win'},function(){window._tw='lose'}); })()" % kind)
-        until(g, "document.getElementById('trial-hud').textContent.length>5&&document.getElementById('trial-hud').style.display!=='none'", 10000)
-        kinds[kind] = [g.ws("!!ws._trial&&ws._trial.kind"), g.js("document.getElementById('trial-hud').textContent")[:40]]
-        g.ws("ws._trialEnd(true)"); g.ws("(document.getElementById('trial-hud')._h='',document.getElementById('trial-hud').textContent='')"); g.wait(200)
-    check('Trials run: guard the stone, echo path, element harvest, hold the circle', all(v[0] == k2 for k2, v in kinds.items()), kinds)
-    # ── Fairy King ──
+    _plan_theme = g.js("_trialPlanOf(1,0).theme")
+    D = "game.scene.getScene('Dungeon')"
+    def in_realm():
+        return until(g, f"!!(game.scene.isActive('Dungeon')&&{D}._tr&&!{D}._trialOver)", 15000)
+    def back_in_world():
+        return until(g, "game.scene.isActive('World') && !game.scene.isActive('Dungeon')", 15000)
+    g.ws("ws._talkFairy(ws._fairies[0])"); g.wait(300); g.js("document.querySelector('#fairy-talk .ft-btns button').click()")
+    ok = in_realm(); k = g.js(f"{D}._tr&&{D}._tr.theme")
+    ok and g.js(f"TrialRealm.end({D},true)"); back = back_in_world()
+    check('Bringing it back sends you to the trial realm; passing it teaches the next skill', ok and k == _plan_theme and back and g.ws("_famLevel(ps,'fam_grass')===2 && ps.fairyQuests.q1_f0.st==='done'"), (k, g.ws("ps.famLevels")))
+    # ── Fairy Monarch ──
     g.ws("(()=>{ sbUnlockAll(); ps.ownedFamiliars=['fam_grass','fam_water']; ps.famLevels={fam_grass:2,fam_water:3}; })()")
     K = g.ws("[ws._kings[0].x,ws._kings[0].y]")
     g.js(TP + "([%d,%d])" % (K[0], K[1] + 90)); g.wait(2500)
     g.ws("ws._talkKing(ws._kings[0])"); g.wait(300); g.js("document.querySelector('#fairy-talk .ft-btns button').click()"); until(g, "!!ps.fairyQuests.king2")
     g.ws("(ps.fairyQuests.king2.got=ps.fairyQuests.king2.need.slice())")
-    g.ws("ws._talkKing(ws._kings[0])"); g.wait(300); g.js("document.querySelector('#fairy-talk .ft-btns button').click()"); until(g, "!!ws._trial")
-    s1 = g.ws("ws._trial&&ws._trial.stage"); g.ws("(ws._trial.time=0.05)")
-    until(g, "!ws._trial||!!ws._trial.duel")
-    s2 = g.ws("ws._trial&&ws._trial.stage"); duel = g.ws("!!(ws._trial&&ws._trial.duel&&!ws._trial.duel.dead)")
-    g.ws("(()=>{ var d=ws._trial.duel; MX._src='spell'; d.hp=0; MX._src=null; if(!d.dead)ws._worldMonsterDied(d); })()"); until(g, "!ws._trial", 10000)
-    check('Fairy King: 3 objects, hold the circle, then the shadow duel → one more familiar slot', s1 == 1 and s2 == 2 and duel and g.ws("ps.fairyKings.join()==='k2'&&_maxFamiliarSlots(ps)===2"), (s1, s2, duel, g.ws("ps.fairyKings")))
+    g.ws("ws._talkKing(ws._kings[0])"); g.wait(300); g.js("document.querySelector('#fairy-talk .ft-btns button').click()")
+    seen = []
+    for _ in range(3):
+        if not in_realm(): break
+        seen.append(g.js(f"{D}._tr.theme")); g.js(f"TrialRealm.end({D},true)"); g.wait(1500)
+    back = back_in_world()
+    check('Fairy Monarch: 3 objects, then 3 trials in a row → one more familiar slot', seen == g.js("MONARCH_TRIAL_PLAN[2]") and back and g.ws("ps.fairyKings.join()==='k2'&&_maxFamiliarSlots(ps)===2"), (seen, g.ws("ps.fairyKings")))
     # ── Tome by quadrant ──
     g.key('t', 80); g.wait(500)
     g.js("document.querySelector('[data-tcat=quest]').click()"); g.wait(400)

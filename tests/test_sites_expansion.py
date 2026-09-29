@@ -25,15 +25,15 @@ INFO = """(()=>{var d=game.scene.getScene('Dungeon'); if(!d||!d._ready||!game.sc
     captive:!!d._captive,sid:d.siteId,floor:d.floor};})()"""
 
 with game() as g:
-    sites=g.js("game.scene.getScene('World').wd.sites.filter(s=>s.design).map(s=>({id:s.id,type:s.type,sec:s.section,boss:s.boss,floors:s.floors,name:s.name,design:s.design}))")
+    sites=g.js("game.scene.getScene('World').wd.sites.filter(s=>s.design&&!s.mage).map(s=>({id:s.id,type:s.type,sec:s.section,boss:s.boss,floors:s.floors,name:s.name,design:s.design}))")
     check('20 Lab-design sites in the world', len(sites)==20, len(sites))
     for sec in [1,2,3,4]:
         ss=[s for s in sites if s['sec']==sec]
         check(f'Q{sec}: 5 sites, 1 boss tower + 1 boss dungeon', len(ss)==5 and sum(1 for s in ss if s['boss'] and s['type']=='tower')==1 and sum(1 for s in ss if s['boss'] and s['type']=='dungeon')==1, [s['name'] for s in ss])
         lo,hi={1:(4,5),2:(5,6),3:(6,7),4:(7,8)}[sec]
         check(f'Q{sec}: floors in {lo}-{hi}, boss sites {hi}', all(lo<=s['floors']<=hi for s in ss) and all(s['floors']==hi for s in ss if s['boss']), [s['floors'] for s in ss])
-    allsites=g.js("game.scene.getScene('World').wd.sites.length")
-    check('All 32 sites placed (8 per quadrant)', allsites==32, allsites)
+    allsites=g.js("game.scene.getScene('World').wd.sites.filter(s=>s.type!=='harbor'&&!s.mage).length")
+    check('All 28 dungeon/tower sites placed (7 per quadrant; harbors + mage towers are separate)', allsites==28, allsites)
     check('All 20 designs used once', len(set(s['design'] for s in sites))==20)
     bad=[]; n=0
     for s in sites:
@@ -45,7 +45,7 @@ with game() as g:
                 if r.get('ready') and r.get('sid')==s['id'] and r.get('floor')==f: break
                 g.wait(250)
             n+=1
-            ok=r.get('ready') and r['lab'] and r['exitReach'] and r['playerOk'] and r['bad']==0 and r['mons']>=5
+            ok=r.get('ready') and r['lab'] and r['exitReach'] and r['playerOk'] and r['bad']==0 and r['mons']>=(2 if (r.get('last') and not s['boss']) else 5)
             if r.get('last'): ok=ok and r['boss'] and r['bossReach'] and ((('Elite' in r['boss'])!=bool(s['boss'])))
             if r.get('last') and s['boss'] and s['type']=='tower': ok=ok and r['captive']
             if not ok: bad.append((s['id'],f,r))

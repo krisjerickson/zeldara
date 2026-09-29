@@ -146,6 +146,7 @@ function buildTower(S, planId, seed, opts){
       case 'conservatory': for(var py=ry+1;py<ry+rh-1;py+=3)for(var px=rx+1;px<rx+rw-1;px+=3)tryPlace(R.chance(0.35)?'tree':'planter',px,py,1,1,ri); tryPlace('pool',cx-1,cy,2,2,ri); break;
       case 'hall': tryPlace('runner',cx-1,ry,2,rh,ri,false); tryPlace('statue',cx-3,ry,1,1,ri); tryPlace('statue',cx+2,ry,1,1,ri); tryPlace('bench',rx+1,cy,2,1,ri); tryPlace('bench',rx+rw-3,cy,2,1,ri); corners('plant'); break;
       case 'corridor': for(var hx=rx+2;hx<rx+rw-2;hx+=6)tryPlace('plant',hx,ry,1,1,ri); tryPlace('runner',rx,ry+1,rw,1,ri,false); break;
+      default: if(typeof TOWER_FURNISH!=='undefined'&&TOWER_FURNISH[r.type])TOWER_FURNISH[r.type]({tryPlace:tryPlace,alongNorth:alongNorth,corners:corners,rug:rug,items:items,rx:rx,ry:ry,rw:rw,rh:rh,cx:cx,cy:cy,ri:ri,R:R,S:S,at:at,r:r}); break;
       case 'atrium': case 'rotunda':
         var cs=S.center||'fountain', sz=cs==='orrery'||cs==='pool'?4:3;
         tryPlace('center_'+cs,cx-Math.floor(sz/2),cy-Math.floor(sz/2),sz,sz,ri);
@@ -210,6 +211,7 @@ function buildTower(S, planId, seed, opts){
   if(S.particles)S.particles.forEach(function(p){ m.particles.push(Object.assign({area:{x:pad*LT,y:pad*LT,w:P.w*LT,h:P.h*LT}},p)); });
   m.base=cv;
   m.stats={rooms:P.rooms.length,plan:P.name};
+  if(S.dark!==undefined){ m.dark=S.dark; m.heroLight=S.heroLight||230; m.heroLightCol=S.heroLightCol||'#ffc080'; m.darkCol=S.darkCol||'#050308'; }
   return m;
 }
 

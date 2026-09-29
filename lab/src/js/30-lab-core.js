@@ -334,7 +334,7 @@ var LabApp={
     var t=this.tabObj(); if(!t||!t.designs.length)return;
     var d=t.designs[this.idx], k=this.key(t.id,d.id), p=this.picks[k]||{};
     var el=document.getElementById('lab-panel');
-    var regionsUI=t.regionLabel?'<div class="sec-l">'+t.regionLabel+'</div><div class="regions">'+LAB_REGIONS.map(function(R){
+    var regionsUI=t.regionLabel?'<div class="sec-l">'+t.regionLabel+'</div><div class="regions">'+(t.regionList||LAB_REGIONS).map(function(R){
       var on=(p.regions||[]).indexOf(R.k)>=0; return '<button class="reg" data-reg="'+R.k+'" aria-pressed="'+on+'">'+R.n+'</button>'; }).join('')+'</div>':'';
     var stats=d.facts?'<ul class="facts">'+d.facts.map(function(f){return '<li>'+f+'</li>';}).join('')+'</ul>':'';
     el.innerHTML='<div class="p-top"><button class="nav" id="lab-back">← All '+t.name.toLowerCase()+'</button>'+
@@ -356,7 +356,7 @@ var LabApp={
       if(e.target.id==='lab-prev'){ self.open(self.idx-1,-1); return; }
       if(e.target.id==='lab-next'){ self.open(self.idx+1,1); return; }
       var gb=e.target.closest('.lab-grp'); if(gb){ self.groups[self.tab]=+gb.dataset.grp; self.renderGrid(); return; }
-      var vb=e.target.closest('.vbtn'); if(vb&&!vb.classList.contains('sp-v')&&self.currentKey()){ var k=self.currentKey(); var p=self.picks[k]=self.picks[k]||{}; p.verdict=p.verdict===vb.dataset.v?null:vb.dataset.v; self.renderPanel(); self.persist(k); self.renderTabs(); return; }
+      var vb=e.target.closest('#lab-panel .vbtn'); if(vb&&!vb.classList.contains('sp-v')&&self.currentKey()){ var k=self.currentKey(); var p=self.picks[k]=self.picks[k]||{}; p.verdict=p.verdict===vb.dataset.v?null:vb.dataset.v; self.renderPanel(); self.persist(k); self.renderTabs(); return; }
       var rb=e.target.closest('.reg'); if(rb){ var k2=self.currentKey(); var p2=self.picks[k2]=self.picks[k2]||{}; p2.regions=p2.regions||[]; var r=+rb.dataset.reg, i=p2.regions.indexOf(r); if(i>=0)p2.regions.splice(i,1); else p2.regions.push(r); self.renderPanel(); self.persist(k2); return; }
     });
     // Phaser prevents default on canvas mousedown, which would leave the notes box

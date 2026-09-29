@@ -19,11 +19,11 @@ LAB_TABS.push({ id:'sprites', name:'Sprites', blurb:'<b>Sprite gallery</b>: 5 op
 
 // Island castles (src/js/07t-castles.js) — 12 looks, 3 per quadrant, already chosen and in the game.
 LAB_TABS.push({ id:'castles', name:'Castles', groups:[1,2,3,4].map(function(q){ return {k:q,n:WM_REGION_NAMES[q]}; }),
-  blurb:'<b>12 island castles</b>, three per quadrant, each on its own island reached from its own harbor. Each is a different look (castle palette, floors, centerpiece and weather). A one-phase warden on the top floor holds a master captive; free them to learn their skill (your special attack, Z). <b>Already picked and in the game</b> — mark any you want changed.',
-  designs:CASTLE_STYLES.map(function(S){ var C=CASTLE_ISLANDS[Object.keys(CASTLE_ISLANDS).find(function(k){ return CASTLE_ISLANDS[k].castle===S.id; })], W=C&&CHAR_BY_ID[C.warden], T=C&&CHAR_BY_ID[C.teacher];
-    return { id:S.id, name:S.name, group:S.q, tagline:S.tagline, blurb:S.blurb, seed:S.seed,
-      facts:S.facts.concat(C?['Island: '+C.name+' · '+C.floors+' floors','Warden: '+(W?W.name:'?'),'Captive: '+(T?T.name+' — '+T.doing.split(' — ')[0].toLowerCase():'?')]:[]),
-      build:function(seed){ return buildTower(S,S.plan,seed,{last:true}); } }; }) });
+  blurb:'<b>12 island castles, revamped</b> — dark stone keeps lit by torches, braziers and stained glass, no longer like the towers. Every floor has its own castle plan: <b>gatehouse</b> (barracks, armoury, statue hall), <b>great hall</b> (feast tables, a hearth you could stand in, banners), <b>round chapel</b> (rose window, mosaic, saints, crypt) and the <b>throne room</b> (dais, royal carpet, lines of knights\' armour) where the warden waits. Each castle keeps its own colours and heraldry. <b>Mark any floor you want changed.</b> (The game adds darkness and torchlight on top of what you see here.)',
+  designs:(function(){ var L=[]; CASTLE_STYLES.forEach(function(S){ var C=CASTLE_ISLANDS[Object.keys(CASTLE_ISLANDS).find(function(k){ return CASTLE_ISLANDS[k].castle===S.id; })], W=C&&CHAR_BY_ID[C.warden], T=C&&CHAR_BY_ID[C.teacher], FP=S.floorPlans?S.floorPlans(C?C.floors:3):[S.plan];
+    FP.forEach(function(plan,fi){ var last=fi===FP.length-1; L.push({ id:S.id+'__'+fi, name:S.name+' · floor '+(fi+1)+' — '+TOWER_PLANS[plan].name.replace(/ \(.*$/,''), group:S.q, tagline:S.tagline, blurb:S.blurb+' <b>This floor:</b> '+TOWER_PLANS[plan].name+'.', seed:S.seed+fi*17,
+      facts:(S.facts||[]).concat(C?['Island: '+C.name+' · '+C.floors+' floors'+(last?' · the warden waits here':''),'Warden: '+(W?W.name:'?'),'Captive: '+(T?T.name+' — '+T.doing.split(' — ')[0].toLowerCase():'?')]:[]),
+      build:function(seed){ return buildTower(S,plan,seed,{last:last}); } }); }); }); return L; })() });
 
 // Boss arenas (src/js/07u-boss-arenas.js) — where phases 2+ of the ★ guardians are fought.
 LAB_TABS.push({ id:'arenas', name:'Boss Arenas',

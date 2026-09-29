@@ -15,17 +15,19 @@ function _slSavePrefs(){ try{ localStorage.setItem('zeldara_sitelab',JSON.string
 function _slCatalog(){
   var ws=game.scene.getScene('World'), sites=(ws&&ws.wd&&ws.wd.sites)||[], groups=[];
   [1,2,3,4].forEach(function(sec){
-    groups.push({id:'q'+sec, name:SECTION_NAMES[sec].replace(/^(NE|SE|SW|NW) /,''), sites:sites.filter(function(s){return s.section===sec&&s.design&&(s.type==='tower'||s.type==='dungeon');})});
+    groups.push({id:'q'+sec, name:SECTION_NAMES[sec].replace(/^(NE|SE|SW|NW) /,''), sites:sites.filter(function(s){return s.section===sec&&s.design&&!s.mage&&(s.type==='tower'||s.type==='dungeon');})});
   });
   var isl=[];
   [1,2,3,4].forEach(function(sec){
     var a=ISL_ADV[sec]; if(!a)return;
     var name=a.label.replace(/^\S+\s/,'');
-    if(a.type==='cave')isl.push({id:'isl_cave_'+sec, cave:true, type:'dungeon', section:sec, name:name, floors:a.floors||4, island:true});
-    else isl.push({id:'isl_adv_'+sec+'_'+a.type, type:a.kind||(a.type==='tower_island'?'tower':'dungeon'), section:sec, design:a.design, island:true, name:name, floors:a.floors||4, _theme:a.type==='volcano'?'volcano':a.type==='tower_island'?'tower_island':'cave_dungeon'});
+    isl.push({id:'isl_adv_'+sec+'_'+a.type, type:a.kind||(a.type==='tower_island'?'tower':'dungeon'), section:sec, design:a.design, island:true, name:name, floors:a.floors||4, _theme:a.theme||(a.type==='volcano'?'volcano':a.type==='tower_island'?'tower_island':'cave_dungeon')});
   });
   groups.push({id:'isl', name:'Harbor islands', sites:isl});
   if(typeof CASTLE_ISLANDS!=='undefined')groups.push({id:'castles', name:'Island castles', sites:Object.keys(CASTLE_ISLANDS).map(function(k){ return CastleRun.site(k); })});
+  if(typeof FAIRY_TRIAL_PLAN!=='undefined'){ var tl=[]; [1,2,3,4].forEach(function(q){ FAIRY_TRIAL_PLAN[q].forEach(function(a,i){ tl.push({id:'trial_q'+q+'_f'+i,name:a[1],section:q,floors:1,type:'trial',trial:{q:q,i:i},theme:a[0]}); }); });
+    [2,3,4].forEach(function(q){ tl.push({id:'trial_m'+q,name:'Trial of '+_monarchOf(q).name,section:q,floors:1,type:'trial',trial:{q:q,i:'m'},theme:MONARCH_TRIAL_PLAN[q][0]}); }); groups.push({id:'trials',name:'Fairy trials',sites:tl}); }
+  if(typeof MAGE_TOWERS!=='undefined')groups.push({id:'mage',name:'Mage towers',sites:MAGE_TOWERS.map(function(M){ return MageRun.site(M); })});
   return groups;
 }
 function _slGuardian(s){
@@ -80,6 +82,8 @@ function _slRenderGrid(groups){
   SITE_LAB._sites={}; SITE_LAB.queue=[];
   el.innerHTML=g.sites.map(function(s){
     SITE_LAB._sites[s.id]=s;
+    if(s.trial){ var th0=SITE_LAB.thumbs[s.id]; if(!th0)SITE_LAB.queue.push(s.id); var TT=TRIAL_THEMES[s.theme];
+      return '<div class="sl-card"><div class="sl-thumb" id="slth-'+s.id+'" style="'+(th0?'background-image:url('+th0+')':'')+'">'+(th0?'':'rendering…')+'</div><div class="sl-body"><div class="sl-name">'+TT.icon+' '+s.name+'</div><div class="sl-meta">'+(s.trial.i==='m'?'Fairy Monarch · '+MONARCH_TRIAL_PLAN[s.section].map(function(t){ return TRIAL_THEMES[t].name; }).join(' → '):TT.name+' · fairy '+(s.trial.i+1)+' of '+WM_REGION_NAMES[s.section])+'</div><div class="sl-floors"><button class="sl-fl last sl-trial" data-q="'+s.section+'" data-i="'+s.trial.i+'">▶ Play</button></div></div></div>'; }
     var kind=s.castle?'Castle':s.island?(s.cave?'Island cave':'Island '+s.type):(s.boss?'★ Boss '+s.type:'Bonus '+s.type);
     var fl=''; for(var f=0;f<s.floors;f++){ var last=f===s.floors-1; fl+='<button class="sl-fl'+(last?' last':'')+'" data-s="'+s.id+'" data-f="'+f+'" title="'+(last?(s.bonus?'Vault floor':'Guardian floor'):'Floor '+(f+1))+'">'+(f+1)+(last?' ☠':'')+'</button>'; }
     var th=SITE_LAB.thumbs[s.id];
@@ -90,7 +94,7 @@ function _slRenderGrid(groups){
       '<div class="sl-rw">'+_slReward(s)+'</div>'+(_slDone(s,ps)?'<div class="sl-done">✓ cleared in this save</div>':'')+
       '<div class="sl-floors">'+fl+'</div></div></div>';
   }).join('');
-  el.querySelectorAll('.sl-fl').forEach(function(b){ b.onclick=function(){ _slLaunch(b.dataset.s,+b.dataset.f); }; });
+  el.querySelectorAll('.sl-fl').forEach(function(b){ b.onclick=function(){ if(b.classList.contains('sl-trial')){ closeModal('sitelab'); closeModal('sandbox'); var q=+b.dataset.q, i=b.dataset.i==='m'?'m':+b.dataset.i; setTimeout(function(){ var ws=game.scene.getScene('World'); if(ws&&ws.playerState){ var ps=ws.playerState; if(!(ps.ownedFamiliars||[]).length){ ps.ownedFamiliars=[FAM_BY_SEC[q]]; } if(!ps.familiar)ps.familiar=(ps.ownedFamiliars||[])[0]; ps.godMode=!!SITE_LAB.opts.god; } if(!sbTrial(q,i))showNotif('Trials start from the overworld.','#aaaaaa'); },200); return; } _slLaunch(b.dataset.s,+b.dataset.f); }; });
   _slPumpThumbs();
 }
 // Thumbnails of floor 1, rendered one at a time so the page stays responsive.
@@ -100,7 +104,7 @@ function _slPumpThumbs(){
   SITE_LAB.busy=true;
   setTimeout(function(){
     try{
-      var s=SITE_LAB._sites[id], spec=_siteFloorSpec(s,0,s.floors);
+      var s=SITE_LAB._sites[id], spec=s.trial?{kind:'trial',run:{q:s.section,i:s.trial.i==='m'?9:s.trial.i,stages:s.trial.i==='m'?MONARCH_TRIAL_PLAN[s.section]:[s.theme],stage:0,tier:s.trial.i==='m'?s.section+1:s.section,seed:1000+s.section*97+(s.trial.i==='m'?9:s.trial.i)*13}}:_siteFloorSpec(s,0,s.floors);
       if(spec){
         var m=_buildSiteFloor(spec), W=m.w*LT, H=m.h*LT, tw=300, sc=tw/W, c=mkCanvas(tw,Math.round(tw*2/3)), x=c.getContext('2d');
         x.fillStyle=m.bg||'#000'; x.fillRect(0,0,c.width,c.height);
@@ -130,7 +134,6 @@ function _slLaunch(id,floor){
     if(!game.scene.isSleeping('World'))ws.scene.sleep('World');
     document.getElementById('hud').style.display='none';
     document.getElementById('dungeon-hud').style.display='block';
-    if(s.cave){ ws.scene.launch('Cave',{worldScene:ws,islandScene:null,sec:s.section,floor:floor,maxFloors:s.floors}); return; }
     var theme=s._theme||(s.type==='tower'?'tower':'dungeon');
     ws.scene.launch('Dungeon',{site:s,floor:floor,maxFloors:s.floors,worldScene:ws,theme:theme,
       inspect:{mons:o.mons,fog:!!o.fog,dark:!!o.dark,from:'sitelab'}});

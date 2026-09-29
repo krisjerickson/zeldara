@@ -20,7 +20,7 @@ with game() as g:
     g.page.click('.sb-lab-btn'); g.wait(300)
     check('Site Lab opens from the sandbox and pauses the game', g.js("document.getElementById('modal-sitelab').style.display==='flex'&&isGamePaused()"))
     tabs=g.js("[...document.querySelectorAll('.sl-tab')].map(t=>t.textContent)")
-    check('Tabs: 4 quadrants + harbor islands', len(tabs)==5, tabs)
+    check('Tabs: 4 quadrants + harbor islands + castles + trials + mage towers', len(tabs)==8 and tabs[-1].startswith('Mage towers16'), tabs)
     counts=[]
     for i in range(5):
         g.js(f"document.querySelectorAll('.sl-tab')[{i}].click()"); g.wait(100)
@@ -57,8 +57,8 @@ with game() as g:
     g.js("document.querySelector('#sl-bar button[data-a=lab]').click()"); g.wait(200)
     check('🧪 Lab button reopens the Site Lab', g.js("document.getElementById('modal-sitelab').style.display==='flex'"))
     g.js("document.querySelector('.sl-tab[data-g=isl]').click()"); g.wait(100)
-    g.js("document.querySelector('.sl-fl[data-s=isl_cave_3][data-f=\"1\"]').click()")
-    check('Island: Ember Cave floor 2 opens', wait_for(g,"(()=>{var c=game.scene.getScene('Cave');return !!(c&&game.scene.isActive('Cave')&&c.floor===1&&c.maxFloors===4);})()") and not g.js("game.scene.isActive('Dungeon')"))
+    g.js("document.querySelector('.sl-fl[data-s=isl_adv_3_dungeon][data-f=\"1\"]').click()")
+    check('Island: Ember Cave (now an island dungeon) floor 2 opens', wait_for(g,"(()=>{var d=game.scene.getScene('Dungeon');return !!(d&&d._ready&&game.scene.isActive('Dungeon')&&d.siteId==='isl_adv_3_dungeon'&&d.floor===1&&d.maxFloors===4);})()"))
     errs=[e for e in g.errs if 'GL Driver' not in e]
     check('No JS errors', not errs, errs[:4])
 print('%d/%d'%(sum(res),len(res)))

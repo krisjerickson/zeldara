@@ -23,7 +23,7 @@ with game(new=True) as g:
     r=g.ws("{W:WORLD_W,H:WORLD_H,ms:ws.wd.buildMs,px:Math.floor(ws.player.x/TILE),py:Math.floor(ws.player.y/TILE),sites:ws.sites.length,gates:ws.wd.gates.length,open:ws.wd.gates.filter(g=>g.open).length,ways:ws.wd.waystones.length,caches:ws.wd.caches.length,act:ps.activatedWaystones}")
     check('Game world is the 1200x1200 continent, built in < 6 s', r['W']==1200 and r['H']==1200 and r['ms']<6000, r['ms'])
     check('New game starts in the village with only the village waystone active', (r['px'],r['py'])==(690,520) and r['act']==['ws_village'], (r['px'],r['py'],r['act']))
-    check('44 sites (incl. 16 harbors), 12 crossings (all shut), 17 waystones, 18 hidden caches', r['sites']==44 and r['gates']==12 and r['open']==0 and r['ways']==17 and r['caches']==18, r)
+    check('60 sites (incl. 16 harbors + 16 mage towers), 12 crossings (all shut), 17 waystones, 18 hidden caches', r['sites']==60 and r['gates']==12 and r['open']==0 and r['ways']==17 and r['caches']==18, r)
     f=g.js(f"({FLOOD})(null)")
     check('On foot at the start, the borders keep you in the Grasslands', f['regions']==[1], f['regions'])
     # signature terrain coverage per region (share of the region's land tiles)
@@ -84,7 +84,7 @@ with game(new=True) as g:
     # save + reload keeps waystones / caches / zones
     g.ws("ws._save()")
     sv=g.js("JSON.parse(localStorage.getItem('qoz_v2'))")
-    check('Save keeps waystones, visited zones and opened caches (save v6)', sv['saveVersion']==6 and len(sv['activatedWaystones'])==17 and isinstance(sv.get('visitedZones'),list) and isinstance(sv.get('openedCaches'),list), sv['saveVersion'])
+    check('Save keeps waystones, visited zones and opened caches (current save version)', sv['saveVersion']==g.js('SAVE_VERSION') and len(sv['activatedWaystones'])==17 and isinstance(sv.get('visitedZones'),list) and isinstance(sv.get('openedCaches'),list), sv['saveVersion'])
     errs=list(g.errs)
 
 # an old v4 save (old 600x600 world) migrates: back at the village, fresh map, progress kept

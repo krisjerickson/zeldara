@@ -227,7 +227,7 @@ function _fireWorldBow(ws){
   var subtype=ammoItem?ammoItem.subtype:'normal';
   var stats=ws.calcPlayerStats();
   var atkPow=Math.max(1,(rWeapon.atk||6)+Math.floor(stats.atk*0.3));
-  ws.worldAtkTimer=0.7;ws.worldBowTimer=0.7;
+  ws.worldAtkTimer=0.7;ws.worldBowTimer=0.7; if(ws._mountCombat)ws._mountCombat();
   var p=ws.player;
   // Direction-based aiming: facing direction + optional 45° modifier
   var _aimAng=ws._getAimAngle();
@@ -501,7 +501,7 @@ var BUILDING_SLOTS={
   armory:   function(it){ return (it.slot==='lHand')||(it.slot==='rHand')||(it.slot==='shield')||(it.slot==='head')||(it.type==='ammo'); },
   clothing: function(it){ return it.slot==='feet'||it.slot==='pants'||it.slot==='gauntlets'||it.slot==='back'; },
   jeweler:  function(it){ return it.slot==='neck'||it.slot==='ring'||it.slot==='gem'; },
-  apothecary: function(it){ return it.slot==='spell'||it.slot==='mWeapon'||it.slot==='use'; },   // specials are taught by castle masters, not sold
+  apothecary: function(it){ return it.slot==='mWeapon'||it.slot==='use'; },   // specials: castle masters · spells: mage towers — neither is sold
   merchant: function(it){ return it.slot==='food'||it.slot==='body'; },
 };
 var BUILDING_TITLES={
@@ -533,7 +533,7 @@ function openBuildingShop(btype,ps,worldScene){
   if(btype==='merchant'&&_merchantShopMode==='sell'){
     // ── Sell mode: show sellable inventory items ──
     var inv=ps.inventory||[];
-    var SELLABLE=function(it){return it&&(it.slot==='lHand'||it.slot==='rHand'||it.slot==='mWeapon'||it.slot==='body'||it.slot==='head'||it.slot==='shield'||it.slot==='feet'||it.slot==='pants'||it.slot==='gauntlets'||it.slot==='back'||it.slot==='neck'||it.slot==='ring'||it.slot==='gem'||it.slot==='food'||it.slot==='use'||it.slot==='spell')&&it.sell;};   // learned skills (special) can't be sold
+    var SELLABLE=function(it){return it&&(it.slot==='lHand'||it.slot==='rHand'||it.slot==='mWeapon'||it.slot==='body'||it.slot==='head'||it.slot==='shield'||it.slot==='feet'||it.slot==='pants'||it.slot==='gauntlets'||it.slot==='back'||it.slot==='neck'||it.slot==='ring'||it.slot==='gem'||it.slot==='food'||it.slot==='use')&&it.sell;};   // learned skills (special) and spells (mage towers) can't be sold
     var sellableItems=inv.map(function(id,idx){return {id:id,idx:idx,it:ITEMS[id]};}).filter(function(e){return SELLABLE(e.it);});
     if(sellableItems.length===0){
       h+='<p style="color:#445;font-size:12px;padding:12px">Nothing to sell. Items with a sell value will appear here.</p>';
@@ -687,8 +687,19 @@ window._buyAmmoQuick=function(id){
   updateInventoryModal(ps);
 };
 
-function openMountsModal(ps,worldScene){
-  var h='<p style="font-size:11px;color:#667;margin-bottom:12px">Owned mounts. Click to equip; use Dismount to travel on foot.</p>';
+function openMountsModal(ps,worldScene){ _renderMountsModal(ps); toggleModal('mounts'); }
+function _renderMountsModal(ps){
+  var h='<p style="font-size:11px;color:#667;margin-bottom:12px">Owned mounts. Click to ride; attacking makes you jump off — your mount waits where you left it.</p>';
+  // A mount waiting somewhere in the world: call it back
+  if(ps.parkedMount&&MOUNTS[ps.parkedMount.id]){
+    var pm=MOUNTS[ps.parkedMount.id], ws0=_owScene(), dist=ws0&&ws0.player&&(ps.parkedMount.map||'world')===_mapKeyOf(ws0)?Math.round(Math.hypot(ws0.player.x-ps.parkedMount.x,ws0.player.y-ps.parkedMount.y)/TILE):0;
+    h+='<div class="mount-row" style="background:rgba(120,200,255,.10);border:1px solid rgba(120,200,255,.4);margin-bottom:10px">'
+      +'<div class="mr-icon">'+pm.icon+'</div>'
+      +'<div class="mr-info"><div class="mr-name">Your '+pm.n+' is waiting</div>'
+      +'<div class="mr-desc">'+(dist>1?dist+' steps away':'right beside you')+' — call it and it gallops to you</div></div>'
+      +'<button class="mr-btn call-mount" style="background:rgba(120,200,255,.28);border-color:rgba(120,200,255,.6);color:#bfe6ff;font-weight:700" onclick="window._callMount()">📣 Call Mount!</button>'
+      +'</div>';
+  }
   // Active-mount dismount button — only shown when something is equipped.
   if(ps.mount){
     var cur=MOUNTS[ps.mount];
@@ -711,20 +722,20 @@ function openMountsModal(ps,worldScene){
     });
   }
   document.getElementById('mounts-content').innerHTML=h;
-  toggleModal('mounts');
 }
 window._dismount=function(){
-  var ws=game.scene.getScene('World');if(!ws)return;
+  var ws=_owScene();if(!ws)return;
   var ps=ws.playerState;
   if(!ps.mount){showNotif('Already on foot!','#aaaaaa');return;}
-  ps.mount=null;
-  showNotif('🚶 Dismounted','#aaccff');
-  openMountsModal(ps,ws);
+  if(_inOverworld()&&ws._parkMount)ws._parkMount('manual'); else { ps.mount=null; showNotif('🚶 Dismounted','#aaccff'); }
+  _renderMountsModal(ps);
   ws._emitUI();
 };
 window._equipMount=function(mid){
-  var ws=game.scene.getScene('World');if(!ws)return;var ps=ws.playerState;
-  ps.mount=ps.mount===mid?null:mid;openMountsModal(ps,ws);ws._emitUI();
+  var ws=_owScene();if(!ws)return;var ps=ws.playerState;
+  if(ps.mount===mid){ window._dismount(); return; }
+  if(ps.parkedMount&&ws._pmRemove){ ws._pmRemove(); ps.parkedMount=null; }
+  ps.mount=mid;_renderMountsModal(ps);ws._emitUI();
 };
 
 function toggleModal(id){
@@ -734,6 +745,7 @@ function toggleModal(id){
   e.style.display=opening?'flex':'none';
   // Inventory hides the bottom action bars while open.
   if(id==='inventory'){ document.body.classList.toggle('bars-hidden', opening); }
+  if(id==='mounts'&&opening){ var _mws=game.scene.getScene('World'); if(_mws&&_mws.playerState)_renderMountsModal(_mws.playerState); }
   // Force immediate minimap render when map opens
   if(id==='map'&&opening){ e.style.display='none'; openWorldMap(); }
 }

@@ -17,7 +17,7 @@ const ISL_ADV={
   // Each island has a dungeon; its guardian (HARBOR_ISLANDS[sec].boss) waits on the last floor and gives the familiar.
   1:{type:'dungeon',     label:'⚔️ Pirate Cave', icon:'⚔️', kind:'dungeon', design:'lake_ring',       floors:4},
   2:{type:'volcano',     label:'🍄 Bog Grotto',  icon:'🍄', kind:'dungeon', design:'mushroom_forest', floors:4},
-  3:{type:'cave',        label:'🦇 Ember Cave',  icon:'🦇', floors:4},
+  3:{type:'dungeon',     label:'🦇 Ember Cave',  icon:'🦇', kind:'dungeon', design:'ember',           floors:4, theme:'volcano'},   // round 6: was the old side-view Cave scene; design = the Lab's Ember Cave pick (07cb)
   4:{type:'tower_island',label:'🗼 Frost Spire', icon:'🗼', kind:'tower',   design:'moonglass',       floors:5},
 };
 
@@ -366,19 +366,26 @@ const ITEMS={
   shadow_mantle:  {name:'Shadow Mantle',     icon:'🧣',def:7,atk:4,cdReduce:0.14,manaRegen:1.0,slot:'back',sell:100,buy:300,secReq:4,  desc:'+7 DEF +4 ATK -14%CD +1mp/s — void fabric'},
 
   // ═══════════════════════════════════════════════════════════════════
-  // SPELL TOMES (spell slot) — equip to cast with L key (uses mana)
+  // SPELL TOMES (spell slot) — cast with X (uses mana). Round 5: taught only by
+  // the 16 mage towers (4 per quadrant, stronger each quadrant); never sold.
+  // (item ids kept so old saves keep their tomes)
   // ═══════════════════════════════════════════════════════════════════
-  frost_bolt_tome:{name:'Frost Bolt',        icon:'❄️',atk:12,slot:'spell',sell:35, buy:95,  secReq:1,spellId:'frost_bolt',  desc:'Slows target on hit — single fast bolt'},
-  fireball_tome:  {name:'Fireball',          icon:'🔥',atk:15, slot:'spell',sell:45, buy:120, secReq:2,spellId:'fireball',    desc:'Explosive projectile — area damage on impact'},
-  arc_lightning:  {name:'Lightning Chain',   icon:'⚡', atk:18, slot:'spell',sell:55, buy:150, secReq:2,spellId:'chain_lightning',desc:'Bolt bounces between up to 3 enemies'},
-  flame_wave:     {name:'Flame Nova',        icon:'💥',atk:20, slot:'spell',sell:70, buy:200, secReq:2,spellId:'flame_nova',  desc:'Radial fire burst around hero — hits all nearby'},
-  ice_storm_tome: {name:'Ice Shards',        icon:'🧊',atk:22,slot:'spell',sell:80, buy:230, secReq:2,spellId:'ice_shards',  desc:'Fan of 3 ice projectiles in spread arc'},
-  lightning_bolt: {name:'Void Orb',          icon:'🌑',atk:25, slot:'spell',sell:90, buy:270, secReq:3,spellId:'void_orb',   desc:'Slow heavy orb — passes through all enemies'},
-  inferno_tome:   {name:'Meteor Strike',     icon:'☄️',atk:30, slot:'spell',sell:140,buy:400, secReq:3,spellId:'meteor',     desc:'1s delay, then meteor crashes at cursor position'},
-  blizzard_tome:  {name:'Thunder Step',      icon:'🌩️',atk:28,slot:'spell',sell:130,buy:380, secReq:3,spellId:'thunder_step',desc:'Teleport forward + lightning explosion at origin'},
-  thunder_storm:  {name:'Poison Mist',       icon:'🫧',atk:32, slot:'spell',sell:150,buy:440, secReq:4,spellId:'poison_mist',desc:'Lingering toxic cloud — poisons enemies for 4s'},
-  sky_storm_tome: {name:'Arcane Burst',      icon:'💫',atk:38,slot:'spell',sell:200,buy:550, secReq:4,spellId:'arcane_burst',desc:'Rapid 3-shot burst of magic bolts'},
-  void_blast:     {name:'Void Blast',        icon:'💫',atk:42, slot:'spell',sell:250,buy:700, secReq:4,spellId:'arcane_burst',desc:'42 dmg void energy — ultimate burst'},
+  frost_bolt_tome:{name:'Frost Bolt',        icon:'❄️',atk:12,slot:'spell',sell:0,secReq:1,spellId:'frost_bolt',   desc:'Fast bolt that slows what it hits'},
+  sky_storm_tome: {name:'Arcane Burst',      icon:'💫',atk:9, slot:'spell',sell:0,secReq:1,spellId:'arcane_burst', desc:'Rapid 3-shot burst of magic bolts'},
+  fireball_tome:  {name:'Fireball',          icon:'🔥',atk:15,slot:'spell',sell:0,secReq:1,spellId:'fireball',     desc:'Explodes on impact — area damage'},
+  thorn_tome:     {name:'Thorn Snare',       icon:'🌿',atk:13,slot:'spell',sell:0,secReq:1,spellId:'thorn_snare',  desc:'A lash of thorns that roots what it hits in place'},
+  arc_lightning:  {name:'Lightning Chain',   icon:'⚡',atk:18,slot:'spell',sell:0,secReq:2,spellId:'chain_lightning',desc:'Bolt bounces between up to 3 enemies'},
+  ice_storm_tome: {name:'Ice Shards',        icon:'🧊',atk:19,slot:'spell',sell:0,secReq:2,spellId:'ice_shards',   desc:'Fan of 3 ice shards that slow'},
+  thunder_storm:  {name:'Poison Mist',       icon:'🫧',atk:20,slot:'spell',sell:0,secReq:2,spellId:'poison_mist',  desc:'Lingering toxic cloud — poisons enemies for 4s'},
+  tidal_tome:     {name:'Tidal Wave',        icon:'🌊',atk:22,slot:'spell',sell:0,secReq:2,spellId:'tidal_wave',   desc:'A wide wave that rolls through enemies and knocks them back'},
+  flame_wave:     {name:'Flame Nova',        icon:'💥',atk:26,slot:'spell',sell:0,secReq:3,spellId:'flame_nova',   desc:'Radial fire burst around you — hits everything nearby'},
+  lightning_bolt: {name:'Void Orb',          icon:'🌑',atk:28,slot:'spell',sell:0,secReq:3,spellId:'void_orb',     desc:'Slow heavy orb that passes through all enemies'},
+  blizzard_tome:  {name:'Thunder Step',      icon:'🌩️',atk:28,slot:'spell',sell:0,secReq:3,spellId:'thunder_step', desc:'Teleport forward; lightning stuns everything where you stood'},
+  spikes_tome:    {name:'Stone Spikes',      icon:'🪨',atk:30,slot:'spell',sell:0,secReq:3,spellId:'stone_spikes', desc:'Three lines of earth spikes that stun'},
+  frost_storm_tome:{name:'Blizzard',         icon:'🌨️',atk:36,slot:'spell',sell:0,secReq:4,spellId:'blizzard',     desc:'A blizzard where you aim: slows and freezes everything inside'},
+  void_blast:     {name:'Void Rift',         icon:'🟣',atk:42,slot:'spell',sell:0,secReq:4,spellId:'void_rift',    desc:'A lance of void that tears through every enemy in a line'},
+  drain_tome:     {name:'Spirit Drain',      icon:'🩸',atk:36,slot:'spell',sell:0,secReq:4,spellId:'spirit_drain', desc:'Two spirit bolts that heal you for part of the damage'},
+  inferno_tome:   {name:'Starfall',          icon:'🌠',atk:44,slot:'spell',sell:0,secReq:4,spellId:'starfall',     desc:'Five stars fall around where you aim'},
 
   // ═══════════════════════════════════════════════════════════════════
   // FOOD (food slot) — restore HP, eat with O
@@ -481,6 +488,13 @@ var SPELL_DATA={
   thunder_step:  {manaCost:22, cooldown:3.0, teleportDist:130,aoe:{r:80,col:0xffff44},effect:'stun', stunDur:1.5,  name:'Thunder Step'},
   poison_mist:   {manaCost:16, cooldown:2.0, cloud:{r:60,dur:4.0,col:0x44cc44},       effect:'poison',poisonDps:4,  name:'Poison Mist'},
   arcane_burst:  {manaCost:10, cooldown:0.3, proj:{spd:280,r:4,col:0xdd88ff,count:3,burstDelay:0.12},effect:'none',name:'Arcane Burst'},
+  thorn_snare:   {manaCost:10, cooldown:1.0, proj:{spd:320,r:6,col:0x70d050,count:1},effect:'root',effectDur:1.4,name:'Thorn Snare'},
+  tidal_wave:    {manaCost:16, cooldown:1.6, proj:{spd:230,r:15,col:0x50b0ff,count:1,pierce:true},effect:'kb',name:'Tidal Wave'},
+  stone_spikes:  {manaCost:20, cooldown:1.6, proj:{spd:380,r:9,col:0xb08050,count:3,spread:0.18,pierce:true},effect:'stun_short',effectDur:0.8,name:'Stone Spikes'},
+  blizzard:      {manaCost:28, cooldown:2.8, cloud:{r:95,dur:5,col:0xc8f0ff,at:'aim',st:'slow'},poisonDps:10,name:'Blizzard'},
+  void_rift:     {manaCost:26, cooldown:2.0, proj:{spd:540,r:9,col:0x9030ff,count:1,pierce:true},effect:'none',name:'Void Rift'},
+  spirit_drain:  {manaCost:22, cooldown:1.4, proj:{spd:330,r:7,col:0x80ffc0,count:2,spread:0.2},effect:'drain',name:'Spirit Drain'},
+  starfall:      {manaCost:34, cooldown:3.2, delay:0.8, n:5, aoe:{r:70,col:0xfff0a0},effect:'splash',name:'Starfall'},
 };
 
 // ─── Blacksmith Craft Recipes ────────────────────────────────────────────

@@ -19,6 +19,7 @@ Object.assign(WorldScene.prototype,{
   },
   // Keys of chunks the camera needs (visible first), plus a one-chunk halo
   _wrNeeded(){
+    if(!this.cameras||!this.cameras.main)return [];   // scene shutting down
     var cam=this.cameras.main, cs=WCH*TILE, out=[], dw=cam.width/cam.zoom, dh=cam.height/cam.zoom;
     var v={x:cam.scrollX+(cam.width-dw)/2, y:cam.scrollY+(cam.height-dh)/2, width:dw, height:dh};
     var x0=Math.floor(v.x/cs)-1, x1=Math.floor((v.x+v.width)/cs)+1, y0=Math.floor(v.y/cs)-1, y1=Math.floor((v.y+v.height)/cs)+1, n=Math.ceil(WORLD_W/WCH);
@@ -54,7 +55,7 @@ Object.assign(WorldScene.prototype,{
   },
   _createChunk(cx,cy){ this._refreshChunkAt(cx*WCH,cy*WCH); },
   _wrMount(o){
-    var self=this, tag='wc'+(this._wr.seq++), objs=[], keys=[], react=[], x0=o.cx*WCH*LT, y0=o.cy*WCH*LT;
+    var self=this, tag=(this._wrTag||'wc')+(this._wr.seq++), objs=[], keys=[], react=[], x0=o.cx*WCH*LT, y0=o.cy*WCH*LT;
     var addTex=function(k,cv){ gpuTex(self,k,cv); keys.push(k); return k; };
     objs.push(this.add.image(x0,y0,addTex(tag,o.canvas)).setOrigin(0,0).setDepth(-10));
     if(o.lavaMask){ var mk=addTex(tag+'_m',o.lavaMask);

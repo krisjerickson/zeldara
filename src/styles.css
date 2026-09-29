@@ -505,3 +505,19 @@ body.game-paused::after{content:'⏸  Paused';position:fixed;top:10px;left:50%;t
 #boss-hud.elite .bh-name{font-size:18px;color:#ffd060}
 #boss-hud.elite .bh-bar{height:24px;border-color:rgba(255,208,96,.6)}
 #boss-hud.elite .bh-bar span{line-height:24px;font-size:12.5px}
+/* familiar HUD chips (09d, round 6) */
+#fam-hud{position:fixed;bottom:112px;left:50%;transform:translateX(-50%);display:none;gap:6px;z-index:290;pointer-events:all}
+body.bars-hidden #fam-hud{display:none !important}
+#fam-hud .fh{position:relative;display:flex;align-items:center;gap:6px;min-width:112px;padding:3px 8px 5px;background:rgba(8,12,24,.8);border:1px solid #888;border-left-width:3px;border-radius:7px;cursor:pointer;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif}
+#fam-hud .fh .ic{font-size:15px}
+#fam-hud .fh .tx{display:flex;flex-direction:column;line-height:1.1}
+#fam-hud .fh b{font-size:10.5px;color:#e8eeff;font-weight:600;white-space:nowrap}
+#fam-hud .fh em{font-style:normal;font-size:9.5px;color:#9aa8c8}
+#fam-hud .fh em.ok{color:#9f9}
+#fam-hud .fh em.ko{color:#d8b8ff}
+#fam-hud .fh i{position:absolute;left:0;bottom:0;height:2px;opacity:.85}
+#fam-hud .fh.out{opacity:.55}
+.fam-note{font-size:11px;color:#bcd;margin:2px 0 6px;line-height:1.4}
+.fam-sk.sel{background:rgba(120,200,255,.08);border-radius:6px}
+.fam-pick{float:right;margin:2px 0 2px 6px;background:rgba(120,180,255,.14);border:1px solid rgba(140,200,255,.45);color:#cfe8ff;border-radius:6px;font-size:10px;padding:2px 8px;cursor:pointer}
+.fam-pick.on{background:rgba(120,255,160,.16);border-color:rgba(140,255,170,.5);color:#bfffcf;cursor:default}

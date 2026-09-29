@@ -125,30 +125,46 @@ Object.assign(WorldScene.prototype,{
     if(this._interactPrompt){this._interactPrompt.destroy();this._interactPrompt=null;}
     var x=w.x*TILE+TILE/2, y=w.y*TILE-10, ring=this.add.circle(x,y,10,0x6fe3f5,.5).setDepth(9).setBlendMode(Phaser.BlendModes.ADD);
     this.tweens.add({targets:ring,scale:6,alpha:0,duration:900,ease:'Cubic.easeOut',onComplete:function(){ring.destroy();}});
-    var n=ps.activatedWaystones.length, tot=this.wd.waystones.length;
+    var allW=_wmAllWaystones((game.scene.getScene('World')||this).wd), n=allW.filter(function(q){ return ps.activatedWaystones.indexOf(q.id)>=0; }).length, tot=allW.length;
     showNotif('🔷 '+w.name+' activated ('+n+'/'+tot+') — press [Tab] here to travel','#6fe3f5');
     this._expVer=(this._expVer||0)+1; this._save();
   },
   _openTravel(w){ if(this._interactPrompt){this._interactPrompt.destroy();this._interactPrompt=null;} openWorldMap({travelFrom:w.id}); },
   _travelTo(id){
-    var ps=this.playerState, wd=this.wd, from=wd.waystones.find(function(q){return q.id===WMAP.travel;}), to=wd.waystones.find(function(q){return q.id===id;});
+    // travel works from any waystone (mainland or island) to any active one; islands are reached by boat-ferry
+    var ws=game.scene.getScene('World')||this, ps=this.playerState, all=_wmAllWaystones(ws.wd), from=all.find(function(q){return q.id===WMAP.travel;}), to=all.find(function(q){return q.id===id;});
+    var here=_owScene(); if(!from&&here&&here.islKey)from=(here.wd.waystones||[]).find(function(q){return q.id===WMAP.travel;});
     if(!from||!to||from.id===to.id)return;
     if((ps.activatedWaystones||[]).indexOf(to.id)<0){ showNotif('That waystone is not active yet','#ff8866'); return; }
-    var cost=_wmCost(this,from,to);
+    var cost=_wmCost(ws,from,to);
     if(cost>ps.gold){ showNotif('Not enough gold — '+cost+'g needed','#ff4444'); return; }
     ps.gold-=cost; closeModal('map');
-    this._cancelHomeCast(false);
+    var onIsland=here&&here.islKey;
+    if(onIsland){ if(to.island===here.islKey)return;
+      if(to.island){ here._exitToWorld(null); ws._sailTo(to.island,'waystone'); }
+      else here._exitToWorld(to);
+      showNotif('🔷 Travelled to '+to.name+(cost?' (−'+cost+'g)':''),'#6fe3f5'); return; }
+    if(to.island){ ws._sailTo(to.island,'waystone'); showNotif('🔷 Travelled to '+to.name+(cost?' (−'+cost+'g)':''),'#6fe3f5'); return; }
+    this._cancelHomeCast(false); this._arriveAtWaystone(to,cost);
+  },
+  _arriveAtWaystone(to,cost){
     var x=to.x*TILE+TILE/2, y=(to.y+2)*TILE+TILE/2, self=this;
     this.cameras.main.fadeOut(220,120,230,255);
     this.cameras.main.once('camerafadeoutcomplete',function(){
       self.player.x=x; self.player.y=y; self.player.cont.setPosition(x,y);
       self.cameras.main.centerOn(x,y); self._updateChunks(); self.worldIFrames=1.5;
       self.cameras.main.fadeIn(320,120,230,255);
-      showNotif('🔷 Travelled to '+to.name+(cost?' (−'+cost+'g)':''),'#6fe3f5');
+      if(cost!==undefined)showNotif('🔷 Travelled to '+to.name+(cost?' (−'+cost+'g)':''),'#6fe3f5');
       self._emitUI(); self._save();
     });
   },
-
+  // take the ferry to a harbor island (from its harbor, or a waystone jump)
+  _sailTo(key,arrive){
+    var site=this.wd.sites.find(function(s){ return s.type==='harbor'&&(s.section+(s.isle||'a'))===key; }); if(!site)return;
+    this._cancelHomeCast(false); if(this._interactPrompt){ this._interactPrompt.destroy(); this._interactPrompt=null; }
+    this.scene.sleep('World'); this.scene.launch('Island',{site:site,worldScene:this,arrive:arrive||'dock'});
+    document.getElementById('dungeon-hud').style.display='none';
+  },
   // Random open land tile in a region (for monster / animal spawns).
   _randLand(rng,sec,minVil){
     var wd=this.wd;

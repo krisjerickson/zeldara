@@ -174,7 +174,7 @@ function sbReset(){
 // ─── Sandbox Adventure Site Launchers ────────────────────────────────────
 function _sbStopAdventure(){
   // Stop any non-World scene and ensure World is awake
-  ['Island','Cave','Dungeon','Sky'].forEach(function(k){
+  ['Island','Dungeon','Sky'].forEach(function(k){
     try{var sc=game.scene.getScene(k);if(sc&&(game.scene.isActive(k)||game.scene.isSleeping(k)))game.scene.stop(k);}catch(e){}
   });
   if(!game.scene.isActive('World')){try{game.scene.wake('World');}catch(e){}}
@@ -206,28 +206,23 @@ function sbGoDungeon(sec){_sbGoToSiteEntry('dungeon',sec);}
 function sbGoTower(sec){_sbGoToSiteEntry('tower',sec);}
 function sbGoHarbor(sec){_sbGoToSiteEntry('harbor',sec);}
 function sbGoSkyport(sec){_sbGoToSiteEntry('skyport',sec);}
-function sbGoCave(){
-  // Cave is deep inside Ember Isle (Sec 3). Launch island scene, skip sailing,
-  // and warp the player directly to the adventure spot so one Tab press enters the cave.
+function sbGoIslandAdv(sec){
+  // Launch the familiar island, skip sailing, and warp the player to its adventure spot (one Tab enters it).
+  sec=sec||3;
   var ws=_sbWs();
   if(!ws||!ws.player){showNotif('Start a new game first!','#ff4444');return;}
   _sbStopAdventure();
   var ps=ws.playerState;
-  if(!ps.unlockedSections.includes(3))ps.unlockedSections.push(3);
-  var fakeSite={id:'sb_cave_3',type:'harbor',section:3,tx:0,ty:0};
-  window._sbIslandJumpToAdv=true;          // flag: warp player to adv spot after island builds
-  ws.scene.sleep('World');
-  ws.scene.launch('Island',{site:fakeSite,worldScene:ws,skipCutscene:true});
-  document.getElementById('hud').style.display='none';
-  document.getElementById('dungeon-hud').style.display='none';
+  if(!ps.unlockedSections.includes(sec))ps.unlockedSections.push(sec);
+  ws._sailTo(sec+'a','adv');
   closeModal('sandbox');
-  showNotif('🦇 Ember Cave — at adventure spot. Press Tab to enter!','#ffaa66');
+  showNotif(((ISL_ADV[sec]||{}).label||'Adventure')+' — at the adventure spot. Press Tab to enter!','#ffaa66');
 }
 
 function sbGoIsland(sec){
   var ws=_sbWs();if(!ws)return;
   // Stop any running scene other than World first
-  ['Island','Cave','Dungeon','Sky'].forEach(function(k){
+  ['Island','Dungeon','Sky'].forEach(function(k){
     try{var s=game.scene.getScene(k);if(s&&game.scene.isActive(k))game.scene.stop(k);}catch(e){}
   });
   // Make sure World is awake
@@ -239,11 +234,7 @@ function sbGoIsland(sec){
   else{var ps=ws.playerState;}
   if(ps&&!ps.unlockedSections.includes(sec)){ps.unlockedSections.push(sec);}
   // Build a fake harbor site for this section
-  var fakeSite={id:'sb_island_'+sec,type:'harbor',section:sec,tx:0,ty:0};
-  ws.scene.sleep('World');
-  ws.scene.launch('Island',{site:fakeSite,worldScene:ws});
-  document.getElementById('hud').style.display='none';
-  document.getElementById('dungeon-hud').style.display='none';
+  ws._sailTo(sec+'a','dock');
   closeModal('sandbox');
   showNotif('\u2693 Launching '+(['','Corsair Isle','Bog Isle','Ember Isle','Frost Isle'][sec]||'Island')+'...','#88ccff');
 }

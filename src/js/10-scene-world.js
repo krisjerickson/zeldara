@@ -1,6 +1,6 @@
 // ─── WorldScene ─────────────────────────────────
 class WorldScene extends Phaser.Scene{
-  constructor(){super('World')}
+  constructor(key){super(key||'World')}   // IslandScene (13) extends this with key 'Island'
   init(d){this._newGame=!!(d&&d.newGame);}
   create(){
     this._wr=null;
@@ -217,7 +217,7 @@ class WorldScene extends Phaser.Scene{
   }
 
   update(_,ms){
-    if(!this.player)return;
+    if(!this.player||!this.player.cont||!this.player.cont.scene)return;
     var dt=ms/1000;
     this._updateChunks();
     if(!_gameBlocked())this._movePlayer(dt);
@@ -233,6 +233,7 @@ class WorldScene extends Phaser.Scene{
     this._villageFolkTick(dt);
     this._campTick(dt);
     this._fairyTick(dt);
+    this._parkedTick(dt);
     this._runicTick(dt);
     this._updateSiteLabels();
     this._revealFog();
@@ -1626,6 +1627,7 @@ class WorldScene extends Phaser.Scene{
     }
     var item=ITEMS[ps.equip.special];
     if(!item||!item.skillId){return;}
+    if(!((this._specialCd||0)>0)&&['war_stomp','whirlwind','shield_bash','berserker','meteor','time_slow'].indexOf(item.skillId)>=0)this._mountCombat();   // fighting skills make you jump off
     if((this._specialCd||0)>0){
       showNotif('Special on cooldown: '+Math.ceil(this._specialCd)+'s remaining','#aaaaaa');
       return;
@@ -1850,6 +1852,7 @@ class WorldScene extends Phaser.Scene{
     if((this._spellCd||0)>0)return;
     ps.mana=Math.max(0,(ps.mana||0)-spDef.manaCost);
     this._spellCd=spDef.cooldown;
+    this._mountCombat();
     var self=this;
     // Staff cast animation: spinning particle ring burst
     (function(){
@@ -1919,17 +1922,17 @@ class WorldScene extends Phaser.Scene{
     } else if(id==='flame_nova'){
       // Instant AoE burst around player
       self._spellNovaEffect(px,py,spDef.aoe.r,spDef.aoe.col,atkPow,'fire');
-    } else if(id==='meteor'){
-      // Target 200px ahead in aim direction, 1s delay then AoE crash
-      var tx2=px+nx*200,ty2=py+ny*200;
-      var ind=self.add.circle(tx2,ty2,spDef.aoe.r,0xff4400,0.25).setDepth(14);
-      self.tweens.add({targets:ind,alpha:0.5,duration:500,yoyo:true});
-      self.time.delayedCall(spDef.delay*1000,function(){
-        ind.destroy();
-        self._spellNovaEffect(tx2,ty2,spDef.aoe.r,spDef.aoe.col,atkPow*1.5,'fire');
-        // Camera shake
-        self.cameras.main.shake(200,0.012);
-      });
+    } else if(spDef.delay&&spDef.aoe){
+      // Meteor / Starfall: impacts ahead in the aim direction after a short delay
+      var nImp=spDef.n||1;
+      for(var ii=0;ii<nImp;ii++)(function(ii){ var tx2=px+nx*200+(nImp>1?(Math.random()-0.5)*150:0), ty2=py+ny*200+(nImp>1?(Math.random()-0.5)*120:0);
+        var ind=self.add.circle(tx2,ty2,spDef.aoe.r,spDef.aoe.col,0.22).setDepth(14);
+        self.tweens.add({targets:ind,alpha:0.5,duration:400,yoyo:true});
+        self.time.delayedCall((spDef.delay+ii*0.18)*1000,function(){
+          ind.destroy();
+          self._spellNovaEffect(tx2,ty2,spDef.aoe.r,spDef.aoe.col,atkPow*(nImp>1?1:1.5),'fire');
+          self.cameras.main.shake(nImp>1?90:200,nImp>1?0.006:0.012);
+        }); })(ii);
     } else if(id==='thunder_step'){
       // Teleport forward, lightning at origin
       var oldX=px,oldY=py;
@@ -1937,12 +1940,13 @@ class WorldScene extends Phaser.Scene{
       self.player.x=newX;self.player.y=newY;self.player.cont.setPosition(newX,newY);
       self._spellNovaEffect(oldX,oldY,spDef.aoe.r,spDef.aoe.col,atkPow,'stun');
       self.worldIFrames=0.5;
-    } else if(id==='poison_mist'){
-      // Lingering cloud at current position
-      var cloud=self.add.circle(px,py,spDef.cloud.r,spDef.cloud.col,0.35).setDepth(14);
-      self._spellClouds.push({vis:cloud,x:px,y:py,r:spDef.cloud.r,life:spDef.cloud.dur,
-        dps:spDef.poisonDps,dmgTick:0,dmgInterval:0.5,atk:atkPow});
-      self._floatText(px,py-30,'☁️ Poison Mist','#44cc44');
+    } else if(spDef.cloud){
+      // Lingering cloud: Poison Mist on you, Blizzard where you aim
+      var clx=spDef.cloud.at==='aim'?px+nx*160:px, cly=spDef.cloud.at==='aim'?py+ny*160:py;
+      var cloud=self.add.circle(clx,cly,spDef.cloud.r,spDef.cloud.col,0.35).setDepth(14);
+      self._spellClouds.push({vis:cloud,x:clx,y:cly,r:spDef.cloud.r,life:spDef.cloud.dur,st:spDef.cloud.st,
+        dps:Math.max(spDef.poisonDps||4,spDef.cloud.st?atkPow*0.3:0),dmgTick:0,dmgInterval:0.5,atk:atkPow});
+      self._floatText(clx,cly-30,spDef.cloud.st==='slow'?'🌨️ Blizzard':'☁️ Poison Mist',spDef.cloud.st==='slow'?'#c8f0ff':'#44cc44');
     }
     this._emitUI();
   }
@@ -1955,7 +1959,7 @@ class WorldScene extends Phaser.Scene{
     // Damage all monsters in radius
     this.worldMonsters.forEach(function(mon){
       if(mon.dead)return;
-      if(Math.hypot(mon.x-cx,mon.y-cy)>radius)return;
+      if(Math.hypot(mon.x-cx,mon.y-cy)>radius||!_heroLOS(self,cx,cy,mon.x,mon.y))return;
       var def=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
       var d=Math.max(1,Math.round(dmg)-def+Math.floor(Math.random()*3));
       mon.hp-=d;
@@ -1981,8 +1985,9 @@ class WorldScene extends Phaser.Scene{
         cl.dmgTick=0;
         self.worldMonsters.forEach(function(mon){
           if(mon.dead)return;
-          if(Math.hypot(mon.x-cl.x,mon.y-cl.y)>cl.r)return;
+          if(Math.hypot(mon.x-cl.x,mon.y-cl.y)>cl.r||!_heroLOS(self,cl.x,cl.y,mon.x,mon.y))return;
           var d=Math.max(1,Math.ceil(cl.dps*cl.dmgInterval));
+          if(cl.st==='slow')mon._slow=1.2;
           mon.hp-=d;
           self._floatText(mon.x,mon.y-mon.def.r-8,'-'+d+'☠','#44cc44');
           mon.hpFill.displayWidth=28*Math.max(0,mon.hp/mon.maxHp);
@@ -2015,7 +2020,7 @@ class WorldScene extends Phaser.Scene{
         self.worldMonsters.forEach(function(m){
           if(m.dead)return;
           var d=Math.hypot(m.x-pr.x,m.y-pr.y);
-          if(d<bestD){bestD=d;best=m;}
+          if(d<bestD&&_heroLOS(self,pr.x,pr.y,m.x,m.y)){bestD=d;best=m;}
         });
         if(best){
           var spd=Math.hypot(pr.vx,pr.vy)||300;
@@ -2066,7 +2071,7 @@ class WorldScene extends Phaser.Scene{
           var splR=pr.splashR||70;
           self.worldMonsters.forEach(function(mon2){
             if(mon2.dead||mon2===mon)return;
-            if(Math.hypot(mon2.x-pr.x,mon2.y-pr.y)>splR)return;
+            if(Math.hypot(mon2.x-pr.x,mon2.y-pr.y)>splR||!_heroLOS(self,pr.x,pr.y,mon2.x,mon2.y))return;
             var d2=Math.max(1,Math.floor(dmg*0.5));
             mon2.hp-=d2;self._floatText(mon2.x,mon2.y-mon2.def.r-8,'-'+d2+'🔥','#ff8800');
             mon2.hpFill.displayWidth=28*Math.max(0,mon2.hp/mon2.maxHp);
@@ -2074,6 +2079,7 @@ class WorldScene extends Phaser.Scene{
           });
           pr.vis.destroy();return;
         }
+        if(eff==='root'||eff==='drain'||eff==='kb'||eff==='stun_short')_spellExtraFx(self,mon,eff,dmg,pr.vx,pr.vy,pr.effectDur);
         if(eff==='chain'||eff==='chain_lightning'){
           // Chain to nearby monsters
           var chainCount=pr.chainN||3,lastMon=mon,cx2=pr.x,cy2=pr.y;
@@ -2082,7 +2088,7 @@ class WorldScene extends Phaser.Scene{
             self.worldMonsters.forEach(function(m2){
               if(m2.dead||m2===lastMon)return;
               var d3=Math.hypot(m2.x-lastMon.x,m2.y-lastMon.y);
-              if(d3<best2D){best2D=d3;best2=m2;}
+              if(d3<best2D&&_heroLOS(self,lastMon.x,lastMon.y,m2.x,m2.y)){best2D=d3;best2=m2;}
             });
             if(!best2)break;
             var d4=Math.max(1,Math.floor(dmg*0.7));
@@ -2192,6 +2198,7 @@ class WorldScene extends Phaser.Scene{
   _initWorldMonsters(){
     this.worldMonsters=[];
     this._spawnRosterPods();   // the 240-monster roster (10f): 80/15/5, terrain, packs, night
+    this._pm=null;   // parked-mount sprite (10j) is rebuilt from ps.parkedMount
     try{ this._initFairies(); }catch(e){ console.error('fairies',e); }   // fairies, kings, dig spots (10i)
     // 6 types per section: 4 regulars + 2 elites (boss-tier, rarer)
     // Regular enemy types per section (no bosses in list — bosses spawned separately below)
@@ -2302,6 +2309,7 @@ class WorldScene extends Phaser.Scene{
 
   _worldAttack(){
     if(this.worldAtkTimer>0)return;
+    this._mountCombat();
     var ps=this.playerState;
     var stats=this.calcPlayerStats();
     this.worldAtkTimer=0.45;
@@ -2434,8 +2442,9 @@ class WorldScene extends Phaser.Scene{
   }
 
   // ─── Fog of War ──────────────────────────────
+  _expGrid(){ return this.playerState&&this.playerState.exploredGrid; }   // islands (13) keep their own
   _revealFog(){
-    var ps=this.playerState;
+    var ps=this.playerState, EG=this._expGrid();
     var cellX=Math.floor(this.player.x/TILE/EXP_SCALE);
     var cellY=Math.floor(this.player.y/TILE/EXP_SCALE);
     var newCells=false;
@@ -2444,8 +2453,8 @@ class WorldScene extends Phaser.Scene{
         if(Math.hypot(dx,dy)>EXP_REVEAL_R)continue;
         var cx=cellX+dx, cy=cellY+dy;
         if(cx>=0&&cx<EXP_W&&cy>=0&&cy<EXP_H){
-          if(!ps.exploredGrid[cy*EXP_W+cx])newCells=true;
-          ps.exploredGrid[cy*EXP_W+cx]=1;
+          if(!EG[cy*EXP_W+cx])newCells=true;
+          EG[cy*EXP_W+cx]=1;
         }
       }
     }
@@ -2465,7 +2474,7 @@ class WorldScene extends Phaser.Scene{
   _drawWorldFog(){
     var ctx=this._worldFogCtx;if(!ctx)return;
     var cam=this.cameras.main;
-    var ps=this.playerState;if(!ps||!ps.exploredGrid)return;
+    var ps=this.playerState, EG=this._expGrid&&this._expGrid();if(!ps||!EG)return;
     var sx=cam.scrollX,sy=cam.scrollY,zoom=cam.zoom;
     var cellPx=EXP_SCALE*TILE; // world-pixel size of one EXP cell (256px)
     var cCellX=Math.floor(sx/cellPx),cCellY=Math.floor(sy/cellPx);
@@ -2482,7 +2491,7 @@ class WorldScene extends Phaser.Scene{
     var cellBottom=Math.min(EXP_H-1,Math.ceil((sy+ch/zoom)/cellPx)+1);
     for(var cy2=cellTop;cy2<=cellBottom;cy2++){
       for(var cx2=cellLeft;cx2<=cellRight;cx2++){
-        if(ps.exploredGrid[cy2*EXP_W+cx2])continue; // explored — clear
+        if(EG[cy2*EXP_W+cx2])continue; // explored — clear
         var wx=cx2*cellPx,wy=cy2*cellPx;
         ctx.fillRect((wx-sx)*zoom,(wy-sy)*zoom,cellPx*zoom+1,cellPx*zoom+1);
       }
@@ -2684,7 +2693,7 @@ class WorldScene extends Phaser.Scene{
     var ps=this.playerState;
     var siteKey=site.id;
     var locked=(this.playerState.lockedSites||[]).includes(site.id);
-    if(locked){
+    if(locked&&site.type!=='harbor'){   // islands stay open (their dungeon/castle has its own replay rules)
       this._showNotif('✅ Already cleared — die in battle to re-enter with fresh enemies!','#44ffaa');return;
     }
     // Cancel homecast and hide button when entering any site
@@ -2706,10 +2715,7 @@ class WorldScene extends Phaser.Scene{
     } else if(site.type==='camp'){
       openCampModal(site,this.playerState,this);
     } else if(site.type==='harbor'){
-      this.scene.sleep('World');
-      this.scene.launch('Island',{site:site,worldScene:this});
-      document.getElementById('hud').style.display='none';
-      document.getElementById('dungeon-hud').style.display='none';
+      this._sailTo(site.section+(site.isle||'a'),'dock');   // the island is a small overworld now (13)
     } else if(site.type==='skyport'){
       this._showSkyportUpgradeShop(site);
     } else if(site.type==='volcano_mini'){

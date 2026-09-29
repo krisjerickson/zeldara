@@ -12,7 +12,7 @@ with game(new=True) as g:
     g.key('t', 80); g.wait(500)
     r = g.js("({open:document.getElementById('modal-tome')&&document.getElementById('modal-tome').style.display, tabs:[...document.querySelectorAll('#tome-tabs button')].map(b=>b.textContent), cards:document.querySelectorAll('.tome-card').length, locked:document.querySelectorAll('.tome-card.locked').length})")
     check('T opens the Tome with 8 categories (Quests added)', r['open'] == 'flex' and len(r['tabs']) == 8, r)
-    check('Monsters: all 240 + 56 bosses (guardians, evolved forms, castle wardens) listed, locked as ??? at the start', r['cards'] == 296 and r['locked'] >= 240, r)
+    check('Monsters: all 240 + 72 bosses (guardians, evolved forms, castle wardens, 16 tower masters) listed, locked as ??? at the start', r['cards'] == 312 and r['locked'] >= 240, r)
     g.js("document.querySelector('.tome-card.locked').click()")
     h = g.js("document.getElementById('tome-detail').innerText")
     check('A locked entry shows ??? and a hint where to look', '???' in h and 'Found' in h, h[:120])

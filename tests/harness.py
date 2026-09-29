@@ -34,7 +34,7 @@ def game(new=True, w=1280, h=800, save=None):
         b = p.chromium.launch(args=["--use-gl=swiftshader", "--enable-unsafe-swiftshader"])
         pg = b.new_page(viewport={"width": w, "height": h})
         errs = []
-        pg.on("pageerror", lambda e: errs.append("PAGEERR " + str(e)))
+        pg.on("pageerror", lambda e: errs.append("PAGEERR " + str(e) + ((" @ " + " < ".join(l.strip()[3:60] for l in (getattr(e,"stack","") or "").split("\n")[1:5])) if (getattr(e,"stack","") or "").count("\n") else "")))
         pg.on("console", lambda m: errs.append("console.error: " + m.text) if m.type == "error" else None)
         pg.route(re.compile(r".*cdnjs.*phaser.*"), lambda r: r.fulfill(path=PHASER, content_type="application/javascript"))
         html = open(INDEX, encoding='utf-8').read()

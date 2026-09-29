@@ -48,10 +48,13 @@ with game(new=True) as g:
     check('4 harbors per quadrant: 1 familiar island + 3 castle islands', all(len(v) == 4 and v.count('') == 1 for v in per.values()), per)
 
     # ── castle run: island → castle → warden → teacher → skill ──
-    g.ws("""(()=>{ ps.godMode=true; ps.equip.special=null; var site=ws.wd.sites.find(s=>s.castle==='q2_c'); ws.scene.sleep('World'); ws.scene.launch('Island',{site:site,worldScene:ws,skipCutscene:true}); })()"""); g.wait(2500)
-    r = g.js("(()=>{ var I=game.scene.getScene('Island'); return {name:I.islData.name, castle:!!I.castle, mons:I.monsters.length, gate:game.textures.exists('castle_gate_q2_c')}; })()")
+    g.ws("""(()=>{ ps.godMode=true; ps.equip.special=null; var site=ws.wd.sites.find(s=>s.castle==='q2_c'); ws._sailTo('2c','dock'); })()""")
+    for _ in range(40):
+        if g.js("!!(game.scene.getScene('Island')&&game.scene.getScene('Island')._ready&&game.scene.isActive('Island'))"): break
+        g.wait(400)
+    r = g.js("(()=>{ var I=game.scene.getScene('Island'); return {name:I.islData.name, castle:!!I.castle, mons:I.worldMonsters.length, gate:game.textures.exists('castle_gate_q2_c')}; })()")
     check('Castle island: its own name, roster monsters, a castle gate to enter', r['castle'] and r['name'] == 'Abbey Isle' and r['mons'] >= 8 and r['gate'], r)
-    g.js("game.scene.getScene('Island')._enterAdventure()"); g.wait(2500)
+    g.js("(()=>{ var I=game.scene.getScene('Island'); I._enterSite(I.sites[0]); })()"); g.wait(2500)
     r = g.js("(()=>{ var d=game.scene.getScene('Dungeon'); return {c:!!d._castle, style:d._labSpec&&d._labSpec.style&&d._labSpec.style.id, max:d.maxFloors}; })()")
     check('The castle is a tower-style dungeon with its own look', r['c'] and r['style'] == 'drowned_abbey' and r['max'] == 3, r)
     g.js("""(()=>{ var d=game.scene.getScene('Dungeon'); var cs=CastleRun.site('q2_c'); d.scene.restart({site:cs,floor:cs.floors-1,maxFloors:cs.floors,worldScene:d.worldScene,returnScene:'Island',theme:'tower'}); })()"""); g.wait(3000)

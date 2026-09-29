@@ -23,7 +23,9 @@ class DungeonScene extends Phaser.Scene{
     this._isIsland=!!(this.siteId&&this.siteId.indexOf('isl_adv_')===0);
     this._isBonus=!!data.site.bonus;
     this._castle=CastleRun.of(data.site);   // castle-island dungeon (07t/09c)
+    this._mage=MageRun.of(data.site);       // mage tower (07zm/09e)
     this._inspect=data.inspect||null; // Site Lab (sandbox) inspect options: {mons,fog,dark}
+    this._trialRun=data.trial||null; this._trialOver=false; this._tr=null;   // the fairies' trial realm (12b)
   }
   create(){
     _heroStowMount(this);
@@ -34,7 +36,7 @@ class DungeonScene extends Phaser.Scene{
       this._darkRT=null;this._heroGlow=null;this._lightObjs=[];this._portalOpen=null;
       this.bossChestTile=null;this.stairsDownTile=null;this.bossSpawnX=undefined;this.bossSpawnY=undefined;
       this._claimed=false;
-      var spec=_siteFloorSpec(this._site,this.floor,this.maxFloors);
+      var spec=this._trialRun?TrialRealm.spec(this._trialRun):_siteFloorSpec(this._site,this.floor,this.maxFloors);
       // multi-phase guardians: phase 2+ is fought in its own arena (09b-boss-phases.js)
       this._bossPhase=(this._initData.bossPhase)||1; this._bossGroup=null; this._bossKey=null; this._bpEv=null; this._phaseLock=false;
       // bonus (treasure-vault) sites: the last floor is one room — the elite's den
@@ -44,7 +46,8 @@ class DungeonScene extends Phaser.Scene{
       if(spec){
         // ── Lab-design floor (Phase 3): painted map + y-sorted sprites + lights
         this._buildLabFloor(spec);
-        if(this.isLastFloor)this._ensureBossArena(this.dtiles);
+        if(this._trialRun&&this.bossChestTile){ this.dtiles[this.bossChestTile.y][this.bossChestTile.x]=DNG.FLOOR; this.bossChestTile=null; }
+        if(this.isLastFloor&&!this._trialRun)this._ensureBossArena(this.dtiles);
         this._renderLabMap(this._lab);
         this.cameras.main.setBackgroundColor(this._lab.bg||'#000');
       } else {
@@ -60,12 +63,12 @@ class DungeonScene extends Phaser.Scene{
       }
       this.cameras.main.setBounds(0,0,DW*TILE,DH*TILE);
       this.cameras.main.setZoom(1.6);
-      applyTheme(this.isLastFloor?'blood-moon':isTowerTheme?'aurora':'void');
+      applyTheme(this._trialRun?'aurora':this.isLastFloor?'blood-moon':isTowerTheme?'aurora':'void');
       this._spawnPlayer();
       this.hero=this.pCont; // Lab map tick functions follow "scene.hero"
       this.monsters=[];this._spawnMonsters();
       this.interactables=[];this._buildInteractables();
-      if(this.isLastFloor)this._drawExitPortal();
+      if(this.isLastFloor&&!this._trialRun)this._drawExitPortal();
       if(this._lab)this._drawLabStairs();
       if(this._lab&&this.isLastFloor&&this.siteType==='tower'&&this._site.boss&&!this._isIsland)this._placeCaptive();
       if(this._lab&&this.isLastFloor&&this._castle)CastleRun.placeTeacher(this,this._castle);
@@ -77,13 +80,14 @@ class DungeonScene extends Phaser.Scene{
       this._updateDungeonHUD();
       // Dungeon fog of war — persistent radius-based reveal
       this._initDngFog();
-      if(this._bossPhase>1&&this._dngFogExplored){ this._dngFogExplored.fill(1); if(this._dngFogGfx)this._dngFogGfx.setVisible(false); this._dngRevealFog(true); }
+      if((this._bossPhase>1||(this._trialRun&&this._trialRun.stages[this._trialRun.stage]!=='lights_out'))&&this._dngFogExplored){ this._dngFogExplored.fill(1); if(this._dngFogGfx)this._dngFogGfx.setVisible(false); this._dngRevealFog(true); }
       if(this._inspect){
         if(!this._inspect.fog){ this._dngFogExplored.fill(1); this._dngFogGfx.setVisible(false); this._dngRevealFog(true); }
         if(this._inspect.dark===false&&this._darkRT){ this._darkRT.setVisible(false); if(this._heroGlow)this._heroGlow.setVisible(false); }
         _slShowBar(this);
         this.events.once('shutdown',function(){ _slHideBar(); });
       }
+      if(this._trialRun)this._trialStartPending=true;
     }catch(err){console.error('DungeonScene.create error:',err);}
     // Keys MUST init outside try-catch — if anything above throws,
     // keys would be undefined and update() would crash on k.LEFT.isDown
@@ -95,6 +99,7 @@ class DungeonScene extends Phaser.Scene{
     });
     this.input.keyboard.on('keydown-TAB',function(e){e.preventDefault();});
     this._ready=true;
+    if(this._trialStartPending){ this._trialStartPending=false; try{ TrialRealm.start(this); }catch(e){ console.error('trial start',e); } }
   }
   _generateDungeon(){
     var tiles=[];for(var r=0;r<DH;r++)tiles.push(new Uint8Array(DW));
@@ -319,7 +324,7 @@ class DungeonScene extends Phaser.Scene{
       [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var nx=cx+d[0],ny=cy+d[1]; if(nx<0||ny<0||nx>=DW||ny>=DH)return; var k=ny*DW+nx; if(!seen[k]&&tiles[ny][nx]!==DNG.WALL){seen[k]=1;q.push(k);} }); }
     this._labReach=seen;
     // Chests: a few seeded spots away from the stairs
-    var R=rngOf(spec.seed*17+5), want=this._bossPhase>1?0:(spec.kind==='tower'?2:3), got=0, self=this;
+    var R=rngOf(spec.seed*17+5), want=(this._bossPhase>1||this._trialRun)?0:(spec.kind==='tower'?2:3), got=0, self=this;
     for(var t=0;t<600&&got<want;t++){
       var x=R.i(2,DW-3), y=R.i(2,DH-3);
       if(!seen[y*DW+x]||tiles[y][x]!==DNG.FLOOR)continue;
@@ -378,7 +383,7 @@ class DungeonScene extends Phaser.Scene{
       e.setDepth(self._ld(p.depth!==undefined?p.depth:6000));
     });
     // Darkness with light holes (dark caverns); capped so fights stay readable
-    this._labDark=Math.min(0.6,m.dark||0);
+    this._labDark=m.trialDark!==undefined?m.trialDark:Math.min(0.6,m.dark||0);
     if(this._labDark>0){
       this._darkRT=this.add.renderTexture(0,0,m.w*LT,m.h*LT).setOrigin(0,0).setDepth(12.5);
       this._holeImg=this.make.image({x:0,y:0,key:'dark_hole',add:false});
@@ -393,15 +398,24 @@ class DungeonScene extends Phaser.Scene{
     this._labT+=dt; var tt=this._labT;
     this._lightObjs.forEach(function(o,i){ if(o._flicker)o.setAlpha(o._base.a*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))); });
     if(m.tick){ try{ m.tick(this,dt,tt); }catch(e){} }
-    if(this._darkRT){
+    // blinded (a mage's darkness): the room itself goes black — only the master's eyes still glow
+    var _bl=this._mxs&&this._mxs.blindT>0;
+    if(_bl&&!this._darkRT){ this._darkRT=this.add.renderTexture(0,0,m.w*LT,m.h*LT).setOrigin(0,0).setDepth(12.5); this._holeImg=this.make.image({x:0,y:0,key:'dark_hole',add:false}); this._labDark=0; }
+    if(this._darkRT){ this._darkRT.setVisible(!!(_bl||this._labDark>0)); this._blindEyes=this._blindEyes||[];
+      var self2=this, eyes=this._blindEyes, bosses=_bl?this.monsters.filter(function(mo){ return !mo.dead&&mo.isBoss; }):[];
+      while(eyes.length<bosses.length*2)eyes.push(this.add.circle(0,0,2.4,0xff60ff,1).setDepth(12.7));
+      eyes.forEach(function(e,i){ var b=bosses[i>>1]; if(!b){ e.setVisible(false); return; } e.setVisible(true).setPosition(b.x+((i%2)?5:-5),b.y-(b.def&&b.def.r?b.def.r*1.6:26)).setFillStyle(0xff60ff,0.6+0.4*Math.sin(tt*6+i)); }); }
+    if(this._darkRT&&(_bl||this._labDark>0)){
       var rt=this._darkRT, hole=this._holeImg, v=this.cameras.main.worldView, pad=200;
       var fire=(_heroActiveFamiliars(this.worldScene.playerState).length>0);
-      var heroR=Math.max(230,m.heroLight||0)*(fire?1.3:1);
+      var heroR=m.trialDark!==undefined?(m.heroLight||70)*(fire?1.5:1):Math.max(230,m.heroLight||0)*(fire?1.3:1);
       if(this._heroGlow)this._heroGlow.setPosition(this.px,this.py-14);
-      rt.clear(); rt.fill(hexNum(m.darkCol||'#000000'),this._labDark);
+      if(_bl)heroR=64;
+      rt.clear(); rt.fill(hexNum(m.darkCol||'#000000'),_bl?0.94:this._labDark);
       var cut=function(x,y,r,a){ if(x<v.x-pad-r||x>v.right+pad+r||y<v.y-pad-r||y>v.bottom+pad+r)return; hole.setScale(r/128); hole.setAlpha(a); rt.erase(hole,x,y); };
       cut(this.px,this.py-14,heroR*(1+0.03*Math.sin(tt*9)),1);
-      this._lightObjs.forEach(function(o){ var L=o._base; if(L.noCut)return; cut(o.x,o.y,L.r*(L.cut||0.9),Math.min(1,o.alpha*1.6)); });
+      if(!_bl)this._lightObjs.forEach(function(o){ var L=o._base; if(L.noCut)return; cut(o.x,o.y,L.r*(L.cut||0.9),Math.min(1,o.alpha*1.6)); });
+      if(m.trialDark!==undefined){ var FV=this._famVisuals||{}; Object.keys(FV).forEach(function(k){ var fv=FV[k]; if(fv&&fv.x!==undefined)cut(fv.x,fv.y,110,0.9); }); }
     }
   }
   // Stairs markers + floor labels on Lab floors
@@ -875,12 +889,15 @@ class DungeonScene extends Phaser.Scene{
     var qKey=this.siteId||('s'+this.siteSection+'_'+this.siteType);
     var done=this._isIsland?(ps.completedIslands||[]).includes(this.siteSection)
             :this._castle?CastleRun.done(ps,this._castle.key)
+            :this._mage?MageRun.done(ps,this._mage.key)
             :this._isBonus?(ps.bonusCleared||[]).includes(this.siteId)
             :(ps.completedQuests&&ps.completedQuests.includes(qKey));
     var regTypes=[];
     for(var k in MDEFS){if(MDEFS[k].sec===this.siteSection&&!MDEFS[k].boss)regTypes.push(k);}
     var im=this._inspect&&this._inspect.mons;
     if(im==='boss'||im==='none'){ /* Site Lab: no regular monsters */ }
+    else if(this._trialRun){ /* trial realm: the trial spawns its own */ }
+    else if(this._lab&&this._mage&&this.isLastFloor){ /* the mage's sanctum: only the master (and their summons) */ }
     else if(this._lab&&this._bossPhase>1){ /* boss arena: only the boss (and its summons) */ }
     else if(this._lab&&this._isBonus&&this.isLastFloor){ /* elite den: only the elite and its plain kin (below) */ }
     else if(this._lab){ this._spawnMonstersLab(regTypes); }
@@ -897,7 +914,11 @@ class DungeonScene extends Phaser.Scene{
     }
     }
     this._wasDone=!!done;
-    if(this.isLastFloor&&im!=='none'&&this._castle){
+    if(this._trialRun){ this._wasDone=false; return; }
+    if(this.isLastFloor&&im!=='none'&&this._mage){
+      MageRun.spawnBoss(this,this._mage,this.bossSpawnX,this.bossSpawnY,done?1.25:1);
+      if(done)showNotif('⚔️ '+this._mage.bossName+' is back, stronger (+25%)!','#ffaa66');
+    } else if(this.isLastFloor&&im!=='none'&&this._castle){
       CastleRun.spawnWarden(this,this._castle,this.bossSpawnX,this.bossSpawnY,done?1.25:1);
       showNotif(done?'⚔️ '+CHAR_BY_ID[this._castle.warden].name+' is back, stronger (+25%)!':'⛓ '+CHAR_BY_ID[this._castle.warden].name+' guards the captive master!','#ffaa66');
     } else if(this.isLastFloor&&im!=='none'){
@@ -907,7 +928,7 @@ class DungeonScene extends Phaser.Scene{
       else if(bk){
         var bmon=this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
         if(multi&&bmon){ this._bossGroup=[bmon]; this._bossKey=bk; this._bossPhase=1; this._bpEv=[]; BossPhases.hud(this,true); }
-        if(this._isBonus&&bmon){ this._spawnEliteKin(bk,done); this._bossGroup=[bmon]; this._bossKey=bk; this._bossPhase=1; this._bpEv=[]; BossPhases.hud(this,true); }
+        if(this._isBonus&&bmon){ if(bmon.kit&&typeof ELITE_FAM_COUNTER!=='undefined')MX.addToKit(bmon,ELITE_FAM_COUNTER); this._spawnEliteKin(bk,done); this._bossGroup=[bmon]; this._bossKey=bk; this._bossPhase=1; this._bpEv=[]; BossPhases.hud(this,true); }
         if(this._isBonus)showNotif(done?'⚔️ A stronger elite guards the vault again (+25%)!':'💎 '+bmon.def.name+' guards the treasure vault with its kin!','#ffaa66');
         else showNotif(done?'⚔️ The guardian has returned, stronger (+25%)!':'⚔️ The guardian blocks the exit portal!', '#ffaa66');
       }
@@ -953,6 +974,7 @@ class DungeonScene extends Phaser.Scene{
       this._updateMonsters(dt);
       this._leashBoss(dt);
       if(this._bossGroup)BossPhases.tick(this,dt);
+      if(this._trialRun)TrialRealm.tick(this,dt);
       if(this._lab)this._labUpdate(dt); else this._updateDungeonFX(dt);
       if(Phaser.Input.Keyboard.JustDown(this.keys.SPACE))this._playerAttack();
       if(this._dngFogExplored)this._dngRevealFog(false);
@@ -978,6 +1000,8 @@ class DungeonScene extends Phaser.Scene{
     if(k.DOWN.isDown||k.S.isDown){vy=spd;if(!k.LEFT.isDown&&!k.A.isDown&&!k.RIGHT.isDown&&!k.D.isDown)this.pdir='down';}
     if(vx&&vy){vx*=.707;vy*=.707;}
     var _mm=MX.moveMods(this); if(_mm.rev){vx=-vx;vy=-vy;} vx*=_mm.mult; vy*=_mm.mult;
+    // ice floors: you slide — velocity changes slowly and carries on when you let go
+    var _S=this._mxs; if(_S&&_S.slipT>0){ var sv=this._slipV||(this._slipV={x:vx,y:vy}), kk=Math.min(1,dt*1.6); sv.x+=(vx-sv.x)*kk; sv.y+=(vy-sv.y)*kk; if(!this._canGoD(this.px+sv.x*dt,this.py))sv.x*=-0.4; if(!this._canGoD(this.px,this.py+sv.y*dt))sv.y*=-0.4; vx=sv.x; vy=sv.y; } else this._slipV=null;
     var nx=this.px+vx*dt,ny=this.py+vy*dt;
     if(this._canGoD(nx,this.py))this.px=nx;
     if(this._canGoD(this.px,ny))this.py=ny;
@@ -1313,17 +1337,19 @@ class DungeonScene extends Phaser.Scene{
     this.tweens.add({targets:cont,alpha:0,scaleX:1.5,scaleY:1.5,duration:500,ease:'Power2',onComplete:function(){cont.destroy();}});
   }
   _onBossDefeated(mon){
-    if(!this._isIsland&&!this._isBonus&&!this._castle&&BossPhases.onDefeated(this,mon))return;   // next phase / allies still fighting
+    if(!this._isIsland&&!this._isBonus&&!this._castle&&!this._mage&&BossPhases.onDefeated(this,mon))return;   // next phase / allies still fighting
     this._bossDefeated=true;
     var ps=this.worldScene.playerState;
     // Only the quadrant's ★ boss sites count for the main quests (bonus + island dungeons have their own tracking)
-    if(!this._isIsland&&!this._isBonus&&!this._castle)_completeQuest(ps,'s'+this.siteSection+'_'+this.siteType);
+    if(!this._isIsland&&!this._isBonus&&!this._castle&&!this._mage)_completeQuest(ps,'s'+this.siteSection+'_'+this.siteType);
+    if(this._mage)BossPhases.hud(this,false);
     var bc=this.interactables.find(function(i){return i.type==='boss_chest';});
     if(bc)bc.locked=false;
     if(this._portalOpen)this._portalOpen();
     if(this._captive)this._freeCaptive();
     if(this._isBonus)BossPhases.hud(this,false);
     showNotif('🏆 '+mon.def.name+' defeated!','#ffdd44');
+    if(this._mage)showNotif('📖 The sanctum is yours — [Tab] the chest to learn '+((ITEMS[this._mage.spell]||{}).name||'the spell'),'#e0c0ff'); else
     if(this._castle)showNotif('🎓 The master is free — [Tab] the portal chest to learn their skill','#ffe9a8'); else
     showNotif(this._isBonus?'The treasure vault is open — [Tab] to claim it':'The exit portal is open — [Tab] to claim your reward and leave','#aaffaa');
     var self=this;
@@ -1430,14 +1456,13 @@ class DungeonScene extends Phaser.Scene{
     var gem=['gem_ruby','gem_sapphire','gem_emerald','skystone'][sec-1]||'gem_ruby';
     // ── Castle: free the teacher → learn their skill
     if(this._castle){ CastleRun.claim(this); return; }
+    if(this._mage){ MageRun.claim(this); return; }
     // ── Island dungeon: the guardian's defeat clears the island → familiar
     if(this._isIsland){
       var goldAdv=80*sec; ps.gold+=goldAdv; ps.inventory.push(gem);
       showNotif('+'+goldAdv+'g + gem — the island guardian is beaten!','#44ffaa');
       _completeQuest(ps,'s'+sec+'_harbor');
-      var isl=game.scene.getScene('Island');
-      if(isl&&isl._onIslandCleared&&(game.scene.isActive('Island')||game.scene.isSleeping('Island'))){ isl._islandCleared=true; isl._onIslandCleared(); }
-      else _awardIslandFamiliar(ps,sec);
+      _awardIslandFamiliar(ps,sec);
       this.time.delayedCall(1500,function(){self._exitToWorld(null);});return;
     }
     // ── Bonus site: treasure vault (replayable)
@@ -1492,7 +1517,7 @@ class DungeonScene extends Phaser.Scene{
     if(near){
       var txt='[Tab] ';
       var tw=this.siteType==='tower';
-      if(near.type==='stairs_up')txt+=this.floor===0?(tw?'Leave the Tower':'Leave the Dungeon'):(tw?'Go Down to Floor '+this.floor:'Climb Up to Floor '+this.floor);
+      if(near.type==='stairs_up')txt+=this._trialRun?'Give up the trial':this.floor===0?(tw?'Leave the Tower':'Leave the Dungeon'):(tw?'Go Down to Floor '+this.floor:'Climb Up to Floor '+this.floor);
       else if(near.type==='stairs_down')txt+=(tw?'Climb Up':'Descend')+' to Floor '+(this.floor+2)+'/'+this.maxFloors;
       else if(near.type==='chest')txt+='Open Chest';
       else if(near.type==='boss_chest')txt+=near.locked?(this._isBonus?'Vault sealed — defeat the elite':'Sealed — defeat the guardian'):(this._isBonus?'💎 Open the treasure vault':'★ Claim reward & exit');
@@ -1502,8 +1527,9 @@ class DungeonScene extends Phaser.Scene{
   _updateDungeonHUD(){
     if(!this.worldScene||!this.worldScene.playerState)return;
     var ps=this.worldScene.playerState;
-    var label=(this.siteType==='tower'?'🗼 ':'⚔️ ')+((this._site&&this._site.name)||(this.siteType==='tower'?'Tower':'Dungeon'))+(this._site&&this._site.boss?' ★':'');
-    document.getElementById('dng-title').textContent=label+' — Floor '+(this.floor+1)+'/'+this.maxFloors;
+    if(this._trialRun){ var _tl=document.getElementById('dng-title'), _tr=this._trialRun, _tt='✨ '+_tr.title+(_tr.stages.length>1?' — trial '+(_tr.stage+1)+' of '+_tr.stages.length:''); if(_tl&&_tl.textContent!==_tt)_tl.textContent=_tt; }
+    var label=(this._mage?'🔮 ':this.siteType==='tower'?'🗼 ':'⚔️ ')+((this._site&&this._site.name)||(this.siteType==='tower'?'Tower':'Dungeon'))+(this._site&&this._site.boss?' ★':'');
+    if(!this._trialRun)document.getElementById('dng-title').textContent=label+' — Floor '+(this.floor+1)+'/'+this.maxFloors;
     // HP bar
     var hpPct=Math.min(100,ps.hp/ps.maxHp*100);
     var hpCol=hpPct>60?'#44ff88':hpPct>30?'#ffaa00':'#ff3322';

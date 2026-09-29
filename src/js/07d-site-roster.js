@@ -39,7 +39,7 @@ var SITE_RELICS={
 };
 
 function _siteHash(str){ var h=2166136261; for(var i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
-function _dungeonDesignById(id){ for(var i=0;i<DUNGEON_DESIGNS.length;i++)if(DUNGEON_DESIGNS[i].id===id)return DUNGEON_DESIGNS[i]; return null; }
+function _dungeonDesignById(id){ if(typeof EMBER_CAVE_BY_ID!=='undefined'){ if(id==='ember')return EMBER_CAVE_BY_ID[EMBER_CAVE_PICK]||EMBER_CAVE_DESIGNS[0]; if(EMBER_CAVE_BY_ID[id])return EMBER_CAVE_BY_ID[id]; } for(var i=0;i<DUNGEON_DESIGNS.length;i++)if(DUNGEON_DESIGNS[i].id===id)return DUNGEON_DESIGNS[i]; return null; }
 function _siteDesignName(kind,id){ var d=kind==='tower'?TOWER_STYLES_BY_ID[id]:_dungeonDesignById(id); return d?d.name:id; }
 
 // Build the world's tower/dungeon site list for one quadrant (boss sites first).
@@ -61,6 +61,7 @@ function _siteFloorSpec(site, floor, maxFloors){
     var S=TOWER_STYLES_BY_ID[site.design]; if(!S)return null;
     var plans=[S.plan].concat(['grand','gallery','rotunda'].filter(function(p){return p!==S.plan;}));
     var plan=plans[(floor+(h>>>5))%3];
+    if(S.floorPlans){ var FP=S.floorPlans(maxFloors); plan=FP[Math.min(floor,FP.length-1)]; if(last)plan=FP[FP.length-1]; }
     return { kind:'tower', style:S, plan:plan, seed:seed, last:last,
       mirror:((h>>>2)+floor)%2===1, shuffle:floor>0||(h%2===1) };
   }
@@ -115,6 +116,7 @@ function _bossSiteGate(ps,site,sites){
   return {open:!left.length,need:bon.length,done:bon.length-left.length,left:left};
 }
 function _siteLabel(s){
+  if(s.mage)return '🔮 '+s.name+' (Mage Tower)';
   if(s.name)return (s.boss?'★ ':'')+s.name+(s.type==='tower'?' (Tower)':' (Dungeon)');
   if(s.type==='harbor'){ var C=s.castle&&typeof CASTLE_ISLANDS!=='undefined'&&CASTLE_ISLANDS[s.castle]; return C?'Harbor → '+C.name+' (castle)':'Harbor → '+((typeof HARBOR_ISLANDS!=='undefined'&&HARBOR_ISLANDS[s.section])||{name:'Island'}).name+' (familiar)'; }
   return s.type.charAt(0).toUpperCase()+s.type.slice(1);

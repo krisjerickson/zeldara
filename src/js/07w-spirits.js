@@ -30,7 +30,7 @@ var SPIRIT_DESIGNS=[
 ];
 var SPIRIT_BY_ID={}; SPIRIT_DESIGNS.forEach(function(D){ SPIRIT_BY_ID[D.id]=D; });
 // current pick per element (Kris chooses in the Lab; the game reads this)
-var FAMILIAR_PICK={grass:'grove_elder',water:'tide_serpent',earth:'stone_colossus',fire:'ember_dragon'};
+var FAMILIAR_PICK={grass:'thornback_stag',water:'tide_serpent',earth:'stone_colossus',fire:'phoenix'};   // Kris's Lab picks (round 5)
 
 // ── spirit painter: 4 frames of 112×112, drawn around (56,60) facing right ──
 function _spGlowFill(x,E,cx,cy,r){ var g=x.createRadialGradient(cx,cy,r*0.08,cx,cy,r); g.addColorStop(0,rgba(E.core,0.8)); g.addColorStop(0.4,rgba(E.col,0.55)); g.addColorStop(1,rgba(E.deep,0.18)); return g; }
