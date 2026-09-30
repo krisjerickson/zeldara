@@ -271,6 +271,10 @@ function _buildGameWorld(){
     map:M,region:region,zone:zone,cls:cls,baseVer:0,
     spawnX:CENTER_X*TILE+TILE/2, spawnY:CENTER_Y*TILE+TILE/2};
   _wgApplyGates(wd,{rescued:[],unlockedSections:[1]});
+  // Free the world map's build-only scratch grids (height 5.8 MB, gateAt 1.4 MB: nothing reads them
+  // after this; gates carry their own cells). coastDist is only read by the map base image
+  // (21-ui.js, clamped at 120 tiles), so a clamped byte per tile is exact for it (5.8 → 1.4 MB).
+  M.height=null; M.gateAt=null; M.coastDist=new Uint8ClampedArray(M.coastDist);
   wd.buildMs=Date.now()-t0; wd.buildTimes=tm;
   return wd;
 }

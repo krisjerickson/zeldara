@@ -968,10 +968,12 @@ class DungeonScene extends Phaser.Scene{
   update(_,ms){
     if(!this._ready||this._playerDead)return;
     var dt=ms/1000;
+    if(this._hitStop>0){ this._hitStop-=dt; return; }   // hit-pause on heavy blows (10k BossMoments)
     var paused=_anyModalOpen();
     if(!paused){
       this._movePlayer(dt);
-      this._updateMonsters(dt);
+      if(this._introT>0)this._introT-=dt; else this._updateMonsters(dt);   // monsters wait while the boss title card shows
+      if(typeof BossMoments!=='undefined'&&this.isLastFloor)BossMoments.tick(this,dt);
       this._leashBoss(dt);
       if(this._bossGroup)BossPhases.tick(this,dt);
       if(this._trialRun)TrialRealm.tick(this,dt);
@@ -1295,7 +1297,7 @@ class DungeonScene extends Phaser.Scene{
     if(this.playerAtkTimer>0)return;
     var ps=this.worldScene.playerState;
     var atk=calcStatsFromState(ps).atk||ps.atk||3;
-    this.playerAtkTimer=0.45;
+    this.playerAtkTimer=0.45; if(typeof ZSFX!=='undefined')ZSFX.play('swing');
     var self=this;
     // ── Directional sword swing tween ──────────────────────────────────────
     var wep=this.pWeapon;
@@ -1310,11 +1312,11 @@ class DungeonScene extends Phaser.Scene{
       }});
     var hit=false;
     this.monsters.forEach(function(mon){
-      if(mon.dead||Math.hypot(mon.x-self.px,mon.y-self.py)>78)return;
+      if(mon.dead||Math.hypot(mon.x-self.px,mon.y-self.py)>78+Math.max(0,(mon.def.r||10)-18))return;
       if(!_heroInArc(self.pdir||'right',mon.x-self.px,mon.y-self.py))return;
       if(!_heroLOS(self,self.px,self.py,mon.x,mon.y))return;   // no hitting through walls
       var dmg=Math.max(1,atk-(mon.def.def||0)+Math.floor(Math.random()*5-2));
-      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
+      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true; if(mon.isBoss&&typeof BossMoments!=='undefined'){ BossMoments.hitStop(self,0.05); ZSFX.play('hit'); }
       self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#ffdd44');
       mon.body.setFillStyle(0xffffff);
       var bodyRef=mon.body,monDef=mon.def;
@@ -1337,7 +1339,8 @@ class DungeonScene extends Phaser.Scene{
     this.tweens.add({targets:cont,alpha:0,scaleX:1.5,scaleY:1.5,duration:500,ease:'Power2',onComplete:function(){cont.destroy();}});
   }
   _onBossDefeated(mon){
-    if(!this._isIsland&&!this._isBonus&&!this._castle&&!this._mage&&BossPhases.onDefeated(this,mon))return;   // next phase / allies still fighting
+    if(!this._isIsland&&!this._isBonus&&!this._castle&&!this._mage&&BossPhases.onDefeated(this,mon)){ if(this._phaseLock&&typeof BossMoments!=='undefined')BossMoments.transform(this,mon); return; }   // next phase / allies still fighting
+    if(typeof BossMoments!=='undefined')BossMoments.finale(this,mon);
     this._bossDefeated=true;
     var ps=this.worldScene.playerState;
     // Only the quadrant's ★ boss sites count for the main quests (bonus + island dungeons have their own tracking)

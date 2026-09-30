@@ -1,41 +1,43 @@
 // ─── UI Bridge ──────────────────────────────────
+// Perf: _emitUI calls this every frame. A signature of the inputs skips it entirely when nothing
+// changed, and each element is only written when its own value changed (_hudW).
+var _hudSig=null, _hudVals={};
+function _hudW(id,prop,val){ var k=id+'.'+prop; if(_hudVals[k]===val)return; var el=document.getElementById(id); if(!el)return; _hudVals[k]=val;
+  if(prop==='text')el.textContent=val; else if(prop==='html')el.innerHTML=val; else if(prop==='css')el.style.cssText=val; else el.style[prop]=val; }
 function updateHUD(state){
   var hp=state.hp,maxHp=state.maxHp,gold=state.gold,level=state.level,xp=state.xp;
   var section=state.section,mount=state.mount,familiar=state.familiar,ul=state.unlockedSections;
+  var eq=state.equip||{};
+  var sig=hp+'|'+maxHp+'|'+(state.mana!==undefined?Math.floor(state.mana):'')+'|'+state.maxMana+'|'+xp+'|'+level+'|'+(ul?ul.join(','):'')+'|'+gold+'|'+section+'|'+mount+'|'+familiar+'|'+eq.spell+'|'+eq.mWeapon;
+  if(sig===_hudSig)return;
+  _hudSig=sig;
   var hpPct=Math.min(100,hp/maxHp*100);
-  document.getElementById('hp-bar').style.cssText='width:'+hpPct+'%;background:'+(hpPct>60?'#44ff88':hpPct>30?'#ffaa00':'#ff3322');
-  document.getElementById('hp-val').textContent=hp+'/'+maxHp;
+  _hudW('hp-bar','css','width:'+hpPct+'%;background:'+(hpPct>60?'#44ff88':hpPct>30?'#ffaa00':'#ff3322'));
+  _hudW('hp-val','text',hp+'/'+maxHp);
   var mana=state.mana!==undefined?Math.floor(state.mana):50;
   var maxMana=state.maxMana||50;
   var manaPct=Math.min(100,mana/maxMana*100);
-  var manaBar=document.getElementById('mana-bar');
-  var manaVal=document.getElementById('mana-val');
-  if(manaBar)manaBar.style.width=manaPct+'%';
-  if(manaVal)manaVal.textContent=mana+'/'+maxMana;
-  document.getElementById('xp-bar').style.width=Math.min(100,xp/(level*100)*100)+'%';
+  _hudW('mana-bar','width',manaPct+'%');
+  _hudW('mana-val','text',mana+'/'+maxMana);
+  _hudW('xp-bar','width',Math.min(100,xp/(level*100)*100)+'%');
   var lvCap=ul&&ul.length?((Math.max.apply(null,ul)>=4?20:Math.max.apply(null,ul)>=3?15:Math.max.apply(null,ul)>=2?10:5)):5;
-  document.getElementById('lv-val').textContent='Lv '+level+'/'+lvCap;
-  document.getElementById('gold-val').textContent=gold+'g';
-  document.getElementById('region-name').textContent=SECTION_NAMES[section]||'Unknown';
+  _hudW('lv-val','text','Lv '+level+'/'+lvCap);
+  _hudW('gold-val','text',gold+'g');
+  _hudW('region-name','text',SECTION_NAMES[section]||'Unknown');
   var dots='';
   for(var s=1;s<=4;s++){
     dots+='<span class="'+(ul&&ul.includes(s)?'rdot-on':'rdot-off')+'">'+(ul&&ul.includes(s)?'◉':'○')+'</span>';
   }
-  document.getElementById('section-dots').innerHTML=dots;
-  var comp=document.getElementById('comp-panel');
+  _hudW('section-dots','html',dots);
   if(mount||familiar){
-    comp.style.display='flex';
-    document.getElementById('mount-disp').textContent=mount?(MOUNTS[mount].icon+' '+MOUNTS[mount].n):'';
-    document.getElementById('familiar-disp').textContent=familiar?(FAMILIARS[familiar].icon+' '+FAMILIARS[familiar].n):'';
-  } else comp.style.display='none';
+    _hudW('comp-panel','display','flex');
+    _hudW('mount-disp','text',mount?(MOUNTS[mount].icon+' '+MOUNTS[mount].n):'');
+    _hudW('familiar-disp','text',familiar?(FAMILIARS[familiar].icon+' '+FAMILIARS[familiar].n):'');
+  } else _hudW('comp-panel','display','none');
   // Update spell + magic weapon slots in action bar
-  var eq=state.equip||{};
-  var spellSlotEl=document.getElementById('action-spell-slot');
-  if(spellSlotEl){
-    var spItem=ITEMS[eq.spell];
-    spellSlotEl.innerHTML='<div class="aib-key">X</div><div class="aib-ico">'+(spItem?spItem.icon:'✨')+'</div><div class="aib-lbl">'+(spItem?spItem.name.replace(/ Tome/,'').replace(/ Scroll/,'').substr(0,8):'Spell')+'</div>'
-      +(spItem&&ITEMS[eq.mWeapon]?'<div style="font-size:8px;color:#bb88ff;margin-top:1px">×'+(ITEMS[eq.mWeapon].spellMult||1)+'</div>':'');
-  }
+  var spItem=ITEMS[eq.spell];
+  _hudW('action-spell-slot','html','<div class="aib-key">X</div><div class="aib-ico">'+(spItem?spItem.icon:'✨')+'</div><div class="aib-lbl">'+(spItem?spItem.name.replace(/ Tome/,'').replace(/ Scroll/,'').substr(0,8):'Spell')+'</div>'
+      +(spItem&&ITEMS[eq.mWeapon]?'<div style="font-size:8px;color:#bb88ff;margin-top:1px">×'+(ITEMS[eq.mWeapon].spellMult||1)+'</div>':''));
 }
 
 function renderQuestList(unlockedSections,completed,active,scene){
@@ -77,7 +79,7 @@ function renderQuestList(unlockedSections,completed,active,scene){
     }
     h+='</div>';
   }
-  c.innerHTML=h;
+  if(c._qh!==h){ c._qh=h; c.innerHTML=h; }   // unchanged list: leave the DOM alone
 }
 // Towers & dungeons of one section, with boss/bonus status (journal)
 function _journalSitesHTML(sec,scene){
@@ -215,13 +217,13 @@ function _drawMinimapHud(ws,dng){
     }
     var ppx=(dng.px/TILE)*scaleX,ppy=(dng.py/TILE)*scaleY;
     ctx.fillStyle='#ffffff';ctx.beginPath();ctx.arc(ppx,ppy,4,0,Math.PI*2);ctx.fill();
-    if(zl)zl.innerHTML='&nbsp;';
+    if(zl&&zl._zh!==''){ zl._zh=''; zl.innerHTML='&nbsp;'; }
   } else if(ws&&ws.wd&&ws.playerState&&ws.playerState.exploredGrid&&ws.player){
     // ── World minimap: ~150 tiles around the hero ──
     var n=WM_MINI_TILES, ptx=ws.player.x/TILE, pty=ws.player.y/TILE;
     var v={x:Math.max(0,Math.min(WORLD_W-n,ptx-n/2)),y:Math.max(0,Math.min(WORLD_H-n,pty-n/2)),w:n,h:n};
     _wmDrawView(ctx,cw,ch,ws,v,{full:false});
-    if(zl){ var L=_wmZoneLabel(ptx,pty); zl.innerHTML=L.name+(L.region?' <small>· '+L.region+'</small>':''); }
+    if(zl){ var L=_wmZoneLabel(ptx,pty), zh=L.name+(L.region?' <small>· '+L.region+'</small>':''); if(zl._zh!==zh){ zl._zh=zh; zl.innerHTML=zh; } }
   }
   ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=2;ctx.strokeRect(1,1,cw-2,ch-2);
 }

@@ -57,7 +57,7 @@ with game() as g:
     g.ws("(ps.mount=null, ps.level=20, ps.xp=0)")  # level cap → no level-up HP gains during the check
     hp0=g.ws("ps.maxHp")
     g.js(LAUNCH+'(["s2_b_moonglass",4])'); wait_floor(g,'s2_b_moonglass',4); g.wait(300)
-    check('Bonus site ends with an elite guarding the vault', g.js("game.scene.getScene('Dungeon').monsters.some(m=>m.isBoss&&/^Elite /.test(m.def.name))"))
+    check('Bonus site ends with an elite guarding the vault', g.js("game.scene.getScene('Dungeon').monsters.some(m=>m.isBoss&&/^elite_/.test(m.type))"))
     kill(g); g.wait(200); g.js(CLAIM); back_to_world(g); g.wait(400)
     check('Vault: bonus cleared, relic kept, +3 max HP, no main quest', g.ws("ps.bonusCleared.includes('s2_b_moonglass')&&ps.relics.includes('moonglass')&&ps.maxHp===%d&&!ps.completedQuests.includes('s2_tower')"%(hp0+3)), g.ws("({b:ps.bonusCleared,r:ps.relics,hp:ps.maxHp})"))
     check('Bonus sites stay open (not locked)', g.ws("!(ps.lockedSites||[]).includes('s2_b_moonglass')"))
@@ -91,7 +91,7 @@ with game() as g:
         check(f'Island {sec} dungeon uses a Lab design, ≥4 floors', info['lab'] and info['type']==kind and info['mf']>=4, info)
         g.js("(mf=>{var d=game.scene.getScene('Dungeon');d.scene.restart(Object.assign({},d._initData,{floor:mf-1}));})(%d)"%mf)
         wait_floor(g,sid,mf-1); g.wait(300)
-        check(f'Island {sec} guardian {boss} waits on the last floor', g.js("game.scene.getScene('Dungeon').monsters.some(m=>m.isBoss&&m.def.name.indexOf(%s)===0)"%json.dumps(boss)))
+        check(f'Island {sec} guardian {boss} waits on the last floor', g.js("game.scene.getScene('Dungeon').monsters.some(m=>m.isBoss&&m.def.name.indexOf(%s)>=0)"%json.dumps(boss)))
         kill(g); g.wait(200); g.js(CLAIM)
         for _ in range(30):
             if g.js("game.scene.isActive('Island')"): break

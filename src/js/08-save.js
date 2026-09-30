@@ -5,8 +5,9 @@
 // ║ step by step and keeps a one-time backup of the pre-migration save in
 // ║ localStorage['qoz_v2_backup_v<old>'] so nothing is ever lost.
 // ║ To change the save shape later: bump SAVE_VERSION and add a step.
+// ║ v8: the explored grid is saved bit-packed (exploredBits) instead of a number array.
 // ═══════════════════════════════════════════════════════════════════════
-var SAVE_VERSION=7;
+var SAVE_VERSION=8;
 var _SAVE_TRANSIENT=['_seaState','_famWard','_famLastHp'];   // runtime-only fields never written to disk
 
 function _migrateSave(d, raw){
@@ -56,9 +57,28 @@ function _migrateSave(d, raw){
     if(!d.famSpecial)d.famSpecial={};
     if(typeof ALL_MAIN_QUESTS!=='undefined'&&ALL_MAIN_QUESTS.every(function(q){ return d.completedQuests.indexOf(q)>=0; })){ if(!Array.isArray(d.ownedMounts))d.ownedMounts=[]; if(d.ownedMounts.indexOf('dragon')<0)d.ownedMounts.push('dragon'); }
   }
+  if(v<8){
+    // Perf round: the explored grid (150×150 cells, 0/1) was a JSON number array (~45 KB of a
+    // ~47 KB save). It is now bit-packed + base64 in d.exploredBits (~3.8 KB).
+    if(Array.isArray(d.exploredGridArr)){ d.exploredBits=_packBits(d.exploredGridArr); }
+    delete d.exploredGridArr;
+  }
   _SAVE_TRANSIENT.forEach(function(k){ delete d[k]; });
   d.saveVersion=SAVE_VERSION;
   return d;
+}
+// 0/1 grid (typed array or plain array) <-> base64 of its bits, 8 cells per byte, LSB first
+function _packBits(a){
+  var n=a.length, b=new Uint8Array((n+7)>>3);
+  for(var i=0;i<n;i++)if(a[i])b[i>>3]|=1<<(i&7);
+  var s=''; for(var j=0;j<b.length;j+=8192)s+=String.fromCharCode.apply(null,b.subarray(j,j+8192));
+  return btoa(s);
+}
+function _unpackBits(str,n){
+  var out=new Uint8Array(n); if(typeof str!=='string'||!str)return out;
+  var s; try{ s=atob(str); }catch(e){ return out; }
+  for(var i=0;i<n;i++){ var k=i>>3; if(k>=s.length)break; if(s.charCodeAt(k)&(1<<(i&7)))out[i]=1; }
+  return out;
 }
 function _prepareSave(d){
   _SAVE_TRANSIENT.forEach(function(k){ delete d[k]; });

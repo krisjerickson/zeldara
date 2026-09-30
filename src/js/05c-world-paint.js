@@ -291,7 +291,24 @@ function wpChunkJob(wd,cx,cy){
 // into a repeating tile (periods chosen so rows line up across the repeat),
 // then laid on a world-aligned grid and clipped to where that kind is.
 var _WPC={}, WP_ERR={};   // WP_ERR: prop draw failures (audited by tests/audit_lab_world.py)
-function _wpWarmPatterns(){ _wkInit(); var KL=WK_REG.list; for(var i=0;i<KL.length;i++){ if(KL[i].pattern&&WPATTERN[KL[i].pattern]&&!_WPC[i])_wpPatTile(i); } }
+function _wpWarmPatterns(){ _wkInit(); var KL=WK_REG.list; for(var i=0;i<KL.length;i++){ if(KL[i].pattern&&WPATTERN[KL[i].pattern]&&!_WPC[i])_wpPatTile(i); } }   // all (Lab/tests)
+// Lazy pattern warming (perf): a pattern tile costs ~25 ms and ~1 MB, and most patterned kinds
+// are nowhere near the player (42 of 78 are not on the mainland at all). So only the kinds of the
+// chunks around a point are made up front; chunk jobs make any other on demand (_wpPatternFill →
+// _wpPatTile), and _wpWarmAhead() makes those of the next ring of chunks while the painter is idle.
+var _WPISPAT=null;
+function _wpIsPat(){ if(!_WPISPAT||_WPISPAT.length!==WK_REG.list.length){ var KL=WK_REG.list; _WPISPAT=new Uint8Array(KL.length); for(var i=0;i<KL.length;i++)_WPISPAT[i]=KL[i].pattern&&WPATTERN[KL[i].pattern]?1:0; } return _WPISPAT; }
+// patterned kinds not yet made in the chunks cx0..cx1 × cy0..cy1 (+ the field's 5-tile window)
+function _wpPatKindsIn(wd,cx0,cy0,cx1,cy1){ _wkInit(); var P=_wpIsPat(), kind=wd.kind, W=WORLD_W, H=WORLD_H, seen={}, out=[];
+  var x0=Math.max(0,cx0*WCH-5), y0=Math.max(0,cy0*WCH-5), x1=Math.min(W-1,(cx1+1)*WCH+4), y1=Math.min(H-1,(cy1+1)*WCH+4);
+  for(var y=y0;y<=y1;y++){ var r=y*W; for(var x=x0;x<=x1;x++){ var ki=kind[r+x]; if(P[ki]&&!_WPC[ki]&&!seen[ki]){ seen[ki]=1; out.push(ki); } } }
+  return out; }
+// make the patterns of every chunk within `ring` chunks of world point (px,py) now
+function _wpWarmNear(wd,px,py,ring){ var cx=Math.floor(px/(WCH*TILE)), cy=Math.floor(py/(WCH*TILE)), r=ring===undefined?2:ring;
+  _wpPatKindsIn(wd,cx-r,cy-r,cx+r,cy+r).forEach(function(ki){ _wpPatTile(ki); }); }
+// idle look-ahead: make at most ONE missing pattern of the chunks within `ring` of (px,py); true if one was made
+function _wpWarmAhead(wd,px,py,ring){ var cx=Math.floor(px/(WCH*TILE)), cy=Math.floor(py/(WCH*TILE)), r=ring||3;
+  var L=_wpPatKindsIn(wd,cx-r,cy-r,cx+r,cy+r); if(!L.length)return false; _wpPatTile(L[0]); return true; }
 var WP_TILE={cobble:[528,506],flag:[512,510],brick:[512,512],tier:[504,512],hex:[500.56,510],scute:[478,414],planks:[512,512]};
 function _wpPatTile(ki){
   if(_WPC[ki])return _WPC[ki]; var k=WK_REG.list[ki], sz=WP_TILE[k.pattern]||[512,512];

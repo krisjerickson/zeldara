@@ -40,6 +40,10 @@ Object.assign(WorldScene.prototype,{
     for(var i=0;i<need.length;i++){ var n=need[i], J=W.jobs.get(n.key); if(!J)continue; if(sync&&!n.vis)continue;
       var left=budget-(performance.now()-t0); if(left<=0)break;
       if(J.job.step(left)){ W.jobs.delete(n.key); var old=W.chunks.get(n.key); if(old)this._wrUnmount(old); W.chunks.set(n.key,this._wrMount(J.job.out)); } }
+    // painter idle: make the ground patterns of the next ring of chunks ahead of time (one per
+    // frame at most, re-scanned only when the hero changes chunk or the last scan made one)
+    if(!sync&&!W.jobs.size&&this.player){ var pk=Math.floor(this.player.x/(WCH*TILE))+'_'+Math.floor(this.player.y/(WCH*TILE));
+      if(W.warmKey!==pk){ if(!_wpWarmAhead(this.wd,this.player.x,this.player.y,3))W.warmKey=pk; } }
     // drop far chunks (and stale jobs)
     W.jobs.forEach(function(J,k){ if(!keep[k]&&!J.refresh)W.jobs.delete(k); });
     W.chunks.forEach(function(ch,k){ if(keep[k])return; var p=k.split('_'), cx=+p[0], cy=+p[1], cam=self.cameras.main, dw=cam.width/cam.zoom, dh=cam.height/cam.zoom, v={x:cam.scrollX+(cam.width-dw)/2,y:cam.scrollY+(cam.height-dh)/2,width:dw,height:dh}, cs=WCH*TILE;

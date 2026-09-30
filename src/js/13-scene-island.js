@@ -71,7 +71,12 @@ function _islKindT(k,q){ if(k.id==='sea')return T.OCEAN; if(k.lava)return T.DEEP
 function _buildIslandWorld(key,castle){
   var pick=ISLAND_PICK[key]; if(_ISL_WD&&_ISL_WD.islKey===key&&_ISL_WD.pick===pick)return _ISL_WD;
   _wkInit(); var Z=_islDesignFor(key), q=+key[0], W=WORLD_W, H=WORLD_H, N=W*H, c=buildWorld(Z,Z.seed,{layoutOnly:true}), K=c.K;
-  var tiles=[]; for(var y=0;y<H;y++){ var row=new Uint8Array(W); row.fill(T.OCEAN); tiles.push(row); }
+  // tiles is an array of rows: every row outside the island's box shares ONE read-only sea row
+  // (nothing writes outside the box: design cells, props and the entrance are all inside it; the
+  // axe only turns TREE tiles to DIRT). kind/zone/region/cls are flat W×H arrays (indexed y*W+x
+  // everywhere), so they stay full size.
+  var seaRow=new Uint8Array(W); seaRow.fill(T.OCEAN);
+  var tiles=[]; for(var y=0;y<H;y++){ if(y<ISL_OY||y>=ISL_OY+ISL_N){ tiles.push(seaRow); continue; } var row=new Uint8Array(W); row.fill(T.OCEAN); tiles.push(row); }
   var kind=new Uint16Array(N); kind.fill(Z.ground._gi); var zone=new Uint8Array(N); zone.fill(255); var region=new Uint8Array(N); region.fill(q); var cls=new Uint8Array(N); cls.fill(WM.OCEAN);
   for(var ly=0;ly<ISL_N;ly++)for(var lx=0;lx<ISL_N;lx++){ var k=K[c.t[ly*ISL_N+lx]], X=ISL_OX+lx, Y=ISL_OY+ly, i=Y*W+X, t=_islKindT(k,q);
     tiles[Y][X]=t; kind[i]=k._gi; cls[i]=t===T.OCEAN?WM.OCEAN:(t===T.SAND||t===T.SHALLOW_WATER||t===T.BRIDGE)?WM.BEACH:WM.LAND; }
@@ -152,7 +157,7 @@ class IslandScene extends WorldScene{
     this.events.once('shutdown',function(){ _WREG=self._wgSave.reg; _WZONE=self._wgSave.zone; _WCLS=self._wgSave.cls;
       (self.siteObjs||[]).forEach(function(o){ if(o.lblEl&&o.lblEl.parentNode)o.lblEl.parentNode.removeChild(o.lblEl); }); self.siteObjs=[]; });
     if(lblHost)lblHost.style.display='block';
-    _wpWarmPatterns(); this._updateChunks(true); this._ready=true;
+    _wpWarmNear(wd,this.player.x,this.player.y,1); this._updateChunks(true); this._ready=true;
     var Q=this.castle?this.islData.questText:this.islData.questText;
     showNotif('⚓ '+this.islData.name+' — '+Q,'#aaddff');
     if(typeof Tome!=='undefined')Tome.see('place','site_'+(site.id||('s'+this.sec+'_harbor')));

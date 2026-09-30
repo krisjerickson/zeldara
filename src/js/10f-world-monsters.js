@@ -21,26 +21,35 @@ function monTerrainWeight(R,zoneName,nearWater,nearLava){ var t=(R.tags.find(fun
     if(words.some(function(wd){ return zn.indexOf(wd.replace(/s$/,''))>=0; }))w+=6; });
   if(MON_TERRAIN_WORDS.water.test(t))w*=nearWater?4:0.35; if(MON_TERRAIN_WORDS.lava.test(t))w*=nearLava?4:0.5; if(/everywhere/.test(t))w+=1; return w; }
 // legacy monsters (their own game code) wear their pixel sprite too
-function monLegacyBody(scene,rid,def){ var R=MON_BY_ID[rid]; if(!R||!scene.textures)return null; var sc=MX.scaleOf(R), spr=scene.add.image(0,4,MX.tex(scene,R),'0').setOrigin(0.5,0.85).setScale(sc), col=def.color;
+// lazy: use a blank stand-in texture (same 4 × 32 px frames) until _monWake swaps in the real one
+function monLazyTex(scene){ var key='mx__lazy'; if(scene.textures.exists(key))return key; var t=scene.textures.addCanvas(key,mkCanvas(128,32)); for(var i=0;i<4;i++)t.add(String(i),0,i*32,0,32,32); return key; }
+function monLegacyBody(scene,rid,def,lazy){ var R=MON_BY_ID[rid]; if(!R||!scene.textures)return null; var sc=MX.scaleOf(R), spr=scene.add.image(0,4,lazy?monLazyTex(scene):MX.tex(scene,R),'0').setOrigin(0.5,0.85).setScale(sc), col=def.color; if(lazy)spr._lazyR=R;
   spr.setFillStyle=function(c){ if(c===0xffffff)this.setTintFill(0xffffff); else if(c===undefined||c===col)this.clearTint(); else this.setTint(c); return this; }; return spr; }
 
 Object.assign(WorldScene.prototype,{
   _spawnRosterMon(rid,wx,wy,sec,rng,o){ o=o||{}; var R=MON_BY_ID[rid]; if(!R)return null;
     if(MON_LEGACY[rid])return this._spawnLegacyMon(MON_LEGACY[rid],rid,wx,wy,sec,rng,o);
-    var mon=MX.spawn(this,rid,wx,wy,{q:sec,alpha:o.alpha}); if(!mon)return null; mon.section=sec; mon.respawnTimer=0; this.worldMonsters.push(mon); return mon; },
+    // lazy:true — the monster's name label and sprite texture are made when it first wakes near the
+    // hero (honoured by MX.spawn once 09-monster-engine.js supports it; ignored before that)
+    var mon=MX.spawn(this,rid,wx,wy,{q:sec,alpha:o.alpha,lazy:true}); if(!mon)return null; mon.section=sec; mon.respawnTimer=0; this.worldMonsters.push(mon); return mon; },
   _spawnLegacyMon(key,rid,wx,wy,sec,rng,o){ var base=MDEFS[key]; if(!base)return null; var R=MON_BY_ID[rid]||{tier:2,q:sec};
     var st=MX.stats(R,sec), mdef=Object.assign({},base,{boss:false,name:R.name||base.name,r:Math.min(base.r,13)});
     if(base.boss){ mdef.hp=st.hp; mdef.atk=st.atk; mdef.def=st.def; mdef.xp=st.xp; mdef.gMin=st.gMin; mdef.gMax=st.gMax; }
     var lv=st.lv, hp=base.boss?st.hp:Math.round(Math.max(base.hp,st.hp*0.9)), atk=base.boss?st.atk:Math.max(base.atk,st.atk), df=base.boss?st.def:base.def;
     if(o.alpha){ hp=Math.round(hp*1.6); atk=Math.round(atk*1.3); }
     var cont=this.add.container(wx,wy).setDepth(9), shadow=this.add.ellipse(0,mdef.r+2,mdef.r*2.2,7,0x000000,.3);
-    var body=monLegacyBody(this,rid,mdef)||this.add.circle(0,0,mdef.r,mdef.color);
+    var body=monLegacyBody(this,rid,mdef,true)||this.add.circle(0,0,mdef.r,mdef.color);
     var hpBg=this.add.rectangle(0,-(mdef.r+22),28,4,0x000000,.7), hpFill=this.add.rectangle(-14,-(mdef.r+22),28,4,0xff3333).setOrigin(0,.5);
     var lvCol=lv>=15?'#ff4444':lv>=10?'#ff8844':lv>=5?'#ffdd44':'#88ff88';
-    var nameT=this.add.text(0,-(mdef.r+30),(o.alpha?'Alpha ':'')+mdef.name+' Lv.'+lv,{fontSize:'7px',color:lvCol,fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
-    cont.add([shadow,body,hpBg,hpFill,nameT]);
-    var mon={cont:cont,body:body,hpFill:hpFill,type:key,rid:rid,def:mdef,hp:hp,maxHp:hp,x:wx,y:wy,spawnX:wx,spawnY:wy,section:sec,dead:false,respawnTimer:0,level:lv,monDef:df,monAtk:atk,state:'wander',atkTimer:0,tags:R.tags||[],_md:{}};
+    cont.add([shadow,body,hpBg,hpFill]);   // the name label is added by _monWake (first time it wakes)
+    var mon={cont:cont,body:body,hpFill:hpFill,type:key,rid:rid,def:mdef,hp:hp,maxHp:hp,x:wx,y:wy,spawnX:wx,spawnY:wy,section:sec,dead:false,respawnTimer:0,level:lv,monDef:df,monAtk:atk,state:'wander',atkTimer:0,tags:R.tags||[],_md:{},
+      _lazyVis:{name:[-(mdef.r+30),(o.alpha?'Alpha ':'')+mdef.name+' Lv.'+lv,lvCol]}};
     this.worldMonsters.push(mon); return mon; },
+  // Perf: a far-away monster needs no name label (a Text = canvas + texture) or sprite texture.
+  // Called by the monster loop (10-scene-world.js) the first time the monster is awake + visible.
+  _monWake(mon){ var v=mon._lazyVis; mon._lazyVis=null; if(!v||!mon.cont||!mon.cont.scene)return;
+    if(v.name){ var t=this.add.text(0,v.name[0],v.name[1],{fontSize:'7px',color:v.name[2],fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); mon.cont.add(t); mon.nameT=t; }
+    var b=mon.body; if(b&&b._lazyR){ var R=b._lazyR; b._lazyR=null; b.setTexture(MX.tex(this,R),b.frame?b.frame.name:'0'); } },
   // replaces the old 2-types-per-region pods
   _spawnRosterPods(){ var self=this, rng=new PRNG(WORLD_SEED+77777), wd=this.wd;
     var campGuards=this._initCamps(new PRNG(WORLD_SEED+55555));   // two thirds guard camps (10h-world-camps.js)

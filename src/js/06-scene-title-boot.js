@@ -47,29 +47,19 @@ class BootScene extends Phaser.Scene{
     this.add.text(w/2,h/2-30,'QUESTS OF ZELDARA V2',{fontSize:'28px',color:'#ffffff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
     this.add.rectangle(w/2,h/2+8,420,20,0x111122).setStrokeStyle(1,0x00f5ff);
     this._bar=this.add.rectangle(w/2-206,h/2+8,4,18,0x00f5ff).setOrigin(0,.5);
-    this._pct=this.add.text(w/2,h/2+26,'Generating world...0%',{fontSize:'11px',color:'#6688aa',fontFamily:'Segoe UI'}).setOrigin(.5);
+    this._pct=this.add.text(w/2,h/2+26,'Generating world...',{fontSize:'11px',color:'#6688aa',fontFamily:'Segoe UI'}).setOrigin(.5);
     this.add.text(w/2,h/2+50,'1200 × 1200 tiles — four regions, twelve crossings, seventeen waystones',{fontSize:'9px',color:'#334455',fontFamily:'Segoe UI'}).setOrigin(.5);
     var self=this;
     this.time.delayedCall(50,function(){self._startGen();});
   }
   _startGen(){
-    var wd=generateWorld();
-    // No pre-rendering — world uses dynamic chunks in WorldScene
-    // Just animate progress bar while doing site computation
-    var self=this,steps=0,totalSteps=60;
-    var tick=function(){
-      steps++;
-      var pct=steps/totalSteps;
-      self._bar.setSize(4+408*pct,18);
-      self._pct.setText('Building world... '+Math.floor(pct*100)+'%');
-      if(steps>=totalSteps){
-        self._pct.setText('Ready!');
-        self.time.delayedCall(120,function(){self.scene.start('World',{newGame:self._newGame});});
-      } else {
-        self.time.delayedCall(16,tick);
-      }
-    };
-    tick();
+    // The world is generated synchronously (the bar can't move during it), so the bar
+    // just reports the real steps: generating → built → entering. No artificial ticks.
+    var wd=generateWorld(), self=this;
+    this._bar.setSize(412,18);
+    this._pct.setText('Entering world...');
+    // one frame so "Entering world" shows; the World scene's create() does the rest
+    this.time.delayedCall(16,function(){ self.scene.start('World',{newGame:self._newGame}); });
   }
 }
 

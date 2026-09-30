@@ -21,8 +21,9 @@ var TrialRealm={
   enter:function(ws,run){ run.stage=run.stage||0; run.seed=run.seed||(1000+run.q*97+(run.i||0)*13);
     var P=ws.player; for(var i=0;i<16;i++){ var s=ws.add.circle(P.x+(Math.random()-0.5)*40,P.y+(Math.random()-0.5)*30,2+Math.random()*2,hexNum((TRIAL_PAL[run.q]||TRIAL_PAL[1]).glow),1).setDepth(WR_DEPTH(P.y)+0.02); ws.tweens.add({targets:s,y:s.y-40,alpha:0,duration:700,onComplete:function(){ this.targets[0].destroy(); }}); }
     ws.cameras.main.flash(350,255,255,255);
-    ws.time.delayedCall(360,function(){ ws.scene.sleep('World'); ws.scene.launch('Dungeon',{site:{id:'trial_'+run.key+'_'+run.stage,type:'trial',section:run.q,name:run.title,floors:1},floor:0,maxFloors:1,worldScene:ws,theme:'dungeon',trial:run});
-      document.getElementById('hud').style.display='none'; document.getElementById('dungeon-hud').style.display='block'; }); },
+    if(ws.sys.isPaused())ws.scene.resume();
+    setTimeout(function(){ if(!ws.sys||!ws.scene)return; ws.scene.sleep('World'); ws.scene.launch('Dungeon',{site:{id:'trial_'+run.key+'_'+run.stage,type:'trial',section:run.q,name:run.title,floors:1},floor:0,maxFloors:1,worldScene:ws,theme:'dungeon',trial:run});
+      document.getElementById('hud').style.display='none'; document.getElementById('dungeon-hud').style.display='block'; },360); },
   spec:function(run){ return {kind:'trial',run:run,seed:run.seed,last:true}; },
   // called from DungeonScene.create when data.trial is set (after the map is built)
   start:function(S){ var run=S._trialRun, L=S._lab.trial, st=run.stages[run.stage], ps=S.worldScene.playerState;

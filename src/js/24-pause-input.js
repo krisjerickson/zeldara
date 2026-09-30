@@ -70,6 +70,12 @@ function _pauseSync(){
   var want=_openOverlays().length>0;
   if(want&&!_PAUSE.active)_pauseAll();
   else if(!want&&_PAUSE.active)_resumeAll();
+  else if(!want&&!_PAUSE.active){
+    // Safety net (round 7): a play scene left paused with no menu open (a pause/resume race when a
+    // dialog closes and its action starts a scene) would freeze the game — resume it after ~0.8 s.
+    ['World','Island','Dungeon','Building'].forEach(function(k){ var s=game.scene.getScene(k); if(!s||!s.sys||!s.sys.isPaused()){ if(s)s._stuckT=0; return; }
+      s._stuckT=(s._stuckT||0)+1; if(s._stuckT>=2){ s._stuckT=0; s.scene.resume(); if(s.input&&s.input.keyboard&&s.input.keyboard.resetKeys)s.input.keyboard.resetKeys(); } });
+  }
   else if(want&&_PAUSE.active){
     // A scene that started while paused (e.g. a menu action launched one) must pause too.
     game.scene.getScenes(true).forEach(function(s){

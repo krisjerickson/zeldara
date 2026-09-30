@@ -1,0 +1,13 @@
+{
+  "name": "zeldara",
+  "private": true,
+  "description": "Quests of Zeldara: node build.mjs builds index.html (one self-contained file)",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --dev",
+    "check": "node build.mjs --check"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

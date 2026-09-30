@@ -1,4 +1,10 @@
 // ─── WorldScene ─────────────────────────────────
+// World labels (DOM): only write when something changed. classList.add/remove of a class that is
+// already (not) there still mutates the attribute and invalidates style, so check first (a read);
+// positions are cached on the element.
+function _wsLblShow(el,x,y){ var l=x+'px', t=y+'px'; if(el._lblL!==l){ el._lblL=l; el.style.left=l; } if(el._lblT!==t){ el._lblT=t; el.style.top=t; }
+  if(el.classList.contains('hidden'))el.classList.remove('hidden'); }
+function _wsLblHide(el){ if(!el.classList.contains('hidden'))el.classList.add('hidden'); }
 class WorldScene extends Phaser.Scene{
   constructor(key){super(key||'World')}   // IslandScene (13) extends this with key 'Island'
   init(d){this._newGame=!!(d&&d.newGame);}
@@ -193,7 +199,9 @@ class WorldScene extends Phaser.Scene{
       sceneRef._updateFog();sceneRef._emitUI();sceneRef._save();
     });
     // paint the chunks on screen before the first frame (the rest stream in)
-    _wpWarmPatterns();          // one-off pattern tiles now (loading), not as hitches mid-walk
+    // pattern tiles for the ground around the hero (and the village) now; the rest are made lazily
+    // (chunk jobs make them on demand, _updateChunks warms the next ring while idle — 05c/10c)
+    _wpWarmNear(this.wd,this.player.x,this.player.y,1); _wpWarmNear(this.wd,CENTER_X*TILE,CENTER_Y*TILE,1);
     this._updateChunks(true);
     this._ready=true;
   }
@@ -703,8 +711,11 @@ class WorldScene extends Phaser.Scene{
       if(mp.glow)mp.glow.setScale(scale);
       return true;
     });
-    // Update large animals
+    // Update large animals. Perf: like monsters, animals beyond ~1700 px sleep (no AI),
+    // and only animals inside the camera view (+ margin) are drawn into _lifeGfx.
+    var wv=this.cameras.main.worldView, vx0=wv.x-96, vy0=wv.y-96, vx1=wv.right+96, vy1=wv.bottom+96;
     this._largeAnimals.forEach(function(a){
+      if(!a.dead&&Math.hypot(px-a.x,py-a.y)>1700)return;   // asleep: frozen, not drawn
       a.ph=(a.ph||0)+dt*2;
       if(a.dead){
         // Respawn after 90s
@@ -796,8 +807,8 @@ class WorldScene extends Phaser.Scene{
         if(!blocked){a.x=nx2;a.y=ny2;}
         else{a.vx=0;a.vy=0;if(a.state==='flee')a.corneredTimer=(a.corneredTimer||0)+dt;}
       }
-      // Draw large animal
-      self._drawLargeAnimal(g,a,dt);
+      // Draw large animal (on-screen only)
+      if(a.x>vx0&&a.x<vx1&&a.y>vy0&&a.y<vy1)self._drawLargeAnimal(g,a,dt);
     });
   }
   _drawLargeAnimal(g,a){
@@ -1109,6 +1120,7 @@ class WorldScene extends Phaser.Scene{
       var dx=px-mon.x, dy=py-mon.y, dist=Math.hypot(dx,dy);
       // 4× world: monsters far off-screen sleep (no AI, not drawn)
       if(dist>1700){ mon.cont.setVisible(false); if(mon.state!=='wander'){mon.state='wander';} return; }
+      if(mon._lazyVis)self._monWake(mon);   // first wake: name label + sprite texture (10f)
       var mdef=mon.def;
       var spd=mdef.spd||50;
       if(!mon._md)mon._md={};
@@ -2773,12 +2785,10 @@ class WorldScene extends Phaser.Scene{
       var p2=project(obj.wx,obj.wy);
       var onScr=(p2[0]>-100&&p2[0]<hostW+100&&p2[1]>-50&&p2[1]<hostH+50);
       if(near&&onScr){
-        obj.lblEl.style.left=p2[0]+'px';
-        obj.lblEl.style.top=p2[1]+'px';
-        obj.lblEl.classList.remove('hidden');
+        _wsLblShow(obj.lblEl,p2[0],p2[1]);
         if(obj.s.boss){ var gt=_bossSiteGate(self.playerState,obj.s,self.wd.sites), txt=_siteLabel(obj.s)+(gt&&!gt.open?'  🔒 '+gt.done+'/'+gt.need:''); if(obj.lblEl.textContent!==txt)obj.lblEl.textContent=txt; }
       } else {
-        obj.lblEl.classList.add('hidden');
+        _wsLblHide(obj.lblEl);
       }
     });
     // Building labels (longer range — visible up to ~15 tiles)
@@ -2788,13 +2798,8 @@ class WorldScene extends Phaser.Scene{
         var near=Math.hypot(px-obj.wx,py-obj.wy)<TILE*15;
         var p3=project(obj.wx,obj.wy);
         var onScr=(p3[0]>-100&&p3[0]<hostW+100&&p3[1]>-50&&p3[1]<hostH+50);
-        if(near&&onScr){
-          obj.el.style.left=p3[0]+'px';
-          obj.el.style.top=p3[1]+'px';
-          obj.el.classList.remove('hidden');
-        } else {
-          obj.el.classList.add('hidden');
-        }
+        if(near&&onScr)_wsLblShow(obj.el,p3[0],p3[1]);
+        else _wsLblHide(obj.el);
       });
     }
   }
@@ -2924,7 +2929,8 @@ class WorldScene extends Phaser.Scene{
     try{
       var d=Object.assign({},this.playerState,{px:this.player.x,py:this.player.y});
       delete d.exploredGrid; // don't stringify typed array
-      d.exploredGridArr=Array.from(this.playerState.exploredGrid);
+      delete d.exploredGridArr;
+      d.exploredBits=_packBits(this.playerState.exploredGrid);   // v8: bit-packed (08-save.js)
       _prepareSave(d);
       localStorage.setItem('qoz_v2',JSON.stringify(d));
     }catch(e){}
@@ -2935,7 +2941,10 @@ class WorldScene extends Phaser.Scene{
       var d=JSON.parse(raw||'null');
       if(!d)return;
       d=_migrateSave(d,raw);
-      if(d.exploredGridArr){
+      if(d.exploredBits){
+        d.exploredGrid=_unpackBits(d.exploredBits,EXP_W*EXP_H);
+        delete d.exploredBits;
+      } else if(d.exploredGridArr){   // pre-v8 format (normally converted by _migrateSave)
         var arr=new Uint8Array(EXP_W*EXP_H);
         for(var i=0;i<Math.min(d.exploredGridArr.length,arr.length);i++)arr[i]=d.exploredGridArr[i];
         d.exploredGrid=arr;

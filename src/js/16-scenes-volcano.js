@@ -758,6 +758,7 @@ class VolcanoBossRushScene extends Phaser.Scene {
     this._sceneKey = "VolcanoBossRush";
     _attachSafetyEscape(this);
     _heroStowMount(this);
+    if(typeof ZSFX!=='undefined'){ ZSFX.music(4,4); this.events.once('shutdown',function(){ ZSFX.stopMusic(); }); }   // boss-rush music (round 7)
     var _self_safety = this; try {
     var self=this;
     this.ps=this.worldScene.playerState;

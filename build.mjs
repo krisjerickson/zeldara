@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // Zeldara build: src/ + assets/ -> index.html (one self-contained file, opens from file://).
 //
-//   node build.mjs            build index.html
+//   node build.mjs            build index.html (JS minified with esbuild if it is installed:
+//                             npm install — see package.json; otherwise unminified + a warning)
+//   node build.mjs --dev      build unminified (readable JS in index.html / the Lab)
 //   node build.mjs --check    build and verify every inline script parses
 //
 // Source layout
@@ -17,6 +19,25 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const r = p => fs.readFileSync(path.join(ROOT, p), 'utf8');
+
+// Minify (perf round): whitespace + syntax only, in SCRIPT mode — no identifier renaming at all, so
+// top-level names, function/class names, stack traces and Function#toString (05c builds its worker
+// from vnoise/_wpField source) are untouched. Full identifier renaming saves only ~2% more gzip.
+const DEV = process.argv.includes('--dev');
+let esbuild = null;
+if (!DEV) {
+  try { esbuild = await import('esbuild'); }
+  catch (e) { console.warn('! esbuild not installed (npm install) — building unminified'); }
+}
+const minify = (code, label) => {
+  if (!esbuild) return code;
+  const t = Date.now();
+  let out;
+  try { out = esbuild.transformSync(code, { minifyWhitespace: true, minifySyntax: true, target: 'esnext', charset: 'utf8', legalComments: 'none' }).code; }
+  catch (e) { console.warn('! esbuild failed (' + String(e.message).split('\n')[0] + ') — building unminified'); esbuild = null; return code; }
+  console.log(`  minified ${label}: ${(code.length / 1024).toFixed(0)} KB → ${(out.length / 1024).toFixed(0)} KB (${Date.now() - t} ms)`);
+  return out;
+};
 
 // 1. Generate sprite data from assets (base64-inlined so file:// keeps working)
 const manifest = JSON.parse(r('assets/manifest.json'));
@@ -36,7 +57,7 @@ fs.writeFileSync(path.join(ROOT, 'src/js/01-sprite-data.js'),
 // 2. Concatenate JS in filename order
 const jsDir = path.join(ROOT, 'src/js');
 const jsFiles = fs.readdirSync(jsDir).filter(f => f.endsWith('.js')).sort();
-const js = jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('');
+const js = minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
 
 // 3. Fill the template (function replacers so `$` in code is never special)
 const out = r('src/index.template.html')
@@ -74,7 +95,7 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
     + fs.readFileSync(path.join(jsDir, '09b-boss-phases.js'), 'utf8');
   const labDir = path.join(ROOT, 'lab/src/js');
   const labFiles = fs.readdirSync(labDir).filter(f => f.endsWith('.js')).sort();
-  const labJs = shared + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join('');
+  const labJs = minify(shared + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
   if (/<\/script>/i.test(labJs)) throw new Error('Literal </script> in lab JS');
   const lab = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs);
   if (process.argv.includes('--check')) {

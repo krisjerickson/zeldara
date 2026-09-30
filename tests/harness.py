@@ -11,7 +11,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 # Phaser 3.60 UMD build (npm pack phaser@3.60.0) — served in place of the cdnjs URL
 PHASER = os.environ.get('PHASER_JS', os.path.join(HERE, '.phaser', 'package', 'dist', 'phaser.min.js'))
-INDEX = os.path.join(HERE, '..', 'index.html')
+INDEX = os.environ.get('ZELDARA_INDEX', os.path.join(HERE, '..', 'index.html'))
 
 class G:
     def __init__(self, page, errs):

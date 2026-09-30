@@ -59,7 +59,7 @@ with game(new=True) as g:
     check('The castle is a tower-style dungeon with its own look', r['c'] and r['style'] == 'drowned_abbey' and r['max'] == 3, r)
     g.js("""(()=>{ var d=game.scene.getScene('Dungeon'); var cs=CastleRun.site('q2_c'); d.scene.restart({site:cs,floor:cs.floors-1,maxFloors:cs.floors,worldScene:d.worldScene,returnScene:'Island',theme:'tower'}); })()"""); g.wait(3000)
     r = g.js("(()=>{ var d=game.scene.getScene('Dungeon'), b=(d._bossGroup||[])[0]; return {boss:b&&b.def.name, mx:!!(b&&b.mx), captive:!!d._captive, phases:BossPhases.count(d._bossKey)}; })()")
-    check('Top floor: a one-phase warden and a caged master', r['boss'] == 'The Drowned Abbot' and r['mx'] and r['captive'] and r['phases'] == 1, r)
+    check('Top floor: a one-phase warden and a caged master', 'Abbot' in r['boss'] and 'Drowned' in r['boss'] and r['mx'] and r['captive'] and r['phases'] == 1, r)
     g.js(KILL); g.wait(900)
     g.js("game.scene.getScene('Dungeon')._openBossChest()"); g.wait(2600)
     for _ in range(20):

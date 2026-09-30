@@ -81,6 +81,7 @@ function _bonusMiniBossKey(sec){
   MDEFS[key]=Object.assign({},b,{ name:'Elite '+b.name, hp:Math.round(b.hp*8+60*sec), _base:best, atk:Math.round(b.atk*1.4)+2, def:(b.def||0)+2,
     r:(b.r||10)+5, xp:b.xp*6, gMin:b.gMin*4, gMax:b.gMax*4, boss:true, elite:true,
     _rid:(typeof MON_LEGACY!=='undefined')?Object.keys(MON_LEGACY).find(function(k){ return MON_LEGACY[k]===best; }):null });
+  if(typeof BA!=='undefined'&&BA.of(key))MDEFS[key].name=BA.of(key).name;   // painted elite (07zz) names it
   return key;
 }
 // Island guardians live in the island's dungeon now (the familiar comes from them).
@@ -89,6 +90,7 @@ function _islandBossKey(sec){
   var isl=(typeof HARBOR_ISLANDS!=='undefined')&&HARBOR_ISLANDS[sec]; if(!isl||!isl.boss)return null; var b=isl.boss;
   MDEFS[key]={ name:b.name, icon:b.icon, hp:b.hp, atk:b.atk, def:b.def||0, xp:Math.round(b.hp*1.6), gMin:30*sec, gMax:45*sec, sec:sec,
     color:b.col||0x884422, r:b.r||18, spd:b.spd||40, moveType:b.moveType||'normal', atkType:b.atkType||'melee', boss:true };
+  if(typeof BA!=='undefined'&&BA.of('boss_isl_'+sec))MDEFS[key].name=BA.of('boss_isl_'+sec).name;   // painted guardian (07zz) names it
   return key;
 }
 

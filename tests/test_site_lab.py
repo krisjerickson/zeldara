@@ -53,7 +53,7 @@ with game() as g:
     g.js("openSiteLab()"); g.js("document.querySelector('.sl-tab[data-g=isl]').click()"); g.wait(200)
     g.js("document.querySelector('.sl-fl[data-s=isl_adv_4_tower_island][data-f=\"4\"]').click()")
     ok=wait_for(g,"(()=>{var d=game.scene.getScene('Dungeon');return !!(d&&d._ready&&game.scene.isActive('Dungeon')&&d.siteId==='isl_adv_4_tower_island');})()")
-    check('Island: Frost Spire top floor opens with the Frost Lord', ok and g.js("game.scene.getScene('Dungeon').monsters.some(m=>m.isBoss&&m.def.name==='Frost Lord')"))
+    check('Island: Frost Spire top floor opens with the Frost Lord', ok and g.js("game.scene.getScene('Dungeon').monsters.some(m=>m.isBoss&&/Frost Lord/.test(m.def.name))"))
     g.js("document.querySelector('#sl-bar button[data-a=lab]').click()"); g.wait(200)
     check('🧪 Lab button reopens the Site Lab', g.js("document.getElementById('modal-sitelab').style.display==='flex'"))
     g.js("document.querySelector('.sl-tab[data-g=isl]').click()"); g.wait(100)

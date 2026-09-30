@@ -95,17 +95,19 @@ MX.spawn=function(scene,rid,x,y,o){ o=o||{}; var R=MON_BY_ID[rid]; if(!R)return 
   if(o.hpMult){ s.hp=Math.round(s.hp*o.hpMult); } if(o.alpha){ s.hp=Math.round(s.hp*1.6); s.atk=Math.round(s.atk*1.3); sc*=1.2; }
   var cont=scene.add.container(x,y).setDepth(A.depth(y));
   var shadow=scene.add.ellipse(0,s.r*0.9+2,s.r*2.3,7,0x000000,.3);
-  var spr=scene.add.image(0,4,MX.tex(scene,R),'0').setOrigin(0.5,0.85).setScale(sc);
+  var lazy=!!(o.lazy&&typeof monLazyTex==='function');   // perf: name label + texture made on first wake (10f _monWake)
+  var spr=scene.add.image(0,4,lazy?monLazyTex(scene):MX.tex(scene,R),'0').setOrigin(0.5,0.85).setScale(sc); if(lazy)spr._lazyR=R;
   var hpBg=scene.add.rectangle(0,-(32*sc*0.8+6),28,4,0x000000,.7), hpFill=scene.add.rectangle(-14,-(32*sc*0.8+6),28,4,0xff3333).setOrigin(0,.5);
   var lvCol=s.lv>=15?'#ff4444':s.lv>=10?'#ff8844':s.lv>=5?'#ffdd44':'#88ff88';
-  var nameT=scene.add.text(0,-(32*sc*0.8+14),(o.alpha?'Alpha ':'')+(o.name||R.name)+' Lv.'+s.lv,{fontSize:'7px',color:'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); nameT.setColor(lvCol);
-  cont.add([shadow,spr,hpBg,hpFill,nameT]);
+  var nameY=-(32*sc*0.8+14), nameS=(o.alpha?'Alpha ':'')+(o.name||R.name)+' Lv.'+s.lv;
+  var nameT=lazy?null:scene.add.text(0,nameY,nameS,{fontSize:'7px',color:'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); if(nameT)nameT.setColor(lvCol);
+  cont.add(nameT?[shadow,spr,hpBg,hpFill,nameT]:[shadow,spr,hpBg,hpFill]);
   var col=parseInt(R.spec.pal[0].slice(1),16);
   spr.setFillStyle=function(c){ if(c===0xffffff)this.setTintFill(0xffffff); else if(c===undefined||c===col)this.clearTint(); else this.setTint(c); return this; };
   var mon={mx:true,rid:rid,R:R,kit:kit,cont:cont,body:spr,spr:spr,hpFill:hpFill,hpBg:hpBg,nameT:nameT,type:'mx_'+rid,
     def:{name:o.name||R.name,icon:'',r:s.r,color:col,xp:s.xp,gMin:s.gMin,gMax:s.gMax,atk:s.atk,def:s.def,spd:s.spd,sec:q,hp:s.hp,atkType:'mx',moveType:'mx'},
     maxHp:s.hp,_hp:s.hp,x:x,y:y,spawnX:x,spawnY:y,level:s.lv,monAtk:s.atk,monDef:s.def,dead:false,state:'wander',atkTimer:0,respawnTimer:0,
-    temp:!!o.temp,alpha:!!o.alpha,tags:R.tags,_m:null,_scene:scene};
+    temp:!!o.temp,alpha:!!o.alpha,tags:R.tags,_m:null,_scene:scene,_lazyVis:lazy?{name:[nameY,nameS,lvCol]}:null};
   Object.defineProperty(mon,'hp',{get:function(){ return this._hp; },set:function(v){ MX.onHp(this,v); },configurable:true,enumerable:true});
   MX.reset(mon); return mon; };
 MX.reset=function(mon){ var k=mon.kit, m=mon._m={t:Math.random()*3,cd:{},busy:null,face:0,hidden:false,invuln:0,aggro:false,hurtT:0,frameT:0,strikeT:0,stunT:0,armor:0,revived:false,down:0,dodgeCd:0,hits:[],enraged:false,flee:false,children:[],vis:true};
@@ -199,7 +201,8 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
 MX.anim=function(A,mon,m,dt,dx){ var f; if(m.busy)f=m.busy.phase==='wind'?'2':'3'; else if(m.strikeT>0){ m.strikeT-=dt; f='3'; } else f=(Math.floor(m.t*2.6)%2)?'1':'0';
   if(mon.spr.frame.name!==f)mon.spr.setFrame(f); if(Math.abs(dx)>4)mon.spr.setFlipX(dx<0);
   mon.cont.setPosition(mon.x,mon.y); mon.cont.setDepth(A.depth(mon.y));
-  var hid=m.hidden, show=!hid&&!m.lurk; mon.hpBg.setVisible(show); mon.hpFill.setVisible(show); mon.nameT.setVisible(show);
+  if(mon._lazyVis&&A.scene._monWake)A.scene._monWake(mon);
+  var hid=m.hidden, show=!hid&&!m.lurk; mon.hpBg.setVisible(show); mon.hpFill.setVisible(show); if(mon.nameT)mon.nameT.setVisible(show);
   mon.spr.setAlpha(m.sub?0.3:hid?(mon.kit.move.name==='disguise'?1:0.14):1); mon.hpFill.displayWidth=28*Math.max(0,mon._hp/mon.maxHp); };
 MX._try=function(A,mon,ang,spd,dt,fly){ var nx=mon.x+Math.cos(ang)*spd*dt, ny=mon.y+Math.sin(ang)*spd*dt, n=0;
   if(A.canGoM(nx,mon.y,mon,fly)){ mon.x=nx; n++; } if(A.canGoM(mon.x,ny,mon,fly)){ mon.y=ny; n++; } return n; };
