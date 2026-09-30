@@ -62,6 +62,9 @@ with game() as g:
     check('Vault: bonus cleared, relic kept, +3 max HP, no main quest', g.ws("ps.bonusCleared.includes('s2_b_moonglass')&&ps.relics.includes('moonglass')&&ps.maxHp===%d&&!ps.completedQuests.includes('s2_tower')"%(hp0+3)), g.ws("({b:ps.bonusCleared,r:ps.relics,hp:ps.maxHp})"))
     check('Bonus sites stay open (not locked)', g.ws("!(ps.lockedSites||[]).includes('s2_b_moonglass')"))
     g.js(LAUNCH+'(["s2_b_moonglass",4])'); wait_floor(g,'s2_b_moonglass',4); g.wait(300)
+    for _ in range(40):
+        if g.js("(()=>{var d=game.scene.getScene('Dungeon');return !!(d&&d.monsters&&d.monsters.some(m=>m.isBoss));})()"): break
+        g.wait(250)
     check('Replay: elite returns +25% (Rematch)', g.js("game.scene.getScene('Dungeon').monsters.some(m=>m.isBoss&&/Rematch/.test(m.def.name))"))
     kill(g); g.wait(200); g.js(CLAIM); back_to_world(g); g.wait(400)
     check('Replay vault: no second relic', g.ws("ps.relics.length===1&&ps.maxHp===%d"%(hp0+3)))
@@ -91,7 +94,7 @@ with game() as g:
         check(f'Island {sec} dungeon uses a Lab design, ≥4 floors', info['lab'] and info['type']==kind and info['mf']>=4, info)
         g.js("(mf=>{var d=game.scene.getScene('Dungeon');d.scene.restart(Object.assign({},d._initData,{floor:mf-1}));})(%d)"%mf)
         wait_floor(g,sid,mf-1); g.wait(300)
-        check(f'Island {sec} guardian {boss} waits on the last floor', g.js("game.scene.getScene('Dungeon').monsters.some(m=>m.isBoss&&m.def.name.indexOf(%s)>=0)"%json.dumps(boss)))
+        check(f'Island {sec} guardian {boss} waits on the last floor', g.js("game.scene.getScene('Dungeon').monsters.some(m=>m.isBoss&&(m.def.name.indexOf(%s)>=0||m.def.name===(BA.of('boss_isl_%d')||{}).name))"%(json.dumps(boss),sec)))
         kill(g); g.wait(200); g.js(CLAIM)
         for _ in range(30):
             if g.js("game.scene.isActive('Island')"): break

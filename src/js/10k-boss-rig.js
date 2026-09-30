@@ -55,14 +55,19 @@ var BossRig={ keys:[], MAXTEX:8,
     var st=M.pose(R.t,moving,D), fl=b.flipX, fa=R.fade>0?1-R.fade/0.4:1; if(R.fade>0)R.fade=Math.max(0,R.fade-dt);
     b.setScale(sc*st.sx,sc*st.sy); b.y=R.fy+st.y; b.rotation=(st.rot||0)*(fl?-1:1);
     var baseA=(R.mon&&R.mon.mx)?b.alpha:1; b.setAlpha(Math.max(0,Math.min(1,(st.a===undefined?1:st.a)*fa*baseA)));
-    var bk=R.back; bk.setFlipX(fl); bk.setScale(sc*st.flap*(fl?1:1),sc); bk.y=R.fy+st.y+(BA.PIVOT[D.arch]||0)*(D.h/100)*(D._kfix||1); bk.rotation=D.orb==='heart'?0:(st.backRot||0)*(fl?-1:1); bk.setAlpha(b.alpha);
+    var bk=R.back; bk.setFlipX(fl); bk.setScale(sc*st.flap,sc*(st.flapY===undefined?1:st.flapY)); bk.y=R.fy+st.y+(BA.PIVOT[D.arch]||0)*(D.h/100)*(D._kfix||1); bk.rotation=D.orb==='heart'?0:(st.backRot||0)*(fl?-1:1); bk.setAlpha(b.alpha);
     if(R.pupil){ var pp=CHX.ppos(R.scene), ex=0, ey=0; if(pp){ var vx=pp.x-x, vy=pp.y-(y-D.h*0.5), l=Math.hypot(vx,vy)||1; ex=vx/l*D.h*0.035; ey=vy/l*D.h*0.02; } R.pupil.x=ex; R.pupil.y=R.fy+st.y+ey; R.pupil.setScale(sc*st.sx,sc*st.sy); R.pupil.setAlpha(b.alpha); }
     // plane-shift: now and then a translucent copy slides out of step with the body
     if(st.ghost&&M.veil!==undefined&&Math.random()<dt*0.9)BossRig.ghost(R,x+(st.gx||0)*(Math.random()<0.5?-1:1),y,0.35,360,true);
     // afterimages when fast (always for blur/fly styles; any boss that charges)
     R.trailT-=dt; if(R.trailT<=0&&(spd>150||(M.trail&&spd>45))){ R.trailT=M.trail?0.06:0.08; BossRig.ghost(R,x,y,M.trail?0.42:0.3,300,false); }
+    // signature trail (round 8): lava titans drip embers, shadow lords trail smoke …
+    if(D.sig&&D.sig.trail&&moving===1){ R.emT=(R.emT||0)-dt; if(R.emT<=0){ R.emT=0.07; BossRig.ember(R,x,y,D.sig.trail); } }
     // heavy footfalls: dust + a little camera shake when the hero is near
     if(M.step&&moving===1){ var ph=Math.sin(R.t*(M===BA.MOTION.lumber?2.2:3.2)), s=ph>0?1:-1; if(s!==R.step){ R.step=s; BossRig.foot(R,x,y); } } },
+  ember:function(R,x,y,kind){ var s=R.scene, D=R.D; if(!s||!s.add||(R.embers|0)>14)return; R.embers=(R.embers|0)+1; var col=kind==='smoke'?0x2a2a38:kind==='lava'?hexNum(D.pal.g):hexNum(D.sig.trailCol||D.pal.g);
+    var e=s.add.circle(x+(Math.random()-0.5)*D.h*0.3,y+R.fy-Math.random()*D.h*0.5,2+Math.random()*D.h*0.02,col,kind==='smoke'?0.5:0.9).setDepth((R.cont.depth||10)-0.3); if(kind!=='smoke')e.setBlendMode(Phaser.BlendModes.ADD);
+    s.tweens.add({targets:e,y:e.y-(kind==='smoke'?20:10)-Math.random()*20,alpha:0,scale:kind==='smoke'?2.2:0.4,duration:500+Math.random()*400,onComplete:function(){ e.destroy(); R.embers--; }}); },
   ghost:function(R,x,y,a,ms,add){ if(R.ghosts>8)return; var b=R.body, s=R.scene; if(!s||!s.add)return; R.ghosts++;
     var g=s.add.image(x,y+R.fy+(b.y-R.fy),b.texture.key,b.frame.name).setOrigin(b.originX,b.originY).setScale(b.scaleX,b.scaleY).setFlipX(b.flipX).setRotation(b.rotation).setAlpha(a).setTint(hexNum(R.D.pal.g)).setDepth((R.cont.depth||10)-0.5);
     if(add)g.setBlendMode(Phaser.BlendModes.ADD);

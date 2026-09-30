@@ -368,3 +368,118 @@ BD('elite_3.a','Runic Stone Golem','golem',148,'lumber','#8a8070,#3a342a,#c8b090
 BD('elite_3.b','Crystal Golem','golem',148,'lumber','#7a8aa0,#3a4a5a,#e0f0ff,#a0e8ff',{mat:'obsidian',shoulderCrystals:true},'A golem of crystal and quartz.');
 BD('elite_4.a','Ash Wraith Lord','hum',140,'phase','#5a5050,#1a1414,#ff7030,#ff7030',{lower:'wraith',armor:'rags',head:'wraith',gear:'spikecrown',crownCol:'#4a4040',cast:true,off:'flame',float:10,motes:'embers'},'A wraith of ash and cinders.');
 BD('elite_4.b','Cinder Hound Alpha','drake',135,'prowl','#3a2a24,#140a08,#ff7030,#ff7030',{beast:'wolf',cracks:true,motes:'embers'},'A huge cinder-hound, lava in its fur.');
+
+// ═══════════════════════════════════════════════════════════════════════
+// ║ ROUND 8 — Kris's picks + one look per boss across ALL its phases.
+// ║ R8(id, pal|null, patch) retunes a picked design (null in the patch
+// ║ removes a part). Every unpicked option above stays as it was, for
+// ║ reference (the Lab shows them under "Reference — not selected").
+// ║ New options (d/e/f) cover the forms Kris asked to be redrawn.
+// ═══════════════════════════════════════════════════════════════════════
+function R8(id,pal,patch,meta){ var D=BOSS_ART[id]; if(!D)return; if(pal){ var p=pal.split(','); D.pal={a:p[0],b:p[1],m:p[2],g:p[3],s:p[4]||'#d8b090',e:p[5]||p[3]}; }
+  Object.keys(patch||{}).forEach(function(k){ if(patch[k]===null)delete D[k]; else D[k]=patch[k]; }); if(meta)Object.assign(D,meta); D.r8=true; delete D._kfix; }
+
+// Kris's picks (Lab, Sept 30). Slots without a pick use the first new option.
+Object.assign(BOSS_PICK,{
+  boss_goblin_king:'c',bf_goblin_king_2:'c', boss_dark_warlock:'b',bf_dark_warlock_2:'c',
+  boss_swamp_witch:'a',bf_swamp_witch_2:'c',bf_swamp_witch_3:'c', boss_storm_mage:'c',bf_storm_mage_2:'b',bf_storm_mage_3:'b',
+  boss_rock_dragon:'b',bf_rock_dragon_2:'b',bf_rock_dragon_3:'d',bf_rock_dragon_4:'d',bf_drakeling:'b',
+  boss_iron_sentinel:'b',bf_iron_sentinel_2:'b',bf_iron_sentinel_3:'c',bf_iron_sentinel_4:'c',bf_forge_guardian:'b',
+  boss_lava_titan:'b',bf_lava_titan_2:'b',bf_lava_titan_3:'d',bf_lava_titan_4:'a',bf_lava_titan_5:'a',
+  boss_shadow_lord:'b',bf_shadow_lord_2:'b',bf_shadow_lord_3:'a',bf_shadow_lord_4:'c',bf_shadow_lord_5:'b',bf_shadow_twin:'a',
+  boss_isl_1:'b',boss_isl_2:'c',boss_isl_3:'c',boss_isl_4:'b', boss_volcano_lord:'a',
+  boss_vr_ashen_knight:'b',boss_vr_cinder_phoenix:'b',boss_vr_ember_wraith:'a',boss_vr_inferno_wraith:'a',boss_vr_lava_wyrm:'b',boss_vr_magma_spitter:'a',boss_vr_obsidian_golem:'b',boss_vr_pyrokraken:'b',
+  cw_bone_king:'b',cw_drowned_abbot:'c',cw_ember_priest:'b',cw_forge_thane:'a',cw_frost_queen:'a',cw_lotus_naga:'a',cw_mangrove_chief:'b',cw_mill_ogre:'b',cw_obsidian_jailer:'c',cw_roc_lord:'b',cw_sun_baron:'c',cw_thorn_knight:'a',
+  elite_1:'b',elite_2:'a',elite_3:'a',elite_4:'a',
+  mg_arcane_scribe:'b',mg_blizzard_king:'b',mg_bog_hexwitch:'a',mg_hearth_witch:'a',mg_nova_sorceress:'b',mg_rift_lich:'b',mg_rime_witch:'b',mg_sea_warlock:'a',mg_shard_sorcerer:'b',mg_soul_drinker:'a',mg_star_sorcerer:'a',mg_stone_shaper:'b',mg_storm_caller:'a',mg_thorn_druid:'b',mg_thunder_magus:'b',mg_void_warlock:'b'
+});
+// what each family keeps through every phase (shown in the Lab line-up)
+var BOSS_THREADS={
+  goblin_king:'Green goblin hide, the big gold crown, red eyes, fur and a war-hammer — and the treasure hoard glinting behind him.',
+  dark_warlock:'Teal soul-fire, a white crown hovering above, the teal hourglass mark, and his rune circle behind.',
+  swamp_witch:'Bog-green and moss, glowing lime eyes, the same crooked witch hat (even on the hydra), and green bog-mist.',
+  storm_mage:'Deep-blue robes, wild white hair and beard, the storm orb, yellow-white lightning, and a storm cloud overhead.',
+  rock_dragon:'Earth-brown stone hide, amber eyes, violet geode crystals that grow each phase, and floating crystal shards.',
+  iron_sentinel:'Iron grey with gold trim, the same glowing forge-star in his chest, rock crust that builds up, and the forge ring behind.',
+  lava_titan:'Obsidian black with magma cracks, bull horns and an obsidian spiked crown, a ring of lava flames around him.',
+  shadow_lord:'Black and silver with lilac soul-light, the silver spiked crown in every form, and an eclipse behind him — which breaks into dawn at the end.'
+};
+var SIG={
+  goblin:{aura:'coins'},
+  warlock:{crown:'float',crownCol:'#eef6f2',crownGlow:'#60ffb0',mark:'hourglass',markCol:'#60ffb0',aura:'runes'},
+  witch:{hat:'#2a3a1a',hatBand:'#8a7a40',aura:'mist'},
+  storm:{aura:'storm'},
+  dragon:{aura:'shards'},
+  sentinel:{mark:'star',markCol:'#ff9a30',aura:'forge'},
+  titan:{magma:true,aura:'lava',trail:'lava'},
+  shadow:{aura:'eclipse',trail:'smoke'}
+};
+var sg=function(base,extra){ return Object.assign({},base,extra||{}); };
+
+// ── Grubnash (Goblin King) ──
+R8('boss_goblin_king.c',null,{sig:sg(SIG.goblin)});
+R8('bf_goblin_king_2.c','#6a7a5a,#2a3222,#e8c040,#ffd040,#8aaa50,#ff4020',{rider:{head:'goblin',headScale:1.35,belly:true,gear:'crown',armor:'fur',torsoCol:'#7a5a3a',armCol:'#8aaa50',weapon:'hammer',wepCol:'#8a8a90',skulls:true,eyesGlow:true},hornCol:'#d8d0b8',motes:null,sig:sg(SIG.goblin)},
+  {lore:'Grubnash, crown and war-hammer and all, rides out on a chained, horned cave-beast that shakes the warren with every stamp.'});
+// ── Morvane (Dark Warlock) ──
+R8('boss_dark_warlock.b',null,{gear:null,sig:sg(SIG.warlock,{crownSize:1.45})});
+R8('bf_dark_warlock_2.c','#1a1e24,#07090c,#8ab0a0,#60ffb0',{legBands:true,motes:'smoke',sig:sg(SIG.warlock,{mark:null,crownSize:1.5})},
+  {lore:'Morvane fuses with his brood-queen. The teal hourglass burns on her back, and his white crown still hovers above.'});
+// ── Granny Greenteeth (Swamp Witch) ──
+R8('boss_swamp_witch.a',null,{sig:sg(SIG.witch,{hat:null})});   // she already wears the hat
+R8('bf_swamp_witch_2.c','#3a5a2a,#1a2a12,#8a7a40,#a0ff60,#8aa060',{torsoCol:'#5a4a30',hatCol:'#2a3a1a',hairCol:'#c8c8b0',motes:'bubbles',moteN:10,sig:sg(SIG.witch,{hat:null})});
+R8('bf_swamp_witch_3.c','#3a5a2a,#10200e,#8a7a40,#a0ff60',{hoodCol:'#2a3a1a',holeGlow:'#a0ff60',sig:sg(SIG.witch,{hatSize:1.25})},
+  {lore:'The witch sinks into the mire and rises as a hydra — still wearing that crooked hat.'});
+// ── Tharnwald (Storm Mage) ──
+R8('boss_storm_mage.c','#2a4a9a,#0a1a4a,#e0e8ff,#fff080,#e8d0b8,#c0e0ff',{capeCol:'#0a1a4a',sig:sg(SIG.storm)});
+R8('bf_storm_mage_2.b','#2a4a9a,#0a1a4a,#e0e8ff,#fff080,#e0c8a8,#c0e0ff',{hair:'wild',hairCol:'#f0f4ff',off:'orb',sig:sg(SIG.storm)});
+R8('bf_storm_mage_3.b','#2a4a9a,#0a1a4a,#e0e8ff,#fff080,#e0c8a8,#c0e0ff',{armor:'crystal',torsoCol:'#2a4a9a',head:'face',hair:'wild',hairCol:'#f0f4ff',beardCol:'#f0f4ff',gear:'hornhelm',helmCol:'#1a3a8a',off:'orb',wingCol:'#c8d8ff',wingCol2:'#fff8c0',cape:'long',capeCol:'#0a1a4a',sig:sg(SIG.storm)},
+  {lore:'Tharnwald unbound: a storm giant with the mage\'s white beard, blue robes and storm orb, a thunder-hammer in his fist.'});
+// ── Grauldr (Rock Dragon) — geode crystals grow each phase ──
+R8('boss_rock_dragon.b','#8a6a4a,#3a2a1a,#e0c080,#c080ff,#d8b090,#ffb040',{crystals:true,motes:null,sig:sg(SIG.dragon)});
+R8('bf_rock_dragon_2.b','#7a5a44,#2e2014,#e0c8ff,#c080ff,#d8b090,#ffb040',{wingCol:'#4a3428',wingGlow:true,sig:sg(SIG.dragon)});
+BD('bf_rock_dragon_3.d','Grauldr the Earthshaker','wyvern',205,'soar','#7a5a44,#2e2014,#e0c8ff,#c080ff,#d8b090,#ffb040',
+  {bulk:1,neck:1,tail:1,crystals:true,wingCol:'#4a3428',wingGlow:true,chestGlow:'#c080ff',breath:'#c080ff',motes:'stars',moteN:10,sig:sg(SIG.dragon)},
+  'Grauldr tears free of the mountain and takes wing — a long, lean dragon with a violet furnace glowing in his chest.');
+BD('bf_rock_dragon_3.e','Grauldr the Earthshaker','wyvern',210,'soar','#6a5040,#2a1c12,#e0c8ff,#c080ff,#d8b090,#ffb040',
+  {bulk:1.12,neck:0.9,tail:0.95,crystals:true,plates:true,headSize:1.08,wingCol:'#3e2c22',chestGlow:'#ff9040',breath:'#ffb060',cracks:true,sig:sg(SIG.dragon)},
+  'A heavier, rock-plated dragon on the wing. Its chest glows ember-orange before it breathes; the geodes still crown its back.');
+BD('bf_rock_dragon_4.d','Grauldr, Tyrant of the Mountain','wyvern',250,'soar','#6a4c3a,#241810,#f0d8ff,#c080ff,#d8b090,#ffd060',
+  {bulk:1.12,neck:1.25,tail:1.3,wingSpan:1.12,crystals:true,plates:true,headSize:1.12,wingCol:'#3a2a20',wingGlow:true,chestGlow:'#d090ff',breath:'#d090ff',motes:'stars',moteN:14,sig:sg(SIG.dragon,{crown:'spike',crownCol:'#c080ff',crownGlow:'#e0c0ff',crownSize:0.9})},
+  'The tyrant fully awake: a vast, long-necked dragon on two great wings, wearing a crown of geode crystal.');
+BD('bf_rock_dragon_4.e','Grauldr, Tyrant of the Mountain','wyvern',255,'soar','#5a4436,#1e140e,#f0d8ff,#c080ff,#d8b090,#ffd060',
+  {bulk:1.2,neck:1.15,tail:1.35,wingSpan:1.18,crystals:true,plates:true,cracks:true,headSize:1.15,wingCol:'#302218',wingGlow:true,chestGlow:'#ff9040',breath:'#ffb060',motes:'embers',moteN:12,sig:sg(SIG.dragon)},
+  'An even bigger, heavier tyrant — rock plates, molten cracks and violet geodes, fire building in its chest.');
+R8('bf_drakeling.b','#7a5a44,#2e2014,#e0c8ff,#c080ff,#d8b090,#ffb040',{crystals:true,wingCol:'#4a3428'},{name:'Geode Drakeling',lore:'Grauldr\'s brood: small stone drakes with violet crystal spines.'});
+// ── Brokkrun (Iron Sentinel) — the forge-star in his chest in every form ──
+R8('boss_iron_sentinel.b','#6a6e76,#2a2e36,#c8a040,#ff9030',{glowcore:null,sig:sg(SIG.sentinel)});
+R8('bf_iron_sentinel_2.b','#5a5e66,#2a2e36,#c8a040,#ff9030',{core:false,sig:sg(SIG.sentinel,{rocks:true,rockCol:'#6e665c'})});
+R8('bf_iron_sentinel_3.c','#5a5e66,#2a2e36,#c8a040,#ff9030',{mat:'iron',bulk:1.2,core:false,moss:true,sig:sg(SIG.sentinel,{rocks:true,rockHead:true,rockSize:1.45,rockCol:'#6e665c',markSize:1.3})},
+  {lore:'The orrery colossus — now iron and gold, with a mountain\'s worth of rock grown over its shoulders, the forge-star blazing in its chest.'});
+R8('bf_iron_sentinel_4.c','#6a6e76,#2a2e36,#c8a040,#ff9030,#d8b090,#ffe080',{torsoCol:'#5a5e66',helmCol:'#6a6e76',plume:'#ff9030',wepGlow:'#ff9030',glowcore:null,sig:sg(SIG.sentinel,{rocks:true,rockCol:'#6e665c',markSize:1.2})},
+  {lore:'Brokkrun Prime — a man after all, iron armour crusted with the mountain\'s rock, the same forge-star in his chest.'});
+R8('bf_forge_guardian.b','#5a5e66,#2a2e36,#c8a040,#ff9030',{mat:'iron',core:false,sig:{mark:'star',markCol:'#ff9a30'}});
+// ── Surtvald (Lava Titan) — obsidian, magma cracks, bull horns, spiked crown ──
+R8('boss_lava_titan.b','#3a1a10,#140604,#ffb040,#ff7020,#6a2a18',{gear:'spikecrown',crownCol:'#2a1a14',sig:sg(SIG.titan)});
+R8('bf_lava_titan_2.b','#3a1a10,#140604,#ffb040,#ff7020,#6a2a18',{horns:'bull',hornCol:'#2a1a14',sig:sg(SIG.titan)});
+BD('bf_lava_titan_3.d','Surtvald the Worldburner','hum',205,'lumber','#3a1a10,#140604,#ffb040,#ff7020,#6a2a18',
+  {build:'giant',armor:'magma',head:'demon',horns:'demon',hornCol:'#2a1a14',flameHead:true,gear:'spikecrown',crownCol:'#2a1a14',weapon:'greatsword',wepCol:'#3a2a24',wepGlow:'#ff7020',wepScale:1.35,cape:'flame',spikes:true,motes:'embers',moteN:14,sig:sg(SIG.titan,{swoosh:'#ff6020',rocks:true,rockCol:'#2a1e1c',rockGlow:true})},
+  'A true titan now: obsidian and magma, horns and crown, a flame-sword that leaves blazing red arcs through the air.');
+BD('bf_lava_titan_3.e','Surtvald the Worldburner','hum',210,'lumber','#3a1a10,#140604,#ffb040,#ff7020,#6a2a18',
+  {build:'giant',armor:'magma',head:'demon',horns:'bull',hornCol:'#2a1a14',flameHead:true,gear:'spikecrown',crownCol:'#2a1a14',weapon:'greataxe',wepScale:1.25,wepCol:'#2a1e1c',wepGlow:'#ff7020',off:'flame',cape:'flame',motes:'embers',moteN:14,sig:sg(SIG.titan,{swoosh:'#ff7020',magmaN:30})},
+  'The titan with his axe from phase 2 grown huge, a fistful of fire in the other hand, lava pouring off every swing.');
+BD('bf_lava_titan_3.f','Surtvald the Worldburner','golem',200,'lumber','#3a1a10,#140604,#ffb040,#ff7020',
+  {box:[-120,120,-196,14],mat:'obsidian',bulk:1.2,horns:true,hornCol:'#2a1a14',crown:'#2a1a14',cracks:true,fistGlow:true,shoulderCrystals:true,core:false,motes:'embers',sig:sg(SIG.titan,{swoosh:'#ff6020',swooshR:5,mark:'gem',markCol:'#ff7020'})},
+  'A walking volcano of obsidian with a molten heart-gem, horns and crown, lava trailing from its fists.');
+R8('bf_lava_titan_4.a','#3a1a10,#140604,#ffb040,#ff7020',{hornCol:'#2a1a14',sig:sg(SIG.titan,{crown:'spike',crownCol:'#2a1a14',crownGlow:'#ff7020'})});
+R8('bf_lava_titan_5.a','#3a1a10,#140604,#ffb040,#ff7020',{sig:sg(SIG.titan,{crown:'spike',crownCol:'#2a1a14',crownGlow:'#ff7020',crownSize:1.1,trail:null})},
+  {lore:'All that is left: the titan\'s burning heart, still wearing his obsidian crown, in a ring of lava.'});
+// ── Malgorath (Shadow Lord) — silver spiked crown + lilac soul-light + eclipse → dawn ──
+R8('boss_shadow_lord.b','#1a1a24,#060608,#8a8a98,#a0a0ff,#d8b090,#c0c0ff',{wepGlow:'#a0a0ff',sig:sg(SIG.shadow)});
+R8('bf_shadow_lord_2.b','#1a1a24,#060608,#8a8a98,#a0a0ff,#d8b090,#c0c0ff',{gear:'spikecrown',crownCol:'#8a8a98',wingCol2:'#a0a0ff',motes:'smoke',sig:sg(SIG.shadow)});
+R8('bf_shadow_lord_3.a','#1a1a24,#060608,#8a8a98,#a0a0ff,#d8b090,#c0c0ff',{wingCol:'#14141c',rider:{build:'broad',armor:'plate',torsoCol:'#1a1a24',head:'hood',hoodCol:'#14141c',gear:'spikecrown',crownCol:'#8a8a98',weapon:'sword',wepCol:'#8a8aa0',wepGlow:'#a0a0ff',off:'shield',emblem:'eclipse',shieldCol:'#0a0610'},sig:sg(SIG.shadow)},
+  {lore:'Malgorath, crowned and hooded, rides a shadow-dragon between the planes.'});
+R8('bf_shadow_lord_4.c','#1a1a2a,#06060c,#8a8a98,#a0a0ff',{sig:sg(SIG.shadow,{crown:'spike',crownCol:'#8a8a98',crownGlow:'#a0a0ff',crownSize:0.7})});
+R8('bf_shadow_lord_5.b','#e8d8b0,#3a2a18,#c8c8d8,#ffe080,#f0dcc8,#ffffff',{gear:'spikecrown',crownCol:'#c8c8d8',wingCol2:'#a0a0ff',sig:sg(SIG.shadow,{aura:'dawn',trail:null})},
+  {lore:'The eclipse breaks: Malgorath ascends as a fallen dawn — still wearing the silver crown, lilac light in his wings.'});
+R8('bf_shadow_twin.a','#1a1a24,#060608,#8a8a98,#a0a0ff,#d8b090,#c0c0ff',{armor:'rags',torsoCol:null,head:'hood',hoodCol:'#14141c',horns:null,gear:'spikecrown',crownCol:'#8a8a98',off:'none',sig:{trail:'smoke'}},
+  {lore:'A flickering copy of Malgorath\'s first form, split off between the planes.'});

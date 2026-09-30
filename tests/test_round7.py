@@ -31,7 +31,7 @@ with game() as g:
         check('Every design is painted at its listed height (±20%)', len(r['off'])<=4, r['off'][:6])
         print('INFO painted %d designs in %d ms (headless)'%(r['designs'],r['ms']))
         n=g.js("[MDEFS.goblin_king.name, CHAR_BY_ID.bf_shadow_lord_5.name, MON_BY_ID[BOSS_PHASES.shadow_lord.phases[1].rid].name, BOSS_PHASES.goblin_king.phases[1].intro, CHX.bossId('goblin_king',MDEFS.goblin_king)]")
-        check('Names: the picked option names each boss everywhere (keeps its old title)', n[0]=='Grubnash, the Goblin King' and n[1].startswith('Malgorath Ascendant') and n[2].startswith('Malgorath') and 'GRUBNASH' in n[3] and n[4]=='boss_goblin_king', n)
+        check('Names: the picked option names each boss everywhere (keeps its old title)', n[0]=='Grubnash the Great, the Goblin King' and n[1].startswith('Malgorath Ascendant') and n[2].startswith('Malgorath') and 'GRUBNASH' in n[3] and n[4]=='boss_goblin_king', n)
         t=g.js("(()=>{ var fr=Tome.frames(CHAR_BY_ID.boss_goblin_king.spec); return [fr.length, fr[0].width, !!CHAR_BY_ID.boss_goblin_king.spec._smooth]; })()")
         check('Tome shows painted boss portraits (4 smooth 128 px frames)', t==[4,128,True], t)
         m=g.js("(()=>{ var a=ZSFX.muted; ZSFX.setMuted(true); var on=[ZSFX.muted, localStorage.getItem('zeldara_mute'), document.getElementById('mute-btn').textContent]; ZSFX.setMuted(a); return on; })()")
