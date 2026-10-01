@@ -976,6 +976,7 @@ class DungeonScene extends Phaser.Scene{
       if(typeof BossMoments!=='undefined'&&this.isLastFloor)BossMoments.tick(this,dt);
       this._leashBoss(dt);
       if(this._bossGroup)BossPhases.tick(this,dt);
+      if(this.isLastFloor&&typeof BossPat!=='undefined')BossPat.tick(this,dt);   // round 8: signature boss attacks, stagger, last stand
       if(this._trialRun)TrialRealm.tick(this,dt);
       if(this._lab)this._labUpdate(dt); else this._updateDungeonFX(dt);
       if(Phaser.Input.Keyboard.JustDown(this.keys.SPACE))this._playerAttack();
@@ -1136,6 +1137,7 @@ class DungeonScene extends Phaser.Scene{
     MX.tickScene(this,dt);
     this.monsters.forEach(function(mon){
       if(mon.dead)return;
+      if(mon._hold>0){ mon._hold-=dt; if(mon.mx)MX.anim(MX.A(self),mon,mon._m,dt,0); return; }   // performing a boss pattern / staggered (09bb)
       if(mon.mx){ MX.tick(self,mon,dt); return; }
       if(mon.rid&&typeof Tome!=='undefined'&&Math.hypot(self.px-mon.x,self.py-mon.y)<280)Tome.see('monster',mon.rid);
       var dx=self.px-mon.x,dy=self.py-mon.y,dist=Math.hypot(dx,dy);

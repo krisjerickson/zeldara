@@ -5,7 +5,7 @@
 // ║ Animated previews show how each one moves (breathing, hovering, heavy
 // ║ strides, plane-shifting, afterimages …); ⇄ toggles idle / on the move.
 // ═══════════════════════════════════════════════════════════════════════
-(function(){ var i=LAB_TABS.findIndex(function(t){ return t.id==='bosses'; }); if(i>=0)LAB_TABS.splice(i,1); })();
+(function(){ var i=LAB_TABS.findIndex(function(t){ return t.id==='bosses'; }); if(i>=0)LAB_TABS.splice(i,1); if(typeof BossAtk!=='undefined')BossAtk.stripSummons(); })();
 var LBB={ moving:true, vis:new Set(), QN:['','Grasslands','Wetlands','Highlands','Ashlands'],
   fams:function(){ var F=[], QN=LBB.QN;
     [['goblin_king',1,'★ dungeon'],['dark_warlock',1,'★ tower'],['swamp_witch',2,'★ dungeon'],['storm_mage',2,'★ tower'],['rock_dragon',3,'★ dungeon'],['iron_sentinel',3,'★ tower'],['lava_titan',4,'★ dungeon'],['shadow_lord',4,'★ tower']].forEach(function(a){ var B=BOSS_PHASES[a[0]], rows=[{slot:'boss_'+a[0],lbl:'Phase 1 · the site\'s top floor',kit:null}];
@@ -32,7 +32,7 @@ var LBB={ moving:true, vis:new Set(), QN:['','Grasslands','Wetlands','Highlands'
   row:function(r){ var L=BOSS_SLOTS[r.slot], p=LabApp.picks['bosses-'+r.slot]||{}, pk=LBB.pickOf(r.slot), nw=LBB.hasNew(r.slot), main=[], ref=[];
     L.forEach(function(D,i){ ((nw?LBB.isNew(D):(pk===null||pk===i))?main:ref).push(LBB.card(D,i,r.slot)); });
     var ask=nw?'<b class="bb-ask">Redrawn as you asked — choose one of the new options'+(pk!==null&&!LBB.isNew(L[pk])?' (your earlier pick is kept under Reference)':'')+'</b>':'';
-    return '<div class="bb-row" data-slot="'+r.slot+'"><div class="bb-rh"><span>'+r.lbl+'</span>'+ask+(r.kit?'<em>'+_rvKit(r.kit)+'</em>':'')+'</div><div class="bb-opts">'+main.join('')+'</div>'+
+    return '<div class="bb-row" data-slot="'+r.slot+'"><div class="bb-rh"><span>'+r.lbl+'</span>'+ask+(typeof BossAtk!=='undefined'&&!r.ally?'<em class="bb-atk">Signature attacks: '+BossAtk.describe(r.slot)+'</em>':'')+(r.kit?'<em>'+_rvKit(r.kit)+'</em>':'')+'</div><div class="bb-opts">'+main.join('')+'</div>'+
       (ref.length?'<details class="bb-ref"><summary>Reference — '+ref.length+' not selected (kept for later)</summary><div class="bb-opts">'+ref.join('')+'</div></details>':'')+
       '<textarea class="mn-notes bb-notes" data-slot="'+r.slot+'" rows="1" placeholder="Notes for this '+(r.ally?'ally':'form')+' (optional): mix-and-match, colours, names…">'+(p.notes||'').replace(/</g,'&lt;')+'</textarea></div>'; },
   draw:function(cv,t){ var D=BOSS_ART[cv.dataset.id]; if(!D)return; var x=cv.getContext('2d'), W=cv.width, H=cv.height; x.clearRect(0,0,W,H);
@@ -74,7 +74,7 @@ LBB.lineup=function(f){ var k='bosses-fam-'+f.id, p=LabApp.picks[k]||{}, ok=p.ve
    '.bb-t{padding:8px 10px 10px;display:flex;flex-direction:column;gap:4px}.bb-t b{font-weight:500;font-size:.92rem}.bb-m{font-family:var(--mono);font-size:.7rem;color:var(--rune)}.bb-t p{margin:0;color:var(--muted);font-size:.8rem;line-height:1.35}'+
    '.bb-pick{align-self:flex-start;margin-top:4px}.bb-pick[aria-pressed="true"]{border-color:var(--pick);color:var(--pick);background:rgba(127,216,154,.14)}.bb-notes{margin-top:6px}'+
    '.bb-tag{font-style:normal;font-family:var(--mono);font-size:.68rem;align-self:flex-start;padding:1px 6px;border-radius:6px;border:1px solid var(--line)}.bb-tag.new{color:#ffd070;border-color:#ffd070}.bb-tag.upd{color:var(--pick);border-color:var(--pick)}'+
-   '.bb-ask{color:#ffd070;font-weight:500;font-size:.84rem}.bb-ref{margin-top:8px}.bb-ref summary{cursor:pointer;color:var(--muted);font-size:.82rem;padding:4px 0}.bb-ref .bb-card{opacity:.82}'+
+   '.bb-atk{color:var(--rune)!important}.bb-ask{color:#ffd070;font-weight:500;font-size:.84rem}.bb-ref{margin-top:8px}.bb-ref summary{cursor:pointer;color:var(--muted);font-size:.82rem;padding:4px 0}.bb-ref .bb-card{opacity:.82}'+
    '.bb-line{background:var(--ink);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:0 0 8px}.bb-lh{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}.bb-lh b{font-weight:500}.bb-lh span{color:var(--muted);font-size:.82rem}'+
    '.bb-strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}.bb-strip figure{margin:0;flex:0 0 170px;text-align:center}.bb-strip figcaption{font-size:.74rem;color:var(--muted)}.bb-lf{display:flex;flex-direction:column;gap:6px;margin-top:6px}.bb-famok{align-self:flex-start}.bb-famok[aria-pressed="true"]{border-color:var(--pick);color:var(--pick)}'+
    '@media (max-width:520px){.bb-opts{grid-template-columns:1fr}}';

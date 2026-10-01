@@ -383,10 +383,10 @@ function R8(id,pal,patch,meta){ var D=BOSS_ART[id]; if(!D)return; if(pal){ var p
 Object.assign(BOSS_PICK,{
   boss_goblin_king:'c',bf_goblin_king_2:'c', boss_dark_warlock:'b',bf_dark_warlock_2:'c',
   boss_swamp_witch:'a',bf_swamp_witch_2:'c',bf_swamp_witch_3:'c', boss_storm_mage:'c',bf_storm_mage_2:'b',bf_storm_mage_3:'b',
-  boss_rock_dragon:'b',bf_rock_dragon_2:'b',bf_rock_dragon_3:'d',bf_rock_dragon_4:'d',bf_drakeling:'b',
+  boss_rock_dragon:'b',bf_rock_dragon_2:'b',bf_rock_dragon_3:'e',bf_rock_dragon_4:'e',bf_drakeling:'b',
   boss_iron_sentinel:'b',bf_iron_sentinel_2:'b',bf_iron_sentinel_3:'c',bf_iron_sentinel_4:'c',bf_forge_guardian:'b',
   boss_lava_titan:'b',bf_lava_titan_2:'b',bf_lava_titan_3:'d',bf_lava_titan_4:'a',bf_lava_titan_5:'a',
-  boss_shadow_lord:'b',bf_shadow_lord_2:'b',bf_shadow_lord_3:'a',bf_shadow_lord_4:'c',bf_shadow_lord_5:'b',bf_shadow_twin:'a',
+  boss_shadow_lord:'b',bf_shadow_lord_2:'b',bf_shadow_lord_3:'d',bf_shadow_lord_4:'d',bf_shadow_lord_5:'b',bf_shadow_twin:'a',
   boss_isl_1:'b',boss_isl_2:'c',boss_isl_3:'c',boss_isl_4:'b', boss_volcano_lord:'a',
   boss_vr_ashen_knight:'b',boss_vr_cinder_phoenix:'b',boss_vr_ember_wraith:'a',boss_vr_inferno_wraith:'a',boss_vr_lava_wyrm:'b',boss_vr_magma_spitter:'a',boss_vr_obsidian_golem:'b',boss_vr_pyrokraken:'b',
   cw_bone_king:'b',cw_drowned_abbot:'c',cw_ember_priest:'b',cw_forge_thane:'a',cw_frost_queen:'a',cw_lotus_naga:'a',cw_mangrove_chief:'b',cw_mill_ogre:'b',cw_obsidian_jailer:'c',cw_roc_lord:'b',cw_sun_baron:'c',cw_thorn_knight:'a',
@@ -444,18 +444,18 @@ BD('bf_rock_dragon_3.e','Grauldr the Earthshaker','wyvern',210,'soar','#6a5040,#
   {bulk:1.12,neck:0.9,tail:0.95,crystals:true,plates:true,headSize:1.08,wingCol:'#3e2c22',chestGlow:'#ff9040',breath:'#ffb060',cracks:true,sig:sg(SIG.dragon)},
   'A heavier, rock-plated dragon on the wing. Its chest glows ember-orange before it breathes; the geodes still crown its back.');
 BD('bf_rock_dragon_4.d','Grauldr, Tyrant of the Mountain','wyvern',250,'soar','#6a4c3a,#241810,#f0d8ff,#c080ff,#d8b090,#ffd060',
-  {bulk:1.12,neck:1.25,tail:1.3,wingSpan:1.12,crystals:true,plates:true,headSize:1.12,wingCol:'#3a2a20',wingGlow:true,chestGlow:'#d090ff',breath:'#d090ff',motes:'stars',moteN:14,sig:sg(SIG.dragon,{crown:'spike',crownCol:'#c080ff',crownGlow:'#e0c0ff',crownSize:0.9})},
+  {bulk:1.12,torso:1.25,legScale:1.35,arms:true,neck:1.25,tail:1.3,wingSpan:1.12,crystals:true,plates:true,headSize:1.12,wingCol:'#3a2a20',wingGlow:true,chestGlow:'#d090ff',breath:'#d090ff',motes:'stars',moteN:14,sig:sg(SIG.dragon,{crown:'spike',crownCol:'#c080ff',crownGlow:'#e0c0ff',crownSize:0.9})},
   'The tyrant fully awake: a vast, long-necked dragon on two great wings, wearing a crown of geode crystal.');
 BD('bf_rock_dragon_4.e','Grauldr, Tyrant of the Mountain','wyvern',255,'soar','#5a4436,#1e140e,#f0d8ff,#c080ff,#d8b090,#ffd060',
-  {bulk:1.2,neck:1.15,tail:1.35,wingSpan:1.18,crystals:true,plates:true,cracks:true,headSize:1.15,wingCol:'#302218',wingGlow:true,chestGlow:'#ff9040',breath:'#ffb060',motes:'embers',moteN:12,sig:sg(SIG.dragon)},
+  {bulk:1.2,torso:1.3,legScale:1.45,arms:true,neck:1.15,tail:1.35,wingSpan:1.18,crystals:true,plates:true,cracks:true,headSize:1.15,wingCol:'#302218',wingGlow:true,chestGlow:'#ff9040',breath:'#ffb060',motes:'embers',moteN:12,sig:sg(SIG.dragon)},
   'An even bigger, heavier tyrant — rock plates, molten cracks and violet geodes, fire building in its chest.');
 R8('bf_drakeling.b','#7a5a44,#2e2014,#e0c8ff,#c080ff,#d8b090,#ffb040',{crystals:true,wingCol:'#4a3428'},{name:'Geode Drakeling',lore:'Grauldr\'s brood: small stone drakes with violet crystal spines.'});
 // ── Brokkrun (Iron Sentinel) — the forge-star in his chest in every form ──
 R8('boss_iron_sentinel.b','#6a6e76,#2a2e36,#c8a040,#ff9030',{glowcore:null,sig:sg(SIG.sentinel)});
-R8('bf_iron_sentinel_2.b','#5a5e66,#2a2e36,#c8a040,#ff9030',{core:false,sig:sg(SIG.sentinel,{rocks:true,rockCol:'#6e665c'})});
-R8('bf_iron_sentinel_3.c','#5a5e66,#2a2e36,#c8a040,#ff9030',{mat:'iron',bulk:1.2,core:false,moss:true,sig:sg(SIG.sentinel,{rocks:true,rockHead:true,rockSize:1.45,rockCol:'#6e665c',markSize:1.3})},
+R8('bf_iron_sentinel_2.b','#5a5e66,#2a2e36,#c8a040,#ff9030',{core:false,sig:sg(SIG.sentinel,{rocks:'spires',rockCol:'#6e665c'})});
+R8('bf_iron_sentinel_3.c','#5a5e66,#2a2e36,#c8a040,#ff9030',{mat:'iron',bulk:1.2,core:false,moss:true,sig:sg(SIG.sentinel,{rocks:'spires',rockHead:true,rockSize:1.3,rockCol:'#6e665c',markSize:1.3})},
   {lore:'The orrery colossus — now iron and gold, with a mountain\'s worth of rock grown over its shoulders, the forge-star blazing in its chest.'});
-R8('bf_iron_sentinel_4.c','#6a6e76,#2a2e36,#c8a040,#ff9030,#d8b090,#ffe080',{torsoCol:'#5a5e66',helmCol:'#6a6e76',plume:'#ff9030',wepGlow:'#ff9030',glowcore:null,sig:sg(SIG.sentinel,{rocks:true,rockCol:'#6e665c',markSize:1.2})},
+R8('bf_iron_sentinel_4.c','#6a6e76,#2a2e36,#c8a040,#ff9030,#d8b090,#ffe080',{torsoCol:'#5a5e66',helmCol:'#6a6e76',plume:'#ff9030',wepGlow:'#ff9030',glowcore:null,sig:sg(SIG.sentinel,{rocks:'spires',rockCol:'#6e665c',markSize:1.2})},
   {lore:'Brokkrun Prime — a man after all, iron armour crusted with the mountain\'s rock, the same forge-star in his chest.'});
 R8('bf_forge_guardian.b','#5a5e66,#2a2e36,#c8a040,#ff9030',{mat:'iron',core:false,sig:{mark:'star',markCol:'#ff9a30'}});
 // ── Surtvald (Lava Titan) — obsidian, magma cracks, bull horns, spiked crown ──
@@ -470,7 +470,8 @@ BD('bf_lava_titan_3.e','Surtvald the Worldburner','hum',210,'lumber','#3a1a10,#1
 BD('bf_lava_titan_3.f','Surtvald the Worldburner','golem',200,'lumber','#3a1a10,#140604,#ffb040,#ff7020',
   {box:[-120,120,-196,14],mat:'obsidian',bulk:1.2,horns:true,hornCol:'#2a1a14',crown:'#2a1a14',cracks:true,fistGlow:true,shoulderCrystals:true,core:false,motes:'embers',sig:sg(SIG.titan,{swoosh:'#ff6020',swooshR:5,mark:'gem',markCol:'#ff7020'})},
   'A walking volcano of obsidian with a molten heart-gem, horns and crown, lava trailing from its fists.');
-R8('bf_lava_titan_4.a','#3a1a10,#140604,#ffb040,#ff7020',{hornCol:'#2a1a14',sig:sg(SIG.titan,{crown:'spike',crownCol:'#2a1a14',crownGlow:'#ff7020'})});
+R8('bf_lava_titan_4.a','#3a1a10,#140604,#ffb040,#ff7020',{hornCol:'#2a1a14',sig:sg(SIG.titan,{crown:'spike',crownCol:'#2a1a14',crownGlow:'#ff7020',mark:'heart',markCol:'#ff8020',markSize:1.6})},
+  {lore:'The titan drops to all fours — a molten behemoth, and through its cracked chest you can see the burning heart that will be all that is left.'});
 R8('bf_lava_titan_5.a','#3a1a10,#140604,#ffb040,#ff7020',{sig:sg(SIG.titan,{crown:'spike',crownCol:'#2a1a14',crownGlow:'#ff7020',crownSize:1.1,trail:null})},
   {lore:'All that is left: the titan\'s burning heart, still wearing his obsidian crown, in a ring of lava.'});
 // ── Malgorath (Shadow Lord) — silver spiked crown + lilac soul-light + eclipse → dawn ──
@@ -483,3 +484,21 @@ R8('bf_shadow_lord_5.b','#e8d8b0,#3a2a18,#c8c8d8,#ffe080,#f0dcc8,#ffffff',{gear:
   {lore:'The eclipse breaks: Malgorath ascends as a fallen dawn — still wearing the silver crown, lilac light in his wings.'});
 R8('bf_shadow_twin.a','#1a1a24,#060608,#8a8a98,#a0a0ff,#d8b090,#c0c0ff',{armor:'rags',torsoCol:null,head:'hood',hoodCol:'#14141c',horns:null,gear:'spikecrown',crownCol:'#8a8a98',off:'none',sig:{trail:'smoke'}},
   {lore:'A flickering copy of Malgorath\'s first form, split off between the planes.'});
+
+// ── Round 8 review (Oct 1): Malgorath rides a dread-wing, then becomes one ──
+BD('bf_shadow_lord_3.d','Malgorath the Dread-Rider','wyvern',200,'soar','#2a2630,#0a080e,#8a8a98,#a0a0ff,#d8b090,#c0c0ff',
+  {headKind:'fell',neck:1.15,tail:1.2,chestGlow:false,tattered:true,wingCol:'#1a1820',bellyCol:'#3a3440',
+   rider:{build:'broad',lower:'wraith',armor:'rags',head:'hood',hoodCol:'#14141c',gear:'spikecrown',crownCol:'#8a8a98',weapon:'sword',wepCol:'#8a8aa0',wepGlow:'#a0a0ff',cape:'tattered',capeCol:'#08080c',eyesGlow:true},motes:'smoke',sig:sg(SIG.shadow)},
+  'Malgorath, crowned and hooded, rides a dread-wing — a carrion-winged beast with a hooked beak and tattered sails of skin.');
+BD('bf_shadow_lord_3.e','Malgorath the Dread-Rider','wyvern',205,'soar','#3a3238,#0e0a10,#8a8a98,#a0a0ff,#d8b090,#c0c0ff',
+  {headKind:'fell',neck:1.25,tail:1.1,bulk:1.05,chestGlow:false,tattered:true,plates:true,wingCol:'#241e26',bellyCol:'#4a4048',
+   rider:{build:'broad',lower:'wraith',armor:'plate',torsoCol:'#1a1a24',head:'hood',hoodCol:'#14141c',gear:'spikecrown',crownCol:'#8a8a98',weapon:'scythe',wepCol:'#8a8aa0',wepGlow:'#a0a0ff',eyesGlow:true},motes:'smoke',sig:sg(SIG.shadow)},
+  'A heavier, armour-plated dread-wing; the Shadow Lord rides it with a reaping blade.');
+BD('bf_shadow_lord_4.d','Malgorath, the Dread-Wing','wyvern',250,'soar','#2a2630,#0a080e,#8a8a98,#a0a0ff,#d8b090,#c0c0ff',
+  {headKind:'fell',bulk:1.15,torso:1.2,legScale:1.3,arms:true,neck:1.3,tail:1.35,wingSpan:1.15,headSize:1.15,chestGlow:false,tattered:true,wingCol:'#16141c',wingGlow:true,bellyCol:'#3a3440',breath:'#a0a0ff',motes:'smoke',moteN:14,
+   sig:sg(SIG.shadow,{crown:'spike',crownCol:'#8a8a98',crownGlow:'#a0a0ff',crownSize:0.85})},
+  'The rider is gone — Malgorath has become the beast: a vast dread-wing wearing his silver crown, shrieking lilac fire.');
+BD('bf_shadow_lord_4.e','Malgorath, the Dread-Wing','wyvern',255,'soar','#1e1a24,#060408,#8a8a98,#a0a0ff,#d8b090,#e0c0ff',
+  {headKind:'fell',bulk:1.2,torso:1.25,legScale:1.4,arms:true,neck:1.2,tail:1.4,wingSpan:1.2,headSize:1.2,chestGlow:'#a0a0ff',tattered:true,plates:true,wingCol:'#121016',wingGlow:true,bellyCol:'#2e2834',breath:'#c0a0ff',motes:'smoke',moteN:16,
+   sig:sg(SIG.shadow,{crown:'spike',crownCol:'#8a8a98',crownGlow:'#a0a0ff',crownSize:0.85})},
+  'A bigger, armoured dread-wing with a lilac soul-fire burning in its chest.');

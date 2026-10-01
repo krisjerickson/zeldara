@@ -15,13 +15,18 @@
 // ║ forms, allies, castle wardens, mage-tower masters).
 // ═══════════════════════════════════════════════════════════════════════
 var BossRig={ keys:[], MAXTEX:8,
+  // Phaser flips an image around its frame centre, not its origin — shift it back so feet / wing roots stay put
+  fx:function(im,baseX,fl){ im.x=baseX-(fl?(im.frame.width-2*im.displayOriginX)*Math.abs(im.scaleX):0); },
   // a Phaser texture for a design: frames '0'-'3' body, 'b' back, 'p' pupil
   tex:function(scene,D){ var key='ba_'+D.id, TM=scene.textures; if(TM.exists(key)){ BossRig._touch(key); return key; }
-    var S=BA.sheet(D), P=S.P, t=TM.addCanvas(key,S.c); for(var i=0;i<4;i++)t.add(String(i),0,i*P.W,0,P.W,P.H); t.add('b',0,4*P.W,0,P.W,P.H); if(P.pupil)t.add('p',0,5*P.W,0,P.W,P.H);
+    var S=BA.sheet(D), P=S.P, t=TM.addCanvas(key,S.c); S.names.forEach(function(nm,i){ t.add(nm,0,i*P.W,0,P.W,P.H); });
     BossRig._touch(key); BossRig._evict(TM,key); return key; },
   _touch:function(key){ var i=BossRig.keys.indexOf(key); if(i>=0)BossRig.keys.splice(i,1); BossRig.keys.push(key); },
   // keep graphics memory bounded: drop the oldest painted-boss textures (and their canvases)
-  _evict:function(TM,keep){ while(BossRig.keys.length>BossRig.MAXTEX){ var k=BossRig.keys.shift(); if(k===keep)continue; try{ if(TM.exists(k))TM.remove(k); }catch(e){} delete BA.cache[k.slice(3)]; } },
+  // never drop a texture something on screen (in any scene: roaming world bosses, afterimages…) still draws
+  _inUse:function(key){ var g=typeof game!=='undefined'?game:null; if(!g||!g.scene)return false; var hit=false, walk=function(L){ for(var i=0;i<L.length&&!hit;i++){ var o=L[i]; if(o.texture&&o.texture.key===key){ hit=true; return; } if(o.list)walk(o.list); } };
+    g.scene.scenes.forEach(function(sc){ if(!hit&&sc.children&&sc.sys&&sc.sys.settings.status<8)walk(sc.children.list); }); return hit; },
+  _evict:function(TM,keep){ var tries=BossRig.keys.length; while(BossRig.keys.length>BossRig.MAXTEX&&tries-->0){ var k=BossRig.keys.shift(); if(k===keep||BossRig._inUse(k)){ BossRig.keys.push(k); continue; } try{ if(TM.exists(k))TM.remove(k); }catch(e){} delete BA.cache[k.slice(3)]; } },
   // slot for a legacy boss type / name
   slotOf:function(type,def){ if(type&&/^elite_\d$/.test(type)&&BOSS_SLOTS[type])return type; var id=CHX.bossId(type,def); return id&&BOSS_SLOTS[id]?id:null; },
   // Build the painted body. Returns the body image (with the old setFillStyle hit-flash API).
@@ -31,9 +36,12 @@ var BossRig={ keys:[], MAXTEX:8,
     var back=scene.add.image(0,fy+pvU,key,'b').setOrigin(ox,(P.oy+pv)/P.H).setScale(sc);
     var body=scene.add.image(0,fy,key,'0').setOrigin(ox,oy).setScale(sc);
     var pupil=P.pupil?scene.add.image(0,fy,key,'p').setOrigin(ox,oy).setScale(sc):null;
-    if(cont){ cont.add(back); cont.add(body); if(pupil)cont.add(pupil); }
+    // wings on their own layers, origin at the wing root so they beat without coming loose
+    var u=(D.h/100)*(D._kfix||1), wimg=function(nm,r){ return scene.add.image(r[0]*u,fy+r[1]*u,key,nm).setOrigin((P.ox+r[0]*u*BA.RES)/P.W,(P.oy+r[1]*u*BA.RES)/P.H).setScale(sc); };
+    var wb=P.wr?wimg('wb',P.wr.b):null, wf=P.wr?wimg('wf',P.wr.f):null;
+    if(cont){ [back,wb,body,pupil,wf].forEach(function(o){ if(o)cont.add(o); }); }
     body._ch=true; body._baseSc=sc;
-    var R=body._rig={D:D,M:M,back:back,body:body,pupil:pupil,cont:cont,fy:fy,t:Math.random()*6,lx:null,ly:null,fade:0,trailT:0,ghosts:0,step:0,laid:false,mon:mon||null,scene:scene};
+    var R=body._rig={D:D,M:M,back:back,body:body,pupil:pupil,wb:wb,wf:wf,wr:P.wr,u:u,cont:cont,fy:fy,t:Math.random()*6,lx:null,ly:null,fade:0,trailT:0,ghosts:0,step:0,laid:false,mon:mon||null,scene:scene};
     body.setFillStyle=function(c){ if(c===0xffffff)this.setTintFill(0xffffff); else if(c===undefined||c===null)this.clearTint(); else if(typeof c==='number'&&c!==(this._baseCol||-1))this.setTint(c); else this.clearTint(); return this; };
     body.setStrokeStyle=function(){ return this; };
     return body; },
@@ -53,10 +61,11 @@ var BossRig={ keys:[], MAXTEX:8,
     if(d>70&&R.lx!==null){ BossRig.ghost(R,R.lx,R.ly,0.7,420,true); R.fade=0.4; BossRig.ring(R.scene,x,y-D.h*0.4,D.pal.g); if(typeof ZSFX!=='undefined')ZSFX.play('warp'); }
     R.lx=x; R.ly=y;
     var st=M.pose(R.t,moving,D), fl=b.flipX, fa=R.fade>0?1-R.fade/0.4:1; if(R.fade>0)R.fade=Math.max(0,R.fade-dt);
-    b.setScale(sc*st.sx,sc*st.sy); b.y=R.fy+st.y; b.rotation=(st.rot||0)*(fl?-1:1);
+    b.setScale(sc*st.sx,sc*st.sy); BossRig.fx(b,0,fl); b.y=R.fy+st.y; b.rotation=(st.rot||0)*(fl?-1:1);
     var baseA=(R.mon&&R.mon.mx)?b.alpha:1; b.setAlpha(Math.max(0,Math.min(1,(st.a===undefined?1:st.a)*fa*baseA)));
-    var bk=R.back; bk.setFlipX(fl); bk.setScale(sc*st.flap,sc*(st.flapY===undefined?1:st.flapY)); bk.y=R.fy+st.y+(BA.PIVOT[D.arch]||0)*(D.h/100)*(D._kfix||1); bk.rotation=D.orb==='heart'?0:(st.backRot||0)*(fl?-1:1); bk.setAlpha(b.alpha);
-    if(R.pupil){ var pp=CHX.ppos(R.scene), ex=0, ey=0; if(pp){ var vx=pp.x-x, vy=pp.y-(y-D.h*0.5), l=Math.hypot(vx,vy)||1; ex=vx/l*D.h*0.035; ey=vy/l*D.h*0.02; } R.pupil.x=ex; R.pupil.y=R.fy+st.y+ey; R.pupil.setScale(sc*st.sx,sc*st.sy); R.pupil.setAlpha(b.alpha); }
+    var bk=R.back; bk.setFlipX(fl); bk.setScale(sc*st.flap,sc); BossRig.fx(bk,0,fl); bk.y=R.fy+st.y+(BA.PIVOT[D.arch]||0)*(D.h/100)*(D._kfix||1); bk.rotation=D.orb==='heart'?0:(st.backRot||0)*(fl?-1:1); bk.setAlpha(b.alpha);
+    if(R.wb){ var wy=BA.wingY(st,R.t); [[R.wb,R.wr.b],[R.wf,R.wr.f]].forEach(function(q){ var im=q[0]; im.setFlipX(fl); im.setScale(sc*st.sx,sc*st.sy*wy); BossRig.fx(im,q[1][0]*R.u*(fl?-1:1),fl); im.y=R.fy+st.y+q[1][1]*R.u; im.rotation=b.rotation; im.setAlpha(b.alpha); }); }
+    if(R.pupil){ var pp=CHX.ppos(R.scene), ex=0, ey=0; if(pp){ var vx=pp.x-x, vy=pp.y-(y-D.h*0.5), l=Math.hypot(vx,vy)||1; ex=vx/l*D.h*0.035; ey=vy/l*D.h*0.02; } R.pupil.setFlipX(fl); R.pupil.setScale(sc*st.sx,sc*st.sy); BossRig.fx(R.pupil,ex,fl); R.pupil.y=R.fy+st.y+ey; R.pupil.setAlpha(b.alpha); }
     // plane-shift: now and then a translucent copy slides out of step with the body
     if(st.ghost&&M.veil!==undefined&&Math.random()<dt*0.9)BossRig.ghost(R,x+(st.gx||0)*(Math.random()<0.5?-1:1),y,0.35,360,true);
     // afterimages when fast (always for blur/fly styles; any boss that charges)
@@ -69,7 +78,7 @@ var BossRig={ keys:[], MAXTEX:8,
     var e=s.add.circle(x+(Math.random()-0.5)*D.h*0.3,y+R.fy-Math.random()*D.h*0.5,2+Math.random()*D.h*0.02,col,kind==='smoke'?0.5:0.9).setDepth((R.cont.depth||10)-0.3); if(kind!=='smoke')e.setBlendMode(Phaser.BlendModes.ADD);
     s.tweens.add({targets:e,y:e.y-(kind==='smoke'?20:10)-Math.random()*20,alpha:0,scale:kind==='smoke'?2.2:0.4,duration:500+Math.random()*400,onComplete:function(){ e.destroy(); R.embers--; }}); },
   ghost:function(R,x,y,a,ms,add){ if(R.ghosts>8)return; var b=R.body, s=R.scene; if(!s||!s.add)return; R.ghosts++;
-    var g=s.add.image(x,y+R.fy+(b.y-R.fy),b.texture.key,b.frame.name).setOrigin(b.originX,b.originY).setScale(b.scaleX,b.scaleY).setFlipX(b.flipX).setRotation(b.rotation).setAlpha(a).setTint(hexNum(R.D.pal.g)).setDepth((R.cont.depth||10)-0.5);
+    var g=s.add.image(x+b.x,y+R.fy+(b.y-R.fy),b.texture.key,b.frame.name).setOrigin(b.originX,b.originY).setScale(b.scaleX,b.scaleY).setFlipX(b.flipX).setRotation(b.rotation).setAlpha(a).setTint(hexNum(R.D.pal.g)).setDepth((R.cont.depth||10)-0.5);
     if(add)g.setBlendMode(Phaser.BlendModes.ADD);
     s.tweens.add({targets:g,alpha:0,duration:ms,onComplete:function(){ g.destroy(); R.ghosts--; }}); },
   ring:function(s,x,y,col){ if(!s||!s.add)return; var r=s.add.circle(x,y,10,hexNum(col),0).setStrokeStyle(3,hexNum(col),0.9).setDepth(60); s.tweens.add({targets:r,scale:6,alpha:0,duration:420,onComplete:function(){ r.destroy(); }}); },
@@ -97,7 +106,7 @@ var BossRig={ keys:[], MAXTEX:8,
   // animate legacy rigs from a scene update hook; the monster def (shared MDEF) is copied + grown on first tick
   BossRig._legacy=function(scene,body){ if(!scene._bossRigs){ scene._bossRigs=[]; scene.events.on('update',function(t,ms){ if(typeof _anyModalOpen==='function'&&_anyModalOpen())return; var L=scene._bossRigs;
         for(var i=L.length-1;i>=0;i--){ var b=L[i]; if(!b.scene){ L.splice(i,1); continue; } var R=b._rig; if(!R.mon){ var list=scene.monsters||scene.worldMonsters||scene._mons||[]; for(var j=0;j<list.length;j++){ if(list[j].body===b){ R.mon=list[j]; BossRig.size(R.mon,R.D); break; } } }
-          var m=R.mon, f=m&&m.dead?'0':(m&&m.atkTimer>0.25?'3':(Math.floor(R.t*1.6)%2?'1':'0')); if(b.frame.name!==f)b.setFrame(f); if(m&&m.x!==undefined){ var px=m.x; if(R._px!==undefined&&Math.abs(px-R._px)>0.4)b.setFlipX(px<R._px); R._px=px; }
+          var m=R.mon, f=R.ff||(m&&m.dead?'0':(m&&m.atkTimer>0.25?'3':(Math.floor(R.t*1.6)%2?'1':'0'))); if(b.frame.name!==f)b.setFrame(f); if(m&&m.x!==undefined){ var px=m.x; if(R._px!==undefined&&Math.abs(px-R._px)>0.4)b.setFlipX(px<R._px); R._px=px; }
           BossRig.tick(R,ms/1000); } });
       scene.events.once('shutdown',function(){ scene._bossRigs=[]; }); }
     scene._bossRigs.push(body); };
@@ -105,7 +114,7 @@ var BossRig={ keys:[], MAXTEX:8,
   var sp=MX.spawn;
   MX.spawn=function(scene,rid,x,y,o){ var mon=sp.apply(this,arguments); if(!mon)return mon; var R=MON_BY_ID[rid], sl=R&&R.chId;
     if(sl&&BA.of(sl)&&mon.cont){ var old=mon.spr, fy=(mon.def.r||14)*0.9+1, body=BossRig.dress(scene,sl,null,mon,fy);
-      if(body){ var i=mon.cont.getIndex(old); mon.cont.addAt(body._rig.back,i); mon.cont.addAt(body,i+1); if(body._rig.pupil)mon.cont.addAt(body._rig.pupil,i+2); body._rig.cont=mon.cont; body._baseCol=old._baseCol; old.destroy(); mon.spr=body; mon.body=body; BossRig.size(mon,body._rig.D); } }
+      if(body){ var i=mon.cont.getIndex(old), RR=body._rig; [RR.back,RR.wb,body,RR.pupil,RR.wf].filter(Boolean).forEach(function(o,j){ mon.cont.addAt(o,i+j); }); body._rig.cont=mon.cont; body._baseCol=old._baseCol; old.destroy(); mon.spr=body; mon.body=body; BossRig.size(mon,body._rig.D); } }
     return mon; };
   var an=MX.anim; MX.anim=function(A,mon,m,dt,dx){ an.apply(this,arguments); if(mon.spr&&mon.spr._rig)BossRig.tick(mon.spr._rig,dt); };
 })();
