@@ -3,11 +3,13 @@
 // ║  • 20 more logos (gen 3), all teal, dense, no fractals: 9 after the nine
 // ║    pictures Kris sent (our own drawings of each picture's layout and motifs,
 // ║    nothing traced) + 11 that build on Crossed Axes and his other picks.
-// ║  • ZBrand.TIER2: the logos Kris picked so far — kept as second-tier marks.
+// ║  • ZBrand.LOGO / WORDMARK / HOME: the final picks. ZBrand.TIER2: second-tier logos.
 // ║  • The winning wordmark (Ringed Z) in 10 different typefaces.
 // ║  • The picked home page (World Tree Veil) reworked for the new logo / font.
 // ═══════════════════════════════════════════════════════════════════════
-ZBrand.TIER2=['crossed_axes','blade_b','way_b','tree_c','world_tree','compass','four_spirits','realm_peak','shield_knot','triquetra','wayfinder','winged_blade'];
+// Kris's final picks (Oct 2): the logo, the wordmark, the home page — and the second-tier logos for other places.
+ZBrand.LOGO='tree_c'; ZBrand.WORDMARK='ring_z'; ZBrand.HOME='veil_a';
+ZBrand.TIER2=['crossed_axes','axes_serpent','axes_tree','blade_b','serpent_coil','way_b','way_compass'];
 (function(){ var PI=Math.PI, T=ZBrand.TEAL, K=ZBrand.K, F=K.F, inC=K.inC;
   var S3=function(id,name,grp,style,desc,small,big){ ZBrand.SYMBOLS.push({id:id,name:name,col:T,style:style,desc:desc,gen:3,grp:grp,draw:function(P,L){ if(L>=3)big(P); else if(typeof small==='string')ZBrand.byId(small).draw(P,L); else small(P,L); }}); };
   var erase=function(P,f){ P.c.save(); P.c.globalCompositeOperation='destination-out'; f(); P.c.restore(); };
@@ -135,3 +137,21 @@ ZBrand.TIER2=['crossed_axes','blade_b','way_b','tree_c','world_tree','compass','
     columns:function(Wu){ return [H.cols(2.7,3.2,16.8,10,0.86),H.cols(Wu-2.7,3.2,16.8,10,0.86)]; },
     carve:function(P,Wu,cx){ H.braidRect(P,0.9,0.9,Wu-0.9,19.1,0.12,0.56,'knot'); P.w(0.4).ln([3.8,2.4,3.8,17.6]).ln([Wu-3.8,2.4,Wu-3.8,17.6]); }});
 })();
+
+// ═══════════ THE LOGO (World Tree · Fractal) at its four sizes, as Kris asked ═══════════
+// full: as picked · medium: the tree and the rune ring · small: the tree, two circles and the dots · icon: just the tree.
+// (The icon is the small level drawn under 16 px radius.)
+(function(){ var K=ZBrand.K, F=K.F, inC=K.inC, TC=ZBrand.byId('tree_c'), big=TC.draw, l0=ZBrand.layers;
+  ZBrand.layers=function(S,R,L){ ZBrand._drawR=R; return l0(S,R,L); };
+  TC.name='World Tree'; TC.final=true; TC.desc='The Zeldara logo: the world tree, crown mirrored by its roots, inside key and rune borders. Medium: tree and rune ring. Small: tree, circles and dots. Icon: just the tree.';
+  TC.draw=function(P,L){ if(L>=3)return big(P,3);
+    if(L===2){ inC(P,0,0.03,0.9,function(){ P.ftree(5,3); }); P.w(0.9).ci(0,0,0.88); P.w(0.5).ci(0,0,1.36); P.w(0.8).band(ZBrand.ring(1.12),16,0.26,2); return; }
+    var w0=P.w, bold=function(k,f){ P.w=function(m){ return w0((m||1)*k); }; f(); P.w=w0; };
+    if((ZBrand._drawR||99)<16){ bold(1.9,function(){ inC(P,0,0.1,1.42,function(){ P.ftree(3,1); }); }); return; }
+    bold(1.3,function(){ inC(P,0,0.04,0.96,function(){ P.ftree(4,2); }); }); P.w(0.9).ci(0,0,0.94); P.w(0.5).ci(0,0,1.14); F.dots(P,1.32,12,0.05); };
+})();
+
+// browser-tab icon: the logo's smallest size (just the tree)
+ZBrand.favicon=function(){ try{ var cv=ZBrand.mk(64,64), c=cv.getContext('2d'); c.fillStyle='#03080a'; c.beginPath(); c.arc(32,32,32,0,Math.PI*2); c.fill(); c.save(); c.translate(32,34); c.scale(2,2); ZBrand.symbol(c,ZBrand.LOGO,0,0,15,1,1.2); c.restore();
+    var l=document.querySelector('link[rel="icon"]')||document.createElement('link'); l.rel='icon'; l.href=cv.toDataURL('image/png'); document.head.appendChild(l); return l.href; }catch(e){ return null; } };
+if(typeof document!=='undefined'&&document.head&&typeof LAB_TABS==='undefined')ZBrand.favicon();

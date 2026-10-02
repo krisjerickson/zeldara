@@ -1,40 +1,53 @@
 // ─── TitleScene ─────────────────────────────────
 class TitleScene extends Phaser.Scene{
   constructor(){super('Title')}
+  // Round 13: the title wears the brand Kris picked — World Tree Veil home page, the World Tree logo and the
+  // Ringed Z wordmark (07zz-brand*.js). The page is painted on a canvas texture a few times a second; the two
+  // buttons are part of that painting, with invisible hit areas (and hidden labels) placed exactly over them.
   create(){
     var w=this.scale.width,h=this.scale.height;
     var self=this;
     // Hide action bars on the title — no game state to interact with yet.
-    document.body.classList.add('bars-hidden');
-    this.events.once('shutdown', function(){ document.body.classList.remove('bars-hidden'); });
-    this.add.rectangle(w/2,h/2,w,h,0x070b16);
-    for(var i=0;i<120;i++){
-      var sx=Phaser.Math.Between(0,w),sy=Phaser.Math.Between(0,h);
-      this.add.circle(sx,sy,Math.random()<0.05?2:1,0xffffff,0.3+Math.random()*0.7);
-    }
-    this.add.text(w/2,h*0.22,'QUESTS OF ZELDARA',{fontSize:'38px',color:'#00f5ff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
-    this.add.text(w/2,h*0.22+44,'Version 4  —  The Volcano Lord Awakens',{fontSize:'13px',color:'#336688',fontFamily:'Segoe UI'}).setOrigin(.5);
+    document.body.classList.add('bars-hidden'); document.body.classList.add('on-title');
+    this.events.once('shutdown', function(){ document.body.classList.remove('bars-hidden'); document.body.classList.remove('on-title'); });
     // players + save slots live in 04d-profiles.js (ZSave / ZProfilesUI)
     var moved=ZSave.migrateLegacy(), start=function(isNew){ ZProfilesUI.close(); self.scene.start('Boot',{newGame:isNew}); };
     this.events.once('shutdown',function(){ ZProfilesUI.close(); });
-    var newBtn=this._mkBtn(w/2,h*0.5,'NEW GAME',0x00cc88);
+    var has=ZSave.players().length>0, brand=(typeof ZBrand!=='undefined'&&ZBrand.HOME)?ZBrand.HOMES.find(function(x){ return x.id===ZBrand.HOME; }):null;
+    this._opts={sym:brand?ZBrand.LOGO:null,word:brand?ZBrand.WORDMARK:null,btns:has?['NEW GAME','RETURNING PLAYER']:['NEW GAME']};
+    this._brand=null; this._lt=-1e9;
+    this.add.rectangle(w/2,h/2,w,h,0x000000);
+    if(brand){ try{ if(this.textures.exists('title_bg'))this.textures.remove('title_bg'); this._tex=this.textures.createCanvas('title_bg',Math.max(2,Math.round(w)),Math.max(2,Math.round(h))); this.add.image(0,0,'title_bg').setOrigin(0); this._brand=brand; this._paint(0); }catch(e){ console.error('title brand',e); this._brand=null; } }
+    var rects=this._brand?ZBrand.homeLayout(brand,w,h,this._opts):[{x:w/2-105,y:h*0.5-23,w:210,h:46},{x:w/2-105,y:h*0.5+47,w:210,h:46}];
+    if(!this._brand)this.add.text(w/2,h*0.22,'QUESTS OF ZELDARA',{fontSize:'38px',color:'#63f2dc',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
+    var newBtn=this._mkBtn(rects[0],'NEW GAME');
     newBtn.on('pointerup',function(){ ZProfilesUI.newGame(start); });
-    if(ZSave.players().length){
-      var cBtn=this._mkBtn(w/2,h*0.5+70,'RETURNING PLAYER',0x4488cc);
+    var foot=h-14, note=function(t,col){ self.add.text(w/2,foot,t,{fontSize:'11px',color:col,fontFamily:'Segoe UI'}).setOrigin(.5,1); foot-=16; };
+    if(has){
+      var cBtn=this._mkBtn(rects[1],'RETURNING PLAYER');
       cBtn.on('pointerup',function(){ ZProfilesUI.returning(start); });
-      var lp=ZSave.players()[0]; this.add.text(w/2,h*0.5+108,'Last played: '+lp.name+'  ·  '+ZSave.players().length+' player'+(ZSave.players().length===1?'':'s')+' on this device',{fontSize:'11px',color:'#4f7090',fontFamily:'Segoe UI'}).setOrigin(.5);
-      if(moved)this.add.text(w/2,h*0.5+126,'Your earlier save is now under “'+moved.name+'”, slot 1 (rename it there).',{fontSize:'11px',color:'#7fb08a',fontFamily:'Segoe UI'}).setOrigin(.5);
+      var lp=ZSave.players()[0];
+      if(moved)note('Your earlier save is now under “'+moved.name+'”, slot 1 (rename it there).','#7fb08a');
+      note('Last played: '+lp.name+'  ·  '+ZSave.players().length+' player'+(ZSave.players().length===1?'':'s')+' on this device','#5f8ea0');
       // back from a graphics reset (20-game-config.js): continue the same player + slot straight away
       var rs=null; try{ rs=sessionStorage.getItem('qoz_resume'); sessionStorage.removeItem('qoz_resume'); }catch(e){}
       if(rs&&Date.now()-(+rs)<60000&&ZSave.current&&ZSave.read())this.time.delayedCall(60,function(){ self.scene.start('Boot',{newGame:false}); });
     }
+    // the home page's buttons arrive here as /play?start=new or ?start=returning (also noted in sessionStorage, in case a redirect drops the query): open that dialog straight away
+    try{ var q=new URLSearchParams(location.search).get('start'); if(!q){ q=sessionStorage.getItem('zeldara_start'); } sessionStorage.removeItem('zeldara_start'); if(q&&!window._zStartUsed){ window._zStartUsed=true; if(history.replaceState)history.replaceState(null,'',location.pathname); this.time.delayedCall(80,function(){ if(q==='returning'&&has)ZProfilesUI.returning(start); else if(q==='new'||q==='returning')ZProfilesUI.newGame(start); }); } }catch(e){}
+    // a resized window repaints the title at the new size
+    var onR=function(gs){ if(self._rz||(gs&&Math.abs(gs.width-w)<2&&Math.abs(gs.height-h)<2))return; self._rz=true; self.time.delayedCall(180,function(){ self._rz=false; var dlg=ZProfilesUI.el&&ZProfilesUI.el.style.display==='flex';   // not while a name is being typed
+      if(self.scene.isActive('Title')&&!dlg&&(Math.abs(self.scale.width-w)>=2||Math.abs(self.scale.height-h)>=2))self.scene.restart(); }); };
+    this.scale.on('resize',onR); this.events.once('shutdown',function(){ self.scale.off('resize',onR); });
   }
-  _mkBtn(x,y,label,col){
-    var hex='#'+col.toString(16).padStart(6,'0');
-    var bg=this.add.rectangle(x,y,210,46,col,0.12).setStrokeStyle(1,col).setInteractive({useHandCursor:true});
-    this.add.text(x,y,label,{fontSize:'17px',color:hex,fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5).setDepth(1);
-    bg.on('pointerover',function(){bg.setFillStyle(col,0.28);});
-    bg.on('pointerout',function(){bg.setFillStyle(col,0.12);});
+  _paint(t){ var T=this._tex; ZBrand.home(T.getContext(),this._brand,T.width,T.height,t,this._opts); T.refresh(); }
+  update(time){ if(!this._brand||time-this._lt<40)return; this._lt=time; try{ this._paint(time/1000); }catch(e){ console.error('title brand',e); this._brand=null; } }
+  _mkBtn(r,label){
+    var x=r.x+r.w/2, y=r.y+r.h/2, B=!!this._brand;
+    var bg=this.add.rectangle(x,y,r.w,r.h,0x63f2dc,B?0.001:0.12).setInteractive({useHandCursor:true}); if(!B)bg.setStrokeStyle(1,0x63f2dc);
+    this.add.text(x,y,label,{fontSize:'17px',color:'#63f2dc',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5).setDepth(1).setAlpha(B?0:1);
+    bg.on('pointerover',function(){bg.setFillStyle(0x63f2dc,B?0.14:0.28);});
+    bg.on('pointerout',function(){bg.setFillStyle(0x63f2dc,B?0.001:0.12);});
     return bg;
   }
 }
@@ -47,7 +60,10 @@ class BootScene extends Phaser.Scene{
   create(){
     var w=this.scale.width,h=this.scale.height;
     this.add.rectangle(w/2,h/2,460,100,0x080c18);
-    this.add.text(w/2,h/2-30,'QUESTS OF ZELDARA V2',{fontSize:'28px',color:'#ffffff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
+    document.body.classList.add('on-title'); this.events.once('shutdown',function(){ document.body.classList.remove('on-title'); });
+    var named=false;   // the wordmark (Ringed Z) above the loading bar
+    try{ if(typeof ZBrand!=='undefined'&&ZBrand.WORDMARK){ if(this.textures.exists('boot_brand'))this.textures.remove('boot_brand'); var bt=this.textures.createCanvas('boot_brand',620,200); ZBrand.word(bt.getContext(),ZBrand.WORDMARK,310,100,34,0); bt.refresh(); this.add.image(w/2,h/2-84,'boot_brand'); named=true; } }catch(e){}
+    if(!named)this.add.text(w/2,h/2-30,'QUESTS OF ZELDARA',{fontSize:'28px',color:'#ffffff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
     this.add.rectangle(w/2,h/2+8,420,20,0x111122).setStrokeStyle(1,0x00f5ff);
     this._bar=this.add.rectangle(w/2-206,h/2+8,4,18,0x00f5ff).setOrigin(0,.5);
     this._pct=this.add.text(w/2,h/2+26,'Generating world...',{fontSize:'11px',color:'#6688aa',fontFamily:'Segoe UI'}).setOrigin(.5);

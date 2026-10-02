@@ -1,16 +1,22 @@
 {
   "name": "zeldara",
   "private": true,
-  "description": "Quests of Zeldara: npm run build \u2192 index.html, lab/index.html and dist/ (what Vercel deploys)",
+  "description": "Quests of Zeldara: npm run build → the game (index.html), the Design Lab (lab/index.html), the Next.js home page (site/) and dist/ (what is hosted: / home page, /play game, /lab Lab)",
   "scripts": {
     "build": "node build.mjs",
     "dev": "node build.mjs --dev",
-    "check": "node build.mjs --check"
+    "check": "node build.mjs --check",
+    "site": "next dev site"
   },
   "devDependencies": {
     "esbuild": "^0.28.2"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.9"
+  },
+  "dependencies": {
+    "next": "^16.3.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   }
 }

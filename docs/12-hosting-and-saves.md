@@ -4,13 +4,28 @@ Decided by Kris (Oct 1, 2026):
 - Up to ~10 players, mostly each on their own device.
 - Saves live in the browser: player profiles, 3 slots each, plus export/import. No database yet.
 - Deploy: push to GitHub → Vercel runs `npm run build` and serves `dist/`. Built files stay out of git.
-- The game is public at `/`; the Design Lab is at `/lab` (unlisted).
+- The home page is at `/`, the game at `/play`, the Design Lab at `/lab` (unlisted). (Round 13, Oct 2; before that the game itself was at `/`.)
+
+## What is served (round 13)
+
+| URL | What | Built from |
+|---|---|---|
+| `/` | Home page: World Tree Veil, logo, Ringed Z, New Game / Returning Player | `site/` (Next.js, exported as static files) + `site/public/brand.js` (the game's brand code) |
+| `/play` | The game. Its title screen has the same look. | `src/` → `index.html` |
+| `/lab` | Design Lab | `lab/src/` → `lab/index.html` |
+
+- `npm install` once (adds Next.js and React), then `npm run build`. Needs Node 20.9 or newer.
+- The home page's buttons go to `/play?start=new` and `/play?start=returning`; the game opens that dialog at once.
+- Saves are per browser and per site address, and `/` and `/play` share them.
+- If `next` is not installed the build still works: `/` becomes a plain page that sends you to `/play`.
+- To play offline nothing changes: build, then double-click `index.html`.
+- To work on the home page alone: `npm run site` (Next dev server), after one `npm run build` so `brand.js` exists.
 
 ## How it is wired
 
 | Piece | Where | What it does |
 |---|---|---|
-| Build | `build.mjs` (`npm run build`) | Builds `index.html` (the game), `lab/index.html` (the Lab), then copies both into `dist/` (`dist/index.html`, `dist/lab/index.html`). |
+| Build | `build.mjs` (`npm run build`) | Builds `index.html` (the game), `lab/index.html` (the Lab) and the home page, then fills `dist/` (`dist/index.html` home page, `dist/play/index.html`, `dist/lab/index.html`). |
 | Vercel config | `vercel.json` | install `npm install`, build `npm run build`, output `dist`, clean URLs. HTML is revalidated on every visit, so a new deploy shows up right away. |
 | Upload filter | `.vercelignore` | Uploads only what the build needs: `src/`, `assets/`, `lab/src/`, `build.mjs`, `package*.json`. |
 | Git filter | `.gitignore` | `dist/`, `/index.html`, `/lab/index.html`, the generated `src/js/01-sprite-data.js` and sync folders stay out of git. |
@@ -105,7 +120,7 @@ You need a GitHub account (you have `krisjerickson`) and a Vercel account (sign 
 5. Optional: Project → Settings → **Domains** → set a nicer name (e.g. `quests-of-zeldara.vercel.app`) or add your own domain.
 
 ### 3. Check it
-- Open the URL. The title should show **NEW GAME**. Type your name, pick a slot, play, then reload: **RETURNING PLAYER** should show your name.
+- Open the URL. The home page should show **NEW GAME**. Click it: the game opens at `/play` and asks your name. Pick a slot, play, then go back to the home page: **RETURNING PLAYER** should now be there too.
 - Open `…/lab` for the Design Lab. Lab picks made there are saved in that browser, not in the Claude Lab database.
 - Send the link to your players. Each of them types their own name.
 

@@ -111,10 +111,29 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   console.log(`✓ lab/index.html  ${(lab.length / 1024).toFixed(0)} KB  from ${labFiles.length} lab files`);
 }
 
-// ── Hosting (Vercel): dist/ = what gets deployed — the game at /, the Design Lab at /lab
+// ── Hosting: dist/ = what gets deployed — the home page at /, the game at /play, the Design Lab at /lab
 // (vercel.json: buildCommand "npm run build", outputDirectory "dist")
-try { fs.rmSync(path.join(ROOT, 'dist'), { recursive: true, force: true }); } catch (e) { /* folder where deleting is not allowed: the files below are overwritten in place */ }
-fs.mkdirSync(path.join(ROOT, 'dist', 'lab'), { recursive: true });
-fs.copyFileSync(path.join(ROOT, 'index.html'), path.join(ROOT, 'dist', 'index.html'));
-if (fs.existsSync(path.join(ROOT, 'lab/index.html'))) fs.copyFileSync(path.join(ROOT, 'lab/index.html'), path.join(ROOT, 'dist', 'lab', 'index.html'));
-console.log('✓ dist/ ready for hosting (game + /lab)');
+{
+  const { spawnSync } = await import('node:child_process');
+  const D = (...a) => path.join(ROOT, ...a);
+  const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); for (const e of fs.readdirSync(from, { withFileTypes: true })) { const a = path.join(from, e.name), b = path.join(to, e.name); if (e.isDirectory()) copyDir(a, b); else fs.copyFileSync(a, b); } };
+  try { fs.rmSync(D('dist'), { recursive: true, force: true }); } catch (e) { /* folder where deleting is not allowed: the files below are overwritten in place */ }
+  fs.mkdirSync(D('dist', 'lab'), { recursive: true }); fs.mkdirSync(D('dist', 'play'), { recursive: true });
+  fs.copyFileSync(D('index.html'), D('dist', 'play', 'index.html'));
+  if (fs.existsSync(D('lab/index.html'))) fs.copyFileSync(D('lab/index.html'), D('dist', 'lab', 'index.html'));
+  // the home page (Next.js, site/): it paints the brand with the game's own brand code
+  let home = false;
+  if (fs.existsSync(D('site', 'app'))) {
+    const brand = jsFiles.filter(f => /^07z[yz]-brand/.test(f)).map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('\n');
+    fs.mkdirSync(D('site', 'public'), { recursive: true });
+    fs.writeFileSync(D('site', 'public', 'brand.js'), minify(brand, 'brand JS (home page)'));
+    const nextBin = D('node_modules', 'next', 'dist', 'bin', 'next');
+    if (fs.existsSync(nextBin)) {
+      const r = spawnSync(process.execPath, [nextBin, 'build', 'site'], { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, NEXT_TELEMETRY_DISABLED: '1' } });
+      if (r.status === 0 && fs.existsSync(D('site', 'out', 'index.html'))) { copyDir(D('site', 'out'), D('dist')); home = true; }
+      else console.log('! home page build failed — using the plain fallback page\n' + String(r.stderr || '').split('\n').slice(-12).join('\n'));
+    } else console.log('! next not installed (npm install) — using the plain fallback page for /');
+  }
+  if (!home) fs.writeFileSync(D('dist', 'index.html'), '<!doctype html><meta charset="utf-8"><title>Zeldara</title><meta http-equiv="refresh" content="0;url=/play"><body style="background:#000;color:#63f2dc;font-family:sans-serif"><p style="padding:2em">Zeldara — <a style="color:#63f2dc" href="/play">play</a></p>');
+  console.log('✓ dist/ ready for hosting: ' + (home ? 'home page (Next.js) at /' : 'fallback page at /') + ', game at /play, Lab at /lab');
+}

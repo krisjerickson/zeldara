@@ -220,16 +220,20 @@ ZBrand.glyph=function(q,p,ch,x,y){ if(p[1]>1.05){ q.lineWidth=5*(p[1]-1)*3; q.li
     var e=w/2+(kind==='line'?0:0.2); [[y0,-1],[y1,1]].forEach(function(k){ var y=k[0], s=k[1]; P.w(0.8).ln([x-e,y,x+e,y]).ln([x-e,y,x,y+s*e*1.5,x+e,y]); P.w(0.45).ln([x-e*0.55,y+s*0.12,x,y+s*e*0.95,x+e*0.55,y+s*0.12]); P.fc(x,y+s*e*1.5+s*0.28,0.07); }); };
   var BW=9.6, BH=1.9, BX=5.5;
   var fitK=function(Wu){ return Math.max(0.5,Math.min(1,(Wu-10.4)/2/(BX+BW/2))); };
-  var buttons=function(P,cx,y,kind,k){ [cx-BX*k,cx+BX*k].forEach(function(bx){ var x0=bx-BW*k/2, x1=bx+BW*k/2, y0=y-BH/2, y1=y+BH/2; if(kind==='key')keyRect(P,x0,y0,x1,y1,0.15,0.52); else if(kind==='line')lineRect(P,x0,y0,x1,y1); else braidRect(P,x0,y0,x1,y1,0.1,0.44,kind==='knot'?'knot':''); }); };
+  // where the buttons sit (units: page height = 20). One button is centred; two sit side by side, or stacked on a narrow page.
+  var layout=function(cfg,Wu,o){ var LB=(o&&o.btns)||['NEW GAME','RETURNING PLAYER'], by=cfg.by||14.8, cx=Wu/2, stack=LB.length>1&&Wu<24, bk=(stack||LB.length===1)?Math.max(0.45,Math.min(1,(Wu-2.6)/BW)):fitK(Wu);
+    return {LB:LB,bk:bk,by:by,stack:stack,narrow:Wu<16,pts:LB.length===1?[[cx,by]]:stack?[[cx,by-1.3],[cx,by+1.3]]:[[cx-BX*bk,by],[cx+BX*bk,by]]}; };
+  ZBrand.homeLayout=function(cfg,W,H,o){ var u=H/20, L=layout(cfg,W/u,o); return L.pts.map(function(p,i){ return {label:L.LB[i],x:(p[0]-BW*L.bk/2)*u,y:(p[1]-BH/2)*u,w:BW*L.bk*u,h:BH*u}; }); };
+  var buttons=function(P,L,kind){ var k=L.bk; L.pts.forEach(function(pt){ var bx=pt[0], y=pt[1], x0=bx-BW*k/2, x1=bx+BW*k/2, y0=y-BH/2, y1=y+BH/2; if(kind==='key')keyRect(P,x0,y0,x1,y1,0.15,0.52); else if(kind==='line')lineRect(P,x0,y0,x1,y1); else braidRect(P,x0,y0,x1,y1,0.1,0.44,kind==='knot'?'knot':''); }); };
   // the carved layer for one look, cached per size
-  var carved=function(cfg,W,H,fam,wt){ var bf=fam?'"'+fam+'",'+FC:FC, bw=fam?(wt||'400'):'700', fk=1; try{ fk=document.fonts?(document.fonts.check(bw+' 20px '+(fam?'"'+fam+'"':'Cinzel'))?1:0):1; }catch(e){} var k='h2_'+cfg.id+'_'+W+'_'+H+'_'+fk+'_'+(fam||''), o=ZBrand.cache[k]; if(o)return o; var u=H/20, Wu=W/u, cx=Wu/2, bk=fitK(Wu);
-    var main=ZBrand.passes(W,H,'neon',T,function(q){ q.scale(u,u); },function(P){ cfg.carve(P,Wu,cx); buttons(P,cx,cfg.by||14.8,cfg.btn,bk); });
+  var carved=function(cfg,W,H,fam,wt,o){ o=o||{}; var bf=fam?'"'+fam+'",'+FC:FC, bw=fam?(wt||'400'):'700', fk=1; try{ fk=document.fonts?(document.fonts.check(bw+' 20px '+(fam?'"'+fam+'"':'Cinzel'))?1:0):1; }catch(e){} var u=H/20, Wu=W/u, cx=Wu/2, LY=layout(cfg,Wu,o), bk=LY.bk; var k='h2_'+cfg.id+'_'+W+'_'+H+'_'+fk+'_'+(fam||'')+'_'+LY.LB.join('|')+(o.blurb===false?'_nb':''), hit=ZBrand.cache[k]; if(hit)return hit;
+    var main=ZBrand.passes(W,H,'neon',T,function(q){ q.scale(u,u); },function(P){ if(!LY.narrow)cfg.carve(P,Wu,cx); buttons(P,LY,cfg.btn); });
     var c=main.getContext('2d'); c.save(); c.scale(u,u);
     // button fill + gold lettering in the wordmark face, story line
-    [cx-BX*bk,cx+BX*bk].forEach(function(bx,i){ c.fillStyle=ZBrand.rgba(T,0.07); c.globalCompositeOperation='destination-over'; c.fillRect(bx-BW*bk/2,(cfg.by||14.8)-BH/2,BW*bk,BH); c.globalCompositeOperation='source-over';
-      var lbl=i?'RETURNING PLAYER':'NEW GAME', lm=ZBrand.text(c,[0,1],'RETURNING PLAYER',bf,bw,0.7*bk,0.09*bk,0,0,{norm:true,dry:true}), lk=Math.min(1,(BW*bk-1.3)/lm.w);
-      [[-0.9,1.7,0,0],[0,1,0,0]].forEach(function(p){ c.save(); c.fillStyle=c.strokeStyle=p[0]<0?'#1a1204':G; ZBrand.text(c,p,lbl,bf,bw,0.7*bk*lk,0.09*bk*lk,bx,(cfg.by||14.8)+0.02,{norm:true}); c.restore(); }); });
-    c.fillStyle='rgba(200,214,226,.78)'; c.font='400 0.62px '+FH; c.textAlign='center'; c.textBaseline='middle'; c.save(); c.translate(cx,(cfg.by||14.8)+2.75); c.scale(0.01*Math.min(1,(Wu-9)/24),0.01*Math.min(1,(Wu-9)/24)); c.font='400 62px '+FH; c.fillText('Four realms. One awakening. Wake the waystones, befriend the spirits,',0,0); c.fillText('and face the Volcano Lord.',0,92); c.restore(); c.restore();
+    LY.pts.forEach(function(pt,i){ var bx=pt[0], byy=pt[1]; c.fillStyle=ZBrand.rgba(T,0.07); c.globalCompositeOperation='destination-over'; c.fillRect(bx-BW*bk/2,byy-BH/2,BW*bk,BH); c.globalCompositeOperation='source-over';
+      var lbl=LY.LB[i], lm=ZBrand.text(c,[0,1],'RETURNING PLAYER',bf,bw,0.7*bk,0.09*bk,0,0,{norm:true,dry:true}), lk=Math.min(1,(BW*bk-1.3)/lm.w);
+      [[-0.9,1.7,0,0],[0,1,0,0]].forEach(function(p){ c.save(); c.fillStyle=c.strokeStyle=p[0]<0?'#1a1204':G; ZBrand.text(c,p,lbl,bf,bw,0.7*bk*lk,0.09*bk*lk,bx,byy+0.02,{norm:true}); c.restore(); }); });
+    if(o.blurb!==false&&!LY.narrow){ c.fillStyle='rgba(200,214,226,.78)'; c.font='400 0.62px '+FH; c.textAlign='center'; c.textBaseline='middle'; c.save(); c.translate(cx,LY.by+2.75+(LY.stack?1.2:0)); c.scale(0.01*Math.min(1,(Wu-9)/24),0.01*Math.min(1,(Wu-9)/24)); c.font='400 62px '+FH; c.fillText('Four realms. One awakening. Wake the waystones, befriend the spirits,',0,0); c.fillText('and face the Volcano Lord.',0,92); c.restore(); } c.restore();
     var glow=ZBrand.mk(W,H), g=glow.getContext('2d'); g.shadowColor=T; g.shadowBlur=u*0.5; g.drawImage(main,0,0);
     var keys=Object.keys(ZBrand.cache).filter(function(x){ return x.indexOf('h2_')===0; }); if(keys.length>10)delete ZBrand.cache[keys[0]]; return ZBrand.cache[k]={main:main,glow:glow}; };
   ZBrand.H={pillar:pillar,braidRect:braidRect,keyRect:keyRect,lineRect:lineRect,cols:function(x,y0,y1,n,h){ return {x:x,y0:y0,y1:y1,n:n,h:h}; }};
@@ -255,17 +259,17 @@ ZBrand.glyph=function(q,p,ch,x,y){ if(p[1]>1.05){ q.lineWidth=5*(p[1]-1)*3; q.li
     columns:function(Wu){ return [cols(2.4,3.0,17.0,10,0.9),cols(Wu-2.4,3.0,17.0,10,0.9)]; },
     carve:function(P,Wu,cx){ lineRect(P,1.0,1.0,Wu-1.0,19.0); }});
   var home0=ZBrand.home;
-  ZBrand.home=function(c,cfg,W,H,t,o){ if(!(cfg.gen>=2))return home0(c,cfg,W,H,t,o); o=o||{}; var WD=ZBrand.wordById(o.word||(cfg.gen>=3?'ring_z':'twin_axes')); var u=H/20, Wu=W/u, cx=W/2, cy=H*(cfg.ly||0.275), SR=H*(cfg.sr||0.138), i;
+  ZBrand.home=function(c,cfg,W,H,t,o){ if(!(cfg.gen>=2))return home0(c,cfg,W,H,t,o); o=o||{}; var WD=ZBrand.wordById(o.word||(cfg.gen>=3?'ring_z':'twin_axes')); var u=H/20, Wu=W/u, cx=W/2, cy=H*(cfg.ly||0.275), SR=Math.min(H*(cfg.sr||0.138),W*0.2), nar=Wu<16, i;
     c.fillStyle='#000'; c.fillRect(0,0,W,H); stars(c,W,H,t,cfg.stars,cfg.id.length*7+3); if(cfg.aur)aurora(c,W,H,t,cfg.aur); if(cfg.shoot)shoot(c,W,H,t,cfg.shoot);
     if(cfg.back){ var bk='h2b_'+cfg.id+'_'+W+'_'+H, B=ZBrand.cache[bk]; if(!B){ B=ZBrand.cache[bk]=ZBrand.mk(W,H); var q=B.getContext('2d'); q.scale(u,u); q.strokeStyle=T; q.fillStyle=T; q.lineCap='round'; cfg.back(ZBrand.P(q,3,1),Wu,Wu/2); } c.save(); c.globalAlpha=(cfg.veil||0.2)*(0.75+0.25*Math.sin(t*0.4)); c.drawImage(B,0,0); c.restore(); }
     var gl=c.createRadialGradient(cx,cy,0,cx,cy,SR*2.8); gl.addColorStop(0,ZBrand.rgba(T,0.1+0.05*Math.sin(t*0.7))); gl.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=gl; c.fillRect(0,0,W,H);
-    var L=carved(cfg,W,H,cfg.gen>=3?WD.fam:null,WD.wt); c.save(); c.globalCompositeOperation='lighter'; c.globalAlpha=0.3+0.25*Math.sin(t*0.8); c.drawImage(L.glow,0,0); c.restore(); c.drawImage(L.main,0,0);
+    var L=carved(cfg,W,H,cfg.gen>=3?WD.fam:null,WD.wt,o); c.save(); c.globalCompositeOperation='lighter'; c.globalAlpha=0.3+0.25*Math.sin(t*0.8); c.drawImage(L.glow,0,0); c.restore(); c.drawImage(L.main,0,0);
     // glowing rune columns: a light travels down them
-    cfg.columns(Wu).forEach(function(C,s){ for(i=0;i<C.n;i++){ var on=Math.pow(0.5+0.5*Math.sin(t*0.9-i*0.6+s*2),6); litRune(c,C.x*u,(C.y0+(C.y1-C.y0)*i/(C.n-1))*u,C.h*u,i*5+s*3,0,on,u); } });
+    if(!nar)cfg.columns(Wu).forEach(function(C,s){ for(i=0;i<C.n;i++){ var on=Math.pow(0.5+0.5*Math.sin(t*0.9-i*0.6+s*2),6); litRune(c,C.x*u,(C.y0+(C.y1-C.y0)*i/(C.n-1))*u,C.h*u,i*5+s*3,0,on,u); } });
     if(cfg.lintel){ var Lt=cfg.lintel(Wu); for(i=0;i<Lt.n;i++){ var on2=Math.pow(0.5+0.5*Math.sin(t*0.7-Math.abs(i-(Lt.n-1)/2)*0.5),6); litRune(c,(Lt.x0+(Lt.x1-Lt.x0)*i/(Lt.n-1))*u,Lt.y*u,Lt.h*u,i*3+1,0,on2,u); } }
     // teal rune frame, lighting in turn
     if(cfg.frame){ var m=cfg.frame.m*u, nx=cfg.frame.n[0], ny=cfg.frame.n[1], k=0, put=function(x,y){ var on3=Math.pow(0.5+0.5*Math.sin(t*0.6-k*0.29),10); litRune(c,x,y,u*0.5,k*3,0,on3*0.9,u); k++; };
       for(i=0;i<nx;i++)put(W*(i+0.5)/nx,m); for(i=0;i<ny;i++)put(W-m,H*(i+0.5)/ny); for(i=nx-1;i>=0;i--)put(W*(i+0.5)/nx,H-m); for(i=ny-1;i>=0;i--)put(m,H*(i+0.5)/ny); }
     if(cfg.ring){ var nr=20, rr=SR*1.82; for(i=0;i<nr;i++){ var a=i/nr*PI*2+t*0.05, on4=Math.pow(0.5+0.5*Math.sin(t*0.8-i*0.39),8); litRune(c,cx+Math.cos(a)*rr,cy+Math.sin(a)*rr,SR*0.2,i*3,a+PI/2,on4*0.85,u); } }
-    ZBrand.symbol(c,o.sym||(cfg.gen>=3?'crossed_axes':'tree_b'),cx,cy,SR,3,t); ZBrand.word(c,WD,cx,H*0.575,H*(WD.id==='ring_z'||WD.gen>=3?0.066:0.058),t); };
+    ZBrand.symbol(c,o.sym||(cfg.gen>=3?'crossed_axes':'tree_b'),cx,cy,SR,3,t); ZBrand.word(c,WD,cx,H*(nar?0.535:0.575),Math.min(H*(WD.id==='ring_z'||WD.gen>=3?0.066:0.058),W/11),t); };
 })();

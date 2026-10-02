@@ -146,8 +146,27 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
   3. Before showing a question card, write the questions under **Open questions** below so a restarted session knows they were already asked.
   4. For long question sets, prefer the Lab (answers are saved in its database) or a plain chat message.
 
+## Brand: final picks (Kris, Oct 2, read from the Lab)
+- **Logo: `tree_c` (World Tree · Fractal).** Kris: "this is the best, let's use this for the logo." Sizes to redo:
+  - Full: as it is.
+  - Medium: just the tree and the rune ring.
+  - Small: just the tree with the circles and the dots.
+  - Icon: just the tree.
+- **Wordmark: `ring_z` (Ringed Z) in its original typeface, Cinzel Decorative.** Kris: "this is the one to use." None of the 10 alternative typefaces was picked.
+- **Home page: `veil_a` (World Tree Veil · as picked).**
+- **Second-tier logos** ("cool and can be used for later, but not the logo"): `crossed_axes`, `axes_serpent`, `axes_tree`, `blade_b`, `serpent_coil`, `way_b`, `way_compass`. The first-round picks were un-picked.
+- **Built Oct 2 (round 13, changelog [205]–[212], game v20, Lab v21):** the three smaller logo sizes, `ZBrand.TIER2`, the Next.js home page at `/` (game at `/play`, Lab at `/lab`), the in-game title and loading screen, the browser-tab icon.
+- **Proposed places for the second-tier logos (not built; waiting for Kris's yes / changes):**
+  - `way_b` Wayfinder · Knotwork → header of the waystone travel map and the flash when a waystone is activated.
+  - `way_compass` Wayfinder Compass → compass rose on the world map.
+  - `crossed_axes` Crossed Axes → boss title cards and the victory banner; the armoury and forge signs.
+  - `axes_serpent` Axes & Serpent Ring → emblem beside the boss health bar; the Volcano quest screens.
+  - `axes_tree` Axes & World Tree → save-slot / player screen and the Adventurers' Guild.
+  - `blade_b` Winged Blade · Knotwork → level-up and "new skill learned" banners.
+  - `serpent_coil` Coiled Serpent → the death screen, and the harbour / ferry screens.
+
 ## Open questions
-- None open. Waiting on Kris's Lab picks (round 12) and his check of waystone travel.
+- None open. Still waiting on Kris's check of waystone travel in real play.
 
 ## Fixed decisions (already made by Kris)
 - **Keep the AI-painted hero sprite.** All NPCs, monsters, animals and familiars are redrawn to match it (track E).

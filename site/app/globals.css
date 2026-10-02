@@ -1,0 +1,12 @@
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:#cfe0ea;overflow:hidden}
+body{font-family:'Marcellus SC','Palatino Linotype',Georgia,serif;-webkit-font-smoothing:antialiased}
+.home{position:fixed;inset:0;background:#000}
+.home canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* the buttons are painted on the canvas; these links sit exactly over them */
+.home a.btn{position:absolute;display:block;border-radius:4px;outline:none;transition:background .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
+.home a.btn:hover,.home a.btn:focus-visible{background:rgba(99,242,220,.12);box-shadow:0 0 22px rgba(99,242,220,.45),inset 0 0 0 1px rgba(99,242,220,.55)}
+.home a.btn:active{background:rgba(99,242,220,.2)}
+.home .blurb{position:absolute;left:0;right:0;bottom:4.5vh;padding:0 7vw;text-align:center;font-size:clamp(13px,3.6vw,17px);line-height:1.45;color:rgba(200,214,226,.82);text-wrap:balance}
+.home .loading{position:absolute;inset:0;display:grid;place-items:center;color:#63f2dc;letter-spacing:.3em;font-size:14px;opacity:.7}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}

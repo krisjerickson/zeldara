@@ -1,5 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ BRAND tabs: Logos, Wordmarks and Home Pages. Round 12 (third pass) comes first:
+// ║ BRAND tabs: Logos, Wordmarks and Home Pages. Round 13: the FINAL picks lead each tab
+// ║ (ZBrand.LOGO / WORDMARK / HOME), then the second-tier logos; everything else is folded away.
+// ║ Round 12 (third pass) was:
 // ║ 20 new logos, the second-tier logos Kris picked, the winning wordmark in 10
 // ║ typefaces, the picked home page reworked. Earlier rounds are folded away below.
 // ║ Round 11 (second pass) was
@@ -23,7 +25,7 @@ var LBR={ vis:new Set(),
       '<textarea class="mn-notes br-notes" rows="1" placeholder="Notes (colour, mix with another, changes)…">'+(p.notes||'').replace(/</g,'&lt;')+'</textarea></div></article>'; },
   draw:function(cv,t,full){ var tab=cv.dataset.tab, id=cv.dataset.id, c=cv.getContext('2d'), W=cv.width, H=cv.height; c.setTransform(1,0,0,1,0,0);
     if(tab==='homes'){ var cfg=ZBrand.HOMES.find(function(h){ return h.id===id; });
-      if(cfg.gen>=3)ZBrand.home(c,cfg,W,H,t,{sym:LBR.firstPick('logos',ZBrand.SYMBOLS,'crossed_axes',3),word:LBR.firstPick('words',ZBrand.WORDS,'ring_z',3)});
+      if(cfg.gen>=3)ZBrand.home(c,cfg,W,H,t,{sym:ZBrand.LOGO,word:ZBrand.WORDMARK});
       else if(cfg.gen===2)ZBrand.home(c,cfg,W,H,t,{sym:LBR.firstPick('logos',ZBrand.SYMBOLS,'tree_b',2),word:LBR.firstPick('words',ZBrand.WORDS,'twin_axes',2)});
       else ZBrand.home(c,cfg,W,H,t,{sym:LBR.firstPick('logos',ZBrand.SYMBOLS,ZBrand.SYMBOLS[(+cv.dataset.i*3)%20].id,1),word:LBR.firstPick('words',ZBrand.WORDS,ZBrand.WORDS[(+cv.dataset.i)%10].id,1)}); return; }
     c.fillStyle='#000'; c.fillRect(0,0,W,H);
@@ -48,26 +50,29 @@ var LBR={ vis:new Set(),
   refresh:function(){ document.querySelectorAll('.br-card').forEach(function(a){ var on=LBR.picked(a.dataset.tab,a.dataset.id); a.classList.toggle('on',on); var b=a.querySelector('.br-pick'); b.setAttribute('aria-pressed',String(on)); b.textContent=on?'★ Picked':'☆ Pick'; }); }
 };
 LBR.T2=function(S){ return ZBrand.TIER2.indexOf(S.id)>=0; };
-LBR.logoCard=function(n){ return function(S){ return S.gen>=2?LBR.card('logos',S,n.i++,620,430,'<span class="bb-m">'+(S.gen>=3?(S.grp==='img'?'after your pictures':'built on your picks'):({A:'A · elaborate',B:'B · knotwork',C:'C · fractal',N:'second pass'})[S.lvl])+'</span>'):LBR.card('logos',S,n.i++,560,300,'<span class="bb-m">first round</span>'); }; };
-LAB_TABS.push({ id:'logos', name:'Logos', blurb:'<b>Third pass: 20 more logos</b>, all light teal, denser, and no fractals. <b>Nine follow the nine pictures you sent</b>, one each — our own drawing of each picture\'s layout and motifs (tree totem, tree in the gate, tree and ravens, rising dragon, coiled serpent, triquetra tree, sword and dragons, wayfinder hammer, wayfinder and axes). <b>Eleven build on Crossed Axes</b> (your best so far) and your other picks. Below them is your <b>second tier</b>: the 12 logos you have picked so far, kept for use in other places. <b>☆ Pick</b> the ones that could be <i>the</i> logo; <b>⛶</b> shows one full-screen. Everything else from the earlier rounds is folded away at the bottom.',
+LBR.logoCard=function(n){ return function(S){ return S.gen>=2?LBR.card('logos',S,n.i++,620,430,'<span class="bb-m">'+(S.id===ZBrand.LOGO?'the logo':LBR.T2(S)?'second tier':S.gen>=3?(S.grp==='img'?'after your pictures':'built on your picks'):({A:'A · elaborate',B:'B · knotwork',C:'C · fractal',N:'second pass'})[S.lvl])+'</span>'):LBR.card('logos',S,n.i++,560,300,'<span class="bb-m">first round</span>'); }; };
+LAB_TABS.push({ id:'logos', name:'Logos', blurb:'<b>The logo is chosen: World Tree.</b> The first card shows it at its four sizes as you asked — <b>full</b> (as picked), <b>medium</b> (the tree and the rune ring), <b>small</b> (the tree, two circles and the dots) and <b>icon</b> (just the tree; it is also the browser-tab icon). Below it is the <b>second tier</b>: the seven logos you marked as good for other places in the game. Everything else from the three rounds is folded away at the bottom. Notes are still saved if you want to adjust anything.',
   designs:ZBrand.SYMBOLS.map(function(S){ return {id:S.id,name:S.name}; }),
-  render:function(){ setTimeout(LBR.bind,0); var n={i:0}, card=LBR.logoCard(n), G3=LBR.g(ZBrand.SYMBOLS,3), grid=function(L){ return '<div class="br-grid">'+L.map(card).join('')+'</div>'; };
-    return LBR.sec('After your pictures','one logo per picture — our own drawings')+grid(G3.filter(function(S){ return S.grp==='img'; }))+
-      LBR.sec('Built on Crossed Axes and your picks','denser versions and combinations')+grid(G3.filter(function(S){ return S.grp==='pick'; }))+
-      LBR.sec('Second tier — your picks so far','kept for other places in the game and site')+grid(ZBrand.TIER2.map(function(id){ return ZBrand.byId(id); }))+
-      LBR.ref('Second pass — the other 28 logos (reference)',grid(LBR.g(ZBrand.SYMBOLS,2).filter(function(S){ return !LBR.T2(S); })))+
-      LBR.ref('First round — the other 12 logos (reference)',grid(LBR.g(ZBrand.SYMBOLS,1).filter(function(S){ return !LBR.T2(S); }))); } });
-LAB_TABS.push({ id:'words', name:'Wordmarks', blurb:'<b>The winner is Ringed Z.</b> Here it is in <b>10 different typefaces</b>, each drawn at the same size with the same ring, axes and rune band, so only the lettering changes — from Celtic uncial and rune-cut to gothic and calm Roman capitals. The first card is the version you picked (Cinzel Decorative), for comparison. <b>☆ Pick</b> the typeface you want; it will also be used for the buttons on the home page. The other wordmarks are folded away at the bottom.',
+  render:function(){ setTimeout(LBR.bind,0); var n={i:0}, card=LBR.logoCard(n), grid=function(L){ return '<div class="br-grid">'+L.map(card).join('')+'</div>'; }, used=function(S){ return S.id===ZBrand.LOGO||LBR.T2(S); };
+    return LBR.sec('The logo','final pick — four sizes')+grid([ZBrand.byId(ZBrand.LOGO)])+
+      LBR.sec('Second tier','for other places in the game and site')+grid(ZBrand.TIER2.map(function(id){ return ZBrand.byId(id); }))+
+      LBR.ref('Third pass — the other logos (reference)',grid(LBR.g(ZBrand.SYMBOLS,3).filter(function(S){ return !used(S); })))+
+      LBR.ref('Second pass — the other logos (reference)',grid(LBR.g(ZBrand.SYMBOLS,2).filter(function(S){ return !used(S); })))+
+      LBR.ref('First round — the 20 earliest logos (reference)',grid(LBR.g(ZBrand.SYMBOLS,1).filter(function(S){ return !used(S); }))); } });
+LAB_TABS.push({ id:'words', name:'Wordmarks', blurb:'<b>The wordmark is chosen: Ringed Z</b>, in its original lettering (Cinzel Decorative). It is now on the home page, the game\'s title screen and the loading screen. The ten other typefaces and the earlier wordmarks are folded away below.',
   designs:ZBrand.WORDS.map(function(S){ return {id:S.id,name:S.name}; }),
-  render:function(){ setTimeout(LBR.bind,0); var n=0, card=function(S){ return LBR.card('words',S,n++,620,380,S.tag?'<span class="bb-m">'+S.tag+'</span>':(S.id==='ring_z'?'<span class="bb-m">your pick · Cinzel Decorative</span>':'')); };
-    return '<div class="br-grid br-wide">'+[ZBrand.wordById('ring_z')].concat(LBR.g(ZBrand.WORDS,3)).map(card).join('')+'</div>'+
-    LBR.ref('Second pass — the other 9 gold wordmarks (reference)','<div class="br-grid br-wide">'+LBR.g(ZBrand.WORDS,2).filter(function(S){ return S.id!=='ring_z'; }).map(card).join('')+'</div>')+
-    LBR.ref('First round — the 10 earlier wordmarks (reference)','<div class="br-grid">'+LBR.g(ZBrand.WORDS,1).map(function(S,i){ return LBR.card('words',S,i,560,230,'<span class="bb-m">'+S.style+' finish</span>'); }).join('')+'</div>'); } });
-LAB_TABS.push({ id:'homes', name:'Home Pages', blurb:'<b>Your pick, World Tree Veil, reworked.</b> Three versions: as you picked it, with carved pillars round the side runes, and inside a knot frame. Each preview uses the logo and Ringed Z typeface you pick in the other two tabs (until then: Crossed Axes and the current Ringed Z), and the button lettering follows the wordmark typeface. <b>☆ Pick</b> one; <b>⛶</b> shows it full-screen. Earlier home pages are folded away at the bottom.',
+  render:function(){ setTimeout(LBR.bind,0); var n=0, card=function(S){ return LBR.card('words',S,n++,620,380,S.tag?'<span class="bb-m">'+S.tag+'</span>':(S.id===ZBrand.WORDMARK?'<span class="bb-m">final pick · Cinzel Decorative</span>':'')); };
+    return LBR.sec('The wordmark','final pick')+'<div class="br-grid br-wide">'+card(ZBrand.wordById(ZBrand.WORDMARK))+'</div>'+
+    LBR.ref('Ringed Z in ten other typefaces (reference)','<div class="br-grid br-wide">'+LBR.g(ZBrand.WORDS,3).map(card).join('')+'</div>')+
+    LBR.ref('Second pass — the other 9 gold wordmarks (reference)','<div class="br-grid br-wide">'+LBR.g(ZBrand.WORDS,2).filter(function(S){ return S.id!==ZBrand.WORDMARK; }).map(card).join('')+'</div>')+
+    LBR.ref('First round — the 10 earliest wordmarks (reference)','<div class="br-grid">'+LBR.g(ZBrand.WORDS,1).map(function(S,i){ return LBR.card('words',S,i,560,230,'<span class="bb-m">'+S.style+' finish</span>'); }).join('')+'</div>'); } });
+LAB_TABS.push({ id:'homes', name:'Home Pages', blurb:'<b>The home page is chosen: World Tree Veil, as picked</b>, shown here with the final logo and wordmark. It is built: the same page is the site\'s home page (New Game / Returning Player lead into the game) and the game\'s own title screen. <b>⛶</b> shows it full-screen. The other versions are folded away below.',
   designs:ZBrand.HOMES.map(function(S){ return {id:S.id,name:S.name}; }),
-  render:function(){ setTimeout(LBR.bind,0); return '<div class="br-grid br-wide">'+LBR.g(ZBrand.HOMES,3).map(function(S,i){ return LBR.card('homes',S,i,800,450,''); }).join('')+'</div>'+
-    LBR.ref('Second pass — the 6 combined home pages (reference; World Tree Veil is your pick)','<div class="br-grid br-wide">'+LBR.g(ZBrand.HOMES,2).map(function(S,i){ return LBR.card('homes',S,i,800,450,''); }).join('')+'</div>')+
-    LBR.ref('First round — the 15 earlier home pages (reference)','<div class="br-grid br-wide">'+LBR.g(ZBrand.HOMES,1).map(function(S,i){ return LBR.card('homes',S,i,640,360,''); }).join('')+'</div>'); } });
+  render:function(){ setTimeout(LBR.bind,0); var H3=LBR.g(ZBrand.HOMES,3);
+    return LBR.sec('The home page','final pick')+'<div class="br-grid br-wide">'+H3.filter(function(S){ return S.id===ZBrand.HOME; }).map(function(S,i){ return LBR.card('homes',S,i,800,450,''); }).join('')+'</div>'+
+    LBR.ref('Third pass — the two other World Tree Veil versions (reference)','<div class="br-grid br-wide">'+H3.filter(function(S){ return S.id!==ZBrand.HOME; }).map(function(S,i){ return LBR.card('homes',S,i+1,800,450,''); }).join('')+'</div>')+
+    LBR.ref('Second pass — the 6 combined home pages (reference)','<div class="br-grid br-wide">'+LBR.g(ZBrand.HOMES,2).map(function(S,i){ return LBR.card('homes',S,i,800,450,''); }).join('')+'</div>')+
+    LBR.ref('First round — the 15 earliest home pages (reference)','<div class="br-grid br-wide">'+LBR.g(ZBrand.HOMES,1).map(function(S,i){ return LBR.card('homes',S,i,640,360,''); }).join('')+'</div>'); } });
 (function(){ var orig=LabApp.renderGrid;
   LabApp.renderGrid=function(quiet){ if(['logos','words','homes'].indexOf(this.tab)>=0&&quiet&&document.querySelector('.br-card')){ LBR.refresh(); this.renderTabs(); return; } return orig.call(this,quiet); };
   document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('.br-card'); if(!a)return; var k=a.dataset.tab+'-'+a.dataset.id;
