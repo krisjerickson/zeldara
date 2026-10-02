@@ -113,7 +113,7 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
 
 // ── Hosting (Vercel): dist/ = what gets deployed — the game at /, the Design Lab at /lab
 // (vercel.json: buildCommand "npm run build", outputDirectory "dist")
-fs.rmSync(path.join(ROOT, 'dist'), { recursive: true, force: true });
+try { fs.rmSync(path.join(ROOT, 'dist'), { recursive: true, force: true }); } catch (e) { /* folder where deleting is not allowed: the files below are overwritten in place */ }
 fs.mkdirSync(path.join(ROOT, 'dist', 'lab'), { recursive: true });
 fs.copyFileSync(path.join(ROOT, 'index.html'), path.join(ROOT, 'dist', 'index.html'));
 if (fs.existsSync(path.join(ROOT, 'lab/index.html'))) fs.copyFileSync(path.join(ROOT, 'lab/index.html'), path.join(ROOT, 'dist', 'lab', 'index.html'));
