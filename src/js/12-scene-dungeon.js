@@ -1314,9 +1314,11 @@ class DungeonScene extends Phaser.Scene{
       }});
     var hit=false;
     this.monsters.forEach(function(mon){
-      if(mon.dead||Math.hypot(mon.x-self.px,mon.y-self.py)>78+Math.max(0,(mon.def.r||10)-18))return;
-      if(!_heroInArc(self.pdir||'right',mon.x-self.px,mon.y-self.py))return;
-      if(!_heroLOS(self,self.px,self.py,mon.x,mon.y))return;   // no hitting through walls
+      if(mon.dead)return;
+      var hq=_hbP(mon,self.px,self.py), hd=Math.hypot(hq.x-self.px,hq.y-self.py);   // painted bosses: their hurtbox (round 9)
+      if(mon._hurtR?hd>48:hd>78+Math.max(0,(mon.def.r||10)-18))return;
+      if(hd>8&&!_heroInArc(self.pdir||'right',hq.x-self.px,hq.y-self.py))return;
+      if(!_heroLOS(self,self.px,self.py,hq.x,hq.y))return;   // no hitting through walls
       var dmg=Math.max(1,atk-(mon.def.def||0)+Math.floor(Math.random()*5-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true; if(mon.isBoss&&typeof BossMoments!=='undefined'){ BossMoments.hitStop(self,0.05); ZSFX.play('hit'); }
       self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#ffdd44');

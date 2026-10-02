@@ -14,16 +14,19 @@ class TitleScene extends Phaser.Scene{
     }
     this.add.text(w/2,h*0.22,'QUESTS OF ZELDARA',{fontSize:'38px',color:'#00f5ff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
     this.add.text(w/2,h*0.22+44,'Version 4  —  The Volcano Lord Awakens',{fontSize:'13px',color:'#336688',fontFamily:'Segoe UI'}).setOrigin(.5);
-    var hasSave=false,saveInfo='';
-    try{var raw=localStorage.getItem('qoz_v2');if(raw){var sv=JSON.parse(raw);hasSave=true;saveInfo='Level '+(sv.level||1)+' — '+(sv.gold||0)+' gold';}}catch(e){localStorage.removeItem('qoz_v2');}
+    // players + save slots live in 04d-profiles.js (ZSave / ZProfilesUI)
+    var moved=ZSave.migrateLegacy(), start=function(isNew){ ZProfilesUI.close(); self.scene.start('Boot',{newGame:isNew}); };
+    this.events.once('shutdown',function(){ ZProfilesUI.close(); });
     var newBtn=this._mkBtn(w/2,h*0.5,'NEW GAME',0x00cc88);
-    newBtn.on('pointerup',function(){try{localStorage.removeItem('qoz_v2');}catch(e){}self.scene.start('Boot',{newGame:true});});
-    if(hasSave){
-      var cBtn=this._mkBtn(w/2,h*0.5+70,'CONTINUE',0x4488cc);
-      cBtn.on('pointerup',function(){self.scene.start('Boot',{newGame:false});});
-      // back from a graphics reset (20-game-config.js): continue straight away
+    newBtn.on('pointerup',function(){ ZProfilesUI.newGame(start); });
+    if(ZSave.players().length){
+      var cBtn=this._mkBtn(w/2,h*0.5+70,'RETURNING PLAYER',0x4488cc);
+      cBtn.on('pointerup',function(){ ZProfilesUI.returning(start); });
+      var lp=ZSave.players()[0]; this.add.text(w/2,h*0.5+108,'Last played: '+lp.name+'  ·  '+ZSave.players().length+' player'+(ZSave.players().length===1?'':'s')+' on this device',{fontSize:'11px',color:'#4f7090',fontFamily:'Segoe UI'}).setOrigin(.5);
+      if(moved)this.add.text(w/2,h*0.5+126,'Your earlier save is now under “'+moved.name+'”, slot 1 (rename it there).',{fontSize:'11px',color:'#7fb08a',fontFamily:'Segoe UI'}).setOrigin(.5);
+      // back from a graphics reset (20-game-config.js): continue the same player + slot straight away
       var rs=null; try{ rs=sessionStorage.getItem('qoz_resume'); sessionStorage.removeItem('qoz_resume'); }catch(e){}
-      if(rs&&Date.now()-(+rs)<60000)this.time.delayedCall(60,function(){ self.scene.start('Boot',{newGame:false}); });
+      if(rs&&Date.now()-(+rs)<60000&&ZSave.current&&ZSave.read())this.time.delayedCall(60,function(){ self.scene.start('Boot',{newGame:false}); });
     }
   }
   _mkBtn(x,y,label,col){

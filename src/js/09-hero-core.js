@@ -76,6 +76,23 @@ function _heroFloat(scene, x, y, msg, col){
   scene.tweens.add({targets:t,y:y-34,alpha:0,duration:900,onComplete:function(){t.destroy();}});
 }
 
+// ── Boss hurtbox (round 9): painted bosses are hit anywhere on the lower two-thirds of
+// their body — an oval from the feet up to the chest — not just at the feet.
+// _hbP(m,x,y) = the point of that oval nearest to (x,y) (x,y itself when inside),
+// pulled back toward the feet if it would sit in a wall, so it is always reachable.
+// _hbD(m,x,y) = distance from (x,y) to the hurtbox (0 inside). Plain monsters: their centre.
+var HB_W={hum:0.3,golem:0.36,orb:0.38,drake:0.5,wyvern:0.55,spider:0.5,wyrm:0.34,bird:0.42,kraken:0.44,toad:0.46};
+function _hbBox(m){ var R=m&&m._hurtR; if(!R||!R.D)return null; var sy=Math.abs((R.cont&&R.cont.scaleY)||1), H=R.D.h*sy, ry=H*0.335;
+  return {cx:m.x, cy:m.y+(R.fy||0)*sy-ry, rx:Math.max(((m.def&&m.def.r)||14),H*(HB_W[R.D.arch]||0.32)), ry:ry, sc:R.scene}; }
+function _hbP(m,x,y){ var B=_hbBox(m); if(!B)return {x:m.x,y:m.y}; var dx=(x-B.cx)/B.rx, dy=(y-B.cy)/B.ry, l=Math.hypot(dx,dy), px=x, py=y;
+  if(l>1){ px=B.cx+dx/l*B.rx; py=B.cy+dy/l*B.ry; }
+  var S=B.sc, ok=function(qx,qy){ if(!S)return true; if(S._canGoD)return S._canGoD(qx,qy); if(S._canGo)return S._canGo(qx,qy,null); return true; };
+  if(!ok(px,py)){ for(var t=0.2;t<=1.0001;t+=0.2){ var qx=px+(m.x-px)*t, qy=py+(m.y-py)*t; if(ok(qx,qy)){ px=qx; py=qy; break; } } if(!ok(px,py)){ px=m.x; py=m.y; } }
+  return {x:px,y:py}; }
+function _hbD(m,x,y){ if(!m||!m._hurtR)return Math.hypot(m.x-x,m.y-y); var p=_hbP(m,x,y); return Math.hypot(p.x-x,p.y-y); }
+// a projectile / blast of radius pad touches the monster?
+function _hbHit(m,x,y,pad){ return m._hurtR?_hbD(m,x,y)<=pad:Math.hypot(m.x-x,m.y-y)<=((m.def&&m.def.r)||10)+pad; }
+
 // Damage one monster from any source (spell, familiar, burn). Returns damage dealt.
 // opts: {pure:true} ignores DEF · {col:'#hex'} · {suffix:'🔥'}
 function _heroHitMonster(scene, mon, raw, opts){
@@ -264,7 +281,7 @@ function _heroNova(scene,x,y,r,col,dmg,effect){
   var ring=scene.add.circle(x,y,4,col,0.9).setDepth(15);
   scene.tweens.add({targets:ring,scaleX:r/4,scaleY:r/4,alpha:0,duration:350,onComplete:function(){ring.destroy();}});
   _heroCtx(scene).monsters.forEach(function(m){
-    if(m.dead||Math.hypot(m.x-x,m.y-y)>r||!_heroLOS(scene,x,y,m.x,m.y))return;
+    if(m.dead){ return; } var hp_=_hbP(m,x,y); if(Math.hypot(hp_.x-x,hp_.y-y)>r||!_heroLOS(scene,x,y,hp_.x,hp_.y))return;
     _heroHitMonster(scene,m,dmg,{col:'#ff8844'});
     if(effect==='stun'||effect==='slow')_heroSlow(scene,m,effect==='stun'?2:1.5,effect==='stun'?0.1:0.5);
     if(effect==='fire')_heroBurn(m,3,Math.max(1,dmg*0.1));
@@ -281,7 +298,7 @@ function _heroSpellTick(scene, dt){
       if(!_heroOpenAt(scene,p.x,p.y)){p.vis.destroy();return false;}
       for(var i=0;i<mons.length;i++){
         var m=mons[i]; if(m.dead||p.hitSet.indexOf(m)>=0)continue;
-        if(Math.hypot(m.x-p.x,m.y-p.y)>((m.def&&m.def.r)||10)+6)continue;
+        if(!_hbHit(m,p.x,p.y,6))continue;
         p.hitSet.push(m);
         var d=_heroHitMonster(scene,m,p.dmg,{col:'#aaddff'});
         if(p.effect==='slow')_heroSlow(scene,m,p.effectDur,0.5);
@@ -302,7 +319,7 @@ function _heroSpellTick(scene, dt){
     scene._heroClouds=scene._heroClouds.filter(function(cl){
       cl.life-=dt; if(cl.life<=0){cl.vis.destroy();return false;}
       cl.vis.setAlpha(Math.min(0.45,cl.life*0.15));
-      cl.tick+=dt; if(cl.tick>=0.5){ cl.tick=0; ms.forEach(function(m){ if(!m.dead&&Math.hypot(m.x-cl.x,m.y-cl.y)<=cl.r&&_heroLOS(scene,cl.x,cl.y,m.x,m.y)){ _heroHitMonster(scene,m,cl.dps*0.5,{pure:true,col:cl.st==='slow'?'#c8f0ff':'#66dd66'}); if(cl.st==='slow')_heroSlow(scene,m,1.2,0.4); } }); }
+      cl.tick+=dt; if(cl.tick>=0.5){ cl.tick=0; ms.forEach(function(m){ if(!m.dead&&_hbD(m,cl.x,cl.y)<=cl.r&&_heroLOS(scene,cl.x,cl.y,_hbP(m,cl.x,cl.y).x,_hbP(m,cl.x,cl.y).y)){ _heroHitMonster(scene,m,cl.dps*0.5,{pure:true,col:cl.st==='slow'?'#c8f0ff':'#66dd66'}); if(cl.st==='slow')_heroSlow(scene,m,1.2,0.4); } }); }
       return true;
     });
   }
@@ -311,7 +328,7 @@ function _heroChain(scene, from, n, dmg, mons){
   var last=from, hit=[from];
   for(var i=0;i<n;i++){
     var best=null,bd=130;
-    mons.forEach(function(m){ if(m.dead||hit.indexOf(m)>=0)return; var d=Math.hypot(m.x-last.x,m.y-last.y); if(d<bd&&_heroLOS(scene,last.x,last.y,m.x,m.y)){bd=d;best=m;} });
+    mons.forEach(function(m){ if(m.dead||hit.indexOf(m)>=0)return; var d=_hbD(m,last.x,last.y), q_=_hbP(m,last.x,last.y); if(d<bd&&_heroLOS(scene,last.x,last.y,q_.x,q_.y)){bd=d;best=m;} });
     if(!best)break;
     _heroBolt(scene,last.x,last.y,best.x,best.y,0xffff66);
     _heroHitMonster(scene,best,dmg,{pure:true,col:'#ffff88',suffix:'⚡'});

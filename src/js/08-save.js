@@ -1,6 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ SAVE VERSIONING  (Phase 1 · panel A3)
-// ║ Saves live in localStorage['qoz_v2'] (key kept so existing saves load).
+// ║ Saves live in the chosen player's slot (ZSave, 04d-profiles.js); the old single
+// ║ save localStorage['qoz_v2'] is moved into "Player 1", slot 1.
 // ║ Each save now carries saveVersion. _migrateSave() upgrades older saves
 // ║ step by step and keeps a one-time backup of the pre-migration save in
 // ║ localStorage['qoz_v2_backup_v<old>'] so nothing is ever lost.

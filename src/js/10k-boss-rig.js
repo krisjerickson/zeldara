@@ -46,7 +46,8 @@ var BossRig={ keys:[], MAXTEX:8,
     body.setStrokeStyle=function(){ return this; };
     return body; },
   // grow the boss's footprint: hit radius + shadow (legacy defs are shared → copy first)
-  size:function(mon,D){ if(!mon||!D)return; var r=Math.min(46,Math.max(mon.def.r||14,Math.round(D.h*0.15))), M=BA.MOTION[D.motion]||BA.MOTION.stride;
+  size:function(mon,D){ if(!mon||!D)return; mon._hurtR=(mon.spr&&mon.spr._rig)||(mon.body&&mon.body._rig)||null;   // round 9: the hurtbox (09-hero-core _hb)
+    var r=Math.min(46,Math.max(mon.def.r||14,Math.round(D.h*0.15))), M=BA.MOTION[D.motion]||BA.MOTION.stride;
     mon.def=Object.assign({},mon.def,{r:r,spd:Math.round((mon.def.spd||55)*(D.pace||M.pace||1))}); mon.bossArt=D.id; },
   // lay out the container once (shadow + hp bar above the painted body)
   _layout:function(R){ var c=R.cont; if(!c||!c.list)return; R.laid=true; var D=R.D, top=R.fy-D.h-(D.arch==='orb'?30:10), sh=null, mv=[];

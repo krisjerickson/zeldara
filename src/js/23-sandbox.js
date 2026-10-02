@@ -168,8 +168,8 @@ function sbSpawnMonsters(){
   closeModal('sandbox');
 }
 function sbReset(){
-  localStorage.removeItem('qoz_v2');
-  showNotif('Save cleared — reload to restart.','#ff8844');
+  ZSave.clearCurrent();
+  showNotif('This save slot was cleared — reload to restart.','#ff8844');
 }
 // ─── Sandbox Adventure Site Launchers ────────────────────────────────────
 function _sbStopAdventure(){

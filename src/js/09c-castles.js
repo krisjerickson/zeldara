@@ -16,7 +16,7 @@ var CastleRun={
     return {id:'isl_castle_'+key,type:'tower',section:C.sec,design:C.castle,castle:key,name:S?S.name:C.name,floors:C.floors}; },
   // one-phase warden (engine monster) — tougher than a tower's regular guards, weaker than the quadrant boss
   spawnWarden:function(scene,C,x,y,mult){ var base=MDEFS[CASTLE_TOWER_BOSS[C.sec-1]]; if(!base)return null; mult=mult||1;
-    var st={hp:Math.round(base.hp*1.4*mult),atk:Math.round(base.atk*0.9*mult),def:Math.round((base.def||0)*mult),lv:base.lvMax||base.lvMin||5,xp:Math.round(base.xp*0.7),gMin:base.gMin,gMax:base.gMax,r:Math.max(16,base.r)};
+    var st={hp:Math.round(base.hp*1.4*1.5*mult),atk:Math.round(base.atk*0.9*mult),def:Math.round((base.def||0)*mult),lv:base.lvMax||base.lvMin||5,xp:Math.round(base.xp*0.7),gMin:base.gMin,gMax:base.gMax,r:Math.max(16,base.r)};
     var mon=MX.spawn(scene,C.rid,x,y,{q:C.sec,stats:st,scale:2.1/MX.scaleOf(MON_BY_ID[C.rid])});
     if(!mon)return null; mon.isBoss=true; mon._m.aggro=false; mon.bossKey='cw_'+C.key; scene.monsters.push(mon);
     scene._bossGroup=[mon]; scene._bossKey='cw_'+C.key; scene._bossPhase=1; scene._bpEv=[]; BossPhases.hud(scene,true); return mon; },

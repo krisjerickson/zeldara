@@ -1696,7 +1696,7 @@ class WorldScene extends Phaser.Scene{
       var stompDmg=Math.ceil(stats.atk*0.8+5);
       self.worldMonsters.forEach(function(m){
         if(m.dead)return;
-        if(Math.hypot(m.x-p.x,m.y-p.y)<96){
+        if(_hbD(m,p.x,p.y)<96){
           m.hp=Math.max(0,m.hp-stompDmg);
           m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
           m._stun=(m._stun||0)+1.5;
@@ -1712,7 +1712,7 @@ class WorldScene extends Phaser.Scene{
       var wwDmg=Math.ceil(stats.atk*1.2);
       self.worldMonsters.forEach(function(m){
         if(m.dead)return;
-        var dd=Math.hypot(m.x-p.x,m.y-p.y);
+        var dd=_hbD(m,p.x,p.y);
         if(dd<64){
           m.hp=Math.max(0,m.hp-wwDmg);
           m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
@@ -1754,7 +1754,7 @@ class WorldScene extends Phaser.Scene{
       var bashed=false;
       self.worldMonsters.forEach(function(m){
         if(m.dead||bashed)return;
-        if(Math.hypot(m.x-p.x,m.y-p.y)<TILE*3.5){
+        if(_hbD(m,p.x,p.y)<TILE*3.5){
           bashed=true;
           m.hp=Math.max(0,m.hp-bashDmg);
           m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
@@ -1800,7 +1800,7 @@ class WorldScene extends Phaser.Scene{
         rock.destroy(); mark.destroy(); self.cameras.main.shake(220,0.012);
         var boom=self.add.circle(mx0,my0,10,0xffc060,0.8).setDepth(12);
         self.tweens.add({targets:boom,radius:mR+10,alpha:0,duration:450,onComplete:function(){boom.destroy();}});
-        self.worldMonsters.forEach(function(m){ if(m.dead)return; if(Math.hypot(m.x-mx0,m.y-my0)<mR+(m.def&&m.def.r||10)){
+        self.worldMonsters.forEach(function(m){ if(m.dead)return; if(_hbHit(m,mx0,my0,mR)){
           MX._src='spell'; m.hp=Math.max(0,m.hp-mDmg); MX._src=null; if(m.hpFill)m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
           if(m._m)m._m.burn=Math.max(m._m.burn||0,3); self._floatText(m.x,m.y-22,'-'+mDmg,'#ff9040');
           if(m.hp<=0)self._worldMonsterDied(m); } });
@@ -1971,7 +1971,7 @@ class WorldScene extends Phaser.Scene{
     // Damage all monsters in radius
     this.worldMonsters.forEach(function(mon){
       if(mon.dead)return;
-      if(Math.hypot(mon.x-cx,mon.y-cy)>radius||!_heroLOS(self,cx,cy,mon.x,mon.y))return;
+      var hq0=_hbP(mon,cx,cy); if(Math.hypot(hq0.x-cx,hq0.y-cy)>radius||!_heroLOS(self,cx,cy,hq0.x,hq0.y))return;
       var def=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
       var d=Math.max(1,Math.round(dmg)-def+Math.floor(Math.random()*3));
       mon.hp-=d;
@@ -1997,7 +1997,7 @@ class WorldScene extends Phaser.Scene{
         cl.dmgTick=0;
         self.worldMonsters.forEach(function(mon){
           if(mon.dead)return;
-          if(Math.hypot(mon.x-cl.x,mon.y-cl.y)>cl.r||!_heroLOS(self,cl.x,cl.y,mon.x,mon.y))return;
+          var hq1=_hbP(mon,cl.x,cl.y); if(Math.hypot(hq1.x-cl.x,hq1.y-cl.y)>cl.r||!_heroLOS(self,cl.x,cl.y,hq1.x,hq1.y))return;
           var d=Math.max(1,Math.ceil(cl.dps*cl.dmgInterval));
           if(cl.st==='slow')mon._slow=1.2;
           mon.hp-=d;
@@ -2031,7 +2031,7 @@ class WorldScene extends Phaser.Scene{
         var best=null,bestD=9999;
         self.worldMonsters.forEach(function(m){
           if(m.dead)return;
-          var d=Math.hypot(m.x-pr.x,m.y-pr.y);
+          var d=_hbD(m,pr.x,pr.y);
           if(d<bestD&&_heroLOS(self,pr.x,pr.y,m.x,m.y)){bestD=d;best=m;}
         });
         if(best){
@@ -2061,7 +2061,7 @@ class WorldScene extends Phaser.Scene{
       self.worldMonsters.forEach(function(mon){
         if(mon.dead||(pr.hit&&!pr.pierce))return;
         var hitR=mon.def.r+6;
-        if(Math.hypot(mon.x-pr.x,mon.y-pr.y)>hitR)return;
+        if(!_hbHit(mon,pr.x,pr.y,6))return;
         // Hit!
         pr.hit=true;hitAny=true;
         var monDef=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
@@ -2351,9 +2351,10 @@ class WorldScene extends Phaser.Scene{
     var hit=false;
     this.worldMonsters.forEach(function(mon){
       if(mon.dead)return;
-      if(Math.hypot(mon.x-px,mon.y-py)>90)return;
-      if(!_heroInArc(dir,mon.x-px,mon.y-py))return;
-      if(!_heroLOS(self,px,py,mon.x,mon.y))return;   // no hitting through walls
+      var hq=_hbP(mon,px,py), hd=Math.hypot(hq.x-px,hq.y-py);   // painted bosses: their hurtbox (round 9)
+      if(mon._hurtR?hd>54:hd>90)return;
+      if(hd>8&&!_heroInArc(dir,hq.x-px,hq.y-py))return;
+      if(!_heroLOS(self,px,py,hq.x,hq.y))return;   // no hitting through walls
       var monDefVal=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
       var dmg=Math.max(1,stats.atk-monDefVal+Math.floor(Math.random()*4-2));
       MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
@@ -2932,12 +2933,13 @@ class WorldScene extends Phaser.Scene{
       delete d.exploredGridArr;
       d.exploredBits=_packBits(this.playerState.exploredGrid);   // v8: bit-packed (08-save.js)
       _prepareSave(d);
-      localStorage.setItem('qoz_v2',JSON.stringify(d));
+      d._savedAt=Date.now(); ZSave.write(JSON.stringify(d));   // this player's slot (04d-profiles.js)
     }catch(e){}
   }
   _loadSave(){
     try{
-      var raw=localStorage.getItem('qoz_v2');
+      var raw=ZSave.read();
+      if(raw&&ZSave.currentPlayer()&&!this._zpWelcomed){ this._zpWelcomed=true; var zp=ZSave.currentPlayer(), zs=ZSave.current.slot; setTimeout(function(){ if(typeof showNotif==='function')showNotif('Welcome back, '+zp.name+' (slot '+zs+')','#9fe8ff'); },1200); }
       var d=JSON.parse(raw||'null');
       if(!d)return;
       d=_migrateSave(d,raw);

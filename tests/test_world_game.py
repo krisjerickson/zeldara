@@ -83,7 +83,7 @@ with game(new=True) as g:
     check('Fog grid covers the new world (150x150 cells) and only explored cells are lit', fog[1]==150*150 and 0<fog[0]<fog[1], fog)
     # save + reload keeps waystones / caches / zones
     g.ws("ws._save()")
-    sv=g.js("JSON.parse(localStorage.getItem('qoz_v2'))")
+    sv=g.js("JSON.parse(ZSave.read())")
     check('Save keeps waystones, visited zones and opened caches (current save version)', sv['saveVersion']==g.js('SAVE_VERSION') and len(sv['activatedWaystones'])==17 and isinstance(sv.get('visitedZones'),list) and isinstance(sv.get('openedCaches'),list), sv['saveVersion'])
     errs=list(g.errs)
 

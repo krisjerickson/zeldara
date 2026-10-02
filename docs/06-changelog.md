@@ -235,6 +235,155 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
   - **Health bar:** a big named bar at the top of the screen (★ Elite) that disappears when it falls; then the vault opens.
 - **[141] Tests:** new `tests/test_round4.py` (8 checks). Build note: `node build.mjs` doesn't catch class-syntax slips; run the inline-script parse check (docs/05) after edits.
 
+## Round 5 (Kris, Sept 28–29)
+
+- **[142] Lab picks applied.** Familiars: `FAMILIAR_PICK={grass:'thornback_stag',water:'tide_serpent',earth:'stone_colossus',fire:'phoenix'}` (07w). Lab stray-select bug fixed (core verdict handler scoped to `#lab-panel .vbtn`; monster notes to `.mn-notes[data-mid]`).
+- **[143] Parked mounts + Call Mount!** (`10j-world-mounts.js`). Any attack (sword, bow, spell, skill) dismounts; the mount waits where you left it, or trots to safe ground if left in water/magma/marsh/near a guarded camp. [M] next to it remounts; the mount menu has **Call Mount!** (gallops to you). Saved as `ps.parkedMount={id,x,y}`. You stay mounted if the tile under you isn't walkable (e.g. Alligator on deep water). Islands unchanged.
+- **[144] Camps:** cleared camp loot is collected with one **[Tab]**; guards get `mon.campHome` and walk back home when you leave their leash (MX.tick `goHome`). Camp data/art moved to `07z-camp-art.js`. Lab **Monster Camps** tab (60 cards: guarded / cleared / used-up).
+- **[145] Fairies v2** (`07x-fairies2.js`): 60 new recipe-built looks (15 per quadrant) + the 40 classic = 100; `FAIRY_PICK[q]` is now an array of 5 (every fairy in a quadrant looks different). **Fairy Monarchs** (Wetlands/Highlands/Ashlands): 9 tall angelic designs, pick via `FAIRY_MONARCH_PICK`; in-game text says "Monarch". Lab tabs: Fairies (pick 5 per quadrant, ★1–★5) and Fairy Monarchs.
+- **[146] Trial realm** (`07y-trial-arenas.js` shared with Lab, `12b-trial-realm.js`): every fairy/monarch trial transports you to a temporary arena (Dungeon scene, `kind:'trial'`), 20 unique fairy trials + 3 monarch gauntlets across **12 themes**: rune targets, echo path, guardian, rune lock, escort, shadow duel, **light alignment** (rotate mirror runes so the beam hits every rune), **collapsing rune path** (memorise the spire's sequence, cross the falling walkway), beam gauntlet, boulder push (reverse-pull generated sokoban), lights-out maze (wisps), mirror walk. Difficulty scales by quadrant tier. Exit stairs = give up; knocked out = fail with 30% HP. Sandbox: `sbTrial(q,i)` (i=0..4 or 'm'); Site Lab "Fairy trials" tab.
+- **[147] Castle interiors revamp** (`07ta-castle-halls.js`): floors run gatehouse → great hall (banquet tables, hearth) → round chapel (stained glass, saints, rose window) → throne room; knights' armour, great swords/axes/shield racks, banners, great torches, massive pillars, dragon/knight statues. All 12 castles re-paletted to dark stone (darkness 30–55%, torch-lit). Lab Castles tab = one design per castle floor (36).
+- **[148] Mage towers** (`07zm-mage-towers.js`, `09e-mage-towers.js`): **16 towers, 4 per quadrant**, each teaches one spell (spells can no longer be bought or sold; the apothecary stopped selling them). Floors 2/3/3/4 by quadrant; magic monsters on the way up, the top floor is the master's sanctum with a **single-phase magic boss** (no phases) with signature tricks: blindness (room goes dark, eyes glow), poison, ice **slip** (new player status, momentum sliding), slow, illusions/echoes, etc. First win: learn + auto-equip the spell (+60g×q); rematch +25% gives gold. Not part of the ★ seal. Saves: `ps.mageDone`, `ps.spellsLearned`. 🔮 map icon, journal + Tome entries (spell → tower + teacher; masters list what they teach).
+- **[149] Spells re-tiered:** 16 tomes, 4 per quadrant (Q1 Frost Bolt, Arcane Burst, Fireball, Thorn Snare · Q2 Arc Lightning, Ice Storm, Poison Mist, Tidal Wave · Q3 Flame Wave, Void Orb, Thunder Step, Stone Spikes · Q4 Blizzard, Void Rift, Spirit Drain, Starfall). New effects: root, short stun, drain, knockback, delayed multi-strike, aimed slowing clouds (`_spellExtraFx`).
+- **[150] Mage tower looks:** 24 backgrounds to pick from (Sorcerer's Apothecary … Fungal Grotto Lab), 18 new mage room types and ~24 new props. Lab **Mage Towers** tab (walkable, tag which tower(s) each look is for).
+- **[151] Lab Bosses tab:** 53 cards (guardians, mage masters, wardens, elites, island bosses, volcano) with kits in plain words.
+- **[152] Test/infra fixes:** Site Lab quadrant tabs no longer list mage towers (own tab); fixed a duplicate fairy id (`salamander_rider` v2 → `ember_newt_rider`); Call Mount! could overshoot the remount window on a long frame. Old tests updated for phased bosses (round 4) and new counts (312 Tome monsters, 72 boss sprites, 60 sites).
+
+## Round 6 (Kris, Sept 29)
+
+- **[153] Familiars: one special each** (`09d-familiars.js`). A familiar now auto-casts only its base skill plus **one chosen special** (default: its newest skill). Choose it in the familiar info pop-up ("Use as special") or the N picker ("basic + special: X"); saved in `ps.famSpecial[fid]`, set with `window._setFamSpecial(fid,i)`. HUD chips (`#fam-hud`) show each active familiar's special, cooldown and state (knocked out / dazed / silenced).
+- **[154] Crowd-control diminishing returns** (`_ccDur` / `_heroHold` in `09-hero-core.js`). Every hold (root, freeze, snare, stun) on a monster is halved while it is already held, and then it's immune for 3 s. Bosses take half duration.
+- **[155] Line of sight for everyone.** One rule (`SIGHT_BLOCK_TILES` = rock, large boulder, building wall, cliff, tree, prop) for heroes, familiars and monsters. Familiar skills, hero AoE/homing/splash/chain spells and every monster attack check sight when they fire. Projectiles stop at walls; beams are cut at the first wall; the familiar wave is clipped. Monsters only choose attacks (or back off) when they can see you. Thunder Step only lands on walkable tiles.
+- **[156] Monster counters to familiars** (`07rb-familiar-counters.js`, engine in `09-monster-engine.js`), mostly Highlands + Ashlands monsters:
+  - **Spirit Ward** (`spiritward n=3`): blocks all familiar damage until you land n sword hits on it.
+  - **Mirror shell** (`mirror`): familiar projectiles bounce off and daze the familiar that fired them.
+  - **Null aura** (`nullaura r=`): nearby familiars fall silent.
+  - **Resist** (`resist el=`): 75% less damage from that element's familiar.
+  - **Banish** (`banish` attack): knocks your nearest familiar out for 8–15 s.
+  - Every elite gets Spirit Ward + Banish at spawn; every mage-tower master has Banish.
+- **[157] Familiar knock-outs.** Familiars have stagger: slams, sweeps, breath, rings and gusts build it, nets/webs catch them; at 100 they are knocked out (fade, no casting) for 8–15 s. Quadrant scaling was left as is (Kris's choice).
+- **[158] The cave is gone.** The old side-view `CaveScene` (`14-scene-cave.js`) is removed along with its config, pause, zoom and sandbox hooks. **Ember Cave** is now a normal 4-floor island dungeon with 3 new looks to pick from in the Lab (`07cb-ember-caves.js`: Magma Rivers ★, Crystal Forge, Obsidian Depths). Save v7 backfills `s{sec}_harbor` from `completedIslands` (so the Dragon mount is no longer stuck behind the Ember Cave) and grants the Dragon if every main quest is done.
+- **[159] Islands on the world pipeline** (`13-scene-island.js` rewritten, `07jb-island-designs.js`). `IslandScene` now extends `WorldScene`: the same streamed painter, props, lights, day/night, weather and particles as the mainland. The 96×96 island is embedded in a world-size grid at (100,100); the world globals are swapped while you're on it. Each island has:
+  - **Fog of war + minimap + Full World Map** (its own fog, saved in `ps.islFog`).
+  - **Two monster camps** plus ~12–16 roaming roster monsters of its quadrant.
+  - **A waystone** (`wsi_<key>`) that joins the travel network (travel from any waystone to an island and back).
+  - Ambient animals, weather and the shared island trader shop, a well and the guide.
+  - Adventure site (familiar dungeon or castle) at the north end; the dock returns you to the harbor.
+  - **16 island designs** (4 per quadrant), `ISLAND_PICK` maps each island to one; Lab **Islands** tab to re-tag.
+- **[160] Island-aware systems:** mounts (parked mount remembers its map; Call Mount! brings it across), world-map waystone list, camps (`_makeCamp` extracted), travel (`_sailTo`, `_arriveAtWaystone`), keys M/Z/G/P/bow, and `_isOverworld(scene)` / `_owScene()` helpers used everywhere the code used to check for `'World'`.
+- **[161] Fixes on the way:** chunk texture keys collided between World and Island (unique `_wrTag`); props with no zone crashed the painter; sprite updates after scene shutdown; `_wrNeeded` with no camera; locked harbors can still be entered.
+- **[162] Tests:** new `tests/test_round6.py` (32 checks; sections `specials cc los counters ko cave islands`). `test_sites_flows` covers all 4 island adventures on the new scene; `test_round2` sails to a castle island; `test_phase1_saves_familiars` uses the special selector; harness logs page-error stacks.
+
+## Round 7 (Kris, Sept 29–30)
+
+- **[163] Painted bosses** (`07zz-boss-art.js` painter, `07zz-boss-designs.js` designs). Every boss form is now a layered, painted sprite in the Fairy-Monarch style instead of a 32 px pixel sprite, **growing with each phase** (≈110 px → ≈245 px tall).
+  - Painters for humanoids (knights, mages, hags, giants, riders), dragons/wolves/behemoths (with optional riders), spiders (optionally with a sorcerer fused on), serpents rising from the ground, golems/constructs, great eyes / burning hearts / storm clouds, birds (roc, phoenix, thunderbird), krakens and toads.
+  - Each design paints a back layer (aura, cape, wings, rings, banner) + 4 body frames (idle ×2, wind-up, strike) + a pupil layer for eyes. Painted on first use (a fight), 2–30 ms each; auto-scaled so its solid silhouette is exactly its listed height.
+- **[164] Multiple options per boss** (Kris): **76 boss slots × 2–3 options = 197 designs** — the 8 guardians with all 28 phases (+ allies), 12 castle wardens, 16 mage-tower masters, 4 island guardians, 9 volcano bosses and 4 elites. `BOSS_PICK[slot]` holds Kris's choice (default option a).
+- **[165] New names** (Kris: "new name, the old title"), inspired by Tolkien, Norse myth and Harry Potter but our own — e.g. Grubnash, the Goblin King (warg-rider in phase 2), Morvane, the Dark Warlock (the Hexweaver phase-spider), Granny Greenteeth, the Swamp Witch, Tharnwald, the Storm Mage (becomes a thunderbird), Grauldr, the Rock Dragon (world-serpent, then Tyrant of the Mountain), Brokkrun, the Iron Sentinel, Surtvald, the Lava Titan (the Heart of Muspel), Malgorath, the Shadow Lord (Umbral Wraith → Fell-Rider → Lidless Void → Demon of Shadow and Flame); wardens (Sir Brambleheart, Abbot Draugmere, Old Rootmarch, Skadra, Hraudrik …), island guardians (Captain Blackvane, Mossgut, Emberhulk, Hrimgar), volcano bosses (Cindermourn, Pyrecoil, Ashwing, Skorrath, Surtharn …). Names apply everywhere (HUD, Tome, phase intros — `introT` templates in 09b).
+- **[166] Boss rig + motion personalities** (`10k-boss-rig.js`): hooks `CHX.bossBody` (phase-1 guardians, island, volcano, roaming world bosses, elites) and `MX.spawn` (phase forms, allies, wardens, masters). Motions: slow daunting **stride**, earth-shaking **lumber** (footfalls shake the camera + dust), **prowl**, **hover**, **glide**, **sway**, **phase** (flickers between planes, ghost copies), **blur** (afterimages), **slither**, **pulse** (heartbeat), **still** (rings turn), **fly**, **flit**. Pace changes speed (×0.6 lumber … ×1.3 blur). Any jump > 70 px (teleport/blink) fades out with a ghost left behind and fades in. Great eyes' pupils follow you. Bigger bosses get a bigger hit radius (sword reach grows with it). Painted textures are kept to an LRU of 8.
+- **[167] Boss moments**: a cinematic **title card** (letterbox, name, title, "Phase II of V", lore line) + roar + slight zoom when you meet a boss; monsters hold still for the card; **on-the-spot transformation** between phases (the boss swells with light, shockwaves, roar, boom); **finale** when the last phase falls; **hit-pause** (50 ms) on sword blows to bosses.
+- **[168] Sound** (`04c-audio.js`, no audio files): procedural stomps, warps, roars, booms, hits, swings, the title-card drone and a victory sting; **boss music** (drone + taiko-like drums + a modal ostinato per quadrant) that gets faster and fuller each phase; boss-rush music. 🔊/🔇 button in the action bar (remembered). Silent until the first key/click and while paused.
+- **[169] Lab Bosses tab rebuilt** (`lab/src/js/52-lab-bosses.js`): every boss family and every phase in rows, 2–3 animated options per row (idle / on-the-move toggle shows each gait, afterimages and flicker), **"Choose this"** saves `{verdict:'pick', regions:[option]}` under `bosses-<slot>`, notes per row. The Tome shows painted boss portraits (128 px thumbnails; big canvases are dropped).
+- **[170] Performance** (Kris's picks from the audit, `claude/11-architecture-review.md`):
+  - Large animals sleep beyond ~1700 px and are drawn only on screen (was: all 64 redrawn every frame — ~31K of ~36K draw commands).
+  - No fake 60-tick loading bar; ground patterns warmed only near you (the rest on demand); world-monster name labels + textures made on first wake; HUD / quest list / world labels only rewritten when they change.
+  - World-build scratch grids freed; island grids share one sea row outside the island.
+  - Save v8: explored map bit-packed (47 KB → ~4 KB saves).
+  - Hero PNGs quantised to 256 colours; the build minifies JS with esbuild (`node build.mjs --dev` = unminified). **index.html 3.14 MB → 2.10 MB (gzip 1.52 → 0.85 MB)** even with all the new boss art; Lab 2.34 → 1.48 MB.
+- **[172] Stuck-pause fix** found by the regression: closing the fairy dialogue could leave the World paused (a pause/resume race), so "Step through the portal" did nothing and the game froze. The pause system now resumes any play scene left paused with no menu open (~0.8 s), and the trial realm starts on a real timer. Island guardians and elites take their painted names when created.
+- **[171] Tests**: new `tests/test_round7.py` (22 checks; sections `paint game moments lab`) and `tests/test_perf.py`.
+
+## Round 8 (Kris, Sept 30) — boss finalisation, part 1 (looks)
+- **[173] Picks applied**: `BOSS_PICK` holds Kris's Lab choice for all 76 slots (07zz-boss-designs.js, end section). Unpicked options stay in `BOSS_SLOTS` for reference.
+- **[174] One look per boss across all phases**: new `src/js/07zz-boss-sig.js`.
+  - `D.sig` paints the same crown / witch hat / chest mark (star, hourglass, gem) / rock crust / magma cracks / weapon swoosh / background effect (runes, coins, mist, storm, shards, forge, lava, eclipse → dawn) on any archetype.
+  - It uses anchor points that each painter records with `BA.anc` (head, chest, shoulders; a rider beats the beast).
+  - Picked designs are retuned with `R8()` (palettes, signature pieces). `BOSS_THREADS` describes what each family keeps.
+- **[175] New forms**:
+  - Rock Dragon phases 3 and 4 fly: new `wyvern` archetype (two wings on the back layer beaten with `flapY` around the shoulder pivot, long S-neck, whip tail, glowing chest furnace) and `soar` motion. Options `bf_rock_dragon_3.d/e` and `bf_rock_dragon_4.d/e`.
+  - Lava Titan phase 3 has 3 titan options (`bf_lava_titan_3.d/e/f`): flame head, lava swoosh arcs on wind-up/strike, ember trail in game (`sig.trail` → `BossRig.ember`).
+- **[176] Lab Bosses tab**:
+  - Each guardian family opens with a line-up of every phase (the effective pick) and "Kept through every phase" text.
+  - Adds a "The family looks right" toggle (`bosses-fam-<id>`) and family notes.
+  - Picked rows show the pick; the rest sit under "Reference — not selected". Redrawn rows are tagged NEW and ask for a choice.
+- **[177] Tests**: `tests/test_round8.py` (14 checks, sections `paint lab`); `test_round7` name check updated (Grubnash the Great).
+- **Next (after Kris reviews the Lab)**: Hollow-Knight-style attacks (sky rain + sweeping walls, radial bursts + rotating beams, floor takeover + burrowing, combos/boomerangs/desperation + stagger), fewer summons, quadrant difficulty ramp with decent boss health.
+
+## Round 8, part 2 (Kris, Oct 1) — final boss looks + signature attacks
+- **[178] Kris's Lab review applied**:
+  - Picks: Rock Dragon 3 = e, Rock Dragon 4 = e (bigger torso and legs + forelegs: `torso`, `legScale`, `arms`), Lava Titan 3 = d.
+  - Iron Sentinel's shoulder rocks are now stalagmite spires (`sig.rocks:'spires'`).
+  - Lava Titan phase 4 shows the burning heart in its chest (`sig.mark:'heart'`), leading into the heart of phase 5.
+  - Shadow Lord:
+    - Phase 3: Malgorath rides a dread-wing (new `bf_shadow_lord_3.d/e`: wyvern with `headKind:'fell'`, tattered wings, rider).
+    - Phase 4: he becomes the dread-wing (`bf_shadow_lord_4.d/e`).
+    - Phase 5: keeps the black hovering orb, now with a gold corona.
+- **[179] Wings fixed**:
+  - Dragons' wings sit on their own layers: a far wing behind the body and a near wing in front, so two wings always read.
+  - Each wing beats around its root (`wingRoots`, sheet frames `wb`/`wf`), so it never comes loose. Walkers' wings breathe gently.
+  - Phaser flips images around the frame centre, not the origin; `BossRig.fx` now compensates, so feet and wing roots stay put when a boss turns.
+- **[180] Signature attacks**:
+  - Data: `src/js/07zz-boss-attacks.js`. Engine: `src/js/09bb-boss-patterns.js` (`BossPat`).
+  - 12 Hollow-Knight-style patterns that cover the visible screen with a gap or safe spot to find: sky rain, sweeping wall, radial burst, rotating beams, floor takeover, burrow & erupt, boomerang, shockwave, leaping combo, strafing run, eclipse, mirror images.
+  - Each guardian phase gets 3–4 patterns from its family (`BOSS_ATTACKS`). Wardens, mage masters and island guardians get 2 by element; elites get 1.
+  - Telegraphs draw above the fog of war.
+- **[181] Fight rules**:
+  - A director runs the patterns, paced by `BOSS_RAMP` per quadrant (Grasslands: 1.4 s warnings, 3 safe columns, 8 s between moves, 0.6× damage → Ashlands: 0.85 s, 2 safe columns, double waves, 4.8 s, 1.0×).
+  - Punish window after each big move: the boss holds 1.4 → 0.75 s.
+  - Stagger: 8 → 14 hits (+1.5 per phase) makes the boss reel for 2.4 s and take +50% damage.
+  - Last stand: below 15% on a final form, 2–3 patterns at once, then 25% faster.
+  - In the Highlands and Ashlands the boss keeps fighting during screen-wide hazards.
+  - `mon._hold` freezes a boss in the dungeon monster loop.
+- **[182] Summons and health**:
+  - Guardian summons are removed except the Swamp Witch's frogs (`BOSS_KEEP_SUMMON`). The multi-boss finales and allies stay.
+  - Guardians have +20% health, because stagger windows speed fights up and weapons and familiars keep getting stronger.
+- **[183] Lab**: each boss row lists its signature attacks and last stand (`BossAtk.describe`). The new Shadow Lord forms are tagged NEW.
+- **[185] Fixes found by the regression run**:
+  - Boss textures that are still drawn somewhere (roaming world bosses, afterimages) are never evicted by the texture budget. Eviction used to crash rendering after many fights.
+  - The engine's ring attack no longer skips over the hero at low frame rates.
+- **[184] Tests**:
+  - New `tests/test_round8b.py` (15 checks): every pattern runs and cleans up, lands on a careless hero, rain/burst safe spots, punish window, director, stagger, last stand, summons, other bosses, Lab.
+  - `test_round8.py` gained wing-layer and review-fix checks.
+  - Regression run: all pass except known timing flakes. `test_perf` island chunk mounting fails on the previous build too. A chime-spirit ring can miss through its gap, by design.
+  - Commit 5711f98.
+
+## Round 9 (Kris, Oct 1) — boss finalisation after play-testing + hosting prep
+- **[186] Boss hurtbox**:
+  - Painted bosses are hit anywhere on the lower two-thirds of the body: an oval from the feet to the chest, sized from the design's height and archetype (`HB_W`).
+  - It used to be only the feet point. `_hbP` / `_hbD` / `_hbHit` in `09-hero-core.js`.
+  - Used by the sword (dungeon, world, volcano), hero projectiles, area spells, chain lightning, clouds and every familiar attack (nearest, nova, rain, aura, beam, pierce).
+- **[187] Always reachable**:
+  - The nearest hurtbox point is pulled back toward the feet if it would sit in a wall.
+  - Bosses only stand on tiles reachable from the entrance, with 16 px of floor around them (`BossPat.stand` / `BossPat.reach`). A boss pushed, teleported or leaping into a wall is put back.
+- **[188] Familiar falloff**: by active slot, 100 / 60 / 40 / 25% damage (`FAM_SLOT_DMG`, `_famSlotK`), in all fights; all four ≈ 2.25× one. Heals are unchanged. The HUD chip shows the share.
+- **[189] More boss health**:
+  - Guardians ×1.8 of the original (round 8 +20%, now +50% more; `BOSS_HP_R9`).
+  - Castle wardens, mage masters, island guardians and volcano-rush bosses +50%. Elites +25%.
+- **[190] Player profiles + 3 save slots** (`src/js/04d-profiles.js`, `ZSave` / `ZProfilesUI`):
+  - New Game asks your name; Returning Player lists the names on this device; each name has 3 slots.
+  - Export/Import save codes (`.zsave`, `ZLD1:` prefix).
+  - The old `qoz_v2` save moves into "Player 1", slot 1 (copy kept as `qoz_v2_moved`).
+  - `ZSave.store` adapter is ready for a Supabase store later.
+  - The test harness picks Player 1 / slot 1 when given a save.
+- **[191] Hosting**:
+  - `npm run build` also writes `dist/` (game + `/lab`).
+  - `vercel.json` builds on Vercel (`npm run build` → `dist`).
+  - `.vercelignore` uploads only the sources. `.gitignore` drops built files.
+  - The repo's old April "Add files via upload" root commit is merged (`-s ours`), so a normal `git push` works.
+  - Steps for Kris: `docs/12-hosting-and-saves.md`.
+- **[192] Tests**: new `tests/test_round9.py` (7 checks) and `tests/test_saves.py` (13 checks).
+
+## Round 10 (Kris, Oct 1) — brand: logos, wordmarks, home-page looks (Lab review)
+- **[193] `src/js/07zz-brand.js` (`ZBrand`)**, all drawn in code:
+  - 20 symbol logos (`ZBrand.SYMBOLS`), each at 3 detail levels (3 full-screen with rune ring, 2 medium, 1 small/icon). One colour each, in 4 finishes (bevel, neon, carved, gilded), with a breathing runic glow from cached layers.
+  - 10 "ZELDARA" wordmarks (`ZBrand.WORDS`): our own rune-cut letters (`GLYPH`, `GLYPH2`) and dressed display fonts.
+  - 15 animated home-page looks (`ZBrand.HOMES`, `ZBrand.home`): aurora, stars, shooting stars, rune rings/columns/frames, spirits, silhouettes.
+- **[194] Lab tabs** Logos, Wordmarks and Home Pages (`lab/src/js/53-lab-brand.js`): ☆ Pick (several allowed), notes, ⛶ full-screen. Picks are saved as `logos-<id>`, `words-<id>`, `homes-<id>`. Home previews use the picked logo and wordmark.
+- **[195] Save export** also shows the save code to copy, for places where downloads are blocked (e.g. the Claude artifact preview).
+- **[196] Tests**: `tests/test_brand.py` (8 checks).
+- **Next (after Kris picks):** build the Next.js home page at `/` with the chosen look, logo and wordmark; move the game to `/play`; restyle the in-game title to match; use the small logo in the game.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).
@@ -259,3 +408,8 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
 - Skills (special attacks) are only taught by castle masters — never sold, never sellable ([124]).
 - Familiars: ids `fam_grass/water/earth/fam_fire`; look = `FAMILIAR_PICK[element]` (07w); levels `ps.famLevels`; active slots `familiar`…`familiar4`, count = 1 + `ps.fairyKings.length`; quests `ps.fairyQuests` (`q{q}_f{i}`, `king{q}`), `ps.hasTrowel` ([131]–[133]).
 - Castle ids: harbor `s{sec}_harbor_{b|c|d}` → island key `q{sec}_{b|c|d}` (`CASTLE_ISLANDS`), castle dungeon site `isl_castle_<key>`; saves: `ps.castlesDone`, `ps.skillsLearned`, `ps.campsDone`.
+- Mage towers: site `mage_<key>` (type tower, `site.mage=key`), data `MAGE_TOWERS`/`MAGE_BY_KEY`, boss monster id `mgb_<key>`; spells are only learned there (never sold). Saves: `ps.mageDone`, `ps.spellsLearned`, `ps.parkedMount`.
+- Familiar specials: base skill + `ps.famSpecial[fid]` only; familiar damage goes through `_heroHitMonster` with `src:'familiar'`. All attacks need line of sight (`SIGHT_BLOCK_TILES`).
+- Islands: `IslandScene` (key `'Island'`) extends `WorldScene`; use `_isOverworld(scene)` / `_owScene()` rather than checking for `'World'`. There is no Cave scene.
+- Bosses: painted designs `BOSS_ART['<slot>.<a|b|c>']`, slots `BOSS_SLOTS` (slot = CHAR id like `boss_goblin_king`/`bf_*`/`cw_*`/`mg_*`/`boss_isl_*`/`boss_vr_*` or `elite_<q>`), pick `BOSS_PICK[slot]` (default a); `BA.of(slot)` gives the design. Engine rids carry `MON_BY_ID[rid].chId`. Phase intros are `introT` templates ({prev}/{NAME}) filled by `BossRig.applyNames()`.
+- Fairies: `FAIRY_PICK[q]` = array of 5 look ids (fairy i uses `_fairyLook(q,i)`); monarchs `FAIRY_MONARCH_PICK[q]` (q=2..4). Trials always run in the trial realm (`TrialRealm.enter`).

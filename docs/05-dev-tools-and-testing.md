@@ -35,7 +35,9 @@ Open the sandbox (🔧, password as before) → **🧪 Site Lab**. Code: `src/js
 - Options (remembered in localStorage `zeldara_sitelab`): Monsters All / Guardian only / None (None also opens the exit/vault), God mode, Fog of war (reveal floor / normal), Lighting on/off.
 - Click a floor chip to jump straight in. An inspect bar (top-left) gives ◀ ▶ floor stepping (also `[` / `]`), ⤢ Overview (whole floor), fog, lights, monster mode (rebuilds the floor), 🧪 Lab and ⏏ Exit.
 - Inspect runs never write dungeon fog into the save. Rewards still work if you claim them (it's a sandbox).
-- Ember Cave (side view) opens on the chosen floor; the inspect options don't apply there.
+- Ember Cave is a normal island dungeon now (round 6); the old side-view Cave scene is gone.
+
+- Round 5: the Site Lab also has **Island castles**, **Fairy trials** (▶ plays a trial in the realm; also `sbTrial(q,i)` with i = 0..4 or 'm') and **Mage towers** tabs.
 
 ## How to ADD a dev button (recipe)
 
@@ -53,7 +55,7 @@ Playwright + Chromium, run from the repo root after `node build.mjs`:
 | `tests/test_phase1_core.py` | pause in world/dungeon, menu hotkeys, buff freeze, X spell in dungeon, mount stow/restore, death flow, all 5 volcano scenes load + Esc, familiar damage, info pop-up (25 checks) |
 | `tests/test_boss_arenas.py` | all 8 dungeons/towers × first-clear/rematch: guardian reachable and ≤5 tiles from the portal; portal opens; claim returns to World (19 checks) |
 | `tests/test_lab_walk.py` | Design Lab: every tower/dungeon builds, all walkable area reachable from the spawn, walk scene starts and the hero moves (20 designs) |
-| `tests/test_phase1_saves_familiars.py` | v2 save migration + backup, pause in Cave/Sky, each familiar ability, familiar UI (16 checks) |
+| `tests/test_phase1_saves_familiars.py` | v2 save migration + backup, pause in Sky, each familiar ability, familiar UI (16 checks) |
 
 Setup and notes are at the top of `tests/harness.py`. The harness serves `index.html` from a fake origin,
 swaps the cdnjs Phaser URL for a local copy, and sets `game.loop.smoothStep=false`: headless Chromium renders
@@ -65,6 +67,13 @@ at ~3–13 fps and with smoothing on, game time runs 5–20× slower than real t
 - Round 3: `test_round3.py` (19 checks). The headless world runs at ~2–3 fps (software GL + 800 monsters + camps), so new tests poll with `until(...)` instead of fixed waits; timers (`setTimeout`) can lag by seconds.
 - Sandbox: **✨ Familiars Lv 6 + 4 Slots** (`sbFairyMax`).
 - Round 4: `test_round4.py` (8 checks). After `node build.mjs`, also run the inline-script parse check — the build does not catch a stray comma inside a class body.
+- Round 5: `test_round5.py` (24 checks; sections `mounts camps fairies castles mage` can be run alone, e.g. `python tests/test_round5.py mage`) — parked mount + Call Mount!, water safety, Tab camp loot, guards return home, 5 looks/quadrant + monarchs, castle floor plans + darkness, 16 mage towers, spells not buyable/sellable and tiered, all 16 spells cast in world + tower, master spawns alone, claim teaches + equips, slip. `test_trials.py` (26 checks) — all 20 fairy trials + 3 monarch gauntlets build, get solved and return you to the world; exit stairs give up. Round 5 also updated older suites: bosses have phases (kill until `_bossDefeated`), trials run in the realm (round 3), new counts (Tome 312 monsters, 72 boss sprites, 60 sites, Site Lab 8 tabs). Running suites in parallel slows the software-GL browser — timing checks ("built in < 6 s", familiar damage within N s) can fail under load; rerun those alone.
+- Round 6: `test_round6.py` (32 checks; sections `specials cc los counters ko cave islands`, e.g. `python tests/test_round6.py islands`). Sandbox: "🏝 Isl. adv." 1–4 sails to each familiar island's adventure (`sbGoIslandAdv(sec)`); `sbGoIsland` lands at the dock. Islands use the world painter's Web Worker — under load chunks can take several seconds to appear headless. `harness.py` now prints page-error stacks.
+- Round 7: `test_round7.py` (22 checks; sections `paint game moments lab`) and `test_perf.py` (load time, animal culling, dirty HUD, freed grids, lazy patterns, lazy monster visuals, save v7→v8, island row sharing). **Build:** `node build.mjs` minifies with esbuild (repo devDependency; `npm install` once) and falls back to unminified with a warning if esbuild is missing; `node build.mjs --dev` = unminified (readable stack traces). Headless CSS transitions barely advance at ~2 fps — check DOM class state, not opacity. Boss contact sheets: paint every design in the Lab page (`BA.paint`, `BA.drawPreview`).
+- Round 8: `test_round8.py` (14 checks; sections `paint lab`): picks, signature pieces on every phase, anchors on every archetype, the flying wyvern (flapY), new titan options, Lab line-ups/reference/NEW tags. Contact sheets: render `BA.drawPreview` per design in the Lab page. Scale each panel by the painted canvas (`P.W`, `P.H`), because wyverns are much wider than tall.
+- Round 8 attacks: `test_round8b.py` (15 checks; sections `game lab`). It runs patterns synchronously: `BossPat.run(S,m,name,m._bp)`, then loop `BossPat.tick(S,0.05)` with `S.playerIFrames=0`. For screenshots, freeze the scene with `S._hitStop=99`. Patterns draw at depth 26–40 (above the fog of war at 25).
+- Round 9: `test_round9.py` (hurtbox, reachability, familiar falloff, boss HP) and `test_saves.py` (profiles, slots, export/import, legacy migration). `harness.game(save=...)` now moves the save into Player 1 / slot 1 and plays that slot. Use `element.click()` via JS for the profile buttons; Playwright clicks on them are unreliable over the Phaser canvas.
+- Hosting check: in a clean copy (no node_modules, no built files), `npm install && npm run build` must produce `dist/index.html` + `dist/lab/index.html`, exactly as Vercel does.
 - Site Lab has an **Island castles** tab (all 12 castle dungeons, warden and skill on each card).
 - Run them one after another (each launches its own headless Chromium); the full set takes ~1.5 h because `test_monsters.py` runs all 240.
 - Real-GPU checks: the headless browser uses software GL, so frame rate and GPU-memory problems (e.g. the black-ground bug on Intel Iris Xe, [116]) only show on a real machine. A debug copy of the game can post stats (texture MB, chunks, context lost, fps) to its parent frame — append `tests/gpu_diag_snippet.html` to a copy of the build.
@@ -149,6 +158,5 @@ Canonical templates:
 
 ## Debug widgets already in the code
 
-- `#debug-hud` — CaveScene has a `_dbgText` overlay showing live physics state (input, vy, onGround). Copy this pattern for any platformer-style scene.
 - `console.error('X.create', err)` — every volcano scene now logs create errors. Check DevTools console first when something breaks.
 - `showNotif(msg, col)` — global toast. Use liberally for state changes.

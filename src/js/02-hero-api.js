@@ -178,7 +178,7 @@ function _heroUpdateProjs(scene, mode, dt){
     if(pr.life<=0){pr.vis.destroy();return false;}
     if(pr.tracking){
       var best=null,bestD=9999;
-      monsters.forEach(function(m){if(m.dead)return;var d=Math.hypot(m.x-pr.x,m.y-pr.y);if(d<bestD){bestD=d;best=m;}});
+      monsters.forEach(function(m){if(m.dead)return;var d=typeof _hbD==='function'?_hbD(m,pr.x,pr.y):Math.hypot(m.x-pr.x,m.y-pr.y);if(d<bestD){bestD=d;best=m;}});
       if(best){var sp=Math.hypot(pr.vx,pr.vy)||300;var ta=Math.atan2(best.y-pr.y,best.x-pr.x);var ca=Math.atan2(pr.vy,pr.vx);var df=ta-ca;while(df>Math.PI)df-=Math.PI*2;while(df<-Math.PI)df+=Math.PI*2;ca+=df*Math.min(1,dt*3.5);pr.vx=Math.cos(ca)*sp;pr.vy=Math.sin(ca)*sp;}
     }
     pr.x+=pr.vx*dt;pr.y+=pr.vy*dt;pr.vis.setPosition(pr.x,pr.y);
@@ -189,7 +189,7 @@ function _heroUpdateProjs(scene, mode, dt){
     monsters.forEach(function(mon){
       if(mon.dead||pr.hit)return;
       var hitR=(mon.def.r||10)+6;
-      if(Math.hypot(mon.x-pr.x,mon.y-pr.y)>hitR)return;
+      if(typeof _hbHit==='function'?!_hbHit(mon,pr.x,pr.y,6):Math.hypot(mon.x-pr.x,mon.y-pr.y)>hitR)return;
       pr.hit=true;
       var monDef=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
       var dmg=Math.max(1,pr.dmg-monDef+Math.floor(Math.random()*3));

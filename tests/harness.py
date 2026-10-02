@@ -43,6 +43,9 @@ def game(new=True, w=1280, h=800, save=None):
         if save is not None:
             pg.evaluate("s=>localStorage.setItem('qoz_v2',s)", save)
             pg.reload()
+            pg.wait_for_timeout(800)
+            # the title moves an old single save into "Player 1", slot 1 (04d-profiles.js) — play that slot
+            pg.evaluate("(()=>{ if(typeof ZSave==='undefined')return; ZSave.migrateLegacy(); var p=ZSave.players()[0]; if(p)ZSave.choose(p.id,1); })()")
         pg.wait_for_timeout(1500)
         pg.evaluate("game.loop.smoothStep=false")  # headless runs at low FPS; use real elapsed time
         g = G(pg, errs)

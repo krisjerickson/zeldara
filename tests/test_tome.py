@@ -34,7 +34,7 @@ with game(new=True) as g:
     check('A found monster shows its sprite, looks, moves, attacks, defence and tips', d['spr'] and 'Thistle Hog' in d['txt'] and 'Defends' in d['txt'] and 'Special' in d['txt'], d['txt'][:200])
     g.key('Escape', 60)
     g.js("game.scene.getScene('World')._save()")
-    sv = g.js("JSON.parse(localStorage.getItem('qoz_v2')).tome")
+    sv = g.js("JSON.parse(ZSave.read()).tome")
     check('The Tome is saved with the game', sv and sv.get('monster', {}).get('thistle_hog') and sv.get('mount', {}).get('horse'), sv and list(sv.keys()))
     check('No JS errors', not g.errs, g.errs[:4])
 print('%d/%d' % (sum(res), len(res))); sys.exit(0 if all(res) else 1)

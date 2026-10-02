@@ -95,7 +95,7 @@ with game(new=False, save=old) as g:
     r=g.ws("{v:ps.saveVersion, n:ps.exploredGrid.length, sum:Array.from(ps.exploredGrid).reduce(function(a,b){return a+b;},0), c7:ps.exploredGrid[7], c8:ps.exploredGrid[8], c3200:ps.exploredGrid[3200], gold:ps.gold, bk:!!localStorage.getItem('qoz_v2_backup_v7')}")
     check('v7 save (exploredGridArr) migrates to v8 with its fog intact and a v7 backup kept', r['v']==8 and r['n']==W and r['sum']>=want and r['c7']==1 and r['c8']==0 and r['c3200']==1 and r['gold']==77 and r['bk'], r)
     g.ws("ws._save()")
-    raw=g.js("localStorage.getItem('qoz_v2')"); sv=json.loads(raw)
+    raw=g.js("ZSave.read()"); sv=json.loads(raw)
     check('New save is v8, bit-packed (no number array) and small', sv['saveVersion']==8 and 'exploredGridArr' not in sv and isinstance(sv.get('exploredBits'),str) and len(sv['exploredBits'])<4000 and len(raw)<10000, (len(raw), len(sv.get('exploredBits',''))))
     live=g.ws("Array.from(ps.exploredGrid).join('')")
     errs+=g.errs

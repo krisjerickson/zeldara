@@ -23,13 +23,20 @@ var BossPat={
   P:function(S){ return {x:S.px,y:S.py}; },
   hurt:function(S,ctx,mult,label){ var A=MX.A(S); return A.hurt(ctx.dmg*(mult||1),label||'',ctx.col); },
   col:function(c){ return MX.col(c); },
-  setPos:function(S,m,x,y){ if(!S._canGoD(x,y)){ var ok=false; for(var r=8;r<=96&&!ok;r+=8)for(var a=0;a<6.28&&!ok;a+=0.8){ if(S._canGoD(x+Math.cos(a)*r,y+Math.sin(a)*r)){ x+=Math.cos(a)*r; y+=Math.sin(a)*r; ok=true; } } if(!ok)return false; }
+  // round 9: a boss always stands where the hero can reach it — on a tile reachable from the
+  // entrance, with a little floor around it (never half inside a wall)
+  stand:function(S,x,y){ if(!S._canGoD||!S._canGoD(x,y))return false; var R=S._labReach; if(R&&typeof DW!=='undefined'){ var tx=Math.floor(x/TILE), ty=Math.floor(y/TILE); if(!R[ty*DW+tx])return false; }
+    var c=16; return S._canGoD(x+c,y)&&S._canGoD(x-c,y)&&S._canGoD(x,y+c)&&S._canGoD(x,y-c*0.6); },
+  reach:function(S){ S.monsters.forEach(function(m){ if(!m.isBoss||m.dead)return; if(BossPat.stand(S,m.x,m.y)){ m._okX=m.x; m._okY=m.y; return; }
+      if(m._okX===undefined){ for(var r=8;r<=160;r+=8)for(var a=0;a<6.28;a+=0.5){ var x=m.x+Math.cos(a)*r, y=m.y+Math.sin(a)*r; if(BossPat.stand(S,x,y)){ m._okX=x; m._okY=y; r=999; break; } } }
+      if(m._okX!==undefined){ m.x=m._okX; m.y=m._okY; if(m.cont)m.cont.setPosition(m.x,m.y); } }); },
+  setPos:function(S,m,x,y){ if(!BossPat.stand(S,x,y)){ var ok=false; for(var r=8;r<=96&&!ok;r+=8)for(var a=0;a<6.28&&!ok;a+=0.8){ if(BossPat.stand(S,x+Math.cos(a)*r,y+Math.sin(a)*r)){ x+=Math.cos(a)*r; y+=Math.sin(a)*r; ok=true; } } if(!ok)return false; }
     m.x=x; m.y=y; if(m.cont)m.cont.setPosition(x,y); return true; },
   frame:function(m,f){ var R=BossPat.rig(m); if(R)R.ff=f; },
   say:function(S,x,y,t,c){ if(S._floatText)S._floatText(x,y,t,c||'#ffe0a0'); },
   gfx:function(S,d){ return S.add.graphics().setDepth(d===undefined?BossPat.D_TELE:d); },
   // ── director ──
-  tick:function(S,dt){ if(!S.monsters||S._phaseLock)return; var q=BossPat.q(S), RP=BOSS_RAMP[q];
+  tick:function(S,dt){ if(!S.monsters||S._phaseLock)return; var q=BossPat.q(S), RP=BOSS_RAMP[q]; BossPat.reach(S);
     if(!S._bpAct||S._bpAct._s!==S._bpRun){ S._bpRun=(S._bpRun||0)+1; S._bpAct=[]; S._bpAct._s=S._bpRun; S.events.once('shutdown',function(){ S._bpAct=null; }); }
     for(var i=S._bpAct.length-1;i>=0;i--){ var a=S._bpAct[i]; var done=false; try{ done=a.upd(dt); }catch(e){ done=true; } if(done||(a.boss&&a.boss.dead&&!a.keep)){ try{ a.kill(); }catch(e2){} S._bpAct.splice(i,1); } }
     if(S._introT>0)return;
@@ -190,7 +197,8 @@ var BossPat={
 };
 // guardians: summons mostly give way to these attacks
 if(typeof BossAtk!=='undefined')BossAtk.stripSummons();
-// decent health (Kris): fights now have stagger windows (+50% damage), so guardians get +20% health
-(function(){ Object.keys(BOSS_ATTACKS).forEach(function(k){ if(MDEFS[k]&&!MDEFS[k]._r8hp){ MDEFS[k]._r8hp=true; MDEFS[k].hp=Math.round(MDEFS[k].hp*1.2); } }); })();
+// boss health (Kris): round 8 +20% (stagger windows), round 9 +50% more → ×1.8 for guardians (all phases follow the base)
+var BOSS_HP_R9=1.5, ELITE_HP_R9=1.25;
+(function(){ Object.keys(BOSS_ATTACKS).forEach(function(k){ if(MDEFS[k]&&!MDEFS[k]._r8hp){ MDEFS[k]._r8hp=true; MDEFS[k].hp=Math.round(MDEFS[k].hp*1.2*BOSS_HP_R9); } }); })();
 // rigs: a pattern can pin a body frame (wind-up '2' / strike '3')
 (function(){ var an=MX.anim; MX.anim=function(A,mon,m,dt,dx){ an.apply(this,arguments); var R=mon.spr&&mon.spr._rig; if(R&&R.ff&&mon.spr.frame.name!==R.ff)mon.spr.setFrame(R.ff); }; })();

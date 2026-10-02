@@ -838,7 +838,8 @@ class VolcanoBossRushScene extends Phaser.Scene {
       var hpFill=self.add.rectangle(-b.r*1.1,-tr-12,b.r*2.2,5,0xff3333).setOrigin(0,.5);
       var nameT=self.add.text(0,-tr-22,b.name,{fontSize:'10px',color:'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
       cont.add([body,icon,hpBg,hpFill,nameT]);
-      return {cont:cont,body:body,hpFill:hpFill,def:b,hp:b.hp,maxHp:b.hp,x:x,y:y,atkTimer:1.5,isBoss:true,dead:false};
+      var bhp=b.wave==='swarm'?b.hp:Math.round(b.hp*1.5);   // round 9: bosses +50% (the imp swarm stays)
+      return {cont:cont,body:body,hpFill:hpFill,def:b,hp:bhp,maxHp:bhp,x:x,y:y,atkTimer:1.5,isBoss:true,dead:false};
     }
     this.monsters=[];
     if(b.wave==='swarm'){
@@ -935,9 +936,9 @@ class VolcanoBossRushScene extends Phaser.Scene {
     this.tweens.add({targets:sw,alpha:0,duration:200,onComplete:function(){sw.destroy();}});
     this.monsters.forEach(function(m){
       if(m.dead)return;
-      var d=Math.hypot(m.x-self.player.x, m.y-self.player.y);
-      if(d>70)return;
-      if(typeof _heroInArc==='function' && !_heroInArc(dir, m.x-self.player.x, m.y-self.player.y))return;
+      var hq=_hbP(m,self.player.x,self.player.y), d=Math.hypot(hq.x-self.player.x, hq.y-self.player.y);   // round 9: boss hurtbox
+      if(d>(m._hurtR?52:70))return;
+      if(d>8&&typeof _heroInArc==='function' && !_heroInArc(dir, hq.x-self.player.x, hq.y-self.player.y))return;
       m.hp-=atk;
       m.hpFill.displayWidth=m.def.r*2.2*Math.max(0,m.hp/m.maxHp);
       var ft=self.add.text(m.x,m.y-m.def.r-12,'-'+atk,{fontSize:'12px',color:'#ffdd44',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(20);

@@ -110,3 +110,11 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   fs.writeFileSync(path.join(ROOT, 'lab/lab.artifact.html'), title + head.replace(/<meta[^>]*>\s*/g, '') + body);
   console.log(`✓ lab/index.html  ${(lab.length / 1024).toFixed(0)} KB  from ${labFiles.length} lab files`);
 }
+
+// ── Hosting (Vercel): dist/ = what gets deployed — the game at /, the Design Lab at /lab
+// (vercel.json: buildCommand "npm run build", outputDirectory "dist")
+fs.rmSync(path.join(ROOT, 'dist'), { recursive: true, force: true });
+fs.mkdirSync(path.join(ROOT, 'dist', 'lab'), { recursive: true });
+fs.copyFileSync(path.join(ROOT, 'index.html'), path.join(ROOT, 'dist', 'index.html'));
+if (fs.existsSync(path.join(ROOT, 'lab/index.html'))) fs.copyFileSync(path.join(ROOT, 'lab/index.html'), path.join(ROOT, 'dist', 'lab', 'index.html'));
+console.log('✓ dist/ ready for hosting (game + /lab)');

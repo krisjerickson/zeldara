@@ -11,3 +11,12 @@ __pycache__/
 tests/.labshots/
 lab/lab.artifact.html
 .sync/
+# built by `npm run build` (Vercel builds these itself on every push)
+dist/
+/index.html
+/lab/index.html
+# local sync / scratch folders
+.sync/
+_sync/
+_to_delete/
+docsync*/

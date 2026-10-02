@@ -17,7 +17,7 @@ with game(new=False, save=old_save) as g:
     check('Migrated: remounted + versioned', g.ws("ps.mount==='horse' && ps.saveVersion===SAVE_VERSION && !ps._stowedMount"))
     check('Backup of old save kept', g.js("!!localStorage.getItem('qoz_v2_backup_v2')"))
     g.js("game.scene.getScene('World')._save()")
-    check('New save has current saveVersion', g.js("JSON.parse(localStorage.getItem('qoz_v2')).saveVersion===SAVE_VERSION"))
+    check('New save has current saveVersion', g.js("JSON.parse(ZSave.read()).saveVersion===SAVE_VERSION"))
 
 with game() as g:
     ps="game.scene.getScene('World').playerState"

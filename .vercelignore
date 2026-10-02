@@ -1,10 +1,14 @@
-# Only the game (index.html) needs to be deployed; sprites are base64-inlined.
+# Vercel builds the game from source (npm run build → dist/). Ship only what the build needs.
 archive/
 docs/
 sprites/
 design-mocks/
-src/
-assets/
 tests/
-build.mjs
-lab/
+_sync/
+_to_delete/
+.sync/
+dist/
+/index.html
+/lab/index.html
+/lab/lab.artifact.html
+*.bak

@@ -24,13 +24,94 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Round 2 (Kris's nine-point list, Sept 28): done** — see changelog [119]–[127]. ★ boss sites sealed until the quadrant's other towers/dungeons are cleared; multi-phase guardians (2/3/4/5 phases by quadrant, 20 arenas, 23 evolved forms, ward/guard/plate extra health, summons, multi-boss finales); 132 world camps (60 themed purposes, 2/3 of monsters) with a celebration; split-once; mount seat; 4 harbors per quadrant → 1 familiar island + 3 castle islands (12 castles, wardens and master teachers); skills taught by the masters only (12, incl. new Time Slow + Meteor Strike); all 12 village interiors repainted. Kris's answers: 2 new skills (12 total), teachers only (no shops), seal counts other towers + dungeons only, food/springs respawn (~10 min) but chests are one-time. Lab tabs: Castles, Boss Arenas, Interiors (all pre-selected, mark to change). Bosses are not to be reviewed until Kris asks.
 - **Round 3 (Kris, Sept 28): done** — changelog [128]–[136]: no attacks through walls, shooters back off, summon once / packs stay dead, 4 elemental spirit familiars (12 designs to pick from, 6 skills, levels), 20 fairy quests with digging + trials, 3 Fairy Kings (+1 active familiar each, max 4), Tome grouped by quadrant with a Quests chapter. Kris's answers: pick 1 of 3 spirits per element in the Lab; fairies level their own quadrant's familiar; each King +1 slot; summoners summon once and packs stay dead. **Waiting on Kris:** Lab picks for Familiars, Fairies and Familiar Trials (the 4 unbuilt trial ideas get built if picked).
 - **Round 4 (Kris, Sept 28): done** — [137]–[141]: Home button removed, campfires + Ashlands magma burn (safe: Lava Unicorn, Dragon, Ash Dragon), Tome immunities, elite dens (one room, elite + 3–6 plain kin, 8× HP, big named bar).
+- **Round 5 (Kris, Sept 28–29): done** — [142]–[152]: Lab picks applied, parked mounts + Call Mount!, camp loot on Tab + guards return home, 100 fairy looks (5 per quadrant) + angelic Fairy Monarchs, the trial realm (12 themes incl. light alignment + collapsing rune path), dark-stone castle interiors, 16 mage towers teaching the 16 spells with single-phase magic bosses, Lab tabs for Mage Towers, Bosses and Monster Camps.
+- **Round 6 (Kris, Sept 29): done** — [153]–[162]: familiars cast base + one chosen special, crowd-control diminishing returns, line of sight for heroes/familiars/monsters, monster counters (Spirit Ward, Mirror, Null aura, Resist, Banish), familiar knock-outs; the old Cave scene removed (Ember Cave = island dungeon, 3 Lab looks); islands rebuilt on the world pipeline with fog, minimap, camps, a waystone each, animals + weather, and 16 Lab designs. **Waiting on Kris:** Islands tab tags, Ember Cave look.
+- **Round 7 (Kris, Sept 29–30): done** — [163]–[171]: all 76 boss slots painted (197 designs, 2–3 options each) that grow each phase, lore-inspired names ('New name, the old title'), creature bosses, motion personalities (strides, lumber, plane-shifting, afterimages …), title cards / transformations / finale / hit-pause, procedural sound + boss music, Lab Bosses tab with every phase, Tome portraits; performance picks (animals culled, lazy patterns + monster visuals, HUD dirty-checks, save v8, palette PNGs, minified build: 3.14 → 2.10 MB). Kris picked all rows (Sept 30).
+- **Round 10 (Kris, Oct 1): home page + logo. Answers:**
+  - **Home page:** a Next.js landing page at `/` (Vercel); the game moves to `/play`; the Lab stays at `/lab`. The in-game title screen gets the same look.
+    - Content: Play (New / Returning player with the name + 3-slot picker) and a short story / world blurb.
+    - Look: black background, simple, not distracting. Runic references, aurora borealis, slow glows, some shooting stars, spirit-like styling.
+    - **15 look options in the Lab** for Kris to choose from.
+  - **Logo:** the word ZELDARA is separate from the symbol.
+    - **20 symbol logos without the word**, each in 3 sizes: full-screen impressive, medium, small (for use around the game).
+    - **10 wordmark variants** of "Zeldara".
+    - One major colour per design, varied across the set, with the runic glow; bevels and other stylistic touches welcome.
+    - Inspiration: Zelda-style emblems (our own design), Nordic (tree of life), Celtic knots.
+  - Build the Next.js site after Kris picks in the Lab.
+  - **Done (Oct 1):** Lab tabs Logos (20 × 3 sizes), Wordmarks (10), Home Pages (15) published (Lab v18). **Waiting on Kris:** picks + notes in those three tabs.
+- **Round 9 + hosting: done (Oct 1)** (changelog [186]–[192]). **Waiting on Kris:** `git push origin main`, then the Vercel import (steps in `12-hosting-and-saves.md`).
+- **Hosting + multi-user saves (Kris, Oct 1). Answers:**
+  - Players use mostly their own devices.
+  - Saves: browser profiles with backup codes. Name on New Game, a "Returning player" list, 3 slots per name, stored in the browser (no database), plus Export/Import save codes. Code structured so Supabase can plug in later.
+  - Deploy: push to GitHub → Vercel runs `npm run build`. Built files stay out of git.
+  - Public game, with the Lab at /lab (unlisted).
+  - Kris gets step-by-step setup instructions.
+- **Round 9 (Kris, Oct 1): boss finalisation after the first play-through.**
+  - Asked for:
+    1. A big boss hitbox (not a small fraction of the sprite).
+    2. The hitbox must always be reachable.
+    3. Familiars are too strong; each added familiar should deal much less damage.
+    4. Bosses need more HP.
+  - **Answers:**
+    - Hitbox = lower two-thirds of the body (oval from the feet to the chest, always including the feet area on walkable floor).
+    - Familiar damage by slot: 100 / 60 / 40 / 25% (all four ≈ 2.25× one), in **all fights**.
+    - Boss HP **+50% on top of the earlier +20%** (≈1.8× original) for all bosses: guardians, castle wardens, mage masters, island guardians and the volcano rush. Elites get +25%.
+- **Round 8 (Kris, Sept 30): in progress — boss finalisation.** Kris's notes:
+  (1) every multi-phase boss keeps its colours and signature elements (hat, gem, chest star, crown, background effects) through all phases;
+  (2) Hollow Knight / Silksong-style fights with attacks that cover areas of the screen;
+  (3) keep every unselected design for reference;
+  (4) ask questions before finalising.
+  Answers:
+  - Difficulty ramps by quadrant (Grasslands gentle, Ashlands near Hollow-Knight-hard), but bosses keep decent health, because weapons get stronger and familiars auto-attack.
+  - Summons are mostly swapped for arena attacks. Themed ones and the multi-boss finales stay.
+  - Build all four attack families: sky rain + sweeping walls; radial bursts + rotating beams; floor takeover + burrowing; combos, boomerangs, desperation moves + stagger.
+  - **Lab review first:** update the Lab with consistent phase versions and 2–3 options for each new form (Rock Dragon 3 = flying Smaug-like dragon; Rock Dragon 4 = flying, two wings, longer; Lava Titan 3 = titan built on phases 1–2 with lava swooshes). Kris picks, then the attacks are built and it all goes into the game.
+  - Picks are in Lab DB `picks` (keys `bosses-<slot>`, regions:[option]).
+  - **Done (Sept 30), part 1 — looks:** picks applied; signature system (07zz-boss-sig.js); new flying Rock Dragon 3/4 (wyvern) and Lava Titan 3 options; Lab line-ups published (Lab v16). The game is not republished yet.
+  - **Waiting on Kris:** in the Lab, choose Rock Dragon 3, Rock Dragon 4 and Lava Titan 3 from the NEW options, and mark each family "looks right" or leave notes (keys `bosses-fam-<id>`).
+  - **Kris's Lab review (Oct 1) — received; Kris says implement now:**
+    - Picks: Rock Dragon 3 = **e**, Rock Dragon 4 = **e**, Lava Titan 3 = **d**.
+    - Families OK: Goblin King, Dark Warlock, Swamp Witch, Storm Mage (+ Shadow Lord marked OK, but with notes).
+    - Iron Sentinel: shoulder rocks look awkward. Make them stalagmites growing out of the shoulders.
+    - Lava Titan: the phase 4 → 5 change is too abrupt. Give phase 4 a heart element, not just a standard drake.
+    - Rock Dragon:
+      - Wings must stay attached when flapping (phases 3 and 4).
+      - Phase 4 needs bigger parts than phase 3 (torso, legs).
+      - Phase 2 and its drakeling ally must clearly show 2 wings.
+    - Shadow Lord:
+      - Phase 3: the specter rides a fell-beast-style winged mount (Tolkien-inspired, our own design).
+      - Phase 4: a large hell-hawk-style beast.
+      - Phase 5: angelic, but keeps the black hovering orb (eclipse).
+  - **Done (Oct 1), part 2:** review fixes plus the signature attacks are built and published (changelog [178]–[184]). Next: Kris plays the fights; tune `BOSS_RAMP` and the per-family lists in `07zz-boss-attacks.js` from his feedback. The Volcano boss rush (its own scene) doesn't use the director yet.
+  - **Part 2 — attacks (as first planned; signature moves per family:**
+    - Grubnash: hammer shockwave rings with a gap; gold/boulder rain in marked columns; the warg charges across the arena.
+    - Morvane: rotating teal beams; web takes over half the floor; the spider burrows and bursts out.
+    - Greenteeth: bog floor switches halves; lantern boomerang; the hydra submerges and erupts where the bubble trail ends; 3-way spit.
+    - Tharnwald: lightning columns; a thunder wall sweeps across with gaps; hammer slam + ring; storm-orb boomerang.
+    - Grauldr: rock rain; crystal radial burst; flying fire-breath strafing runs; landing slam; chest-glow desperation fire with safe spots behind crystals.
+    - Brokkrun: rotating forge-star beams; gear walls sweep across; shoulder rock rain; hammer boomerang.
+    - Surtvald: lava takes half the floor; lava-wave walls; wide flame-sword arcs; heart: radial bursts + rotating beams + eruption.
+    - Malgorath: the eclipse darkens the arena except near you; blade rain; twins mirror him; rotating void beams; dawn: sweeping walls of light.
+    - Shared across all bosses: a stagger bar (after enough hits the boss is stunned and takes extra damage), a desperation move below ~15% health, and far fewer summons.
 - **Phase 2 (Selector pages): in progress** — Design Lab live with Towers (10), Dungeons (10) and the Sprite pilot (30 prompts). Waiting on Kris: picks in the Lab + pilot images in `sprites/incoming/`. World quadrant selector (40 designs) is live in the Lab — waiting on Kris's picks (2–3 per quadrant).
 - Design Lab: https://claude.ai/artifact/MnYcjcTXfpWm4YuiErDLHd — picks in DB collection `picks`.
 - Playable build: https://claude.ai/artifact/7p3eXrHtD4iLbm6MLbg4jz
 
+## Why questions got asked twice (diagnosed Sept 30)
+- Transcript evidence: the question card went out at 14:55. No answer ever reached the session. At 15:13 Kris's original message was delivered again (the app re-queued it after the session restarted or reconnected), and the fresh run asked the same questions again.
+- A question card is tied to the running session. If that session restarts or reconnects while the card is open (the connected services dropped and came back at the same moment), the answer has nowhere to go and is lost. A normal chat message is queued and survives a restart.
+- Rules from now on:
+  1. Record answers here and in project memory immediately.
+  2. Before asking anything, check this doc for answers already given.
+  3. Before showing a question card, write the questions under **Open questions** below so a restarted session knows they were already asked.
+  4. For long question sets, prefer the Lab (answers are saved in its database) or a plain chat message.
+
+## Open questions
+- (none)
+
 ## Fixed decisions (already made by Kris)
 - **Keep the AI-painted hero sprite.** All NPCs, monsters, animals and familiars are redrawn to match it (track E).
-- **Git + Vercel parked** until the overhaul is stable (panel G6). The repo is prepared locally, with one commit not yet pushed.
+- **Git + Vercel:** prepared Oct 1 (Kris's go-ahead). The local main is about 21 commits ahead of GitHub; Kris pushes, then imports into Vercel.
 - **Selector pages** are required for: towers (10 walkable designs), open-dungeon layouts (10), world quadrants (10 × 4), and sprites (~5 options per character).
 
 ## Tracks

@@ -49,8 +49,11 @@ function _famMult(ps,fid){ return (1+0.12*(((ps&&ps.level)||1)-1))*(1+0.15*(_fam
 function _maxFamiliarSlots(ps){ return Math.min(4,1+((ps&&ps.fairyKings)||[]).length); }
 var FAM_SLOTS=['familiar','familiar2','familiar3','familiar4'];
 function _heroActiveFamiliars(ps){ var out=[], max=_maxFamiliarSlots(ps); for(var i=0;i<max;i++){ var f=ps[FAM_SLOTS[i]]; if(f&&FAM_EL[f]&&out.indexOf(f)<0&&(ps.ownedFamiliars||[]).indexOf(f)>=0)out.push(f); } return out; }
+// round 9 (Kris): each extra active familiar hits softer — by slot: 100 / 60 / 40 / 25% (all four ≈ 2.25× one)
+var FAM_SLOT_DMG=[1,0.6,0.4,0.25];
+function _famSlotK(ps,fid){ var i=_heroActiveFamiliars(ps).indexOf(fid); return i<0?1:FAM_SLOT_DMG[Math.min(i,FAM_SLOT_DMG.length-1)]; }
 function _heroFamiliarActive(ps,fid){ return !!ps&&_heroActiveFamiliars(ps).indexOf(fid)>=0; }
-function _familiarDamage(fid,ps){ var s=FAM_SKILLS[FAM_EL[fid]][0]; return Math.round(s.dmg*_famMult(ps,fid)); }
+function _familiarDamage(fid,ps){ var s=FAM_SKILLS[FAM_EL[fid]][0]; return Math.round(s.dmg*_famMult(ps,fid)*_famSlotK(ps,fid)); }
 function _toggleFamiliar(fid){ var ws=_heroWS(); if(!ws)return; var ps=ws.playerState, max=_maxFamiliarSlots(ps);
   for(var i=0;i<4;i++){ if(ps[FAM_SLOTS[i]]===fid){ ps[FAM_SLOTS[i]]=null; ws._emitUI(); return; } }
   for(var j=0;j<max;j++){ if(!ps[FAM_SLOTS[j]]){ ps[FAM_SLOTS[j]]=fid; ws._emitUI(); return; } }
@@ -99,14 +102,14 @@ function _heroFamiliarsTick(scene,dt){
     var nul=nullers.find(function(m){ return Math.hypot(m.x-v.x,m.y-v.y)<m.kit._null; });
     if(nul){ v.setAlpha(0.55); if(!v._nulSay||v._t-v._nulSay>3){ v._nulSay=v._t; _heroFloat(scene,v.x,v.y-24,'silenced','#b0b0c8'); } return; } else v.setAlpha(0.92);
     // skills: the basic attack + the chosen special
-    var T=scene._famTimers[fid]||(scene._famTimers[fid]={}), mult=_famMult(ps,fid);
+    var T=scene._famTimers[fid]||(scene._famTimers[fid]={}), mult=_famMult(ps,fid)*_famSlotK(ps,fid);   // heals don't use mult
     _famActiveSkills(ps,fid).forEach(function(o){ var S=o.S, si=o.i; if(T[si]===undefined)T[si]=Math.min(1.2+(si?0.7:0),S.cd); T[si]-=dt; if(T[si]>0)return;
       var ok=_famCast(scene,fid,S,v,c,ps,mult,E); T[si]=ok?S.cd*(1-0.04*(_famLevel(ps,fid)-1)):0.35; if(ok&&S.kind!=='aura'){ v._halo.setAlpha(0.8); scene.tweens.add({targets:v._halo,alpha:0.35,duration:400}); } });
   });
   _famWardTick(scene,c,ps,dt);
   _famHudTick(scene,fams,ps,dt);
 }
-function _famNearest(c,mons,from,range,scene){ var b=null,bd=range; mons.forEach(function(m){ if(m.dead||m._m&&m._m.hidden)return; var d=Math.hypot(m.x-from.x,m.y-from.y); if(d<bd&&_heroLOS(scene,from.x,from.y,m.x,m.y)&&_heroLOS(scene,c.x,c.y,m.x,m.y)){bd=d;b=m;} }); return b; }
+function _famNearest(c,mons,from,range,scene){ var b=null,bd=range; mons.forEach(function(m){ if(m.dead||m._m&&m._m.hidden)return; var d=_hbD(m,from.x,from.y); if(d<bd&&_heroLOS(scene,from.x,from.y,m.x,m.y)&&_heroLOS(scene,c.x,c.y,m.x,m.y)){bd=d;b=m;} }); return b; }
 function _famFx(scene,m,S,E,mult){ if(m.dead)return; var f=S.fx;
   if(f==='root'||f==='freeze'||f==='stun'){ var hd=_heroHold(scene,m,S.t||1); if(hd>0&&typeof _heroSlow==='function')_heroSlow(scene,m,hd,0.05); }
   else if(f==='slow')_heroSlow(scene,m,S.t||2,0.6);
@@ -123,23 +126,23 @@ function _famCast(scene,fid,S,v,c,ps,mult,E){ var mons=c.monsters.filter(functio
       onHit:function(m){ _famHit(scene,fid,E,S,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult);
         if(S.fx==='splash'){ _famRing(scene,m.x,m.y,S.rad||70,E.col,350); mons.forEach(function(m2){ if(m2!==m&&!m2.dead&&Math.hypot(m2.x-m.x,m2.y-m.y)<(S.rad||70)&&_heroLOS(scene,m.x,m.y,m2.x,m2.y)){ _famHit(scene,fid,E,{kind:'area'},m2,dmg*0.6,{pure:true,col:E.col}); _heroBurn(m2,3,Math.max(1,dmg*0.15),E.key); } }); } }});
     return true; }
-  if(S.kind==='nova'){ var inR=mons.filter(function(m){ return Math.hypot(m.x-c.x,m.y-c.y)<=S.radius&&_heroLOS(scene,c.x,c.y,m.x,m.y,true); }); if(!inR.length&&!S.heal)return false; if(!inR.length&&S.heal&&ps.hp>=ps.maxHp)return false;
+  if(S.kind==='nova'){ var inR=mons.filter(function(m){ return _hbD(m,c.x,c.y)<=S.radius&&_heroLOS(scene,c.x,c.y,_hbP(m,c.x,c.y).x,_hbP(m,c.x,c.y).y,true); }); if(!inR.length&&!S.heal)return false; if(!inR.length&&S.heal&&ps.hp>=ps.maxHp)return false;
     _famRing(scene,c.x,c.y,S.radius,E.col); inR.forEach(function(m){ if(dmg)_famHit(scene,fid,E,S,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult); });
     if(S.heal)_famHeal(scene,c,ps,S.heal); return true; }
   if(S.kind==='heal'){ if(ps.hp>=ps.maxHp||ps.hp<=0)return false; var n=S.ticks||1, i=0; var tick=function(){ if(ps.hp>0)_famHeal(scene,_heroCtx(scene),ps,S.pct); }; tick();
     if(n>1)scene.time.addEvent({delay:1000,repeat:n-2,callback:tick}); return true; }
   if(S.kind==='ward'){ var st=ps._famWard||(ps._famWard={}); if(st[fid]&&st[fid].ready)return false; st[fid]={ready:true,col:E.col,name:S.name}; _heroFloat(scene,c.x,c.y-36,'✨ '+S.name,E.col); return true; }
-  if(S.kind==='rain'){ var ts=mons.filter(function(m){ return Math.hypot(m.x-c.x,m.y-c.y)<=S.range&&_heroLOS(scene,c.x,c.y,m.x,m.y); }); if(!ts.length)return false; ts.sort(function(a,b){ return Math.hypot(a.x-c.x,a.y-c.y)-Math.hypot(b.x-c.x,b.y-c.y); });
+  if(S.kind==='rain'){ var ts=mons.filter(function(m){ return _hbD(m,c.x,c.y)<=S.range&&_heroLOS(scene,c.x,c.y,_hbP(m,c.x,c.y).x,_hbP(m,c.x,c.y).y); }); if(!ts.length)return false; ts.sort(function(a,b){ return Math.hypot(a.x-c.x,a.y-c.y)-Math.hypot(b.x-c.x,b.y-c.y); });
     for(var k=0;k<S.n;k++){ (function(t2,delay){ var x=t2.x+(k?(Math.random()-0.5)*40:0), y=t2.y+(k?(Math.random()-0.5)*40:0); var rock=scene.add.circle(x-40,y-160,9,hexNum(E.deep),1).setStrokeStyle(2,hexNum(E.col),1).setDepth(12.7);
       scene.tweens.add({targets:rock,x:x,y:y,duration:420,delay:delay,ease:'Quad.easeIn',onComplete:function(){ rock.destroy(); _famRing(scene,x,y,S.rad,E.col,300); if(scene.cameras&&scene.cameras.main)scene.cameras.main.shake(90,0.004);
-        _heroCtx(scene).monsters.forEach(function(m){ if(!m.dead&&Math.hypot(m.x-x,m.y-y)<S.rad&&_heroLOS(scene,x,y,m.x,m.y))_famHit(scene,fid,E,S,m,dmg,{col:E.col}); }); }}); })(ts[k%ts.length],k*140); }
+        _heroCtx(scene).monsters.forEach(function(m){ if(!m.dead&&_hbD(m,x,y)<S.rad&&_heroLOS(scene,x,y,_hbP(m,x,y).x,_hbP(m,x,y).y))_famHit(scene,fid,E,S,m,dmg,{col:E.col}); }); }}); })(ts[k%ts.length],k*140); }
     return true; }
-  if(S.kind==='aura'){ var hit=false; mons.forEach(function(m){ if(Math.hypot(m.x-c.x,m.y-c.y)<=S.radius&&_heroLOS(scene,c.x,c.y,m.x,m.y)){ _famHit(scene,fid,E,S,m,dmg,{pure:true,col:E.col,suffix:'🔥'}); hit=true; } }); if(hit)_famRing(scene,c.x,c.y,S.radius,E.col,260); return hit; }
+  if(S.kind==='aura'){ var hit=false; mons.forEach(function(m){ if(_hbD(m,c.x,c.y)<=S.radius&&_heroLOS(scene,c.x,c.y,_hbP(m,c.x,c.y).x,_hbP(m,c.x,c.y).y)){ _famHit(scene,fid,E,S,m,dmg,{pure:true,col:E.col,suffix:'🔥'}); hit=true; } }); if(hit)_famRing(scene,c.x,c.y,S.radius,E.col,260); return hit; }
   if(S.kind==='wave'){ var fa=_heroDirAngle(c.dir), tg=_famNearest(c,mons,c,S.len,scene); if(tg)fa=Math.atan2(tg.y-c.y,tg.x-c.x); else return false;
     var wl=S.len; for(var s0=12;s0<S.len;s0+=8){ if(_heroWallAt(scene,c.x+Math.cos(fa)*s0,c.y+Math.sin(fa)*s0)){ wl=s0; break; } }
     var ex=c.x+Math.cos(fa)*wl, ey=c.y+Math.sin(fa)*wl, g=scene.add.graphics().setDepth(12.6); g.lineStyle(S.wid*0.6,hexNum(E.col),0.35); g.lineBetween(c.x,c.y,ex,ey); g.lineStyle(4,hexNum(E.core),0.9); g.lineBetween(c.x,c.y,ex,ey);
     scene.tweens.add({targets:g,alpha:0,duration:420,onComplete:function(){ g.destroy(); }});
-    mons.forEach(function(m){ var px=m.x-c.x, py=m.y-c.y, along=px*Math.cos(fa)+py*Math.sin(fa), side=Math.abs(-px*Math.sin(fa)+py*Math.cos(fa)); if(along>0&&along<wl&&side<S.wid/2+((m.def&&m.def.r)||10)&&_heroLOS(scene,c.x,c.y,m.x,m.y)){ _famHit(scene,fid,E,S,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult); } });
+    mons.forEach(function(m){ var hq=_hbP(m,c.x+Math.cos(fa)*Math.min(wl,_hbD(m,c.x,c.y)),c.y+Math.sin(fa)*Math.min(wl,_hbD(m,c.x,c.y))), px=hq.x-c.x, py=hq.y-c.y, along=px*Math.cos(fa)+py*Math.sin(fa), side=Math.abs(-px*Math.sin(fa)+py*Math.cos(fa)); if(along>0&&along<wl&&side<S.wid/2+(m._hurtR?6:((m.def&&m.def.r)||10))&&_heroLOS(scene,c.x,c.y,hq.x,hq.y)){ _famHit(scene,fid,E,S,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult); } });
     return true; }
   if(S.kind==='laststand'){ if(ps.hp<=0||ps.hp>ps.maxHp*S.pct)return false; _famHeal(scene,c,ps,S.pct); _famRing(scene,c.x,c.y,80,E.col); _heroFloat(scene,c.x,c.y-44,'🔥 '+S.name+'!',E.col); return true; }
   return false; }
@@ -156,7 +159,7 @@ function _famHudTick(scene,fams,ps,dt){ scene._famHudT=(scene._famHudT||0)-dt; i
   if(!fams.length){ if(el.innerHTML)el.innerHTML=''; el.style.display='none'; return; } el.style.display='flex';
   el.innerHTML=fams.map(function(fid){ var f=FAMILIARS[fid], D=_famDesign(fid), E=SPIRIT_ELEMENTS[D.el], st=_famSt(fid), si=_famSpecialIdx(ps,fid), S=si>0?FAM_SKILLS[D.el][si]:null, T=(scene._famTimers&&scene._famTimers[fid])||{}, v=scene._famVisuals&&scene._famVisuals[fid];
     var cd=S?Math.max(0,T[si]||0):0, pct=S?Math.min(1,cd/S.cd):0, state=st.ko>0?'<em class="ko">💫 '+Math.ceil(st.ko)+'s</em>':(v&&v.alpha<0.6?'<em>silenced</em>':(S?(cd>0.05?'<em>'+cd.toFixed(1)+'s</em>':'<em class="ok">ready</em>'):'<em>basic only</em>'));
-    return '<div class="fh'+(st.ko>0?' out':'')+'" style="border-color:'+E.col+'" title="'+f.n+(S?' — special: '+S.name+' (change it in the familiar card, N → ⓘ)':'')+'" onclick="showFamiliarInfo(\''+fid+'\')"><span class="ic">'+f.icon+'</span><span class="tx"><b>'+(S?S.name:f.n)+'</b>'+state+'</span><i style="width:'+Math.round((1-pct)*100)+'%;background:'+E.col+'"></i></div>'; }).join(''); }
+    return '<div class="fh'+(st.ko>0?' out':'')+'" style="border-color:'+E.col+'" title="'+f.n+(S?' — special: '+S.name+' (change it in the familiar card, N → ⓘ)':'')+(_famSlotK(ps,fid)<1?' — slot '+(_heroActiveFamiliars(ps).indexOf(fid)+1)+': hits at '+Math.round(_famSlotK(ps,fid)*100)+'% (each extra familiar hits softer)':'')+'" onclick="showFamiliarInfo(\''+fid+'\')"><span class="ic">'+f.icon+'</span><span class="tx"><b>'+(S?S.name:f.n)+(_famSlotK(ps,fid)<1?' <small style="opacity:.7">'+Math.round(_famSlotK(ps,fid)*100)+'%</small>':'')+'</b>'+state+'</span><i style="width:'+Math.round((1-pct)*100)+'%;background:'+E.col+'"></i></div>'; }).join(''); }
 function _heroSeaSprite(){}   // (old Sea Sprite passive — now the water spirit's Tide Ward)
 // projectiles (pierce + follow)
 function _heroFamProjTick(scene,dt){ if(!scene._famProj2||!scene._famProj2.length)return; var mons=_heroCtx(scene).monsters;
@@ -165,7 +168,7 @@ function _heroFamProjTick(scene,dt){ if(!scene._famProj2||!scene._famProj2.lengt
     if(p.tgt&&!p.tgt.dead){ var a=Math.atan2(p.tgt.y-p.y,p.tgt.x-p.x), sp=Math.hypot(p.vx,p.vy); p.vx=Math.cos(a)*sp; p.vy=Math.sin(a)*sp; }
     p.x+=p.vx*dt; p.y+=p.vy*dt; p.vis.setPosition(p.x,p.y); p.glow.setPosition(p.x,p.y);
     if(_heroWallAt(scene,p.x,p.y))return kill();
-    if(p.pierce){ mons.forEach(function(m){ if(m.dead||p.hitSet.indexOf(m)>=0)return; if(Math.hypot(m.x-p.x,m.y-p.y)<((m.def&&m.def.r)||10)+8){ p.hitSet.push(m); p.onHit(m); } }); return true; }
+    if(p.pierce){ mons.forEach(function(m){ if(m.dead||p.hitSet.indexOf(m)>=0)return; if(_hbHit(m,p.x,p.y,8)){ p.hitSet.push(m); p.onHit(m); } }); return true; }
     if(p.tgt&&!p.tgt.dead&&Math.hypot(p.tgt.x-p.x,p.tgt.y-p.y)<((p.tgt.def&&p.tgt.def.r)||10)+6){ p.onHit(p.tgt); return kill(); }
     if(p.tgt&&p.tgt.dead)return kill();
     return true; }); }
