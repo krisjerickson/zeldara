@@ -11,15 +11,20 @@ with sync_playwright() as p:
     pg.on('pageerror',lambda e: errs.append(str(e)))
     pg.route(re.compile(r".*cdnjs.*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
     pg.goto('file://'+os.path.join(HERE,'..','lab','index.html')); pg.wait_for_timeout(1500)
-    n=pg.evaluate("[1,2].map(g=>[ZBrand.SYMBOLS,ZBrand.WORDS,ZBrand.HOMES].map(L=>L.filter(x=>x.gen===g).length))")
-    check('First round 20/10/15 kept; second pass 32 logos, 10 wordmarks, 6 home pages', n==[[20,10,15],[32,10,6]], n)
+    n=pg.evaluate("[1,2,3].map(g=>[ZBrand.SYMBOLS,ZBrand.WORDS,ZBrand.HOMES].map(L=>L.filter(x=>x.gen===g).length))")
+    check('First round 20/10/15 kept; second pass 32/10/6; third pass 20 logos, 10 typefaces, 3 home pages', n==[[20,10,15],[32,10,6],[20,10,3]], n)
+    r12=pg.evaluate("""(()=>{ var S=ZBrand.SYMBOLS.filter(x=>x.gen===3), W=ZBrand.WORDS.filter(x=>x.gen===3);
+      return [S.every(x=>x.col===ZBrand.TEAL), S.filter(x=>x.grp==='img').length, S.filter(x=>x.grp==='pick').length, W.every(x=>x.col===ZBrand.GOLD), new Set(W.map(x=>x.fam)).size, ZBrand.TIER2.length, ZBrand.TIER2.every(id=>ZBrand.byId(id).id===id), ZBrand.TIER2[0]]; })()""")
+    check('Third pass: 9 logos after the pictures + 11 on the picks, all teal; 10 different typefaces, all gold; 12 second-tier logos led by Crossed Axes', r12==[True,9,11,True,10,12,True,'crossed_axes'], r12)
+    fonts=pg.evaluate("""labLoadFonts().then(()=>{ var L=[...document.fonts].filter(f=>f.status==='loaded').map(f=>f.family.replace(/['"]/g,'')+'|'+f.weight); return ZBrand.RZ_FONTS.map(F=>L.indexOf(F[1]+'|'+F[2])>=0); })""")
+    check('All 10 typefaces are embedded and really load (no fallback)', all(fonts) and len(fonts)==10, fonts)
     r2=pg.evaluate("""(()=>{ var S=ZBrand.SYMBOLS.filter(x=>x.gen===2), W=ZBrand.WORDS.filter(x=>x.gen===2), ids=ZBrand.SYMBOLS.map(x=>x.id);
       return [S.every(x=>x.col===ZBrand.TEAL), W.every(x=>x.col===ZBrand.GOLD), ['world_tree','compass','four_spirits','realm_peak','shield_knot','triquetra','wayfinder','winged_blade'].every(b=>['A','B','C'].every(l=>S.some(x=>x.from===b&&x.lvl===l))), S.filter(x=>x.lvl==='N').length, new Set(ids).size===ids.length]; })()""")
     check('Second pass: all logos teal, all wordmarks gold, each of the 8 picks at A/B/C, 8 new, ids unique', r2==[True,True,True,8,True], r2)
     r3=pg.evaluate("""(()=>{ var ink=function(cv){ var d=cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data, n=0, was=false; for(var i=3;i<d.length;i+=4){ var on=d[i]>90; if(on!==was)n++; was=on; } return n; }, out=[];
       ['world_tree','compass','triquetra'].forEach(function(b){ var a=['A','B','C'].map(function(l){ return ink(ZBrand.layers(ZBrand.SYMBOLS.find(x=>x.from===b&&x.lvl===l),120,3).main); }), base=ink(ZBrand.layers(ZBrand.byId(b),120,3).main); out.push(a.map(function(v){ return +(v/base).toFixed(2); })); });
       var edge=function(cv){ var c=cv.getContext('2d'), w=cv.width, h=cv.height, n=0; [c.getImageData(0,0,w,2).data,c.getImageData(0,h-2,w,2).data,c.getImageData(0,0,2,h).data,c.getImageData(w-2,0,2,h).data].forEach(function(d){ for(var i=3;i<d.length;i+=4)if(d[i]>60)n++; }); return n; };
-      var clip=ZBrand.SYMBOLS.filter(x=>x.gen===2&&edge(ZBrand.layers(x,120,3).main)>0).map(x=>x.id).concat(ZBrand.WORDS.filter(x=>x.gen===2&&edge(ZBrand.wordLayers(x,40).main)>0).map(x=>x.id));
+      var clip=ZBrand.SYMBOLS.filter(x=>x.gen>=2&&edge(ZBrand.layers(x,120,3).main)>0).map(x=>x.id).concat(ZBrand.WORDS.filter(x=>x.gen>=2&&edge(ZBrand.wordLayers(x,40).main)>0).map(x=>x.id));
       return [out, clip]; })()""")
     check('Second-pass logos carry clearly more line detail than the first round (edge count ratio), and nothing is cut off at the edge', all(v>1.3 for a in r3[0] for v in a) and not r3[1], r3)
     r=pg.evaluate("""(()=>{ var bad=[], ink=function(cv){ var d=cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data, n=0; for(var i=3;i<d.length;i+=16)if(d[i]>40)n++; return n; };
@@ -28,12 +33,12 @@ with sync_playwright() as p:
       var cv=document.createElement('canvas'); cv.width=320; cv.height=180; ZBrand.HOMES.forEach(function(Hm){ try{ ZBrand.home(cv.getContext('2d'),Hm,320,180,3.3,{}); ZBrand.home(cv.getContext('2d'),Hm,320,180,9.1,{}); }catch(e){ bad.push(Hm.id+' '+e.message); } });
       return bad; })()""")
     check('Every symbol draws at all 3 levels, every wordmark and home look draws', not r, r[:5])
-    for tab,cnt in [('Logos',52),('Wordmarks',20),('Home Pages',21)]:
+    for tab,cnt in [('Logos',72),('Wordmarks',30),('Home Pages',24)]:
         pg.click('.lab-tab:has-text("%s")'%tab); pg.wait_for_timeout(700)
-        k=pg.evaluate("[document.querySelectorAll('.br-card').length, document.querySelectorAll('.br-ref .br-card').length, document.querySelector('.br-ref').open]"); check('Lab tab %s shows %d cards, first round folded away below'%(tab,cnt), k[0]==cnt and k[1]>0 and not k[2], k)
-    pg.evaluate("document.querySelector('.br-card[data-id=knot_frame] .br-pick').click()"); pg.wait_for_timeout(200)
-    pk=pg.evaluate("JSON.stringify(LabApp.picks['homes-knot_frame'])"); check('☆ Pick saves under homes-<id>', '"verdict":"pick"' in pk, pk)
-    pg.evaluate("document.querySelector('.br-card[data-id=knot_frame] .br-full').click()"); pg.wait_for_timeout(400)
+        k=pg.evaluate("[document.querySelectorAll('.br-card').length, document.querySelectorAll('.br-ref .br-card').length, document.querySelector('.br-ref').open]"); check('Lab tab %s shows %d cards (each design once), earlier rounds folded away below'%(tab,cnt), k[0]==cnt and k[1]>0 and not k[2] and pg.evaluate("new Set([...document.querySelectorAll('.br-card')].map(a=>a.dataset.id)).size")==cnt, k)
+    pg.evaluate("document.querySelector('.br-card[data-id=veil_b] .br-pick').click()"); pg.wait_for_timeout(200)
+    pk=pg.evaluate("JSON.stringify(LabApp.picks['homes-veil_b'])"); check('☆ Pick saves under homes-<id>', '"verdict":"pick"' in pk, pk)
+    pg.evaluate("document.querySelector('.br-card[data-id=veil_b] .br-full').click()"); pg.wait_for_timeout(400)
     fs=pg.evaluate("!!document.getElementById('br-fs')"); pg.evaluate("document.getElementById('br-fs').click()"); pg.wait_for_timeout(100)
     check('⛶ opens full-screen and a click closes it', fs and not pg.evaluate("!!document.getElementById('br-fs')"))
     check('No JS errors (Lab)', not errs, errs[:3]); b.close()

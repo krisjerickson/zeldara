@@ -120,6 +120,23 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
     - Logos: the 8 picks × 3 complexity levels (elaborate / ornate / fractal) + 8 new ones mixing the picks and adding a Norse dragon ring. About 32 cards, all teal.
     - Wordmarks: iterate on engraved + highland, more elaborate, with a war axe, all gold. Count not asked; plan about 10.
     - Home pages: 6 combined variants. All share top aurora + glowing side rune columns + teal rune frame + knotwork borders on the buttons, with a wordmark-style font. They differ in border style, background pattern and how much moves.
+- **Round 12 (Kris, Oct 2): third brand pass + boss HP ×2 + waystone travel bug. Built Oct 2 — changelog [200]–[204], game v19, Lab v20. Waiting for Kris: pick a logo, a Ringed Z typeface and a World Tree Veil version in the Lab; confirm waystone travel now works in real play.**
+  - Kris's message:
+    1. Logos: not there yet. Keep the ones he picked as a **2nd tier** (used in different places). Make **20 more**, based on the 9 images and on elements of the picks. Denser and more elaborate is fine. **No fractal route.**
+    2. Wordmarks: **winner = Ringed Z** (`ring_z`). The font may change: show it in **10 different, unique fonts**.
+    3. Home page: pick is good (**World Tree Veil**, `tree_veil`); iterate after 1 and 2.
+    4. **Boss hit points ×2.**
+    5. **Waystones:** only the first one works; travelling to another leaves you in the same place.
+  - Lab picks read Oct 2 (second pass): logos `crossed_axes` ("this is the best one so far"), `blade_b`, `way_b`, `tree_c`; wordmark `ring_z`; home `tree_veil`. First-pass picks unchanged.
+  - Waystone finding (before any fix): travel itself works in tests. At some waystones [Tab] does not open the travel map because a fairy hovering there takes the key press (the fairy wins when you stand closer to it than to the stone; you arrive 2 tiles below the stone). Seen at Amphitheatre, Lantern Lilies, Wisp Cattails.
+  - **Questions asked Oct 2 (question card):**
+    1. Boss HP ×2 — which fights? (bosses only / also elites and guardians)
+    2. Waystones — what do you see when it fails? (fairy talks or nothing opens / map opens but clicking does nothing / other)
+    3. Logos — how to split the 20? (one per image + rest built on Crossed Axes and picks / mostly image-based / mostly Crossed Axes variations). Note: we draw our own version of each image's layout and motifs; we don't trace someone's artwork.
+  - **Answers (Oct 2):**
+    1. Boss HP ×2: **all bosses** (dungeon, tower, castle, mage tower, island, volcano). Elites and familiar guardians stay as they are.
+    2. Waystones: Kris's words — "the travel map opens, but when you teleport, you don't actually move to a different place. but also fix the fairy issue". So two fixes: the teleport itself, and the fairy taking [Tab].
+    3. Logos: **9 + 11** — one per picture (our own drawing of its layout and motifs), plus 11 building on Crossed Axes and the other picks, denser. No fractals.
 ## Why questions got asked twice (diagnosed Sept 30)
 - Transcript evidence: the question card went out at 14:55. No answer ever reached the session. At 15:13 Kris's original message was delivered again (the app re-queued it after the session restarted or reconnected), and the fresh run asked the same questions again.
 - A question card is tied to the running session. If that session restarts or reconnects while the card is open (the connected services dropped and came back at the same moment), the answer has nowhere to go and is lost. A normal chat message is queued and survives a restart.
@@ -130,7 +147,7 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
   4. For long question sets, prefer the Lab (answers are saved in its database) or a plain chat message.
 
 ## Open questions
-- None. (Round 11 is built; Kris reviews it in the Lab. After his picks: build the Next.js home page.)
+- None open. Waiting on Kris's Lab picks (round 12) and his check of waystone travel.
 
 ## Fixed decisions (already made by Kris)
 - **Keep the AI-painted hero sprite.** All NPCs, monsters, animals and familiars are redrawn to match it (track E).

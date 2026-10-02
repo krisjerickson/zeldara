@@ -287,7 +287,7 @@ function _wmRenderSide(ws){
       var list=allW.filter(function(w){return w.region===r&&act.indexOf(w.id)>=0;}); if(!list.length)return;
       h+='<h4>'+(r===0?'Village':WM_REGION_NAMES[r])+'</h4>';
       list.forEach(function(w){ var here=w.id===from.id, c=_wmCost(ws,from,w), poor=c>ps.gold;
-        h+='<button class="wm-ws'+(here?' here':'')+'" data-ws="'+w.id+'"'+(here||poor?' disabled':'')+'><b>'+(w.island?'🏝 ':'')+w.name.replace(' Waystone','')+'</b>'+(here?'<em class="free">you are here</em>':c?'<em>'+c+'g</em>':'<em class="free">free</em>')+'</button>'; });
+        h+='<button class="wm-ws'+(here?' here':'')+'" data-ws="'+w.id+'"'+(here?' disabled':'')+(poor?' data-poor="1" style="opacity:.6"':'')+'><b>'+(w.island?'🏝 ':'')+w.name.replace(' Waystone','')+'</b>'+(here?'<em class="free">you are here</em>':c?'<em'+(poor?' style="color:#ff7a6a"':'')+'>'+(poor?'need ':'')+c+'g</em>':'<em class="free">free</em>')+'</button>'; });
     });
     var locked=allW.length-allW.filter(function(w){ return act.indexOf(w.id)>=0; }).length;
     if(locked>0)h+='<div class="wm-note">'+locked+' more waystone'+(locked>1?'s':'')+' to find. Touch one with [Tab] to add it to the network.</div>';

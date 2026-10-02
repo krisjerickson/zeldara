@@ -137,7 +137,7 @@ Object.assign(WorldScene.prototype,{
     if(!from||!to||from.id===to.id)return;
     if((ps.activatedWaystones||[]).indexOf(to.id)<0){ showNotif('That waystone is not active yet','#ff8866'); return; }
     var cost=_wmCost(ws,from,to);
-    if(cost>ps.gold){ showNotif('Not enough gold — '+cost+'g needed','#ff4444'); return; }
+    if(cost>ps.gold){ showNotif('Not enough gold to travel there — '+cost+'g needed, you have '+ps.gold+'g','#ff4444'); return; }
     ps.gold-=cost; closeModal('map');
     var onIsland=here&&here.islKey;
     if(onIsland){ if(to.island===here.islKey)return;
@@ -148,15 +148,18 @@ Object.assign(WorldScene.prototype,{
     this._cancelHomeCast(false); this._arriveAtWaystone(to,cost);
   },
   _arriveAtWaystone(to,cost){
-    var x=to.x*TILE+TILE/2, y=(to.y+2)*TILE+TILE/2, self=this;
-    this.cameras.main.fadeOut(220,120,230,255);
-    this.cameras.main.once('camerafadeoutcomplete',function(){
-      self.player.x=x; self.player.y=y; self.player.cont.setPosition(x,y);
-      self.cameras.main.centerOn(x,y); self._updateChunks(); self.worldIFrames=1.5;
-      self.cameras.main.fadeIn(320,120,230,255);
-      if(cost!==undefined)showNotif('🔷 Travelled to '+to.name+(cost?' (−'+cost+'g)':''),'#6fe3f5');
-      self._emitUI(); self._save();
-    });
+    // Move first, then fade in. (Round 12: the move used to wait for a camera fade-out to finish; if that
+    // fade never started or never finished — another camera effect running, the scene paused by the map —
+    // you stayed where you were.)
+    var x=to.x*TILE+TILE/2, y=(to.y+2)*TILE+TILE/2, cam=this.cameras.main;
+    if(this._canGo&&!this._canGo(x,y,this.playerState.mount)){ var alt=[[0,1],[1,1],[-1,1],[1,0],[-1,0],[0,3],[0,-1]]; for(var k=0;k<alt.length;k++){ var ax=(to.x+alt[k][0])*TILE+TILE/2, ay=(to.y+alt[k][1])*TILE+TILE/2; if(this._canGo(ax,ay,this.playerState.mount)){ x=ax; y=ay; break; } } }
+    if(this._interactPrompt){ this._interactPrompt.destroy(); this._interactPrompt=null; }
+    this.player.x=x; this.player.y=y; this.player.cont.setPosition(x,y);
+    cam.centerOn(x,y); try{ this._updateChunks(); }catch(e){ console.error('chunks after travel',e); }
+    this.worldIFrames=1.5;
+    try{ cam.fadeEffect.reset(); cam.fadeEffect.start(false,360,120,230,255,true); }catch(e){}
+    if(cost!==undefined)showNotif('🔷 Travelled to '+to.name+(cost?' (−'+cost+'g)':''),'#6fe3f5');
+    this._emitUI(); this._save();
   },
   // take the ferry to a harbor island (from its harbor, or a waystone jump)
   _sailTo(key,arrive){

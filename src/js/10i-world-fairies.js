@@ -101,7 +101,8 @@ Object.assign(WorldScene.prototype,{
     this._fairies.forEach(function(x){ if(!x.spr)return; var d=Math.hypot(px-x.cx,py-(x.cy+18)); if(d<bd){bd=d;f=x;} });
     var K=null; (this._kings||[]).forEach(function(k){ if(k.spr&&Math.hypot(px-k.x,py-k.y)<TILE*3)K=k; });
     // the waystone wins when you are closer to it than to the fairy (so [Tab] still activates / travels)
-    if(f&&this._nearWaystone){ var w=this._nearWaystone(); if(w&&Math.hypot(px-(w.x*TILE+16),py-(w.y*TILE+16))<bd)f=null; }
+    if(this._nearWaystone){ var w=this._nearWaystone(), wdist=w?Math.hypot(px-(w.x*TILE+16),py-(w.y*TILE+16)):1e9; if(w&&f&&wdist<bd+TILE*1.5)f=null;   // round 12: at a waystone [Tab] is the waystone's unless the fairy is clearly closer
+      if(w&&!f&&K&&wdist<TILE*2.2)K=null; }
     var tgt=f||K; if(!tgt){ if(this._interactPrompt&&this._interactPrompt._fairy){ this._interactPrompt.destroy(); this._interactPrompt=null; } return false; }
     var id=tgt.id; if(!this._interactPrompt||this._interactPrompt._fairy!==id){ if(this._interactPrompt)this._interactPrompt.destroy(); this._interactPrompt=domText(this,tgt.x,tgt.y-(K&&!f?130:52),'[Tab] Talk to '+(f?f.name:K.name),{fontSize:'10px',color:'#ffe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); this._interactPrompt._fairy=id; }
     if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(f)this._talkFairy(f); else this._talkKing(K); }

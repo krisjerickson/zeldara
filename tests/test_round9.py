@@ -51,7 +51,7 @@ with game() as g:
       return {k:k,sum:k.reduce(function(a,b){return a+b;},0),solo:solo,second:second}; })()""")
     check('Familiars: slot 1 100%, slot 2 60%, slot 3 40%, slot 4 25% (all four ≈ 2.25× one)', f['k']==[1,0.6,0.4,0.25] and abs(f['sum']-2.25)<0.01 and abs(f['second']/f['solo']-0.6)<0.1, f)
     hp=g.js("""(()=>{ var S={}; return {gob:MDEFS.goblin_king.hp, sl:MDEFS.shadow_lord.hp, r8:MDEFS.goblin_king._r8hp, isl:MDEFS[_islandBossKey(1)].hp, isl0:HARBOR_ISLANDS[1].boss.hp, el:MDEFS[_bonusMiniBossKey(2)].hp }; })()""")
-    check('More boss health: guardians ×1.8 of the original, island guardians ×1.5, elites ×1.25', hp['r8'] and hp['isl']==round(hp['isl0']*1.5), hp)
+    check('More boss health: guardians ×1.8 of the original, island guardians ×1.5, elites ×1.25 (round 12 doubles the bosses again)', hp['r8'] and hp['isl']==round(hp['isl0']*1.5*2), hp)
     hud=g.js("(()=>{ var el=document.getElementById('fam-hud'); return el?el.innerHTML.indexOf('60%')>=0||el.innerHTML.indexOf('hits softer')>=0:null; })()")
     print('INFO familiar HUD shows the share:',hud)
     errs=[e for e in g.errs if 'GL Driver' not in e]

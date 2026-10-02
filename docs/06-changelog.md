@@ -397,6 +397,23 @@ Kris's feedback on round 10: iterate before final picks. Logos all light teal, m
 - **[199] Tests**: `tests/test_brand.py` now 10 checks (counts per round, colours, A/B/C coverage, more line detail than round 10, nothing clipped, tabs, pick, full-screen).
 - **Next (after Kris picks):** unchanged — Next.js home page at `/`, game at `/play`, matching in-game title, small logo in the game.
 
+## Round 12 (Kris, Oct 2) — third brand pass, boss health ×2, waystone travel
+- **[200] Boss health ×2** (`BOSS_HP_R12=2` in `07d-site-roster.js`): dungeon / tower guardians, castle wardens, mage masters, island bosses and volcano-rush bosses (the imp swarm stays). Elites and trials unchanged. Example: Goblin King 171 → 342, Shadow Lord 468 → 936.
+- **[201] Waystone travel** (`10b-world-travel.js`, `10i-world-fairies.js`, `21-ui.js`):
+  - Kris's report: the travel map opens, but after choosing a waystone you stay where you are.
+  - `_arriveAtWaystone` now moves you at once and then fades in. Before, the move waited for a camera fade-out to finish; if that fade never started or never finished you stayed put. I could not reproduce that exact failure in tests, so this removes the dependence rather than a proven cause.
+  - A fairy hovering at a waystone no longer takes [Tab]: at a waystone the stone wins unless the fairy is clearly closer (1.5 tiles). In tests this stopped the map opening at 3 of 17 waystones.
+  - Destinations you cannot afford stay clickable, show "need Ng" in red, and the message says how much gold you have.
+  - If the arrival tile is blocked, a free neighbouring tile is used.
+- **[202] Third brand pass** (`src/js/07zz-brand3.js`, `gen:3`):
+  - **20 logos**, teal, dense, no fractals. Nine after the nine pictures (`totem_tree`, `tree_gate`, `tree_ravens`, `dragon_rise`, `serpent_coil`, `tri_tree`, `sword_dragons`, `way_hammer`, `way_axes`) — our own drawings of each layout, nothing traced, no valknut. Eleven on Crossed Axes and the other picks (`axes_tree`, `axes_way`, `axes_blade`, `axes_dragons`, `axes_serpent`, `axes_crown`, `blade_tree`, `way_compass`, `shield_arms`, `winged_axe`, `axe_compass`).
+  - **`ZBrand.TIER2`**: the 12 logos Kris picked so far (Crossed Axes first), kept as second-tier marks.
+  - **Wordmark winner `ring_z`** in 10 typefaces (`ZBrand.RZ_FONTS`, ids `rz_*`): Uncial Antiqua, Metamorphous, Pirata One, Grenze Gotisch, Almendra SC, New Rocker, Caesar Dressing, Cormorant Unicase, MedievalSharp, Marcellus SC. `ZBrand.text(...,{norm:true})` draws every face at the same capital height.
+  - **Home page**: the pick `tree_veil` reworked as `veil_a` (as picked), `veil_b` (carved pillars), `veil_c` (knot frame). Button lettering follows the wordmark typeface and shrinks to fit.
+  - New blocks: raven head, sun ring, round shield, double-bitted axe, rounded-triangle band, dragon head on a path end. Shared helpers exposed as `ZBrand.K` and `ZBrand.H`.
+- **[203] Lab**: typefaces are embedded (`lab/src/js/52-lab-fonts.js`, latin subsets, SIL OFL, from `@fontsource`) so they always render. Brand tabs show the third pass first, then the second tier; earlier rounds are folded away. Each design appears once.
+- **[204] Tests**: `tests/test_round12.py` (7 checks: boss HP, all 17 waystones in a row, back-to-back travel, fairy vs stone, low gold). `tests/test_brand.py` now 12 checks.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

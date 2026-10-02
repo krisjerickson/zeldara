@@ -17,7 +17,7 @@ var MageRun={
   done:function(ps,key){ return (ps.mageDone||[]).indexOf(key)>=0; },
   site:function(M){ return {id:'mage_'+M.key,type:'tower',section:M.q,design:_mageBg(M),mage:M.key,name:M.name,floors:M.floors}; },
   spawnBoss:function(scene,M,x,y,mult){ var base=MDEFS[CASTLE_TOWER_BOSS[M.q-1]]; if(!base)return null; mult=mult||1;
-    var st={hp:Math.round(base.hp*1.25*1.5*mult),atk:Math.round(base.atk*0.85*mult),def:Math.round((base.def||0)*mult),lv:base.lvMax||base.lvMin||5,xp:Math.round(base.xp*0.7),gMin:base.gMin,gMax:base.gMax,r:Math.max(16,base.r)};
+    var st={hp:Math.round(base.hp*1.25*1.5*BOSS_HP_R12*mult),atk:Math.round(base.atk*0.85*mult),def:Math.round((base.def||0)*mult),lv:base.lvMax||base.lvMin||5,xp:Math.round(base.xp*0.7),gMin:base.gMin,gMax:base.gMax,r:Math.max(16,base.r)};
     var mon=MX.spawn(scene,M.rid,x,y,{q:M.q,stats:st,scale:2.1/MX.scaleOf(MON_BY_ID[M.rid])});
     if(!mon)return null; mon.isBoss=true; mon.mageBoss=true; mon._m.aggro=false; mon.bossKey='mg_'+M.key; scene.monsters.push(mon);
     scene._bossGroup=[mon]; scene._bossKey='mg_'+M.key; scene._bossPhase=1; scene._bpEv=[]; BossPhases.hud(scene,true);

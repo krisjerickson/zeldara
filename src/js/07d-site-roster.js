@@ -86,10 +86,12 @@ function _bonusMiniBossKey(sec){
   return key;
 }
 // Island guardians live in the island's dungeon now (the familiar comes from them).
+// round 12 (Kris): every boss has twice the health (elites and trials unchanged)
+var BOSS_HP_R12=2;
 function _islandBossKey(sec){
   var key='isl_boss_'+sec; if(MDEFS[key])return key;
   var isl=(typeof HARBOR_ISLANDS!=='undefined')&&HARBOR_ISLANDS[sec]; if(!isl||!isl.boss)return null; var b=isl.boss;
-  MDEFS[key]={ name:b.name, icon:b.icon, hp:Math.round(b.hp*1.5),   // round 9: +50%
+  MDEFS[key]={ name:b.name, icon:b.icon, hp:Math.round(b.hp*1.5*BOSS_HP_R12),   // round 9: +50%, round 12: ×2
     atk:b.atk, def:b.def||0, xp:Math.round(b.hp*1.6), gMin:30*sec, gMax:45*sec, sec:sec,
     color:b.col||0x884422, r:b.r||18, spd:b.spd||40, moveType:b.moveType||'normal', atkType:b.atkType||'melee', boss:true };
   if(typeof BA!=='undefined'&&BA.of('boss_isl_'+sec))MDEFS[key].name=BA.of('boss_isl_'+sec).name;   // painted guardian (07zz) names it

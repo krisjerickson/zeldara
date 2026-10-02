@@ -838,7 +838,7 @@ class VolcanoBossRushScene extends Phaser.Scene {
       var hpFill=self.add.rectangle(-b.r*1.1,-tr-12,b.r*2.2,5,0xff3333).setOrigin(0,.5);
       var nameT=self.add.text(0,-tr-22,b.name,{fontSize:'10px',color:'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
       cont.add([body,icon,hpBg,hpFill,nameT]);
-      var bhp=b.wave==='swarm'?b.hp:Math.round(b.hp*1.5);   // round 9: bosses +50% (the imp swarm stays)
+      var bhp=b.wave==='swarm'?b.hp:Math.round(b.hp*1.5*BOSS_HP_R12);   // round 9: bosses +50%, round 12: ×2 (the imp swarm stays)
       return {cont:cont,body:body,hpFill:hpFill,def:b,hp:bhp,maxHp:bhp,x:x,y:y,atkTimer:1.5,isBoss:true,dead:false};
     }
     this.monsters=[];
