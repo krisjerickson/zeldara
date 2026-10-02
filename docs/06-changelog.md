@@ -384,6 +384,19 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
 - **[196] Tests**: `tests/test_brand.py` (8 checks). Commit 8234fa4.
 - **Next (after Kris picks):** build the Next.js home page at `/` with the chosen look, logo and wordmark; move the game to `/play`; restyle the in-game title to match; use the small logo in the game.
 
+## Round 11 (Kris, Oct 2) — brand, second pass (Lab review)
+Kris's feedback on round 10: iterate before final picks. Logos all light teal, more elaborate, several complexity levels incl. fractal. Wordmarks all gold, more elaborate, with a war axe. Home pages combine his three picks, with knotwork borders on the buttons and the wordmark font. Nine inspiration images (Norse / Celtic knotwork) used as style reference only.
+- **[197] `src/js/07zz-brand2.js`** (loads after `07zz-brand.js`; round-10 designs get `gen:1`, new ones `gen:2`):
+  - New drawing blocks on `ZBrand.P`: `braid` (two-strand knot band with over/under), `rail`, `meander` (key border), `band` (runes along a path), `ftree` (fractal tree), `dragon` (ribbon-dragon head), `axe` (bearded war axe), `triq`. Path helpers `ZBrand.ring`, `ZBrand.arc`, `ZBrand.seg`.
+  - Each finish pass is drawn on its own layer (`ZBrand._raw` for gen 2, `ZBrand.passes`), so erasing for over/under knots works with multi-pass finishes.
+  - **32 logos, all teal (`ZBrand.TEAL` #63f2dc):** the 8 picks × A elaborate / B knotwork / C fractal (`tree_`, `compass_`, `spirits_`, `peaks_`, `knot_`, `triq_`, `way_`, `blade_` + `a|b|c`), plus 8 new: `serpent_ring`, `tree_triquetra`, `twin_dragons`, `crossed_axes`, `rune_pillar`, `realm_tree`, `knot_dragon`, `realm_hammer`. Medium / small sizes reuse the simple round-10 shape.
+  - **10 wordmarks, all gold (`ZBrand.GOLD` #f2c14e, gradient fill):** `axe_crest`, `axe_l`, `great_axe`, `twin_axes`, `dragon_rule`, `key_bands`, `knot_plaque`, `tree_axes`, `arc_crest`, `ring_z`. Lettering via `ZBrand.text` (Cinzel Decorative / Cinzel / Marcellus SC).
+  - **6 home pages:** `crown_columns`, `knot_frame`, `meander_gate`, `tree_veil`, `serpent_ring`, `quiet_runes`. All share the top aurora, glowing side rune columns, teal runes, knot / key / line borders on the two buttons and Cinzel button lettering. The carved parts are cached per size; buttons shrink to fit narrower screens.
+  - `peaks_c` uses fractal ridge lines, not a triangle made of triangles (too close to another game's emblem). No valknut anywhere.
+- **[198] Lab**: the three brand tabs show the second pass first (logos grouped by pick); round-10 designs sit in a collapsed "First round" section with their picks still marked. Home previews use the picked second-pass logo / wordmark (samples: `tree_b`, `twin_axes`). Cinzel added to the Lab fonts.
+- **[199] Tests**: `tests/test_brand.py` now 10 checks (counts per round, colours, A/B/C coverage, more line detail than round 10, nothing clipped, tabs, pick, full-screen).
+- **Next (after Kris picks):** unchanged — Next.js home page at `/`, game at `/play`, matching in-game title, small logo in the game.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

@@ -47,7 +47,7 @@ var ZBrand={ cache:{},
   _raw:function(c,S,L,style){ var passes=ZBrand.STYLES[style||S.style]||ZBrand.STYLES.bevel; c.lineJoin='round'; c.lineCap='round';
     passes.forEach(function(p){ var col=p[0]>=0?ZBrand.mix(S.col,'#ffffff',p[0]):ZBrand.mix(S.col,'#000000',-p[0]); c.save(); c.translate(p[2],p[3]); c.strokeStyle=col; c.fillStyle=col; var P=ZBrand.P(c,L,p[1]); P.w(1); S.draw(P,L); c.restore(); }); },
   // cached layers: the symbol itself + its glow
-  layers:function(S,R,L){ var k=S.id+'_'+Math.round(R)+'_'+L, o=ZBrand.cache[k]; if(o)return o; var pad=R*0.45, sz=(R+pad)*2, main=ZBrand.mk(sz,sz), c=main.getContext('2d');
+  layers:function(S,R,L){ var k=S.id+'_'+Math.round(R)+'_'+L, o=ZBrand.cache[k]; if(o)return o; var pad=R*(S.gen===2?0.85:0.45), sz=(R+pad)*2, main=ZBrand.mk(sz,sz), c=main.getContext('2d');
     c.translate(sz/2,sz/2); c.scale(R,R);
     if(S.style==='carved'){ c.save(); c.fillStyle='#0b0f16'; c.strokeStyle=ZBrand.mix(S.col,'#000000',0.55); c.lineWidth=0.03; c.beginPath(); c.arc(0,0,1.06,0,Math.PI*2); c.fill(); c.stroke(); c.restore(); }
     ZBrand._raw(c,S,L);

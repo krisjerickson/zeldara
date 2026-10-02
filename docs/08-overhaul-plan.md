@@ -97,6 +97,29 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Design Lab: https://claude.ai/artifact/MnYcjcTXfpWm4YuiErDLHd — picks in DB collection `picks`.
 - Playable build: https://claude.ai/artifact/7p3eXrHtD4iLbm6MLbg4jz
 
+- **Round 11 (Kris, Oct 2): redo logos, wordmarks and home pages before final picks. Built Oct 2 — changelog [197]–[199], Lab v19. Waiting for Kris's picks in the Lab (Logos / Wordmarks / Home Pages tabs, second pass at the top).**
+  - Kris's Lab picks:
+    - Logos: compass, four_spirits, realm_peak, shield_knot, triquetra, wayfinder, winged_blade, world_tree.
+    - Wordmarks: engraved, highland.
+    - Home pages: northern_crown, rune_columns ("glowing runes on the sides"), rune_frame ("the teal runes").
+  - Feedback:
+    1. Logos: iterate on the picked ones. More elaborate, more features; try fractal-like and other complexity; offer several complexity levels. **All logos light glowing teal.**
+    2. Wordmarks: iterate on the picked ones, more elaborate; work in an amazing war axe. **All wordmarks gold.**
+    3. Inspiration links (Norse tattoo / Jörmungandr dragon knotwork). Claude could not open the 2 it tried: one is blocked by the site, the other is an image file the fetch tool can't read.
+    4. Home page: combine the 3 picked looks. Add runic/background designs, e.g. a knotwork tile border (from the dragon image) around the New Game / Returning Player buttons. Use a font like the wordmarks'.
+  - **Answers (Oct 2):**
+    - Images: received Oct 2 (9 attached). What they show, as style reference only (nothing copied):
+      - Fractal world trees inside rune rings.
+      - Angular meander / key borders, and pillars with spear tips.
+      - Braided knotwork rings.
+      - A knot-winged dragon and a knot-bodied serpent.
+      - A triquetra over a tree in a rune-band frame.
+      - Stave compasses in rune rings guarded by twin dragon heads.
+      - Crossed war axes, and hammer shapes with knot fill.
+      - One image contains a valknut; we do not use that symbol.
+    - Logos: the 8 picks × 3 complexity levels (elaborate / ornate / fractal) + 8 new ones mixing the picks and adding a Norse dragon ring. About 32 cards, all teal.
+    - Wordmarks: iterate on engraved + highland, more elaborate, with a war axe, all gold. Count not asked; plan about 10.
+    - Home pages: 6 combined variants. All share top aurora + glowing side rune columns + teal rune frame + knotwork borders on the buttons, with a wordmark-style font. They differ in border style, background pattern and how much moves.
 ## Why questions got asked twice (diagnosed Sept 30)
 - Transcript evidence: the question card went out at 14:55. No answer ever reached the session. At 15:13 Kris's original message was delivered again (the app re-queued it after the session restarted or reconnected), and the fresh run asked the same questions again.
 - A question card is tied to the running session. If that session restarts or reconnects while the card is open (the connected services dropped and came back at the same moment), the answer has nowhere to go and is lost. A normal chat message is queued and survives a restart.
@@ -107,7 +130,7 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
   4. For long question sets, prefer the Lab (answers are saved in its database) or a plain chat message.
 
 ## Open questions
-- (none)
+- None. (Round 11 is built; Kris reviews it in the Lab. After his picks: build the Next.js home page.)
 
 ## Fixed decisions (already made by Kris)
 - **Keep the AI-painted hero sprite.** All NPCs, monsters, animals and familiars are redrawn to match it (track E).
