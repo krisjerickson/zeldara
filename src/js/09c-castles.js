@@ -36,6 +36,7 @@ var CastleRun={
   // learn a skill: it goes into the inventory and is equipped if the special slot is empty
   learn:function(ps,skill,quiet){ var it=ITEMS[skill]; if(!it)return false; if(!ps.skillsLearned)ps.skillsLearned=[]; if(!ps.inventory)ps.inventory=[]; if(!ps.equip)ps.equip={};
     var fresh=ps.skillsLearned.indexOf(skill)<0; if(fresh)ps.skillsLearned.push(skill);
+    if(fresh&&!quiet&&typeof ZLogo!=='undefined')ZLogo.banner('blade_b','New skill',it.name||'',3000);
     if(ps.inventory.indexOf(skill)<0&&ps.equip.special!==skill)ps.inventory.push(skill);
     var eq=false; if(!ps.equip.special){ ps.equip.special=skill; var ix=ps.inventory.indexOf(skill); if(ix>=0)ps.inventory.splice(ix,1); eq=true; }
     if(!quiet)showNotif('🎓 Learned '+it.icon+' '+it.name+'!'+(eq?' Equipped — press Z to use it.':' Equip it in the Special slot.'),'#ffe9a8');

@@ -429,6 +429,25 @@ Kris's picks: logo `tree_c` (World Tree), wordmark `ring_z` in Cinzel Decorative
 - **[211] Lab**: each brand tab leads with the final pick, then (Logos) the second tier; everything else is folded away.
 - **[212] Tests**: `tests/test_site_home.py` (11 checks, serves `dist/`: home page paint, links, handoff into the game, phone layout, Lab). `tests/test_brand.py` 13 checks.
 
+## Round 14 (Kris, Oct 2) — logos and the wordmark typeface throughout the game; projectile options
+- **[213] Typeface on titles and labels** (Kris: titles and labels only; small body text stays plain):
+  - `src/styles.css`: `--zf-title` (Cinzel Decorative) for window headers, zone / camp banners, the dungeon title, the player dialog title and boss names; `--zf-head` (Cinzel) for section headings; `--zf-label` (Marcellus SC) for buttons, tabs, item / mount / quest names, the region name, world labels and prompts.
+  - `src/js/04e-brand-text.js`: text drawn by Phaser that asked for 'Segoe UI' now gets Cinzel (bold or 14 px and up) or Marcellus SC (smaller). `ZFONT`.
+  - Messages, descriptions, dialogue and tooltips are unchanged.
+- **[214] Main logo in the plaza floor**: the village green's rune circle (`runecircle` with `logo:true`, `07f-world-engine.js` / `07l-village-runic.js`) is now the World Tree logo as a floor inlay — dark flagstones, glowing teal lines — where a new game begins.
+- **[215] Logos at work** (`src/js/22b-brand-ui.js`, `ZLogo`):
+  - `way_b`: travel-map header, a glowing mark and banner when a waystone awakens, a mark on arrival.
+  - `way_compass`: compass rose on the world map, and the map header.
+  - `crossed_axes`: boss title cards, the Victory banner, forge / armoury windows, the dungeon title.
+  - `axes_serpent`: emblem beside the boss health bar, the Volcano quest line.
+  - `axes_tree`: the player / save-slot dialog, Guild and Quest Journal windows.
+  - `blade_b`: Level-up, new-skill and new-spell banners.
+  - `serpent_coil`: the "You fell" banner, harbour / ferry / trader windows, the Setting-sail banner.
+  - Main logo: Tome, Inventory, Mounts and Controls window headers (besides title, loading screen, tab icon).
+  - `ZLogo.url(id,px)`, `ZLogo.banner(id,title,sub)`, `ZLogo.flash(scene,id,x,y)`; window emblems are chosen from the window title (`ZLogo.forTitle`).
+- **[216] Projectile options for review** (`src/js/07zx-projectiles.js`, `ZProj`; Lab tab **Projectiles**, `lab/src/js/54-lab-proj.js`): 6 looks for arrows and darts (normal, cold, fire, seeking), 5 for spells, 4 for monster shots. Picks are saved as `proj-<id>`. **The game still draws shots as coloured dots until Kris picks.**
+- **[217] Tests**: `tests/test_round14.py` (10 checks).
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

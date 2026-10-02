@@ -190,6 +190,7 @@ function _heroDied(scene){
   if(key==='World'){ ws._worldPlayerDied(); return; }
   var area=(key==='Dungeon'&&scene.siteType==='tower')?'the tower':(_HERO_AREA_NAMES[key]||'battle');
   showNotif('💀 You fell in '+area+'…','#ff5544');
+  if(typeof ZLogo!=='undefined')ZLogo.banner('serpent_coil','You fell','You wake in the village',3000);
   var finish=function(){
     document.getElementById('dungeon-hud').style.display='none';
     document.getElementById('hud').style.display='';

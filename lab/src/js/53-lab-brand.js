@@ -12,7 +12,7 @@
 // ║ notes; picks are saved as 'logos-<id>', 'words-<id>', 'homes-<id>'.
 // ║ ⛶ opens a design full-screen (click anywhere to close).
 // ═══════════════════════════════════════════════════════════════════════
-var LBR={ vis:new Set(),
+var LBR={ vis:new Set(), TABS:['logos','words','homes'], drawers:{},
   picked:function(tab,id){ var p=LabApp.picks[tab+'-'+id]; return !!(p&&p.verdict==='pick'); },
   firstPick:function(tab,list,dflt,gen){ var d=list.find(function(x){ return (!gen||x.gen===gen)&&LBR.picked(tab,x.id); }); return d?d.id:dflt; },
   g:function(list,gen){ return list.filter(function(x){ return x.gen===gen; }); },
@@ -24,6 +24,7 @@ var LBR={ vis:new Set(),
       '<div class="br-act"><button class="vbtn br-pick" aria-pressed="'+on+'">'+(on?'★ Picked':'☆ Pick')+'</button><button class="vbtn br-full" title="See it full-screen">⛶ Full screen</button></div>'+
       '<textarea class="mn-notes br-notes" rows="1" placeholder="Notes (colour, mix with another, changes)…">'+(p.notes||'').replace(/</g,'&lt;')+'</textarea></div></article>'; },
   draw:function(cv,t,full){ var tab=cv.dataset.tab, id=cv.dataset.id, c=cv.getContext('2d'), W=cv.width, H=cv.height; c.setTransform(1,0,0,1,0,0);
+    if(LBR.drawers[tab])return LBR.drawers[tab](cv,c,W,H,t,full,id);
     if(tab==='homes'){ var cfg=ZBrand.HOMES.find(function(h){ return h.id===id; });
       if(cfg.gen>=3)ZBrand.home(c,cfg,W,H,t,{sym:ZBrand.LOGO,word:ZBrand.WORDMARK});
       else if(cfg.gen===2)ZBrand.home(c,cfg,W,H,t,{sym:LBR.firstPick('logos',ZBrand.SYMBOLS,'tree_b',2),word:LBR.firstPick('words',ZBrand.WORDS,'twin_axes',2)});
@@ -40,7 +41,7 @@ var LBR={ vis:new Set(),
       c.strokeStyle='#22364e'; c.fillStyle='#0a1020'; c.fillRect(322,224,220,44); c.strokeRect(322.5,224.5,220,44); ZBrand.symbol(c,S,346,246,13,1,t); c.fillStyle='#cfe0f4'; c.font='13px "Segoe UI",sans-serif'; c.textAlign='left'; c.fillText('Waystone activated',368,250); }
     else { var D=ZBrand.wordById(id); if(full){ ZBrand.word(c,D,W/2,H/2,D.gen>=2?Math.min(W/13,H/6):Math.min(W/9,H/4),t); return; }
       if(D.gen>=2){ ZBrand.word(c,D,W/2,150,48,t); ZBrand.word(c,D,W*0.3,330,15,t); ZBrand.word(c,D,W*0.75,330,9,t); return; } ZBrand.word(c,D,W/2,H*(D.stack?0.4:0.38),D.stack?64:46,t); ZBrand.word(c,D,W*0.3,H*0.84,D.stack?26:15,t); ZBrand.word(c,D,W*0.74,H*0.84,D.stack?18:9,t); } },
-  loop:function(){ if(LBR._raf)return; var last=0, tick=function(ts){ LBR._raf=null; if(['logos','words','homes'].indexOf(LabApp.tab)<0&&!LBR.fs)return; if(ts-last>33){ last=ts; var t=ts/1000;
+  loop:function(){ if(LBR._raf)return; var last=0, tick=function(ts){ LBR._raf=null; if(LBR.TABS.indexOf(LabApp.tab)<0&&!LBR.fs)return; if(ts-last>33){ last=ts; var t=ts/1000;
         if(LBR.fs)LBR.draw(LBR.fs,t,true); else LBR.vis.forEach(function(cv){ if(cv.isConnected)LBR.draw(cv,t); }); }
       LBR._raf=requestAnimationFrame(tick); }; LBR._raf=requestAnimationFrame(tick); },
   bind:function(){ if(LBR._io)LBR._io.disconnect(); LBR.vis.clear(); LBR._io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting)LBR.vis.add(e.target); else LBR.vis.delete(e.target); }); },{rootMargin:'120px'});
@@ -74,7 +75,7 @@ LAB_TABS.push({ id:'homes', name:'Home Pages', blurb:'<b>The home page is chosen
     LBR.ref('Second pass — the 6 combined home pages (reference)','<div class="br-grid br-wide">'+LBR.g(ZBrand.HOMES,2).map(function(S,i){ return LBR.card('homes',S,i,800,450,''); }).join('')+'</div>')+
     LBR.ref('First round — the 15 earliest home pages (reference)','<div class="br-grid br-wide">'+LBR.g(ZBrand.HOMES,1).map(function(S,i){ return LBR.card('homes',S,i,640,360,''); }).join('')+'</div>'); } });
 (function(){ var orig=LabApp.renderGrid;
-  LabApp.renderGrid=function(quiet){ if(['logos','words','homes'].indexOf(this.tab)>=0&&quiet&&document.querySelector('.br-card')){ LBR.refresh(); this.renderTabs(); return; } return orig.call(this,quiet); };
+  LabApp.renderGrid=function(quiet){ if(LBR.TABS.indexOf(this.tab)>=0&&quiet&&document.querySelector('.br-card')){ LBR.refresh(); this.renderTabs(); return; } return orig.call(this,quiet); };
   document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('.br-card'); if(!a)return; var k=a.dataset.tab+'-'+a.dataset.id;
     if(e.target.closest('.br-pick')){ var p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=p.verdict==='pick'?null:'pick'; p.regions=[]; LabApp.persist(k); LBR.refresh(); LabApp.renderTabs(); }
     else if(e.target.closest('.br-full')||e.target.closest('.br-cv')){ LBR.full(a.dataset.tab,a.dataset.id,a.querySelector('.br-cv').dataset.i); } });

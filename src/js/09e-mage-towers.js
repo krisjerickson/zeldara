@@ -24,6 +24,7 @@ var MageRun={
     showNotif('🔮 '+M.bossName+', '+M.title+': '+M.skills.map(function(s){ return s.split(' — ')[0]; }).join(' · '),'#e0c0ff'); return mon; },
   learn:function(ps,tome,quiet){ var it=ITEMS[tome]; if(!it)return false; if(!ps.spellsLearned)ps.spellsLearned=[]; if(!ps.inventory)ps.inventory=[]; if(!ps.equip)ps.equip={};
     var fresh=ps.spellsLearned.indexOf(tome)<0; if(fresh)ps.spellsLearned.push(tome);
+    if(fresh&&!quiet&&typeof ZLogo!=='undefined')ZLogo.banner('blade_b','New spell',it.name||'',3000);
     if(ps.inventory.indexOf(tome)<0&&ps.equip.spell!==tome)ps.inventory.push(tome);
     var eq=false; if(!ps.equip.spell){ ps.equip.spell=tome; var ix=ps.inventory.indexOf(tome); if(ix>=0)ps.inventory.splice(ix,1); eq=true; }
     if(!quiet)showNotif('📖 Learned '+it.icon+' '+it.name+'!'+(eq?' Equipped — press X to cast it.':' Equip it in the Spell slot.'),'#e0c0ff');

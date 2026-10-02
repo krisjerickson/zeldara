@@ -535,3 +535,20 @@ body.bars-hidden #fam-hud{display:none !important}
 #boss-card .bc-s{font:italic 20px Georgia,serif;color:#e8dcc8;text-shadow:0 2px 6px #000}
 #boss-card .bc-l{font:13px 'Segoe UI',sans-serif;color:#c8c0b8;margin-top:8px;text-shadow:0 1px 4px #000;opacity:.9}
 @media (max-width:760px){ #boss-card .bc-n{font-size:30px} }
+
+/* ═══ Round 14: the wordmark's typeface family on titles and labels (Kris) ═══
+   Titles → Cinzel Decorative / Cinzel; names, buttons, tabs and world labels → Marcellus SC.
+   Small body text (descriptions, dialogue, tooltips, messages) stays in the plain face for reading.
+   The faces are embedded by src/js/07zy-brand-fonts.js. */
+:root{--zf-title:'Cinzel Decorative','Cinzel',Georgia,serif;--zf-head:'Cinzel','Marcellus SC',Georgia,serif;--zf-label:'Marcellus SC','Cinzel',Georgia,serif}
+.mhdr,#dng-title,#volcano-quest .vq-title,#zone-banner .zb-name,#camp-banner .cb-t,#zp-modal h2{font-family:var(--zf-title);font-weight:700;letter-spacing:.03em}
+.mhdr small,.mhdr span{font-family:var(--zf-label);font-weight:400}
+h2,h3,h4,.inv-section-title,.wep-section-title,.pd-ring-col-title,.qgrp-hdr,.fr-header,#boss-hud .bh-name,#tome-detail h3,.tome-sec h4,#wmap-side h4{font-family:var(--zf-head);font-weight:700;letter-spacing:.04em}
+button,.abtn,.abtn-sm,.forge-btn,.inv-tab-btn,.sl-tab,.sb-btn,.mr-btn,
+.rname,#zone-banner .zb-reg,#camp-banner .cb-s,.si-name,.ir-name,.fr-name,.ft-name,.mr-name,.pr-name,.pd-name2,.sl-name,.slot-label,.aib-lbl,.pd-label2,.sb-site-lbl,#sl-bar .lbl,
+#world-labels,#world-labels .wlbl,.dtx{font-family:var(--zf-label);letter-spacing:.03em}
+#world-labels .wlbl,.dtx{font-weight:400}
+.wm-ws b{font-family:var(--zf-label);font-weight:400;letter-spacing:.03em}
+#boss-card .bc-k{font-family:var(--zf-label)}
+#boss-card .bc-n{font-family:var(--zf-title)}
+#boss-card .bc-s{font-family:var(--zf-head)}

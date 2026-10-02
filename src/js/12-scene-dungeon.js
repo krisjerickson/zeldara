@@ -1386,6 +1386,7 @@ class DungeonScene extends Phaser.Scene{
         showNotif('⭐ Level '+ps.level+'! +'+atkGain+' ATK, +'+hpGain+' HP','#ffdd44');
       }
       this._floatText(this.px,this.py-50,'LEVEL UP!','#ffdd44');
+      if(typeof ZLogo!=='undefined')ZLogo.banner('blade_b','Level '+ps.level,'+'+atkGain+' attack · +'+hpGain+' health');
     }
   }
   _openChest(){

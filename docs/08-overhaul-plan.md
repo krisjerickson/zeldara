@@ -137,6 +137,21 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
     1. Boss HP ×2: **all bosses** (dungeon, tower, castle, mage tower, island, volcano). Elites and familiar guardians stay as they are.
     2. Waystones: Kris's words — "the travel map opens, but when you teleport, you don't actually move to a different place. but also fix the fairy issue". So two fixes: the teleport itself, and the fairy taking [Tab].
     3. Logos: **9 + 11** — one per picture (our own drawing of its layout and motifs), plus 11 building on Crossed Axes and the other picks, denser. No fractals.
+- **Round 14 (Kris, Oct 2): logos and wordmark typeface throughout the game. Built Oct 2 — changelog [213]–[217], game v21, Lab v22.**
+  - Kris's message: he likes the second-tier placements — **put all seven in**. Also:
+    1. The starting location at the beginning of the game should have the main logo incorporated.
+    2. Think of other places to use the logos, including the second-tier ones.
+    3. Any labelled building or other text in the game should be redone to match the Zeldara wordmark's typeface.
+    4. (The message ended at "4." with nothing after it.)
+  - **Questions asked Oct 2 (question card):**
+    1. What was item 4? (the message cut off)
+    2. Typeface scope: titles, labels and buttons only (small body text stays plain for reading), or every piece of text?
+    3. Main logo at the start: a glowing inlay in the village plaza floor where you begin, a banner / standing stone, or both?
+  - **Answers (Oct 2):**
+    1. No item 4 — ignore it.
+    2. Typeface: **titles and labels** — building and place names, zone banners, boss names, menu and window titles, buttons and HUD labels use the wordmark family; small body text (descriptions, dialogue, tooltips) stays plain.
+    3. Main logo at the start: **plaza floor inlay** — set into the village plaza floor where you begin, softly glowing teal.
+  - **Added mid-task (Kris, Oct 2):** "projectiles and arrows need to be redone so they look a little more realistic. come up with ideas and designs for these for me to select from in the lab." → a Lab tab with options to pick from; nothing changes in the game until he picks.
 ## Why questions got asked twice (diagnosed Sept 30)
 - Transcript evidence: the question card went out at 14:55. No answer ever reached the session. At 15:13 Kris's original message was delivered again (the app re-queued it after the session restarted or reconnected), and the fresh run asked the same questions again.
 - A question card is tied to the running session. If that session restarts or reconnects while the card is open (the connected services dropped and came back at the same moment), the answer has nowhere to go and is lost. A normal chat message is queued and survives a restart.
@@ -166,7 +181,7 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
   - `serpent_coil` Coiled Serpent → the death screen, and the harbour / ferry screens.
 
 ## Open questions
-- None open. Still waiting on Kris's check of waystone travel in real play.
+- None open. Waiting on Kris: (1) his picks in the Lab's **Projectiles** tab (then build them into the game), (2) his check of waystone travel in real play.
 
 ## Fixed decisions (already made by Kris)
 - **Keep the AI-painted hero sprite.** All NPCs, monsters, animals and familiars are redrawn to match it (track E).

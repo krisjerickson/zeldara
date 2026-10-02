@@ -2446,6 +2446,7 @@ class WorldScene extends Phaser.Scene{
       var capMsg=ps.level>=newCap?' — Level cap reached!':' (cap: '+newCap+')';
       showNotif('⭐ Level '+ps.level+'! +'+atkGain+' ATK, +'+hpGain+' HP'+capMsg,'#ffdd44');
       if(this.player)this._floatText(this.player.x,this.player.y-50,'LEVEL UP!','#ffdd44');
+      if(typeof ZLogo!=='undefined')ZLogo.banner('blade_b','Level '+ps.level,'+'+atkGain+' attack · +'+hpGain+' health');
     }
   }
 
