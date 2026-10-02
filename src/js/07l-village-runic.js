@@ -119,7 +119,7 @@ function villagePlan(stage,ok,water){
   VILLAGE_CORE.forEach(function(b){ for(var j=0;j<b.h;j++)for(var i=0;i<b.w;i++)setK(b.dx+i,b.dy+j,'vgrass'); for(var i2=0;i2<b.w;i2++)setK(b.dx+i2,b.dy+b.h,'vpave'); });
   plazas.forEach(function(p){ if(p.from>st)return; for(var j=0;j<p.h;j++)for(var i=0;i<p.w;i++)setK(p.x+i,p.y+j,'vplaza'); P('fountain',p.fx,p.fy,3,3,{rune:'#6fe3f5'},true); });
   // the runestone green: rune circle, standing stones, well; ley lines grow with the village
-  P('runecircle',-3,-3,7,7,{col:'#63f2dc',n:12,solid:false,logo:true});   // round 14: the Zeldara logo is set into the plaza floor where the game begins
+  P('runecircle',-3,-3,7,7,{col:'#63f2dc',n:12,solid:false,logo:true,grow:2.12});   // round 14: the Zeldara logo is set into the plaza floor where the game begins; round 15: as wide as the ring of standing stones (grow)
   var stones=[]; for(var k=0;k<8;k++){ var a=(k/8+1/16)*Math.PI*2, sx=Math.round(Math.cos(a)*7.4), sy=Math.round(Math.sin(a)*7.4); if(Math.abs(sx-4)<=1&&Math.abs(sy-3)<=1)continue; stones.push([sx,sy]); P('stone',sx,sy,1,1,{rune:'#6fe3f5',tall:44+(k%3)*8},true); }
   P('well',-6,3,1,1,{},true);
   if(st>=2)plan.ley.push({pts:stones.concat([stones[0]]),col:'#6fe3f5'});

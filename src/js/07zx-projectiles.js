@@ -1,15 +1,15 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ PROJECTILES (round 14, Lab review): arrows, bolts, spells and monster shots
 // ║ redrawn to look more real — options for Kris to pick from in the Lab.
-// ║ Today the game draws every shot as a plain coloured circle; nothing in the
-// ║ game changes until a look is picked.
+// ║ Kris picked (Oct 2): Heavy Bodkin arrows, Solid Elements spells, Real Things
+// ║ monster shots — ZProj.PICK. The game uses them through src/js/09g-shots.js.
 // ║   ZProj.draw(ctx, kind, style, t, o)  one shot, centred at 0,0, flying toward +x
 // ║   ZProj.trail(ctx, kind, style, pts, t)  what it leaves behind (pts = past positions)
 // ║ kinds — arrows: arrow, arrow_cold, arrow_fire, arrow_heat, dart
 // ║         spells: frost_bolt, fireball, lightning, ice_shards, void_orb
 // ║         monsters: rock, spit, bone_arrow, dark_bolt
 // ═══════════════════════════════════════════════════════════════════════
-var ZProj={ PI:Math.PI,
+var ZProj={ PI:Math.PI, PICK:{arrow:'ar_bodkin',spell:'sp_solid',shot:'en_real'},
   ARROWS:[
     {id:'ar_fletched',name:'Fletched Arrow',desc:'A real arrow: wooden shaft, steel broadhead, three feather vanes. It flies in a shallow arc with a soft shadow on the ground, and wobbles slightly.',head:'broad',arc:10,shadow:true,trail:'none'},
     {id:'ar_streak',name:'Arrow with Speed Lines',desc:'The same arrow flying flat and fast, with two thin speed lines behind it so it is easy to follow in a busy fight.',head:'broad',arc:0,trail:'streak'},
@@ -28,10 +28,12 @@ var ZProj={ PI:Math.PI,
     {id:'en_warn',name:'Real Things, with a Warning Edge',desc:'The same shots with a thin red rim so anything that can hurt you stands out against the ground.',mode:'real',warn:true},
     {id:'en_glow',name:'Glowing Shots',desc:'Each shot carries a coloured glow and a short tail — easier to see in dark dungeons.',mode:'glow'},
     {id:'en_pixel',name:'Pixel Shots',desc:'The real shapes in chunky pixels.',mode:'real',pixel:true}],
-  ELEM:{arrow:null,dart:null,arrow_cold:'#aee6ff',arrow_fire:'#ff8a2a',arrow_heat:'#ff4a4a',frost_bolt:'#9fe2ff',fireball:'#ff7a1a',lightning:'#ffe86a',ice_shards:'#bfe8ff',void_orb:'#9a4dff',rock:'#8a8478',spit:'#8fd04a',bone_arrow:'#e8e2d0',dark_bolt:'#b060ff'},
+  SPELLK:['frost_bolt','fireball','lightning','ice_shards','void_orb','arcane_burst','thorn_snare','tidal_wave','stone_spikes','void_rift','spirit_drain'],
+  ELEM:{arcane_burst:'#dd88ff',thorn_snare:'#70d050',tidal_wave:'#50b0ff',stone_spikes:'#b08050',void_rift:'#9030ff',spirit_drain:'#80ffc0',arrow:null,dart:null,arrow_cold:'#aee6ff',arrow_fire:'#ff8a2a',arrow_heat:'#ff4a4a',frost_bolt:'#9fe2ff',fireball:'#ff7a1a',lightning:'#ffe86a',ice_shards:'#bfe8ff',void_orb:'#9a4dff',rock:'#8a8478',spit:'#8fd04a',bone_arrow:'#e8e2d0',dark_bolt:'#b060ff'},
   rnd:function(s){ s=Math.sin(s*127.1)*43758.5453; return s-Math.floor(s); },
   // ── one arrow / dart, pointing +x, about 34 px long at scale 1 ──
-  arrow:function(c,kind,S,t){ var dart=kind==='dart', len=34*(S.len||1)*(dart?0.62:1), th=(S.thick||1)*(dart?1.5:1), el=ZProj.ELEM[kind], x0=-len/2, x1=len/2, wob=Math.sin(t*26)*0.5;
+  arrow:function(c,kind,S,t){ var dart=kind.indexOf('dart')===0; if(dart&&kind!=='dart')kind=kind.replace('dart','arrow');   // dart_cold / dart_fire / dart_heat: a dart with that arrow's head
+    var len=34*(S.len||1)*(dart?0.62:1), th=(S.thick||1)*(dart?1.5:1), el=dart&&kind==='dart'?null:ZProj.ELEM[kind], x0=-len/2, x1=len/2, wob=Math.sin(t*26)*0.5;
     c.lineCap='round'; c.lineJoin='round';
     // shaft
     c.strokeStyle='#5a4226'; c.lineWidth=2.2*th; c.beginPath(); c.moveTo(x0+3,wob); c.lineTo(x1-6,0); c.stroke(); c.strokeStyle='#a8845a'; c.lineWidth=1*th; c.beginPath(); c.moveTo(x0+3,wob-0.5*th); c.lineTo(x1-6,-0.5*th); c.stroke();
@@ -73,18 +75,25 @@ var ZProj={ PI:Math.PI,
     else if(kind==='void_orb'){ ZProj.glow(c,0,0,20,col,0.5); for(i=0;i<8;i++){ var a2=i/8*Math.PI*2+t*2.4, rr=17-((t*14+i*3)%11); c.fillStyle=ZBrand.rgba(col,0.85); c.fillRect(Math.cos(a2)*rr,Math.sin(a2)*rr,1.5,1.5); }
       var g4=c.createRadialGradient(-2,-2,0,0,0,9.5); g4.addColorStop(0,'#2a0a48'); g4.addColorStop(0.75,'#08010f'); g4.addColorStop(1,col); c.fillStyle=g4; c.beginPath(); c.arc(0,0,9.5,0,Math.PI*2); c.fill();
       c.strokeStyle='#e8c8ff'; c.lineWidth=1.2; c.beginPath(); c.ellipse(0,0,14,4.4,t*1.3,0,Math.PI*2); c.stroke(); }
+    // the spells the Lab did not show, in the same solid manner (round 15)
+    else if(kind==='arcane_burst'){ ZProj.glow(c,0,0,11,col,0.5); ZProj.shard(c,0,0,8,3.4,0,col); c.fillStyle='#fff'; c.fillRect(-12-((t*50)%6),-0.8,1.6,1.6); }
+    else if(kind==='stone_spikes'){ ZProj.shard(c,0,0,12,5,0,'#a08a6a'); c.strokeStyle='#4a3c2a'; c.lineWidth=0.8; c.beginPath(); c.moveTo(-4,-2.5); c.lineTo(1,-0.5); c.lineTo(-2,2.5); c.stroke(); for(i=0;i<3;i++){ c.fillStyle='rgba(120,100,76,'+(0.7-i*0.2)+')'; c.fillRect(-15-i*5,Math.sin(i*3+t*11)*3,2,2); } }
+    else if(kind==='thorn_snare'){ ZProj.glow(c,0,0,12,col,0.3); c.save(); c.rotate(t*9); c.fillStyle='#3f7a2a'; c.strokeStyle='#1f3f14'; c.lineWidth=0.8; c.beginPath(); for(i=0;i<16;i++){ var ta=i/16*Math.PI*2, tr=i%2?4.2:8.6; c.lineTo(Math.cos(ta)*tr,Math.sin(ta)*tr); } c.closePath(); c.fill(); c.stroke(); c.fillStyle='#8fd060'; c.beginPath(); c.arc(-1,-1,2.6,0,Math.PI*2); c.fill(); c.restore(); c.strokeStyle='#4f8a34'; c.lineWidth=1.2; c.beginPath(); c.moveTo(-8,0); c.quadraticCurveTo(-14,Math.sin(t*10)*4,-20,0); c.stroke(); }
+    else if(kind==='tidal_wave'){ ZProj.glow(c,0,0,20,col,0.3); var gw=c.createLinearGradient(-10,0,12,0); gw.addColorStop(0,'rgba(60,150,230,.25)'); gw.addColorStop(0.7,'#3f9af0'); gw.addColorStop(1,'#e8f8ff'); c.fillStyle=gw; c.beginPath(); c.moveTo(4,-16); c.quadraticCurveTo(17,0,4,16); c.quadraticCurveTo(-4,8,-14,10); c.quadraticCurveTo(-2,0,-14,-10); c.quadraticCurveTo(-4,-8,4,-16); c.closePath(); c.fill(); c.strokeStyle='#f4fcff'; c.lineWidth=1.6; c.beginPath(); c.moveTo(4,-16); c.quadraticCurveTo(17,0,4,16); c.stroke(); for(i=0;i<5;i++){ c.fillStyle='rgba(240,252,255,.9)'; c.fillRect(11+Math.sin(t*14+i)*2,-12+i*6+Math.cos(t*9+i)*2,1.8,1.8); } }
+    else if(kind==='void_rift'){ ZProj.glow(c,0,0,16,col,0.5); c.fillStyle='#07010e'; c.strokeStyle=col; c.lineWidth=1.3; c.beginPath(); c.moveTo(15,0); c.quadraticCurveTo(0,-6-Math.sin(t*12),-17,0); c.quadraticCurveTo(0,6+Math.sin(t*12),15,0); c.closePath(); c.fill(); c.stroke(); c.strokeStyle='#e8c8ff'; c.lineWidth=0.7; c.beginPath(); c.moveTo(11,0); c.lineTo(-12,0); c.stroke(); }
+    else if(kind==='spirit_drain'){ ZProj.glow(c,0,0,13,col,0.6); c.strokeStyle=ZBrand.rgba(col,0.8); c.lineWidth=1.6; c.lineCap='round'; c.beginPath(); for(var xx=-2;xx>-24;xx-=3){ var yy=Math.sin(xx*0.4+t*12)*(1+(-xx)*0.16); if(xx<-2)c.lineTo(xx,yy); else c.moveTo(xx,yy); } c.stroke(); var gs=c.createRadialGradient(-1,-1,0,0,0,6.5); gs.addColorStop(0,'#ffffff'); gs.addColorStop(0.6,col); gs.addColorStop(1,'#2f9a70'); c.fillStyle=gs; c.beginPath(); c.arc(0,0,6,0,Math.PI*2); c.fill(); c.fillStyle='#0c3a2a'; c.fillRect(0.5,-2.4,1.6,1.8); c.fillRect(0.5,0.8,1.6,1.8); }
     if(m==='rune'){ c.save(); c.rotate(t*2.2); c.strokeStyle=ZBrand.rgba(col,0.9); c.shadowColor=col; c.shadowBlur=6; c.lineWidth=0.9; c.beginPath(); c.arc(0,0,15.5,0,Math.PI*2); c.stroke(); var P=ZBrand.P(c,3,1); c.lineWidth=1; for(i=0;i<6;i++){ var a3=i/6*Math.PI*2; P.rune(Math.cos(a3)*15.5,Math.sin(a3)*15.5,5,i*3+1,a3+Math.PI/2); } c.restore(); } },
   // ── one monster shot ──
-  shot:function(c,kind,S,t){ var col=ZProj.ELEM[kind], i;
+  shot:function(c,kind,S,t){ var tint=kind.split(':')[1]; kind=kind.split(':')[0]; if(kind==='bolt')kind='dark_bolt'; var col=tint||ZProj.ELEM[kind], i;
     if(S.mode==='glow'){ var L=30, g=c.createLinearGradient(-L,0,4,0); g.addColorStop(0,ZBrand.rgba(col,0)); g.addColorStop(1,ZBrand.rgba(col,0.75)); c.fillStyle=g; c.beginPath(); c.moveTo(3,-5); c.lineTo(-L,0); c.lineTo(3,5); c.closePath(); c.fill(); ZProj.glow(c,0,0,15,col,0.75); }
     if(kind==='rock'){ c.save(); c.rotate(t*7); var pts=[[7,-2],[4,-7],[-3,-7.5],[-8,-2],[-6.5,5],[0,8],[6.5,5]]; c.fillStyle='#8a8478'; c.strokeStyle='#3e3a34'; c.lineWidth=1; c.beginPath(); pts.forEach(function(q,i){ if(i)c.lineTo(q[0],q[1]); else c.moveTo(q[0],q[1]); }); c.closePath(); c.fill(); c.stroke(); c.fillStyle='#b0aa9c'; c.beginPath(); c.moveTo(4,-7); c.lineTo(-3,-7.5); c.lineTo(-1,-2); c.lineTo(5,-3); c.closePath(); c.fill(); c.strokeStyle='#5a554c'; c.beginPath(); c.moveTo(-1,-2); c.lineTo(-6.5,5); c.moveTo(-1,-2); c.lineTo(0,8); c.stroke(); c.restore(); }
-    else if(kind==='spit'){ for(i=0;i<4;i++){ var u=((t*2.2+i/4)%1); c.fillStyle='rgba(120,190,60,'+(0.8*(1-u))+')'; c.beginPath(); c.arc(-8-u*24,2+u*u*14,2.6*(1-u*0.5),0,Math.PI*2); c.fill(); }
-      var g2=c.createRadialGradient(-2,-2,0,0,0,8); g2.addColorStop(0,'#e4ffb0'); g2.addColorStop(0.6,'#8fd04a'); g2.addColorStop(1,'#3f7a1e'); c.fillStyle=g2; c.beginPath(); c.moveTo(8,0); c.bezierCurveTo(8,-7,-4,-7+Math.sin(t*12),-11,0); c.bezierCurveTo(-4,7+Math.cos(t*10),8,7,8,0); c.fill(); c.fillStyle='rgba(255,255,255,.75)'; c.beginPath(); c.ellipse(2,-2.5,2.4,1.2,-0.4,0,Math.PI*2); c.fill(); }
+    else if(kind==='spit'){ for(i=0;i<4;i++){ var u=((t*2.2+i/4)%1); c.fillStyle=tint?ZBrand.rgba(tint,0.8*(1-u)):'rgba(120,190,60,'+(0.8*(1-u))+')'; c.beginPath(); c.arc(-8-u*24,2+u*u*14,2.6*(1-u*0.5),0,Math.PI*2); c.fill(); }
+      var g2=c.createRadialGradient(-2,-2,0,0,0,8); g2.addColorStop(0,tint?ZProj.shade(tint,0.6):'#e4ffb0'); g2.addColorStop(0.6,tint||'#8fd04a'); g2.addColorStop(1,tint?ZProj.shade(tint,-0.5):'#3f7a1e'); c.fillStyle=g2; c.beginPath(); c.moveTo(8,0); c.bezierCurveTo(8,-7,-4,-7+Math.sin(t*12),-11,0); c.bezierCurveTo(-4,7+Math.cos(t*10),8,7,8,0); c.fill(); c.fillStyle='rgba(255,255,255,.75)'; c.beginPath(); c.ellipse(2,-2.5,2.4,1.2,-0.4,0,Math.PI*2); c.fill(); }
     else if(kind==='bone_arrow'){ c.lineCap='round'; c.strokeStyle='#8a8372'; c.lineWidth=2.6; c.beginPath(); c.moveTo(-15,0); c.lineTo(10,0); c.stroke(); c.strokeStyle='#efe9d6'; c.lineWidth=1.3; c.beginPath(); c.moveTo(-15,-0.5); c.lineTo(10,-0.5); c.stroke(); c.fillStyle='#efe9d6'; [-9,-1,7].forEach(function(x){ c.beginPath(); c.arc(x,0,1.9,0,Math.PI*2); c.fill(); });
       c.fillStyle='#d8d0b8'; c.strokeStyle='#6a6456'; c.lineWidth=0.8; c.beginPath(); c.moveTo(18,0); c.lineTo(9,-4); c.lineTo(11,0); c.lineTo(9,4); c.closePath(); c.fill(); c.stroke(); c.fillStyle='#1c1820'; [[-1],[1]].forEach(function(q){ c.beginPath(); c.moveTo(-14,q[0]*0.6); c.lineTo(-17,q[0]*4.4); c.lineTo(-9,q[0]*3.4); c.lineTo(-7,q[0]*0.6); c.closePath(); c.fill(); }); }
-    else if(kind==='dark_bolt'){ c.save(); c.globalAlpha=0.55; for(i=0;i<4;i++){ var u3=((t*1.8+i/4)%1); c.fillStyle='rgba(30,10,46,'+(0.6*(1-u3))+')'; c.beginPath(); c.arc(-9-u3*22,Math.sin(i*2+t*3)*4,3+u3*4,0,Math.PI*2); c.fill(); } c.restore(); ZProj.shard(c,0,0,12,4.2,0,'#7a3ad0'); c.fillStyle='#12041e'; c.beginPath(); c.moveTo(9,0); c.lineTo(0,-2); c.lineTo(-9,0); c.lineTo(0,2); c.closePath(); c.fill(); }
+    else if(kind==='dark_bolt'){ c.save(); c.globalAlpha=0.55; for(i=0;i<4;i++){ var u3=((t*1.8+i/4)%1); c.fillStyle='rgba(30,10,46,'+(0.6*(1-u3))+')'; c.beginPath(); c.arc(-9-u3*22,Math.sin(i*2+t*3)*4,3+u3*4,0,Math.PI*2); c.fill(); } c.restore(); ZProj.shard(c,0,0,12,4.2,0,tint||'#7a3ad0'); c.fillStyle=tint?ZProj.shade(tint,-0.75):'#12041e'; c.beginPath(); c.moveTo(9,0); c.lineTo(0,-2); c.lineTo(-9,0); c.lineTo(0,2); c.closePath(); c.fill(); }
     if(S.warn){ c.save(); c.globalCompositeOperation='source-over'; c.strokeStyle='rgba(255,60,50,.95)'; c.lineWidth=1.3; c.shadowColor='#ff3020'; c.shadowBlur=6; c.beginPath(); c.ellipse(0,0,kind==='bone_arrow'?19:11,kind==='bone_arrow'?6:10,0,0,Math.PI*2); c.stroke(); c.restore(); } },
-  family:function(kind){ return /arrow$|^arrow|dart/.test(kind)&&kind!=='bone_arrow'?'arrow':ZProj.ELEM[kind]&&/frost|fire|light|ice|void/.test(kind)?'spell':'shot'; },
+  family:function(kind){ return /^arrow|^dart/.test(kind)?'arrow':ZProj.SPELLK.indexOf(kind)>=0?'spell':'shot'; },
   // draw one shot (centred, pointing +x). o.scale, o.pixel are handled here.
   draw:function(c,kind,S,t){ var fam=ZProj.family(kind), f=function(q){ if(fam==='arrow')ZProj.arrow(q,kind,S,t); else if(fam==='spell')ZProj.spell(q,kind,S,t); else ZProj.shot(q,kind,S,t); };
     if(!S.pixel)return f(c);

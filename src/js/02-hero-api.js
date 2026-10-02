@@ -159,7 +159,7 @@ function _fireSceneBow(scene, mode){
   var nx=Math.cos(dirAng),ny=Math.sin(dirAng);
   var spd=sub==='heat'?220:360;
   var col={normal:0xeedd88,cold:0x88ddff,fire:0xff6600,heat:0xff8800}[sub]||0xeedd88;
-  var vis=scene.add.rectangle(px,py,16,4,col).setDepth(15).setAngle(dirAng*180/Math.PI);
+  var vis=(typeof ZShot!=='undefined'&&ZShot.make(scene,ZShot.ammoKind(ammoId,sub),px,py,dirAng,15))||scene.add.rectangle(px,py,16,4,col).setDepth(15).setAngle(dirAng*180/Math.PI);
   var arrField=mode==='dungeon'?'_dngPlayerProj':'_islPlayerProj';
   if(!scene[arrField])scene[arrField]=[];
   scene[arrField].push({vis:vis,x:px,y:py,vx:nx*spd,vy:ny*spd,

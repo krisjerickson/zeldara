@@ -227,9 +227,9 @@ function wStone(c,x,y,w,h,o){ // runic standing stone
     drawRune(ctx,W/2,H-hh*0.55,16,rc,ri); });
   addLight(m,x+w/2,y+h-hh*0.55,64,rc,0.38,{react:true,rune:true});
 }
-function wRuneCircle(c,ctx,x,y,w,h,o){ var cx=x+w/2, cy=y+h/2, r=Math.min(w,h)/2-4, col=o.col||'#6fe3f5', done=false;
+function wRuneCircle(c,ctx,x,y,w,h,o){ var cx=x+w/2, cy=y+h/2, r=(Math.min(w,h)/2-4)*(o.grow||1), col=o.col||'#6fe3f5', done=false;
   // o.logo: the Zeldara logo as a floor inlay — dark flagstones under it, the lines in glowing teal
-  if(o.logo&&typeof ZBrand!=='undefined'&&ZBrand.LOGO){ try{ var L=ZBrand.layers(ZBrand.byId(ZBrand.LOGO),r/1.52,3), g=ctx.createRadialGradient(cx,cy,r*0.15,cx,cy,r*1.06); g.addColorStop(0,'rgba(16,30,32,.62)'); g.addColorStop(0.9,'rgba(16,30,32,.5)'); g.addColorStop(1,'rgba(16,30,32,0)');
+  if(o.logo&&typeof ZBrand!=='undefined'&&ZBrand.LOGO){ try{ var L=ZBrand.layers(ZBrand.byId(ZBrand.LOGO),r/1.52,3), g=ctx.createRadialGradient(cx,cy,r*0.15,cx,cy,r*1.06); g.addColorStop(0,'rgba(16,30,32,.5)'); g.addColorStop(0.9,'rgba(16,30,32,.38)'); g.addColorStop(1,'rgba(16,30,32,0)');
       ctx.save(); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,r*1.06,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='rgba(8,16,18,.35)'; ctx.lineWidth=1; for(var k=0;k<12;k++){ var a=k/12*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*r*0.2,cy+Math.sin(a)*r*0.2); ctx.lineTo(cx+Math.cos(a)*r*1.02,cy+Math.sin(a)*r*1.02); ctx.stroke(); }
       ctx.globalAlpha=0.6; ctx.drawImage(L.glow,cx-L.sz/2,cy-L.sz/2); ctx.globalAlpha=0.95; ctx.drawImage(L.main,cx-L.sz/2,cy-L.sz/2); ctx.restore(); done=true; }catch(e){} }
   if(!done)runeRing(ctx,cx,cy,r,col,c.R,o.n||8); addLight(c.m,cx,cy,r*1.6,col,0.35,{react:true,rune:true,depth:-4}); }

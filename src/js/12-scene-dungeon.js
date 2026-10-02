@@ -1257,7 +1257,7 @@ class DungeonScene extends Phaser.Scene{
         var _atkAng=playerAng;
         toFire.forEach(function(offset){
           var fAng=_atkAng+offset;
-          var vis2=self.add.circle(mon.x,mon.y,cfg.r,cfg.col).setDepth(self._lab?12.9:12);
+          var vis2=(typeof ZShot!=='undefined'&&ZShot.make(self,ZShot.monKind(at),mon.x,mon.y,fAng,self._lab?12.9:12))||self.add.circle(mon.x,mon.y,cfg.r,cfg.col).setDepth(self._lab?12.9:12);
           var monAtk2=mon.monAtk!==undefined?mon.monAtk:mon.def.atk;
           self.dngProj.push({vis:vis2,x:mon.x,y:mon.y,vx:Math.cos(fAng)*finalSpd,vy:Math.sin(fAng)*finalSpd,
             dmg:Math.max(1,Math.round(monAtk2*0.5)),life:cfg.life,isBoss:mon.isBoss,bounces:0,bog:cfg.bog||false});

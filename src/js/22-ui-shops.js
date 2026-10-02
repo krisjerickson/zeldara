@@ -234,7 +234,7 @@ function _fireWorldBow(ws){
   var nx=Math.cos(_aimAng),ny=Math.sin(_aimAng);
   var spd=subtype==='heat'?220:360;
   var col={normal:0xeedd88,cold:0x88ddff,fire:0xff6600,heat:0xff8800}[subtype]||0xeedd88;
-  var vis=ws.add.rectangle(p.x,p.y,16,4,col).setDepth(15).setAngle(Math.atan2(ny,nx)*180/Math.PI);
+  var vis=(typeof ZShot!=='undefined'&&ZShot.make(ws,ZShot.ammoKind(ammoId,subtype),p.x,p.y,Math.atan2(ny,nx),15))||ws.add.rectangle(p.x,p.y,16,4,col).setDepth(15).setAngle(Math.atan2(ny,nx)*180/Math.PI);
   if(!ws._playerProj)ws._playerProj=[];
   ws._playerProj.push({
     vis:vis,x:p.x,y:p.y,

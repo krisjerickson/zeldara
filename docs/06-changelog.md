@@ -448,6 +448,17 @@ Kris's picks: logo `tree_c` (World Tree), wordmark `ring_z` in Cinzel Decorative
 - **[216] Projectile options for review** (`src/js/07zx-projectiles.js`, `ZProj`; Lab tab **Projectiles**, `lab/src/js/54-lab-proj.js`): 6 looks for arrows and darts (normal, cold, fire, seeking), 5 for spells, 4 for monster shots. Picks are saved as `proj-<id>`. **The game still draws shots as coloured dots until Kris picks.**
 - **[217] Tests**: `tests/test_round14.py` (10 checks).
 
+## Round 15 (Kris, Oct 2) — picked shots in the game; bigger plaza logo
+Kris's picks in the Lab: arrows `ar_bodkin` (Heavy Bodkin), spells `sp_solid` (Solid Elements), monster shots `en_real` (Real Things). `ZProj.PICK`.
+- **[218] Shots are pictures now** (`src/js/09g-shots.js`, `ZShot`): `ZShot.make(scene,kind,x,y,angle,depth)` returns an Image the old code moves and destroys as before. It turns to face its flight, plays 8 frames (painted once per kind at 2×, shown at half scale), leaves the look's trail (air ripple for the bodkin, smoke for fire, frost for cold) and sparks when an arrow ends. If it fails, the old dot is used.
+  - Wired in at every place a shot is created: player bow / crossbow (`02-hero-api.js`, `22-ui-shops.js`), player spells (`09-hero-core.js`, `10-scene-world.js`), monster shots in the world and dungeons (`10-scene-world.js`, `12-scene-dungeon.js`), and the monster engine (`MX.proj`, which now gets `kind`).
+  - Mapping: `ZShot.ammoKind` (arrow / dart × normal, cold, fire, seeking), `ZShot.spellKind`, `ZShot.monKind` (old attack types), `ZShot.mxKind` (what the monster throws, else its colour; `spit:#hex` and `bolt:#hex` are tinted).
+  - Spells the Lab did not show got solid shapes of their own in `07zx-projectiles.js`: Arcane Burst, Thorn Snare, Tidal Wave, Stone Spikes, Void Rift, Spirit Drain. Darts now have cold / fire / seeking heads.
+  - **Not changed:** familiar shots, the sky-chase bullets and the Volcano scenes' rocks and fireballs still use their old look.
+- **[219] Plaza logo** is as wide as the ring of standing stones (`runecircle` option `grow:2.12`), with a lighter flagstone tint.
+- **[220] Where a game begins** (Kris: only new games in the rune circle): confirmed by test — a new game begins in the middle of the runes, a continued game resumes where it was saved. No code change.
+- **[221] Tests**: `tests/test_round15.py` (8 checks).
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

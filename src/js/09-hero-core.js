@@ -242,7 +242,7 @@ function _heroCastSpell(scene){
         var a=ang+(n>1&&!sp.proj.burstDelay?(i-(n-1)/2)*(sp.proj.spread||0.3):0);
         var launch=function(){
           var cc=_heroCtx(scene);
-          var v=scene.add.circle(cc.x,cc.y,sp.proj.r,sp.proj.col,0.95).setDepth(15);
+          var v=(typeof ZShot!=='undefined'&&ZShot.make(scene,ZShot.spellKind(sp,tome&&tome.spellId),cc.x,cc.y,a,15))||scene.add.circle(cc.x,cc.y,sp.proj.r,sp.proj.col,0.95).setDepth(15);
           scene._heroSpellProj.push({vis:v,x:cc.x,y:cc.y,vx:Math.cos(a)*sp.proj.spd,vy:Math.sin(a)*sp.proj.spd,life:2.4,
             dmg:pow,effect:sp.effect,effectDur:sp.effectDur||2,splashR:sp.splashR||0,chainN:sp.chainN||0,pierce:!!sp.proj.pierce,hitSet:[]});
         };

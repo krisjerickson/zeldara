@@ -1330,7 +1330,7 @@ class WorldScene extends Phaser.Scene{
              heat_seek:{spd:110,col:0xff8800,r:8,tracking:true},
              lightning:{spd:320,col:0x88bbff,r:5,tracking:false}};
     var f=cfg[type]||cfg.arrow;
-    var vis=this.add.circle(mon.x,mon.y,f.r,f.col).setDepth(11);
+    var vis=(typeof ZShot!=='undefined'&&ZShot.make(this,ZShot.monKind(type),mon.x,mon.y,ang,11))||this.add.circle(mon.x,mon.y,f.r,f.col).setDepth(11);
     this._monProj.push({vis:vis,x:mon.x,y:mon.y,vx:Math.cos(ang)*f.spd,vy:Math.sin(ang)*f.spd,
       dmg:Math.ceil(dmg),tracking:f.tracking,bog:f.bog||false,trailT:0,type:type,treePen:10,life:3.5,hit:false});
   }
@@ -1911,7 +1911,7 @@ class WorldScene extends Phaser.Scene{
         if(count>1){ang+=((pi-(count-1)/2)*(spDef.proj.spread||0.3));}
         var vx2=Math.cos(ang)*spDef.proj.spd;
         var vy2=Math.sin(ang)*spDef.proj.spd;
-        var vis2=self.add.circle(px,py,spDef.proj.r,spDef.proj.col).setDepth(15);
+        var vis2=(typeof ZShot!=='undefined'&&ZShot.make(self,ZShot.spellKind(spDef,id),px,py,ang,15))||self.add.circle(px,py,spDef.proj.r,spDef.proj.col).setDepth(15);
         var delay2=(spDef.proj.burstDelay||0)*pi;
         (function(v,vx3,vy3,d){
           if(d>0){

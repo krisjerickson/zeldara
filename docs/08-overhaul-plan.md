@@ -152,6 +152,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
     2. Typeface: **titles and labels** — building and place names, zone banners, boss names, menu and window titles, buttons and HUD labels use the wordmark family; small body text (descriptions, dialogue, tooltips) stays plain.
     3. Main logo at the start: **plaza floor inlay** — set into the village plaza floor where you begin, softly glowing teal.
   - **Added mid-task (Kris, Oct 2):** "projectiles and arrows need to be redone so they look a little more realistic. come up with ideas and designs for these for me to select from in the lab." → a Lab tab with options to pick from; nothing changes in the game until he picks.
+- **Round 15, asked Oct 2 (question card):** In my tests a New Game begins in the middle of the rune circle; a continued game begins where it was last saved (for example at the tavern door). Which does Kris want?
+  1. Always begin in the rune circle (new and continued games; progress kept, only the position resets), or
+  2. Only new games begin there; continued games resume where they were saved, or
+  3. It happened on a brand-new game (then there is a bug to find).
+  - **Answer (Oct 2): only new games** begin in the rune circle; continued games resume where they were saved. That is how the game already behaves (tested), so no change was needed there.
+- Projectiles built Oct 2 (round 15, changelog [218]–[221], game v22).
 ## Why questions got asked twice (diagnosed Sept 30)
 - Transcript evidence: the question card went out at 14:55. No answer ever reached the session. At 15:13 Kris's original message was delivered again (the app re-queued it after the session restarted or reconnected), and the fresh run asked the same questions again.
 - A question card is tied to the running session. If that session restarts or reconnects while the card is open (the connected services dropped and came back at the same moment), the answer has nowhere to go and is lost. A normal chat message is queued and survives a restart.
@@ -180,8 +186,16 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
   - `blade_b` Winged Blade · Knotwork → level-up and "new skill learned" banners.
   - `serpent_coil` Coiled Serpent → the death screen, and the harbour / ferry screens.
 
+## Projectiles: picks (Kris, Oct 2, read from the Lab)
+- Arrows and darts: **`ar_bodkin` (Heavy Bodkin)** — thick shaft, narrow point, short fletching, flat flight, faint air ripple, small spark on a hit.
+- Spells: **`sp_solid` (Solid Elements)**.
+- Monster shots: **`en_real` (Real Things)** — no warning edge.
+- No notes on any of the three. Next: build them into the game (spells and monster shots that the Lab did not show are mapped to the nearest shape by element / kind).
+
+- **Added mid-task (Kris, Oct 2):** "the starting logo is too small, it should be as large as the rune circles around the starting place. and when you start now, you are in the tavern instead of in the middle of the runes and logo. you should be in the middle of the runes in the village." → (1) make the plaza logo as wide as the ring of standing stones; (2) a new game must begin in the middle of the runes.
+
 ## Open questions
-- None open. Waiting on Kris: (1) his picks in the Lab's **Projectiles** tab (then build them into the game), (2) his check of waystone travel in real play.
+- None open. Still waiting on Kris's check of waystone travel in real play. Possible follow-up (not asked for): give familiar shots and the Volcano / sky scenes the new shot look too.
 
 ## Fixed decisions (already made by Kris)
 - **Keep the AI-painted hero sprite.** All NPCs, monsters, animals and familiars are redrawn to match it (track E).
