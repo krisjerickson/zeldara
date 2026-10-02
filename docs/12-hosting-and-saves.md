@@ -80,7 +80,7 @@ You need a GitHub account (you have `krisjerickson`) and a Vercel account (sign 
 
 ### 1. Push the code to GitHub
 - The repo on your PC is `C:\Claude\games\Zeldara-v4`. It already points at `https://github.com/krisjerickson/zeldara`.
-- The GitHub repo still holds an old April upload ("Add files via upload"). I merged it into the local history, keeping the current files, so a normal push works and nothing is lost.
+- The GitHub repo still holds only the old April upload ("Add files via upload"). The local history already builds on that commit, so a normal push works (no force needed) and simply adds the 21 newer commits.
 
 1. Open **PowerShell** (or Git Bash) in `C:\Claude\games\Zeldara-v4`.
 2. Run:

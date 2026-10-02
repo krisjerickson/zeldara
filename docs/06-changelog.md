@@ -370,7 +370,7 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
   - `npm run build` also writes `dist/` (game + `/lab`).
   - `vercel.json` builds on Vercel (`npm run build` → `dist`).
   - `.vercelignore` uploads only the sources. `.gitignore` drops built files.
-  - The repo's old April "Add files via upload" root commit is merged (`-s ours`), so a normal `git push` works.
+  - GitHub's old April "Add files via upload" commit is already an ancestor of local `main`, so a normal `git push` works (fast-forward, 21 commits).
   - Steps for Kris: `docs/12-hosting-and-saves.md`.
 - **[192] Tests**: new `tests/test_round9.py` (7 checks) and `tests/test_saves.py` (13 checks).
 
@@ -381,7 +381,7 @@ Numbers are internal task IDs — grep for the label in `index.html` to find the
   - 15 animated home-page looks (`ZBrand.HOMES`, `ZBrand.home`): aurora, stars, shooting stars, rune rings/columns/frames, spirits, silhouettes.
 - **[194] Lab tabs** Logos, Wordmarks and Home Pages (`lab/src/js/53-lab-brand.js`): ☆ Pick (several allowed), notes, ⛶ full-screen. Picks are saved as `logos-<id>`, `words-<id>`, `homes-<id>`. Home previews use the picked logo and wordmark.
 - **[195] Save export** also shows the save code to copy, for places where downloads are blocked (e.g. the Claude artifact preview).
-- **[196] Tests**: `tests/test_brand.py` (8 checks).
+- **[196] Tests**: `tests/test_brand.py` (8 checks). Commit 8234fa4.
 - **Next (after Kris picks):** build the Next.js home page at `/` with the chosen look, logo and wordmark; move the game to `/play`; restyle the in-game title to match; use the small logo in the game.
 
 ## Naming conventions established
