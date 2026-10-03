@@ -14,7 +14,7 @@ try:
   with sync_playwright() as p:
     b=p.chromium.launch(args=["--use-gl=swiftshader","--enable-unsafe-swiftshader"]); ctx=b.new_context(viewport={'width':1280,'height':720}); pg=ctx.new_page(); errs=[]
     pg.on('pageerror',lambda e: errs.append(str(e)))
-    pg.route(re.compile(r".*cdnjs.*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
+    pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
     check('dist has the home page, the game at /play and the Lab at /lab', all(os.path.exists(os.path.join(DIST,f)) for f in ['index.html','play/index.html','lab/index.html','brand.js']) and 'TitleScene' in open(os.path.join(DIST,'play','index.html'),encoding='utf-8').read() and '_next' in open(os.path.join(DIST,'index.html'),encoding='utf-8').read())
     pg.goto(B+'/'); pg.wait_for_timeout(2500)
     r=pg.evaluate("""(()=>{ var cv=document.querySelector('.home canvas'), c=cv.getContext('2d'), d=c.getImageData(0,0,cv.width,cv.height).data, n=0, teal=0, gold=0; for(var i=0;i<d.length;i+=16){ if(d[i]+d[i+1]+d[i+2]>60)n++; if(d[i+1]>170&&d[i+2]>150&&d[i]<150)teal++; if(d[i]>190&&d[i+1]>140&&d[i+2]<110)gold++; }
@@ -30,6 +30,7 @@ try:
     check('New Game opens the game at /play with the name dialog already open (and no game HUD on the title)', r['path'].rstrip('/')=='/play' and r['game'] and r['dlg']=='flex' and r['hud']=='none', r)
     pg.fill('#zp-name','Kris'); pg.click('#zp-next'); pg.wait_for_timeout(300)
     pg.evaluate("document.querySelectorAll('.zp-slot')[0].querySelector('[data-a=new]').click()")
+    pg.wait_for_timeout(200); pg.evaluate("document.querySelector('.zp-hero[data-h=m]').click()")
     for _ in range(60):
         pg.wait_for_timeout(250)
         if pg.evaluate("!!(game.scene.isActive('World') && game.scene.getScene('World').player)"): break
@@ -47,7 +48,7 @@ try:
     r=ph.evaluate("({rects:[...document.querySelectorAll('a.btn')].map(a=>{var q=a.getBoundingClientRect();return [Math.round(q.left),Math.round(q.top),Math.round(q.width)]}), blurb:getComputedStyle(document.querySelector('p')).position, cls:document.querySelector('p').className})")
     check('Phone: the two buttons stack inside the screen and the story line shows as text', len(r['rects'])==2 and r['rects'][0][0]>=0 and r['rects'][0][0]+r['rects'][0][2]<=390 and r['rects'][1][1]>r['rects'][0][1]+40 and r['cls']=='blurb', r)
     if SHOT: ph.screenshot(path=os.path.join(SHOT,'home_phone.png'))
-    lab=ctx.new_page(); lab.route(re.compile(r".*cdnjs.*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript")); lab.goto(B+'/lab/'); lab.wait_for_timeout(2000)
+    lab=ctx.new_page(); lab.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript")); lab.goto(B+'/lab/'); lab.wait_for_timeout(2000)
     check('The Lab still opens at /lab', lab.evaluate("typeof LabApp!=='undefined'&&document.querySelectorAll('.lab-tab').length>10"))
     check('No JS errors', not errs, errs[:3]); b.close()
 finally:

@@ -24,7 +24,7 @@ function monTerrainWeight(R,zoneName,nearWater,nearLava){ var t=(R.tags.find(fun
 // lazy: use a blank stand-in texture (same 4 × 32 px frames) until _monWake swaps in the real one
 function monLazyTex(scene){ var key='mx__lazy'; if(scene.textures.exists(key))return key; var t=scene.textures.addCanvas(key,mkCanvas(128,32)); for(var i=0;i<4;i++)t.add(String(i),0,i*32,0,32,32); return key; }
 function monLegacyBody(scene,rid,def,lazy){ var R=MON_BY_ID[rid]; if(!R||!scene.textures)return null; var sc=MX.scaleOf(R), spr=scene.add.image(0,4,lazy?monLazyTex(scene):MX.tex(scene,R),'0').setOrigin(0.5,0.85).setScale(sc), col=def.color; if(lazy)spr._lazyR=R;
-  spr.setFillStyle=function(c){ if(c===0xffffff)this.setTintFill(0xffffff); else if(c===undefined||c===col)this.clearTint(); else this.setTint(c); return this; }; return spr; }
+  spr.setFillStyle=function(c){ if(c===0xffffff)ZENG.tintFill(this,0xffffff); else if(c===undefined||c===col)this.clearTint(); else ZENG.tint(this,c); return this; }; return spr; }
 
 Object.assign(WorldScene.prototype,{
   _spawnRosterMon(rid,wx,wy,sec,rng,o){ o=o||{}; var R=MON_BY_ID[rid]; if(!R)return null;

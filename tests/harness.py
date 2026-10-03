@@ -10,7 +10,9 @@ from playwright.sync_api import sync_playwright
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 # Phaser 3.60 UMD build (npm pack phaser@3.60.0) — served in place of the cdnjs URL
-PHASER = os.environ.get('PHASER_JS', os.path.join(HERE, '.phaser', 'package', 'dist', 'phaser.min.js'))
+# Engine switch: ZELDARA_ENGINE=4 runs the suites on Phaser 4 (npm pack phaser@4.2.1 into tests/.phaser4)
+ENGINE = os.environ.get('ZELDARA_ENGINE', '3')
+PHASER = os.environ.get('PHASER_JS', os.path.join(HERE, '.phaser4' if ENGINE == '4' else '.phaser', 'package', 'dist', 'phaser.min.js'))
 INDEX = os.environ.get('ZELDARA_INDEX', os.path.join(HERE, '..', 'index.html'))
 
 class G:
@@ -36,7 +38,7 @@ def game(new=True, w=1280, h=800, save=None):
         errs = []
         pg.on("pageerror", lambda e: errs.append("PAGEERR " + str(e) + ((" @ " + " < ".join(l.strip()[3:60] for l in (getattr(e,"stack","") or "").split("\n")[1:5])) if (getattr(e,"stack","") or "").count("\n") else "")))
         pg.on("console", lambda m: errs.append("console.error: " + m.text) if m.type == "error" else None)
-        pg.route(re.compile(r".*cdnjs.*phaser.*"), lambda r: r.fulfill(path=PHASER, content_type="application/javascript"))
+        pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PHASER, content_type="application/javascript"))
         html = open(INDEX, encoding='utf-8').read()
         pg.route("http://zeldara.test/**", lambda r: r.fulfill(body=html, content_type="text/html"))
         pg.goto("http://zeldara.test/index.html")

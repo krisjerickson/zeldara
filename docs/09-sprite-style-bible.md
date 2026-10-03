@@ -1,5 +1,7 @@
 # 09 — Sprite Style Bible & Pilot Prompts (Phase 2 · E1/E2)
 
+> **Superseded Oct 3, 2026 (round 18) by `14-sprite-library.md`.** The style is now Kris's two references (bold cartoon, teal highlights, not pixel art), requests go straight to final sheets, and they are made from the game data. Kept for history only.
+
 Decision E1: **keep the AI-painted hero; every other character is generated in the same style** with ChatGPT image generation (the tool that made the hero), using these prompts. Claude cleans and integrates the results.
 
 ## The hero style

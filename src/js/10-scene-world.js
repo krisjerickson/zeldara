@@ -133,7 +133,8 @@ class WorldScene extends Phaser.Scene{
     ,
     ownedFamiliars:[],
     skills:[],lockedSites:[]  };
-    if(!this._newGame)this._loadSave();
+    if(!this._newGame)this._loadSave(); else if(typeof ZSave!=='undefined'&&ZSave.pendingHero){ this.playerState.hero=ZSave.pendingHero; ZSave.pendingHero=null; }
+    if(this.playerState.hero!=='f')this.playerState.hero='m';
     villageApply(this.wd,villageStageOf(this.playerState));   // the village at its current stage (grows as craftsmen are freed)
     this._refreshVillageNPCs();
     this._villageFolkInit();

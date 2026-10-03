@@ -13,6 +13,7 @@ Decided by Kris (Oct 1, 2026):
 | `/` | Home page: World Tree Veil, logo, Ringed Z, New Game / Returning Player | `site/` (Next.js, exported as static files) + `site/public/brand.js` (the game's brand code) |
 | `/play` | The game. Its title screen has the same look. | `src/` → `index.html` |
 | `/lab` | Design Lab | `lab/src/` → `lab/index.html` |
+| `/play4`, `/play3` | The same game with Phaser 4 or Phaser 3.60 as the engine (round 18 switch). `/play` uses the build default (3.60). Saves are shared with `/play`. | `build.mjs` |
 
 - `npm install` once (adds Next.js and React), then `npm run build`. Needs Node 20.9 or newer.
 - The home page's buttons go to `/play?start=new` and `/play?start=returning`; the game opens that dialog at once.

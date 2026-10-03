@@ -319,8 +319,8 @@ var LabApp={
       setTimeout(function(){ var cv=document.querySelector('#lab-stage canvas'); if(cv){cv.setAttribute('tabindex','0');cv.focus();} },60);
     };
     if(!this.game){
-      this.game=new Phaser.Game({type:Phaser.AUTO,parent:'lab-stage',backgroundColor:'#000',scene:[],
-        scale:{mode:Phaser.Scale.RESIZE,width:'100%',height:'100%'},render:{antialias:true},fps:{smoothStep:false}});
+      this.game=new Phaser.Game(ZENG.config({type:Phaser.AUTO,parent:'lab-stage',backgroundColor:'#000',scene:[],
+        scale:{mode:Phaser.Scale.RESIZE,width:'100%',height:'100%'},render:{antialias:true},fps:{smoothStep:false}}));
       this.game.events.once('ready',start);
     } else start();
   },

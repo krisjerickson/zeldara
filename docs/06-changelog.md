@@ -478,6 +478,20 @@ Kris's picks in the Lab: arrows `ar_bodkin` (Heavy Bodkin), spells `sp_solid` (S
 - **[225] Tests**: `tests/test_round14.py` now 11 checks (the five cards exist, lead the tab and paint).
 - **[226] New doc `13-next-steps-and-engine-options.md`**: what to do next against the phase plan, what Next.js would and would not improve, and other ways to build a web game.
 
+## Round 18 (Kris, Oct 3) — engine switch, two heroes, sprite library prep
+- **[227] Engine switch.** The game still runs on Phaser 3.60. It can now also run on Phaser 4.2.1:
+  - `node build.mjs --engine=4` (or `ZELDARA_ENGINE=4`) makes Phaser 4 the default; any built page takes `?engine=3` or `?engine=4`.
+  - `dist/` has `/play` (default), `/play3` and `/play4`, so both can be tried from one deploy.
+  - New `src/js/00a-engine.js` (`ZENG`): the 9 calls that differ go through it — `tintFill` / `tint` (5 hit-flash sites), `mask` (lava glow), `rtDone` (night and dungeon darkness), `config` (pixel rounding).
+  - The artifact builds load one fixed engine. `build.mjs` now writes `zeldara.artifact.html` itself.
+  - Tests: `ZELDARA_ENGINE=4 python tests/<suite>.py` (engine file in `tests/.phaser4/`).
+- **[228] Two playable heroes.** New Game → name → slot → **Choose your hero** (boy or girl). Saved as `ps.hero`; old saves are the boy. The girl is a recoloured stand-in (red-auburn hair, wine-red cape) until her sprites are painted (`_heroRecolour`, `_heroKey` in `02-hero-api.js`).
+- **[229] Sprite manifest** `src/js/07zs-sprites.js` (`ZSPR`): 439 characters, 919 sheets (667 core), 6,255 poses, built from the game data. Kit move → animation table (`ZSPR.MOD`); hero weapon and skill mapping (`ZSPR.HERO`); the hero draw code records `st.anim`.
+- **[230] Requests and tools.** `node build.mjs` writes `sprites/requests/` (requests.json, one .md per wave, survey.md). `tools/sprites/generate.mjs` feeds the OpenAI image API (Kris's key, from the environment). `tools/sprites/intake.py` cuts sheets into frames and packs atlases. References in `sprites/reference/`.
+- **[231] Lab → Sprite Library tab**: Guide (totals, process, style, hero mapping tables, 12 pilot requests) and one group per kind of character, with stand-in, moves, sheets, Copy request, "Looks right" and notes (`sprlib-<id>`).
+- **[232] Tests**: `tests/test_round18.py` (30 checks, run on both engines). `test_saves.py` and `test_site_home.py` pick a hero.
+- **[233] New doc `14-sprite-library.md`**; doc 09 is kept for history only.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

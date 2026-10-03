@@ -59,12 +59,22 @@ const jsDir = path.join(ROOT, 'src/js');
 const jsFiles = fs.readdirSync(jsDir).filter(f => f.endsWith('.js')).sort();
 const js = minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
 
+// Engine switch (round 18): Phaser 3.60 is the default. `node build.mjs --engine=4` (or ZELDARA_ENGINE=4)
+// makes Phaser 4 the default; any built page also accepts ?engine=3 or ?engine=4 in its address.
+const ENGINES = { '3': 'https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.min.js', '4': 'https://cdn.jsdelivr.net/npm/phaser@4.2.1/dist/phaser.min.js' };
+const ENGINE_ARG = (process.argv.find(a => a.startsWith('--engine=')) || '').split('=')[1] || process.env.ZELDARA_ENGINE || '3';
+if (!ENGINES[ENGINE_ARG]) throw new Error('Unknown engine "' + ENGINE_ARG + '" (use 3 or 4)');
+const engineLoader = def => `<script>(function(){var m=/[?&]engine=([34])(?![0-9])/.exec(location.search),v=m?m[1]:(window.ZELDARA_ENGINE||'${def}');window.ZELDARA_ENGINE=v;document.write('<script src="'+(v==='4'?'${ENGINES['4']}':'${ENGINES['3']}')+'"><\\/script>');})();</script>`;
+const engineStatic = def => `<script src="${ENGINES[def]}"></script>`;   // artifact pages: no document.write
+const withEngine = (html, def, fixed) => html.replace('{{ENGINE}}', () => fixed ? engineStatic(def) : engineLoader(def));   // html still holds the {{ENGINE}} marker
+
 // 3. Fill the template (function replacers so `$` in code is never special)
-const out = r('src/index.template.html')
+const outRaw = r('src/index.template.html')
   .replace('{{CSS}}', () => r('src/styles.css'))
   .replace('{{BODY}}', () => r('src/body.html'))
   .replace('{{JS}}', () => js)
   .replace('{{BODY_END}}', () => r('src/body-end.html'));
+const out = withEngine(outRaw, ENGINE_ARG, false);
 
 if (/<\/script>/i.test(js)) {
   // A literal </script> inside JS would end the inline block early.
@@ -80,6 +90,9 @@ if (process.argv.includes('--check')) {
 }
 
 fs.writeFileSync(path.join(ROOT, 'index.html'), out);
+// Artifact variant of the game (published to claude.ai): head without <meta>, body, fixed engine tag
+{ const oa = withEngine(outRaw, ENGINE_ARG, true), t = oa.match(/<title>[\s\S]*?<\/title>/)[0];
+  fs.writeFileSync(path.join(ROOT, 'zeldara.artifact.html'), t + oa.slice(oa.indexOf('</title>') + 8, oa.indexOf('</head>')).replace(/<meta[^>]*>\s*/g, '') + oa.slice(oa.indexOf('<body>') + 6, oa.lastIndexOf('</body>'))); }
 console.log(`✓ index.html  ${(out.length / 1024).toFixed(0)} KB  from ${jsFiles.length} JS files`);
 
 // ── Design Lab (Phase 2): lab/src → lab/index.html (+ lab/lab.artifact.html for publishing)
@@ -87,7 +100,7 @@ console.log(`✓ index.html  ${(out.length / 1024).toFixed(0)} KB  from ${jsFile
 if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   // 03-data (items, monsters, spells) + 09b (boss phases) feed the Bosses / Mage Towers tabs;
   // the Lab has no monster engine, so 09b gets a stub MX to hang its helpers on.
-  const sharedFiles = ['00-header.js', '01-sprite-data.js', '02-hero-api.js', '03-data.js']
+  const sharedFiles = ['00-header.js', '00a-engine.js', '01-sprite-data.js', '02-hero-api.js', '03-data.js']
     .concat(jsFiles.filter(f => /^07/.test(f)));
   const shared = sharedFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('')
     + '\nif(typeof MX==="undefined"){ var MX={KITS:(typeof MON_KIT_SRC!=="undefined"?MON_KIT_SRC:{})}; }'
@@ -95,21 +108,50 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
     + fs.readFileSync(path.join(jsDir, '09b-boss-phases.js'), 'utf8');
   const labDir = path.join(ROOT, 'lab/src/js');
   const labFiles = fs.readdirSync(labDir).filter(f => f.endsWith('.js')).sort();
-  const labJs = minify(shared + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
+  // which sprite sheets have arrived (sprites/incoming/<request id>.png) — shown as "received" in the Sprite Library tab
+  let incoming = []; try { incoming = fs.readdirSync(path.join(ROOT, 'sprites/incoming')).filter(f => /\.png$/i.test(f)).map(f => f.replace(/\.png$/i, '')); } catch (e) {}
+  const labJs = minify(shared + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
   if (/<\/script>/i.test(labJs)) throw new Error('Literal </script> in lab JS');
-  const lab = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs);
+  const labRaw = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs), lab = withEngine(labRaw, ENGINE_ARG, false);
   if (process.argv.includes('--check')) {
     const re = /<script(?![^>]*src=)[^>]*>([\s\S]*?)<\/script>/g; let m;
     while ((m = re.exec(lab))) new Function(m[1]);
   }
   fs.writeFileSync(path.join(ROOT, 'lab/index.html'), lab);
   // Artifact variant: no doctype/html/head/body wrappers (the host adds them)
-  const title = lab.match(/<title>[\s\S]*?<\/title>/)[0];
-  const head = lab.slice(lab.indexOf('</title>') + 8, lab.indexOf('</head>'));
-  const body = lab.slice(lab.indexOf('<body>') + 6, lab.lastIndexOf('</body>'));
-  fs.writeFileSync(path.join(ROOT, 'lab/lab.artifact.html'), title + head.replace(/<meta[^>]*>\s*/g, '') + body);
+  const title = labRaw.match(/<title>[\s\S]*?<\/title>/)[0];
+  const head = labRaw.slice(labRaw.indexOf('</title>') + 8, labRaw.indexOf('</head>'));
+  const body = labRaw.slice(labRaw.indexOf('<body>') + 6, labRaw.lastIndexOf('</body>'));
+  fs.writeFileSync(path.join(ROOT, 'lab/lab.artifact.html'), withEngine(title + head.replace(/<meta[^>]*>\s*/g, '') + body, ENGINE_ARG, true));
   console.log(`✓ lab/index.html  ${(lab.length / 1024).toFixed(0)} KB  from ${labFiles.length} lab files`);
 }
+
+// ── Sprite library (round 18): run the manifest (src/js/07zs-sprites.js) without a browser and write every
+// ChatGPT request to sprites/requests/ — requests.json for the feeding script, one .md per wave to read or paste, survey.md.
+try {
+  const vm = await import('node:vm');
+  const files = ['00-header.js', '03-data.js'].concat(jsFiles.filter(f => /^07/.test(f)), ['09b-boss-phases.js']);
+  const parts = files.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8'));
+  const pre = parts.slice(0, -1).join('\n') + '\nvar MX={KITS:(typeof MON_KIT_SRC!=="undefined"?MON_KIT_SRC:{})}; var MON_BY_ID={}; MON_ROSTER.forEach(function(R){ MON_BY_ID[R.id]=R; });\n' + parts[parts.length - 1];
+  const stub = new Proxy(function () {}, { get: (t, k) => (k === Symbol.toPrimitive ? () => '' : stub), apply: () => stub, construct: () => stub });
+  const ctx = { console, document: stub, navigator: { userAgent: '' }, localStorage: { getItem() { return null; }, setItem() {} }, Phaser: stub, performance: { now: () => 0 }, Image: stub, requestAnimationFrame() {}, setTimeout, clearTimeout, location: { search: '', href: '' } };
+  ctx.window = ctx; ctx.globalThis = ctx;
+  vm.runInNewContext(pre + '\n;globalThis.__spr=JSON.stringify({stats:ZSPR.stats(),req:ZSPR.requests(),waves:ZSPR.WAVES,pilot:ZSPR.PILOT,style:ZSPR.STYLE,rules:ZSPR.RULES,bgAlpha:ZSPR.BG_ALPHA,bgKey:ZSPR.bgKey("{KEY}"),chars:ZSPR.all().map(function(e){ return {id:e.id,group:e.group,sub:e.sub,name:e.name,q:e.q,facings:e.facings,scale:e.scale,kit:e.kit||"",anims:e.anims.map(function(a){ return a.label+" ×"+a.n+(a.why?" ("+a.why+")":""); }),sheets:e.sheets.map(function(s){ return s.id; })}; })});', ctx, { timeout: 120000 });
+  const S = JSON.parse(ctx.__spr), out = path.join(ROOT, 'sprites', 'requests');
+  fs.mkdirSync(out, { recursive: true });
+  fs.writeFileSync(path.join(out, 'requests.json'), JSON.stringify({ made: 'build.mjs from src/js/07zs-sprites.js — do not edit by hand', how: 'full request text = body + style + rules + (bgAlpha for the API, or bgKey with {KEY} = the request key colour when pasting by hand)', stats: S.stats, pilot: S.pilot, waves: S.waves, style: S.style, rules: S.rules, bgAlpha: S.bgAlpha, bgKey: S.bgKey, requests: S.req }, null, 0));
+  const byWave = {}; S.req.forEach(q => (byWave[q.wave] = byWave[q.wave] || []).push(q));
+  for (const w of Object.keys(byWave)) {
+    const name = 'wave-' + String(w).replace('.', '_') + '-' + String(S.waves[w] || 'other').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.md';
+    fs.writeFileSync(path.join(out, name), '# ' + (S.waves[w] || 'Wave ' + w) + ' — ' + byWave[w].length + ' requests\n\nSave each result as `sprites/incoming/<request id>.png`.\n\n' +
+      byWave[w].map(q => '## ' + q.id + '\n\n' + q.name + ' · ' + q.title + ' · ' + q.poses.length + ' poses, ' + q.cols + ' × ' + q.rows + ' · ' + q.size + ' · ' + q.tier + '\n\nAttach: ' + q.refs.join(', ') + '\n\n```\n' + q.body + '\n' + S.style + '\n' + S.rules + '\n' + S.bgKey.replace('{KEY}', q.key) + '\n```\n').join('\n'));
+  }
+  fs.writeFileSync(path.join(out, 'survey.md'), '# Character survey — ' + S.stats.chars + ' characters, ' + S.stats.sheets + ' sheets (' + S.stats.core + ' core), ' + S.stats.poses + ' poses\n\nMade by build.mjs from the game data. Kit modules with no animation mapping: ' + (S.stats.unknown.length ? S.stats.unknown.join('; ') : 'none') + '.\n\n| Group | Characters | Sheets | Core sheets | Poses |\n|---|---|---|---|---|\n' +
+    Object.keys(S.stats.byGroup).map(g => '| ' + g + ' | ' + S.stats.byGroup[g].chars + ' | ' + S.stats.byGroup[g].sheets + ' | ' + S.stats.byGroup[g].core + ' | ' + S.stats.byGroup[g].poses + ' |').join('\n') +
+    '\n\n| Id | Name | Group | Facings | Moves it must show | Sheets |\n|---|---|---|---|---|---|\n' + S.chars.map(c => '| ' + c.id + ' | ' + c.name.replace(/\|/g, '/') + ' | ' + c.sub + ' | ' + c.facings.join(' ') + ' | ' + c.anims.join('; ').replace(/\|/g, '/') + ' | ' + c.sheets.length + ' |').join('\n') + '\n');
+  if (S.stats.unknown.length) console.warn('! sprite manifest: kit modules without an animation: ' + S.stats.unknown.join('; '));
+  console.log(`✓ sprites/requests/  ${S.stats.chars} characters, ${S.stats.sheets} sheets (${S.stats.core} core)`);
+} catch (e) { console.warn('! sprite requests not exported: ' + e.message); }
 
 // ── Hosting: dist/ = what gets deployed — the home page at /, the game at /play, the Design Lab at /lab
 // (vercel.json: buildCommand "npm run build", outputDirectory "dist")
@@ -120,6 +162,8 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   try { fs.rmSync(D('dist'), { recursive: true, force: true }); } catch (e) { /* folder where deleting is not allowed: the files below are overwritten in place */ }
   fs.mkdirSync(D('dist', 'lab'), { recursive: true }); fs.mkdirSync(D('dist', 'play'), { recursive: true });
   fs.copyFileSync(D('index.html'), D('dist', 'play', 'index.html'));
+  // the same game with the other engine as its default, so both can be tried from one deploy: /play4 (Phaser 4), /play3 (Phaser 3.60)
+  for (const v of ['3', '4']) { fs.mkdirSync(D('dist', 'play' + v), { recursive: true }); fs.writeFileSync(D('dist', 'play' + v, 'index.html'), withEngine(outRaw, v, false)); }
   if (fs.existsSync(D('lab/index.html'))) fs.copyFileSync(D('lab/index.html'), D('dist', 'lab', 'index.html'));
   // the home page (Next.js, site/): it paints the brand with the game's own brand code
   let home = false;

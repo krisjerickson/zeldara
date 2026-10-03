@@ -43,7 +43,7 @@ var CHX={
     if(cont){ var au=scene.add.image(0,2,CHX.glow(scene)).setBlendMode(Phaser.BlendModes.ADD).setTint(col).setAlpha(0.35).setScale(r/40); cont.add(au);
       scene.tweens.add({targets:au,alpha:0.12,scale:r/34,duration:900,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
     var im=CHX.sprite(scene,id,0,r*0.55,sc,{origin:[0.5,0.9]}), base=def.color;
-    im.setFillStyle=function(c){ if(c===0xffffff)this.setTintFill(0xffffff); else if(c===undefined||c===base)this.clearTint(); else this.setTint(c); return this; };
+    im.setFillStyle=function(c){ if(c===0xffffff)ZENG.tintFill(this,0xffffff); else if(c===undefined||c===base)this.clearTint(); else ZENG.tint(this,c); return this; };
     im.setStrokeStyle=function(){ return this; };
     return im; },
 

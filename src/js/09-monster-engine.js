@@ -103,7 +103,7 @@ MX.spawn=function(scene,rid,x,y,o){ o=o||{}; var R=MON_BY_ID[rid]; if(!R)return 
   var nameT=lazy?null:scene.add.text(0,nameY,nameS,{fontSize:'7px',color:'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5); if(nameT)nameT.setColor(lvCol);
   cont.add(nameT?[shadow,spr,hpBg,hpFill,nameT]:[shadow,spr,hpBg,hpFill]);
   var col=parseInt(R.spec.pal[0].slice(1),16);
-  spr.setFillStyle=function(c){ if(c===0xffffff)this.setTintFill(0xffffff); else if(c===undefined||c===col)this.clearTint(); else this.setTint(c); return this; };
+  spr.setFillStyle=function(c){ if(c===0xffffff)ZENG.tintFill(this,0xffffff); else if(c===undefined||c===col)this.clearTint(); else ZENG.tint(this,c); return this; };
   var mon={mx:true,rid:rid,R:R,kit:kit,cont:cont,body:spr,spr:spr,hpFill:hpFill,hpBg:hpBg,nameT:nameT,type:'mx_'+rid,
     def:{name:o.name||R.name,icon:'',r:s.r,color:col,xp:s.xp,gMin:s.gMin,gMax:s.gMax,atk:s.atk,def:s.def,spd:s.spd,sec:q,hp:s.hp,atkType:'mx',moveType:'mx'},
     maxHp:s.hp,_hp:s.hp,x:x,y:y,spawnX:x,spawnY:y,level:s.lv,monAtk:s.atk,monDef:s.def,dead:false,state:'wander',atkTimer:0,respawnTimer:0,

@@ -197,12 +197,32 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Round 16 (Kris, Oct 2):** "great, lets update these shots bullets and rocks and fireballs too" → give familiar shots, the sky-chase bullets and the Volcano scenes' rocks and fireballs the picked shot look as well. **Built Oct 2 — changelog [222]–[223], game v23.**
 
 - **Round 17 (Kris, Oct 3):** "put the additional projectiles into the design lab so i can check out" → five "In the game now" cards in the Lab Projectiles tab (Lab v23, changelog [224]). **Waiting on Kris:** notes on those cards, if any shot needs changing. He also asked for next-step recommendations and an engine / Next.js comparison → `13-next-steps-and-engine-options.md` (no decisions made yet; see its "Decisions for Kris").
+- **Direction (Kris, Oct 3):** "let's keep much of the additional phases parked for now, as we'll still do some story and universe expansions first." → The remaining phase work (elements, tutorial, touch, sprite waves, deploy order) is **parked**. Next work is story and universe expansion, led by Kris. Do not start parked items unprompted.
+- **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
-- None open. Still waiting on Kris's check of waystone travel in real play.
+- None open. Waiting on Kris:
+  1. The 12 pilot requests by hand (Lab → Sprite Library → Guide), saved to `sprites/incoming/`.
+  2. "Looks right" / notes on the Sprite Library cards, and whether the girl's proposed look (auburn braid, wine-red cape) is right.
+  3. A play test of `?engine=4` on his PC and a phone (no decision yet on when to make Phaser 4 the default).
+  4. His check of waystone travel in real play.
+
+## Round 18 — request and answers
+**Round 18 (Kris, Oct 3) — built Oct 3 (changelog [227]–[233]).** Request: prepare (not do) the Phaser 4 upgrade and create the build switch; prepare the sprite library and atlas; survey every monster, familiar, NPC, boss, animal, mount, rider and other character with all their moves; two playable heroes (male + female); hero visuals for moving, sword / battle axe, bow / crossbow, staff / wand, shield block, rolling and each skill; mapping of sprites to weapons and moves; Lab tab to review; all ChatGPT requests plus the feeding process. References attached: a teal-maned centaur (style) and the boy hero. Teal highlights must carry through.
+Facts checked before asking: hero today has walk front / side / back, attack, bow and horse frames only; there is no roll key, but there **is a Roll skill** (sp_roll, taught by Tumbler Pia) — the roll frames serve it; staffs and wands exist as items; the old style bible (doc 09) says pixel art on a green background with 5 concepts per character.
+1. Hero → **ANSWERED: yes, the attached boy is the male hero; redraw all hero frames in that style.**
+2. Facings → **ANSWERED: mixed.** Humanoid monsters and NPCs get front + side + back; beasts, swarms and floating creatures get one 3/4 view mirrored. Heroes get front + side + back. Bosses follow the same humanoid / creature rule (creature bosses one view).
+3. Concepts → **ANSWERED: straight to final sheets** from the design already in the game; re-roll only the ones Kris dislikes. (Replaces the 5-concepts rule in doc 09.)
+4. Feeding → **ANSWERED: pilot of about 10 by hand to lock the style, then a script Kris runs on his PC with his own OpenAI API key.**
+5. Phaser 4 switch → **ANSWERED: playable on both.** Add the switch and make the 9 changed calls work on either version; 3.60 stays the default.
+6. Two heroes → **ANSWERED: now.** New Game asks which hero, the choice is saved, the female uses a temporary recoloured stand-in until her sprites arrive.
+7. Rolling → **ANSWERED: prepare only** (sprites, prompts, mapping). The move itself is designed with Kris later.
+8. Riders → **ANSWERED: painted together.** Every hero-on-mount pair is its own painting (2 heroes × every mount), not layered.
+- **Counts after building:** 439 characters, 919 sheets (667 core, 252 extra). The question card estimated about 550 for "mixed"; the real core count is 667 because humanoids need a front-and-back sheet.
+- **Next step when pilot sprites arrive:** run the intake, show frames in the Lab, then build the atlas loader in the game (stand-ins stay as the fallback).
 
 ## Fixed decisions (already made by Kris)
-- **Keep the AI-painted hero sprite.** All NPCs, monsters, animals and familiars are redrawn to match it (track E).
+- **Hero art (changed Oct 3, round 18):** the boy in Kris's reference image is the male hero and all hero frames are redrawn in that style; a girl hero is added. Every other character is painted to match (track E). The earlier rule was "keep the AI-painted hero sprite"; today's frames stay in the game as stand-ins until the new ones arrive.
 - **Git + Vercel:** prepared Oct 1 (Kris's go-ahead). The local main is about 21 commits ahead of GitHub; Kris pushes, then imports into Vercel.
 - **Selector pages** are required for: towers (10 walkable designs), open-dungeon layouts (10), world quadrants (10 × 4), and sprites (~5 options per character).
 

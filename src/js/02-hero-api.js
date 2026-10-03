@@ -49,6 +49,26 @@ function _heroRegisterTextures(scene){
   if(!scene.textures.exists('hero_horse_side_0')) for(var hs=0;hs<HERO_HORSE_SIDE.length;hs++) scene.textures.addBase64('hero_horse_side_'+hs,HERO_HORSE_SIDE[hs]);
   if(!scene.textures.exists('hero_horse_back_0')) for(var hb=0;hb<HERO_HORSE_BACK.length;hb++) scene.textures.addBase64('hero_horse_back_'+hb,HERO_HORSE_BACK[hb]);
 }
+// ── Two playable heroes (round 18): ps.hero is 'm' (default, old saves) or 'f'.
+// Until the painted sprites arrive, the girl is a recoloured stand-in of the boy's frames
+// (auburn hair, wine-red cape), made on first use from each frame and cached as 'heroF_*'.
+function _heroWho(scene){ var ps=scene&&((scene.worldScene&&scene.worldScene.playerState)||scene.playerState); return ps&&ps.hero==='f'?'f':'m'; }
+function _heroRecolour(src){ var w=src.width, h=src.height, cv=document.createElement('canvas'); cv.width=w; cv.height=h; var c=cv.getContext('2d'); c.drawImage(src,0,0);
+  var im=c.getImageData(0,0,w,h), d=im.data, top=-1;
+  for(var i=3;i<d.length;i+=4)if(d[i]>40){ top=Math.floor((i>>2)/w); break; }
+  var headEnd=top+(h-top)*0.42;
+  for(var y=0;y<h;y++)for(var x=0;x<w;x++){ var o=(y*w+x)*4; if(d[o+3]<8)continue; var r=d[o]/255, g=d[o+1]/255, b=d[o+2]/255, mx=Math.max(r,g,b), mn=Math.min(r,g,b), l=(mx+mn)/2, dl=mx-mn;
+    // the pale cape and tunic (light, nearly grey, between the chin and the belt) → wine red
+    if(dl<0.16&&l>0.5&&y>=headEnd-h*0.06&&y<top+(h-top)*0.7){ var k=0.45+(l-0.5)*0.9; d[o]=Math.round(170*k+40); d[o+1]=Math.round(40*k+8); d[o+2]=Math.round(78*k+14); continue; }
+    if(dl<0.07)continue;
+    var s=dl/(1-Math.abs(2*l-1)), hh=mx===r?((g-b)/dl)%6:mx===g?(b-r)/dl+2:(r-g)/dl+4; hh=(hh*60+360)%360; var nh=-1, ns=s, nl=l;
+    if(y<headEnd&&hh>=8&&hh<=48&&l<0.62&&s>0.28){ nh=356; ns=Math.min(1,s*1.3+0.08); nl=l*0.9; }  // brown hair → red auburn
+    if(nh<0)continue; var q=nl<0.5?nl*(1+ns):nl+ns-nl*ns, p=2*nl-q, f=function(t){ t=((t%1)+1)%1; return t<1/6?p+(q-p)*6*t:t<0.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p; };
+    d[o]=Math.round(f(nh/360+1/3)*255); d[o+1]=Math.round(f(nh/360)*255); d[o+2]=Math.round(f(nh/360-1/3)*255); }
+  c.putImageData(im,0,0); return cv; }
+// the texture key to draw for this scene's hero: 'hero_front_3' → itself for the boy, 'heroF_front_3' for the girl
+function _heroKey(scene,key){ if(_heroWho(scene)!=='f')return key; var fk='heroF_'+key.slice(5); if(scene.textures.exists(fk))return fk; if(!scene.textures.exists(key))return key;
+  try{ var src=scene.textures.get(key).getSourceImage(); if(!src||!src.width)return key; scene.textures.addCanvas(fk,_heroRecolour(src)); return fk; }catch(e){ return key; } }
 function _heroAddSprite(scene, container, feetY){
   _heroRegisterTextures(scene);
   var sp=scene.add.image(0,feetY||14,scene.textures.exists('hero_front_0')?'hero_front_0':'__DEFAULT')
@@ -63,20 +83,24 @@ function _heroAnimate(scene, sprite, st, vx, vy, dt, atkTimer, bowTimer){
   if(!sprite||!sprite.scene)return;   // destroyed with its scene
   // Bow attack overlay — checked first so CTRL never visually fires the sword.
   // 10 frames over the 0.7s draw cycle.
+  // st.anim = the library animation this pose stands for (round 18 mapping, ZSPR.HERO.animFor): the painted atlas will be drawn from it.
+  var _zps=(scene.worldScene&&scene.worldScene.playerState)||scene.playerState, _zH=typeof ZSPR!=='undefined'&&ZSPR.HERO;
   if(bowTimer&&bowTimer>0){
+    if(_zH)st.anim=_zH.animFor(_zps,'ranged');
     var bp=1-(bowTimer/0.7); if(bp<0)bp=0; if(bp>1)bp=1;
     var bf=Math.min(9,Math.floor(bp*10));
     var bk='hero_bow_'+bf;
-    if(scene.textures.exists(bk))sprite.setTexture(bk).setDisplaySize(38,42);
+    if(scene.textures.exists(bk))sprite.setTexture(_heroKey(scene,bk)).setDisplaySize(38,42);
     sprite.setFlipX(st.dir==='left');
     return;
   }
   // Sword attack overlay.
   if(atkTimer&&atkTimer>0){
+    if(_zH)st.anim=_zH.animFor(_zps,'melee');
     var ap=1-(atkTimer/0.45); if(ap<0)ap=0; if(ap>1)ap=1;
     var af=Math.min(6,Math.floor(ap*7));
     var ak='hero_attack_'+af;
-    if(scene.textures.exists(ak))sprite.setTexture(ak).setDisplaySize(38,42);
+    if(scene.textures.exists(ak))sprite.setTexture(_heroKey(scene,ak)).setDisplaySize(38,42);
     sprite.setFlipX(st.dir==='left');
     return;
   }
@@ -106,8 +130,9 @@ function _heroAnimate(scene, sprite, st, vx, vy, dt, atkTimer, bowTimer){
   } else {st._walkFrame=0;st._walkTimer=0;}
   st._wasMoving=moving;
   st._lastSet=setTag;
+  st.anim=onHorse?'ride':(moving?'walk':'idle');
   var k=setKey+st._walkFrame;
-  if(scene.textures.exists(k))sprite.setTexture(k).setDisplaySize(dispW,dispH);
+  if(scene.textures.exists(k))sprite.setTexture(_heroKey(scene,k)).setDisplaySize(dispW,dispH);
   sprite.setFlipX(st.dir==='left');
 }
 function _heroDirFromVel(vx, vy, prevDir){

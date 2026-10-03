@@ -68,7 +68,7 @@ Object.assign(WorldScene.prototype,{
       [[0,0.7,7,4],[1,0.45,-5,6]].forEach(function(q){ var pk='wlava_'+q[0]; if(!self.textures.exists(pk))self.textures.addCanvas(pk,_lavaPattern(WORLD_SEED,q[0]));
         var ts=self.make.tileSprite({x:0,y:0,width:WCH*LT,height:WCH*LT,key:pk,add:false}).setOrigin(0,0).setAlpha(q[1]).setBlendMode(Phaser.BlendModes.ADD);
         ts._flow={vx:q[2],vy:q[3]}; ts.tilePositionX=x0; ts.tilePositionY=y0; lc.add(ts); });
-      lc.setMask(mi.createBitmapMask()); lc._lava=lc.list; objs.push(lc); objs.push(mi);
+      ZENG.mask(lc,mi,mk); lc._lava=lc.list; objs.push(lc); objs.push(mi);
     }
     if(o.ley){ var li=this.add.image(x0,y0,addTex(tag+'_ley',o.ley)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.8).setDepth(-5); objs.push(li);
       this.tweens.add({targets:li,alpha:0.5,duration:2200,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }

@@ -416,6 +416,7 @@ class DungeonScene extends Phaser.Scene{
       cut(this.px,this.py-14,heroR*(1+0.03*Math.sin(tt*9)),1);
       if(!_bl)this._lightObjs.forEach(function(o){ var L=o._base; if(L.noCut)return; cut(o.x,o.y,L.r*(L.cut||0.9),Math.min(1,o.alpha*1.6)); });
       if(m.trialDark!==undefined){ var FV=this._famVisuals||{}; Object.keys(FV).forEach(function(k){ var fv=FV[k]; if(fv&&fv.x!==undefined)cut(fv.x,fv.y,110,0.9); }); }
+      ZENG.rtDone(rt);
     }
   }
   // Stairs markers + floor labels on Lab floors

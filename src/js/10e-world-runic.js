@@ -39,6 +39,7 @@ Object.assign(WorldScene.prototype,{
       var self=this, cnt=0;
       if(this._wr)this._wr.chunks.forEach(function(ch){ ch.objs.forEach(function(o){ if(cnt>90||!o._base||o._base.noCut)return; cnt++; cut(o.x,o.y,o._base.r*0.9,Math.min(1,o.alpha*1.6)); }); });
       (this._glowObjs||[]).forEach(function(o){ cut(o.x,o.y,o.scale*64*0.9,Math.min(1,o.alpha*1.8)); });
+      ZENG.rtDone(rt);
     } else if(this._darkRT)this._darkRT.setVisible(false);
   },
   _makeHoleTex(){ if(this.textures.exists('dark_hole'))return; var h=mkCanvas(256,256), q=h.getContext('2d'), g3=q.createRadialGradient(128,128,0,128,128,128);

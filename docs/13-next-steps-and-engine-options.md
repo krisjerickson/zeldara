@@ -91,6 +91,92 @@ Engine choice matters less than these, and all are possible in Phaser:
 - Phaser 4's GPU tile and sprite layers would help most on phones and old laptops.
 - First load: the game file is 2.4 MB before compression, and Vercel compresses it. Splitting the Lab-only and late-game code out would cut it further, with or without Next.js.
 
+## 4b. Phaser 4 trial (Oct 3, 2026)
+
+Kris asked for more detail on the upgrade. I ran the unchanged game on Phaser 4.2.1 (current release) in the headless test browser. No game code was changed.
+
+**Caveat on every timing below:** the test browser draws with software (SwiftShader), not a real graphics card, on a shared cloud CPU. Counts (draw calls, bytes, test results) are exact. Milliseconds are only a relative guide and must be re-measured on a real PC and phone.
+
+> **Update, round 18 (Oct 3):** the build switch is in and the 9 call sites now work on both engines (`src/js/00a-engine.js`). Phaser 3.60 is still the default. Try Phaser 4 with `?engine=4` or at `/play4`.
+
+### What happened
+
+- The game boots, starts a new game and draws the village on Phaser 4 with no errors. Screenshots match Phaser 3.60.
+- 9 test suites run on Phaser 4: **126 of 133 checks pass.** All 7 failures come from two removed calls.
+
+| Suite | Phaser 4 result |
+|---|---|
+| phase1_core | 25 / 25 |
+| round15 (shots) | 10 / 10 |
+| saves | 13 / 13 |
+| brand | 13 / 13 |
+| round6 | 30 / 32 |
+| world_game | 25 / 26 |
+| round9 | 6 / 7 |
+| round12 (waystones) | 4 / 7 |
+
+Not run on Phaser 4 yet: monsters (long), round 7, 8, 8b, 14, waystone clicks, site home, and the Lab.
+
+### What has to change (found by the trial and a code audit)
+
+| Change in Phaser 4 | Uses in Zeldara | What breaks if left | Work |
+|---|---|---|---|
+| `createBitmapMask` removed → Mask filter | 1 (`10c-world-render.js`, the lava glow layer) | **Fatal:** every map chunk with lava throws an error each frame; this is what failed the waystone tests | Small |
+| `setTintFill` removed → `setTint` + `setTintMode(FILL)` | 5 (white hit-flash on monsters, characters, bosses) | Flash does not show; an error is logged | Trivial |
+| RenderTexture draws are buffered; need `render()` | 3 (night / fog darkness in the world and dungeons) | **Silent:** darkness may not draw, and no error is raised. Needs an eye check | Small |
+| `roundPixels` now off by default | not set anywhere | Possible soft edges or seams between map chunks | Check, one config line |
+| Canvas-painted textures (24 `addCanvas` call sites, hundreds of textures) now stored in GL orientation | whole world, monsters, shots, brand | Handled by Phaser; village screenshot is correct. Needs a look at every scene type | Check only |
+| Blend modes: 4 native in WebGL | we use only ADD (29) | none | — |
+| Custom pipelines, FX, Light2D, Mesh, `Geom.Point`, `Math.TAU`, `Struct.Set` | 0 uses | none | — |
+| Engine file | 1.16 MB → 1.38 MB (307 → 355 KB compressed, +48 KB) | slightly larger first load | — |
+
+Estimate: 1 session to change the 9 call sites, switch the engine in the build, the Lab and the tests, and get all suites passing; 1 more session for an eye check of each scene type (world by day and night, dungeons, towers, castles, islands, sky, volcano, trials, Lab). Both are estimates.
+
+### Measurements
+
+Village at the start of a new game, 1,613 objects on screen, same build:
+
+| Per frame | Phaser 3.60 | Phaser 4.2.1 | Change |
+|---|---|---|---|
+| Draw calls | 279 | 286 | same |
+| Texture binds | 415 | 416 | same |
+| Vertex data sent to the GPU | 1,198 KB | 514 KB | −57% |
+| Script + render time (software GPU) | 20.7 ms | 13.1 ms | −37% |
+| Whole frame (software GPU) | 282 ms | 221 ms | −22% |
+
+Synthetic sprite test, 240 different 48-pixel creatures (tests/bench/sprite_bench.py):
+
+| 3,000 moving sprites | Draw calls | Data sent per frame | Script time, v3 → v4 | Whole frame (software GPU), v3 → v4 |
+|---|---|---|---|---|
+| 240 separate textures (how monsters are stored today) | 188 | 492 KB → 328 KB | 1.5 → 3.2 ms | 326 → 924 ms |
+| One atlas | 1 | 492 KB → 328 KB | 1.4 → 1.6 ms | 316 → 727 ms |
+| Phaser 4 GPU sprite layer, one atlas | 1 | 0 KB | 0.2 ms | 352 ms |
+
+Reading these:
+
+- **Latency.** Phaser 4 does not change input delay or network delay (there is no network in play). It changes frame time only.
+- **The engine sends less data** (4 corners per sprite instead of 6), which is where the village gain comes from.
+- **Mixed result on raw fill.** With 3,000 overlapping sprites the Phaser 4 frame was 2.3–2.8× slower on the software renderer. Its sprite shader does more work per pixel. A real graphics card usually hides this, but a weak laptop or phone might not. This is the main reason to measure on real devices before committing.
+- **The atlas matters more than the engine.** One atlas turns 188 draw calls into 1 on either version. On phones Phaser defaults to one texture per batch, so separate textures cost up to one draw call per sprite there.
+- **The game is already fragmented:** 279 draw calls for 1,613 objects in a quiet village.
+- **GPU sprite layer:** thousands of sprites for one draw call and no per-frame upload. Members are set up once and animate on the GPU, so it suits things that are not steered by game logic each frame: grass, trees, props, ambient animals, fairies, crowds. Monsters with AI stay ordinary sprites.
+
+### What it means for a full sprite library
+
+- Build the library as **atlases** (one per quadrant, about 2048×2048, plus one for NPCs) whichever engine is used. This is the large win and it can be done on Phaser 3.60.
+- Phaser 4 adds: lighting on any sprite with one call (`setLighting(true)`), so painted monsters can be lit by torches and rune glow; filters (glow, outline, blur, colour) on any object, for elites, bosses, status effects; `smoothPixelArt` for clean scaling of pixel sprites; a much smaller atlas description format.
+- If the upgrade is going to happen, do it **before** the sprite waves so the sprite pipeline (atlas format, lighting, hit-flash, outlines) is written once.
+
+### Risks
+
+1. Silent visual changes (darkness layers, seams) that tests do not see. Needs the eye check.
+2. Fill-rate cost on weak GPUs, as measured above. Needs a real-device test.
+3. The Lab and the artifact builds share the engine; all three must switch together.
+4. Phaser 4 is six months old (4.0 in April 2026, now 4.2.1). Fewer answered questions and examples than Phaser 3.
+5. The headless tests cannot use a real GPU, so performance stays a manual check.
+
+Low-risk way to do it: a build switch that picks the engine version, so 3.60 stays the default until Kris has played the Phaser 4 build on his PC and a phone.
+
 ## 5. Decisions for Kris
 
 1. Deploy now, or finish elements and story first?
@@ -103,4 +189,6 @@ Engine choice matters less than these, and all are possible in Phaser:
 
 - [Phaser 3 vs Phaser 4: What Changed and Why You Should Upgrade](https://phaser.io/news/2026/05/phaser-3-vs-phaser-4)
 - [Phaser 4 Renderer: Faster, Cleaner, and Built for Modern Games](https://phaser.io/news/2026/04/phaser-4-renderer-faster-cleaner-and-built-for-modern-games)
+- [Phaser v3 to v4 migration guide](https://github.com/phaserjs/phaser/blob/master/changelog/v4/4.0/MIGRATION-GUIDE.md)
+- [Migrating from Phaser 3 to Phaser 4: What You Need to Know](https://phaser.io/news/2026/04/migrating-from-phaser-3-to-phaser-4-what-you-need-to-know)
 - [11 Best Web Game Engines for 2026, Ranked and Compared](https://app.cinevva.com/guides/web-game-engines-comparison)

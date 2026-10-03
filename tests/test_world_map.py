@@ -11,7 +11,7 @@ with sync_playwright() as p:
     b=p.chromium.launch(args=["--use-gl=swiftshader","--enable-unsafe-swiftshader"])
     pg=b.new_page(viewport={"width":1400,"height":1000}); errs=[]
     pg.on("pageerror",lambda e: errs.append("PAGEERR "+str(e)))
-    pg.route(re.compile(r".*cdnjs.*phaser.*"),lambda r: r.fulfill(path=PHASER,content_type="application/javascript"))
+    pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"),lambda r: r.fulfill(path=PHASER,content_type="application/javascript"))
     pg.route(re.compile(r".*fonts.*"),lambda r: r.abort())
     html=open(os.path.join(HERE,'..','lab','index.html'),encoding='utf-8').read()
     pg.route("http://lab.test/**",lambda r: r.fulfill(body=html,content_type="text/html"))

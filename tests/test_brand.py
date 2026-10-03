@@ -9,7 +9,7 @@ HERE=os.path.dirname(os.path.abspath(__file__)); PH=os.path.join(HERE,'.phaser',
 with sync_playwright() as p:
     b=p.chromium.launch(args=["--use-gl=swiftshader","--enable-unsafe-swiftshader"]); pg=b.new_page(viewport={'width':1280,'height':1000}); errs=[]
     pg.on('pageerror',lambda e: errs.append(str(e)))
-    pg.route(re.compile(r".*cdnjs.*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
+    pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
     pg.goto('file://'+os.path.join(HERE,'..','lab','index.html')); pg.wait_for_timeout(1500)
     n=pg.evaluate("[1,2,3].map(g=>[ZBrand.SYMBOLS,ZBrand.WORDS,ZBrand.HOMES].map(L=>L.filter(x=>x.gen===g).length))")
     check('First round 20/10/15 kept; second pass 32/10/6; third pass 20 logos, 10 typefaces, 3 home pages', n==[[20,10,15],[32,10,6],[20,10,3]], n)

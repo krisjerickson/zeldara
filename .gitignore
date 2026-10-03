@@ -25,3 +25,7 @@ site/.next/
 site/out/
 site/public/brand.js
 site/next-env.d.ts
+# round 18: second test engine, artifact build of the game, sprite tool output
+tests/.phaser4/
+/zeldara.artifact.html
+sprites/out/

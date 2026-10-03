@@ -42,7 +42,7 @@ var BossRig={ keys:[], MAXTEX:8,
     if(cont){ [back,wb,body,pupil,wf].forEach(function(o){ if(o)cont.add(o); }); }
     body._ch=true; body._baseSc=sc;
     var R=body._rig={D:D,M:M,back:back,body:body,pupil:pupil,wb:wb,wf:wf,wr:P.wr,u:u,cont:cont,fy:fy,t:Math.random()*6,lx:null,ly:null,fade:0,trailT:0,ghosts:0,step:0,laid:false,mon:mon||null,scene:scene};
-    body.setFillStyle=function(c){ if(c===0xffffff)this.setTintFill(0xffffff); else if(c===undefined||c===null)this.clearTint(); else if(typeof c==='number'&&c!==(this._baseCol||-1))this.setTint(c); else this.clearTint(); return this; };
+    body.setFillStyle=function(c){ if(c===0xffffff)ZENG.tintFill(this,0xffffff); else if(c===undefined||c===null)this.clearTint(); else if(typeof c==='number'&&c!==(this._baseCol||-1))ZENG.tint(this,c); else this.clearTint(); return this; };
     body.setStrokeStyle=function(){ return this; };
     return body; },
   // grow the boss's footprint: hit radius + shadow (legacy defs are shared → copy first)
@@ -151,7 +151,7 @@ var BossMoments={
   hideCard:function(){ var el=document.getElementById('boss-card'); if(el)el.classList.remove('on'); },
   // the fight goes on in the next arena: the boss swells with light, shockwaves, a roar
   transform:function(S,mon){ S._bmKeepMusic=true; var b=mon.body, R=b&&b._rig, D=R&&R.D, x=mon.x, y=mon.y; ZSFX.play('roar',{big:D?D.h/140:1.2}); S.time.delayedCall(900,function(){ ZSFX.play('boom'); });
-    if(R&&S.add){ var g=S.add.image(x,y+R.fy,b.texture.key,'3').setOrigin(b.originX,b.originY).setScale(b.scaleX,b.scaleY).setFlipX(b.flipX).setDepth((mon.cont.depth||10)+1).setTintFill(0xffffff).setAlpha(0);
+    if(R&&S.add){ var g=S.add.image(x,y+R.fy,b.texture.key,'3').setOrigin(b.originX,b.originY).setScale(b.scaleX,b.scaleY).setFlipX(b.flipX).setDepth((mon.cont.depth||10)+1).setAlpha(0); ZENG.tintFill(g,0xffffff);
       S.tweens.add({targets:g,alpha:0.95,duration:500}); S.tweens.add({targets:g,scaleX:b.scaleX*1.7,scaleY:b.scaleY*1.7,duration:1500,ease:'Cubic.easeIn'}); S.tweens.add({targets:g,alpha:0,delay:1150,duration:400}); }
     for(var i=0;i<4;i++)(function(i){ S.time.delayedCall(i*260,function(){ BossRig.ring(S,x,y-(D?D.h*0.4:40),D?D.pal.g:'#ffffff'); }); })(i);
     if(S.cameras)S.cameras.main.shake(1400,0.01); },
