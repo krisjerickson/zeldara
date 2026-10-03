@@ -179,7 +179,7 @@ class SkyScene extends Phaser.Scene{
       var sx=this.px, sy=this.py-18, dmg=this.shipDmg;
       var self0=this;
       spreads.forEach(function(ang){
-        var v=self0.add.rectangle(sx,sy,4,12,triActive?0xaaffcc:0xffffff).setDepth(9).setAngle(ang*180/Math.PI);
+        var v=(typeof ZShot!=='undefined'&&ZShot.make(self0,triActive?'dart_cold':'dart',sx,sy,ang-Math.PI/2,9,1.15))||self0.add.rectangle(sx,sy,4,12,triActive?0xaaffcc:0xffffff).setDepth(9).setAngle(ang*180/Math.PI);
         self0.bullets.push({vis:v,x:sx,y:sy,vx:Math.sin(ang)*480,vy:-480*Math.cos(ang),dmg:dmg});
       });
     }

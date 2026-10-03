@@ -1,4 +1,4 @@
-"""Round 15: the picked shot looks in the game (Heavy Bodkin arrows, Solid Elements spells, Real Things monster
+"""Rounds 15-16: the picked shot looks in the game (Heavy Bodkin arrows, Solid Elements spells, Real Things monster
 shots), the plaza logo as wide as the ring of standing stones, and where a game begins.
 Run: python tests/test_round15.py  (after node build.mjs)"""
 import sys, os
@@ -26,6 +26,17 @@ with game(new=True) as g:
     check('Monster shots in the world are pictures now (arrow → bone arrow, bog flame → spit)', r['mon']==['bone_arrow','spit'], r['mon'])
     check('An arrow turns to face the way it flies, is drawn at half scale from 2× frames, and sparks when it ends', r['arrow'][0]=='arrow' and abs(r['arrow'][2]-1.57)<0.05 and r['arrow'][4]==0.5 and r['spark']>=3, [r['arrow'],r['spark']])
     check('Ammo, spells and monster shots map to the right pictures; every spell with a projectile has its own shape', r['kinds']==['dart_fire','fireball','lightning','stone_spikes','rock','spit:#e8e8e8','fireball'] and all(r['all']) and len(r['all'])>=11, [r['kinds'],r['all']])
+    # round 16: familiars, the sky chase and the volcano climb
+    r=g.js("""(()=>{ var ws=game.scene.getScene('World'), p=ws.player, o={}; o.fam=['grass','water','earth','fire'].map(function(k){ return ZShot.famKind(SPIRIT_ELEMENTS[k]); });
+      var a=ZShot.make(ws,'fireball',p.x,p.y-80,0,12,0.6), b=ZShot.make(ws,'rock',p.x+40,p.y-80,0,8,1.35), r0=b.rotation; b.setPosition(b.x,b.y+12); o.size=[a.scaleX,b.scaleX]; o.spin=b.rotation!==r0; a._gone=b._gone=true; a.destroy(); b.destroy();
+      var src=function(f){ return f.toString(); };
+      o.wired=[/ZShot\.make\(scene,ZShot\.famKind/.test(src(_famCast)), /ZShot\.make\(self0/.test(src(game.scene.getScene('SkyChase')?game.scene.getScene('SkyChase').update:function(){})) , true];
+      o.scenes=game.scene.scenes.map(function(s){ return s.sys.settings.key; }).filter(function(k){ return /Sky|Volcano/.test(k); });
+      o.src=game.scene.scenes.filter(function(s){ return /Sky|Volcano/.test(s.sys.settings.key); }).map(function(s){ var t=''; for(var k in Object.getPrototypeOf(s)){} Object.getOwnPropertyNames(Object.getPrototypeOf(s)).forEach(function(k){ try{ t+=String(s[k]); }catch(e){} }); return [s.sys.settings.key, (t.match(/ZShot\.make/g)||[]).length]; });
+      return o; })()""")
+    check('Familiars cast in their element: thorn, wave, stone, fireball; sized shots and tumbling rocks work', r['fam']==['thorn_snare','tidal_wave','stone_spikes','fireball'] and r['size']==[0.3,0.675] and r['spin'] and r['wired'][0], r)
+    uses=dict(r['src'])
+    check('The sky chase and the volcano climb use the new shots (darts; rocks and fireballs)', any(v>=1 for k,v in uses.items() if 'Sky' in k) and any(v>=2 for k,v in uses.items() if 'Volcano' in k), r['src'])
     # continue: a saved game resumes where it was saved
     g.js("(()=>{ var ws=game.scene.getScene('World'); ws.player.x+=TILE*6; ws.player.cont.setPosition(ws.player.x,ws.player.y); ws._save(); })()"); g.wait(200)
     g.js("game.scene.getScene('World').scene.start('Boot',{newGame:false})")

@@ -194,8 +194,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 - **Added mid-task (Kris, Oct 2):** "the starting logo is too small, it should be as large as the rune circles around the starting place. and when you start now, you are in the tavern instead of in the middle of the runes and logo. you should be in the middle of the runes in the village." → (1) make the plaza logo as wide as the ring of standing stones; (2) a new game must begin in the middle of the runes.
 
+- **Round 16 (Kris, Oct 2):** "great, lets update these shots bullets and rocks and fireballs too" → give familiar shots, the sky-chase bullets and the Volcano scenes' rocks and fireballs the picked shot look as well. **Built Oct 2 — changelog [222]–[223], game v23.**
+
+- **Round 17 (Kris, Oct 3):** "put the additional projectiles into the design lab so i can check out" → five "In the game now" cards in the Lab Projectiles tab (Lab v23, changelog [224]). **Waiting on Kris:** notes on those cards, if any shot needs changing. He also asked for next-step recommendations and an engine / Next.js comparison → `13-next-steps-and-engine-options.md` (no decisions made yet; see its "Decisions for Kris").
+
 ## Open questions
-- None open. Still waiting on Kris's check of waystone travel in real play. Possible follow-up (not asked for): give familiar shots and the Volcano / sky scenes the new shot look too.
+- None open. Still waiting on Kris's check of waystone travel in real play.
 
 ## Fixed decisions (already made by Kris)
 - **Keep the AI-painted hero sprite.** All NPCs, monsters, animals and familiars are redrawn to match it (track E).

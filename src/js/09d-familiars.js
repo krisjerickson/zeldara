@@ -120,7 +120,7 @@ function _famRing(scene,x,y,r,col,dur){ var g=scene.add.circle(x,y,8,hexNum(col)
 function _famCast(scene,fid,S,v,c,ps,mult,E){ var mons=c.monsters.filter(function(m){ return !m.dead; }), dmg=(S.dmg||0)*mult; scene._famOx=c.x; scene._famOy=c.y;
   if(S.kind==='proj'){ var t=_famNearest(c,mons,v,S.range,scene); if(!t)return false;
     if(!scene._famProj2)scene._famProj2=[]; var a=Math.atan2(t.y-v.y,t.x-v.x), sp=S.pierce?420:320;
-    var dot=scene.add.image(v.x,v.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(E.col)).setScale(S.fx==='splash'?0.3:0.2).setDepth(12.7), core=scene.add.circle(v.x,v.y,S.fx==='splash'?5:3,hexNum(E.core),1).setDepth(12.71);
+    var dot=scene.add.image(v.x,v.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(E.col)).setScale(S.fx==='splash'?0.3:0.2).setDepth(12.7), core=(typeof ZShot!=='undefined'&&ZShot.make(scene,ZShot.famKind(E),v.x,v.y,a,12.71,S.fx==='splash'?0.85:0.6))||scene.add.circle(v.x,v.y,S.fx==='splash'?5:3,hexNum(E.core),1).setDepth(12.71);
     var hitSet=[];
     scene._famProj2.push({vis:core,glow:dot,x:v.x,y:v.y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,tgt:S.pierce?null:t,life:1.4,pierce:!!S.pierce,hitSet:hitSet,
       onHit:function(m){ _famHit(scene,fid,E,S,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult);

@@ -459,6 +459,25 @@ Kris's picks in the Lab: arrows `ar_bodkin` (Heavy Bodkin), spells `sp_solid` (S
 - **[220] Where a game begins** (Kris: only new games in the rune circle): confirmed by test — a new game begins in the middle of the runes, a continued game resumes where it was saved. No code change.
 - **[221] Tests**: `tests/test_round15.py` (8 checks).
 
+## Round 16 (Kris, Oct 2) — the remaining shots
+- **[222] Familiar shots, sky-chase darts, Volcano rocks and fireballs** use the picked look too (`ZShot.make(..., size)`):
+  - Familiars cast in their element (`ZShot.famKind`): grass → thorn, water → wave, earth → stone shard, fire → fireball; smaller than the hero's spells (0.6, splash skills 0.85). Their coloured glow is kept.
+  - Sky chase: the ship fires bodkin darts (frost-headed during the three-way shot).
+  - Volcano climb (`VolcanoBulletHell`): falling rocks tumble, homing fireballs burn and trail smoke.
+  - This replaces the "Not changed" note in [218]. Every moving shot in the game now goes through `ZShot`.
+- **[223] Tests**: `tests/test_round15.py` now 10 checks; both scenes smoke-tested live (rocks, darts, no errors).
+
+## Round 17 (Kris, Oct 3) — the other shots in the Lab
+- **[224] Lab → Projectiles: "In the game now".** Five new cards lead the tab and show every shot the first cards left out, in the picked looks (`ZProj.PICK`), flying at game size and enlarged:
+  - The other six spells (arcane burst, thorn snare, tidal wave, stone spikes, void rift, spirit drain).
+  - Crossbow darts by element (normal, cold, fire, seeking).
+  - Familiar shots at their real size (×0.6; splash special ×0.85).
+  - Monster shots tinted per monster (web, ink, water, poison, two bolts, monster fire, monster spark).
+  - Sky chase darts (×1.15) and the Volcano climb's falling rock (×1.35) and homing fireball (×1.1).
+  - The 15 looks Kris chose from are folded under "The looks you chose from (round 14)". Card ids `now_spells`, `now_darts`, `now_fam`, `now_mon`, `now_set` (notes save as `proj-<id>`). Code: `lab/src/js/54-lab-proj.js` (`NOW`, `lanes`). No game code changed.
+- **[225] Tests**: `tests/test_round14.py` now 11 checks (the five cards exist, lead the tab and paint).
+- **[226] New doc `13-next-steps-and-engine-options.md`**: what to do next against the phase plan, what Next.js would and would not improve, and other ways to build a web game.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

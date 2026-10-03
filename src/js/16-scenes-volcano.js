@@ -289,7 +289,7 @@ class VolcanoBulletHellScene extends Phaser.Scene {
     if(this._rT<=0){
       this._rT=0.7-climbed*0.4;
       var rx=60+Math.random()*(this.W-120);
-      var rv=this.add.circle(rx, this.player.y-300, 8, 0x442211, 1).setDepth(8).setStrokeStyle(2,0x664422,1);
+      var rv=(typeof ZShot!=='undefined'&&ZShot.make(this,'rock',rx,this.player.y-300,0,8,1.35))||this.add.circle(rx, this.player.y-300, 8, 0x442211, 1).setDepth(8).setStrokeStyle(2,0x664422,1);
       this.rocks.push({vis:rv,x:rx,y:this.player.y-300,vy:160+Math.random()*80});
     }
     this.rocks=this.rocks.filter(function(rk){
@@ -306,7 +306,7 @@ class VolcanoBulletHellScene extends Phaser.Scene {
       this._fT=3.5;
       var fx=60+Math.random()*(this.W-120);
       var fy=this.player.y+250;
-      var fv=this.add.circle(fx,fy,7,0xff6600,1).setDepth(8).setStrokeStyle(2,0xffaa44,0.8);
+      var fv=(typeof ZShot!=='undefined'&&ZShot.make(this,'fireball',fx,fy,-Math.PI/2,8,1.1))||this.add.circle(fx,fy,7,0xff6600,1).setDepth(8).setStrokeStyle(2,0xffaa44,0.8);
       this.fireballs.push({vis:fv,x:fx,y:fy,life:6});
     }
     this.fireballs=this.fireballs.filter(function(fb){

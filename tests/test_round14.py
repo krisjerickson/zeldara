@@ -43,8 +43,10 @@ with sync_playwright() as p:
     r=pg.evaluate("""(()=>{ var cards=document.querySelectorAll('.br-card[data-tab=proj]'), bad=[], cv=document.createElement('canvas'); cv.width=120; cv.height=80; var c=cv.getContext('2d');
       [['arrow','arrow_cold','arrow_fire','arrow_heat','dart'],['frost_bolt','fireball','lightning','ice_shards','void_orb'],['rock','spit','bone_arrow','dark_bolt']].forEach(function(K,gi){ [ZProj.ARROWS,ZProj.SPELLS,ZProj.SHOTS][gi].forEach(function(S){ K.forEach(function(k){ c.setTransform(1,0,0,1,0,0); c.clearRect(0,0,120,80); c.translate(60,40); try{ ZProj.draw(c,k,S,1.3); }catch(e){ bad.push(S.id+'/'+k+' '+e.message); return; } var d=c.getImageData(0,0,120,80).data, n=0; for(var i=3;i<d.length;i+=4)if(d[i]>60)n++; if(n<25)bad.push(S.id+'/'+k+' ink '+n); }); }); });
       return {n:cards.length, groups:[ZProj.ARROWS.length,ZProj.SPELLS.length,ZProj.SHOTS.length], bad:bad}; })()""")
-    check('Lab Projectiles tab: 6 arrow looks, 5 spell looks, 4 monster-shot looks, every shot draws', r['n']==15 and r['groups']==[6,5,4] and not r['bad'], r)
+    check('Lab Projectiles tab: 6 arrow looks, 5 spell looks, 4 monster-shot looks (+5 in-game cards), every shot draws', r['n']==20 and r['groups']==[6,5,4] and not r['bad'], r)
     pg.evaluate("document.querySelector('.br-card[data-id=ar_longbow] .br-pick').click()"); pg.wait_for_timeout(200)
+    r17=pg.evaluate("""(()=>{ var ids=['now_spells','now_darts','now_fam','now_mon','now_set'], o={n:0,blank:[]}; ids.forEach(function(id){ var a=document.querySelector('.br-card[data-tab=proj][data-id='+id+']'); if(!a)return; o.n++; var cv=a.querySelector('canvas'); LBR.draw(cv,2.2); var d=cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data, seen={}; for(var i=0;i<d.length;i+=4*97)seen[d[i]>>4<<8|d[i+1]>>4<<4|d[i+2]>>4]=1; if(Object.keys(seen).length<12)o.blank.push(id); }); o.first=document.querySelector('.br-card[data-tab=proj]').dataset.id; return o; })()""")
+    check('Round 17: five "in the game now" cards lead the tab and all paint', r17['n']==5 and not r17['blank'] and r17['first']=='now_spells', r17)
     check('A projectile pick is saved as proj-<id>', '"verdict":"pick"' in pg.evaluate("JSON.stringify(LabApp.picks['proj-ar_longbow'])"))
     check('No JS errors (Lab)', not errs, errs[:3]); b.close()
 print('%d/%d passed'%(sum(res),len(res)))
