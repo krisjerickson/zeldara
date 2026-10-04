@@ -501,6 +501,7 @@ Kris's picks in the Lab: arrows `ar_bodkin` (Heavy Bodkin), spells `sp_solid` (S
   - Requests `hero_f.model_a / _b / _c` (pilot, attach the boy's model sheet). The kept one becomes `hero_f.model`. Until Kris picks, look A is the default for her other sheets.
 - **[236] Lab → Sprite Library**: "Received so far" shows each sheet as it came, and its cut frames at game size next to today's hero (grass and dungeon stone, today's size and 1.5×). The three girl looks have their own cards with Copy request, "Looks right" and notes. Previews come from `sprites/preview/` (written by the intake, embedded by the build).
 - **[237]** `sprites/incoming/*.png` stay out of git (about 1 MB each, 900+ expected); `sprites/preview/` and the atlases are what is committed. Tests: `test_round18.py` now 32 checks.
+- **[238] The girl's first sheet received (Oct 4): look B, Shieldmaiden.** Kris saved it as `hero_f.png.png`; renamed to `sprites/incoming/hero_f.model_b.png`. Real transparency, 3 poses, cut cleanly (66 × 116 px cells). Shown on the look B card in the Lab. Note: the braids hang in front in the front view and down the back in the back view.
 
 ## Naming conventions established
 
