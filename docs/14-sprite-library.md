@@ -15,7 +15,7 @@ This replaces the pilot plan in `09-sprite-style-bible.md` (pixel art, green bac
 
 ## The survey
 
-439 characters, 919 sheets (667 core + 252 extra), 6,255 poses. Every move in every monster kit maps to an animation; a test fails if a new kit move has none.
+439 characters, **713 sheets (557 core + 156 extra)** after round 20 (bosses became one pose each on shared sheets; it was 919 / 667 before). Every move in every monster kit maps to an animation; a test fails if a new kit move has none.
 
 | Group | Characters | Core sheets | Extra sheets |
 |---|---|---|---|
@@ -23,7 +23,7 @@ This replaces the pilot plan in `09-sprite-style-bible.md` (pixel art, green bac
 | Hero on each mount (painted together) | 22 | 22 | 0 |
 | Mounts on their own | 11 | 11 | 0 |
 | Monsters | 240 | 375 | 156 |
-| Bosses, evolved forms, wardens, mage masters, elites | 76 | 120 | 96 |
+| Bosses, evolved forms, wardens, mage masters, elites | 76 | 10 (shared sheets, 8 bosses each) | 0 |
 | NPCs (shops, craftsmen, village folk, islands, castle teachers) | 41 | 52 | 0 |
 | Familiars (the 4 picked spirits) | 4 | 4 | 0 |
 | Fairies (20) and monarchs (3) | 23 | 23 | 0 |
@@ -40,14 +40,14 @@ This replaces the pilot plan in `09-sprite-style-bible.md` (pixel art, green bac
 - Beasts, fliers, swarms, creature bosses: one three-quarter view, mirrored for left.
 - Heroes: front, side and back for every directional move; skills that look the same from any side are drawn once.
 - Mounts and riders: one sheet with side (4), front (2) and back (2).
-- Bosses follow the same humanoid / creature rule. (The question card said bosses always get three facings; with "mixed" chosen, creature bosses such as dragons get one view.)
+- Bosses: one three-quarter pose each (round 20).
 
 ### Frame counts
 
 | Who | Frames |
 |---|---|
 | Monster | idle 1 · move 4 · each attack 2 (slam 3) · hurt 1. No death frames: monsters keep the game's flash and dissolve |
-| Boss | idle 2 · move 4 · attacks 2–3 · cast 2 · phase roar 1 · phase change 2 · hurt 1 · death 2 |
+| Boss | one painted battle pose (round 20). The game moves it, as it does today's boss art |
 | NPC | idle 2 · talk 2 · work 4; village folk also walk (side 4, front 2, back 2) |
 | Familiar | hover 4 · base attack 2 · special 1 · knocked out 1 |
 | Fairy | hover 4 · talk 2 · cast 2 |
@@ -56,7 +56,7 @@ This replaces the pilot plan in `09-sprite-style-bible.md` (pixel art, green bac
 ## Heroes
 
 - **Boy** = Kris's reference image. All frames are redrawn in that style.
-- **Girl** (round 19): Kris wants her clearly different from the boy — long braided auburn hair plus other features. Three looks are in the pilot to compare (A Ranger, B Shieldmaiden, C Wayfinder; `ZSPR.HERO.GIRL_LOOKS`). The one he keeps becomes `hero_f.model.png`; her other sheets are built on it.
+- **Girl**: look B, Shieldmaiden, locked Oct 4 — two long auburn braids with silver clasps, braided headband with a teal gem, fur-collared teal mantle with a knotwork brooch, bracers, fur-cuffed boots. `hero_f.model.png` is her model sheet; her other sheets are built on it. (Looks A Ranger and C Wayfinder were the alternatives.)
 - The choice is made at New Game and saved (`ps.hero` = `m` or `f`; old saves are the boy). Until her sprites arrive the girl is a recoloured stand-in of today's frames.
 
 Per hero: 1 model sheet + 5 sheets × 3 facings + 4 one-view sheets = 20 sheets.
@@ -96,8 +96,8 @@ Each request also gives: the character's look and colours from the game, how it 
 
 ## How the requests are fed (Kris: pilot by hand, then script)
 
-1. **Pilot, by hand (14 requests, wave 0).** In ChatGPT start an image chat, attach `style_hero.png` and `style_centaur.png`, copy the request from the Lab (Sprite Library → Guide → Pilot requests) or from `sprites/requests/wave-0-pilot-by-hand.md`, generate, and save as `sprites/incoming/<request id>.png`.
-   - `hero_m.model` is done (Oct 4). Next the girl's three looks, `hero_f.model_a / _b / _c`, each with the boy's model sheet attached too. Later hero requests attach the model sheet.
+1. **Pilot (12 requests, wave 0; the two hero model sheets are done).** By hand: In ChatGPT start an image chat, attach `style_hero.png` and `style_centaur.png`, copy the request from the Lab (Sprite Library → Guide → Pilot requests) or from `sprites/requests/wave-0-pilot-by-hand.md`, generate, and save as `sprites/incoming/<request id>.png`.
+   - `hero_m.model` and `hero_f.model` are done (Oct 4). Later hero requests attach the model sheet.
    - Any file name works when saving from ChatGPT as long as Claude is told; the file is renamed to its request id.
    - For a character's second sheet, attach its first approved sheet. Each request says what to attach.
 2. **Review.** Tell Claude the pilot is in. Claude runs the intake, shows the frames in the Lab next to the stand-ins and adjusts the style text if the look drifts.
@@ -110,7 +110,7 @@ Each request also gives: the character's look and colours from the game, how it 
    - It sends core sheets by default (`--tier extra` or `--tier all` for the rest).
    - It skips files that already exist, so it can be stopped and restarted.
    - A request that needs another sheet as a reference waits until that sheet is in `sprites/incoming/`.
-   - Model `gpt-image-2.5-sunburst` (OpenAI's edit-precision model), quality high, transparent background, 1536 × 1024. All can be changed with flags.
+   - Model `gpt-image-2.5-sunburst` (OpenAI's edit-precision model), quality **medium** (Kris, round 20: cheaper; the frames are shrunk to game size anyway), transparent background, 1536 × 1024. All can be changed with flags.
    - The OpenAI organization must be verified for image models. Token use is logged to `sprites/incoming/_log.jsonl`.
    - **Cost is not known yet.** I could not confirm current per-image prices. The pilot through the script (`--wave 0 --limit 3`) will show the real token use before a large wave is run.
 4. **Intake.** `python tools/sprites/intake.py` (Python 3, Pillow, numpy). A sheet with a checkerboard or scenery background is rejected with a message and needs a redo.
@@ -126,7 +126,7 @@ The ChatGPT app and the API are separate products with separate billing. A ChatG
 5. In PowerShell, in the game folder, set it for that window only: `$env:OPENAI_API_KEY = "sk-..."`. Do not put the key in a file in the repo and do not paste it into a chat with Claude.
 6. Test with three sheets: `node tools/sprites/generate.mjs --wave 0 --limit 3`. Check the images and the token use in `sprites/incoming/_log.jsonl`.
 
-**Cost (estimate, not confirmed):** the published token prices for the gpt-image-2.5 models are $30 per million image-output tokens and $8 per million image-input tokens. A third-party reseller prices a 1K-class image at about $0.25. On that basis one sheet with three reference images is roughly $0.20–0.35, so the 667 core sheets would be about $130–230 and all 919 about $185–320, before re-rolls. The three-sheet test gives the real number.
+**Cost (estimate, not confirmed):** published token prices for the gpt-image-2.5 models are $30 per million image-output tokens and $8 per million image-input tokens; a reseller prices a high-quality 1K-class image at about $0.25. At high quality that made a sheet roughly $0.20–0.35. On the earlier gpt-image-1 price list, medium quality cost about a quarter of high. If that ratio holds, a sheet at medium is roughly $0.05–0.09, so the 557 core sheets would be about $30–50 and all 713 about $36–65, before re-rolls. The three-sheet test gives the real number.
 
 No other integration is needed. The script talks to the API directly, the intake runs locally, and the game loads the atlases as plain files.
 
@@ -134,15 +134,15 @@ No other integration is needed. The script talks to the API directly, the intake
 
 | Wave | What | Sheets (core) |
 |---|---|---|
-| 0 | Pilot, by hand | 14 (14) |
+| 0 | Pilot | 12 (12) |
 | 1 | Heroes | 36 (36) |
 | 1.5 | Mounts and riders | 31 (31) |
 | 2 | Village NPCs, familiars | 54 (54) |
-| 3 / 3.5 | Grasslands monsters / bosses | 128 (94) / 38 (22) |
-| 4 / 4.5 | Wetlands | 139 (100) / 45 (27) |
-| 5 / 5.5 | Highlands | 148 (106) / 50 (24) |
-| 6 / 6.5 | Ashlands | 152 (111) / 58 (33) |
-| 7.5 | Volcano bosses | 24 (13) |
+| 3 / 3.5 | Grasslands monsters / bosses | 128 (94) / 1 (1) |
+| 4 / 4.5 | Wetlands | 139 (100) / 2 (2) |
+| 5 / 5.5 | Highlands | 148 (106) / 2 (2) |
+| 6 / 6.5 | Ashlands | 152 (111) / 3 (3) |
+| 7.5 | Volcano bosses | 1 (1) |
 | 8 | Vehicles | 4 (4) |
 
 ## Atlas plan
@@ -159,3 +159,9 @@ No other integration is needed. The script talks to the API directly, the intake
 - Buildings, props, tiles and projectiles (projectiles were redrawn in rounds 14–16).
 - Old unused familiars (firefly, wind sprite and others map to the four spirits).
 - Unpicked designs (other boss options, other fairy looks).
+
+## If the cost is still too high (described to Kris, not chosen)
+
+- **About 30 manual sheets:** one painted pose per character, 12–16 characters per sheet; the game moves them (bob, hop, lunge, flash). Real frames only for the two heroes. No API.
+- **About 55 manual sheets:** two poses per character (standing and attacking), 6–8 per sheet. No API.
+- Either can be mixed with the API plan, for example full frames for the Grasslands and single poses elsewhere.

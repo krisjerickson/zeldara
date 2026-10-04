@@ -1,4 +1,4 @@
-# Character survey — 439 characters, 919 sheets (667 core), 6255 poses
+# Character survey — 439 characters, 713 sheets (557 core), 4753 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: none.
 
@@ -7,7 +7,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | hero | 2 | 40 | 40 | 310 |
 | rider | 22 | 22 | 22 | 176 |
 | monster | 240 | 531 | 375 | 3331 |
-| boss | 76 | 216 | 120 | 1578 |
+| boss | 76 | 10 | 10 | 76 |
 | npc | 41 | 52 | 52 | 416 |
 | mount | 11 | 11 | 11 | 88 |
 | familiar | 4 | 4 | 4 | 32 |
@@ -281,82 +281,82 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | volcanic_hexer | Volcanic Hexer | Ashlands · tower | s f b | Idle ×1; Hover ×4 (flit); Ranged attack ×2 (shoot, shoot); Hurt ×1 | 2 |
 | ember_construct | Runic Ember Construct | Ashlands · tower | s f b | Idle ×1; Move ×4 (lumber); Beam ×2 (beam); Hurt ×1; Guard ×2 (armor, bubble) | 3 |
 | flame_wisp | Flame Wisp | Ashlands · tower | q | Idle ×1; Move ×4 (orbit); Ranged attack ×2 (shoot); Hurt ×1 | 1 |
-| boss_goblin_king | Grubnash the Great, the Goblin King | Guardians | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| bf_goblin_king_2 | Grubnash the Cave-Troll Rider | Evolved boss forms | q | Idle ×2; Move ×4; Ranged attack ×2 (lob); Hurt ×1; Lunge ×2 (lunge); Charge ×3 (charge); Wide sweep ×2 (sweep); Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| boss_dark_warlock | Morvane, the Dark Warlock | Guardians | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| bf_dark_warlock_2 | Morvane the Brood-Queen | Evolved boss forms | q | Idle ×2; Move ×4; Ranged attack ×2 (shoot); Hurt ×1; Beam ×2 (beam); Cast ×2 (ring); Blink ×2 (blink); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| boss_swamp_witch | Granny Greenteeth, the Swamp Witch | Guardians | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| bf_swamp_witch_2 | Greenteeth, the Hag of the Hut | Evolved boss forms | s f b | Idle ×2; Move ×4 (kite); Ranged attack ×2 (lob); Hurt ×1; Cast ×2 (cloud, summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| bf_swamp_witch_3 | Greenteeth, the Mire Hydra | Evolved boss forms | q | Idle ×2; Move ×4; Slam ×3 (slam); Hurt ×1; Grab ×2 (pull); Cast ×2 (drain, summon); Leap ×3 (leap); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| boss_storm_mage | Tharnwald, the Storm Mage | Guardians | s f b | Idle ×2; Move ×4; Beam ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| bf_storm_mage_2 | Tharnwald, the Tempest Mage | Evolved boss forms | s f b | Idle ×2; Move ×4 (kite); Ranged attack ×2 (shoot); Hurt ×1; Beam ×2 (beam); Cast ×2 (gust, summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| bf_storm_mage_3 | Tharnwald Unbound, the Storm Giant | Evolved boss forms | s f b | Idle ×2; Hover ×4 (hover); Beam ×2 (beam); Hurt ×1; Cast ×2 (ring, strike, summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| boss_rock_dragon | Grauldr, the Rock Dragon | Guardians | q | Idle ×2; Move ×4; Breath ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| bf_rock_dragon_2 | Grauldr the Geode Drake | Evolved boss forms | q | Idle ×2; Move ×4 (chase); Ranged attack ×2 (shoot); Hurt ×1; Breath ×2 (breath); Cast ×2 (summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 2 |
-| bf_rock_dragon_3 | Grauldr the Earthshaker | Evolved boss forms | q | Idle ×2; Move ×4 (lumber); Ranged attack ×2 (lob); Hurt ×1; Charge ×3 (charge); Slam ×3 (slam); Cast ×2 (summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| bf_rock_dragon_4 | Grauldr, Tyrant of the Mountain | Evolved boss forms | q | Idle ×2; Move ×4 (chase); Ranged attack ×2 (lob); Hurt ×1; Wide sweep ×2 (sweep); Breath ×2 (breath); Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| bf_drakeling | Geode Drakeling | Evolved boss forms | q | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 2 |
-| boss_iron_sentinel | Brokkrun, the Iron Sentinel | Guardians | s f b | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 4 |
-| bf_iron_sentinel_2 | Brokkrun the Siege Sentinel | Evolved boss forms | q | Idle ×2; Move ×4 (lumber); Ranged attack ×2 (lob); Hurt ×1; Slam ×3 (slam); Cast ×2 (summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| bf_iron_sentinel_3 | Brokkrun, the Orrery Colossus | Evolved boss forms | q | Rooted idle ×2 (still); Beam ×2 (beam); Hurt ×1; Grab ×2 (pull); Cast ×2 (ring, summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 2 |
-| bf_iron_sentinel_4 | Brokkrun Prime, the Sentinel of the Star Forge | Evolved boss forms | s f b | Idle ×2; Move ×4; Ranged attack ×2 (shoot); Hurt ×1; Charge ×3 (charge); Beam ×2 (beam); Cast ×2 (wall); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 4 |
-| bf_forge_guardian | Anvil Guardian | Evolved boss forms | q | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| boss_lava_titan | Surtvald, the Lava Titan | Guardians | s f b | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 4 |
-| bf_lava_titan_2 | Surtvald the Magma Titan | Evolved boss forms | s f b | Idle ×2; Move ×4 (lumber); Ranged attack ×2 (lob); Hurt ×1; Slam ×3 (slam); Cast ×2 (summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 4 |
-| bf_lava_titan_3 | Surtvald the Worldburner | Evolved boss forms | s f b | Idle ×2; Move ×4 (lumber); Ranged attack ×2 (shoot); Hurt ×1; Slam ×3 (slam); Cast ×2 (summon); Guard ×2 (reflect); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 4 |
-| bf_lava_titan_4 | Surtvald the Molten Behemoth | Evolved boss forms | q | Idle ×2; Move ×4; Charge ×3 (charge); Hurt ×1; Cast ×2 (aura, marks, summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| bf_lava_titan_5 | The Heart of Muspel | Evolved boss forms | q | Idle ×2; Hover ×4 (hover); Ranged attack ×2 (lob); Hurt ×1; Beam ×2 (beam); Cast ×2 (ring, summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 2 |
-| boss_shadow_lord | Malgorath, the Shadow Lord | Guardians | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| bf_shadow_lord_2 | Malgorath the Soul-Shroud | Evolved boss forms | s f b | Idle ×2; Move ×4; Ranged attack ×2 (shoot); Hurt ×1; Cast ×2 (cloud, drain, summon); Blink ×2 (blink); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| bf_shadow_lord_3 | Malgorath the Dread-Rider | Evolved boss forms | q | Idle ×2; Move ×4 (chase, swap); Melee attack ×2 (melee); Hurt ×1; Lunge ×2 (lunge); Cast ×2 (echo, summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 2 |
-| bf_shadow_lord_4 | Malgorath, the Dread-Wing | Evolved boss forms | q | Idle ×2; Hover ×4 (drift); Beam ×2 (beam, beam); Hurt ×1; Grab ×2 (pull); Cast ×2 (summon); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 2 |
-| bf_shadow_lord_5 | Malgorath Ascendant, the Fallen Dawn | Evolved boss forms | s f b | Idle ×2; Move ×4; Ranged attack ×2 (shoot); Hurt ×1; Cast ×2 (ring, marks, drain); Blink ×2 (blink); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| bf_shadow_twin | Shadow Twin | Evolved boss forms | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
-| cw_thorn_knight | Sir Brambleheart, the Thorn Knight | Castle wardens | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| cw_sun_baron | Baron Goldcrest, the Sunflower Lord | Castle wardens | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| cw_mill_ogre | Grumbold, the Mill Troll | Castle wardens | s f b | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 4 |
-| cw_lotus_naga | Nagaryn, the Lotus Naga Queen | Castle wardens | s f b | Idle ×2; Move ×4; Ranged attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| cw_drowned_abbot | Abbot Draugmere, the Drowned | Castle wardens | q | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| cw_mangrove_chief | Old Rootmarch, the Mangrove Chieftain | Castle wardens | s f b | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 4 |
-| cw_forge_thane | Forge-Thane Brukkr | Castle wardens | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| cw_frost_queen | Skadra, the Frost Queen | Castle wardens | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| cw_roc_lord | Roc Lord Skyrend | Castle wardens | q | Idle ×2; Hover ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| cw_obsidian_jailer | Keyward, the Obsidian Jailer | Castle wardens | q | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| cw_ember_priest | Ignis, High Priest of Muspel | Castle wardens | q | Idle ×2; Hover ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| cw_bone_king | Hraudrik, the Bone King | Castle wardens | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_rime_witch | Frostwhisper, the Rime Witch | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_arcane_scribe | Magister Quillon, the Arcane Scribe | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_hearth_witch | Cindra, the Hearth-Witch | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_thorn_druid | Old Bramblebeard, the Thorn Druid | Mage-tower masters | q | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| mg_storm_caller | Voltara, the Storm Caller | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_shard_sorcerer | Glacius, the Shard Sorcerer | Mage-tower masters | q | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| mg_bog_hexwitch | Mother Morrow, the Bog Hex-Witch | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_sea_warlock | Tidelord Marenus, the Sea-Warlock | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_nova_sorceress | Pyrrhia, the Nova Sorceress | Mage-tower masters | q | Idle ×2; Hover ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| mg_void_warlock | Nihilus, the Void Warlock | Mage-tower masters | q | Idle ×2; Hover ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| mg_thunder_magus | Stormhelm, the Thunder Magus | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_stone_shaper | Gravelord Thane, the Stone Shaper | Mage-tower masters | q | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| mg_blizzard_king | Hiemal, the Blizzard King | Mage-tower masters | q | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| mg_rift_lich | Xal'zor, the Rift Lich | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_soul_drinker | Lady Vesperine, the Soul Drinker | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| mg_star_sorcerer | Astraeus, the Star Sorcerer | Mage-tower masters | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| boss_isl_1 | Captain Blackvane, the Drowned Captain | Island guardians | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| boss_isl_2 | Mossgut, the Swamp Titan | Island guardians | s f b | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 4 |
-| boss_isl_3 | Emberhulk, the Lava Colossus | Island guardians | q | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| boss_isl_4 | Hrimgar, the Frost Lord | Island guardians | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| boss_vr_ember_wraith | Cindermourn, the Ember Wraith | Volcano bosses | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| boss_vr_magma_spitter | Pyrecoil, the Magma Basilisk | Volcano bosses | q | Idle ×2; Move ×4; Ranged attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| boss_vr_obsidian_golem | Glassgrind, the Obsidian Golem | Volcano bosses | q | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| boss_vr_cinder_phoenix | Ashwing, the Cinder Phoenix | Volcano bosses | q | Idle ×2; Hover ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| boss_vr_lava_wyrm | Skorrath, the Lava Wyrm | Volcano bosses | q | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| boss_vr_ashen_knight | Sir Cindric, the Ashen Draugr | Volcano bosses | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| boss_vr_pyrokraken | Pyrokraken, the Magma Squid | Volcano bosses | q | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| boss_vr_inferno_wraith | Vathrax, the Inferno Wraith | Volcano bosses | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| boss_volcano_lord | Surtharn, the Volcano Lord | Volcano bosses | s f b | Idle ×2; Move ×4; Slam ×3 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 4 |
-| elite_1 | Barrow Wight | Elites | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| elite_2 | Bog Troll Chieftain | Elites | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| elite_3 | Runic Stone Golem | Elites | q | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| elite_4 | Ash Wraith Lord | Elites | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
+| boss_goblin_king | Grubnash the Great, the Goblin King | Guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| bf_goblin_king_2 | Grubnash the Cave-Troll Rider | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_dark_warlock | Morvane, the Dark Warlock | Guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_dark_warlock_2 | Morvane the Brood-Queen | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_swamp_witch | Granny Greenteeth, the Swamp Witch | Guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_swamp_witch_2 | Greenteeth, the Hag of the Hut | Evolved boss forms | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_swamp_witch_3 | Greenteeth, the Mire Hydra | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_storm_mage | Tharnwald, the Storm Mage | Guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| bf_storm_mage_2 | Tharnwald, the Tempest Mage | Evolved boss forms | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_storm_mage_3 | Tharnwald Unbound, the Storm Giant | Evolved boss forms | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_rock_dragon | Grauldr, the Rock Dragon | Guardians | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_rock_dragon_2 | Grauldr the Geode Drake | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_rock_dragon_3 | Grauldr the Earthshaker | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_rock_dragon_4 | Grauldr, Tyrant of the Mountain | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_drakeling | Geode Drakeling | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| boss_iron_sentinel | Brokkrun, the Iron Sentinel | Guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_iron_sentinel_2 | Brokkrun the Siege Sentinel | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_iron_sentinel_3 | Brokkrun, the Orrery Colossus | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_iron_sentinel_4 | Brokkrun Prime, the Sentinel of the Star Forge | Evolved boss forms | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_forge_guardian | Anvil Guardian | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_lava_titan | Surtvald, the Lava Titan | Guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_lava_titan_2 | Surtvald the Magma Titan | Evolved boss forms | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| bf_lava_titan_3 | Surtvald the Worldburner | Evolved boss forms | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_lava_titan_4 | Surtvald the Molten Behemoth | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_lava_titan_5 | The Heart of Muspel | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_shadow_lord | Malgorath, the Shadow Lord | Guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_shadow_lord_2 | Malgorath the Soul-Shroud | Evolved boss forms | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_shadow_lord_3 | Malgorath the Dread-Rider | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_shadow_lord_4 | Malgorath, the Dread-Wing | Evolved boss forms | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| bf_shadow_lord_5 | Malgorath Ascendant, the Fallen Dawn | Evolved boss forms | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| bf_shadow_twin | Shadow Twin | Evolved boss forms | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_thorn_knight | Sir Brambleheart, the Thorn Knight | Castle wardens | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_sun_baron | Baron Goldcrest, the Sunflower Lord | Castle wardens | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_mill_ogre | Grumbold, the Mill Troll | Castle wardens | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_lotus_naga | Nagaryn, the Lotus Naga Queen | Castle wardens | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_drowned_abbot | Abbot Draugmere, the Drowned | Castle wardens | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_mangrove_chief | Old Rootmarch, the Mangrove Chieftain | Castle wardens | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_forge_thane | Forge-Thane Brukkr | Castle wardens | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_frost_queen | Skadra, the Frost Queen | Castle wardens | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_roc_lord | Roc Lord Skyrend | Castle wardens | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| cw_obsidian_jailer | Keyward, the Obsidian Jailer | Castle wardens | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_ember_priest | Ignis, High Priest of Muspel | Castle wardens | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| cw_bone_king | Hraudrik, the Bone King | Castle wardens | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_rime_witch | Frostwhisper, the Rime Witch | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_arcane_scribe | Magister Quillon, the Arcane Scribe | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| mg_hearth_witch | Cindra, the Hearth-Witch | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_thorn_druid | Old Bramblebeard, the Thorn Druid | Mage-tower masters | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_storm_caller | Voltara, the Storm Caller | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_shard_sorcerer | Glacius, the Shard Sorcerer | Mage-tower masters | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_bog_hexwitch | Mother Morrow, the Bog Hex-Witch | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| mg_sea_warlock | Tidelord Marenus, the Sea-Warlock | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_nova_sorceress | Pyrrhia, the Nova Sorceress | Mage-tower masters | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_void_warlock | Nihilus, the Void Warlock | Mage-tower masters | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_thunder_magus | Stormhelm, the Thunder Magus | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_stone_shaper | Gravelord Thane, the Stone Shaper | Mage-tower masters | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_blizzard_king | Hiemal, the Blizzard King | Mage-tower masters | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_rift_lich | Xal'zor, the Rift Lich | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_soul_drinker | Lady Vesperine, the Soul Drinker | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| mg_star_sorcerer | Astraeus, the Star Sorcerer | Mage-tower masters | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| boss_isl_1 | Captain Blackvane, the Drowned Captain | Island guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_isl_2 | Mossgut, the Swamp Titan | Island guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_isl_3 | Emberhulk, the Lava Colossus | Island guardians | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_isl_4 | Hrimgar, the Frost Lord | Island guardians | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_vr_ember_wraith | Cindermourn, the Ember Wraith | Volcano bosses | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_vr_magma_spitter | Pyrecoil, the Magma Basilisk | Volcano bosses | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_vr_obsidian_golem | Glassgrind, the Obsidian Golem | Volcano bosses | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_vr_cinder_phoenix | Ashwing, the Cinder Phoenix | Volcano bosses | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_vr_lava_wyrm | Skorrath, the Lava Wyrm | Volcano bosses | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_vr_ashen_knight | Sir Cindric, the Ashen Draugr | Volcano bosses | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 1 |
+| boss_vr_pyrokraken | Pyrokraken, the Magma Squid | Volcano bosses | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_vr_inferno_wraith | Vathrax, the Inferno Wraith | Volcano bosses | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| boss_volcano_lord | Surtharn, the Volcano Lord | Volcano bosses | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| elite_1 | Barrow Wight | Elites | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| elite_2 | Bog Troll Chieftain | Elites | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| elite_3 | Runic Stone Golem | Elites | q | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
+| elite_4 | Ash Wraith Lord | Elites | s f b | Idle ×1 (one painted pose; the game moves it (sway, stride, lunge, flash), as it does today) | 0 |
 | npc_tavern | Rolf the Bartender | Village shops | f | Idle ×2; Talk ×2 (when you speak to them); Work: pour ×4 (Polishes a mug, then pours a frothy ale when you walk up.) | 1 |
 | npc_shop | Tilda the Merchant | Village shops | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Waves you in and pats the sack of goods.) | 1 |
 | npc_forge | Garrick the Blacksmith | Village shops | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Strikes the anvil — sparks fly on every blow.) | 1 |

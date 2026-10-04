@@ -201,11 +201,18 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
-**Asked Oct 4 (round 20), waiting for answers.** Kris sent the girl's sheet (it is look B) and said: "the estimate for the cost of using the ChatGPT API is too high. Is there a way to consolidate the outputs or overall reduce the number of sheets? Perhaps some way to do ~30 manual requests vs. using the API?"
-1. Girl: lock look B (Shieldmaiden) as the girl, try A and C first, or B with changes?
-2. Sprite budget: (a) about 30 manual sheets — one painted pose per character, 12–16 characters per sheet, the game animates them (bob, hop, lunge, flash), full frames only for the two heroes; (b) about 55 manual sheets — two poses per character (stand + attack); (c) keep full frames but through the API at medium quality (roughly a quarter of the cost, unconfirmed); (d) keep the full plan.
-3. Bosses under a reduced plan: keep today's code-painted boss art (0 sheets) or repaint one pose each (about 10 sheets)?
-Also waiting on Kris: "Looks right" / notes in the Sprite Library; a play test of `?engine=4` (known seam issue); his check of waystone travel.
+- None open. Waiting on Kris:
+  1. Set up the OpenAI API key (steps in `14-sprite-library.md`), then `node tools/sprites/generate.mjs --wave 0 --limit 3` to see the real cost and quality at medium. Or do the remaining 10 pilot requests by hand.
+  2. "Looks right" / notes on the Sprite Library cards.
+  3. A play test of `?engine=4` (known seam issue between map chunks on Phaser 4).
+  4. His check of waystone travel in real play.
+
+## Round 20 (Kris, Oct 4) — answers
+- Girl → **ANSWERED: lock look B (Shieldmaiden).**
+- Sprite budget → **ANSWERED: full frames, cheaper API** (medium quality). He did not choose the 30-sheet or 55-sheet manual plans.
+- Bosses → **ANSWERED: repaint one pose each** (10 shared sheets; the game animates them).
+- Built: changelog [239]–[241]. New totals 713 sheets (557 core).
+- Cost at medium quality is an unconfirmed estimate (about a quarter of high). The first three sheets through the script give the real number; if it is still too high, the manual plans (one or two poses per character) are the fallback and were described to Kris.
 
 ## Round 19 (Kris, Oct 4)
 - "first ChatGPT output is ready here for the hero boy" → received, renamed to `hero_m.model.png`, cut cleanly (changelog [234]). Kris has not said anything against it; treated as the approved boy model unless he says otherwise.

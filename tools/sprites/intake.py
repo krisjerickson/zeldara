@@ -91,16 +91,21 @@ def process(q, report=False):
     hs = [b[3] - b[1] for b in boxes]; ref_h = hs[0] if hs[0] > 0 else max(hs)
     s = min(scale_to / ref_h, MAX_CELL / max(max(b[2] - b[0] for b in boxes), max(hs)))
     crops = []
-    for b in boxes:
-        c = im.crop(b); c = c.resize((max(1, round(c.width * s)), max(1, round(c.height * s))), Image.LANCZOS); crops.append(c)
+    for k, b in enumerate(boxes):
+        c = im.crop(b); sk = s
+        if q.get('multi'):                                   # a sheet of different characters: each is sized on its own
+            sk = min(HERO_PX * float(q['scales'][k]) / max(1, c.height), MAX_CELL / max(c.width, c.height))
+        c = c.resize((max(1, round(c.width * sk)), max(1, round(c.height * sk))), Image.LANCZOS); crops.append(c)
     cw = max(c.width for c in crops) + PAD * 2; ch = max(c.height for c in crops) + PAD * 2
     frames = []
     for c, pose in zip(crops, q['poses']):
         cell = Image.new('RGBA', (cw, ch), (0, 0, 0, 0)); cell.alpha_composite(c, ((cw - c.width) // 2, ch - PAD - c.height))
-        anim, facing, i = pose.split('/'); frames.append(('%s/%s/%s/%s' % (q['char'], anim, facing, i), cell))
+        who = q['char']
+        if pose.startswith('@'): who, pose = pose[1:].split('|', 1)
+        anim, facing, i = pose.split('/'); frames.append(('%s/%s/%s/%s' % (who, anim, facing, i), cell))
     if not report:
-        d = os.path.join(OUT, 'frames', q['char']); os.makedirs(d, exist_ok=True)
-        for name, cell in frames: cell.save(os.path.join(d, '_'.join(name.split('/')[1:]) + '.png'))
+        for name, cell in frames:
+            d = os.path.join(OUT, 'frames', name.split('/')[0]); os.makedirs(d, exist_ok=True); cell.save(os.path.join(d, '_'.join(name.split('/')[1:]) + '.png'))
         sheet = Image.new('RGBA', (cw * len(frames), ch), (18, 24, 40, 255))
         for i, (_, cell) in enumerate(frames): sheet.alpha_composite(cell, (i * cw, 0))
         os.makedirs(os.path.join(OUT, 'preview'), exist_ok=True); sheet.save(os.path.join(OUT, 'preview', q['id'] + '.png'))

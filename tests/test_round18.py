@@ -27,8 +27,10 @@ J=json.load(open(os.path.join(R,'sprites','requests','requests.json'),encoding='
 ids=[q['id'] for q in J['requests']]
 check('Requests are exported: unique ids, every pilot id exists, every reference is a style image or another request', len(ids)==len(set(ids)) and all(p in ids for p in J['pilot']) and all(r in ('style_hero','style_centaur') or r in ids for q in J['requests'] for r in q['refs']), [len(ids),J['stats']['core']])
 check('Every request names the teal highlight style and both references', all('teal' in J['style'] and 'Reference image 1' in q['body'] and 'Reference image 2' in q['body'] for q in J['requests']))
-G=[q for q in J['requests'] if q['id'].startswith('hero_f.model_')]
-check('Round 19: the girl has three looks to compare, each with long braided auburn hair and the boy\'s model sheet as a reference', len(G)==3 and all('LONG BRAIDED AUBURN' in q['body'] and 'hero_m.model' in q['refs'] and q['wave']==0 for q in G) and len(set(q['body'] for q in G))==3, [q['id'] for q in G])
+G=[q for q in J['requests'] if q['id']=='hero_f.model']
+check('Round 20: the girl is locked as look B (two long auburn braids, teal mantle); her model request attaches the boy\'s model sheet', len(G)==1 and 'LONG BRAIDED AUBURN' in G[0]['body'] and 'two long braids' in G[0]['body'] and 'hero_m.model' in G[0]['refs'] and not [q for q in J['requests'] if q['id'].startswith('hero_f.model_')])
+BS=[q for q in J['requests'] if q['group']=='boss']
+check('Round 20: bosses are one pose each on 10 shared sheets (76 bosses, 8 per sheet), each with its own size', len(BS)==10 and sum(len(q['poses']) for q in BS)==76 and all(q.get('multi') and len(q['scales'])==len(q['poses']) and all(p.startswith('@') for p in q['poses']) for q in BS), [len(BS)])
 check('The two reference images are in the repo', all(os.path.exists(os.path.join(R,'sprites','reference',n+'.png')) for n in ('style_hero','style_centaur')))
 
 # ── game ──
@@ -65,14 +67,14 @@ with game(new=None) as g:
     r=g.js("""(()=>{ var S=ZSPR.stats(), A=ZSPR.all(), o={chars:S.chars,sheets:S.sheets,core:S.core,unknown:S.unknown,g:{}}; Object.keys(S.byGroup).forEach(function(k){ o.g[k]=S.byGroup[k].chars; });
       var mods={}; Object.keys(MON_KIT_SRC).forEach(function(id){ ZSPR.kitMods(ZSPR.kitOf(id)).forEach(function(m){ mods[m]=1; }); }); o.unmapped=Object.keys(mods).filter(function(m){ return !(m in ZSPR.MOD); });
       o.noCore=A.filter(function(e){ return e.group==='monster'&&!(e.sheets[0]&&e.sheets[0].poses.some(function(p){ return /idle|still/.test(p.a); })&&e.sheets[0].poses.some(function(p){ return /move|float|still/.test(p.a); })&&e.anims.some(function(a){ return a.main; })&&e.anims.some(function(a){ return a.k==='hurt'; })); }).map(function(e){ return e.id; });
-      o.humNoFb=A.filter(function(e){ return (e.group==='monster'||e.group==='boss')&&e.humanoid&&!e.sheets.some(function(s){ return s.key==='fb'; }); }).length; o.beastFb=A.filter(function(e){ return e.group==='monster'&&!e.humanoid&&e.sheets.some(function(s){ return s.key==='fb'; }); }).length;
-      o.bossNoPhase=A.filter(function(e){ return e.group==='boss'&&!(e.anims.some(function(a){ return a.k==='transform'; })&&e.anims.some(function(a){ return a.k==='death'; })); }).length;
+      o.humNoFb=A.filter(function(e){ return e.group==='monster'&&e.humanoid&&!e.sheets.some(function(s){ return s.key==='fb'; }); }).length; o.beastFb=A.filter(function(e){ return e.group==='monster'&&!e.humanoid&&e.sheets.some(function(s){ return s.key==='fb'; }); }).length;
+      o.bossNoPhase=A.filter(function(e){ return e.group==='boss'&&!e.inSheet; }).length;
       o.big=A.filter(function(e){ return e.sheets.some(function(s){ return s.poses.length>10||s.poses.length<1; }); }).length; o.riders=A.filter(function(e){ return e.group==='rider'; }).length; o.mounts=Object.keys(MOUNTS).length;
       o.bossQ0=A.filter(function(e){ return e.group==='boss'&&!e.q; }).length; return o; })()""")
     check('The survey covers everyone: 2 heroes, 240 monsters, 76 bosses and forms, every mount alone and with each hero', r['g'].get('hero')==2 and r['g'].get('monster')==240 and r['g'].get('boss')==76 and r['riders']==2*r['mounts'] and r['g'].get('mount')==r['mounts'] and r['g'].get('npc',0)>=40 and r['g'].get('familiar')==4 and r['g'].get('fairy')==23 and r['g'].get('animal')==16, r['g'])
     check('Every move in every monster kit maps to an animation (none left over)', not r['unmapped'] and not r['unknown'], [r['unmapped'],r['unknown']])
     check('Every monster\'s first sheet has idle, movement, its main attack and hurt; humanoids also get a front-and-back sheet, beasts do not', not r['noCore'] and r['humNoFb']==0 and r['beastFb']==0, [r['noCore'][:6],r['humNoFb'],r['beastFb']])
-    check('Every boss has a phase change and a death; no sheet is empty or over 10 poses; every boss has a region', r['bossNoPhase']==0 and r['big']==0 and r['bossQ0']==0, r)
+    check('Every boss is on a shared sheet; no sheet is empty or over 10 poses; every boss has a region', r['bossNoPhase']==0 and r['big']==0 and r['bossQ0']==0, r)
     # engine-sensitive drawing: hit flash, lava mask, night darkness
     r=g.js("""(()=>{ var ws=game.scene.getScene('World'), p=ws.player, o={}; var im=ws.add.image(p.x+40,p.y,'hero_front_0'); try{ ZENG.tintFill(im,0xffffff); o.fill=true; ZENG.tint(im,0xff0000); im.clearTint(); o.tint=true; }catch(e){ o.err=String(e); } im.destroy();
       var c=ws.add.container(p.x,p.y), t=ws.add.rectangle(0,0,40,40,0xff0000); c.add(t); var mk=ws.make.image({x:p.x,y:p.y,key:'hero_front_0',add:false}); try{ ZENG.mask(c,mk,'hero_front_0'); o.mask=true; }catch(e){ o.merr=String(e); } ws._zt=[c,mk]; return o; })()""")
@@ -103,9 +105,9 @@ with sync_playwright() as p:
     pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PHASER, content_type="application/javascript"))
     pg.goto('file://'+os.path.abspath(os.path.join(R,'lab','index.html'))); pg.wait_for_timeout(2500)
     pg.click('.lab-tab:has-text("Sprite Library")'); pg.wait_for_timeout(900)
-    r=pg.evaluate("({chips:document.querySelectorAll('.sl-grp').length, tabs:document.querySelectorAll('.sl-tab').length, refs:document.querySelectorAll('.sl-refs img').length, pilot:document.querySelectorAll('#lab-grid .sl-sh').length, girls:document.querySelectorAll('.sl-card[data-id^=hero_f]').length, rcv:document.querySelectorAll('.sl-rcv img').length, game:document.querySelectorAll('.sl-game').length, rows:[...document.querySelectorAll('.sl-tab')].map(function(t){ return t.rows.length; })})")
-    check('Lab → Sprite Library opens on the Guide: totals, the two references, weapon / skill / action tables, 14 pilot requests', r['chips']==14 and r['tabs']==4 and r['refs']==2 and r['pilot']==14+3 and r['rows'][1]==9 and r['rows'][2]==13, r)
-    check('Round 19: the Guide shows the three girl looks and every received sheet with its frames at game size', r['girls']==3 and r['rcv']>=1 and r['game']>=1, r)
+    r=pg.evaluate("({chips:document.querySelectorAll('.sl-grp').length, tabs:document.querySelectorAll('.sl-tab').length, refs:document.querySelectorAll('.sl-refs img').length, pilot:document.querySelectorAll('#lab-grid .sl-sh').length, girls:document.querySelectorAll('.sl-card[data-id^=hero_f]').length, locked:/look B/i.test(document.getElementById('lab-grid').textContent)&&/is locked/.test(document.getElementById('lab-grid').textContent), rcv:document.querySelectorAll('.sl-rcv img').length, game:document.querySelectorAll('.sl-game').length, rows:[...document.querySelectorAll('.sl-tab')].map(function(t){ return t.rows.length; })})")
+    check('Lab → Sprite Library opens on the Guide: totals, the two references, weapon / skill / action tables, 12 pilot requests', r['chips']==14 and r['tabs']==4 and r['refs']==2 and r['pilot']==12 and r['rows'][1]==9 and r['rows'][2]==13, r)
+    check('The Guide shows the locked girl look and every received sheet with its frames at game size', r['locked'] and r['rcv']>=2 and r['game']>=2, r)
     pg.evaluate("document.querySelector('.sl-grp[data-sl=m1]').click()"); pg.wait_for_timeout(1200)
     r=pg.evaluate("""(()=>{ var cards=document.querySelectorAll('.sl-card'), o={n:cards.length, painted:0}; document.querySelectorAll('.sl-cv').forEach(function(cv){ var d=cv.getContext('2d').getImageData(0,0,72,72).data, n=0; for(var i=3;i<d.length;i+=4)if(d[i]>40)n++; if(n>60)o.painted++; });
       var li=document.querySelector('.sl-card .sl-sh'); li.querySelector('.sl-show').click(); o.pre=li.querySelector('.sl-pre').textContent; return o; })()""")

@@ -503,6 +503,14 @@ Kris's picks in the Lab: arrows `ar_bodkin` (Heavy Bodkin), spells `sp_solid` (S
 - **[237]** `sprites/incoming/*.png` stay out of git (about 1 MB each, 900+ expected); `sprites/preview/` and the atlases are what is committed. Tests: `test_round18.py` now 32 checks.
 - **[238] The girl's first sheet received (Oct 4): look B, Shieldmaiden.** Kris saved it as `hero_f.png.png`; renamed to `sprites/incoming/hero_f.model_b.png`. Real transparency, 3 poses, cut cleanly (66 × 116 px cells). Shown on the look B card in the Lab. Note: the braids hang in front in the front view and down the back in the back view.
 
+## Round 20 (Kris, Oct 4) — the girl is locked, cheaper sprite plan
+- **[239] The girl is look B (Shieldmaiden).** `GIRL_PICK:'b'`, `GIRL_LOCKED:true`; `sprites/incoming/hero_f.model.png` is a copy of the look B sheet. Looks A and C are kept in the code for the record but are no longer requested. The New Game picker caption says "Twin auburn braids, teal mantle".
+- **[240] Cost.** Kris: the API estimate was too high. His choices: keep full frames but send them at **medium quality** (the script's default is now `--quality medium`), and repaint **bosses as one pose each**.
+  - Bosses: 76 bosses on 10 shared sheets (`bosses.1` … `bosses.10`, 8 per sheet, one 3/4 battle pose each). The game keeps moving them itself, as it does today. This replaces 216 boss sheets.
+  - New totals: **713 sheets (557 core, 156 extra)**, down from 919 (667 core).
+  - The intake handles sheets of different characters (`@<character>|…` pose names, a size per character).
+- **[241]** Pilot is now 12 requests, 2 done (both hero model sheets). `test_round18.py`: 33 checks.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

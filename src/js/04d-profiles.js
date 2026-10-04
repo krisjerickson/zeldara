@@ -77,7 +77,7 @@ var ZProfilesUI={
     document.getElementById('zp-cancel').onclick=ZProfilesUI.close; },
   // NEW GAME, last step (round 18): choose your hero — boy or girl. The girl is a recoloured stand-in until her sprites are painted.
   pickHero:function(p,go,back){ ZProfilesUI.open('<h2>Choose your hero</h2><p>'+ZProfilesUI.esc(p.name)+', who will you play?</p><div class="zp-heroes">'+
-      [['m','The boy','Spiky brown hair'],['f','The girl','Auburn hair, wine-red cape (stand-in art for now)']].map(function(h){ return '<button class="zp-hero" data-h="'+h[0]+'"><canvas width="100" height="168"></canvas><b>'+h[1]+'</b><small>'+h[2]+'</small></button>'; }).join('')+
+      [['m','The boy','Spiky brown hair'],['f','The girl','Twin auburn braids, teal mantle (stand-in art for now)']].map(function(h){ return '<button class="zp-hero" data-h="'+h[0]+'"><canvas width="100" height="168"></canvas><b>'+h[1]+'</b><small>'+h[2]+'</small></button>'; }).join('')+
       '</div><p class="zp-note">Both play the same. You can\'t change this later in the same save.</p><div class="zp-row"><button class="zp-btn" id="zp-hback">Back</button></div>');
     var E=ZProfilesUI.el; E.querySelectorAll('.zp-hero').forEach(function(b){ var cv=b.querySelector('canvas'), c=cv.getContext('2d'), img=new Image(); c.imageSmoothingEnabled=false;
       img.onload=function(){ var src=b.dataset.h==='f'&&typeof _heroRecolour==='function'?_heroRecolour(img):img; c.clearRect(0,0,100,168); c.imageSmoothingEnabled=true; var sc=Math.min(100/src.width,160/src.height); c.drawImage(src,(100-src.width*sc)/2,164-src.height*sc,src.width*sc,src.height*sc); };

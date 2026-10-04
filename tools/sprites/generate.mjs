@@ -16,7 +16,7 @@
 //   --tier core|extra|all   default core
 //   --limit 20          stop after this many images
 //   --model <id>        default gpt-image-2.5-sunburst
-//   --quality high      low | medium | high (default high)
+//   --quality medium    low | medium | high (default medium: about a quarter of the cost of high; the frames are shrunk to game size anyway)
 //   --concurrency 2     requests in flight at once
 //   --force             redo requests whose file already exists (the old file is kept as .prev.png)
 //   --dry-run           print the plan, send nothing
@@ -33,7 +33,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const arg = (name, def) => { const i = process.argv.indexOf('--' + name); if (i < 0) return def; const v = process.argv[i + 1]; return !v || v.startsWith('--') ? true : v; };
 const DRY = !!arg('dry-run', false), FORCE = !!arg('force', false);
-const MODEL = arg('model', 'gpt-image-2.5-sunburst'), QUALITY = arg('quality', 'high');
+const MODEL = arg('model', 'gpt-image-2.5-sunburst'), QUALITY = arg('quality', 'medium');
 const LIMIT = +arg('limit', 1e9), CONC = Math.max(1, Math.min(6, +arg('concurrency', 2)));
 const TIER = arg('tier', 'core');
 const waves = arg('wave', null) === null ? null : String(arg('wave')).split(',').map(Number);

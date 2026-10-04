@@ -139,7 +139,8 @@ var ZSPR={
       b:{name:'Shieldmaiden',tag:'Two long braids, braided headband with a teal gem, fur-trimmed teal mantle',look:'Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs.'},
       c:{name:'Wayfinder',tag:'One long side braid with flowers, long trailing wine-red scarf, cropped jacket',look:'Hair: one very long side braid over her left shoulder reaching the hip, woven with teal thread and three tiny white flowers, with loose bangs. Outfit: no cape — instead a long wine-red scarf wrapped around the neck with both ends trailing behind her; a cropped moss-green jacket with rolled sleeves over a cream tunic; fingerless brown gloves; a leather satchel worn across the body; a glowing teal rune pendant; dark grey trousers tucked into knee-high tan boots with turned-down cuffs.'}
     },
-    GIRL_PICK:'a',
+    GIRL_LOCKED:true,
+    GIRL_PICK:'b',   // Kris, Oct 4: lock look B (Shieldmaiden). hero_f.model.png is a copy of hero_f.model_b.png.
     // weapon classes: which animation a held item uses  (LOOK.f is set right after this object is built)
     WCLASS:{sword:{label:'Sword',anim:'melee_sword',held:'a short straight sword with a teal-glowing edge'},
             axe:{label:'Battle axe',anim:'melee_axe',held:'a broad single-bladed battle axe with a teal-glowing edge'},
@@ -263,7 +264,13 @@ var ZSPR={
     Z.ANIMALS.forEach(function(a){ push({id:'animal_'+a[0],group:'animal',sub:(a[6]?'Large animals':'Small animals')+' · '+Z.QN[a[2]],name:a[1],q:a[2],look:a[4],scale:a[3],floaty:!!a[5],large:!!a[6]}); });
     // vehicles (with the hero aboard, one per hero)
     Z.VEHICLES.forEach(function(v){ ['m','f'].forEach(function(w){ push({id:'veh_'+w+'_'+v[0],group:'vehicle',sub:'Vehicles',name:H.NAME[w]+' in the '+v[1].toLowerCase(),q:v[0]==='sky_ship'?6:0,look:v[2]+', with '+H.LOOK[w]+' aboard at the tiller',vanims:v[3],scale:2,facings:['x'],wave:8}); }); });
-    L.forEach(function(e){ e.anims=Z.animsOf(e); e.sheets=Z.sheetsOf(e); });
+    L.forEach(function(e){ e.anims=Z.animsOf(e); e.sheets=e.group==='boss'?[]:Z.sheetsOf(e); });
+    // bosses share sheets: 8 different bosses per sheet (4 × 2), one 3/4 pose each, grouped by region
+    var B=L.filter(function(e){ return e.group==='boss'; }).sort(function(a,b){ return (a.q-b.q)||0; }), per=8;
+    for(var i=0;i<B.length;i+=per){ var set=B.slice(i,i+per), n=Math.floor(i/per)+1, id='bosses.'+n, cols=set.length<=4?set.length:4, rows=Math.ceil(set.length/cols);
+      var sh={id:id,key:'set',title:'Boss set '+n+' ('+set.length+' bosses, one pose each)',facing:'q',cols:cols,rows:rows,size:'1536x1024',tier:'core',multi:true,
+        poses:set.map(function(e){ return {a:'idle',i:0,f:'q',ch:e.id,scale:e.scale,t:e.name+' — '+String(e.look||'').replace(/\s*\([^)]*\)/g,'').replace(/\s+/g,' ').trim().replace(/\.$/,'')+(e.gear?'. Details: '+e.gear:'')+'. '+Z.palText(e.pal).replace(/\.$/,'')}; })};
+      set.forEach(function(e,k){ e.inSheet=id; e.sheetPos=k+1; }); set[0].sheets=[sh]; set[0].setWave=Math.min.apply(null,set.map(function(e){ return e.wave; })); }
     return (ZSPR._all=L); },
 
   bossQ:function(slot,D,C){ var m; if((m=/^elite_(\d)/.exec(slot)))return +m[1]; if(/^boss_vr|volcano/.test(slot))return 5; if((m=/^boss_isl_(\d)/.exec(slot)))return +m[1];
@@ -288,7 +295,8 @@ var ZSPR={
     if(e.group==='animal'){ add('idle',2); add(e.floaty?'float':'move',4,'wanders, and flees when you come close'); if(e.large)add('melee',2,'fights back when cornered'); return A; }
     if(e.group==='vehicle'){ (e.vanims||[]).forEach(function(k){ add(k,k==='move'?4:2); }); return A; }
     // monsters and bosses: from the kit
-    var boss=e.group==='boss', floaty=/wisp|bat|bird|insect|firefly|eye|orb|swarm|book|swirl/.test(e.plan||'')||/orb|bird|wyvern/.test(e.arch||'');
+    if(e.group==='boss'){ add('idle',1,'one painted pose; the game moves it (sway, stride, lunge, flash), as it does today'); return A; }   // Kris, Oct 4: bosses are repainted as one pose each
+    var boss=false, floaty=/wisp|bat|bird|insect|firefly|eye|orb|swarm|book|swirl/.test(e.plan||'')||/orb|bird|wyvern/.test(e.arch||'');
     var R=Z.animsFromKit(e.kit,e.specAnim,floaty); e.unknown=R.unknown;
     R.list.forEach(function(k){ if(k==='death'&&!boss)return; add(k,k==='idle'&&!boss?1:0,(R.uses[k]||[]).join(', ')); });
     if(boss){ if(!A.some(function(a){ return a.k==='cast'; }))add('cast',2,'attack patterns (rain, walls, bursts)'); if(!A.some(function(a){ return a.k==='enrage'; }))add('enrage',1,'phase roar'); add('transform',2,e.form?'arrives in this form':'changes to the next phase'); }
@@ -339,6 +347,11 @@ var ZSPR={
     else if(e.group==='rider'||e.group==='vehicle')r.push('hero_'+(e.rider||e.id.split('_')[1])+'.model'); else if(sh!==e.sheets[0])r.push(e.sheets[0].id);
     if(e.group==='rider'&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID['mt_'+e.mount])r.push('mt_'+e.mount+'.ride'); return r; },
   prompt:function(e,sh,opts){ var Z=ZSPR, o=opts||{}, n=sh.poses.length, L=[];
+    if(sh.multi){ L.push('Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of '+n+' DIFFERENT boss characters, one per cell.'); L.push(Z.refNote(e,sh));
+      L.push('Layout: exactly '+n+' characters in a grid of '+sh.cols+' columns × '+sh.rows+' row'+(sh.rows>1?'s':'')+', evenly spaced, each one standing in a ready, menacing battle pose, in this order (left to right, top row first):');
+      sh.poses.forEach(function(p,i){ L.push((i+1)+'. '+p.t+'.'); });
+      L.push(Z.VIEW.q); L.push('Each boss fills most of its own cell (they are large, imposing characters about three times the height of the hero) and all are drawn at the same scale and line weight.');
+      if(o.body)return L.join('\n'); L.push(Z.STYLE); L.push(Z.RULES.replace('the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale','every character in exactly the same art style and line weight. Every character drawn')); L.push(o.alpha?Z.BG_ALPHA:Z.bgKey('green #00FF00')); return L.join('\n'); }
     L.push('Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.');
     L.push(Z.refNote(e,sh));
     var subj='Subject: '+e.name+' — '+String(e.look||'').replace(/\s*\([^)]*\)/g,'').replace(/\s+/g,' ').trim();
@@ -359,14 +372,14 @@ var ZSPR={
   stats:function(){ var S={chars:0,sheets:0,core:0,poses:0,byGroup:{},unknown:[]}; ZSPR.all().forEach(function(e){ S.chars++; var g=S.byGroup[e.group]=S.byGroup[e.group]||{chars:0,sheets:0,poses:0}; g.chars++; g.sheets+=e.sheets.length; S.sheets+=e.sheets.length; var nc=e.sheets.filter(function(x){ return (x.tier||'core')==='core'; }).length; S.core+=nc; g.core=(g.core||0)+nc;
       e.sheets.forEach(function(sh){ g.poses+=sh.poses.length; S.poses+=sh.poses.length; }); if(e.unknown&&e.unknown.length)S.unknown.push(e.id+': '+e.unknown.join(',')); }); return S; },
   WAVES:{0:'Pilot (by hand)',1:'Heroes',1.5:'Mounts and riders',2:'Village, familiars',3:'Grasslands',3.5:'Grasslands bosses',4:'Wetlands',4.5:'Wetlands bosses',5:'Highlands',5.5:'Highlands bosses',6:'Ashlands',6.5:'Ashlands bosses',7:'Volcano',7.5:'Volcano bosses',8:'Vehicles',2.5:'Other bosses'},
-  PILOT:['hero_m.model','hero_f.model_a','hero_f.model_b','hero_f.model_c','hero_m.move.s','hero_m.melee.s','meadow_goblin.core.s','meadow_goblin.fb','thistle_hog.core.q','npc_forge.core.f','mt_horse.ride','ride_m_horse.ride','boss_goblin_king.core.s','fam_grass.core.q'],
+  PILOT:['hero_m.model','hero_f.model','hero_m.move.s','hero_m.melee.s','meadow_goblin.core.s','meadow_goblin.fb','thistle_hog.core.q','npc_forge.core.f','mt_horse.ride','ride_m_horse.ride','bosses.1','fam_grass.core.q'],
   requests:function(){ var out=[], Z=ZSPR;
     // the girl's three looks to compare: same model-sheet layout, one request per look
     var girl=Z.all().find(function(e){ return e.id==='hero_f'; });
-    if(girl)Object.keys(Z.HERO.GIRL_LOOKS).forEach(function(k){ var G=Z.HERO.GIRL_LOOKS[k], e2=Object.assign({},girl,{name:'Hero (girl) · look '+k.toUpperCase()+' — '+G.name,look:Z.HERO.GIRL_BASE+G.look.replace(/\.$/,'')}), sh=Object.assign({},girl.sheets[0],{id:'hero_f.model_'+k});
+    if(girl&&!Z.HERO.GIRL_LOCKED)Object.keys(Z.HERO.GIRL_LOOKS).forEach(function(k){ var G=Z.HERO.GIRL_LOOKS[k], e2=Object.assign({},girl,{name:'Hero (girl) · look '+k.toUpperCase()+' — '+G.name,look:Z.HERO.GIRL_BASE+G.look.replace(/\.$/,'')}), sh=Object.assign({},girl.sheets[0],{id:'hero_f.model_'+k});
       out.push({id:sh.id,char:'hero_f',name:e2.name,group:'hero',sub:girl.sub,tier:'core',wave:0,cwave:1,scale:1,title:sh.title,facing:sh.facing,cols:sh.cols,rows:sh.rows,size:sh.size,poses:sh.poses.map(function(p){ return 'model_'+k+'/x/'+p.i; }),refs:['style_hero','style_centaur','hero_m.model'],key:Z.keyCol(null),variant:k,body:Z.prompt(e2,sh,{body:true})}); });
-    ZSPR.all().forEach(function(e){ e.sheets.forEach(function(sh){ out.push({id:sh.id,char:e.id,name:e.name,group:e.group,sub:e.sub,tier:sh.tier||'core',wave:ZSPR.PILOT.indexOf(sh.id)>=0?0:e.wave,cwave:e.wave,scale:e.scale||1,title:sh.title,facing:sh.facing,cols:sh.cols,rows:sh.rows,size:sh.size,
-      poses:sh.poses.map(function(p){ return p.a+'/'+(p.f||sh.facing||'s')+'/'+p.i; }),refs:ZSPR.refs(e,sh),key:ZSPR.keyCol(e.pal),body:ZSPR.prompt(e,sh,{body:true})}); }); }); return out; },
+    ZSPR.all().forEach(function(e){ e.sheets.forEach(function(sh){ out.push({id:sh.id,char:sh.multi?'bosses':e.id,name:sh.multi?sh.title:e.name,group:e.group,sub:e.sub,tier:sh.tier||'core',wave:ZSPR.PILOT.indexOf(sh.id)>=0?0:e.wave,cwave:e.wave,scale:e.scale||1,title:sh.title,facing:sh.facing,cols:sh.cols,rows:sh.rows,size:sh.size,
+      poses:sh.poses.map(function(p){ return (p.ch?'@'+p.ch+'|':'')+p.a+'/'+(p.f||sh.facing||'s')+'/'+p.i; }),scales:sh.multi?sh.poses.map(function(p){ return p.scale||1; }):undefined,multi:sh.multi||undefined,refs:sh.multi?['style_hero','style_centaur']:ZSPR.refs(e,sh),key:ZSPR.keyCol(e.pal),body:ZSPR.prompt(e,sh,{body:true})}); }); }); return out; },
   // full text of a request: body + style + rules + background (alpha for the script, alpha-or-flat-colour for pasting by hand)
   full:function(q,alpha){ return q.body+'\n'+ZSPR.STYLE+'\n'+ZSPR.RULES+'\n'+(alpha?ZSPR.BG_ALPHA:ZSPR.bgKey(q.key)); }
 };
