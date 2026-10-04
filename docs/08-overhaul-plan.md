@@ -204,7 +204,7 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - None open. Waiting on Kris:
   1. The 12 pilot requests by hand (Lab → Sprite Library → Guide), saved to `sprites/incoming/`.
   2. "Looks right" / notes on the Sprite Library cards, and whether the girl's proposed look (auburn braid, wine-red cape) is right.
-  3. A play test of `?engine=4` on his PC and a phone (no decision yet on when to make Phaser 4 the default).
+  3. A play test of `?engine=4` on his PC and a phone (no decision yet on when to make Phaser 4 the default). Known issue to fix first: a faint seam line between map chunks on Phaser 4 (seen once over water).
   4. His check of waystone travel in real play.
 
 ## Round 18 — request and answers

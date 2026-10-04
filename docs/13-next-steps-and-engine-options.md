@@ -97,7 +97,7 @@ Kris asked for more detail on the upgrade. I ran the unchanged game on Phaser 4.
 
 **Caveat on every timing below:** the test browser draws with software (SwiftShader), not a real graphics card, on a shared cloud CPU. Counts (draw calls, bytes, test results) are exact. Milliseconds are only a relative guide and must be re-measured on a real PC and phone.
 
-> **Update, round 18 (Oct 3):** the build switch is in and the 9 call sites now work on both engines (`src/js/00a-engine.js`). Phaser 3.60 is still the default. Try Phaser 4 with `?engine=4` or at `/play4`.
+> **Update, round 18 (Oct 3):** the build switch is in and the 9 call sites now work on both engines (`src/js/00a-engine.js`). Phaser 3.60 is still the default. Try Phaser 4 with `?engine=4` or at `/play4`. After the change, 18 test suites pass on Phaser 4.2.1 (over 300 checks): round 18, 12, 9, 6, 7, 8, 8b, 14, 15, world game, phase 1 core, saves, brand, waystone clicks, site lab, village, trials, boss arenas. Night darkness and lava glow both draw. **Known issue on Phaser 4:** one screenshot shows a faint horizontal seam line between two map chunks over water; it needs fixing before Phaser 4 becomes the default. The monster suite and the Lab world suites have not been run on Phaser 4.
 
 ### What happened
 
