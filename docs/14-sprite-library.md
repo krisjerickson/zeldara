@@ -56,7 +56,7 @@ This replaces the pilot plan in `09-sprite-style-bible.md` (pixel art, green bac
 ## Heroes
 
 - **Boy** = Kris's reference image. All frames are redrawn in that style.
-- **Girl** = proposed: same age and outfit family, long auburn braid, wine-red hooded cape, teal highlights. Her model sheet is pilot request 2; change the description in the Lab note if wanted.
+- **Girl** (round 19): Kris wants her clearly different from the boy — long braided auburn hair plus other features. Three looks are in the pilot to compare (A Ranger, B Shieldmaiden, C Wayfinder; `ZSPR.HERO.GIRL_LOOKS`). The one he keeps becomes `hero_f.model.png`; her other sheets are built on it.
 - The choice is made at New Game and saved (`ps.hero` = `m` or `f`; old saves are the boy). Until her sprites arrive the girl is a recoloured stand-in of today's frames.
 
 Per hero: 1 model sheet + 5 sheets × 3 facings + 4 one-view sheets = 20 sheets.
@@ -96,8 +96,9 @@ Each request also gives: the character's look and colours from the game, how it 
 
 ## How the requests are fed (Kris: pilot by hand, then script)
 
-1. **Pilot, by hand (12 requests, wave 0).** In ChatGPT start an image chat, attach `style_hero.png` and `style_centaur.png`, copy the request from the Lab (Sprite Library → Guide → Pilot requests) or from `sprites/requests/wave-0-pilot-by-hand.md`, generate, and save as `sprites/incoming/<request id>.png`.
-   - Do `hero_m.model` first, then `hero_f.model` (attach the boy's model sheet too). Later hero requests attach the model sheet.
+1. **Pilot, by hand (14 requests, wave 0).** In ChatGPT start an image chat, attach `style_hero.png` and `style_centaur.png`, copy the request from the Lab (Sprite Library → Guide → Pilot requests) or from `sprites/requests/wave-0-pilot-by-hand.md`, generate, and save as `sprites/incoming/<request id>.png`.
+   - `hero_m.model` is done (Oct 4). Next the girl's three looks, `hero_f.model_a / _b / _c`, each with the boy's model sheet attached too. Later hero requests attach the model sheet.
+   - Any file name works when saving from ChatGPT as long as Claude is told; the file is renamed to its request id.
    - For a character's second sheet, attach its first approved sheet. Each request says what to attach.
 2. **Review.** Tell Claude the pilot is in. Claude runs the intake, shows the frames in the Lab next to the stand-ins and adjusts the style text if the look drifts.
 3. **Script, for the rest.** On the PC, in PowerShell in the game folder:
@@ -114,11 +115,26 @@ Each request also gives: the character's look and colours from the game, how it 
    - **Cost is not known yet.** I could not confirm current per-image prices. The pilot through the script (`--wave 0 --limit 3`) will show the real token use before a large wave is run.
 4. **Intake.** `python tools/sprites/intake.py` (Python 3, Pillow, numpy). A sheet with a checkerboard or scenery background is rejected with a message and needs a redo.
 
+### Setting up the OpenAI API (one time)
+
+The ChatGPT app and the API are separate products with separate billing. A ChatGPT subscription does not include API use. Only the script needs the API; the pilot by hand does not.
+
+1. Sign in at platform.openai.com with the same OpenAI account (or a new one).
+2. Add a payment method and buy a small amount of credit (API use is prepaid or billed monthly, apart from ChatGPT).
+3. Verify the organization (Settings → Organization → General → Verify). The image models require it; it is an ID check and can take a few minutes to take effect.
+4. Create an API key (API keys → Create new secret key). Copy it once; it is shown only once.
+5. In PowerShell, in the game folder, set it for that window only: `$env:OPENAI_API_KEY = "sk-..."`. Do not put the key in a file in the repo and do not paste it into a chat with Claude.
+6. Test with three sheets: `node tools/sprites/generate.mjs --wave 0 --limit 3`. Check the images and the token use in `sprites/incoming/_log.jsonl`.
+
+**Cost (estimate, not confirmed):** the published token prices for the gpt-image-2.5 models are $30 per million image-output tokens and $8 per million image-input tokens. A third-party reseller prices a 1K-class image at about $0.25. On that basis one sheet with three reference images is roughly $0.20–0.35, so the 667 core sheets would be about $130–230 and all 919 about $185–320, before re-rolls. The three-sheet test gives the real number.
+
+No other integration is needed. The script talks to the API directly, the intake runs locally, and the game loads the atlases as plain files.
+
 ### Waves
 
 | Wave | What | Sheets (core) |
 |---|---|---|
-| 0 | Pilot, by hand | 12 (12) |
+| 0 | Pilot, by hand | 14 (14) |
 | 1 | Heroes | 36 (36) |
 | 1.5 | Mounts and riders | 31 (31) |
 | 2 | Village NPCs, familiars | 54 (54) |

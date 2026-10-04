@@ -110,7 +110,10 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   const labFiles = fs.readdirSync(labDir).filter(f => f.endsWith('.js')).sort();
   // which sprite sheets have arrived (sprites/incoming/<request id>.png) — shown as "received" in the Sprite Library tab
   let incoming = []; try { incoming = fs.readdirSync(path.join(ROOT, 'sprites/incoming')).filter(f => /\.png$/i.test(f)).map(f => f.replace(/\.png$/i, '')); } catch (e) {}
-  const labJs = minify(shared + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
+  // previews made by tools/sprites/intake.py (sprites/preview/<id>.sheet.webp, .frames.webp, .json) — shown in the Sprite Library tab
+  const previews = {}; try { for (const f of fs.readdirSync(path.join(ROOT, 'sprites/preview')).filter(f => /\.json$/.test(f))) { const id = f.replace(/\.json$/, ''), d = JSON.parse(r('sprites/preview/' + f)), b64 = n => 'data:image/webp;base64,' + fs.readFileSync(path.join(ROOT, 'sprites/preview', id + n)).toString('base64');
+      previews[id] = { cell: d.cell, n: d.n, names: d.names, sheet: b64('.sheet.webp'), frames: b64('.frames.webp') }; if (!incoming.includes(id)) incoming.push(id); } } catch (e) {}
+  const labJs = minify(shared + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
   if (/<\/script>/i.test(labJs)) throw new Error('Literal </script> in lab JS');
   const labRaw = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs), lab = withEngine(labRaw, ENGINE_ARG, false);
   if (process.argv.includes('--check')) {

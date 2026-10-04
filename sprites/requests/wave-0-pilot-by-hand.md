@@ -1,6 +1,66 @@
-# Pilot (by hand) — 12 requests
+# Pilot (by hand) — 14 requests
 
 Save each result as `sprites/incoming/<request id>.png`.
+
+## hero_f.model_a
+
+Hero (girl) · look A — Ranger · Model sheet (front, side, back) · 3 poses, 3 × 1 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_m.model
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of the hero boy: she matches his height, proportions, line weight and colouring style exactly (her hair and outfit are her own, as described).
+Subject: Hero (girl) · look A — Ranger — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: one long thick braid hanging down her back to the waist, tied at the end with a teal ribbon, with side-swept bangs and a small white feather tucked behind one ear. Freckles across the nose. Outfit: a wine-red hooded short cape with a brown shoulder strap, a cream tunic that flares into a short split skirt over dark grey leggings, a brown leather belt with a round silver buckle and one pouch, a quiver strap across the chest, and tall laced tan boots. 
+Layout: exactly 3 poses in a grid of 3 columns × 1 row, evenly spaced, in this order (left to right, top row first):
+1. standing, seen from the FRONT.
+2. standing, side view facing RIGHT.
+3. standing, seen from BEHIND.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_f.model_b
+
+Hero (girl) · look B — Shieldmaiden · Model sheet (front, side, back) · 3 poses, 3 × 1 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_m.model
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of the hero boy: she matches his height, proportions, line weight and colouring style exactly (her hair and outfit are her own, as described).
+Subject: Hero (girl) · look B — Shieldmaiden — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Layout: exactly 3 poses in a grid of 3 columns × 1 row, evenly spaced, in this order (left to right, top row first):
+1. standing, seen from the FRONT.
+2. standing, side view facing RIGHT.
+3. standing, seen from BEHIND.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_f.model_c
+
+Hero (girl) · look C — Wayfinder · Model sheet (front, side, back) · 3 poses, 3 × 1 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_m.model
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of the hero boy: she matches his height, proportions, line weight and colouring style exactly (her hair and outfit are her own, as described).
+Subject: Hero (girl) · look C — Wayfinder — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: one very long side braid over her left shoulder reaching the hip, woven with teal thread and three tiny white flowers, with loose bangs. Outfit: no cape — instead a long wine-red scarf wrapped around the neck with both ends trailing behind her; a cropped moss-green jacket with rolled sleeves over a cream tunic; fingerless brown gloves; a leather satchel worn across the body; a glowing teal rune pendant; dark grey trousers tucked into knee-high tan boots with turned-down cuffs. 
+Layout: exactly 3 poses in a grid of 3 columns × 1 row, evenly spaced, in this order (left to right, top row first):
+1. standing, seen from the FRONT.
+2. standing, side view facing RIGHT.
+3. standing, seen from BEHIND.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
 
 ## hero_m.model
 
@@ -68,26 +128,6 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 7. axe chop: axe head driving down in front, a heavy teal-white arc.
 8. axe follow-through: axe head buried low, body bent over it.
 View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
-Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
-Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
-Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
-```
-
-## hero_f.model
-
-Hero (girl) · Model sheet (front, side, back) · 3 poses, 3 × 1 · 1536x1024 · core
-
-Attach: style_hero, style_centaur, hero_m.model
-
-```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
-Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of the hero boy: she matches his height, proportions and outfit style.
-Subject: Hero (girl) — the hero girl, the same age and the same outfit family as the hero boy in reference image 1: a young adventurer with a long auburn braid over one shoulder and loose bangs streaked with teal highlights, big teal eyes, a wine-red hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
-Layout: exactly 3 poses in a grid of 3 columns × 1 row, evenly spaced, in this order (left to right, top row first):
-1. standing, seen from the FRONT.
-2. standing, side view facing RIGHT.
-3. standing, seen from BEHIND.
-View: camera slightly above, as in a top-down RPG; each pose states its own facing.
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.

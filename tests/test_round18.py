@@ -27,6 +27,8 @@ J=json.load(open(os.path.join(R,'sprites','requests','requests.json'),encoding='
 ids=[q['id'] for q in J['requests']]
 check('Requests are exported: unique ids, every pilot id exists, every reference is a style image or another request', len(ids)==len(set(ids)) and all(p in ids for p in J['pilot']) and all(r in ('style_hero','style_centaur') or r in ids for q in J['requests'] for r in q['refs']), [len(ids),J['stats']['core']])
 check('Every request names the teal highlight style and both references', all('teal' in J['style'] and 'Reference image 1' in q['body'] and 'Reference image 2' in q['body'] for q in J['requests']))
+G=[q for q in J['requests'] if q['id'].startswith('hero_f.model_')]
+check('Round 19: the girl has three looks to compare, each with long braided auburn hair and the boy\'s model sheet as a reference', len(G)==3 and all('LONG BRAIDED AUBURN' in q['body'] and 'hero_m.model' in q['refs'] and q['wave']==0 for q in G) and len(set(q['body'] for q in G))==3, [q['id'] for q in G])
 check('The two reference images are in the repo', all(os.path.exists(os.path.join(R,'sprites','reference',n+'.png')) for n in ('style_hero','style_centaur')))
 
 # ── game ──
@@ -101,8 +103,9 @@ with sync_playwright() as p:
     pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PHASER, content_type="application/javascript"))
     pg.goto('file://'+os.path.abspath(os.path.join(R,'lab','index.html'))); pg.wait_for_timeout(2500)
     pg.click('.lab-tab:has-text("Sprite Library")'); pg.wait_for_timeout(900)
-    r=pg.evaluate("({chips:document.querySelectorAll('.sl-grp').length, tabs:document.querySelectorAll('.sl-tab').length, refs:document.querySelectorAll('.sl-refs img').length, pilot:document.querySelectorAll('#lab-grid .sl-sh').length, rows:[...document.querySelectorAll('.sl-tab')].map(function(t){ return t.rows.length; })})")
-    check('Lab → Sprite Library opens on the Guide: totals, the two references, weapon / skill / action tables, 12 pilot requests', r['chips']==14 and r['tabs']==4 and r['refs']==2 and r['pilot']==12 and r['rows'][1]==9 and r['rows'][2]==13, r)
+    r=pg.evaluate("({chips:document.querySelectorAll('.sl-grp').length, tabs:document.querySelectorAll('.sl-tab').length, refs:document.querySelectorAll('.sl-refs img').length, pilot:document.querySelectorAll('#lab-grid .sl-sh').length, girls:document.querySelectorAll('.sl-card[data-id^=hero_f]').length, rcv:document.querySelectorAll('.sl-rcv img').length, game:document.querySelectorAll('.sl-game').length, rows:[...document.querySelectorAll('.sl-tab')].map(function(t){ return t.rows.length; })})")
+    check('Lab → Sprite Library opens on the Guide: totals, the two references, weapon / skill / action tables, 14 pilot requests', r['chips']==14 and r['tabs']==4 and r['refs']==2 and r['pilot']==14+3 and r['rows'][1]==9 and r['rows'][2]==13, r)
+    check('Round 19: the Guide shows the three girl looks and every received sheet with its frames at game size', r['girls']==3 and r['rcv']>=1 and r['game']>=1, r)
     pg.evaluate("document.querySelector('.sl-grp[data-sl=m1]').click()"); pg.wait_for_timeout(1200)
     r=pg.evaluate("""(()=>{ var cards=document.querySelectorAll('.sl-card'), o={n:cards.length, painted:0}; document.querySelectorAll('.sl-cv').forEach(function(cv){ var d=cv.getContext('2d').getImageData(0,0,72,72).data, n=0; for(var i=3;i<d.length;i+=4)if(d[i]>40)n++; if(n>60)o.painted++; });
       var li=document.querySelector('.sl-card .sl-sh'); li.querySelector('.sl-show').click(); o.pre=li.querySelector('.sl-pre').textContent; return o; })()""")

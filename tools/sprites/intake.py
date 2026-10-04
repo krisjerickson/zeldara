@@ -11,7 +11,8 @@ For each sheet it
   2. finds each pose (rows, then columns, by the empty gaps between them; falls back to an even grid),
   3. scales the character so a standing pose is HERO_PX × its size tall, and puts every pose in a same-size
      cell with the feet on one line at the bottom centre,
-  4. writes sprites/out/frames/<character>/<anim>_<facing>_<n>.png and a contact sheet per request,
+  4. writes sprites/out/frames/<character>/<anim>_<facing>_<n>.png, a contact sheet per request and small
+     previews for the Design Lab in sprites/preview/,
   5. packs atlases (2048 × 2048 pages, Phaser JSON) per group into sprites/out/atlas/.
 Frame names in the atlas: <character>/<anim>/<facing>/<n>   e.g. hero_m/walk/s/2, meadow_goblin/melee/s/1
 
@@ -103,6 +104,13 @@ def process(q, report=False):
         sheet = Image.new('RGBA', (cw * len(frames), ch), (18, 24, 40, 255))
         for i, (_, cell) in enumerate(frames): sheet.alpha_composite(cell, (i * cw, 0))
         os.makedirs(os.path.join(OUT, 'preview'), exist_ok=True); sheet.save(os.path.join(OUT, 'preview', q['id'] + '.png'))
+        # small previews the Design Lab embeds (committed): the sheet as received and the cut frames
+        pv = os.path.join(ROOT, 'sprites', 'preview'); os.makedirs(pv, exist_ok=True)
+        sm = im.copy(); sm.thumbnail((900, 600), Image.LANCZOS); sm.save(os.path.join(pv, q['id'] + '.sheet.webp'), 'WEBP', quality=82)
+        strip = Image.new('RGBA', (cw * len(frames), ch), (0, 0, 0, 0))
+        for i, (_, cell) in enumerate(frames): strip.alpha_composite(cell, (i * cw, 0))
+        strip.save(os.path.join(pv, q['id'] + '.frames.webp'), 'WEBP', lossless=True)
+        json.dump({'cell': [cw, ch], 'n': len(frames), 'names': [f[0] for f in frames], 'bg': note, 'split': mode}, open(os.path.join(pv, q['id'] + '.json'), 'w'))
     return {'id': q['id'], 'ok': True, 'bg': note, 'split': mode, 'cell': [cw, ch], 'frames': frames, 'group': q['group'], 'wave': q.get('cwave', q['wave'])}
 
 def atlas_name(r):

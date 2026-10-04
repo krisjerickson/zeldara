@@ -202,10 +202,17 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 - None open. Waiting on Kris:
-  1. The 12 pilot requests by hand (Lab → Sprite Library → Guide), saved to `sprites/incoming/`.
-  2. "Looks right" / notes on the Sprite Library cards, and whether the girl's proposed look (auburn braid, wine-red cape) is right.
-  3. A play test of `?engine=4` on his PC and a phone (no decision yet on when to make Phaser 4 the default). Known issue to fix first: a faint seam line between map chunks on Phaser 4 (seen once over water).
-  4. His check of waystone travel in real play.
+  1. Generate the girl's three looks (Lab → Sprite Library → Guide), save as `sprites/incoming/hero_f.model_a.png`, `_b`, `_c`, and say which to keep (or a mix).
+  2. The rest of the pilot by hand (10 more requests), or by the script once his OpenAI API key is set up.
+  3. "Looks right" / notes on the Sprite Library cards.
+  4. A play test of `?engine=4` on his PC and a phone (no decision yet on when to make Phaser 4 the default). Known issue to fix first: a faint seam line between map chunks on Phaser 4 (seen once over water).
+  5. His check of waystone travel in real play.
+
+## Round 19 (Kris, Oct 4)
+- "first ChatGPT output is ready here for the hero boy" → received, renamed to `hero_m.model.png`, cut cleanly (changelog [234]). Kris has not said anything against it; treated as the approved boy model unless he says otherwise.
+- "For the girl character, she needs to be differentiated more than just auburn hair. she should have long, braided hair, auburn is a good color, and then make a few other differentiating feature requests for the girl. let's test this in the lab" → three looks (A Ranger, B Shieldmaiden, C Wayfinder), all with long braided auburn hair, each a pilot request with its own Lab card ([235], [236]). **No pick yet.**
+- "walk me through next steps for the rest, especially if we need any ChatGPT api or other integration" → answered in chat and in `14-sprite-library.md` (API setup section). Only an OpenAI API key is needed for the script; no other integration.
+- Display size is still open: the Lab shows new frames at today's size (42 px) and 1.5× (63 px). Ask Kris which he prefers once more sheets are in (not asked yet).
 
 ## Round 18 — request and answers
 **Round 18 (Kris, Oct 3) — built Oct 3 (changelog [227]–[233]).** Request: prepare (not do) the Phaser 4 upgrade and create the build switch; prepare the sprite library and atlas; survey every monster, familiar, NPC, boss, animal, mount, rider and other character with all their moves; two playable heroes (male + female); hero visuals for moving, sword / battle axe, bow / crossbow, staff / wand, shield block, rolling and each skill; mapping of sprites to weapons and moves; Lab tab to review; all ChatGPT requests plus the feeding process. References attached: a teal-maned centaur (style) and the boy hero. Teal highlights must carry through.

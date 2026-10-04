@@ -29,3 +29,6 @@ site/next-env.d.ts
 tests/.phaser4/
 /zeldara.artifact.html
 sprites/out/
+# generated sprite sheets stay on this PC (about 1 MB each); previews and atlases are committed
+sprites/incoming/*.png
+sprites/incoming/_log.jsonl

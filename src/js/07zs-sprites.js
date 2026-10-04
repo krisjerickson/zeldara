@@ -128,10 +128,19 @@ var ZSPR={
   HERO:{
     LOOK:{
       m:'the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps',
-      f:'the hero girl, the same age and the same outfit family as the hero boy in reference image 1: a young adventurer with a long auburn braid over one shoulder and loose bangs streaked with teal highlights, big teal eyes, a wine-red hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps'
+      f:''   // filled below from GIRL_LOOKS[GIRL_PICK]
     },
     NAME:{m:'Hero (boy)',f:'Hero (girl)'},
-    // weapon classes: which animation a held item uses
+    // The girl (round 19): Kris wants her clearly different from the boy — long braided auburn hair plus other features.
+    // Three looks to generate and compare in the Lab; GIRL_PICK is the one every other girl sheet is built on.
+    GIRL_BASE:'the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN (red-brown) hair streaked with teal highlights. ',
+    GIRL_LOOKS:{
+      a:{name:'Ranger',tag:'One long braid down her back, wine-red hooded cape, skirted tunic',look:'Hair: one long thick braid hanging down her back to the waist, tied at the end with a teal ribbon, with side-swept bangs and a small white feather tucked behind one ear. Freckles across the nose. Outfit: a wine-red hooded short cape with a brown shoulder strap, a cream tunic that flares into a short split skirt over dark grey leggings, a brown leather belt with a round silver buckle and one pouch, a quiver strap across the chest, and tall laced tan boots.'},
+      b:{name:'Shieldmaiden',tag:'Two long braids, braided headband with a teal gem, fur-trimmed teal mantle',look:'Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs.'},
+      c:{name:'Wayfinder',tag:'One long side braid with flowers, long trailing wine-red scarf, cropped jacket',look:'Hair: one very long side braid over her left shoulder reaching the hip, woven with teal thread and three tiny white flowers, with loose bangs. Outfit: no cape — instead a long wine-red scarf wrapped around the neck with both ends trailing behind her; a cropped moss-green jacket with rolled sleeves over a cream tunic; fingerless brown gloves; a leather satchel worn across the body; a glowing teal rune pendant; dark grey trousers tucked into knee-high tan boots with turned-down cuffs.'}
+    },
+    GIRL_PICK:'a',
+    // weapon classes: which animation a held item uses  (LOOK.f is set right after this object is built)
     WCLASS:{sword:{label:'Sword',anim:'melee_sword',held:'a short straight sword with a teal-glowing edge'},
             axe:{label:'Battle axe',anim:'melee_axe',held:'a broad single-bladed battle axe with a teal-glowing edge'},
             bow:{label:'Bow',anim:'ranged_bow',held:'a wooden recurve bow'},
@@ -321,7 +330,7 @@ var ZSPR={
   // ── the request text for one sheet ──
   REF_TXT:{style_hero:'the hero boy (art style, proportions, outline weight, teal highlights)',style_centaur:'the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon)'},
   refNote:function(e,sh){ var Z=ZSPR; return Z.refs(e,sh).map(function(r,i){ var t=Z.REF_TXT[r];
-      if(!t){ if(r==='hero_m.model'&&e.id==='hero_f')t='the approved model sheet of the hero boy: she matches his height, proportions and outfit style';
+      if(!t){ if(r==='hero_m.model'&&e.id==='hero_f')t='the approved model sheet of the hero boy: she matches his height, proportions, line weight and colouring style exactly (her hair and outfit are her own, as described)';
         else if(/^hero_[mf]\.model$/.test(r))t='the approved model sheet of this hero: keep the hero identical to it';
         else if(/^mt_/.test(r))t='the approved sheet of this mount: keep the mount identical to it';
         else t='the first approved sheet of this same character: keep the character identical to it'; }
@@ -350,9 +359,15 @@ var ZSPR={
   stats:function(){ var S={chars:0,sheets:0,core:0,poses:0,byGroup:{},unknown:[]}; ZSPR.all().forEach(function(e){ S.chars++; var g=S.byGroup[e.group]=S.byGroup[e.group]||{chars:0,sheets:0,poses:0}; g.chars++; g.sheets+=e.sheets.length; S.sheets+=e.sheets.length; var nc=e.sheets.filter(function(x){ return (x.tier||'core')==='core'; }).length; S.core+=nc; g.core=(g.core||0)+nc;
       e.sheets.forEach(function(sh){ g.poses+=sh.poses.length; S.poses+=sh.poses.length; }); if(e.unknown&&e.unknown.length)S.unknown.push(e.id+': '+e.unknown.join(',')); }); return S; },
   WAVES:{0:'Pilot (by hand)',1:'Heroes',1.5:'Mounts and riders',2:'Village, familiars',3:'Grasslands',3.5:'Grasslands bosses',4:'Wetlands',4.5:'Wetlands bosses',5:'Highlands',5.5:'Highlands bosses',6:'Ashlands',6.5:'Ashlands bosses',7:'Volcano',7.5:'Volcano bosses',8:'Vehicles',2.5:'Other bosses'},
-  PILOT:['hero_m.model','hero_f.model','hero_m.move.s','hero_m.melee.s','meadow_goblin.core.s','meadow_goblin.fb','thistle_hog.core.q','npc_forge.core.f','mt_horse.ride','ride_m_horse.ride','boss_goblin_king.core.s','fam_grass.core.q'],
-  requests:function(){ var out=[]; ZSPR.all().forEach(function(e){ e.sheets.forEach(function(sh){ out.push({id:sh.id,char:e.id,name:e.name,group:e.group,sub:e.sub,tier:sh.tier||'core',wave:ZSPR.PILOT.indexOf(sh.id)>=0?0:e.wave,cwave:e.wave,scale:e.scale||1,title:sh.title,facing:sh.facing,cols:sh.cols,rows:sh.rows,size:sh.size,
+  PILOT:['hero_m.model','hero_f.model_a','hero_f.model_b','hero_f.model_c','hero_m.move.s','hero_m.melee.s','meadow_goblin.core.s','meadow_goblin.fb','thistle_hog.core.q','npc_forge.core.f','mt_horse.ride','ride_m_horse.ride','boss_goblin_king.core.s','fam_grass.core.q'],
+  requests:function(){ var out=[], Z=ZSPR;
+    // the girl's three looks to compare: same model-sheet layout, one request per look
+    var girl=Z.all().find(function(e){ return e.id==='hero_f'; });
+    if(girl)Object.keys(Z.HERO.GIRL_LOOKS).forEach(function(k){ var G=Z.HERO.GIRL_LOOKS[k], e2=Object.assign({},girl,{name:'Hero (girl) · look '+k.toUpperCase()+' — '+G.name,look:Z.HERO.GIRL_BASE+G.look.replace(/\.$/,'')}), sh=Object.assign({},girl.sheets[0],{id:'hero_f.model_'+k});
+      out.push({id:sh.id,char:'hero_f',name:e2.name,group:'hero',sub:girl.sub,tier:'core',wave:0,cwave:1,scale:1,title:sh.title,facing:sh.facing,cols:sh.cols,rows:sh.rows,size:sh.size,poses:sh.poses.map(function(p){ return 'model_'+k+'/x/'+p.i; }),refs:['style_hero','style_centaur','hero_m.model'],key:Z.keyCol(null),variant:k,body:Z.prompt(e2,sh,{body:true})}); });
+    ZSPR.all().forEach(function(e){ e.sheets.forEach(function(sh){ out.push({id:sh.id,char:e.id,name:e.name,group:e.group,sub:e.sub,tier:sh.tier||'core',wave:ZSPR.PILOT.indexOf(sh.id)>=0?0:e.wave,cwave:e.wave,scale:e.scale||1,title:sh.title,facing:sh.facing,cols:sh.cols,rows:sh.rows,size:sh.size,
       poses:sh.poses.map(function(p){ return p.a+'/'+(p.f||sh.facing||'s')+'/'+p.i; }),refs:ZSPR.refs(e,sh),key:ZSPR.keyCol(e.pal),body:ZSPR.prompt(e,sh,{body:true})}); }); }); return out; },
   // full text of a request: body + style + rules + background (alpha for the script, alpha-or-flat-colour for pasting by hand)
   full:function(q,alpha){ return q.body+'\n'+ZSPR.STYLE+'\n'+ZSPR.RULES+'\n'+(alpha?ZSPR.BG_ALPHA:ZSPR.bgKey(q.key)); }
 };
+ZSPR.HERO.LOOK.f=ZSPR.HERO.GIRL_BASE+ZSPR.HERO.GIRL_LOOKS[ZSPR.HERO.GIRL_PICK].look.replace(/\.$/,'');

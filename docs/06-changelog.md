@@ -492,6 +492,16 @@ Kris's picks in the Lab: arrows `ar_bodkin` (Heavy Bodkin), spells `sp_solid` (S
 - **[232] Tests**: `tests/test_round18.py` (30 checks, run on both engines). `test_saves.py` and `test_site_home.py` pick a hero.
 - **[233] New doc `14-sprite-library.md`**; doc 09 is kept for history only.
 
+## Round 19 (Kris, Oct 4) — first sheet in, the girl's looks
+- **[234] First ChatGPT sheet received: the boy's model sheet.** Renamed to `sprites/incoming/hero_m.model.png` (was "Hero (boy) — Model sheet (front, side, back).png.png"). Real transparency, 3 poses, matches the references. The intake cut it into 3 frames (66 × 116 px cells) with no changes needed.
+- **[235] The girl: three looks to compare** (`ZSPR.HERO.GIRL_LOOKS`, `GIRL_PICK`). Kris: more than auburn hair — long braided hair plus other differences. All three have long braided auburn hair:
+  - A Ranger: one long braid down the back with a teal ribbon, feather, freckles, wine-red hooded cape, skirted tunic over leggings, tall boots.
+  - B Shieldmaiden: two long braids with silver clasps, braided headband with a teal gem, fur-collared teal mantle with a knotwork brooch, bracers, fur-cuffed boots.
+  - C Wayfinder: one very long side braid with flowers, long trailing wine-red scarf (no cape), cropped green jacket, satchel, rune pendant, knee-high boots.
+  - Requests `hero_f.model_a / _b / _c` (pilot, attach the boy's model sheet). The kept one becomes `hero_f.model`. Until Kris picks, look A is the default for her other sheets.
+- **[236] Lab → Sprite Library**: "Received so far" shows each sheet as it came, and its cut frames at game size next to today's hero (grass and dungeon stone, today's size and 1.5×). The three girl looks have their own cards with Copy request, "Looks right" and notes. Previews come from `sprites/preview/` (written by the intake, embedded by the build).
+- **[237]** `sprites/incoming/*.png` stay out of git (about 1 MB each, 900+ expected); `sprites/preview/` and the atlases are what is committed. Tests: `test_round18.py` now 32 checks.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).
