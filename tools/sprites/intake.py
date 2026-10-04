@@ -111,11 +111,12 @@ def process(q, report=False):
         os.makedirs(os.path.join(OUT, 'preview'), exist_ok=True); sheet.save(os.path.join(OUT, 'preview', q['id'] + '.png'))
         # small previews the Design Lab embeds (committed): the sheet as received and the cut frames
         pv = os.path.join(ROOT, 'sprites', 'preview'); os.makedirs(pv, exist_ok=True)
-        sm = im.copy(); sm.thumbnail((900, 600), Image.LANCZOS); sm.save(os.path.join(pv, q['id'] + '.sheet.webp'), 'WEBP', quality=82)
+        sm = im.copy(); sm.thumbnail((720, 480), Image.LANCZOS); sm.save(os.path.join(pv, q['id'] + '.sheet.webp'), 'WEBP', quality=76)
         strip = Image.new('RGBA', (cw * len(frames), ch), (0, 0, 0, 0))
         for i, (_, cell) in enumerate(frames): strip.alpha_composite(cell, (i * cw, 0))
-        strip.save(os.path.join(pv, q['id'] + '.frames.webp'), 'WEBP', lossless=True)
-        json.dump({'cell': [cw, ch], 'n': len(frames), 'names': [f[0] for f in frames], 'bg': note, 'split': mode}, open(os.path.join(pv, q['id'] + '.json'), 'w'))
+        pk = min(1.0, 132.0 / ch); pcw, pch = max(1, round(cw * pk)), max(1, round(ch * pk))        # preview cells: at most 132 px tall (the Lab draws them up to 126)
+        strip = strip.resize((pcw * len(frames), pch), Image.LANCZOS); strip.save(os.path.join(pv, q['id'] + '.frames.webp'), 'WEBP', quality=88)
+        json.dump({'cell': [pcw, pch], 'full': [cw, ch], 'n': len(frames), 'names': [f[0] for f in frames], 'bg': note, 'split': mode}, open(os.path.join(pv, q['id'] + '.json'), 'w'))
     return {'id': q['id'], 'ok': True, 'bg': note, 'split': mode, 'cell': [cw, ch], 'frames': frames, 'group': q['group'], 'wave': q.get('cwave', q['wave'])}
 
 def atlas_name(r):

@@ -30,7 +30,10 @@ check('Every request names the teal highlight style and both references', all('t
 G=[q for q in J['requests'] if q['id']=='hero_f.model']
 check('Round 20: the girl is locked as look B (two long auburn braids, teal mantle); her model request attaches the boy\'s model sheet', len(G)==1 and 'LONG BRAIDED AUBURN' in G[0]['body'] and 'two long braids' in G[0]['body'] and 'hero_m.model' in G[0]['refs'] and not [q for q in J['requests'] if q['id'].startswith('hero_f.model_')])
 BS=[q for q in J['requests'] if q['group']=='boss']
-check('Round 20: bosses are one pose each on 10 shared sheets (76 bosses, 8 per sheet), each with its own size', len(BS)==10 and sum(len(q['poses']) for q in BS)==76 and all(q.get('multi') and len(q['scales'])==len(q['poses']) and all(p.startswith('@') for p in q['poses']) for q in BS), [len(BS)])
+check('Round 21: every boss has its own sheets again (no shared boss sheets), and the pilot boss is the Goblin King', len(BS)>150 and not any(q.get('multi') for q in BS) and 'boss_goblin_king.core.s' in J['pilot'] and len(set(q['char'] for q in BS))==76, [len(BS)])
+MD=[q for q in J['requests'] if q['group']=='monster' and any(p.startswith('death/') for p in q['poses'])]
+RQ={q['id']:q for q in J['requests']}
+check('Round 21: every monster has two death frames; the sheets already received (goblin, hog) keep their 8 poses', len(set(q['char'] for q in MD))==240 and all(sum(p.startswith('death/') for p in q['poses'])==2 for q in MD) and all(len(RQ[k]['poses'])==8 and not any(p.startswith('death/') for p in RQ[k]['poses']) for k in ('meadow_goblin.core.s','thistle_hog.core.q')), [len(MD)])
 check('The two reference images are in the repo', all(os.path.exists(os.path.join(R,'sprites','reference',n+'.png')) for n in ('style_hero','style_centaur')))
 
 # ── game ──
@@ -67,14 +70,14 @@ with game(new=None) as g:
     r=g.js("""(()=>{ var S=ZSPR.stats(), A=ZSPR.all(), o={chars:S.chars,sheets:S.sheets,core:S.core,unknown:S.unknown,g:{}}; Object.keys(S.byGroup).forEach(function(k){ o.g[k]=S.byGroup[k].chars; });
       var mods={}; Object.keys(MON_KIT_SRC).forEach(function(id){ ZSPR.kitMods(ZSPR.kitOf(id)).forEach(function(m){ mods[m]=1; }); }); o.unmapped=Object.keys(mods).filter(function(m){ return !(m in ZSPR.MOD); });
       o.noCore=A.filter(function(e){ return e.group==='monster'&&!(e.sheets[0]&&e.sheets[0].poses.some(function(p){ return /idle|still/.test(p.a); })&&e.sheets[0].poses.some(function(p){ return /move|float|still/.test(p.a); })&&e.anims.some(function(a){ return a.main; })&&e.anims.some(function(a){ return a.k==='hurt'; })); }).map(function(e){ return e.id; });
-      o.humNoFb=A.filter(function(e){ return e.group==='monster'&&e.humanoid&&!e.sheets.some(function(s){ return s.key==='fb'; }); }).length; o.beastFb=A.filter(function(e){ return e.group==='monster'&&!e.humanoid&&e.sheets.some(function(s){ return s.key==='fb'; }); }).length;
-      o.bossNoPhase=A.filter(function(e){ return e.group==='boss'&&!e.inSheet; }).length;
+      o.humNoFb=A.filter(function(e){ return (e.group==='monster'||e.group==='boss')&&e.humanoid&&!e.sheets.some(function(s){ return s.key==='fb'; }); }).length; o.beastFb=A.filter(function(e){ return e.group==='monster'&&!e.humanoid&&e.sheets.some(function(s){ return s.key==='fb'; }); }).length;
+      o.bossNoPhase=A.filter(function(e){ return e.group==='boss'&&!(e.anims.some(function(a){ return a.k==='transform'; })&&e.anims.some(function(a){ return a.k==='death'; })); }).length;
       o.big=A.filter(function(e){ return e.sheets.some(function(s){ return s.poses.length>10||s.poses.length<1; }); }).length; o.riders=A.filter(function(e){ return e.group==='rider'; }).length; o.mounts=Object.keys(MOUNTS).length;
       o.bossQ0=A.filter(function(e){ return e.group==='boss'&&!e.q; }).length; return o; })()""")
     check('The survey covers everyone: 2 heroes, 240 monsters, 76 bosses and forms, every mount alone and with each hero', r['g'].get('hero')==2 and r['g'].get('monster')==240 and r['g'].get('boss')==76 and r['riders']==2*r['mounts'] and r['g'].get('mount')==r['mounts'] and r['g'].get('npc',0)>=40 and r['g'].get('familiar')==4 and r['g'].get('fairy')==23 and r['g'].get('animal')==16, r['g'])
     check('Every move in every monster kit maps to an animation (none left over)', not r['unmapped'] and not r['unknown'], [r['unmapped'],r['unknown']])
     check('Every monster\'s first sheet has idle, movement, its main attack and hurt; humanoids also get a front-and-back sheet, beasts do not', not r['noCore'] and r['humNoFb']==0 and r['beastFb']==0, [r['noCore'][:6],r['humNoFb'],r['beastFb']])
-    check('Every boss is on a shared sheet; no sheet is empty or over 10 poses; every boss has a region', r['bossNoPhase']==0 and r['big']==0 and r['bossQ0']==0, r)
+    check('Every boss has a phase change and a death; no sheet is empty or over 10 poses; every boss has a region', r['bossNoPhase']==0 and r['big']==0 and r['bossQ0']==0, r)
     # engine-sensitive drawing: hit flash, lava mask, night darkness
     r=g.js("""(()=>{ var ws=game.scene.getScene('World'), p=ws.player, o={}; var im=ws.add.image(p.x+40,p.y,'hero_front_0'); try{ ZENG.tintFill(im,0xffffff); o.fill=true; ZENG.tint(im,0xff0000); im.clearTint(); o.tint=true; }catch(e){ o.err=String(e); } im.destroy();
       var c=ws.add.container(p.x,p.y), t=ws.add.rectangle(0,0,40,40,0xff0000); c.add(t); var mk=ws.make.image({x:p.x,y:p.y,key:'hero_front_0',add:false}); try{ ZENG.mask(c,mk,'hero_front_0'); o.mask=true; }catch(e){ o.merr=String(e); } ws._zt=[c,mk]; return o; })()""")

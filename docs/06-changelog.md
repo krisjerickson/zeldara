@@ -511,6 +511,12 @@ Kris's picks in the Lab: arrows `ar_bodkin` (Heavy Bodkin), spells `sp_solid` (S
   - The intake handles sheets of different characters (`@<character>|…` pose names, a size per character).
 - **[241]** Pilot is now 12 requests, 2 done (both hero model sheets). `test_round18.py`: 33 checks.
 
+## Round 21 (Kris, Oct 4) — wave 0 is in; real cost; bosses back to full frames
+- **[242] Wave 0 received through the script** (first live run, no errors): 10 sheets at medium quality — hero move and melee, goblin (side, front/back), thistle hog, blacksmith, horse, boy on horse, grass spirit, boss set 1. All have real transparency and all cut cleanly. The boss set had two bosses overlapping, so shared boss sheets are dropped.
+- **[243] Measured cost** (`sprites/incoming/_log.jsonl`): 343 image-output tokens per sheet at medium; 2,048–5,036 image-input tokens (the reference images) and about 700 text tokens. At the published token prices: **$0.030–0.055 per sheet, $0.36 for the 10**. Kris's dashboard showed about $0.12 for them. The first estimate ($0.20–0.35 per sheet at high quality) was 5–10× too high for medium.
+- **[244] Plan widened again (Kris):** every boss has its own sheets with full frames (216 sheets); monsters get 2 death frames (on their extra sheet; the core sheets already received do not change); the script now sends all tiers by default (`--tier all`). **995 sheets (667 core, 328 extra), 6,735 poses.** At the measured cost about $12–45 for everything.
+- **[245]** Lab previews are smaller (sheet 720 px, frames at most 132 px tall). Still about 150 KB per sheet; before more than about 60 sheets are in, the previews must move out of the Lab file (attached files or frames only). `test_round18.py`: 34 checks.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

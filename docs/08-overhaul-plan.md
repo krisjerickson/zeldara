@@ -202,16 +202,26 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 - None open. Waiting on Kris:
-  1. Set up the OpenAI API key (steps in `14-sprite-library.md`), then `node tools/sprites/generate.mjs --wave 0 --limit 3` to see the real cost and quality at medium. Or do the remaining 10 pilot requests by hand.
-  2. "Looks right" / notes on the Sprite Library cards.
+  1. Run the rest: `node tools/sprites/generate.mjs --wave 0` (the Goblin King's first sheet), then `--wave 1` (heroes) and on. Tell Claude after each wave for the intake and Lab review.
+  2. "Looks right" / notes on the Sprite Library cards (wave 0 is shown under "Received so far").
   3. A play test of `?engine=4` (known seam issue between map chunks on Phaser 4).
   4. His check of waystone travel in real play.
+- For Claude, next: move Lab previews out of the Lab file before about 60 sheets are in; build the atlas loader in the game; then ask Kris about display size (42 px vs 63 px).
+
+## Round 21 (Kris, Oct 4) — wave 0 and answers
+- Kris: "bosses had a merged boss. let's separate these out. can you also estimate the cost you expected? so far i've seen about $0.12 of cost for these sheets. if that is the cost overall, we could possibly go back to more sheets".
+- Measured: $0.030–0.055 per sheet at published token prices ($0.36 for the 10 sheets); his dashboard showed about $0.12. See changelog [243].
+- Bosses → **ANSWERED: full frames, one boss per sheet set** (216 sheets).
+- Add back → **ANSWERED: special-move sheets in the same pass, and monster death frames.** (Not chosen: a second idle frame for monsters.)
+- Built: changelog [242]–[245]. Totals: 995 sheets (667 core, 328 extra).
+- Noted from the wave 0 sheets, not yet raised as changes: the boy's walk frames differ only slightly from each other (the run frames read well); the bosses in the test sheet came out more detailed and less chibi than the heroes.
 
 ## Round 20 (Kris, Oct 4) — answers
 - Girl → **ANSWERED: lock look B (Shieldmaiden).**
 - Sprite budget → **ANSWERED: full frames, cheaper API** (medium quality). He did not choose the 30-sheet or 55-sheet manual plans.
 - Bosses → **ANSWERED: repaint one pose each** (10 shared sheets; the game animates them).
 - Built: changelog [239]–[241]. New totals 713 sheets (557 core).
+- **Kris, Oct 4 (after the build): "this looks good and the cost is fine. I'll finalize with wave 0."** → plan accepted (713 sheets, medium quality, bosses one pose each). He runs the remaining 10 pilot requests himself; next step for Claude is the intake and Lab review when he says they are in.
 - Cost at medium quality is an unconfirmed estimate (about a quarter of high). The first three sheets through the script give the real number; if it is still too high, the manual plans (one or two poses per character) are the fallback and were described to Kris.
 
 ## Round 19 (Kris, Oct 4)

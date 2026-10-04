@@ -15,15 +15,15 @@ This replaces the pilot plan in `09-sprite-style-bible.md` (pixel art, green bac
 
 ## The survey
 
-439 characters, **713 sheets (557 core + 156 extra)** after round 20 (bosses became one pose each on shared sheets; it was 919 / 667 before). Every move in every monster kit maps to an animation; a test fails if a new kit move has none.
+439 characters, **995 sheets (667 core + 328 extra), 6,735 poses** (round 21: bosses have their own full sheets again, monsters have death frames). Every move in every monster kit maps to an animation; a test fails if a new kit move has none.
 
 | Group | Characters | Core sheets | Extra sheets |
 |---|---|---|---|
 | Heroes (boy, girl) | 2 | 40 | 0 |
 | Hero on each mount (painted together) | 22 | 22 | 0 |
 | Mounts on their own | 11 | 11 | 0 |
-| Monsters | 240 | 375 | 156 |
-| Bosses, evolved forms, wardens, mage masters, elites | 76 | 10 (shared sheets, 8 bosses each) | 0 |
+| Monsters | 240 | 375 | 232 |
+| Bosses, evolved forms, wardens, mage masters, elites | 76 | 120 | 96 |
 | NPCs (shops, craftsmen, village folk, islands, castle teachers) | 41 | 52 | 0 |
 | Familiars (the 4 picked spirits) | 4 | 4 | 0 |
 | Fairies (20) and monarchs (3) | 23 | 23 | 0 |
@@ -40,14 +40,14 @@ This replaces the pilot plan in `09-sprite-style-bible.md` (pixel art, green bac
 - Beasts, fliers, swarms, creature bosses: one three-quarter view, mirrored for left.
 - Heroes: front, side and back for every directional move; skills that look the same from any side are drawn once.
 - Mounts and riders: one sheet with side (4), front (2) and back (2).
-- Bosses: one three-quarter pose each (round 20).
+- Bosses follow the same humanoid / creature rule; each boss has its own sheets (a test with 8 bosses on one sheet merged two of them).
 
 ### Frame counts
 
 | Who | Frames |
 |---|---|
-| Monster | idle 1 · move 4 · each attack 2 (slam 3) · hurt 1. No death frames: monsters keep the game's flash and dissolve |
-| Boss | one painted battle pose (round 20). The game moves it, as it does today's boss art |
+| Monster | idle 1 · move 4 · each attack 2 (slam 3) · hurt 1 · death 2 (on an extra sheet) |
+| Boss | idle 2 · move 4 · attacks 2–3 · cast 2 · phase roar 1 · phase change 2 · hurt 1 · death 2 |
 | NPC | idle 2 · talk 2 · work 4; village folk also walk (side 4, front 2, back 2) |
 | Familiar | hover 4 · base attack 2 · special 1 · knocked out 1 |
 | Fairy | hover 4 · talk 2 · cast 2 |
@@ -107,7 +107,7 @@ Each request also gives: the character's look and colours from the game, how it 
    node tools/sprites/generate.mjs --wave 1 --dry-run
    node tools/sprites/generate.mjs --wave 1
    ```
-   - It sends core sheets by default (`--tier extra` or `--tier all` for the rest).
+   - It sends all sheets of the wave by default (`--tier core` for the core sheets only).
    - It skips files that already exist, so it can be stopped and restarted.
    - A request that needs another sheet as a reference waits until that sheet is in `sprites/incoming/`.
    - Model `gpt-image-2.5-sunburst` (OpenAI's edit-precision model), quality **medium** (Kris, round 20: cheaper; the frames are shrunk to game size anyway), transparent background, 1536 × 1024. All can be changed with flags.
@@ -126,7 +126,7 @@ The ChatGPT app and the API are separate products with separate billing. A ChatG
 5. In PowerShell, in the game folder, set it for that window only: `$env:OPENAI_API_KEY = "sk-..."`. Do not put the key in a file in the repo and do not paste it into a chat with Claude.
 6. Test with three sheets: `node tools/sprites/generate.mjs --wave 0 --limit 3`. Check the images and the token use in `sprites/incoming/_log.jsonl`.
 
-**Cost (estimate, not confirmed):** published token prices for the gpt-image-2.5 models are $30 per million image-output tokens and $8 per million image-input tokens; a reseller prices a high-quality 1K-class image at about $0.25. At high quality that made a sheet roughly $0.20–0.35. On the earlier gpt-image-1 price list, medium quality cost about a quarter of high. If that ratio holds, a sheet at medium is roughly $0.05–0.09, so the 557 core sheets would be about $30–50 and all 713 about $36–65, before re-rolls. The three-sheet test gives the real number.
+**Cost (measured Oct 4, wave 0, medium quality):** each sheet used 343 image-output tokens, 2,048–5,036 image-input tokens (the attached references) and about 700 text tokens. At the published token prices ($30 / $8 / $5 per million) that is $0.030 with two references, $0.042 with three and $0.055 with four — $0.36 for the 10 sheets. Kris's dashboard showed about $0.12 for the same run, so the real price may be lower still. All 995 sheets: about $12–45 before re-rolls. (The first estimate, $0.20–0.35 per sheet, was for high quality and was not based on measured tokens.)
 
 No other integration is needed. The script talks to the API directly, the intake runs locally, and the game loads the atlases as plain files.
 
@@ -134,15 +134,15 @@ No other integration is needed. The script talks to the API directly, the intake
 
 | Wave | What | Sheets (core) |
 |---|---|---|
-| 0 | Pilot | 12 (12) |
+| 0 | Pilot (11 of 12 done) | 12 (12) |
 | 1 | Heroes | 36 (36) |
 | 1.5 | Mounts and riders | 31 (31) |
 | 2 | Village NPCs, familiars | 54 (54) |
-| 3 / 3.5 | Grasslands monsters / bosses | 128 (94) / 1 (1) |
-| 4 / 4.5 | Wetlands | 139 (100) / 2 (2) |
-| 5 / 5.5 | Highlands | 148 (106) / 2 (2) |
-| 6 / 6.5 | Ashlands | 152 (111) / 3 (3) |
-| 7.5 | Volcano bosses | 1 (1) |
+| 3 / 3.5 | Grasslands monsters / bosses | 151 (94) / 38 (22) |
+| 4 / 4.5 | Wetlands | 159 (100) / 45 (27) |
+| 5 / 5.5 | Highlands | 164 (106) / 50 (24) |
+| 6 / 6.5 | Ashlands | 169 (111) / 58 (33) |
+| 7.5 | Volcano bosses | 24 (13) |
 | 8 | Vehicles | 4 (4) |
 
 ## Atlas plan

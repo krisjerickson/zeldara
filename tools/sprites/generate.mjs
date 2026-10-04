@@ -13,7 +13,7 @@
 //   --wave 1,1.5        waves to send (see sprites/requests/*.md; 0 = the pilot)
 //   --ids a.core.s,b    only these request ids
 //   --group monster     only this group (hero, rider, mount, monster, boss, npc, familiar, fairy, animal, vehicle)
-//   --tier core|extra|all   default core
+//   --tier core|extra|all   default all (round 21: special-move and death sheets go in the same pass)
 //   --limit 20          stop after this many images
 //   --model <id>        default gpt-image-2.5-sunburst
 //   --quality medium    low | medium | high (default medium: about a quarter of the cost of high; the frames are shrunk to game size anyway)
@@ -35,7 +35,7 @@ const arg = (name, def) => { const i = process.argv.indexOf('--' + name); if (i 
 const DRY = !!arg('dry-run', false), FORCE = !!arg('force', false);
 const MODEL = arg('model', 'gpt-image-2.5-sunburst'), QUALITY = arg('quality', 'medium');
 const LIMIT = +arg('limit', 1e9), CONC = Math.max(1, Math.min(6, +arg('concurrency', 2)));
-const TIER = arg('tier', 'core');
+const TIER = arg('tier', 'all');
 const waves = arg('wave', null) === null ? null : String(arg('wave')).split(',').map(Number);
 const ids = arg('ids', null) ? String(arg('ids')).split(',') : null;
 const group = arg('group', null);

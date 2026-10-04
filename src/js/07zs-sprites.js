@@ -264,13 +264,8 @@ var ZSPR={
     Z.ANIMALS.forEach(function(a){ push({id:'animal_'+a[0],group:'animal',sub:(a[6]?'Large animals':'Small animals')+' · '+Z.QN[a[2]],name:a[1],q:a[2],look:a[4],scale:a[3],floaty:!!a[5],large:!!a[6]}); });
     // vehicles (with the hero aboard, one per hero)
     Z.VEHICLES.forEach(function(v){ ['m','f'].forEach(function(w){ push({id:'veh_'+w+'_'+v[0],group:'vehicle',sub:'Vehicles',name:H.NAME[w]+' in the '+v[1].toLowerCase(),q:v[0]==='sky_ship'?6:0,look:v[2]+', with '+H.LOOK[w]+' aboard at the tiller',vanims:v[3],scale:2,facings:['x'],wave:8}); }); });
-    L.forEach(function(e){ e.anims=Z.animsOf(e); e.sheets=e.group==='boss'?[]:Z.sheetsOf(e); });
-    // bosses share sheets: 8 different bosses per sheet (4 × 2), one 3/4 pose each, grouped by region
-    var B=L.filter(function(e){ return e.group==='boss'; }).sort(function(a,b){ return (a.q-b.q)||0; }), per=8;
-    for(var i=0;i<B.length;i+=per){ var set=B.slice(i,i+per), n=Math.floor(i/per)+1, id='bosses.'+n, cols=set.length<=4?set.length:4, rows=Math.ceil(set.length/cols);
-      var sh={id:id,key:'set',title:'Boss set '+n+' ('+set.length+' bosses, one pose each)',facing:'q',cols:cols,rows:rows,size:'1536x1024',tier:'core',multi:true,
-        poses:set.map(function(e){ return {a:'idle',i:0,f:'q',ch:e.id,scale:e.scale,t:e.name+' — '+String(e.look||'').replace(/\s*\([^)]*\)/g,'').replace(/\s+/g,' ').trim().replace(/\.$/,'')+(e.gear?'. Details: '+e.gear:'')+'. '+Z.palText(e.pal).replace(/\.$/,'')}; })};
-      set.forEach(function(e,k){ e.inSheet=id; e.sheetPos=k+1; }); set[0].sheets=[sh]; set[0].setWave=Math.min.apply(null,set.map(function(e){ return e.wave; })); }
+    // Round 21 (Kris, Oct 4): every boss has its own sheets again with full frames (the 8-per-sheet test merged two bosses).
+    L.forEach(function(e){ e.anims=Z.animsOf(e); e.sheets=Z.sheetsOf(e); });
     return (ZSPR._all=L); },
 
   bossQ:function(slot,D,C){ var m; if((m=/^elite_(\d)/.exec(slot)))return +m[1]; if(/^boss_vr|volcano/.test(slot))return 5; if((m=/^boss_isl_(\d)/.exec(slot)))return +m[1];
@@ -284,7 +279,7 @@ var ZSPR={
     return out.join(' | '); },
 
   // ── which animations a character needs ──
-  // Frame counts: monsters idle 1 · move 4 · each attack 2 (slam 3) · hurt 1; they die with the game's own flash-and-dissolve, so no death frames.
+  // Frame counts: monsters idle 1 · move 4 · each attack 2 (slam 3) · hurt 1 · death 2 (on an extra sheet, so the core sheet never changes).
   // Bosses also get idle 2, a phase roar, a phase change and death frames.
   animsOf:function(e){ var Z=ZSPR, A=[], add=function(k,n,why,extra){ A.push(Object.assign({k:k,n:n||(Z.POSES[k]||[]).length||1,label:Z.ANIM_LABEL[k]||k,why:why||'',d:!!Z.DIRLESS[k]},extra||{})); };
     if(e.group==='hero'){ var H=Z.HERO; Object.keys(H.ANIMS).forEach(function(k){ var a=H.ANIMS[k]; A.push({k:k,n:a.n,label:a.label,d:!!a.d,why:'',hero:true}); }); return A; }
@@ -295,10 +290,9 @@ var ZSPR={
     if(e.group==='animal'){ add('idle',2); add(e.floaty?'float':'move',4,'wanders, and flees when you come close'); if(e.large)add('melee',2,'fights back when cornered'); return A; }
     if(e.group==='vehicle'){ (e.vanims||[]).forEach(function(k){ add(k,k==='move'?4:2); }); return A; }
     // monsters and bosses: from the kit
-    if(e.group==='boss'){ add('idle',1,'one painted pose; the game moves it (sway, stride, lunge, flash), as it does today'); return A; }   // Kris, Oct 4: bosses are repainted as one pose each
-    var boss=false, floaty=/wisp|bat|bird|insect|firefly|eye|orb|swarm|book|swirl/.test(e.plan||'')||/orb|bird|wyvern/.test(e.arch||'');
+    var boss=e.group==='boss', floaty=/wisp|bat|bird|insect|firefly|eye|orb|swarm|book|swirl/.test(e.plan||'')||/orb|bird|wyvern/.test(e.arch||'');
     var R=Z.animsFromKit(e.kit,e.specAnim,floaty); e.unknown=R.unknown;
-    R.list.forEach(function(k){ if(k==='death'&&!boss)return; add(k,k==='idle'&&!boss?1:0,(R.uses[k]||[]).join(', ')); });
+    R.list.forEach(function(k){ add(k,k==='idle'&&!boss?1:0,(R.uses[k]||[]).join(', ')); });   // round 21: monsters get their 2 death frames too
     if(boss){ if(!A.some(function(a){ return a.k==='cast'; }))add('cast',2,'attack patterns (rain, walls, bursts)'); if(!A.some(function(a){ return a.k==='enrage'; }))add('enrage',1,'phase roar'); add('transform',2,e.form?'arrives in this form':'changes to the next phase'); }
     // order: idle, movement, the main attack, hurt — then everything else (so the first sheet is the one the game needs most)
     var mv=A.filter(function(a){ return /^(move|float|still)$/.test(a.k); }), atk=A.filter(function(a){ return /^(melee|ranged|lunge|charge|sweep|slam|beam|breath|grab|cast)$/.test(a.k); }), first=atk[0];
@@ -372,7 +366,7 @@ var ZSPR={
   stats:function(){ var S={chars:0,sheets:0,core:0,poses:0,byGroup:{},unknown:[]}; ZSPR.all().forEach(function(e){ S.chars++; var g=S.byGroup[e.group]=S.byGroup[e.group]||{chars:0,sheets:0,poses:0}; g.chars++; g.sheets+=e.sheets.length; S.sheets+=e.sheets.length; var nc=e.sheets.filter(function(x){ return (x.tier||'core')==='core'; }).length; S.core+=nc; g.core=(g.core||0)+nc;
       e.sheets.forEach(function(sh){ g.poses+=sh.poses.length; S.poses+=sh.poses.length; }); if(e.unknown&&e.unknown.length)S.unknown.push(e.id+': '+e.unknown.join(',')); }); return S; },
   WAVES:{0:'Pilot (by hand)',1:'Heroes',1.5:'Mounts and riders',2:'Village, familiars',3:'Grasslands',3.5:'Grasslands bosses',4:'Wetlands',4.5:'Wetlands bosses',5:'Highlands',5.5:'Highlands bosses',6:'Ashlands',6.5:'Ashlands bosses',7:'Volcano',7.5:'Volcano bosses',8:'Vehicles',2.5:'Other bosses'},
-  PILOT:['hero_m.model','hero_f.model','hero_m.move.s','hero_m.melee.s','meadow_goblin.core.s','meadow_goblin.fb','thistle_hog.core.q','npc_forge.core.f','mt_horse.ride','ride_m_horse.ride','bosses.1','fam_grass.core.q'],
+  PILOT:['hero_m.model','hero_f.model','hero_m.move.s','hero_m.melee.s','meadow_goblin.core.s','meadow_goblin.fb','thistle_hog.core.q','npc_forge.core.f','mt_horse.ride','ride_m_horse.ride','boss_goblin_king.core.s','fam_grass.core.q'],
   requests:function(){ var out=[], Z=ZSPR;
     // the girl's three looks to compare: same model-sheet layout, one request per look
     var girl=Z.all().find(function(e){ return e.id==='hero_f'; });
