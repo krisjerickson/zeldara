@@ -108,8 +108,8 @@ with sync_playwright() as p:
     pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PHASER, content_type="application/javascript"))
     pg.goto('file://'+os.path.abspath(os.path.join(R,'lab','index.html'))); pg.wait_for_timeout(2500)
     pg.click('.lab-tab:has-text("Sprite Library")'); pg.wait_for_timeout(900)
-    r=pg.evaluate("({chips:document.querySelectorAll('.sl-grp').length, tabs:document.querySelectorAll('.sl-tab').length, refs:document.querySelectorAll('.sl-refs img').length, pilot:document.querySelectorAll('#lab-grid .sl-sh').length, girls:document.querySelectorAll('.sl-card[data-id^=hero_f]').length, locked:/look B/i.test(document.getElementById('lab-grid').textContent)&&/is locked/.test(document.getElementById('lab-grid').textContent), rcv:document.querySelectorAll('.sl-rcv img').length, game:document.querySelectorAll('.sl-game').length, rows:[...document.querySelectorAll('.sl-tab')].map(function(t){ return t.rows.length; })})")
-    check('Lab → Sprite Library opens on the Guide: totals, the two references, weapon / skill / action tables, 12 pilot requests', r['chips']==14 and r['tabs']==4 and r['refs']==2 and r['pilot']==12 and r['rows'][1]==9 and r['rows'][2]==13, r)
+    r=pg.evaluate("({chips:document.querySelectorAll('.sl-grp').length, tabs:document.querySelectorAll('.sl-tab').length, refs:document.querySelectorAll('.sl-refs img').length, pilot:document.querySelectorAll('#lab-grid .sl-sh').length, girls:document.querySelectorAll('.sl-card[data-id^=hero_f]').length, locked:/look B/i.test(document.getElementById('lab-grid').textContent)&&/is locked/.test(document.getElementById('lab-grid').textContent), rcv:document.querySelectorAll('.sl-rcv .sl-strip').length, game:document.querySelectorAll('.sl-game').length, rows:[...document.querySelectorAll('.sl-tab')].map(function(t){ return t.rows.length; })})")
+    check('Lab → Sprite Library opens on the Guide: totals, the two references, weapon / skill / action tables, 12 pilot requests', r['chips']==14 and r['tabs']==5 and r['refs']==2 and r['pilot']==12 and r['rows'][2]==9 and r['rows'][3]==13, r)
     check('The Guide shows the locked girl look and every received sheet with its frames at game size', r['locked'] and r['rcv']>=2 and r['game']>=2, r)
     pg.evaluate("document.querySelector('.sl-grp[data-sl=m1]').click()"); pg.wait_for_timeout(1200)
     r=pg.evaluate("""(()=>{ var cards=document.querySelectorAll('.sl-card'), o={n:cards.length, painted:0}; document.querySelectorAll('.sl-cv').forEach(function(cv){ var d=cv.getContext('2d').getImageData(0,0,72,72).data, n=0; for(var i=3;i<d.length;i+=4)if(d[i]>40)n++; if(n>60)o.painted++; });
@@ -119,6 +119,10 @@ with sync_playwright() as p:
     pg.evaluate("(function(){ var ta=document.querySelector('.sl-card .br-notes'); ta.value='needs a net attack'; ta.dispatchEvent(new Event('input',{bubbles:true})); })()"); pg.wait_for_timeout(200)
     r=pg.evaluate("({p:LabApp.picks['sprlib-'+document.querySelector('.sl-card').dataset.id], txt:document.querySelector('.sl-card .br-pick').textContent})")
     check('"Looks right" and notes are saved per character', r['p'] and r['p'].get('verdict')=='pick' and r['p'].get('notes')=='needs a net attack' and 'Looks right' in r['txt'], r)
+    pg.evaluate("document.querySelector('.sl-grp[data-sl=hero]').click()"); pg.wait_for_timeout(2500)
+    r=pg.evaluate("""(()=>{ var o={play:document.querySelectorAll('.sl-play').length, strips:document.querySelectorAll('.sl-strip').length, pages:Object.keys(LabSprLib._pg).map(function(k){ return LabSprLib._pg[k].ok; }), ink:0};
+      var pl=document.querySelector('.sl-play'); o.clips=pl&&pl._clips?pl._clips.length:0; return o; })()""")
+    check('Round 22: received sheets load from preview pages (files beside the Lab): each hero card has a player and a strip per received sheet', r['play']==2 and r['strips']>=2 and r['pages'] and all(r['pages']) and r['clips']>=1, r)
     for grp,n in (('hero',2),('boss',76),('rider',22)):
         pg.evaluate("g=>document.querySelector('.sl-grp[data-sl='+g+']').click()",grp); pg.wait_for_timeout(1500)
         c=pg.evaluate("document.querySelectorAll('.sl-card').length"); check('Group "'+grp+'" lists '+str(n)+' characters', c==n, c)

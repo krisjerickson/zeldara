@@ -517,6 +517,12 @@ Kris's picks in the Lab: arrows `ar_bodkin` (Heavy Bodkin), spells `sp_solid` (S
 - **[244] Plan widened again (Kris):** every boss has its own sheets with full frames (216 sheets); monsters get 2 death frames (on their extra sheet; the core sheets already received do not change); the script now sends all tiers by default (`--tier all`). **995 sheets (667 core, 328 extra), 6,735 poses.** At the measured cost about $12–45 for everything.
 - **[245]** Lab previews are smaller (sheet 720 px, frames at most 132 px tall). Still about 150 KB per sheet; before more than about 60 sheets are in, the previews must move out of the Lab file (attached files or frames only). `test_round18.py`: 34 checks.
 
+## Round 22 (Kris, Oct 4) — wave 1 (heroes) is in
+- **[246] Wave 1 received:** all 40 hero sheets (20 per hero) plus the Goblin King's first sheet. 48 sheets cut so far, none rejected. Logged cost at list prices: $1.91 for 47 sheets ($0.041 per sheet).
+- **[247] Intake:** runs on the PC now (the sheets are about 2 MB each, too many to copy to the cloud); only new or changed sheets are cut (`--force` redoes all, `--limit=N`, `--atlas` packs the game atlases). Poses that touch (sword arcs, spell bursts) are now separated through the thinnest point near the grid line and stray slivers at the cell edge are removed; before, 19 of 48 sheets were cut straight down the grid line.
+- **[248] Lab previews as files:** the intake packs each sheet's cut frames into preview pages per wave (`sprites/preview/w<wave>-<n>.webp` + `index.json`, about 45 KB per sheet). The build copies them to `lab/preview/`; the Lab loads them from there (the artifact carries them as attached files). The Lab file is back to 2.2 MB. Each character card shows a strip under every received sheet and a small player that runs through the animations; group chips show sheets received.
+- **[249]** `test_round18.py`: 35 checks.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

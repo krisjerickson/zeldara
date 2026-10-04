@@ -202,11 +202,16 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 - None open. Waiting on Kris:
-  1. Run the rest: `node tools/sprites/generate.mjs --wave 0` (the Goblin King's first sheet), then `--wave 1` (heroes) and on. Tell Claude after each wave for the intake and Lab review.
-  2. "Looks right" / notes on the Sprite Library cards (wave 0 is shown under "Received so far").
-  3. A play test of `?engine=4` (known seam issue between map chunks on Phaser 4).
-  4. His check of waystone travel in real play.
-- For Claude, next: move Lab previews out of the Lab file before about 60 sheets are in; build the atlas loader in the game; then ask Kris about display size (42 px vs 63 px).
+  1. Run the remaining waves (commands in `14-sprite-library.md`, "PowerShell commands"). Suggested order: mounts + village, then Grasslands, then tell Claude for a review before the other three regions.
+  2. "Looks right" / notes on the Sprite Library cards (heroes are all in).
+  3. Check that the published Lab shows the received frames (the preview pages are attached files; verified in a local browser only).
+  4. A play test of `?engine=4` (known seam issue between map chunks on Phaser 4).
+  5. His check of waystone travel in real play.
+- For Claude, next: after each wave run the intake on the PC (`python3 tools/sprites/intake.py`), copy `sprites/preview/*` to the cloud, rebuild, publish the Lab with the pages as files, commit. Then build the atlas loader in the game and ask Kris about display size (42 px vs 63 px).
+
+## Round 22 (Kris, Oct 4)
+- "these are coming out great. prepare all the additional powershell commands I need and take a look at wave 1 coming in" → wave 1 reviewed: all 40 hero sheets in and cut cleanly after the splitter fix ([246]–[248]); commands written into doc 14 and given in chat.
+- Noticed, not changed: the boy's and girl's walk frames differ only slightly between frames; the girl's braids are in front in the front view and behind in the back view.
 
 ## Round 21 (Kris, Oct 4) — wave 0 and answers
 - Kris: "bosses had a merged boss. let's separate these out. can you also estimate the cost you expected? so far i've seen about $0.12 of cost for these sheets. if that is the cost overall, we could possibly go back to more sheets".

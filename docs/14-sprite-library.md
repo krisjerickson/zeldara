@@ -130,6 +130,42 @@ The ChatGPT app and the API are separate products with separate billing. A ChatG
 
 No other integration is needed. The script talks to the API directly, the intake runs locally, and the game loads the atlases as plain files.
 
+### PowerShell commands (for Kris)
+
+Open PowerShell, then once per window:
+
+```
+cd C:\Claude\games\Zeldara-v4
+$env:OPENAI_API_KEY = "sk-..."
+```
+
+Then the waves, in this order. Each can be stopped (Ctrl+C) and run again; finished sheets are skipped.
+
+```
+node tools/sprites/generate.mjs --wave 1.5,2      # mounts, riders, village NPCs, familiars, fairies, animals  (81 left)
+node tools/sprites/generate.mjs --wave 3,3.5      # Grasslands monsters and bosses  (185 left)
+node tools/sprites/generate.mjs --wave 4,4.5      # Wetlands  (204)
+node tools/sprites/generate.mjs --wave 5,5.5      # Highlands  (214)
+node tools/sprites/generate.mjs --wave 6,6.5      # Ashlands  (227)
+node tools/sprites/generate.mjs --wave 7.5,8      # Volcano bosses, vehicles  (28)
+```
+
+Useful extras:
+
+```
+node tools/sprites/generate.mjs --wave 3,3.5 --dry-run            # what is still missing, nothing sent
+node tools/sprites/generate.mjs --wave 3,3.5 --concurrency 4      # four at a time instead of two
+node tools/sprites/generate.mjs --ids meadow_goblin.core.s --force   # redo one sheet (the old file is kept as .prev.png)
+node tools/sprites/generate.mjs --wave 1.5,2,3,3.5,4,4.5,5,5.5,6,6.5,7.5,8 --concurrency 4   # everything in one go
+git push origin main                                              # after Claude has committed
+```
+
+- Speed measured on wave 1: about 6 sheets a minute at the default two at a time, so the 939 remaining sheets take roughly 2.5 hours (half that with `--concurrency 4` if the account's rate limit allows).
+- Cost: about $0.04 per sheet at list prices, so roughly $38 for the rest (about a third of that if the dashboard rate holds).
+- A sheet that depends on another (a character's second sheet, a rider) is sent in a later pass of the same run, once its reference exists.
+- Lines starting with ✗ are failures; running the same command again retries only those.
+- After a wave, tell Claude. Claude cuts the new sheets on the PC, updates the Lab and commits.
+
 ### Waves
 
 | Wave | What | Sheets (core) |

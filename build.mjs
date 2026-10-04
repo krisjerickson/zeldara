@@ -110,9 +110,10 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   const labFiles = fs.readdirSync(labDir).filter(f => f.endsWith('.js')).sort();
   // which sprite sheets have arrived (sprites/incoming/<request id>.png) — shown as "received" in the Sprite Library tab
   let incoming = []; try { incoming = fs.readdirSync(path.join(ROOT, 'sprites/incoming')).filter(f => /\.png$/i.test(f)).map(f => f.replace(/\.png$/i, '')); } catch (e) {}
-  // previews made by tools/sprites/intake.py (sprites/preview/<id>.sheet.webp, .frames.webp, .json) — shown in the Sprite Library tab
-  const previews = {}; try { for (const f of fs.readdirSync(path.join(ROOT, 'sprites/preview')).filter(f => /\.json$/.test(f))) { const id = f.replace(/\.json$/, ''), d = JSON.parse(r('sprites/preview/' + f)), b64 = n => 'data:image/webp;base64,' + fs.readFileSync(path.join(ROOT, 'sprites/preview', id + n)).toString('base64');
-      previews[id] = { cell: d.cell, n: d.n, names: d.names, sheet: b64('.sheet.webp'), frames: b64('.frames.webp') }; if (!incoming.includes(id)) incoming.push(id); } } catch (e) {}
+  // previews made by tools/sprites/intake.py: frame strips packed into pages per wave (sprites/preview/w*.webp + index.json).
+  // The index goes into the Lab's code; the pages are copied next to the Lab (lab/preview/) and loaded from there.
+  let previews = {}; try { previews = JSON.parse(r('sprites/preview/index.json')); for (const id of Object.keys(previews)) if (!incoming.includes(id)) incoming.push(id);
+    fs.mkdirSync(path.join(ROOT, 'lab/preview'), { recursive: true }); for (const f of fs.readdirSync(path.join(ROOT, 'sprites/preview')).filter(f => /\.webp$/.test(f))) fs.copyFileSync(path.join(ROOT, 'sprites/preview', f), path.join(ROOT, 'lab/preview', f)); } catch (e) {}
   const labJs = minify(shared + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
   if (/<\/script>/i.test(labJs)) throw new Error('Literal </script> in lab JS');
   const labRaw = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs), lab = withEngine(labRaw, ENGINE_ARG, false);
@@ -168,6 +169,7 @@ try {
   // the same game with the other engine as its default, so both can be tried from one deploy: /play4 (Phaser 4), /play3 (Phaser 3.60)
   for (const v of ['3', '4']) { fs.mkdirSync(D('dist', 'play' + v), { recursive: true }); fs.writeFileSync(D('dist', 'play' + v, 'index.html'), withEngine(outRaw, v, false)); }
   if (fs.existsSync(D('lab/index.html'))) fs.copyFileSync(D('lab/index.html'), D('dist', 'lab', 'index.html'));
+  if (fs.existsSync(D('lab/preview'))) copyDir(D('lab/preview'), D('dist', 'lab', 'preview'));
   // the home page (Next.js, site/): it paints the brand with the game's own brand code
   let home = false;
   if (fs.existsSync(D('site', 'app'))) {
