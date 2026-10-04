@@ -1,6 +1,112 @@
-# Heroes — 36 requests
+# Heroes — 43 requests
 
 Save each result as `sprites/incoming/<request id>.png`.
+
+## hero_m.move.s
+
+Hero (boy) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: 
+
+```
+
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_m.move.f
+
+Hero (boy) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: 
+
+```
+
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_m.move.b
+
+Hero (boy) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: 
+
+```
+
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_f.move.s
+
+Hero (girl) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: 
+
+```
+
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_f.move.f
+
+Hero (girl) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: 
+
+```
+
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_f.move.b
+
+Hero (girl) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: 
+
+```
+
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_m.move2.s
+
+Hero (boy) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_m.model
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
+Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
+Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing ready, hands relaxed.
+2. the same stance with a small breathing motion, cape shifting.
+3. walk cycle 1 of 6, CONTACT: the front leg stretched far forward with the heel down, the back leg stretched far behind on its toe, the opposite arm swung forward, body low.
+4. walk cycle 2 of 6, DOWN: front knee bent taking the weight, back foot just leaving the ground, body at its lowest.
+5. walk cycle 3 of 6, PASSING: standing tall on one straight leg, the other knee lifted high as it passes under the body, arms beside the body.
+6. walk cycle 4 of 6, CONTACT on the OTHER side: the other leg stretched far forward with the heel down, arms swapped.
+7. walk cycle 5 of 6, DOWN on the other side: that front knee bent taking the weight, body at its lowest.
+8. walk cycle 6 of 6, PASSING on the other side: standing tall on the other straight leg, the free knee lifted high.
+9. sprint frame 1: leaning far forward, long stride, cape streaming back.
+10. sprint frame 2: the opposite stride, both feet off the ground.
+View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
 
 ## hero_m.ranged.s
 
@@ -80,9 +186,9 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## hero_m.move.f
+## hero_m.move2.f
 
-Hero (boy) · Movement · 8 poses, 4 × 2 · 1536x1024 · core
+Hero (boy) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
@@ -90,15 +196,18 @@ Attach: style_hero, style_centaur, hero_m.model
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
 Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
-Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
-1. standing ready, hands relaxed, .
+IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
+Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing ready, hands relaxed.
 2. the same stance with a small breathing motion, cape shifting.
-3. walk cycle frame 1: left foot forward, landing.
-4. walk cycle frame 2: feet passing, body at its highest.
-5. walk cycle frame 3: right foot forward, landing.
-6. walk cycle frame 4: feet passing the other way.
-7. sprint frame 1: leaning far forward, long stride, cape streaming back.
-8. sprint frame 2: the opposite stride, both feet off the ground.
+3. walk cycle 1 of 6, CONTACT: the front leg stretched far forward with the heel down, the back leg stretched far behind on its toe, the opposite arm swung forward, body low.
+4. walk cycle 2 of 6, DOWN: front knee bent taking the weight, back foot just leaving the ground, body at its lowest.
+5. walk cycle 3 of 6, PASSING: standing tall on one straight leg, the other knee lifted high as it passes under the body, arms beside the body.
+6. walk cycle 4 of 6, CONTACT on the OTHER side: the other leg stretched far forward with the heel down, arms swapped.
+7. walk cycle 5 of 6, DOWN on the other side: that front knee bent taking the weight, body at its lowest.
+8. walk cycle 6 of 6, PASSING on the other side: standing tall on the other straight leg, the free knee lifted high.
+9. sprint frame 1: leaning far forward, long stride, cape streaming back.
+10. sprint frame 2: the opposite stride, both feet off the ground.
 View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
@@ -209,9 +318,9 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## hero_m.move.b
+## hero_m.move2.b
 
-Hero (boy) · Movement · 8 poses, 4 × 2 · 1536x1024 · core
+Hero (boy) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
@@ -219,15 +328,18 @@ Attach: style_hero, style_centaur, hero_m.model
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
 Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
-Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
-1. standing ready, hands relaxed, .
+IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
+Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing ready, hands relaxed.
 2. the same stance with a small breathing motion, cape shifting.
-3. walk cycle frame 1: left foot forward, landing.
-4. walk cycle frame 2: feet passing, body at its highest.
-5. walk cycle frame 3: right foot forward, landing.
-6. walk cycle frame 4: feet passing the other way.
-7. sprint frame 1: leaning far forward, long stride, cape streaming back.
-8. sprint frame 2: the opposite stride, both feet off the ground.
+3. walk cycle 1 of 6, CONTACT: the front leg stretched far forward with the heel down, the back leg stretched far behind on its toe, the opposite arm swung forward, body low.
+4. walk cycle 2 of 6, DOWN: front knee bent taking the weight, back foot just leaving the ground, body at its lowest.
+5. walk cycle 3 of 6, PASSING: standing tall on one straight leg, the other knee lifted high as it passes under the body, arms beside the body.
+6. walk cycle 4 of 6, CONTACT on the OTHER side: the other leg stretched far forward with the heel down, arms swapped.
+7. walk cycle 5 of 6, DOWN on the other side: that front knee bent taking the weight, body at its lowest.
+8. walk cycle 6 of 6, PASSING on the other side: standing tall on the other straight leg, the free knee lifted high.
+9. sprint frame 1: leaning far forward, long stride, cape streaming back.
+10. sprint frame 2: the opposite stride, both feet off the ground.
 View: seen from behind (facing away from the viewer), camera slightly above — a top-down RPG "walking away" view.
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
@@ -439,9 +551,9 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## hero_f.move.s
+## hero_f.move2.s
 
-Hero (girl) · Movement · 8 poses, 4 × 2 · 1536x1024 · core
+Hero (girl) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
@@ -449,15 +561,18 @@ Attach: style_hero, style_centaur, hero_f.model
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
 Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
-Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
-1. standing ready, hands relaxed, .
+IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
+Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing ready, hands relaxed.
 2. the same stance with a small breathing motion, cape shifting.
-3. walk cycle frame 1: left foot forward, landing.
-4. walk cycle frame 2: feet passing, body at its highest.
-5. walk cycle frame 3: right foot forward, landing.
-6. walk cycle frame 4: feet passing the other way.
-7. sprint frame 1: leaning far forward, long stride, cape streaming back.
-8. sprint frame 2: the opposite stride, both feet off the ground.
+3. walk cycle 1 of 6, CONTACT: the front leg stretched far forward with the heel down, the back leg stretched far behind on its toe, the opposite arm swung forward, body low.
+4. walk cycle 2 of 6, DOWN: front knee bent taking the weight, back foot just leaving the ground, body at its lowest.
+5. walk cycle 3 of 6, PASSING: standing tall on one straight leg, the other knee lifted high as it passes under the body, arms beside the body.
+6. walk cycle 4 of 6, CONTACT on the OTHER side: the other leg stretched far forward with the heel down, arms swapped.
+7. walk cycle 5 of 6, DOWN on the other side: that front knee bent taking the weight, body at its lowest.
+8. walk cycle 6 of 6, PASSING on the other side: standing tall on the other straight leg, the free knee lifted high.
+9. sprint frame 1: leaning far forward, long stride, cape streaming back.
+10. sprint frame 2: the opposite stride, both feet off the ground.
 View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
@@ -568,9 +683,9 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## hero_f.move.f
+## hero_f.move2.f
 
-Hero (girl) · Movement · 8 poses, 4 × 2 · 1536x1024 · core
+Hero (girl) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
@@ -578,15 +693,18 @@ Attach: style_hero, style_centaur, hero_f.model
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
 Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
-Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
-1. standing ready, hands relaxed, .
+IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
+Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing ready, hands relaxed.
 2. the same stance with a small breathing motion, cape shifting.
-3. walk cycle frame 1: left foot forward, landing.
-4. walk cycle frame 2: feet passing, body at its highest.
-5. walk cycle frame 3: right foot forward, landing.
-6. walk cycle frame 4: feet passing the other way.
-7. sprint frame 1: leaning far forward, long stride, cape streaming back.
-8. sprint frame 2: the opposite stride, both feet off the ground.
+3. walk cycle 1 of 6, CONTACT: the front leg stretched far forward with the heel down, the back leg stretched far behind on its toe, the opposite arm swung forward, body low.
+4. walk cycle 2 of 6, DOWN: front knee bent taking the weight, back foot just leaving the ground, body at its lowest.
+5. walk cycle 3 of 6, PASSING: standing tall on one straight leg, the other knee lifted high as it passes under the body, arms beside the body.
+6. walk cycle 4 of 6, CONTACT on the OTHER side: the other leg stretched far forward with the heel down, arms swapped.
+7. walk cycle 5 of 6, DOWN on the other side: that front knee bent taking the weight, body at its lowest.
+8. walk cycle 6 of 6, PASSING on the other side: standing tall on the other straight leg, the free knee lifted high.
+9. sprint frame 1: leaning far forward, long stride, cape streaming back.
+10. sprint frame 2: the opposite stride, both feet off the ground.
 View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
@@ -697,9 +815,9 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## hero_f.move.b
+## hero_f.move2.b
 
-Hero (girl) · Movement · 8 poses, 4 × 2 · 1536x1024 · core
+Hero (girl) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
@@ -707,15 +825,18 @@ Attach: style_hero, style_centaur, hero_f.model
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
 Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
-Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
-1. standing ready, hands relaxed, .
+IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
+Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing ready, hands relaxed.
 2. the same stance with a small breathing motion, cape shifting.
-3. walk cycle frame 1: left foot forward, landing.
-4. walk cycle frame 2: feet passing, body at its highest.
-5. walk cycle frame 3: right foot forward, landing.
-6. walk cycle frame 4: feet passing the other way.
-7. sprint frame 1: leaning far forward, long stride, cape streaming back.
-8. sprint frame 2: the opposite stride, both feet off the ground.
+3. walk cycle 1 of 6, CONTACT: the front leg stretched far forward with the heel down, the back leg stretched far behind on its toe, the opposite arm swung forward, body low.
+4. walk cycle 2 of 6, DOWN: front knee bent taking the weight, back foot just leaving the ground, body at its lowest.
+5. walk cycle 3 of 6, PASSING: standing tall on one straight leg, the other knee lifted high as it passes under the body, arms beside the body.
+6. walk cycle 4 of 6, CONTACT on the OTHER side: the other leg stretched far forward with the heel down, arms swapped.
+7. walk cycle 5 of 6, DOWN on the other side: that front knee bent taking the weight, body at its lowest.
+8. walk cycle 6 of 6, PASSING on the other side: standing tall on the other straight leg, the free knee lifted high.
+9. sprint frame 1: leaning far forward, long stride, cape streaming back.
+10. sprint frame 2: the opposite stride, both feet off the ground.
 View: seen from behind (facing away from the viewer), camera slightly above — a top-down RPG "walking away" view.
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.

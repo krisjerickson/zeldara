@@ -10,6 +10,8 @@ function checkSandboxPw(){
   }
 }
 function _sbWs(){return game.scene.getScene('World');}
+// painted sprites (04f-atlas.js) on / off — off shows the stand-ins everywhere; remembered on this device
+function sbSprites(){ if(typeof ZAtlas==='undefined')return; ZAtlas.setOff(!ZAtlas.off); var b=document.getElementById('sb-sprites'); if(b)b.textContent='🎨 Painted sprites: '+(ZAtlas.off?'off (stand-ins)':'on'); showNotif('Painted sprites '+(ZAtlas.off?'off — stand-ins shown':'on'),'#aaddff'); }
 function sbVolcanoUnlock(){
   var ws=_sbWs(); if(!ws) return;
   var ps=ws.playerState;

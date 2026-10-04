@@ -1122,6 +1122,7 @@ class WorldScene extends Phaser.Scene{
       // 4× world: monsters far off-screen sleep (no AI, not drawn)
       if(dist>1700){ mon.cont.setVisible(false); if(mon.state!=='wander'){mon.state='wander';} return; }
       if(mon._lazyVis)self._monWake(mon);   // first wake: name label + sprite texture (10f)
+      if(!mon.mx&&mon.rid&&typeof ZAtlas!=='undefined'){ try{ if(ZAtlas.mon(self,mon,null,dt,dx,dy)&&Math.abs(dx)>4&&mon.body.setFlipX)mon.body.setFlipX(dx<0); }catch(e){} }
       var mdef=mon.def;
       var spd=mdef.spd||50;
       if(!mon._md)mon._md={};
@@ -1650,6 +1651,7 @@ class WorldScene extends Phaser.Scene{
     var id=item.skillId;
     var ang=this._getAimAngle();
     var stats=this.calcPlayerStats();
+    if(typeof ZSPR!=='undefined'&&id!=='sprint'){ p.castAnim=ZSPR.HERO.animFor(ps,'skill',ps.equip.special); p.cast=p.castT=0.5; }   // painted skill pose (04f)
 
     if(id==='sprint'){
       this._sprintTimer=3.0;
@@ -1866,6 +1868,7 @@ class WorldScene extends Phaser.Scene{
     ps.mana=Math.max(0,(ps.mana||0)-spDef.manaCost);
     this._spellCd=spDef.cooldown;
     this._mountCombat();
+    if(typeof ZSPR!=='undefined'){ this.player.castAnim=ZSPR.HERO.animFor(ps,'spell'); this.player.cast=this.player.castT=0.45; }   // painted cast pose (04f)
     var self=this;
     // Staff cast animation: spinning particle ring burst
     (function(){
@@ -2403,6 +2406,7 @@ class WorldScene extends Phaser.Scene{
   _worldMonsterDied(mon){
     if(mon.dead)return;
     mon.dead=true;
+    if(typeof ZAtlas!=='undefined')ZAtlas.died(this,mon);
     var ps=this.playerState;
     var monLv=mon.level||1;
     var lvDiff=monLv-ps.level;

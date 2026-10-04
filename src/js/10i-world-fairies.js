@@ -81,9 +81,9 @@ Object.assign(WorldScene.prototype,{
         f.lbl=domText(self,f.x,f.y-30,'✨ '+f.name,{fontSize:'9px',color:'#ffe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20); }
       if(!near&&f.spr){ f.spr.destroy(); f.glow.destroy(); f.lbl.destroy(); f.spr=null; }
       if(!f.spr)return; f.t+=dt; var hx=f.home.ws?f.home.x*TILE+16:f.x, hy=f.home.ws?f.home.y*TILE+16:f.y, fx=hx+Math.cos(f.t*0.9)*70+Math.sin(f.t*2.1)*6, fy=hy-18+Math.sin(f.t*1.3)*16;
-      f.cx=fx; f.cy=fy; f.spr.setPosition(fx,fy).setFrame(String(Math.floor(f.t*10)%4)).setFlipX(Math.cos(f.t*0.9+Math.PI/2)<0).setDepth(WR_DEPTH(fy+30)); f.glow.setPosition(fx,fy).setDepth(WR_DEPTH(fy+30)-0.00001); f.lbl.setPosition(fx,fy-24);
+      f.cx=fx; f.cy=fy; if(!(typeof ZAtlas!=='undefined'&&f.F&&ZAtlas.simple(f.spr,'fairy_'+f.F.id,['float','idle','move'],'q',f.t,10,true)))f.spr.setFrame(String(Math.floor(f.t*10)%4)); f.spr.setPosition(fx,fy).setFlipX(Math.cos(f.t*0.9+Math.PI/2)<0).setDepth(WR_DEPTH(fy+30)); f.glow.setPosition(fx,fy).setDepth(WR_DEPTH(fy+30)-0.00001); f.lbl.setPosition(fx,fy-24);
       var st=self._fairyState(f); f.lbl.setText((st.mark?st.mark+' ':'✨ ')+f.name); });
-    (this._kings||[]).forEach(function(K){ var near=Math.hypot(px-K.x,py-K.y)<1400; if(near)self._hengeBuild(K); if(!K.spr)return; K.t+=dt; K.spr.setFrame(String(Math.floor(K.t*8)%4)).setY(K.y-26+Math.sin(K.t*1.6)*5); });
+    (this._kings||[]).forEach(function(K){ var near=Math.hypot(px-K.x,py-K.y)<1400; if(near)self._hengeBuild(K); if(!K.spr)return; K.t+=dt; if(!(typeof ZAtlas!=='undefined'&&typeof FAIRY_MONARCH_PICK!=='undefined'&&ZAtlas.simple(K.spr,'monarch_'+FAIRY_MONARCH_PICK[K.q],['float','idle','move'],'q',K.t,8,false)))K.spr.setFrame(String(Math.floor(K.t*8)%4)); K.spr.setY(K.y-26+Math.sin(K.t*1.6)*5); });
     // sparkles where an active quest's object is buried
     this._fairyVisT-=dt; if(this._fairyVisT<=0){ this._fairyVisT=0.35; var act=this._activeDigs();
       act.forEach(function(D){ var sx=D.x*TILE+16, sy=D.y*TILE+16, d=Math.hypot(px-sx,py-sy); if(d<TILE*12){ var n=d<TILE*3?4:2; for(var i=0;i<n;i++){ var s=self.add.circle(sx+(Math.random()-0.5)*26,sy+(Math.random()-0.5)*18,d<TILE*3?2.4:1.6,0xfff0a0,1).setDepth(WR_DEPTH(sy)+0.01); self.tweens.add({targets:s,y:s.y-18,alpha:0,duration:900,onComplete:function(){ s.destroy(); }}); } } }); }

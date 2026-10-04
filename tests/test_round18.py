@@ -26,7 +26,7 @@ check('The artifact builds load one fixed engine (no document.write)', 'document
 J=json.load(open(os.path.join(R,'sprites','requests','requests.json'),encoding='utf-8'))
 ids=[q['id'] for q in J['requests']]
 check('Requests are exported: unique ids, every pilot id exists, every reference is a style image or another request', len(ids)==len(set(ids)) and all(p in ids for p in J['pilot']) and all(r in ('style_hero','style_centaur') or r in ids for q in J['requests'] for r in q['refs']), [len(ids),J['stats']['core']])
-check('Every request names the teal highlight style and both references', all('teal' in J['style'] and 'Reference image 1' in q['body'] and 'Reference image 2' in q['body'] for q in J['requests']))
+check('Every request names the teal highlight style and both references', all('teal' in J['style'] and 'Reference image 1' in q['body'] and 'Reference image 2' in q['body'] for q in J['requests'] if not q.get('legacy')))
 G=[q for q in J['requests'] if q['id']=='hero_f.model']
 check('Round 20: the girl is locked as look B (two long auburn braids, teal mantle); her model request attaches the boy\'s model sheet', len(G)==1 and 'LONG BRAIDED AUBURN' in G[0]['body'] and 'two long braids' in G[0]['body'] and 'hero_m.model' in G[0]['refs'] and not [q for q in J['requests'] if q['id'].startswith('hero_f.model_')])
 BS=[q for q in J['requests'] if q['group']=='boss']

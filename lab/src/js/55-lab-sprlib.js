@@ -36,6 +36,8 @@
     // (sprites/preview/w<wave>-<n>.webp, loaded as files next to the Lab); ZSPR_PREVIEW says where each sheet sits.
     BASE:'preview/', _pg:{},
     prev:function(id){ return typeof ZSPR_PREVIEW!=='undefined'&&ZSPR_PREVIEW[id]; },
+    // a sheet's received frames: its own, or (hero movement) the first version until the new one arrives
+    shp:function(sh){ var P=SL.prev(sh.id); if(P)return {P:P,poses:sh.poses,id:sh.id}; if(sh.legacyId&&SL.prev(sh.legacyId))return {P:SL.prev(sh.legacyId),poses:sh.legacyPoses,id:sh.legacyId,old:true}; return null; },
     page:function(name,cb){ var P=SL._pg[name]; if(!P){ P=SL._pg[name]={img:new Image(),ok:false,q:[]}; P.img.onload=function(){ P.ok=true; P.q.splice(0).forEach(function(f){ f(P.img); }); }; P.img.onerror=function(){ P.bad=true; }; P.img.src=SL.BASE+name+'.webp'; }
       if(P.ok)cb(P.img); else P.q.push(cb); },
     // one received sheet as a strip of its cut frames
@@ -58,7 +60,7 @@
               c.fillStyle='rgba(255,255,255,.6)'; c.font='11px "JetBrains Mono",monospace'; c.textAlign='left'; if(ox===0)c.fillText(S[1],8,row?150:14); }); }); };
         SL.page(P.page,function(img){ fr=img; go(); }); old.onload=go; old.src=HERO_WALK_FRAMES_FRONT[0]; }); },
     // a small player per character: runs through every animation received so far (6 frames a second)
-    clips:function(e){ var out=[]; e.sheets.forEach(function(sh){ var P=SL.prev(sh.id); if(!P)return; var cur=null; sh.poses.forEach(function(p,i){ var key=p.a+(p.f&&p.f!==sh.facing?' · '+ZSPR.FACE[p.f]:sh.facing&&sh.facing!=='x'&&e.facings.length>1?' · '+ZSPR.FACE[sh.facing]:'');
+    clips:function(e){ var out=[]; e.sheets.forEach(function(sh){ var G=SL.shp(sh); if(!G)return; var P=G.P, cur=null; G.poses.forEach(function(p,i){ var key=p.a+(p.f&&p.f!==sh.facing?' · '+ZSPR.FACE[p.f]:sh.facing&&sh.facing!=='x'&&e.facings.length>1?' · '+ZSPR.FACE[sh.facing]:'');
           if(!cur||cur.key!==key){ cur={key:key,label:((ZSPR.HERO.ANIMS[p.a]&&ZSPR.HERO.ANIMS[p.a].label)||ZSPR.ANIM_LABEL[p.a]||p.a)+key.slice(p.a.length),P:P,fr:[]}; out.push(cur); } cur.fr.push(i); }); }); return out; },
     play:function(){ if(SL._raf)return; var tick=function(ts){ SL._raf=null; var L=document.querySelectorAll('.sl-play'); if(!L.length||LabApp.tab!=='sprlib')return;
         L.forEach(function(cv){ var C=cv._clips; if(!C){ var e=ZSPR.all().find(function(x){ return x.id===cv.dataset.id; }); C=cv._clips=e?SL.clips(e):[]; } if(!C.length)return; var r=cv.getBoundingClientRect(); if(r.bottom<-50||r.top>innerHeight+50)return;
@@ -74,9 +76,9 @@
         '<div class="br-t"><div class="br-act"><button class="vbtn br-pick" aria-pressed="'+on+'">'+(on?'★ Looks right':'☆ Looks right')+'</button></div><textarea class="mn-notes br-notes" rows="1" placeholder="Notes (keep the braid from A, the mantle from B …)">'+SL.esc(p.notes||'')+'</textarea></div></article>'; },
     sheetRow:function(e,sh){ var got=SL.have(sh.id); return '<li class="sl-sh" data-sheet="'+sh.id+'"><span class="sl-tier sl-'+(sh.tier||'core')+'">'+(sh.tier||'core')+'</span> <b>'+SL.esc(sh.title)+'</b> <span class="sl-meta">'+
         (sh.facing&&sh.facing!=='x'?ZSPR.FACE[sh.facing]+' · ':'')+sh.poses.length+' poses · '+sh.cols+' × '+sh.rows+(got?' · <span class="sl-got">received</span>':'')+'</span>'+
-        '<span class="sl-btns"><button class="vbtn sl-copy">Copy request</button><button class="vbtn sl-show">Show</button></span><pre class="sl-pre" hidden></pre>'+(SL.prev(sh.id)?'<div class="sl-stripw">'+SL.strip(sh.id)+'</div>':'')+'</li>'; },
+        '<span class="sl-btns"><button class="vbtn sl-copy">Copy request</button><button class="vbtn sl-show">Show</button></span><pre class="sl-pre" hidden></pre>'+(SL.shp(sh)?'<div class="sl-stripw">'+SL.strip(SL.shp(sh).id)+'</div>'+(SL.shp(sh).old?'<span class="sl-meta">first version (4-frame walk); the 6-frame walk is requested</span>':''):'')+'</li>'; },
     card:function(e){ var p=LabApp.picks['sprlib-'+e.id]||{}, on=LBR.picked('sprlib',e.id);
-      return '<article class="br-card sl-card'+(on?' on':'')+'" data-tab="sprlib" data-id="'+e.id+'"><div class="sl-head"><canvas class="sl-cv" width="72" height="72" data-id="'+e.id+'"></canvas>'+(e.sheets.some(function(sh){ return SL.prev(sh.id); })?'<canvas class="sl-play" width="150" height="150" data-id="'+e.id+'" title="The new frames, playing"></canvas>':'')+'<div><b>'+SL.esc(e.name)+'</b><span class="sl-sub">'+SL.esc(e.sub)+' · '+SL.faceTxt(e)+(e.scale&&e.group!=='hero'?' · '+e.scale+'× hero height':'')+'</span>'+
+      return '<article class="br-card sl-card'+(on?' on':'')+'" data-tab="sprlib" data-id="'+e.id+'"><div class="sl-head"><canvas class="sl-cv" width="72" height="72" data-id="'+e.id+'"></canvas>'+(e.sheets.some(function(sh){ return SL.shp(sh); })?'<canvas class="sl-play" width="150" height="150" data-id="'+e.id+'" title="The new frames, playing"></canvas>':'')+'<div><b>'+SL.esc(e.name)+'</b><span class="sl-sub">'+SL.esc(e.sub)+' · '+SL.faceTxt(e)+(e.scale&&e.group!=='hero'?' · '+e.scale+'× hero height':'')+'</span>'+
         '<p>'+SL.esc(String(e.look||'').replace(/^the hero (boy|girl)[^:]*: /,''))+'</p></div></div>'+
         '<div class="sl-moves">'+e.anims.map(function(a){ return '<span class="sl-mv" title="'+SL.esc(a.why||'')+'">'+SL.esc(a.label)+' ×'+a.n+(a.why&&!a.hero?' <i>'+SL.esc(a.why.length>34?a.why.slice(0,32)+'…':a.why)+'</i>':'')+'</span>'; }).join('')+'</div>'+
         (e.unknown&&e.unknown.length?'<p class="sl-warn">No animation mapped for: '+SL.esc(e.unknown.join(', '))+'</p>':'')+

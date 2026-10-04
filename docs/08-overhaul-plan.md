@@ -201,13 +201,21 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
-- None open. Waiting on Kris:
-  1. Run the remaining waves (commands in `14-sprite-library.md`, "PowerShell commands"). Suggested order: mounts + village, then Grasslands, then tell Claude for a review before the other three regions.
-  2. "Looks right" / notes on the Sprite Library cards (heroes are all in).
-  3. Check that the published Lab shows the received frames (the preview pages are attached files; verified in a local browser only).
-  4. A play test of `?engine=4` (known seam issue between map chunks on Phaser 4).
-  5. His check of waystone travel in real play.
-- For Claude, next: after each wave run the intake on the PC (`python3 tools/sprites/intake.py`), copy `sprites/preview/*` to the cloud, rebuild, publish the Lab with the pages as files, commit. Then build the atlas loader in the game and ask Kris about display size (42 px vs 63 px).
+- None open. Kris is out for the evening of Oct 4; all generate commands are running on his PC.
+
+## Round 23 (Kris, Oct 4, evening) — answers and tonight's work
+- Kris: "all commands are active and coming in. review and input all of these, and look for the ones that are missing, but only check after about 30 min as many sheets are coming in still."
+- Sprites in the game → **ANSWERED: yes, everything as it arrives.** Build the atlas loader; heroes, monsters, NPCs, mounts and bosses use painted frames where they exist; stand-ins stay as the fallback.
+- On-screen size → **ANSWERED: 1.5× today** (hero 63 px tall); hitboxes unchanged.
+- Hero walk frames → **ANSWERED: prepare a stronger request** (bigger stride, arm swing, 6 frames) and one command to re-roll the 6 hero movement sheets.
+- Bad sheets → **ANSWERED: list them for a re-roll**; keep the stand-in for that character meanwhile.
+- Claude cannot send requests itself (the API key stays with Kris): missing and bad sheets are listed with the command to redo them.
+- Assumptions made while Kris was away (no questions asked, as instructed):
+  - One size factor for every painted character (112 px cut = 63 px on screen), so characters keep the proportions they were painted in; a monster's hitbox is unchanged.
+  - Bosses, animals and vehicles keep today's art for now. The boss rig (back layers, pupils, forced attack frames) is too easy to break unattended; to be done with Kris.
+  - Kris's running generate commands were left alone, although they were painting duplicates ([251]). Stopping them would have meant interfering with his terminals.
+  - Old test suites run with painted sprites off; `test_round23.py` covers painted sprites.
+- Waiting on Kris: run the two redo commands from `intake.py --check`; look at the game with painted sprites (size, walk, monsters); say whether bosses, animals and vehicles should be wired next; whether the atlas size is fine for hosting.
 
 ## Round 22 (Kris, Oct 4)
 - "these are coming out great. prepare all the additional powershell commands I need and take a look at wave 1 coming in" → wave 1 reviewed: all 40 hero sheets in and cut cleanly after the splitter fix ([246]–[248]); commands written into doc 14 and given in chat.

@@ -50,7 +50,7 @@ const refPath = r => (r === 'style_hero' || r === 'style_centaur') ? path.join(R
 const fullPrompt = q => q.body + '\n' + J.style + '\n' + J.rules + '\n' + J.bgAlpha;
 
 if (!waves && !ids && !group) { console.error('Say what to send: --wave N, --ids a,b or --group name. Add --dry-run to preview.'); process.exit(1); }
-let todo = J.requests.filter(q => (!waves || waves.includes(q.wave)) && (!ids || ids.includes(q.id)) && (!group || q.group === group) && (ids || TIER === 'all' || q.tier === TIER));
+let todo = J.requests.filter(q => !q.legacy && (!waves || waves.includes(q.wave)) && (!ids || ids.includes(q.id)) && (!group || q.group === group) && (ids || TIER === 'all' || q.tier === TIER));
 const skipped = todo.filter(q => fs.existsSync(outPath(q.id)) && !FORCE).length;
 todo = todo.filter(q => FORCE || !fs.existsSync(outPath(q.id))).slice(0, LIMIT);
 console.log(`${todo.length} request(s) to send, ${skipped} already in sprites/incoming/ (model ${MODEL}, quality ${QUALITY})`);
@@ -61,17 +61,22 @@ for (const r of ['style_hero', 'style_centaur']) if (!fs.existsSync(refPath(r)))
 
 const log = line => fs.appendFileSync(path.join(IN, '_log.jsonl'), JSON.stringify(line) + '\n');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-let done = 0, failed = 0, tokens = 0, stop = false;
+let done = 0, failed = 0, tokens = 0, stop = false, other = 0;
+// a claim file per sheet being painted (sprites/incoming/.claims/<id>); one older than 10 minutes is a crashed run and is taken over
+const CLAIMS = path.join(IN, '.claims'); fs.mkdirSync(CLAIMS, { recursive: true });
+const claim = id => { const f = path.join(CLAIMS, id); try { fs.closeSync(fs.openSync(f, 'wx')); return true; }
+  catch (e) { try { if (Date.now() - fs.statSync(f).mtimeMs > 600000) { fs.utimesSync(f, new Date(), new Date()); return true; } } catch (e2) {} return false; } };
+const unclaim = id => { try { fs.unlinkSync(path.join(CLAIMS, id)); } catch (e) {} };
 
 async function send(q) {
   const form = new FormData();
   form.append('model', MODEL); form.append('prompt', fullPrompt(q)); form.append('size', q.size); form.append('quality', QUALITY);
   form.append('background', 'transparent'); form.append('output_format', 'png'); form.append('n', '1');
   for (const r of q.refs) form.append('image[]', new Blob([fs.readFileSync(refPath(r))], { type: 'image/png' }), r.replace(/[^a-z0-9_.-]/gi, '_') + '.png');
-  for (let attempt = 1; attempt <= 4; attempt++) {
+  for (let attempt = 1; attempt <= 6; attempt++) {
     let res, body;
     try { res = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: 'Bearer ' + KEY }, body: form }); body = await res.json(); }
-    catch (e) { if (attempt === 4) throw e; await sleep(4000 * attempt); continue; }
+    catch (e) { if (attempt === 6) throw e; await sleep(4000 * attempt); continue; }
     if (res.ok && body.data && body.data[0] && body.data[0].b64_json) {
       const file = outPath(q.id); if (fs.existsSync(file)) fs.renameSync(file, file.replace(/\.png$/, '.prev.png'));
       fs.writeFileSync(file, Buffer.from(body.data[0].b64_json, 'base64'));
@@ -80,10 +85,10 @@ async function send(q) {
     }
     const msg = (body && body.error && body.error.message) || ('HTTP ' + res.status);
     if (res.status === 401 || res.status === 403) { stop = true; throw new Error(msg + ' — check the key, and that your OpenAI organization is verified for image models.'); }
-    if (res.status === 429 || res.status >= 500) { await sleep(8000 * attempt); continue; }
+    if (res.status === 429 || res.status >= 500) { await sleep((res.status === 429 ? 20000 : 8000) * attempt); continue; }
     throw new Error(msg);
   }
-  throw new Error('gave up after 4 attempts');
+  throw new Error('gave up after 6 attempts');
 }
 
 // Requests wait for their reference sheets; each pass sends everything whose references exist.
@@ -95,9 +100,13 @@ while (pending.length && !stop) {
   let i = 0;
   await Promise.all(Array.from({ length: CONC }, async () => {
     while (i < ready.length && !stop) { const q = ready[i++];
+      // Two terminals may be working through the same list: never paint a sheet twice (round 23 — 237 sheets were).
+      if (!FORCE && fs.existsSync(outPath(q.id))) { other++; continue; }
+      if (!claim(q.id)) { other++; continue; }
       try { await send(q); done++; console.log(`✓ ${q.id}  (${done}/${todo.length})`); }
-      catch (e) { failed++; console.error(`✗ ${q.id}: ${e.message}`); log({ id: q.id, at: new Date().toISOString(), error: String(e.message) }); } }
+      catch (e) { failed++; console.error(`✗ ${q.id}: ${e.message}`); log({ id: q.id, at: new Date().toISOString(), error: String(e.message) }); }
+      finally { unclaim(q.id); } }
   }));
 }
-console.log(`\nDone: ${done} saved, ${failed} failed, ${todo.length - done - failed} not sent. Tokens used: ${tokens}. Log: sprites/incoming/_log.jsonl`);
+console.log(`\nDone: ${done} saved, ${failed} failed, ${other} done by another terminal, ${todo.length - done - failed - other} not sent. Tokens used: ${tokens}. Log: sprites/incoming/_log.jsonl`);
 console.log('Next: tell Claude the wave is in (or run: python tools/sprites/intake.py).');

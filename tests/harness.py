@@ -31,7 +31,7 @@ class G:
         return self.js("game.scene.getScenes(true).map(s=>s.sys.settings.key)")
 
 @contextlib.contextmanager
-def game(new=True, w=1280, h=800, save=None):
+def game(new=True, w=1280, h=800, save=None, painted=False):   # painted=False: the suites written for the stand-ins run with the painted sprites off (round 23)
     with sync_playwright() as p:
         b = p.chromium.launch(args=["--use-gl=swiftshader", "--enable-unsafe-swiftshader"])
         pg = b.new_page(viewport={"width": w, "height": h})
@@ -40,7 +40,13 @@ def game(new=True, w=1280, h=800, save=None):
         pg.on("console", lambda m: errs.append("console.error: " + m.text) if m.type == "error" else None)
         pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PHASER, content_type="application/javascript"))
         html = open(INDEX, encoding='utf-8').read()
-        pg.route("http://zeldara.test/**", lambda r: r.fulfill(body=html, content_type="text/html"))
+        def _serve(r):   # the page itself, and the files beside it (painted-sprite atlases under assets/)
+            u = r.request.url.split('zeldara.test/', 1)[1].split('?')[0]
+            f = os.path.join(os.path.dirname(os.path.abspath(INDEX)), u)
+            if u.startswith('assets/') and os.path.isfile(f): return r.fulfill(path=f)
+            if u.startswith('assets/'): return r.fulfill(status=404, body='')
+            return r.fulfill(body=html, content_type="text/html")
+        pg.route("http://zeldara.test/**", _serve)
         pg.goto("http://zeldara.test/index.html")
         if save is not None:
             pg.evaluate("s=>localStorage.setItem('qoz_v2',s)", save)
@@ -49,6 +55,7 @@ def game(new=True, w=1280, h=800, save=None):
             # the title moves an old single save into "Player 1", slot 1 (04d-profiles.js) — play that slot
             pg.evaluate("(()=>{ if(typeof ZSave==='undefined')return; ZSave.migrateLegacy(); var p=ZSave.players()[0]; if(p)ZSave.choose(p.id,1); })()")
         pg.wait_for_timeout(1500)
+        if not painted: pg.evaluate("(()=>{ try{ if(typeof ZAtlas!=='undefined')ZAtlas.off=true; }catch(e){} })()")
         pg.evaluate("game.loop.smoothStep=false")  # headless runs at low FPS; use real elapsed time
         g = G(pg, errs)
         if new is not None:

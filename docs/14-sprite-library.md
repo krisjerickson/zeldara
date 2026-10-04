@@ -11,6 +11,8 @@ This replaces the pilot plan in `09-sprite-style-bible.md` (pixel art, green bac
 | References | `sprites/reference/style_hero.png`, `style_centaur.png` | Kris's two images. Attached to every request |
 | Feeding script | `tools/sprites/generate.mjs` | Sends requests to the OpenAI image API with Kris's key, saves into `sprites/incoming/` |
 | Intake | `tools/sprites/intake.py` | Removes the background, finds each pose, lines up the feet, writes frames and atlases to `sprites/out/` |
+| Game atlases | `assets/atlas/` (made by `intake.py --atlas`) | The cut frames packed into pages + `index.json`; committed, loaded by the game |
+| Loader | `src/js/04f-atlas.js` (`ZAtlas`) | Shows painted frames on heroes, monsters, village folk, mounts, familiars, fairies; stand-ins where nothing is painted |
 | Lab tab | Design Lab → Sprite Library | Guide, hero mapping tables, every character with stand-in, moves, sheets, Copy request, "Looks right" and notes |
 
 ## The survey
@@ -139,32 +141,24 @@ cd C:\Claude\games\Zeldara-v4
 $env:OPENAI_API_KEY = "sk-..."
 ```
 
-Then the waves, in this order. Each can be stopped (Ctrl+C) and run again; finished sheets are skipped.
+**Status (Oct 4, evening): every wave has been sent.** What is left is short: the sheets that failed, the ones that look wrong, and the new hero walk.
 
 ```
-node tools/sprites/generate.mjs --wave 1.5,2      # mounts, riders, village NPCs, familiars, fairies, animals  (81 left)
-node tools/sprites/generate.mjs --wave 3,3.5      # Grasslands monsters and bosses  (185 left)
-node tools/sprites/generate.mjs --wave 4,4.5      # Wetlands  (204)
-node tools/sprites/generate.mjs --wave 5,5.5      # Highlands  (214)
-node tools/sprites/generate.mjs --wave 6,6.5      # Ashlands  (227)
-node tools/sprites/generate.mjs --wave 7.5,8      # Volcano bosses, vehicles  (28)
+python tools/sprites/intake.py --check                  # lists what is missing or looks wrong, and prints the two commands below filled in
+node tools/sprites/generate.mjs --wave 1,2              # sends only what is missing in those waves (new 6-frame hero walk, 2 failed sheets)
+node tools/sprites/generate.mjs --force --ids bloodgnats.core.q,petal_witch.core.s   # paints these again (old file kept as .prev.png)
+git push origin main                                     # after Claude has committed
 ```
 
-Useful extras:
+Rules of thumb:
 
-```
-node tools/sprites/generate.mjs --wave 3,3.5 --dry-run            # what is still missing, nothing sent
-node tools/sprites/generate.mjs --wave 3,3.5 --concurrency 4      # four at a time instead of two
-node tools/sprites/generate.mjs --ids meadow_goblin.core.s --force   # redo one sheet (the old file is kept as .prev.png)
-node tools/sprites/generate.mjs --wave 1.5,2,3,3.5,4,4.5,5,5.5,6,6.5,7.5,8 --concurrency 4   # everything in one go
-git push origin main                                              # after Claude has committed
-```
-
-- Speed measured on wave 1: about 6 sheets a minute at the default two at a time, so the 939 remaining sheets take roughly 2.5 hours (half that with `--concurrency 4` if the account's rate limit allows).
-- Cost: about $0.04 per sheet at list prices, so roughly $38 for the rest (about a third of that if the dashboard rate holds).
+- **One command per set of sheets.** A sheet already in `sprites/incoming/` is skipped, so running a command again only sends what is missing.
+- On Oct 4 the per-wave commands and the "everything in one go" command ran side by side and painted many sheets twice ([251]). The script now checks again right before sending and marks the sheet it is working on, so two terminals share a list without repeating. Still, there is no need for more than one terminal: `--concurrency 4` in one window is as fast.
+- `--dry-run` shows what a command would send. `--force` repaints sheets that exist.
+- Speed measured: about 20 sheets a minute across several terminals. Cost measured: $0.038 per sheet at list prices (the dashboard has shown about a third of that).
 - A sheet that depends on another (a character's second sheet, a rider) is sent in a later pass of the same run, once its reference exists.
 - Lines starting with ✗ are failures; running the same command again retries only those.
-- After a wave, tell Claude. Claude cuts the new sheets on the PC, updates the Lab and commits.
+- After new sheets arrive, tell Claude. Claude cuts them on the PC (`intake.py`), packs the atlases (`--atlas`), updates the Lab and the game, and commits.
 
 ### Waves
 
@@ -181,14 +175,17 @@ git push origin main                                              # after Claude
 | 7.5 | Volcano bosses | 24 (13) |
 | 8 | Vehicles | 4 (4) |
 
-## Atlas plan
+## Atlases and the game (built in round 23)
 
-- Frame names: `<character>/<anim>/<facing>/<n>` (for example `hero_m/walk/s/2`, `meadow_goblin/melee/s/1`). Feet are at the bottom centre of every cell.
-- Size: a standing 1.0-scale character is 112 px tall in the atlas (`HERO_PX` in the intake). That is about twice the planned on-screen size, so the display size can still be chosen later in the Lab. No frame is stored larger than 512 px.
-- Pages are 2048 × 2048 (safe on phones), Phaser JSON format, grouped so the game loads only what a region needs: `heroes`, `mounts`, `village`, `companions`, and one set per wave for monsters and bosses.
-- Rough size (estimate): about 6,250 frames at an average of 130 × 150 px is about 30 pages, 16 MB of GPU memory each when loaded. Loading by region keeps about 4–6 pages in memory.
-- The hosted game will load atlases from `/assets/atlas/`. The artifact version will carry them as attached files. If an atlas or frame is missing the game keeps the stand-in, so sprites can arrive in any order.
-- **Not built yet:** the atlas loader in the game. It is the first step once pilot sprites exist. On either engine an atlas turns hundreds of draw calls into a few (see doc 13 §4b).
+- Frame names: `<character>/<anim>/<facing>/<n>` (for example `hero_m/walk/s/2`, `meadow_goblin/melee/s/1`). Facings: `s` side, `f` front, `b` back, `q` three-quarter view (mirrored), `x` no facing. Feet are at the bottom centre of every cell.
+- Size: a standing 1.0-scale character is 112 px tall in the atlas (`HERO_PX`). In the game one factor applies to everybody: 112 px shows 63 px tall (1.5 × the old 42 px hero, Kris's choice). No frame is stored larger than 512 px.
+- Files: `assets/atlas/<name>-<n>.webp` (2048 px wide pages, WebP quality 85) and `assets/atlas/index.json`: `pages`, `chars` (`h0` = standing height, `pages`), `frames` (`[page, x, y, w, h, cellW, cellH, offX, offY]`, trimmed). Names: `heroes`, `mounts`, `village`, `companions`, `mon-w<wave>`, `boss-w<wave>`.
+- Packing: `python tools/sprites/intake.py --limit=0 --atlas --budget=60` on the PC, repeated until it no longer prints "NOT FINISHED". Only atlases whose frames changed are packed again.
+- The build puts the index into the game page (`ZATLAS_META`) and copies the pages to `dist/play*/assets/atlas/`. The hosted game loads them from `/assets/atlas/`; the artifact carries them as attached files.
+- `ZAtlas` (`src/js/04f-atlas.js`) loads a page the first time a character on it is needed and keeps the stand-in until then. Anything without painted frames keeps its stand-in, so sheets can arrive in any order. Dev panel → "Painted sprites" or `?sprites=0` turns them off.
+- What uses painted frames now: both heroes (all weapons, block, skills, spells, riding), all monsters with sheets (world and dungeons), village folk and keepers, familiars, fairies, monarchs, the parked mount. Not yet: bosses, animals, vehicles.
+- Size on disk: 93 pages, 123 MB. 70 of them are boss pages (86 MB) that the game does not use yet; they are in `.gitignore` and stay on the PC. The 23 pages in use are 37 MB.
+- Memory: a loaded page is up to 16 MB of graphics memory. A region's monsters are on 4–5 pages, so a session holds roughly 8–10 pages. Pages are not unloaded yet when leaving a region. To shrink: lower `HERO_PX` (96 would save about a quarter) or the WebP quality, then pack again with a higher `PACK_V`.
 
 ## Not included
 

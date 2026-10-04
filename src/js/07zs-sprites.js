@@ -159,7 +159,10 @@ var ZSPR={
     // every hero animation: frames, whether it is drawn per facing, and the pose words
     ANIMS:{
       idle:{n:2,label:'Idle',p:['standing ready, hands relaxed, {held}','the same stance with a small breathing motion, cape shifting']},
-      walk:{n:4,label:'Walk',p:['walk cycle frame 1: left foot forward, landing','walk cycle frame 2: feet passing, body at its highest','walk cycle frame 3: right foot forward, landing','walk cycle frame 4: feet passing the other way']},
+      // round 23: the first walk sheets (4 frames) barely moved; the walk is now 6 clearly different frames (sheet 'move2')
+      walk:{n:6,label:'Walk',p:['walk cycle 1 of 6, CONTACT: the front leg stretched far forward with the heel down, the back leg stretched far behind on its toe, the opposite arm swung forward, body low','walk cycle 2 of 6, DOWN: front knee bent taking the weight, back foot just leaving the ground, body at its lowest',
+        'walk cycle 3 of 6, PASSING: standing tall on one straight leg, the other knee lifted high as it passes under the body, arms beside the body','walk cycle 4 of 6, CONTACT on the OTHER side: the other leg stretched far forward with the heel down, arms swapped',
+        'walk cycle 5 of 6, DOWN on the other side: that front knee bent taking the weight, body at its lowest','walk cycle 6 of 6, PASSING on the other side: standing tall on the other straight leg, the free knee lifted high']},
       run:{n:2,label:'Run / Sprint',p:['sprint frame 1: leaning far forward, long stride, cape streaming back','sprint frame 2: the opposite stride, both feet off the ground']},
       melee_sword:{n:4,label:'Sword attack',held:'sword',p:['sword ready: blade held low at the side','sword wind-up: blade pulled back over the shoulder, body twisted','sword slash: blade at full extension, a wide teal-white arc','sword follow-through: blade swung past, weight on the front foot']},
       melee_axe:{n:4,label:'Battle axe attack',held:'axe',p:['axe ready: both hands on the haft, axe head low','axe wind-up: axe raised high overhead with both hands','axe chop: axe head driving down in front, a heavy teal-white arc','axe follow-through: axe head buried low, body bent over it']},
@@ -190,7 +193,7 @@ var ZSPR={
       pickup:{n:1,d:1,label:'Pick up / use',p:['reaching out with one hand to take or use something']}
     },
     // hero sheets: per facing (f, s, b) …
-    SHEETS_DIR:[['move','Movement',['idle','walk','run']],['melee','Sword and battle axe',['melee_sword','melee_axe']],['ranged','Bow and crossbow',['ranged_bow','ranged_xbow']],
+    SHEETS_DIR:[['move2','Movement',['idle','walk','run']],['melee','Sword and battle axe',['melee_sword','melee_axe']],['ranged','Bow and crossbow',['ranged_bow','ranged_xbow']],
                 ['magic','Staff, wand and bare-hand spells',['magic_staff','magic_wand','magic_hand']],['defend','Shield block, roll and Shield Bash',['block','roll','shieldbash']]],
     // … and once, in the side view
     SHEETS_ONE:[['skills_a','Skills: War Stomp, Whirlwind, Smoke Bomb',['war_stomp','whirlwind','smokebomb']],['skills_b','Skills: Blink, Berserker, Second Wind, Time Slow',['blink','berserker','secondwind','timeslow']],
@@ -201,7 +204,7 @@ var ZSPR={
     LEGACY:{idle:'walk',walk:'walk',run:'walk',melee_sword:'attack',melee_axe:'attack',ranged_bow:'bow',ranged_xbow:'bow',magic_staff:'attack',magic_wand:'attack',magic_hand:'attack',block:'walk',roll:'walk',shieldbash:'attack'},
     BOSS_BASE:{bf_drakeling:'rock_dragon',bf_forge_guardian:'iron_sentinel',bf_shadow_twin:'shadow_lord'},
     // which animation the hero plays for an action, given what is equipped
-    animFor:function(ps,action,arg){ var eq=(ps&&ps.equipped)||{}, H=ZSPR.HERO, c;
+    animFor:function(ps,action,arg){ var eq=(ps&&(ps.equip||ps.equipped))||{}, H=ZSPR.HERO, c;
       if(action==='melee'){ c=H.weaponClass(eq.lHand)||'sword'; return H.WCLASS[c].anim; }
       if(action==='ranged'){ c=H.weaponClass(eq.rHand)||'bow'; return H.WCLASS[c].anim; }
       if(action==='spell'){ c=H.weaponClass(eq.mWeapon)||'hand'; return H.WCLASS[c].anim; }
@@ -282,7 +285,7 @@ var ZSPR={
   // Frame counts: monsters idle 1 · move 4 · each attack 2 (slam 3) · hurt 1 · death 2 (on an extra sheet, so the core sheet never changes).
   // Bosses also get idle 2, a phase roar, a phase change and death frames.
   animsOf:function(e){ var Z=ZSPR, A=[], add=function(k,n,why,extra){ A.push(Object.assign({k:k,n:n||(Z.POSES[k]||[]).length||1,label:Z.ANIM_LABEL[k]||k,why:why||'',d:!!Z.DIRLESS[k]},extra||{})); };
-    if(e.group==='hero'){ var H=Z.HERO; Object.keys(H.ANIMS).forEach(function(k){ var a=H.ANIMS[k]; A.push({k:k,n:a.n,label:a.label,d:!!a.d,why:'',hero:true}); }); return A; }
+    if(e.group==='hero'){ var H=Z.HERO; Object.keys(H.ANIMS).forEach(function(k){ var a=H.ANIMS[k]; if(a)A.push({k:k,n:a.n,label:a.label,d:!!a.d,why:'',hero:true}); }); return A; }
     if(e.group==='rider'||e.group==='mount'){ var fl=e.flying, lb=e.group==='rider'?'Ride':'Move'; add('ride_side',4,fl?'flying, side view':'trotting, side view',{label:lb+' · side'}); add('ride_front',2,'toward the camera',{label:lb+' · front'}); add('ride_back',2,'away from the camera',{label:lb+' · back'}); return A; }
     if(e.group==='npc'){ add('idle',2); add('talk',2,'when you speak to them'); add('work',4,e.doing||'their trade',{label:'Work: '+(e.trade||'trade')}); if(e.walker)add('move',4,'walks around the village'); return A; }
     if(e.group==='familiar'){ add('float',4,'follows the hero'); add('ranged',2,'base skill'); add('cast',1,'specials: '+(e.skills||[]).map(function(s){ return s.name; }).join(', ')); add('ko',1,'knocked out in a fight'); return A; }
@@ -301,12 +304,13 @@ var ZSPR={
 
   // ── pack animations into sheets of up to `cap` poses ──
   sheetsOf:function(e){ var Z=ZSPR, out=[], cap=8;
-    var mk=function(key,title,facing,poses){ var n=poses.length, cols=n<=3?n:n<=4?2:n<=6?3:4, rows=Math.ceil(n/cols); if(n===4){ cols=e.big?2:4; rows=e.big?2:1; }
+    var mk=function(key,title,facing,poses){ var n=poses.length, cols=n<=3?n:n<=4?2:n<=6?3:n<=8?4:5, rows=Math.ceil(n/cols); if(n===4){ cols=e.big?2:4; rows=e.big?2:1; }
       out.push({id:e.id+'.'+key+(facing&&facing!=='x'?'.'+facing:''),key:key,title:title,facing:facing,poses:poses,cols:cols,rows:rows,size:(cols>=rows*1.4?'1536x1024':rows>cols?'1024x1536':'1024x1024')}); };
     if(e.group==='hero'){ var H=Z.HERO;
       // model sheet first: the reference every other request for this hero is built on
       mk('model','Model sheet (front, side, back)','x',[{a:'model',i:0,t:'standing, seen from the FRONT'},{a:'model',i:1,t:'standing, side view facing RIGHT'},{a:'model',i:2,t:'standing, seen from BEHIND'}]);
-      ['s','f','b'].forEach(function(f){ H.SHEETS_DIR.forEach(function(S){ var P=[]; S[2].forEach(function(k){ var a=H.ANIMS[k]; a.p.forEach(function(t,i){ P.push({a:k,i:i,t:t.replace('{held}','')}); }); }); mk(S[0],S[1],f,P); }); });
+      ['s','f','b'].forEach(function(f){ H.SHEETS_DIR.forEach(function(S){ var P=[]; S[2].forEach(function(k){ var a=H.ANIMS[k]; a.p.forEach(function(t,i){ P.push({a:k,i:i,t:t.replace(', {held}','').replace('{held}','')}); }); }); mk(S[0],S[1],f,P);
+        if(S[0]==='move2'){ var shm=out[out.length-1]; shm.legacyId=e.id+'.move.'+f; shm.legacyPoses=[['idle',0],['idle',1],['walk',0],['walk',1],['walk',2],['walk',3],['run',0],['run',1]].map(function(q){ return {a:q[0],i:q[1]}; }); } }); });
       H.SHEETS_ONE.forEach(function(S){ var P=[]; S[2].forEach(function(k){ var a=H.ANIMS[k]; a.p.forEach(function(t,i){ P.push({a:k,i:i,t:t}); }); }); mk(S[0],S[1],'s',P); });
       return out; }
     if(e.group==='rider'||e.group==='mount'){ var fl=e.flying, w=fl?'wing-beat':'trot', rd=e.group==='rider';
@@ -352,6 +356,7 @@ var ZSPR={
     if(e.gear)subj+=' Details: '+e.gear+'.';
     L.push(subj+(/[.!]$/.test(subj)?'':'.')+' '+Z.palText(e.pal)+(e.scale&&e.group!=='hero'?' Size: about '+e.scale+'× the height of the hero'+(e.scale>=2?' (a towering boss)':e.scale<=0.5?' (tiny)':'')+'.':''));
     if(e.group==='hero'){ var held={}; sh.poses.forEach(function(p){ var a=Z.HERO.ANIMS[p.a]; if(a&&a.held)held[a.held]=1; }); var hk=Object.keys(held);
+      if(sh.poses.some(function(p){ return p.a==='walk'; }))L.push('IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.');
       if(hk.length)L.push('Held items in this sheet: '+hk.map(function(k){ return Z.HERO.WCLASS[k].label.toLowerCase()+' = '+Z.HERO.WCLASS[k].held; }).join('; ')+'. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.'); }
     if(e.moveTxt||e.atkTxt)L.push('How it behaves in the game (for the poses): '+[e.moveTxt,e.atkTxt,e.defTxt].filter(Boolean).join(' '));
     L.push('Layout: exactly '+n+' pose'+(n>1?'s':'')+' in a grid of '+sh.cols+' column'+(sh.cols>1?'s':'')+' × '+sh.rows+' row'+(sh.rows>1?'s':'')+', evenly spaced, in this order (left to right, top row first):');
@@ -372,6 +377,8 @@ var ZSPR={
     var girl=Z.all().find(function(e){ return e.id==='hero_f'; });
     if(girl&&!Z.HERO.GIRL_LOCKED)Object.keys(Z.HERO.GIRL_LOOKS).forEach(function(k){ var G=Z.HERO.GIRL_LOOKS[k], e2=Object.assign({},girl,{name:'Hero (girl) · look '+k.toUpperCase()+' — '+G.name,look:Z.HERO.GIRL_BASE+G.look.replace(/\.$/,'')}), sh=Object.assign({},girl.sheets[0],{id:'hero_f.model_'+k});
       out.push({id:sh.id,char:'hero_f',name:e2.name,group:'hero',sub:girl.sub,tier:'core',wave:0,cwave:1,scale:1,title:sh.title,facing:sh.facing,cols:sh.cols,rows:sh.rows,size:sh.size,poses:sh.poses.map(function(p){ return 'model_'+k+'/x/'+p.i; }),refs:['style_hero','style_centaur','hero_m.model'],key:Z.keyCol(null),variant:k,body:Z.prompt(e2,sh,{body:true})}); });
+    Z.all().forEach(function(e){ e.sheets.forEach(function(sh){ if(sh.legacyId)out.push({id:sh.legacyId,char:e.id,name:e.name,group:e.group,sub:e.sub,tier:'core',wave:e.wave,cwave:e.wave,scale:e.scale||1,title:'Movement (first version, 4-frame walk)',facing:sh.facing,cols:4,rows:2,size:'1536x1024',
+        poses:sh.legacyPoses.map(function(p){ return p.a+'/'+sh.facing+'/'+p.i; }),refs:[],key:Z.keyCol(null),legacy:true,supersededBy:sh.id,body:''}); }); });
     ZSPR.all().forEach(function(e){ e.sheets.forEach(function(sh){ out.push({id:sh.id,char:sh.multi?'bosses':e.id,name:sh.multi?sh.title:e.name,group:e.group,sub:e.sub,tier:sh.tier||'core',wave:ZSPR.PILOT.indexOf(sh.id)>=0?0:e.wave,cwave:e.wave,scale:e.scale||1,title:sh.title,facing:sh.facing,cols:sh.cols,rows:sh.rows,size:sh.size,
       poses:sh.poses.map(function(p){ return (p.ch?'@'+p.ch+'|':'')+p.a+'/'+(p.f||sh.facing||'s')+'/'+p.i; }),scales:sh.multi?sh.poses.map(function(p){ return p.scale||1; }):undefined,multi:sh.multi||undefined,refs:sh.multi?['style_hero','style_centaur']:ZSPR.refs(e,sh),key:ZSPR.keyCol(e.pal),body:ZSPR.prompt(e,sh,{body:true})}); }); }); return out; },
   // full text of a request: body + style + rules + background (alpha for the script, alpha-or-flat-colour for pasting by hand)

@@ -92,7 +92,7 @@ function _heroFamiliarsTick(scene,dt){
     else { var back=Math.min(tr.length-1,10+nFollow*9), p=tr[tr.length-1-back]||{x:c.x,y:c.y}; tx=p.x-(back<10?20:0); ty=p.y+2; nFollow++; }
     if(Math.hypot(tx-v.x,ty-v.y)>260){ v.x=tx; v.y=ty; } var dx=tx-v.x, dy=ty-v.y; v.x+=dx*Math.min(1,dt*(hover?5:7)); v.y+=dy*Math.min(1,dt*(hover?5:7));
     if(Math.abs(dx)>1.5)v.setFlipX(dx<0); else if(!hover)v.setFlipX(c.x<v.x);
-    v.setFrame(String(Math.floor(v._t*(hover?7:6))%4)); v.setDepth(_famDepth(scene,v.y,hover));
+    if(!(typeof ZAtlas!=='undefined'&&ZAtlas.simple(v,'fam_'+D.el,[scene._famCastT>0?'cast':null,'float','idle','move'],'q',v._t,hover?7:6,true)))v.setFrame(String(Math.floor(v._t*(hover?7:6))%4)); v.setDepth(_famDepth(scene,v.y,hover));
     v._halo.setPosition(v.x,v.y).setDepth(_famDepth(scene,v.y,true)-0.001).setScale(0.7+0.08*Math.sin(v._t*3));
     if(v._em)v._em.setDepth(_famDepth(scene,v.y,true)-0.002);
     // knocked out / dazed / silenced

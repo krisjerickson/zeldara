@@ -1,10 +1,10 @@
-# Character survey — 439 characters, 995 sheets (667 core), 6735 poses
+# Character survey — 439 characters, 995 sheets (667 core), 6747 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: none.
 
 | Group | Characters | Sheets | Core sheets | Poses |
 |---|---|---|---|---|
-| hero | 2 | 40 | 40 | 310 |
+| hero | 2 | 40 | 40 | 322 |
 | rider | 22 | 22 | 22 | 176 |
 | monster | 240 | 607 | 375 | 3811 |
 | boss | 76 | 216 | 120 | 1578 |
@@ -17,8 +17,8 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 
 | Id | Name | Group | Facings | Moves it must show | Sheets |
 |---|---|---|---|---|---|
-| hero_m | Hero (boy) | Playable heroes | s f b | Idle ×2; Walk ×4; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
-| hero_f | Hero (girl) | Playable heroes | s f b | Idle ×2; Walk ×4; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
+| hero_m | Hero (boy) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
+| hero_f | Hero (girl) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
 | ride_m_horse | Hero (boy) on Horse | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
 | ride_f_horse | Hero (girl) on Horse | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
 | ride_m_alligator | Hero (boy) on Alligator | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |

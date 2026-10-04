@@ -163,7 +163,7 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   mon.cont.setVisible(true);
   if(dist<280&&typeof Tome!=='undefined'&&!m.hidden)Tome.see('monster',mon.rid);
   // revive window: stand on the bone pile to finish it
-  if(m.down>0){ m.down-=dt; mon.spr.setFrame('0'); mon.spr.setAngle(90); if(dist<20){ mon.spr.setAngle(0); A.float(mon.x,mon.y-20,'crushed!','#e0d8c0'); A.kill(mon); MX.ev(mon,'def_revive_crushed'); return; }
+  if(m.down>0){ m.down-=dt; if(mon._za){ try{ ZAtlas.mon(A.scene,mon,m,dt,dx,dy); }catch(e){} } else { mon.spr.setFrame('0'); mon.spr.setAngle(90); } if(dist<20){ mon.spr.setAngle(0); A.float(mon.x,mon.y-20,'crushed!','#e0d8c0'); A.kill(mon); MX.ev(mon,'def_revive_crushed'); return; }
     if(m.down<=0){ mon.spr.setAngle(0); mon.cont.setAlpha(1); mon._hp=Math.round(mon.maxHp*0.5); A.float(mon.x,mon.y-24,'it rises!','#ffe0a0'); MX.ev(mon,'def_revived'); } return; }
   if(m.stunT>0){ m.stunT-=dt; mon.spr.setAngle(Math.sin(m.t*20)*8); MX.anim(A,mon,m,dt,dx); return; } else mon.spr.setAngle(0);
   // aggro
@@ -199,7 +199,8 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   MX.anim(A,mon,m,dt,dx);
 };
 MX.anim=function(A,mon,m,dt,dx){ var f; if(m.busy)f=m.busy.phase==='wind'?'2':'3'; else if(m.strikeT>0){ m.strikeT-=dt; f='3'; } else f=(Math.floor(m.t*2.6)%2)?'1':'0';
-  if(mon.spr.frame.name!==f)mon.spr.setFrame(f); if(Math.abs(dx)>4)mon.spr.setFlipX(dx<0);
+  var _za=false; if(typeof ZAtlas!=='undefined'){ try{ _za=ZAtlas.mon(A.scene,mon,m,dt,dx,A.p().y-mon.y); }catch(e){ if(!ZAtlas._warnM){ ZAtlas._warnM=true; console.error('painted monster',mon.rid,e); } } }
+  if(!_za&&mon.spr.frame.name!==f)mon.spr.setFrame(f); if(Math.abs(dx)>4)mon.spr.setFlipX(dx<0);
   mon.cont.setPosition(mon.x,mon.y); mon.cont.setDepth(A.depth(mon.y));
   if(mon._lazyVis&&A.scene._monWake)A.scene._monWake(mon);
   var hid=m.hidden, show=!hid&&!m.lurk; mon.hpBg.setVisible(show); mon.hpFill.setVisible(show); if(mon.nameT)mon.nameT.setVisible(show);

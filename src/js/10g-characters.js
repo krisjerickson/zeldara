@@ -29,7 +29,7 @@ var CHX={
         if(pp&&Math.hypot(pp.x-wx,pp.y-wy)<(im._tomeCat==='character'?110:300)&&im.visible&&(!im.parentContainer||im.parentContainer.visible)){ Tome.see(im._tomeCat||'monster',im._tomeId); im._tomeId=null; } }
       if(im._busy>0){ im._busy-=dt; f=Math.floor(im._t*5)%2?3:2; }
       else { f=Math.floor(im._t*1.8)%2; if(im._act){ im._nextAct-=dt; if(im._nextAct<=0){ im._busy=1.1; im._nextAct=4+Math.random()*7; } } }
-      im.setFrame(String(f));
+      var _zp=false; if(typeof ZAtlas!=='undefined'){ try{ _zp=ZAtlas.npc(scene,im,f,dt); }catch(e){} } if(!_zp)im.setFrame(String(f));
       if(im._face){ var px=im.parentContainer?im.parentContainer.x:im.x; if(im._lx!==undefined&&Math.abs(px-im._lx)>0.3)im.setFlipX(px<im._lx); im._lx=px; } } },
   ppos:function(s){ if(s.player&&s.player.x!==undefined)return s.player; if(s.px!==undefined)return {x:s.px,y:s.py}; if(s._px!==undefined)return {x:s._px,y:s._py}; return null; },
   busy:function(im,s){ if(im)im._busy=Math.max(im._busy||0,s||1.1); },
@@ -59,6 +59,8 @@ var CHX={
   MOUNT_SEAT:{quad:-3,drake:-4,gator:6,bird:-3,serpent:4,glider:null},   // hero sprite y (feet line) per mount kind
   mountTick:function(scene,p,mount,moving,dt){
     var R=mount&&mount!=='horse'?CHAR_BY_ID['mt_'+mount]:null, sp=p.sprite;
+    if(mount&&p.painted&&p.zride){ if(p.mountSpr){ p.mountSpr.setVisible(false); if(p.mountHead)p.mountHead.setVisible(false); } sp.setY(16); sp.setCrop(); if(p._mtShadow&&p._mtShadow.setScale)p._mtShadow.setScale(1.9,1.4); p._zrode=true; return true; }   // painted rider + mount in one picture (04f)
+    if(p._zrode){ p._zrode=false; sp.setY(14); if(p._mtShadow&&p._mtShadow.setScale)p._mtShadow.setScale(1); }
     if(!R){ if(p.mountSpr&&p.mountSpr.visible){ p.mountSpr.setVisible(false); if(p.mountHead)p.mountHead.setVisible(false); sp.setY(14); sp.setCrop(); if(p._mtShadow)p._mtShadow.setScale(1); } return false; }
     var mk=CHX.tex(scene,R);
     if(!p.mountSpr||!p.mountSpr.scene){ p.mountSpr=scene.add.image(0,16,mk,'0').setOrigin(0.5,1).setScale(CHX.MOUNT_SC); p.mountSpr._manual=true; p.cont.addAt(p.mountSpr,p.cont.getIndex(sp)); p._mtShadow=p.cont.list[0];

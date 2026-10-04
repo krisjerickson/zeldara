@@ -81,6 +81,8 @@ function _heroNewState(initialDir){
 }
 function _heroAnimate(scene, sprite, st, vx, vy, dt, atkTimer, bowTimer){
   if(!sprite||!sprite.scene)return;   // destroyed with its scene
+  // painted frames (round 23) when this hero's atlas is in; otherwise today's frames below
+  if(typeof ZAtlas!=='undefined'){ try{ if(ZAtlas.hero(scene,sprite,st,vx,vy,dt,atkTimer,bowTimer))return; }catch(e){ if(!ZAtlas._warned){ ZAtlas._warned=true; console.error('painted hero',e); } } if(st.painted){ st.painted=false; sprite.setScale(1); } }
   // Bow attack overlay — checked first so CTRL never visually fires the sword.
   // 10 frames over the 0.7s draw cycle.
   // st.anim = the library animation this pose stands for (round 18 mapping, ZSPR.HERO.animFor): the painted atlas will be drawn from it.

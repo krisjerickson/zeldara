@@ -201,4 +201,4 @@ if(typeof BossAtk!=='undefined')BossAtk.stripSummons();
 var BOSS_HP_R9=1.5, ELITE_HP_R9=1.25;
 (function(){ Object.keys(BOSS_ATTACKS).forEach(function(k){ if(MDEFS[k]&&!MDEFS[k]._r8hp){ MDEFS[k]._r8hp=true; MDEFS[k].hp=Math.round(MDEFS[k].hp*1.2*BOSS_HP_R9*BOSS_HP_R12); } }); })();
 // rigs: a pattern can pin a body frame (wind-up '2' / strike '3')
-(function(){ var an=MX.anim; MX.anim=function(A,mon,m,dt,dx){ an.apply(this,arguments); var R=mon.spr&&mon.spr._rig; if(R&&R.ff&&mon.spr.frame.name!==R.ff)mon.spr.setFrame(R.ff); }; })();
+(function(){ var an=MX.anim; MX.anim=function(A,mon,m,dt,dx){ an.apply(this,arguments); var R=mon.spr&&mon.spr._rig; if(R&&R.ff&&!mon._za&&mon.spr.frame.name!==R.ff)mon.spr.setFrame(R.ff); }; })();

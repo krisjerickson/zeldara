@@ -1333,6 +1333,7 @@ class DungeonScene extends Phaser.Scene{
   }
   _monsterDied(mon){
     if(mon.dead)return;mon.dead=true;
+    if(typeof ZAtlas!=='undefined')ZAtlas.died(this,mon);
     var ps=this.worldScene.playerState;
     ps.xp+=mon.def.xp;this._floatText(mon.x,mon.y-28,'+'+mon.def.xp+' XP','#88aaff');
     var g=mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1));

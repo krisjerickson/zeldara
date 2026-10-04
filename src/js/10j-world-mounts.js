@@ -65,7 +65,7 @@ Object.assign(WorldScene.prototype,{
         if(M.stuck>1.2){ var s=M.goal.call?this._mountSafeNear(p.x+30,p.y,6):this._mountSafeNear(M.goal.x,M.goal.y,6); if(s){ P.x=s.x; P.y=s.y; } M.stuck=0; if(!M.goal.call)M.goal=null; }
         moving=true; M.dir=Math.abs(dx)>Math.abs(dy)?(dx<0?'left':'right'):(dy<0?'up':'down'); } }
     var f; if(!moving)f=M.dir==='up'?6:M.dir==='down'?4:0; else if(M.dir==='left'||M.dir==='right')f=Math.floor(M.t*10)%4; else f=(M.dir==='up'?6:4)+Math.floor(M.t*6)%2;
-    M.spr.setFrame(String(f)).setFlipX(M.dir==='left').setPosition(P.x,P.y+4+(moving?0:Math.round(Math.sin(M.t*2))*0)).setDepth(WR_DEPTH(P.y)); M.sh.setPosition(P.x,P.y+2).setDepth(WR_DEPTH(P.y)-0.0005);
+    if(!(typeof ZAtlas!=='undefined'&&ZAtlas.simple(M.spr,'mt_'+M.id,[M.dir==='up'?'ride_back':M.dir==='down'?'ride_front':'ride_side'],'x',moving?M.t:0,M.dir==='left'||M.dir==='right'?10:6,false)))M.spr.setFrame(String(f)); M.spr.setFlipX(M.dir==='left').setPosition(P.x,P.y+4+(moving?0:Math.round(Math.sin(M.t*2))*0)).setDepth(WR_DEPTH(P.y)); M.sh.setPosition(P.x,P.y+2).setDepth(WR_DEPTH(P.y)-0.0005);
     // ride prompt
     var near=!moving&&Math.hypot(p.x-P.x,p.y-P.y)<MOUNT_RIDE_R;
     if(near&&!M.lbl){ M.lbl=domText(this,P.x,P.y-60,'[M] Ride your '+_mountName(P.id),{fontSize:'10px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); }
