@@ -203,6 +203,14 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 ## Open questions
 - None open. Kris is out for the evening of Oct 4; all generate commands are running on his PC.
 
+## Round 24 (Kris, Oct 4, late) — frames that carry a piece of the neighbouring pose
+- Kris: hero on sky eagle and on dragon (both heroes), dragon, sky eagle, bramble wolf and Surtvald the Lava Titan "did not tile correctly": a piece of the previous sprite shows in the next frame. Try shaped cuts on the current sheets first; find every sheet a single vertical cut could have damaged; re-roll only if that does not work.
+- Cause: the poses do not touch, but a wing or tail reaches over the neighbour's columns, so no straight vertical line separates them. 305 of 993 sheets had been cut that way ("valley").
+- Fix (intake v4, `tools/sprites/intake.py`): every connected shape of ink is found; big shapes are poses, small ones go to the pose they belong to; only poses that really touch are split, by a bending cut through the thinnest part. Tested in the cloud on the 8 named sheets: all clean, none needed a re-roll.
+- **Done (intake v7):** all 993 sheets re-cut on the PC, atlases repacked, game and Lab republished, committed. 372 sheets had overlapping poses (`sprites/out/recut.json`); 4 had poses that really touch and were split by a bending cut. No re-rolls needed; the two round-23 repaints were cutting faults. Details: changelog [258]–[261].
+- Waiting on Kris: look at the six named characters again (and anything else that still looks wrong); run `finish.ps1` for the 8 missing sheets.
+- Known and left as is: frames are centred by their outline box, so a body can shift a little between frames when a wing or weapon extends to one side.
+
 ## Round 23 (Kris, Oct 4, evening) — answers and tonight's work
 - Kris: "all commands are active and coming in. review and input all of these, and look for the ones that are missing, but only check after about 30 min as many sheets are coming in still."
 - Sprites in the game → **ANSWERED: yes, everything as it arrives.** Build the atlas loader; heroes, monsters, NPCs, mounts and bosses use painted frames where they exist; stand-ins stay as the fallback.

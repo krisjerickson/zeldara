@@ -33,7 +33,7 @@ MAX_CELL = 512       # no frame is stored larger than this
 PAGE = 2048          # atlas page size (safe on phones)
 PAD = 2
 PACK_V = 2           # raise to pack every atlas again
-INTAKE_V = 3         # raise when the cutting or sizing rules change: every sheet is then cut again on the next run
+INTAKE_V = 7         # raise when the cutting or sizing rules change: every sheet is then cut again on the next run
 # Sheets whose first pose is a standing pose are sized by it. Other sheets (a charge, a burrow, a death …) start with a
 # crouched, sunk or stretched pose, so they take the size of the character's standing sheet instead.
 STANDING = {'idle', 'still', 'float', 'model', 'ride_side', 'melee_sword', 'melee_axe', 'ranged_bow', 'ranged_xbow', 'magic_staff', 'war_stomp', 'blink', 'phantom', 'drink', 'talk', 'work', 'model_a', 'model_b', 'model_c'}
@@ -100,36 +100,191 @@ def drop_edge_slivers(sub):
         if (a == 0 or b == len(on)) and col[a:b].sum() < 0.05 * total: out[:, a:b] = False
     return out
 
+def label(mask):
+    """Connected shapes of a True/False picture (8-connected) → (label picture, 0 = empty; number of shapes). numpy only."""
+    h, w = mask.shape; lab = np.zeros((h, w), np.int32); parent = [0]
+    def find(x):
+        while parent[x] != x: parent[x] = parent[parent[x]]; x = parent[x]
+        return x
+    prev = []; rows_runs = []
+    for y in range(h):
+        row = mask[y]; d = np.diff(np.concatenate(([0], row.view(np.int8), [0]))); st = np.where(d == 1)[0]; en = np.where(d == -1)[0]; cur = []; pi = 0
+        for a, b in zip(st.tolist(), en.tolist()):
+            l = 0
+            while pi < len(prev) and prev[pi][1] < a: pi += 1                 # previous-row runs ending left of this run (touching diagonally counts)
+            k = pi
+            while k < len(prev) and prev[k][0] <= b:
+                r = find(prev[k][2])
+                if l == 0: l = r
+                elif r != l: parent[max(r, l)] = min(r, l); l = min(r, l)
+                k += 1
+            if l == 0: l = len(parent); parent.append(l)
+            cur.append((a, b, l))
+        rows_runs.append(cur); prev = cur
+    roots = {}; 
+    for y, cur in enumerate(rows_runs):
+        for a, b, l in cur:
+            r = find(l); lab[y, a:b] = roots.setdefault(r, len(roots) + 1)
+    return lab, len(roots)
+
+def seam(cost, axis, lo, hi, slope=3):
+    """The cheapest cut through `cost` (ink = 1) running along `axis` (0 = top to bottom) between positions lo..hi of the
+    other axis. The cut may drift up to `slope` px per step, so it bends around a wing or a tail. → (positions, ink cut)."""
+    c = cost if axis == 0 else cost.T; h = c.shape[0]; lo = max(0, lo); hi = min(c.shape[1], hi); win = c[:, lo:hi].astype(np.float32); wdt = win.shape[1]
+    centre = np.abs(np.arange(wdt) - wdt / 2.0) * 1e-4                       # among equal cuts prefer the middle
+    acc = np.empty_like(win); back = np.zeros(win.shape, np.int16); acc[0] = win[0] + centre
+    for y in range(1, h):
+        best = acc[y - 1].copy(); arg = np.zeros(wdt, np.int16)
+        for d in range(1, slope + 1):
+            for sgn in (-1, 1):
+                sh = np.full(wdt, np.inf, np.float32)
+                if sgn < 0: sh[d:] = acc[y - 1][:-d]
+                else: sh[:-d] = acc[y - 1][d:]
+                sh = sh + d * 1e-5; m = sh < best; best = np.where(m, sh, best); arg = np.where(m, sgn * d, arg)
+        acc[y] = win[y] + centre + best; back[y] = arg
+    x = int(np.argmin(acc[-1])); total = float(acc[-1][x]); path = np.empty(h, np.int32)
+    for y in range(h - 1, -1, -1): path[y] = x; x = x + int(back[y][x])
+    return path + lo, int(round(total))
+
 def find_poses(im, cols, rows, n):
-    """→ (boxes, mode, masks). Poses are found by the empty gaps between them; where poses touch, the cut goes through
-    the thinnest point near the even grid line ('valley') instead of straight down the grid line."""
-    a = np.asarray(im)[..., 3] > 24; h, w = a.shape; boxes = []; masks = []; mode = 'gaps'
-    ys = np.where(a.any(axis=1))[0]; xs = np.where(a.any(axis=0))[0]
-    if len(ys) == 0: return [None] * n, 'empty', []
-    rb = bands(a.sum(axis=1), rows, 2)
-    if rb is None: mode = 'valley'; rb = valley_cuts(a.sum(axis=1), rows, int(ys[0]), int(ys[-1]) + 1)
-    for r, (y0, y1) in enumerate(rb):
+    """→ (boxes, mode, masks, info). Each pose is cut out by its own outline, not by a straight line (round 24).
+    1. 'shapes': every connected shape of solid ink is found. If there are exactly n big ones of a plausible size they
+       are the poses.
+    2. 'grid': otherwise (two poses touch, or a body is made of separate pieces, or an effect is as big as a body) the
+       sheet's grid decides which pose a big shape belongs to (the cell holding most of it); a shape that fills two
+       cells is two touching poses and is split by a bending cut through its thinnest part near the grid line.
+    Small shapes (sparks, dust, shards) go to the pose in whose cell they sit, unless they hug another pose. Faint glow
+    is handed out last, growing outward from each pose. A wing or tail that reaches over the neighbour stays with its owner.
+    info: touch = solid pixels cut through, overlap = a straight cut would have failed, dropped = stray marks removed."""
+    alpha = np.asarray(im)[..., 3]; a = alpha > 120; h, w = a.shape
+    if not a.any(): return [None] * n, 'empty', [], {}
+    cw, ch = w / float(cols), h / float(rows); lab, nl = label(a)
+    area = np.bincount(lab.ravel(), minlength=nl + 1).astype(np.int64); area[0] = 0; expect = area.sum() / float(n)
+    ys, xs = np.nonzero(lab); ll = lab[ys, xs]; order = np.argsort(ll, kind='stable'); ys = ys[order]; xs = xs[order]; ll = ll[order]
+    start = np.searchsorted(ll, np.arange(1, nl + 2))
+    def pix(i): return ys[start[i - 1]:start[i]], xs[start[i - 1]:start[i]]
+    # the grid: full rows use the sheet's even columns; a short last row (3 poses on a 4-column sheet) is usually centred
+    # or spread out, so its columns are its own ink extent divided evenly
+    rowof = np.minimum(rows - 1, (ys / ch).astype(np.int64)); x_left = [0.0] * rows; x_cw = [cw] * rows
+    for r in range(rows):
         k = min(cols, n - r * cols)
-        if k <= 0: break
-        band = a[y0:y1]; prof = band.sum(axis=0); cb = bands(prof, k, 2); cut = False
-        if cb is None:
-            mode = 'valley'; cut = True; bx = np.where(band.any(axis=0))[0]
-            if len(bx) == 0: boxes.extend([None] * k); masks.extend([None] * k); continue
-            cb = valley_cuts(prof, k, int(bx[0]), int(bx[-1]) + 1)
-        for (x0, x1) in cb:
-            sub = a[y0:y1, x0:x1]
-            if cut: sub = drop_edge_slivers(sub)
-            yy = np.where(sub.any(axis=1))[0]; xx = np.where(sub.any(axis=0))[0]
-            if len(yy) == 0: boxes.append(None); masks.append(None); continue
-            boxes.append((x0 + xx[0], y0 + yy[0], x0 + xx[-1] + 1, y0 + yy[-1] + 1))
-            masks.append(sub[yy[0]:yy[-1] + 1, xx[0]:xx[-1] + 1] if cut else None)
-    return boxes, mode, masks
+        if 0 < k < cols:
+            rx = xs[rowof == r]
+            if len(rx): x_left[r] = float(rx.min()); x_cw[r] = max(1.0, (float(rx.max()) + 1 - x_left[r]) / k)
+    xl = np.array(x_left)[rowof]; xw = np.array(x_cw)[rowof]; kk = np.array([max(1, min(cols, n - r * cols)) for r in range(rows)])[rowof]
+    cell_of_px = rowof * cols + np.minimum(kk - 1, np.maximum(0, ((xs - xl) / xw).astype(np.int64)))
+    ink = np.bincount(ll.astype(np.int64) * (rows * cols) + cell_of_px, minlength=(nl + 1) * rows * cols).reshape(nl + 1, rows * cols)
+    big = [i for i in range(1, nl + 1) if area[i] >= 0.25 * expect]
+    pose = np.zeros(nl + 1, np.int32)                 # shape → pose number (1..n); 0 = not decided
+    own = np.zeros((h, w), np.int16); touch = 0; mode = 'shapes'
+    onepercell = len(big) == n and sorted(int(np.argmax(ink[i])) for i in big) == list(range(n))     # one body in every grid cell
+    if len(big) == n and all(0.3 * expect <= area[i] <= 1.9 * expect for i in big) and onepercell:
+        cy = {i: pix(i)[0].mean() for i in big}; cx = {i: pix(i)[1].mean() for i in big}
+        byrow = sorted(big, key=lambda i: cy[i]); seq = []
+        for r in range(rows):
+            k = min(cols, n - r * cols)
+            if k > 0: seq += sorted(byrow[r * cols:r * cols + k], key=lambda i: cx[i])
+        for k, i in enumerate(seq): pose[i] = k + 1
+    else:
+        mode = 'grid'
+        for i in sorted(big, key=lambda i: -area[i]):
+            occ = [c for c in range(n) if ink[i][c] >= 0.3 * expect]
+            if len(occ) < 2 or area[i] < 1.5 * expect:
+                c = int(np.argmax(ink[i][:n])); pose[i] = c + 1; continue
+            # two or more poses in one shape: cut it along the grid lines between the cells it fills
+            mode = 'grid+seam'; py, px = pix(i); x0, y0, x1, y1 = int(px.min()), int(py.min()), int(px.max()) + 1, int(py.max()) + 1
+            m = np.zeros((y1 - y0, x1 - x0), bool); m[py - y0, px - x0] = True
+            def cut(mask, axis, at, span):            # → (part before the cut, part after)
+                nonlocal touch
+                lo = int(max(1, at - 0.3 * span)); hi = int(min(mask.shape[1 - axis] - 1, at + 0.3 * span))
+                if hi - lo < 2: return mask, np.zeros_like(mask)
+                path, cost = seam(mask, axis, lo, hi); touch += cost
+                grid = np.arange(mask.shape[1])[None, :] if axis == 0 else np.arange(mask.shape[0])[:, None]
+                first = mask & ((grid < path[:, None]) if axis == 0 else (grid < path[None, :]))
+                return first, mask & ~first
+            rws = sorted(set(c // cols for c in occ)); rest = m; parts = {}
+            for t, r in enumerate(rws):
+                if t + 1 < len(rws): top, rest = cut(rest, 1, (r + rws[t + 1] + 1) / 2.0 * ch - y0, ch)
+                else: top = rest
+                cs = sorted(c % cols for c in occ if c // cols == r); rem = top
+                for u, c in enumerate(cs):
+                    if u + 1 < len(cs): left, rem = cut(rem, 0, x_left[r] + (c + cs[u + 1] + 1) / 2.0 * x_cw[r] - x0, x_cw[r])
+                    else: left = rem
+                    parts[r * cols + c] = left
+            sub = own[y0:y1, x0:x1]
+            for c, pm in parts.items(): sub[pm] = c + 1
+            pose[i] = -1                               # its pixels are already owned
+        have = set(int(v) for v in pose[big] if v > 0) | set(int(v) for v in np.unique(own) if v > 0)
+        if len(have) < n:                              # a cell without a body: the sheet is not laid out on its grid
+            if len(big) >= n and mode == 'grid':       # → take the n largest shapes in reading order instead
+                top = sorted(big, key=lambda i: -area[i])[:n]; cy = {i: pix(i)[0].mean() for i in top}; cx = {i: pix(i)[1].mean() for i in top}
+                byrow = sorted(top, key=lambda i: cy[i]); seq = []; pose[:] = 0; mode = 'largest'
+                for r in range(rows):
+                    k = min(cols, n - r * cols)
+                    if k > 0: seq += sorted(byrow[r * cols:r * cols + k], key=lambda i: cx[i])
+                for k, i in enumerate(seq): pose[i] = k + 1
+            else: return [None] * n, 'found %d' % len(have), [], {}
+    decided = pose > 0
+    own = np.where(own > 0, own, np.where(decided[lab], pose[lab], 0)).astype(np.int16)
+    # small shapes: the pose in whose cell they sit, unless they hug another pose; far from everything → dropped
+    edge = {}; centre = {}; box = {}
+    for k in range(n):
+        py, px = np.nonzero(own == k + 1)
+        if len(py) == 0: return [None] * n, 'found %d' % k, [], {}
+        stp = max(1, len(py) // 2500); edge[k] = (px[::stp], py[::stp]); box[k] = (px.min(), py.min(), px.max() + 1, py.max() + 1)
+        centre[k] = (x_left[k // cols] + (k % cols + 0.5) * x_cw[k // cols], (k // cols + 0.5) * ch) if mode.startswith('grid') else (px.mean(), py.mean())
+    dropped = 0; small_owner = np.zeros(nl + 1, np.int16)
+    for i in range(1, nl + 1):
+        if pose[i] != 0 or area[i] == 0: continue
+        fy, fx = pix(i); bx0, by0, bx1, by1 = fx.min(), fy.min(), fx.max() + 1, fy.max() + 1; cx, cy = fx.mean(), fy.mean()
+        stp = max(1, len(fx) // 150); fx = fx[::stp]; fy = fy[::stp]; dist = []
+        for k in range(n):
+            ex0, ey0, ex1, ey1 = box[k]; gap = max(bx0 - ex1, ex0 - bx1, by0 - ey1, ey0 - by1, 0)
+            if gap > 0.8 * max(cw, ch): dist.append(1e9); continue
+            ex, ey = edge[k]; d2 = (fx[:, None] - ex[None, :]) ** 2 + (fy[:, None] - ey[None, :]) ** 2; dist.append(float(np.sqrt(d2.min())))
+        near = int(np.argmin(dist)); home = int(np.argmin([abs(cx - centre[k][0]) / cw + abs(cy - centre[k][1]) / ch for k in range(n)]))
+        pick = home if dist[home] < 1e8 and not (dist[near] <= 6 and dist[near] * 3 <= dist[home]) else near
+        if dist[pick] > 0.8 * max(cw, ch): small_owner[i] = -1; dropped += 1
+        else: small_owner[i] = pick + 1
+    own = np.where(own != 0, own, small_owner[lab]).astype(np.int16)
+    # soft pixels (glow, halo, anti-aliased edge) go to the pose they are attached to: ownership grows outward step by step
+    soft = (alpha > 8) & (own == 0)
+    for _ in range(140):
+        if not soft.any(): break
+        new = np.zeros_like(own)
+        for sh in range(4):
+            nb = np.zeros_like(own)
+            if sh == 0: nb[1:] = own[:-1]
+            elif sh == 1: nb[:-1] = own[1:]
+            elif sh == 2: nb[:, 1:] = own[:, :-1]
+            else: nb[:, :-1] = own[:, 1:]
+            new = np.where((new == 0) & (nb > 0), nb, new)
+        take = soft & (new > 0)
+        if not take.any(): break
+        own[take] = new[take]; soft &= ~take
+    own[own < 0] = 0
+    boxes = []; masks = []; overlap = False; spans = []; solid = []
+    for k in range(n):
+        m = own == k + 1; yy = np.where(m.any(axis=1))[0]; xx = np.where(m.any(axis=0))[0]
+        if len(yy) == 0: boxes.append(None); masks.append(None); continue
+        x0, y0, x1, y1 = int(xx[0]), int(yy[0]), int(xx[-1]) + 1, int(yy[-1]) + 1
+        boxes.append((x0, y0, x1, y1)); masks.append(m[y0:y1, x0:x1]); spans.append((k, x0, y0, x1, y1)); solid.append(int((m & a).sum()))
+    for r in range(rows):                                           # would a straight cut have failed?
+        rowp = [sp for sp in spans if r * cols <= sp[0] < (r + 1) * cols]
+        for u in range(len(rowp) - 1):
+            if rowp[u][3] > rowp[u + 1][1]: overlap = True
+        if r + 1 < rows:
+            nx = [sp for sp in spans if (r + 1) * cols <= sp[0] < (r + 2) * cols]
+            if rowp and nx and max(sp[4] for sp in rowp) > min(sp[2] for sp in nx): overlap = True
+    med = sorted(solid)[len(solid) // 2] if solid else 0
+    return boxes, mode, masks, {'touch': int(touch), 'overlap': bool(overlap), 'dropped': int(dropped),
+                                'odd': [k + 1 for k, v in enumerate(solid) if med and (v < 0.2 * med or v > 3.2 * med)] if len(solid) == n else []}
 
 def process(q, report=False, refs=None):
     refs = refs if refs is not None else {}
     src = os.path.join(IN, q['id'] + '.png'); im, note = cut_background(Image.open(src))
     if im is None: return {'id': q['id'], 'ok': False, 'why': note}
-    boxes, mode, masks = find_poses(im, q['cols'], q['rows'], len(q['poses']))
+    boxes, mode, masks, info = find_poses(im, q['cols'], q['rows'], len(q['poses']))
     if len(boxes) != len(q['poses']) or any(b is None for b in boxes):
         return {'id': q['id'], 'ok': False, 'why': 'found %d of %d poses' % (sum(1 for b in boxes if b), len(q['poses']))}
     # scale: the first standing pose sets the character's height
@@ -171,9 +326,9 @@ def process(q, report=False, refs=None):
         pk = min(1.0, 132.0 / ch); pcw, pch = max(1, round(cw * pk)), max(1, round(ch * pk))
         sd = os.path.join(OUT, 'strips'); os.makedirs(sd, exist_ok=True)
         strip.resize((pcw * len(frames), pch), Image.LANCZOS).save(os.path.join(sd, q['id'] + '.png'))
-        json.dump({'id': q['id'], 'cell': [pcw, pch], 'full': [cw, ch], 'n': len(frames), 'names': [f[0] for f in frames], 'bg': note, 'split': mode, 'sized': sized, 'v': INTAKE_V, 'group': q['group'], 'wave': wave,
+        json.dump({'id': q['id'], 'cell': [pcw, pch], 'full': [cw, ch], 'n': len(frames), 'names': [f[0] for f in frames], 'bg': note, 'split': mode, 'touch': info.get('touch', 0), 'overlap': info.get('overlap', False), 'odd': info.get('odd', []), 'dropped': info.get('dropped', 0), 'sized': sized, 'v': INTAKE_V, 'group': q['group'], 'wave': wave,
                    'src_mtime': os.path.getmtime(src)}, open(os.path.join(sd, q['id'] + '.json'), 'w'))
-    return {'id': q['id'], 'ok': True, 'bg': note, 'split': mode, 'cell': [cw, ch], 'frames': frames, 'group': q['group'], 'wave': wave}
+    return {'id': q['id'], 'ok': True, 'bg': note, 'split': mode, 'touch': info.get('touch', 0), 'overlap': info.get('overlap', False), 'cell': [cw, ch], 'frames': frames, 'group': q['group'], 'wave': wave}
 
 def preview_pages(waves=None):
     """sprites/preview/w<wave>-<n>.webp + index.json: every sheet's frame strip packed into pages per wave (committed; the Lab loads them)."""
@@ -324,7 +479,8 @@ def main():
             if r['ok']: old.pop(r['id'], None)
             else: old[r['id']] = r['why']
         json.dump(old, open(bad, 'w'), indent=1)
-    if not report and waves: preview_pages(waves); print('preview pages updated for wave(s): ' + ', '.join(sorted(waves)))
+    if '--preview' in sys.argv: preview_pages(); print('preview pages rebuilt for every wave')            # after batches run with --no-preview
+    elif not report and waves and '--no-preview' not in sys.argv: preview_pages(waves); print('preview pages updated for wave(s): ' + ', '.join(sorted(waves)))
     if '--atlas' in sys.argv:
         idx = pack(next((int(a.split('=')[1]) for a in sys.argv if a.startswith('--budget=')), 140))
         print('atlases: %d pages, %d characters' % (len(idx), len(set(c for v in idx.values() for c in v))))

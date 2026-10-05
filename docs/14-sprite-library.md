@@ -145,13 +145,13 @@ $env:OPENAI_API_KEY = "sk-..."
 
 ```
 python tools/sprites/intake.py --check                  # lists what is missing or looks wrong, and prints the two commands below filled in
-node tools/sprites/generate.mjs --wave 1,2              # sends only what is missing in those waves (new 6-frame hero walk, 2 failed sheets)
-node tools/sprites/generate.mjs --force --ids bloodgnats.core.q,petal_witch.core.s   # paints these again (old file kept as .prev.png)
+node tools/sprites/generate.mjs --wave 1,2              # sends only what is missing in those waves (new 6-frame hero walk, 2 failed sheets); or run tools\sprites\finish.ps1
 git push origin main                                     # after Claude has committed
 ```
 
 Rules of thumb:
 
+- **How frames are cut (round 24):** each pose is cut out by its own outline, so a wing or tail that reaches over the neighbour stays with its owner; only poses that really touch are split, by a bending cut. `sprites/out/recut.json` lists the sheets where a straight cut would have failed.
 - **One command per set of sheets.** A sheet already in `sprites/incoming/` is skipped, so running a command again only sends what is missing.
 - On Oct 4 the per-wave commands and the "everything in one go" command ran side by side and painted many sheets twice ([251]). The script now checks again right before sending and marks the sheet it is working on, so two terminals share a list without repeating. Still, there is no need for more than one terminal: `--concurrency 4` in one window is as fast.
 - `--dry-run` shows what a command would send. `--force` repaints sheets that exist.
