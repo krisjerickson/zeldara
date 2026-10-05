@@ -6,6 +6,7 @@ var game=new Phaser.Game(ZENG.config({
   scale:{mode:Phaser.Scale.RESIZE,parent:document.getElementById('phaser-root'),width:'100%',height:'100%'},
   render:{antialias:false},
 }));
+if(typeof ZAtlas!=='undefined')ZAtlas.start(game);   // painted sprites: the sweeper that dresses anything still wearing a pixel sprite (04f)
 
 // Keyboard shortcuts: see 24-pause-input.js (one global handler for every scene).
 

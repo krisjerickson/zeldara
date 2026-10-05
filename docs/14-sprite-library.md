@@ -175,17 +175,15 @@ Rules of thumb:
 | 7.5 | Volcano bosses | 24 (13) |
 | 8 | Vehicles | 4 (4) |
 
-## Atlases and the game (built in round 23)
+## Atlases and the game (rounds 23 to 26)
 
-- Frame names: `<character>/<anim>/<facing>/<n>` (for example `hero_m/walk/s/2`, `meadow_goblin/melee/s/1`). Facings: `s` side, `f` front, `b` back, `q` three-quarter view (mirrored), `x` no facing. Feet are at the bottom centre of every cell.
-- Size: a standing 1.0-scale character is 112 px tall in the atlas (`HERO_PX`). In the game one factor applies to everybody: 112 px shows 63 px tall (1.5 × the old 42 px hero, Kris's choice). No frame is stored larger than 512 px.
-- Files: `assets/atlas/<name>-<n>.webp` (2048 px wide pages, WebP quality 85) and `assets/atlas/index.json`: `pages`, `chars` (`h0` = standing height, `pages`), `frames` (`[page, x, y, w, h, cellW, cellH, offX, offY]`, trimmed). Names: `heroes`, `mounts`, `village`, `companions`, `mon-w<wave>`, `boss-w<wave>`.
-- Packing: `python tools/sprites/intake.py --limit=0 --atlas --budget=60` on the PC, repeated until it no longer prints "NOT FINISHED". Only atlases whose frames changed are packed again.
+- Frame names: `<character>/<anim>/<facing>/<n>`. Facings: `s` side, `f` front, `b` back, `q` three-quarter view (mirrored), `x` no facing.
+- Cutting (round 24): each pose by its own outline. Sizing (round 26): each pose by its **body**; every sheet and pose of a character shows the same body size; frames are anchored at the body's feet. Details and the audit: `claude/15-sprite-size-audit.md`.
+- Files: `assets/atlas/<name>-<n>.webp` (2048 px wide pages, WebP quality 85), `thumbs.webp` (one 72 px picture per character) and `index.json`: `pages`, `chars` (`h0` body height, `a0` √ink area, `pages`), `frames` (`[page, x, y, w, h, cell, cell, offX, offY]`; the cell is a square of the body height with the feet at its bottom centre; ink may reach outside), `thumbs`, `thumb`. Names: `heroes`, `mounts`, `village`, `companions`, `mon-w<wave>`, `boss-w<wave>`. 74 pages, 101 MB.
+- On the PC: `python tools/sprites/intake.py --limit=100 --no-preview` until nothing is left, `--preview`, `--limit=0 --atlas --budget=60` until it no longer prints "NOT FINISHED", `--check`. A cut-off run loses nothing (sizes are saved every 10 sheets).
+- Sizes in the game: `ZAtlas.kPix` / `kHeight` / `RIDE_H` / `MOUNT_H` / `ANIMAL_H` (`src/js/04f-atlas.js`); `python tools/sprites/sizes.py` lists them (`sprites/requests/sizes.json`); `sprites/requests/atlas_px.json` tells the intake how tall to store a character the game draws much larger or smaller than the survey guessed.
 - The build puts the index into the game page (`ZATLAS_META`) and copies the pages to `dist/play*/assets/atlas/`. The hosted game loads them from `/assets/atlas/`; the artifact carries them as attached files.
-- `ZAtlas` (`src/js/04f-atlas.js`) loads a page the first time a character on it is needed and keeps the stand-in until then. Anything without painted frames keeps its stand-in, so sheets can arrive in any order. Dev panel → "Painted sprites" or `?sprites=0` turns them off.
-- What uses painted frames now: both heroes (all weapons, block, skills, spells, riding), all monsters with sheets (world and dungeons), village folk and keepers, familiars, fairies, monarchs, the parked mount. Not yet: bosses, animals, vehicles.
-- Size on disk: 93 pages, 123 MB. 70 of them are boss pages (86 MB) that the game does not use yet; they are in `.gitignore` and stay on the PC. The 23 pages in use are 37 MB.
-- Memory: a loaded page is up to 16 MB of graphics memory. A region's monsters are on 4–5 pages, so a session holds roughly 8–10 pages. Pages are not unloaded yet when leaving a region. To shrink: lower `HERO_PX` (96 would save about a quarter) or the WebP quality, then pack again with a higher `PACK_V`.
+- `ZAtlas` loads a page the first time a character on it is needed, hides the character until then, and keeps at most 14 pages. Everything is painted: heroes, monsters, bosses, village folk, mounts and riders, familiars, fairies, animals, the sky skiff, the Tome pictures. Pixel sprites show only if a page fails to load, in the Lab, or with Dev panel → "Painted sprites" off (`?sprites=0`).
 
 ## Not included
 

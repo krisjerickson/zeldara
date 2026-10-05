@@ -63,8 +63,8 @@ var CHX={
     if(p._zrode){ p._zrode=false; sp.setY(14); if(p._mtShadow&&p._mtShadow.setScale)p._mtShadow.setScale(1); }
     if(!R){ if(p.mountSpr&&p.mountSpr.visible){ p.mountSpr.setVisible(false); if(p.mountHead)p.mountHead.setVisible(false); sp.setY(14); sp.setCrop(); if(p._mtShadow)p._mtShadow.setScale(1); } return false; }
     var mk=CHX.tex(scene,R);
-    if(!p.mountSpr||!p.mountSpr.scene){ p.mountSpr=scene.add.image(0,16,mk,'0').setOrigin(0.5,1).setScale(CHX.MOUNT_SC); p.mountSpr._manual=true; p.cont.addAt(p.mountSpr,p.cont.getIndex(sp)); p._mtShadow=p.cont.list[0];
-      p.mountHead=scene.add.image(0,16,mk,'8').setOrigin(0.5,1).setScale(CHX.MOUNT_SC).setVisible(false); p.cont.addAt(p.mountHead,p.cont.getIndex(sp)+1); }
+    if(!p.mountSpr||!p.mountSpr.scene){ p.mountSpr=scene.add.image(0,16,mk,'0').setOrigin(0.5,1).setScale(CHX.MOUNT_SC); p.mountSpr._manual=true; p.mountSpr._zm=true; p.cont.addAt(p.mountSpr,p.cont.getIndex(sp)); p._mtShadow=p.cont.list[0];
+      p.mountHead=scene.add.image(0,16,mk,'8').setOrigin(0.5,1).setScale(CHX.MOUNT_SC).setVisible(false); p.mountHead._zm=true; p.cont.addAt(p.mountHead,p.cont.getIndex(sp)+1); }
     if(p.mountSpr.texture.key!==mk){ p.mountSpr.setTexture(mk,'0'); p.mountHead.setTexture(mk,'8'); }
     p.mountSpr.setVisible(true); if(p._mtShadow&&p._mtShadow.setScale)p._mtShadow.setScale(1.9,1.4);
     p._mtT=(p._mtT||0)+dt*(moving?1:0.25); var d=p.dir, f, front=false, ph=moving?Math.floor(p._mtT*6)%2:0;

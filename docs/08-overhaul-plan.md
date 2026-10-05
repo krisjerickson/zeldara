@@ -201,7 +201,19 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
-- None open. Kris is out for the evening of Oct 4; all generate commands are running on his PC.
+- None open.
+
+## Round 26 (Kris, Oct 5) — request
+- Kris: sizes are not balanced (too large or too small; the hero riding the horse is too big); a monster can change size between movements or during an attack; some movements fall back to the pixel sprite. Remove all pixel sprites and choose the best painted animation instead. Wire up everything remaining. Bosses must keep the same body size even when an attack (a swinging sword) makes the picture larger.
+- Size basis → **ANSWERED: match the game.** Each character's body is 1.5 × the body of its old pixel sprite (follows the hitboxes). Bosses, monsters, mounts, animals alike.
+- Pixel sprites → **ANSWERED: never shown in play.** Always a painted frame (best match when the exact one is missing). Pixel code stays only as an emergency fallback when picture files fail to load, and for the Lab.
+- Bosses → **ANSWERED: painted replaces all.** Back layers and following pupils go; hover, heavy footsteps, camera shake, teleport fade stay.
+- Pose size → **ANSWERED: same body size always.** Every pose scaled so the body matches; poses meant to be smaller (burrowed, curled up, lying dead) are left alone.
+- **Done:** changelog [264]–[272]; audit in `claude/15-sprite-size-audit.md`.
+- Assumptions Claude made (not asked): riders and mounts are the one exception to "match the game" (rider + mount 1.3 × the hero, lone mount 1.05 ×), because Kris named the hero on the horse as too big and the rule alone would have made riders larger; size follows height first, ink area only as an 18% nudge (glows and wings distort area); `tc_sprint` borrows the Roll teacher's frames until its sheet exists; the painted boat is unused.
+- Waiting on Kris: look at the sizes in play (bosses and fairy monarchs are large because they keep their old proportion to the hero; riders are the chosen exception); run `finish.ps1` for the Sprint teacher's sheet.
+- Findings before asking: frames are sized by the outline box of a sheet's first pose and other sheets assume the painter kept the same scale (not true); frames are centred by their outline box, so a body shifts and shrinks when a weapon or effect extends. Plan: measure each pose's body (the solid core without thin weapons, arcs and sparks), scale every sheet and pose by its body, and anchor every frame at the body's feet. Riders: the rider's body is sized like the hero on foot. Only `tc_sprint` has no painted sheet.
+
 
 ## Round 25 (Kris, Oct 5)
 - Kris: "final sheets are in"; then: fix the boy / girl choice at the start (girl's picture not the new sprite, squares uneven, text under each should be a mini back story, "just a simple sentence fragment is good").

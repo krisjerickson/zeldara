@@ -76,6 +76,7 @@ at ~3–13 fps and with smoothing on, game time runs 5–20× slower than real t
 - Round 15: `test_round15.py` (shot pictures, plaza logo size, start position). Do not zoom the world camera out in a headless test: the software renderer then takes minutes per frame.
 - Round 18: `test_round18.py` (engine switch, hero choice and stand-in, sprite manifest, hero mapping, Lab Sprite Library; 30 checks). Run it twice: plain, and with `ZELDARA_ENGINE=4`.
 - Round 23: `test_round23.py` (painted sprites: atlas index, hero in four directions, attack, monsters, village folk, riding, off switch; 17 checks, both engines). Needs `assets/atlas/`. All other suites run with painted sprites off (`game(painted=False)` in `harness.py`), so they keep testing the stand-ins.
+- Round 26: `test_round26.py` (sizes by body, anchors, bosses, animals, no pixel sprite near the hero, riding, Tome; 16 checks). `python tools/sprites/sizes.py` rewrites `sprites/requests/sizes.json` (every character's size on screen).
 - Dev panel → "Painted sprites: on/off" (or `?sprites=0`) switches between painted frames and stand-ins; remembered per device.
 - Any suite on Phaser 4: `ZELDARA_ENGINE=4 python tests/<suite>.py` (needs `tests/.phaser4/`: `cd tests && mkdir .phaser4 && cd .phaser4 && npm pack phaser@4.2.1 && tar xzf phaser-4.2.1.tgz`).
 - Benchmarks: `tests/bench/engine_bench.py` (draw calls and frame work in the village) and `tests/bench/sprite_bench.py` (separate textures vs one atlas); set `PHASER_JS` to the engine file.

@@ -169,6 +169,7 @@ class SkyScene extends Phaser.Scene{
     this.px=Phaser.Math.Clamp(this.px+vx*dt,20,this.W-20);
     this.py=Phaser.Math.Clamp(this.py+vy*dt,this.H*0.3,this.H*0.85);
     this.plCont.setPosition(this.px,this.py);
+    if(typeof ZAtlas!=='undefined'){ try{ ZAtlas.vehicle(this,this.plCont,'veh_'+((this.ps&&this.ps.hero)==='f'?'f':'m')+'_sky_ship',40,!!(vx||vy),this.bulletCd>0.05,dt); }catch(e){} }   // painted sky skiff (04f)
 
     // ── Shoot ────────────────────────────────────────────────────────────────
     if(Phaser.Input.Keyboard.JustDown(k.SPACE)&&this.bulletCd<=0){

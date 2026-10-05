@@ -1,0 +1,1746 @@
+{
+"animal_ash_crow": {
+"h": 16,
+"k": 0.3571
+},
+"animal_ash_titan": {
+"h": 55,
+"k": 0.5813
+},
+"animal_boar": {
+"h": 44,
+"k": 0.3903
+},
+"animal_butterfly": {
+"h": 14,
+"k": 0.3616
+},
+"animal_cave_bear": {
+"h": 49,
+"k": 0.5925
+},
+"animal_crocodile": {
+"h": 49,
+"k": 0.5925
+},
+"animal_deer": {
+"h": 38,
+"k": 0.5885
+},
+"animal_fire_imp_critter": {
+"h": 21,
+"k": 0.4643
+},
+"animal_frog": {
+"h": 14,
+"k": 0.3616
+},
+"animal_goat": {
+"h": 27,
+"k": 0.4078
+},
+"animal_heron": {
+"h": 32,
+"k": 0.4121
+},
+"animal_highland_ram": {
+"h": 41,
+"k": 0.3659
+},
+"animal_lava_wyrm": {
+"h": 44,
+"k": 0.3554
+},
+"animal_lizard": {
+"h": 11,
+"k": 0.2812
+},
+"animal_rabbit": {
+"h": 19,
+"k": 0.4821
+},
+"animal_swamp_bear": {
+"h": 49,
+"k": 0.5925
+},
+"apprentice_conjurer": {
+"h": 72,
+"k": 0.6456
+},
+"ash_crossbow": {
+"h": 70,
+"k": 0.6289
+},
+"ash_moths": {
+"h": 44,
+"k": 0.6565
+},
+"ash_oracle": {
+"h": 70,
+"k": 0.628
+},
+"ash_wraith": {
+"h": 73,
+"k": 0.594
+},
+"astronomer_lich": {
+"h": 70,
+"k": 0.6274
+},
+"aurora_spirit": {
+"h": 69,
+"k": 0.5589
+},
+"automaton_miner": {
+"h": 72,
+"k": 0.426
+},
+"barnacle_brute": {
+"h": 75,
+"k": 0.4483
+},
+"barrow_knight": {
+"h": 68,
+"k": 0.6092
+},
+"barrow_skeleton": {
+"h": 65,
+"k": 0.576
+},
+"basalt_golem": {
+"h": 82,
+"k": 0.4564
+},
+"bell_ringer": {
+"h": 70,
+"k": 0.5699
+},
+"bf_dark_warlock_2": {
+"h": 281,
+"k": 0.8789
+},
+"bf_drakeling": {
+"h": 116,
+"k": 0.609
+},
+"bf_forge_guardian": {
+"h": 167,
+"k": 0.5969
+},
+"bf_goblin_king_2": {
+"h": 257,
+"k": 0.8036
+},
+"bf_iron_sentinel_2": {
+"h": 257,
+"k": 0.8036
+},
+"bf_iron_sentinel_3": {
+"h": 329,
+"k": 1.0296
+},
+"bf_iron_sentinel_4": {
+"h": 362,
+"k": 1.13
+},
+"bf_lava_titan_2": {
+"h": 265,
+"k": 0.8287
+},
+"bf_lava_titan_3": {
+"h": 329,
+"k": 1.0296
+},
+"bf_lava_titan_4": {
+"h": 329,
+"k": 1.0296
+},
+"bf_lava_titan_5": {
+"h": 341,
+"k": 1.0647
+},
+"bf_rock_dragon_2": {
+"h": 241,
+"k": 0.7533
+},
+"bf_rock_dragon_3": {
+"h": 337,
+"k": 1.0547
+},
+"bf_rock_dragon_4": {
+"h": 410,
+"k": 1.2807
+},
+"bf_shadow_lord_2": {
+"h": 273,
+"k": 0.8538
+},
+"bf_shadow_lord_3": {
+"h": 321,
+"k": 1.0045
+},
+"bf_shadow_lord_4": {
+"h": 402,
+"k": 1.2556
+},
+"bf_shadow_lord_5": {
+"h": 392,
+"k": 1.2254
+},
+"bf_shadow_twin": {
+"h": 206,
+"k": 0.6429
+},
+"bf_storm_mage_2": {
+"h": 251,
+"k": 0.7835
+},
+"bf_storm_mage_3": {
+"h": 370,
+"k": 1.1551
+},
+"bf_swamp_witch_2": {
+"h": 254,
+"k": 0.7935
+},
+"bf_swamp_witch_3": {
+"h": 305,
+"k": 0.9542
+},
+"blizzard_witch": {
+"h": 71,
+"k": 0.6313
+},
+"bloodgnats": {
+"h": 44,
+"k": 0.6565
+},
+"blowgun_goblin": {
+"h": 64,
+"k": 0.5753
+},
+"boarling": {
+"h": 30,
+"k": 0.5428
+},
+"bog_hydra": {
+"h": 59,
+"k": 0.5289
+},
+"bog_serpent": {
+"h": 59,
+"k": 0.5264
+},
+"bone_ballista": {
+"h": 68,
+"k": 0.4061
+},
+"bone_hound": {
+"h": 55,
+"k": 0.491
+},
+"bone_revenant": {
+"h": 72,
+"k": 0.6391
+},
+"bonepit_ghoul": {
+"h": 56,
+"k": 0.5029
+},
+"boss_dark_warlock": {
+"h": 193,
+"k": 0.6027
+},
+"boss_goblin_king": {
+"h": 199,
+"k": 0.6228
+},
+"boss_iron_sentinel": {
+"h": 199,
+"k": 0.6228
+},
+"boss_isl_1": {
+"h": 249,
+"k": 0.7785
+},
+"boss_isl_2": {
+"h": 265,
+"k": 0.8287
+},
+"boss_isl_3": {
+"h": 265,
+"k": 0.8287
+},
+"boss_isl_4": {
+"h": 257,
+"k": 0.8036
+},
+"boss_lava_titan": {
+"h": 209,
+"k": 0.6529
+},
+"boss_rock_dragon": {
+"h": 193,
+"k": 0.6027
+},
+"boss_shadow_lord": {
+"h": 202,
+"k": 0.6328
+},
+"boss_storm_mage": {
+"h": 190,
+"k": 0.604
+},
+"boss_swamp_witch": {
+"h": 174,
+"k": 0.5965
+},
+"boss_volcano_lord": {
+"h": 402,
+"k": 1.2556
+},
+"boss_vr_ashen_knight": {
+"h": 254,
+"k": 0.7935
+},
+"boss_vr_cinder_phoenix": {
+"h": 241,
+"k": 0.7533
+},
+"boss_vr_ember_wraith": {
+"h": 233,
+"k": 0.7282
+},
+"boss_vr_inferno_wraith": {
+"h": 281,
+"k": 0.8789
+},
+"boss_vr_lava_wyrm": {
+"h": 257,
+"k": 0.8036
+},
+"boss_vr_magma_spitter": {
+"h": 241,
+"k": 0.7533
+},
+"boss_vr_obsidian_golem": {
+"h": 249,
+"k": 0.7785
+},
+"boss_vr_pyrokraken": {
+"h": 273,
+"k": 0.8538
+},
+"boulder_goblin": {
+"h": 62,
+"k": 0.5564
+},
+"bramble_wolf": {
+"h": 60,
+"k": 0.5373
+},
+"brimstone_eye": {
+"h": 55,
+"k": 0.5871
+},
+"bristleback_bear": {
+"h": 58,
+"k": 0.5155
+},
+"bubble_crab": {
+"h": 49,
+"k": 0.6249
+},
+"bubble_siren": {
+"h": 67,
+"k": 0.6016
+},
+"bumble_knight": {
+"h": 60,
+"k": 0.5876
+},
+"candle_wraith": {
+"h": 59,
+"k": 0.5917
+},
+"capmaul": {
+"h": 89,
+"k": 0.5294
+},
+"cave_troll": {
+"h": 79,
+"k": 0.4713
+},
+"chain_warden": {
+"h": 80,
+"k": 0.478
+},
+"chained_gargoyle": {
+"h": 75,
+"k": 0.5837
+},
+"chainmaster": {
+"h": 69,
+"k": 0.6169
+},
+"charred_zombies": {
+"h": 68,
+"k": 0.6042
+},
+"chess_knight": {
+"h": 90,
+"k": 0.5875
+},
+"chess_rook": {
+"h": 86,
+"k": 0.587
+},
+"chessmaster": {
+"h": 71,
+"k": 0.5763
+},
+"chime_spirit": {
+"h": 56,
+"k": 0.5943
+},
+"cinder_hounds": {
+"h": 61,
+"k": 0.5437
+},
+"cinder_lich": {
+"h": 73,
+"k": 0.6476
+},
+"cinder_scorpion": {
+"h": 49,
+"k": 0.5963
+},
+"cinder_slinger": {
+"h": 64,
+"k": 0.5696
+},
+"clay_golemling": {
+"h": 79,
+"k": 0.4429
+},
+"cliff_harpy": {
+"h": 67,
+"k": 0.5907
+},
+"clockwork_owl": {
+"h": 68,
+"k": 0.5843
+},
+"cloud_sylph": {
+"h": 65,
+"k": 0.5316
+},
+"clover_slime": {
+"h": 42,
+"k": 0.5401
+},
+"coral_archer": {
+"h": 68,
+"k": 0.6114
+},
+"coral_enchantress": {
+"h": 67,
+"k": 0.596
+},
+"crafts_1": {
+"h": 67,
+"k": 0.5955
+},
+"crafts_2": {
+"h": 70,
+"k": 0.6216
+},
+"crafts_3": {
+"h": 66,
+"k": 0.5891
+},
+"crafts_4": {
+"h": 75,
+"k": 0.6685
+},
+"crag_ram": {
+"h": 61,
+"k": 0.5441
+},
+"craglings": {
+"h": 33,
+"k": 0.582
+},
+"crypt_crawler": {
+"h": 56,
+"k": 0.5906
+},
+"crystal_golemling": {
+"h": 85,
+"k": 0.4769
+},
+"crystal_resonator": {
+"h": 63,
+"k": 0.5908
+},
+"crystal_spider": {
+"h": 58,
+"k": 0.5717
+},
+"cw_bone_king": {
+"h": 260,
+"k": 0.8136
+},
+"cw_drowned_abbot": {
+"h": 241,
+"k": 0.7533
+},
+"cw_ember_priest": {
+"h": 249,
+"k": 0.7785
+},
+"cw_forge_thane": {
+"h": 206,
+"k": 0.6429
+},
+"cw_frost_queen": {
+"h": 244,
+"k": 0.7634
+},
+"cw_lotus_naga": {
+"h": 241,
+"k": 0.7533
+},
+"cw_mangrove_chief": {
+"h": 270,
+"k": 0.8438
+},
+"cw_mill_ogre": {
+"h": 265,
+"k": 0.8287
+},
+"cw_obsidian_jailer": {
+"h": 254,
+"k": 0.7935
+},
+"cw_roc_lord": {
+"h": 265,
+"k": 0.8287
+},
+"cw_sun_baron": {
+"h": 241,
+"k": 0.7533
+},
+"cw_thorn_knight": {
+"h": 238,
+"k": 0.7433
+},
+"dark_warlock": {
+"h": 72,
+"k": 0.6461
+},
+"dart_naga": {
+"h": 61,
+"k": 0.5477
+},
+"dawn_acolyte": {
+"h": 71,
+"k": 0.6322
+},
+"deep_mole": {
+"h": 71,
+"k": 0.4248
+},
+"dragon_priest": {
+"h": 68,
+"k": 0.6051
+},
+"drowned_guard": {
+"h": 70,
+"k": 0.6266
+},
+"dung_roller": {
+"h": 55,
+"k": 0.5802
+},
+"dustwing_moth": {
+"h": 53,
+"k": 0.5879
+},
+"dwarf_axeman": {
+"h": 64,
+"k": 0.5729
+},
+"dwarf_crossbow": {
+"h": 65,
+"k": 0.579
+},
+"echo_bat": {
+"h": 54,
+"k": 0.5903
+},
+"echo_phantom": {
+"h": 72,
+"k": 0.5827
+},
+"echo_sage": {
+"h": 69,
+"k": 0.6121
+},
+"eclipse_witch": {
+"h": 75,
+"k": 0.6672
+},
+"eel_turret": {
+"h": 46,
+"k": 0.4076
+},
+"elite_1": {
+"h": 212,
+"k": 0.6629
+},
+"elite_2": {
+"h": 233,
+"k": 0.7282
+},
+"elite_3": {
+"h": 238,
+"k": 0.7433
+},
+"elite_4": {
+"h": 225,
+"k": 0.7031
+},
+"ember_berserker": {
+"h": 69,
+"k": 0.6121
+},
+"ember_construct": {
+"h": 80,
+"k": 0.4486
+},
+"ember_mimic": {
+"h": 62,
+"k": 0.5889
+},
+"ember_sniper": {
+"h": 66,
+"k": 0.5931
+},
+"fae_enchantress": {
+"h": 69,
+"k": 0.6145
+},
+"fairy_ashmoth_queen": {
+"h": 103,
+"k": 0.5847
+},
+"fairy_aurora_dancer": {
+"h": 103,
+"k": 0.5869
+},
+"fairy_bumble_rider": {
+"h": 102,
+"k": 0.587
+},
+"fairy_cinder_orb": {
+"h": 94,
+"k": 0.588
+},
+"fairy_clover_pixie": {
+"h": 65,
+"k": 0.5878
+},
+"fairy_ember_newt_rider": {
+"h": 104,
+"k": 0.5876
+},
+"fairy_frog_prince_fae": {
+"h": 106,
+"k": 0.5841
+},
+"fairy_geode_sprite": {
+"h": 63,
+"k": 0.5878
+},
+"fairy_goat_rider": {
+"h": 114,
+"k": 0.5857
+},
+"fairy_jelly_drifter": {
+"h": 95,
+"k": 0.5851
+},
+"fairy_kingfisher_scout": {
+"h": 99,
+"k": 0.5902
+},
+"fairy_ladybug_knight": {
+"h": 94,
+"k": 0.5863
+},
+"fairy_lark_singer": {
+"h": 98,
+"k": 0.5874
+},
+"fairy_lotus_maiden": {
+"h": 102,
+"k": 0.5856
+},
+"fairy_obsidian_knight": {
+"h": 98,
+"k": 0.5848
+},
+"fairy_phoenix_pixie": {
+"h": 109,
+"k": 0.5894
+},
+"fairy_quartz_knight": {
+"h": 99,
+"k": 0.5903
+},
+"fairy_rain_sprite": {
+"h": 59,
+"k": 0.5904
+},
+"fairy_rune_pixie": {
+"h": 65,
+"k": 0.5948
+},
+"fairy_snow_owl_sage": {
+"h": 99,
+"k": 0.5844
+},
+"fam_earth": {
+"h": 87,
+"k": 0.5856
+},
+"fam_fire": {
+"h": 88,
+"k": 0.5841
+},
+"fam_grass": {
+"h": 89,
+"k": 0.5913
+},
+"fam_water": {
+"h": 71,
+"k": 0.5862
+},
+"fire_imp": {
+"h": 71,
+"k": 0.6327
+},
+"flame_djinn": {
+"h": 74,
+"k": 0.6014
+},
+"flame_kite": {
+"h": 66,
+"k": 0.5909
+},
+"flame_wisp": {
+"h": 54,
+"k": 0.5871
+},
+"floatrock_gargoyle": {
+"h": 64,
+"k": 0.589
+},
+"fog_phantom": {
+"h": 68,
+"k": 0.5539
+},
+"forge_artificer": {
+"h": 77,
+"k": 0.4561
+},
+"forge_automaton": {
+"h": 74,
+"k": 0.4392
+},
+"frost_archer": {
+"h": 72,
+"k": 0.6387
+},
+"frost_cantor": {
+"h": 71,
+"k": 0.6311
+},
+"frost_ghoul": {
+"h": 63,
+"k": 0.5636
+},
+"frost_lotus": {
+"h": 67,
+"k": 0.6005
+},
+"frost_wolf": {
+"h": 60,
+"k": 0.5358
+},
+"gale_roc": {
+"h": 66,
+"k": 0.5895
+},
+"gargoyle_sentry": {
+"h": 64,
+"k": 0.5887
+},
+"gator_raider": {
+"h": 62,
+"k": 0.5567
+},
+"geode_crab": {
+"h": 57,
+"k": 0.5906
+},
+"geode_spitter": {
+"h": 55,
+"k": 0.6151
+},
+"glacier_wyrm": {
+"h": 59,
+"k": 0.5271
+},
+"glass_blademaster": {
+"h": 70,
+"k": 0.6259
+},
+"glass_jelly": {
+"h": 50,
+"k": 0.5892
+},
+"glass_wyvern": {
+"h": 79,
+"k": 0.4152
+},
+"glowfrog": {
+"h": 45,
+"k": 0.5724
+},
+"glowworm": {
+"h": 66,
+"k": 0.5892
+},
+"glyph_scribe": {
+"h": 65,
+"k": 0.5826
+},
+"gnat_caller": {
+"h": 65,
+"k": 0.5839
+},
+"goblin_cutthroat": {
+"h": 67,
+"k": 0.5995
+},
+"goblin_slinger": {
+"h": 63,
+"k": 0.5661
+},
+"gravity_adept": {
+"h": 68,
+"k": 0.6044
+},
+"grimoire": {
+"h": 41,
+"k": 0.6162
+},
+"hailstone_imp": {
+"h": 69,
+"k": 0.6183
+},
+"harp_spectre": {
+"h": 71,
+"k": 0.5804
+},
+"harpoon_lizard": {
+"h": 63,
+"k": 0.5616
+},
+"harvest_mantis": {
+"h": 60,
+"k": 0.5913
+},
+"hedge_sprite": {
+"h": 54,
+"k": 0.5851
+},
+"hellhound": {
+"h": 61,
+"k": 0.5424
+},
+"hero_f": {
+"h": 63,
+"k": 0.5625
+},
+"hero_m": {
+"h": 63,
+"k": 0.5625
+},
+"heron_knight": {
+"h": 74,
+"k": 0.584
+},
+"hex_toad": {
+"h": 46,
+"k": 0.5932
+},
+"hill_gnoll": {
+"h": 75,
+"k": 0.449
+},
+"hive_keeper": {
+"h": 67,
+"k": 0.5941
+},
+"icicle_bats": {
+"h": 57,
+"k": 0.5836
+},
+"illusionist_gnome": {
+"h": 71,
+"k": 0.638
+},
+"imp_bombardier": {
+"h": 69,
+"k": 0.6168
+},
+"imp_summoner": {
+"h": 74,
+"k": 0.6647
+},
+"ink_imp": {
+"h": 72,
+"k": 0.6454
+},
+"ink_squid": {
+"h": 57,
+"k": 0.5853
+},
+"iron_sentinel": {
+"h": 73,
+"k": 0.4323
+},
+"isl_guide": {
+"h": 73,
+"k": 0.65
+},
+"isl_harbor": {
+"h": 71,
+"k": 0.6332
+},
+"isl_trader": {
+"h": 72,
+"k": 0.6449
+},
+"isl_well": {
+"h": 71,
+"k": 0.6333
+},
+"jackalope": {
+"h": 44,
+"k": 0.5845
+},
+"kelp_wraith": {
+"h": 73,
+"k": 0.59
+},
+"kite_rider": {
+"h": 69,
+"k": 0.5889
+},
+"labyrinth_bull": {
+"h": 85,
+"k": 0.504
+},
+"lantern_familiar": {
+"h": 57,
+"k": 0.5836
+},
+"lantern_kobold": {
+"h": 65,
+"k": 0.5806
+},
+"lantern_thrower": {
+"h": 64,
+"k": 0.5691
+},
+"lava_eel": {
+"h": 47,
+"k": 0.4159
+},
+"lava_titan": {
+"h": 86,
+"k": 0.4784
+},
+"leech_knight": {
+"h": 71,
+"k": 0.6357
+},
+"leech_swarm": {
+"h": 48,
+"k": 0.5941
+},
+"leech_warlock": {
+"h": 67,
+"k": 0.5971
+},
+"ley_mote": {
+"h": 61,
+"k": 0.5931
+},
+"lily_lurker": {
+"h": 56,
+"k": 0.6224
+},
+"lily_oracle": {
+"h": 64,
+"k": 0.5853
+},
+"magma_brute": {
+"h": 76,
+"k": 0.4541
+},
+"magma_elemental": {
+"h": 47,
+"k": 0.5993
+},
+"magma_slug": {
+"h": 44,
+"k": 0.5677
+},
+"magma_vent": {
+"h": 55,
+"k": 0.6094
+},
+"mangrove_strangler": {
+"h": 89,
+"k": 0.4691
+},
+"meadow_goblin": {
+"h": 64,
+"k": 0.575
+},
+"mesa_golem": {
+"h": 82,
+"k": 0.4562
+},
+"mesa_scorpion": {
+"h": 49,
+"k": 0.5963
+},
+"meteor_caller": {
+"h": 68,
+"k": 0.6059
+},
+"mg_arcane_scribe": {
+"h": 202,
+"k": 0.6328
+},
+"mg_blizzard_king": {
+"h": 233,
+"k": 0.7282
+},
+"mg_bog_hexwitch": {
+"h": 199,
+"k": 0.6228
+},
+"mg_hearth_witch": {
+"h": 202,
+"k": 0.6328
+},
+"mg_nova_sorceress": {
+"h": 233,
+"k": 0.7282
+},
+"mg_rift_lich": {
+"h": 222,
+"k": 0.6931
+},
+"mg_rime_witch": {
+"h": 209,
+"k": 0.6529
+},
+"mg_sea_warlock": {
+"h": 212,
+"k": 0.6629
+},
+"mg_shard_sorcerer": {
+"h": 225,
+"k": 0.7031
+},
+"mg_soul_drinker": {
+"h": 212,
+"k": 0.6629
+},
+"mg_star_sorcerer": {
+"h": 215,
+"k": 0.673
+},
+"mg_stone_shaper": {
+"h": 233,
+"k": 0.7282
+},
+"mg_storm_caller": {
+"h": 206,
+"k": 0.6429
+},
+"mg_thorn_druid": {
+"h": 225,
+"k": 0.7031
+},
+"mg_thunder_magus": {
+"h": 212,
+"k": 0.6629
+},
+"mg_void_warlock": {
+"h": 225,
+"k": 0.7031
+},
+"minecart_bomber": {
+"h": 66,
+"k": 0.5936
+},
+"mire_crab": {
+"h": 47,
+"k": 0.6017
+},
+"mire_shaman": {
+"h": 66,
+"k": 0.5909
+},
+"mirror_sprite": {
+"h": 53,
+"k": 0.5887
+},
+"mist_weaver": {
+"h": 67,
+"k": 0.595
+},
+"mold_zombie": {
+"h": 63,
+"k": 0.5662
+},
+"molten_mimic": {
+"h": 65,
+"k": 0.389
+},
+"monarch_crystal_archon": {
+"h": 354,
+"k": 1.1077
+},
+"monarch_mere_queen": {
+"h": 380,
+"k": 1.1883
+},
+"monarch_phoenix_sovereign": {
+"h": 366,
+"k": 1.1433
+},
+"moon_moth_mage": {
+"h": 51,
+"k": 0.5888
+},
+"moss_golem": {
+"h": 83,
+"k": 0.4613
+},
+"mt_alligator": {
+"h": 66,
+"k": 0.3696
+},
+"mt_ash_salamander": {
+"h": 66,
+"k": 0.3696
+},
+"mt_boar": {
+"h": 66,
+"k": 0.3696
+},
+"mt_dragon": {
+"h": 66,
+"k": 0.3696
+},
+"mt_ember_phoenix": {
+"h": 66,
+"k": 0.3696
+},
+"mt_horse": {
+"h": 66,
+"k": 0.3696
+},
+"mt_lava_unicorn": {
+"h": 66,
+"k": 0.3696
+},
+"mt_sky_eagle": {
+"h": 66,
+"k": 0.3696
+},
+"mt_sky_glider": {
+"h": 66,
+"k": 0.3696
+},
+"mt_storm_drake": {
+"h": 66,
+"k": 0.3696
+},
+"mt_void_serpent": {
+"h": 66,
+"k": 0.3696
+},
+"mud_mortar": {
+"h": 73,
+"k": 0.4348
+},
+"mud_troll": {
+"h": 74,
+"k": 0.4433
+},
+"naga_guard": {
+"h": 60,
+"k": 0.5379
+},
+"npc_apothecary": {
+"h": 76,
+"k": 0.5909
+},
+"npc_armory": {
+"h": 74,
+"k": 0.6587
+},
+"npc_clothing": {
+"h": 70,
+"k": 0.6216
+},
+"npc_forge": {
+"h": 64,
+"k": 0.5673
+},
+"npc_guild": {
+"h": 67,
+"k": 0.5949
+},
+"npc_jeweler": {
+"h": 70,
+"k": 0.622
+},
+"npc_merchant": {
+"h": 75,
+"k": 0.6654
+},
+"npc_shop": {
+"h": 72,
+"k": 0.6446
+},
+"npc_stables": {
+"h": 73,
+"k": 0.6479
+},
+"npc_tavern": {
+"h": 66,
+"k": 0.5914
+},
+"obsidian_archer": {
+"h": 71,
+"k": 0.632
+},
+"obsidian_sorceress": {
+"h": 70,
+"k": 0.6248
+},
+"obsidian_stalker": {
+"h": 66,
+"k": 0.5881
+},
+"orrery": {
+"h": 62,
+"k": 0.5891
+},
+"peat_walker": {
+"h": 67,
+"k": 0.5483
+},
+"pebble_sprite": {
+"h": 50,
+"k": 0.5873
+},
+"petal_witch": {
+"h": 73,
+"k": 0.6508
+},
+"phoenix_chick": {
+"h": 66,
+"k": 0.5917
+},
+"phoenix_mage": {
+"h": 73,
+"k": 0.6507
+},
+"pit_serpent": {
+"h": 60,
+"k": 0.5316
+},
+"pixie_hexer": {
+"h": 54,
+"k": 0.5904
+},
+"plague_alchemist": {
+"h": 66,
+"k": 0.5937
+},
+"pooka": {
+"h": 66,
+"k": 0.5892
+},
+"prism_eye": {
+"h": 61,
+"k": 0.5875
+},
+"puffcap": {
+"h": 57,
+"k": 0.6363
+},
+"pyre_cultist": {
+"h": 70,
+"k": 0.624
+},
+"pyromancer": {
+"h": 76,
+"k": 0.5877
+},
+"rain_spirit": {
+"h": 47,
+"k": 0.5885
+},
+"rat_swarm": {
+"h": 47,
+"k": 0.5922
+},
+"reed_stalker": {
+"h": 60,
+"k": 0.5931
+},
+"reflecting_nymph": {
+"h": 67,
+"k": 0.5943
+},
+"ride_f_alligator": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_ash_salamander": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_boar": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_dragon": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_ember_phoenix": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_horse": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_lava_unicorn": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_sky_eagle": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_sky_glider": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_storm_drake": {
+"h": 82,
+"k": 0.4575
+},
+"ride_f_void_serpent": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_alligator": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_ash_salamander": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_boar": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_dragon": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_ember_phoenix": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_horse": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_lava_unicorn": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_sky_eagle": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_sky_glider": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_storm_drake": {
+"h": 82,
+"k": 0.4575
+},
+"ride_m_void_serpent": {
+"h": 82,
+"k": 0.4575
+},
+"ridge_troll": {
+"h": 76,
+"k": 0.4515
+},
+"rock_dragon": {
+"h": 76,
+"k": 0.4018
+},
+"rock_hopper": {
+"h": 32,
+"k": 0.5679
+},
+"rockslide_beetle": {
+"h": 51,
+"k": 0.5872
+},
+"root_gnasher": {
+"h": 56,
+"k": 0.6257
+},
+"rootbound_thrall": {
+"h": 69,
+"k": 0.6165
+},
+"rose_dryad": {
+"h": 95,
+"k": 0.4978
+},
+"rune_eels": {
+"h": 46,
+"k": 0.4093
+},
+"rune_statue": {
+"h": 86,
+"k": 0.4781
+},
+"runestone_crawler": {
+"h": 85,
+"k": 0.4747
+},
+"salamander_sage": {
+"h": 64,
+"k": 0.5755
+},
+"salamander_warrior": {
+"h": 69,
+"k": 0.6162
+},
+"salamander_wyrmling": {
+"h": 55,
+"k": 0.4868
+},
+"scarecrow_warden": {
+"h": 74,
+"k": 0.6646
+},
+"scorched_paladin": {
+"h": 69,
+"k": 0.6127
+},
+"sentry_orb": {
+"h": 58,
+"k": 0.5826
+},
+"seraph": {
+"h": 74,
+"k": 0.6582
+},
+"shade_sniper": {
+"h": 71,
+"k": 0.636
+},
+"shellback": {
+"h": 53,
+"k": 0.4757
+},
+"shield_goblin": {
+"h": 62,
+"k": 0.5554
+},
+"shieldwall_dwarves": {
+"h": 59,
+"k": 0.5288
+},
+"skeleton_archer": {
+"h": 65,
+"k": 0.5836
+},
+"skitter_crabs": {
+"h": 48,
+"k": 0.6107
+},
+"slag_golem": {
+"h": 78,
+"k": 0.4383
+},
+"slime_newts": {
+"h": 31,
+"k": 0.5556
+},
+"sludge_brute": {
+"h": 72,
+"k": 0.4308
+},
+"smoke_wraith": {
+"h": 71,
+"k": 0.5782
+},
+"snow_owl": {
+"h": 66,
+"k": 0.5878
+},
+"soul_furnace": {
+"h": 76,
+"k": 0.4505
+},
+"spellblade": {
+"h": 68,
+"k": 0.6031
+},
+"spitfrog": {
+"h": 48,
+"k": 0.613
+},
+"spore_spitter": {
+"h": 56,
+"k": 0.6266
+},
+"starfall_shard": {
+"h": 51,
+"k": 0.5837
+},
+"starlight_wisp": {
+"h": 53,
+"k": 0.5916
+},
+"stilt_bandit": {
+"h": 73,
+"k": 0.653
+},
+"stone_druid": {
+"h": 65,
+"k": 0.5832
+},
+"storm_heron": {
+"h": 72,
+"k": 0.5872
+},
+"storm_mage": {
+"h": 72,
+"k": 0.6408
+},
+"stormeel": {
+"h": 47,
+"k": 0.4174
+},
+"sulfur_beetle": {
+"h": 50,
+"k": 0.5904
+},
+"sulfur_toad": {
+"h": 45,
+"k": 0.579
+},
+"swamp_witch": {
+"h": 72,
+"k": 0.6456
+},
+"tc_berserker": {
+"h": 68,
+"k": 0.6098
+},
+"tc_blink": {
+"h": 74,
+"k": 0.6649
+},
+"tc_meteor": {
+"h": 76,
+"k": 0.592
+},
+"tc_phantom": {
+"h": 71,
+"k": 0.6302
+},
+"tc_roll": {
+"h": 70,
+"k": 0.6219
+},
+"tc_secondwind": {
+"h": 69,
+"k": 0.6156
+},
+"tc_shieldbash": {
+"h": 68,
+"k": 0.6102
+},
+"tc_smokebomb": {
+"h": 70,
+"k": 0.6234
+},
+"tc_timeslow": {
+"h": 76,
+"k": 0.5924
+},
+"tc_warstomp": {
+"h": 66,
+"k": 0.588
+},
+"tc_whirlwind": {
+"h": 70,
+"k": 0.6206
+},
+"telescope_eye": {
+"h": 52,
+"k": 0.6724
+},
+"thistle_hog": {
+"h": 54,
+"k": 0.4812
+},
+"thunderbird": {
+"h": 69,
+"k": 0.5918
+},
+"tide_caller": {
+"h": 66,
+"k": 0.5863
+},
+"trap_kobold": {
+"h": 64,
+"k": 0.5729
+},
+"tunnel_brute": {
+"h": 76,
+"k": 0.4501
+},
+"tunnel_nipper": {
+"h": 35,
+"k": 0.6212
+},
+"veh_f_sky_ship": {
+"h": 71,
+"k": 0.5844
+},
+"veh_m_sky_ship": {
+"h": 71,
+"k": 0.5844
+},
+"vf_boatwright": {
+"h": 68,
+"k": 0.6058
+},
+"vf_elder": {
+"h": 68,
+"k": 0.6042
+},
+"vf_farmer": {
+"h": 73,
+"k": 0.6486
+},
+"vf_fisher": {
+"h": 68,
+"k": 0.6069
+},
+"vf_guard": {
+"h": 73,
+"k": 0.6539
+},
+"vf_keeper": {
+"h": 72,
+"k": 0.6431
+},
+"vf_kid1": {
+"h": 63,
+"k": 0.5932
+},
+"vf_kid2": {
+"h": 64,
+"k": 0.5863
+},
+"vf_lamplighter": {
+"h": 70,
+"k": 0.6229
+},
+"vf_miller": {
+"h": 70,
+"k": 0.6249
+},
+"vf_vendor": {
+"h": 73,
+"k": 0.6542
+},
+"void_scholar": {
+"h": 70,
+"k": 0.6239
+},
+"volcanic_hexer": {
+"h": 67,
+"k": 0.6019
+},
+"wand_knight": {
+"h": 73,
+"k": 0.6537
+},
+"water_elemental": {
+"h": 44,
+"k": 0.5641
+},
+"waterlogged_revenant": {
+"h": 65,
+"k": 0.5805
+},
+"will_o_wisp": {
+"h": 55,
+"k": 0.5799
+},
+"wind_monk": {
+"h": 72,
+"k": 0.6398
+},
+"wind_sylph": {
+"h": 72,
+"k": 0.585
+},
+"yeti_stomper": {
+"h": 82,
+"k": 0.4887
+}
+}

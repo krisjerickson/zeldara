@@ -50,19 +50,21 @@ var BossRig={ keys:[], MAXTEX:8,
     var r=Math.min(46,Math.max(mon.def.r||14,Math.round(D.h*0.15))), M=BA.MOTION[D.motion]||BA.MOTION.stride;
     mon.def=Object.assign({},mon.def,{r:r,spd:Math.round((mon.def.spd||55)*(D.pace||M.pace||1))}); mon.bossArt=D.id; },
   // lay out the container once (shadow + hp bar above the painted body)
-  _layout:function(R){ var c=R.cont; if(!c||!c.list)return; R.laid=true; var D=R.D, top=R.fy-D.h-(D.arch==='orb'?30:10), sh=null, mv=[];
+  _layout:function(R){ var c=R.cont; if(!c||!c.list)return; R.laid=true; var D=R.D, hh=D.h*(R.body&&R.body._zk&&typeof ZAtlas!=='undefined'?ZAtlas.SCALE:1), top=R.fy-hh-(D.arch==='orb'?30:10), sh=null, mv=[];   // painted bosses stand 1.5 × as tall (04f)
     c.list.forEach(function(o){ if(o===R.back||o===R.body||o===R.pupil)return; if(o.type==='Ellipse'&&!sh&&o.y>=0){ sh=o; return; } if(o.y<-4&&o.type!=='Image')mv.push(o); });
     if(sh){ sh.setSize(Math.max(sh.width,D.h*0.55),Math.max(sh.height,D.h*0.09)); if(sh.setDisplaySize)sh.setDisplaySize(Math.max(sh.displayWidth,D.h*0.55),Math.max(sh.displayHeight,D.h*0.09)); }
     if(mv.length){ var maxY=Math.max.apply(null,mv.map(function(o){ return o.y; })), d=(top-6)-maxY; mv.forEach(function(o){ o.y+=d; }); } },
   // per-frame animation. dt seconds.
   tick:function(R,dt){ var b=R.body; if(!b||!b.scene||!R.cont||!R.cont.scene)return; if(!R.laid)BossRig._layout(R);
-    var c=R.cont, x=c.x, y=c.y, sc=b._baseSc, D=R.D, M=R.M; R.t+=dt;
+    var c=R.cont, x=c.x, y=c.y, zk=b._zk||0, sc=zk||b._baseSc, D=R.D, M=R.M; R.t+=dt;
+    // painted frames (04f): the body shows the painted boss; the pixel back layers, wings and pupil are put away
+    var zp=!!(zk||b._zh); if(R._zp!==zp){ R._zp=zp; [R.back,R.wb,R.wf,R.pupil].forEach(function(o){ if(o)o.setVisible(!zp); }); R.laid=false; }
     var dx=R.lx===null?0:x-R.lx, dy=R.ly===null?0:y-R.ly, d=Math.hypot(dx,dy), spd=dt>0?d/dt:0, moving=spd>10?1:0.25;
     // teleport: a jump > 70 px in one frame → ghost left behind + fade back in
     if(d>70&&R.lx!==null){ BossRig.ghost(R,R.lx,R.ly,0.7,420,true); R.fade=0.4; BossRig.ring(R.scene,x,y-D.h*0.4,D.pal.g); if(typeof ZSFX!=='undefined')ZSFX.play('warp'); }
     R.lx=x; R.ly=y;
     var st=M.pose(R.t,moving,D), fl=b.flipX, fa=R.fade>0?1-R.fade/0.4:1; if(R.fade>0)R.fade=Math.max(0,R.fade-dt);
-    b.setScale(sc*st.sx,sc*st.sy); BossRig.fx(b,0,fl); b.y=R.fy+st.y; b.rotation=(st.rot||0)*(fl?-1:1);
+    b.setScale(sc*st.sx,sc*st.sy); if(zk)b.x=0; else BossRig.fx(b,0,fl); b.y=R.fy+st.y; b.rotation=(st.rot||0)*(fl?-1:1);
     var baseA=(R.mon&&R.mon.mx)?b.alpha:1; b.setAlpha(Math.max(0,Math.min(1,(st.a===undefined?1:st.a)*fa*baseA)));
     var bk=R.back; bk.setFlipX(fl); bk.setScale(sc*st.flap,sc); BossRig.fx(bk,0,fl); bk.y=R.fy+st.y+(BA.PIVOT[D.arch]||0)*(D.h/100)*(D._kfix||1); bk.rotation=D.orb==='heart'?0:(st.backRot||0)*(fl?-1:1); bk.setAlpha(b.alpha);
     if(R.wb){ var wy=BA.wingY(st,R.t); [[R.wb,R.wr.b],[R.wf,R.wr.f]].forEach(function(q){ var im=q[0]; im.setFlipX(fl); im.setScale(sc*st.sx,sc*st.sy*wy); BossRig.fx(im,q[1][0]*R.u*(fl?-1:1),fl); im.y=R.fy+st.y+q[1][1]*R.u; im.rotation=b.rotation; im.setAlpha(b.alpha); }); }
@@ -107,7 +109,8 @@ var BossRig={ keys:[], MAXTEX:8,
   // animate legacy rigs from a scene update hook; the monster def (shared MDEF) is copied + grown on first tick
   BossRig._legacy=function(scene,body){ if(!scene._bossRigs){ scene._bossRigs=[]; scene.events.on('update',function(t,ms){ if(typeof _anyModalOpen==='function'&&_anyModalOpen())return; var L=scene._bossRigs;
         for(var i=L.length-1;i>=0;i--){ var b=L[i]; if(!b.scene){ L.splice(i,1); continue; } var R=b._rig; if(!R.mon){ var list=scene.monsters||scene.worldMonsters||scene._mons||[]; for(var j=0;j<list.length;j++){ if(list[j].body===b){ R.mon=list[j]; BossRig.size(R.mon,R.D); break; } } }
-          var m=R.mon, f=R.ff||(m&&m.dead?'0':(m&&m.atkTimer>0.25?'3':(Math.floor(R.t*1.6)%2?'1':'0'))); if(b.frame.name!==f)b.setFrame(f); if(m&&m.x!==undefined){ var px=m.x; if(R._px!==undefined&&Math.abs(px-R._px)>0.4)b.setFlipX(px<R._px); R._px=px; }
+          var m=R.mon, zp=false; if(typeof ZAtlas!=='undefined'){ try{ zp=ZAtlas.rigTick(scene,R,ms/1000); }catch(e){} }
+          var f=R.ff||(m&&m.dead?'0':(m&&m.atkTimer>0.25?'3':(Math.floor(R.t*1.6)%2?'1':'0'))); if(!zp&&!b._zk&&b.frame.name!==f)b.setFrame(f); if(m&&m.x!==undefined){ var px=m.x; if(R._px!==undefined&&Math.abs(px-R._px)>0.4)b.setFlipX(px<R._px); R._px=px; }
           BossRig.tick(R,ms/1000); } });
       scene.events.once('shutdown',function(){ scene._bossRigs=[]; }); }
     scene._bossRigs.push(body); };

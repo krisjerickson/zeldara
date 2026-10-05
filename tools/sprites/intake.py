@@ -32,12 +32,12 @@ HERO_PX = 112        # height in atlas pixels of a standing 1.0-scale character 
 MAX_CELL = 512       # no frame is stored larger than this
 PAGE = 2048          # atlas page size (safe on phones)
 PAD = 2
-PACK_V = 2           # raise to pack every atlas again
-INTAKE_V = 7         # raise when the cutting or sizing rules change: every sheet is then cut again on the next run
+PACK_V = 3           # raise to pack every atlas again
+INTAKE_V = 8         # raise when the cutting or sizing rules change: every sheet is then cut again on the next run
 # Sheets whose first pose is a standing pose are sized by it. Other sheets (a charge, a burrow, a death …) start with a
 # crouched, sunk or stretched pose, so they take the size of the character's standing sheet instead.
 STANDING = {'idle', 'still', 'float', 'model', 'ride_side', 'melee_sword', 'melee_axe', 'ranged_bow', 'ranged_xbow', 'magic_staff', 'war_stomp', 'blink', 'phantom', 'drink', 'talk', 'work', 'model_a', 'model_b', 'model_c'}
-REF_FILE = os.path.join(OUT, 'scale_ref.json')
+REF_FILE = os.path.join(OUT, 'scale_ref8.json')   # per character: standing sheet, body size per view (round 26)
 def first_anim(q): p = q['poses'][0]; p = p.split('|', 1)[1] if p.startswith('@') else p; return p.split('/')[0]
 def load_refs(): return json.load(open(REF_FILE)) if os.path.exists(REF_FILE) else {}
 
@@ -280,55 +280,124 @@ def find_poses(im, cols, rows, n):
     return boxes, mode, masks, {'touch': int(touch), 'overlap': bool(overlap), 'dropped': int(dropped),
                                 'odd': [k + 1 for k, v in enumerate(solid) if med and (v < 0.2 * med or v > 3.2 * med)] if len(solid) == n else []}
 
+# Poses whose body is meant to look different (sunk, curled, lying, bursting): never rescaled on their own
+SHAPE = {'burrow', 'hide', 'death', 'ko', 'swim', 'explode', 'split', 'rollup', 'statue', 'revive', 'roll', 'rest', 'pickup', 'transform', 'perch'}
+REFANIM = {'idle', 'still', 'float', 'ride_side', 'model', 'model_a', 'model_b', 'model_c'}
+BODY_MAX = 320        # no body is stored taller than this (bosses); the game scales by measured size, so this is only resolution
+
+# sprites/requests/atlas_px.json (tools/sprites/sizes.py + the build): body height to store for characters the game draws much
+# larger or smaller than the survey guessed, so nothing is blown up on screen
+_apx = os.path.join(ROOT, 'sprites', 'requests', 'atlas_px.json'); ATLAS_PX = json.load(open(_apx)) if os.path.exists(_apx) else {}
+
+def _shift_and(m):
+    o = m.copy(); o[1:] &= m[:-1]; o[:-1] &= m[1:]; o[:, 1:] &= m[:, :-1]; o[:, :-1] &= m[:, 1:]
+    o[0] = False; o[-1] = False; o[:, 0] = False; o[:, -1] = False; return o
+def _shift_or(m):
+    o = m.copy(); o[1:] |= m[:-1]; o[:-1] |= m[1:]; o[:, 1:] |= m[:, :-1]; o[:, :-1] |= m[:, 1:]; return o
+def opened(mask, r):
+    """The thick part of a shape: wear r px off every edge, keep the largest piece left, grow it back.
+    Thin things (blades, arcs, sparks, rings, thin flames) disappear; the body stays."""
+    m = mask
+    for _ in range(r): m = _shift_and(m)
+    if not m.any(): return m
+    lab, n = label(m)
+    if n > 1: a = np.bincount(lab.ravel(), minlength=n + 1); a[0] = 0; m = lab == int(np.argmax(a))
+    for _ in range(r): m = _shift_or(m)
+    return m & mask
+
+def measure(solid, r_small, r_big):
+    """Body of one pose (sheet pixels, crop coordinates): torso area T (thick core, on a half-size mask), its centre x,
+    and the body's top and bottom (thinner core: legs count, blades and sparks do not)."""
+    core = opened(solid, r_small)
+    if not core.any(): core = solid
+    yy = np.where(core.any(axis=1))[0]; top, bottom = int(yy[0]), int(yy[-1]) + 1
+    half = solid[::2, ::2]; torso = opened(half, max(1, r_big // 2))
+    if not torso.any(): return {'T': 0.0, 'cx': float(np.nonzero(core)[1].mean()), 'top': top, 'bottom': bottom, 'A': float(solid.sum())}
+    ty, tx = np.nonzero(torso)
+    return {'T': float(len(tx)) * 4.0, 'cx': float(tx.mean()) * 2.0 + 0.5, 'top': top, 'bottom': bottom, 'A': float(solid.sum())}
+
 def process(q, report=False, refs=None):
+    """Cut one sheet. Round 26: every pose is measured by its BODY (the thick core, without weapons, arcs and sparks):
+    - all poses of one view are scaled so the body is the same size ('same body size always'), except SHAPE poses;
+    - other sheets of the character are scaled to the body of its standing sheet, not by assuming the painter kept the scale;
+    - every frame is anchored at the body (centre of the torso, bottom of the body), so a swinging sword or a burst
+      neither shrinks nor shifts the character. Ink may extend past the cell on any side."""
     refs = refs if refs is not None else {}
     src = os.path.join(IN, q['id'] + '.png'); im, note = cut_background(Image.open(src))
     if im is None: return {'id': q['id'], 'ok': False, 'why': note}
-    boxes, mode, masks, info = find_poses(im, q['cols'], q['rows'], len(q['poses']))
-    if len(boxes) != len(q['poses']) or any(b is None for b in boxes):
-        return {'id': q['id'], 'ok': False, 'why': 'found %d of %d poses' % (sum(1 for b in boxes if b), len(q['poses']))}
-    # scale: the first standing pose sets the character's height
-    scale_to = HERO_PX * float(q.get('scale') or 1)
-    hs = [b[3] - b[1] for b in boxes]; ref_h = hs[0] if hs[0] > 0 else max(hs)
-    s = scale_to / ref_h; cell_h = im.height / float(q['rows']); sized = 'own first pose'; a0 = first_anim(q)
-    mount = 'mt_' + q['char'].split('_', 2)[2] if q['group'] == 'rider' and q['char'].count('_') >= 2 else None
-    if mount and mount in refs:                                   # a hero on a mount: the mount keeps the size it has on its own
-        r = refs[mount]; s = r['s'] * r['cell_h'] / cell_h; sized = 'as ' + r['from']
-    elif a0 in STANDING or q.get('multi'):
-        if a0 in ('idle', 'still', 'float', 'ride_side') and not q.get('legacy'): refs[q['char']] = {'s': s, 'cell_h': cell_h, 'from': q['id']}
-        elif a0 in ('idle',) and q['char'] not in refs: refs[q['char']] = {'s': s, 'cell_h': cell_h, 'from': q['id']}
-    elif q['char'] in refs:
-        r = refs[q['char']]; s = r['s'] * r['cell_h'] / cell_h; sized = 'as ' + r['from']
-    else: sized = 'own first pose (no standing sheet yet)'
-    s = min(s, MAX_CELL / max(max(b[2] - b[0] for b in boxes), max(hs)))
-    crops = []
+    n = len(q['poses']); boxes, mode, masks, info = find_poses(im, q['cols'], q['rows'], n)
+    if len(boxes) != n or any(b is None for b in boxes):
+        return {'id': q['id'], 'ok': False, 'why': 'found %d of %d poses' % (sum(1 for b in boxes if b), n)}
+    rgba = np.asarray(im); crops = []; solids = []
     for k, b in enumerate(boxes):
-        c = im.crop(b); sk = s
-        if masks[k] is not None:                             # cut through touching poses: keep only this pose's own pixels
-            arr = np.asarray(c).copy(); arr[..., 3] = np.where(masks[k], arr[..., 3], 0); c = Image.fromarray(arr, 'RGBA')
-        if q.get('multi'):                                   # a sheet of different characters: each is sized on its own
-            sk = min(HERO_PX * float(q['scales'][k]) / max(1, c.height), MAX_CELL / max(c.width, c.height))
-        c = c.resize((max(1, round(c.width * sk)), max(1, round(c.height * sk))), Image.LANCZOS); crops.append(c)
-    cw = max(c.width for c in crops) + PAD * 2; ch = max(c.height for c in crops) + PAD * 2
-    frames = []
-    for c, pose in zip(crops, q['poses']):
-        cell = Image.new('RGBA', (cw, ch), (0, 0, 0, 0)); cell.alpha_composite(c, ((cw - c.width) // 2, ch - PAD - c.height))
+        arr = rgba[b[1]:b[3], b[0]:b[2]].copy(); arr[..., 3] = np.where(masks[k], arr[..., 3], 0); crops.append(arr); solids.append(arr[..., 3] > 120)
+    med_area = float(np.median([s.sum() for s in solids])) or 1.0
+    r_small = max(2, int(round(0.03 * math.sqrt(med_area)))); r_big = max(2, int(round(0.10 * math.sqrt(med_area))))
+    while True:                                                   # thin creatures: a smaller brush until every pose has a core
+        M = [measure(s, r_small, r_big) for s in solids]
+        if all(m['T'] > 0 for m in M) or r_big <= 2: break
+        r_big = max(2, int(r_big * 0.6))
+    names = []
+    for pose in q['poses']:
         who = q['char']
         if pose.startswith('@'): who, pose = pose[1:].split('|', 1)
-        anim, facing, i = pose.split('/'); frames.append(('%s/%s/%s/%s' % (who, anim, facing, i), cell))
+        names.append([who] + pose.split('/'))
+    key = lambda nm: nm[1] if nm[1].startswith('ride_') else nm[2]          # a view: facing (or the ride view)
+    shape = [nm[1] in SHAPE or M[k]['T'] <= 0 for k, nm in enumerate(names)]
+    groups = {}
+    for k, nm in enumerate(names): groups.setdefault(key(nm), []).append(k)
+    def gmed(g, f):
+        v = [f(M[k]) for k in groups[g] if not shape[k]] or [f(M[k]) for k in groups[g]]
+        return float(np.median(v))
+    H = lambda m: float(m['bottom'] - m['top']); T = lambda m: m['T']
+    char = q['char']; ref = refs.get(char); a0 = first_anim(q); g0 = key(names[0])
+    scale_to = float(ATLAS_PX.get(char) or min(BODY_MAX, HERO_PX * float(q.get('scale') or 1)))      # stored body height: by the size it is drawn in the game where that is listed
+    is_ref = (ref is None or ref.get('from') == q['id']) and not q.get('legacy')
+    if is_ref or ref is None:
+        s_sheet = scale_to / max(1.0, H(M[0])); how = 'own standing pose' if a0 in REFANIM else 'own first sheet (no standing sheet)'
+        if is_ref:      # the character's first sheet is its reference (standing sheets are cut first; a few characters have none)
+            k0 = next((k for k in range(n) if not shape[k]), 0)
+            ref = refs[char] = {'from': q['id'], 'g': {}, 'H': gmed(g0, H) * s_sheet, 'h0': H(M[k0]) * s_sheet, 'a0': math.sqrt(M[k0]['A']) * s_sheet}
+        else: ref = None
+    else:
+        known = [g for g in groups if g in ref['g']]
+        if known: g = known[0]; s_sheet = math.sqrt(ref['g'][g] / max(1.0, gmed(g, T))); how = 'body of view %s as in %s' % (g, ref['from'])
+        else: s_sheet = ref['H'] / max(1.0, gmed(g0, H)); how = 'body height as in %s' % ref['from']
+    rel = []; sc = []
+    for g in groups:
+        target = ref['g'].get(g) if ref else None
+        if target is None:
+            target = gmed(g, T) * s_sheet * s_sheet
+            if ref is not None and not q.get('legacy') and any(not shape[k] for k in groups[g]): ref['g'][g] = target
+    for k in range(n):
+        g = key(names[k]); target = (ref['g'].get(g) if ref else None) or gmed(g, T) * s_sheet * s_sheet
+        s_k = s_sheet if shape[k] else min(1.33, max(0.75, math.sqrt(target / M[k]['T']) / s_sheet)) * s_sheet
+        sc.append(s_k); rel.append(round(s_k / s_sheet, 3))
+    frames = []; anch = []
+    for k in range(n):
+        c = Image.fromarray(crops[k], 'RGBA'); s_k = sc[k]; lim = 1000.0 / max(c.width * s_k, c.height * s_k, 1)
+        if lim < 1: s_k *= lim
+        c = c.resize((max(1, round(c.width * s_k)), max(1, round(c.height * s_k))), Image.LANCZOS)
+        frames.append(('/'.join(names[k]), c)); anch.append([round(M[k]['cx'] * s_k, 1), round(M[k]['bottom'] * s_k, 1)])
     wave = q.get('cwave', q['wave'])
+    # one cell for the Lab strip: every frame placed by its anchor
+    L = max(a[0] for a in anch); Rt = max(f[1].width - a[0] for f, a in zip(frames, anch)); U = max(a[1] for a in anch); D = max(f[1].height - a[1] for f, a in zip(frames, anch))
+    cw = int(math.ceil(L + Rt)) + PAD * 2; ch = int(math.ceil(U + D)) + PAD * 2
+    cells = []
+    for (nm, c), a in zip(frames, anch):
+        cell = Image.new('RGBA', (cw, ch), (0, 0, 0, 0)); cell.alpha_composite(c, (int(round(PAD + L - a[0])), int(round(PAD + U - a[1])))); cells.append((nm, cell))
     if not report:
-        for name, cell in frames:
-            d = os.path.join(OUT, 'frames', name.split('/')[0]); os.makedirs(d, exist_ok=True); cell.save(os.path.join(d, '_'.join(name.split('/')[1:]) + '.png'))
-        # the cut frames in one strip, at most 132 px tall (what the Design Lab shows), kept per sheet so preview pages can be rebuilt
-        strip = Image.new('RGBA', (cw * len(frames), ch), (0, 0, 0, 0))
-        for i, (_, cell) in enumerate(frames): strip.alpha_composite(cell, (i * cw, 0))
-        pk = min(1.0, 132.0 / ch); pcw, pch = max(1, round(cw * pk)), max(1, round(ch * pk))
+        for (name, c) in frames:
+            d = os.path.join(OUT, 'frames', name.split('/')[0]); os.makedirs(d, exist_ok=True); c.save(os.path.join(d, '_'.join(name.split('/')[1:]) + '.png'))
+        strip = Image.new('RGBA', (cw * n, ch), (0, 0, 0, 0))
+        for i, (_, cell) in enumerate(cells): strip.alpha_composite(cell, (i * cw, 0))
+        pk = min(1.0, 132.0 / ch, 2048.0 / (cw * n)); pcw, pch = max(1, int(cw * pk)), max(1, int(ch * pk))
         sd = os.path.join(OUT, 'strips'); os.makedirs(sd, exist_ok=True)
-        strip.resize((pcw * len(frames), pch), Image.LANCZOS).save(os.path.join(sd, q['id'] + '.png'))
-        json.dump({'id': q['id'], 'cell': [pcw, pch], 'full': [cw, ch], 'n': len(frames), 'names': [f[0] for f in frames], 'bg': note, 'split': mode, 'touch': info.get('touch', 0), 'overlap': info.get('overlap', False), 'odd': info.get('odd', []), 'dropped': info.get('dropped', 0), 'sized': sized, 'v': INTAKE_V, 'group': q['group'], 'wave': wave,
-                   'src_mtime': os.path.getmtime(src)}, open(os.path.join(sd, q['id'] + '.json'), 'w'))
-    return {'id': q['id'], 'ok': True, 'bg': note, 'split': mode, 'touch': info.get('touch', 0), 'overlap': info.get('overlap', False), 'cell': [cw, ch], 'frames': frames, 'group': q['group'], 'wave': wave}
+        strip.resize((pcw * n, pch), Image.LANCZOS).save(os.path.join(sd, q['id'] + '.png'))
+        json.dump({'id': q['id'], 'cell': [pcw, pch], 'full': [cw, ch], 'n': n, 'names': [f[0] for f in frames], 'anch': anch, 'rel': rel, 'sheet_s': round(s_sheet, 4), 'sized': how,
+                   'bg': note, 'split': mode, 'touch': info.get('touch', 0), 'overlap': info.get('overlap', False), 'odd': info.get('odd', []), 'dropped': info.get('dropped', 0),
+                   'v': INTAKE_V, 'group': q['group'], 'wave': wave, 'src_mtime': os.path.getmtime(src)}, open(os.path.join(sd, q['id'] + '.json'), 'w'))
+    return {'id': q['id'], 'ok': True, 'bg': note, 'split': mode, 'touch': info.get('touch', 0), 'overlap': info.get('overlap', False), 'cell': [cw, ch], 'frames': cells, 'rel': rel, 'sized': how, 'group': q['group'], 'wave': wave}
 
 def preview_pages(waves=None):
     """sprites/preview/w<wave>-<n>.webp + index.json: every sheet's frame strip packed into pages per wave (committed; the Lab loads them)."""
@@ -366,16 +435,17 @@ def pack(budget=140):
     index.json: pages {name: [w, h]}, chars {id: {h0: standing height in atlas px, pages: [...]}},
                 frames {"char/anim/facing/n": [page, x, y, w, h, cellW, cellH, offX, offY]}  (feet = bottom centre of the cell)"""
     R = load_requests(); done = set(os.path.splitext(os.path.basename(f))[0] for f in glob.glob(os.path.join(OUT, 'strips', '*.json')))
-    by = {}; chars = {}
+    by = {}; chars = {}; anchors = {}; refs = load_refs()
     for f in sorted(glob.glob(os.path.join(OUT, 'strips', '*.json'))):
         m = json.load(open(f)); q = R.get(m['id'], {})
         if q.get('legacy') and q.get('supersededBy') in done: continue      # a newer version of this sheet is in
-        scales = q.get('scales')
         for k, name in enumerate(m['names']):
             fp = os.path.join(OUT, 'frames', name.split('/')[0], '_'.join(name.split('/')[1:]) + '.png')
-            if not os.path.exists(fp): continue
-            by.setdefault(atlas_name(m), {})[name] = fp
-            chars.setdefault(name.split('/')[0], {'h0': round(HERO_PX * float((scales[k] if scales else q.get('scale')) or 1)), 'pages': []})
+            if not os.path.exists(fp) or 'anch' not in m: continue
+            by.setdefault(atlas_name(m), {})[name] = fp; anchors[name] = m['anch'][k]
+            c = name.split('/')[0]; rf = refs.get(c) or {}
+            # h0 = body height of the standing pose, a0 = square root of its ink area (what the game sizes by), both in atlas px
+            chars.setdefault(c, {'h0': int(round(rf.get('h0') or HERO_PX * float(q.get('scale') or 1))), 'a0': round(rf.get('a0') or 0.75 * HERO_PX * float(q.get('scale') or 1), 1), 'pages': []})
     d = os.path.join(ROOT, 'assets', 'atlas'); os.makedirs(d, exist_ok=True); index = {'pages': {}, 'chars': chars, 'frames': {}}
     # Incremental: an atlas whose frames have not changed since it was packed is kept as it is (its part of the index is
     # remembered in sprites/out/atlas_state.json). Packing stops when the time budget is used up; run again to finish.
@@ -385,10 +455,10 @@ def pack(budget=140):
         st = state[name]; index['pages'].update(st['pages']); index['frames'].update(st['frames'])
         for fr, v in st['frames'].items():
             c = chars.get(fr.split('/')[0])
-            if c is None: c = chars[fr.split('/')[0]] = {'h0': st.get('h0', {}).get(fr.split('/')[0], HERO_PX), 'pages': []}
+            if c is None: c = chars[fr.split('/')[0]] = dict(st.get('h0', {}).get(fr.split('/')[0], {'h0': HERO_PX, 'a0': 0.75 * HERO_PX}), pages=[])
             if v[0] not in c['pages']: c['pages'].append(v[0])
     for name in sorted(by):
-        sig = hashlib.md5(('%d|%d|' % (PACK_V, HERO_PX) + '|'.join('%s:%d:%d' % (k, os.path.getmtime(v), os.path.getsize(v)) for k, v in sorted(by[name].items()))).encode()).hexdigest()
+        sig = hashlib.md5(('%d|%d|' % (PACK_V, HERO_PX) + '|'.join('%s:%d:%d:%s:%s' % (k, os.path.getmtime(v), os.path.getsize(v), anchors[k], chars[k.split('/')[0]]['h0']) for k, v in sorted(by[name].items()))).encode()).hexdigest()
         st = state.get(name)
         if st and st.get('sig') == sig and all(os.path.exists(os.path.join(d, pn + '.webp')) for pn in st['pages']): keep(name); continue
         if time.time() - t0 > budget:
@@ -406,17 +476,34 @@ def pack(budget=140):
                 x = 0; rowh = 0
             if page is None or y + h + 1 > PAGE: page = Image.new('RGBA', (PAGE, PAGE), (0, 0, 0, 0)); pages.append([page, 0]); x = y = rowh = 0
             page.alpha_composite(ink, (x, y)); pn = '%s-%d' % (name, len(pages) - 1)
-            index['frames'][fname] = [pn, x, y, w, h, cw, ch, bb[0], bb[1]]
-            c = chars[fname.split('/')[0]]
+            c = chars[fname.split('/')[0]]; N = max(8, c['h0']); ax, ay = anchors[fname]
+            # the cell is a square of the body's height with the body's feet at its bottom centre; ink may reach outside it
+            index['frames'][fname] = [pn, x, y, w, h, N, N, int(round(N / 2.0 - (ax - bb[0]))), int(round(N - (ay - bb[1])))]
             if pn not in c['pages']: c['pages'].append(pn)
             x += w + 1; rowh = max(rowh, h); pages[-1][1] = max(pages[-1][1], y + h)
         for i, (pg, used) in enumerate(pages):
             pn = '%s-%d' % (name, i); hh = min(PAGE, int(math.ceil(max(1, used) / 4) * 4))
             pg.crop((0, 0, PAGE, hh)).save(os.path.join(d, pn + '.webp'), 'WEBP', quality=85, method=4); index['pages'][pn] = [PAGE, hh]
         fr = {k: v for k, v in index['frames'].items() if k not in frames0}
-        state[name] = {'sig': sig, 'pages': {k: v for k, v in index['pages'].items() if k not in pages0}, 'frames': fr, 'h0': {c: chars[c]['h0'] for c in set(k.split('/')[0] for k in fr)}}
+        state[name] = {'sig': sig, 'pages': {k: v for k, v in index['pages'].items() if k not in pages0}, 'frames': fr, 'h0': {c: {'h0': chars[c]['h0'], 'a0': chars[c]['a0']} for c in set(k.split('/')[0] for k in fr)}}
         json.dump(state, open(sf, 'w'), separators=(',', ':'))
     index['chars'] = {c: v for c, v in chars.items() if v['pages']}
+    # one small picture per character (its standing frame) on a single sheet: the Tome's grid shows these without loading the big pages
+    TC = 72; cols = 24; names = sorted(index['chars']); order = ['idle', 'still', 'float', 'ride_side', 'model', 'move']
+    sheet = Image.new('RGBA', (cols * TC, ((len(names) + cols - 1) // cols) * TC), (0, 0, 0, 0)); index['thumbs'] = {}; index['thumb'] = [TC, cols]
+    allf = {}
+    for nm in by.values():
+        for fname, fp in nm.items(): allf.setdefault(fname.split('/')[0], {})[fname] = fp
+    for i, c in enumerate(names):
+        fr = allf.get(c) or {}
+        if not fr: continue
+        key = lambda n: (order.index(n.split('/')[1]) if n.split('/')[1] in order else 9, {'f': 0, 'q': 1, 's': 2, 'x': 3}.get(n.split('/')[2], 4), int(n.split('/')[3]))
+        fname = sorted(fr, key=key)[0]
+        try: im = Image.open(fr[fname]).convert('RGBA')
+        except Exception: continue
+        k = min((TC - 4) / float(im.width), (TC - 4) / float(im.height)); im = im.resize((max(1, int(im.width * k)), max(1, int(im.height * k))), Image.LANCZOS)
+        sheet.alpha_composite(im, ((i % cols) * TC + (TC - im.width) // 2, (i // cols) * TC + TC - 2 - im.height)); index['thumbs'][c] = i
+    sheet.save(os.path.join(d, 'thumbs.webp'), 'WEBP', quality=88, method=4)
     pack.left = left
     json.dump(index, open(os.path.join(d, 'index.json'), 'w'), separators=(',', ':'), sort_keys=True)
     return {pn: sorted(c for c, v in chars.items() if pn in v['pages']) for pn in index['pages']}
@@ -453,6 +540,8 @@ def check():
 
 def main():
     report = '--report' in sys.argv; force = '--force' in sys.argv; want = [a for a in sys.argv[1:] if not a.startswith('--')]
+    if '--ids-file' in sys.argv: want += json.load(open(sys.argv[sys.argv.index('--ids-file') + 1]))        # a JSON list of sheet ids
+    want = [w for w in want if not w.endswith('.json')]
     limit = next((int(a.split('=')[1]) for a in sys.argv if a.startswith('--limit=')), 10 ** 9)
     R = load_requests(); files = sorted(glob.glob(os.path.join(IN, '*.png')))
     ids = [os.path.splitext(os.path.basename(f))[0] for f in files if not f.endswith('.prev.png')]
@@ -470,6 +559,7 @@ def main():
         try: r = process(R[i], report, refs)
         except Exception as e: r = {'id': i, 'ok': False, 'why': 'could not be read: %s' % e}
         results.append(r)
+        if not report and len(results) % 10 == 0: os.makedirs(OUT, exist_ok=True); json.dump(refs, open(REF_FILE, 'w'))     # survive a cut-off run
         if r['ok']: waves.add(str(r['wave']).replace('.', '_'))
         print(('✓  %-34s %s, split by %s, %d frames, cell %d×%d' % (i, r['bg'], r['split'], len(r['frames']), r['cell'][0], r['cell'][1])) if r['ok'] else ('✗  %-34s %s' % (i, r['why'])), flush=True)
     if not report:

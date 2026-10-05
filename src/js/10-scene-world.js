@@ -484,6 +484,7 @@ class WorldScene extends Phaser.Scene{
 
   // ─── Animal Draw ──────────────────────────────────────────────────────────
   _drawAnimal(g,a,t){
+    if(typeof ZAtlas!=='undefined'){ try{ if(ZAtlas.animal(this,a,a.type,false))return; }catch(e){} }   // painted animal (04f); the shapes below only if its picture cannot load
     var x=Math.round(a.x),y=Math.round(a.y);
     var fl=(a.state==='flee');
     var ph=a.ph;
@@ -826,6 +827,7 @@ class WorldScene extends Phaser.Scene{
     g.fillStyle(barCol,0.9).fillRect(x-bw/2,y-a.def.r-14,Math.round(bw*hpFrac),4);
     // Shadow
     g.fillStyle(0x000000,0.22).fillEllipse(x,y+a.def.r+2,a.def.r*2.8,9);
+    if(typeof ZAtlas!=='undefined'){ try{ if(ZAtlas.animal(this,a,a.type,true))return; }catch(e){} }   // painted animal (04f)
     // Body by type
     switch(a.type){
       case 'deer':{
