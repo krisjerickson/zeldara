@@ -203,6 +203,11 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 ## Open questions
 - None open. Kris is out for the evening of Oct 4; all generate commands are running on his PC.
 
+## Round 25 (Kris, Oct 5)
+- Kris: "final sheets are in"; then: fix the boy / girl choice at the start (girl's picture not the new sprite, squares uneven, text under each should be a mini back story, "just a simple sentence fragment is good").
+- Done: see changelog [262]–[263]. No questions were asked: the request was specific. The two back-story lines are drafts; Kris may reword them.
+- Waiting on Kris: run `finish.ps1` once more for the Sprint teacher's sheet (reworded request); wording of the two back stories; bosses, animals and vehicles are still not wired to painted frames.
+
 ## Round 24 (Kris, Oct 4, late) — frames that carry a piece of the neighbouring pose
 - Kris: hero on sky eagle and on dragon (both heroes), dragon, sky eagle, bramble wolf and Surtvald the Lava Titan "did not tile correctly": a piece of the previous sprite shows in the next frame. Try shaped cuts on the current sheets first; find every sheet a single vertical cut could have damaged; re-roll only if that does not work.
 - Cause: the poses do not touch, but a wing or tail reaches over the neighbour's columns, so no straight vertical line separates them. 305 of 993 sheets had been cut that way ("valley").

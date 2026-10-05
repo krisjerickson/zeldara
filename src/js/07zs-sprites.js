@@ -82,6 +82,8 @@ var ZSPR={
   DIRLESS:{hurt:1,death:1,burrow:1,blink:1,hide:1,swim:1,rollup:1,statue:1,explode:1,revive:1,enrage:1,split:1,transform:1,ko:1,dodge:1,cast:1,leap:1,perch:1},
 
   // ── kit module → animation (every module used by a kit must appear here) ──
+  // request wording that the image service refused, reworded (the game text is unchanged)
+  REWORD:{tc_sprint:{name:'the running teacher',look:'A slim, friendly messenger in a green tunic with a feathered cap and small decorative wings on the boots',doing:'showing how to run: stretching, a running start, jogging on the spot'}},
   MOD:{
     // movement
     chase:'move',lumber:'move',kite:'move',zigzag:'move',flee:'move',swap:'move',rook:'move',chessL:'leap',orbit:'move',
@@ -251,7 +253,8 @@ var ZSPR={
         kit:kit,specAnim:C&&C.spec&&C.spec.anim,humanoid:D.arch==='hum'||(!D.arch&&C&&!!Z.HUMANOID[C.spec&&C.spec.plan]),scale:Math.round(((D.h||110)/42)*10)/10,big:true,form:/^bf_/.test(slot),wave:(q||5)+2.5}); });
     // NPCs
     if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='npc')return; var walker=/Village folk/.test(C.sub);
-      push({id:C.id,group:'npc',sub:C.sub,name:C.name,q:0,look:C.look,doing:C.doing,where:C.where,pal:C.spec&&C.spec.pal,humanoid:true,scale:/kid|child/.test(C.spec&&C.spec.feat||'')?0.75:/dwarf/.test(C.spec&&C.spec.feat||'')?0.85:1,npc:true,walker:walker,trade:C.spec&&C.spec.anim,facings:['f'],wave:2}); });
+      var RW=Z.REWORD[C.id]||{};
+      push({id:C.id,group:'npc',sub:C.sub,name:RW.name||C.name,q:0,look:RW.look||C.look,doing:RW.doing||C.doing,where:C.where,pal:C.spec&&C.spec.pal,humanoid:true,scale:/kid|child/.test(C.spec&&C.spec.feat||'')?0.75:/dwarf/.test(C.spec&&C.spec.feat||'')?0.85:1,npc:true,walker:walker,trade:C.spec&&C.spec.anim,facings:['f'],wave:2}); });
     // mounts on their own (parked, or waiting at the stables)
     if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='mount')return; var k=C.id.replace(/^mt_/,'');
       push({id:C.id,group:'mount',sub:C.sub,name:C.name,q:0,look:C.look+' Saddled, no rider.',moveTxt:C.doing,pal:C.spec&&C.spec.pal,scale:1.6,facings:['x'],flying:/sky|drake|phoenix|eagle|glider|void|dragon$/.test(k),wave:1.5}); });

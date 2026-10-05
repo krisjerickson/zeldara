@@ -77,11 +77,15 @@ var ZProfilesUI={
     document.getElementById('zp-cancel').onclick=ZProfilesUI.close; },
   // NEW GAME, last step (round 18): choose your hero — boy or girl. The girl is a recoloured stand-in until her sprites are painted.
   pickHero:function(p,go,back){ ZProfilesUI.open('<h2>Choose your hero</h2><p>'+ZProfilesUI.esc(p.name)+', who will you play?</p><div class="zp-heroes">'+
-      [['m','The boy','Spiky brown hair'],['f','The girl','Twin auburn braids, teal mantle (stand-in art for now)']].map(function(h){ return '<button class="zp-hero" data-h="'+h[0]+'"><canvas width="100" height="168"></canvas><b>'+h[1]+'</b><small>'+h[2]+'</small></button>'; }).join('')+
+      [['m','The boy','A woodcutter\'s son from the lake village, raised on tales of the Runestone'],['f','The girl','A shieldmaiden\'s daughter from the northern fjords, come south to earn her own name']].map(function(h){ return '<button class="zp-hero" data-h="'+h[0]+'"><canvas width="100" height="168"></canvas><b>'+h[1]+'</b><small>'+h[2]+'</small></button>'; }).join('')+
       '</div><p class="zp-note">Both play the same. You can\'t change this later in the same save.</p><div class="zp-row"><button class="zp-btn" id="zp-hback">Back</button></div>');
     var E=ZProfilesUI.el; E.querySelectorAll('.zp-hero').forEach(function(b){ var cv=b.querySelector('canvas'), c=cv.getContext('2d'), img=new Image(); c.imageSmoothingEnabled=false;
       img.onload=function(){ var src=b.dataset.h==='f'&&typeof _heroRecolour==='function'?_heroRecolour(img):img; c.clearRect(0,0,100,168); c.imageSmoothingEnabled=true; var sc=Math.min(100/src.width,160/src.height); c.drawImage(src,(100-src.width*sc)/2,164-src.height*sc,src.width*sc,src.height*sc); };
-      if(typeof HERO_WALK_FRAMES_FRONT!=='undefined')img.src=HERO_WALK_FRAMES_FRONT[0];
+      var standIn=function(){ if(typeof HERO_WALK_FRAMES_FRONT!=='undefined')img.src=HERO_WALK_FRAMES_FRONT[0]; };
+      // the painted hero (front idle frame from the atlas, round 24); the stand-in only if the atlas is missing or painted sprites are off
+      var F=typeof ZAtlas!=='undefined'&&!ZAtlas.off&&ZAtlas.META.frames['hero_'+b.dataset.h+'/idle/f/0'];
+      if(F){ var pg=new Image(); pg.onload=function(){ c.clearRect(0,0,100,168); c.imageSmoothingEnabled=true; var sc=Math.min(1.3,96/F[5],160/F[6]), dx=(100-F[5]*sc)/2, dy=164-F[6]*sc; c.drawImage(pg,F[1],F[2],F[3],F[4],dx+F[7]*sc,dy+F[8]*sc,F[3]*sc,F[4]*sc); cv.dataset.painted='1'; }; pg.onerror=standIn; pg.src=ZAtlas.BASE+F[0]+'.webp'; }
+      else standIn();
       b.onclick=function(){ go(b.dataset.h); }; });
     document.getElementById('zp-hback').onclick=back; },
   // RETURNING PLAYER: pick your name
@@ -119,7 +123,7 @@ var ZProfilesUI={
   css:function(){ var st=document.createElement('style'); st.textContent=
     '#zp-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(4,6,14,.72);z-index:9000;font-family:"Segoe UI",system-ui,sans-serif}'+
     '.zp-box{background:#0d1424;border:1px solid #2a4a6a;border-radius:14px;padding:20px 22px;width:min(560px,92vw);max-height:86vh;overflow:auto;color:#dfe8f4;box-shadow:0 10px 40px rgba(0,0,0,.6)}'+
-    '.zp-heroes{display:flex;gap:14px;justify-content:center;margin:14px 0 8px;flex-wrap:wrap}.zp-hero{display:flex;flex-direction:column;align-items:center;gap:4px;background:#111c30;border:1px solid #2a4a6a;border-radius:12px;padding:12px 18px 14px;color:#dfe8f4;cursor:pointer;min-width:150px;font:inherit}.zp-hero:hover,.zp-hero:focus{border-color:#3fe6f2;box-shadow:0 0 18px rgba(63,230,242,.35);outline:none}.zp-hero b{font-size:16px;color:#3fe6f2}.zp-hero small{color:#9fb4cc;font-size:12px}.zp-note{font-size:12px!important;text-align:center}'+
+    '.zp-heroes{display:flex;gap:14px;justify-content:center;margin:14px 0 8px;flex-wrap:wrap}.zp-hero{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;background:#111c30;border:1px solid #2a4a6a;border-radius:12px;padding:12px 14px 14px;color:#dfe8f4;cursor:pointer;width:190px;box-sizing:border-box;font:inherit}.zp-heroes{align-items:stretch}.zp-hero:hover,.zp-hero:focus{border-color:#3fe6f2;box-shadow:0 0 18px rgba(63,230,242,.35);outline:none}.zp-hero b{font-size:16px;color:#3fe6f2}.zp-hero small{color:#9fb4cc;font-size:12px;line-height:1.35;text-align:center}.zp-note{font-size:12px!important;text-align:center}'+
     '.zp-box h2{margin:0 0 6px;color:#00f5ff;font-size:20px}.zp-box p{margin:6px 0;color:#9fb4cc;font-size:13px}.zp-err{color:#ff9a8a!important}.zp-ok{color:#7fe0a8!important}'+
     '#zp-exp{margin-top:12px;border-top:1px solid #1e3550;padding-top:8px}#zp-xcode{width:100%;box-sizing:border-box;background:#070b16;border:1px solid #2a4a6a;color:#fff;border-radius:8px;padding:8px;font-size:12px;font-family:monospace}#zp-name,#zp-code{width:100%;box-sizing:border-box;background:#070b16;border:1px solid #2a4a6a;color:#fff;border-radius:8px;padding:10px 12px;font-size:16px;margin:6px 0}#zp-code{font-size:12px;font-family:monospace}'+
     '.zp-row{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}.zp-sp{flex:1}'+

@@ -545,6 +545,10 @@ Kris's picks in the Lab: arrows `ar_bodkin` (Heavy Bodkin), spells `sp_solid` (S
 - **[261]** Each sheet's strip record now has `split`, `touch` (solid pixels cut through), `overlap`, `odd`, `dropped`. `intake.py --no-preview` skips the preview pages during batches, `--preview` rebuilds them all. `finish.ps1` no longer repaints the two sheets. Atlases repacked (94 pages; the 23 non-boss pages are committed), game and Lab republished. No re-rolls were needed.
 - Known, left as is: frames are centred by their outline box, so a body can shift a few pixels between frames when a wing or weapon extends to one side.
 
+## Round 25 (Kris, Oct 5) — final sheets, hero choice screen
+- **[262] Final sheets:** the 6 new hero walk sheets (`move2`: idle 2, walk 6, run 2 in side, front and back views for both heroes) and `fam_fire.core.q` are in, cut and packed; the game now plays the 6-frame walk. 994 of 995 sheets received. `tc_sprint.core.f` (the Sprint teacher) was refused by the image service's safety filter; its request is reworded (`ZSPR.REWORD`, game text unchanged) and `finish.ps1` sends it.
+- **[263] Hero choice screen (Kris):** both cards show the painted hero (front idle frame from the atlas, same scale; stand-in only if the atlas is missing), the cards are the same size (190 px wide, equal height), and each has a one-line back story: the boy "A woodcutter's son from the lake village, raised on tales of the Runestone", the girl "A shieldmaiden's daughter from the northern fjords, come south to earn her own name". The two lines are Claude's drafts for Kris to change.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

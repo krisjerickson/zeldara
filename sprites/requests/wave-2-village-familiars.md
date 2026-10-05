@@ -979,23 +979,23 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## tc_sprint.core.f
 
-Swift Aldo · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+the running teacher · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Swift Aldo — A lean courier in green with a feathered cap and winged boots. Main colours: green (#4a9a5a), dark green (#2a4a2a), yellow (#ffe060), black (#201810). Size: about 1× the height of the hero.
+Subject: the running teacher — A slim, friendly messenger in a green tunic with a feathered cap and small decorative wings on the boots. Main colours: green (#4a9a5a), dark green (#2a4a2a), yellow (#ffe060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
 3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
 4. talking: nodding, the other hand gesturing.
-5. at work (Teaches Sprint — run twice as fast for 3 seconds.), frame 1 of 4.
-6. at work (Teaches Sprint — run twice as fast for 3 seconds.), frame 2 of 4.
-7. at work (Teaches Sprint — run twice as fast for 3 seconds.), frame 3 of 4.
-8. at work (Teaches Sprint — run twice as fast for 3 seconds.), frame 4 of 4.
+5. at work (showing how to run: stretching, a running start, jogging on the spot), frame 1 of 4.
+6. at work (showing how to run: stretching, a running start, jogging on the spot), frame 2 of 4.
+7. at work (showing how to run: stretching, a running start, jogging on the spot), frame 3 of 4.
+8. at work (showing how to run: stretching, a running start, jogging on the spot), frame 4 of 4.
 View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.

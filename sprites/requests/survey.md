@@ -386,7 +386,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | isl_trader | Coral the Island Trader | Harbor islands | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Shows off exotic wares; the parrot squawks.) | 1 |
 | isl_well | Sister Mael | Harbor islands | f | Idle ×2; Talk ×2 (when you speak to them); Work: heal ×4 (Blesses the well; green motes rise and heal you.) | 1 |
 | isl_guide | Ranger Holt | Harbor islands | f | Idle ×2; Talk ×2 (when you speak to them); Work: point ×4 (Points the way into the guardian's dungeon.) | 1 |
-| tc_sprint | Swift Aldo | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Teaches Sprint — run twice as fast for 3 seconds.) | 1 |
+| tc_sprint | the running teacher | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (showing how to run: stretching, a running start, jogging on the spot) | 1 |
 | tc_roll | Tumbler Pia | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Teaches Roll — dash 3 tiles and dodge through danger.) | 1 |
 | tc_whirlwind | Blade-dancer Kestrel | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: slash ×4 (Teaches Whirlwind — spin and strike everything around you.) | 1 |
 | tc_smokebomb | Shade Mistress Nyx | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Teaches Smoke Bomb — vanish in smoke; enemies lose track of you.) | 1 |
