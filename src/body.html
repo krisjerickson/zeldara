@@ -39,7 +39,7 @@
     <button class="abtn" onclick="toggleModal('quests')">📜 Quests</button>
     <button class="abtn" onclick="toggleModal('inventory')">🎒 Inventory <span style="font-size:9px;opacity:0.5">(I)</span></button>
     <button class="abtn" id="tome-btn" onclick="toggleModal('tome')">📖 Tome <span style="font-size:9px;opacity:0.5">(T)</span></button>
-    <button class="abtn abtn-sm" onclick="toggleModal('controls')">❓</button>
+    <button class="abtn abtn-sm" onclick="toggleModal('controls'); if(typeof ZDiff!=='undefined')ZDiff.render();">❓</button>
     <button class="abtn abtn-sm" id="mute-btn" title="Sound on/off" onclick="ZSFX.toggleMute()">🔊</button>
     <button class="abtn abtn-sm" onclick="openSandbox()">🔧</button>
   </div>
@@ -149,6 +149,7 @@
   <div class="overlay" id="modal-controls" style="display:none" onclick="closeModal('controls')">
     <div class="modal" style="min-width:380px" onclick="event.stopPropagation()">
       <div class="mhdr"><span>❓ Controls Reference</span><button class="mcls" onclick="closeModal('controls')">✕</button></div>
+      <div id="zdiff-box"></div>
       <div style="font-size:11px;color:#667;margin-bottom:12px">Keyboard controls for Quests of Zeldara V2</div>
       <div style="font-size:12px;font-weight:600;color:#88aacc;margin-bottom:6px">Movement & Interaction</div>
       <div class="ctrl-row"><span class="ctrl-key">WASD / ↑↓←→</span><span class="ctrl-desc">Move character</span></div>

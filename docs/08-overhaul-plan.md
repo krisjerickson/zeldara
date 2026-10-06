@@ -201,7 +201,25 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
-- None open.
+- (Round 28) Where did Kris see the old pixel versions — the Claude artifact, the local build, or the hosted site — and does it still happen after round 28's fix?
+- (Round 28) Castle wardens and mage-tower masters have 3–4 × the health of a realm's guardian (a table multiplied twice). Intended, or should they be weaker than the guardian, as the code comment says?
+
+## Round 28 — answers (Kris, Oct 6 evening, before leaving for the night)
+- Difficulty names → **ANSWERED: Hearthside · Wayfarer · Shieldbearer · Ragnarök.**
+- What makes it harder → **ANSWERED: tougher bosses; faster, smarter bosses; tougher and more monsters.** NOT chosen: less healing / harsher death.
+- Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
+- Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
+
+## Round 28 — done overnight (Oct 6–7)
+- Done: changelog [276]–[284]. New docs: `claude/16-scenery-plan.md`, `claude/17-difficulty-levels.md`.
+- Assumptions Claude made (not asked):
+  - Difficulty is chosen on the hero screen (no extra step) and can be changed later in the ❓ panel, in the open world only. Wayfarer is preselected and equals the old balance.
+  - XP and gold rise slightly on the two harder levels (×1.15, ×1.3), so that progress does not slow; this was not one of the options Kris ticked.
+  - "Faster, smarter" applies to bosses only; regular monsters keep their attack pace.
+  - "Furnishings" = village interiors, towers, castles, mage towers, plus dungeon obstacles and chests. Sky and volcano scenes are left out.
+  - Scenery is sent as a 12-sheet pilot first; the rest copies the look of the pilot.
+  - The ground restyle in code (textures, outlines, flat tones) waits for the first ground swatches.
+- Waiting on Kris: run `tools\sprites\scenery.ps1` (pilot), then say when the sheets are in; play a boss at Shieldbearer / Ragnarök and say how the numbers feel; say whether castle wardens and mage-tower masters are meant to have 3–4 × a guardian's health (doc 17); where he saw pixel figures (if it still happens after this round); push.
 
 ## Round 27 (Kris, Oct 6)
 - Kris: "final sprites finish is complete. Also make it so that familiars trail behind the hero, but don't overlap on the hero, and don't overlap on each other".

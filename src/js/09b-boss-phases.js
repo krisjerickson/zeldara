@@ -76,6 +76,8 @@ var BOSS_PHASES={
 
 var BossPhases={
   count:function(key){ var B=BOSS_PHASES[key]; return B?B.phases.length:1; },
+  // start loading the painted pages of a form (and its allies) before it is needed
+  warm:function(key,phase){ var B=BOSS_PHASES[key], P=B&&B.phases[phase-1]; if(!P||typeof ZAtlas==='undefined'||!ZAtlas.warm)return; [P.rid].concat((P.allies||[]).map(function(a){ return a.rid; })).forEach(ZAtlas.warm); },
   // the arena floor for phase n (≥2): a cavern-builder spec
   arenaSpec:function(key,phase,seed){ var B=BOSS_PHASES[key], P=B&&B.phases[phase-1]; if(!P)return null; return {kind:'dungeon',design:BOSS_ARENAS[P.arena],seed:seed||7,last:true}; },
   // spawn the phase's boss (+ allies) as engine monsters
@@ -115,7 +117,7 @@ var BossPhases={
   // arena events (hazards on a timer)
   tick:function(scene,dt){ if(!scene._bpEv||!scene._bossGroup||scene._phaseLock)return; var A=MX.A(scene), P=A.p(), boss=scene._bossGroup[0]; if(!boss||boss.dead)return;
     BossPhases.hudTick(scene);
-    scene._bpEv.forEach(function(e){ e.t-=dt; if(e.t>0)return; e.t=e.every*(0.85+Math.random()*0.3); if(e.say&&!e._said){ e._said=true; showNotif('⚠ '+e.say,'#ffcc88'); }
+    scene._bpEv.forEach(function(e){ e.t-=dt; if(e.t>0)return; e.t=e.every*(typeof ZDiff!=='undefined'?ZDiff.cur().every:1)*(0.85+Math.random()*0.3); if(e.say&&!e._said){ e._said=true; showNotif('⚠ '+e.say,'#ffcc88'); }
       var dmg=boss.def.atk*0.8, hitAt=function(x,y,r,col,zone,delay){ MX.tele.circle(A,x,y,r,col,delay); scene.time.delayedCall(delay*1000,function(){ if(boss.dead)return; MX.fxRing(A,x,y,r,col); var Q=A.p(); if(Math.hypot(Q.x-x,Q.y-y)<r+6)A.hurt(dmg,'','#ffb060'); if(zone)MX.zone(A,{x:x,y:y,r:r,t:3,st:zone}); }); };
       if(e.k==='marks'||e.k==='lob'){ for(var i=0;i<(e.n||3);i++){ var x=P.x+(i?(Math.random()-0.5)*220:0), y=P.y+(i?(Math.random()-0.5)*160:0); hitAt(x,y,e.rad||24,e.col||'#ffa060',e.zone||(e.k==='lob'?e.st:null),1.1+i*0.12); } }
       else if(e.k==='geyser'){ for(var j=0;j<(e.n||2);j++){ var gx=P.x+(Math.random()-0.5)*260, gy=P.y+(Math.random()-0.5)*200; if(!scene._canGoD(gx,gy))continue; (function(gx,gy){ MX.tele.circle(A,gx,gy,e.rad||32,e.col||'#ff6a20',1.2); scene.time.delayedCall(1200,function(){ if(boss.dead)return; MX.zone(A,{x:gx,y:gy,r:e.rad||32,t:4,st:e.st||'burn',dps:boss.def.atk*0.15}); var Q=A.p(); if(Math.hypot(Q.x-gx,Q.y-gy)<(e.rad||32))A.hurt(dmg*0.8,'','#ff9050'); }); })(gx,gy); } }

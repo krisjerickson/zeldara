@@ -19,24 +19,33 @@
 // ║   (Dev panel → "Painted sprites", or ?sprites=0).
 // ═══════════════════════════════════════════════════════════════════════
 var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},chars:{},frames:{}}, BASE:'assets/atlas/', SCALE:1.5, HERO_STANDIN:42,
-  st:{}, img:{}, _n:{}, _f0:{}, _any:{}, _by:null, _pix:{}, _sw:[], _an:[], _swT:0,
+  st:{}, img:{}, _n:{}, _ix:{}, _f0:{}, _any:{}, _by:null, _pix:{}, _sw:[], _an:[], _swT:0,
   // characters without a painted sheet wear the nearest painted one (tc_sprint: its sheet was refused by the image service)
   ALIAS:{tc_sprint:'tc_roll'},
   off:(function(){ try{ if(/[?&]sprites=0/.test(location.search))return true; return localStorage.getItem('zeldara_sprites')==='off'; }catch(e){ return false; } })(),
   setOff:function(v){ ZAtlas.off=!!v; try{ localStorage.setItem('zeldara_sprites',v?'off':'on'); }catch(e){} },
   A:function(ch){ return (!ZAtlas.META.chars[ch]&&ZAtlas.ALIAS[ch])||ch; },
   has:function(ch){ return !ZAtlas.off&&!!ZAtlas.META.chars[ZAtlas.A(ch)]; },
-  _index:function(){ if(ZAtlas._by)return; var by={}, F=ZAtlas.META.frames; Object.keys(F).forEach(function(n){ (by[F[n][0]]=by[F[n][0]]||[]).push(n); var k=n.slice(0,n.lastIndexOf('/')); ZAtlas._n[k]=Math.max(ZAtlas._n[k]||0,+n.slice(n.lastIndexOf('/')+1)+1);
-      var pp=n.split('/'); if(pp[2]==='s'||!ZAtlas._f0[pp[0]])ZAtlas._f0[pp[0]]=pp[2]; if(!ZAtlas._any[pp[0]]||pp[1]==='idle')ZAtlas._any[pp[0]]=[pp[1],pp[2]]; }); ZAtlas._by=by; },
-  load:function(p){ var S=ZAtlas.st[p]; if(S)return S; ZAtlas._index(); ZAtlas.st[p]='loading'; var img=new Image();
-    img.onload=function(){ try{ var T=game.textures.addImage('za_'+p,img), F=ZAtlas.META.frames; (ZAtlas._by[p]||[]).forEach(function(n){ var f=F[n], fr=T.add(n,0,f[1],f[2],f[3],f[4]); if(fr&&fr.setTrim)fr.setTrim(f[5],f[6],f[7],f[8],f[3],f[4]); }); ZAtlas.img[p]=img; ZAtlas.st[p]='ok'; if(ZAtlas.onPage)ZAtlas.onPage(p); }catch(e){ console.error('atlas',p,e); ZAtlas.st[p]='bad'; } };
-    img.onerror=function(){ ZAtlas.st[p]='bad'; }; img.src=ZAtlas.BASE+p+'.webp'; return 'loading'; },
+  _index:function(){ if(ZAtlas._by)return; var by={}, F=ZAtlas.META.frames; Object.keys(F).forEach(function(n){ (by[F[n][0]]=by[F[n][0]]||[]).push(n); var k=n.slice(0,n.lastIndexOf('/')); (ZAtlas._ix[k]=ZAtlas._ix[k]||[]).push(+n.slice(n.lastIndexOf('/')+1));
+      var pp=n.split('/'); if(pp[2]==='s'||!ZAtlas._f0[pp[0]])ZAtlas._f0[pp[0]]=pp[2]; if(!ZAtlas._any[pp[0]]||pp[1]==='idle')ZAtlas._any[pp[0]]=[pp[1],pp[2]]; });
+    /* round 28: a view often holds only some of a sheet's poses (front / back = poses 0 and 2 of the side walk), so the numbers have gaps. Count and address the frames that exist, in order. */
+    Object.keys(ZAtlas._ix).forEach(function(k){ ZAtlas._ix[k].sort(function(a,b){ return a-b; }); ZAtlas._n[k]=ZAtlas._ix[k].length; }); ZAtlas._by=by; },
+  // round 28: a page that fails to arrive is asked for again (after 1.5 s, 4 s, then every 20 s) instead of leaving its characters as pixel sprites for the rest of the session
+  _try:{}, load:function(p){ var S=ZAtlas.st[p]; if(S)return S; ZAtlas._index(); ZAtlas.st[p]='loading'; ZAtlas._get(p); return 'loading'; },
+  _get:function(p){ var img=new Image(), n=(ZAtlas._try[p]=(ZAtlas._try[p]||0)+1);
+    img.onload=function(){ try{ var T=game.textures.addImage('za_'+p,img), F=ZAtlas.META.frames; (ZAtlas._by[p]||[]).forEach(function(n){ var f=F[n], fr=T.add(n,0,f[1],f[2],f[3],f[4]); if(fr&&fr.setTrim)fr.setTrim(f[5],f[6],f[7],f[8],f[3],f[4]); }); ZAtlas.img[p]=img; ZAtlas.st[p]='ok'; ZAtlas._try[p]=0; if(ZAtlas.onPage)ZAtlas.onPage(p); }catch(e){ console.error('atlas',p,e); ZAtlas.st[p]='bad'; } };
+    img.onerror=function(){ if(n>=3)ZAtlas.st[p]='bad'; setTimeout(function(){ if(ZAtlas.st[p]==='loading'||ZAtlas.st[p]==='bad')ZAtlas._get(p); },n===1?1500:n===2?4000:20000); };
+    img.src=ZAtlas.BASE+p+'.webp'+(n>1?'?r='+n:''); },
   // 'ok' painted and loaded · 'load' on its way (show nothing) · 'bad' the file failed (emergency: pixel sprite) · 'none' not painted / switched off
   state:function(ch){ if(ZAtlas.off)return 'none'; var C=ZAtlas.META.chars[ZAtlas.A(ch)]; if(!C||typeof game==='undefined'||!game.textures)return 'none'; var s='ok';
-    for(var i=0;i<C.pages.length;i++){ var r=ZAtlas.load(C.pages[i]); if(r==='bad')return 'bad'; if(r!=='ok')s='load'; } return s; },
+    for(var i=0;i<C.pages.length;i++){ var r=ZAtlas.load(C.pages[i]); if(r==='bad')return 'bad'; if(r!=='ok')s='load'; }
+    if(s==='ok'&&C.pages.length>1){ var now=Date.now(); for(i=0;i<C.pages.length;i++)ZAtlas._use[C.pages[i]]=now; }      // round 28: a character in use keeps ALL its pages (a boss's rarely shown page was dropped and fetched again, hiding the boss meanwhile)
+    return s; },
   ready:function(ch){ return ZAtlas.state(ch)==='ok'; },
+  // start loading a monster's pages ahead of time (by roster id)
+  warm:function(rid){ try{ var R0=typeof MON_BY_ID!=='undefined'&&MON_BY_ID[rid], ch=ZAtlas.META.chars[ZAtlas.A(rid)]?rid:(R0&&R0.chId); if(ch&&!ZAtlas.off)ZAtlas.state(ch); }catch(e){} },
   count:function(ch,anim,f){ ZAtlas._index(); return ZAtlas._n[ZAtlas.A(ch)+'/'+anim+'/'+f]||0; },
-  name:function(ch,anim,f,i){ var n=ZAtlas.A(ch)+'/'+anim+'/'+f+'/'+i; return ZAtlas.META.frames[n]?n:null; },
+  name:function(ch,anim,f,i){ ZAtlas._index(); var k=ZAtlas.A(ch)+'/'+anim+'/'+f, L=ZAtlas._ix[k]; if(!L)return null; i=Math.floor(+i)||0; i=((i%L.length)+L.length)%L.length; return k+'/'+L[i]; },      // i = the i-th existing frame (wraps; never a hole)
   set:function(img,ch,anim,f,i){ var n=ZAtlas.name(ch,anim,f,i); if(!n)return false; var pg=ZAtlas.META.frames[n][0], key='za_'+pg; ZAtlas._use[pg]=Date.now(); if(ZAtlas.st[pg]!=='ok')return false; if(img.texture.key!==key||img.frame.name!==n)img.setTexture(key,n); return true; },
   hide:function(im,on){ if(on){ if(!im._zh){ im._zh=true; im.setVisible(false); } } else if(im._zh){ im._zh=false; im.setVisible(true); } },
   // first anim+facing in the list that has frames; the very last resort is any painted frame of the character
@@ -201,7 +210,10 @@ var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},cha
   scan:function(){ if(ZAtlas.off||typeof game==='undefined'||!game.scene)return; var walk=function(L){ for(var i=0;i<L.length;i++){ var o=L[i]; if(o.list){ walk(o.list); continue; } if(o._zm||o._zw||o._rig||!o.texture||!o.frame||(o.type!=='Image'&&o.type!=='Sprite'))continue;
         var ch=ZAtlas.chOfKey(o.texture.key,o.frame.name); if(!ch||!ZAtlas.META.chars[ZAtlas.A(ch)]){ if(ch)o._zm=true; continue; } o._zw={ch:ch,t:Math.random()*3,mv:0,key:o.texture.key}; ZAtlas._sw.push(o); } };
     game.scene.getScenes(true).forEach(function(sc){ if(sc.children&&sc.children.list)walk(sc.children.list); }); },
-  tick:function(dt){ if(typeof game==='undefined')return; ZAtlas._swT-=dt; if(ZAtlas._swT<=0){ ZAtlas._swT=0.3; try{ ZAtlas.scan(); }catch(e){} }
+  // round 28: an image made with a character's pixel texture is noted when it is made and dressed before the frame is drawn (the 0.3 s scan stays as a backstop)
+  _new:[], _take:function(o){ if(!o||o._zm||o._zw||o._rig||!o.texture||!o.frame)return; var ch=ZAtlas.chOfKey(o.texture.key,o.frame.name); if(!ch)return; if(!ZAtlas.META.chars[ZAtlas.A(ch)]){ o._zm=true; return; } o._zw={ch:ch,t:Math.random()*3,mv:0,key:o.texture.key}; ZAtlas._sw.push(o); },
+  tick:function(dt){ if(typeof game==='undefined')return; if(ZAtlas._new.length){ var N=ZAtlas._new; ZAtlas._new=[]; if(!ZAtlas.off)for(var q=0;q<N.length;q++){ try{ if(N[q].scene&&N[q].active)ZAtlas._take(N[q]); }catch(e){} } }
+    ZAtlas._swT-=dt; if(ZAtlas._swT<=0){ ZAtlas._swT=0.3; try{ ZAtlas.scan(); }catch(e){} }
     var L=ZAtlas._sw, i, o, W;
     for(i=L.length-1;i>=0;i--){ o=L[i]; W=o._zw; if(!o.scene||!o.active||!W||o._zm){ L.splice(i,1); continue; }
       try{ var S=ZAtlas.state(W.ch); if(S==='load'){ ZAtlas.hide(o,true); continue; } ZAtlas.hide(o,false); if(S!=='ok'){ if(o._zo)ZAtlas.unwear(o); continue; }
@@ -212,7 +224,9 @@ var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},cha
         ZAtlas.wear(o,W.ch,P.a,P.f,(W.mv>0||P.a==='float'||P.a==='idle')?Math.floor(W.t*rate)%P.n:0,isHero?ZAtlas.heroK()*Math.abs(ZAtlas.memo(o).sy)*o._zo.h/42:0,cen); }catch(e){} }
     try{ ZAtlas.evict(dt); }catch(e){}
     L=ZAtlas._an; var fr=game.loop.frame; for(i=L.length-1;i>=0;i--){ o=L[i]; if(!o.scene){ L.splice(i,1); continue; } if(fr-o._zseen>2&&o.visible)o.setVisible(false); } },
-  start:function(g){ if(ZAtlas._started||!g||!g.events)return; ZAtlas._started=true; g.events.on('poststep',function(t,ms){ try{ ZAtlas.tick(Math.min(0.1,(ms||16)/1000)); }catch(e){} }); },
+  start:function(g){ if(ZAtlas._started||!g||!g.events)return; ZAtlas._started=true;
+    try{ var FP=Phaser.GameObjects.GameObjectFactory.prototype; ['image','sprite'].forEach(function(n){ var f=FP[n]; if(typeof f!=='function'||f._z)return; FP[n]=function(x,y,key){ var o=f.apply(this,arguments); if(typeof key==='string'&&/^(mx_|ch_|ba_|spirit_|fairy|hero)/.test(key))ZAtlas._new.push(o); return o; }; FP[n]._z=true; }); }catch(e){}
+    g.events.on('poststep',function(t,ms){ try{ ZAtlas.tick(Math.min(0.1,(ms||16)/1000)); }catch(e){} }); },
 
   // ── pictures for the book and menus (DOM canvases) ──
   // a page as a plain image for drawing thumbnails (no game texture is made; at most 4 are kept)

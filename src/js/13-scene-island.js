@@ -177,7 +177,7 @@ class IslandScene extends WorldScene{
     this.worldMonsters=[]; this._camps=[]; this._pm=null;
     var types=CAMP_TYPES[q]||CAMP_TYPES[1];
     ISL_ANCH.camps.forEach(function(p,i){ var P=_islAt(p); self._makeCamp(q,P.x,P.y,types[(i*5+'abcd'.indexOf(self.islKey[1]))%types.length],'i'+self.islKey+'_'+i,rng,null); });
-    var want=this.castle?16:12, got=0;
+    var want=ZDiff.n(this.castle?16:12), got=0;
     for(var a=0;a<3000&&got<want;a++){ var tx=ISL_OX+8+Math.floor(rng.next()*(ISL_N-16)), ty=ISL_OY+8+Math.floor(rng.next()*(ISL_N-16)), k=ty*WORLD_W+tx;
       if(this.wd.cls[k]!==WM.LAND||this.wd.region[k]!==q||ALWAYS_BLOCKED.has(this.tiles[ty][tx])||this.tiles[ty][tx]===T.PROP)continue;
       if(this._nearSafeSpot(tx,ty,10)||this._camps.some(function(C){ return Math.hypot(C.tx-tx,C.ty-ty)<10; }))continue;

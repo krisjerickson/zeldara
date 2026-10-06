@@ -38,7 +38,7 @@ var ZSave={ SLOTS:3, MAX_PLAYERS:20, PKEY:'zeldara_profiles', LEGACY:'qoz_v2', c
   read:function(){ return ZSave.store.get(ZSave.key()); },
   write:function(json){ var ok=ZSave.store.set(ZSave.key(),json); if(!ok&&!ZSave._warned){ ZSave._warned=true; if(typeof showNotif==='function')showNotif('⚠ Could not save — browser storage is full. Export a save and delete old slots.','#ff8866'); } return ok; },
   clearCurrent:function(){ ZSave.store.remove(ZSave.key()); },
-  info:function(id,slot){ var raw=ZSave.store.get(ZSave.slotKey(id,slot)); if(!raw)return null; try{ var s=JSON.parse(raw); return {level:s.level||1,gold:s.gold||0,hp:s.hp,maxHp:s.maxHp,saved:s._savedAt||null,kb:Math.round(raw.length/1024),quests:(s.completedQuests||[]).length}; }catch(e){ return {broken:true}; } },
+  info:function(id,slot){ var raw=ZSave.store.get(ZSave.slotKey(id,slot)); if(!raw)return null; try{ var s=JSON.parse(raw); return {diff:s.difficulty,level:s.level||1,gold:s.gold||0,hp:s.hp,maxHp:s.maxHp,saved:s._savedAt||null,kb:Math.round(raw.length/1024),quests:(s.completedQuests||[]).length}; }catch(e){ return {broken:true}; } },
   choose:function(pid,slot){ ZSave.current={pid:pid,slot:slot}; try{ sessionStorage.setItem('zeldara_current',JSON.stringify(ZSave.current)); }catch(e){} ZSave.touch(pid); },
   currentPlayer:function(){ var c=ZSave.current; if(!c)return null; return ZSave.load().players.find(function(p){ return p.id===c.pid; })||null; },
   // the one-time move of the old single save into a profile
@@ -65,7 +65,7 @@ var ZProfilesUI={
   isOpen:function(){ return !!(ZProfilesUI.el&&ZProfilesUI.el.style.display==='flex'); },
   esc:function(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); },
   ago:function(t){ if(!t)return ''; var m=Math.round((Date.now()-t)/60000); return m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' days ago'; },
-  slotLine:function(I){ if(!I)return '<span class="zp-empty">Empty</span>'; if(I.broken)return '<span class="zp-empty">Unreadable save</span>'; return '<b>Level '+I.level+'</b> · '+I.gold+' gold'+(I.saved?' · saved '+ZProfilesUI.ago(I.saved):''); },
+  slotLine:function(I){ if(!I)return '<span class="zp-empty">Empty</span>'; if(I.broken)return '<span class="zp-empty">Unreadable save</span>'; return '<b>Level '+I.level+'</b> · '+(typeof ZDIFF!=='undefined'&&ZDIFF[I.diff]&&I.diff!==1?ZDIFF[I.diff].name+' · ':'')+I.gold+' gold'+(I.saved?' · saved '+ZProfilesUI.ago(I.saved):''); },
   // NEW GAME: your name, then a slot
   newGame:function(start,err,val){ ZProfilesUI.open('<h2>New game</h2><p>What\'s your name, adventurer?</p>'+
       '<input id="zp-name" maxlength="16" autofocus placeholder="Your name" value="'+ZProfilesUI.esc(val||'')+'">'+(err?'<p class="zp-err">'+ZProfilesUI.esc(err)+'</p>':'')+
@@ -78,7 +78,7 @@ var ZProfilesUI={
   // NEW GAME, last step (round 18): choose your hero — boy or girl. The girl is a recoloured stand-in until her sprites are painted.
   pickHero:function(p,go,back){ ZProfilesUI.open('<h2>Choose your hero</h2><p>'+ZProfilesUI.esc(p.name)+', who will you play?</p><div class="zp-heroes">'+
       [['m','The boy','A woodcutter\'s son from the lake village, raised on tales of the Runestone'],['f','The girl','A shieldmaiden\'s daughter from the northern fjords, come south to earn her own name']].map(function(h){ return '<button class="zp-hero" data-h="'+h[0]+'"><canvas width="100" height="168"></canvas><b>'+h[1]+'</b><small>'+h[2]+'</small></button>'; }).join('')+
-      '</div><p class="zp-note">Both play the same. You can\'t change this later in the same save.</p><div class="zp-row"><button class="zp-btn" id="zp-hback">Back</button></div>');
+      '</div><p class="zp-note">Both play the same. You can\'t change this later in the same save.</p><div id="zp-diff"></div><p class="zp-note">Pick how hard the journey is, then click your hero. You can change the difficulty later (❓ panel).</p><div class="zp-row"><button class="zp-btn" id="zp-hback">Back</button></div>');
     var E=ZProfilesUI.el; E.querySelectorAll('.zp-hero').forEach(function(b){ var cv=b.querySelector('canvas'), c=cv.getContext('2d'), img=new Image(); c.imageSmoothingEnabled=false;
       img.onload=function(){ var src=b.dataset.h==='f'&&typeof _heroRecolour==='function'?_heroRecolour(img):img; c.clearRect(0,0,100,168); c.imageSmoothingEnabled=true; var sc=Math.min(100/src.width,160/src.height); c.drawImage(src,(100-src.width*sc)/2,164-src.height*sc,src.width*sc,src.height*sc); };
       var standIn=function(){ if(typeof HERO_WALK_FRAMES_FRONT!=='undefined')img.src=HERO_WALK_FRAMES_FRONT[0]; };
@@ -87,6 +87,8 @@ var ZProfilesUI={
       if(F){ var pg=new Image(); pg.onload=function(){ c.clearRect(0,0,100,168); c.imageSmoothingEnabled=true; var sc=Math.min(1.3,96/F[5],160/F[6]), dx=(100-F[5]*sc)/2, dy=164-F[6]*sc; c.drawImage(pg,F[1],F[2],F[3],F[4],dx+F[7]*sc,dy+F[8]*sc,F[3]*sc,F[4]*sc); cv.dataset.painted='1'; }; pg.onerror=standIn; pg.src=ZAtlas.BASE+F[0]+'.webp'; }
       else standIn();
       b.onclick=function(){ go(b.dataset.h); }; });
+    // difficulty (04g): Wayfarer unless another is picked
+    if(typeof ZDiff!=='undefined'){ ZSave.pendingDiff=1; var dbox=document.getElementById('zp-diff'), drw=function(){ dbox.innerHTML=ZDiff.html(ZSave.pendingDiff); dbox.querySelectorAll('.zdiff-b').forEach(function(b){ b.onclick=function(){ ZSave.pendingDiff=+b.dataset.d; drw(); }; }); }; drw(); }
     document.getElementById('zp-hback').onclick=back; },
   // RETURNING PLAYER: pick your name
   returning:function(start){ var L=ZSave.players(); if(!L.length)return ZProfilesUI.newGame(start);

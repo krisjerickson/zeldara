@@ -36,17 +36,17 @@ var BossPat={
   say:function(S,x,y,t,c){ if(S._floatText)S._floatText(x,y,t,c||'#ffe0a0'); },
   gfx:function(S,d){ return S.add.graphics().setDepth(d===undefined?BossPat.D_TELE:d); },
   // ── director ──
-  tick:function(S,dt){ if(!S.monsters||S._phaseLock)return; var q=BossPat.q(S), RP=BOSS_RAMP[q]; BossPat.reach(S);
+  tick:function(S,dt){ if(!S.monsters||S._phaseLock)return; var q=BossPat.q(S), RP=ZDiff.ramp(q); BossPat.reach(S);
     if(!S._bpAct||S._bpAct._s!==S._bpRun){ S._bpRun=(S._bpRun||0)+1; S._bpAct=[]; S._bpAct._s=S._bpRun; S.events.once('shutdown',function(){ S._bpAct=null; }); }
     for(var i=S._bpAct.length-1;i>=0;i--){ var a=S._bpAct[i]; var done=false; try{ done=a.upd(dt); }catch(e){ done=true; } if(done||(a.boss&&a.boss.dead&&!a.keep)){ try{ a.kill(); }catch(e2){} S._bpAct.splice(i,1); } }
     if(S._introT>0)return;
     S.monsters.forEach(function(m){ if(!m.isBoss||m.dead||m.bossAlly||m.eliteKin)return; var d=Math.hypot(m.x-S.px,m.y-S.py); if(!m._bp){ if(d>420)return; BossPat.init(S,m); if(!m._bp)return; }
       var B=m._bp; BossPat.stagger(S,m,B,RP,dt); if(B.stagT>0)return;
       // last stand
-      var hp=m.hp/(m.maxHp||1); if(B.desp&&!B.despDone&&hp<=0.15&&hp>0&&!B.busy){ B.despDone=true; BossPat.lastStand(S,m,B); return; }
+      var hp=m.hp/(m.maxHp||1); if(B.desp&&!B.despDone&&hp<=ZDiff.cur().stand&&hp>0&&!B.busy){ B.despDone=true; BossPat.lastStand(S,m,B); return; }
       if(B.busy)return; B.t-=dt; if(B.t>0||d>520)return;
       var name=BossPat.next(B); BossPat.run(S,m,name,B);
-      B.t=RP.every*(0.85+Math.random()*0.3)*(B.enraged?0.75:1)-(B.phase-1)*0.25; });
+      B.t=Math.max(1.4,RP.every*(0.85+Math.random()*0.3)*(B.enraged?0.75:1)-(B.phase-1)*0.25); });
   },
   init:function(S,m){ var sl=BossPat.slotOf(m), I=sl&&BossAtk.forSlot(sl); if(!I)return; var q=BossPat.q(S);
     var last=I.fam?(BOSS_PHASES[I.fam]?(S._bossPhase||1)>=BossPhases.count(I.fam):true):true;
@@ -63,7 +63,7 @@ var BossPat={
       var g=S.add.graphics().setDepth(BossPat.D_FX); for(var i=0;i<5;i++){ var a=i/5*Math.PI*2; g.fillStyle(0xfff0a0,0.95); g.fillCircle(Math.cos(a)*22,Math.sin(a)*7,3.5); } B.stagG=g;
       // a stagger interrupts the boss's own moves (not area hazards already on the field)
       (S._bpAct||[]).forEach(function(a){ if(a.boss===m&&a.attached)a.cut=true; }); B.busy=0; } },
-  run:function(S,m,name,B,o){ var a=name.split(':'), F=BossPat.PAT[a[0]]; if(!F)return; var q=BossPat.q(S), RP=BOSS_RAMP[q];
+  run:function(S,m,name,B,o){ var a=name.split(':'), F=BossPat.PAT[a[0]]; if(!F)return; var q=BossPat.q(S), RP=ZDiff.ramp(q);
     var ctx=Object.assign({S:S,m:m,B:B,q:q,R:RP,theme:a[1]||'',col:B.col,dmg:(m.def.atk||10)*RP.dmg,tele:RP.tele*(B.enraged?0.85:1)},o||{});
     var act=F(ctx); if(!act)return; act.boss=m; act.attached=!!act.attached; B.busy++; var up=act.upd, done=false;
     act.upd=function(dt){ if(act.cut)return true; return up.call(act,dt); };
@@ -73,7 +73,7 @@ var BossPat={
     S._bpAct.push(act); return act; },
   lastStand:function(S,m,B){ var nm=(m.def.name||'').split(',')[0].replace(/ \(Rematch\)$/,''); showNotif('⚠ '+nm+'\'s last stand!','#ff9060');
     S.cameras.main.flash(300,255,90,60); S.cameras.main.shake(600,0.012); if(typeof ZSFX!=='undefined')ZSFX.play('roar',{big:1.6}); B.enraged=true; m._hold=0.8;
-    B.desp.forEach(function(p,i){ BossPat.run(S,m,p,B,{tele:BOSS_RAMP[BossPat.q(S)].tele+0.3+i*0.25}); }); B.t=3; },
+    B.desp.forEach(function(p,i){ BossPat.run(S,m,p,B,{tele:ZDiff.ramp(BossPat.q(S)).tele+0.3+i*0.25}); }); B.t=3; },
 
   // ═══════════ the patterns: each returns {upd(dt)→done, kill(), dur, attached} ═══════════
   PAT:{

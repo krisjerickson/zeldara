@@ -234,3 +234,8 @@ The largest "fairy" entries are the three fairy monarchs (354 to 380 px): they w
 - Everything: `ZAtlas.SCALE` (1.5).
 - One character: its pixel sprite's scale is what the rule reads (`MX.scaleOf` by body plan for monsters, the design height `h` for a boss).
 - After a change run `python tools/sprites/sizes.py` (rewrites `sizes.json`); if a character is now drawn much larger than it is stored, add it to `sprites/requests/atlas_px.json` and re-cut its sheets.
+
+
+## Round 28 change
+
+Familiars are drawn at half the size the rule gives (Kris, Oct 6): 36–45 px instead of 71–89 px. They are the second chosen exception to "match the game", after riders.

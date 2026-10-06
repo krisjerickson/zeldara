@@ -838,7 +838,7 @@ class VolcanoBossRushScene extends Phaser.Scene {
       var hpFill=self.add.rectangle(-b.r*1.1,-tr-12,b.r*2.2,5,0xff3333).setOrigin(0,.5);
       var nameT=self.add.text(0,-tr-22,b.name,{fontSize:'10px',color:'#fff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
       cont.add([body,icon,hpBg,hpFill,nameT]);
-      var bhp=b.wave==='swarm'?b.hp:Math.round(b.hp*1.5*BOSS_HP_R12);   // round 9: bosses +50%, round 12: ×2 (the imp swarm stays)
+      var bhp=b.wave==='swarm'?Math.round(b.hp*ZDiff.cur().monHp):Math.round(b.hp*1.5*BOSS_HP_R12*ZDiff.cur().bossHp);   // round 9: bosses +50%, round 12: ×2 (the imp swarm stays)
       return {cont:cont,body:body,hpFill:hpFill,def:b,hp:bhp,maxHp:bhp,x:x,y:y,atkTimer:1.5,isBoss:true,dead:false};
     }
     this.monsters=[];
@@ -900,7 +900,7 @@ class VolcanoBossRushScene extends Phaser.Scene {
       var dist=Math.hypot(m.x-self.player.x, m.y-self.player.y);
       if(dist<m.def.r+20 && m.atkTimer<=0 && self.iFrames<=0){
         m.atkTimer=1.5;
-        var dmg=m.def.atk;
+        var dmg=Math.round(m.def.atk*(m.def.wave==='swarm'?ZDiff.cur().monDmg:ZDiff.cur().bossDmg));   // difficulty level (04g)
         var ps=self.worldScene.playerState;
         if(typeof _heroApplyShield==='function')dmg=_heroApplyShield(self,ps,dmg,self.player.x,self.player.y);
         if(dmg>0 && !ps.godMode){

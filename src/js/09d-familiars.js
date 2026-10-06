@@ -10,8 +10,8 @@
 // ║ shrieks/gusts/nets and knocked out (8–15 s), banished by some casters,
 // ║ silenced by null auras; their hits are source 'familiar' (07rb counters). Active familiars: 1, +1 for each
 // ║ Fairy King (Wetlands, Highlands, Ashlands) → up to 4 at once.
-// ║ Movement (round 27): all familiars trail behind you in a single file, never on top of you or of each other;
-// ║ "hover" spirits bob as they float, "follow" spirits walk.
+// ║ Movement (round 28): the familiars travel as a small pod behind you, never on top of you (they may brush
+// ║ each other); "hover" spirits bob as they float, "follow" spirits walk. They are drawn at half size (FAM_SC).
 // ═══════════════════════════════════════════════════════════════════════
 var FAM_BY_EL={grass:'fam_grass',water:'fam_water',earth:'fam_earth',fire:'fam_fire'}, FAM_EL={fam_grass:'grass',fam_water:'water',fam_earth:'earth',fam_fire:'fire'};
 var FAM_BY_SEC={1:'fam_grass',2:'fam_water',3:'fam_earth',4:'fam_fire'};
@@ -77,41 +77,44 @@ function _famHeroBox(scene,c,ps){ var s=scene._zHeroSpr, b=null; if(s&&s.active&
   if(!b||!(b.width>4))return {x:c.x,y:c.y,hw:16,hh:24};
   var pc=s.parentContainer||s, ox=b.centerX-pc.x, oy=b.centerY-pc.y; if(Math.hypot(ox,oy)>90)return {x:c.x,y:c.y,hw:16,hh:24};      // offset from the hero's position, so a sprite moved later in the frame does not lag
   return {x:c.x+ox,y:c.y+oy,hw:b.width*(ps&&ps.mount?0.46:0.3),hh:b.height*0.5}; }
-var FAM_GAP=6;
+var FAM_GAP=5, FAM_SC=0.25;      // gap to the hero's body (px); stand-in scale (round 28: half of 0.5 — the painted size follows it)
+// places in the pod by number of familiars: [rows behind the front row, sideways], in units of a familiar's size
+var FAM_POD={1:[[0,0]],2:[[0,-0.55],[0.1,0.55]],3:[[0,-0.6],[0.1,0.6],[0.95,0]],4:[[0,-0.6],[0.12,0.6],[0.95,-0.95],[1.05,0.25]]};
 function _famGap(A,B,th){ var cx=Math.cos(th)/(A.hw+B.hw+FAM_GAP), sy=Math.sin(th)/(A.hh+B.hh+FAM_GAP); return Math.pow(cx*cx*cx*cx+sy*sy*sy*sy,-0.25); }
 function _heroFamiliarsTick(scene,dt){
   var c=_heroCtx(scene), ps=c.ps; if(!ps)return;
   var fams=_heroActiveFamiliars(ps);
   if(!scene._famVisuals)scene._famVisuals={}; if(!scene._famTimers)scene._famTimers={};
   Object.keys(scene._famVisuals).forEach(function(f){ if(fams.indexOf(f)<0){ var v=scene._famVisuals[f]; if(v){ if(v._halo)v._halo.destroy(); if(v._em)v._em.destroy(); v.destroy(); } delete scene._famVisuals[f]; } });
-  // round 27: a chain behind the hero. Each familiar keeps a fixed gap to the one in front (the hero for the first), so it
-  // is dragged along the hero's path; while its leader moves it swings round to the side the leader came from.
-  var HB=_famHeroBox(scene,c,ps), hp=scene._famHP, jump=!hp||Math.hypot(c.x-hp.x,c.y-hp.y)>160;
-  var lead={x:HB.x,y:HB.y,hw:HB.hw,hh:HB.hh,vx:(!jump&&dt>0)?(c.x-hp.x)/dt:0,vy:(!jump&&dt>0)?(c.y-hp.y)/dt:0}, placed=[lead]; scene._famHP={x:c.x,y:c.y};
+  // round 28: a pod behind the hero. The pod's bearing (hero → pod) swings round to the side the hero came from while he
+  // moves; each familiar has a place in the pod and eases towards it, and is then pushed clear of the hero's body.
+  var HB=_famHeroBox(scene,c,ps), hp=scene._famHP, jump=!hp||Math.hypot(c.x-hp.x,c.y-hp.y)>160, hvx=(!jump&&dt>0)?(c.x-hp.x)/dt:0, hvy=(!jump&&dt>0)?(c.y-hp.y)/dt:0, hsp=Math.hypot(hvx,hvy); scene._famHP={x:c.x,y:c.y};
+  var pth=scene._famTh; if(pth===undefined||jump)pth=_heroDirAngle(c.dir)+Math.PI;
+  else if(hsp>10){ var pd=Math.atan2(-hvy,-hvx)-pth; while(pd>Math.PI)pd-=2*Math.PI; while(pd<-Math.PI)pd+=2*Math.PI;
+    if(Math.abs(pd)>3.05)pd=Math.abs(pd)*(scene._famSide||(scene._famSide=1)); else scene._famSide=pd<0?-1:1;       // hero turned straight back: keep swinging the same way
+    pth+=(pd<0?-1:1)*Math.min(Math.abs(pd),dt*3.2*Math.min(1,hsp/70)); }
+  scene._famTh=pth; var pux=Math.cos(pth), puy=Math.sin(pth), slots=FAM_POD[Math.min(4,fams.length)]||FAM_POD[4], placed=[];
   // monsters with a null aura (07rb) silence familiars near them
   var nullers=fams.length?(c.monsters||[]).filter(function(m){ if(m.dead||!m.kit)return false; if(m.kit._null===undefined){ var D=m.kit.def.find(function(d){ return d.name==='nullaura'; }); m.kit._null=D?(D.p.r||130):0; } return m.kit._null>0; }):[];
   fams.forEach(function(fid,i){ var D=_famDesign(fid), E=SPIRIT_ELEMENTS[D.el], v=scene._famVisuals[fid];
-    if(!v||!v.active){ var key=_famTex(scene,D); v=scene.add.image(c.x,c.y,key,'0').setScale(0.5*(D.sz||1)).setAlpha(0.92);
+    if(!v||!v.active){ var key=_famTex(scene,D); v=scene.add.image(c.x,c.y,key,'0').setScale(FAM_SC*(D.sz||1)).setAlpha(0.92);
       if(!scene.textures.exists('glow')&&typeof CHX!=='undefined')CHX.glow(scene);
       v._halo=scene.add.image(c.x,c.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(E.col)).setAlpha(0.35).setScale(0.75);
       if(scene.textures.exists('dot')){ v._em=scene.add.particles(0,0,'dot',{follow:v,lifespan:900,speed:{min:4,max:18},scale:{start:0.45,end:0},alpha:{start:0.8,end:0},tint:[hexNum(E.col),hexNum(E.mote),0xffffff],frequency:70,blendMode:'ADD'}); }
       v.x=c.x; v.y=c.y; v._t=Math.random()*6; scene._famVisuals[fid]=v; }
     v._t+=dt; var hover=D.move==='hover';
     if(!(typeof ZAtlas!=='undefined'&&ZAtlas.simple(v,'fam_'+D.el,[scene._famCastT>0?'cast':null,'float','idle','move'],'q',v._t,hover?7:6,true)))v.setFrame(String(Math.floor(v._t*(hover?7:6))%4));
-    var B={hw:Math.max(10,v.displayWidth*0.46),hh:Math.max(10,v.displayHeight*0.5)}, th, ox=v._px, oy=v._py, fresh=ox===undefined||jump||Math.hypot(ox-lead.x,oy-lead.y)>420;
-    if(fresh)th=(i?scene._famTh:_heroDirAngle(c.dir)+Math.PI);
-    else { th=Math.atan2(oy-lead.y,ox-lead.x); var sp=Math.hypot(lead.vx,lead.vy);
-      if(sp>10){ var d=Math.atan2(-lead.vy,-lead.vx)-th; while(d>Math.PI)d-=2*Math.PI; while(d<-Math.PI)d+=2*Math.PI;
-        if(Math.abs(d)>3.05)d=Math.abs(d)*(v._side||(v._side=(i%2?1:-1))); else v._side=d<0?-1:1;      // straight ahead of the leader: pick a side and keep it
-        th+=(d<0?-1:1)*Math.min(Math.abs(d),dt*3.2*Math.min(1,sp/70)); } }
-    if(!i)scene._famTh=th;
-    var gp=_famGap(lead,B,th), nx=lead.x+Math.cos(th)*gp, ny=lead.y+Math.sin(th)*gp;
-    for(var pass=0;pass<2;pass++)for(var q=0;q<placed.length;q++){ var P=placed[q], a2=Math.atan2(ny-P.y,nx-P.x), g2=_famGap(P,B,a2); if(Math.hypot(nx-P.x,ny-P.y)<g2-0.01){ nx=P.x+Math.cos(a2)*g2; ny=P.y+Math.sin(a2)*g2; } }
-    B.x=nx; B.y=ny; B.vx=(!fresh&&dt>0)?(nx-ox)/dt:0; B.vy=(!fresh&&dt>0)?(ny-oy)/dt:0; v._px=nx; v._py=ny; placed.push(B); lead=B;
-    v.x=nx; v.y=ny+(hover?Math.sin(v._t*3)*3:0);
-    if(!fresh&&Math.abs(nx-ox)>0.4)v.setFlipX(nx<ox); else if(fresh||Math.hypot(B.vx,B.vy)<10)v.setFlipX(c.x<v.x);
+    var B={hw:Math.max(6,v.displayWidth*0.46),hh:Math.max(6,v.displayHeight*0.5)}, ox=v._px, oy=v._py, fresh=ox===undefined||jump||Math.hypot(ox-HB.x,oy-HB.y)>420;
+    var sl=slots[i%slots.length], U=(B.hw+B.hh)*0.85, back=_famGap(HB,B,pth)+3+sl[0]*U, lat=sl[1]*U, ph=i*2.1;
+    var tx=HB.x+pux*back-puy*lat+Math.sin(v._t*0.9+ph)*3, ty=HB.y+puy*back+pux*lat+Math.cos(v._t*0.7+ph)*2, nx, ny;
+    if(fresh){ nx=tx; ny=ty; } else { var ez=Math.min(1,dt*6); nx=ox+(tx-ox)*ez; ny=oy+(ty-oy)*ez; }
+    for(var q=0;q<placed.length;q++){ var P=placed[q], md=0.6*(P.hw+B.hw), dd=Math.hypot(nx-P.x,ny-P.y); if(dd<md){ var a2=dd>0.01?Math.atan2(ny-P.y,nx-P.x):pth+1.57; nx=P.x+Math.cos(a2)*md; ny=P.y+Math.sin(a2)*md; } }      // they may brush each other, not stack
+    var ah=Math.atan2(ny-HB.y,nx-HB.x), gh=_famGap(HB,B,ah); if(Math.hypot(nx-HB.x,ny-HB.y)<gh){ nx=HB.x+Math.cos(ah)*gh; ny=HB.y+Math.sin(ah)*gh; }                                                                  // never on the hero
+    B.x=nx; B.y=ny; v._px=nx; v._py=ny; placed.push(B);
+    v.x=nx; v.y=ny+(hover?Math.sin(v._t*3)*2:0);
+    if(!fresh&&Math.abs(nx-ox)>0.4)v.setFlipX(nx<ox); else if(fresh||hsp<10)v.setFlipX(c.x<v.x);
     v.setDepth(_famDepth(scene,ny+B.hh-14,false));
-    v._halo.setPosition(v.x,v.y).setDepth(_famDepth(scene,v.y,true)-0.001).setScale(0.7+0.08*Math.sin(v._t*3));
+    v._halo.setPosition(v.x,v.y).setDepth(_famDepth(scene,v.y,true)-0.001).setScale(0.42+0.05*Math.sin(v._t*3));
     if(v._em)v._em.setDepth(_famDepth(scene,v.y,true)-0.002);
     // knocked out / dazed / silenced
     var st=_famSt(fid); if(st.stag>0)st.stag=Math.max(0,st.stag-12*dt);

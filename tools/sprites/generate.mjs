@@ -20,6 +20,8 @@
 //   --concurrency 2     requests in flight at once
 //   --force             redo requests whose file already exists (the old file is kept as .prev.png)
 //   --dry-run           print the plan, send nothing
+//   --set scenery       send the scenery sheets (sprites/requests/scenery.json, round 28) instead of the character sheets;
+//                       waves 21–32, or --pilot for one sheet of each family (12 sheets) to judge the look first
 //
 // It is safe to stop and restart: a request whose PNG already exists is skipped.
 // A request that needs another sheet as a reference (a hero's model sheet, a
@@ -40,21 +42,22 @@ const waves = arg('wave', null) === null ? null : String(arg('wave')).split(',')
 const ids = arg('ids', null) ? String(arg('ids')).split(',') : null;
 const group = arg('group', null);
 
-const reqFile = path.join(ROOT, 'sprites', 'requests', 'requests.json');
-if (!fs.existsSync(reqFile)) { console.error('sprites/requests/requests.json is missing — run "node build.mjs" first.'); process.exit(1); }
+const SET = arg('set', 'characters'), SCN = SET === 'scenery', PILOT = !!arg('pilot', false);
+const reqFile = path.join(ROOT, 'sprites', 'requests', SCN ? 'scenery.json' : 'requests.json');
+if (!fs.existsSync(reqFile)) { console.error('sprites/requests/' + path.basename(reqFile) + ' is missing — run "node build.mjs" first.'); process.exit(1); }
 const J = JSON.parse(fs.readFileSync(reqFile, 'utf8'));
 const IN = path.join(ROOT, 'sprites', 'incoming'), REF = path.join(ROOT, 'sprites', 'reference');
 fs.mkdirSync(IN, { recursive: true });
 const outPath = id => path.join(IN, id + '.png');
 const refPath = r => (r === 'style_hero' || r === 'style_centaur') ? path.join(REF, r + '.png') : outPath(r);
-const fullPrompt = q => q.body + '\n' + J.style + '\n' + J.rules + '\n' + J.bgAlpha;
+const fullPrompt = q => q.body + '\n' + J.style + '\n' + (q.tail === 'tex' ? J.rulesTex + '\n' + J.bgTex : J.rules + '\n' + J.bgAlpha);
 
-if (!waves && !ids && !group) { console.error('Say what to send: --wave N, --ids a,b or --group name. Add --dry-run to preview.'); process.exit(1); }
-let todo = J.requests.filter(q => !q.legacy && (!waves || waves.includes(q.wave)) && (!ids || ids.includes(q.id)) && (!group || q.group === group) && (ids || TIER === 'all' || q.tier === TIER));
+if (!waves && !ids && !group && !PILOT) { console.error('Say what to send: --wave N, --ids a,b or --group name' + (SCN ? ' (or --pilot)' : '') + '. Add --dry-run to preview.'); process.exit(1); }
+let todo = J.requests.filter(q => !q.legacy && (!waves || waves.includes(q.wave)) && (!ids || ids.includes(q.id)) && (!group || q.group === group || q.fam === group) && (!PILOT || q.pilot) && (SCN || ids || TIER === 'all' || q.tier === TIER));
 const skipped = todo.filter(q => fs.existsSync(outPath(q.id)) && !FORCE).length;
 todo = todo.filter(q => FORCE || !fs.existsSync(outPath(q.id))).slice(0, LIMIT);
 console.log(`${todo.length} request(s) to send, ${skipped} already in sprites/incoming/ (model ${MODEL}, quality ${QUALITY})`);
-if (DRY) { for (const q of todo) console.log(`  ${q.id}  [wave ${q.wave}, ${q.tier}]  ${q.size}  ${q.poses.length} poses  refs: ${q.refs.join(', ')}${q.refs.some(r => !fs.existsSync(refPath(r))) ? '  (waits for a reference)' : ''}`); process.exit(0); }
+if (DRY) { for (const q of todo) console.log(`  ${q.id}  [wave ${q.wave}${q.tier ? ', ' + q.tier : ''}]  ${q.size}  ${q.poses.length} ${SCN ? 'items' : 'poses'}  refs: ${q.refs.join(', ')}${q.refs.some(r => !fs.existsSync(refPath(r))) ? '  (waits for a reference)' : ''}`); process.exit(0); }
 const KEY = process.env.OPENAI_API_KEY;
 if (!KEY) { console.error('OPENAI_API_KEY is not set in this terminal. See the top of this file.'); process.exit(1); }
 for (const r of ['style_hero', 'style_centaur']) if (!fs.existsSync(refPath(r))) { console.error('Missing reference image sprites/reference/' + r + '.png'); process.exit(1); }
@@ -71,7 +74,7 @@ const unclaim = id => { try { fs.unlinkSync(path.join(CLAIMS, id)); } catch (e) 
 async function send(q) {
   const form = new FormData();
   form.append('model', MODEL); form.append('prompt', fullPrompt(q)); form.append('size', q.size); form.append('quality', QUALITY);
-  form.append('background', 'transparent'); form.append('output_format', 'png'); form.append('n', '1');
+  form.append('background', q.bg === 'opaque' ? 'opaque' : 'transparent'); form.append('output_format', 'png'); form.append('n', '1');
   for (const r of q.refs) form.append('image[]', new Blob([fs.readFileSync(refPath(r))], { type: 'image/png' }), r.replace(/[^a-z0-9_.-]/gi, '_') + '.png');
   for (let attempt = 1; attempt <= 6; attempt++) {
     let res, body;

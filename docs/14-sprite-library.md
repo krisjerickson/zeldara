@@ -196,3 +196,12 @@ Rules of thumb:
 - **About 30 manual sheets:** one painted pose per character, 12–16 characters per sheet; the game moves them (bob, hop, lunge, flash). Real frames only for the two heroes. No API.
 - **About 55 manual sheets:** two poses per character (standing and attacking), 6–8 per sheet. No API.
 - Either can be mixed with the API plan, for example full frames for the Grasslands and single poses elsewhere.
+
+
+## Frame numbers have gaps (round 28)
+
+A frame is named `<character>/<animation>/<facing>/<n>`, where n is the pose's place in the **side** animation. Front and back views are painted with fewer poses (walk: poses 0 and 2; cast: often only pose 1), so their numbers are not 0, 1, 2 … The game never builds a frame name from a counter: `ZAtlas.count(ch, anim, facing)` is the number of frames that exist and `ZAtlas.name(ch, anim, facing, i)` returns the i-th of them (i wraps). 722 of 3,553 animations have such gaps.
+
+## Scenery (round 28)
+
+Background objects and ground textures have their own manifest (`src/js/07zt-scenery.js`), request file (`sprites/requests/scenery.json`), sending script (`tools/sprites/scenery.ps1`) and cutter (`tools/sprites/intake_scenery.py`). See `claude/16-scenery-plan.md`.

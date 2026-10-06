@@ -37,12 +37,13 @@ Object.assign(WorldScene.prototype,{
     if(base.boss){ mdef.hp=st.hp; mdef.atk=st.atk; mdef.def=st.def; mdef.xp=st.xp; mdef.gMin=st.gMin; mdef.gMax=st.gMax; }
     var lv=st.lv, hp=base.boss?st.hp:Math.round(Math.max(base.hp,st.hp*0.9)), atk=base.boss?st.atk:Math.max(base.atk,st.atk), df=base.boss?st.def:base.def;
     if(o.alpha){ hp=Math.round(hp*1.6); atk=Math.round(atk*1.3); }
+    var _ds={hp:hp,atk:atk,xp:mdef.xp,gMin:mdef.gMin,gMax:mdef.gMax}, _dz=ZDiff.stats(_ds,false); hp=_ds.hp; atk=_ds.atk; mdef.xp=_ds.xp; mdef.gMin=_ds.gMin; mdef.gMax=_ds.gMax; mdef.atk=Math.max(1,Math.round(mdef.atk*_dz.a));   // difficulty level (04g)
     var cont=this.add.container(wx,wy).setDepth(9), shadow=this.add.ellipse(0,mdef.r+2,mdef.r*2.2,7,0x000000,.3);
     var body=monLegacyBody(this,rid,mdef,true)||this.add.circle(0,0,mdef.r,mdef.color);
     var hpBg=this.add.rectangle(0,-(mdef.r+22),28,4,0x000000,.7), hpFill=this.add.rectangle(-14,-(mdef.r+22),28,4,0xff3333).setOrigin(0,.5);
     var lvCol=lv>=15?'#ff4444':lv>=10?'#ff8844':lv>=5?'#ffdd44':'#88ff88';
     cont.add([shadow,body,hpBg,hpFill]);   // the name label is added by _monWake (first time it wakes)
-    var mon={cont:cont,body:body,hpFill:hpFill,type:key,rid:rid,def:mdef,hp:hp,maxHp:hp,x:wx,y:wy,spawnX:wx,spawnY:wy,section:sec,dead:false,respawnTimer:0,level:lv,monDef:df,monAtk:atk,state:'wander',atkTimer:0,tags:R.tags||[],_md:{},
+    var mon={cont:cont,body:body,hpFill:hpFill,type:key,rid:rid,def:mdef,hp:hp,maxHp:hp,x:wx,y:wy,spawnX:wx,spawnY:wy,section:sec,dead:false,respawnTimer:0,level:lv,monDef:df,monAtk:atk,state:'wander',atkTimer:0,tags:R.tags||[],_md:{},_dz:{h:_dz.h,a:_dz.a,boss:false,own:true},
       _lazyVis:{name:[-(mdef.r+30),(o.alpha?'Alpha ':'')+mdef.name+' Lv.'+lv,lvCol]}};
     this.worldMonsters.push(mon); return mon; },
   // Perf: a far-away monster needs no name label (a Text = canvas + texture) or sprite texture.
@@ -53,7 +54,7 @@ Object.assign(WorldScene.prototype,{
   // replaces the old 2-types-per-region pods
   _spawnRosterPods(){ var self=this, rng=new PRNG(WORLD_SEED+77777), wd=this.wd;
     var campGuards=this._initCamps(new PRNG(WORLD_SEED+55555));   // two thirds guard camps (10h-world-camps.js)
-    for(var sec=1;sec<=4;sec++){ var spawned=0, target=Math.max(40,Math.round((campGuards[sec]||0)/2)), guard=0;   // one third roam
+    for(var sec=1;sec<=4;sec++){ var spawned=0, target=ZDiff.n(Math.max(40,Math.round((campGuards[sec]||0)/2))), guard=0;   // one third roam
       while(spawned<target&&guard++<2000){ var pc=self._randLand(rng,sec); if(!pc)continue;
         var zi=wd.zone[pc.ty*WORLD_W+pc.tx], z=zi===255?null:WMAP_ZONES[zi], zname=z?_wmZoneName(z.id):'';
         var nearW=false, nearL=false; for(var yy=-5;yy<=5&&!(nearW&&nearL);yy+=2)for(var xx=-5;xx<=5;xx+=2){ var t=self.tiles[pc.ty+yy]&&self.tiles[pc.ty+yy][pc.tx+xx]; if(t===T.SHALLOW_WATER||t===T.DEEP_WATER)nearW=true; if(t===T.THIN_MAGMA||t===T.DEEP_MAGMA)nearL=true; }

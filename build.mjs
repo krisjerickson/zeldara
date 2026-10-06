@@ -159,6 +159,21 @@ try {
   console.log(`✓ sprites/requests/  ${S.stats.chars} characters, ${S.stats.sheets} sheets (${S.stats.core} core)`);
 } catch (e) { console.warn('! sprite requests not exported: ' + e.message); }
 
+// Scenery requests (round 28): src/js/07zt-scenery.js → sprites/requests/scenery.json + scenery.md (the list to read).
+try {
+  const vm = await import('node:vm'); const ctx = {}; ctx.globalThis = ctx;
+  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zt-scenery.js'), 'utf8') + '\n;globalThis.__scn=JSON.stringify({stats:ZSCN.stats(),req:ZSCN.requests(),waves:ZSCN.WAVES,style:ZSCN.STYLE,rules:ZSCN.RULES,rulesTex:ZSCN.RULES_TEX,bgAlpha:ZSCN.BG_ALPHA,bgTex:ZSCN.BG_TEX});', ctx, { timeout: 20000 });
+  const S = JSON.parse(ctx.__scn), out = path.join(ROOT, 'sprites', 'requests'); fs.mkdirSync(out, { recursive: true });
+  const ids = {}; S.req.forEach(q => q.items.forEach(it => { if (ids[it.id]) throw new Error('scenery id used twice: ' + it.id); ids[it.id] = 1; }));
+  S.req.forEach(q => { if (q.items.length > q.cols * q.rows) throw new Error(q.id + ': ' + q.items.length + ' items do not fit ' + q.cols + '×' + q.rows); });
+  fs.writeFileSync(path.join(out, 'scenery.json'), JSON.stringify({ made: 'build.mjs from src/js/07zt-scenery.js — do not edit by hand', how: 'full request text = body + style + (rules + bgAlpha for objects, rulesTex + bgTex for ground textures)', stats: S.stats, waves: S.waves, style: S.style, rules: S.rules, rulesTex: S.rulesTex, bgAlpha: S.bgAlpha, bgTex: S.bgTex, requests: S.req }, null, 0));
+  const full = q => q.body + '\n' + S.style + '\n' + (q.tail === 'tex' ? S.rulesTex + '\n' + S.bgTex : S.rules + '\n' + S.bgAlpha);
+  fs.writeFileSync(path.join(out, 'scenery.md'), '# Scenery — ' + S.stats.sheets + ' sheets, ' + S.stats.items + ' objects and textures (' + S.stats.pilot + ' sheets in the pilot)\n\nMade by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\\sprites\\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.\n\n| Wave | What | Sheets | Items |\n|---|---|---|---|\n' +
+    Object.keys(S.stats.byWave).map(w => '| ' + w + ' | ' + S.stats.byWave[w].name + ' | ' + S.stats.byWave[w].sheets + ' | ' + S.stats.byWave[w].items + ' |').join('\n') + '\n\n' +
+    S.req.map(q => '## ' + q.id + (q.pilot ? ' (pilot)' : '') + '\n\n' + q.title + ' · wave ' + q.wave + ' · ' + q.items.length + ' items, ' + q.cols + ' × ' + q.rows + ' · ' + q.size + '\n\n' + q.items.map(it => '- `' + it.id + '` ' + it.name + ' — ' + it.w + ' × ' + it.h + ' px').join('\n') + '\n\nAttach: ' + q.refs.join(', ') + '\n\n```\n' + full(q) + '\n```\n').join('\n'));
+  console.log(`✓ sprites/requests/scenery.json  ${S.stats.sheets} scenery sheets, ${S.stats.items} items (${S.stats.pilot} pilot sheets)`);
+} catch (e) { console.warn('! scenery requests not exported: ' + e.message); }
+
 // ── Hosting: dist/ = what gets deployed — the home page at /, the game at /play, the Design Lab at /lab
 // (vercel.json: buildCommand "npm run build", outputDirectory "dist")
 {

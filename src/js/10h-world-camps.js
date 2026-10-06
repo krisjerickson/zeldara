@@ -48,11 +48,11 @@ Object.assign(WorldScene.prototype,{
         C.spr=this.add.image(x,y+14,this._campTex(T0.prop,T0.tint),'0').setOrigin(0.5,0.9).setScale(1.7).setDepth(WR_DEPTH(y));
         if(/campfire|lantern|moonwell|well|obelisk|shrine|cauldron|crystal|totem/.test(T0.prop)&&CHX.glow(this)){ C.glow=this.add.image(x,y+2,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(T0.tint||(T0.prop==='campfire'?'#ff9040':'#ffe8a0'))).setAlpha(0.45).setScale(T0.prop==='campfire'?1.1:0.8).setDepth(WR_DEPTH(y)-0.001); C.glow._base={x:x,y:y,r:70,a:0.45,noCut:false}; }
         if(done[id]){ C.state='spent'; if(C.spr)C.spr.setFrame('2'); if(C.glow)C.glow.setVisible(false); this._camps.push(C); return C; }
-        var n=3+Math.floor(rng.next()*3); for(var i=0;i<n;i++){ var a=i/n*Math.PI*2+rng.next()*0.4, gx=x+Math.cos(a)*(42+rng.next()*14), gy=y+Math.sin(a)*(30+rng.next()*10);
+        var n=Math.max(2,Math.min(7,3+Math.floor(rng.next()*3)+ZDiff.cur().guards)); for(var i=0;i<n;i++){ var a=i/n*Math.PI*2+rng.next()*0.4, gx=x+Math.cos(a)*(42+rng.next()*14), gy=y+Math.sin(a)*(30+rng.next()*10);
           if(!self._canGoMonster(gx,gy)){ gx=x+Math.cos(a)*24; gy=y+Math.sin(a)*18; }
           var pick=null; for(var k=0;k<8&&(!pick||MON_LEGACY[pick.R.id]);k++)pick=monPick(rng,sec,'main');
           if(!pick||MON_LEGACY[pick.R.id])continue;
-          var mon=this._spawnRosterMon(pick.R.id,gx,gy,sec,rng,{alpha:i===0&&n>=5}); if(!mon)continue;
+          var mon=this._spawnRosterMon(pick.R.id,gx,gy,sec,rng,{alpha:i===0&&n>=ZDiff.cur().alphaAt}); if(!mon)continue;
           mon.campId=id; mon.leashR=80; mon.campHome={x:x,y:y,r:TILE*8,leash:90}; C.guards.push(mon); if(guards)guards[sec]=(guards[sec]||0)+1; }
     this._camps.push(C); return C; },
   _campGuardDied(mon){ var C=this._camps&&this._camps.find(function(c){ return c.id===mon.campId; }); if(!C||C.state!=='guarded')return;

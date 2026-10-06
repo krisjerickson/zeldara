@@ -134,6 +134,7 @@ class WorldScene extends Phaser.Scene{
     ownedFamiliars:[],
     skills:[],lockedSites:[]  };
     if(!this._newGame)this._loadSave(); else if(typeof ZSave!=='undefined'&&ZSave.pendingHero){ this.playerState.hero=ZSave.pendingHero; ZSave.pendingHero=null; }
+    if(this._newGame&&typeof ZSave!=='undefined'&&ZSave.pendingDiff!==undefined&&ZSave.pendingDiff!==null){ this.playerState.difficulty=ZSave.pendingDiff; ZSave.pendingDiff=null; }   // difficulty chosen on the hero screen (04g)
     if(this.playerState.hero!=='f')this.playerState.hero='m';
     villageApply(this.wd,villageStageOf(this.playerState));   // the village at its current stage (grows as craftsmen are freed)
     this._refreshVillageNPCs();
@@ -2302,12 +2303,13 @@ class WorldScene extends Phaser.Scene{
           var bHp=Math.round(bmdef.hp*(1+(bLevel-1)*0.10));
           var bAtk=bmdef.atk+(bLevel-1);
           var bDef=bmdef.def+( bmdef.def>=3 ? Math.floor((bLevel-1)*0.5) : 0 );
+          var _bs={hp:bHp,atk:bAtk,xp:bmdef.xp,gMin:bmdef.gMin,gMax:bmdef.gMax}, _bz=ZDiff.stats(_bs,true); bHp=_bs.hp; bAtk=_bs.atk; bmdef=Object.assign({},bmdef,{atk:Math.max(1,Math.round(bmdef.atk*_bz.a)),xp:_bs.xp,gMin:_bs.gMin,gMax:_bs.gMax});   // difficulty level (04g); own copy of the definition
           var bLvCol=bLevel>=15?'#ff4444':bLevel>=10?'#ff8844':bLevel>=5?'#ffdd44':'#88ff88';
           var bLvBadge=self.add.text(0,-(_bt+28),'★ Lv.'+bLevel,{fontSize:'7px',color:bLvCol,fontFamily:'Segoe UI',fontStyle:'bold',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(10);
           bcont.add([bshadow,bbody,bicon,bhpBg,bhpFill,bnameT,bLvBadge]);
           self.worldMonsters.push({cont:bcont,body:bbody,hpFill:bhpFill,type:btype,def:bmdef,
             hp:bHp,maxHp:bHp,x:bwx,y:bwy,spawnX:bwx,spawnY:bwy,
-            section:sec,dead:false,respawnTimer:120,level:bLevel,monDef:bDef,monAtk:bAtk,state:'wander',atkTimer:2,_md:{}});
+            section:sec,dead:false,respawnTimer:120,level:bLevel,monDef:bDef,monAtk:bAtk,state:'wander',atkTimer:2,_md:{},_dz:{h:_bz.h,a:_bz.a,boss:true,own:true}});
         }
       }
     }

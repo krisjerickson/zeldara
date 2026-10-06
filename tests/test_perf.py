@@ -119,6 +119,7 @@ with game(new=True) as g:
     if ok:
         g.js("(()=>{ var I=game.scene.getScene('Island'); I.playerState.godMode=true; })()")
         for k in ['ArrowLeft','ArrowUp','ArrowRight','ArrowDown']: g.hold(k,700)
+        until(g, "game.scene.getScene('Island')._wr.chunks.size>0", 10000)   # round 28: chunks are painted a few frames apart; the slow test browser sometimes had none yet
         s=g.js("(()=>{ var I=game.scene.getScene('Island'), row=I.wd.tiles[0], bad=0; for(var i=0;i<row.length;i++)if(row[i]!==T.OCEAN)bad++; return {bad:bad, same:I.wd.tiles[0]===I.wd.tiles[WORLD_H-1], chunks:I._wr.chunks.size}; })()")
         check('...after walking around the island the shared sea row is untouched', s['bad']==0 and s['same'] and s['chunks']>0, s)
     errs+=g.errs

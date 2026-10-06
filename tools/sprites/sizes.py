@@ -12,7 +12,7 @@ JS = r"""(()=>{ var ws=game.scene.getScene('World'), out={}, M=ZAtlas.META.chars
   CHAR_ROSTER.forEach(function(C){ try{ if(C.cat==='npc')put(C.id,ZAtlas.kPix(C.id,ZAtlas.pix(CHX.tex(ws,C),'0'),1.45)); else if(C.cat==='mount')put(C.id,ZAtlas.kHeight(C.id,ZAtlas.MOUNT_H*ZAtlas.heroPix().h)); }catch(e){} });
   Object.keys(MOUNTS).forEach(function(m){ ['m','f'].forEach(function(w){ var rc='ride_'+w+'_'+m; if(M[rc])put(rc,ZAtlas.rideK(ws,rc)); }); });
   if(typeof BOSS_SLOT_LIST!=='undefined')BOSS_SLOT_LIST.forEach(function(sl){ try{ var D=BA.of(sl); if(!D||!M[sl])return; put(sl,ZAtlas.kHeight(sl,D.h)); }catch(e){} });
-  if(typeof FAMILIAR_PICK!=='undefined')Object.keys(FAMILIAR_PICK).forEach(function(el){ try{ var D=SPIRIT_BY_ID[FAMILIAR_PICK[el]]; put('fam_'+el,ZAtlas.kPix('fam_'+el,ZAtlas.pix(_famTex(ws,D),'0'),0.5*(D.sz||1))); }catch(e){} });
+  if(typeof FAMILIAR_PICK!=='undefined')Object.keys(FAMILIAR_PICK).forEach(function(el){ try{ var D=SPIRIT_BY_ID[FAMILIAR_PICK[el]]; put('fam_'+el,ZAtlas.kPix('fam_'+el,ZAtlas.pix(_famTex(ws,D),'0'),(typeof FAM_SC!=='undefined'?FAM_SC:0.5)*(D.sz||1))); }catch(e){} });
   if(typeof FAIRY_PICK!=='undefined')Object.keys(FAIRY_PICK).forEach(function(q){ (FAIRY_PICK[q]||[]).forEach(function(fid){ try{ var F=FAIRY_BY_ID[fid]; put('fairy_'+fid,ZAtlas.kPix('fairy_'+fid,ZAtlas.pix(_fairyTex(ws,F),'0'),1.15)); }catch(e){} }); });
   if(typeof FAIRY_MONARCH_PICK!=='undefined')Object.keys(FAIRY_MONARCH_PICK).forEach(function(q){ try{ var id='monarch_'+FAIRY_MONARCH_PICK[q]; put(id,ZAtlas.kPix(id,ZAtlas.pix(_kingTex(ws,+q),'0'),1.25)); }catch(e){} });
   Object.keys(ZAtlas.ANIMAL_H).forEach(function(t){ var ch='animal_'+(t==='fire_imp'?'fire_imp_critter':t); put(ch,ZAtlas.kHeight(ch,ZAtlas.ANIMAL_H[t])); });

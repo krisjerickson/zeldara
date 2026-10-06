@@ -93,6 +93,7 @@ MX.spawn=function(scene,rid,x,y,o){ o=o||{}; var R=MON_BY_ID[rid]; if(!R)return 
   var q=o.q||R.q, s=MX.stats(R,q), sc=MX.scaleOf(R)*(o.scale||1), A=MX.A(scene);
   if(o.stats)Object.assign(s,o.stats);
   if(o.hpMult){ s.hp=Math.round(s.hp*o.hpMult); } if(o.alpha){ s.hp=Math.round(s.hp*1.6); s.atk=Math.round(s.atk*1.3); sc*=1.2; }
+  var _dz=ZDiff.stats(s,!!o.stats||R.seg==='boss');   // difficulty level (04g): bosses pass their own stats
   var cont=scene.add.container(x,y).setDepth(A.depth(y));
   var shadow=scene.add.ellipse(0,s.r*0.9+2,s.r*2.3,7,0x000000,.3);
   var lazy=!!(o.lazy&&typeof monLazyTex==='function');   // perf: name label + texture made on first wake (10f _monWake)
@@ -107,7 +108,7 @@ MX.spawn=function(scene,rid,x,y,o){ o=o||{}; var R=MON_BY_ID[rid]; if(!R)return 
   var mon={mx:true,rid:rid,R:R,kit:kit,cont:cont,body:spr,spr:spr,hpFill:hpFill,hpBg:hpBg,nameT:nameT,type:'mx_'+rid,
     def:{name:o.name||R.name,icon:'',r:s.r,color:col,xp:s.xp,gMin:s.gMin,gMax:s.gMax,atk:s.atk,def:s.def,spd:s.spd,sec:q,hp:s.hp,atkType:'mx',moveType:'mx'},
     maxHp:s.hp,_hp:s.hp,x:x,y:y,spawnX:x,spawnY:y,level:s.lv,monAtk:s.atk,monDef:s.def,dead:false,state:'wander',atkTimer:0,respawnTimer:0,
-    temp:!!o.temp,alpha:!!o.alpha,tags:R.tags,_m:null,_scene:scene,_lazyVis:lazy?{name:[nameY,nameS,lvCol]}:null};
+    temp:!!o.temp,alpha:!!o.alpha,tags:R.tags,_m:null,_scene:scene,_dz:{h:_dz.h,a:_dz.a,boss:_dz.boss,own:true},_lazyVis:lazy?{name:[nameY,nameS,lvCol]}:null};
   Object.defineProperty(mon,'hp',{get:function(){ return this._hp; },set:function(v){ MX.onHp(this,v); },configurable:true,enumerable:true});
   MX.reset(mon); return mon; };
 MX.reset=function(mon){ var k=mon.kit, m=mon._m={t:Math.random()*3,cd:{},busy:null,face:0,hidden:false,invuln:0,aggro:false,hurtT:0,frameT:0,strikeT:0,stunT:0,armor:0,revived:false,down:0,dodgeCd:0,hits:[],enraged:false,flee:false,children:[],vis:true};
@@ -188,7 +189,7 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   // attacks
   if(m.busy){ MX.runAtk(A,mon,m,P,dist,dt); }
   else if(m.aggro&&!m.hidden&&!(A.world&&getTileSection(Math.floor(P.x/TILE),Math.floor(P.y/TILE))===0)){ for(var i=0;i<k.atk.length;i++){ var a=k.atk[i], AT=MX.ATK[a.name], key=a.name+i; if((m.cd[key]||0)>0)continue;
-      if((AT.want?AT.want(A,mon,m,P,dist,a.p):dist<=(a.p.r||(AT.range||40)))&&(MX.NO_LOS[a.name]||sees())){ m.busy={a:a,key:key,t:0,phase:'wind',wind:a.p.wind!==undefined?a.p.wind:(AT.wind||0.3),moveOk:!!AT.moveOk}; if(AT.start)AT.start(A,mon,m,P,a.p); MX.ev(mon,'atk_'+a.name); break; } } }
+      if((AT.want?AT.want(A,mon,m,P,dist,a.p):dist<=(a.p.r||(AT.range||40)))&&(MX.NO_LOS[a.name]||sees())){ m.busy={a:a,key:key,t:0,phase:'wind',wind:(a.p.wind!==undefined?a.p.wind:(AT.wind||0.3))*(mon.isBoss?ZDiff.cur().tele:1),cdk:mon.isBoss?ZDiff.cur().every:1,moveOk:!!AT.moveOk}; if(AT.start)AT.start(A,mon,m,P,a.p); MX.ev(mon,'atk_'+a.name); break; } } }
   // passive defences
   k.def.forEach(function(D){ var p=D.p;
     if(D.name==='regen'){ var onT=!p.on||(p.on==='water'&&A.isWater(mon.x,mon.y+8))||(p.on==='lava'&&A.isLava(mon.x,mon.y+8))||(p.on==='mud'); if(onT&&mon._hp<mon.maxHp){ mon._hp=Math.min(mon.maxHp,mon._hp+(p.r||1)*dt*mon.maxHp*0.02); } }
@@ -302,7 +303,7 @@ MX.NO_LOS={summon:1};   // attacks that don't need to see you
 MX.runAtk=function(A,mon,m,P,d,dt){ var b=m.busy, AT=MX.ATK[b.a.name]; b.t+=dt;
   if(b.phase==='wind'){ if(b.t>=b.wind){ b.phase='act'; b.t=0; if(AT.fire)AT.fire(A,mon,m,A.p(),b.a.p,b); m.strikeT=0.25; if(!AT.act){ MX.endAtk(m,b); } } return; }
   if(AT.act){ if(AT.act(A,mon,m,A.p(),b.a.p,b,dt))MX.endAtk(m,b); } };
-MX.endAtk=function(m,b){ var AT=MX.ATK[b.a.name]; m.cd[b.key]=b.a.p.cd!==undefined?b.a.p.cd:(AT.cd||1.6); m.busy=null; };
+MX.endAtk=function(m,b){ var AT=MX.ATK[b.a.name]; m.cd[b.key]=(b.a.p.cd!==undefined?b.a.p.cd:(AT.cd||1.6))*(b.cdk||1); m.busy=null; };
 MX.hitP=function(A,mon,p,mult,label,col){ var ok=A.hurt(mon.def.atk*(p.m||mult||1)*(mon._m.enraged?1.3:1),label,col); if(ok){ if(p.st)MX.status(A,p.st,p.t||2.5,p.v); if(p.kb){ var P=A.p(), l=Math.hypot(P.x-mon.x,P.y-mon.y)||1; MX.push(A,(P.x-mon.x)/l,(P.y-mon.y)/l,p.kb); } if(p.steal){ var g=MX.status(A,'steal',0,p.steal); if(g){ mon._m.stolen=(mon._m.stolen||0)+g; mon._m.flee=true; } } MX.ev(mon,'hit'); } return ok; };
 MX.proj=function(A,o){ var s=A.scene, g=(typeof ZShot!=='undefined'&&ZShot.make(s,ZShot.mxKind(o.kind,o.col),o.x,o.y,Math.atan2(o.vy||0,o.vx||1),A.depth(o.y)+0.5))||s.add.circle(o.x,o.y,o.r||5,MX.col(o.col||'#ffcc66')).setDepth(A.depth(o.y)+0.5); if(o.glow)g.setStrokeStyle(2,0xffffff,0.6); o.vis=g; o.life=o.life||3; MX.fx(A).proj.push(o); return o; };
 MX.zone=function(A,o){ var s=A.scene, g=s.add.circle(o.x,o.y,o.r,MX.col(o.col||({slow:'#88c0ff',poison:'#80e060',burn:'#ff8040',blind:'#303040',sneeze:'#e0c0e0',root:'#80a040',dmg:'#ff6060',lava:'#ff6a20'}[o.st]||'#aaaaaa')),0.28).setDepth(A.depth(o.y)-0.02); o.vis=g; o.tick=0; MX.fx(A).zones.push(o); return o; };

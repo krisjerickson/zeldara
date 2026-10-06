@@ -465,7 +465,7 @@ class DungeonScene extends Phaser.Scene{
   _spawnMonstersLab(regTypes){
     var spec=this._labSpec, R=rngOf(spec.seed*31+7), en=this.stairsUpTile, ex=this.bossChestTile||this.stairsDownTile;
     var base=spec.kind==='tower'?7:10, per=spec.kind==='tower'?1.5:2;
-    var n=Math.round(base+this.floor*per), cap=(this._lab.stats&&this._lab.stats.spawns)||n; if(spec.kind==='dungeon')n=Math.min(n,Math.max(8,cap));
+    var n=Math.round(base+this.floor*per), cap=(this._lab.stats&&this._lab.stats.spawns)||n; if(spec.kind==='dungeon')n=Math.min(n,Math.max(8,cap)); n=ZDiff.n(n);   // difficulty level (04g): more or fewer per floor
     var mult=1+this.floor*0.05, placed=0;
     for(var t=0;t<3000&&placed<n;t++){
       var x=R.i(1,DW-2), y=R.i(1,DH-2);
@@ -925,6 +925,7 @@ class DungeonScene extends Phaser.Scene{
     } else if(this.isLastFloor&&im!=='none'){
       var bk=this._getBossKey();
       var multi=bk&&!this._isIsland&&!this._isBonus&&BossPhases.count(bk)>1;
+      if(multi)BossPhases.warm(bk,(this._bossPhase||1)+1);   // round 28: fetch the next form's pictures now, so it does not appear a moment late
       if(multi&&this._bossPhase>1){ BossPhases.spawn(this,bk,this._bossPhase,this.bossSpawnX,this.bossSpawnY,done?1.25:1); }
       else if(bk){
         var bmon=this._spawnMonster(bk,this.bossSpawnX,this.bossSpawnY,true,done?1.25:1);
@@ -936,7 +937,7 @@ class DungeonScene extends Phaser.Scene{
     }
   }
   // the elite's kin: plain versions of the same monster (3 in the Grasslands … 6 in the Ashlands)
-  _spawnEliteKin(ek,done){ var E=MDEFS[ek], base=E&&E._base; if(!base||!MDEFS[base])return; var n=2+this.siteSection, R=rngOf((this._labSpec&&this._labSpec.seed||7)*17+3), placed=0, bx=this.bossSpawnX/TILE, by=this.bossSpawnY/TILE, en=this.stairsUpTile||{x:bx,y:by+6};
+  _spawnEliteKin(ek,done){ var E=MDEFS[ek], base=E&&E._base; if(!base||!MDEFS[base])return; var n=2+this.siteSection+ZDiff.cur().kin, R=rngOf((this._labSpec&&this._labSpec.seed||7)*17+3), placed=0, bx=this.bossSpawnX/TILE, by=this.bossSpawnY/TILE, en=this.stairsUpTile||{x:bx,y:by+6};
     for(var t=0;t<2000&&placed<n;t++){ var x=R.i(2,DW-3), y=R.i(2,DH-3); if(this.dtiles[y][x]===DNG.WALL||(this._labReach&&!this._labReach[y*DW+x]))continue; if(Math.hypot(x-en.x,y-en.y)<6||Math.hypot(x-bx,y-by)<2.5)continue;
       var m=this._spawnMonster(base,x*TILE+TILE/2,y*TILE+TILE/2,false,done?1.25:1,true,E._rid); if(m){ m.eliteKin=true; placed++; } } }
   _spawnRosterMonster(mx,my){
@@ -954,6 +955,7 @@ class DungeonScene extends Phaser.Scene{
   _spawnMonster(type,wx,wy,isBoss,mult,quiet,rid){
     var def=MDEFS[type];if(!def)return;
     if(mult&&mult!==1)def=Object.assign({},def,{hp:Math.round(def.hp*mult),atk:Math.round(def.atk*mult),def:Math.round((def.def||0)*mult),name:quiet?def.name:def.name+' (Rematch)'});
+    var _dz=ZDiff.f(!!isBoss); if(_dz.h!==1||_dz.a!==1||_dz.r!==1){ var _nm=def.name; def=Object.assign({},def); ZDiff.stats(def,!!isBoss); def.name=_nm; }   // difficulty level (04g)
     var cont=this.add.container(wx,wy).setDepth(this._lab?this._yDepth(wy):(isBoss?12:10));
     var shadow=this.add.ellipse(0,def.r+2,def.r*2.2,7,0x000000,.3);
     var body=(isBoss&&CHX.bossBody(this,type,def,cont))||(rid&&monLegacyBody(this,rid,def))||(def.elite&&def._rid&&monLegacyBody(this,def._rid,def))||this.add.circle(0,0,def.r,def.color);
@@ -1237,10 +1239,10 @@ class DungeonScene extends Phaser.Scene{
           mon.atkTimer=1.5;self._monsterHitsPlayer(mon);
         }
       } else if(at==='melee'){
-        if(dist<30){mon.atkTimer=mon.isBoss?1.2:1.5;self._monsterHitsPlayer(mon);}
+        if(dist<30){mon.atkTimer=mon.isBoss?1.2*ZDiff.cur().every:1.5;self._monsterHitsPlayer(mon);}
       } else if(dist<200){
         // Ranged attack — bosses fire 50% faster projectiles
-        var bossSpeedMult=mon.isBoss?1.5:1.0;
+        var bossSpeedMult=mon.isBoss?1.5*ZDiff.cur().speed:1.0;
         var cfg={arrow:{col:0xccaa44,spd:260,r:4,life:2.5},
           flame:{col:0xff5500,spd:180,r:6,life:2},
           bog_flame:{col:0x44cc44,spd:150,r:7,life:2.5,bog:true},
@@ -1251,7 +1253,7 @@ class DungeonScene extends Phaser.Scene{
           scatter_flame:{col:0xff6600,spd:180,r:6,life:2},
         }[at]||{col:0xaa8844,spd:220,r:4,life:2};
         var finalSpd=cfg.spd*bossSpeedMult;
-        var atkCd=mon.isBoss?1.5:2.2;
+        var atkCd=mon.isBoss?1.5*ZDiff.cur().every:2.2;
         mon.atkTimer=atkCd;
         var toFire=(at==='scatter'||at==='scatter_arrow'||at==='scatter_flame')?[-0.3,0,0.3]:[0];
         // Use saved playerAng for aiming — 'ang' may have been overwritten by orbit/strafe movement
