@@ -203,6 +203,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 ## Open questions
 - None open.
 
+## Round 27 (Kris, Oct 6)
+- Kris: "final sprites finish is complete. Also make it so that familiars trail behind the hero, but don't overlap on the hero, and don't overlap on each other".
+- Done: changelog [273]–[275]. No questions were asked: the request was specific.
+- Assumptions Claude made (not asked): one single file (not a cluster); hovering spirits trail too instead of circling above the hero; "overlap" is judged on the bodies (a wing tip or glow may still touch); familiars still pass over walls and water as before; familiar sizes unchanged (71–89 px, larger than the 63 px hero — the "match the game" rule), which makes a file of four about 390 px long.
+- Waiting on Kris: say if the file is too long (options: smaller familiars, or two abreast); wording of the two hero back stories; push.
+
 ## Round 26 (Kris, Oct 5) — request
 - Kris: sizes are not balanced (too large or too small; the hero riding the horse is too big); a monster can change size between movements or during an attack; some movements fall back to the pixel sprite. Remove all pixel sprites and choose the best painted animation instead. Wire up everything remaining. Bosses must keep the same body size even when an attack (a swinging sword) makes the picture larger.
 - Size basis → **ANSWERED: match the game.** Each character's body is 1.5 × the body of its old pixel sprite (follows the hitboxes). Bosses, monsters, mounts, animals alike.
@@ -210,8 +216,9 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Bosses → **ANSWERED: painted replaces all.** Back layers and following pupils go; hover, heavy footsteps, camera shake, teleport fade stay.
 - Pose size → **ANSWERED: same body size always.** Every pose scaled so the body matches; poses meant to be smaller (burrowed, curled up, lying dead) are left alone.
 - **Done:** changelog [264]–[272]; audit in `claude/15-sprite-size-audit.md`.
+- **Delivered (Oct 5):** PC commit `4df85b5` (not pushed; Kris pushes); game artifact v30 with all 74 atlas pages + thumbs; Lab artifact v34 with 39 preview pages. Tests on Phaser 3: all suites as before the round (pre-existing only: `test_characters` 14/17, `test_sites_expansion` 12/13 last-floor monster count, `test_monsters` and `test_round7` hit the 600 s limit with every check passing); `test_round23` 17/17 and `test_round26` 16/16 on Phaser 3 and Phaser 4. The other suites were not run on Phaser 4 this round.
 - Assumptions Claude made (not asked): riders and mounts are the one exception to "match the game" (rider + mount 1.3 × the hero, lone mount 1.05 ×), because Kris named the hero on the horse as too big and the rule alone would have made riders larger; size follows height first, ink area only as an 18% nudge (glows and wings distort area); `tc_sprint` borrows the Roll teacher's frames until its sheet exists; the painted boat is unused.
-- Waiting on Kris: look at the sizes in play (bosses and fairy monarchs are large because they keep their old proportion to the hero; riders are the chosen exception); run `finish.ps1` for the Sprint teacher's sheet.
+- Waiting on Kris: look at the sizes in play (bosses and fairy monarchs are large because they keep their old proportion to the hero; riders are the chosen exception); ~~run `finish.ps1` for the Sprint teacher's sheet~~ (done Oct 6).
 - Findings before asking: frames are sized by the outline box of a sheet's first pose and other sheets assume the painter kept the same scale (not true); frames are centred by their outline box, so a body shifts and shrinks when a weapon or effect extends. Plan: measure each pose's body (the solid core without thin weapons, arcs and sparks), scale every sheet and pose by its body, and anchor every frame at the body's feet. Riders: the rider's body is sized like the hero on foot. Only `tc_sprint` has no painted sheet.
 
 

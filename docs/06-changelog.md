@@ -561,6 +561,11 @@ Kris's answers: sizes "match the game"; pixel sprites "never shown in play" (kep
 - **[271] Memory:** at most 14 pages stay loaded; a page unused for 40 s is dropped unless something visible wears it (`ZAtlas.evict`).
 - **[272] Tests:** `test_round26.py` (16 checks: atlas format, sizes, monsters, boss, animals, no pixel sprite near the hero, riding, Tome, Dev switch); `test_round23.py` updated.
 
+## Round 27 (Kris, Oct 6) — last sheet in; familiars trail in a file
+- **[273] All sheets in:** `tc_sprint.core.f` (the Sprint teacher, reworded request) arrived, was cut (8 frames) and packed into `village-0`; `intake.py --check`: 1001 files received, 0 missing, 0 wrong. The Sprint teacher no longer borrows the Roll teacher's frames (`ZAtlas.ALIAS` only applies while a character is missing).
+- **[274] Familiars trail behind the hero (`09d-familiars.js`):** before, "hover" spirits circled above the hero's head (on top of him) and "follow" spirits walked 30–60 px behind on his trail, so with painted sprites of 71–89 px they covered the hero and each other. Now all familiars form one file behind the hero: each keeps a fixed gap to the one in front (the hero for the first), so it is dragged along his path; while its leader moves it swings round (3.2 rad/s) to the side the leader came from, at that same gap, so a reversal never takes it through the hero. The gap is the sum of the two half sizes + 6 px, measured as a rounded box (`_famGap`), using the hero's real body box (`_famHeroBox`: painted frame, wider when riding) and each familiar's displayed size; a second pass keeps non-neighbours apart. After a jump (> 160 px) the file re-forms behind the hero's facing. Hover spirits keep a 3 px bob; all are depth-sorted by their feet instead of always drawn on top. With four familiars the file is about 290 px long with stand-ins and 390 px with painted sprites.
+- **[275] Texts and tests:** familiar card and Tome say "floats / walks along behind you". `tests/test_round27.py` (14 checks, painted and stand-ins): a stepped walk with turns, straight reversals, diagonals and jitter — no overlap in 1,960 ticks, every familiar behind the hero after 2.5 s of walking one way, file within 420 px, re-forms after a jump.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

@@ -10,7 +10,8 @@
 // ║ shrieks/gusts/nets and knocked out (8–15 s), banished by some casters,
 // ║ silenced by null auras; their hits are source 'familiar' (07rb counters). Active familiars: 1, +1 for each
 // ║ Fairy King (Wetlands, Highlands, Ashlands) → up to 4 at once.
-// ║ Movement: "hover" spirits circle above you, "follow" spirits walk behind.
+// ║ Movement (round 27): all familiars trail behind you in a single file, never on top of you or of each other;
+// ║ "hover" spirits bob as they float, "follow" spirits walk.
 // ═══════════════════════════════════════════════════════════════════════
 var FAM_BY_EL={grass:'fam_grass',water:'fam_water',earth:'fam_earth',fire:'fam_fire'}, FAM_EL={fam_grass:'grass',fam_water:'water',fam_earth:'earth',fam_fire:'fire'};
 var FAM_BY_SEC={1:'fam_grass',2:'fam_water',3:'fam_earth',4:'fam_fire'};
@@ -71,14 +72,22 @@ function _famTex(scene,D){ var key='spirit_'+D.id; if(scene.textures.exists(key)
 function _famDepth(scene,y,hover){ var k=scene.sys.settings.key; if(k==='World'||k==='Island'||k==='Dungeon')return hover?12.65:10+y/100000+0.000005; return 21; }
 
 // ── per-frame driver (all scenes) ──
+// round 27: where the hero's body is (centre and half size), and the gap two bodies need in a direction so that they do not overlap
+function _famHeroBox(scene,c,ps){ var s=scene._zHeroSpr, b=null; if(s&&s.active&&s.scene===scene){ try{ b=s.getBounds(); }catch(e){ b=null; } }
+  if(!b||!(b.width>4))return {x:c.x,y:c.y,hw:16,hh:24};
+  var pc=s.parentContainer||s, ox=b.centerX-pc.x, oy=b.centerY-pc.y; if(Math.hypot(ox,oy)>90)return {x:c.x,y:c.y,hw:16,hh:24};      // offset from the hero's position, so a sprite moved later in the frame does not lag
+  return {x:c.x+ox,y:c.y+oy,hw:b.width*(ps&&ps.mount?0.46:0.3),hh:b.height*0.5}; }
+var FAM_GAP=6;
+function _famGap(A,B,th){ var cx=Math.cos(th)/(A.hw+B.hw+FAM_GAP), sy=Math.sin(th)/(A.hh+B.hh+FAM_GAP); return Math.pow(cx*cx*cx*cx+sy*sy*sy*sy,-0.25); }
 function _heroFamiliarsTick(scene,dt){
   var c=_heroCtx(scene), ps=c.ps; if(!ps)return;
   var fams=_heroActiveFamiliars(ps);
   if(!scene._famVisuals)scene._famVisuals={}; if(!scene._famTimers)scene._famTimers={};
   Object.keys(scene._famVisuals).forEach(function(f){ if(fams.indexOf(f)<0){ var v=scene._famVisuals[f]; if(v){ if(v._halo)v._halo.destroy(); if(v._em)v._em.destroy(); v.destroy(); } delete scene._famVisuals[f]; } });
-  // hero trail for "follow" spirits
-  var tr=scene._famTrail||(scene._famTrail=[]); var lt=tr[tr.length-1]; if(lt&&Math.hypot(lt.x-c.x,lt.y-c.y)>160){ tr.length=0; lt=null; } if(!lt||Math.hypot(lt.x-c.x,lt.y-c.y)>3){ tr.push({x:c.x,y:c.y}); if(tr.length>80)tr.shift(); }
-  var nFollow=0, nHover=0;
+  // round 27: a chain behind the hero. Each familiar keeps a fixed gap to the one in front (the hero for the first), so it
+  // is dragged along the hero's path; while its leader moves it swings round to the side the leader came from.
+  var HB=_famHeroBox(scene,c,ps), hp=scene._famHP, jump=!hp||Math.hypot(c.x-hp.x,c.y-hp.y)>160;
+  var lead={x:HB.x,y:HB.y,hw:HB.hw,hh:HB.hh,vx:(!jump&&dt>0)?(c.x-hp.x)/dt:0,vy:(!jump&&dt>0)?(c.y-hp.y)/dt:0}, placed=[lead]; scene._famHP={x:c.x,y:c.y};
   // monsters with a null aura (07rb) silence familiars near them
   var nullers=fams.length?(c.monsters||[]).filter(function(m){ if(m.dead||!m.kit)return false; if(m.kit._null===undefined){ var D=m.kit.def.find(function(d){ return d.name==='nullaura'; }); m.kit._null=D?(D.p.r||130):0; } return m.kit._null>0; }):[];
   fams.forEach(function(fid,i){ var D=_famDesign(fid), E=SPIRIT_ELEMENTS[D.el], v=scene._famVisuals[fid];
@@ -87,12 +96,21 @@ function _heroFamiliarsTick(scene,dt){
       v._halo=scene.add.image(c.x,c.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(E.col)).setAlpha(0.35).setScale(0.75);
       if(scene.textures.exists('dot')){ v._em=scene.add.particles(0,0,'dot',{follow:v,lifespan:900,speed:{min:4,max:18},scale:{start:0.45,end:0},alpha:{start:0.8,end:0},tint:[hexNum(E.col),hexNum(E.mote),0xffffff],frequency:70,blendMode:'ADD'}); }
       v.x=c.x; v.y=c.y; v._t=Math.random()*6; scene._famVisuals[fid]=v; }
-    v._t+=dt; var hover=D.move==='hover', tx, ty;
-    if(hover){ var a=v._t*1.2+nHover*Math.PI; tx=c.x+Math.cos(a)*34; ty=c.y-30+Math.sin(a)*10+Math.sin(v._t*3)*3; nHover++; }
-    else { var back=Math.min(tr.length-1,10+nFollow*9), p=tr[tr.length-1-back]||{x:c.x,y:c.y}; tx=p.x-(back<10?20:0); ty=p.y+2; nFollow++; }
-    if(Math.hypot(tx-v.x,ty-v.y)>260){ v.x=tx; v.y=ty; } var dx=tx-v.x, dy=ty-v.y; v.x+=dx*Math.min(1,dt*(hover?5:7)); v.y+=dy*Math.min(1,dt*(hover?5:7));
-    if(Math.abs(dx)>1.5)v.setFlipX(dx<0); else if(!hover)v.setFlipX(c.x<v.x);
-    if(!(typeof ZAtlas!=='undefined'&&ZAtlas.simple(v,'fam_'+D.el,[scene._famCastT>0?'cast':null,'float','idle','move'],'q',v._t,hover?7:6,true)))v.setFrame(String(Math.floor(v._t*(hover?7:6))%4)); v.setDepth(_famDepth(scene,v.y,hover));
+    v._t+=dt; var hover=D.move==='hover';
+    if(!(typeof ZAtlas!=='undefined'&&ZAtlas.simple(v,'fam_'+D.el,[scene._famCastT>0?'cast':null,'float','idle','move'],'q',v._t,hover?7:6,true)))v.setFrame(String(Math.floor(v._t*(hover?7:6))%4));
+    var B={hw:Math.max(10,v.displayWidth*0.46),hh:Math.max(10,v.displayHeight*0.5)}, th, ox=v._px, oy=v._py, fresh=ox===undefined||jump||Math.hypot(ox-lead.x,oy-lead.y)>420;
+    if(fresh)th=(i?scene._famTh:_heroDirAngle(c.dir)+Math.PI);
+    else { th=Math.atan2(oy-lead.y,ox-lead.x); var sp=Math.hypot(lead.vx,lead.vy);
+      if(sp>10){ var d=Math.atan2(-lead.vy,-lead.vx)-th; while(d>Math.PI)d-=2*Math.PI; while(d<-Math.PI)d+=2*Math.PI;
+        if(Math.abs(d)>3.05)d=Math.abs(d)*(v._side||(v._side=(i%2?1:-1))); else v._side=d<0?-1:1;      // straight ahead of the leader: pick a side and keep it
+        th+=(d<0?-1:1)*Math.min(Math.abs(d),dt*3.2*Math.min(1,sp/70)); } }
+    if(!i)scene._famTh=th;
+    var gp=_famGap(lead,B,th), nx=lead.x+Math.cos(th)*gp, ny=lead.y+Math.sin(th)*gp;
+    for(var pass=0;pass<2;pass++)for(var q=0;q<placed.length;q++){ var P=placed[q], a2=Math.atan2(ny-P.y,nx-P.x), g2=_famGap(P,B,a2); if(Math.hypot(nx-P.x,ny-P.y)<g2-0.01){ nx=P.x+Math.cos(a2)*g2; ny=P.y+Math.sin(a2)*g2; } }
+    B.x=nx; B.y=ny; B.vx=(!fresh&&dt>0)?(nx-ox)/dt:0; B.vy=(!fresh&&dt>0)?(ny-oy)/dt:0; v._px=nx; v._py=ny; placed.push(B); lead=B;
+    v.x=nx; v.y=ny+(hover?Math.sin(v._t*3)*3:0);
+    if(!fresh&&Math.abs(nx-ox)>0.4)v.setFlipX(nx<ox); else if(fresh||Math.hypot(B.vx,B.vy)<10)v.setFlipX(c.x<v.x);
+    v.setDepth(_famDepth(scene,ny+B.hh-14,false));
     v._halo.setPosition(v.x,v.y).setDepth(_famDepth(scene,v.y,true)-0.001).setScale(0.7+0.08*Math.sin(v._t*3));
     if(v._em)v._em.setDepth(_famDepth(scene,v.y,true)-0.002);
     // knocked out / dazed / silenced
@@ -181,7 +199,7 @@ function showFamiliarInfo(fid){ var f=FAMILIARS[fid]; if(!f)return; var ws=_hero
   var sk=FAM_SKILLS[D.el].map(function(S,i){ var got=i<L, on=i===spI, pick=got&&i>0&&owned?(on?'<button class="fam-pick on" disabled>✔ Special</button>':'<button class="fam-pick" onclick="_setFamSpecial(\''+fid+'\','+i+')">Use as special</button>'):'';
     return '<div class="fam-sk'+(got?' got':'')+(on?' sel':'')+'">'+pick+'<b>'+(i?'Lv '+(i+1):'Basic attack')+' · '+S.name+'</b>'+(S.dmg&&got?' <span>'+Math.round(S.dmg*mult)+' dmg</span>':'')+'<i>'+S.text+'</i>'+(got?(i===0?'<em>Always on</em>':''):'<em>'+(i===L?'Next: ask a '+TOME_QN[E.q]+' fairy':'Learned later from a '+TOME_QN[E.q]+' fairy')+'</em>')+'</div>'; }).join('');
   sk='<div class="fam-note">Your familiar uses its basic attack plus <b>one special</b> — pick which below. Both cast on their own.</div>'+sk;
-  el.innerHTML='<div class="modal fam-modal" onclick="event.stopPropagation()"><div class="mhdr"><span>'+f.icon+' '+f.n+' <small style="color:'+E.col+'">Level '+L+' / 6 · '+E.name+' spirit · '+(D.move==='hover'?'hovers around you':'follows behind you')+'</small></span><button class="mcls" onclick="document.getElementById(\'familiar-info-modal\').style.display=\'none\'">✕</button></div>'+
+  el.innerHTML='<div class="modal fam-modal" onclick="event.stopPropagation()"><div class="mhdr"><span>'+f.icon+' '+f.n+' <small style="color:'+E.col+'">Level '+L+' / 6 · '+E.name+' spirit · '+(D.move==='hover'?'floats along behind you':'walks along behind you')+'</small></span><button class="mcls" onclick="document.getElementById(\'familiar-info-modal\').style.display=\'none\'">✕</button></div>'+
     '<div class="fam-top"><canvas id="fam-info-cv" width="112" height="112"></canvas><p>'+D.blurb+'</p></div>'+sk+
     '<div style="margin-top:8px;font-size:11px;color:'+(active?'#9f9':owned?'#aac':'#776')+'">'+(active?'● Active':owned?'Owned — press N to set it active':'Not found yet — clear the '+TOME_QN[E.q]+' familiar island')+'</div></div>';
   el.style.display='flex'; var cv=document.getElementById('fam-info-cv'); if(cv){ var i2=0, fr=spiritFrames(D), x=cv.getContext('2d'); clearInterval(el._t); el._t=setInterval(function(){ if(!cv.isConnected){ clearInterval(el._t); return; } x.clearRect(0,0,112,112); x.drawImage(fr[i2++%4],0,0); },160); } }

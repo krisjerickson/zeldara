@@ -73,7 +73,7 @@ var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},cha
   RIDE_H:1.3, MOUNT_H:1.05,
   rideK:function(scene,rc){ return ZAtlas.kHeight(rc,ZAtlas.RIDE_H*ZAtlas.heroPix().h); },
   hero:function(scene,sprite,st,vx,vy,dt,atkTimer,bowTimer){
-    var who=typeof _heroWho==='function'?_heroWho(scene):'m', ch='hero_'+who, S=ZAtlas.state(ch); if(!sprite._zm||sprite._zw)ZAtlas.own(sprite);
+    var who=typeof _heroWho==='function'?_heroWho(scene):'m', ch='hero_'+who, S=ZAtlas.state(ch); scene._zHeroSpr=sprite; if(!sprite._zm||sprite._zw)ZAtlas.own(sprite);
     var ps=(scene.worldScene&&scene.worldScene.playerState)||scene.playerState;
     if(S==='load'){ ZAtlas.hide(sprite,true); st.painted=true; st.zride=!!(ps&&ps.mount); return true; } ZAtlas.hide(sprite,false); if(S!=='ok'||typeof ZSPR==='undefined')return false;
     var H=ZSPR.HERO, f=ZAtlas.FACE[st.dir]||'f', moving=!!(vx||vy), anim, i=0, c=ch, P, k=ZAtlas.heroK();
