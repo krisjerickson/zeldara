@@ -2,7 +2,17 @@
 
 Round 28 (Oct 6 2026). Kris: "the background graphics are now too simple compared to the higher resolution and better looking sprites." This is the list of everything the game draws behind the characters, what will be painted, how many sheets that takes, and the other ways it could be done.
 
-**Status:** the request list, the sending script and the cutter are built. No sheet has been sent and nothing is wired into the game yet.
+**Status:** the 12-sheet pilot is in and cut (Oct 7); 62 sheets are still to be sent. Nothing is wired into the game yet.
+
+## Pilot result (Oct 7)
+
+All 12 pilot sheets arrived and were cut: 73 objects, 6 grass textures. The style matches the sprites. Mock-ups at game scale were sent to Kris in the chat.
+
+- **Works as it is:** village buildings and props, furniture, tower furnishings, trees, rocks, dungeon mouths, camp props, dungeon pieces, the Runestone Green.
+- **Grass textures:** too strong at full strength; fine at about 40 % over the base colour. The rules for the remaining texture sheets now ask for calmer swatches.
+- **Bridges:** painted at a fixed length, running away from the viewer. The game needs spans of any length both ways, so bridges will be assembled from deck textures plus rail and post pieces. The lift, pass gate and broken bridge are usable.
+- **Buildings** came out squarer than the old drawings; they are now sized by width (footprint).
+- **Cutter:** 11 of 12 sheets cut first time; the rocks sheet needed a fix for objects made of loose pieces.
 
 ## Decision (Kris, Oct 6)
 

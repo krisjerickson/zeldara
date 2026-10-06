@@ -210,8 +210,14 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
 
+## Round 29 (Kris, Oct 7) — "first scenery test is in"
+- Done: changelog [285]–[286]; pilot result in `claude/16-scenery-plan.md`. Mock-ups at game scale sent in the chat.
+- Waiting on Kris: his verdict on the pilot; then `tools\sprites\scenery.ps1 -All` for the other 62 sheets; whether to re-roll the grass sheet with the calmer wording (`node tools/sprites/generate.mjs --set scenery --force --ids sc_tex_grass`).
+- Next for Claude once the sheets are in: wiring, in the order of doc 16 (sites on the map, village, trees and rocks, interiors, ground restyle).
+
 ## Round 28 — done overnight (Oct 6–7)
 - Done: changelog [276]–[284]. New docs: `claude/16-scenery-plan.md`, `claude/17-difficulty-levels.md`.
+- Delivered: PC commit `86bb0be` (not pushed); game artifact v32, Lab artifact v36. Test status in changelog [284].
 - Assumptions Claude made (not asked):
   - Difficulty is chosen on the hero screen (no extra step) and can be changed later in the ❓ panel, in the open world only. Wayfarer is preselected and equals the old balance.
   - XP and gold rise slightly on the two harder levels (×1.15, ×1.3), so that progress does not slow; this was not one of the options Kris ticked.

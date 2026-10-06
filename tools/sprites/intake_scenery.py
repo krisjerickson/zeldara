@@ -29,12 +29,30 @@ ROOT = os.environ.get('ZSCN_ROOT') or CH.ROOT
 IN = os.path.join(ROOT, 'sprites', 'incoming'); OUT = os.path.join(ROOT, 'sprites', 'out', 'scenery')
 ASSETS = os.path.join(ROOT, 'assets', 'scenery'); PREV = os.path.join(ROOT, 'sprites', 'preview', 'scenery')
 REQ = os.path.join(ROOT, 'sprites', 'requests', 'scenery.json')
-V = 1            # raise when the cutting rules change: every sheet is cut again
+V = 2            # raise when the cutting rules change: every sheet is cut again
 RES = 2          # stored pixels per screen pixel (never more than was painted)
 TEX = 256        # ground texture size
 PAGE = 2048; PAD = 2; HERO = 63
 
 def load(): return json.load(open(REQ, encoding='utf-8'))
+
+def by_cells(im, cols, rows, n):
+    alpha = np.asarray(im)[..., 3]; solid = alpha > 120; h, w = solid.shape; cw, ch = w / float(cols), h / float(rows)
+    lab, nl = CH.label(solid)
+    if nl == 0: return None, None
+    ys, xs = np.nonzero(lab); ll = lab[ys, xs]; cnt = np.bincount(ll, minlength=nl + 1).astype(np.float64); cnt[0] = 1
+    cy = np.bincount(ll, weights=ys, minlength=nl + 1) / cnt; cx = np.bincount(ll, weights=xs, minlength=nl + 1) / cnt
+    cell = (np.minimum(rows - 1, (cy / ch).astype(int)) * cols + np.minimum(cols - 1, (cx / cw).astype(int))); cell[0] = -1
+    own = cell[lab]                                                     # solid pixels: the cell of their piece
+    gy, gx = np.mgrid[0:h, 0:w]; here = np.minimum(rows - 1, (gy / ch).astype(int)) * cols + np.minimum(cols - 1, (gx / cw).astype(int))
+    own = np.where(solid, own, np.where(alpha > 8, here, -1))           # glow and soft edges: the cell they lie in
+    boxes = []; masks = []
+    for k in range(n):
+        m = own == k
+        if (m & solid).sum() < 40: return None, None
+        yy = np.where(m.any(axis=1))[0]; xx = np.where(m.any(axis=0))[0]; b = (int(xx[0]), int(yy[0]), int(xx[-1]) + 1, int(yy[-1]) + 1)
+        boxes.append(b); masks.append(m[b[1]:b[3], b[0]:b[2]])
+    return boxes, masks
 
 def cut_objects(q, src):
     im, note = CH.cut_background(Image.open(src))
@@ -47,13 +65,17 @@ def cut_objects(q, src):
         boxes = [b]; masks = [a[b[1]:b[3], b[0]:b[2]]]; mode = 'single'
     else:
         boxes, mode, masks, info = CH.find_poses(im, q['cols'], q['rows'], n)
-        if len(boxes) != n or any(b is None for b in boxes): return None, 'found %d of %d objects (%s)' % (sum(1 for b in boxes if b), n, mode)
+        if len(boxes) != n or any(b is None for b in boxes):
+            # an object made of loose pieces (pebbles, a pile of coins): give every piece to the cell its centre lies in
+            boxes, masks = by_cells(im, q['cols'], q['rows'], n); mode = 'cells'
+            if boxes is None: return None, 'found too few objects (an empty cell, or objects that cross into a neighbour)'
     rgba = np.asarray(im); out = []
     for k, it in enumerate(q['items']):
         b = boxes[k]; arr = rgba[b[1]:b[3], b[0]:b[2]].copy(); arr[..., 3] = np.where(masks[k], arr[..., 3], 0)
         c = Image.fromarray(arr, 'RGBA'); cw, ch = c.size
         flat = q['kind'] == 'flat'
-        s_screen = min(it['w'] / cw, it['h'] / ch) if flat else min(it['h'] / ch, 1.25 * it['w'] / cw)     # painted px → screen px
+        # painted px → screen px. Flat decals fit their box; buildings go by WIDTH (it is their footprint on the tiles); other objects by height, with a limit on width
+        s_screen = min(it['w'] / cw, it['h'] / ch) if flat else (it['w'] / cw if q['kind'] == 'bld' else min(it['h'] / ch, 1.25 * it['w'] / cw))
         s = min(1.0, s_screen * RES)                                                                     # painted px → stored px
         if s < 1: c = c.resize((max(1, round(cw * s)), max(1, round(ch * s))), Image.LANCZOS)
         solid = np.asarray(c)[..., 3] > 120
