@@ -29,7 +29,7 @@ ROOT = os.environ.get('ZSCN_ROOT') or CH.ROOT
 IN = os.path.join(ROOT, 'sprites', 'incoming'); OUT = os.path.join(ROOT, 'sprites', 'out', 'scenery')
 ASSETS = os.path.join(ROOT, 'assets', 'scenery'); PREV = os.path.join(ROOT, 'sprites', 'preview', 'scenery')
 REQ = os.path.join(ROOT, 'sprites', 'requests', 'scenery.json')
-V = 2            # raise when the cutting rules change: every sheet is cut again
+V = 3            # raise when the cutting rules change: every sheet is cut again
 RES = 2          # stored pixels per screen pixel (never more than was painted)
 TEX = 256        # ground texture size
 PAGE = 2048; PAD = 2; HERO = 63
@@ -79,7 +79,10 @@ def cut_objects(q, src):
         s = min(1.0, s_screen * RES)                                                                     # painted px → stored px
         if s < 1: c = c.resize((max(1, round(cw * s)), max(1, round(ch * s))), Image.LANCZOS)
         solid = np.asarray(c)[..., 3] > 120
-        if solid.any(): xs = np.where(solid.any(axis=0))[0]; ys = np.where(solid.any(axis=1))[0]; ax = (xs[0] + xs[-1] + 1) / 2.0; ay = ys[-1] + 1 if not flat else (ys[0] + ys[-1] + 1) / 2.0
+        if solid.any():
+            xs = np.where(solid.any(axis=0))[0]; ys = np.where(solid.any(axis=1))[0]; ax = (xs[0] + xs[-1] + 1) / 2.0; ay = ys[-1] + 1 if not flat else (ys[0] + ys[-1] + 1) / 2.0
+            if q['kind'] == 'bld':      # a building stands on its walls: the middle of its lowest tenth (a sign hanging off one side does not shift it)
+                lo = solid[max(0, ys[-1] - max(3, (ys[-1] - ys[0]) // 10)):ys[-1] + 1]; bx = np.where(lo.any(axis=0))[0]; ax = (bx[0] + bx[-1] + 1) / 2.0
         else: ax = c.width / 2.0; ay = c.height
         out.append({'id': it['id'], 'img': c, 'ax': round(float(ax), 1), 'ay': round(float(ay), 1), 'k': round(s_screen / s, 4), 'want': [it['w'], it['h']], 'got': [round(c.width * s_screen / s), round(c.height * s_screen / s)]})
     return out, note + ', ' + mode

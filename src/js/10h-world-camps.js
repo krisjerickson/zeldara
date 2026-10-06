@@ -28,7 +28,13 @@ function campCelebrate(scene,x,y,title,sub){
 }
 
 Object.assign(WorldScene.prototype,{
-  _campTex(kind,tint){ var key='camp_'+kind+(tint?'_'+tint.slice(1):''); if(this.textures.exists(key))return key; var fr=_campPropFrames(kind,tint), cv=mkCanvas(96,32), x=cv.getContext('2d'); fr.forEach(function(f,i){ x.drawImage(f,i*32,0); });
+  _campTex(kind,tint){ var key='camp_'+kind+(tint?'_'+tint.slice(1):''); if(this.textures.exists(key))return key;
+    // painted camp props (round 30): three 128 px frames like the drawn ones (0, 1 = in use; 2 = spent: fire out, chest open, the others dimmed)
+    var Zs=_scn(), pid='cp_'+kind; if(Zs&&!tint&&Zs.has(pid)){ var F=128, pc=mkCanvas(F*3,F), px=pc.getContext('2d'), sz=Zs.size(pid,0), k=Math.min(F*0.94/sz.h,F*0.96/sz.w), alt={campfire:'cp_campfire_out',chest:'cp_chest_open'}[kind];
+      for(var fi=0;fi<3;fi++){ var use=fi===2&&alt&&Zs.has(alt)?alt:pid, s2=Zs.size(use,0); if(fi===2&&use===pid){ px.save(); px.filter='grayscale(0.7) brightness(0.72)'; }
+        softShadow(px,fi*F+F/2,F*0.9-2,F*0.3,F*0.06,0.38); Zs.draw(px,use,fi*F+F/2,F*0.9,s2.h*k); if(fi===2&&use===pid)px.restore(); }
+      var pt=this.textures.addCanvas(key,pc); for(var pf=0;pf<3;pf++)pt.add(String(pf),0,pf*F,0,F,F); try{ pt.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} return key; }
+    var fr=_campPropFrames(kind,tint), cv=mkCanvas(96,32), x=cv.getContext('2d'); fr.forEach(function(f,i){ x.drawImage(f,i*32,0); });
     var tx=this.textures.addCanvas(key,cv); for(var i=0;i<3;i++)tx.add(String(i),0,i*32,0,32,32); tx.setFilter(Phaser.Textures.FilterMode.NEAREST); return key; },
   // build every camp (two thirds of the monsters); returns guards per region
   _initCamps(rng){ var self=this, wd=this.wd, ps=this.playerState, done=(ps.campsDone=ps.campsDone||{});
@@ -45,7 +51,7 @@ Object.assign(WorldScene.prototype,{
   _makeCamp(sec,tx,ty,T0,id,rng,guards){
     var x=tx*TILE+TILE/2, y=ty*TILE+TILE/2, self=this, done=(this.playerState.campsDone=this.playerState.campsDone||{});
         var C={id:id,T:T0,sec:sec,tx:tx,ty:ty,x:x,y:y,guards:[],state:'guarded',loot:[],t:0};
-        C.spr=this.add.image(x,y+14,this._campTex(T0.prop,T0.tint),'0').setOrigin(0.5,0.9).setScale(1.7).setDepth(WR_DEPTH(y));
+        C.spr=this.add.image(x,y+14,this._campTex(T0.prop,T0.tint),'0').setOrigin(0.5,0.9).setDepth(WR_DEPTH(y)); C.spr.setScale(1.7*32/C.spr.frame.width*(C.spr.frame.width>32&&_scn()?_scn().K:1));   // painted props are 128 px frames (04h)
         if(/campfire|lantern|moonwell|well|obelisk|shrine|cauldron|crystal|totem/.test(T0.prop)&&CHX.glow(this)){ C.glow=this.add.image(x,y+2,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(T0.tint||(T0.prop==='campfire'?'#ff9040':'#ffe8a0'))).setAlpha(0.45).setScale(T0.prop==='campfire'?1.1:0.8).setDepth(WR_DEPTH(y)-0.001); C.glow._base={x:x,y:y,r:70,a:0.45,noCut:false}; }
         if(done[id]){ C.state='spent'; if(C.spr)C.spr.setFrame('2'); if(C.glow)C.glow.setVisible(false); this._camps.push(C); return C; }
         var n=Math.max(2,Math.min(7,3+Math.floor(rng.next()*3)+ZDiff.cur().guards)); for(var i=0;i<n;i++){ var a=i/n*Math.PI*2+rng.next()*0.4, gx=x+Math.cos(a)*(42+rng.next()*14), gy=y+Math.sin(a)*(30+rng.next()*10);

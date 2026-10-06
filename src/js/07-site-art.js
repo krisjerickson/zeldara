@@ -34,6 +34,9 @@ function newMap(w,h){
 function mapSolid(m,tx,ty){ if(tx<0||ty<0||tx>=m.w||ty>=m.h)return true; return m.solid[ty*m.w+tx]===1; }
 function setSolid(m,tx,ty,v){ if(tx<0||ty<0||tx>=m.w||ty>=m.h)return; m.solid[ty*m.w+tx]=v?1:0; }
 // A tall sprite drawn into its own canvas: fn(ctx, w, h) with (w/2, h) = foot point.
+// painted scenery (04h, round 30): the loader, or null (the Design Lab has none) · a colour as [r,g,b]
+function _scn(){ return (typeof ZScn!=='undefined'&&!ZScn.off)?ZScn:null; }
+function _scnRGB(col){ var m=/^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i.exec(col||''); return m?[parseInt(m[1],16),parseInt(m[2],16),parseInt(m[3],16)]:[128,128,128]; }
 function addSprite(m, x, y, w, h, fn){ var c=mkCanvas(w,h); fn(c.getContext('2d'),w,h); m.sprites.push({canvas:c,x:x,y:y}); }
 function addLight(m, x, y, r, col, a, opts){ m.lights.push(Object.assign({x:x,y:y,r:r,col:col,a:a},opts||{})); }
 function addLabel(m, tx, ty, tw, th, text){ m.labels.push({x:tx*LT,y:ty*LT,w:tw*LT,h:th*LT,text:text}); }

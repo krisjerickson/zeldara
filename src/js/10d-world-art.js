@@ -13,7 +13,7 @@ function _wsGlow(scene,x,y,r,col,a,o){ if(!scene.textures.exists('glow')&&scene.
   return im; }
 function _wsSiteArt(scene,s){
   if(!scene.textures.exists('glow'))scene._wrInit&&scene._wrInit();
-  var fx=(s.tx+1.5)*TILE, fy=(s.ty+3)*TILE-2, r=s.section||1, tint=WS_REGION_TINT[r]||WS_REGION_TINT[1], key, img;
+  var fx=(s.tx+1.5)*TILE, fy=(s.ty+3)*TILE-2, r=s.section||1, tint=WS_REGION_TINT[r]||WS_REGION_TINT[1], key, img, _zp=null;
   if(s.mage){
     var MG=MAGE_BY_KEY[s.mage], MS=MAGE_STYLE_BY_ID[s.design]||{pal:{}}, orb=(MS.pal&&MS.pal.rune)||'#c080ff';
     key=_wsTex(scene,'site_mage_'+s.mage,120,260,function(g,W,H,R){
@@ -45,6 +45,10 @@ function _wsSiteArt(scene,s){
     });
     img=scene.add.image(fx,fy+2,key).setOrigin(0.5,1).setDepth(WR_DEPTH(fy));
     _wsGlow(scene,fx,fy-66,46,tint.rune,0.35,{pulse:true}); _wsGlow(scene,fx,fy-150,34,'#ffd27a',0.25,{flicker:true});
+  } else if(s.type==='dungeon'&&_scn()&&(_zp=_scn().texture(scene,s.boss&&_scn().has('en_dng_boss')?'en_dng_boss':'en_dng_'+r,(s.boss?158:138)*_scn().K))){
+    // painted dungeon mouth (round 30); the drawn one below stays for when the picture is missing
+    img=scene.add.image(fx,fy+6,_zp.key).setOrigin(0.5,1).setScale(_zp.scale).setDepth(WR_DEPTH(fy));
+    _wsGlow(scene,fx-_zp.w*0.29,fy-_zp.h*0.44,40,r===2?'#60e0ff':'#ffa040',0.4,{flicker:true}); _wsGlow(scene,fx+_zp.w*0.29,fy-_zp.h*0.44,40,r===2?'#60e0ff':'#ffa040',0.4,{flicker:true}); _wsGlow(scene,fx,fy-_zp.h*0.5,52,tint.rune,0.3,{pulse:true});
   } else if(s.type==='dungeon'){
     key=_wsTex(scene,'site_dungeon_'+r+(s.boss?'_b':''),150,130,function(g,W,H,R){
       softShadow(g,W/2,H-10,64,14,0.45);

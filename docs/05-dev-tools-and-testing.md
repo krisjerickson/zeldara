@@ -80,6 +80,7 @@ at ~3–13 fps and with smoothing on, game time runs 5–20× slower than real t
 - Round 27: `test_round27.py` (familiars in a file behind the hero, no overlap; the walk is stepped by hand, 3 px per 1/60 s, because the test browser runs at about 3 frames per second; 14 checks).
 - Round 28: `test_round28.py` (difficulty levels; painted frames whose numbering has gaps; 14 checks). `test_round27.py` now covers the familiar pod.
 - Scenery: `node tools/sprites/generate.mjs --set scenery --pilot --dry-run` lists the pilot sheets; `python tools/sprites/intake_scenery.py` cuts what is in `sprites/incoming/sc_*.png` (`--check` only reports). `ZSCN_ROOT=<folder>` points the cutter at another folder for trials.
+- Round 30: `test_round30.py` (painted scenery: loader, sizes, world chunks, dungeon mouths, camp props, ground texture, off switch; 11 checks). Dev panel → "Painted scenery", "Object size", "Building size" (each reloads the page); `?scenery=0`.
 - Dev panel → "Painted sprites: on/off" (or `?sprites=0`) switches between painted frames and stand-ins; remembered per device.
 - Any suite on Phaser 4: `ZELDARA_ENGINE=4 python tests/<suite>.py` (needs `tests/.phaser4/`: `cd tests && mkdir .phaser4 && cd .phaser4 && npm pack phaser@4.2.1 && tar xzf phaser-4.2.1.tgz`).
 - Benchmarks: `tests/bench/engine_bench.py` (draw calls and frame work in the village) and `tests/bench/sprite_bench.py` (separate textures vs one atlas); set `PHASER_JS` to the engine file.

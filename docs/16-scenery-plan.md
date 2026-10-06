@@ -2,7 +2,7 @@
 
 Round 28 (Oct 6 2026). Kris: "the background graphics are now too simple compared to the higher resolution and better looking sprites." This is the list of everything the game draws behind the characters, what will be painted, how many sheets that takes, and the other ways it could be done.
 
-**Status:** the 12-sheet pilot is in and cut (Oct 7); 62 sheets are still to be sent. Nothing is wired into the game yet.
+**Status:** the 12-sheet pilot is in, cut and **in the game** (Oct 7, round 30; see changelog [287]–[293]); 62 sheets are still to be sent, so the look is mixed. Dev panel: painted scenery on / off, object size, building size.
 
 ## Pilot result (Oct 7)
 

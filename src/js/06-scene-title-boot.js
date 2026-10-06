@@ -78,7 +78,7 @@ class BootScene extends Phaser.Scene{
     this._bar.setSize(412,18);
     this._pct.setText('Entering world...');
     // one frame so "Entering world" shows; the World scene's create() does the rest
-    this.time.delayedCall(16,function(){ self.scene.start('World',{newGame:self._newGame}); });
+    this.time.delayedCall(16,function(){ var go=function(){ self.scene.start('World',{newGame:self._newGame}); }; if(typeof ZScn!=='undefined')ZScn.whenReady(go,2500); else go(); });   // the painted scenery is fetched first (the ground is painted once)
   }
 }
 

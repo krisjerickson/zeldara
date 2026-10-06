@@ -230,7 +230,10 @@ function buildInterior(type){ var T=INTERIOR_THEMES[type]||INTERIOR_THEMES.shop,
   // walls solid; door open
   for(var y=0;y<H;y++)for(var x=0;x<W;x++){ if(y<2||x===0||x===W-1||(y===H-1&&INT_DOOR.indexOf(x)<0))setSolid(m,x,y,1); }
   (L.props||[]).forEach(function(p){ var k=p[0], tx=p[1], ty=p[2], tw=p[3], th=p[4], o=p[5]||{}, fn=INT_PROPS[k]; if(!fn)return; var sw=tw*LT+8, sh=Math.max(INT_HT[k]||48,th*LT);
-    addSprite(m,(tx+tw/2)*LT,(ty+th)*LT-2,sw,sh,function(c,w,h){ fn(c,w,h,P,o); });
+    // painted furniture (round 30): the pilot's eight pieces at their designed size; a counter or long table is stretched along its tiles. Things lying on a table are not drawn on the painted ones yet.
+    var Zs=_scn(), pid='if_'+k, done=false; if(Zs&&Zs.has(pid)){ var nat=Zs.size(pid,0), long=(k==='counter'||k==='longtable')&&tw*LT>nat.w*Zs.K*1.1;
+      done=long?Zs.sprite(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,nat.h*Zs.K,{stretch:tw*LT/(nat.w*Zs.K),shw:0.46}):Zs.fit(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,tw*LT+10,{shw:0.4}); }
+    if(!done)addSprite(m,(tx+tw/2)*LT,(ty+th)*LT-2,sw,sh,function(c,w,h){ fn(c,w,h,P,o); });
     for(var yy=ty;yy<ty+th;yy++)for(var xx=tx;xx<tx+tw;xx++)setSolid(m,xx,yy,1); });
   (L.lights||[]).forEach(function(l){ addLight(m,l[0]*LT,l[1]*LT,l[2],l[4]&&l[4].col||T.light,l[3],Object.assign({depth:9000},l[4]||{})); });
   // window light shafts

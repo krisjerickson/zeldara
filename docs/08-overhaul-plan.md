@@ -210,6 +210,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
 
+## Round 30 (Kris, Oct 7) — the pilot in the game
+- Kris: "let's implement this into the game first, so i can see what it looks like in the game. I'm a little worried about the size of everything, so want to check it out before we do everything".
+- Done: changelog [287]–[293]. No questions were asked: the request was specific.
+- Assumptions Claude made (not asked): every painted piece takes the size of the drawing it replaces, except dungeon mouths (enlarged so the opening is as tall as the hero); two size factors in the Dev panel (objects, buildings) let Kris try 85–150 % without Claude; the plain round cottages use the painted home too; ground texture laid on at about half strength, light-and-dark only.
+- Waiting on Kris: his verdict on sizes (which factor, or which kinds are off); then the other 62 sheets (`scenery.ps1 -All`).
+
 ## Round 29 (Kris, Oct 7) — "first scenery test is in"
 - Done: changelog [285]–[286]; pilot result in `claude/16-scenery-plan.md`. Mock-ups at game scale sent in the chat.
 - Waiting on Kris: his verdict on the pilot; then `tools\sprites\scenery.ps1 -All` for the other 62 sheets; whether to re-roll the grass sheet with the calmer wording (`node tools/sprites/generate.mjs --set scenery --force --ids sc_tex_grass`).

@@ -101,7 +101,12 @@ function buildCavern(D, seed, opts){
     [[-1,0],[1,0]].forEach(function(d){ var X=rx+d[0]; if(X<0||X>=W||g[ry*W+X]||hazard[ry*W+X])return; for(var b=0;b<3;b++){ var bx=d[0]<0?px2+R.f()*5:px2+LT-R.f()*5, by=py2+6+R.f()*(LT-10); ctx.fillStyle=shade(P.rockTop,-0.1+R.f()*0.2); ctx.beginPath(); ctx.arc(bx,by,3+R.f()*4,0,Math.PI*2); ctx.fill(); } });
   }
   // obstacles
-  ctxInfo.obst.forEach(function(o){ var fn=D.draw[o.kind]; if(fn)fn(m,ctx,o.x*LT,o.y*LT,o.w*LT,o.h*LT,R,o,P); });
+  ctxInfo.obst.forEach(function(o){ var fn=D.draw[o.kind];
+    // painted dungeon pieces (round 30): fitted to the tiles they block
+    var Zs=_scn(), pid=o.kind==='shroom'?(o.big?'dg_shroom':'dg_shroom_b'):DNG_PAINTED[o.kind];
+    if(Zs&&pid&&Zs.has(pid)){ var cx=(o.x+o.w/2)*LT, fy=(o.y+o.h)*LT-2, ok=o.kind==='boulder'?Zs.sprite(m,pid,cx,fy,0,{w:o.w*LT*1.12*Zs.K}):Zs.fit(m,pid,cx,fy,o.w*LT*1.35,{shw:0.36});
+      if(ok){ if(o.kind==='crystal'||o.kind==='shroom')addLight(m,cx,fy-22,o.big?90:64,o.col||'#b58cff',0.35,{pulse:0.3,period:1800+R.i(0,1200)}); return; } }
+    if(fn)fn(m,ctx,o.x*LT,o.y*LT,o.w*LT,o.h*LT,R,o,P); });
   // stairs + sealed portal (farthest reachable point = guardian arena)
   var reach=floodReach(m,sp.x,sp.y), far=null, fd=-1;
   for(var y3=2;y3<H-2;y3++)for(var x3=2;x3<W-2;x3++){ if(!reach[y3*W+x3])continue; var d=Math.abs(x3-sp.x)+Math.abs(y3-sp.y); if(d>fd&&open(x3+1,y3)&&open(x3-1,y3)&&open(x3,y3-1)){fd=d;far={x:x3,y:y3};} }
@@ -156,6 +161,7 @@ function cavernMarkers(m,ctx,sp,far,P,opts){
 function rockBlob(ctx,cx,cy,r,col,R){ softShadow(ctx,cx,cy+r*0.55,r*1.1,r*0.4,0.45); var g=ctx.createRadialGradient(cx-r*0.35,cy-r*0.45,r*0.1,cx,cy,r*1.1); g.addColorStop(0,shade(col,0.25)); g.addColorStop(1,shade(col,-0.35)); ctx.fillStyle=g; ctx.beginPath(); for(var i=0;i<9;i++){ var a=i/9*Math.PI*2, rr2=r*(0.82+R.f()*0.3); ctx.lineTo(cx+Math.cos(a)*rr2,cy+Math.sin(a)*rr2*0.8); } ctx.closePath(); ctx.fill(); }
 
 // ═══════════════════════════════════════════════════════════════════════
+var DNG_PAINTED={boulder:'dg_boulder',column:'dg_column',rubble:'dg_rubble',crystal:'dg_crystal',obsidian:'dg_obsidian'};
 var DUNGEON_DESIGNS=[
   { id:'boulder_field', name:'Boulder Field', seed:3, tagline:'Wide cavern strewn with rock clusters',
     blurb:'A huge open cavern floor broken up by boulder clusters of every size. Easy to read and good for big fights: you kite monsters around the rocks.',

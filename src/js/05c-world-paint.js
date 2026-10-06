@@ -202,7 +202,7 @@ function wpChunkJob(wd,cx,cy){
   _wkInit(); var skins=_wzSkins(), N=_wpNoise(), KL=WK_REG.list, W=WORLD_W, H=WORLD_H, kind=wd.kind, zone=wd.zone, KT=_wpKindTables();
   var MG=1, GW=WCH+2*MG, S=WP_S, SW=GW*S, tx0=cx*WCH-MG, ty0=cy*WCH-MG, ox=tx0*LT, oy=ty0*LT;
   var kAt=function(tx,ty){ if(tx<0||ty<0||tx>=W||ty>=H)return WSK.sea._gi; return kind[ty*W+tx]; };
-  var cv=mkCanvas(WCH*LT,WCH*LT), ctx=cv.getContext('2d'), pq=null, kb=null;
+  var cv=mkCanvas(WCH*LT,WCH*LT), ctx=cv.getContext('2d'), pq=null, kb=null, texOf={};
   ctx.translate(-MG*LT,-MG*LT);   // draw in margin coordinates; the margin itself is clipped away
   var out={cx:cx,cy:cy,canvas:null,sprites:[],lights:[],particles:[],lavaMask:null,ley:null}, phase=0, row=0, waiting=false, glowCells={};
   // field input: a window of the kind/zone grids (chunk + 4-tile margin), nearby road lines, zone hills
@@ -229,15 +229,18 @@ function wpChunkJob(wd,cx,cy){
       if(phase===2){ // 3. built-surface patterns: cached world-aligned tiles, clipped to each kind
         if(!pq){ pq=[]; var bb={};
           for(var sy=0;sy<SW;sy++)for(var sx=0;sx<SW;sx++){ var kq=kb[sy*SW+sx], kd=KL[kq]; if(!kd.pattern||!WPATTERN[kd.pattern])continue; var b0=bb[kq]||(bb[kq]=[sx,sy,sx,sy]); if(sx<b0[0])b0[0]=sx; if(sy<b0[1])b0[1]=sy; if(sx>b0[2])b0[2]=sx; if(sy>b0[3])b0[3]=sy; }
-          Object.keys(bb).forEach(function(kq){ pq.push([+kq,bb[kq]]); }); }
+          Object.keys(bb).forEach(function(kq){ pq.push([+kq,bb[kq]]); });
+          // painted ground textures (04h, round 30): the kinds that have one get its marks laid over their generated colour
+          var Zs=_scn(), tb={}; if(Zs){ for(var sy2=0;sy2<SW;sy2+=2)for(var sx2=0;sx2<SW;sx2+=2){ var kt=kb[sy2*SW+sx2], tid=texOf[kt]; if(tid===undefined)tid=texOf[kt]=Zs.ground(KL[kt].id)||0; if(!tid)continue; var b1=tb[kt]||(tb[kt]=[sx2,sy2,sx2,sy2]); if(sx2<b1[0])b1[0]=sx2; if(sy2<b1[1])b1[1]=sy2; if(sx2+1>b1[2])b1[2]=Math.min(SW-1,sx2+1); if(sy2+1>b1[3])b1[3]=Math.min(SW-1,sy2+1); }
+            Object.keys(tb).forEach(function(kq){ pq.push([+kq,tb[kq],texOf[kq]]); }); } }
         if(!pq.length){ phase=3; row=0; continue; }
-        var item=pq.shift(); _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1]);
+        var item=pq.shift(); if(item[2])_wpTexFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1],item[2]); else _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1]);
         continue; }
       if(phase===3){ // 4. per-tile decoration, liquid glints, kind glows, walls
         var fake=_wpFakeC(wd,out,ox,oy);
         for(var ty=row;ty<GW&&ty<row+8;ty++)for(var tx=0;tx<GW;tx++){
           var wtx=tx0+tx, wty=ty0+ty, kk=KL[kAt(wtx,wty)], p4x=tx*LT, p4y=ty*LT, R=rngOf(_wpHash(wtx,wty,3));
-          if(kk.deco)kk.deco(ctx,p4x,p4y,R,N.c(wtx*0.2,wty*0.2),tx,ty,fake);
+          if(kk.deco&&!texOf[kAt(wtx,wty)])kk.deco(ctx,p4x,p4y,R,N.c(wtx*0.2,wty*0.2),tx,ty,fake);   // textured ground needs no drawn blades
           if(kk.liquid&&R.chance(0.08)){ ctx.fillStyle='rgba(255,255,255,.18)'; ctx.fillRect(p4x+R.f()*20,p4y+R.f()*26,8+R.f()*8,1.5); }
           var inner=tx>=MG&&ty>=MG&&tx<GW-MG&&ty<GW-MG;
           var gcell=((ty>>3)*8+(tx>>3));
@@ -316,6 +319,19 @@ function _wpPatTile(ki){
   var tw=Math.round(sz[0]), th=Math.round(sz[1]), nt=Math.ceil(Math.max(tw,th)/LT)+2, c={W:nt,H:nt,S:1,kb:new Uint16Array(nt*nt).fill(ki),K:WK_REG.list,ox:0,oy:0,salt:0};
   var big=mkCanvas(nt*LT,nt*LT), bg=big.getContext('2d'); WPATTERN[k.pattern](bg,c,ki,k);
   var t=mkCanvas(tw,th); t.getContext('2d').drawImage(big,0,0,tw,th,0,0,tw,th); _WPC[ki]={cv:t,w:tw,h:th}; return _WPC[ki];
+}
+// A painted texture over one kind of ground: the same world-aligned fill and kind mask as a pattern, laid on with 'overlay'
+// (light and dark only), so each zone keeps its own grass colour.
+function _wpTexFill(ctx,kb,SW,S,GW,ox,oy,ki,b,tid){
+  var Zs=_scn(), tile=Zs&&Zs.detail(tid,128,0.9); if(!tile)return;
+  var bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by; if(bw<=0||bh<=0)return;
+  var W2=bw*LT, H2=bh*LT, lay=mkCanvas(W2,H2), g=lay.getContext('2d'), P={w:tile.width,h:tile.height};
+  g.fillStyle=g.createPattern(tile,'repeat'); var wx=ox+bx*LT, wy=oy+by*LT, sx=((wx%P.w)+P.w)%P.w, sy=((wy%P.h)+P.h)%P.h;
+  g.save(); g.translate(-sx,-sy); g.fillRect(0,0,W2+sx,H2+sy); g.restore();
+  var mc=mkCanvas(bw*S,bh*S), mx=mc.getContext('2d'), im=mx.createImageData(bw*S,bh*S), dd=im.data;
+  for(var yy=0;yy<bh*S;yy++)for(var xx=0;xx<bw*S;xx++){ if(kb[(yy+by*S)*SW+xx+bx*S]===ki)dd[(yy*bw*S+xx)*4+3]=255; }
+  mx.putImageData(im,0,0); g.globalCompositeOperation='destination-in'; g.imageSmoothingEnabled=true; g.drawImage(mc,0,0,W2,H2);
+  ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=Math.min(1,Zs.GRASS*2); ctx.drawImage(lay,bx*LT,by*LT); ctx.restore();
 }
 function _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,ki,b){
   var bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by;

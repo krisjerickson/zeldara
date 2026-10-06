@@ -59,7 +59,8 @@ const jsDir = path.join(ROOT, 'src/js');
 const jsFiles = fs.readdirSync(jsDir).filter(f => f.endsWith('.js')).sort();
 // painted-sprite atlases (assets/atlas/, made by tools/sprites/intake.py --atlas): the index goes into the page, the pages are files beside it
 let atlasMeta = '{"pages":{},"chars":{},"frames":{}}'; try { atlasMeta = fs.readFileSync(path.join(ROOT, 'assets/atlas/index.json'), 'utf8').trim(); JSON.parse(atlasMeta); } catch (e) { atlasMeta = '{"pages":{},"chars":{},"frames":{}}'; }
-const js = 'var ZATLAS_META=' + atlasMeta + ';\n' + minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
+let scnMeta = '{"pages":[],"items":{},"tex":{}}'; try { scnMeta = fs.readFileSync(path.join(ROOT, 'assets/scenery/index.json'), 'utf8'); } catch (e) {}   // painted scenery (round 30)
+const js = 'var ZATLAS_META=' + atlasMeta + ';\nvar ZSCN_META=' + scnMeta + ';\n' + minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
 
 // Engine switch (round 18): Phaser 3.60 is the default. `node build.mjs --engine=4` (or ZELDARA_ENGINE=4)
 // makes Phaser 4 the default; any built page also accepts ?engine=3 or ?engine=4 in its address.
@@ -186,6 +187,7 @@ try {
   // the same game with the other engine as its default, so both can be tried from one deploy: /play4 (Phaser 4), /play3 (Phaser 3.60)
   for (const v of ['3', '4']) { fs.mkdirSync(D('dist', 'play' + v), { recursive: true }); fs.writeFileSync(D('dist', 'play' + v, 'index.html'), withEngine(outRaw, v, false)); }
   if (fs.existsSync(D('assets', 'atlas'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'atlas'), D('dist', 'play' + v, 'assets', 'atlas'));
+  if (fs.existsSync(D('assets', 'scenery'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'scenery'), D('dist', 'play' + v, 'assets', 'scenery'));   // painted scenery (round 30)
   if (fs.existsSync(D('lab/index.html'))) fs.copyFileSync(D('lab/index.html'), D('dist', 'lab', 'index.html'));
   if (fs.existsSync(D('lab/preview'))) copyDir(D('lab/preview'), D('dist', 'lab', 'preview'));
   // the home page (Next.js, site/): it paints the brand with the game's own brand code

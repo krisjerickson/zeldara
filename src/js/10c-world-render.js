@@ -75,7 +75,8 @@ Object.assign(WorldScene.prototype,{
     // sprites → the chunk's atlas (packed by the paint job)
     if(o.atlas){ var at=addTex(tag+'_a',o.atlas), tex=this.textures.get(at);
       o.sprites.forEach(function(sp,i){ if(!sp.ap)return; var fn='s'+i; tex.add(fn,0,sp.ap[0],sp.ap[1],sp.aw,sp.ah);
-        var im=self.add.image(sp.x,sp.y,at,fn).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.depth!==undefined&&sp.depth>=7000?WR_DEPTH(sp.y)+0.5:WR_DEPTH(sp.depth!==undefined?sp.depth:sp.y));
+        var im=self.add.image(sp.x,sp.y,at,fn).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.flat?-6:sp.depth!==undefined&&sp.depth>=7000?WR_DEPTH(sp.y)+0.5:WR_DEPTH(sp.depth!==undefined?sp.depth:sp.y));
+        if(sp.res){ im.setScale(1/sp.res); if(!tex._zlin){ tex._zlin=true; try{ tex.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } }      // painted scenery (04h): drawn at 2 ×, shown at half size, smoothed
         if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
         if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
         objs.push(im); });
