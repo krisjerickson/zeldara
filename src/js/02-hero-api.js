@@ -261,7 +261,7 @@ function _heroApplyShield(scene, ps, rawDmg, x, y){
   if(!ps.equip||!ps.equip.shield)return rawDmg;
   var si=ITEMS[ps.equip.shield]; if(!si)return rawDmg;
   var sdef=si.def||0;
-  var blockChance=0.15+sdef*0.02;
+  var blockChance=Math.min(0.5,0.15+sdef*0.02);      // never more than half (round 34)
   if(Math.random()<blockChance){
     if(scene._floatText)scene._floatText(x,y-42,'🛡️ BLOCKED!','#88ffcc');
     _heroShieldFlash(scene,x,y,true);

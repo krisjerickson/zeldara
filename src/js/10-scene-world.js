@@ -1067,7 +1067,7 @@ class WorldScene extends Phaser.Scene{
       if(Math.hypot(pr.x-px,pr.y-py)<18&&!pr.hit&&(self.worldIFrames||0)<=0&&!self.playerState.godMode){
         pr.hit=true;pr.life=0;pr.vis.destroy();
         var def=self.calcPlayerStats().def;
-        var dmg=Math.max(1,pr.dmg-def+Math.floor(Math.random()*3));
+        var dmg=ZDiff.hit(pr.dmg+Math.floor(Math.random()*3),def,self.playerState.maxHp,0);
         dmg=self._applyShieldToDmg(dmg);
         if(dmg<=0){return false;}
         self.playerState.hp=Math.max(0,self.playerState.hp-dmg);
@@ -1252,7 +1252,7 @@ class WorldScene extends Phaser.Scene{
           // Damage scales down heavily for weak enemies: sec1→~1, sec2→~1-2, sec3→~2-3, boss→normal
           var baseAtk=mon.monAtk!==undefined?mon.monAtk:mdef.atk;
           var rawDmg=isBossType?Math.round(baseAtk*0.8):Math.ceil(baseAtk*0.2);
-          var dmg0=Math.max(1,rawDmg-def0+Math.floor(Math.random()*2));
+          var dmg0=ZDiff.hit(rawDmg+Math.floor(Math.random()*2),def0,self.playerState.maxHp,isBossType?0.8:0); mon._engT=Date.now(); self.playerState._lastFoe=mdef.name;
           if(!isBossType&&dmg0>3)dmg0=Math.ceil(dmg0*0.5); // hard cap for non-boss
           dmg0=self._applyShieldToDmg(dmg0);
           if(dmg0<=0){self._emitUI();return;}
@@ -1281,7 +1281,7 @@ class WorldScene extends Phaser.Scene{
           if(dist<90&&!self.playerState.godMode&&(self.worldIFrames||0)<=0){
             var def0s=self.calcPlayerStats().def;
             var effAtkS=mon.monAtk!==undefined?mon.monAtk:mdef.atk;
-            var dmgS=Math.max(1,Math.ceil(effAtkS*0.6)-def0s+Math.floor(Math.random()*2));
+            var dmgS=ZDiff.hit(Math.ceil(effAtkS*0.6)+Math.floor(Math.random()*2),def0s,self.playerState.maxHp,mdef.boss?0.6:0); mon._engT=Date.now(); self.playerState._lastFoe=mdef.name;
             dmgS=self._applyShieldToDmg(dmgS);
             if(dmgS<=0){self._emitUI();return;}
             self.playerState.hp=Math.max(0,self.playerState.hp-dmgS);
@@ -1304,7 +1304,7 @@ class WorldScene extends Phaser.Scene{
           var def=self.calcPlayerStats().def;
           var effAtk=mon.monAtk!==undefined?mon.monAtk:mdef.atk;
           var baseDmg=effAtk*0.4;
-          var dmg=Math.max(1,Math.ceil(baseDmg)-def+Math.floor(Math.random()*2));
+          var dmg=ZDiff.hit(Math.ceil(baseDmg)+Math.floor(Math.random()*2),def,self.playerState.maxHp,mdef.boss?0.4:0); mon._engT=Date.now(); self.playerState._lastFoe=mdef.name;
           if(!mdef.boss&&dmg>4)dmg=Math.ceil(dmg*0.5);
           dmg=self._applyShieldToDmg(dmg);
           if(dmg<=0){self._emitUI();return;}
@@ -1585,7 +1585,7 @@ class WorldScene extends Phaser.Scene{
     if(!ps.equip||!ps.equip.shield)return rawDmg;
     var si=ITEMS[ps.equip.shield]; if(!si)return rawDmg;
     var sdef=si.def||0;
-    var blockChance=0.15+sdef*0.02; // 15% + 2% per DEF point
+    var blockChance=Math.min(0.5,0.15+sdef*0.02); // 15% + 2% per DEF point, never more than half (round 34)
     if(Math.random()<blockChance){
       this._floatText(this.player.x,this.player.y-42,'🛡️ BLOCKED!','#88ffcc');
       this._shieldFlash(true);

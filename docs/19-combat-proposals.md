@@ -1,5 +1,7 @@
 # 19 — Combat proposals: familiar engagement and boss damage (round 33)
 
+> **Decided and built in round 34** (changelog [312]–[318]): rule set A "follow my lead"; armor as a share with a boss-hit floor, both per difficulty; ward as a share of max health (cap 40 %); shield block cap 50 %; familiar damage to bosses per difficulty. Not taken up: shorter mercy time, a wait between potions. The text below is the proposal as written.
+
 Kris asked for rules to consider. **Nothing here is in the game yet** except: familiars do not heal in combat ([309]), the Site Lab no longer makes the hero invincible by default ([308]), and the hero's own hits mark a monster as engaged (`mon._engT`).
 
 ## A. When may familiars attack?

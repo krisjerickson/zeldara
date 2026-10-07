@@ -31,7 +31,7 @@ class G:
         return self.js("game.scene.getScenes(true).map(s=>s.sys.settings.key)")
 
 @contextlib.contextmanager
-def game(new=True, w=1280, h=800, save=None, painted=False, query=''):   # painted=False: the suites written for the stand-ins run with the painted sprites off (round 23)
+def game(new=True, w=1280, h=800, save=None, painted=False, query='', lead=False):   # lead=False: familiars attack anything in range, as the suites written before round 34 expect   # painted=False: the suites written for the stand-ins run with the painted sprites off (round 23)
     with sync_playwright() as p:
         b = p.chromium.launch(args=["--use-gl=swiftshader", "--enable-unsafe-swiftshader"])
         pg = b.new_page(viewport={"width": w, "height": h})
@@ -57,6 +57,7 @@ def game(new=True, w=1280, h=800, save=None, painted=False, query=''):   # paint
         pg.wait_for_timeout(1500)
         if not painted: pg.evaluate("(()=>{ try{ if(typeof ZAtlas!=='undefined')ZAtlas.off=true; if(typeof ZScn!==\'undefined\')ZScn.off=true; }catch(e){} })()")
         pg.evaluate("(()=>{ try{ if(typeof ZDeath!=='undefined')ZDeath.auto=true; }catch(e){} })()")   # deaths apply at once in the suites (no effect, no pop-up to click); test_round33 switches it back on
+        if not lead: pg.evaluate("(()=>{ try{ if(typeof FAM_LEAD!=='undefined')FAM_LEAD.on=false; }catch(e){} })()")
         pg.evaluate("game.loop.smoothStep=false")  # headless runs at low FPS; use real elapsed time
         g = G(pg, errs)
         if new is not None:

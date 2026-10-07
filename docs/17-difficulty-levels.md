@@ -74,3 +74,14 @@ What these mean in numbers, for two bosses:
 - A separate "boss health only" slider, for players who want long fights but gentle roads.
 - New Game+ (keep gear, start at Shieldbearer).
 - Harsher rules for Ragnarök only: no healing in boss rooms, or one life per site. Kris did not choose the healing and death options, so these stay out.
+
+## Round 34 — three more numbers per level
+
+| | Hearthside | Wayfarer | Shieldbearer | Ragnarök |
+|---|---|---|---|---|
+| `armorK` — how much each point of defense counts (damage = attack × 100 / (100 + armorK × defense)) | 2 | 1.5 | 1.2 | 1 |
+| Share of a hit that gets through the best armor of realm 1 / 2 / 3 / 4 | 68 / 54 / 45 / 37 % | 74 / 61 / 52 / 44 % | 78 / 66 / 57 / 50 % | 81 / 70 / 62 / 54 % |
+| `bossHit` — a boss's plain hit costs at least this share of max health (heavier attacks in proportion) | 7 % | 10 % | 13 % | 16 % |
+| `famBoss` — share of a familiar's damage a boss takes | 60 % | 50 % | 40 % | 30 % |
+
+The earlier line "NOT changed: healing, potions, the death penalty" still holds; armor and familiars now do change with the level.

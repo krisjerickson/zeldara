@@ -36,7 +36,7 @@ with game(painted=True) as g:
     check('Familiars heal when all is calm, and not while the hero fights (6 s after his last hit given or taken); the last-stand heal waits too', r['calm'] and r['hpCalm'] == 56 and not r['fight'] and r['hpFight'] == 50 and not r['lastFight'] and r['lastCalm'] and r['hpLast'] == 50 and not r['in'], r)
     # death
     r = g.js("(()=>{ var bad=[]; ZDEATH.LOOKS.forEach(function(L,i){ [84,0].forEach(function(gold){ var T=ZDeath.text(L,{area:'the tower',foe:'Goblin King',gold:gold,level:5,fam:null}); if(!T.title||!T.btn||!T.lines.length||!T.wake||/\\{/.test([T.title,T.sub,T.gold,T.wake,T.btn].concat(T.lines).join(' '))||(gold&&T.gold.indexOf('84')<0)||(!gold&&/\\d+ gold/.test(T.gold)))bad.push((i+1)+'/'+gold); if(gold&&T.bill&&T.bill.reduce(function(s,b){return s+b[1];},0)!==84)bad.push('bill'+(i+1)); }); }); return {n:ZDEATH.LOOKS.length,bad:bad,pick:ZDeath.pick,auto:ZDeath.auto}; })()")
-    check('Ten death designs, each with a title, a story, the gold lost (or a line for an empty purse), what you wake with and a button', r['n'] == 10 and r['bad'] == [] and r['pick'] == 1 and r['auto'] is True, r)
+    check('Ten death designs, each with a title, a story, the gold lost (or a line for an empty purse), what you wake with and a button', r['n'] == 10 and r['bad'] == [] and r['pick'] == 6 and r['auto'] is True, r)
     g.js("ZDeath.auto=false")
     a = g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.gold=500; ps.maxHp=100; ps._lastFoe='Meadow Goblin'; ps.hp=0; ws.player.x+=900; ws._worldPlayerDied(); return {gold:ps.gold,hp:ps.hp,hold:ZDeath._hold,blocked:_gameBlocked(),fx:!!document.getElementById('zdeath-fx'),x:ws.player.x}; })()")
     g.wait(2300)
@@ -46,6 +46,6 @@ with game(painted=True) as g:
     check('Dying: first the effect over the screen while the game holds still, nothing taken yet', a['gold'] == 500 and a['hold'] and a['blocked'] and a['fx'], a)
     check('Then the pop-up: 10 % of the gold gone and named with the foe, the hero in the village at 25 % health, the game paused', b['gold'] == 450 and b['hp'] == 25 and b['shown'] and b['paused'] and '50' in b['txt'] and 'eadow' in b['txt'] and b['home'], {k: (v if k != 'txt' else v[:120]) for k, v in b.items()})
     check('The button closes it: the game runs again and the screen is clear', c == {'shown': 'none', 'paused': False, 'busy': False, 'dying': False, 'fx': False, 'filter': ''}, c)
-    check('The Dev panel can choose a design and preview it', g.js("(function(){ sbDeathPick(); var t=document.getElementById('sb-death').textContent; ZDeath.set(1); sbDeathInit(); return /Death screen: 2/.test(t); })()"))
+    check('The Dev panel can choose a design and preview it', g.js("(function(){ sbDeathPick(); var t=document.getElementById('sb-death').textContent; ZDeath.set(6); sbDeathInit(); return /Death screen: 7/.test(t); })()"))
     check('No page errors', not g.errs, g.errs[:3])
 print('%d/%d passed' % (sum(res), len(res))); sys.exit(0 if all(res) else 1)

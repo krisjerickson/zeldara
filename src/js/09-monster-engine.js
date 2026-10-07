@@ -56,7 +56,8 @@ MX.A=function(scene){ if(scene._mxA)return scene._mxA; var W=_isOverworld(scene)
   A.float=function(x,y,t,c){ scene._floatText(x,y,t,c); };
   A.god=function(){ return !!A.ps().godMode; };
   A.hurt=function(raw,label,col,noIfr){ var ps=A.ps(); if(ps.godMode||ps.hp<=0)return false; if(!noIfr&&A.ifr()>0)return false; var P=A.p();
-    var S=MX.S(scene), df=(W?scene.calcPlayerStats().def:(calcStatsFromState(ps).def||0))||0, dmg=Math.max(1,Math.round(raw)-Math.floor(df*0.6)); if(S.markT>0)dmg=Math.ceil(dmg*1.25);
+    var S=MX.S(scene), df=(W?scene.calcPlayerStats().def:(calcStatsFromState(ps).def||0))||0, src=MX.striker(A), bm=src&&src.isBoss&&src.def&&src.def.atk>0?raw/src.def.atk:0, dmg=ZDiff.hit(raw,df,ps.maxHp,bm); if(S.markT>0)dmg=Math.ceil(dmg*1.25);
+    if(src){ src._engT=Date.now(); ps._lastFoe=src.def&&src.def.name; }      // the one who struck is now engaged (familiars may answer) and is named if the hero falls
     if(!noIfr)dmg=W?scene._applyShieldToDmg(dmg):_heroApplyShield(scene,ps,dmg,P.x,P.y); if(dmg<=0){ A.setIfr(0.4); return false; }
     ps.hp=Math.max(0,ps.hp-dmg); if(!noIfr)A.setIfr(0.6); A.float(P.x,P.y-30,'-'+dmg+(label?' '+label:''),col||'#ff4433');
     if(!noIfr){ var fl=document.getElementById('damage-flash'); if(fl){ fl.style.opacity='0.18'; clearTimeout(scene._flashT); scene._flashT=setTimeout(function(){fl.style.opacity='0';},300); } }
@@ -391,3 +392,9 @@ MX.overlay=function(scene,S){ var el=document.getElementById('mx-status'); if(!e
   var bl=S.blindT>0, sh=S.shrinkT>0, rv=S.revT>0;
   el.style.background=bl?'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 12%, rgba(5,5,15,.92) 34%)':rv?'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 55%, rgba(200,120,255,.22) 100%)':'none';
   var hero=scene.player?scene.player.sprite:scene.pSprite, small=sh||S.frogT>0; if(hero&&hero.setScale){ if(small){ if(hero._mxBase===undefined)hero._mxBase=hero.scaleX; hero.setScale(hero._mxBase*0.7); } else if(hero._mxBase!==undefined){ hero.setScale(hero._mxBase); hero._mxBase=undefined; } } };
+
+// Round 34: who is striking the hero right now? The monster whose turn is being run (MX.tick), else — for shots in flight, zones and timed boss
+// patterns — the boss of the fight if one is awake, else the nearest awake monster within 400 px.
+MX.striker=function(A){ if(MX._cur&&!MX._cur.dead)return MX._cur; var L=[], P; try{ L=A.list()||[]; P=A.p(); }catch(e){ return null; } var best=null, bd=400;
+  for(var i=0;i<L.length;i++){ var m=L[i]; if(!m||m.dead||!m._m||!m._m.aggro)continue; if(m.isBoss)return m; var d=Math.hypot(m.x-P.x,m.y-P.y); if(d<bd){ bd=d; best=m; } } return best; };
+(function(){ var t0=MX.tick; MX.tick=function(scene,mon,dt){ MX._cur=mon; try{ return t0(scene,mon,dt); } finally{ MX._cur=null; } }; })();

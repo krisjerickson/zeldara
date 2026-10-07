@@ -38,7 +38,7 @@ var ZScn={
   // how much has arrived: [files in, files in all]
   progress:function(){ return [(ZScn._tot||0)-Math.max(0,ZScn._n||0),ZScn._tot||0]; },
   whenReady:function(f,ms){ if(ZScn.done||ZScn.off)return f(); var fired=false, go=function(){ if(!fired){ fired=true; f(); } }; ZScn._cb.push(go); setTimeout(go,ms||2500); ZScn.load(); },
-  SKIP:{rn_henge_tri:1,rn_henge_post:1},      // pieces whose sheet was cut badly (sc_rune_henge: the trilithon is cut in half) — the drawn ones stay until the sheet is redone
+  SKIP:{},      // ids to leave drawn while their sheet is being redone (none now: the henge sheet was re-rolled in round 34)
   has:function(id){ if(ZScn.off||ZScn.SKIP[id])return false; var it=ZScn.META.items[id]; return !!(it&&ZScn.img[it[0]]); },
   // the first of the ids that is painted (variants: pick by a number 0..1)
   pick:function(ids,r){ var L=ids.filter(ZScn.has); return L.length?L[Math.min(L.length-1,Math.floor((r||0)*L.length))]:null; },

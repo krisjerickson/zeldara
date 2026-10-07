@@ -71,7 +71,7 @@ var ZDEATH={
 };
 var ZDeath={
   auto:false, busy:false,
-  pick:(function(){ try{ var v=parseInt(localStorage.getItem('zeldara_death'),10); return v>=1&&v<=10?v:1; }catch(e){ return 1; } })(),
+  pick:(function(){ try{ var v=parseInt(localStorage.getItem('zeldara_death'),10); return v>=1&&v<=10?v:6; }catch(e){ return 6; } })(),      // Kris chose design 6, the rune of return (round 34)
   set:function(n){ ZDeath.pick=Math.max(1,Math.min(ZDEATH.LOOKS.length,n|0)); try{ localStorage.setItem('zeldara_death',String(ZDeath.pick)); }catch(e){} },
   look:function(n){ return ZDEATH.LOOKS[(n||ZDeath.pick)-1]||ZDEATH.LOOKS[0]; },
   _cap:function(s){ s=String(s||''); return s.charAt(0).toUpperCase()+s.slice(1); },

@@ -8,15 +8,24 @@
 // ═══════════════════════════════════════════════════════════════════════
 var ZDIFF=[
   {id:'hearthside',name:'Hearthside',icon:'🔥',tag:'A tale told by the fire',text:'Gentler foes, smaller packs and slower bosses with long warnings. For a first journey.',
-   bossHp:0.75,bossDmg:0.8,tele:1.25,every:1.25,speed:0.9,waves:0,stand:0.15,stag:0.8, monHp:0.8,monDmg:0.8,count:0.8,guards:-1,alphaAt:9,kin:0,reward:1},
+   bossHp:0.75,bossDmg:0.8,tele:1.25,every:1.25,speed:0.9,waves:0,stand:0.15,stag:0.8, monHp:0.8,monDmg:0.8,count:0.8,guards:-1,alphaAt:9,kin:0,reward:1, armorK:2,bossHit:0.07,famBoss:0.6},
   {id:'wayfarer',name:'Wayfarer',icon:'🧭',tag:'The road as it was meant to be walked',text:'The balanced journey: the game as it has played until now.',
-   bossHp:1,bossDmg:1,tele:1,every:1,speed:1,waves:0,stand:0.15,stag:1, monHp:1,monDmg:1,count:1,guards:0,alphaAt:5,kin:0,reward:1},
+   bossHp:1,bossDmg:1,tele:1,every:1,speed:1,waves:0,stand:0.15,stag:1, monHp:1,monDmg:1,count:1,guards:0,alphaAt:5,kin:0,reward:1, armorK:1.5,bossHit:0.10,famBoss:0.5},
   {id:'shieldbearer',name:'Shieldbearer',icon:'🛡️',tag:'For proven warriors',text:'Bosses have half again the health, warn less and strike sooner. Monsters are tougher and come in bigger packs.',
-   bossHp:1.5,bossDmg:1.25,tele:0.85,every:0.85,speed:1.1,waves:0,stand:0.2,stag:1.15, monHp:1.3,monDmg:1.2,count:1.25,guards:1,alphaAt:4,kin:1,reward:1.15},
+   bossHp:1.5,bossDmg:1.25,tele:0.85,every:0.85,speed:1.1,waves:0,stand:0.2,stag:1.15, monHp:1.3,monDmg:1.2,count:1.25,guards:1,alphaAt:4,kin:1,reward:1.15, armorK:1.2,bossHit:0.13,famBoss:0.4},
   {id:'ragnarok',name:'Ragnarök',icon:'🌋',tag:'The twilight of the realms',text:'Bosses have more than twice the health, barely warn, add an extra wave to their attacks and make their last stand early. Monsters hit hard and swarm.',
-   bossHp:2.2,bossDmg:1.5,tele:0.7,every:0.7,speed:1.2,waves:1,stand:0.3,stag:1.3, monHp:1.7,monDmg:1.45,count:1.5,guards:2,alphaAt:3,kin:2,reward:1.3}
+   bossHp:2.2,bossDmg:1.5,tele:0.7,every:0.7,speed:1.2,waves:1,stand:0.3,stag:1.3, monHp:1.7,monDmg:1.45,count:1.5,guards:2,alphaAt:3,kin:2,reward:1.3, armorK:1,bossHit:0.16,famBoss:0.3}
 ];
+// Round 34 (Kris): armor takes a SHARE of each hit instead of a fixed amount, so no monster is ever reduced to nothing and no armor makes a boss harmless.
+//   armorK   how much each point of defense counts: damage = attack × 100 / (100 + armorK × defense). Wayfarer with the best armor of realms 1–4
+//            (defense 24 / 42 / 62 / 85) lets through 74 / 61 / 52 / 44 % of a hit.
+//   bossHit  a boss's plain hit (× 1) always costs at least this share of the hero's max health, whatever he wears; a heavier attack costs in
+//            proportion (a × 1.3 slam 1.3 times as much, a × 0.25 aura tick a quarter), up to × 2.5.
+//   famBoss  how much of a familiar's damage a boss takes.
 var ZDiff={
+  armor:function(raw,def){ return raw*100/(100+ZDiff.cur().armorK*Math.max(0,def||0)); },
+  // the damage of one hit on the hero: raw attack, his defense, his max health, and for a boss how heavy the attack is (its multiple of the boss's attack; 0 = not a boss)
+  hit:function(raw,def,maxHp,bossM){ var d=ZDiff.armor(raw,def); if(bossM>0&&maxHp>0)d=Math.max(d,maxHp*ZDiff.cur().bossHit*Math.min(2.5,bossM)); return Math.max(1,Math.round(d)); },
   ps:function(){ try{ var ws=typeof _heroWS==='function'?_heroWS():null; return ws&&ws.playerState; }catch(e){ return null; } },
   lv:function(ps){ ps=ps||ZDiff.ps(); var d=ps&&ps.difficulty; return (d===0||d===1||d===2||d===3)?d:1; },
   cur:function(ps){ return ZDIFF[ZDiff.lv(ps)]; },

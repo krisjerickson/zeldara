@@ -1296,7 +1296,7 @@ class DungeonScene extends Phaser.Scene{
     var ps=this.worldScene.playerState;
     if(ps.godMode)return;
     var def=calcStatsFromState(ps).def||0;
-    var dmg=Math.max(1,mon.def.atk-def+Math.floor(Math.random()*4-1));
+    var dmg=ZDiff.hit(mon.def.atk+Math.floor(Math.random()*4-1),def,ps.maxHp,(mon.isBoss||mon.def.boss)?1:0); mon._engT=Date.now(); ps._lastFoe=mon.def.name;
     dmg=_heroApplyShield(this, ps, dmg, this.px, this.py);
     if(dmg<=0){this.playerIFrames=0.5;return;}
     ps.hp=Math.max(0,ps.hp-dmg);this.playerIFrames=0.9;
