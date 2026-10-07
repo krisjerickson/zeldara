@@ -112,7 +112,27 @@ Two things to watch when wiring:
 - **Tower, castle and mage-tower walls and windows:** drawn into the floor canvas; they take the wall textures of wave 29, not objects.
 - **Site Lab and Design Lab pages:** unchanged.
 
-## Wiring plan (after the sheets exist)
+## Wiring — done ahead of the art (round 31)
+
+Everything below is wired; a piece shows as soon as its picture is in `assets/scenery/` and the old drawing stays as the fallback. Open the game with `?scenery=fake` to see labelled stand-ins for whatever is not painted yet.
+
+| Where | What | Code |
+|---|---|---|
+| World props | ruins, landmarks, rocks, plants, village and harbour pieces, fences / rails (rows), flowers, windmill, kites, floating rocks, sky dock, fairy rings, floor runes | `07zu` `SCN_RULES`, `SCN_ROWS` |
+| Trees, stones | every tree kind, standing stones, crystal tallgrass, stone logs | `07f` `wTree`, `wStone`; `07g`, `07i` |
+| Village | 11 shops, houses by style, craftsmen's halls, town wall, garden beds, dressing (`vdress`) | `07k`, `07l` |
+| Shops inside | furniture, things on tables, wall pieces, rugs, mat, floor and wall textures | `07v` |
+| Towers, castles, mage towers | 75 furnishing types, flat floor pieces, castle wall pieces, floors | `07zu` `_twrPainted`, `07ta`, `FLOORS` |
+| Dungeons, arenas | 20 obstacle kinds, puddles, stairs, chests | `07c` `DNG_PAINTED`, `12` |
+| Map | towers, mage towers, camps, harbors, sky ports, volcano doors, castles, waystones, henges, camp props, loot | `10d`, `10h`, `10i`, `13` |
+| Trials | stones, pylons, altar, boulders, spire, reset rune | `12b` `TR.pic` |
+| Ground | a texture for every kind; built surfaces replace their drawn pattern; darker borders | `04h` `GROUND`, `GROUND_PAT`, `TEXA`; `05c` |
+
+Loader helpers (`04h`): `sprite` (stands, shared canvas), `fit`, `row`, `rect` (flat, fills a rectangle), `hang` (on a wall), `decal`, `floor` (tiled texture as one flat picture), `image` / `texture` (scene images), `fake`.
+
+Not placed yet: see changelog [303]. To tune once the art is in: sizes of each family against the hero, `TEXA` strengths, where table-top items sit (`done.h*0.7`), the crest position on castle banners.
+
+## Wiring plan (as written before round 31)
 
 1. Loader for `assets/scenery/` (pages on demand, like the character atlas; textures up front — 54 × about 15 KB).
 2. Sites on the map first (one picture each, 10d): smallest change, most visible.

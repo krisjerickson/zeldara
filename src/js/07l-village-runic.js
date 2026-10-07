@@ -117,7 +117,9 @@ function villagePlan(stage,ok,water){
   street.forEach(function(v){ if(v.from<=st&&Math.hypot(v.x+0.5,v.y+0.5)<=VR.disk[s]-0.5)setK(v.x,v.y,v.k); });
   for(var gy2=-10;gy2<=10;gy2++)for(var gx2=-10;gx2<=10;gx2++){ var dg=Math.hypot(gx2+0.5,gy2+0.5); if(dg<=9.6)setK(gx2,gy2,dg>8.6&&st>=2?'vpave':'vgreen'); }
   VILLAGE_CORE.forEach(function(b){ for(var j=0;j<b.h;j++)for(var i=0;i<b.w;i++)setK(b.dx+i,b.dy+j,'vgrass'); for(var i2=0;i2<b.w;i2++)setK(b.dx+i2,b.dy+b.h,'vpave'); });
-  plazas.forEach(function(p){ if(p.from>st)return; for(var j=0;j<p.h;j++)for(var i=0;i<p.w;i++)setK(p.x+i,p.y+j,'vplaza'); P('fountain',p.fx,p.fy,3,3,{rune:'#6fe3f5'},true); });
+  plazas.forEach(function(p){ if(p.from>st)return; for(var j=0;j<p.h;j++)for(var i=0;i<p.w;i++)setK(p.x+i,p.y+j,'vplaza'); P('fountain',p.fx,p.fy,3,3,{rune:'#6fe3f5'},true);
+    // painted dressing (round 31): shown only when its picture is there; nothing blocks the way
+    if(p.fx-2>=p.x)P('vdress',p.fx-2,p.fy+1,1,1,{id:'vp_bench'},false); if(p.fx+4<p.x+p.w)P('vdress',p.fx+4,p.fy+1,1,1,{id:'vp_bench'},false); P('vdress',p.x,p.y+p.h-1,1,1,{id:'vp_signpost'},false); P('vdress',p.x+p.w-1,p.y,1,1,{id:'vp_notice'},false); });
   // the runestone green: rune circle, standing stones, well; ley lines grow with the village
   P('runecircle',-3,-3,7,7,{col:'#63f2dc',n:12,solid:false,logo:true,grow:2.12});   // round 14: the Zeldara logo is set into the plaza floor where the game begins; round 15: as wide as the ring of standing stones (grow)
   var stones=[]; for(var k=0;k<8;k++){ var a=(k/8+1/16)*Math.PI*2, sx=Math.round(Math.cos(a)*7.4), sy=Math.round(Math.sin(a)*7.4); if(Math.abs(sx-4)<=1&&Math.abs(sy-3)<=1)continue; stones.push([sx,sy]); P('stone',sx,sy,1,1,{rune:'#6fe3f5',tall:44+(k%3)*8},true); }
@@ -135,7 +137,8 @@ function villagePlan(stage,ok,water){
     var HR=rngOf(7001+i*31), L=VR_HOUSE_LOOKS[HR.pick(HW)], ch=HR.chance(0.75);
     P('vbuild',l.x,l.y,l.w,l.h,{style:L.style,roof:HR.pick(L.roofs),roofPat:L.roofPat,chimney:ch,smoke:ch&&HR.chance(0.72),flowers:HR.chance(st>=3?0.7:0.35),doorX:Math.floor(l.w/2),nl:1,wallH:L.style==='round'?40:44},true);
     var lx=l.x+Math.floor(l.w/2)+1; if(lx<l.x+l.w)P('lantern',lx,l.y+l.h,1,1,{col:HR.pick(['#ffd27a','#ffc070','#9fe8ff'])},false);
-    if(HR.chance(0.5))P('flowers',l.x-1,l.y+l.h,1,1,{n:6,solid:false},false); });
+    if(HR.chance(0.5))P('flowers',l.x-1,l.y+l.h,1,1,{n:6,solid:false},false);
+    if((i*7+3)%5<3)P('vdress',l.x-1,l.y+l.h-1,1,1,{id:['vp_woodpile','vp_barrels','vp_crates','vp_haystack','vp_laundry'][i%5]},false); });
   plan.houses=VILLAGE_CORE.length+nh+extra;
   // vegetable gardens (neat rows, the harbour town's gardens tidied up)
   var ng=0; gardens.forEach(function(gd){ if(ng>=VR.gardens[s]||Math.hypot(gd.x+gd.w/2,gd.y+1.5)>Rs+2)return; ng++; for(var j=0;j<3;j++)for(var i=0;i<gd.w;i++)setK(gd.x+i,gd.y+j,'vsoil'); P('vegplot',gd.x,gd.y,gd.w,3,{seed:ng},false); });
@@ -144,12 +147,12 @@ function villagePlan(stage,ok,water){
   // windmills (from the market & grove towns)
   special.mill.slice(0,VR.mills[s]).forEach(function(q){ if(q)P('windmill',q[0],q[1],2,2,{rune:'#ffd27a'},true); });
   // the craftsmen's buildings
-  if(st>=2&&special.bram){ var b2=special.bram; P('vbuild',b2[0],b2[1],5,3,{style:'wood',roof:'#8a6440',roofPat:'shingle',sign:'#c89040',doorX:2,nl:1},true); P('pebbles',b2[0]+5,b2[1]+1,2,2,{},false);
+  if(st>=2&&special.bram){ var b2=special.bram; P('vbuild',b2[0],b2[1],5,3,{style:'wood',roof:'#8a6440',roofPat:'shingle',sign:'#c89040',doorX:2,nl:1,pid:'vb_builders_yard'},true); P('pebbles',b2[0]+5,b2[1]+1,2,2,{},false);
     plan.landmarks.push({x:b2[0],y:b2[1],w:5,h:4,text:'Bram\'s Builder\'s Yard — he laid the harbour-stone streets and the ring roads.'}); }
-  if(st>=3&&special.mira){ var b3=special.mira; P('vbuild',b3[0],b3[1],4,3,{style:'stone',roof:'#6a6a70',roofPat:'slate',sign:'#c0c0c8',doorX:2,smoke:true,chimney:true,nl:1},true);
+  if(st>=3&&special.mira){ var b3=special.mira; P('vbuild',b3[0],b3[1],4,3,{style:'stone',roof:'#6a6a70',roofPat:'slate',sign:'#c0c0c8',doorX:2,smoke:true,chimney:true,nl:1,pid:'vb_workshop'},true);
     [[3,-11],[-2,-11],[3,11],[-4,11],[11,4],[-11,4],[11,-1],[-11,-1]].forEach(function(q){ P('lamppost',q[0],q[1],1,1,{},false); });
     plan.landmarks.push({x:b3[0],y:b3[1],w:4,h:4,text:'Mira\'s Workshop — gears, lamps and the windmills that power them.'}); }
-  if(st>=4&&special.dunn){ var b4=special.dunn; P('vbuild',b4[0],b4[1],5,3,{style:'stone',roof:'#3a3a40',roofPat:'slate',sign:'#ff8a40',chimney:true,smoke:true,doorX:2,nl:1},true); P('anvil',b4[0]+5,b4[1]+2,1,1,{},false); P('statue',-4,5,1,1,{},true);
+  if(st>=4&&special.dunn){ var b4=special.dunn; P('vbuild',b4[0],b4[1],5,3,{style:'stone',roof:'#3a3a40',roofPat:'slate',sign:'#ff8a40',chimney:true,smoke:true,doorX:2,nl:1,pid:'vb_forge_hall'},true); P('anvil',b4[0]+5,b4[1]+2,1,1,{},false); P('statue',-4,5,1,1,{},true);
     plan.landmarks.push({x:b4[0],y:b4[1],w:5,h:4,text:'Dunn\'s Forge Hall — the finest steel on the island, and the statue he cast for the green.'}); }
   if(st>=5&&special.vela){ var b5=special.vela; P('balloondock',b5[0],b5[1],4,2,{},true); plan.landmarks.push({x:b5[0],y:b5[1],w:4,h:3,text:'Vela\'s Sky Dock — balloons to every corner of the world.'}); }
   // town wall & turrets (the walled harbour town's): gates from stage 3, the full ring from stage 4
@@ -166,8 +169,9 @@ function villagePlan(stage,ok,water){
   plan.walk=[];
   if(H){ var pc=function(list){ (list||[]).forEach(function(c){ setK(c[0],c[1],'vpier'); plan.walk.push(c); }); };
     var p1=H.pier1.cells.slice(0,st>=2?99:8); pc(p1);
-    if(H.hut)P('vbuild',H.hut[0],H.hut[1],3,3,{style:'wood',roof:'#4f7a44',roofPat:'shingle',sign:'#4a9ad0',doorX:1,chimney:true,smoke:true,nl:1},true);
-    if(st>=2){ pc(H.walk); if(H.boathouse)P('boathouse',H.boathouse[0],H.boathouse[1],4,3,{},true); }
+    if(H.hut)P('vbuild',H.hut[0],H.hut[1],3,3,{style:'wood',roof:'#4f7a44',roofPat:'shingle',sign:'#4a9ad0',doorX:1,chimney:true,smoke:true,nl:1,pid:'vb_fishing_hut'},true);
+    if(H.hut){ P('vdress',H.hut[0]+3,H.hut[1]+2,1,1,{id:'vp_fish_rack'},false); P('vdress',H.hut[0]-1,H.hut[1]+2,1,1,{id:'vp_nets'},false); }
+    if(st>=2){ pc(H.walk); if(H.boathouse){ P('boathouse',H.boathouse[0],H.boathouse[1],4,3,{},true); P('vdress',H.boathouse[0]+4,H.boathouse[1]+2,1,1,{id:'hb_cargo'},false); } }
     if(st>=3){ if(H.stilt){ pc(H.stiltWalk); P('stilthouse',H.stilt[0],H.stilt[1],4,3,{roof:'#3f6a3a'},true); plan.landmarks.push({x:H.stilt[0],y:H.stilt[1],w:4,h:3,text:'The Lake House — built on stilts over Mirror Lake. Fishers swear the lake glows beneath it on quiet nights.'}); }
       if(H.pier2)pc(H.pier2.cells); }
     if(st>=4)H.quay.forEach(function(c){ setK(c[0],c[1],'vquay'); });
@@ -196,6 +200,7 @@ WPROP.cart=function(c,ctx,x,y,w,h,o){ var col=o.col||'#c84a3a', R=c.R; addSprite
   [[14,H-12],[W-14,H-12]].forEach(function(q){ g.fillStyle='#3a2a1a'; g.beginPath(); g.arc(q[0],q[1],8,0,Math.PI*2); g.fill(); g.fillStyle='#8a6a44'; g.beginPath(); g.arc(q[0],q[1],5.5,0,Math.PI*2); g.fill(); g.strokeStyle='#3a2a1a'; g.lineWidth=1.5; g.beginPath(); g.moveTo(q[0]-5,q[1]); g.lineTo(q[0]+5,q[1]); g.moveTo(q[0],q[1]-5); g.lineTo(q[0],q[1]+5); g.stroke(); });
   g.strokeStyle='#5a3a22'; g.lineWidth=3; g.beginPath(); g.moveTo(W-8,H-22); g.lineTo(W-1,H-16); g.stroke(); }); };
 WPROP.vegplot=function(c,ctx,x,y,w,h,o){ var R=c.R; // neat rows: cabbages, carrots, leeks, pumpkins
+  var Zs=_scn(), vid=Zs&&['vp_veg_cabbage','vp_veg_carrot','vp_veg_leek','vp_veg_pumpkin'][(o.seed||0)%4]; if(vid&&Zs.sprite(c.m,vid,x+w/2,y+h,0,{w:w+4,shadow:false,sp:{depth:y+6}}))return;      // painted garden bed (round 31): lies low, so it sorts behind who walks past its front
   ctx.fillStyle='#5a3e24'; ctx.fillRect(x+3,y+3,w-6,h-6);
   var rows=Math.floor((h-8)/12), crops=['cab','car','leek','pump'];
   for(var r=0;r<rows;r++){ var cy=y+8+r*12, kind=crops[(r+(o.seed||0))%4]; ctx.fillStyle='rgba(0,0,0,.25)'; ctx.fillRect(x+6,cy+7,w-12,2);
@@ -207,6 +212,9 @@ WPROP.vegplot=function(c,ctx,x,y,w,h,o){ var R=c.R; // neat rows: cabbages, carr
   addSprite(c.m,x+w/2,y+4,w+6,24,function(g,W,H){ g.fillStyle='#8a6440'; g.fillRect(3,H-12,W-6,2); g.fillRect(3,H-6,W-6,2); for(var p=3;p<=W-4;p+=12)g.fillRect(p,H-15,3,12); });
   var sp=c.m.sprites[c.m.sprites.length-1]; sp.depth=y+4; };
 WPROP.vwall=function(c,ctx,x,y,w,h,o){ var pts=o.pts||[[0,0]], top=46; // a run of town wall, blocks drawn back to front
+  var Zs=_scn(); if(Zs&&Zs.has('vw_wall_h')){ var RS=Zs.RES, W0=w+8, H0=h+top+14, kx=(LT+1)/Zs.size('vw_wall_h',50).w;      // painted wall blocks (round 31), each one tile wide and 50 px tall
+    addSprite(c.m,x+w/2,y+h,W0*RS,H0*RS,function(g){ g.scale(RS,RS); var ox=4, oy=H0-h-2; pts.slice().sort(function(a,b){return a[1]-b[1];}).forEach(function(p){ Zs.draw(g,'vw_wall_h',ox+p[0]*LT+LT/2,oy+p[1]*LT+LT,50,{stretch:kx}); }); });
+    var zsp=c.m.sprites[c.m.sprites.length-1]; zsp.oy=1; zsp.res=RS; return; }
   addSprite(c.m,x+w/2,y+h,w+8,h+top+10,function(g,W,H){ var ox=4, oy=H-h-2; pts.slice().sort(function(a,b){return a[1]-b[1];}).forEach(function(p){ var px=ox+p[0]*LT, py=oy+p[1]*LT;
       var gf=g.createLinearGradient(0,py+LT-top,0,py+LT); gf.addColorStop(0,'#a8a296'); gf.addColorStop(1,'#6e6a62'); g.fillStyle=gf; g.fillRect(px,py+LT-top+10,LT,top-10);
       g.fillStyle='rgba(0,0,0,.2)'; for(var yy=py+LT-top+18;yy<py+LT;yy+=9){ g.fillRect(px,yy,LT,1.2); for(var xx=px+((yy/9)%2)*8;xx<px+LT;xx+=16)g.fillRect(xx,yy,1.2,9); }

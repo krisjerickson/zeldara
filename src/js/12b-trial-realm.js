@@ -53,7 +53,9 @@ var TrialRealm={
   hurt:function(S,frac,label){ var ps=S.worldScene.playerState; if(ps.godMode)return; var d=Math.max(1,Math.round(ps.maxHp*frac)); ps.hp=Math.max(0,ps.hp-d); S._floatText(S.px,S.py-26,'-'+d+(label?' '+label:''),'#ff6a6a'); var fl=document.getElementById('damage-flash'); if(fl){ fl.style.opacity='0.18'; setTimeout(function(){ fl.style.opacity='0'; },250); } if(ps.hp<=0)S._playerDied(); },
   ring:function(S,x,y,r,col){ var c=S.add.circle(x,y,6,hexNum(col),0).setStrokeStyle(3,hexNum(col),0.9).setDepth(12.62); S.tweens.add({targets:c,radius:r,alpha:0,duration:380,onComplete:function(){ c.destroy(); }}); },
   glyph:function(S,x,y,s,col,size,depth){ return S.add.text(x,y,TRIAL_GLYPHS[s%TRIAL_GLYPHS.length],{fontSize:(size||20)+'px',fontFamily:'serif',color:col||'#ffffff',stroke:'#000',strokeThickness:3}).setOrigin(0.5).setDepth(depth||12.63); },
-  stone:function(S,x,y,col,h){ var g=S.add.graphics().setDepth(S._yDepth(y+14)); g.fillStyle(0x000000,0.3).fillEllipse(x,y+12,26,8); g.fillStyle(0x6a6a78,1).fillRoundedRect(x-10,y+12-(h||30),20,(h||30),5); g.fillStyle(0x8a8a9a,1).fillRoundedRect(x-10,y+12-(h||30),20,6,3); g.lineStyle(2,hexNum(col),0.8).strokeRoundedRect(x-10,y+12-(h||30),20,(h||30),5); return g; }
+  // a painted trial prop standing on (x, footY) (round 31); null when its picture is not there, and the drawn one is used
+  pic:function(S,id,x,footY,h,depth){ var Zs=_scn(), t=Zs&&Zs.texture(S,id,h||0); if(!t)return null; return S.add.image(x,footY+3,t.key).setOrigin(0.5,1).setScale(t.scale).setDepth(depth!==undefined?depth:S._yDepth(footY)); },
+  stone:function(S,x,y,col,h,id){ var pz=TR.pic(S,id||'tp_stone',x,y+14,(h||30)+16); if(pz)return pz; var g=S.add.graphics().setDepth(S._yDepth(y+14)); g.fillStyle(0x000000,0.3).fillEllipse(x,y+12,26,8); g.fillStyle(0x6a6a78,1).fillRoundedRect(x-10,y+12-(h||30),20,(h||30),5); g.fillStyle(0x8a8a9a,1).fillRoundedRect(x-10,y+12-(h||30),20,6,3); g.lineStyle(2,hexNum(col),0.8).strokeRoundedRect(x-10,y+12-(h||30),20,(h||30),5); return g; }
 };
 var TR=TrialRealm;
 // ── the 12 themes: start(S,T) · tick(S,T,dt) → hud text · tab(S,T) → true if [Tab] was used ──
@@ -89,7 +91,7 @@ var TR_THEME={
       T.target=[]; T.cur=[]; T.stones=[]; for(var i=0;i<n;i++){ T.target.push(R.i(0,K-1)); }
       for(var j=0;j<n;j++){ var tx=Math.floor(L.W/2)-Math.floor(n*3/2)+1+j*3, ty=11, x=TR.px(tx), y=TR.px(ty); S.dtiles[ty][tx]=DNG.WALL; var g=TR.stone(S,x,y-10,T.pal.glow,34), gl=TR.glyph(S,x,y-26,0,'#fff4c0',20,S._yDepth(y+20)); T.stones.push({tx:tx,ty:ty,x:x,y:y,g:g,gl:gl}); T.cur.push(R.i(0,K-1)); }
       if(T.cur.every(function(v,i){ return v===T.target[i]; }))T.cur[0]=(T.cur[0]+1)%K;
-      var ax=TR.px(Math.floor(L.W/2)), ay=TR.px(4); S.dtiles[4][Math.floor(L.W/2)]=DNG.WALL; T.altar={x:ax,y:ay}; var ag=S.add.graphics().setDepth(S._yDepth(ay+14)); ag.fillStyle(0x4a4a58,1).fillRoundedRect(ax-22,ay-6,44,20,4); ag.lineStyle(2,hexNum(T.pal.glow),0.8).strokeRoundedRect(ax-22,ay-6,44,20,4);
+      var ax=TR.px(Math.floor(L.W/2)), ay=TR.px(4); S.dtiles[4][Math.floor(L.W/2)]=DNG.WALL; T.altar={x:ax,y:ay}; var ag=S.add.graphics().setDepth(S._yDepth(ay+14)); if(!TR.pic(S,'tp_altar',ax,ay+16,0)){ ag.fillStyle(0x4a4a58,1).fillRoundedRect(ax-22,ay-6,44,20,4); ag.lineStyle(2,hexNum(T.pal.glow),0.8).strokeRoundedRect(ax-22,ay-6,44,20,4); }
       T.show=[]; var seq=T.mode==='reversed'?T.target.slice().reverse():T.target; seq.forEach(function(s,i){ T.show.push(TR.glyph(S,ax-(n-1)*14+i*28,ay-40,s,T.el.col,26,12.64)); });
       T.time=60+12*T.d; T.showT=T.mode==='hidden'?6:0; TR_THEME.rune_lock.paint(S,T); },
     paint:function(S,T){ T.stones.forEach(function(s,i){ s.gl.setText(TRIAL_GLYPHS[T.cur[i]%TRIAL_GLYPHS.length]).setColor(T.cur[i]===T.target[i]&&T.mode!=='hidden'&&T.d<=1?'#aaffcc':'#fff4c0'); }); },
@@ -128,7 +130,7 @@ var TR_THEME={
       for(var r=0;r<W.rows;r++)for(var c=0;c<W.cols;c++){ var tx=W.x0+c, ty=W.y0+W.rows-1-r, x=TR.px(tx), y=TR.px(ty); var slab=S.add.rectangle(x,y,TILE-3,TILE-3,0x6a6680).setStrokeStyle(2,0x2a2838,1).setDepth(-3.5), gl=TR.glyph(S,x,y,W.sym[r][c],T.pal.rune,18,-3.4); T.stones.push({r:r,c:c,tx:tx,ty:ty,x:x,y:y,slab:slab,gl:gl,st:0,t:0}); }
       // the spire, with the path's symbols stacked up its face (it goes dark once you are on the walkway)
       var sp=W.spire, sx=TR.px(sp.x), sy=TR.px(sp.y); S.dtiles[sp.y][sp.x]=DNG.WALL; var g=S.add.graphics().setDepth(S._yDepth(sy+14)); var hgt=40+W.rows*22;
-      g.fillStyle(0x000000,0.35).fillEllipse(sx,sy+12,34,10); g.fillStyle(0x4a4658,1).fillRect(sx-12,sy+12-hgt,24,hgt); g.fillStyle(0x6a6680,1).fillRect(sx-12,sy+12-hgt,6,hgt); g.fillStyle(0x3a3648,1).fillTriangle(sx-14,sy+12-hgt,sx+14,sy+12-hgt,sx,sy-hgt-14); g.lineStyle(2,hexNum(T.pal.glow),0.7).strokeRect(sx-12,sy+12-hgt,24,hgt);
+      var spz=TR.pic(S,'tp_spire',sx,sy+14,hgt+16); if(!spz){ g.fillStyle(0x000000,0.35).fillEllipse(sx,sy+12,34,10); g.fillStyle(0x4a4658,1).fillRect(sx-12,sy+12-hgt,24,hgt); g.fillStyle(0x6a6680,1).fillRect(sx-12,sy+12-hgt,6,hgt); g.fillStyle(0x3a3648,1).fillTriangle(sx-14,sy+12-hgt,sx+14,sy+12-hgt,sx,sy-hgt-14); g.lineStyle(2,hexNum(T.pal.glow),0.7).strokeRect(sx-12,sy+12-hgt,24,hgt); }
       T.spireG=[]; for(var r2=0;r2<W.rows;r2++){ var s=W.sym[r2][W.path[r2]]; T.spireG.push(TR.glyph(S,sx,sy+2-r2*22-12,s,T.pal.glow,18,S._yDepth(sy+15))); }
       T.lbl=S.add.text(sx,sy-hgt-26,'Read me from the bottom up',{fontSize:'8px',fontFamily:'Segoe UI',color:'#fff4c8',stroke:'#000',strokeThickness:3}).setOrigin(0.5).setDepth(12.64); T.start={x:S.px,y:S.py}; },
     reset:function(S,T){ T.stones.forEach(function(s){ s.st=0; s.t=0; s.slab.setVisible(true).setFillStyle(0x6a6680).setAlpha(1); s.gl.setVisible(true); }); T.row=-1; T.spireG.forEach(function(g){ g.setAlpha(1); }); },
@@ -153,8 +155,8 @@ var TR_THEME={
       return '🌑 Lights-Out Labyrinth — wisps '+T.got+' / '+T.need+(T.got>=T.need?' · the gate at the top is open!':''); } },
   boulder_push:{ start:function(S,T){ var K=T.L.soko; T.K=K; T.B=K.boulders.map(function(b){ return {x:b.x,y:b.y,x0:b.x,y0:b.y}; }); T.push=0;
       T.goalG=K.goals.map(function(g){ var c=S.add.circle(TR.px(g.x),TR.px(g.y),13,hexNum(T.pal.glow),0.25).setStrokeStyle(2,hexNum(T.pal.glow),0.9).setDepth(-3); return c; });
-      T.bg=T.B.map(function(b){ S.dtiles[b.y][b.x]=DNG.WALL; var c=S.add.container(TR.px(b.x),TR.px(b.y)).setDepth(S._yDepth(TR.px(b.y)+12)); var sh=S.add.ellipse(0,12,28,8,0x000000,0.3), rock=S.add.circle(0,0,14,0x7a7684).setStrokeStyle(2,0x3a3848,1), gl=TR.glyph(S,0,0,b.x+b.y,T.pal.rune,14,0); gl.setDepth(0); c.add([sh,rock,gl]); return c; });
-      var rs=K.reset; T.resetPt={x:TR.px(rs.x),y:TR.px(rs.y)}; S.add.circle(T.resetPt.x,T.resetPt.y,12,0x2a2a3a,0.8).setStrokeStyle(2,0xffe8a0,0.9).setDepth(-3); S.add.text(T.resetPt.x,T.resetPt.y-22,'↺ Reset [Tab]',{fontSize:'8px',fontFamily:'Segoe UI',color:'#ffe8a0',stroke:'#000',strokeThickness:3}).setOrigin(0.5).setDepth(12.64); },
+      T.bg=T.B.map(function(b){ S.dtiles[b.y][b.x]=DNG.WALL; var c=S.add.container(TR.px(b.x),TR.px(b.y)).setDepth(S._yDepth(TR.px(b.y)+12)); var sh=S.add.ellipse(0,12,28,8,0x000000,0.3), rock=(function(){ var Zs=_scn(), t=Zs&&Zs.texture(S,'tp_boulder',34,{shadow:false}); return t?S.add.image(0,17,t.key).setOrigin(0.5,1).setScale(t.scale):S.add.circle(0,0,14,0x7a7684).setStrokeStyle(2,0x3a3848,1); })(), gl=TR.glyph(S,0,0,b.x+b.y,T.pal.rune,14,0); gl.setDepth(0); c.add([sh,rock,gl]); return c; });
+      var rs=K.reset; T.resetPt={x:TR.px(rs.x),y:TR.px(rs.y)}; if(!TR.pic(S,'tp_reset',T.resetPt.x,T.resetPt.y+14,0,-3))S.add.circle(T.resetPt.x,T.resetPt.y,12,0x2a2a3a,0.8).setStrokeStyle(2,0xffe8a0,0.9).setDepth(-3); S.add.text(T.resetPt.x,T.resetPt.y-22,'↺ Reset [Tab]',{fontSize:'8px',fontFamily:'Segoe UI',color:'#ffe8a0',stroke:'#000',strokeThickness:3}).setOrigin(0.5).setDepth(12.64); },
     tab:function(S,T){ if(Math.hypot(S.px-T.resetPt.x,S.py-T.resetPt.y)>TILE*1.6)return false; T.B.forEach(function(b,i){ S.dtiles[b.y][b.x]=DNG.FLOOR; b.x=b.x0; b.y=b.y0; }); T.B.forEach(function(b,i){ S.dtiles[b.y][b.x]=DNG.WALL; T.bg[i].setPosition(TR.px(b.x),TR.px(b.y)).setDepth(S._yDepth(TR.px(b.y)+12)); }); showNotif('↺ The boulders roll back to where they started.','#ffe8a0'); return true; },
     tick:function(S,T,dt){ var k=S.keys, dir=null; if(k.LEFT.isDown||k.A.isDown)dir=[-1,0]; else if(k.RIGHT.isDown||k.D.isDown)dir=[1,0]; else if(k.UP.isDown||k.W.isDown)dir=[0,-1]; else if(k.DOWN.isDown||k.S.isDown)dir=[0,1];
       if(dir){ var fx=Math.floor((S.px+dir[0]*18)/TILE), fy=Math.floor((S.py+dir[1]*14)/TILE), bi=T.B.findIndex(function(b){ return b.x===fx&&b.y===fy; });
@@ -179,7 +181,7 @@ var TR_THEME={
       if(!T.runes.length)return TR.end(S,true);
       return '🪞 Mirror Walk — your shadow copies you, mirrored: runes '+T.got+' / '+T.M.runes.length+' · keep it out of the purple rune-fire'; } },
   beam_gauntlet:{ start:function(S,T){ var B=T.L.beam; T.B=B; T.cp={x:S.px,y:S.py}; T.got=0; T.inv=0; T.g=S.add.graphics().setDepth(12.5);
-      B.pylons.forEach(function(p){ TR.stone(S,TR.px(p.x),TR.px(p.y)-6,'#fff080',36); });
+      B.pylons.forEach(function(p){ TR.stone(S,TR.px(p.x),TR.px(p.y)-6,'#fff080',36,'tp_pylon'); });
       T.sh=B.shards.map(function(s){ var x=TR.px(s.x), y=TR.px(s.y), c=S.add.star(x,y,5,5,11,0xfff0a0,1).setStrokeStyle(1.5,0xffffff,1).setDepth(12.6); S.tweens.add({targets:c,angle:360,duration:2400,repeat:-1}); return {x:x,y:y,c:c}; });
       var A=B.altar; T.alt={x:TR.px(A.x),y:TR.px(A.y)}; var ag=S.add.graphics().setDepth(-3); ag.fillStyle(hexNum(T.pal.glow),0.25).fillCircle(T.alt.x,T.alt.y,22); ag.lineStyle(2,hexNum(T.pal.glow),0.9).strokeCircle(T.alt.x,T.alt.y,22); },
     tick:function(S,T,dt){ var g=T.g; g.clear(); if(T.inv>0)T.inv-=dt; var hit=false;

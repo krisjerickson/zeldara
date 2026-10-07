@@ -77,7 +77,7 @@ function _famHeroBox(scene,c,ps){ var s=scene._zHeroSpr, b=null; if(s&&s.active&
   if(!b||!(b.width>4))return {x:c.x,y:c.y,hw:16,hh:24};
   var pc=s.parentContainer||s, ox=b.centerX-pc.x, oy=b.centerY-pc.y; if(Math.hypot(ox,oy)>90)return {x:c.x,y:c.y,hw:16,hh:24};      // offset from the hero's position, so a sprite moved later in the frame does not lag
   return {x:c.x+ox,y:c.y+oy,hw:b.width*(ps&&ps.mount?0.46:0.3),hh:b.height*0.5}; }
-var FAM_GAP=5, FAM_SC=0.25;      // gap to the hero's body (px); stand-in scale (round 28: half of 0.5 — the painted size follows it)
+var FAM_GAP=5, FAM_SC=0.3;       // gap to the hero's body (px); stand-in scale (round 28: 0.25 = half of 0.5; round 31: + 20 % — the painted size follows it)
 // places in the pod by number of familiars: [rows behind the front row, sideways], in units of a familiar's size
 var FAM_POD={1:[[0,0]],2:[[0,-0.55],[0.1,0.55]],3:[[0,-0.6],[0.1,0.6],[0.95,0]],4:[[0,-0.6],[0.12,0.6],[0.95,-0.95],[1.05,0.25]]};
 function _famGap(A,B,th){ var cx=Math.cos(th)/(A.hw+B.hw+FAM_GAP), sy=Math.sin(th)/(A.hh+B.hh+FAM_GAP); return Math.pow(cx*cx*cx*cx+sy*sy*sy*sy,-0.25); }

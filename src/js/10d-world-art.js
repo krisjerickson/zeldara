@@ -14,6 +14,16 @@ function _wsGlow(scene,x,y,r,col,a,o){ if(!scene.textures.exists('glow')&&scene.
 function _wsSiteArt(scene,s){
   if(!scene.textures.exists('glow'))scene._wrInit&&scene._wrInit();
   var fx=(s.tx+1.5)*TILE, fy=(s.ty+3)*TILE-2, r=s.section||1, tint=WS_REGION_TINT[r]||WS_REGION_TINT[1], key, img, _zp=null;
+  // painted entrances (round 31): one picture per kind of place, with the same glows as the drawn ones; the drawn ones below stay for when a picture is missing
+  var Zs=_scn(), zid=Zs&&s.type!=='dungeon'?_wsPaintedId(s,r):null, zi=zid?Zs.image(scene,zid,fx,fy+1,Zs.KB,WR_DEPTH(fy)):null;
+  if(zi){ var zh=zi._zh, orb0=s.mage?(((MAGE_STYLE_BY_ID[s.design]||{}).pal||{}).rune||'#c080ff'):null;
+    if(s.mage){ _wsGlow(scene,fx,fy-zh*0.93,50,orb0,0.5,{pulse:true}); _wsGlow(scene,fx,fy-30,40,orb0,0.3,{pulse:true}); }
+    else if(s.type==='tower'){ _wsGlow(scene,fx,fy-zh*0.28,46,tint.rune,0.35,{pulse:true}); _wsGlow(scene,fx,fy-zh*0.62,34,'#ffd27a',0.25,{flicker:true}); }
+    else if(s.type==='camp')_wsGlow(scene,fx+zi._zw*0.27,fy-16,70,'#ffa040',0.45,{flicker:true});
+    else if(s.type==='harbor')_wsGlow(scene,fx+zi._zw*0.34,fy-zh*0.62,50,'#ffe08a',0.45,{flicker:true});
+    else if(s.type==='skyport'){ var zb=Zs.image(scene,'en_sky_balloon',fx,fy-zh*0.78,Zs.K,WR_DEPTH(fy)+0.001,{shadow:false}); if(zb)scene.tweens.add({targets:zb,y:zb.y-7,duration:1700,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
+    else _wsGlow(scene,fx,fy-30,70,'#ff6a20',0.45,{flicker:true});
+    return zi; }
   if(s.mage){
     var MG=MAGE_BY_KEY[s.mage], MS=MAGE_STYLE_BY_ID[s.design]||{pal:{}}, orb=(MS.pal&&MS.pal.rune)||'#c080ff';
     key=_wsTex(scene,'site_mage_'+s.mage,120,260,function(g,W,H,R){
@@ -111,6 +121,11 @@ function _wsSiteArt(scene,s){
   }
   return img;
 }
+var WS_MAGE_PZ=['frost','library','apothecary','grove','storm','witch','tidal','astral','void','runic','crystal','blood','dream','clock','ember','fungal'];
+function _wsPaintedId(s,r){ if(s.mage){ var d=String(s.design||''); for(var i=0;i<WS_MAGE_PZ.length;i++)if(d.indexOf(WS_MAGE_PZ[i])>=0)return 'en_mage_'+WS_MAGE_PZ[i]; return null; }
+  return s.type==='tower'?(s.boss?'en_twr_boss':'en_twr_'+r):s.type==='camp'?'en_camp':s.type==='harbor'?'en_harbor':s.type==='skyport'?'en_skyport':s.type==='volcano_main'||s.type==='volcano'?'en_volcano_door':s.type==='volcano_mini'?'en_volcano_door_mini':null; }
+var WS_CASTLE_PZ=['thornwood','sunflower','windmill','lotus','abbey','mangrove','dwarven','glacier','eyrie','obsidian','ember','bone'];
+function _wsCastleId(C){ var d=String((C&&C.castle)||''); for(var i=0;i<WS_CASTLE_PZ.length;i++)if(d.indexOf(WS_CASTLE_PZ[i])>=0)return 'en_castle_'+WS_CASTLE_PZ[i]; return null; }
 // Waystone: a tall runic obelisk; runes glow once it's part of the network.
 function _wsWaystoneArt(scene,w,on){
   var key=_wsTex(scene,'waystone_'+(on?'on':'off'),60,120,function(g,W,H,R){
@@ -121,7 +136,7 @@ function _wsWaystoneArt(scene,w,on){
     g.fillStyle='rgba(90,130,70,.45)'; g.fillRect(W/2-12,H-26,24,6);
     for(var i=0;i<3;i++)drawRune(g,W/2,H-86+i*22,12,on?'#6fe3f5':'#3e5a66',(i*3+2)%10,on);
   });
-  var x=w.x*TILE+TILE/2, y=w.y*TILE+TILE/2+8, parts=[scene.add.image(x,y,key).setOrigin(0.5,1).setDepth(WR_DEPTH(y))];
+  var x=w.x*TILE+TILE/2, y=w.y*TILE+TILE/2+8, Zs=_scn(), zw=Zs&&Zs.image(scene,on?'rn_waystone_on':'rn_waystone_off',x,y,Zs.K,WR_DEPTH(y)), parts=[zw||scene.add.image(x,y,key).setOrigin(0.5,1).setDepth(WR_DEPTH(y))];
   if(on)parts.push(_wsGlow(scene,x,y-60,70,'#6fe3f5',0.4,{pulse:true}));
   return parts;
 }

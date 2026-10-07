@@ -24,7 +24,7 @@ with game(painted=True) as g:
     check('The painted scenery is loaded before the world is drawn', r['done'] and not r['off'] and r['pages'] == len(I['pages']) and r['tex'] == len(I['tex']) and not r['miss'], r)
     # sizes: a painted object is drawn as tall as asked, a building as wide as its footprint
     r = g.js("(()=>{ var m={sprites:[],lights:[]}; var a=ZScn.sprite(m,'tr_round_a',100,100,131), b=ZScn.sprite(m,'vb_tavern',100,100,0,{w:180}), c=ZScn.fit(m,'if_stool',0,0,40), s=m.sprites; return {tree:a.h,tav:b.w,tavH:b.h,stool:c.h,n:s.length,res:s.every(function(q){ return q.res===2; }),cv:[s[0].canvas.height,s[1].canvas.width]}; })()")
-    check('Sizes: a tree asked 131 px tall is 131 px; a tavern asked 180 px wide is 180 px; canvases are twice that for sharpness', abs(r['tree'] - 131) < 0.5 and abs(r['tav'] - 180) < 0.5 and 150 < r['tavH'] < 200 and r['res'] and r['cv'][0] >= 262 and r['cv'][1] >= 360, r)
+    check('Sizes: a tree asked 131 px tall is 131 px and a tavern asked 180 px wide is 180 px, to the nearest 6 % step (round 31: sizes go in steps so canvases are shared); canvases are twice that for sharpness', abs(r['tree'] - 131) < 131 * 0.035 and abs(r['tav'] - 180) < 180 * 0.035 and 150 < r['tavH'] < 200 and r['res'] and r['cv'][0] >= 262 and r['cv'][1] >= 360, r)
     # the world as mounted around the start: painted objects at half scale, the Runestone Green as a flat decal under everything
     for _ in range(60):
         g.wait(500)
@@ -38,6 +38,6 @@ with game(painted=True) as g:
     # switched off: every call says no, so the painters draw as before
     r = g.js("(()=>{ ZScn.off=true; var m={sprites:[],lights:[]}; var o=[ZScn.has('vb_tavern'),ZScn.sprite(m,'tr_round_a',0,0,100),ZScn.ground('grass'),_scn(),m.sprites.length]; ZScn.off=false; return o; })()")
     check('Switched off, nothing painted is used (the drawn scenery is the fallback)', r == [False, False, None, None, 0], r)
-    check('The Dev panel has the scenery switch and the two size buttons', g.js("!!document.getElementById('sb-scenery')&&/100%/.test(document.getElementById('sb-scn-k').textContent)&&/100%/.test(document.getElementById('sb-scn-kb').textContent)"))
+    check('The Dev panel has the scenery switch and the two size buttons', g.js("!!document.getElementById('sb-scenery')&&/100%/.test(document.getElementById('sb-scn-k').textContent)&&/115%/.test(document.getElementById('sb-scn-kb').textContent)"))
     check('No page errors', not g.errs, g.errs[:3])
 print('%d/%d passed' % (sum(res), len(res))); sys.exit(0 if all(res) else 1)

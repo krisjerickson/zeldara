@@ -37,7 +37,7 @@ for painted in (True, False):
         check('Familiars may brush each other but never stack (centres at least half a body apart) (%s)' % tag, S['stack'] >= 0.5, round(S['stack'], 2))
         check('After walking one way for a while every familiar is behind the hero (%s)' % tag, S['steady'] > 300 and S['ahead'] == 0, {k: S[k] for k in ('steady', 'ahead')})
         check('A pod, not a file: all within 150 px of the hero and spread sideways by more than 25 px (%s)' % tag, 0 < S['max'] < 150 and S['wide'] > 25, [round(S['max']), round(S['wide'])])
-        if painted: check('Familiars are about half their old size (36–45 px, hero 63)', 33 <= S['h'] <= 47, S['h'])
+        if painted: check('Familiars are about 60 % of their first painted size (round 31: a fifth larger than round 27; 43–54 px, hero 63)', 40 <= S['h'] <= 56, S['h'])
         g.js("(()=>{ var ws=game.scene.getScene('World'); _heroSetPos(ws, ws.player.x+900, ws.player.y+40); })()"); g.wait(900)
         S = g.js(WALK % json.dumps([[0, 0, 5]])); check('After a jump the file re-forms behind the hero without overlap (%s)' % tag, S['worst'] <= 1.0 and S['count'] == 4, {k: S[k] for k in ('worst', 'pair')})
         if painted: g.hold('ArrowRight', 900); g.wait(200); g.shot('/tmp/r27.png')

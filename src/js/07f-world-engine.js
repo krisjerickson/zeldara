@@ -199,8 +199,16 @@ function buildWorld(Z, seed, opts){
 function wTree(c,x,y,w,h,o){
   var m=c.m, R=c.R, kind=o.kind||'round', s=o.s||(0.9+(o.v||0.5)*0.4), col=o.col||'#3f7a3a', col2=o.col2||shade(col,0.25), cw=Math.round(110*s), ch=Math.round(150*s);
   // painted trees (round 30): green round trees and blossom trees; the drawn crown reached 131·s above the foot
-  var Zs=_scn(); if(Zs&&!o.fruitGlow&&(kind==='round'||kind==='blossom')){ var cc=_scnRGB(col), tid=kind==='blossom'?Zs.pick(['tr_blossom_a','tr_blossom_b'],R.f()):(cc[1]>cc[0]&&cc[1]>cc[2])?(s<0.95?Zs.pick(['tr_round_c'],0):Zs.pick(['tr_round_a','tr_round_b'],R.f())):null;
-    if(tid&&Zs.sprite(m,tid,x+w/2,y+h,131*s*Zs.K,{shw:0.3}))return; }
+  var Zs=_scn(); if(Zs&&!o.fruitGlow){ var cc=_scnRGB(col), rv=R.f(), tid=null, th=131;
+    if(kind==='blossom')tid=Zs.pick(['tr_blossom_a','tr_blossom_b'],rv);
+    else if(kind==='round'){ if(cc[1]>cc[0]&&cc[1]>cc[2])tid=s<0.95?Zs.pick(['tr_round_c'],0):Zs.pick(['tr_round_a','tr_round_b'],rv); }
+    else if(kind==='willow')tid=Zs.pick(['tr_willow_a','tr_willow_b','tr_cypress'],rv);
+    else if(kind==='pine'){ tid=(o.snow||cc[0]+cc[1]+cc[2]>520)?Zs.pick(['tr_pine_snow'],0):Zs.pick(['tr_pine_a','tr_pine_b'],rv); th=136; }
+    else if(kind==='mangrove')tid=o.glowRoots?Zs.pick(['tr_mangrove_glow'],0):Zs.pick(['tr_mangrove_a'],0);
+    else if(kind==='dead'){ tid=Zs.pick(['tr_dead_a','tr_dead_b'],rv); th=118; }
+    else if(kind==='ash'){ tid=Zs.pick(['tr_ash_a','tr_ash_b'],rv); th=120; }
+    else if(kind==='stone'){ tid=Zs.pick(['tr_stone_a','tr_stone_b'],rv); th=118; }
+    if(tid&&Zs.sprite(m,tid,x+w/2,y+h,th*s*Zs.K,{shw:0.3})){ if(o.glowRoots)addLight(m,x+w/2,y+h-4,70*s,o.glowRoots,0.4,{pulse:0.35,period:2000+R.i(0,1500),depth:-4}); return; } }
   addSprite(m,x+w/2,y+h,cw,ch,function(ctx,W,H){
     softShadow(ctx,W/2,H-6,30*s,9*s,0.35);
     var tr=o.trunk||'#5b4028';
@@ -223,6 +231,8 @@ function wTree(c,x,y,w,h,o){
 }
 function wStone(c,x,y,w,h,o){ // runic standing stone
   var m=c.m,R=c.R, col=o.col||'#8b8f96', rc=o.rune||'#6fe3f5', hh=(o.tall||60)+R.i(0,24), ri=R.i(0,9);
+  var Zs=_scn(), sid=Zs&&Zs.pick(hh<52?['rn_stone_c']:['rn_stone_a','rn_stone_b'],R.f());      // painted standing stones (round 31)
+  if(sid&&Zs.sprite(m,sid,x+w/2,y+h,(hh+4)*Zs.K,{shw:0.36})){ addLight(m,x+w/2,y+h-hh*0.55,56,rc,0.35,{react:true,rune:true}); return; }
   addSprite(m,x+w/2,y+h,40,hh+20,function(ctx,W,H){ softShadow(ctx,W/2,H-5,15,5,0.4);
     var g=ctx.createLinearGradient(W/2-12,0,W/2+12,0); g.addColorStop(0,shade(col,0.12)); g.addColorStop(1,shade(col,-0.3)); ctx.fillStyle=g;
     ctx.beginPath(); ctx.moveTo(W/2-12,H-4); ctx.lineTo(W/2-9,H-hh+6); ctx.quadraticCurveTo(W/2,H-hh-4,W/2+9,H-hh+8); ctx.lineTo(W/2+12,H-4); ctx.fill();

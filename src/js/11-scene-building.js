@@ -35,7 +35,8 @@ class BuildingScene extends Phaser.Scene{
     this.add.image(0,0,addTex('base_'+tag,m.base)).setOrigin(0,0).setDepth(-10);
     m.shafts.forEach(function(sh,i){ var im=self.add.image(sh.x,sh.y,addTex('shaft_'+tag+'_'+i,sh.canvas)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.4).setDepth(-5);
       self.tweens.add({targets:im,alpha:(sh.a||0.4)*0.55,duration:2600+i*300,yoyo:true,repeat:-1,ease:'Sine.inOut'}); });
-    m.sprites.forEach(function(sp,i){ var im=self.add.image(sp.x,sp.y,addTex('spr_'+tag+'_'+i,sp.canvas)).setOrigin(0.5,1).setDepth(sp.y); if(sp.res){ im.setScale(1/sp.res); try{ im.texture.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } });      // painted scenery (04h): 2 × canvases
+    var sprTex=new Map();      // sprites sharing one canvas share one texture
+    m.sprites.forEach(function(sp,i){ var tk=sprTex.get(sp.canvas); if(!tk){ tk=addTex('spr_'+tag+'_'+i,sp.canvas); sprTex.set(sp.canvas,tk); } var im=self.add.image(sp.x,sp.y,tk).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.under?-9:sp.flat?-6:sp.depth!==undefined?sp.depth:sp.y); if(sp.res){ im.setScale(1/sp.res); try{ im.texture.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } });      // painted scenery (04h): 2 × canvases
     m.lights.forEach(function(L,i){ var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a).setScale(L.r/64).setDepth(9000);
       if(L.pulse)self.tweens.add({targets:im,alpha:L.a*(1-L.pulse),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(L.flicker)self.tweens.add({targets:im,alpha:L.a*(1-L.flicker),scale:(L.r/64)*0.94,duration:120+i*23,yoyo:true,repeat:-1}); });

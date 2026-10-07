@@ -210,6 +210,16 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
 
+## Round 31 (Kris, Oct 7) — sizes settled; the full set
+- Kris: "buildings at 115% and objects at 100% is good. Familiars are now too small, let's bump them up another 20% larger. Also, when you come off of your mount, they sit there without moving. Make it so they move a bit from some of the other positions available, and let me know if we need to make a new sprite sheet for this. And then overall let's get ready for the full implementation of background scenery and others features for the painted sprites as well as updating to better drawing for anything we are not doing as a sprite. Start with giving me the chatgpt command so i can get that going".
+- Sizes → **ANSWERED: buildings 115 %, objects 100 %.** Familiars → **+20 %** (stand-in scale 0.3; 43–54 px).
+- Command given: `.\tools\sprites\scenery.ps1 -All`, then `node tools/sprites/generate.mjs --set scenery --force --ids sc_tex_grass`.
+- Done: changelog [294]–[303]. No questions were asked: the request was specific.
+- Assumptions Claude made (not asked): the waiting mount strolls no further than about 48 px from where it was left and stands still while the hero is next to it; flyers keep flapping; three houses in five get a small dressing piece beside them, the plaza gets benches, a signpost and a notice board (none of them blocks the way); with painted scenery on, borders between kinds of ground are drawn darker; shop floors and walls keep each shop's own colours and take only the texture's marks.
+- Told Kris: no new mount sheet is needed; an optional idle sheet per mount (11 sheets) would add grazing and head-toss poses.
+- Waiting on Kris: the 62 sheets + the re-rolled `sc_tex_grass`; then `python tools/sprites/intake_scenery.py` on the PC (Claude runs it once the sheets are there and the PC is linked).
+- Next for Claude once the sheets are in: intake, contact sheets, tune sizes and texture strengths against the real art, place the ~100 pieces listed in changelog [303], bridges from textures + rail pieces, moving water, sky and volcano scenes.
+
 ## Round 30 (Kris, Oct 7) — the pilot in the game
 - Kris: "let's implement this into the game first, so i can see what it looks like in the game. I'm a little worried about the size of everything, so want to check it out before we do everything".
 - Done: changelog [287]–[293]. No questions were asked: the request was specific.

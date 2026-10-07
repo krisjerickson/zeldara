@@ -177,8 +177,8 @@ function _wpField(D,stage,r0,r1){
     if(edgeK>=0){ var i3b=ki*3;
       if(KT.liquid[ki]&&!KT.liquid[edgeK]&&KT.hasShore[ki]&&dist<=2){ var e1=dist===1?0.7:0.35; r+=(KT.shore[i3b]-r)*e1; g+=(KT.shore[i3b+1]-g)*e1; b+=(KT.shore[i3b+2]-b)*e1; }
       else if(!KT.liquid[ki]&&KT.liquid[edgeK]&&dist<=3){ f*=0.72+0.09*dist; }
-      else if(KT.hasRim[ki]&&dist<=KT.rimW[ki]){ r=KT.rim[i3b]; g=KT.rim[i3b+1]; b=KT.rim[i3b+2]; }
-      else if(!KT.soft[ki]&&dist===1){ f*=0.82; } }
+      else if(KT.hasRim[ki]&&dist<=KT.rimW[ki]){ r=KT.rim[i3b]; g=KT.rim[i3b+1]; b=KT.rim[i3b+2]; if(D.ink&&dist===1){ r*=0.7; g*=0.7; b*=0.7; } }
+      else if(!KT.soft[ki]&&dist===1){ f*=D.ink?0.64:0.82; } }      // with painted scenery on, the line where two kinds of ground meet is drawn darker, like the outlines of the painted objects
     var i4=(py2*SW+px2)*4; r*=f; g*=f; b*=f; px[i4]=r>255?255:r; px[i4+1]=g>255?255:g; px[i4+2]=b>255?255:b; px[i4+3]=255; }
 }
 // One Web Worker paints fields off the main thread; if workers aren't allowed
@@ -210,7 +210,7 @@ function wpChunkJob(wd,cx,cy){
   for(var yy=0;yy<WW;yy++)for(var xx=0;xx<WW;xx++){ var X=wx0+xx, Y=wy0+yy; kwin[yy*WW+xx]=kAt(X,Y); zwin[yy*WW+xx]=(X<0||Y<0||X>=W||Y>=H)?255:zone[Y*W+X]; }
   var lines=[]; if(wd.lines){ var LP=wd.lines; for(var li=0;li<LP.length;li+=3){ var lxp=LP[li]-tx0, lyp=LP[li+1]-ty0, lr=LP[li+2]; if(lxp<-lr-1||lyp<-lr-1||lxp>GW+lr+1||lyp>GW+lr+1)continue; lines.push(LP[li],LP[li+1],lr); } }
   if(!_WPW.hills){ var hl=new Float32Array(512); skins.forEach(function(s,i){ if(s.hills){ hl[i*2]=s.hills.sc; hl[i*2+1]=s.hills.k; } }); _WPW.hills=hl; }
-  var D={S:S,GW:GW,SW:SW,tx0:tx0,ty0:ty0,wx0:wx0,wy0:wy0,WW:WW,kwin:kwin,zwin:zwin,hills:_WPW.hills,lines:new Float32Array(lines),seaK:WSK.sea._gi,seed:WORLD_SEED,
+  var D={ink:_scn()?1:0,S:S,GW:GW,SW:SW,tx0:tx0,ty0:ty0,wx0:wx0,wy0:wy0,WW:WW,kwin:kwin,zwin:zwin,hills:_WPW.hills,lines:new Float32Array(lines),seaK:WSK.sea._gi,seed:WORLD_SEED,
     kb:new Uint16Array(SW*SW),px:new Uint8ClampedArray(SW*SW*4)};
   var finishField=function(){ var lo=mkCanvas(SW,SW), lx=lo.getContext('2d'), img=lx.createImageData(SW,SW); img.data.set(D.px); lx.putImageData(img,0,0);
     ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='medium'; ctx.drawImage(lo,0,0,GW*LT,GW*LT); kb=D.kb; phase=2; };
@@ -228,13 +228,13 @@ function wpChunkJob(wd,cx,cy){
       if(phase===1){ _wpField(D,1,row,Math.min(SW,row+8)); row+=8; if(row>=SW)finishField(); continue; }
       if(phase===2){ // 3. built-surface patterns: cached world-aligned tiles, clipped to each kind
         if(!pq){ pq=[]; var bb={};
-          for(var sy=0;sy<SW;sy++)for(var sx=0;sx<SW;sx++){ var kq=kb[sy*SW+sx], kd=KL[kq]; if(!kd.pattern||!WPATTERN[kd.pattern])continue; var b0=bb[kq]||(bb[kq]=[sx,sy,sx,sy]); if(sx<b0[0])b0[0]=sx; if(sy<b0[1])b0[1]=sy; if(sx>b0[2])b0[2]=sx; if(sy>b0[3])b0[3]=sy; }
+          for(var sy=0;sy<SW;sy++)for(var sx=0;sx<SW;sx++){ var kq=kb[sy*SW+sx], kd=KL[kq]; if(!kd.pattern||!WPATTERN[kd.pattern])continue; if(texOf[kq]===undefined){ var zs0=_scn(); texOf[kq]=(zs0&&zs0.ground(kd.id,kd.pattern))||0; } if(texOf[kq])continue; var b0=bb[kq]||(bb[kq]=[sx,sy,sx,sy]); if(sx<b0[0])b0[0]=sx; if(sy<b0[1])b0[1]=sy; if(sx>b0[2])b0[2]=sx; if(sy>b0[3])b0[3]=sy; }
           Object.keys(bb).forEach(function(kq){ pq.push([+kq,bb[kq]]); });
           // painted ground textures (04h, round 30): the kinds that have one get its marks laid over their generated colour
-          var Zs=_scn(), tb={}; if(Zs){ for(var sy2=0;sy2<SW;sy2+=2)for(var sx2=0;sx2<SW;sx2+=2){ var kt=kb[sy2*SW+sx2], tid=texOf[kt]; if(tid===undefined)tid=texOf[kt]=Zs.ground(KL[kt].id)||0; if(!tid)continue; var b1=tb[kt]||(tb[kt]=[sx2,sy2,sx2,sy2]); if(sx2<b1[0])b1[0]=sx2; if(sy2<b1[1])b1[1]=sy2; if(sx2+1>b1[2])b1[2]=Math.min(SW-1,sx2+1); if(sy2+1>b1[3])b1[3]=Math.min(SW-1,sy2+1); }
+          var Zs=_scn(), tb={}; if(Zs){ for(var sy2=0;sy2<SW;sy2+=2)for(var sx2=0;sx2<SW;sx2+=2){ var kt=kb[sy2*SW+sx2], tid=texOf[kt]; if(tid===undefined)tid=texOf[kt]=Zs.ground(KL[kt].id,KL[kt].pattern)||0; if(!tid)continue; var b1=tb[kt]||(tb[kt]=[sx2,sy2,sx2,sy2]); if(sx2<b1[0])b1[0]=sx2; if(sy2<b1[1])b1[1]=sy2; if(sx2+1>b1[2])b1[2]=Math.min(SW-1,sx2+1); if(sy2+1>b1[3])b1[3]=Math.min(SW-1,sy2+1); }
             Object.keys(tb).forEach(function(kq){ pq.push([+kq,tb[kq],texOf[kq]]); }); } }
         if(!pq.length){ phase=3; row=0; continue; }
-        var item=pq.shift(); if(item[2])_wpTexFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1],item[2]); else _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1]);
+        var item=pq.shift(); if(item[2])_wpTexFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1],item[2],/v$/.test(KL[item[0]].id)&&KL[item[0]].pattern==='planks'); else _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1]);
         continue; }
       if(phase===3){ // 4. per-tile decoration, liquid glints, kind glows, walls
         var fake=_wpFakeC(wd,out,ox,oy);
@@ -280,9 +280,10 @@ function wpChunkJob(wd,cx,cy){
         phase=6; continue; }
       if(phase===6){ // 7. pack tall sprites into one atlas canvas (so mounting is just an upload)
         if(out.sprites.length){ var AW=2048, ax=0, ay=0, rowH=0, pos=[];
-          out.sprites.forEach(function(sp){ var w=sp.canvas.width, h=sp.canvas.height; if(ax+w>AW){ ax=0; ay+=rowH+2; rowH=0; } pos.push([ax,ay]); ax+=w+2; rowH=Math.max(rowH,h); });
+          var same=new Map();      // sprites sharing one canvas (painted scenery, 04h) share one place in the atlas
+          out.sprites.forEach(function(sp){ var w=sp.canvas.width, h=sp.canvas.height, was=same.get(sp.canvas); if(was){ pos.push(was); return; } if(ax+w>AW){ ax=0; ay+=rowH+2; rowH=0; } var np=[ax,ay]; np.first=sp; same.set(sp.canvas,np); pos.push(np); ax+=w+2; rowH=Math.max(rowH,h); });
           var AH=Math.min(8192,ay+rowH+2), atlas=mkCanvas(ax>0&&ay===0?Math.min(AW,ax):AW,AH), ag=atlas.getContext('2d');
-          out.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height<=AH){ ag.drawImage(sp.canvas,pos[i][0],pos[i][1]); sp.ap=pos[i]; } sp.aw=sp.canvas.width; sp.ah=sp.canvas.height; });
+          out.sprites.forEach(function(sp,i){ if(pos[i][1]+sp.canvas.height<=AH){ if(pos[i].first===sp)ag.drawImage(sp.canvas,pos[i][0],pos[i][1]); sp.ap=pos[i]; } sp.aw=sp.canvas.width; sp.ah=sp.canvas.height; });
           out.atlas=atlas; }
         phase=7; return true; }
       return true;
@@ -322,8 +323,8 @@ function _wpPatTile(ki){
 }
 // A painted texture over one kind of ground: the same world-aligned fill and kind mask as a pattern, laid on with 'overlay'
 // (light and dark only), so each zone keeps its own grass colour.
-function _wpTexFill(ctx,kb,SW,S,GW,ox,oy,ki,b,tid){
-  var Zs=_scn(), tile=Zs&&Zs.detail(tid,128,0.9); if(!tile)return;
+function _wpTexFill(ctx,kb,SW,S,GW,ox,oy,ki,b,tid,turn){
+  var Zs=_scn(), ta=Zs?Zs.texa(tid):[0.5,0.9], tile=Zs&&Zs.detail(tid,128,ta[1]); if(!tile)return; if(turn)tile=Zs.turned(tile);
   var bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by; if(bw<=0||bh<=0)return;
   var W2=bw*LT, H2=bh*LT, lay=mkCanvas(W2,H2), g=lay.getContext('2d'), P={w:tile.width,h:tile.height};
   g.fillStyle=g.createPattern(tile,'repeat'); var wx=ox+bx*LT, wy=oy+by*LT, sx=((wx%P.w)+P.w)%P.w, sy=((wy%P.h)+P.h)%P.h;
@@ -331,7 +332,7 @@ function _wpTexFill(ctx,kb,SW,S,GW,ox,oy,ki,b,tid){
   var mc=mkCanvas(bw*S,bh*S), mx=mc.getContext('2d'), im=mx.createImageData(bw*S,bh*S), dd=im.data;
   for(var yy=0;yy<bh*S;yy++)for(var xx=0;xx<bw*S;xx++){ if(kb[(yy+by*S)*SW+xx+bx*S]===ki)dd[(yy*bw*S+xx)*4+3]=255; }
   mx.putImageData(im,0,0); g.globalCompositeOperation='destination-in'; g.imageSmoothingEnabled=true; g.drawImage(mc,0,0,W2,H2);
-  ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=Math.min(1,Zs.GRASS*2); ctx.drawImage(lay,bx*LT,by*LT); ctx.restore();
+  ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=ta[0]; ctx.drawImage(lay,bx*LT,by*LT); ctx.restore();
 }
 function _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,ki,b){
   var bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by;

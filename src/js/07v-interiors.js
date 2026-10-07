@@ -225,14 +225,22 @@ var INTERIOR_LAYOUTS={
 function buildInterior(type){ var T=INTERIOR_THEMES[type]||INTERIOR_THEMES.shop, L=INTERIOR_LAYOUTS[type]||INTERIOR_LAYOUTS.shop, W=INT_MW, H=INT_MH, m=newMap(W,H);
   m.base=mkCanvas(W*LT,H*LT); var ctx=m.base.getContext('2d'); _intPaintRoom(ctx,T,W,H); m.bg='#0a0604';
   var P={wood:type==='forge'||type==='armory'?'#5a3a24':type==='jeweler'?'#4a2a3a':shade(T.floorB,-0.05),trim:T.trim};
-  (L.deco||[]).forEach(function(d){ var f=INT_WALLDECO[d[0]]; if(f)f(ctx,d[1]*LT,d[2]*LT,T,d[3]); });
-  if(L.rug)_intRug(ctx,L.rug[0]*LT,L.rug[1]*LT,L.rug[2]*LT,L.rug[3]*LT,T);
+  var Zi=_scn();
+  if(Zi){ var ftx={planks:'tx_f_planks',herring:'tx_f_herring',flag:'tx_f_flag',marble:'tx_f_marble',tiles:'tx_f_tiles',straw:'tx_f_straw'}[T.floor], wtx={panel:'tx_w_panel',plaster:'tx_w_plaster',stone:'tx_w_stone',boards:'tx_w_boards',stripes:'tx_w_stripes'}[T.wall], WL=LT*2, FW=W*LT, FH=H*LT;
+    // painted floor and back wall (round 31): the room's own colours with the texture's marks; the wall's foot shadow and the side shadows are drawn again over the floor
+    if(ftx)Zi.floor(m,ftx,LT,WL,FW-2*LT,FH-WL-LT,{col:T.floorA,px:96,after:function(g,w,h){ g.fillStyle=_iGrad(g,0,0,0,14,'rgba(0,0,0,.35)','rgba(0,0,0,0)'); g.fillRect(0,0,w,14); g.fillStyle=_iGrad(g,0,0,12,0,'rgba(0,0,0,.3)','rgba(0,0,0,0)'); g.fillRect(0,0,12,h); g.fillStyle=_iGrad(g,w,0,w-12,0,'rgba(0,0,0,.3)','rgba(0,0,0,0)'); g.fillRect(w-12,0,12,h); }});
+    if(wtx)Zi.floor(m,wtx,LT,0,FW-2*LT,WL-17,{col:T.wallA,px:64}); }
+  (L.deco||[]).forEach(function(d){ var f=INT_WALLDECO[d[0]]; if(Zi&&_intWallPainted(Zi,m,d))return; if(f)f(ctx,d[1]*LT,d[2]*LT,T,d[3]); });
+  if(L.rug&&T.rug){ var rc=_scnRGB(T.rug), rid=Zi&&Zi.pick([rc[0]>rc[2]?'ir_rug_red':'ir_rug_blue','ir_rug_red'],0); if(!(rid&&Zi.rect(m,rid,L.rug[0]*LT,L.rug[1]*LT,L.rug[2]*LT,L.rug[3]*LT)))_intRug(ctx,L.rug[0]*LT,L.rug[1]*LT,L.rug[2]*LT,L.rug[3]*LT,T); }
+  if(Zi&&Zi.has('ir_mat'))Zi.rect(m,'ir_mat',INT_DOOR[0]*LT+6,(H-2)*LT+12,LT*2-12,18);
   // walls solid; door open
   for(var y=0;y<H;y++)for(var x=0;x<W;x++){ if(y<2||x===0||x===W-1||(y===H-1&&INT_DOOR.indexOf(x)<0))setSolid(m,x,y,1); }
   (L.props||[]).forEach(function(p){ var k=p[0], tx=p[1], ty=p[2], tw=p[3], th=p[4], o=p[5]||{}, fn=INT_PROPS[k]; if(!fn)return; var sw=tw*LT+8, sh=Math.max(INT_HT[k]||48,th*LT);
     // painted furniture (round 30): the pilot's eight pieces at their designed size; a counter or long table is stretched along its tiles. Things lying on a table are not drawn on the painted ones yet.
     var Zs=_scn(), pid='if_'+k, done=false; if(Zs&&Zs.has(pid)){ var nat=Zs.size(pid,0), long=(k==='counter'||k==='longtable')&&tw*LT>nat.w*Zs.K*1.1;
       done=long?Zs.sprite(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,nat.h*Zs.K,{stretch:tw*LT/(nat.w*Zs.K),shw:0.46}):Zs.fit(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,tw*LT+10,{shw:0.4}); }
+    if(done&&o.top){ var topY=(ty+th)*LT-2-done.h*0.7, span=done.w*0.52; o.top.forEach(function(t,i){ var id='it_'+t; if(!Zs.has(id))return; Zs.sprite(m,id,(tx+tw/2)*LT+(o.top.length>1?(i/(o.top.length-1)-0.5)*span:0),topY,0,{shadow:false,sp:{depth:(ty+th)*LT-1}}); if(t==='candle')addLight(m,(tx+tw/2)*LT+(o.top.length>1?(i/(o.top.length-1)-0.5)*span:0),topY-12,46,'#ffd080',0.3,{flicker:0.25}); }); }
+    if(done&&k==='shelfunit'&&o.goods){ var gid={jars:'is_jars',goods:'is_jars',potions:'is_potions',cloth:'is_books',bread:'is_jars'}[o.goods]; if(o.goods==='bread'||o.goods==='cloth'){ var one=o.goods==='bread'?'it_bread':'it_cloth'; if(Zs.has(one))[0.34,0.6].forEach(function(f){ [-0.2,0.2].forEach(function(dx){ Zs.sprite(m,one,(tx+tw/2)*LT+dx*done.w,(ty+th)*LT-2-done.h*f,0,{shadow:false,sp:{depth:(ty+th)*LT-1}}); }); }); } }
     if(!done)addSprite(m,(tx+tw/2)*LT,(ty+th)*LT-2,sw,sh,function(c,w,h){ fn(c,w,h,P,o); });
     for(var yy=ty;yy<ty+th;yy++)for(var xx=tx;xx<tx+tw;xx++)setSolid(m,xx,yy,1); });
   (L.lights||[]).forEach(function(l){ addLight(m,l[0]*LT,l[1]*LT,l[2],l[4]&&l[4].col||T.light,l[3],Object.assign({depth:9000},l[4]||{})); });
@@ -246,5 +254,11 @@ function buildInterior(type){ var T=INTERIOR_THEMES[type]||INTERIOR_THEMES.shop,
   m.npc={x:L.npc[0]*LT,y:L.npc[1]*LT,id:T.npc,rest:!!L.rest}; m.theme=T; m.stats={};
   addLabel(m,1,2,W-2,H-3,T.name);
   return m; }
+// painted wall pieces (round 31): strips (shelves, hooks, tool rails) repeat along their width, single pieces hang in the middle of it
+var INT_WALL_STRIP={shelf:1,shelf2:1,hooks:1,herbs:1,tools:1,swords:1,shields:1};
+function _intWallPainted(Zs,m,d){ var id='iw_'+d[0]; if(!Zs.has(id))return false; var x=d[1]*LT, w=d[2]*LT, N=Zs.size(id,0), top=d[0]==='window'?8:d[0]==='banner'?2:d[0]==='shelf2'?22:12;
+  if(INT_WALL_STRIP[d[0]]){ var n=Math.max(1,Math.round(w/N.w)), each=w/n; for(var i=0;i<n;i++)Zs.hang(m,id,x+each*(i+0.5),top,Math.min(each,N.w*1.5),{depth:-1}); }
+  else Zs.hang(m,id,x+w/2,top,Math.max(N.w,Math.min(w,N.w*1.7)),{depth:-1});
+  return true; }
 // every building type the village can have
 var INTERIOR_TYPES=Object.keys(INTERIOR_THEMES);

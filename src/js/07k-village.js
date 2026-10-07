@@ -70,10 +70,13 @@ function villBuilding(g,W,H,o,R){
 function _villDoor(g,x,base,o){ g.fillStyle='#2a1a10'; g.beginPath(); g.moveTo(x-9,base); g.lineTo(x-9,base-22); g.quadraticCurveTo(x,base-32,x+9,base-22); g.lineTo(x+9,base); g.fill(); g.fillStyle=o.doorCol||'#6a4226'; g.beginPath(); g.moveTo(x-7,base); g.lineTo(x-7,base-21); g.quadraticCurveTo(x,base-29,x+7,base-21); g.lineTo(x+7,base); g.fill(); g.fillStyle='#e0c060'; g.fillRect(x+3,base-12,2,2); }
 function _villWindow(g,x,y,o){ g.fillStyle='#3a2a1a'; g.fillRect(x-8,y-1,16,15); g.fillStyle=o.lit===false?'#4a5a6a':'#ffd98a'; g.fillRect(x-6,y+1,12,11); g.fillStyle='#3a2a1a'; g.fillRect(x-0.75,y+1,1.5,11); g.fillRect(x-6,y+6,12,1.5); if(o.flowers){ g.fillStyle='#5a3a22'; g.fillRect(x-9,y+13,18,4); g.fillStyle='#ff8ab0'; for(var i=0;i<4;i++){ g.beginPath(); g.arc(x-6+i*4,y+12,2,0,Math.PI*2); g.fill(); } } }
 
-var VB_PAINTED={tavern:'vb_tavern',shop:'vb_shop',house:'vb_house_round',forge:'vb_forge',guild:'vb_guild',stables:'vb_stables'};
+var VB_PAINTED={tavern:'vb_tavern',shop:'vb_shop',house:'vb_house_round',forge:'vb_forge',guild:'vb_guild',stables:'vb_stables',armory:'vb_armory',clothing:'vb_clothing',jeweler:'vb_jeweler',apothecary:'vb_apothecary',merchant:'vb_bakery'};
+// a plain house by its drawn style and width (the wider picture from 5 tiles)
+function _vbHouse(Zs,o,w){ var wide=w>=LT*5, L=o.style==='round'?['vh_round','vb_house_round']:o.style==='wood'?['vh_wood']:o.style==='stone'?[wide?'vh_stone_b':'vh_stone','vh_stone']:o.roofPat==='thatch'?[wide?'vh_thatch_b':'vh_thatch','vh_thatch']:[wide?'vh_timber_b':'vh_timber_a','vh_timber_a'];
+  for(var i=0;i<L.length;i++)if(Zs.has(L[i]))return L[i]; return null; }
 WPROP.vbuild=function(c,ctx,x,y,w,h,o){ var R=c.R;
   // painted buildings (round 30): the six of the pilot, and the plain round cottages; sized by the footprint's width (+ eaves, as drawn before)
-  var Zs=_scn(), bid=Zs&&(VB_PAINTED[o.core]||(!o.core&&o.style==='round'?'vb_house_round':null));
+  var Zs=_scn(), bid=Zs&&(o.pid&&Zs.has(o.pid)?o.pid:VB_PAINTED[o.core]||(!o.core?_vbHouse(Zs,o,w):null));
   if(bid&&Zs.sprite(c.m,bid,x+w/2,y+h,0,{w:(w+20)*Zs.KB,shw:0.5,sha:0.42})){ if(o.lit!==false)addLight(c.m,x+w/2,y+h-34,60,'#ffc870',0.28,{flicker:0.2}); return; }
   addSprite(c.m,x+w/2,y+h,w+40,h+170,function(g,W,H){ villBuilding(g,W,H,Object.assign({w:w/LT,h:h/LT},o),R); });
   if(o.lit!==false){ if((o.nl||2)>=2){ addLight(c.m,x+w/2-18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); addLight(c.m,x+w/2+18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); } else addLight(c.m,x+w/2,y+h-34,54,'#ffc870',0.3,{flicker:0.2}); }

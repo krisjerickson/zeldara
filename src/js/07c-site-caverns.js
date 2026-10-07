@@ -105,7 +105,10 @@ function buildCavern(D, seed, opts){
     // painted dungeon pieces (round 30): fitted to the tiles they block
     var Zs=_scn(), pid=o.kind==='shroom'?(o.big?'dg_shroom':'dg_shroom_b'):DNG_PAINTED[o.kind];
     if(Zs&&pid&&Zs.has(pid)){ var cx=(o.x+o.w/2)*LT, fy=(o.y+o.h)*LT-2, ok=o.kind==='boulder'?Zs.sprite(m,pid,cx,fy,0,{w:o.w*LT*1.12*Zs.K}):Zs.fit(m,pid,cx,fy,o.w*LT*1.35,{shw:0.36});
-      if(ok){ if(o.kind==='crystal'||o.kind==='shroom')addLight(m,cx,fy-22,o.big?90:64,o.col||'#b58cff',0.35,{pulse:0.3,period:1800+R.i(0,1200)}); return; } }
+      if(ok){ if(o.kind==='crystal'||o.kind==='shroom')addLight(m,cx,fy-22,o.big?90:64,o.col||'#b58cff',0.35,{pulse:0.3,period:1800+R.i(0,1200)});
+        else if(fn){ var fk={sprites:[],lights:[],shafts:[],particles:[],labels:[]}; try{ fn(fk,_dngNoCtx(),o.x*LT,o.y*LT,o.w*LT,o.h*LT,R,o,P); }catch(e){} fk.lights.forEach(function(l){ m.lights.push(l); }); }      // the drawn piece's glow is kept
+        return; } }
+    if(Zs&&o.kind==='puddle'&&Zs.decal(m,'dg_puddle',(o.x+o.w/2)*LT,(o.y+o.h/2)*LT,{w:o.w*LT*0.9}))return;
     if(fn)fn(m,ctx,o.x*LT,o.y*LT,o.w*LT,o.h*LT,R,o,P); });
   // stairs + sealed portal (farthest reachable point = guardian arena)
   var reach=floodReach(m,sp.x,sp.y), far=null, fd=-1;
@@ -140,12 +143,12 @@ function paintHazardField(ctx,c,colorFn){
 }
 function cavernMarkers(m,ctx,sp,far,P,opts){
   var sx=sp.x*LT, sy=(sp.y+1)*LT-6;
-  for(var i=0;i<4;i++){ ctx.fillStyle=shade(P.rockTop,0.1-i*0.08); ctx.fillRect(sx-4,sy-i*5,LT+8,5); }
+  var Zs=_scn(); if(!(Zs&&Zs.decal(m,'dg_stairs_up',sx+LT/2,sy-10,{w:LT+14})))for(var i=0;i<4;i++){ ctx.fillStyle=shade(P.rockTop,0.1-i*0.08); ctx.fillRect(sx-4,sy-i*5,LT+8,5); }
   if(far&&opts&&opts.game&&!opts.last){
     // stairs leading down: dark steps receding into the floor
     var fx0=far.x*LT, fy0=far.y*LT;
-    for(var s=0;s<5;s++){ ctx.fillStyle=shade(P.floorA,-0.15-s*0.13); ctx.fillRect(fx0-4+s*2,fy0+2+s*5.5,LT+8-s*4,5.5); }
-    ctx.fillStyle='rgba(255,220,150,.8)'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('▼',fx0+LT/2,fy0-2);
+    if(!(Zs&&Zs.decal(m,'dg_stairs_down',fx0+LT/2,fy0+LT/2,{w:LT+14}))){ for(var s=0;s<5;s++){ ctx.fillStyle=shade(P.floorA,-0.15-s*0.13); ctx.fillRect(fx0-4+s*2,fy0+2+s*5.5,LT+8-s*4,5.5); }
+    ctx.fillStyle='rgba(255,220,150,.8)'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('▼',fx0+LT/2,fy0-2); }
     addLight(m,fx0+LT/2,fy0+LT/2,70,'#ffd9a0',0.3,{pulse:0.3,depth:-4});
     return;
   }
@@ -161,7 +164,9 @@ function cavernMarkers(m,ctx,sp,far,P,opts){
 function rockBlob(ctx,cx,cy,r,col,R){ softShadow(ctx,cx,cy+r*0.55,r*1.1,r*0.4,0.45); var g=ctx.createRadialGradient(cx-r*0.35,cy-r*0.45,r*0.1,cx,cy,r*1.1); g.addColorStop(0,shade(col,0.25)); g.addColorStop(1,shade(col,-0.35)); ctx.fillStyle=g; ctx.beginPath(); for(var i=0;i<9;i++){ var a=i/9*Math.PI*2, rr2=r*(0.82+R.f()*0.3); ctx.lineTo(cx+Math.cos(a)*rr2,cy+Math.sin(a)*rr2*0.8); } ctx.closePath(); ctx.fill(); }
 
 // ═══════════════════════════════════════════════════════════════════════
-var DNG_PAINTED={boulder:'dg_boulder',column:'dg_column',rubble:'dg_rubble',crystal:'dg_crystal',obsidian:'dg_obsidian'};
+var DNG_PAINTED={boulder:'dg_boulder',column:'dg_column',rubble:'dg_rubble',crystal:'dg_crystal',obsidian:'dg_obsidian',statue:'dg_statue',ruinwall:'dg_ruinwall',rock:'dg_rock',rib:'dg_rib',skull:'dg_skull',stone:'dg_stone',
+  stalagmite:'dg_stalagmite',basalt:'dg_basalt',vent:'dg_vent',fcrystal:'dg_fcrystal',hoist:'dg_hoist',spire:'dg_obsidian',anvil:'vp_anvil',pillar:'ar_pillar',barricade:'ar_barricade',gear:'ar_gear',mirror:'ar_mirror',brazier:'cf_brazier'};
+function _dngNoCtx(){ return _dngNoCtx.c||(_dngNoCtx.c=mkCanvas(4,4).getContext('2d')); }
 var DUNGEON_DESIGNS=[
   { id:'boulder_field', name:'Boulder Field', seed:3, tagline:'Wide cavern strewn with rock clusters',
     blurb:'A huge open cavern floor broken up by boulder clusters of every size. Easy to read and good for big fights: you kite monsters around the rocks.',

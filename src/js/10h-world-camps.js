@@ -10,6 +10,8 @@
 // ═══════════════════════════════════════════════════════════════════════
 // camp data + prop art live in 07z-camp-art.js (shared with the Design Lab's Monster Camps tab)
 function _campLootTex(scene,item){ var a=CAMP_ITEM_ART[item]||'coin', name=Array.isArray(a)?a[0]:a, tint=Array.isArray(a)?a[1]:null, key='loot_'+name+(tint||''); if(scene.textures.exists(key))return key;
+  // painted loot (round 31): a 64 px picture shown at half size; gems keep one painted colour
+  var Zs=_scn(), zid=Zs&&{meat:'lt_meat',gem:'lt_gem',arrows:'lt_arrows',potion:'lt_potion',coin:'lt_gold',bread:'it_bread',jar:'it_jar'}[name]; if(zid&&Zs.has(zid)){ var zk='lootz_'+name; if(!scene.textures.exists(zk)){ var zc=mkCanvas(64,64), zx=zc.getContext('2d'), zs=Zs.size(zid,0), zf=Math.min(2,52/Math.max(zs.w,zs.h)); softShadow(zx,32,52,zs.w*zf*0.45,4,0.35); Zs.draw(zx,zid,32,54,zs.h*zf); scene.textures.addCanvas(zk,zc); try{ scene.textures.get(zk).setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } return zk; }
   var G=_msGrid(); CAMP_LOOT_ART[name](G,tint); _msShadeOutline(G); var cv=mkCanvas(32,32), x=cv.getContext('2d'); for(var k=0;k<1024;k++){ if(G.c[k]){ x.fillStyle=G.c[k]; x.fillRect(k%32,(k/32)|0,1,1); } } for(var k2=0;k2<1024;k2++){ if(G.o[k2]){ x.fillStyle=G.o[k2]; x.fillRect(k2%32,(k2/32)|0,1,1); } }
   var tx=scene.textures.addCanvas(key,cv); tx.setFilter(Phaser.Textures.FilterMode.NEAREST); return key; }
 
@@ -73,7 +75,7 @@ Object.assign(WorldScene.prototype,{
     if(R.k==='gems'){ for(var j=0;j<(R.n||1);j++)this._campDrop(C,R.items[j%R.items.length],'item'); if(R.gold)this._campDrop(C,'coin','gold',R.gold[0]+Math.floor(Math.random()*(R.gold[1]-R.gold[0]+1))); ps.campsDone=ps.campsDone||{}; ps.campsDone[C.id]=1; }
     if(C.spr&&(R.k==='chest'||R.k==='well'||R.k==='mana'||R.k==='buff'||R.k==='xp'))C.spr.setFrame('1'); },
   _campDrop(C,item,kind,qty){ var a=Math.random()*Math.PI*2, d=22+Math.random()*26, x=C.x+Math.cos(a)*d, y=C.y+Math.sin(a)*d*0.7+8;
-    var im=this.add.image(C.x,C.y,_campLootTex(this,item)).setScale(1.3).setDepth(WR_DEPTH(y)+0.01), self=this;
+    var lk=_campLootTex(this,item), im=this.add.image(C.x,C.y,lk).setScale(lk.indexOf('lootz_')===0?0.65:1.3).setDepth(WR_DEPTH(y)+0.01), self=this;
     this.tweens.add({targets:im,x:x,duration:500,ease:'Sine.out'}); this.tweens.add({targets:im,y:{from:C.y-10,to:y},duration:500,ease:'Bounce.out'});
     var gl=this.textures.exists('glow')?this.add.image(x,y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xfff0a0).setAlpha(0.35).setScale(0.35).setDepth(WR_DEPTH(y)):null;
     if(gl)this.tweens.add({targets:gl,alpha:0.12,duration:700,yoyo:true,repeat:-1});

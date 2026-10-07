@@ -39,7 +39,7 @@ Object.assign(WorldScene.prototype,{
     var R=CHAR_BY_ID['mt_'+P.id]; if(!R){ ps.parkedMount=null; return; }
     var key=CHX.tex(this,R), sh=this.add.ellipse(P.x,P.y+2,40,12,0x000000,0.3).setDepth(WR_DEPTH(P.y)-0.0005);
     var spr=this.add.image(P.x,P.y+4,key,'0').setOrigin(0.5,1).setScale(CHX.MOUNT_SC).setDepth(WR_DEPTH(P.y));
-    this._pm={spr:spr,sh:sh,lbl:null,id:P.id,t:0,goal:null,stuck:0,kind:R.spec.kind}; },
+    this._pm={spr:spr,sh:sh,lbl:null,id:P.id,t:0,goal:null,stuck:0,kind:R.spec.kind,home:{x:P.x,y:P.y},it:2+Math.random()*3,fid:0,fly:/eagle|glider|phoenix|dragon|drake/.test(P.id)}; },
   _pmRemove(){ if(this._pm){ this._pm.spr.destroy(); this._pm.sh.destroy(); if(this._pm.lbl)this._pm.lbl.destroy(); this._pm=null; } },
   _remount(){ var ps=this.playerState, P=ps.parkedMount; if(!P)return; this._pmRemove(); ps.parkedMount=null; ps.mount=P.id; SFX.pickup&&SFX.pickup(); showNotif('🐎 Back on your '+_mountName(P.id)+'!','#ccddff'); this._emitUI(); },
   _callMount(){ var ps=this.playerState, P=ps.parkedMount, p=this.player; if(!P){ showNotif(ps.mount?'You are already riding.':'No mount is waiting for you.','#aaaaaa'); return false; }
@@ -56,7 +56,7 @@ Object.assign(WorldScene.prototype,{
     if(!P){ if(this._pm)this._pmRemove(); return; } if(!this._pm)this._pmBuild(); var M=this._pm; if(!M)return; M.t+=dt;
     var moving=false;
     if(M.goal&&!_anyModalOpen()){ if(M.goal.call){ M.goal.x=p.x; M.goal.y=p.y; }
-      var dx=M.goal.x-P.x, dy=M.goal.y-P.y, d=Math.hypot(dx,dy), sp=(M.goal.trot?120:MOUNT_CALL_SPD)*dt;
+      var dx=M.goal.x-P.x, dy=M.goal.y-P.y, d=Math.hypot(dx,dy), sp=(M.goal.stroll?34:M.goal.trot?120:MOUNT_CALL_SPD)*dt;
       if(M.goal.call&&d<Math.max(30,sp+1)){ M.goal=null; this._remount(); return; }   // (a long frame could overshoot the 30px window)
       if(d<=sp+1){ P.x=M.goal.x; P.y=M.goal.y; M.goal=null; }
       else { var nx=P.x+dx/d*sp, ny=P.y+dy/d*sp, ok=this._canGo(nx,ny,P.id);
@@ -64,8 +64,20 @@ Object.assign(WorldScene.prototype,{
         if(ok){ P.x=nx; P.y=ny; M.stuck=0; } else M.stuck+=dt;
         if(M.stuck>1.2){ var s=M.goal.call?this._mountSafeNear(p.x+30,p.y,6):this._mountSafeNear(M.goal.x,M.goal.y,6); if(s){ P.x=s.x; P.y=s.y; } M.stuck=0; if(!M.goal.call)M.goal=null; }
         moving=true; M.dir=Math.abs(dx)>Math.abs(dy)?(dx<0?'left':'right'):(dy<0?'up':'down'); } }
-    var f; if(!moving)f=M.dir==='up'?6:M.dir==='down'?4:0; else if(M.dir==='left'||M.dir==='right')f=Math.floor(M.t*10)%4; else f=(M.dir==='up'?6:4)+Math.floor(M.t*6)%2;
-    if(!(typeof ZAtlas!=='undefined'&&ZAtlas.simple(M.spr,'mt_'+M.id,[M.dir==='up'?'ride_back':M.dir==='down'?'ride_front':'ride_side'],'x',moving?M.t:0,M.dir==='left'||M.dir==='right'?10:6,false)))M.spr.setFrame(String(f)); M.spr.setFlipX(M.dir==='left').setPosition(P.x,P.y+4+(moving?0:Math.round(Math.sin(M.t*2))*0)).setDepth(WR_DEPTH(P.y)); M.sh.setPosition(P.x,P.y+2).setDepth(WR_DEPTH(P.y)-0.0005);
+    // round 31: a waiting mount is alive. With the poses it has (the walk cycle from the side, front and back) it turns to look
+    // another way, shuffles its feet, wanders a few steps round the spot where it was left, and breathes; flyers keep beating their wings.
+    // If an 'idle' sheet is ever painted for mounts (grazing, head toss), it is used instead of the standing walk pose.
+    if(!moving&&!M.goal&&!_anyModalOpen()){ if(M.fid>0)M.fid-=dt; M.it-=dt; var nearH=Math.hypot(p.x-P.x,p.y-P.y)<MOUNT_RIDE_R*1.6;
+      if(nearH&&M.it<=0){ M.dir=Math.abs(p.x-P.x)>Math.abs(p.y-P.y)*0.8?(p.x<P.x?'left':'right'):(p.y<P.y?'up':'down'); M.fid=0.5; M.it=2.5+Math.random()*3; }      // the hero is close: look at him, stay put
+      else if(M.it<=0){ var roll=Math.random(); M.it=2.5+Math.random()*4.5;
+        if(roll<0.35){ var D=['left','right','down','left','right','down','up']; M.dir=D[Math.floor(Math.random()*D.length)]; }
+        else if(roll<0.58)M.fid=0.5+Math.random()*0.6;
+        else { var a0=Math.random()*Math.PI*2, gx=M.home.x+Math.cos(a0)*(18+Math.random()*30), gy=M.home.y+Math.sin(a0)*(12+Math.random()*22); if(this._mountSafeTile(Math.floor(gx/TILE),Math.floor(gy/TILE))&&this._canGo(gx,gy,P.id))M.goal={x:gx,y:gy,stroll:true}; else M.fid=0.6; } } }
+    var idleP=(!moving&&typeof ZAtlas!=='undefined'&&ZAtlas.count('mt_'+M.id,'idle','x'))?'idle':null, live=moving||M.fid>0||M.fly||!!idleP, rate=moving?(M.goal&&M.goal.stroll?6:10):idleP?2.2:M.fly?4:5;
+    var f; if(!moving)f=(M.dir==='up'?6:M.dir==='down'?4:0)+((M.fid>0||M.fly)?Math.floor(M.t*rate)%2:0); else if(M.dir==='left'||M.dir==='right')f=Math.floor(M.t*10)%4; else f=(M.dir==='up'?6:4)+Math.floor(M.t*6)%2;
+    var side=M.dir==='left'||M.dir==='right', zok=typeof ZAtlas!=='undefined'&&ZAtlas.simple(M.spr,'mt_'+M.id,[idleP,M.dir==='up'?'ride_back':M.dir==='down'?'ride_front':'ride_side'],'x',live?M.t:0,moving?(side?rate:6):rate,false);
+    if(!zok)M.spr.setFrame(String(f)); else if(!moving){ var br=1+0.018*Math.sin(M.t*2.1); M.spr.scaleY=Math.abs(M.spr.scaleX)*br; }      // breathing
+    M.spr.setFlipX(M.dir==='left').setPosition(P.x,P.y+4+(M.fly&&!moving?Math.sin(M.t*2.4)*2.5:0)).setDepth(WR_DEPTH(P.y)); M.sh.setPosition(P.x,P.y+2).setDepth(WR_DEPTH(P.y)-0.0005);
     // ride prompt
     var near=!moving&&Math.hypot(p.x-P.x,p.y-P.y)<MOUNT_RIDE_R;
     if(near&&!M.lbl){ M.lbl=domText(this,P.x,P.y-60,'[M] Ride your '+_mountName(P.id),{fontSize:'10px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); }

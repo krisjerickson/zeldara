@@ -31,7 +31,7 @@ class G:
         return self.js("game.scene.getScenes(true).map(s=>s.sys.settings.key)")
 
 @contextlib.contextmanager
-def game(new=True, w=1280, h=800, save=None, painted=False):   # painted=False: the suites written for the stand-ins run with the painted sprites off (round 23)
+def game(new=True, w=1280, h=800, save=None, painted=False, query=''):   # painted=False: the suites written for the stand-ins run with the painted sprites off (round 23)
     with sync_playwright() as p:
         b = p.chromium.launch(args=["--use-gl=swiftshader", "--enable-unsafe-swiftshader"])
         pg = b.new_page(viewport={"width": w, "height": h})
@@ -47,7 +47,7 @@ def game(new=True, w=1280, h=800, save=None, painted=False):   # painted=False: 
             if u.startswith('assets/'): return r.fulfill(status=404, body='')
             return r.fulfill(body=html, content_type="text/html")
         pg.route("http://zeldara.test/**", _serve)
-        pg.goto("http://zeldara.test/index.html")
+        pg.goto("http://zeldara.test/index.html" + query)   # query: e.g. ?scenery=fake (stand-in pictures for scenery not painted yet)
         if save is not None:
             pg.evaluate("s=>localStorage.setItem('qoz_v2',s)", save)
             pg.reload()

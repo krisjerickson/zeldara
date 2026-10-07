@@ -127,7 +127,8 @@ class IslandScene extends WorldScene{
     // the adventure entrance
     this.siteObjs=[]; var lblHost=document.getElementById('world-labels');
     wd.sites.forEach(function(s){ var ico=null;
-      if(self.castle&&_castleGateTex(self,self.castle)){ ico=self.add.image((s.tx+1.5)*TILE,(s.ty+3)*TILE,'castle_gate_'+self.castle.key).setOrigin(.5,1).setScale(1.3).setDepth(WR_DEPTH((s.ty+3)*TILE)); }
+      var zcg=self.castle&&_scn()&&_scn().image(self,_wsCastleId(self.castle),(s.tx+1.5)*TILE,(s.ty+3)*TILE,_scn().KB,WR_DEPTH((s.ty+3)*TILE));      // painted castle (round 31)
+      if(zcg)ico=zcg; else if(self.castle&&_castleGateTex(self,self.castle)){ ico=self.add.image((s.tx+1.5)*TILE,(s.ty+3)*TILE,'castle_gate_'+self.castle.key).setOrigin(.5,1).setScale(1.3).setDepth(WR_DEPTH((s.ty+3)*TILE)); }
       else ico=_wsSiteArt(self,s);
       var el=document.createElement('div'); el.className='wlbl site hidden'; el.textContent=self.castle?'🏰 '+s.name:(ISL_ADV[self.sec]||{}).label||s.name; if(lblHost)lblHost.appendChild(el);
       self.siteObjs.push({s:s,ico:ico,lblEl:el,wx:s.tx*TILE+TILE*1.5,wy:s.ty*TILE-2}); });

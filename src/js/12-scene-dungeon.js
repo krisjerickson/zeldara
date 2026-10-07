@@ -362,8 +362,10 @@ class DungeonScene extends Phaser.Scene{
       var im=self.add.image(sh.x,sh.y,addTex('shaft_'+tag+'_'+i,sh.canvas)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.5).setDepth(-5);
       if(sh.sway)self.tweens.add({targets:im,alpha:(sh.a||0.5)*0.6,duration:2200+i*170,yoyo:true,repeat:-1,ease:'Sine.inOut'});
     });
+    var sprTex=new Map();      // sprites sharing one canvas share one texture
     m.sprites.forEach(function(sp,i){
-      var im=self.add.image(sp.x,sp.y,addTex('spr_'+tag+'_'+i,sp.canvas)).setOrigin(0.5,1).setDepth(self._ld(sp.depth!==undefined?sp.depth:sp.y));
+      var tk=sprTex.get(sp.canvas); if(!tk){ tk=addTex('spr_'+tag+'_'+i,sp.canvas); sprTex.set(sp.canvas,tk); }
+      var im=self.add.image(sp.x,sp.y,tk).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.under?-9:sp.flat?-6:self._ld(sp.depth!==undefined?sp.depth:sp.y));
       if(sp.res){ im.setScale(1/sp.res); try{ im.texture.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} }      // painted scenery (04h)
       if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
@@ -858,7 +860,9 @@ class DungeonScene extends Phaser.Scene{
       this.interactables.push({type:'boss_chest',tx:this.bossChestTile.x,ty:this.bossChestTile.y,x:this.bossChestTile.x*TILE+TILE/2,y:this.bossChestTile.y*TILE+TILE/2,opened:false,locked:!(this._inspect&&this._inspect.mons==='none')});
   }
   _drawLabChest(tx,ty){
-    var x=tx*TILE+TILE/2, y=ty*TILE+TILE-4, g=this.add.graphics().setDepth(this._yDepth(y));
+    var x=tx*TILE+TILE/2, y=ty*TILE+TILE-4, Zs=_scn(), zt=Zs&&Zs.texture(this,'dg_chest',0);
+    if(zt){ var zi=this.add.image(x,y+5,zt.key).setOrigin(0.5,1).setScale(zt.scale).setDepth(this._yDepth(y)); zi._zo=Zs.texture(this,'dg_chest_open',0); return zi; }      // painted chest (round 31); its open picture is shown once it is opened
+    var g=this.add.graphics().setDepth(this._yDepth(y));
     g.fillStyle(0x000000,0.3).fillEllipse(x,y,26,7);
     g.fillStyle(0x6a3c10,1).fillRoundedRect(x-11,y-17,22,15,2);
     g.fillStyle(0x8a5418,1).fillRoundedRect(x-11,y-21,22,7,3);
@@ -1453,7 +1457,7 @@ class DungeonScene extends Phaser.Scene{
       this.scene.restart(Object.assign({},this._initData,{floor:this.floor+1,floorStates:fs2,arriveAt:null}));
     } else if(near.type==='chest'){
       near.opened=true;this._openChest();showNotif('Chest opened!','#ffaa44');
-      if(near.gfx)near.gfx.setAlpha(0.35);
+      if(near.gfx){ if(near.gfx._zo)near.gfx.setTexture(near.gfx._zo.key); else near.gfx.setAlpha(0.35); }
       var g=this.add.graphics().setDepth(5);
       g.fillStyle(0xffd700,.6).fillRect(near.tx*TILE+6,near.ty*TILE+9,TILE-12,5);
       this.tweens.add({targets:g,alpha:0,duration:800,onComplete:function(){g.destroy();}});

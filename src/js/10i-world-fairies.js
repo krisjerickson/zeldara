@@ -67,9 +67,9 @@ Object.assign(WorldScene.prototype,{
   _hengeSpot(tx,ty){ for(var r=0;r<40;r+=2)for(var a=0;a<16;a++){ var x=Math.round(tx+Math.cos(a/16*Math.PI*2)*r), y=Math.round(ty+Math.sin(a/16*Math.PI*2)*r), ok=true;
       for(var dy=-7;dy<=7&&ok;dy+=2)for(var dx=-7;dx<=7;dx+=2){ var t=(this.tiles[y+dy]||[])[x+dx]; if(t===undefined||!canPassTile(t)){ ok=false; break; } } if(ok)return {x:x,y:y}; } return this._fairySpot(tx,ty); },
   _hengeBuild(K){ if(K.built)return; K.built=true; var self=this, n=10, R=6.2*TILE;
-    for(var i=0;i<n;i++){ var a=i/n*Math.PI*2-Math.PI/2, x=K.x+Math.cos(a)*R, y=K.y+Math.sin(a)*R*0.8, kind=i%2?'post':'tri'; this.add.image(x,y,_hengeStoneTex(this,K.q,kind)).setOrigin(0.5,1).setDepth(WR_DEPTH(y)); }
-    for(var j=0;j<5;j++){ var a2=j/5*Math.PI*2+0.3, x2=K.x+Math.cos(a2)*R*0.55, y2=K.y+Math.sin(a2)*R*0.45; this.add.image(x2,y2,_hengeStoneTex(this,K.q,'post')).setOrigin(0.5,1).setScale(0.8).setDepth(WR_DEPTH(y2)); }
-    this.add.image(K.x,K.y+20,_hengeAltarTex(this,K.q)).setOrigin(0.5,1).setDepth(WR_DEPTH(K.y-10));
+    for(var i=0;i<n;i++){ var a=i/n*Math.PI*2-Math.PI/2, x=K.x+Math.cos(a)*R, y=K.y+Math.sin(a)*R*0.8, kind=i%2?'post':'tri'; (_scn()&&_scn().image(this,kind==='tri'?'rn_henge_tri':'rn_henge_post',x,y,_scn().K,WR_DEPTH(y)))||this.add.image(x,y,_hengeStoneTex(this,K.q,kind)).setOrigin(0.5,1).setDepth(WR_DEPTH(y)); }
+    for(var j=0;j<5;j++){ var a2=j/5*Math.PI*2+0.3, x2=K.x+Math.cos(a2)*R*0.55, y2=K.y+Math.sin(a2)*R*0.45; (_scn()&&_scn().image(this,'rn_henge_post',x2,y2,_scn().K*0.8,WR_DEPTH(y2)))||this.add.image(x2,y2,_hengeStoneTex(this,K.q,'post')).setOrigin(0.5,1).setScale(0.8).setDepth(WR_DEPTH(y2)); }
+    (_scn()&&_scn().image(this,'rn_henge_altar',K.x,K.y+20,_scn().K,WR_DEPTH(K.y-10)))||this.add.image(K.x,K.y+20,_hengeAltarTex(this,K.q)).setOrigin(0.5,1).setDepth(WR_DEPTH(K.y-10));
     CHX.glow(this); K.glow=this.add.image(K.x,K.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum({2:'#7fe0c8',3:'#bfe8ff',4:'#ff8040'}[K.q])).setAlpha(0.35).setScale(3.2).setDepth(WR_DEPTH(K.y)+0.001);
     this.tweens.add({targets:K.glow,alpha:0.18,duration:2200,yoyo:true,repeat:-1});
     K.spr=this.add.image(K.x,K.y-26,_kingTex(this,K.q),'0').setOrigin(0.5,1).setScale(1.25).setDepth(WR_DEPTH(K.y)+0.002);

@@ -179,7 +179,7 @@ function buildTower(S, planId, seed, opts){
     if(at(x5-1,y5)===TB.WALL||at(x5-1,y5)===TB.WIN){ var g2=ctx.createLinearGradient(x5*LT,0,x5*LT+8,0); g2.addColorStop(0,'rgba(0,0,0,'+((S.ao||0.22)*0.6)+')'); g2.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g2; ctx.fillRect(x5*LT,y5*LT,8,LT); }
   }
   // flat furniture (rugs, runners, pools…) before walls & tall pieces
-  items.forEach(function(it){ if(TOWER_FLAT[it.type])TOWER_FLAT[it.type](ctx,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R); });
+  items.forEach(function(it){ if(TOWER_FLAT[it.type]){ if(typeof _twrPainted==='function'&&_twrPainted(m,it,S,R))return; TOWER_FLAT[it.type](ctx,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R); } });
   // walls, windows, glass
   for(var y6=0;y6<H;y6++)for(var x6=0;x6<W;x6++){
     var v6=at(x6,y6); if(v6!==TB.WALL&&v6!==TB.WIN&&v6!==TB.GLASS)continue;
@@ -202,7 +202,7 @@ function buildTower(S, planId, seed, opts){
   // tall / raised furniture become sprites
   items.forEach(function(it){
     var fn=TOWER_TALL[it.type]; if(!fn)return;
-    var Zs=_scn(), pid=TOWER_PAINTED[it.type]; if(Zs&&pid&&Zs.fit(m,pid,(it.x+it.w/2)*LT,(it.y+it.h)*LT,it.w*LT+14,{shw:0.36}))return;      // painted furnishings (round 30)
+    if(it._pz||(typeof _twrPainted==='function'&&_twrPainted(m,it,S,R)))return;      // painted furnishings (07zu)
     fn(m,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R);
   });
   // labels
@@ -300,7 +300,6 @@ function towerTableTop(ctx,x,y,w,h,S,kind){
   if(kind===4){ ctx.fillStyle=p.fabric2; ctx.fillRect(x+8,y+8,6,6); ctx.fillStyle=p.accent; ctx.fillRect(x+w-14,y+7,5,7); }
 }
 function towerSpriteBox(m,x,y,w,h,fn){ addSprite(m,x+w/2,y+h,w+8,h+48,function(ctx,cw,ch){ ctx.translate(4,48); fn(ctx,w,h); }); }
-var TOWER_PAINTED={bookshelf:'tf_bookshelf',wardrobe:'tf_wardrobe',lectern:'tf_lectern',globe:'tf_globe',candelabra:'tf_candelabra',statue:'tf_statue',pillar:'tf_pillar',telescope:'tf_telescope'};
 var TOWER_TALL={
   bookshelf:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ var top=-34; ctx.fillStyle=shade(p.wood,-0.3); ctx.fillRect(0,top,w,h-top); ctx.fillStyle=p.wood; ctx.fillRect(2,top+2,w-4,h-top-6); var cols=['#7a3b3b','#3b5a7a','#6a7a3b','#8a6a2a','#5a3b7a','#2f6f6f','#c8b27a']; for(var s=0;s<4;s++){ var sy=top+4+s*13; ctx.fillStyle=shade(p.wood,-0.35); ctx.fillRect(3,sy+10,w-6,2); for(var bx=4;bx<w-6;){ var bw=3+(bx*7+s*3)%4, bh=7+(bx+s)%3; ctx.fillStyle=cols[(bx+s*5)%cols.length]; ctx.fillRect(bx,sy+10-bh,bw,bh); bx+=bw+1; } } ctx.fillStyle=shade(p.wood,0.2); ctx.fillRect(0,top,w,3); }); },
   wardrobe:function(m,x,y,w,h,S){ var p=S.pal; towerSpriteBox(m,x,y,w,h,function(ctx,w,h){ var top=-36; ctx.fillStyle=shade(p.wood,-0.2); rr(ctx,0,top,w,h-top,3); ctx.fill(); ctx.fillStyle=p.wood; ctx.fillRect(3,top+4,w/2-4,h-top-8); ctx.fillRect(w/2+1,top+4,w/2-4,h-top-8); ctx.fillStyle=p.accent; ctx.fillRect(w/2-3,top+26,2,6); ctx.fillRect(w/2+1,top+26,2,6); ctx.fillStyle=shade(p.wood,0.2); ctx.fillRect(0,top,w,3); }); },
