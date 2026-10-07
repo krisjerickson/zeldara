@@ -478,11 +478,11 @@ var ZSCN={
   items:function(){ var L=[]; ZSCN.SHEETS.forEach(function(S){ S.items.forEach(function(it){ L.push({id:it[0],name:it[1],look:it[2],w:it[3],h:it[4],sheet:S.id,kind:S.kind,wave:S.wave,fam:S.fam}); }); }); return L; },
   anchor:function(fam){ var S=ZSCN.SHEETS.filter(function(s){ return s.fam===fam; })[0]; return S&&S.id; },
   body:function(S){ var tex=S.kind==='tex', n=S.items.length, one=n===1;
-    var head='Create ONE image for a 2D top-down action RPG called Zeldara: '+(tex?'a sheet of '+n+' square ground-texture swatches':one?'a single piece of scenery':'a sheet of '+n+' separate pieces of scenery')+' — '+S.title+'.\n'+
-      'The reference images show the game\'s characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.'+(S.anchorRef?' The last reference image is an earlier scenery sheet of the same family: match its line weight, colours and level of detail exactly.':'')+'\n';
+    var head='Create ONE image for a 2D top-down action RPG called Zeldara: '+(tex?'a sheet of '+n+' square ground-texture swatches':S.kind==='icon'?'a sheet of '+n+' separate game icons':one?'a single piece of scenery':'a sheet of '+n+' separate pieces of scenery')+' — '+S.title+'.\n'+
+      'The reference images show the game\'s characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.'+(S.anchorRef?' The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.':'')+'\n';
     var lay=one?'Layout: the object alone, centred, filling most of the image with a clear margin all round.\n':
-      'Layout: exactly '+n+(tex?' swatches':' objects')+' in a grid of '+S.cols+' columns × '+S.rows+' rows, evenly spaced, in this order (left to right, top row first):\n';
-    var list=S.items.map(function(it,i){ return (one?'Subject: ':(i+1)+'. ')+it[1]+' — '+it[2]+(tex?'':S.kind==='flat'?' (about '+(Math.round(Math.max(it[3],it[4])/63*10)/10)+'× the hero\'s height across)':' ('+ZSCN.rel(it[4])+')')+'.'; }).join('\n');
+      'Layout: exactly '+n+(tex?' swatches':' objects')+' in a grid of '+S.cols+' columns × '+S.rows+' rows, evenly spaced, in this order (left to right, top row first)'+(n<S.cols*S.rows?'; the last '+(S.cols*S.rows-n)+' cell(s) stay empty':'')+':\n';
+    var list=S.items.map(function(it,i){ return (one?'Subject: ':(i+1)+'. ')+it[1]+' — '+it[2]+(tex||S.kind==='icon'?'':S.kind==='flat'?' (about '+(Math.round(Math.max(it[3],it[4])/63*10)/10)+'× the hero\'s height across)':' ('+ZSCN.rel(it[4])+')')+'.'; }).join('\n');
     return head+lay+list+'\n'+ZSCN.VIEW[S.kind]; },
   // a size in words, relative to the hero (63 px)
   rel:function(h){ var k=h/63; return k<0.35?'a small item, under half the hero\'s height':k<0.8?'about '+(Math.round(k*10)/10)+'× the hero\'s height':k<1.25?'about as tall as the hero':'about '+(Math.round(k*10)/10)+'× the hero\'s height'; },

@@ -163,7 +163,7 @@ try {
 // Scenery requests (round 28): src/js/07zt-scenery.js → sprites/requests/scenery.json + scenery.md (the list to read).
 try {
   const vm = await import('node:vm'); const ctx = {}; ctx.globalThis = ctx;
-  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zt-scenery.js'), 'utf8') + '\n;globalThis.__scn=JSON.stringify({stats:ZSCN.stats(),req:ZSCN.requests(),waves:ZSCN.WAVES,style:ZSCN.STYLE,rules:ZSCN.RULES,rulesTex:ZSCN.RULES_TEX,bgAlpha:ZSCN.BG_ALPHA,bgTex:ZSCN.BG_TEX});', ctx, { timeout: 20000 });
+  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zt-scenery.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zv-icons.js'), 'utf8') + '\n;globalThis.__scn=JSON.stringify({stats:ZSCN.stats(),req:ZSCN.requests(),waves:ZSCN.WAVES,style:ZSCN.STYLE,rules:ZSCN.RULES,rulesTex:ZSCN.RULES_TEX,bgAlpha:ZSCN.BG_ALPHA,bgTex:ZSCN.BG_TEX});', ctx, { timeout: 20000 });
   const S = JSON.parse(ctx.__scn), out = path.join(ROOT, 'sprites', 'requests'); fs.mkdirSync(out, { recursive: true });
   const ids = {}; S.req.forEach(q => q.items.forEach(it => { if (ids[it.id]) throw new Error('scenery id used twice: ' + it.id); ids[it.id] = 1; }));
   S.req.forEach(q => { if (q.items.length > q.cols * q.rows) throw new Error(q.id + ': ' + q.items.length + ' items do not fit ' + q.cols + '×' + q.rows); });

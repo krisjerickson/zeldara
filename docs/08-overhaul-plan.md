@@ -210,6 +210,13 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
 
+## Round 32 (Kris, Oct 7) — controls bar, inventory and menus get painted icons
+- Kris: "the controls at the bottom of the screen need better sprites or images as well as the inventory needs to be revamped to look better, following the zeldara themes we've created and having sprites or better imagery. let's plan these out, and setup a new chatgpt powershell command, if needed."
+- Asked 4 questions (card). **ANSWERED:** (1) scope → **every menu** (bar, HUD, inventory, quick-pick, shops, quests, tome, map, mounts, familiars, spells, skills); (2) frames → **drawn in code, icons painted** (plus a few painted ornaments); (3) inventory → **hero in the middle with gear slots round him + a grid of item tiles + detail panel**; (4) item icons → **one per item (206)**.
+- Done so far: plan `claude/18-ui-art-plan.md`; icon manifest `src/js/07zv-icons.js` (made by `tools/sprites/make_icons.py`): 16 sheets, 312 icons, family `icons` in the scenery pipeline, waves 33–36; `tools/sprites/icons.ps1` (pilot = `sc_ic_ui_1` + `sc_ic_melee`; `-All`).
+- Command given: `.\tools\sprites\icons.ps1` (pilot), then `.\tools\sprites\icons.ps1 -All`.
+- Next for Claude: `ZIcon` (icons into the page), the frames in code, the new inventory, then the other menus — see doc 18 for the order. No game code for the UI is changed yet.
+
 ## Round 31 (Kris, Oct 7) — sizes settled; the full set
 - Kris: "buildings at 115% and objects at 100% is good. Familiars are now too small, let's bump them up another 20% larger. Also, when you come off of your mount, they sit there without moving. Make it so they move a bit from some of the other positions available, and let me know if we need to make a new sprite sheet for this. And then overall let's get ready for the full implementation of background scenery and others features for the painted sprites as well as updating to better drawing for anything we are not doing as a sprite. Start with giving me the chatgpt command so i can get that going".
 - Sizes → **ANSWERED: buildings 115 %, objects 100 %.** Familiars → **+20 %** (stand-in scale 0.3; 43–54 px).
