@@ -112,7 +112,8 @@ function _twrPainted(m,it,S,R){ var Zs=_scn(); if(!Zs)return false; var x=it.x*L
   var fake={sprites:[],lights:[],shafts:[],particles:[],labels:[]}, tall=TOWER_TALL[it.type]; if(tall){ try{ tall(fake,x,y,w,h,S,R); }catch(e){} } var fs=fake.sprites[0], ok;
   if(flat)ok=Zs.rect(m,fid,x+2,y+2,w-4,h-4);
   else { var cx=x+w/2, fy=y+h, o={shw:0.36,sp:{}}, nat=Zs.size(id,0); if(TWR_PZ_HANG[it.type]&&fs){ cx=fs.x; fy=fs.y; o.shadow=false; } if(fs){ if(fs.bob)o.sp.bob=fs.bob; if(fs.depth!==undefined)o.sp.depth=fs.depth; }
-    if(TWR_PZ_LONG[it.type]&&w>nat.w*Zs.K*1.15){ o.stretch=w/(nat.w*Zs.K); o.shw=0.46; ok=Zs.sprite(m,id,cx,fy,nat.h*Zs.K,o); } else ok=Zs.fit(m,id,cx,fy,w+14,o); }
+    if(TWR_PZ_LONG[it.type]&&w>nat.w*Zs.K*1.45)ok=Zs.row(m,id,x,fy-4,w,{sp:o.sp});      // much longer than the picture: several side by side
+    else if(TWR_PZ_LONG[it.type]&&w>nat.w*Zs.K*1.15){ o.stretch=w/(nat.w*Zs.K); o.shw=0.46; ok=Zs.sprite(m,id,cx,fy,nat.h*Zs.K,o); } else ok=Zs.fit(m,id,cx,fy,w+14,o); }
   if(!ok)return false; fake.lights.forEach(function(l){ m.lights.push(l); }); it._pz=true; return true; }
 
 // village dressing (round 31): small painted pieces the plan sets beside houses, on the plaza and by the harbour. There is no drawn version: without the picture nothing is shown.

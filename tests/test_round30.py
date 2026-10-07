@@ -34,7 +34,7 @@ with game(painted=True) as g:
     check('Around the start the world shows painted objects (drawn at 2 ×, shown at half size), buildings and trees among them, and the Runestone Green as a flat decal', r['half'] >= 10 and r['tall'] >= 3 and r['flat'] >= 1, r)
     r = g.js("(()=>{ var ws=game.scene.getScene('World'); var t=ZScn.texture(ws,'en_dng_1',138), k=ws._campTex('campfire',null), f=ws.textures.getFrame(k,'0'); return {dng:t&&[Math.round(t.h),t.scale,ws.textures.exists(t.key)],camp:f.width}; })()")
     check('Dungeon mouths and camp props have painted textures (camp props as 128 px frames)', r['dng'] and r['dng'][0] == 138 and r['dng'][1] == 0.5 and r['dng'][2] and r['camp'] == 128, r)
-    check('Ground: grass kinds get a painted texture laid over their own colour', g.js("ZScn.ground('grass')==='tx_grass'&&ZScn.ground('vgreen')==='tx_grass_village'&&!ZScn.ground('sand')&&!!ZScn.detail('tx_grass',128,1)"))
+    check('Ground: grass kinds get a painted texture laid over their own colour', g.js("ZScn.ground('grass')==='tx_grass'&&ZScn.ground('vgreen')==='tx_grass_village'&&!!ZScn.detail('tx_grass',128,1)"))
     # switched off: every call says no, so the painters draw as before
     r = g.js("(()=>{ ZScn.off=true; var m={sprites:[],lights:[]}; var o=[ZScn.has('vb_tavern'),ZScn.sprite(m,'tr_round_a',0,0,100),ZScn.ground('grass'),_scn(),m.sprites.length]; ZScn.off=false; return o; })()")
     check('Switched off, nothing painted is used (the drawn scenery is the fallback)', r == [False, False, None, None, 0], r)

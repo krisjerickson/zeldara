@@ -236,6 +236,7 @@ function _volcanoKeyForSection(sec){
   return {1:'volcano_key_n',2:'volcano_key_e',3:'volcano_key_s',4:'volcano_key_w'}[sec];
 }
 function _gameBlocked(){
+  if(typeof ZDeath!=='undefined'&&ZDeath._hold)return true;      // the hero is falling (21c-death.js)
   return _isTyping()||_anyModalOpen();
 }
 // ── Buff system (Date.now based; frozen while paused by 24-pause-input.js) ────────────────────────

@@ -104,6 +104,7 @@ def cut_textures(q, src):
             M = int(min(cw, ch) * frac); x0 = int(cx - M / 2); y0 = int(cy - M / 2); sq = a[y0:y0 + M, x0:x0 + M]
             rim = np.concatenate([sq[:3].reshape(-1, 3), sq[-3:].reshape(-1, 3), sq[:, :3].reshape(-1, 3), sq[:, -3:].reshape(-1, 3)])
             if (rim.min(axis=1) > 238).mean() < 0.06: ok = sq; break          # no white gap inside the square
+        if ok is None and sq.std() >= 2.5 and sq.mean() > 215: ok = sq      # a near-white swatch (snow) on the white sheet: its edge cannot be told from the gap, so the middle half of the cell is taken
         if ok is None: return None, 'swatch %d (%s) does not fill its cell' % (k + 1, it['id'])
         if ok.std() < 2.5: return None, 'swatch %d (%s) is blank' % (k + 1, it['id'])
         band = max(8, int(ok.shape[0] * 0.14)); horiz = it['id'].startswith(('tx_cliff', 'tx_wall', 'tx_w_'))
@@ -199,7 +200,7 @@ def main():
             if not os.path.exists(src): continue
             if not force and os.path.exists(mf):
                 M = json.load(open(mf))
-                if M.get('v') == V and abs(M.get('src_mtime', 0) - os.path.getmtime(src)) < 1: continue
+                if M.get('ok') and M.get('v') == V and abs(M.get('src_mtime', 0) - os.path.getmtime(src)) < 1: continue      # a sheet that failed is tried again every time
             try: r = process(q, src)
             except Exception as e: r = {'id': q['id'], 'ok': False, 'why': 'error: %s' % e}
             if not r.get('ok'): os.makedirs(os.path.join(OUT, 'sheets'), exist_ok=True); json.dump(dict(r, v=V, src_mtime=os.path.getmtime(src)), open(os.path.join(OUT, 'sheets', q['id'] + '.json'), 'w'))

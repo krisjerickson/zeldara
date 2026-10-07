@@ -143,11 +143,11 @@ function paintHazardField(ctx,c,colorFn){
 }
 function cavernMarkers(m,ctx,sp,far,P,opts){
   var sx=sp.x*LT, sy=(sp.y+1)*LT-6;
-  var Zs=_scn(); if(!(Zs&&Zs.decal(m,'dg_stairs_up',sx+LT/2,sy-10,{w:LT+14})))for(var i=0;i<4;i++){ ctx.fillStyle=shade(P.rockTop,0.1-i*0.08); ctx.fillRect(sx-4,sy-i*5,LT+8,5); }
+  var Zs=_scn(); if(!(Zs&&Zs.sprite(m,'dg_stairs_up',sx+LT/2,sy+2,0,{w:LT+20,shadow:false})))for(var i=0;i<4;i++){ ctx.fillStyle=shade(P.rockTop,0.1-i*0.08); ctx.fillRect(sx-4,sy-i*5,LT+8,5); }
   if(far&&opts&&opts.game&&!opts.last){
     // stairs leading down: dark steps receding into the floor
     var fx0=far.x*LT, fy0=far.y*LT;
-    if(!(Zs&&Zs.decal(m,'dg_stairs_down',fx0+LT/2,fy0+LT/2,{w:LT+14}))){ for(var s=0;s<5;s++){ ctx.fillStyle=shade(P.floorA,-0.15-s*0.13); ctx.fillRect(fx0-4+s*2,fy0+2+s*5.5,LT+8-s*4,5.5); }
+    if(!(Zs&&Zs.sprite(m,'dg_stairs_down',fx0+LT/2,fy0+LT-2,0,{w:LT+20,shadow:false}))){ for(var s=0;s<5;s++){ ctx.fillStyle=shade(P.floorA,-0.15-s*0.13); ctx.fillRect(fx0-4+s*2,fy0+2+s*5.5,LT+8-s*4,5.5); }
     ctx.fillStyle='rgba(255,220,150,.8)'; ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('▼',fx0+LT/2,fy0-2); }
     addLight(m,fx0+LT/2,fy0+LT/2,70,'#ffd9a0',0.3,{pulse:0.3,depth:-4});
     return;

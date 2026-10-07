@@ -1426,10 +1426,17 @@ class WorldScene extends Phaser.Scene{
     if(el)el.style.display=on?'block':'none';
   }
 
+  // Round 33: the fall is shown first (21c-death.js: an effect over the screen, then a pop-up with what it cost and a button);
+  // the penalty and the move to the village are the same as before and happen in _worldPlayerDiedNow.
   _worldPlayerDied(){
     if(this._dying)return;
+    this._dying=true; var self=this, rn=document.getElementById('region-name');
+    if(typeof ZDeath==='undefined'){ this._worldPlayerDiedNow(); return; }
+    ZDeath.run(this,{area:'the wilds near '+((rn&&rn.textContent)||'the village')},function(){ self._worldPlayerDiedNow(); });
+  }
+  _worldPlayerDiedNow(){
     this._dying=true;
-    var ps=this.playerState;
+    var ps=this.playerState; delete ps._lastFoe;
     // Apply penalty immediately
     var goldLoss=Math.floor(ps.gold*0.10);
     ps.gold=Math.max(0,ps.gold-goldLoss);
@@ -1843,6 +1850,7 @@ class WorldScene extends Phaser.Scene{
   }
   _canGo(nx,ny,mount){
     var hw=8,hh=6;
+    if(typeof _vbBlocked==='function'&&this.player&&_vbBlocked(this.wd,nx,ny,this.player.x,this.player.y))return false;      // painted buildings are solid to their edges (round 33)
     var corners=[[nx-hw,ny-hh],[nx+hw,ny-hh],[nx-hw,ny+hh],[nx+hw,ny+hh],[nx,ny]];
     for(var i=0;i<corners.length;i++){
       var cx=corners[i][0],cy=corners[i][1];

@@ -17,7 +17,7 @@
 var PAUSE_OVERLAYS=[
   'modal-map','modal-quests','modal-inventory','modal-camp','modal-mounts','modal-controls','modal-sandbox','modal-sitelab','modal-tome',
   'slot-picker-modal','quick-pick-popup','item-found-popup',
-  'tavern-menu-overlay','skyport-shop-overlay','familiar-info-modal','scene-error-banner','fairy-talk'
+  'tavern-menu-overlay','skyport-shop-overlay','familiar-info-modal','scene-error-banner','fairy-talk','modal-death'
 ];
 var _PAUSE={active:false, since:0, scenes:[]};
 

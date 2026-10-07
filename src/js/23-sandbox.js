@@ -500,3 +500,8 @@ function sbRunBot(){
   }
   runStep();
 }
+
+// Round 33: whenever the hero is invincible (Dev panel or Site Lab), a badge says so on screen — a boss test with it left on looks like "the boss does no damage".
+(function(){ if(typeof document==='undefined'||typeof setInterval==='undefined')return; setInterval(function(){ try{ var ws=typeof game!=='undefined'&&game.scene&&game.scene.getScene('World'), on=!!(ws&&ws.playerState&&ws.playerState.godMode), el=document.getElementById('god-badge');
+    if(on&&!el){ el=document.createElement('div'); el.id='god-badge'; el.textContent='⚡ INVINCIBLE — test mode (Dev panel → God Mode)'; el.style.cssText='position:fixed;top:78px;left:50%;transform:translateX(-50%);z-index:350;background:rgba(60,30,0,.88);border:1px solid #ffaa44;color:#ffd9a0;font:600 11px Segoe UI,sans-serif;padding:4px 12px;border-radius:10px;pointer-events:none;letter-spacing:.04em'; document.body.appendChild(el); }
+    if(el)el.style.display=on?'':'none'; }catch(e){} },700); })();

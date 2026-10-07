@@ -7,9 +7,9 @@
 // ║ Open it from the password-protected Developer Sandbox.
 // ═══════════════════════════════════════════════════════════════════════
 var SITE_LAB={tab:null, thumbs:{}, queue:[], busy:false,
-  opts:{mons:'all', god:true, fog:false, dark:true}};
-(function(){ try{ var o=JSON.parse(localStorage.getItem('zeldara_sitelab')||'null'); if(o){ if(o.opts)Object.assign(SITE_LAB.opts,o.opts); if(o.tab)SITE_LAB.tab=o.tab; } }catch(e){} })();
-function _slSavePrefs(){ try{ localStorage.setItem('zeldara_sitelab',JSON.stringify({opts:SITE_LAB.opts,tab:SITE_LAB.tab})); }catch(e){} }
+  opts:{mons:'all', god:false, fog:false, dark:true}};      // god was true by default until round 33: every boss playtest from the Site Lab ran with the hero invincible
+(function(){ try{ var o=JSON.parse(localStorage.getItem('zeldara_sitelab')||'null'); if(o){ if(o.opts)Object.assign(SITE_LAB.opts,o.opts); if(o.tab)SITE_LAB.tab=o.tab; if(!o.v)SITE_LAB.opts.god=false; } }catch(e){} })();
+function _slSavePrefs(){ try{ localStorage.setItem('zeldara_sitelab',JSON.stringify({v:2,opts:SITE_LAB.opts,tab:SITE_LAB.tab})); }catch(e){} }
 
 // All inspectable sites, grouped: 4 quadrants + the harbor islands.
 function _slCatalog(){

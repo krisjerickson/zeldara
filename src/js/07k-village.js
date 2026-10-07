@@ -71,12 +71,20 @@ function _villDoor(g,x,base,o){ g.fillStyle='#2a1a10'; g.beginPath(); g.moveTo(x
 function _villWindow(g,x,y,o){ g.fillStyle='#3a2a1a'; g.fillRect(x-8,y-1,16,15); g.fillStyle=o.lit===false?'#4a5a6a':'#ffd98a'; g.fillRect(x-6,y+1,12,11); g.fillStyle='#3a2a1a'; g.fillRect(x-0.75,y+1,1.5,11); g.fillRect(x-6,y+6,12,1.5); if(o.flowers){ g.fillStyle='#5a3a22'; g.fillRect(x-9,y+13,18,4); g.fillStyle='#ff8ab0'; for(var i=0;i<4;i++){ g.beginPath(); g.arc(x-6+i*4,y+12,2,0,Math.PI*2); g.fill(); } } }
 
 var VB_PAINTED={tavern:'vb_tavern',shop:'vb_shop',house:'vb_house_round',forge:'vb_forge',guild:'vb_guild',stables:'vb_stables',armory:'vb_armory',clothing:'vb_clothing',jeweler:'vb_jeweler',apothecary:'vb_apothecary',merchant:'vb_bakery'};
+// which painted building a village building uses (null = the drawn one)
+function _vbPaintedId(Zs,o,w){ return (o.pid&&Zs.has(o.pid))?o.pid:(VB_PAINTED[o.core]&&Zs.has(VB_PAINTED[o.core]))?VB_PAINTED[o.core]:(!o.core?_vbHouse(Zs,o,w):null); }
+// Round 33: the hero stops at a painted building's picture, not at its (smaller) footprint of tiles: the picture's body, in world pixels.
+// He may step 22 px behind the roof's top (shins hidden at most), not further. [left, top, right, bottom]
+function _vbBlockRects(wd){ var Zs=_scn(); if(!Zs||!wd||!wd.props)return []; if(wd._vbR&&wd._vbRFor===wd.props&&wd._vbRK===Zs.KB)return wd._vbR; var L=[];
+  wd.props.forEach(function(p){ if(p.prop!=='vbuild')return; var w=p.w*LT, id=_vbPaintedId(Zs,p.o||{},w); if(!id)return; var Z=Zs.size(id,0,{w:(w+20)*Zs.KB}), cx=(p.x+p.w/2)*LT, foot=(p.y+p.h)*LT; L.push([cx-Z.ax+5,foot-Z.h+22,cx+(Z.w-Z.ax)-5,foot-2]); });
+  wd._vbR=L; wd._vbRFor=wd.props; wd._vbRK=Zs.KB; return L; }
+function _vbBlocked(wd,x,y,fromX,fromY){ var L=_vbBlockRects(wd); for(var i=0;i<L.length;i++){ var r=L[i]; if(x>r[0]-7&&x<r[2]+7&&y>r[1]&&y<r[3]+5){ if(fromX>r[0]-7&&fromX<r[2]+7&&fromY>r[1]&&fromY<r[3]+5)continue; return true; } } return false; }      // a hero already inside (an old save) may walk out
 // a plain house by its drawn style and width (the wider picture from 5 tiles)
 function _vbHouse(Zs,o,w){ var wide=w>=LT*5, L=o.style==='round'?['vh_round','vb_house_round']:o.style==='wood'?['vh_wood']:o.style==='stone'?[wide?'vh_stone_b':'vh_stone','vh_stone']:o.roofPat==='thatch'?[wide?'vh_thatch_b':'vh_thatch','vh_thatch']:[wide?'vh_timber_b':'vh_timber_a','vh_timber_a'];
   for(var i=0;i<L.length;i++)if(Zs.has(L[i]))return L[i]; return null; }
 WPROP.vbuild=function(c,ctx,x,y,w,h,o){ var R=c.R;
   // painted buildings (round 30): the six of the pilot, and the plain round cottages; sized by the footprint's width (+ eaves, as drawn before)
-  var Zs=_scn(), bid=Zs&&(o.pid&&Zs.has(o.pid)?o.pid:VB_PAINTED[o.core]||(!o.core?_vbHouse(Zs,o,w):null));
+  var Zs=_scn(), bid=Zs&&_vbPaintedId(Zs,o,w);
   if(bid&&Zs.sprite(c.m,bid,x+w/2,y+h,0,{w:(w+20)*Zs.KB,shw:0.5,sha:0.42})){ if(o.lit!==false)addLight(c.m,x+w/2,y+h-34,60,'#ffc870',0.28,{flicker:0.2}); return; }
   addSprite(c.m,x+w/2,y+h,w+40,h+170,function(g,W,H){ villBuilding(g,W,H,Object.assign({w:w/LT,h:h/LT},o),R); });
   if(o.lit!==false){ if((o.nl||2)>=2){ addLight(c.m,x+w/2-18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); addLight(c.m,x+w/2+18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); } else addLight(c.m,x+w/2,y+h-34,54,'#ffc870',0.3,{flicker:0.2}); }

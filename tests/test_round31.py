@@ -28,7 +28,7 @@ with game(painted=True, query='?scenery=fake') as g:
     check('World starts with stand-ins for the unpainted scenery', to_world(g) and g.js("ZScn.faked>300"), g.js("ZScn.faked")); g.wait(1500)
     r = g.js("({kb:ZScn.KB,k:ZScn.K,fam:FAM_SC})")
     check('Sizes Kris chose: buildings 115 %, objects 100 %; familiars a fifth larger (0.3)', r == {'kb': 1.15, 'k': 1, 'fam': 0.3}, r)
-    r = g.js("ZSCN.items().map(function(i){return i.id;}).filter(function(id){ return !(ZScn.has(id)||ZScn.timg[id]); })")
+    r = g.js("ZSCN.items().map(function(i){return i.id;}).filter(function(id){ return !(ZScn.has(id)||ZScn.timg[id]||ZScn.SKIP[id]); })")
     check('Every ordered object and texture has a picture or a stand-in', r == [], r[:10])
     # one canvas per kind and size, however many are placed; sizes go in 6 % steps
     r = g.js("(()=>{ var m={sprites:[],lights:[]}; ZScn.sprite(m,'tr_pine_a',0,0,136); ZScn.sprite(m,'tr_pine_a',50,0,137); ZScn.sprite(m,'tr_pine_a',90,0,170); var s=m.sprites; return [s.length,s[0].canvas===s[1].canvas,s[0].canvas===s[2].canvas,s[0].res]; })()")

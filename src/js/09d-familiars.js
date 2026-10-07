@@ -147,10 +147,10 @@ function _famCast(scene,fid,S,v,c,ps,mult,E){ var mons=c.monsters.filter(functio
       onHit:function(m){ _famHit(scene,fid,E,S,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult);
         if(S.fx==='splash'){ _famRing(scene,m.x,m.y,S.rad||70,E.col,350); mons.forEach(function(m2){ if(m2!==m&&!m2.dead&&Math.hypot(m2.x-m.x,m2.y-m.y)<(S.rad||70)&&_heroLOS(scene,m.x,m.y,m2.x,m2.y)){ _famHit(scene,fid,E,{kind:'area'},m2,dmg*0.6,{pure:true,col:E.col}); _heroBurn(m2,3,Math.max(1,dmg*0.15),E.key); } }); } }});
     return true; }
-  if(S.kind==='nova'){ var inR=mons.filter(function(m){ return _hbD(m,c.x,c.y)<=S.radius&&_heroLOS(scene,c.x,c.y,_hbP(m,c.x,c.y).x,_hbP(m,c.x,c.y).y,true); }); if(!inR.length&&!S.heal)return false; if(!inR.length&&S.heal&&ps.hp>=ps.maxHp)return false;
+  if(S.kind==='nova'){ var inR=mons.filter(function(m){ return _hbD(m,c.x,c.y)<=S.radius&&_heroLOS(scene,c.x,c.y,_hbP(m,c.x,c.y).x,_hbP(m,c.x,c.y).y,true); }); if(!inR.length&&(!S.heal||_heroInCombat(ps)))return false; if(!inR.length&&S.heal&&ps.hp>=ps.maxHp)return false;
     _famRing(scene,c.x,c.y,S.radius,E.col); inR.forEach(function(m){ if(dmg)_famHit(scene,fid,E,S,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult); });
-    if(S.heal)_famHeal(scene,c,ps,S.heal); return true; }
-  if(S.kind==='heal'){ if(ps.hp>=ps.maxHp||ps.hp<=0)return false; var n=S.ticks||1, i=0; var tick=function(){ if(ps.hp>0)_famHeal(scene,_heroCtx(scene),ps,S.pct); }; tick();
+    if(S.heal&&!_heroInCombat(ps))_famHeal(scene,c,ps,S.heal); return true; }
+  if(S.kind==='heal'){ if(ps.hp>=ps.maxHp||ps.hp<=0||_heroInCombat(ps))return false; var n=S.ticks||1, i=0; var tick=function(){ if(ps.hp>0&&!_heroInCombat(ps))_famHeal(scene,_heroCtx(scene),ps,S.pct); }; tick();
     if(n>1)scene.time.addEvent({delay:1000,repeat:n-2,callback:tick}); return true; }
   if(S.kind==='ward'){ var st=ps._famWard||(ps._famWard={}); if(st[fid]&&st[fid].ready)return false; st[fid]={ready:true,col:E.col,name:S.name}; _heroFloat(scene,c.x,c.y-36,'✨ '+S.name,E.col); return true; }
   if(S.kind==='rain'){ var ts=mons.filter(function(m){ return _hbD(m,c.x,c.y)<=S.range&&_heroLOS(scene,c.x,c.y,_hbP(m,c.x,c.y).x,_hbP(m,c.x,c.y).y); }); if(!ts.length)return false; ts.sort(function(a,b){ return Math.hypot(a.x-c.x,a.y-c.y)-Math.hypot(b.x-c.x,b.y-c.y); });
@@ -165,11 +165,15 @@ function _famCast(scene,fid,S,v,c,ps,mult,E){ var mons=c.monsters.filter(functio
     scene.tweens.add({targets:g,alpha:0,duration:420,onComplete:function(){ g.destroy(); }});
     mons.forEach(function(m){ var hq=_hbP(m,c.x+Math.cos(fa)*Math.min(wl,_hbD(m,c.x,c.y)),c.y+Math.sin(fa)*Math.min(wl,_hbD(m,c.x,c.y))), px=hq.x-c.x, py=hq.y-c.y, along=px*Math.cos(fa)+py*Math.sin(fa), side=Math.abs(-px*Math.sin(fa)+py*Math.cos(fa)); if(along>0&&along<wl&&side<S.wid/2+(m._hurtR?6:((m.def&&m.def.r)||10))&&_heroLOS(scene,c.x,c.y,hq.x,hq.y)){ _famHit(scene,fid,E,S,m,dmg,{col:E.col}); _famFx(scene,m,S,E,mult); } });
     return true; }
-  if(S.kind==='laststand'){ if(ps.hp<=0||ps.hp>ps.maxHp*S.pct)return false; _famHeal(scene,c,ps,S.pct); _famRing(scene,c.x,c.y,80,E.col); _heroFloat(scene,c.x,c.y-44,'🔥 '+S.name+'!',E.col); return true; }
+  if(S.kind==='laststand'){ if(ps.hp<=0||ps.hp>ps.maxHp*S.pct||_heroInCombat(ps))return false; _famHeal(scene,c,ps,S.pct); _famRing(scene,c.x,c.y,80,E.col); _heroFloat(scene,c.x,c.y-44,'🔥 '+S.name+'!',E.col); return true; }
   return false; }
+// Round 33 (Kris): familiars do not heal while the hero is fighting. "Fighting" = the hero hit a monster or lost health in the last 6 s.
+var FAM_COMBAT_S=6;
+function _heroInCombat(ps){ return !!(ps&&ps._cbT&&Date.now()-ps._cbT<FAM_COMBAT_S*1000); }
+function _heroCombatMark(ps){ if(ps)ps._cbT=Date.now(); }
 function _famHeal(scene,c,ps,pct){ var h=Math.max(1,Math.round(ps.maxHp*pct)); ps.hp=Math.min(ps.maxHp,ps.hp+h); _heroFloat(scene,c.x,c.y-30,'+'+h+' HP','#80ff90'); var ws=_heroWS(); if(ws&&ws._emitUI)ws._emitUI(); }
 // wards: refund the next hit
-function _famWardTick(scene,c,ps,dt){ var st=ps._famWard; if(!st){ ps._famLastHp=ps.hp; return; } var ready=Object.keys(st).filter(function(k){ return st[k]&&st[k].ready&&_heroFamiliarActive(ps,k)&&_famSt(k).ko<=0&&_famActiveSkills(ps,k).some(function(o){ return o.S.kind==='ward'; }); });
+function _famWardTick(scene,c,ps,dt){ if(ps._cbHp!==undefined&&ps.hp<ps._cbHp&&ps.hp>0)_heroCombatMark(ps); ps._cbHp=ps.hp; var st=ps._famWard; if(!st){ ps._famLastHp=ps.hp; return; } var ready=Object.keys(st).filter(function(k){ return st[k]&&st[k].ready&&_heroFamiliarActive(ps,k)&&_famSt(k).ko<=0&&_famActiveSkills(ps,k).some(function(o){ return o.S.kind==='ward'; }); });
   if(ready.length&&ps._famLastHp!==undefined&&ps.hp<ps._famLastHp&&ps.hp>0&&!ps.godMode){ var lost=ps._famLastHp-ps.hp; ps.hp=ps._famLastHp; var w=st[ready[0]]; w.ready=false; _heroFloat(scene,c.x,c.y-36,'🛡 '+w.name+' blocked '+lost,w.col); }
   ps._famLastHp=ps.hp;
   if(ready.length){ var col=st[ready[0]].col; if(!scene._famBubble||!scene._famBubble.active)scene._famBubble=scene.add.circle(c.x,c.y-12,22,hexNum(col),0.1).setStrokeStyle(1.5,hexNum(col),0.7).setDepth(12.6); scene._famBubble.setPosition(c.x,c.y-12).setAlpha(0.7+0.3*Math.sin(Date.now()/300)); }

@@ -98,6 +98,7 @@ function _hbHit(m,x,y,pad){ return m._hurtR?_hbD(m,x,y)<=pad:Math.hypot(m.x-x,m.
 function _heroHitMonster(scene, mon, raw, opts){
   if(!mon||mon.dead)return 0;
   opts=opts||{};
+  if(opts.src!=='familiar'){ var _cw=_heroWS(); if(_cw&&_cw.playerState&&typeof _heroCombatMark==='function')_heroCombatMark(_cw.playerState); mon._engT=Date.now(); }      // the hero's own hit: he is fighting, and this monster is one he has engaged (round 33)
   var def=opts.pure?0:((mon.monDef!==undefined?mon.monDef:(mon.def&&mon.def.def))||0);
   var dmg=Math.max(1,Math.round(raw)-def+(opts.pure?0:Math.floor(Math.random()*3)));
   MX._src=opts.src||'spell'; MX._famEl=opts.el||null; MX._famK=opts.fk||null; MX._famId=opts.fid||null; mon.hp-=dmg; MX._src=null; MX._famEl=MX._famK=MX._famId=null;   // spells break ✨ wards; familiars are their own source (07rb counters)
@@ -189,6 +190,16 @@ function _heroDied(scene){
   var key=scene.sys.settings.key, ws=_heroWS();
   if(key==='World'){ ws._worldPlayerDied(); return; }
   var area=(key==='Dungeon'&&scene.siteType==='tower')?'the tower':(_HERO_AREA_NAMES[key]||'battle');
+  if(typeof ZDeath!=='undefined'&&!ZDeath.auto){      // round 33: the fall is shown, then the pop-up; the scene is left and the penalty applied in between
+    var site=scene.site&&scene.site.name; ZDeath.run(scene,{area:site||area},function(){
+      document.getElementById('dungeon-hud').style.display='none'; document.getElementById('hud').style.display='';
+      var isl=game.scene.getScene('Island'), viaIsland=(scene.islandScene||scene._returnScene==='Island'||(scene._initData&&scene._initData.returnScene==='Island'));
+      game.scene.stop(key);
+      if(key!=='Island'&&viaIsland&&isl&&(game.scene.isSleeping('Island')||game.scene.isActive('Island'))&&isl._exitToWorld)isl._exitToWorld();
+      else if(key==='Island'&&scene._exitToWorld){ scene._done=false; scene._exitToWorld(); }
+      else game.scene.wake('World');
+      if(ws){ ws._worldPlayerDiedNow(); if(ws._emitUI)ws._emitUI(); } });
+    return; }
   showNotif('💀 You fell in '+area+'…','#ff5544');
   if(typeof ZLogo!=='undefined')ZLogo.banner('serpent_coil','You fell','You wake in the village',3000);
   var finish=function(){

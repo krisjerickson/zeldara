@@ -208,6 +208,7 @@ function wTree(c,x,y,w,h,o){
     else if(kind==='dead'){ tid=Zs.pick(['tr_dead_a','tr_dead_b'],rv); th=118; }
     else if(kind==='ash'){ tid=Zs.pick(['tr_ash_a','tr_ash_b'],rv); th=120; }
     else if(kind==='stone'){ tid=Zs.pick(['tr_stone_a','tr_stone_b'],rv); th=118; }
+    if(tid&&kind!=='round'&&kind!=='blossom')th=Zs.size(tid,0).h*1.06;      // the other kinds were painted to their own heights (a crystal stump is short, a willow wide)
     if(tid&&Zs.sprite(m,tid,x+w/2,y+h,th*s*Zs.K,{shw:0.3})){ if(o.glowRoots)addLight(m,x+w/2,y+h-4,70*s,o.glowRoots,0.4,{pulse:0.35,period:2000+R.i(0,1500),depth:-4}); return; } }
   addSprite(m,x+w/2,y+h,cw,ch,function(ctx,W,H){
     softShadow(ctx,W/2,H-6,30*s,9*s,0.35);
@@ -246,6 +247,7 @@ function wRuneCircle(c,ctx,x,y,w,h,o){ var cx=x+w/2, cy=y+h/2, r=(Math.min(w,h)/
   if(!done&&o.logo&&typeof ZBrand!=='undefined'&&ZBrand.LOGO){ try{ var L=ZBrand.layers(ZBrand.byId(ZBrand.LOGO),r/1.52,3), g=ctx.createRadialGradient(cx,cy,r*0.15,cx,cy,r*1.06); g.addColorStop(0,'rgba(16,30,32,.5)'); g.addColorStop(0.9,'rgba(16,30,32,.38)'); g.addColorStop(1,'rgba(16,30,32,0)');
       ctx.save(); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,r*1.06,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='rgba(8,16,18,.35)'; ctx.lineWidth=1; for(var k=0;k<12;k++){ var a=k/12*Math.PI*2; ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*r*0.2,cy+Math.sin(a)*r*0.2); ctx.lineTo(cx+Math.cos(a)*r*1.02,cy+Math.sin(a)*r*1.02); ctx.stroke(); }
       ctx.globalAlpha=0.6; ctx.drawImage(L.glow,cx-L.sz/2,cy-L.sz/2); ctx.globalAlpha=0.95; ctx.drawImage(L.main,cx-L.sz/2,cy-L.sz/2); ctx.restore(); done=true; }catch(e){} }
+  if(!done&&!o.logo&&Zs&&r>=40){ var rc3=_scnRGB(col), rid=(rc3[2]>rc3[0]&&rc3[1]>rc3[0])?'rn_circle':(rc3[0]>rc3[2]*1.3)?'rn_circle_fire':null; if(rid&&Zs.decal(c.m,rid,cx,cy,{w:r*2.1}))done=true; }      // painted rune circles (round 32): teal ones and fiery ones; other colours keep the drawn ring
   if(!done)runeRing(ctx,cx,cy,r,col,c.R,o.n||8); addLight(c.m,cx,cy,r*1.6,col,0.35,{react:true,rune:true,depth:-4}); }
 function wRock(c,x,y,w,h,o){ var m=c.m,R=c.R,col=o.col||'#7b7468', rad=Math.max(w,h)/2;
   // painted rocks (round 30): grey rocks only (other zones tint theirs); the drawn blob stood about 1.75 × its radius tall
