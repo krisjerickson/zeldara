@@ -201,15 +201,21 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
-- **Round 32 — to settle when the icon pilot is in:** icon size on the bar and whether labels stay under the icons; whether the hero in the inventory plays his idle animation.
 - (Round 28) Where did Kris see the old pixel versions — the Claude artifact, the local build, or the hosted site — and does it still happen after round 28's fix?
-- (Round 28) Castle wardens and mage-tower masters have 3–4 × the health of a realm's guardian (a table multiplied twice). Intended, or should they be weaker than the guardian, as the code comment says?
 
 ## Round 28 — answers (Kris, Oct 6 evening, before leaving for the night)
 - Difficulty names → **ANSWERED: Hearthside · Wayfarer · Shieldbearer · Ragnarök.**
 - What makes it harder → **ANSWERED: tougher bosses; faster, smarter bosses; tougher and more monsters.** NOT chosen: less healing / harsher death.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
+
+## Round 35 (Kris, Oct 7) — before he left: the new UI, wardens
+- Kris: "great, powershell command going, keep on checking as i'm going to be gone for a bit. Ask me anything else you need before i head". The command running is `.\tools\sprites\icons.ps1 -All` (16 icon sheets).
+- Asked 4 questions (card). **ANSWERED:** (1) control bar → **icon + key, name on hover**; (2) hero in the inventory → **idle animation**; (3) castle wardens and mage-tower masters → "instead of 3-4X, make it **1.5X**, but nice to have these stronger since they are just 1 phase" (1.5 × their realm's guardian); (4) while he is away → **everything, published**: icons as they arrive, frames, bar, HUD, inventory, shops, then the other menus.
+- Kris is away: no questions; choose sensibly, note assumptions here.
+- Done: changelog [319]–[327]. All 16 icon sheets cut and in the game.
+- Assumptions (Kris away): menu buttons keep their word beside the icon (only the ten action slots are icon + key); the inventory's tabs show a name only on the active tab, the rest on hover; ammo is shown as tiles in the grid; "wardens at 1.5 ×" was applied to mage-tower masters too (same line of his answer); the bar's slots are 50 px.
+- Left for the next pass: emoji in notifications, on the map canvas and legend, tome headings, status pills (icons exist); the ornament pieces (`orn_*`) are not used yet — the frame is all code.
 
 ## Round 34 (Kris, Oct 7) — his answers on death, armor, familiars
 - Kris: "1. for the death scene, let's do the rune of return. 3. For armor, we need to make it percentage based instead of taking damage off, especially since at high armor values, lower attack monsters would do no damage. Let's make this updated to a percentage base versus attack amount off. We can also change this per difficultly level of the game chosen. Let me know if needing feedback on this. I like the suggestion of big boss hits still taking a certain amount of health, and can also change for difficulty level. 2. let's do follow my lead for familiar rules. 4. Familiar ward only blocks certain percentage of max health. This can scale up with level of familiar and their skill, but no more than 40% blocked. 5. Shield block chance cap is good, but we can cap at 50%. 6. Familiar damage halves against bosses, but again scale per difficulty level. And new powershell command is in"

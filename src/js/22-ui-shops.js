@@ -101,7 +101,7 @@ window._openSlotPicker2=function(slotKey){
   if(curId&&ITEMS[curId]){
     var ci=ITEMS[curId];
     h+='<div style="background:rgba(80,180,80,.1);border:1px solid rgba(80,180,80,.3);border-radius:7px;padding:8px 10px;margin-bottom:8px;display:flex;align-items:center;gap:8px">'
-      +'<span style="font-size:18px">'+ci.icon+'</span>'
+      +'<span style="font-size:18px">'+ZIcon.of(ci,1.5)+'</span>'
       +'<span style="flex:1;font-size:12px;color:#aee">'+ci.name+' <span style="color:#556;font-size:10px">(equipped)</span></span>'
       +'<button class="ir-equip" style="color:#ff8888;background:rgba(200,80,80,.2);border-color:rgba(200,80,80,.4)" '
       +'onclick="window._unequipSlot(\''+slotKey+'\');document.getElementById(\'slot-picker-modal\').style.display=\'none\'">Remove</button></div>';
@@ -119,7 +119,7 @@ window._openSlotPicker2=function(slotKey){
       if(m.it.spdBonus)st+=' +'+(m.it.spdBonus*100|0)+'% Spd';
       if(m.it.elementDmg)st+=' +'+m.it.elementDmg+' '+m.it.element;
       h+='<div class="sp-row" onclick="window._equipFromPicker2('+m.idx+',\''+slotKey+'\')">'
-        +'<span style="font-size:16px">'+m.it.icon+'</span>'
+        +'<span style="font-size:16px">'+ZIcon.of(m.it,1.5)+'</span>'
         +'<span style="flex:1;margin-left:8px">'+m.it.name+'</span>'
         +'<span style="color:#88aa66;font-size:10px">'+st+'</span></div>';
     });
@@ -289,7 +289,7 @@ function showQuickPick(type){
     if(it.manaRegen)stat+=' +'+it.manaRegen+'mp/s';
     if(it.maxMana)stat+=' +'+it.maxMana+'MP';
     return '<div class="sp-row" style="'+(actionStyle||'')+'" onclick="'+action+'">'+
-      '<span style="font-size:17px">'+it.icon+'</span>'+
+      '<span style="font-size:17px">'+ZIcon.of(it,1.5)+'</span>'+
       '<span style="flex:1;margin-left:7px;font-size:12px">'+it.name+'</span>'+
       '<span style="color:#88aa66;font-size:10px;margin-right:6px">'+stat+'</span>'+
       '<button class="ir-equip" style="font-size:10px">'+actionLabel+'</button></div>';
@@ -374,7 +374,7 @@ function showQuickPick(type){
       var cdLabel='CD: '+_effCd(it.cd)+'s';
       var isEq=(id===curSpec);
       h+='<div class="sp-row" style="'+(isEq?'border-color:rgba(100,200,255,.4);background:rgba(100,200,255,.06)':'')+'" onclick="window._equipItem('+inv.indexOf(id)+',\'special\');document.getElementById(\'quick-pick-popup\').style.display=\'none\'">'+
-        '<span style="font-size:17px">'+it.icon+'</span>'+
+        '<span style="font-size:17px">'+ZIcon.of(it,1.5)+'</span>'+
         '<span style="flex:1;margin-left:7px;font-size:12px">'+it.name+'</span>'+
         '<span style="color:#88aacc;font-size:10px;margin-right:6px">'+cdLabel+'</span>'+
         '<button class="ir-equip" style="font-size:10px">'+(isEq?'Active':'Equip')+'</button></div>';
@@ -459,7 +459,7 @@ function openForgeModal(ps,worldScene){
     var stat=item.atk?'+'+item.atk+' ATK':'';
     if(item.elementDmg&&item.element)stat+=' +'+item.elementDmg+' '+item.element+' dmg';
     h+='<div class="forge-recipe'+(matOk?' can-craft':'')+'">'
-      +'<div class="fr-header"><span class="fr-icon">'+item.icon+'</span>'
+      +'<div class="fr-header"><span class="fr-icon">'+ZIcon.of(item,1.5)+'</span>'
       +'<span class="fr-name">'+item.name+'</span>'
       +'<span class="fr-tier">Tier '+recipe.tier+'</span></div>'
       +'<div class="fr-stats">'+stat+'</div>'
@@ -541,7 +541,7 @@ function openBuildingShop(btype,ps,worldScene){
       h+='<div class="item-list">';
       sellableItems.forEach(function(e){
         var it=e.it;var sellVal=it.sell||Math.floor((it.buy||10)*0.4);
-        h+='<div class="shop-item"><div class="si-icon">'+it.icon+'</div>'
+        h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(it,1.5)+'</div>'
           +'<div class="si-info"><div class="si-name">'+it.name+'</div>'
           +'<div class="si-desc">Sell value: <span style="color:#ffd700">'+sellVal+'g</span></div></div>'
           +'<button class="si-buy" style="background:rgba(200,160,0,.2);border-color:rgba(200,160,0,.5);color:#ffd700" onclick="window._merchantSellItem('+e.idx+')">Sell</button>'
@@ -572,7 +572,7 @@ function openBuildingShop(btype,ps,worldScene){
     if(it.spdBonus)stat+=' +'+(it.spdBonus*100|0)+'% Spd';
     if(it.elementDmg)stat+=' +'+it.elementDmg+' '+it.element;
     var price=it.buy?it.buy+'g':it.goldVal?'Sell '+it.goldVal+'g':'—';
-    h+='<div class="shop-item"><div class="si-icon">'+it.icon+'</div>'
+    h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(it,1.5)+'</div>'
       +'<div class="si-info"><div class="si-name">'+it.name+'</div>'
       +'<div class="si-desc">'+stat+' &nbsp;•&nbsp; '+price+'</div></div>';
     if(it.buy){
@@ -629,7 +629,7 @@ function openCampModal(site,ps,worldScene){
     var item=ITEMS[si.id];if(!item||!item.buy)return;
     var canAfford=ps.gold>=item.buy;
     var stat=item.atk?'ATK +'+item.atk:item.def?'DEF +'+item.def:item.heal?'Heals '+item.heal+' HP':'';
-    h+='<div class="shop-item"><div class="si-icon">'+item.icon+'</div><div class="si-info"><div class="si-name">'+item.name+'</div><div class="si-desc">'+stat+' &nbsp;•&nbsp; '+item.buy+'g</div></div><button class="si-buy" '+(canAfford?'':'disabled')+' onclick="window._buyItem(\''+si.id+'\','+item.buy+')">'+(canAfford?'Buy':'No gold')+'</button></div>';
+    h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(item,1.5)+'</div><div class="si-info"><div class="si-name">'+item.name+'</div><div class="si-desc">'+stat+' &nbsp;•&nbsp; '+item.buy+'g</div></div><button class="si-buy" '+(canAfford?'':'disabled')+' onclick="window._buyItem(\''+si.id+'\','+item.buy+')">'+(canAfford?'Buy':'No gold')+'</button></div>';
   });
   // Sell wood logs
   var wood=ps.wood||0;
@@ -694,7 +694,7 @@ function _renderMountsModal(ps){
   if(ps.parkedMount&&MOUNTS[ps.parkedMount.id]){
     var pm=MOUNTS[ps.parkedMount.id], ws0=_owScene(), dist=ws0&&ws0.player&&(ps.parkedMount.map||'world')===_mapKeyOf(ws0)?Math.round(Math.hypot(ws0.player.x-ps.parkedMount.x,ws0.player.y-ps.parkedMount.y)/TILE):0;
     h+='<div class="mount-row" style="background:rgba(120,200,255,.10);border:1px solid rgba(120,200,255,.4);margin-bottom:10px">'
-      +'<div class="mr-icon">'+pm.icon+'</div>'
+      +'<div class="mr-icon">'+ZIcon.of(pm,1.5)+'</div>'
       +'<div class="mr-info"><div class="mr-name">Your '+pm.n+' is waiting</div>'
       +'<div class="mr-desc">'+(dist>1?dist+' steps away':'right beside you')+' — call it and it gallops to you</div></div>'
       +'<button class="mr-btn call-mount" style="background:rgba(120,200,255,.28);border-color:rgba(120,200,255,.6);color:#bfe6ff;font-weight:700" onclick="window._callMount()">📣 Call Mount!</button>'
@@ -718,7 +718,7 @@ function _renderMountsModal(ps){
     ps.ownedMounts.forEach(function(mid){
       var m=MOUNTS[mid];if(!m)return;
       var isActive=ps.mount===mid;
-      h+='<div class="mount-row"><div class="mr-icon">'+m.icon+'</div><div class="mr-info"><div class="mr-name">'+m.n+'</div><div class="mr-desc">Speed x'+m.spdMult+' '+(m.canCross?' • Special terrain':'')+'</div></div><button class="mr-btn '+(isActive?'active':'')+'" onclick="window._equipMount(\''+mid+'\')">'+(isActive?'✓ Equipped':'Equip')+'</button></div>';
+      h+='<div class="mount-row"><div class="mr-icon">'+ZIcon.of(m,1.5)+'</div><div class="mr-info"><div class="mr-name">'+m.n+'</div><div class="mr-desc">Speed x'+m.spdMult+' '+(m.canCross?' • Special terrain':'')+'</div></div><button class="mr-btn '+(isActive?'active':'')+'" onclick="window._equipMount(\''+mid+'\')">'+(isActive?'✓ Equipped':'Equip')+'</button></div>';
     });
   }
   document.getElementById('mounts-content').innerHTML=h;

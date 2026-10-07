@@ -54,7 +54,7 @@ function _updateBuffsHUD(){
     var rem=Math.ceil((end-now)/1000);
     var mm=Math.floor(rem/60), ss=rem%60;
     var t=mm+':'+(ss<10?'0':'')+ss;
-    html+='<div class="buff-pill"><span class="b-icon">'+labels[k].icon+'</span><span>'+labels[k].name+'</span><span class="b-time">'+t+'</span></div>';
+    html+='<div class="buff-pill"><span class="b-icon">'+(typeof ZIcon!=='undefined'?ZIcon.html({atkUp:'st_atk',defUp:'st_def',spdUp:'st_speed'}[k],labels[k].icon,1.35):labels[k].icon)+'</span><span>'+labels[k].name+'</span><span class="b-time">'+t+'</span></div>';
   });
   host.innerHTML=html;
 }

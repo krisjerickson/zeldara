@@ -120,13 +120,13 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     return 0; },
   // ── UI ──
   open:function(){ Tome.sync(); var el=document.getElementById('modal-tome'); if(!el){ el=document.createElement('div'); el.className='overlay'; el.id='modal-tome'; el.style.display='none'; el.onclick=function(){ closeModal('tome'); };
-      el.innerHTML='<div class="modal tome-modal" onclick="event.stopPropagation()"><div class="mhdr"><span>📖 The Zeldara Tome</span><button class="mcls" onclick="closeModal(\'tome\')">✕</button></div><div class="tome-body"><div id="tome-tabs"></div><div class="tome-main"><div id="tome-grid"></div><div id="tome-detail"></div></div></div></div>';
+      el.innerHTML='<div class="modal tome-modal" onclick="event.stopPropagation()"><div class="mhdr"><span><span data-zi="ui_tome" data-em="1.3">📖</span> The Zeldara Tome</span><button class="mcls" onclick="closeModal(\'tome\')">✕</button></div><div class="tome-body"><div id="tome-tabs"></div><div class="tome-main"><div id="tome-grid"></div><div id="tome-detail"></div></div></div></div>';
       document.body.appendChild(el);
       el.addEventListener('click',function(e){ var t=e.target.closest('[data-tcat]'); if(t){ Tome.ui.cat=t.dataset.tcat; Tome.ui.sel=null; Tome.ui.q=0; Tome.render(); return; } var q=e.target.closest('[data-tq]'); if(q){ Tome.ui.q=+q.dataset.tq; Tome.render(); return; } var c=e.target.closest('[data-tid]'); if(c){ Tome.ui.sel=c.dataset.tid; Tome.render(); } },true); }   // capture: the book stops click bubbling
     var btn=document.getElementById('tome-btn'); if(btn)btn.classList.remove('tome-new');
     el.style.display='flex'; document.body.classList.add('bars-hidden'); Tome.render(); },
   render:function(){ var b=Tome.book(); if(!b)return; var cat=Tome.ui.cat;
-    document.getElementById('tome-tabs').innerHTML=TOME_CATS.map(function(c){ var L=Tome.list(c.k), n=L.filter(function(id){ return b[c.k][id]; }).length; return '<button data-tcat="'+c.k+'" class="'+(c.k===cat?'on':'')+'">'+c.i+' '+c.n+' <span>'+n+' / '+L.length+'</span></button>'; }).join('');
+    document.getElementById('tome-tabs').innerHTML=TOME_CATS.map(function(c){ var L=Tome.list(c.k), n=L.filter(function(id){ return b[c.k][id]; }).length; return '<button data-tcat="'+c.k+'" class="'+(c.k===cat?'on':'')+'">'+ZIcon.html({monster:'tm_monsters',mount:'tm_mounts',familiar:'tm_familiars',spell:'tm_spells',item:'ui_inventory',place:'tm_places',character:'tab_equip',quest:'ui_quests'}[c.k],c.i,1.35)+' '+c.n+' <span>'+n+' / '+L.length+'</span></button>'; }).join('');
     var ids=Tome.list(cat), qf=Tome.ui.q, groups=[[],[],[],[],[]];
     ids.forEach(function(id){ var e=Tome.entry(cat,id); if(!e)return; var q=Tome.qOf(cat,id,e); if(qf&&q!==qf)return; groups[q].push([id,e]); });
     var qbar='<div class="tome-q">'+['All','Grasslands','Wetlands','Highlands','Ashlands'].map(function(n,i){ return '<button data-tq="'+i+'" class="'+(i===Tome.ui.q?'on':'')+(i?' tq'+i:'')+'">'+n+'</button>'; }).join('')+'</div>';

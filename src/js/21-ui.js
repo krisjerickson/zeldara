@@ -36,7 +36,7 @@ function updateHUD(state){
   } else _hudW('comp-panel','display','none');
   // Update spell + magic weapon slots in action bar
   var spItem=ITEMS[eq.spell];
-  _hudW('action-spell-slot','html','<div class="aib-key">X</div><div class="aib-ico">'+(spItem?spItem.icon:'✨')+'</div><div class="aib-lbl">'+(spItem?spItem.name.replace(/ Tome/,'').replace(/ Scroll/,'').substr(0,8):'Spell')+'</div>'
+  _hudW('action-spell-slot','html','<div class="aib-key">X</div><div class="aib-ico">'+(spItem?ZIcon.of(spItem,1.75):ZIcon.html('ui_spell','✨',1.75))+'</div><div class="aib-lbl">'+(spItem?spItem.name.replace(/ Tome/,'').replace(/ Scroll/,'').substr(0,8):'Spell')+'</div>'
       +(spItem&&ITEMS[eq.mWeapon]?'<div style="font-size:8px;color:#bb88ff;margin-top:1px">×'+(ITEMS[eq.mWeapon].spellMult||1)+'</div>':''));
 }
 
@@ -70,7 +70,7 @@ function renderQuestList(unlockedSections,completed,active,scene){
         var key='s'+sec+'_'+type;
         var done=completed&&completed.includes(key);
         var isAct=active===key;
-        h+='<div class="qitem '+(done?'qdone':'')+' '+(isAct?'qact':'')+'"><div class="qico">'+def.icon+'</div><div class="qinf"><div class="qtit">'+def.title+(done?' ✓':'')+'</div><div class="qdesc">'+def.desc+'</div></div>';
+        h+='<div class="qitem '+(done?'qdone':'')+' '+(isAct?'qact':'')+'"><div class="qico">'+ZIcon.of(def,1.5)+'</div><div class="qinf"><div class="qtit">'+def.title+(done?' ✓':'')+'</div><div class="qdesc">'+def.desc+'</div></div>';
         if(!done&&!isAct)h+='<button class="qacc" onclick="window._acceptQuest(\''+key+'\')">Accept</button>';
         else if(isAct)h+='<span class="qbadge">ACTIVE</span>';
         h+='</div>';
@@ -366,7 +366,7 @@ function updateInventoryModal(ps){
     var cf="window._openSlotPicker2('"+sk+"')" ;
     if(item){
       var st='';if(item.atk)st='+'+item.atk+' ATK';if(item.def)st+=(st?' ':'')+'+'+item.def+' DEF';
-      return '<div class="pd-slot2 pd-filled" onclick="'+cf+'">'+'<div class="pd-label2">'+SLBL[sk]+'</div><div class="pd-icon2">'+item.icon+'</div><div class="pd-name2">'+item.name+'</div>'+(st?'<div class="pd-stat2">'+st+'</div>':'')+'</div>';
+      return '<div class="pd-slot2 pd-filled" onclick="'+cf+'">'+'<div class="pd-label2">'+SLBL[sk]+'</div><div class="pd-icon2">'+ZIcon.of(item,1.5)+'</div><div class="pd-name2">'+item.name+'</div>'+(st?'<div class="pd-stat2">'+st+'</div>':'')+'</div>';
     }else{
       return '<div class="pd-slot2 pd-empty2" onclick="'+cf+'">'+'<div class="pd-label2">'+SLBL[sk]+'</div><div class="pd-icon2" style="font-size:15px;opacity:.3">'+( SICO[sk]||'?')+'</div><div style="font-size:8px;color:#446;margin-top:2px">empty</div></div>';
     }
@@ -414,14 +414,14 @@ function updateInventoryModal(ps){
       var rc="window._openSlotPicker2('"+rk+"')" ;
       if(ritem){
         var rst='';if(ritem.atk)rst='+'+ritem.atk+' ATK';if(ritem.def)rst+=(rst?' ':'')+('+ '+ritem.def+' DEF');
-        h+='<div class="pd-ring-slot pd-ring-filled" onclick="'+rc+'"><span class="pr-icon">'+(ritem.icon)+'</span><span class="pr-name">'+(ritem.name)+'</span>'+(rst?'<span class="pr-stat">'+rst+'</span>':'')+ '</div>';
+        h+='<div class="pd-ring-slot pd-ring-filled" onclick="'+rc+'"><span class="pr-icon">'+ZIcon.of(ritem,1.5)+'</span><span class="pr-name">'+(ritem.name)+'</span>'+(rst?'<span class="pr-stat">'+rst+'</span>':'')+ '</div>';
       }else{ h+='<div class="pd-ring-slot" onclick="'+rc+'"><span class="pr-icon" style="opacity:.28">💍</span><span class="pr-name" style="color:#445">Ring '+ri+'</span></div>';
       }
     }
     h+='<div style="margin-top:8px;font-size:9px;color:#446;text-align:center">2 rings per Tower reward</div>';
     h+='</div></div>'; // /pd-ring-col /pd-body-wrap
   }else if(activeTab==='weapons'){
-    function wRow(id){var it=ITEMS[id];if(!it)return'';var i=inv.indexOf(id);var st=it.atk?'+'+it.atk+' ATK':'';if(it.elementDmg)st+=' +'+it.elementDmg+' '+it.element;if(it.spellMult)st+=' ×'+it.spellMult+' spell';return'<div class="item-row"><span class="ir-icon">'+it.icon+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">'+st+'</span><button class="ir-equip" onclick="window._equipItem('+i+',\''+it.slot+'\')">Equip</button></div>';}
+    function wRow(id){var it=ITEMS[id];if(!it)return'';var i=inv.indexOf(id);var st=it.atk?'+'+it.atk+' ATK':'';if(it.elementDmg)st+=' +'+it.elementDmg+' '+it.element;if(it.spellMult)st+=' ×'+it.spellMult+' spell';return'<div class="item-row"><span class="ir-icon">'+ZIcon.of(it,1.5)+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">'+st+'</span><button class="ir-equip" onclick="window._equipItem('+i+',\''+it.slot+'\')">Equip</button></div>';}
     var ml=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='lHand';}),rl=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='rHand';}),mgw=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='mWeapon';});
     h+='<div class="wep-section-title">⚔ Melee Weapons</div>';
     h+=ml.length?'<div class="item-list">'+ml.map(wRow).join('')+'</div>':'<p style="color:#445;font-size:11px;padding:6px">None in inventory</p>';
@@ -432,10 +432,10 @@ function updateInventoryModal(ps){
   }else if(activeTab==='armor'){
     var ASEC=[{slot:'body',lbl:'Body Armor'},{slot:'shield',lbl:'Shields'},{slot:'head',lbl:'Helmets'},{slot:'gauntlets',lbl:'Gauntlets'},{slot:'pants',lbl:'Pants'},{slot:'feet',lbl:'Boots'},{slot:'back',lbl:'Cloaks'}];
     var any=false;
-    ASEC.forEach(function(s){var it2=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot===s.slot;});if(!it2.length)return;any=true;h+='<div class="wep-section-title">'+s.lbl+'</div><div class="item-list">';it2.forEach(function(id){var it=ITEMS[id];if(!it)return;var i=inv.indexOf(id);var st=it.def?'+'+it.def+' DEF':'';if(it.spdBonus)st+=' +'+(it.spdBonus*100|0)+'% Spd';if(it.atk)st+=' +'+it.atk+' ATK';if(it.cdReduce)st+=' -'+(it.cdReduce*100|0)+'%CD';if(it.manaRegen)st+=' +'+it.manaRegen+'mp/s';if(it.maxMana)st+=' +'+it.maxMana+'MP';h+='<div class="item-row"><span class="ir-icon">'+it.icon+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">'+st+'</span><button class="ir-equip" onclick="window._equipItem('+i+',\''+s.slot+'\')">Equip</button></div>';});h+='</div>';});
+    ASEC.forEach(function(s){var it2=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot===s.slot;});if(!it2.length)return;any=true;h+='<div class="wep-section-title">'+s.lbl+'</div><div class="item-list">';it2.forEach(function(id){var it=ITEMS[id];if(!it)return;var i=inv.indexOf(id);var st=it.def?'+'+it.def+' DEF':'';if(it.spdBonus)st+=' +'+(it.spdBonus*100|0)+'% Spd';if(it.atk)st+=' +'+it.atk+' ATK';if(it.cdReduce)st+=' -'+(it.cdReduce*100|0)+'%CD';if(it.manaRegen)st+=' +'+it.manaRegen+'mp/s';if(it.maxMana)st+=' +'+it.maxMana+'MP';h+='<div class="item-row"><span class="ir-icon">'+ZIcon.of(it,1.5)+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">'+st+'</span><button class="ir-equip" onclick="window._equipItem('+i+',\''+s.slot+'\')">Equip</button></div>';});h+='</div>';});
     if(!any)h='<p style="color:#445;font-size:12px;padding:12px">No armor in inventory</p>';
   }else if(activeTab==='accessories'){
-    function accRow(id,slotKey){var it=ITEMS[id];if(!it)return'';var i=inv.indexOf(id);var st='';if(it.atk)st='+'+it.atk+' ATK';if(it.def)st+=(st?' ':'')+'+'+it.def+' DEF';if(it.spdBonus)st+=(st?' ':'')+'+'+((it.spdBonus*100)|0)+'% Spd';if(it.cdReduce)st+=(st?' ':'')+'-'+((it.cdReduce*100)|0)+'%CD';if(it.manaRegen)st+=(st?' ':'')+'+'+it.manaRegen+'mp/s';if(it.maxMana)st+=(st?' ':'')+'+'+it.maxMana+'MP';return'<div class="item-row"><span class="ir-icon">'+it.icon+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">'+st+'</span><button class="ir-equip" onclick="window._equipItem('+i+',\''+slotKey+'\')">Equip</button></div>';}
+    function accRow(id,slotKey){var it=ITEMS[id];if(!it)return'';var i=inv.indexOf(id);var st='';if(it.atk)st='+'+it.atk+' ATK';if(it.def)st+=(st?' ':'')+'+'+it.def+' DEF';if(it.spdBonus)st+=(st?' ':'')+'+'+((it.spdBonus*100)|0)+'% Spd';if(it.cdReduce)st+=(st?' ':'')+'-'+((it.cdReduce*100)|0)+'%CD';if(it.manaRegen)st+=(st?' ':'')+'+'+it.manaRegen+'mp/s';if(it.maxMana)st+=(st?' ':'')+'+'+it.maxMana+'MP';return'<div class="item-row"><span class="ir-icon">'+ZIcon.of(it,1.5)+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">'+st+'</span><button class="ir-equip" onclick="window._equipItem('+i+',\''+slotKey+'\')">Equip</button></div>';}
     var rings=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='ring';}),amults=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='neck';}),spells=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='spell';});
     h+='<div class="wep-section-title">💍 Rings</div>';h+=rings.length?'<div class="item-list">'+rings.map(function(id){return accRow(id,'ring');}).join('')+'</div>':'<p style="color:#445;font-size:11px;padding:6px">No rings in inventory</p>';
     h+='<div class="wep-section-title">🧿 Amulets</div>';h+=amults.length?'<div class="item-list">'+amults.map(function(id){return accRow(id,'neck');}).join('')+'</div>':'<p style="color:#445;font-size:11px;padding:6px">No amulets in inventory</p>';
@@ -450,7 +450,7 @@ function updateInventoryModal(ps){
       var it=ITEMS[aid];if(!it)return;
       var qty=ammoObj[aid]||0;
       anyAmmo=true;
-      h+='<div class="item-row"><span class="ir-icon">'+it.icon+'</span>'
+      h+='<div class="item-row"><span class="ir-icon">'+ZIcon.of(it,1.5)+'</span>'
         +'<span class="ir-name">'+it.name+'</span>'
         +'<span class="ir-stat" style="color:'+(qty>0?'#88ccff':'#445')+'">× '+qty+'</span>'
         +'<span class="ir-stat" style="color:#445;font-size:9px">'+it.desc+'</span>'
@@ -461,13 +461,13 @@ function updateInventoryModal(ps){
     h+='<p style="font-size:10px;color:#556;margin-top:8px">Arrows require a bow. Darts require a crossbow. Buy ammo at the Armory.</p>';
   }else if(activeTab==='food'){
     var fd=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='food';});
-    h=fd.length?'<div class="item-list">'+fd.map(function(id){var it=ITEMS[id];return'<div class="item-row"><span class="ir-icon">'+it.icon+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">Restores '+it.heal+' HP</span><button class="ir-equip" style="color:#44eeff" onclick="window._useItem('+inv.indexOf(id)+')">Eat</button></div>';}).join('')+'</div>':'<p style="color:#445;font-size:12px;padding:12px">No food in inventory</p>';
+    h=fd.length?'<div class="item-list">'+fd.map(function(id){var it=ITEMS[id];return'<div class="item-row"><span class="ir-icon">'+ZIcon.of(it,1.5)+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">Restores '+it.heal+' HP</span><button class="ir-equip" style="color:#44eeff" onclick="window._useItem('+inv.indexOf(id)+')">Eat</button></div>';}).join('')+'</div>':'<p style="color:#445;font-size:12px;padding:12px">No food in inventory</p>';
   }else if(activeTab==='gems'){
     var gm=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='gem';});
-    h=gm.length?'<div class="item-list">'+gm.map(function(id){var it=ITEMS[id];return'<div class="item-row"><span class="ir-icon">'+it.icon+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">'+it.desc+'</span></div>';}).join('')+'</div>':'<p style="color:#445;font-size:12px;padding:12px">No gems in inventory<br><small style="color:#334">Tip: use gems at the Blacksmith to craft elemental weapons. Sell them at the Jeweler or Merchant.</small></p>';
+    h=gm.length?'<div class="item-list">'+gm.map(function(id){var it=ITEMS[id];return'<div class="item-row"><span class="ir-icon">'+ZIcon.of(it,1.5)+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">'+it.desc+'</span></div>';}).join('')+'</div>':'<p style="color:#445;font-size:12px;padding:12px">No gems in inventory<br><small style="color:#334">Tip: use gems at the Blacksmith to craft elemental weapons. Sell them at the Jeweler or Merchant.</small></p>';
   }else if(activeTab==='potions'){
     var pt=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='use';});
-    h=pt.length?'<div class="item-list">'+pt.map(function(id){var it=ITEMS[id];return'<div class="item-row"><span class="ir-icon">'+it.icon+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">Heals '+it.heal+' HP</span><button class="ir-equip" style="color:#44eeff" onclick="window._useItem('+inv.indexOf(id)+')">Use (P)</button></div>';}).join('')+'</div>':'<p style="color:#445;font-size:12px;padding:12px">No potions in inventory</p>';
+    h=pt.length?'<div class="item-list">'+pt.map(function(id){var it=ITEMS[id];return'<div class="item-row"><span class="ir-icon">'+ZIcon.of(it,1.5)+'</span><span class="ir-name">'+it.name+'</span><span class="ir-stat">Heals '+it.heal+' HP</span><button class="ir-equip" style="color:#44eeff" onclick="window._useItem('+inv.indexOf(id)+')">Use (P)</button></div>';}).join('')+'</div>':'<p style="color:#445;font-size:12px;padding:12px">No potions in inventory</p>';
   }else if(activeTab==='artifacts'){
     h='<div style="padding:20px;text-align:center;color:#557"><div style="font-size:28px;margin-bottom:10px">✨</div><div style="font-size:13px">Artifacts coming soon…</div><div style="font-size:10px;color:#334;margin-top:6px">Powerful passive items unlocked via special quests.</div></div>';
   }else if(activeTab==='skills'){
@@ -475,7 +475,7 @@ function updateInventoryModal(ps){
     var curSk=eq.special?ITEMS[eq.special]:null;
     if(curSk){
       h+='<div style="background:rgba(0,200,80,.08);border:1px solid rgba(0,200,80,.3);border-radius:8px;padding:10px 12px;margin-bottom:10px;display:flex;align-items:center;gap:10px">';
-      h+='<span style="font-size:22px">'+curSk.icon+'</span>';
+      h+='<span style="font-size:22px">'+ZIcon.of(curSk,1.5)+'</span>';
       h+='<div style="flex:1"><div style="font-size:12px;font-weight:700;color:#aee">'+curSk.name+' <span style="font-size:9px;color:#556">(press Z to activate)</span></div>';
       h+='<div style="font-size:10px;color:#446;margin-top:2px">'+(curSk.desc||'')+"</div></div>";
       h+='<button class="ir-equip" style="background:rgba(200,80,80,.15);border-color:rgba(200,80,80,.4);color:#ff8888" onclick="window._unequipSlot(\x27special\x27)">Remove</button></div>';
@@ -486,7 +486,7 @@ function updateInventoryModal(ps){
       h+='<div class="item-list">';
       skItems.forEach(function(id){
         var it=ITEMS[id];if(!it)return;var idx=inv.indexOf(id);var isEq=eq.special===id;
-        h+='<div class="item-row" style="'+(isEq?'border-color:rgba(100,200,100,.4);background:rgba(0,200,80,.06)':'')+'"><span class="ir-icon">'+it.icon+'</span><div style="flex:1"><div class="ir-name">'+it.name+(isEq?' <span style="color:#44ffaa;font-size:9px">(active)</span>':'')+"</div><div class='ir-stat' style='text-align:left;margin-top:2px'>"+(it.desc||'')+"</div></div>"+(isEq?"":"<button class='ir-equip' onclick='window._equipItem("+idx+",'special')'>Equip</button>")+"</div>";
+        h+='<div class="item-row" style="'+(isEq?'border-color:rgba(100,200,100,.4);background:rgba(0,200,80,.06)':'')+'"><span class="ir-icon">'+ZIcon.of(it,1.5)+'</span><div style="flex:1"><div class="ir-name">'+it.name+(isEq?' <span style="color:#44ffaa;font-size:9px">(active)</span>':'')+"</div><div class='ir-stat' style='text-align:left;margin-top:2px'>"+(it.desc||'')+"</div></div>"+(isEq?"":"<button class='ir-equip' onclick='window._equipItem("+idx+",'special')'>Equip</button>")+"</div>";
       });
       h+='</div>';
     }

@@ -49,11 +49,11 @@ var ZSFX={ ctx:null, out:null, muted:false, vol:0.7, _mus:null,
         M.n++; M.next+=M.step; } },100);
     ZSFX._mus=M; },
   stopMusic:function(){ var M=ZSFX._mus, a=ZSFX.ctx; if(!M)return; ZSFX._mus=null; clearInterval(M.iv); try{ M.bus.gain.cancelScheduledValues(a.currentTime); M.bus.gain.setValueAtTime(M.bus.gain.value,a.currentTime); M.bus.gain.exponentialRampToValueAtTime(0.0001,a.currentTime+1.2); M.drone.forEach(function(o){ o.stop(a.currentTime+1.3); }); setTimeout(function(){ try{ M.bus.disconnect(); }catch(e){} },1500); }catch(e){} },
-  setMuted:function(m){ ZSFX.muted=!!m; try{ localStorage.setItem('zeldara_mute',m?'1':'0'); }catch(e){} if(ZSFX.out)ZSFX.out.gain.value=m?0:ZSFX.vol; if(m)ZSFX.stopMusic(); var b=document.getElementById('mute-btn'); if(b)b.textContent=m?'🔇':'🔊'; },
+  setMuted:function(m){ ZSFX.muted=!!m; try{ localStorage.setItem('zeldara_mute',m?'1':'0'); }catch(e){} if(ZSFX.out)ZSFX.out.gain.value=m?0:ZSFX.vol; if(m)ZSFX.stopMusic(); var b=document.getElementById('mute-btn'); if(b)b.innerHTML=(typeof ZIcon!=='undefined')?ZIcon.html(m?'ui_sound_off':'ui_sound_on',m?'🔇':'🔊',1.35):(m?'🔇':'🔊'); },
   toggleMute:function(){ ZSFX.setMuted(!ZSFX.muted); }
 };
 try{ ZSFX.muted=localStorage.getItem('zeldara_mute')==='1'; }catch(e){}
 // browsers only allow audio after a user gesture
 (function(){ var un=function(){ ZSFX._unlocked=true; var a=ZSFX.init(); if(a&&a.state==='suspended')a.resume(); };
   document.addEventListener('keydown',un,{capture:true}); document.addEventListener('pointerdown',un,{capture:true}); })();
-setTimeout(function(){ var b=document.getElementById('mute-btn'); if(b)b.textContent=ZSFX.muted?'🔇':'🔊'; },0);
+setTimeout(function(){ var b=document.getElementById('mute-btn'); if(b)b.innerHTML=(typeof ZIcon!=='undefined')?ZIcon.html(ZSFX.muted?'ui_sound_off':'ui_sound_on',ZSFX.muted?'🔇':'🔊',1.35):(ZSFX.muted?'🔇':'🔊'); },0);

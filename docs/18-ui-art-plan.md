@@ -1,5 +1,7 @@
 # 18 — UI art plan: controls bar, inventory and menus (round 32)
 
+> **Built in round 35** (changelog [319]–[327]): `ZIcon`, the frame, control bar and HUD, the new inventory, icons in shops / quick-pick / quests / mounts / familiars. Open: notifications, map canvas and legend, tome headings, status pills; the painted ornaments.
+
 Kris, Oct 7: the controls at the bottom and the inventory "need better sprites or images … following the Zeldara themes". His choices: **every menu**; **frames drawn in code, icons painted**; inventory as **hero + gear slots + item grid**; **one icon per item**.
 
 ## What is there today
@@ -49,6 +51,5 @@ One set of CSS pieces, used by every menu, in the colours of the game's logo and
 4. Quests, tome, map legend and markers, mounts, familiars, spells and skills, buffs, notifications.
 5. Tests: every item has an icon id; every emoji left in the page is listed and intended.
 
-## Open points (to settle when the pilot is in)
-- Icon size on the bar (40 px tiles today) and whether labels stay under the icons.
-- Whether the hero in the inventory turns or plays his idle animation.
+## Settled (Kris, round 35)
+- Bar: icon + key, name on hover. Hero in the inventory: idle animation.

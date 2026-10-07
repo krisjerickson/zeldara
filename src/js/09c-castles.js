@@ -7,6 +7,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ Object.keys(CASTLE_ISLANDS).forEach(function(k){ var C=CASTLE_ISLANDS[k], W=CHAR_BY_ID[C.warden]; if(!W)return;
   C.rid='cwd_'+k; MON_BY_ID[C.rid]={id:C.rid,name:W.name,q:C.sec,seg:'boss',role:'boss',tier:5,spec:W.spec,tags:[]}; MX.KITS[C.rid]=C.kit; }); })();
+var WARDEN_HP=1.5;      // castle wardens and mage-tower masters: this many times their realm's guardian
 var CASTLE_TOWER_BOSS=['dark_warlock','storm_mage','iron_sentinel','shadow_lord'];
 var CastleRun={
   of:function(site){ return site&&site.castle?CASTLE_ISLANDS[site.castle]:null; },
@@ -14,9 +15,9 @@ var CastleRun={
   // Dungeon site for a castle (entered from the island)
   site:function(key){ var C=CASTLE_ISLANDS[key], S=TOWER_STYLES_BY_ID[C.castle];
     return {id:'isl_castle_'+key,type:'tower',section:C.sec,design:C.castle,castle:key,name:S?S.name:C.name,floors:C.floors}; },
-  // one-phase warden (engine monster) — tougher than a tower's regular guards, weaker than the quadrant boss
+  // one-phase warden (engine monster). Round 35 (Kris): 1.5 × the health of its realm's guardian (base.hp already holds every boss multiplier; it used to be multiplied again, to 4.2 ×) — stronger than a guardian's single phase because the warden has only one.
   spawnWarden:function(scene,C,x,y,mult){ var base=MDEFS[CASTLE_TOWER_BOSS[C.sec-1]]; if(!base)return null; mult=mult||1;
-    var st={hp:Math.round(base.hp*1.4*1.5*BOSS_HP_R12*mult),atk:Math.round(base.atk*0.9*mult),def:Math.round((base.def||0)*mult),lv:base.lvMax||base.lvMin||5,xp:Math.round(base.xp*0.7),gMin:base.gMin,gMax:base.gMax,r:Math.max(16,base.r)};
+    var st={hp:Math.round(base.hp*WARDEN_HP*mult),atk:Math.round(base.atk*0.9*mult),def:Math.round((base.def||0)*mult),lv:base.lvMax||base.lvMin||5,xp:Math.round(base.xp*0.7),gMin:base.gMin,gMax:base.gMax,r:Math.max(16,base.r)};
     var mon=MX.spawn(scene,C.rid,x,y,{q:C.sec,stats:st,scale:2.1/MX.scaleOf(MON_BY_ID[C.rid])});
     if(!mon)return null; mon.isBoss=true; mon._m.aggro=false; mon.bossKey='cw_'+C.key; scene.monsters.push(mon);
     scene._bossGroup=[mon]; scene._bossKey='cw_'+C.key; scene._bossPhase=1; scene._bpEv=[]; BossPhases.hud(scene,true); return mon; },

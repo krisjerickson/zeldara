@@ -17,10 +17,10 @@
 <div id=\"damage-flash\"></div>
 <div id="fire-overlay"></div>
     <div class="hpanel" id="stats-panel">
-      <div class="srow"><span class="sico">❤️</span><div class="barb"><div class="barf" id="hp-bar" style="width:100%;background:#44ff88"></div></div><span class="sval" id="hp-val">30/30</span></div>
-      <div class="srow"><span class="sico">💧</span><div class="barb"><div class="barf" id="mana-bar" style="width:100%"></div></div><span class="sval" id="mana-val">50/50</span></div>
-      <div class="srow"><span class="sico">⭐</span><div class="barb"><div class="barf" id="xp-bar" style="width:0%"></div></div><span class="sval" id="lv-val">Lv 1</span></div>
-      <div class="srow"><span class="sico">💰</span><span class="sval" style="color:#ffd700" id="gold-val">50g</span></div>
+      <div class="srow"><span class="sico" data-zi="ui_heart" data-em="1.25">❤️</span><div class="barb"><div class="barf" id="hp-bar" style="width:100%;background:#44ff88"></div></div><span class="sval" id="hp-val">30/30</span></div>
+      <div class="srow"><span class="sico" data-zi="ui_mana" data-em="1.25">💧</span><div class="barb"><div class="barf" id="mana-bar" style="width:100%"></div></div><span class="sval" id="mana-val">50/50</span></div>
+      <div class="srow"><span class="sico" data-zi="ui_xp" data-em="1.25">⭐</span><div class="barb"><div class="barf" id="xp-bar" style="width:0%"></div></div><span class="sval" id="lv-val">Lv 1</span></div>
+      <div class="srow"><span class="sico" data-zi="ui_gold" data-em="1.25">💰</span><span class="sval" style="color:#ffd700" id="gold-val">50g</span></div>
     </div>
     <div class="hpanel" id="region-panel">
       <div class="rname" id="region-name">Village Center</div>
@@ -35,13 +35,13 @@
   </div>
   <!-- Action bar and icon bar live outside #hud so they persist in all scenes -->
   <div id="action-bar">
-    <button class="abtn" onclick="toggleModal('map')">🗺️ Map</button>
-    <button class="abtn" onclick="toggleModal('quests')">📜 Quests</button>
-    <button class="abtn" onclick="toggleModal('inventory')">🎒 Inventory <span style="font-size:9px;opacity:0.5">(I)</span></button>
-    <button class="abtn" id="tome-btn" onclick="toggleModal('tome')">📖 Tome <span style="font-size:9px;opacity:0.5">(T)</span></button>
-    <button class="abtn abtn-sm" onclick="toggleModal('controls'); if(typeof ZDiff!=='undefined')ZDiff.render();">❓</button>
+    <button class="abtn" onclick="toggleModal('map')"><span data-zi="ui_map" data-em="1.35">🗺️</span> Map</button>
+    <button class="abtn" onclick="toggleModal('quests')"><span data-zi="ui_quests" data-em="1.35">📜</span> Quests</button>
+    <button class="abtn" onclick="toggleModal('inventory')"><span data-zi="ui_inventory" data-em="1.35">🎒</span> Inventory <span style="font-size:9px;opacity:0.5">(I)</span></button>
+    <button class="abtn" id="tome-btn" onclick="toggleModal('tome')"><span data-zi="ui_tome" data-em="1.35">📖</span> Tome <span style="font-size:9px;opacity:0.5">(T)</span></button>
+    <button class="abtn abtn-sm" onclick="toggleModal('controls'); if(typeof ZDiff!=='undefined')ZDiff.render();" title="Controls and difficulty"><span data-zi="ui_help" data-em="1.35">❓</span></button>
     <button class="abtn abtn-sm" id="mute-btn" title="Sound on/off" onclick="ZSFX.toggleMute()">🔊</button>
-    <button class="abtn abtn-sm" onclick="openSandbox()">🔧</button>
+    <button class="abtn abtn-sm" onclick="openSandbox()" title="Dev panel"><span data-zi="ui_dev" data-em="1.35">🔧</span></button>
   </div>
   <!-- Homecast progress overlay -->
   <div id="homecast-overlay" style="display:none;position:fixed;top:44%;left:50%;transform:translate(-50%,-50%);background:rgba(5,10,22,.93);border:2px solid #44aaaa;padding:14px 28px;border-radius:12px;z-index:400;text-align:center;color:#88ffcc;font-family:'Segoe UI',sans-serif;font-size:13px;pointer-events:none">
@@ -52,16 +52,16 @@
     <div id="homecast-hint" style="font-size:10px;color:#556;margin-top:4px">Getting hit cancels</div>
   </div>
   <div id="action-icon-bar" style="pointer-events:all">
-    <div class="aib-slot" onclick="showQuickPick('attack')" title="Switch melee weapon"><div class="aib-key">SPC</div><div class="aib-ico">⚔️</div><div class="aib-lbl">Attack</div></div>
-    <div class="aib-slot" onclick="showQuickPick('ranged')" title="Switch ranged weapon"><div class="aib-key">CTRL</div><div class="aib-ico">🏹</div><div class="aib-lbl">Ranged</div><div id="ammo-hud" style="font-size:9px;color:#88ccff;margin-top:1px">— ammo</div></div>
-    <div class="aib-slot" onclick="doCycleAmmo()" title="Cycle ammo type"><div class="aib-key">C</div><div class="aib-ico">🪃</div><div class="aib-lbl">Ammo</div><div id="ammo-type-hud" style="font-size:9px;color:#88ccff;margin-top:1px">—</div></div>
-    <div class="aib-slot" onclick="showQuickPick('defend')" title="Switch armor"><div class="aib-key">SHIFT</div><div class="aib-ico">🛡️</div><div class="aib-lbl">Defend</div></div>
-    <div class="aib-slot" onclick="showQuickPick('potion')" title="Use potion"><div class="aib-key">P</div><div class="aib-ico">🧪</div><div class="aib-lbl">Potion</div></div>
-    <div class="aib-slot" onclick="showQuickPick('food')" title="Eat food"><div class="aib-key">O</div><div class="aib-ico">🍞</div><div class="aib-lbl">Food</div></div>
-    <div class="aib-slot" id="action-spell-slot" onclick="showQuickPick('spell')" title="Switch spell"><div class="aib-key">X</div><div class="aib-ico">✨</div><div class="aib-lbl">Spell</div></div>
-    <div class="aib-slot" onclick="toggleModal('mounts')" title="Mount/dismount"><div class="aib-key">M</div><div class="aib-ico">🐎</div><div class="aib-lbl">Mount</div></div>
-    <div class="aib-slot" onclick="showQuickPick('familiar')" title="Familiar"><div class="aib-key">N</div><div class="aib-ico">🐾</div><div class="aib-lbl">Familiar</div></div>
-    <div class="aib-slot" onclick="showQuickPick('special')" title="Special ability"><div class="aib-key">Z</div><div class="aib-ico">⚡</div><div class="aib-lbl">Special</div></div>
+    <div class="aib-slot" onclick="showQuickPick('attack')" title="Switch melee weapon"><div class="aib-key">SPC</div><div class="aib-ico" data-zi="ui_attack" data-em="1.75">⚔️</div><div class="aib-lbl">Attack</div></div>
+    <div class="aib-slot" onclick="showQuickPick('ranged')" title="Switch ranged weapon"><div class="aib-key">CTRL</div><div class="aib-ico" data-zi="ui_ranged" data-em="1.75">🏹</div><div class="aib-lbl">Ranged</div><div id="ammo-hud" style="font-size:9px;color:#88ccff;margin-top:1px">— ammo</div></div>
+    <div class="aib-slot" onclick="doCycleAmmo()" title="Cycle ammo type"><div class="aib-key">C</div><div class="aib-ico" data-zi="ui_ammo" data-em="1.75">🪃</div><div class="aib-lbl">Ammo</div><div id="ammo-type-hud" style="font-size:9px;color:#88ccff;margin-top:1px">—</div></div>
+    <div class="aib-slot" onclick="showQuickPick('defend')" title="Switch armor"><div class="aib-key">SHIFT</div><div class="aib-ico" data-zi="ui_defend" data-em="1.75">🛡️</div><div class="aib-lbl">Defend</div></div>
+    <div class="aib-slot" onclick="showQuickPick('potion')" title="Use potion"><div class="aib-key">P</div><div class="aib-ico" data-zi="ui_potion" data-em="1.75">🧪</div><div class="aib-lbl">Potion</div></div>
+    <div class="aib-slot" onclick="showQuickPick('food')" title="Eat food"><div class="aib-key">O</div><div class="aib-ico" data-zi="ui_food" data-em="1.75">🍞</div><div class="aib-lbl">Food</div></div>
+    <div class="aib-slot" id="action-spell-slot" onclick="showQuickPick('spell')" title="Switch spell"><div class="aib-key">X</div><div class="aib-ico" data-zi="ui_spell" data-em="1.75">✨</div><div class="aib-lbl">Spell</div></div>
+    <div class="aib-slot" onclick="toggleModal('mounts')" title="Mount/dismount"><div class="aib-key">M</div><div class="aib-ico" data-zi="ui_mount" data-em="1.75">🐎</div><div class="aib-lbl">Mount</div></div>
+    <div class="aib-slot" onclick="showQuickPick('familiar')" title="Familiar"><div class="aib-key">N</div><div class="aib-ico" data-zi="ui_familiar" data-em="1.75">🐾</div><div class="aib-lbl">Familiar</div></div>
+    <div class="aib-slot" onclick="showQuickPick('special')" title="Special ability"><div class="aib-key">Z</div><div class="aib-ico" data-zi="ui_special" data-em="1.75">⚡</div><div class="aib-lbl">Special</div></div>
   </div>
   <div id="quick-pick-popup" style="display:none;position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:rgba(5,10,22,.97);border:1px solid rgba(100,180,255,.3);border-radius:10px;padding:12px 14px;min-width:220px;max-width:340px;z-index:500;max-height:55vh;overflow-y:auto;pointer-events:all"></div>
   <div id="dungeon-hud">
@@ -115,7 +115,7 @@
   <!-- Quests Modal -->
   <div class="overlay" id="modal-quests" style="display:none" onclick="closeModal('quests')">
     <div class="modal" style="min-width:460px" onclick="event.stopPropagation()">
-      <div class="mhdr"><span>📜 Quest Journal</span><button class="mcls" onclick="closeModal('quests')">✕</button></div>
+      <div class="mhdr"><span><span data-zi="ui_quests" data-em="1.3">📜</span> Quest Journal</span><button class="mcls" onclick="closeModal('quests')">✕</button></div>
       <div id="quest-list-container"></div>
     </div>
   </div>
@@ -123,7 +123,7 @@
   <!-- Inventory Modal -->
     <div class="overlay" id="modal-inventory" style="display:none" onclick="closeModal('inventory')">
     <div class="modal" style="min-width:700px;max-width:860px;width:96vw;max-height:92vh;overflow-y:auto" onclick="event.stopPropagation()">
-      <div class="mhdr"><span>🎒 Character &amp; Inventory</span><button class="mcls" onclick="closeModal('inventory')">✕</button></div>
+      <div class="mhdr"><span><span data-zi="ui_inventory" data-em="1.3">🎒</span> Character &amp; Inventory</span><button class="mcls" onclick="closeModal('inventory')">✕</button></div>
       <div id="inv-tabs" style="display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:8px"></div>
       <div id="inv-content" style="overflow-y:auto;max-height:60vh"></div>
     </div>
@@ -140,7 +140,7 @@
   <!-- Mounts Modal -->
   <div class="overlay" id="modal-mounts" style="display:none" onclick="closeModal('mounts')">
     <div class="modal" style="min-width:340px" onclick="event.stopPropagation()">
-      <div class="mhdr"><span>🐎 Mounts</span><button class="mcls" onclick="closeModal('mounts')">✕</button></div>
+      <div class="mhdr"><span><span data-zi="ui_mount" data-em="1.3">🐎</span> Mounts</span><button class="mcls" onclick="closeModal('mounts')">✕</button></div>
       <div id="mounts-content"></div>
     </div>
   </div>
@@ -148,7 +148,7 @@
   <!-- Controls Modal -->
   <div class="overlay" id="modal-controls" style="display:none" onclick="closeModal('controls')">
     <div class="modal" style="min-width:380px" onclick="event.stopPropagation()">
-      <div class="mhdr"><span>❓ Controls Reference</span><button class="mcls" onclick="closeModal('controls')">✕</button></div>
+      <div class="mhdr"><span><span data-zi="ui_help" data-em="1.3">❓</span> Controls Reference</span><button class="mcls" onclick="closeModal('controls')">✕</button></div>
       <div id="zdiff-box"></div>
       <div style="font-size:11px;color:#667;margin-bottom:12px">Keyboard controls for Quests of Zeldara V2</div>
       <div style="font-size:12px;font-weight:600;color:#88aacc;margin-bottom:6px">Movement & Interaction</div>
@@ -193,7 +193,7 @@
   <!-- Sandbox Modal -->
   <div class="overlay" id="modal-sandbox" style="display:none" onclick="closeModal('sandbox')">
     <div class="modal" style="min-width:360px" onclick="event.stopPropagation()">
-      <div class="mhdr"><span>🔧 Developer Sandbox</span><button class="mcls" onclick="closeModal('sandbox')">✕</button></div>
+      <div class="mhdr"><span><span data-zi="ui_dev" data-em="1.3">🔧</span> Developer Sandbox</span><button class="mcls" onclick="closeModal('sandbox')">✕</button></div>
       <div id="sandbox-content">
         <p style="font-size:12px;color:#667;margin-bottom:12px">Enter password to access dev tools.</p>
         <div style="display:flex;gap:8px;margin-bottom:12px">
