@@ -93,7 +93,7 @@ Object.assign(WorldScene.prototype,{
   },
   _openCache(c){
     var ps=this.playerState, r=c.region, gold=40*r+Math.floor(Math.random()*20*r);
-    var gem={1:'gem_ruby',2:'pearl',3:'gem_sapphire',4:'fire_opal'}[r], pot='potion_a'+r;
+    var gem=ZLoot.realmGem(r,0.3), pot='potion_a'+r;      // a realm gem; three in ten are the realm's rare one (round 37)
     ps.openedCaches.push(c.id); ps.gold+=gold; if(!ps.inventory)ps.inventory=[];
     if(ITEMS[gem])ps.inventory.push(gem); if(ITEMS[pot])ps.inventory.push(pot,pot);
     if(this._interactPrompt){this._interactPrompt.destroy();this._interactPrompt=null;}

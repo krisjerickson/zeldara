@@ -175,9 +175,10 @@ function _fireSceneBow(scene, mode){
   var stats=ws.calcPlayerStats?ws.calcPlayerStats():{atk:ps.atk||3};
   var atkPow=Math.max(1,(rWeapon.atk||6)+Math.floor((stats.atk||0)*0.3));
   // Cooldown + bow animation timer
-  scene[atkField]=0.7;
+  var _xb=rWeapon.cls==='xbow', _cdB=_xb?0.95:0.7; if(_xb)atkPow=Math.round(atkPow*1.15);      // crossbows: slower, harder, and the dart goes through one foe (round 37)
+  scene[atkField]=_cdB;
   var bowField=mode==='dungeon'?'pBowTimer':'iBowTimer';
-  scene[bowField]=0.7;
+  scene[bowField]=_cdB;
   // Player position + direction (different field names per scene)
   var px,py,dir;
   if(mode==='dungeon'){px=scene.px;py=scene.py;dir=scene.pdir||'down';}
@@ -185,12 +186,12 @@ function _fireSceneBow(scene, mode){
   var dirAng={right:0,left:Math.PI,up:-Math.PI/2,down:Math.PI/2}[dir]||0;
   var nx=Math.cos(dirAng),ny=Math.sin(dirAng);
   var spd=sub==='heat'?220:360;
-  var col={normal:0xeedd88,cold:0x88ddff,fire:0xff6600,heat:0xff8800}[sub]||0xeedd88;
+  var col={normal:0xeedd88,cold:0x88ddff,fire:0xff6600,heat:0xff8800,thorn:0x7ad85a,shock:0xffe060}[sub]||0xeedd88;
   var vis=(typeof ZShot!=='undefined'&&ZShot.make(scene,ZShot.ammoKind(ammoId,sub),px,py,dirAng,15))||scene.add.rectangle(px,py,16,4,col).setDepth(15).setAngle(dirAng*180/Math.PI);
   var arrField=mode==='dungeon'?'_dngPlayerProj':'_islPlayerProj';
   if(!scene[arrField])scene[arrField]=[];
   scene[arrField].push({vis:vis,x:px,y:py,vx:nx*spd,vy:ny*spd,
-    dmg:atkPow,life:2.2,hit:false,subtype:sub,
+    dmg:atkPow,life:2.2,hit:false,subtype:sub,pierceN:_xb?1:0,
     tracking:sub==='heat',
     effect:sub==='cold'?'slow':sub==='fire'?'fire':'none',
     effectDur:2.0,splashR:sub==='fire'?70:0});
@@ -214,12 +215,11 @@ function _heroUpdateProjs(scene, mode, dt){
     if(mode!=='dungeon'&&typeof _heroWallAt==='function'&&_heroWallAt(scene,pr.x,pr.y)){pr.vis.destroy();return false;}
     if(pr.hit)return false;
     monsters.forEach(function(mon){
-      if(mon.dead||pr.hit)return;
+      if(mon.dead||pr.hit||(pr._done&&pr._done.indexOf(mon)>=0))return;
       var hitR=(mon.def.r||10)+6;
       if(typeof _hbHit==='function'?!_hbHit(mon,pr.x,pr.y,6):Math.hypot(mon.x-pr.x,mon.y-pr.y)>hitR)return;
       pr.hit=true;
-      var monDef=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
-      var dmg=Math.max(1,pr.dmg-monDef+Math.floor(Math.random()*3));
+      var dmg=ZHit.dmg(scene,mon,pr.dmg+Math.floor(Math.random()*3),'ranged',{sub:pr.subtype});
       MX._src='ranged'; mon.hp-=dmg; MX._src=null;
       if(scene._floatText)scene._floatText(mon.x,mon.y-(mon.def.r||10)-10,'-'+dmg,'#aaddff');
       mon.body.setFillStyle(0xffffff);
@@ -230,7 +230,9 @@ function _heroUpdateProjs(scene, mode, dt){
         if(mode==='dungeon'&&scene._monsterDied)scene._monsterDied(mon);
         else _heroKillMonster(scene, mon);
       }
+      if(pr.pierceN>0){ pr.pierceN--; pr.hit=false; (pr._done=pr._done||[]).push(mon); }      // a crossbow dart goes on through one foe
     });
+    if(pr.hit&&pr.vis){ pr.vis.destroy(); }
     return !pr.hit;
   });
 }

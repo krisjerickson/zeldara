@@ -201,6 +201,9 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
+- (Round 38) Terrain edges: which style per place (Lab tab "Terrain edges"); run the edge sheet command or not; whole world at once or lake shores first.
+- (Round 37) How the Sovereign set is won — four proposals in `claude/20-balance-and-consistency.md` part 7.5 (A one piece per finished set, B forged, C six shrines, D hardest difficulty).
+- (Round 37) Did "for 2X weak or resistance, come up with another way to represent this" mean the named steps (Bane / Weak / Resists / Warded) that were built, or something else?
 - (Round 28) Where did Kris see the old pixel versions — the Claude artifact, the local build, or the hosted site — and does it still happen after round 28's fix?
 
 ## Round 28 — answers (Kris, Oct 6 evening, before leaving for the night)
@@ -208,6 +211,46 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - What makes it harder → **ANSWERED: tougher bosses; faster, smarter bosses; tougher and more monsters.** NOT chosen: less healing / harsher death.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
+
+## Round 38 (Kris, Oct 7) — terrain edges
+- Kris (sent while round 37 was being tested): "we also need to get some better visuals and possible art for interfaces between terrain. Right now some of the worst visuals are when terrain transitions from one to another, i.e. at lake edges, beaches, mountain edges and other. Come up with ideas of how to address, either through better pixel art or through painted features. Create overall recommendations and also turn some of these into options within the lab to choose from"
+- To do: (1) look at how edges are drawn today (lake shores, beaches, cliffs, region borders, paths); (2) recommendations — drawn in code vs painted pieces; (3) several options shown in the Lab for Kris to choose from. Proposals and Lab options first; nothing changes in the game until he picks.
+- Done: changelog [347]–[351]. Recommendations in `claude/21-terrain-edges.md`. Lab tab **Terrain edges**: 6 places × 5 styles (Today, Clean ink line, Feathered blend, Layered shores, Layered + pieces). Two painted edge sheets ordered (wave 38, `.\tools\sprites\edges.ps1`) — optional until he picks.
+- Claude's recommendation: round every outline; layered shores for water and cliffs; a light feather for land against land; a clean ink line for roads; a thin scatter of painted pieces on top.
+- **Waiting for Kris:** his picks in the Lab (one per place; they may differ), whether to run the edge sheet command, and whether to build it for the whole world at once or lake shores first.
+
+## Round 37 (Kris, Oct 7) — his notes on the balance proposals: build all of it
+- Kris: "this is good, but few things: 1. Monsters and equipment can have up to 2 elements, especially for crafted ones, and unique monsters in adventure sites. Bosses should still only have 1 element. There should be 1 of each type of equipment that has all the elements, but we'll create the way to obtain this later. Feel free to come up with proposals of how to do this. 2. For 2X weak or resistance, come up with another way to represent this 3. For new weapons, lets incorporate in crossbows and axes more while we do this revamp 4. For Gems, we need to make sure these are difficult to get at the jeweler, and should be more rewards for adventuring. Come up with proposals of how to do this. 5. Make sure familiars don't get much stronger, as they are already strong as you suggest 6. For order of work, let's go through all of them, and let me know commands for the new art. 7. Finally, we need to represent all of this in the Thome, and create both a forging tree and tech tree to represent all of the skills and advancements of the forges weapons"
+- **DECIDED by Kris:** up to **2 elements** on monsters and equipment (crafted gear and unique monsters of adventure sites especially); **bosses 1 element**; **one piece of each equipment type carries all elements** (how it is obtained comes later — proposals wanted); crossbows and axes get a real place among the new weapons; gems are **hard to get at the jeweller** and are mainly **adventuring rewards**; familiars must **not get much stronger**; **build all five steps**; give the commands for the new art; show everything in the **Tome**, with a **forging tree** and a **tech tree** (skills and forged-weapon advancement).
+- Still decided from round 36: six elements; Water > Fire > Grass > Earth > Water, Storm and Shadow against each other; mounts: fix existing only.
+- Done: changelog [328]–[346]. Art command given and run by Kris (`.\tools\sprites\icons.ps1 -New`, 3 sheets, 66 icons — all in).
+- **Assumptions Claude made (not asked — the request was specific; all easy to change):**
+  1. *"For 2X weak or resistance, come up with another way to represent this"* was read as: when two elements stack, do not show a doubled multiplier — give the steps names and marks. So: ▲▲ Bane, ▲ Weak, ▽ Resists, ▽▽ Warded, shown beside the damage number and in the Tome. **If Kris meant something else, this is the first thing to ask about.**
+  2. Numbers: Bane ×2, Weak ×1.5, Resists ×0.6, Warded ×0.35; bosses ×1.25 / ×0.8; monster defence weight 1.5; armor resistance 12 % a piece, a set gem 10 %, a draught 30 %, cap 50 %; ring or amulet gem +8 % damage; staff +25 % for its element; spell power +3 % a level; element effect one hit in four.
+  3. A monster also resists the element its own element beats (a water monster shrugs off fire), not only its own.
+  4. Castle wardens, tower masters and site elites count as "unique monsters of adventure sites" (up to two elements, full steps). Only the eight realm bosses, island guardians and volcano bosses are "bosses" (one element, gentle steps).
+  5. Weapons get elements from the forge tree only; **gem setting is for armor, shields, amulets and rings**. That is how equipment reaches two elements without hundreds of new items.
+  6. Axes and crossbows became weapon classes with their own feel (axes slower and staggering; crossbows slower, harder, piercing one foe). The existing Crossbow and Bone Crossbow went from 13 / 21 to 16 / 26 attack to match.
+  7. Gems: the jeweller asks for Dungeon Coins as well as gold; coins come only from dungeons, towers, castles, vaults and site elites. Realm chests hold the gems the *next* realm is weak to.
+  8. The emerald became the grass gem (it was lightning). Emeralds in an old save are grass gems now; storm swords already forged are unchanged.
+  9. The six duplicate potions are no longer sold; they still work if a save has them.
+  10. The "all elements" gear is named the **Sovereign set**. The Elemental Sovereign sword keeps its forge recipe; the 13 new pieces have no source yet.
+  11. The Arcane Staff lost its unused "all elements" tag and is now the best staff with no element.
+  12. Step 5's "Lab page" became Dev-panel buttons in the game (element test monsters, forge kit, forge and jeweller anywhere) — quicker for Kris to try than a Lab tab.
+- **Proposals for how the Sovereign set is won (Kris: "feel free to come up with proposals") — in `claude/20-balance-and-consistency.md`, part 7. Waiting for his choice.**
+- Not done: numbers per difficulty level (one set for all four for now); tree chopping (found broken, left alone).
+
+## Round 36 (Kris, Oct 7) — balance and consistency audit
+- Kris: "let's now look for all optimization, clarification and consistency opportunities within the game. Right now there are skills, gems, crafting, monster weaknesses and other aspects that aren't fully consistent or leveraged … come up with recommendations on how we could balance this out, including … monster weaknesses to certain elements, like fire and water, rock and grass, as well as spells, weapons and armor that provides bonuses for attack and defense … make proposals for which weapons, monsters, skills, spells and other aspects … could be transitioned … Also include things like mounts that come from completing questions or dungeons versus mounts that might not become available through a consistent mechanism, and propose new ones".
+- This un-parks "elements" (parked Oct 3) as far as proposals go. **No code was changed.**
+- Written: `claude/20-balance-and-consistency.md` (audit, element system, what moves to it, mounts, order of work, risks).
+- Main findings: weapon elements are display only (22 items); three separate element lists; no monster weak to an element; monster defence still subtracts; the hit is worked out in five places; tonics, antidote, Phoenix Cape, Stormshield, frost "(slows)" and mage gear promise effects that are not built; forge descriptions do not match the recipes; four gems never drop; Horse cannot be bought; Sky Eagle cannot be obtained; Dragon is slower than the Void Serpent.
+- Numbers Claude proposed (for Kris to change): weak ×1.5, resists ×0.5, bosses ×1.25 / ×0.75; armor resistance 10–15 % a piece, cap 50 %; staff +25 % for its element; spell power +3 % a level; forge prices about halved.
+- Asked 4 questions (card). **ANSWERED (Oct 7):**
+  1. How many elements → **six**: Fire, Water, Grass, Earth in a wheel, plus Storm and Shadow as a pair (ice = Water, lightning = Storm, void = Shadow).
+  2. Which wheel → **Water beats Fire, Fire beats Grass, Grass beats Earth, Earth beats Water.** (Not chosen: "each realm's reward beats the next realm".)
+  3. Mounts → **fix the existing ones only** (Horse sold at the stables, Sky Eagle for all four Sky Ports, Sky Port mount always given, Dragon made the best mount, Ember Phoenix fire-safe). **Not chosen:** the four realm-champion mounts, the four set mounts, the War Horse — do not build or re-propose them unless Kris asks.
+  4. What to build first → "nothing yet" at first; **then (round 37) Kris said: build all five steps.**
 
 ## Round 35 (Kris, Oct 7) — before he left: the new UI, wardens
 - Kris: "great, powershell command going, keep on checking as i'm going to be gone for a bit. Ask me anything else you need before i head". The command running is `.\tools\sprites\icons.ps1 -All` (16 icon sheets).

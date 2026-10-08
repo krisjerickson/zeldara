@@ -3,9 +3,12 @@ Reads the items from src/js/03-data.js (through node). Run again after adding it
 The UI lists below are the place to edit names and looks; item looks come from the item's name and slot."""
 import json, re, os, subprocess
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..')
-NODE = r"""const fs=require('fs');let s=fs.readFileSync(process.argv[1],'utf8');const i=s.indexOf('const ITEMS={');let d=0,j=i+12;for(;j<s.length;j++){if(s[j]=='{')d++;else if(s[j]=='}'){d--;if(d==0)break;}}
-process.stdout.write(JSON.stringify(eval('('+s.slice(i+12,j+1)+')')));"""
-I = json.loads(subprocess.run(['node', '-e', NODE, os.path.join(ROOT, 'src', 'js', '03-data.js')], capture_output=True, text=True, check=True).stdout)
+NODE = r"""const fs=require('fs');let s=fs.readFileSync(process.argv[1],'utf8');const key=process.argv[2];const i=s.indexOf(key);const o=key[key.length-1],c=o=='{'?'}':']';let d=0,j=i+key.length-1;for(;j<s.length;j++){if(s[j]==o)d++;else if(s[j]==c){d--;if(d==0)break;}}
+process.stdout.write(JSON.stringify(eval('('+s.slice(i+key.length-1,j+1)+')')));"""
+def _lit(f, key): return json.loads(subprocess.run(['node', '-e', NODE, os.path.join(ROOT, 'src', 'js', f), key], capture_output=True, text=True, check=True).stdout)
+I = _lit('03-data.js', 'var ITEMS={')                 # the items of rounds 1–35: their sheets (waves 34–36) must never change
+I2 = _lit('03b-elements.js', 'var ITEMS_R37={')       # round 37: new items, on their own sheets (wave 37)
+UI2 = _lit('03b-elements.js', 'var ICONS_R37=[')
 NOUN = {'lHand': 'melee weapon', 'rHand': 'ranged weapon', 'mWeapon': 'magic weapon', 'body': 'body armor (the torso piece on its own, no person)', 'shield': 'shield', 'head': 'headgear on its own',
         'pants': 'leg armor on its own', 'gauntlets': 'pair of gauntlets', 'feet': 'pair of boots', 'neck': 'amulet on a chain', 'back': 'cloak on its own, hanging open', 'ring': 'finger ring',
         'gem': 'gem or treasure', 'key': 'ornate key', 'ammo': 'ammunition', 'use': 'potion bottle', 'food': 'food', 'spell': 'spell emblem', 'special': 'skill emblem', 'material': 'material', 'misc': 'item'}
@@ -60,6 +63,12 @@ UI = [('sc_ic_ui_1', 33, 1, 'Control-bar and menu icons', 5, 5, [
     ('sc_ic_orn', 33, 0, 'Panel ornaments — carved dark stone inlaid with glowing teal runes and thin gold edges; each drawn flat, straight from the front', 3, 2, [
     ('orn_corner', 'Corner flourish', 'an L-shaped corner piece of carved stone knotwork, for the top-left corner of a panel'), ('orn_divider', 'Divider', 'a long thin horizontal bar of knotwork with a small teal gem in the middle'), ('orn_banner', 'Header banner', 'a wide dark-green cloth ribbon banner with forked ends and a gold edge, blank'),
     ('orn_medallion', 'Medallion', 'a round stone ring frame with runes round it, empty in the middle'), ('orn_arrow', 'Arrow', 'a small carved stone arrowhead pointing right'), ('orn_plate', 'Name plate', 'a small blank brass plate with two rivets')])]
+ITEM_SHEETS2 = [('sc_ic_melee2', 37, 'Item icons — axes, mauls and two-element blades (round 37)', ['lHand'], 5, 4), ('sc_ic_ranged2', 37, 'Item icons — crossbows, staffs, arrows and darts (round 37)', ['rHand', 'mWeapon', 'ammo'], 5, 5),
+                ('sc_ic_misc2', 37, 'Item icons — gems, draughts, the Sovereign armor, and five menu symbols (round 37)', ['gem', 'ring', 'use', 'shield', 'body', 'head', 'pants', 'gauntlets', 'feet', 'neck', 'back'], 5, 5)]
+NOUN2 = dict(NOUN); NOUN2.update({'lHand': 'melee weapon', 'rHand': 'ranged weapon'})
+def look2(k, it):
+    slot = slot_of(it); cls = it.get('cls'); noun = 'battle axe or maul' if cls == 'axe' else 'crossbow' if cls == 'xbow' else NOUN2.get(slot, 'item')
+    return noun + ': ' + it.get('pic', it['name'])
 rows = []; n = 0
 for sid, wave, pilot, title, c, r, items in UI:
     assert len(items) <= c * r, (sid, len(items)); n += len(items)
@@ -69,6 +78,11 @@ for sid, wave, title, slots, c, r in ITEM_SHEETS:
     items = [(k, it) for s in slots for k, it in I.items() if slot_of(it) == s]; assert len(items) <= c * r, (sid, len(items)); n += len(items)
     rows.append("    {id:'%s',wave:%d,fam:'icons',kind:'icon',cols:%d,rows:%d,size:'%s',title:'%s',items:[\n      %s]}" % (sid, wave, c, r, '1024x1024' if c == r else '1536x1024', q(title),
                 ",".join("['ic_%s','%s','%s',48,48]" % (k, q(it['name']), q(look(k, it))) for k, it in items)))
+for sid, wave, title, slots, c, r in ITEM_SHEETS2:
+    items = [(k, it) for s_ in slots for k, it in I2.items() if slot_of(it) == s_]; extra = UI2 if sid == 'sc_ic_misc2' else []
+    assert len(items) + len(extra) <= c * r, (sid, len(items) + len(extra)); n += len(items) + len(extra)
+    rows.append("    {id:'%s',wave:%d,fam:'icons',kind:'icon',cols:%d,rows:%d,size:'%s',title:'%s',items:[\n      %s]}" % (sid, wave, c, r, '1024x1024' if c == r else '1536x1024', q(title),
+                ",".join(["['ic_%s','%s','%s',48,48]" % (k, q(it['name']), q(look2(k, it))) for k, it in items] + ["['%s','%s','%s',48,48]" % (a, q(b), q(cc)) for a, b, cc in extra])))
 js = """// ═══════════════════════════════════════════════════════════════════════
 // ║ 07zv-icons.js — painted icons for the controls, the menus and every item (round 32).
 // ║ MADE BY tools/sprites/make_icons.py — edit the lists there and run it again; do not edit this file by hand.
@@ -80,7 +94,7 @@ js = """// ═══════════════════════
 // ║ Kris (Oct 7): every menu; frames drawn in code, icons painted; one icon per item.
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof ZSCN==='undefined')return;
-  ZSCN.WAVES[33]='Icons: controls, gear slots, map, status'; ZSCN.WAVES[34]='Icons: weapons'; ZSCN.WAVES[35]='Icons: armor and accessories'; ZSCN.WAVES[36]='Icons: treasure, potions, food, spells, skills';
+  ZSCN.WAVES[33]='Icons: controls, gear slots, map, status'; ZSCN.WAVES[34]='Icons: weapons'; ZSCN.WAVES[35]='Icons: armor and accessories'; ZSCN.WAVES[36]='Icons: treasure, potions, food, spells, skills'; ZSCN.WAVES[37]='Icons: round 37 — axes, crossbows, staffs, gems, the Sovereign set';
   ZSCN.VIEW.icon='View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.';
   ZSCN.SHEETS=ZSCN.SHEETS.concat([
 """ + ",\n".join(rows) + """
@@ -88,4 +102,4 @@ js = """// ═══════════════════════
 })();
 """
 open(os.path.join(ROOT, 'src', 'js', '07zv-icons.js'), 'w', encoding='utf-8').write(js)
-print('07zv-icons.js: %d sheets, %d icons (%d items)' % (len(rows), n, len(I)))
+print('07zv-icons.js: %d sheets, %d icons (%d + %d items)' % (len(rows), n, len(I), len(I2)))

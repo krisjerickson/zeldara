@@ -46,15 +46,16 @@ function _updateBuffsHUD(){
   if(!host)return;
   if(!ps||!ps.buffs){host.innerHTML='';return;}
   var now=Date.now();
-  var labels={atkUp:{icon:'⚔️',name:'ATK +25%'},defUp:{icon:'🛡️',name:'DEF +25%'},spdUp:{icon:'⚡',name:'SPD +25%'}};
+  var labels={atkUp:{icon:'⚔️',name:'ATK +25%'},defUp:{icon:'🛡️',name:'DEF +25%'},spdUp:{icon:'⚡',name:'SPD +25%'}}, _zic={atkUp:'st_atk',defUp:'st_def',spdUp:'st_speed'}, _keys=['atkUp','defUp','spdUp'];
+  if(typeof ZEL!=='undefined')ZEL.LIST.forEach(function(e){ labels['res_'+e]={icon:ZEL.E[e].em,name:ZEL.E[e].n+' ward +30%'}; _zic['res_'+e]=ZEL.E[e].ic; _keys.push('res_'+e); });      // resistance draughts (round 37)
   var html='';
-  ['atkUp','defUp','spdUp'].forEach(function(k){
+  _keys.forEach(function(k){
     var end=ps.buffs[k]||0;
     if(end<=now)return;
     var rem=Math.ceil((end-now)/1000);
     var mm=Math.floor(rem/60), ss=rem%60;
     var t=mm+':'+(ss<10?'0':'')+ss;
-    html+='<div class="buff-pill"><span class="b-icon">'+(typeof ZIcon!=='undefined'?ZIcon.html({atkUp:'st_atk',defUp:'st_def',spdUp:'st_speed'}[k],labels[k].icon,1.35):labels[k].icon)+'</span><span>'+labels[k].name+'</span><span class="b-time">'+t+'</span></div>';
+    html+='<div class="buff-pill"><span class="b-icon">'+(typeof ZIcon!=='undefined'?ZIcon.html(_zic[k],labels[k].icon,1.35):labels[k].icon)+'</span><span>'+labels[k].name+'</span><span class="b-time">'+t+'</span></div>';
   });
   host.innerHTML=html;
 }

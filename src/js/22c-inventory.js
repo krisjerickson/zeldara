@@ -26,7 +26,7 @@ var ZINV={filter:'all',sel:null,timer:null,
   // one slot tile round the hero
   slot:function(ps,sk,small){ var id=(ps.equip||{})[sk], it=id&&ITEMS[id], base=sk.indexOf('ring')===0?'ring':sk, on=ZINV.sel&&ZINV.sel.k==='eq'&&ZINV.sel.slot===sk, nm=ZINV.SLOT_NAME[base]+(base==='ring'?' '+sk.slice(4):'');
     return '<div class="zv-slot'+(small?' sm':'')+(it?' full':'')+(on?' on':'')+'" data-tip="'+(it?it.name+' — ':'')+nm+(it?'':' (empty)')+'" onclick="ZINV.pickSlot(\''+sk+'\')" ondblclick="ZINV.actSlot(\''+sk+'\')">'+
-      (it?ZIcon.item(id,small?1.9:2.6):ZIcon.html('sl_'+base,ZINV.SLOT_FB[base],small?1.7:2.3,'zv-empty'))+'</div>'; },
+      (it?ZIcon.item(id,small?1.9:2.6)+(typeof ZElUI!=='undefined'?ZElUI.pips(it):''):ZIcon.html('sl_'+base,ZINV.SLOT_FB[base],small?1.7:2.3,'zv-empty'))+'</div>'; },
   quick:function(tip,html,on,click){ return '<div class="zv-slot sm'+(on?' full':'')+'" data-tip="'+tip+'" onclick="'+click+'">'+html+'</div>'; },
   render:function(ps){ var W=ZINV.ws(); if(!ps){ if(!W||!W.playerState)return; ps=W.playerState; } var inv=ps.inventory||[], eq=ps.equip||{}, st=calcStatsFromState(ps), F=ZINV.filter;
     var tb=document.getElementById('inv-tabs'), ct=document.getElementById('inv-content'); if(!ct)return; if(tb){ tb.innerHTML=''; tb.style.display='none'; }
@@ -43,7 +43,7 @@ var ZINV={filter:'all',sel:null,timer:null,
     h+='<div class="zv-rings">'; for(var r=1;r<=10;r++)h+=ZINV.slot(ps,'ring'+r,true); h+='</div>';
     var S=function(ico,fb,lbl,val){ return '<div class="zv-st">'+ZIcon.html(ico,fb,1.25)+'<span>'+lbl+'</span><b>'+val+'</b></div>'; };
     h+='<div class="zv-stats">'+S('ui_heart','❤️','Health',ps.hp+' / '+ps.maxHp)+S('ui_mana','💧','Mana',Math.floor(ps.mana||0)+' / '+ps.maxMana)+S('ui_attack','⚔️','Attack',st.atk)+S('ui_defend','🛡️','Defense',st.def)+S('ui_gold','💰','Gold',ps.gold)+S('ui_xp','⭐','Experience',ps.xp+' / '+(ps.level*100))+
-      (st.spdBonus>0?S('st_speed','💨','Speed','+'+Math.round(st.spdBonus*100)+'%'):'')+(st.cdReduce>0?S('st_haste','⏳','Cooldown','−'+Math.round(st.cdReduce*100)+'%'):'')+(st.manaRegen>0?S('ui_mana','💧','Mana regen',(4+st.manaRegen).toFixed(1)+'/s'):'')+'</div></div>';
+      (st.spdBonus>0?S('st_speed','💨','Speed','+'+Math.round(st.spdBonus*100)+'%'):'')+(st.cdReduce>0?S('st_haste','⏳','Cooldown','−'+Math.round(st.cdReduce*100)+'%'):'')+(st.manaRegen>0?S('ui_mana','💧','Mana regen',(4+st.manaRegen).toFixed(1)+'/s'):'')+'</div>'+(typeof ZElUI!=='undefined'&&ZElUI.resLine(ps)?'<div class="zv-res"><span class="l">Resists</span>'+ZElUI.resLine(ps)+'</div>':'')+'</div>';
     // ── right: tabs, tiles, detail ──
     h+='<div class="zv-right"><div class="zv-tabs">'+ZINV.TABS.map(function(t){ return '<button class="inv-tab-btn'+(F===t[0]?' itab-active':'')+'" data-tip="'+t[1]+'" onclick="ZINV.setFilter(\''+t[0]+'\')">'+ZIcon.html(t[2],t[3],1.5)+'<span>'+t[1]+'</span></button>'; }).join('')+'</div>';
     var T=ZINV.TABS.filter(function(t){ return t[0]===F; })[0]||ZINV.TABS[0], want=T[4], cnt={}, order=[];
@@ -52,7 +52,7 @@ var ZINV={filter:'all',sel:null,timer:null,
     var rank={lHand:1,rHand:2,mWeapon:3,body:4,shield:5,head:6,gauntlets:7,pants:8,feet:9,neck:10,back:11,ring:12,spell:13,special:14,use:15,food:16,ammo:17,gem:18,key:19,material:20,misc:21};
     order.sort(function(a,b){ var A=ITEMS[a],B=ITEMS[b]; return (rank[ZINV.slotOf(A)]||30)-(rank[ZINV.slotOf(B)]||30)||((B.atk||0)+(B.def||0)+(B.heal||0))-((A.atk||0)+(A.def||0)+(A.heal||0))||A.name.localeCompare(B.name); });
     h+='<div class="zv-grid">'+(order.length?order.map(function(id){ var it=ITEMS[id], on=ZINV.sel&&ZINV.sel.k==='inv'&&ZINV.sel.id===id, sl=ZINV.slotOf(it), cur=eq[sl]&&ITEMS[eq[sl]], up=cur&&((it.atk||0)+(it.def||0))>((cur.atk||0)+(cur.def||0));
-        return '<div class="zv-tile'+(on?' on':'')+'" data-tip="'+it.name.replace(/"/g,'&quot;')+'" onclick="ZINV.pick(\''+id+'\')" ondblclick="ZINV.act(\''+id+'\')">'+ZIcon.item(id,2.5)+(cnt[id]>1?'<b class="zv-n">'+cnt[id]+'</b>':'')+(up?'<i class="zv-up">▲</i>':'')+'</div>'; }).join(''):
+        return '<div class="zv-tile'+(on?' on':'')+'" data-tip="'+it.name.replace(/"/g,'&quot;')+'" onclick="ZINV.pick(\''+id+'\')" ondblclick="ZINV.act(\''+id+'\')">'+ZIcon.item(id,2.5)+(typeof ZElUI!=='undefined'?ZElUI.pips(it):'')+(cnt[id]>1?'<b class="zv-n">'+cnt[id]+'</b>':'')+(up?'<i class="zv-up">▲</i>':'')+'</div>'; }).join(''):
       '<div class="zv-none">'+(F==='all'?'Your pack is empty. Shops, chests and fallen monsters will fill it.':'Nothing of this kind in your pack.')+'</div>')+'</div>';
     h+='<div class="zv-detail">'+ZINV.detail(ps)+'</div></div></div>';
     if(F==='magic'&&typeof CASTLE_ISLANDS!=='undefined'){ var learned=ps.skillsLearned||[]; h+='<div class="zv-foot"><b>The twelve masters</b> — '+learned.length+' / 12 skills learned. Each castle island holds a master who teaches one.</div>'; }

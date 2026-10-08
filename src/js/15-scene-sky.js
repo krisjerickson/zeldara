@@ -291,33 +291,22 @@ class SkyScene extends Phaser.Scene{
     var W=this.W,H=this.H;
     // Reward choices — scale by section
     var sec=this.site?this.site.section||1:1;
+    // Round 37 (Kris): the port's mount is always given on the first victory; the choice is a weapon or gems.
+    var MT={1:'sky_glider',2:'storm_drake',3:'ember_phoenix',4:'void_serpent'}[sec]||'void_serpent';
+    if(!ps.ownedMounts)ps.ownedMounts=[];
+    if(ps.ownedMounts.indexOf(MT)<0){ ps.ownedMounts.push(MT); showNotif(MOUNTS[MT].icon+'  '+MOUNTS[MT].n+' — the port\'s mount is yours!','#aaddff'); if(typeof Tome!=='undefined'&&Tome.see)Tome.see('mount',MT); }
+    if(typeof _zMountChecks==='function'&&_zMountChecks(ps))this.time.delayedCall(1400,function(){ showNotif('🦅  All four Sky Ports stand — Captain Vela gives you the Sky Eagle!','#ffe9a8'); });
     var rewardsBySec={
-      1:[
-        {id:'iron_sword',   label:'Iron Sword',    icon:'⚔️',  desc:'+7 ATK — Sky-forged iron'},
-        {id:'sky_glider',   label:'Sky Glider',    mount:true, icon:'🪁',  desc:'1.8× speed — new sky mount'},
-        {id:'gem_ruby',     label:'Ruby',          icon:'💎',  desc:'Worth 40g — fire gem'},
-      ],
-      2:[
-        {id:'long_sword',   label:'Long Sword',    icon:'🗡️', desc:'+10 ATK — tempered sky-steel'},
-        {id:'storm_drake',  label:'Storm Drake',   mount:true, icon:'🐲',  desc:'2.0× speed, flies over all terrain'},
-        {id:'gem_sapphire', label:'Sapphire',      icon:'💠',  desc:'Worth 80g — ice gem'},
-      ],
-      3:[
-        {id:'flame_sword',  label:'Flame Sword',   icon:'🔥',  desc:'+16 ATK — elemental fire blade'},
-        {id:'ember_phoenix',label:'Ember Phoenix', mount:true, icon:'🦜',  desc:'1.9× speed, crosses magma'},
-        {id:'gem_emerald',  label:'Emerald',       icon:'🟢',  desc:'Worth 120g — lightning gem'},
-      ],
-      4:[
-        {id:'sky_sword',    label:'Sky Sword',     icon:'✨',  desc:'+28 ATK — Sky-forged blade'},
-        {id:'void_serpent', label:'Void Serpent',  mount:true, icon:'🐦',  desc:'2.2× speed, flies everywhere'},
-        {id:'skystone',     label:'Skystone',      icon:'💫',  desc:'Worth 200g — rare sky gem'},
-      ],
+      1:[{id:'iron_sword',  label:'Iron Sword',  icon:'⚔️', desc:'+5 ATK — sky-forged iron'},              {id:'gem_topaz',n:2,label:'2 Topaz',   icon:'🟡', desc:'The storm gem — for forging and gem setting'}],
+      2:[{id:'long_sword',  label:'Long Sword',  icon:'🗡️',desc:'+10 ATK — tempered sky-steel'},          {id:'gem_topaz',n:3,label:'3 Topaz',   icon:'🟡', desc:'The storm gem — for forging and gem setting'}],
+      3:[{id:'flame_sword', label:'Flame Sword', icon:'🔥', desc:'+16 ATK +4 fire — a blade of sky-fire'}, {id:'skystone', n:1,label:'Skystone',  icon:'💫', desc:'Rare storm gem — for master-work forging'}],
+      4:[{id:'sky_sword',   label:'Sky Sword',   icon:'✨', desc:'+28 ATK +6 storm — sky-forged blade'},   {id:'skystone', n:2,label:'2 Skystones',icon:'💫', desc:'Rare storm gem — for master-work forging'}]
     };
     var rewards=rewardsBySec[sec]||rewardsBySec[4];
     var bg=self.add.rectangle(W/2,H/2,W*0.7,200,0x050a18,0.95).setStrokeStyle(2,0x88aaff).setDepth(20);
     self.add.text(W/2,H/2-80,'Choose 1 Reward',{fontSize:'16px',color:'#aaddff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5).setDepth(21);
     rewards.forEach(function(r,i){
-      var bx=W/2+(i-1)*160;
+      var bx=W/2+(i-(rewards.length-1)/2)*170;
       var btn=self.add.rectangle(bx,H/2,140,90,0x112233,0.9).setStrokeStyle(1,0x4488aa).setInteractive({useHandCursor:true}).setDepth(21);
       self.add.text(bx,H/2-28,r.icon,{fontSize:'26px',fontFamily:'serif'}).setOrigin(.5).setDepth(22);
       self.add.text(bx,H/2+4,r.label,{fontSize:'11px',color:'#aaccff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5).setDepth(22);
@@ -332,7 +321,7 @@ class SkyScene extends Phaser.Scene{
           showNotif(r.icon+'  '+r.label+' mount unlocked!','#aaddff');
         } else {
           if(!ps2.inventory)ps2.inventory=[];
-          ps2.inventory.push(r.id);
+          for(var _n=0;_n<(r.n||1);_n++)ps2.inventory.push(r.id);
           var it=ITEMS[r.id];
           showNotif((it?it.icon:r.icon||'')+'  '+r.label+' added to inventory!','#aaddff');
         }

@@ -10,7 +10,7 @@ def check(n, ok, info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ') + n + ('  ' + str(info)[:460] if info != '' else ''), flush=True)
 J = json.load(open(os.path.join(R, 'sprites', 'requests', 'scenery.json')))
 ic = [q for q in J['requests'] if q['fam'] == 'icons']; ids = [i['id'] for q in ic for i in q['items']]
-check('Icons: 16 sheets in waves 33–36, the control-bar sheet is the style anchor of the others', len(ic) == 16 and all(q['wave'] in (33, 34, 35, 36) and q['kind'] == 'icon' for q in ic) and all('sc_ic_ui_1' in q['refs'] for q in ic if q['id'] != 'sc_ic_ui_1'), [len(ic)])
+check('Icons: 19 sheets in waves 33–37 (round 37 added three), the control-bar sheet is the style anchor of the others', len(ic) == 19 and all(q['wave'] in (33, 34, 35, 36, 37) and q['kind'] == 'icon' for q in ic) and all('sc_ic_ui_1' in q['refs'] for q in ic if q['id'] != 'sc_ic_ui_1'), [len(ic)])
 with game(painted=True) as g:
     g.wait(2000)
     r = g.js("Object.keys(ITEMS).filter(function(k){ return !ZSCN.items().some(function(i){ return i.id==='ic_'+k; }); })")

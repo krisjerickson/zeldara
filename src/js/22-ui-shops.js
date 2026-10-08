@@ -65,7 +65,8 @@ window._useItem=function(idx){
     var bMsg={atkUp:'+25% ATK',defUp:'+25% DEF',spdUp:'+25% SPD'}[b];
     showNotif(item.icon+' +'+item.heal+' HP & '+bMsg+' for 2 min','#ffcc44');
   } else {
-    showNotif(item.icon+' Healed '+item.heal+' HP!','#44ffaa');
+    var _fx=typeof ZHit!=='undefined'?ZHit.useFx(ps,item):'';      // tonics, antidote, resistance draughts (round 37)
+    showNotif(item.icon+' '+(_fx?item.name+' — '+_fx+(item.heal>5?' · +'+item.heal+' HP':''):'Healed '+item.heal+' HP!'),'#44ffaa');
   }
   updateInventoryModal(ps);ws._emitUI();
 };
@@ -227,20 +228,21 @@ function _fireWorldBow(ws){
   var subtype=ammoItem?ammoItem.subtype:'normal';
   var stats=ws.calcPlayerStats();
   var atkPow=Math.max(1,(rWeapon.atk||6)+Math.floor(stats.atk*0.3));
-  ws.worldAtkTimer=0.7;ws.worldBowTimer=0.7; if(ws._mountCombat)ws._mountCombat();
+  var _xb=rWeapon.cls==='xbow', _cdB=_xb?0.95:0.7; if(_xb)atkPow=Math.round(atkPow*1.15);      // crossbows: slower, harder, and the dart goes through one foe (round 37)
+  ws.worldAtkTimer=_cdB;ws.worldBowTimer=_cdB; if(ws._mountCombat)ws._mountCombat();
   var p=ws.player;
   // Direction-based aiming: facing direction + optional 45° modifier
   var _aimAng=ws._getAimAngle();
   var nx=Math.cos(_aimAng),ny=Math.sin(_aimAng);
   var spd=subtype==='heat'?220:360;
-  var col={normal:0xeedd88,cold:0x88ddff,fire:0xff6600,heat:0xff8800}[subtype]||0xeedd88;
+  var col={normal:0xeedd88,cold:0x88ddff,fire:0xff6600,heat:0xff8800,thorn:0x7ad85a,shock:0xffe060}[subtype]||0xeedd88;
   var vis=(typeof ZShot!=='undefined'&&ZShot.make(ws,ZShot.ammoKind(ammoId,subtype),p.x,p.y,Math.atan2(ny,nx),15))||ws.add.rectangle(p.x,p.y,16,4,col).setDepth(15).setAngle(Math.atan2(ny,nx)*180/Math.PI);
   if(!ws._playerProj)ws._playerProj=[];
   ws._playerProj.push({
     vis:vis,x:p.x,y:p.y,
     vx:nx*spd,vy:ny*spd,
     dmg:atkPow,life:2.2,hit:false,
-    type:'arrow',subtype:subtype,
+    type:'arrow',subtype:subtype,pierceN:_xb?1:0,
     tracking:subtype==='heat',
     effect:subtype==='cold'?'slow':subtype==='fire'?'fire':'none',
     effectDur:2.0,
@@ -506,10 +508,10 @@ var BUILDING_SLOTS={
 };
 var BUILDING_TITLES={
   armory:'\u2694\uFE0F Armory \u2014 Weapons & Armor',
-  clothing:'\U0001F9E5 Clothing \u2014 Apparel & Footwear',
-  jeweler:'\U0001F48D Jeweler \u2014 Amulets, Rings & Gems',
-  apothecary:'\U0001F52E Sorcerer\u2019s Apothecary \u2014 Spells & Potions',
-  merchant:'\U0001F35E Merchant \u2014 Food & Supplies',
+  clothing:'🧥 Clothing \u2014 Apparel & Footwear',
+  jeweler:'💍 Jeweller \u2014 Amulets, Rings & Gems',
+  apothecary:'🔮 Sorcerer\u2019s Apothecary \u2014 Spells & Potions',
+  merchant:'🍞 Merchant \u2014 Food & Supplies',
 };
 // Track merchant shop mode globally
 var _merchantShopMode='buy'; // 'buy' or 'sell'
@@ -562,6 +564,7 @@ function openBuildingShop(btype,ps,worldScene){
     var reqSec=it.secReq||0;
     if(reqSec>maxSec){return;} // locked
     if(!it.buy&&it.slot!=='gem')return; // no buy price (tower rewards etc.)
+    if(!it.buy&&it.slot==='gem'&&(ps.inventory||[]).indexOf(id)<0)return;      // gems: only the ones you carry are listed to sell (round 37)
     found=true;
     var canAfford=it.buy?ps.gold>=it.buy:false;
     var stat='';
@@ -687,7 +690,7 @@ window._buyAmmoQuick=function(id){
   updateInventoryModal(ps);
 };
 
-function openMountsModal(ps,worldScene){ _renderMountsModal(ps); toggleModal('mounts'); }
+function openMountsModal(ps,worldScene){ var st=!!window._atStables; toggleModal('mounts'); window._atStables=st; _renderMountsModal(ps); }      // (called by the stables; the menu key goes through toggleModal, which clears the flag)
 function _renderMountsModal(ps){
   var h='<p style="font-size:11px;color:#667;margin-bottom:12px">Owned mounts. Click to ride; attacking makes you jump off — your mount waits where you left it.</p>';
   // A mount waiting somewhere in the world: call it back
@@ -712,13 +715,17 @@ function _renderMountsModal(ps){
       +'<button class="mr-btn" style="background:rgba(255,140,80,.25);border-color:rgba(255,140,80,.5);color:#ffb088" onclick="window._dismount()">🚶 Dismount</button>'
       +'</div>';
   }
+  // The stables sell the horse (round 37): the price was in the data all along, but nothing charged it
+  if((!ps.ownedMounts||ps.ownedMounts.indexOf('horse')<0)&&MOUNTS.horse){ var _hc=MOUNTS.horse.cost||200;
+    h+='<div class="mount-row" style="background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.3);margin-bottom:10px"><div class="mr-icon">'+ZIcon.of(MOUNTS.horse,1.5)+'</div><div class="mr-info"><div class="mr-name">Horse — '+_hc+' g</div><div class="mr-desc">Speed x'+MOUNTS.horse.spdMult+' • '+(window._atStables?'for sale here':'sold at the stables in the village')+'</div></div>'
+      +(window._atStables?'<button class="mr-btn" '+(ps.gold>=_hc?'':'disabled style="opacity:.45"')+' onclick="window._buyHorse()">Buy</button>':'')+'</div>'; }
   if(!ps.ownedMounts||ps.ownedMounts.length===0){
-    h+='<p style="font-size:12px;color:#445;padding:8px">No mounts yet — defeat dungeon bosses to earn them!</p>';
+    h+='<p style="font-size:12px;color:#445;padding:8px">No mounts yet — the stables sell a horse, and each realm\'s boss dungeon gives its own mount.</p>';
   } else {
     ps.ownedMounts.forEach(function(mid){
       var m=MOUNTS[mid];if(!m)return;
       var isActive=ps.mount===mid;
-      h+='<div class="mount-row"><div class="mr-icon">'+ZIcon.of(m,1.5)+'</div><div class="mr-info"><div class="mr-name">'+m.n+'</div><div class="mr-desc">Speed x'+m.spdMult+' '+(m.canCross?' • Special terrain':'')+'</div></div><button class="mr-btn '+(isActive?'active':'')+'" onclick="window._equipMount(\''+mid+'\')">'+(isActive?'✓ Equipped':'Equip')+'</button></div>';
+      h+='<div class="mount-row"><div class="mr-icon">'+ZIcon.of(m,1.5)+'</div><div class="mr-info"><div class="mr-name">'+m.n+'</div><div class="mr-desc">Speed x'+m.spdMult+' '+(m.canCross?' • Special terrain':'')+(m.src?' • '+m.src:'')+'</div></div><button class="mr-btn '+(isActive?'active':'')+'" onclick="window._equipMount(\''+mid+'\')">'+(isActive?'✓ Equipped':'Equip')+'</button></div>';
     });
   }
   document.getElementById('mounts-content').innerHTML=h;
@@ -745,7 +752,7 @@ function toggleModal(id){
   e.style.display=opening?'flex':'none';
   // Inventory hides the bottom action bars while open.
   if(id==='inventory'){ document.body.classList.toggle('bars-hidden', opening); }
-  if(id==='mounts'&&opening){ var _mws=game.scene.getScene('World'); if(_mws&&_mws.playerState)_renderMountsModal(_mws.playerState); }
+  if(id==='mounts'&&opening){ var _mws=game.scene.getScene('World'); window._atStables=false; if(_mws&&_mws.playerState)_renderMountsModal(_mws.playerState); }
   // Force immediate minimap render when map opens
   if(id==='map'&&opening){ e.style.display='none'; openWorldMap(); }
 }

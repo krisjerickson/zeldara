@@ -57,6 +57,7 @@ function _migrateSave(d, raw){
     (d.completedIslands||[]).forEach(function(sec){ var k='s'+sec+'_harbor'; if(d.completedQuests.indexOf(k)<0)d.completedQuests.push(k); });
     if(!d.famSpecial)d.famSpecial={};
     if(typeof ALL_MAIN_QUESTS!=='undefined'&&ALL_MAIN_QUESTS.every(function(q){ return d.completedQuests.indexOf(q)>=0; })){ if(!Array.isArray(d.ownedMounts))d.ownedMounts=[]; if(d.ownedMounts.indexOf('dragon')<0)d.ownedMounts.push('dragon'); }
+    if(typeof _zMountChecks==='function')_zMountChecks(d);      // the Sky Eagle for all four Sky Ports (round 37)
   }
   if(v<8){
     // Perf round: the explored grid (150×150 cells, 0/1) was a JSON number array (~45 KB of a

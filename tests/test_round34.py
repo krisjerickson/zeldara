@@ -43,7 +43,7 @@ with game(painted=False, lead=True) as g:
     check('An area skill does not fire with nothing engaged, and when it fires it hurts only the engaged monster', not r['idleCast'] and r['cast'] and r['hurtM'] and r['idleUntouched'], r)
     # familiar damage to bosses
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, m=window._m34, E={key:'grass',col:'#fff'}, out=[]; m.monDef=0; if(m.def)m.def.def=0;
-      [1,3].forEach(function(L){ ps.difficulty=L; [false,true].forEach(function(b){ m.isBoss=b; m.maxHp=5000; m._hp=5000; if(m.hp!==undefined)m.hp=5000; _famHit(ws,'fam_grass',E,{kind:'area'},m,100,{pure:true}); out.push(5000-(m._hp!==undefined?m._hp:m.hp)); }); }); ps.difficulty=1; m.isBoss=false; return out; })()""")
+      m._els=[];      /* round 37: no element, so only the boss share is measured */ [1,3].forEach(function(L){ ps.difficulty=L; [false,true].forEach(function(b){ m.isBoss=b; m.maxHp=5000; m._hp=5000; if(m.hp!==undefined)m.hp=5000; _famHit(ws,'fam_grass',E,{kind:'area'},m,100,{pure:true}); out.push(5000-(m._hp!==undefined?m._hp:m.hp)); }); }); ps.difficulty=1; m.isBoss=false; return out; })()""")
     check('A familiar\'s 100 damage does 100 to a monster and 50 to a boss on Wayfarer, 30 to a boss on Ragnarök', abs(r[0] - 100) <= 3 and abs(r[1] - 50) <= 2 and abs(r[2] - 100) <= 3 and abs(r[3] - 30) <= 2, r)
     # ward
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, c=_heroCtx(ws), o={}; var W=FAM_SKILLS.grass.filter(function(s){ return s.kind==='ward'; })[0], i=FAM_SKILLS.grass.indexOf(W);

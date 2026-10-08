@@ -100,9 +100,9 @@ with game(new=True) as g:
           for(var i=0;i<3;i++){ MX._src='melee'; tr.hp-=1; MX._src=null; } d0=tr._hp; _famHit(ws,'fam_earth',E.earth,{kind:'nova'},tr,40,{pure:true}); var dt1=d0-tr._hp;
           [hog,br,gl,tr].forEach(m=>{ m._hp=0; ws._worldMonsterDied(m); }); FAM_ST.fam_water={stag:0,ko:0};
           return {hog:dh, brute_fire:db, brute_water:dbw, mirror:dg, stag:stag, ward:dt0, ward_after_3_sword_hits:dt1}; })()""")
-        check('Resist: a fire monster shrugs off fire familiars (-75%) but not water', r['brute_fire'] <= r['hog'] * 0.3 and r['brute_water'] >= r['hog'] * 0.9, r)
+        check('Resist: a fire monster shrugs off fire familiars (-75%) but not water', r['brute_fire'] <= 40 * 0.3 and r['brute_water'] >= 40 * 0.9 and r['hog'] == 48, r)      # round 37: the hog (grass) is Weak to the fire familiar (40 × 1.2); water on a fire-and-earth brute cancels out
         check('Mirror shell: familiar projectiles do nothing and daze the familiar (+60 stagger)', r['mirror'] == 0 and r['stag'] >= 59, r)
-        check('Spirit ward: blocks familiar damage until 3 sword hits break it', r['ward'] == 0 and r['ward_after_3_sword_hits'] > 30, r)
+        check('Spirit ward: blocks familiar damage until 3 sword hits break it', r['ward'] == 0 and r['ward_after_3_sword_hits'] > 20, r)      # round 37: an earth familiar on an earth troll is resisted (40 × 0.6)
         g.ws("(()=>{ var p=ws.player; var m=MX.spawn(ws,'void_scholar',p.x+40,p.y,{q:3}); m.section=3; ws.worldMonsters.push(m); m._m.stunT=99; m.maxHp=m._hp=9999; window._vs=m; })()")
         g.wait(1500)
         r = g.js("(document.getElementById('fam-hud')||{}).innerText||''")

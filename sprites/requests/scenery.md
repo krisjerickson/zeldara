@@ -1,4 +1,4 @@
-# Scenery — 90 sheets, 885 objects and textures (13 sheets in the pilot)
+# Scenery — 95 sheets, 975 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -20,6 +20,8 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 34 | Icons: weapons | 2 | 41 |
 | 35 | Icons: armor and accessories | 4 | 87 |
 | 36 | Icons: treasure, potions, food, spells, skills | 5 | 78 |
+| 37 | Icons: round 37 — axes, crossbows, staffs, gems, the Sovereign set | 3 | 66 |
+| 38 | Edge pieces: shores, cliffs, snow, lava (round 38) | 2 | 24 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -1197,6 +1199,88 @@ Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in th
 6. Topiary — hedge clipped into a ball on a stem (about as tall as the hero).
 7. Rose trellis — wooden trellis covered in climbing roses (about as tall as the hero).
 8. Beehive — straw skep beehive on a stand with a few bees (about 0.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_edge_1
+
+Edge pieces 1 — shores and beaches · wave 38 · 12 items, 4 × 3 · 1536x1024
+
+- `ed_tuft_a` Grass tuft — 36 × 30 px
+- `ed_tuft_b` Long grass clump — 52 × 36 px
+- `ed_tuft_dry` Dry grass tuft — 36 × 30 px
+- `ed_reeds` Reed clump — 40 × 64 px
+- `ed_cattails` Cattails — 44 × 72 px
+- `ed_lily` Lily pads — 52 × 30 px
+- `ed_pebbles` Shore pebbles — 60 × 24 px
+- `ed_shells` Shells — 48 × 24 px
+- `ed_driftwood` Driftwood — 72 × 30 px
+- `ed_shore_rock` Shore rock — 56 × 40 px
+- `ed_foam` Foam curl — 64 × 20 px
+- `ed_bank` Earth bank — 96 × 36 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 1 — shores and beaches.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Grass tuft — a small tuft of green grass blades leaning to one side (about 0.5× the hero's height).
+2. Long grass clump — a wide clump of long green grass that hangs forward over an edge (about 0.6× the hero's height).
+3. Dry grass tuft — a tuft of pale yellow-green highland grass (about 0.5× the hero's height).
+4. Reed clump — a clump of tall green reeds standing in water, a few bent (about as tall as the hero).
+5. Cattails — five cattails with brown heads standing in water (about as tall as the hero).
+6. Lily pads — three green lily pads with one pink flower, seen from above (about 0.5× the hero's height).
+7. Shore pebbles — a loose line of small wet grey and tan pebbles, seen from above (about 0.4× the hero's height).
+8. Shells — two sea shells and a small orange starfish on sand, seen from above (about 0.4× the hero's height).
+9. Driftwood — a pale weathered branch of driftwood lying flat (about 0.5× the hero's height).
+10. Shore rock — a low dark wet rock with a thin white foam line round its base (about 0.6× the hero's height).
+11. Foam curl — a short curved line of white sea foam, seen from above, soft ends (a small item, under half the hero's height).
+12. Earth bank — a short strip of dark crumbly earth bank seen from the front, with grass hanging over its top edge and the two ends fading out (about 0.6× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_edge_2
+
+Edge pieces 2 — cliffs, snow, mud and lava · wave 38 · 12 items, 4 × 3 · 1536x1024
+
+- `ed_talus_a` Rubble — 72 × 38 px
+- `ed_talus_b` Scree fan — 100 × 44 px
+- `ed_foot_boulder` Foot boulder — 64 × 54 px
+- `ed_cliff_grass` Cliff-top grass — 96 × 28 px
+- `ed_roots` Roots — 72 × 38 px
+- `ed_mud_clods` Mud clods — 56 × 26 px
+- `ed_snow_drift` Snow drift — 72 × 28 px
+- `ed_snow_lip` Snow lip — 96 × 32 px
+- `ed_ice_shards` Ice shards — 48 × 40 px
+- `ed_crust_shards` Crust shards — 64 × 30 px
+- `ed_ember_rocks` Ember rocks — 50 × 34 px
+- `ed_ash_heap` Ash heap — 56 × 26 px
+
+Attach: style_hero, style_centaur, sc_edge_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 2 — cliffs, snow, mud and lava.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Rubble — a small heap of broken grey rock at the foot of a cliff (about 0.6× the hero's height).
+2. Scree fan — a wide low fan of loose stones spilling forward (about 0.7× the hero's height).
+3. Foot boulder — a large angular boulder with small stones round it (about as tall as the hero).
+4. Cliff-top grass — a strip of grass and small roots hanging over a rock edge, seen from the front, ends fading (about 0.4× the hero's height).
+5. Roots — tree roots spilling over an earth bank, seen from the front (about 0.6× the hero's height).
+6. Mud clods — a few dark wet clods of mud with a small puddle, seen from above (about 0.4× the hero's height).
+7. Snow drift — a low soft drift of white snow with a blue shadow (about 0.4× the hero's height).
+8. Snow lip — a strip of snow hanging over a rock edge with small icicles, seen from the front, ends fading (about 0.5× the hero's height).
+9. Ice shards — a cluster of small pale-blue ice shards (about 0.6× the hero's height).
+10. Crust shards — broken plates of black cooled lava crust, seen from above (about 0.5× the hero's height).
+11. Ember rocks — three black rocks with glowing orange cracks (about 0.5× the hero's height).
+12. Ash heap — a low heap of grey ash with a few embers (about 0.4× the hero's height).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
@@ -3315,6 +3399,189 @@ Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in t
 10. Phantom Veil — skill emblem: one bold symbol that shows "Phantom Veil" (Z: Phase through enemies + invulnerable for 3s).
 11. Time Slow — skill emblem: one bold symbol that shows "Time Slow" (Z: Enemies near you move and attack at 30% speed for 4s).
 12. Meteor Strike — skill emblem: one bold symbol that shows "Meteor Strike" (Z: Call a meteor onto the nearest enemy — big area damage + burn).
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_melee2
+
+Item icons — axes, mauls and two-element blades (round 37) · wave 37 · 19 items, 5 × 4 · 1536x1024
+
+- `ic_hand_axe` Hand Axe — 48 × 48 px
+- `ic_battle_axe` Battle Axe — 48 × 48 px
+- `ic_great_axe` Great Axe — 48 × 48 px
+- `ic_war_axe` War Axe — 48 × 48 px
+- `ic_granite_axe` Granite Axe — 48 × 48 px
+- `ic_quake_axe` Quake Axe — 48 × 48 px
+- `ic_boulder_maul` Boulder Maul — 48 × 48 px
+- `ic_mountains_heart` Mountain's Heart — 48 × 48 px
+- `ic_briar_axe` Briar Axe — 48 × 48 px
+- `ic_thornwood_axe` Thornwood Axe — 48 × 48 px
+- `ic_wildwood_cleaver` Wildwood Cleaver — 48 × 48 px
+- `ic_verdant_king` Verdant King — 48 × 48 px
+- `ic_stormfire_blade` Stormfire Blade — 48 × 48 px
+- `ic_tempest_edge` Tempest Edge — 48 × 48 px
+- `ic_magmaheart_axe` Magmaheart Axe — 48 × 48 px
+- `ic_avalanche_maul` Avalanche Maul — 48 × 48 px
+- `ic_nightbloom_axe` Nightbloom Axe — 48 × 48 px
+- `ic_night_edge` Night Edge — 48 × 48 px
+- `ic_sov_axe` Sovereign Axe — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_ui_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — axes, mauls and two-element blades (round 37).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 19 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
+1. Hand Axe — battle axe or maul: a small one-handed axe, steel head on a short wooden haft.
+2. Battle Axe — battle axe or maul: a broad single-bladed battle axe with a leather-wrapped haft.
+3. Great Axe — battle axe or maul: a huge double-bladed great axe of polished steel.
+4. War Axe — battle axe or maul: a black-steel war axe with a spiked back and red trim.
+5. Granite Axe — battle axe or maul: an axe with a head of grey granite bound to the haft with iron bands.
+6. Quake Axe — battle axe or maul: a heavy stone axe with glowing amber cracks running through the head.
+7. Boulder Maul — battle axe or maul: a great two-handed maul whose head is one rough boulder set with amber crystals.
+8. Mountain's Heart — battle axe or maul: a massive axe carved from a single glowing amber-veined crystal, with a mountain peak shape at the top.
+9. Briar Axe — battle axe or maul: an axe whose haft is wrapped in thorny green briar, with a small emerald in the head.
+10. Thornwood Axe — battle axe or maul: an axe of dark living wood with long thorns along the back and green leaves sprouting.
+11. Wildwood Cleaver — battle axe or maul: a broad cleaver-axe grown from twisted roots, with a blade edge of glowing green.
+12. Verdant King — battle axe or maul: a majestic great axe of golden wood and emerald, crowned with antler-like branches and flowers.
+13. Stormfire Blade — melee weapon: a sword whose blade is half orange flame and half yellow lightning.
+14. Tempest Edge — melee weapon: a sword of blue ice wrapped in a spiral of storm cloud and small lightning.
+15. Magmaheart Axe — battle axe or maul: a black rock axe with a molten glowing core and lava dripping from the edge.
+16. Avalanche Maul — battle axe or maul: a maul of grey stone capped with thick blue-white ice and snow.
+17. Nightbloom Axe — battle axe or maul: an axe of black wood with violet night-flowers blooming along the haft and a dark crescent blade.
+18. Night Edge — melee weapon: a slim sword of violet-black glass trailing wisps of shadow.
+19. Sovereign Axe — battle axe or maul: a white-gold great axe set with six small gems: red, blue, green, amber, yellow and violet.
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_ranged2
+
+Item icons — crossbows, staffs, arrows and darts (round 37) · wave 37 · 22 items, 5 × 5 · 1024x1024
+
+- `ic_light_crossbow` Light Crossbow — 48 × 48 px
+- `ic_heavy_crossbow` Heavy Crossbow — 48 × 48 px
+- `ic_ember_crossbow` Ember Crossbow — 48 × 48 px
+- `ic_frost_crossbow` Frost Crossbow — 48 × 48 px
+- `ic_thorn_crossbow` Thorn Crossbow — 48 × 48 px
+- `ic_stone_crossbow` Stone Crossbow — 48 × 48 px
+- `ic_storm_crossbow` Storm Crossbow — 48 × 48 px
+- `ic_night_crossbow` Night Crossbow — 48 × 48 px
+- `ic_eclipse_arbalest` Eclipse Arbalest — 48 × 48 px
+- `ic_geyser_arbalest` Geyser Arbalest — 48 × 48 px
+- `ic_wildstone_arbalest` Wildstone Arbalest — 48 × 48 px
+- `ic_sov_bow` Sovereign Bow — 48 × 48 px
+- `ic_sov_crossbow` Sovereign Crossbow — 48 × 48 px
+- `ic_root_staff` Root Staff — 48 × 48 px
+- `ic_tide_staff` Tide Staff — 48 × 48 px
+- `ic_stone_staff` Stone Rod — 48 × 48 px
+- `ic_shade_staff` Shade Staff — 48 × 48 px
+- `ic_sov_staff` Sovereign Staff — 48 × 48 px
+- `ic_arrow_thorn` Thorn Arrow — 48 × 48 px
+- `ic_arrow_shock` Shock Arrow — 48 × 48 px
+- `ic_dart_thorn` Thorn Dart — 48 × 48 px
+- `ic_dart_shock` Shock Dart — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_ui_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 22 separate game icons — Item icons — crossbows, staffs, arrows and darts (round 37).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 22 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first); the last 3 cell(s) stay empty:
+1. Light Crossbow — crossbow: a small light wooden crossbow.
+2. Heavy Crossbow — crossbow: a heavy steel-armed crossbow with a winding crank.
+3. Ember Crossbow — crossbow: a crossbow with a glowing orange ember set in the stock and small flames on the arms.
+4. Frost Crossbow — crossbow: a crossbow rimed with pale-blue frost, with icicles on the arms.
+5. Thorn Crossbow — crossbow: a crossbow of green living wood with thorny vines for arms.
+6. Stone Crossbow — crossbow: a crossbow with a carved stone stock and amber studs.
+7. Storm Crossbow — crossbow: a crossbow of pale metal crackling with yellow lightning along the string.
+8. Night Crossbow — crossbow: a crossbow of violet-black wood with wisps of shadow and a crescent moon inlay.
+9. Eclipse Arbalest — crossbow: a great crossbow, one arm bright gold with lightning and the other violet-black shadow, with a ring like an eclipse in the middle.
+10. Geyser Arbalest — crossbow: a great crossbow, one arm of orange fire and the other of blue water, with white steam rising.
+11. Wildstone Arbalest — crossbow: a great crossbow of mossy stone with green vines and amber crystals.
+12. Sovereign Bow — ranged weapon: a white-gold longbow set with six small gems: red, blue, green, amber, yellow and violet.
+13. Sovereign Crossbow — crossbow: a white-gold crossbow set with six small gems: red, blue, green, amber, yellow and violet.
+14. Root Staff — magic weapon: a staff of twisted root with green leaves and a glowing emerald bud at the top.
+15. Tide Staff — magic weapon: a staff of pale driftwood and coral holding a floating orb of blue water.
+16. Stone Rod — magic weapon: a short thick rod of carved grey stone topped with an amber crystal cluster.
+17. Shade Staff — magic weapon: a thin black staff topped with a violet crescent moon and drifting shadow.
+18. Sovereign Staff — magic weapon: a white-gold staff crowned with a ring of six small gems: red, blue, green, amber, yellow and violet.
+19. Thorn Arrow — ammunition: an arrow with a green thorn-vine wrapped shaft and a thorn tip.
+20. Shock Arrow — ammunition: an arrow with a tip of crackling yellow lightning.
+21. Thorn Dart — ammunition: a short crossbow dart with a green thorn tip and leaf fletching.
+22. Shock Dart — ammunition: a short crossbow dart with a tip of crackling yellow lightning.
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_misc2
+
+Item icons — gems, draughts, the Sovereign armor, and five menu symbols (round 37) · wave 37 · 25 items, 5 × 5 · 1024x1024
+
+- `ic_gem_amber` Amber — 48 × 48 px
+- `ic_gem_topaz` Topaz — 48 × 48 px
+- `ic_gem_onyx` Onyx — 48 × 48 px
+- `ic_gem_heartseed` Heartseed — 48 × 48 px
+- `ic_band_ring` Silver Band — 48 × 48 px
+- `ic_sov_ring` Sovereign Ring — 48 × 48 px
+- `ic_ward_fire` Emberward Draught — 48 × 48 px
+- `ic_ward_water` Tideward Draught — 48 × 48 px
+- `ic_ward_grass` Thornward Draught — 48 × 48 px
+- `ic_ward_earth` Stoneward Draught — 48 × 48 px
+- `ic_ward_storm` Stormward Draught — 48 × 48 px
+- `ic_ward_shadow` Shadeward Draught — 48 × 48 px
+- `ic_sov_shield` Sovereign Aegis — 48 × 48 px
+- `ic_sov_plate` Sovereign Plate — 48 × 48 px
+- `ic_sov_crown` Sovereign Crown — 48 × 48 px
+- `ic_sov_greaves` Sovereign Greaves — 48 × 48 px
+- `ic_sov_gauntlets` Sovereign Gauntlets — 48 × 48 px
+- `ic_sov_boots` Sovereign Boots — 48 × 48 px
+- `ic_sov_amulet` Sovereign Amulet — 48 × 48 px
+- `ic_sov_mantle` Sovereign Mantle — 48 × 48 px
+- `el_storm` Storm element — 48 × 48 px
+- `el_shadow` Shadow element — 48 × 48 px
+- `tm_forge` Forge tree chapter — 48 × 48 px
+- `tm_paths` Paths chapter — 48 × 48 px
+- `tm_elements` Elements chapter — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_ui_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Item icons — gems, draughts, the Sovereign armor, and five menu symbols (round 37).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 25 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first):
+1. Amber — gem or treasure: a cut honey-amber gem, warm orange-brown, faceted.
+2. Topaz — gem or treasure: a cut bright yellow topaz with a tiny spark inside.
+3. Onyx — gem or treasure: a cut black onyx with a violet glint.
+4. Heartseed — gem or treasure: a large glowing green seed with a golden sprout curling from it.
+5. Silver Band — finger ring: a plain polished silver finger ring with an empty gem setting.
+6. Sovereign Ring — finger ring: a white-gold ring set with six tiny gems in a circle: red, blue, green, amber, yellow, violet.
+7. Emberward Draught — potion bottle: a round bottle of cool pale-blue liquid with a small red flame crossed out on the label.
+8. Tideward Draught — potion bottle: a round bottle of warm amber liquid with a blue wave on the label.
+9. Thornward Draught — potion bottle: a round bottle of orange liquid with a green thorn on the label.
+10. Stoneward Draught — potion bottle: a round bottle of leaf-green liquid with a grey stone on the label.
+11. Stormward Draught — potion bottle: a round bottle of violet liquid with a yellow lightning bolt on the label.
+12. Shadeward Draught — potion bottle: a round bottle of glowing golden liquid with a violet crescent on the label.
+13. Sovereign Aegis — shield: a white-gold shield with six small gems round a central rune: red, blue, green, amber, yellow, violet.
+14. Sovereign Plate — body armor (the torso piece on its own, no person): a white-gold chest plate with six small gems across the collar: red, blue, green, amber, yellow, violet.
+15. Sovereign Crown — headgear on its own: a white-gold crown with six gem points: red, blue, green, amber, yellow, violet.
+16. Sovereign Greaves — leg armor on its own: white-gold leg armor with small gems down the sides in six colours.
+17. Sovereign Gauntlets — pair of gauntlets: a pair of white-gold gauntlets with a small gem on each knuckle in six colours.
+18. Sovereign Boots — pair of boots: a pair of white-gold boots with small gems round the cuffs in six colours.
+19. Sovereign Amulet — amulet on a chain: a white-gold amulet on a chain: a ring of six small gems round a bright white centre.
+20. Sovereign Mantle — cloak on its own, hanging open: a white cloak with a gold border and a clasp of six small gems.
+21. Storm element — a yellow lightning bolt as a round badge.
+22. Shadow element — a violet crescent moon as a round badge.
+23. Forge tree chapter — an anvil with three glowing branches rising from it like a tree.
+24. Paths chapter — three small linked rune stones joined by glowing lines.
+25. Elements chapter — a ring of six small coloured orbs: red, blue, green, amber, yellow, violet.
 View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.

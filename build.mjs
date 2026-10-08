@@ -103,7 +103,7 @@ console.log(`✓ index.html  ${(out.length / 1024).toFixed(0)} KB  from ${jsFile
 if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   // 03-data (items, monsters, spells) + 09b (boss phases) feed the Bosses / Mage Towers tabs;
   // the Lab has no monster engine, so 09b gets a stub MX to hang its helpers on.
-  const sharedFiles = ['00-header.js', '00a-engine.js', '01-sprite-data.js', '02-hero-api.js', '03-data.js']
+  const sharedFiles = ['00-header.js', '00a-engine.js', '01-sprite-data.js', '02-hero-api.js', '03-data.js', '03b-elements.js']
     .concat(jsFiles.filter(f => /^07/.test(f)));
   const shared = sharedFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('')
     + '\nif(typeof MX==="undefined"){ var MX={KITS:(typeof MON_KIT_SRC!=="undefined"?MON_KIT_SRC:{})}; }'

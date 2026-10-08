@@ -208,7 +208,8 @@ const MDEFS={
 };
 
 // ─── ITEMS ──────────────────────────────────────
-const ITEMS={
+var ITEMS={   // var: 03b-elements.js wraps it so gem-set ids (iron_helm~fire) resolve
+
   axe:         {name:"Woodcutter's Axe",icon:'🪓',atk:7, slot:'lHand',sell:200,buy:500,desc:'+7 ATK, chops trees for wood'},
   wood_log:    {name:'Wood Log',        icon:'🪵',goldVal:5,slot:'material',desc:'Sell for 5g each — max 99'},
   wooden_sword:{name:'Wooden Sword',icon:'🪵',atk:1, slot:'lHand',sell:1, desc:'+1 ATK — starting weapon'},

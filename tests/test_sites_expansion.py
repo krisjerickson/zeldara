@@ -46,7 +46,7 @@ with game() as g:
                 g.wait(250)
             n+=1
             ok=r.get('ready') and r['lab'] and r['exitReach'] and r['playerOk'] and r['bad']==0 and r['mons']>=(2 if (r.get('last') and not s['boss']) else 5)
-            if r.get('last'): ok=ok and r['boss'] and r['bossReach'] and ((('Elite' in r['boss'])!=bool(s['boss'])))
+            if r.get('last'): ok=ok and r['boss'] and r['bossReach'] and (((('Elite' in r['boss']) or r['boss'] in ('Barrow Wight','Draugr Champion','Bog Troll Chieftain','Mud Troll Brute','Runic Stone Golem','Crystal Golem','Ash Wraith Lord','Cinder Hound Alpha'))!=bool(s['boss'])))      # painted elites carry their own names
             if r.get('last') and s['boss'] and s['type']=='tower': ok=ok and r['captive']
             if not ok: bad.append((s['id'],f,r))
     check(f'Every floor of every site builds, is walkable end-to-end, has monsters ({n} floors)', not bad, bad[:3])

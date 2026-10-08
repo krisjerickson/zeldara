@@ -1296,7 +1296,7 @@ class DungeonScene extends Phaser.Scene{
     var ps=this.worldScene.playerState;
     if(ps.godMode)return;
     var def=calcStatsFromState(ps).def||0;
-    var dmg=ZDiff.hit(mon.def.atk+Math.floor(Math.random()*4-1),def,ps.maxHp,(mon.isBoss||mon.def.boss)?1:0); mon._engT=Date.now(); ps._lastFoe=mon.def.name;
+    var dmg=ZHit.taken(ZDiff.hit(mon.def.atk+Math.floor(Math.random()*4-1),def,ps.maxHp,(mon.isBoss||mon.def.boss)?1:0),mon,ps); mon._engT=Date.now(); ps._lastFoe=mon.def.name;
     dmg=_heroApplyShield(this, ps, dmg, this.px, this.py);
     if(dmg<=0){this.playerIFrames=0.5;return;}
     ps.hp=Math.max(0,ps.hp-dmg);this.playerIFrames=0.9;
@@ -1307,7 +1307,7 @@ class DungeonScene extends Phaser.Scene{
     if(this.playerAtkTimer>0)return;
     var ps=this.worldScene.playerState;
     var atk=calcStatsFromState(ps).atk||ps.atk||3;
-    this.playerAtkTimer=0.45; if(typeof ZSFX!=='undefined')ZSFX.play('swing');
+    var _sw=ZHit.swing(); this.playerAtkTimer=_sw.t; if(typeof ZSFX!=='undefined')ZSFX.play('swing');
     var self=this;
     // ── Directional sword swing tween ──────────────────────────────────────
     var wep=this.pWeapon;
@@ -1324,11 +1324,11 @@ class DungeonScene extends Phaser.Scene{
     this.monsters.forEach(function(mon){
       if(mon.dead)return;
       var hq=_hbP(mon,self.px,self.py), hd=Math.hypot(hq.x-self.px,hq.y-self.py);   // painted bosses: their hurtbox (round 9)
-      if(mon._hurtR?hd>48:hd>78+Math.max(0,(mon.def.r||10)-18))return;
+      if(mon._hurtR?hd>48+_sw.reach:hd>78+_sw.reach+Math.max(0,(mon.def.r||10)-18))return;
       if(hd>8&&!_heroInArc(self.pdir||'right',hq.x-self.px,hq.y-self.py))return;
       if(!_heroLOS(self,self.px,self.py,hq.x,hq.y))return;   // no hitting through walls
-      var dmg=Math.max(1,atk-(mon.def.def||0)+Math.floor(Math.random()*5-2));
-      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true; if(mon.isBoss&&typeof BossMoments!=='undefined'){ BossMoments.hitStop(self,0.05); ZSFX.play('hit'); }
+      var dmg=ZHit.dmg(self,mon,atk+Math.floor(Math.random()*5-2),'melee');
+      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true; ZHit.axe(self,mon); if(mon.isBoss&&typeof BossMoments!=='undefined'){ BossMoments.hitStop(self,0.05); ZSFX.play('hit'); }
       self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#ffdd44');
       mon.body.setFillStyle(0xffffff);
       var bodyRef=mon.body,monDef=mon.def;
@@ -1425,7 +1425,7 @@ class DungeonScene extends Phaser.Scene{
     var pool=[areaPot,areaPot,areaPot].concat(
       [['iron_sword'],['long_sword'],['great_sword'],['flame_blade']][sec-1],
       [['leather'],['chain_mail'],['plate_armor'],['dragon_armor']][sec-1],
-      [['gem_ruby'],['gem_sapphire'],['gem_emerald'],['gem_emerald']][sec-1]
+      [ZLoot.realmGem(sec)],['dungeon_coin','dungeon_coin','raw_iron']      // realm gems, and the coins the jeweller asks for (round 37)
     );
     var itemId=pool[Math.floor(Math.random()*pool.length)];
     if(!itemId)return;
@@ -1470,7 +1470,8 @@ class DungeonScene extends Phaser.Scene{
   _openBossChest(){
     var ps=this.worldScene.playerState, sec=this.siteSection, self=this;
     if(!ps.inventory)ps.inventory=[];
-    var gem=['gem_ruby','gem_sapphire','gem_emerald','skystone'][sec-1]||'gem_ruby';
+    var gem=ZLoot.realmGem(sec);      // the realm's own gems (round 37)
+    ZLoot.site(this,ps,sec);         // + the guardian's gems and dungeon coins, by what kind of place this is
     // ── Castle: free the teacher → learn their skill
     if(this._castle){ CastleRun.claim(this); return; }
     if(this._mage){ MageRun.claim(this); return; }

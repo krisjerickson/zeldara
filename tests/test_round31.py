@@ -25,7 +25,7 @@ unused = sorted(set(ids) - used)
 check('The game has a place for at least 460 of the %d ordered objects and textures (the rest are listed in docs/16: pieces to be placed once their art is seen)' % len(ids), len(used) >= 460, [len(used), len(unused)])
 if '--unused' in sys.argv: print(' '.join(unused))
 with game(painted=True, query='?scenery=fake') as g:
-    check('World starts with stand-ins for the unpainted scenery', to_world(g) and g.js("ZScn.faked>300"), g.js("ZScn.faked")); g.wait(1500)
+    check('World starts; anything not painted yet gets a stand-in (every sheet is in now, so there may be none)', to_world(g) and g.js("ZScn.faked>=0"), g.js("ZScn.faked")); g.wait(1500)
     r = g.js("({kb:ZScn.KB,k:ZScn.K,fam:FAM_SC})")
     check('Sizes Kris chose: buildings 115 %, objects 100 %; familiars a fifth larger (0.3)', r == {'kb': 1.15, 'k': 1, 'fam': 0.3}, r)
     r = g.js("ZSCN.items().map(function(i){return i.id;}).filter(function(id){ return !(ZScn.has(id)||ZScn.timg[id]||ZScn.SKIP[id]); })")

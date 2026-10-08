@@ -56,7 +56,7 @@ MX.A=function(scene){ if(scene._mxA)return scene._mxA; var W=_isOverworld(scene)
   A.float=function(x,y,t,c){ scene._floatText(x,y,t,c); };
   A.god=function(){ return !!A.ps().godMode; };
   A.hurt=function(raw,label,col,noIfr){ var ps=A.ps(); if(ps.godMode||ps.hp<=0)return false; if(!noIfr&&A.ifr()>0)return false; var P=A.p();
-    var S=MX.S(scene), df=(W?scene.calcPlayerStats().def:(calcStatsFromState(ps).def||0))||0, src=MX.striker(A), bm=src&&src.isBoss&&src.def&&src.def.atk>0?raw/src.def.atk:0, dmg=ZDiff.hit(raw,df,ps.maxHp,bm); if(S.markT>0)dmg=Math.ceil(dmg*1.25);
+    var S=MX.S(scene), df=(W?scene.calcPlayerStats().def:(calcStatsFromState(ps).def||0))||0, src=MX.striker(A), bm=src&&src.isBoss&&src.def&&src.def.atk>0?raw/src.def.atk:0, dmg=ZDiff.hit(raw,df,ps.maxHp,bm); if(src&&typeof ZHit!=='undefined')dmg=ZHit.taken(dmg,src,ps); if(S.markT>0)dmg=Math.ceil(dmg*1.25);      // (resistance to the striker's element — round 37)
     if(src){ src._engT=Date.now(); ps._lastFoe=src.def&&src.def.name; }      // the one who struck is now engaged (familiars may answer) and is named if the hero falls
     if(!noIfr)dmg=W?scene._applyShieldToDmg(dmg):_heroApplyShield(scene,ps,dmg,P.x,P.y); if(dmg<=0){ A.setIfr(0.4); return false; }
     ps.hp=Math.max(0,ps.hp-dmg); if(!noIfr)A.setIfr(0.6); A.float(P.x,P.y-30,'-'+dmg+(label?' '+label:''),col||'#ff4433');
@@ -69,7 +69,7 @@ MX.A=function(scene){ if(scene._mxA)return scene._mxA; var W=_isOverworld(scene)
   return A; };
 // player status for a scene
 MX.S=function(scene){ return scene._mxs||(scene._mxs={slowT:0,slowP:0,rootT:0,poisonT:0,poisonD:0,poisonAcc:0,blindT:0,revT:0,shrinkT:0,markT:0,frogT:0,still:0,lastP:null}); };
-MX.status=function(A,st,dur,val){ if(!st)return; var S=MX.S(A.scene), P=A.p(); dur=dur||2;
+MX.status=function(A,st,dur,val){ if(!st)return; var S=MX.S(A.scene), P=A.p(); dur=dur||2; if(typeof ZHit!=='undefined'){ try{ dur=ZHit.stDur(st,dur,A.ps()); }catch(e){} }      // resistance to its element shortens it (round 37)
   if(st==='slow'){ S.slowT=Math.max(S.slowT,dur); S.slowP=Math.max(S.slowT>0?S.slowP:0,val||0.4); A.float(P.x,P.y-44,'Slowed','#88ccff'); }
   else if(st==='root'||st==='freeze'){ S.rootT=Math.max(S.rootT,st==='freeze'?Math.min(dur,1.2):dur); A.float(P.x,P.y-44,st==='freeze'?'Frozen!':'Rooted!',st==='freeze'?'#a0e0ff':'#a0d070'); }
   else if(st==='poison'){ S.poisonT=Math.max(S.poisonT,dur); S.poisonD=Math.max(S.poisonD,val||1); A.float(P.x,P.y-44,'Poisoned','#90e060'); }

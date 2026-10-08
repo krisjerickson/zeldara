@@ -444,7 +444,7 @@ function updateInventoryModal(ps){
     h+='<div class="wep-section-title">🏹 Arrows &amp; 🪃 Darts</div>';
     h+='<div class="item-list">';
     var ammoObj=ps.ammo||{};
-    var ammoIds=['arrow_normal','arrow_cold','arrow_fire','arrow_heat','dart_normal','dart_cold','dart_fire','dart_heat'];
+    var ammoIds=['arrow_normal','arrow_cold','arrow_fire','arrow_thorn','arrow_shock','arrow_heat','dart_normal','dart_cold','dart_fire','dart_thorn','dart_shock','dart_heat'];
     var anyAmmo=false;
     ammoIds.forEach(function(aid){
       var it=ITEMS[aid];if(!it)return;

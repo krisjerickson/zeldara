@@ -129,7 +129,7 @@ class BuildingScene extends Phaser.Scene{
       renderQuestList(ps.unlockedSections,ps.completedQuests,ps.activeQuest,this.worldScene);
       toggleModal('quests');
     } else if(type==='stables'){
-      openMountsModal(ps,this.worldScene);
+      window._atStables=true; openMountsModal(ps,this.worldScene);      // the stables sell the horse (round 37)
     } else if(type==='armory'||type==='clothing'||type==='jeweler'||type==='apothecary'||type==='merchant'){
       openBuildingShop(type,ps,this.worldScene);
     }

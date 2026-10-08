@@ -99,8 +99,8 @@ function _heroHitMonster(scene, mon, raw, opts){
   if(!mon||mon.dead)return 0;
   opts=opts||{};
   if(opts.src!=='familiar'){ var _cw=_heroWS(); if(_cw&&_cw.playerState&&typeof _heroCombatMark==='function')_heroCombatMark(_cw.playerState); mon._engT=Date.now(); }      // the hero's own hit: he is fighting, and this monster is one he has engaged (round 33)
-  var def=opts.pure?0:((mon.monDef!==undefined?mon.monDef:(mon.def&&mon.def.def))||0);
-  var dmg=Math.max(1,Math.round(raw)-def+(opts.pure?0:Math.floor(Math.random()*3)));
+  var _zk=opts.src==='familiar'?'familiar':(opts.src==='melee'||opts.src==='ranged'||opts.src==='skill'?opts.src:'spell'), _ze=opts.el?(ZEL.FAM[opts.el]||opts.el):(opts.zel!==undefined?opts.zel:(opts.spell?ZEL.SPELL[opts.spell]||null:(_zk==='spell'?null:undefined)));      // familiar: its element · spell: the spell's · a bare call (chain, burn tick, splash): none
+  var dmg=ZHit.dmg(scene,mon,Math.round(raw)+(opts.pure?0:Math.floor(Math.random()*3)),_zk,{pure:opts.pure,el:_ze===undefined?undefined:(_ze||[]),noProc:true});      // one sum for every hit (04j-hit.js)
   MX._src=opts.src||'spell'; MX._famEl=opts.el||null; MX._famK=opts.fk||null; MX._famId=opts.fid||null; mon.hp-=dmg; MX._src=null; MX._famEl=MX._famK=MX._famId=null;   // spells break ✨ wards; familiars are their own source (07rb counters)
   var r=(mon.def&&mon.def.r)||10;
   _heroFloat(scene, mon.x, mon.y-r-10, '-'+dmg+(opts.suffix||''), opts.col||'#aaddff');
@@ -239,7 +239,7 @@ function _heroCastSpell(scene){
   var stats=ws.calcPlayerStats?ws.calcPlayerStats():{};
   _heroSpellCdUntil=now+sp.cooldown*1000*(1-(stats.cdReduce||0));
   var c=_heroCtx(scene);
-  var pow=Math.round(Math.max(5,tome.atk||12)*(stats.spellMult||1));
+  var pow=ZHit.spellPow(ps,tome,stats.spellMult), _sid=tome.spellId;      // tome × staff × level and mage gear × the staff's own element (round 37)
   var ang=_heroDirAngle(c.dir), nx=Math.cos(ang), ny=Math.sin(ang);
   var col=sp.proj?sp.proj.col:(sp.aoe?sp.aoe.col:(sp.cloud?sp.cloud.col:0xaaddff));
   // Cast flash
@@ -255,31 +255,31 @@ function _heroCastSpell(scene){
           var cc=_heroCtx(scene);
           var v=(typeof ZShot!=='undefined'&&ZShot.make(scene,ZShot.spellKind(sp,tome&&tome.spellId),cc.x,cc.y,a,15))||scene.add.circle(cc.x,cc.y,sp.proj.r,sp.proj.col,0.95).setDepth(15);
           scene._heroSpellProj.push({vis:v,x:cc.x,y:cc.y,vx:Math.cos(a)*sp.proj.spd,vy:Math.sin(a)*sp.proj.spd,life:2.4,
-            dmg:pow,effect:sp.effect,effectDur:sp.effectDur||2,splashR:sp.splashR||0,chainN:sp.chainN||0,pierce:!!sp.proj.pierce,hitSet:[]});
+            dmg:pow,spellId:_sid,effect:sp.effect,effectDur:sp.effectDur||2,splashR:sp.splashR||0,chainN:sp.chainN||0,pierce:!!sp.proj.pierce,hitSet:[]});
         };
         var d=(sp.proj.burstDelay||0)*i;
         if(d>0)scene.time.delayedCall(d*1000,launch); else launch();
       })(i);
     }
   } else if(tome.spellId==='flame_nova'){
-    _heroNova(scene,c.x,c.y,sp.aoe.r,sp.aoe.col,pow,'fire');
+    _heroNova(scene,c.x,c.y,sp.aoe.r,sp.aoe.col,pow,'fire',_sid);
   } else if(sp.delay&&sp.aoe){
     var nI=sp.n||1;
     for(var ii=0;ii<nI;ii++)(function(ii){ var tx=c.x+nx*200+(nI>1?(Math.random()-0.5)*150:0), ty=c.y+ny*200+(nI>1?(Math.random()-0.5)*120:0);
       var mark=scene.add.circle(tx,ty,sp.aoe.r,sp.aoe.col,0.22).setDepth(14);
       scene.tweens.add({targets:mark,alpha:0.5,duration:400,yoyo:true});
-      scene.time.delayedCall(((sp.delay||1)+ii*0.18)*1000,function(){ mark.destroy(); _heroNova(scene,tx,ty,sp.aoe.r,sp.aoe.col,pow*(nI>1?1:1.5),'fire'); try{scene.cameras.main.shake(nI>1?90:200,0.008);}catch(e){} }); })(ii);
+      scene.time.delayedCall(((sp.delay||1)+ii*0.18)*1000,function(){ mark.destroy(); _heroNova(scene,tx,ty,sp.aoe.r,sp.aoe.col,pow*(nI>1?1:1.5),'fire',_sid); try{scene.cameras.main.shake(nI>1?90:200,0.008);}catch(e){} }); })(ii);
   } else if(tome.spellId==='thunder_step'){
     var ox=c.x, oy=c.y, step=8, dist=0, lx=c.x, ly=c.y;
     while(dist<sp.teleportDist){ var tx2=lx+nx*step, ty2=ly+ny*step; if(!_heroOpenAt(scene,tx2,ty2)||!_heroWalkAt(scene,tx2,ty2))break; lx=tx2; ly=ty2; dist+=step; }
     _heroSetPos(scene,lx,ly);
-    _heroNova(scene,ox,oy,sp.aoe.r,sp.aoe.col,pow,'stun');
+    _heroNova(scene,ox,oy,sp.aoe.r,sp.aoe.col,pow,'stun',_sid);
     scene.playerIFrames=Math.max(scene.playerIFrames||0,0.5); scene.iFrames=Math.max(scene.iFrames||0,0.5); scene._iFrames=Math.max(scene._iFrames||0,0.5);
   } else if(sp.cloud){
     if(!scene._heroClouds)scene._heroClouds=[];
     var clx=sp.cloud.at==='aim'?c.x+nx*160:c.x, cly=sp.cloud.at==='aim'?c.y+ny*160:c.y;
     var cl=scene.add.circle(clx,cly,sp.cloud.r,sp.cloud.col,0.35).setDepth(14);
-    scene._heroClouds.push({vis:cl,x:clx,y:cly,r:sp.cloud.r,life:sp.cloud.dur,tick:0,st:sp.cloud.st,dps:Math.max(sp.poisonDps||4,pow*(sp.cloud.st?0.3:0.25))});
+    scene._heroClouds.push({vis:cl,x:clx,y:cly,r:sp.cloud.r,life:sp.cloud.dur,tick:0,st:sp.cloud.st,spellId:_sid,dps:Math.max(sp.poisonDps||4,pow*(sp.cloud.st?0.3:0.25))});
     _heroFloat(scene,clx,cly-30,sp.cloud.st==='slow'?'🌨️ Blizzard':'☁️ Poison Mist',sp.cloud.st==='slow'?'#c8f0ff':'#44cc44');
   }
   if(ws._emitUI)ws._emitUI();
@@ -289,12 +289,12 @@ function _spellExtraFx(scene,m,eff,dmg,vx,vy,dur){ if(!m||m.dead)return;
   if(eff==='root'||eff==='stun_short'){ var t=dur||(eff==='root'?1.4:0.8); if(!_heroHold(scene,m,t))return; _heroFloat(scene,m.x,m.y-26,eff==='root'?'rooted!':'stunned!',eff==='root'?'#90e060':'#e0c080'); }
   else if(eff==='drain'){ var ws=_heroWS(), ps=ws&&ws.playerState; if(!ps)return; var h=Math.max(1,Math.round((dmg||4)*0.4)); ps.hp=Math.min(ps.maxHp,ps.hp+h); var c=_heroCtx(scene); _heroFloat(scene,c.x,c.y-34,'+'+h,'#80ff90'); if(ws._emitUI)ws._emitUI(); }
   else if(eff==='kb'){ var l=Math.hypot(vx||0,vy||0)||1, nx=m.x+(vx||0)/l*30, ny=m.y+(vy||0)/l*30, ok=scene._canGoMonster?scene._canGoMonster(nx,ny):scene._canGoD?scene._canGoD(nx,ny):true; if(ok){ m.x=nx; m.y=ny; if(m.cont)m.cont.setPosition(nx,ny); } } }
-function _heroNova(scene,x,y,r,col,dmg,effect){
+function _heroNova(scene,x,y,r,col,dmg,effect,spellId){
   var ring=scene.add.circle(x,y,4,col,0.9).setDepth(15);
   scene.tweens.add({targets:ring,scaleX:r/4,scaleY:r/4,alpha:0,duration:350,onComplete:function(){ring.destroy();}});
   _heroCtx(scene).monsters.forEach(function(m){
     if(m.dead){ return; } var hp_=_hbP(m,x,y); if(Math.hypot(hp_.x-x,hp_.y-y)>r||!_heroLOS(scene,x,y,hp_.x,hp_.y))return;
-    _heroHitMonster(scene,m,dmg,{col:'#ff8844'});
+    _heroHitMonster(scene,m,dmg,{col:'#ff8844',spell:spellId});
     if(effect==='stun'||effect==='slow')_heroSlow(scene,m,effect==='stun'?2:1.5,effect==='stun'?0.1:0.5);
     if(effect==='fire')_heroBurn(m,3,Math.max(1,dmg*0.1));
   });
@@ -312,7 +312,7 @@ function _heroSpellTick(scene, dt){
         var m=mons[i]; if(m.dead||p.hitSet.indexOf(m)>=0)continue;
         if(!_hbHit(m,p.x,p.y,6))continue;
         p.hitSet.push(m);
-        var d=_heroHitMonster(scene,m,p.dmg,{col:'#aaddff'});
+        var d=_heroHitMonster(scene,m,p.dmg,{col:'#aaddff',spell:p.spellId});
         if(p.effect==='slow')_heroSlow(scene,m,p.effectDur,0.5);
         if(p.effect==='splash'){
           var ex=scene.add.circle(p.x,p.y,8,0xff6600,0.9).setDepth(16);
@@ -331,7 +331,7 @@ function _heroSpellTick(scene, dt){
     scene._heroClouds=scene._heroClouds.filter(function(cl){
       cl.life-=dt; if(cl.life<=0){cl.vis.destroy();return false;}
       cl.vis.setAlpha(Math.min(0.45,cl.life*0.15));
-      cl.tick+=dt; if(cl.tick>=0.5){ cl.tick=0; ms.forEach(function(m){ if(!m.dead&&_hbD(m,cl.x,cl.y)<=cl.r&&_heroLOS(scene,cl.x,cl.y,_hbP(m,cl.x,cl.y).x,_hbP(m,cl.x,cl.y).y)){ _heroHitMonster(scene,m,cl.dps*0.5,{pure:true,col:cl.st==='slow'?'#c8f0ff':'#66dd66'}); if(cl.st==='slow')_heroSlow(scene,m,1.2,0.4); } }); }
+      cl.tick+=dt; if(cl.tick>=0.5){ cl.tick=0; ms.forEach(function(m){ if(!m.dead&&_hbD(m,cl.x,cl.y)<=cl.r&&_heroLOS(scene,cl.x,cl.y,_hbP(m,cl.x,cl.y).x,_hbP(m,cl.x,cl.y).y)){ _heroHitMonster(scene,m,cl.dps*0.5,{pure:true,spell:cl.spellId,col:cl.st==='slow'?'#c8f0ff':'#66dd66'}); if(cl.st==='slow')_heroSlow(scene,m,1.2,0.4); } }); }
       return true;
     });
   }

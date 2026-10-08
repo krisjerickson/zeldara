@@ -1252,7 +1252,7 @@ class WorldScene extends Phaser.Scene{
           // Damage scales down heavily for weak enemies: sec1→~1, sec2→~1-2, sec3→~2-3, boss→normal
           var baseAtk=mon.monAtk!==undefined?mon.monAtk:mdef.atk;
           var rawDmg=isBossType?Math.round(baseAtk*0.8):Math.ceil(baseAtk*0.2);
-          var dmg0=ZDiff.hit(rawDmg+Math.floor(Math.random()*2),def0,self.playerState.maxHp,isBossType?0.8:0); mon._engT=Date.now(); self.playerState._lastFoe=mdef.name;
+          var dmg0=ZDiff.hit(rawDmg+Math.floor(Math.random()*2),def0,self.playerState.maxHp,isBossType?0.8:0); dmg0=ZHit.taken(dmg0,mon,self.playerState); mon._engT=Date.now(); self.playerState._lastFoe=mdef.name;
           if(!isBossType&&dmg0>3)dmg0=Math.ceil(dmg0*0.5); // hard cap for non-boss
           dmg0=self._applyShieldToDmg(dmg0);
           if(dmg0<=0){self._emitUI();return;}
@@ -1281,7 +1281,7 @@ class WorldScene extends Phaser.Scene{
           if(dist<90&&!self.playerState.godMode&&(self.worldIFrames||0)<=0){
             var def0s=self.calcPlayerStats().def;
             var effAtkS=mon.monAtk!==undefined?mon.monAtk:mdef.atk;
-            var dmgS=ZDiff.hit(Math.ceil(effAtkS*0.6)+Math.floor(Math.random()*2),def0s,self.playerState.maxHp,mdef.boss?0.6:0); mon._engT=Date.now(); self.playerState._lastFoe=mdef.name;
+            var dmgS=ZDiff.hit(Math.ceil(effAtkS*0.6)+Math.floor(Math.random()*2),def0s,self.playerState.maxHp,mdef.boss?0.6:0); dmgS=ZHit.taken(dmgS,mon,self.playerState); mon._engT=Date.now(); self.playerState._lastFoe=mdef.name;
             dmgS=self._applyShieldToDmg(dmgS);
             if(dmgS<=0){self._emitUI();return;}
             self.playerState.hp=Math.max(0,self.playerState.hp-dmgS);
@@ -1304,7 +1304,7 @@ class WorldScene extends Phaser.Scene{
           var def=self.calcPlayerStats().def;
           var effAtk=mon.monAtk!==undefined?mon.monAtk:mdef.atk;
           var baseDmg=effAtk*0.4;
-          var dmg=ZDiff.hit(Math.ceil(baseDmg)+Math.floor(Math.random()*2),def,self.playerState.maxHp,mdef.boss?0.4:0); mon._engT=Date.now(); self.playerState._lastFoe=mdef.name;
+          var dmg=ZDiff.hit(Math.ceil(baseDmg)+Math.floor(Math.random()*2),def,self.playerState.maxHp,mdef.boss?0.4:0); dmg=ZHit.taken(dmg,mon,self.playerState); mon._engT=Date.now(); self.playerState._lastFoe=mdef.name;
           if(!mdef.boss&&dmg>4)dmg=Math.ceil(dmg*0.5);
           dmg=self._applyShieldToDmg(dmg);
           if(dmg<=0){self._emitUI();return;}
@@ -1710,10 +1710,10 @@ class WorldScene extends Phaser.Scene{
       self.worldMonsters.forEach(function(m){
         if(m.dead)return;
         if(_hbD(m,p.x,p.y)<96){
-          m.hp=Math.max(0,m.hp-stompDmg);
+          var _zd=ZHit.dmg(self,m,stompDmg,'skill',{pure:true,el:ZEL.SKILL.war_stomp,noProc:true}); MX._src='melee'; m.hp=Math.max(0,m.hp-_zd); MX._src=null;
           m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
           m._stun=(m._stun||0)+1.5;
-          self._floatText(m.x,m.y-22,'-'+stompDmg,'#ff8800');
+          self._floatText(m.x,m.y-22,'-'+_zd,'#ff8800');
           if(m.hp<=0)self._worldMonsterDied(m);
         }
       });
@@ -1727,12 +1727,12 @@ class WorldScene extends Phaser.Scene{
         if(m.dead)return;
         var dd=_hbD(m,p.x,p.y);
         if(dd<64){
-          m.hp=Math.max(0,m.hp-wwDmg);
+          var _zd=ZHit.dmg(self,m,wwDmg,'skill',{pure:true,el:ZEL.SKILL.whirlwind,noProc:true}); MX._src='melee'; m.hp=Math.max(0,m.hp-_zd); MX._src=null;
           m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
           var ka=Math.atan2(m.y-p.y,m.x-p.x);
           m.x+=Math.cos(ka)*64;m.y+=Math.sin(ka)*64;
           m.cont.setPosition(m.x,m.y);
-          self._floatText(m.x,m.y-22,'-'+wwDmg,'#88ffee');
+          self._floatText(m.x,m.y-22,'-'+_zd,'#88ffee');
           if(m.hp<=0)self._worldMonsterDied(m);
         }
       });
@@ -1769,10 +1769,10 @@ class WorldScene extends Phaser.Scene{
         if(m.dead||bashed)return;
         if(_hbD(m,p.x,p.y)<TILE*3.5){
           bashed=true;
-          m.hp=Math.max(0,m.hp-bashDmg);
+          var _zd=ZHit.dmg(self,m,bashDmg,'skill',{pure:true,noProc:true}); MX._src='melee'; m.hp=Math.max(0,m.hp-_zd); MX._src=null;
           m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
           m._stun=(m._stun||0)+2.0;
-          self._floatText(m.x,m.y-22,'🛡️ -'+bashDmg+' BASH!','#88ccff');
+          self._floatText(m.x,m.y-22,'🛡️ -'+_zd+' BASH!','#88ccff');
           if(m.hp<=0)self._worldMonsterDied(m);
         }
       });
@@ -1814,8 +1814,8 @@ class WorldScene extends Phaser.Scene{
         var boom=self.add.circle(mx0,my0,10,0xffc060,0.8).setDepth(12);
         self.tweens.add({targets:boom,radius:mR+10,alpha:0,duration:450,onComplete:function(){boom.destroy();}});
         self.worldMonsters.forEach(function(m){ if(m.dead)return; if(_hbHit(m,mx0,my0,mR)){
-          MX._src='spell'; m.hp=Math.max(0,m.hp-mDmg); MX._src=null; if(m.hpFill)m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
-          if(m._m)m._m.burn=Math.max(m._m.burn||0,3); self._floatText(m.x,m.y-22,'-'+mDmg,'#ff9040');
+          var _zd=ZHit.dmg(self,m,mDmg,'skill',{pure:true,el:ZEL.SKILL.meteor,noProc:true}); MX._src='spell'; m.hp=Math.max(0,m.hp-_zd); MX._src=null; if(m.hpFill)m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
+          if(m._m)m._m.burn=Math.max(m._m.burn||0,3); self._floatText(m.x,m.y-22,'-'+_zd,'#ff9040');
           if(m.hp<=0)self._worldMonsterDied(m); } });
       }});
 
@@ -1913,7 +1913,7 @@ class WorldScene extends Phaser.Scene{
     var _aimAng=this._getAimAngle();
     var nx=Math.cos(_aimAng),ny=Math.sin(_aimAng);
     var _spStats=this.calcPlayerStats();
-    var atkPow=Math.round(Math.max(5,tomeItem.atk||12)*(_spStats.spellMult||1.0));
+    var atkPow=ZHit.spellPow(ps,tomeItem,_spStats.spellMult);      // tome × staff × level and mage gear × the staff's own element (round 37)
     // Dispatch by spell type
     var id=tomeItem.spellId;
     if(!this._playerProj)this._playerProj=[];
@@ -1934,13 +1934,13 @@ class WorldScene extends Phaser.Scene{
               v.setPosition(px,py);
               v.setActive(true);
               self._playerProj.push({vis:v,x:px,y:py,vx:vx3,vy:vy3,dmg:atkPow,life:2.5,hit:false,
-                type:'spell',effect:spDef.effect,effectDur:spDef.effectDur,
+                type:'spell',spellId:id,effect:spDef.effect,effectDur:spDef.effectDur,
                 pierce:spDef.proj.pierce||false,chainN:spDef.chainN||0,splashR:spDef.splashR||0,
                 col:spDef.proj.col});
             });
           } else {
             self._playerProj.push({vis:v,x:px,y:py,vx:vx3,vy:vy3,dmg:atkPow,life:2.5,hit:false,
-              type:'spell',effect:spDef.effect,effectDur:spDef.effectDur,
+              type:'spell',spellId:id,effect:spDef.effect,effectDur:spDef.effectDur,
               pierce:spDef.proj.pierce||false,chainN:spDef.chainN||0,splashR:spDef.splashR||0,
               col:spDef.proj.col});
           }
@@ -1948,7 +1948,7 @@ class WorldScene extends Phaser.Scene{
       }
     } else if(id==='flame_nova'){
       // Instant AoE burst around player
-      self._spellNovaEffect(px,py,spDef.aoe.r,spDef.aoe.col,atkPow,'fire');
+      self._spellNovaEffect(px,py,spDef.aoe.r,spDef.aoe.col,atkPow,'fire',id);
     } else if(spDef.delay&&spDef.aoe){
       // Meteor / Starfall: impacts ahead in the aim direction after a short delay
       var nImp=spDef.n||1;
@@ -1957,7 +1957,7 @@ class WorldScene extends Phaser.Scene{
         self.tweens.add({targets:ind,alpha:0.5,duration:400,yoyo:true});
         self.time.delayedCall((spDef.delay+ii*0.18)*1000,function(){
           ind.destroy();
-          self._spellNovaEffect(tx2,ty2,spDef.aoe.r,spDef.aoe.col,atkPow*(nImp>1?1:1.5),'fire');
+          self._spellNovaEffect(tx2,ty2,spDef.aoe.r,spDef.aoe.col,atkPow*(nImp>1?1:1.5),'fire',id);
           self.cameras.main.shake(nImp>1?90:200,nImp>1?0.006:0.012);
         }); })(ii);
     } else if(id==='thunder_step'){
@@ -1965,19 +1965,19 @@ class WorldScene extends Phaser.Scene{
       var oldX=px,oldY=py;
       var newX=px+nx*spDef.teleportDist,newY=py+ny*spDef.teleportDist;
       self.player.x=newX;self.player.y=newY;self.player.cont.setPosition(newX,newY);
-      self._spellNovaEffect(oldX,oldY,spDef.aoe.r,spDef.aoe.col,atkPow,'stun');
+      self._spellNovaEffect(oldX,oldY,spDef.aoe.r,spDef.aoe.col,atkPow,'stun',id);
       self.worldIFrames=0.5;
     } else if(spDef.cloud){
       // Lingering cloud: Poison Mist on you, Blizzard where you aim
       var clx=spDef.cloud.at==='aim'?px+nx*160:px, cly=spDef.cloud.at==='aim'?py+ny*160:py;
       var cloud=self.add.circle(clx,cly,spDef.cloud.r,spDef.cloud.col,0.35).setDepth(14);
-      self._spellClouds.push({vis:cloud,x:clx,y:cly,r:spDef.cloud.r,life:spDef.cloud.dur,st:spDef.cloud.st,
+      self._spellClouds.push({vis:cloud,x:clx,y:cly,r:spDef.cloud.r,life:spDef.cloud.dur,st:spDef.cloud.st,spellId:id,
         dps:Math.max(spDef.poisonDps||4,spDef.cloud.st?atkPow*0.3:0),dmgTick:0,dmgInterval:0.5,atk:atkPow});
       self._floatText(clx,cly-30,spDef.cloud.st==='slow'?'🌨️ Blizzard':'☁️ Poison Mist',spDef.cloud.st==='slow'?'#c8f0ff':'#44cc44');
     }
     this._emitUI();
   }
-  _spellNovaEffect(cx,cy,radius,col,dmg,effect){
+  _spellNovaEffect(cx,cy,radius,col,dmg,effect,spellId){
     // Visual ring burst
     var self=this;
     var ring=this.add.circle(cx,cy,4,col,0.9).setDepth(15);
@@ -1987,9 +1987,8 @@ class WorldScene extends Phaser.Scene{
     this.worldMonsters.forEach(function(mon){
       if(mon.dead)return;
       var hq0=_hbP(mon,cx,cy); if(Math.hypot(hq0.x-cx,hq0.y-cy)>radius||!_heroLOS(self,cx,cy,hq0.x,hq0.y))return;
-      var def=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
-      var d=Math.max(1,Math.round(dmg)-def+Math.floor(Math.random()*3));
-      mon.hp-=d;
+      var d=ZHit.dmg(self,mon,Math.round(dmg)+Math.floor(Math.random()*3),'spell',{spell:spellId||null,el:spellId?undefined:[]});
+      MX._src='spell'; mon.hp-=d; MX._src=null;
       self._floatText(mon.x,mon.y-mon.def.r-10,'-'+d,'#ff8844');
       mon.body.setFillStyle(0xffffff);
       var bRef=mon.body,dRef=mon.def;
@@ -2013,9 +2012,9 @@ class WorldScene extends Phaser.Scene{
         self.worldMonsters.forEach(function(mon){
           if(mon.dead)return;
           var hq1=_hbP(mon,cl.x,cl.y); if(Math.hypot(hq1.x-cl.x,hq1.y-cl.y)>cl.r||!_heroLOS(self,cl.x,cl.y,hq1.x,hq1.y))return;
-          var d=Math.max(1,Math.ceil(cl.dps*cl.dmgInterval));
+          var d=ZHit.dmg(self,mon,Math.ceil(cl.dps*cl.dmgInterval),'spell',{pure:true,spell:cl.spellId});
           if(cl.st==='slow')mon._slow=1.2;
-          mon.hp-=d;
+          MX._src='spell'; mon.hp-=d; MX._src=null;
           self._floatText(mon.x,mon.y-mon.def.r-8,'-'+d+'☠','#44cc44');
           mon.hpFill.displayWidth=28*Math.max(0,mon.hp/mon.maxHp);
           if(mon.hp<=0)self._worldMonsterDied(mon);
@@ -2074,14 +2073,14 @@ class WorldScene extends Phaser.Scene{
       if(pr.hit&&!pr.pierce)return false;
       var hitAny=false;
       self.worldMonsters.forEach(function(mon){
-        if(mon.dead||(pr.hit&&!pr.pierce))return;
+        if(mon.dead||(pr.hit&&!pr.pierce)||(pr._done&&pr._done.indexOf(mon)>=0))return;
         var hitR=mon.def.r+6;
         if(!_hbHit(mon,pr.x,pr.y,6))return;
         // Hit!
         pr.hit=true;hitAny=true;
-        var monDef=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
-        var dmg=Math.max(1,pr.dmg-monDef+Math.floor(Math.random()*3));
-        MX._src='ranged'; mon.hp-=dmg; MX._src=null;
+        if(pr.pierceN>0){ pr.pierceN--; pr.hit=false; (pr._done=pr._done||[]).push(mon); }      // a crossbow dart goes on through one foe
+        var _pk=pr.spellId?'spell':'ranged', dmg=ZHit.dmg(self,mon,pr.dmg+Math.floor(Math.random()*3),_pk,{sub:pr.subtype,spell:pr.spellId});
+        MX._src=_pk; mon.hp-=dmg; MX._src=null;
         self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#aaddff');
         mon.body.setFillStyle(0xffffff);
         var bRef=mon.body,dRef=mon.def;
@@ -2168,20 +2167,20 @@ class WorldScene extends Phaser.Scene{
     // Show active ammo type label
     if(el2){
       var sub=it?it.subtype:'?';
-      var typeColors={normal:'#aaaaaa',cold:'#88ddff',fire:'#ff8844',heat:'#ffaa22'};
+      var typeColors={normal:'#aaaaaa',cold:'#88ddff',fire:'#ff8844',heat:'#ffaa22',thorn:'#7ad85a',shock:'#ffe060'};
       el2.textContent=it?it.icon+' '+(sub||'').charAt(0).toUpperCase()+(sub||'').slice(1):'—';
       el2.style.color=typeColors[sub]||'#88ccff';
     }
   }
   _getBestAmmo(rw){
     var ps=this.playerState;
-    var isXbow=rw&&(rw.name||'').toLowerCase().indexOf('cross')>=0;
+    var isXbow=rw&&(rw.cls==='xbow'||(rw.name||'').toLowerCase().indexOf('cross')>=0);
     var prefix=isXbow?'dart':'arrow';
     // If player has manually selected ammo and it has qty, use it
     var active=ps.activeAmmo;
     if(active&&active.indexOf(prefix)===0&&(ps.ammo&&ps.ammo[active]||0)>0)return active;
     // Otherwise fall through priority order
-    var order=[prefix+'_heat',prefix+'_fire',prefix+'_cold',prefix+'_normal'];
+    var order=[prefix+'_heat',prefix+'_shock',prefix+'_fire',prefix+'_thorn',prefix+'_cold',prefix+'_normal'];
     for(var i=0;i<order.length;i++){
       if((ps.ammo&&ps.ammo[order[i]]||0)>0)return order[i];
     }
@@ -2191,9 +2190,9 @@ class WorldScene extends Phaser.Scene{
     var ps=this.playerState;
     var rw=ps.equip&&ps.equip.rHand?ITEMS[ps.equip.rHand]:null;
     if(rw&&rw.magic){showNotif('Magic weapon uses mana, not ammo.','#888');return;}
-    var isXbow=rw&&(rw.name||'').toLowerCase().indexOf('cross')>=0;
+    var isXbow=rw&&(rw.cls==='xbow'||(rw.name||'').toLowerCase().indexOf('cross')>=0);
     var prefix=isXbow?'dart':'arrow';
-    var all=[prefix+'_heat',prefix+'_fire',prefix+'_cold',prefix+'_normal'];
+    var all=[prefix+'_heat',prefix+'_shock',prefix+'_fire',prefix+'_thorn',prefix+'_cold',prefix+'_normal'];
     // Only include types that have qty > 0
     var avail=all.filter(function(id){return (ps.ammo&&ps.ammo[id]||0)>0;});
     if(!avail.length){showNotif('No ammo available! Buy some at the Armory.','#ff8844');return;}
@@ -2211,13 +2210,14 @@ class WorldScene extends Phaser.Scene{
     // Find best available healing item (prefer highest heal value)
     var inv=ps.inventory||[];
     var bestIdx=-1,bestHeal=0;
-    inv.forEach(function(id,i){var it=ITEMS[id];if(it&&it.slot==='use'&&(it.heal||0)>bestHeal){bestHeal=it.heal;bestIdx=i;}});
+    inv.forEach(function(id,i){var it=ITEMS[id];if(it&&it.slot==='use'&&!it.ward&&!it.buff&&(it.heal||0)>bestHeal){bestHeal=it.heal;bestIdx=i;}});      // the quick key drinks healing potions only — tonics and draughts are used from the pack
     if(bestIdx===-1){showNotif('No potions in inventory!','#ff8844');return;}
     var id=inv[bestIdx];
     var item=ITEMS[id];
     ps.hp=Math.min(ps.maxHp,ps.hp+(item.heal||0));
     ps.inventory.splice(bestIdx,1);
-    showNotif(item.icon+' Used '+item.name+' — +'+item.heal+' HP!','#44ffaa');
+    var _fx=typeof ZHit!=='undefined'?ZHit.useFx(ps,item):'';
+    showNotif(item.icon+' Used '+item.name+' — +'+item.heal+' HP!'+(_fx?' '+_fx:''),'#44ffaa');
     this._emitUI();
   }
 
@@ -2340,7 +2340,7 @@ class WorldScene extends Phaser.Scene{
     this._mountCombat();
     var ps=this.playerState;
     var stats=this.calcPlayerStats();
-    this.worldAtkTimer=0.45;
+    var _sw=ZHit.swing(); this.worldAtkTimer=_sw.t;      // axes swing slower and reach a little further (round 37)
     var p=this.player;
     var wep=p.weapon;
     var dir=p.dir||'right';
@@ -2368,12 +2368,11 @@ class WorldScene extends Phaser.Scene{
     this.worldMonsters.forEach(function(mon){
       if(mon.dead)return;
       var hq=_hbP(mon,px,py), hd=Math.hypot(hq.x-px,hq.y-py);   // painted bosses: their hurtbox (round 9)
-      if(mon._hurtR?hd>54:hd>90)return;
+      if(mon._hurtR?hd>54+_sw.reach:hd>90+_sw.reach)return;
       if(hd>8&&!_heroInArc(dir,hq.x-px,hq.y-py))return;
       if(!_heroLOS(self,px,py,hq.x,hq.y))return;   // no hitting through walls
-      var monDefVal=(mon.monDef!==undefined?mon.monDef:mon.def.def)||0;
-      var dmg=Math.max(1,stats.atk-monDefVal+Math.floor(Math.random()*4-2));
-      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true;
+      var dmg=ZHit.dmg(self,mon,stats.atk+Math.floor(Math.random()*4-2),'melee');      // defence as a share + the element step (04j-hit.js)
+      MX._src='melee'; mon.hp-=dmg; MX._src=null; hit=true; ZHit.axe(self,mon);
       self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#ffdd44');
       mon.body.setFillStyle(0xffffff);
       var bodyRef=mon.body,monDef=mon.def;

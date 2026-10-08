@@ -29,7 +29,7 @@ var ZProj={ PI:Math.PI, PICK:{arrow:'ar_bodkin',spell:'sp_solid',shot:'en_real'}
     {id:'en_glow',name:'Glowing Shots',desc:'Each shot carries a coloured glow and a short tail — easier to see in dark dungeons.',mode:'glow'},
     {id:'en_pixel',name:'Pixel Shots',desc:'The real shapes in chunky pixels.',mode:'real',pixel:true}],
   SPELLK:['frost_bolt','fireball','lightning','ice_shards','void_orb','arcane_burst','thorn_snare','tidal_wave','stone_spikes','void_rift','spirit_drain'],
-  ELEM:{arcane_burst:'#dd88ff',thorn_snare:'#70d050',tidal_wave:'#50b0ff',stone_spikes:'#b08050',void_rift:'#9030ff',spirit_drain:'#80ffc0',arrow:null,dart:null,arrow_cold:'#aee6ff',arrow_fire:'#ff8a2a',arrow_heat:'#ff4a4a',frost_bolt:'#9fe2ff',fireball:'#ff7a1a',lightning:'#ffe86a',ice_shards:'#bfe8ff',void_orb:'#9a4dff',rock:'#8a8478',spit:'#8fd04a',bone_arrow:'#e8e2d0',dark_bolt:'#b060ff'},
+  ELEM:{arcane_burst:'#dd88ff',thorn_snare:'#70d050',tidal_wave:'#50b0ff',stone_spikes:'#b08050',void_rift:'#9030ff',spirit_drain:'#80ffc0',arrow:null,dart:null,arrow_cold:'#aee6ff',arrow_fire:'#ff8a2a',arrow_heat:'#ff4a4a',arrow_thorn:'#7ad85a',arrow_shock:'#ffe86a',frost_bolt:'#9fe2ff',fireball:'#ff7a1a',lightning:'#ffe86a',ice_shards:'#bfe8ff',void_orb:'#9a4dff',rock:'#8a8478',spit:'#8fd04a',bone_arrow:'#e8e2d0',dark_bolt:'#b060ff'},
   rnd:function(s){ s=Math.sin(s*127.1)*43758.5453; return s-Math.floor(s); },
   // ── one arrow / dart, pointing +x, about 34 px long at scale 1 ──
   arrow:function(c,kind,S,t){ var dart=kind.indexOf('dart')===0; if(dart&&kind!=='dart')kind=kind.replace('dart','arrow');   // dart_cold / dart_fire / dart_heat: a dart with that arrow's head
