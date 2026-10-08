@@ -44,7 +44,8 @@
         var r=typeof ZForge!=='undefined'&&ZForge.recipe(id); if(r){ L.push(['Forged from',recipeTxt(r)]); e.hint='Made at the forge — see the Forge tree.'; }
         var used=CRAFT_RECIPES.filter(function(x){ return x.needs[id]; }).map(function(x){ return ITEMS[x.result].name; }); if(used.length)L.push(['Used for',used.slice(0,8).join(', ')+(used.length>8?' …':'')]);
         if(ZEL.SETTABLE[I.slot]&&!I.sov){ var c=ZEL.carried(I).length; L.push(['Gem setting',c>=2?'Holds two elements already.':'The jeweller can set '+(2-c)+' gem'+(2-c>1?'s':'')+' into it.']); }
-        if(I.sov){ e.hint='One piece of the Sovereign set — every element at once. No one yet knows how it is won.'; L.push(['Set','The Sovereign set: one piece of every kind, each carrying all six elements.']); }
+        if(I.sov){ var SS=typeof ZSov!=='undefined'&&ZSov.setOf(id), ps9=Tome.ps(), pr=SS&&ps9?ZSov.progress(ps9).find(function(x){ return x.piece===id; }):null; e.hint=SS?'One piece of the Sovereign set. '+SS.how+'.':'One piece of the Sovereign set.';
+          L.push(['Set','The Sovereign set: one piece of every kind, each carrying all six elements. Each piece is the reward for finishing one whole part of the journey.']); if(SS)L.push(['Won by',SS.how+(pr?' — <b>'+pr.have+' / '+pr.of+'</b>'+(pr.got?' ✓':''):'')]); }
         if(I.old)L.push(['Note','No longer sold — the potions were cut to one of each strength.']);
         if(I.skillId&&ZEL.SKILL[I.skillId])L.push(['Element',ZElUI.chip(ZEL.SKILL[I.skillId])]);
         if(id==='night_edge')e.hint='In the chest of the Ashlands boss tower.';
@@ -99,7 +100,9 @@
     // 4. familiars
     h+='<section class="tome-sec"><h4>Familiars — each fairy lesson opens the next skill</h4>'+['grass','water','earth','fire'].map(function(el){ var fid=FAM_BY_EL[el], own=(ps.ownedFamiliars||[]).indexOf(fid)>=0, L=own?_famLevel(ps,fid):0, D=_famDesign(fid);
       return '<div class="zp-row"><span class="zp-q">'+ZElUI.chip(el)+'<br><small>'+D.name+'</small></span>'+FAM_SKILLS[el].map(function(S,i){ return pn('familiar',fid,'<span class="zp-lv">'+(i?'Lv '+(i+1):'Base')+'</span>',S.name,S.kind,i<L,el); }).join('')+'</div>'; }).join('')+'</section>';
-    // 5. forge
+    // 5. the Sovereign set
+    if(typeof ZSov!=='undefined'){ h+='<section class="tome-sec"><h4>The Sovereign set — one piece for each finished part of the journey</h4><div class="zp-row">'+ZSov.progress(ps).map(function(P){ return pn('item',P.piece,ZIcon.item(P.piece,2),P.name.replace('Sovereign ',''),P.have+' / '+P.of,P.got,null); }).join('')+'</div><p class="ze-note">The Elemental Sovereign sword is forged: the three greatest swords and a Skystone.</p></section>'; }
+    // 6. forge
     h+='<section class="tome-sec"><h4>The forge — how far each line has been taken</h4>'+ZForge.LANES.map(function(L){ var n=L.nodes.slice(1).filter(function(id){ return ZForge.made(ps,id)||ZForge.owns(ps,id); }).length; return '<div class="zp-bar"><span>'+ZElUI.chips(L.el)+' '+L.n+'</span><i><u style="width:'+(n/4*100)+'%;background:'+ZEL.E[L.el[0]].col+'"></u></i><b>'+n+' / 4</b></div>'; }).join('')+
       (function(){ var X=ZForge.XBOW.t1.concat(ZForge.XBOW.t2), D=ZForge.DUAL, f=function(A){ return A.filter(function(id){ return ZForge.made(ps,id)||ZForge.owns(ps,id); }).length; }; return '<div class="zp-bar"><span>Crossbows and arbalests</span><i><u style="width:'+(f(X)/X.length*100)+'%"></u></i><b>'+f(X)+' / '+X.length+'</b></div><div class="zp-bar"><span>Two-element master-works</span><i><u style="width:'+(f(D)/D.length*100)+'%"></u></i><b>'+f(D)+' / '+D.length+'</b></div>'; })()+
       '<p class="ze-note"><button class="zp-link" data-tcat="forge">Open the Forge tree ➜</button></p></section>';

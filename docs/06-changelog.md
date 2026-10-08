@@ -664,6 +664,12 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[350] `claude/21-terrain-edges.md`**: why the edges look rough today (read from the painter), eight ideas, a recommendation, what building it means.
 - **[351] Site elites** got their own two elements (Barrow Wight shadow and earth, Bog Troll Chieftain earth and water, Runic Stone Golem earth and storm, Ash Wraith Lord shadow and fire) and count as unique foes, not bosses.
 
+## Round 39 (Kris, Oct 8) — moving ground; the Sovereign set
+- **[352] Moving terrain edges.** `ZEdge.frame` + `ZEdge.MOVE` (`07ze-edges.js`): five moving versions of each of the six places, built on Kris's round-38 picks (lake and beach: new style `inkdress` = clean ink line + pieces, beach with a fine sand grain; the rest: layered + pieces). Lapping, waves, ripples, sky reflections, rain rings, bubbles, fog, fireflies, flowing crust, molten streaks, lava bubbles, embers, cloud shadows, falling stones, mist, wind in the grass, snowfall, blowing snow, glitter, and an "Old Zeldara" card per place that redraws the v3 `renderTileAnimations` effect. Pieces sway and lily pads bob.
+- **[353] Lab tab "Terrain edges"**: six "— moving" sections (30 animated cards, ids `<place>_m1`…`_m5`) above the round-38 still cards. Doc `claude/21-terrain-edges.md` part 8.
+- **[354] The Sovereign set is won: one piece per finished set** (Kris's decision). `src/js/09i-sovereign.js` (`ZSov`): 13 pieces, each tied to one "collect them all" (boss dungeons, boss towers, island guardians, Sky Ports, castles, mage towers, relics, Fairy Kings, fairy lessons, familiars at top level, monster camps, regions walked, the Volcano Lord). Checked every few seconds; old saves get what they already earned on load. Item descriptions, the Tome entry (with progress) and a new Paths row show it. Doc 20 part 7.5.
+- **[355] Tests.** `tests/test_round37.py`: 28 checks (Sovereign set added; Paths now 65 steps).
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

@@ -2,7 +2,7 @@
 
 *Written Oct 7, 2026 (round 38). Kris: "some of the worst visuals are when terrain transitions from one to another, i.e. at lake edges, beaches, mountain edges and other. Come up with ideas of how to address, either through better pixel art or through painted features. Create overall recommendations and also turn some of these into options within the lab to choose from."*
 
-**Nothing in the game has changed.** The options are in the Design Lab, tab **Terrain edges**: six places, each drawn five ways. Pick there; then it gets built.
+**Nothing in the game has changed.** The options are in the Design Lab, tab **Terrain edges**: six places, each drawn five ways (round 38), and since round 39 five **moving** versions of each, built on Kris's picks (part 8). Pick there; then it gets built.
 
 ## 1. Why the edges look rough today
 
@@ -29,7 +29,7 @@ The painted trees, rocks and buildings now have clean outlines and shading. The 
 | D | **Layered shores, banks and cliffs** | Bands by distance from the edge: foam, pale shallows, deeper water; wet sand; a dark **bank lip** on the far shore so water sits below the land; cliff faces taller, with strata, cracks, a lit top edge and a real shadow at the foot. | Medium. Code only. | Yes |
 | E | **Painted edge pieces** | Small painted pieces set along the edge: grass tufts leaning over, reeds, lily pads, pebbles, shells, driftwood, rubble and boulders at cliff feet, snow drifts, lava crust. | Medium. Two painted sheets (24 pieces). | Yes — drawn in code as stand-ins |
 | F | Painted edge strips | Long painted strips (a metre of beach, a metre of bank) laid end to end along the edge. | High. The strips must bend round curves, and joins show. | No |
-| G | Moving water edge | The foam line breathes in and out; lava glows and dims. | Medium. A light overlay, not a repaint. | No (the cards are still pictures) |
+| G | Moving water edge | The foam line breathes in and out; lava glows and dims. | Medium. A light overlay, not a repaint. | Yes, since round 39 (part 8) |
 | H | Texture overlap | The painted grass texture runs a little way over the sand before it stops. | Small, once C or D exists. | Seen in C |
 
 ## 3. Recommendation
@@ -88,3 +88,62 @@ cd C:\Claude\games\Zeldara-v4
 1. Your picks in the Lab (one per section, notes welcome).
 2. Whether to run the edge sheet command.
 3. After you pick: whether to build it for the whole world at once, or the lake shores first so you can judge it in play.
+
+## 8. Round 39 — moving ground
+
+*Oct 8. Kris: "terrain picks are in, but i still don't like how these look. An old zeldara version had moving backgrounds, with flowing lava and lapping water and waves, if this could be possible to recreate. Use my selections and this suggestion to come up with 5 more options per each terrain interface type."*
+
+### His picks (round 38)
+
+| Place | Picked | Note |
+|---|---|---|
+| Lake shore | Layered + pieces, and Clean ink line | "use the clean line, but add in the images" |
+| Beach | Layered + pieces, and Clean ink line | the same, and "look to make more granular sand" |
+| Mountain edge, Marsh, Lava, Snow line | Layered + pieces | — |
+
+So the base of every new card is: **lake and beach — the clean ink line with the pieces** (new style `inkdress`; the beach also gets a fine sand grain); **the other four — layered + pieces**.
+
+### What the old version did
+
+`quests-of-zeldara-v3`, `WorldScene.renderTileAnimations`: every frame, over the visible tiles only, one thin graphics layer on top of the cached ground —
+
+- water and ocean: one pale line per tile drifting up and down (`sin(t·0.8 + tx·0.3 + ty·0.2)`), faint;
+- magma: the whole tile pulses warmer and back (`sin(t·1.1 + phase)`);
+- grass: two short blades per tile swaying.
+
+The ground itself never moved. That is why it was cheap, and the same trick works here.
+
+### The 30 moving cards
+
+Design Lab → Terrain edges → the six "— moving" sections at the top. Reeds, tufts and lily pads sway or bob on every card. The last card of each place redraws the old version's effect on top of his pick, to compare.
+
+| Place | 1 | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|
+| Lake shore | Lapping shore | Shimmering ripples | Sky in the water | Rain rings | Old Zeldara shimmer |
+| Beach | Rolling waves | Lapping tide | Sunlit sea | Surf and spray | Old Zeldara shimmer |
+| Marsh | Bubbling bog | Rain on the marsh | Drifting fog | Fireflies at dusk | Old Zeldara shimmer |
+| Lava | Flowing crust | Molten river | Bubbling pool | Embers rising | Old Zeldara pulse |
+| Mountain edge | Cloud shadows | Falling stones | Mist at the foot | Wind in the grass | Old Zeldara sway |
+| Snow line | Falling snow | Blowing snow | Glittering snow | Mountain weather | Old Zeldara sway |
+
+### How it is drawn (`ZEdge.frame`)
+
+1. The still picture (his pick, without pieces) — painted once and kept.
+2. A moving layer worked out on the same sample field the ground uses (16 samples a tile): lapping foam and wet sand by distance from the shore; wave crests rolling in by distance from the land; ripples, sparkles and cloud reflections on water; crust plates and bright streaks drifting along lava; cloud shadows, mist, wind in the grass, glitter on snow.
+3. Small moving things drawn over it: rain rings, bubbles, lava bubbles, embers, spray, fireflies, falling stones and dust, snowflakes, blown snow.
+4. The pieces, swaying.
+
+One frame of a 16 × 9-tile card takes 1–10 ms in the Lab.
+
+### What building it in the game means
+
+- The still part is what was planned in part 6. The moving part is a separate light layer, like the old version: drawn only over visible water, lava, snow and grass, about 15 times a second, at the field's resolution.
+- Distances from the shore are already known when a chunk is painted; they would be kept with the chunk so the layer does not work them out again.
+- Weather cards (rain, snow, fog, cloud shadows) could also be tied to the time of day or the region instead of always on.
+- The painted edge pieces (`.\tools\sprites\edges.ps1`) are still only stand-ins drawn in code. "Add in the images" means running that command; the pieces would then sway the same way.
+
+### What I need from you
+
+1. One moving card per place (☆ Pick; notes like "slower" or "waves + sparkle" welcome).
+2. Whether to run the edge sheet command now.
+3. Whole world at once, or lake shores and beaches first so you can judge it in play.

@@ -431,6 +431,28 @@ Fourteen pieces: sword (already forgeable), axe, bow, crossbow, staff, shield, p
 
 A and B can be mixed: weapons forged (B), armor and jewellery earned (A).
 
+**DECIDED (Kris, Oct 8, round 39): A — one piece per finished set. Built** (`src/js/09i-sovereign.js`, `ZSov`). The sword keeps its forge recipe. The pieces, as built:
+
+| Piece | Won by |
+|---|---|
+| Sovereign Axe | all four boss dungeons |
+| Sovereign Aegis (shield) | all four boss towers |
+| Sovereign Crossbow | all four island guardians |
+| Sovereign Bow | all four Sky Ports |
+| Sovereign Crown | all twelve island castles |
+| Sovereign Staff | all sixteen mage towers |
+| Sovereign Amulet | all twelve relics |
+| Sovereign Mantle | the trials of all three Fairy Kings |
+| Sovereign Greaves | all twenty fairy lessons |
+| Sovereign Ring | all four familiars at their last level |
+| Sovereign Gauntlets | every monster camp in the four realms |
+| Sovereign Boots | every region of the four realms walked |
+| Sovereign Plate | the Volcano Lord |
+
+- Two differ from the table above: the four Sky Ports give the **Bow** (not the Boots), and the Boots come from walking every region. Easy to swap back.
+- The game checks every few seconds. A piece arrives with a banner; pieces for sets already finished in an old save arrive quietly when it loads, with one notice.
+- Each piece's description says how it is won. The Tome shows the same and how far you are (for instance 7 / 16), and the Paths page has a new row, "the Sovereign set", with all 13 and their progress.
+
 ### 7.6 Not done, or found on the way
 
 - The numbers are the same on all four difficulty levels. They can move into the difficulty table.
