@@ -13,7 +13,7 @@
     c.fillStyle='#000'; c.fillRect(0,0,W,H); c.imageSmoothingEnabled=true; c.drawImage(im,(W-w)/2,(H-h)/2,w,h);
     if(!full){ cv._done=id+W+'x'+H;
       // a 2× close-up of the middle of the edge, so the line itself can be judged
-      var zx={lake:0.2,beach:0.42,cliff:0.38,marsh:0.5,lava:0.4,snow:0.2}[sc]||0.3, zy={lake:0.1,beach:0.5,cliff:0.2,marsh:0.26,lava:0.36,snow:0.18}[sc]||0.3, sw=112, sh=84, dw=sw*1.9, dh=sh*1.9;
+      var sw=112, sh=84, dw=sw*1.9, dh=sh*1.9, fo=ZEdge.focus(sc,sw/CW,sh/CH), zx=fo[0], zy=fo[1]; if(zx>0.55&&zy>0.4){ zx=Math.min(zx,0.5); }
       c.save(); c.imageSmoothingEnabled=true; c.drawImage(im,zx*CW,zy*CH,sw,sh,W-dw-10,H-dh-10,dw,dh); c.strokeStyle='#fff'; c.lineWidth=2; c.strokeRect(W-dw-10,H-dh-10,dw,dh); c.strokeStyle='rgba(255,255,255,.7)'; c.lineWidth=1; c.strokeRect(zx*W,zy*H,sw,sh);
       c.fillStyle='rgba(0,0,0,.6)'; c.fillRect(W-dw-10,H-dh-26,64,16); c.fillStyle='#fff'; c.font='11px "JetBrains Mono",monospace'; c.textAlign='left'; c.fillText('close-up',W-dw-6,H-dh-14); c.restore(); } };
   var D=function(sc,st){ return {id:sc.id+'_'+st.id,name:st.name,desc:st.desc}; };

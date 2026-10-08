@@ -56,6 +56,10 @@ var ZEdge={ TW:16, TH:9, cache:{},
     for(y=0;y<SH;y++)for(x=0;x<SW;x++){ i=y*SW+x; if(x>0)rel(i,i-1,1); if(y>0)rel(i,i-SW,1); if(x>0&&y>0)rel(i,i-SW-1,1.41); if(x<SW-1&&y>0)rel(i,i-SW+1,1.41); }
     for(y=SH-1;y>=0;y--)for(x=SW-1;x>=0;x--){ i=y*SW+x; if(x<SW-1)rel(i,i+1,1); if(y<SH-1)rel(i,i+SW,1); if(x<SW-1&&y<SH-1)rel(i,i+SW+1,1.41); if(x>0&&y<SH-1)rel(i,i+SW-1,1.41); }
     return (ZEdge.cache[key]={S:S,SW:SW,SH:SH,kb:kb,d:d,ek:ek,N:N,C:vnoise(1302),V:vnoise(1303)}); },
+  // where the close-up looks: the window (fw × fh, as shares of the picture) with the most edge in it
+  focus:function(scene,fw,fh){ var key='f_'+scene; if(ZEdge.cache[key])return ZEdge.cache[key]; var F=ZEdge.field(scene,16,true), w=Math.round(F.SW*fw), h=Math.round(F.SH*fh), best=[0.3,0.3], bn=-1;
+    for(var y=4;y+h<F.SH-4;y+=6)for(var x=4;x+w<F.SW-4;x+=6){ var n=0, kinds={}; for(var yy=y;yy<y+h;yy+=2)for(var xx=x;xx<x+w;xx+=2){ var i=yy*F.SW+xx; if(F.d[i]<=1.5)n++; kinds[F.kb[i]]=1; } n*=1+0.35*(Object.keys(kinds).length-1); if(n>bn){ bn=n; best=[x/F.SW,y/F.SH]; } }
+    return (ZEdge.cache[key]=best); },
   // one picture: scene × style at W×H
   render:function(scene,style,W,H){ var key='r_'+scene+'_'+style+'_'+W+'x'+H; if(ZEdge.cache[key])return ZEdge.cache[key];
     var S=style==='today'?12:16, F=ZEdge.field(scene,S,style!=='today'), SW=F.SW, SH=F.SH, kb=F.kb, D=F.d, EK=F.ek, K=ZEdge.K, u=S/16, cv=document.createElement('canvas'); cv.width=SW; cv.height=SH; var c=cv.getContext('2d'), im=c.createImageData(SW,SH), px=im.data;
