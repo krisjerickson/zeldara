@@ -8,7 +8,7 @@ res=[]
 def check(n,ok,info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ')+n+('  '+str(info) if info else ''), flush=True)
 with game(new=True) as g:
-    g.wait(800)
+    g.wait(800); g.chunks()   # round 40: wait for the ground to be painted
     r=g.js("""(()=>{ var ws=game.scene.getScene('World'), cs=function(sel){ var e=document.querySelector(sel); return e?getComputedStyle(e).fontFamily:''; };
       var t=ws.add.text(0,0,'x',{fontSize:'18px',fontFamily:'Segoe UI',fontStyle:'bold'}), t2=ws.add.text(0,0,'x',{fontSize:'10px',fontFamily:'Segoe UI'}), f=[t.style.fontFamily,t2.style.fontFamily]; t.destroy(); t2.destroy();
       return {mhdr:cs('.mhdr'), btn:cs('#hud button')||cs('button'), rname:cs('.rname'), dtx:cs('.dtx'), notif:getComputedStyle(document.getElementById('notif-area')).fontFamily, phaser:f, fonts:[...document.fonts].filter(x=>x.status==='loaded').map(x=>x.family.replace(/['"]/g,'')+x.weight)}; })()""")

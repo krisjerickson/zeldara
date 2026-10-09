@@ -42,7 +42,11 @@ var ZEL={
     var best=-9, pos=0; A.forEach(function(a){ var s=0; D.forEach(function(d){ s+=ZEL.rel(a,d); }); s=Math.max(-2,Math.min(2,s)); if(s>0)pos++; if(s>best)best=s; });
     var t=best; if(best>0&&pos>=2)t=best+1; if(att==='all'||A.length>2)t=Math.min(t,1); t=Math.max(-2,Math.min(2,t));
     if(boss)t=Math.max(-1,Math.min(1,t)); return t; },
-  mult:function(t,kind,boss){ if(!t)return 1; var k=String(t); if(boss)return ZEL.BOSS_M[k]||1; if(kind==='familiar'&&t>0)return ZEL.FAM_M[k]||1; return ZEL.TIER[k]?ZEL.TIER[k].m:1; },
+  // the numbers of the current difficulty level (04g ZDIFF[].el; Wayfarer = the numbers above)
+  dl:function(){ try{ if(typeof ZDiff!=='undefined'){ var D=ZDiff.cur(); if(D&&D.el)return D.el; } }catch(e){} return {bane:ZEL.TIER['2'].m,weak:ZEL.TIER['1'].m,res:ZEL.TIER['-1'].m,ward:ZEL.TIER['-2'].m,bossUp:ZEL.BOSS_M['1'],bossDown:ZEL.BOSS_M['-1'],resCap:ZEL.RES_CAP}; },
+  stepM:function(t){ var E=ZEL.dl(); return t>=2?E.bane:t===1?E.weak:t===-1?E.res:t<=-2?E.ward:1; },
+  resCap:function(){ return ZEL.dl().resCap; },
+  mult:function(t,kind,boss){ if(!t)return 1; var k=String(t), E=ZEL.dl(); if(boss)return t>0?E.bossUp:E.bossDown; if(kind==='familiar'&&t>0)return ZEL.FAM_M[k]||1; return ZEL.stepM(t); },
   // the element (of `att`) that does best against `def` — the one whose status and colour the hit shows
   bestEl:function(att,def){ var A=ZEL.els(att), D=ZEL.els(def), b=A[0]||null, bs=-9; A.forEach(function(a){ var s=0; D.forEach(function(d){ s+=ZEL.rel(a,d); }); if(s>bs){ bs=s; b=a; } }); return b; },
   item:function(it){ if(!it)return []; return it.el==='all'?'all':(it.el||[]); },

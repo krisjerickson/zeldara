@@ -18,7 +18,7 @@ var SB_SCN_STEPS=[0.85,1,1.15,1.3,1.5];
 function sbScnSize(which){ if(typeof ZScn==='undefined')return; var cur=which==='kb'?ZScn.KB:ZScn.K, i=SB_SCN_STEPS.indexOf(cur), nx=SB_SCN_STEPS[(i+1)%SB_SCN_STEPS.length]; ZScn.set(which==='kb'?'zeldara_scn_kb':'zeldara_scn_k',nx); _sbReload((which==='kb'?'Building':'Object')+' size '+Math.round(nx*100)+'%'); }
 function sbScnInit(){ if(typeof ZScn==='undefined'||typeof document==='undefined')return; var a=document.getElementById('sb-scenery'), b=document.getElementById('sb-scn-k'), c=document.getElementById('sb-scn-kb');
   if(a)a.textContent='🏡 Painted scenery: '+(ZScn.off?'off (drawn)':'on'); if(b)b.textContent='🌳 Object size: '+Math.round(ZScn.K*100)+'%'; if(c)c.textContent='🏠 Building size: '+Math.round(ZScn.KB*100)+'%'; }
-setTimeout(sbScnInit,0);
+setTimeout(sbScnInit,0); setTimeout(function(){ if(typeof sbEdgesInit==="function")sbEdgesInit(); },0);
 function sbSprites(){ if(typeof ZAtlas==='undefined')return; ZAtlas.setOff(!ZAtlas.off); var b=document.getElementById('sb-sprites'); if(b)b.textContent='🎨 Painted sprites: '+(ZAtlas.off?'off (stand-ins)':'on'); showNotif('Painted sprites '+(ZAtlas.off?'off — stand-ins shown':'on'),'#aaddff'); }
 function sbVolcanoUnlock(){
   var ws=_sbWs(); if(!ws) return;

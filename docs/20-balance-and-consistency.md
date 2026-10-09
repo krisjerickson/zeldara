@@ -455,6 +455,9 @@ A and B can be mixed: weapons forged (B), armor and jewellery earned (A).
 
 ### 7.6 Not done, or found on the way
 
+**Round 40 (Kris: "implement everything else"): all four below are now done** — element numbers per difficulty level (doc 17), tree chopping (`10m-chop.js`), ordinary monsters' armor weight (`monArmorK`, doc 17), and a small gem per set element on a gem-set piece's icon.
+
+
 - The numbers are the same on all four difficulty levels. They can move into the difficulty table.
 - **Tree chopping has never worked.** The Woodcutter's Axe code reads a field that does not exist. It was left alone because switching it on changes the world's trees.
 - Ordinary monsters' attack values were not retuned.

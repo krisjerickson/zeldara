@@ -38,6 +38,7 @@ with game(new=True) as g:
         r = g.ws("[ps.famSpecial.fam_grass, _famActiveSkills(ps,'fam_grass').map(o=>o.S.name)]")
         check('Picking Vine Snare makes it the special (saved in famSpecial)', r[0] == 2 and r[1] == ['Thorn Dart', 'Vine Snare'], r)
         g.js("document.getElementById('familiar-info-modal').style.display='none'"); g.wait(600)
+        until(g, "/Vine Snare/.test((document.getElementById('fam-hud')||{}).innerText||'')&&/Inferno/.test(document.getElementById('fam-hud').innerText)", 8000, js=True)   # round 40: the HUD refreshes every 0.2 s of game time, slower in a busy headless browser
         r = g.js("(document.getElementById('fam-hud')||{}).innerText||''")
         check('Familiar HUD shows one chip per familiar with its special + cooldown', 'Vine Snare' in r and 'Tidal Wave' in r and 'Avalanche' in r and 'Inferno' in r, r)
         # only the chosen skills are ever cast

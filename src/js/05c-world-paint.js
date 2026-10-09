@@ -124,10 +124,13 @@ var WP_KT=null;    // kinds as flat typed tables (shared with the worker)
 function _wpKindTables(){
   if(WP_KT&&WP_KT.n===WK_REG.list.length)return WP_KT;
   var L=WK_REG.list, n=L.length, T8=function(){ return new Uint8Array(n); }, F=function(m){ return new Float32Array(n*(m||1)); };
-  var t={n:n,soft:T8(),nowarp:T8(),pat:T8(),wall:T8(),noFace:T8(),liquid:T8(),road:T8(),strata:T8(),flat:T8(),rimW:T8(),hasRim:T8(),hasShore:T8(),sc:F(),A:F(3),B:F(3),face:F(3),face2:F(3),rim:F(3),shore:F(3)};
+  var t={n:n,soft:T8(),nowarp:T8(),pat:T8(),wall:T8(),noFace:T8(),liquid:T8(),road:T8(),strata:T8(),flat:T8(),rimW:T8(),hasRim:T8(),hasShore:T8(),cls:T8(),land:T8(),sc:F(),A:F(3),B:F(3),face:F(3),face2:F(3),rim:F(3),shore:F(3)};
   L.forEach(function(k,i){ t.soft[i]=k.soft?1:0; t.nowarp[i]=k.nowarp?1:0; t.pat[i]=k.pattern?1:0; t.wall[i]=k.wall?1:0; t.noFace[i]=k.wall&&k.wall.noFace?1:0; t.liquid[i]=k.liquid?1:0; t.road[i]=k.roadish?1:0; t.strata[i]=k.wall&&k.wall.strata?1:0; t.flat[i]=k.flat?1:0;
     t.sc[i]=k.sc||0.18; var A=k.wall?k._top:k._a, B=k.wall?k._top2:k._b; for(var c=0;c<3;c++){ t.A[i*3+c]=A[c]; t.B[i*3+c]=B[c]; if(k.wall){ t.face[i*3+c]=k._face[c]; t.face2[i*3+c]=k._face2[c]; } if(k._rim)t.rim[i*3+c]=k._rim[c]; if(k._shore)t.shore[i*3+c]=k._shore[c]; }
-    t.hasRim[i]=k._rim?1:0; t.rimW[i]=k.rimW||1; t.hasShore[i]=k._shore?1:0; });
+    t.hasRim[i]=k._rim?1:0; t.rimW[i]=k.rimW||1; t.hasShore[i]=k._shore?1:0;
+    // round 40 (terrain edges): what kind of edge this ground makes — cls 1 lake, 2 sea, 3 marsh water, 4 lava; land 1 grass, 2 sand, 3 snow, 4 mud, 5 scree, 6 crust/ash
+    var id=k.id||''; t.cls[i]=k.lava?4:!k.liquid?0:/^(sea|reef)$/.test(id)?2:/^(shallow|deep|marsh|bog|swamp)$/.test(id)?3:1;
+    t.land[i]=k.liquid||k.wall?0:/grass|meadow|turf|green|wild|heath|verge|bloom|crop|garden|moss|^land$/.test(id)?1:/sand|shore|isle|dune|beach/.test(id)?2:/snow|ice|frost|glacier/.test(id)?3:/mud|soil|earth|marsh/.test(id)?4:/scree|rubble|grey|rock|dust/.test(id)?5:/crust|ash|scorch|char|cinder|glass/.test(id)?6:0; });
   WP_KT=t; return t;
 }
 // D: {S,GW,SW,tx0,ty0,wx0,wy0,WW,kwin,zwin,hills(Float32 256*2),lines(Float32 x,y,r),seaK,seed,KT}; out: D.kb, D.px
@@ -156,22 +159,82 @@ function _wpField(D,stage,r0,r1){
       kb[py*SW+pxx]=(KT.nowarp[ku]||KT.nowarp[kw])?ku:kw; }
     return;
   }
+  if(stage===2){      // round 40 (terrain edges): round the outline — each sample takes the kind most common around it — then how far every sample is from the next kind
+    var R2=Math.max(1,Math.round(S*0.22)), ks=new Uint16Array(64), kc=new Uint16Array(64), fixed=function(k){ return KT.road[k]||KT.pat[k]||KT.nowarp[k]; };
+    var src=kb.slice(), half=((2*R2+1)*(2*R2+1))>>1;      // one pass (the Lab does two; one is enough at 16 samples a tile and halves the cost)
+      for(var y2=R2;y2<SW-R2;y2++)for(var x2=R2;x2<SW-R2;x2++){ var i2=y2*SW+x2, k0=src[i2]; if(fixed(k0))continue;
+        if(src[i2-R2]===k0&&src[i2+R2]===k0&&src[i2-R2*SW]===k0&&src[i2+R2*SW]===k0&&src[i2-R2*SW-R2]===k0&&src[i2+R2*SW+R2]===k0&&src[i2-R2*SW+R2]===k0&&src[i2+R2*SW-R2]===k0)continue;
+        var own=0, yy2, xx2, kq; for(yy2=y2-R2;yy2<=y2+R2;yy2++){ var row2=yy2*SW; for(xx2=x2-R2;xx2<=x2+R2;xx2++){ kq=src[row2+xx2]; if(kq===k0||fixed(kq))own++; } }
+        if(own>half)continue;      // the kind already holds most of the window: nothing to do (the common case)
+        var nk=0, best=k0, bn=0;
+        for(yy2=y2-R2;yy2<=y2+R2;yy2++)for(xx2=x2-R2;xx2<=x2+R2;xx2++){ kq=src[yy2*SW+xx2]; if(fixed(kq))continue; var j2=0; while(j2<nk&&ks[j2]!==kq)j2++; if(j2===nk){ if(nk>=64)continue; ks[nk]=kq; kc[nk]=0; nk++; } var cn=++kc[j2]; if(cn>bn||(cn===bn&&kq===k0)){ bn=cn; best=kq; } }
+        kb[i2]=best; }
+    var dd=new Float32Array(SW*SW), ek=D.ek, dist=D.dist;
+    for(var y3=0;y3<SW;y3++)for(var x3=0;x3<SW;x3++){ var i4=y3*SW+x3, k4=kb[i4]; dd[i4]=99;
+      if(x3>0&&kb[i4-1]!==k4){ dd[i4]=1; ek[i4]=kb[i4-1]; } else if(x3<SW-1&&kb[i4+1]!==k4){ dd[i4]=1; ek[i4]=kb[i4+1]; } else if(y3>0&&kb[i4-SW]!==k4){ dd[i4]=1; ek[i4]=kb[i4-SW]; } else if(y3<SW-1&&kb[i4+SW]!==k4){ dd[i4]=1; ek[i4]=kb[i4+SW]; } else ek[i4]=k4; }
+    var rl=function(i,j,c){ if(kb[j]===kb[i]&&dd[j]+c<dd[i]){ dd[i]=dd[j]+c; ek[i]=ek[j]; } };
+    for(y3=0;y3<SW;y3++)for(x3=0;x3<SW;x3++){ i4=y3*SW+x3; if(x3>0)rl(i4,i4-1,1); if(y3>0)rl(i4,i4-SW,1); if(x3>0&&y3>0)rl(i4,i4-SW-1,1.41); if(x3<SW-1&&y3>0)rl(i4,i4-SW+1,1.41); }
+    for(y3=SW-1;y3>=0;y3--)for(x3=SW-1;x3>=0;x3--){ i4=y3*SW+x3; if(x3<SW-1)rl(i4,i4+1,1); if(y3<SW-1)rl(i4,i4+SW,1); if(x3<SW-1&&y3<SW-1)rl(i4,i4+SW+1,1.41); if(x3>0&&y3<SW-1)rl(i4,i4+SW-1,1.41); }
+    for(i4=0;i4<dd.length;i4++)dist[i4]=dd[i4]>=31?255:Math.round(dd[i4]*8);
+    return;
+  }
   var FH=Math.round(S*0.75), A=KT.A, B=KT.B, sc=KT.sc;
   var col=[0,0,0], colK=function(k,fx,fy,o){ var n=N.c(fx*sc[k],fy*sc[k]), tt=n*1.15-0.05; tt=tt<0?0:tt>1?1:tt; var i3=k*3; o[0]=A[i3]+(B[i3]-A[i3])*tt; o[1]=A[i3+1]+(B[i3+1]-A[i3+1])*tt; o[2]=A[i3+2]+(B[i3+2]-A[i3+2])*tt; return o; };
-  var cc=[0,0,0];
+  var cc=[0,0,0], BAY=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5], HSH=function(x,y,sd){ var n=(x*374761393+y*668265263+sd*1442695041)|0; n=(n^(n>>>13))*1274126177|0; return ((n^(n>>>16))>>>0)/4294967296; };
   for(var py2=r0;py2<r1;py2++)for(var px2=0;px2<SW;px2++){
     var ki=kb[py2*SW+px2], fx2=(px2+0.5)/S+tx0, fy2=(py2+0.5)/S+ty0; colK(ki,fx2,fy2,col); var r=col[0], g=col[1], b=col[2];
     if(KT.soft[ki]){ var x0=Math.floor(fx2-0.5), y0=Math.floor(fy2-0.5), ax=fx2-0.5-x0, ay=fy2-0.5-y0, c0r=r, c0g=g, c0b=b; r=0;g=0;b=0;
       for(var j=0;j<2;j++)for(var i=0;i<2;i++){ var kk2=kAt(x0+i,y0+j), wgt=(i?ax:1-ax)*(j?ay:1-ay); if(KT.soft[kk2]){ colK(kk2,fx2,fy2,cc); r+=cc[0]*wgt; g+=cc[1]*wgt; b+=cc[2]*wgt; } else { r+=c0r*wgt; g+=c0g*wgt; b+=c0b*wgt; } } }
-    var f=1+(N.v(fx2*0.9,fy2*0.9)-0.5)*0.12;
+    var f=1+(N.v(fx2*0.9,fy2*0.9)-0.5)*0.12, isF=0;
     if(!KT.liquid[ki]&&!KT.flat[ki]){ var zx=(fx2|0)-wx0, zy=(fy2|0)-wy0, zi=(zx<0||zy<0||zx>=WW||zy>=WW)?255:zwin[zy*WW+zx];
       if(zi!==255&&D.hills[zi*2]>0){ var hs=D.hills[zi*2], hk=D.hills[zi*2+1];
         var h1=N.h((fx2-0.6)*hs,(fy2-0.6)*hs)+N.h2((fx2-0.6)*hs*2.3,(fy2-0.6)*hs*2.3)*0.35, h2=N.h((fx2+0.6)*hs,(fy2+0.6)*hs)+N.h2((fx2+0.6)*hs*2.3,(fy2+0.6)*hs*2.3)*0.35; f*=1+(h1-h2)*hk; } }
     if(KT.wall[ki]){ var rel=N.h(fx2*0.6,fy2*0.6)-N.h(fx2*0.6+0.3,fy2*0.6+0.3); f*=1+rel*1.1+(N.v(fx2*2.6,fy2*2.6)-0.5)*0.22;
       if(!KT.noFace[ki]){ for(var qf=1;qf<=FH;qf++){ var yb=py2+qf; if(yb>=SW)break; if(!KT.wall[kb[yb*SW+px2]]){ var tf=1-qf/FH, i3=ki*3;
-          r=KT.face[i3]+(KT.face2[i3]-KT.face[i3])*tf; g=KT.face[i3+1]+(KT.face2[i3+1]-KT.face[i3+1])*tf; b=KT.face[i3+2]+(KT.face2[i3+2]-KT.face[i3+2])*tf;
+          isF=1; r=KT.face[i3]+(KT.face2[i3]-KT.face[i3])*tf; g=KT.face[i3+1]+(KT.face2[i3+1]-KT.face[i3+1])*tf; b=KT.face[i3+2]+(KT.face2[i3+2]-KT.face[i3+2])*tf;
           if(KT.strata[ki]&&((Math.floor(fy2*S)+(fx2*0.7|0))%5===0)){ r*=0.8; g*=0.8; b*=0.8; } if(qf===FH){ r*=1.18; g*=1.18; b*=1.18; } break; } } } }
-    else { for(var qs=1;qs<=3;qs++){ var ya=py2-qs; if(ya<0)break; var kaq=kb[ya*SW+px2]; if(KT.wall[kaq]&&!KT.noFace[kaq]){ var sh=0.62+qs*0.1; r*=sh; g*=sh; b*=sh; break; } } }
+    else { var qn=D.E?Math.round(8*S/16):3; for(var qs=1;qs<=qn;qs++){ var ya=py2-qs; if(ya<0)break; var kaq=kb[ya*SW+px2]; if(KT.wall[kaq]&&!KT.noFace[kaq]){ var sh=D.E?0.5+0.5*(qs/qn):0.62+qs*0.1; r*=sh; g*=sh; b*=sh; break; } } }
+    if(D.E){      // ── round 40: the terrain edges Kris picked in the Lab (ZEdge, 07ze): rounded outline, then by place — clean ink line (lakes, sea) or layered shores (marsh, lava, cliffs, snow), plus an optional blend ──
+      var i9=py2*SW+px2, e9=D.ek[i9], dq=D.dist[i9];
+      if(dq<255&&e9!==ki){ var ds=dq/8, d=ds*16/S, Ec=D.E, wsx=px2+Math.round(tx0*S), wsy=py2+Math.round(ty0*S), m;
+        if(KT.road[ki]||KT.pat[ki]||KT.road[e9]||KT.pat[e9]){ var i3c=ki*3;      // built things keep a clear edge, as before
+          if(KT.hasRim[ki]&&ds<=KT.rimW[ki]+0.5){ r=KT.rim[i3c]; g=KT.rim[i3c+1]; b=KT.rim[i3c+2]; if(D.ink&&ds<=1.01){ r*=0.7; g*=0.7; b*=0.7; } }
+          else if(!KT.soft[ki]&&ds<=1.01)f*=D.ink?0.64:0.82; }
+        else if(!isF&&d<14.5){
+          var kL=KT.liquid[ki], eL=KT.liquid[e9], kH=KT.cls[ki]===4, eH=KT.cls[e9]===4, kW=KT.wall[ki], eW=KT.wall[e9], cl=kL?KT.cls[ki]:eL?KT.cls[e9]:0, st=Ec.st[cl], BL=Ec.bl[cl], OVR=BL===1||BL===2||BL===3, i3s=ki*3, sr, sg, sb;
+          if(kH){ sr=255; sg=236; sb=150; } else if(KT.hasShore[ki]){ sr=KT.shore[i3s]; sg=KT.shore[i3s+1]; sb=KT.shore[i3s+2]; } else { sr=r+(255-r)*0.5; sg=g+(255-g)*0.5; sb=b+(255-b)*0.5; }
+          if(!(OVR&&!kW&&!eW)){
+            if(st===1){      // clean ink line
+              if(kL&&!eL){ if(d<1.6)f*=0.5; else if(d<2.6)f*=0.82; else if(d<4.6){ m=0.5; r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; } }
+              else if(kL&&eL){ m=Math.max(0,0.5-d/10); if(m>0){ colK(e9,fx2,fy2,cc); r+=(cc[0]-r)*m; g+=(cc[1]-g)*m; b+=(cc[2]-b)*m; } }      // two waters (reef and sea, lake and creek) fade into each other, no line
+              else if(d<1.6)f*=0.52; else if(d<2.6)f*=0.84; else if(!kL&&eL&&d<5)f*=0.9; }
+            else {      // layered shores, banks and cliffs
+              if(kL&&!eL){ var gap=N.v(fx2*2.6,fy2*2.6)<0.22;
+                if(kH){ if(d<2.2){ m=0.85; r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; } else if(d<5){ m=0.35*(1-(d-2.2)/2.8); r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; } }
+                else if(d<1.7&&!gap){ r+=(255-r)*0.86; g+=(255-g)*0.88; b+=(255-b)*0.9; }
+                else if(d<5){ m=0.5-(d-1.7)*0.07; r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; }
+                else if(d<11){ m=0.22*(1-(d-5)/6); r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; }
+                if(!kH&&d>=5)f*=0.94+Math.min(0.06,(d-5)*0.01); }
+              else if(!kL&&eL){
+                var lb=false; if(!eH&&KT.land[ki]!==2&&d<4.2){ for(var qb=1;qb<=Math.round(5*S/16);qb++){ var yb2=py2+qb; if(yb2>=SW)break; if(KT.liquid[kb[yb2*SW+px2]]){ lb=true; break; } } }
+                if(eH){ if(d<5){ m=1-d/5; f*=0.72+0.28*(1-m); r+=(255-r)*0.22*m; g+=(120-g)*0.1*m; } }
+                else if(lb){ m=d/4.2; r=74+(52-74)*(1-m); g=58+(40-58)*(1-m); b=38+(26-38)*(1-m); if(d>3.2){ r*=1.25; g*=1.25; b*=1.2; } f=1; }      // the bank: a dark lip of earth on the far shore
+                else if(d<6){ m=1-d/6; f*=1-0.2*m; if(KT.land[ki]===2){ r*=1-0.06*m; g*=1-0.04*m; if(d>4.8&&d<5.8){ r*=1.08; g*=1.08; b*=1.1; } } } }
+              else if(!kW&&!eW){ if(d<1.4)f*=0.86; m=0.3-(d-1)/9; if(m>0&&(N.v(fx2*3.1,fy2*3.1)*0.7+HSH(wsx,wsy,3)*0.3)<m){ colK(e9,fx2,fy2,cc); r=cc[0]; g=cc[1]; b=cc[2]; } }
+              else if(!kW&&eW&&d<1.4)f*=0.8;
+              if(kW&&!eW&&d<2.2)f*=1.16; } }
+          if(BL){ var BY=BAY[(wsy&3)*4+(wsx&3)]/16;      // the round 40 blends (Lab cards "Pixel dither", "Soft gradient", …)
+            if(OVR&&!kW&&!eW){
+              if(kL&&!eL){ if(BL===1){ if(d<1.4)m=kH?0.9:0.8; else { m=Math.max(0,1-(d-1.4)/6)*0.75; m=BY<m?0.55:0; } } else if(BL===2)m=d<1.2?0.8:Math.pow(Math.max(0,1-d/12),2)*0.75; else m=d<1.4?0.75:((N.v(fx2*4,fy2*4)*0.6+HSH(wsx,wsy,5)*0.4)<0.6-d/14?0.5:0); r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; }
+              else if(!kL&&eL){ m=Math.max(0,1-d/7); if(BL===1)m=BY<m*0.9?1:0; else if(BL===3)m=(N.v(fx2*4,fy2*4)*0.6+HSH(wsx,wsy,7)*0.4)<m?1:0; if(eH){ f*=1-0.4*m; r+=(255-r)*0.22*m; } else f*=1-0.24*m; }
+              else { colK(e9,fx2,fy2,cc); if(BL===1){ m=0.5-d/12; m=BY<m?1:0; } else if(BL===2)m=Math.max(0,0.5-d/14); else { m=0.55-d/10; m=(N.v(fx2*3.6,fy2*3.6)*0.65+HSH(wsx,wsy,8)*0.35)<m?1:0; } if(m>0){ r+=(cc[0]-r)*m; g+=(cc[1]-g)*m; b+=(cc[2]-b)*m; } } }
+            else if(BL===4&&!kL&&eL&&!eH&&!kW){ m=Math.pow(Math.max(0,1-d/14),1.2); f*=1-0.38*m; if(KT.land[ki]===2)r*=1-0.08*m; if(d>1.3&&d<2.3)f*=1.12; }
+            else if(BL===5){ if(!kL&&eL&&!eH&&d>=3.2&&d<4.2)f*=0.8; else if(kL&&!eL&&!kH&&d>=4.6&&d<5.6){ m=0.4; r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; } else if(!kL&&!eL&&!kW&&!eW&&d>=2.6&&d<3.4)f*=0.86; }
+            else if(BL===6&&kL&&!eL&&!kH){ var bi=Math.floor(d/3); if(bi<5){ m=0.62*(1-bi/5); var tq0=cl===2?70:sr, tq1=cl===2?190:sg, tq2=cl===2?190:sb; r+=(tq0-r)*m; g+=(tq1-g)*m; b+=(tq2-b)*m; if(bi>0&&d-bi*3<0.9)f*=1.12; } }
+            else if(BL===7&&!kL&&!kW&&!eW){ var hiK=KT.land[ki]===1, hiE=KT.land[e9]===1; if(hiK&&!hiE){ if(d<1.6)f*=1.22; else if(d<2.6)f*=1.08; } else if(!hiK&&hiE&&!eL&&d<4)f*=0.62+0.095*d; }
+            else if(BL===8&&!kL&&!kW){ m=Math.max(0,1-d/11); if(eL&&!eH){ g*=1+0.16*m; r*=1-0.12*m; b*=1-0.04*m; } else if(eH){ f*=1-0.32*m; r*=1+0.14*m; } else if(KT.land[e9]===3&&HSH(wsx,wsy,9)<m*0.9){ r+=(222-r)*0.55; g+=(234-g)*0.55; b+=(244-b)*0.55; } }
+            else if(BL===9&&!kL&&KT.land[ki]===6&&eH&&d<9){ var cq=Math.abs(N.v(fx2*3.2,fy2*3.2)-0.5), w2=0.024*(1-d/9)+0.006; if(cq<w2){ m=1-d/9; r+=(255-r)*m; g+=(130-g)*m; b+=(40-b)*m*0.5; f=1; } } } } } }
+    else {
     var edgeK=-1, dist=9;
     for(var q=1;q<=3&&edgeK<0;q++){ for(var e=0;e<4;e++){ var ex=px2+(e===0?q:e===1?-q:0), ey=py2+(e===2?q:e===3?-q:0); if(ex<0||ey<0||ex>=SW||ey>=SW)continue; var kn=kb[ey*SW+ex]; if(kn!==ki&&!(KT.soft[ki]&&KT.soft[kn])){ edgeK=kn; dist=q; break; } } }
     if(edgeK>=0){ var i3b=ki*3;
@@ -179,28 +242,36 @@ function _wpField(D,stage,r0,r1){
       else if(!KT.liquid[ki]&&KT.liquid[edgeK]&&dist<=3){ f*=0.72+0.09*dist; }
       else if(KT.hasRim[ki]&&dist<=KT.rimW[ki]){ r=KT.rim[i3b]; g=KT.rim[i3b+1]; b=KT.rim[i3b+2]; if(D.ink&&dist===1){ r*=0.7; g*=0.7; b*=0.7; } }
       else if(!KT.soft[ki]&&dist===1){ f*=D.ink?0.64:0.82; } }      // with painted scenery on, the line where two kinds of ground meet is drawn darker, like the outlines of the painted objects
+    }
     var i4=(py2*SW+px2)*4; r*=f; g*=f; b*=f; px[i4]=r>255?255:r; px[i4+1]=g>255?255:g; px[i4+2]=b>255?255:b; px[i4+3]=255; }
 }
 // One Web Worker paints fields off the main thread; if workers aren't allowed
 // here, the same function runs in small slices on the main thread instead.
-var _WPW={w:null,tried:false,seq:0,cb:{},kt:null};
+var _WPW={w:null,tried:false,seq:0,cb:{},kt:null,pool:[],owner:{}};
+// Round 40: a small pool of workers (up to three, one core left free) — the new terrain edges paint a finer field, so chunks are painted side by side.
+// _wpWorker() hands out the least busy one; _WPW.w stays the first (tests read it to see that workers run).
 function _wpWorker(){
-  if(_WPW.tried)return _WPW.w; _WPW.tried=true;
+  if(_WPW.tried){ var L=_WPW.pool; if(!L.length)return null; var best=L[0]; for(var q=1;q<L.length;q++)if(L[q]._busy<best._busy)best=L[q]; return best; }
+  _WPW.tried=true;
   try{
     var src='var vnoise='+vnoise.toString()+';\nvar _wpField='+_wpField.toString()+';\nvar KT=null;\n'+
-      'onmessage=function(e){ var D=e.data; if(D.kt){ KT=D.kt; return; } D.KT=KT; var t0=performance.now(); _wpField(D,0,0,D.SW); var t1=performance.now(); _wpField(D,1,0,D.SW); postMessage({id:D.id,kb:D.kb,px:D.px,ms:[t1-t0,performance.now()-t1]},[D.kb.buffer,D.px.buffer]); };';
-    var w=new Worker(URL.createObjectURL(new Blob([src],{type:'text/javascript'})));
-    w.onmessage=function(e){ var cb=_WPW.cb[e.data.id]; delete _WPW.cb[e.data.id]; if(cb)cb(e.data); };
-    w.onerror=function(ev){ _WPW.err=ev&&ev.message; _WPW.w=null; Object.keys(_WPW.cb).forEach(function(id){ var cb=_WPW.cb[id]; delete _WPW.cb[id]; cb(null); }); };
-    _WPW.w=w;
-  }catch(e){ _WPW.w=null; }
+      'onmessage=function(e){ var D=e.data; if(D.kt){ KT=D.kt; return; } D.KT=KT; var t0=performance.now(); _wpField(D,0,0,D.SW); if(D.E)_wpField(D,2,0,D.SW); var t1=performance.now(); _wpField(D,1,0,D.SW); postMessage({id:D.id,kb:D.kb,px:D.px,dist:D.dist,ek:D.ek,ms:[t1-t0,performance.now()-t1]},[D.kb.buffer,D.px.buffer,D.dist.buffer,D.ek.buffer]); };';
+    var url=URL.createObjectURL(new Blob([src],{type:'text/javascript'})), n=1;
+    try{ n=Math.max(1,Math.min(3,((typeof navigator!=='undefined'&&navigator.hardwareConcurrency)||2)-1)); }catch(e){}
+    for(var wi=0;wi<n;wi++){ (function(){ var w=new Worker(url); w._busy=0; w._kt=null;
+      w.onmessage=function(e){ var cb=_WPW.cb[e.data.id]; delete _WPW.cb[e.data.id]; delete _WPW.owner[e.data.id]; w._busy=Math.max(0,w._busy-1); if(cb)cb(e.data); };
+      w.onerror=function(ev){ _WPW.err=ev&&ev.message; _WPW.pool=_WPW.pool.filter(function(x){ return x!==w; }); _WPW.w=_WPW.pool[0]||null;
+        Object.keys(_WPW.owner).forEach(function(id){ if(_WPW.owner[id]!==w)return; var cb=_WPW.cb[id]; delete _WPW.cb[id]; delete _WPW.owner[id]; if(cb)cb(null); }); };
+      _WPW.pool.push(w); })(); }
+    _WPW.w=_WPW.pool[0]||null;
+  }catch(e){ _WPW.w=null; _WPW.pool=[]; }
   return _WPW.w;
 }
 
 // Returns a job: call job.step(budgetMs) until it returns true; then job.out.
 function wpChunkJob(wd,cx,cy){
   _wkInit(); var skins=_wzSkins(), N=_wpNoise(), KL=WK_REG.list, W=WORLD_W, H=WORLD_H, kind=wd.kind, zone=wd.zone, KT=_wpKindTables();
-  var MG=1, GW=WCH+2*MG, S=WP_S, SW=GW*S, tx0=cx*WCH-MG, ty0=cy*WCH-MG, ox=tx0*LT, oy=ty0*LT;
+  var MG=1, GW=WCH+2*MG, S=(typeof ZWE!=='undefined'&&ZWE.on)?ZWE.S:WP_S, SW=GW*S, tx0=cx*WCH-MG, ty0=cy*WCH-MG, ox=tx0*LT, oy=ty0*LT;
   var kAt=function(tx,ty){ if(tx<0||ty<0||tx>=W||ty>=H)return WSK.sea._gi; return kind[ty*W+tx]; };
   var cv=mkCanvas(WCH*LT,WCH*LT), ctx=cv.getContext('2d'), pq=null, kb=null, texOf={};
   ctx.translate(-MG*LT,-MG*LT);   // draw in margin coordinates; the margin itself is clipped away
@@ -211,21 +282,24 @@ function wpChunkJob(wd,cx,cy){
   var lines=[]; if(wd.lines){ var LP=wd.lines; for(var li=0;li<LP.length;li+=3){ var lxp=LP[li]-tx0, lyp=LP[li+1]-ty0, lr=LP[li+2]; if(lxp<-lr-1||lyp<-lr-1||lxp>GW+lr+1||lyp>GW+lr+1)continue; lines.push(LP[li],LP[li+1],lr); } }
   if(!_WPW.hills){ var hl=new Float32Array(512); skins.forEach(function(s,i){ if(s.hills){ hl[i*2]=s.hills.sc; hl[i*2+1]=s.hills.k; } }); _WPW.hills=hl; }
   var D={ink:_scn()?1:0,S:S,GW:GW,SW:SW,tx0:tx0,ty0:ty0,wx0:wx0,wy0:wy0,WW:WW,kwin:kwin,zwin:zwin,hills:_WPW.hills,lines:new Float32Array(lines),seaK:WSK.sea._gi,seed:WORLD_SEED,
-    kb:new Uint16Array(SW*SW),px:new Uint8ClampedArray(SW*SW*4)};
+    kb:new Uint16Array(SW*SW),px:new Uint8ClampedArray(SW*SW*4),dist:new Uint8Array(SW*SW),ek:new Uint16Array(SW*SW),E:(typeof ZWE!=='undefined'&&ZWE.on)?ZWE.field():null};      // E: the round 40 terrain edges (05d), null = the old look
+  if(_WPW.keepD)_WPW.lastD=D;      // benchmarks only
   var finishField=function(){ var lo=mkCanvas(SW,SW), lx=lo.getContext('2d'), img=lx.createImageData(SW,SW); img.data.set(D.px); lx.putImageData(img,0,0);
-    ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='medium'; ctx.drawImage(lo,0,0,GW*LT,GW*LT); kb=D.kb; phase=2; };
+    ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='medium'; ctx.drawImage(lo,0,0,GW*LT,GW*LT); kb=D.kb; phase=D.E?1.5:2; };
   var job={out:out,phase:function(){return phase;},step:function(budget){
     var t0=performance.now();
     while(performance.now()-t0<budget){
       if(phase===0){ // 1–2. the field: in the worker if we can, else in slices here
         var wk=_wpWorker();
-        if(wk){ if(!waiting){ waiting=true; var id=++_WPW.seq; if(_WPW.kt!==KT){ wk.postMessage({kt:KT}); _WPW.kt=KT; }
-            _WPW.cb[id]=function(res){ waiting=false; if(!res){ phase=0.5; row=0; D.KT=KT; return; } D.kb=res.kb; D.px=res.px; _WPW.ms=res.ms; var tf=performance.now(); finishField(); _WPW.finMs=performance.now()-tf; };
-            D.id=id; var msg={}; for(var k0 in D)if(k0!=='KT'&&k0!=='N'&&k0!=='cells')msg[k0]=D[k0]; wk.postMessage(msg,[msg.kb.buffer,msg.px.buffer]); }
+        if(wk){ if(!waiting){ waiting=true; var id=++_WPW.seq; if(wk._kt!==KT){ wk.postMessage({kt:KT}); wk._kt=KT; _WPW.kt=KT; } wk._busy++; _WPW.owner[id]=wk;
+            _WPW.cb[id]=function(res){ waiting=false; if(!res){ phase=0.5; row=0; D.KT=KT; D.dist=new Uint8Array(SW*SW); D.ek=new Uint16Array(SW*SW); return; } D.kb=res.kb; D.px=res.px; D.dist=res.dist; D.ek=res.ek; _WPW.ms=res.ms; var tf=performance.now(); finishField(); _WPW.finMs=performance.now()-tf; };
+            D.id=id; var msg={}; for(var k0 in D)if(k0!=='KT'&&k0!=='N'&&k0!=='cells')msg[k0]=D[k0]; wk.postMessage(msg,[msg.kb.buffer,msg.px.buffer,msg.dist.buffer,msg.ek.buffer]); }
           return false; }
         phase=0.5; row=0; D.KT=KT; continue; }
-      if(phase===0.5){ _wpField(D,0,row,Math.min(SW,row+12)); row+=12; if(row>=SW){ phase=1; row=0; } continue; }
+      if(phase===0.5){ _wpField(D,0,row,Math.min(SW,row+12)); row+=12; if(row>=SW){ if(D.E)_wpField(D,2,0,SW); phase=1; row=0; } continue; }
       if(phase===1){ _wpField(D,1,row,Math.min(SW,row+8)); row+=8; if(row>=SW)finishField(); continue; }
+      if(phase===1.5){ // 2b. round 40 terrain edges: fine sand grain, the pieces along the edges, the moving water (05d)
+        if(ZWE.after(D,ctx,out,cx,cy,MG,KL)){ phase=2; } continue; }
       if(phase===2){ // 3. built-surface patterns: cached world-aligned tiles, clipped to each kind
         if(!pq){ pq=[]; var bb={};
           for(var sy=0;sy<SW;sy++)for(var sx=0;sx<SW;sx++){ var kq=kb[sy*SW+sx], kd=KL[kq]; if(!kd.pattern||!WPATTERN[kd.pattern])continue; if(texOf[kq]===undefined){ var zs0=_scn(); texOf[kq]=(zs0&&zs0.ground(kd.id,kd.pattern))||0; } if(texOf[kq])continue; var b0=bb[kq]||(bb[kq]=[sx,sy,sx,sy]); if(sx<b0[0])b0[0]=sx; if(sy<b0[1])b0[1]=sy; if(sx>b0[2])b0[2]=sx; if(sy>b0[3])b0[3]=sy; }
@@ -250,8 +324,10 @@ function wpChunkJob(wd,cx,cy){
         out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } }); out.particles.forEach(function(P){ if(!P._w&&P.area){ P.area=Object.assign({},P.area,{x:P.area.x+ox,y:P.area.y+oy}); P._w=1; } });
         row+=8; if(row>=GW){ phase=4; } continue; }
       if(phase===4){ // 5. props anchored in this chunk (flat ones paint; tall ones become sprites)
+        if(D.E&&!out._zp){ out._zp=1; try{ ZWE.pieces(D,ctx,KL); }catch(e){ WP_ERR['edge pieces: '+e.message]=(WP_ERR['edge pieces: '+e.message]||0)+1; } }      // round 40: pieces along the edges, over the ground's own marks
         var list=(wd.propsByChunk&&wd.propsByChunk[cx+'_'+cy])||[], fk=_wpFakeC(wd,out,ox,oy);
-        list.forEach(function(p){ var Z=p.Z||(p.zi>=0&&p.zi!==255?skins[p.zi].Z:null), fn=WPROP[p.prop]||(Z&&Z.draw&&Z.draw[p.prop]); if(!fn)return;
+        list.forEach(function(p){ if(wd._chopped&&wd._chopped.size&&wd._chopped.has(p.x+'_'+p.y+'_'+p.prop)){ if(typeof _chopStump==='function')_chopStump(ctx,(p.x-tx0+(p.w||1)/2)*LT,(p.y-ty0+(p.h||1))*LT-6,(p.w||1)*LT); return; }      // round 40: a felled tree leaves a stump (10m)
+          var Z=p.Z||(p.zi>=0&&p.zi!==255?skins[p.zi].Z:null), fn=WPROP[p.prop]||(Z&&Z.draw&&Z.draw[p.prop]); if(!fn)return;
           fk.R=rngOf(_wpHash(p.x,p.y,11)); var n0=out.sprites.length, nl=out.lights.length;
           try{ fn(fk,ctx,(p.x-tx0)*LT,(p.y-ty0)*LT,p.w*LT,p.h*LT,p.o||{},(Z&&Z.pal)||{}); }catch(e){ var ek=p.prop+': '+e.message; WP_ERR[ek]=(WP_ERR[ek]||0)+1; }
           if(Math.floor(p.x/WCH)!==cx||Math.floor(p.y/WCH)!==cy)out.sprites.length=n0;   // tall parts belong to the anchor chunk

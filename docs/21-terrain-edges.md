@@ -2,7 +2,7 @@
 
 *Written Oct 7, 2026 (round 38). Kris: "some of the worst visuals are when terrain transitions from one to another, i.e. at lake edges, beaches, mountain edges and other. Come up with ideas of how to address, either through better pixel art or through painted features. Create overall recommendations and also turn some of these into options within the lab to choose from."*
 
-**Nothing in the game has changed.** The options are in the Design Lab, tab **Terrain edges**: six places, each drawn five ways (round 38), and since round 39 five **moving** versions of each, built on Kris's picks (part 8). Pick there; then it gets built.
+**Since round 40 the picked edges are in the game** (part 9). The Lab tab **Terrain edges** has ten more options per place built on Kris's picks (round 40, at the top), the five moving ones of round 39 and the five still ones of round 38 (folded away).
 
 ## 1. Why the edges look rough today
 
@@ -147,3 +147,62 @@ One frame of a 16 × 9-tile card takes 1–10 ms in the Lab.
 1. One moving card per place (☆ Pick; notes like "slower" or "waves + sparkle" welcome).
 2. Whether to run the edge sheet command now.
 3. Whole world at once, or lake shores and beaches first so you can judge it in play.
+
+## 9. Round 40 — ten more per place, and the edges in the game
+
+*Oct 8. Kris: "terrain edges are picked, but i still don't like how we landed. Some of the more movement based ones are good, but we need more to pick from. use my selections and come up with 10 additional to choose from for each terrain interface type. And vary between ways of diffusing and transitioning between the terrains, movement based features, and static features. Implement everything else"* — and on the question card: everything else = the edges into the game (whole world at once, with a Dev switch), the round 37 leftovers, and the painted edge pieces wired in.
+
+### His round 39 picks
+
+| Place | Moving card picked |
+|---|---|
+| Lake shore | Rain rings |
+| Beach | Surf and spray |
+| Mountain edge | Mist at the foot |
+| Marsh | Drifting fog |
+| Lava | Embers rising (Molten river was picked, then un-picked) |
+| Snow line | Glittering snow |
+
+### The 60 new cards
+
+Every card = his still pick + his moving pick + **one** new thing. Four blends, three movements, three static features per place:
+
+| Place | Blends | Movement | Stays put |
+|---|---|---|---|
+| Lake shore | Pixel dither · Soft gradient · Damp bank · Echo lines | Sunlit caustics · Dragonflies · Jumping fish | Wildflowers · Stones in the shallows · Logs and mossy rocks |
+| Beach | Pixel dither · Soft gradient · Wide wet sand · Turquoise shallows | Scuttling crabs · Gulls overhead · Wet-sand shine | Shells and starfish · Tide line · Dune grass |
+| Mountain edge | Pixel dither · Soft gradient · Grass lip · Scattered scree | Birds circling · Trickling water · Falling leaves | Moss and ivy · Mountain flowers · Rubble fans |
+| Marsh | Pixel dither · Soft gradient · Soggy ground · Lush banks | Will-o'-wisps · Dragonflies · Frogs | Toadstools · Rotting logs · Duckweed |
+| Lava | Pixel dither · Soft glow · Scorched ground · Glowing cracks | Heat haze · Steam vents · Pulsing cracks | Obsidian shards · Sulphur crystals · Basalt columns |
+| Snow line | Pixel dither · Soft gradient · Melting patches · Frosted grass | Northern lights · Wind ripples · Light snowfall | Icicles and rocks · Pine saplings · Frozen puddles |
+
+More than one can be picked per place; they combine (a blend, a movement and a feature at once).
+
+### In the game now
+
+`src/js/05d-world-edges.js` (`ZWE`) with the world painter (`05c`) and the chunk renderer (`10c`):
+
+- **Field:** 16 samples a tile (was 12). Every outline is rounded first, then each sample knows how far the next kind is.
+- **Edges by place** (`ZWE.PICK`): lakes and the sea — the clean ink line; marsh, lava, cliffs, snow and land against land — the layered edge (pale shallows and foam, bank lip, glowing lava rim, scorched ground, lit cliff tops, a longer shadow at cliff feet). Roads and paved ground keep their kerbs. Two waters (reef and sea) fade into each other.
+- **Sand:** a fine grain (his note "more granular sand").
+- **Pieces** along the edges: tufts, dry tufts, reeds, cattails, lily pads, pebbles, driftwood, mud clods, shells, boulders, snow drifts, ice shards, embers, crust shards. Drawn in code until the edge sheets are painted; then their pictures (`ZWE.PAINT`).
+- **Movement:** a 16-frame looping flipbook per chunk for lapping (lakes, marsh) and rolling waves (sea), and particles for his picks — rain rings, spray, marsh fog, mist at cliff feet, glitter on snow, embers over lava. The old lava flow and bursts stay.
+- **Switch:** Dev panel → "Terrain edges: new / old" (or `?edges=old`).
+- **Changing a place after a new pick:** one line in `ZWE.PICK` — `style` ('ink' or 'layers'), `blend` (any of the round 40 blends: dither, soft, stipple, wet, outline2, terrace, overhang, tint, crackle) and `fx`. The painter already knows all the blends; the static features and the other movements are Lab-only until picked.
+
+### Cost
+
+Measured in the test machine (2 cores, software graphics, so one paint worker):
+
+| | Old look | New edges |
+|---|---|---|
+| Field work per chunk, measured stage by stage | about 0.25 s (12 samples) | about 0.33 s (16 samples: rounding + distances 55 ms, the edge rules almost free) |
+| Main-thread work per chunk | — | + 20–120 ms, in small slices (sand, pieces, flipbook) |
+
+So about a third more paint time, almost all of it from the finer field. 16 samples were kept because they are exactly 2 pixels each on a 32-pixel tile: 14 or 12 samples show small steps along every edge (compared side by side). On a machine with 4 or more cores the painter now runs up to three workers side by side, which more than makes up for it. If it still feels slow: `?edgeS=14` (or `ZWE.S`), or the flipbook off (`ZWE.motion=false`). Three older tests that took a picture very early (the plaza logo, the familiar bar) now wait for the ground to be painted.
+
+### What I need from you
+
+1. Your picks among the 60 new cards (more than one per place is fine).
+2. A look at the game with the new edges — the Dev switch flips back to the old look for comparison.
+3. Whether to run `.\tools\sprites\edges.ps1` now: the game is ready for the painted pieces.

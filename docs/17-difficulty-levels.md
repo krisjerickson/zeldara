@@ -85,3 +85,19 @@ What these mean in numbers, for two bosses:
 | `famBoss` — share of a familiar's damage a boss takes | 60 % | 50 % | 40 % | 30 % |
 
 The earlier line "NOT changed: healing, potions, the death penalty" still holds; armor and familiars now do change with the level.
+
+## Round 40 — elements and ordinary monsters per level
+
+The element steps (round 37) and the armor weight against ordinary monsters now live in the same table (`ZDIFF[].el`, `ZDIFF[].monArmorK`, `04g-difficulty.js`). Wayfarer keeps the round 37 element numbers.
+
+| | Hearthside | Wayfarer | Shieldbearer | Ragnarök |
+|---|---|---|---|---|
+| ▲▲ Bane | ×2.2 | ×2.0 | ×1.9 | ×1.8 |
+| ▲ Weak | ×1.6 | ×1.5 | ×1.45 | ×1.4 |
+| ▽ Resists | ×0.65 | ×0.6 | ×0.55 | ×0.5 |
+| ▽▽ Warded | ×0.45 | ×0.35 | ×0.3 | ×0.25 |
+| a boss, right / wrong element | ×1.3 / ×0.85 | ×1.25 / ×0.8 | ×1.2 / ×0.75 | ×1.15 / ×0.7 |
+| the hero's own resistance, at most | 55 % | 50 % | 45 % | 40 % |
+| armor weight vs ordinary monsters (bosses: armorK) | 2.7 (2) | 2.0 (1.5) | 1.6 (1.2) | 1.3 (1) |
+
+The Tome's Elements page prints the row for the current level. With the best armor of realms 1–4 a Wayfarer hero now lets through 68 / 54 / 45 / 37 % of an ordinary monster's hit (was 74 / 61 / 52 / 44 %); bosses are unchanged.

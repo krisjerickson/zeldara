@@ -27,6 +27,11 @@ class G:
     def shot(self, path): self.page.screenshot(path=path)
     def ws(self, expr):  # evaluate with ws = World scene
         return self.js(f"(()=>{{var ws=game.scene.getScene('World');var ps=ws.playerState;return ({expr});}})()")
+    def chunks(self, ms=20000):  # wait until the ground chunks on screen are painted and mounted (round 40: the finer terrain edges paint a little slower)
+        for _ in range(ms // 200):
+            if self.js("(()=>{ try{ var ws=game.scene.getScene('World'); if(!ws||!ws._wr)return false; return ws._wrNeeded().filter(n=>n.vis).every(n=>ws._wr.chunks.has(n.key)); }catch(e){ return false; } })()"): return True
+            self.wait(200)
+        return False
     def active(self):
         return self.js("game.scene.getScenes(true).map(s=>s.sys.settings.key)")
 

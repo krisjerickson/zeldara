@@ -30,7 +30,7 @@ var ZHit={
   sums:function(ps){ ps=ps||ZHit._ps(); var res={}, pow={}, sp=0; if(!ps)return {res:res,pow:pow,spell:0};
     ZHit.SLOTS.forEach(function(s){ var it=ZHit._eq(ps,s); if(!it)return; var k;
       if(it.res)for(k in it.res)res[k]=(res[k]||0)+it.res[k]; if(it.elPow)for(k in it.elPow)pow[k]=(pow[k]||0)+it.elPow[k]; if(it.spellPow)sp+=it.spellPow; });
-    ZEL.LIST.forEach(function(e){ if(typeof _heroBuffActive==='function'&&_heroBuffActive(ps,'res_'+e))res[e]=(res[e]||0)+0.30; if(res[e]>ZEL.RES_CAP)res[e]=ZEL.RES_CAP; });
+    ZEL.LIST.forEach(function(e){ if(typeof _heroBuffActive==='function'&&_heroBuffActive(ps,'res_'+e))res[e]=(res[e]||0)+0.30; var cap=ZEL.resCap(); if(res[e]>cap)res[e]=cap; });
     sp+=Math.max(0,(ps.level||1)-1)*0.03;
     return {res:res,pow:pow,spell:sp}; },
   // a spell's power: tome × staff × (level and mage gear) × (the staff's own element)

@@ -13,8 +13,9 @@ Object.assign(WorldScene.prototype,{
     var self=this;
     [['glow',128,function(x){ var g=x.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.35,'rgba(255,255,255,0.45)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); }],
      ['dot',8,function(x){ var g=x.createRadialGradient(4,4,0,4,4,4); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,8,8); }],
-     ['leaf',10,function(x){ x.fillStyle='#fff'; x.beginPath(); x.ellipse(5,3,5,2.2,0.4,0,Math.PI*2); x.fill(); }]].forEach(function(q){
-      if(self.textures.exists(q[0]))return; var c=mkCanvas(q[1],q[0]==='leaf'?6:q[1]); q[2](c.getContext('2d')); self.textures.addCanvas(q[0],c); });
+     ['leaf',10,function(x){ x.fillStyle='#fff'; x.beginPath(); x.ellipse(5,3,5,2.2,0.4,0,Math.PI*2); x.fill(); }],
+     ['zring',32,function(x){ x.strokeStyle='rgba(235,248,255,1)'; x.lineWidth=2; x.beginPath(); x.ellipse(16,8,14,6.5,0,0,Math.PI*2); x.stroke(); }]].forEach(function(q){      // zring: round 40 rain rings on the water
+      if(self.textures.exists(q[0]))return; var c=mkCanvas(q[1],q[0]==='leaf'?6:q[0]==='zring'?16:q[1]); q[2](c.getContext('2d')); self.textures.addCanvas(q[0],c); });
     this.events.once('shutdown',function(){ self._wr.chunks.forEach(function(ch){ self._wrUnmount(ch); }); self._wr.chunks.clear(); });
   },
   // Keys of chunks the camera needs (visible first), plus a one-chunk halo
@@ -89,7 +90,20 @@ Object.assign(WorldScene.prototype,{
       if(L.pulse&&!L.react)self.tweens.add({targets:im,alpha:L.a*0.8*(1-L.pulse),scale:(L.r/64)*(1-L.pulse*0.25),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(L.flicker)im._flicker=L.flicker;
       im._base=L; if(L.react||L.flicker)react.push(im); objs.push(im); });
-    return {objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy,lava:o.lavaCells&&o.lavaCells.length?o.lavaCells:null};
+    // round 40 terrain edges (05d): the moving water as a looping flipbook, and the moving bits Kris picked in the Lab
+    var flip=null;
+    if(o.flip){ var fk=addTex(tag+'_fl',o.flip.canvas), ft=this.textures.get(fk); for(var q=0;q<o.flip.nf;q++)ft.add('f'+q,0,q*o.flip.L,0,o.flip.L,o.flip.L); try{ ft.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){}
+      var fa=this.add.image(x0,y0,fk,'f0').setOrigin(0,0).setDisplaySize(WCH*LT,WCH*LT).setDepth(-8.6), fb=this.add.image(x0,y0,fk,'f1').setOrigin(0,0).setDisplaySize(WCH*LT,WCH*LT).setDepth(-8.5).setAlpha(0);
+      objs.push(fa,fb); flip={a:fa,b:fb,nf:o.flip.nf,T:o.flip.T}; }
+    if(o.zfx){ var Z=o.zfx, mk=function(list,tex,cfg,depth){ try{ var e=self.add.particles(0,0,tex,Object.assign({emitZone:{type:'random',source:{getRandomPoint:function(p){ var c=list[(Math.random()*list.length)|0]; p.x=c[0]+(Math.random()-0.5)*6; p.y=c[1]+(Math.random()-0.5)*6; return p; }}}},cfg)); e.setDepth(depth); e._zfx=1; objs.push(e); }catch(err){ WP_ERR['edge fx: '+err.message]=(WP_ERR['edge fx: '+err.message]||0)+1; } };
+      var soft=function(a){ return {onEmit:function(){ return 0; },onUpdate:function(p,k,t){ return a*Math.sin(t*Math.PI); }}; };
+      if(Z.rings)mk(Z.rings,'zring',{lifespan:1700,scale:{start:0.15,end:1.15},alpha:{start:0.75,end:0},frequency:260,quantity:1},-8.4);
+      if(Z.spray)mk(Z.spray,'dot',{lifespan:700,speedX:{min:-15,max:15},speedY:{min:-60,max:-25},gravityY:90,scale:{start:0.55,end:0.1},alpha:{start:0.9,end:0},frequency:70,quantity:2},-8.3);
+      if(Z.fog)mk(Z.fog,'glow',{lifespan:6000,speedX:{min:4,max:12},speedY:{min:-2,max:2},scale:{start:1.6,end:2.8},alpha:soft(0.13),tint:0xe8eeec,frequency:1100},-8.2);
+      if(Z.mist)mk(Z.mist,'glow',{lifespan:4500,speedX:{min:3,max:9},speedY:{min:-1,max:1},scale:{start:0.8,end:1.5},alpha:soft(0.14),tint:0xf2f4f6,frequency:900},-8.2);
+      if(Z.glitter)mk(Z.glitter,'dot',{lifespan:450,scale:{start:0.38,end:0},alpha:{start:1,end:0},frequency:90,blendMode:'ADD'},-8.1);
+      if(Z.embers)mk(Z.embers,'dot',{lifespan:1600,speedX:{min:-8,max:8},speedY:{min:-45,max:-20},scale:{start:0.45,end:0},alpha:{start:1,end:0},tint:[0xffd070,0xff8a30,0xffe8a0],frequency:220,blendMode:'ADD'},-3); }
+    return {objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy,lava:o.lavaCells&&o.lavaCells.length?o.lavaCells:null,flip:flip};
   },
   // A Lab particle spec → Phaser emitter over an area (world px)
   _wrEmitter(p,a){
@@ -104,7 +118,8 @@ Object.assign(WorldScene.prototype,{
     ch.keys.forEach(function(k){ if(self.textures.exists(k))self.textures.remove(k); });
   },
   _wrTick(dt){
-    if(!this._wr)return; var W=this._wr, lavaCh=[];
+    if(!this._wr)return; var W=this._wr, lavaCh=[], FT=(W.flipT=(W.flipT||0)+dt);
+    W.chunks.forEach(function(ch){ var F=ch.flip; if(!F)return; var u=(FT/F.T*F.nf)%F.nf, i=Math.floor(u); if(F.i!==i){ F.i=i; F.a.setFrame('f'+i,false,false); F.b.setFrame('f'+((i+1)%F.nf),false,false); } F.b.setAlpha(u-i); });      // round 40: the moving water
     W.chunks.forEach(function(ch){ if(ch.lava)lavaCh.push(ch); ch.objs.forEach(function(o){ if(o._lava)o._lava.forEach(function(t){ t.tilePositionX+=t._flow.vx*dt; t.tilePositionY+=t._flow.vy*dt; }); }); });
     // lava bursts (as in the Lab): little sprays of sparks from the molten ground in view
     if(!lavaCh.length)return; W.burstT=(W.burstT||0)-dt; if(W.burstT>0)return; W.burstT=0.12+Math.random()*0.25;

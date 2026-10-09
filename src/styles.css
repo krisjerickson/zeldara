@@ -729,3 +729,6 @@ button,.abtn,.abtn-sm,.forge-btn,.inv-tab-btn,.sl-tab,.sb-btn,.mr-btn,
 
 .zel-pips{position:absolute;left:3px;bottom:3px;display:flex;gap:2px;pointer-events:none}.zel-pips i{width:7px;height:7px;border-radius:50%;box-shadow:0 0 0 1px #000,0 0 4px rgba(0,0,0,.6);display:block}
 .zv-res{margin-top:5px;font-size:11px;color:#9fb0a8;display:flex;align-items:center;flex-wrap:wrap;gap:2px}.zv-res span.l{margin-right:6px}
+
+/* round 40: gem-set pieces show their set elements as small gems on the icon (04i ZIcon.item) */
+.zi-set{position:relative;display:inline-flex;vertical-align:middle}.zi-gems{position:absolute;right:-.12em;bottom:-.12em;display:flex;gap:1px;pointer-events:none}.zi-gems i{display:block;width:.42em;height:.42em;min-width:5px;min-height:5px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:1px solid #1c1610;box-shadow:0 0 2px rgba(255,255,255,.6)}

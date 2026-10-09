@@ -17,7 +17,10 @@ var ZIcon={
   _src:function(img){ if(img.src)return img.src; if(!img._zurl){ try{ img._zurl=img.toDataURL(); }catch(e){ img._zurl=''; } } return img._zurl; },      // (a stand-in page is a canvas: ?scenery=fake)
   html:function(id,fb,em,cls){ var c=ZIcon.css(id,em), box=em||1.3; if(!c)return '<span class="zi-fb'+(cls?' '+cls:'')+'">'+(fb===undefined||fb===null?'':fb)+'</span>';
     return '<span class="zi-b'+(cls?' '+cls:'')+'" style="width:'+box+'em;height:'+box+'em"><i class="zi" style="'+c+'"></i></span>'; },
-  item:function(key,em,cls){ var I=typeof ITEMS!=='undefined'&&ITEMS[key]; return ZIcon.html('ic_'+((I&&I._k)||key),I?I.icon:'?',em,cls); },      // (a gem-set piece — iron_helm~fire — shows its base item's icon)
+  item:function(key,em,cls){ var I=typeof ITEMS!=='undefined'&&ITEMS[key], h=ZIcon.html('ic_'+((I&&I._k)||key),I?I.icon:'?',em,cls);
+    // round 40 (a round 37 leftover): a gem-set piece — iron_helm~fire~storm — wears a small coloured gem for each element set in it
+    if(typeof key==='string'&&key.indexOf('~')>0&&typeof ZEL!=='undefined'){ var els=key.split('~').slice(1).filter(function(e){ return ZEL.E[e]; }); if(els.length)h='<span class="zi-set" title="Set with '+els.map(function(e){ return ZEL.E[e].n; }).join(' and ')+'">'+h+'<span class="zi-gems">'+els.map(function(e){ return '<i style="background:'+ZEL.E[e].col+'"></i>'; }).join('')+'</span></span>'; }
+    return h; },      // (a gem-set piece — iron_helm~fire — shows its base item's icon)
   // a character's small standing picture (mounts, familiars, …) from the one thumbnail sheet of the painted sprites; the emoji when there is none
   char:function(ch,fb,em,cls){ var M=typeof ZAtlas!=='undefined'&&!ZAtlas.off&&ZAtlas.META, A=M&&ZAtlas.A(ch), i=M&&M.thumbs?M.thumbs[A]:undefined, box=em||1.6; if(i===undefined||!M.thumb)return '<span class="zi-fb'+(cls?' '+cls:'')+'">'+(fb||'')+'</span>';
     var n=M.thumb[1], f=function(v){ return (Math.round(v*1000)/1000)+'em'; }; return '<span class="zi-b'+(cls?' '+cls:'')+'" style="width:'+box+'em;height:'+box+'em"><i class="zi" style="width:'+box+'em;height:'+box+'em;background:url('+ZAtlas.BASE+'thumbs.webp) no-repeat -'+f((i%n)*box)+' -'+f(Math.floor(i/n)*box)+' / '+f(n*box)+' auto"></i></span>'; },

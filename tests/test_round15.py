@@ -8,7 +8,7 @@ res=[]
 def check(n,ok,info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ')+n+('  '+str(info) if info else ''), flush=True)
 with game(new=True) as g:
-    g.wait(800)
+    g.wait(800); g.chunks()   # round 40: wait for the ground to be painted
     r=g.ws("{p:[ws.player.x/TILE,ws.player.y/TILE], c:[CENTER_X+0.5,CENTER_Y+0.5], pick:ZProj.PICK}")
     check('A new game begins in the middle of the rune circle', abs(r['p'][0]-r['c'][0])<0.6 and abs(r['p'][1]-r['c'][1])<0.6, r)
     check('Picked looks: Heavy Bodkin, Solid Elements, Real Things', r['pick']=={'arrow':'ar_bodkin','spell':'sp_solid','shot':'en_real'}, r['pick'])

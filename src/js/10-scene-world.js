@@ -134,6 +134,7 @@ class WorldScene extends Phaser.Scene{
     ownedFamiliars:[],
     skills:[],lockedSites:[]  };
     if(!this._newGame)this._loadSave(); else if(typeof ZSave!=='undefined'&&ZSave.pendingHero){ this.playerState.hero=ZSave.pendingHero; ZSave.pendingHero=null; }
+    if(this._chopInit)this._chopInit();      // round 40: the trees this save has felled (10m)
     if(this._newGame&&typeof ZSave!=='undefined'&&ZSave.pendingDiff!==undefined&&ZSave.pendingDiff!==null){ this.playerState.difficulty=ZSave.pendingDiff; ZSave.pendingDiff=null; }   // difficulty chosen on the hero screen (04g)
     if(this.playerState.hero!=='f')this.playerState.hero='m';
     villageApply(this.wd,villageStageOf(this.playerState));   // the village at its current stage (grows as craftsmen are freed)
@@ -2388,29 +2389,8 @@ class WorldScene extends Phaser.Scene{
       self._hitLargeAnimal(a,stats.atk);
       hit=true;
     });
-    // Axe: chop tree tile in facing direction
-    if(ps.equipped&&ps.equipped.lHand==='axe'){
-      var _fNx={right:1,left:-1,up:0,down:0}[dir]||0;
-      var _fNy={right:0,left:0,up:-1,down:1}[dir]||0;
-      var _ftx=Math.floor((p.x+_fNx*TILE*0.75)/TILE);
-      var _fty=Math.floor((p.y+_fNy*TILE*0.75)/TILE);
-      if(_ftx>=0&&_ftx<WORLD_W&&_fty>=0&&_fty<WORLD_H&&this.tiles[_fty]&&this.tiles[_fty][_ftx]===T.TREE){
-        hit=true;
-        this.tiles[_fty][_ftx]=T.DIRT;
-        this._refreshChunkAt(_ftx,_fty);
-        var _logRoll=1+Math.floor(Math.random()*5);
-        var _space=Math.max(0,99-(ps.wood||0));
-        var _got=Math.min(_logRoll,_space);
-        if(_got>0){
-          ps.wood=(ps.wood||0)+_got;
-          this._floatText(p.x,p.y-32,'+'+_got+' 🪵','#c09050');
-          showNotif('🪵 +'+_got+' wood  ('+ps.wood+'/99)','#c08040');
-          this._emitUI();
-        } else {
-          showNotif('🪵 Wood bag full! (99/99)','#ff8844');
-        }
-      }
-    }
+    // Axe: fell the tree in front (round 40, 10m-chop.js — the old check read ps.equipped and T.TREE tiles, which the painted world no longer has)
+    if(this._chopTree&&this._chopTree(p.x,p.y,dir))hit=true;
     if(!hit)this._floatText(px,py-25,'miss','#666666');
   }
 
