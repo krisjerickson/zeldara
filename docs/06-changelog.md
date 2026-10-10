@@ -687,6 +687,11 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[367] Moving water mounted only over its bounding box** (fill cost back to the old look in the test browser).
 - **[368] Tests.** `tests/test_round41.py` (5 checks); `test_round14` waits for its snapshot, `test_perf` gives the island and the idle-HUD checks more time.
 
+## Round 42 (Kris, Oct 9) — more painted terrain pieces ordered
+- **[369] Wave 42 ordered**: `sc_edge_3`–`sc_edge_6` (48 pieces: logs, stones, flowers, shore, highland, snow and fire features, small creatures, leaves, ground and water details); `tools/sprites/edges2.ps1`.
+- **[370] All wired** (`05d-world-edges.js`): `ZWE._featAt` places any Lab feature in the world when `ZWE.PICK[place].feat` has it (painted via `ZWE.FEATPAINT`, code-drawn otherwise, spacing `ZWE.FSP`, size `ZWE.FSIZE`); creatures (`ZWE.CRIT`, `ZWE.critTex`) for leaves, wisps, crabs, gulls, crows, dragonflies, fish, frogs, butterflies, fireflies as particle textures (10c). Only Kris's picks are on.
+- **[371] Tests.** `tests/test_round42.py` (5 checks).
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

@@ -210,6 +210,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
 
+## Round 42 (Kris, Oct 9) — more painted terrain pieces
+- Kris: "ready now, and yes, make requests for painted fallen logs and as many other terrain features as you think might be useful to have painted, biasing to most or all of them"
+- Done: round 41 committed on the PC (8bbc18c, with the edges-0 page). Four new sheets ordered, wave 42, 48 pieces (doc 21 part 11), command `.\tools\sprites\edges2.ps1`. All 48 wired: his picks (logs, leaves, wisps) use them at once; every other Lab feature and creature can be switched on per place in `ZWE.PICK` and uses its picture. `test_round42.py`.
+- **Assumptions:** the extras stay off until Kris picks them (the world shows only his picks); creatures without a picture are small dots.
+- **Waiting for Kris:** run `edges2.ps1`; say if any of the extras should be switched on.
+
 ## Round 41 (Kris, Oct 9) — terrain picks into the game; the painted edge pieces
 - Kris: "1. picks are in for the terrain. 2. edges are looking good 3. let's make the painted edge pieces, powershell command is in"
 - His round 40 picks (Lab DB): lake Damp bank + Logs and mossy rocks; beach Turquoise shallows + Wet-sand shine; mountain Grass lip + Falling leaves; marsh Lush banks + Will-o'-wisps ("the will o wisps are great") + Rotting logs ("logs are great"); lava Glowing cracks + Pulsing cracks; snow Frosted grass.

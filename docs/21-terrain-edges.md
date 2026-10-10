@@ -245,3 +245,30 @@ Painted pieces are drawn a little smaller than painted (`ZWE.PSIZE`) and fewer o
 ### Cost
 
 The moving water is now mounted only over the part of a chunk that moves, which brought the test browser's frame rate back to the old look's.
+
+## 11. Round 42 — more painted pieces ordered (wave 42)
+
+*Oct 9. Kris: "make requests for painted fallen logs and as many other terrain features as you think might be useful to have painted, biasing to most or all of them"*
+
+Four more sheets, 48 pieces — every static feature and every moving creature of the Lab's round 40 cards, plus extras for the ground and water:
+
+| Sheet | Pieces |
+|---|---|
+| `sc_edge_3` logs, stones and the water's edge | fallen log, mossy log, rotting log, mossy rock, stepping stones, wildflowers, water iris, toadstools, duckweed patch, seaweed wrack, dune grass, tide pool |
+| `sc_edge_4` highlands, snow and fire | hanging ivy, moss patch, mountain flowers, heather, icicles, snowy sapling, frozen puddle, rock in snow, obsidian shards, sulphur crystals, basalt columns, steam vent |
+| `sc_edge_5` small creatures and drifting things | crab, dragonfly, leaping fish, frog, gull, crow, butterfly, will-o'-wisp, firefly, three leaves (autumn, red, green) |
+| `sc_edge_6` more ground and water details | floating lava crust, lava bubble, cracked mud, sand ripples, snow ripples, puddle, dry reeds, clover, fern, bramble, lichen rock, ice floe |
+
+Command (Kris's PowerShell, key read in the window only):
+
+```powershell
+cd C:\Claude\games\Zeldara-v4
+.\tools\sprites\edges2.ps1
+```
+
+**Already wired (05d, 10c), so each picture shows up as soon as it is cut:**
+
+- His picks: the logs at lakes (fallen and mossy logs, mossy rocks) and in the marsh (rotting and mossy logs); the falling leaves (three painted leaves) and the will-o'-wisps (a painted wisp over the glow).
+- Every other Lab feature can now stand in the world — one line in `ZWE.PICK[place].feat` turns it on: flowers, stepping stones, shells and tide pools, seaweed wrack, dune grass, ivy and moss, mountain flowers and heather, rubble, toadstools and ferns, duckweed, obsidian, sulphur, basalt, icicles and snowy rocks, snowy saplings, frozen puddles, and the extras (sand and snow ripples, cracked mud, puddles, dry reeds, bramble, ice floes, floating crust and lava bubbles).
+- Every Lab creature can move in the world — one word in `ZWE.PICK[place].fx`: crabs and gulls (beach), dragonflies, fish and butterflies (lake), frogs and fireflies (marsh), crows (mountain). They use the painted creature when it is in, a small dot until then.
+- None of these extras is switched on: the world shows only what Kris picked. `test_round42.py` switches all of them on to check that they work.

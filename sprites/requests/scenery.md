@@ -1,4 +1,4 @@
-# Scenery — 95 sheets, 975 objects and textures (13 sheets in the pilot)
+# Scenery — 99 sheets, 1023 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -22,6 +22,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 36 | Icons: treasure, potions, food, spells, skills | 5 | 78 |
 | 37 | Icons: round 37 — axes, crossbows, staffs, gems, the Sovereign set | 3 | 66 |
 | 38 | Edge pieces: shores, cliffs, snow, lava (round 38) | 2 | 24 |
+| 42 | undefined | 4 | 48 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -1281,6 +1282,170 @@ Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in t
 10. Crust shards — broken plates of black cooled lava crust, seen from above (about 0.5× the hero's height).
 11. Ember rocks — three black rocks with glowing orange cracks (about 0.5× the hero's height).
 12. Ash heap — a low heap of grey ash with a few embers (about 0.4× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_edge_3
+
+Edge pieces 3 — logs, stones and the water's edge · wave 42 · 12 items, 4 × 3 · 1536x1024
+
+- `ed_log_fallen` Fallen log — 96 × 40 px
+- `ed_log_mossy` Mossy log — 96 × 40 px
+- `ed_log_rotting` Rotting log — 96 × 40 px
+- `ed_rock_mossy` Mossy rock — 52 × 42 px
+- `ed_stepping_stones` Stepping stones — 84 × 36 px
+- `ed_wildflowers` Wildflowers — 44 × 34 px
+- `ed_iris` Water iris — 44 × 62 px
+- `ed_toadstools` Toadstools — 44 × 38 px
+- `ed_duckweed` Duckweed patch — 64 × 30 px
+- `ed_wrack` Seaweed wrack — 96 × 28 px
+- `ed_dune_grass` Dune grass — 50 × 52 px
+- `ed_tide_pool` Tide pool — 72 × 44 px
+
+Attach: style_hero, style_centaur, sc_edge_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 3 — logs, stones and the water's edge.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Fallen log — a fallen tree trunk lying on the ground at a slight angle, rough bark, one broken end and one cut end showing rings (about 0.6× the hero's height).
+2. Mossy log — an old fallen log half covered in green moss with a small fern growing from it (about 0.6× the hero's height).
+3. Rotting log — a dark rotting log sinking into mud, soft split bark, two small mushrooms and a little water round it (about 0.6× the hero's height).
+4. Mossy rock — a rounded grey rock with a cap of green moss and a few grass blades at its foot (about 0.7× the hero's height).
+5. Stepping stones — three flat grey stepping stones in a short line, seen from above, a thin ring of water round each (about 0.6× the hero's height).
+6. Wildflowers — a small clump of wild meadow flowers: white daisies, yellow buttercups and pink clover on green stems (about 0.5× the hero's height).
+7. Water iris — a clump of tall blue-violet water irises with sword-shaped leaves at a pond edge (about as tall as the hero).
+8. Toadstools — a cluster of three red-capped white-spotted toadstools and two small brown mushrooms (about 0.6× the hero's height).
+9. Duckweed patch — a loose irregular patch of tiny bright green duckweed floating on water, seen from above (about 0.5× the hero's height).
+10. Seaweed wrack — a short wavy line of dark green and brown seaweed with a bit of driftwood and a small shell, washed up, seen from above (about 0.4× the hero's height).
+11. Dune grass — a tall clump of pale silvery-green marram dune grass bending in the wind on a little sand mound (about as tall as the hero).
+12. Tide pool — a small rock pool among dark wet rocks with clear water, an orange starfish and a sea anemone, seen from above (about 0.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_edge_4
+
+Edge pieces 4 — highlands, snow and fire · wave 42 · 12 items, 4 × 3 · 1536x1024
+
+- `ed_ivy` Hanging ivy — 64 × 60 px
+- `ed_moss_patch` Moss patch — 52 × 30 px
+- `ed_alpine_flowers` Mountain flowers — 44 × 32 px
+- `ed_heather` Heather — 52 × 34 px
+- `ed_icicles` Icicles — 80 × 44 px
+- `ed_snow_pine` Snowy sapling — 40 × 64 px
+- `ed_frozen_puddle` Frozen puddle — 60 × 32 px
+- `ed_snow_rock` Rock in snow — 52 × 40 px
+- `ed_obsidian` Obsidian shards — 52 × 44 px
+- `ed_sulphur` Sulphur crystals — 48 × 44 px
+- `ed_basalt` Basalt columns — 80 × 56 px
+- `ed_steam_vent` Steam vent — 52 × 60 px
+
+Attach: style_hero, style_centaur, sc_edge_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 4 — highlands, snow and fire.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Hanging ivy — a curtain of dark green ivy hanging down over a rock face, seen from the front, straight top edge, trailing ends (about as tall as the hero).
+2. Moss patch — a soft cushion of bright green moss with tiny white flowers on grey stone (about 0.5× the hero's height).
+3. Mountain flowers — a small clump of blue gentians and white edelweiss among short tough grass and pebbles (about 0.5× the hero's height).
+4. Heather — a low rounded bush of purple heather (about 0.5× the hero's height).
+5. Icicles — a row of pale blue icicles of different lengths hanging from a strip of snowy rock edge, seen from the front (about 0.7× the hero's height).
+6. Snowy sapling — a small young pine tree with snow on its branches (about as tall as the hero).
+7. Frozen puddle — a small frozen puddle with pale blue cracked ice and frosted edges, seen from above (about 0.5× the hero's height).
+8. Rock in snow — a grey rock half buried in snow with a cap of snow (about 0.6× the hero's height).
+9. Obsidian shards — a cluster of glossy black obsidian shards with sharp edges and violet glints (about 0.7× the hero's height).
+10. Sulphur crystals — a cluster of bright yellow sulphur crystals on grey rock with a thin wisp of fume (about 0.7× the hero's height).
+11. Basalt columns — the tops of five six-sided dark basalt columns of different heights, seen from a little above, faint orange glow in the cracks between them (about as tall as the hero).
+12. Steam vent — a cracked crust vent glowing orange inside with a puff of white steam rising from it (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_edge_5
+
+Edge pieces 5 — small creatures and drifting things · wave 42 · 12 items, 4 × 3 · 1536x1024
+
+- `ed_crab` Crab — 28 × 22 px
+- `ed_dragonfly` Dragonfly — 32 × 28 px
+- `ed_fish` Leaping fish — 36 × 24 px
+- `ed_frog` Frog — 26 × 22 px
+- `ed_gull` Gull — 48 × 24 px
+- `ed_crow` Crow — 40 × 22 px
+- `ed_butterfly` Butterfly — 26 × 22 px
+- `ed_wisp` Will-o'-wisp — 30 × 34 px
+- `ed_firefly` Firefly — 18 × 18 px
+- `ed_leaf_autumn` Autumn leaf — 18 × 18 px
+- `ed_leaf_red` Red leaf — 18 × 18 px
+- `ed_leaf_green` Green leaf — 16 × 16 px
+
+Attach: style_hero, style_centaur, sc_edge_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 5 — small creatures and drifting things.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Crab — a small red beach crab seen from above, claws raised (a small item, under half the hero's height).
+2. Dragonfly — a blue dragonfly seen from above with four clear wings spread (about 0.4× the hero's height).
+3. Leaping fish — a small silver-blue fish leaping in an arc, seen from the side (about 0.4× the hero's height).
+4. Frog — a small green frog sitting, seen from slightly above (a small item, under half the hero's height).
+5. Gull — a white seagull gliding with wings spread wide, seen from above (about 0.4× the hero's height).
+6. Crow — a black crow flying with wings spread, seen from above (a small item, under half the hero's height).
+7. Butterfly — an orange and black butterfly with wings spread, seen from above (a small item, under half the hero's height).
+8. Will-o'-wisp — a small pale blue-green glowing wisp of light with a soft trailing tail (about 0.5× the hero's height).
+9. Firefly — a tiny firefly with a soft yellow-green glowing tail (a small item, under half the hero's height).
+10. Autumn leaf — a single orange autumn maple leaf (a small item, under half the hero's height).
+11. Red leaf — a single deep red oak leaf (a small item, under half the hero's height).
+12. Green leaf — a single small green birch leaf (a small item, under half the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_edge_6
+
+Edge pieces 6 — more ground and water details · wave 42 · 12 items, 4 × 3 · 1536x1024
+
+- `ed_lava_plate` Floating crust — 56 × 36 px
+- `ed_lava_bubble` Lava bubble — 36 × 30 px
+- `ed_cracked_mud` Cracked mud — 64 × 36 px
+- `ed_sand_ripples` Sand ripples — 72 × 36 px
+- `ed_snow_ripples` Snow ripples — 72 × 36 px
+- `ed_puddle` Puddle — 56 × 30 px
+- `ed_reeds_dry` Dry reeds — 40 × 56 px
+- `ed_clover` Clover patch — 40 × 26 px
+- `ed_fern` Fern — 44 × 40 px
+- `ed_bramble` Bramble — 52 × 36 px
+- `ed_lichen_rock` Lichen rock — 48 × 32 px
+- `ed_ice_floe` Ice floe — 60 × 34 px
+
+Attach: style_hero, style_centaur, sc_edge_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 6 — more ground and water details.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Floating crust — a floating plate of dark cooling lava crust with glowing orange edges, seen from above (about 0.6× the hero's height).
+2. Lava bubble — a swelling bubble of bright molten lava about to burst, seen from a little above (about 0.5× the hero's height).
+3. Cracked mud — a patch of dry cracked mud plates, seen from above (about 0.6× the hero's height).
+4. Sand ripples — a patch of wind ripples in pale sand with a few tiny shells, seen from above (about 0.6× the hero's height).
+5. Snow ripples — a patch of wind-blown ridges in white snow with blue shadows, seen from above (about 0.6× the hero's height).
+6. Puddle — a small rain puddle reflecting the sky with a muddy rim, seen from above (about 0.5× the hero's height).
+7. Dry reeds — a clump of pale brown winter reeds with frost on the tips (about as tall as the hero).
+8. Clover patch — a low patch of clover with two white clover flowers (about 0.4× the hero's height).
+9. Fern — a small green fern with arching fronds (about 0.6× the hero's height).
+10. Bramble — a low thorny bramble bush with a few dark berries (about 0.6× the hero's height).
+11. Lichen rock — a flat grey rock speckled with orange and pale green lichen (about 0.5× the hero's height).
+12. Ice floe — a small flat white ice floe floating on dark water with a thin blue edge, seen from above (about 0.5× the hero's height).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.

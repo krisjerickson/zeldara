@@ -103,8 +103,20 @@ Object.assign(WorldScene.prototype,{
       if(Z.fog)mk(Z.fog,'glow',{lifespan:6000,speedX:{min:4,max:12},speedY:{min:-2,max:2},scale:{start:1.6,end:2.8},alpha:soft(0.13),tint:0xe8eeec,frequency:1100},-8.2);
       if(Z.mist)mk(Z.mist,'glow',{lifespan:4500,speedX:{min:3,max:9},speedY:{min:-1,max:1},scale:{start:0.8,end:1.5},alpha:soft(0.14),tint:0xf2f4f6,frequency:900},-8.2);
       if(Z.glitter)mk(Z.glitter,'dot',{lifespan:450,scale:{start:0.38,end:0},alpha:{start:1,end:0},frequency:90,blendMode:'ADD'},-8.1);
-      if(Z.wisps)mk(Z.wisps,'glow',{lifespan:{min:3500,max:5500},speedX:{min:-10,max:10},speedY:{min:-8,max:4},scale:{start:0.22,end:0.3},alpha:soft(0.85),tint:[0x9ff0e0,0x6fd8d0,0xc8fff0],frequency:900,blendMode:'ADD'},-3);      // round 41: will-o'-wisps over the marsh pools
-      if(Z.leaves)mk(Z.leaves,'leaf',{lifespan:{min:3000,max:4500},speedX:{min:18,max:40},speedY:{min:-6,max:14},rotate:{min:0,max:360},scale:{start:1.1,end:0.9},alpha:{start:1,end:0},tint:[0xd8902a,0xc8582a,0x9ab040,0xe0b830],frequency:700},WR_DEPTH(y0+WCH*LT));      // falling leaves below cliffs
+      // round 42: painted creatures (wave 42 sheets) where they are in; else the code-drawn particles of round 41
+      var PT=function(f){ return typeof ZWE!=='undefined'?ZWE.critTex(self,f):[]; }, each=function(list,keys,cfg,depth,fallback){ if(!keys.length){ if(fallback)mk(list,fallback[0],Object.assign({},cfg,fallback[1]),depth); return; } keys.forEach(function(k){ mk(list,k,Object.assign({},cfg,{frequency:(cfg.frequency||600)*keys.length}),depth); }); };
+      if(Z.wisps){ mk(Z.wisps,'glow',{lifespan:{min:3500,max:5500},speedX:{min:-10,max:10},speedY:{min:-8,max:4},scale:{start:0.22,end:0.3},alpha:soft(0.85),tint:[0x9ff0e0,0x6fd8d0,0xc8fff0],frequency:900,blendMode:'ADD'},-3);      // will-o'-wisps over the marsh pools
+        PT('wisps').forEach(function(k){ mk(Z.wisps,k,{lifespan:{min:3500,max:5500},speedX:{min:-10,max:10},speedY:{min:-8,max:4},scale:{start:0.45,end:0.5},alpha:soft(0.9),frequency:1400,blendMode:'ADD'},-2.9); }); }
+      if(Z.leaves)each(Z.leaves,PT('leaves'),{lifespan:{min:3000,max:4500},speedX:{min:18,max:40},speedY:{min:-6,max:14},rotate:{min:0,max:360},scale:{start:0.5,end:0.42},alpha:{start:1,end:0},frequency:700},WR_DEPTH(y0+WCH*LT),['leaf',{scale:{start:1.1,end:0.9},tint:[0xd8902a,0xc8582a,0x9ab040,0xe0b830]}]);      // falling leaves below cliffs
+      var CS={crabs:[{lifespan:{min:2500,max:4000},speedX:{min:-14,max:14},speedY:0,scale:0.5,alpha:soft(1),frequency:1500},WR_DEPTH(y0+WCH*LT)-0.5,['dot',{tint:0xd8482a,scale:0.8}]],
+        gulls:[{lifespan:12000,speedX:{min:30,max:55},speedY:{min:-6,max:6},scale:0.5,alpha:soft(1),frequency:4000},9000,['dot',{tint:0xffffff,scale:0.9}]],
+        birds:[{lifespan:12000,speedX:{min:-50,max:-25},speedY:{min:-8,max:8},scale:0.5,alpha:soft(1),frequency:4500},9000,['dot',{tint:0x202020,scale:0.9}]],
+        dragonflies:[{lifespan:{min:1500,max:2500},speed:{min:20,max:50},scale:0.5,alpha:soft(1),frequency:1200},WR_DEPTH(y0+WCH*LT),['dot',{tint:0x3aa0e0,scale:0.6}]],
+        fish:[{lifespan:900,speedX:{min:-30,max:30},speedY:{min:-80,max:-55},gravityY:150,rotate:{min:-30,max:30},scale:0.5,alpha:{start:1,end:0.6},frequency:3000},-8.3,['dot',{tint:0xb8c8d0,scale:0.7}]],
+        frogs:[{lifespan:800,speedX:{min:-25,max:25},speedY:{min:-55,max:-40},gravityY:120,scale:0.5,alpha:{start:1,end:0.8},frequency:2600},WR_DEPTH(y0+WCH*LT),['dot',{tint:0x5fae3a,scale:0.8}]],
+        butterflies:[{lifespan:{min:3000,max:5000},speed:{min:10,max:25},scale:0.5,alpha:soft(1),frequency:2000},WR_DEPTH(y0+WCH*LT),['dot',{tint:0xf0a030,scale:0.6}]],
+        fireflies:[{lifespan:{min:2500,max:4000},speed:{min:4,max:12},scale:0.5,alpha:soft(1),frequency:500,blendMode:'ADD'},-2.9,['dot',{tint:0xfff080,scale:0.6}]]};
+      Object.keys(CS).forEach(function(f){ if(Z[f])each(Z[f],PT(f),CS[f][0],CS[f][1],CS[f][2]); });
       if(Z.embers)mk(Z.embers,'dot',{lifespan:1600,speedX:{min:-8,max:8},speedY:{min:-45,max:-20},scale:{start:0.45,end:0},alpha:{start:1,end:0},tint:[0xffd070,0xff8a30,0xffe8a0],frequency:220,blendMode:'ADD'},-3); }
     if(o.cracks){ var ck=this.add.image(x0,y0,addTex(tag+'_ck',o.cracks)).setOrigin(0,0).setDisplaySize(WCH*LT,WCH*LT).setBlendMode(Phaser.BlendModes.ADD).setDepth(-8.7).setAlpha(0.15); objs.push(ck);      // round 41: the cracks in the crust pulse
       this.tweens.add({targets:ck,alpha:0.85,duration:1300,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
