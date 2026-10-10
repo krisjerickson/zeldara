@@ -201,7 +201,6 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
-- (Round 40) Terrain edges: picks among the 60 new Lab cards; run the edge sheet command or not.
 - (Round 37) Did "for 2X weak or resistance, come up with another way to represent this" mean the named steps (Bane / Weak / Resists / Warded) that were built, or something else?
 - (Round 28) Where did Kris see the old pixel versions — the Claude artifact, the local build, or the hosted site — and does it still happen after round 28's fix?
 
@@ -210,6 +209,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - What makes it harder → **ANSWERED: tougher bosses; faster, smarter bosses; tougher and more monsters.** NOT chosen: less healing / harsher death.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
+
+## Round 41 (Kris, Oct 9) — terrain picks into the game; the painted edge pieces
+- Kris: "1. picks are in for the terrain. 2. edges are looking good 3. let's make the painted edge pieces, powershell command is in"
+- His round 40 picks (Lab DB): lake Damp bank + Logs and mossy rocks; beach Turquoise shallows + Wet-sand shine; mountain Grass lip + Falling leaves; marsh Lush banks + Will-o'-wisps ("the will o wisps are great") + Rotting logs ("logs are great"); lava Glowing cracks + Pulsing cracks; snow Frosted grass.
+- Done: all of them in the world (`ZWE.PICK`; blends as a list per place, so land edges carry both the grass lip and the frost). Edge sheets cut on the PC (`intake_scenery.py`): 24 pieces on `assets/scenery/edges-0.webp`, used in the world; fewer and a little smaller than the code stand-ins. The moving water is mounted only where it moves. Tests: `test_round41.py`.
+- **Assumptions:** the logs stay code-drawn (no painted log on the sheets); painted pieces kept sparser than the stand-ins (`ZWE.PDENS`).
 
 ## Round 40 (Kris, Oct 8) — ten more terrain-edge options per place; "implement everything else"
 - Kris: "terrain edges are picked, but i still don't like how we landed. Some of the more movement based ones are good, but we need more to pick from. use my selections and come up with 10 additional to choose from for each terrain interface type. And vary between ways of diffusing and transitioning between the terrains, movement based features, and static features. Implement everything else"

@@ -206,3 +206,42 @@ So about a third more paint time, almost all of it from the finer field. 16 samp
 1. Your picks among the 60 new cards (more than one per place is fine).
 2. A look at the game with the new edges — the Dev switch flips back to the old look for comparison.
 3. Whether to run `.\tools\sprites\edges.ps1` now: the game is ready for the painted pieces.
+
+## 10. Round 41 — his picks in the game, and the painted pieces
+
+*Oct 9. Kris: "picks are in for the terrain. edges are looking good. let's make the painted edge pieces, powershell command is in"*
+
+### His round 40 picks, now in the world (`ZWE.PICK`)
+
+| Place | Picked | In the game |
+|---|---|---|
+| Lake shore | Damp bank · Logs and mossy rocks | wide wet bank around lakes; a fallen log or a mossy rock now and then |
+| Beach | Turquoise shallows · Wet-sand shine | turquoise steps from the shore; the wet sand shines as each wave pulls back, foam patches come and go (in the flipbook) |
+| Mountain edge | Grass lip · Falling leaves | bright grass lip with a shadow on the scree; leaves blow over the grass below cliffs |
+| Marsh | Lush banks · Will-o'-wisps · Rotting logs | greener banks; pale lights over the pools ("the will o wisps are great"); logs on the mud ("logs are great") |
+| Lava | Glowing cracks · Pulsing cracks | glowing cracks in the crust near lava, and an added layer that makes them pulse |
+| Snow line | Frosted grass | frost on grass beside snow |
+
+All of this sits on top of the round 38–39 picks (ink line or layered edge, pieces, lapping, waves, rings, spray, fog, mist, glitter, embers). Land against land carries two blends at once (the grass lip and the frost); the painter now takes a list of blends per place.
+
+### The painted edge pieces
+
+Both sheets came in (wave 38) and were cut on the PC: 24 pieces on a new atlas page `assets/scenery/edges-0.webp`. The game uses them along the edges in place of the code-drawn ones:
+
+| Piece | Where |
+|---|---|
+| grass tuft (2), dry tuft | grass at water, sand and other edges; dry beside scree and snow |
+| reeds, cattails, lily pads | lake and marsh shallows |
+| pebbles, driftwood, shells, mud clods | sand, mud and scree at the water |
+| shore rock, foam curl | in the shallows / at the surf (painted only) |
+| foot boulder, rubble, scree fan | cliff feet and scree |
+| cliff-top grass, snow lip | hanging over cliff tops (painted only) |
+| roots, earth bank | lake banks (painted only) |
+| snow drift, ice shards | snow edges |
+| ember rocks, crust shards, ash heap | crust and ash beside lava |
+
+Painted pieces are drawn a little smaller than painted (`ZWE.PSIZE`) and fewer of them than the code-drawn ones (`ZWE.PDENS`), because they are bigger and busier. The logs and mossy rocks (his Lab picks) are still drawn in code: there is no painted log yet. The Lab cards still show the code-drawn stand-ins (the Lab does not load the scenery pages).
+
+### Cost
+
+The moving water is now mounted only over the part of a chunk that moves, which brought the test browser's frame rate back to the old look's.

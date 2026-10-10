@@ -201,7 +201,7 @@ function _wpField(D,stage,r0,r1){
           if(KT.hasRim[ki]&&ds<=KT.rimW[ki]+0.5){ r=KT.rim[i3c]; g=KT.rim[i3c+1]; b=KT.rim[i3c+2]; if(D.ink&&ds<=1.01){ r*=0.7; g*=0.7; b*=0.7; } }
           else if(!KT.soft[ki]&&ds<=1.01)f*=D.ink?0.64:0.82; }
         else if(!isF&&d<14.5){
-          var kL=KT.liquid[ki], eL=KT.liquid[e9], kH=KT.cls[ki]===4, eH=KT.cls[e9]===4, kW=KT.wall[ki], eW=KT.wall[e9], cl=kL?KT.cls[ki]:eL?KT.cls[e9]:0, st=Ec.st[cl], BL=Ec.bl[cl], OVR=BL===1||BL===2||BL===3, i3s=ki*3, sr, sg, sb;
+          var kL=KT.liquid[ki], eL=KT.liquid[e9], kH=KT.cls[ki]===4, eH=KT.cls[e9]===4, kW=KT.wall[ki], eW=KT.wall[e9], cl=kL?KT.cls[ki]:eL?KT.cls[e9]:0, st=Ec.st[cl], BL=Ec.bl[cl], OVR=(BL&14)!==0, i3s=ki*3, sr, sg, sb;
           if(kH){ sr=255; sg=236; sb=150; } else if(KT.hasShore[ki]){ sr=KT.shore[i3s]; sg=KT.shore[i3s+1]; sb=KT.shore[i3s+2]; } else { sr=r+(255-r)*0.5; sg=g+(255-g)*0.5; sb=b+(255-b)*0.5; }
           if(!(OVR&&!kW&&!eW)){
             if(st===1){      // clean ink line
@@ -225,15 +225,15 @@ function _wpField(D,stage,r0,r1){
               if(kW&&!eW&&d<2.2)f*=1.16; } }
           if(BL){ var BY=BAY[(wsy&3)*4+(wsx&3)]/16;      // the round 40 blends (Lab cards "Pixel dither", "Soft gradient", …)
             if(OVR&&!kW&&!eW){
-              if(kL&&!eL){ if(BL===1){ if(d<1.4)m=kH?0.9:0.8; else { m=Math.max(0,1-(d-1.4)/6)*0.75; m=BY<m?0.55:0; } } else if(BL===2)m=d<1.2?0.8:Math.pow(Math.max(0,1-d/12),2)*0.75; else m=d<1.4?0.75:((N.v(fx2*4,fy2*4)*0.6+HSH(wsx,wsy,5)*0.4)<0.6-d/14?0.5:0); r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; }
-              else if(!kL&&eL){ m=Math.max(0,1-d/7); if(BL===1)m=BY<m*0.9?1:0; else if(BL===3)m=(N.v(fx2*4,fy2*4)*0.6+HSH(wsx,wsy,7)*0.4)<m?1:0; if(eH){ f*=1-0.4*m; r+=(255-r)*0.22*m; } else f*=1-0.24*m; }
-              else { colK(e9,fx2,fy2,cc); if(BL===1){ m=0.5-d/12; m=BY<m?1:0; } else if(BL===2)m=Math.max(0,0.5-d/14); else { m=0.55-d/10; m=(N.v(fx2*3.6,fy2*3.6)*0.65+HSH(wsx,wsy,8)*0.35)<m?1:0; } if(m>0){ r+=(cc[0]-r)*m; g+=(cc[1]-g)*m; b+=(cc[2]-b)*m; } } }
-            else if(BL===4&&!kL&&eL&&!eH&&!kW){ m=Math.pow(Math.max(0,1-d/14),1.2); f*=1-0.38*m; if(KT.land[ki]===2)r*=1-0.08*m; if(d>1.3&&d<2.3)f*=1.12; }
-            else if(BL===5){ if(!kL&&eL&&!eH&&d>=3.2&&d<4.2)f*=0.8; else if(kL&&!eL&&!kH&&d>=4.6&&d<5.6){ m=0.4; r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; } else if(!kL&&!eL&&!kW&&!eW&&d>=2.6&&d<3.4)f*=0.86; }
-            else if(BL===6&&kL&&!eL&&!kH){ var bi=Math.floor(d/3); if(bi<5){ m=0.62*(1-bi/5); var tq0=cl===2?70:sr, tq1=cl===2?190:sg, tq2=cl===2?190:sb; r+=(tq0-r)*m; g+=(tq1-g)*m; b+=(tq2-b)*m; if(bi>0&&d-bi*3<0.9)f*=1.12; } }
-            else if(BL===7&&!kL&&!kW&&!eW){ var hiK=KT.land[ki]===1, hiE=KT.land[e9]===1; if(hiK&&!hiE){ if(d<1.6)f*=1.22; else if(d<2.6)f*=1.08; } else if(!hiK&&hiE&&!eL&&d<4)f*=0.62+0.095*d; }
-            else if(BL===8&&!kL&&!kW){ m=Math.max(0,1-d/11); if(eL&&!eH){ g*=1+0.16*m; r*=1-0.12*m; b*=1-0.04*m; } else if(eH){ f*=1-0.32*m; r*=1+0.14*m; } else if(KT.land[e9]===3&&HSH(wsx,wsy,9)<m*0.9){ r+=(222-r)*0.55; g+=(234-g)*0.55; b+=(244-b)*0.55; } }
-            else if(BL===9&&!kL&&KT.land[ki]===6&&eH&&d<9){ var cq=Math.abs(N.v(fx2*3.2,fy2*3.2)-0.5), w2=0.024*(1-d/9)+0.006; if(cq<w2){ m=1-d/9; r+=(255-r)*m; g+=(130-g)*m; b+=(40-b)*m*0.5; f=1; } } } } } }
+              if(kL&&!eL){ if((BL&2)){ if(d<1.4)m=kH?0.9:0.8; else { m=Math.max(0,1-(d-1.4)/6)*0.75; m=BY<m?0.55:0; } } else if((BL&4))m=d<1.2?0.8:Math.pow(Math.max(0,1-d/12),2)*0.75; else m=d<1.4?0.75:((N.v(fx2*4,fy2*4)*0.6+HSH(wsx,wsy,5)*0.4)<0.6-d/14?0.5:0); r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; }
+              else if(!kL&&eL){ m=Math.max(0,1-d/7); if((BL&2))m=BY<m*0.9?1:0; else if((BL&8))m=(N.v(fx2*4,fy2*4)*0.6+HSH(wsx,wsy,7)*0.4)<m?1:0; if(eH){ f*=1-0.4*m; r+=(255-r)*0.22*m; } else f*=1-0.24*m; }
+              else { colK(e9,fx2,fy2,cc); if((BL&2)){ m=0.5-d/12; m=BY<m?1:0; } else if((BL&4))m=Math.max(0,0.5-d/14); else { m=0.55-d/10; m=(N.v(fx2*3.6,fy2*3.6)*0.65+HSH(wsx,wsy,8)*0.35)<m?1:0; } if(m>0){ r+=(cc[0]-r)*m; g+=(cc[1]-g)*m; b+=(cc[2]-b)*m; } } }
+            if(BL&16&&!kL&&eL&&!eH&&!kW){ m=Math.pow(Math.max(0,1-d/14),1.2); f*=1-0.38*m; if(KT.land[ki]===2)r*=1-0.08*m; if(d>1.3&&d<2.3)f*=1.12; }
+            if(BL&32){ if(!kL&&eL&&!eH&&d>=3.2&&d<4.2)f*=0.8; else if(kL&&!eL&&!kH&&d>=4.6&&d<5.6){ m=0.4; r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; } else if(!kL&&!eL&&!kW&&!eW&&d>=2.6&&d<3.4)f*=0.86; }
+            if(BL&64&&kL&&!eL&&!kH){ var bi=Math.floor(d/3); if(bi<5){ m=0.62*(1-bi/5); var tq0=cl===2?70:sr, tq1=cl===2?190:sg, tq2=cl===2?190:sb; r+=(tq0-r)*m; g+=(tq1-g)*m; b+=(tq2-b)*m; if(bi>0&&d-bi*3<0.9)f*=1.12; } }
+            if(BL&128&&!kL&&!kW&&!eW){ var hiK=KT.land[ki]===1, hiE=KT.land[e9]===1; if(hiK&&!hiE){ if(d<1.6)f*=1.22; else if(d<2.6)f*=1.08; } else if(!hiK&&hiE&&!eL&&d<4)f*=0.62+0.095*d; }
+            if(BL&256&&!kL&&!kW){ m=Math.max(0,1-d/11); if(eL&&!eH){ g*=1+0.16*m; r*=1-0.12*m; b*=1-0.04*m; } else if(eH){ f*=1-0.32*m; r*=1+0.14*m; } else if(KT.land[e9]===3&&HSH(wsx,wsy,9)<m*0.9){ r+=(222-r)*0.55; g+=(234-g)*0.55; b+=(244-b)*0.55; } }
+            if(BL&512&&!kL&&KT.land[ki]===6&&eH&&d<9){ var cq=Math.abs(N.v(fx2*3.2,fy2*3.2)-0.5), w2=0.024*(1-d/9)+0.006; if(cq<w2){ m=1-d/9; r+=(255-r)*m; g+=(130-g)*m; b+=(40-b)*m*0.5; f=1; } } } } } }
     else {
     var edgeK=-1, dist=9;
     for(var q=1;q<=3&&edgeK<0;q++){ for(var e=0;e<4;e++){ var ex=px2+(e===0?q:e===1?-q:0), ey=py2+(e===2?q:e===3?-q:0); if(ex<0||ey<0||ex>=SW||ey>=SW)continue; var kn=kb[ey*SW+ex]; if(kn!==ki&&!(KT.soft[ki]&&KT.soft[kn])){ edgeK=kn; dist=q; break; } } }

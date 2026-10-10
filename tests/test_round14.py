@@ -16,7 +16,10 @@ with game(new=True) as g:
     check('Text drawn by the game engine follows: big or bold → Cinzel, small → Marcellus SC; the faces are loaded', r['phaser'][0].startswith('"Cinzel"') and r['phaser'][1].startswith('"Marcellus SC"') and len(r['fonts'])>=4, [r['phaser'],r['fonts']])
     # plaza inlay: teal logo lines in the ground texture at the village centre
     r=g.js("""(()=>{ var ws=game.scene.getScene('World'), cam=ws.cameras.main; var snap=null; game.renderer.snapshotArea(Math.round(game.scale.width/2-110),Math.round(game.scale.height/2-110),220,220,function(img){ var c=document.createElement('canvas'); c.width=220; c.height=220; var q=c.getContext('2d'); q.drawImage(img,0,0); var d=q.getImageData(0,0,220,220).data, teal=0; for(var i=0;i<d.length;i+=4){ if(d[i+1]>200&&d[i+2]>190&&d[i]<210&&d[i+1]-d[i]>25)teal++; } window._teal=teal; }); return true; })()""")
-    g.wait(700); teal=g.js("window._teal")
+    teal=None
+    for _ in range(25):   # round 41: the snapshot arrives on a later frame; the busy headless browser can take a few seconds
+        g.wait(300); teal=g.js("window._teal")
+        if teal is not None: break
     check('The village plaza floor at the start carries the glowing logo', teal is not None and teal>900, teal)
     r=g.js("""(()=>{ var out={}; out.urls=['tree_c','crossed_axes','axes_serpent','axes_tree','blade_b','serpent_coil','way_b','way_compass'].map(id=>ZLogo.url(id,84).length>2000);
       ZLogo.banner('blade_b','Level 2','test'); var b=document.getElementById('zl-banner'); out.banner=[b.classList.contains('on'), !!b.querySelector('img'), b.querySelector('.zb-t').textContent];

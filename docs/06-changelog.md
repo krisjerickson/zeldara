@@ -681,6 +681,12 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[363] Gem marks**: a gem-set piece shows a small gem per set element on its icon (`ZIcon.item`).
 - **[364] Tests.** `tests/test_round40.py` (11 checks; also passes on Phaser 4). Full regression run: all suites pass except `test_characters.py` (3 older failures about boss picture names, as in round 37); `test_round14/15` wait for painted ground (`harness.chunks()`), `test_round6` waits for the familiar bar to refresh.
 
+## Round 41 (Kris, Oct 9) — terrain picks in the game; painted edge pieces
+- **[365] His round 40 picks in the world** (`ZWE.PICK`): lake damp bank + logs and mossy rocks, sea turquoise shallows + wet-sand shine + foam patches, mountain grass lip + falling leaves, marsh lush banks + will-o'-wisps + rotting logs, lava glowing + pulsing cracks, snow frosted grass. The painter takes several blends per place (a bit each); `ZEdge._featPiece` (the Lab's static features) is shared with the game.
+- **[366] Painted edge pieces in the game**: wave 38 sheets cut on the PC → `assets/scenery/edges-0.webp` (24 pieces). New painted-only pieces: shore rock, foam curl, cliff-top grass, snow lip, roots, earth bank, ash heap, scree fan. Sizes and density per piece (`ZWE.PSIZE`, `ZWE.PDENS`); the spacing grid is in world coordinates so neighbouring chunks agree.
+- **[367] Moving water mounted only over its bounding box** (fill cost back to the old look in the test browser).
+- **[368] Tests.** `tests/test_round41.py` (5 checks); `test_round14` waits for its snapshot, `test_perf` gives the island and the idle-HUD checks more time.
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).

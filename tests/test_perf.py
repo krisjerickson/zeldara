@@ -62,7 +62,7 @@ with game(new=None) as g:
     g.js("""(()=>{ window._M={}; var ids=['hp-bar','hp-val','mana-val','xp-bar','lv-val','gold-val','region-name','section-dots','comp-panel','action-spell-slot','quest-list-container','world-labels','mmh-zone'];
       window._MO=new MutationObserver(function(l){ l.forEach(function(m){ var t=m.target.nodeType===3?m.target.parentNode:m.target, id=null; while(t&&!id){ if(ids.indexOf(t.id)>=0)id=t.id; t=t.parentNode; } if(id&&!(id==='world-labels'&&m.attributeName==='style'))_M[id]=(_M[id]||0)+1; }); });
       _MO.observe(document.body,{subtree:true,attributes:true,childList:true,characterData:true}); })()""")
-    f0=g.js("game.loop.frame"); g.wait(1500); f1=g.js("game.loop.frame")
+    f0=g.js("game.loop.frame"); g.wait(3000); f1=g.js("game.loop.frame")   # round 41: 3 s (the software-GL test browser draws about 1–2 frames a second)
     idle=g.js("JSON.parse(JSON.stringify(_M))")
     check('HUD, quest list and world labels are not rewritten while nothing changes (%d frames)'%(f1-f0), not idle and f1-f0>=2, idle)
     g.ws("(ps.gold+=7, 0)"); g.wait(400)
@@ -119,7 +119,7 @@ with game(new=True) as g:
     if ok:
         g.js("(()=>{ var I=game.scene.getScene('Island'); I.playerState.godMode=true; })()")
         for k in ['ArrowLeft','ArrowUp','ArrowRight','ArrowDown']: g.hold(k,700)
-        until(g, "game.scene.getScene('Island')._wr.chunks.size>0", 10000)   # round 28: chunks are painted a few frames apart; the slow test browser sometimes had none yet
+        until(g, "game.scene.getScene('Island')._wr.chunks.size>0", 30000)   # round 28: chunks are painted a few frames apart; the slow test browser sometimes had none yet
         s=g.js("(()=>{ var I=game.scene.getScene('Island'), row=I.wd.tiles[0], bad=0; for(var i=0;i<row.length;i++)if(row[i]!==T.OCEAN)bad++; return {bad:bad, same:I.wd.tiles[0]===I.wd.tiles[WORLD_H-1], chunks:I._wr.chunks.size}; })()")
         check('...after walking around the island the shared sea row is untouched', s['bad']==0 and s['same'] and s['chunks']>0, s)
     errs+=g.errs

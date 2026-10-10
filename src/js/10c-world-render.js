@@ -92,8 +92,9 @@ Object.assign(WorldScene.prototype,{
       im._base=L; if(L.react||L.flicker)react.push(im); objs.push(im); });
     // round 40 terrain edges (05d): the moving water as a looping flipbook, and the moving bits Kris picked in the Lab
     var flip=null;
-    if(o.flip){ var fk=addTex(tag+'_fl',o.flip.canvas), ft=this.textures.get(fk); for(var q=0;q<o.flip.nf;q++)ft.add('f'+q,0,q*o.flip.L,0,o.flip.L,o.flip.L); try{ ft.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){}
-      var fa=this.add.image(x0,y0,fk,'f0').setOrigin(0,0).setDisplaySize(WCH*LT,WCH*LT).setDepth(-8.6), fb=this.add.image(x0,y0,fk,'f1').setOrigin(0,0).setDisplaySize(WCH*LT,WCH*LT).setDepth(-8.5).setAlpha(0);
+    if(o.flip){ var fk=addTex(tag+'_fl',o.flip.canvas), ft=this.textures.get(fk), FL=o.flip.L, bb=o.flip.bb||[0,0,FL-1,FL-1], bw=bb[2]-bb[0]+1, bh=bb[3]-bb[1]+1, ks=WCH*LT/FL;
+      for(var q=0;q<o.flip.nf;q++)ft.add('f'+q,0,q*FL+bb[0],bb[1],bw,bh); try{ ft.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){}      // round 41: only the part of the chunk that moves
+      var fa=this.add.image(x0+bb[0]*ks,y0+bb[1]*ks,fk,'f0').setOrigin(0,0).setDisplaySize(bw*ks,bh*ks).setDepth(-8.6), fb=this.add.image(x0+bb[0]*ks,y0+bb[1]*ks,fk,'f1').setOrigin(0,0).setDisplaySize(bw*ks,bh*ks).setDepth(-8.5).setAlpha(0);
       objs.push(fa,fb); flip={a:fa,b:fb,nf:o.flip.nf,T:o.flip.T}; }
     if(o.zfx){ var Z=o.zfx, mk=function(list,tex,cfg,depth){ try{ var e=self.add.particles(0,0,tex,Object.assign({emitZone:{type:'random',source:{getRandomPoint:function(p){ var c=list[(Math.random()*list.length)|0]; p.x=c[0]+(Math.random()-0.5)*6; p.y=c[1]+(Math.random()-0.5)*6; return p; }}}},cfg)); e.setDepth(depth); e._zfx=1; objs.push(e); }catch(err){ WP_ERR['edge fx: '+err.message]=(WP_ERR['edge fx: '+err.message]||0)+1; } };
       var soft=function(a){ return {onEmit:function(){ return 0; },onUpdate:function(p,k,t){ return a*Math.sin(t*Math.PI); }}; };
@@ -102,7 +103,11 @@ Object.assign(WorldScene.prototype,{
       if(Z.fog)mk(Z.fog,'glow',{lifespan:6000,speedX:{min:4,max:12},speedY:{min:-2,max:2},scale:{start:1.6,end:2.8},alpha:soft(0.13),tint:0xe8eeec,frequency:1100},-8.2);
       if(Z.mist)mk(Z.mist,'glow',{lifespan:4500,speedX:{min:3,max:9},speedY:{min:-1,max:1},scale:{start:0.8,end:1.5},alpha:soft(0.14),tint:0xf2f4f6,frequency:900},-8.2);
       if(Z.glitter)mk(Z.glitter,'dot',{lifespan:450,scale:{start:0.38,end:0},alpha:{start:1,end:0},frequency:90,blendMode:'ADD'},-8.1);
+      if(Z.wisps)mk(Z.wisps,'glow',{lifespan:{min:3500,max:5500},speedX:{min:-10,max:10},speedY:{min:-8,max:4},scale:{start:0.22,end:0.3},alpha:soft(0.85),tint:[0x9ff0e0,0x6fd8d0,0xc8fff0],frequency:900,blendMode:'ADD'},-3);      // round 41: will-o'-wisps over the marsh pools
+      if(Z.leaves)mk(Z.leaves,'leaf',{lifespan:{min:3000,max:4500},speedX:{min:18,max:40},speedY:{min:-6,max:14},rotate:{min:0,max:360},scale:{start:1.1,end:0.9},alpha:{start:1,end:0},tint:[0xd8902a,0xc8582a,0x9ab040,0xe0b830],frequency:700},WR_DEPTH(y0+WCH*LT));      // falling leaves below cliffs
       if(Z.embers)mk(Z.embers,'dot',{lifespan:1600,speedX:{min:-8,max:8},speedY:{min:-45,max:-20},scale:{start:0.45,end:0},alpha:{start:1,end:0},tint:[0xffd070,0xff8a30,0xffe8a0],frequency:220,blendMode:'ADD'},-3); }
+    if(o.cracks){ var ck=this.add.image(x0,y0,addTex(tag+'_ck',o.cracks)).setOrigin(0,0).setDisplaySize(WCH*LT,WCH*LT).setBlendMode(Phaser.BlendModes.ADD).setDepth(-8.7).setAlpha(0.15); objs.push(ck);      // round 41: the cracks in the crust pulse
+      this.tweens.add({targets:ck,alpha:0.85,duration:1300,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
     return {objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy,lava:o.lavaCells&&o.lavaCells.length?o.lavaCells:null,flip:flip};
   },
   // A Lab particle spec → Phaser emitter over an area (world px)
