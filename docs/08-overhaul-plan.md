@@ -201,7 +201,8 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
-- (Round 42) Design Lab → Terrain pieces: which extras to switch on; amount and size of painted pieces; should big pieces block walking; creatures; painted pieces in the Lab's edge cards.
+- (Round 43) Design Lab → Terrain pieces, section 1: one pick per row (how many, spread, mix, size, wind, creatures) — or keep the recommended settings now in the game. Optional: painted pieces in the Lab's edge cards (the one round 42 question left).
+- (Round 43) Run `.\tools\sprites\frames.ps1` for the animation frames (wave 43, 7 sheets).
 - (Round 37) Did "for 2X weak or resistance, come up with another way to represent this" mean the named steps (Bane / Weak / Resists / Warded) that were built, or something else?
 - (Round 28) Where did Kris see the old pixel versions — the Claude artifact, the local build, or the hosted site — and does it still happen after round 28's fix?
 
@@ -210,6 +211,14 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - What makes it harder → **ANSWERED: tougher bosses; faster, smarter bosses; tougher and more monsters.** NOT chosen: less healing / harsher death.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
+
+## Round 43 (Kris, Oct 9) — his terrain-piece picks on; animation frames; walk over everything; density and variety options
+- Kris: "great, i picked most of the terrain features. If its an animal or anything else that should move or sway, make sure we have enough painted images to make it look like its moving, and send me more commands for this, if needed. Then come up with design lab options for how these should be used for me to pick from for options in terms of density and variety, but generally use your judgement for how dense and dispersed. All of these features you should be able to walk over, but if they are larger it should look like you move behind them, with smaller features you walk on top of. use your judgement, but let me know if needing any input"
+- His Terrain pieces picks (Lab DB `tpieces-*`): every feature and creature card except **lake puddles** and **snow ripples**, plus all seven "already along the edges" groups. He answered none of the five questions; his message answers blocking (**everything walkable**) and replaces amount/size with the new options.
+- **ANSWERED (his message):** nothing blocks walking. Large pieces are depth-sorted (the hero passes behind them), small ones lie on the ground.
+- Done: changelog [374]–[380]. Picks on in `ZWE.PICK`. Wave 43 ordered: 7 sheets, 84 frames (`frames.ps1`); the intake cuts a row at one scale and lines up its frames. Tall pieces = depth-sorted sprites; swaying ones = their own images moved by the wind (frames when painted, a lean until then); see-through while the hero is behind. `ZWE.LOOK` settings + Lab section 1 (19 moving previews). `test_round43.py`.
+- **Assumptions Claude made (easy to change):** (1) defaults — natural amount (0.85), clusters, mixed, ±15 % size, gentle wind, some creatures; (2) a tall piece turns half see-through while the hero is behind it, so he is never lost; (3) irises only at the water's edge; ice floes only on water that borders snow; fireflies only over the marsh (not lakes); steam rises from the vents; (4) the falling leaves tumble with one painted leaf's frames; (5) the ivy only moves once its frames are painted (it hangs from its top).
+- **Waiting for Kris:** `.\tools\sprites\frames.ps1`; picks in Terrain pieces section 1 (optional — the recommended cards are in the game).
 
 ## Round 42 (Kris, Oct 9) — more painted terrain pieces
 - Kris: "ready now, and yes, make requests for painted fallen logs and as many other terrain features as you think might be useful to have painted, biasing to most or all of them"

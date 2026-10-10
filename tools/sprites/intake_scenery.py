@@ -70,12 +70,18 @@ def cut_objects(q, src):
             boxes, masks = by_cells(im, q['cols'], q['rows'], n); mode = 'cells'
             if boxes is None: return None, 'found too few objects (an empty cell, or objects that cross into a neighbour)'
     rgba = np.asarray(im); out = []
+    # round 43: animation frames — the frames of a row (grp) are cut at ONE scale (the largest frame decides), so nothing grows or shrinks between frames
+    gsz = {}
+    for k, it in enumerate(q['items']):
+        if it.get('grp'): b = boxes[k]; g = gsz.setdefault(it['grp'], [1, 1]); g[0] = max(g[0], b[2] - b[0]); g[1] = max(g[1], b[3] - b[1])
     for k, it in enumerate(q['items']):
         b = boxes[k]; arr = rgba[b[1]:b[3], b[0]:b[2]].copy(); arr[..., 3] = np.where(masks[k], arr[..., 3], 0)
         c = Image.fromarray(arr, 'RGBA'); cw, ch = c.size
         flat = q['kind'] == 'flat'
+        if it.get('grp'): cw, ch = gsz[it['grp']]
         # painted px → screen px. Flat decals fit their box; buildings go by WIDTH (it is their footprint on the tiles); other objects by height, with a limit on width
         s_screen = min(it['w'] / cw, it['h'] / ch) if flat else (it['w'] / cw if q['kind'] == 'bld' else min(it['h'] / ch, 1.25 * it['w'] / cw))
+        cw, ch = c.size
         s = min(1.0, s_screen * RES)                                                                     # painted px → stored px
         if s < 1: c = c.resize((max(1, round(cw * s)), max(1, round(ch * s))), Image.LANCZOS)
         solid = np.asarray(c)[..., 3] > 120
@@ -84,8 +90,52 @@ def cut_objects(q, src):
             if q['kind'] == 'bld':      # a building stands on its walls: the middle of its lowest tenth (a sign hanging off one side does not shift it)
                 lo = solid[max(0, ys[-1] - max(3, (ys[-1] - ys[0]) // 10)):ys[-1] + 1]; bx = np.where(lo.any(axis=0))[0]; ax = (bx[0] + bx[-1] + 1) / 2.0
         else: ax = c.width / 2.0; ay = c.height
-        out.append({'id': it['id'], 'img': c, 'ax': round(float(ax), 1), 'ay': round(float(ay), 1), 'k': round(s_screen / s, 4), 'want': [it['w'], it['h']], 'got': [round(c.width * s_screen / s), round(c.height * s_screen / s)]})
+        o = {'id': it['id'], 'img': c, 'ax': round(float(ax), 1), 'ay': round(float(ay), 1), 'k': round(s_screen / s, 4), 'want': [it['w'], it['h']], 'got': [round(c.width * s_screen / s), round(c.height * s_screen / s)]}
+        if it.get('grp'): o['grp'] = it['grp']; o['anc'] = it.get('anc', 'base')
+        out.append(o)
+    frames_line_up(out)
     return out, note + ', ' + mode
+
+def _solid(c): return np.asarray(c)[..., 3] > 120
+
+def _core(m):
+    """How deep inside the shape each pixel is (0–6 erosions), squared: the thick body counts far more than thin wings or a tail."""
+    w = np.zeros(m.shape, np.float64); e = m.copy()
+    for _ in range(6):
+        w += e; n = e.copy(); n[1:] &= e[:-1]; n[:-1] &= e[1:]; n[:, 1:] &= e[:, :-1]; n[:, :-1] &= e[:, 1:]; e = n
+        if not e.any(): break
+    return w * w
+
+def reg_shift(a, b):
+    """(dx, dy) that moves picture b onto picture a (most solid pixels on top of each other), by cross-correlation."""
+    a = _core(a); b = _core(b); H = a.shape[0] + b.shape[0]; W = a.shape[1] + b.shape[1]
+    A = np.zeros((H, W)); B = np.zeros((H, W)); A[:a.shape[0], :a.shape[1]] = a; B[:b.shape[0], :b.shape[1]] = b
+    C = np.real(np.fft.ifft2(np.fft.fft2(A) * np.conj(np.fft.fft2(B)))); dy, dx = np.unravel_index(np.argmax(C), C.shape)
+    if dy >= a.shape[0]: dy -= H      # shifts run from -(b height - 1) to (a height - 1); the rest wrap round
+    if dx >= a.shape[1]: dx -= W
+    return float(dx), float(dy)
+
+def frames_line_up(objs):
+    """Round 43: the standing point of every frame of an animation, so the subject stays in place while it moves.
+    base: the middle of the lowest tenth (a plant's foot does not move when it leans); top: the middle of the top tenth, the foot one
+    first-frame height below it (hanging ivy); reg: the frames are lined up on the body by cross-correlation (flyers, fish, a leaf)."""
+    groups = {}
+    for o in objs:
+        if o.get('grp'): groups.setdefault(o['grp'], []).append(o)
+    for g, L in groups.items():
+        anc = L[0].get('anc', 'base'); m0 = _solid(L[0]['img'])
+        if not m0.any(): continue
+        ys0 = np.where(m0.any(axis=1))[0]; h0 = ys0[-1] + 1 - ys0[0]
+        for i, o in enumerate(L):
+            m = _solid(o['img'])
+            if not m.any(): continue
+            ys = np.where(m.any(axis=1))[0]; tenth = max(3, (ys[-1] - ys[0]) // 10)
+            if anc == 'base':
+                lo = m[max(0, ys[-1] - tenth):ys[-1] + 1]; bx = np.where(lo.any(axis=0))[0]; o['ax'] = round((bx[0] + bx[-1] + 1) / 2.0, 1); o['ay'] = float(ys[-1] + 1)
+            elif anc == 'top':
+                hi = m[ys[0]:ys[0] + tenth + 1]; bx = np.where(hi.any(axis=0))[0]; o['ax'] = round((bx[0] + bx[-1] + 1) / 2.0, 1); o['ay'] = float(ys[0] + h0)
+            elif i > 0:
+                dx, dy = reg_shift(m0, m); o['ax'] = round(L[0]['ax'] - dx, 1); o['ay'] = round(L[0]['ay'] - dy, 1)
 
 def seamless(sq, band, both=True):
     """sq: (N+band)² RGB array → N² that repeats: the first `band` rows / columns fade from the picture's own continuation."""
@@ -131,7 +181,7 @@ def process(q, src):
     d = os.path.join(OUT, 'items'); os.makedirs(d, exist_ok=True)
     for o in objs: o['img'].save(os.path.join(d, o['id'] + '.png'))
     contact(q, objs); odd = []
-    if q['kind'] != 'tex': odd = [o['id'] for o in objs if o['got'][0] > o['want'][0] * 1.6 or o['got'][0] < o['want'][0] * 0.45]      # proportions far from what was asked
+    if q['kind'] != 'tex': odd = [o['id'] for o in objs if not o.get('grp') and (o['got'][0] > o['want'][0] * 1.6 or o['got'][0] < o['want'][0] * 0.45)]      # animation frames vary on purpose      # proportions far from what was asked
     meta = {'id': q['id'], 'ok': True, 'v': V, 'kind': q['kind'], 'fam': q['fam'], 'how': note, 'src_mtime': os.path.getmtime(src), 'odd': odd,
             'items': [dict({k: o[k] for k in o if k != 'img'}, size=list(o['img'].size)) for o in objs]}
     os.makedirs(os.path.join(OUT, 'sheets'), exist_ok=True); json.dump(meta, open(os.path.join(OUT, 'sheets', q['id'] + '.json'), 'w'))

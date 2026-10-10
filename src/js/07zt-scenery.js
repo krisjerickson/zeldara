@@ -34,7 +34,7 @@ var ZSCN={
     tex:'View: seen from straight above, flat.'
   },
   // waves (generate.mjs --set scenery --wave N). 20 is the pilot: one sheet from each family, to judge the look before sending the rest.
-  WAVES:{20:'Pilot (one sheet per family)',21:'Village buildings',22:'Village props',23:'Building interiors',24:'Runes and waystones',25:'Tower, dungeon and other entrances',26:'Trees and plants',27:'Rocks, ruins and landmarks',28:'Paths, bridges and harbors',29:'Ground textures',30:'Camp and trial props',31:'Tower, castle and mage-tower furnishings',32:'Dungeon and arena pieces',38:'Edge pieces: shores, cliffs, snow, lava (round 38)'},
+  WAVES:{20:'Pilot (one sheet per family)',21:'Village buildings',22:'Village props',23:'Building interiors',24:'Runes and waystones',25:'Tower, dungeon and other entrances',26:'Trees and plants',27:'Rocks, ruins and landmarks',28:'Paths, bridges and harbors',29:'Ground textures',30:'Camp and trial props',31:'Tower, castle and mage-tower furnishings',32:'Dungeon and arena pieces',38:'Edge pieces: shores, cliffs, snow, lava (round 38)',42:'Edge pieces: logs, features and small creatures (round 42)',43:'Animation frames: creatures and swaying plants (round 43)'},
   // sheet: id, wave, family (the first sheet of a family is the style anchor for the others), kind obj|bld|flat|wall|tex, cols × rows, what the sheet is, items
   SHEETS:[
   // ── 21 · village buildings ─────────────────────────────────────────
@@ -338,6 +338,32 @@ var ZSCN={
     ['ed_lava_plate','Floating crust','a floating plate of dark cooling lava crust with glowing orange edges, seen from above',56,36],['ed_lava_bubble','Lava bubble','a swelling bubble of bright molten lava about to burst, seen from a little above',36,30],['ed_cracked_mud','Cracked mud','a patch of dry cracked mud plates, seen from above',64,36],['ed_sand_ripples','Sand ripples','a patch of wind ripples in pale sand with a few tiny shells, seen from above',72,36],
     ['ed_snow_ripples','Snow ripples','a patch of wind-blown ridges in white snow with blue shadows, seen from above',72,36],['ed_puddle','Puddle','a small rain puddle reflecting the sky with a muddy rim, seen from above',56,30],['ed_reeds_dry','Dry reeds','a clump of pale brown winter reeds with frost on the tips',40,56],['ed_clover','Clover patch','a low patch of clover with two white clover flowers',40,26],
     ['ed_fern','Fern','a small green fern with arching fronds',44,40],['ed_bramble','Bramble','a low thorny bramble bush with a few dark berries',52,36],['ed_lichen_rock','Lichen rock','a flat grey rock speckled with orange and pale green lichen',48,32],['ed_ice_floe','Ice floe','a small flat white ice floe floating on dark water with a thin blue edge, seen from above',60,34]]},
+  // ── round 43 (Kris, Oct 9: "If its an animal or anything else that should move or sway, make sure we have enough painted images to make it look like its moving") ──
+  //    animation frames: each ROW is one subject from the round 42 sheets drawn as the frames of a short loop (seq: id, name, what it does, anchor, w, h, frames).
+  //    anchor — base: the foot stays put (plants, crab, frog, vents); top: the top edge stays put (hanging ivy); reg: frames are lined up on the body (flyers, fish, leaf).
+  //    The intake cuts a row at ONE scale and lines its frames up (tools/sprites/intake_scenery.py, groups); the game plays them (05d ZWE.ANIM, 10c).
+  {id:'sc_anim_1',wave:43,fam:'anim',kind:'obj',cols:4,rows:3,anim:1,refs:['sc_edge_5'],title:'Animation frames 1 — crab, frog and leaping fish',seq:[
+    ['an_crab','Crab','scuttling sideways','base',28,22,['legs on its left side stretched forward, both claws raised','legs tucked together, claws half lowered','legs on its right side stretched forward, both claws raised','legs tucked together, claws snapping open']],
+    ['an_frog','Frog','sitting, croaking and hopping','base',26,22,['sitting upright','sitting, its throat puffed out in a pale round bubble','crouched low, ready to jump','in mid-leap, back legs stretched out straight behind, front legs reaching forward']],
+    ['an_fish','Leaping fish','one leap out of the water and back in','reg',36,24,['bursting out nose-up with a few water drops','at the top of its leap, body curved in an arc','level, tail flicking','diving back in nose-down']]]},
+  {id:'sc_anim_2',wave:43,fam:'anim',kind:'obj',cols:4,rows:3,anim:1,refs:['sc_edge_5'],title:'Animation frames 2 — gull, crow and dragonfly in flight',seq:[
+    ['an_gull','Gull','flapping its wings','reg',48,24,['wings spread level, gliding','wings raised high above its back in a V','wings level again','wings pushed down below its body, tips curled']],
+    ['an_crow','Crow','flapping its wings','reg',40,22,['wings spread level, gliding','wings raised high above its back','wings level again','wings pushed down below its body']],
+    ['an_dragonfly','Dragonfly','beating its wings','reg',32,28,['all four wings spread flat','the four wings swept forward and blurred','all four wings spread flat again','the four wings swept back and blurred']]]},
+  {id:'sc_anim_3',wave:43,fam:'anim',kind:'obj',cols:4,rows:3,anim:1,refs:['sc_edge_5'],title:'Animation frames 3 — butterfly, will-o\'-wisp and firefly',seq:[
+    ['an_butterfly','Butterfly','fluttering','reg',26,22,['wings fully open','wings half closed, tilted up','wings closed together, seen as a thin upright shape','wings half open']],
+    ['an_wisp','Will-o\'-wisp','flickering','reg',30,34,['round glow, tail curling to the left','taller and thinner, tail straight down','squashed a little wider, tail curling to the right','smaller and brighter, tail short']],
+    ['an_firefly','Firefly','blinking its light','reg',18,18,['tail light dim, wings up','tail glowing softly, wings down','tail glowing bright with a soft yellow-green halo, wings up','tail glowing softly, wings down']]]},
+  {id:'sc_anim_4',wave:43,fam:'anim',kind:'obj',cols:4,rows:3,anim:1,refs:['sc_edge_5','sc_edge_4','sc_edge_6'],title:'Animation frames 4 — tumbling leaf, lava bubble and steam vent',seq:[
+    ['an_leaf','Autumn leaf','tumbling over as it falls','reg',18,18,['lying flat, face up','tilted, seen at a slant so it looks narrower','edge-on, a thin sliver','tilted the other way, showing its paler underside']],
+    ['an_lava_bubble','Lava bubble','swelling and bursting','base',36,30,['a low glowing dome on the molten surface','swollen into a round bubble with a bright thin skin','bursting into splashes of molten drops','a collapsing ring of glowing ripples']],
+    ['an_steam_vent','Steam vent','puffing steam (the vent itself does not move)','base',52,60,['the vent with only a thin wisp of steam','a small white puff rising from it','a big billowing puff of steam above it','the puff thinning and drifting up and away']]]},
+  {id:'sc_anim_5',wave:43,fam:'anim',kind:'obj',cols:3,rows:4,size:'1024x1536',anim:1,sway:1,refs:['sc_edge_1','sc_edge_3','sc_edge_6'],title:'Animation frames 5 — reeds, cattails, irises and dry reeds swaying',seq:[
+    ['an_reeds','Reed clump','swaying in the wind','base',40,64,null],['an_cattails','Cattails','swaying in the wind','base',44,72,null],['an_iris','Water iris','swaying in the wind','base',44,62,null],['an_reeds_dry','Dry reeds','swaying in the wind','base',40,56,null]]},
+  {id:'sc_anim_6',wave:43,fam:'anim',kind:'obj',cols:3,rows:4,size:'1024x1536',anim:1,sway:1,refs:['sc_edge_1','sc_edge_3'],title:'Animation frames 6 — dune grass and grass tufts swaying',seq:[
+    ['an_dune_grass','Dune grass','swaying in the wind','base',50,52,null],['an_tuft_a','Grass tuft','swaying in the wind','base',36,30,null],['an_tuft_b','Long grass clump','swaying in the wind','base',52,36,null],['an_tuft_dry','Dry grass tuft','swaying in the wind','base',36,30,null]]},
+  {id:'sc_anim_7',wave:43,fam:'anim',kind:'obj',cols:3,rows:4,size:'1024x1536',anim:1,sway:1,refs:['sc_edge_3','sc_edge_4','sc_edge_6'],title:'Animation frames 7 — flowers, fern and hanging ivy swaying',seq:[
+    ['an_wildflowers','Wildflowers','swaying in the wind','base',44,34,null],['an_alpine_flowers','Mountain flowers','swaying in the wind','base',44,32,null],['an_fern','Fern','swaying in the wind','base',44,40,null],['an_ivy','Hanging ivy','swinging in the wind (the top edge stays fixed to the rock)','top',64,60,['the trailing ends swung to the left','hanging straight down at rest','the trailing ends swung to the right']]]},
   {id:'sc_rocks_1',wave:27,pilot:1,fam:'rocks',kind:'obj',cols:4,rows:2,title:'Rocks and crystals',items:[
     ['rk_rock','Rock','rounded grey boulder',64,54],['rk_rock_moss','Mossy rock','boulder half covered in moss',64,54],['rk_rock_rune','Rune rock','boulder with a glowing carved rune',64,54],['rk_rock_snow','Snowy rock','boulder capped with snow',64,54],
     ['rk_boulder','Large boulder','very large cracked boulder',110,96],['rk_pebbles','Pebbles','scatter of small stones, seen from above',40,24],['rk_crystal_teal','Teal crystal','cluster of tall glowing teal crystals',50,90],['rk_crystal_pink','Pink crystal','cluster of glowing pink crystals',50,80]]},
@@ -503,8 +529,18 @@ var ZSCN={
   // ── the requests ──
   all:function(){ return ZSCN.SHEETS; },
   items:function(){ var L=[]; ZSCN.SHEETS.forEach(function(S){ S.items.forEach(function(it){ L.push({id:it[0],name:it[1],look:it[2],w:it[3],h:it[4],sheet:S.id,kind:S.kind,wave:S.wave,fam:S.fam}); }); }); return L; },
+  // round 43: animation sheets list their rows (seq); each row becomes one item per frame: <id>_1 … <id>_N
+  SWAY:['leaning to the left in the wind — only the upper part bends, the base stays exactly in place','standing upright at rest','leaning to the right in the wind — only the upper part bends, the base stays exactly in place'],
+  expand:function(){ ZSCN.SHEETS.forEach(function(S){ if(!S.seq||S.items)return; S.items=[]; S.seq.forEach(function(r){ var fr=r[6]||ZSCN.SWAY; fr.forEach(function(d,i){ S.items.push([r[0]+'_'+(i+1),r[1]+' — frame '+(i+1),d,r[4],r[5],{grp:r[0],anc:r[3]}]); }); }); }); },
   anchor:function(fam){ var S=ZSCN.SHEETS.filter(function(s){ return s.fam===fam; })[0]; return S&&S.id; },
-  body:function(S){ var tex=S.kind==='tex', n=S.items.length, one=n===1;
+  // round 43: an animation sheet — each row is one subject drawn as the frames of a loop
+  animBody:function(S){ var nf=S.cols, head='Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — '+S.title+'.\n'+
+      'The first two reference images show the game\'s characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. '+
+      'The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).\n';
+    var lay='Layout: a grid of '+S.cols+' columns × '+S.rows+' rows, evenly spaced. Each ROW is ONE subject drawn '+nf+' times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell'+(S.sway?' (the base of each plant at the same height and the same place in every cell)':'')+'; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:\n';
+    var list=S.seq.map(function(r,j){ var fr=r[6]||ZSCN.SWAY; return 'Row '+(j+1)+' — '+r[1]+', '+r[2]+' ('+ZSCN.rel(r[5])+'): '+fr.map(function(d,i){ return '('+(i+1)+') '+d; }).join('; ')+'.'; }).join('\n');
+    return head+lay+list+'\n'+ZSCN.VIEW.obj+'\nNo motion lines, no arrows, no numbers.'; },
+  body:function(S){ if(S.seq)return ZSCN.animBody(S); var tex=S.kind==='tex', n=S.items.length, one=n===1;
     var head='Create ONE image for a 2D top-down action RPG called Zeldara: '+(tex?'a sheet of '+n+' square ground-texture swatches':S.kind==='icon'?'a sheet of '+n+' separate game icons':one?'a single piece of scenery':'a sheet of '+n+' separate pieces of scenery')+' — '+S.title+'.\n'+
       'The reference images show the game\'s characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.'+(S.anchorRef?' The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.':'')+'\n';
     var lay=one?'Layout: the object alone, centred, filling most of the image with a clear margin all round.\n':
@@ -513,9 +549,10 @@ var ZSCN={
     return head+lay+list+'\n'+ZSCN.VIEW[S.kind]; },
   // a size in words, relative to the hero (63 px)
   rel:function(h){ var k=h/63; return k<0.35?'a small item, under half the hero\'s height':k<0.8?'about '+(Math.round(k*10)/10)+'× the hero\'s height':k<1.25?'about as tall as the hero':'about '+(Math.round(k*10)/10)+'× the hero\'s height'; },
-  requests:function(){ return ZSCN.SHEETS.map(function(S){ var a=ZSCN.anchor(S.fam), anc=a&&a!==S.id&&S.kind!=='tex'?a:null, T=Object.assign({},S,{anchorRef:!!anc});
+  requests:function(){ return ZSCN.SHEETS.map(function(S){ var a=S.refs?null:ZSCN.anchor(S.fam), anc=a&&a!==S.id&&S.kind!=='tex'?a:null, T=Object.assign({},S,{anchorRef:!!anc});
     return {id:S.id,set:'scenery',kind:S.kind,fam:S.fam,wave:S.wave,pilot:!!S.pilot,title:S.title,cols:S.cols,rows:S.rows,size:S.size||'1536x1024',bg:S.kind==='tex'?'opaque':'transparent',
-      refs:['style_hero','style_centaur'].concat(anc?[anc]:[]),items:S.items.map(function(it){ return {id:it[0],name:it[1],w:it[3],h:it[4]}; }),poses:S.items.map(function(it){ return it[0]; }),
+      refs:['style_hero','style_centaur'].concat(anc?[anc]:[]).concat(S.refs||[]),items:S.items.map(function(it){ var o={id:it[0],name:it[1],w:it[3],h:it[4]}; if(it[5]){ o.grp=it[5].grp; o.anc=it[5].anc; } return o; }),poses:S.items.map(function(it){ return it[0]; }),
       body:ZSCN.body(T),tail:S.kind==='tex'?'tex':'obj'}; }); },
   stats:function(){ var o={sheets:ZSCN.SHEETS.length,items:0,pilot:0,byWave:{}}; ZSCN.SHEETS.forEach(function(S){ o.items+=S.items.length; if(S.pilot)o.pilot++; var w=o.byWave[S.wave]||(o.byWave[S.wave]={name:ZSCN.WAVES[S.wave],sheets:0,items:0}); w.sheets++; w.items+=S.items.length; }); return o; }
 };
+ZSCN.expand();

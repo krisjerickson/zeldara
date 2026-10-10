@@ -24,7 +24,7 @@ with game(new=True, painted=True, query='?scenery=fake') as g:
     check('Wave 42: four edge sheets, 48 new pieces, all with stand-ins until painted; %d of them already wired to a feature or creature' % r['wired'],
           r['sheets'] == ['sc_edge_3', 'sc_edge_4', 'sc_edge_5', 'sc_edge_6'] and r['n'] == 48 and r['uniq'] == 48 and r['has'] and r['wired'] == 48, r)
     r = g.js("({lake:ZWE.PICK.lake.feat, marsh:ZWE.PICK.marsh.feat, sea:ZWE.PICK.sea.feat||null})")
-    check("Kris's picks are unchanged (logs at lake and marsh only)", r['lake'] == ['logs'] and r['marsh'] == ['logs'] and r['sea'] is None, r)
+    check("Kris's picks keep the logs at lake and marsh (round 43 switched on the rest of his picks)", 'logs' in r['lake'] and 'logs' in r['marsh'], r)
     g.js(ALL)
     out = {}
     for name, c in [('lake', [21, 16]), ('sea', [30, 16]), ('marsh', [21, 18]), ('cliff', [19, 15]), ('snow', [18, 30])]:

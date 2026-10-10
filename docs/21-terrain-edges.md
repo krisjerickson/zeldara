@@ -278,3 +278,40 @@ cd C:\Claude\games\Zeldara-v4
 All four sheets came in and were cut on the PC (`edges-0.webp` now holds all 72 edge pieces). His picks show their pictures at once (painted logs and mossy rocks at lakes, rotting and mossy logs in the marsh, three painted leaves, the painted wisp). Steam vents were added as a lava feature (`vents`).
 
 **Design Lab → Terrain pieces** (new tab, `lab/src/js/57-lab-tpieces.js`) is where Kris answers: (1) his picks now painted — right or not; (2) every other piece and creature, ready but off — ☆ Pick switches it on; (3) the round 38 pieces in use — keep or note size/amount; (4) five questions with options (amount, size, should big pieces block walking, creatures, painted pieces in the Lab's edge cards); (5) a free feedback box. Saved as `tpieces-*` in the Lab's picks.
+
+## 12. Round 43 — his picks on, animation frames, walking over and behind, density and variety
+
+*Oct 9. Kris: "If its an animal or anything else that should move or sway, make sure we have enough painted images to make it look like its moving … come up with design lab options for how these should be used … in terms of density and variety … All of these features you should be able to walk over, but if they are larger it should look like you move behind them, with smaller features you walk on top of."*
+
+**His picks are on** (`ZWE.PICK`): every feature and creature card except lake puddles and snow ripples. Judgement calls: irises only at the water's edge; ice floes only on water beside snow; fireflies over the marsh only; steam rises from the vents.
+
+**Animation frames (wave 43, `.\tools\sprites\frames.ps1`)** — each row of a sheet is one subject as a short loop, drawn from its round 38/42 picture (those sheets go along as references):
+
+| Sheet | Rows (frames) |
+|---|---|
+| `sc_anim_1` | crab scuttling, frog sitting/croaking/hopping, fish leaping (4 each) |
+| `sc_anim_2` | gull, crow, dragonfly flapping (4 each) |
+| `sc_anim_3` | butterfly fluttering, will-o'-wisp flickering, firefly blinking (4 each) |
+| `sc_anim_4` | autumn leaf tumbling, lava bubble swelling and bursting, steam vent puffing (4 each) |
+| `sc_anim_5` | reeds, cattails, water iris, dry reeds (3 each: lean left, upright, lean right) |
+| `sc_anim_6` | dune grass, grass tuft, long grass clump, dry grass tuft (3 each) |
+| `sc_anim_7` | wildflowers, mountain flowers, fern, hanging ivy (3 each) |
+
+The intake cuts a row at one scale and lines its frames up (plants by their foot, the ivy by its top, flyers by their body). Until the frames are in, the plants lean as one piece and the creatures use their single picture.
+
+**Walking over and behind** — nothing blocks. Three kinds of piece:
+
+- **Standing** (`ZWE.TALL`): logs, mossy rocks, reeds, cattails, irises, dune grass, saplings, basalt, steam vents, boulders, rubble, obsidian, sulphur, snowy rocks, shore rocks, ice shards, brambles, toadstools, ferns, heather, ember rocks — depth-sorted by their foot: the hero passes behind them when he is above, in front when below. While he is behind one it turns half see-through.
+- **Swaying** (`ZWE.ANIM`): reeds, cattails, irises, dry reeds, dune grass, tufts, wildflowers, mountain flowers, fern (and the ivy once painted) — their own images moved by a wind wave that rolls across the world; small ones lie under the hero.
+- **Flat**: pebbles, shells, tide pools, wrack, driftwood, duckweed, lily pads, puddles, ripples, cracked mud, moss and lichen, crust, ash, stepping stones, floes — painted into the ground; the hero walks over them.
+
+**How they are used** (`ZWE.LOOK`; Lab → Terrain pieces, section 1 — one pick per row, the recommended card is the game now):
+
+| Row | Options (recommended in bold) |
+|---|---|
+| How many | Sparse · **Natural** · Lush · Overgrown |
+| Spread | Even scatter · **Clusters** · Big groves |
+| Mix | One kind per stretch · **Mixed** · Everything mixed |
+| Size | All one size · **±15 %** · ±30 % |
+| Wind | Still · **Gentle sway** · Breezy (gusts) |
+| Creatures | Few · **Some** · Many |

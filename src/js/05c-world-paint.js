@@ -324,7 +324,7 @@ function wpChunkJob(wd,cx,cy){
         out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } }); out.particles.forEach(function(P){ if(!P._w&&P.area){ P.area=Object.assign({},P.area,{x:P.area.x+ox,y:P.area.y+oy}); P._w=1; } });
         row+=8; if(row>=GW){ phase=4; } continue; }
       if(phase===4){ // 5. props anchored in this chunk (flat ones paint; tall ones become sprites)
-        if(D.E&&!out._zp){ out._zp=1; try{ ZWE.pieces(D,ctx,KL); }catch(e){ WP_ERR['edge pieces: '+e.message]=(WP_ERR['edge pieces: '+e.message]||0)+1; } }      // round 40: pieces along the edges, over the ground's own marks
+        if(D.E&&!out._zp){ out._zp=1; try{ ZWE.pieces(D,ctx,KL,out); }catch(e){ WP_ERR['edge pieces: '+e.message]=(WP_ERR['edge pieces: '+e.message]||0)+1; } }      // round 40: pieces along the edges, over the ground's own marks
         var list=(wd.propsByChunk&&wd.propsByChunk[cx+'_'+cy])||[], fk=_wpFakeC(wd,out,ox,oy);
         list.forEach(function(p){ if(wd._chopped&&wd._chopped.size&&wd._chopped.has(p.x+'_'+p.y+'_'+p.prop)){ if(typeof _chopStump==='function')_chopStump(ctx,(p.x-tx0+(p.w||1)/2)*LT,(p.y-ty0+(p.h||1))*LT-6,(p.w||1)*LT); return; }      // round 40: a felled tree leaves a stump (10m)
           var Z=p.Z||(p.zi>=0&&p.zi!==255?skins[p.zi].Z:null), fn=WPROP[p.prop]||(Z&&Z.draw&&Z.draw[p.prop]); if(!fn)return;

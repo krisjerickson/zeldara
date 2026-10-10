@@ -1,4 +1,4 @@
-# Scenery — 99 sheets, 1023 objects and textures (13 sheets in the pilot)
+# Scenery — 106 sheets, 1107 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -22,7 +22,8 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 36 | Icons: treasure, potions, food, spells, skills | 5 | 78 |
 | 37 | Icons: round 37 — axes, crossbows, staffs, gems, the Sovereign set | 3 | 66 |
 | 38 | Edge pieces: shores, cliffs, snow, lava (round 38) | 2 | 24 |
-| 42 | undefined | 4 | 48 |
+| 42 | Edge pieces: logs, features and small creatures (round 42) | 4 | 48 |
+| 43 | Animation frames: creatures and swaying plants (round 43) | 7 | 84 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -1447,6 +1448,240 @@ Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in t
 11. Lichen rock — a flat grey rock speckled with orange and pale green lichen (about 0.5× the hero's height).
 12. Ice floe — a small flat white ice floe floating on dark water with a thin blue edge, seen from above (about 0.5× the hero's height).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_anim_1
+
+Animation frames 1 — crab, frog and leaping fish · wave 43 · 12 items, 4 × 3 · 1536x1024
+
+- `an_crab_1` Crab — frame 1 — 28 × 22 px
+- `an_crab_2` Crab — frame 2 — 28 × 22 px
+- `an_crab_3` Crab — frame 3 — 28 × 22 px
+- `an_crab_4` Crab — frame 4 — 28 × 22 px
+- `an_frog_1` Frog — frame 1 — 26 × 22 px
+- `an_frog_2` Frog — frame 2 — 26 × 22 px
+- `an_frog_3` Frog — frame 3 — 26 × 22 px
+- `an_frog_4` Frog — frame 4 — 26 × 22 px
+- `an_fish_1` Leaping fish — frame 1 — 36 × 24 px
+- `an_fish_2` Leaping fish — frame 2 — 36 × 24 px
+- `an_fish_3` Leaping fish — frame 3 — 36 × 24 px
+- `an_fish_4` Leaping fish — frame 4 — 36 × 24 px
+
+Attach: style_hero, style_centaur, sc_edge_5
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 1 — crab, frog and leaping fish.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 4 columns × 3 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Crab, scuttling sideways (a small item, under half the hero's height): (1) legs on its left side stretched forward, both claws raised; (2) legs tucked together, claws half lowered; (3) legs on its right side stretched forward, both claws raised; (4) legs tucked together, claws snapping open.
+Row 2 — Frog, sitting, croaking and hopping (a small item, under half the hero's height): (1) sitting upright; (2) sitting, its throat puffed out in a pale round bubble; (3) crouched low, ready to jump; (4) in mid-leap, back legs stretched out straight behind, front legs reaching forward.
+Row 3 — Leaping fish, one leap out of the water and back in (about 0.4× the hero's height): (1) bursting out nose-up with a few water drops; (2) at the top of its leap, body curved in an arc; (3) level, tail flicking; (4) diving back in nose-down.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_anim_2
+
+Animation frames 2 — gull, crow and dragonfly in flight · wave 43 · 12 items, 4 × 3 · 1536x1024
+
+- `an_gull_1` Gull — frame 1 — 48 × 24 px
+- `an_gull_2` Gull — frame 2 — 48 × 24 px
+- `an_gull_3` Gull — frame 3 — 48 × 24 px
+- `an_gull_4` Gull — frame 4 — 48 × 24 px
+- `an_crow_1` Crow — frame 1 — 40 × 22 px
+- `an_crow_2` Crow — frame 2 — 40 × 22 px
+- `an_crow_3` Crow — frame 3 — 40 × 22 px
+- `an_crow_4` Crow — frame 4 — 40 × 22 px
+- `an_dragonfly_1` Dragonfly — frame 1 — 32 × 28 px
+- `an_dragonfly_2` Dragonfly — frame 2 — 32 × 28 px
+- `an_dragonfly_3` Dragonfly — frame 3 — 32 × 28 px
+- `an_dragonfly_4` Dragonfly — frame 4 — 32 × 28 px
+
+Attach: style_hero, style_centaur, sc_edge_5
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 2 — gull, crow and dragonfly in flight.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 4 columns × 3 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Gull, flapping its wings (about 0.4× the hero's height): (1) wings spread level, gliding; (2) wings raised high above its back in a V; (3) wings level again; (4) wings pushed down below its body, tips curled.
+Row 2 — Crow, flapping its wings (a small item, under half the hero's height): (1) wings spread level, gliding; (2) wings raised high above its back; (3) wings level again; (4) wings pushed down below its body.
+Row 3 — Dragonfly, beating its wings (about 0.4× the hero's height): (1) all four wings spread flat; (2) the four wings swept forward and blurred; (3) all four wings spread flat again; (4) the four wings swept back and blurred.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_anim_3
+
+Animation frames 3 — butterfly, will-o'-wisp and firefly · wave 43 · 12 items, 4 × 3 · 1536x1024
+
+- `an_butterfly_1` Butterfly — frame 1 — 26 × 22 px
+- `an_butterfly_2` Butterfly — frame 2 — 26 × 22 px
+- `an_butterfly_3` Butterfly — frame 3 — 26 × 22 px
+- `an_butterfly_4` Butterfly — frame 4 — 26 × 22 px
+- `an_wisp_1` Will-o'-wisp — frame 1 — 30 × 34 px
+- `an_wisp_2` Will-o'-wisp — frame 2 — 30 × 34 px
+- `an_wisp_3` Will-o'-wisp — frame 3 — 30 × 34 px
+- `an_wisp_4` Will-o'-wisp — frame 4 — 30 × 34 px
+- `an_firefly_1` Firefly — frame 1 — 18 × 18 px
+- `an_firefly_2` Firefly — frame 2 — 18 × 18 px
+- `an_firefly_3` Firefly — frame 3 — 18 × 18 px
+- `an_firefly_4` Firefly — frame 4 — 18 × 18 px
+
+Attach: style_hero, style_centaur, sc_edge_5
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 3 — butterfly, will-o'-wisp and firefly.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 4 columns × 3 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Butterfly, fluttering (a small item, under half the hero's height): (1) wings fully open; (2) wings half closed, tilted up; (3) wings closed together, seen as a thin upright shape; (4) wings half open.
+Row 2 — Will-o'-wisp, flickering (about 0.5× the hero's height): (1) round glow, tail curling to the left; (2) taller and thinner, tail straight down; (3) squashed a little wider, tail curling to the right; (4) smaller and brighter, tail short.
+Row 3 — Firefly, blinking its light (a small item, under half the hero's height): (1) tail light dim, wings up; (2) tail glowing softly, wings down; (3) tail glowing bright with a soft yellow-green halo, wings up; (4) tail glowing softly, wings down.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_anim_4
+
+Animation frames 4 — tumbling leaf, lava bubble and steam vent · wave 43 · 12 items, 4 × 3 · 1536x1024
+
+- `an_leaf_1` Autumn leaf — frame 1 — 18 × 18 px
+- `an_leaf_2` Autumn leaf — frame 2 — 18 × 18 px
+- `an_leaf_3` Autumn leaf — frame 3 — 18 × 18 px
+- `an_leaf_4` Autumn leaf — frame 4 — 18 × 18 px
+- `an_lava_bubble_1` Lava bubble — frame 1 — 36 × 30 px
+- `an_lava_bubble_2` Lava bubble — frame 2 — 36 × 30 px
+- `an_lava_bubble_3` Lava bubble — frame 3 — 36 × 30 px
+- `an_lava_bubble_4` Lava bubble — frame 4 — 36 × 30 px
+- `an_steam_vent_1` Steam vent — frame 1 — 52 × 60 px
+- `an_steam_vent_2` Steam vent — frame 2 — 52 × 60 px
+- `an_steam_vent_3` Steam vent — frame 3 — 52 × 60 px
+- `an_steam_vent_4` Steam vent — frame 4 — 52 × 60 px
+
+Attach: style_hero, style_centaur, sc_edge_5, sc_edge_4, sc_edge_6
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 4 — tumbling leaf, lava bubble and steam vent.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 4 columns × 3 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Autumn leaf, tumbling over as it falls (a small item, under half the hero's height): (1) lying flat, face up; (2) tilted, seen at a slant so it looks narrower; (3) edge-on, a thin sliver; (4) tilted the other way, showing its paler underside.
+Row 2 — Lava bubble, swelling and bursting (about 0.5× the hero's height): (1) a low glowing dome on the molten surface; (2) swollen into a round bubble with a bright thin skin; (3) bursting into splashes of molten drops; (4) a collapsing ring of glowing ripples.
+Row 3 — Steam vent, puffing steam (the vent itself does not move) (about as tall as the hero): (1) the vent with only a thin wisp of steam; (2) a small white puff rising from it; (3) a big billowing puff of steam above it; (4) the puff thinning and drifting up and away.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_anim_5
+
+Animation frames 5 — reeds, cattails, irises and dry reeds swaying · wave 43 · 12 items, 3 × 4 · 1024x1536
+
+- `an_reeds_1` Reed clump — frame 1 — 40 × 64 px
+- `an_reeds_2` Reed clump — frame 2 — 40 × 64 px
+- `an_reeds_3` Reed clump — frame 3 — 40 × 64 px
+- `an_cattails_1` Cattails — frame 1 — 44 × 72 px
+- `an_cattails_2` Cattails — frame 2 — 44 × 72 px
+- `an_cattails_3` Cattails — frame 3 — 44 × 72 px
+- `an_iris_1` Water iris — frame 1 — 44 × 62 px
+- `an_iris_2` Water iris — frame 2 — 44 × 62 px
+- `an_iris_3` Water iris — frame 3 — 44 × 62 px
+- `an_reeds_dry_1` Dry reeds — frame 1 — 40 × 56 px
+- `an_reeds_dry_2` Dry reeds — frame 2 — 40 × 56 px
+- `an_reeds_dry_3` Dry reeds — frame 3 — 40 × 56 px
+
+Attach: style_hero, style_centaur, sc_edge_1, sc_edge_3, sc_edge_6
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 5 — reeds, cattails, irises and dry reeds swaying.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 3 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 3 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell (the base of each plant at the same height and the same place in every cell); only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Reed clump, swaying in the wind (about as tall as the hero): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+Row 2 — Cattails, swaying in the wind (about as tall as the hero): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+Row 3 — Water iris, swaying in the wind (about as tall as the hero): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+Row 4 — Dry reeds, swaying in the wind (about as tall as the hero): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_anim_6
+
+Animation frames 6 — dune grass and grass tufts swaying · wave 43 · 12 items, 3 × 4 · 1024x1536
+
+- `an_dune_grass_1` Dune grass — frame 1 — 50 × 52 px
+- `an_dune_grass_2` Dune grass — frame 2 — 50 × 52 px
+- `an_dune_grass_3` Dune grass — frame 3 — 50 × 52 px
+- `an_tuft_a_1` Grass tuft — frame 1 — 36 × 30 px
+- `an_tuft_a_2` Grass tuft — frame 2 — 36 × 30 px
+- `an_tuft_a_3` Grass tuft — frame 3 — 36 × 30 px
+- `an_tuft_b_1` Long grass clump — frame 1 — 52 × 36 px
+- `an_tuft_b_2` Long grass clump — frame 2 — 52 × 36 px
+- `an_tuft_b_3` Long grass clump — frame 3 — 52 × 36 px
+- `an_tuft_dry_1` Dry grass tuft — frame 1 — 36 × 30 px
+- `an_tuft_dry_2` Dry grass tuft — frame 2 — 36 × 30 px
+- `an_tuft_dry_3` Dry grass tuft — frame 3 — 36 × 30 px
+
+Attach: style_hero, style_centaur, sc_edge_1, sc_edge_3
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 6 — dune grass and grass tufts swaying.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 3 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 3 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell (the base of each plant at the same height and the same place in every cell); only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Dune grass, swaying in the wind (about as tall as the hero): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+Row 2 — Grass tuft, swaying in the wind (about 0.5× the hero's height): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+Row 3 — Long grass clump, swaying in the wind (about 0.6× the hero's height): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+Row 4 — Dry grass tuft, swaying in the wind (about 0.5× the hero's height): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_anim_7
+
+Animation frames 7 — flowers, fern and hanging ivy swaying · wave 43 · 12 items, 3 × 4 · 1024x1536
+
+- `an_wildflowers_1` Wildflowers — frame 1 — 44 × 34 px
+- `an_wildflowers_2` Wildflowers — frame 2 — 44 × 34 px
+- `an_wildflowers_3` Wildflowers — frame 3 — 44 × 34 px
+- `an_alpine_flowers_1` Mountain flowers — frame 1 — 44 × 32 px
+- `an_alpine_flowers_2` Mountain flowers — frame 2 — 44 × 32 px
+- `an_alpine_flowers_3` Mountain flowers — frame 3 — 44 × 32 px
+- `an_fern_1` Fern — frame 1 — 44 × 40 px
+- `an_fern_2` Fern — frame 2 — 44 × 40 px
+- `an_fern_3` Fern — frame 3 — 44 × 40 px
+- `an_ivy_1` Hanging ivy — frame 1 — 64 × 60 px
+- `an_ivy_2` Hanging ivy — frame 2 — 64 × 60 px
+- `an_ivy_3` Hanging ivy — frame 3 — 64 × 60 px
+
+Attach: style_hero, style_centaur, sc_edge_3, sc_edge_4, sc_edge_6
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 7 — flowers, fern and hanging ivy swaying.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 3 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 3 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell (the base of each plant at the same height and the same place in every cell); only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Wildflowers, swaying in the wind (about 0.5× the hero's height): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+Row 2 — Mountain flowers, swaying in the wind (about 0.5× the hero's height): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+Row 3 — Fern, swaying in the wind (about 0.6× the hero's height): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
+Row 4 — Hanging ivy, swinging in the wind (the top edge stays fixed to the rock) (about as tall as the hero): (1) the trailing ends swung to the left; (2) hanging straight down at rest; (3) the trailing ends swung to the right.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

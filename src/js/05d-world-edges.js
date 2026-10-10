@@ -24,8 +24,14 @@ var ZWE={
   //   lava  Glowing cracks (crackle) + Pulsing cracks       snow  Frosted grass (tint)
   // blend: '' or a list of the round 40 Lab blends (dither soft stipple wet outline2 terrace overhang tint crackle); land-against-land
   // edges carry both the mountain's grass lip and the snow line's frost. feat: static features drawn with the pieces.
-  PICK:{ land:{style:'layers',blend:['overhang','tint']}, lake:{style:'ink',blend:['wet'],fx:['lap','rings'],feat:['logs']}, sea:{style:'ink',blend:['terrace'],fx:['waves','spray','sheen','foamdrift']},
-         marsh:{style:'layers',blend:['tint'],fx:['lap','fog','wisps'],feat:['logs']}, lava:{style:'layers',blend:['crackle'],fx:['embers','cracks']}, cliff:{fx:['mist','leaves']}, snow:{fx:['glitter']} },
+  // Round 43 (Kris, Oct 9: "i picked most of the terrain features") — his Lab "Terrain pieces" picks: every feature and creature card except
+  // lake puddles and snow ripples. Ice floes only on water that borders snow; steam rises from the vents.
+  PICK:{ land:{style:'layers',blend:['overhang','tint']},
+         lake:{style:'ink',blend:['wet'],fx:['lap','rings','dragonflies','fish','butterflies'],feat:['logs','flowers','stones','bramble','icefloe']},
+         sea:{style:'ink',blend:['terrace'],fx:['waves','spray','sheen','foamdrift','crabs','gulls'],feat:['shells','wrack','marram','sandripples']},
+         marsh:{style:'layers',blend:['tint'],fx:['lap','fog','wisps','frogs','fireflies'],feat:['logs','toadstools','duckweed','mudcracks']},
+         lava:{style:'layers',blend:['crackle'],fx:['embers','cracks'],feat:['obsidian','sulphur','basalt','lavaplate','vents']},
+         cliff:{fx:['mist','leaves','birds'],feat:['moss','alpine','rubble']}, snow:{fx:['glitter'],feat:['icicles','pines','puddles','reedsdry']} },
   pieces:true, grain:true, motion:true, NF:16, T:4,
   // S: field samples per tile with the new edges (the old look keeps 12). 16 = exactly 2 px a sample on a 32 px tile, so the edges scale cleanly;
   // 14 (2.29 px) and 12 (2.67 px) show steps. 16 costs about a third more paint time than the old look (round 40 measurement). Try others: ?edgeS=14.
@@ -56,7 +62,7 @@ var ZWE={
     return true; },
   // where things move (inner chunk only, world px) and whether this chunk needs a flipbook
   _cells:function(D,out,cx,cy,MG,KL){ var KT=D.KT||WP_KT, S=D.S, SW=D.SW, kb=D.kb, dist=D.dist, ek=D.ek, a0=MG*S, a1=SW-MG*S, sp=LT/S, ox=D.tx0*LT, oy=D.ty0*LT;
-    var C={rings:[],spray:[],fog:[],mist:[],glitter:[],embers:[],wisps:[],leaves:[],wet:[],edge:[],deep:[],bank:[],air:[],meadow:[]}, needFlip=false, H=ZWE._hash, crk=null, N=_wpNoise(), wantCrk=ZWE.fx('lava','cracks');
+    var C={medge:[],rings:[],spray:[],fog:[],mist:[],glitter:[],embers:[],wisps:[],leaves:[],wet:[],edge:[],deep:[],bank:[],air:[],meadow:[]}, needFlip=false, H=ZWE._hash, crk=null, N=_wpNoise(), wantCrk=ZWE.fx('lava','cracks');
     for(var y=a0;y<a1;y++)for(var x=a0;x<a1;x++){ var i=y*SW+x, k=kb[i], cl=KT.cls[k], e=ek[i], dl=dist[i]===255?99:dist[i]/8*16/S, h=H(x+D.tx0*S,y+D.ty0*S,17), X=ox+(x+0.5)*sp, Y=oy+(y+0.5)*sp;
       if(cl===1||cl===3){ if(dl<16&&!KT.liquid[e])needFlip=true; if(dl>3&&h<0.02)(cl===1?C.rings:C.fog).push([X,Y]); if(cl===3&&h<0.004)C.rings.push([X,Y]); if(cl===3&&dl>2&&h>0.985)C.wisps.push([X,Y]); }
       else if(cl===2){ if(dl<24&&!KT.liquid[e])needFlip=true; if(dl<2.5&&!KT.liquid[e]&&h<0.25)C.spray.push([X,Y]); }
@@ -70,12 +76,12 @@ var ZWE={
       // round 42: where the creatures of the Lab's moving cards may appear (used when a place has them in ZWE.PICK[place].fx)
       var lk=KT.land[k], h2=H(x+D.tx0*S,y+D.ty0*S,29);
       if(lk===2&&KT.cls[e]===2&&dl<5&&h2<0.05)C.wet.push([X,Y]); if((cl===1||cl===3)&&!KT.liquid[e]&&dl<8&&h2<0.03)C.edge.push([X,Y]); if(cl===1&&dl>4&&h2<0.01)C.deep.push([X,Y]);
-      if((lk===4||lk===1)&&KT.cls[e]===3&&dl<3&&h2<0.05)C.bank.push([X,Y]); if(h2>0.9995)C.air.push([X,Y]); if(cl===2)C._sea=1; if(KT.wall[k])C._cliff=1; if(lk===1&&KT.cls[e]===1&&dl<14&&h2<0.01)C.meadow.push([X,Y]); }
+      if((lk===4||lk===1)&&KT.cls[e]===3&&dl<3&&h2<0.05)C.bank.push([X,Y]); if(h2>0.9995)C.air.push([X,Y]); if(cl===2)C._sea=1; if(KT.wall[k])C._cliff=1; if(cl===3&&!KT.liquid[e]&&dl<8&&h2<0.03)C.medge.push([X,Y]); if(lk===1&&KT.cls[e]===1&&dl<14&&h2<0.01)C.meadow.push([X,Y]); }
     var cap=function(L,n){ if(L.length<=n)return L; var o=[], st=L.length/n; for(var q=0;q<n;q++)o.push(L[Math.floor(q*st)]); return o; };
     var F={}; if(ZWE.fx('lake','rings')&&C.rings.length)F.rings=cap(C.rings,400); if(ZWE.fx('sea','spray')&&C.spray.length)F.spray=cap(C.spray,400); if(ZWE.fx('marsh','fog')&&C.fog.length>20)F.fog=cap(C.fog,300);
     if(ZWE.fx('cliff','mist')&&C.mist.length>8)F.mist=cap(C.mist,300); if(ZWE.fx('snow','glitter')&&C.glitter.length)F.glitter=cap(C.glitter,500); if(ZWE.fx('lava','embers')&&C.embers.length)F.embers=cap(C.embers,300);
     if(ZWE.fx('marsh','wisps')&&C.wisps.length)F.wisps=cap(C.wisps,120);
-    var CR={crabs:['sea','wet'],gulls:['sea','air'],dragonflies:['lake','edge'],fish:['lake','deep'],butterflies:['lake','meadow'],frogs:['marsh','bank'],fireflies:['marsh','edge'],birds:['cliff','air']};
+    var CR={crabs:['sea','wet'],gulls:['sea','air'],dragonflies:['lake','edge'],fish:['lake','deep'],butterflies:['lake','meadow'],frogs:['marsh','bank'],fireflies:['marsh','medge'],birds:['cliff','air']};
     Object.keys(CR).forEach(function(f){ var q=CR[f]; if((f==='gulls'&&!C._sea)||(f==='birds'&&!C._cliff))return; if((ZWE.fx(q[0],f)||(f==='dragonflies'&&ZWE.fx('marsh',f)))&&C[q[1]].length)F[f]=cap(C[q[1]],200); }); if(ZWE.fx('cliff','leaves')&&C.leaves.length>6)F.leaves=cap(C.leaves,200);
     out.zfx=Object.keys(F).length?F:null;
     if(crk){ crk.getContext('2d').putImageData(crk._im,0,0); delete crk._im; out.cracks=crk; }
@@ -103,79 +109,122 @@ var ZWE={
   // the pieces along the edges: painted ones when the sheets are in, else drawn in code
   // how big a painted piece is drawn (share of its painted size) — round 41, after the sheets came in
   PSIZE:{tuft:0.7,dry:0.7,reed:0.75,lily:0.7,pebble:0.7,drift_wood:0.75,mud:0.7,shell:0.6,boulder:0.65,drift:0.7,ember:0.65,shard:0.7,ice:0.6,ash:0.7,shore_rock:0.65,foam:0.7,cliff_grass:0.8,snow_lip:0.8,roots:0.7},
-  PDENS:{tuft:0.35,dry:0.35,reed:0.6,lily:0.3,pebble:0.5,boulder:0.45,ember:0.3,drift:0.6,shard:0.5,mud:0.6,ice:0.6},      // share of the places a painted piece is kept (round 41, first look in the world)
+  PDENS:{tuft:0.35,dry:0.35,reed:0.45,lily:0.3,pebble:0.5,boulder:0.45,ember:0.3,drift:0.6,shard:0.5,mud:0.6,ice:0.6},      // share of the places a painted piece is kept (round 41, first look in the world)
   CODEONLY:{ash:1,shore_rock:1,foam:1,cliff_grass:1,snow_lip:1,roots:1},      // these exist only as painted pieces
   PAINT:{ash:['ed_ash_heap'],shore_rock:['ed_shore_rock'],foam:['ed_foam'],cliff_grass:['ed_cliff_grass'],snow_lip:['ed_snow_lip'],roots:['ed_roots','ed_bank'],tuft:['ed_tuft_a','ed_tuft_b'],dry:['ed_tuft_dry'],reed:['ed_reeds','ed_cattails'],lily:['ed_lily'],pebble:['ed_pebbles'],drift_wood:['ed_driftwood'],mud:['ed_mud_clods'],shell:['ed_shells'],boulder:['ed_foot_boulder','ed_talus_a','ed_talus_b'],drift:['ed_snow_drift'],ember:['ed_ember_rocks'],shard:['ed_crust_shards'],ice:['ed_ice_shards']},
   painted:function(ty,r){ var Z=_scn(); if(!Z||!ZWE.PAINT[ty])return null; return Z.pick(ZWE.PAINT[ty],r); },
-  pieces:function(D,ctx,KL){ if(!ZWE.pieces||typeof ZEdge==='undefined')return; var KT=D.KT||WP_KT, S=D.S, SW=D.SW, kb=D.kb, dist=D.dist, ek=D.ek, sp=LT/S, H=ZWE._hash, A=(16/S)*(16/S), L=[];
+  // round 43 (Kris, Oct 9: "All of these features you should be able to walk over, but if they are larger it should look like you move behind them, with smaller
+  // features you walk on top of ... use your judgement for how dense and dispersed"). Nothing here blocks walking. Each painted piece is now one of:
+  //   • TALL — a depth-sorted sprite (the hero passes behind it when he is above its foot, in front of it when below): logs, rocks, reeds, saplings, basalt…
+  //   • swaying (ANIM) — a sprite of its own that moves in the wind: its painted frames (wave 43) when they are in, until then the plant leans as one piece;
+  //     tall ones are depth-sorted, small ones (tufts, flowers) lie under the hero
+  //   • everything else — painted flat into the ground (pebbles, shells, duckweed, puddles, ripples, cracked mud…), walked over
+  // LOOK: how many, how grouped, how mixed, how varied in size, how much they sway, how many creatures — my defaults; the Lab's Terrain pieces tab offers the rest.
+  LOOK:{dens:0.85,clump:0.7,vary:'mixed',size:0.15,sway:1,crit:1},
+  LOOKS:{dens:{sparse:0.5,natural:0.85,lush:1.4,wild:2},clump:{even:0,clusters:0.7,groves:1},vary:{one:'one',mixed:'mixed',all:'all'},size:{same:0,some:0.15,lots:0.3},sway:{still:0,gentle:1,breezy:2},crit:{few:0.5,some:1,many:2}},
+  TALL:{ed_log_fallen:1,ed_log_mossy:1,ed_log_rotting:1,ed_rock_mossy:1,ed_iris:1,ed_dune_grass:1,ed_reeds:1,ed_cattails:1,ed_reeds_dry:1,ed_snow_pine:1,ed_basalt:1,ed_steam_vent:1,ed_foot_boulder:1,ed_talus_a:1,ed_talus_b:1,
+    ed_obsidian:1,ed_sulphur:1,ed_snow_rock:1,ed_shore_rock:1,ed_ice_shards:1,ed_bramble:1,ed_toadstools:1,ed_fern:1,ed_heather:1,ed_ember_rocks:1},
+  // the animation of a painted piece (wave 43 sheets: <base>_1 … _N); SWAYCODE: may lean as one piece until its frames are in (not the ivy: it hangs from its top)
+  ANIM:{ed_reeds:'an_reeds',ed_cattails:'an_cattails',ed_iris:'an_iris',ed_reeds_dry:'an_reeds_dry',ed_dune_grass:'an_dune_grass',ed_tuft_a:'an_tuft_a',ed_tuft_b:'an_tuft_b',ed_tuft_dry:'an_tuft_dry',
+    ed_wildflowers:'an_wildflowers',ed_alpine_flowers:'an_alpine_flowers',ed_fern:'an_fern',ed_ivy:'an_ivy',ed_steam_vent:'an_steam_vent',ed_lava_bubble:'an_lava_bubble'},
+  SWAYCODE:{ed_reeds:4,ed_cattails:4,ed_iris:4,ed_reeds_dry:4,ed_dune_grass:5,ed_tuft_a:5,ed_tuft_b:5,ed_tuft_dry:5,ed_wildflowers:6,ed_alpine_flowers:6,ed_fern:3},      // degrees of lean at "gentle"
+  LOOP:{an_steam_vent:5,an_lava_bubble:3},      // these loop through their frames (frames a second) instead of following the wind
+  // the creatures' frames
+  CRITANIM:{crabs:'an_crab',frogs:'an_frog',fish:'an_fish',gulls:'an_gull',birds:'an_crow',dragonflies:'an_dragonfly',butterflies:'an_butterfly',wisps:'an_wisp',fireflies:'an_firefly',leaves:'an_leaf'},
+  CRITFPS:{crabs:8,frogs:5,fish:4.5,gulls:6,birds:7,dragonflies:20,butterflies:10,wisps:6,fireflies:3,leaves:6},
+  frames:function(base){ var Z=_scn(); if(!Z||!base)return 0; var n=0; while(n<8&&Z.has(base+'_'+(n+1)))n++; return n; },
+  // the frames of an animation as one game texture (frames '0'…'n-1', lined up on their standing point); null until they are painted
+  animTex:function(scene,base){ var n=ZWE.frames(base); if(n<2)return null; var key='zan_'+base; if(scene.textures.exists(key))return scene._zan&&scene._zan[key];
+    var RS=ZScn.RES, Z=[], l=0, r=0, u=0, dn=0; for(var i=0;i<n;i++){ var z=ZScn.size(base+'_'+(i+1),0); Z.push(z); l=Math.max(l,z.ax); r=Math.max(r,z.w-z.ax); u=Math.max(u,z.ay); dn=Math.max(dn,z.h-z.ay); }
+    var W=Math.ceil(l+r)+2, Hh=Math.ceil(u+dn)+2, c=document.createElement('canvas'); c.width=W*RS*n; c.height=Hh*RS; var g=c.getContext('2d'); g.scale(RS,RS);
+    for(i=0;i<n;i++)ZScn.draw(g,base+'_'+(i+1),i*W+1+l,1+u,Z[i].h); var t=scene.textures.addCanvas(key,c); for(i=0;i<n;i++)t.add(String(i),0,i*W*RS,0,W*RS,Hh*RS); try{ t.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){}
+    var o={key:key,n:n,ox:(1+l)/W,oy:(1+u)/Hh,h:Z[0].h,scale:1/RS}; (scene._zan||(scene._zan={}))[key]=o;
+    if(scene.anims&&!scene.anims.exists(key)){ var cf=Object.keys(ZWE.CRITANIM).filter(function(f){ return ZWE.CRITANIM[f]===base; })[0]; try{ scene.anims.create({key:key,frames:scene.anims.generateFrameNames(key,{start:0,end:n-1}),frameRate:(cf&&ZWE.CRITFPS[cf])||ZWE.LOOP[base]||6,repeat:-1}); }catch(e){} }
+    return o; },
+  pieces:function(D,ctx,KL,out){ if(!ZWE.pieces||typeof ZEdge==='undefined')return; var KT=D.KT||WP_KT, S=D.S, SW=D.SW, kb=D.kb, dist=D.dist, ek=D.ek, sp=LT/S, H=ZWE._hash, A=(16/S)*(16/S), L=[], LK=ZWE.LOOK, N=_wpNoise(), dens=LK.dens||1, cl=LK.clump||0;
+    // clusters: a slow noise over the world makes groups with open ground between them (same in every chunk)
+    var clump=function(wx,wy){ if(!cl)return 1; var n=N.v(wx/S*0.11+31.7,wy/S*0.11+5.3); n=Math.max(0,Math.min(1,(n-0.3)/0.45)); return (1-cl)+cl*2.2*n*n*(3-2*n); };
     for(var y=2;y<SW-2;y++)for(var x=2;x<SW-2;x++){ var i=y*SW+x; if(dist[i]===255)continue; var k=kb[i], e=ek[i], d=dist[i]/8*16/S, wx=x+Math.round(D.tx0*S), wy=y+Math.round(D.ty0*S), h=H(wx,wy,11)/A, lk=KT.land[k], ce=KT.cls[e], le=KT.land[e];
-      if(KT.road[k]||KT.pat[k]||KT.road[e]||KT.pat[e])continue;
-      if(lk===1&&!KT.wall[e]&&d<=2&&h<(KT.liquid[e]||le===2?0.06:0.022))L.push([y,x,le===5||le===3?'dry':'tuft',h*A]);
-      else if((KT.cls[k]===1||KT.cls[k]===3)&&!KT.liquid[e]&&d>=2&&d<=4&&h<0.02)L.push([y,x,'reed',h*A]);
-      else if(KT.cls[k]===3&&d>=4&&d<=9&&h<0.006)L.push([y,x,'lily',h*A]);
-      else if((lk===2||lk===4||lk===5)&&KT.liquid[e]&&ce!==4&&d>=2&&d<=6&&h<0.022)L.push([y,x,lk===4&&h<0.008?'mud':lk===2&&ce===2&&h<0.004?'drift_wood':'pebble',h*A]);
+      if(KT.road[k]||KT.pat[k]||KT.road[e]||KT.pat[e])continue; var cq=-1, Q=function(){ if(cq<0)cq=dens*clump(wx,wy); return cq; };
+      if(lk===1&&!KT.wall[e]&&d<=2&&h<(KT.liquid[e]||le===2?0.06:0.022)*Q())L.push([y,x,le===5||le===3?'dry':'tuft',h*A]);
+      else if((KT.cls[k]===1||KT.cls[k]===3)&&!KT.liquid[e]&&d>=2&&d<=4&&h<0.02*Q())L.push([y,x,'reed',h*A]);
+      else if(KT.cls[k]===3&&d>=4&&d<=9&&h<0.006*Q())L.push([y,x,'lily',h*A]);
+      else if((lk===2||lk===4||lk===5)&&KT.liquid[e]&&ce!==4&&d>=2&&d<=6&&h<0.022*Q())L.push([y,x,lk===4&&h<0.008?'mud':lk===2&&ce===2&&h<0.004?'drift_wood':'pebble',h*A]);
       else if(lk===2&&ce===2&&d>=3&&d<=5&&h>1/A-0.008)L.push([y,x,'shell',h*A]);
-      else if(!KT.wall[k]&&!KT.liquid[k]&&d<=3&&h<0.03&&y>2&&KT.wall[kb[(y-2)*SW+x]])L.push([y,x,'boulder',h*A]);
-      else if(lk===5&&d<=2&&h<0.012)L.push([y,x,'boulder',h*A*0.5]);
+      else if(!KT.wall[k]&&!KT.liquid[k]&&d<=3&&h<0.03*Q()&&y>2&&KT.wall[kb[(y-2)*SW+x]])L.push([y,x,'boulder',h*A]);
+      else if(lk===5&&d<=2&&h<0.012*Q())L.push([y,x,'boulder',h*A*0.5]);
       else if(lk===3&&!KT.wall[e]&&d<=1&&h<0.06)L.push([y,x,KT.liquid[e]&&h<0.02?'ice':'drift',h*A]);
-      else if(lk===6&&ce===4&&d<=3&&h<0.03)L.push([y,x,'ember',h*A]);
-      else if(lk===6&&le===6&&d<=2&&h<0.02)L.push([y,x,'shard',h*A]);
+      else if(lk===6&&ce===4&&d<=3&&h<0.03*Q())L.push([y,x,'ember',h*A]);
+      else if(lk===6&&le===6&&d<=2&&h<0.02*Q())L.push([y,x,'shard',h*A]);
       else if(lk===6&&ce===4&&d>3&&d<=6&&h<0.008)L.push([y,x,'ash',h*A]);
       if(KT.liquid[k]&&!KT.liquid[e]&&ce!==4&&KT.cls[k]!==4&&d>=2&&d<=4&&h>1/A-0.003)L.push([y,x,'shore_rock',h*A]);
       if(KT.cls[k]===2&&!KT.liquid[e]&&d<=1.5&&h>1/A-0.01)L.push([y,x,'foam',h*A]);
       if(lk===1&&y<SW-3&&KT.wall[kb[(y+2)*SW+x]]&&!KT.wall[kb[(y-1)*SW+x]]&&h<0.03)L.push([y,x,'cliff_grass',h*A]);      // grass hanging over a cliff top
       if(lk===3&&y<SW-3&&KT.wall[kb[(y+2)*SW+x]]&&h<0.03)L.push([y,x,'snow_lip',h*A]);
       if((lk===1||lk===4)&&!KT.liquid[k]&&KT.cls[e]===1&&d>=1&&d<=3&&h<0.004)L.push([y,x,'roots',h*A]);
-      // round 42: the static features of the Lab cards — on when the place has them in ZWE.PICK[place].feat (Kris picked logs for lake and marsh)
-      var hf=H(wx,wy,23)/A, FP=ZWE._featAt(KT,kb,SW,x,y,k,e,d,lk,ce,le,hf,h);
-      if(FP)L.push([y,x,'F',h*A,FP[0],FP[1],FP[2]]); }
+      // the features of the Lab cards Kris picked (ZWE.PICK[place].feat): every one that may stand here is a candidate; LOOK decides how many and which
+      var hf=H(wx,wy,23)/A; if(hf<0.6*dens*(1+cl*1.3)){ var cand=ZWE._featC(KT,kb,SW,x,y,k,e,d,lk,ce,le);
+        if(cand){ var q=Q(), tot=0, wt=[], tx=wx/S, ty=wy/S; for(var j=0;j<cand.length;j++){ wt[j]=cand[j][3]*ZWE._vary(cand[j][0],tx,ty,cand)*q; tot+=wt[j]; }
+          if(hf<tot){ var acc=0; for(j=0;j<cand.length;j++){ acc+=wt[j]; if(hf<acc){ L.push([y,x,'F',h*A,cand[j][0],cand[j][1],cand[j][2]]); break; } } } } } }
     L.sort(function(a,b){ return a[0]-b[0]; });
-    var used={}, ox=D.tx0*LT, oy=D.ty0*LT, logs=[];      // painted pieces are bigger: keep them apart (on a world grid, so neighbouring chunks agree)
+    var used={}, ox=D.tx0*LT, oy=D.ty0*LT, feats=[], X0=out?(out.cx*WCH-D.tx0)*LT:-1e9, Y0=out?(out.cy*WCH-D.ty0)*LT:-1e9, IW=WCH*LT;      // painted pieces are bigger: keep them apart (on a world grid, so neighbouring chunks agree)
+    var mine=function(X,Y){ return X>=X0&&X<X0+IW&&Y>=Y0&&Y<Y0+IW; };
+    // one painted piece: flat into the ground, a depth-sorted sprite, or a swaying sprite (see TALL / ANIM above). foot = where it stands. false = not painted
+    var put=function(id,X,foot,h,r){ h*=1+(LK.size||0)*(2*r-1); var an=ZWE.ANIM[id], tall=ZWE.TALL[id], sway=out&&(LK.sway||0)>0&&an&&(ZWE.SWAYCODE[id]||ZWE.frames(an)>1);
+      if(out&&(sway||tall)){ if(!mine(X,foot))return true;      // the chunk it stands in shows it
+        if(sway){ (out.live||(out.live=[])).push({id:id,an:an,x:X+ox,y:foot+oy,h:h,tall:!!tall,r:r}); return true; }
+        var n0=out.sprites.length; if(ZScn.sprite({sprites:out.sprites},id,X,foot,h,{shw:0.4,sha:0.3,sp:{zed:id}})){ for(var q=n0;q<out.sprites.length;q++){ out.sprites[q].x+=ox; out.sprites[q].y+=oy; } return true; } return false; }
+      return !!ZScn.draw(ctx,id,X,foot,h); };
     L.forEach(function(p){ var X=p[1]*sp, Y=p[0]*sp, r1=H(p[1]+Math.round(D.tx0*S),p[0]+Math.round(D.ty0*S),5);
-      if(p[2]==='F'){ var g0=ZWE.FSP[p[4]]||64, lc=p[4]+Math.floor((X+ox)/g0)+'_'+Math.floor((Y+oy)/g0); if(used[lc])return; used[lc]=1; logs.push(p); return; }      // features: drawn last, over the small pieces, one per grid cell
+      if(p[2]==='F'){ var g0=(ZWE.FSP[p[4]]||64)/Math.sqrt(dens), lc=p[4]+Math.floor((X+ox)/g0)+'_'+Math.floor((Y+oy)/g0); if(used[lc])return; used[lc]=1; feats.push(p); return; }      // features: drawn last, over the small pieces, one per grid cell
       var id=ZWE.painted(p[2],r1); if(id&&H(p[1]+Math.round(D.tx0*S),p[0]+Math.round(D.ty0*S),9)>(ZWE.PDENS[p[2]]||1))return;      // painted pieces are bigger, so fewer of them
-      if(id){ var cell=Math.floor((X+ox)/40)+'_'+Math.floor((Y+oy)/40); if(used[cell])return; used[cell]=1; var Zs=ZScn.size(id,0); if(Zs&&ZScn.draw(ctx,id,X,Y+4,Zs.h*(ZWE.PSIZE[p[2]]||0.8)))return; }
+      if(id){ var cell=Math.floor((X+ox)/40)+'_'+Math.floor((Y+oy)/40); if(used[cell])return; used[cell]=1; var Zs=ZScn.size(id,0); if(Zs&&put(id,X,Y+4,Zs.h*(ZWE.PSIZE[p[2]]||0.8),H(p[1],p[0],13)))return; }
       if(ZWE.CODEONLY[p[2]])return;      // a painted-only piece (no stand-in drawn in code)
       var ty=p[2]==='dry'?'tuft':p[2]==='drift_wood'||p[2]==='mud'?'pebble':p[2]==='ice'?'drift':p[2];
       ZEdge._piece(ctx,ty,X,Y,p[3],r1,0.8,p[2]==='dry'?'cliff':'lake',undefined,p[1]); });
-    logs.forEach(function(p){ var X=p[1]*sp, Y=p[0]*sp, r1=H(p[1]+Math.round(D.tx0*S),p[0]+Math.round(D.ty0*S),7), ft=p[4], pl=p[5], vr=p[6], Z=_scn();
+    feats.forEach(function(p){ var X=p[1]*sp, Y=p[0]*sp, r1=H(p[1]+Math.round(D.tx0*S),p[0]+Math.round(D.ty0*S),7), ft=p[4], pl=p[5], vr=p[6], Z=_scn();
+      if(ft==='vents'&&out&&mine(X,Y)){ out.zfx=out.zfx||{}; (out.zfx.steam=out.zfx.steam||[]).push([X+ox,Y+oy-14]); }      // steam rises from the vents
       var ids=ZWE.FEATPAINT[ft+(vr?'_'+vr:'')+'@'+pl]||ZWE.FEATPAINT[ft+(vr?'_'+vr:'')]||ZWE.FEATPAINT[ft], id=Z&&ids?Z.pick(ids,r1):null;
-      if(id){ var Zs=ZScn.size(id,0); if(Zs&&ZScn.draw(ctx,id,X,Y+4,Zs.h*(ZWE.FSIZE[ft]||0.75)))return; }
+      if(id){ var Zs=ZScn.size(id,0); if(Zs&&put(id,X,Y+4,Zs.h*(ZWE.FSIZE[ft]||0.75),H(p[1],p[0],19)))return; }
       ZEdge._featPiece(ctx,ft,[p[1],p[0],p[3],vr],X,Y,r1,ft==='logs'?1.3:1,pl); }); },
-  // round 42: which static feature (if any) stands at a sample — [feature, place, variant]; the Lab's rules (ZEdge._feat) in the world's terms
-  _featAt:function(KT,kb,SW,x,y,k,e,d,lk,ce,le,h,h0){ var cl=KT.cls[k], wat=KT.liquid[k]&&cl!==4, pl, F=ZWE.feat;
+  // how much of each candidate feature a stretch of edge gets (LOOK.vary): one — a single kind per stretch; mixed — a main kind with others among it; all — even
+  _fo:function(f){ var n=0; for(var i=0;i<f.length;i++)n=(n*31+f.charCodeAt(i))%997; return n*0.37; },
+  _vary:function(f,tx,ty,cand){ var m=ZWE.LOOK.vary; if(m==='all')return 1; var N=_wpNoise(), nf=function(g){ var o=ZWE._fo(g); return N.c(tx*0.07+o,ty*0.07-o*0.6); };
+    if(m==='one'){ var best=null, bv=-1; cand.forEach(function(c){ var v=nf(c[0]); if(v>bv){ bv=v; best=c[0]; } }); return f===best?1.6:0.04; }
+    var v=nf(f); return 0.25+2.2*v*v; },
+  // round 43: the static features that may stand at a sample — [[feature, place, variant, rate], …] or null (rate: the share of samples it takes at density 1)
+  _featC:function(KT,kb,SW,x,y,k,e,d,lk,ce,le){ var cl=KT.cls[k], wat=KT.liquid[k]&&cl!==4;
     var place=cl===3||(lk===4&&ce===3)||ce===3?'marsh':cl===1||ce===1?'lake':cl===2||ce===2?'sea':cl===4||ce===4||lk===6?'lava':lk===3||le===3?'snow':(KT.wall[k]||KT.wall[e]||lk===5||le===5)?'cliff':null;
-    if(!place)return null; var P=ZWE.PICK[place==='sea'?'sea':place]; if(!P||!P.feat||!P.feat.length)return null; var has=function(f){ return P.feat.indexOf(f)>=0; };
-    if(has('logs')){ if((wat&&!KT.liquid[e]&&d>=1&&d<=3)||(lk===4&&KT.liquid[e]&&d<=2)){ if(h<0.0016)return ['logs',place,0]; } else if(place==='lake'&&lk===1&&KT.liquid[e]&&d>=3&&d<=6&&h<0.003)return ['logs',place,'rock']; }
-    if(has('flowers')&&lk===1&&KT.liquid[e]&&d>=2&&d<=9&&h<0.03)return ['flowers',place,0];
-    if(has('stones')&&wat&&!KT.liquid[e]&&d>=2&&d<=6&&h<0.012)return ['stones',place,0];
-    if(has('shells')&&lk===2&&ce===2&&d>=2&&d<=10&&h<0.012)return ['shells',place,0];
-    if(has('wrack')&&lk===2&&ce===2&&d>=6&&d<=8&&h<0.09)return ['wrack',place,0];
-    if(has('marram')&&lk===2&&le===1&&d<=8&&h<0.03)return ['marram',place,0];
-    if(has('moss')&&KT.wall[k]&&h<0.02){ for(var q=1;q<=20;q++){ var yq=y+q; if(yq>=SW)break; if(!KT.wall[kb[yq*SW+x]]){ if(q<=12)return ['moss',place,q]; break; } } }
-    if(has('alpine')&&lk===1&&d<=14&&h<0.02)return ['alpine',place,0];
-    if(has('rubble')&&!KT.wall[k]&&!KT.liquid[k]&&y>3&&KT.wall[kb[(y-3)*SW+x]]&&d<=6&&h<0.12)return ['rubble',place,0];
-    if(has('toadstools')&&lk===4&&d>=1&&d<=5&&h<0.01)return ['toadstools',place,0];
-    if(has('duckweed')&&wat&&d<=7&&h<0.45&&h0<0.5)return ['duckweed',place,0];
-    if(has('obsidian')&&lk===6&&d<=8&&h<0.012)return ['obsidian',place,0];
-    if(has('sulphur')&&lk===6&&d<=10&&h<0.008)return ['sulphur',place,0];
-    if(has('basalt')&&lk===6&&ce===4&&d>=1&&d<=7&&h<0.03)return ['basalt',place,0];
-    if(has('icicles')){ if(KT.wall[k]&&y<SW-1&&!KT.wall[kb[(y+1)*SW+x]]&&h<0.5)return ['icicles',place,'ice']; if(lk===3&&d>=3&&h<0.004)return ['icicles',place,'rock']; }
-    if(has('pines')&&lk===1&&(le===3||le===5)&&d>=2&&d<=9&&h<0.012)return ['pines',place,0];
-    if(has('puddles')&&(lk===1||lk===5)&&h<0.004)return ['puddles',place,0];
-    // extras painted in round 42 (not Lab cards; switch on per place the same way)
-    if(has('sandripples')&&lk===2&&d>=6&&h<0.004)return ['sandripples',place,0];
-    if(has('snowripples')&&lk===3&&d>=4&&h<0.003)return ['snowripples',place,0];
-    if(has('mudcracks')&&lk===4&&d>=3&&h<0.004)return ['mudcracks',place,0];
-    if(has('puddle')&&(lk===1||lk===4)&&KT.liquid[e]&&d>=4&&d<=10&&h<0.003)return ['puddle',place,0];
-    if(has('reedsdry')&&lk===3&&KT.liquid[e]&&d<=3&&h<0.02)return ['reedsdry',place,0];
-    if(has('bramble')&&lk===1&&d>=3&&d<=10&&h<0.004)return ['bramble',place,0];
-    if(has('icefloe')&&wat&&d>=3&&d<=8&&h<0.01)return ['icefloe',place,0];
-    if(has('vents')&&lk===6&&ce===4&&d>=2&&d<=8&&h<0.004)return ['vents',place,0];
-    if(has('lavaplate')&&cl===4&&d>3&&h<0.003)return [h<0.0012?'lavabubble':'lavaplate',place,0];
-    return null; },
+    if(!place)return null; var P=ZWE.PICK[place]; if(!P||!P.feat||!P.feat.length)return null; var o=[], has=function(f){ return P.feat.indexOf(f)>=0; }, add=function(f,v,r){ o.push([f,place,v,r]); };
+    if(has('logs')){ if((wat&&!KT.liquid[e]&&d>=1&&d<=3)||(lk===4&&KT.liquid[e]&&d<=2))add('logs',0,0.0016); else if(place==='lake'&&lk===1&&KT.liquid[e]&&d>=3&&d<=6)add('logs','rock',0.003); }
+    if(has('flowers')&&lk===1&&KT.liquid[e]&&d>=2&&d<=9){ if(d<=3)add('flowers','iris',0.01); else add('flowers',0,0.03); }      // irises only at the water's edge
+    if(has('stones')&&wat&&!KT.liquid[e]&&d>=2&&d<=6)add('stones',0,0.012);
+    if(has('shells')&&lk===2&&ce===2&&d>=2&&d<=10)add('shells',0,0.012);
+    if(has('wrack')&&lk===2&&ce===2&&d>=6&&d<=8)add('wrack',0,0.09);
+    if(has('marram')&&lk===2&&le===1&&d<=8)add('marram',0,0.03);
+    if(has('moss')&&KT.wall[k]){ for(var q=1;q<=20;q++){ var yq=y+q; if(yq>=SW)break; if(!KT.wall[kb[yq*SW+x]]){ if(q<=12)add('moss',q,0.02); break; } } }
+    if(has('alpine')&&lk===1&&d<=14)add('alpine',0,0.02);
+    if(has('rubble')&&!KT.wall[k]&&!KT.liquid[k]&&y>3&&KT.wall[kb[(y-3)*SW+x]]&&d<=6)add('rubble',0,0.12);
+    if(has('toadstools')&&lk===4&&d>=1&&d<=5)add('toadstools',0,0.01);
+    if(has('duckweed')&&wat&&d<=7)add('duckweed',0,0.22);
+    if(has('obsidian')&&lk===6&&d<=8)add('obsidian',0,0.012);
+    if(has('sulphur')&&lk===6&&d<=10)add('sulphur',0,0.008);
+    if(has('basalt')&&lk===6&&ce===4&&d>=1&&d<=7)add('basalt',0,0.03);
+    if(has('icicles')){ if(KT.wall[k]&&y<SW-1&&!KT.wall[kb[(y+1)*SW+x]])add('icicles','ice',0.5); else if(lk===3&&d>=3)add('icicles','rock',0.004); }
+    if(has('pines')&&lk===1&&(le===3||le===5)&&d>=2&&d<=9)add('pines',0,0.012);
+    if(has('puddles')&&(lk===1||lk===5)&&(le===3||le===5))add('puddles',0,0.004);
+    if(has('sandripples')&&lk===2&&d>=6)add('sandripples',0,0.004);
+    if(has('snowripples')&&lk===3&&d>=4)add('snowripples',0,0.003);
+    if(has('mudcracks')&&lk===4&&d>=3)add('mudcracks',0,0.004);
+    if(has('puddle')&&(lk===1||lk===4)&&KT.liquid[e]&&d>=4&&d<=10)add('puddle',0,0.003);
+    if(has('reedsdry')&&lk===3&&KT.liquid[e]&&d<=3)add('reedsdry',0,0.02);
+    if(has('bramble')&&lk===1&&d>=3&&d<=10)add('bramble',0,0.004);
+    if(has('icefloe')&&wat&&d>=3&&d<=8&&(le===3||KT.land[e]===3))add('icefloe',0,0.01);      // floes only on water that borders snow
+    if(has('vents')&&lk===6&&ce===4&&d>=2&&d<=8)add('vents',0,0.004);
+    if(has('lavaplate')&&cl===4&&d>3){ add('lavaplate',0,0.0018); add('lavabubble',0,0.0012); }
+    return o.length?o:null; },
   // round 42: the painted pictures of the features (wave 42 sheets) — ids per feature, optionally per variant and place
-  FEATPAINT:{'logs@lake':['ed_log_fallen','ed_log_mossy'],'logs@marsh':['ed_log_rotting','ed_log_mossy'],logs:['ed_log_fallen'],logs_rock:['ed_rock_mossy'],flowers:['ed_wildflowers','ed_clover','ed_iris'],stones:['ed_stepping_stones'],
+  FEATPAINT:{'logs@lake':['ed_log_fallen','ed_log_mossy'],'logs@marsh':['ed_log_rotting','ed_log_mossy'],logs:['ed_log_fallen'],logs_rock:['ed_rock_mossy'],flowers:['ed_wildflowers','ed_clover'],flowers_iris:['ed_iris'],stones:['ed_stepping_stones'],
     shells:['ed_tide_pool','ed_shells'],wrack:['ed_wrack'],marram:['ed_dune_grass'],moss:['ed_ivy','ed_moss_patch'],alpine:['ed_alpine_flowers','ed_heather','ed_lichen_rock'],rubble:['ed_talus_b','ed_talus_a'],toadstools:['ed_toadstools','ed_fern'],
     duckweed:['ed_duckweed'],obsidian:['ed_obsidian'],sulphur:['ed_sulphur'],basalt:['ed_basalt'],icicles_ice:['ed_icicles'],icicles_rock:['ed_snow_rock'],pines:['ed_snow_pine'],puddles:['ed_frozen_puddle'],sandripples:['ed_sand_ripples'],snowripples:['ed_snow_ripples'],mudcracks:['ed_cracked_mud'],puddle:['ed_puddle'],reedsdry:['ed_reeds_dry'],bramble:['ed_bramble'],icefloe:['ed_ice_floe'],lavaplate:['ed_lava_plate'],vents:['ed_steam_vent'],lavabubble:['ed_lava_bubble']},
   FSP:{logs:150,flowers:48,stones:72,shells:60,wrack:120,marram:64,moss:72,alpine:56,rubble:90,toadstools:64,duckweed:64,obsidian:64,sulphur:64,basalt:110,icicles:80,pines:96,puddles:140,sandripples:140,snowripples:140,mudcracks:120,puddle:140,reedsdry:64,bramble:110,icefloe:110,lavaplate:110,vents:140,lavabubble:110},      // spacing grid (world px) per feature
