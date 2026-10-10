@@ -691,6 +691,8 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[369] Wave 42 ordered**: `sc_edge_3`–`sc_edge_6` (48 pieces: logs, stones, flowers, shore, highland, snow and fire features, small creatures, leaves, ground and water details); `tools/sprites/edges2.ps1`.
 - **[370] All wired** (`05d-world-edges.js`): `ZWE._featAt` places any Lab feature in the world when `ZWE.PICK[place].feat` has it (painted via `ZWE.FEATPAINT`, code-drawn otherwise, spacing `ZWE.FSP`, size `ZWE.FSIZE`); creatures (`ZWE.CRIT`, `ZWE.critTex`) for leaves, wisps, crabs, gulls, crows, dragonflies, fish, frogs, butterflies, fireflies as particle textures (10c). Only Kris's picks are on.
 - **[371] Tests.** `tests/test_round42.py` (5 checks).
+- **[372] Wave 42 received and cut** (all 72 edge pieces on `assets/scenery/edges-0.webp`); steam vents as a lava feature.
+- **[373] Lab tab "Terrain pieces"** (`57-lab-tpieces.js`): his picks now painted, every other piece/creature as a switch-on card, the round 38 pieces in use, five questions with options, a feedback box (`tpieces-*`). The Lab artifact carries `edges-0.webp`.
 
 ## Naming conventions established
 

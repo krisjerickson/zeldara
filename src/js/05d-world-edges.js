@@ -171,13 +171,14 @@ var ZWE={
     if(has('reedsdry')&&lk===3&&KT.liquid[e]&&d<=3&&h<0.02)return ['reedsdry',place,0];
     if(has('bramble')&&lk===1&&d>=3&&d<=10&&h<0.004)return ['bramble',place,0];
     if(has('icefloe')&&wat&&d>=3&&d<=8&&h<0.01)return ['icefloe',place,0];
+    if(has('vents')&&lk===6&&ce===4&&d>=2&&d<=8&&h<0.004)return ['vents',place,0];
     if(has('lavaplate')&&cl===4&&d>3&&h<0.003)return [h<0.0012?'lavabubble':'lavaplate',place,0];
     return null; },
   // round 42: the painted pictures of the features (wave 42 sheets) — ids per feature, optionally per variant and place
   FEATPAINT:{'logs@lake':['ed_log_fallen','ed_log_mossy'],'logs@marsh':['ed_log_rotting','ed_log_mossy'],logs:['ed_log_fallen'],logs_rock:['ed_rock_mossy'],flowers:['ed_wildflowers','ed_clover','ed_iris'],stones:['ed_stepping_stones'],
     shells:['ed_tide_pool','ed_shells'],wrack:['ed_wrack'],marram:['ed_dune_grass'],moss:['ed_ivy','ed_moss_patch'],alpine:['ed_alpine_flowers','ed_heather','ed_lichen_rock'],rubble:['ed_talus_b','ed_talus_a'],toadstools:['ed_toadstools','ed_fern'],
-    duckweed:['ed_duckweed'],obsidian:['ed_obsidian'],sulphur:['ed_sulphur'],basalt:['ed_basalt'],icicles_ice:['ed_icicles'],icicles_rock:['ed_snow_rock'],pines:['ed_snow_pine'],puddles:['ed_frozen_puddle'],sandripples:['ed_sand_ripples'],snowripples:['ed_snow_ripples'],mudcracks:['ed_cracked_mud'],puddle:['ed_puddle'],reedsdry:['ed_reeds_dry'],bramble:['ed_bramble'],icefloe:['ed_ice_floe'],lavaplate:['ed_lava_plate'],lavabubble:['ed_lava_bubble']},
-  FSP:{logs:150,flowers:48,stones:72,shells:60,wrack:120,marram:64,moss:72,alpine:56,rubble:90,toadstools:64,duckweed:64,obsidian:64,sulphur:64,basalt:110,icicles:80,pines:96,puddles:140,sandripples:140,snowripples:140,mudcracks:120,puddle:140,reedsdry:64,bramble:110,icefloe:110,lavaplate:110,lavabubble:110},      // spacing grid (world px) per feature
+    duckweed:['ed_duckweed'],obsidian:['ed_obsidian'],sulphur:['ed_sulphur'],basalt:['ed_basalt'],icicles_ice:['ed_icicles'],icicles_rock:['ed_snow_rock'],pines:['ed_snow_pine'],puddles:['ed_frozen_puddle'],sandripples:['ed_sand_ripples'],snowripples:['ed_snow_ripples'],mudcracks:['ed_cracked_mud'],puddle:['ed_puddle'],reedsdry:['ed_reeds_dry'],bramble:['ed_bramble'],icefloe:['ed_ice_floe'],lavaplate:['ed_lava_plate'],vents:['ed_steam_vent'],lavabubble:['ed_lava_bubble']},
+  FSP:{logs:150,flowers:48,stones:72,shells:60,wrack:120,marram:64,moss:72,alpine:56,rubble:90,toadstools:64,duckweed:64,obsidian:64,sulphur:64,basalt:110,icicles:80,pines:96,puddles:140,sandripples:140,snowripples:140,mudcracks:120,puddle:140,reedsdry:64,bramble:110,icefloe:110,lavaplate:110,vents:140,lavabubble:110},      // spacing grid (world px) per feature
   FSIZE:{logs:0.85,flowers:0.7,stones:0.75,shells:0.7,wrack:0.75,marram:0.75,moss:0.8,alpine:0.7,rubble:0.7,toadstools:0.7,duckweed:0.8,obsidian:0.7,sulphur:0.7,basalt:0.75,icicles:0.8,pines:0.85,puddles:0.75},
 };
 // Dev panel: "Terrain edges: new / old"

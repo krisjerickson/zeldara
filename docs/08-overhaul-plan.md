@@ -201,6 +201,7 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
+- (Round 42) Design Lab → Terrain pieces: which extras to switch on; amount and size of painted pieces; should big pieces block walking; creatures; painted pieces in the Lab's edge cards.
 - (Round 37) Did "for 2X weak or resistance, come up with another way to represent this" mean the named steps (Bane / Weak / Resists / Warded) that were built, or something else?
 - (Round 28) Where did Kris see the old pixel versions — the Claude artifact, the local build, or the hosted site — and does it still happen after round 28's fix?
 
@@ -214,7 +215,8 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Kris: "ready now, and yes, make requests for painted fallen logs and as many other terrain features as you think might be useful to have painted, biasing to most or all of them"
 - Done: round 41 committed on the PC (8bbc18c, with the edges-0 page). Four new sheets ordered, wave 42, 48 pieces (doc 21 part 11), command `.\tools\sprites\edges2.ps1`. All 48 wired: his picks (logs, leaves, wisps) use them at once; every other Lab feature and creature can be switched on per place in `ZWE.PICK` and uses its picture. `test_round42.py`.
 - **Assumptions:** the extras stay off until Kris picks them (the world shows only his picks); creatures without a picture are small dots.
-- **Waiting for Kris:** run `edges2.ps1`; say if any of the extras should be switched on.
+- Kris: "great, request is going through, continue to check. and then either create a section in design lab for me to provide any feedback or clarify what you need through questions and options" → sheets received and cut (all 4, 48 pieces); new Lab tab **Terrain pieces** with picks, five questions with options and a feedback box.
+- **Waiting for Kris:** the Terrain pieces tab (picks, the five questions, notes).
 
 ## Round 41 (Kris, Oct 9) — terrain picks into the game; the painted edge pieces
 - Kris: "1. picks are in for the terrain. 2. edges are looking good 3. let's make the painted edge pieces, powershell command is in"

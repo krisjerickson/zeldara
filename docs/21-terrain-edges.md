@@ -272,3 +272,9 @@ cd C:\Claude\games\Zeldara-v4
 - Every other Lab feature can now stand in the world — one line in `ZWE.PICK[place].feat` turns it on: flowers, stepping stones, shells and tide pools, seaweed wrack, dune grass, ivy and moss, mountain flowers and heather, rubble, toadstools and ferns, duckweed, obsidian, sulphur, basalt, icicles and snowy rocks, snowy saplings, frozen puddles, and the extras (sand and snow ripples, cracked mud, puddles, dry reeds, bramble, ice floes, floating crust and lava bubbles).
 - Every Lab creature can move in the world — one word in `ZWE.PICK[place].fx`: crabs and gulls (beach), dragonflies, fish and butterflies (lake), frogs and fireflies (marsh), crows (mountain). They use the painted creature when it is in, a small dot until then.
 - None of these extras is switched on: the world shows only what Kris picked. `test_round42.py` switches all of them on to check that they work.
+
+### Received (Oct 9, night)
+
+All four sheets came in and were cut on the PC (`edges-0.webp` now holds all 72 edge pieces). His picks show their pictures at once (painted logs and mossy rocks at lakes, rotting and mossy logs in the marsh, three painted leaves, the painted wisp). Steam vents were added as a lava feature (`vents`).
+
+**Design Lab → Terrain pieces** (new tab, `lab/src/js/57-lab-tpieces.js`) is where Kris answers: (1) his picks now painted — right or not; (2) every other piece and creature, ready but off — ☆ Pick switches it on; (3) the round 38 pieces in use — keep or note size/amount; (4) five questions with options (amount, size, should big pieces block walking, creatures, painted pieces in the Lab's edge cards); (5) a free feedback box. Saved as `tpieces-*` in the Lab's picks.
