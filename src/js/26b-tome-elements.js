@@ -31,7 +31,7 @@
   var _entry=Tome.entry;
   Tome.entry=function(cat,id){ var e=_entry.call(Tome,cat,id); if(!e||e._zel)return e; e._zel=1;
     try{
-      if(cat==='monster'){ var M=monEls(id), at=e.lines.findIndex(function(l){ return l[0]==='Immune to'; }), add=elLines(M.els,M.boss,M.unique);
+      if(cat==='monster'){ var M=monEls(id), at=e.lines.findIndex(function(l){ return l[0]==='Resists'; }), add=elLines(M.els,M.boss,M.unique);
         if(M.els.length&&!M.boss)add.push(['Drops','Sometimes '+M.els.map(function(x){ return ITEMS[ZEL.E[x].gem].name; }).join(' or ')+' — more often from an alpha or a site elite']);
         if(at<0)e.lines=e.lines.concat(add); else Array.prototype.splice.apply(e.lines,[at,0].concat(add)); }
       else if(cat==='item'){ var I=ITEMS[id], L=[]; if(!I)return e;

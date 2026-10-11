@@ -75,8 +75,12 @@ var VB_PAINTED={tavern:'vb_tavern',shop:'vb_shop',house:'vb_house_round',forge:'
 function _vbPaintedId(Zs,o,w){ return (o.pid&&Zs.has(o.pid))?o.pid:(VB_PAINTED[o.core]&&Zs.has(VB_PAINTED[o.core]))?VB_PAINTED[o.core]:(!o.core?_vbHouse(Zs,o,w):null); }
 // Round 33: the hero stops at a painted building's picture, not at its (smaller) footprint of tiles: the picture's body, in world pixels.
 // He may step 22 px behind the roof's top (shins hidden at most), not further. [left, top, right, bottom]
+// round 45 (Kris: "houses in the late stage village are still too big … a green roof stone house that needs to be smaller"): a plain house is drawn
+// about a quarter smaller (never wider than 4 tiles' worth), the shops and halls about 15 % smaller. w = footprint width in pixels.
+function _vbPicW(Zs,o,w){ return o&&o.core?(w+8)*Zs.KB*0.92:(Math.min(w,LT*4)+4)*Zs.KB*0.86; }
+var VB_BAND=1.6;      // round 45: only the bottom of a building (its walls, VB_BAND tiles deep) stops the hero; he walks behind the rest, under the roof
 function _vbBlockRects(wd){ var Zs=_scn(); if(!Zs||!wd||!wd.props)return []; if(wd._vbR&&wd._vbRFor===wd.props&&wd._vbRK===Zs.KB)return wd._vbR; var L=[];
-  wd.props.forEach(function(p){ if(p.prop!=='vbuild')return; var w=p.w*LT, id=_vbPaintedId(Zs,p.o||{},w); if(!id)return; var Z=Zs.size(id,0,{w:(w+20)*Zs.KB}), cx=(p.x+p.w/2)*LT, foot=(p.y+p.h)*LT; L.push([cx-Z.ax+5,foot-Z.h+22,cx+(Z.w-Z.ax)-5,foot-2]); });
+  wd.props.forEach(function(p){ if(p.prop!=='vbuild')return; var w=p.w*LT, id=_vbPaintedId(Zs,p.o||{},w); if(!id)return; var Z=Zs.size(id,0,{w:_vbPicW(Zs,p.o||{},w)}), cx=(p.x+p.w/2)*LT, foot=(p.y+p.h)*LT, hw=Math.min(Z.w*0.42,w/2+6); L.push([cx-hw,foot-LT*VB_BAND,cx+hw,foot-2]); });
   wd._vbR=L; wd._vbRFor=wd.props; wd._vbRK=Zs.KB; return L; }
 function _vbBlocked(wd,x,y,fromX,fromY){ var L=_vbBlockRects(wd); for(var i=0;i<L.length;i++){ var r=L[i]; if(x>r[0]-7&&x<r[2]+7&&y>r[1]&&y<r[3]+5){ if(fromX>r[0]-7&&fromX<r[2]+7&&fromY>r[1]&&fromY<r[3]+5)continue; return true; } } return false; }      // a hero already inside (an old save) may walk out
 // a plain house by its drawn style and width (the wider picture from 5 tiles)
@@ -85,7 +89,7 @@ function _vbHouse(Zs,o,w){ var wide=w>=LT*5, L=o.style==='round'?['vh_round','vb
 WPROP.vbuild=function(c,ctx,x,y,w,h,o){ var R=c.R;
   // painted buildings (round 30): the six of the pilot, and the plain round cottages; sized by the footprint's width (+ eaves, as drawn before)
   var Zs=_scn(), bid=Zs&&_vbPaintedId(Zs,o,w);
-  if(bid&&Zs.sprite(c.m,bid,x+w/2,y+h,0,{w:(w+20)*Zs.KB,shw:0.5,sha:0.42})){ if(o.lit!==false)addLight(c.m,x+w/2,y+h-34,60,'#ffc870',0.28,{flicker:0.2}); return; }
+  if(bid&&Zs.sprite(c.m,bid,x+w/2,y+h,0,{w:_vbPicW(Zs,o,w),shw:0.5,sha:0.42})){ if(o.lit!==false)addLight(c.m,x+w/2,y+h-34,60,'#ffc870',0.28,{flicker:0.2}); return; }
   addSprite(c.m,x+w/2,y+h,w+40,h+170,function(g,W,H){ villBuilding(g,W,H,Object.assign({w:w/LT,h:h/LT},o),R); });
   if(o.lit!==false){ if((o.nl||2)>=2){ addLight(c.m,x+w/2-18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); addLight(c.m,x+w/2+18,y+h-36,46,'#ffc870',0.3,{flicker:0.2}); } else addLight(c.m,x+w/2,y+h-34,54,'#ffc870',0.3,{flicker:0.2}); }
   if(o.smoke&&o.chimney){ var wallH=o.wallH||46, sx, sy;   // chimney smoke (the grove village's smokestacks)

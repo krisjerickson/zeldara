@@ -186,7 +186,10 @@ var _HERO_AREA_NAMES={Dungeon:'the dungeon',Island:'the island',Building:'a buil
   VolcanoMaze:'the Ember maze',VolcanoBulletHell:'the Magma climb',VolcanoPuzzle:'the Obsidian vault',
   VolcanoEscape:'the Ashfire chamber',VolcanoBossRush:'the Volcano Lord’s arena'};
 function _heroDied(scene){
-  if(scene._heroDying)return; scene._heroDying=true;
+  // round 45 (Kris: "in dungeons when you die, it just pauses, but then doesn't bring you back"): the flag lived on the scene object, which Phaser
+  // reuses — after a first death in any dungeon every later one stopped here. Now it only guards one fall (a few seconds).
+  if(scene._heroDying&&Date.now()-scene._heroDying<9000)return; scene._heroDying=Date.now();
+  if(typeof ZDeath!=='undefined'&&ZDeath.busy&&Date.now()-(ZDeath._t0||0)>20000){ ZDeath.busy=false; ZDeath._hold=false; }      // a pop-up left open from before never blocks a fall
   var key=scene.sys.settings.key, ws=_heroWS();
   if(key==='World'){ ws._worldPlayerDied(); return; }
   var area=(key==='Dungeon'&&scene.siteType==='tower')?'the tower':(_HERO_AREA_NAMES[key]||'battle');

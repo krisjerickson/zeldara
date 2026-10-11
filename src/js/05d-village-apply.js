@@ -10,6 +10,9 @@ function villageApply(wd,stage){
   _wkInit();
   var W=WORLD_W, cx=CENTER_X, cy=CENTER_Y, RM=VILLAGE_RMAX, G=function(k){ return _wkReg(k); };
   if(!wd._vbase){   // first time: remember the land under the village, clear wild dressing there
+    // round 45 (Kris: "invisible walls"): the wild trees, rocks and bushes cleared from the village left their solid tiles behind — free them first
+    var KL0=WK_REG.list; wd.props.forEach(function(p){ if(Math.hypot(p.x+p.w/2-cx,p.y+p.h/2-cy)>RM+1)return;
+      for(var j=0;j<(p.h||1);j++)for(var i=0;i<(p.w||1);i++){ var X=p.x+i, Y=p.y+j; if(!wd.tiles[Y]||wd.tiles[Y][X]!==T.PROP)continue; var K=KL0[wd.kind[Y*W+X]], gt=K?_wgKindT(K,wd.region?wd.region[Y*W+X]:1):T.GRASS; wd.tiles[Y][X]=gt===T.PROP?T.GRASS:gt; } });
     var cells=[]; for(var dy=-RM;dy<=RM;dy++)for(var dx=-RM;dx<=RM;dx++){ if(Math.hypot(dx+0.5,dy+0.5)>RM)continue; var x=cx+dx, y=cy+dy, k=y*W+x; cells.push([dx,dy,wd.tiles[y][x],wd.kind[k]]); }
     wd._vbase=cells;
     wd.props=wd.props.filter(function(p){ return Math.hypot(p.x+p.w/2-cx,p.y+p.h/2-cy)>RM+1; });
@@ -34,6 +37,11 @@ function villageApply(wd,stage){
   // props, landmarks, ley lines
   wd.props=wd.props.filter(function(p){ return !p.vill; });
   plan.props.forEach(function(p){ wd.props.push({prop:p.prop,x:cx+p.x,y:cy+p.y,w:p.w,h:p.h,o:p.o,zi:-1,vill:true}); });
+  // round 45 (Kris: "have all buildings that you can more easily go behind … the area within which you cannot move for the building is smaller, and you can
+  // move behind the building"): only the bottom two rows of a building's footprint stay solid (its walls and door); the rows behind are open ground under the roof.
+  wd.props.forEach(function(p){ if(!p.vill||p.prop!=='vbuild'||p.h<3)return; for(var j=0;j<p.h-2;j++)for(var i=0;i<p.w;i++){ var X=p.x+i, Y=p.y+j, t=wd.tiles[Y]&&wd.tiles[Y][X];
+    if(t===T.PROP||t===T.BUILDING_WALL||t===T.STONE_FLOOR||t===T.STABLES_FLOOR)wd.tiles[Y][X]=T.VILLAGE_FLOOR; }
+    for(var i2=0;i2<p.w;i2++){ var Y2=p.y+p.h-2, X2=p.x+i2, t2=wd.tiles[Y2]&&wd.tiles[Y2][X2]; if(t2===T.STONE_FLOOR||t2===T.STABLES_FLOOR||t2===T.VILLAGE_FLOOR||t2===T.PATH)wd.tiles[Y2][X2]=p.o&&p.o.core?T.BUILDING_WALL:T.PROP; } });
   var byChunk={}; wd.props.forEach(function(p){ var c0=Math.floor((p.x-2)/WCH), c1=Math.floor((p.x+p.w+1)/WCH), r0=Math.floor((p.y-2)/WCH), r1=Math.floor((p.y+p.h+1)/WCH);
     for(var yy=r0;yy<=r1;yy++)for(var xx=c0;xx<=c1;xx++){ var key=xx+'_'+yy; (byChunk[key]=byChunk[key]||[]).push(p); } });
   wd.propsByChunk=byChunk;

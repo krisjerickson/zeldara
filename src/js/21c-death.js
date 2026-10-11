@@ -145,7 +145,7 @@ var ZDeath={
     btn.onclick=go; document.addEventListener('keydown',key,true); try{ btn.focus(); }catch(e){} },
   // the whole flow. apply() = the scene's own penalty and move; it returns (or sets ZDeath._lost to) the gold taken
   run:function(scene,info,apply){ var ps=(typeof _heroWS==='function'&&_heroWS()&&_heroWS().playerState)||{};
-    if(ZDeath.auto||typeof document==='undefined'){ apply(); return; } if(ZDeath.busy)return; ZDeath.busy=true;
+    if(ZDeath.auto||typeof document==='undefined'){ apply(); return; } if(ZDeath.busy){ apply(); return; } ZDeath.busy=true; ZDeath._t0=Date.now();      // round 45: never leave a fall without its penalty and the trip home
     var L=ZDeath.look(), g0=ps.gold||0, I={area:info&&info.area,foe:(info&&info.foe)||ps._lastFoe,level:ps.level,fam:ZDeath._fam(ps)};
     ZDeath.fx(L,scene); ZDeath._hold=true;
     setTimeout(function(){ try{ apply(); }catch(e){ if(typeof console!=='undefined')console.error(e); } I.gold=Math.max(0,g0-(ps.gold||0));

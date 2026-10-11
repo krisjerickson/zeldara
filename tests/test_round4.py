@@ -32,7 +32,7 @@ with game(new=True) as g:
     g.ws("(()=>{ ps.mount=null; ps.hp=ps.maxHp; ps.godMode=true; ws.player.x=CENTER_X*TILE; ws.player.y=CENTER_Y*TILE; ws.player.cont.setPosition(ws.player.x,ws.player.y); })()")
     # ── Tome immunities ──
     r = g.js("""(()=>{ var out={}; ['scarecrow_warden','clover_slime'].forEach(id=>{ var e=Tome.entry('monster',id); out[id]=e.lines.filter(l=>/Immune|Weak|Defences/.test(l[0])).map(l=>l[0]+': '+l[1]); });
-      var imm=Object.keys(MX.KITS).filter(k=>MON_BY_ID[k]&&/immune k=/.test(typeof MX.KITS[k]==='string'?MX.KITS[k]:'')); return {out:out, missing:MON_ROSTER.filter(R=>!MON_LEGACY[R.id]&&!Tome.entry('monster',R.id).lines.some(l=>l[0]==='Immune to')).map(R=>R.id)}; })()""")
+      var imm=Object.keys(MX.KITS).filter(k=>MON_BY_ID[k]&&/immune k=/.test(typeof MX.KITS[k]==='string'?MX.KITS[k]:'')); return {out:out, missing:MON_ROSTER.filter(R=>!MON_LEGACY[R.id]&&!Tome.entry('monster',R.id).lines.some(l=>l[0]==='Resists')).map(R=>R.id)}; })()""")
     check('Tome shows every monster\'s immunities (plus weaknesses and defences)', not r['missing'] and any('arrows' in x for x in r['out']['scarecrow_warden']) and any(x.startswith('Weak to') for x in r['out']['scarecrow_warden']), r)
     # ── elite dens ──
     for sec in (1, 4):

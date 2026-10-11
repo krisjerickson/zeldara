@@ -40,11 +40,20 @@ function updateHUD(state){
       +(spItem&&ITEMS[eq.mWeapon]?'<div style="font-size:8px;color:#bb88ff;margin-top:1px">×'+(ITEMS[eq.mWeapon].spellMult||1)+'</div>':''));
 }
 
+// round 45 (Kris: "for special skill, the cooldown should be down on the button … when you select a skill, the icon should change to show the skill
+// you are using"): the Z button wears the chosen skill's icon and a shade that drains as it recovers, with the seconds left
+function _specialSlotTick(){ var el=document.getElementById('action-special-slot'), ws=typeof game!=='undefined'&&game.scene&&game.scene.getScene('World'); if(!el||!ws||!ws.playerState)return;
+  var ps=ws.playerState, id=ps.equip&&ps.equip.special, it=id&&ITEMS[id];
+  if(el._zid!==id){ el._zid=id; el.innerHTML='<div class="aib-key">Z</div><div class="aib-ico">'+(it?ZIcon.of(it,1.75):ZIcon.html('ui_special','⚡',1.75))+'</div><div class="aib-lbl">'+(it?it.name.substr(0,9):'Special')+'</div><div class="cd"></div><div class="cdn"></div>'; el.title=it?it.name+' — '+(it.desc||''):'Special ability'; if(typeof ZIcon!=='undefined'&&ZIcon.hydrate)ZIcon.hydrate(el); }
+  var left=Math.max(0,ws._specialCd||0), full=it?(it.cd||8)*(1-((ws.calcPlayerStats&&ws.calcPlayerStats().cdReduce)||0)):1, cd=el.querySelector('.cd'), n=el.querySelector('.cdn');
+  if(cd)cd.style.height=(left>0?Math.min(100,left/full*100):0)+'%'; if(n)n.textContent=left>0.05?Math.ceil(left):''; }
+if(typeof window!=='undefined')setInterval(function(){ try{ _specialSlotTick(); if(typeof ZROLL!=='undefined')ZROLL._ui(); }catch(e){} },100);
 function renderQuestList(unlockedSections,completed,active,scene){
   var c=document.getElementById('quest-list-container');if(!c)return;
   var h='';
   // Volcano Lord chain (global) — pinned at top once unlocked
   var psRef=scene&&scene.playerState;
+  if(psRef&&typeof ZROLL!=='undefined')h+=ZROLL.questHTML(psRef);      // round 45: the early roll quest
   if(psRef && _finalQuestUnlocked(psRef)){
     var keysHeld=_volcanoKeysHeld(psRef);
     var keysDone=keysHeld>=4;
@@ -397,7 +406,7 @@ function updateInventoryModal(ps){
     var sk2Icon=_spIt?_spIt.icon:'⚡';
     h+='<div class="pd-active-slot'+(sk2Name!=='none'?' pd-active-filled':'')+'" onclick="showQuickPick(\'special\')">'+'<div class="pd-label2">Special</div><div class="pd-icon2">'+sk2Icon+'</div><div style="font-size:8px;color:'+(sk2Name!=='none'?'#aaddff':'#446')+';margin-top:2px">'+sk2Name+'</div></div>';
     var mnt=ps.mount?MOUNTS[ps.mount]:null;
-    h+='<div class="pd-active-slot'+(mnt?' pd-active-filled':'')+'" onclick="toggleModal(\'mounts\')">'+'<div class="pd-label2">Mount</div><div class="pd-icon2">'+(mnt?mnt.icon:'🐎')+'</div><div style="font-size:8px;color:'+(mnt?'#aaddff':'#446')+';margin-top:2px">'+(mnt?mnt.n:'none')+'</div></div>';
+    h+='<div class="pd-active-slot'+(mnt?' pd-active-filled':'')+'" onclick="window._mountKey&&window._mountKey()">'+'<div class="pd-label2">Mount</div><div class="pd-icon2">'+(mnt?mnt.icon:'🐎')+'</div><div style="font-size:8px;color:'+(mnt?'#aaddff':'#446')+';margin-top:2px">'+(mnt?mnt.n:'none')+'</div></div>';
     var fam=ps.familiar?FAMILIARS[ps.familiar]:null;
     h+='<div class="pd-active-slot'+(fam?' pd-active-filled':'')+'" onclick="showQuickPick(\'familiar\')">'+'<div class="pd-label2">Familiar</div><div class="pd-icon2">'+(fam?fam.icon:'🐾')+'</div><div style="font-size:8px;color:'+(fam?'#aaddff':'#446')+';margin-top:2px">'+(fam?fam.n:'none')+'</div></div>';
     var potIdx=inv.findIndex(function(id){return ITEMS[id]&&ITEMS[id].slot==='use';});

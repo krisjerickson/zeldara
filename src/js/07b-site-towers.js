@@ -191,7 +191,7 @@ function buildTower(S, planId, seed, opts){
     else towerWall(ctx,x6*LT,y6*LT,S,faceVisible,v6===TB.WIN,{n:outN,s:outS,w:outW,e:outE},R,m);
   }
   // crisp edges where walls meet walkable floor (reads as solid mass in 3/4 view)
-  ctx.lineWidth=2; ctx.strokeStyle=rgba(shade(S.pal.wallFace,-0.55),0.55);
+  ctx.lineWidth=2.5; ctx.strokeStyle=rgba(shade(S.pal.wallFace,-0.6),0.85);
   for(var y7=0;y7<H;y7++)for(var x7=0;x7<W;x7++){
     var v7=at(x7,y7); if(v7!==TB.WALL&&v7!==TB.WIN)continue;
     var px7=x7*LT, py7=y7*LT; ctx.beginPath();
@@ -219,8 +219,12 @@ function buildTower(S, planId, seed, opts){
 }
 
 // ── Walls ──────────────────────────────────────────────────────────────
+function _twrLum(c){ var q=_scnRGB(c); return (q[0]*0.3+q[1]*0.59+q[2]*0.11)/255; }
 function towerWall(ctx,x,y,S,face,win,out,R,m){
   var p=S.pal, top=face?9:LT;
+  // round 45 (Kris: "invisible walls"): a pale wall top on a pale floor read as floor — darken the top until it stands apart
+  if(p._wt===undefined){ var dl=_twrLum(p.wallTop)-_twrLum(p.floorA); p._wt=Math.abs(dl)<0.16?shade(p.wallTop,dl>=0&&_twrLum(p.floorA)<0.45?0.2:-0.24):p.wallTop; }
+  p=Object.assign({},p,{wallTop:p._wt});
   // top face
   var g=ctx.createLinearGradient(x,y,x,y+top); g.addColorStop(0,shade(p.wallTop,0.12)); g.addColorStop(1,p.wallTop);
   ctx.fillStyle=g; ctx.fillRect(x,y,LT,top);

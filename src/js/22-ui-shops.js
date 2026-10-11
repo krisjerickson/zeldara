@@ -692,59 +692,33 @@ window._buyAmmoQuick=function(id){
 
 function openMountsModal(ps,worldScene){ var st=!!window._atStables; toggleModal('mounts'); window._atStables=st; _renderMountsModal(ps); }      // (called by the stables; the menu key goes through toggleModal, which clears the flag)
 function _renderMountsModal(ps){
-  var h='<p style="font-size:11px;color:#667;margin-bottom:12px">Owned mounts. Click to ride; attacking makes you jump off — your mount waits where you left it.</p>';
-  // A mount waiting somewhere in the world: call it back
-  if(ps.parkedMount&&MOUNTS[ps.parkedMount.id]){
-    var pm=MOUNTS[ps.parkedMount.id], ws0=_owScene(), dist=ws0&&ws0.player&&(ps.parkedMount.map||'world')===_mapKeyOf(ws0)?Math.round(Math.hypot(ws0.player.x-ps.parkedMount.x,ws0.player.y-ps.parkedMount.y)/TILE):0;
-    h+='<div class="mount-row" style="background:rgba(120,200,255,.10);border:1px solid rgba(120,200,255,.4);margin-bottom:10px">'
-      +'<div class="mr-icon">'+ZIcon.of(pm,1.5)+'</div>'
-      +'<div class="mr-info"><div class="mr-name">Your '+pm.n+' is waiting</div>'
-      +'<div class="mr-desc">'+(dist>1?dist+' steps away':'right beside you')+' — call it and it gallops to you</div></div>'
-      +'<button class="mr-btn call-mount" style="background:rgba(120,200,255,.28);border-color:rgba(120,200,255,.6);color:#bfe6ff;font-weight:700" onclick="window._callMount()">📣 Call Mount!</button>'
-      +'</div>';
-  }
-  // Active-mount dismount button — only shown when something is equipped.
-  if(ps.mount){
-    var cur=MOUNTS[ps.mount];
-    var name=cur?cur.n:ps.mount;
-    var icon=cur?cur.icon:'🐎';
-    h+='<div class="mount-row" style="background:rgba(255,200,100,.10);border:1px solid rgba(255,200,100,.35);margin-bottom:10px">'
-      +'<div class="mr-icon">'+icon+'</div>'
-      +'<div class="mr-info"><div class="mr-name">Currently riding: '+name+'</div>'
-      +'<div class="mr-desc">Press the button to get off</div></div>'
-      +'<button class="mr-btn" style="background:rgba(255,140,80,.25);border-color:rgba(255,140,80,.5);color:#ffb088" onclick="window._dismount()">🚶 Dismount</button>'
-      +'</div>';
-  }
-  // The stables sell the horse (round 37): the price was in the data all along, but nothing charged it
+  // round 45 (Kris: "You should only be able to get different mounts at the stables. Take out the selector for different mounts when pressing "m""):
+  // this menu opens only at the stables. Out in the world, M gets on, gets off, or calls the chosen mount.
+  var act=ps.activeMount&&(ps.ownedMounts||[]).indexOf(ps.activeMount)>=0?ps.activeMount:(ps.ownedMounts||[])[0];
+  var h='<p style="font-size:11px;color:#667;margin-bottom:12px">Choose which mount is yours. It waits outside the village, by the stables. Out in the world, <b>M</b> gets on, gets off, or calls it — it gallops to you from wherever you left it.</p>';
   if((!ps.ownedMounts||ps.ownedMounts.indexOf('horse')<0)&&MOUNTS.horse){ var _hc=MOUNTS.horse.cost||200;
-    h+='<div class="mount-row" style="background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.3);margin-bottom:10px"><div class="mr-icon">'+ZIcon.of(MOUNTS.horse,1.5)+'</div><div class="mr-info"><div class="mr-name">Horse — '+_hc+' g</div><div class="mr-desc">Speed x'+MOUNTS.horse.spdMult+' • '+(window._atStables?'for sale here':'sold at the stables in the village')+'</div></div>'
-      +(window._atStables?'<button class="mr-btn" '+(ps.gold>=_hc?'':'disabled style="opacity:.45"')+' onclick="window._buyHorse()">Buy</button>':'')+'</div>'; }
+    h+='<div class="mount-row" style="background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.3);margin-bottom:10px"><div class="mr-icon">'+ZIcon.of(MOUNTS.horse,1.5)+'</div><div class="mr-info"><div class="mr-name">Horse — '+_hc+' g</div><div class="mr-desc">A sturdy riding horse from the stables.</div></div>'
+      +'<button class="mr-btn" '+(ps.gold>=_hc?'':'disabled style="opacity:.45"')+' onclick="window._buyHorse()">Buy</button></div>'; }
   if(!ps.ownedMounts||ps.ownedMounts.length===0){
-    h+='<p style="font-size:12px;color:#445;padding:8px">No mounts yet — the stables sell a horse, and each realm\'s boss dungeon gives its own mount.</p>';
+    h+='<p style="font-size:12px;color:#445;padding:8px">No mounts yet — buy the horse here, and each realm\'s boss dungeon gives its own mount.</p>';
   } else {
     ps.ownedMounts.forEach(function(mid){
-      var m=MOUNTS[mid];if(!m)return;
-      var isActive=ps.mount===mid;
-      h+='<div class="mount-row"><div class="mr-icon">'+ZIcon.of(m,1.5)+'</div><div class="mr-info"><div class="mr-name">'+m.n+'</div><div class="mr-desc">Speed x'+m.spdMult+' '+(m.canCross?' • Special terrain':'')+(m.src?' • '+m.src:'')+'</div></div><button class="mr-btn '+(isActive?'active':'')+'" onclick="window._equipMount(\''+mid+'\')">'+(isActive?'✓ Equipped':'Equip')+'</button></div>';
+      var m=MOUNTS[mid];if(!m)return; var isAct=mid===act;
+      h+='<div class="mount-row"'+(isAct?' style="background:rgba(120,200,255,.10);border:1px solid rgba(120,200,255,.4)"':'')+'><div class="mr-icon">'+ZIcon.of(m,1.5)+'</div><div class="mr-info"><div class="mr-name">'+m.n+(isAct?' — your mount':'')+'</div><div class="mr-desc">Speed x'+m.spdMult+' '+(m.canCross?' • Special terrain':'')+(m.src?' • '+m.src:'')+'</div></div>'
+        +(isAct?'<button class="mr-btn" disabled style="opacity:.6">Chosen</button>':'<button class="mr-btn" onclick="window._chooseMount(\''+mid+'\')">Choose</button>')+'</div>';
     });
   }
   document.getElementById('mounts-content').innerHTML=h;
 }
-window._dismount=function(){
-  var ws=_owScene();if(!ws)return;
-  var ps=ws.playerState;
-  if(!ps.mount){showNotif('Already on foot!','#aaaaaa');return;}
-  if(_inOverworld()&&ws._parkMount)ws._parkMount('manual'); else { ps.mount=null; showNotif('🚶 Dismounted','#aaccff'); }
-  _renderMountsModal(ps);
-  ws._emitUI();
-};
-window._equipMount=function(mid){
-  var ws=_owScene();if(!ws)return;var ps=ws.playerState;
-  if(ps.mount===mid){ window._dismount(); return; }
-  if(ps.parkedMount&&ws._pmRemove){ ws._pmRemove(); ps.parkedMount=null; }
-  ps.mount=mid;_renderMountsModal(ps);ws._emitUI();
-};
-
+window._dismount=function(){ var ws=_owScene(); if(!ws)return; var ps=ws.playerState; if(!ps.mount){ showNotif('Already on foot!','#aaaaaa'); return; }
+  if(_inOverworld()&&ws._parkMount)ws._parkMount('manual'); else { ps.mount=null; showNotif('🚶 Dismounted','#aaccff'); } ws._emitUI(); };
+// choose a mount at the stables: it is led out to wait by the stables, just outside the village
+window._chooseMount=function(mid,quiet){ var ws=_owScene(); if(!ws)return; var ps=ws.playerState; if(!ps.ownedMounts||ps.ownedMounts.indexOf(mid)<0)return;
+  ps.activeMount=mid; ps.mount=null; if(ws._pmRemove)ws._pmRemove(); var at=typeof _stablesEdgePx==='function'?_stablesEdgePx(ws.scene&&ws.scene.isActive&&ws.scene.isActive('World')?ws:game.scene.getScene('World')):{x:ws.player.x,y:ws.player.y};
+  ps.parkedMount={id:mid,x:at.x,y:at.y,map:'world'};
+  if(!quiet)showNotif('🐎 Your '+((MOUNTS[mid]&&MOUNTS[mid].n)||'mount')+' waits outside the village by the stables — press M out there.','#ccddff');
+  if(document.getElementById('mounts-content'))_renderMountsModal(ps); ws._emitUI(); };
+window._equipMount=function(mid){ window._chooseMount(mid); };
 function toggleModal(id){
   if(id==='tome'){ var te=document.getElementById('modal-tome'); if(te&&te.style.display!=='none')closeModal('tome'); else if(typeof Tome!=='undefined')Tome.open(); return; }
   var e=document.getElementById('modal-'+id);if(!e)return;

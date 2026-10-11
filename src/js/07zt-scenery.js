@@ -34,7 +34,7 @@ var ZSCN={
     tex:'View: seen from straight above, flat.'
   },
   // waves (generate.mjs --set scenery --wave N). 20 is the pilot: one sheet from each family, to judge the look before sending the rest.
-  WAVES:{20:'Pilot (one sheet per family)',21:'Village buildings',22:'Village props',23:'Building interiors',24:'Runes and waystones',25:'Tower, dungeon and other entrances',26:'Trees and plants',27:'Rocks, ruins and landmarks',28:'Paths, bridges and harbors',29:'Ground textures',30:'Camp and trial props',31:'Tower, castle and mage-tower furnishings',32:'Dungeon and arena pieces',38:'Edge pieces: shores, cliffs, snow, lava (round 38)',42:'Edge pieces: logs, features and small creatures (round 42)',43:'Animation frames: creatures and swaying plants (round 43)',44:'Sleeping in bed, and rugs that fit (round 44)',45:'Pilot: adventure-site rooms painted as one picture (round 44)'},
+  WAVES:{20:'Pilot (one sheet per family)',21:'Village buildings',22:'Village props',23:'Building interiors',24:'Runes and waystones',25:'Tower, dungeon and other entrances',26:'Trees and plants',27:'Rocks, ruins and landmarks',28:'Paths, bridges and harbors',29:'Ground textures',30:'Camp and trial props',31:'Tower, castle and mage-tower furnishings',32:'Dungeon and arena pieces',38:'Edge pieces: shores, cliffs, snow, lava (round 38)',42:'Edge pieces: logs, features and small creatures (round 42)',43:'Animation frames: creatures and swaying plants (round 43)',44:'Sleeping in bed, and rugs that fit (round 44)',45:'Pilot: adventure-site rooms painted as one picture (round 44)',47:'Round 45: sky-port flights (backdrops, galleons, wingman, power-ups) and the adventure sites\' big set-pieces'},
   // sheet: id, wave, family (the first sheet of a family is the style anchor for the others), kind obj|bld|flat|wall|tex, cols × rows, what the sheet is, items
   SHEETS:[
   // ── 21 · village buildings ─────────────────────────────────────────
@@ -384,6 +384,45 @@ var ZSCN={
   {id:'sc_room_1',wave:45,fam:'rooms',kind:'room',cols:1,rows:1,title:'A floor of the Crystal Grotto, painted whole',items:[['room_crystal_grotto','Crystal Grotto floor','a cave chamber in a dungeon: rough blue-grey rock walls along the top and both sides, a floor of dark stone with pale moss, clusters of tall glowing teal and violet crystals as cover, a shallow underground pool on one side crossed by flat stepping stones, a narrow passage leading off at the top left, a wide open doorway at the bottom middle',1536,1024]]},
   {id:'sc_room_2',wave:45,fam:'rooms',kind:'room',cols:1,rows:1,title:'A floor of the Elven Library tower, painted whole',items:[['room_elven_library','Elven Library floor','a round tower floor seen from above: curved pale stone walls with tall arched windows along the top, a polished wooden floor with an inlaid leaf pattern, curved bookshelves following the wall, reading tables with open books and candles, a spiral staircase at the right, a big round rug in the middle, a doorway at the bottom middle',1536,1024]]},
   {id:'sc_room_3',wave:45,fam:'rooms',kind:'room',cols:1,rows:1,title:'A hall of the Ember Cave, painted whole',items:[['room_ember_hall','Ember Cave hall','a volcanic cave hall: black basalt walls with glowing orange cracks along the top and both sides, a floor of cooled dark crust, a river of bright flowing lava across the middle crossed by a stone bridge, obsidian spikes and a few iron braziers, smoke rising, a passage at the top right, a doorway at the bottom middle',1536,1024]]},
+  // ── round 45 (Kris: skyports "the graphics are bad … proposing new painted images that we might need"; adventure sites: "hybrid" — tile sets + big
+  //    painted set-pieces). Wave 47: .\tools\sprites\round45.ps1 ──
+  {id:'sc_sky_bg_1',wave:47,fam:'sky',kind:'flat',cols:1,rows:2,size:'1024x1536',title:'Sky-port backdrops 1 — wide skies seen from a flying ship, painted as a picture (no ground in the lower third except a far horizon)',items:[
+    ['sk_bg_1','Grasslands sky','a bright morning sky over green rolling hills far below: soft cumulus clouds, a pale sun glow top right, distant floating grass islands with roots, warm light along the horizon',1280,800],
+    ['sk_bg_2','Wetlands sky','a misty teal sky over marshes and lakes far below: low drifting mist banks, pale sun through haze, a far lighthouse on the horizon, flocks of distant birds',1280,800]]},
+  {id:'sc_sky_bg_2',wave:47,fam:'sky',kind:'flat',cols:1,rows:2,size:'1024x1536',refs:['sc_sky_bg_1'],title:'Sky-port backdrops 2',items:[
+    ['sk_bg_3','Highlands sky','a high cold blue sky over snowy mountain peaks far below: thin streaming clouds, a crescent moon still visible, distant stone towers on the peaks, crisp air',1280,800],
+    ['sk_bg_4','Ashlands sky','a dramatic sunset sky over a land of volcanoes far below: red-orange clouds lit from beneath, smoke columns rising from distant volcanoes, embers drifting, deep violet at the top',1280,800]]},
+  {id:'sc_sky_1',wave:47,fam:'sky',kind:'obj',cols:4,rows:3,refs:['sc_vill_special_2'],title:'Sky-port flights — galleons, the wingman, a cloud bunker and the power-ups (each seen from slightly below and to the side, as in a flying game)',items:[
+    ['sk_galleon_1','Grasslands war-galleon','a small flying war-ship with a green sail and a leafy figurehead, hull of oak, propellers on its sides, seen from the side',150,80],
+    ['sk_galleon_2','Wetlands war-galleon','a flying war-ship with a teal sail and a coral-crusted hull, water dripping from its keel, seen from the side',150,80],
+    ['sk_galleon_3','Highlands war-galleon','a flying war-ship with a grey iron hull, a storm-blue sail and a lightning rod mast, seen from the side',150,80],
+    ['sk_galleon_4','Ashlands war-galleon','a flying war-ship of black wood and red sails with glowing ember lanterns, smoke trailing behind, seen from the side',150,80],
+    ['sk_drone','Wingman','a tiny glider-drone of brass and teal cloth wings with a glowing rune eye, pointing up',40,40],
+    ['sk_bunker','Cloud fortress','a small puffy white cloud piled up like a little fortress wall, soft and round',90,50],
+    ['sk_pu_tri','Power-up: triple shot','a glowing round orb with three golden arrows fanning upward inside',40,40],
+    ['sk_pu_rapid','Power-up: rapid fire','a glowing round orb with a yellow lightning bolt inside',40,40],
+    ['sk_pu_wing','Power-up: wingmen','a glowing round orb with two small white wings inside',40,40],
+    ['sk_pu_shield','Power-up: wind shield','a glowing round orb with a teal swirling wind shield inside',40,40],
+    ['sk_pu_bomb','Power-up: sky bomb','a glowing round orb with a round black bomb with a lit fuse inside',40,40],
+    ['sk_pu_heal','Power-up: repair','a glowing round orb with a green heart and a little wrench inside',40,40]]},
+  {id:'sc_setpiece_1',wave:47,fam:'dungeon',kind:'obj',cols:4,rows:2,refs:['sc_dng_1','sc_twr_1'],title:'Adventure-site set-pieces 1 — big centrepieces that make a floor memorable (seen from three-quarters above)',items:[
+    ['sp_frozen_fountain','Frozen fountain','a round stone fountain frozen solid, icicles hanging from its bowls, a glowing blue rune at its base',150,150],
+    ['sp_lava_forge','Lava forge','a great dwarven forge of black stone with a river of glowing lava pouring into a trough and a huge anvil beside it',170,150],
+    ['sp_mushroom_ring','Giant mushroom ring','a ring of tall glowing mushrooms of different sizes around a mossy stone',170,140],
+    ['sp_bone_throne','Bone throne','a high throne built of great bones and skulls on a stepped dais, green ghost-fire in its eye sockets',150,170],
+    ['sp_glacier_heart','Glacier heart','a tall jagged crystal of blue ice with a glowing white heart inside, frost spreading round its base',130,180],
+    ['sp_storm_eye','Eye of the storm','a stone pedestal with a floating sphere of swirling storm clouds and crackling lightning above it',130,170],
+    ['sp_abyss_well','Abyss well','a round black stone well with violet light and wisps of shadow rising out of it, chains on its rim',150,130],
+    ['sp_root_heart','Root heart','a great knot of ancient roots around a softly glowing green seed the size of a person',160,150]]},
+  {id:'sc_setpiece_2',wave:47,fam:'dungeon',kind:'obj',cols:4,rows:2,refs:['sc_setpiece_1'],title:'Adventure-site set-pieces 2',items:[
+    ['sp_mirror_pool','Mirror pool','a still round pool in a ring of white marble, the water perfectly reflecting stars, a crescent stone arch over it',170,130],
+    ['sp_star_globe','Star globe','a huge brass armillary sphere of rings with tiny glowing stars set in it, on a carved stand',150,170],
+    ['sp_crystal_heart','Crystal heart','a cluster of huge violet and teal crystals around a floating faceted gem',150,170],
+    ['sp_sun_altar','Sun altar','a golden altar on three steps with a great sun disc behind it catching light',160,160],
+    ['sp_anvil_shrine','Anvil shrine','a giant stone anvil on a plinth with a hammer resting on it and runes glowing along its side',150,130],
+    ['sp_coral_fountain','Coral fountain','a fountain grown from pink and orange coral with water spilling over shells',150,150],
+    ['sp_ember_altar','Ember altar','a black obsidian altar with a bowl of living flame and ember-cracks in its stone',140,150],
+    ['sp_lotus_shrine','Lotus shrine','a stone lotus flower the size of a cart, petals open, a glowing pearl in its middle',150,120]]},
   {id:'sc_rocks_1',wave:27,pilot:1,fam:'rocks',kind:'obj',cols:4,rows:2,title:'Rocks and crystals',items:[
     ['rk_rock','Rock','rounded grey boulder',64,54],['rk_rock_moss','Mossy rock','boulder half covered in moss',64,54],['rk_rock_rune','Rune rock','boulder with a glowing carved rune',64,54],['rk_rock_snow','Snowy rock','boulder capped with snow',64,54],
     ['rk_boulder','Large boulder','very large cracked boulder',110,96],['rk_pebbles','Pebbles','scatter of small stones, seen from above',40,24],['rk_crystal_teal','Teal crystal','cluster of tall glowing teal crystals',50,90],['rk_crystal_pink','Pink crystal','cluster of glowing pink crystals',50,80]]},

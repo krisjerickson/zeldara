@@ -732,3 +732,10 @@ button,.abtn,.abtn-sm,.forge-btn,.inv-tab-btn,.sl-tab,.sb-btn,.mr-btn,
 
 /* round 40: gem-set pieces show their set elements as small gems on the icon (04i ZIcon.item) */
 .zi-set{position:relative;display:inline-flex;vertical-align:middle}.zi-gems{position:absolute;right:-.12em;bottom:-.12em;display:flex;gap:1px;pointer-events:none}.zi-gems i{display:block;width:.42em;height:.42em;min-width:5px;min-height:5px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:1px solid #1c1610;box-shadow:0 0 2px rgba(255,255,255,.6)}
+
+/* round 45: cooldowns drain down over the special and roll buttons; the special button shows the skill you picked */
+.aib-slot .cd{position:absolute;left:0;right:0;bottom:0;height:0;background:rgba(6,10,20,.66);border-radius:0 0 6px 6px;pointer-events:none;transition:height .08s linear}
+.aib-slot .cdn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 15px 'Segoe UI',sans-serif;color:#fff;text-shadow:0 0 3px #000,0 0 6px #000;pointer-events:none}
+
+/* round 45: flying from a sky port — the world's HUD, labels and bars step aside */
+body.sky-mode #world-labels, body.sky-mode #action-bar, body.sky-mode #action-icon-bar, body.sky-mode #minimap-hud, body.sky-mode #hud, body.sky-mode #world-fog-canvas{display:none!important}

@@ -54,7 +54,7 @@ Object.assign(WorldScene.prototype,{
     var x=tx*TILE+TILE/2, y=ty*TILE+TILE/2, self=this, done=(this.playerState.campsDone=this.playerState.campsDone||{});
         var C={id:id,T:T0,sec:sec,tx:tx,ty:ty,x:x,y:y,guards:[],state:'guarded',loot:[],t:0};
         C.spr=this.add.image(x,y+14,this._campTex(T0.prop,T0.tint),'0').setOrigin(0.5,0.9).setDepth(WR_DEPTH(y)); C.spr.setScale(1.7*32/C.spr.frame.width*(C.spr.frame.width>32&&_scn()?_scn().K:1));   // painted props are 128 px frames (04h)
-        if(/campfire|lantern|moonwell|well|obelisk|shrine|cauldron|crystal|totem/.test(T0.prop)&&CHX.glow(this)){ C.glow=this.add.image(x,y+2,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(T0.tint||(T0.prop==='campfire'?'#ff9040':'#ffe8a0'))).setAlpha(0.45).setScale(T0.prop==='campfire'?1.1:0.8).setDepth(WR_DEPTH(y)-0.001); C.glow._base={x:x,y:y,r:70,a:0.45,noCut:false}; }
+        if(/campfire|lantern|moonwell|well|obelisk|shrine|cauldron|crystal|totem/.test(T0.prop)&&CHX.glow(this)){ C.glow=this.add.image(x,y+2,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(T0.tint||(T0.prop==='campfire'?'#ff9040':'#ffe8a0'))).setAlpha(0.45).setScale(T0.prop==='campfire'?1.1:0.8).setDepth(typeof WR_LIGHT_D!=='undefined'?WR_LIGHT_D:WR_DEPTH(y)); C.glow._base={x:x,y:y,r:70,a:0.45,noCut:false}; }
         if(done[id]){ C.state='spent'; if(C.spr)C.spr.setFrame('2'); if(C.glow)C.glow.setVisible(false); this._camps.push(C); return C; }
         var n=Math.max(2,Math.min(7,3+Math.floor(rng.next()*3)+ZDiff.cur().guards)); for(var i=0;i<n;i++){ var a=i/n*Math.PI*2+rng.next()*0.4, gx=x+Math.cos(a)*(42+rng.next()*14), gy=y+Math.sin(a)*(30+rng.next()*10);
           if(!self._canGoMonster(gx,gy)){ gx=x+Math.cos(a)*24; gy=y+Math.sin(a)*18; }

@@ -9,7 +9,7 @@
 // ║ • You stay mounted if the ground under you can't be walked on
 // ║   (deep water on the Alligator, lava under a dragon…).
 // ═══════════════════════════════════════════════════════════════════════
-var MOUNT_CALL_SPD=300, MOUNT_RIDE_R=46;
+var MOUNT_CALL_SPD=300, MOUNT_RIDE_R=46, MOUNT_CALL_MAX_S=20, MOUNT_NEAR_R=TILE*3;
 function _inOverworld(){ var sc=typeof _activePlayScene==='function'?_activePlayScene(true):null; return !!(sc&&_isOverworld(sc)); }
 // which map a parked mount waits on: 'world' or an island key (round 6)
 function _mapKeyOf(scene){ return scene&&scene.islKey?'isl_'+scene.islKey:'world'; }
@@ -48,27 +48,29 @@ Object.assign(WorldScene.prototype,{
     var spr=this.add.image(P.x,P.y+4,key,'0').setOrigin(0.5,1).setScale(CHX.MOUNT_SC).setDepth(WR_DEPTH(P.y));
     this._pm={spr:spr,sh:sh,lbl:null,id:P.id,t:0,goal:null,stuck:0,kind:R.spec.kind,home:{x:P.x,y:P.y},it:2+Math.random()*3,fid:0,fly:/eagle|glider|phoenix|dragon|drake/.test(P.id)}; },
   _pmRemove(){ if(this._pm){ this._pm.spr.destroy(); this._pm.sh.destroy(); if(this._pm.lbl)this._pm.lbl.destroy(); this._pm=null; } },
-  _remount(){ var ps=this.playerState, P=ps.parkedMount; if(!P)return; this._pmRemove(); ps.parkedMount=null; ps.mount=P.id; SFX.pickup&&SFX.pickup(); showNotif('🐎 Back on your '+_mountName(P.id)+'!','#ccddff'); this._emitUI(); },
+  _remount(){ var ps=this.playerState, P=ps.parkedMount; if(!P)return; this._pmRemove(); ps.parkedMount=null; ps.mount=P.id; ps.activeMount=P.id; SFX.pickup&&SFX.pickup(); showNotif('🐎 Back on your '+_mountName(P.id)+'!','#ccddff'); this._emitUI(); },
   _callMount(){ var ps=this.playerState, P=ps.parkedMount, p=this.player; if(P&&!this.islKey&&_inVillagePx(p.x,p.y,0.5)){ showNotif('🏘 Mounts wait outside the village — call yours once you have left it.','#ccddff'); return false; }
     if(!P){ showNotif(ps.mount?'You are already riding.':'No mount is waiting for you.','#aaaaaa'); return false; }
     if((P.map||'world')!==_mapKeyOf(this)){ P.map=_mapKeyOf(this); P.x=p.x+TILE*30; P.y=p.y; }   // it was left on another map: it comes across (by boat)
     if(!this._pm)this._pmBuild(); var d=Math.hypot(P.x-p.x,P.y-p.y);
-    if(d>TILE*22){ // far away: it comes over the horizon (a safe spot just off-screen) and gallops the rest
-      var a=Math.random()*Math.PI*2, s=null; for(var k=0;k<12&&!s;k++){ var aa=a+k*0.52; s=this._mountSafeNear(p.x+Math.cos(aa)*TILE*11,p.y+Math.sin(aa)*TILE*8,4); } if(!s)s=this._mountSafeNear(p.x,p.y,6)||{x:p.x+40,y:p.y};
-      P.x=s.x; P.y=s.y; this._pm.spr.setPosition(P.x,P.y+4); this._pm.sh.setPosition(P.x,P.y+2); }
-    this._pm.goal={x:p.x,y:p.y,call:true}; this._pm.stuck=0;
-    showNotif('📣 You whistle — your '+_mountName(P.id)+' is coming!','#ffe9a8'); return true; },
+    // round 45 (Kris: "your mount should move all the way from where it began on the map, to where you called from, and should take more time if you
+    // left your mount far away"; answered: a real gallop, capped at about 20 s): no jump over the horizon any more — it runs the whole way
+    var spd=Math.max(MOUNT_CALL_SPD,d/MOUNT_CALL_MAX_S), eta=Math.max(1,Math.round(d/spd));
+    this._pm.goal={x:p.x,y:p.y,call:true,spd:spd}; this._pm.stuck=0;
+    showNotif('📣 You whistle — your '+_mountName(P.id)+' is coming'+(eta>3?' (about '+eta+' s away)':'')+'!','#ffe9a8'); return true; },
   _parkedTick(dt){ var ps=this.playerState, P=ps&&ps.parkedMount, p=this.player; if(!p)return;
     if(ps.mount&&!this.islKey&&_inVillagePx(p.x,p.y,0)){ var t0=(this.tiles[Math.floor(p.y/TILE)]||[])[Math.floor(p.x/TILE)]; if(t0!==undefined&&canPassTile(t0,null)){ var e0=_villageEdgePx(p.x,p.y,2), s0=this._mountSafeNear(e0.x,e0.y,6)||e0; this._parkMount('village',s0); P=ps.parkedMount; } }      // round 44: riding into the village
     if(ps.mount&&P){ ps.parkedMount=null; P=null; }   // picked another mount in the menu
     if(P&&(P.map||'world')!==_mapKeyOf(this)&&!(this._pm&&this._pm.goal&&this._pm.goal.call))P=null;   // waiting on another map
     if(!P){ if(this._pm)this._pmRemove(); return; } if(!this._pm)this._pmBuild(); var M=this._pm; if(!M)return; M.t+=dt;
     var moving=false;
+    if(M.goal&&M.goal.call&&!this.islKey&&_inVillagePx(p.x,p.y,0)){ var eV=_villageEdgePx(p.x,p.y,2), sV=this._mountSafeNear(eV.x,eV.y,6)||eV; M.goal={x:sV.x,y:sV.y,trot:true}; M.home={x:sV.x,y:sV.y}; showNotif('🏘 Your '+_mountName(P.id)+' stops at the village edge.','#ccddff'); }
     if(M.goal&&!_anyModalOpen()){ if(M.goal.call){ M.goal.x=p.x; M.goal.y=p.y; }
-      var dx=M.goal.x-P.x, dy=M.goal.y-P.y, d=Math.hypot(dx,dy), sp=(M.goal.stroll?34:M.goal.trot?120:MOUNT_CALL_SPD)*dt;
+      var dx=M.goal.x-P.x, dy=M.goal.y-P.y, d=Math.hypot(dx,dy), sp=(M.goal.stroll?34:M.goal.trot?120:(M.goal.spd||MOUNT_CALL_SPD))*dt;
+      var cvw=this.cameras&&this.cameras.main&&this.cameras.main.worldView, offS=M.goal.call&&cvw&&(P.x<cvw.x-TILE*3||P.x>cvw.right+TILE*3||P.y<cvw.y-TILE*3||P.y>cvw.bottom+TILE*3);
       if(M.goal.call&&d<Math.max(30,sp+1)){ M.goal=null; this._remount(); return; }   // (a long frame could overshoot the 30px window)
       if(d<=sp+1){ P.x=M.goal.x; P.y=M.goal.y; M.goal=null; }
-      else { var nx=P.x+dx/d*sp, ny=P.y+dy/d*sp, ok=this._canGo(nx,ny,P.id);
+      else { var nx=P.x+dx/d*sp, ny=P.y+dy/d*sp, ok=offS||this._canGo(nx,ny,P.id);
         if(!ok){ if(this._canGo(nx,P.y,P.id)){ ny=P.y; ok=true; } else if(this._canGo(P.x,ny,P.id)){ nx=P.x; ok=true; } }
         if(ok){ P.x=nx; P.y=ny; M.stuck=0; } else M.stuck+=dt;
         if(M.stuck>1.2){ var s=M.goal.call?this._mountSafeNear(p.x+30,p.y,6):this._mountSafeNear(M.goal.x,M.goal.y,6); if(s){ P.x=s.x; P.y=s.y; } M.stuck=0; if(!M.goal.call)M.goal=null; }
@@ -92,8 +94,20 @@ Object.assign(WorldScene.prototype,{
     if(near&&!M.lbl){ M.lbl=domText(this,P.x,P.y-60,'[M] Ride your '+_mountName(P.id),{fontSize:'10px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); }
     else if(!near&&M.lbl){ M.lbl.destroy(); M.lbl=null; }
     if(M.lbl)M.lbl.setPosition(P.x,P.y-60); },
+  // round 45 (Kris: ""m" should auto mount onto your mount … Take out the selector for different mounts when pressing "m". If your mount is not next to
+  // you or close, then "m" should call your mount"): M = get off · get on (it is close) · call it (it is far). Mounts are chosen at the stables.
+  _mountKey(){ var ps=this.playerState, p=this.player; if(!ps||!p)return;
+    if(ps.mount){ var t=(this.tiles[Math.floor(p.y/TILE)]||[])[Math.floor(p.x/TILE)]; if(t===undefined||!canPassTile(t,null)||t===T.THIN_MAGMA){ showNotif('You can\'t get off here.','#aaaaaa'); return; } this._parkMount('manual'); return; }
+    var P=ps.parkedMount; if(P&&(P.map||'world')===_mapKeyOf(this)&&Math.hypot(p.x-P.x,p.y-P.y)<MOUNT_NEAR_R){ if(this._pm&&this._pm.goal&&this._pm.goal.call)return; this._remount(); return; }
+    if(!ps.ownedMounts||!ps.ownedMounts.length){ showNotif('🐎 You have no mount yet — the stables in the village sell a horse.','#ccddff'); return; }
+    if(!P){ var id=ps.activeMount&&ps.ownedMounts.indexOf(ps.activeMount)>=0?ps.activeMount:ps.ownedMounts[0], at=_stablesEdgePx(this); ps.parkedMount={id:id,x:at.x,y:at.y,map:'world'}; this._pmBuild(); }
+    this._callMount(); },
   _nearParkedMount(){ var P=this.playerState&&this.playerState.parkedMount, p=this.player; return !!(P&&p&&(P.map||'world')===_mapKeyOf(this)&&Math.hypot(p.x-P.x,p.y-P.y)<MOUNT_RIDE_R); }
 });
+// where a mount waits that has never been ridden away (bought, chosen, or after a long absence): outside the village, by the stables
+function _stablesEdgePx(sc){ var b=(sc&&sc.wd&&sc.wd.props||[]).find(function(q){ return q.prop==='vbuild'&&q.o&&q.o.core==='stables'; }), x=b?(b.x+b.w/2)*TILE:(CENTER_X+17)*TILE, y=b?(b.y+b.h)*TILE:(CENTER_Y)*TILE;
+  var e=_villageEdgePx(x,y,2); return (sc&&sc._mountSafeNear&&sc._mountSafeNear(e.x,e.y,8))||e; }
+window._mountKey=function(){ var ws=_owScene(); if(!ws||!_inOverworld()){ showNotif('Your mount waits in the overworld.','#aaaaaa'); return; } ws._mountKey(); };
 window._callMount=function(){ var ws=_owScene(); if(!ws)return;
   if(!_inOverworld()){ showNotif('Your mount waits in the overworld.','#aaaaaa'); return; }
   if(ws._callMount()){ closeModal('mounts'); } };

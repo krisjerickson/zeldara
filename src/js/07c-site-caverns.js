@@ -104,7 +104,11 @@ function buildCavern(D, seed, opts){
   ctxInfo.obst.forEach(function(o){ var fn=D.draw[o.kind];
     // painted dungeon pieces (round 30): fitted to the tiles they block
     var Zs=_scn(), pid=o.kind==='shroom'?(o.big?'dg_shroom':'dg_shroom_b'):DNG_PAINTED[o.kind];
-    if(Zs&&pid&&Zs.has(pid)){ var cx=(o.x+o.w/2)*LT, fy=(o.y+o.h)*LT-2, ok=o.kind==='boulder'?Zs.sprite(m,pid,cx,fy,0,{w:o.w*LT*1.12*Zs.K}):Zs.fit(m,pid,cx,fy,o.w*LT*1.35,{shw:0.36});
+    if(Zs&&pid&&Zs.has(pid)){ var cx=(o.x+o.w/2)*LT, fy=(o.y+o.h)*LT-2, ok;
+      // round 45 (Kris: "invisible walls"): a long run (a ruined wall 1 × 3–6) was one small picture at its foot — the rest of the run blocked with nothing drawn. Now a piece per tile.
+      if(o.kind!=='boulder'&&o.h>=o.w*2){ ok=true; for(var jj=0;jj<o.h;jj++)ok=Zs.fit(m,pid,cx,(o.y+jj+1)*LT-2,o.w*LT*1.35,{shw:0.36})&&ok; }
+      else if(o.kind!=='boulder'&&o.w>=o.h*2.5){ ok=true; for(var ii=0;ii<o.w;ii++)ok=Zs.fit(m,pid,(o.x+ii+0.5)*LT,fy,LT*1.35,{shw:0.36})&&ok; }
+      else ok=o.kind==='boulder'?Zs.sprite(m,pid,cx,fy,0,{w:o.w*LT*1.12*Zs.K}):Zs.fit(m,pid,cx,fy,o.w*LT*1.35,{shw:0.36});
       if(ok){ if(o.kind==='crystal'||o.kind==='shroom')addLight(m,cx,fy-22,o.big?90:64,o.col||'#b58cff',0.35,{pulse:0.3,period:1800+R.i(0,1200)});
         else if(fn){ var fk={sprites:[],lights:[],shafts:[],particles:[],labels:[]}; try{ fn(fk,_dngNoCtx(),o.x*LT,o.y*LT,o.w*LT,o.h*LT,R,o,P); }catch(e){} fk.lights.forEach(function(l){ m.lights.push(l); }); }      // the drawn piece's glow is kept
         return; } }

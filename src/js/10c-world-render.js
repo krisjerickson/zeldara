@@ -5,6 +5,13 @@
 // ║ ley lines. Depth band: ground < 0 < props/hero/monsters (10 + y/1e5).
 // ═══════════════════════════════════════════════════════════════════════
 var WR_DEPTH=function(y){ return 10+y/100000; };
+var WR_LIGHT_D=10.9;
+function WR_CULL(scene){ var cam=scene.cameras.main, v=cam.worldView, id=cam.id, mx=160, x0=v.x-mx, x1=v.right+mx, y0=v.y-mx, y1=v.bottom+mx*1.8, L=scene.children.list, n=0;
+  for(var i=0;i<L.length;i++){ var o=L[i], out; if(o.scrollFactorX!==1||o.scrollFactorY!==1||o.type==='Graphics'||o.type==='ParticleEmitter'||o.type==='Layer'||o._noCull)continue;
+    if(o.type==='Container'){ out=o.x<x0-160||o.x>x1+160||o.y<y0-160||o.y>y1+160; }
+    else { var w=o.displayWidth, h=o.displayHeight; if(!(w>=0)||!(h>=0))continue; var l=o.x-(o.originX||0)*w, t=o.y-(o.originY||0)*h; out=l>x1||l+w<x0||t>y1||t+h<y0; }
+    if(out){ if(!(o.cameraFilter&id)){ o.cameraFilter|=id; } n++; } else if(o.cameraFilter&id)o.cameraFilter&=~id; }
+  scene._wrCulled=n; }      // round 45: the glows' one layer (scenery and actors are 10–10.45; the hero's outline 10.95)
 Object.assign(WorldScene.prototype,{
   _wrInit(){
     if(this._wr)return;
@@ -85,6 +92,7 @@ Object.assign(WorldScene.prototype,{
         if(sp.res){ im.setScale(1/sp.res); if(!tex._zlin){ tex._zlin=true; try{ tex.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } }      // painted scenery (04h): drawn at 2 ×, shown at half size, smoothed
         if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
         if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
+        if(!sp.flat&&sp.canvas&&typeof ZOL!=='undefined')ZOL.keep(im,sp.canvas,sp.res||1,true);      // round 45: the hero's outline shows through it (10o)
         if(sp.zed){ im._zh=sp.ah/(sp.res||1); (tall||(tall=[])).push(im); }      // round 43: a standing edge piece (05d TALL), depth-sorted by its foot
         objs.push(im); });
     }
@@ -97,7 +105,7 @@ Object.assign(WorldScene.prototype,{
     (o.shafts||[]).forEach(function(sh,i){ var k=addTex(tag+'_sh'+i,sh.canvas); var im=self.add.image(sh.x,sh.y,k).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.5).setDepth(-5); objs.push(im);
       if(sh.sway)self.tweens.add({targets:im,alpha:(sh.a||0.5)*0.6,duration:2200+i*170,yoyo:true,repeat:-1,ease:'Sine.inOut'}); });
     (o.particles||[]).forEach(function(p){ var e=self._wrEmitter(p,p.area); if(e)objs.push(e); });
-    o.lights.forEach(function(L,i){ var d=L.depth!==undefined&&L.depth<0?-4:WR_DEPTH(L.y)+0.0001;
+    o.lights.forEach(function(L,i){ var d=L.depth!==undefined&&L.depth<0?-4:WR_LIGHT_D;      // round 45 (F9: 335–430 draw calls): every glow on one layer above the scenery, so they draw in one batch instead of breaking it at each lamp
       var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a*0.8).setScale(L.r/64).setDepth(d);
       if(L.pulse&&!L.react)self.tweens.add({targets:im,alpha:L.a*0.8*(1-L.pulse),scale:(L.r/64)*(1-L.pulse*0.25),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(L.flicker)im._flicker=L.flicker;
@@ -161,6 +169,10 @@ Object.assign(WorldScene.prototype,{
     var cam=this.cameras.main, v=cam.worldView, cs=WCH*TILE, M=320;
     W.chunks.forEach(function(ch){ var x0=ch.cx*cs, y0=ch.cy*cs, off=x0>v.right+M||x0+cs<v.x-M||y0>v.bottom+M||y0+cs<v.y-M-160;
       if(off!==!!ch._off){ ch._off=off; ch.objs.forEach(function(o){ if(off){ o._zv=o.visible; o.setVisible(false); } else if(o._zv!==undefined){ o.setVisible(o._zv); o._zv=undefined; } }); } });
+    // round 45 (F9 from Kris's PC: 900–1030 objects, 49–60 fps standing still in the village): a chunk is 1024 px, so most of an on-screen chunk's pieces
+    // (and the camps, lamps and creatures of the whole neighbourhood) are still off screen. Every 6th frame, everything outside the view plus a margin
+    // is left out of this camera's drawing (cameraFilter — the objects' own visible flags are untouched, so nothing else is disturbed).
+    if((this._wrCull=(this._wrCull||0)+1)%6===0)WR_CULL(this);
     if(this._zcTick)this._zcTick(dt);      // round 43: the animals (10n). (Kris: no fading when the hero is behind a piece — removed)
     W.chunks.forEach(function(ch){ if(ch.lava)lavaCh.push(ch); ch.objs.forEach(function(o){ if(o._lava)o._lava.forEach(function(t){ t.tilePositionX+=t._flow.vx*dt; t.tilePositionY+=t._flow.vy*dt; }); }); });
     // lava bursts (as in the Lab): little sprays of sparks from the molten ground in view

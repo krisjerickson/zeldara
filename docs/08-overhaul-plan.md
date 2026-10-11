@@ -213,6 +213,72 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Scenery approach → **ANSWERED (his own words):** "something between hybrid and everything painted … I like all the things in 'hybrid' to be turned into painted sprites, but also want interior furniture and furnishings to also be sprites, as well as camp props and trial props. But also, work on restyling the ground with painted textures and outlines to better match as well".
 - Build tonight → **ANSWERED: pixel-sprite fixes, difficulty levels, scenery requests + script.**
 
+## Round 45 (Kris, Oct 10) — sleep eyes, invisible walls, mount on M, village buildings, gardens, painted edges, sandbox, weapon wheel, "no effect", death, performance
+- Kris: "1. when you sleep, your eyes should close. We probably need new painted sprites for overall sleeping. 2. There were invisible walls that we could not move through in both the overworld and the adventure sites. look into these, and make sure to remove and fix them 3. "m" should auto mount onto your mount. You should only be able to get different mounts at the stables. Take out the selector for different mounts when pressing "m". If your mount is not next to you or close, then "m" should call your mount. However, your mount should move all the way from where it began on the map, to where you called from, and should take more time if you left your mount far away 4. houses in the late stage village are still too big and make it difficult to get to shops. Especially the blacksmith is difficult to get to and there is a green roof stone house that needs to be smaller. It would also help to have all buildings that you can more easily go behind. Meaning that the area within which you cannot move for the building is smaller, and you can move behind the building, so the roof of the building does not block you moving behind it. 5. There is a garden on top of a tree in the village, which need to be fixed. Also, you should move on top of gardens, instead of behind them 6. The terrain edge sprites have not been input yet. Make sure to update to the painted sprites instead of right now it's the drawn pixel versions 7. spawn all monsters in the sandbox  it not updated to the new monsters. Let's fix this. 8. Also, in the sandbox, you should have a place where everything the thome is revealed 9. The weapon wheel is great, but a few changes: 1) No element weapons should be outside of the wheel. Right now non-elemental weapons are mixed in the middle with weapons that have many elements; 2) the weapons wheel shows gaps in what types of elemental weapons exist, with too few multi-element weapons. Suggest new weapons, and make sure that they also need different gems, pearls or other to forge them. Suggest how these unique gems, pearls, or other unique objects should be found or rewarded. 3) Arrange weapons that level up in the wheel in a line going towards the middle, with the lowest level on the outside and highest towards the inside. When you click on a weapon that needs a previous weapon to forge it, this should be shown in the wheel with some sort of connecting line, and if multiple weapons are needed, then multiple lines should be shown 10. When you attack an enemy and it says "no effect" it should just be a lot less damage as opposed to no damage. Do an analysis of when "no effect" comes up and make sure this doesn't impede progress too much and come up with suggestions of how to address 11. when dieing, you should come back with full health. And in dungeons when you die, it just pauses, but then doesn't bring you back and you need to use the flee button. Flee should not be possible after you die, and when dieing in a dungeon, you need to make sure to go back to the village and lose things like when you normally die. 12. [F9 readout from the village: 49–60 fps, 335–431 draws, 891–1029 objects, paint 0 after the first chunks] 13. Clarify on any new powershell commands to run 14. Before picking adventure sites, update the lab first thing as it looks like you need inputs from the sprite painted options"
+- **ANSWERED (Kris, mid-round):** "let's do hybrid for all the adventure sites for now for painting. We might come back later with more input" → painting approach = **Hybrid** (painted tile sets + a few big painted set-pieces per floor), all sites.
+- **ANSWERED (card, Oct 10):** (a) "no effect" → **25 % damage** ("shrugs it off"); (b) called mount → **real gallop over the map, capped ~20 s**; (c) behind a building → *"hero outline through the roof is great, and anytime the hero is behind or partially behind something, like a tree, you should also do this outline approach"*; (d) new multi-element weapons + their rare forging items → **Claude decides and builds**.
+- Kris (mid-round, Oct 10): "picks are in for the adventure sites. some overall comments: 1. There always needs to be a big enough space at the end of the adventure site for a boss fight 2. Suggestions are made throughout the picks, but even if no suggestions written, look at comments in other places, and make sure that every single adventure site is a unique design type, and that we don't reuse designs for any of them. Variety is key! stay creative even within the comments and picks i made" → build his picks (Lab DB `asites-*`, with his notes) into the game: a boss-sized room at the end of every site; no two sites share a design type.
+- Kris (mid-round, Oct 10): "for special skill, the cooldown should be down on the button. Also, we want to add in a roll basic skill, used by pressing "function" or "fn" button. Is that button available for use when doing a web game like this? if so, let's wire this up. This had been a "skill", but we want to it be its own separate thing instead of a skill. Undo wiring this up as a skill and getting a skill from the island castles. Instead, there should be a very early quest to be able to get the roll ability. Have an NPC outside of the first mage tower that helps teach you this skill, and come up with some quest narrative for this. Also, when you select a skill, the icon should change to show the skill you are using. Also, adventure sites are labeled twice right now, the only, low resolution yellow text should be removed. Also, some of the old type of dungeon should be maintained, where its a massive open space with different small obstacles and walls to move around"
+- **ANSWERED (card, Oct 10):** Fn can't be read by a web page → roll on **Alt**; Sunflower Castle (Tumbler Pia) teaches **a new special skill** instead of Roll (Claude designs it); the old open-cave style stays for **Boulder Field, Sunken Courtyard and Bone Pit** (one huge open cave with small obstacles and walls).
+- Kris (mid-round, Oct 10): "we also need to fix skyports. First off, you don't pause in the real world when entering them. Also, the graphics are bad, and we need to improve them. Come up with ideas of how to do this, including proposing new painted images that we might need. Make it even more like space invaders with additional skills, including if we need to create any new painted images. As you are updating all of the adventure sites, make sure to leverage the old designs for more variety as well. It wasn't that these were bad, there just wasn't enough variety"
+- Kris (mid-round, Oct 10): "there are still some floating island of the old pixel version that look bad in the game. get these updated to the new painted art style"
+- Kris (mid-round, Oct 10): "also, for frost witch it creates things that make you slip even after you defeat it and should eventually get deleted after a bit. fix this for any monster that uses this type of attack skill"
+- **Kris's Adventure-site picks (Lab DB `asites-*`, read Oct 10):** painting = Hybrid; one design per site:
+  - `bone_pit__0 · Bone Pit — option 1`
+  - `boulder_field__1 · Boulder Field — option 2`
+  - `castle_q1_b__0 · Thornwood Castle — option 1`
+  - `castle_q1_c__0 · Sunflower Castle — option 1`
+  - `castle_q1_d__2 · Millwind Castle — option 3`
+  - `castle_q2_b__0 · Lotus Castle — option 1`
+  - `castle_q2_c__2 · Abbey Castle — option 3`
+  - `castle_q2_d__0 · Mangrove Castle — option 1`
+  - `castle_q3_b__2 · Anvil Castle — option 3`
+  - `castle_q3_c__0 · Glacier Castle — option 1`
+  - `castle_q3_d__2 · Eyrie Castle — option 3`
+  - `castle_q4_b__1 · Obsidian Castle — option 2`
+  - `castle_q4_c__1 · Cinder Castle — option 2`
+  - `castle_q4_d__2 · Bonefall Castle — option 3`
+  - `crystal_grotto__2 · Crystal Grotto — option 3`
+  - `dawn_sanctum__2 · Dawn Sanctum — option 3`
+  - `elven_library__1 · Elven Library — option 2`
+  - `ember_cave__0 · The Ember Cave — option 1`
+  - `frost_cathedral__2 · Frost Cathedral — option 3`
+  - `hyrule_keep__0 · White Keep — option 1`
+  - `isle_1__0 · Corsair Crypt — option 1`
+  - `isle_2__0 · Bog Crypt — option 1`
+  - `isle_3__2 · Ember Crypt — option 3`
+  - `isle_4__1 · Frost Crypt — option 2`
+  - `lake_ring__1 · Underground Lake Ring — option 2`
+  - `lava_archipelago__1 · Lava Archipelago — option 2`
+  - `mage_astral_spire__2 · The Astral Spire — option 3`
+  - `mage_conductor__1 · The Conductor's Spire — option 2`
+  - `mage_crimson_spire__1 · The Crimson Spire — option 2`
+  - `mage_drowned_lighthouse__2 · The Drowned Lighthouse — option 3`
+  - `mage_ember_observatory__2 · The Ember Observatory — option 3`
+  - `mage_frostbitten_crown__1 · The Frostbitten Crown — option 2`
+  - `mage_frozen_belfry__2 · The Frozen Belfry — option 3`
+  - `mage_hearthfire__2 · Hearthfire Tower — option 3`
+  - `mage_hollow_spire__0 · The Hollow Spire — option 1`
+  - `mage_lightning_rod__2 · The Lightning Rod Tower — option 3`
+  - `mage_mire_tower__2 · The Mire Tower — option 3`
+  - `mage_monolith__1 · The Monolith — option 2`
+  - `mage_rift_tower__2 · The Rift Tower — option 3`
+  - `mage_rime_spire__1 · The Rime Spire — option 2`
+  - `mage_rootspire__2 · The Rootspire — option 3`
+  - `mage_scriptorium__0 · The Scriptorium Tower — option 1`
+  - `moonglass__0 · Moonglass Spire — option 1`
+  - `mushroom_forest__1 · Mushroom Forest — option 2`
+  - `observatory__0 · Starlit Observatory — option 1`
+  - `pillared_hall__1 · Pillared Hall — option 2`
+  - `reflecting_hall__2 · Reflecting Hall — option 3`
+  - `rivendell__1 · Rivendell Twilight Hall — option 2`
+  - `root_hollow__1 · Root Hollow — option 2`
+  - `silverwood__0 · Silverwood Palace — option 1`
+  - `sky_cloister__2 · Sky Cloister — option 3`
+  - `spiral_chasm__2 · Spiral Chasm — option 3`
+  - `sunken_courtyard__1 · Sunken Courtyard — option 2`
+- Found: Kris ran `frames.ps1`, `bed_rugs.ps1` and `rooms.ps1`; cut on the PC Oct 10 (anim-0 page, sleep/wake frames, rugs, 3 rooms). The painted sleep frames already have closed eyes. The game artifact never had `edges-0.webp` (and now `anim-0.webp`) published, so it drew the pixel stand-ins.
+
 ## Round 44 (Kris, Oct 10) — village edge for familiars and mounts; village clutter; carts, boats, stairs, rugs; adventure-site redesign
 - Kris: "Familiars and mounts should stop at village edge instead of joining in the village. Familiars can port over once you exit if you exit at a different side and you mount can be called. The village is too cluttered when at the final stage. We can make the village a bit larger if needed, or look for how to reorganize such that walking paths and roads connect you to all the buildings. It's not in too many places, so probably minor rearranging is all that is needed. Also have the carts not have as large of a size that restricts your movement through them. The boats in the village should rest in the water, not on the grass. The stairs for going up and down floors in dungeons and towers need to be larger, so they look more natural, right now it looks too small. Also, towers, dungeons and other adventure sites are too small and too much of a repeated layout. Each adventure site should have a very unique and special layout, as well as the coloration. Let's go back through and make a new redesign of adventure sites for me to choose from in the lab. Also look at ways to create and paint these to look better for me to choose from. Also, check some of the visuals that may have gotten messed up, like i see rugs that are bad pixelated images that are stretched oddly and look bad. we can request new painted features, if needed"
 - Kris (also, Oct 10): "1. we need to create an animation for you resting in your bed. We can create new sheets to do this, and we need to make the lights go out for a little bit. 2. we're having lag issues, especially around in the village. Check to see what is causing this and come up with recommendations on how to fix it"

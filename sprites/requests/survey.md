@@ -1,4 +1,4 @@
-# Character survey — 439 characters, 995 sheets (667 core), 6747 poses
+# Character survey — 440 characters, 996 sheets (668 core), 6755 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: none.
 
@@ -8,7 +8,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | rider | 22 | 22 | 22 | 176 |
 | monster | 240 | 607 | 375 | 3811 |
 | boss | 76 | 216 | 120 | 1578 |
-| npc | 41 | 52 | 52 | 416 |
+| npc | 42 | 53 | 53 | 424 |
 | mount | 11 | 11 | 11 | 88 |
 | familiar | 4 | 4 | 4 | 32 |
 | fairy | 23 | 23 | 23 | 184 |
@@ -388,6 +388,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | isl_guide | Ranger Holt | Harbor islands | f | Idle ×2; Talk ×2 (when you speak to them); Work: point ×4 (Points the way into the guardian's dungeon.) | 1 |
 | tc_sprint | the running teacher | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (showing how to run: stretching, a running start, jogging on the spot) | 1 |
 | tc_roll | Tumbler Pia | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Teaches Roll — dash 3 tiles and dodge through danger.) | 1 |
+| tc_petal | Petal-dancer Senna | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Teaches Petal Step — a quick step that leaves a carpet of petals foes stumble in.) | 1 |
 | tc_whirlwind | Blade-dancer Kestrel | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: slash ×4 (Teaches Whirlwind — spin and strike everything around you.) | 1 |
 | tc_smokebomb | Shade Mistress Nyx | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Teaches Smoke Bomb — vanish in smoke; enemies lose track of you.) | 1 |
 | tc_shieldbash | Captain Borin | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: slash ×4 (Teaches Shield Bash — charge and stun (needs a shield).) | 1 |

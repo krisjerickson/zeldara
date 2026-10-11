@@ -29,7 +29,8 @@ class DungeonScene extends Phaser.Scene{
   }
   create(){
     _heroStowMount(this);
-    window._dngExit=function(){var ds=game.scene.getScene('Dungeon');if(ds)ds._exitToWorld(null);};
+    window._dngExit=function(){var ds=game.scene.getScene('Dungeon');if(!ds)return;if(ds._playerDead||ps0dead()){showNotif('You have fallen — there is no fleeing now.','#ff8866');return;}ds._exitToWorld(null);};      // round 45: no flee after death
+    var ps0dead=function(){ var w=game.scene.getScene('World'); return !!(w&&w.playerState&&w.playerState.hp<=0); };
     this._ready=false;
     try{
       this._lab=null;this._captive=null;this._entryPx=null;this._exitPx=null;this._spawnPt=null;
@@ -76,7 +77,7 @@ class DungeonScene extends Phaser.Scene{
       var savedState=(this._initData.floorStates||{})[this.floor];
       if(savedState)this._restoreFloorState(savedState);
       this.playerAtkTimer=0;this.playerIFrames=0;
-      this._playerDead=false;this._bossDefeated=false;
+      this._playerDead=false;this._heroDying=0;this._bossDefeated=false;
       this._updateDungeonHUD();
       // Dungeon fog of war — persistent radius-based reveal
       this._initDngFog();
@@ -316,6 +317,9 @@ class DungeonScene extends Phaser.Scene{
     this._exitPx={x:ex.x*TILE+TILE/2,y:ex.y*TILE+TILE/2};
     if(this.isLastFloor){ tiles[ex.y][ex.x]=DNG.BOSS_CHEST; this.bossChestTile={x:ex.x,y:ex.y}; this.bossSpawnX=this._exitPx.x; this.bossSpawnY=this._exitPx.y; }
     else { tiles[ex.y][ex.x]=DNG.DOWN; this.stairsDownTile={x:ex.x,y:ex.y}; }
+    // round 45 (ZSP): the treasure room behind a hidden door, and the hidden doors themselves (opened in _zspSecretTick)
+    if(m.site.treasure&&!this.isLastFloor){ var tr=m.site.treasure; if(tiles[tr[1]]&&tiles[tr[1]][tr[0]]===DNG.FLOOR)tiles[tr[1]][tr[0]]=DNG.CHEST; }
+    this._zspSecrets=(m.site.secrets||[]).map(function(s){ return {x:s[0],y:s[1],open:false,t:0,hint:false}; }); this._zspFloorCol=m.zspFloorCol||'#5a5048';
     this.dtiles=tiles;
     this._spawnPt={x:m.spawn.x,y:m.spawn.y};
     // Reachable open cells (for monsters, chests, arrival spots)
@@ -364,8 +368,8 @@ class DungeonScene extends Phaser.Scene{
     });
     var sprTex=new Map();      // sprites sharing one canvas share one texture
     m.sprites.forEach(function(sp,i){
-      var tk=sprTex.get(sp.canvas); if(!tk){ tk=addTex('spr_'+tag+'_'+i,sp.canvas); sprTex.set(sp.canvas,tk); }
-      var im=self.add.image(sp.x,sp.y,tk).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.under?-9:sp.flat?-6:self._ld(sp.depth!==undefined?sp.depth:sp.y));
+      var tk=sprTex.get(sp.canvas); if(!tk&&!sp.flat&&!sp.under&&typeof ZOL!=='undefined'&&sp.canvas.height/(sp.res||1)>=30)ZOL.mask(sp.canvas); if(!tk){ tk=addTex('spr_'+tag+'_'+i,sp.canvas); sprTex.set(sp.canvas,tk); }
+      var im=self.add.image(sp.x,sp.y,tk).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.under?-9:sp.flat?-6:self._ld(sp.depth!==undefined?sp.depth:sp.y)); if(sp.canvas&&sp.canvas._zm)im._zcv=sp.canvas;
       if(sp.res){ im.setScale(1/sp.res); try{ im.texture.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} }      // painted scenery (04h)
       if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
@@ -1024,6 +1028,8 @@ class DungeonScene extends Phaser.Scene{
     else this.pBody.setFillStyle(0x4488dd);
     this.pCont.setPosition(this.px,this.py);
     if(this._lab)this.pCont.setDepth(this._yDepth(this.py));
+    if(this._lab&&typeof ZOL!=='undefined')ZOL.tick(this,this.pCont,12.55);      // round 45: outline when behind something
+    if(this._zspSecrets&&this._zspSecrets.length)this._zspSecretTick(dt);
     if(this.pWalkSt){this.pWalkSt.dir=this.pdir;_heroAnimate(this,this.pSprite,this.pWalkSt,vx,vy,dt,(this.playerAtkTimer||0),(this.pBowTimer||0));}
     _heroShieldTick(this, this.px, this.py);
   }
@@ -1075,6 +1081,15 @@ class DungeonScene extends Phaser.Scene{
     }
   }
 
+  // round 45 — hidden doors (Kris: "add in hidden doors and come up with ideas of how to find them"): a wall with a hairline crack and a faint glow.
+  // Coming within three tiles you feel a draft; lean on it (stand against it) for a moment and it grinds open.
+  _zspSecretTick(dt){ var self=this, px=this.px, py=this.py; this._zspSecrets.forEach(function(s){ if(s.open)return; var cx=s.x*TILE+TILE/2, cy=s.y*TILE+TILE/2, d=Math.hypot(px-cx,py-cy);
+      if(d<TILE*3&&!s.hint){ s.hint=true; showNotif('🌬 You feel a faint draft from the wall…','#cfe8ff'); }
+      if(d<TILE*1.15){ s.t+=dt; if(s.t>0.9)self._zspOpen(s); } else s.t=Math.max(0,s.t-dt); }); }
+  _zspOpen(s){ s.open=true; this.dtiles[s.y][s.x]=DNG.FLOOR; if(this._lab)this._lab.solid[s.y*DW+s.x]=0; var cx=s.x*TILE+TILE/2, cy=s.y*TILE+TILE/2;
+    this.add.rectangle(cx,cy,TILE,TILE,hexNum(this._zspFloorCol),1).setDepth(-9.5);
+    for(var i=0;i<12;i++){ var d=this.add.circle(cx+(Math.random()-0.5)*20,cy+(Math.random()-0.5)*20,2+Math.random()*3,0x9a8a78,0.9).setDepth(12); this.tweens.add({targets:d,y:d.y+12+Math.random()*10,alpha:0,duration:700+Math.random()*500,onComplete:(function(o){ return function(){ o.destroy(); }; })(d)}); }
+    try{ this.cameras.main.shake(180,0.004); }catch(e){} showNotif('🚪 A hidden door grinds open!','#ffe9a8'); if(typeof ZSFX!=='undefined')try{ ZSFX.play('warp'); }catch(e){} }
   _canGoD(nx,ny){
     var hw=7,hh=5;
     var corners=[[nx-hw,ny-hh],[nx+hw,ny-hh],[nx-hw,ny+hh],[nx+hw,ny+hh],[nx,ny]];

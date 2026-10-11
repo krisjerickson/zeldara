@@ -55,6 +55,13 @@ function _rosterSitesFor(sec){
 
 // Floor recipe for a site that uses a Lab design (null → legacy generator).
 function _siteFloorSpec(site, floor, maxFloors){
+  // round 45: Kris's picked adventure-site designs (07zx) — with the site's old layout kept on some middle floors (Kris: "make sure to leverage the old
+  // designs for more variety as well. It wasn't that these were bad, there just wasn't enough variety")
+  var zid=typeof ZSP!=='undefined'&&ZSP.on?ZSP.idOf(site,floor):null;
+  if(zid&&!(ZSP.oldFloor(zid,floor,maxFloors)&&_siteFloorSpecOld(site,floor,maxFloors))){ var zs=ZSP.zsdSite(zid); return {kind:ZSP.T[zid].built?'tower':'dungeon',zsp:{id:zid,floor:floor,floors:maxFloors},seed:(_siteHash(site.id)%99991)+floor*7919+13,last:floor===maxFloors-1}; }
+  return _siteFloorSpecOld(site,floor,maxFloors);
+}
+function _siteFloorSpecOld(site, floor, maxFloors){
   if(!site||!site.design)return null;
   var h=_siteHash(site.id), last=floor===maxFloors-1, seed=(h%99991)+floor*7919+13;
   if(site.type==='tower'){
@@ -69,6 +76,7 @@ function _siteFloorSpec(site, floor, maxFloors){
   return { kind:'dungeon', design:D, seed:seed, last:last };
 }
 function _buildSiteFloor(spec){
+  if(spec.zsp&&typeof ZSP!=='undefined')return ZSP.build(spec);      // round 45: Kris's picked designs (07zx / 07zy)
   if(spec.kind==='tower')return buildTower(spec.style, spec.plan, spec.seed, {mirror:spec.mirror, shuffle:spec.shuffle, last:spec.last});
   return buildCavern(spec.design, spec.seed, {game:true, last:spec.last});
 }

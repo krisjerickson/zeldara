@@ -114,12 +114,14 @@ function _activePlayScene(includePaused){
 }
 
 // ── The one keyboard handler ─────────────────────────────────────────────
-var _MENU_HOTKEYS={i:'inventory',q:'quests',m:'mounts',b:'map',t:'tome'};
+var _MENU_HOTKEYS={i:'inventory',q:'quests',b:'map',t:'tome'};
 document.addEventListener('keydown',function(e){
   if(_isTyping())return;
   if(!game||!game.scene||game.scene.isActive('Title')||game.scene.isActive('Boot'))return;
   var k=(e.key||'').toLowerCase();
 
+  // Alt (round 45): roll — Fn never reaches a web page. Alt is held back from the browser so its menu bar does not open.
+  if(e.key==='Alt'){ e.preventDefault(); if(!_openOverlays().length&&!(typeof _PAUSE!=='undefined'&&_PAUSE.active)){ var _rs=_activePlayScene(false); if(_rs&&typeof ZROLL!=='undefined'&&(_isOverworld(_rs)||_rs.sys.settings.key==='Dungeon'))ZROLL.go(_rs); } return; }
   // Esc closes menus first; with nothing open it falls through to the scene
   // (e.g. leaving a volcano room).
   if(e.key==='Escape'){
@@ -128,8 +130,8 @@ document.addEventListener('keydown',function(e){
   }
 
   // Menu hotkeys toggle their own menu and work everywhere.
-  // M next to your waiting mount: hop back on
-  if(k==='m'&&!_openOverlays().length&&(game.scene.isActive('World')||game.scene.isActive('Island'))){ var _wsm=_owScene(); if(_wsm&&_wsm._nearParkedMount&&_wsm._nearParkedMount()){ e.preventDefault(); _wsm._remount(); return; } }
+  // M (round 45, Kris): get off · get on · call your mount. Choosing a mount is done at the stables; M only closes that menu if it is open.
+  if(k==='m'){ e.preventDefault(); var _me=document.getElementById('modal-mounts'); if(_isOverlayShown(_me)){ closeModal('mounts'); return; } if(_openOverlays().length)return; if(typeof window._mountKey==='function')window._mountKey(); return; }
   if(_MENU_HOTKEYS[k]){
     e.preventDefault();
     var id=_MENU_HOTKEYS[k], el=document.getElementById('modal-'+id);
@@ -176,3 +178,5 @@ document.addEventListener('keydown',function(e){
 // Drive the shared hero systems (familiars, spells, status effects, mana)
 // once per frame for whichever scene is being played.
 game.events.on('poststep',function(time,delta){ _heroUpkeep(delta); });
+
+if(typeof window!=='undefined')window.addEventListener('keyup',function(e){ if(e.key==='Alt')e.preventDefault(); });      // round 45: keep the browser's Alt menu shut

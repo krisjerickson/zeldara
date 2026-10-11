@@ -37,9 +37,10 @@ var ZForge={ sel:null,
     {k:'ice',    n:'Frost swords', el:['water'], gem:'gem_sapphire',nodes:['iron_sword','frost_iron','glacier_sword','permafrost','absolute_zero']},
     {k:'thunder',n:'Storm swords', el:['storm'], gem:'gem_topaz',   nodes:['iron_sword','thunder_iron','storm_blade','cyclone_blade','thunder_god']},
     {k:'earth',  n:'Earth axes',   el:['earth'], gem:'gem_amber',   nodes:['hand_axe','granite_axe','quake_axe','boulder_maul','mountains_heart']},
-    {k:'grass',  n:'Grass axes',   el:['grass'], gem:'gem_emerald', nodes:['hand_axe','briar_axe','thornwood_axe','wildwood_cleaver','verdant_king']}],
+    {k:'grass',  n:'Grass axes',   el:['grass'], gem:'gem_emerald', nodes:['hand_axe','briar_axe','thornwood_axe','wildwood_cleaver','verdant_king']},
+    {k:'shadow', n:'Shadow swords',el:['shadow'],gem:'gem_onyx',    nodes:['iron_sword','dusk_iron','umbral_edge','nightfang','void_reaver']}],      // round 45
   XBOW:{base:'crossbow',t1:['ember_crossbow','frost_crossbow','thorn_crossbow','stone_crossbow','storm_crossbow','night_crossbow'],t2:['geyser_arbalest','wildstone_arbalest','eclipse_arbalest']},
-  DUAL:['stormfire_blade','tempest_edge','magmaheart_axe','avalanche_maul','nightbloom_axe'],
+  DUAL:['stormfire_blade','tempest_edge','magmaheart_axe','avalanche_maul','nightbloom_axe','ashbloom_glaive','tidebloom_blade','abyssal_edge','hellbrand','galebriar_axe','thunderpeak_maul','gravewarden_maul'],      // round 45: +7
   TOP:'elemental_sovereign',
   recipe:function(id){ for(var i=0;i<CRAFT_RECIPES.length;i++)if(CRAFT_RECIPES[i].result===id)return CRAFT_RECIPES[i]; return null; },
   ps:function(){ var ws=game&&game.scene&&game.scene.getScene('World'); return ws&&ws.playerState; },

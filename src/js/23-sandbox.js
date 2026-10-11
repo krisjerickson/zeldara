@@ -142,40 +142,25 @@ function sbTeleport(sec){
   if(ws.cameras&&ws.cameras.main)ws.cameras.main.centerOn(x,y);
   ws._emitUI();showNotif('Teleported!','#44ffaa');closeModal('sandbox');
 }
+// round 45 (Kris: "spawn all monsters in the sandbox [is] not updated to the new monsters"): every monster of the roster (the painted ones, with their
+// moves and defences), set out in rows by realm below the hero. They stay calm until hit (mon._calm), so they can be looked at one by one.
 function sbSpawnMonsters(){
-  // Spawn one of every MDEFS type in a large ring around the player
-  var ws=_sbWs();if(!ws||!ws.player){showNotif('Start a game first!','#ff4444');return;}
+  var ws=_sbWs(); if(!ws||!ws.player){ showNotif('Start a game first!','#ff4444'); return; }
   if(!ws.worldMonsters)ws.worldMonsters=[];
-  var px=ws.player.x, py=ws.player.y;
-  var allTypes=Object.keys(MDEFS);
-  var ringR=200, angleStep=(Math.PI*2)/allTypes.length;
-  var spawned=0;
-  allTypes.forEach(function(mtype,idx){
-    var mdef=MDEFS[mtype];if(!mdef)return;
-    var ang=angleStep*idx;
-    var wx=px+Math.cos(ang)*ringR, wy=py+Math.sin(ang)*ringR;
-    var cont=ws.add.container(wx,wy).setDepth(9);
-    var shadow=ws.add.ellipse(0,mdef.r+2,mdef.r*2.2,7,0x000000,.3);
-    var body=ws.add.circle(0,0,mdef.r,mdef.color);
-    var icon=ws.add.text(0,0,mdef.icon,{fontSize:mdef.boss?'16px':'14px',fontFamily:'serif'}).setOrigin(.5,.5);
-    var hpBg=ws.add.rectangle(0,-(mdef.r+8),28,4,0x000000,.7);
-    var hpFill=ws.add.rectangle(-14,-(mdef.r+8),28,4,0xff3333).setOrigin(0,.5);
-    var monLevel=mdef.lvMin||1;
-    var monHp=mdef.hp, monAtk=mdef.atk, monDef=mdef.def;
-    var lvCol=mdef.boss?'#ff4444':'#ffdd44';
-    var nameT=ws.add.text(0,-(mdef.r+16),mdef.name+(mdef.boss?' ★':''),{fontSize:'7px',color:mdef.boss?'#ffdd88':'#ffffff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5);
-    var lvBadge=ws.add.text(0,-(mdef.r+24),(mdef.boss?'★ ':'')+'Lv.'+monLevel,{fontSize:'6px',color:lvCol,fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(10);
-    cont.add([shadow,body,icon,hpBg,hpFill,nameT,lvBadge]);
-    ws.worldMonsters.push({
-      cont:cont,body:body,hpFill:hpFill,type:mtype,def:mdef,
-      hp:monHp,maxHp:monHp,x:wx,y:wy,spawnX:wx,spawnY:wy,
-      section:mdef.sec||1,dead:false,respawnTimer:0,level:monLevel,monDef:monDef,monAtk:monAtk,
-      state:'wander',wanderVx:0,wanderVy:0,wanderTimer:0,atkTimer:0,_md:{}
-    });
-    spawned++;
-  });
-  showNotif('Spawned '+spawned+' monsters in a ring around you!','#ff8844');
+  (ws.worldMonsters||[]).forEach(function(m){ if(m._sbShow&&!m.dead&&m.cont){ m.dead=true; m.cont.setVisible(false); } });
+  var L=(typeof MON_ROSTER!=='undefined'?MON_ROSTER:[]).slice().sort(function(a,b){ return (a.q-b.q)||((a.tier||0)-(b.tier||0)); });
+  var COLS=16, DX=78, DY=92, x0=ws.player.x-DX*(COLS-1)/2, y0=ws.player.y+110, n=0, row=0, col=0, lastQ=null;
+  L.forEach(function(R){ if(lastQ!==null&&R.q!==lastQ&&col>0){ row++; col=0; } if(lastQ!==null&&R.q!==lastQ)row++; lastQ=R.q;
+    var x=x0+col*DX, y=y0+row*DY, m=MX.spawn(ws,R.id,x,y,{q:R.q,temp:true}); col++; if(col>=COLS){ col=0; row++; }
+    if(!m)return; m._calm=true; m._sbShow=true; m._noLoot=true; m.section=getTileSection(Math.floor(x/TILE),Math.floor(y/TILE))||1; m.respawnTimer=0; ws.worldMonsters.push(m); n++; });
+  showNotif('Spawned '+n+' monsters in rows by realm below you — they stay calm until you hit them.','#ff8844');
   closeModal('sandbox');
+}
+// round 45 (Kris: "in the sandbox, you should have a place where everything [in] the tome is revealed"): every entry of every Tome section counts as found
+function sbRevealTome(){
+  if(typeof Tome==='undefined'||!Tome.book()){ showNotif('Start a game first!','#ff4444'); return; }
+  var b=Tome.book(), n=0, t=Date.now(); TOME_CATS.forEach(function(c){ (Tome.list(c.k)||[]).forEach(function(id){ if(!b[c.k][id]){ b[c.k][id]=t; n++; } }); });
+  showNotif('📖 The whole Tome is revealed ('+n+' new entries).','#e8d8a8'); closeModal('sandbox'); try{ Tome.open(); }catch(e){}
 }
 function sbReset(){
   ZSave.clearCurrent();

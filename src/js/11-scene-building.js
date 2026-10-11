@@ -37,7 +37,7 @@ class BuildingScene extends Phaser.Scene{
       self.tweens.add({targets:im,alpha:(sh.a||0.4)*0.55,duration:2600+i*300,yoyo:true,repeat:-1,ease:'Sine.inOut'}); });
     var sprTex=new Map();      // sprites sharing one canvas share one texture
     self._bedIms=[]; self._lightIms=[];
-    m.sprites.forEach(function(sp,i){ var tk=sprTex.get(sp.canvas); if(!tk){ tk=addTex('spr_'+tag+'_'+i,sp.canvas); sprTex.set(sp.canvas,tk); } var im=self.add.image(sp.x,sp.y,tk).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.under?-9:sp.flat?-6:sp.depth!==undefined?sp.depth:sp.y); if(sp.res){ im.setScale(1/sp.res); try{ im.texture.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } if(sp._bed)self._bedIms.push(im); });      // painted scenery (04h): 2 × canvases
+    m.sprites.forEach(function(sp,i){ var tk=sprTex.get(sp.canvas); if(!tk&&!sp.flat&&!sp.under&&typeof ZOL!=='undefined'&&sp.canvas.height/(sp.res||1)>=30)ZOL.mask(sp.canvas); if(!tk){ tk=addTex('spr_'+tag+'_'+i,sp.canvas); sprTex.set(sp.canvas,tk); } var im=self.add.image(sp.x,sp.y,tk).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.under?-9:sp.flat?-6:sp.depth!==undefined?sp.depth:sp.y); if(sp.canvas&&sp.canvas._zm)im._zcv=sp.canvas; if(sp.res){ im.setScale(1/sp.res); try{ im.texture.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } if(sp._bed)self._bedIms.push(im); });      // painted scenery (04h): 2 × canvases
     m.lights.forEach(function(L,i){ var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a).setScale(L.r/64).setDepth(9000); self._lightIms.push(im);
       if(L.pulse)self.tweens.add({targets:im,alpha:L.a*(1-L.pulse),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(L.flicker)self.tweens.add({targets:im,alpha:L.a*(1-L.flicker),scale:(L.r/64)*0.94,duration:120+i*23,yoyo:true,repeat:-1}); });
@@ -88,7 +88,7 @@ class BuildingScene extends Phaser.Scene{
     var nx=this.bx+vx*dt,ny=this.by+vy*dt;
     if(this._canGoB(nx,this.by))this.bx=nx;
     if(this._canGoB(this.bx,ny))this.by=ny;
-    this.bCont.setPosition(this.bx,this.by).setDepth(this.by+12);
+    this.bCont.setPosition(this.bx,this.by).setDepth(this.by+12); if(typeof ZOL!=='undefined')ZOL.tick(this,this.bCont,8990);      // round 45: outline when behind something
     if(this.bWalkSt){
       this.bWalkSt.dir=_heroDirFromVel(vx,vy,this.bWalkSt.dir);
       this.bdir=this.bWalkSt.dir;

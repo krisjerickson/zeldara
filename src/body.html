@@ -59,9 +59,10 @@
     <div class="aib-slot" onclick="showQuickPick('potion')" title="Use potion"><div class="aib-key">P</div><div class="aib-ico" data-zi="ui_potion" data-em="1.75">🧪</div><div class="aib-lbl">Potion</div></div>
     <div class="aib-slot" onclick="showQuickPick('food')" title="Eat food"><div class="aib-key">O</div><div class="aib-ico" data-zi="ui_food" data-em="1.75">🍞</div><div class="aib-lbl">Food</div></div>
     <div class="aib-slot" id="action-spell-slot" onclick="showQuickPick('spell')" title="Switch spell"><div class="aib-key">X</div><div class="aib-ico" data-zi="ui_spell" data-em="1.75">✨</div><div class="aib-lbl">Spell</div></div>
-    <div class="aib-slot" onclick="toggleModal('mounts')" title="Mount/dismount"><div class="aib-key">M</div><div class="aib-ico" data-zi="ui_mount" data-em="1.75">🐎</div><div class="aib-lbl">Mount</div></div>
+    <div class="aib-slot" onclick="window._mountKey&&window._mountKey()" title="Get on, get off, or call your mount (mounts are chosen at the stables)"><div class="aib-key">M</div><div class="aib-ico" data-zi="ui_mount" data-em="1.75">🐎</div><div class="aib-lbl">Mount</div></div>
     <div class="aib-slot" onclick="showQuickPick('familiar')" title="Familiar"><div class="aib-key">N</div><div class="aib-ico" data-zi="ui_familiar" data-em="1.75">🐾</div><div class="aib-lbl">Familiar</div></div>
-    <div class="aib-slot" onclick="showQuickPick('special')" title="Special ability"><div class="aib-key">Z</div><div class="aib-ico" data-zi="ui_special" data-em="1.75">⚡</div><div class="aib-lbl">Special</div></div>
+    <div class="aib-slot" id="action-special-slot" onclick="showQuickPick('special')" title="Special ability"><div class="aib-key">Z</div><div class="aib-ico" data-zi="ui_special" data-em="1.75">⚡</div><div class="aib-lbl">Special</div></div>
+    <div class="aib-slot" id="roll-badge" style="display:none" onclick="if(typeof ZROLL!=='undefined'){ var s=_activePlayScene(false); if(s)ZROLL.go(s); }" title="Roll (Alt) — a quick dodge the way you are moving"><div class="aib-key">ALT</div><div class="aib-ico">🤸</div><div class="aib-lbl">Roll</div><div class="cd"></div></div>
   </div>
   <div id="quick-pick-popup" style="display:none;position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:rgba(5,10,22,.97);border:1px solid rgba(100,180,255,.3);border-radius:10px;padding:12px 14px;min-width:220px;max-width:340px;z-index:500;max-height:55vh;overflow-y:auto;pointer-events:all"></div>
   <div id="dungeon-hud">
@@ -240,6 +241,7 @@
           <button class="sb-btn" onclick="sbGoBigVolcano()" style="border-color:rgba(255,100,40,.5);color:#ffaa66">→ Big Volcano</button>
           <button class="sb-btn" onclick="sbGoMiniVolcano()" style="border-color:rgba(255,100,40,.5);color:#ffaa66">→ Next Mini-Volcano</button>
           <button class="sb-btn" onclick="sbSpawnMonsters()">Spawn All Monsters</button>
+          <button class="sb-btn" onclick="sbRevealTome()" style="border-color:rgba(232,216,168,.45);color:#e8d8a8">📖 Reveal the Whole Tome</button>
           <button class="sb-btn" onclick="sbReset()" style="border-color:rgba(255,80,80,.4);color:#ff8888">Reset Save</button>
           <hr style="border-color:rgba(255,255,255,.1);margin:10px 0">
           <div style="font-size:10px;color:#778;margin-bottom:8px;text-align:center;letter-spacing:.5px;text-transform:uppercase">🗺️ Adventure Sites</div>

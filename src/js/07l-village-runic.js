@@ -143,7 +143,7 @@ function villagePlan(stage,ok,water){
     if((i*7+3)%5<2)P('vdress',l.x-1,l.y+l.h-1,1,1,{id:['vp_woodpile','vp_barrels','vp_crates','vp_haystack','vp_laundry'][i%5]},false); });
   plan.houses=VILLAGE_CORE.length+nh+extra;
   // vegetable gardens (neat rows, the harbour town's gardens tidied up)
-  var ng=0; gardens.forEach(function(gd){ if(ng>=VR.gardens[s]||Math.hypot(gd.x+gd.w/2,gd.y+1.5)>Rs+2)return; ng++; for(var j=0;j<3;j++)for(var i=0;i<gd.w;i++)setK(gd.x+i,gd.y+j,'vsoil'); P('vegplot',gd.x,gd.y,gd.w,3,{seed:ng},false); });
+  var ng=0; gardens.forEach(function(gd){ if(ng>=VR.gardens[s]||Math.hypot(gd.x+gd.w/2,gd.y+1.5)>Rs+2)return; ng++; for(var j=0;j<3;j++)for(var i=0;i<gd.w;i++)setK(gd.x+i,gd.y+j,'vsoil'); P('vegplot',gd.x,gd.y,gd.w,3,{seed:ng},false); mark(gd.x,gd.y,gd.w,3,1,1); });      // round 45: nothing grows on a garden (a tree stood in one)
   // market carts (from the market town)
   carts.filter(function(c){ return Math.abs(c.x)+2<=Rs; }).slice(0,VR.carts[s]).forEach(function(c,i){ P('cart',c.x,c.y,2,1,{col:['#c84a3a','#3a7ac8','#e0a030','#4a9a5a','#b070d0'][i%5]},false); plan.solid.push([c.x,c.y]); });      // round 44: only one tile of a cart blocks (was two)
   // windmills (from the market & grove towns)
@@ -206,7 +206,7 @@ WPROP.cart=function(c,ctx,x,y,w,h,o){ var col=o.col||'#c84a3a', R=c.R; addSprite
   [[14,H-12],[W-14,H-12]].forEach(function(q){ g.fillStyle='#3a2a1a'; g.beginPath(); g.arc(q[0],q[1],8,0,Math.PI*2); g.fill(); g.fillStyle='#8a6a44'; g.beginPath(); g.arc(q[0],q[1],5.5,0,Math.PI*2); g.fill(); g.strokeStyle='#3a2a1a'; g.lineWidth=1.5; g.beginPath(); g.moveTo(q[0]-5,q[1]); g.lineTo(q[0]+5,q[1]); g.moveTo(q[0],q[1]-5); g.lineTo(q[0],q[1]+5); g.stroke(); });
   g.strokeStyle='#5a3a22'; g.lineWidth=3; g.beginPath(); g.moveTo(W-8,H-22); g.lineTo(W-1,H-16); g.stroke(); }); };
 WPROP.vegplot=function(c,ctx,x,y,w,h,o){ var R=c.R; // neat rows: cabbages, carrots, leeks, pumpkins
-  var Zs=_scn(), vid=Zs&&['vp_veg_cabbage','vp_veg_carrot','vp_veg_leek','vp_veg_pumpkin'][(o.seed||0)%4]; if(vid&&Zs.sprite(c.m,vid,x+w/2,y+h,0,{w:w+4,shadow:false,sp:{depth:y+6}}))return;      // painted garden bed (round 31): lies low, so it sorts behind who walks past its front
+  var Zs=_scn(), vid=Zs&&['vp_veg_cabbage','vp_veg_carrot','vp_veg_leek','vp_veg_pumpkin'][(o.seed||0)%4]; if(vid&&Zs.sprite(c.m,vid,x+w/2,y+h,0,{w:w+4,shadow:false,sp:{flat:true}}))return;      // painted garden bed (round 31); round 45 (Kris: "you should move on top of gardens, instead of behind them"): it lies on the ground under everyone
   ctx.fillStyle='#5a3e24'; ctx.fillRect(x+3,y+3,w-6,h-6);
   var rows=Math.floor((h-8)/12), crops=['cab','car','leek','pump'];
   for(var r=0;r<rows;r++){ var cy=y+8+r*12, kind=crops[(r+(o.seed||0))%4]; ctx.fillStyle='rgba(0,0,0,.25)'; ctx.fillRect(x+6,cy+7,w-12,2);

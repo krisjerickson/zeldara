@@ -1441,7 +1441,7 @@ class WorldScene extends Phaser.Scene{
     // Apply penalty immediately
     var goldLoss=Math.floor(ps.gold*0.10);
     ps.gold=Math.max(0,ps.gold-goldLoss);
-    ps.hp=Math.max(10,Math.floor(ps.maxHp*0.25));
+    ps.hp=ps.maxHp; if(ps.maxMana)ps.mana=ps.maxMana;      // round 45 (Kris: "when dieing, you should come back with full health")
     // Brief red flash — fades on its own, no pause
     var flash=document.getElementById('damage-flash');
     if(flash){flash.style.transition='opacity .05s';flash.style.opacity='0.7';
@@ -1531,7 +1531,8 @@ class WorldScene extends Phaser.Scene{
     if(vx||vy)p._bobPhase+=dt*8;
     var bob=Math.sin(p._bobPhase)*2*(vx||vy?1:0);
     p.head.setY(-12+bob);
-    p.cont.setPosition(p.x,p.y); p.cont.setDepth(WR_DEPTH(p.y));
+    p.cont.setPosition(p.x,p.y); p.cont.setDepth(WR_DEPTH(p.y)); if(typeof ZOL!=='undefined')ZOL.tick(this,p.cont,10.95);      // round 45: outline when behind something
+    if(typeof ZROLL!=='undefined'&&this.sys.settings.key==='World')ZROLL.tick(this);      // round 45: Tumbler Pia and her pins
     if(p.sprite){
       _heroAnimate(this, p.sprite, p, vx, vy, dt, this.worldAtkTimer, this.worldBowTimer);
     }
@@ -1689,6 +1690,14 @@ class WorldScene extends Phaser.Scene{
         var tr=self.add.circle(p.x,p.y,8,0x88ccff,0.50).setDepth(8);
         self.tweens.add({targets:tr,alpha:0,duration:220,onComplete:function(){tr.destroy();}});
       }});
+
+    } else if(id==='petal_step'){      // round 45: the Sunflower Château's skill
+      var pd=TILE*2.5, ptx=p.x+Math.cos(ang)*pd, pty=p.y+Math.sin(ang)*pd, px0=p.x, py0=p.y; this.worldIFrames=Math.max(this.worldIFrames,0.3);
+      this._floatText(p.x,p.y-32,'🌸 PETAL STEP','#ffe070'); var pst=0;
+      self.time.addEvent({delay:16,repeat:9,callback:function(){ pst++; var t=pst/10, nx=px0+(ptx-px0)*t, ny=py0+(pty-py0)*t; if(self._canGo(nx,p.y))p.x=nx; if(self._canGo(p.x,ny))p.y=ny; p.cont.setPosition(p.x,p.y); }});
+      if(typeof MX!=='undefined'){ var A0=MX.A(this); for(var pq=0;pq<3;pq++){ var zx=px0+(ptx-px0)*pq/3, zy=py0+(pty-py0)*pq/3; for(var pf=0;pf<7;pf++){ var pe=self.add.ellipse(zx+(Math.random()-0.5)*40,zy+(Math.random()-0.5)*30,6,4,[0xffe070,0xffc040,0xfff0a0][pf%3],0.9).setDepth(WR_DEPTH(zy)-0.002).setAngle(Math.random()*180); self.tweens.add({targets:pe,alpha:0,delay:2600,duration:500,onComplete:(function(o){ return function(){ o.destroy(); }; })(pe)}); } }
+        var slowMon=function(){ (self.worldMonsters||[]).forEach(function(m){ if(m.dead)return; for(var q=0;q<3;q++){ var zx2=px0+(ptx-px0)*q/3, zy2=py0+(pty-py0)*q/3; if(Math.hypot(m.x-zx2,m.y-zy2)<44){ if(m._m)m._m.stunT=Math.max(m._m.stunT||0,0.4); m._petalT=3; } } }); };
+        for(var ps2=0;ps2<6;ps2++)self.time.delayedCall(ps2*500,slowMon); }
 
     } else if(id==='blink'){
       var dist=TILE*5;
@@ -2614,7 +2623,7 @@ class WorldScene extends Phaser.Scene{
         return;
       } else if(this._interactPrompt&&this._interactPrompt._npc){this._interactPrompt.destroy();this._interactPrompt=null;}
     }
-    var nearSite=null;
+    var nearSite=null; this._nearSite=null;
     if(!nearBuilding){
       for(var i=0;i<this.sites.length;i++){
         var s=this.sites[i];
@@ -2631,11 +2640,8 @@ class WorldScene extends Phaser.Scene{
       }
       if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))this._enterBuilding(nearBuilding);
     } else if(nearSite){
-      if(!this._interactPrompt){
-        this._interactPrompt=this.add.text(nearSite.tx*TILE+TILE*1.5,nearSite.ty*TILE-18,
-          '[Tab] Enter '+_siteLabel(nearSite),
-          {fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
-      }
+      // round 45 (Kris: "adventure sites are labeled twice right now, the only, low resolution yellow text should be removed"): the site's own crisp label says [Tab]
+      this._nearSite=nearSite;
       if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))this._enterSite(nearSite);
     } else if(this._meatPickups&&this._meatPickups.length>0){
       // Check for nearby meat pickups
@@ -2784,7 +2790,7 @@ class WorldScene extends Phaser.Scene{
       var onScr=(p2[0]>-100&&p2[0]<hostW+100&&p2[1]>-50&&p2[1]<hostH+50);
       if(near&&onScr){
         _wsLblShow(obj.lblEl,p2[0],p2[1]);
-        if(obj.s.boss){ var gt=_bossSiteGate(self.playerState,obj.s,self.wd.sites), txt=_siteLabel(obj.s)+(gt&&!gt.open?'  🔒 '+gt.done+'/'+gt.need:''); if(obj.lblEl.textContent!==txt)obj.lblEl.textContent=txt; }
+        var gt=obj.s.boss?_bossSiteGate(self.playerState,obj.s,self.wd.sites):null, txt=(self._nearSite===obj.s?'[Tab] Enter ':'')+_siteLabel(obj.s)+(gt&&!gt.open?'  🔒 '+gt.done+'/'+gt.need:''); if(obj.lblEl.textContent!==txt)obj.lblEl.textContent=txt;      // round 45: the one label (the low-res yellow prompt is gone)
       } else {
         _wsLblHide(obj.lblEl);
       }
@@ -2846,8 +2852,7 @@ class WorldScene extends Phaser.Scene{
       document.body.removeChild(ov);
       // Resume so the next sleep() transitions cleanly, then sleep + launch Sky.
       if(self.scene&&self.scene.resume)self.scene.resume();
-      self.scene.sleep('World');
-      self.scene.launch('Sky',{site:site,worldScene:self});
+      self.scene.launch('Sky',{site:site,worldScene:self});      // round 45: the Sky scene puts the world to sleep itself (sleeping it here, right after resume, was lost)
       document.getElementById('hud').style.display='none';
       document.getElementById('dungeon-hud').style.display='none';
     };
