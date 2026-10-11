@@ -4,7 +4,7 @@
 // ║ its own separate thing instead of a skill. Undo wiring this up as a skill and getting a skill from the island castles. Instead, there should be a
 // ║ very early quest to be able to get the roll ability. Have an NPC outside of the first mage tower that helps teach you this skill, and come up with
 // ║ some quest narrative for this." The Fn key never reaches a web page, so (answered) the roll is on Alt.
-// ║   • ZROLL.go(scene): a quick dodge-roll the way you are moving (or facing): 3 tiles in a quarter second, untouchable while rolling, 1.1 s to
+// ║   • ZROLL.go(scene): a quick dodge-roll the way you are moving (or facing): 3 tiles in a quarter second, untouchable while rolling, 1.85 s (round 46) to
 // ║     catch your breath. Works in the overworld, on the islands and in every tower and dungeon.
 // ║   • The quest — "The Tumbler's Lesson": Tumbler Pia, a travelling acrobat, is camped outside the Rime Spire (the first mage tower). The Rime
 // ║     Witch's frost-imps blew her juggling pins all over the meadow; bring back the three pins and she teaches you to roll ("on the ice, the ones
@@ -12,7 +12,8 @@
 // ║   • Old saves that bought or were taught the Roll skill learn the roll at once; the skill is gone from shops and from the Sunflower Château,
 // ║     whose teacher now teaches Petal Step (03-data / 07t / 10-scene-world).
 // ═══════════════════════════════════════════════════════════════════════
-var ZROLL={ CD:1.1, DIST:3, T:0.26, IFR:0.55, PINS:3, NPC:'tc_roll', NAME:'Tumbler Pia',
+var ZROLL={ CD:1.85,      // round 46 (Kris: "we need to have a longer cool-down for it" → card: 0.75 s added to the 1.1 s)
+  DIST:3, T:0.26, IFR:0.55, PINS:3, NPC:'tc_roll', NAME:'Tumbler Pia',
   ps:function(){ var ws=game&&game.scene&&game.scene.getScene('World'); return ws&&ws.playerState; },
   can:function(ps){ return !!(ps&&ps.canRoll); },
   // the roll itself

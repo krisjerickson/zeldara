@@ -2608,7 +2608,8 @@ class WorldScene extends Phaser.Scene{
       var b=this.buildings[i];
       var doorCX=b.worldX+Math.floor(b.w/2)*TILE+TILE/2;
       var doorCY=b.worldY+(b.h-1)*TILE+TILE/2;
-      if(Math.hypot(px-doorCX,py-doorCY)<TILE*2){nearBuilding=b;break;}
+      // round 46 (Kris: "you should only be able to enter the building when you approach from the front"): standing at the door, on its outside
+      if(Math.abs(px-doorCX)<TILE*1.4&&py>doorCY-6&&py<doorCY+TILE*2){nearBuilding=b;break;}
     }
     // Rescued craftsmen in the village
     if(!nearBuilding&&this._villageNPCs){

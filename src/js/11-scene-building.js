@@ -143,11 +143,15 @@ class BuildingScene extends Phaser.Scene{
   _rest(){ if(this._resting)return; var self=this, ps=this.worldScene.playerState, m=this._imap, B=m.bed||{x:this.npcX-LT,y:this.npcY-LT,w:2*LT,h:2*LT}, who=_heroWho(this)==='f'?'f':'m';
     if(this._bedIms&&this._bedIms.length){ var bb=null; this._bedIms.forEach(function(im){ var r=im.getBounds(); if(!bb||r.width*r.height>bb.width*bb.height)bb=r; }); if(bb&&bb.width>8)B={x:bb.x,y:bb.y,w:bb.width,h:bb.height}; }      // the painted bed's own outline
     this._resting=true; if(this.interactPrompt)this.interactPrompt.setVisible(false);
-    var cx=B.x+B.w/2, foot=B.y+B.h-2, A=typeof ZWE!=='undefined'?ZWE.animTex(this,'an_sleep_'+who):null, W=typeof ZWE!=='undefined'?ZWE.animTex(this,'an_wake_'+who):null, parts=[], hx=this.bx, hy=this.by;
+    // round 46 (Kris: "When you sleep, your hero still shows up, so there's a double of you … The bed and yourself get really large when sleeping"):
+    // the hero leaves the room while the sleeping picture shows, and that picture is sized to the bed it replaces (its width), not stretched taller.
+    // The repainted frames (wave 49, an_sleep2_* / an_wake2_*, drawn to the house bed's own size) are used when they are in.
+    var at=function(id){ return typeof ZWE!=='undefined'?ZWE.animTex(self,id):null; };
+    var cx=B.x+B.w/2, foot=B.y+B.h-2, A=at('an_sleep2_'+who)||at('an_sleep_'+who), W=at('an_wake2_'+who)||at('an_wake_'+who), parts=[], hx=this.bx, hy=this.by;
     var ov=this.add.rectangle(0,0,m.w*LT,m.h*LT,0x03040c,0).setOrigin(0,0).setDepth(9150), L0=this._lightIms.map(function(l){ return l.alpha; });
     this.tweens.add({targets:ov,fillAlpha:0.8,duration:900,delay:500,ease:'Sine.inOut'}); this._lightIms.forEach(function(l){ self.tweens.killTweensOf(l); self.tweens.add({targets:l,alpha:l.alpha*0.12,duration:900,delay:500}); });
     if(A){ var bw=B.w+10, sc=A.scale*bw/Math.max(1,A.h*1.1); this._bedIms.forEach(function(im){ im.setVisible(false); });
-      var sl=this.add.image(cx,foot,A.key,'0').setOrigin(A.ox,A.oy).setScale(A.scale*(B.h+30)/A.h).setDepth(foot); parts.push(sl); var fi=0; this._sleepEv=this.time.addEvent({delay:420,loop:true,callback:function(){ fi=(fi+1)%A.n; sl.setFrame(String(fi)); }}); }
+      var aw=Math.max(1,A.w||A.h*0.62), sl=this.add.image(cx,foot,A.key,'0').setOrigin(A.ox,A.oy).setScale(A.scale*B.w/aw).setDepth(foot); parts.push(sl); this.bCont.setVisible(false); var fi=0; this._sleepEv=this.time.addEvent({delay:420,loop:true,callback:function(){ fi=(fi+1)%A.n; sl.setFrame(String(fi)); }}); }
     else { var bd=Math.max.apply(null,[foot].concat(this._bedIms.map(function(im){ return im.depth; }))); this.bCont.setPosition(cx,B.y+B.h*0.74).setDepth(bd+0.5); try{ if(this.bSprite&&this.bSprite.setTexture&&this.textures.exists('hero_front_0'))this.bSprite.setTexture(_heroKey(this,'hero_front_0')); }catch(e){}      // facing out of the bed
       var q=this.add.graphics().setDepth(bd+1), col=hexNum((m.theme&&m.theme.rug)||'#4a6aa8'), qy=B.y+B.h*0.4, qw=B.w*0.74, qh=B.h*0.44; q.fillStyle(0x1a1420,1); q.fillRoundedRect(cx-qw/2-1,qy-1,qw+2,qh+2,6); q.fillStyle(col,1); q.fillRoundedRect(cx-qw/2,qy,qw,qh,6);
       q.fillStyle(0xffffff,0.16); for(var yy=qy+4;yy<qy+qh-4;yy+=9)for(var xx=cx-qw/2+4+((yy/9|0)%2)*9;xx<cx+qw/2-6;xx+=18)q.fillRect(xx,yy,9,9); parts.push(q);

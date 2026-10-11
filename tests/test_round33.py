@@ -17,9 +17,9 @@ with game(painted=True) as g:
     check('Every item in the game has its own icon on order (%d icons in all)' % len(ids), r == [] and len(ids) >= 300, r[:8])
     # buildings
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), L=_vbBlockRects(ws.wd), p=ws.wd.props.filter(function(q){return q.prop==='vbuild'&&q.o.core==='tavern';})[0], foot=(p.y+p.h)*32, cx=(p.x+p.w/2)*32, r=L.filter(function(q){ return Math.abs((q[0]+q[2])/2-cx)<14&&Math.abs(q[3]-foot)<6; })[0];
-      ws.player.x=cx; ws.player.y=foot+40; var o={n:L.length,wider:r[0]<p.x*32&&r[2]>(p.x+p.w)*32,side:ws._canGo(r[0]+3,foot-20),beside:ws._canGo(r[0]-18,foot-20),door:ws._canGo(cx,foot+14),behind:ws._canGo(cx,r[1]+12),above:ws._canGo(cx,r[1]-10),roof:ws._canGo(cx,foot-2*32-14)};
+      ws.player.x=cx; ws.player.y=foot+40; var o={n:L.length,wider:r[0]<p.x*32&&r[2]>(p.x+p.w)*32,side:ws._canGo(r[0]+3,foot-20),beside:ws._canGo(r[0]-18,foot-20),door:ws._canGo(cx,foot+14),behind:ws._canGo(cx,r[1]+12),above:ws._canGo(cx,r[1]-10),roof:ws._canGo(cx,foot-2*32-14),tall:foot-r[1]>=2*32};      // round 46: about 60% of the building is solid
       ws.player.x=cx; ws.player.y=foot-30; o.out=ws._canGo(cx,foot-26); ws.player.x=cx; ws.player.y=foot+40; ZScn.off=true; o.off=_vbBlockRects(ws.wd).length; ZScn.off=false; return o; })()""")
-    check('A painted building is solid along its base (round 45: you walk behind it, the hero outlined through the roof); the door and the ground beside it stay free', r['n'] >= 10 and not r['side'] and r['beside'] and r['door'] and not r['behind'] and r['roof'], r)
+    check('A painted building is solid over its lower 60% (round 46: you walk behind only the roof, the hidden part of the hero outlined); the door and the ground beside it stay free', r['n'] >= 10 and not r['side'] and r['beside'] and r['door'] and not r['behind'] and r['tall'], r)
     check('A hero already standing inside (an old save) can walk out; with painted scenery off there are no such edges', r['out'] and r['off'] == 0, r)
     # sandbox
     r = g.js("({god:SITE_LAB.opts.god,ps:game.scene.getScene('World').playerState.godMode})")

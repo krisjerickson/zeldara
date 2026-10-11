@@ -79,8 +79,11 @@ function _vbPaintedId(Zs,o,w){ return (o.pid&&Zs.has(o.pid))?o.pid:(VB_PAINTED[o
 // about a quarter smaller (never wider than 4 tiles' worth), the shops and halls about 15 % smaller. w = footprint width in pixels.
 function _vbPicW(Zs,o,w){ return o&&o.core?(w+8)*Zs.KB*0.92:(Math.min(w,LT*4)+4)*Zs.KB*0.86; }
 var VB_BAND=1.6;      // round 45: only the bottom of a building (its walls, VB_BAND tiles deep) stops the hero; he walks behind the rest, under the roof
+// round 46 (Kris: "you can go too far forward into the building … only about the last 30% of the building you can't move on. This should be closer
+// to 60%, so it only looks like you can go behind the roof portion"): the solid part is the bottom 60 % of the painted building's height
+var VB_FRAC=0.6;
 function _vbBlockRects(wd){ var Zs=_scn(); if(!Zs||!wd||!wd.props)return []; if(wd._vbR&&wd._vbRFor===wd.props&&wd._vbRK===Zs.KB)return wd._vbR; var L=[];
-  wd.props.forEach(function(p){ if(p.prop!=='vbuild')return; var w=p.w*LT, id=_vbPaintedId(Zs,p.o||{},w); if(!id)return; var Z=Zs.size(id,0,{w:_vbPicW(Zs,p.o||{},w)}), cx=(p.x+p.w/2)*LT, foot=(p.y+p.h)*LT, hw=Math.min(Z.w*0.42,w/2+6); L.push([cx-hw,foot-LT*VB_BAND,cx+hw,foot-2]); });
+  wd.props.forEach(function(p){ if(p.prop!=='vbuild')return; var w=p.w*LT, id=_vbPaintedId(Zs,p.o||{},w); if(!id)return; var Z=Zs.size(id,0,{w:_vbPicW(Zs,p.o||{},w)}), cx=(p.x+p.w/2)*LT, foot=(p.y+p.h)*LT, hw=Math.min(Z.w*0.42,w/2+6); L.push([cx-hw,foot-Math.max(LT*VB_BAND,Z.h*VB_FRAC),cx+hw,foot-2]); });
   wd._vbR=L; wd._vbRFor=wd.props; wd._vbRK=Zs.KB; return L; }
 function _vbBlocked(wd,x,y,fromX,fromY){ var L=_vbBlockRects(wd); for(var i=0;i<L.length;i++){ var r=L[i]; if(x>r[0]-7&&x<r[2]+7&&y>r[1]&&y<r[3]+5){ if(fromX>r[0]-7&&fromX<r[2]+7&&fromY>r[1]&&fromY<r[3]+5)continue; return true; } } return false; }      // a hero already inside (an old save) may walk out
 // a plain house by its drawn style and width (the wider picture from 5 tiles)

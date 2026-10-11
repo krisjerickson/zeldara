@@ -6,6 +6,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 var WR_DEPTH=function(y){ return 10+y/100000; };
 var WR_LIGHT_D=10.9;
+var WR_PARK=14;      // round 46: how many off-screen chunks stay parked on the GPU (about 4 MB each)
 function WR_CULL(scene){ var cam=scene.cameras.main, v=cam.worldView, id=cam.id, mx=160, x0=v.x-mx, x1=v.right+mx, y0=v.y-mx, y1=v.bottom+mx*1.8, L=scene.children.list, n=0;
   for(var i=0;i<L.length;i++){ var o=L[i], out; if(o.scrollFactorX!==1||o.scrollFactorY!==1||o.type==='Graphics'||o.type==='ParticleEmitter'||o.type==='Layer'||o._noCull)continue;
     if(o.type==='Container'){ out=o.x<x0-160||o.x>x1+160||o.y<y0-160||o.y>y1+160; }
@@ -23,7 +24,7 @@ Object.assign(WorldScene.prototype,{
      ['leaf',10,function(x){ x.fillStyle='#fff'; x.beginPath(); x.ellipse(5,3,5,2.2,0.4,0,Math.PI*2); x.fill(); }],
      ['zring',32,function(x){ x.strokeStyle='rgba(235,248,255,1)'; x.lineWidth=2; x.beginPath(); x.ellipse(16,8,14,6.5,0,0,Math.PI*2); x.stroke(); }]].forEach(function(q){      // zring: round 40 rain rings on the water
       if(self.textures.exists(q[0]))return; var c=mkCanvas(q[1],q[0]==='leaf'?6:q[0]==='zring'?16:q[1]); q[2](c.getContext('2d')); self.textures.addCanvas(q[0],c); });
-    this.events.once('shutdown',function(){ self._wr.chunks.forEach(function(ch){ self._wrUnmount(ch); }); self._wr.chunks.clear(); });
+    this.events.once('shutdown',function(){ self._wr.chunks.forEach(function(ch){ self._wrUnmount(ch); }); self._wr.chunks.clear(); if(self._wr.parked){ self._wr.parked.forEach(function(ch){ self._wrUnmount(ch); }); self._wr.parked.clear(); } });
   },
   // Keys of chunks the camera needs (visible first), plus a one-chunk halo
   _wrNeeded(){
@@ -42,7 +43,11 @@ Object.assign(WorldScene.prototype,{
     if(!this._wr)this._wrInit();
     var W=this._wr, self=this, need=this._wrNeeded(), keep={};
     var rdy={}; (W.ready||[]).forEach(function(r){ rdy[r.key]=1; });
-    need.forEach(function(n){ keep[n.key]=1; if(!W.chunks.has(n.key)&&!W.jobs.has(n.key)&&!rdy[n.key])W.jobs.set(n.key,{n:n,job:wpChunkJob(self.wd,n.cx,n.cy)}); });
+    // round 46 (lag): a chunk that went off-screen is parked (hidden, its pictures kept on the GPU) instead of thrown away, so walking back
+    // shows it at once instead of painting it again — repainting the dense village chunks on every return was a long frame each time
+    W.parked=W.parked||new Map();
+    need.forEach(function(n){ keep[n.key]=1; if(!W.chunks.has(n.key)&&W.parked.has(n.key)&&!W.jobs.has(n.key)){ var pc=W.parked.get(n.key); W.parked.delete(n.key); self._wrShow(pc,true); W.chunks.set(n.key,pc); }
+      if(!W.chunks.has(n.key)&&!W.jobs.has(n.key)&&!rdy[n.key])W.jobs.set(n.key,{n:n,job:wpChunkJob(self.wd,n.cx,n.cy)}); });
     // run paint jobs: visible chunks first; more time while something visible is missing
     var missingVis=need.some(function(n){ return n.vis&&!W.chunks.has(n.key)&&!rdy[n.key]; });
     var budget=sync?1e9:(missingVis?14:6), t0=performance.now(), PF=typeof ZPERF!=='undefined'&&ZPERF.on;
@@ -60,7 +65,8 @@ Object.assign(WorldScene.prototype,{
     // drop far chunks (and stale jobs)
     W.jobs.forEach(function(J,k){ if(!keep[k]&&!J.refresh)W.jobs.delete(k); });
     W.chunks.forEach(function(ch,k){ if(keep[k])return; var p=k.split('_'), cx=+p[0], cy=+p[1], cam=self.cameras.main, dw=cam.width/cam.zoom, dh=cam.height/cam.zoom, v={x:cam.scrollX+(cam.width-dw)/2,y:cam.scrollY+(cam.height-dh)/2,width:dw,height:dh}, cs=WCH*TILE;
-      if(cx*cs>v.x+v.width+cs*1.3||(cx+1)*cs<v.x-cs*1.3||cy*cs>v.y+v.height+cs*1.3||(cy+1)*cs<v.y-cs*1.3){ self._wrUnmount(ch); W.chunks.delete(k); } });
+      if(cx*cs>v.x+v.width+cs*1.3||(cx+1)*cs<v.x-cs*1.3||cy*cs>v.y+v.height+cs*1.3||(cy+1)*cs<v.y-cs*1.3){ W.chunks.delete(k); self._wrShow(ch,false); ch._pt=Date.now(); W.parked.set(k,ch);
+        if(W.parked.size>WR_PARK){ var oldK=null, oldT=1e18; W.parked.forEach(function(c2,k2){ if(c2._pt<oldT){ oldT=c2._pt; oldK=k2; } }); if(oldK!==null){ self._wrUnmount(W.parked.get(oldK)); W.parked.delete(oldK); } } } });
     // runes near the hero brighten
     if(this.player){ var hx=this.player.x, hy=this.player.y, tt=(this._wrT=(this._wrT||0)+0.016);
       W.chunks.forEach(function(ch){ ch.react.forEach(function(o,i){ var L=o._base; if(o._flicker&&!L.react){ o.setAlpha(L.a*0.8*(1-o._flicker*0.5+o._flicker*0.5*Math.sin(tt*11+i*1.7)*Math.sin(tt*7.3+i))*(1+0.5*(self._night||0))); return; } var near=Math.max(0,1-Math.hypot(hx-o.x,hy-o.y)/150);
@@ -68,6 +74,7 @@ Object.assign(WorldScene.prototype,{
   },
   _refreshChunkAt(tx,ty){
     if(!this._wr)return; var cx=Math.floor(tx/WCH), cy=Math.floor(ty/WCH), key=cx+'_'+cy;
+    if(this._wr.parked&&this._wr.parked.has(key)){ this._wrUnmount(this._wr.parked.get(key)); this._wr.parked.delete(key); }      // round 46: a parked copy is out of date
     this._wr.jobs.set(key,{n:{key:key,cx:cx,cy:cy},job:wpChunkJob(this.wd,cx,cy),refresh:true});
   },
   _createChunk(cx,cy){ this._refreshChunkAt(cx*WCH,cy*WCH); },
@@ -150,6 +157,8 @@ Object.assign(WorldScene.prototype,{
       frequency:p.freq||120, quantity:p.qty||1, blendMode:p.blend===false?'NORMAL':'ADD', rotate:p.rotate||0, gravityY:p.gravity||0 };
     var e=this.add.particles(a.x,a.y,p.tex||'dot',cfg); e.setDepth(p.depth!==undefined&&p.depth>=6000?WR_DEPTH(a.y+a.h)+0.6:WR_DEPTH(a.y+a.h)); return e;
   },
+  // round 46: hide / show a parked chunk (each object keeps the visibility it had)
+  _wrShow(ch,on){ ch._off=!on; ch.objs.forEach(function(o){ if(!o||!o.scene)return; if(!on){ o._wrPv=o._zv!==undefined?o._zv:o.visible; o._zv=undefined; o.setVisible(false); } else { o.setVisible(o._wrPv!==false); o._wrPv=undefined; } }); },
   _wrUnmount(ch){
     var self=this; ch.objs.forEach(function(o){ self.tweens.killTweensOf(o); o.destroy(); });
     ch.keys.forEach(function(k){ if(self.textures.exists(k))self.textures.remove(k); });

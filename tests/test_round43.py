@@ -53,7 +53,7 @@ with game(new=True, painted=True, query='?scenery=fake') as g:
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), wd=ws.wd, j=wpChunkJob(wd,21,16), n=0; while(!j.step(30)&&n<4000){ n++; await new Promise(r=>setTimeout(r,5)); } var o=j.out, KT=_wpKindTables(), far=0, all=0;
       var near=function(x,y){ var tx=Math.floor(x/TILE), ty=Math.floor(y/TILE); for(var dy=-2;dy<=2;dy++)for(var dx=-2;dx<=2;dx++){ var a=wd.kind[(ty+dy)*WORLD_W+tx+dx], b=wd.kind[ty*WORLD_W+tx]; if(a!==b)return true; } return false; };
       (o.live||[]).map(function(L){ return [L.x,L.y]; }).concat(o.sprites.filter(function(s){ return s.zed; }).map(function(s){ return [s.x,s.y-8]; })).forEach(function(p){ all++; if(!near(p[0],p[1]))far++; }); return {all:all,far:far}; })()""")
-    check('Features also stand in the open ground, away from any edge (%d of %d in the lake chunk)' % (r['far'], r['all']), r['far'] >= 5, r)
+    check('Features also stand in the open ground, away from any edge (%d of %d in the lake chunk)' % (r['far'], r['all']), r['far'] >= 2, r)      # round 46: pieces cut to about a third, kept mostly at the edges
     # the settings
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), wd=ws.wd, L0=JSON.parse(JSON.stringify(ZWE.LOOK)), run=async function(look){ Object.assign(ZWE.LOOK,L0,look); var j=wpChunkJob(wd,21,18), n=0; while(!j.step(30)&&n<4000){ n++; await new Promise(r=>setTimeout(r,5)); }
         var o=j.out, ids={}; (o.live||[]).concat(o.sprites.filter(function(s){ return s.zed; }).map(function(s){ return {id:s.zed}; })).forEach(function(q){ ids[q.id]=(ids[q.id]||0)+1; }); return {n:Object.keys(ids).reduce(function(a,k){ return a+ids[k]; },0), kinds:Object.keys(ids).length, live:(o.live||[]).length}; };
@@ -87,8 +87,8 @@ with sync_playwright() as p:
       var picked=['still','gentle','breezy'].filter(function(o){ return LBR.picked('tpieces','look_sway_'+o); }); document.querySelector('.br-card[data-id="look_sway_still"] .br-pick').click();
       var rv={}; TPLOOK.ROWS.forEach(function(R){ rv[R[0]]=R[2].filter(function(o){ return o[4]; })[0][3]; });
       return {cards:cards.length, rec:rec, drawn:px>50, picked:picked, places:document.querySelectorAll('.tl-pl').length, rv:rv}; }""")
-    check('Lab: six rows of options (%d moving previews, one recommended per row = the game now), one pick per row, six places to preview' % r['cards'],
-          r['cards'] == 19 and r['rec'] == 6 and r['rv'] == GAME_LOOK and r['drawn'] and r['picked'] == ['still'] and r['places'] == 6 and errs == [], [r, errs[:3]])
+    check('Lab: six rows of options (%d moving previews, one recommended per row; round 46 cut the game density below these rows), one pick per row, six places to preview' % r['cards'],
+          r['cards'] == 19 and r['rec'] == 6 and r['drawn'] and r['picked'] == ['still'] and r['places'] == 6 and errs == [], [r, errs[:3]])
     b.close()
 
 print('\n%d / %d passed' % (sum(res), len(res)))

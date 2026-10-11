@@ -57,13 +57,18 @@ var ZWE={
         if(any){ var mc=mkCanvas(SW,SW), mx=mc.getContext('2d'), im=mx.createImageData(SW,SW), dd=im.data; for(i=0;i<SW*SW;i++)if(KT.land[kb[i]]===2)dd[i*4+3]=255; mx.putImageData(im,0,0);
           var GW=D.GW, gc=mkCanvas(GW*LT,GW*LT), gg=gc.getContext('2d'); gg.fillStyle=gg.createPattern(ZWE.grainTile(),'repeat'); gg.save(); gg.translate(-((D.tx0*LT)%128),-((D.ty0*LT)%128)); gg.fillRect(0,0,GW*LT+256,GW*LT+256); gg.restore();
           gg.globalCompositeOperation='destination-in'; gg.imageSmoothingEnabled=true; gg.drawImage(mc,0,0,GW*LT,GW*LT); ctx.drawImage(gc,0,0); } }
-      ZWE._cells(D,out,cx,cy,MG,KL); return false; }
+      st.step=0.5; return false; }
+    if(st.step===0.5){ if(ZWE._cells(D,out,cx,cy,MG,KL))st.step=1; return false; }      // round 46 (lag): the grain and the moving cells in separate steps
     if(st.step===1){ if(!ZWE.motion||!st.flip){ st.step=2; return true; } var F=st.flip, k1=Math.min(ZWE.NF,F.k+1); /* round 44 (lag): one flipbook frame a step */ for(;F.k<k1;F.k++)ZWE._frame(D,F,F.k); if(F.k>=ZWE.NF){ F.g.putImageData(F.im,0,0); out.flip={canvas:F.cv,nf:ZWE.NF,L:F.L,T:ZWE.T,bb:F.bb}; st.step=2; return true; } return false; }
     return true; },
   // where things move (inner chunk only, world px) and whether this chunk needs a flipbook
   _cells:function(D,out,cx,cy,MG,KL){ var KT=D.KT||WP_KT, S=D.S, SW=D.SW, kb=D.kb, dist=D.dist, ek=D.ek, a0=MG*S, a1=SW-MG*S, sp=LT/S, ox=D.tx0*LT, oy=D.ty0*LT;
-    var C={medge:[],rings:[],spray:[],fog:[],mist:[],glitter:[],embers:[],wisps:[],leaves:[],wet:[],edge:[],deep:[],bank:[],air:[],meadow:[]}, needFlip=false, H=ZWE._hash, crk=null, N=_wpNoise(), wantCrk=ZWE.fx('lava','cracks');
-    for(var y=a0;y<a1;y++)for(var x=a0;x<a1;x++){ var i=y*SW+x, k=kb[i], cl=KT.cls[k], e=ek[i], dl=dist[i]===255?99:dist[i]/8*16/S, h=H(x+D.tx0*S,y+D.ty0*S,17), X=ox+(x+0.5)*sp, Y=oy+(y+0.5)*sp;
+    // round 46 (lag): resumable — a slice of rows per call (the whole scan was one long frame); returns true when done
+    var Z=D._zc||(D._zc={y:a0,ly:0,C:{medge:[],rings:[],spray:[],fog:[],mist:[],glitter:[],embers:[],wisps:[],leaves:[],wet:[],edge:[],deep:[],bank:[],air:[],meadow:[]},needFlip:false,crk:null,stage:0});
+    var C=Z.C, needFlip=Z.needFlip, H=ZWE._hash, crk=Z.crk, N=_wpNoise(), wantCrk=ZWE.fx('lava','cracks');
+    if(Z.stage===2)return ZWE._flipRows(D,Z);
+    if(Z.stage===0){ var yEnd=Math.min(a1,Z.y+40);
+    for(var y=Z.y;y<yEnd;y++)for(var x=a0;x<a1;x++){ var i=y*SW+x, k=kb[i], cl=KT.cls[k], e=ek[i], dl=dist[i]===255?99:dist[i]/8*16/S, h=H(x+D.tx0*S,y+D.ty0*S,17), X=ox+(x+0.5)*sp, Y=oy+(y+0.5)*sp;
       if(cl===1||cl===3){ if(dl<16&&!KT.liquid[e])needFlip=true; if(dl>3&&h<0.02)(cl===1?C.rings:C.fog).push([X,Y]); if(cl===3&&h<0.004)C.rings.push([X,Y]); if(cl===3&&dl>2&&h>0.985)C.wisps.push([X,Y]); }
       else if(cl===2){ if(dl<24&&!KT.liquid[e])needFlip=true; if(dl<2.5&&!KT.liquid[e]&&h<0.25)C.spray.push([X,Y]); }
       else if(cl===4){ if(h<0.03)C.embers.push([X,Y]); }
@@ -77,6 +82,7 @@ var ZWE={
       var lk=KT.land[k], h2=H(x+D.tx0*S,y+D.ty0*S,29);
       if(lk===2&&KT.cls[e]===2&&dl<5&&h2<0.05)C.wet.push([X,Y]); if((cl===1||cl===3)&&!KT.liquid[e]&&dl<8&&h2<0.03)C.edge.push([X,Y]); if(cl===1&&dl>4&&h2<0.01)C.deep.push([X,Y]);
       if((lk===4||lk===1)&&KT.cls[e]===3&&dl<3&&h2<0.05)C.bank.push([X,Y]); if(h2>0.9995)C.air.push([X,Y]); if(cl===2)C._sea=1; if(KT.wall[k])C._cliff=1; if(cl===3&&!KT.liquid[e]&&dl<8&&h2<0.03)C.medge.push([X,Y]); if(lk===1&&KT.cls[e]===1&&dl<14&&h2<0.01)C.meadow.push([X,Y]); }
+    Z.y=yEnd; Z.needFlip=needFlip; Z.crk=crk; if(yEnd<a1)return false; Z.stage=1; return false; }
     var cap=function(L,n){ if(L.length<=n)return L; var o=[], st=L.length/n; for(var q=0;q<n;q++)o.push(L[Math.floor(q*st)]); return o; };
     var F={}; if(ZWE.fx('lake','rings')&&C.rings.length)F.rings=cap(C.rings,400); if(ZWE.fx('sea','spray')&&C.spray.length)F.spray=cap(C.spray,400); if(ZWE.fx('marsh','fog')&&C.fog.length>20)F.fog=cap(C.fog,300);
     if(ZWE.fx('cliff','mist')&&C.mist.length>8)F.mist=cap(C.mist,300); if(ZWE.fx('snow','glitter')&&C.glitter.length)F.glitter=cap(C.glitter,500); if(ZWE.fx('lava','embers')&&C.embers.length)F.embers=cap(C.embers,300);
@@ -85,15 +91,20 @@ var ZWE={
     Object.keys(CR).forEach(function(f){ var q=CR[f]; if((f==='gulls'&&!C._sea)||(f==='birds'&&!C._cliff))return; if((ZWE.fx(q[0],f)||(f==='dragonflies'&&ZWE.fx('marsh',f)))&&C[q[1]].length)F[f]=cap(C[q[1]],200); }); if(ZWE.fx('cliff','leaves')&&C.leaves.length>6)F.leaves=cap(C.leaves,200);
     out.zfx=Object.keys(F).length?F:null;
     if(crk){ crk.getContext('2d').putImageData(crk._im,0,0); delete crk._im; out.cracks=crk; }
-    if(needFlip&&ZWE.motion&&(ZWE.fx('lake','lap')||ZWE.fx('sea','waves')||ZWE.fx('marsh','lap'))){ var L=WCH*S/2, cv=mkCanvas(L*ZWE.NF,L), g=cv.getContext('2d'), im=g.createImageData(L*ZWE.NF,L), N=_wpNoise(), pn=new Float32Array(L*L), kind=new Uint8Array(L*L), dd=new Float32Array(L*L);
-      var n1=new Float32Array(L*L), n2=new Float32Array(L*L), foam=ZWE.fx('sea','foamdrift');
-      for(var ly=0;ly<L;ly++)for(var lx=0;lx<L;lx++){ var sx=a0+lx*2, sy=a0+ly*2, si=sy*SW+sx, kk=kb[si], cc=KT.cls[kk], ee=ek[si], dl2=dist[si]===255?99:dist[si]/8*16/S, li=ly*L+lx, wx=D.tx0+sx/S, wy=D.ty0+sy/S;
+    if(needFlip&&ZWE.motion&&(ZWE.fx('lake','lap')||ZWE.fx('sea','waves')||ZWE.fx('marsh','lap'))){ var L=WCH*S/2;
+      Z.F={L:L,pn:new Float32Array(L*L),kind:new Uint8Array(L*L),dd:new Float32Array(L*L),n1:new Float32Array(L*L),n2:new Float32Array(L*L),foam:ZWE.fx('sea','foamdrift'),a0:a0}; Z.stage=2; return false; }
+    return true; },
+  // round 46: the moving-water set-up, a slice of rows per call
+  _flipRows:function(D,Z){ var KT=D.KT||WP_KT, S=D.S, SW=D.SW, kb=D.kb, dist=D.dist, ek=D.ek, N=_wpNoise(), Q=Z.F, L=Q.L, a0=Q.a0, pn=Q.pn, kind=Q.kind, dd=Q.dd, n1=Q.n1, n2=Q.n2, foam=Q.foam, lyEnd=Math.min(L,Z.ly+48);
+      for(var ly=Z.ly;ly<lyEnd;ly++)for(var lx=0;lx<L;lx++){ var sx=a0+lx*2, sy=a0+ly*2, si=sy*SW+sx, kk=kb[si], cc=KT.cls[kk], ee=ek[si], dl2=dist[si]===255?99:dist[si]/8*16/S, li=ly*L+lx, wx=D.tx0+sx/S, wy=D.ty0+sy/S;
         pn[li]=N.c(wx*0.45,wy*0.45)*6.3; dd[li]=dl2; if(foam&&cc===2&&dl2<26){ n1[li]=N.c(wx*0.38,wy*0.38)*0.7+N.v(wx*1.2,wy*1.2)*0.3; n2[li]=N.c(wx*0.38+17,wy*0.38+5)*0.7+N.v(wx*1.2+9,wy*1.2)*0.3; }
         if((cc===1&&ZWE.fx('lake','lap'))||(cc===3&&ZWE.fx('marsh','lap'))){ if(!KT.liquid[ee]&&dl2<6)kind[li]=1; }
         else if(cc===2&&ZWE.fx('sea','waves')){ if(!KT.liquid[ee]&&dl2<24)kind[li]=2; }
         else if(cc===0&&!KT.wall[kk]&&KT.liquid[ee]&&KT.cls[ee]!==4&&dl2<12)kind[li]=KT.cls[ee]===2?4:3; }      // 3: wet ground beside lapping water, 4: beside the sea
+      Z.ly=lyEnd; if(lyEnd<L)return false;
+      var cv=mkCanvas(L*ZWE.NF,L), g=cv.getContext('2d'), im=g.createImageData(L*ZWE.NF,L);
       var bx0=L, by0=L, bx1=-1, by1=-1; for(var q=0;q<L*L;q++){ if(!kind[q])continue; var qx=q%L, qy=(q/L)|0; if(qx<bx0)bx0=qx; if(qx>bx1)bx1=qx; if(qy<by0)by0=qy; if(qy>by1)by1=qy; }      // only the part that moves is mounted (less to draw each frame)
-      if(bx1>=0)D._zwe.flip={k:0,L:L,cv:cv,g:g,im:im,pn:pn,kind:kind,dd:dd,n1:n1,n2:n2,foam:foam,sheen:ZWE.fx('sea','sheen'),bb:[Math.max(0,bx0-2),Math.max(0,by0-2),Math.min(L-1,bx1+2),Math.min(L-1,by1+2)]}; } },
+      if(bx1>=0)D._zwe.flip={k:0,L:L,cv:cv,g:g,im:im,pn:pn,kind:kind,dd:dd,n1:n1,n2:n2,foam:foam,sheen:ZWE.fx('sea','sheen'),bb:[Math.max(0,bx0-2),Math.max(0,by0-2),Math.min(L-1,bx1+2),Math.min(L-1,by1+2)]}; Z.stage=3; return true; },
   // one flipbook frame (k of NF; the loop is T seconds): the Lab's lapping and rolling waves, made to repeat
   _frame:function(D,F,k){ var L=F.L, P=F.im.data, W=L*ZWE.NF, u=k/ZWE.NF, tw=u*Math.PI*2, kind=F.kind, dd=F.dd, pn=F.pn;
     for(var i=0;i<L*L;i++){ var t=kind[i]; if(!t)continue; var d=dd[i], ph=pn[i], R=0, G=0, B=0, A=0;
@@ -120,7 +131,9 @@ var ZWE={
   //     tall ones are depth-sorted, small ones (tufts, flowers) lie under the hero
   //   • everything else — painted flat into the ground (pebbles, shells, duckweed, puddles, ripples, cracked mud…), walked over
   // LOOK: how many, how grouped, how mixed, how varied in size, how much they sway, how many creatures — my defaults; the Lab's Terrain pieces tab offers the rest.
-  LOOK:{dens:0.85,clump:0.7,vary:'mixed',size:0.15,sway:1,crit:1},
+  // round 46 (Kris: "We should reduce the amount of terrain pieces regardless as they are now so many that they are distracting" → card: to about a
+  // third, the edges of water and cliffs favoured): along the edges 0.85 → 0.38, in the open ground 0.21 (inDens), creatures halved.
+  LOOK:{dens:0.38,inDens:0.21,clump:0.7,vary:'mixed',size:0.15,sway:1,crit:0.5},
   LOOKS:{dens:{sparse:0.5,natural:0.85,lush:1.4,wild:2},clump:{even:0,clusters:0.7,groves:1},vary:{one:'one',mixed:'mixed',all:'all'},size:{same:0,some:0.15,lots:0.3},sway:{still:0,gentle:1,breezy:2},crit:{few:0.5,some:1,many:2}},
   TALL:{ed_log_fallen:1,ed_log_mossy:1,ed_log_rotting:1,ed_rock_mossy:1,ed_iris:1,ed_dune_grass:1,ed_reeds:1,ed_cattails:1,ed_reeds_dry:1,ed_snow_pine:1,ed_basalt:1,ed_steam_vent:1,ed_foot_boulder:1,ed_talus_a:1,ed_talus_b:1,
     ed_obsidian:1,ed_sulphur:1,ed_snow_rock:1,ed_shore_rock:1,ed_ice_shards:1,ed_bramble:1,ed_toadstools:1,ed_fern:1,ed_heather:1,ed_ember_rocks:1},
@@ -138,17 +151,19 @@ var ZWE={
     var RS=ZScn.RES, Z=[], l=0, r=0, u=0, dn=0; for(var i=0;i<n;i++){ var z=ZScn.size(base+'_'+(i+1),0); Z.push(z); l=Math.max(l,z.ax); r=Math.max(r,z.w-z.ax); u=Math.max(u,z.ay); dn=Math.max(dn,z.h-z.ay); }
     var W=Math.ceil(l+r)+2, Hh=Math.ceil(u+dn)+2, c=document.createElement('canvas'); c.width=W*RS*n; c.height=Hh*RS; var g=c.getContext('2d'); g.scale(RS,RS);
     for(i=0;i<n;i++)ZScn.draw(g,base+'_'+(i+1),i*W+1+l,1+u,Z[i].h); var t=scene.textures.addCanvas(key,c); for(i=0;i<n;i++)t.add(String(i),0,i*W*RS,0,W*RS,Hh*RS); try{ t.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){}
-    var o={key:key,n:n,ox:(1+l)/W,oy:(1+u)/Hh,h:Z[0].h,fh:Hh,scale:1/RS}; (scene._zan||(scene._zan={}))[key]=o;
+    var o={key:key,n:n,ox:(1+l)/W,oy:(1+u)/Hh,h:Z[0].h,w:Z[0].w,fh:Hh,scale:1/RS}; (scene._zan||(scene._zan={}))[key]=o;
     if(scene.anims&&!scene.anims.exists(key)){ var cf=Object.keys(ZWE.CRITANIM).filter(function(f){ return ZWE.CRITANIM[f]===base; })[0]; try{ scene.anims.create({key:key,frames:scene.anims.generateFrameNames(key,{start:0,end:n-1}),frameRate:(cf&&ZWE.CRITFPS[cf])||ZWE.LOOP[base]||6,repeat:-1}); }catch(e){} }
     return o; },
-  pieces:function(D,ctx,KL,out){ if(!ZWE.pieces||typeof ZEdge==='undefined')return; var KT=D.KT||WP_KT, S=D.S, SW=D.SW, kb=D.kb, dist=D.dist, ek=D.ek, sp=LT/S, H=ZWE._hash, A=(16/S)*(16/S), L=[], LK=ZWE.LOOK, N=_wpNoise(), dens=LK.dens||1, cl=LK.clump||0;
+  pieces:function(D,ctx,KL,out){ if(!ZWE.pieces||typeof ZEdge==='undefined')return; var KT=D.KT||WP_KT, S=D.S, SW=D.SW, kb=D.kb, dist=D.dist, ek=D.ek, sp=LT/S, H=ZWE._hash, A=(16/S)*(16/S), L=[], LK=ZWE.LOOK, N=_wpNoise(), dens=LK.dens||1, dIn=LK.inDens||dens, cl=LK.clump||0;
     // clusters: a slow noise over the world makes groups with open ground between them (same in every chunk)
     var clump=function(wx,wy){ if(!cl)return 1; var n=N.v(wx/S*0.11+31.7,wy/S*0.11+5.3); n=Math.max(0,Math.min(1,(n-0.3)/0.45)); return (1-cl)+cl*2.2*n*n*(3-2*n); };
     var NOIN=ZWE._noIn(KL), IC={};      // round 43: features in the open ground too (Kris: "OK for the terrain features to be in the bulk of the terrain as well")
-    for(var y=2;y<SW-2;y++)for(var x=2;x<SW-2;x++){ var i=y*SW+x, far=dist[i]===255||dist[i]/8*16/S>14;
+    // round 46 (lag): the scan is resumable — 60 rows a call; false = call again
+    var PZ=D._zpc||(D._zpc={y:2,L:[]}); L=PZ.L; var yEnd=Math.min(SW-2,PZ.y+60);
+    for(var y=PZ.y;y<yEnd;y++)for(var x=2;x<SW-2;x++){ var i=y*SW+x, far=dist[i]===255||dist[i]/8*16/S>14;
       if(far){ if((x&3)||(y&3))continue; var k0=kb[i]; if(NOIN[k0]||KT.road[k0]||KT.pat[k0]||KT.wall[k0])continue; var ic=IC[k0]; if(ic===undefined)ic=IC[k0]=ZWE._intC(KT,k0);
-        if(!ic)continue; var wx0=x+Math.round(D.tx0*S), wy0=y+Math.round(D.ty0*S), hi=H(wx0,wy0,31)/A; if(hi>0.05*dens*(1+cl*1.3))continue;
-        var qi=dens*clump(wx0,wy0), toti=0, wi=[]; for(var j0=0;j0<ic.length;j0++){ wi[j0]=ic[j0][3]*ZWE._vary(ic[j0][0],wx0/S,wy0/S,ic)*qi; toti+=wi[j0]; }
+        if(!ic)continue; var wx0=x+Math.round(D.tx0*S), wy0=y+Math.round(D.ty0*S), hi=H(wx0,wy0,31)/A; if(hi>0.05*dIn*(1+cl*1.3))continue;
+        var qi=dIn*clump(wx0,wy0), toti=0, wi=[]; for(var j0=0;j0<ic.length;j0++){ wi[j0]=ic[j0][3]*ZWE._vary(ic[j0][0],wx0/S,wy0/S,ic)*qi; toti+=wi[j0]; }
         if(hi<toti){ var ac0=0; for(j0=0;j0<ic.length;j0++){ ac0+=wi[j0]; if(hi<ac0){ var c0=ic[j0]; if(c0[1]==='piece')L.push([y,x,c0[0],hi*A]); else L.push([y,x,'F',hi*A,c0[0],c0[1],c0[2],1]); break; } } }
         continue; }
       var k=kb[i], e=ek[i], d=dist[i]/8*16/S, wx=x+Math.round(D.tx0*S), wy=y+Math.round(D.ty0*S), h=H(wx,wy,11)/A, lk=KT.land[k], ce=KT.cls[e], le=KT.land[e];
@@ -173,6 +188,7 @@ var ZWE={
       var hf=H(wx,wy,23)/A; if(hf<0.6*dens*(1+cl*1.3)){ var cand=ZWE._featC(KT,kb,SW,x,y,k,e,d,lk,ce,le);
         if(cand){ var q=Q(), tot=0, wt=[], tx=wx/S, ty=wy/S; for(var j=0;j<cand.length;j++){ wt[j]=cand[j][3]*ZWE._vary(cand[j][0],tx,ty,cand)*q; tot+=wt[j]; }
           if(hf<tot){ var acc=0; for(j=0;j<cand.length;j++){ acc+=wt[j]; if(hf<acc){ L.push([y,x,'F',h*A,cand[j][0],cand[j][1],cand[j][2]]); break; } } } } } }
+    PZ.y=yEnd; if(yEnd<SW-2)return false;
     L.sort(function(a,b){ return a[0]-b[0]; });
     var used={}, ox=D.tx0*LT, oy=D.ty0*LT, feats=[], X0=out?(out.cx*WCH-D.tx0)*LT:-1e9, Y0=out?(out.cy*WCH-D.ty0)*LT:-1e9, IW=WCH*LT;      // painted pieces are bigger: keep them apart (on a world grid, so neighbouring chunks agree)
     var mine=function(X,Y){ return X>=X0&&X<X0+IW&&Y>=Y0&&Y<Y0+IW; };
@@ -193,7 +209,7 @@ var ZWE={
       if(ft==='vents'&&out&&mine(X,Y)){ out.zfx=out.zfx||{}; (out.zfx.steam=out.zfx.steam||[]).push([X+ox,Y+oy-14]); }      // steam rises from the vents
       var ids=ZWE.FEATPAINT[ft+(vr?'_'+vr:'')+'@'+pl]||ZWE.FEATPAINT[ft+(vr?'_'+vr:'')]||ZWE.FEATPAINT[ft], id=Z&&ids?Z.pick(ids,r1):null;
       if(id){ var Zs=ZScn.size(id,0); if(Zs&&put(id,X,Y+4,Zs.h*(ZWE.FSIZE[ft]||0.75),H(p[1],p[0],19)))return; }
-      ZEdge._featPiece(ctx,ft,[p[1],p[0],p[3],vr],X,Y,r1,ft==='logs'?1.3:1,pl); }); },
+      ZEdge._featPiece(ctx,ft,[p[1],p[0],p[3],vr],X,Y,r1,ft==='logs'?1.3:1,pl); }); return true; },
   // round 43: the features that may stand in the open ground of a kind (away from any edge) — [[feature, place, variant, rate], …] or null.
   // 'piece' entries are the small edge pieces (tufts, lily pads, drifts). Only what Kris picked (ZWE.PICK). Rates are per sample on a quarter-tile grid.
   INTERIOR:{ land:{1:[['flowers','lake',0,0.0035],['bramble','lake',0,0.0008],['logs','lake','rock',0.0004],['tuft','piece',0,0.006]],2:[['shells','sea',0,0.0015],['sandripples','sea',0,0.0015]],

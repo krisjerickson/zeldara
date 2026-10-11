@@ -324,8 +324,9 @@ function wpChunkJob(wd,cx,cy){
         out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } }); out.particles.forEach(function(P){ if(!P._w&&P.area){ P.area=Object.assign({},P.area,{x:P.area.x+ox,y:P.area.y+oy}); P._w=1; } });
         row+=8; if(row>=GW){ phase=4; } continue; }
       if(phase===4){ // 5. props anchored in this chunk (flat ones paint; tall ones become sprites)
-        if(D.E&&!out._zp){ out._zp=1; try{ ZWE.pieces(D,ctx,KL,out); }catch(e){ WP_ERR['edge pieces: '+e.message]=(WP_ERR['edge pieces: '+e.message]||0)+1; } }      // round 40: pieces along the edges, over the ground's own marks
-        var list=(wd.propsByChunk&&wd.propsByChunk[cx+'_'+cy])||[], fk=_wpFakeC(wd,out,ox,oy);
+        // round 46 (lag): the edge pieces are one step and the props a few per step, so painting a busy village chunk never makes one long frame
+        if(D.E&&!out._zp){ var zpDone=true; try{ zpDone=ZWE.pieces(D,ctx,KL,out)!==false; }catch(e){ WP_ERR['edge pieces: '+e.message]=(WP_ERR['edge pieces: '+e.message]||0)+1; } if(zpDone)out._zp=1; continue; }      // round 40: pieces along the edges, over the ground's own marks
+        var list0=(wd.propsByChunk&&wd.propsByChunk[cx+'_'+cy])||[], fk=_wpFakeC(wd,out,ox,oy), pi0=out._pi||0, list=list0.slice(pi0,pi0+4); out._pi=pi0+4;
         list.forEach(function(p){ if(wd._chopped&&wd._chopped.size&&wd._chopped.has(p.x+'_'+p.y+'_'+p.prop)){ if(typeof _chopStump==='function')_chopStump(ctx,(p.x-tx0+(p.w||1)/2)*LT,(p.y-ty0+(p.h||1))*LT-6,(p.w||1)*LT); return; }      // round 40: a felled tree leaves a stump (10m)
           var Z=p.Z||(p.zi>=0&&p.zi!==255?skins[p.zi].Z:null), fn=WPROP[p.prop]||(Z&&Z.draw&&Z.draw[p.prop]); if(!fn)return;
           fk.R=rngOf(_wpHash(p.x,p.y,11)); var n0=out.sprites.length, nl=out.lights.length;
@@ -334,7 +335,7 @@ function wpChunkJob(wd,cx,cy){
           for(var si=n0;si<out.sprites.length;si++){ var sp=out.sprites[si]; sp.x+=ox; sp.y+=oy; if(sp.depth!==undefined&&sp.depth<7000)sp.depth+=oy; }
           for(var li=nl;li<out.lights.length;li++){ var L=out.lights[li]; L.zi=p.zi; if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } } });
         out.lights.forEach(function(L){ if(!L._w){ L.x+=ox; L.y+=oy; L._w=1; } }); out.particles.forEach(function(P){ if(!P._w&&P.area){ P.area=Object.assign({},P.area,{x:P.area.x+ox,y:P.area.y+oy}); P._w=1; } });
-        phase=5; continue; }
+        if(out._pi>=list0.length){ phase=5; delete out._pi; } continue; }
       if(phase===5){ // 6. lava flow mask + ley lines, then crop the margin
         var lavaS=null; for(var q2=0;q2<kb.length;q2++){ if(KL[kb[q2]].lava){ lavaS=true; break; } }
         var inW=WCH*LT; out.canvas=cv;

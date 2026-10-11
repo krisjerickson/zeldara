@@ -73,9 +73,19 @@ function towerGrow(P,k){ if(!k||k===1)return P; var r=function(v){ return Math.r
   Q.entry=[r(P.entry[0]), r(P.entry[1])];
   Q.stairs=[r(P.stairs[0]+0.5)-(k>1?1:0), r(P.stairs[1]+0.5)-(k>1?1:0)];
   return Q; }
+// round 46 (Kris's Site review of the old layouts kept): h.rooms — every big room is split into two or three with a wall and a door, so a floor has
+// more rooms; h.stairs — the stairs move to the room that is farthest from the entrance (by rooms passed), into its far corner
+function towerHarder(P,h,R){ var Q=JSON.parse(JSON.stringify(P));
+  if(h.rooms){ var add=[], carve=[]; Q.rooms.forEach(function(r){ if(r.shape==='circle'||r.type==='hall'||r.type==='corridor'||r.w*r.h<90)return; var vert=r.w>=r.h, parts=r.w*r.h>200?3:2;
+      for(var k=1;k<parts;k++){ if(vert){ var x=r.x+Math.round(r.w*k/parts); add.push({wall:[x,r.y,1,r.h]}); carve.push([x,r.y+R.i(1,r.h-3),1,2]); } else { var y=r.y+Math.round(r.h*k/parts); add.push({wall:[r.x,y,r.w,1]}); carve.push([r.x+R.i(1,r.w-3),y,2,1]); } } });
+    Q._walls=add.map(function(a){ return a.wall; }); Q.carve=Q.carve.concat(carve); }
+  if(h.stairs){ var ex=Q.entry[0], ey=Q.entry[1], best=null, bd=-1; Q.rooms.forEach(function(r){ if(r.type==='hall'||r.type==='corridor')return; var cx=r.x+r.w/2, cy=r.y+r.h/2, d=Math.abs(cx-ex)+Math.abs(cy-ey); if(d>bd){ bd=d; best=r; } });
+    if(best){ var fx=best.x+(best.x+best.w/2>ex?best.w-2:1), fy=best.y+(best.y+best.h/2>ey?best.h-2:1); Q.stairs=[fx,fy]; } }
+  return Q; }
 function buildTower(S, planId, seed, opts){
   opts=opts||{};
   var R=rngOf(seed*977+planId.length*31), P=towerGrow(towerPlanVariant(TOWER_PLANS[planId],opts,R),opts.grow), pad=2;
+  if(opts.hard)P=towerHarder(P,opts.hard,R);      // round 46
   var W=P.w+pad*2, H=P.h+pad*2, m=newMap(W,H);
   var cell=new Uint8Array(W*H), room=new Int16Array(W*H).fill(-1);
   var at=function(x,y){return (x<0||y<0||x>=W||y>=H)?TB.OUT:cell[y*W+x];};
@@ -89,6 +99,7 @@ function buildTower(S, planId, seed, opts){
       var X=r.x+xx+pad, Y=r.y+yy+pad; set(X,Y,TB.FLOOR); room[Y*W+X]=ri;
     }
   });
+  (P._walls||[]).forEach(function(w){ for(var yy=0;yy<w[3];yy++)for(var xx=0;xx<w[2];xx++){ var X=w[0]+xx+pad,Y=w[1]+yy+pad; if(at(X,Y)===TB.FLOOR){ set(X,Y,TB.WALL); room[Y*W+X]=-1; } } });      // round 46: split rooms
   P.carve.forEach(function(c){ for(var yy=0;yy<c[3];yy++)for(var xx=0;xx<c[2];xx++){ var X=c[0]+xx+pad,Y=c[1]+yy+pad; if(at(X,Y)===TB.WALL)set(X,Y,TB.DOOR); } });
   var ex=P.entry[0]+pad, ey=P.entry[1]+pad; set(ex,ey,TB.DOOR); set(ex+1,ey,TB.DOOR);
   var isOpen=function(x,y){var v=at(x,y);return v===TB.FLOOR||v===TB.DOOR;};

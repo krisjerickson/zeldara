@@ -45,3 +45,21 @@ Kris's F9 readout from the village: 49–60 fps, 335–431 draw calls, 891–102
 - **All glows sit on one layer** (`WR_LIGHT_D`), so they batch.
 
 In the test village scene, 605 of 681 off-screen objects are skipped. Details are in doc 24 §2. Next step: the readout again, then items 4–6 above if it is still below 60 fps.
+
+## Round 46 — "still lots of lag", and the one-second hitch on gardens
+
+Measured headless while walking a fixed loop through the village and out to the lake (per-function timings via a step hook; the profiler only showed "(program)"):
+
+- **The cause of the long hitches** was chunk painting: single steps of 50–140 ms in `ZWE._cells`, `ZWE.after`, `ZWE.pieces` and the props phase, and every chunk was repainted each time the hero walked back into it.
+- **The one-second hitch over gardens** matched the old behind-things outline, which read pixels back from the GPU (`getImageData`) for every picture in front of the hero.
+
+What was done:
+
+| Change | Where | Effect |
+|---|---|---|
+| Terrain pieces cut to about a third (edges kept) | `05d-world-edges.js` `ZWE.LOOK` | fewer objects, less painting |
+| Painting steps made resumable (`_cells`, `pieces`, the water flipbook rows, props 4 per step) | `05d`, `05c` | no step over ~30 ms |
+| Off-screen chunks parked on the GPU (up to 14, ~4 MB each) and shown again | `10c-world-render.js` `WR_PARK` | chunk jobs 46 → 24, spikes 24 → 11, `_updateChunks` time halved |
+| Outline drawn on the GPU (RenderTexture + bitmap mask) | `10o-outline.js` | no pixel read-backs at all |
+
+**Where Kris can help:** walk over a garden and through the village with F9 on and send the readout; if a hitch remains, a Chrome DevTools → Performance recording of those few seconds (the "Main" track shows which function takes the time). Headless timings miss the real GPU upload cost, which only his machine shows.

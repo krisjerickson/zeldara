@@ -1,4 +1,4 @@
-# Scenery — 122 sheets, 1284 objects and textures (13 sheets in the pilot)
+# Scenery — 123 sheets, 1300 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -29,6 +29,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 46 | Icons: round 45 — shadow swords, two-element master-works, rare forging items | 1 | 19 |
 | 47 | Round 45: sky-port flights (backdrops, galleons, wingman, power-ups) and the adventure sites' big set-pieces | 5 | 32 |
 | 48 | Icons: round 45 — the bows and warbows; Tome pictures of regions, arenas and fairy-quest treasures | 5 | 99 |
+| 49 | Round 46: the hero asleep and waking in the home bed, at the bed's own size | 1 | 16 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -1723,6 +1724,44 @@ Row 1 — Hero (the boy) asleep in his bed, sleeping, breathing slowly (about as
 Row 2 — Hero (the girl) asleep in her bed, sleeping, breathing slowly (about as tall as the hero): (1) the same wooden bed with the patchwork quilt and pillow; the girl hero (exactly as in her model sheet) lies on her back in it, head on the pillow, eyes closed, the quilt pulled up to her chest, arms on top of the quilt; (2) the same, her chest and the quilt risen a little as she breathes in; (3) the same, mouth slightly open, a tiny sleep bubble at her nose; (4) the same, the quilt settled back down as she breathes out.
 Row 3 — Hero (the boy) waking up, waking and getting out of bed (about as tall as the hero): (1) the same bed; the boy sits up in it, yawning, one fist rubbing an eye; (2) sitting up, stretching both arms high above his head; (3) sitting on the edge of the bed, quilt thrown back, feet on the floor; (4) the bed empty and tidy, the quilt pulled up, the boy standing beside its foot, rested and smiling.
 Row 4 — Hero (the girl) waking up, waking and getting out of bed (about as tall as the hero): (1) the same bed; the girl sits up in it, yawning, one fist rubbing an eye; (2) sitting up, stretching both arms high above her head; (3) sitting on the edge of the bed, quilt thrown back, feet on the floor; (4) the bed empty and tidy, the quilt pulled up, the girl standing beside its foot, rested and smiling.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_sleep_2
+
+Animation frames — the hero asleep in the home bed, and waking up — the bed EXACTLY the size, shape and angle of the bed in its own picture (sc_int_1, "Bed"), in the same spot of every cell, never bigger; the hero at his normal size relative to it · wave 49 · 16 items, 4 × 4 · 1024x1536
+
+- `an_sleep2_m_1` Hero (the boy) asleep in the home bed — frame 1 — 44 × 72 px
+- `an_sleep2_m_2` Hero (the boy) asleep in the home bed — frame 2 — 44 × 72 px
+- `an_sleep2_m_3` Hero (the boy) asleep in the home bed — frame 3 — 44 × 72 px
+- `an_sleep2_m_4` Hero (the boy) asleep in the home bed — frame 4 — 44 × 72 px
+- `an_sleep2_f_1` Hero (the girl) asleep in the home bed — frame 1 — 44 × 72 px
+- `an_sleep2_f_2` Hero (the girl) asleep in the home bed — frame 2 — 44 × 72 px
+- `an_sleep2_f_3` Hero (the girl) asleep in the home bed — frame 3 — 44 × 72 px
+- `an_sleep2_f_4` Hero (the girl) asleep in the home bed — frame 4 — 44 × 72 px
+- `an_wake2_m_1` Hero (the boy) waking up in the home bed — frame 1 — 44 × 72 px
+- `an_wake2_m_2` Hero (the boy) waking up in the home bed — frame 2 — 44 × 72 px
+- `an_wake2_m_3` Hero (the boy) waking up in the home bed — frame 3 — 44 × 72 px
+- `an_wake2_m_4` Hero (the boy) waking up in the home bed — frame 4 — 44 × 72 px
+- `an_wake2_f_1` Hero (the girl) waking up in the home bed — frame 1 — 44 × 72 px
+- `an_wake2_f_2` Hero (the girl) waking up in the home bed — frame 2 — 44 × 72 px
+- `an_wake2_f_3` Hero (the girl) waking up in the home bed — frame 3 — 44 × 72 px
+- `an_wake2_f_4` Hero (the girl) waking up in the home bed — frame 4 — 44 × 72 px
+
+Attach: style_hero, style_centaur, sc_int_1, hero_m.model, hero_f.model
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames — the hero asleep in the home bed, and waking up — the bed EXACTLY the size, shape and angle of the bed in its own picture (sc_int_1, "Bed"), in the same spot of every cell, never bigger; the hero at his normal size relative to it.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 4 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Hero (the boy) asleep in the home bed, sleeping, breathing slowly (about as tall as the hero): (1) the home bed exactly as in its picture (same frame, quilt, pillow, size and angle); the boy hero, at his normal size, lies on his back in it, head on the pillow, eyes closed, the quilt pulled up to his chest; (2) the same, his chest and the quilt risen a little as he breathes in; (3) the same, mouth slightly open, a tiny sleep bubble at his nose; (4) the same, the quilt settled back down as he breathes out.
+Row 2 — Hero (the girl) asleep in the home bed, sleeping, breathing slowly (about as tall as the hero): (1) the home bed exactly as in its picture (same frame, quilt, pillow, size and angle); the girl hero, at her normal size, lies on her back in it, head on the pillow, eyes closed, the quilt pulled up to her chest; (2) the same, her chest and the quilt risen a little as she breathes in; (3) the same, mouth slightly open, a tiny sleep bubble at her nose; (4) the same, the quilt settled back down as she breathes out.
+Row 3 — Hero (the boy) waking up in the home bed, waking and getting up (about as tall as the hero): (1) the same bed, same size and place; the boy sits up in it, yawning, one fist rubbing an eye; (2) sitting up, stretching both arms high above his head; (3) sitting on the edge of the bed, quilt thrown back, feet on the floor; (4) the bed empty and tidy, the quilt pulled up (the boy has stepped out of the picture).
+Row 4 — Hero (the girl) waking up in the home bed, waking and getting up (about as tall as the hero): (1) the same bed, same size and place; the girl sits up in it, yawning, one fist rubbing an eye; (2) sitting up, stretching both arms high above her head; (3) sitting on the edge of the bed, quilt thrown back, feet on the floor; (4) the bed empty and tidy, the quilt pulled up (the girl has stepped out of the picture).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 No motion lines, no arrows, no numbers.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.

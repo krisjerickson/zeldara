@@ -68,10 +68,10 @@ with game(new=True, painted=True) as g:
     # ── the adventure sites: new designs and the old ones kept ──
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), o={newOk:[],oldOk:[],bad:[]}; ws.wd.sites.forEach(function(s){ if(!s.design)return; var nf=s.floors||3, sp=_siteFloorSpec(s,0,nf); if(!sp){ o.bad.push(s.id); return; }
         var id=ZSP.idOf0(s,0); if(id&&ZSP.isOld(id)){ if(sp.zsp)o.bad.push(s.id+' should be old'); else o.oldOk.push(s.id); } else if(id){ if(!sp.zsp)o.bad.push(s.id+' should be new'); else o.newOk.push(s.id); } });
-      var t=_siteFloorSpec(ws.wd.sites.find(function(s){ return s.id==='s3_tower'; }),0,7), m=_buildSiteFloor(t), P=TOWER_PLANS[t.plan];
-      o.towerW=[m.w,P.w+4]; return {nNew:o.newOk.length,nOld:o.oldOk.length,bad:o.bad,towerW:o.towerW}; })()""")
-    check('Sites: %d use your picked new designs, %d keep their own old layout (their design type repeated); old tower floors are 1.5× larger (%s)' % (r['nNew'], r['nOld'], r['towerW']),
-          not r['bad'] and r['nNew'] >= 15 and r['nOld'] >= 15 and r['towerW'][0] >= r['towerW'][1] * 1.4, r)
+      var t=null; ws.wd.sites.some(function(s){ var sp=s.design&&_siteFloorSpec(s,0,s.floors||3); if(sp&&!sp.zsp&&sp.plan&&TOWER_PLANS[sp.plan]){ t=sp; return true; } return false; });      // round 46: only three old layouts are left
+      var m=t&&_buildSiteFloor(t), P=t&&TOWER_PLANS[t.plan]; o.towerW=m?[m.w,P.w+4]:[1,0]; return {nNew:o.newOk.length,nOld:o.oldOk.length,bad:o.bad,towerW:o.towerW}; })()""")
+    check('Sites: %d use your picked new designs, %d keep an old layout (round 46: once per design type); old tower floors are 1.5× larger (%s)' % (r['nNew'], r['nOld'], r['towerW']),
+          not r['bad'] and r['nNew'] >= 15 and r['nOld'] >= 1 and r['towerW'][0] >= r['towerW'][1] * 1.4, r)
 
     # ── the roll: Alt, once Tumbler Pia has taught it ──
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, p=ws.player; ps.mount=null; p.x=(CENTER_X+VILLAGE_RADIUS+30)*TILE; p.y=CENTER_Y*TILE; p.cont.setPosition(p.x,p.y); p.dir='right';

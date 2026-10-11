@@ -69,7 +69,10 @@ function _siteFloorSpecOld(site, floor, maxFloors){
     var plans=[S.plan].concat(['grand','gallery','rotunda'].filter(function(p){return p!==S.plan;}));
     var plan=plans[(floor+(h>>>5))%3];
     if(S.floorPlans){ var FP=S.floorPlans(maxFloors); plan=FP[Math.min(floor,FP.length-1)]; if(last)plan=FP[FP.length-1]; }
-    return { kind:'tower', style:S, plan:plan, seed:seed, last:last,
+    // round 46 (Kris's Site review): the old layouts kept get his changes — castle_q1_b "stairs need to be more difficult to find and more rooms
+    // needed", Rime Spire "the first stairs need to be harder to find"
+    var id0=typeof ZSP!=='undefined'&&ZSP.idOf0?ZSP.idOf0(site,floor):null, HO=id0&&ZSP.HARD_OLD&&ZSP.HARD_OLD[id0], hard=HO&&(!HO.first||floor===0)?HO:null;
+    return { kind:'tower', style:S, plan:plan, seed:seed, last:last, hard:hard,
       mirror:((h>>>2)+floor)%2===1, shuffle:floor>0||(h%2===1) };
   }
   var D=_dungeonDesignById(site.design); if(!D)return null;
@@ -77,7 +80,7 @@ function _siteFloorSpecOld(site, floor, maxFloors){
 }
 function _buildSiteFloor(spec){
   if(spec.zsp&&typeof ZSP!=='undefined')return ZSP.build(spec);      // round 45: Kris's picked designs (07zx / 07zy)
-  if(spec.kind==='tower')return buildTower(spec.style, spec.plan, spec.seed, {mirror:spec.mirror, shuffle:spec.shuffle, last:spec.last, grow:typeof TOWER_GROW!=='undefined'?TOWER_GROW:1});
+  if(spec.kind==='tower')return buildTower(spec.style, spec.plan, spec.seed, {mirror:spec.mirror, shuffle:spec.shuffle, last:spec.last, grow:typeof TOWER_GROW!=='undefined'?TOWER_GROW:1, hard:spec.hard});
   return buildCavern(spec.design, spec.seed, {game:true, last:spec.last});
 }
 

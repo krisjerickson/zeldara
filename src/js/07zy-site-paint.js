@@ -31,6 +31,40 @@ var ZSPP={
   has:function(id){ var Z=_scn(); return !!(Z&&Z.has(id)); },
   pick:function(L,R){ var ok=(L||[]).filter(ZSPP.has); return ok.length?ok[R.i(0,ok.length-1)]:null; },
   // ── the painting ──
+  // round 46: old-tower furnishing for the new built floors. K: the painter's helpers (at, walk, place = solid + keeps the floor joined, clearOf, occ)
+  furnish:function(m,F,R,K){ var W=F.w, H=F.h, Zs=_scn(); if(!Zs)return 0; var SS=(typeof TOWER_STYLES!=='undefined'&&(TOWER_STYLES.find(function(S){ return S.el===K.el; })||TOWER_STYLES[0]))||{}, used=new Uint8Array(W*H), n=0;
+    var free=function(x,y){ if(x<1||y<1||x>=W-1||y>=H-1)return false; var v=K.at(x,y), k=y*W+x; return (v===1||v===5)&&!used[k]&&!K.occ[k]&&!m.solid[k]&&K.clearOf(x,y); };
+    var has=function(t){ var id=TWR_PZ[t]||(typeof TWR_PZ_FLAT!=='undefined'&&TWR_PZ_FLAT[t]); return !!(id&&Zs.has(id)); };
+    var flat=function(t){ return typeof TWR_PZ_FLAT!=='undefined'&&!!TWR_PZ_FLAT[t]; };
+    var put=function(t,x,y,w,h){ if(!has(t))return false; for(var j=0;j<h;j++)for(var i=0;i<w;i++)if(!free(x+i,y+j)&&!(flat(t)&&K.walk(K.at(x+i,y+j))))return false;
+      if(!flat(t)&&!K.place(x,y,w,h))return false; var it={type:t,x:x,y:y,w:w,h:h}; if(!_twrPainted(m,it,SS,R)){ if(!flat(t))for(var j2=0;j2<h;j2++)for(var i2=0;i2<w;i2++)m.solid[(y+j2)*W+x+i2]=0; return false; } return true; };
+    // the entry hall: a runner from the arrival and a pair of plants or statues beside it
+    var up=K.up; if(up){ for(var d=0;d<4;d++){ var dx=[0,0,1,-1][d], dy=[1,-1,0,0][d], ok=true; for(var q=2;q<6&&ok;q++)if(!K.walk(K.at(up[0]+dx*q,up[1]+dy*q)))ok=false; if(!ok)continue;
+        var rx0=dx?(dx>0?up[0]+2:up[0]-5):up[0]-1, ry0=dy?(dy>0?up[1]+2:up[1]-5):up[1]-1, rw0=dx?4:2, rh0=dy?4:2; put('runner',rx0,ry0,rw0,rh0);
+        var side=dy?[[up[0]-2,up[1]+dy*3],[up[0]+2,up[1]+dy*3]]:[[up[0]+dx*3,up[1]-2],[up[0]+dx*3,up[1]+2]]; var deco=R.chance(0.5)?'statue':'plant'; side.forEach(function(c){ put(deco,c[0],c[1],1,1); }); break; } }
+    // rooms: open rectangles of floor, a wall along their top
+    var sizes=[[9,7],[8,6],[7,6],[7,5],[6,5],[6,4],[5,4]], want=Math.min(9,Math.max(2,Math.round(W*H/260))), rooms=[];
+    sizes.forEach(function(sz){ if(rooms.length>=want)return; var rw=sz[0], rh=sz[1], cand=[]; for(var y=2;y<H-rh-1;y++)for(var x=2;x<W-rw-1;x++)cand.push([x,y]);
+      for(var c=cand.length-1;c>0;c--){ var r=R.i(0,c), tmp=cand[c]; cand[c]=cand[r]; cand[r]=tmp; }
+      for(var ci=0;ci<cand.length&&rooms.length<want;ci++){ var x0=cand[ci][0], y0=cand[ci][1], ok=true, wallTop=0;
+        for(var j=0;j<rh&&ok;j++)for(var i=0;i<rw;i++)if(!free(x0+i,y0+j)){ ok=false; break; } if(!ok)continue;
+        for(var i3=0;i3<rw;i3++)if(K.at(x0+i3,y0-1)===2)wallTop++; if(wallTop<rw*0.6)continue;
+        rooms.push([x0,y0,rw,rh]); for(var j4=-1;j4<=rh;j4++)for(var i4=-1;i4<=rw;i4++){ var X=x0+i4, Y=y0+j4; if(X>=0&&Y>=0&&X<W&&Y<H)used[Y*W+X]=1; } } });
+    var kinds=['library','dining','chapel','gallery','music','conservatory','atrium','study']; for(var kq=kinds.length-1;kq>0;kq--){ var kr=R.i(0,kq), kt=kinds[kq]; kinds[kq]=kinds[kr]; kinds[kr]=kt; }      // no two rooms of a floor alike
+    rooms.forEach(function(r,ri){ var rx=r[0], ry=r[1], rw=r[2], rh=r[3], cx=rx+Math.floor(rw/2), cy=ry+Math.floor(rh/2), ty=kinds[ri%kinds.length];
+      for(var j=0;j<rh;j++)for(var i=0;i<rw;i++)used[(ry+j)*W+rx+i]=0;      // the room's own cells are free for its furniture
+      var corners=function(t){ [[rx,ry],[rx+rw-1,ry],[rx,ry+rh-1],[rx+rw-1,ry+rh-1]].forEach(function(c){ put(t,c[0],c[1],1,1); }); };
+      var north=function(t,w,step){ for(var x=rx+1;x+w<=rx+rw-1;x+=step)put(t,x,ry,w,1); };
+      if(ty==='library'){ put('rug',cx-2,cy-1,4,3); north('bookshelf',2,2); put('table',cx-1,cy,2,1); put('chair',cx-2,cy,1,1); put('chair',cx+1,cy,1,1); put('lectern',rx+1,ry+rh-2,1,1); corners('plant'); }
+      else if(ty==='dining'){ var tl=Math.min(6,rw-4); put('rug',cx-Math.floor(tl/2)-1,cy-2,tl+2,4); put('longtable',cx-Math.floor(tl/2),cy-1,tl,2); for(var c1=0;c1<tl;c1+=2){ put('chair',cx-Math.floor(tl/2)+c1,cy-2,1,1); put('chair',cx-Math.floor(tl/2)+c1,cy+1,1,1); } north('sideboard',2,4); put('chandelier',cx,cy-1,1,1); }
+      else if(ty==='chapel'){ put('runner',cx-1,ry+1,2,rh-1); put('altar',cx-1,ry,2,1); for(var pr=ry+2;pr<ry+rh-1;pr+=2){ put('pew',rx+1,pr,Math.max(2,Math.floor(rw/2)-2),1); put('pew',cx+1,pr,Math.max(2,Math.floor(rw/2)-2),1); } put('candelabra',cx-2,ry,1,1); put('candelabra',cx+1,ry,1,1); }
+      else if(ty==='gallery'){ for(var gx=rx+1;gx<rx+rw-1;gx+=3){ put('statue',gx,ry,1,1); put('statue',gx,ry+rh-1,1,1); } put('runner',rx+1,cy,rw-2,1); put('bench',cx-1,cy+1,2,1); }
+      else if(ty==='music'){ put('rug',cx-2,cy-1,4,3); put('piano',rx+1,ry+1,3,2); put('harp',rx+rw-2,ry+1,1,1); put('chair',cx,cy+1,1,1); corners('plant'); }
+      else if(ty==='conservatory'){ put('pool',cx-1,cy-1,2,2); for(var py=ry+1;py<ry+rh-1;py+=3)for(var px=rx+1;px<rx+rw-1;px+=3)put(R.chance(0.35)?'tree':'planter',px,py,1,1); }
+      else if(ty==='atrium'){ put('mosaic',rx+1,ry+1,rw-2,rh-2); put('center_fountain',cx-1,cy-1,3,3); [[rx+1,ry+1],[rx+rw-2,ry+1],[rx+1,ry+rh-2],[rx+rw-2,ry+rh-2]].forEach(function(c){ put('pillar',c[0],c[1],1,1); }); put('bench',cx-1,ry+rh-2,2,1); }
+      else { put('rug',cx-1,cy,3,2); put('desk',cx-1,ry+1,2,1); put('chair',cx,ry+2,1,1); north('bookshelf',2,4); put('globe',rx+rw-2,ry+1,1,1); put('maptable',cx-1,ry+rh-2,3,1); put('candelabra',rx,ry+rh-1,1,1); }
+      n++; });
+    m._rooms=n; m._roomList=rooms; return n; },
   paint:function(F,site,opt,fi,nf){ var T=ZSP.T[site.id], built=!!T.built, P=ZSD.palOpt(site.pal,opt,site.el), W=F.w, H=F.h, g=F.g, m=newMap(W,H), R=rngOf(ZSD.seed(site.id)*31+fi*977+5), th=ZSPP.th(site.id,site.el), Z=_scn();
     var liq=T.liq||null, solid=function(v){ return v===0||v===2||v===3||v===6||v===7; }, walk=function(v){ return v===1||v===4||v===5; };
     for(var i=0;i<W*H;i++)m.solid[i]=solid(g[i])?1:0;
@@ -94,6 +128,10 @@ var ZSPP={
       var sid=ZSPP.pick(th.set,R); if(!sid)break; if(!place(x6-1,y6-1,2,2))continue; var flat=/^rn_circle|^tf_c_pool|^tf_c_starmap/.test(sid);
       if(flat){ for(var j7=0;j7<2;j7++)for(var i7=0;i7<2;i7++)m.solid[(y6-1+j7)*W+x6-1+i7]=0; Z.decal(m,sid,x6*LT,y6*LT,{w:LT*4}); }
       else Z.fit(m,sid,x6*LT,(y6+1)*LT-2,LT*4.2,{shw:0.45}); m.lights.push({x:x6*LT,y:y6*LT-20,r:110,col:th.light,a:0.35,pulse:0.2,period:2800}); got++; }
+    // round 46 (Kris: "The design elements from the old adventure sites, like the book shelves, then entry spaces, fountains, rugs and all the cool
+    // interior stuff should be reused wherever possible in the new adventure sites"): built floors get an entry hall and furnished rooms the way the
+    // old towers had them (07b's room recipes, painted through _twrPainted, 07zu)
+    if(built&&typeof _twrPainted==='function'&&typeof TWR_PZ!=='undefined'){ ZSPP.furnish(m,F,R,{at:at,walk:walk,place:place,clearOf:clearOf,occ:occ,up:up,el:site.el}); }
     // furnishing along the walls (a back wall above, open floor in front)
     var nDeco=Math.round(W*H/150); for(var t=0;t<nDeco*8&&nDeco>0;t++){ var x7=R.i(2,W-3), y7=R.i(2,H-3); if(at(x7,y7)!==1&&at(x7,y7)!==5)continue; if(at(x7,y7-1)!==2||!walk(at(x7,y7+1))||!walk(at(x7-1,y7))||!walk(at(x7+1,y7))||!clearOf(x7,y7))continue;
       var did=ZSPP.pick(th.deco,R); if(!did||!place(x7,y7,1,1))continue; Z.fit(m,did,x7*LT+16,y7*LT+LT-2,LT*1.5,{shw:0.3}); nDeco--; }
@@ -104,5 +142,5 @@ var ZSPP={
     m.site={entry:{x:up[0],y:up[1]},exit:dn?{x:dn[0],y:dn[1]}:{x:gl[0],y:gl[1]},secrets:F.secrets||[],treasure:F.treasure||null,arena:F.arena||null};
     m.spawn={x:up[0]*LT+LT/2,y:up[1]*LT+LT/2};
     if(!built){ m.dark=site.el==='fire'?0.35:0.5; m.heroLight=240; m.heroLightCol='#ffd8a0'; m.darkCol='#030205'; } else if(site.el==='shadow'||liq==='stars'){ m.dark=0.35; m.heroLight=230; m.heroLightCol='#e0d0ff'; m.darkCol='#05030a'; }
-    m.zspFloorCol=P.floor; m.stats={plan:T.n,rooms:0}; m.zsp={id:site.id,name:T.n,floor:fi}; return m; }
+    m.zspFloorCol=P.floor; m.stats={plan:T.n,rooms:m._rooms||0}; m.zsp={id:site.id,name:T.n,floor:fi}; return m; }
 };

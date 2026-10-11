@@ -39,3 +39,12 @@
 - Where a pick repeated another site's design type, the site keeps its own original layout instead (`ZSP.OLD`, 25 sites). Old towers are built 1.5× larger.
 - The Ember Isle is stacked: the Ember Cave on its upper floors, the Ember Crypt below.
 - Review every site floor by floor in Lab → **Site review**. Details are in doc 24 §4.
+
+## Round 46 — the site review
+
+- **Old layouts once per type** (`07zx2-site-plans-r46.js` `ZSP.OLD`): only sunken_courtyard, castle_q1_b and mage_rime_spire keep an old layout. castle_q1_b gets more rooms and harder stairs; Rime Spire's first stairs are harder to find (`ZSP.HARD_OLD`, `towerHarder` in `07b-site-towers.js`).
+- **His changes**: Conductor and Frozen Belfry are larger mazes; Ember Observatory is larger with six clusters; Drowned Lighthouse is an archipelago of six rings; Lightning Rod has more rooms and its stairs down behind a hidden door (`ZSP.hideDown`); Monolith is six blocks in a zigzag joined by hallways (92×64), progressing up and across; Castle q4_b hints at the stairs at the end of each arm.
+- **"This is bad, use previous"**: observatory, hyrule_keep, sky_cloister, mire_tower, dawn_sanctum, rootspire, castle_q2_b, bone_pit and boulder_field are rebuilt as mixes — the earlier picked layout as the frame, filled with pieces of the new designs he liked (orrery hubs, ward keep with wings, cloister islands, mire caves, sunburst halls, root labyrinth ring, lotus pond court, bone field and chasm, boulder rings). The others on that list use their earlier picked layout from the round 45 lab.
+- **Old interiors reused** (`ZSPP.furnish`): every built floor gets an entry hall (runner, statues or plants) and up to nine furnished rooms of different kinds (library, dining room, chapel, gallery, music room, conservatory, atrium, study), painted with the old tower recipes.
+- **Liked designs to replicate**: isle_1 ("should be used for some of the dungeons"), pillared_hall and spiral_chasm ("replicate elsewhere") — queued for the next round, after his Empty space pick.
+- **Empty space**: six ideas in the Lab tab of that name — carved rock, open sky, a deep abyss, the site's element all round, a night sky with aurora, and tight framing. His picks decide what fills the black.
