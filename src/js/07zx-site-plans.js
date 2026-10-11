@@ -22,7 +22,8 @@ var ZSP={
     isle_1:0,isle_2:0,isle_3:2,isle_4:1,ember_cave:0},
   on:true,
   // ── the game's site → its design id ──
-  idOf:function(site,floor){ if(!site)return null; if(site.mage)return 'mage_'+site.mage; if(site.castle)return 'castle_'+site.castle;
+  idOf:function(site,floor){ var id=ZSP.idOf0(site,floor); return id&&!ZSP.OLD[id]?id:null; },
+  idOf0:function(site,floor){ if(!site)return null; if(site.mage)return 'mage_'+site.mage; if(site.castle)return 'castle_'+site.castle;
     var m=/^isl_adv_(\d)/.exec(site.id||''); if(m){ var q=+m[1]; if(q===3)return floor<2?'ember_cave':'isle_3'; return 'isle_'+q; }      // Ember Isle: the Ember Cave above, the Ember Crypt below
     return ZSP.T[site.design]?site.design:null; },
   zsdSite:function(id){ return ZSD.sites().filter(function(s){ return s.id===id; })[0]||null; },
@@ -109,8 +110,13 @@ var ZSP={
       var dx=x0+Math.floor(rw/2), dy=y0+rh+1; if(!(ZSP.w(g[dy*W+dx])&&D[dy*W+dx]>=0)){ dy=y0-2; if(!(dy>0&&ZSP.w(g[dy*W+dx])&&D[dy*W+dx]>=0))continue; }
       for(var yy=y0;yy<y0+rh;yy++)for(var xx=x0;xx<x0+rw;xx++)g[yy*W+xx]=5; var door=dy>y0?[dx,y0+rh]:[dx,y0-1]; g[door[1]*W+door[0]]=7; out.push([door[0],door[1],'room',[dx,dy>y0?y0+rh-1:y0]]); F.treasure=[x0+Math.floor(rw/2),y0+Math.floor(rh/2)]; break; }
     F.secrets=out; },
-  // which floors keep the site's old layout: a middle floor in every three (never the first or the last), for sites of four floors or more
-  oldFloor:function(id,f,nf){ return nf>=4&&f>0&&f<nf-1&&f%3===2; },
+  // round 45 (Kris, bedtime: "For any new site that I chose that is similar to another i had chose ... instead look to substitute it with the old
+  // adventure site designs. However, towers need to be larger floors overall") — these sites keep their own original layout, whole, so no two
+  // sites share a design type. Their towers are built larger (07b TOWER_GROW).
+  OLD:{hyrule_keep:1,observatory:1,dawn_sanctum:1,rivendell:1,reflecting_hall:1,moonglass:1,mushroom_forest:1,lake_ring:1,lava_archipelago:1,
+    sunken_courtyard:1,bone_pit:1,boulder_field:1,mage_hearthfire:1,mage_rootspire:1,mage_rime_spire:1,mage_mire_tower:1,mage_lightning_rod:1,
+    castle_q1_b:1,castle_q1_c:1,castle_q1_d:1,castle_q2_b:1,castle_q2_d:1,castle_q3_b:1,castle_q3_c:1,castle_q4_c:1},
+  isOld:function(id){ return !!ZSP.OLD[id]; },
   // the map model for one floor (the Dungeon scene calls this through _buildSiteFloor)
   build:function(spec){ var Z=spec.zsp, site=ZSP.zsdSite(Z.id), D=ZSP.design(Z.id,Z.floors), F=D.floors[Math.min(Z.floor,D.floors.length-1)]; return ZSPP.paint(F,site,ZSP.PICK[Z.id]||0,Z.floor,Z.floors); },
   w:function(v){ return v===1||v===4||v===5; },

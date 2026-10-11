@@ -739,3 +739,64 @@ button,.abtn,.abtn-sm,.forge-btn,.inv-tab-btn,.sl-tab,.sb-btn,.mr-btn,
 
 /* round 45: flying from a sky port — the world's HUD, labels and bars step aside */
 body.sky-mode #world-labels, body.sky-mode #action-bar, body.sky-mode #action-icon-bar, body.sky-mode #minimap-hud, body.sky-mode #hud, body.sky-mode #world-fog-canvas{display:none!important}
+/* round 45: the realm view switch on the world map */
+.wmap-rl{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);color:#cdd;border-radius:6px;padding:3px 9px;cursor:pointer;font-size:12px;margin-right:6px}
+.wmap-rl.on,.wmap-rl:hover{background:rgba(120,200,120,.25);border-color:#9fe09f;color:#fff}
+/* round 45: the Tome's "How it all fits" chapter (26d-tome-fits.js) */
+.zfit-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.zfit-tabs button{font:600 13px Georgia,serif;padding:5px 12px;border-radius:14px;border:1px solid #b89a68;background:#f6eedb;color:#3a2a18;cursor:pointer}
+.zfit-tabs button.on{background:#3a2a18;color:#ffe9a8;border-color:#3a2a18}
+.zfit-svg{display:block;max-width:760px;margin:0 auto;border-radius:12px}
+.zfit-svg .zfit-n{cursor:pointer}
+.zfit-svg .zfit-n.on circle:first-child,.zfit-svg .zfit-n:hover circle:first-child{stroke:#ffe9a8;stroke-width:2}
+.zfit-svg .zfit-next circle:first-child{animation:zfitTw 1.4s ease-in-out infinite}
+@keyframes zfitTw{0%,100%{opacity:.35}50%{opacity:1}}
+.zfit-gap{animation:zfitTw 1.6s ease-in-out infinite}
+.zfit-rn{font:700 15px Georgia,serif}
+.zfit-ln{font:600 10.5px "Segoe UI",sans-serif;opacity:.85}
+.zfit-c{font:700 11px "Segoe UI",sans-serif;fill:#fff6c8}
+.zfit-key{font:11px "Segoe UI",sans-serif;fill:#b8c8e0}
+.zfit-t{font:600 11px "Segoe UI",sans-serif;fill:#3a2a18}
+.zfit-b{font:700 18px Georgia,serif;fill:#2a1a08}
+.zfit-wl{font:10px "Segoe UI",sans-serif;fill:#dde8f8}
+.zfit-wg{font:600 11px "Segoe UI",sans-serif;fill:#ffe9a8}
+.zfit-h{margin:12px 0 4px;font:700 13px Georgia,serif;color:#5a3a18}
+.zfit-chips{display:flex;flex-wrap:wrap;gap:4px}
+.zfit-chips span{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:2px 8px;border-radius:10px;background:#efe2c4;border:1px solid #d8c49a;cursor:pointer}
+.zfit-chips span.won{background:#fff3c4;border-color:#d8b050}
+.zfit-chips span.unk{cursor:default;opacity:.6;font-style:italic}
+.zfit-q{display:inline-block;width:1.3em;text-align:center;opacity:.5}
+.zfit-grid{overflow-x:auto}
+.zfit-grid table{border-collapse:separate;border-spacing:3px;margin:0 auto;font-size:12px}
+.zfit-grid th{font-weight:600;color:#3a2a18;padding:3px 6px}
+.zfit-grid th[data-fel]{cursor:pointer;border-bottom:3px solid var(--zc);border-radius:6px}
+.zfit-grid th[data-fel].on{background:#fff3c4}
+.zfit-grid .zfit-rh{text-align:left;white-space:nowrap;cursor:pointer}
+.zfit-grid td{width:56px;height:26px;text-align:center;border-radius:5px;color:#fff;font-weight:700}
+.zfit-grid td.on{outline:2px solid #ffe9a8}
+.zg-b{background:#1f9a4a}.zg-w{background:#5ac078}.zg-e{background:#b8b0a0;color:#4a4030!important}.zg-r{background:#d0785a}.zg-x{background:#a83a2a}
+.zfit-map{text-align:center}
+.zfit-map canvas{width:100%;max-width:640px;border-radius:12px;border:1px solid #6a5030}
+.zfit-legend{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:6px 0;font-size:12px}
+.zfit-legend span{border-left:12px solid var(--zc);padding-left:6px}
+.zfit-jy{display:flex;flex-direction:column;gap:8px}
+.zfit-jr{background:#f6eedb;border-radius:10px;padding:6px 10px;border-left:6px solid var(--zc)}
+.zfit-jr.shut{opacity:.55}
+.zfit-jr h5{margin:0 0 6px;font:700 14px Georgia,serif;color:#3a2a18}
+.zfit-jr h5 span{font:600 11px "Segoe UI",sans-serif;color:#8a6a3a}
+.zfit-road{display:flex;flex-wrap:wrap;gap:4px;position:relative}
+.zfit-ms{width:82px;min-height:72px;text-align:center;border-radius:8px;background:#fffaf0;border:1px solid #e0d0b0;padding:4px 2px;position:relative;font-size:11px}
+.zfit-ms i{display:block;font-style:normal;font-size:20px;height:26px}
+.zfit-ms b{display:block;font-size:10.5px;color:#3a2a18;line-height:1.15}
+.zfit-ms small{display:block;font-size:9.5px;color:#7a6040;line-height:1.15}
+.zfit-ms.won{background:#fff3c4;border-color:#d8b050}
+.zfit-ms.won::after{content:'✓';position:absolute;top:2px;right:5px;color:#3a8a3a;font-weight:700}
+.zfit-ms.unk{opacity:.55}
+.zfit-ms.you{border:2px solid #2f9e8e;box-shadow:0 0 8px #2f9e8e88}
+.zfit-ms u{display:block;text-decoration:none;font-size:9.5px;font-weight:700;color:#2f9e8e}
+.zfit-elbar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:0 0 8px}
+.zfit-elbar button{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:14px;border:2px solid var(--zc);background:#f6eedb;cursor:pointer;font:600 12px "Segoe UI",sans-serif}
+.zfit-elbar button.on{background:var(--zc);color:#1a1008}
+.zfit-grid{background:#f6eedb;border-radius:10px;padding:8px}
+.zfit-grid .zfit-rh{color:#3a2a18}
+.tome-page .zfit-grid+.ze-note{color:#e8dcc0}

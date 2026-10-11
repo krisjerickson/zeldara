@@ -36,3 +36,12 @@ Profiled in the test browser (headless Chromium with a software GPU) using the D
 6. **A "lighter" setting** in the Dev panel: 12 samples per tile instead of 16 for the terrain edges, fewer swaying pieces, no flipbook — for slower machines. Effort: small.
 
 What would help me most: open the game on your PC, walk into the village with the readout on (F9), press **Copy the last 10 s** and paste it here — it tells which of the above matters on your machine.
+
+## Round 45 — Kris's readout and what was done
+
+Kris's F9 readout from the village: 49–60 fps, 335–431 draw calls, 891–1029 objects. Two changes followed:
+
+- **Off-screen objects are no longer drawn** (`WR_CULL` in `10c-world-render.js`, every 6 frames, using the camera's `cameraFilter`).
+- **All glows sit on one layer** (`WR_LIGHT_D`), so they batch.
+
+In the test village scene, 605 of 681 off-screen objects are skipped. Details are in doc 24 §2. Next step: the readout again, then items 4–6 above if it is still below 60 fps.

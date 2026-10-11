@@ -63,9 +63,19 @@ function towerPlanVariant(P, opts, R){
   }
   return Q;
 }
+// round 45 (Kris: "towers need to be larger floors overall"): the game builds every old-design tower floor this much larger. Each room edge
+// and each wall is scaled by the same rule (round(x*k)), so the one-tile walls stay one or two tiles thick and every door carve still meets its wall.
+var TOWER_GROW=1.5;
+function towerGrow(P,k){ if(!k||k===1)return P; var r=function(v){ return Math.round(v*k); }, Q=JSON.parse(JSON.stringify(P));
+  Q.w=r(P.w-1)+1; Q.h=r(P.h-1)+1;          // the outer wall stays one tile thick
+  Q.rooms.forEach(function(o){ var x0=r(o.x), y0=r(o.y); o.w=r(o.x+o.w)-x0; o.h=r(o.y+o.h)-y0; o.x=x0; o.y=y0; });
+  Q.carve=P.carve.map(function(c){ var x0=r(c[0]), y0=r(c[1]); return [x0,y0,Math.max(1,r(c[0]+c[2])-x0),Math.max(1,r(c[1]+c[3])-y0)]; });
+  Q.entry=[r(P.entry[0]), r(P.entry[1])];
+  Q.stairs=[r(P.stairs[0]+0.5)-(k>1?1:0), r(P.stairs[1]+0.5)-(k>1?1:0)];
+  return Q; }
 function buildTower(S, planId, seed, opts){
   opts=opts||{};
-  var R=rngOf(seed*977+planId.length*31), P=towerPlanVariant(TOWER_PLANS[planId],opts,R), pad=2;
+  var R=rngOf(seed*977+planId.length*31), P=towerGrow(towerPlanVariant(TOWER_PLANS[planId],opts,R),opts.grow), pad=2;
   var W=P.w+pad*2, H=P.h+pad*2, m=newMap(W,H);
   var cell=new Uint8Array(W*H), room=new Int16Array(W*H).fill(-1);
   var at=function(x,y){return (x<0||y<0||x>=W||y>=H)?TB.OUT:cell[y*W+x];};

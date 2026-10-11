@@ -25,6 +25,19 @@ var ITEMS_R45={
   gravewarden_maul:{name:'Gravewarden Maul', icon:'🔨',atk:37,slot:'lHand',cls:'axe',sell:320,crafted:true,el:['earth','shadow'],elementDmg:15,pic:'a dark granite maul carved with grave runes, violet mist seeping from its cracks, amber glowing inside'},
   // round 45: the Sunflower Château's new skill (the Roll became a basic move — 10p-roll.js)
   sp_petalstep:    {name:'Petal Step',       icon:'🌸',slot:'special',skillId:'petal_step',cd:5,secReq:1,sell:20,desc:'Z: a quick step of 2½ tiles; the petals you leave behind slow every foe in them for 3 s',pic:'a swirl of yellow sunflower petals around a dancing footprint'},
+  // round 45 (Kris, late: "i don't see bows that have the element progressions like crossbows. if this is a gap, let's fill it"): a bow line like the
+  // crossbows'. The Longbow + two gems of one element → an element bow; two element bows + a rare item → a warbow. The arbalests take the three
+  // neighbour pairs storm+shadow, fire+water, grass+earth; the warbows take the other three: fire+grass, water+storm, earth+shadow.
+  ember_bow:       {name:'Ember Bow',        icon:'🏹',atk:21,slot:'rHand',sell:90, crafted:true,el:['fire'],  elementDmg:6, pic:'a longbow of dark red wood with glowing orange embers along the limbs and a string of fire'},
+  tide_bow:        {name:'Tide Bow',         icon:'🏹',atk:21,slot:'rHand',sell:90, crafted:true,el:['water'], elementDmg:6, pic:'a sea-blue longbow curved like a wave, foam at the tips and a pale-blue string'},
+  briar_bow:       {name:'Briar Bow',        icon:'🏹',atk:21,slot:'rHand',sell:90, crafted:true,el:['grass'], elementDmg:6, pic:'a longbow of living green wood with thorny vines and small leaves along the limbs'},
+  granite_bow:     {name:'Granite Bow',      icon:'🏹',atk:22,slot:'rHand',sell:90, crafted:true,el:['earth'], elementDmg:6, pic:'a heavy longbow with carved grey-stone limbs and amber studs at the grip'},
+  thunder_bow:     {name:'Thunder Bow',      icon:'🏹',atk:21,slot:'rHand',sell:90, crafted:true,el:['storm'], elementDmg:6, pic:'a pale-gold longbow with a crackling yellow lightning string and storm-cloud tips'},
+  shade_bow:       {name:'Shade Bow',        icon:'🏹',atk:21,slot:'rHand',sell:90, crafted:true,el:['shadow'],elementDmg:6, pic:'a violet-black longbow trailing wisps of shadow, a small crescent moon at the grip'},
+  sunbloom_warbow: {name:'Sunbloom Warbow',  icon:'🏹',atk:31,slot:'rHand',sell:300,crafted:true,el:['fire','grass'], elementDmg:12,pic:'a great longbow, one limb of glowing orange flame-petals and the other of green leafy vine, a sunflower at the grip'},
+  squall_warbow:   {name:'Squall Warbow',    icon:'🏹',atk:31,slot:'rHand',sell:300,crafted:true,el:['water','storm'],elementDmg:12,pic:'a great longbow, one limb of curling sea-blue water and the other of yellow lightning, rain falling off it'},
+  barrow_warbow:   {name:'Barrow Warbow',    icon:'🏹',atk:32,slot:'rHand',sell:300,crafted:true,el:['earth','shadow'],elementDmg:12,pic:'a great longbow, one limb of dark carved stone and the other of violet shadow, grave runes along it'},
+  squall_pearl:    {name:'Squall Pearl',     icon:'🫧',slot:'gem',goldVal:150,rare:1,desc:'Worth 150g — a pearl from the heart of a sea storm; forges water with storm',pic:'a grey-blue pearl with a tiny storm cloud and yellow lightning inside it, sea spray around it'},
   // the seven rare items (one per new pair)
   phoenix_ember:   {name:'Phoenix Ember',    icon:'🔥',slot:'gem',goldVal:140,rare:1,desc:'Worth 140g — a coal that never goes out; forges fire with grass',pic:'a glowing orange-gold coal with a tiny green leaf sprouting from its flame'},
   lotus_pearl:     {name:'Lotus Pearl',      icon:'🪷',slot:'gem',goldVal:140,rare:1,desc:'Worth 140g — a pearl grown in a lotus; forges water with grass',pic:'a pale-blue pearl sitting in an open pink-and-green lotus flower'},
@@ -43,6 +56,7 @@ var R45_RARE={
   obsidian_heart:{els:['fire','shadow'], wardens:[],masters:[],boss:[4],alpha:true, how:'The Ashlands realm guardians (dungeon and tower) on their first defeat; fire and shadow Alphas sometimes drop one.'},
   thunderseed:   {els:['grass','storm'], wardens:[],masters:['rootspire','lightning_rod'],boss:[],alpha:true, how:'The masters of the Rootspire and the Lightning Rod; grass and storm Alphas sometimes drop one.'},
   lodestone:     {els:['earth','storm'], wardens:['q1_d'],masters:[],boss:[3],alpha:false, how:'The earth-and-storm warden of the Grasslands castle, and the Highlands realm guardians.'},
+  squall_pearl:  {els:['water','storm'], wardens:[],masters:['conductor','frozen_belfry'],boss:[],alpha:true, how:'The masters of the Conductor and the Frozen Belfry; water and storm Alphas sometimes drop one.'},
   grave_amber:   {els:['earth','shadow'],wardens:['q4_b'],masters:['monolith'],boss:[],alpha:false, how:'The earth-and-shadow warden of the Ashlands castle, and the master of the Monolith.'}
 };
 (function(){ if(typeof ITEMS==='undefined')return;
@@ -58,10 +72,13 @@ var R45_RARE={
   add('galebriar_axe',{wildwood_cleaver:1,storm_blade:1,thunderseed:1},1200,4,'dual','axe');
   add('thunderpeak_maul',{boulder_maul:1,storm_blade:1,lodestone:1},1200,4,'dual','axe');
   add('gravewarden_maul',{boulder_maul:1,umbral_edge:1,grave_amber:1},1200,4,'dual','axe');
-  ['dusk_iron','umbral_edge','nightfang','void_reaver','ashbloom_glaive','tidebloom_blade','abyssal_edge','hellbrand','galebriar_axe','thunderpeak_maul','gravewarden_maul'].forEach(function(id){
+  [['ember_bow','gem_ruby'],['tide_bow','gem_sapphire'],['briar_bow','gem_emerald'],['granite_bow','gem_amber'],['thunder_bow','gem_topaz'],['shade_bow','gem_onyx']].forEach(function(x){ var n={longbow:1}; n[x[1]]=2; add(x[0],n,300,1,'bow','bow'); });
+  add('sunbloom_warbow',{ember_bow:1,briar_bow:1,phoenix_ember:1},1200,2,'bow','bow'); add('squall_warbow',{tide_bow:1,thunder_bow:1,squall_pearl:1},1200,2,'bow','bow');
+  add('barrow_warbow',{granite_bow:1,shade_bow:1,grave_amber:1},1200,2,'bow','bow');
+  ['dusk_iron','umbral_edge','nightfang','void_reaver','ashbloom_glaive','tidebloom_blade','abyssal_edge','hellbrand','galebriar_axe','thunderpeak_maul','gravewarden_maul','ember_bow','tide_bow','briar_bow','granite_bow','thunder_bow','shade_bow','sunbloom_warbow','squall_warbow','barrow_warbow'].forEach(function(id){
     var r=CRAFT_RECIPES.filter(function(x){ return x.result===id; })[0], it=ITEMS[id]; if(!r||!it)return; var st=['+'+it.atk+' ATK','+'+it.elementDmg+' '+it.element];
     var nd=Object.keys(r.needs).map(function(k){ return (r.needs[k]>1?r.needs[k]+'× ':'')+(ITEMS[k]?ITEMS[k].name:k); }).join(' + ');
-    it.desc=st.join(' ')+(it.cls==='axe'?' — axe':'')+' — Forge: '+nd+' + '+r.gold+'g'; });
+    it.desc=st.join(' ')+(it.cls==='axe'?' — axe':r.chain==='bow'?' — bow':'')+' — Forge: '+nd+' + '+r.gold+'g'; });
   Object.keys(R45_RARE).forEach(function(k){ if(ITEMS[k])ITEMS[k].hint=R45_RARE[k].how; });
   if(ITEMS.sp_roll){ delete ITEMS.sp_roll.buy; ITEMS.sp_roll.desc='No longer a skill: the roll is a move of its own (Alt), taught by Tumbler Pia outside the Rime Spire.'; }
 })();

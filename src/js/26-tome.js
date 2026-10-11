@@ -92,7 +92,7 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
       if(id.indexOf('site_')===0){ var ws=game.scene.getScene('World'), s=ws&&ws.wd&&ws.wd.sites.find(function(x){ return 'site_'+x.id===id; }); if(!s)return null; return {name:_siteLabel(s),icon:{tower:'🗼',dungeon:'⚔️',harbor:'⚓',skyport:'🎈',camp:'⛺',volcano:'🌋'}[s.type]||'📍',sub:(s.type||'site')+' · '+TOME_QN[s.sec||getTileSection(s.tx,s.ty)],hint:'A '+(s.type||'site')+' in the '+TOME_QN[s.sec||getTileSection(s.tx,s.ty)],lines:[['About',(MAIN_QUEST_DEFS[s.type]&&MAIN_QUEST_DEFS[s.type].desc)||'Explore it to find out.']]}; } }
     if(cat==='quest'){ var ws=game.scene.getScene('World'), ps1=Tome.ps(), S=((ps1&&ps1.fairyQuests)||{})[id], km=id.match(/^king(\d)$/), fm=id.match(/^q(\d)_f(\d)$/); if(!km&&!fm)return null;
       var st=!S?'Not started':S.st==='done'?'✔ Complete':(S.got||[]).length>=S.need.length?'Found everything — return and take the trial':'Searching ('+(S.got||[]).length+' / '+S.need.length+' found)';
-      var objLine=function(o){ var got=S&&(S.got||[]).indexOf(o.id)>=0; return (got?'✔ ':'')+o.icon+' <b>'+o.name+'</b> — buried '+o.where+' in <b>'+_wmZoneName(o.zone)+'</b>, next to the runes at its heart.'+(!got&&ws&&ws._digHint?' '+ws._digHint(o.id):''); };
+      var objLine=function(o){ var got=S&&(S.got||[]).indexOf(o.id)>=0; return (got?'✔ ':'')+(typeof ZIcon!=='undefined'?ZIcon.html('fo_'+o.id,o.icon,1.2):o.icon)+' <b>'+o.name+'</b> — buried '+o.where+' in <b>'+_wmZoneName(o.zone)+'</b>, next to the runes at its heart.'+(!got&&ws&&ws._digHint?' '+ws._digHint(o.id):''); };
       if(km){ var q=+km[1]; return {name:_kingName(q)+' — Trial',icon:'👑',q:q,sub:'Fairy Monarch quest · '+TOME_QN[q],hint:'A Fairy Monarch holds court in a great rune henge in the '+TOME_QN[q]+'. His trial needs a '+TOME_QN[q]+' spirit with two fairy lessons.',
         lines:[['Status',st],['Find',FAIRY_KING_OBJECTS[q].map(function(a,i){ return objLine(_kingObj(q,i)); }).join('<br>')],['How','Press G to dig. Golden sparkles appear when you are close, and the world map (B) circles the area with a 🪏.'],['Trial','Hold the King\'s circle against waves of monsters for 30 s, then defeat the shadow of your own spirit.'],['Reward','One more familiar can be active at once (up to 4).']]}; }
       var q2=+fm[1], i2=+fm[2], o=_fairyObj(q2,i2), el=Object.keys(SPIRIT_ELEMENTS).find(function(k){ return SPIRIT_ELEMENTS[k].q===q2; }), sk=FAM_SKILLS[el][i2+1], _tp=_trialPlanOf(q2,i2), tr={name:_tp.name+' ('+TRIAL_THEMES[_tp.theme].name+')',text:TRIAL_THEMES[_tp.theme].text};
@@ -108,6 +108,21 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
   // the painted character for a book entry (04f), or null → the old picture
   zch:function(cat,id,e){ if(typeof ZAtlas==='undefined'||ZAtlas.off)return null; var R0=typeof MON_BY_ID!=='undefined'&&MON_BY_ID[id], L=[id,e&&e.spec&&e.spec._bossSlot,R0&&R0.chId,'mt_'+id,(typeof FAM_EL!=='undefined'&&FAM_EL[id])?'fam_'+FAM_EL[id]:null,typeof CHX!=='undefined'&&typeof MDEFS!=='undefined'&&id.indexOf('mdef_')===0?CHX.bossId(id.slice(5),MDEFS[id.slice(5)]):null];
     for(var i=0;i<L.length;i++)if(L[i]&&ZAtlas.has(L[i]))return L[i]; return null; },
+  // round 45 (Kris: "in some place the tome uses old pixel art instead of updated painted images"): the painted picture of an entry that has no
+  // sprite — items and spells (their item icon), camps (their painted prop), castles / sites / the village (map markers), regions, arenas and
+  // fairy-quest treasures (wave 48: tm_zone_*, tm_arena_*, fo_*). Any picture not painted yet falls back to the entry's emoji.
+  pic:function(cat,id,e,em){ var fb=e&&e.icon||'•', H=function(zid){ return ZIcon.html(zid,fb,em); };
+    if(typeof ZIcon==='undefined')return fb;
+    if(cat==='item')return ITEMS[id]?ZIcon.item(id,em):fb;
+    if(cat==='spell'){ var tk=Tome._spk||(Tome._spk={}); if(!(id in tk))tk[id]=Object.keys(ITEMS).find(function(k){ return ITEMS[k].spellId===id; })||''; return tk[id]?ZIcon.item(tk[id],em):fb; }
+    if(cat==='place'){ if(id==='village')return H('mk_village'); if(id.indexOf('zone_')===0)return H('tm_zone_'+id.slice(5)); if(id.indexOf('arena_')===0)return H('tm_arena_'+id.slice(6));
+      if(id.indexOf('camp_')===0){ var C=typeof CAMP_BY_ID!=='undefined'&&CAMP_BY_ID[id.slice(5)]; return C&&ZIcon.has('cp_'+C.prop)?H('cp_'+C.prop):H('mk_camp'); }
+      if(id.indexOf('castle_')===0)return H('mk_castle'); return ZIcon.EMO[fb]?H(ZIcon.EMO[fb]):fb; }
+    if(cat==='quest'){ var km=id.match(/^king(\d)$/), fm=id.match(/^q(\d)_f(\d)$/);
+      if(fm&&typeof _fairyObj==='function'){ var o=_fairyObj(+fm[1],+fm[2]); if(o)return H('fo_'+o.id); }
+      if(km)return ZIcon.has('q_fairy')?H('q_fairy'):fb; return fb; }
+    if(cat==='character'&&id==='npc_house')return H('mk_home');
+    return ZIcon.emo(fb,em); },
   frames:function(spec){ if(spec._bossSlot&&typeof BA!=='undefined'&&BA.of(spec._bossSlot)){ spec._smooth=true; return BA.thumbs(BA.of(spec._bossSlot),128); } return spec._cf||(spec.mount?mtFrames(spec):msFrames(spec)); },
   // which quadrant an entry belongs to (0 = village / everywhere)
   qOf:function(cat,id,e){ if(e&&e.q!==undefined)return e.q; var n;
@@ -130,7 +145,7 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     var ids=Tome.list(cat), qf=Tome.ui.q, groups=[[],[],[],[],[]];
     ids.forEach(function(id){ var e=Tome.entry(cat,id); if(!e)return; var q=Tome.qOf(cat,id,e); if(qf&&q!==qf)return; groups[q].push([id,e]); });
     var qbar='<div class="tome-q">'+['All','Grasslands','Wetlands','Highlands','Ashlands'].map(function(n,i){ return '<button data-tq="'+i+'" class="'+(i===Tome.ui.q?'on':'')+(i?' tq'+i:'')+'">'+n+'</button>'; }).join('')+'</div>';
-    var card=function(p){ var id=p[0], e=p[1], got=!!b[cat][id], ic=e.spec?'<canvas class="tome-spr'+(got?'':' dark')+(e.spec._cf?' smooth':'')+'" data-spr="'+id+'" width="48" height="48"></canvas>':'<span class="tome-ic'+(got?'':' dark')+'">'+(e.icon||'•')+'</span>';
+    var card=function(p){ var id=p[0], e=p[1], got=!!b[cat][id], ic=e.spec?'<canvas class="tome-spr'+(got?'':' dark')+(e.spec._cf?' smooth':'')+'" data-spr="'+id+'" width="48" height="48"></canvas>':'<span class="tome-ic'+(got?'':' dark')+'">'+Tome.pic(cat,id,e,1.7)+'</span>';
       return '<button class="tome-card'+(got?'':' locked')+(Tome.ui.sel===id?' sel':'')+'" data-tid="'+id+'">'+ic+'<b>'+(got?e.name:'???')+'</b></button>'; };
     document.getElementById('tome-grid').innerHTML=qbar+[1,2,3,4,0].map(function(q){ var G=groups[q]; if(!G.length)return ''; var n=G.filter(function(p){ return b[cat][p[0]]; }).length;
       return '<section class="tome-sec q'+q+'" style="background:'+TOME_QCOL[q]+'"><h4>'+(q?TOME_QN[q]:'Village & everywhere')+' <span>'+n+' / '+G.length+'</span></h4><div class="tome-cards">'+G.map(card).join('')+'</div></section>'; }).join('');
@@ -141,7 +156,7 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     if(!sel){ det.innerHTML='<p class="tome-empty">Pick an entry. Things you have met, owned or visited are written in; the rest show as ??? with a hint.</p>'; return; }
     var e=Tome.entry(cat,sel), got=!!b[cat][sel];
     if(!got){ det.innerHTML='<h3>???</h3><p class="tome-hint">'+(e?e.hint:'')+'</p>'; return; }
-    det.innerHTML=(e.spec?'<canvas id="tome-big" width="128" height="128"></canvas>':'<div class="tome-bigic">'+(e.icon||'')+'</div>')+'<h3>'+e.name+'</h3><div class="tome-sub">'+e.sub+'</div><dl>'+e.lines.map(function(l){ return '<dt>'+l[0]+'</dt><dd>'+l[1]+'</dd>'; }).join('')+'</dl>';
+    det.innerHTML=(e.spec?'<canvas id="tome-big" width="128" height="128"></canvas>':'<div class="tome-bigic">'+Tome.pic(cat,sel,e,1.6)+'</div>')+'<h3>'+e.name+'</h3><div class="tome-sub">'+e.sub+'</div><dl>'+e.lines.map(function(l){ return '<dt>'+l[0]+'</dt><dd>'+l[1]+'</dd>'; }).join('')+'</dl>';
     if(e.spec){ var cv=document.getElementById('tome-big'), fr=Tome.frames(e.spec), SEQ=e.spec._smooth?[0,1,0,1,2,3,3]:e.spec._cf?[0,1,2,3]:e.spec.mount?[0,1,2,3,0,1,2,3,4,5,4,5,6,7,6,7]:[0,1,0,1,2,3,3], i=0; clearInterval(Tome._anim); var draw=function(){ if(!cv.isConnected){ clearInterval(Tome._anim); return; } var x=cv.getContext('2d'); x.clearRect(0,0,128,128); x.imageSmoothingEnabled=!!(e.spec._cf||e.spec._smooth); x.drawImage(fr[SEQ[i++%SEQ.length]],0,0,128,128); }; var zb=Tome.zch(cat,sel,e); if(!zb){ draw(); Tome._anim=setInterval(draw,220); }
       if(zb)ZAtlas.thumbs(zb,256,8,function(T){ if(!T||!cv.isConnected)return; clearInterval(Tome._anim); var j=0, d2=function(){ if(!cv.isConnected){ clearInterval(Tome._anim); return; } var x=cv.getContext('2d'); x.clearRect(0,0,128,128); x.imageSmoothingEnabled=true; x.drawImage(T[j++%T.length],0,0,128,128); }; d2(); Tome._anim=setInterval(d2,260); }); } }
 };

@@ -31,3 +31,11 @@
 
 1. Replace the old floor builders (07b towers, 07c caverns, 07ta castles, 07zm mage towers, island crypts, Ember Cave) with the picked ZSD design per site. This means dressing the grid with each site's furniture, monsters, chests and boss room, and keeping the old builders as a fallback.
 2. Paint the picked approach: order tile sets per site look (and centrepieces for the hybrid), or more whole rooms if the pilot wins.
+
+## Round 45 — the picks are in the game
+
+- Kris's picks (Lab `asites-*`, 52 with notes) are built in `07zx-site-plans.js` (ZSP) and painted in `07zy-site-paint.js` (ZSPP), using the hybrid approach.
+- Every last floor has a boss arena. Each floor has secrets: hidden doors with a draught, and a treasure room.
+- Where a pick repeated another site's design type, the site keeps its own original layout instead (`ZSP.OLD`, 25 sites). Old towers are built 1.5× larger.
+- The Ember Isle is stacked: the Ember Cave on its upper floors, the Ember Crypt below.
+- Review every site floor by floor in Lab → **Site review**. Details are in doc 24 §4.

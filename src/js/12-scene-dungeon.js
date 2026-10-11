@@ -979,6 +979,9 @@ class DungeonScene extends Phaser.Scene{
   }
   update(_,ms){
     if(!this._ready||this._playerDead)return;
+    // round 45: a fall stops this scene from inside its own timer; a frame that still arrives after that found no camera, threw, and left the
+    // scene's clock stopped for the next visit — so the second death in a dungeon never came back (Kris: "it just pauses")
+    if(!this.cameras||!this.cameras.main||!this.sys.isActive())return;
     var dt=ms/1000;
     if(this._hitStop>0){ this._hitStop-=dt; return; }   // hit-pause on heavy blows (10k BossMoments)
     var paused=_anyModalOpen();

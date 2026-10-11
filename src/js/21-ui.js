@@ -153,6 +153,22 @@ function _wmZoneLabel(tx,ty){
 var _WM_SITE_ICO={dungeon:'⚔',tower:'🗼',camp:'⛺',harbor:'⚓',skyport:'🎈',volcano_main:'🌋',volcano_mini:'🔥'};
 var _WM_BORDER_COL={silverrun:'#7fd0ff',scarp:'#ffd27a',chasm:'#ff8a5a',ember:'#e0a0ff'};
 // Draw a view (tile rect v={x,y,w,h}) of the world into ctx (cw×ch px).
+// round 45 (Kris picked "the realm map overlay" for How it all fits, and a switch on this map): each realm tinted by its element (Grasslands
+// grass, Wetlands water, Highlands earth, Ashlands fire), and under each place you have found, what it gives. The Tome draws the same view.
+var _WM_REALM_EL={1:'grass',2:'water',3:'earth',4:'fire'}, _wmRealmCv=null;
+function _wmRealmTint(wd){ var R=wd.map&&wd.map.region; if(!R||typeof ZEL==='undefined')return null; if(_wmRealmCv&&_wmRealmCv._wd===wd)return _wmRealmCv;
+  var W=Math.ceil(WORLD_W/4), H=Math.ceil(WORLD_H/4), cv=document.createElement('canvas'); cv.width=W; cv.height=H; var g=cv.getContext('2d'), img=g.createImageData(W,H), d=img.data, rgb={};
+  [1,2,3,4].forEach(function(q){ var c=ZEL.E[_WM_REALM_EL[q]].col; rgb[q]=[parseInt(c.slice(1,3),16),parseInt(c.slice(3,5),16),parseInt(c.slice(5,7),16)]; });
+  for(var y=0;y<H;y++)for(var x=0;x<W;x++){ var q=R[Math.min(WORLD_H-1,y*4+2)*WORLD_W+Math.min(WORLD_W-1,x*4+2)], c=rgb[q], i=(y*W+x)*4; if(!c)continue; d[i]=c[0]; d[i+1]=c[1]; d[i+2]=c[2]; d[i+3]=255; }
+  g.putImageData(img,0,0); cv._wd=wd; return (_wmRealmCv=cv); }
+function _wmGives(S){ try{
+  if(S.mage&&typeof MAGE_TOWERS!=='undefined'){ var M=MAGE_TOWERS.find(function(m){ return m.key===S.mage; }); return M&&ITEMS[M.spell]?'✨ '+ITEMS[M.spell].name:''; }
+  if(S.bonus)return S.type==='camp'?'':'💰 treasure';
+  if(S.type==='tower')return CRAFTSMEN[S.section]?'🔨 frees '+CRAFTSMEN[S.section].n:'';
+  if(S.type==='dungeon'){ var rw=BOSS_REWARDS['s'+S.section+'_dungeon']; return rw&&MOUNTS[rw.mount]?'🐎 '+MOUNTS[rw.mount].n:''; }
+  if(S.type==='harbor'){ if(S.castle&&typeof CASTLE_ISLANDS!=='undefined'&&CASTLE_ISLANDS[S.castle]){ var I=ITEMS[CASTLE_ISLANDS[S.castle].skill]; return I?'🏰 '+I.name:''; } return '🌟 familiar'; }
+  if(S.type==='skyport'){ var mk={1:'sky_glider',2:'storm_drake',3:'ember_phoenix',4:'void_serpent'}[S.section]; return MOUNTS[mk]?'🎈 '+MOUNTS[mk].n:''; }
+  }catch(e){} return ''; }
 function _wmDrawView(ctx,cw,ch,ws,v,o){
   o=o||{}; var wd=ws.wd, ps=ws.playerState, sc=cw/v.w;
   if(ws._expG){ if(!ws._psView||ws._psView._base!==ps){ ws._psView=Object.create(ps); ws._psView._base=ps; ws._psView._expG=ws._expG; } ps=ws._psView; }   // an island: its own explored grid
@@ -160,7 +176,10 @@ function _wmDrawView(ctx,cw,ch,ws,v,o){
   ctx.save(); ctx.fillStyle='#05080f'; ctx.fillRect(0,0,cw,ch);
   ctx.imageSmoothingEnabled=sc<1; ctx.drawImage(_wmBase(wd),v.x,v.y,v.w,v.h,0,0,cw,ch);
   ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+  var realms=!wd.islKey&&(o.realms||(o.full&&WMAP.realms));
+  var rt=realms?_wmRealmTint(wd):null; if(realms){ if(rt){ ctx.globalAlpha=0.42; ctx.drawImage(rt,v.x/4,v.y/4,v.w/4,v.h/4,0,0,cw,ch); ctx.globalAlpha=1; } }      // round 45: the realm view
   ctx.drawImage(_wmFog(ps,ws._expVer||0),v.x/EXP_SCALE,v.y/EXP_SCALE,v.w/EXP_SCALE,v.h/EXP_SCALE,0,0,cw,ch);
+  if(realms&&rt){ ctx.globalAlpha=0.16; ctx.drawImage(rt,v.x/4,v.y/4,v.w/4,v.h/4,0,0,cw,ch); ctx.globalAlpha=1; }      // faintly, under the fog too: where each realm lies
   var inV=function(tx,ty,m){ m=m||4; return tx>=v.x-m&&ty>=v.y-m&&tx<=v.x+v.w+m&&ty<=v.y+v.h+m; };
   var lbl=function(txt,x,y,col,size,weight){ ctx.font=(weight||600)+' '+size+'px "Segoe UI",sans-serif'; ctx.lineWidth=Math.max(2,size/4); ctx.strokeStyle='rgba(0,0,0,.85)'; ctx.strokeText(txt,x,y); ctx.fillStyle=col; ctx.fillText(txt,x,y); };
   ctx.textAlign='center'; ctx.textBaseline='middle';
@@ -185,6 +204,8 @@ function _wmDrawView(ctx,cw,ch,ws,v,o){
     ctx.fillStyle='rgba(0,0,0,.65)'; ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=q?'#ffff44':S.boss?'#ffd24a':'#c8b8ff'; ctx.lineWidth=q?2.5:1.5; ctx.stroke();
     ctx.font=(big?10:7)+'px serif'; ctx.fillStyle='#fff'; ctx.fillText(S.mage?'🔮':(_WM_SITE_ICO[S.type]||'•'),px,py+1);
     if(q&&big)lbl('Quest: '+(S.name||S.type),px,py+r*2+8,'#ffff88',11,700); });
+  // round 45: the realm view — what each place you have found gives
+  if(realms&&big)(wd.sites||[]).forEach(function(S){ var sx=S.tx+1.5, sy=S.ty+1.5; if(!inV(sx,sy)||!_wmExplored(ps,sx,sy))return; var g=_wmGives(S); if(g)lbl(g,X(sx),Y(sy)+15,'#fff4c8',10,700); });
   // hidden caches (explored, unopened)
   var oc=ps.openedCaches||[];
   (wd.caches||[]).forEach(function(c){ if(oc.indexOf(c.id)>=0||!inV(c.x,c.y)||!_wmExplored(ps,c.x,c.y))return; var px=X(c.x),py=Y(c.y), r=big?5:3.5;
@@ -316,6 +337,7 @@ function _wmRenderSide(ws){
   document.addEventListener('click',function(e){
     var zb=e.target.closest&&e.target.closest('.wmap-z'); var ws=game&&game.scene?game.scene.getScene('World'):null;
     if(zb&&ws){ var z=+zb.dataset.z; if(z===0){ WMAP.cx=ws.player.x/TILE; WMAP.cy=ws.player.y/TILE; if(WMAP.zoom<2)WMAP.zoom=2; } else { WMAP.zoom=z; WMAP.cx=ws.player.x/TILE; WMAP.cy=ws.player.y/TILE; } renderMinimap(ws.wd,null,null,null,0,null,true); return; }
+    var rb=e.target.closest&&e.target.closest('.wmap-rl'); if(rb&&ws){ WMAP.realms=!WMAP.realms; rb.classList.toggle('on',!!WMAP.realms); renderMinimap(ws.wd,null,null,null,0,null,true); return; }
     var wb=e.target.closest&&e.target.closest('.wm-ws'); if(wb&&!wb.disabled&&ws&&ws._travelTo){ ws._travelTo(wb.dataset.ws); return; }
   },true);  // capture: the modal box stops click propagation
   var cvOf=function(){ return document.getElementById('minimap-canvas'); };

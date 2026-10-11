@@ -717,6 +717,36 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[395] Lab tab "How it all fits"** (`60-lab-codex.js`): six ideas (constellation skill tree, elemental compass, matchup grid, realm map overlay, journey line, rune web), each a moving sketch from the game's data.
 - **[396] Tests** — `test_round44.py` now 11 checks (all 717 floors; the Lab tabs).
 
+## Round 45 (Kris, Oct 10) — his 14-point list, the picked site designs, roll, sky ports, bows, How it all fits
+- **[397] Invisible walls** (`05d-village-apply.js`): tiles left solid by cleared wild props round the village are freed; village buildings are solid only along their bottom two rows (`07k-village.js` `VB_BAND`, `_vbBlockRects`) — you walk behind them. Long cave obstacles draw one painted piece per tile (07c).
+- **[398] Village sizes** (`_vbPicW`): core buildings drawn at 0.92 of their footprint, plain houses 0.86 and never wider than four tiles; the green-roof stone house smaller; the blacksmith reachable.
+- **[399] Outline through roofs and trees** (`10o-outline.js` ZOL): when anything painted covers part of the hero, a teal silhouette shows through (world, dungeons, buildings). Gardens lie flat (`sp:{flat:true}`) and no longer overlap trees.
+- **[400] M = the mount** (`10j-world-mounts.js` `_mountKey`, `_callMount`): dismount, remount, or call it — a called mount really gallops to you (at least 300 px/s, at most ~20 s), straight when off-screen; with none parked it comes from the stables. The mount chooser is only at the stables (`22-ui-shops.js`).
+- **[401] Sleeping eyes**: the painted sleep frames (eyes closed) are used in bed.
+- **[402] Death** (`09-hero-core.js`, `21c-death.js`, `10-scene-world.js`, `12-scene-dungeon.js`): you come back with full health and mana; a second death in a dungeon no longer hangs (the dying flag is a timestamp; a frame arriving after the scene stopped no longer throws and freezes the scene's clock); no leaving a dungeon while dead.
+- **[403] "No effect" = 25%** (`MX.SHRUG`, `MX.shrugHint`): "shrugs it off" and a one-time hint; the Tome says "Resists". Analysis and suggestions: doc 24 §1.
+- **[404] Slippery and other ground patches** (`MX.zone`): at most 10 s; fade within 0.8 s when their caster dies; marks vanish with their caster; lobbed patches are not created after death. Bosses' zones too (09b).
+- **[405] Performance** (`WR_CULL`, `WR_LIGHT_D`, 10c, 10h): off-screen objects are not drawn; all glows on one layer. Doc 24 §2.
+- **[406] Sandbox**: "Spawn all monsters" spawns every roster monster in rows by realm, calm until hit; "Reveal the whole Tome" (`sbRevealTome`).
+- **[407] Weapon wheel** (`26c-tome-arms.js`): no-element weapons in a row outside the wheel; forging lines run rim (first step) → middle (last); clicking a weapon draws a line from each weapon it is forged from; zoom to fit; no overlaps.
+- **[408] New weapons** (`03c-arms-r45.js`, `09h2-rare-loot.js`): a shadow sword line (Dusk Iron → Umbral Edge → Nightfang → Void Reaver); seven two-element master-works for the seven missing pairs, each with its own rare item (Phoenix Ember, Lotus Pearl, Abyss Pearl, Obsidian Heart, Thunderseed, Lodestone, Grave Amber), won from wardens, masters, realm guardians and Alphas.
+- **[409] Bows** (03c, `ZForge.BOW`): six element bows (Longbow + two gems) and three warbows (Sunbloom, Squall, Barrow — the pairs the arbalests don't cover) with a new Squall Pearl. Forge tree lane, wheel, Tome.
+- **[410] Roll is a move, not a skill** (`10p-roll.js` ZROLL): Alt (Fn cannot be read by a web page); taught by Tumbler Pia outside the Rime Spire ("The Tumbler's Lesson": find her three juggling pins); old saves holding the Roll skill keep it as the move.
+- **[411] Petal Step** (`sp_petalstep`): the Sunflower Château's new skill instead of Roll, taught by Petal-dancer Senna (painted, `tc_petal`).
+- **[412] The special button** (21-ui `_specialSlotTick`): shows the chosen skill's icon and drains its cooldown with the seconds left.
+- **[413] One site label** (10-scene-world): the low-resolution yellow prompt is gone; the painted label reads "[Tab] Enter …".
+- **[414] Picked adventure-site designs** (`07zx-site-plans.js` ZSP, `07zy-site-paint.js` ZSPP): Kris's 52 picks + notes, every design a different type, each last floor with a boss arena, secrets (hidden doors with a draught, a treasure room), hybrid painting (tile sets + painted set-pieces).
+- **[415] Old layouts for repeated design types** (`ZSP.OLD`, `isOld`; 07d): 25 sites keep their own original layout; Sunken Courtyard, Bone Pit and Boulder Field stay open caves. Ember Isle stacked (Ember Cave above, Ember Crypt below).
+- **[416] Old towers 1.5× larger** (`TOWER_GROW`, `towerGrow`, 07b): every room edge and wall scaled by one rule; outer walls one tile thick; every old tower and castle floor checked reachable.
+- **[417] Sky ports rebuilt** (`15-scene-sky.js`): the world sleeps; painted backdrops, flyers, galleons, bunkers, power-ups; formation waves and a Guardian; shoot (charge), Alt roll, Shift shield, X bomb; lives, city HP, combos. Doc 24 §3.
+- **[418] Painted floating islands**: the last pixel floating rocks (chained ones too, with a drawn chain) use the painted art (`07zu-scenery-wiring.js`).
+- **[419] Tome pictures** (`Tome.pic`, 26-tome): items, spells, camps, castles, sites, the village, regions, boss arenas and fairy-quest treasures show painted pictures (new: wave 48 `tm_zone_*`, `tm_arena_*`, `fo_*`).
+- **[420] Tome — How it all fits** (`26d-tome-fits.js`): Stars, Compass, Matchups, Realms, Journey, Web; found only. Doc 24 §5.
+- **[421] World map — Realms switch** (21-ui `_wmRealmTint`, `_wmGives`): each realm tinted by its element; under each place you have found, what it gives.
+- **[422] Lab — Site review** (`lab/src/js/61-lab-sreview.js`): all 53 sites as built, floor by floor, OLD marked, ☆ and notes.
+- **[423] Paintings ordered and cut in**: wave 46 (round 45 icons), wave 47 (sky ports, set-pieces), `tc_petal`; wave 48 (bows, Tome regions, arenas, fairy treasures) — `round45.ps1`, `round45b.ps1`.
+- **[424] Tests** — `test_round45.py`, 14 checks (village walls, M, no effect, culling, sandbox, ground patches, wheel and bows, Tome pictures and chapter, realm map, sites old/new and tower size, roll, special button, two dungeon deaths, sky pause).
+
 ## Naming conventions established
 
 - Hero API: `_hero*` prefix (register, add, animate, dir, arc, projs, familiars, shield, buff).
@@ -736,7 +766,7 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - Melee damage = sword + level + non-weapon slot bonuses only (no bow leak).
 - Save key = `qoz_v2` in localStorage.
 - Save every 30s in WorldScene.update. Saves carry `saveVersion`; bump `SAVE_VERSION` + add a migration step when the shape changes.
-- Any menu open = game paused (Phase 1). Death anywhere = village, 25% HP, −10% gold.
+- Any menu open = game paused (Phase 1). Death anywhere = village, full HP and mana (round 45), −10% gold.
 - ★ boss sites are sealed until the quadrant's other towers + dungeons are cleared ([119]).
 - Skills (special attacks) are only taught by castle masters — never sold, never sellable ([124]).
 - Familiars: ids `fam_grass/water/earth/fam_fire`; look = `FAMILIAR_PICK[element]` (07w); levels `ps.famLevels`; active slots `familiar`…`familiar4`, count = 1 + `ps.fairyKings.length`; quests `ps.fairyQuests` (`q{q}_f{i}`, `king{q}`), `ps.hasTrowel` ([131]–[133]).

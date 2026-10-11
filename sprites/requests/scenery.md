@@ -1,4 +1,4 @@
-# Scenery — 117 sheets, 1185 objects and textures (13 sheets in the pilot)
+# Scenery — 122 sheets, 1284 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -28,6 +28,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 45 | Pilot: adventure-site rooms painted as one picture (round 44) | 3 | 3 |
 | 46 | Icons: round 45 — shadow swords, two-element master-works, rare forging items | 1 | 19 |
 | 47 | Round 45: sky-port flights (backdrops, galleons, wingman, power-ups) and the adventure sites' big set-pieces | 5 | 32 |
+| 48 | Icons: round 45 — the bows and warbows; Tome pictures of regions, arenas and fairy-quest treasures | 5 | 99 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -4318,6 +4319,289 @@ Layout: exactly 19 objects in a grid of 5 columns × 4 rows, evenly spaced, in t
 17. Lodestone — gem or treasure: a dark grey magnetic stone with yellow sparks drawn to its points.
 18. Grave Amber — gem or treasure: a dark amber gem with a violet shadow trapped inside like a moth.
 19. Petal Step — skill emblem: a swirl of yellow sunflower petals around a dancing footprint.
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_r45b
+
+Item icons — the elemental bows, the warbows and the Squall Pearl (round 45), with the last fairy-quest treasures · wave 48 · 19 items, 5 × 4 · 1536x1024
+
+- `ic_ember_bow` Ember Bow — 48 × 48 px
+- `ic_tide_bow` Tide Bow — 48 × 48 px
+- `ic_briar_bow` Briar Bow — 48 × 48 px
+- `ic_granite_bow` Granite Bow — 48 × 48 px
+- `ic_thunder_bow` Thunder Bow — 48 × 48 px
+- `ic_shade_bow` Shade Bow — 48 × 48 px
+- `ic_sunbloom_warbow` Sunbloom Warbow — 48 × 48 px
+- `ic_squall_warbow` Squall Warbow — 48 × 48 px
+- `ic_barrow_warbow` Barrow Warbow — 48 × 48 px
+- `ic_squall_pearl` Squall Pearl — 48 × 48 px
+- `fo_crown_pearl` Crown Pearl — 48 × 48 px
+- `fo_mere_harp` Mere Harp — 48 × 48 px
+- `fo_wisp_jar` Jar of Wisps — 48 × 48 px
+- `fo_frost_crown` Frost Circlet — 48 × 48 px
+- `fo_dwarf_anvil` Dwarf Anvil-charm — 48 × 48 px
+- `fo_petrified_heart` Petrified Heart — 48 × 48 px
+- `fo_forge_ember` Undying Ember — 48 × 48 px
+- `fo_sulfur_crystal` Sulfur Crystal — 48 × 48 px
+- `fo_cathedral_bell` Cathedral Bell — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_ui_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — the elemental bows, the warbows and the Squall Pearl (round 45), with the last fairy-quest treasures.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 19 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
+1. Ember Bow — ranged weapon: a longbow of dark red wood with glowing orange embers along the limbs and a string of fire.
+2. Tide Bow — ranged weapon: a sea-blue longbow curved like a wave, foam at the tips and a pale-blue string.
+3. Briar Bow — ranged weapon: a longbow of living green wood with thorny vines and small leaves along the limbs.
+4. Granite Bow — ranged weapon: a heavy longbow with carved grey-stone limbs and amber studs at the grip.
+5. Thunder Bow — ranged weapon: a pale-gold longbow with a crackling yellow lightning string and storm-cloud tips.
+6. Shade Bow — ranged weapon: a violet-black longbow trailing wisps of shadow, a small crescent moon at the grip.
+7. Sunbloom Warbow — ranged weapon: a great longbow, one limb of glowing orange flame-petals and the other of green leafy vine, a sunflower at the grip.
+8. Squall Warbow — ranged weapon: a great longbow, one limb of curling sea-blue water and the other of yellow lightning, rain falling off it.
+9. Barrow Warbow — ranged weapon: a great longbow, one limb of dark carved stone and the other of violet shadow, grave runes along it.
+10. Squall Pearl — gem or treasure: a grey-blue pearl with a tiny storm cloud and yellow lightning inside it, sea spray around it.
+11. Crown Pearl — a single small treasure: crown pearl, found among the lantern lilies.
+12. Mere Harp — a single small treasure: mere harp, found under the glowing mangroves.
+13. Jar of Wisps — a single small treasure: jar of wisps, found in the wisp cattail maze.
+14. Frost Circlet — a single small treasure: frost circlet, found up on the glacier peaks.
+15. Dwarf Anvil-charm — a single small treasure: dwarf anvil-charm, found by the dwarven stairs.
+16. Petrified Heart — a single small treasure: petrified heart, found in the petrified forest.
+17. Undying Ember — a single small treasure: undying ember, found in the forge-city ruins.
+18. Sulfur Crystal — a single small treasure: sulfur crystal, found among the sulfur geysers.
+19. Cathedral Bell — a single small treasure: cathedral bell, found in the burned cathedral.
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_tome_1
+
+Tome pictures — the regions of the world (1 of 2): each a tiny round vignette of the place · wave 48 · 20 items, 5 × 4 · 1536x1024
+
+- `tm_zone_waystone_road` Waystone Ancient Road — 48 × 48 px
+- `tm_zone_fairy_rings` Fairy-Ring Meadows — 48 × 48 px
+- `tm_zone_firefly_river` Firefly River Valley — 48 × 48 px
+- `tm_zone_windmill_hills` Windmill Hills — 48 × 48 px
+- `tm_zone_standing_stones` Runic Standing Stones — 48 × 48 px
+- `tm_zone_giant_bones` Moss-covered Giant Bones — 48 × 48 px
+- `tm_zone_blossom_terraces` Blossom Orchard Terraces — 48 × 48 px
+- `tm_zone_amphitheatre` Sunken Amphitheatre Ruins — 48 × 48 px
+- `tm_zone_crystal_grass` Crystal-tipped Tallgrass — 48 × 48 px
+- `tm_zone_floating_rocks` Floating-Rock Meadow — 48 × 48 px
+- `tm_zone_lantern_lilies` Lantern Lily Marsh — 48 × 48 px
+- `tm_zone_rune_stepping` Rune Stepping Stones — 48 × 48 px
+- `tm_zone_sunken_spires` Sunken Temple Spires — 48 × 48 px
+- `tm_zone_glowfrog_pools` Glow-Frog Pools — 48 × 48 px
+- `tm_zone_willow_cathedral` Willow Cathedral — 48 × 48 px
+- `tm_zone_glow_mangroves` Bioluminescent Mangroves — 48 × 48 px
+- `tm_zone_wisp_cattails` Wisp Cattail Maze — 48 × 48 px
+- `tm_zone_turtle_isles` Giant Turtle-Shell Isles — 48 × 48 px
+- `tm_zone_drowned_village` Drowned Village Rooftops — 48 × 48 px
+- `tm_zone_stilt_walkways` Misty Stilt Walkways — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_ui_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Tome pictures — the regions of the world (1 of 2): each a tiny round vignette of the place.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
+1. Waystone Ancient Road — a tiny round painted vignette of a place, like a map-book illustration: An old paved road lined with rune waystones..
+2. Fairy-Ring Meadows — a tiny round painted vignette of a place, like a map-book illustration: Glowing mushroom rings in wildflower meadows..
+3. Firefly River Valley — a tiny round painted vignette of a place, like a map-book illustration: A winding river, willows and fireflies..
+4. Windmill Hills — a tiny round painted vignette of a place, like a map-book illustration: Rolling hills, windmills and glyph kites..
+5. Runic Standing Stones — a tiny round painted vignette of a place, like a map-book illustration: Stone circles joined by ley lines on the heath..
+6. Moss-covered Giant Bones — a tiny round painted vignette of a place, like a map-book illustration: An ancient giant's skeleton under the grass..
+7. Blossom Orchard Terraces — a tiny round painted vignette of a place, like a map-book illustration: Stepped orchards of cherry blossom..
+8. Sunken Amphitheatre Ruins — a tiny round painted vignette of a place, like a map-book illustration: Grass-grown stone tiers around a rune stage..
+9. Crystal-tipped Tallgrass — a tiny round painted vignette of a place, like a map-book illustration: Waist-high grass with glowing crystal tips..
+10. Floating-Rock Meadow — a tiny round painted vignette of a place, like a map-book illustration: Grassy islets drifting above the meadow..
+11. Lantern Lily Marsh — a tiny round painted vignette of a place, like a map-book illustration: Ponds of lily pads and glowing lantern flowers..
+12. Rune Stepping Stones — a tiny round painted vignette of a place, like a map-book illustration: A lake crossed on glowing rune stones..
+13. Sunken Temple Spires — a tiny round painted vignette of a place, like a map-book illustration: Rune spires rising from green shallows..
+14. Glow-Frog Pools — a tiny round painted vignette of a place, like a map-book illustration: Dozens of little pools and shining frogs..
+15. Willow Cathedral — a tiny round painted vignette of a place, like a map-book illustration: A nave of giant willows and moss curtains..
+16. Bioluminescent Mangroves — a tiny round painted vignette of a place, like a map-book illustration: Glowing roots over shallow blue water..
+17. Wisp Cattail Maze — a tiny round painted vignette of a place, like a map-book illustration: Head-high cattails and drifting wisps..
+18. Giant Turtle-Shell Isles — a tiny round painted vignette of a place, like a map-book illustration: Islands that are the backs of sleeping turtles..
+19. Drowned Village Rooftops — a tiny round painted vignette of a place, like a map-book illustration: Rooftops and a bell tower above a flooded town..
+20. Misty Stilt Walkways — a tiny round painted vignette of a place, like a map-book illustration: Plank walks between huts on stilts..
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_tome_2
+
+Tome pictures — the regions of the world (2 of 2): each a tiny round vignette of the place · wave 48 · 20 items, 5 × 4 · 1536x1024
+
+- `tm_zone_dwarven_stairs` Dwarven Stair-cut Cliffs — 48 × 48 px
+- `tm_zone_golem_graveyard` Golem Graveyard — 48 × 48 px
+- `tm_zone_runic_mesas` Runic Mesas — 48 × 48 px
+- `tm_zone_petrified_forest` Petrified Forest — 48 × 48 px
+- `tm_zone_herder_terraces` Terraced Herder Slopes — 48 × 48 px
+- `tm_zone_windharp_ridges` Wind-harp Ridges — 48 × 48 px
+- `tm_zone_geode_canyons` Crystal Geode Canyons — 48 × 48 px
+- `tm_zone_glacier_peaks` Glacier-veined Peaks — 48 × 48 px
+- `tm_zone_giants_chessboard` Giant's Chessboard Plateau — 48 × 48 px
+- `tm_zone_starfall_crater` Starfall Crater Field — 48 × 48 px
+- `tm_zone_emberflower_fields` Ember-flower Fields — 48 × 48 px
+- `tm_zone_burned_cathedral` Burned Cathedral Ruins — 48 × 48 px
+- `tm_zone_obsidian_glass` Obsidian Glass Fields — 48 × 48 px
+- `tm_zone_sulfur_geysers` Sulfur Geyser Flats — 48 × 48 px
+- `tm_zone_forge_ruins` Smouldering Forge-city Ruins — 48 × 48 px
+- `tm_zone_ashsnow_forest` Ash-snow Dead Forest — 48 × 48 px
+- `tm_zone_magma_channels` Magma Rune Channels — 48 × 48 px
+- `tm_zone_basalt_forest` Basalt Column Forest — 48 × 48 px
+- `tm_zone_dragon_valley` Dragon Skeleton Valley — 48 × 48 px
+- `tm_zone_chained_rocks` Chained Floating Rocks — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_ui_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Tome pictures — the regions of the world (2 of 2): each a tiny round vignette of the place.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
+1. Dwarven Stair-cut Cliffs — a tiny round painted vignette of a place, like a map-book illustration: Cliff terraces cut with stairs and rune doors..
+2. Golem Graveyard — a tiny round painted vignette of a place, like a map-book illustration: Fallen stone golems with sleeping rune cores..
+3. Runic Mesas — a tiny round painted vignette of a place, like a map-book illustration: Red flat-topped mesas carved with runes..
+4. Petrified Forest — a tiny round painted vignette of a place, like a map-book illustration: A forest turned to stone..
+5. Terraced Herder Slopes — a tiny round painted vignette of a place, like a map-book illustration: Mountain terraces, huts, sheep and banners..
+6. Wind-harp Ridges — a tiny round painted vignette of a place, like a map-book illustration: Windswept ridges strung with singing harps..
+7. Crystal Geode Canyons — a tiny round painted vignette of a place, like a map-book illustration: Winding canyons lined with split geodes..
+8. Glacier-veined Peaks — a tiny round painted vignette of a place, like a map-book illustration: Snowfields, rock and glowing blue ice veins..
+9. Giant's Chessboard Plateau — a tiny round painted vignette of a place, like a map-book illustration: A huge chessboard with pieces the size of towers..
+10. Starfall Crater Field — a tiny round painted vignette of a place, like a map-book illustration: Craters with glowing fallen-star cores..
+11. Ember-flower Fields — a tiny round painted vignette of a place, like a map-book illustration: Dark fields of glowing ember flowers..
+12. Burned Cathedral Ruins — a tiny round painted vignette of a place, like a map-book illustration: A roofless cathedral of charred stone and glass..
+13. Obsidian Glass Fields — a tiny round painted vignette of a place, like a map-book illustration: Black glass plains cracked with ember veins..
+14. Sulfur Geyser Flats — a tiny round painted vignette of a place, like a map-book illustration: Yellow crust, steaming vents and green pools..
+15. Smouldering Forge-city Ruins — a tiny round painted vignette of a place, like a map-book illustration: A ruined forge city with smoking chimneys..
+16. Ash-snow Dead Forest — a tiny round painted vignette of a place, like a map-book illustration: Grey dead trees under falling ash..
+17. Magma Rune Channels — a tiny round painted vignette of a place, like a map-book illustration: Lava flowing through channels cut as runes..
+18. Basalt Column Forest — a tiny round painted vignette of a place, like a map-book illustration: A maze of towering hexagonal basalt columns..
+19. Dragon Skeleton Valley — a tiny round painted vignette of a place, like a map-book illustration: A valley holding a dragon's skeleton..
+20. Chained Floating Rocks — a tiny round painted vignette of a place, like a map-book illustration: Basalt islands and chained rocks over a lava lake..
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_tome_3
+
+Tome pictures — the boss arenas: each a tiny round vignette of the battleground · wave 48 · 20 items, 5 × 4 · 1536x1024
+
+- `tm_arena_throne_warren` The Throne Warren — 48 × 48 px
+- `tm_arena_moon_canopy` The Moonlit Canopy — 48 × 48 px
+- `tm_arena_sunken_grotto` The Sunken Grotto — 48 × 48 px
+- `tm_arena_cauldron_pit` The Cauldron Pit — 48 × 48 px
+- `tm_arena_cathedral_roof` The Cathedral Rooftop — 48 × 48 px
+- `tm_arena_storm_eye` The Eye of the Storm — 48 × 48 px
+- `tm_arena_geode_hollow` The Geode Hollow — 48 × 48 px
+- `tm_arena_chasm_bridge` The Chasm Bridge — 48 × 48 px
+- `tm_arena_dragon_summit` The Dragon's Summit — 48 × 48 px
+- `tm_arena_gear_hall` The Gear Hall — 48 × 48 px
+- `tm_arena_observatory_dome` The Observatory Dome — 48 × 48 px
+- `tm_arena_star_forge` The Star Forge — 48 × 48 px
+- `tm_arena_crust_field` The Cooling Crust — 48 × 48 px
+- `tm_arena_lava_falls` The Lava Falls Terrace — 48 × 48 px
+- `tm_arena_caldera_rim` The Caldera Rim — 48 × 48 px
+- `tm_arena_volcano_heart` The Heart of the Volcano — 48 × 48 px
+- `tm_arena_shattered_sanctum` The Shattered Sanctum — 48 × 48 px
+- `tm_arena_mirror_hall` The Hall of Mirrors — 48 × 48 px
+- `tm_arena_starless_void` The Starless Void — 48 × 48 px
+- `tm_arena_dawn_altar` The Dawn Altar — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_ui_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Tome pictures — the boss arenas: each a tiny round vignette of the battleground.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
+1. The Throne Warren — a tiny round painted vignette of a place, like a map-book illustration: A torch-lit goblin fighting pit ringed with spiked barricades..
+2. The Moonlit Canopy — a tiny round painted vignette of a place, like a map-book illustration: Tree-top platforms joined by branches over a dark drop..
+3. The Sunken Grotto — a tiny round painted vignette of a place, like a map-book illustration: Mossy islands in black water; mud geysers bubble up..
+4. The Cauldron Pit — a tiny round painted vignette of a place, like a map-book illustration: A ring of stone around a boiling pool of witch-brew..
+5. The Cathedral Rooftop — a tiny round painted vignette of a place, like a map-book illustration: A cross of slate roof ridges high above the storm clouds..
+6. The Eye of the Storm — a tiny round painted vignette of a place, like a map-book illustration: A floating stone ring around the storm's calm, lightning all round..
+7. The Geode Hollow — a tiny round painted vignette of a place, like a map-book illustration: The inside of a giant geode — crystal spires everywhere..
+8. The Chasm Bridge — a tiny round painted vignette of a place, like a map-book illustration: A winding stone bridge over a bottomless chasm; the ceiling is falling..
+9. The Dragon's Summit — a tiny round painted vignette of a place, like a map-book illustration: A wind-scoured mountain top ringed by lava vents..
+10. The Gear Hall — a tiny round painted vignette of a place, like a map-book illustration: Rows of giant gears and steam vents under the observatory..
+11. The Observatory Dome — a tiny round painted vignette of a place, like a map-book illustration: A ring of floor around the great telescope well, starlight pouring in..
+12. The Star Forge — a tiny round painted vignette of a place, like a map-book illustration: Anvil islands over a river of molten star-metal..
+13. The Cooling Crust — a tiny round painted vignette of a place, like a map-book illustration: Slabs of black crust drifting on lava..
+14. The Lava Falls Terrace — a tiny round painted vignette of a place, like a map-book illustration: Stepped terraces with lava channels between them..
+15. The Caldera Rim — a tiny round painted vignette of a place, like a map-book illustration: A narrow rim around the volcano's lava lake..
+16. The Heart of the Volcano — a tiny round painted vignette of a place, like a map-book illustration: Molten core chambers; everything burns..
+17. The Shattered Sanctum — a tiny round painted vignette of a place, like a map-book illustration: A broken chapel; pools of living shadow on the floor..
+18. The Hall of Mirrors — a tiny round painted vignette of a place, like a map-book illustration: Gilded mirrors on a cross of marble over the dark..
+19. The Starless Void — a tiny round painted vignette of a place, like a map-book illustration: Floating shards of stone in nothing at all..
+20. The Dawn Altar — a tiny round painted vignette of a place, like a map-book illustration: A golden altar floor lit by the first light of dawn..
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_tome_4
+
+Fairy-quest treasures — small magical objects dug out of the ground, each glowing faintly · wave 48 · 20 items, 5 × 4 · 1536x1024
+
+- `fo_silver_acorn` Silver Acorn — 48 × 48 px
+- `fo_dew_pearl` Dewdrop Pearl — 48 × 48 px
+- `fo_bell_flower` Singing Bluebell — 48 × 48 px
+- `fo_sun_shard` Sunstone Shard — 48 × 48 px
+- `fo_sky_feather` Sky-roc Feather — 48 × 48 px
+- `fo_moon_lily` Moonlily Bulb — 48 × 48 px
+- `fo_tide_shell` Tide-song Shell — 48 × 48 px
+- `fo_willow_ring` Willow Ring — 48 × 48 px
+- `fo_drowned_bell` Drowned Bell — 48 × 48 px
+- `fo_stilt_lantern` Marsh Lantern — 48 × 48 px
+- `fo_geode_heart` Geode Heart — 48 × 48 px
+- `fo_golem_eye` Golem Eye — 48 × 48 px
+- `fo_stone_bishop` Stone Bishop — 48 × 48 px
+- `fo_herder_horn` Herder's Horn — 48 × 48 px
+- `fo_star_iron` Star-iron — 48 × 48 px
+- `fo_ember_seed` Ember Seed — 48 × 48 px
+- `fo_obsidian_key` Obsidian Key — 48 × 48 px
+- `fo_ash_bloom` Ash-snow Bloom — 48 × 48 px
+- `fo_basalt_rune` Basalt Rune — 48 × 48 px
+- `fo_dragon_tooth` Dragon Tooth — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_ui_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Fairy-quest treasures — small magical objects dug out of the ground, each glowing faintly.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
+1. Silver Acorn — a single small treasure: silver acorn, found under the old windmill hill.
+2. Dewdrop Pearl — a single small treasure: dewdrop pearl, found between the blossom terraces.
+3. Singing Bluebell — a single small treasure: singing bluebell, found inside the ring of standing stones.
+4. Sunstone Shard — a single small treasure: sunstone shard, found among the crystal-tipped grass.
+5. Sky-roc Feather — a single small treasure: sky-roc feather, found beneath the floating rocks.
+6. Moonlily Bulb — a single small treasure: moonlily bulb, found by the glow-frog pools.
+7. Tide-song Shell — a single small treasure: tide-song shell, found on the turtle-shell isles.
+8. Willow Ring — a single small treasure: willow ring, found under the willow cathedral.
+9. Drowned Bell — a single small treasure: drowned bell, found in the drowned village.
+10. Marsh Lantern — a single small treasure: marsh lantern, found below the stilt walkways.
+11. Geode Heart — a single small treasure: geode heart, found deep in the geode canyons.
+12. Golem Eye — a single small treasure: golem eye, found in the golem graveyard.
+13. Stone Bishop — a single small treasure: stone bishop, found on the giant's chessboard.
+14. Herder's Horn — a single small treasure: herder's horn, found on the herder terraces.
+15. Star-iron — a single small treasure: star-iron, found in the starfall crater.
+16. Ember Seed — a single small treasure: ember seed, found in the ember-flower fields.
+17. Obsidian Key — a single small treasure: obsidian key, found out on the obsidian glass.
+18. Ash-snow Bloom — a single small treasure: ash-snow bloom, found in the ash-snow forest.
+19. Basalt Rune — a single small treasure: basalt rune, found among the basalt columns.
+20. Dragon Tooth — a single small treasure: dragon tooth, found in the dragon skeleton valley.
 View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.

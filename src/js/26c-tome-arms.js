@@ -23,24 +23,24 @@
   var LANE_R={1:290,2:244,3:198,4:152};
   var WSLOT={lHand:1,rHand:1,mWeapon:1};
   function weapons(){ if(A._w)return A._w; var L=Object.keys(ITEMS).filter(function(k){ var I=ITEMS[k]; return I&&WSLOT[I.slot]&&k.indexOf('~')<0&&(ZForge.recipe(k)||I.sov); });
-    ['iron_sword','crossbow'].forEach(function(k){ if(ITEMS[k]&&L.indexOf(k)<0)L.unshift(k); }); return (A._w=L); }
+    ['iron_sword','crossbow','longbow'].forEach(function(k){ if(ITEMS[k]&&L.indexOf(k)<0)L.unshift(k); }); return (A._w=L); }
   function els(I){ if(I.el==='all')return 'all'; return (I.el||[]).filter(function(e){ return ZEL.E[e]; }); }
-  function tier(id){ var t=0; ZForge.LANES.forEach(function(L){ var i=L.nodes.indexOf(id); if(i>=0)t=i; }); if(ZForge.XBOW.t1.indexOf(id)>=0)t=2; if(ZForge.XBOW.t2.indexOf(id)>=0)t=4; return t; }
+  function tier(id){ var t=0; ZForge.LANES.forEach(function(L){ var i=L.nodes.indexOf(id); if(i>=0)t=i; }); if(ZForge.XBOW.t1.indexOf(id)>=0)t=2; if(ZForge.XBOW.t2.indexOf(id)>=0)t=4; if(ZForge.BOW&&ZForge.BOW.t1.indexOf(id)>=0)t=2; if(ZForge.BOW&&ZForge.BOW.t2.indexOf(id)>=0)t=4; return t; }
   function pol(deg,r){ var a=deg*Math.PI/180; return [C+Math.cos(a)*r,C+Math.sin(a)*r]; }
   function gap(a,b){ return Math.abs(((ANG[a]-ANG[b])%360+540)%360-180); }      // 60 = neighbours, 120 = one between, 180 = opposite
   function midAng(a,b){ var d=((ANG[b]-ANG[a])%360+540)%360-180; return ANG[a]+d/2; }
   function layout(){ if(A._lay)return A._lay; var pos={}, byEl={}, duals=[], mid=[], none=[], laneOf={};
     ZForge.LANES.forEach(function(L){ L.nodes.forEach(function(id,i){ if(i>0)laneOf[id]=[L.el[0],i]; }); });
     weapons().forEach(function(id){ var e=els(ITEMS[id]); if(e==='all')mid.push(id); else if(!e.length)none.push(id); else if(e.length===1)(byEl[e[0]]=byEl[e[0]]||[]).push(id); else duals.push(id); });
-    // one element: its forging line runs from the rim (first step) to the middle (last step); a crossbow beside the line's start
+    // one element: its forging line runs from the rim (first step) to the middle (last step); a crossbow beside the line's start, the element's bow just inside it
     Object.keys(byEl).forEach(function(el){ var extra=0; byEl[el].forEach(function(id){ var ln=laneOf[id];
-      if(ln&&ln[0]===el)pos[id]=pol(ANG[el]-9,LANE_R[ln[1]]); else { pos[id]=pol(ANG[el]+15+extra*12,LANE_R[1]-extra*40); extra++; } }); });
+      if(ln&&ln[0]===el)pos[id]=pol(ANG[el]-9,LANE_R[ln[1]]); else if(ZForge.BOW&&ZForge.BOW.t1.indexOf(id)>=0)pos[id]=pol(ANG[el]+15,LANE_R[2]-14); else { pos[id]=pol(ANG[el]+15+extra*12,LANE_R[1]-extra*40); extra++; } }); });
     // two elements: neighbours on the line between their slices; one slice apart, in the middle ring; opposite, nearest the middle
     var pairs={}; duals.forEach(function(id){ var e=els(ITEMS[id]), key=e.slice().sort().join('+'); (pairs[key]=pairs[key]||[]).push(id); });
-    Object.keys(pairs).forEach(function(key){ var e=key.split('+'), g=gap(e[0],e[1]), L=pairs[key].sort(function(a,b){ return (ITEMS[a].cls==='xbow'?0:1)-(ITEMS[b].cls==='xbow'?0:1); }), m=midAng(e[0],e[1]);
-      L.forEach(function(id,i){ if(g<=61)pos[id]=pol(m,ITEMS[id].cls==='xbow'?LANE_R[1]:LANE_R[2]-i*46); else if(g<=121)pos[id]=pol(m+(i-(L.length-1)/2)*16,112); else pos[id]=pol(m+(i-(L.length-1)/2)*20,82); }); });
+    Object.keys(pairs).forEach(function(key){ var e=key.split('+'), g=gap(e[0],e[1]), L=pairs[key].sort(function(a,b){ return (ITEMS[a].slot==='rHand'?0:1)-(ITEMS[b].slot==='rHand'?0:1); }), m=midAng(e[0],e[1]);
+      L.forEach(function(id,i){ if(g<=61)pos[id]=pol(m,ITEMS[id].slot==='rHand'?LANE_R[1]:LANE_R[2]-(i-(ITEMS[L[0]].slot==='rHand'?1:0))*46); else if(g<=121)pos[id]=pol(m+(i-(L.length-1)/2)*16,112); else pos[id]=pol(m+(i-(L.length-1)/2)*20,82); }); });
     // all six: the middle
-    var SA=[0,70,140,270]; mid.sort(function(a,b){ return a==='elemental_sovereign'?-1:b==='elemental_sovereign'?1:0; }).forEach(function(id,i){ pos[id]=i===0?[C,C]:pol(SA[(i-1)%4]+Math.floor((i-1)/4)*35,44); });
+    var SA=[30,90,150,210]; mid.sort(function(a,b){ return a==='elemental_sovereign'?-1:b==='elemental_sovereign'?1:0; }).forEach(function(id,i){ pos[id]=i===0?[C,C]:pol(SA[(i-1)%4]+Math.floor((i-1)/4)*35,50); });
     // no element: a row under the wheel, outside it
     none.forEach(function(id,i){ pos[id]=[C+(i-(none.length-1)/2)*(SQ+14),ROWY]; });
     return (A._lay={pos:pos,byEl:byEl,duals:duals,mid:mid,none:none}); }

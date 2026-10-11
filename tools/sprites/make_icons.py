@@ -79,16 +79,129 @@ for sid, wave, title, slots, c, r in ITEM_SHEETS:
     items = [(k, it) for s in slots for k, it in I.items() if slot_of(it) == s]; assert len(items) <= c * r, (sid, len(items)); n += len(items)
     rows.append("    {id:'%s',wave:%d,fam:'icons',kind:'icon',cols:%d,rows:%d,size:'%s',title:'%s',items:[\n      %s]}" % (sid, wave, c, r, '1024x1024' if c == r else '1536x1024', q(title),
                 ",".join("['ic_%s','%s','%s',48,48]" % (k, q(it['name']), q(look(k, it))) for k, it in items)))
-ITEM_SHEETS3 = [('sc_ic_r45', 46, 'Item icons — shadow swords, two-element master-works, their rare forging items and Petal Step (round 45)', ['lHand', 'gem', 'special'], 5, 4)]
+# ── round 45 (Kris, Oct 10 late): "in some place the tome uses old pixel art instead of updated painted images" — the Tome's places and quests
+# showed emoji. The camps, castles, sites, village and items already have painted pictures and use them now; these are the ones that had none:
+# a small painted scene for each region (tm_zone_*) and boss arena (tm_arena_*), and each buried fairy-quest object (fo_*). Wave 48, with the
+# round 45 bows. (The lists come from WMAP_ZONES, BOSS_ARENAS, FAIRY_OBJECTS and FAIRY_KING_OBJECTS.)
+TOME_ZONES = [
+    ('waystone_road', 'Waystone Ancient Road', 'An old paved road lined with rune waystones.'),
+    ('fairy_rings', 'Fairy-Ring Meadows', 'Glowing mushroom rings in wildflower meadows.'),
+    ('firefly_river', 'Firefly River Valley', 'A winding river, willows and fireflies.'),
+    ('windmill_hills', 'Windmill Hills', 'Rolling hills, windmills and glyph kites.'),
+    ('standing_stones', 'Runic Standing Stones', 'Stone circles joined by ley lines on the heath.'),
+    ('giant_bones', 'Moss-covered Giant Bones', "An ancient giant's skeleton under the grass."),
+    ('blossom_terraces', 'Blossom Orchard Terraces', 'Stepped orchards of cherry blossom.'),
+    ('amphitheatre', 'Sunken Amphitheatre Ruins', 'Grass-grown stone tiers around a rune stage.'),
+    ('crystal_grass', 'Crystal-tipped Tallgrass', 'Waist-high grass with glowing crystal tips.'),
+    ('floating_rocks', 'Floating-Rock Meadow', 'Grassy islets drifting above the meadow.'),
+    ('lantern_lilies', 'Lantern Lily Marsh', 'Ponds of lily pads and glowing lantern flowers.'),
+    ('rune_stepping', 'Rune Stepping Stones', 'A lake crossed on glowing rune stones.'),
+    ('sunken_spires', 'Sunken Temple Spires', 'Rune spires rising from green shallows.'),
+    ('glowfrog_pools', 'Glow-Frog Pools', 'Dozens of little pools and shining frogs.'),
+    ('willow_cathedral', 'Willow Cathedral', 'A nave of giant willows and moss curtains.'),
+    ('glow_mangroves', 'Bioluminescent Mangroves', 'Glowing roots over shallow blue water.'),
+    ('wisp_cattails', 'Wisp Cattail Maze', 'Head-high cattails and drifting wisps.'),
+    ('turtle_isles', 'Giant Turtle-Shell Isles', 'Islands that are the backs of sleeping turtles.'),
+    ('drowned_village', 'Drowned Village Rooftops', 'Rooftops and a bell tower above a flooded town.'),
+    ('stilt_walkways', 'Misty Stilt Walkways', 'Plank walks between huts on stilts.'),
+    ('dwarven_stairs', 'Dwarven Stair-cut Cliffs', 'Cliff terraces cut with stairs and rune doors.'),
+    ('golem_graveyard', 'Golem Graveyard', 'Fallen stone golems with sleeping rune cores.'),
+    ('runic_mesas', 'Runic Mesas', 'Red flat-topped mesas carved with runes.'),
+    ('petrified_forest', 'Petrified Forest', 'A forest turned to stone.'),
+    ('herder_terraces', 'Terraced Herder Slopes', 'Mountain terraces, huts, sheep and banners.'),
+    ('windharp_ridges', 'Wind-harp Ridges', 'Windswept ridges strung with singing harps.'),
+    ('geode_canyons', 'Crystal Geode Canyons', 'Winding canyons lined with split geodes.'),
+    ('glacier_peaks', 'Glacier-veined Peaks', 'Snowfields, rock and glowing blue ice veins.'),
+    ('giants_chessboard', "Giant's Chessboard Plateau", 'A huge chessboard with pieces the size of towers.'),
+    ('starfall_crater', 'Starfall Crater Field', 'Craters with glowing fallen-star cores.'),
+    ('emberflower_fields', 'Ember-flower Fields', 'Dark fields of glowing ember flowers.'),
+    ('burned_cathedral', 'Burned Cathedral Ruins', 'A roofless cathedral of charred stone and glass.'),
+    ('obsidian_glass', 'Obsidian Glass Fields', 'Black glass plains cracked with ember veins.'),
+    ('sulfur_geysers', 'Sulfur Geyser Flats', 'Yellow crust, steaming vents and green pools.'),
+    ('forge_ruins', 'Smouldering Forge-city Ruins', 'A ruined forge city with smoking chimneys.'),
+    ('ashsnow_forest', 'Ash-snow Dead Forest', 'Grey dead trees under falling ash.'),
+    ('magma_channels', 'Magma Rune Channels', 'Lava flowing through channels cut as runes.'),
+    ('basalt_forest', 'Basalt Column Forest', 'A maze of towering hexagonal basalt columns.'),
+    ('dragon_valley', 'Dragon Skeleton Valley', "A valley holding a dragon's skeleton."),
+    ('chained_rocks', 'Chained Floating Rocks', 'Basalt islands and chained rocks over a lava lake.'),
+]
+TOME_ARENAS = [
+    ('throne_warren', 'The Throne Warren', 'A torch-lit goblin fighting pit ringed with spiked barricades.'),
+    ('moon_canopy', 'The Moonlit Canopy', 'Tree-top platforms joined by branches over a dark drop.'),
+    ('sunken_grotto', 'The Sunken Grotto', 'Mossy islands in black water; mud geysers bubble up.'),
+    ('cauldron_pit', 'The Cauldron Pit', 'A ring of stone around a boiling pool of witch-brew.'),
+    ('cathedral_roof', 'The Cathedral Rooftop', 'A cross of slate roof ridges high above the storm clouds.'),
+    ('storm_eye', 'The Eye of the Storm', "A floating stone ring around the storm's calm, lightning all round."),
+    ('geode_hollow', 'The Geode Hollow', 'The inside of a giant geode — crystal spires everywhere.'),
+    ('chasm_bridge', 'The Chasm Bridge', 'A winding stone bridge over a bottomless chasm; the ceiling is falling.'),
+    ('dragon_summit', "The Dragon's Summit", 'A wind-scoured mountain top ringed by lava vents.'),
+    ('gear_hall', 'The Gear Hall', 'Rows of giant gears and steam vents under the observatory.'),
+    ('observatory_dome', 'The Observatory Dome', 'A ring of floor around the great telescope well, starlight pouring in.'),
+    ('star_forge', 'The Star Forge', 'Anvil islands over a river of molten star-metal.'),
+    ('crust_field', 'The Cooling Crust', 'Slabs of black crust drifting on lava.'),
+    ('lava_falls', 'The Lava Falls Terrace', 'Stepped terraces with lava channels between them.'),
+    ('caldera_rim', 'The Caldera Rim', "A narrow rim around the volcano's lava lake."),
+    ('volcano_heart', 'The Heart of the Volcano', 'Molten core chambers; everything burns.'),
+    ('shattered_sanctum', 'The Shattered Sanctum', 'A broken chapel; pools of living shadow on the floor.'),
+    ('mirror_hall', 'The Hall of Mirrors', 'Gilded mirrors on a cross of marble over the dark.'),
+    ('starless_void', 'The Starless Void', 'Floating shards of stone in nothing at all.'),
+    ('dawn_altar', 'The Dawn Altar', 'A golden altar floor lit by the first light of dawn.'),
+]
+FAIRY_OBJS = [
+    ('silver_acorn', 'Silver Acorn', 'under the old windmill hill'),
+    ('dew_pearl', 'Dewdrop Pearl', 'between the blossom terraces'),
+    ('bell_flower', 'Singing Bluebell', 'inside the ring of standing stones'),
+    ('sun_shard', 'Sunstone Shard', 'among the crystal-tipped grass'),
+    ('sky_feather', 'Sky-roc Feather', 'beneath the floating rocks'),
+    ('moon_lily', 'Moonlily Bulb', 'by the glow-frog pools'),
+    ('tide_shell', 'Tide-song Shell', 'on the turtle-shell isles'),
+    ('willow_ring', 'Willow Ring', 'under the willow cathedral'),
+    ('drowned_bell', 'Drowned Bell', 'in the drowned village'),
+    ('stilt_lantern', 'Marsh Lantern', 'below the stilt walkways'),
+    ('geode_heart', 'Geode Heart', 'deep in the geode canyons'),
+    ('golem_eye', 'Golem Eye', 'in the golem graveyard'),
+    ('stone_bishop', 'Stone Bishop', "on the giant's chessboard"),
+    ('herder_horn', "Herder's Horn", 'on the herder terraces'),
+    ('star_iron', 'Star-iron', 'in the starfall crater'),
+    ('ember_seed', 'Ember Seed', 'in the ember-flower fields'),
+    ('obsidian_key', 'Obsidian Key', 'out on the obsidian glass'),
+    ('ash_bloom', 'Ash-snow Bloom', 'in the ash-snow forest'),
+    ('basalt_rune', 'Basalt Rune', 'among the basalt columns'),
+    ('dragon_tooth', 'Dragon Tooth', 'in the dragon skeleton valley'),
+    ('crown_pearl', 'Crown Pearl', 'among the lantern lilies'),
+    ('mere_harp', 'Mere Harp', 'under the glowing mangroves'),
+    ('wisp_jar', 'Jar of Wisps', 'in the wisp cattail maze'),
+    ('frost_crown', 'Frost Circlet', 'up on the glacier peaks'),
+    ('dwarf_anvil', 'Dwarf Anvil-charm', 'by the dwarven stairs'),
+    ('petrified_heart', 'Petrified Heart', 'in the petrified forest'),
+    ('forge_ember', 'Undying Ember', 'in the forge-city ruins'),
+    ('sulfur_crystal', 'Sulfur Crystal', 'among the sulfur geysers'),
+    ('cathedral_bell', 'Cathedral Bell', 'in the burned cathedral'),
+]
+R45B = ['ember_bow', 'tide_bow', 'briar_bow', 'granite_bow', 'thunder_bow', 'shade_bow', 'sunbloom_warbow', 'squall_warbow', 'barrow_warbow', 'squall_pearl']
+SCENE = 'a tiny round painted vignette of a place, like a map-book illustration: '
+TOME_SHEETS = [
+    ('sc_ic_tome_1', 48, 'Tome pictures — the regions of the world (1 of 2): each a tiny round vignette of the place', [('tm_zone_' + a, b, SCENE + c) for a, b, c in TOME_ZONES[:20]]),
+    ('sc_ic_tome_2', 48, 'Tome pictures — the regions of the world (2 of 2): each a tiny round vignette of the place', [('tm_zone_' + a, b, SCENE + c) for a, b, c in TOME_ZONES[20:]]),
+    ('sc_ic_tome_3', 48, 'Tome pictures — the boss arenas: each a tiny round vignette of the battleground', [('tm_arena_' + a, b, SCENE + c) for a, b, c in TOME_ARENAS]),
+    ('sc_ic_tome_4', 48, 'Fairy-quest treasures — small magical objects dug out of the ground, each glowing faintly', [('fo_' + a, b, 'a single small treasure: ' + b.lower() + ', found ' + c) for a, b, c in FAIRY_OBJS[:20]]),
+]
+ITEM_SHEETS3 = [('sc_ic_r45', 46, 'Item icons — shadow swords, two-element master-works, their rare forging items and Petal Step (round 45)', ['lHand', 'gem', 'special'], 5, 4),
+                ('sc_ic_r45b', 48, 'Item icons — the elemental bows, the warbows and the Squall Pearl (round 45), with the last fairy-quest treasures', ['rHand', 'gem'], 5, 4)]
 for sid, wave, title, slots, c, r in ITEM_SHEETS2:
     items = [(k, it) for s_ in slots for k, it in I2.items() if slot_of(it) == s_]; extra = UI2 if sid == 'sc_ic_misc2' else []
     assert len(items) + len(extra) <= c * r, (sid, len(items) + len(extra)); n += len(items) + len(extra)
     rows.append("    {id:'%s',wave:%d,fam:'icons',kind:'icon',cols:%d,rows:%d,size:'%s',title:'%s',items:[\n      %s]}" % (sid, wave, c, r, '1024x1024' if c == r else '1536x1024', q(title),
                 ",".join(["['ic_%s','%s','%s',48,48]" % (k, q(it['name']), q(look2(k, it))) for k, it in items] + ["['%s','%s','%s',48,48]" % (a, q(b), q(cc)) for a, b, cc in extra])))
 for sid, wave, title, slots, c, r in ITEM_SHEETS3:
-    items = [(k, it) for s_ in slots for k, it in I3.items() if slot_of(it) == s_]; assert len(items) <= c * r, (sid, len(items)); n += len(items)
+    items = [(k, it) for s_ in slots for k, it in I3.items() if slot_of(it) == s_ and (k in R45B) == (sid == 'sc_ic_r45b')]; assert len(items) <= c * r, (sid, len(items)); n += len(items)
+    extra = [('fo_' + a, b, 'a single small treasure: ' + b.lower() + ', found ' + c) for a, b, c in FAIRY_OBJS[20:]] if sid == 'sc_ic_r45b' else []
+    assert len(items) + len(extra) <= c * r, (sid, len(items) + len(extra)); n += len(extra)
     rows.append("    {id:'%s',wave:%d,fam:'icons',kind:'icon',cols:%d,rows:%d,size:'%s',title:'%s',items:[\n      %s]}" % (sid, wave, c, r, '1024x1024' if c == r else '1536x1024', q(title),
-                ",".join(["['ic_%s','%s','%s',48,48]" % (k, q(it['name']), q(look2(k, it))) for k, it in items])))
+                ",".join(["['ic_%s','%s','%s',48,48]" % (k, q(it['name']), q(look2(k, it))) for k, it in items] + ["['%s','%s','%s',48,48]" % (a, q(b), q(cc)) for a, b, cc in extra])))
+for sid, wave, title, items in TOME_SHEETS:
+    assert len(items) <= 20, (sid, len(items)); n += len(items)
+    rows.append("    {id:'%s',wave:%d,fam:'icons',kind:'icon',cols:5,rows:4,size:'1536x1024',title:'%s',items:[\n      %s]}" % (sid, wave, q(title), ",".join(["['%s','%s','%s',48,48]" % (a, q(b), q(cc)) for a, b, cc in items])))
 js = """// ═══════════════════════════════════════════════════════════════════════
 // ║ 07zv-icons.js — painted icons for the controls, the menus and every item (round 32).
 // ║ MADE BY tools/sprites/make_icons.py — edit the lists there and run it again; do not edit this file by hand.
@@ -100,7 +213,7 @@ js = """// ═══════════════════════
 // ║ Kris (Oct 7): every menu; frames drawn in code, icons painted; one icon per item.
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof ZSCN==='undefined')return;
-  ZSCN.WAVES[33]='Icons: controls, gear slots, map, status'; ZSCN.WAVES[34]='Icons: weapons'; ZSCN.WAVES[35]='Icons: armor and accessories'; ZSCN.WAVES[36]='Icons: treasure, potions, food, spells, skills'; ZSCN.WAVES[37]='Icons: round 37 — axes, crossbows, staffs, gems, the Sovereign set'; ZSCN.WAVES[46]='Icons: round 45 — shadow swords, two-element master-works, rare forging items';
+  ZSCN.WAVES[33]='Icons: controls, gear slots, map, status'; ZSCN.WAVES[34]='Icons: weapons'; ZSCN.WAVES[35]='Icons: armor and accessories'; ZSCN.WAVES[36]='Icons: treasure, potions, food, spells, skills'; ZSCN.WAVES[37]='Icons: round 37 — axes, crossbows, staffs, gems, the Sovereign set'; ZSCN.WAVES[46]='Icons: round 45 — shadow swords, two-element master-works, rare forging items'; ZSCN.WAVES[48]='Icons: round 45 — the bows and warbows; Tome pictures of regions, arenas and fairy-quest treasures';
   ZSCN.VIEW.icon='View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.';
   ZSCN.SHEETS=ZSCN.SHEETS.concat([
 """ + ",\n".join(rows) + """
