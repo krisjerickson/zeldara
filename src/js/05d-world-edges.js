@@ -138,13 +138,20 @@ var ZWE={
     var RS=ZScn.RES, Z=[], l=0, r=0, u=0, dn=0; for(var i=0;i<n;i++){ var z=ZScn.size(base+'_'+(i+1),0); Z.push(z); l=Math.max(l,z.ax); r=Math.max(r,z.w-z.ax); u=Math.max(u,z.ay); dn=Math.max(dn,z.h-z.ay); }
     var W=Math.ceil(l+r)+2, Hh=Math.ceil(u+dn)+2, c=document.createElement('canvas'); c.width=W*RS*n; c.height=Hh*RS; var g=c.getContext('2d'); g.scale(RS,RS);
     for(i=0;i<n;i++)ZScn.draw(g,base+'_'+(i+1),i*W+1+l,1+u,Z[i].h); var t=scene.textures.addCanvas(key,c); for(i=0;i<n;i++)t.add(String(i),0,i*W*RS,0,W*RS,Hh*RS); try{ t.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){}
-    var o={key:key,n:n,ox:(1+l)/W,oy:(1+u)/Hh,h:Z[0].h,scale:1/RS}; (scene._zan||(scene._zan={}))[key]=o;
+    var o={key:key,n:n,ox:(1+l)/W,oy:(1+u)/Hh,h:Z[0].h,fh:Hh,scale:1/RS}; (scene._zan||(scene._zan={}))[key]=o;
     if(scene.anims&&!scene.anims.exists(key)){ var cf=Object.keys(ZWE.CRITANIM).filter(function(f){ return ZWE.CRITANIM[f]===base; })[0]; try{ scene.anims.create({key:key,frames:scene.anims.generateFrameNames(key,{start:0,end:n-1}),frameRate:(cf&&ZWE.CRITFPS[cf])||ZWE.LOOP[base]||6,repeat:-1}); }catch(e){} }
     return o; },
   pieces:function(D,ctx,KL,out){ if(!ZWE.pieces||typeof ZEdge==='undefined')return; var KT=D.KT||WP_KT, S=D.S, SW=D.SW, kb=D.kb, dist=D.dist, ek=D.ek, sp=LT/S, H=ZWE._hash, A=(16/S)*(16/S), L=[], LK=ZWE.LOOK, N=_wpNoise(), dens=LK.dens||1, cl=LK.clump||0;
     // clusters: a slow noise over the world makes groups with open ground between them (same in every chunk)
     var clump=function(wx,wy){ if(!cl)return 1; var n=N.v(wx/S*0.11+31.7,wy/S*0.11+5.3); n=Math.max(0,Math.min(1,(n-0.3)/0.45)); return (1-cl)+cl*2.2*n*n*(3-2*n); };
-    for(var y=2;y<SW-2;y++)for(var x=2;x<SW-2;x++){ var i=y*SW+x; if(dist[i]===255)continue; var k=kb[i], e=ek[i], d=dist[i]/8*16/S, wx=x+Math.round(D.tx0*S), wy=y+Math.round(D.ty0*S), h=H(wx,wy,11)/A, lk=KT.land[k], ce=KT.cls[e], le=KT.land[e];
+    var NOIN=ZWE._noIn(KL), IC={};      // round 43: features in the open ground too (Kris: "OK for the terrain features to be in the bulk of the terrain as well")
+    for(var y=2;y<SW-2;y++)for(var x=2;x<SW-2;x++){ var i=y*SW+x, far=dist[i]===255||dist[i]/8*16/S>14;
+      if(far){ if((x&3)||(y&3))continue; var k0=kb[i]; if(NOIN[k0]||KT.road[k0]||KT.pat[k0]||KT.wall[k0])continue; var ic=IC[k0]; if(ic===undefined)ic=IC[k0]=ZWE._intC(KT,k0);
+        if(!ic)continue; var wx0=x+Math.round(D.tx0*S), wy0=y+Math.round(D.ty0*S), hi=H(wx0,wy0,31)/A; if(hi>0.05*dens*(1+cl*1.3))continue;
+        var qi=dens*clump(wx0,wy0), toti=0, wi=[]; for(var j0=0;j0<ic.length;j0++){ wi[j0]=ic[j0][3]*ZWE._vary(ic[j0][0],wx0/S,wy0/S,ic)*qi; toti+=wi[j0]; }
+        if(hi<toti){ var ac0=0; for(j0=0;j0<ic.length;j0++){ ac0+=wi[j0]; if(hi<ac0){ var c0=ic[j0]; if(c0[1]==='piece')L.push([y,x,c0[0],hi*A]); else L.push([y,x,'F',hi*A,c0[0],c0[1],c0[2],1]); break; } } }
+        continue; }
+      var k=kb[i], e=ek[i], d=dist[i]/8*16/S, wx=x+Math.round(D.tx0*S), wy=y+Math.round(D.ty0*S), h=H(wx,wy,11)/A, lk=KT.land[k], ce=KT.cls[e], le=KT.land[e];
       if(KT.road[k]||KT.pat[k]||KT.road[e]||KT.pat[e])continue; var cq=-1, Q=function(){ if(cq<0)cq=dens*clump(wx,wy); return cq; };
       if(lk===1&&!KT.wall[e]&&d<=2&&h<(KT.liquid[e]||le===2?0.06:0.022)*Q())L.push([y,x,le===5||le===3?'dry':'tuft',h*A]);
       else if((KT.cls[k]===1||KT.cls[k]===3)&&!KT.liquid[e]&&d>=2&&d<=4&&h<0.02*Q())L.push([y,x,'reed',h*A]);
@@ -176,7 +183,7 @@ var ZWE={
         var n0=out.sprites.length; if(ZScn.sprite({sprites:out.sprites},id,X,foot,h,{shw:0.4,sha:0.3,sp:{zed:id}})){ for(var q=n0;q<out.sprites.length;q++){ out.sprites[q].x+=ox; out.sprites[q].y+=oy; } return true; } return false; }
       return !!ZScn.draw(ctx,id,X,foot,h); };
     L.forEach(function(p){ var X=p[1]*sp, Y=p[0]*sp, r1=H(p[1]+Math.round(D.tx0*S),p[0]+Math.round(D.ty0*S),5);
-      if(p[2]==='F'){ var g0=(ZWE.FSP[p[4]]||64)/Math.sqrt(dens), lc=p[4]+Math.floor((X+ox)/g0)+'_'+Math.floor((Y+oy)/g0); if(used[lc])return; used[lc]=1; feats.push(p); return; }      // features: drawn last, over the small pieces, one per grid cell
+      if(p[2]==='F'){ var g0=(ZWE.FSP[p[4]]||64)*(p[7]?1.6:1)/Math.sqrt(dens), lc=p[4]+Math.floor((X+ox)/g0)+'_'+Math.floor((Y+oy)/g0); if(used[lc])return; used[lc]=1; feats.push(p); return; }      // features: drawn last, over the small pieces, one per grid cell
       var id=ZWE.painted(p[2],r1); if(id&&H(p[1]+Math.round(D.tx0*S),p[0]+Math.round(D.ty0*S),9)>(ZWE.PDENS[p[2]]||1))return;      // painted pieces are bigger, so fewer of them
       if(id){ var cell=Math.floor((X+ox)/40)+'_'+Math.floor((Y+oy)/40); if(used[cell])return; used[cell]=1; var Zs=ZScn.size(id,0); if(Zs&&put(id,X,Y+4,Zs.h*(ZWE.PSIZE[p[2]]||0.8),H(p[1],p[0],13)))return; }
       if(ZWE.CODEONLY[p[2]])return;      // a painted-only piece (no stand-in drawn in code)
@@ -187,6 +194,16 @@ var ZWE={
       var ids=ZWE.FEATPAINT[ft+(vr?'_'+vr:'')+'@'+pl]||ZWE.FEATPAINT[ft+(vr?'_'+vr:'')]||ZWE.FEATPAINT[ft], id=Z&&ids?Z.pick(ids,r1):null;
       if(id){ var Zs=ZScn.size(id,0); if(Zs&&put(id,X,Y+4,Zs.h*(ZWE.FSIZE[ft]||0.75),H(p[1],p[0],19)))return; }
       ZEdge._featPiece(ctx,ft,[p[1],p[0],p[3],vr],X,Y,r1,ft==='logs'?1.3:1,pl); }); },
+  // round 43: the features that may stand in the open ground of a kind (away from any edge) — [[feature, place, variant, rate], …] or null.
+  // 'piece' entries are the small edge pieces (tufts, lily pads, drifts). Only what Kris picked (ZWE.PICK). Rates are per sample on a quarter-tile grid.
+  INTERIOR:{ land:{1:[['flowers','lake',0,0.0035],['bramble','lake',0,0.0008],['logs','lake','rock',0.0004],['tuft','piece',0,0.006]],2:[['shells','sea',0,0.0015],['sandripples','sea',0,0.0015]],
+      3:[['icicles','snow','rock',0.001],['pines','snow',0,0.0015],['drift','piece',0,0.002]],4:[['toadstools','marsh',0,0.002],['mudcracks','marsh',0,0.0015],['logs','marsh',0,0.0003]],
+      5:[['rubble','cliff',0,0.002],['alpine','cliff',0,0.003]],6:[['obsidian','lava',0,0.002],['sulphur','lava',0,0.0015],['basalt','lava',0,0.001],['vents','lava',0,0.0006]]},
+    cls:{3:[['duckweed','marsh',0,0.01],['lily','piece',0,0.004]]} },
+  _intC:function(KT,k){ var I=ZWE.INTERIOR, L=(KT.cls[k]&&I.cls[KT.cls[k]])||(!KT.liquid[k]&&I.land[KT.land[k]])||null; if(!L)return null;
+    var o=L.filter(function(c){ return c[1]==='piece'||ZWE.feat(c[1],c[0]==='lavabubble'?'lavaplate':c[0]); }); return o.length?o:null; },
+  // kinds with no loose features in their open ground: villages, gardens, fields, paved squares
+  _noIn:function(KL){ if(ZWE._ni&&ZWE._ni.length===KL.length)return ZWE._ni; var a=new Uint8Array(KL.length); KL.forEach(function(K,i){ if(/^(v[a-z]|garden|plaza|square|street|crop|soil|floor|path|trail)/.test(K.id||''))a[i]=1; }); return (ZWE._ni=a); },
   // how much of each candidate feature a stretch of edge gets (LOOK.vary): one — a single kind per stretch; mixed — a main kind with others among it; all — even
   _fo:function(f){ var n=0; for(var i=0;i<f.length;i++)n=(n*31+f.charCodeAt(i))%997; return n*0.37; },
   _vary:function(f,tx,ty,cand){ var m=ZWE.LOOK.vary; if(m==='all')return 1; var N=_wpNoise(), nf=function(g){ var o=ZWE._fo(g); return N.c(tx*0.07+o,ty*0.07-o*0.6); };

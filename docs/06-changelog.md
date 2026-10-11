@@ -700,6 +700,9 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[378] Swaying and looping pieces** (05d `ZWE.ANIM`, `SWAYCODE`, `LOOP`, `animTex`; 10c `live`): reeds, cattails, irises, dry reeds, dune grass, tufts, flowers, fern sway with a wind wave rolling across the world (painted frames when in, a lean until then); steam vents and lava bubbles loop their frames. Creatures play their frames as particle animations (`CRITANIM`, `CRITFPS`).
 - **[379] Look settings** (`ZWE.LOOK`, `ZWE.LOOKS`): amount, clusters (slow noise), mix per stretch (`_vary`), size variation, wind, creatures; features are now chosen among all candidates at a spot (`_featC`, replaces `_featAt`).
 - **[380] Lab Terrain pieces, section 1** (`58-lab-tlook.js`, `TPLOOK`): six rows, 19 moving previews (a hero walks the shore, behind the tall pieces), six places; one pick per row (`tpieces-look_<row>_<opt>`); recommended = the game now. The answered round 42 questions removed. Tests: `tests/test_round43.py` (8 checks).
+- **[381] Round 43 feedback — no fading** behind standing pieces (10c).
+- **[382] Animals as actors** (`10n-critters.js`, `ZCRIT`, `_zcMount`, `_zcTick`): butterflies, dragonflies, gulls, crows, crabs, frogs and fish each with their own movement, wingbeats (frames or narrowing), shadows for flyers, rings for fish. Fireflies, wisps and leaves stay particles.
+- **[383] Features in the open ground** (05d `ZWE.INTERIOR`, `_intC`, `_noIn`): a quarter-tile grid away from edges, per ground kind, only his picks; not in villages, gardens, fields or paths. `test_round43.py` now 10 checks.
 
 ## Naming conventions established
 

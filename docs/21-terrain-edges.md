@@ -301,7 +301,7 @@ The intake cuts a row at one scale and lines its frames up (plants by their foot
 
 **Walking over and behind** — nothing blocks. Three kinds of piece:
 
-- **Standing** (`ZWE.TALL`): logs, mossy rocks, reeds, cattails, irises, dune grass, saplings, basalt, steam vents, boulders, rubble, obsidian, sulphur, snowy rocks, shore rocks, ice shards, brambles, toadstools, ferns, heather, ember rocks — depth-sorted by their foot: the hero passes behind them when he is above, in front when below. While he is behind one it turns half see-through.
+- **Standing** (`ZWE.TALL`): logs, mossy rocks, reeds, cattails, irises, dune grass, saplings, basalt, steam vents, boulders, rubble, obsidian, sulphur, snowy rocks, shore rocks, ice shards, brambles, toadstools, ferns, heather, ember rocks — depth-sorted by their foot: the hero passes behind them when he is above, in front when below. (No fading — Kris, round 43 feedback.)
 - **Swaying** (`ZWE.ANIM`): reeds, cattails, irises, dry reeds, dune grass, tufts, wildflowers, mountain flowers, fern (and the ivy once painted) — their own images moved by a wind wave that rolls across the world; small ones lie under the hero.
 - **Flat**: pebbles, shells, tide pools, wrack, driftwood, duckweed, lily pads, puddles, ripples, cracked mud, moss and lichen, crust, ash, stepping stones, floes — painted into the ground; the hero walks over them.
 
@@ -315,3 +315,11 @@ The intake cuts a row at one scale and lines its frames up (plants by their foot
 | Size | All one size · **±15 %** · ±30 % |
 | Wind | Still · **Gentle sway** · Breezy (gusts) |
 | Creatures | Few · **Some** · Many |
+
+### Round 43 feedback (Kris, Oct 10)
+
+*"1. when hero is behind a feature, it shouldn't fade out 2. Animals don't look natural right now, as birds, dragonflies, butterflying don't move by flapping wings … 3. … OK for the terrain features to be in the bulk of the terrain as well, not just at the interface"*
+
+1. **No fading** — a standing piece simply covers the hero while he is behind it.
+2. **Animals are actors** (`src/js/10n-critters.js`, `ZCRIT`), no longer particles flying in straight lines: butterflies flutter on a wandering path and settle to rest; dragonflies hover with blurred wings and dart; gulls and crows glide in wide curves with bursts of flapping, their shadows sliding over the ground; crabs scuttle sideways and wait; frogs sit and hop; fish leap in an arc with a ring where they leave and land. Flyers turn to face where they go. Wings beat with the painted frames once `frames.ps1` has run; until then the picture narrows and widens (wings seen from above).
+3. **Features in the open ground** (`ZWE.INTERIOR`, `_intC`): grass gets wildflowers, brambles, mossy rocks and tufts; sand shells and ripples; snow rocks, saplings and drifts; mud toadstools, cracked mud and logs; scree rubble and mountain flowers; crust obsidian, sulphur, basalt and vents; marsh water duckweed and lily pads — sparser than at the edges, on a wider spacing, and never in villages, gardens, fields or on paths.

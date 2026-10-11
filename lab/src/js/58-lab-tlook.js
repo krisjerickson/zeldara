@@ -52,14 +52,16 @@ var TPLOOK=(function(){ if(typeof LBR==='undefined')return null;
     c.strokeStyle='rgba(20,16,10,.5)'; c.lineWidth=2.5; c.beginPath(); for(x=0;x<=W;x+=6)c[x?'lineTo':'moveTo'](x,edgeY(x,W,H)); c.stroke(); if(G[2]){ c.strokeStyle='rgba(255,255,255,'+(0.35+0.2*Math.sin(t*1.6))+')'; c.lineWidth=2; c.beginPath(); for(x=0;x<=W;x+=6)c[x?'lineTo':'moveTo'](x,edgeY(x,W,H)+3+Math.sin(t*1.6)*1.5); c.stroke(); }
     if(!IMG||!IMG.complete||!IMG.naturalWidth){ c.restore(); return; }
     var P=layout(L,W,H), hx=((t*26)%(W+60))-30, hy=edgeY(hx,W,H)-12, drawn=false, amp=L.sway>=2?1.9:1;
-    var one=function(p){ var R=TP_ITEMS[p.id], hid=p.tall&&p.y>hy&&p.y-hy<p.h+6&&Math.abs(p.x-hx)<p.w*0.5+8; c.save(); c.globalAlpha=hid?0.5:1; c.translate(p.x,p.y);
+    var one=function(p){ var R=TP_ITEMS[p.id], hid=false; c.save(); c.globalAlpha=hid?0.5:1; c.translate(p.x,p.y);
       if(L.sway&&p.sw){ var w=0.65*Math.sin(t*1.6+p.x*0.012*4+p.y*0.005*4+p.r*0.8)+0.35*Math.sin(t*0.55+p.x*0.016); if(L.sway>=2)w+=0.6*Math.pow(Math.max(0,Math.sin(t*0.4+p.x*0.012)),3); c.rotate(w*amp*p.sw*Math.PI/180); }
       c.drawImage(IMG,R[0],R[1],R[2],R[3],-p.w/2,-p.h,p.w,p.h); c.restore(); };
     P.forEach(function(p){ if(!drawn&&p.y>hy){ hero(c,hx,hy,1); drawn=true; } one(p); }); if(!drawn)hero(c,hx,hy,1);
     // creatures: how many depends on the row's setting
     var nc=Math.round(3*L.crit); for(var i=0;i<nc&&S.cr.length;i++){ var cid=S.cr[i%S.cr.length], R=TP_ITEMS[cid]; if(!R)continue; var ph=i*2.3, cx=((t*(14+i*5)+i*97)%(W+40))-20, cy=(cid==='ed_gull'||cid==='ed_crow')?30+i*17+Math.sin(t+ph)*6:edgeY(cx,W,H)+(cid==='ed_crab'||cid==='ed_frog'?-6:-34)+Math.sin(t*3+ph)*6, k=0.5*0.8;
       if(cid==='ed_firefly'){ var gg=c.createRadialGradient(cx,cy,0,cx,cy,14); gg.addColorStop(0,'rgba(220,255,140,.5)'); gg.addColorStop(1,'rgba(220,255,140,0)'); c.fillStyle=gg; c.beginPath(); c.arc(cx,cy,14,0,6.3); c.fill(); }
-      c.drawImage(IMG,R[0],R[1],R[2],R[3],cx-R[2]*k/2,cy-R[3]*k/2,R[2]*k,R[3]*k); }
+      // wings: flyers face their way and beat their wings (narrowed and widened, as the game does until the painted frames are in)
+      var fly={ed_gull:[0.55,5],ed_crow:[0.55,7],ed_butterfly:[0.22,16],ed_dragonfly:[0.82,45],ed_firefly:[0.6,12]}[cid], ax=fly?0.22+0.78*Math.abs(Math.cos(t*fly[1]+ph)):1; if(fly)ax=fly[0]+(1-fly[0])*Math.abs(Math.cos(t*fly[1]+ph));
+      c.save(); c.translate(cx,cy); if(fly)c.rotate(Math.PI/2+Math.sin(t*1.7+ph)*(cid==='ed_butterfly'?0.5:0.15)); c.scale(ax,1); c.drawImage(IMG,R[0],R[1],R[2],R[3],-R[2]*k/2,-R[3]*k/2,R[2]*k,R[3]*k); c.restore(); }
     c.restore(); };
   var html=function(){ if(!IMG){ IMG=new Image(); IMG.onerror=function(){ if(!IMG._b){ IMG._b=1; IMG.src='../assets/scenery/edges-0.webp'; } }; IMG.src='edges-0.webp'; }
     var j=0; return '<div class="tl-places">Show: '+Object.keys(PLACES).map(function(p){ return '<button class="vbtn tl-pl'+(p===place?' on':'')+'" data-p="'+p+'">'+PLACES[p]+'</button>'; }).join('')+'</div>'+

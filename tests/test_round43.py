@@ -34,18 +34,26 @@ with game(new=True, painted=True, query='?scenery=fake') as g:
     # mounted around the hero: depth, sway, see-through, creature frames
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), p=ws.player; p.x=21800; p.y=17400; p.cont.setPosition(p.x,p.y); if(p.body&&p.body.reset)p.body.reset(p.x,p.y); ws.cameras.main.centerOn(p.x,p.y);
       ws._wr.chunks.forEach(function(ch){ ws._wrUnmount(ch); }); ws._wr.chunks.clear(); ws._updateChunks(false); await new Promise(r=>setTimeout(r,9000));
-      var live=[], tall=[], an=0; ws._wr.chunks.forEach(function(ch){ (ch.live||[]).forEach(function(im){ live.push(im); }); (ch.tall||[]).forEach(function(im){ tall.push(im); }); ch.objs.forEach(function(o){ if(o._zfx&&o.texture&&/^zan_/.test(o.texture.key))an++; }); });
-      var f0=live.map(function(im){ return im.frame.name+'|'+im.angle.toFixed(2); }); await new Promise(r=>setTimeout(r,900)); var moved=live.filter(function(im,i){ return im.frame.name+'|'+im.angle.toFixed(2)!==f0[i]; }).length;
+      var live=[], tall=[], an=0, cr=[]; ws._wr.chunks.forEach(function(ch){ (ch.live||[]).forEach(function(im){ live.push(im); }); (ch.tall||[]).forEach(function(im){ tall.push(im); }); (ch.crit||[]).forEach(function(c){ cr.push(c); }); ch.objs.forEach(function(o){ if(o._zfx&&o.texture&&/^zan_/.test(o.texture.key))an++; }); });
+      var c0=cr.map(function(c){ return [c.x,c.y,c.im.frame.name,c.im.scaleX.toFixed(3),c.im.rotation.toFixed(2)]; });
+      var f0=live.map(function(im){ return im.frame.name+'|'+im.angle.toFixed(2); }), seenMove=new Set(); for(var w=0;w<6;w++){ await new Promise(r=>setTimeout(r,450)); cr.forEach(function(c,i){ var a=c0[i]; if(Math.hypot(c.x-a[0],c.y-a[1])>0.5||c.im.frame.name!==a[2]||c.im.scaleX.toFixed(3)!==a[3]||c.im.rotation.toFixed(2)!==a[4])seenMove.add(c); }); } var moved=live.filter(function(im,i){ return im.frame.name+'|'+im.angle.toFixed(2)!==f0[i]; }).length;
       var flat=live.filter(function(im){ return im.depth===-6; }).length, sorted=tall.filter(function(im){ return Math.abs(im.depth-WR_DEPTH(im.y))<1e-6; }).length;
-      var T=tall.filter(function(im){ return im._zh>20; })[0], o={n:live.length,moved:moved,flat:flat,tall:tall.length,sorted:sorted,anims:an,err:Object.keys(WP_ERR)};
+      var kinds={}; cr.forEach(function(c){ kinds[c.f]=(kinds[c.f]||0)+1; }); var cm=cr.filter(function(c,i){ var a=c0[i]; var v=ws.cameras.main.worldView; if(c.f==='fish'||c.x<v.x-300||c.x>v.right+300||c.y<v.y-300||c.y>v.bottom+300)return false; c._seen=1; return seenMove.has(c); }).length;
+      var T=tall.filter(function(im){ return im._zh>20; })[0], o={n:live.length,moved:moved,flat:flat,tall:tall.length,sorted:sorted,anims:an,crit:cr.length,kinds:kinds,critMoved:cm,critSeen:cr.filter(function(c){ return c._seen; }).length,err:Object.keys(WP_ERR)};
       if(T){ p.x=T.x; p.y=T.y-8; p.cont.setPosition(p.x,p.y); await new Promise(r=>setTimeout(r,700)); o.behind=T.alpha; o.heroUnder=WR_DEPTH(p.y)<T.depth;
         p.y=T.y+24; p.cont.setPosition(p.x,p.y); await new Promise(r=>setTimeout(r,700)); o.front=T.alpha; o.heroOver=WR_DEPTH(p.y)>T.depth;
         o.free=ws.physics&&ws.physics.overlapRect?ws.physics.overlapRect(T.x-4,T.y-10,8,8,false,true).length===0:true; }
       return o; })()""")
-    check('Mounted: %d swaying images (%d moved within a second, %d lie under the hero), %d standing pieces sorted by their foot (%d), creatures playing their frames (%d emitters)' % (r['n'], r['moved'], r['flat'], r['tall'], r['sorted'], r['anims']),
-          r['n'] > 0 and r['moved'] >= r['n'] * 0.5 and r['flat'] > 0 and r['tall'] > 0 and r['sorted'] == r['tall'] and r['anims'] >= 1 and r['err'] == [], r)
-    check('Walking behind a standing piece the hero is drawn under it and it turns see-through (%.2f); in front of it he is drawn over it and it is solid again (%.2f)' % (r.get('behind', -1), r.get('front', -1)),
-          r.get('heroUnder') and r.get('heroOver') and abs(r.get('behind', 0) - 0.5) < 0.05 and r.get('front') == 1 and r.get('free'), r)
+    check('Mounted: %d swaying images (%d moved within a second, %d lie under the hero), %d standing pieces sorted by their foot (%d)' % (r['n'], r['moved'], r['flat'], r['tall'], r['sorted']),
+          r['n'] > 0 and r['moved'] >= r['n'] * 0.5 and r['flat'] > 0 and r['tall'] > 0 and r['sorted'] == r['tall'] and r['err'] == [], r)
+    check('Animals are actors (%d: %s); of the %d in view and above water, %d moved, flapped or turned within three seconds' % (r['crit'], r['kinds'], r['critSeen'], r['critMoved']),
+          r['crit'] >= 3 and r['critSeen'] >= 2 and r['critMoved'] >= r['critSeen'] * 0.8, r)
+    check('Walking behind a standing piece the hero is drawn under it, in front of it over it; the piece never fades (Kris) and never blocks (%.2f / %.2f)' % (r.get('behind', -1), r.get('front', -1)),
+          r.get('heroUnder') and r.get('heroOver') and r.get('behind') == 1 and r.get('front') == 1 and r.get('free'), r)
+    r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), wd=ws.wd, j=wpChunkJob(wd,21,16), n=0; while(!j.step(30)&&n<4000){ n++; await new Promise(r=>setTimeout(r,5)); } var o=j.out, KT=_wpKindTables(), far=0, all=0;
+      var near=function(x,y){ var tx=Math.floor(x/TILE), ty=Math.floor(y/TILE); for(var dy=-2;dy<=2;dy++)for(var dx=-2;dx<=2;dx++){ var a=wd.kind[(ty+dy)*WORLD_W+tx+dx], b=wd.kind[ty*WORLD_W+tx]; if(a!==b)return true; } return false; };
+      (o.live||[]).map(function(L){ return [L.x,L.y]; }).concat(o.sprites.filter(function(s){ return s.zed; }).map(function(s){ return [s.x,s.y-8]; })).forEach(function(p){ all++; if(!near(p[0],p[1]))far++; }); return {all:all,far:far}; })()""")
+    check('Features also stand in the open ground, away from any edge (%d of %d in the lake chunk)' % (r['far'], r['all']), r['far'] >= 5, r)
     # the settings
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), wd=ws.wd, L0=JSON.parse(JSON.stringify(ZWE.LOOK)), run=async function(look){ Object.assign(ZWE.LOOK,L0,look); var j=wpChunkJob(wd,21,18), n=0; while(!j.step(30)&&n<4000){ n++; await new Promise(r=>setTimeout(r,5)); }
         var o=j.out, ids={}; (o.live||[]).concat(o.sprites.filter(function(s){ return s.zed; }).map(function(s){ return {id:s.zed}; })).forEach(function(q){ ids[q.id]=(ids[q.id]||0)+1; }); return {n:Object.keys(ids).reduce(function(a,k){ return a+ids[k]; },0), kinds:Object.keys(ids).length, live:(o.live||[]).length}; };
