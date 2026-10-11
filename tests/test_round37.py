@@ -5,6 +5,7 @@ Run: python tests/test_round37.py"""
 import sys, os, json
 sys.path.insert(0, os.path.dirname(__file__))
 from harness import game
+R45 = {'phoenix_ember', 'lotus_pearl', 'abyss_pearl', 'obsidian_heart', 'thunderseed', 'lodestone', 'grave_amber', 'squall_pearl'}   # round 45: rare forging items that wardens, masters and Alphas add on top
 res = []
 def check(n, ok, info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ') + n + ('  ' + str(info)[:520] if info != '' else ''), flush=True)
@@ -80,7 +81,7 @@ with game(new=True) as g:
       o.gems=ZEL.LIST.map(function(e){ return [I[ZEL.E[e].gem].gemEl===e&&!I[ZEL.E[e].gem].rare, I[ZEL.E[e].rare].gemEl===e&&!!I[ZEL.E[e].rare].rare]; });
       o.lanes=ZForge.LANES.every(function(L){ return L.nodes.every(function(id,i){ return I[id]&&(i===0||ZForge.recipe(id).needs[L.nodes[i-1]]===1); }); });
       o.oldPot=['minor_potion','potion_a1','life_flask'].every(function(k){ return I[k]&&!I[k].buy; }); o.unused=['elementDmg'].map(function(){ return Object.keys(I).filter(function(k){ return I[k].elementDmg&&!I[k].el; }); })[0]; return o; })()""")
-    check('New gear: %d items in all, %d axes, %d crossbows; five forged two-element weapons and three arbalests' % (r['n'], r['axes'], r['xbows']), r['n'] == 267 and r['axes'] >= 15 and r['xbows'] >= 13 and len(r['two']) == 8, r['two'])
+    check('New gear: %d items in all, %d axes, %d crossbows; the forged two-element weapons (five in round 37, more since) and three arbalests' % (r['n'], r['axes'], r['xbows']), r['n'] >= 267 and r['axes'] >= 15 and r['xbows'] >= 13 and len(r['two']) >= 8, r['two'])
     check('The Sovereign set: one piece of every kind of equipment, each with all six elements, and none of the new pieces can be bought or forged yet',
           r['sov'] == sorted(['back', 'body', 'feet', 'gauntlets', 'head', 'lHand', 'lHand:axe', 'mWeapon', 'neck', 'pants', 'rHand', 'rHand:xbow', 'ring', 'shield']) and r['sovAll'] and r['sovNoSrc'] == [], r)
     check('Forge: every description is written from its recipe; prices halved (Volcano Lord %d g, Sovereign %d g); the storm line uses Topaz (the emerald is the grass gem); a last step needs the rare gem; every lane is a true chain; one gem and one rare gem per element' % tuple(r['gold']),
@@ -114,11 +115,11 @@ with game(new=True) as g:
     check('The jeweller: one of each common gem on the shelf (storm and shadow from the Highlands on), five times its worth in gold AND three Dungeon Coins; sold out after one; rare gems never sold; the shelf refills when another place is cleared',
           r['shelf'] == {'gem_ruby': 1, 'gem_sapphire': 1, 'gem_emerald': 1, 'gem_amber': 1, 'gem_topaz': 0, 'gem_onyx': 0} and r['noCoin'] and r['buy'] == '' and r['after'] == [9750, 3, 1] and r['again'] and r['rare'] and r['refill'] == 1, r)
     check('Adventuring pays in gems of the guardian\'s element: a two-element warden gives one of each and coins (%s), a master two of his (%s), a vault and an island the realm\'s rare gem, a realm boss two gems, the rare one, three coins — and the Ashlands tower the Night Edge' % (r['castle'], r['mage']),
-          sorted(r['castle']) == sorted(['gem_sapphire', 'gem_onyx', 'dungeon_coin', 'dungeon_coin']) and r['castle2'] == ['dungeon_coin'] and sorted(r['mage']) == sorted(['gem_amber', 'gem_amber', 'dungeon_coin', 'dungeon_coin']) and
+          sorted(x for x in r['castle'] if x not in R45) == sorted(['gem_sapphire', 'gem_onyx', 'dungeon_coin', 'dungeon_coin']) and r['castle2'] == ['dungeon_coin'] and sorted(x for x in r['mage'] if x not in R45) == sorted(['gem_amber', 'gem_amber', 'dungeon_coin', 'dungeon_coin']) and
           'rough_crystal' in r['vault'] and r['vault'].count('dungeon_coin') == 2 and 'raw_iron' in r['vault'] and r['isle'][0] == 'pearl' and
-          sorted(r['boss']) == sorted(['gem_onyx', 'gem_onyx', 'moon_shard', 'dungeon_coin', 'dungeon_coin', 'dungeon_coin', 'night_edge']), r)
+          sorted(x for x in r['boss'] if x not in R45) == sorted(['gem_onyx', 'gem_onyx', 'moon_shard', 'dungeon_coin', 'dungeon_coin', 'dungeon_coin', 'night_edge']), r)
     check('Strong monsters drop the gem of their own element (an alpha: %s; a site elite also a coin: %s); a common one almost never; a monster without an element nothing; every realm and camp gem is a real item' % (r['kill'], r['elite']),
-          r['kill'] == ['gem_ruby'] and r['elite'][0] in ('gem_amber', 'gem_onyx', 'rough_crystal', 'moon_shard') and r['elite'][-1] == 'dungeon_coin' and r['common'] == [] and r['none'] == [] and all(r['realm']) and r['camps'], r)
+          [x for x in r['kill'] if x not in R45] == ['gem_ruby'] and r['elite'][0] in ('gem_amber', 'gem_onyx', 'rough_crystal', 'moon_shard') and r['elite'][-1] == 'dungeon_coin' and r['common'] == [] and r['none'] == [] and all(r['realm']) and r['camps'], r)
     # 7 — potions, mounts
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, o={}; ps.buffs={}; ps.hp=5; ps.maxHp=100; ps.inventory=['strength_tonic','antidote','ward_fire','potion'];
       var S=MX.S(ws); S.poisonT=5; S.slowT=5; window._useItem(0); o.tonic=_heroBuffActive(ps,'atkUp'); window._useItem(0); o.cure=S.poisonT===0&&S.slowT===0; window._useItem(0); o.ward=_heroBuffActive(ps,'res_fire')&&ZHit.sums(ps).res.fire>=0.3;
@@ -145,8 +146,8 @@ with game(new=True) as g:
           'Element: Water Shadow' in r['mon'].replace('  ', ' ') and 'Weak to: Earth Storm' in r['mon'].replace('  ', ' ') and 'Resists' in r['mon'] and 'Drops' in r['mon'] and 'never weak' in r['plain'] and 'Element: Fire' in r['boss'] and 'Weak to: Water' in r['boss'] and
           'Water Shadow' in r['warden'].replace('  ', ' ') and 'Forged from: Magma Cleaver + Storm Blade + Skystone + 1200 g' in r['item'] and 'Protects' in r['armor'] and 'Never sold' in r['gem'] and 'Defeat the Volcano Lord' in r['sov'] and 'Element: Water' in r['spell'] and 'Best against: Grass' in r['fam'] and 'All four Sky Ports' in r['mount'], r)
     check('Tome pages: Elements (the wheel of six, the realm table, a click explains an element), Forge tree (%d tiles, read-only), Paths (%d steps, %d already yours; the road, skills, spells, familiars, forge lines) — and the old chapters still work' % (r['forge'], r['paths']['n'], r['paths']['on']),
-          r['tabs'] == 11 and r['wheel'] == 6 and r['realms'] >= 5 and 'Beats' in r['elDet'] and 'Sapphire' in r['elDet'] and r['forge'] >= 45 and 'Nightbloom Axe' in r['fDet'] and r['noBtn'] and
-          r['paths']['n'] == 12 + 16 + 24 + 13 and r['paths']['on'] >= 2 and r['paths']['realms'] == 4 and r['paths']['bars'] == 7 and 'War Stomp' in r['pDet'] and 'Earth' in r['pDet'] and r['back'], r)
+          r['tabs'] >= 11 and r['wheel'] == 6 and r['realms'] >= 5 and 'Beats' in r['elDet'] and 'Sapphire' in r['elDet'] and r['forge'] >= 45 and 'Nightbloom Axe' in r['fDet'] and r['noBtn'] and
+          r['paths']['n'] == 12 + 16 + 24 + 13 and r['paths']['on'] >= 2 and r['paths']['realms'] == 4 and r['paths']['bars'] >= 7 and 'War Stomp' in r['pDet'] and 'Earth' in r['pDet'] and r['back'], r)
     # 8b — round 39: the Sovereign set, one piece per finished set
     r = g.js("""(()=>{ var ps={completedQuests:['s1_dungeon','s2_dungeon','s3_dungeon'],inventory:[]}, o={};
       o.n=ZSov.SETS.length; o.uniq=new Set(ZSov.SETS.map(function(S){ return S.piece; })).size; o.items=ZSov.SETS.every(function(S){ return ITEMS[S.piece]&&ITEMS[S.piece].sov; });

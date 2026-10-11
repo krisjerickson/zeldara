@@ -51,7 +51,7 @@ with game() as g:
     g.js(LAUNCH+'(["s4_dungeon",7])'); wait_floor(g,'s4_dungeon',7); g.wait(300)
     check('Ashlands boss dungeon has 8 floors, guardian is Lava Titan', g.js("(()=>{var d=game.scene.getScene('Dungeon');return d.maxFloors===8&&d.monsters.some(m=>m.isBoss&&/Lava Titan/.test(m.def.name));})()"))
     kill(g); g.wait(200); g.js(CLAIM); back_to_world(g); g.wait(400)
-    check('Ash Salamander mount given and ridden after leaving', g.ws("ps.ownedMounts.includes('ash_salamander')&&ps.mount==='ash_salamander'"), g.ws("({o:ps.ownedMounts,m:ps.mount})"))
+    check('Ash Salamander mount given and ridden after leaving (back in the village it waits at the edge — round 44)', g.ws("ps.ownedMounts.includes('ash_salamander')&&(ps.mount==='ash_salamander'||!!(ps.parkedMount&&ps.parkedMount.id==='ash_salamander'))"), g.ws("({o:ps.ownedMounts,m:ps.mount,p:ps.parkedMount})"))
     check('Ash Salamander walks on deep lava', g.js("canPassTile(T.DEEP_MAGMA,'ash_salamander')&&!canPassTile(T.DEEP_MAGMA,'lava_unicorn')"))
     # ── Bonus site: vault, relic, rematch
     g.ws("(ps.mount=null, ps.level=20, ps.xp=0)")  # level cap → no level-up HP gains during the check

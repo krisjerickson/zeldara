@@ -44,7 +44,7 @@ with game(painted=True, query='?scenery=fake') as g:
       Object.keys(BOSS_ARENAS).forEach(function(k){ run('arena_'+k,function(){ cnt(buildCavern(BOSS_ARENAS[k],5,{game:true,last:true})); }); });
       _twrPainted=oT; out.miss=Object.keys(out.miss); return out; })()""")
     check('Shops, towers, castles, mage towers, dungeons and boss arenas all build with painted pieces and no errors', not r['err'] and r['n'] > 5000 and r['flat'] > 100 and r['under'] >= 12, {k: (v if k != 'err' else v[:3]) for k, v in r.items()})
-    check('Every tower, castle and mage-tower furnishing has a painted piece', r['miss'] == [], r['miss'])
+    check('Every tower, castle and mage-tower furnishing has a painted piece (rugs and runners are drawn crisp on purpose when a painted one would stretch — round 44)', [m for m in r['miss'] if m not in ('rug', 'runner', 'royal_carpet')] == [], r['miss'])
     r = g.js("""(()=>{ var m=buildInterior('tavern'), ws=game.scene.getScene('World'); var lights=function(S,type){ var mm={sprites:[],lights:[]}; _twrPainted(mm,{type:type,x:3,y:3,w:type==='hearth'?4:1,h:1},S,rngOf(1)); return [mm.sprites.length,mm.lights.length]; };
       var S=CASTLE_STYLES[0]; return {top:m.sprites.filter(function(s){ return s.res&&s.canvas.width<60&&!s.flat; }).length, hearth:lights(S,'hearth'), torch:lights(S,'great_torch'), pillar:lights(S,'pillar_massive')}; })()""")
     check('Things on tables are painted too, and a painted hearth or torch keeps its glow', r['top'] >= 4 and r['hearth'] == [1, 1] and r['torch'] == [1, 1] and r['pillar'] == [1, 0], r)

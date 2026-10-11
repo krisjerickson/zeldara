@@ -53,8 +53,11 @@ function villagePlan(stage,ok,water){
     if(!shore.length)return; shore.sort(function(a,b){ return (b.a*10-Math.abs(b.d-22)*0.25)-(a.a*10-Math.abs(a.d-22)*0.25); });
     var A=shore[0], isW=function(x,y){ return WA(x,y); }, used={}, key=function(x,y){ return x+','+y; };
     var dirTo=function(x,y){ var bx=0, by=0; for(var j=-7;j<=7;j++)for(var i=-7;i<=7;i++){ if(isW(x+i,y+j)){ bx+=i; by+=j; } } var l=Math.hypot(bx,by)||1; return [bx/l,by/l]; };
-    var pierFrom=function(sx0,sy0,len){ var dv=dirTo(sx0,sy0), cells=[], ends=null; for(var k=1;k<=len;k++){ var cx=Math.round(sx0+dv[0]*k), cy=Math.round(sy0+dv[1]*k), cx2=Math.round(sx0+dv[0]*k-dv[1]), cy2=Math.round(sy0+dv[1]*k+dv[0]);
-        if(!isW(cx,cy))break; cells.push([cx,cy]); if(isW(cx2,cy2))cells.push([cx2,cy2]); ends=[cx,cy]; } return {cells:cells,end:ends,dir:dv}; };
+    // round 45: a diagonal step left two boards touching only at a corner — you could not walk from one to the next (the test found 18 of 31
+    // harbour boards out of reach). Every diagonal step now gets a board beside it, so each walk is joined edge to edge.
+    var join=function(prev,c,out){ if(prev&&Math.abs(c[0]-prev[0])===1&&Math.abs(c[1]-prev[1])===1){ var a=[c[0],prev[1]], b=[prev[0],c[1]]; out.push(isW(a[0],a[1])?a:b); } };
+    var pierFrom=function(sx0,sy0,len){ var dv=dirTo(sx0,sy0), cells=[], ends=null, prev=[sx0,sy0]; for(var k=1;k<=len;k++){ var cx=Math.round(sx0+dv[0]*k), cy=Math.round(sy0+dv[1]*k), cx2=Math.round(sx0+dv[0]*k-dv[1]), cy2=Math.round(sy0+dv[1]*k+dv[0]);
+        if(!isW(cx,cy))break; join(prev,[cx,cy],cells); cells.push([cx,cy]); if(isW(cx2,cy2))cells.push([cx2,cy2]); ends=[cx,cy]; prev=[cx,cy]; } return {cells:cells,end:ends,dir:dv}; };
     H={anchor:A,dir:[ux,uy]};
     H.pier1=pierFrom(A.x,A.y,8);
     // boardwalk: water cells along the shore within 12 tiles of the anchor
@@ -67,7 +70,7 @@ function villagePlan(stage,ok,water){
     H.boathouse=findRect(4,3,0,3,12,nearWalk);
     H.stilt=findRect(4,3,1,5,16,function(x,y){ return Math.abs(nearWalk(x,y)-5); });
     if(H.stilt){ var dx0=H.stilt[0]+2, dy0=H.stilt[1]+3, bw=null, bd2=99; H.walk.forEach(function(c){ var d=Math.hypot(c[0]-dx0,c[1]-dy0); if(d<bd2){ bd2=d; bw=c; } });
-      H.stiltWalk=[]; if(bw){ var n=Math.ceil(bd2*2); for(var k=0;k<=n;k++){ var x=Math.round(bw[0]+(dx0-bw[0])*k/n), y=Math.round(bw[1]+(dy0-bw[1])*k/n); if(isW(x,y)&&!(x>=H.stilt[0]&&x<H.stilt[0]+4&&y>=H.stilt[1]&&y<H.stilt[1]+3)){ H.stiltWalk.push([x,y]); used[key(x,y)]=1; } } } }
+      H.stiltWalk=[]; if(bw){ var n=Math.ceil(bd2*2), pv=null; for(var k=0;k<=n;k++){ var x=Math.round(bw[0]+(dx0-bw[0])*k/n), y=Math.round(bw[1]+(dy0-bw[1])*k/n); if(pv&&pv[0]===x&&pv[1]===y)continue; if(isW(x,y)&&!(x>=H.stilt[0]&&x<H.stilt[0]+4&&y>=H.stilt[1]&&y<H.stilt[1]+3)){ var n0=H.stiltWalk.length; join(pv,[x,y],H.stiltWalk); for(var jj=n0;jj<H.stiltWalk.length;jj++)used[key(H.stiltWalk[jj][0],H.stiltWalk[jj][1])]=1; H.stiltWalk.push([x,y]); used[key(x,y)]=1; } pv=[x,y]; } } }
     var far=shore.filter(function(q){ var d=Math.hypot(q.x-A.x,q.y-A.y); return d>=7&&d<=11; }).sort(function(a,b){ return b.a-a.a; })[0];
     H.pier2=far?pierFrom(far.x,far.y,7):null; if(H.pier2)H.pier2.cells.forEach(function(c){ used[key(c[0],c[1])]=1; });
     H.quay=shore.filter(function(q){ return Math.hypot(q.x-A.x,q.y-A.y)<=10; }).map(function(q){ return [q.x,q.y]; });

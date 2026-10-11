@@ -17,7 +17,7 @@ ix = os.path.join(R, 'assets', 'scenery', 'index.json')
 if not os.path.exists(ix): print('SKIP: no assets/scenery/index.json'); sys.exit(0)
 I = json.load(open(ix))
 check('Scenery index: objects, pages and ground textures are there', len(I['items']) >= 70 and len(I['pages']) >= 10 and len(I['tex']) >= 6 and all(os.path.exists(os.path.join(R, 'assets', 'scenery', p + '.webp')) for p in I['pages']), [len(I['items']), len(I['pages']), len(I['tex'])])
-check('Every object has a standing point inside its picture and a size factor', all(0 <= v[5] <= v[3] and 0 < v[6] <= v[4] + 1 and v[7] > 0 for v in I['items'].values()))
+check('Every object has a standing point inside its picture and a size factor', all(0 <= v[5] <= v[3] and 0 < v[6] <= v[4] + 1 and v[7] > 0 for k, v in I['items'].items() if not k.startswith('an_')))   # round 43: animation frames share one anchor per row, which may fall outside a single frame
 with game(painted=True) as g:
     check('World starts', to_world(g)); g.wait(1500)
     r = g.js("({done:ZScn.done,off:ZScn.off,pages:Object.keys(ZScn.img).length,tex:Object.keys(ZScn.timg).length,K:ZScn.K,KB:ZScn.KB,miss:['vb_tavern','tr_round_a','rk_rock','rn_green','en_dng_1','cp_campfire','if_table','tf_statue','dg_crystal'].filter(function(i){ return !ZScn.has(i); })})")

@@ -1,6 +1,6 @@
 # 24 · Round 45 notes — "no effect", performance, sky ports, sites, How it all fits
 
-Written for Kris, Oct 10–11. This doc covers the analysis he asked for in round 45 and the decisions behind the larger changes. The changelog (06, [397]–[424]) has the file-by-file list.
+Written for Kris, Oct 10–11. This doc covers the analysis he asked for in round 45 and the decisions behind the larger changes. The changelog (06, [397]–[426]) has the file-by-file list.
 
 ## 1. "No effect" — where it comes up, and what to do about it
 

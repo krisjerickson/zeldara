@@ -19,7 +19,7 @@ REACH = """(()=>{ var ws=game.scene.getScene('World'), wd=ws.wd, W=WORLD_W, cx=C
 with game(new=True) as g:
     plan = g.js("[1,2,3,4,5].map(function(s){ var p=villagePlan(s); return {b:p.houses, R:p.R, disk:p.disk}; })")
     b = [p['b'] for p in plan]
-    check('Buildings grow 13 → 44 over 5 stages (stage 1 ≈ 30% of the final count)', b == [13, 20, 28, 36, 44] and 0.25 <= b[0] / b[4] <= 0.35, b)
+    check('Buildings grow 13 → 38 over 5 stages (round 44 thinned the last two stages; stage 1 about a third of the final count)', b == [13, 20, 28, 34, 38] and 0.3 <= b[0] / b[4] <= 0.4, b)
     check('The village grows outward every stage', all(plan[i]['R'] < plan[i + 1]['R'] for i in range(4)), [p['R'] for p in plan])
     g.wait(800)
     r = g.js(REACH)
@@ -36,12 +36,12 @@ with game(new=True) as g:
     check('Stages 2–4: each craftsman grows the village; doors and roads stay reachable', not bad, bad)
     g.js("sbUnlockAll()"); g.wait(2200)
     r = g.js(REACH)
-    check('Freeing all craftsmen grows the village to stage 5 (44 buildings, bigger radius)', r['stage'] == 5 and r['bld'] == 44 and r['R'] > 30, r)
+    check('Freeing all craftsmen grows the village to stage 5 (38 buildings since round 44, bigger radius)', r['stage'] == 5 and r['bld'] == 38 and r['R'] > 30, r)
     check('Stage 5: all shop doors still reachable', all(d['door'] and d['reach'] for d in r['doors']), [d for d in r['doors'] if not (d['door'] and d['reach'])])
     check('Stage 5: the four town gates are open (you can walk out N, S, E, W)', all(r['out']), r['out'])
     P = r['props']
     check('Stage 5 has walls + turrets, 3 windmills, 2 fountains, carts, gardens, sky dock', P.get('vwall', 0) > 20 and P.get('tower', 0) >= 12 and P.get('windmill', 0) == 3 and P.get('fountain', 0) == 2 and P.get('cart', 0) >= 5 and P.get('vegplot', 0) >= 5 and P.get('balloondock', 0) == 1, P)
-    check('Stage 5 harbour: boardwalks, boathouse, stilt lake house, lighthouse, 6 boats — all reachable', r['pierReach'] >= 30 and P.get('boathouse') == 1 and P.get('stilthouse') == 1 and P.get('lighthouse') == 1 and P.get('boatv', 0) >= 5, (r['pier'], r['pierReach'], {k: P.get(k) for k in ['boathouse', 'stilthouse', 'lighthouse', 'boatv']}))
+    check('Stage 5 harbour: boardwalks, boathouse, stilt lake house, lighthouse, boats in the open water (one fits since round 44) — all reachable', r['pierReach'] >= 30 and P.get('boathouse') == 1 and P.get('stilthouse') == 1 and P.get('lighthouse') == 1 and P.get('boatv', 0) >= 1, (r['pier'], r['pierReach'], {k: P.get(k) for k in ['boathouse', 'stilthouse', 'lighthouse', 'boatv']}))
     roofs = g.js("(()=>{ var s={}; game.scene.getScene('World').wd.props.forEach(function(p){ if(p.vill&&p.prop==='vbuild')s[p.o.style+'/'+(p.o.roofPat||'-')]=1; }); return Object.keys(s); })()")
     check('Houses use several roof/wall types (round thatch, shingle, tile, slate, thatch gable)', len(roofs) >= 5, roofs)
     smoke = g.js("(()=>{ var n=0; game.scene.getScene('World').wd.props.forEach(function(p){ if(p.vill&&p.o&&p.o.smoke)n++; }); return n; })()")

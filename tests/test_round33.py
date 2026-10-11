@@ -10,16 +10,16 @@ def check(n, ok, info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ') + n + ('  ' + str(info)[:460] if info != '' else ''), flush=True)
 J = json.load(open(os.path.join(R, 'sprites', 'requests', 'scenery.json')))
 ic = [q for q in J['requests'] if q['fam'] == 'icons']; ids = [i['id'] for q in ic for i in q['items']]
-check('Icons: 19 sheets in waves 33–37 (round 37 added three), the control-bar sheet is the style anchor of the others', len(ic) == 19 and all(q['wave'] in (33, 34, 35, 36, 37) and q['kind'] == 'icon' for q in ic) and all('sc_ic_ui_1' in q['refs'] for q in ic if q['id'] != 'sc_ic_ui_1'), [len(ic)])
+check('Icons: 19 sheets in waves 33–37 (round 37 added three; rounds 45 more), the control-bar sheet is the style anchor of the others', len(ic) >= 19 and all(33 <= q['wave'] <= 48 and q['kind'] == 'icon' for q in ic) and all('sc_ic_ui_1' in q['refs'] for q in ic if q['id'] != 'sc_ic_ui_1'), [len(ic)])
 with game(painted=True) as g:
     g.wait(2000)
     r = g.js("Object.keys(ITEMS).filter(function(k){ return !ZSCN.items().some(function(i){ return i.id==='ic_'+k; }); })")
     check('Every item in the game has its own icon on order (%d icons in all)' % len(ids), r == [] and len(ids) >= 300, r[:8])
     # buildings
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), L=_vbBlockRects(ws.wd), p=ws.wd.props.filter(function(q){return q.prop==='vbuild'&&q.o.core==='tavern';})[0], foot=(p.y+p.h)*32, cx=(p.x+p.w/2)*32, r=L.filter(function(q){ return Math.abs((q[0]+q[2])/2-cx)<14&&Math.abs(q[3]-foot)<6; })[0];
-      ws.player.x=cx; ws.player.y=foot+40; var o={n:L.length,wider:r[0]<p.x*32&&r[2]>(p.x+p.w)*32,side:ws._canGo(r[0]+3,foot-20),beside:ws._canGo(r[0]-18,foot-20),door:ws._canGo(cx,foot+14),behind:ws._canGo(cx,r[1]+12),above:ws._canGo(cx,r[1]-10)};
+      ws.player.x=cx; ws.player.y=foot+40; var o={n:L.length,wider:r[0]<p.x*32&&r[2]>(p.x+p.w)*32,side:ws._canGo(r[0]+3,foot-20),beside:ws._canGo(r[0]-18,foot-20),door:ws._canGo(cx,foot+14),behind:ws._canGo(cx,r[1]+12),above:ws._canGo(cx,r[1]-10),roof:ws._canGo(cx,foot-2*32-14)};
       ws.player.x=cx; ws.player.y=foot-30; o.out=ws._canGo(cx,foot-26); ws.player.x=cx; ws.player.y=foot+40; ZScn.off=true; o.off=_vbBlockRects(ws.wd).length; ZScn.off=false; return o; })()""")
-    check('A painted building is solid to the edges of its picture: not into its side or behind its roof; the door, the ground beside it and above its roof stay free', r['n'] >= 10 and r['wider'] and not r['side'] and r['beside'] and r['door'] and not r['behind'] and r['above'], r)
+    check('A painted building is solid along its base (round 45: you walk behind it, the hero outlined through the roof); the door and the ground beside it stay free', r['n'] >= 10 and not r['side'] and r['beside'] and r['door'] and not r['behind'] and r['roof'], r)
     check('A hero already standing inside (an old save) can walk out; with painted scenery off there are no such edges', r['out'] and r['off'] == 0, r)
     # sandbox
     r = g.js("({god:SITE_LAB.opts.god,ps:game.scene.getScene('World').playerState.godMode})")
@@ -44,7 +44,7 @@ with game(painted=True) as g:
     g.js("document.getElementById('zdeath-btn').click()"); g.wait(900)
     c = g.js("({shown:document.getElementById('modal-death').style.display,paused:_PAUSE.active,busy:ZDeath.busy,dying:game.scene.getScene('World')._dying,fx:!!document.getElementById('zdeath-fx'),filter:(document.querySelector('canvas').style.filter||'')})")
     check('Dying: first the effect over the screen while the game holds still, nothing taken yet', a['gold'] == 500 and a['hold'] and a['blocked'] and a['fx'], a)
-    check('Then the pop-up: 10 % of the gold gone and named with the foe, the hero in the village at 25 % health, the game paused', b['gold'] == 450 and b['hp'] == 25 and b['shown'] and b['paused'] and '50' in b['txt'] and 'eadow' in b['txt'] and b['home'], {k: (v if k != 'txt' else v[:120]) for k, v in b.items()})
+    check('Then the pop-up: 10 % of the gold gone and named with the foe, the hero in the village at full health (round 45), the game paused', b['gold'] == 450 and b['hp'] == 100 and b['shown'] and b['paused'] and '50' in b['txt'] and 'eadow' in b['txt'] and b['home'], {k: (v if k != 'txt' else v[:120]) for k, v in b.items()})
     check('The button closes it: the game runs again and the screen is clear', c == {'shown': 'none', 'paused': False, 'busy': False, 'dying': False, 'fx': False, 'filter': ''}, c)
     check('The Dev panel can choose a design and preview it', g.js("(function(){ sbDeathPick(); var t=document.getElementById('sb-death').textContent; ZDeath.set(6); sbDeathInit(); return /Death screen: 7/.test(t); })()"))
     check('No page errors', not g.errs, g.errs[:3])

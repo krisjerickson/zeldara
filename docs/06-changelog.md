@@ -746,6 +746,8 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[422] Lab — Site review** (`lab/src/js/61-lab-sreview.js`): all 53 sites as built, floor by floor, OLD marked, ☆ and notes.
 - **[423] Paintings ordered and cut in**: wave 46 (round 45 icons), wave 47 (sky ports, set-pieces), `tc_petal`; wave 48 (bows, Tome regions, arenas, fairy treasures) — `round45.ps1`, `round45b.ps1`.
 - **[424] Tests** — `test_round45.py`, 14 checks (village walls, M, no effect, culling, sandbox, ground patches, wheel and bows, Tome pictures and chapter, realm map, sites old/new and tower size, roll, special button, two dungeon deaths, sky pause).
+- **[425] Harbour boardwalk joined** (`07l-village-runic.js` `join`): a diagonal step of a pier or of the walk to the Lake House left two boards touching only at a corner; every diagonal step now gets a board beside it (31 of 33 harbour boards reachable, was 13 of 31). The roll badge carries its painted icon.
+- **[426] Older suites brought up to date** with rounds 44–45 (village of 38 buildings and one boat; rugs drawn crisp; animation frames' row anchors; buildings solid along their base; full health after a fall; more Tome pages, items, icon sheets and rare drops; the parked mount in the village): test_round4, 30, 31, 33, 35, 37, test_tome, test_sites_flows, test_village — all pass, with round 6, 15, 40–44, saves, trials, sites, world map, world game and site lab.
 
 ## Naming conventions established
 
