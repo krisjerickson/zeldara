@@ -70,7 +70,10 @@ R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 html = open(os.path.join(R, 'lab', 'index.html'), encoding='utf-8').read()
 def serve(rq):
     u = rq.request.url
-    if u.endswith('.webp'): rq.fulfill(path=os.path.join(R, 'assets', 'scenery', os.path.basename(u)), content_type='image/webp')
+    if u.endswith('.webp'):
+        f = os.path.join(R, 'assets', 'scenery', os.path.basename(u))
+        if os.path.exists(f): rq.fulfill(path=f, content_type='image/webp')
+        else: rq.fulfill(status=404, body='')
     else: rq.fulfill(body=html, content_type='text/html')
 with sync_playwright() as p:
     b = p.chromium.launch(args=["--use-gl=swiftshader", "--enable-unsafe-swiftshader"]); pg = b.new_page(viewport={'width': 1400, 'height': 1000}); errs = []

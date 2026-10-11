@@ -34,7 +34,7 @@ var ZSCN={
     tex:'View: seen from straight above, flat.'
   },
   // waves (generate.mjs --set scenery --wave N). 20 is the pilot: one sheet from each family, to judge the look before sending the rest.
-  WAVES:{20:'Pilot (one sheet per family)',21:'Village buildings',22:'Village props',23:'Building interiors',24:'Runes and waystones',25:'Tower, dungeon and other entrances',26:'Trees and plants',27:'Rocks, ruins and landmarks',28:'Paths, bridges and harbors',29:'Ground textures',30:'Camp and trial props',31:'Tower, castle and mage-tower furnishings',32:'Dungeon and arena pieces',38:'Edge pieces: shores, cliffs, snow, lava (round 38)',42:'Edge pieces: logs, features and small creatures (round 42)',43:'Animation frames: creatures and swaying plants (round 43)',44:'Sleeping in bed, and rugs that fit (round 44)'},
+  WAVES:{20:'Pilot (one sheet per family)',21:'Village buildings',22:'Village props',23:'Building interiors',24:'Runes and waystones',25:'Tower, dungeon and other entrances',26:'Trees and plants',27:'Rocks, ruins and landmarks',28:'Paths, bridges and harbors',29:'Ground textures',30:'Camp and trial props',31:'Tower, castle and mage-tower furnishings',32:'Dungeon and arena pieces',38:'Edge pieces: shores, cliffs, snow, lava (round 38)',42:'Edge pieces: logs, features and small creatures (round 42)',43:'Animation frames: creatures and swaying plants (round 43)',44:'Sleeping in bed, and rugs that fit (round 44)',45:'Pilot: adventure-site rooms painted as one picture (round 44)'},
   // sheet: id, wave, family (the first sheet of a family is the style anchor for the others), kind obj|bld|flat|wall|tex, cols × rows, what the sheet is, items
   SHEETS:[
   // ── 21 · village buildings ─────────────────────────────────────────
@@ -380,6 +380,10 @@ var ZSCN={
     ['ir_runner_blue','Blue runner','a long narrow blue carpet runner with a silver border, running from top to bottom',44,128],
     ['ir_rug_round2','Round rug','a round braided rug in warm red, cream and brown rings',88,88],
     ['ir_rug_square','Square rug','a square woven rug, teal and cream with a compass-rose pattern',88,88]]},
+  // ── round 44: three adventure-site floors painted as one picture each, to judge that way of painting (Lab → Adventure sites, section 2) ──
+  {id:'sc_room_1',wave:45,fam:'rooms',kind:'room',cols:1,rows:1,title:'A floor of the Crystal Grotto, painted whole',items:[['room_crystal_grotto','Crystal Grotto floor','a cave chamber in a dungeon: rough blue-grey rock walls along the top and both sides, a floor of dark stone with pale moss, clusters of tall glowing teal and violet crystals as cover, a shallow underground pool on one side crossed by flat stepping stones, a narrow passage leading off at the top left, a wide open doorway at the bottom middle',1536,1024]]},
+  {id:'sc_room_2',wave:45,fam:'rooms',kind:'room',cols:1,rows:1,title:'A floor of the Elven Library tower, painted whole',items:[['room_elven_library','Elven Library floor','a round tower floor seen from above: curved pale stone walls with tall arched windows along the top, a polished wooden floor with an inlaid leaf pattern, curved bookshelves following the wall, reading tables with open books and candles, a spiral staircase at the right, a big round rug in the middle, a doorway at the bottom middle',1536,1024]]},
+  {id:'sc_room_3',wave:45,fam:'rooms',kind:'room',cols:1,rows:1,title:'A hall of the Ember Cave, painted whole',items:[['room_ember_hall','Ember Cave hall','a volcanic cave hall: black basalt walls with glowing orange cracks along the top and both sides, a floor of cooled dark crust, a river of bright flowing lava across the middle crossed by a stone bridge, obsidian spikes and a few iron braziers, smoke rising, a passage at the top right, a doorway at the bottom middle',1536,1024]]},
   {id:'sc_rocks_1',wave:27,pilot:1,fam:'rocks',kind:'obj',cols:4,rows:2,title:'Rocks and crystals',items:[
     ['rk_rock','Rock','rounded grey boulder',64,54],['rk_rock_moss','Mossy rock','boulder half covered in moss',64,54],['rk_rock_rune','Rune rock','boulder with a glowing carved rune',64,54],['rk_rock_snow','Snowy rock','boulder capped with snow',64,54],
     ['rk_boulder','Large boulder','very large cracked boulder',110,96],['rk_pebbles','Pebbles','scatter of small stones, seen from above',40,24],['rk_crystal_teal','Teal crystal','cluster of tall glowing teal crystals',50,90],['rk_crystal_pink','Pink crystal','cluster of glowing pink crystals',50,80]]},
@@ -556,7 +560,12 @@ var ZSCN={
     var lay='Layout: a grid of '+S.cols+' columns × '+S.rows+' rows, evenly spaced. Each ROW is ONE subject drawn '+nf+' times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell'+(S.sway?' (the base of each plant at the same height and the same place in every cell)':'')+'; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:\n';
     var list=S.seq.map(function(r,j){ var fr=r[6]||ZSCN.SWAY; return 'Row '+(j+1)+' — '+r[1]+', '+r[2]+' ('+ZSCN.rel(r[5])+'): '+fr.map(function(d,i){ return '('+(i+1)+') '+d; }).join('; ')+'.'; }).join('\n');
     return head+lay+list+'\n'+ZSCN.VIEW.obj+'\nNo motion lines, no arrows, no numbers.'; },
-  body:function(S){ if(S.seq)return ZSCN.animBody(S); var tex=S.kind==='tex', n=S.items.length, one=n===1;
+  // round 44: a whole room painted as one picture (the Adventure sites pilot)
+  roomBody:function(S){ var it=S.items[0]; return 'Create ONE image for a 2D top-down action RPG called Zeldara: '+S.title+'.\n'+
+      'The reference images show the game\'s characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw any characters, monsters or people.\n'+
+      'Subject: '+it[2]+'.\nView: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°: the back wall runs along the top of the picture with its face visible, the floor fills the middle, the side walls run down the left and right edges. Scale: the hero would be about one twelfth of the picture\'s height; leave plenty of open floor to walk and fight on.\n'+
+      'The painting fills the whole image edge to edge, as a finished game screen would. No text, no labels, no grid, no UI, no frame.'; },
+  body:function(S){ if(S.kind==='room')return ZSCN.roomBody(S); if(S.seq)return ZSCN.animBody(S); var tex=S.kind==='tex', n=S.items.length, one=n===1;
     var head='Create ONE image for a 2D top-down action RPG called Zeldara: '+(tex?'a sheet of '+n+' square ground-texture swatches':S.kind==='icon'?'a sheet of '+n+' separate game icons':one?'a single piece of scenery':'a sheet of '+n+' separate pieces of scenery')+' — '+S.title+'.\n'+
       'The reference images show the game\'s characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.'+(S.anchorRef?' The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.':'')+'\n';
     var lay=one?'Layout: the object alone, centred, filling most of the image with a clear margin all round.\n':
@@ -566,9 +575,9 @@ var ZSCN={
   // a size in words, relative to the hero (63 px)
   rel:function(h){ var k=h/63; return k<0.35?'a small item, under half the hero\'s height':k<0.8?'about '+(Math.round(k*10)/10)+'× the hero\'s height':k<1.25?'about as tall as the hero':'about '+(Math.round(k*10)/10)+'× the hero\'s height'; },
   requests:function(){ return ZSCN.SHEETS.map(function(S){ var a=S.refs?null:ZSCN.anchor(S.fam), anc=a&&a!==S.id&&S.kind!=='tex'?a:null, T=Object.assign({},S,{anchorRef:!!anc});
-    return {id:S.id,set:'scenery',kind:S.kind,fam:S.fam,wave:S.wave,pilot:!!S.pilot,title:S.title,cols:S.cols,rows:S.rows,size:S.size||'1536x1024',bg:S.kind==='tex'?'opaque':'transparent',
+    return {id:S.id,set:'scenery',kind:S.kind,fam:S.fam,wave:S.wave,pilot:!!S.pilot,title:S.title,cols:S.cols,rows:S.rows,size:S.size||'1536x1024',bg:S.kind==='tex'||S.kind==='room'?'opaque':'transparent',
       refs:['style_hero','style_centaur'].concat(anc?[anc]:[]).concat(S.refs||[]),items:S.items.map(function(it){ var o={id:it[0],name:it[1],w:it[3],h:it[4]}; if(it[5]){ o.grp=it[5].grp; o.anc=it[5].anc; } return o; }),poses:S.items.map(function(it){ return it[0]; }),
-      body:ZSCN.body(T),tail:S.kind==='tex'?'tex':'obj'}; }); },
+      body:ZSCN.body(T),tail:S.kind==='tex'?'tex':S.kind==='room'?'room':'obj'}; }); },
   stats:function(){ var o={sheets:ZSCN.SHEETS.length,items:0,pilot:0,byWave:{}}; ZSCN.SHEETS.forEach(function(S){ o.items+=S.items.length; if(S.pilot)o.pilot++; var w=o.byWave[S.wave]||(o.byWave[S.wave]={name:ZSCN.WAVES[S.wave],sheets:0,items:0}); w.sheets++; w.items+=S.items.length; }); return o; }
 };
 ZSCN.expand();

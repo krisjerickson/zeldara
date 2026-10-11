@@ -50,7 +50,7 @@ const IN = path.join(ROOT, 'sprites', 'incoming'), REF = path.join(ROOT, 'sprite
 fs.mkdirSync(IN, { recursive: true });
 const outPath = id => path.join(IN, id + '.png');
 const refPath = r => (r === 'style_hero' || r === 'style_centaur') ? path.join(REF, r + '.png') : outPath(r);
-const fullPrompt = q => q.body + '\n' + J.style + '\n' + (q.tail === 'tex' ? J.rulesTex + '\n' + J.bgTex : J.rules + '\n' + J.bgAlpha);
+const fullPrompt = q => q.body + '\n' + J.style + (q.tail === 'room' ? '' : '\n' + (q.tail === 'tex' ? J.rulesTex + '\n' + J.bgTex : J.rules + '\n' + J.bgAlpha));      // round 44: a whole painted room has its own rules in its body
 
 if (!waves && !ids && !group && !PILOT) { console.error('Say what to send: --wave N, --ids a,b or --group name' + (SCN ? ' (or --pilot)' : '') + '. Add --dry-run to preview.'); process.exit(1); }
 let todo = J.requests.filter(q => !q.legacy && (!waves || waves.includes(q.wave)) && (!ids || ids.includes(q.id)) && (!group || q.group === group || q.fam === group) && (!PILOT || q.pilot) && (SCN || ids || TIER === 'all' || q.tier === TIER));

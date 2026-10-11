@@ -712,6 +712,10 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[390] Clockwork Owl** (and the Rune Sentinel Statue): frozen while faced but no longer invulnerable (`09-monster-engine.js` weeping).
 - **[391] Performance** (`04i-perf.js` ZPERF readout, F9; 10c off-screen chunk culling, mounting deferred to later frames one at a time, one flipbook frame a step). Findings and recommendations: `docs/22-performance.md`. Tests: `tests/test_round44.py` (8 checks).
 - **[392] Tome — Weapon wheel** (`26c-tome-arms.js`): a new chapter; the six elements as slices in beats-order (Water → Fire → Grass → Earth, Storm ↔ Shadow) with arrows; all 41 forgeable weapons as squares in their slice (two-element ones between their slices; no-element and Sovereign in the middle), lit when forged/owned; six tips on how elements work, a line on what you carry, where to bring what. **Monsters by element**: a realm/element switch; one section per element with what beats it and what it resists, ▲ weaknesses on every known card. (`Tome._drawSprites`, `Tome._monEls`.)
+- **[393] Adventure-site designs** (`07zw-site-designs.js` ZSD): 53 sites × 3 options, 15 layout families, three colour treatments, 2.2–2.5× bigger floors, stairs far apart by walking distance, arrival exactly above the way up (landings), every floor in one piece. Doc: `docs/23-adventure-sites.md`.
+- **[394] Lab tab "Adventure sites"** (`59-lab-asites.js`): pick one option per site (every floor drawn), three painting approaches, notes. Painted-room pilot ordered (wave 45, `sc_room_1..3`, kind `room`; `generate.mjs` and `intake_scenery.py` handle whole rooms → `assets/scenery/rooms/`). `tools/sprites/rooms.ps1`.
+- **[395] Lab tab "How it all fits"** (`60-lab-codex.js`): six ideas (constellation skill tree, elemental compass, matchup grid, realm map overlay, journey line, rune web), each a moving sketch from the game's data.
+- **[396] Tests** — `test_round44.py` now 11 checks (all 717 floors; the Lab tabs).
 
 ## Naming conventions established
 

@@ -175,7 +175,18 @@ def contact(q, objs):
         sheet.alpha_composite(t, (x, Hh - 22 - t.height)); d.text((x, Hh - 18), o['id'], fill=(255, 255, 255, 255)); x += t.width + pad
     os.makedirs(PREV, exist_ok=True); sheet.convert('RGB').save(os.path.join(PREV, q['id'] + '.webp'), quality=82)
 
+def process_room(q, src):
+    """Round 44: a whole room painted as one picture — kept as it is (at most 1536 wide) in assets/scenery/rooms/<id>.webp."""
+    im = Image.open(src).convert('RGB'); it = q['items'][0]
+    if im.width > 1536: im = im.resize((1536, round(im.height * 1536 / im.width)), Image.LANCZOS)
+    os.makedirs(os.path.join(ASSETS, 'rooms'), exist_ok=True); im.save(os.path.join(ASSETS, 'rooms', it['id'] + '.webp'), quality=86, method=4)
+    os.makedirs(PREV, exist_ok=True); im.resize((im.width // 2, im.height // 2)).save(os.path.join(PREV, q['id'] + '.webp'), quality=80)
+    meta = {'id': q['id'], 'ok': True, 'v': V, 'kind': 'room', 'fam': q['fam'], 'how': 'whole picture', 'src_mtime': os.path.getmtime(src), 'odd': [], 'items': [{'id': it['id'], 'size': list(im.size)}]}
+    os.makedirs(os.path.join(OUT, 'sheets'), exist_ok=True); json.dump(meta, open(os.path.join(OUT, 'sheets', q['id'] + '.json'), 'w'))
+    return meta
+
 def process(q, src):
+    if q['kind'] == 'room': return process_room(q, src)
     objs, note = (cut_textures if q['kind'] == 'tex' else cut_objects)(q, src)
     if objs is None: return {'id': q['id'], 'ok': False, 'why': note}
     d = os.path.join(OUT, 'items'); os.makedirs(d, exist_ok=True)
@@ -197,6 +208,7 @@ def pack(J):
         if not M.get('ok'): continue
         for it in M['items']:
             p = os.path.join(OUT, 'items', it['id'] + '.png')
+            if q['kind'] == 'room': index.setdefault('rooms', {})[it['id']] = 'rooms/' + it['id'] + '.webp'; continue
             if not os.path.exists(p): continue
             if q['kind'] == 'tex': Image.open(p).convert('RGB').save(os.path.join(ASSETS, 'tex', it['id'] + '.webp'), quality=88); index['tex'][it['id']] = {'file': 'tex/' + it['id'] + '.webp', 'horiz': bool(it.get('horiz'))}
             else: fams.setdefault(q['fam'], []).append((it, p))

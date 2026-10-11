@@ -61,6 +61,16 @@ with game(new=True, painted=True) as g:
       return {n:sq.length, fireAng:fi&&Math.round(ang(fi)), waterAng:wa&&Math.round(ang(wa)), dualR:sf&&Math.round(Math.hypot(sf[0],sf[1])), tips:tips, now:now.slice(0,80), secs:secs.length, first:secs[0]}; })()""")
     check('Tome: the weapon wheel places %d forged weapons by element (fire at %s°, water at %s°; the two-element Stormfire Blade %s px from the middle, between its slices), %d tips on how elements work and a line on what you carry; monsters can be shown by element (%d sections)' % (r['n'], r['fireAng'], r['waterAng'], r['dualR'], r['tips'], r['secs']),
           r['n'] >= 25 and r['fireAng'] is not None and abs(r['fireAng'] - 330) <= 25 and abs(r['waterAng'] - 270) <= 25 and r['dualR'] is not None and r['dualR'] < 200 and r['tips'] >= 5 and 'Fire' in r['now'] and r['secs'] >= 6, r)
+    # ── the adventure-site designs (07zw ZSD; shown in the Lab) ──
+    r = g.js("""(()=>{ var S=ZSD.sites(), bad=[], n=0, fl=0, minBig=99, types={}, archDup=0, t0=performance.now();
+      S.forEach(function(s){ types[s.type]=(types[s.type]||0)+1; var A=ZSD.archOf(s); if(new Set(A).size<3)archDup++;
+        [0,1,2].forEach(function(o){ var d=ZSD.design(s,o); n++; minBig=Math.min(minBig,d.bigger); d.floors.forEach(function(F,i){ fl++; var R=ZSD.regions(F);
+          if(R.sizes.length!==1)bad.push(s.id+'/'+o+'/'+i+': '+R.sizes.length+' parts'); var end=F.down||F.goal; if(!F.up||!end)bad.push(s.id+'/'+o+'/'+i+': stairs');
+          else if(F.far<Math.min(F.w,F.h)*0.8)bad.push(s.id+'/'+o+'/'+i+': short walk '+F.far);      // the way on is at least most of a floor's width away on foot
+          if(i>0){ var P=d.floors[i-1].down; if(P&&Math.abs(P[0]-F.up[0])+Math.abs(P[1]-F.up[1])>6)bad.push(s.id+'/'+o+'/'+i+': arrival'); } }); }); });
+      return {sites:S.length, types:types, designs:n, floors:fl, bad:bad.slice(0,6), nbad:bad.length, minBig:minBig, archDup:archDup, ms:Math.round(performance.now()-t0)}; })()""")
+    check('Adventure sites: %d sites (%s), %d designs with %d floors — each floor in one piece, you arrive where you left the floor below and the way on is far away; floors at least %.1f× the old (all %d checked in %d ms)' % (r['sites'], r['types'], r['designs'], r['floors'], r['minBig'], r['floors'], r['ms']),
+          r['sites'] == 53 and r['designs'] == 159 and r['nbad'] == 0 and r['minBig'] >= 2 and r['archDup'] == 0, r)
     # ── performance ──
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'); ZPERF.toggle(true); await new Promise(r=>setTimeout(r,2600)); var h=ZPERF.hist.slice(-1)[0]||null, box=!!document.getElementById('zperf'); ZPERF.toggle(false);
       var off=0, on=0; ws._wr.chunks.forEach(function(ch){ if(ch._off)off++; else on++; }); var hidden=0; ws._wr.chunks.forEach(function(ch){ if(ch._off)ch.objs.forEach(function(o){ if(!o.visible)hidden++; }); });
@@ -69,6 +79,33 @@ with game(new=True, painted=True) as g:
           r['box'] and r['row'] and 'draws' in r['row'] and r['on'] >= 1 and (r['off'] == 0 or r['hidden'] > 0), r)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No page errors', errs == [], errs[:4])
+
+# the Lab: Adventure sites and How it all fits
+import re
+from playwright.sync_api import sync_playwright
+R0 = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+html = open(os.path.join(R0, 'lab', 'index.html'), encoding='utf-8').read()
+def serve(rq):
+    u = rq.request.url
+    if u.endswith('.webp'):
+        f = os.path.join(R0, 'assets', 'scenery', os.path.basename(u))
+        if os.path.exists(f): rq.fulfill(path=f, content_type='image/webp')
+        else: rq.fulfill(status=404, body='')
+    else: rq.fulfill(body=html, content_type='text/html')
+with sync_playwright() as p:
+    b = p.chromium.launch(args=["--use-gl=swiftshader", "--enable-unsafe-swiftshader"]); pg = b.new_page(viewport={'width': 1400, 'height': 1000}); errs = []
+    pg.on('pageerror', lambda e: errs.append(str(e)))
+    pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=os.environ.get('PHASER_JS', os.path.join(R0, 'tests', '.phaser', 'package', 'dist', 'phaser.min.js')), content_type="application/javascript"))
+    pg.route(re.compile(r".*fonts.*"), lambda r: r.abort()); pg.route("http://lab.test/**", serve)
+    pg.goto('http://lab.test/'); pg.wait_for_timeout(2500); pg.click('.lab-tab[data-tab="asites"]'); pg.wait_for_timeout(3000)
+    r = pg.evaluate("""()=>{ var o={chips:document.querySelectorAll('.as-site').length, cards:document.querySelectorAll('.br-card[data-tab=asites]').length};
+      document.querySelector('[data-asite="lava_archipelago"]').click(); o.head=(document.querySelector('.as-head h3')||{}).textContent;
+      document.querySelector('.br-card[data-id="lava_archipelago__1"] .br-pick').click(); document.querySelector('.br-card[data-id="lava_archipelago__2"] .br-pick').click();
+      o.picked=[0,1,2].filter(function(i){ return LBR.picked('asites','lava_archipelago__'+i); }); o.done=document.querySelectorAll('.as-site.done').length; return o; }""")
+    pg.click('.lab-tab[data-tab="codex"]'); pg.wait_for_timeout(2000); r['codex'] = pg.evaluate("()=>document.querySelectorAll('.br-card[data-tab=codex]').length")
+    check('Lab: Adventure sites — %d sites to pick from, three options each plus three painting approaches; one pick per site; How it all fits — %d ideas' % (r['chips'], r['codex']),
+          r['chips'] == 53 and r['cards'] == 6 and r['head'] == 'Lava Archipelago' and r['picked'] == [2] and r['done'] == 1 and r['codex'] == 6 and errs == [], [r, errs[:3]])
+    b.close()
 
 print('\n%d / %d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)
