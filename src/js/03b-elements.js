@@ -120,10 +120,10 @@ var ITEMS_R37={
   gem_onyx:     {name:'Onyx',     icon:'⚫',slot:'gem',goldVal:140,gemEl:'shadow',desc:'Worth 140g — the shadow gem',pic:'a cut black onyx with a violet glint'},
   gem_heartseed:{name:'Heartseed',icon:'🌱',slot:'gem',goldVal:110,gemEl:'grass',rare:1,desc:'Worth 110g — rare grass gem, for master-work forging',pic:'a large glowing green seed with a golden sprout curling from it'},
   // plain axes (armory)
-  hand_axe:  {name:'Hand Axe',  icon:'🪓',atk:7, slot:'lHand',cls:'axe',sell:16, buy:50,           desc:'+7 ATK — axe: slow, heavy swings that stagger',pic:'a small one-handed axe, steel head on a short wooden haft'},
-  battle_axe:{name:'Battle Axe',icon:'🪓',atk:13,slot:'lHand',cls:'axe',sell:45, buy:130,secReq:2, desc:'+13 ATK — axe: slow, heavy swings that stagger',pic:'a broad single-bladed battle axe with a leather-wrapped haft'},
-  great_axe: {name:'Great Axe', icon:'🪓',atk:21,slot:'lHand',cls:'axe',sell:110,buy:320,secReq:3, desc:'+21 ATK — axe: slow, heavy swings that stagger',pic:'a huge double-bladed great axe of polished steel'},
-  war_axe:   {name:'War Axe',   icon:'🪓',atk:29,slot:'lHand',cls:'axe',sell:210,buy:620,secReq:4, desc:'+29 ATK — axe: slow, heavy swings that stagger',pic:'a black-steel war axe with a spiked back and red trim'},
+  hand_axe:  {name:'Hand Axe',  icon:'🪓',atk:7, slot:'lHand',cls:'axe',sell:16, buy:50,           desc:'+7 ATK — axe: slow, heavy swings (you stand still as you swing) that hit 1.6× as hard and stagger',pic:'a small one-handed axe, steel head on a short wooden haft'},
+  battle_axe:{name:'Battle Axe',icon:'🪓',atk:13,slot:'lHand',cls:'axe',sell:45, buy:130,secReq:2, desc:'+13 ATK — axe: slow, heavy swings (you stand still as you swing) that hit 1.6× as hard and stagger',pic:'a broad single-bladed battle axe with a leather-wrapped haft'},
+  great_axe: {name:'Great Axe', icon:'🪓',atk:21,slot:'lHand',cls:'axe',sell:110,buy:320,secReq:3, desc:'+21 ATK — axe: slow, heavy swings (you stand still as you swing) that hit 1.6× as hard and stagger',pic:'a huge double-bladed great axe of polished steel'},
+  war_axe:   {name:'War Axe',   icon:'🪓',atk:29,slot:'lHand',cls:'axe',sell:210,buy:620,secReq:4, desc:'+29 ATK — axe: slow, heavy swings (you stand still as you swing) that hit 1.6× as hard and stagger',pic:'a black-steel war axe with a spiked back and red trim'},
   // earth axes (forge, amber)
   granite_axe:    {name:'Granite Axe',     icon:'🪓',atk:12,slot:'lHand',cls:'axe',sell:30, crafted:true,el:['earth'],elementDmg:4, pic:'an axe with a head of grey granite bound to the haft with iron bands'},
   quake_axe:      {name:'Quake Axe',       icon:'🪓',atk:20,slot:'lHand',cls:'axe',sell:70, crafted:true,el:['earth'],elementDmg:8, pic:'a heavy stone axe with glowing amber cracks running through the head'},
@@ -199,7 +199,7 @@ var ICONS_R37=[['el_storm','Storm element','a yellow lightning bolt as a round b
     if(it.el)it.element=it.el==='all'?'all':it.el.map(function(e){ return ZEL.E[e].n.toLowerCase(); }).join(' & ');
     if(!it.desc){ var d=[]; if(it.atk)d.push('+'+it.atk+(it.slot==='rHand'?' RNG':it.slot==='mWeapon'?' MAGIC':'')+' ATK'); if(it.def)d.push('+'+it.def+' DEF'); if(it.elementDmg)d.push('+'+it.elementDmg+' '+it.element);
       if(it.spellMult)d.push('×'+it.spellMult+' spell dmg'); if(it.spdBonus)d.push('+'+Math.round(it.spdBonus*100)+'% Spd'); if(it.cdReduce)d.push('-'+Math.round(it.cdReduce*100)+'%CD'); if(it.manaRegen)d.push('+'+it.manaRegen+'mp/s');
-      it.desc=d.join(' ')+(it.sov?' — every element at once. No one yet knows how it is won.':it.cls==='axe'?' — axe':it.cls==='xbow'?' — crossbow':''); }
+      it.desc=d.join(' ')+(it.sov?' — every element at once. No one yet knows how it is won.':it.cls==='axe'?' — axe: slow, heavy swings (you stand still as you swing), 1.6× damage, stagger':it.cls==='xbow'?' — crossbow':''); }
     ITEMS[k]=it; });
 })();
 
@@ -225,7 +225,7 @@ var ICONS_R37=[['el_storm','Storm element','a yellow lightning bolt as a round b
   CRAFT_RECIPES.forEach(function(r){ var it=ITEMS[r.result]; if(!it)return; var st=[];
     if(it.atk)st.push('+'+it.atk+(it.slot==='rHand'?' RNG':'')+' ATK'); if(it.elementDmg)st.push('+'+it.elementDmg+' '+(it.el==='all'?'all elements':ZEL.name(it.el).toLowerCase()));
     var nd=Object.keys(r.needs).map(function(k){ return (r.needs[k]>1?r.needs[k]+'× ':'')+(ITEMS[k]?ITEMS[k].name:k); }).join(' + ');
-    it.desc=st.join(' ')+(it.cls==='axe'?' — axe':it.cls==='xbow'?' — crossbow':'')+' — Forge: '+nd+' + '+r.gold+'g'; });
+    it.desc=st.join(' ')+(it.cls==='axe'?' — axe: slow, heavy swings (you stand still as you swing), 1.6× damage, stagger':it.cls==='xbow'?' — crossbow':'')+' — Forge: '+nd+' + '+r.gold+'g'; });
 })();
 
 // ── gem-set gear: ITEMS['<base>~<el>[~<el>]'] is built on demand ───────

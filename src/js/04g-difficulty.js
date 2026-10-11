@@ -39,7 +39,8 @@ var ZDiff={
   lv:function(ps){ ps=ps||ZDiff.ps(); var d=ps&&ps.difficulty; return (d===0||d===1||d===2||d===3)?d:1; },
   cur:function(ps){ return ZDIFF[ZDiff.lv(ps)]; },
   // health and damage factors for a boss or a monster at the current level
-  f:function(boss){ var D=ZDiff.cur(); return boss?{h:D.bossHp,a:D.bossDmg,r:D.reward,boss:true}:{h:D.monHp,a:D.monDmg,r:D.reward,boss:false}; },
+  BOSS_HP:2,      // round 47 (Kris: "bosses need to be lots hard. Lets start by 2X their health")
+  f:function(boss){ var D=ZDiff.cur(); return boss?{h:D.bossHp*ZDiff.BOSS_HP,a:D.bossDmg,r:D.reward,boss:true}:{h:D.monHp,a:D.monDmg,r:D.reward,boss:false}; },
   // scale a stats object ({hp, atk, xp, gMin, gMax}) in place; returns the factors used (kept on the monster as _dz)
   stats:function(s,boss){ var F=ZDiff.f(boss); if(F.h!==1&&s.hp!==undefined)s.hp=Math.max(1,Math.round(s.hp*F.h)); if(F.a!==1&&s.atk!==undefined)s.atk=Math.max(1,Math.round(s.atk*F.a));
     if(F.r!==1){ if(s.xp!==undefined)s.xp=Math.round(s.xp*F.r); if(s.gMin!==undefined)s.gMin=Math.round(s.gMin*F.r); if(s.gMax!==undefined)s.gMax=Math.round(s.gMax*F.r); } return F; },

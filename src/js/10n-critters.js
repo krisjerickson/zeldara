@@ -14,11 +14,12 @@
 // ║ Where they live: the chunk's lists from 05d _cells (wet sand, lake edge, deep water, banks, meadows, sky). How many: ZWE.LOOK.crit.
 // ═══════════════════════════════════════════════════════════════════════
 var ZCRIT={
+  SMOOTH:{butterflies:'an_butterfly2',dragonflies:'an_dragonfly2'},      // round 47 (Kris: "probably need more painted figures for them to look smoother")
   KINDS:{ butterflies:{id:'ed_butterfly',n:3,fly:1,k:0.8}, dragonflies:{id:'ed_dragonfly',n:3,fly:1,k:0.75}, gulls:{id:'ed_gull',n:1,fly:2,k:0.9}, birds:{id:'ed_crow',n:1,fly:2,k:0.9},
     crabs:{id:'ed_crab',n:3,k:0.9}, frogs:{id:'ed_frog',n:3,k:0.9}, fish:{id:'ed_fish',n:2,k:0.8} },
   R:function(a,b){ return a+Math.random()*(b-a); },
   // the picture of a kind: {key, frames (n), ox, oy, s (scale), fh (frame height, world px)}
-  look:function(scene,f){ var K=ZCRIT.KINDS[f], A=typeof ZWE!=='undefined'?ZWE.animTex(scene,ZWE.CRITANIM[f]):null;
+  look:function(scene,f){ var K=ZCRIT.KINDS[f], A2=typeof ZWE!=='undefined'&&ZCRIT.SMOOTH[f]&&ZWE.frames(ZCRIT.SMOOTH[f])>1?ZWE.animTex(scene,ZCRIT.SMOOTH[f]):null, A=A2||(typeof ZWE!=='undefined'?ZWE.animTex(scene,ZWE.CRITANIM[f]):null);      // round 47: the 8-frame flights (wave 50) when painted
     if(A){ var oy=K.fly||f==='fish'?Math.max(0,A.oy-(A.h/2)/A.fh):A.oy; return {key:A.key,n:A.n,ox:A.ox,oy:oy,s:A.scale*K.k,frame:'0'}; }
     var T=ZScn.texture(scene,K.id,0,{shadow:false}); if(!T)return null; var th=scene.textures.get(T.key).getSourceImage().height/ZScn.RES;
     return {key:T.key,n:0,ox:0.5,oy:K.fly||f==='fish'?0.5-2.5/th:(th-5)/th,s:T.scale*K.k,frame:undefined}; },
@@ -43,15 +44,18 @@ Object.assign(WorldScene.prototype,{
     var flapTo=function(open){ if(lk.n>1){ var fi=Math.max(0,Math.min(lk.n-1,Math.round((1-open)*(lk.n-1)))); im.setFrame(String(fi)); im.setScale(s); } else im.setScale(s*(0.22+0.78*open),s); };      // open: 1 = wings spread, 0 = wings folded / at the far end of the beat
     var cycle=function(rate){ c.ph+=dt*rate*6.283; if(lk.n>1){ im.setFrame(String(Math.floor(c.ph/6.283*lk.n)%lk.n)); im.setScale(s); return null; } return Math.abs(Math.cos(c.ph/2)); };
     var leash=function(r,turn){ var dx=c.hx-c.x, dy=c.hy-c.y, d=Math.hypot(dx,dy); if(d>r){ var want=Math.atan2(dy,dx), dh=((want-c.h+Math.PI*3)%(Math.PI*2))-Math.PI; c.h+=Math.max(-turn*dt,Math.min(turn*dt,dh)); } };
+    // round 47 (Kris: "the terrain creatures like butterflys and dragonflys are too spastic, we need them to both move slower"): slower, smoother
+    // flight — gentle turns, slow wingbeats, and the body turns towards where it goes instead of snapping round
+    var turnTo=function(h,rate){ if(c.rh===undefined)c.rh=h; var dh=((h-c.rh+Math.PI*3)%(Math.PI*2))-Math.PI; c.rh+=dh*Math.min(1,dt*rate); return c.rh; };
     if(f==='butterflies'){
-      if(c.st==='rest'){ c.z=Math.max(2,c.z-dt*20); var o=0.5+0.5*Math.cos(t*2.2+c.ph); if(lk.n>1){ im.setFrame(String(o>0.5?0:Math.min(lk.n-1,2))); im.setScale(s); } else im.setScale(s*(0.3+0.7*o),s); if(c.t<=0){ c.st='go'; c.t=R(3,7); } }
-      else { c.h+=R(-4,4)*dt*1.6; leash(80,3); var sp=26; c.x+=Math.cos(c.h)*sp*dt; c.y+=Math.sin(c.h)*sp*dt; c.z=16+6*Math.sin(t*3.1+c.ph)+3*Math.sin(t*7.3+c.ph); var op=cycle(9); if(op!==null)flapTo(op);
-        if(c.t<=0){ if(Math.random()<0.35){ c.st='rest'; c.t=R(1.5,3.5); } else c.t=R(2,5); } }
-      im.setRotation(c.h+Math.PI/2+Math.sin(t*5+c.ph)*0.25); }
+      if(c.st==='rest'){ c.z=Math.max(2,c.z-dt*10); var o=0.5+0.5*Math.cos(t*1.3+c.ph); if(lk.n>1){ im.setFrame(String(o>0.5?0:Math.min(lk.n-1,2))); im.setScale(s); } else im.setScale(s*(0.3+0.7*o),s); if(c.t<=0){ c.st='go'; c.t=R(4,8); } }
+      else { c.dh=(c.dh||0)+(R(-1,1)*1.2-(c.dh||0)*0.8)*dt; c.h+=c.dh*dt*1.6; leash(80,1.4); var sp=15; c.x+=Math.cos(c.h)*sp*dt; c.y+=Math.sin(c.h)*sp*dt; c.z=16+4*Math.sin(t*1.5+c.ph)+1.5*Math.sin(t*3.1+c.ph); var op=cycle(4); if(op!==null)flapTo(op);
+        if(c.t<=0){ if(Math.random()<0.5){ c.st='rest'; c.t=R(2.5,5); } else c.t=R(3,6); } }
+      im.setRotation(turnTo(c.h,2.5)+Math.PI/2+Math.sin(t*1.6+c.ph)*0.1); }
     else if(f==='dragonflies'){
-      if(c.st==='dart'){ var sp2=170; c.x+=Math.cos(c.h)*sp2*dt; c.y+=Math.sin(c.h)*sp2*dt; if(c.t<=0){ c.st='hover'; c.t=R(0.8,2.6); } }
-      else { c.x+=Math.sin(t*9+c.ph)*dt*6; c.y+=Math.cos(t*7+c.ph)*dt*5; if(c.t<=0){ var a=Math.random()*6.283, d=R(40,110), tx=c.hx+Math.cos(a)*d*0.6, ty=c.hy+Math.sin(a)*d*0.4; c.h=Math.atan2(ty-c.y,tx-c.x); c.st='dart'; c.t=Math.hypot(tx-c.x,ty-c.y)/170; } }
-      c.z=20+2*Math.sin(t*4+c.ph); var op2=cycle(lk.n>1?20:0); if(op2!==null)im.setScale(s*(0.82+0.18*Math.abs(Math.sin(t*60+c.ph))),s); im.setRotation(c.h+Math.PI/2); }
+      if(c.st==='dart'){ c.dp=Math.min(1,(c.dp||0)+dt/Math.max(0.1,c.dT)); var e2=Math.sin(c.dp*Math.PI), sp2=c.dS*e2*1.57; c.x+=Math.cos(c.h)*sp2*dt; c.y+=Math.sin(c.h)*sp2*dt; if(c.dp>=1){ c.st='hover'; c.t=R(2,5); } }
+      else { c.x+=Math.sin(t*2.2+c.ph)*dt*3; c.y+=Math.cos(t*1.7+c.ph)*dt*2.5; if(c.t<=0){ var a=Math.random()*6.283, d=R(30,80), tx=c.hx+Math.cos(a)*d*0.6, ty=c.hy+Math.sin(a)*d*0.4, L=Math.hypot(tx-c.x,ty-c.y); c.h=Math.atan2(ty-c.y,tx-c.x); c.st='dart'; c.dp=0; c.dS=55; c.dT=Math.max(0.6,L/55); } }
+      c.z=20+2*Math.sin(t*1.8+c.ph); var op2=cycle(lk.n>1?11:0); if(op2!==null)im.setScale(s*(0.9+0.1*Math.abs(Math.sin(t*12+c.ph))),s); im.setRotation(turnTo(c.h,3)+Math.PI/2); }
     else if(f==='gulls'||f==='birds'){ var crow=f==='birds';
       c.h+=Math.sin(t*(crow?0.5:0.3)+c.ph)*dt*(crow?0.9:0.55); leash(crow?420:520,0.6); var sp3=crow?62:48; c.x+=Math.cos(c.h)*sp3*dt; c.y+=Math.sin(c.h)*sp3*dt;
       if(c.st==='go'){ c.fl+=dt; var op3=cycle(crow?4.2:3); if(op3!==null)flapTo(op3); if(c.fl>(crow?1.6:1.1)){ c.st='glide'; c.fl=0; } }

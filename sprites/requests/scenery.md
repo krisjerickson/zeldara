@@ -1,4 +1,4 @@
-# Scenery — 123 sheets, 1300 objects and textures (13 sheets in the pilot)
+# Scenery — 132 sheets, 1386 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -30,6 +30,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 47 | Round 45: sky-port flights (backdrops, galleons, wingman, power-ups) and the adventure sites' big set-pieces | 5 | 32 |
 | 48 | Icons: round 45 — the bows and warbows; Tome pictures of regions, arenas and fairy-quest treasures | 5 | 99 |
 | 49 | Round 46: the hero asleep and waking in the home bed, at the bed's own size | 1 | 16 |
+| 50 | Round 47: what fills the space round the adventure sites (rock, seas, fog, sky, night sky, their creatures), smoother butterflies and dragonflies, painted area effects | 9 | 86 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -1764,6 +1765,318 @@ Row 3 — Hero (the boy) waking up in the home bed, waking and getting up (about
 Row 4 — Hero (the girl) waking up in the home bed, waking and getting up (about as tall as the hero): (1) the same bed, same size and place; the girl sits up in it, yawning, one fist rubbing an eye; (2) sitting up, stretching both arms high above her head; (3) sitting on the edge of the bed, quilt thrown back, feet on the floor; (4) the bed empty and tidy, the quilt pulled up (the girl has stepped out of the picture).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_void_tex
+
+Ground 7 — what lies round an adventure site: rock and seas seen from straight above, seamless · wave 50 · 6 items, 3 × 2 · 1536x1024
+
+- `tx_v_strata` Rock strata — 256 × 256 px
+- `tx_v_roots` Root-bound earth — 256 × 256 px
+- `tx_v_ore` Ore-veined granite — 256 × 256 px
+- `tx_v_lavasea` Lava sea — 256 × 256 px
+- `tx_v_deepsea` Deep sea — 256 × 256 px
+- `tx_v_cloudsea` Sea of clouds — 256 × 256 px
+
+Attach: style_hero, style_centaur, sc_tex_grass
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Ground 7 — what lies round an adventure site: rock and seas seen from straight above, seamless.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Rock strata — layered bands of grey-brown and ochre sedimentary rock seen from straight above, as if a floor were cut down through it: thin wavy bands, hairline cracks, small pebbles.
+2. Root-bound earth — packed dark earth threaded with pale twisting roots and small stones, a few tiny glinting crystals.
+3. Ore-veined granite — dark speckled granite with thin glinting veins of copper and pale blue crystal running through it.
+4. Lava sea — a sea of molten lava from above: dark cooling crust plates with glowing orange-yellow seams floating on bright flowing lava.
+5. Deep sea — deep night-blue sea from above, long slow swells, faint foam lines, a darker depth in places.
+6. Sea of clouds — a thick sea of sunlit white and pale-gold cloud tops seen from far above, soft rounded billows with blue-grey shadows between.
+View: seen from straight above, flat.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: each swatch is a flat square that fills its whole cell from edge to edge — no border, no frame, no vignette, no perspective, no lighting gradient across the square, no single large feature. The pattern must repeat seamlessly when the square is tiled in every direction. Keep every swatch very calm, even and LOW in contrast: it lies under the characters and must not compete with them. Mostly one flat base colour; the marks are small (each no wider than a twelfth of the square), only a little darker or lighter than the base, with NO dark outlines, and spread evenly. Leave a thin gap of plain white between the squares. No objects, no shadows of objects, no grid lines, no numbers, no labels, no text, no watermark.
+Background between the squares: plain white.
+```
+
+## sc_void_life
+
+Creatures of the deep places round the adventure sites — each seen from above at a slight angle, half out of its rock, lava, water or cloud · wave 50 · 12 items, 4 × 3 · 1536x1024
+
+- `vd_mole` Burrowing mole — 64 × 56 px
+- `vd_rock_worm` Rock worm — 64 × 64 px
+- `vd_beetle` Burrowing beetle — 56 × 48 px
+- `vd_bat_swarm` Bat swarm — 96 × 72 px
+- `vd_gargoyle_lava` Lava gargoyle — 96 × 104 px
+- `vd_gargoyle_rock` Rock gargoyle — 88 × 96 px
+- `vd_magma_serpent` Magma serpent — 112 × 72 px
+- `vd_tentacle` Sea tentacle — 64 × 96 px
+- `vd_whale_fin` Whale back — 112 × 64 px
+- `vd_sky_whale` Sky whale — 128 × 72 px
+- `vd_storm_eel` Storm eel — 112 × 64 px
+- `vd_star_whale` Star whale — 128 × 72 px
+
+Attach: style_hero, style_centaur, sc_edge_5
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Creatures of the deep places round the adventure sites — each seen from above at a slight angle, half out of its rock, lava, water or cloud.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Burrowing mole — a dark velvety mole pushing its head and big pink digging paws up out of a small mound of earth and rubble (about as tall as the hero).
+2. Rock worm — a thick segmented grey rock worm arching out of a hole in stone, a ring of tiny teeth, dust falling (about as tall as the hero).
+3. Burrowing beetle — a shiny blue-black beetle with a digging horn half out of loose earth (about 0.8× the hero's height).
+4. Bat swarm — a small swirling flock of dark bats in flight, wings spread, seen from above (about as tall as the hero).
+5. Lava gargoyle — a hulking gargoyle of black rock with glowing molten cracks and ember eyes, rising chest-deep out of lava, horns, folded stone wings (about 1.7× the hero's height).
+6. Rock gargoyle — a crouching grey stone gargoyle with moss on its shoulders and glowing amber eyes, half sunk in rubble (about 1.5× the hero's height).
+7. Magma serpent — the arched back and head of a serpent of molten rock breaking the surface of lava, drips of fire (about as tall as the hero).
+8. Sea tentacle — a great dark-green tentacle curling up out of deep water, suckers along its underside, water streaming off (about 1.5× the hero's height).
+9. Whale back — the dark back and tall fin of a huge whale breaking the sea surface, a spray of water (about as tall as the hero).
+10. Sky whale — a long pale blue-white whale with fin-like wings swimming through clouds, seen from above (about as tall as the hero).
+11. Storm eel — a long violet eel crackling with white lightning, coiling through dark storm cloud (about as tall as the hero).
+12. Star whale — a translucent deep-blue whale filled with tiny stars, swimming through space, a faint trail of light (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_void_fog
+
+Fog and light for the abyss — soft white and pale-blue fog painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black) · wave 50 · 4 items, 2 × 2 · 1536x1024
+
+- `vd_fog_bank_1` Fog bank 1 — 640 × 320 px
+- `vd_fog_bank_2` Fog bank 2 — 640 × 320 px
+- `vd_mist_wisps` Mist wisps — 640 × 320 px
+- `vd_light_shaft` Light shaft — 640 × 320 px
+
+Attach: style_hero, style_centaur, sc_void_life
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 4 separate pieces of scenery — Fog and light for the abyss — soft white and pale-blue fog painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Fog bank 1 — a long low bank of soft rolling fog, denser in the middle, thinning to wisps at both ends (about 10.2× the hero's height across).
+2. Fog bank 2 — a wider, flatter layer of mist with gaps and curls, as seen looking down into a deep chasm (about 10.2× the hero's height across).
+3. Mist wisps — several thin drifting wisps and curls of mist (about 10.2× the hero's height across).
+4. Light shaft — a soft slanting shaft of pale light falling down into darkness, dust motes glinting in it (about 10.2× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_void_sky
+
+An epic sky round the high towers — painted clouds and far peaks seen from high above · wave 50 · 6 items, 3 × 2 · 1536x1024
+
+- `vd_cloud_1` Cloud mass — 192 × 128 px
+- `vd_cloud_2` Cloud bank — 224 × 96 px
+- `vd_cloud_3` Small cloud — 112 × 80 px
+- `vd_peak_1` Far peak — 176 × 160 px
+- `vd_peak_2` Far crags — 176 × 144 px
+- `vd_tower_far` Distant tower — 96 × 176 px
+
+Attach: style_hero, style_centaur, sc_sky_bg_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — An epic sky round the high towers — painted clouds and far peaks seen from high above.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Cloud mass — a big sunlit cumulus cloud seen from above, white tops, soft blue-grey shadows, golden edge light (about 2× the hero's height).
+2. Cloud bank — a long flat bank of cloud seen from above, wisps trailing (about 1.5× the hero's height).
+3. Small cloud — a small puffy cloud seen from above (about 1.3× the hero's height).
+4. Far peak — a snow-capped mountain peak rising out of a sea of cloud far below, seen from high above (about 2.5× the hero's height).
+5. Far crags — two jagged rocky crags poking up through cloud, a waterfall on one (about 2.3× the hero's height).
+6. Distant tower — a slender distant stone tower on a rock spire rising through cloud, a tiny banner, bluish with distance (about 2.8× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_void_night
+
+The night sky round the mage towers — painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black) · wave 50 · 6 items, 3 × 2 · 1536x1024
+
+- `vd_milkyway` Milky way — 512 × 320 px
+- `vd_nebula_violet` Violet nebula — 448 × 320 px
+- `vd_nebula_rose` Rose nebula — 448 × 320 px
+- `vd_aurora` Aurora — 512 × 320 px
+- `vd_planet_ringed` Ringed planet — 256 × 192 px
+- `vd_shooting_star` Shooting star — 384 × 96 px
+
+Attach: style_hero, style_centaur, sc_void_life
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — The night sky round the mage towers — painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Milky way — a broad diagonal band of the milky way: countless tiny stars, glowing dust lanes, soft white-gold core (about 8.1× the hero's height across).
+2. Violet nebula — a glowing violet and teal nebula cloud with bright young stars inside (about 7.1× the hero's height across).
+3. Rose nebula — a rose-pink and gold nebula, wispy filaments, a few bright stars (about 7.1× the hero's height across).
+4. Aurora — curtains of aurora borealis in green fading to violet, rippling folds hanging from the top (about 8.1× the hero's height across).
+5. Ringed planet — a distant pale ringed planet, half lit, its rings tilted (about 4.1× the hero's height across).
+6. Shooting star — a bright shooting star with a long tapering glowing tail (about 6.1× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_anim_flit
+
+Animation frames — a butterfly and a dragonfly in smooth, slow flight (eight frames each, so the wingbeat looks fluid) · wave 50 · 16 items, 8 × 2 · 1536x1024
+
+- `an_butterfly2_1` Butterfly — frame 1 — 26 × 22 px
+- `an_butterfly2_2` Butterfly — frame 2 — 26 × 22 px
+- `an_butterfly2_3` Butterfly — frame 3 — 26 × 22 px
+- `an_butterfly2_4` Butterfly — frame 4 — 26 × 22 px
+- `an_butterfly2_5` Butterfly — frame 5 — 26 × 22 px
+- `an_butterfly2_6` Butterfly — frame 6 — 26 × 22 px
+- `an_butterfly2_7` Butterfly — frame 7 — 26 × 22 px
+- `an_butterfly2_8` Butterfly — frame 8 — 26 × 22 px
+- `an_dragonfly2_1` Dragonfly — frame 1 — 32 × 28 px
+- `an_dragonfly2_2` Dragonfly — frame 2 — 32 × 28 px
+- `an_dragonfly2_3` Dragonfly — frame 3 — 32 × 28 px
+- `an_dragonfly2_4` Dragonfly — frame 4 — 32 × 28 px
+- `an_dragonfly2_5` Dragonfly — frame 5 — 32 × 28 px
+- `an_dragonfly2_6` Dragonfly — frame 6 — 32 × 28 px
+- `an_dragonfly2_7` Dragonfly — frame 7 — 32 × 28 px
+- `an_dragonfly2_8` Dragonfly — frame 8 — 32 × 28 px
+
+Attach: style_hero, style_centaur, sc_anim_3, sc_anim_2
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames — a butterfly and a dragonfly in smooth, slow flight (eight frames each, so the wingbeat looks fluid).
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 8 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 8 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Butterfly, one slow, smooth wingbeat (a small item, under half the hero's height): (1) wings fully open, flat; (2) wings beginning to lift, slightly raised; (3) wings raised to half; (4) wings raised high, nearly upright; (5) wings closed together, seen as a thin upright shape; (6) wings opening again, nearly upright; (7) wings lowering to half; (8) wings almost flat again.
+Row 2 — Dragonfly, one smooth beat of its four wings (about 0.4× the hero's height): (1) all four wings spread flat; (2) front wings tilting forward a little; (3) front wings swept forward, back wings back; (4) both pairs swept to their furthest, slightly blurred; (5) wings returning toward flat; (6) all four wings spread flat again; (7) back wings tilting forward a little; (8) both pairs swept the other way, slightly blurred.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fx_ground
+
+Painted area effects 1 — warnings and lingering patches on the ground, seen from straight above, each a flat circular or wedge-shaped patch · wave 50 · 12 items, 4 × 3 · 1536x1024
+
+- `fx_tele_circle` Warning circle — 128 × 128 px
+- `fx_tele_cone` Warning wedge — 128 × 128 px
+- `fx_tele_line` Warning path — 192 × 48 px
+- `fx_zone_frost` Frost patch — 128 × 128 px
+- `fx_zone_poison` Poison pool — 128 × 128 px
+- `fx_zone_burn` Burning ground — 128 × 128 px
+- `fx_zone_shadow` Shadow pool — 128 × 128 px
+- `fx_zone_pollen` Pollen cloud — 128 × 128 px
+- `fx_zone_vines` Grasping vines — 128 × 128 px
+- `fx_zone_lava` Lava pool — 128 × 128 px
+- `fx_zone_blood` Cursed ground — 128 × 128 px
+- `fx_crack_ring` Shattered ground — 128 × 128 px
+
+Attach: style_hero, style_centaur, sc_edge_5
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Painted area effects 1 — warnings and lingering patches on the ground, seen from straight above, each a flat circular or wedge-shaped patch.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Warning circle — a glowing red-orange rune circle burned into the ground, cracks radiating inside it, as a warning of an attack about to land (about 2× the hero's height).
+2. Warning wedge — a wedge-shaped (pie-slice) patch of glowing red-orange cracked ground fanning out from its point (about 2× the hero's height).
+3. Warning path — a long straight strip of glowing red-orange runes and cracks along the ground (about 0.8× the hero's height).
+4. Frost patch — a round patch of frost and thin ice crystals on the ground, pale blue, sparkling (about 2× the hero's height).
+5. Poison pool — a round bubbling puddle of glowing green poison with a few bubbles and a thin vapour (about 2× the hero's height).
+6. Burning ground — a round patch of scorched ground with small flames and glowing embers (about 2× the hero's height).
+7. Shadow pool — a round pool of swirling black-violet shadow with faint wisps rising (about 2× the hero's height).
+8. Pollen cloud — a low round cloud of pale pink-gold pollen dust and tiny petals (about 2× the hero's height).
+9. Grasping vines — a round tangle of thorny green vines writhing up out of the ground (about 2× the hero's height).
+10. Lava pool — a round pool of bright lava with a dark crust rim (about 2× the hero's height).
+11. Cursed ground — a round patch of glowing red cursed runes on the ground (about 2× the hero's height).
+12. Shattered ground — a ring of broken, upheaved ground and flying pebbles from a heavy slam (about 2× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fx_blast
+
+Painted area effects 2 — attacks that burst outward, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black) · wave 50 · 12 items, 4 × 3 · 1536x1024
+
+- `fx_shockwave` Shockwave — 256 × 256 px
+- `fx_ring_ice` Ice ring — 256 × 256 px
+- `fx_burst_fire` Fire burst — 256 × 256 px
+- `fx_nova_ice` Frost nova — 256 × 256 px
+- `fx_burst_storm` Lightning burst — 256 × 256 px
+- `fx_breath_fire` Fire breath — 256 × 160 px
+- `fx_breath_frost` Frost breath — 256 × 160 px
+- `fx_beam` Energy beam — 384 × 64 px
+- `fx_impact_meteor` Meteor impact — 256 × 256 px
+- `fx_ring_heal` Healing ring — 256 × 256 px
+- `fx_gust` Gust — 256 × 160 px
+- `fx_burst_shadow` Shadow burst — 256 × 256 px
+
+Attach: style_hero, style_centaur, sc_fx_ground
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Painted area effects 2 — attacks that burst outward, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Shockwave — a ring-shaped shockwave of dust and force spreading on the ground, seen from above (about 4.1× the hero's height across).
+2. Ice ring — an expanding ring of icy blue light and ice shards, seen from above (about 4.1× the hero's height across).
+3. Fire burst — a round fiery explosion seen from above, orange-yellow core, smoky edges (about 4.1× the hero's height across).
+4. Frost nova — a round burst of frost and ice crystals spreading outward (about 4.1× the hero's height across).
+5. Lightning burst — a round burst of crackling white-violet lightning branching outward (about 4.1× the hero's height across).
+6. Fire breath — a wedge-shaped jet of roaring fire fanning out from its narrow end on the left (about 4.1× the hero's height across).
+7. Frost breath — a wedge-shaped jet of icy mist and shards fanning out from its narrow end on the left (about 4.1× the hero's height across).
+8. Energy beam — a long straight beam of searing red-white energy, bright core, glowing edges, running left to right (about 6.1× the hero's height across).
+9. Meteor impact — a meteor striking the ground from above: a burst of fire and flying rock in a ring (about 4.1× the hero's height across).
+10. Healing ring — a soft ring of green-gold healing light with tiny leaves and sparkles (about 4.1× the hero's height across).
+11. Gust — a sweep of wind seen from above: white curling streaks of air fanning out (about 4.1× the hero's height across).
+12. Shadow burst — a round burst of black-violet shadow tendrils lashing outward (about 4.1× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fx_skill
+
+Painted area effects 3 — the hero's own skills and spells, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black) · wave 50 · 12 items, 4 × 3 · 1536x1024
+
+- `fx_whirlwind` Whirlwind — 256 × 256 px
+- `fx_dash_trail` Dash trail — 256 × 96 px
+- `fx_frost_trail` Frost trail — 256 × 96 px
+- `fx_smoke` Smoke cloud — 256 × 256 px
+- `fx_berserk_aura` Berserk aura — 256 × 256 px
+- `fx_heal_aura` Healing aura — 256 × 256 px
+- `fx_time_ring` Time ring — 256 × 256 px
+- `fx_arcane_aura` Arcane aura — 256 × 256 px
+- `fx_shield_bubble` Shield bubble — 256 × 256 px
+- `fx_familiar_burst` Familiar burst — 256 × 256 px
+- `fx_meteor_mark` Meteor target — 256 × 256 px
+- `fx_root_burst` Root burst — 256 × 256 px
+
+Attach: style_hero, style_centaur, sc_fx_ground
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Painted area effects 3 — the hero's own skills and spells, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Whirlwind — a spinning ring of bright sword-arcs and wind seen from above (about 4.1× the hero's height across).
+2. Dash trail — a short streak of blue-white speed light and dust, running left to right (about 4.1× the hero's height across).
+3. Frost trail — a short trail of frost crystals and cold mist, running left to right (about 4.1× the hero's height across).
+4. Smoke cloud — a round billowing cloud of grey smoke seen from above (about 4.1× the hero's height across).
+5. Berserk aura — a ring of roaring red-orange flame-light around an empty centre (about 4.1× the hero's height across).
+6. Healing aura — a soft rising column of green-gold light and sparkles, seen from above as a glowing disc (about 4.1× the hero's height across).
+7. Time ring — a wide ring of pale cyan clockwork runes and light (about 4.1× the hero's height across).
+8. Arcane aura — a ring of lilac arcane runes and motes of light (about 4.1× the hero's height across).
+9. Shield bubble — a round translucent blue bubble of force with a bright rim and faint hexagon pattern (about 4.1× the hero's height across).
+10. Familiar burst — a round burst of teal spirit light with small spirit wisps (about 4.1× the hero's height across).
+11. Meteor target — a glowing orange target circle on the ground with falling sparks above it (about 4.1× the hero's height across).
+12. Root burst — a round burst of green roots and leaves bursting up from the ground (about 4.1× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

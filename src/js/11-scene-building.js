@@ -142,7 +142,7 @@ class BuildingScene extends Phaser.Scene{
   // in the bed under a drawn quilt.
   _rest(){ if(this._resting)return; var self=this, ps=this.worldScene.playerState, m=this._imap, B=m.bed||{x:this.npcX-LT,y:this.npcY-LT,w:2*LT,h:2*LT}, who=_heroWho(this)==='f'?'f':'m';
     if(this._bedIms&&this._bedIms.length){ var bb=null; this._bedIms.forEach(function(im){ var r=im.getBounds(); if(!bb||r.width*r.height>bb.width*bb.height)bb=r; }); if(bb&&bb.width>8)B={x:bb.x,y:bb.y,w:bb.width,h:bb.height}; }      // the painted bed's own outline
-    this._resting=true; if(this.interactPrompt)this.interactPrompt.setVisible(false);
+    this._resting=true; if(typeof ZSAVE!=='undefined')ZSAVE.auto('you slept');      /* round 47: sleeping saves */  if(this.interactPrompt)this.interactPrompt.setVisible(false);
     // round 46 (Kris: "When you sleep, your hero still shows up, so there's a double of you … The bed and yourself get really large when sleeping"):
     // the hero leaves the room while the sleeping picture shows, and that picture is sized to the bed it replaces (its width), not stretched taller.
     // The repainted frames (wave 49, an_sleep2_* / an_wake2_*, drawn to the house bed's own size) are used when they are in.

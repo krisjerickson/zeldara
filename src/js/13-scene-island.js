@@ -225,7 +225,7 @@ class IslandScene extends WorldScene{
     if(this._interactPrompt){ this._interactPrompt.destroy(); this._interactPrompt=null; }
     this.scene.stop('Island'); game.scene.wake('World');
     document.getElementById('hud').style.display=''; document.getElementById('dungeon-hud').style.display='none';
-    if(ws){ if(toWaystone&&ws._arriveAtWaystone)ws._arriveAtWaystone(toWaystone); ws._emitUI(); ws._save(); } }
+    if(ws){ if(toWaystone&&ws._arriveAtWaystone)ws._arriveAtWaystone(toWaystone); ws._emitUI(); } }      // round 47: coming back from an island no longer saves by itself
 }
 // the island trader, in the shared shop window (pauses the game like every menu)
 function openIslandShop(isl,ps,scene){ document.getElementById('camp-title').textContent='🛒 '+isl.name+' — Trader';

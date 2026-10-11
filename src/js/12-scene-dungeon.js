@@ -63,6 +63,7 @@ class DungeonScene extends Phaser.Scene{
         this.cameras.main.setBackgroundColor(bgCol);
       }
       this.cameras.main.setBounds(0,0,DW*TILE,DH*TILE);
+      if(spec&&this._lab&&this._lab.zvoid&&typeof ZVOID!=='undefined')ZVOID.frame(this,this._lab);      // round 47: the camera keeps to the floor, a vignette round it
       this.cameras.main.setZoom(1.6);
       applyTheme(this._trialRun?'aurora':this.isLastFloor?'blood-moon':isTowerTheme?'aurora':'void');
       this._spawnPlayer();
@@ -362,6 +363,7 @@ class DungeonScene extends Phaser.Scene{
     this._labTextures();
     var addTex=function(k,cv){ gpuTex(self,k,cv); keys.push(k); return k; };
     this.add.image(0,0,addTex('base_'+tag,m.base)).setOrigin(0,0).setDepth(-10);
+    if(m.zvoid&&typeof ZVOID!=='undefined'){ try{ ZVOID.apply(this,m); }catch(e){ if(typeof console!=='undefined')console.warn('void:',e&&e.message); } }      // round 47: what fills the empty space
     m.shafts.forEach(function(sh,i){
       var im=self.add.image(sh.x,sh.y,addTex('shaft_'+tag+'_'+i,sh.canvas)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.5).setDepth(-5);
       if(sh.sway)self.tweens.add({targets:im,alpha:(sh.a||0.5)*0.6,duration:2200+i*170,yoyo:true,repeat:-1,ease:'Sine.inOut'});
@@ -1077,9 +1079,12 @@ class DungeonScene extends Phaser.Scene{
   _dngRedrawFog(){
     var g=this._dngFogGfx;if(!g)return;
     g.clear();g.fillStyle(0x000000,1);
-    for(var ty=0;ty<DH;ty++){
-      for(var tx=0;tx<DW;tx++){
-        if(!this._dngFogExplored[ty*DW+tx])g.fillRect(tx*TILE,ty*TILE,TILE,TILE);
+    // round 47: with the empty space filled (07zy2 ZVOID), the land round the map stays hidden too until you come near its edge
+    var M=this._lab&&this._lab.zvoid?16:0, F=this._dngFogExplored;
+    for(var ty=-M;ty<DH+M;ty++){
+      for(var tx=-M;tx<DW+M;tx++){
+        var cx=tx<0?0:tx>=DW?DW-1:tx, cy=ty<0?0:ty>=DH?DH-1:ty;
+        if(!F[cy*DW+cx])g.fillRect(tx*TILE,ty*TILE,TILE,TILE);
       }
     }
   }
@@ -1333,9 +1338,9 @@ class DungeonScene extends Phaser.Scene{
     var sw={right:[-50,110,12,-10,16,8],left:[230,70,-12,-10,-16,8],down:[-60,60,10,4,-10,6],up:[120,60,10,-16,-10,-16]};
     var s=sw[dir]||sw.right;
     wep.setAngle(s[0]);wep.setPosition(s[2],s[3]);wep.setFillStyle(0xeeffdd);wep.setSize(5,18);
-    this.tweens.add({targets:wep,angle:s[1],x:s[4],y:s[5],duration:160,ease:'Power3',
+    this.tweens.add({targets:wep,angle:s[1],x:s[4],y:s[5],duration:Math.round(160*(_sw.axe?1.9:1)),ease:'Power3',
       onComplete:function(){
-        self.tweens.add({targets:wep,angle:dir==='left'?-15:15,x:dir==='left'?-12:12,y:-2,duration:80,
+        self.tweens.add({targets:wep,angle:dir==='left'?-15:15,x:dir==='left'?-12:12,y:-2,duration:Math.round(80*(_sw.axe?2.2:1)),
           onComplete:function(){wep.setFillStyle(0xcccccc);wep.setSize(4,14);}});
       }});
     var hit=false;
@@ -1472,6 +1477,7 @@ class DungeonScene extends Phaser.Scene{
     } else if(near.type==='stairs_down'){
       var fs2=this._initData.floorStates||{};
       fs2[this.floor]=this._saveFloorState();
+      if(typeof ZSAVE!=='undefined')ZSAVE.auto('down to floor '+(this.floor+2));      // round 47: a milestone
       this.scene.restart(Object.assign({},this._initData,{floor:this.floor+1,floorStates:fs2,arriveAt:null}));
     } else if(near.type==='chest'){
       near.opened=true;this._openChest();showNotif('Chest opened!','#ffaa44');

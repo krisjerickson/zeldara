@@ -144,7 +144,7 @@ var ZWE={
   LOOP:{an_steam_vent:5,an_lava_bubble:3},      // these loop through their frames (frames a second) instead of following the wind
   // the creatures' frames
   CRITANIM:{crabs:'an_crab',frogs:'an_frog',fish:'an_fish',gulls:'an_gull',birds:'an_crow',dragonflies:'an_dragonfly',butterflies:'an_butterfly',wisps:'an_wisp',fireflies:'an_firefly',leaves:'an_leaf'},
-  CRITFPS:{crabs:8,frogs:5,fish:4.5,gulls:6,birds:7,dragonflies:20,butterflies:10,wisps:6,fireflies:3,leaves:6},
+  CRITFPS:{crabs:8,frogs:5,fish:4.5,gulls:6,birds:7,dragonflies:11,butterflies:5,wisps:6,fireflies:3,leaves:6},
   frames:function(base){ var Z=_scn(); if(!Z||!base)return 0; var n=0; while(n<8&&Z.has(base+'_'+(n+1)))n++; return n; },
   // the frames of an animation as one game texture (frames '0'…'n-1', lined up on their standing point); null until they are painted
   animTex:function(scene,base){ var n=ZWE.frames(base); if(n<2)return null; var key='zan_'+base; if(scene.textures.exists(key))return scene._zan&&scene._zan[key];

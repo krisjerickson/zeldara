@@ -130,7 +130,7 @@ var ZSD={
       var other=-1, os=1e9; Rg.sizes.forEach(function(s,i){ if(i!==main&&s<os){ os=s; other=i; } });
       var a=null, b=null, bd=1e9, oc=[], mc=[]; for(var i3=0;i3<lab.length;i3++){ if(lab[i3]===other)oc.push(i3); else if(lab[i3]===main&&(i3%2===0||Rg.sizes[main]<400))mc.push(i3); } var so=Math.max(1,Math.floor(oc.length/60));
       for(var oi=0;oi<oc.length;oi+=so){ var i2=oc[oi], ax=i2%W, ay=(i2/W)|0; for(var mi=0;mi<mc.length;mi++){ var j=mc[mi]; var d=Math.abs(j%W-ax)+Math.abs(((j/W)|0)-ay); if(d<bd){ bd=d; a=[ax,ay]; b=[j%W,(j/W)|0]; } } }
-      if(!a)return; var x=a[0], y=a[1]; while(x!==b[0]||y!==b[1]){ if(x!==b[0]&&(y===b[1]||R.chance(0.5)))x+=x<b[0]?1:-1; else y+=y<b[1]?1:-1; var k=y*W+x; if(!ZSD.walk(g[k]))g[k]=g[k]===3||g[k]===0&&F._bridgeOver===3?4:1; } } },
+      if(!a)return; var x=a[0], y=a[1], xf=((a[0]*7+a[1]*13)&1)===0; while(x!==b[0]||y!==b[1]){ var rc=x!==b[0]&&y!==b[1]?R.chance(0.5):0; if(x!==b[0]&&(y===b[1]||xf))x+=x<b[0]?1:-1; else y+=y<b[1]?1:-1;      /* round 47 (Kris: "make sure the long bridges connect all the way through"): an L, two straight runs, not a staircase; the random draw is kept so every layout stays as it was */ var k=y*W+x; if(!ZSD.walk(g[k]))g[k]=g[k]===3||g[k]===0&&F._bridgeOver===3?4:1; } } },
   // a landing where the stairs from below come out (a small floor, joined to the rest), so you arrive exactly above where you left
   landing:function(F,p,R){ var W=F.w, H=F.h, x=Math.max(2,Math.min(W-3,p[0])), y=Math.max(2,Math.min(H-3,p[1])); if(ZSD.walk(F.g[y*W+x])&&F.g[y*W+x]!==4)return;
     for(var j=-1;j<=1;j++)for(var i=-1;i<=1;i++)F.g[(y+j)*W+x+i]=1; ZSD.connect(F,R); },

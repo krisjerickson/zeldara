@@ -9,6 +9,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof ZBrand==='undefined'||!ZBrand.glyph)return;
   ZBrand.E_STYLE='top'; ZBrand._eM={};
+  ZBrand.WORDMARK='rz_medieval';      // round 47: Kris picked the Ringed Z in MedievalSharp (Lab logoe-medieval), with the E's top arm drawn out
   ZBrand.setE=function(st){ ZBrand.E_STYLE=st; if(ZBrand.cache)Object.keys(ZBrand.cache).forEach(function(k){ if(/^w_/.test(k))delete ZBrand.cache[k]; }); };      // the wordmarks are cached as pictures
   // the arms of an E in this font, measured once from its pixels (glyph units: 100 px type, baseline at y)
   ZBrand.eMetrics=function(font){ if(ZBrand._eM[font]!==undefined)return ZBrand._eM[font]; if(typeof document==='undefined')return null;
@@ -33,7 +34,8 @@
     if(ZBrand.E_STYLE==='equal'&&M.mid){ // both arms: cut both away from the original, then re-lay each
       var M2=4; q.save(); q.beginPath(); q.rect(x-200,y-200,600,400); [M.top,M.mid].forEach(function(a){ var s0=M.stem+Math.max(4,(a.x-9-M.stem)*0.45); q.rect(x+s0,y+a.y0-M2,a.x-s0+20,a.y1-a.y0+2*M2); }); q.clip('evenodd'); draw(x,y); q.restore();
       [M.top,M.mid].forEach(function(a){ stretch(q,draw,x,y,a,M.bot.x,M.stem,function(){}); }); return; }
-    if(!stretch(q,draw,x,y,M.top,M.bot.x,M.stem,function(){ draw(x,y); }))draw(x,y); };
+    var to=M.bot.x+Math.max(2,(M.bot.x-M.stem)*0.12);      // round 47: a touch past the foot — a drooping serif reads shorter than a flared foot (Kris: "the top line of the E is still shorter")
+    if(!stretch(q,draw,x,y,M.top,to,M.stem,function(){ draw(x,y); }))draw(x,y); };
   // fonts arrive late: forget measurements taken before (none are kept for a font that was not ready) and redraw the title's cached wordmark once
   try{ if(typeof document!=='undefined'&&document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){ ZBrand._eM={}; if(ZBrand.cache)Object.keys(ZBrand.cache).forEach(function(k){ if(/^w_/.test(k))delete ZBrand.cache[k]; }); }); }catch(e){}
 })();

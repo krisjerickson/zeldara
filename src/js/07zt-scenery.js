@@ -34,7 +34,7 @@ var ZSCN={
     tex:'View: seen from straight above, flat.'
   },
   // waves (generate.mjs --set scenery --wave N). 20 is the pilot: one sheet from each family, to judge the look before sending the rest.
-  WAVES:{20:'Pilot (one sheet per family)',21:'Village buildings',22:'Village props',23:'Building interiors',24:'Runes and waystones',25:'Tower, dungeon and other entrances',26:'Trees and plants',27:'Rocks, ruins and landmarks',28:'Paths, bridges and harbors',29:'Ground textures',30:'Camp and trial props',31:'Tower, castle and mage-tower furnishings',32:'Dungeon and arena pieces',38:'Edge pieces: shores, cliffs, snow, lava (round 38)',42:'Edge pieces: logs, features and small creatures (round 42)',43:'Animation frames: creatures and swaying plants (round 43)',44:'Sleeping in bed, and rugs that fit (round 44)',45:'Pilot: adventure-site rooms painted as one picture (round 44)',47:'Round 45: sky-port flights (backdrops, galleons, wingman, power-ups) and the adventure sites\' big set-pieces',49:'Round 46: the hero asleep and waking in the home bed, at the bed\'s own size'},
+  WAVES:{20:'Pilot (one sheet per family)',21:'Village buildings',22:'Village props',23:'Building interiors',24:'Runes and waystones',25:'Tower, dungeon and other entrances',26:'Trees and plants',27:'Rocks, ruins and landmarks',28:'Paths, bridges and harbors',29:'Ground textures',30:'Camp and trial props',31:'Tower, castle and mage-tower furnishings',32:'Dungeon and arena pieces',38:'Edge pieces: shores, cliffs, snow, lava (round 38)',42:'Edge pieces: logs, features and small creatures (round 42)',43:'Animation frames: creatures and swaying plants (round 43)',44:'Sleeping in bed, and rugs that fit (round 44)',45:'Pilot: adventure-site rooms painted as one picture (round 44)',47:'Round 45: sky-port flights (backdrops, galleons, wingman, power-ups) and the adventure sites\' big set-pieces',49:'Round 46: the hero asleep and waking in the home bed, at the bed\'s own size',50:'Round 47: what fills the space round the adventure sites (rock, seas, fog, sky, night sky, their creatures), smoother butterflies and dragonflies, painted area effects'},
   // sheet: id, wave, family (the first sheet of a family is the style anchor for the others), kind obj|bld|flat|wall|tex, cols × rows, what the sheet is, items
   SHEETS:[
   // ── 21 · village buildings ─────────────────────────────────────────
@@ -379,6 +379,92 @@ var ZSCN={
     ['an_sleep2_f','Hero (the girl) asleep in the home bed','sleeping, breathing slowly','base',44,72,['the home bed exactly as in its picture (same frame, quilt, pillow, size and angle); the girl hero, at her normal size, lies on her back in it, head on the pillow, eyes closed, the quilt pulled up to her chest','the same, her chest and the quilt risen a little as she breathes in','the same, mouth slightly open, a tiny sleep bubble at her nose','the same, the quilt settled back down as she breathes out']],
     ['an_wake2_m','Hero (the boy) waking up in the home bed','waking and getting up','base',44,72,['the same bed, same size and place; the boy sits up in it, yawning, one fist rubbing an eye','sitting up, stretching both arms high above his head','sitting on the edge of the bed, quilt thrown back, feet on the floor','the bed empty and tidy, the quilt pulled up (the boy has stepped out of the picture)']],
     ['an_wake2_f','Hero (the girl) waking up in the home bed','waking and getting up','base',44,72,['the same bed, same size and place; the girl sits up in it, yawning, one fist rubbing an eye','sitting up, stretching both arms high above her head','sitting on the edge of the bed, quilt thrown back, feet on the floor','the bed empty and tidy, the quilt pulled up (the girl has stepped out of the picture)']]]},
+  // ── round 47 (Kris: the empty space — "we might need to create some painted images to enhance the look, suggest some for this. Could also have some
+  //    burrowing critters" · "maybe some lava creatures as well, like lava or rock gargoyles" · sky "clouds might need to be painted images … epic and
+  //    inspiring" · stars "aurora borealis and shooting stars … milky way galaxy or nebulae"; the critters "too spastic … more painted figures for them
+  //    to look smoother"; "all of the monster attacks and your own attacks that show an area effect with coloration need to be remade with painted
+  //    images"). Wave 50: .\tools\sprites\round47.ps1 ──
+  {id:'sc_void_tex',wave:50,fam:'tex',kind:'tex',cols:3,rows:2,refs:['sc_tex_grass'],title:'Ground 7 — what lies round an adventure site: rock and seas seen from straight above, seamless',items:[
+    ['tx_v_strata','Rock strata','layered bands of grey-brown and ochre sedimentary rock seen from straight above, as if a floor were cut down through it: thin wavy bands, hairline cracks, small pebbles',256,256],
+    ['tx_v_roots','Root-bound earth','packed dark earth threaded with pale twisting roots and small stones, a few tiny glinting crystals',256,256],
+    ['tx_v_ore','Ore-veined granite','dark speckled granite with thin glinting veins of copper and pale blue crystal running through it',256,256],
+    ['tx_v_lavasea','Lava sea','a sea of molten lava from above: dark cooling crust plates with glowing orange-yellow seams floating on bright flowing lava',256,256],
+    ['tx_v_deepsea','Deep sea','deep night-blue sea from above, long slow swells, faint foam lines, a darker depth in places',256,256],
+    ['tx_v_cloudsea','Sea of clouds','a thick sea of sunlit white and pale-gold cloud tops seen from far above, soft rounded billows with blue-grey shadows between',256,256]]},
+  {id:'sc_void_life',wave:50,fam:'void',kind:'obj',cols:4,rows:3,refs:['sc_edge_5'],title:'Creatures of the deep places round the adventure sites — each seen from above at a slight angle, half out of its rock, lava, water or cloud',items:[
+    ['vd_mole','Burrowing mole','a dark velvety mole pushing its head and big pink digging paws up out of a small mound of earth and rubble',64,56],
+    ['vd_rock_worm','Rock worm','a thick segmented grey rock worm arching out of a hole in stone, a ring of tiny teeth, dust falling',64,64],
+    ['vd_beetle','Burrowing beetle','a shiny blue-black beetle with a digging horn half out of loose earth',56,48],
+    ['vd_bat_swarm','Bat swarm','a small swirling flock of dark bats in flight, wings spread, seen from above',96,72],
+    ['vd_gargoyle_lava','Lava gargoyle','a hulking gargoyle of black rock with glowing molten cracks and ember eyes, rising chest-deep out of lava, horns, folded stone wings',96,104],
+    ['vd_gargoyle_rock','Rock gargoyle','a crouching grey stone gargoyle with moss on its shoulders and glowing amber eyes, half sunk in rubble',88,96],
+    ['vd_magma_serpent','Magma serpent','the arched back and head of a serpent of molten rock breaking the surface of lava, drips of fire',112,72],
+    ['vd_tentacle','Sea tentacle','a great dark-green tentacle curling up out of deep water, suckers along its underside, water streaming off',64,96],
+    ['vd_whale_fin','Whale back','the dark back and tall fin of a huge whale breaking the sea surface, a spray of water',112,64],
+    ['vd_sky_whale','Sky whale','a long pale blue-white whale with fin-like wings swimming through clouds, seen from above',128,72],
+    ['vd_storm_eel','Storm eel','a long violet eel crackling with white lightning, coiling through dark storm cloud',112,64],
+    ['vd_star_whale','Star whale','a translucent deep-blue whale filled with tiny stars, swimming through space, a faint trail of light',128,72]]},
+  {id:'sc_void_fog',wave:50,fam:'void',kind:'flat',cols:2,rows:2,size:'1536x1024',title:'Fog and light for the abyss — soft white and pale-blue fog painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black)',items:[
+    ['vd_fog_bank_1','Fog bank 1','a long low bank of soft rolling fog, denser in the middle, thinning to wisps at both ends',640,320],
+    ['vd_fog_bank_2','Fog bank 2','a wider, flatter layer of mist with gaps and curls, as seen looking down into a deep chasm',640,320],
+    ['vd_mist_wisps','Mist wisps','several thin drifting wisps and curls of mist',640,320],
+    ['vd_light_shaft','Light shaft','a soft slanting shaft of pale light falling down into darkness, dust motes glinting in it',640,320]]},
+  {id:'sc_void_sky',wave:50,fam:'void',kind:'obj',cols:3,rows:2,refs:['sc_sky_bg_1'],title:'An epic sky round the high towers — painted clouds and far peaks seen from high above',items:[
+    ['vd_cloud_1','Cloud mass','a big sunlit cumulus cloud seen from above, white tops, soft blue-grey shadows, golden edge light',192,128],
+    ['vd_cloud_2','Cloud bank','a long flat bank of cloud seen from above, wisps trailing',224,96],
+    ['vd_cloud_3','Small cloud','a small puffy cloud seen from above',112,80],
+    ['vd_peak_1','Far peak','a snow-capped mountain peak rising out of a sea of cloud far below, seen from high above',176,160],
+    ['vd_peak_2','Far crags','two jagged rocky crags poking up through cloud, a waterfall on one',176,144],
+    ['vd_tower_far','Distant tower','a slender distant stone tower on a rock spire rising through cloud, a tiny banner, bluish with distance',96,176]]},
+  {id:'sc_void_night',wave:50,fam:'void',kind:'flat',cols:3,rows:2,size:'1536x1024',title:'The night sky round the mage towers — painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black)',items:[
+    ['vd_milkyway','Milky way','a broad diagonal band of the milky way: countless tiny stars, glowing dust lanes, soft white-gold core',512,320],
+    ['vd_nebula_violet','Violet nebula','a glowing violet and teal nebula cloud with bright young stars inside',448,320],
+    ['vd_nebula_rose','Rose nebula','a rose-pink and gold nebula, wispy filaments, a few bright stars',448,320],
+    ['vd_aurora','Aurora','curtains of aurora borealis in green fading to violet, rippling folds hanging from the top',512,320],
+    ['vd_planet_ringed','Ringed planet','a distant pale ringed planet, half lit, its rings tilted',256,192],
+    ['vd_shooting_star','Shooting star','a bright shooting star with a long tapering glowing tail',384,96]]},
+  {id:'sc_anim_flit',wave:50,fam:'anim',kind:'obj',cols:8,rows:2,size:'1536x1024',anim:1,refs:['sc_anim_3','sc_anim_2'],title:'Animation frames — a butterfly and a dragonfly in smooth, slow flight (eight frames each, so the wingbeat looks fluid)',seq:[
+    ['an_butterfly2','Butterfly','one slow, smooth wingbeat','reg',26,22,['wings fully open, flat','wings beginning to lift, slightly raised','wings raised to half','wings raised high, nearly upright','wings closed together, seen as a thin upright shape','wings opening again, nearly upright','wings lowering to half','wings almost flat again']],
+    ['an_dragonfly2','Dragonfly','one smooth beat of its four wings','reg',32,28,['all four wings spread flat','front wings tilting forward a little','front wings swept forward, back wings back','both pairs swept to their furthest, slightly blurred','wings returning toward flat','all four wings spread flat again','back wings tilting forward a little','both pairs swept the other way, slightly blurred']]]},
+  {id:'sc_fx_ground',wave:50,fam:'fx',kind:'obj',cols:4,rows:3,refs:['sc_edge_5'],title:'Painted area effects 1 — warnings and lingering patches on the ground, seen from straight above, each a flat circular or wedge-shaped patch',items:[
+    ['fx_tele_circle','Warning circle','a glowing red-orange rune circle burned into the ground, cracks radiating inside it, as a warning of an attack about to land',128,128],
+    ['fx_tele_cone','Warning wedge','a wedge-shaped (pie-slice) patch of glowing red-orange cracked ground fanning out from its point',128,128],
+    ['fx_tele_line','Warning path','a long straight strip of glowing red-orange runes and cracks along the ground',192,48],
+    ['fx_zone_frost','Frost patch','a round patch of frost and thin ice crystals on the ground, pale blue, sparkling',128,128],
+    ['fx_zone_poison','Poison pool','a round bubbling puddle of glowing green poison with a few bubbles and a thin vapour',128,128],
+    ['fx_zone_burn','Burning ground','a round patch of scorched ground with small flames and glowing embers',128,128],
+    ['fx_zone_shadow','Shadow pool','a round pool of swirling black-violet shadow with faint wisps rising',128,128],
+    ['fx_zone_pollen','Pollen cloud','a low round cloud of pale pink-gold pollen dust and tiny petals',128,128],
+    ['fx_zone_vines','Grasping vines','a round tangle of thorny green vines writhing up out of the ground',128,128],
+    ['fx_zone_lava','Lava pool','a round pool of bright lava with a dark crust rim',128,128],
+    ['fx_zone_blood','Cursed ground','a round patch of glowing red cursed runes on the ground',128,128],
+    ['fx_crack_ring','Shattered ground','a ring of broken, upheaved ground and flying pebbles from a heavy slam',128,128]]},
+  {id:'sc_fx_blast',wave:50,fam:'fx',kind:'flat',cols:4,rows:3,size:'1536x1024',title:'Painted area effects 2 — attacks that burst outward, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black)',items:[
+    ['fx_shockwave','Shockwave','a ring-shaped shockwave of dust and force spreading on the ground, seen from above',256,256],
+    ['fx_ring_ice','Ice ring','an expanding ring of icy blue light and ice shards, seen from above',256,256],
+    ['fx_burst_fire','Fire burst','a round fiery explosion seen from above, orange-yellow core, smoky edges',256,256],
+    ['fx_nova_ice','Frost nova','a round burst of frost and ice crystals spreading outward',256,256],
+    ['fx_burst_storm','Lightning burst','a round burst of crackling white-violet lightning branching outward',256,256],
+    ['fx_breath_fire','Fire breath','a wedge-shaped jet of roaring fire fanning out from its narrow end on the left',256,160],
+    ['fx_breath_frost','Frost breath','a wedge-shaped jet of icy mist and shards fanning out from its narrow end on the left',256,160],
+    ['fx_beam','Energy beam','a long straight beam of searing red-white energy, bright core, glowing edges, running left to right',384,64],
+    ['fx_impact_meteor','Meteor impact','a meteor striking the ground from above: a burst of fire and flying rock in a ring',256,256],
+    ['fx_ring_heal','Healing ring','a soft ring of green-gold healing light with tiny leaves and sparkles',256,256],
+    ['fx_gust','Gust','a sweep of wind seen from above: white curling streaks of air fanning out',256,160],
+    ['fx_burst_shadow','Shadow burst','a round burst of black-violet shadow tendrils lashing outward',256,256]]},
+  {id:'sc_fx_skill',wave:50,fam:'fx',kind:'flat',cols:4,rows:3,size:'1536x1024',title:'Painted area effects 3 — the hero\'s own skills and spells, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black)',items:[
+    ['fx_whirlwind','Whirlwind','a spinning ring of bright sword-arcs and wind seen from above',256,256],
+    ['fx_dash_trail','Dash trail','a short streak of blue-white speed light and dust, running left to right',256,96],
+    ['fx_frost_trail','Frost trail','a short trail of frost crystals and cold mist, running left to right',256,96],
+    ['fx_smoke','Smoke cloud','a round billowing cloud of grey smoke seen from above',256,256],
+    ['fx_berserk_aura','Berserk aura','a ring of roaring red-orange flame-light around an empty centre',256,256],
+    ['fx_heal_aura','Healing aura','a soft rising column of green-gold light and sparkles, seen from above as a glowing disc',256,256],
+    ['fx_time_ring','Time ring','a wide ring of pale cyan clockwork runes and light',256,256],
+    ['fx_arcane_aura','Arcane aura','a ring of lilac arcane runes and motes of light',256,256],
+    ['fx_shield_bubble','Shield bubble','a round translucent blue bubble of force with a bright rim and faint hexagon pattern',256,256],
+    ['fx_familiar_burst','Familiar burst','a round burst of teal spirit light with small spirit wisps',256,256],
+    ['fx_meteor_mark','Meteor target','a glowing orange target circle on the ground with falling sparks above it',256,256],
+    ['fx_root_burst','Root burst','a round burst of green roots and leaves bursting up from the ground',256,256]]},
   {id:'sc_rugs_1',wave:44,fam:'interior',kind:'flat',cols:4,rows:2,title:'Rugs and runners that fit the rooms — seen from straight above, flat on the floor',items:[
     ['ir_rug_wide_red','Wide red rug','a wide rectangular woven rug, deep red with a cream border and a diamond pattern in the middle, short fringes at the two short ends',112,72],
     ['ir_rug_wide_blue','Wide blue rug','a wide rectangular woven rug, deep blue with a cream border and a star pattern in the middle, short fringes at the two short ends',112,72],

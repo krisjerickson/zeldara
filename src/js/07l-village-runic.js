@@ -163,10 +163,14 @@ function villagePlan(stage,ok,water){
   // town wall & turrets (the walled harbour town's): gates from stage 3, the full ring from stage 4
   if(st>=3){ var gatesOnly=st===3;
     wallCells.forEach(function(c){ if(c.gate||WA(c.x,c.y))return; if(gatesOnly&&!(Math.abs(c.x)<=7&&Math.abs(c.y)>20))return; plan.solid.push([c.x,c.y]); });
-    for(var e2=0;e2<8;e2++){ var A2=W8[e2], B2=W8[(e2+1)%8], cells=wallCells.filter(function(c){ return c.e===e2&&!c.gate&&(!gatesOnly||(Math.abs(c.x)<=7&&Math.abs(c.y)>20)); });
-      for(var i3=0;i3<cells.length;i3+=4){ var seg=cells.slice(i3,i3+4), xs=seg.map(function(q){return q.x;}), ys=seg.map(function(q){return q.y;}), x0=Math.min.apply(null,xs), y0=Math.min.apply(null,ys);
-        P('vwall',x0,y0,Math.max.apply(null,xs)-x0+1,Math.max.apply(null,ys)-y0+1,{pts:seg.map(function(q){return [q.x-x0,q.y-y0];})},false); } }
     var gt=[[-5,-33],[4,-33],[-5,31],[4,31]], towers=gatesOnly?gt:W8.map(function(q){return [q[0]-1,q[1]-1];}).concat(gt,[[-33,-3],[-33,5],[31,-3],[31,5]]);
+    // round 47 (Kris: "there are wall images that overlap the turrets, but the turrets shouldn't be overlapped with these"): no wall picture
+    // inside a turret's footprint (a run of wall is split there), and the wall pieces next to a turret are drawn behind it
+    var byTower=function(c){ return towers.some(function(q){ return c.x>=q[0]&&c.x<=q[0]+1&&c.y>=q[1]&&c.y<=q[1]+1; }); }, nearTower=function(c){ return towers.some(function(q){ return c.x>=q[0]-2&&c.x<=q[0]+3&&c.y>=q[1]-2&&c.y<=q[1]+3; }); };
+    for(var e2=0;e2<8;e2++){ var cells=wallCells.filter(function(c){ return c.e===e2&&!c.gate&&(!gatesOnly||(Math.abs(c.x)<=7&&Math.abs(c.y)>20)); }), runs=[], cur=[];
+      cells.forEach(function(c,ci){ var prev=ci?cells[ci-1]:null; if(byTower(c)){ if(cur.length)runs.push(cur); cur=[]; return; } if(prev&&Math.max(Math.abs(prev.x-c.x),Math.abs(prev.y-c.y))>1&&cur.length){ runs.push(cur); cur=[]; } cur.push(c); }); if(cur.length)runs.push(cur);
+      runs.forEach(function(run){ for(var i3=0;i3<run.length;i3+=4){ var seg=run.slice(i3,i3+4), xs=seg.map(function(q){return q.x;}), ys=seg.map(function(q){return q.y;}), x0=Math.min.apply(null,xs), y0=Math.min.apply(null,ys);
+        P('vwall',x0,y0,Math.max.apply(null,xs)-x0+1,Math.max.apply(null,ys)-y0+1,{pts:seg.map(function(q){return [q.x-x0,q.y-y0];}),low:seg.some(nearTower)?1:0},false); } }); }
     towers.forEach(function(q){ P('tower',q[0],q[1],2,2,{flag:st>=5?'#6fe3f5':'#c84a3a'},true); });
   } else { // before the wall: dry-stone walls round the sheep pen (runestone)
     P('fence',22,8,7,1,{kind:'stone'},false); for(var sh=0;sh<3;sh++)P('sheep',23+sh*2,10,1,1,{},false); }
@@ -223,12 +227,12 @@ WPROP.vegplot=function(c,ctx,x,y,w,h,o){ var R=c.R; // neat rows: cabbages, carr
 WPROP.vwall=function(c,ctx,x,y,w,h,o){ var pts=o.pts||[[0,0]], top=46; // a run of town wall, blocks drawn back to front
   var Zs=_scn(); if(Zs&&Zs.has('vw_wall_h')){ var RS=Zs.RES, W0=w+8, H0=h+top+14, kx=(LT+1)/Zs.size('vw_wall_h',50).w;      // painted wall blocks (round 31), each one tile wide and 50 px tall
     addSprite(c.m,x+w/2,y+h,W0*RS,H0*RS,function(g){ g.scale(RS,RS); var ox=4, oy=H0-h-2; pts.slice().sort(function(a,b){return a[1]-b[1];}).forEach(function(p){ Zs.draw(g,'vw_wall_h',ox+p[0]*LT+LT/2,oy+p[1]*LT+LT,50,{stretch:kx}); }); });
-    var zsp=c.m.sprites[c.m.sprites.length-1]; zsp.oy=1; zsp.res=RS; return; }
+    var zsp=c.m.sprites[c.m.sprites.length-1]; zsp.oy=1; zsp.res=RS; if(o.low)zsp.depth=y+h-LT*3; return; }
   addSprite(c.m,x+w/2,y+h,w+8,h+top+10,function(g,W,H){ var ox=4, oy=H-h-2; pts.slice().sort(function(a,b){return a[1]-b[1];}).forEach(function(p){ var px=ox+p[0]*LT, py=oy+p[1]*LT;
       var gf=g.createLinearGradient(0,py+LT-top,0,py+LT); gf.addColorStop(0,'#a8a296'); gf.addColorStop(1,'#6e6a62'); g.fillStyle=gf; g.fillRect(px,py+LT-top+10,LT,top-10);
       g.fillStyle='rgba(0,0,0,.2)'; for(var yy=py+LT-top+18;yy<py+LT;yy+=9){ g.fillRect(px,yy,LT,1.2); for(var xx=px+((yy/9)%2)*8;xx<px+LT;xx+=16)g.fillRect(xx,yy,1.2,9); }
       g.fillStyle='#bdb6a8'; g.fillRect(px,py+LT-top,LT,12); g.fillStyle='#8a8478'; for(var m=0;m<2;m++)g.fillRect(px+2+m*16,py+LT-top-7,11,8); }); });
-  var sp=c.m.sprites[c.m.sprites.length-1]; sp.oy=1; };
+  var sp=c.m.sprites[c.m.sprites.length-1]; sp.oy=1; if(o.low)sp.depth=y+h-LT*3; };
 
 // ground kinds for the village (shared by the game and the Lab)
 var VR_KINDS={

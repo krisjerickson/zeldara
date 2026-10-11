@@ -33,7 +33,7 @@ with game(painted=os.path.exists(ix)) as g:
           g.js("(()=>{ var a=ZDiff.ramp(3)===BOSS_RAMP[3]; var ps=game.scene.getScene('World').playerState; ps.difficulty=3; var R=ZDiff.ramp(3), B=BOSS_RAMP[3]; var ok=R.tele<B.tele&&R.every<B.every&&R.waves===B.waves+1&&R.stag>B.stag&&B.tele===0.95; ps.difficulty=1; return a&&ok&&ZDiff.ramp(3)===BOSS_RAMP[3]; })()"))
     # ── world monsters: spawn stats and live rescale ──
     base = g.ws("(()=>{ var m=ws.worldMonsters.find(m=>m.mx&&!m.dead&&!m.alpha), l=ws.worldMonsters.find(m=>!m.mx&&m.rid&&!m.dead); window._m1=m; window._l1=l; return {n:ws.worldMonsters.length,hp:m.maxHp,atk:m.def.atk,lhp:l?l.maxHp:0,latk:l?l.monAtk:0,boss:ws.worldMonsters.filter(m=>m._dz&&m._dz.boss).map(m=>m.maxHp)}; })()")
-    check('World monsters carry their difficulty factors (Wayfarer: 1)', g.ws("ws.worldMonsters.every(m=>m._dz&&m._dz.h===1&&m._dz.a===1)") and len(base['boss']) >= 1, base['boss'])
+    check('World monsters carry their difficulty factors (Wayfarer: 1; bosses 2× health since round 47)', g.ws("ws.worldMonsters.every(m=>m._dz&&m._dz.h===(m._dz.boss?ZDiff.BOSS_HP:1)&&m._dz.a===1)") and len(base['boss']) >= 1, base['boss'])
     ok = g.js("ZDiff.set(3)"); r = g.js("({lv:ZDiff.lv(),hp:_m1.maxHp,cur:_m1.hp,atk:_m1.def.atk,lhp:_l1?_l1.maxHp:0,latk:_l1?_l1.monAtk:0,boss:game.scene.getScene('World').worldMonsters.filter(m=>m._dz&&m._dz.boss).map(m=>m.maxHp)})")
     check('Switching to Ragnarök in the open world rescales living monsters (health ×1.7, damage ×1.45; bosses ×2.2)', ok and r['lv'] == 3 and abs(r['hp'] - base['hp'] * 1.7) <= 1 and r['cur'] == r['hp'] and abs(r['atk'] - base['atk'] * 1.45) <= 1
           and (not base['lhp'] or abs(r['lhp'] - base['lhp'] * 1.7) <= 1) and all(abs(a - b * 2.2) <= 1 for a, b in zip(r['boss'], base['boss'])), [base, r])
@@ -48,8 +48,8 @@ with game(painted=os.path.exists(ix)) as g:
             g.wait(300); b = g.js(BOSS)
             if b: break
         hp[lv] = b
-    check('Goblin King at Wayfarer has the health it had before (342)', hp[1] and hp[1]['hp'] == 342, hp[1])
-    check('Goblin King health by level: ×0.75 / ×1 / ×1.5 / ×2.2; damage ×0.8 / ×1 / ×1.25 / ×1.5', all(hp[k] for k in hp) and all(abs(hp[k]['hp'] - 342 * f) <= 1 for k, f in ((0, 0.75), (2, 1.5), (3, 2.2)))
+    check('Goblin King at Wayfarer: twice the health it had before (round 47: 684)', hp[1] and hp[1]['hp'] == 684, hp[1])
+    check('Goblin King health by level: ×0.75 / ×1 / ×1.5 / ×2.2; damage ×0.8 / ×1 / ×1.25 / ×1.5', all(hp[k] for k in hp) and all(abs(hp[k]['hp'] - 684 * f) <= 2 for k, f in ((0, 0.75), (2, 1.5), (3, 2.2)))
           and abs(hp[0]['atk'] - hp[1]['atk'] * 0.8) <= 1 and abs(hp[2]['atk'] - hp[1]['atk'] * 1.25) <= 1 and abs(hp[3]['atk'] - hp[1]['atk'] * 1.5) <= 1, hp)
     check('The level cannot be changed inside a site', g.js("ZDiff.set(1)") is False and g.js("ZDiff.lv()") == 3)
     # a regular floor: more monsters at Ragnarök than at Hearthside

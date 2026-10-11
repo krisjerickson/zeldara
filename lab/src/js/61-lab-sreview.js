@@ -34,14 +34,17 @@
     var range=[]; for(var f=0;f<nf;f++)range.push(f);
     if(id==='ember_cave')range=range.filter(function(f){ return f<2; }); if(id==='isle_3')range=range.filter(function(f){ return f>=2; });       // Ember Isle: the Cave above, the Crypt below
     range.forEach(function(f){ var m=null, err=null;
-      try{ if(old){ var sp=_siteFloorSpecOld({id:g[0],type:g[1],design:g[2]},f,nf); if(sp)m=_buildSiteFloor(sp); }
+      try{ if(old){ var st={id:g[0],type:g[1],design:g[2]}; if(/^mage_/.test(id))st.mage=id.slice(5); if(/^castle_/.test(id))st.castle=id.slice(7); var sp=_siteFloorSpecOld(st,f,nf);      /* round 47: the game's own site fields, so the harder old floors show here too */ if(sp)m=_buildSiteFloor(sp); }
         else m=ZSP.build({zsp:{id:id,floor:f,floors:nf}}); }catch(e){ err=e.message; }
       out.push({m:m,f:f,err:err}); });
     return (CACHE[id]=out); }
   // one floor: the painted base if the builder made one, else the walk grid; ▲ arrive, ▼ the way on
   function drawFloor(c,F,x0,y0,bw,bh,label){ var m=F.m; c.fillStyle='#05070c'; c.fillRect(x0,y0,bw,bh);
     if(m){ var W=m.w||m.W, H=m.h||m.H, s=Math.min(bw/W,bh/H), ox=x0+(bw-W*s)/2, oy=y0+(bh-H*s)/2;
+      if(m.zvoid&&typeof ZVOID!=='undefined')ZVOID.drawUnder(c,m,ox,oy,s,0,W*s,H*s);      /* round 47: the fill round the floor (Empty space tab) */
       if(m.base&&m.base.width){ c.imageSmoothingEnabled=true; c.drawImage(m.base,ox,oy,W*s,H*s); }
+      // round 47: the furniture, shelves, boulders and props too (Kris saw the library as one empty room — the shelves are pictures on top of the floor)
+      if(m.sprites&&m.sprites.length){ var k=s/(typeof LT!=='undefined'?LT:32); m.sprites.slice().sort(function(a,b){ return (a.y+(a.canvas?a.canvas.height:0))-(b.y+(b.canvas?b.canvas.height:0)); }).forEach(function(sp){ var cv=sp.canvas||sp.cv; if(cv&&cv.width)try{ c.drawImage(cv,ox+sp.x*k,oy+sp.y*k,cv.width*k,cv.height*k); }catch(e){} }); }
       else if(m.solid){ for(var y=0;y<H;y++)for(var x=0;x<W;x++){ if(m.solid[y*W+x])continue; c.fillStyle=(x+y)%2?'#8a8070':'#958a78'; c.fillRect(ox+x*s,oy+y*s,s+0.5,s+0.5); } }
       var LT0=typeof LT!=='undefined'?LT:32, mk=function(px,py,ch,col){ var X=ox+px*s, Y=oy+py*s, r=Math.max(5,s*1.3); c.fillStyle='rgba(0,0,0,.6)'; c.beginPath(); c.arc(X,Y,r+2,0,6.3); c.fill(); c.fillStyle=col; c.beginPath(); c.arc(X,Y,r,0,6.3); c.fill(); c.fillStyle='#10131c'; c.font='bold '+Math.round(r*1.2)+'px sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(ch,X,Y+1); };
       if(m.spawn)mk(m.spawn.x/LT0,m.spawn.y/LT0,'▲','#9fe8ff');

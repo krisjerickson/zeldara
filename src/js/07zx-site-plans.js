@@ -150,7 +150,7 @@ ZSD.zsdSize=function(id){ var s=ZSP.zsdSite(id); return ZSD.SIZE[s?s.type:'dunge
   D('mushroom_forest','Mushroom marsh','Round clearings in a black bog, giant mushrooms standing in them, joined by winding raised paths.',{liq:'swamp'},function(c){ var R=c.R; c.fill(3); var P=[], n=10+R.i(0,4);
     for(var k=0;k<n;k++){ var x=R.i(8,c.W-9), y=R.i(7,c.H-8), r=R.i(3,6); P.push([x,y]); c.disc(x,y,r,1); c.disc(x+R.i(-2,2),y+R.i(-2,2),r-1,R.chance(0.3)?5:1); if(r>4)c.set(x,y,6); }
     var used=[0]; for(var k2=1;k2<P.length;k2++){ var best=0, bd=1e9; used.forEach(function(a){ var d=Math.hypot(P[a][0]-P[k2][0],P[a][1]-P[k2][1]); if(d<bd){ bd=d; best=a; } }); c.wiggle(P[best][0],P[best][1],P[k2][0],P[k2][1],2,1,2.5); used.push(k2); }
-    for(var x2=0;x2<3;x2++){ var a=R.i(0,P.length-1), b=R.i(0,P.length-1); if(a!==b)c.wiggle(P[a][0],P[a][1],P[b][0],P[b][1],1,4,1.5,3); } });
+    for(var x2=0;x2<3;x2++){ var a=R.i(0,P.length-1), b=R.i(0,P.length-1); if(a!==b){ R.f(); c.line(P[a][0],P[a][1],P[b][0],P[a][1],2,4,3); c.line(P[b][0],P[a][1],P[b][0],P[b][1],2,4,3); } } });      // round 47 (Kris: "make sure the long bridges connect all the way through"): two straight runs, two planks wide, not a one-plank zigzag
   // ── Wetlands ──
   D('frost_cathedral','Frost cathedral','A long nave between rows of ice pillars, side aisles with chapels, a transept near the top and the apse beyond it.',{built:1},function(c,fi){ var R=c.R; c.fill(0); var nw=Math.floor(c.W*0.34), nx=Math.floor(c.cx-nw/2), top=4, bot=c.H-3;
     c.box(nx-6,top,nw+12,bot-top,1); c.rect(nx-6,top+6,6,1,2); for(var y=top+2;y<bot-2;y+=3){ c.set(nx,y,6); c.set(nx+nw-1,y,6); }

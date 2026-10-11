@@ -250,7 +250,7 @@ function _heroCastSpell(scene){
   scene.tweens.add({targets:ring,scaleX:2.4,scaleY:2.4,alpha:0,duration:260,onComplete:function(){ring.destroy();}});
   if(!scene._heroSpellProj)scene._heroSpellProj=[];
   if(sp.proj){
-    var n=sp.proj.count||1;
+    var n=sp.proj.count||1, _seek=typeof ZSEEK!=='undefined'?ZSEEK.pick(scene,c.x,c.y,ang,sp.proj.spd*2.4,c.monsters):null;      // round 47: the strongest enemy ahead
     for(var i=0;i<n;i++){
       (function(i){
         var a=ang+(n>1&&!sp.proj.burstDelay?(i-(n-1)/2)*(sp.proj.spread||0.3):0);
@@ -258,7 +258,7 @@ function _heroCastSpell(scene){
           var cc=_heroCtx(scene);
           var v=(typeof ZShot!=='undefined'&&ZShot.make(scene,ZShot.spellKind(sp,tome&&tome.spellId),cc.x,cc.y,a,15))||scene.add.circle(cc.x,cc.y,sp.proj.r,sp.proj.col,0.95).setDepth(15);
           scene._heroSpellProj.push({vis:v,x:cc.x,y:cc.y,vx:Math.cos(a)*sp.proj.spd,vy:Math.sin(a)*sp.proj.spd,life:2.4,
-            dmg:pow,spellId:_sid,effect:sp.effect,effectDur:sp.effectDur||2,splashR:sp.splashR||0,chainN:sp.chainN||0,pierce:!!sp.proj.pierce,hitSet:[]});
+            dmg:pow,spellId:_sid,effect:sp.effect,effectDur:sp.effectDur||2,splashR:sp.splashR||0,chainN:sp.chainN||0,pierce:!!sp.proj.pierce,hitSet:[],seek:_seek,type:'spell'});
         };
         var d=(sp.proj.burstDelay||0)*i;
         if(d>0)scene.time.delayedCall(d*1000,launch); else launch();
@@ -309,6 +309,7 @@ function _heroSpellTick(scene, dt){
     scene._heroSpellProj=arr.filter(function(p){
       if(!p.vis||!p.vis.active)return false;
       p.life-=dt; if(p.life<=0){p.vis.destroy();return false;}
+      if(typeof ZSEEK!=='undefined')ZSEEK.steer(scene,p,dt,mons);
       p.x+=p.vx*dt; p.y+=p.vy*dt; p.vis.setPosition(p.x,p.y);
       if(!_heroOpenAt(scene,p.x,p.y)){p.vis.destroy();return false;}
       for(var i=0;i<mons.length;i++){

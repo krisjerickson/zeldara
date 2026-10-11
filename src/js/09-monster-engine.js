@@ -197,7 +197,7 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   // attacks
   if(m.busy){ MX.runAtk(A,mon,m,P,dist,dt); }
   else if(m.aggro&&!m.hidden&&!(A.world&&getTileSection(Math.floor(P.x/TILE),Math.floor(P.y/TILE))===0)){ for(var i=0;i<k.atk.length;i++){ var a=k.atk[i], AT=MX.ATK[a.name], key=a.name+i; if((m.cd[key]||0)>0)continue;
-      if((AT.want?AT.want(A,mon,m,P,dist,a.p):dist<=(a.p.r||(AT.range||40)))&&(MX.NO_LOS[a.name]||sees())){ m.busy={a:a,key:key,t:0,phase:'wind',wind:(a.p.wind!==undefined?a.p.wind:(AT.wind||0.3))*(mon.isBoss?ZDiff.cur().tele:1),cdk:mon.isBoss?ZDiff.cur().every:1,moveOk:!!AT.moveOk}; if(AT.start)AT.start(A,mon,m,P,a.p); MX.ev(mon,'atk_'+a.name); break; } } }
+      if((AT.want?AT.want(A,mon,m,P,dist,a.p):dist<=(a.p.r||(AT.range||40)))&&(MX.NO_LOS[a.name]||sees())){ m.busy={a:a,key:key,t:0,phase:'wind',wind:(a.p.wind!==undefined?a.p.wind:(AT.wind||0.3))*(mon.isBoss?ZDiff.cur().tele*MX.bossRate(mon):1),cdk:mon.isBoss?ZDiff.cur().every*MX.bossRate(mon):1,moveOk:!!AT.moveOk}; if(AT.start)AT.start(A,mon,m,P,a.p); MX.ev(mon,'atk_'+a.name); break; } } }
   // passive defences
   k.def.forEach(function(D){ var p=D.p;
     if(D.name==='regen'){ var onT=!p.on||(p.on==='water'&&A.isWater(mon.x,mon.y+8))||(p.on==='lava'&&A.isLava(mon.x,mon.y+8))||(p.on==='mud'); if(onT&&mon._hp<mon.maxHp){ mon._hp=Math.min(mon.maxHp,mon._hp+(p.r||1)*dt*mon.maxHp*0.02); } }

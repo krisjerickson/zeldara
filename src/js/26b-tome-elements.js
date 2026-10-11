@@ -36,7 +36,7 @@
         if(at<0)e.lines=e.lines.concat(add); else Array.prototype.splice.apply(e.lines,[at,0].concat(add)); }
       else if(cat==='item'){ var I=ITEMS[id], L=[]; if(!I)return e;
         if(I.el)L.push(['Element',ZElUI.chips(I.el)+(I.slot==='mWeapon'?' <small>— spells of this element do a quarter more</small>':I.el==='all'?' <small>— strikes with whichever is best against the foe</small>':' <small>— '+I.el.map(function(x){ return ZEL.E[x].stN; }).join(', ')+'</small>')]);
-        if(I.cls)L.push(['Kind',I.cls==='axe'?'Axe — slower, heavier swings with a longer reach that stagger what they hit':'Crossbow — slower than a bow, hits harder, and the dart passes through one foe. Shoots darts.']);
+        if(I.cls)L.push(['Kind',I.cls==='axe'?'Axe — a heavy weapon: a swing takes twice as long as a sword\'s and you stand still for the start of it, but each hit does 1.6× the damage, reaches a little further and staggers what it hits':'Crossbow — slower than a bow, hits harder, and the dart passes through one foe. Shoots darts.']);
         if(I.res){ var ks=Object.keys(I.res); L.push(['Protects',ks.length===6?'−'+ZElUI.pct(I.res[ks[0]])+' damage from every element':ks.map(function(x){ return ZElUI.chip(x,'−'+ZElUI.pct(I.res[x])+' '+ZEL.E[x].n.toLowerCase()); }).join('')+' <small>— and that element\'s burning, slowing or poison lasts as much less. All your pieces together stop at −50%.</small>']); }
         if(I.elPow)L.push(['Strengthens',Object.keys(I.elPow).map(function(x){ return ZElUI.chip(x,'+'+ZElUI.pct(I.elPow[x])+' '+ZEL.E[x].n.toLowerCase()); }).join('')]);
         if(I.spellPow)L.push(['Spell power','+'+ZElUI.pct(I.spellPow)+' to every spell']);

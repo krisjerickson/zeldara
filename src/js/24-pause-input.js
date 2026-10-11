@@ -142,6 +142,7 @@ document.addEventListener('keydown',function(e){
     toggleModal(id);
     return;
   }
+  if(k==='o'&&typeof ZQUICK!=='undefined'){ e.preventDefault(); if(!(_PAUSE.active||_openOverlays().length))ZQUICK.use('food'); return; }      // round 47: O eats the equipped food
   if(k==='n'||k==='o'){ // familiar / food pickers (shown on the action bar)
     e.preventDefault();
     var type=k==='n'?'familiar':'food', pop=document.getElementById('quick-pick-popup');
@@ -171,7 +172,8 @@ document.addEventListener('keydown',function(e){
   } else if(k==='c'){
     doCycleAmmo();
   } else if(k==='p'){
-    if(_isOverworld(sc)&&sc._quickUsePotion)sc._quickUsePotion(); else if(ws2)ws2._quickUsePotion();
+    if(typeof ZQUICK!=='undefined')ZQUICK.use('potion');      // round 47: P drinks the equipped potion
+    else if(_isOverworld(sc)&&sc._quickUsePotion)sc._quickUsePotion(); else if(ws2)ws2._quickUsePotion();
   }
 });
 

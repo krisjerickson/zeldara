@@ -86,8 +86,12 @@ var ZSPP={
         if(walk(at(x2,y2-1))&&at(x2,y2-1)!==4){ var dg=ctx.createLinearGradient(0,py2,0,py2+14); dg.addColorStop(0,shade(P.wall,-0.1)); dg.addColorStop(1,rgba(P.void,0)); ctx.fillStyle=dg; ctx.fillRect(px2,py2,LT,14); } }
       else { ctx.fillStyle=liq==='lava'?'#a8300c':liq==='swamp'?'#141c0e':P.liquid; ctx.fillRect(px2,py2,LT,LT); if(lq){ ctx.save(); ctx.globalAlpha=liq==='swamp'?0.5:0.8; ctx.fillStyle=lq; ctx.fillRect(px2,py2,LT,LT); ctx.restore(); } if(liq==='swamp'){ ctx.fillStyle='rgba(10,16,24,.38)'; ctx.fillRect(px2,py2,LT,LT); }
         [[0,-1],[0,1],[-1,0],[1,0]].forEach(function(d){ var a=at(x2+d[0],y2+d[1]); if(walk(a)&&a!==4){ ctx.fillStyle=rgba(liq==='lava'?'#ffd060':'#e8f8ff',liq==='lava'?0.55:0.35); if(d[1])ctx.fillRect(px2,py2+(d[1]<0?0:LT-3),LT,3); else ctx.fillRect(px2+(d[0]<0?0:LT-3),py2,3,LT); } }); }
-      if(v2===4){ var pl=tex('tx_planks',96); ctx.fillStyle='#6a4a2c'; ctx.fillRect(px2+2,py2,LT-4,LT); if(pl){ ctx.save(); ctx.globalAlpha=0.9; ctx.fillStyle=pl; ctx.fillRect(px2+2,py2,LT-4,LT); ctx.restore(); }
-        var hz=walk(at(x2-1,y2))||walk(at(x2+1,y2)); ctx.fillStyle='#2a1a0e'; if(hz&&!(walk(at(x2,y2-1))&&walk(at(x2,y2+1)))){ ctx.fillRect(px2,py2+2,LT,2); ctx.fillRect(px2,py2+LT-4,LT,2); } else { ctx.fillRect(px2+2,py2,2,LT); ctx.fillRect(px2+LT-4,py2,2,LT); } } }
+      if(v2===4){ // round 47: a bridge is one run — the planks reach every walkable neighbour, rails only along the open sides (Kris: "make sure the long bridges connect all the way through")
+        var pl=tex('tx_planks',96), nL=walk(at(x2-1,y2)), nR=walk(at(x2+1,y2)), nU=walk(at(x2,y2-1)), nD=walk(at(x2,y2+1)), hz=nL||nR, vt=nU||nD;
+        var bx0=px2+(hz?0:3), bx1=px2+LT-(hz?0:3), by0=py2+(vt?0:3), by1=py2+LT-(vt?0:3); if(hz&&!vt){ by0=py2+3; by1=py2+LT-3; } if(vt&&!hz){ bx0=px2+3; bx1=px2+LT-3; }
+        if(hz&&vt){ bx0=nL?px2:px2+3; bx1=nR?px2+LT:px2+LT-3; by0=nU?py2:py2+3; by1=nD?py2+LT:py2+LT-3; }
+        ctx.fillStyle='#6a4a2c'; ctx.fillRect(bx0,by0,bx1-bx0,by1-by0); if(pl){ ctx.save(); ctx.globalAlpha=0.9; ctx.fillStyle=pl; ctx.fillRect(bx0,by0,bx1-bx0,by1-by0); ctx.restore(); }
+        ctx.fillStyle='#2a1a0e'; if(!nU&&hz)ctx.fillRect(bx0,by0,bx1-bx0,2); if(!nD&&hz)ctx.fillRect(bx0,by1-2,bx1-bx0,2); if(!nL&&vt)ctx.fillRect(bx0,by0,2,by1-by0); if(!nR&&vt)ctx.fillRect(bx1-2,by0,2,by1-by0); } }
     if(liq==='lava')for(var k=0;k<W*H*0.02;k++){ var lx=R.i(1,W-2), ly=R.i(1,H-2); if(g[ly*W+lx]===3)m.lights.push({x:lx*LT+16,y:ly*LT+16,r:70,col:'#ff7a30',a:0.32,depth:-1,pulse:0.3,period:1600+R.i(0,900)}); }
     // walls (masonry for built sites, rock for the natural ones); a wall with walkable ground below shows its face
     var wt=tex(built?th.wall:th.rock,96);
@@ -107,6 +111,13 @@ var ZSPP={
     ctx.lineWidth=2; ctx.strokeStyle=rgba(shade(P.wall,-0.6),0.85);
     for(var y4=0;y4<H;y4++)for(var x4=0;x4<W;x4++){ var v4=g[y4*W+x4]; if(v4!==2&&v4!==7)continue; var px4=x4*LT, py4=y4*LT; ctx.beginPath();
       if(walk(at(x4,y4+1))){ ctx.moveTo(px4,py4+LT); ctx.lineTo(px4+LT,py4+LT); } if(walk(at(x4,y4-1))){ ctx.moveTo(px4,py4+1); ctx.lineTo(px4+LT,py4+1); } if(walk(at(x4-1,y4))){ ctx.moveTo(px4+1,py4); ctx.lineTo(px4+1,py4+LT); } if(walk(at(x4+1,y4))){ ctx.moveTo(px4+LT-1,py4); ctx.lineTo(px4+LT-1,py4+LT); } ctx.stroke(); }
+    // round 47: the empty space is left clear — what fills it (world terrain, rock, an abyss, the element's sea) is drawn behind the floor (07zy2 ZVOID)
+    var V=(typeof ZVOID!=='undefined'&&ZVOID.on)?ZVOID.pick(site,T,fi,nf):null;
+    if(V){ var clr=new Uint8Array(W*H), bx0=W, by0=H, bx1=-1, by1=-1;
+      for(var y9=0;y9<H;y9++)for(var x9=0;x9<W;x9++){ var v9=g[y9*W+x9], nr=false; if(v9===2){ for(var j9=-1;j9<=1&&!nr;j9++)for(var i9=-1;i9<=1;i9++){ var a9=at(x9+i9,y9+j9); if(walk(a9)||a9===3||a9===6){ nr=true; break; } } }
+        if(ZVOID.clearCell(V,v9,built,liq,nr))clr[y9*W+x9]=1; if(walk(v9)){ if(x9<bx0)bx0=x9; if(y9<by0)by0=y9; if(x9>bx1)bx1=x9; if(y9>by1)by1=y9; } }
+      ctx.save(); ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='#000'; for(var k9=0;k9<W*H;k9++)if(clr[k9])ctx.fillRect((k9%W)*LT,((k9/W)|0)*LT,LT,LT); ctx.restore();
+      F._clr=clr; ZVOID.rim(ctx,V,F,LT); m.zvoid=V; m._zclr=clr; m._zbox=bx1>=0?[bx0,by0,bx1,by1]:null; }
     m.base=cv; m.bg=P.void;
     // pillars, rocks, hedges (tile 6): painted pieces standing on their tile
     var pl6=built?th.pb:th.pn;

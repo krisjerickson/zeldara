@@ -578,7 +578,11 @@ function openBuildingShop(btype,ps,worldScene){
     h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(it,1.5)+'</div>'
       +'<div class="si-info"><div class="si-name">'+it.name+'</div>'
       +'<div class="si-desc">'+stat+' &nbsp;•&nbsp; '+price+'</div></div>';
-    if(it.buy){
+    if(it.buy&&it.type==='ammo'){      // round 47 (Kris: "you should be able to buy multiple sets of 5 arrows and darts at the same time"): − / + packs, one Buy, the window stays open
+      var nq=Math.max(1,Math.min(20,(window._ammoQty||{})[id]||1));
+      h+='<span class="si-qty" style="display:inline-flex;align-items:center;gap:4px;margin-right:6px"><button class="si-buy" style="min-width:24px;padding:2px 6px" onclick="window._ammoStep(\''+id+'\',-1)">−</button><b id="aq-'+id+'" style="min-width:34px;text-align:center;font-size:12px">×'+nq+'</b><button class="si-buy" style="min-width:24px;padding:2px 6px" onclick="window._ammoStep(\''+id+'\',1)">+</button></span>'
+        +'<button class="si-buy" id="ab-'+id+'" '+(ps.gold>=it.buy*nq?'':' disabled')+' onclick="window._buyAmmoN(\''+id+'\')">'+(ps.gold>=it.buy*nq?'Buy '+(it.qty||1)*nq+' · '+it.buy*nq+'g':'No gold')+'</button>';
+    } else if(it.buy){
       h+='<button class="si-buy" '+(canAfford?'':' disabled')+' onclick="window._buyItem(\''+(id)+'\','+(it.buy)+')">'+(canAfford?'Buy':'No gold')+'</button>';
     } else if(it.goldVal){
       h+='<button class="si-buy" style="background:rgba(200,150,0,.2);border-color:rgba(200,150,0,.35);color:#ffcc44" onclick="window._sellGem(\''+(id)+'\')">Sell</button>';
@@ -586,10 +590,18 @@ function openBuildingShop(btype,ps,worldScene){
     h+='</div>';
   });
   if(!found)h+='<p style="color:#445;font-size:12px;padding:10px">Nothing available yet — unlock more sections!</p>';
-  h+='<p style="font-size:10px;color:#445;margin-top:8px;text-align:center">You have <span style="color:#ffd700">'+ps.gold+'g</span></p>';
+  h+='<p style="font-size:10px;color:#445;margin-top:8px;text-align:center">You have <span id="shop-gold" style="color:#ffd700">'+ps.gold+'g</span></p>';
   document.getElementById('camp-content').innerHTML=h;
   toggleModal('camp');
 }
+// round 47: buying several packs of ammo at once (Kris's card: a quantity stepper, ×1 to ×20, the total shown, the window stays open)
+window._ammoQty=window._ammoQty||{};
+window._ammoRow=function(id){ var ws=game.scene.getScene('World'), ps=ws&&ws.playerState, it=ITEMS[id]; if(!ps||!it)return; var n=window._ammoQty[id]||1, q=document.getElementById('aq-'+id), b=document.getElementById('ab-'+id), ok=ps.gold>=it.buy*n;
+  if(q)q.textContent='×'+n; if(b){ b.disabled=!ok; b.textContent=ok?'Buy '+(it.qty||1)*n+' · '+it.buy*n+'g':'No gold'; } var gl=document.getElementById('shop-gold'); if(gl)gl.textContent=ps.gold+'g'; };
+window._ammoStep=function(id,d){ window._ammoQty[id]=Math.max(1,Math.min(20,(window._ammoQty[id]||1)+d)); window._ammoRow(id); };
+window._buyAmmoN=function(id){ var ws=game.scene.getScene('World'); if(!ws)return; var ps=ws.playerState, it=ITEMS[id]; if(!it||!it.buy)return; var n=window._ammoQty[id]||1, cost=it.buy*n;
+  if(ps.gold<cost){ showNotif('Not enough gold!','#ff4444'); return; } ps.gold-=cost; if(!ps.ammo)ps.ammo={}; ps.ammo[id]=(ps.ammo[id]||0)+(it.qty||1)*n;
+  showNotif('Bought: '+it.icon+' '+it.name+' ×'+(it.qty||1)*n+' (now '+ps.ammo[id]+')','#44ffaa'); ws._emitUI(); Object.keys(ITEMS).forEach(function(k){ if(document.getElementById('ab-'+k))window._ammoRow(k); }); };
 window._merchantToggle=function(mode){
   _merchantShopMode=mode;
   var ws=game.scene.getScene('World');if(!ws)return;

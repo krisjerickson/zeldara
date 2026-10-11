@@ -187,6 +187,7 @@ ZBrand.glyph=function(q,p,ch,x,y){ if(p[1]>1.05){ q.lineWidth=5*(p[1]-1)*3; q.li
   W2('ring_z','Ringed Z','A great Z in a knot ring over crossed axes, the rest of the name in engraved capitals beside it.',{paint:function(P,q,p){ var m=ZBrand.text(q,p,'ELDARA',FE,'700',1.2,0.12,0,0,{dry:true}), zx=-m.w/2-0.25, tx=0.95;
       P.axe(zx,0,2.9,-0.7,true); P.axe(zx,0,2.9,0.7); erase(q,function(){ q.beginPath(); q.arc(zx,0,1.2,0,PI*2); q.fill(); }); ZBrand.text(q,p,'Z',FC,'900',1.75,0,zx,0);
       P.w(0.45).ci(zx,0,0.9).ci(zx,0,1.14); q.save(); q.translate(zx,0); P.w(0.8).braid(ZBrand.ring(1.02),22,0.065); q.restore();
+      var pe=p.slice(); pe[1]=Math.max(p[1],1.5); erase(q,function(){ ZBrand.text(q,pe,'ELDARA',FE,'700',1.2,0.12,tx,-0.1); });      // round 47: the letters stand in front of the axes
       var e=ZBrand.text(q,p,'ELDARA',FE,'700',1.2,0.12,tx,-0.1), x0=tx-e.w/2, x1=tx+e.w/2; P.w(0.7).ln([x0,0.7,x1,0.7]).ln([x0,1.14,x1,1.14]); P.w(0.55); runes(P,x0+0.1,x1-0.1,0.92,0.26,4); }});
   var wl0=ZBrand.wordLayers;
   ZBrand.wordLayers=function(D,H){ if(!(D.gen>=2))return wl0(D,H); var fk=document.fonts?['700 20px "Cinzel Decorative"','20px "Marcellus SC"','900 20px Cinzel'].concat(D.fam?[(D.wt||'400')+' 20px "'+D.fam+'"']:[]).map(function(f){ try{ return document.fonts.check(f)?1:0; }catch(e){ return 0; } }).join(''):'', k='w_'+D.id+'_'+Math.round(H)+'_'+fk, o=ZBrand.cache[k]; if(o)return o;
@@ -259,7 +260,7 @@ ZBrand.glyph=function(q,p,ch,x,y){ if(p[1]>1.05){ q.lineWidth=5*(p[1]-1)*3; q.li
     columns:function(Wu){ return [cols(2.4,3.0,17.0,10,0.9),cols(Wu-2.4,3.0,17.0,10,0.9)]; },
     carve:function(P,Wu,cx){ lineRect(P,1.0,1.0,Wu-1.0,19.0); }});
   var home0=ZBrand.home;
-  ZBrand.home=function(c,cfg,W,H,t,o){ if(!(cfg.gen>=2))return home0(c,cfg,W,H,t,o); o=o||{}; var WD=ZBrand.wordById(o.word||(cfg.gen>=3?'ring_z':'twin_axes')); var u=H/20, Wu=W/u, cx=W/2, cy=H*(cfg.ly||0.275), SR=Math.min(H*(cfg.sr||0.138),W*0.2), nar=Wu<16, i;
+  ZBrand.home=function(c,cfg,W,H,t,o){ if(!(cfg.gen>=2))return home0(c,cfg,W,H,t,o); o=o||{}; var WD=ZBrand.wordById(o.word||(cfg.gen>=3?(ZBrand.WORDMARK||'ring_z'):'twin_axes')); var u=H/20, Wu=W/u, cx=W/2, cy=H*(cfg.ly||0.275), SR=Math.min(H*(cfg.sr||0.138),W*0.2), nar=Wu<16, i;
     c.fillStyle='#000'; c.fillRect(0,0,W,H); stars(c,W,H,t,cfg.stars,cfg.id.length*7+3); if(cfg.aur)aurora(c,W,H,t,cfg.aur); if(cfg.shoot)shoot(c,W,H,t,cfg.shoot);
     if(cfg.back){ var bk='h2b_'+cfg.id+'_'+W+'_'+H, B=ZBrand.cache[bk]; if(!B){ B=ZBrand.cache[bk]=ZBrand.mk(W,H); var q=B.getContext('2d'); q.scale(u,u); q.strokeStyle=T; q.fillStyle=T; q.lineCap='round'; cfg.back(ZBrand.P(q,3,1),Wu,Wu/2); } c.save(); c.globalAlpha=(cfg.veil||0.2)*(0.75+0.25*Math.sin(t*0.4)); c.drawImage(B,0,0); c.restore(); }
     var gl=c.createRadialGradient(cx,cy,0,cx,cy,SR*2.8); gl.addColorStop(0,ZBrand.rgba(T,0.1+0.05*Math.sin(t*0.7))); gl.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=gl; c.fillRect(0,0,W,H);

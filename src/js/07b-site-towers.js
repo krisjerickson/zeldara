@@ -79,7 +79,12 @@ function towerHarder(P,h,R){ var Q=JSON.parse(JSON.stringify(P));
   if(h.rooms){ var add=[], carve=[]; Q.rooms.forEach(function(r){ if(r.shape==='circle'||r.type==='hall'||r.type==='corridor'||r.w*r.h<90)return; var vert=r.w>=r.h, parts=r.w*r.h>200?3:2;
       for(var k=1;k<parts;k++){ if(vert){ var x=r.x+Math.round(r.w*k/parts); add.push({wall:[x,r.y,1,r.h]}); carve.push([x,r.y+R.i(1,r.h-3),1,2]); } else { var y=r.y+Math.round(r.h*k/parts); add.push({wall:[r.x,y,r.w,1]}); carve.push([r.x+R.i(1,r.w-3),y,2,1]); } } });
     Q._walls=add.map(function(a){ return a.wall; }); Q.carve=Q.carve.concat(carve); }
-  if(h.stairs){ var ex=Q.entry[0], ey=Q.entry[1], best=null, bd=-1; Q.rooms.forEach(function(r){ if(r.type==='hall'||r.type==='corridor')return; var cx=r.x+r.w/2, cy=r.y+r.h/2, d=Math.abs(cx-ex)+Math.abs(cy-ey); if(d>bd){ bd=d; best=r; } });
+  if(h.stairs){ var ex=Q.entry[0], ey=Q.entry[1], best=null, bd=-1;
+    // round 47 (Kris, Rime Spire: "the first stairs need to be harder to find, in one of the back rooms"): the small rooms at the back of the
+    // floor (the far 40% from the way in) are the candidates; the smallest, farthest of them gets the stairs, in its far corner
+    var ax=Math.abs(ex-Q.w/2)/Q.w>Math.abs(ey-Q.h/2)/Q.h?'x':'y', back=function(r){ var c=ax==='x'?r.x+r.w/2:r.y+r.h/2, e=ax==='x'?ex:ey, L=ax==='x'?Q.w:Q.h; return e>L/2?c<L*0.4:c>L*0.6; };
+    Q.rooms.forEach(function(r){ if(r.type==='hall'||r.type==='corridor'||!back(r))return; var cx=r.x+r.w/2, cy=r.y+r.h/2, d=Math.abs(cx-ex)+Math.abs(cy-ey)-Math.sqrt(r.w*r.h)*0.8; if(d>bd){ bd=d; best=r; } });
+    if(!best)Q.rooms.forEach(function(r){ if(r.type==='hall'||r.type==='corridor')return; var cx=r.x+r.w/2, cy=r.y+r.h/2, d=Math.abs(cx-ex)+Math.abs(cy-ey); if(d>bd){ bd=d; best=r; } });
     if(best){ var fx=best.x+(best.x+best.w/2>ex?best.w-2:1), fy=best.y+(best.y+best.h/2>ey?best.h-2:1); Q.stairs=[fx,fy]; } }
   return Q; }
 function buildTower(S, planId, seed, opts){

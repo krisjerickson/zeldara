@@ -100,7 +100,7 @@ Object.assign(WorldScene.prototype,{
     this._drawCache(c);
     var n=ps.openedCaches.length, tot=this.wd.caches.length;
     showNotif('🎁 Hidden cache ('+n+'/'+tot+'): +'+gold+'g'+(ITEMS[gem]?', '+ITEMS[gem].icon+' '+ITEMS[gem].name:'')+', 2 potions','#ffe08a');
-    this._emitUI(); this._save();
+    this._emitUI();      // round 47: no save here (manual saving, 21c)
   },
 
   // Called at the top of _checkInteraction; true = handled this frame.
@@ -159,7 +159,7 @@ Object.assign(WorldScene.prototype,{
     this.worldIFrames=1.5;
     try{ cam.fadeEffect.reset(); cam.fadeEffect.start(false,360,120,230,255,true); }catch(e){}
     if(cost!==undefined)showNotif('🔷 Travelled to '+to.name+(cost?' (−'+cost+'g)':''),'#6fe3f5');
-    this._emitUI(); this._save();
+    this._emitUI();      // round 47: no save here (manual saving, 21c)
   },
   // take the ferry to a harbor island (from its harbor, or a waystone jump)
   _sailTo(key,arrive){

@@ -199,7 +199,7 @@ class WorldScene extends Phaser.Scene{
       sceneRef._cancelHomeCast(false); // ensure overlay is hidden on return
       sceneRef._lastThemeSec=null; // force theme re-apply on section detection
       sceneRef._refreshVillageNPCs();
-      sceneRef._updateFog();sceneRef._emitUI();sceneRef._save();
+      sceneRef._updateFog();sceneRef._emitUI();      // round 47: leaving a site no longer saves by itself (finishing one does — 21c ZSAVE)
     });
     // paint the chunks on screen before the first frame (the rest stream in)
     // pattern tiles for the ground around the hero (and the village) now; the rest are made lazily
@@ -267,9 +267,7 @@ class WorldScene extends Phaser.Scene{
     // Player projectiles and spell effects
     this._updatePlayerProj(dt);
     this._updateSpellClouds(dt);
-    if(!this._saveTimer)this._saveTimer=0;
-    this._saveTimer+=dt;
-    if(this._saveTimer>30){this._saveTimer=0;this._save();}
+    // round 47: no timed autosave — Save is in the Inventory and the Tome; milestones save themselves (21c ZSAVE)
   }
 
   // ─── Village Effects Init ──────────────────────────────────────────────────
@@ -1930,6 +1928,7 @@ class WorldScene extends Phaser.Scene{
     if(!this._spellClouds)this._spellClouds=[];
     if(spDef.proj){
       // Projectile spells
+      var _seek=typeof ZSEEK!=='undefined'?ZSEEK.pick(this,px,py,_aimAng,spDef.proj.spd*2.5,this.worldMonsters):null;      // round 47: the strongest enemy ahead
       var count=spDef.proj.count||1;
       for(var pi=0;pi<count;pi++){
         var ang=Math.atan2(ny,nx);
@@ -1946,13 +1945,13 @@ class WorldScene extends Phaser.Scene{
               self._playerProj.push({vis:v,x:px,y:py,vx:vx3,vy:vy3,dmg:atkPow,life:2.5,hit:false,
                 type:'spell',spellId:id,effect:spDef.effect,effectDur:spDef.effectDur,
                 pierce:spDef.proj.pierce||false,chainN:spDef.chainN||0,splashR:spDef.splashR||0,
-                col:spDef.proj.col});
+                col:spDef.proj.col,seek:_seek});
             });
           } else {
             self._playerProj.push({vis:v,x:px,y:py,vx:vx3,vy:vy3,dmg:atkPow,life:2.5,hit:false,
               type:'spell',spellId:id,effect:spDef.effect,effectDur:spDef.effectDur,
               pierce:spDef.proj.pierce||false,chainN:spDef.chainN||0,splashR:spDef.splashR||0,
-              col:spDef.proj.col});
+              col:spDef.proj.col,seek:_seek});
           }
         })(vis2,vx2,vy2,delay2);
       }
@@ -2035,9 +2034,9 @@ class WorldScene extends Phaser.Scene{
   }
   _updateSpells(dt){/* replaced by _updatePlayerProj + _updateSpellClouds */}
   _updatePlayerProj(dt){
+    if(this._spellCd)this._spellCd=Math.max(0,this._spellCd-dt);      // round 47 (Kris: "there seems to be an issue with spells when in the main world"): the cooldown only ran down while a projectile was in the air, so after the first cast it stuck and X did nothing
     if(!this._playerProj||!this._playerProj.length)return;
     var self=this;
-    if(this._spellCd)this._spellCd=Math.max(0,this._spellCd-dt);
     this._playerProj=this._playerProj.filter(function(pr){
       if(!pr||!pr.vis)return false;
       pr.life-=dt;
@@ -2050,8 +2049,10 @@ class WorldScene extends Phaser.Scene{
         }
         pr.vis.destroy();return false;
       }
+      // round 47: spells seek the strongest enemy in the direction you cast (ZSEEK)
+      if(pr.type==='spell'&&typeof ZSEEK!=='undefined')ZSEEK.steer(self,pr,dt,self.worldMonsters);
       // Heat-seeking: steer toward nearest live monster
-      if(pr.tracking||pr.subtype==='heat'){
+      else if(pr.tracking||pr.subtype==='heat'){
         var best=null,bestD=9999;
         self.worldMonsters.forEach(function(m){
           if(m.dead)return;
@@ -2359,9 +2360,9 @@ class WorldScene extends Phaser.Scene{
     var sw={right:[-50,110,12,-10,16,8],left:[230,70,-12,-10,-16,8],down:[-60,60,10,4,-10,6],up:[120,60,10,-16,-10,-16]};
     var s=sw[dir]||sw.right;
     wep.setAngle(s[0]);wep.setPosition(s[2],s[3]);wep.setFillStyle(0xeeffdd);wep.setSize(5,18);
-    this.tweens.add({targets:wep,angle:s[1],x:s[4],y:s[5],duration:160,ease:'Power3',
+    this.tweens.add({targets:wep,angle:s[1],x:s[4],y:s[5],duration:Math.round(160*(_sw.axe?1.9:1)),ease:'Power3',
       onComplete:function(){
-        self.tweens.add({targets:wep,angle:dir==='left'?-15:15,x:dir==='left'?-14:14,y:-2,duration:80,
+        self.tweens.add({targets:wep,angle:dir==='left'?-15:15,x:dir==='left'?-14:14,y:-2,duration:Math.round(80*(_sw.axe?2.2:1)),
           onComplete:function(){wep.setFillStyle(0xcccccc);wep.setSize(4,16);}});
     }});
     // ── Swoosh arc ─────────────────────────────────────────────────────
