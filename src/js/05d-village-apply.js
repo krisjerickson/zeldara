@@ -21,7 +21,8 @@ function villageApply(wd,stage){
   var okCls=function(c){ return c===WM.VILLAGE||c===WM.LAND||c===WM.ROAD||c===WM.BEACH||c===WM.BRIDGE; };
   var ok=function(dx,dy){ if(Math.hypot(dx+0.5,dy+0.5)>RM)return false; var b=baseT[dx+','+dy]; if(!b)return false; if(coreSet[dx+','+dy])return false;
     return okCls(wd.cls[(cy+dy)*W+cx+dx]); };
-  var water=function(dx,dy){ if(Math.hypot(dx+0.5,dy+0.5)>RM)return false; return wd.cls[(cy+dy)*W+cx+dx]===WM.LAKE; };
+  // round 44: water is where the ground painted is water (its kind), not only where the coarse map says lake — they differ at the shore, which put boats on the grass
+  var KLv=WK_REG.list, water=function(dx,dy){ if(Math.hypot(dx+0.5,dy+0.5)>RM)return false; var b=baseT[dx+','+dy], K=b&&KLv[b[3]]; return wd.cls[(cy+dy)*W+cx+dx]===WM.LAKE&&!!(K&&K.liquid&&!K.lava); };
   var plan=villagePlan(stage,ok,water), vg=G(WSK.vgrass);
   wd._vbase.forEach(function(c){ var dx=c[0], dy=c[1], d=Math.hypot(dx+0.5,dy+0.5); if(d>plan.disk)return; var x=cx+dx, y=cy+dy, k=y*W+x;
     if(coreSet[dx+','+dy]){ wd.kind[k]=vg; return; }

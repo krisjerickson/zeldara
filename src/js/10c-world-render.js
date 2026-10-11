@@ -34,13 +34,18 @@ Object.assign(WorldScene.prototype,{
   _updateChunks(sync){
     if(!this._wr)this._wrInit();
     var W=this._wr, self=this, need=this._wrNeeded(), keep={};
-    need.forEach(function(n){ keep[n.key]=1; if(!W.chunks.has(n.key)&&!W.jobs.has(n.key))W.jobs.set(n.key,{n:n,job:wpChunkJob(self.wd,n.cx,n.cy)}); });
+    var rdy={}; (W.ready||[]).forEach(function(r){ rdy[r.key]=1; });
+    need.forEach(function(n){ keep[n.key]=1; if(!W.chunks.has(n.key)&&!W.jobs.has(n.key)&&!rdy[n.key])W.jobs.set(n.key,{n:n,job:wpChunkJob(self.wd,n.cx,n.cy)}); });
     // run paint jobs: visible chunks first; more time while something visible is missing
-    var missingVis=need.some(function(n){ return n.vis&&!W.chunks.has(n.key); });
-    var budget=sync?1e9:(missingVis?14:6), t0=performance.now();
+    var missingVis=need.some(function(n){ return n.vis&&!W.chunks.has(n.key)&&!rdy[n.key]; });
+    var budget=sync?1e9:(missingVis?14:6), t0=performance.now(), PF=typeof ZPERF!=='undefined'&&ZPERF.on;
+    // round 44 (lag): a finished chunk is mounted at the start of a later frame, one per frame — mounting uploads big pictures to the GPU, and doing
+    // it in the same frame as painting made a long frame every time a chunk was finished
+    W.ready=W.ready||[]; if(W.ready.length){ var R0=W.ready.shift(), tm=performance.now(); if(keep[R0.key]||sync){ var old0=W.chunks.get(R0.key); if(old0)this._wrUnmount(old0); W.chunks.set(R0.key,this._wrMount(R0.out)); } if(PF)ZPERF.note('mount',performance.now()-tm); if(!sync)t0=performance.now()-Math.min(budget,performance.now()-tm)*0.5; }
     for(var i=0;i<need.length;i++){ var n=need[i], J=W.jobs.get(n.key); if(!J)continue; if(sync&&!n.vis)continue;
-      var left=budget-(performance.now()-t0); if(left<=0)break;
-      if(J.job.step(left)){ W.jobs.delete(n.key); var old=W.chunks.get(n.key); if(old)this._wrUnmount(old); W.chunks.set(n.key,this._wrMount(J.job.out)); } }
+      var left=budget-(performance.now()-t0); if(left<=0)break; var ts=performance.now(), fin=J.job.step(left); if(PF)ZPERF.note('paint',performance.now()-ts);
+      if(fin){ W.jobs.delete(n.key); if(sync){ var old=W.chunks.get(n.key); if(old)this._wrUnmount(old); W.chunks.set(n.key,this._wrMount(J.job.out)); } else W.ready.push({key:n.key,out:J.job.out}); } }
+    if(sync)while(W.ready.length){ var R1=W.ready.shift(), o1=W.chunks.get(R1.key); if(o1)this._wrUnmount(o1); W.chunks.set(R1.key,this._wrMount(R1.out)); }
     // painter idle: make the ground patterns of the next ring of chunks ahead of time (one per
     // frame at most, re-scanned only when the hero changes chunk or the last scan made one)
     if(!sync&&!W.jobs.size&&this.player){ var pk=Math.floor(this.player.x/(WCH*TILE))+'_'+Math.floor(this.player.y/(WCH*TILE));
@@ -146,12 +151,16 @@ Object.assign(WorldScene.prototype,{
     W.chunks.forEach(function(ch){ var F=ch.flip; if(!F)return; var u=(FT/F.T*F.nf)%F.nf, i=Math.floor(u); if(F.i!==i){ F.i=i; F.a.setFrame('f'+i,false,false); F.b.setFrame('f'+((i+1)%F.nf),false,false); } F.b.setAlpha(u-i); });      // round 40: the moving water
     // round 43: the wind — a slow wave rolling across the world, so neighbouring plants lean together; frames follow it, loops just run
     var sw=typeof ZWE!=='undefined'?(ZWE.LOOK.sway||0):0, amp=sw>=2?1.9:1;
-    W.chunks.forEach(function(ch){ if(!ch.live)return; for(var q=0;q<ch.live.length;q++){ var im=ch.live[q], x=im.x, y=im.y, r=im._zr;
+    W.chunks.forEach(function(ch){ if(!ch.live||ch._off)return; for(var q=0;q<ch.live.length;q++){ var im=ch.live[q], x=im.x, y=im.y, r=im._zr;
         if(im._zloop){ var f=Math.floor(FT*im._zloop+r*7)%im._zn; if(f!==im._zf){ im._zf=f; im.setFrame(String(f),false,false); } continue; }
         if(sw<=0)continue;
         var w=0.65*Math.sin(FT*1.6+x*0.012+y*0.005+r*0.8)+0.35*Math.sin(FT*0.55+x*0.004-y*0.002); if(sw>=2)w+=0.6*Math.pow(Math.max(0,Math.sin(FT*0.4+x*0.003)),3);
         if(im._zn>1){ var fi=Math.max(0,Math.min(im._zn-1,Math.round((w*amp*0.75+1)/2*(im._zn-1)))); if(fi!==im._zf){ im._zf=fi; im.setFrame(String(fi),false,false); } im.setAngle(w*amp*im._zdeg*0.25); }
         else im.setAngle(w*amp*im._zdeg); } });
+    // round 44 (lag): a mounted chunk that is wholly off screen is not drawn (its pieces, lights, animals and emitters are hidden until it comes back into view)
+    var cam=this.cameras.main, v=cam.worldView, cs=WCH*TILE, M=320;
+    W.chunks.forEach(function(ch){ var x0=ch.cx*cs, y0=ch.cy*cs, off=x0>v.right+M||x0+cs<v.x-M||y0>v.bottom+M||y0+cs<v.y-M-160;
+      if(off!==!!ch._off){ ch._off=off; ch.objs.forEach(function(o){ if(off){ o._zv=o.visible; o.setVisible(false); } else if(o._zv!==undefined){ o.setVisible(o._zv); o._zv=undefined; } }); } });
     if(this._zcTick)this._zcTick(dt);      // round 43: the animals (10n). (Kris: no fading when the hero is behind a piece — removed)
     W.chunks.forEach(function(ch){ if(ch.lava)lavaCh.push(ch); ch.objs.forEach(function(o){ if(o._lava)o._lava.forEach(function(t){ t.tilePositionX+=t._flow.vx*dt; t.tilePositionY+=t._flow.vy*dt; }); }); });
     // lava bursts (as in the Lab): little sprays of sparks from the molten ground in view

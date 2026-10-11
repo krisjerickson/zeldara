@@ -46,7 +46,7 @@ var SCN_RULES={
   anvil:function(){ return {id:'vp_anvil',h:38}; },
   banner:function(o,w,h,R){ return {id:R.pick(['vp_banner_red','vp_banner_teal','vp_banner_gold']),h:104}; },
   stall:function(o,w){ return {id:'vp_market_stall',w:w+18}; },
-  cart:function(o,w,h,R){ return {id:R.pick(['vp_cart_hay','vp_cart_veg','vp_cart_barrels']),w:w+22}; },
+  cart:function(o,w,h,R){ return {id:R.pick(['vp_cart_hay','vp_cart_veg','vp_cart_barrels']),w:w+8}; },      // round 44: a little smaller (was w+22)
   tower:function(o,w){ return {id:'vb_turret',w:w+26}; },
   boathouse:function(o,w){ return {id:'vb_boathouse',w:w+28,light:[0,-30,60,'#6fe3f5',0.3,{react:true,rune:true}]}; },
   stilthouse:function(o,w){ return {id:'vb_lake_house',w:w+36,light:[0,-70,54,'#ffc870',0.3,{flicker:0.2}]}; },
@@ -107,10 +107,17 @@ var TWR_PZ={bookshelf:'tf_bookshelf',wardrobe:'tf_wardrobe',lectern:'tf_lectern'
 var TWR_PZ_FLAT={stairs:'tf_stairs',pool:'tf_c_pool',rug:'tf_rug',runner:'tf_runner',royal_carpet:'tf_royal_carpet',mosaic:'tf_mosaic',dais:'tf_dais',center_starmap:'tf_c_starmap',center_pool:'tf_c_pool',rune_circle:'tf_rune_circle',starmap_floor:'mf_starmap',stage_floor:'mf_stage'};
 var TWR_PZ_HANG={chandelier:1,floating_books:1,floating_rock:1,cage:1};      // hang or float: placed where the drawn one was, keeping its bobbing
 var TWR_PZ_LONG={longtable:1,banquet:1,pew:1,bench:1,bench_long:1,weapon_rack:1,shield_rack:1,sideboard:1,bookshelf:1,potion_shelf:1,herb_rack:1,gear_wall:1,fish_tank:1,hearth:1,altar:1};      // stretched along their tiles when those are wider than the picture
-function _twrPainted(m,it,S,R){ var Zs=_scn(); if(!Zs)return false; var x=it.x*LT, y=it.y*LT, w=it.w*LT, h=it.h*LT, fid=TWR_PZ_FLAT[it.type], id=TWR_PZ[it.type], flat=fid&&Zs.has(fid); if(!flat&&!(id&&Zs.has(id)))return false;
+var TWR_RUGS={rug:1,runner:1,royal_carpet:1,carpet:1};
+// round 44: the painted rug whose shape is closest to the rectangle (wave 44 sc_rugs_1: wide, runner, square; the old tall ones last); warm = reds first
+function _rugPick(Zs,w,h,warm){ var a=w/h, L=[['ir_rug_wide_'+(warm?'red':'blue'),112/72],['ir_rug_wide_'+(warm?'purple':'green'),112/72],['ir_runner_'+(warm?'red':'blue'),44/128],['ir_rug_square',1],['ir_rug_round2',1],['ir_rug_'+(warm?'red':'blue'),0.85],['ir_rug_red',0.85]], best=null, bd=9;
+  L.forEach(function(q){ if(!Zs.has(q[0]))return; var d=Math.min(Math.abs(Math.log(a/q[1])),Math.abs(Math.log(a*q[1]))); if(d<bd-0.01){ bd=d; best=q[0]; } }); return best; }
+// round 44: a rug drawn in code as its own flat picture, above a painted floor (drawing it into the room's base put it under the floor)
+function _flatSprite(m,x,y,w,h,draw){ var RS=(typeof ZScn!=='undefined'&&ZScn.RES)||2, P=6; addSprite(m,x+w/2,y+h/2,Math.ceil((w+P*2)*RS),Math.ceil((h+P*2)*RS),function(g){ g.scale(RS,RS); g.translate(P-x,P-y); draw(g); });
+  var sp=m.sprites[m.sprites.length-1]; sp.res=RS; sp.ox=0.5; sp.oy=0.5; sp.flat=true; return sp; }
+function _twrPainted(m,it,S,R){ var Zs=_scn(); if(!Zs)return false; var big=it.type==='stairs'&&it.w===1, x=(it.x-(big?0.7:0))*LT, y=(it.y-(big?1.1:0))*LT, w=(big?2.4:it.w)*LT, h=(big?2.2:it.h)*LT,      /* round 44: tower stairs drawn 2.4 tiles wide round their tile (was one tile) */ fid=TWR_PZ_FLAT[it.type], id=TWR_PZ[it.type], flat=fid&&Zs.has(fid); if(!flat&&!(id&&Zs.has(id)))return false;
   // the old painter runs once into a throw-away map: its lights (hearth glow, torch flicker) and its sprite's place and bobbing are kept
   var fake={sprites:[],lights:[],shafts:[],particles:[],labels:[]}, tall=TOWER_TALL[it.type]; if(tall){ try{ tall(fake,x,y,w,h,S,R); }catch(e){} } var fs=fake.sprites[0], ok;
-  if(flat)ok=Zs.rect(m,fid,x+2,y+2,w-4,h-4);
+  if(flat)ok=Zs.rect(m,fid,x+2,y+2,w-4,h-4,TWR_RUGS[it.type]?{strict:true}:null);      // round 44: rugs and runners are never stretched out of shape
   else { var cx=x+w/2, fy=y+h, o={shw:0.36,sp:{}}, nat=Zs.size(id,0); if(TWR_PZ_HANG[it.type]&&fs){ cx=fs.x; fy=fs.y; o.shadow=false; } if(fs){ if(fs.bob)o.sp.bob=fs.bob; if(fs.depth!==undefined)o.sp.depth=fs.depth; }
     if(TWR_PZ_LONG[it.type]&&w>nat.w*Zs.K*1.45)ok=Zs.row(m,id,x,fy-4,w,{sp:o.sp});      // much longer than the picture: several side by side
     else if(TWR_PZ_LONG[it.type]&&w>nat.w*Zs.K*1.15){ o.stretch=w/(nat.w*Zs.K); o.shw=0.46; ok=Zs.sprite(m,id,cx,fy,nat.h*Zs.K,o); } else ok=Zs.fit(m,id,cx,fy,w+14,o); }

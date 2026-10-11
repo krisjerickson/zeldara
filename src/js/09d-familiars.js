@@ -95,7 +95,9 @@ function _heroFamiliarsTick(scene,dt){
   Object.keys(scene._famVisuals).forEach(function(f){ if(fams.indexOf(f)<0){ var v=scene._famVisuals[f]; if(v){ if(v._halo)v._halo.destroy(); if(v._em)v._em.destroy(); v.destroy(); } delete scene._famVisuals[f]; } });
   // round 28: a pod behind the hero. The pod's bearing (hero → pod) swings round to the side the hero came from while he
   // moves; each familiar has a place in the pod and eases towards it, and is then pushed clear of the hero's body.
-  var HB=_famHeroBox(scene,c,ps), hp=scene._famHP, jump=!hp||Math.hypot(c.x-hp.x,c.y-hp.y)>160, hvx=(!jump&&dt>0)?(c.x-hp.x)/dt:0, hvy=(!jump&&dt>0)?(c.y-hp.y)/dt:0, hsp=Math.hypot(hvx,hvy); scene._famHP={x:c.x,y:c.y};
+  // round 44 (Kris): in the village the familiars wait at its edge, where the hero came in; when he leaves (by any side) they come across to him
+  var VW=null; if(scene.sys.settings.key==='World'&&typeof _inVillagePx==='function'){ if(_inVillagePx(c.x,c.y,0)){ if(!scene._famWait)scene._famWait=_villageEdgePx(c.x,c.y,2.5); VW=scene._famWait; } else if(scene._famWait){ scene._famWait=null; scene._famPort=true; } }
+  var HB=VW?{x:VW.x,y:VW.y,hw:12,hh:18}:_famHeroBox(scene,c,ps), hp=scene._famHP, jump=!hp||Math.hypot(c.x-hp.x,c.y-hp.y)>160, hvx=(!jump&&dt>0)?(c.x-hp.x)/dt:0, hvy=(!jump&&dt>0)?(c.y-hp.y)/dt:0, hsp=Math.hypot(hvx,hvy); scene._famHP={x:c.x,y:c.y};
   var pth=scene._famTh; if(pth===undefined||jump)pth=_heroDirAngle(c.dir)+Math.PI;
   else if(hsp>10){ var pd=Math.atan2(-hvy,-hvx)-pth; while(pd>Math.PI)pd-=2*Math.PI; while(pd<-Math.PI)pd+=2*Math.PI;
     if(Math.abs(pd)>3.05)pd=Math.abs(pd)*(scene._famSide||(scene._famSide=1)); else scene._famSide=pd<0?-1:1;       // hero turned straight back: keep swinging the same way
@@ -111,13 +113,14 @@ function _heroFamiliarsTick(scene,dt){
       v.x=c.x; v.y=c.y; v._t=Math.random()*6; scene._famVisuals[fid]=v; }
     v._t+=dt; var hover=D.move==='hover';
     if(!(typeof ZAtlas!=='undefined'&&ZAtlas.simple(v,'fam_'+D.el,[scene._famCastT>0?'cast':null,'float','idle','move'],'q',v._t,hover?7:6,true)))v.setFrame(String(Math.floor(v._t*(hover?7:6))%4));
-    var B={hw:Math.max(6,v.displayWidth*0.46),hh:Math.max(6,v.displayHeight*0.5)}, ox=v._px, oy=v._py, fresh=ox===undefined||jump||Math.hypot(ox-HB.x,oy-HB.y)>420;
+    if(scene._famPort&&v._px!==undefined&&Math.hypot(v._px-c.x,v._py-c.y)>200){ _famRing(scene,v._px,v._py,30,E.col,380); v._px=undefined; v._ported=true; }      // round 44: across to the hero as he leaves the village
+    var B={hw:Math.max(6,v.displayWidth*0.46),hh:Math.max(6,v.displayHeight*0.5)}, ox=v._px, oy=v._py, fresh=ox===undefined||(!VW&&jump)||Math.hypot(ox-HB.x,oy-HB.y)>420;
     var sl=slots[i%slots.length], U=(B.hw+B.hh)*0.85, back=_famGap(HB,B,pth)+3+sl[0]*U, lat=sl[1]*U, ph=i*2.1;
     var tx=HB.x+pux*back-puy*lat+Math.sin(v._t*0.9+ph)*3, ty=HB.y+puy*back+pux*lat+Math.cos(v._t*0.7+ph)*2, nx, ny;
     if(fresh){ nx=tx; ny=ty; } else { var ez=Math.min(1,dt*6); nx=ox+(tx-ox)*ez; ny=oy+(ty-oy)*ez; }
     for(var q=0;q<placed.length;q++){ var P=placed[q], md=0.6*(P.hw+B.hw), dd=Math.hypot(nx-P.x,ny-P.y); if(dd<md){ var a2=dd>0.01?Math.atan2(ny-P.y,nx-P.x):pth+1.57; nx=P.x+Math.cos(a2)*md; ny=P.y+Math.sin(a2)*md; } }      // they may brush each other, not stack
     var ah=Math.atan2(ny-HB.y,nx-HB.x), gh=_famGap(HB,B,ah); if(Math.hypot(nx-HB.x,ny-HB.y)<gh){ nx=HB.x+Math.cos(ah)*gh; ny=HB.y+Math.sin(ah)*gh; }                                                                  // never on the hero
-    B.x=nx; B.y=ny; v._px=nx; v._py=ny; placed.push(B);
+    B.x=nx; B.y=ny; v._px=nx; v._py=ny; placed.push(B); if(v._ported){ v._ported=false; _famRing(scene,nx,ny,30,E.col,380); }
     v.x=nx; v.y=ny+(hover?Math.sin(v._t*3)*2:0);
     if(!fresh&&Math.abs(nx-ox)>0.4)v.setFlipX(nx<ox); else if(fresh||hsp<10)v.setFlipX(c.x<v.x);
     v.setDepth(_famDepth(scene,ny+B.hh-14,false));
@@ -129,11 +132,13 @@ function _heroFamiliarsTick(scene,dt){
     if(v._daze>0){ v._daze-=dt; return; }
     var nul=nullers.find(function(m){ return Math.hypot(m.x-v.x,m.y-v.y)<m.kit._null; });
     if(nul){ v.setAlpha(0.55); if(!v._nulSay||v._t-v._nulSay>3){ v._nulSay=v._t; _heroFloat(scene,v.x,v.y-24,'silenced','#b0b0c8'); } return; } else v.setAlpha(0.92);
+    if(VW)return;      // waiting at the village edge: no skills
     // skills: the basic attack + the chosen special
     var T=scene._famTimers[fid]||(scene._famTimers[fid]={}), mult=_famMult(ps,fid)*_famSlotK(ps,fid);   // heals don't use mult
     _famActiveSkills(ps,fid).forEach(function(o){ var S=o.S, si=o.i; if(T[si]===undefined)T[si]=Math.min(1.2+(si?0.7:0),S.cd); T[si]-=dt; if(T[si]>0)return;
       var ok=_famCast(scene,fid,S,v,c,ps,mult,E); T[si]=ok?S.cd*(1-0.04*(_famLevel(ps,fid)-1)):0.35; if(ok&&S.kind!=='aura'){ v._halo.setAlpha(0.8); scene.tweens.add({targets:v._halo,alpha:0.35,duration:400}); } });
   });
+  scene._famPort=false;
   _famWardTick(scene,c,ps,dt);
   _famHudTick(scene,fams,ps,dt);
 }

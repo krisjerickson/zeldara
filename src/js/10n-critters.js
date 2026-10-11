@@ -38,7 +38,7 @@ Object.assign(WorldScene.prototype,{
   // one step for every animal of the mounted chunks
   _zcTick(dt){ if(!this._wr)return; var self=this, t=(this._zcT=(this._zcT||0)+dt), R=ZCRIT.R, cam=this.cameras.main.worldView;
     if(dt>0.1)dt=0.1;
-    this._wr.chunks.forEach(function(ch){ if(!ch.crit)return; for(var q=0;q<ch.crit.length;q++){ var c=ch.crit[q]; if(c.x<cam.x-300||c.x>cam.right+300||c.y<cam.y-300||c.y>cam.bottom+300)continue; self._zcStep(c,dt,t); } }); },
+    this._wr.chunks.forEach(function(ch){ if(!ch.crit||ch._off)return; for(var q=0;q<ch.crit.length;q++){ var c=ch.crit[q]; if(c.x<cam.x-300||c.x>cam.right+300||c.y<cam.y-300||c.y>cam.bottom+300)continue; self._zcStep(c,dt,t); } }); },
   _zcStep(c,dt,t){ var R=ZCRIT.R, im=c.im, lk=c.lk, s=lk.s, f=c.f; c.t-=dt;
     var flapTo=function(open){ if(lk.n>1){ var fi=Math.max(0,Math.min(lk.n-1,Math.round((1-open)*(lk.n-1)))); im.setFrame(String(fi)); im.setScale(s); } else im.setScale(s*(0.22+0.78*open),s); };      // open: 1 = wings spread, 0 = wings folded / at the far end of the beat
     var cycle=function(rate){ c.ph+=dt*rate*6.283; if(lk.n>1){ im.setFrame(String(Math.floor(c.ph/6.283*lk.n)%lk.n)); im.setScale(s); return null; } return Math.abs(Math.cos(c.ph/2)); };

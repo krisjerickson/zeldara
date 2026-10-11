@@ -125,5 +125,5 @@
     if((t=e.target.closest('[data-tel]'))){ P.sel.el=t.getAttribute('data-tel'); Tome.render(); }
     else if((t=e.target.closest('[data-fnode]'))&&Tome.ui.cat==='forge'){ P.sel.fn=t.getAttribute('data-fnode'); Tome.render(); }
     else if((t=e.target.closest('[data-pnode]'))){ P.sel.pn=t.getAttribute('data-pnode'); Tome.render(); } },true);      // (capture: the panel stops clicks from bubbling)
-  Tome._pages=P;
+  Tome._pages=P; Tome._monEls=monEls;      // round 44: the monsters' by-element view (26c)
 })();

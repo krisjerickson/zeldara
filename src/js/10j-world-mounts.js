@@ -13,10 +13,16 @@ var MOUNT_CALL_SPD=300, MOUNT_RIDE_R=46;
 function _inOverworld(){ var sc=typeof _activePlayScene==='function'?_activePlayScene(true):null; return !!(sc&&_isOverworld(sc)); }
 // which map a parked mount waits on: 'world' or an island key (round 6)
 function _mapKeyOf(scene){ return scene&&scene.islKey?'isl_'+scene.islKey:'world'; }
+// round 44 (Kris: "Familiars and mounts should stop at village edge instead of joining in the village. Familiars can port over once you exit if you exit at a
+// different side and you mount can be called"): is a world point inside the village (pad: tiles beyond its edge)? Only on the main world map.
+function _inVillagePx(x,y,pad){ if(typeof CENTER_X==='undefined')return false; return Math.hypot(x/TILE-CENTER_X-0.5,y/TILE-CENTER_Y-0.5)<VILLAGE_RADIUS+(pad||0); }
+// the point just outside the village edge on the line from its centre through (x, y)
+function _villageEdgePx(x,y,out){ var cx=(CENTER_X+0.5)*TILE, cy=(CENTER_Y+0.5)*TILE, a=Math.atan2(y-cy,x-cx), r=(VILLAGE_RADIUS+(out||2))*TILE; return {x:cx+Math.cos(a)*r,y:cy+Math.sin(a)*r}; }
 function _mountName(id){ var m=MOUNTS[id]; return m?m.n:'mount'; }
 Object.assign(WorldScene.prototype,{
   // can a parked mount wait on this tile?
-  _mountSafeTile(tx,ty){ var t=(this.tiles[ty]||[])[tx]; if(t===undefined||!canPassTile(t,null)||FOOT_SLOW[t]||t===T.THIN_MAGMA)return false;
+  _mountSafeTile(tx,ty){ if(!this.islKey&&_inVillagePx(tx*TILE+16,ty*TILE+16,1.5))return false;      // round 44: mounts stay out of the village
+    var t=(this.tiles[ty]||[])[tx]; if(t===undefined||!canPassTile(t,null)||FOOT_SLOW[t]||t===T.THIN_MAGMA)return false;
     var sec=getTileSection(tx,ty); if(sec>0&&this.playerState.unlockedSections.indexOf(sec)<0)return false;
     var x=tx*TILE+16, y=ty*TILE+16;
     if((this._camps||[]).some(function(C){ return C.state==='guarded'&&Math.hypot(C.x-x,C.y-y)<TILE*5; }))return false;
@@ -28,10 +34,11 @@ Object.assign(WorldScene.prototype,{
   _mountCombat(){ var ps=this.playerState, p=this.player; if(!ps||!ps.mount||!p)return;
     var t=(this.tiles[Math.floor(p.y/TILE)]||[])[Math.floor(p.x/TILE)]; if(t===undefined||!canPassTile(t,null)||t===T.THIN_MAGMA)return;   // can't stand here: stay on
     this._parkMount('fight'); },
-  _parkMount(why){ var ps=this.playerState, p=this.player, id=ps.mount; if(!id)return; ps.mount=null;
-    ps.parkedMount={id:id,x:p.x+(p.dir==='left'?22:-22),y:p.y+4,map:_mapKeyOf(this)};
+  _parkMount(why,at){ var ps=this.playerState, p=this.player, id=ps.mount; if(!id)return; ps.mount=null;
+    ps.parkedMount={id:id,x:at?at.x:p.x+(p.dir==='left'?22:-22),y:at?at.y:p.y+4,map:_mapKeyOf(this)};
     this._pmBuild(); var safe=this._mountSafeNear(ps.parkedMount.x,ps.parkedMount.y,14);
     if(safe&&(Math.abs(safe.x-ps.parkedMount.x)>4||Math.abs(safe.y-ps.parkedMount.y)>4)){ this._pm.goal={x:safe.x,y:safe.y,trot:true}; }
+    if(why==='village')showNotif('🏘 Your '+_mountName(id)+' waits at the village edge — call it once you are outside.','#ccddff'); else
     showNotif(why==='fight'?'⚔️ You jump off your '+_mountName(id)+' to fight — it waits nearby. [M] next to it to ride, or Call Mount! from the mount menu.':'🚶 You get off your '+_mountName(id)+' — it waits here.','#ccddff');
     if(this.player.mountSpr)CHX.mountTick(this,this.player,null,false,0);
     this._emitUI(); },
@@ -42,7 +49,8 @@ Object.assign(WorldScene.prototype,{
     this._pm={spr:spr,sh:sh,lbl:null,id:P.id,t:0,goal:null,stuck:0,kind:R.spec.kind,home:{x:P.x,y:P.y},it:2+Math.random()*3,fid:0,fly:/eagle|glider|phoenix|dragon|drake/.test(P.id)}; },
   _pmRemove(){ if(this._pm){ this._pm.spr.destroy(); this._pm.sh.destroy(); if(this._pm.lbl)this._pm.lbl.destroy(); this._pm=null; } },
   _remount(){ var ps=this.playerState, P=ps.parkedMount; if(!P)return; this._pmRemove(); ps.parkedMount=null; ps.mount=P.id; SFX.pickup&&SFX.pickup(); showNotif('🐎 Back on your '+_mountName(P.id)+'!','#ccddff'); this._emitUI(); },
-  _callMount(){ var ps=this.playerState, P=ps.parkedMount, p=this.player; if(!P){ showNotif(ps.mount?'You are already riding.':'No mount is waiting for you.','#aaaaaa'); return false; }
+  _callMount(){ var ps=this.playerState, P=ps.parkedMount, p=this.player; if(P&&!this.islKey&&_inVillagePx(p.x,p.y,0.5)){ showNotif('🏘 Mounts wait outside the village — call yours once you have left it.','#ccddff'); return false; }
+    if(!P){ showNotif(ps.mount?'You are already riding.':'No mount is waiting for you.','#aaaaaa'); return false; }
     if((P.map||'world')!==_mapKeyOf(this)){ P.map=_mapKeyOf(this); P.x=p.x+TILE*30; P.y=p.y; }   // it was left on another map: it comes across (by boat)
     if(!this._pm)this._pmBuild(); var d=Math.hypot(P.x-p.x,P.y-p.y);
     if(d>TILE*22){ // far away: it comes over the horizon (a safe spot just off-screen) and gallops the rest
@@ -51,6 +59,7 @@ Object.assign(WorldScene.prototype,{
     this._pm.goal={x:p.x,y:p.y,call:true}; this._pm.stuck=0;
     showNotif('📣 You whistle — your '+_mountName(P.id)+' is coming!','#ffe9a8'); return true; },
   _parkedTick(dt){ var ps=this.playerState, P=ps&&ps.parkedMount, p=this.player; if(!p)return;
+    if(ps.mount&&!this.islKey&&_inVillagePx(p.x,p.y,0)){ var t0=(this.tiles[Math.floor(p.y/TILE)]||[])[Math.floor(p.x/TILE)]; if(t0!==undefined&&canPassTile(t0,null)){ var e0=_villageEdgePx(p.x,p.y,2), s0=this._mountSafeNear(e0.x,e0.y,6)||e0; this._parkMount('village',s0); P=ps.parkedMount; } }      // round 44: riding into the village
     if(ps.mount&&P){ ps.parkedMount=null; P=null; }   // picked another mount in the menu
     if(P&&(P.map||'world')!==_mapKeyOf(this)&&!(this._pm&&this._pm.goal&&this._pm.goal.call))P=null;   // waiting on another map
     if(!P){ if(this._pm)this._pmRemove(); return; } if(!this._pm)this._pmBuild(); var M=this._pm; if(!M)return; M.t+=dt;

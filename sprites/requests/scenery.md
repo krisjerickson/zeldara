@@ -1,4 +1,4 @@
-# Scenery — 106 sheets, 1107 objects and textures (13 sheets in the pilot)
+# Scenery — 108 sheets, 1131 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -24,6 +24,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 38 | Edge pieces: shores, cliffs, snow, lava (round 38) | 2 | 24 |
 | 42 | Edge pieces: logs, features and small creatures (round 42) | 4 | 48 |
 | 43 | Animation frames: creatures and swaying plants (round 43) | 7 | 84 |
+| 44 | Sleeping in bed, and rugs that fit (round 44) | 2 | 24 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -1682,6 +1683,77 @@ Row 3 — Fern, swaying in the wind (about 0.6× the hero's height): (1) leaning
 Row 4 — Hanging ivy, swinging in the wind (the top edge stays fixed to the rock) (about as tall as the hero): (1) the trailing ends swung to the left; (2) hanging straight down at rest; (3) the trailing ends swung to the right.
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_sleep_1
+
+Animation frames — the hero asleep in the home bed, and waking up · wave 44 · 16 items, 4 × 4 · 1024x1536
+
+- `an_sleep_m_1` Hero (the boy) asleep in his bed — frame 1 — 44 × 72 px
+- `an_sleep_m_2` Hero (the boy) asleep in his bed — frame 2 — 44 × 72 px
+- `an_sleep_m_3` Hero (the boy) asleep in his bed — frame 3 — 44 × 72 px
+- `an_sleep_m_4` Hero (the boy) asleep in his bed — frame 4 — 44 × 72 px
+- `an_sleep_f_1` Hero (the girl) asleep in her bed — frame 1 — 44 × 72 px
+- `an_sleep_f_2` Hero (the girl) asleep in her bed — frame 2 — 44 × 72 px
+- `an_sleep_f_3` Hero (the girl) asleep in her bed — frame 3 — 44 × 72 px
+- `an_sleep_f_4` Hero (the girl) asleep in her bed — frame 4 — 44 × 72 px
+- `an_wake_m_1` Hero (the boy) waking up — frame 1 — 44 × 72 px
+- `an_wake_m_2` Hero (the boy) waking up — frame 2 — 44 × 72 px
+- `an_wake_m_3` Hero (the boy) waking up — frame 3 — 44 × 72 px
+- `an_wake_m_4` Hero (the boy) waking up — frame 4 — 44 × 72 px
+- `an_wake_f_1` Hero (the girl) waking up — frame 1 — 44 × 72 px
+- `an_wake_f_2` Hero (the girl) waking up — frame 2 — 44 × 72 px
+- `an_wake_f_3` Hero (the girl) waking up — frame 3 — 44 × 72 px
+- `an_wake_f_4` Hero (the girl) waking up — frame 4 — 44 × 72 px
+
+Attach: style_hero, style_centaur, sc_int_1, hero_m.model, hero_f.model
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames — the hero asleep in the home bed, and waking up.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 4 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Hero (the boy) asleep in his bed, sleeping, breathing slowly (about as tall as the hero): (1) the same wooden bed with the patchwork quilt and pillow as in its picture; the boy hero (exactly as in his model sheet) lies on his back in it, head on the pillow, eyes closed, the quilt pulled up to his chest, arms on top of the quilt; (2) the same, his chest and the quilt risen a little as he breathes in; (3) the same, mouth slightly open, a tiny sleep bubble at his nose; (4) the same, the quilt settled back down as he breathes out.
+Row 2 — Hero (the girl) asleep in her bed, sleeping, breathing slowly (about as tall as the hero): (1) the same wooden bed with the patchwork quilt and pillow; the girl hero (exactly as in her model sheet) lies on her back in it, head on the pillow, eyes closed, the quilt pulled up to her chest, arms on top of the quilt; (2) the same, her chest and the quilt risen a little as she breathes in; (3) the same, mouth slightly open, a tiny sleep bubble at her nose; (4) the same, the quilt settled back down as she breathes out.
+Row 3 — Hero (the boy) waking up, waking and getting out of bed (about as tall as the hero): (1) the same bed; the boy sits up in it, yawning, one fist rubbing an eye; (2) sitting up, stretching both arms high above his head; (3) sitting on the edge of the bed, quilt thrown back, feet on the floor; (4) the bed empty and tidy, the quilt pulled up, the boy standing beside its foot, rested and smiling.
+Row 4 — Hero (the girl) waking up, waking and getting out of bed (about as tall as the hero): (1) the same bed; the girl sits up in it, yawning, one fist rubbing an eye; (2) sitting up, stretching both arms high above her head; (3) sitting on the edge of the bed, quilt thrown back, feet on the floor; (4) the bed empty and tidy, the quilt pulled up, the girl standing beside its foot, rested and smiling.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_rugs_1
+
+Rugs and runners that fit the rooms — seen from straight above, flat on the floor · wave 44 · 8 items, 4 × 2 · 1536x1024
+
+- `ir_rug_wide_red` Wide red rug — 112 × 72 px
+- `ir_rug_wide_blue` Wide blue rug — 112 × 72 px
+- `ir_rug_wide_green` Wide green rug — 112 × 72 px
+- `ir_rug_wide_purple` Wide purple rug — 112 × 72 px
+- `ir_runner_red` Red runner — 44 × 128 px
+- `ir_runner_blue` Blue runner — 44 × 128 px
+- `ir_rug_round2` Round rug — 88 × 88 px
+- `ir_rug_square` Square rug — 88 × 88 px
+
+Attach: style_hero, style_centaur, sc_int_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Rugs and runners that fit the rooms — seen from straight above, flat on the floor.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Wide red rug — a wide rectangular woven rug, deep red with a cream border and a diamond pattern in the middle, short fringes at the two short ends (about 1.8× the hero's height across).
+2. Wide blue rug — a wide rectangular woven rug, deep blue with a cream border and a star pattern in the middle, short fringes at the two short ends (about 1.8× the hero's height across).
+3. Wide green rug — a wide rectangular woven rug, forest green with a gold border and a leaf pattern, short fringes at the two short ends (about 1.8× the hero's height across).
+4. Wide purple rug — a wide rectangular woven rug, royal purple with a gold border and a rune pattern, short fringes at the two short ends (about 1.8× the hero's height across).
+5. Red runner — a long narrow red carpet runner with a gold border, running from top to bottom (about 2× the hero's height across).
+6. Blue runner — a long narrow blue carpet runner with a silver border, running from top to bottom (about 2× the hero's height across).
+7. Round rug — a round braided rug in warm red, cream and brown rings (about 1.4× the hero's height across).
+8. Square rug — a square woven rug, teal and cream with a compass-rose pattern (about 1.4× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

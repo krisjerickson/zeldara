@@ -277,7 +277,7 @@ MX.MOVE={
     var tx=Math.abs(P.x-mon.x)<Math.abs(P.y-mon.y)?P.x:mon.x, ty=tx===mon.x?P.y:mon.y; MX.step(A,mon,Math.atan2(ty-mon.y,tx-mon.x),spd*0.5+20,dt); },
   weeping:function(A,mon,m,P,d,dt,spd,p){ // only moves while you are not looking at it
     if(!m.aggro)return; var f=A.facing(), vx=(mon.x-P.x)/(d||1), vy=(mon.y-P.y)/(d||1), seen=f[0]*vx+f[1]*vy>0.35;
-    if(seen){ m.invuln=0.1; mon.spr.setTint(0xa0a0a8); m.frozen=true; return; } if(m.frozen){ m.frozen=false; mon.spr.clearTint(); MX.ev(mon,'mv_weeping_move'); }
+    if(seen){ mon.spr.setTint(0xa0a0a8); m.frozen=true; return; }      // round 44 (Kris: the Clockwork Owl could not be hurt): it freezes while you face it but can be hit — attacking means facing it, so it used to be invulnerable for good if(m.frozen){ m.frozen=false; mon.spr.clearTint(); MX.ev(mon,'mv_weeping_move'); }
     if(d>mon.def.r+10)MX.step(A,mon,Math.atan2(P.y-mon.y,P.x-mon.x),spd*1.5+30,dt); },
   roll:function(A,mon,m,P,d,dt,spd,p){ if(m.rl){ var R=m.rl; R.t+=dt; m.invuln=0.1; mon.spr.setAngle(R.t*720); if(MX.step(A,mon,R.a,(p.spd||230),dt,false,true)){ R.b++; R.a+=Math.PI*(0.6+Math.random()*0.8); MX.ev(mon,'mv_roll_bounce'); }
       var P2=A.p(); if(Math.hypot(P2.x-mon.x,P2.y-mon.y)<mon.def.r+14&&!R.h){ R.h=true; A.hurt(mon.def.atk*1.2,'','#ff5533'); MX.push(A,Math.cos(R.a),Math.sin(R.a),60); MX.ev(mon,'mv_roll_hit'); }

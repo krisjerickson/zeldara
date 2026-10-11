@@ -179,7 +179,9 @@ function buildTower(S, planId, seed, opts){
     if(at(x5-1,y5)===TB.WALL||at(x5-1,y5)===TB.WIN){ var g2=ctx.createLinearGradient(x5*LT,0,x5*LT+8,0); g2.addColorStop(0,'rgba(0,0,0,'+((S.ao||0.22)*0.6)+')'); g2.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g2; ctx.fillRect(x5*LT,y5*LT,8,LT); }
   }
   // flat furniture (rugs, runners, pools…) before walls & tall pieces
-  items.forEach(function(it){ if(TOWER_FLAT[it.type]){ if(typeof _twrPainted==='function'&&_twrPainted(m,it,S,R))return; TOWER_FLAT[it.type](ctx,it.x*LT,it.y*LT,it.w*LT,it.h*LT,S,R); } });
+  items.forEach(function(it){ if(TOWER_FLAT[it.type]){ if(typeof _twrPainted==='function'&&_twrPainted(m,it,S,R))return; var X=it.x*LT, Y=it.y*LT, Wd=it.w*LT, Ht=it.h*LT;
+    if(typeof TWR_RUGS!=='undefined'&&TWR_RUGS[it.type]&&_scn()&&typeof _flatSprite==='function'){ _flatSprite(m,X,Y,Wd,Ht,function(g){ TOWER_FLAT[it.type](g,X,Y,Wd,Ht,S,R); }); return; }      // round 44: over a painted floor
+    TOWER_FLAT[it.type](ctx,X,Y,Wd,Ht,S,R); } });
   // walls, windows, glass
   for(var y6=0;y6<H;y6++)for(var x6=0;x6<W;x6++){
     var v6=at(x6,y6); if(v6!==TB.WALL&&v6!==TB.WIN&&v6!==TB.GLASS)continue;
@@ -273,7 +275,7 @@ var TOWER_FLAT={
   rug:function(ctx,x,y,w,h,S){ var p=S.pal; rr(ctx,x+4,y+4,w-8,h-8,6); ctx.fillStyle=p.fabric; ctx.fill(); ctx.strokeStyle=p.fabric2; ctx.lineWidth=3; rr(ctx,x+9,y+9,w-18,h-18,4); ctx.stroke(); ctx.fillStyle=rgba(p.fabric2,0.5); ctx.beginPath(); ctx.ellipse(x+w/2,y+h/2,w/6,h/6,0,0,Math.PI*2); ctx.fill(); },
   runner:function(ctx,x,y,w,h,S){ var p=S.pal; ctx.fillStyle=p.fabric; ctx.fillRect(x+6,y,w-12,h); ctx.fillStyle=p.fabric2; ctx.fillRect(x+8,y,2,h); ctx.fillRect(x+w-10,y,2,h); if(w>h){ ctx.fillStyle=p.fabric; ctx.fillRect(x,y+6,w,h-12); ctx.fillStyle=p.fabric2; ctx.fillRect(x,y+8,w,2); ctx.fillRect(x,y+h-10,w,2);} },
   pool:function(ctx,x,y,w,h,S){ var p=S.pal; rr(ctx,x+2,y+2,w-4,h-4,8); ctx.fillStyle=shade(p.trim,-0.2); ctx.fill(); rr(ctx,x+5,y+5,w-10,h-10,6); var g=ctx.createLinearGradient(x,y,x+w,y+h); g.addColorStop(0,p.water||'#7ec8f0'); g.addColorStop(1,shade(p.water||'#7ec8f0',-0.3)); ctx.fillStyle=g; ctx.fill(); ctx.fillStyle='rgba(255,255,255,.35)'; ctx.fillRect(x+9,y+9,w*0.4,2); },
-  stairs:function(ctx,x,y,w,h,S){ var p=S.pal; for(var i=0;i<5;i++){ ctx.fillStyle=shade(p.floorA,-0.05*i-0.05); ctx.fillRect(x+2,y+2+i*5.5,LT-4,5); ctx.fillStyle=rgba('#ffffff',0.25); ctx.fillRect(x+2,y+2+i*5.5,LT-4,1);} ctx.fillStyle=rgba(p.accent,0.9); ctx.font='bold 9px sans-serif'; ctx.textAlign='center'; ctx.fillText('▲',x+LT/2,y+LT-2); },
+  stairs:function(ctx,x,y,w,h,S){ var p=S.pal; /* round 44: 2.2 tiles wide round its tile */ x-=LT*0.6; y-=LT*1.0; var SW2=LT*2.2; for(var i=0;i<8;i++){ ctx.fillStyle=shade(p.floorA,-0.05*i-0.05); ctx.fillRect(x+2+i*1.5,y+2+i*7,SW2-4-i*3,7); ctx.fillStyle=rgba('#ffffff',0.25); ctx.fillRect(x+2+i*1.5,y+2+i*7,SW2-4-i*3,1);} x+=LT*0.6; y+=LT*1.0; ctx.fillStyle=rgba(p.accent,0.9); ctx.font='bold 9px sans-serif'; ctx.textAlign='center'; ctx.fillText('▲',x+LT/2,y+LT-2); },
   table:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,0); },
   longtable:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,1); },
   desk:function(ctx,x,y,w,h,S){ towerTableTop(ctx,x,y,w,h,S,2); },

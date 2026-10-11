@@ -57,11 +57,15 @@ var ZScn={
     if(o.w){ q=it[3]*it[7]*0.06; o=Object.assign({},o,{w:Math.max(q,Math.round(o.w/q)*q)}); } else if(h){ q=it[4]*it[7]*0.06; h=Math.max(q,Math.round(h/q)*q); }
     var Z=ZScn.size(id,h,o), half=Math.ceil(Math.max(Z.ax,Z.w-Z.ax))+3, W=half*2, H=Math.ceil(Z.ay)+5, RS=ZScn.RES;
     var key=id+'|'+Math.round(Z.w*8)+'|'+Math.round(Z.h*8)+'|'+(o.shadow===false?'n':(o.shw||0)+'/'+(o.sha||0))+'|'+(o.alpha===undefined?'':o.alpha), c=ZScn._sc[key];
+    if(c&&c.width<=1)c=null;      // round 44: emptied after an upload somewhere — draw it again
     if(!c){ c=document.createElement('canvas'); c.width=W*RS; c.height=H*RS; var ctx=c.getContext('2d'); ctx.scale(RS,RS); if(o.shadow!==false)softShadow(ctx,W/2,H-5,Math.min(half,Z.w*(o.shw||0.42)),Math.max(4,Z.w*0.09),o.sha||0.38); ZScn.draw(ctx,id,W/2,H-4,h,o);
-      ZScn._sc[key]=c; ZScn._scq.push(key); if(ZScn._scq.length>260)delete ZScn._sc[ZScn._scq.shift()]; }
+      c._zkeep=true; ZScn._sc[key]=c; ZScn._scq.push(key); if(ZScn._scq.length>260)delete ZScn._sc[ZScn._scq.shift()]; }
     var sp={canvas:c,x:cx,y:footY+4,res:RS}; m.sprites.push(sp); if(o.sp)for(var k in o.sp)sp[k]=o.sp[k]; return Z; },
   // a flat picture (rug, floor inlay) filling the rectangle x,y,w,h on the ground, turned a quarter when the rectangle runs the other way
+  // o.strict (round 44, Kris: "rugs that are bad pixelated images that are stretched oddly"): refuse (false → the caller draws its own) when the picture
+  // would be squashed or stretched by more than a third, or blown up past 1.6 × the pixels it was painted with
   rect:function(m,id,x,y,w,h,o){ if(!ZScn.has(id)||typeof addSprite!=='function')return false; o=o||{}; var it=ZScn.META.items[id], RS=ZScn.RES, turn=o.turn!==false&&((w>h*1.3&&it[4]>it[3]*1.3)||(h>w*1.3&&it[3]>it[4]*1.3));
+    if(o.strict){ var pw=turn?it[4]:it[3], ph=turn?it[3]:it[4], sx=w*RS/pw, sy=h*RS/ph; if(Math.max(sx,sy)/Math.min(sx,sy)>1.34||Math.max(sx,sy)>1.6)return false; }
     addSprite(m,x+w/2,y+h/2,Math.ceil(w*RS),Math.ceil(h*RS),function(g){ g.imageSmoothingEnabled=true; g.imageSmoothingQuality='high'; if(o.alpha!==undefined)g.globalAlpha=o.alpha;
       if(turn){ g.translate(w*RS/2,h*RS/2); g.rotate(Math.PI/2); g.drawImage(ZScn.img[it[0]],it[1],it[2],it[3],it[4],-h*RS/2,-w*RS/2,h*RS,w*RS); } else g.drawImage(ZScn.img[it[0]],it[1],it[2],it[3],it[4],0,0,w*RS,h*RS); });
     var sp=m.sprites[m.sprites.length-1]; sp.res=RS; sp.ox=0.5; sp.oy=0.5; sp.flat=true; if(o.sp)for(var k in o.sp)sp[k]=o.sp[k]; return true; },

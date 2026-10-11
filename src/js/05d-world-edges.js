@@ -58,7 +58,7 @@ var ZWE={
           var GW=D.GW, gc=mkCanvas(GW*LT,GW*LT), gg=gc.getContext('2d'); gg.fillStyle=gg.createPattern(ZWE.grainTile(),'repeat'); gg.save(); gg.translate(-((D.tx0*LT)%128),-((D.ty0*LT)%128)); gg.fillRect(0,0,GW*LT+256,GW*LT+256); gg.restore();
           gg.globalCompositeOperation='destination-in'; gg.imageSmoothingEnabled=true; gg.drawImage(mc,0,0,GW*LT,GW*LT); ctx.drawImage(gc,0,0); } }
       ZWE._cells(D,out,cx,cy,MG,KL); return false; }
-    if(st.step===1){ if(!ZWE.motion||!st.flip){ st.step=2; return true; } var F=st.flip, k1=Math.min(ZWE.NF,F.k+2); for(;F.k<k1;F.k++)ZWE._frame(D,F,F.k); if(F.k>=ZWE.NF){ F.g.putImageData(F.im,0,0); out.flip={canvas:F.cv,nf:ZWE.NF,L:F.L,T:ZWE.T,bb:F.bb}; st.step=2; return true; } return false; }
+    if(st.step===1){ if(!ZWE.motion||!st.flip){ st.step=2; return true; } var F=st.flip, k1=Math.min(ZWE.NF,F.k+1); /* round 44 (lag): one flipbook frame a step */ for(;F.k<k1;F.k++)ZWE._frame(D,F,F.k); if(F.k>=ZWE.NF){ F.g.putImageData(F.im,0,0); out.flip={canvas:F.cv,nf:ZWE.NF,L:F.L,T:ZWE.T,bb:F.bb}; st.step=2; return true; } return false; }
     return true; },
   // where things move (inner chunk only, world px) and whether this chunk needs a flipbook
   _cells:function(D,out,cx,cy,MG,KL){ var KT=D.KT||WP_KT, S=D.S, SW=D.SW, kb=D.kb, dist=D.dist, ek=D.ek, a0=MG*S, a1=SW-MG*S, sp=LT/S, ox=D.tx0*LT, oy=D.ty0*LT;

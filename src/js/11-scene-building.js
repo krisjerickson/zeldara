@@ -36,8 +36,9 @@ class BuildingScene extends Phaser.Scene{
     m.shafts.forEach(function(sh,i){ var im=self.add.image(sh.x,sh.y,addTex('shaft_'+tag+'_'+i,sh.canvas)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(sh.a||0.4).setDepth(-5);
       self.tweens.add({targets:im,alpha:(sh.a||0.4)*0.55,duration:2600+i*300,yoyo:true,repeat:-1,ease:'Sine.inOut'}); });
     var sprTex=new Map();      // sprites sharing one canvas share one texture
-    m.sprites.forEach(function(sp,i){ var tk=sprTex.get(sp.canvas); if(!tk){ tk=addTex('spr_'+tag+'_'+i,sp.canvas); sprTex.set(sp.canvas,tk); } var im=self.add.image(sp.x,sp.y,tk).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.under?-9:sp.flat?-6:sp.depth!==undefined?sp.depth:sp.y); if(sp.res){ im.setScale(1/sp.res); try{ im.texture.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } });      // painted scenery (04h): 2 × canvases
-    m.lights.forEach(function(L,i){ var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a).setScale(L.r/64).setDepth(9000);
+    self._bedIms=[]; self._lightIms=[];
+    m.sprites.forEach(function(sp,i){ var tk=sprTex.get(sp.canvas); if(!tk){ tk=addTex('spr_'+tag+'_'+i,sp.canvas); sprTex.set(sp.canvas,tk); } var im=self.add.image(sp.x,sp.y,tk).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.under?-9:sp.flat?-6:sp.depth!==undefined?sp.depth:sp.y); if(sp.res){ im.setScale(1/sp.res); try{ im.texture.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } if(sp._bed)self._bedIms.push(im); });      // painted scenery (04h): 2 × canvases
+    m.lights.forEach(function(L,i){ var im=self.add.image(L.x,L.y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(L.col)).setAlpha(L.a).setScale(L.r/64).setDepth(9000); self._lightIms.push(im);
       if(L.pulse)self.tweens.add({targets:im,alpha:L.a*(1-L.pulse),duration:(L.period||1800)+i*37,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(L.flicker)self.tweens.add({targets:im,alpha:L.a*(1-L.flicker),scale:(L.r/64)*0.94,duration:120+i*23,yoyo:true,repeat:-1}); });
     m.particles.forEach(function(p){ var a=p.area||{x:LT,y:2*LT,w:(m.w-2)*LT,h:(m.h-3)*LT};
@@ -72,6 +73,7 @@ class BuildingScene extends Phaser.Scene{
   }
   update(_,ms){
     var dt=ms/1000;
+    if(this._resting)return;      // round 44: asleep in bed
     this._movePlayer(dt);
     this._checkBuildingInteraction();
     if(this.by>(INT_H-0.55)*TILE)this._exitBuilding();
@@ -117,7 +119,7 @@ class BuildingScene extends Phaser.Scene{
     var ps=this.worldScene.playerState;
     var type=this.building.type;
     if(type==='house'){
-      ps.hp=ps.maxHp;showNotif('💤 Rested at home. HP fully restored!','#44ffaa');this.worldScene._emitUI();
+      this._rest();
     } else if(type==='tavern'){
       _showTavernMenu(ps,this.worldScene);
     } else if(type==='shop'){
@@ -133,6 +135,32 @@ class BuildingScene extends Phaser.Scene{
     } else if(type==='armory'||type==='clothing'||type==='jeweler'||type==='apothecary'||type==='merchant'){
       openBuildingShop(type,ps,this.worldScene);
     }
+  }
+  // round 44 (Kris: "we need to create an animation for you resting in your bed. We can create new sheets to do this, and we need to make the lights go out for
+  // a little bit"): the hero gets into bed, the lights go down, he sleeps (Zzz), the lights come back and he gets up beside the bed, rested.
+  // With the painted frames (wave 44, sc_sleep: an_sleep_m / an_sleep_f, an_wake_m / an_wake_f) the bed itself shows him asleep; until then the hero lies
+  // in the bed under a drawn quilt.
+  _rest(){ if(this._resting)return; var self=this, ps=this.worldScene.playerState, m=this._imap, B=m.bed||{x:this.npcX-LT,y:this.npcY-LT,w:2*LT,h:2*LT}, who=_heroWho(this)==='f'?'f':'m';
+    if(this._bedIms&&this._bedIms.length){ var bb=null; this._bedIms.forEach(function(im){ var r=im.getBounds(); if(!bb||r.width*r.height>bb.width*bb.height)bb=r; }); if(bb&&bb.width>8)B={x:bb.x,y:bb.y,w:bb.width,h:bb.height}; }      // the painted bed's own outline
+    this._resting=true; if(this.interactPrompt)this.interactPrompt.setVisible(false);
+    var cx=B.x+B.w/2, foot=B.y+B.h-2, A=typeof ZWE!=='undefined'?ZWE.animTex(this,'an_sleep_'+who):null, W=typeof ZWE!=='undefined'?ZWE.animTex(this,'an_wake_'+who):null, parts=[], hx=this.bx, hy=this.by;
+    var ov=this.add.rectangle(0,0,m.w*LT,m.h*LT,0x03040c,0).setOrigin(0,0).setDepth(9150), L0=this._lightIms.map(function(l){ return l.alpha; });
+    this.tweens.add({targets:ov,fillAlpha:0.8,duration:900,delay:500,ease:'Sine.inOut'}); this._lightIms.forEach(function(l){ self.tweens.killTweensOf(l); self.tweens.add({targets:l,alpha:l.alpha*0.12,duration:900,delay:500}); });
+    if(A){ var bw=B.w+10, sc=A.scale*bw/Math.max(1,A.h*1.1); this._bedIms.forEach(function(im){ im.setVisible(false); });
+      var sl=this.add.image(cx,foot,A.key,'0').setOrigin(A.ox,A.oy).setScale(A.scale*(B.h+30)/A.h).setDepth(foot); parts.push(sl); var fi=0; this._sleepEv=this.time.addEvent({delay:420,loop:true,callback:function(){ fi=(fi+1)%A.n; sl.setFrame(String(fi)); }}); }
+    else { var bd=Math.max.apply(null,[foot].concat(this._bedIms.map(function(im){ return im.depth; }))); this.bCont.setPosition(cx,B.y+B.h*0.74).setDepth(bd+0.5); try{ if(this.bSprite&&this.bSprite.setTexture&&this.textures.exists('hero_front_0'))this.bSprite.setTexture(_heroKey(this,'hero_front_0')); }catch(e){}      // facing out of the bed
+      var q=this.add.graphics().setDepth(bd+1), col=hexNum((m.theme&&m.theme.rug)||'#4a6aa8'), qy=B.y+B.h*0.4, qw=B.w*0.74, qh=B.h*0.44; q.fillStyle(0x1a1420,1); q.fillRoundedRect(cx-qw/2-1,qy-1,qw+2,qh+2,6); q.fillStyle(col,1); q.fillRoundedRect(cx-qw/2,qy,qw,qh,6);
+      q.fillStyle(0xffffff,0.16); for(var yy=qy+4;yy<qy+qh-4;yy+=9)for(var xx=cx-qw/2+4+((yy/9|0)%2)*9;xx<cx+qw/2-6;xx+=18)q.fillRect(xx,yy,9,9); parts.push(q);
+      this.tweens.add({targets:q,scaleY:1.025,y:-1,duration:1200,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
+    var z=0, zz=this.time.addEvent({delay:650,repeat:4,startAt:200,callback:function(){ z++; var t=domText(self,cx+8+z*3,B.y+4,z%2?'z':'Z',{fontSize:(8+z*2)+'px',color:'#cfe0ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(9300);
+      self.tweens.add({targets:t,y:B.y-26,x:cx+20+z*4,alpha:0,duration:1500,onComplete:function(){ t.destroy(); }}); }});
+    this.time.delayedCall(4000,function(){ self.tweens.add({targets:ov,fillAlpha:0,duration:1000,ease:'Sine.inOut',onComplete:function(){ ov.destroy(); }}); self._lightIms.forEach(function(l,i){ self.tweens.add({targets:l,alpha:L0[i],duration:1000}); });
+      if(self._sleepEv){ self._sleepEv.remove(); self._sleepEv=null; }
+      var finish=function(){ parts.forEach(function(p){ self.tweens.killTweensOf(p); p.destroy(); }); self._bedIms.forEach(function(im){ im.setVisible(true); });
+        self.bx=B.x+B.w+14; self.by=B.y+B.h+6; self.bCont.setPosition(self.bx,self.by).setDepth(self.by).setVisible(true); self.bdir='down';
+        ps.hp=ps.maxHp; if(ps.maxMp)ps.mp=ps.maxMp; showNotif('💤 You wake up rested — HP fully restored!','#44ffaa'); self.worldScene._emitUI(); self._resting=false; };
+      if(W&&parts[0]&&parts[0].setFrame){ var sl2=parts[0]; sl2.setTexture(W.key,'0').setOrigin(W.ox,W.oy); var k=0; self.time.addEvent({delay:380,repeat:W.n-1,callback:function(){ k++; if(k<W.n)sl2.setFrame(String(k)); else finish(); }}); self.time.delayedCall(380*W.n+60,function(){ if(self._resting)finish(); }); }
+      else self.time.delayedCall(700,finish); });
   }
   _exitBuilding(){
     document.getElementById('hud').style.display='none';

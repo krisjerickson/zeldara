@@ -14,7 +14,9 @@ var VILLAGE_CORE=[   // the enterable buildings (fixed; doors at the bottom cent
   {dx:8,dy:6,w:4,h:4,type:'forge'}, {dx:-4,dy:-14,w:4,h:3,type:'guild'}, {dx:14,dy:-4,w:6,h:5,type:'stables'},
   {dx:-20,dy:-8,w:5,h:4,type:'armory'}, {dx:-20,dy:4,w:5,h:4,type:'clothing'}, {dx:0,dy:14,w:5,h:4,type:'jeweler'},
   {dx:10,dy:14,w:6,h:4,type:'apothecary'}, {dx:9,dy:-19,w:5,h:4,type:'merchant'}];
-var VR={ R:[20,24,28,31,33], disk:[24,28,32,37,37], total:[13,20,28,36,44], houses:[2,9,17,25,33], carts:[1,3,5,7,9], gardens:[2,3,4,6,8],
+// round 44 (Kris: "The village is too cluttered when at the final stage … look for how to reorganize such that walking paths and roads connect you to all
+// the buildings"): the last two stages get fewer houses, carts and gardens (44 → 38 buildings), so every door keeps open ground to a street
+var VR={ R:[20,24,28,31,33], disk:[24,28,32,37,37], total:[13,20,28,34,38], houses:[2,9,17,23,27], carts:[1,3,4,5,5], gardens:[2,3,4,5,6],
   mills:[0,1,2,2,3], trees:[10,14,18,22,26], wallR:35 };
 // looks for the enterable buildings (borrowed from all four styles)
 var VR_CORE_LOOK={ tavern:{style:'timber',roof:'#a8452e',roofPat:'tile',sign:'#c84a3a'}, shop:{style:'timber',roof:'#3d5f9a',roofPat:'tile',awning:'#3a7ac8',sign:'#3a7ac8'},
@@ -138,12 +140,12 @@ function villagePlan(stage,ok,water){
     P('vbuild',l.x,l.y,l.w,l.h,{style:L.style,roof:HR.pick(L.roofs),roofPat:L.roofPat,chimney:ch,smoke:ch&&HR.chance(0.72),flowers:HR.chance(st>=3?0.7:0.35),doorX:Math.floor(l.w/2),nl:1,wallH:L.style==='round'?40:44},true);
     var lx=l.x+Math.floor(l.w/2)+1; if(lx<l.x+l.w)P('lantern',lx,l.y+l.h,1,1,{col:HR.pick(['#ffd27a','#ffc070','#9fe8ff'])},false);
     if(HR.chance(0.5))P('flowers',l.x-1,l.y+l.h,1,1,{n:6,solid:false},false);
-    if((i*7+3)%5<3)P('vdress',l.x-1,l.y+l.h-1,1,1,{id:['vp_woodpile','vp_barrels','vp_crates','vp_haystack','vp_laundry'][i%5]},false); });
+    if((i*7+3)%5<2)P('vdress',l.x-1,l.y+l.h-1,1,1,{id:['vp_woodpile','vp_barrels','vp_crates','vp_haystack','vp_laundry'][i%5]},false); });
   plan.houses=VILLAGE_CORE.length+nh+extra;
   // vegetable gardens (neat rows, the harbour town's gardens tidied up)
   var ng=0; gardens.forEach(function(gd){ if(ng>=VR.gardens[s]||Math.hypot(gd.x+gd.w/2,gd.y+1.5)>Rs+2)return; ng++; for(var j=0;j<3;j++)for(var i=0;i<gd.w;i++)setK(gd.x+i,gd.y+j,'vsoil'); P('vegplot',gd.x,gd.y,gd.w,3,{seed:ng},false); });
   // market carts (from the market town)
-  carts.filter(function(c){ return Math.abs(c.x)+2<=Rs; }).slice(0,VR.carts[s]).forEach(function(c,i){ P('cart',c.x,c.y,2,1,{col:['#c84a3a','#3a7ac8','#e0a030','#4a9a5a','#b070d0'][i%5]},true); });
+  carts.filter(function(c){ return Math.abs(c.x)+2<=Rs; }).slice(0,VR.carts[s]).forEach(function(c,i){ P('cart',c.x,c.y,2,1,{col:['#c84a3a','#3a7ac8','#e0a030','#4a9a5a','#b070d0'][i%5]},false); plan.solid.push([c.x,c.y]); });      // round 44: only one tile of a cart blocks (was two)
   // windmills (from the market & grove towns)
   special.mill.slice(0,VR.mills[s]).forEach(function(q){ if(q)P('windmill',q[0],q[1],2,2,{rune:'#ffd27a'},true); });
   // the craftsmen's buildings
@@ -177,8 +179,12 @@ function villagePlan(stage,ok,water){
     if(st>=4)H.quay.forEach(function(c){ setK(c[0],c[1],'vquay'); });
     if(st>=5&&H.pier1.end){ var e=H.pier1.end; P('lighthouse',e[0],e[1],1,1,{},true); for(var li=2;li<p1.length;li+=4)P('lantern',p1[li][0],p1[li][1],1,1,{col:'#ffd27a'},false); }
     // boats moored beside the piers
-    var boatSpots=[], taken={}; plan.walk.forEach(function(c){ taken[c[0]+','+c[1]]=1; });
-    [H.pier1].concat(st>=3&&H.pier2?[H.pier2]:[]).forEach(function(pr){ if(!pr||!pr.dir)return; var dv=pr.dir; pr.cells.forEach(function(c,i){ if(i%3!==2)return; [[-dv[1]*2,dv[0]*2],[dv[1]*2,-dv[0]*2]].forEach(function(o){ var x=Math.round(c[0]+o[0]), y=Math.round(c[1]+o[1]); if(WA(x,y)&&WA(x+1,y)&&WA(x+2,y)&&!taken[x+','+y]&&!taken[(x+1)+','+y]){ taken[x+','+y]=taken[(x+1)+','+y]=taken[(x+2)+','+y]=1; boatSpots.push([x,y]); } }); }); });
+    var boatSpots=[], taken={}; plan.walk.forEach(function(c){ taken[c[0]+','+c[1]]=1; }); [H.boathouse,H.stilt].forEach(function(r){ if(r)for(var j=-1;j<4;j++)for(var i=-1;i<5;i++)taken[(r[0]+i)+','+(r[1]+j)]=1; });
+    [H.pier1].concat(st>=3&&H.pier2?[H.pier2]:[]).forEach(function(pr){ if(!pr||!pr.dir)return; var dv=pr.dir; pr.cells.forEach(function(c,i){ if(i%3!==2)return; var put=false; [2,3,4].forEach(function(k){ if(put)return; [[-dv[1]*k,dv[0]*k],[dv[1]*k,-dv[0]*k]].forEach(function(o){ if(put)return; var x=Math.round(c[0]+o[0])-1, y=Math.round(c[1]+o[1]);
+          // round 44 (Kris: "The boats in the village should rest in the water, not on the grass"): the painted boat stands about three tiles tall, so the whole
+          // 3 × 4 box it covers (and the row under its hull) must be open water — no pier, no quay, no shore
+          var ok=true; for(var j=-2;j<=1&&ok;j++)for(var i=-1;i<=3&&ok;i++){ if(!WA(x+i,y+j)||taken[(x+i)+','+(y+j)])ok=false; }
+          if(ok){ for(var j2=-2;j2<=1;j2++)for(var i2=-1;i2<=3;i2++)taken[(x+i2)+','+(y+j2)]=1; boatSpots.push([x,y]); put=true; } }); }); }); });
     boatSpots.slice(0,[1,2,3,4,6][s]).forEach(function(b,i){ P('boatv',b[0],b[1],3,1,{any:true,sail:st>=3&&i%2===0},false); });
     plan.landmarks.push({x:H.anchor.x-1,y:H.anchor.y-1,w:3,h:3,text:st>=4?'Mirror Harbour — stone quay, boathouse and piers. Boats sail from here across the lake.':'The fishing pier — the village\'s way onto Mirror Lake.'});
   }

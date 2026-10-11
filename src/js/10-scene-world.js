@@ -229,7 +229,7 @@ class WorldScene extends Phaser.Scene{
 
   update(_,ms){
     if(!this.player||!this.player.cont||!this.player.cont.scene)return;
-    var dt=ms/1000;
+    var dt=ms/1000; if(typeof ZPERF!=='undefined'&&ZPERF.on)ZPERF.frame(this,ms);      // round 44: performance readout (04i)
     this._updateChunks();
     if(!_gameBlocked())this._movePlayer(dt);
     // Pause all world simulation when any modal is open (inventory, map, etc.)
