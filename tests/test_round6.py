@@ -41,7 +41,8 @@ with game(new=True) as g:
         until(g, "/Vine Snare/.test((document.getElementById('fam-hud')||{}).innerText||'')&&/Inferno/.test(document.getElementById('fam-hud').innerText)", 8000, js=True)   # round 40: the HUD refreshes every 0.2 s of game time, slower in a busy headless browser
         r = g.js("(document.getElementById('fam-hud')||{}).innerText||''")
         check('Familiar HUD shows one chip per familiar with its special + cooldown', 'Vine Snare' in r and 'Tidal Wave' in r and 'Avalanche' in r and 'Inferno' in r, r)
-        # only the chosen skills are ever cast
+        # only the chosen skills are ever cast — outside the village (round 44: familiars wait at the village edge and do not fight inside it)
+        g.ws("(()=>{ var p=ws.player; p.x=(CENTER_X+VILLAGE_RADIUS+8)*TILE; p.y=(CENTER_Y+3)*TILE; p.cont.setPosition(p.x,p.y); ws.cameras.main.centerOn(p.x,p.y); })()"); g.wait(1500)
         g.ws("""(()=>{ window._casts={}; if(!window._fc0){ window._fc0=_famCast; } _famCast=function(scene,fid,S){ var ok=window._fc0.apply(this,arguments); if(ok)(window._casts[fid]=window._casts[fid]||{})[S.name]=1; return ok; };
           var p=ws.player; window._dummies=[]; for(var i=0;i<6;i++){ var m=MX.spawn(ws,'thistle_hog',p.x+60+i*14,p.y+(i%2?30:-30),{q:1}); m.section=1; m.maxHp=m._hp=9999; m._m.stunT=99; ws.worldMonsters.push(m); window._dummies.push(m); } ps.hp=ps.maxHp*0.2; })()""")
         g.wait(9000)
