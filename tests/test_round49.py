@@ -61,12 +61,14 @@ with game(new=True, painted=True) as g:
       var k1=kinds(); var rb={}; AT.ring.fire(A,mon,m,P,{gap:1},rb); AT.ring.act(A,mon,m,P,{gap:1},rb,0.1); var ringPic=!!(rb._zim&&rb._zim.mask), ringHidden=rb.g&&!rb.g.visible;
       var n0=d.children.list.length; AT.lob.fire(A,mon,m,P,{col:'#9a8a78'}); var ball=d.children.list.slice(n0).find(function(c){ return c.type==='Image'&&/zs_rock|zfx_fx_pj/.test(c.texture.key); });
       var s=ZShot.make(d,'frost_bolt',P.x,P.y,0,15); var lin=function(k){ var t=game.textures.get(k); return t&&t.source&&t.source[0]?t.source[0].scaleMode:null; };
-      return {graphicsAdded:(k1.Graphics||0)-(k0.Graphics||0), containersAdded:(k1.Container||0)-(k0.Container||0), ringPic:ringPic, ringHidden:ringHidden, ball:!!ball, linear:{soft:lin('zsoft_soft'),beam:lin('zsoft_beam'),shot:lin(s.texture.key),dot:lin('dot')}}; })()""")
+      return {graphicsAdded:(k1.Graphics||0)-(k0.Graphics||0), containersAdded:(k1.Container||0)-(k0.Container||0), ringPic:ringPic, ringHidden:ringHidden, ball:!!ball, linear:Object.assign({shot:lin(s.texture.key),dot:lin('dot')},(function(){ var o={}; game.textures.getTextureKeys().filter(function(k){ return /^(zsoft_|zfx_fx_(mote|ring_wave|lash|drain|fam|bolt|pj|trap))/.test(k); }).forEach(function(k){ o[k]=lin(k); }); return o; })())}; })()""")
     check('Attack lines (lash, drain, chain lightning) are soft beams, not stair-stepped lines (%s graphics, %s soft groups)' % (r['graphicsAdded'], r['containersAdded']), r['graphicsAdded'] == 0 and r['containersAdded'] >= 3, r)
     check('The expanding ring is a painted ring cut to keep its gap; the lobbed stone a real stone', r['ringPic'] and r['ringHidden'] and r['ball'], r)
-    check('Shots, motes and soft pictures are sampled smoothly, not pixel by pixel (%s)' % r['linear'], all(v == 0 for v in r['linear'].values()), r['linear'])
+    check('Shots, motes and soft pictures are sampled smoothly, not pixel by pixel (%s)' % r['linear'], len(r['linear']) >= 5 and all(v == 0 for v in r['linear'].values()), r['linear'])
     r = g.js("(()=>{ var ids=[]; ZSCN.SHEETS.filter(function(S){ return S.wave===51; }).forEach(function(S){ (S.items||[]).forEach(function(it){ ids.push(it[0]); }); }); return ids; })()")
     check('Wave 51 ordered: %d painted attack pieces (%s…)' % (len(r), ', '.join(r[:5])), len(r) == 16 and 'fx_ring_wave' in r and 'fx_pj_rock' in r, r)
+    r = g.js("(()=>{ var ids=[]; ZSCN.SHEETS.filter(function(S){ return S.wave===51; }).forEach(function(S){ (S.items||[]).forEach(function(it){ ids.push(it[0]); }); }); return ids.filter(function(id){ return !ZScn.has(id); }); })()")
+    check('All 16 wave 51 paintings are in the game', not r, r)
     g.js("(()=>{ var ws=game.scene.getScene('World'); game.scene.stop('Dungeon'); ws.scene.wake('World'); })()"); g.wait(1500)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No script errors', not errs, errs[:4])

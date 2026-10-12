@@ -26,7 +26,12 @@ var ZSOFT={ on:true,
   // a painting from wave 51 when it is in, else the soft picture: returns [key, tinted?]
   // the wave-51 paintings done in white, to be coloured by the game (a familiar's ring in its element, a monster's lash in its colour)
   WHITE:{fx_mote:1,fx_lash:1,fx_drain_stream:1,fx_fam_beam:1,fx_bolt_arc:1,fx_ring_wave:1,fx_fam_ring:1},
-  pick:function(scene,id,soft){ if(id&&typeof ZFX!=='undefined'&&ZFX.has(id)){ var k=ZFX.key(scene,id); if(k)return [k,!!ZSOFT.WHITE[id]]; } return [ZSOFT.tex(scene,soft||'soft'),true]; },
+  pick:function(scene,id,soft){ if(id&&typeof ZFX!=='undefined'&&ZFX.has(id)){ var k=ZFX.key(scene,id); if(k){ if(ZSOFT.WHITE[id])return [ZSOFT.grey(scene,k),true]; return [k,false]; } } return [ZSOFT.tex(scene,soft||'soft'),true]; },
+  // round 49b: the "white" paintings came back pale cyan with dark blue outlines — made truly grey (light kept, colour taken out) so the game's
+  // colour shows true: a pink lash pink, a familiar's ring in its element
+  grey:function(scene,k){ var g=k+'_grey'; if(scene.textures.exists(g))return g; try{ var src=scene.textures.get(k).getSourceImage(), cv=mkCanvas(src.width,src.height), c=cv.getContext('2d'); c.drawImage(src,0,0);
+      var im=c.getImageData(0,0,cv.width,cv.height), d=im.data; for(var i=0;i<d.length;i+=4){ var L=Math.min(255,(0.3*d[i]+0.55*d[i+1]+0.15*d[i+2])*1.12); d[i]=d[i+1]=d[i+2]=L; } c.putImageData(im,0,0);
+      var T=scene.textures.addCanvas(g,cv); try{ T.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} return g; }catch(e){ return k; } },
   img:function(scene,id,soft,x,y,w,h,col,a,depth,add){ var P=ZSOFT.pick(scene,id,soft), im=scene.add.image(x,y,P[0]).setDisplaySize(w,h).setAlpha(a===undefined?1:a).setDepth(depth||15); if(P[1]&&col!==undefined)im.setTint(ZSOFT.col(col)); if(add)im.setBlendMode(Phaser.BlendModes.ADD); return im; },
   // a soft picture over a code-drawn circle that follows its size, place, fade and life (as ZFX.dress does for the paintings)
   dress:function(c,id,soft,o){ try{ if(!ZSOFT.on||!c||!c.scene||typeof ZFX==='undefined')return null; o=o||{}; var scene=c.scene, P=ZSOFT.pick(scene,id,soft), col=o.col!==undefined?o.col:(c.isStroked&&!c.isFilled?c.strokeColor:c.fillColor);
@@ -39,8 +44,8 @@ var ZSOFT={ on:true,
     // anything else a Graphics can draw (fills, circles, slices…) goes to a real Graphics inside it
     ['fillStyle','fillCircle','strokeCircle','fillRect','strokeRect','fillPath','slice','arc','fillTriangle','strokeTriangle','fillEllipse','strokeEllipse','fillRoundedRect','strokeRoundedRect','fillPoints','strokePoints','createGeometryMask'].forEach(function(m){
       C[m]=function(){ var rg=C._rg; if(!rg){ rg=C._rg=Phaser.GameObjects.GameObjectFactory.prototype.graphics.call(scene.add); C.add(rg); rg.lineStyle(ls[0],ls[1],ls[2]); } return rg[m].apply(rg,arguments); }; });
-    C.lineBetween=function(x1,y1,x2,y2){ var L=Math.hypot(x2-x1,y2-y1); if(L<0.5)return C; var im=C._ims&&C._ims[n]; if(!im){ C._ims=C._ims||[]; var P=ZSOFT.pick(scene,id,'beam'); im=scene.add.image(0,0,P[0]).setOrigin(0,0.5); im._tint=P[1]; C.add(im); C._ims.push(im); } n++;
-      im.setVisible(true).setPosition(x1,y1).setRotation(Math.atan2(y2-y1,x2-x1)).setDisplaySize(L,Math.max(5,ls[0]*2.2)).setAlpha(ls[2]); if(im._tint)im.setTint(ZSOFT.col(ls[1])); else im.clearTint(); if(ls[1]===0xffffff||ZSOFT.bright(ZSOFT.col(ls[1])))im.setBlendMode(Phaser.BlendModes.ADD); else im.setBlendMode(Phaser.BlendModes.NORMAL); return C; };
+    C.lineBetween=function(x1,y1,x2,y2){ var L=Math.hypot(x2-x1,y2-y1); if(L<0.5)return C; var im=C._ims&&C._ims[n]; if(!im){ C._ims=C._ims||[]; var P=ZSOFT.pick(scene,id,'beam'); im=scene.add.image(0,0,P[0]).setOrigin(0,0.5); im._tint=P[1]; im._paint=!/^zsoft_/.test(P[0]); C.add(im); C._ims.push(im); } n++;
+      im.setVisible(true).setPosition(x1,y1).setRotation(Math.atan2(y2-y1,x2-x1)).setDisplaySize(L,im._paint?Math.max(10,Math.min(26,L*0.12,ls[0]*4)):Math.max(5,ls[0]*2.2)).setAlpha(ls[2]); if(im._tint)im.setTint(ZSOFT.col(ls[1])); else im.clearTint(); if(ls[1]===0xffffff||ZSOFT.bright(ZSOFT.col(ls[1])))im.setBlendMode(Phaser.BlendModes.ADD); else im.setBlendMode(Phaser.BlendModes.NORMAL); return C; };
     C.clear=function(){ n=0; C.list.forEach(function(o){ if(o===C._rg)o.clear(); else o.setVisible(false); }); return C; };
     // a jagged path (lightning): moveTo / lineTo / strokePath
     var path=[]; C.beginPath=function(){ path=[]; return C; }; C.moveTo=function(x,y){ path=[[x,y]]; return C; }; C.lineTo=function(x,y){ path.push([x,y]); return C; };
@@ -58,7 +63,7 @@ var ZSOFT={ on:true,
 // ── the monsters' side ──
 (function(){ if(typeof MX==='undefined')return;
   // the dots of a breath, a gust and the like: soft motes
-  MX.fxDot=function(A,x,y,col,a){ var s=A.scene, n=ZSOFT.col(col), im=ZSOFT.img(s,'fx_mote','soft',x+(Math.random()-0.5)*8,y,11,11,n,a||0.8,A.depth(y)-0.01,ZSOFT.bright(n));
+  MX.fxDot=function(A,x,y,col,a){ var s=A.scene, n=ZSOFT.col(col), im=ZSOFT.img(s,'fx_mote','soft',x+(Math.random()-0.5)*8,y,13,13,n,a||0.8,A.depth(y)-0.01,ZSOFT.bright(n)||ZFX.has('fx_mote'));      // the painted mote glows (its dark outline drops out)
     s.tweens.add({targets:im,alpha:0,scaleX:im.scaleX*0.5,scaleY:im.scaleY*0.5,y:y-6,duration:700,onComplete:function(){ im.destroy(); }}); };
   var AT=MX.ATK; if(!AT)return;
   var wrap=function(name,part,f){ if(!AT[name]||!AT[name][part])return; var f0=AT[name][part]; AT[name][part]=function(A){ var self=this, args=arguments; return f(A,function(){ return f0.apply(self,args); },args); }; };
