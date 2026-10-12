@@ -1256,7 +1256,7 @@ class DungeonScene extends Phaser.Scene{
       if(at==='stomp'){
         if(self.siteSection===2&&dist<90){
           mon.atkTimer=3.5;
-          var _sw=self.add.circle(mon.x,mon.y,0,0x5a4a28,0.55).setDepth(9);
+          var _sw=self.add.circle(mon.x,mon.y,0,0x5a4a28,0.55).setDepth(9); if(typeof ZFX!=='undefined')ZFX.dress(_sw,'fx_crack_ring');
           self.tweens.add({targets:_sw,radius:72,alpha:0,duration:520,onComplete:function(){_sw.destroy();}});
           if(dist<72&&self.playerIFrames<=0){
             var _smAtk=mon.monAtk!==undefined?mon.monAtk:mon.def.atk;

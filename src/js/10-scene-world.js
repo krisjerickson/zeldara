@@ -1274,7 +1274,7 @@ class WorldScene extends Phaser.Scene{
         if(mon._stompT<=0){
           mon._stompT=stompCd;
           // Always show stomp shockwave
-          var sw0=self.add.circle(mon.x,mon.y,0,0x886600,0.45).setDepth(12);
+          var sw0=self.add.circle(mon.x,mon.y,0,0x886600,0.45).setDepth(12); if(typeof ZFX!=='undefined')ZFX.dress(sw0,'fx_crack_ring');
           self.tweens.add({targets:sw0,radius:70,alpha:0,duration:500,onComplete:function(){sw0.destroy();}});
           // Only damage player if close enough
           if(dist<90&&!self.playerState.godMode&&(self.worldIFrames||0)<=0){
@@ -1505,7 +1505,7 @@ class WorldScene extends Phaser.Scene{
       if(this._shielding){this._shieldRing.setPosition(p.x,p.y).setVisible(true);}
       else{this._shieldRing.setVisible(false);}
     } else if(this._shielding){
-      this._shieldRing=this.add.circle(p.x,p.y,24,0x4488ff,0.20).setDepth(9);
+      this._shieldRing=this.add.circle(p.x,p.y,24,0x4488ff,0.20).setDepth(9);; if(typeof ZFX!=='undefined')ZFX.dress(this._shieldRing,'fx_shield_bubble',{a:0.6});
     }
     var L=k.LEFT.isDown||k.A.isDown, R=k.RIGHT.isDown||k.D.isDown;
     var U=k.UP.isDown||k.W.isDown, D=k.DOWN.isDown||k.S.isDown;
@@ -1701,16 +1701,16 @@ class WorldScene extends Phaser.Scene{
       var dist=TILE*5;
       var tx=p.x+Math.cos(ang)*dist,ty=p.y+Math.sin(ang)*dist;
       // Flash at origin
-      var fo=self.add.circle(p.x,p.y,22,0xaaddff,0.75).setDepth(16);
+      var fo=self.add.circle(p.x,p.y,22,0xaaddff,0.75).setDepth(16);; if(typeof ZFX!=='undefined')ZFX.dress(fo,'fx_arcane_aura');
       self.tweens.add({targets:fo,radius:40,alpha:0,duration:300,onComplete:function(){fo.destroy();}});
       p.x=tx;p.y=ty;p.cont.setPosition(tx,ty);
-      var fd=self.add.circle(tx,ty,22,0xaaddff,0.75).setDepth(16);
+      var fd=self.add.circle(tx,ty,22,0xaaddff,0.75).setDepth(16);; if(typeof ZFX!=='undefined')ZFX.dress(fd,'fx_arcane_aura');
       self.tweens.add({targets:fd,radius:40,alpha:0,duration:300,onComplete:function(){fd.destroy();}});
       self.worldIFrames=Math.max(self.worldIFrames,0.4);
       self._floatText(tx,ty-32,'✨ BLINK!','#aaddff');
 
     } else if(id==='war_stomp'){
-      var sw=self.add.circle(p.x,p.y,8,0xff8800,0.55).setDepth(12);
+      var sw=self.add.circle(p.x,p.y,8,0xff8800,0.55).setDepth(12);; if(typeof ZFX!=='undefined')ZFX.dress(sw,'fx_shockwave');
       self.tweens.add({targets:sw,radius:96,alpha:0,duration:600,onComplete:function(){sw.destroy();}});
       self.cameras.main.shake(160,0.009);
       self._floatText(p.x,p.y-32,'👊 WAR STOMP!','#ff8800');
@@ -1727,7 +1727,7 @@ class WorldScene extends Phaser.Scene{
       });
 
     } else if(id==='whirlwind'){
-      var ww=self.add.circle(p.x,p.y,8,0x88ffee,0.50).setDepth(12);
+      var ww=self.add.circle(p.x,p.y,8,0x88ffee,0.50).setDepth(12);; if(typeof ZFX!=='undefined')ZFX.dress(ww,'fx_whirlwind',{rot:9});
       self.tweens.add({targets:ww,radius:64,alpha:0,duration:520,onComplete:function(){ww.destroy();}});
       self._floatText(p.x,p.y-32,'🌀 WHIRLWIND!','#88ffee');
       var wwDmg=Math.ceil(stats.atk*1.2);
@@ -1746,7 +1746,7 @@ class WorldScene extends Phaser.Scene{
       });
 
     } else if(id==='smoke_bomb'){
-      var smk=self.add.circle(p.x,p.y,4,0x888888,0.65).setDepth(11);
+      var smk=self.add.circle(p.x,p.y,4,0x888888,0.65).setDepth(11);; if(typeof ZFX!=='undefined')ZFX.dress(smk,'fx_smoke');
       self.tweens.add({targets:smk,radius:72,alpha:0.45,duration:450});
       var _sbLife=4.0;
       self._smokeBomb={x:p.x,y:p.y,r:72,vis:smk,life:_sbLife};
@@ -1789,7 +1789,7 @@ class WorldScene extends Phaser.Scene{
     } else if(id==='berserker'){
       this._berserkerTimer=5.0;
       this._floatText(p.x,p.y-32,'⚔️ BERSERKER!','#ff4422');
-      var bvs=self.add.circle(p.x,p.y,8,0xff4400,0.55).setDepth(12);
+      var bvs=self.add.circle(p.x,p.y,8,0xff4400,0.55).setDepth(12);; if(typeof ZFX!=='undefined')ZFX.dress(bvs,'fx_berserk_aura');
       self.tweens.add({targets:bvs,radius:48,alpha:0,duration:440,onComplete:function(){bvs.destroy();}});
       p.body.setFillStyle(0xff4422);
 
@@ -1797,15 +1797,15 @@ class WorldScene extends Phaser.Scene{
       var healAmt=Math.ceil(ps.maxHp*0.30);
       ps.hp=Math.min(ps.maxHp,ps.hp+healAmt);
       this._floatText(p.x,p.y-32,'+'+healAmt+' HP 💚','#44ff88');
-      var hvs=self.add.circle(p.x,p.y,8,0x44ff88,0.55).setDepth(12);
+      var hvs=self.add.circle(p.x,p.y,8,0x44ff88,0.55).setDepth(12);; if(typeof ZFX!=='undefined')ZFX.dress(hvs,'fx_heal_aura');
       self.tweens.add({targets:hvs,radius:40,alpha:0,duration:440,onComplete:function(){hvs.destroy();}});
       self._emitUI();
 
     } else if(id==='time_slow'){
       this._timeSlow=4.0;
       if(this._tsRing)this._tsRing.destroy();
-      this._tsRing=self.add.circle(p.x,p.y,220,0x9fe8ff,0.08).setStrokeStyle(2,0x9fe8ff,0.5).setDepth(6);
-      var tsf=self.add.circle(p.x,p.y,10,0x9fe8ff,0.5).setDepth(12);
+      this._tsRing=self.add.circle(p.x,p.y,220,0x9fe8ff,0.08).setStrokeStyle(2,0x9fe8ff,0.5).setDepth(6);; if(typeof ZFX!=='undefined')ZFX.dress(this._tsRing,'fx_time_ring',{a:0.55,rot:0.3});
+      var tsf=self.add.circle(p.x,p.y,10,0x9fe8ff,0.5).setDepth(12);; if(typeof ZFX!=='undefined')ZFX.dress(tsf,'fx_time_ring');
       self.tweens.add({targets:tsf,radius:220,alpha:0,duration:500,onComplete:function(){tsf.destroy();}});
       this._floatText(p.x,p.y-32,'⏳ TIME SLOW!','#9fe8ff');
 
@@ -1814,12 +1814,12 @@ class WorldScene extends Phaser.Scene{
       var aimX=p.x+Math.cos(ang)*TILE*4, aimY=p.y+Math.sin(ang)*TILE*4, tgt=null, bd=TILE*9;
       self.worldMonsters.forEach(function(m){ if(m.dead)return; var d=Math.hypot(m.x-aimX,m.y-aimY); if(d<bd){bd=d;tgt=m;} });
       var mx0=tgt?tgt.x:aimX, my0=tgt?tgt.y:aimY, mR=64, mDmg=Math.ceil(stats.atk*2.4+12);
-      var mark=self.add.circle(mx0,my0,mR,0xff6020,0.12).setStrokeStyle(2,0xff8040,0.8).setDepth(6);
+      var mark=self.add.circle(mx0,my0,mR,0xff6020,0.12).setStrokeStyle(2,0xff8040,0.8).setDepth(6);; if(typeof ZFX!=='undefined')ZFX.dress(mark,'fx_meteor_mark',{a:0.85});
       var rock=self.add.circle(mx0-160,my0-260,12,0xffa040,1).setStrokeStyle(3,0xff4010,0.9).setDepth(20);
       this._floatText(p.x,p.y-32,'☄️ METEOR!','#ff9040');
       self.tweens.add({targets:rock,x:mx0,y:my0,duration:600,ease:'Quad.easeIn',onComplete:function(){
         rock.destroy(); mark.destroy(); self.cameras.main.shake(220,0.012);
-        var boom=self.add.circle(mx0,my0,10,0xffc060,0.8).setDepth(12);
+        var boom=self.add.circle(mx0,my0,10,0xffc060,0.8).setDepth(12);; if(typeof ZFX!=='undefined')ZFX.dress(boom,'fx_impact_meteor');
         self.tweens.add({targets:boom,radius:mR+10,alpha:0,duration:450,onComplete:function(){boom.destroy();}});
         self.worldMonsters.forEach(function(m){ if(m.dead)return; if(_hbHit(m,mx0,my0,mR)){
           var _zd=ZHit.dmg(self,m,mDmg,'skill',{pure:true,el:ZEL.SKILL.meteor,noProc:true}); MX._src='spell'; m.hp=Math.max(0,m.hp-_zd); MX._src=null; if(m.hpFill)m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
@@ -1831,7 +1831,7 @@ class WorldScene extends Phaser.Scene{
       this._phantomTimer=3.0;
       this.worldIFrames=Math.max(this.worldIFrames,3.0);
       this._floatText(p.x,p.y-32,'👻 PHANTOM VEIL!','#ccaaff');
-      var pvs=self.add.circle(p.x,p.y,8,0xccaaff,0.55).setDepth(12);
+      var pvs=self.add.circle(p.x,p.y,8,0xccaaff,0.55).setDepth(12);; if(typeof ZFX!=='undefined')ZFX.dress(pvs,'fx_arcane_aura');
       self.tweens.add({targets:pvs,radius:36,alpha:0,duration:400,onComplete:function(){pvs.destroy();}});
     }
   }
@@ -1962,7 +1962,7 @@ class WorldScene extends Phaser.Scene{
       // Meteor / Starfall: impacts ahead in the aim direction after a short delay
       var nImp=spDef.n||1;
       for(var ii=0;ii<nImp;ii++)(function(ii){ var tx2=px+nx*200+(nImp>1?(Math.random()-0.5)*150:0), ty2=py+ny*200+(nImp>1?(Math.random()-0.5)*120:0);
-        var ind=self.add.circle(tx2,ty2,spDef.aoe.r,spDef.aoe.col,0.22).setDepth(14);
+        var ind=self.add.circle(tx2,ty2,spDef.aoe.r,spDef.aoe.col,0.22).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(ind,'fx_meteor_mark',{a:0.85});
         self.tweens.add({targets:ind,alpha:0.5,duration:400,yoyo:true});
         self.time.delayedCall((spDef.delay+ii*0.18)*1000,function(){
           ind.destroy();
@@ -1979,7 +1979,7 @@ class WorldScene extends Phaser.Scene{
     } else if(spDef.cloud){
       // Lingering cloud: Poison Mist on you, Blizzard where you aim
       var clx=spDef.cloud.at==='aim'?px+nx*160:px, cly=spDef.cloud.at==='aim'?py+ny*160:py;
-      var cloud=self.add.circle(clx,cly,spDef.cloud.r,spDef.cloud.col,0.35).setDepth(14);
+      var cloud=self.add.circle(clx,cly,spDef.cloud.r,spDef.cloud.col,0.35).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(cloud,spDef.cloud.st==='slow'?'fx_zone_frost':'fx_zone_poison');
       self._spellClouds.push({vis:cloud,x:clx,y:cly,r:spDef.cloud.r,life:spDef.cloud.dur,st:spDef.cloud.st,spellId:id,
         dps:Math.max(spDef.poisonDps||4,spDef.cloud.st?atkPow*0.3:0),dmgTick:0,dmgInterval:0.5,atk:atkPow});
       self._floatText(clx,cly-30,spDef.cloud.st==='slow'?'🌨️ Blizzard':'☁️ Poison Mist',spDef.cloud.st==='slow'?'#c8f0ff':'#44cc44');
@@ -1989,7 +1989,7 @@ class WorldScene extends Phaser.Scene{
   _spellNovaEffect(cx,cy,radius,col,dmg,effect,spellId){
     // Visual ring burst
     var self=this;
-    var ring=this.add.circle(cx,cy,4,col,0.9).setDepth(15);
+    var ring=this.add.circle(cx,cy,4,col,0.9).setDepth(15);; if(typeof ZFX!=='undefined')ZFX.dress(ring,ZFX.NOVA[effect]||ZFX.ringFor(col));
     this.tweens.add({targets:ring,scaleX:radius/4,scaleY:radius/4,alpha:0,duration:350,
       onComplete:function(){ring.destroy();}});
     // Damage all monsters in radius
@@ -2044,7 +2044,7 @@ class WorldScene extends Phaser.Scene{
         // Bog flame leaves a floor slow-puddle when it expires
         if(pr.bog){
           if(!self._dngBogPuddles)self._dngBogPuddles=[];
-          var _bp=self.add.circle(pr.x,pr.y,18,0x2a6a30,0.45).setDepth(3);
+          var _bp=self.add.circle(pr.x,pr.y,18,0x2a6a30,0.45).setDepth(3);; if(typeof ZFX!=='undefined')ZFX.dress(_bp,'fx_zone_poison',{a:0.7});
           self._dngBogPuddles.push({x:pr.x,y:pr.y,r:18,vis:_bp,life:4.0});
         }
         pr.vis.destroy();return false;
@@ -2102,7 +2102,7 @@ class WorldScene extends Phaser.Scene{
         if(eff==='cold'||eff==='slow'){mon._slow=pr.effectDur||2.0;}
         if(eff==='fire'||eff==='splash'){
           // Explosion visual
-          var ex=self.add.circle(pr.x,pr.y,8,0xff6600,0.9).setDepth(16);
+          var ex=self.add.circle(pr.x,pr.y,8,0xff6600,0.9).setDepth(16);; if(typeof ZFX!=='undefined')ZFX.dress(ex,'fx_burst_fire');
           self.tweens.add({targets:ex,scaleX:6,scaleY:6,alpha:0,duration:300,onComplete:function(){ex.destroy();}});
           // Splash damage
           var splR=pr.splashR||70;

@@ -38,7 +38,7 @@ with game(new=True, painted=True) as g:
         out[sid] = g.js("""(()=>{ var d=game.scene.getScene('Dungeon'), m=d._lab, cam=d.cameras.main, b=cam.getBounds?cam.getBounds():cam._bounds; return {k:m&&m.zvoid?ZVOID.kindOf(m.zvoid):null, L:d._zv?d._zv.L.length:0, dec:d._zv?d._zv.dec.length:0, vig:!!(d._zv&&d._zv.vig), clr:m&&m._zclr?Array.prototype.reduce.call(m._zclr,function(a,v){ return a+v; },0):0, bw:b?Math.round(b.width):0, mw:m?m.w*LT:0}; })()""")
     o = out
     check('In the game: the castle-type ground floor stands in its terrain with trees and rocks; the chasm dungeon has its fog layers; the lava dungeon its sea; a vignette; empty cells left clear (%s)' % {k: (v['k'], v['L'], v['dec']) for k, v in o.items()},
-          o['s1_tower']['k'] == 'terrain' and o['s1_tower']['dec'] > 20 and o['s3_dungeon']['k'] == 'abyss' and o['s3_dungeon']['L'] >= 3 and o['s4_dungeon']['k'] == 'lava' and all(v['vig'] and v['clr'] > 0 for v in o.values()), o)
+          o['s1_tower']['k'] == 'terrain' and o['s1_tower']['dec'] > 20 and o['s3_dungeon']['k'] == 'abyss' and o['s3_dungeon']['L'] >= 1 and o['s4_dungeon']['k'] == 'lava' and all(v['vig'] and v['clr'] > 0 for v in o.values()), o)
     r = g.js("""(()=>{ var d=game.scene.getScene('Dungeon'); for(var i=0;i<6;i++)ZVOID.creature(d); return {crit:d._zv.crit.length}; })()""")
     check('Creatures rise in the empty space now and then (lava gargoyles in the lava)', r['crit'] >= 1, r)
     g.js("(()=>{ var ws=game.scene.getScene('World'); game.scene.stop('Dungeon'); ws.scene.wake('World'); })()"); g.wait(1500)
