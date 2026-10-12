@@ -1,4 +1,4 @@
-# Scenery — 132 sheets, 1386 objects and textures (13 sheets in the pilot)
+# Scenery — 134 sheets, 1402 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -31,6 +31,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 48 | Icons: round 45 — the bows and warbows; Tome pictures of regions, arenas and fairy-quest treasures | 5 | 99 |
 | 49 | Round 46: the hero asleep and waking in the home bed, at the bed's own size | 1 | 16 |
 | 50 | Round 47: what fills the space round the adventure sites (rock, seas, fog, sky, night sky, their creatures), smoother butterflies and dragonflies, painted area effects | 9 | 86 |
+| 51 | undefined | 2 | 16 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -2077,6 +2078,72 @@ Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in t
 11. Meteor target — a glowing orange target circle on the ground with falling sparks above it (about 4.1× the hero's height across).
 12. Root burst — a round burst of green roots and leaves bursting up from the ground (about 4.1× the hero's height across).
 View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fx_bolts
+
+Painted attack effects 4 — small lights, sparks and streams, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black). The ones described as WHITE must be painted in white and very pale grey only, because the game colours them · wave 51 · 8 items, 4 × 2 · 1536x1024
+
+- `fx_mote` Spirit mote — 64 × 64 px
+- `fx_ember` Ember — 64 × 64 px
+- `fx_frost_glint` Frost glint — 64 × 64 px
+- `fx_lash` Lash — 256 × 48 px
+- `fx_drain_stream` Life drain — 256 × 48 px
+- `fx_fam_beam` Spirit wave — 256 × 64 px
+- `fx_bolt_arc` Lightning arc — 256 × 64 px
+- `fx_ring_wave` Force ring — 256 × 256 px
+
+Attach: style_hero, style_centaur, sc_fx_ground
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Painted attack effects 4 — small lights, sparks and streams, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black). The ones described as WHITE must be painted in white and very pale grey only, because the game colours them.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Spirit mote — a single small soft glowing mote of WHITE light with a tiny four-point twinkle, round and soft-edged (about 1× the hero's height across).
+2. Ember — a single small glowing orange-red ember with a faint flicker of flame around it (about 1× the hero's height across).
+3. Frost glint — a single tiny ice crystal glinting pale blue-white, a small star of light on it (about 1× the hero's height across).
+4. Lash — a WHITE whip-like tendril of energy, a long thin curling streak of light with a brighter core, running straight from left to right (about 4.1× the hero's height across).
+5. Life drain — a WHITE stream of swirling life-force: a ribbon of light twisting around itself with small droplets of light along it, running straight from left to right (about 4.1× the hero's height across).
+6. Spirit wave — a WHITE rolling wave of spirit light, a broad soft band with a bright core and small wisps peeling off its edges, running straight from left to right (about 4.1× the hero's height across).
+7. Lightning arc — a WHITE jagged crackling arc of lightning with small branching forks, running from left to right (about 4.1× the hero's height across).
+8. Force ring — a WHITE thin perfect ring of rippling force, a bright glowing circle line with soft light fading inward and outward, empty in the middle, seen from above (about 4.1× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fx_solids
+
+Painted attack pieces — things thrown and set by monsters, seen from above at a slight angle, each one whole and centred · wave 51 · 8 items, 4 × 2 · 1536x1024
+
+- `fx_pj_rock` Thrown stone — 64 × 64 px
+- `fx_pj_bomb` Fire bomb — 64 × 64 px
+- `fx_trap_snare` Snare trap — 96 × 96 px
+- `fx_trap_mine` Rune mine — 96 × 96 px
+- `fx_trap_rune` Frost rune — 96 × 96 px
+- `fx_wall_stone` Raised stone — 96 × 112 px
+- `fx_smoke_puff` Smoke puff — 64 × 64 px
+- `fx_fam_ring` Spirit ring — 256 × 256 px
+
+Attach: style_hero, style_centaur, sc_edge_5
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Painted attack pieces — things thrown and set by monsters, seen from above at a slight angle, each one whole and centred.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Thrown stone — a single rough grey thrown stone with sharp edges and a few chips, mid-air (about as tall as the hero).
+2. Fire bomb — a round dark iron bomb with a lit, sparking fuse and glowing cracks (about as tall as the hero).
+3. Snare trap — a rope snare loop with a wooden peg lying on the ground, seen from straight above (about 1.5× the hero's height).
+4. Rune mine — a small round brass mine half-buried in the ground with a glowing yellow eye in the middle, seen from straight above (about 1.5× the hero's height).
+5. Frost rune — a glowing pale-blue rune circle carved into the ground, seen from straight above (about 1.5× the hero's height).
+6. Raised stone — a squat block of rough earth and stone freshly heaved up out of the ground, with crumbling dirt around its base (about 1.8× the hero's height).
+7. Smoke puff — a single small round puff of grey smoke, soft and fading at its edges (about as tall as the hero).
+8. Spirit ring — a WHITE ring of spirit light with small wisps along it, empty in the middle, seen from above (it will be coloured by the game, so paint it in white and very pale grey only) (about 4.1× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

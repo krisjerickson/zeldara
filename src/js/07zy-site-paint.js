@@ -67,6 +67,12 @@ var ZSPP={
     m._rooms=n; m._roomList=rooms; return n; },
   paint:function(F,site,opt,fi,nf){ var T=ZSP.T[site.id], built=!!T.built, P=ZSD.palOpt(site.pal,opt,site.el), W=F.w, H=F.h, g=F.g, m=newMap(W,H), R=rngOf(ZSD.seed(site.id)*31+fi*977+5), th=ZSPP.th(site.id,site.el), Z=_scn();
     var liq=T.liq||null, solid=function(v){ return v===0||v===2||v===3||v===6||v===7; }, walk=function(v){ return v===1||v===4||v===5; };
+    // round 49 (Kris: "for adventure sites that have the standard region terrain in the background, there should always be a wall at the edge
+    // of the adventure site's map so you understand you can't walk outside"): where the floor would meet the open ground, a wall stands
+    var V0=(typeof ZVOID!=='undefined'&&ZVOID.on)?ZVOID.pick(site,T,fi,nf):null;
+    if(V0&&V0.k==='terrain'&&!F._edged){ F._edged=1; var add=[]; for(var ey=0;ey<H;ey++)for(var ex=0;ex<W;ex++){ if(g[ey*W+ex]!==0)continue; var nb=false;
+        for(var ej=-1;ej<=1&&!nb;ej++)for(var ei=-1;ei<=1;ei++){ var X=ex+ei, Y=ey+ej; if(X<0||Y<0||X>=W||Y>=H)continue; var a=g[Y*W+X]; if(a===1||a===4||a===5||a===6||a===3){ nb=true; break; } }
+        if(nb)add.push(ey*W+ex); } add.forEach(function(k){ g[k]=2; }); F._edgeN=add.length; }
     for(var i=0;i<W*H;i++)m.solid[i]=solid(g[i])?1:0;
     var cv=mkCanvas(W*LT,H*LT), ctx=cv.getContext('2d'), at=function(x,y){ return (x<0||y<0||x>=W||y>=H)?0:g[y*W+x]; };
     ctx.fillStyle=P.void; ctx.fillRect(0,0,W*LT,H*LT);
@@ -95,10 +101,12 @@ var ZSPP={
     if(liq==='lava')for(var k=0;k<W*H*0.02;k++){ var lx=R.i(1,W-2), ly=R.i(1,H-2); if(g[ly*W+lx]===3)m.lights.push({x:lx*LT+16,y:ly*LT+16,r:70,col:'#ff7a30',a:0.32,depth:-1,pulse:0.3,period:1600+R.i(0,900)}); }
     // walls (masonry for built sites, rock for the natural ones); a wall with walkable ground below shows its face
     var wt=tex(built?th.wall:th.rock,96);
+    // round 49: the edge wall shows its face to the open ground below it, so it reads as a wall standing round the site
+    var openBelow=function(x,y){ if(y>=H)return true; var v=at(x,y); if(v===0)return true; if(v!==2)return false; for(var j=-1;j<=1;j++)for(var i=-1;i<=1;i++){ var a=at(x+i,y+j); if(walk(a)||a===3||a===6)return false; } return true; };
     for(var y3=0;y3<H;y3++)for(var x3=0;x3<W;x3++){ var v3=g[y3*W+x3]; if(v3!==2&&v3!==7)continue; var px3=x3*LT, py3=y3*LT, near=false;
       for(var j=-1;j<=1&&!near;j++)for(var i2=-1;i2<=1;i2++){ var a2=at(x3+i2,y3+j); if(walk(a2)||a2===3||a2===6){ near=true; break; } }
       if(!near){ ctx.fillStyle=shade(P.void,0.03); ctx.fillRect(px3,py3,LT,LT); continue; }
-      var face=walk(at(x3,y3+1))||at(x3,y3+1)===6, top=face?(built?10:12):LT;
+      var face=walk(at(x3,y3+1))||at(x3,y3+1)===6||(V0&&V0.k==='terrain'&&openBelow(x3,y3+1)), top=face?(built?10:12):LT;
       var tg=ctx.createLinearGradient(px3,py3,px3,py3+top); tg.addColorStop(0,shade(P.wallTop,0.1)); tg.addColorStop(1,P.wallTop); ctx.fillStyle=tg; ctx.fillRect(px3,py3,LT,top);
       if(!built){ for(var q=0;q<3;q++){ ctx.fillStyle=rgba(shade(P.wallTop,R.chance(0.5)?0.22:-0.25),0.55); ctx.fillRect(px3+R.f()*27,py3+R.f()*(top-3),4,2); } }
       if(face){ var fg=ctx.createLinearGradient(px3,py3+top,px3,py3+LT); fg.addColorStop(0,P.wall); fg.addColorStop(1,shade(P.wall,-0.35)); ctx.fillStyle=fg; ctx.fillRect(px3,py3+top,LT,LT-top);
@@ -113,9 +121,13 @@ var ZSPP={
       if(walk(at(x4,y4+1))){ ctx.moveTo(px4,py4+LT); ctx.lineTo(px4+LT,py4+LT); } if(walk(at(x4,y4-1))){ ctx.moveTo(px4,py4+1); ctx.lineTo(px4+LT,py4+1); } if(walk(at(x4-1,y4))){ ctx.moveTo(px4+1,py4); ctx.lineTo(px4+1,py4+LT); } if(walk(at(x4+1,y4))){ ctx.moveTo(px4+LT-1,py4); ctx.lineTo(px4+LT-1,py4+LT); } ctx.stroke(); }
     // round 47: the empty space is left clear — what fills it (world terrain, rock, an abyss, the element's sea) is drawn behind the floor (07zy2 ZVOID)
     var V=(typeof ZVOID!=='undefined'&&ZVOID.on)?ZVOID.pick(site,T,fi,nf):null;
-    if(V){ var clr=new Uint8Array(W*H), bx0=W, by0=H, bx1=-1, by1=-1;
+    if(V){ var clr=new Uint8Array(W*H), outer=[], bx0=W, by0=H, bx1=-1, by1=-1;
       for(var y9=0;y9<H;y9++)for(var x9=0;x9<W;x9++){ var v9=g[y9*W+x9], nr=false; if(v9===2){ for(var j9=-1;j9<=1&&!nr;j9++)for(var i9=-1;i9<=1;i9++){ var a9=at(x9+i9,y9+j9); if(walk(a9)||a9===3||a9===6){ nr=true; break; } } }
-        if(ZVOID.clearCell(V,v9,built,liq,nr))clr[y9*W+x9]=1; if(walk(v9)){ if(x9<bx0)bx0=x9; if(y9<by0)by0=y9; if(x9>bx1)bx1=x9; if(y9>by1)by1=y9; } }
+        if(ZVOID.clearCell(V,v9,built,liq,nr))clr[y9*W+x9]=1; else if(V.k==='terrain'&&built&&v9===2&&!nr)outer.push(y9*W+x9); if(walk(v9)){ if(x9<bx0)bx0=x9; if(y9<by0)by0=y9; if(x9>bx1)bx1=x9; if(y9>by1)by1=y9; } }
+      // round 49: a built site's solid masonry out past its edge wall is open ground too (the inner blocks between its rooms stay solid)
+      if(outer.length){ var oc=new Uint8Array(W*H), q9=[]; outer.forEach(function(k){ oc[k]=1; }); for(var k8=0;k8<W*H;k8++){ var X8=k8%W, Y8=(k8/W)|0; if((clr[k8]||oc[k8])&&(X8===0||Y8===0||X8===W-1||Y8===H-1)){ q9.push(k8); oc[k8]=2; } }
+        while(q9.length){ var k7=q9.pop(), X7=k7%W, Y7=(k7/W)|0; [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var X=X7+d[0], Y=Y7+d[1]; if(X<0||Y<0||X>=W||Y>=H)return; var kk=Y*W+X; if(oc[kk]===2)return; if(oc[kk]===1||clr[kk]){ oc[kk]=2; q9.push(kk); } }); }
+        for(var k6=0;k6<W*H;k6++)if(oc[k6]===2)clr[k6]=1; }
       ctx.save(); ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='#000'; for(var k9=0;k9<W*H;k9++)if(clr[k9])ctx.fillRect((k9%W)*LT,((k9/W)|0)*LT,LT,LT); ctx.restore();
       F._clr=clr; ZVOID.rim(ctx,V,F,LT); m.zvoid=V; m._zclr=clr; m._zbox=bx1>=0?[bx0,by0,bx1,by1]:null; }
     m.base=cv; m.bg=P.void;

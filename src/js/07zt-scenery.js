@@ -465,6 +465,25 @@ var ZSCN={
     ['fx_familiar_burst','Familiar burst','a round burst of teal spirit light with small spirit wisps',256,256],
     ['fx_meteor_mark','Meteor target','a glowing orange target circle on the ground with falling sparks above it',256,256],
     ['fx_root_burst','Root burst','a round burst of green roots and leaves bursting up from the ground',256,256]]},
+  // ── wave 51 (round 49, Kris: "some of the attack effects from familiars and monsters still show poor resolution pixel things. request painted images for these") ──
+  {id:'sc_fx_bolts',wave:51,fam:'fx',kind:'flat',cols:4,rows:2,size:'1536x1024',title:'Painted attack effects 4 — small lights, sparks and streams, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black). The ones described as WHITE must be painted in white and very pale grey only, because the game colours them',items:[
+    ['fx_mote','Spirit mote','a single small soft glowing mote of WHITE light with a tiny four-point twinkle, round and soft-edged',64,64],
+    ['fx_ember','Ember','a single small glowing orange-red ember with a faint flicker of flame around it',64,64],
+    ['fx_frost_glint','Frost glint','a single tiny ice crystal glinting pale blue-white, a small star of light on it',64,64],
+    ['fx_lash','Lash','a WHITE whip-like tendril of energy, a long thin curling streak of light with a brighter core, running straight from left to right',256,48],
+    ['fx_drain_stream','Life drain','a WHITE stream of swirling life-force: a ribbon of light twisting around itself with small droplets of light along it, running straight from left to right',256,48],
+    ['fx_fam_beam','Spirit wave','a WHITE rolling wave of spirit light, a broad soft band with a bright core and small wisps peeling off its edges, running straight from left to right',256,64],
+    ['fx_bolt_arc','Lightning arc','a WHITE jagged crackling arc of lightning with small branching forks, running from left to right',256,64],
+    ['fx_ring_wave','Force ring','a WHITE thin perfect ring of rippling force, a bright glowing circle line with soft light fading inward and outward, empty in the middle, seen from above',256,256]]},
+  {id:'sc_fx_solids',wave:51,fam:'fx',kind:'obj',cols:4,rows:2,refs:['sc_edge_5'],title:'Painted attack pieces — things thrown and set by monsters, seen from above at a slight angle, each one whole and centred',items:[
+    ['fx_pj_rock','Thrown stone','a single rough grey thrown stone with sharp edges and a few chips, mid-air',64,64],
+    ['fx_pj_bomb','Fire bomb','a round dark iron bomb with a lit, sparking fuse and glowing cracks',64,64],
+    ['fx_trap_snare','Snare trap','a rope snare loop with a wooden peg lying on the ground, seen from straight above',96,96],
+    ['fx_trap_mine','Rune mine','a small round brass mine half-buried in the ground with a glowing yellow eye in the middle, seen from straight above',96,96],
+    ['fx_trap_rune','Frost rune','a glowing pale-blue rune circle carved into the ground, seen from straight above',96,96],
+    ['fx_wall_stone','Raised stone','a squat block of rough earth and stone freshly heaved up out of the ground, with crumbling dirt around its base',96,112],
+    ['fx_smoke_puff','Smoke puff','a single small round puff of grey smoke, soft and fading at its edges',64,64],
+    ['fx_fam_ring','Spirit ring','a WHITE ring of spirit light with small wisps along it, empty in the middle, seen from above (it will be coloured by the game, so paint it in white and very pale grey only)',256,256]]},
   {id:'sc_rugs_1',wave:44,fam:'interior',kind:'flat',cols:4,rows:2,title:'Rugs and runners that fit the rooms — seen from straight above, flat on the floor',items:[
     ['ir_rug_wide_red','Wide red rug','a wide rectangular woven rug, deep red with a cream border and a diamond pattern in the middle, short fringes at the two short ends',112,72],
     ['ir_rug_wide_blue','Wide blue rug','a wide rectangular woven rug, deep blue with a cream border and a star pattern in the middle, short fringes at the two short ends',112,72],

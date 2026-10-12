@@ -1,3 +1,9 @@
+var _dngFogSeq=0;   // round 49: a fresh texture key for each floor's fog picture
+// round 49: the darkness picture of a dark floor — a canvas texture (made again when the view's size changes), see _labUpdate
+function _dngDarkImg(sc,w,h){ w=w||64; h=h||64; var old=sc._darkRT, cv=mkCanvas(w,h), k='dngdark_'+(++_dngFogSeq), T=sc.textures.addCanvas(k,cv); try{ T.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){}
+  var im; if(old&&old.scene){ var ok=old.texture&&old.texture.key; old.setTexture(k); im=old; if(ok&&/^dngdark_/.test(ok))setTimeout(function(){ try{ if(sc.textures.exists(ok))sc.textures.remove(ok); }catch(e){} },0); }
+  else { im=sc.add.image(0,0,k).setOrigin(0,0).setDepth(12.5); sc.events.once('shutdown',function(){ var kk=im.texture&&im.texture.key; setTimeout(function(){ try{ if(kk&&game.textures.exists(kk))game.textures.remove(kk); }catch(e){} },80); }); }
+  im._zcv=cv; im._ztex=T; return im; }
 // ─── DungeonScene ───────────────────────────────
 // Explored-fog per floor is saved run-length packed ("r<n>,<n>,…" alternating 0/1 runs)
 function _fogPack(a){ var out=[],cur=0,n=0; for(var i=0;i<a.length;i++){ var v=a[i]?1:0; if(v===cur)n++; else { out.push(n); cur=v; n=1; } } out.push(n); return 'r'+out.join(','); }
@@ -394,7 +400,7 @@ class DungeonScene extends Phaser.Scene{
     // Darkness with light holes (dark caverns); capped so fights stay readable
     this._labDark=m.trialDark!==undefined?m.trialDark:Math.min(0.6,m.dark||0);
     if(this._labDark>0){
-      this._darkRT=this.add.renderTexture(0,0,m.w*LT,m.h*LT).setOrigin(0,0).setDepth(12.5);
+      this._darkRT=_dngDarkImg(this);
       this._holeImg=this.make.image({x:0,y:0,key:'dark_hole',add:false});
       this._heroGlow=this.add.image(0,0,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(m.heroLightCol||'#ffcc88')).setAlpha(0.3).setScale(Math.max(230,m.heroLight||0)/64).setDepth(11.5);
     }
@@ -409,7 +415,7 @@ class DungeonScene extends Phaser.Scene{
     if(m.tick){ try{ m.tick(this,dt,tt); }catch(e){} }
     // blinded (a mage's darkness): the room itself goes black — only the master's eyes still glow
     var _bl=this._mxs&&this._mxs.blindT>0;
-    if(_bl&&!this._darkRT){ this._darkRT=this.add.renderTexture(0,0,m.w*LT,m.h*LT).setOrigin(0,0).setDepth(12.5); this._holeImg=this.make.image({x:0,y:0,key:'dark_hole',add:false}); this._labDark=0; }
+    if(_bl&&!this._darkRT){ this._darkRT=_dngDarkImg(this); this._holeImg=this.make.image({x:0,y:0,key:'dark_hole',add:false}); this._labDark=0; }
     if(this._darkRT){ this._darkRT.setVisible(!!(_bl||this._labDark>0)); this._blindEyes=this._blindEyes||[];
       var self2=this, eyes=this._blindEyes, bosses=_bl?this.monsters.filter(function(mo){ return !mo.dead&&mo.isBoss; }):[];
       while(eyes.length<bosses.length*2)eyes.push(this.add.circle(0,0,2.4,0xff60ff,1).setDepth(12.7));
@@ -420,12 +426,22 @@ class DungeonScene extends Phaser.Scene{
       var heroR=m.trialDark!==undefined?(m.heroLight||70)*(fire?1.5:1):Math.max(230,m.heroLight||0)*(fire?1.3:1);
       if(this._heroGlow)this._heroGlow.setPosition(this.px,this.py-14);
       if(_bl)heroR=64;
-      rt.clear(); rt.fill(hexNum(m.darkCol||'#000000'),_bl?0.94:this._labDark);
-      var cut=function(x,y,r,a){ if(x<v.x-pad-r||x>v.right+pad+r||y<v.y-pad-r||y>v.bottom+pad+r)return; hole.setScale(r/128); hole.setAlpha(a); rt.erase(hole,x,y); };
+      // round 49 (Kris: "It was also laggy in the dungeon"): the darkness was a render texture the size of the whole floor (up to 2560×1920),
+      // filled and then cut once per light every frame — each cut a full pass over it, and the GPU's work buffer resized back and forth between
+      // it and the hero's outline each time. By far the dearest thing on screen. It is now a small picture of just the view (plus a margin) at a
+      // quarter of the resolution, drawn on a plain canvas (no render passes at all) and stretched back up with smooth filtering; the darkness
+      // is soft anyway, so it looks the same.
+      var Q=4, ox=v.x-pad, oy=v.y-pad, rw=Math.ceil((v.width+pad*2)/Q), rh=Math.ceil((v.height+pad*2)/Q), cv=rt._zcv;
+      if(!cv||cv.width!==rw||cv.height!==rh){ _dngDarkImg(this,rw,rh); cv=rt._zcv; }
+      var cx=cv.getContext('2d'), HI=hole._zsrc||(hole._zsrc=this.textures.get('dark_hole').getSourceImage());
+      cx.globalCompositeOperation='source-over'; cx.clearRect(0,0,rw,rh); cx.globalAlpha=_bl?0.94:this._labDark; cx.fillStyle=m.darkCol||'#000000'; cx.fillRect(0,0,rw,rh);
+      cx.globalCompositeOperation='destination-out';
+      rt.setPosition(ox,oy).setScale(Q);
+      var cut=function(x,y,r,a){ if(x<v.x-pad-r||x>v.right+pad+r||y<v.y-pad-r||y>v.bottom+pad+r)return; var R=r/Q; cx.globalAlpha=Math.max(0,Math.min(1,a)); cx.drawImage(HI,(x-ox)/Q-R,(y-oy)/Q-R,2*R,2*R); };
       cut(this.px,this.py-14,heroR*(1+0.03*Math.sin(tt*9)),1);
       if(!_bl)this._lightObjs.forEach(function(o){ var L=o._base; if(L.noCut)return; cut(o.x,o.y,L.r*(L.cut||0.9),Math.min(1,o.alpha*1.6)); });
       if(m.trialDark!==undefined){ var FV=this._famVisuals||{}; Object.keys(FV).forEach(function(k){ var fv=FV[k]; if(fv&&fv.x!==undefined)cut(fv.x,fv.y,110,0.9); }); }
-      ZENG.rtDone(rt);
+      cx.globalCompositeOperation='source-over'; cx.globalAlpha=1; if(rt._ztex&&rt._ztex.refresh)rt._ztex.refresh();
     }
   }
   // Stairs markers + floor labels on Lab floors
@@ -1049,7 +1065,12 @@ class DungeonScene extends Phaser.Scene{
     }else{
       this._dngFogExplored=new Uint8Array(DW*DH);
     }
-    this._dngFogGfx=this.add.graphics().setDepth(25);
+    // round 49 (lag): the fog was a Graphics of one rectangle per hidden tile (up to 50 000, rebuilt every frame); it is now a small picture,
+    // one pixel per tile, stretched to the floor with hard edges — one draw a frame, redrawn only when you uncover more
+    var M=this._lab&&this._lab.zvoid?16:0, fk='dngfog_'+(++_dngFogSeq); this._dngFogM=M; this._dngFogCv=mkCanvas(DW+2*M,DH+2*M);
+    this._dngFogTex=this.textures.addCanvas(fk,this._dngFogCv); try{ this._dngFogTex.setFilter(Phaser.Textures.FilterMode.NEAREST); }catch(e){}
+    this._dngFogGfx=this.add.image(-M*TILE,-M*TILE,fk).setOrigin(0,0).setScale(TILE).setDepth(25);
+    var self=this; this.events.once('shutdown',function(){ setTimeout(function(){ try{ if(game.textures.exists(fk))game.textures.remove(fk); }catch(e){} },80); });
     this._dngFogTile={tx:-1,ty:-1};
     this._dngRevealFog(true); // initial reveal at spawn
   }
@@ -1077,16 +1098,16 @@ class DungeonScene extends Phaser.Scene{
     _drawMinimapHud(null,this);
   }
   _dngRedrawFog(){
-    var g=this._dngFogGfx;if(!g)return;
-    g.clear();g.fillStyle(0x000000,1);
+    var cv=this._dngFogCv;if(!cv||!this._dngFogGfx)return;
     // round 47: with the empty space filled (07zy2 ZVOID), the land round the map stays hidden too until you come near its edge
-    var M=this._lab&&this._lab.zvoid?16:0, F=this._dngFogExplored;
+    var M=this._dngFogM||0, F=this._dngFogExplored, W=DW+2*M, H=DH+2*M, ctx=cv.getContext('2d'), im=ctx.createImageData(W,H), d=im.data;
     for(var ty=-M;ty<DH+M;ty++){
       for(var tx=-M;tx<DW+M;tx++){
         var cx=tx<0?0:tx>=DW?DW-1:tx, cy=ty<0?0:ty>=DH?DH-1:ty;
-        if(!F[cy*DW+cx])g.fillRect(tx*TILE,ty*TILE,TILE,TILE);
+        if(!F[cy*DW+cx])d[((ty+M)*W+tx+M)*4+3]=255;
       }
     }
+    ctx.putImageData(im,0,0); if(this._dngFogTex&&this._dngFogTex.refresh)this._dngFogTex.refresh();
   }
 
   // round 45 — hidden doors (Kris: "add in hidden doors and come up with ideas of how to find them"): a wall with a hairline crack and a faint glow.
@@ -1097,7 +1118,7 @@ class DungeonScene extends Phaser.Scene{
   _zspOpen(s){ s.open=true; this.dtiles[s.y][s.x]=DNG.FLOOR; if(this._lab)this._lab.solid[s.y*DW+s.x]=0; var cx=s.x*TILE+TILE/2, cy=s.y*TILE+TILE/2;
     this.add.rectangle(cx,cy,TILE,TILE,hexNum(this._zspFloorCol),1).setDepth(-9.5);
     for(var i=0;i<12;i++){ var d=this.add.circle(cx+(Math.random()-0.5)*20,cy+(Math.random()-0.5)*20,2+Math.random()*3,0x9a8a78,0.9).setDepth(12); this.tweens.add({targets:d,y:d.y+12+Math.random()*10,alpha:0,duration:700+Math.random()*500,onComplete:(function(o){ return function(){ o.destroy(); }; })(d)}); }
-    try{ this.cameras.main.shake(180,0.004); }catch(e){} showNotif('🚪 A hidden door grinds open!','#ffe9a8'); if(typeof ZSFX!=='undefined')try{ ZSFX.play('warp'); }catch(e){} }
+    try{ this.cameras.main.shake(180,0.004); }catch(e){} showNotif('🚪 A hidden door grinds open!','#ffe9a8'); try{ _drawMinimapHud(null,this); }catch(e){} if(typeof ZSFX!=='undefined')try{ ZSFX.play('warp'); }catch(e){} }
   _canGoD(nx,ny){
     var hw=7,hh=5;
     var corners=[[nx-hw,ny-hh],[nx+hw,ny-hh],[nx-hw,ny+hh],[nx+hw,ny+hh],[nx,ny]];

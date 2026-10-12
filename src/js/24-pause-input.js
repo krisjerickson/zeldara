@@ -165,8 +165,8 @@ document.addEventListener('keydown',function(e){
   } else if(k==='x'){
     _heroCastSpell(sc);
   } else if(k==='z'){
-    if(_isOverworld(sc)&&sc._useSpecial)sc._useSpecial();
-    else showNotif('Specials can only be used in the overworld','#8899aa');
+    if(typeof ZSKILL!=='undefined')ZSKILL.use(sc);      // round 49: skills in the adventure sites too
+    else if(_isOverworld(sc)&&sc._useSpecial)sc._useSpecial();
   } else if(k==='g'){
     if(_isOverworld(sc)&&sc._dig)sc._dig(); else showNotif('You can only dig outdoors','#8899aa');
   } else if(k==='c'){

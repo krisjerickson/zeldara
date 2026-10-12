@@ -37,12 +37,17 @@ var ZOL={ on:true, COL:0x7ff5e6, A:0.95, W:1.5, PAD:6,
     var place=function(c,dx,dy){ if(st.texture.key!==c.texture.key||st.frame.name!==c.frame.name)st.setTexture(c.texture.key,c.frame.name);
       st.setOrigin(c.originX,c.originY).setScale(c.scaleX*sx,c.scaleY*sy).setFlip(c.flipX,c.flipY).setAngle(c.angle).setPosition(cont.x+c.x*sx-x0+dx,cont.y+c.y*sy-y0+dy); };
     rt.clear();
+    // round 49 (lag): each draw into a render texture is its own render pass, so the pieces go in batches — one pass for the ring, one for the
+    // cut-out, one for the mask — instead of one per piece (was about 15 passes a frame whenever something stood in front of him)
+    var T=rt.texture, B=!ZENG.v4&&T&&T.beginDraw&&T.batchDraw&&T.endDraw;
     // the ring: his shape filled at four small offsets, his own shape taken out of the middle
     st.setTintFill(ZOL.COL).setAlpha(1);
-    parts.forEach(function(c){ [[W,0],[-W,0],[0,W],[0,-W]].forEach(function(o){ place(c,o[0],o[1]); rt.draw(st); }); });
-    parts.forEach(function(c){ place(c,0,0); rt.erase(st); });
+    if(B){ T.beginDraw(); parts.forEach(function(c){ [[W,0],[-W,0],[0,W],[0,-W]].forEach(function(o){ place(c,o[0],o[1]); T.batchDraw(st); }); }); T.endDraw(); }
+    else parts.forEach(function(c){ [[W,0],[-W,0],[0,W],[0,-W]].forEach(function(o){ place(c,o[0],o[1]); rt.draw(st); }); });
+    if(B){ T._eraseMode=true; T.beginDraw(); parts.forEach(function(c){ place(c,0,0); T.batchDraw(st); }); T.endDraw(true); T._eraseMode=false; }
+    else parts.forEach(function(c){ place(c,0,0); rt.erase(st); });
     st.clearTint();
     // only where he is covered: the mask is the pictures in front of him
-    if(S.useMask){ var m=S.mrt; m.clear(); S.front.forEach(function(o){ m.draw(o,o.x-x0,o.y-y0); }); }
+    if(S.useMask){ var m=S.mrt, MT=m.texture; m.clear(); if(B&&MT&&MT.beginDraw){ MT.beginDraw(); S.front.forEach(function(o){ MT.batchDraw(o,o.x-x0,o.y-y0); }); MT.endDraw(); } else S.front.forEach(function(o){ m.draw(o,o.x-x0,o.y-y0); }); }
   }
 };

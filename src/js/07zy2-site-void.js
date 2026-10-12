@@ -119,10 +119,13 @@ var ZVOID={ on:true, frameOn:true, VIG:0.5,
   // ── trees, rocks and plants on the open ground (under the floor picture, so they only show outside its walls) ──
   // where the decor stands: [id, x px, y px (its foot), height px, flip] — shared by the game and the Lab
   decorList:function(m,V){ var Z=typeof _scn==='function'?_scn():null; if(!Z)return []; var ids=(ZVOID.DECOR[V.ground]||ZVOID.DECOR.tx_grass).filter(function(i){ return Z.has(i); }); if(!ids.length)return [];
-    var LT0=typeof LT!=='undefined'?LT:32, W=m.w, H=m.h, F=m._zclr, R=rngOf(W*131+H*17+(V.ground||'').length), b=m._zbox||[0,0,W-1,H-1], M=10, out=[], cap=150, hOf={};
+    var LT0=typeof LT!=='undefined'?LT:32, W=m.w, H=m.h, F=m._zclr, R=rngOf(W*131+H*17+(V.ground||'').length), b=m._zbox||[0,0,W-1,H-1], M=10, out=[], cap=150, hOf={}, wOf={};
     var free=function(x,y){ if(x<0||y<0||x>=W||y>=H)return true; return !!(F&&F[y*W+x]); };
     for(var t=0;t<2600&&out.length<cap;t++){ var x=R.i(b[0]-M,b[2]+M), y=R.i(b[1]-M,b[3]+M); if(!free(x,y)||!free(x-1,y)||!free(x+1,y)||!free(x,y-1))continue; if(R.f()>0.32)continue;
-      var id=ids[R.i(0,ids.length-1)]; if(hOf[id]===undefined){ var it=Z.size(id,0); hOf[id]=it?Math.min(it.h*Z.K,/^tr_/.test(id)?LT0*3.2:LT0*1.4):0; } if(!hOf[id])continue;
+      var id=ids[R.i(0,ids.length-1)]; if(hOf[id]===undefined){ var it=Z.size(id,0); hOf[id]=it?Math.min(it.h*Z.K,/^tr_/.test(id)?LT0*3.2:LT0*1.4):0; if(hOf[id]){ var sz0=Z.size(id,hOf[id]); wOf[id]=sz0?sz0.w:hOf[id]; } } if(!hOf[id])continue;
+      // round 49 (Kris: "any special features like trees need to not overlap with the adventure site map walls or interiors"): the whole picture,
+      // canopy and all, plus a tile round it, stands on clear ground
+      var rx=Math.ceil((wOf[id]/2+6)/LT0), ry=Math.ceil((hOf[id]+6)/LT0), fits=true; for(var yy=y-ry;yy<=y+1&&fits;yy++)for(var xx=x-rx;xx<=x+rx;xx++)if(!free(xx,yy)){ fits=false; break; } if(!fits)continue;
       out.push([id,(x+0.5)*LT0+R.f()*10-5,(y+1)*LT0,hOf[id],R.f()<0.5]); }
     return out.sort(function(a,b){ return a[2]-b[2]; }); },
   decor:function(scene,m,V){ var S=scene._zv, Z=typeof _scn==='function'?_scn():null; if(!Z)return; var keyOf={};

@@ -45,7 +45,7 @@ function updateHUD(state){
 function _specialSlotTick(){ var el=document.getElementById('action-special-slot'), ws=typeof game!=='undefined'&&game.scene&&game.scene.getScene('World'); if(!el||!ws||!ws.playerState)return;
   var ps=ws.playerState, id=ps.equip&&ps.equip.special, it=id&&ITEMS[id];
   if(el._zid!==id){ el._zid=id; el.innerHTML='<div class="aib-key">Z</div><div class="aib-ico">'+(it?ZIcon.of(it,1.75):ZIcon.html('ui_special','⚡',1.75))+'</div><div class="aib-lbl">'+(it?it.name.substr(0,9):'Special')+'</div><div class="cd"></div><div class="cdn"></div>'; el.title=it?it.name+' — '+(it.desc||''):'Special ability'; if(typeof ZIcon!=='undefined'&&ZIcon.hydrate)ZIcon.hydrate(el); }
-  var left=Math.max(0,ws._specialCd||0), full=it?(it.cd||8)*(1-((ws.calcPlayerStats&&ws.calcPlayerStats().cdReduce)||0)):1, cd=el.querySelector('.cd'), n=el.querySelector('.cdn');
+  var left=Math.max(0,ws._specialCd||0,typeof ZSKILL!=='undefined'?ZSKILL.left():0),      /* round 49: the adventure sites' skill cooldown too */ full=it?(it.cd||8)*(1-((ws.calcPlayerStats&&ws.calcPlayerStats().cdReduce)||0)):1, cd=el.querySelector('.cd'), n=el.querySelector('.cdn');
   if(cd)cd.style.height=(left>0?Math.min(100,left/full*100):0)+'%'; if(n)n.textContent=left>0.05?Math.ceil(left):''; }
 if(typeof window!=='undefined')setInterval(function(){ try{ _specialSlotTick(); if(typeof ZROLL!=='undefined')ZROLL._ui(); }catch(e){} },100);
 function renderQuestList(unlockedSections,completed,active,scene){
