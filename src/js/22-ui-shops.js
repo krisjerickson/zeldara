@@ -358,7 +358,7 @@ function showQuickPick(type){
     var fams=ps?ps.ownedFamiliars||[]:[];
     var slotsN=ps?_maxFamiliarSlots(ps):1;
     h+='<div style="font-size:9px;color:#667;margin:-4px 0 6px">'+slotsN+' of 4 active slot'+(slotsN>1?'s':'')+' open'+(slotsN<4?' (each Fairy King opens one more)':'')+' · click to add/remove · ⓘ for skills</div>';
-    if(!fams.length)h+='<div style="color:#445;font-size:11px">No familiars yet.<br><span style="font-size:10px;color:#556">Each quadrant\'s familiar island (its first harbor) gives an elemental spirit.</span></div>';
+    if(!fams.length)h+='<div style="color:#445;font-size:11px">No familiars yet.<br><span style="font-size:10px;color:#556">Each quadrant\'s familiar island (its first harbor) gives an elemental familiar.</span></div>';
     fams.forEach(function(fid){ h+=_familiarCardHTML(fid, ps, "_toggleFamiliar('"+fid+"');showQuickPick('familiar');showQuickPick('familiar')", true); });
 
   } else if(type==='special'){

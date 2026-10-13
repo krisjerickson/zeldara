@@ -1,0 +1,208 @@
+# 28 — The Spirit Saga (draft for review)
+
+*Oct 13 (round 51). Kris asked to rewrite the whole Zeldara narrative around freeing trapped spirits from the underworld. His 20 points are quoted in doc 08 (Round 51). This doc is the working plan: the story spine, every step of progression, the names, the remakes of the forges and Muspelheim, the new bosses, the art to order, and the build order. **Bold** items are decided. Everything else is a proposal, or a question in the wave 2 and wave 3 lists at the end.*
+
+## 1. Decided so far (wave 1 cards)
+
+- **Names.** The four mini-volcanoes are the **Forges of Muspelheim**:
+  - **Ember Forge** (Grasslands)
+  - **Cinder Forge** (Wetlands)
+  - **Slag Forge** (Highlands)
+  - **Ash Forge** (Ashlands)
+
+  The great volcano is **Muspelheim**.
+- **The word "spirit"** is used only for the trapped souls. Familiars are always "familiars", and the monsters once named "… Spirit" are now Wisps and a Wraith.
+- **The final gate.** Asgard needs **the divine staff and its spell**. Sovereign gear is not checked, but the numbers make the last fights near-impossible without it.
+- **Forge order** follows the regions: **Ember → Cinder → Slag → Ash**. Each forge's key opens the next. The fourth key, with the other three, opens Muspelheim.
+- **Mira's workshop** opens with **the first castle cleared anywhere**.
+- **Tray gems.** There are **four new soul gems**, one per region, each given by the spirit freed at that region's boss dungeon.
+- **Spirit guardians.** There are **40 new spirit shrines** (runestones, rune circles, landmarks), each guarded by a **named mini-boss** made from that region's monsters.
+- **After the ending:** **credits, then free roam.** The world is quieter and lit, and Asgard stays open.
+- **Already built (round 51):**
+  - Forges and Muspelheim unlock with the 4 boss dungeons **and** the 4 master builders' towers.
+  - They rise off reachable coasts on walled causeways.
+  - Muspelheim sits off the Magma Channels on the Ashlands' west coast.
+  - The forges open in order.
+
+## 2. The story spine (proposal)
+
+**The old world.** The dead of the four realms used to rise to rest along the World Tree, the tree carved into the Runestone Green. Two wrongs broke that.
+
+1. **Below:** the fire giant who rules Muspelheim began catching the spirits on their way up. He chains them to runestones across the realms and drags them into his four forges and the deep halls of Muspelheim, to dig gems and ore for him.
+   - His ash-wardens also caged the four master builders (Bram, Mira, Dunn, Vela). He wanted builders for his forges.
+   - This explains today's caged craftsmen.
+2. **Above:** Asgard should have opened its gate to the spirits. Its lord, Grímnir, has grown hollow and jealous and sealed it. Even a freed spirit has nowhere to go.
+
+**The hero's road** (the current game, re-told):
+- The waystones wake the ley lines.
+- Each region's dungeon boss is the cruellest of the binders. Beating it frees a great spirit, who gives you that region's soul gem.
+- Freeing the master builders reopens the realms. Mira, back home, turns her workshop toward the forges.
+- The **spirit shrines** are new: a binder mini-boss guards each chained spirit.
+  - Freed spirits thank you, give you a shard of runic glass, then drift home to the Green.
+  - The Green fills with spirits, a visible tally of your progress.
+
+**The forges** (the endgame, part 1):
+- Each forge holds about 10 spirits forced to dig, and a three-phase forge-master warded against every element except Sovereign.
+- At the forge's heart is a lava hearth. Lay the glass assembly in the metal tray on it and the forge's heat makes the **Heartglass** of that forge. The forge-master's key opens the next forge.
+
+**Muspelheim** (part 2):
+- Five floors deep. The walls are thick with toiling spirits.
+- At the bottom, the giant himself fights in six phases.
+- His fall opens the great hearth. Your Sovereign staff and the four Heartglasses fuse into the **divine staff**, the only one in the game.
+- The mountain starts to fall. You run up through collapsing floors with the spirits behind you, then across the causeway as it sinks, then onto the mainland.
+
+**Asgard** (part 3):
+- Asgard comes down out of the sky and settles into Mirror Lake as a walled island of white and gold.
+- Mira shows you the notch at the end of the village pier. The spirits line up along the ley lines of the Green to your staff, and the staff's beam melts a road through the wall. That road is the **Bifröst**.
+- Before you cross, the spirits teach you the staff's one spell.
+- Asgard is four floors of white, gold and cream, with columns and spires. Its angel-wraiths shimmer between light and dark.
+- At the top is Grímnir, the Masked King, light flashing to black. Beat him and the hearth of light opens. Set the staff in its keyhole and a beam rises to the heavens. The spirits, the fairies and your familiars follow it home.
+- Credits, then free roam.
+
+## 3. Progression, step by step (proposal)
+
+| # | Step | Needs | Gives |
+|---|---|---|---|
+| 1 | Spirit shrines (10 per region; beat at least 6) | the region open | 1 **runic glass shard** per spirit; the spirit goes to the Green |
+| 2 | First island dungeon done (any familiar island) | — | **the Glasswright's hall** opens in the village |
+| 3 | Glasswright: 6 shards of one region → that region's **glass assembly** | 6 shards from that region | 1 assembly ("its true form needs a forge's heart") |
+| 4 | First castle cleared | — | **Mira's workshop** opens (interior + Mira) |
+| 5 | Island trader (one per region's familiar island) | gold | that region's **metal** |
+| 6 | Region boss dungeon: the great spirit on the last floor | beat the guardian | that region's **soul gem** |
+| 7 | Mira: metal + soul gem → **hearth tray** | 5 + 6 | 1 tray ("it will hold against the forge's heat") |
+| 8 | Forges unlock | 4 boss dungeons + 4 builders' towers | the forges rise |
+| 9 | Forge *n* (in order) | the previous forge's key (none for the first) | ~10 spirits freed; forge-master beaten → the **key** to the next forge; at the hearth, assembly + tray → **Heartglass** |
+| 10 | Muspelheim | 4 keys | the giant beaten; at the great hearth, Sovereign staff + 4 Heartglasses → **divine staff**; the collapse and escape |
+| 11 | Asgard descends; the pier notch; the Bifröst | divine staff | the bridge; the final spell |
+| 12 | Asgard, 4 floors | divine staff + spell | Grímnir, the Masked King; the hearth of light; the end |
+
+**What step 9 needs at the hearth.** If you reach a forge's hearth without its assembly or its tray, the hearth tells you what is missing and where to get it, as Kris asked. The forge's key comes from beating its forge-master, so the order never blocks you at a hearth.
+
+## 4. Names (decided: wave 2 cards)
+
+| Thing | Name |
+|---|---|
+| The fire giant (once "the Volcano Lord") | **Surtharn, Tyrant of Muspelheim** |
+| The final boss (a corrupted Odin) | **Grímnir, the Masked King** (Grímnir, "the masked one", is one of Odin's names; a god hiding behind a mask of light) |
+| The divine staff | **the Lodestar**: the guiding star; it leads the spirits home |
+| Its spell | **Godsbane** |
+| Glass forger and her hall | **Sólveig the Glasswright**, in **the Glimmerhall**, the grandest building in the village |
+| Glass | **Soulglass shard** → **Soulglass lattice** (Ember / Cinder / Slag / Ash) → **Heartglass** (made at each forge's hearth) |
+
+Still my proposals (change any you like):
+
+| Thing | Name |
+|---|---|
+| Metal tray | **Hearth tray** |
+| Island metals | **Sea-silver** (Corsair Isle), **Bog-iron** (Bog Isle), **Fire-bronze** (Ember Isle), **Rime-steel** (Frost Isle) |
+| Soul gems | **Grovesoul**, **Tidesoul**, **Stonesoul**, **Embersoul** |
+| Shrines and guardians | **Bindstones** and their **Binders** |
+| The bridge | **Bifröst** |
+| The final site | **Asgard** |
+
+## 5. Remaking the forges (proposal)
+
+Each forge becomes a real adventure site of 3 floors on the site engine (walls, painted floors, the painted void, the minimap and the HUD). Each forge keeps today's challenge as one of its floors, then adds a boss floor.
+
+| Forge | Floor 1 | Floor 2 | Floor 3 (boss) | Forge-master (3 phases) |
+|---|---|---|---|---|
+| **Ember** (grass realm) | the Ember Maze (lava maze, fixed) | spirit galleries (~5 spirits chained at the rock face) | the hearth hall | **Glóðr, the Bellows-Wyrm**: 1) breath sweeps from the bellows; 2) burrows, lava geysers rise under you; 3) the bellows burst, the whole room breathes fire on a beat |
+| **Cinder** (water) | the Steam Climb (today's geysers, rocks, fireballs) | flooded galleries, steam vents | the quench pool | **Eisa, the Quench-Hag**: 1) hurls steam bolts, summons cinder imps; 2) floods the room — islands of rock, scalding water; 3) boils it all — a shrinking dry ring |
+| **Slag** (earth) | the Slag Puzzle (blocks onto plates, a bigger set) | collapsing mine shafts | the crucible | **Gjallr, the Slag Troll**: 1) slag pours, makes walls; 2) throws molten boulders, shakes ore loose; 3) armoured in cooling slag — break the shell with Sovereign hits |
+| **Ash** (fire) | the Ash Escape (rising lava, fixed) | the chain halls (spirits pull chains that move platforms) | the chain throne | **Eimyrja, the Chainmistress**: 1) chain lashes, pulls you; 2) chains the room into lanes; 3) chains spirits as shields — free them by cutting chains |
+
+- **Spirits:** about 10 per forge, chained at rock faces with picks. Strike a chain to free one; it then hovers near the hearth.
+- **Wards:** each forge-master is **warded to all six elements** (×0.35) and **weak to Sovereign** (×2). Sovereign armour cuts their damage.
+- **The hearth:** Tab with lattice + tray in your bag and the Heartglass is made (a short in-game scene: the tray glows, the glass turns to light). Without them, the hearth says what is missing.
+
+## 6. Muspelheim (proposal)
+
+- **Five floors.**
+  - Floors 1–4 are great mine halls. Toiling spirits fill the void art around the walkable floor: digging, carrying, chained in lines.
+  - Floor 5 is the throne cavern, whose **walls are made of spirits** (painted wall tiles).
+- **Surtharn's 6 phases** (all warded except Sovereign):
+  1. **The Forgemaster.** Hammer slams make shockwave rings; ash-wardens come in waves.
+  2. **The Burning Crown.** Fire-breath sweeps; the floor cracks into lava lanes.
+  3. **Sword of Flame.** The giant's sword sweeps the whole room, with safe gaps to read; it sets the floor alight.
+  4. **The Bound Host.** He drives the toiling spirits at you. Don't hit them — free them (cut chains); every freed spirit weakens him.
+  5. **Molten Heart.** He sheds his armour; his heart is open to Sovereign hits only; meteors fall.
+  6. **The Last Ember.** Faster, every pattern mixed; the room shrinks as lava rises.
+- **The great hearth:** Sovereign staff + 4 Heartglasses → **the Lodestar**.
+- **The escape (in game, not a cut-scene):**
+  1. Floors 5 → 1 collapse behind you on a timer: falling rock, cracks that turn to lava, the spirits trailing you.
+  2. Out on the causeway, the walkway sinks into the sea behind you as you run (tiles turn to lava, then to sea).
+  3. Once you're on the mainland, Muspelheim sinks: a short cut-scene of camera, shake and smoke.
+
+## 7. Asgard (proposal)
+
+- **The descent:** a cut-scene. A light opens in the sky over Mirror Lake, Asgard lowers into the water and becomes a walled island (white walls, gold tips). It fits inside the lake, which is about 100 tiles across, clear of the village.
+- **The Bifröst:**
+  1. Mira's line sends you to the pier notch.
+  2. The spirits line up along the Green's ley lines to the pier.
+  3. The beam melts the wall.
+  4. The bridge has a rainbow shimmer.
+
+  This is mostly in game: actors walk, then a beam effect.
+- **The final spell:** the spirits teach it at the bridge. It only works with the Lodestar.
+- **The site:** 4 floors of white, gold and cream; tall columns and spires; light void art with clouds and golden rays.
+- **Monsters:** angel-wraiths that shimmer between bright and dark.
+  - **Valkyrie shades**
+  - **Einherjar husks**
+  - **Hollow ravens** (a corrupted Huginn and Muninn)
+  - **Gilded draugr**
+
+  All are weak only to Sovereign weapons and resisted only by Sovereign armour.
+- **Grímnir, the Masked King:** 5 phases, light flashing to black. The spell is his weak point in the last phase. A proposal for his phases comes with the build.
+- **The hearth of light:** the staff goes into its keyhole, a beam rises to the heavens, and the spirits, fairies and familiars follow. Credits, then free roam.
+
+## 8. The spirits themselves (art)
+
+- **Look:** friendly, small humanoid-wisp figures in the runic light blue (#6fe3f5 family), glowing.
+  - **Trapped:** toiling and frustrated, with chains, picks and slumped shoulders.
+  - **Freed:** relaxed and floating, then wandering away.
+- **Sets** to keep the sprite count down: single spirits in 4 poses (toil, plead, freed, drift); groups of 2, 3, 4, 5 and 6; a crowd of 10 for the Green and the walls of Muspelheim.
+- **Toiling animation:** pick swings, 4–8 frames. Drifting animation: 4–8 frames.
+- **On the Green:** freed spirits gather in rings around the runestone, more with every spirit freed.
+
+## 9. Cut-scenes
+
+**Proposal:** in-engine scenes. Letterbox bars, camera moves, dialogue boxes, scripted moves and effects. For the moments the engine can't draw well, painted story panels, faded through.
+- **In engine:** a spirit's thanks; the Glasswright; Mira; each hearth; the great hearth; the collapse; the causeway sinking; the Bifröst; the final spell; the ending beam.
+- **Painted panels** (about 6–8): Muspelheim sinking; Asgard opening in the sky; Asgard settling on the lake; Grímnir revealed; the spirits rising; the credits backdrop.
+
+## 10. Where the old story conflicts, and how this resolves it
+
+| Conflict | Resolution |
+|---|---|
+| Familiars were "spirits" | renamed throughout (done in round 51) |
+| The Volcano Lord was the final boss and the whole story | he becomes the endgame's middle boss; the final boss is Grímnir |
+| Sovereign gear counted as all six elements | it becomes the seventh element, **Sovereign**: no wheel matchups; effective only against the forge-masters, Surtharn and Asgard (and resisted by nothing else) |
+| The boss rush gave the Elemental Sovereign sword | the boss rush is replaced by Muspelheim; the sword stays forgeable as before |
+| Mira's workshop was decoration | it gets an interior, Mira and the tray recipe |
+| The caged builders had no reason | the tyrant's ash-wardens took them to build his forges |
+| No ending | credits, then free roam |
+
+## 11. Build order (estimate)
+
+| Round | Work | Art waves |
+|---|---|---|
+| 52 | spirits system (bindstones, binders, shards, the Green filling), Glimmerhall + Sólveig, lattices, Tome pages | spirits (poses, groups), Glimmerhall, shards, lattices |
+| 53 | soul gems from dungeon spirits, island metals, Mira's workshop interior + Mira, hearth trays, the Sovereign element | Mira's interior, gems, metals, trays |
+| 54–55 | the four forges remade (3 floors each, spirits, hearths, Heartglass, 4 forge-masters) | forge floors, forge-masters (4 × 3 phases) |
+| 56 | Muspelheim (5 floors, spirit walls, Surtharn's 6 phases, the great hearth, the Lodestar) | Muspelheim floors, spirit walls, Surtharn |
+| 57 | the collapse and escape, the causeway sinking, Asgard's descent, the pier notch, the Bifröst, the final spell | story panels, Asgard island, Bifröst |
+| 58 | Asgard (4 floors, 4 monster kinds, Grímnir), the hearth of light, the ending, credits, free roam | Asgard floors, monsters, Grímnir, ending |
+
+## 12. Open questions
+
+**Wave 2:** answered (§4).
+
+**Wave 3 (later):**
+- **Shrines:** how many per region (10?), and must the 6 be in that region?
+- **Glass:** can shards be mixed across regions, or must a region's lattice use its own shards?
+- **Forge floors:** keep the four old challenges as floors, or replace them?
+- **Muspelheim's floors:** 5?
+- **Asgard's floors:** 4 (as asked)?
+- **Collapse timer:** is it a hard fail if it runs out, or does it just hurt?
+- **Spirit look:** humanoid wisps, or animal-like?
+- **Credits:** text only, or over painted panels?

@@ -1,4 +1,4 @@
-# Scenery — 134 sheets, 1402 objects and textures (13 sheets in the pilot)
+# Scenery — 135 sheets, 1407 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -32,6 +32,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 49 | Round 46: the hero asleep and waking in the home bed, at the bed's own size | 1 | 16 |
 | 50 | Round 47: what fills the space round the adventure sites (rock, seas, fog, sky, night sky, their creatures), smoother butterflies and dragonflies, painted area effects | 9 | 86 |
 | 51 | undefined | 2 | 16 |
+| 52 | undefined | 1 | 5 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -2078,6 +2079,33 @@ Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in t
 11. Meteor target — a glowing orange target circle on the ground with falling sparks above it (about 4.1× the hero's height across).
 12. Root burst — a round burst of green roots and leaves bursting up from the ground (about 4.1× the hero's height across).
 View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ent_forges
+
+The four Forges of Muspelheim and the great gate of Muspelheim — entrances in the sea, each a door into a volcano, seen from above-front like the other site entrances · wave 52 · 5 items, 3 × 2 · 1536x1024
+
+- `en_forge_ember` Ember Forge — 170 × 170 px
+- `en_forge_cinder` Cinder Forge — 170 × 170 px
+- `en_forge_slag` Slag Forge — 170 × 170 px
+- `en_forge_ash` Ash Forge — 170 × 170 px
+- `en_muspelheim` Muspelheim, the great gate — 300 × 300 px
+
+Attach: style_hero, style_centaur, sc_ent_dungeon
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 5 separate pieces of scenery — The four Forges of Muspelheim and the great gate of Muspelheim — entrances in the sea, each a door into a volcano, seen from above-front like the other site entrances.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 5 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
+1. Ember Forge — a squat volcanic cone of black basalt rising from the sea, green moss and wildflowers clinging to its lower flanks, a great arched forge-mouth at its foot glowing ember-orange behind iron doors with an anvil-and-leaf emblem, embers drifting up from its crater (about 2.7× the hero's height).
+2. Cinder Forge — a squat volcanic cone of wet black basalt standing in shallow sea water, steam hissing where little lava channels meet the waves, an arched forge-mouth glowing orange behind iron doors with an anvil-and-wave emblem, cinders and steam rising from its crater (about 2.7× the hero's height).
+3. Slag Forge — a squat volcanic cone of rough grey slag and stone, dwarven stone buttresses and stairs carved into it, molten slag runoff down its sides, an arched forge-mouth glowing orange behind iron doors with an anvil-and-mountain emblem (about 2.7× the hero's height).
+4. Ash Forge — a squat volcanic cone of pale ash-grey stone with glowing red cracks, heavy chains bolted across it, an arched forge-mouth glowing deep red behind iron doors with an anvil-and-flame emblem, ash falling from its crater (about 2.7× the hero's height).
+5. Muspelheim, the great gate — the towering flank of a huge volcano of black obsidian and basalt: a colossal gate carved in the shape of a fire-giant's hall, two giant stone fire-giants carved either side, rivers of lava falling beside it, four glowing keyholes on the doors (orange, teal, grey and red, one for each forge), smoke and fire above (about 4.8× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°: the front wall with its door faces the viewer at the bottom, and the roof rises behind it. Walls are vertical; no side perspective, no vanishing point. The bottom edge is where the building meets the ground, with the door in the middle of the front wall unless said otherwise.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

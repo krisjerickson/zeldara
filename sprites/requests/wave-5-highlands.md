@@ -2992,14 +2992,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## aurora_spirit.core.s
 
-Aurora Spirit · Idle, Hover, Beam, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
+Aurora Wisp · Idle, Hover, Beam, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Aurora Spirit — Spirit of ribbons of green and violet light. Main colours: pale green (#a0ffd0), green (#3a8a6a), pale violet (#c080ff), white (#ffffff). Size: about 1.1× the height of the hero.
+Subject: Aurora Wisp — A wisp of ribbons of green and violet light. Main colours: pale green (#a0ffd0), green (#3a8a6a), pale violet (#c080ff), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Weaves across the room. Light ribbons form damaging lanes. Hittable only where ribbons cross.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
@@ -3018,14 +3018,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## aurora_spirit.fb
 
-Aurora Spirit · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1536x1024 · core
+Aurora Wisp · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, aurora_spirit.core.s
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Aurora Spirit — Spirit of ribbons of green and violet light. Main colours: pale green (#a0ffd0), green (#3a8a6a), pale violet (#c080ff), white (#ffffff). Size: about 1.1× the height of the hero.
+Subject: Aurora Wisp — A wisp of ribbons of green and violet light. Main colours: pale green (#a0ffd0), green (#3a8a6a), pale violet (#c080ff), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Weaves across the room. Light ribbons form damaging lanes. Hittable only where ribbons cross.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. seen from the FRONT, standing at rest, relaxed and alert.
@@ -3044,14 +3044,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## aurora_spirit.extra.s
 
-Aurora Spirit · Death · 2 poses, 2 × 1 · 1536x1024 · extra
+Aurora Wisp · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 
 Attach: style_hero, style_centaur, aurora_spirit.core.s
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Aurora Spirit — Spirit of ribbons of green and violet light. Main colours: pale green (#a0ffd0), green (#3a8a6a), pale violet (#c080ff), white (#ffffff). Size: about 1.1× the height of the hero.
+Subject: Aurora Wisp — A wisp of ribbons of green and violet light. Main colours: pale green (#a0ffd0), green (#3a8a6a), pale violet (#c080ff), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Weaves across the room. Light ribbons form damaging lanes. Hittable only where ribbons cross.
 Layout: exactly 2 poses in a grid of 2 columns × 1 row, evenly spaced, in this order (left to right, top row first):
 1. death frame 1: buckling, losing balance.

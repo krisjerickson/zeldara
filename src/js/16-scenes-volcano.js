@@ -75,7 +75,7 @@ class VolcanoMazeScene extends Phaser.Scene {
     this.input.keyboard.on('keydown-TAB',function(e){e.preventDefault();});
     // HUD overlay
     document.getElementById('dungeon-hud').style.display='block';
-    this.titleTxt=this.add.text(this.scale.width/2,18,'🔥 Ember Maze — find the key',{fontSize:'14px',color:'#ffaa44',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
+    this.titleTxt=this.add.text(this.scale.width/2,18,'🔥 Ember Forge — find the key',{fontSize:'14px',color:'#ffaa44',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.hintTxt=this.add.text(this.scale.width/2,this.scale.height-30,'WASD: move • Stay on obsidian • TAB on the 🔥 chest • ESC: leave',{fontSize:'10px',color:'#cca988',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.gotKey=this.ps.inventory&&this.ps.inventory.indexOf(this.keyId)>=0;
     if(this.gotKey){
@@ -233,7 +233,7 @@ class VolcanoBulletHellScene extends Phaser.Scene {
     this.keys=this.input.keyboard.addKeys({UP:'UP',DOWN:'DOWN',LEFT:'LEFT',RIGHT:'RIGHT',W:'W',A:'A',S:'S',D:'D',SPACE:'SPACE',SHIFT:Phaser.Input.Keyboard.KeyCodes.SHIFT,TAB:Phaser.Input.Keyboard.KeyCodes.TAB});
     this.input.keyboard.on('keydown-TAB',function(e){e.preventDefault();});
     document.getElementById('dungeon-hud').style.display='block';
-    this.titleTxt=this.add.text(this.scale.width/2,18,'🟧 Magma Climb — reach the top, grab the key',{fontSize:'14px',color:'#ff8844',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
+    this.titleTxt=this.add.text(this.scale.width/2,18,'🟧 Cinder Forge — reach the top, grab the key',{fontSize:'14px',color:'#ff8844',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.hintTxt=this.add.text(this.scale.width/2,this.scale.height-30,'WASD: move • Dodge geysers/rocks • TAB on chest • ESC: leave',{fontSize:'10px',color:'#ffcca8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.geysers=[]; this.rocks=[]; this.fireballs=[];
     this._gT=0; this._rT=0; this._fT=0; this._iframes=0;
@@ -443,7 +443,7 @@ class VolcanoPuzzleScene extends Phaser.Scene {
     this.keys=this.input.keyboard.addKeys({UP:'UP',DOWN:'DOWN',LEFT:'LEFT',RIGHT:'RIGHT',W:'W',A:'A',S:'S',D:'D',SPACE:'SPACE',SHIFT:Phaser.Input.Keyboard.KeyCodes.SHIFT,TAB:Phaser.Input.Keyboard.KeyCodes.TAB});
     this.input.keyboard.on('keydown-TAB',function(e){e.preventDefault();});
     document.getElementById('dungeon-hud').style.display='block';
-    this.titleTxt=this.add.text(this.scale.width/2,18,'🟫 Obsidian Puzzle — push all 3 blocks onto plates',{fontSize:'14px',color:'#cc8866',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
+    this.titleTxt=this.add.text(this.scale.width/2,18,'🟫 Slag Forge — push all 3 blocks onto plates',{fontSize:'14px',color:'#cc8866',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.hintTxt=this.add.text(this.scale.width/2,this.scale.height-30,'WASD: move • Walk into a block to push it • TAB the chest • ESC: leave',{fontSize:'10px',color:'#cca988',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this._moveCD=0;
     this.gotKey=this.ps.inventory&&this.ps.inventory.indexOf(this.keyId)>=0;
@@ -635,7 +635,7 @@ class VolcanoEscapeScene extends Phaser.Scene {
     this.keys=this.input.keyboard.addKeys({UP:'UP',DOWN:'DOWN',LEFT:'LEFT',RIGHT:'RIGHT',W:'W',A:'A',S:'S',D:'D',SPACE:'SPACE',SHIFT:Phaser.Input.Keyboard.KeyCodes.SHIFT,TAB:Phaser.Input.Keyboard.KeyCodes.TAB});
     this.input.keyboard.on('keydown-TAB',function(e){e.preventDefault();});
     document.getElementById('dungeon-hud').style.display='block';
-    this.titleTxt=this.add.text(this.scale.width/2,18,'🌋 Ashfire Escape — collect 3 fragments before the lava rises',{fontSize:'13px',color:'#ff8844',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
+    this.titleTxt=this.add.text(this.scale.width/2,18,'🌋 Ash Forge — collect 3 fragments before the lava rises',{fontSize:'13px',color:'#ff8844',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.timerTxt=this.add.text(this.scale.width/2,38,'',{fontSize:'15px',color:'#ffdd44',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,fontStyle:'bold'}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.hintTxt=this.add.text(this.scale.width/2,this.scale.height-30,'WASD: move • Grab 🟡 fragments • TAB the 🚪 door • ESC: leave',{fontSize:'10px',color:'#ffcca8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this._lavaT=90; // seconds
@@ -793,7 +793,7 @@ class VolcanoBossRushScene extends Phaser.Scene {
     this.keys=this.input.keyboard.addKeys({UP:'UP',DOWN:'DOWN',LEFT:'LEFT',RIGHT:'RIGHT',W:'W',A:'A',S:'S',D:'D',SPACE:'SPACE',SHIFT:Phaser.Input.Keyboard.KeyCodes.SHIFT,TAB:Phaser.Input.Keyboard.KeyCodes.TAB});
     this.input.keyboard.on('keydown-TAB',function(e){e.preventDefault();});
     document.getElementById('dungeon-hud').style.display='block';
-    this.titleTxt=this.add.text(this.scale.width/2,18,'⚔️ Volcano Lord — Boss Rush',{fontSize:'15px',color:'#ff4444',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,fontStyle:'bold'}).setOrigin(.5).setScrollFactor(0).setDepth(100);
+    this.titleTxt=this.add.text(this.scale.width/2,18,'⚔️ Muspelheim — the Volcano Lord',{fontSize:'15px',color:'#ff4444',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,fontStyle:'bold'}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.bossTxt=this.add.text(this.scale.width/2,40,'',{fontSize:'12px',color:'#ffaa44',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.hintTxt=this.add.text(this.scale.width/2,this.scale.height-26,'WASD: move • SPACE: attack • SHIFT: shield • CTRL: bow',{fontSize:'10px',color:'#cca988',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     // 10 waves, ramping difficulty. Wave 1 is a SWARM (3 simultaneous

@@ -35,7 +35,7 @@ Object.keys(FAM_COUNTERS).forEach(function(id){ var s=MON_KIT_SRC[id]; if(typeof
 var ELITE_FAM_COUNTER=['spiritward n=3','banish r=300 t=10 cd=16'];
 // plain words (Tome + Lab)
 var FAM_COUNTER_TXT={
-  spiritward:function(p){ return 'Spirit Ward: blocks all familiar damage until you land '+(p.n||3)+' sword hits on it'; },
+  spiritward:function(p){ return 'Rune Ward: blocks all familiar damage until you land '+(p.n||3)+' sword hits on it'; },
   mirror:function(p){ return 'Mirror shell: familiar projectiles bounce off and daze the familiar that fired them'; },
   nullaura:function(p){ return 'Null aura: familiars within '+Math.round((p.r||130)/32)+' tiles fall silent'; },
   resist:function(p){ return 'Resists '+(p.el||'fire')+' familiars ('+Math.round((p.red||0.75)*100)+'% less damage)'; },

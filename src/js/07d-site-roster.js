@@ -148,7 +148,7 @@ function _awardIslandFamiliar(ps,sec){
   if(famId&&famDef&&(!ps.ownedFamiliars||!ps.ownedFamiliars.includes(famId))){
     if(!ps.ownedFamiliars)ps.ownedFamiliars=[];
     ps.ownedFamiliars.push(famId); if(!ps.famLevels)ps.famLevels={}; ps.famLevels[famId]=ps.famLevels[famId]||1;
-    setTimeout(function(){showNotif(famDef.icon+' '+famDef.n+' — a '+SPIRIT_ELEMENTS[famDef.el].name.toLowerCase()+' spirit — is now your familiar!','#88eeff');},300);
+    setTimeout(function(){showNotif(famDef.icon+' '+famDef.n+' — a '+SPIRIT_ELEMENTS[famDef.el].name.toLowerCase()+' familiar — is now at your side!','#88eeff');},300);
     setTimeout(function(){showNotif('✨ The '+TOME_QN[sec]+' fairies by the runestones can teach it new skills.','#c0ffe0');},2200);
     var max=_maxFamiliarSlots(ps); for(var i=0;i<max;i++){ if(!ps[FAM_SLOTS[i]]){ ps[FAM_SLOTS[i]]=famId; break; } }
   }

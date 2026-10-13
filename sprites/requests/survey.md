@@ -99,7 +99,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | illusionist_gnome | Illusionist Gnome | Grasslands · tower | s f b | Idle ×1; Move ×4 (swap); Ranged attack ×2 (shoot); Hurt ×1; Blink ×2 (blink); Dodge ×1 (dodge); Death ×2 | 3 |
 | rose_dryad | Rose Dryad | Grasslands · tower | q | Rooted idle ×2 (still); Cast ×2 (strike); Hurt ×1; Death ×2 | 1 |
 | lantern_familiar | Lantern Familiar | Grasslands · tower | q | Idle ×1; Hover ×4 (drift); Ranged attack ×2 (shoot); Hurt ×1; Death ×2 | 2 |
-| chime_spirit | Chime Spirit | Grasslands · tower | q | Rooted idle ×2 (still); Cast ×2 (ring); Hurt ×1; Death ×2 | 1 |
+| chime_spirit | Chime Wisp | Grasslands · tower | q | Rooted idle ×2 (still); Cast ×2 (ring); Hurt ×1; Death ×2 | 1 |
 | wand_knight | Gilded Wand-Knight | Grasslands · tower | s f b | Idle ×1; Move ×4 (chase); Melee attack ×2 (melee); Hurt ×1; Ranged attack ×2 (shoot); Guard ×2 (reflect, armor); Death ×2 | 3 |
 | bog_serpent | Bog Serpent | Wetlands · mainland | q | Idle ×1; Move ×4; Breath ×2 (basic attack); Hurt ×1; Death ×2 | 2 |
 | mud_troll | Mud Troll | Wetlands · mainland | s f b | Idle ×1; Move ×4; Slam ×3 (basic attack); Hurt ×1; Death ×2 | 3 |
@@ -146,7 +146,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | mist_weaver | Mist Weaver | Wetlands · tower | s f b | Idle ×1; Move ×4; Ranged attack ×2 (shoot); Hurt ×1; Cast ×2 (summon); Blink ×2 (blink); Death ×2 | 3 |
 | moon_moth_mage | Moon Moth Mage | Wetlands · tower | q | Idle ×1; Move ×4 (orbit); Beam ×2 (beam); Hurt ×1; Death ×2 | 2 |
 | hex_toad | Hex Toad | Wetlands · tower | q | Idle ×1; Move ×4; Ranged attack ×2 (shoot); Hurt ×1; Grab ×2 (pull); Leap ×3 (leap); Death ×2 | 2 |
-| rain_spirit | Rain Spirit | Wetlands · tower | q | Idle ×1; Hover ×4 (hover); Cast ×2 (strike); Hurt ×1; Death ×2 | 2 |
+| rain_spirit | Rain Wisp | Wetlands · tower | q | Idle ×1; Hover ×4 (hover); Cast ×2 (strike); Hurt ×1; Death ×2 | 2 |
 | reflecting_nymph | Reflecting Nymph | Wetlands · tower | s f b | Idle ×1; Move ×4; Ranged attack ×2 (shoot); Hurt ×1; Blink ×2 (blink); Guard ×2 (reflect); Death ×2 | 3 |
 | leech_warlock | Leech Warlock | Wetlands · tower | s f b | Idle ×1; Move ×4 (kite); Ranged attack ×2 (shoot); Hurt ×1; Cast ×2 (drain); Death ×2 | 3 |
 | bubble_siren | Bubble Siren | Wetlands · tower | s f b | Idle ×1; Hover ×4 (drift); Ranged attack ×2 (shoot); Hurt ×1; Disguise / ambush ×2 (lure); Guard ×2 (bubble); Death ×2 | 3 |
@@ -159,7 +159,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | rune_eels | Rune Eel Familiars | Wetlands · tower | q | Idle ×1; Move ×4 (orbit); Melee attack ×2 (melee); Hurt ×1; Death ×2 | 2 |
 | glass_jelly | Glass Jellyfish | Wetlands · tower | q | Idle ×1; Hover ×4 (drift); Cast ×2 (ring, aura); Hurt ×1; Death ×2 | 2 |
 | plague_alchemist | Plague Alchemist | Wetlands · tower | s f b | Idle ×1; Move ×4 (kite); Ranged attack ×2 (lob, lob); Hurt ×1; Guard ×2 (bubble); Death ×2 | 3 |
-| storm_heron | Storm Heron Spirit | Wetlands · tower | q | Idle ×1; Move ×4 (orbit); Lunge ×2 (lunge); Hurt ×1; Death ×2 | 2 |
+| storm_heron | Storm Heron Wraith | Wetlands · tower | q | Idle ×1; Move ×4 (orbit); Lunge ×2 (lunge); Hurt ×1; Death ×2 | 2 |
 | bell_ringer | Drowned Bell-ringer | Wetlands · tower | s f b | Rooted idle ×2 (still); Cast ×2 (ring); Hurt ×1; Guard ×2 (bubble); Death ×2 | 3 |
 | mesa_golem | Mesa Golem | Highlands · mainland | s f b | Idle ×1; Move ×4; Slam ×3 (basic attack); Hurt ×1; Death ×2 | 3 |
 | cliff_harpy | Cliff Harpy | Highlands · mainland | q | Idle ×1; Hover ×4; Melee attack ×2 (basic attack); Hurt ×1; Death ×2 | 2 |
@@ -209,7 +209,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | chessmaster | Chessmaster Wraith | Highlands · tower | s f b | Rooted idle ×2 (still); Cast ×2 (summon, gust, banish); Hurt ×1; Guard ×2 (bubble); Death ×2 | 3 |
 | crystal_resonator | Crystal Resonator | Highlands · tower | q | Rooted idle ×2 (still); Ranged attack ×2 (shoot); Hurt ×1; Cast ×2 (ring); Guard ×2 (front); Death ×2 | 2 |
 | wind_monk | Wind Monk | Highlands · tower | s f b | Idle ×1; Move ×4 (chase); Cast ×2 (gust); Hurt ×1; Dodge ×1 (dodge); Death ×2 | 3 |
-| aurora_spirit | Aurora Spirit | Highlands · tower | s f b | Idle ×1; Hover ×4 (drift); Beam ×2 (beam, beam); Hurt ×1; Death ×2 | 3 |
+| aurora_spirit | Aurora Wisp | Highlands · tower | s f b | Idle ×1; Hover ×4 (drift); Beam ×2 (beam, beam); Hurt ×1; Death ×2 | 3 |
 | orrery | Clockwork Orrery | Highlands · tower | q | Rooted idle ×2 (still); Ranged attack ×2 (shoot); Hurt ×1; Cast ×2 (ring); Guard ×2 (armor); Death ×2 | 2 |
 | stone_druid | Stone-speaker Druid | Highlands · tower | s f b | Idle ×1; Move ×4 (kite); Cast ×2 (marks); Hurt ×1; Guard ×2 (front); Death ×2 | 3 |
 | blizzard_witch | Blizzard Witch | Highlands · tower | s f b | Idle ×1; Move ×4 (kite); Ranged attack ×2 (shoot); Hurt ×1; Cast ×2 (cloud); Death ×2 | 3 |
@@ -410,10 +410,10 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | mt_storm_drake | Storm Drake | Sky Port | x | Move · side ×4 (flying, side view); Move · front ×2 (toward the camera); Move · back ×2 (away from the camera) | 1 |
 | mt_ember_phoenix | Ember Phoenix | Sky Port | x | Move · side ×4 (flying, side view); Move · front ×2 (toward the camera); Move · back ×2 (away from the camera) | 1 |
 | mt_void_serpent | Void Serpent | Sky Port | x | Move · side ×4 (flying, side view); Move · front ×2 (toward the camera); Move · back ×2 (away from the camera) | 1 |
-| fam_grass | Thornback Stag (grass spirit) | Elemental spirits | q | Hover ×4 (follows the hero); Ranged attack ×2 (base skill); Cast ×1 (specials: Thorn Dart, Healing Bloom, Vine Snare, Spore Cloud, Bark Ward, Wild Growth); Knocked out ×1 (knocked out in a fight) | 1 |
-| fam_water | Tide Serpent (water spirit) | Elemental spirits | q | Hover ×4 (follows the hero); Ranged attack ×2 (base skill); Cast ×1 (specials: Water Bolt, Tide Ward, Whirlpool, Frost Lance, Rain of Renewal, Tidal Wave); Knocked out ×1 (knocked out in a fight) | 1 |
-| fam_earth | Stone Colossus (earth spirit) | Elemental spirits | q | Hover ×4 (follows the hero); Ranged attack ×2 (base skill); Cast ×1 (specials: Stone Shard, Stone Skin, Quake, Boulder Toss, Crystal Spikes, Avalanche); Knocked out ×1 (knocked out in a fight) | 1 |
-| fam_fire | Phoenix (fire spirit) | Elemental spirits | q | Hover ×4 (follows the hero); Ranged attack ×2 (base skill); Cast ×1 (specials: Ember Bolt, Flame Aura, Fireball, Blaze Dash, Rekindle, Inferno); Knocked out ×1 (knocked out in a fight) | 1 |
+| fam_grass | Thornback Stag (grass familiar) | Elemental familiars | q | Hover ×4 (follows the hero); Ranged attack ×2 (base skill); Cast ×1 (specials: Thorn Dart, Healing Bloom, Vine Snare, Spore Cloud, Bark Ward, Wild Growth); Knocked out ×1 (knocked out in a fight) | 1 |
+| fam_water | Tide Serpent (water familiar) | Elemental familiars | q | Hover ×4 (follows the hero); Ranged attack ×2 (base skill); Cast ×1 (specials: Water Bolt, Tide Ward, Whirlpool, Frost Lance, Rain of Renewal, Tidal Wave); Knocked out ×1 (knocked out in a fight) | 1 |
+| fam_earth | Stone Colossus (earth familiar) | Elemental familiars | q | Hover ×4 (follows the hero); Ranged attack ×2 (base skill); Cast ×1 (specials: Stone Shard, Stone Skin, Quake, Boulder Toss, Crystal Spikes, Avalanche); Knocked out ×1 (knocked out in a fight) | 1 |
+| fam_fire | Phoenix (fire familiar) | Elemental familiars | q | Hover ×4 (follows the hero); Ranged attack ×2 (base skill); Cast ×1 (specials: Ember Bolt, Flame Aura, Fireball, Blaze Dash, Rekindle, Inferno); Knocked out ×1 (knocked out in a fight) | 1 |
 | fairy_clover_pixie | Clover Pixie | Grasslands fairies | q | Hover ×4 (hovers and flutters); Talk ×2 (gives its quest); Cast ×2 (blesses your familiar) | 1 |
 | fairy_rune_pixie | Rune Pixie | Grasslands fairies | q | Hover ×4 (hovers and flutters); Talk ×2 (gives its quest); Cast ×2 (blesses your familiar) | 1 |
 | fairy_bumble_rider | Bumble Rider | Grasslands fairies | q | Hover ×4 (hovers and flutters); Talk ×2 (gives its quest); Cast ×2 (blesses your familiar) | 1 |

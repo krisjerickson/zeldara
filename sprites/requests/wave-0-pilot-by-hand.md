@@ -250,14 +250,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## fam_grass.core.q
 
-Thornback Stag (grass spirit) · Hover, Ranged attack, Cast, Knocked out · 8 poses, 4 × 2 · 1536x1024 · core
+Thornback Stag (grass familiar) · Hover, Ranged attack, Cast, Knocked out · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Thornback Stag (grass spirit) — A proud stag of green light, its antlers woven from flowering vines. It trots at your heel and lowers its antlers to charge.  Size: about 0.77× the height of the hero.
+Subject: Thornback Stag (grass familiar) — A proud stag of green light, its antlers woven from flowering vines. It trots at your heel and lowers its antlers to charge.  Size: about 0.77× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. hovering, body tilted slightly forward — used for: follows the hero.
 2. hover cycle frame 2: bobbing up, wings / trails spread.

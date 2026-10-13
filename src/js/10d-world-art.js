@@ -123,7 +123,9 @@ function _wsSiteArt(scene,s){
 }
 var WS_MAGE_PZ=['frost','library','apothecary','grove','storm','witch','tidal','astral','void','runic','crystal','blood','dream','clock','ember','fungal'];
 function _wsPaintedId(s,r){ if(s.mage){ var d=String(s.design||''); for(var i=0;i<WS_MAGE_PZ.length;i++)if(d.indexOf(WS_MAGE_PZ[i])>=0)return 'en_mage_'+WS_MAGE_PZ[i]; return null; }
-  return s.type==='tower'?(s.boss?'en_twr_boss':'en_twr_'+r):s.type==='camp'?'en_camp':s.type==='harbor'?'en_harbor':s.type==='skyport'?'en_skyport':s.type==='volcano_main'||s.type==='volcano'?'en_volcano_door':s.type==='volcano_mini'?'en_volcano_door_mini':null; }
+  return s.type==='tower'?(s.boss?'en_twr_boss':'en_twr_'+r):s.type==='camp'?'en_camp':s.type==='harbor'?'en_harbor':s.type==='skyport'?'en_skyport':s.type==='volcano_main'||s.type==='volcano'||s.type==='volcano_mini'?_wsForgeId(s):null; }
+// round 51: each forge and Muspelheim its own painted entrance (wave 52) once it is in, the old volcano doors until then
+function _wsForgeId(s){ var id={volcano_n:'en_forge_ember',volcano_e:'en_forge_cinder',volcano_s:'en_forge_slag',volcano_w:'en_forge_ash',volcano_main:'en_muspelheim'}[s.id], Z=_scn(); if(id&&Z&&Z.has&&Z.has(id))return id; return s.type==='volcano_mini'?'en_volcano_door_mini':'en_volcano_door'; }
 var WS_CASTLE_PZ=['thornwood','sunflower','windmill','lotus','abbey','mangrove','dwarven','glacier','eyrie','obsidian','ember','bone'];
 function _wsCastleId(C){ var d=String((C&&C.castle)||''); for(var i=0;i<WS_CASTLE_PZ.length;i++)if(d.indexOf(WS_CASTLE_PZ[i])>=0)return 'en_castle_'+WS_CASTLE_PZ[i]; return null; }
 // Waystone: a tall runic obelisk; runes glow once it's part of the network.

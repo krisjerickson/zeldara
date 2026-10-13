@@ -25,7 +25,7 @@ var FAIRY_KING_OBJECTS={
   3:[['frost_crown','Frost Circlet','👑','glacier_peaks','up on the glacier peaks'],['dwarf_anvil','Dwarf Anvil-charm','⚒️','dwarven_stairs','by the dwarven stairs'],['petrified_heart','Petrified Heart','🪵','petrified_forest','in the petrified forest']],
   4:[['forge_ember','Undying Ember','🔥','forge_ruins','in the forge-city ruins'],['sulfur_crystal','Sulfur Crystal','💛','sulfur_geysers','among the sulfur geysers'],['cathedral_bell','Cathedral Bell','🛎️','burned_cathedral','in the burned cathedral']]
 };
-var FAIRY_CHAT=['Oh! A big one! Hello, big one.','Do you have a fairy companion? No? The spirits of the islands pick brave friends, you know.','The runestones hum at night. We dance when they hum.','I once rode a dragonfly all the way to the lake. Once.','Mind the monsters near the camps — they get grumpy.'];
+var FAIRY_CHAT=['Oh! A big one! Hello, big one.','Do you have a fairy companion? No? The familiars of the islands pick brave friends, you know.','The runestones hum at night. We dance when they hum.','I once rode a dragonfly all the way to the lake. Once.','Mind the monsters near the camps — they get grumpy.'];
 function _fairyZoneName(zid){ return _wmZoneName(zid); }
 function _fairyObj(q,i){ var a=FAIRY_OBJECTS[q][i]; return {id:a[0],name:a[1],icon:a[2],zone:a[3],where:a[4]}; }
 function _kingObj(q,i){ var a=FAIRY_KING_OBJECTS[q][i]; return {id:a[0],name:a[1],icon:a[2],zone:a[3],where:a[4]}; }
@@ -64,7 +64,11 @@ Object.assign(WorldScene.prototype,{
     });
     this._fairyVisT=0; },
   // a 15×15 open patch for the henge (search outward)
-  _hengeSpot(tx,ty){ for(var r=0;r<40;r+=2)for(var a=0;a<16;a++){ var x=Math.round(tx+Math.cos(a/16*Math.PI*2)*r), y=Math.round(ty+Math.sin(a/16*Math.PI*2)*r), ok=true;
+  // round 51 (Kris: "the fairy monarch at the top left corner below the chained floating rocks does not seem to be accessible"): the patch
+  // must also be one you can walk to from the village (crossings open) — the nearest such patch to the court's spot, which for the
+  // Ashlands court is on the coast by the light sea, just below the Chained Rocks
+  _hengeSpot(tx,ty){ var RCH=_footReach(this.wd), W=WORLD_W;
+    for(var r=0;r<120;r+=2)for(var a=0;a<(r<40?16:32);a++){ var n=r<40?16:32, x=Math.round(tx+Math.cos(a/n*Math.PI*2)*r), y=Math.round(ty+Math.sin(a/n*Math.PI*2)*r), ok=!!(RCH&&RCH[y*W+x]);
       for(var dy=-7;dy<=7&&ok;dy+=2)for(var dx=-7;dx<=7;dx+=2){ var t=(this.tiles[y+dy]||[])[x+dx]; if(t===undefined||!canPassTile(t)){ ok=false; break; } } if(ok)return {x:x,y:y}; } return this._fairySpot(tx,ty); },
   _hengeBuild(K){ if(K.built)return; K.built=true; var self=this, n=10, R=6.2*TILE;
     for(var i=0;i<n;i++){ var a=i/n*Math.PI*2-Math.PI/2, x=K.x+Math.cos(a)*R, y=K.y+Math.sin(a)*R*0.8, kind=i%2?'post':'tri'; (_scn()&&_scn().image(this,kind==='tri'?'rn_henge_tri':'rn_henge_post',x,y,_scn().K,WR_DEPTH(y)))||this.add.image(x,y,_hengeStoneTex(this,K.q,kind)).setOrigin(0.5,1).setDepth(WR_DEPTH(y)); }
@@ -108,7 +112,7 @@ Object.assign(WorldScene.prototype,{
     if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(f)this._talkFairy(f); else this._talkKing(K); }
     return true; },
   _talkFairy(f){ var self=this, ps=this.playerState, st=this._fairyState(f), fid=FAM_BY_SEC[f.q], fam=FAMILIARS[fid], o=_fairyObj(f.q,f.i), qk='q'+f.q+'_f'+f.i, isl=(HARBOR_ISLANDS[f.q]||{}).name||'the island';
-    if(st.k==='chat'){ var line=f.i===0?'Do you have a fairy companion? No? Every quadrant has a spirit sleeping on its familiar island — here that\'s '+isl+', from the first harbor. Win it, then come back: we fairies can teach it things!':FAIRY_CHAT[(f.i+Math.floor(Date.now()/9000))%FAIRY_CHAT.length];
+    if(st.k==='chat'){ var line=f.i===0?'Do you have a fairy companion? No? Every quadrant has a familiar sleeping on its island — here that\'s '+isl+', from the first harbor. Win it, then come back: we fairies can teach it things!':FAIRY_CHAT[(f.i+Math.floor(Date.now()/9000))%FAIRY_CHAT.length];
       return FairyTalk.show(f,line,[{t:'Bye!'}]); }
     if(st.k==='done')return FairyTalk.show(f,'Your '+fam.n+' is shining brighter every day. I taught it '+FAM_SKILLS[fam.el][f.i+1].name+' — use it well!',[{t:'Thank you!'}]);
     if(st.k==='wait'){ var prev=this._fairies.find(function(x){ return x.q===f.q&&x.i===_famLevel(ps,fid)-1; }); return FairyTalk.show(f,'Ooh, a '+fam.n+'! It isn\'t ready for my lesson yet. First visit '+(prev?prev.name+' near '+prev.home.name:'my sisters')+' — she teaches the lesson before mine.',[{t:'I\'ll go'}]); }
@@ -119,11 +123,11 @@ Object.assign(WorldScene.prototype,{
   _talkKing(K){ var self=this, ps=this.playerState, fid=FAM_BY_SEC[K.q], fam=FAMILIARS[fid], own=(ps.ownedFamiliars||[]).indexOf(fid)>=0, qk='king'+K.q, S=(ps.fairyQuests||{})[qk], done=(ps.fairyKings||[]).indexOf(K.id)>=0, need=FAIRY_KING_OBJECTS[K.q].map(function(a){ return a[0]; });
     var Kf={name:K.name,F:{col:_monarchOf(K.q).glow},king:K.q};
     if(done)return FairyTalk.show(Kf,'Go well, champion. Your familiars fly together now — '+_maxFamiliarSlots(ps)+' at once.',[{t:'Farewell'}]);
-    if(!own||_famLevel(ps,fid)<3)return FairyTalk.show(Kf,'I am '+K.name+'. Only a hero whose '+TOME_QN[K.q]+' spirit has learned at least two fairy lessons may take my trial. '+(own?'Your '+fam.n+' knows '+(_famLevel(ps,fid)-1)+'.':'You have no '+TOME_QN[K.q]+' spirit yet — its island waits beyond the first harbor.'),[{t:'I understand'}]);
-    if(!S||S.st!=='seek')return FairyTalk.show(Kf,'Bring me three treasures of this land: '+FAIRY_KING_OBJECTS[K.q].map(function(a){ return a[2]+' <b>'+a[1]+'</b> ('+a[4]+' in '+_fairyZoneName(a[3])+')'; }).join(', ')+'. Then you and your spirit will face my trial. Win, and one more familiar may fly at your side.',[{t:'I accept',f:function(){ self._fairyAccept(qk,need,K.q,K.name,true); }},{t:'Later'}]);
+    if(!own||_famLevel(ps,fid)<3)return FairyTalk.show(Kf,'I am '+K.name+'. Only a hero whose '+TOME_QN[K.q]+' familiar has learned at least two fairy lessons may take my trial. '+(own?'Your '+fam.n+' knows '+(_famLevel(ps,fid)-1)+'.':'You have no '+TOME_QN[K.q]+' familiar yet — its island waits beyond the first harbor.'),[{t:'I understand'}]);
+    if(!S||S.st!=='seek')return FairyTalk.show(Kf,'Bring me three treasures of this land: '+FAIRY_KING_OBJECTS[K.q].map(function(a){ return a[2]+' <b>'+a[1]+'</b> ('+a[4]+' in '+_fairyZoneName(a[3])+')'; }).join(', ')+'. Then you and your familiar will face my trial. Win, and one more familiar may fly at your side.',[{t:'I accept',f:function(){ self._fairyAccept(qk,need,K.q,K.name,true); }},{t:'Later'}]);
     if((S.got||[]).length<need.length)return FairyTalk.show(Kf,'You have '+(S.got||[]).length+' of 3. Still missing: '+need.filter(function(id){ return S.got.indexOf(id)<0; }).map(function(id){ var D=self._digSpots[id]; return D.obj.icon+' '+D.obj.name+' — '+D.obj.where+' in '+_fairyZoneName(D.zone); }).join('; ')+'.',[{t:'Onward'}]);
     var MS=MONARCH_TRIAL_PLAN[K.q]||['guardian','shadow_duel'];
-    return FairyTalk.show(Kf,'All three! Now you and your spirit enter my realm for '+MS.length+' trials in a row: '+MS.map(function(t){ return '<b>'+TRIAL_THEMES[t].name+'</b>'; }).join(' → ')+'. Fall at any one and we begin again.',[{t:'Enter the Monarch\'s realm',f:function(){ TrialRealm.enter(self,{key:qk,q:K.q,i:9,fid:fid,stages:MS,tier:K.q+1,title:'Trial of '+_monarchOf(K.q).name,host:_monarchOf(K.q).name,win:function(){ self._kingWin(K,qk); }}); }},{t:'Not yet'}]); },
+    return FairyTalk.show(Kf,'All three! Now you and your familiar enter my realm for '+MS.length+' trials in a row: '+MS.map(function(t){ return '<b>'+TRIAL_THEMES[t].name+'</b>'; }).join(' → ')+'. Fall at any one and we begin again.',[{t:'Enter the Monarch\'s realm',f:function(){ TrialRealm.enter(self,{key:qk,q:K.q,i:9,fid:fid,stages:MS,tier:K.q+1,title:'Trial of '+_monarchOf(K.q).name,host:_monarchOf(K.q).name,win:function(){ self._kingWin(K,qk); }}); }},{t:'Not yet'}]); },
   _fairyAccept(qk,need,q,who,king){ var ps=this.playerState; if(!ps.fairyQuests)ps.fairyQuests={}; ps.fairyQuests[qk]={st:'seek',need:need,got:[],q:q,who:who,king:!!king,t:Date.now()};
     if(!ps.hasTrowel){ ps.hasTrowel=true; showNotif('🪏 Fairy Trowel — press G to dig','#fff0a0'); }
     showNotif('📜 Quest added to your Tome: '+need.map(function(id){ var D=this._digSpots[id]; return D?D.obj.icon+' '+D.obj.name:id; },this).join(', '),'#ffe8ff'); if(typeof Tome!=='undefined')Tome.see('quest',qk); this._save&&this._save(); },
@@ -160,4 +164,13 @@ function _wmFairyMarks(ctx,wd,ps,X,Y,inV,big,lbl){ var ws=game.scene.getScene('W
   (ws._kings||[]).forEach(function(K){ var tx=K.x/TILE, ty=K.y/TILE; if(!inV(tx,ty)||!_wmExplored(ps,tx,ty))return; ctx.font=(big?14:10)+'px serif'; ctx.fillText('👑',X(tx),Y(ty)); if(big)lbl('Fairy Monarch',X(tx),Y(ty)+14,'#fff0a0',10,700); });
   ws._activeDigs().forEach(function(D){ var ox=((D.obj.id.charCodeAt(0)*7)%9)-4, oy=((D.obj.id.charCodeAt(1)*5)%9)-4, cx=X(D.x+ox), cy=Y(D.y+oy), r=Math.max(8,Math.abs(X(D.x+10)-X(D.x)));
     ctx.save(); ctx.setLineDash([4,3]); ctx.strokeStyle='#fff0a0'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke(); ctx.restore(); ctx.font=(big?13:9)+'px serif'; ctx.fillText('🪏',cx,cy+4); if(big)lbl('Dig: '+D.obj.name,cx,cy+r+10,'#fff0a0',10,700); }); }
-function sbFairyMax(){ var ws=_sbWs&&_sbWs(); if(!ws)return; var ps=ws.playerState; ps.ownedFamiliars=['fam_grass','fam_water','fam_earth','fam_fire']; ps.famLevels={fam_grass:6,fam_water:6,fam_earth:6,fam_fire:6}; ps.fairyKings=['k2','k3','k4']; ps.hasTrowel=true; ps.familiar='fam_grass'; ps.familiar2='fam_water'; ps.familiar3='fam_earth'; ps.familiar4='fam_fire'; ws._emitUI(); showNotif('All 4 spirit familiars at level 6, 4 active','#88eeff'); }
+function sbFairyMax(){ var ws=_sbWs&&_sbWs(); if(!ws)return; var ps=ws.playerState; ps.ownedFamiliars=['fam_grass','fam_water','fam_earth','fam_fire']; ps.famLevels={fam_grass:6,fam_water:6,fam_earth:6,fam_fire:6}; ps.fairyKings=['k2','k3','k4']; ps.hasTrowel=true; ps.familiar='fam_grass'; ps.familiar2='fam_water'; ps.familiar3='fam_earth'; ps.familiar4='fam_fire'; ws._emitUI(); showNotif('All 4 familiars at level 6, 4 active','#88eeff'); }
+
+// round 51: every tile you can walk to from the village with every crossing open (computed once per world)
+function _footReach(wd){ if(!wd||!wd.tiles)return null; if(wd._footReach)return wd._footReach; var W=WORLD_W, H=WORLD_H, N=W*H, seen=new Uint8Array(N), gate=new Uint8Array(N), ok={};
+  (wd.gates||[]).forEach(function(g){ (g.cells||[]).forEach(function(c){ gate[c[0]]=1; }); });
+  var pass=function(k){ if(gate[k])return true; var t=wd.tiles[(k/W)|0][k%W], v=ok[t]; if(v===undefined)v=ok[t]=canPassTile(t); return v; };
+  var sx=+wd.spawnX||0, sy=+wd.spawnY||0; if(sx>=W||sy>=H){ sx=Math.floor(sx/TILE); sy=Math.floor(sy/TILE); } var s0=(sy|0)*W+(sx|0); if(s0<0||s0>=N||!pass(s0)){ var cx=typeof CENTER_X!=='undefined'?CENTER_X:600, cy=typeof CENTER_Y!=='undefined'?CENTER_Y:600; s0=cy*W+cx; }
+  var q=new Int32Array(N), h=0, n=0; q[n++]=s0; seen[s0]=1;
+  while(h<n){ var k=q[h++], x=k%W; if(x>0&&!seen[k-1]&&pass(k-1)){ seen[k-1]=1; q[n++]=k-1; } if(x<W-1&&!seen[k+1]&&pass(k+1)){ seen[k+1]=1; q[n++]=k+1; } if(k>=W&&!seen[k-W]&&pass(k-W)){ seen[k-W]=1; q[n++]=k-W; } if(k<N-W&&!seen[k+W]&&pass(k+W)){ seen[k+W]=1; q[n++]=k+W; } }
+  return (wd._footReach=seen); }

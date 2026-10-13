@@ -194,14 +194,14 @@ MON(1,'tow','',3,'starlight_wisp','Starlight Wisp',['wisp','blink','#fff8d0,#c8b
 MON(1,'tow','',2,'ink_imp','Ink Imp',['biped','spit','#2a2a3a,#101018,#6a6aff,#ffffff','ears,horns'],'',
  'Tiny imp made of wet ink.','Hops between inkwells.','Ink splash blinds (dark vignette) for 3 s.','Splits into ink drops on death.','Drops splatter the floor (slippery).');
 MON(1,'tow','',3,'wind_sylph','Wind Sylph',['wraith','pulse','#e0f4ff,#9ac0e0,#ffffff,#3080ff',''],'',
- 'Translucent air spirit with streaming hair.','Swirls around you.','Gust that pushes you 3 tiles — toward hazards.','Intangible between gusts.','Only hittable right after a gust.');
+ 'Translucent air wisp with streaming hair.','Swirls around you.','Gust that pushes you 3 tiles — toward hazards.','Intangible between gusts.','Only hittable right after a gust.');
 MON(1,'tow','',3,'illusionist_gnome','Illusionist Gnome',['caster','blink','#e8c0a0,#6a3a8a,#ff80ff,#101010','hat,beard,wand'],'',
  'Bearded gnome with a spiral wand.','Teleports short hops.','Swaps positions with you (surprise!).','Decoy hat — hitting the hat does nothing.','Swaps you into its own traps if you aren\'t careful.');
 MON(1,'tow','',2,'rose_dryad','Rose Dryad',['tree','cast','#8a6a4a,#4a3424,#ff8aa0,#ffffff','moss'],'',
  'Young tree-woman with roses in her hair.','Rooted; moves between pots.','Vines root you if you stand still more than 1 s.','Thorny: melee hurts you 1.','Keep moving and she can\'t catch you.');
 MON(1,'tow','',1,'lantern_familiar','Lantern Familiar',['wisp','shoot','#ffe0a0,#6a4a2a,#ffd070,#301010','lantern'],'',
  'Floating paper lantern with tiny wings.','Follows other monsters.','Lights up; shoots small sparks.','Fragile.','Killing it makes the room dark.');
-MON(1,'tow','',3,'chime_spirit','Chime Spirit',['wisp','pulse','#c8e0ff,#6a88b0,#9fe8ff,#ffffff',''],'',
+MON(1,'tow','',3,'chime_spirit','Chime Wisp',['wisp','pulse','#c8e0ff,#6a88b0,#9fe8ff,#ffffff',''],'',
  'Floating crystal chimes with a face.','Floats in the room centre.','Sound rings expand outward with a gap — step through the gap.','Only hittable between rings.','Faster rings at low HP.');
 MON(1,'tow','',4,'wand_knight','Gilded Wand-Knight',['biped','cast','#c8ccd4,#6a7080,#ffd070,#80c0ff','helmet,shield,armor,staff'],'',
  'Animated gilded armor wielding a wand like a sword.','Marches; blocks.','Alternates wand bolts and a wand slash.','Mirror shield reflects spells.','Physical attacks break the shield after 3 hits.');

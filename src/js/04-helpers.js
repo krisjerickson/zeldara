@@ -35,8 +35,8 @@ function _updateVolcanoQuestHUD(){
   var k=_volcanoKeysHeld(ps);
   var keysEl=document.getElementById('vq-keys');
   if(keysEl){
-    if(k>=4){ keysEl.innerHTML='🔑 ALL KEYS — head to the great volcano!'; keysEl.style.color='#ffaa44'; }
-    else { keysEl.innerHTML='🔑 '+k+' / 4 keys'; keysEl.style.color='#ffd700'; }
+    if(k>=4){ keysEl.innerHTML='🔑 All four keys — the gate of Muspelheim awaits!'; keysEl.style.color='#ffaa44'; }
+    else { var nx=VOLC_ORDER.find(function(id){ return (ps.inventory||[]).indexOf(_volcanoKeyForSection(VOLC_ORDER.indexOf(id)+1))<0; }); keysEl.innerHTML='🔑 '+k+' / 4 keys'+(nx?' · next: '+VOLC_NAMES[nx]:''); keysEl.style.color='#ffd700'; }
   }
 }
 function _updateBuffsHUD(){
@@ -69,7 +69,8 @@ setInterval(function(){_updateBuffsHUD();_updateVolcanoQuestHUD();}, 500);
 // the boss-rush gauntlet.
 function _finalQuestUnlocked(ps){
   if(!ps||!ps.completedQuests)return false;
-  return ['s1_dungeon','s2_dungeon','s3_dungeon','s4_dungeon'].every(function(k){return ps.completedQuests.includes(k);});
+  // round 51 (Kris): "To unlock the mini volcanoes, you should need to complete all the towers with the master builders as well as the dungeons"
+  return ['s1_dungeon','s2_dungeon','s3_dungeon','s4_dungeon','s1_tower','s2_tower','s3_tower','s4_tower'].every(function(k){return ps.completedQuests.includes(k);});
 }
 function _volcanoKeysHeld(ps){
   if(!ps||!ps.inventory)return 0;
@@ -97,141 +98,64 @@ function _volcanoSiteDefs(){
 // looks like a real volcanic island emerged from the sea. Run once per
 // quest activation; safe to call repeatedly because it only converts tiles
 // that are still OCEAN/SHALLOW_WATER/BEACH.
+// ─── The forges and Muspelheim on the world map (round 51) ───────────────────
+// Kris: "the terrain between the magma walkways to the volcanos needs to be separated from the ocean. Make some sort of rock wall".
+// Each volcano island is joined to the nearest shore you can walk to (wd.volcanoAnchors, 05b step 9) by a causeway: a walkway of cooled
+// magma (dark rock, glowing cracks) between two lines of molten lava, the whole walled off from the sea by a basalt rampart. The island
+// is ringed by the same rampart. Seeded, so it comes out the same every time; carved only once the forges are unlocked.
+var VOLC_NAMES={volcano_n:'Ember Forge',volcano_e:'Cinder Forge',volcano_s:'Slag Forge',volcano_w:'Ash Forge',volcano_main:'Muspelheim'};
+var VOLC_ORDER=['volcano_n','volcano_e','volcano_s','volcano_w'];      // his card: region order, each forge's key opens the next
 function _carveBigVolcanoTerrain(ws){
-  // Renamed in intent — now carves ALL volcano islands + their land bridges
-  // back to the main island. Kept the original function name so existing
-  // callers (initial create + dev unlock + spawn helper) still work.
-  if(!ws||!ws.wd||!ws.wd.tiles)return;
-  var tiles=ws.wd.tiles;
-  var defs=_volcanoSiteDefs();
-  var changed=[];
-
-  function isOcean(t){ return t===T.OCEAN||t===T.REEF||t===T.SHALLOW_WATER||t===T.BEACH; }
-  function setTile(tx,ty,nt){
-    if(tx<0||tx>=WORLD_W||ty<0||ty>=WORLD_H)return;
-    if(!isOcean(tiles[ty][tx]))return; // never overwrite land
-    tiles[ty][tx]=nt;
-    if(ws.wd.kind&&WSK){ var vk=nt===T.DEEP_MAGMA?WSK.lava:nt===T.THIN_MAGMA?WSK.crust:WSK.ashsand; ws.wd.kind[ty*WORLD_W+tx]=vk._gi; }
-    changed.push([tx,ty]);
-  }
-
-  // Volcano-island carve. Big island uses radius 28; minis use 8.
-  function carveIsland(cx, cy, R, isBig){
-    for(var dy=-R;dy<=R;dy++){
-      for(var dx=-R;dx<=R;dx++){
-        var d=Math.hypot(dx,dy); if(d>R)continue;
-        // Light irregular edge so islands aren't perfect circles
-        if(d > R-1.5 && Math.random()<0.4) continue;
-        var nt;
-        if(isBig){
-          if(d<5)        nt = Math.random()<0.55?T.DEEP_MAGMA:T.OBSIDIAN;
-          else if(d<11)  nt = Math.random()<0.5 ?T.THIN_MAGMA:T.DARK_ROCK;
-          else if(d<18)  nt = Math.random()<0.7 ?T.DARK_ROCK :T.ASH_GROUND;
-          else if(d<24)  nt = Math.random()<0.6 ?T.DARK_ROCK :T.ROCKY_GROUND;
-          else           nt = Math.random()<0.5 ?T.ROCKY_GROUND:T.GRAVEL;
-        } else {
-          if(d<2)        nt = Math.random()<0.5 ?T.DEEP_MAGMA:T.THIN_MAGMA;
-          else if(d<4)   nt = Math.random()<0.6 ?T.DARK_ROCK :T.OBSIDIAN;
-          else if(d<6)   nt = Math.random()<0.7 ?T.DARK_ROCK :T.ASH_GROUND;
-          else           nt = Math.random()<0.5 ?T.ROCKY_GROUND:T.DARK_ROCK;
-        }
-        setTile(Math.round(cx+dx), Math.round(cy+dy), nt);
-      }
-    }
-  }
-
-  // Lava causeway between two world points (Ash Dragon territory). Only carves
-  // ocean tiles; lands on existing terrain become no-ops.
-  function carveBridge(x1,y1,x2,y2,halfWidth){
-    var steps=Math.max(Math.abs(x2-x1), Math.abs(y2-y1)) * 2;
-    if(steps<1)return;
-    var nx=x2-x1, ny=y2-y1, ln=Math.hypot(nx,ny)||1;
-    var px=-ny/ln, py=nx/ln; // perpendicular unit
-    for(var i=0;i<=steps;i++){
-      var t=i/steps;
-      var bx=x1+nx*t, by=y1+ny*t;
-      for(var w=-halfWidth; w<=halfWidth; w++){
-        var ox=Math.round(bx + px*w), oy=Math.round(by + py*w);
-        // Phase 3: a molten causeway — only the Ash Dragon (or the Dragon) crosses it
-        setTile(ox,oy,T.DEEP_MAGMA);
-      }
-    }
-  }
-
-  defs.forEach(function(d){
-    var cx=d.tx+1.5, cy=d.ty+1.5;
-    var isBig=d.type==='volcano_main';
-    var R = isBig?28:8;
-    carveIsland(cx, cy, R, isBig);
-    // Bridge: from main-island edge all the way to the door plaza (no buffer).
-    // Bridge: from the nearest shore of the volcano's region (found at build).
-    var an=ws.wd.volcanoAnchors&&ws.wd.volcanoAnchors[d.id];
-    if(an)carveBridge(an.x, an.y, cx, cy, isBig?3:2);
-    // Door plaza — force the 3×3 site tile area to be walkable DARK_ROCK,
-    // overwriting whatever was carved there (lava, ocean, etc.). This is
-    // where the player stands to TAB the door.
-    for(var py=0; py<3; py++) for(var px=0; px<3; px++){
-      var ptx=d.tx+px, pty=d.ty+py;
-      if(ptx<0||ptx>=WORLD_W||pty<0||pty>=WORLD_H)continue;
-      tiles[pty][ptx]=T.DARK_ROCK;
-      if(ws.wd.kind&&WSK)ws.wd.kind[pty*WORLD_W+ptx]=WSK.plaza._gi;
-      changed.push([ptx,pty]);
-    }
-  });
-
-  // Refresh affected chunks. Each refresh is wrapped in try-catch so one
-  // bad chunk can't abort the whole carve, and batched across animation
-  // frames so we don't freeze the browser.
-  if(changed.length)ws.wd.baseVer=(ws.wd.baseVer||0)+1;   // world map redraws the new islands
-  if(ws._refreshChunkAt && changed.length){
-    var seen={};
-    var CHUNK_TILES=CHUNK;
-    var chunksToRefresh=[];
-    changed.forEach(function(p){
-      var k=Math.floor(p[0]/CHUNK_TILES)+','+Math.floor(p[1]/CHUNK_TILES);
-      if(seen[k])return; seen[k]=1;
-      chunksToRefresh.push(p);
-    });
-    // Batch: refresh ~4 chunks per frame so the main loop stays responsive.
-    function flushChunks(){
-      var batch=chunksToRefresh.splice(0, 4);
-      batch.forEach(function(p){
-        try{ ws._refreshChunkAt(p[0], p[1]); }
-        catch(e){ console.warn('chunk refresh failed at', p, e); }
-      });
-      if(chunksToRefresh.length) requestAnimationFrame(flushChunks);
-    }
-    requestAnimationFrame(flushChunks);
-  }
+  if(!ws||!ws.wd||!ws.wd.tiles||ws.wd._volcCarved)return;
+  var wd=ws.wd, tiles=wd.tiles, defs=_volcanoSiteDefs(), changed=[], R=rngOf(51051), mine=new Uint8Array(WORLD_W*WORLD_H);
+  var sea=function(t){ return t===T.OCEAN||t===T.REEF; }, wet=function(t){ return sea(t)||t===T.SHALLOW_WATER||t===T.BEACH; };
+  var KD={}; KD[T.DEEP_MAGMA]=WSK.lava; KD[T.THIN_MAGMA]=WSK.crust; KD[T.CLIFF]=WSK.ridge;
+  // the islands' ground: the Ashlands' own dark-rock ground (the commonest kind on dark rock round Muspelheim's shore), scree for the rubble
+  var AG=(function(){ var an=wd.volcanoAnchors&&wd.volcanoAnchors.volcano_main, cnt={}, best=null, bn=0; if(an)for(var dy=-24;dy<=24;dy++)for(var dx=-24;dx<=24;dx++){ var x=an.x+dx, y=an.y+dy; if(!tiles[y]||tiles[y][x]!==T.DARK_ROCK)continue; var k=wd.kind[y*WORLD_W+x]; cnt[k]=(cnt[k]||0)+1; if(cnt[k]>bn){ bn=cnt[k]; best=k; } } return best; })();
+  KD[T.DARK_ROCK]=KD[T.ASH_GROUND]=KD[T.OBSIDIAN]=AG!==null?{_gi:AG}:WSK.crust; KD[T.ROCKY_GROUND]=KD[T.GRAVEL]=WSK.scree;
+  var put=function(x,y,t,k){ if(x<0||x>=WORLD_W||y<0||y>=WORLD_H)return; tiles[y][x]=t; if(wd.kind)wd.kind[y*WORLD_W+x]=(k||KD[t]||WSK.ashsand)._gi; mine[y*WORLD_W+x]=1; changed.push([x,y]); };
+  function island(cx,cy,Rr,big){ for(var dy=-Rr;dy<=Rr;dy++)for(var dx=-Rr;dx<=Rr;dx++){ var d=Math.hypot(dx,dy); if(d>Rr)continue; if(d>Rr-1.5&&R.f()<0.4)continue;
+      var x=Math.round(cx+dx), y=Math.round(cy+dy); if(!tiles[y]||!wet(tiles[y][x]))continue; var t;
+      if(big){ t=d<5?(R.f()<0.55?T.DEEP_MAGMA:T.OBSIDIAN):d<11?(R.f()<0.5?T.THIN_MAGMA:T.DARK_ROCK):d<18?(R.f()<0.7?T.DARK_ROCK:T.ASH_GROUND):d<24?(R.f()<0.6?T.DARK_ROCK:T.ROCKY_GROUND):(R.f()<0.5?T.ROCKY_GROUND:T.GRAVEL); }
+      else { t=d<2?(R.f()<0.5?T.DEEP_MAGMA:T.THIN_MAGMA):d<4?(R.f()<0.6?T.DARK_ROCK:T.OBSIDIAN):d<6?(R.f()<0.7?T.DARK_ROCK:T.ASH_GROUND):(R.f()<0.5?T.ROCKY_GROUND:T.DARK_ROCK); }
+      put(x,y,t); } }
+  // the walkway: forced open on its middle (sea, island lava, an islet's rock); molten lava beside it where it crosses the sea
+  function causeway(x1,y1,x2,y2,hw){ var n=Math.ceil(Math.max(Math.abs(x2-x1),Math.abs(y2-y1))*2), ux=x2-x1, uy=y2-y1, L=Math.hypot(ux,uy)||1, px=-uy/L, py=ux/L;
+    for(var i=0;i<=n;i++){ var bx=x1+ux*i/n, by=y1+uy*i/n;
+      for(var w=-hw-1;w<=hw+1;w++){ var x=Math.round(bx+px*w), y=Math.round(by+py*w); if(!tiles[y]||tiles[y][x]===undefined)continue; var t=tiles[y][x];
+        if(Math.abs(w)<=hw){ if(wet(t)||mine[y*WORLD_W+x]||!canPassTile(t))put(x,y,T.DARK_ROCK,WSK.crust); }
+        else if(sea(t))put(x,y,T.DEEP_MAGMA); } } }
+  defs.forEach(function(d){ var big=d.type==='volcano_main', cx=d.tx+1.5, cy=d.ty+1.5; island(cx,cy,big?28:8,big);
+    var an=wd.volcanoAnchors&&wd.volcanoAnchors[d.id]; if(an)causeway(an.x,an.y,cx,cy,big?2:1);
+    for(var py=0;py<3;py++)for(var px=0;px<3;px++)put(d.tx+px,d.ty+py,T.DARK_ROCK,WSK.plaza);      // the door plaza
+    // a walkable ring round the door, so it can be reached from every side
+    for(var dy=-2;dy<=4;dy++)for(var dx=-2;dx<=4;dx++){ var x=d.tx+dx, y=d.ty+dy; if(tiles[y]&&!canPassTile(tiles[y][x]))put(x,y,T.DARK_ROCK,WSK.crust); } });
+  // the rampart: every bit of sea touching what was carved becomes a basalt wall
+  var wall=[]; changed.slice().forEach(function(p){ for(var dy=-1;dy<=1;dy++)for(var dx=-1;dx<=1;dx++){ var x=p[0]+dx, y=p[1]+dy; if(!tiles[y]||mine[y*WORLD_W+x])continue; if(sea(tiles[y][x]))wall.push([x,y]); } });
+  wall.forEach(function(p){ if(sea(tiles[p[1]][p[0]]))put(p[0],p[1],T.CLIFF,WSK.ridge); });
+  wd._volcCarved=true;
+  if(changed.length)wd.baseVer=(wd.baseVer||0)+1;   // the world map redraws the new islands
+  // repaint only the painted chunks that exist now (on screen or parked); the rest are painted from the new ground when first visited
+  if(ws._refreshChunkAt&&changed.length&&ws._wr){ var seen={}, todo=[], C=typeof WCH!=='undefined'?WCH:32; changed.forEach(function(p){ var key=Math.floor(p[0]/C)+'_'+Math.floor(p[1]/C); if(seen[key])return; seen[key]=1;
+      if((ws._wr.chunks&&ws._wr.chunks.has(key))||(ws._wr.parked&&ws._wr.parked.has(key)))todo.push(p); });
+    var flush=function(){ todo.splice(0,2).forEach(function(p){ try{ ws._refreshChunkAt(p[0],p[1]); }catch(e){ console.warn('chunk refresh failed at',p,e); } }); if(todo.length)requestAnimationFrame(flush); }; if(todo.length)requestAnimationFrame(flush); }
 }
-function _volcanoSiteLabel(s){
-  return ({volcano_main:'🌋 Volcano Lord',volcano_mini:'🔥 Mini-Volcano'})[s.type]||s.type;
-}
-// Spawn the volcano site visuals into a live World scene. Safe to call
-// repeatedly — checks for existing ids first.
+function _volcanoSiteLabel(s){ var n=VOLC_NAMES[s.id]; return n?(s.type==='volcano_main'?'🌋 '+n:'🔥 '+n):s.type; }
+// Spawn the forges and Muspelheim into a live World scene (safe to call again: existing ids are skipped)
 function _spawnVolcanoVisuals(ws){
   if(!ws||!ws.wd)return;
   _carveBigVolcanoTerrain(ws);
-  var defs=_volcanoSiteDefs();
-  var siteColors={volcano_main:0x661100,volcano_mini:0x882200};
-  var siteIcons={volcano_main:'🌋',volcano_mini:'🔥'};
-  defs.forEach(function(vs){
-    var existing=ws.wd.sites.find(function(s){return s.id===vs.id;});
-    if(existing)return; // already there (either via initial create or prior call)
+  _volcanoSiteDefs().forEach(function(vs){
+    if(ws.wd.sites.find(function(s){return s.id===vs.id;}))return;
     ws.wd.sites.push(vs);
-    // Build the visual chrome: rectangle backdrop + icon + DOM label
-    ws.add.rectangle(vs.tx*TILE+TILE*1.5, vs.ty*TILE+TILE*1.5, TILE*3, TILE*3, siteColors[vs.type], .88)
-      .setDepth(2).setStrokeStyle(2, 0xff6622, .7);
-    var ico=ws.add.text(vs.tx*TILE+TILE*1.5, vs.ty*TILE+TILE*1.5, siteIcons[vs.type], {fontSize:'22px',fontFamily:'serif'}).setOrigin(.5).setDepth(3);
-    var lblEl=document.createElement('div');
-    lblEl.className='wlbl site hidden';
-    lblEl.textContent=_volcanoSiteLabel(vs);
-    var lblHost=document.getElementById('world-labels');
-    if(lblHost)lblHost.appendChild(lblEl);
-    if(!ws.siteObjs)ws.siteObjs=[];
-    ws.siteObjs.push({s:vs,ico:ico,lblEl:lblEl,wx:vs.tx*TILE+TILE*1.5,wy:vs.ty*TILE-2});
+    var ico=typeof _wsSiteArt==='function'?_wsSiteArt(ws,vs):ws.add.text(vs.tx*TILE+TILE*1.5,vs.ty*TILE+TILE*1.5,vs.type==='volcano_main'?'🌋':'🔥',{fontSize:'22px',fontFamily:'serif'}).setOrigin(.5).setDepth(3);
+    var lblEl=document.createElement('div'); lblEl.className='wlbl site hidden'; lblEl.textContent=_volcanoSiteLabel(vs);
+    var host=document.getElementById('world-labels'); if(host)host.appendChild(lblEl);
+    if(!ws.siteObjs)ws.siteObjs=[]; ws.siteObjs.push({s:vs,ico:ico,lblEl:lblEl,wx:vs.tx*TILE+TILE*1.5,wy:vs.ty*TILE-2});
   });
 }
+// the key a forge's door needs (its predecessor's), or null for the first; Muspelheim needs all four
+function _forgeNeeds(id){ var i=VOLC_ORDER.indexOf(id); return i>0?_volcanoKeyForSection(i):null; }
 // Section → mini-volcano key id (which quadrant gives which key).
 function _volcanoKeyForSection(sec){
   return {1:'volcano_key_n',2:'volcano_key_e',3:'volcano_key_s',4:'volcano_key_w'}[sec];

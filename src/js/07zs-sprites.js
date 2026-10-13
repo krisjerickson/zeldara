@@ -260,7 +260,7 @@ var ZSPR={
       push({id:C.id,group:'mount',sub:C.sub,name:C.name,q:0,look:C.look+' Saddled, no rider.',moveTxt:C.doing,pal:C.spec&&C.spec.pal,scale:1.6,facings:['x'],flying:/sky|drake|phoenix|eagle|glider|void|dragon$/.test(k),wave:1.5}); });
     // familiars (the picked spirit per element)
     if(typeof FAMILIAR_PICK!=='undefined')Object.keys(FAMILIAR_PICK).forEach(function(el){ var S=SPIRIT_BY_ID[FAMILIAR_PICK[el]]; if(!S)return;
-      push({id:'fam_'+el,group:'familiar',sub:'Elemental spirits',name:S.name+' ('+el+' spirit)',q:0,look:S.blurb||S.tagline,el:el,scale:(S.sz||1)*0.7,skills:(typeof FAM_SKILLS!=='undefined'&&FAM_SKILLS[el])||[],wave:2}); });
+      push({id:'fam_'+el,group:'familiar',sub:'Elemental familiars',name:S.name+' ('+el+' familiar)',q:0,look:S.blurb||S.tagline,el:el,scale:(S.sz||1)*0.7,skills:(typeof FAM_SKILLS!=='undefined'&&FAM_SKILLS[el])||[],wave:2}); });
     // fairies and monarchs
     if(typeof FAIRY_PICK!=='undefined')Object.keys(FAIRY_PICK).forEach(function(q){ (FAIRY_PICK[q]||[]).forEach(function(fid){ var F=FAIRY_BY_ID[fid]; if(!F)return;
       push({id:'fairy_'+fid,group:'fairy',sub:Z.QN[q]+' fairies',name:F.name,q:+q,look:F.look,pal:[F.col,F.col2],scale:0.4}); }); });

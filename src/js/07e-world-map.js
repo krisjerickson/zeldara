@@ -52,8 +52,13 @@ var WMAP_EXTRA_HARBORS={1:['crystal_grass','amphitheatre','blossom_terraces'],2:
 var WMAP_WAYSTONE_ZONES={1:['waystone_road','firefly_river','amphitheatre','giant_bones'],2:['lantern_lilies','sunken_spires','wisp_cattails','glow_mangroves'],
   3:['dwarven_stairs','runic_mesas','geode_canyons','glacier_peaks'],4:['emberflower_fields','forge_ruins','sulfur_geysers','dragon_valley']};
 // Endgame volcano islands stay offshore (raised when the final quest starts)
-var WMAP_VOLCANOES=[{id:'volcano_main',type:'volcano_main',section:3,x:60,y:1160},{id:'volcano_n',type:'volcano_mini',section:1,x:1170,y:40},
-  {id:'volcano_e',type:'volcano_mini',section:2,x:1170,y:1170},{id:'volcano_s',type:'volcano_mini',section:3,x:30,y:860},{id:'volcano_w',type:'volcano_mini',section:4,x:30,y:30}];
+// round 51 (Kris: "the big volcano is hidden below the compass … reposition the mega volcano to be attached somewhere to the magma land" and
+// "it doesn't seem like you can get to the mini volcanoes"): the four forges sit just off a reachable coast of their own region, Muspelheim
+// (the great volcano) off the Magma Channels on the Ashlands' west coast. Each is joined to the shore by a walled causeway (04-helpers).
+var WMAP_VOLCANOES=[{id:'volcano_main',type:'volcano_main',section:4,x:101,y:325},{id:'volcano_n',type:'volcano_mini',section:1,x:1019,y:184},
+  {id:'volcano_e',type:'volcano_mini',section:2,x:1102,y:958},{id:'volcano_s',type:'volcano_mini',section:3,x:111,y:879},{id:'volcano_w',type:'volcano_mini',section:4,x:255,y:76}];
+// the open bays the old volcano spots cut into the coast stay where they were, so the world itself does not change
+var WMAP_VOLCANO_BAYS=[[60,1160],[1170,40],[1170,1170],[30,860],[30,30]];
 
 // The four borders and their three crossings each (lakeside → coast).
 // arm: which border arm (E river, S cliff, W chasm, N ridge); dir: 'v' = cross
@@ -80,7 +85,7 @@ function buildWorldMap(seed){
   var bays=[[1010,1100,120,0.6],[1160,700,95,0.55],[60,630,90,0.55],[330,30,80,0.42],[660,1170,85,0.5],[1180,420,70,0.45],[40,300,80,0.5],[560,30,60,0.45],[880,1180,60,0.4],[1180,860,60,0.35],[780,40,70,0.4],[200,1180,70,0.4]];
   var capes=[[1140,220,110,0.4],[110,1030,95,0.35],[250,90,80,0.3],[1110,1110,75,0.25],[980,90,60,0.25]];
   var fjords=[[90,430,170,16,0.25],[150,90,90,12,-0.9],[1110,560,130,13,0.1],[130,760,110,12,-0.15],[460,60,110,11,1.35]];
-  WMAP_VOLCANOES.forEach(function(v){ bays.push([v.x,v.y,70,1.1]); });
+  WMAP_VOLCANO_BAYS.forEach(function(v){ bays.push([v[0],v[1],70,1.1]); });
   var gauss=function(x,y,cx,cy,r){ var d2=((x-cx)*(x-cx)+(y-cy)*(y-cy))/(r*r); return d2>9?0:Math.exp(-d2); };
   var cls=new Uint8Array(N), region=new Uint8Array(N), zone=new Uint8Array(N).fill(255), height=new Float32Array(N), coastDist=new Float32Array(N);
   // ── 1. land & sea ──

@@ -71,9 +71,9 @@ function buildVillage(tiles){
 }
 
 function canPassTile(t,mount){
-  // Dragon (all quests) flies over everything except the sea and walls
+  // Dragon (all quests) flies over everything except the deep sea and walls (round 51, Kris: "dragons should be able to go on light ocean water")
   if(mount==='dragon'){
-    if(t===T.OCEAN||t===T.REEF||t===T.BUILDING_WALL)return false;
+    if(t===T.OCEAN||t===T.BUILDING_WALL)return false;
     return true;
   }
   var md=mount&&MOUNTS[mount];

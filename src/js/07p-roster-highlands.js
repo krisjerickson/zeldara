@@ -181,8 +181,8 @@ MON(3,'tow','',3,'crystal_resonator','Crystal Resonator',['orb','pulse','#c080ff
  'Humming crystal tuning fork on a pedestal.','Stationary.','Resonance: all crystals in the room shatter into shards.','Invulnerable until the crystals are gone.','Break crystals yourself first, safely.');
 MON(3,'tow','',4,'wind_monk','Wind Monk',['biped','lunge','#e8d8b8,#c86a3a,#f4f8ff,#101010','hood'],'',
  'Barefoot monk in orange robes.','Dashes and dodges.','Air-palm: knockback into walls.','Dodges your first attack each round.','Counters if you attack twice in a row.');
-MON(3,'tow','',4,'aurora_spirit','Aurora Spirit',['wraith','beam','#a0ffd0,#3a8a6a,#c080ff,#ffffff',''],'night',
- 'Spirit of ribbons of green and violet light.','Weaves across the room.','Light ribbons form damaging lanes.','Hittable only where ribbons cross.','Stronger at night.');
+MON(3,'tow','',4,'aurora_spirit','Aurora Wisp',['wraith','beam','#a0ffd0,#3a8a6a,#c080ff,#ffffff',''],'night',
+ 'A wisp of ribbons of green and violet light.','Weaves across the room.','Light ribbons form damaging lanes.','Hittable only where ribbons cross.','Stronger at night.');
 MON(3,'tow','',4,'orrery','Clockwork Orrery',['orb','spin','#c8a060,#6a4a30,#ffd070,#ffffff',''],'',
  'Brass planetary model come alive.','Stationary; planets orbit.','Orbiting planets sweep the room.','Core protected by the planets.','Hit planets to stop them one by one.');
 MON(3,'tow','',3,'stone_druid','Stone-speaker Druid',['caster','summon','#a88a6a,#5a4a38,#80c060,#ffe040','beard,staff'],'',

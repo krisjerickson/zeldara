@@ -18,7 +18,7 @@ class WorldScene extends Phaser.Scene{
     // Final-quest volcano sites: pushed BEFORE the site render loop so they
     // get full visual treatment on initial scene create. (After create, the
     // dev button uses _spawnVolcanoVisuals() instead.)
-    var _fps=this.playerState||{};
+    var _fps=this.playerState||{};      // round 51: playerState is not made yet here — the forges are spawned by the watcher in 10v-forges-world.js
     if(_finalQuestUnlocked(_fps)){
       _volcanoSiteDefs().forEach(function(vs){
         if(!wd.sites.find(function(s){return s.id===vs.id;}))wd.sites.push(vs);
@@ -2742,7 +2742,9 @@ class WorldScene extends Phaser.Scene{
                         volcano_e:{scene:'VolcanoBulletHell',name:'Magma Key'},
                         volcano_s:{scene:'VolcanoPuzzle',name:'Obsidian Key'},
                         volcano_w:{scene:'VolcanoEscape',name:'Ashfire Key'}};
-      var target=sceneByMini[site.id];
+      var target=sceneByMini[site.id], need=typeof _forgeNeeds==='function'?_forgeNeeds(site.id):null;
+      if(need&&(this.playerState.inventory||[]).indexOf(need)<0){      // round 51 (his card): the forges open in region order, each with the last one's key
+        var prevId=VOLC_ORDER[VOLC_ORDER.indexOf(site.id)-1]; this._showNotif('🔒 '+VOLC_NAMES[site.id]+' is sealed — it opens with the '+((ITEMS[need]||{}).name||'key')+' from the '+VOLC_NAMES[prevId]+'.','#ff8844'); return; }
       if(target){
         this.scene.sleep('World');
         this.scene.launch(target.scene,{site:site,worldScene:this,keyId:keyId,keyName:target.name});
@@ -2759,7 +2761,7 @@ class WorldScene extends Phaser.Scene{
         document.getElementById('hud').style.display='none';
       } else {
         var held=_volcanoKeysHeld(ps2);
-        this._showNotif('🔒 The volcano door has 4 keyholes. '+held+'/4 keys collected.','#ff8844');
+        this._showNotif('🔒 The gate of Muspelheim has four keyholes — one for the key of each forge. '+held+'/4 keys.','#ff8844');
       }
     } else {
       this._showNotif(site.type.charAt(0).toUpperCase()+site.type.slice(1)+' — not yet implemented!','#ffaa44');

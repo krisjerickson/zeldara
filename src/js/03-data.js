@@ -135,7 +135,7 @@ const MOUNTS={
   horse:      {n:'Horse',       icon:'🐎',spdMult:1.6,cost:200,sec:1,desc:'Fast land travel'},
   // Key mounts (one per region's boss dungeon) — each crosses the NEXT region's
   // signature terrain at full speed (on foot it is slow, its deepest parts blocked).
-  alligator:  {n:'Alligator',   icon:'🐊',spdMult:1.3,cost:0,  sec:1,canCross:[T.DEEP_WATER,T.SHALLOW_WATER,T.REED,T.MUD,T.LILY],desc:'Swims the Wetlands — water & marsh at full speed'},
+  alligator:  {n:'Alligator',   icon:'🐊',spdMult:1.3,cost:0,  sec:1,canCross:[T.DEEP_WATER,T.SHALLOW_WATER,T.REED,T.MUD,T.LILY,T.REEF],desc:'Swims the Wetlands and the light coastal sea — water & marsh at full speed'},      // round 51: + the light ocean
   boar:       {n:'Battle Boar', icon:'🐗',spdMult:1.4,cost:0,  sec:2,canCross:[T.SMALL_BOULDER,T.LARGE_BOULDER],desc:'Charges through Highland boulder fields at full speed'},
   lava_unicorn:{n:'Lava Unicorn',icon:'🦄',spdMult:1.5,cost:0, sec:3,canCross:[T.THIN_MAGMA],desc:'Gallops over Ashland lava crust — no burns'},
   // id kept as ash_salamander so saves keep it; it is the Ash Dragon now
@@ -256,10 +256,10 @@ var ITEMS={   // var: 03b-elements.js wraps it so gem-set ids (iron_helm~fire) r
   gem_emerald: {name:'Emerald',      icon:'🟢',goldVal:120,slot:'gem',desc:'Worth 120g — lightning crafting'},
   pearl:       {name:'Pearl',        icon:'💫',goldVal:60, slot:'gem',desc:'Worth 60g — harbor loot'},
   skystone:    {name:'Skystone',     icon:'✨',    goldVal:200,slot:'gem',desc:'Worth 200g — sky loot'},
-  volcano_key_n:{name:'Ember Key (N)',  icon:'🔥',slot:'key',sell:0,desc:'Forged from the NE Plains volcano. One of four keys to the Volcano Lord.'},
-  volcano_key_e:{name:'Magma Key (E)',  icon:'🟧',slot:'key',sell:0,desc:'Forged from the SE Wetlands volcano. One of four keys to the Volcano Lord.'},
-  volcano_key_s:{name:'Obsidian Key (S)',icon:'🟫',slot:'key',sell:0,desc:'Forged from the SW Highlands volcano. One of four keys to the Volcano Lord.'},
-  volcano_key_w:{name:'Ashfire Key (W)',icon:'🌋',slot:'key',sell:0,desc:'Forged from the NW Ashlands volcano. One of four keys to the Volcano Lord.'},
+  volcano_key_n:{name:'Ember Key (N)',  icon:'🔥',slot:'key',sell:0,desc:'Won in the Ember Forge (Grasslands). Opens the Cinder Forge — and is one of the four keys to Muspelheim.'},
+  volcano_key_e:{name:'Magma Key (E)',  icon:'🟧',slot:'key',sell:0,desc:'Won in the Cinder Forge (Wetlands). Opens the Slag Forge — and is one of the four keys to Muspelheim.'},
+  volcano_key_s:{name:'Obsidian Key (S)',icon:'🟫',slot:'key',sell:0,desc:'Won in the Slag Forge (Highlands). Opens the Ash Forge — and is one of the four keys to Muspelheim.'},
+  volcano_key_w:{name:'Ashfire Key (W)',icon:'🌋',slot:'key',sell:0,desc:'Won in the Ash Forge (Ashlands). The last of the four keys to Muspelheim.'},
   // ── Harbor / Sky Exclusive Weapons & Shields ─────────────────────────────
   sea_trident:      {name:'Sea Trident',      icon:'🔱',atk:12, slot:'lHand', sell:55, buy:0, secReq:2, desc:'+12 ATK — razor-tipped trident from Corsair Isle'},
   sea_shell_buckler:{name:'Sea Shell Buckler',icon:'🛡️',def:5, atk:2, slot:'shield',sell:40, buy:0, secReq:2, desc:'+5 DEF +2 ATK — crafted from giant shells'},
@@ -385,7 +385,7 @@ var ITEMS={   // var: 03b-elements.js wraps it so gem-set ids (iron_helm~fire) r
   spikes_tome:    {name:'Stone Spikes',      icon:'🪨',atk:30,slot:'spell',sell:0,secReq:3,spellId:'stone_spikes', desc:'Three lines of earth spikes that stun'},
   frost_storm_tome:{name:'Blizzard',         icon:'🌨️',atk:36,slot:'spell',sell:0,secReq:4,spellId:'blizzard',     desc:'A blizzard where you aim: slows and freezes everything inside'},
   void_blast:     {name:'Void Rift',         icon:'🟣',atk:42,slot:'spell',sell:0,secReq:4,spellId:'void_rift',    desc:'A lance of void that tears through every enemy in a line'},
-  drain_tome:     {name:'Spirit Drain',      icon:'🩸',atk:36,slot:'spell',sell:0,secReq:4,spellId:'spirit_drain', desc:'Two spirit bolts that heal you for part of the damage'},
+  drain_tome:     {name:'Soul Drain',      icon:'🩸',atk:36,slot:'spell',sell:0,secReq:4,spellId:'spirit_drain', desc:'Two soul bolts that heal you for part of the damage'},
   inferno_tome:   {name:'Starfall',          icon:'🌠',atk:44,slot:'spell',sell:0,secReq:4,spellId:'starfall',     desc:'Five stars fall around where you aim'},
 
   // ═══════════════════════════════════════════════════════════════════
@@ -494,7 +494,7 @@ var SPELL_DATA={
   stone_spikes:  {manaCost:20, cooldown:1.6, proj:{spd:380,r:9,col:0xb08050,count:3,spread:0.18,pierce:true},effect:'stun_short',effectDur:0.8,name:'Stone Spikes'},
   blizzard:      {manaCost:28, cooldown:2.8, cloud:{r:95,dur:5,col:0xc8f0ff,at:'aim',st:'slow'},poisonDps:10,name:'Blizzard'},
   void_rift:     {manaCost:26, cooldown:2.0, proj:{spd:540,r:9,col:0x9030ff,count:1,pierce:true},effect:'none',name:'Void Rift'},
-  spirit_drain:  {manaCost:22, cooldown:1.4, proj:{spd:330,r:7,col:0x80ffc0,count:2,spread:0.2},effect:'drain',name:'Spirit Drain'},
+  spirit_drain:  {manaCost:22, cooldown:1.4, proj:{spd:330,r:7,col:0x80ffc0,count:2,spread:0.2},effect:'drain',name:'Soul Drain'},
   starfall:      {manaCost:34, cooldown:3.2, delay:0.8, n:5, aoe:{r:70,col:0xfff0a0},effect:'splash',name:'Starfall'},
 };
 

@@ -132,7 +132,7 @@ MX.onHp=function(mon,v){ var m=mon._m, old=mon._hp, d=old-v; if(!m||d<=0){ mon._
   var defs=mon.kit.def;
   for(var i=0;i<defs.length&&d>0;i++){ var D=defs[i], p=D.p;
     // ── familiar counters (07rb) ──
-    if(D.name==='spiritward'&&m.sward>0){ if(kind==='familiar'){ d=0; say('spirit ward','#c8b0ff'); MX.ev(mon,'def_spiritward'); continue; } if(kind==='melee'){ m.sward--; say(m.sward>0?'ward cracks ('+m.sward+')':'spirit ward shatters!','#c8b0ff'); if(m.sward<=0&&A)MX.fxRing(A,mon.x,mon.y,30,'#c8b0ff'); } continue; }
+    if(D.name==='spiritward'&&m.sward>0){ if(kind==='familiar'){ d=0; say('rune ward','#c8b0ff'); MX.ev(mon,'def_spiritward'); continue; } if(kind==='melee'){ m.sward--; say(m.sward>0?'ward cracks ('+m.sward+')':'rune ward shatters!','#c8b0ff'); if(m.sward<=0&&A)MX.fxRing(A,mon.x,mon.y,30,'#c8b0ff'); } continue; }
     if(D.name==='mirror'&&kind==='familiar'&&MX._famK==='proj'){ d=0; say('mirrored!','#e0f0ff'); if(MX.onFamReflect)MX.onFamReflect(sc,MX._famId,mon); MX.ev(mon,'def_mirror'); continue; }
     if(D.name==='resist'&&kind==='familiar'&&MX._famEl===(p.el||'fire')){ d*=1-(p.red===undefined?0.75:p.red); say('resists','#e0d0a0'); continue; }
     if(D.name==='front'){ var a=Math.atan2(P.y-mon.y,P.x-mon.x), df=Math.abs(Math.atan2(Math.sin(a-m.face),Math.cos(a-m.face))); if(df<(p.arc||1.1)){ d*= (1-(p.red===undefined?1:p.red)); say(p.red<1?'glancing':'blocked!','#e0e0e0'); MX.ev(mon,'def_front'); } }

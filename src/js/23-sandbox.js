@@ -25,7 +25,7 @@ function sbVolcanoUnlock(){
   var ps=ws.playerState;
   // 1. Force-trigger the quest by marking all 4 section dungeons completed.
   if(!ps.completedQuests)ps.completedQuests=[];
-  ['s1_dungeon','s2_dungeon','s3_dungeon','s4_dungeon'].forEach(function(k){
+  ['s1_dungeon','s2_dungeon','s3_dungeon','s4_dungeon','s1_tower','s2_tower','s3_tower','s4_tower'].forEach(function(k){      // round 51: the towers too
     if(!ps.completedQuests.includes(k))ps.completedQuests.push(k);
   });
   // 2. Drop all 4 keys into inventory (skip duplicates).
@@ -38,7 +38,7 @@ function sbVolcanoUnlock(){
   // 4. UI refresh + save.
   ws._emitUI();
   if(ws._save)ws._save();
-  showNotif('🌋 Volcano Lord quest unlocked + 4 keys granted!','#ff6633');
+  showNotif('🌋 The forges and Muspelheim unlocked + 4 keys granted!','#ff6633');
 }
 function sbRevealMap(){
   var ws=_sbWs(); if(!ws||!ws.playerState||!ws.playerState.exploredGrid) return;

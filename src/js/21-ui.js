@@ -59,14 +59,14 @@ function renderQuestList(unlockedSections,completed,active,scene){
     var keysDone=keysHeld>=4;
     var bossDone=psRef.completedQuests&&psRef.completedQuests.includes('volcano_lord');
     h+='<div class="qgrp" style="border:1px solid rgba(255,100,40,.45);background:rgba(60,18,10,.3);margin-bottom:14px">';
-    h+='<div class="qgrp-hdr" style="color:#ff8844">🌋 The Volcano Lord '+(bossDone?'✓':'(Final Quest)')+'</div>';
+    h+='<div class="qgrp-hdr" style="color:#ff8844">🌋 The Forges of Muspelheim '+(bossDone?'✓':'(Final Quest)')+'</div>';
     h+='<div class="qitem '+(keysDone?'qdone':'')+'"><div class="qico">🔑</div><div class="qinf">';
-    h+='<div class="qtit">Find the four elemental keys '+(keysDone?'✓':'')+'</div>';
-    h+='<div class="qdesc">Defeat all four mini-volcanoes to forge: Ember (N), Magma (E), Obsidian (S), Ashfire (W). <b>'+keysHeld+' / 4 collected.</b></div>';
+    h+='<div class="qtit">Win the key of each forge '+(keysDone?'✓':'')+'</div>';
+    h+='<div class="qdesc">The four forges rise off the coasts, one per realm, and open in turn — each key opens the next: Ember Forge (Grasslands) → Cinder Forge (Wetlands) → Slag Forge (Highlands) → Ash Forge (Ashlands). <b>'+keysHeld+' / 4 keys.</b></div>';
     h+='</div></div>';
     h+='<div class="qitem '+(bossDone?'qdone':'')+'" style="opacity:'+(keysDone?1:.55)+'"><div class="qico">⚔️</div><div class="qinf">';
     h+='<div class="qtit">Defeat the Volcano Lord '+(bossDone?'✓':'')+'</div>';
-    h+='<div class="qdesc">'+(keysDone?'Bring the 4 keys to the great volcano in the NW and unlock the door.':'Collect all 4 keys first.')+'</div>';
+    h+='<div class="qdesc">'+(keysDone?'Bring the four keys to Muspelheim, the great volcano off the Magma Channels on the Ashlands\' west coast.':'Win all four keys first.')+'</div>';
     h+='</div></div>';
     h+='</div>';
   }

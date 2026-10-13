@@ -2667,14 +2667,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## rain_spirit.core.q
 
-Rain Spirit · Idle, Hover, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
+Rain Wisp · Idle, Hover, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Rain Spirit — A small grumpy raincloud with a face. Main colours: pale blue (#a0c0e0), muted blue (#4a6a8a), pale blue (#80c0ff), white (#ffffff). Size: about 0.5× the height of the hero (tiny).
+Subject: Rain Wisp — A small grumpy raincloud with a face. Main colours: pale blue (#a0c0e0), muted blue (#4a6a8a), pale blue (#80c0ff), white (#ffffff). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Floats above you. Lightning strike if you stand still > 1.5 s. Hard to hit (it is above you).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
@@ -2693,14 +2693,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## rain_spirit.extra.q
 
-Rain Spirit · Death · 2 poses, 2 × 1 · 1536x1024 · extra
+Rain Wisp · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 
 Attach: style_hero, style_centaur, rain_spirit.core.q
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Rain Spirit — A small grumpy raincloud with a face. Main colours: pale blue (#a0c0e0), muted blue (#4a6a8a), pale blue (#80c0ff), white (#ffffff). Size: about 0.5× the height of the hero (tiny).
+Subject: Rain Wisp — A small grumpy raincloud with a face. Main colours: pale blue (#a0c0e0), muted blue (#4a6a8a), pale blue (#80c0ff), white (#ffffff). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Floats above you. Lightning strike if you stand still > 1.5 s. Hard to hit (it is above you).
 Layout: exactly 2 poses in a grid of 2 columns × 1 row, evenly spaced, in this order (left to right, top row first):
 1. death frame 1: buckling, losing balance.
@@ -3492,14 +3492,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## storm_heron.core.q
 
-Storm Heron Spirit · Idle, Move, Lunge, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
+Storm Heron Wraith · Idle, Move, Lunge, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Storm Heron Spirit — Spectral heron crackling with lightning. Main colours: pale blue (#d0e0ff), muted blue (#5a6a9a), pale yellow (#ffff80), white (#ffffff). Size: about 0.8× the height of the hero.
+Subject: Storm Heron Wraith — Spectral heron crackling with lightning. Main colours: pale blue (#d0e0ff), muted blue (#5a6a9a), pale yellow (#ffff80), white (#ffffff). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Circles. Dive-bombs trailing lightning. Intangible except when diving.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
@@ -3518,14 +3518,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## storm_heron.extra.q
 
-Storm Heron Spirit · Death · 2 poses, 2 × 1 · 1536x1024 · extra
+Storm Heron Wraith · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 
 Attach: style_hero, style_centaur, storm_heron.core.q
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Storm Heron Spirit — Spectral heron crackling with lightning. Main colours: pale blue (#d0e0ff), muted blue (#5a6a9a), pale yellow (#ffff80), white (#ffffff). Size: about 0.8× the height of the hero.
+Subject: Storm Heron Wraith — Spectral heron crackling with lightning. Main colours: pale blue (#d0e0ff), muted blue (#5a6a9a), pale yellow (#ffff80), white (#ffffff). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Circles. Dive-bombs trailing lightning. Intangible except when diving.
 Layout: exactly 2 poses in a grid of 2 columns × 1 row, evenly spaced, in this order (left to right, top row first):
 1. death frame 1: buckling, losing balance.

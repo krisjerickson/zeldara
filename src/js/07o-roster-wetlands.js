@@ -175,7 +175,7 @@ MON(2,'tow','',3,'moon_moth_mage','Moon Moth Mage',['bat','beam','#e0e0ff,#6a6aa
  'Huge pale moth with a crescent on its wings.','Flutters high.','Moonbeams that follow your path with a delay.','Only hittable when it lands.','Stronger at night.');
 MON(2,'tow','',3,'hex_toad','Hex Toad',['frog','cast','#6a4a8a,#3a2a4a,#c080ff,#ffe040','spots,glow'],'',
  'Big warty purple toad wearing a tiny crown.','Hops.','Curse: turns you into a frog for 3 s (weak hop attack only).','Tongue parries.','Kiss… no. Break its crown to lift curses.');
-MON(2,'tow','',3,'rain_spirit','Rain Spirit',['wisp','pulse','#a0c0e0,#4a6a8a,#80c0ff,#ffffff',''],'',
+MON(2,'tow','',3,'rain_spirit','Rain Wisp',['wisp','pulse','#a0c0e0,#4a6a8a,#80c0ff,#ffffff',''],'',
  'A small grumpy raincloud with a face.','Floats above you.','Lightning strike if you stand still > 1.5 s.','Hard to hit (it is above you).','Hit it by jumping/using a lightning spell.');
 MON(2,'tow','',4,'reflecting_nymph','Reflecting Nymph',['caster','blink','#c0f0ff,#5a8aa0,#ffffff,#3060ff','crown,wand'],'',
  'Water nymph with a mirror-like skin.','Glides between mirrors.','Reflects all projectiles back.','Only melee hurts her.','Mirrors on the walls can be broken to trap her.');
@@ -201,7 +201,7 @@ MON(2,'tow','',3,'glass_jelly','Glass Jellyfish',['wisp','pulse','#c0e8ff,#6a9ac
  'Floating see-through jellyfish.','Drift in slow currents.','Electric pulse ring.','Passive until touched.','Chain lightning between jellies.');
 MON(2,'tow','',4,'plague_alchemist','Plague Alchemist',['caster','lob','#3a3a3a,#1a1a1a,#80ff60,#ffe040','hood,plague'],'',
  'Beak-masked alchemist with a belt of potions.','Keeps distance.','Throws random potions: poison, slow, fire or… heal (you).','Drinks a shield potion at half HP.','Risky loot: random potions.');
-MON(2,'tow','',4,'storm_heron','Storm Heron Spirit',['bird','dive','#d0e0ff,#5a6a9a,#ffff80,#ffffff','talons'],'',
+MON(2,'tow','',4,'storm_heron','Storm Heron Wraith',['bird','dive','#d0e0ff,#5a6a9a,#ffff80,#ffffff','talons'],'',
  'Spectral heron crackling with lightning.','Circles.','Dive-bombs trailing lightning.','Intangible except when diving.','Summoned in pairs by tower mages.');
 MON(2,'tow','',5,'bell_ringer','Drowned Bell-ringer',['wraith','pulse','#8aa0a0,#3a4a50,#e8c040,#ffffff','chains'],'',
  'Ghost of a drowned priest with a huge bell.','Stays in the belfry.','Each toll damages everyone not behind cover.','Invulnerable while ringing.','Hit the bell (not him) to crack it.');

@@ -31,7 +31,7 @@ function _famHit(scene,fid,E,S,m,dmg,o){ if(m&&(m.isBoss||(m.def&&m.def.boss))&&
 Object.keys(FAMILIARS).forEach(function(k){ delete FAMILIARS[k]; });
 function _famDesign(fid){ var el=FAM_EL[fid]; return SPIRIT_BY_ID[FAMILIAR_PICK[el]]||SPIRIT_DESIGNS.find(function(D){ return D.el===el; }); }
 ['grass','water','earth','fire'].forEach(function(el){ var fid=FAM_BY_EL[el], E=SPIRIT_ELEMENTS[el];
-  Object.defineProperty(FAMILIARS,fid,{enumerable:true,configurable:true,get:function(){ var D=_famDesign(fid); return {_ch:fid,n:D.name,icon:FAM_ICON[el],sec:E.q,el:el,design:D.id,desc:D.tagline+' — '+E.name+' spirit'}; }}); });
+  Object.defineProperty(FAMILIARS,fid,{enumerable:true,configurable:true,get:function(){ var D=_famDesign(fid); return {_ch:fid,n:D.name,icon:FAM_ICON[el],sec:E.q,el:el,design:D.id,desc:D.tagline+' — '+E.name+' familiar'}; }}); });
 function _famLevel(ps,fid){ return Math.max(1,Math.min(6,((ps&&ps.famLevels)||{})[fid]||1)); }
 function _famSkills(ps,fid){ return FAM_SKILLS[FAM_EL[fid]].slice(0,_famLevel(ps,fid)); }
 // ── the chosen special (round 6) ──
@@ -221,7 +221,7 @@ function showFamiliarInfo(fid){ var f=FAMILIARS[fid]; if(!f)return; var ws=_hero
   var sk=FAM_SKILLS[D.el].map(function(S,i){ var got=i<L, on=i===spI, pick=got&&i>0&&owned?(on?'<button class="fam-pick on" disabled>✔ Special</button>':'<button class="fam-pick" onclick="_setFamSpecial(\''+fid+'\','+i+')">Use as special</button>'):'';
     return '<div class="fam-sk'+(got?' got':'')+(on?' sel':'')+'">'+pick+'<b>'+(i?'Lv '+(i+1):'Basic attack')+' · '+S.name+'</b>'+(S.dmg&&got?' <span>'+Math.round(S.dmg*mult)+' dmg</span>':'')+'<i>'+S.text+'</i>'+(got?(i===0?'<em>Always on</em>':''):'<em>'+(i===L?'Next: ask a '+TOME_QN[E.q]+' fairy':'Learned later from a '+TOME_QN[E.q]+' fairy')+'</em>')+'</div>'; }).join('');
   sk='<div class="fam-note">Your familiar uses its basic attack plus <b>one special</b> — pick which below. Both cast on their own.</div>'+sk;
-  el.innerHTML='<div class="modal fam-modal" onclick="event.stopPropagation()"><div class="mhdr"><span>'+f.icon+' '+f.n+' <small style="color:'+E.col+'">Level '+L+' / 6 · '+E.name+' spirit · '+(D.move==='hover'?'floats along behind you':'walks along behind you')+'</small></span><button class="mcls" onclick="document.getElementById(\'familiar-info-modal\').style.display=\'none\'">✕</button></div>'+
+  el.innerHTML='<div class="modal fam-modal" onclick="event.stopPropagation()"><div class="mhdr"><span>'+f.icon+' '+f.n+' <small style="color:'+E.col+'">Level '+L+' / 6 · '+E.name+' familiar · '+(D.move==='hover'?'floats along behind you':'walks along behind you')+'</small></span><button class="mcls" onclick="document.getElementById(\'familiar-info-modal\').style.display=\'none\'">✕</button></div>'+
     '<div class="fam-top"><canvas id="fam-info-cv" width="112" height="112"></canvas><p>'+D.blurb+'</p></div>'+sk+
     '<div style="margin-top:8px;font-size:11px;color:'+(active?'#9f9':owned?'#aac':'#776')+'">'+(active?'● Active':owned?'Owned — press N to set it active':'Not found yet — clear the '+TOME_QN[E.q]+' familiar island')+'</div></div>';
   el.style.display='flex'; var cv=document.getElementById('fam-info-cv'); if(cv){ var i2=0, fr=spiritFrames(D), x=cv.getContext('2d'); clearInterval(el._t); el._t=setInterval(function(){ if(!cv.isConnected){ clearInterval(el._t); return; } x.clearRect(0,0,112,112); x.drawImage(fr[i2++%4],0,0); },160); } }

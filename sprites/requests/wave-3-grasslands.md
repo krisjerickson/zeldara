@@ -3112,7 +3112,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Wind Sylph — Translucent air spirit with streaming hair. Main colours: pale blue (#e0f4ff), pale blue (#9ac0e0), white (#ffffff), blue (#3080ff). Size: about 1.1× the height of the hero.
+Subject: Wind Sylph — Translucent air wisp with streaming hair. Main colours: pale blue (#e0f4ff), pale blue (#9ac0e0), white (#ffffff), blue (#3080ff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Swirls around you. Gust that pushes you 3 tiles — toward hazards. Intangible between gusts.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
@@ -3138,7 +3138,7 @@ Attach: style_hero, style_centaur, wind_sylph.core.s
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Wind Sylph — Translucent air spirit with streaming hair. Main colours: pale blue (#e0f4ff), pale blue (#9ac0e0), white (#ffffff), blue (#3080ff). Size: about 1.1× the height of the hero.
+Subject: Wind Sylph — Translucent air wisp with streaming hair. Main colours: pale blue (#e0f4ff), pale blue (#9ac0e0), white (#ffffff), blue (#3080ff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Swirls around you. Gust that pushes you 3 tiles — toward hazards. Intangible between gusts.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. seen from the FRONT, standing at rest, relaxed and alert.
@@ -3164,7 +3164,7 @@ Attach: style_hero, style_centaur, wind_sylph.core.s
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Wind Sylph — Translucent air spirit with streaming hair. Main colours: pale blue (#e0f4ff), pale blue (#9ac0e0), white (#ffffff), blue (#3080ff). Size: about 1.1× the height of the hero.
+Subject: Wind Sylph — Translucent air wisp with streaming hair. Main colours: pale blue (#e0f4ff), pale blue (#9ac0e0), white (#ffffff), blue (#3080ff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Swirls around you. Gust that pushes you 3 tiles — toward hazards. Intangible between gusts.
 Layout: exactly 2 poses in a grid of 2 columns × 1 row, evenly spaced, in this order (left to right, top row first):
 1. death frame 1: buckling, losing balance.
@@ -3323,14 +3323,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## chime_spirit.core.q
 
-Chime Spirit · Rooted idle, Cast, Hurt, Death · 7 poses, 4 × 2 · 1536x1024 · core
+Chime Wisp · Rooted idle, Cast, Hurt, Death · 7 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Chime Spirit — Floating crystal chimes with a face. Main colours: pale blue (#c8e0ff), muted blue (#6a88b0), pale teal (#9fe8ff), white (#ffffff). Size: about 0.5× the height of the hero (tiny).
+Subject: Chime Wisp — Floating crystal chimes with a face. Main colours: pale blue (#c8e0ff), muted blue (#6a88b0), pale teal (#9fe8ff), white (#ffffff). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Floats in the room centre. Sound rings expand outward with a gap — step through the gap. Only hittable between rings.
 Layout: exactly 7 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. rooted in place, calm — used for: still.

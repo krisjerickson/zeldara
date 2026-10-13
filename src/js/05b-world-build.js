@@ -250,8 +250,10 @@ function _buildGameWorld(){
       caches.push({id:'cache_'+r+'_'+got,region:r,x:x,y:y,zone:WMAP_ZONES[zi].id}); got++; } });
   // ── 9. endgame volcano anchors: nearest reachable shore in the volcano's region ──
   var anchors={};
+  // round 51: only shore you can walk to from the village (all crossings open) — the old search could pick an offshore islet
+  var vReach=worldMapReach(M);
   M.volcanoes.forEach(function(v){ var best=null,bd=1e18;
-    for(var y=0;y<H;y+=3)for(var x=0;x<W;x+=3){ var kk=y*W+x; if(region[kk]!==v.section)continue; var c=cls[kk]; if(c!==WM.BEACH&&c!==WM.LAND)continue; var dd=(x-v.x)*(x-v.x)+(y-v.y)*(y-v.y); if(dd<bd){bd=dd;best={x:x,y:y};} }
+    for(var y=0;y<H;y++)for(var x=0;x<W;x++){ var kk=y*W+x; if(region[kk]!==v.section||!vReach[kk])continue; var c=cls[kk]; if(c!==WM.BEACH&&c!==WM.LAND)continue; var dd=(x-v.x)*(x-v.x)+(y-v.y)*(y-v.y); if(dd<bd){bd=dd;best={x:x,y:y};} }
     if(best){ anchors[v.id]=best; trail(best.x,best.y,160); } });
   tm.pois=Date.now()-t0;
   // ── 10. ambient props: each zone's own Lab props at the Lab's density ──

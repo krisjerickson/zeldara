@@ -30,7 +30,7 @@
       <span id="mount-disp"></span><span id="familiar-disp"></span>
     </div>
     <div id="buffs-hud"></div>
-    <div id="volcano-quest"><div class="vq-title">🌋 The Volcano Lord stirs</div><div class="vq-keys" id="vq-keys">🔑 0 / 4 keys</div></div>
+    <div id="volcano-quest"><div class="vq-title">🌋 Muspelheim stirs</div><div class="vq-keys" id="vq-keys">🔑 0 / 4 keys</div></div>
     <div id="ctrl-hint">WASD: Move &nbsp;|&nbsp; Space: Attack &nbsp;|&nbsp; Tab: Interact &nbsp;|&nbsp; B: Map &nbsp;|&nbsp; T: Tome &nbsp;|&nbsp; M: Mounts &nbsp;|&nbsp; Q: Quests &nbsp;|&nbsp; I: Inventory &nbsp;|&nbsp; X: Spell &nbsp;|&nbsp; N: Familiar &nbsp;|&nbsp; Esc: Close menu</div>
   </div>
   <!-- Action bar and icon bar live outside #hud so they persist in all scenes -->
@@ -73,6 +73,11 @@
           <span style="font-size:12px">❤️</span>
           <div id="dng-hp-bar-bg" style="flex:1;height:9px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden"><div id="dng-hp-bar" style="width:100%;height:100%;border-radius:4px;background:#44ff88;transition:width .3s"></div></div>
           <span id="dng-hp-txt" style="font-size:11px;color:#ddd;min-width:54px;text-align:right">30/30</span>
+        </div>
+        <div id="dng-mana-row" style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:12px">💧</span>
+          <div id="dng-mana-bar-bg" style="flex:1;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden"><div id="dng-mana-bar" style="width:100%;height:100%;border-radius:4px;background:linear-gradient(90deg,#3a6cff,#6fb4ff);transition:width .3s"></div></div>
+          <span id="dng-mana-txt" style="font-size:11px;color:#bcd6ff;min-width:54px;text-align:right">50/50</span>
         </div>
         <div style="display:flex;align-items:center;gap:8px">
           <span style="font-size:12px">⭐</span>
