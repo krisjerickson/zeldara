@@ -31,7 +31,7 @@ with game(new=True, painted=True) as g:
     keys = sorted(set(k for k, w, a in r))
     zone = [w for k, w, a in r if k == 'fx_zone_poison']
     check('Painted area effects: warning circle and wedge, the poison patch (%s px for a 50 px radius) and the fire nova (%s)' % (zone, keys),
-          {'fx_tele_circle', 'fx_zone_poison', 'fx_burst_fire'} <= set(keys) and zone and 90 <= zone[0] <= 110 and all(a > 40 for k, w, a in r if k != 'fx_burst_fire'), r)
+          {'fx_tele_circle', 'fx_zone_poison', 'fx_burst_fire'} <= set(keys) and zone and 90 <= zone[0] <= 110 and all(a > 20 for k, w, a in r if k != 'fx_burst_fire'), r)      # round 50: monster attack drawings show at 60 % of their opacity
     # ── the painted empty space ──
     L = """(([id,floor])=>{var ws=game.scene.getScene('World'); var site=ws.wd.sites.find(s=>s.id===id); ws.playerState.godMode=true;
       var data={site:site,floor:floor,maxFloors:site.floors,worldScene:ws,theme:site.type==='tower'?'tower':'dungeon'};
