@@ -871,4 +871,4 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[501] Spirits & stones** (Kris: "the spirits are not very impressive looking. come up with more designs … as well as the groupings"; "the runestones where the spirits are bound are not impressive"): a new Lab tab with eight spirit looks (bound and freed), eight groupings and eight bindstones (bound and freed), each beside what the game has now — painted as option sheets in wave 54.
 - **[502] Wave 54 ordered** (`tools/sprites/round53.ps1`, 7 sheets): the three option sets (5 sheets), Mira's furniture, and the soul gem / metal / tray icons.
 - **[503] Tests**: `tests/test_round53.py` (16 checks); round 18 and 47 tests updated for the new names.
-
+- **[504] Wave 54 in**: the spirit-look, grouping and bindstone options fill Lab → Spirits & stones (pictures fitted to their cards); Mira's furnace, tray bench, gears and blueprints furnish her workshop; the soul gem, metal and hearth-tray icons are painted.
