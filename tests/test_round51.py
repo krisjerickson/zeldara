@@ -16,11 +16,11 @@ with game(new=True, painted=True) as g:
     r = g.js("(()=>{ var ws=game.scene.getScene('World'), R=_footReach(ws.wd); return (ws._kings||[]).map(function(K){ return [K.name,K.tx,K.ty,!!R[K.ty*WORLD_W+K.tx]]; }); })()")
     check('Every Fairy Monarch\'s court can be walked to — Pyrrhus by the Chained Rocks too (%s)' % r, len(r) == 3 and all(k[3] for k in r), r)
     # ── the forges ──
-    r = g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.completedQuests=['s1_dungeon','s2_dungeon','s3_dungeon','s4_dungeon']; return {u:_finalQuestUnlocked(ps)}; })()")
+    r = g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.soulGems={1:1,2:1,3:1,4:1}; ps.completedQuests=['s1_dungeon','s2_dungeon','s3_dungeon','s4_dungeon']; return {u:_finalQuestUnlocked(ps)}; })()")
     g.wait(1500)
     r2 = g.js("(()=>{ var wd=game.scene.getScene('World').wd; return {sites:wd.sites.filter(function(s){ return /^volcano/.test(s.id); }).length}; })()")
     check('The four boss dungeons alone do not unlock the forges', not r['u'] and r2['sites'] == 0, [r, r2])
-    g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.completedQuests=ps.completedQuests.concat(['s1_tower','s2_tower','s3_tower','s4_tower']); ps.rescued=[1,2,3,4]; ps.unlockedSections=[1,2,3,4]; _wgApplyGates(ws.wd,ps); })()")
+    g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.completedQuests=ps.completedQuests.concat(['s1_tower','s2_tower','s3_tower','s4_tower']); ps.soulGems={1:1,2:1,3:1,4:1}; if(typeof FairyTalk!=='undefined')FairyTalk.close(); ps.rescued=[1,2,3,4]; ps.unlockedSections=[1,2,3,4]; _wgApplyGates(ws.wd,ps); })()")
     g.wait(2500)
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), wd=ws.wd, W=WORLD_W; wd._footReach=null; var R=_footReach(wd), sea=function(t){ return t===T.OCEAN||t===T.REEF; };
       var sites=_volcanoSiteDefs().map(function(d){ var ok=false; for(var dy=-1;dy<=3;dy++)for(var dx=-1;dx<=3;dx++)if(R[(d.ty+dy)*W+d.tx+dx])ok=true; var an=wd.volcanoAnchors[d.id];

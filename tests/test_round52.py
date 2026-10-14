@@ -39,8 +39,8 @@ with game(new=True, painted=True) as g:
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ZSPIRIT.shrines(ws).filter(function(s){ return s.q===1; }).slice(1,6).forEach(function(s){ ps.spiritsFreed.push(s.id); ps.inventory.push('soulglass_1'); });
       ps.inventory.push('soulglass_2','soulglass_2','soulglass_2','soulglass_2','soulglass_2','soulglass_2');
       ws.player.x=CENTER_X*TILE+16; ws.player.y=(CENTER_Y+6)*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); await new Promise(function(r){ setTimeout(r,2500); });
-      return {freed:ps.spiritsFreed.length, green:(ws._greenSp||[]).filter(function(o){ return o.active; }).length+(ws._greenGr||[]).length}; })()""")
-    check('The freed spirits gather on the Runestone Green (%d freed, %d pictures there)' % (r['freed'], r['green']), r['freed'] == 6 and r['green'] >= 1 and r['green'] <= 6, r)
+      return {freed:ps.spiritsFreed.length, green:(function(S){ return S?Object.keys(S.sp).filter(function(k){ var o=S.sp[k].o; return o&&o.active; }).length:0; })(ws._zg)}; })()""")
+    check('The freed spirits gather on the Runestone Green (%d freed, %d pictures there)' % (r['freed'], r['green']), r['freed'] == 6 and r['green'] == 6, r)
     # ── the Glimmerhall ──
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, before=!!ZSPIRIT.door(); ps.completedQuests=(ps.completedQuests||[]).concat(['s1_harbor']);
       await new Promise(function(r){ setTimeout(r,2500); }); var D=ZSPIRIT.door(); if(!D)return {before:before, door:null};
