@@ -892,3 +892,12 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[517] Wave 57**: the four forge hearths and the four Heartglass icons (`tools/sprites/round55.ps1` sends waves 56 and 57).
 - **[518] Tests**: `tests/test_round55.py` (11 checks).
 
+## Round 55b + round 56 prep (Kris, Oct 14) — the saga in the sandbox; Muspelheim's options
+- Kris: "commands are in and requests are coming in. Make sure to also get these into the lab for me to view, and we need to make new places in the sandbox to be able to access different parts of this saga to view them. Make a button on "spirit saga" and then come up with key story arcs and milestones to get access to in the sandbox and include as buttons to choose from, kind of like we made for the adventure sites. If things are built or wired yet, ok to include as buttons that don't do anything yet"
+- **[519] Waves 56–57 painted and cut**: the 19 spirit groups now play their 4-frame loops on the Green and at the bindstones; the four forge hearths stand on the forge-masters' floors; the Heartglass items have their icons.
+- **[520] Lab → "Saga art"**: the 19 group loops playing, and each forge's hearth with its Heartglass.
+- **[521] Sandbox → 🔗 Spirit Saga** (`23b-sandbox-saga.js`): the saga as eight arcs of milestone buttons in the adventure-site style — Ⅰ the Bindstones (go to a bindstone per realm; free all ten), Ⅱ the Runestone Green (10/20/30/40 freed), Ⅲ Sólveig & the Glimmerhall (to the door; six shards of a realm), Ⅳ Mira's workshop (to the door; soul gem, metal, hearth tray per realm), Ⅴ the Forges (the forges rise; each forge's floor 1/2/3 and its hearth kit) — 47 wired; Ⅵ Muspelheim, Ⅶ the Collapse & the Bifröst, Ⅷ Asgard — 20 planned buttons, drawn dashed, that say which round builds them. Each milestone sets up what it needs (realms, quests, items) and takes you there; it leaves any site first.
+- **[522] Round 56 decided** (card): the Lodestar takes the **Sovereign staff** only; the old eight volcano bosses guard Muspelheim's halls (two each); Surtharn, the spirit walls and the hall pieces are picked in the Lab first; halls 1–4 are each their own challenge (the Chain Lifts, the Lava Rafts, the Ash-warden Fortress, the Falling Bridges).
+- **[523] Wave 58 ordered** (`tools/sprites/round56.ps1`, four sheets, 28 options) and the Lab's **Muspelheim** tab: six Surtharns, six spirit walls, the halls' pieces (A/B), three great hearths, three Lodestars, two ash-wardens.
+- **[524] Tests**: `tests/test_round55b.py` (14 checks).
+

@@ -120,6 +120,11 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 - **Five floors.**
   - Floors 1–4 are great mine halls. Toiling spirits fill the void art around the walkable floor: digging, carrying, chained in lines.
   - Floor 5 is the throne cavern, whose **walls are made of spirits** (painted wall tiles).
+- **Halls 1–4 (decided Oct 14: each its own challenge; two of the old boss rush's bosses guard each):**
+  1. **The Chain Lifts** — platforms hung on chains over a lava shaft; chained spirits haul them, and each one you free holds its platform still. Guards: the Ember Wraith and the Magma Spitter.
+  2. **The Lava Rafts** — basalt rafts drift a lava river between islands; spirits are chained on the islands. Guards: the Obsidian Golem and the Cinder Phoenix.
+  3. **The Ash-warden Fortress** — walls, gates and levers, waves of ash-wardens; the spirits are caged in the towers. Guards: the Lava Wyrm and the Ashen Knight.
+  4. **The Falling Bridges** — bridges crumble behind you over the abyss; spirits are chained on the pillars. Guards: the Pyrokraken and the Inferno Wraith.
 - **Surtharn's 6 phases** (all warded except Sovereign):
   1. **The Forgemaster.** Hammer slams make shockwave rings; ash-wardens come in waves.
   2. **The Burning Crown.** Fire-breath sweeps; the floor cracks into lava lanes.
@@ -127,7 +132,7 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
   4. **The Bound Host.** He drives the toiling spirits at you. Don't hit them — free them (cut chains); every freed spirit weakens him.
   5. **Molten Heart.** He sheds his armour; his heart is open to Sovereign hits only; meteors fall.
   6. **The Last Ember.** Faster, every pattern mixed; the room shrinks as lava rises.
-- **The great hearth:** Sovereign staff + 4 Heartglasses → **the Lodestar**.
+- **The great hearth:** the Sovereign **staff** (only the staff — decided Oct 14) + 4 Heartglasses → **the Lodestar**.
 - **The escape (in game, not a cut-scene):**
   1. Floors 5 → 1 collapse behind you on a timer: falling rock, cracks that turn to lava, the spirits trailing you.
   2. Out on the causeway, the walkway sinks into the sea behind you as you run (tiles turn to lava, then to sea).
@@ -198,6 +203,8 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 **Round 53 as built** (`10x-mira.js`, `22f-forge-stages.js`): the great spirit of each boss dungeon gives its soul gem (Hildr of the Long Barrow, Ulfrun the Tide-Singer, Old Grimmar, Eldis Emberheart); each familiar island's trader sells its metal; Mira's workshop opens with the first island castle, and Mira makes each realm's Hearth Tray (metal + soul gem + 150g). Sovereign is the seventh element (×1 against ordinary monsters, ×2 against Muspelheim's wards, which take ×0.35 from everything else; `mon.sovWard`). The forge tiers open with the realms (docs/29).
 
 ## 12. Open questions
+
+**Wave 4 (answered, Oct 14):** the Lodestar takes the Sovereign **staff** only; the old boss rush's eight volcano bosses guard Muspelheim's halls 1–4 (two each); Surtharn, spirit walls and hall looks are picked in the Lab first; halls 1–4 are each their own challenge.
 
 **Wave 2:** answered (§4).
 

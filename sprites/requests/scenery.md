@@ -1,4 +1,4 @@
-# Scenery — 169 sheets, 1665 objects and textures (13 sheets in the pilot)
+# Scenery — 173 sheets, 1693 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -38,6 +38,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 55 | undefined | 11 | 88 |
 | 56 | undefined | 10 | 76 |
 | 57 | undefined | 2 | 8 |
+| 58 | undefined | 4 | 28 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -2134,6 +2135,130 @@ Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in th
 3. Slag Heartglass — a heart-shaped gem of light with an amber mountain-rune glowing inside, set in a thin gold ring.
 4. Ash Heartglass — a heart-shaped gem of light with a red flame-rune glowing inside, set in a thin gold ring.
 View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_surth_opts
+
+Surtharn, Tyrant of Muspelheim — six options for the final fire giant (the endgame’s great boss), each huge and menacing, seen from above-front like the game characters, original design, no text · wave 58 · 6 items, 3 × 2 · 1536x1024
+
+- `surt_colossus` Molten colossus — 220 × 240 px
+- `surt_forgeking` Forge-king — 220 × 240 px
+- `surt_ashtyrant` Ash tyrant — 220 × 240 px
+- `surt_jotun` Horned jötunn — 220 × 240 px
+- `surt_obsidian` Obsidian warlord — 220 × 240 px
+- `surt_volcano` Living volcano — 220 × 240 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Surtharn, Tyrant of Muspelheim — six options for the final fire giant (the endgame’s great boss), each huge and menacing, seen from above-front like the game characters, original design, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Molten colossus — a towering fire giant of cracked black basalt with rivers of glowing lava in the cracks, a crown of living flame, a huge flaming greatsword (about 3.8× the hero's height).
+2. Forge-king — a giant in blackened iron plate armour with great bellows on his back, a hammer as big as an anvil, a beard of smouldering embers (about 3.8× the hero's height).
+3. Ash tyrant — a gaunt, towering figure wrapped in smouldering ash-grey robes, a mask of molten gold, chains of pale-blue spirit-light trailing from his hands (about 3.8× the hero's height).
+4. Horned jötunn — a horned fire giant, bare-chested, skin burnt with glowing runes, long braided hair of flame, a sword of fire in one hand (about 3.8× the hero's height).
+5. Obsidian warlord — a giant in jagged obsidian armour with glowing orange seams; a cage in his chest holds captured spirits glowing pale blue (about 3.8× the hero's height).
+6. Living volcano — the upper body of a giant rising out of a mound of magma and rock, his head a crater crown that smokes, arms of cooling lava (about 3.8× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_swall_opts
+
+The spirit walls of Surtharn’s throne cavern — six options for wall sections made of captured spirits (people of pale-blue light), each a wide piece of cavern wall seen from above-front like the game scenery, no text · wave 58 · 6 items, 3 × 2 · 1536x1024
+
+- `sw_relief` Spirits in relief — 200 × 150 px
+- `sw_amber` Glass columns — 200 × 150 px
+- `sw_cage` Cage wall — 200 × 150 px
+- `sw_lanterns` Chains and lanterns — 200 × 150 px
+- `sw_channels` Rune channels — 200 × 150 px
+- `sw_lavafall` Spirit lavafall — 200 × 150 px
+
+Attach: style_hero, style_centaur, sc_spirit40_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — The spirit walls of Surtharn’s throne cavern — six options for wall sections made of captured spirits (people of pale-blue light), each a wide piece of cavern wall seen from above-front like the game scenery, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Spirits in relief — a section of cavern wall: dark obsidian rock in which chained spirit people are pressed like a carved relief, their faces and hands glowing pale blue (about 2.4× the hero's height).
+2. Glass columns — a row of tall columns of smoky amber glass, each with a spirit person trapped inside glowing pale blue, set in black rock (about 2.4× the hero's height).
+3. Cage wall — a wall of heavy black iron bars and cages packed with pale-blue spirit light, chains hanging, embers drifting (about 2.4× the hero's height).
+4. Chains and lanterns — a basalt wall hung with heavy chains, each ending in an iron lantern-cage holding a small glowing spirit (about 2.4× the hero's height).
+5. Rune channels — carved basalt blocks with deep rune-shaped channels through which pale-blue spirit light flows like water (about 2.4× the hero's height).
+6. Spirit lavafall — a curtain of slow molten rock pouring down a wall, with the silhouettes of spirits glowing blue inside the lava (about 2.4× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_mhall_opts
+
+Muspelheim’s challenge halls — key pieces, two options each (top row A, bottom row B): the chain lift, the lava raft, the ash-warden fortress gate, the falling bridge; dark volcanic stone, iron and lava, seen from above-front like the game scenery, no text · wave 58 · 8 items, 4 × 2 · 1536x1024
+
+- `mh_lift_a` Chain lift, option A — 150 × 120 px
+- `mh_raft_a` Lava raft, option A — 150 × 120 px
+- `mh_gate_a` Fortress gate, option A — 150 × 120 px
+- `mh_bridge_a` Falling bridge, option A — 150 × 120 px
+- `mh_lift_b` Chain lift, option B — 150 × 120 px
+- `mh_raft_b` Lava raft, option B — 150 × 120 px
+- `mh_gate_b` Fortress gate, option B — 150 × 120 px
+- `mh_bridge_b` Falling bridge, option B — 150 × 120 px
+
+Attach: style_hero, style_centaur, sc_forge_hearths
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Muspelheim’s challenge halls — key pieces, two options each (top row A, bottom row B): the chain lift, the lava raft, the ash-warden fortress gate, the falling bridge; dark volcanic stone, iron and lava, seen from above-front like the game scenery, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Chain lift, option A — a square iron platform hanging by four heavy chains over a lava shaft, a winch and chains at the edge where spirits haul (about 1.9× the hero's height).
+2. Lava raft, option A — a flat raft of black basalt floating on bright lava, glowing cracks at its edges, a rough iron pole (about 1.9× the hero's height).
+3. Fortress gate, option A — a heavy gate of black iron and basalt in a fortress wall, spiked, with two ember braziers and an iron portcullis (about 1.9× the hero's height).
+4. Falling bridge, option A — a narrow bridge of basalt slabs on iron chains over a dark abyss, a few slabs already cracked and glowing (about 1.9× the hero's height).
+5. Chain lift, option B — a round platform of riveted bronze lifted by one great chain through a pulley wheel over a lava shaft (about 1.9× the hero's height).
+6. Lava raft, option B — a raft of iron plates and chains on bright lava, a small brazier on it and a carved prow like a dragon head (about 1.9× the hero's height).
+7. Fortress gate, option B — a tall gatehouse of dark stone with a molten iron door and two statues of ash-wardens holding spears (about 1.9× the hero's height).
+8. Falling bridge, option B — a rope-and-plank bridge with iron fittings, burning at one end, swaying over the abyss (about 1.9× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ghearth_opts
+
+Muspelheim’s great hearth (three options), the Lodestar staff (three options) and Surtharn’s ash-wardens (two options); seen from above-front like the game scenery and characters, original designs, no text · wave 58 · 8 items, 4 × 2 · 1536x1024
+
+- `gh_hearth_a` Great hearth, option A — 150 × 150 px
+- `gh_hearth_b` Great hearth, option B — 150 × 150 px
+- `gh_hearth_c` Great hearth, option C — 150 × 150 px
+- `ls_staff_a` The Lodestar, option A — 150 × 150 px
+- `ls_staff_b` The Lodestar, option B — 150 × 150 px
+- `ls_staff_c` The Lodestar, option C — 150 × 150 px
+- `aw_warden_a` Ash-warden, option A — 150 × 150 px
+- `aw_warden_b` Ash-warden, option B — 150 × 150 px
+
+Attach: style_hero, style_centaur, sc_forge_hearths
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Muspelheim’s great hearth (three options), the Lodestar staff (three options) and Surtharn’s ash-wardens (two options); seen from above-front like the game scenery and characters, original designs, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Great hearth, option A — the great hearth of Muspelheim: a giant round hearth of black iron and gold set into a throne-cavern floor, four cradles around it for four glowing gems, a socket in the middle for a staff (about 2.4× the hero's height).
+2. Great hearth, option B — the great hearth of Muspelheim: a stepped altar of basalt with a deep fire pit, four carved hands holding up four empty settings for gems, a keyhole socket for a staff (about 2.4× the hero's height).
+3. Great hearth, option C — the great hearth of Muspelheim: a huge anvil-shaped forge with rune-carved sides, four glowing slots in a ring and a staff socket in the centre (about 2.4× the hero's height).
+4. The Lodestar, option A — a magic staff of white gold topped by a blazing star of four coloured crystals (green, blue, amber, red) around a white core, rays of light (about 2.4× the hero's height).
+5. The Lodestar, option B — a tall staff of dark iron wrapped in spiralling light, ending in a ring that holds four gems around a floating white star (about 2.4× the hero's height).
+6. The Lodestar, option C — a staff of pale runed wood and silver with a compass-rose head of four gems pointing like a star, glowing softly (about 2.4× the hero's height).
+7. Ash-warden, option A — an ash-warden: Surtharn’s guard, a tall soldier in charred black armour with a spear and a tower shield, ember eyes in a closed helm (about 2.4× the hero's height).
+8. Ash-warden, option B — an ash-warden: a lean figure of living ash and cinders in a ragged cloak, a curved blade glowing at the edge, a chain whip at the belt (about 2.4× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).
