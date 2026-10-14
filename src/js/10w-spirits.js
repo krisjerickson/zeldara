@@ -23,7 +23,7 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
   shrines:function(ws){ var wd=ws.wd; if(wd._shrines)return wd._shrines; var out=[], R=_footReach(wd), W=WORLD_W, self=ZSPIRIT;
     for(var q=1;q<=4;q++){ var zs=WMAP_ZONES.filter(function(z){ return (z.r||z.region)===q; }).slice(0,10);
       zs.forEach(function(z,i){ var r=ws._runeSpot?ws._runeSpot(z.id):{x:z.x,y:z.y}; if(!r)return; var p=self._spot(ws,R,r.x-6,r.y-5); if(!p)return; var n=out.length;
-        out.push({id:'sb_'+z.id, q:q, zone:z.id, zname:_wmZoneName(z.id), tx:p.x, ty:p.y, x:p.x*TILE+16, y:p.y*TILE+16, spirit:self.SPIRIT_NAMES[n%40], trade:self.TRADES[(n*7)%20], binder:self.BINDER_NAMES[(n*13+7)%40]}); }); }
+        out.push({id:'sb_'+z.id, n:n, q:q, zone:z.id, zname:_wmZoneName(z.id), tx:p.x, ty:p.y, x:p.x*TILE+16, y:p.y*TILE+16, spirit:self.SPIRIT_NAMES[n%40], trade:self.TRADES[(n*7)%20], binder:self.BINDER_NAMES[(n*13+7)%40]}); }); }
     return (wd._shrines=out); },
   // the nearest 5×5 open patch you can walk to
   _spot:function(ws,R,tx,ty){ for(var r=0;r<90;r+=1)for(var a=0;a<(r?12:1);a++){ var x=Math.round(tx+Math.cos(a/12*Math.PI*2)*r), y=Math.round(ty+Math.sin(a/12*Math.PI*2)*r), ok=!!(R&&R[y*WORLD_W+x]);
@@ -56,11 +56,18 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
     if(!free){ g.strokeStyle='#3a3a40'; g.lineWidth=2.2; for(var k=0;k<2;k++){ g.beginPath(); for(var x=8;x<=W-8;x+=5){ var y=34+k*16+(x-8)*0.25; g.moveTo(x,y); g.ellipse(x+2,y,2.6,1.7,0,0,Math.PI*2); } g.stroke(); } }
     var T=scene.textures.addCanvas(key,cv); try{ T.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} return key; },
   // a picture of a spirit: the painted frames (wave 53) when they are in, else the stand-in
-  _spiritSprite:function(scene,x,y,kind,depth){ var A=typeof ZWE!=='undefined'?ZWE.animTex(scene,kind==='toil'?'an_spirit_toil':'an_spirit_free'):null, s;
+  _spiritSprite:function(scene,x,y,kind,depth,s){ var U=ZSPIRIT.uniqueId(s,kind); if(U){ var Z=_scn(), im=Z.image(scene,U,x,y,Z.K,depth); if(im){ im.setOrigin(0.5,1); if(kind==='toil')scene.tweens.add({targets:im,angle:{from:-4,to:5},duration:520,yoyo:true,repeat:-1,ease:'Sine.inOut'}); return im; } }
+    var A=typeof ZWE!=='undefined'?ZWE.animTex(scene,kind==='toil'?'an_spirit_toil':'an_spirit_free'):null, s;
     if(A){ s=scene.add.sprite(x,y,A.key,'0').setOrigin(A.ox,A.oy).setScale(A.scale*(46/A.h)); try{ s.play(A.key); }catch(e){} }
     else { s=scene.add.image(x,y,ZSPIRIT._spiritTex(scene,kind)).setOrigin(0.5,0.92); if(kind!=='toil')s.setBlendMode(Phaser.BlendModes.SCREEN); }
     s.setDepth(depth); return s; },
-  _stoneImg:function(scene,x,y,free){ var Z=typeof _scn==='function'?_scn():null, id=free?'sp_bindstone_free':'sp_bindstone';
+  // round 54: Kris picked eight bindstones in the Lab (Spirits & stones) — every shrine gets one of them, mixed through each realm
+  STONES:['now','carved','gate','cage','obelisk','circle','altar','crystal'],
+  stoneOf:function(s){ var k=ZSPIRIT.STONES[((s.n||0)*3+(s.q||1))%8]; return k; },
+  stoneId:function(s,free){ var k=s?ZSPIRIT.stoneOf(s):'now'; return k==='now'?(free?'sp_bindstone_free':'sp_bindstone'):'bs_opt_'+k+(free?'_free':'_bound'); },
+  // round 54: each shrine's own spirit (wave 55, sp_u_<name>_bound / _free), when painted
+  uniqueId:function(s,kind){ if(!s||!s.spirit)return null; var Z=typeof _scn==='function'?_scn():null, id='sp_u_'+s.spirit.toLowerCase()+(kind==='toil'?'_bound':'_free'); return Z&&Z.has&&Z.has(id)?id:null; },
+  _stoneImg:function(scene,x,y,free,s){ var Z=typeof _scn==='function'?_scn():null, id=ZSPIRIT.stoneId(s,free); if(Z&&Z.has&&!Z.has(id))id=free?'sp_bindstone_free':'sp_bindstone';
     if(Z&&Z.has&&Z.has(id)){ var im=Z.image(scene,id,x,y,Z.K,WR_DEPTH(y)); if(im)return im; } return scene.add.image(x,y,ZSPIRIT._stoneTex(scene,free)).setOrigin(0.5,0.92).setDepth(WR_DEPTH(y)); },
   // ── the dialog box (the fairies' box, with a spirit's or Sólveig's picture) ──
   talk:function(name,col,html,btns,draw){ var el=document.getElementById('fairy-talk'); if(!el){ el=document.createElement('div'); el.id='fairy-talk'; el.className='overlay'; el.style.display='none'; el.onclick=function(e){ if(e.target===el)FairyTalk.close(); }; document.body.appendChild(el); }
@@ -73,7 +80,7 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
   tick:function(){ try{ if(!ZSPIRIT.on||typeof game==='undefined'||!game.scene)return; var ws=game.scene.getScene('World'); if(!ws||!ws.wd||!ws.player||!ws.playerState||!ws.sys.isActive())return; ZSPIRIT._ws=ws;
       var ps=ws.playerState; if(!ps.spiritsFreed)ps.spiritsFreed=[]; var S=ZSPIRIT.shrines(ws), px=ws.player.x, py=ws.player.y;
       S.forEach(function(s){ var d=Math.hypot(px-s.x,py-s.y), V=s._v, fr=ZSPIRIT.freed(ps,s.id);
-        if(d<1200&&!V){ V=s._v={}; V.stone=ZSPIRIT._stoneImg(ws,s.x,s.y+10,fr); if(!fr){ V.sp=ZSPIRIT._spiritSprite(ws,s.x+22,s.y+14,'toil',WR_DEPTH(s.y+14)); V.tw=ws.tweens.add({targets:V.sp,y:V.sp.y-2,duration:520,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+        if(d<1200&&!V){ V=s._v={}; V.stone=ZSPIRIT._stoneImg(ws,s.x,s.y+10,fr,s); if(!fr){ V.sp=ZSPIRIT._spiritSprite(ws,s.x+34,s.y+16,'toil',WR_DEPTH(s.y+16),s); V.tw=ws.tweens.add({targets:V.sp,y:V.sp.y-2,duration:520,yoyo:true,repeat:-1,ease:'Sine.inOut'});
             var Zg=typeof _scn==='function'?_scn():null; if(Zg&&Zg.has&&Zg.has('sp_toil_line'))V.gang=Zg.image(ws,'sp_toil_line',s.x-70,s.y+40,Zg.K,WR_DEPTH(s.y+40));      // the chain gang beside it, once painted
             V.lbl=domText(ws,s.x+22,s.y-46,'⛓ '+s.spirit,{fontSize:'9px',color:'#9fe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20); } }
         else if(d>1700&&V){ ['stone','sp','lbl','gang'].forEach(function(k){ if(V[k]&&V[k].destroy)V[k].destroy(); }); if(V.tw)V.tw.stop(); s._v=null; V=null; }
@@ -91,8 +98,8 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
   _drop:function(ws,m){ m.dead=true; m.temp=true; if(m.cont&&m.cont.destroy)m.cont.destroy(); var i=ws.worldMonsters.indexOf(m); if(i>=0)ws.worldMonsters.splice(i,1); },
   free:function(ws,s){ var ps=ws.playerState; if(ZSPIRIT.freed(ps,s.id))return; ps.spiritsFreed.push(s.id); var item='soulglass_'+s.q; ps.inventory.push(item);
     var n=ZSPIRIT.count(ps,s.q), V=s._v;
-    if(V){ if(V.lbl)V.lbl.destroy(); V.lbl=null; if(V.gang){ var gg=V.gang; V.gang=null; ws.tweens.add({targets:gg,alpha:0,duration:1200,onComplete:function(){ gg.destroy(); }}); } if(V.stone)V.stone.destroy(); V.stone=ZSPIRIT._stoneImg(ws,s.x,s.y+10,true);
-      if(V.sp){ if(V.tw)V.tw.stop(); var ox=V.sp.x, oy=V.sp.y; V.sp.destroy(); var f=ZSPIRIT._spiritSprite(ws,ox,oy,'free',WR_DEPTH(oy)); V.sp=f; f.setAlpha(0.95);
+    if(V){ if(V.lbl)V.lbl.destroy(); V.lbl=null; if(V.gang){ var gg=V.gang; V.gang=null; ws.tweens.add({targets:gg,alpha:0,duration:1200,onComplete:function(){ gg.destroy(); }}); } if(V.stone)V.stone.destroy(); V.stone=ZSPIRIT._stoneImg(ws,s.x,s.y+10,true,s);
+      if(V.sp){ if(V.tw)V.tw.stop(); var ox=V.sp.x, oy=V.sp.y; V.sp.destroy(); var f=ZSPIRIT._spiritSprite(ws,ox,oy,'free',WR_DEPTH(oy),s); V.sp=f; f.setAlpha(0.95);
         var vx=CENTER_X*TILE-ox, vy=CENTER_Y*TILE-oy, L=Math.hypot(vx,vy)||1;
         ws.tweens.add({targets:f,y:oy-10,duration:900,yoyo:true,repeat:1,ease:'Sine.inOut',onComplete:function(){ ws.tweens.add({targets:f,x:ox+vx/L*220,y:oy+vy/L*220-60,alpha:0,duration:2600,ease:'Sine.in',onComplete:function(){ f.destroy(); if(s._v)s._v.sp=null; }}); }}); } }
     if(typeof ZSFX!=='undefined')try{ ZSFX.play('warp'); }catch(e){}
@@ -110,7 +117,7 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
       [10,6,4,3,2].forEach(function(sz){ while(left>=sz||(sz===2&&left===1)){ var a=0.6+k*1.13, x=cx+Math.cos(a)*TILE*10.5, y=cy+Math.sin(a)*TILE*8.2, id='sp_group_'+sz, im=Z.has(id)?Z.image(ws,id,x,y,Z.K,WR_DEPTH(y)):null;
         if(im){ im.setAlpha(0.9); GR.push(im); ws.tweens.add({targets:im,y:y-3,duration:1700+k*150,yoyo:true,repeat:-1,ease:'Sine.inOut'}); } left-=Math.min(sz,left); k++; } }); }
     while(G.length>solo){ G.pop().destroy(); }
-    while(G.length<solo){ var i=G.length, a=i*2.39996, r=TILE*(4.5+(i%4)*1.3), x=cx+Math.cos(a)*r, y=cy+Math.sin(a)*r*0.8, o=ZSPIRIT._spiritSprite(ws,x,y,'free',WR_DEPTH(y)); o.setAlpha(0.85); o._a=a; o._r=r; G.push(o);
+    while(G.length<solo){ var i=G.length, a=i*2.39996, r=TILE*(4.5+(i%4)*1.3), x=cx+Math.cos(a)*r, y=cy+Math.sin(a)*r*0.8, fid=(ps.spiritsFreed||[])[i], fs=fid&&ZSPIRIT.shrines(ws).find(function(q){ return q.id===fid; }), o=ZSPIRIT._spiritSprite(ws,x,y,'free',WR_DEPTH(y),fs); o.setAlpha(0.85); o._a=a; o._r=r; G.push(o);
       ws.tweens.add({targets:o,y:y-5,duration:1400+(i%5)*200,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
     var t=Date.now()/1000; G.forEach(function(o,i){ var a=o._a+t*0.05*(i%2?1:-1); o.x=cx+Math.cos(a)*o._r; o.setDepth(WR_DEPTH(o.y)); }); },
   // ── the Glimmerhall ──

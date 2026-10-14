@@ -15,7 +15,7 @@
       ZBrand.home(c2,home,cv2.width,cv2.height,t||0,{sym:ZBrand.LOGO,word:id,btns:['NEW GAME','RETURNING PLAYER']}); c.drawImage(cv2,lw+8,8,pw,ph); c.strokeStyle='#2a3a4a'; c.strokeRect(lw+8.5,8.5,pw-1,ph-1); }catch(e){ console.warn('qname',e); }
     cv._done=key; };
   LAB_TABS.push({ id:'qname', name:'The new name',
-    blurb:'<b>Round 53 — THE QUESTS OF ZELDARA AND ZELDOR.</b> Ten wordmarks in your MedievalSharp face, each built from the Ringed Z\'s parts (the ringed Z, the crossed bearded axes, rune bands). Left: the wordmark; right: the title page with it. ☆ your favourite and add notes; the game shows <b>Twin Rings</b> until you pick.',
+    blurb:'<b>Round 53 — THE QUESTS OF ZELDARA AND ZELDOR.</b> Ten wordmarks in your MedievalSharp face, each built from the Ringed Z\'s parts (the ringed Z, the crossed bearded axes, rune bands). Left: the wordmark; right: the title page with it. ☆ your favourite and add notes; your pick, <b>One Great Z</b>, is in the game now.',
     designs:OPT.map(function(o){ return {id:o.id,name:o.name}; }),
     render:function(){ setTimeout(LBR.bind,0); return LBR.sec('The new name','ten wordmarks · the title page with each')+'<div class="br-grid br-wide">'+OPT.map(function(o,i){ return LBR.card('qname',{id:o.id,name:o.name,desc:o.desc},i,960,420,''); }).join('')+'</div>'; } });
 })();

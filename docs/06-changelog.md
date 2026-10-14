@@ -872,3 +872,11 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[502] Wave 54 ordered** (`tools/sprites/round53.ps1`, 7 sheets): the three option sets (5 sheets), Mira's furniture, and the soul gem / metal / tray icons.
 - **[503] Tests**: `tests/test_round53.py` (16 checks); round 18 and 47 tests updated for the new names.
 - **[504] Wave 54 in**: the spirit-look, grouping and bindstone options fill Lab → Spirits & stones (pictures fitted to their cards); Mira's furnace, tray bench, gears and blueprints furnish her workshop; the soul gem, metal and hearth-tray icons are painted.
+
+## Round 54 (Kris, Oct 14) — his picks: One Great Z, eight bindstones, forty unique spirits, groups round two
+- **[505] One Great Z** is the wordmark on the title page and the loading screen (his Lab pick).
+- **[506] The bindstones he picked** (`10w` ZSPIRIT.STONES/stoneOf): the old stone, carved serpent stone, stone gate, caged stone, obsidian obelisk, little stone circle, binding altar and shell of soulglass — spread so every realm has all eight; each turns to its freed picture when the spirit is freed. The spirit now digs beside the stone, not in front of it.
+- **[507] Forty unique spirits** (`07zt` ZSPIRIT40, wave 55, `tools/sprites/round54.ps1`): one for every bindstone, from his three picked looks (Ancestor, Lantern folk, Aurora-robed) and blends — each with its name, old trade, age and its realm's colours; bound (digging in chains, tools hanging at the belt) and freed (holding the tools of its trade). The game uses each one at its own stone and on the Green as soon as it is painted (the wave 53 spirits until then). Lab → **The forty spirits** shows them all.
+- **[508] Groupings, round two and How they move** (Lab → Spirits & stones): eight new groups of spirits hanging out, built from his Ring dance, Family, Honour guard and Chain gang (wave 55); and three ways for them to move — drifting groups, living loops, mingling — each played live on its card.
+- **[509] Tests**: `tests/test_round54.py` (7 checks).
+

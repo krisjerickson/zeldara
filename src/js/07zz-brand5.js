@@ -89,7 +89,7 @@
     caption(P,q,p,'THE QUESTS OF',0,-2.55,0.38,1.4); hull(-1.05,wa); hull(1.7,wo); axes(P,-1.1,0.32,1.05,0.8); axes(P,1.1,0.32,1.05,0.8); T(q,p,'AND',0.26,0,0.3);
     front(q,p,'ZELDARA',sz,0,-1.48); front(q,p,'ZELDOR',sz,0,1.27); });
 
-  ZBrand.WORDMARK='qz_twin';      // until Kris picks (Lab → "The new name")
+  ZBrand.WORDMARK='qz_shared';      // round 54: Kris picked One Great Z (Lab → "The new name")
   // the title page: a tall wordmark (three lines) gets the room it needs — the logo smaller and higher, the name a little higher
   var home1=ZBrand.home;
   ZBrand.home=function(c,cfg,W,H,t,o){ o=o||{}; var WD=ZBrand.wordById(o.word||(cfg.gen>=3?(ZBrand.WORDMARK||'ring_z'):'twin_axes')); if(!WD.tall||!(cfg.gen>=2))return home1(c,cfg,W,H,t,o);

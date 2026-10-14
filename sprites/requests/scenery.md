@@ -1,4 +1,4 @@
-# Scenery — 146 sheets, 1493 objects and textures (13 sheets in the pilot)
+# Scenery — 157 sheets, 1581 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -35,6 +35,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 52 | undefined | 1 | 5 |
 | 53 | undefined | 4 | 30 |
 | 54 | undefined | 7 | 56 |
+| 55 | undefined | 11 | 88 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -3984,6 +3985,369 @@ Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in th
 6. Barricade — spiked wooden barricade (about 0.6× the hero's height).
 7. Gear — large brass gear half sunk in the floor (about 0.8× the hero's height).
 8. Arena mirror — tall standing mirror in a dark frame (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_1
+
+The spirits of the bindstones, 1 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_asa_bound` Asa, bound — 72 × 104 px
+- `sp_u_bersi_bound` Bersi, bound — 72 × 104 px
+- `sp_u_dagny_bound` Dagny, bound — 72 × 104 px
+- `sp_u_eyvind_bound` Eyvind, bound — 72 × 104 px
+- `sp_u_asa_free` Asa, freed — 72 × 104 px
+- `sp_u_bersi_free` Bersi, freed — 72 × 104 px
+- `sp_u_dagny_free` Dagny, freed — 72 × 104 px
+- `sp_u_eyvind_free` Eyvind, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 1 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Asa, bound — Asa, once a weaver of the Grasslands: an old woman with a long silver braid, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Bersi, bound — Bersi, once a shipwright of the Grasslands: a boy, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Dagny, bound — Dagny, once a net-mender of the Grasslands: a young woman, a Norse ancestor of pale-blue light with braids and a cloak, a lantern hung from a spear or staff, a rune-shaped heart glowing in the chest; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Eyvind, bound — Eyvind, once a fisher of the Grasslands: a man, a villager of pale-blue light carrying a small lantern, robes trailing into ribbons of aurora light, a rune-shaped heart glowing in the chest; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Asa, freed — Asa, once a weaver of the Grasslands: an old woman with a long silver braid, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a small hand loom with threads of light (about 1.7× the hero's height).
+6. Bersi, freed — Bersi, once a shipwright of the Grasslands: a boy, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding an adze and a little carved dragon prow (about 1.7× the hero's height).
+7. Dagny, freed — Dagny, once a net-mender of the Grasslands: a young woman, a Norse ancestor of pale-blue light with braids and a cloak, a lantern hung from a spear or staff, a rune-shaped heart glowing in the chest; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a netting needle and a fold of net (about 1.7× the hero's height).
+8. Eyvind, freed — Eyvind, once a fisher of the Grasslands: a man, a villager of pale-blue light carrying a small lantern, robes trailing into ribbons of aurora light, a rune-shaped heart glowing in the chest; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a net over one shoulder and a glowing fish (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_2
+
+The spirits of the bindstones, 2 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_frida_bound` Frida, bound — 72 × 104 px
+- `sp_u_geir_bound` Geir, bound — 72 × 104 px
+- `sp_u_hallveig_bound` Hallveig, bound — 72 × 104 px
+- `sp_u_ingolf_bound` Ingolf, bound — 72 × 104 px
+- `sp_u_frida_free` Frida, freed — 72 × 104 px
+- `sp_u_geir_free` Geir, freed — 72 × 104 px
+- `sp_u_hallveig_free` Hallveig, freed — 72 × 104 px
+- `sp_u_ingolf_free` Ingolf, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 2 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Frida, bound — Frida, once a beekeeper of the Grasslands: a woman, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Geir, bound — Geir, once a carver of the Grasslands: an old man with a long beard, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Hallveig, bound — Hallveig, once a cooper of the Grasslands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Ingolf, bound — Ingolf, once a tanner of the Grasslands: a young man, a Norse ancestor of pale-blue light whose cloak dissolves into ribbons of aurora light, rune tattoos glowing cyan; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Frida, freed — Frida, once a beekeeper of the Grasslands: a woman, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a woven skep with glowing bees around it (about 1.7× the hero's height).
+6. Geir, freed — Geir, once a carver of the Grasslands: an old man with a long beard, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a knife and a small carved rune-stone (about 1.7× the hero's height).
+7. Hallveig, freed — Hallveig, once a cooper of the Grasslands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a barrel hoop and a wooden mallet (about 1.7× the hero's height).
+8. Ingolf, freed — Ingolf, once a tanner of the Grasslands: a young man, a Norse ancestor of pale-blue light whose cloak dissolves into ribbons of aurora light, rune tattoos glowing cyan; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a hide stretched on a small frame (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_3
+
+The spirits of the bindstones, 3 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_jorunn_bound` Jorunn, bound — 72 × 104 px
+- `sp_u_ketil_bound` Ketil, bound — 72 × 104 px
+- `sp_u_liv_bound` Liv, bound — 72 × 104 px
+- `sp_u_magni_bound` Magni, bound — 72 × 104 px
+- `sp_u_jorunn_free` Jorunn, freed — 72 × 104 px
+- `sp_u_ketil_free` Ketil, freed — 72 × 104 px
+- `sp_u_liv_free` Liv, freed — 72 × 104 px
+- `sp_u_magni_free` Magni, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 3 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Jorunn, bound — Jorunn, once a dyer of the Grasslands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Ketil, bound — Ketil, once a herder of the Grasslands: a man, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; spring-green trims and a few wildflowers woven in — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Liv, bound — Liv, once a miller of the Wetlands: a young woman, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Magni, bound — Magni, once a stonemason of the Wetlands: a man, a Norse ancestor of pale-blue light with braids and a cloak, a lantern hung from a spear or staff, a rune-shaped heart glowing in the chest; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Jorunn, freed — Jorunn, once a dyer of the Grasslands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding skeins of yarn in soft colours (about 1.7× the hero's height).
+6. Ketil, freed — Ketil, once a herder of the Grasslands: a man, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; spring-green trims and a few wildflowers woven in — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a crook, with a little spirit goat at the heel (about 1.7× the hero's height).
+7. Liv, freed — Liv, once a miller of the Wetlands: a young woman, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a sack of flour and a dusty apron (about 1.7× the hero's height).
+8. Magni, freed — Magni, once a stonemason of the Wetlands: a man, a Norse ancestor of pale-blue light with braids and a cloak, a lantern hung from a spear or staff, a rune-shaped heart glowing in the chest; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a chisel and a squared stone (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_4
+
+The spirits of the bindstones, 4 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_nanna_bound` Nanna, bound — 72 × 104 px
+- `sp_u_oddny_bound` Oddny, bound — 72 × 104 px
+- `sp_u_ragna_bound` Ragna, bound — 72 × 104 px
+- `sp_u_sigrid_bound` Sigrid, bound — 72 × 104 px
+- `sp_u_nanna_free` Nanna, freed — 72 × 104 px
+- `sp_u_oddny_free` Oddny, freed — 72 × 104 px
+- `sp_u_ragna_free` Ragna, freed — 72 × 104 px
+- `sp_u_sigrid_free` Sigrid, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 4 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Nanna, bound — Nanna, once a midwife of the Wetlands: a woman, a villager of pale-blue light carrying a small lantern, robes trailing into ribbons of aurora light, a rune-shaped heart glowing in the chest; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Oddny, bound — Oddny, once a potter of the Wetlands: an old woman with a long silver braid, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Ragna, bound — Ragna, once a shepherd of the Wetlands: a girl, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Sigrid, bound — Sigrid, once a smith of the Wetlands: a young woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Nanna, freed — Nanna, once a midwife of the Wetlands: a woman, a villager of pale-blue light carrying a small lantern, robes trailing into ribbons of aurora light, a rune-shaped heart glowing in the chest; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a bundle of herbs and a tiny swaddled light held close (about 1.7× the hero's height).
+6. Oddny, freed — Oddny, once a potter of the Wetlands: an old woman with a long silver braid, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a round jug and clay-streaked sleeves (about 1.7× the hero's height).
+7. Ragna, freed — Ragna, once a shepherd of the Wetlands: a girl, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a staff, with a lamb of light at the knee (about 1.7× the hero's height).
+8. Sigrid, freed — Sigrid, once a smith of the Wetlands: a young woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a hammer and a leather apron (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_5
+
+The spirits of the bindstones, 5 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_torvi_bound` Torvi, bound — 72 × 104 px
+- `sp_u_ulf_bound` Ulf, bound — 72 × 104 px
+- `sp_u_vigdis_bound` Vigdis, bound — 72 × 104 px
+- `sp_u_yrsa_bound` Yrsa, bound — 72 × 104 px
+- `sp_u_torvi_free` Torvi, freed — 72 × 104 px
+- `sp_u_ulf_free` Ulf, freed — 72 × 104 px
+- `sp_u_vigdis_free` Vigdis, freed — 72 × 104 px
+- `sp_u_yrsa_free` Yrsa, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 5 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Torvi, bound — Torvi, once a forester of the Wetlands: a woman, a Norse ancestor of pale-blue light whose cloak dissolves into ribbons of aurora light, rune tattoos glowing cyan; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Ulf, bound — Ulf, once a brewer of the Wetlands: a man, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Vigdis, bound — Vigdis, once a skald of the Wetlands: an old woman with a long silver braid, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Yrsa, bound — Yrsa, once a baker of the Wetlands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; sea-teal trims with shells and reed beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Torvi, freed — Torvi, once a forester of the Wetlands: a woman, a Norse ancestor of pale-blue light whose cloak dissolves into ribbons of aurora light, rune tattoos glowing cyan; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding an axe on the shoulder and a sprig of pine (about 1.7× the hero's height).
+6. Ulf, freed — Ulf, once a brewer of the Wetlands: a man, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a horn of mead and a small cask (about 1.7× the hero's height).
+7. Vigdis, freed — Vigdis, once a skald of the Wetlands: an old woman with a long silver braid, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a lyre and a feathered cap (about 1.7× the hero's height).
+8. Yrsa, freed — Yrsa, once a baker of the Wetlands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; sea-teal trims with shells and reed beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a round loaf and a long bread paddle (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_6
+
+The spirits of the bindstones, 6 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_arnor_bound` Arnor, bound — 72 × 104 px
+- `sp_u_bodil_bound` Bodil, bound — 72 × 104 px
+- `sp_u_dalla_bound` Dalla, bound — 72 × 104 px
+- `sp_u_einar_bound` Einar, bound — 72 × 104 px
+- `sp_u_arnor_free` Arnor, freed — 72 × 104 px
+- `sp_u_bodil_free` Bodil, freed — 72 × 104 px
+- `sp_u_dalla_free` Dalla, freed — 72 × 104 px
+- `sp_u_einar_free` Einar, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 6 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Arnor, bound — Arnor, once a weaver of the Highlands: a man, a Norse ancestor of pale-blue light with braids and a cloak, a lantern hung from a spear or staff, a rune-shaped heart glowing in the chest; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Bodil, bound — Bodil, once a shipwright of the Highlands: an old woman with a long silver braid, a villager of pale-blue light carrying a small lantern, robes trailing into ribbons of aurora light, a rune-shaped heart glowing in the chest; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Dalla, bound — Dalla, once a net-mender of the Highlands: a woman, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Einar, bound — Einar, once a fisher of the Highlands: a young man, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Arnor, freed — Arnor, once a weaver of the Highlands: a man, a Norse ancestor of pale-blue light with braids and a cloak, a lantern hung from a spear or staff, a rune-shaped heart glowing in the chest; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a small hand loom with threads of light (about 1.7× the hero's height).
+6. Bodil, freed — Bodil, once a shipwright of the Highlands: an old woman with a long silver braid, a villager of pale-blue light carrying a small lantern, robes trailing into ribbons of aurora light, a rune-shaped heart glowing in the chest; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding an adze and a little carved dragon prow (about 1.7× the hero's height).
+7. Dalla, freed — Dalla, once a net-mender of the Highlands: a woman, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a netting needle and a fold of net (about 1.7× the hero's height).
+8. Einar, freed — Einar, once a fisher of the Highlands: a young man, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a net over one shoulder and a glowing fish (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_7
+
+The spirits of the bindstones, 7 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_gudrun_bound` Gudrun, bound — 72 × 104 px
+- `sp_u_hakon_bound` Hakon, bound — 72 × 104 px
+- `sp_u_ingrid_bound` Ingrid, bound — 72 × 104 px
+- `sp_u_joreid_bound` Joreid, bound — 72 × 104 px
+- `sp_u_gudrun_free` Gudrun, freed — 72 × 104 px
+- `sp_u_hakon_free` Hakon, freed — 72 × 104 px
+- `sp_u_ingrid_free` Ingrid, freed — 72 × 104 px
+- `sp_u_joreid_free` Joreid, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 7 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Gudrun, bound — Gudrun, once a beekeeper of the Highlands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Hakon, bound — Hakon, once a carver of the Highlands: a man, a Norse ancestor of pale-blue light whose cloak dissolves into ribbons of aurora light, rune tattoos glowing cyan; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Ingrid, bound — Ingrid, once a cooper of the Highlands: an old woman with a long silver braid, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Joreid, bound — Joreid, once a tanner of the Highlands: a girl, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Gudrun, freed — Gudrun, once a beekeeper of the Highlands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a woven skep with glowing bees around it (about 1.7× the hero's height).
+6. Hakon, freed — Hakon, once a carver of the Highlands: a man, a Norse ancestor of pale-blue light whose cloak dissolves into ribbons of aurora light, rune tattoos glowing cyan; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a knife and a small carved rune-stone (about 1.7× the hero's height).
+7. Ingrid, freed — Ingrid, once a cooper of the Highlands: an old woman with a long silver braid, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a barrel hoop and a wooden mallet (about 1.7× the hero's height).
+8. Joreid, freed — Joreid, once a tanner of the Highlands: a girl, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a hide stretched on a small frame (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_8
+
+The spirits of the bindstones, 8 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_kolbein_bound` Kolbein, bound — 72 × 104 px
+- `sp_u_lofn_bound` Lofn, bound — 72 × 104 px
+- `sp_u_mord_bound` Mord, bound — 72 × 104 px
+- `sp_u_njal_bound` Njal, bound — 72 × 104 px
+- `sp_u_kolbein_free` Kolbein, freed — 72 × 104 px
+- `sp_u_lofn_free` Lofn, freed — 72 × 104 px
+- `sp_u_mord_free` Mord, freed — 72 × 104 px
+- `sp_u_njal_free` Njal, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 8 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Kolbein, bound — Kolbein, once a dyer of the Highlands: a young man, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Lofn, bound — Lofn, once a herder of the Highlands: a woman, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; warm amber trims with fur and stone beads — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Mord, bound — Mord, once a miller of the Ashlands: a boy, a villager of pale-blue light carrying a small lantern, robes trailing into ribbons of aurora light, a rune-shaped heart glowing in the chest; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Njal, bound — Njal, once a stonemason of the Ashlands: a young man, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Kolbein, freed — Kolbein, once a dyer of the Highlands: a young man, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding skeins of yarn in soft colours (about 1.7× the hero's height).
+6. Lofn, freed — Lofn, once a herder of the Highlands: a woman, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; warm amber trims with fur and stone beads — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a crook, with a little spirit goat at the heel (about 1.7× the hero's height).
+7. Mord, freed — Mord, once a miller of the Ashlands: a boy, a villager of pale-blue light carrying a small lantern, robes trailing into ribbons of aurora light, a rune-shaped heart glowing in the chest; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a sack of flour and a dusty apron (about 1.7× the hero's height).
+8. Njal, freed — Njal, once a stonemason of the Ashlands: a young man, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a chisel and a squared stone (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_9
+
+The spirits of the bindstones, 9 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_orm_bound` Orm, bound — 72 × 104 px
+- `sp_u_ranveig_bound` Ranveig, bound — 72 × 104 px
+- `sp_u_sverri_bound` Sverri, bound — 72 × 104 px
+- `sp_u_thora_bound` Thora, bound — 72 × 104 px
+- `sp_u_orm_free` Orm, freed — 72 × 104 px
+- `sp_u_ranveig_free` Ranveig, freed — 72 × 104 px
+- `sp_u_sverri_free` Sverri, freed — 72 × 104 px
+- `sp_u_thora_free` Thora, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 9 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Orm, bound — Orm, once a midwife of the Ashlands: a man, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Ranveig, bound — Ranveig, once a potter of the Ashlands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Sverri, bound — Sverri, once a shepherd of the Ashlands: an old man with a long beard, a Norse ancestor of pale-blue light whose cloak dissolves into ribbons of aurora light, rune tattoos glowing cyan; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Thora, bound — Thora, once a smith of the Ashlands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Orm, freed — Orm, once a midwife of the Ashlands: a man, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a bundle of herbs and a tiny swaddled light held close (about 1.7× the hero's height).
+6. Ranveig, freed — Ranveig, once a potter of the Ashlands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a round jug and clay-streaked sleeves (about 1.7× the hero's height).
+7. Sverri, freed — Sverri, once a shepherd of the Ashlands: an old man with a long beard, a Norse ancestor of pale-blue light whose cloak dissolves into ribbons of aurora light, rune tattoos glowing cyan; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a staff, with a lamb of light at the knee (about 1.7× the hero's height).
+8. Thora, freed — Thora, once a smith of the Ashlands: a woman, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a hammer and a leather apron (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit40_10
+
+The spirits of the bindstones, 10 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_u_unn_bound` Unn, bound — 72 × 104 px
+- `sp_u_vali_bound` Vali, bound — 72 × 104 px
+- `sp_u_alfhild_bound` Alfhild, bound — 72 × 104 px
+- `sp_u_brand_bound` Brand, bound — 72 × 104 px
+- `sp_u_unn_free` Unn, freed — 72 × 104 px
+- `sp_u_vali_free` Vali, freed — 72 × 104 px
+- `sp_u_alfhild_free` Alfhild, freed — 72 × 104 px
+- `sp_u_brand_free` Brand, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — The spirits of the bindstones, 10 of 10 — four different people, each shown BOUND (top row) and FREED (bottom row, the same person directly below); adult proportions unless a child, seen from above-front like the game characters; every one a unique individual with its own face, build, hair and clothes.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Unn, bound — Unn, once a forester of the Ashlands: a young woman, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+2. Vali, bound — Vali, once a brewer of the Ashlands: a man, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+3. Alfhild, bound — Alfhild, once a skald of the Ashlands: a woman, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+4. Brand, bound — Brand, once a baker of the Ashlands: an old man with a long beard, a Norse ancestor of pale-blue light with braids and a cloak, a lantern hung from a spear or staff, a rune-shaped heart glowing in the chest; ember-orange trims and soot-dark hems that glow at the edges — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, the light dimmed; the tools of the trade hang forgotten at the belt (about 1.7× the hero's height).
+5. Unn, freed — Unn, once a forester of the Ashlands: a young woman, a Norse ancestor of glowing pale-blue light: braids, a simple helm or hood, a cloak, rune tattoos that glow brighter cyan; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding an axe on the shoulder and a sprig of pine (about 1.7× the hero's height).
+6. Vali, freed — Vali, once a brewer of the Ashlands: a man, a translucent villager of glowing pale-blue light carrying a small lantern, a rune-shaped heart of light shining through the chest; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a horn of mead and a small cask (about 1.7× the hero's height).
+7. Alfhild, freed — Alfhild, once a skald of the Ashlands: a woman, tall and graceful, robes and long hair that dissolve at the ends into ribbons of aurora light (teal, green and violet) drifting as if underwater; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a lyre and a feathered cap (about 1.7× the hero's height).
+8. Brand, freed — Brand, once a baker of the Ashlands: an old man with a long beard, a Norse ancestor of pale-blue light with braids and a cloak, a lantern hung from a spear or staff, a rune-shaped heart glowing in the chest; ember-orange trims and soot-dark hems that glow at the edges — FREED: no chains, floating a little above the ground, smiling and glowing at full brightness, holding a round loaf and a long bread paddle (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit_grp2
+
+Spirit groups, round two — spirits just hanging out together, from the picked Ring dance, Family, Honour guard and Chain gang; spirits are translucent glowing people of pale-blue runic light (ancestors, lantern folk and aurora-robed), adult proportions, friendly · wave 55 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_g2_hearth_tale` Tale by the hearth — 200 × 128 px
+- `sp_g2_reel` The reel — 200 × 128 px
+- `sp_g2_sparring` Sparring ancestors — 200 × 128 px
+- `sp_g2_mead_bench` Mead bench — 200 × 128 px
+- `sp_g2_stroll` Evening stroll — 200 × 128 px
+- `sp_g2_tafl` Game of tafl — 200 × 128 px
+- `sp_g2_tag` Children at play — 200 × 128 px
+- `sp_g2_haul` The great haul (bound) — 200 × 128 px
+
+Attach: style_hero, style_centaur, sc_spirit_grp_opts, sc_spirit_opts_a
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Spirit groups, round two — spirits just hanging out together, from the picked Ring dance, Family, Honour guard and Chain gang; spirits are translucent glowing people of pale-blue runic light (ancestors, lantern folk and aurora-robed), adult proportions, friendly.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Tale by the hearth — a grandmother of light telling a story by a small blue ghost-fire, three children and a father leaning in, one child on his shoulders (a family, hanging out) (about 2× the hero's height).
+2. The reel — a lively ring dance of six spirits hand in hand, skirts and cloaks swinging, a fiddler and a drummer playing in the middle (about 2× the hero's height).
+3. Sparring ancestors — two ancestor warriors of light sparring with glowing practice swords and round shields, two more leaning on their spears watching and laughing (about 2× the hero's height).
+4. Mead bench — four spirits on a long bench round a plank table, raising mead horns in a toast, one telling a joke (about 2× the hero's height).
+5. Evening stroll — an old couple walking arm in arm carrying a lantern, a dog of light trotting beside them, a child skipping ahead (about 2× the hero's height).
+6. Game of tafl — two old spirits bent over a hnefatafl board on a stone, three others watching and pointing, one stroking his beard (about 2× the hero's height).
+7. Children at play — four spirit children chasing each other round a tall ancestor warrior who pretends to be a troll, arms raised (about 2× the hero's height).
+8. The great haul (bound) — five BOUND spirits in chains hauling a huge carved stone on ropes and log rollers, heads down, a Binder’s brazier smoking behind them (about 2× the hero's height).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
