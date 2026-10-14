@@ -1,4 +1,4 @@
-# Scenery — 135 sheets, 1407 objects and textures (13 sheets in the pilot)
+# Scenery — 139 sheets, 1437 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -33,6 +33,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 50 | Round 47: what fills the space round the adventure sites (rock, seas, fog, sky, night sky, their creatures), smoother butterflies and dragonflies, painted area effects | 9 | 86 |
 | 51 | undefined | 2 | 16 |
 | 52 | undefined | 1 | 5 |
+| 53 | undefined | 4 | 30 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -2084,6 +2085,125 @@ Rules: every object is separate, sits fully inside its own cell with clear empty
 Background: fully transparent (real alpha channel).
 ```
 
+## sc_spirit_anim
+
+Animation frames — a trapped spirit: a translucent, softly glowing person made of pale light-blue light (runic cyan, #6fe3f5), friendly face, simple village clothes, the lower legs fading into a wisp; seen from above-front like the game characters · wave 53 · 12 items, 6 × 2 · 1536x1024
+
+- `an_spirit_toil_1` Toiling spirit — frame 1 — 40 × 60 px
+- `an_spirit_toil_2` Toiling spirit — frame 2 — 40 × 60 px
+- `an_spirit_toil_3` Toiling spirit — frame 3 — 40 × 60 px
+- `an_spirit_toil_4` Toiling spirit — frame 4 — 40 × 60 px
+- `an_spirit_toil_5` Toiling spirit — frame 5 — 40 × 60 px
+- `an_spirit_toil_6` Toiling spirit — frame 6 — 40 × 60 px
+- `an_spirit_free_1` Freed spirit — frame 1 — 40 × 60 px
+- `an_spirit_free_2` Freed spirit — frame 2 — 40 × 60 px
+- `an_spirit_free_3` Freed spirit — frame 3 — 40 × 60 px
+- `an_spirit_free_4` Freed spirit — frame 4 — 40 × 60 px
+- `an_spirit_free_5` Freed spirit — frame 5 — 40 × 60 px
+- `an_spirit_free_6` Freed spirit — frame 6 — 40 × 60 px
+
+Attach: style_hero, style_centaur, sc_anim_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames — a trapped spirit: a translucent, softly glowing person made of pale light-blue light (runic cyan, #6fe3f5), friendly face, simple village clothes, the lower legs fading into a wisp; seen from above-front like the game characters.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 6 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 6 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Toiling spirit, in chains, made to dig: an iron shackle and chain on one ankle, swinging a heavy pick at the rock, tired and frustrated, shoulders slumped, brow furrowed (about as tall as the hero): (1) pick raised high behind the head; (2) pick swinging down; (3) pick striking the ground, a few sparks; (4) pulling the pick back out, sighing; (5) leaning on the pick, wiping the brow, looking weary; (6) lifting the pick again.
+Row 2 — Freed spirit, free and relaxed: no chains, floating a little above the ground, a gentle smile, glowing a little brighter (about as tall as the hero): (1) floating, arms relaxed at the sides; (2) rising a touch, arms lifting slightly; (3) arms open, face turned up, smiling; (4) floating at its highest, eyes closed, peaceful; (5) sinking a touch, arms lowering; (6) back to the start, a little wave of the hand.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit_sets
+
+Freed spirits and their bindstones — spirits are translucent, softly glowing people of pale light-blue runic light (#6fe3f5), friendly, in simple village clothes, their lower legs fading into a wisp · wave 53 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_group_2` Two spirits — 64 × 64 px
+- `sp_group_3` Three spirits — 90 × 64 px
+- `sp_group_4` Four spirits — 110 × 70 px
+- `sp_group_6` Six spirits — 140 × 80 px
+- `sp_group_10` Ten spirits — 190 × 100 px
+- `sp_toil_line` Spirits in a chain gang — 190 × 80 px
+- `sp_bindstone` Bindstone, bound — 48 × 80 px
+- `sp_bindstone_free` Bindstone, freed — 48 × 80 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Freed spirits and their bindstones — spirits are translucent, softly glowing people of pale light-blue runic light (#6fe3f5), friendly, in simple village clothes, their lower legs fading into a wisp.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Two spirits — two freed spirits side by side, relaxed and smiling, one with a hand on the other's shoulder (about as tall as the hero).
+2. Three spirits — three freed spirits gathered together, chatting happily (about as tall as the hero).
+3. Four spirits — four freed spirits in a loose ring, relaxed, glowing (about as tall as the hero).
+4. Six spirits — six freed spirits gathered in two little rows, some waving (about 1.3× the hero's height).
+5. Ten spirits — a crowd of ten freed spirits gathered close together, glowing softly, a few looking up (about 1.6× the hero's height).
+6. Spirits in a chain gang — a line of four trapped spirits chained together at the ankles, carrying baskets of ore and picks, weary and frustrated (about 1.3× the hero's height).
+7. Bindstone, bound — a tall grey standing runestone wrapped in heavy iron chains, its carved runes glowing an angry red-orange, a chain running from it along the ground (about 1.3× the hero's height).
+8. Bindstone, freed — the same tall grey runestone, its broken chains lying on the ground around it, its carved runes glowing a calm light blue (about 1.3× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_glimmerhall
+
+The Glimmerhall — the most impressive building in the village · wave 53 · 2 items, 2 × 1 · 1536x1024
+
+- `vb_glimmerhall` The Glimmerhall — 280 × 300 px
+- `np_solveig` Sólveig the Glasswright — 48 × 88 px
+
+Attach: style_hero, style_centaur, sc_vill_core_1
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 2 separate pieces of scenery — The Glimmerhall — the most impressive building in the village.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 2 objects in a grid of 2 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. The Glimmerhall — the grandest building in a Norse-style village: a hall of pale carved stone and timber crowned with a great dome and tall windows of glass, every pane etched with runes that glow light blue (#6fe3f5), slender glass spires at its corners, a wide arched doorway with glowing glass doors, a glass furnace's soft glow inside, flower boxes (about 4.8× the hero's height).
+2. Sólveig the Glasswright — a kind, wise woman glassmaker standing, long silver-blond braids, a blue dress under a leather apron, thick gloves tucked in her belt, holding up a small glowing light-blue shard of glass in one hand, full figure, front view (about 1.4× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°: the front wall with its door faces the viewer at the bottom, and the roof rises behind it. Walls are vertical; no side perspective, no vanishing point. The bottom edge is where the building meets the ground, with the door in the middle of the front wall unless said otherwise.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_spirit
+
+Soulglass — game icons · wave 53 · 8 items, 4 × 2 · 1024x1024
+
+- `ic_soulglass_1` Soulglass shard (Grasslands) — 48 × 48 px
+- `ic_soulglass_2` Soulglass shard (Wetlands) — 48 × 48 px
+- `ic_soulglass_3` Soulglass shard (Highlands) — 48 × 48 px
+- `ic_soulglass_4` Soulglass shard (Ashlands) — 48 × 48 px
+- `ic_soulglass_lattice_1` Ember lattice — 48 × 48 px
+- `ic_soulglass_lattice_2` Cinder lattice — 48 × 48 px
+- `ic_soulglass_lattice_3` Slag lattice — 48 × 48 px
+- `ic_soulglass_lattice_4` Ash lattice — 48 × 48 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate game icons — Soulglass — game icons.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Soulglass shard (Grasslands) — a jagged shard of glowing light-blue glass with a faint green leaf-rune inside.
+2. Soulglass shard (Wetlands) — a jagged shard of glowing light-blue glass with a faint deep-blue wave-rune inside.
+3. Soulglass shard (Highlands) — a jagged shard of glowing light-blue glass with a faint amber mountain-rune inside.
+4. Soulglass shard (Ashlands) — a jagged shard of glowing light-blue glass with a faint red flame-rune inside.
+5. Ember lattice — six light-blue glass shards fused into a round lattice of glowing runes, with a green leaf-rune at its heart.
+6. Cinder lattice — six light-blue glass shards fused into a round lattice of glowing runes, with a deep-blue wave-rune at its heart.
+7. Slag lattice — six light-blue glass shards fused into a round lattice of glowing runes, with an amber mountain-rune at its heart.
+8. Ash lattice — six light-blue glass shards fused into a round lattice of glowing runes, with a red flame-rune at its heart.
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
 ## sc_ent_forges
 
 The four Forges of Muspelheim and the great gate of Muspelheim — entrances in the sea, each a door into a volcano, seen from above-front like the other site entrances · wave 52 · 5 items, 3 × 2 · 1536x1024
@@ -3668,11 +3788,11 @@ Control-bar and menu icons · wave 33 · 25 items, 5 × 5 · 1024x1024
 - `ui_lock` Locked — 48 × 48 px
 - `ui_close` Close — 48 × 48 px
 
-Attach: style_hero, style_centaur
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Control-bar and menu icons.
-The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 25 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first):
 1. Attack — two crossed swords.
 2. Ranged — a drawn bow with an arrow.
@@ -3735,7 +3855,7 @@ Empty gear-slot symbols and inventory tabs — the first 14 are EMPTY-SLOT symbo
 - `tab_sell` Sell — 48 × 48 px
 - `tab_buy` Buy — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Empty gear-slot symbols and inventory tabs — the first 14 are EMPTY-SLOT symbols: each one a simple flat dark slate-blue silhouette of the item with a thin teal outline, no other colours, no detail.
@@ -3802,7 +3922,7 @@ Map markers and quest icons · wave 33 · 25 items, 5 × 5 · 1024x1024
 - `q_fairy` Fairy quest — 48 × 48 px
 - `q_reward` Reward — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Map markers and quest icons.
@@ -3869,7 +3989,7 @@ Status effects, elements and tome chapters · wave 33 · 25 items, 5 × 5 · 102
 - `tm_lore` Lore chapter — 48 × 48 px
 - `ui_levelup` Level up — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Status effects, elements and tome chapters.
@@ -3917,7 +4037,7 @@ Panel ornaments — carved dark stone inlaid with glowing teal runes and thin go
 - `orn_arrow` Arrow — 96 × 48 px
 - `orn_plate` Name plate — 96 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate game icons — Panel ornaments — carved dark stone inlaid with glowing teal runes and thin gold edges; each drawn flat, straight from the front.
@@ -3962,7 +4082,7 @@ Item icons — swords, axes and other melee weapons · wave 34 · 22 items, 5 ×
 - `ic_thunder_god` Thunder God — 48 × 48 px
 - `ic_elemental_sovereign` Elemental Sovereign — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 22 separate game icons — Item icons — swords, axes and other melee weapons.
@@ -4020,7 +4140,7 @@ Item icons — bows, staffs, arrows and darts · wave 34 · 19 items, 5 × 4 · 
 - `ic_dart_fire` Fire Dart — 48 × 48 px
 - `ic_dart_heat` Heat-Seeking Dart — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — bows, staffs, arrows and darts.
@@ -4081,7 +4201,7 @@ Item icons — body armor and shields · wave 35 · 25 items, 5 × 5 · 1024x102
 - `ic_dragon_shield` Dragon Shield — 48 × 48 px
 - `ic_aegis` Aegis — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Item icons — body armor and shields.
@@ -4143,7 +4263,7 @@ Item icons — headgear and leg armor · wave 35 · 20 items, 5 × 4 · 1536x102
 - `ic_arcane_leggings` Arcane Leggings — 48 × 48 px
 - `ic_sky_leggings` Sky Leggings — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Item icons — headgear and leg armor.
@@ -4200,7 +4320,7 @@ Item icons — gauntlets and boots · wave 35 · 20 items, 5 × 4 · 1536x1024
 - `ic_dragon_boots` Dragon Boots — 48 × 48 px
 - `ic_shadow_treads` Shadow Treads — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Item icons — gauntlets and boots.
@@ -4259,7 +4379,7 @@ Item icons — amulets and cloaks · wave 35 · 22 items, 5 × 5 · 1024x1024
 - `ic_dragon_cape` Dragon Cape — 48 × 48 px
 - `ic_shadow_mantle` Shadow Mantle — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 22 separate game icons — Item icons — amulets and cloaks.
@@ -4322,7 +4442,7 @@ Item icons — rings, gems, keys and materials · wave 36 · 24 items, 5 × 5 ·
 - `ic_wood_log` Wood Log — 48 × 48 px
 - `ic_cup_empty` Empty Cup — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 24 separate game icons — Item icons — rings, gems, keys and materials.
@@ -4377,7 +4497,7 @@ Item icons — potions and tonics · wave 36 · 14 items, 5 × 3 · 1536x1024
 - `ic_speed_draught` Speed Draught — 48 × 48 px
 - `ic_defense_brew` Defense Brew — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 14 separate game icons — Item icons — potions and tonics.
@@ -4420,7 +4540,7 @@ Item icons — food and drink · wave 36 · 12 items, 4 × 3 · 1536x1024
 - `ic_feast_platter` Grand Feast — 48 × 48 px
 - `ic_dragon_steak` Dragon Steak — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate game icons — Item icons — food and drink.
@@ -4465,7 +4585,7 @@ Spell emblems (shown on the spell slot and in the tome) · wave 36 · 16 items, 
 - `ic_drain_tome` Spirit Drain — 48 × 48 px
 - `ic_inferno_tome` Starfall — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 16 separate game icons — Spell emblems (shown on the spell slot and in the tome).
@@ -4510,7 +4630,7 @@ Skill emblems (special attacks) · wave 36 · 12 items, 4 × 3 · 1536x1024
 - `ic_sp_timeslow` Time Slow — 48 × 48 px
 - `ic_sp_meteor` Meteor Strike — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate game icons — Skill emblems (special attacks).
@@ -4558,7 +4678,7 @@ Item icons — axes, mauls and two-element blades (round 37) · wave 37 · 19 it
 - `ic_night_edge` Night Edge — 48 × 48 px
 - `ic_sov_axe` Sovereign Axe — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — axes, mauls and two-element blades (round 37).
@@ -4616,7 +4736,7 @@ Item icons — crossbows, staffs, arrows and darts (round 37) · wave 37 · 22 i
 - `ic_dart_thorn` Thorn Dart — 48 × 48 px
 - `ic_dart_shock` Shock Dart — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 22 separate game icons — Item icons — crossbows, staffs, arrows and darts (round 37).
@@ -4680,7 +4800,7 @@ Item icons — gems, draughts, the Sovereign armor, and five menu symbols (round
 - `tm_paths` Paths chapter — 48 × 48 px
 - `tm_elements` Elements chapter — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Item icons — gems, draughts, the Sovereign armor, and five menu symbols (round 37).
@@ -4741,7 +4861,7 @@ Item icons — shadow swords, two-element master-works, their rare forging items
 - `ic_grave_amber` Grave Amber — 48 × 48 px
 - `ic_sp_petalstep` Petal Step — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — shadow swords, two-element master-works, their rare forging items and Petal Step (round 45).
@@ -4796,7 +4916,7 @@ Item icons — the elemental bows, the warbows and the Squall Pearl (round 45), 
 - `fo_sulfur_crystal` Sulfur Crystal — 48 × 48 px
 - `fo_cathedral_bell` Cathedral Bell — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — the elemental bows, the warbows and the Squall Pearl (round 45), with the last fairy-quest treasures.
@@ -4852,7 +4972,7 @@ Tome pictures — the regions of the world (1 of 2): each a tiny round vignette 
 - `tm_zone_drowned_village` Drowned Village Rooftops — 48 × 48 px
 - `tm_zone_stilt_walkways` Misty Stilt Walkways — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Tome pictures — the regions of the world (1 of 2): each a tiny round vignette of the place.
@@ -4909,7 +5029,7 @@ Tome pictures — the regions of the world (2 of 2): each a tiny round vignette 
 - `tm_zone_dragon_valley` Dragon Skeleton Valley — 48 × 48 px
 - `tm_zone_chained_rocks` Chained Floating Rocks — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Tome pictures — the regions of the world (2 of 2): each a tiny round vignette of the place.
@@ -4966,7 +5086,7 @@ Tome pictures — the boss arenas: each a tiny round vignette of the battlegroun
 - `tm_arena_starless_void` The Starless Void — 48 × 48 px
 - `tm_arena_dawn_altar` The Dawn Altar — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Tome pictures — the boss arenas: each a tiny round vignette of the battleground.
@@ -5023,7 +5143,7 @@ Fairy-quest treasures — small magical objects dug out of the ground, each glow
 - `fo_basalt_rune` Basalt Rune — 48 × 48 px
 - `fo_dragon_tooth` Dragon Tooth — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_ui_1
+Attach: style_hero, style_centaur, sc_ic_spirit
 
 ```
 Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Fairy-quest treasures — small magical objects dug out of the ground, each glowing faintly.

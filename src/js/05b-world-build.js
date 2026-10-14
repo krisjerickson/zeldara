@@ -213,13 +213,19 @@ function _buildGameWorld(){
     sites.push(obj);
   });
   // ── 6b. mage towers (round 5): 4 per quadrant on open land, well away from the other sites ──
-  if(typeof MAGE_TOWERS!=='undefined'){ var rmg=rngOf(WORLD_SEED+4242), magePos=[];
+  if(typeof MAGE_TOWERS!=='undefined'){ var rmg=rngOf(WORLD_SEED+4242), magePos=[], mgReach=worldMapReach(M);
     [1,2,3,4].forEach(function(r){ var list=MAGE_TOWERS.filter(function(M){ return M.q===r; }), got=0;
       for(var at=0;at<9000&&got<list.length;at++){ var x=Math.floor(rmg.f()*W), y=Math.floor(rmg.f()*H), k=y*W+x; if(region[k]!==r)continue;
         var ok=true; for(var dy=-3;dy<=5&&ok;dy++)for(var dx=-3;dx<=3;dx++){ var xx=x+dx,yy=y+dy; if(xx<2||yy<2||xx>=W-2||yy>=H-2){ ok=false; break; } var kk=yy*W+xx; if(cls[kk]!==WM.LAND||reserved[kk]||region[kk]!==r){ ok=false; break; } }
         if(!ok)continue; var far=at>6500?14:22;
         if(sites.some(function(s){ return Math.abs(s.tx+1-x)<far&&Math.abs(s.ty+1-y)<far; })||magePos.some(function(p){ return Math.hypot(p.x-x,p.y-y)<40; }))continue;
         if(Math.hypot(x-CENTER_X,y-CENTER_Y)<VILLAGE_RADIUS+30)continue;
+        // round 52: a spot cut off by the sea (the Rootspire stood on the Floating Rocks' far shore, out of reach on foot) is moved to the
+        // nearest good spot you can walk to — searched apart from the main draw, so every other tower stays where it was
+        if(!mgReach[k]){ var alt=null, bd=1e9; for(var yy2=Math.max(4,y-160);yy2<Math.min(H-6,y+160);yy2+=2)for(var xx2=Math.max(4,x-160);xx2<Math.min(W-4,x+160);xx2+=2){ var k2=yy2*W+xx2, d2=Math.hypot(xx2-x,yy2-y); if(d2>=bd||!mgReach[k2]||region[k2]!==r)continue;
+            var ok2=true; for(var dy4=-3;dy4<=5&&ok2;dy4++)for(var dx4=-3;dx4<=3;dx4++){ var kk2=(yy2+dy4)*W+xx2+dx4; if(cls[kk2]!==WM.LAND||reserved[kk2]||region[kk2]!==r||!mgReach[kk2]){ ok2=false; break; } }
+            if(!ok2||sites.some(function(s){ return Math.abs(s.tx+1-xx2)<far&&Math.abs(s.ty+1-yy2)<far; })||magePos.some(function(p){ return Math.hypot(p.x-xx2,p.y-yy2)<40; })||Math.hypot(xx2-CENTER_X,yy2-CENTER_Y)<VILLAGE_RADIUS+30)continue; alt=[xx2,yy2]; bd=d2; }
+          if(alt){ x=alt[0]; y=alt[1]; k=y*W+x; } }
         var M=list[got], tx=x-1, ty=y-1, zi=zone[k];
         var obj={type:'tower',section:r,tx:tx,ty:ty,id:'mage_'+M.key,mage:M.key,design:_mageBg(M),name:M.name,floors:M.floors,zone:(WMAP_ZONES[zi]||{}).id};
         clearAround(x,y+1,4);

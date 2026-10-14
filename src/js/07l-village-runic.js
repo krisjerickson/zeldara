@@ -16,6 +16,7 @@ var VILLAGE_CORE=[   // the enterable buildings (fixed; doors at the bottom cent
   {dx:10,dy:14,w:6,h:4,type:'apothecary'}, {dx:9,dy:-19,w:5,h:4,type:'merchant'}];
 // round 44 (Kris: "The village is too cluttered when at the final stage … look for how to reorganize such that walking paths and roads connect you to all
 // the buildings"): the last two stages get fewer houses, carts and gardens (44 → 38 buildings), so every door keeps open ground to a street
+var VR_EXTRA={ glimmer:false, glimmerAt:null };      // round 52: what the village plan adds beyond its stage
 var VR={ R:[20,24,28,31,33], disk:[24,28,32,37,37], total:[13,20,28,34,38], houses:[2,9,17,23,27], carts:[1,3,4,5,5], gardens:[2,3,4,5,6],
   mills:[0,1,2,2,3], trees:[10,14,18,22,26], wallR:35 };
 // looks for the enterable buildings (borrowed from all four styles)
@@ -55,9 +56,9 @@ function villagePlan(stage,ok,water){
     var dirTo=function(x,y){ var bx=0, by=0; for(var j=-7;j<=7;j++)for(var i=-7;i<=7;i++){ if(isW(x+i,y+j)){ bx+=i; by+=j; } } var l=Math.hypot(bx,by)||1; return [bx/l,by/l]; };
     // round 45: a diagonal step left two boards touching only at a corner — you could not walk from one to the next (the test found 18 of 31
     // harbour boards out of reach). Every diagonal step now gets a board beside it, so each walk is joined edge to edge.
-    var join=function(prev,c,out){ if(prev&&Math.abs(c[0]-prev[0])===1&&Math.abs(c[1]-prev[1])===1){ var a=[c[0],prev[1]], b=[prev[0],c[1]]; out.push(isW(a[0],a[1])?a:b); } };
-    var pierFrom=function(sx0,sy0,len){ var dv=dirTo(sx0,sy0), cells=[], ends=null, prev=[sx0,sy0]; for(var k=1;k<=len;k++){ var cx=Math.round(sx0+dv[0]*k), cy=Math.round(sy0+dv[1]*k), cx2=Math.round(sx0+dv[0]*k-dv[1]), cy2=Math.round(sy0+dv[1]*k+dv[0]);
-        if(!isW(cx,cy))break; join(prev,[cx,cy],cells); cells.push([cx,cy]); if(isW(cx2,cy2))cells.push([cx2,cy2]); ends=[cx,cy]; prev=[cx,cy]; } return {cells:cells,end:ends,dir:dv}; };
+    var join=function(prev,c,out,bad){ if(prev&&Math.abs(c[0]-prev[0])===1&&Math.abs(c[1]-prev[1])===1){ var a=[c[0],prev[1]], b=[prev[0],c[1]]; out.push(isW(a[0],a[1])&&!(bad&&bad(a[0],a[1]))?a:b); } };      // round 52: never the board under a house
+    var pierFrom=function(sx0,sy0,len,stopU){ var dv=dirTo(sx0,sy0), cells=[], ends=null, prev=[sx0,sy0]; for(var k=1;k<=len;k++){ var cx=Math.round(sx0+dv[0]*k), cy=Math.round(sy0+dv[1]*k), cx2=Math.round(sx0+dv[0]*k-dv[1]), cy2=Math.round(sy0+dv[1]*k+dv[0]);
+        if(!isW(cx,cy)||(stopU&&(used[key(cx,cy)]||used[key(cx2,cy2)])))break; join(prev,[cx,cy],cells); cells.push([cx,cy]); if(isW(cx2,cy2))cells.push([cx2,cy2]); ends=[cx,cy]; prev=[cx,cy]; } return {cells:cells,end:ends,dir:dv}; };
     H={anchor:A,dir:[ux,uy]};
     H.pier1=pierFrom(A.x,A.y,8);
     // boardwalk: water cells along the shore within 12 tiles of the anchor
@@ -70,9 +71,12 @@ function villagePlan(stage,ok,water){
     H.boathouse=findRect(4,3,0,3,12,nearWalk);
     H.stilt=findRect(4,3,1,5,16,function(x,y){ return Math.abs(nearWalk(x,y)-5); });
     if(H.stilt){ var dx0=H.stilt[0]+2, dy0=H.stilt[1]+3, bw=null, bd2=99; H.walk.forEach(function(c){ var d=Math.hypot(c[0]-dx0,c[1]-dy0); if(d<bd2){ bd2=d; bw=c; } });
-      H.stiltWalk=[]; if(bw){ var n=Math.ceil(bd2*2), pv=null; for(var k=0;k<=n;k++){ var x=Math.round(bw[0]+(dx0-bw[0])*k/n), y=Math.round(bw[1]+(dy0-bw[1])*k/n); if(pv&&pv[0]===x&&pv[1]===y)continue; if(isW(x,y)&&!(x>=H.stilt[0]&&x<H.stilt[0]+4&&y>=H.stilt[1]&&y<H.stilt[1]+3)){ var n0=H.stiltWalk.length; join(pv,[x,y],H.stiltWalk); for(var jj=n0;jj<H.stiltWalk.length;jj++)used[key(H.stiltWalk[jj][0],H.stiltWalk[jj][1])]=1; H.stiltWalk.push([x,y]); used[key(x,y)]=1; } pv=[x,y]; } } }
-    var far=shore.filter(function(q){ var d=Math.hypot(q.x-A.x,q.y-A.y); return d>=7&&d<=11; }).sort(function(a,b){ return b.a-a.a; })[0];
-    H.pier2=far?pierFrom(far.x,far.y,7):null; if(H.pier2)H.pier2.cells.forEach(function(c){ used[key(c[0],c[1])]=1; });
+      // round 52: a walked path (breadth-first over open water, round the house) from the boardwalk to the door — a straight line could cut under the house
+      H.stiltWalk=[]; if(bw){ var inH=function(x,y){ return x>=H.stilt[0]&&x<H.stilt[0]+4&&y>=H.stilt[1]&&y<H.stilt[1]+3; }, prv={}, Q=[[dx0,dy0]], hit=null; prv[key(dx0,dy0)]='s';
+        while(Q.length&&!hit){ var c0=Q.shift(); [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(o){ if(hit)return; var x=c0[0]+o[0], y=c0[1]+o[1], k=key(x,y); if(prv[k]||Math.abs(x-dx0)>20||Math.abs(y-dy0)>20)return; if(walkSet[k]){ prv[k]=key(c0[0],c0[1]); hit=c0; return; } if(!isW(x,y)||inH(x,y)||used[k])return; prv[k]=key(c0[0],c0[1]); Q.push([x,y]); }); }
+        if(hit){ var c1=hit; while(c1){ H.stiltWalk.push(c1); used[key(c1[0],c1[1])]=1; var pk=prv[key(c1[0],c1[1])]; if(pk==='s')break; c1=pk.split(',').map(Number); } } } }
+    // round 52 (the cove opened): the second pier no longer runs through the boathouse or the lake house — the first shore spot whose pier is clear
+    H.pier2=null; shore.filter(function(q){ var d=Math.hypot(q.x-A.x,q.y-A.y); return d>=7&&d<=11; }).sort(function(a,b){ return b.a-a.a; }).some(function(q){ var pr=pierFrom(q.x,q.y,7,true); if(pr.cells.length>=6){ H.pier2=pr; return true; } return false; }); if(H.pier2)H.pier2.cells.forEach(function(c){ used[key(c[0],c[1])]=1; });
     H.quay=shore.filter(function(q){ return Math.hypot(q.x-A.x,q.y-A.y)<=10; }).map(function(q){ return [q.x,q.y]; });
     // reserve the land by the water: fishing hut + quay
     H.quay.forEach(function(c){ mark(c[0],c[1],1,1,0,2); });
@@ -103,6 +107,9 @@ function villagePlan(stage,ok,water){
   var spots={ mill:[[24,-19],[-29,-7],[19,24]], bram:[19,17], mira:[18,-24], dunn:[-27,-11], vela:[-17,-25] };
   var claim=function(p,w,h){ for(var r=0;r<6;r++)for(var dy=-r;dy<=r;dy++)for(var dx=-r;dx<=r;dx++){ if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue; var x=p[0]+dx, y=p[1]+dy; if(free(x,y,w,h)&&Math.hypot(x+w/2,y+h/2)<33.5){ mark(x,y,w,h,1,2); return [x,y]; } } return null; };
   var special={ mill:spots.mill.map(function(p){ return claim(p,2,2); }), bram:claim(spots.bram,5,3), mira:claim(spots.mira,4,3), dunn:claim(spots.dunn,5,3), vela:claim(spots.vela,4,2) };
+  // round 52: the Glimmerhall (Sólveig the Glasswright, 10w-spirits.js) — its ground is kept from the start: the free ground nearest the green, claimed before the house lots, the hall rises once the
+  // first familiar island's guardian is beaten (VR_EXTRA.glimmer)
+  special.glimmer=null; (function(){ var best=null, bd=1e9; for(var y=-30;y<=26;y++)for(var x=-32;x<=26;x++){ var d=Math.hypot(x+3.5,y+3); if(d>=bd||d>29||!free(x,y,7,6))continue; best=[x,y]; bd=d; } if(best){ mark(best[0],best[1],7,6,1,2); special.glimmer=best; } })();      // 7×4 hall + two rows kept clear before its door
   // ── house lots: near a street, inner lots first (the same order at every stage) ──
   var near=function(x,y){ for(var dy=0;dy<=3;dy++)for(var dx=-2;dx<=2;dx++){ if(street.has((x+dx)+','+(y+dy)))return true; } return false; };
   // market carts along the east & west streets (claimed first so houses leave room)
@@ -159,6 +166,11 @@ function villagePlan(stage,ok,water){
     plan.landmarks.push({x:b3[0],y:b3[1],w:4,h:4,text:'Mira\'s Workshop — gears, lamps and the windmills that power them.'}); }
   if(st>=4&&special.dunn){ var b4=special.dunn; P('vbuild',b4[0],b4[1],5,3,{style:'stone',roof:'#3a3a40',roofPat:'slate',sign:'#ff8a40',chimney:true,smoke:true,doorX:2,nl:1,pid:'vb_forge_hall'},true); P('anvil',b4[0]+5,b4[1]+2,1,1,{},false); P('statue',-4,5,1,1,{},true);
     plan.landmarks.push({x:b4[0],y:b4[1],w:5,h:4,text:'Dunn\'s Forge Hall — the finest steel on the island, and the statue he cast for the green.'}); }
+  VR_EXTRA.glimmerAt=special.glimmer?[special.glimmer[0],special.glimmer[1],7,4]:null;
+  if(VR_EXTRA.glimmer&&special.glimmer){ var bg=special.glimmer; P('vbuild',bg[0],bg[1],7,4,{style:'stone',roof:'#7fd8ff',roofPat:'slate',sign:'#9fe8ff',doorX:3,nl:1,chimney:false,pid:'vb_glimmerhall'},true);
+    P('lamppost',bg[0]-1,bg[1]+3,1,1,{},false); P('lamppost',bg[0]+7,bg[1]+3,1,1,{},false);
+    plan.landmarks.push({x:bg[0],y:bg[1],w:7,h:5,text:'The Glimmerhall — Sólveig the Glasswright fuses the soulglass the freed spirits leave behind.'}); }
+  else if(special.glimmer){ var bq=special.glimmer; P('pebbles',bq[0]+2,bq[1]+1,2,2,{},false); }
   if(st>=5&&special.vela){ var b5=special.vela; P('balloondock',b5[0],b5[1],4,2,{},true); plan.landmarks.push({x:b5[0],y:b5[1],w:4,h:3,text:'Vela\'s Sky Dock — balloons to every corner of the world.'}); }
   // town wall & turrets (the walled harbour town's): gates from stage 3, the full ring from stage 4
   if(st>=3){ var gatesOnly=st===3;
@@ -248,7 +260,11 @@ var VR_KINDS={
   vwater:WK('water','#1d5878','#2a6f92',{solid:true,liquid:true,shore:'#d8f0e8',sc:0.06,deco:WDECO.ripple('#ffffff')}) };
 // The harbour bay: Mirror Lake reaches into the village's south-west quarter
 // (carved by the world map; simulated by the Lab preview).
-function VR_BAY(dx,dy){ if(Math.hypot(dx+23,dy-23)<13.5)return true; var ax=-23, ay=23, bx=-46, by=40, t=Math.max(0,Math.min(1,((dx-ax)*(bx-ax)+(dy-ay)*(by-ay))/((bx-ax)*(bx-ax)+(by-ay)*(by-ay)))); return Math.hypot(dx-(ax+(bx-ax)*t),dy-(ay+(by-ay)*t))<7.5; }
+// round 52 (Kris: "there is a land bridge on the map that blocks off access to the lake. it also has a phalic look. Lets open up the harbor
+// entrance to the lake a bit more, and this is where the bifrost bridge will go through to asgard"): the harbour is now a wide cove that
+// opens into Mirror Lake — a funnel from the harbour pool widening to the lake (was a pool on a narrow channel)
+function VR_BAY(dx,dy){ if(Math.hypot(dx+23,dy-23)<13.5)return true; var ax=-23, ay=23, bx=-44, by=62, t0=((dx-ax)*(bx-ax)+(dy-ay)*(by-ay))/((bx-ax)*(bx-ax)+(by-ay)*(by-ay)), t=Math.max(0,Math.min(1,t0));
+  if(t0>1.15)return false; return Math.hypot(dx-(ax+(bx-ax)*t),dy-(ay+(by-ay)*t))<13.5+9*t; }
 // Lab preview: the same plan on an 80×80 sample
 function villagePlusDesign(stage){
   var K=VR_KINDS, plan=villagePlan(stage), O=48;

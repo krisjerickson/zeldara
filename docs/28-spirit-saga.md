@@ -186,18 +186,22 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 
 | Round | Work | Art waves |
 |---|---|---|
-| 52 | spirits system (bindstones, binders, shards, the Green filling), Glimmerhall + Sólveig, lattices, Tome pages | spirits (poses, groups), Glimmerhall, shards, lattices |
+| 52 ✅ | spirits system (bindstones, binders, shards, the Green filling), Glimmerhall + Sólveig, lattices, Tome pages; the harbour cove opened to the lake | wave 53 ordered: spirits (toil/free frames, groups, chain gang), bindstones, Glimmerhall, Sólveig, shard/lattice icons |
 | 53 | soul gems from dungeon spirits, island metals, Mira's workshop interior + Mira, hearth trays, the Sovereign element | Mira's interior, gems, metals, trays |
 | 54–55 | the four forges remade (3 floors each, spirits, hearths, Heartglass, 4 forge-masters) | forge floors, forge-masters (4 × 3 phases) |
 | 56 | Muspelheim (5 floors, spirit walls, Surtharn's 6 phases, the great hearth, the Lodestar) | Muspelheim floors, spirit walls, Surtharn |
 | 57 | the collapse and escape, the causeway sinking, Asgard's descent, the pier notch, the Bifröst, the final spell | story panels, Asgard island, Bifröst |
 | 58 | Asgard (4 floors, 4 monster kinds, Grímnir), the hearth of light, the ending, credits, free roam | Asgard floors, monsters, Grímnir, ending |
 
+**Round 52 as built** (`10w-spirits.js` ZSPIRIT): one bindstone per zone (10 per realm, 40 in all), each on an open reachable patch near the zone's runestone; a named Binder (40 different names) shows himself within ~13 tiles once you have earned that realm (a top-third monster of the realm, 6.4× health, 1.25× size, 1.3× attack, stays dead). Beat him: the spirit thanks you, gives a Soulglass shard of its realm and drifts off; freed spirits gather on the Runestone Green (a dozen drift around the stone, the rest rest in painted groups once wave 53 is in). The Glimmerhall rises on the green after any island's harbor quest; Sólveig fuses six shards of one realm into its lattice (Ember / Cinder / Slag / Ash Soulglass Lattice). The journal lists the bound spirits by realm. The harbour pool now opens through a wide funnel cove onto the lake (where the Bifröst will run).
+
 ## 12. Open questions
 
 **Wave 2:** answered (§4).
 
-**Wave 3 (later):**
+**Wave 3 (answered, Oct 13):** 10 spirit shrines per region; a region's Soulglass lattice takes only that region's shards; the four forge challenges and forge-masters as in §5; Muspelheim and Asgard as in §6–7 — and for Asgard's descent the harbor and the lake are remade: the land bridge that closes off the lake opened up at the harbor entrance, the Bifröst running through there, Asgard covering ~80 % of the lake; the collapse timer kills you (back to the start of the escape to try again); spirits look like people; the credits are painted panels.
+
+**Wave 3 (as asked):**
 - **Shrines:** how many per region (10?), and must the 6 be in that region?
 - **Glass:** can shards be mixed across regions, or must a region's lattice use its own shards?
 - **Forge floors:** keep the four old challenges as floors, or replace them?

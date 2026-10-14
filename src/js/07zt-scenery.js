@@ -465,6 +465,32 @@ var ZSCN={
     ['fx_familiar_burst','Familiar burst','a round burst of teal spirit light with small spirit wisps',256,256],
     ['fx_meteor_mark','Meteor target','a glowing orange target circle on the ground with falling sparks above it',256,256],
     ['fx_root_burst','Root burst','a round burst of green roots and leaves bursting up from the ground',256,256]]},
+  // ── wave 53 (round 52, the spirit saga part 1 — doc 28: the trapped spirits toil in chains, frustrated, then float free and relaxed, glowing
+  //    the runic light blue; Kris: "Spirits should look like people") ──
+  {id:'sc_spirit_anim',wave:53,fam:'anim',kind:'obj',cols:6,rows:2,size:'1536x1024',anim:1,title:'Animation frames — a trapped spirit: a translucent, softly glowing person made of pale light-blue light (runic cyan, #6fe3f5), friendly face, simple village clothes, the lower legs fading into a wisp; seen from above-front like the game characters',seq:[
+    ['an_spirit_toil','Toiling spirit','in chains, made to dig: an iron shackle and chain on one ankle, swinging a heavy pick at the rock, tired and frustrated, shoulders slumped, brow furrowed','reg',40,60,['pick raised high behind the head','pick swinging down','pick striking the ground, a few sparks','pulling the pick back out, sighing','leaning on the pick, wiping the brow, looking weary','lifting the pick again']],
+    ['an_spirit_free','Freed spirit','free and relaxed: no chains, floating a little above the ground, a gentle smile, glowing a little brighter','reg',40,60,['floating, arms relaxed at the sides','rising a touch, arms lifting slightly','arms open, face turned up, smiling','floating at its highest, eyes closed, peaceful','sinking a touch, arms lowering','back to the start, a little wave of the hand']]]},
+  {id:'sc_spirit_sets',wave:53,fam:'spirit',kind:'obj',cols:4,rows:2,title:'Freed spirits and their bindstones — spirits are translucent, softly glowing people of pale light-blue runic light (#6fe3f5), friendly, in simple village clothes, their lower legs fading into a wisp',items:[
+    ['sp_group_2','Two spirits','two freed spirits side by side, relaxed and smiling, one with a hand on the other\'s shoulder',64,64],
+    ['sp_group_3','Three spirits','three freed spirits gathered together, chatting happily',90,64],
+    ['sp_group_4','Four spirits','four freed spirits in a loose ring, relaxed, glowing',110,70],
+    ['sp_group_6','Six spirits','six freed spirits gathered in two little rows, some waving',140,80],
+    ['sp_group_10','Ten spirits','a crowd of ten freed spirits gathered close together, glowing softly, a few looking up',190,100],
+    ['sp_toil_line','Spirits in a chain gang','a line of four trapped spirits chained together at the ankles, carrying baskets of ore and picks, weary and frustrated',190,80],
+    ['sp_bindstone','Bindstone, bound','a tall grey standing runestone wrapped in heavy iron chains, its carved runes glowing an angry red-orange, a chain running from it along the ground',48,80],
+    ['sp_bindstone_free','Bindstone, freed','the same tall grey runestone, its broken chains lying on the ground around it, its carved runes glowing a calm light blue',48,80]]},
+  {id:'sc_glimmerhall',wave:53,fam:'village',kind:'bld',cols:2,rows:1,size:'1536x1024',title:'The Glimmerhall — the most impressive building in the village',items:[
+    ['vb_glimmerhall','The Glimmerhall','the grandest building in a Norse-style village: a hall of pale carved stone and timber crowned with a great dome and tall windows of glass, every pane etched with runes that glow light blue (#6fe3f5), slender glass spires at its corners, a wide arched doorway with glowing glass doors, a glass furnace\'s soft glow inside, flower boxes',280,300],
+    ['np_solveig','Sólveig the Glasswright','a kind, wise woman glassmaker standing, long silver-blond braids, a blue dress under a leather apron, thick gloves tucked in her belt, holding up a small glowing light-blue shard of glass in one hand, full figure, front view',48,88]]},
+  {id:'sc_ic_spirit',wave:53,fam:'icons',kind:'icon',cols:4,rows:2,size:'1024x1024',title:'Soulglass — game icons',items:[
+    ['ic_soulglass_1','Soulglass shard (Grasslands)','a jagged shard of glowing light-blue glass with a faint green leaf-rune inside',48,48],
+    ['ic_soulglass_2','Soulglass shard (Wetlands)','a jagged shard of glowing light-blue glass with a faint deep-blue wave-rune inside',48,48],
+    ['ic_soulglass_3','Soulglass shard (Highlands)','a jagged shard of glowing light-blue glass with a faint amber mountain-rune inside',48,48],
+    ['ic_soulglass_4','Soulglass shard (Ashlands)','a jagged shard of glowing light-blue glass with a faint red flame-rune inside',48,48],
+    ['ic_soulglass_lattice_1','Ember lattice','six light-blue glass shards fused into a round lattice of glowing runes, with a green leaf-rune at its heart',48,48],
+    ['ic_soulglass_lattice_2','Cinder lattice','six light-blue glass shards fused into a round lattice of glowing runes, with a deep-blue wave-rune at its heart',48,48],
+    ['ic_soulglass_lattice_3','Slag lattice','six light-blue glass shards fused into a round lattice of glowing runes, with an amber mountain-rune at its heart',48,48],
+    ['ic_soulglass_lattice_4','Ash lattice','six light-blue glass shards fused into a round lattice of glowing runes, with a red flame-rune at its heart',48,48]]},
   // ── wave 52 (round 51, Kris: "We also need to create new images for the entrances to the mini volcanoes and the great volcano" — named
   //    for Muspelheim's forges, his card) ──
   {id:'sc_ent_forges',wave:52,fam:'entrance',kind:'bld',cols:3,rows:2,title:'The four Forges of Muspelheim and the great gate of Muspelheim — entrances in the sea, each a door into a volcano, seen from above-front like the other site entrances',items:[
