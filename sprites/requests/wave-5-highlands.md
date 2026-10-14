@@ -9,7 +9,7 @@ Mesa Golem · Idle, Move, Slam · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Mesa Golem — Sandstone golem that sleeps as a boulder. Main colours: muted orange (#a88a6a), muted brown (#6a5a48), orange (#ffb060), pale orange (#ffd080). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Looks like a boulder until you get within 4 tiles (existing Stone Golem). Stomp shockwave (existing): jump or dodge-roll through it. Stone skin: arrows do half damage.
@@ -35,7 +35,7 @@ Mesa Golem · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 153
 Attach: style_hero, style_centaur, mesa_golem.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Mesa Golem — Sandstone golem that sleeps as a boulder. Main colours: muted orange (#a88a6a), muted brown (#6a5a48), orange (#ffb060), pale orange (#ffd080). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Looks like a boulder until you get within 4 tiles (existing Stone Golem). Stomp shockwave (existing): jump or dodge-roll through it. Stone skin: arrows do half damage.
@@ -61,7 +61,7 @@ Mesa Golem · Hurt, Death · 3 poses, 3 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, mesa_golem.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Mesa Golem — Sandstone golem that sleeps as a boulder. Main colours: muted orange (#a88a6a), muted brown (#6a5a48), orange (#ffb060), pale orange (#ffd080). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Looks like a boulder until you get within 4 tiles (existing Stone Golem). Stomp shockwave (existing): jump or dodge-roll through it. Stone skin: arrows do half damage.
@@ -82,7 +82,7 @@ Cliff Harpy · Idle, Hover, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Cliff Harpy — Wild-haired harpy with bronze feathers. Main colours: orange (#b88a6a), muted brown (#6a4a3a), yellow (#e8c040), red (#ff3030). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Orbits above you (existing). Feather scatter (existing) + a dive-grab that lifts and drops you (knockback). Takes double damage from arrows mid-dive.
@@ -108,7 +108,7 @@ Cliff Harpy · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, cliff_harpy.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cliff Harpy — Wild-haired harpy with bronze feathers. Main colours: orange (#b88a6a), muted brown (#6a4a3a), yellow (#e8c040), red (#ff3030). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Orbits above you (existing). Feather scatter (existing) + a dive-grab that lifts and drops you (knockback). Takes double damage from arrows mid-dive.
@@ -128,7 +128,7 @@ Crag Ram · Idle, Move, Charge · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Crag Ram — Shaggy white ram with huge curled horns. Main colours: pale orange (#d8d0c0), grey (#6a6058), orange (#c8b088), orange (#ffb020). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Stamps twice, then charges. Charge with long knockback — can knock you off a terrace to the level below. Horns block frontal hits during the charge.
@@ -154,7 +154,7 @@ Crag Ram · Hurt, Guard, Death · 5 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, crag_ram.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Crag Ram — Shaggy white ram with huge curled horns. Main colours: pale orange (#d8d0c0), grey (#6a6058), orange (#c8b088), orange (#ffb020). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Stamps twice, then charges. Charge with long knockback — can knock you off a terrace to the level below. Horns block frontal hits during the charge.
@@ -177,7 +177,7 @@ Frost Wolf · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024 · 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Frost Wolf — Blue-grey wolf with icicles in its fur. Main colours: pale blue (#d8e8f0), muted blue (#6a8aa0), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Pack of 3 + alpha; circles and flanks. Frost breath: slows 40% for 2 s; bites. Thick fur: -30% physical damage.
@@ -203,7 +203,7 @@ Frost Wolf · Breath, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, frost_wolf.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frost Wolf — Blue-grey wolf with icicles in its fur. Main colours: pale blue (#d8e8f0), muted blue (#6a8aa0), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Pack of 3 + alpha; circles and flanks. Frost breath: slows 40% for 2 s; bites. Thick fur: -30% physical damage.
@@ -225,7 +225,7 @@ Geode Crab · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Geode Crab — Grey crab with a purple crystal geode for a back. Main colours: grey (#6a6a7a), dark grey (#3a3a48), pale violet (#c080ff), white (#ffffff). Size: about 0.7× the height of the hero.
 How it behaves in the game (for the poses): Sidesteps, keeps its back to you. Fires crystal shards from its back. Crystals reflect your projectiles unless you hit its soft front.
@@ -251,7 +251,7 @@ Geode Crab · Guard, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, geode_crab.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Geode Crab — Grey crab with a purple crystal geode for a back. Main colours: grey (#6a6a7a), dark grey (#3a3a48), pale violet (#c080ff), white (#ffffff). Size: about 0.7× the height of the hero.
 How it behaves in the game (for the poses): Sidesteps, keeps its back to you. Fires crystal shards from its back. Crystals reflect your projectiles unless you hit its soft front.
@@ -273,7 +273,7 @@ Gale Roc · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 · c
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Gale Roc — Huge eagle with wind-streamers on its wings. Main colours: muted orange (#8a7a6a), dark brown (#4a3a2a), white (#f4f8ff), yellow (#ffe040). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Soars; lands on peaks. Wing gust that pushes you 4 tiles; carries and drops rocks. Gusts blow away your arrows.
@@ -299,7 +299,7 @@ Gale Roc · Cast, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, gale_roc.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Gale Roc — Huge eagle with wind-streamers on its wings. Main colours: muted orange (#8a7a6a), dark brown (#4a3a2a), white (#f4f8ff), yellow (#ffe040). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Soars; lands on peaks. Wing gust that pushes you 4 tiles; carries and drops rocks. Gusts blow away your arrows.
@@ -321,7 +321,7 @@ Rockslide Beetle · Idle, Hover, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Rockslide Beetle — Armadillo-beetle with a stone shell. Main colours: grey (#8a8478), dark grey (#4a4640), orange (#c8b088), red (#ff4040). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Curls into a ball and rolls downhill. Rolling ram; bounces off rocks unpredictably. Invulnerable while rolling.
@@ -347,7 +347,7 @@ Rockslide Beetle · Roll, Guard, Death · 6 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, rockslide_beetle.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Rockslide Beetle — Armadillo-beetle with a stone shell. Main colours: grey (#8a8478), dark grey (#4a4640), orange (#c8b088), red (#ff4040). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Curls into a ball and rolls downhill. Rolling ram; bounces off rocks unpredictably. Invulnerable while rolling.
@@ -371,7 +371,7 @@ Yeti Stomper · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Yeti Stomper — Towering white yeti with blue horns. Main colours: white (#f0f4f8), muted blue (#9aa8b8), pale teal (#a0e0ff), blue (#40a0ff). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Slow stomp; throws snowballs. Snowballs grow as they roll; stomp freezes the ground (you slide). Thick fur; fire does double.
@@ -397,7 +397,7 @@ Yeti Stomper · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, yeti_stomper.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Yeti Stomper — Towering white yeti with blue horns. Main colours: white (#f0f4f8), muted blue (#9aa8b8), pale teal (#a0e0ff), blue (#40a0ff). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Slow stomp; throws snowballs. Snowballs grow as they roll; stomp freezes the ground (you slide). Thick fur; fire does double.
@@ -423,7 +423,7 @@ Yeti Stomper · Slam, Death · 5 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, yeti_stomper.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Yeti Stomper — Towering white yeti with blue horns. Main colours: white (#f0f4f8), muted blue (#9aa8b8), pale teal (#a0e0ff), blue (#40a0ff). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Slow stomp; throws snowballs. Snowballs grow as they roll; stomp freezes the ground (you slide). Thick fur; fire does double.
@@ -446,7 +446,7 @@ Chess Knight · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Chess Knight — Giant black stone knight chess piece with a glowing eye. Main colours: dark grey (#2a2a30), black (#101014), yellow (#e8c040), red (#ff3030). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Moves only in L-shaped jumps, square by square. Lands on you = crushing damage. Invulnerable while jumping.
@@ -472,7 +472,7 @@ Chess Knight · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, chess_knight.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Chess Knight — Giant black stone knight chess piece with a glowing eye. Main colours: dark grey (#2a2a30), black (#101014), yellow (#e8c040), red (#ff3030). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Moves only in L-shaped jumps, square by square. Lands on you = crushing damage. Invulnerable while jumping.
@@ -498,7 +498,7 @@ Chess Knight · Leap, Death · 5 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, chess_knight.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Chess Knight — Giant black stone knight chess piece with a glowing eye. Main colours: dark grey (#2a2a30), black (#101014), yellow (#e8c040), red (#ff3030). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Moves only in L-shaped jumps, square by square. Lands on you = crushing damage. Invulnerable while jumping.
@@ -521,7 +521,7 @@ Chess Rook · Idle, Move, Slam · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Chess Rook — Giant white rook with glowing slits. Main colours: white (#e8e4d8), grey (#8a8478), yellow (#e8c040), red (#ff3030). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Slides in straight lines until it hits something. Crushes whatever it slides into. Stunned 3 s after hitting a wall.
@@ -547,7 +547,7 @@ Chess Rook · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 153
 Attach: style_hero, style_centaur, chess_rook.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Chess Rook — Giant white rook with glowing slits. Main colours: white (#e8e4d8), grey (#8a8478), yellow (#e8c040), red (#ff3030). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Slides in straight lines until it hits something. Crushes whatever it slides into. Stunned 3 s after hitting a wall.
@@ -573,7 +573,7 @@ Chess Rook · Hurt, Death · 3 poses, 3 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, chess_rook.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Chess Rook — Giant white rook with glowing slits. Main colours: white (#e8e4d8), grey (#8a8478), yellow (#e8c040), red (#ff3030). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Slides in straight lines until it hits something. Crushes whatever it slides into. Stunned 3 s after hitting a wall.
@@ -594,7 +594,7 @@ Starfall Shard · Idle, Hover, Charge · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Starfall Shard — A falling-star fragment, blazing cyan-white. Main colours: pale yellow (#fff8d0), yellow (#c8b070), pale teal (#9fe8ff), dark olive (#303010). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Streaks in straight lines at night. Ram; explodes on death (knockback). Very fast, fragile.
@@ -620,7 +620,7 @@ Starfall Shard · Hurt, Explode, Death · 5 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, starfall_shard.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Starfall Shard — A falling-star fragment, blazing cyan-white. Main colours: pale yellow (#fff8d0), yellow (#c8b070), pale teal (#9fe8ff), dark olive (#303010). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Streaks in straight lines at night. Ram; explodes on death (knockback). Very fast, fragile.
@@ -643,7 +643,7 @@ Dwarven Automaton · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Dwarven Automaton — Old dwarven mining machine, still running. Main colours: orange (#b87a40), dark brown (#5a3a20), orange (#ffd070), pale teal (#80ffff). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Drills through rock walls to reach you. Drill arm combo. Heavy armor; weak vents on its back.
@@ -669,7 +669,7 @@ Dwarven Automaton · Front and back: idle, steps, main attack · 8 poses, 4 × 2
 Attach: style_hero, style_centaur, automaton_miner.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Dwarven Automaton — Old dwarven mining machine, still running. Main colours: orange (#b87a40), dark brown (#5a3a20), orange (#ffd070), pale teal (#80ffff). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Drills through rock walls to reach you. Drill arm combo. Heavy armor; weak vents on its back.
@@ -695,7 +695,7 @@ Dwarven Automaton · Burrow, Guard, Death · 6 poses, 3 × 2 · 1536x1024 · ext
 Attach: style_hero, style_centaur, automaton_miner.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Dwarven Automaton — Old dwarven mining machine, still running. Main colours: orange (#b87a40), dark brown (#5a3a20), orange (#ffd070), pale teal (#80ffff). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Drills through rock walls to reach you. Drill arm combo. Heavy armor; weak vents on its back.
@@ -719,7 +719,7 @@ Night Watcher Owl · Idle, Hover, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Night Watcher Owl — Silent snowy owl with enormous eyes. Main colours: white (#f0f0f0), grey (#8a8a8a), yellow (#ffe040), black (#101010). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Perches; silent swoop. Talon swoop. Hoots when it sees you: nearby monsters come.
@@ -745,7 +745,7 @@ Night Watcher Owl · Perch and swoop, Death · 4 poses, 4 × 1 · 1536x1024 · e
 Attach: style_hero, style_centaur, snow_owl.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Night Watcher Owl — Silent snowy owl with enormous eyes. Main colours: white (#f0f0f0), grey (#8a8a8a), yellow (#ffe040), black (#101010). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Perches; silent swoop. Talon swoop. Hoots when it sees you: nearby monsters come.
@@ -767,7 +767,7 @@ Wind-harp Spectre · Idle, Hover, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Wind-harp Spectre — Ghostly bard with a spectral harp. Main colours: pale blue (#d8e0ff), muted blue (#6a70a0), pale yellow (#fff0a0), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Floats between the great wind-harps. Plays notes: waves of sound projectiles, stronger when the wind blows. Only visible while playing.
@@ -793,7 +793,7 @@ Wind-harp Spectre · Front and back: idle, steps, main attack · 8 poses, 4 × 2
 Attach: style_hero, style_centaur, harp_spectre.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Wind-harp Spectre — Ghostly bard with a spectral harp. Main colours: pale blue (#d8e0ff), muted blue (#6a70a0), pale yellow (#fff0a0), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Floats between the great wind-harps. Plays notes: waves of sound projectiles, stronger when the wind blows. Only visible while playing.
@@ -819,7 +819,7 @@ Wind-harp Spectre · Cast, Guard, Death · 6 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, harp_spectre.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Wind-harp Spectre — Ghostly bard with a spectral harp. Main colours: pale blue (#d8e0ff), muted blue (#6a70a0), pale yellow (#fff0a0), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Floats between the great wind-harps. Plays notes: waves of sound projectiles, stronger when the wind blows. Only visible while playing.
@@ -843,7 +843,7 @@ Ridge Troll · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ridge Troll — Grey mountain troll with lichen and a big nose. Main colours: grey (#7a8a7a), grey (#4a5a4a), grey (#8a8478), yellow (#ffe040). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Active only at night. Boulder throw, club slam. Regenerates; at dawn it turns to stone.
@@ -869,7 +869,7 @@ Ridge Troll · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur, ridge_troll.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ridge Troll — Grey mountain troll with lichen and a big nose. Main colours: grey (#7a8a7a), grey (#4a5a4a), grey (#8a8478), yellow (#ffe040). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Active only at night. Boulder throw, club slam. Regenerates; at dawn it turns to stone.
@@ -895,7 +895,7 @@ Ridge Troll · Wide sweep, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, ridge_troll.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ridge Troll — Grey mountain troll with lichen and a big nose. Main colours: grey (#7a8a7a), grey (#4a5a4a), grey (#8a8478), yellow (#ffe040). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Active only at night. Boulder throw, club slam. Regenerates; at dawn it turns to stone.
@@ -917,7 +917,7 @@ Craglings · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024 · c
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Craglings — Pebble-imps with glowing cracks. Main colours: grey (#8a8478), dark grey (#4a4640), orange (#ffb060), pale orange (#ffd080). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Run in groups of 4–6. Headbutts. Tiny.
@@ -943,7 +943,7 @@ Craglings · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, craglings.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Craglings — Pebble-imps with glowing cracks. Main colours: grey (#8a8478), dark grey (#4a4640), orange (#ffb060), pale orange (#ffd080). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Run in groups of 4–6. Headbutts. Tiny.
@@ -963,7 +963,7 @@ Glacier Wyrm · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Glacier Wyrm — Long ice-blue serpent that swims through ice. Main colours: pale blue (#c0e8ff), blue (#5a8ab0), pale teal (#e0f8ff), blue (#40a0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Tunnels under ice and snow. Surfaces with a line of ice spikes, then bites. Only hittable when surfaced.
@@ -989,7 +989,7 @@ Glacier Wyrm · Cast, Burrow, Death · 6 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, glacier_wyrm.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Glacier Wyrm — Long ice-blue serpent that swims through ice. Main colours: pale blue (#c0e8ff), blue (#5a8ab0), pale teal (#e0f8ff), blue (#40a0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Tunnels under ice and snow. Surfaces with a line of ice spikes, then bites. Only hittable when surfaced.
@@ -1013,7 +1013,7 @@ Bristleback Bear · Idle, Move, Slam · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Bristleback Bear — Huge brown bear with stone-like spikes on its back. Main colours: brown (#6a4a30), dark brown (#3a2818), orange (#c8a070), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Walks, then rears up. Double-paw slam. Enrages at half HP (faster, stronger).
@@ -1039,7 +1039,7 @@ Bristleback Bear · Hurt, Enrage, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, bristleback_bear.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Bristleback Bear — Huge brown bear with stone-like spikes on its back. Main colours: brown (#6a4a30), dark brown (#3a2818), orange (#c8a070), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Walks, then rears up. Double-paw slam. Enrages at half HP (faster, stronger).
@@ -1061,7 +1061,7 @@ Mesa Scorpion · Idle, Hover, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Mesa Scorpion — Sand-coloured scorpion the size of a cart. Main colours: orange (#c09060), brown (#6a4a30), orange (#ffb040), black (#101010). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Burrows in sand, surfaces behind you. Pinch-hold, then tail stab poison. Hard carapace; soft underside when it rears.
@@ -1087,7 +1087,7 @@ Mesa Scorpion · Grab, Burrow, Death · 6 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, mesa_scorpion.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Mesa Scorpion — Sand-coloured scorpion the size of a cart. Main colours: orange (#c09060), brown (#6a4a30), orange (#ffb040), black (#101010). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Burrows in sand, surfaces behind you. Pinch-hold, then tail stab poison. Hard carapace; soft underside when it rears.
@@ -1111,7 +1111,7 @@ Glass-winged Wyvern · Idle, Move, Breath, Hurt · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Glass-winged Wyvern — Young wyvern whose wings are crystal membranes. Main colours: muted teal (#8ab0c0), muted blue (#3a5a6a), pale teal (#e0f8ff), yellow (#ffe040). Size: about 1.7× the height of the hero.
 How it behaves in the game (for the poses): Hovers; lands to breathe. Sonic screech (stun 0.5 s) + crystal breath. Crystal wings reflect light-based spells.
@@ -1137,7 +1137,7 @@ Glass-winged Wyvern · Cast, Guard, Death · 6 poses, 3 × 2 · 1536x1024 · ext
 Attach: style_hero, style_centaur, glass_wyvern.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Glass-winged Wyvern — Young wyvern whose wings are crystal membranes. Main colours: muted teal (#8ab0c0), muted blue (#3a5a6a), pale teal (#e0f8ff), yellow (#ffe040). Size: about 1.7× the height of the hero.
 How it behaves in the game (for the poses): Hovers; lands to breathe. Sonic screech (stun 0.5 s) + crystal breath. Crystal wings reflect light-based spells.
@@ -1161,7 +1161,7 @@ Dwarf Revenant Axeman · Idle, Move, Wide sweep, Hurt · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Dwarf Revenant Axeman — Ghostly dwarf with a two-handed axe. Main colours: muted teal (#8a9aa0), grey (#4a5058), white (#c8ccd4), pale teal (#80ffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Steady; charges when far. Whirlwind axe spin. Armor.
@@ -1187,7 +1187,7 @@ Dwarf Revenant Axeman · Front and back: idle, steps, main attack · 8 poses, 4 
 Attach: style_hero, style_centaur, dwarf_axeman.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Dwarf Revenant Axeman — Ghostly dwarf with a two-handed axe. Main colours: muted teal (#8a9aa0), grey (#4a5058), white (#c8ccd4), pale teal (#80ffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Steady; charges when far. Whirlwind axe spin. Armor.
@@ -1213,7 +1213,7 @@ Dwarf Revenant Axeman · Guard, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, dwarf_axeman.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Dwarf Revenant Axeman — Ghostly dwarf with a two-handed axe. Main colours: muted teal (#8a9aa0), grey (#4a5058), white (#c8ccd4), pale teal (#80ffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Steady; charges when far. Whirlwind axe spin. Armor.
@@ -1235,7 +1235,7 @@ Crystal Golemling · Idle, Move, Slam · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Crystal Golemling — Small golem of purple crystal. Main colours: violet (#a080d0), muted violet (#5a4080), pale violet (#e0c0ff), white (#ffffff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Waddles. Slam; shards fly off when hit. Shards spike you if you stand close.
@@ -1261,7 +1261,7 @@ Crystal Golemling · Front and back: idle, steps, main attack · 8 poses, 4 × 2
 Attach: style_hero, style_centaur, crystal_golemling.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Crystal Golemling — Small golem of purple crystal. Main colours: violet (#a080d0), muted violet (#5a4080), pale violet (#e0c0ff), white (#ffffff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Waddles. Slam; shards fly off when hit. Shards spike you if you stand close.
@@ -1287,7 +1287,7 @@ Crystal Golemling · Hurt, Death · 3 poses, 3 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, crystal_golemling.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Crystal Golemling — Small golem of purple crystal. Main colours: violet (#a080d0), muted violet (#5a4080), pale violet (#e0c0ff), white (#ffffff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Waddles. Slam; shards fly off when hit. Shards spike you if you stand close.
@@ -1308,7 +1308,7 @@ Deep Mole Brute · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Deep Mole Brute — Giant mole with drill claws. Main colours: muted brown (#5a4a40), dark grey (#2a2018), pale red (#ff8080), black (#101010). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Tunnels. Claw combo when it surfaces. Underground = immune.
@@ -1334,7 +1334,7 @@ Deep Mole Brute · Front and back: idle, steps, main attack · 8 poses, 4 × 2 �
 Attach: style_hero, style_centaur, deep_mole.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Deep Mole Brute — Giant mole with drill claws. Main colours: muted brown (#5a4a40), dark grey (#2a2018), pale red (#ff8080), black (#101010). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Tunnels. Claw combo when it surfaces. Underground = immune.
@@ -1360,7 +1360,7 @@ Deep Mole Brute · Burrow, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, deep_mole.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Deep Mole Brute — Giant mole with drill claws. Main colours: muted brown (#5a4a40), dark grey (#2a2018), pale red (#ff8080), black (#101010). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Tunnels. Claw combo when it surfaces. Underground = immune.
@@ -1382,7 +1382,7 @@ Frost Ghoul · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Frost Ghoul — Frozen corpse with icicle claws. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Fast shamble. 3 hits in a row freeze you for 1 s. Fire x2.
@@ -1408,7 +1408,7 @@ Frost Ghoul · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur, frost_ghoul.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frost Ghoul — Frozen corpse with icicle claws. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Fast shamble. 3 hits in a row freeze you for 1 s. Fire x2.
@@ -1434,7 +1434,7 @@ Frost Ghoul · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, frost_ghoul.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frost Ghoul — Frozen corpse with icicle claws. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Fast shamble. 3 hits in a row freeze you for 1 s. Fire x2.
@@ -1454,7 +1454,7 @@ Stone Gargoyle · Idle, Hover, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Stone Gargoyle — Classic gargoyle statue. Main colours: grey (#7a7a80), dark grey (#3a3a40), red (#ff6060), red (#ff3030). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Statue until you are close. Knockback swoop. Stone form = invulnerable.
@@ -1480,7 +1480,7 @@ Stone Gargoyle · Perch and swoop, Death · 4 poses, 4 × 1 · 1536x1024 · extr
 Attach: style_hero, style_centaur, gargoyle_sentry.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Stone Gargoyle — Classic gargoyle statue. Main colours: grey (#7a7a80), dark grey (#3a3a40), red (#ff6060), red (#ff3030). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Statue until you are close. Knockback swoop. Stone form = invulnerable.
@@ -1502,7 +1502,7 @@ Cave Troll · Idle, Move, Wide sweep, Hurt · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Cave Troll — Huge grey troll with a stalactite club. Main colours: grey (#6a7a70), dark grey (#3a4a40), grey (#8a8478), yellow (#ffe040). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Lumbers. Club sweep; grabs and throws you. Tough.
@@ -1528,7 +1528,7 @@ Cave Troll · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 153
 Attach: style_hero, style_centaur, cave_troll.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cave Troll — Huge grey troll with a stalactite club. Main colours: grey (#6a7a70), dark grey (#3a4a40), grey (#8a8478), yellow (#ffe040). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Lumbers. Club sweep; grabs and throws you. Tough.
@@ -1554,7 +1554,7 @@ Cave Troll · Grab, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, cave_troll.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cave Troll — Huge grey troll with a stalactite club. Main colours: grey (#6a7a70), dark grey (#3a4a40), grey (#8a8478), yellow (#ffe040). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Lumbers. Club sweep; grabs and throws you. Tough.
@@ -1576,7 +1576,7 @@ Labyrinth Bull · Idle, Move, Charge · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Labyrinth Bull — Minotaur with a broken horn. Main colours: muted brown (#6a4a3a), dark brown (#3a2818), orange (#c8b088), red (#ff2020). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Paces, then charges down corridors. Horn charge. Gets stuck in walls for 3 s when it misses.
@@ -1602,7 +1602,7 @@ Labyrinth Bull · Front and back: idle, steps, main attack · 8 poses, 4 × 2 ·
 Attach: style_hero, style_centaur, labyrinth_bull.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Labyrinth Bull — Minotaur with a broken horn. Main colours: muted brown (#6a4a3a), dark brown (#3a2818), orange (#c8b088), red (#ff2020). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Paces, then charges down corridors. Horn charge. Gets stuck in walls for 3 s when it misses.
@@ -1628,7 +1628,7 @@ Labyrinth Bull · Hurt, Death · 3 poses, 3 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, labyrinth_bull.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Labyrinth Bull — Minotaur with a broken horn. Main colours: muted brown (#6a4a3a), dark brown (#3a2818), orange (#c8b088), red (#ff2020). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Paces, then charges down corridors. Horn charge. Gets stuck in walls for 3 s when it misses.
@@ -1649,7 +1649,7 @@ Crystal Spider · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Crystal Spider — Glassy spider with a crystal abdomen. Main colours: pale blue (#c0e0ff), muted blue (#5a7090), pale teal (#a0e0ff), red (#ff4080). Size: about 0.9× the height of the hero.
 How it behaves in the game (for the poses): Wall-crawls. Web shot (slow) + bite. Fragile but fast.
@@ -1675,7 +1675,7 @@ Crystal Spider · Ranged attack, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, crystal_spider.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Crystal Spider — Glassy spider with a crystal abdomen. Main colours: pale blue (#c0e0ff), muted blue (#5a7090), pale teal (#a0e0ff), red (#ff4080). Size: about 0.9× the height of the hero.
 How it behaves in the game (for the poses): Wall-crawls. Web shot (slow) + bite. Fragile but fast.
@@ -1697,7 +1697,7 @@ Shield-wall Dwarves · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Shield-wall Dwarves — Two ghost dwarves locked shield to shield. Main colours: muted blue (#9aa8b0), grey (#4a5058), yellow (#e8c040), pale teal (#80ffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Advance together. Spear pokes over the shields. Front is impenetrable.
@@ -1723,7 +1723,7 @@ Shield-wall Dwarves · Front and back: idle, steps, main attack · 8 poses, 4 ×
 Attach: style_hero, style_centaur, shieldwall_dwarves.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Shield-wall Dwarves — Two ghost dwarves locked shield to shield. Main colours: muted blue (#9aa8b0), grey (#4a5058), yellow (#e8c040), pale teal (#80ffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Advance together. Spear pokes over the shields. Front is impenetrable.
@@ -1749,7 +1749,7 @@ Shield-wall Dwarves · Guard, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, shieldwall_dwarves.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Shield-wall Dwarves — Two ghost dwarves locked shield to shield. Main colours: muted blue (#9aa8b0), grey (#4a5058), yellow (#e8c040), pale teal (#80ffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Advance together. Spear pokes over the shields. Front is impenetrable.
@@ -1771,7 +1771,7 @@ Rock Hopper · Idle, Move, Slam · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Rock Hopper — Hopping rock imps. Main colours: grey (#8a8478), dark grey (#4a4640), orange (#ffb060), pale orange (#ffd080). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Bounce off walls. Bounce-slam. Low HP.
@@ -1797,7 +1797,7 @@ Rock Hopper · Hurt, Roll, Death · 5 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, rock_hopper.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Rock Hopper — Hopping rock imps. Main colours: grey (#8a8478), dark grey (#4a4640), orange (#ffb060), pale orange (#ffd080). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Bounce off walls. Bounce-slam. Low HP.
@@ -1820,7 +1820,7 @@ Iron Sentinel · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Iron Sentinel — Rune-plated iron guardian. Main colours: light grey (#8a8e96), dark grey (#3a3e46), pale teal (#7fe8ff). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Slow walk. Scatter bolts (existing). Heavy armor.
@@ -1846,7 +1846,7 @@ Iron Sentinel · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 
 Attach: style_hero, style_centaur, iron_sentinel.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Iron Sentinel — Rune-plated iron guardian. Main colours: light grey (#8a8e96), dark grey (#3a3e46), pale teal (#7fe8ff). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Slow walk. Scatter bolts (existing). Heavy armor.
@@ -1872,7 +1872,7 @@ Iron Sentinel · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, iron_sentinel.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Iron Sentinel — Rune-plated iron guardian. Main colours: light grey (#8a8e96), dark grey (#3a3e46), pale teal (#7fe8ff). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Slow walk. Scatter bolts (existing). Heavy armor.
@@ -1892,7 +1892,7 @@ Ghost Crossbowman · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ghost Crossbowman — Ghost dwarf with a heavy crossbow. Main colours: muted blue (#9aa8b0), grey (#4a5058), orange (#c8a060), pale teal (#80ffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Holds a chokepoint. Piercing bolts through several targets. Reload pause of 2 s.
@@ -1918,7 +1918,7 @@ Ghost Crossbowman · Front and back: idle, steps, main attack · 8 poses, 4 × 2
 Attach: style_hero, style_centaur, dwarf_crossbow.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ghost Crossbowman — Ghost dwarf with a heavy crossbow. Main colours: muted blue (#9aa8b0), grey (#4a5058), orange (#c8a060), pale teal (#80ffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Holds a chokepoint. Piercing bolts through several targets. Reload pause of 2 s.
@@ -1944,7 +1944,7 @@ Ghost Crossbowman · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, dwarf_crossbow.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ghost Crossbowman — Ghost dwarf with a heavy crossbow. Main colours: muted blue (#9aa8b0), grey (#4a5058), orange (#c8a060), pale teal (#80ffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Holds a chokepoint. Piercing bolts through several targets. Reload pause of 2 s.
@@ -1964,7 +1964,7 @@ Geode Spitter · Rooted idle, Ranged attack, Hurt, Guard · 7 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Geode Spitter — A cracked geode that opens like a mouth. Main colours: grey (#6a6a7a), dark grey (#3a3a48), pale violet (#c080ff), white (#ffffff). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Stationary. Shoots crystal shards that stick in the floor and explode later. Closed = invulnerable.
@@ -1989,7 +1989,7 @@ Geode Spitter · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, geode_spitter.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Geode Spitter — A cracked geode that opens like a mouth. Main colours: grey (#6a6a7a), dark grey (#3a3a48), pale violet (#c080ff), white (#ffffff). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Stationary. Shoots crystal shards that stick in the floor and explode later. Closed = invulnerable.
@@ -2009,7 +2009,7 @@ Icicle Bats · Idle, Hover, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Icicle Bats — Pale bats hanging from the ceiling. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), pale teal (#a0e0ff), teal (#40c0ff). Size: about 0.55× the height of the hero.
 How it behaves in the game (for the poses): Flock. Drop icicles (shadow warning). Fragile.
@@ -2035,7 +2035,7 @@ Icicle Bats · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, icicle_bats.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Icicle Bats — Pale bats hanging from the ceiling. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), pale teal (#a0e0ff), teal (#40c0ff). Size: about 0.55× the height of the hero.
 How it behaves in the game (for the poses): Flock. Drop icicles (shadow warning). Fragile.
@@ -2055,7 +2055,7 @@ Minecart Bomber · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x10
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Minecart Bomber — Goblin sapper riding a minecart. Main colours: green (#6fa040), dark brown (#5a4028), red (#ff6040), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Zooms along rails. Throws dynamite. Hard to catch.
@@ -2081,7 +2081,7 @@ Minecart Bomber · Front and back: idle, steps, main attack · 8 poses, 4 × 2 �
 Attach: style_hero, style_centaur, minecart_bomber.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Minecart Bomber — Goblin sapper riding a minecart. Main colours: green (#6fa040), dark brown (#5a4028), red (#ff6040), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Zooms along rails. Throws dynamite. Hard to catch.
@@ -2107,7 +2107,7 @@ Minecart Bomber · Dodge, Death · 3 poses, 3 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, minecart_bomber.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Minecart Bomber — Goblin sapper riding a minecart. Main colours: green (#6fa040), dark brown (#5a4028), red (#ff6040), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Zooms along rails. Throws dynamite. Hard to catch.
@@ -2128,7 +2128,7 @@ Echo Bat · Idle, Hover, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Echo Bat — Big-eared purple bat. Main colours: muted violet (#6a5a7a), dark violet (#3a2a4a), pale magenta (#ff80ff), pale yellow (#ffff80). Size: about 0.55× the height of the hero.
 How it behaves in the game (for the poses): Hangs, then circles. Sonar pulse: marks you — marked targets take +25% damage. Fragile.
@@ -2154,7 +2154,7 @@ Echo Bat · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, echo_bat.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Echo Bat — Big-eared purple bat. Main colours: muted violet (#6a5a7a), dark violet (#3a2a4a), pale magenta (#ff80ff), pale yellow (#ffff80). Size: about 0.55× the height of the hero.
 How it behaves in the game (for the poses): Hangs, then circles. Sonar pulse: marks you — marked targets take +25% damage. Fragile.
@@ -2174,7 +2174,7 @@ Boulder Roller Goblin · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Boulder Roller Goblin — Goblin at the top of a sloped corridor. Main colours: green (#6fa040), dark brown (#5a4028), grey (#8a8478), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Stays up top. Rolls boulders down the corridor. Weak.
@@ -2200,7 +2200,7 @@ Boulder Roller Goblin · Front and back: idle, steps, main attack · 8 poses, 4 
 Attach: style_hero, style_centaur, boulder_goblin.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Boulder Roller Goblin — Goblin at the top of a sloped corridor. Main colours: green (#6fa040), dark brown (#5a4028), grey (#8a8478), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Stays up top. Rolls boulders down the corridor. Weak.
@@ -2226,7 +2226,7 @@ Boulder Roller Goblin · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, boulder_goblin.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Boulder Roller Goblin — Goblin at the top of a sloped corridor. Main colours: green (#6fa040), dark brown (#5a4028), grey (#8a8478), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Stays up top. Rolls boulders down the corridor. Weak.
@@ -2246,7 +2246,7 @@ Frost Archer · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Frost Archer — Ice-elf archer. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Kites. Arrows slow and leave frozen trails. Evasive.
@@ -2272,7 +2272,7 @@ Frost Archer · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, frost_archer.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frost Archer — Ice-elf archer. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Kites. Arrows slow and leave frozen trails. Evasive.
@@ -2298,7 +2298,7 @@ Frost Archer · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, frost_archer.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frost Archer — Ice-elf archer. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Kites. Arrows slow and leave frozen trails. Evasive.
@@ -2318,7 +2318,7 @@ Oil Kobold · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Oil Kobold — Kobold with oil flasks. Main colours: orange (#c07040), dark brown (#5a3a20), orange (#ffb040), yellow (#ffe040). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Keeps range. Throws oil (slick), then a lantern (fire). Weak.
@@ -2344,7 +2344,7 @@ Oil Kobold · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 153
 Attach: style_hero, style_centaur, lantern_kobold.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Oil Kobold — Kobold with oil flasks. Main colours: orange (#c07040), dark brown (#5a3a20), orange (#ffb040), yellow (#ffe040). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Keeps range. Throws oil (slick), then a lantern (fire). Weak.
@@ -2370,7 +2370,7 @@ Oil Kobold · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, lantern_kobold.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Oil Kobold — Kobold with oil flasks. Main colours: orange (#c07040), dark brown (#5a3a20), orange (#ffb040), yellow (#ffe040). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Keeps range. Throws oil (slick), then a lantern (fire). Weak.
@@ -2390,7 +2390,7 @@ Prism Eye · Idle, Hover, Beam, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Prism Eye — Floating eye inside a crystal ring. Main colours: pale blue (#e0e0ff), muted blue (#6a6aa0), pale magenta (#ff80ff), white (#ffffff). Size: about 0.7× the height of the hero.
 How it behaves in the game (for the poses): Hovers. Beam that refracts off crystal pillars into 2–3 beams. Only hittable when blinking.
@@ -2416,7 +2416,7 @@ Prism Eye · Guard, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, prism_eye.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Prism Eye — Floating eye inside a crystal ring. Main colours: pale blue (#e0e0ff), muted blue (#6a6aa0), pale magenta (#ff80ff), white (#ffffff). Size: about 0.7× the height of the hero.
 How it behaves in the game (for the poses): Hovers. Beam that refracts off crystal pillars into 2–3 beams. Only hittable when blinking.
@@ -2438,7 +2438,7 @@ Storm Mage · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Storm Mage — Blue-robed mage with crackling staff. Main colours: pale blue (#c8d0e8), blue (#3a4a8a), pale yellow (#ffff80), pale blue (#80c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Strafes (existing). Chain lightning (existing). Static shield when cornered.
@@ -2464,7 +2464,7 @@ Storm Mage · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 153
 Attach: style_hero, style_centaur, storm_mage.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Storm Mage — Blue-robed mage with crackling staff. Main colours: pale blue (#c8d0e8), blue (#3a4a8a), pale yellow (#ffff80), pale blue (#80c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Strafes (existing). Chain lightning (existing). Static shield when cornered.
@@ -2490,7 +2490,7 @@ Storm Mage · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, storm_mage.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Storm Mage — Blue-robed mage with crackling staff. Main colours: pale blue (#c8d0e8), blue (#3a4a8a), pale yellow (#ffff80), pale blue (#80c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Strafes (existing). Chain lightning (existing). Static shield when cornered.
@@ -2510,7 +2510,7 @@ Astronomer Lich · Idle, Move, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · cor
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Astronomer Lich — Skeletal astronomer with a star-map cloak. Main colours: pale yellow (#e8e0cc), dark blue (#2a2a5a), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Floats near telescopes. Calls small meteors onto marked constellation tiles. Bone shield that regrows.
@@ -2536,7 +2536,7 @@ Astronomer Lich · Front and back: idle, steps, main attack · 8 poses, 4 × 2 �
 Attach: style_hero, style_centaur, astronomer_lich.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Astronomer Lich — Skeletal astronomer with a star-map cloak. Main colours: pale yellow (#e8e0cc), dark blue (#2a2a5a), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Floats near telescopes. Calls small meteors onto marked constellation tiles. Bone shield that regrows.
@@ -2562,7 +2562,7 @@ Astronomer Lich · Guard, Revive, Death · 6 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, astronomer_lich.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Astronomer Lich — Skeletal astronomer with a star-map cloak. Main colours: pale yellow (#e8e0cc), dark blue (#2a2a5a), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Floats near telescopes. Calls small meteors onto marked constellation tiles. Bone shield that regrows.
@@ -2586,7 +2586,7 @@ Frost Cantor · Idle, Move, Beam, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Frost Cantor — Choir-monk singing ice into being. Main colours: pale blue (#e0f0ff), muted blue (#5a7aa0), pale teal (#a0e0ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Paces. Freeze ray + ice walls. Ice armor.
@@ -2612,7 +2612,7 @@ Frost Cantor · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, frost_cantor.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frost Cantor — Choir-monk singing ice into being. Main colours: pale blue (#e0f0ff), muted blue (#5a7aa0), pale teal (#a0e0ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Paces. Freeze ray + ice walls. Ice armor.
@@ -2638,7 +2638,7 @@ Frost Cantor · Cast, Guard, Death · 6 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, frost_cantor.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frost Cantor — Choir-monk singing ice into being. Main colours: pale blue (#e0f0ff), muted blue (#5a7aa0), pale teal (#a0e0ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Paces. Freeze ray + ice walls. Ice armor.
@@ -2662,7 +2662,7 @@ Gravity Adept · Idle, Hover, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Gravity Adept — Monk floating cross-legged with orbiting stones. Main colours: pale violet (#c0a0e0), violet (#4a2a6a), pale violet (#e0a8ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Hovers. Gravity well: pulls you and loose objects together. Orbiting stones block shots.
@@ -2688,7 +2688,7 @@ Gravity Adept · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 
 Attach: style_hero, style_centaur, gravity_adept.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Gravity Adept — Monk floating cross-legged with orbiting stones. Main colours: pale violet (#c0a0e0), violet (#4a2a6a), pale violet (#e0a8ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Hovers. Gravity well: pulls you and loose objects together. Orbiting stones block shots.
@@ -2714,7 +2714,7 @@ Gravity Adept · Disguise / ambush, Guard, Death · 6 poses, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, gravity_adept.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Gravity Adept — Monk floating cross-legged with orbiting stones. Main colours: pale violet (#c0a0e0), violet (#4a2a6a), pale violet (#e0a8ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Hovers. Gravity well: pulls you and loose objects together. Orbiting stones block shots.
@@ -2738,7 +2738,7 @@ Cloud Sylph · Idle, Hover, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Cloud Sylph — A cloud with a playful face. Main colours: white (#f0f4ff), muted blue (#9aa8c0), white (#ffffff), blue (#3080ff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Drifts. Rain (slow) and small lightning strikes. Intangible as a cloud.
@@ -2764,7 +2764,7 @@ Cloud Sylph · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur, cloud_sylph.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cloud Sylph — A cloud with a playful face. Main colours: white (#f0f4ff), muted blue (#9aa8c0), white (#ffffff), blue (#3080ff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Drifts. Rain (slow) and small lightning strikes. Intangible as a cloud.
@@ -2790,7 +2790,7 @@ Cloud Sylph · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, cloud_sylph.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cloud Sylph — A cloud with a playful face. Main colours: white (#f0f4ff), muted blue (#9aa8c0), white (#ffffff), blue (#3080ff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Drifts. Rain (slow) and small lightning strikes. Intangible as a cloud.
@@ -2810,7 +2810,7 @@ Chessmaster Wraith · Rooted idle, Cast, Hurt, Guard · 7 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Chessmaster Wraith — Crowned wraith holding a king piece. Main colours: dark grey (#2a2a30), black (#101014), yellow (#e8c040). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Stays on the back row. Commands chess pieces; "check" forces you 1 tile in a direction. Protected while pieces live.
@@ -2835,7 +2835,7 @@ Chessmaster Wraith · Front and back: idle, steps, main attack · 4 poses, 4 × 
 Attach: style_hero, style_centaur, chessmaster.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Chessmaster Wraith — Crowned wraith holding a king piece. Main colours: dark grey (#2a2a30), black (#101014), yellow (#e8c040). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Stays on the back row. Commands chess pieces; "check" forces you 1 tile in a direction. Protected while pieces live.
@@ -2857,7 +2857,7 @@ Chessmaster Wraith · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, chessmaster.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Chessmaster Wraith — Crowned wraith holding a king piece. Main colours: dark grey (#2a2a30), black (#101014), yellow (#e8c040). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Stays on the back row. Commands chess pieces; "check" forces you 1 tile in a direction. Protected while pieces live.
@@ -2877,7 +2877,7 @@ Crystal Resonator · Rooted idle, Ranged attack, Hurt, Cast · 7 poses, 4 × 2 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Crystal Resonator — Humming crystal tuning fork on a pedestal. Main colours: pale violet (#c080ff), violet (#4a2a6a), pale violet (#e0c0ff), white (#ffffff). Size: about 0.7× the height of the hero.
 How it behaves in the game (for the poses): Stationary. Resonance: all crystals in the room shatter into shards. Invulnerable until the crystals are gone.
@@ -2902,7 +2902,7 @@ Crystal Resonator · Guard, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, crystal_resonator.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Crystal Resonator — Humming crystal tuning fork on a pedestal. Main colours: pale violet (#c080ff), violet (#4a2a6a), pale violet (#e0c0ff), white (#ffffff). Size: about 0.7× the height of the hero.
 How it behaves in the game (for the poses): Stationary. Resonance: all crystals in the room shatter into shards. Invulnerable until the crystals are gone.
@@ -2924,7 +2924,7 @@ Wind Monk · Idle, Move, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Wind Monk — Barefoot monk in orange robes. Main colours: pale orange (#e8d8b8), orange (#c86a3a), white (#f4f8ff), black (#101010). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Dashes and dodges. Air-palm: knockback into walls. Dodges your first attack each round.
@@ -2950,7 +2950,7 @@ Wind Monk · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur, wind_monk.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Wind Monk — Barefoot monk in orange robes. Main colours: pale orange (#e8d8b8), orange (#c86a3a), white (#f4f8ff), black (#101010). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Dashes and dodges. Air-palm: knockback into walls. Dodges your first attack each round.
@@ -2976,7 +2976,7 @@ Wind Monk · Dodge, Death · 3 poses, 3 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, wind_monk.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Wind Monk — Barefoot monk in orange robes. Main colours: pale orange (#e8d8b8), orange (#c86a3a), white (#f4f8ff), black (#101010). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Dashes and dodges. Air-palm: knockback into walls. Dodges your first attack each round.
@@ -2997,7 +2997,7 @@ Aurora Wisp · Idle, Hover, Beam, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Aurora Wisp — A wisp of ribbons of green and violet light. Main colours: pale green (#a0ffd0), green (#3a8a6a), pale violet (#c080ff), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Weaves across the room. Light ribbons form damaging lanes. Hittable only where ribbons cross.
@@ -3023,7 +3023,7 @@ Aurora Wisp · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur, aurora_spirit.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Aurora Wisp — A wisp of ribbons of green and violet light. Main colours: pale green (#a0ffd0), green (#3a8a6a), pale violet (#c080ff), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Weaves across the room. Light ribbons form damaging lanes. Hittable only where ribbons cross.
@@ -3049,7 +3049,7 @@ Aurora Wisp · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, aurora_spirit.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Aurora Wisp — A wisp of ribbons of green and violet light. Main colours: pale green (#a0ffd0), green (#3a8a6a), pale violet (#c080ff), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Weaves across the room. Light ribbons form damaging lanes. Hittable only where ribbons cross.
@@ -3069,7 +3069,7 @@ Clockwork Orrery · Rooted idle, Ranged attack, Hurt, Cast · 7 poses, 4 × 2 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Clockwork Orrery — Brass planetary model come alive. Main colours: orange (#c8a060), brown (#6a4a30), orange (#ffd070), white (#ffffff). Size: about 0.7× the height of the hero.
 How it behaves in the game (for the poses): Stationary; planets orbit. Orbiting planets sweep the room. Core protected by the planets.
@@ -3094,7 +3094,7 @@ Clockwork Orrery · Guard, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, orrery.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Clockwork Orrery — Brass planetary model come alive. Main colours: orange (#c8a060), brown (#6a4a30), orange (#ffd070), white (#ffffff). Size: about 0.7× the height of the hero.
 How it behaves in the game (for the poses): Stationary; planets orbit. Orbiting planets sweep the room. Core protected by the planets.
@@ -3116,7 +3116,7 @@ Stone-speaker Druid · Idle, Move, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Stone-speaker Druid — Old druid with a stone-headed staff. Main colours: muted orange (#a88a6a), muted brown (#5a4a38), green (#80c060), yellow (#ffe040). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Slow. Raises pillars under you (launches you). Pillar shield.
@@ -3142,7 +3142,7 @@ Stone-speaker Druid · Front and back: idle, steps, main attack · 8 poses, 4 ×
 Attach: style_hero, style_centaur, stone_druid.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Stone-speaker Druid — Old druid with a stone-headed staff. Main colours: muted orange (#a88a6a), muted brown (#5a4a38), green (#80c060), yellow (#ffe040). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Slow. Raises pillars under you (launches you). Pillar shield.
@@ -3168,7 +3168,7 @@ Stone-speaker Druid · Guard, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, stone_druid.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Stone-speaker Druid — Old druid with a stone-headed staff. Main colours: muted orange (#a88a6a), muted brown (#5a4a38), green (#80c060), yellow (#ffe040). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Slow. Raises pillars under you (launches you). Pillar shield.
@@ -3190,7 +3190,7 @@ Blizzard Witch · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Blizzard Witch — Witch in a snowflake-lace hat. Main colours: pale blue (#e0f0ff), blue (#3a5a8a), pale teal (#a0e0ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Glides. Snow veil (vision down) + ice clones. Clones explode into slow.
@@ -3216,7 +3216,7 @@ Blizzard Witch · Front and back: idle, steps, main attack · 8 poses, 4 × 2 ·
 Attach: style_hero, style_centaur, blizzard_witch.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Blizzard Witch — Witch in a snowflake-lace hat. Main colours: pale blue (#e0f0ff), blue (#3a5a8a), pale teal (#a0e0ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Glides. Snow veil (vision down) + ice clones. Clones explode into slow.
@@ -3242,7 +3242,7 @@ Blizzard Witch · Cast, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, blizzard_witch.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Blizzard Witch — Witch in a snowflake-lace hat. Main colours: pale blue (#e0f0ff), blue (#3a5a8a), pale teal (#a0e0ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Glides. Snow veil (vision down) + ice clones. Clones explode into slow.
@@ -3264,7 +3264,7 @@ Echo Sage · Rooted idle, Ranged attack, Hurt, Death · 7 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Echo Sage — Ancient sage whose words echo. Main colours: pale orange (#d8c8a8), muted brown (#6a5a48), pale orange (#ffe0a0), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Stands still. Every spell repeats once, 1 s later. Weak up close.
@@ -3289,7 +3289,7 @@ Echo Sage · Front and back: idle, steps, main attack · 4 poses, 4 × 1 · 1536
 Attach: style_hero, style_centaur, echo_sage.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Echo Sage — Ancient sage whose words echo. Main colours: pale orange (#d8c8a8), muted brown (#6a5a48), pale orange (#ffe0a0), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Stands still. Every spell repeats once, 1 s later. Weak up close.
@@ -3311,7 +3311,7 @@ Cloister Seraph · Idle, Hover, Beam, Hurt · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Cloister Seraph — Winged guardian of the sky cloister. Main colours: pale yellow (#fff8e0), white (#e8e4dc), pale yellow (#ffe080), pale blue (#80c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Hovers high. Holy beams from above. Bubble shield when hit 3 times quickly.
@@ -3337,7 +3337,7 @@ Cloister Seraph · Front and back: idle, steps, main attack · 8 poses, 4 × 2 �
 Attach: style_hero, style_centaur, seraph.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cloister Seraph — Winged guardian of the sky cloister. Main colours: pale yellow (#fff8e0), white (#e8e4dc), pale yellow (#ffe080), pale blue (#80c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Hovers high. Holy beams from above. Bubble shield when hit 3 times quickly.
@@ -3363,7 +3363,7 @@ Cloister Seraph · Cast, Guard, Death · 6 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, seraph.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cloister Seraph — Winged guardian of the sky cloister. Main colours: pale yellow (#fff8e0), white (#e8e4dc), pale yellow (#ffe080), pale blue (#80c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Hovers high. Holy beams from above. Bubble shield when hit 3 times quickly.
@@ -3387,7 +3387,7 @@ Rune Sentinel Statue · Idle, Move, Grab, Hurt · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Rune Sentinel Statue — Stone statue with a covered face. Main colours: light grey (#8a8e96), dark grey (#3a3e46), pale teal (#7fe8ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Only moves when you are not looking at it. Grabs you from behind. Invulnerable while watched.
@@ -3413,7 +3413,7 @@ Rune Sentinel Statue · Front and back: idle, steps, main attack · 8 poses, 4 �
 Attach: style_hero, style_centaur, rune_statue.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Rune Sentinel Statue — Stone statue with a covered face. Main colours: light grey (#8a8e96), dark grey (#3a3e46), pale teal (#7fe8ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Only moves when you are not looking at it. Grabs you from behind. Invulnerable while watched.
@@ -3439,7 +3439,7 @@ Rune Sentinel Statue · Statue, Death · 3 poses, 3 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, rune_statue.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Rune Sentinel Statue — Stone statue with a covered face. Main colours: light grey (#8a8e96), dark grey (#3a3e46), pale teal (#7fe8ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Only moves when you are not looking at it. Grabs you from behind. Invulnerable while watched.
@@ -3460,7 +3460,7 @@ Telescope Eye · Rooted idle, Beam, Hurt, Death · 7 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Telescope Eye — A brass telescope with a real eye in the lens. Main colours: orange (#c8a060), brown (#6a4a30), orange (#ffd070), white (#ffffff). Size: about 0.7× the height of the hero.
 How it behaves in the game (for the poses): Stationary; tracks you slowly. Long-range laser. Only the lens is weak.
@@ -3485,7 +3485,7 @@ Hailstone Imp · Idle, Hover, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hailstone Imp — Tiny icy imp with a bag of hail. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), white (#ffffff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Hops about. Throws bouncing hailstones. Fragile.
@@ -3511,7 +3511,7 @@ Hailstone Imp · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 
 Attach: style_hero, style_centaur, hailstone_imp.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hailstone Imp — Tiny icy imp with a bag of hail. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), white (#ffffff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Hops about. Throws bouncing hailstones. Fragile.
@@ -3537,7 +3537,7 @@ Hailstone Imp · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, hailstone_imp.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hailstone Imp — Tiny icy imp with a bag of hail. Main colours: pale blue (#c0d8e8), muted blue (#5a7088), white (#ffffff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Hops about. Throws bouncing hailstones. Fragile.
@@ -3557,7 +3557,7 @@ Frostbound Spellblade · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Frostbound Spellblade — Knight with a frost-runed blade. Main colours: pale blue (#a0c0e0), blue (#3a5a7a), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Advances. Alternates sword combos and ice bolts. Parries physical hits.
@@ -3583,7 +3583,7 @@ Frostbound Spellblade · Front and back: idle, steps, main attack · 8 poses, 4 
 Attach: style_hero, style_centaur, spellblade.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frostbound Spellblade — Knight with a frost-runed blade. Main colours: pale blue (#a0c0e0), blue (#3a5a7a), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Advances. Alternates sword combos and ice bolts. Parries physical hits.
@@ -3609,7 +3609,7 @@ Frostbound Spellblade · Ranged attack, Guard, Death · 6 poses, 3 × 2 · 1536x
 Attach: style_hero, style_centaur, spellblade.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frostbound Spellblade — Knight with a frost-runed blade. Main colours: pale blue (#a0c0e0), blue (#3a5a7a), pale teal (#a0e0ff), teal (#40c0ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Advances. Alternates sword combos and ice bolts. Parries physical hits.
@@ -3633,7 +3633,7 @@ Thunderbird · Idle, Move, Lunge, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Thunderbird — Crackling golden bird of storms. Main colours: yellow (#e0d080), olive (#6a5a28), pale yellow (#ffff80), white (#ffffff). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Summoned by storm casters. Lightning dive-bomb. Fast.
@@ -3659,7 +3659,7 @@ Thunderbird · Cast, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, thunderbird.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Thunderbird — Crackling golden bird of storms. Main colours: yellow (#e0d080), olive (#6a5a28), pale yellow (#ffff80), white (#ffffff). Size: about 0.8× the height of the hero.
 How it behaves in the game (for the poses): Summoned by storm casters. Lightning dive-bomb. Fast.
@@ -3681,7 +3681,7 @@ Void Scholar · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Void Scholar — Scholar whose robe is a starry void. Main colours: dark violet (#3a2a5a), dark violet (#1a102a), pale violet (#c080ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Opens paired portals. Sends his spells (and yours) through portals. Blinks between portals.
@@ -3707,7 +3707,7 @@ Void Scholar · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, void_scholar.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Void Scholar — Scholar whose robe is a starry void. Main colours: dark violet (#3a2a5a), dark violet (#1a102a), pale violet (#c080ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Opens paired portals. Sends his spells (and yours) through portals. Blinks between portals.
@@ -3733,7 +3733,7 @@ Void Scholar · Blink, Dodge, Death · 5 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, void_scholar.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Void Scholar — Scholar whose robe is a starry void. Main colours: dark violet (#3a2a5a), dark violet (#1a102a), pale violet (#c080ff), white (#ffffff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Opens paired portals. Sends his spells (and yours) through portals. Blinks between portals.
@@ -3756,7 +3756,7 @@ Geode Sprite · Hover, Talk, Cast · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Geode Sprite — Lives in a split geode that opens like a clam. Main colours: violet (#a060e0), pale violet (#e0c0ff). Size: about 0.4× the height of the hero (tiny).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3781,7 +3781,7 @@ Snow Owl Sage · Hover, Talk, Cast · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Snow Owl Sage — Wise and white-feathered; reads star-charts by the light of her book. Main colours: white (#e8eef4), white (#ffffff). Size: about 0.4× the height of the hero (tiny).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3806,7 +3806,7 @@ Quartz Knight · Hover, Talk, Cast · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Quartz Knight — Faceted crystal armour and wings that ring like glass. Main colours: pale blue (#c0b0ff), pale violet (#e8e0ff). Size: about 0.4× the height of the hero (tiny).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3831,7 +3831,7 @@ Aurora Dancer · Hover, Talk, Cast · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Aurora Dancer — Twirls ribbons of northern lights across the night sky. Main colours: teal (#60e0c0), pale violet (#c080ff). Size: about 0.4× the height of the hero (tiny).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3856,7 +3856,7 @@ Goat Rider · Hover, Talk, Cast · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Goat Rider — Scales cliffs on a sure-footed mountain goat. Main colours: orange (#c8a878), pale orange (#f0e8d8). Size: about 0.4× the height of the hero (tiny).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3881,7 +3881,7 @@ Cairnwyn, King of the Peaks · Hover, Talk, Cast · 8 poses, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Cairnwyn, King of the Peaks — An archon of amethyst and quartz. His crystal wings ring like bells; a crown of floating gems circles his head. Main colours: blue (#8070c0), pale blue (#c8b8ff), pale violet (#d0c0ff). Size: about 1.2× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3906,7 +3906,7 @@ Mountain Goat · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Mountain Goat — A shaggy white mountain goat with short curved horns.  Size: about 0.6× the height of the hero.
 Layout: exactly 6 poses in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3929,7 +3929,7 @@ Rock Lizard · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Rock Lizard — A small sand-coloured lizard with a teal stripe down its back.  Size: about 0.3× the height of the hero (tiny).
 Layout: exactly 6 poses in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3952,7 +3952,7 @@ Highland Ram · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Highland Ram — A sturdy cream-coloured ram with huge curled horns.  Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3977,7 +3977,7 @@ Cave Bear · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Cave Bear — A huge grey-brown cave bear with a pale muzzle and long claws.  Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):

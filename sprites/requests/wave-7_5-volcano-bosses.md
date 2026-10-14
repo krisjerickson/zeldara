@@ -9,7 +9,7 @@ Cindermourn, the Ember Wraith · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Cindermourn, the Ember Wraith — A hooded wraith of smoke with ember eyes. Details: head: wraith, off: flame, armor: rags, cape: tattered. Main colours: dark red (#5a2a1a), dark red (#2a1008), orange (#ff9040), yellow (#ffe060). Size: about 3.5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Drifts at you in swirling sparks.
@@ -35,7 +35,7 @@ Cindermourn, the Ember Wraith · Front and back: idle, steps, main attack · 8 p
 Attach: style_hero, style_centaur, boss_vr_ember_wraith.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cindermourn, the Ember Wraith — A hooded wraith of smoke with ember eyes. Details: head: wraith, off: flame, armor: rags, cape: tattered. Main colours: dark red (#5a2a1a), dark red (#2a1008), orange (#ff9040), yellow (#ffe060). Size: about 3.5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Drifts at you in swirling sparks.
@@ -61,7 +61,7 @@ Cindermourn, the Ember Wraith · Hurt, Enrage, Phase change, Death · 6 poses, 3
 Attach: style_hero, style_centaur, boss_vr_ember_wraith.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cindermourn, the Ember Wraith — A hooded wraith of smoke with ember eyes. Details: head: wraith, off: flame, armor: rags, cape: tattered. Main colours: dark red (#5a2a1a), dark red (#2a1008), orange (#ff9040), yellow (#ffe060). Size: about 3.5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Drifts at you in swirling sparks.
@@ -85,7 +85,7 @@ Pyrecoil, the Magma Basilisk · Idle, Move, Ranged attack · 8 poses, 4 × 2 · 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Pyrecoil, the Magma Basilisk — A hooded magma cobra whose glare cracks stone. Main colours: red (#a03a1a), dark red (#4a1008), orange (#ffb040), orange (#ffc040). Size: about 3.6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Spits globs of lava.
@@ -111,7 +111,7 @@ Pyrecoil, the Magma Basilisk · Hurt, Cast, Enrage, Phase change, Death · 8 pos
 Attach: style_hero, style_centaur, boss_vr_magma_spitter.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Pyrecoil, the Magma Basilisk — A hooded magma cobra whose glare cracks stone. Main colours: red (#a03a1a), dark red (#4a1008), orange (#ffb040), orange (#ffc040). Size: about 3.6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Spits globs of lava.
@@ -137,7 +137,7 @@ Glassgrind, the Obsidian Golem · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Glassgrind, the Obsidian Golem — An obsidian spider-golem. Main colours: dark grey (#2a2226), black (#0a0808), violet (#b060ff), magenta (#ff60ff). Size: about 3.7× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slow, crushing slams.
@@ -161,7 +161,7 @@ Glassgrind, the Obsidian Golem · Slam, Hurt, Cast, Enrage · 7 poses, 4 × 2 ·
 Attach: style_hero, style_centaur, boss_vr_obsidian_golem.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Glassgrind, the Obsidian Golem — An obsidian spider-golem. Main colours: dark grey (#2a2226), black (#0a0808), violet (#b060ff), magenta (#ff60ff). Size: about 3.7× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slow, crushing slams.
@@ -186,7 +186,7 @@ Glassgrind, the Obsidian Golem · Phase change, Death · 4 poses, 2 × 2 · 1024
 Attach: style_hero, style_centaur, boss_vr_obsidian_golem.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Glassgrind, the Obsidian Golem — An obsidian spider-golem. Main colours: dark grey (#2a2226), black (#0a0808), violet (#b060ff), magenta (#ff60ff). Size: about 3.7× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slow, crushing slams.
@@ -208,7 +208,7 @@ Ashwing, the Cinder Phoenix · Idle, Hover, Melee attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ashwing, the Cinder Phoenix — A soot-black ash-bird with burning eyes. Main colours: dark grey (#3a3a3a), black (#141414), orange (#ff8030). Size: about 3.6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Fast swooping dives.
@@ -234,7 +234,7 @@ Ashwing, the Cinder Phoenix · Hurt, Cast, Enrage, Phase change, Death · 8 pose
 Attach: style_hero, style_centaur, boss_vr_cinder_phoenix.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ashwing, the Cinder Phoenix — A soot-black ash-bird with burning eyes. Main colours: dark grey (#3a3a3a), black (#141414), orange (#ff8030). Size: about 3.6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Fast swooping dives.
@@ -260,7 +260,7 @@ Skorrath, the Lava Wyrm · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Skorrath, the Lava Wyrm — A wingless fire-drake. Details: beast: dragon. Main colours: red (#8a2a10), dark red (#3a0a04), orange (#ffc040), orange (#ffa030). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Lunges out of the lava.
@@ -286,7 +286,7 @@ Skorrath, the Lava Wyrm · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4
 Attach: style_hero, style_centaur, boss_vr_lava_wyrm.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Skorrath, the Lava Wyrm — A wingless fire-drake. Details: beast: dragon. Main colours: red (#8a2a10), dark red (#3a0a04), orange (#ffc040), orange (#ffa030). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Lunges out of the lava.
@@ -312,7 +312,7 @@ Sir Cindric, the Ashen Draugr · Idle, Move, Melee attack · 8 poses, 4 × 2 · 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sir Cindric, the Ashen Draugr — A burned barrow-warrior who will not stay dead. Details: head: skull, gear: crown, weapon: greataxe, armor: bone, cape: tattered, build: broad. Main colours: grey (#6a6258), dark grey (#2a2420), muted orange (#8a8070), red (#ff6040). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges with sword lunges.
@@ -338,7 +338,7 @@ Sir Cindric, the Ashen Draugr · Front and back: idle, steps, main attack · 8 p
 Attach: style_hero, style_centaur, boss_vr_ashen_knight.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sir Cindric, the Ashen Draugr — A burned barrow-warrior who will not stay dead. Details: head: skull, gear: crown, weapon: greataxe, armor: bone, cape: tattered, build: broad. Main colours: grey (#6a6258), dark grey (#2a2420), muted orange (#8a8070), red (#ff6040). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges with sword lunges.
@@ -364,7 +364,7 @@ Sir Cindric, the Ashen Draugr · Hurt, Cast, Enrage, Phase change, Death · 8 po
 Attach: style_hero, style_centaur, boss_vr_ashen_knight.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sir Cindric, the Ashen Draugr — A burned barrow-warrior who will not stay dead. Details: head: skull, gear: crown, weapon: greataxe, armor: bone, cape: tattered, build: broad. Main colours: grey (#6a6258), dark grey (#2a2420), muted orange (#8a8070), red (#ff6040). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges with sword lunges.
@@ -390,7 +390,7 @@ Pyrokraken, the Magma Squid · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Pyrokraken, the Magma Squid — An obsidian-shelled squid of the lava deeps. Main colours: dark grey (#2a1a1a), black (#0a0404), red (#ff6030). Size: about 4× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Lashes tentacles in fiery rings.
@@ -416,7 +416,7 @@ Pyrokraken, the Magma Squid · Hurt, Enrage, Phase change, Death · 6 poses, 3 �
 Attach: style_hero, style_centaur, boss_vr_pyrokraken.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Pyrokraken, the Magma Squid — An obsidian-shelled squid of the lava deeps. Main colours: dark grey (#2a1a1a), black (#0a0404), red (#ff6030). Size: about 4× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Lashes tentacles in fiery rings.
@@ -440,7 +440,7 @@ Vathrax, the Inferno Wraith · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Vathrax, the Inferno Wraith — A crowned wraith wreathed in fire and chains. Details: head: wraith, gear: spikecrown, weapon: whip, off: chains, armor: shadow, cape: flame. Main colours: red (#8a2a1a), dark red (#3a0a08), red (#ff6020), yellow (#ffe060). Size: about 4.2× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Hurls fire and drifts through walls of flame.
@@ -466,7 +466,7 @@ Vathrax, the Inferno Wraith · Front and back: idle, steps, main attack · 8 pos
 Attach: style_hero, style_centaur, boss_vr_inferno_wraith.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Vathrax, the Inferno Wraith — A crowned wraith wreathed in fire and chains. Details: head: wraith, gear: spikecrown, weapon: whip, off: chains, armor: shadow, cape: flame. Main colours: red (#8a2a1a), dark red (#3a0a08), red (#ff6020), yellow (#ffe060). Size: about 4.2× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Hurls fire and drifts through walls of flame.
@@ -492,7 +492,7 @@ Vathrax, the Inferno Wraith · Hurt, Enrage, Phase change, Death · 6 poses, 3 �
 Attach: style_hero, style_centaur, boss_vr_inferno_wraith.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Vathrax, the Inferno Wraith — A crowned wraith wreathed in fire and chains. Details: head: wraith, gear: spikecrown, weapon: whip, off: chains, armor: shadow, cape: flame. Main colours: red (#8a2a1a), dark red (#3a0a08), red (#ff6020), yellow (#ffe060). Size: about 4.2× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Hurls fire and drifts through walls of flame.
@@ -516,7 +516,7 @@ Surtharn, the Volcano Lord · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Surtharn, the Volcano Lord — The fire-giant of the world's end: horned, crowned, with a flaming sword. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#4a1a10), black (#1a0806), red (#ff6020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slams the ground in rings of fire — the final battle.
@@ -540,7 +540,7 @@ Surtharn, the Volcano Lord · Front and back: idle, steps, main attack · 8 pose
 Attach: style_hero, style_centaur, boss_volcano_lord.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtharn, the Volcano Lord — The fire-giant of the world's end: horned, crowned, with a flaming sword. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#4a1a10), black (#1a0806), red (#ff6020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slams the ground in rings of fire — the final battle.
@@ -566,7 +566,7 @@ Surtharn, the Volcano Lord · Slam, Hurt, Cast, Enrage · 7 poses, 4 × 2 · 153
 Attach: style_hero, style_centaur, boss_volcano_lord.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtharn, the Volcano Lord — The fire-giant of the world's end: horned, crowned, with a flaming sword. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#4a1a10), black (#1a0806), red (#ff6020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slams the ground in rings of fire — the final battle.
@@ -591,7 +591,7 @@ Surtharn, the Volcano Lord · Phase change, Death · 4 poses, 2 × 2 · 1024x102
 Attach: style_hero, style_centaur, boss_volcano_lord.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtharn, the Volcano Lord — The fire-giant of the world's end: horned, crowned, with a flaming sword. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#4a1a10), black (#1a0806), red (#ff6020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slams the ground in rings of fire — the final battle.

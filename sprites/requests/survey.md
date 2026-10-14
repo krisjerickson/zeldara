@@ -17,30 +17,30 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 
 | Id | Name | Group | Facings | Moves it must show | Sheets |
 |---|---|---|---|---|---|
-| hero_m | Hero (boy) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
-| hero_f | Hero (girl) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
-| ride_m_horse | Hero (boy) on Horse | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_horse | Hero (girl) on Horse | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_alligator | Hero (boy) on Alligator | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_alligator | Hero (girl) on Alligator | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_boar | Hero (boy) on Battle Boar | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_boar | Hero (girl) on Battle Boar | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_lava_unicorn | Hero (boy) on Lava Unicorn | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_lava_unicorn | Hero (girl) on Lava Unicorn | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_ash_salamander | Hero (boy) on Ash Dragon | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_ash_salamander | Hero (girl) on Ash Dragon | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_dragon | Hero (boy) on Dragon | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_dragon | Hero (girl) on Dragon | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_sky_eagle | Hero (boy) on Sky Eagle | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_sky_eagle | Hero (girl) on Sky Eagle | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_sky_glider | Hero (boy) on Sky Glider | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_sky_glider | Hero (girl) on Sky Glider | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_storm_drake | Hero (boy) on Storm Drake | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_storm_drake | Hero (girl) on Storm Drake | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_ember_phoenix | Hero (boy) on Ember Phoenix | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_ember_phoenix | Hero (girl) on Ember Phoenix | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_m_void_serpent | Hero (boy) on Void Serpent | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
-| ride_f_void_serpent | Hero (girl) on Void Serpent | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| hero_m | Zeldor (the boy) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
+| hero_f | Zeldara (the girl) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
+| ride_m_horse | Zeldor (the boy) on Horse | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_horse | Zeldara (the girl) on Horse | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_alligator | Zeldor (the boy) on Alligator | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_alligator | Zeldara (the girl) on Alligator | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_boar | Zeldor (the boy) on Battle Boar | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_boar | Zeldara (the girl) on Battle Boar | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_lava_unicorn | Zeldor (the boy) on Lava Unicorn | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_lava_unicorn | Zeldara (the girl) on Lava Unicorn | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_ash_salamander | Zeldor (the boy) on Ash Dragon | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_ash_salamander | Zeldara (the girl) on Ash Dragon | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_dragon | Zeldor (the boy) on Dragon | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_dragon | Zeldara (the girl) on Dragon | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_sky_eagle | Zeldor (the boy) on Sky Eagle | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_sky_eagle | Zeldara (the girl) on Sky Eagle | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_sky_glider | Zeldor (the boy) on Sky Glider | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_sky_glider | Zeldara (the girl) on Sky Glider | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_storm_drake | Zeldor (the boy) on Storm Drake | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_storm_drake | Zeldara (the girl) on Storm Drake | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_ember_phoenix | Zeldor (the boy) on Ember Phoenix | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_ember_phoenix | Zeldara (the girl) on Ember Phoenix | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_m_void_serpent | Zeldor (the boy) on Void Serpent | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
+| ride_f_void_serpent | Zeldara (the girl) on Void Serpent | Hero on a mount | x | Ride · side ×4 (flying, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
 | meadow_goblin | Meadow Goblin | Grasslands · mainland | s f b | Idle ×1; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Death ×2 | 3 |
 | thistle_hog | Thistle Hog | Grasslands · mainland | q | Idle ×1; Move ×4; Melee attack ×2 (melee); Hurt ×1; Charge ×3 (charge); Death ×2 | 2 |
 | puffcap | Puffcap | Grasslands · mainland | q | Idle ×1; Move ×4; Cast ×2 (cloud); Hurt ×1; Disguise / ambush ×2 (ambush); Guard ×2 (bubble); Death ×2 | 2 |
@@ -453,7 +453,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | animal_cave_bear | Cave Bear | Large animals · Highlands | q | Idle ×2; Move ×4 (wanders, and flees when you come close); Melee attack ×2 (fights back when cornered) | 1 |
 | animal_lava_wyrm | Lava Wyrm | Large animals · Ashlands | q | Idle ×2; Move ×4 (wanders, and flees when you come close); Melee attack ×2 (fights back when cornered) | 1 |
 | animal_ash_titan | Ash Titan | Large animals · Ashlands | q | Idle ×2; Move ×4 (wanders, and flees when you come close); Melee attack ×2 (fights back when cornered) | 1 |
-| veh_m_boat | Hero (boy) in the sailing boat | Vehicles | x | Idle ×2; Move ×4 | 1 |
-| veh_f_boat | Hero (girl) in the sailing boat | Vehicles | x | Idle ×2; Move ×4 | 1 |
-| veh_m_sky_ship | Hero (boy) in the sky skiff | Vehicles | x | Idle ×2; Move ×4; Ranged attack ×2 | 1 |
-| veh_f_sky_ship | Hero (girl) in the sky skiff | Vehicles | x | Idle ×2; Move ×4; Ranged attack ×2 | 1 |
+| veh_m_boat | Zeldor (the boy) in the sailing boat | Vehicles | x | Idle ×2; Move ×4 | 1 |
+| veh_f_boat | Zeldara (the girl) in the sailing boat | Vehicles | x | Idle ×2; Move ×4 | 1 |
+| veh_m_sky_ship | Zeldor (the boy) in the sky skiff | Vehicles | x | Idle ×2; Move ×4; Ranged attack ×2 | 1 |
+| veh_f_sky_ship | Zeldara (the girl) in the sky skiff | Vehicles | x | Idle ×2; Move ×4; Ranged attack ×2 | 1 |

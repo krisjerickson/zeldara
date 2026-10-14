@@ -9,7 +9,7 @@ Grubnash the Great, the Goblin King · Front and back: idle, steps, main attack 
 Attach: style_hero, style_centaur, boss_goblin_king.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Grubnash the Great, the Goblin King — A huge-headed, pot-bellied goblin tyrant on stubby legs. Each step makes the treasure hoard rattle. Details: head: goblin, gear: crown, weapon: hammer, armor: fur, cape: fur, build: giant. Main colours: green (#6a8a3a), dark green (#2a3218), yellow (#e8c040), yellow (#ffd040). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Rushes you and throws a fan of arrows (scatter shot).
@@ -35,7 +35,7 @@ Grubnash the Great, the Goblin King · Hurt, Cast, Enrage, Phase change, Death �
 Attach: style_hero, style_centaur, boss_goblin_king.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Grubnash the Great, the Goblin King — A huge-headed, pot-bellied goblin tyrant on stubby legs. Each step makes the treasure hoard rattle. Details: head: goblin, gear: crown, weapon: hammer, armor: fur, cape: fur, build: giant. Main colours: green (#6a8a3a), dark green (#2a3218), yellow (#e8c040), yellow (#ffd040). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Rushes you and throws a fan of arrows (scatter shot).
@@ -61,7 +61,7 @@ Grubnash the Cave-Troll Rider · Idle, Move, Ranged attack · 8 poses, 4 × 2 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Grubnash the Cave-Troll Rider — Grubnash, crown and war-hammer and all, rides out on a chained, horned cave-beast that shakes the warren with every stamp. Details: beast: behemoth. Main colours: muted green (#6a7a5a), dark grey (#2a3222), yellow (#e8c040), yellow (#ffd040). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges, cleaves in a wide arc and hurls fire-pots.
@@ -87,7 +87,7 @@ Grubnash the Cave-Troll Rider · Hurt, Lunge, Charge, Wide sweep · 8 poses, 4 �
 Attach: style_hero, style_centaur, bf_goblin_king_2.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Grubnash the Cave-Troll Rider — Grubnash, crown and war-hammer and all, rides out on a chained, horned cave-beast that shakes the warren with every stamp. Details: beast: behemoth. Main colours: muted green (#6a7a5a), dark grey (#2a3222), yellow (#e8c040), yellow (#ffd040). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges, cleaves in a wide arc and hurls fire-pots.
@@ -113,7 +113,7 @@ Grubnash the Cave-Troll Rider · Cast, Enrage, Phase change, Death · 7 poses, 4
 Attach: style_hero, style_centaur, bf_goblin_king_2.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Grubnash the Cave-Troll Rider — Grubnash, crown and war-hammer and all, rides out on a chained, horned cave-beast that shakes the warren with every stamp. Details: beast: behemoth. Main colours: muted green (#6a7a5a), dark grey (#2a3222), yellow (#e8c040), yellow (#ffd040). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges, cleaves in a wide arc and hurls fire-pots.
@@ -138,7 +138,7 @@ Morvane, the Dark Warlock · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Morvane, the Dark Warlock — A deathless necromancer, skull-faced, reading from a book that whispers back. Details: head: skull, weapon: staff, off: book, armor: rags, cape: tattered. Main colours: dark grey (#1a1a2a), black (#08080e), muted green (#8ab0a0), green (#60ffb0). Size: about 2.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blinks around the room and fires homing hexes.
@@ -164,7 +164,7 @@ Morvane, the Dark Warlock · Front and back: idle, steps, main attack · 8 poses
 Attach: style_hero, style_centaur, boss_dark_warlock.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Morvane, the Dark Warlock — A deathless necromancer, skull-faced, reading from a book that whispers back. Details: head: skull, weapon: staff, off: book, armor: rags, cape: tattered. Main colours: dark grey (#1a1a2a), black (#08080e), muted green (#8ab0a0), green (#60ffb0). Size: about 2.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blinks around the room and fires homing hexes.
@@ -190,7 +190,7 @@ Morvane, the Dark Warlock · Hurt, Enrage, Phase change, Death · 6 poses, 3 × 
 Attach: style_hero, style_centaur, boss_dark_warlock.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Morvane, the Dark Warlock — A deathless necromancer, skull-faced, reading from a book that whispers back. Details: head: skull, weapon: staff, off: book, armor: rags, cape: tattered. Main colours: dark grey (#1a1a2a), black (#08080e), muted green (#8ab0a0), green (#60ffb0). Size: about 2.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blinks around the room and fires homing hexes.
@@ -214,7 +214,7 @@ Morvane the Brood-Queen · Idle, Move, Ranged attack · 8 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Morvane the Brood-Queen — Morvane fuses with his brood-queen. The teal hourglass burns on her back, and his white crown still hovers above. Main colours: dark grey (#1a1e24), black (#07090c), muted green (#8ab0a0), green (#60ffb0). Size: about 4.2× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blinks around, fires fans of homing hexes and a sweeping beam.
@@ -240,7 +240,7 @@ Morvane the Brood-Queen · Hurt, Beam, Cast, Blink, Enrage · 8 poses, 4 × 2 ·
 Attach: style_hero, style_centaur, bf_dark_warlock_2.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Morvane the Brood-Queen — Morvane fuses with his brood-queen. The teal hourglass burns on her back, and his white crown still hovers above. Main colours: dark grey (#1a1e24), black (#07090c), muted green (#8ab0a0), green (#60ffb0). Size: about 4.2× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blinks around, fires fans of homing hexes and a sweeping beam.
@@ -266,7 +266,7 @@ Morvane the Brood-Queen · Phase change, Death · 4 poses, 2 × 2 · 1024x1024 �
 Attach: style_hero, style_centaur, bf_dark_warlock_2.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Morvane the Brood-Queen — Morvane fuses with his brood-queen. The teal hourglass burns on her back, and his white crown still hovers above. Main colours: dark grey (#1a1e24), black (#07090c), muted green (#8ab0a0), green (#60ffb0). Size: about 4.2× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blinks around, fires fans of homing hexes and a sweeping beam.
@@ -288,7 +288,7 @@ Sir Brambleheart, the Thorn Knight · Idle, Move, Melee attack · 8 poses, 4 × 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sir Brambleheart, the Thorn Knight — A knight wrapped in living briars; thorns bite whoever strikes him up close. Details: head: greathelm, weapon: sword, off: shield, armor: plate, cape: tattered, build: broad. Main colours: muted green (#4a6a3a), dark green (#2a3a20), muted yellow (#b0a060), red (#e07080). Size: about 3.5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges and slashes; thorns hurt when you hit him up close.
@@ -314,7 +314,7 @@ Sir Brambleheart, the Thorn Knight · Front and back: idle, steps, main attack �
 Attach: style_hero, style_centaur, cw_thorn_knight.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sir Brambleheart, the Thorn Knight — A knight wrapped in living briars; thorns bite whoever strikes him up close. Details: head: greathelm, weapon: sword, off: shield, armor: plate, cape: tattered, build: broad. Main colours: muted green (#4a6a3a), dark green (#2a3a20), muted yellow (#b0a060), red (#e07080). Size: about 3.5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges and slashes; thorns hurt when you hit him up close.
@@ -340,7 +340,7 @@ Sir Brambleheart, the Thorn Knight · Hurt, Cast, Enrage, Phase change, Death ·
 Attach: style_hero, style_centaur, cw_thorn_knight.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sir Brambleheart, the Thorn Knight — A knight wrapped in living briars; thorns bite whoever strikes him up close. Details: head: greathelm, weapon: sword, off: shield, armor: plate, cape: tattered, build: broad. Main colours: muted green (#4a6a3a), dark green (#2a3a20), muted yellow (#b0a060), red (#e07080). Size: about 3.5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges and slashes; thorns hurt when you hit him up close.
@@ -366,7 +366,7 @@ Baron Goldcrest, the Sunflower Lord · Idle, Move, Melee attack · 8 poses, 4 ×
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Baron Goldcrest, the Sunflower Lord — A towering sunflower-man, his face a ring of petals. Details: head: mask, gear: sunhalo, weapon: rapier, armor: bark, build: tall. Main colours: green (#6a8a2a), dark green (#2a3a10), yellow (#f0c030), yellow (#ffe060). Size: about 3.6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Fast rapier combos and a dazzling sun-flash.
@@ -392,7 +392,7 @@ Baron Goldcrest, the Sunflower Lord · Front and back: idle, steps, main attack 
 Attach: style_hero, style_centaur, cw_sun_baron.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Baron Goldcrest, the Sunflower Lord — A towering sunflower-man, his face a ring of petals. Details: head: mask, gear: sunhalo, weapon: rapier, armor: bark, build: tall. Main colours: green (#6a8a2a), dark green (#2a3a10), yellow (#f0c030), yellow (#ffe060). Size: about 3.6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Fast rapier combos and a dazzling sun-flash.
@@ -418,7 +418,7 @@ Baron Goldcrest, the Sunflower Lord · Hurt, Cast, Enrage, Phase change, Death �
 Attach: style_hero, style_centaur, cw_sun_baron.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Baron Goldcrest, the Sunflower Lord — A towering sunflower-man, his face a ring of petals. Details: head: mask, gear: sunhalo, weapon: rapier, armor: bark, build: tall. Main colours: green (#6a8a2a), dark green (#2a3a10), yellow (#f0c030), yellow (#ffe060). Size: about 3.6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Fast rapier combos and a dazzling sun-flash.
@@ -444,7 +444,7 @@ Grumbold, the Mill Troll · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Grumbold, the Mill Troll — A stone-skinned troll who hides from the sun inside the windmill. Details: head: ogre, weapon: club, armor: fur, build: giant. Main colours: grey (#6a7a6a), dark grey (#2a3a2a), light grey (#a0a090), yellow (#ffcc40). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Heavy slams and thrown grain sacks.
@@ -468,7 +468,7 @@ Grumbold, the Mill Troll · Front and back: idle, steps, main attack · 8 poses,
 Attach: style_hero, style_centaur, cw_mill_ogre.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Grumbold, the Mill Troll — A stone-skinned troll who hides from the sun inside the windmill. Details: head: ogre, weapon: club, armor: fur, build: giant. Main colours: grey (#6a7a6a), dark grey (#2a3a2a), light grey (#a0a090), yellow (#ffcc40). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Heavy slams and thrown grain sacks.
@@ -494,7 +494,7 @@ Grumbold, the Mill Troll · Slam, Hurt, Cast, Enrage · 7 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur, cw_mill_ogre.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Grumbold, the Mill Troll — A stone-skinned troll who hides from the sun inside the windmill. Details: head: ogre, weapon: club, armor: fur, build: giant. Main colours: grey (#6a7a6a), dark grey (#2a3a2a), light grey (#a0a090), yellow (#ffcc40). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Heavy slams and thrown grain sacks.
@@ -519,7 +519,7 @@ Grumbold, the Mill Troll · Phase change, Death · 4 poses, 2 × 2 · 1024x1024 
 Attach: style_hero, style_centaur, cw_mill_ogre.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Grumbold, the Mill Troll — A stone-skinned troll who hides from the sun inside the windmill. Details: head: ogre, weapon: club, armor: fur, build: giant. Main colours: grey (#6a7a6a), dark grey (#2a3a2a), light grey (#a0a090), yellow (#ffcc40). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Heavy slams and thrown grain sacks.
@@ -541,7 +541,7 @@ Frostwhisper, the Rime Witch · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Frostwhisper, the Rime Witch — A pale witch with a circlet of ice and a swarm of floating shards. Details: head: face, gear: icecrown, weapon: wand, off: shards, armor: crystal. Main colours: pale blue (#c0e0f8), blue (#4a7ab0), white (#ffffff), pale teal (#a0e8ff). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): ❄️ Frost bolts slow you · 🧊 Rime floor — patches of ice you slide across · ✨ Blinks away when you close in
@@ -567,7 +567,7 @@ Frostwhisper, the Rime Witch · Front and back: idle, steps, main attack · 8 po
 Attach: style_hero, style_centaur, mg_rime_witch.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frostwhisper, the Rime Witch — A pale witch with a circlet of ice and a swarm of floating shards. Details: head: face, gear: icecrown, weapon: wand, off: shards, armor: crystal. Main colours: pale blue (#c0e0f8), blue (#4a7ab0), white (#ffffff), pale teal (#a0e8ff). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): ❄️ Frost bolts slow you · 🧊 Rime floor — patches of ice you slide across · ✨ Blinks away when you close in
@@ -593,7 +593,7 @@ Frostwhisper, the Rime Witch · Hurt, Enrage, Phase change, Death · 6 poses, 3 
 Attach: style_hero, style_centaur, mg_rime_witch.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Frostwhisper, the Rime Witch — A pale witch with a circlet of ice and a swarm of floating shards. Details: head: face, gear: icecrown, weapon: wand, off: shards, armor: crystal. Main colours: pale blue (#c0e0f8), blue (#4a7ab0), white (#ffffff), pale teal (#a0e8ff). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): ❄️ Frost bolts slow you · 🧊 Rime floor — patches of ice you slide across · ✨ Blinks away when you close in
@@ -617,7 +617,7 @@ Magister Quillon, the Arcane Scribe · Idle, Move, Cast · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Magister Quillon, the Arcane Scribe — A hooded librarian-wraith who is more book than man. Details: head: hood, weapon: none, off: book, armor: robe. Main colours: dark blue (#2a2a4a), black (#0a0a1a), pale blue (#c0c0ff), pale blue (#80a0ff). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 📚 Homing arcane missiles · 🪞 Mirror images — two copies of him that hit weakly · ✨ Blinks around the room
@@ -643,7 +643,7 @@ Magister Quillon, the Arcane Scribe · Front and back: idle, steps, main attack 
 Attach: style_hero, style_centaur, mg_arcane_scribe.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Magister Quillon, the Arcane Scribe — A hooded librarian-wraith who is more book than man. Details: head: hood, weapon: none, off: book, armor: robe. Main colours: dark blue (#2a2a4a), black (#0a0a1a), pale blue (#c0c0ff), pale blue (#80a0ff). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 📚 Homing arcane missiles · 🪞 Mirror images — two copies of him that hit weakly · ✨ Blinks around the room
@@ -669,7 +669,7 @@ Magister Quillon, the Arcane Scribe · Hurt, Enrage, Phase change, Death · 6 po
 Attach: style_hero, style_centaur, mg_arcane_scribe.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Magister Quillon, the Arcane Scribe — A hooded librarian-wraith who is more book than man. Details: head: hood, weapon: none, off: book, armor: robe. Main colours: dark blue (#2a2a4a), black (#0a0a1a), pale blue (#c0c0ff), pale blue (#80a0ff). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 📚 Homing arcane missiles · 🪞 Mirror images — two copies of him that hit weakly · ✨ Blinks around the room
@@ -693,7 +693,7 @@ Cindra, the Hearth-Witch · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 · 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Cindra, the Hearth-Witch — A red-haired hearth-witch with a staff of cooking-fire. Details: head: face, gear: witch, weapon: staff, off: flame, armor: rags. Main colours: red (#b04a2a), dark red (#4a1a0a), orange (#e0a040), orange (#ffa040). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🔥 Fireballs leave burning ground · 🔥 Rings of flame spread out from her
@@ -719,7 +719,7 @@ Cindra, the Hearth-Witch · Front and back: idle, steps, main attack · 8 poses,
 Attach: style_hero, style_centaur, mg_hearth_witch.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cindra, the Hearth-Witch — A red-haired hearth-witch with a staff of cooking-fire. Details: head: face, gear: witch, weapon: staff, off: flame, armor: rags. Main colours: red (#b04a2a), dark red (#4a1a0a), orange (#e0a040), orange (#ffa040). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🔥 Fireballs leave burning ground · 🔥 Rings of flame spread out from her
@@ -745,7 +745,7 @@ Cindra, the Hearth-Witch · Hurt, Enrage, Phase change, Death · 6 poses, 3 × 2
 Attach: style_hero, style_centaur, mg_hearth_witch.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Cindra, the Hearth-Witch — A red-haired hearth-witch with a staff of cooking-fire. Details: head: face, gear: witch, weapon: staff, off: flame, armor: rags. Main colours: red (#b04a2a), dark red (#4a1a0a), orange (#e0a040), orange (#ffa040). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🔥 Fireballs leave burning ground · 🔥 Rings of flame spread out from her
@@ -769,7 +769,7 @@ Old Bramblebeard, the Thorn Druid · Idle, Move, Cast · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Old Bramblebeard, the Thorn Druid — The druid in his true shape: a great moss-backed stag-beast. Details: beast: behemoth. Main colours: dark brown (#5a4a2a), dark brown (#2a2010), green (#6aa04a), green (#a0ff60). Size: about 3.3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌿 Thorns root you in place · 🪢 Vines pull you to him · 💚 Slowly heals
@@ -795,7 +795,7 @@ Old Bramblebeard, the Thorn Druid · Hurt, Enrage, Phase change, Death · 6 pose
 Attach: style_hero, style_centaur, mg_thorn_druid.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Old Bramblebeard, the Thorn Druid — The druid in his true shape: a great moss-backed stag-beast. Details: beast: behemoth. Main colours: dark brown (#5a4a2a), dark brown (#2a2010), green (#6aa04a), green (#a0ff60). Size: about 3.3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌿 Thorns root you in place · 🪢 Vines pull you to him · 💚 Slowly heals
@@ -819,7 +819,7 @@ Captain Blackvane, the Drowned Captain · Idle, Move, Melee attack · 8 poses, 4
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Captain Blackvane, the Drowned Captain — A ghost-captain of a sunken ship, still hunting his treasure. Details: head: skull, gear: tricorn, weapon: cutlass, off: chains, armor: coat. Main colours: dark teal (#2a4a4a), black (#0a1a1a), yellow (#c8a040), pale green (#80ffd0). Size: about 3.7× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Rushes in with cutlass slashes.
@@ -845,7 +845,7 @@ Captain Blackvane, the Drowned Captain · Front and back: idle, steps, main atta
 Attach: style_hero, style_centaur, boss_isl_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Captain Blackvane, the Drowned Captain — A ghost-captain of a sunken ship, still hunting his treasure. Details: head: skull, gear: tricorn, weapon: cutlass, off: chains, armor: coat. Main colours: dark teal (#2a4a4a), black (#0a1a1a), yellow (#c8a040), pale green (#80ffd0). Size: about 3.7× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Rushes in with cutlass slashes.
@@ -871,7 +871,7 @@ Captain Blackvane, the Drowned Captain · Hurt, Cast, Enrage, Phase change, Deat
 Attach: style_hero, style_centaur, boss_isl_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Captain Blackvane, the Drowned Captain — A ghost-captain of a sunken ship, still hunting his treasure. Details: head: skull, gear: tricorn, weapon: cutlass, off: chains, armor: coat. Main colours: dark teal (#2a4a4a), black (#0a1a1a), yellow (#c8a040), pale green (#80ffd0). Size: about 3.7× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Rushes in with cutlass slashes.
@@ -897,7 +897,7 @@ Barrow Wight · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Barrow Wight — A pale-eyed wight with a barrow-blade. Details: head: wraith, gear: crown, weapon: sword, armor: rags. Main colours: dark grey (#3a4a48), black (#0a1210), muted teal (#8aa0a0), pale green (#80ffd0). Size: about 3.1× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -922,7 +922,7 @@ Barrow Wight · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, elite_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Barrow Wight — A pale-eyed wight with a barrow-blade. Details: head: wraith, gear: crown, weapon: sword, armor: rags. Main colours: dark grey (#3a4a48), black (#0a1210), muted teal (#8aa0a0), pale green (#80ffd0). Size: about 3.1× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -947,7 +947,7 @@ Barrow Wight · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur, elite_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Barrow Wight — A pale-eyed wight with a barrow-blade. Details: head: wraith, gear: crown, weapon: sword, armor: rags. Main colours: dark grey (#3a4a48), black (#0a1210), muted teal (#8aa0a0), pale green (#80ffd0). Size: about 3.1× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):

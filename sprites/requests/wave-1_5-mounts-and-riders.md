@@ -4,14 +4,14 @@ Save each result as `sprites/incoming/<request id>.png`.
 
 ## ride_f_horse.ride
 
-Hero (girl) on Horse · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Horse · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_horse.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Horse — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A bay horse with a dark mane and a leather saddle. The hero sits in the saddle holding the reins. Main colours: brown (#8a5a3a), dark brown (#4a2a1a), pale orange (#e8e0d0), black (#101010). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Horse — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A bay horse with a dark mane and a leather saddle. The hero sits in the saddle holding the reins. Main colours: brown (#8a5a3a), dark brown (#4a2a1a), pale orange (#e8e0d0), black (#101010). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -29,14 +29,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_alligator.ride
 
-Hero (boy) on Alligator · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Alligator · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_alligator.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Alligator — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A broad swamp gator with a ridged back and a small saddle behind the head. The hero sits in the saddle holding the reins. Main colours: green (#4a7a3a), dark green (#2a4a20), pale yellow (#e0d890), yellow (#e8d040). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Alligator — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A broad swamp gator with a ridged back and a small saddle behind the head. The hero sits in the saddle holding the reins. Main colours: green (#4a7a3a), dark green (#2a4a20), pale yellow (#e0d890), yellow (#e8d040). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -54,14 +54,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_alligator.ride
 
-Hero (girl) on Alligator · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Alligator · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_alligator.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Alligator — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A broad swamp gator with a ridged back and a small saddle behind the head. The hero sits in the saddle holding the reins. Main colours: green (#4a7a3a), dark green (#2a4a20), pale yellow (#e0d890), yellow (#e8d040). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Alligator — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A broad swamp gator with a ridged back and a small saddle behind the head. The hero sits in the saddle holding the reins. Main colours: green (#4a7a3a), dark green (#2a4a20), pale yellow (#e0d890), yellow (#e8d040). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -79,14 +79,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_boar.ride
 
-Hero (boy) on Battle Boar · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Battle Boar · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_boar.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Battle Boar — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A hulking war boar with bristling back, ivory tusks and red eyes. The hero sits in the saddle holding the reins. Main colours: muted brown (#6a4a3a), dark brown (#3a2a20), muted orange (#c8b8a0), red (#ff5030). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Battle Boar — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A hulking war boar with bristling back, ivory tusks and red eyes. The hero sits in the saddle holding the reins. Main colours: muted brown (#6a4a3a), dark brown (#3a2a20), muted orange (#c8b8a0), red (#ff5030). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -104,14 +104,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_boar.ride
 
-Hero (girl) on Battle Boar · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Battle Boar · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_boar.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Battle Boar — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A hulking war boar with bristling back, ivory tusks and red eyes. The hero sits in the saddle holding the reins. Main colours: muted brown (#6a4a3a), dark brown (#3a2a20), muted orange (#c8b8a0), red (#ff5030). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Battle Boar — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A hulking war boar with bristling back, ivory tusks and red eyes. The hero sits in the saddle holding the reins. Main colours: muted brown (#6a4a3a), dark brown (#3a2a20), muted orange (#c8b8a0), red (#ff5030). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -129,14 +129,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_lava_unicorn.ride
 
-Hero (boy) on Lava Unicorn · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Lava Unicorn · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_lava_unicorn.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Lava Unicorn — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: An obsidian unicorn with a mane of fire, a glowing horn and lava-cracked hide. The hero sits in the saddle holding the reins. Main colours: dark grey (#3a2a2a), black (#1a1010), orange (#ff8030), yellow (#ffd060). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Lava Unicorn — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: An obsidian unicorn with a mane of fire, a glowing horn and lava-cracked hide. The hero sits in the saddle holding the reins. Main colours: dark grey (#3a2a2a), black (#1a1010), orange (#ff8030), yellow (#ffd060). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -154,14 +154,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_lava_unicorn.ride
 
-Hero (girl) on Lava Unicorn · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Lava Unicorn · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_lava_unicorn.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Lava Unicorn — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: An obsidian unicorn with a mane of fire, a glowing horn and lava-cracked hide. The hero sits in the saddle holding the reins. Main colours: dark grey (#3a2a2a), black (#1a1010), orange (#ff8030), yellow (#ffd060). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Lava Unicorn — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: An obsidian unicorn with a mane of fire, a glowing horn and lava-cracked hide. The hero sits in the saddle holding the reins. Main colours: dark grey (#3a2a2a), black (#1a1010), orange (#ff8030), yellow (#ffd060). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -179,14 +179,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_ash_salamander.ride
 
-Hero (boy) on Ash Dragon · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Ash Dragon · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_ash_salamander.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Ash Dragon — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A soot-grey dragon with ember-lit cracks, stubby wings and a curling tail. The hero sits in the saddle holding the reins. Main colours: grey (#5a4a4a), dark grey (#2a2020), orange (#ff7030), yellow (#ffd060). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Ash Dragon — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A soot-grey dragon with ember-lit cracks, stubby wings and a curling tail. The hero sits in the saddle holding the reins. Main colours: grey (#5a4a4a), dark grey (#2a2020), orange (#ff7030), yellow (#ffd060). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -204,14 +204,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_ash_salamander.ride
 
-Hero (girl) on Ash Dragon · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Ash Dragon · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_ash_salamander.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Ash Dragon — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A soot-grey dragon with ember-lit cracks, stubby wings and a curling tail. The hero sits in the saddle holding the reins. Main colours: grey (#5a4a4a), dark grey (#2a2020), orange (#ff7030), yellow (#ffd060). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Ash Dragon — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A soot-grey dragon with ember-lit cracks, stubby wings and a curling tail. The hero sits in the saddle holding the reins. Main colours: grey (#5a4a4a), dark grey (#2a2020), orange (#ff7030), yellow (#ffd060). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -229,14 +229,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_dragon.ride
 
-Hero (boy) on Dragon · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Dragon · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_dragon.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Dragon — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A crimson dragon with golden horns, belly plates and wide wings. The hero sits in the saddle holding the reins. Main colours: red (#b83a2a), dark red (#6a1a10), yellow (#e8c040), yellow (#ffe060). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Dragon — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A crimson dragon with golden horns, belly plates and wide wings. The hero sits in the saddle holding the reins. Main colours: red (#b83a2a), dark red (#6a1a10), yellow (#e8c040), yellow (#ffe060). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -254,14 +254,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_dragon.ride
 
-Hero (girl) on Dragon · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Dragon · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_dragon.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Dragon — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A crimson dragon with golden horns, belly plates and wide wings. The hero sits in the saddle holding the reins. Main colours: red (#b83a2a), dark red (#6a1a10), yellow (#e8c040), yellow (#ffe060). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Dragon — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A crimson dragon with golden horns, belly plates and wide wings. The hero sits in the saddle holding the reins. Main colours: red (#b83a2a), dark red (#6a1a10), yellow (#e8c040), yellow (#ffe060). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -279,14 +279,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_sky_eagle.ride
 
-Hero (boy) on Sky Eagle · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Sky Eagle · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_sky_eagle.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Sky Eagle — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A giant golden-brown eagle with a crested head and a riding saddle. The hero sits in the saddle holding the reins. Main colours: muted orange (#8a6a4a), dark brown (#4a3a2a), yellow (#e8c040), black (#101010). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Sky Eagle — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A giant golden-brown eagle with a crested head and a riding saddle. The hero sits in the saddle holding the reins. Main colours: muted orange (#8a6a4a), dark brown (#4a3a2a), yellow (#e8c040), black (#101010). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -304,14 +304,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_sky_eagle.ride
 
-Hero (girl) on Sky Eagle · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Sky Eagle · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_sky_eagle.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Sky Eagle — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A giant golden-brown eagle with a crested head and a riding saddle. The hero sits in the saddle holding the reins. Main colours: muted orange (#8a6a4a), dark brown (#4a3a2a), yellow (#e8c040), black (#101010). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Sky Eagle — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A giant golden-brown eagle with a crested head and a riding saddle. The hero sits in the saddle holding the reins. Main colours: muted orange (#8a6a4a), dark brown (#4a3a2a), yellow (#e8c040), black (#101010). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -329,14 +329,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_sky_glider.ride
 
-Hero (boy) on Sky Glider · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Sky Glider · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_sky_glider.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Sky Glider — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A blue-and-white canvas glider with a wooden frame and harness. The hero sits in the saddle holding the reins. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), blue (#60a0e0), black (#101010). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Sky Glider — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A blue-and-white canvas glider with a wooden frame and harness. The hero sits in the saddle holding the reins. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), blue (#60a0e0), black (#101010). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -354,14 +354,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_sky_glider.ride
 
-Hero (girl) on Sky Glider · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Sky Glider · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_sky_glider.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Sky Glider — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A blue-and-white canvas glider with a wooden frame and harness. The hero sits in the saddle holding the reins. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), blue (#60a0e0), black (#101010). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Sky Glider — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A blue-and-white canvas glider with a wooden frame and harness. The hero sits in the saddle holding the reins. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), blue (#60a0e0), black (#101010). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -379,14 +379,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_storm_drake.ride
 
-Hero (boy) on Storm Drake · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Storm Drake · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_storm_drake.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Storm Drake — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A storm-blue drake with pale lightning veins on its wings. The hero sits in the saddle holding the reins. Main colours: blue (#3a5a8a), dark blue (#1a2a4a), pale teal (#9fe0ff), white (#ffffff). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Storm Drake — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A storm-blue drake with pale lightning veins on its wings. The hero sits in the saddle holding the reins. Main colours: blue (#3a5a8a), dark blue (#1a2a4a), pale teal (#9fe0ff), white (#ffffff). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -404,14 +404,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_storm_drake.ride
 
-Hero (girl) on Storm Drake · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Storm Drake · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_storm_drake.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Storm Drake — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A storm-blue drake with pale lightning veins on its wings. The hero sits in the saddle holding the reins. Main colours: blue (#3a5a8a), dark blue (#1a2a4a), pale teal (#9fe0ff), white (#ffffff). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Storm Drake — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A storm-blue drake with pale lightning veins on its wings. The hero sits in the saddle holding the reins. Main colours: blue (#3a5a8a), dark blue (#1a2a4a), pale teal (#9fe0ff), white (#ffffff). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -429,14 +429,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_ember_phoenix.ride
 
-Hero (boy) on Ember Phoenix · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Ember Phoenix · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_ember_phoenix.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Ember Phoenix — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A blazing phoenix — flame-red feathers with a fiery tail. The hero sits in the saddle holding the reins. Main colours: red (#e85020), red (#8a2010), yellow (#ffd060), pale yellow (#fff0a0). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Ember Phoenix — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A blazing phoenix — flame-red feathers with a fiery tail. The hero sits in the saddle holding the reins. Main colours: red (#e85020), red (#8a2010), yellow (#ffd060), pale yellow (#fff0a0). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -454,14 +454,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_ember_phoenix.ride
 
-Hero (girl) on Ember Phoenix · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Ember Phoenix · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_ember_phoenix.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Ember Phoenix — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A blazing phoenix — flame-red feathers with a fiery tail. The hero sits in the saddle holding the reins. Main colours: red (#e85020), red (#8a2010), yellow (#ffd060), pale yellow (#fff0a0). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Ember Phoenix — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A blazing phoenix — flame-red feathers with a fiery tail. The hero sits in the saddle holding the reins. Main colours: red (#e85020), red (#8a2010), yellow (#ffd060), pale yellow (#fff0a0). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -479,14 +479,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_void_serpent.ride
 
-Hero (boy) on Void Serpent · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Void Serpent · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_void_serpent.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Void Serpent — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A winged shadow serpent of violet scales trailing purple smoke. The hero sits in the saddle holding the reins. Main colours: dark violet (#3a2a5a), dark violet (#1a1030), violet (#c070ff), magenta (#ff60ff). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Void Serpent — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A winged shadow serpent of violet scales trailing purple smoke. The hero sits in the saddle holding the reins. Main colours: dark violet (#3a2a5a), dark violet (#1a1030), violet (#c070ff), magenta (#ff60ff). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -504,14 +504,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_f_void_serpent.ride
 
-Hero (girl) on Void Serpent · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) on Void Serpent · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model, mt_void_serpent.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (girl) on Void Serpent — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A winged shadow serpent of violet scales trailing purple smoke. The hero sits in the saddle holding the reins. Main colours: dark violet (#3a2a5a), dark violet (#1a1030), violet (#c070ff), magenta (#ff60ff). Size: about 1.6× the height of the hero.
+Subject: Zeldara (the girl) on Void Serpent — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs, riding this mount: A winged shadow serpent of violet scales trailing purple smoke. The hero sits in the saddle holding the reins. Main colours: dark violet (#3a2a5a), dark violet (#1a1030), violet (#c070ff), magenta (#ff60ff). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, wing-beat cycle frame 1 of 4.
 2. side view facing RIGHT, wing-beat cycle frame 2 of 4.
@@ -534,7 +534,7 @@ Alligator · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Alligator — A broad swamp gator with a ridged back and a small saddle behind the head. Saddled, no rider. Main colours: green (#4a7a3a), dark green (#2a4a20), pale yellow (#e0d890), yellow (#e8d040). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Paddles with a swishing tail; swims water and marsh at full speed.
@@ -560,7 +560,7 @@ Battle Boar · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · cor
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Battle Boar — A hulking war boar with bristling back, ivory tusks and red eyes. Saddled, no rider. Main colours: muted brown (#6a4a3a), dark brown (#3a2a20), muted orange (#c8b8a0), red (#ff5030). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Charges with a head-down trot; smashes through boulder fields.
@@ -586,7 +586,7 @@ Lava Unicorn · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Lava Unicorn — An obsidian unicorn with a mane of fire, a glowing horn and lava-cracked hide. Saddled, no rider. Main colours: dark grey (#3a2a2a), black (#1a1010), orange (#ff8030), yellow (#ffd060). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Gallops leaving ember sparks; walks on lava crust.
@@ -612,7 +612,7 @@ Ash Dragon · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ash Dragon — A soot-grey dragon with ember-lit cracks, stubby wings and a curling tail. Saddled, no rider. Main colours: grey (#5a4a4a), dark grey (#2a2020), orange (#ff7030), yellow (#ffd060). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Lumbers with wings half-open; crosses every region's terrain.
@@ -638,7 +638,7 @@ Dragon · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Dragon — A crimson dragon with golden horns, belly plates and wide wings. Saddled, no rider. Main colours: red (#b83a2a), dark red (#6a1a10), yellow (#e8c040), yellow (#ffe060). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Wings beat slowly as it flies over all but the sea.
@@ -664,7 +664,7 @@ Sky Eagle · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sky Eagle — A giant golden-brown eagle with a crested head and a riding saddle. Saddled, no rider. Main colours: muted orange (#8a6a4a), dark brown (#4a3a2a), yellow (#e8c040), black (#101010). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Glides with wide flaps; flies over everything.
@@ -690,7 +690,7 @@ Sky Glider · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sky Glider — A blue-and-white canvas glider with a wooden frame and harness. Saddled, no rider. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), blue (#60a0e0), black (#101010). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Rides the wind — the canopy flutters.
@@ -716,7 +716,7 @@ Storm Drake · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · cor
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Storm Drake — A storm-blue drake with pale lightning veins on its wings. Saddled, no rider. Main colours: blue (#3a5a8a), dark blue (#1a2a4a), pale teal (#9fe0ff), white (#ffffff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Crackles as it flies; sparks trail its wingtips.
@@ -742,7 +742,7 @@ Ember Phoenix · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · c
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ember Phoenix — A blazing phoenix — flame-red feathers with a fiery tail. Saddled, no rider. Main colours: red (#e85020), red (#8a2010), yellow (#ffd060), pale yellow (#fff0a0). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Leaves a trail of embers; crosses magma.
@@ -768,7 +768,7 @@ Void Serpent · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Void Serpent — A winged shadow serpent of violet scales trailing purple smoke. Saddled, no rider. Main colours: dark violet (#3a2a5a), dark violet (#1a1030), violet (#c070ff), magenta (#ff60ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Undulates through the air, fastest of all.

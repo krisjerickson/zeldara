@@ -4,14 +4,14 @@ Save each result as `sprites/incoming/<request id>.png`.
 
 ## veh_m_boat.core
 
-Hero (boy) in the sailing boat · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · core
+Zeldor (the boy) in the sailing boat · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) in the sailing boat — a small wooden sailing boat with a cream sail and a teal rune painted on the bow, sailing on open water, with the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps aboard at the tiller.  Size: about 2× the height of the hero (a towering boss).
+Subject: Zeldor (the boy) in the sailing boat — a small wooden sailing boat with a cream sail and a teal rune painted on the bow, sailing on open water, with the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps aboard at the tiller.  Size: about 2× the height of the hero (a towering boss).
 Layout: exactly 6 poses in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -27,14 +27,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## veh_f_boat.core
 
-Hero (girl) in the sailing boat · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · core
+Zeldara (the girl) in the sailing boat · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) in the sailing boat — a small wooden sailing boat with a cream sail and a teal rune painted on the bow, sailing on open water, with the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs aboard at the tiller.  Size: about 2× the height of the hero (a towering boss).
+Subject: Zeldara (the girl) in the sailing boat — a small wooden sailing boat with a cream sail and a teal rune painted on the bow, sailing on open water, with the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs aboard at the tiller.  Size: about 2× the height of the hero (a towering boss).
 Layout: exactly 6 poses in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -50,14 +50,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## veh_m_sky_ship.core
 
-Hero (boy) in the sky skiff · Idle, Move, Ranged attack · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) in the sky skiff · Idle, Move, Ranged attack · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) in the sky skiff — a small flying wooden skiff with canvas wings, a brass propeller and a dart launcher on the prow, with the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps aboard at the tiller.  Size: about 2× the height of the hero (a towering boss).
+Subject: Zeldor (the boy) in the sky skiff — a small flying wooden skiff with canvas wings, a brass propeller and a dart launcher on the prow, with the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps aboard at the tiller.  Size: about 2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -75,14 +75,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## veh_f_sky_ship.core
 
-Hero (girl) in the sky skiff · Idle, Move, Ranged attack · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) in the sky skiff · Idle, Move, Ranged attack · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) in the sky skiff — a small flying wooden skiff with canvas wings, a brass propeller and a dart launcher on the prow, with the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs aboard at the tiller.  Size: about 2× the height of the hero (a towering boss).
+Subject: Zeldara (the girl) in the sky skiff — a small flying wooden skiff with canvas wings, a brass propeller and a dart launcher on the prow, with the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs aboard at the tiller.  Size: about 2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).

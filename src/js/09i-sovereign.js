@@ -29,7 +29,7 @@ var ZSov={
   check:function(ps,quiet){ if(!ps)return []; var got=[]; ps.sovGot=ps.sovGot||[];
     ZSov.progress(ps).forEach(function(P){ if(P.got||P.have<P.of)return; ps.sovGot.push(P.piece); if(!ps.inventory)ps.inventory=[]; ps.inventory.push(P.piece); got.push(P);
       if(typeof Tome!=='undefined'&&Tome.see)Tome.see('item',P.piece);
-      if(!quiet){ try{ showNotif('✦ '+P.how.replace(/^./,function(c){ return c.toLowerCase(); }).replace(/^/,'You did it — ')+'. The '+P.name+' is yours: every element at once.','#fff2b0'); if(typeof ZLogo!=='undefined'&&ZLogo.banner)ZLogo.banner('blade_b','Sovereign set',P.name); }catch(e){} } });
+      if(!quiet){ try{ showNotif('✦ '+P.how.replace(/^./,function(c){ return c.toLowerCase(); }).replace(/^/,'You did it — ')+'. The '+P.name+' is yours: the Sovereign element.','#fff2b0'); if(typeof ZLogo!=='undefined'&&ZLogo.banner)ZLogo.banner('blade_b','Sovereign set',P.name); }catch(e){} } });
     return got; }
 };
 // every few seconds, and once when a save has loaded (pieces whose set was already finished come at once, quietly)

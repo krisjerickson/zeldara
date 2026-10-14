@@ -9,7 +9,7 @@ Surtvald, the Lava Titan · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Surtvald, the Lava Titan — A young fire-giant with a sword of living flame. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slow; stomps shockwaves around itself.
@@ -33,7 +33,7 @@ Surtvald, the Lava Titan · Front and back: idle, steps, main attack · 8 poses,
 Attach: style_hero, style_centaur, boss_lava_titan.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald, the Lava Titan — A young fire-giant with a sword of living flame. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slow; stomps shockwaves around itself.
@@ -59,7 +59,7 @@ Surtvald, the Lava Titan · Slam, Hurt, Cast, Enrage · 7 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur, boss_lava_titan.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald, the Lava Titan — A young fire-giant with a sword of living flame. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slow; stomps shockwaves around itself.
@@ -84,7 +84,7 @@ Surtvald, the Lava Titan · Phase change, Death · 4 poses, 2 × 2 · 1024x1024 
 Attach: style_hero, style_centaur, boss_lava_titan.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald, the Lava Titan — A young fire-giant with a sword of living flame. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slow; stomps shockwaves around itself.
@@ -106,7 +106,7 @@ Surtvald the Magma Titan · Idle, Move, Ranged attack · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Surtvald the Magma Titan — A crowned fire-giant with an axe of black iron. Details: head: demon, gear: spikecrown, weapon: greataxe, armor: magma, cape: flame, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slams leave lava pools, lobbed magma, magma vents; 🛡 plate.
@@ -132,7 +132,7 @@ Surtvald the Magma Titan · Front and back: idle, steps, main attack · 8 poses,
 Attach: style_hero, style_centaur, bf_lava_titan_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald the Magma Titan — A crowned fire-giant with an axe of black iron. Details: head: demon, gear: spikecrown, weapon: greataxe, armor: magma, cape: flame, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slams leave lava pools, lobbed magma, magma vents; 🛡 plate.
@@ -158,7 +158,7 @@ Surtvald the Magma Titan · Hurt, Slam, Cast, Enrage · 7 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur, bf_lava_titan_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald the Magma Titan — A crowned fire-giant with an axe of black iron. Details: head: demon, gear: spikecrown, weapon: greataxe, armor: magma, cape: flame, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slams leave lava pools, lobbed magma, magma vents; 🛡 plate.
@@ -183,7 +183,7 @@ Surtvald the Magma Titan · Phase change, Death · 4 poses, 2 × 2 · 1024x1024 
 Attach: style_hero, style_centaur, bf_lava_titan_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald the Magma Titan — A crowned fire-giant with an axe of black iron. Details: head: demon, gear: spikecrown, weapon: greataxe, armor: magma, cape: flame, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Slams leave lava pools, lobbed magma, magma vents; 🛡 plate.
@@ -205,7 +205,7 @@ Surtvald the Worldburner · Idle, Move, Ranged attack · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Surtvald the Worldburner — A true titan now: obsidian and magma, horns and crown, a flame-sword that leaves blazing red arcs through the air. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 4.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Glass-shard fans, reflecting armour, charred zombies; 🛡 plate + 🏹 guard.
@@ -231,7 +231,7 @@ Surtvald the Worldburner · Front and back: idle, steps, main attack · 8 poses,
 Attach: style_hero, style_centaur, bf_lava_titan_3.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald the Worldburner — A true titan now: obsidian and magma, horns and crown, a flame-sword that leaves blazing red arcs through the air. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 4.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Glass-shard fans, reflecting armour, charred zombies; 🛡 plate + 🏹 guard.
@@ -257,7 +257,7 @@ Surtvald the Worldburner · Hurt, Slam, Cast, Guard · 8 poses, 4 × 2 · 1536x1
 Attach: style_hero, style_centaur, bf_lava_titan_3.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald the Worldburner — A true titan now: obsidian and magma, horns and crown, a flame-sword that leaves blazing red arcs through the air. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 4.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Glass-shard fans, reflecting armour, charred zombies; 🛡 plate + 🏹 guard.
@@ -283,7 +283,7 @@ Surtvald the Worldburner · Enrage, Phase change, Death · 5 poses, 3 × 2 · 15
 Attach: style_hero, style_centaur, bf_lava_titan_3.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald the Worldburner — A true titan now: obsidian and magma, horns and crown, a flame-sword that leaves blazing red arcs through the air. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 4.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Glass-shard fans, reflecting armour, charred zombies; 🛡 plate + 🏹 guard.
@@ -306,7 +306,7 @@ Surtvald the Molten Behemoth · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Surtvald the Molten Behemoth — The titan drops to all fours — a molten behemoth, and through its cracked chest you can see the burning heart that will be all that is left. Details: beast: behemoth. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 4.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges, burning aura, meteor marks; ✨ ward + 🛡 plate + 🏹 guard.
@@ -330,7 +330,7 @@ Surtvald the Molten Behemoth · Charge, Hurt, Cast, Enrage · 7 poses, 4 × 2 ·
 Attach: style_hero, style_centaur, bf_lava_titan_4.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald the Molten Behemoth — The titan drops to all fours — a molten behemoth, and through its cracked chest you can see the burning heart that will be all that is left. Details: beast: behemoth. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 4.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges, burning aura, meteor marks; ✨ ward + 🛡 plate + 🏹 guard.
@@ -355,7 +355,7 @@ Surtvald the Molten Behemoth · Phase change, Death · 4 poses, 2 × 2 · 1024x1
 Attach: style_hero, style_centaur, bf_lava_titan_4.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtvald the Molten Behemoth — The titan drops to all fours — a molten behemoth, and through its cracked chest you can see the burning heart that will be all that is left. Details: beast: behemoth. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 4.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Charges, burning aura, meteor marks; ✨ ward + 🛡 plate + 🏹 guard.
@@ -377,7 +377,7 @@ The Heart of Muspel · Idle, Hover, Ranged attack · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: The Heart of Muspel — All that is left: the titan's burning heart, still wearing his obsidian crown, in a ring of lava. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Fire rings, meteors, lava everywhere; two Magma Titans guard it.
@@ -403,7 +403,7 @@ The Heart of Muspel · Hurt, Beam, Cast, Enrage, Phase change, Death · 10 poses
 Attach: style_hero, style_centaur, bf_lava_titan_5.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: The Heart of Muspel — All that is left: the titan's burning heart, still wearing his obsidian crown, in a ring of lava. Main colours: dark red (#3a1a10), black (#140604), orange (#ffb040), orange (#ff7020). Size: about 5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Fire rings, meteors, lava everywhere; two Magma Titans guard it.
@@ -431,7 +431,7 @@ Malgorath, the Shadow Lord · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Malgorath, the Shadow Lord — A hooded wraith-king with a pale blade — a cold that follows you around the room. Details: head: hood, gear: spikecrown, weapon: sword, armor: rags, cape: tattered. Main colours: dark grey (#1a1a24), black (#060608), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Teleports and launches seeking shadow bolts.
@@ -457,7 +457,7 @@ Malgorath, the Shadow Lord · Front and back: idle, steps, main attack · 8 pose
 Attach: style_hero, style_centaur, boss_shadow_lord.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Malgorath, the Shadow Lord — A hooded wraith-king with a pale blade — a cold that follows you around the room. Details: head: hood, gear: spikecrown, weapon: sword, armor: rags, cape: tattered. Main colours: dark grey (#1a1a24), black (#060608), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Teleports and launches seeking shadow bolts.
@@ -483,7 +483,7 @@ Malgorath, the Shadow Lord · Hurt, Enrage, Phase change, Death · 6 poses, 3 ×
 Attach: style_hero, style_centaur, boss_shadow_lord.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Malgorath, the Shadow Lord — A hooded wraith-king with a pale blade — a cold that follows you around the room. Details: head: hood, gear: spikecrown, weapon: sword, armor: rags, cape: tattered. Main colours: dark grey (#1a1a24), black (#060608), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Teleports and launches seeking shadow bolts.
@@ -507,7 +507,7 @@ Malgorath the Soul-Shroud · Idle, Move, Ranged attack · 8 poses, 4 × 2 · 153
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Malgorath the Soul-Shroud — A tattered, faceless shroud that drinks the warmth — and the hope — out of the room. Details: head: hood, gear: spikecrown, weapon: none, off: none, armor: rags, cape: tattered. Main colours: dark grey (#1a1a24), black (#060608), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 4× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blind clouds, homing shadows, drain; ✨ ward.
@@ -533,7 +533,7 @@ Malgorath the Soul-Shroud · Front and back: idle, steps, main attack · 8 poses
 Attach: style_hero, style_centaur, bf_shadow_lord_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Malgorath the Soul-Shroud — A tattered, faceless shroud that drinks the warmth — and the hope — out of the room. Details: head: hood, gear: spikecrown, weapon: none, off: none, armor: rags, cape: tattered. Main colours: dark grey (#1a1a24), black (#060608), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 4× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blind clouds, homing shadows, drain; ✨ ward.
@@ -559,7 +559,7 @@ Malgorath the Soul-Shroud · Hurt, Cast, Blink, Enrage, Phase change, Death · 1
 Attach: style_hero, style_centaur, bf_shadow_lord_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Malgorath the Soul-Shroud — A tattered, faceless shroud that drinks the warmth — and the hope — out of the room. Details: head: hood, gear: spikecrown, weapon: none, off: none, armor: rags, cape: tattered. Main colours: dark grey (#1a1a24), black (#060608), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 4× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blind clouds, homing shadows, drain; ✨ ward.
@@ -587,7 +587,7 @@ Malgorath the Dread-Rider · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Malgorath the Dread-Rider — Malgorath, crowned and hooded, rides a dread-wing — a carrion-winged beast with a hooked beak and tattered sails of skin. Main colours: dark grey (#2a2630), black (#0a080e), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 4.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Sword combos, swaps places with you, mirror echoes; 🛡 plate + 🏹 guard.
@@ -613,7 +613,7 @@ Malgorath the Dread-Rider · Hurt, Lunge, Cast, Enrage, Phase change, Death · 1
 Attach: style_hero, style_centaur, bf_shadow_lord_3.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Malgorath the Dread-Rider — Malgorath, crowned and hooded, rides a dread-wing — a carrion-winged beast with a hooked beak and tattered sails of skin. Main colours: dark grey (#2a2630), black (#0a080e), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 4.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Sword combos, swaps places with you, mirror echoes; 🛡 plate + 🏹 guard.
@@ -641,7 +641,7 @@ Malgorath, the Dread-Wing · Idle, Hover, Beam · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Malgorath, the Dread-Wing — The rider is gone — Malgorath has become the beast: a vast dread-wing wearing his silver crown, shrieking lilac fire. Main colours: dark grey (#2a2630), black (#0a080e), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Twin beams, gravity pull, void rifts, shadow wraiths; ✨ ward + 🏹 guard + 🛡 plate.
@@ -667,7 +667,7 @@ Malgorath, the Dread-Wing · Hurt, Grab, Cast, Enrage, Phase change, Death · 10
 Attach: style_hero, style_centaur, bf_shadow_lord_4.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Malgorath, the Dread-Wing — The rider is gone — Malgorath has become the beast: a vast dread-wing wearing his silver crown, shrieking lilac fire. Main colours: dark grey (#2a2630), black (#0a080e), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 6× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Twin beams, gravity pull, void rifts, shadow wraiths; ✨ ward + 🏹 guard + 🛡 plate.
@@ -695,7 +695,7 @@ Malgorath Ascendant, the Fallen Dawn · Idle, Move, Ranged attack · 8 poses, 4 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Malgorath Ascendant, the Fallen Dawn — The eclipse breaks: Malgorath ascends as a fallen dawn — still wearing the silver crown, lilac light in his wings. Details: head: face, gear: spikecrown, weapon: greatsword, armor: robe, build: broad. Main colours: pale yellow (#e8d8b0), dark brown (#3a2a18), white (#c8c8d8), pale yellow (#ffe080). Size: about 5.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Everything at once — and two Shadow Twins fight beside it.
@@ -721,7 +721,7 @@ Malgorath Ascendant, the Fallen Dawn · Front and back: idle, steps, main attack
 Attach: style_hero, style_centaur, bf_shadow_lord_5.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Malgorath Ascendant, the Fallen Dawn — The eclipse breaks: Malgorath ascends as a fallen dawn — still wearing the silver crown, lilac light in his wings. Details: head: face, gear: spikecrown, weapon: greatsword, armor: robe, build: broad. Main colours: pale yellow (#e8d8b0), dark brown (#3a2a18), white (#c8c8d8), pale yellow (#ffe080). Size: about 5.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Everything at once — and two Shadow Twins fight beside it.
@@ -747,7 +747,7 @@ Malgorath Ascendant, the Fallen Dawn · Hurt, Cast, Blink, Enrage, Phase change,
 Attach: style_hero, style_centaur, bf_shadow_lord_5.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Malgorath Ascendant, the Fallen Dawn — The eclipse breaks: Malgorath ascends as a fallen dawn — still wearing the silver crown, lilac light in his wings. Details: head: face, gear: spikecrown, weapon: greatsword, armor: robe, build: broad. Main colours: pale yellow (#e8d8b0), dark brown (#3a2a18), white (#c8c8d8), pale yellow (#ffe080). Size: about 5.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Everything at once — and two Shadow Twins fight beside it.
@@ -775,7 +775,7 @@ Shadow Twin · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Shadow Twin — A flickering copy of Malgorath's first form, split off between the planes. Details: head: hood, gear: spikecrown, off: none, armor: rags. Main colours: dark grey (#1a1a24), black (#060608), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blinks and fires homing shadow bolts.
@@ -801,7 +801,7 @@ Shadow Twin · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur, bf_shadow_twin.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Shadow Twin — A flickering copy of Malgorath's first form, split off between the planes. Details: head: hood, gear: spikecrown, off: none, armor: rags. Main colours: dark grey (#1a1a24), black (#060608), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blinks and fires homing shadow bolts.
@@ -827,7 +827,7 @@ Shadow Twin · Hurt, Enrage, Phase change, Death · 6 poses, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, bf_shadow_twin.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Shadow Twin — A flickering copy of Malgorath's first form, split off between the planes. Details: head: hood, gear: spikecrown, off: none, armor: rags. Main colours: dark grey (#1a1a24), black (#060608), light grey (#8a8a98), pale blue (#a0a0ff). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Blinks and fires homing shadow bolts.
@@ -851,7 +851,7 @@ Keyward, the Obsidian Jailer · Idle, Move · 6 poses, 3 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Keyward, the Obsidian Jailer — An obsidian spider that weaves its cells from molten glass. Main colours: dark grey (#2a2226), black (#0a0808), light grey (#8a8a90), red (#ff6030). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Chain pulls, slams and reflecting armour.
@@ -875,7 +875,7 @@ Keyward, the Obsidian Jailer · Slam, Hurt, Cast, Enrage · 7 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, cw_obsidian_jailer.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Keyward, the Obsidian Jailer — An obsidian spider that weaves its cells from molten glass. Main colours: dark grey (#2a2226), black (#0a0808), light grey (#8a8a90), red (#ff6030). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Chain pulls, slams and reflecting armour.
@@ -900,7 +900,7 @@ Keyward, the Obsidian Jailer · Phase change, Death · 4 poses, 2 × 2 · 1024x1
 Attach: style_hero, style_centaur, cw_obsidian_jailer.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Keyward, the Obsidian Jailer — An obsidian spider that weaves its cells from molten glass. Main colours: dark grey (#2a2226), black (#0a0808), light grey (#8a8a90), red (#ff6030). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Chain pulls, slams and reflecting armour.
@@ -922,7 +922,7 @@ Ignis, High Priest of Muspel · Idle, Hover, Cast · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ignis, High Priest of Muspel — The priest becomes the phoenix he worships. Main colours: orange (#e86020), red (#8a2a10), yellow (#ffd060). Size: about 3.7× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Fire rings, meteors and burning ground.
@@ -948,7 +948,7 @@ Ignis, High Priest of Muspel · Hurt, Enrage, Phase change, Death · 6 poses, 3 
 Attach: style_hero, style_centaur, cw_ember_priest.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ignis, High Priest of Muspel — The priest becomes the phoenix he worships. Main colours: orange (#e86020), red (#8a2a10), yellow (#ffd060). Size: about 3.7× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Fire rings, meteors and burning ground.
@@ -972,7 +972,7 @@ Hraudrik, the Bone King · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 · c
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hraudrik, the Bone King — A draugr sorcerer-king drifting over his throne of bones. Details: head: lich, gear: bonecrown, weapon: staff, off: skull, armor: bone, cape: tattered. Main colours: pale yellow (#d8d0bc), dark grey (#3a3430), yellow (#c8a040), green (#60ffc0). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Raises bone minions and hurls cursed skulls.
@@ -998,7 +998,7 @@ Hraudrik, the Bone King · Front and back: idle, steps, main attack · 8 poses, 
 Attach: style_hero, style_centaur, cw_bone_king.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hraudrik, the Bone King — A draugr sorcerer-king drifting over his throne of bones. Details: head: lich, gear: bonecrown, weapon: staff, off: skull, armor: bone, cape: tattered. Main colours: pale yellow (#d8d0bc), dark grey (#3a3430), yellow (#c8a040), green (#60ffc0). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Raises bone minions and hurls cursed skulls.
@@ -1024,7 +1024,7 @@ Hraudrik, the Bone King · Hurt, Enrage, Phase change, Death · 6 poses, 3 × 2 
 Attach: style_hero, style_centaur, cw_bone_king.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hraudrik, the Bone King — A draugr sorcerer-king drifting over his throne of bones. Details: head: lich, gear: bonecrown, weapon: staff, off: skull, armor: bone, cape: tattered. Main colours: pale yellow (#d8d0bc), dark grey (#3a3430), yellow (#c8a040), green (#60ffc0). Size: about 3.9× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Raises bone minions and hurls cursed skulls.
@@ -1048,7 +1048,7 @@ Hiemal, the Blizzard King · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hiemal, the Blizzard King — The Blizzard King rides a white winter-wolf. Details: beast: wolf. Main colours: pale blue (#e0ecf8), muted blue (#8aa0c0), white (#ffffff), pale teal (#a0e8ff). Size: about 3.5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌨 Blizzards slow everything · 🧊 Ice floors everywhere — you slide · ❄️ Freezing beam · ❄️ Rings of frost
@@ -1074,7 +1074,7 @@ Hiemal, the Blizzard King · Hurt, Enrage, Phase change, Death · 6 poses, 3 × 
 Attach: style_hero, style_centaur, mg_blizzard_king.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hiemal, the Blizzard King — The Blizzard King rides a white winter-wolf. Details: beast: wolf. Main colours: pale blue (#e0ecf8), muted blue (#8aa0c0), white (#ffffff), pale teal (#a0e8ff). Size: about 3.5× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌨 Blizzards slow everything · 🧊 Ice floors everywhere — you slide · ❄️ Freezing beam · ❄️ Rings of frost
@@ -1098,7 +1098,7 @@ Xal'zor, the Rift Lich · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Xal'zor, the Rift Lich — A scythe-bearing lich with wings of torn shadow. Details: head: skull, gear: runecrown, weapon: scythe, off: orb, armor: bone. Main colours: dark violet (#3a1a4a), black (#0a040e), yellow (#c8a040), violet (#c060ff). Size: about 3.3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌑 Blinds you — the room goes dark · 🔀 Hexes that reverse your controls · 🟣 Void beams · 🪞 Echo copies of himself
@@ -1124,7 +1124,7 @@ Xal'zor, the Rift Lich · Front and back: idle, steps, main attack · 8 poses, 4
 Attach: style_hero, style_centaur, mg_rift_lich.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Xal'zor, the Rift Lich — A scythe-bearing lich with wings of torn shadow. Details: head: skull, gear: runecrown, weapon: scythe, off: orb, armor: bone. Main colours: dark violet (#3a1a4a), black (#0a040e), yellow (#c8a040), violet (#c060ff). Size: about 3.3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌑 Blinds you — the room goes dark · 🔀 Hexes that reverse your controls · 🟣 Void beams · 🪞 Echo copies of himself
@@ -1150,7 +1150,7 @@ Xal'zor, the Rift Lich · Hurt, Enrage, Phase change, Death · 6 poses, 3 × 2 �
 Attach: style_hero, style_centaur, mg_rift_lich.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Xal'zor, the Rift Lich — A scythe-bearing lich with wings of torn shadow. Details: head: skull, gear: runecrown, weapon: scythe, off: orb, armor: bone. Main colours: dark violet (#3a1a4a), black (#0a040e), yellow (#c8a040), violet (#c060ff). Size: about 3.3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌑 Blinds you — the room goes dark · 🔀 Hexes that reverse your controls · 🟣 Void beams · 🪞 Echo copies of himself
@@ -1174,7 +1174,7 @@ Lady Vesperine, the Soul Drinker · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Lady Vesperine, the Soul Drinker — A vampire sorceress with bat-wings, drinking life from across the room. Details: head: vampire, gear: crown, weapon: wand, off: orb, armor: robe, cape: long. Main colours: dark red (#6a0a1a), dark red (#200408), yellow (#c8a040), red (#ff3050). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🩸 Drains your life to heal herself · 💘 Charm — your controls reverse · 🦇 Homing blood-bats · ✨ Blinks
@@ -1200,7 +1200,7 @@ Lady Vesperine, the Soul Drinker · Front and back: idle, steps, main attack · 
 Attach: style_hero, style_centaur, mg_soul_drinker.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Lady Vesperine, the Soul Drinker — A vampire sorceress with bat-wings, drinking life from across the room. Details: head: vampire, gear: crown, weapon: wand, off: orb, armor: robe, cape: long. Main colours: dark red (#6a0a1a), dark red (#200408), yellow (#c8a040), red (#ff3050). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🩸 Drains your life to heal herself · 💘 Charm — your controls reverse · 🦇 Homing blood-bats · ✨ Blinks
@@ -1226,7 +1226,7 @@ Lady Vesperine, the Soul Drinker · Hurt, Enrage, Phase change, Death · 6 poses
 Attach: style_hero, style_centaur, mg_soul_drinker.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Lady Vesperine, the Soul Drinker — A vampire sorceress with bat-wings, drinking life from across the room. Details: head: vampire, gear: crown, weapon: wand, off: orb, armor: robe, cape: long. Main colours: dark red (#6a0a1a), dark red (#200408), yellow (#c8a040), red (#ff3050). Size: about 3.1× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🩸 Drains your life to heal herself · 💘 Charm — your controls reverse · 🦇 Homing blood-bats · ✨ Blinks
@@ -1250,7 +1250,7 @@ Astraeus, the Star Sorcerer · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Astraeus, the Star Sorcerer — An astronomer-sorcerer with little planets orbiting him. Details: head: face, gear: wizard, weapon: staff, armor: robe. Main colours: dark blue (#1a2a5a), black (#060a1a), yellow (#e8c040), pale yellow (#ffe080). Size: about 3.2× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌠 Starfall — meteors rain on marked spots · ⏳ Slows time around you · ✨ Blinks among the stars
@@ -1276,7 +1276,7 @@ Astraeus, the Star Sorcerer · Front and back: idle, steps, main attack · 8 pos
 Attach: style_hero, style_centaur, mg_star_sorcerer.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Astraeus, the Star Sorcerer — An astronomer-sorcerer with little planets orbiting him. Details: head: face, gear: wizard, weapon: staff, armor: robe. Main colours: dark blue (#1a2a5a), black (#060a1a), yellow (#e8c040), pale yellow (#ffe080). Size: about 3.2× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌠 Starfall — meteors rain on marked spots · ⏳ Slows time around you · ✨ Blinks among the stars
@@ -1302,7 +1302,7 @@ Astraeus, the Star Sorcerer · Hurt, Enrage, Phase change, Death · 6 poses, 3 �
 Attach: style_hero, style_centaur, mg_star_sorcerer.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Astraeus, the Star Sorcerer — An astronomer-sorcerer with little planets orbiting him. Details: head: face, gear: wizard, weapon: staff, armor: robe. Main colours: dark blue (#1a2a5a), black (#060a1a), yellow (#e8c040), pale yellow (#ffe080). Size: about 3.2× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): 🌠 Starfall — meteors rain on marked spots · ⏳ Slows time around you · ✨ Blinks among the stars
@@ -1326,7 +1326,7 @@ Hrimgar, the Frost Lord · Idle, Move, Cast · 8 poses, 4 × 2 · 1536x1024 · c
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hrimgar, the Frost Lord — A frozen lich-lord who steps from one ice mirror to the next. Details: head: lich, gear: icecrown, weapon: staff, armor: crystal. Main colours: pale blue (#9ad0f0), blue (#3a5a8a), pale blue (#dff4ff), pale teal (#c0f0ff). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Teleports and strikes with frost.
@@ -1352,7 +1352,7 @@ Hrimgar, the Frost Lord · Front and back: idle, steps, main attack · 8 poses, 
 Attach: style_hero, style_centaur, boss_isl_4.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hrimgar, the Frost Lord — A frozen lich-lord who steps from one ice mirror to the next. Details: head: lich, gear: icecrown, weapon: staff, armor: crystal. Main colours: pale blue (#9ad0f0), blue (#3a5a8a), pale blue (#dff4ff), pale teal (#c0f0ff). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Teleports and strikes with frost.
@@ -1378,7 +1378,7 @@ Hrimgar, the Frost Lord · Hurt, Enrage, Phase change, Death · 6 poses, 3 × 2 
 Attach: style_hero, style_centaur, boss_isl_4.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hrimgar, the Frost Lord — A frozen lich-lord who steps from one ice mirror to the next. Details: head: lich, gear: icecrown, weapon: staff, armor: crystal. Main colours: pale blue (#9ad0f0), blue (#3a5a8a), pale blue (#dff4ff), pale teal (#c0f0ff). Size: about 3.8× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Teleports and strikes with frost.
@@ -1402,7 +1402,7 @@ Ash Wraith Lord · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · c
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ash Wraith Lord — A wraith of ash and cinders. Details: head: wraith, gear: spikecrown, off: flame, armor: rags. Main colours: grey (#5a5050), black (#1a1414), orange (#ff7030). Size: about 3.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1427,7 +1427,7 @@ Ash Wraith Lord · Front and back: idle, steps, main attack · 8 poses, 4 × 2 �
 Attach: style_hero, style_centaur, elite_4.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ash Wraith Lord — A wraith of ash and cinders. Details: head: wraith, gear: spikecrown, off: flame, armor: rags. Main colours: grey (#5a5050), black (#1a1414), orange (#ff7030). Size: about 3.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1452,7 +1452,7 @@ Ash Wraith Lord · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2 ·
 Attach: style_hero, style_centaur, elite_4.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ash Wraith Lord — A wraith of ash and cinders. Details: head: wraith, gear: spikecrown, off: flame, armor: rags. Main colours: grey (#5a5050), black (#1a1414), orange (#ff7030). Size: about 3.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):

@@ -19,7 +19,7 @@ class TitleScene extends Phaser.Scene{
     this.add.rectangle(w/2,h/2,w,h,0x000000);
     if(brand){ try{ if(this.textures.exists('title_bg'))this.textures.remove('title_bg'); this._tex=this.textures.createCanvas('title_bg',Math.max(2,Math.round(w)),Math.max(2,Math.round(h))); this.add.image(0,0,'title_bg').setOrigin(0); this._brand=brand; this._paint(0); }catch(e){ console.error('title brand',e); this._brand=null; } }
     var rects=this._brand?ZBrand.homeLayout(brand,w,h,this._opts):[{x:w/2-105,y:h*0.5-23,w:210,h:46},{x:w/2-105,y:h*0.5+47,w:210,h:46}];
-    if(!this._brand)this.add.text(w/2,h*0.22,'QUESTS OF ZELDARA',{fontSize:'38px',color:'#63f2dc',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
+    if(!this._brand)this.add.text(w/2,h*0.22,'THE QUESTS OF ZELDARA AND ZELDOR',{fontSize:'30px',color:'#63f2dc',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
     var newBtn=this._mkBtn(rects[0],'NEW GAME');
     newBtn.on('pointerup',function(){ ZProfilesUI.newGame(start); });
     var foot=h-14, note=function(t,col){ self.add.text(w/2,foot,t,{fontSize:'11px',color:col,fontFamily:'Segoe UI'}).setOrigin(.5,1); foot-=16; };
@@ -62,8 +62,8 @@ class BootScene extends Phaser.Scene{
     this.add.rectangle(w/2,h/2,460,100,0x080c18);
     document.body.classList.add('on-title'); this.events.once('shutdown',function(){ document.body.classList.remove('on-title'); });
     var named=false;   // the wordmark (Ringed Z) above the loading bar
-    try{ if(typeof ZBrand!=='undefined'&&ZBrand.WORDMARK){ if(this.textures.exists('boot_brand'))this.textures.remove('boot_brand'); var bt=this.textures.createCanvas('boot_brand',620,200); ZBrand.word(bt.getContext(),ZBrand.WORDMARK,310,100,34,0); bt.refresh(); this.add.image(w/2,h/2-84,'boot_brand'); named=true; } }catch(e){}
-    if(!named)this.add.text(w/2,h/2-30,'QUESTS OF ZELDARA',{fontSize:'28px',color:'#ffffff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
+    try{ if(typeof ZBrand!=='undefined'&&ZBrand.WORDMARK){ if(this.textures.exists('boot_brand'))this.textures.remove('boot_brand'); var tall=!!ZBrand.wordById(ZBrand.WORDMARK).tall, bt=this.textures.createCanvas('boot_brand',620,tall?200:200); ZBrand.word(bt.getContext(),ZBrand.WORDMARK,310,100,tall?30:34,0); bt.refresh(); this.add.image(w/2,h/2-(tall?112:84),'boot_brand');      /* round 53: the three-line name sits higher */ named=true; } }catch(e){}
+    if(!named)this.add.text(w/2,h/2-30,'THE QUESTS OF ZELDARA AND ZELDOR',{fontSize:'24px',color:'#ffffff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
     this.add.rectangle(w/2,h/2+8,420,20,0x111122).setStrokeStyle(1,0x00f5ff);
     this._bar=this.add.rectangle(w/2-206,h/2+8,4,18,0x00f5ff).setOrigin(0,.5);
     this._pct=this.add.text(w/2,h/2+26,'Generating world...',{fontSize:'11px',color:'#6688aa',fontFamily:'Segoe UI'}).setOrigin(.5);

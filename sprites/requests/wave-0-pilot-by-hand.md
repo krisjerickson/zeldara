@@ -4,14 +4,14 @@ Save each result as `sprites/incoming/<request id>.png`.
 
 ## hero_m.model
 
-Hero (boy) · Model sheet (front, side, back) · 3 poses, 3 × 1 · 1536x1024 · core
+Zeldor (the boy) · Model sheet (front, side, back) · 3 poses, 3 × 1 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Layout: exactly 3 poses in a grid of 3 columns × 1 row, evenly spaced, in this order (left to right, top row first):
 1. standing, seen from the FRONT.
 2. standing, side view facing RIGHT.
@@ -24,14 +24,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.melee.s
 
-Hero (boy) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: sword = a short straight sword with a teal-glowing edge; battle axe = a broad single-bladed battle axe with a teal-glowing edge. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. sword ready: blade held low at the side.
@@ -50,14 +50,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.model
 
-Hero (girl) · Model sheet (front, side, back) · 3 poses, 3 × 1 · 1536x1024 · core
+Zeldara (the girl) · Model sheet (front, side, back) · 3 poses, 3 × 1 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of the hero boy: she matches his height, proportions, line weight and colouring style exactly (her hair and outfit are her own, as described).
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Layout: exactly 3 poses in a grid of 3 columns × 1 row, evenly spaced, in this order (left to right, top row first):
 1. standing, seen from the FRONT.
 2. standing, side view facing RIGHT.
@@ -70,14 +70,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## ride_m_horse.ride
 
-Hero (boy) on Horse · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) on Horse · Riding (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model, mt_horse.ride
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved sheet of this mount: keep the mount identical to it.
-Subject: Hero (boy) on Horse — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A bay horse with a dark mane and a leather saddle. The hero sits in the saddle holding the reins. Main colours: brown (#8a5a3a), dark brown (#4a2a1a), pale orange (#e8e0d0), black (#101010). Size: about 1.6× the height of the hero.
+Subject: Zeldor (the boy) on Horse — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps, riding this mount: A bay horse with a dark mane and a leather saddle. The hero sits in the saddle holding the reins. Main colours: brown (#8a5a3a), dark brown (#4a2a1a), pale orange (#e8e0d0), black (#101010). Size: about 1.6× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, trot cycle frame 1 of 4.
 2. side view facing RIGHT, trot cycle frame 2 of 4.
@@ -100,7 +100,7 @@ Meadow Goblin · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Meadow Goblin — Scrawny green goblin in a patched leather vest with a rusty knife. Main colours: green (#6fa040), dark brown (#5a4028), orange (#c8a060), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Darts in, stabs, darts back out (pulse). Moves in packs of 3. Quick knife jab; the pack takes turns so one is always closing in. Flees at low HP to fetch friends.
@@ -126,7 +126,7 @@ Meadow Goblin · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 
 Attach: style_hero, style_centaur, meadow_goblin.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Meadow Goblin — Scrawny green goblin in a patched leather vest with a rusty knife. Main colours: green (#6fa040), dark brown (#5a4028), orange (#c8a060), red (#ff3030). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Darts in, stabs, darts back out (pulse). Moves in packs of 3. Quick knife jab; the pack takes turns so one is always closing in. Flees at low HP to fetch friends.
@@ -152,7 +152,7 @@ Thistle Hog · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Thistle Hog — Stocky boar whose back bristles with purple thistle spines. Main colours: muted orange (#8a6a4a), dark brown (#4a3424), yellow (#c8b070), red (#ff4020). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Paws the ground for 1 s, then charges in a straight line and cannot turn. Charge hits for heavy damage and knockback. Spines: melee hits from above/behind prick you for 1 damage.
@@ -178,7 +178,7 @@ Grubnash the Great, the Goblin King · Idle, Move, Melee attack · 8 poses, 4 ×
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Grubnash the Great, the Goblin King — A huge-headed, pot-bellied goblin tyrant on stubby legs. Each step makes the treasure hoard rattle. Details: head: goblin, gear: crown, weapon: hammer, armor: fur, cape: fur, build: giant. Main colours: green (#6a8a3a), dark green (#2a3218), yellow (#e8c040), yellow (#ffd040). Size: about 3× the height of the hero (a towering boss).
 How it behaves in the game (for the poses): Rushes you and throws a fan of arrows (scatter shot).
@@ -204,7 +204,7 @@ Garrick the Blacksmith · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Garrick the Blacksmith — Bald and broad, soot on his cheeks, a heavy leather apron and a smith's hammer. Main colours: muted brown (#5a4a40), dark grey (#2a2220), orange (#ff9030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -229,7 +229,7 @@ Horse · Moving (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Horse — A bay horse with a dark mane and a leather saddle. Saddled, no rider. Main colours: brown (#8a5a3a), dark brown (#4a2a1a), pale orange (#e8e0d0), black (#101010). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Trots; mane and tail sway.
@@ -255,7 +255,7 @@ Thornback Stag (grass familiar) · Hover, Ranged attack, Cast, Knocked out · 8 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Thornback Stag (grass familiar) — A proud stag of green light, its antlers woven from flowering vines. It trots at your heel and lowers its antlers to charge.  Size: about 0.77× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):

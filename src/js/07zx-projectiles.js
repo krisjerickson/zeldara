@@ -15,7 +15,7 @@ var ZProj={ PI:Math.PI, PICK:{arrow:'ar_bodkin',spell:'sp_solid',shot:'en_real'}
     {id:'ar_streak',name:'Arrow with Speed Lines',desc:'The same arrow flying flat and fast, with two thin speed lines behind it so it is easy to follow in a busy fight.',head:'broad',arc:0,trail:'streak'},
     {id:'ar_longbow',name:'Longbow Arc',desc:'A longer arrow lobbed high: its shadow runs along the ground below it and the arrow tips down as it falls. Missed arrows stick in the ground for a moment.',head:'leaf',len:1.3,arc:26,shadow:true,stick:true,trail:'none'},
     {id:'ar_bodkin',name:'Heavy Bodkin',desc:'Thick shaft, narrow armour-piercing point, short stiff fletching. Flies flat with a faint air ripple; hits with a small spark.',head:'bodkin',thick:1.5,arc:3,trail:'ripple',spark:true},
-    {id:'ar_rune',name:'Rune-Fletched',desc:'A fine arrow with teal fletching and a rune that glows along the shaft — it ties the arrows to the Zeldara look. Leaves a short glimmer.',head:'leaf',arc:8,shadow:true,rune:true,trail:'glimmer'},
+    {id:'ar_rune',name:'Rune-Fletched',desc:'A fine arrow with teal fletching and a rune that glows along the shaft — it ties the arrows to the runic look of Runeheim. Leaves a short glimmer.',head:'leaf',arc:8,shadow:true,rune:true,trail:'glimmer'},
     {id:'ar_pixel',name:'Pixel Arrow',desc:'The fletched arrow drawn in chunky pixels to match the hero sprite, with a two-pixel motion blur.',head:'broad',arc:8,shadow:true,pixel:true,trail:'none'}],
   SPELLS:[
     {id:'sp_solid',name:'Solid Elements',desc:'Each spell is a thing you could touch: a faceted icicle, a burning ball with licking flames and smoke, a forked bolt of lightning, spinning ice crystals, a dark orb with a bright ring.',mode:'solid'},

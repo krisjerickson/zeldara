@@ -16,7 +16,7 @@ var VILLAGE_CORE=[   // the enterable buildings (fixed; doors at the bottom cent
   {dx:10,dy:14,w:6,h:4,type:'apothecary'}, {dx:9,dy:-19,w:5,h:4,type:'merchant'}];
 // round 44 (Kris: "The village is too cluttered when at the final stage … look for how to reorganize such that walking paths and roads connect you to all
 // the buildings"): the last two stages get fewer houses, carts and gardens (44 → 38 buildings), so every door keeps open ground to a street
-var VR_EXTRA={ glimmer:false, glimmerAt:null };      // round 52: what the village plan adds beyond its stage
+var VR_EXTRA={ glimmer:false, glimmerAt:null, miraAt:null };      // round 52: what the village plan adds beyond its stage
 var VR={ R:[20,24,28,31,33], disk:[24,28,32,37,37], total:[13,20,28,34,38], houses:[2,9,17,23,27], carts:[1,3,4,5,5], gardens:[2,3,4,5,6],
   mills:[0,1,2,2,3], trees:[10,14,18,22,26], wallR:35 };
 // looks for the enterable buildings (borrowed from all four styles)
@@ -161,6 +161,7 @@ function villagePlan(stage,ok,water){
   // the craftsmen's buildings
   if(st>=2&&special.bram){ var b2=special.bram; P('vbuild',b2[0],b2[1],5,3,{style:'wood',roof:'#8a6440',roofPat:'shingle',sign:'#c89040',doorX:2,nl:1,pid:'vb_builders_yard'},true); P('pebbles',b2[0]+5,b2[1]+1,2,2,{},false);
     plan.landmarks.push({x:b2[0],y:b2[1],w:5,h:4,text:'Bram\'s Builder\'s Yard — he laid the harbour-stone streets and the ring roads.'}); }
+  VR_EXTRA.miraAt=(st>=3&&special.mira)?[special.mira[0],special.mira[1],4,3]:null;      // round 53: Mira's workshop door (10x-mira.js)
   if(st>=3&&special.mira){ var b3=special.mira; P('vbuild',b3[0],b3[1],4,3,{style:'stone',roof:'#6a6a70',roofPat:'slate',sign:'#c0c0c8',doorX:2,smoke:true,chimney:true,nl:1,pid:'vb_workshop'},true);
     [[3,-11],[-2,-11],[3,11],[-4,11],[11,4],[-11,4],[11,-1],[-11,-1]].forEach(function(q){ P('lamppost',q[0],q[1],1,1,{},false); });
     plan.landmarks.push({x:b3[0],y:b3[1],w:4,h:4,text:'Mira\'s Workshop — gears, lamps and the windmills that power them.'}); }

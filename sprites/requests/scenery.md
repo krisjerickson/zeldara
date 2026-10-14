@@ -1,4 +1,4 @@
-# Scenery — 139 sheets, 1437 objects and textures (13 sheets in the pilot)
+# Scenery — 146 sheets, 1493 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -34,6 +34,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 51 | undefined | 2 | 16 |
 | 52 | undefined | 1 | 5 |
 | 53 | undefined | 4 | 30 |
+| 54 | undefined | 7 | 56 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -49,7 +50,7 @@ Village buildings 1 — the busy ones · wave 21 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Village buildings 1 — the busy ones.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Village buildings 1 — the busy ones.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Tavern — two-storey timber-framed inn, white plaster between dark beams, steep red clay-tile roof, stone chimney, hanging wooden sign with a tankard, warm lit windows, a lantern by the door (about 4.6× the hero's height).
@@ -78,7 +79,7 @@ Village buildings 2 — the craft shops · wave 21 · 6 items, 3 × 2 · 1536x10
 Attach: style_hero, style_centaur, sc_vill_core_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Village buildings 2 — the craft shops.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Village buildings 2 — the craft shops.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Armory — stout grey stone building with a slate roof, iron-banded door, a shield-and-crossed-swords sign, a weapon rack and a round shield displayed by the wall (about 4.6× the hero's height).
@@ -109,7 +110,7 @@ Village houses — the homes between the shops · wave 21 · 8 items, 4 × 2 · 
 Attach: style_hero, style_centaur, sc_vill_core_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Village houses — the homes between the shops.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Village houses — the homes between the shops.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Round cottage — small round stone cottage, conical moss-green roof, round door (about 4× the hero's height).
@@ -140,7 +141,7 @@ Village — craftsmen's buildings and the lake · wave 21 · 6 items, 3 × 2 · 
 Attach: style_hero, style_centaur, sc_vill_core_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Village — craftsmen's buildings and the lake.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Village — craftsmen's buildings and the lake.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Bram's builder's yard — open-fronted wooden workshop with a shingle roof, stacked planks and a sawhorse in front, a crane arm with a pulley on the gable (about 4× the hero's height).
@@ -169,7 +170,7 @@ Village — tall landmarks · wave 21 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_vill_core_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Village — tall landmarks.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Village — tall landmarks.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Lighthouse — tall slender white-and-red banded stone lighthouse with a glass lamp room glowing warm at the top and a small door at the base (about 3.7× the hero's height).
@@ -200,7 +201,7 @@ Village — town wall pieces (they are placed side by side) · wave 21 · 8 item
 Attach: style_hero, style_centaur, sc_vill_core_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Village — town wall pieces (they are placed side by side).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Village — town wall pieces (they are placed side by side).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Wall segment, front view — straight section of a grey stone town wall with battlements along the top, seen from the front; flat left and right ends so sections join (about as tall as the hero).
@@ -233,7 +234,7 @@ Village props 1 — the square · wave 22 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Village props 1 — the square.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Village props 1 — the square.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Fountain — round stone fountain basin with a carved rune pillar in the middle and clear water spilling from it (about 1.4× the hero's height).
@@ -266,7 +267,7 @@ Village props 2 — carts and work · wave 22 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_vprops_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Village props 2 — carts and work.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Village props 2 — carts and work.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Hay cart — two-wheeled wooden cart loaded with hay (about as tall as the hero).
@@ -303,7 +304,7 @@ Village props 3 — fences, banners, gardens · wave 22 · 12 items, 4 × 3 · 1
 Attach: style_hero, style_centaur, sc_vprops_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Village props 3 — fences, banners, gardens.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Village props 3 — fences, banners, gardens.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Wooden fence section — straight section of a rustic two-rail wooden fence, front view, flat ends so sections join (about 0.6× the hero's height).
@@ -340,7 +341,7 @@ Village props 4 — the waterfront · wave 22 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_vprops_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Village props 4 — the waterfront.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Village props 4 — the waterfront.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Rowing boat — small wooden rowing boat with two oars shipped, seen from above-front (about 0.7× the hero's height).
@@ -373,7 +374,7 @@ Interior furniture 1 — tavern and home · wave 23 · 8 items, 4 × 2 · 1536x1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Interior furniture 1 — tavern and home.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Interior furniture 1 — tavern and home.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Shop counter — long wooden counter with a polished top and panelled front (about 0.7× the hero's height).
@@ -406,7 +407,7 @@ Interior furniture 2 — storage · wave 23 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_int_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Interior furniture 2 — storage.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Interior furniture 2 — storage.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Barrel — upright wooden barrel with iron hoops (about 0.5× the hero's height).
@@ -439,7 +440,7 @@ Interior furniture 3 — forge and armory · wave 23 · 8 items, 4 × 2 · 1536x
 Attach: style_hero, style_centaur, sc_int_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Interior furniture 3 — forge and armory.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Interior furniture 3 — forge and armory.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Forge hearth — brick forge hearth with glowing coals, a hood and a bellows (about 1.4× the hero's height).
@@ -472,7 +473,7 @@ Interior furniture 4 — tailor, jeweler, apothecary · wave 23 · 8 items, 4 ×
 Attach: style_hero, style_centaur, sc_int_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Interior furniture 4 — tailor, jeweler, apothecary.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Interior furniture 4 — tailor, jeweler, apothecary.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Mannequin — dress form wearing a half-finished cloak (about as tall as the hero).
@@ -509,7 +510,7 @@ Interior furniture 5 — guild, bakery, stables and the rest · wave 23 · 12 it
 Attach: style_hero, style_centaur, sc_int_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Interior furniture 5 — guild, bakery, stables and the rest.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Interior furniture 5 — guild, bakery, stables and the rest.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Quest board — large wooden board with pinned blank parchments (about as tall as the hero).
@@ -558,7 +559,7 @@ Interior small things — on tables and shelves · wave 23 · 20 items, 5 × 4 �
 Attach: style_hero, style_centaur, sc_int_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate pieces of scenery — Interior small things — on tables and shelves.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 20 separate pieces of scenery — Interior small things — on tables and shelves.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
 1. Mug — wooden tankard with foam (a small item, under half the hero's height).
@@ -615,7 +616,7 @@ Interior wall decorations and rugs · wave 23 · 20 items, 5 × 4 · 1536x1024
 Attach: style_hero, style_centaur, sc_int_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate pieces of scenery — Interior wall decorations and rugs.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 20 separate pieces of scenery — Interior wall decorations and rugs.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
 1. Window — small leaded window with daylight (about 0.5× the hero's height).
@@ -653,7 +654,7 @@ The Runestone Green — the great rune circle of the village · wave 24 · 1 ite
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a single piece of scenery — The Runestone Green — the great rune circle of the village.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a single piece of scenery — The Runestone Green — the great rune circle of the village.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: the object alone, centred, filling most of the image with a clear margin all round.
 Subject: Runestone Green inlay — a huge round stone inlay set into the ground: a glowing teal world-tree (trunk, wide branches and mirrored roots) in the centre, ringed by a band of carved angular runes and an outer band of meander pattern, all lines glowing white-cyan in dark worn stone; perfectly circular, seen from straight above (about 7.3× the hero's height across).
@@ -675,7 +676,7 @@ Rune circles on the ground · wave 24 · 4 items, 2 × 2 · 1024x1024
 Attach: style_hero, style_centaur, sc_rune_green
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 4 separate pieces of scenery — Rune circles on the ground.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Rune circles on the ground.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Rune circle — round carved stone circle with a ring of glowing angular runes and a simple knot in the middle (about 3× the hero's height across).
@@ -704,7 +705,7 @@ Standing stones and waystones · wave 24 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_rune_green
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Standing stones and waystones.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Standing stones and waystones.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Standing stone — tall rough grey standing stone with one glowing teal rune (about 1.3× the hero's height).
@@ -737,7 +738,7 @@ Fairy henges and small rune things · wave 24 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_rune_green
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Fairy henges and small rune things.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Fairy henges and small rune things.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Henge trilithon — two rough upright stones with a lintel across the top, flowering vines on it (about 1.5× the hero's height).
@@ -768,7 +769,7 @@ Dungeon entrances — a cave mouth for each realm · wave 25 · 6 items, 3 × 2 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Dungeon entrances — a cave mouth for each realm.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Dungeon entrances — a cave mouth for each realm.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Grasslands dungeon — mossy green rock outcrop with a dark arched cave mouth, worn stone steps leading down, two lit torches and an arc of glowing runes over the opening (about 2.1× the hero's height).
@@ -797,7 +798,7 @@ Towers — one for each realm · wave 25 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_ent_dungeon
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Towers — one for each realm.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Towers — one for each realm.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Grasslands tower — round pale-stone tower with ivy, a green conical roof, arched door and narrow windows (about 3.8× the hero's height).
@@ -826,7 +827,7 @@ Mage towers 1 — twisting spires, each with a floating orb · wave 25 · 6 item
 Attach: style_hero, style_centaur, sc_ent_dungeon
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Mage towers 1 — twisting spires, each with a floating orb.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Mage towers 1 — twisting spires, each with a floating orb.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Frost spire — thin twisting spire of pale blue ice-stone with icicles and a floating white-blue orb at its tip (about 4.1× the hero's height).
@@ -855,7 +856,7 @@ Mage towers 2 · wave 25 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_ent_dungeon
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Mage towers 2.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Mage towers 2.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Tidal aquarium tower — spire with round glass tank windows full of water and fish, shells on the walls, a sea-blue orb (about 4.1× the hero's height).
@@ -884,7 +885,7 @@ Mage towers 3 and special sites · wave 25 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_ent_dungeon
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Mage towers 3 and special sites.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Mage towers 3 and special sites.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Dreaming loft — soft rounded spire wrapped in curling cloud and crescent moons, a pale gold orb (about 4.1× the hero's height).
@@ -913,7 +914,7 @@ Castle gates 1 — a gatehouse for each island castle, with its emblem over the 
 Attach: style_hero, style_centaur, sc_ent_dungeon
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Castle gates 1 — a gatehouse for each island castle, with its emblem over the gate.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Castle gates 1 — a gatehouse for each island castle, with its emblem over the gate.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Thornwood Keep gate — grey stone gatehouse wrapped in thorny rose briars, a rose emblem (about 1.7× the hero's height).
@@ -942,7 +943,7 @@ Castle gates 2 · wave 25 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_ent_dungeon
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Castle gates 2.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Castle gates 2.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Dwarven Hold gate — squat carved granite gatehouse with brass doors, a hammer emblem (about 1.7× the hero's height).
@@ -971,7 +972,7 @@ Camps, harbors and skyports · wave 25 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_ent_dungeon
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Camps, harbors and skyports.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Camps, harbors and skyports.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Rest camp — a patched canvas tent with a bedroll, a crackling campfire with a cooking pot, and a log seat (about 1.7× the hero's height).
@@ -1000,7 +1001,7 @@ Trees 1 — the Grasslands and the village · wave 26 · 6 items, 3 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Trees 1 — the Grasslands and the village.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Trees 1 — the Grasslands and the village.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Round oak — big leafy broadleaf tree with a round three-lobed crown and a short thick trunk (about 2.5× the hero's height).
@@ -1029,7 +1030,7 @@ Trees 2 — the Wetlands · wave 26 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_trees_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Trees 2 — the Wetlands.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Trees 2 — the Wetlands.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Willow — big weeping willow with long hanging fronds (about 2.7× the hero's height).
@@ -1058,7 +1059,7 @@ Trees 3 — the Highlands · wave 26 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_trees_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Trees 3 — the Highlands.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Trees 3 — the Highlands.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Pine — tall dark-green pine with layered branches (about 3× the hero's height).
@@ -1087,7 +1088,7 @@ Trees 4 — the Ashlands · wave 26 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_trees_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Trees 4 — the Ashlands.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Trees 4 — the Ashlands.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Dead tree — bare black dead tree with clawing branches (about 2.5× the hero's height).
@@ -1122,7 +1123,7 @@ Plants 1 — bushes, flowers and grass · wave 26 · 12 items, 4 × 3 · 1536x10
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Plants 1 — bushes, flowers and grass.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Plants 1 — bushes, flowers and grass.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Bush — round leafy green bush (about 0.8× the hero's height).
@@ -1163,7 +1164,7 @@ Plants 2 — water and the far realms · wave 26 · 12 items, 4 × 3 · 1536x102
 Attach: style_hero, style_centaur, sc_plants_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Plants 2 — water and the far realms.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Plants 2 — water and the far realms.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Reeds — clump of green reeds (about as tall as the hero).
@@ -1200,7 +1201,7 @@ Plants 3 — crops and fields · wave 26 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_plants_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Plants 3 — crops and fields.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Plants 3 — crops and fields.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Wheat strip — strip of golden wheat (about 0.7× the hero's height).
@@ -1237,7 +1238,7 @@ Edge pieces 1 — shores and beaches · wave 38 · 12 items, 4 × 3 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 1 — shores and beaches.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Edge pieces 1 — shores and beaches.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Grass tuft — a small tuft of green grass blades leaning to one side (about 0.5× the hero's height).
@@ -1278,7 +1279,7 @@ Edge pieces 2 — cliffs, snow, mud and lava · wave 38 · 12 items, 4 × 3 · 1
 Attach: style_hero, style_centaur, sc_edge_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 2 — cliffs, snow, mud and lava.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Edge pieces 2 — cliffs, snow, mud and lava.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Rubble — a small heap of broken grey rock at the foot of a cliff (about 0.6× the hero's height).
@@ -1319,7 +1320,7 @@ Edge pieces 3 — logs, stones and the water's edge · wave 42 · 12 items, 4 ×
 Attach: style_hero, style_centaur, sc_edge_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 3 — logs, stones and the water's edge.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Edge pieces 3 — logs, stones and the water's edge.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Fallen log — a fallen tree trunk lying on the ground at a slight angle, rough bark, one broken end and one cut end showing rings (about 0.6× the hero's height).
@@ -1360,7 +1361,7 @@ Edge pieces 4 — highlands, snow and fire · wave 42 · 12 items, 4 × 3 · 153
 Attach: style_hero, style_centaur, sc_edge_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 4 — highlands, snow and fire.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Edge pieces 4 — highlands, snow and fire.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Hanging ivy — a curtain of dark green ivy hanging down over a rock face, seen from the front, straight top edge, trailing ends (about as tall as the hero).
@@ -1401,7 +1402,7 @@ Edge pieces 5 — small creatures and drifting things · wave 42 · 12 items, 4 
 Attach: style_hero, style_centaur, sc_edge_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 5 — small creatures and drifting things.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Edge pieces 5 — small creatures and drifting things.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Crab — a small red beach crab seen from above, claws raised (a small item, under half the hero's height).
@@ -1442,7 +1443,7 @@ Edge pieces 6 — more ground and water details · wave 42 · 12 items, 4 × 3 �
 Attach: style_hero, style_centaur, sc_edge_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Edge pieces 6 — more ground and water details.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Edge pieces 6 — more ground and water details.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Floating crust — a floating plate of dark cooling lava crust with glowing orange edges, seen from above (about 0.6× the hero's height).
@@ -1483,7 +1484,7 @@ Animation frames 1 — crab, frog and leaping fish · wave 43 · 12 items, 4 × 
 Attach: style_hero, style_centaur, sc_edge_5
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 1 — crab, frog and leaping fish.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames 1 — crab, frog and leaping fish.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 4 columns × 3 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Crab, scuttling sideways (a small item, under half the hero's height): (1) legs on its left side stretched forward, both claws raised; (2) legs tucked together, claws half lowered; (3) legs on its right side stretched forward, both claws raised; (4) legs tucked together, claws snapping open.
@@ -1516,7 +1517,7 @@ Animation frames 2 — gull, crow and dragonfly in flight · wave 43 · 12 items
 Attach: style_hero, style_centaur, sc_edge_5
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 2 — gull, crow and dragonfly in flight.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames 2 — gull, crow and dragonfly in flight.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 4 columns × 3 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Gull, flapping its wings (about 0.4× the hero's height): (1) wings spread level, gliding; (2) wings raised high above its back in a V; (3) wings level again; (4) wings pushed down below its body, tips curled.
@@ -1549,7 +1550,7 @@ Animation frames 3 — butterfly, will-o'-wisp and firefly · wave 43 · 12 item
 Attach: style_hero, style_centaur, sc_edge_5
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 3 — butterfly, will-o'-wisp and firefly.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames 3 — butterfly, will-o'-wisp and firefly.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 4 columns × 3 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Butterfly, fluttering (a small item, under half the hero's height): (1) wings fully open; (2) wings half closed, tilted up; (3) wings closed together, seen as a thin upright shape; (4) wings half open.
@@ -1582,7 +1583,7 @@ Animation frames 4 — tumbling leaf, lava bubble and steam vent · wave 43 · 1
 Attach: style_hero, style_centaur, sc_edge_5, sc_edge_4, sc_edge_6
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 4 — tumbling leaf, lava bubble and steam vent.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames 4 — tumbling leaf, lava bubble and steam vent.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 4 columns × 3 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Autumn leaf, tumbling over as it falls (a small item, under half the hero's height): (1) lying flat, face up; (2) tilted, seen at a slant so it looks narrower; (3) edge-on, a thin sliver; (4) tilted the other way, showing its paler underside.
@@ -1615,7 +1616,7 @@ Animation frames 5 — reeds, cattails, irises and dry reeds swaying · wave 43 
 Attach: style_hero, style_centaur, sc_edge_1, sc_edge_3, sc_edge_6
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 5 — reeds, cattails, irises and dry reeds swaying.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames 5 — reeds, cattails, irises and dry reeds swaying.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 3 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 3 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell (the base of each plant at the same height and the same place in every cell); only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Reed clump, swaying in the wind (about as tall as the hero): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
@@ -1649,7 +1650,7 @@ Animation frames 6 — dune grass and grass tufts swaying · wave 43 · 12 items
 Attach: style_hero, style_centaur, sc_edge_1, sc_edge_3
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 6 — dune grass and grass tufts swaying.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames 6 — dune grass and grass tufts swaying.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 3 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 3 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell (the base of each plant at the same height and the same place in every cell); only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Dune grass, swaying in the wind (about as tall as the hero): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
@@ -1683,7 +1684,7 @@ Animation frames 7 — flowers, fern and hanging ivy swaying · wave 43 · 12 it
 Attach: style_hero, style_centaur, sc_edge_3, sc_edge_4, sc_edge_6
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames 7 — flowers, fern and hanging ivy swaying.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames 7 — flowers, fern and hanging ivy swaying.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 3 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 3 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell (the base of each plant at the same height and the same place in every cell); only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Wildflowers, swaying in the wind (about 0.5× the hero's height): (1) leaning to the left in the wind — only the upper part bends, the base stays exactly in place; (2) standing upright at rest; (3) leaning to the right in the wind — only the upper part bends, the base stays exactly in place.
@@ -1721,7 +1722,7 @@ Animation frames — the hero asleep in the home bed, and waking up · wave 44 �
 Attach: style_hero, style_centaur, sc_int_1, hero_m.model, hero_f.model
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames — the hero asleep in the home bed, and waking up.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — the hero asleep in the home bed, and waking up.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 4 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Hero (the boy) asleep in his bed, sleeping, breathing slowly (about as tall as the hero): (1) the same wooden bed with the patchwork quilt and pillow as in its picture; the boy hero (exactly as in his model sheet) lies on his back in it, head on the pillow, eyes closed, the quilt pulled up to his chest, arms on top of the quilt; (2) the same, his chest and the quilt risen a little as he breathes in; (3) the same, mouth slightly open, a tiny sleep bubble at his nose; (4) the same, the quilt settled back down as he breathes out.
@@ -1759,7 +1760,7 @@ Animation frames — the hero asleep in the home bed, and waking up — the bed 
 Attach: style_hero, style_centaur, sc_int_1, hero_m.model, hero_f.model
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames — the hero asleep in the home bed, and waking up — the bed EXACTLY the size, shape and angle of the bed in its own picture (sc_int_1, "Bed"), in the same spot of every cell, never bigger; the hero at his normal size relative to it.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — the hero asleep in the home bed, and waking up — the bed EXACTLY the size, shape and angle of the bed in its own picture (sc_int_1, "Bed"), in the same spot of every cell, never bigger; the hero at his normal size relative to it.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 4 columns × 4 rows, evenly spaced. Each ROW is ONE subject drawn 4 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Hero (the boy) asleep in the home bed, sleeping, breathing slowly (about as tall as the hero): (1) the home bed exactly as in its picture (same frame, quilt, pillow, size and angle); the boy hero, at his normal size, lies on his back in it, head on the pillow, eyes closed, the quilt pulled up to his chest; (2) the same, his chest and the quilt risen a little as he breathes in; (3) the same, mouth slightly open, a tiny sleep bubble at his nose; (4) the same, the quilt settled back down as he breathes out.
@@ -1787,7 +1788,7 @@ Ground 7 — what lies round an adventure site: rock and seas seen from straight
 Attach: style_hero, style_centaur, sc_tex_grass
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Ground 7 — what lies round an adventure site: rock and seas seen from straight above, seamless.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Ground 7 — what lies round an adventure site: rock and seas seen from straight above, seamless.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Rock strata — layered bands of grey-brown and ochre sedimentary rock seen from straight above, as if a floor were cut down through it: thin wavy bands, hairline cracks, small pebbles.
@@ -1822,7 +1823,7 @@ Creatures of the deep places round the adventure sites — each seen from above 
 Attach: style_hero, style_centaur, sc_edge_5
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Creatures of the deep places round the adventure sites — each seen from above at a slight angle, half out of its rock, lava, water or cloud.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Creatures of the deep places round the adventure sites — each seen from above at a slight angle, half out of its rock, lava, water or cloud.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Burrowing mole — a dark velvety mole pushing its head and big pink digging paws up out of a small mound of earth and rubble (about as tall as the hero).
@@ -1855,7 +1856,7 @@ Fog and light for the abyss — soft white and pale-blue fog painted on a PURE B
 Attach: style_hero, style_centaur, sc_void_life
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 4 separate pieces of scenery — Fog and light for the abyss — soft white and pale-blue fog painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Fog and light for the abyss — soft white and pale-blue fog painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Fog bank 1 — a long low bank of soft rolling fog, denser in the middle, thinning to wisps at both ends (about 10.2× the hero's height across).
@@ -1882,7 +1883,7 @@ An epic sky round the high towers — painted clouds and far peaks seen from hig
 Attach: style_hero, style_centaur, sc_sky_bg_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — An epic sky round the high towers — painted clouds and far peaks seen from high above.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — An epic sky round the high towers — painted clouds and far peaks seen from high above.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Cloud mass — a big sunlit cumulus cloud seen from above, white tops, soft blue-grey shadows, golden edge light (about 2× the hero's height).
@@ -1911,7 +1912,7 @@ The night sky round the mage towers — painted on a PURE BLACK background (it w
 Attach: style_hero, style_centaur, sc_void_life
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — The night sky round the mage towers — painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — The night sky round the mage towers — painted on a PURE BLACK background (it will be laid over the game as light, so the black must stay pure black).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Milky way — a broad diagonal band of the milky way: countless tiny stars, glowing dust lanes, soft white-gold core (about 8.1× the hero's height across).
@@ -1950,7 +1951,7 @@ Animation frames — a butterfly and a dragonfly in smooth, slow flight (eight f
 Attach: style_hero, style_centaur, sc_anim_3, sc_anim_2
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames — a butterfly and a dragonfly in smooth, slow flight (eight frames each, so the wingbeat looks fluid).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — a butterfly and a dragonfly in smooth, slow flight (eight frames each, so the wingbeat looks fluid).
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 8 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 8 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Butterfly, one slow, smooth wingbeat (a small item, under half the hero's height): (1) wings fully open, flat; (2) wings beginning to lift, slightly raised; (3) wings raised to half; (4) wings raised high, nearly upright; (5) wings closed together, seen as a thin upright shape; (6) wings opening again, nearly upright; (7) wings lowering to half; (8) wings almost flat again.
@@ -1982,7 +1983,7 @@ Painted area effects 1 — warnings and lingering patches on the ground, seen fr
 Attach: style_hero, style_centaur, sc_edge_5
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Painted area effects 1 — warnings and lingering patches on the ground, seen from straight above, each a flat circular or wedge-shaped patch.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Painted area effects 1 — warnings and lingering patches on the ground, seen from straight above, each a flat circular or wedge-shaped patch.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Warning circle — a glowing red-orange rune circle burned into the ground, cracks radiating inside it, as a warning of an attack about to land (about 2× the hero's height).
@@ -2023,7 +2024,7 @@ Painted area effects 2 — attacks that burst outward, painted on a PURE BLACK b
 Attach: style_hero, style_centaur, sc_fx_ground
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Painted area effects 2 — attacks that burst outward, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Painted area effects 2 — attacks that burst outward, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Shockwave — a ring-shaped shockwave of dust and force spreading on the ground, seen from above (about 4.1× the hero's height across).
@@ -2064,7 +2065,7 @@ Painted area effects 3 — the hero's own skills and spells, painted on a PURE B
 Attach: style_hero, style_centaur, sc_fx_ground
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Painted area effects 3 — the hero's own skills and spells, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Painted area effects 3 — the hero's own skills and spells, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Whirlwind — a spinning ring of bright sword-arcs and wind seen from above (about 4.1× the hero's height across).
@@ -2080,6 +2081,237 @@ Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in t
 11. Meteor target — a glowing orange target circle on the ground with falling sparks above it (about 4.1× the hero's height across).
 12. Root burst — a round burst of green roots and leaves bursting up from the ground (about 4.1× the hero's height across).
 View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit_opts_a
+
+Spirit looks, options 1–4 — top row BOUND, bottom row the same spirit FREED; each a person, adult proportions, seen from above-front like the game characters · wave 54 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_opt_ancestor_bound` Ancestor warrior, bound — 72 × 104 px
+- `sp_opt_lantern_bound` Lantern folk, bound — 72 × 104 px
+- `sp_opt_aurora_bound` Aurora-robed, bound — 72 × 104 px
+- `sp_opt_runelit_bound` Rune-drawn, bound — 72 × 104 px
+- `sp_opt_ancestor_free` Ancestor warrior, freed — 72 × 104 px
+- `sp_opt_lantern_free` Lantern folk, freed — 72 × 104 px
+- `sp_opt_aurora_free` Aurora-robed, freed — 72 × 104 px
+- `sp_opt_runelit_free` Rune-drawn, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Spirit looks, options 1–4 — top row BOUND, bottom row the same spirit FREED; each a person, adult proportions, seen from above-front like the game characters.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Ancestor warrior, bound — a translucent Norse warrior ancestor of glowing pale-blue light: braided beard or braids, a simple helm, a cloak, rune tattoos on the arms that glow brighter cyan — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, its light dimmed (about 1.7× the hero's height).
+2. Lantern folk, bound — a translucent villager of glowing pale-blue light carrying a small lantern; a bright rune-shaped heart of light shows through the chest — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, its light dimmed (about 1.7× the hero's height).
+3. Aurora-robed, bound — an elegant tall spirit in long flowing robes that dissolve at the hem into ribbons of aurora light (teal, green and violet), long hair drifting as if underwater — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, its light dimmed (about 1.7× the hero's height).
+4. Rune-drawn, bound — a person drawn only in glowing cyan rune-lines and constellation points, like a living carving of light, hollow and dark between the lines — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, its light dimmed (about 1.7× the hero's height).
+5. Ancestor warrior, freed — a translucent Norse warrior ancestor of glowing pale-blue light: braided beard or braids, a simple helm, a cloak, rune tattoos on the arms that glow brighter cyan — FREED: no chains, floating a little above the ground, arms open, smiling, glowing at full brightness with a few motes of light around (about 1.7× the hero's height).
+6. Lantern folk, freed — a translucent villager of glowing pale-blue light carrying a small lantern; a bright rune-shaped heart of light shows through the chest — FREED: no chains, floating a little above the ground, arms open, smiling, glowing at full brightness with a few motes of light around (about 1.7× the hero's height).
+7. Aurora-robed, freed — an elegant tall spirit in long flowing robes that dissolve at the hem into ribbons of aurora light (teal, green and violet), long hair drifting as if underwater — FREED: no chains, floating a little above the ground, arms open, smiling, glowing at full brightness with a few motes of light around (about 1.7× the hero's height).
+8. Rune-drawn, freed — a person drawn only in glowing cyan rune-lines and constellation points, like a living carving of light, hollow and dark between the lines — FREED: no chains, floating a little above the ground, arms open, smiling, glowing at full brightness with a few motes of light around (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit_opts_b
+
+Spirit looks, options 5–8 — top row BOUND, bottom row the same spirit FREED; each a person, adult proportions, seen from above-front like the game characters · wave 54 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_opt_winged_bound` Valkyrie-touched, bound — 72 × 104 px
+- `sp_opt_glass_bound` Soulglass, bound — 72 × 104 px
+- `sp_opt_ember_bound` Ash and starlight, bound — 72 × 104 px
+- `sp_opt_starcloak_bound` Starcloak, bound — 72 × 104 px
+- `sp_opt_winged_free` Valkyrie-touched, freed — 72 × 104 px
+- `sp_opt_glass_free` Soulglass, freed — 72 × 104 px
+- `sp_opt_ember_free` Ash and starlight, freed — 72 × 104 px
+- `sp_opt_starcloak_free` Starcloak, freed — 72 × 104 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Spirit looks, options 5–8 — top row BOUND, bottom row the same spirit FREED; each a person, adult proportions, seen from above-front like the game characters.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Valkyrie-touched, bound — a spirit warrior-maiden or youth of pale light with a faint feathered cloak that becomes wings of light — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, its light dimmed (about 1.7× the hero's height).
+2. Soulglass, bound — a person whose body is faceted soulglass crystal, light refracting through it in soft rainbows, a bright core glowing in the chest — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, its light dimmed (about 1.7× the hero's height).
+3. Ash and starlight, bound — a spirit whose bound form is dimmed ash-grey with ember cracks, and whose freed form is bright white-blue starfire with a flame-like crown of hair — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, its light dimmed (about 1.7× the hero's height).
+4. Starcloak, bound — a hooded figure in a deep cloak whose inside is a night sky of slowly turning stars, a calm face of pale light in the hood — BOUND: chained at the ankle with heavy iron chains, swinging a pick at rock, weary and frustrated, its light dimmed (about 1.7× the hero's height).
+5. Valkyrie-touched, freed — a spirit warrior-maiden or youth of pale light with a faint feathered cloak that becomes wings of light — FREED: no chains, floating a little above the ground, arms open, smiling, glowing at full brightness with a few motes of light around (about 1.7× the hero's height).
+6. Soulglass, freed — a person whose body is faceted soulglass crystal, light refracting through it in soft rainbows, a bright core glowing in the chest — FREED: no chains, floating a little above the ground, arms open, smiling, glowing at full brightness with a few motes of light around (about 1.7× the hero's height).
+7. Ash and starlight, freed — a spirit whose bound form is dimmed ash-grey with ember cracks, and whose freed form is bright white-blue starfire with a flame-like crown of hair — FREED: no chains, floating a little above the ground, arms open, smiling, glowing at full brightness with a few motes of light around (about 1.7× the hero's height).
+8. Starcloak, freed — a hooded figure in a deep cloak whose inside is a night sky of slowly turning stars, a calm face of pale light in the hood — FREED: no chains, floating a little above the ground, arms open, smiling, glowing at full brightness with a few motes of light around (about 1.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_spirit_grp_opts
+
+Spirit groupings — options to pick from (spirits are translucent glowing people of pale light-blue runic light, adult proportions, friendly) · wave 54 · 8 items, 4 × 2 · 1536x1024
+
+- `sp_grp_ring` Ring dance — 190 × 120 px
+- `sp_grp_procession` Lantern procession — 190 × 120 px
+- `sp_grp_family` Family — 190 × 120 px
+- `sp_grp_choir` Choir — 190 × 120 px
+- `sp_grp_spiral` Rising spiral — 190 × 120 px
+- `sp_grp_fire` Round the ghost-fire — 190 × 120 px
+- `sp_grp_guard` Honour guard — 190 × 120 px
+- `sp_grp_chaingang` Chain gang — 190 × 120 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Spirit groupings — options to pick from (spirits are translucent glowing people of pale light-blue runic light, adult proportions, friendly).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Ring dance — eight freed spirits holding hands in a ring, dancing round, the ring seen from above-front (about 1.9× the hero's height).
+2. Lantern procession — a winding line of seven spirits walking one behind the other carrying lanterns (about 1.9× the hero's height).
+3. Family — a family of freed spirits: two adults, a grandparent and a child riding on a shoulder, hugging (about 1.9× the hero's height).
+4. Choir — two rows of spirits singing, mouths open, motes of light rising from the song (about 1.9× the hero's height).
+5. Rising spiral — a dozen small spirits rising in a spiral column of light towards the sky (about 1.9× the hero's height).
+6. Round the ghost-fire — six spirits sitting round a small cold blue ghost-fire, talking and laughing (about 1.9× the hero's height).
+7. Honour guard — a line of five tall ancestor spirits standing to attention with spears and shields of light (about 1.9× the hero's height).
+8. Chain gang — a line of five BOUND spirits chained neck to neck, hauling a cart of ore, heads down (about 1.9× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_bindstone_opts_a
+
+Bindstones (the stones the spirits are chained to), options 1–4 — top row BOUND, bottom row FREED; grand, about twice a person’s height · wave 54 · 8 items, 4 × 2 · 1536x1024
+
+- `bs_opt_carved_bound` Carved serpent stone, bound — 96 × 128 px
+- `bs_opt_gate_bound` Stone gate, bound — 96 × 128 px
+- `bs_opt_cage_bound` Caged stone, bound — 96 × 128 px
+- `bs_opt_obelisk_bound` Obsidian obelisk, bound — 96 × 128 px
+- `bs_opt_carved_free` Carved serpent stone, freed — 96 × 128 px
+- `bs_opt_gate_free` Stone gate, freed — 96 × 128 px
+- `bs_opt_cage_free` Caged stone, freed — 96 × 128 px
+- `bs_opt_obelisk_free` Obsidian obelisk, freed — 96 × 128 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Bindstones (the stones the spirits are chained to), options 1–4 — top row BOUND, bottom row FREED; grand, about twice a person’s height.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Carved serpent stone, bound — a tall grey runestone carved with a great knot-serpent band like the old Jelling stones, painted red runes — BOUND: wrapped in heavy chains that run to iron stakes in the ground, its runes and seams glowing an angry red-orange, scorched ground and a little smoke (about 2× the hero's height).
+2. Stone gate, bound — two rough standing stones with a lintel stone across the top, forming a gate — BOUND: wrapped in heavy chains that run to iron stakes in the ground, its runes and seams glowing an angry red-orange, scorched ground and a little smoke (about 2× the hero's height).
+3. Caged stone, bound — a runestone inside a cage of black iron bars with spikes on top — BOUND: wrapped in heavy chains that run to iron stakes in the ground, its runes and seams glowing an angry red-orange, scorched ground and a little smoke (about 2× the hero's height).
+4. Obsidian obelisk, bound — a black obsidian obelisk cracked with seams — BOUND: wrapped in heavy chains that run to iron stakes in the ground, its runes and seams glowing an angry red-orange, scorched ground and a little smoke (about 2× the hero's height).
+5. Carved serpent stone, freed — a tall grey runestone carved with a great knot-serpent band like the old Jelling stones, painted red runes — FREED: the chains broken and lying on the ground, the runes glowing a calm light blue, fresh grass and small flowers around it, a soft glow (about 2× the hero's height).
+6. Stone gate, freed — two rough standing stones with a lintel stone across the top, forming a gate — FREED: the chains broken and lying on the ground, the runes glowing a calm light blue, fresh grass and small flowers around it, a soft glow (about 2× the hero's height).
+7. Caged stone, freed — a runestone inside a cage of black iron bars with spikes on top — FREED: the chains broken and lying on the ground, the runes glowing a calm light blue, fresh grass and small flowers around it, a soft glow (about 2× the hero's height).
+8. Obsidian obelisk, freed — a black obsidian obelisk cracked with seams — FREED: the chains broken and lying on the ground, the runes glowing a calm light blue, fresh grass and small flowers around it, a soft glow (about 2× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_bindstone_opts_b
+
+Bindstones, options 5–8 — top row BOUND, bottom row FREED; grand, about twice a person’s height · wave 54 · 8 items, 4 × 2 · 1536x1024
+
+- `bs_opt_circle_bound` Little stone circle, bound — 96 × 128 px
+- `bs_opt_tree_bound` Petrified world-tree stump, bound — 96 × 128 px
+- `bs_opt_altar_bound` Binding altar, bound — 96 × 128 px
+- `bs_opt_crystal_bound` Shell of soulglass, bound — 96 × 128 px
+- `bs_opt_circle_free` Little stone circle, freed — 96 × 128 px
+- `bs_opt_tree_free` Petrified world-tree stump, freed — 96 × 128 px
+- `bs_opt_altar_free` Binding altar, freed — 96 × 128 px
+- `bs_opt_crystal_free` Shell of soulglass, freed — 96 × 128 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Bindstones, options 5–8 — top row BOUND, bottom row FREED; grand, about twice a person’s height.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Little stone circle, bound — five short standing stones in a ring around a taller central pillar, on a round paved floor — BOUND: wrapped in heavy chains that run to iron stakes in the ground, its runes and seams glowing an angry red-orange, scorched ground and a little smoke (about 2× the hero's height).
+2. Petrified world-tree stump, bound — a petrified tree stump of stone with great roots, runes carved into its bark — BOUND: wrapped in heavy chains that run to iron stakes in the ground, its runes and seams glowing an angry red-orange, scorched ground and a little smoke (about 2× the hero's height).
+3. Binding altar, bound — a flat altar stone on two plinths with an iron brazier beside it — BOUND: wrapped in heavy chains that run to iron stakes in the ground, its runes and seams glowing an angry red-orange, scorched ground and a little smoke (about 2× the hero's height).
+4. Shell of soulglass, bound — a pillar of pale-blue soulglass crystal trapped inside a cracked shell of dark stone — BOUND: wrapped in heavy chains that run to iron stakes in the ground, its runes and seams glowing an angry red-orange, scorched ground and a little smoke (about 2× the hero's height).
+5. Little stone circle, freed — five short standing stones in a ring around a taller central pillar, on a round paved floor — FREED: the chains broken and lying on the ground, the runes glowing a calm light blue, fresh grass and small flowers around it, a soft glow (about 2× the hero's height).
+6. Petrified world-tree stump, freed — a petrified tree stump of stone with great roots, runes carved into its bark — FREED: the chains broken and lying on the ground, the runes glowing a calm light blue, fresh grass and small flowers around it, a soft glow (about 2× the hero's height).
+7. Binding altar, freed — a flat altar stone on two plinths with an iron brazier beside it — FREED: the chains broken and lying on the ground, the runes glowing a calm light blue, fresh grass and small flowers around it, a soft glow (about 2× the hero's height).
+8. Shell of soulglass, freed — a pillar of pale-blue soulglass crystal trapped inside a cracked shell of dark stone — FREED: the chains broken and lying on the ground, the runes glowing a calm light blue, fresh grass and small flowers around it, a soft glow (about 2× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_int_mira
+
+Interior furniture — Mira the Mechanic’s workshop · wave 54 · 4 items, 2 × 2 · 1024x1024
+
+- `if_crucible` Smelting furnace — 72 × 88 px
+- `if_traybench` Tray workbench — 112 × 52 px
+- `iw_gears` Wall of gears — 44 × 34 px
+- `iw_blueprints` Blueprints — 40 × 28 px
+
+Attach: style_hero, style_centaur, sc_int_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — Mira the Mechanic’s workshop.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Smelting furnace — a small round brick smelting furnace with a glowing crucible of molten metal on top, tongs leaning against it (about 1.4× the hero's height).
+2. Tray workbench — a long sturdy workbench with metal tray moulds, a half-finished round metal tray with an empty gem setting, small hammers and goggles (about as tall as the hero).
+3. Wall of gears — brass gears and copper pipes mounted on a wooden board, one big gear in the middle (about 0.5× the hero's height).
+4. Blueprints — three blueprints of trays and lifts pinned to the wall with brass tacks (about 0.4× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_trays
+
+Soul gems, island metals and hearth trays — game icons · wave 54 · 12 items, 4 × 3 · 1024x1024
+
+- `ic_grovesoul` Grovesoul — 48 × 48 px
+- `ic_tidesoul` Tidesoul — 48 × 48 px
+- `ic_stonesoul` Stonesoul — 48 × 48 px
+- `ic_embersoul` Embersoul — 48 × 48 px
+- `ic_sea_silver` Sea-silver — 48 × 48 px
+- `ic_bog_iron` Bog-iron — 48 × 48 px
+- `ic_fire_bronze` Fire-bronze — 48 × 48 px
+- `ic_rime_steel` Rime-steel — 48 × 48 px
+- `ic_hearth_tray_1` Ember Hearth Tray — 48 × 48 px
+- `ic_hearth_tray_2` Cinder Hearth Tray — 48 × 48 px
+- `ic_hearth_tray_3` Slag Hearth Tray — 48 × 48 px
+- `ic_hearth_tray_4` Ash Hearth Tray — 48 × 48 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate game icons — Soul gems, island metals and hearth trays — game icons.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. Grovesoul — a green soul gem with a living leaf of light inside.
+2. Tidesoul — a sea-blue soul gem with a tiny wave rolling inside.
+3. Stonesoul — an amber soul gem with a slow heartbeat of stone-light.
+4. Embersoul — a red soul gem with an ember inside that never goes out.
+5. Sea-silver — an ingot of bright silver with a faint wave pattern.
+6. Bog-iron — a dark rough iron ingot with a root-like grain.
+7. Fire-bronze — a red-gold bronze ingot with a warm glow.
+8. Rime-steel — a blue-white steel ingot with frost on its edges.
+9. Ember Hearth Tray — a round silver tray with a green gem set in its centre and knotwork on the rim.
+10. Cinder Hearth Tray — a round dark-iron tray with a blue gem set in its centre and knotwork on the rim.
+11. Slag Hearth Tray — a round bronze tray with an amber gem set in its centre and knotwork on the rim.
+12. Ash Hearth Tray — a round blue-white steel tray with a red gem set in its centre and knotwork on the rim.
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).
@@ -2105,7 +2337,7 @@ Animation frames — a trapped spirit: a translucent, softly glowing person made
 Attach: style_hero, style_centaur, sc_anim_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of animation frames — Animation frames — a trapped spirit: a translucent, softly glowing person made of pale light-blue light (runic cyan, #6fe3f5), friendly face, simple village clothes, the lower legs fading into a wisp; seen from above-front like the game characters.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — a trapped spirit: a translucent, softly glowing person made of pale light-blue light (runic cyan, #6fe3f5), friendly face, simple village clothes, the lower legs fading into a wisp; seen from above-front like the game characters.
 The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
 Layout: a grid of 6 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 6 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
 Row 1 — Toiling spirit, in chains, made to dig: an iron shackle and chain on one ankle, swinging a heavy pick at the rock, tired and frustrated, shoulders slumped, brow furrowed (about as tall as the hero): (1) pick raised high behind the head; (2) pick swinging down; (3) pick striking the ground, a few sparks; (4) pulling the pick back out, sighing; (5) leaning on the pick, wiping the brow, looking weary; (6) lifting the pick again.
@@ -2130,11 +2362,11 @@ Freed spirits and their bindstones — spirits are translucent, softly glowing p
 - `sp_bindstone` Bindstone, bound — 48 × 80 px
 - `sp_bindstone_free` Bindstone, freed — 48 × 80 px
 
-Attach: style_hero, style_centaur
+Attach: style_hero, style_centaur, sc_spirit_opts_a
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Freed spirits and their bindstones — spirits are translucent, softly glowing people of pale light-blue runic light (#6fe3f5), friendly, in simple village clothes, their lower legs fading into a wisp.
-The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Freed spirits and their bindstones — spirits are translucent, softly glowing people of pale light-blue runic light (#6fe3f5), friendly, in simple village clothes, their lower legs fading into a wisp.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Two spirits — two freed spirits side by side, relaxed and smiling, one with a hand on the other's shoulder (about as tall as the hero).
 2. Three spirits — three freed spirits gathered together, chatting happily (about as tall as the hero).
@@ -2160,7 +2392,7 @@ The Glimmerhall — the most impressive building in the village · wave 53 · 2 
 Attach: style_hero, style_centaur, sc_vill_core_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 2 separate pieces of scenery — The Glimmerhall — the most impressive building in the village.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 2 separate pieces of scenery — The Glimmerhall — the most impressive building in the village.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 2 objects in a grid of 2 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
 1. The Glimmerhall — the grandest building in a Norse-style village: a hall of pale carved stone and timber crowned with a great dome and tall windows of glass, every pane etched with runes that glow light blue (#6fe3f5), slender glass spires at its corners, a wide arched doorway with glowing glass doors, a glass furnace's soft glow inside, flower boxes (about 4.8× the hero's height).
@@ -2184,11 +2416,11 @@ Soulglass — game icons · wave 53 · 8 items, 4 × 2 · 1024x1024
 - `ic_soulglass_lattice_3` Slag lattice — 48 × 48 px
 - `ic_soulglass_lattice_4` Ash lattice — 48 × 48 px
 
-Attach: style_hero, style_centaur
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate game icons — Soulglass — game icons.
-The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate game icons — Soulglass — game icons.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Soulglass shard (Grasslands) — a jagged shard of glowing light-blue glass with a faint green leaf-rune inside.
 2. Soulglass shard (Wetlands) — a jagged shard of glowing light-blue glass with a faint deep-blue wave-rune inside.
@@ -2217,7 +2449,7 @@ The four Forges of Muspelheim and the great gate of Muspelheim — entrances in 
 Attach: style_hero, style_centaur, sc_ent_dungeon
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 5 separate pieces of scenery — The four Forges of Muspelheim and the great gate of Muspelheim — entrances in the sea, each a door into a volcano, seen from above-front like the other site entrances.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 5 separate pieces of scenery — The four Forges of Muspelheim and the great gate of Muspelheim — entrances in the sea, each a door into a volcano, seen from above-front like the other site entrances.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 5 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
 1. Ember Forge — a squat volcanic cone of black basalt rising from the sea, green moss and wildflowers clinging to its lower flanks, a great arched forge-mouth at its foot glowing ember-orange behind iron doors with an anvil-and-leaf emblem, embers drifting up from its crater (about 2.7× the hero's height).
@@ -2247,7 +2479,7 @@ Painted attack effects 4 — small lights, sparks and streams, painted on a PURE
 Attach: style_hero, style_centaur, sc_fx_ground
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Painted attack effects 4 — small lights, sparks and streams, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black). The ones described as WHITE must be painted in white and very pale grey only, because the game colours them.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Painted attack effects 4 — small lights, sparks and streams, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black). The ones described as WHITE must be painted in white and very pale grey only, because the game colours them.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Spirit mote — a single small soft glowing mote of WHITE light with a tiny four-point twinkle, round and soft-edged (about 1× the hero's height across).
@@ -2280,7 +2512,7 @@ Painted attack pieces — things thrown and set by monsters, seen from above at 
 Attach: style_hero, style_centaur, sc_edge_5
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Painted attack pieces — things thrown and set by monsters, seen from above at a slight angle, each one whole and centred.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Painted attack pieces — things thrown and set by monsters, seen from above at a slight angle, each one whole and centred.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Thrown stone — a single rough grey thrown stone with sharp edges and a few chips, mid-air (about as tall as the hero).
@@ -2313,7 +2545,7 @@ Rugs and runners that fit the rooms — seen from straight above, flat on the fl
 Attach: style_hero, style_centaur, sc_int_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Rugs and runners that fit the rooms — seen from straight above, flat on the floor.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Rugs and runners that fit the rooms — seen from straight above, flat on the floor.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Wide red rug — a wide rectangular woven rug, deep red with a cream border and a diamond pattern in the middle, short fringes at the two short ends (about 1.8× the hero's height across).
@@ -2339,7 +2571,7 @@ A floor of the Crystal Grotto, painted whole · wave 45 · 1 items, 1 × 1 · 15
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: A floor of the Crystal Grotto, painted whole.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: A floor of the Crystal Grotto, painted whole.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw any characters, monsters or people.
 Subject: a cave chamber in a dungeon: rough blue-grey rock walls along the top and both sides, a floor of dark stone with pale moss, clusters of tall glowing teal and violet crystals as cover, a shallow underground pool on one side crossed by flat stepping stones, a narrow passage leading off at the top left, a wide open doorway at the bottom middle.
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°: the back wall runs along the top of the picture with its face visible, the floor fills the middle, the side walls run down the left and right edges. Scale: the hero would be about one twelfth of the picture's height; leave plenty of open floor to walk and fight on.
@@ -2358,7 +2590,7 @@ A floor of the Elven Library tower, painted whole · wave 45 · 1 items, 1 × 1 
 Attach: style_hero, style_centaur, sc_room_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: A floor of the Elven Library tower, painted whole.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: A floor of the Elven Library tower, painted whole.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw any characters, monsters or people.
 Subject: a round tower floor seen from above: curved pale stone walls with tall arched windows along the top, a polished wooden floor with an inlaid leaf pattern, curved bookshelves following the wall, reading tables with open books and candles, a spiral staircase at the right, a big round rug in the middle, a doorway at the bottom middle.
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°: the back wall runs along the top of the picture with its face visible, the floor fills the middle, the side walls run down the left and right edges. Scale: the hero would be about one twelfth of the picture's height; leave plenty of open floor to walk and fight on.
@@ -2377,7 +2609,7 @@ A hall of the Ember Cave, painted whole · wave 45 · 1 items, 1 × 1 · 1536x10
 Attach: style_hero, style_centaur, sc_room_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: A hall of the Ember Cave, painted whole.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: A hall of the Ember Cave, painted whole.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw any characters, monsters or people.
 Subject: a volcanic cave hall: black basalt walls with glowing orange cracks along the top and both sides, a floor of cooled dark crust, a river of bright flowing lava across the middle crossed by a stone bridge, obsidian spikes and a few iron braziers, smoke rising, a passage at the top right, a doorway at the bottom middle.
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°: the back wall runs along the top of the picture with its face visible, the floor fills the middle, the side walls run down the left and right edges. Scale: the hero would be about one twelfth of the picture's height; leave plenty of open floor to walk and fight on.
@@ -2397,7 +2629,7 @@ Sky-port backdrops 1 — wide skies seen from a flying ship, painted as a pictur
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 2 separate pieces of scenery — Sky-port backdrops 1 — wide skies seen from a flying ship, painted as a picture (no ground in the lower third except a far horizon).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 2 separate pieces of scenery — Sky-port backdrops 1 — wide skies seen from a flying ship, painted as a picture (no ground in the lower third except a far horizon).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 2 objects in a grid of 1 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Grasslands sky — a bright morning sky over green rolling hills far below: soft cumulus clouds, a pale sun glow top right, distant floating grass islands with roots, warm light along the horizon (about 20.3× the hero's height across).
@@ -2418,7 +2650,7 @@ Sky-port backdrops 2 · wave 47 · 2 items, 1 × 2 · 1024x1536
 Attach: style_hero, style_centaur, sc_sky_bg_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 2 separate pieces of scenery — Sky-port backdrops 2.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 2 separate pieces of scenery — Sky-port backdrops 2.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 2 objects in a grid of 1 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Highlands sky — a high cold blue sky over snowy mountain peaks far below: thin streaming clouds, a crescent moon still visible, distant stone towers on the peaks, crisp air (about 20.3× the hero's height across).
@@ -2449,7 +2681,7 @@ Sky-port flights — galleons, the wingman, a cloud bunker and the power-ups (ea
 Attach: style_hero, style_centaur, sc_vill_special_2
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Sky-port flights — galleons, the wingman, a cloud bunker and the power-ups (each seen from slightly below and to the side, as in a flying game).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Sky-port flights — galleons, the wingman, a cloud bunker and the power-ups (each seen from slightly below and to the side, as in a flying game).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Grasslands war-galleon — a small flying war-ship with a green sail and a leafy figurehead, hull of oak, propellers on its sides, seen from the side (about 1.3× the hero's height).
@@ -2486,7 +2718,7 @@ Adventure-site set-pieces 1 — big centrepieces that make a floor memorable (se
 Attach: style_hero, style_centaur, sc_dng_1, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Adventure-site set-pieces 1 — big centrepieces that make a floor memorable (seen from three-quarters above).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Adventure-site set-pieces 1 — big centrepieces that make a floor memorable (seen from three-quarters above).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Frozen fountain — a round stone fountain frozen solid, icicles hanging from its bowls, a glowing blue rune at its base (about 2.4× the hero's height).
@@ -2519,7 +2751,7 @@ Adventure-site set-pieces 2 · wave 47 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_setpiece_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Adventure-site set-pieces 2.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Adventure-site set-pieces 2.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Mirror pool — a still round pool in a ring of white marble, the water perfectly reflecting stars, a crescent stone arch over it (about 2.1× the hero's height).
@@ -2552,7 +2784,7 @@ Rocks and crystals · wave 27 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Rocks and crystals.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Rocks and crystals.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Rock — rounded grey boulder (about as tall as the hero).
@@ -2585,7 +2817,7 @@ Highland and Ashland rocks · wave 27 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_rocks_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Highland and Ashland rocks.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Highland and Ashland rocks.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Geode — split round rock showing a glittering violet crystal hollow (about as tall as the hero).
@@ -2618,7 +2850,7 @@ Ruins · wave 27 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_rocks_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Ruins.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Ruins.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Column — tall fluted stone column with a capital (about 1.9× the hero's height).
@@ -2651,7 +2883,7 @@ Landmarks 1 — bones, giants and golems · wave 27 · 8 items, 4 × 2 · 1536x1
 Attach: style_hero, style_centaur, sc_rocks_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Landmarks 1 — bones, giants and golems.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Landmarks 1 — bones, giants and golems.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Giant rib — huge curved rib bone arching out of the ground (about 2.1× the hero's height).
@@ -2684,7 +2916,7 @@ Landmarks 2 — wind, sky and fire · wave 27 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_rocks_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Landmarks 2 — wind, sky and fire.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Landmarks 2 — wind, sky and fire.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Floating rock — chunk of earth and rock floating in the air with grass on top and roots hanging below (about 2.1× the hero's height).
@@ -2715,7 +2947,7 @@ Bridges — seen from above-front, running left to right; the flat deck is walke
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Bridges — seen from above-front, running left to right; the flat deck is walked on.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Bridges — seen from above-front, running left to right; the flat deck is walked on.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Plank bridge — wooden plank bridge with rope handrails on both sides and posts at each end (about 1.5× the hero's height).
@@ -2746,7 +2978,7 @@ Bridge and path pieces · wave 28 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_bridges
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Bridge and path pieces.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Bridge and path pieces.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Wooden rail — section of wooden bridge railing, front view, flat ends (about 0.5× the hero's height).
@@ -2779,7 +3011,7 @@ Harbors and docks · wave 28 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_bridges
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Harbors and docks.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Harbors and docks.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Pier end — the end of a wooden pier with two mooring posts and a lamp, seen from above-front (about 1.3× the hero's height).
@@ -2810,7 +3042,7 @@ Ground 1 — grass · wave 29 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Ground 1 — grass.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Ground 1 — grass.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Meadow grass — fresh green short grass drawn as flat colour with small darker blade marks and a few lighter flecks.
@@ -2839,7 +3071,7 @@ Ground 2 — earth, sand and snow · wave 29 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Ground 2 — earth, sand and snow.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Ground 2 — earth, sand and snow.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Dirt path — packed light-brown earth with pebbles and a few cart-track marks.
@@ -2868,7 +3100,7 @@ Ground 3 — paving · wave 29 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Ground 3 — paving.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Ground 3 — paving.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Flagstone road — irregular grey flagstones with dark gaps and a little grass in the joints.
@@ -2897,7 +3129,7 @@ Ground 4 — water and lava · wave 29 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Ground 4 — water and lava.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Ground 4 — water and lava.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Shallow water — clear turquoise water with a few curved white ripple lines.
@@ -2926,7 +3158,7 @@ Ground 5 — the far realms · wave 29 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Ground 5 — the far realms.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Ground 5 — the far realms.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Bare rock — grey-brown bare rock with cracks.
@@ -2955,7 +3187,7 @@ Ground 6 — cliff faces (seen from the front; these repeat left to right) · wa
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Ground 6 — cliff faces (seen from the front; these repeat left to right).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Ground 6 — cliff faces (seen from the front; these repeat left to right).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Grassland cliff — warm brown layered rock face with horizontal strata and grass at the top edge.
@@ -2984,7 +3216,7 @@ Floors — rooms, towers and castles · wave 29 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Floors — rooms, towers and castles.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Floors — rooms, towers and castles.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Floorboards — warm wooden floorboards.
@@ -3013,7 +3245,7 @@ Floors 2 and cave floors · wave 29 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Floors 2 and cave floors.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Floors 2 and cave floors.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Clay tiles — square terracotta tiles.
@@ -3042,7 +3274,7 @@ Room walls (seen from the front; these repeat left to right) · wave 29 · 6 ite
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 square ground-texture swatches — Room walls (seen from the front; these repeat left to right).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 square ground-texture swatches — Room walls (seen from the front; these repeat left to right).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 swatches in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Wood panelling — dark wood wall panelling with a rail.
@@ -3073,7 +3305,7 @@ Monster-camp props 1 · wave 30 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Monster-camp props 1.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Monster-camp props 1.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Campfire — ring of stones with crossed logs and a lively fire (about as tall as the hero).
@@ -3106,7 +3338,7 @@ Monster-camp props 2 · wave 30 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_camp_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Monster-camp props 2.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Monster-camp props 2.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Camp well — small rough stone well (about 0.8× the hero's height).
@@ -3139,7 +3371,7 @@ Monster-camp props 3 · wave 30 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_camp_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Monster-camp props 3.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Monster-camp props 3.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Raft — small log raft with a pole (about 0.6× the hero's height).
@@ -3176,7 +3408,7 @@ Loot pickups (small, shown on the ground) · wave 30 · 12 items, 4 × 3 · 1536
 Attach: style_hero, style_centaur, sc_camp_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Loot pickups (small, shown on the ground).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Loot pickups (small, shown on the ground).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Gold — small pile of gold coins (a small item, under half the hero's height).
@@ -3213,7 +3445,7 @@ Fairy-trial props 1 · wave 30 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Fairy-trial props 1.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Fairy-trial props 1.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Trial rune stone — waist-high rounded stone with a large glowing rune (about 0.8× the hero's height).
@@ -3246,7 +3478,7 @@ Fairy-trial props 2 · wave 30 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_trial_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Fairy-trial props 2.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Fairy-trial props 2.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Rune spire — slim crystal spire with rings of light (about 1.3× the hero's height).
@@ -3279,7 +3511,7 @@ Tower furnishings 1 — tall pieces · wave 31 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Tower furnishings 1 — tall pieces.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Tower furnishings 1 — tall pieces.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Grand bookshelf — very tall carved bookshelf with a ladder (about 1.7× the hero's height).
@@ -3312,7 +3544,7 @@ Tower furnishings 2 — plants, music and light · wave 31 · 8 items, 4 × 2 ·
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Tower furnishings 2 — plants, music and light.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Tower furnishings 2 — plants, music and light.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Tall plant — large fern in a stone urn (about 1.4× the hero's height).
@@ -3343,7 +3575,7 @@ Tower centrepieces · wave 31 · 6 items, 3 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Tower centrepieces.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Tower centrepieces.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Hall fountain — three-tiered marble fountain (about 2.4× the hero's height).
@@ -3378,7 +3610,7 @@ Tower furnishings 4 — low pieces · wave 31 · 12 items, 4 × 3 · 1536x1024
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate pieces of scenery — Tower furnishings 4 — low pieces.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate pieces of scenery — Tower furnishings 4 — low pieces.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Round table — round polished table (about 0.7× the hero's height).
@@ -3413,7 +3645,7 @@ Tower rugs and floor pieces (seen from above) · wave 31 · 6 items, 3 × 2 · 1
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate pieces of scenery — Tower rugs and floor pieces (seen from above).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Tower rugs and floor pieces (seen from above).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Tower rug — large rectangular rug, deep blue with silver stars (about 2× the hero's height across).
@@ -3444,7 +3676,7 @@ Castle furnishings 1 · wave 31 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Castle furnishings 1.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Castle furnishings 1.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Great hearth — huge stone hearth with a roaring fire and a crest (about 2.1× the hero's height).
@@ -3477,7 +3709,7 @@ Castle furnishings 2 · wave 31 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Castle furnishings 2.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Castle furnishings 2.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Knight statue — stone statue of a knight with sword and shield (about 2.2× the hero's height).
@@ -3510,7 +3742,7 @@ Castle wall pieces · wave 31 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Castle wall pieces.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Castle wall pieces.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Castle banner — long hanging heraldic banner, blank shield shape in the middle (about 1.5× the hero's height).
@@ -3543,7 +3775,7 @@ Mage-tower furnishings 1 · wave 31 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Mage-tower furnishings 1.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Mage-tower furnishings 1.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Great cauldron — huge bubbling cauldron with coloured smoke (about 1.3× the hero's height).
@@ -3576,7 +3808,7 @@ Mage-tower furnishings 2 · wave 31 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Mage-tower furnishings 2.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Mage-tower furnishings 2.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Scrying orb — large glowing orb on a clawed stand (about as tall as the hero).
@@ -3609,7 +3841,7 @@ Mage-tower furnishings 3 · wave 31 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_twr_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Mage-tower furnishings 3.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Mage-tower furnishings 3.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Fish tank — tall glass tank with glowing fish (about 1.6× the hero's height).
@@ -3642,7 +3874,7 @@ Dungeon pieces 1 · wave 32 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_setpiece_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Dungeon pieces 1.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Dungeon pieces 1.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Cave boulder — rough brown cave boulder (about as tall as the hero).
@@ -3675,7 +3907,7 @@ Dungeon pieces 2 · wave 32 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_setpiece_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Dungeon pieces 2.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Dungeon pieces 2.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Dungeon statue — worn statue of a forgotten king, one arm missing (about as tall as the hero).
@@ -3708,7 +3940,7 @@ Dungeon pieces 3 — things you use · wave 32 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_setpiece_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Dungeon pieces 3 — things you use.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Dungeon pieces 3 — things you use.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Dungeon chest — iron-bound treasure chest, closed (about 0.6× the hero's height).
@@ -3741,7 +3973,7 @@ Ember-cave and arena pieces · wave 32 · 8 items, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur, sc_setpiece_1
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 8 separate pieces of scenery — Ember-cave and arena pieces.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Ember-cave and arena pieces.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Ember basalt — short basalt column with glowing seams (about as tall as the hero).
@@ -3788,10 +4020,10 @@ Control-bar and menu icons · wave 33 · 25 items, 5 × 5 · 1024x1024
 - `ui_lock` Locked — 48 × 48 px
 - `ui_close` Close — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Control-bar and menu icons.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 25 separate game icons — Control-bar and menu icons.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 25 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first):
 1. Attack — two crossed swords.
@@ -3855,10 +4087,10 @@ Empty gear-slot symbols and inventory tabs — the first 14 are EMPTY-SLOT symbo
 - `tab_sell` Sell — 48 × 48 px
 - `tab_buy` Buy — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Empty gear-slot symbols and inventory tabs — the first 14 are EMPTY-SLOT symbols: each one a simple flat dark slate-blue silhouette of the item with a thin teal outline, no other colours, no detail.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 25 separate game icons — Empty gear-slot symbols and inventory tabs — the first 14 are EMPTY-SLOT symbols: each one a simple flat dark slate-blue silhouette of the item with a thin teal outline, no other colours, no detail.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 25 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first):
 1. Empty cloak slot — silhouette of a cloak.
@@ -3922,10 +4154,10 @@ Map markers and quest icons · wave 33 · 25 items, 5 × 5 · 1024x1024
 - `q_fairy` Fairy quest — 48 × 48 px
 - `q_reward` Reward — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Map markers and quest icons.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 25 separate game icons — Map markers and quest icons.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 25 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first):
 1. Village — a cluster of three tiny cottages.
@@ -3989,10 +4221,10 @@ Status effects, elements and tome chapters · wave 33 · 25 items, 5 × 5 · 102
 - `tm_lore` Lore chapter — 48 × 48 px
 - `ui_levelup` Level up — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Status effects, elements and tome chapters.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 25 separate game icons — Status effects, elements and tome chapters.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 25 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first):
 1. Attack up — a red sword with an up arrow.
@@ -4037,10 +4269,10 @@ Panel ornaments — carved dark stone inlaid with glowing teal runes and thin go
 - `orn_arrow` Arrow — 96 × 48 px
 - `orn_plate` Name plate — 96 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 6 separate game icons — Panel ornaments — carved dark stone inlaid with glowing teal runes and thin gold edges; each drawn flat, straight from the front.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate game icons — Panel ornaments — carved dark stone inlaid with glowing teal runes and thin gold edges; each drawn flat, straight from the front.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Corner flourish — an L-shaped corner piece of carved stone knotwork, for the top-left corner of a panel.
@@ -4082,10 +4314,10 @@ Item icons — swords, axes and other melee weapons · wave 34 · 22 items, 5 ×
 - `ic_thunder_god` Thunder God — 48 × 48 px
 - `ic_elemental_sovereign` Elemental Sovereign — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 22 separate game icons — Item icons — swords, axes and other melee weapons.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 22 separate game icons — Item icons — swords, axes and other melee weapons.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 22 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first); the last 3 cell(s) stay empty:
 1. Woodcutter's Axe — melee weapon, a steel axe head on a wooden haft.
@@ -4140,10 +4372,10 @@ Item icons — bows, staffs, arrows and darts · wave 34 · 19 items, 5 × 4 · 
 - `ic_dart_fire` Fire Dart — 48 × 48 px
 - `ic_dart_heat` Heat-Seeking Dart — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — bows, staffs, arrows and darts.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 19 separate game icons — Item icons — bows, staffs, arrows and darts.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 19 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
 1. Short Bow — ranged weapon.
@@ -4201,10 +4433,10 @@ Item icons — body armor and shields · wave 35 · 25 items, 5 × 5 · 1024x102
 - `ic_dragon_shield` Dragon Shield — 48 × 48 px
 - `ic_aegis` Aegis — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Item icons — body armor and shields.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 25 separate game icons — Item icons — body armor and shields.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 25 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first):
 1. Leather Armor — body armor (the torso piece on its own, no person), brown leather.
@@ -4263,10 +4495,10 @@ Item icons — headgear and leg armor · wave 35 · 20 items, 5 × 4 · 1536x102
 - `ic_arcane_leggings` Arcane Leggings — 48 × 48 px
 - `ic_sky_leggings` Sky Leggings — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Item icons — headgear and leg armor.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 20 separate game icons — Item icons — headgear and leg armor.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
 1. Cloth Cap — headgear on its own.
@@ -4320,10 +4552,10 @@ Item icons — gauntlets and boots · wave 35 · 20 items, 5 × 4 · 1536x1024
 - `ic_dragon_boots` Dragon Boots — 48 × 48 px
 - `ic_shadow_treads` Shadow Treads — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Item icons — gauntlets and boots.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 20 separate game icons — Item icons — gauntlets and boots.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
 1. Leather Gauntlets — pair of gauntlets, brown leather.
@@ -4379,10 +4611,10 @@ Item icons — amulets and cloaks · wave 35 · 22 items, 5 × 5 · 1024x1024
 - `ic_dragon_cape` Dragon Cape — 48 × 48 px
 - `ic_shadow_mantle` Shadow Mantle — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 22 separate game icons — Item icons — amulets and cloaks.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 22 separate game icons — Item icons — amulets and cloaks.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 22 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first); the last 3 cell(s) stay empty:
 1. Bronze Amulet — amulet on a chain, bronze.
@@ -4442,10 +4674,10 @@ Item icons — rings, gems, keys and materials · wave 36 · 24 items, 5 × 5 ·
 - `ic_wood_log` Wood Log — 48 × 48 px
 - `ic_cup_empty` Empty Cup — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 24 separate game icons — Item icons — rings, gems, keys and materials.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 24 separate game icons — Item icons — rings, gems, keys and materials.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 24 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
 1. Ruby Ring — finger ring, with a red ruby.
@@ -4497,10 +4729,10 @@ Item icons — potions and tonics · wave 36 · 14 items, 5 × 3 · 1536x1024
 - `ic_speed_draught` Speed Draught — 48 × 48 px
 - `ic_defense_brew` Defense Brew — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 14 separate game icons — Item icons — potions and tonics.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 14 separate game icons — Item icons — potions and tonics.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 14 objects in a grid of 5 columns × 3 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
 1. Health Potion — potion bottle.
@@ -4540,10 +4772,10 @@ Item icons — food and drink · wave 36 · 12 items, 4 × 3 · 1536x1024
 - `ic_feast_platter` Grand Feast — 48 × 48 px
 - `ic_dragon_steak` Dragon Steak — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate game icons — Item icons — food and drink.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate game icons — Item icons — food and drink.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Filled Cup — food.
@@ -4585,10 +4817,10 @@ Spell emblems (shown on the spell slot and in the tome) · wave 36 · 16 items, 
 - `ic_drain_tome` Spirit Drain — 48 × 48 px
 - `ic_inferno_tome` Starfall — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 16 separate game icons — Spell emblems (shown on the spell slot and in the tome).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 16 separate game icons — Spell emblems (shown on the spell slot and in the tome).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 16 objects in a grid of 4 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
 1. Frost Bolt — spell emblem: one bold symbol that shows "Frost Bolt" — icy pale blue with frost crystals (Fast bolt that slows what it hits).
@@ -4630,10 +4862,10 @@ Skill emblems (special attacks) · wave 36 · 12 items, 4 × 3 · 1536x1024
 - `ic_sp_timeslow` Time Slow — 48 × 48 px
 - `ic_sp_meteor` Meteor Strike — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 12 separate game icons — Skill emblems (special attacks).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 12 separate game icons — Skill emblems (special attacks).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 12 objects in a grid of 4 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
 1. Sprint — skill emblem: one bold symbol that shows "Sprint" (Z: 2× speed for 3 seconds (no cost)).
@@ -4678,10 +4910,10 @@ Item icons — axes, mauls and two-element blades (round 37) · wave 37 · 19 it
 - `ic_night_edge` Night Edge — 48 × 48 px
 - `ic_sov_axe` Sovereign Axe — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — axes, mauls and two-element blades (round 37).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 19 separate game icons — Item icons — axes, mauls and two-element blades (round 37).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 19 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
 1. Hand Axe — battle axe or maul: a small one-handed axe, steel head on a short wooden haft.
@@ -4736,10 +4968,10 @@ Item icons — crossbows, staffs, arrows and darts (round 37) · wave 37 · 22 i
 - `ic_dart_thorn` Thorn Dart — 48 × 48 px
 - `ic_dart_shock` Shock Dart — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 22 separate game icons — Item icons — crossbows, staffs, arrows and darts (round 37).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 22 separate game icons — Item icons — crossbows, staffs, arrows and darts (round 37).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 22 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first); the last 3 cell(s) stay empty:
 1. Light Crossbow — crossbow: a small light wooden crossbow.
@@ -4800,10 +5032,10 @@ Item icons — gems, draughts, the Sovereign armor, and five menu symbols (round
 - `tm_paths` Paths chapter — 48 × 48 px
 - `tm_elements` Elements chapter — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 25 separate game icons — Item icons — gems, draughts, the Sovereign armor, and five menu symbols (round 37).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 25 separate game icons — Item icons — gems, draughts, the Sovereign armor, and five menu symbols (round 37).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 25 objects in a grid of 5 columns × 5 rows, evenly spaced, in this order (left to right, top row first):
 1. Amber — gem or treasure: a cut honey-amber gem, warm orange-brown, faceted.
@@ -4861,10 +5093,10 @@ Item icons — shadow swords, two-element master-works, their rare forging items
 - `ic_grave_amber` Grave Amber — 48 × 48 px
 - `ic_sp_petalstep` Petal Step — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — shadow swords, two-element master-works, their rare forging items and Petal Step (round 45).
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 19 separate game icons — Item icons — shadow swords, two-element master-works, their rare forging items and Petal Step (round 45).
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 19 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
 1. Dusk Iron — melee weapon: a plain iron sword whose blade fades to violet-black at the tip, with a faint wisp of shadow.
@@ -4916,10 +5148,10 @@ Item icons — the elemental bows, the warbows and the Squall Pearl (round 45), 
 - `fo_sulfur_crystal` Sulfur Crystal — 48 × 48 px
 - `fo_cathedral_bell` Cathedral Bell — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 19 separate game icons — Item icons — the elemental bows, the warbows and the Squall Pearl (round 45), with the last fairy-quest treasures.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 19 separate game icons — Item icons — the elemental bows, the warbows and the Squall Pearl (round 45), with the last fairy-quest treasures.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 19 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first); the last 1 cell(s) stay empty:
 1. Ember Bow — ranged weapon: a longbow of dark red wood with glowing orange embers along the limbs and a string of fire.
@@ -4972,10 +5204,10 @@ Tome pictures — the regions of the world (1 of 2): each a tiny round vignette 
 - `tm_zone_drowned_village` Drowned Village Rooftops — 48 × 48 px
 - `tm_zone_stilt_walkways` Misty Stilt Walkways — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Tome pictures — the regions of the world (1 of 2): each a tiny round vignette of the place.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 20 separate game icons — Tome pictures — the regions of the world (1 of 2): each a tiny round vignette of the place.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
 1. Waystone Ancient Road — a tiny round painted vignette of a place, like a map-book illustration: An old paved road lined with rune waystones..
@@ -5029,10 +5261,10 @@ Tome pictures — the regions of the world (2 of 2): each a tiny round vignette 
 - `tm_zone_dragon_valley` Dragon Skeleton Valley — 48 × 48 px
 - `tm_zone_chained_rocks` Chained Floating Rocks — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Tome pictures — the regions of the world (2 of 2): each a tiny round vignette of the place.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 20 separate game icons — Tome pictures — the regions of the world (2 of 2): each a tiny round vignette of the place.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
 1. Dwarven Stair-cut Cliffs — a tiny round painted vignette of a place, like a map-book illustration: Cliff terraces cut with stairs and rune doors..
@@ -5086,10 +5318,10 @@ Tome pictures — the boss arenas: each a tiny round vignette of the battlegroun
 - `tm_arena_starless_void` The Starless Void — 48 × 48 px
 - `tm_arena_dawn_altar` The Dawn Altar — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Tome pictures — the boss arenas: each a tiny round vignette of the battleground.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 20 separate game icons — Tome pictures — the boss arenas: each a tiny round vignette of the battleground.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
 1. The Throne Warren — a tiny round painted vignette of a place, like a map-book illustration: A torch-lit goblin fighting pit ringed with spiked barricades..
@@ -5143,10 +5375,10 @@ Fairy-quest treasures — small magical objects dug out of the ground, each glow
 - `fo_basalt_rune` Basalt Rune — 48 × 48 px
 - `fo_dragon_tooth` Dragon Tooth — 48 × 48 px
 
-Attach: style_hero, style_centaur, sc_ic_spirit
+Attach: style_hero, style_centaur, sc_ic_trays
 
 ```
-Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of 20 separate game icons — Fairy-quest treasures — small magical objects dug out of the ground, each glowing faintly.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 20 separate game icons — Fairy-quest treasures — small magical objects dug out of the ground, each glowing faintly.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
 Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first):
 1. Silver Acorn — a single small treasure: silver acorn, found under the old windmill hill.

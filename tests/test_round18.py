@@ -45,7 +45,7 @@ with game(new=None) as g:
     g.js("document.getElementById('zp-name').value='Rin'; document.getElementById('zp-next').click()"); g.wait(200)
     g.js("document.querySelectorAll('.zp-slot')[0].querySelector('[data-a=new]').click()"); g.wait(400)
     r=g.js("({n:document.querySelectorAll('.zp-hero').length, t:[...document.querySelectorAll('.zp-hero b')].map(function(b){ return b.textContent; }), drawn:[...document.querySelectorAll('.zp-hero canvas')].map(function(cv){ var d=cv.getContext('2d').getImageData(0,0,100,168).data, n=0; for(var i=3;i<d.length;i+=4)if(d[i]>40)n++; return n; })})")
-    check('New Game asks which hero: the boy or the girl, each with a picture', r['n']==2 and r['t']==['The boy','The girl'] and min(r['drawn'])>800, r)
+    check('New Game asks which hero: Zeldara (the girl) or Zeldor (the boy), each with a picture (round 53)', r['n']==2 and r['t']==['Zeldara','Zeldor'] and min(r['drawn'])>800, r)
     g.js("document.querySelector('.zp-hero[data-h=f]').click()")
     check('Choosing the girl starts the game', to_world(g))
     g.wait(900); g.key('d',300); g.wait(200)

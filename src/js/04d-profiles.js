@@ -76,8 +76,8 @@ var ZProfilesUI={
     document.getElementById('zp-next').onclick=go; document.getElementById('zp-name').onkeydown=function(e){ e.stopPropagation(); if(e.key==='Enter')go(); if(e.key==='Escape')ZProfilesUI.close(); };
     document.getElementById('zp-cancel').onclick=ZProfilesUI.close; },
   // NEW GAME, last step (round 18): choose your hero — boy or girl. The girl is a recoloured stand-in until her sprites are painted.
-  pickHero:function(p,go,back){ ZProfilesUI.open('<h2>Choose your hero</h2><p>'+ZProfilesUI.esc(p.name)+', who will you play?</p><div class="zp-heroes">'+
-      [['m','The boy','A woodcutter\'s son from the lake village, raised on tales of the Runestone'],['f','The girl','A shieldmaiden\'s daughter from the northern fjords, come south to earn her own name']].map(function(h){ return '<button class="zp-hero" data-h="'+h[0]+'"><canvas width="100" height="168"></canvas><b>'+h[1]+'</b><small>'+h[2]+'</small></button>'; }).join('')+
+  pickHero:function(p,go,back){ ZProfilesUI.open('<h2>Choose your hero</h2><p>'+ZProfilesUI.esc(p.name)+', who will you play — Zeldara or Zeldor?</p><div class="zp-heroes">'+
+      [['f','Zeldara','A shieldmaiden\'s daughter from the northern fjords, come south to earn her own name'],['m','Zeldor','A woodcutter\'s son from the lake village, raised on tales of the Runestone']].map(function(h){ return '<button class="zp-hero" data-h="'+h[0]+'"><canvas width="100" height="168"></canvas><b>'+h[1]+'</b><small>'+h[2]+'</small></button>'; }).join('')+
       '</div><p class="zp-note">Both play the same. You can\'t change this later in the same save.</p><div id="zp-diff"></div><p class="zp-note">Pick how hard the journey is, then click your hero. You can change the difficulty later (❓ panel).</p><div class="zp-row"><button class="zp-btn" id="zp-hback">Back</button></div>');
     var E=ZProfilesUI.el; E.querySelectorAll('.zp-hero').forEach(function(b){ var cv=b.querySelector('canvas'), c=cv.getContext('2d'), img=new Image(); c.imageSmoothingEnabled=false;
       img.onload=function(){ var src=b.dataset.h==='f'&&typeof _heroRecolour==='function'?_heroRecolour(img):img; c.clearRect(0,0,100,168); c.imageSmoothingEnabled=true; var sc=Math.min(100/src.width,160/src.height); c.drawImage(src,(100-src.width*sc)/2,164-src.height*sc,src.width*sc,src.height*sc); };
@@ -116,7 +116,7 @@ var ZProfilesUI={
         else if(a==='export'){ ZSave.download(p.id,s); var x=document.getElementById('zp-exp'); x.style.display='block'; var ta=x.querySelector('textarea'); ta.value=ZSave.exportCode(p.id,s); ta.onkeydown=function(e){ e.stopPropagation(); }; ta.focus(); ta.select(); }
         else if(a==='import'){ impSlot=s; document.getElementById('zp-imp').style.display='block'; }
         else if(a==='del'){ if(b.dataset.sure!=='1'){ b.dataset.sure='1'; b.textContent='Delete?'; return; } ZSave.store.remove(ZSave.slotKey(p.id,s)); ZProfilesUI.slots(p,start,false,'Slot '+s+' deleted.'); } }; });
-    var doImp=function(code){ if(ZSave.importCode(p.id,impSlot,code))ZProfilesUI.slots(p,start,false,'Imported into slot '+impSlot+'.'); else alert('That is not a Zeldara save code/file.'); };
+    var doImp=function(code){ if(ZSave.importCode(p.id,impSlot,code))ZProfilesUI.slots(p,start,false,'Imported into slot '+impSlot+'.'); else alert('That is not a save code/file from The Quests of Zeldara and Zeldor.'); };
     document.getElementById('zp-impgo').onclick=function(){ var f=document.getElementById('zp-file').files[0]; if(f){ f.text().then(doImp); } else doImp(document.getElementById('zp-code').value); };
     document.getElementById('zp-code').onkeydown=function(e){ e.stopPropagation(); };
     document.getElementById('zp-back').onclick=function(){ ZSave.players().length>1||!isNew?ZProfilesUI.returning(start):ZProfilesUI.close(); };

@@ -52,6 +52,8 @@ function _heroRegisterTextures(scene){
 // ── Two playable heroes (round 18): ps.hero is 'm' (default, old saves) or 'f'.
 // Until the painted sprites arrive, the girl is a recoloured stand-in of the boy's frames
 // (auburn hair, wine-red cape), made on first use from each frame and cached as 'heroF_*'.
+// round 53 (Kris: "the 2 characters to choose from should be renamed to Zeldara (the girl) and Zeldor (the boy)"): what people in the game call you
+function heroName(ps){ if(!ps){ try{ ps=game.scene.getScene('World').playerState; }catch(e){} } return ps&&ps.hero==='f'?'Zeldara':'Zeldor'; }
 function _heroWho(scene){ var ps=scene&&((scene.worldScene&&scene.worldScene.playerState)||scene.playerState); return ps&&ps.hero==='f'?'f':'m'; }
 function _heroRecolour(src){ var w=src.width, h=src.height, cv=document.createElement('canvas'); cv.width=w; cv.height=h; var c=cv.getContext('2d'); c.drawImage(src,0,0);
   var im=c.getImageData(0,0,w,h), d=im.data, top=-1;

@@ -255,5 +255,5 @@ var ZBrand={ cache:{},
     // logo + name + buttons + blurb (in the real page these are HTML; here they show the layout)
     ZBrand.symbol(c,o.sym||'world_tree',cx,cy,SR,2,t); ZBrand.word(c,o.word||'rune_carve',cx,Hh*L.wy,Hh*0.07,t);
     var bw=W*0.23, bh=Hh*0.085, by2=Hh*L.by; [['NEW GAME','#00cc88',cx-bw*0.56],['RETURNING PLAYER','#4488cc',cx+bw*0.56]].forEach(function(b){ c.fillStyle=ZBrand.rgba(b[1],0.13); c.strokeStyle=b[1]; c.lineWidth=1; c.fillRect(b[2]-bw/2,by2-bh/2,bw,bh); c.strokeRect(b[2]-bw/2,by2-bh/2,bw,bh); c.fillStyle=b[1]; c.font='600 '+Math.round(Hh*0.03)+'px "Segoe UI",system-ui,sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(b[0],b[2],by2); });
-    c.fillStyle='rgba(190,205,225,.7)'; c.font=Math.round(Hh*0.03)+'px "Segoe UI",system-ui,sans-serif'; c.textAlign='center'; c.fillText('Four realms. One awakening. Wake the waystones, free the spirits,',cx,Hh*L.ty); c.fillText('and face the Volcano Lord.',cx,Hh*L.ty+Hh*0.045); };
+    c.fillStyle='rgba(190,205,225,.7)'; c.font=Math.round(Hh*0.03)+'px "Segoe UI",system-ui,sans-serif'; c.textAlign='center'; var TG=ZBrand.TAGLINE||['Four realms. One awakening. Wake the waystones, free the spirits,','and face the Volcano Lord.']; c.fillText(TG[0],cx,Hh*L.ty); c.fillText(TG[1],cx,Hh*L.ty+Hh*0.045); };
 })();

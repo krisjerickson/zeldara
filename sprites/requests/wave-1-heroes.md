@@ -4,7 +4,7 @@ Save each result as `sprites/incoming/<request id>.png`.
 
 ## hero_m.move.s
 
-Hero (boy) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: 
 
@@ -17,7 +17,7 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.move.f
 
-Hero (boy) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: 
 
@@ -30,7 +30,7 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.move.b
 
-Hero (boy) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: 
 
@@ -43,7 +43,7 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.move.s
 
-Hero (girl) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: 
 
@@ -56,7 +56,7 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.move.f
 
-Hero (girl) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: 
 
@@ -69,7 +69,7 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.move.b
 
-Hero (girl) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Movement (first version, 4-frame walk) · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: 
 
@@ -82,14 +82,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.move2.s
 
-Hero (boy) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
+Zeldor (the boy) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
 Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing ready, hands relaxed.
@@ -110,14 +110,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.ranged.s
 
-Hero (boy) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: bow = a wooden recurve bow; crossbow = a compact wooden crossbow with iron fittings. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. bow nock: arrow set on the string, bow lowered.
@@ -136,14 +136,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.magic.s
 
-Hero (boy) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: staff = a tall wooden staff topped with a glowing teal crystal; wand = a short carved wand with a glowing teal tip; bare-hand spell = no weapon, an open hand wreathed in teal light. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. staff ready: staff upright in one hand.
@@ -162,14 +162,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.defend.s
 
-Hero (boy) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: shield = a round wooden shield with an iron rim and a teal rune. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. shield raise: shield brought up in front, knees bent.
@@ -188,14 +188,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.move2.f
 
-Hero (boy) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
+Zeldor (the boy) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
 Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing ready, hands relaxed.
@@ -216,14 +216,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.melee.f
 
-Hero (boy) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: sword = a short straight sword with a teal-glowing edge; battle axe = a broad single-bladed battle axe with a teal-glowing edge. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. sword ready: blade held low at the side.
@@ -242,14 +242,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.ranged.f
 
-Hero (boy) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: bow = a wooden recurve bow; crossbow = a compact wooden crossbow with iron fittings. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. bow nock: arrow set on the string, bow lowered.
@@ -268,14 +268,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.magic.f
 
-Hero (boy) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: staff = a tall wooden staff topped with a glowing teal crystal; wand = a short carved wand with a glowing teal tip; bare-hand spell = no weapon, an open hand wreathed in teal light. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. staff ready: staff upright in one hand.
@@ -294,14 +294,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.defend.f
 
-Hero (boy) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: shield = a round wooden shield with an iron rim and a teal rune. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. shield raise: shield brought up in front, knees bent.
@@ -320,14 +320,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.move2.b
 
-Hero (boy) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
+Zeldor (the boy) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
 Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing ready, hands relaxed.
@@ -348,14 +348,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.melee.b
 
-Hero (boy) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: sword = a short straight sword with a teal-glowing edge; battle axe = a broad single-bladed battle axe with a teal-glowing edge. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. sword ready: blade held low at the side.
@@ -374,14 +374,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.ranged.b
 
-Hero (boy) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: bow = a wooden recurve bow; crossbow = a compact wooden crossbow with iron fittings. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. bow nock: arrow set on the string, bow lowered.
@@ -400,14 +400,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.magic.b
 
-Hero (boy) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: staff = a tall wooden staff topped with a glowing teal crystal; wand = a short carved wand with a glowing teal tip; bare-hand spell = no weapon, an open hand wreathed in teal light. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. staff ready: staff upright in one hand.
@@ -426,14 +426,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.defend.b
 
-Hero (boy) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: shield = a round wooden shield with an iron rim and a teal rune. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. shield raise: shield brought up in front, knees bent.
@@ -452,14 +452,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.skills_a.s
 
-Hero (boy) · Skills: War Stomp, Whirlwind, Smoke Bomb · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Skills: War Stomp, Whirlwind, Smoke Bomb · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Held items in this sheet: sword = a short straight sword with a teal-glowing edge. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. war stomp: one knee raised high.
@@ -478,14 +478,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.skills_b.s
 
-Hero (boy) · Skills: Blink, Berserker, Second Wind, Time Slow · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Skills: Blink, Berserker, Second Wind, Time Slow · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. blink out: body breaking into teal motes.
 2. blink in: body re-forming from teal motes.
@@ -503,14 +503,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.skills_c.s
 
-Hero (boy) · Skills: Phantom Veil, Meteor; defeat · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Skills: Phantom Veil, Meteor; defeat · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. phantom veil: pulling the hood up, body turning translucent.
 2. phantom form: a pale see-through ghost of the hero outlined in teal.
@@ -528,14 +528,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_m.misc.s
 
-Hero (boy) · Potion, food, cheer, rest, hurt, pick up · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldor (the boy) · Potion, food, cheer, rest, hurt, pick up · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_m.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. uncorking a small red potion bottle.
 2. head tipped back, drinking.
@@ -553,14 +553,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.move2.s
 
-Hero (girl) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
+Zeldara (the girl) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
 Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing ready, hands relaxed.
@@ -581,14 +581,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.melee.s
 
-Hero (girl) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: sword = a short straight sword with a teal-glowing edge; battle axe = a broad single-bladed battle axe with a teal-glowing edge. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. sword ready: blade held low at the side.
@@ -607,14 +607,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.ranged.s
 
-Hero (girl) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: bow = a wooden recurve bow; crossbow = a compact wooden crossbow with iron fittings. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. bow nock: arrow set on the string, bow lowered.
@@ -633,14 +633,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.magic.s
 
-Hero (girl) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: staff = a tall wooden staff topped with a glowing teal crystal; wand = a short carved wand with a glowing teal tip; bare-hand spell = no weapon, an open hand wreathed in teal light. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. staff ready: staff upright in one hand.
@@ -659,14 +659,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.defend.s
 
-Hero (girl) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: shield = a round wooden shield with an iron rim and a teal rune. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. shield raise: shield brought up in front, knees bent.
@@ -685,14 +685,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.move2.f
 
-Hero (girl) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
+Zeldara (the girl) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
 Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing ready, hands relaxed.
@@ -713,14 +713,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.melee.f
 
-Hero (girl) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: sword = a short straight sword with a teal-glowing edge; battle axe = a broad single-bladed battle axe with a teal-glowing edge. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. sword ready: blade held low at the side.
@@ -739,14 +739,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.ranged.f
 
-Hero (girl) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: bow = a wooden recurve bow; crossbow = a compact wooden crossbow with iron fittings. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. bow nock: arrow set on the string, bow lowered.
@@ -765,14 +765,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.magic.f
 
-Hero (girl) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: staff = a tall wooden staff topped with a glowing teal crystal; wand = a short carved wand with a glowing teal tip; bare-hand spell = no weapon, an open hand wreathed in teal light. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. staff ready: staff upright in one hand.
@@ -791,14 +791,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.defend.f
 
-Hero (girl) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: shield = a round wooden shield with an iron rim and a teal rune. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. shield raise: shield brought up in front, knees bent.
@@ -817,14 +817,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.move2.b
 
-Hero (girl) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
+Zeldara (the girl) · Movement · 10 poses, 5 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 IMPORTANT for the walk cycle: the six walk frames must be clearly different from each other — an exaggerated stride (the feet at least a body-width apart on the two CONTACT frames), a visible arm swing, the body bobbing down and up, the cape and hair swinging with each step. Do not draw six near-identical standing poses.
 Layout: exactly 10 poses in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing ready, hands relaxed.
@@ -845,14 +845,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.melee.b
 
-Hero (girl) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Sword and battle axe · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: sword = a short straight sword with a teal-glowing edge; battle axe = a broad single-bladed battle axe with a teal-glowing edge. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. sword ready: blade held low at the side.
@@ -871,14 +871,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.ranged.b
 
-Hero (girl) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Bow and crossbow · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: bow = a wooden recurve bow; crossbow = a compact wooden crossbow with iron fittings. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. bow nock: arrow set on the string, bow lowered.
@@ -897,14 +897,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.magic.b
 
-Hero (girl) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Staff, wand and bare-hand spells · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: staff = a tall wooden staff topped with a glowing teal crystal; wand = a short carved wand with a glowing teal tip; bare-hand spell = no weapon, an open hand wreathed in teal light. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. staff ready: staff upright in one hand.
@@ -923,14 +923,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.defend.b
 
-Hero (girl) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: shield = a round wooden shield with an iron rim and a teal rune. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. shield raise: shield brought up in front, knees bent.
@@ -949,14 +949,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.skills_a.s
 
-Hero (girl) · Skills: War Stomp, Whirlwind, Smoke Bomb · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Skills: War Stomp, Whirlwind, Smoke Bomb · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Held items in this sheet: sword = a short straight sword with a teal-glowing edge. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. war stomp: one knee raised high.
@@ -975,14 +975,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.skills_b.s
 
-Hero (girl) · Skills: Blink, Berserker, Second Wind, Time Slow · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Skills: Blink, Berserker, Second Wind, Time Slow · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. blink out: body breaking into teal motes.
 2. blink in: body re-forming from teal motes.
@@ -1000,14 +1000,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.skills_c.s
 
-Hero (girl) · Skills: Phantom Veil, Meteor; defeat · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Skills: Phantom Veil, Meteor; defeat · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. phantom veil: pulling the hood up, body turning translucent.
 2. phantom form: a pale see-through ghost of the hero outlined in teal.
@@ -1025,14 +1025,14 @@ Background: fully transparent (real alpha channel). If you cannot produce real t
 
 ## hero_f.misc.s
 
-Hero (girl) · Potion, food, cheer, rest, hurt, pick up · 8 poses, 4 × 2 · 1536x1024 · core
+Zeldara (the girl) · Potion, food, cheer, rest, hurt, pick up · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur, hero_f.model
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it.
-Subject: Hero (girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. uncorking a small red potion bottle.
 2. head tipped back, drinking.

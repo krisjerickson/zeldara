@@ -44,7 +44,7 @@ var ZDEATH={
     {id:'rune', name:'The rune of return', mood:'solemn, carved in stone',
       fx:{tint:'brightness(.55) contrast(1.2)', veil:'#04101a', bits:'runes', col:'#6fe3f5', zoom:1},
       title:'ᚱ  The rune of return  ᚱ', sub:'Spent in {area}',
-      lines:['Every hero of Zeldara carries one rune that cannot be seen.','When {foe} struck the last blow it burned bright, broke, and carried you home. It will grow back. It always does.'],
+      lines:['Every hero of Runeheim carries one rune that cannot be seen.','When {foe} struck the last blow it burned bright, broke, and carried you home. It will grow back. It always does.'],
       gold:'Its price is paid in gold: {gold}.', gold0:'It asked for gold and found none. It carried you all the same.', wake:'You stand on the Runestone Green at a quarter of your strength.', btn:'Trace the rune'},
     {id:'chronicle', name:'A page of the chronicle', mood:'storybook',
       fx:{tint:'sepia(.85) brightness(.85)', veil:'#2a2010', bits:'none', col:'#c8a868'},

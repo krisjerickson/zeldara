@@ -89,7 +89,7 @@
 | Glass forger and her hall | **Sólveig the Glasswright**, in **the Glimmerhall**, the grandest building in the village |
 | Glass | **Soulglass shard** → **Soulglass lattice** (Ember / Cinder / Slag / Ash) → **Heartglass** (made at each forge's hearth) |
 
-Still my proposals (change any you like):
+Decided on Kris's round 53 card ("Keep them all"); the land itself is now **Runeheim**, and the heroes are **Zeldara** and **Zeldor**:
 
 | Thing | Name |
 |---|---|
@@ -187,13 +187,15 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 | Round | Work | Art waves |
 |---|---|---|
 | 52 ✅ | spirits system (bindstones, binders, shards, the Green filling), Glimmerhall + Sólveig, lattices, Tome pages; the harbour cove opened to the lake | wave 53 ordered: spirits (toil/free frames, groups, chain gang), bindstones, Glimmerhall, Sólveig, shard/lattice icons |
-| 53 | soul gems from dungeon spirits, island metals, Mira's workshop interior + Mira, hearth trays, the Sovereign element | Mira's interior, gems, metals, trays |
+| 53 ✅ | soul gems from dungeon spirits, island metals, Mira's workshop interior + Mira, hearth trays, the Sovereign element | wave 54: Mira's furniture, gem/metal/tray icons; spirit, grouping and bindstone options to pick in the Lab |
 | 54–55 | the four forges remade (3 floors each, spirits, hearths, Heartglass, 4 forge-masters) | forge floors, forge-masters (4 × 3 phases) |
 | 56 | Muspelheim (5 floors, spirit walls, Surtharn's 6 phases, the great hearth, the Lodestar) | Muspelheim floors, spirit walls, Surtharn |
 | 57 | the collapse and escape, the causeway sinking, Asgard's descent, the pier notch, the Bifröst, the final spell | story panels, Asgard island, Bifröst |
 | 58 | Asgard (4 floors, 4 monster kinds, Grímnir), the hearth of light, the ending, credits, free roam | Asgard floors, monsters, Grímnir, ending |
 
 **Round 52 as built** (`10w-spirits.js` ZSPIRIT): one bindstone per zone (10 per realm, 40 in all), each on an open reachable patch near the zone's runestone; a named Binder (40 different names) shows himself within ~13 tiles once you have earned that realm (a top-third monster of the realm, 6.4× health, 1.25× size, 1.3× attack, stays dead). Beat him: the spirit thanks you, gives a Soulglass shard of its realm and drifts off; freed spirits gather on the Runestone Green (a dozen drift around the stone, the rest rest in painted groups once wave 53 is in). The Glimmerhall rises on the green after any island's harbor quest; Sólveig fuses six shards of one realm into its lattice (Ember / Cinder / Slag / Ash Soulglass Lattice). The journal lists the bound spirits by realm. The harbour pool now opens through a wide funnel cove onto the lake (where the Bifröst will run).
+
+**Round 53 as built** (`10x-mira.js`, `22f-forge-stages.js`): the great spirit of each boss dungeon gives its soul gem (Hildr of the Long Barrow, Ulfrun the Tide-Singer, Old Grimmar, Eldis Emberheart); each familiar island's trader sells its metal; Mira's workshop opens with the first island castle, and Mira makes each realm's Hearth Tray (metal + soul gem + 150g). Sovereign is the seventh element (×1 against ordinary monsters, ×2 against Muspelheim's wards, which take ×0.35 from everything else; `mon.sovWard`). The forge tiers open with the realms (docs/29).
 
 ## 12. Open questions
 

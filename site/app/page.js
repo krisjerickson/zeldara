@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <main className="home">
       <Script src="/brand.js" strategy="afterInteractive" onReady={() => setBrand(true)} />
-      <h1 className="sr">Zeldara</h1>
+      <h1 className="sr">The Quests of Zeldara and Zeldor</h1>
       <canvas ref={canvas} aria-hidden="true" />
       {!brand && <div className="loading">ZELDARA</div>}
       {rects.map((r) => (

@@ -132,7 +132,7 @@ var ZSPR={
       m:'the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps',
       f:''   // filled below from GIRL_LOOKS[GIRL_PICK]
     },
-    NAME:{m:'Hero (boy)',f:'Hero (girl)'},
+    NAME:{m:'Zeldor (the boy)',f:'Zeldara (the girl)'},
     // The girl (round 19): Kris wants her clearly different from the boy — long braided auburn hair plus other features.
     // Three looks to generate and compare in the Lab; GIRL_PICK is the one every other girl sheet is built on.
     GIRL_BASE:'the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN (red-brown) hair streaked with teal highlights. ',
@@ -348,12 +348,12 @@ var ZSPR={
     else if(e.group==='rider'||e.group==='vehicle')r.push('hero_'+(e.rider||e.id.split('_')[1])+'.model'); else if(sh!==e.sheets[0])r.push(e.sheets[0].id);
     if(e.group==='rider'&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID['mt_'+e.mount])r.push('mt_'+e.mount+'.ride'); return r; },
   prompt:function(e,sh,opts){ var Z=ZSPR, o=opts||{}, n=sh.poses.length, L=[];
-    if(sh.multi){ L.push('Create ONE image for a 2D top-down action RPG called Zeldara: a sheet of '+n+' DIFFERENT boss characters, one per cell.'); L.push(Z.refNote(e,sh));
+    if(sh.multi){ L.push('Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of '+n+' DIFFERENT boss characters, one per cell.'); L.push(Z.refNote(e,sh));
       L.push('Layout: exactly '+n+' characters in a grid of '+sh.cols+' columns × '+sh.rows+' row'+(sh.rows>1?'s':'')+', evenly spaced, each one standing in a ready, menacing battle pose, in this order (left to right, top row first):');
       sh.poses.forEach(function(p,i){ L.push((i+1)+'. '+p.t+'.'); });
       L.push(Z.VIEW.q); L.push('Each boss fills most of its own cell (they are large, imposing characters about three times the height of the hero) and all are drawn at the same scale and line weight.');
       if(o.body)return L.join('\n'); L.push(Z.STYLE); L.push(Z.RULES.replace('the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale','every character in exactly the same art style and line weight. Every character drawn')); L.push(o.alpha?Z.BG_ALPHA:Z.bgKey('green #00FF00')); return L.join('\n'); }
-    L.push('Create ONE sprite sheet image for a 2D top-down action RPG called Zeldara.');
+    L.push('Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.');
     L.push(Z.refNote(e,sh));
     var subj='Subject: '+e.name+' — '+String(e.look||'').replace(/\s*\([^)]*\)/g,'').replace(/\s+/g,' ').trim();
     if(e.gear)subj+=' Details: '+e.gear+'.';

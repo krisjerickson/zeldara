@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Zeldara',
+  title: 'The Quests of Zeldara and Zeldor',
   description: 'Four realms. One awakening. Wake the waystones, befriend the spirits, and face the Volcano Lord.',
 };
 export const viewport = { themeColor: '#000000', width: 'device-width', initialScale: 1 };

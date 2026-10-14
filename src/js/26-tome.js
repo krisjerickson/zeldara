@@ -135,7 +135,7 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
     return 0; },
   // ── UI ──
   open:function(){ Tome.sync(); var el=document.getElementById('modal-tome'); if(!el){ el=document.createElement('div'); el.className='overlay'; el.id='modal-tome'; el.style.display='none'; el.onclick=function(){ closeModal('tome'); };
-      el.innerHTML='<div class="modal tome-modal" onclick="event.stopPropagation()"><div class="mhdr"><span><span data-zi="ui_tome" data-em="1.3">📖</span> The Zeldara Tome</span>'+(typeof ZSAVE!=='undefined'?ZSAVE.btns('inv'):'')+'<button class="mcls" onclick="closeModal(\'tome\')">✕</button></div><div class="tome-body"><div id="tome-tabs"></div><div class="tome-main"><div id="tome-grid"></div><div id="tome-detail"></div></div></div></div>';
+      el.innerHTML='<div class="modal tome-modal" onclick="event.stopPropagation()"><div class="mhdr"><span><span data-zi="ui_tome" data-em="1.3">📖</span> The Runeheim Tome</span>'+(typeof ZSAVE!=='undefined'?ZSAVE.btns('inv'):'')+'<button class="mcls" onclick="closeModal(\'tome\')">✕</button></div><div class="tome-body"><div id="tome-tabs"></div><div class="tome-main"><div id="tome-grid"></div><div id="tome-detail"></div></div></div></div>';
       document.body.appendChild(el);
       el.addEventListener('click',function(e){ var t=e.target.closest('[data-tcat]'); if(t){ Tome.ui.cat=t.dataset.tcat; Tome.ui.sel=null; Tome.ui.q=0; Tome.render(); return; } var q=e.target.closest('[data-tq]'); if(q){ Tome.ui.q=+q.dataset.tq; Tome.render(); return; } var c=e.target.closest('[data-tid]'); if(c){ Tome.ui.sel=c.dataset.tid; Tome.render(); } },true); }   // capture: the book stops click bubbling
     var btn=document.getElementById('tome-btn'); if(btn)btn.classList.remove('tome-new');
