@@ -56,6 +56,9 @@ var SBSAGA={
       if(game.scene.isActive('Dungeon')||game.scene.isPaused('Dungeon'))game.scene.stop('Dungeon');
       game.scene.start('Dungeon',{site:ZFORGE.site(vid),floor:floor-1,maxFloors:3,worldScene:ws,theme:'volcano',forgeKey:SBSAGA.KEYS[i],forgeKeyName:F.name.replace(' Forge','')+' Key'});
       showNotif(floor===2?'⬇ The '+F.name+' — the spirit galleries (five chained spirits).':'☠ The '+F.name+' — the forge-master\'s floor: five more spirits, the hearth, and the forge-master.','#ffb070'); },first?2600:300); }); },
+  musp:function(f,kit){ SBSAGA.go(function(ws,ps){ var first=!SBSAGA.risen(ws); SBSAGA.rise(ws,ps); SBSAGA.KEYS.forEach(function(k){ SBSAGA.add(ps.inventory,k); }); ps.forgesDone=ps.forgesDone||[]; SBSAGA.VIDS.forEach(function(v){ SBSAGA.add(ps.forgesDone,v); });
+    if(kit){ SBSAGA.add(ps.inventory,'sov_staff'); [1,2,3,4].forEach(function(q){ SBSAGA.add(ps.inventory,'heartglass_'+q); }); }
+    setTimeout(function(){ ZMUSP.enter(ws,f); },first?2600:200); }); },
   kit:function(i){ SBSAGA.go(function(ws,ps){ var q=i+1; ps.inventory.push('soulglass_lattice_'+q,'hearth_tray_'+q); if(ws._emitUI)ws._emitUI(); showNotif('🧰 '+ZFORGE.F[SBSAGA.VIDS[i]].name+' hearth kit: its Soulglass Lattice and Hearth Tray, in your pack.','#ffd890'); }); },
   // ── the panel ──
   todo:function(what,round){ showNotif('🚧 '+what+' — not built yet (planned for round '+round+', doc 28).','#ffcc66'); },
@@ -78,10 +81,10 @@ var SBSAGA={
         {l:'🌋 The forges rise',b:[B('Go',SBSAGA.forgesRise,'Four boss dungeons + four builders\' towers done — to the Ember Forge')]}].concat(['Ember','Cinder','Slag','Ash'].map(function(nm,i){ return {l:'🔥 '+nm,b:[
           B('1',function(){ SBSAGA.forge(i,1); },'Floor 1 — the old challenge (its chest opens the way down)'), B('2',function(){ SBSAGA.forge(i,2); },'Floor 2 — the spirit galleries'),
           B('3 ☠',function(){ SBSAGA.forge(i,3); },'Floor 3 — the forge-master, the hearth'), B('kit',function(){ SBSAGA.kit(i); },'Its lattice and tray, for the hearth')]}; }))},
-      {n:'Ⅵ',name:'Muspelheim',col:'#ff7a5a',sub:'five floors of spirit walls up to Surtharn and the great hearth',rows:[
-        {l:'🏔 Halls',b:[1,2,3,4,5].map(function(f){ return T(String(f),'Muspelheim, floor '+f,56); })},
-        {l:'👹 Surtharn',b:[T('Fight','Surtharn, Tyrant of Muspelheim (six phases)',56)]},
-        {l:'⭐ The Lodestar',b:[T('Forge','The great hearth: the Sovereign staff + four Heartglasses → the Lodestar',56)]} ]},
+      {n:'Ⅵ',name:'Muspelheim',col:'#ff7a5a',sub:'four halls of trial, then Surtharn\'s throne and the great hearth',rows:[
+        {l:'🏔 Halls',b:ZMUSP.HALLS.map(function(nm,f){ return B(String(f+1)+(f===4?' ☠':''),function(){ SBSAGA.musp(f); },nm); })},
+        {l:'👹 Surtharn',b:[B('Fight',function(){ SBSAGA.musp(4); },'Surtharn, Tyrant of Muspelheim — six phases')]},
+        {l:'⭐ The Lodestar',b:[B('Kit',function(){ SBSAGA.musp(4,true); },'The throne, with the Sovereign staff and the four Heartglasses in your pack — beat Surtharn, then [Tab] the great hearth')]} ]},
       {n:'Ⅶ',name:'The Collapse & the Bifröst',col:'#c8a8ff',sub:'the escape, the sinking causeway, Asgard descends',rows:[
         {l:'🏃 Collapse',b:[T('Escape','Escaping Muspelheim as it falls',57),T('Causeway','The causeway sinks behind you',57)]},
         {l:'🌈 Bifröst',b:[T('Asgard descends','Asgard descends over the sea',57),T('Pier notch','The Lodestar in the pier notch',57),T('Godsbane','The Bifröst and the final spell, Godsbane',57)]} ]},

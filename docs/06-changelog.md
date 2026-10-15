@@ -921,3 +921,16 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[534] The Sovereign staff at the forge**: still won from all sixteen mage towers, and now forgeable once the forges rise — an Arcane Staff, two each of ruby, sapphire and emerald, and a Skystone, 6000 gold (its own lane in the forge tree).
 - **[535] Tests**: `tests/test_round56.py` +1 (the painted forge-masters).
 
+## Round 58 (overnight, Oct 15) — Muspelheim remade
+- Kris (before logging off): "anything we can do overnight to go onto the next stage?" — the plan he was given: build Muspelheim with his answers (each hall its own challenge; the old volcano bosses as the halls' guards; the Sovereign staff + four Heartglasses → the Lodestar), using the picks so far and drawn stand-ins where art is still to come.
+- **[536] Muspelheim** (`16c-muspelheim.js`): the four forge keys open the gate onto five floors (it replaces the old boss rush):
+  1. **The Chain Lifts** — four rock shelves over a lava shaft; an iron lift on chains shuttles across each gap and carries you. A chained spirit hauls each lift at its winch: break its chains and the lift locks into a bridge.
+  2. **The Lava Rafts** — a river of fire between two banks and two islands; basalt rafts drift from shore to shore.
+  3. **The Ash-warden Fortress** — three walled yards; each portcullis stays shut until you pull its lever, and every lever calls the ash-wardens (both of the looks Kris picked).
+  4. **The Falling Bridges** — stone islands over the abyss joined by slab bridges that crack under you and fall behind you (they knit again after a while); fall and you scramble back to the last rock, hurt.
+  5. **The Throne of Surtharn** — the spirit walls (Kris's picks so far), **Surtharn's six phases** fought in place (the Molten Colossus, the Forge-king, the Ash Tyrant with his ward of bound spirits, the Horned Jötunn's sword of flame, the Obsidian Warlord's plate, the Living Volcano) — warded: Sovereign bites deep; then the **great hearth** (option A, with living fire): the Sovereign staff and the four Heartglasses become **the Lodestar** (Sovereign, +40 magic, ×2.6 spells).
+  Each hall has five chained spirits to free (20 in all) and two of the old volcano bosses guarding the way down (their bars show as you come near; the stairs open when both fall). Stepping into lava without a lift or raft throws you back to the rock. The portal chest gives Surtharn's reward and completes Muspelheim (and the old Volcano Lord quest, so the Sovereign plate now comes from Surtharn).
+- **[537] Sandbox**: Spirit Saga → Muspelheim's halls 1–5, Surtharn and the Lodestar kit are wired.
+- **[538] Tests**: `tests/test_round58.py` (14 checks).
+- Still to come (doc 28 §6–7): the collapse and the escape, the sinking causeway, Asgard. Surtharn wears the old Volcano Lord's body until his six painted phases (wave 60, Kris's look) are made into boss sheets.
+

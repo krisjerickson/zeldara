@@ -195,7 +195,7 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 | 52 ✅ | spirits system (bindstones, binders, shards, the Green filling), Glimmerhall + Sólveig, lattices, Tome pages; the harbour cove opened to the lake | wave 53 ordered: spirits (toil/free frames, groups, chain gang), bindstones, Glimmerhall, Sólveig, shard/lattice icons |
 | 53 ✅ | soul gems from dungeon spirits, island metals, Mira's workshop interior + Mira, hearth trays, the Sovereign element | wave 54: Mira's furniture, gem/metal/tray icons; spirit, grouping and bindstone options to pick in the Lab |
 | 54–55 ✅ | the four forges remade (3 floors each, spirits, hearths, Heartglass, 4 forge-masters) — built in round 55 (`16b-forge-sites.js`); round 56: the forge-masters as 12 phase forms with Lab options (`07zz-boss-forge.js`), painted after Kris picks (wave 7.6) | forge floors, forge-masters (4 × 3 phases) |
-| 56 | Muspelheim (5 floors, spirit walls, Surtharn's 6 phases, the great hearth, the Lodestar) | Muspelheim floors, spirit walls, Surtharn |
+| 56 ✅ | Muspelheim (5 floors: Chain Lifts, Lava Rafts, Ash-warden Fortress, Falling Bridges, the Throne; Surtharn's 6 phases, the great hearth, the Lodestar) — built in round 58 (`16c-muspelheim.js`); Surtharn's painted boss sheets still to come | Muspelheim floors, spirit walls, Surtharn |
 | 57 | the collapse and escape, the causeway sinking, Asgard's descent, the pier notch, the Bifröst, the final spell | story panels, Asgard island, Bifröst |
 | 58 | Asgard (4 floors, 4 monster kinds, Grímnir), the hearth of light, the ending, credits, free roam | Asgard floors, monsters, Grímnir, ending |
 
