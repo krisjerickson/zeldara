@@ -910,4 +910,5 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[528] Tests**: `tests/test_round56.py` (10 checks).
 - Kris: "the forgemaster names are too hard to pronounce. let's update these, and provide a few options and speak to how they resonate with the overall story line and inspirations" → card, all four picked:
 - **[529] The forge-masters renamed**: **Brokk** the Bellows-Wyrm (was Glóðr), **Hissa** the Quench-Hag (was Eisa), **Krag** the Slag Troll (was Gjallr), **Sinda** the Chainmistress (was Eimyrja) — in the game, the boss forms and their phase names, the Lab, the sprite requests and doc 28.
+- Kris: "request is in, start to process them" → **[530] Wave 59 painted and cut**: the six remade loops (Chain gang, The great haul, Tale by the hearth, Mead bench, The reel, Game of tafl) now keep the same people in all four frames and the hearth its size; they play on the Green and at the bindstones in place of the stills. (The great haul came out with six haulers rather than five — the same six in every frame.)
 
