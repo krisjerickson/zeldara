@@ -50,7 +50,18 @@ var ZFORGE={ on:true,
     var Z=typeof _scn==='function'?_scn():null, im=Z&&Z.has&&Z.has('ff_hearth_'+F.k)?Z.image(sc,'ff_hearth_'+F.k,px,py+12,Z.K,py/1e4+5):null;
     if(!im){ var g=sc.add.graphics().setDepth(py/1e4+5); g.fillStyle(0x2a2220,1).fillEllipse(px,py+8,64,26); g.fillStyle(0x4a3a30,1).fillRect(px-26,py-22,52,30); g.fillStyle(0xff7030,0.9).fillEllipse(px,py-6,38,14); g.fillStyle(0xffe080,0.8).fillEllipse(px,py-8,20,7); im=g;
       sc.tweens.add({targets:g,alpha:0.85,duration:600,yoyo:true,repeat:-1}); }
+    if(im&&im.displayHeight&&!im.fillStyle)ZFORGE.alive(sc,F.k,im);
     o.vis=im; sc.interactables.push(o); sc._forgeHearth=o; },
+  // round 56 (Kris's Saga-art notes: "we need to make the fire moving" — Ember, Slag; "we need to make the steam moving" — Cinder, Ash): the painted
+  // hearth gets living fire or steam from its mouth. MOUTH: where it comes out, as a fraction of the picture (left, top); kind; colours.
+  MOUTH:{ember:[0.6,0.36,'fire',[0x7aff60,0xc8ff90,0xffffff]],slag:[0.5,0.62,'fire',[0xff8020,0xffc040,0xfff0a0]],cinder:[0.4,0.4,'steam',[0xe8f6ff,0xbfe4ff]],ash:[0.5,0.42,'steam',[0xb0a8a8,0xd8d0d0,0xff6030]]},
+  alive:function(sc,k,im){ var M=ZFORGE.MOUTH[k]; if(!M)return; var W=im.displayWidth, H=im.displayHeight, x0=im.x-W*im.originX, y0=im.y-H*im.originY, mx=x0+W*M[0], my=y0+H*M[1], d=im.depth+0.001, fire=M[2]==='fire', C=M[3], n=0;
+    var glow=sc.add.circle(mx,my+4,W*(fire?0.2:0.14),C[0],fire?0.28:0.12).setDepth(d).setBlendMode(Phaser.BlendModes.ADD);
+    sc.tweens.add({targets:glow,alpha:{from:fire?0.18:0.08,to:fire?0.38:0.18},scale:{from:0.92,to:1.08},duration:180+Math.random()*140,yoyo:true,repeat:-1,ease:'Sine.inOut'});
+    sc.time.addEvent({delay:fire?70:150,loop:true,callback:function(){ if(n>(fire?26:16))return; n++; var c=C[Math.floor(Math.random()*C.length)], ember=!fire&&c===0xff6030;
+      var r=fire?3+Math.random()*4:4+Math.random()*4, p=sc.add.circle(mx+(Math.random()-0.5)*W*(fire?0.22:0.18),my,r,c,fire?0.85:(ember?0.9:0.32)).setDepth(d+(fire?0.001:0.002));
+      if(fire||ember)p.setBlendMode(Phaser.BlendModes.ADD);
+      sc.tweens.add({targets:p,y:my-(fire?24+Math.random()*26:46+Math.random()*40),x:p.x+(Math.random()-0.5)*(fire?10:30),scale:fire?0.2:2.6+Math.random(),alpha:0,duration:fire?480+Math.random()*320:1500+Math.random()*900,ease:fire?'Quad.out':'Sine.out',onComplete:function(){ p.destroy(); n--; }}); }}); },
   hearth:function(sc){ var F=ZFORGE.of(sc), ps=sc.worldScene.playerState, inv=ps.inventory||(ps.inventory=[]), lat='soulglass_lattice_'+F.q, tray='hearth_tray_'+F.q, hg=ZFORGE.heartOf(F.q);
     if(!sc._bossDefeated){ showNotif('🔥 The hearth roars behind the forge-master — beat it first.','#ffb070'); return; }
     if(inv.indexOf(hg)>=0){ showNotif('✨ You already carry the '+ITEMS[hg].name+'.','#fff2b0'); return; }
@@ -70,28 +81,25 @@ var ZFORGE={ on:true,
 // ── the forge-masters: three phases each, fought where they stand ──
 (function(){ if(typeof MDEFS==='undefined'||typeof BOSS_PHASES==='undefined'||typeof CH!=='function')return;
   var M=function(id,name,col,hp){ MDEFS[id]={name:name,icon:'🔥',hp:hp,atk:30,def:12,xp:700,gMin:220,gMax:300,sec:4,color:col,r:24,spd:40,moveType:'normal',atkType:'stomp',boss:true,lvMin:19,lvMax:20,sovWard:true}; };
-  M('forge_glodr','Glóðr, the Bellows-Wyrm',0xd04010,900); M('forge_eisa','Eisa, the Quench-Hag',0x4080b0,820); M('forge_gjallr','Gjallr, the Slag Troll',0x704030,1000); M('forge_eimyrja','Eimyrja, the Chainmistress',0x902020,860);
-  CH('boss','Forge-masters','fm_glodr','Glóðr, the Bellows-Wyrm',['drake','breath','#8a2a10,#3a1008,#ff7020,#ffd040','crystals,glowcore'],'the Ember Forge','a great wyrm of riveted iron plates and living fire, a forge bellows built into its chest, smoke pouring from its jaws','breathing fire in sweeping arcs');
-  CH('boss','Forge-masters','fm_eisa','Eisa, the Quench-Hag',['caster','cast','#3a5a7a,#1a2a3a,#9fe0ff,#ff8030','hood,staff,cauldron'],'the Cinder Forge','a hunched hag in steaming soaked rags, a quenching ladle for a staff, her hair hissing steam','hurling scalding steam');
-  CH('boss','Forge-masters','fm_gjallr','Gjallr, the Slag Troll',['brute','slam','#5a3020,#2a1810,#ff8030,#ffd060','club,horns,moss'],'the Slag Forge','a huge troll crusted in cooling slag that glows in the cracks, a crucible ladle for a club','pouring slag and hurling molten boulders');
-  CH('boss','Forge-masters','fm_eimyrja','Eimyrja, the Chainmistress',['wraith','cast','#3a1010,#10060a,#ff5030,#ffc060','chains,crown,flames'],'the Ash Forge','a tall fire-giantess in black iron, burning chains coiling from her arms like whips','lashing chains and dragging you in');
-  var mk=function(key,form,phases){ BOSS_PHASES[key]={q:4,forge:true,phases:phases}; phases.forEach(function(P,i){ P.form=form; P.rid='bp_'+key+'_'+(i+1); var C=CHAR_BY_ID[form]; MON_BY_ID[P.rid]={id:P.rid,name:C.name,q:4,seg:'boss',role:'boss',tier:5,spec:C.spec,tags:[]}; MX.KITS[P.rid]=P.kit; }); };
+  M('forge_glodr','Brokk, the Bellows-Wyrm',0xd04010,900); M('forge_eisa','Hissa, the Quench-Hag',0x4080b0,820); M('forge_gjallr','Krag, the Slag Troll',0x704030,1000); M('forge_eimyrja','Sinda, the Chainmistress',0x902020,860);
+  var mk=function(key,form,phases){ BOSS_PHASES[key]={q:4,forge:true,phases:phases}; phases.forEach(function(P,i){ P.form=form+'_'+(i+1); P.rid='bp_'+key+'_'+(i+1); var C=CHAR_BY_ID[form], D=typeof BA!=='undefined'&&BA.of(P.form);      // round 56: a painted-boss form per phase (07zz-boss-forge.js, Kris's Lab pick)
+    MON_BY_ID[P.rid]={id:P.rid,name:(D&&D.name)||C.name,q:4,seg:'boss',role:'boss',tier:5,spec:C.spec,tags:[],chId:D?P.form:undefined}; MX.KITS[P.rid]=P.kit; }); };
   mk('forge_glodr','fm_glodr',[
-    {hp:1,sc:2.4,introT:'Glóðr uncoils from the forge-fire!',kit:'lumber | breath r=150 cone=0.65 col=#ff6030 st=burn m=1.1 cd=3 | sweep r=62 arc=3.2 m=1.2 cd=2.6',ev:[{k:'marks',every:6,n:3,rad:24,col:'#ff8040',say:'Sparks rain from the bellows!'}]},
-    {hp:1.1,sc:2.5,introT:'Glóðr burrows into the coals — the floor will burst!',kit:'burrow | slam r=70 zone=burn zt=4 m=1.2 cd=3.2 | lob n=3 rad=30 t=1 zone=burn zt=3 col=#ff7030 m=0.8 cd=3.4',ev:[{k:'geyser',every:5,n:3,rad:34,st:'burn',col:'#ff6020',say:'Lava geysers rise under you!'}]},
+    {hp:1,sc:2.4,introT:'Brokk uncoils from the forge-fire!',kit:'lumber | breath r=150 cone=0.65 col=#ff6030 st=burn m=1.1 cd=3 | sweep r=62 arc=3.2 m=1.2 cd=2.6',ev:[{k:'marks',every:6,n:3,rad:24,col:'#ff8040',say:'Sparks rain from the bellows!'}]},
+    {hp:1.1,sc:2.5,introT:'Brokk burrows into the coals — the floor will burst!',kit:'burrow | slam r=70 zone=burn zt=4 m=1.2 cd=3.2 | lob n=3 rad=30 t=1 zone=burn zt=3 col=#ff7030 m=0.8 cd=3.4',ev:[{k:'geyser',every:5,n:3,rad:34,st:'burn',col:'#ff6020',say:'Lava geysers rise under you!'}]},
     {hp:1.2,sc:2.7,introT:'The bellows burst — the whole hall breathes fire!',kit:'chase | breath r=170 cone=0.8 col=#ff5020 st=burn m=1.3 cd=2.2 | ring spd=150 max=220 gap=1 col=#ff8040 st=burn m=0.8 cd=3.5',ev:[{k:'wave',every:7,col:'#ff6a20',say:'A wave of fire rolls across the hall!'}]}]);
   mk('forge_eisa','fm_eisa',[
-    {hp:1,sc:2.2,introT:'Eisa rises from the quench pool!',kit:'kite range=190 | shoot p=orb n=3 sp=0.3 homing=1 spd=150 m=0.6 cd=2.4 | cloud at=player rad=70 st=slow v=2 dur=4 cd=5',ev:[{k:'marks',every:6,n:2,rad:26,col:'#bfe8ff',say:'Steam jets hiss up!'}]},
-    {hp:1.1,sc:2.3,introT:'Eisa floods the hall — islands of rock in scalding water!',kit:'blink every=2.6 d=150 | lob n=4 rad=46 t=1 zone=slip zt=7 col=#bfe8ff m=0.3 cd=5 | beam wind=1 len=320 w=10 col=#9fe0ff m=1 cd=4',ev:[{k:'wave',every:7,col:'#60b0ff',say:'Scalding water surges across the floor!'}]},
-    {hp:1.2,sc:2.5,introT:'Eisa boils it all — stay in the dry!',kit:'kite range=170 | ring spd=140 max=200 gap=1 col=#ffffff st=burn m=0.8 cd=4 | drain r=160 m=0.3 dur=2.5 col=#9fe0ff cd=6',ev:[{k:'geyser',every:5,n:3,rad:36,st:'burn',col:'#e0f4ff',say:'The water boils up!'}]}]);
+    {hp:1,sc:2.2,introT:'Hissa rises from the quench pool!',kit:'kite range=190 | shoot p=orb n=3 sp=0.3 homing=1 spd=150 m=0.6 cd=2.4 | cloud at=player rad=70 st=slow v=2 dur=4 cd=5',ev:[{k:'marks',every:6,n:2,rad:26,col:'#bfe8ff',say:'Steam jets hiss up!'}]},
+    {hp:1.1,sc:2.3,introT:'Hissa floods the hall — islands of rock in scalding water!',kit:'blink every=2.6 d=150 | lob n=4 rad=46 t=1 zone=slip zt=7 col=#bfe8ff m=0.3 cd=5 | beam wind=1 len=320 w=10 col=#9fe0ff m=1 cd=4',ev:[{k:'wave',every:7,col:'#60b0ff',say:'Scalding water surges across the floor!'}]},
+    {hp:1.2,sc:2.5,introT:'Hissa boils it all — stay in the dry!',kit:'kite range=170 | ring spd=140 max=200 gap=1 col=#ffffff st=burn m=0.8 cd=4 | drain r=160 m=0.3 dur=2.5 col=#9fe0ff cd=6',ev:[{k:'geyser',every:5,n:3,rad:36,st:'burn',col:'#e0f4ff',say:'The water boils up!'}]}]);
   mk('forge_gjallr','fm_gjallr',[
-    {hp:1,sc:2.5,introT:'Gjallr lumbers out of the crucible!',kit:'lumber | slam r=70 zone=burn zt=4 m=1.2 cd=3.2 | sweep r=62 arc=3.2 m=1.2 cd=2.6',ev:[{k:'marks',every:6,n:3,rad:24,col:'#ff9040',say:'Slag pours from the crucible!'}]},
-    {hp:1.1,sc:2.6,introT:'Gjallr hurls molten boulders and shakes ore loose!',kit:'charge wind=0.6 mult=3.4 stun=1 kb=60 | lob n=2 rad=34 t=1 zone=burn zt=4 col=#ff7030 m=0.8 cd=2.8',ev:[{k:'marks',every:5,n:4,rad:22,col:'#c8a878',say:'Ore crashes from the roof!'}]},
-    {hp:1.2,sc:2.8,bars:[{k:'plate',f:0.35,at:1}],introT:'Gjallr armours himself in cooling slag — break the shell!',kit:'lumber | slam r=80 zone=burn zt=4 m=1.4 cd=2.8 | ring spd=130 max=190 gap=1 col=#ff8040 st=burn m=0.7 cd=5',ev:[{k:'geyser',every:6,n:2,rad:34,st:'burn',col:'#ff7030',say:'The slag floor cracks!'}]}]);
+    {hp:1,sc:2.5,introT:'Krag lumbers out of the crucible!',kit:'lumber | slam r=70 zone=burn zt=4 m=1.2 cd=3.2 | sweep r=62 arc=3.2 m=1.2 cd=2.6',ev:[{k:'marks',every:6,n:3,rad:24,col:'#ff9040',say:'Slag pours from the crucible!'}]},
+    {hp:1.1,sc:2.6,introT:'Krag hurls molten boulders and shakes ore loose!',kit:'charge wind=0.6 mult=3.4 stun=1 kb=60 | lob n=2 rad=34 t=1 zone=burn zt=4 col=#ff7030 m=0.8 cd=2.8',ev:[{k:'marks',every:5,n:4,rad:22,col:'#c8a878',say:'Ore crashes from the roof!'}]},
+    {hp:1.2,sc:2.8,bars:[{k:'plate',f:0.35,at:1}],introT:'Krag armours himself in cooling slag — break the shell!',kit:'lumber | slam r=80 zone=burn zt=4 m=1.4 cd=2.8 | ring spd=130 max=190 gap=1 col=#ff8040 st=burn m=0.7 cd=5',ev:[{k:'geyser',every:6,n:2,rad:34,st:'burn',col:'#ff7030',say:'The slag floor cracks!'}]}]);
   mk('forge_eimyrja','fm_eimyrja',[
-    {hp:1,sc:2.3,introT:'Eimyrja rises from the chain throne!',kit:'kite range=170 | pull r=190 keep=30 m=0.4 cd=5 | lunge r=110 m=1.1 cd=3',ev:[{k:'marks',every:6,n:3,rad:24,col:'#ff5030',say:'Burning chains whip down!'}]},
-    {hp:1.1,sc:2.4,introT:'Eimyrja chains the hall into lanes!',kit:'blink every=3.2 d=150 | beam wind=0.8 len=320 w=10 col=#ff6040 m=0.9 cd=3 | pull r=190 keep=26 m=0.5 cd=4',ev:[{k:'rift',every:7,say:'The chains drag you in!'}]},
-    {hp:1.2,sc:2.6,bars:[{k:'ward',f:0.3,at:1}],introT:'Eimyrja wraps herself in chained spirits — free them with your magic!',kit:'chase | sweep r=70 arc=3.2 m=1.3 cd=2.4 | pull r=200 keep=26 m=0.5 cd=3.5 | shoot p=orb n=4 sp=0.25 spd=200 m=0.5 cd=2.6',ev:[{k:'marks',every:5,n:3,rad:26,col:'#ff7040',say:'Chains fall like rain!'}]}]);
+    {hp:1,sc:2.3,introT:'Sinda rises from the chain throne!',kit:'kite range=170 | pull r=190 keep=30 m=0.4 cd=5 | lunge r=110 m=1.1 cd=3',ev:[{k:'marks',every:6,n:3,rad:24,col:'#ff5030',say:'Burning chains whip down!'}]},
+    {hp:1.1,sc:2.4,introT:'Sinda chains the hall into lanes!',kit:'blink every=3.2 d=150 | beam wind=0.8 len=320 w=10 col=#ff6040 m=0.9 cd=3 | pull r=190 keep=26 m=0.5 cd=4',ev:[{k:'rift',every:7,say:'The chains drag you in!'}]},
+    {hp:1.2,sc:2.6,bars:[{k:'ward',f:0.3,at:1}],introT:'Sinda wraps herself in chained spirits — free them with your magic!',kit:'chase | sweep r=70 arc=3.2 m=1.3 cd=2.4 | pull r=200 keep=26 m=0.5 cd=3.5 | shoot p=orb n=4 sp=0.25 spd=200 m=0.5 cd=2.6',ev:[{k:'marks',every:5,n:3,rad:26,col:'#ff7040',say:'Chains fall like rain!'}]}]);
 })();
 
 // ── the forge floors: winding mine galleries over lava (07zx ZSP layouts) ──

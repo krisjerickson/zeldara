@@ -97,6 +97,7 @@ Decided on Kris's round 53 card ("Keep them all"); the land itself is now **Rune
 | Island metals | **Sea-silver** (Corsair Isle), **Bog-iron** (Bog Isle), **Fire-bronze** (Ember Isle), **Rime-steel** (Frost Isle) |
 | Soul gems | **Grovesoul**, **Tidesoul**, **Stonesoul**, **Embersoul** |
 | Shrines and guardians | **Bindstones** and their **Binders** |
+| Forge-masters (renamed Oct 14: the first names were too hard to say) | **Brokk**, the Bellows-Wyrm (was Glóðr — in the myths Brokk worked the bellows while his brother forged Thor's hammer) · **Hissa**, the Quench-Hag (was Eisa — the hiss of hot iron in water) · **Krag**, the Slag Troll (was Gjallr — a crag of cooling slag) · **Sinda**, the Chainmistress (was Eimyrja — echoes Sindri the master smith, and cinder) |
 | The bridge | **Bifröst** |
 | The final site | **Asgard** |
 
@@ -106,10 +107,10 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 
 | Forge | Floor 1 | Floor 2 | Floor 3 (boss) | Forge-master (3 phases) |
 |---|---|---|---|---|
-| **Ember** (grass realm) | the Ember Maze (lava maze, fixed) | spirit galleries (~5 spirits chained at the rock face) | the hearth hall | **Glóðr, the Bellows-Wyrm**: 1) breath sweeps from the bellows; 2) burrows, lava geysers rise under you; 3) the bellows burst, the whole room breathes fire on a beat |
-| **Cinder** (water) | the Steam Climb (today's geysers, rocks, fireballs) | flooded galleries, steam vents | the quench pool | **Eisa, the Quench-Hag**: 1) hurls steam bolts, summons cinder imps; 2) floods the room — islands of rock, scalding water; 3) boils it all — a shrinking dry ring |
-| **Slag** (earth) | the Slag Puzzle (blocks onto plates, a bigger set) | collapsing mine shafts | the crucible | **Gjallr, the Slag Troll**: 1) slag pours, makes walls; 2) throws molten boulders, shakes ore loose; 3) armoured in cooling slag — break the shell with Sovereign hits |
-| **Ash** (fire) | the Ash Escape (rising lava, fixed) | the chain halls (spirits pull chains that move platforms) | the chain throne | **Eimyrja, the Chainmistress**: 1) chain lashes, pulls you; 2) chains the room into lanes; 3) chains spirits as shields — free them by cutting chains |
+| **Ember** (grass realm) | the Ember Maze (lava maze, fixed) | spirit galleries (~5 spirits chained at the rock face) | the hearth hall | **Brokk, the Bellows-Wyrm**: 1) breath sweeps from the bellows; 2) burrows, lava geysers rise under you; 3) the bellows burst, the whole room breathes fire on a beat |
+| **Cinder** (water) | the Steam Climb (today's geysers, rocks, fireballs) | flooded galleries, steam vents | the quench pool | **Hissa, the Quench-Hag**: 1) hurls steam bolts, summons cinder imps; 2) floods the room — islands of rock, scalding water; 3) boils it all — a shrinking dry ring |
+| **Slag** (earth) | the Slag Puzzle (blocks onto plates, a bigger set) | collapsing mine shafts | the crucible | **Krag, the Slag Troll**: 1) slag pours, makes walls; 2) throws molten boulders, shakes ore loose; 3) armoured in cooling slag — break the shell with Sovereign hits |
+| **Ash** (fire) | the Ash Escape (rising lava, fixed) | the chain halls (spirits pull chains that move platforms) | the chain throne | **Sinda, the Chainmistress**: 1) chain lashes, pulls you; 2) chains the room into lanes; 3) chains spirits as shields — free them by cutting chains |
 
 - **Spirits:** about 10 per forge, chained at rock faces with picks. Strike a chain to free one; it then hovers near the hearth.
 - **Wards:** each forge-master is **warded to all six elements** (×0.35) and **weak to Sovereign** (×2). Sovereign armour cuts their damage.
@@ -193,7 +194,7 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 |---|---|---|
 | 52 ✅ | spirits system (bindstones, binders, shards, the Green filling), Glimmerhall + Sólveig, lattices, Tome pages; the harbour cove opened to the lake | wave 53 ordered: spirits (toil/free frames, groups, chain gang), bindstones, Glimmerhall, Sólveig, shard/lattice icons |
 | 53 ✅ | soul gems from dungeon spirits, island metals, Mira's workshop interior + Mira, hearth trays, the Sovereign element | wave 54: Mira's furniture, gem/metal/tray icons; spirit, grouping and bindstone options to pick in the Lab |
-| 54–55 ✅ | the four forges remade (3 floors each, spirits, hearths, Heartglass, 4 forge-masters) — built in round 55 (`16b-forge-sites.js`); painted forge-masters still to come | forge floors, forge-masters (4 × 3 phases) |
+| 54–55 ✅ | the four forges remade (3 floors each, spirits, hearths, Heartglass, 4 forge-masters) — built in round 55 (`16b-forge-sites.js`); round 56: the forge-masters as 12 phase forms with Lab options (`07zz-boss-forge.js`), painted after Kris picks (wave 7.6) | forge floors, forge-masters (4 × 3 phases) |
 | 56 | Muspelheim (5 floors, spirit walls, Surtharn's 6 phases, the great hearth, the Lodestar) | Muspelheim floors, spirit walls, Surtharn |
 | 57 | the collapse and escape, the causeway sinking, Asgard's descent, the pier notch, the Bifröst, the final spell | story panels, Asgard island, Bifröst |
 | 58 | Asgard (4 floors, 4 monster kinds, Grímnir), the hearth of light, the ending, credits, free roam | Asgard floors, monsters, Grímnir, ending |

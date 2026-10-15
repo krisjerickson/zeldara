@@ -901,3 +901,13 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[523] Wave 58 ordered** (`tools/sprites/round56.ps1`, four sheets, 28 options) and the Lab's **Muspelheim** tab: six Surtharns, six spirit walls, the halls' pieces (A/B), three great hearths, three Lodestars, two ash-wardens.
 - **[524] Tests**: `tests/test_round55b.py` (14 checks).
 
+## Round 56 (Kris, Oct 14) — the forge-masters as Lab options; the Saga-art notes; Muspelheim's options painted
+- Kris: "saga art picks are in, and new sprites requests as well. I haven't yet see the new bosses for any of the volcanos come up, which we'll still need to make unless there's another plan"
+- Card: the forge-masters get **design options in the Lab first**, and **a new form every phase**.
+- **[525] The forge-masters as painted-boss designs** (`07zz-boss-forge.js`): twelve forms — Glóðr (the Bellows-Wyrm → the Burrowing Coal → Unbound), Eisa (the Quench-Hag → of the Flood → the Boiling Mother), Gjallr (the Slag Troll → the Boulder-Hurler → in the Slag Shell), Eimyrja (the Chainmistress → of the Lanes → Shield of Spirits) — 2–3 options each (28 designs), in the Lab's **Bosses** tab under "Forge-masters of Muspelheim" with a phase line-up per master. Each phase now spawns in its own form (the layered painted-boss body instead of the old drawn one). Their sprite sheets are wave **7.6** (32 sheets), sent once you choose.
+- **[526] Saga-art notes**: the four forges get **moving fire** (Ember, Slag) and **moving steam** (Cinder, Ash) over the painted hearth, in the game and on the Lab cards. The six loops whose frames changed — Chain gang, The great haul, Mead bench, The reel, Game of tafl (head-count) and Tale by the hearth (the hearth's size) — show their still pictures until remade, and are re-ordered as **wave 59** (`tools/sprites/round56b.ps1`): one group per sheet, a 2 × 2 grid, the head-count written into the request, the still as the reference. Your eight approved loops play as before.
+- **[527] Wave 58 painted and cut**: the Muspelheim options (six Surtharns, six spirit walls, the halls' pieces, three great hearths, three Lodestars, two ash-wardens) show their pictures in the Lab's Muspelheim tab.
+- **[528] Tests**: `tests/test_round56.py` (10 checks).
+- Kris: "the forgemaster names are too hard to pronounce. let's update these, and provide a few options and speak to how they resonate with the overall story line and inspirations" → card, all four picked:
+- **[529] The forge-masters renamed**: **Brokk** the Bellows-Wyrm (was Glóðr), **Hissa** the Quench-Hag (was Eisa), **Krag** the Slag Troll (was Gjallr), **Sinda** the Chainmistress (was Eimyrja) — in the game, the boss forms and their phase names, the Lab, the sprite requests and doc 28.
+

@@ -40,7 +40,7 @@ with game(new=True, painted=True) as g:
     # V. a forge-master's floor directly
     g.js("SBSAGA.show()"); g.js(CLICK + "(4,2,2)"); g.wait(12000)
     r = g.js("(()=>{ var D=game.scene.getScene('Dungeon'), ps=game.scene.getScene('World').playerState; return {run:game.scene.isActive('Dungeon'), forge:D._forge&&ZFORGE.of(D).k, last:D.isLastFloor, boss:D._bossGroup&&D._bossGroup[0]&&D._bossGroup[0].def.name, keyN:ps.inventory.indexOf('volcano_key_n')>=0, title:document.getElementById('dng-title').textContent}; })()")
-    check('Ⅴ "Cinder 3 ☠": straight to the forge-master\'s floor ("%s", %s), the Ember key given for the way in' % (r['title'], r['boss']), r['run'] and r['forge'] == 'cinder' and r['last'] and 'Eisa' in (r['boss'] or '') and r['keyN'], r)
+    check('Ⅴ "Cinder 3 ☠": straight to the forge-master\'s floor ("%s", %s), the Ember key given for the way in' % (r['title'], r['boss']), r['run'] and r['forge'] == 'cinder' and r['last'] and 'Hissa' in (r['boss'] or '') and r['keyN'], r)
     # back out, then I. a bindstone
     g.js("game.scene.getScene('World').playerState.godMode=true"); g.js("SBSAGA.show()"); g.js(CLICK + "(0,0,3)"); g.wait(6000)
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, S=ZSPIRIT.shrines(ws).filter(function(s){ return s.q===4; }), n=S.reduce(function(b,s){ return Math.min(b,Math.hypot(ws.player.x-s.x,ws.player.y-s.y)); },1e9);

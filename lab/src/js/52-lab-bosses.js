@@ -16,9 +16,10 @@ var LBB={ moving:true, vis:new Set(), QN:['','Grasslands','Wetlands','Highlands'
     MAGE_TOWERS.forEach(function(M){ F.push({grp:'mages',id:M.key,title:QN[M.q]+' mage tower · '+M.name+' — teaches '+((ITEMS[M.spell]||{}).name||M.spell),rows:[{slot:M.boss,lbl:M.skills.map(function(s){ return s.split(' — ')[0]; }).join(' · '),kit:M.kit}]}); });
     [1,2,3,4].forEach(function(q){ F.push({grp:'islands',id:'isl'+q,title:QN[q]+' familiar island guardian',rows:[{slot:'boss_isl_'+q,lbl:'Island dungeon, last floor'}]}); });
     CHAR_ROSTER.filter(function(R){ return R.cat==='boss'&&R.sub==='Volcano boss rush'; }).forEach(function(R){ F.push({grp:'volcano',id:R.id,title:'Volcano boss rush · '+R.where,rows:[{slot:R.id,lbl:R.doing}]}); });
+    if(typeof FORGE_FAMS!=='undefined')FORGE_FAMS.forEach(function(f){ F.push({grp:'forge',id:f[0],title:'NEW · '+f[1]+' · '+f[2]+' — 3 phases, a new form each',rows:f[3].map(function(l,i){ return {slot:'fm_'+f[0]+'_'+(i+1),lbl:'Phase '+(i+1)+' · '+l}; })}); });      // round 56: the forge-masters
     [1,2,3,4].forEach(function(q){ F.push({grp:'elites',id:'elite'+q,title:QN[q]+' elite · treasure-vault den',rows:[{slot:'elite_'+q,lbl:'One room: the elite + '+(2+q)+' of its kin'}]}); });
     return F.filter(function(f){ f.rows=f.rows.filter(function(r){ return BOSS_SLOTS[r.slot]; }); return f.rows.length; }); },
-  GROUPS:[['guardians','★ Quadrant guardians — every phase'],['wardens','🏰 Castle wardens'],['mages','🔮 Mage-tower masters'],['islands','🏝 Island guardians'],['volcano','🌋 Volcano boss rush'],['elites','💎 Elites (treasure vaults)']],
+  GROUPS:[['guardians','★ Quadrant guardians — every phase'],['wardens','🏰 Castle wardens'],['mages','🔮 Mage-tower masters'],['islands','🏝 Island guardians'],['forge','🔥 Forge-masters of Muspelheim — NEW, choose one per phase'],['volcano','🌋 Volcano boss rush'],['elites','💎 Elites (treasure vaults)']],
   isNew:function(D){ return D.opt>='d'; },
   hasNew:function(slot){ return (BOSS_SLOTS[slot]||[]).some(LBB.isNew); },
   // the design the game will use: Kris's Lab pick, unless the slot was redrawn with new options he hasn't chosen from yet
@@ -52,7 +53,7 @@ LAB_TABS.push({ id:'bosses', name:'Bosses',
   designs:LBB.fams().reduce(function(a,f){ return a.concat(f.rows.map(function(r){ return {id:r.slot,name:(BA.of(r.slot)||{}).name||r.slot}; })); },[]),
   render:function(){ setTimeout(LBB.bind,0);
     var F=LBB.fams(); return '<div class="bb-wrap">'+LBB.GROUPS.map(function(G){ var L=F.filter(function(f){ return f.grp===G[0]; }); if(!L.length)return '';
-      return '<h3 class="ch-sub">'+G[1]+' — '+L.length+'</h3>'+L.map(function(f){ return '<section class="bb-fam"><h4>'+f.title+'</h4>'+(f.grp==='guardians'?LBB.lineup(f):'')+f.rows.map(LBB.row).join('')+'</section>'; }).join(''); }).join('')+'</div>'; } });
+      return '<h3 class="ch-sub">'+G[1]+' — '+L.length+'</h3>'+L.map(function(f){ return '<section class="bb-fam"><h4>'+f.title+'</h4>'+(f.grp==='guardians'||f.grp==='forge'?LBB.lineup(f):'')+f.rows.map(LBB.row).join('')+'</section>'; }).join(''); }).join('')+'</div>'; } });
 LBB.lineup=function(f){ var k='bosses-fam-'+f.id, p=LabApp.picks[k]||{}, ok=p.verdict==='pick';
   return '<div class="bb-line"><div class="bb-lh"><b>Line-up — every phase with your picks</b><span>Kept through every phase: '+((typeof BOSS_THREADS!=='undefined'&&BOSS_THREADS[f.id])||'')+'</span></div>'+
     '<div class="bb-strip">'+f.rows.map(function(r){ var D=LBB.eff(r.slot); return '<figure><canvas class="bb-cv bb-lcv" width="200" height="190" data-slot="'+r.slot+'" data-id="'+D.id+'"></canvas><figcaption>'+r.lbl.split(' · ')[0]+'</figcaption></figure>'; }).join('')+'</div>'+

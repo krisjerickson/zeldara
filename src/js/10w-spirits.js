@@ -82,7 +82,7 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
       S.forEach(function(s){ var d=Math.hypot(px-s.x,py-s.y), V=s._v, fr=ZSPIRIT.freed(ps,s.id);
         if(d<1200&&!V){ V=s._v={}; V.stone=ZSPIRIT._stoneImg(ws,s.x,s.y+10,fr,s); if(!fr){ V.sp=ZSPIRIT._spiritSprite(ws,s.x+34,s.y+16,'toil',WR_DEPTH(s.y+16),s); V.tw=ws.tweens.add({targets:V.sp,y:V.sp.y-2,duration:520,yoyo:true,repeat:-1,ease:'Sine.inOut'});
             var Zg=typeof _scn==='function'?_scn():null, gk=(s.n||0)%3===2?null:((s.n||0)%3===0?'chaingang':'haul');      // round 54c: Kris's picked bound groups (Chain gang, The great haul) at two stones in three; the loop (wave 56) when painted
-            if(gk&&Zg){ var GA=typeof ZWE!=='undefined'?ZWE.animTex(ws,'gl_'+gk):null, gid=gk==='chaingang'?'sp_grp_chaingang':'sp_g2_haul';
+            if(gk&&Zg){ var GA=typeof ZGREEN!=='undefined'?ZGREEN.loop(ws,gk):null, gid=gk==='chaingang'?'sp_grp_chaingang':'sp_g2_haul';
               if(GA){ V.gang=ws.add.sprite(s.x-78,s.y+44,GA.key,'0').setOrigin(GA.ox,GA.oy).setScale(GA.scale*Zg.K).setDepth(WR_DEPTH(s.y+44)); try{ V.gang.play(GA.key); }catch(e){} }
               else if(Zg.has(gid)){ V.gang=Zg.image(ws,gid,s.x-78,s.y+44,Zg.K,WR_DEPTH(s.y+44)); if(V.gang)ws.tweens.add({targets:V.gang,x:V.gang.x-3,y:V.gang.y-1,duration:900,yoyo:true,repeat:-1,ease:'Sine.inOut'}); } }
             V.lbl=domText(ws,s.x+22,s.y-46,'⛓ '+s.spirit,{fontSize:'9px',color:'#9fe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20); } }

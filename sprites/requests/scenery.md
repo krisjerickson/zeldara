@@ -1,4 +1,4 @@
-# Scenery — 173 sheets, 1693 objects and textures (13 sheets in the pilot)
+# Scenery — 179 sheets, 1717 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -39,6 +39,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 56 | undefined | 10 | 76 |
 | 57 | undefined | 2 | 8 |
 | 58 | undefined | 4 | 28 |
+| 59 | undefined | 6 | 24 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -2259,6 +2260,144 @@ Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in th
 7. Ash-warden, option A — an ash-warden: Surtharn’s guard, a tall soldier in charred black armour with a spear and a tower shield, ember eyes in a closed helm (about 2.4× the hero's height).
 8. Ash-warden, option B — an ash-warden: a lean figure of living ash and cinders in a ragged cloak, a curved blade glowing at the edge, a chain whip at the belt (about 2.4× the hero's height).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gloop2_chaingang
+
+Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone · wave 59 · 4 items, 2 × 2 · 1024x1024
+
+- `gm_chaingang_1` Chain gang (bound) — frame 1 — 220 × 150 px
+- `gm_chaingang_2` Chain gang (bound) — frame 2 — 220 × 150 px
+- `gm_chaingang_3` Chain gang (bound) — frame 3 — 220 × 150 px
+- `gm_chaingang_4` Chain gang (bound) — frame 4 — 220 × 150 px
+
+Attach: style_hero, style_centaur, sc_spirit_grp_opts, sc_gloop_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Chain gang (bound), exactly FIVE bound spirits (count them: five) chained neck to neck in one line, hauling ONE ore cart; heads down (about 2.4× the hero's height): (1) all five leaning into the chains, the cart still; (2) all five taking one step forward, the cart creaking a little further; (3) all five on the next step, the third one stumbling; (4) all five pausing, wiping their brows, the chains slack.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gloop2_haul
+
+Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone · wave 59 · 4 items, 2 × 2 · 1024x1024
+
+- `gm_haul_1` The great haul (bound) — frame 1 — 220 × 150 px
+- `gm_haul_2` The great haul (bound) — frame 2 — 220 × 150 px
+- `gm_haul_3` The great haul (bound) — frame 3 — 220 × 150 px
+- `gm_haul_4` The great haul (bound) — frame 4 — 220 × 150 px
+
+Attach: style_hero, style_centaur, sc_spirit_grp2, sc_gloop_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — The great haul (bound), exactly FIVE bound spirits (count them: five) in chains hauling ONE huge carved stone on ropes and log rollers, a Binder’s brazier smoking behind (about 2.4× the hero's height): (1) all five with the ropes taut, leaning back; (2) all five heaving together, the stone moved a little; (3) all five resting, ropes sagging, heads bowed; (4) all five heaving again, straining.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gloop2_hearth_tale
+
+Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone · wave 59 · 4 items, 2 × 2 · 1024x1024
+
+- `gm_hearth_tale_1` Tale by the hearth — frame 1 — 220 × 150 px
+- `gm_hearth_tale_2` Tale by the hearth — frame 2 — 220 × 150 px
+- `gm_hearth_tale_3` Tale by the hearth — frame 3 — 220 × 150 px
+- `gm_hearth_tale_4` Tale by the hearth — frame 4 — 220 × 150 px
+
+Attach: style_hero, style_centaur, sc_spirit_grp2, sc_gloop_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Tale by the hearth, exactly FIVE spirits (count them: a grandmother telling the tale, a father with one child on his shoulders, and two more children sitting) round ONE small ring of stones with a blue ghost-fire; the ring of stones is EXACTLY the same size and place in every frame, only the flame changes (about 2.4× the hero's height): (1) the grandmother with hands spread wide, the children listening, the flame low; (2) the grandmother leaning in, whispering, the flame low; (3) the grandmother throwing up her arms, the flame flaring taller, the children jumping; (4) everyone laughing, the flame settling back.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gloop2_mead_bench
+
+Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone · wave 59 · 4 items, 2 × 2 · 1024x1024
+
+- `gm_mead_bench_1` Mead bench — frame 1 — 220 × 150 px
+- `gm_mead_bench_2` Mead bench — frame 2 — 220 × 150 px
+- `gm_mead_bench_3` Mead bench — frame 3 — 220 × 150 px
+- `gm_mead_bench_4` Mead bench — frame 4 — 220 × 150 px
+
+Attach: style_hero, style_centaur, sc_spirit_grp2, sc_gloop_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Mead bench, exactly FOUR spirits (count them: four) on ONE long bench at ONE plank table, each with ONE mead horn (about 2.4× the hero's height): (1) all four talking and gesturing; (2) all four raising their horns in a toast; (3) all four drinking, heads tipped back; (4) all four slamming the horns down, roaring with laughter.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gloop2_reel
+
+Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone · wave 59 · 4 items, 2 × 2 · 1024x1024
+
+- `gm_reel_1` The reel — frame 1 — 220 × 150 px
+- `gm_reel_2` The reel — frame 2 — 220 × 150 px
+- `gm_reel_3` The reel — frame 3 — 220 × 150 px
+- `gm_reel_4` The reel — frame 4 — 220 × 150 px
+
+Attach: style_hero, style_centaur, sc_spirit_grp2, sc_gloop_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — The reel, exactly EIGHT spirits (count them: six dancers in a ring, a fiddler and a drummer in the middle) (about 2.4× the hero's height): (1) the six dancers stepping right, the fiddler bowing; (2) the six dancers mid-spin, cloaks swinging out; (3) the six dancers stepping left, the drummer striking; (4) the six dancers clapping, the fiddler raising the bow.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gloop2_tafl
+
+Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone · wave 59 · 4 items, 2 × 2 · 1024x1024
+
+- `gm_tafl_1` Game of tafl — frame 1 — 220 × 150 px
+- `gm_tafl_2` Game of tafl — frame 2 — 220 × 150 px
+- `gm_tafl_3` Game of tafl — frame 3 — 220 × 150 px
+- `gm_tafl_4` Game of tafl — frame 4 — 220 × 150 px
+
+Attach: style_hero, style_centaur, sc_spirit_grp2, sc_gloop_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE spirit group shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop; spirits are translucent glowing people of pale-blue runic light (Norse ancestors, lantern folk, aurora-robed), friendly. Every frame shows the SAME group: the SAME number of people (the count is given), the SAME props at the SAME size and place, the same camera and scale — only heads, arms and legs move a little. Never add, remove or merge anyone.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Game of tafl, exactly FIVE old spirits (count them: two players and three watchers) round ONE hnefatafl board on ONE flat stone (about 2.4× the hero's height): (1) one player thinking, chin in hand, the watchers still; (2) the same player reaching out to move a piece; (3) the piece moved, the three watchers pointing; (4) the other player throwing up his hands, everyone laughing.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

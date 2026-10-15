@@ -71,7 +71,11 @@ var ZGREEN={
   GROUPS:[['ring','sp_grp_ring',6],['family','sp_grp_family',4],['guard','sp_grp_guard',5],['hearth_tale','sp_g2_hearth_tale',5],['reel','sp_g2_reel',6],['sparring','sp_g2_sparring',4],['mead_bench','sp_g2_mead_bench',4],['tafl','sp_g2_tafl',5],['tag','sp_g2_tag',5],
     ['glima',null,4],['archery',null,4],['skald',null,6],['lantern_parade',null,5],['weaving',null,4],['roast',null,5],['knattleikr',null,5],['rune_carving',null,3]],
   BOUND:[['chaingang','sp_grp_chaingang'],['haul','sp_g2_haul']],
-  picOf:function(scene,g){ var Z=_scn(); if(typeof ZWE!=='undefined'){ var A=ZWE.animTex(scene,'gl_'+g[0]); if(A)return {anim:A}; } return g[1]&&Z.has(g[1])?{still:g[1]}:null; },
+  // round 56 (Kris's Saga-art notes: "the number of spirits changes, need to remake" / "the hearth changes size on this, need to remake"): those six loops
+  // are re-ordered as gm_<group> (wave 59, one group per sheet); until they are painted the group shows its still picture, breathing
+  REMAKE:{chaingang:1,haul:1,hearth_tale:1,mead_bench:1,reel:1,tafl:1},
+  loop:function(scene,k){ if(typeof ZWE==='undefined')return null; return ZWE.animTex(scene,'gm_'+k)||(ZGREEN.REMAKE[k]?null:ZWE.animTex(scene,'gl_'+k)); },
+  picOf:function(scene,g){ var Z=_scn(), A=ZGREEN.loop(scene,g[0]); if(A)return {anim:A}; return g[1]&&Z.has(g[1])?{still:g[1]}:null; },
   center:function(){ return {x:CENTER_X*TILE+16, y:CENTER_Y*TILE+16}; },
   // open places on the green (passable tiles), computed once
   spots:function(ws){ if(ws.wd._gSpots)return ws.wd._gSpots; var c=ZGREEN.center(), out=[], wd=ws.wd, ok=function(tx,ty,r){ for(var y=-r;y<=r;y++)for(var x=-r-1;x<=r+1;x++){ var t=(wd.tiles[ty+y]||[])[tx+x]; if(t===undefined||!canPassTile(t))return false; } return true; };
@@ -113,4 +117,4 @@ var ZGREEN={
   var sp0=ZSPIRIT._spiritSprite; ZSPIRIT._spiritSprite=function(scene,x,y,kind,depth,s){ var U=ZSPIRIT.uniqueId(s,kind); if(U){ var C=ZSPM.make(scene,U,x,y,kind==='toil'?'bound':'free',{depth:depth}); if(C)return C; } return sp0.apply(ZSPIRIT,arguments); };
 })();
 // the group loops play slowly (four frames, about two and a half a second)
-(function(){ if(typeof ZWE==='undefined')return; ZWE.LOOP=ZWE.LOOP||{}; ZGREEN.GROUPS.concat(ZGREEN.BOUND).forEach(function(g){ ZWE.LOOP['gl_'+g[0]]=2.5; }); })();
+(function(){ if(typeof ZWE==='undefined')return; ZWE.LOOP=ZWE.LOOP||{}; ZGREEN.GROUPS.concat(ZGREEN.BOUND).forEach(function(g){ ZWE.LOOP['gl_'+g[0]]=2.5; ZWE.LOOP['gm_'+g[0]]=2.5; }); })();
