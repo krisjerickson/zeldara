@@ -311,7 +311,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hissa, the Boiling Mother — Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal. Details: head: wraith, gear: spikecrown, off: flame, armor: shadow. Main colours: pale blue (#d8e8f0), muted blue (#5a7a8a), white (#ffffff), pale orange (#ffe0a0). Size: about 4.3× the height of the hero (a towering boss).
+Subject: Hissa, the Boiling Mother — Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal. Details: head: hood, gear: witch, off: flame, armor: shadow. Main colours: pale blue (#d8e8f0), muted blue (#5a7a8a), white (#ffffff), pale orange (#ffe0a0). Size: about 4.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -336,7 +336,7 @@ Attach: style_hero, style_centaur, fm_eisa_3.core.s
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Hissa, the Boiling Mother — Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal. Details: head: wraith, gear: spikecrown, off: flame, armor: shadow. Main colours: pale blue (#d8e8f0), muted blue (#5a7a8a), white (#ffffff), pale orange (#ffe0a0). Size: about 4.3× the height of the hero (a towering boss).
+Subject: Hissa, the Boiling Mother — Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal. Details: head: hood, gear: witch, off: flame, armor: shadow. Main colours: pale blue (#d8e8f0), muted blue (#5a7a8a), white (#ffffff), pale orange (#ffe0a0). Size: about 4.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. seen from the FRONT, standing at rest, relaxed and alert.
 2. seen from the FRONT, step / movement frame 1 of 2.
@@ -361,7 +361,7 @@ Attach: style_hero, style_centaur, fm_eisa_3.core.s
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Hissa, the Boiling Mother — Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal. Details: head: wraith, gear: spikecrown, off: flame, armor: shadow. Main colours: pale blue (#d8e8f0), muted blue (#5a7a8a), white (#ffffff), pale orange (#ffe0a0). Size: about 4.3× the height of the hero (a towering boss).
+Subject: Hissa, the Boiling Mother — Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal. Details: head: hood, gear: witch, off: flame, armor: shadow. Main colours: pale blue (#d8e8f0), muted blue (#5a7a8a), white (#ffffff), pale orange (#ffe0a0). Size: about 4.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. hurt: flinching backward, eyes shut, a few white impact sparks.
 2. casting wind-up: gathering glowing energy, arms / antennae raised — used for: attack patterns (rain, walls, bursts).
@@ -536,7 +536,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Krag in the Slag Shell — Armoured in cooling slag that hardens into black glass — crack the shell to reach him. Main colours: dark grey (#3a3434), black (#141010), orange (#ff8030), yellow (#ffd060). Size: about 4.5× the height of the hero (a towering boss).
+Subject: Krag in the Slag Shell — A walking crucible of half-cooled slag, glowing through every crack. Main colours: dark red (#5a2a1a), dark red (#1a0804), orange (#ff9030), yellow (#ffe060). Size: about 4.5× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -561,7 +561,7 @@ Attach: style_hero, style_centaur, fm_gjallr_3.core.q
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Krag in the Slag Shell — Armoured in cooling slag that hardens into black glass — crack the shell to reach him. Main colours: dark grey (#3a3434), black (#141010), orange (#ff8030), yellow (#ffd060). Size: about 4.5× the height of the hero (a towering boss).
+Subject: Krag in the Slag Shell — A walking crucible of half-cooled slag, glowing through every crack. Main colours: dark red (#5a2a1a), dark red (#1a0804), orange (#ff9030), yellow (#ffe060). Size: about 4.5× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. hurt: flinching backward, eyes shut, a few white impact sparks.
 2. casting wind-up: gathering glowing energy, arms / antennae raised — used for: attack patterns (rain, walls, bursts).
@@ -661,7 +661,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Sinda of the Lanes — She rises into the air and chains the hall into burning lanes. Details: head: wraith, gear: spikecrown, weapon: whip, off: chains, armor: shadow. Main colours: dark red (#3a1010), black (#10060a), red (#ff6040), yellow (#ffd060). Size: about 4.4× the height of the hero (a towering boss).
+Subject: Sinda of the Lanes — She rises into the air and chains the hall into burning lanes. Details: head: helm, gear: spikecrown, weapon: whip, off: chains, armor: shadow. Main colours: dark red (#3a1010), black (#10060a), red (#ff6040), yellow (#ffd060). Size: about 4.4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -686,7 +686,7 @@ Attach: style_hero, style_centaur, fm_eimyrja_2.core.s
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Sinda of the Lanes — She rises into the air and chains the hall into burning lanes. Details: head: wraith, gear: spikecrown, weapon: whip, off: chains, armor: shadow. Main colours: dark red (#3a1010), black (#10060a), red (#ff6040), yellow (#ffd060). Size: about 4.4× the height of the hero (a towering boss).
+Subject: Sinda of the Lanes — She rises into the air and chains the hall into burning lanes. Details: head: helm, gear: spikecrown, weapon: whip, off: chains, armor: shadow. Main colours: dark red (#3a1010), black (#10060a), red (#ff6040), yellow (#ffd060). Size: about 4.4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. seen from the FRONT, standing at rest, relaxed and alert.
 2. seen from the FRONT, step / movement frame 1 of 2.
@@ -711,7 +711,7 @@ Attach: style_hero, style_centaur, fm_eimyrja_2.core.s
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Sinda of the Lanes — She rises into the air and chains the hall into burning lanes. Details: head: wraith, gear: spikecrown, weapon: whip, off: chains, armor: shadow. Main colours: dark red (#3a1010), black (#10060a), red (#ff6040), yellow (#ffd060). Size: about 4.4× the height of the hero (a towering boss).
+Subject: Sinda of the Lanes — She rises into the air and chains the hall into burning lanes. Details: head: helm, gear: spikecrown, weapon: whip, off: chains, armor: shadow. Main colours: dark red (#3a1010), black (#10060a), red (#ff6040), yellow (#ffd060). Size: about 4.4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. hurt: flinching backward, eyes shut, a few white impact sparks.
 2. casting wind-up: gathering glowing energy, arms / antennae raised — used for: attack patterns (rain, walls, bursts).
@@ -736,7 +736,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Sinda, Shield of Spirits — Chained spirits circle her as a living shield — free them with your magic to reach her. Details: head: wraith, gear: spikecrown, off: chains, armor: shadow. Main colours: dark grey (#2a1a20), black (#0a0408), pale teal (#9fe8ff), red (#ff6040). Size: about 4.6× the height of the hero (a towering boss).
+Subject: Sinda, Shield of Spirits — Chained spirits circle her as a living shield — free them with your magic to reach her. Details: head: helm, gear: spikecrown, off: chains, armor: shadow. Main colours: dark grey (#2a1a20), black (#0a0408), pale teal (#9fe8ff), red (#ff6040). Size: about 4.6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -761,7 +761,7 @@ Attach: style_hero, style_centaur, fm_eimyrja_3.core.s
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Sinda, Shield of Spirits — Chained spirits circle her as a living shield — free them with your magic to reach her. Details: head: wraith, gear: spikecrown, off: chains, armor: shadow. Main colours: dark grey (#2a1a20), black (#0a0408), pale teal (#9fe8ff), red (#ff6040). Size: about 4.6× the height of the hero (a towering boss).
+Subject: Sinda, Shield of Spirits — Chained spirits circle her as a living shield — free them with your magic to reach her. Details: head: helm, gear: spikecrown, off: chains, armor: shadow. Main colours: dark grey (#2a1a20), black (#0a0408), pale teal (#9fe8ff), red (#ff6040). Size: about 4.6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. seen from the FRONT, standing at rest, relaxed and alert.
 2. seen from the FRONT, step / movement frame 1 of 2.
@@ -786,7 +786,7 @@ Attach: style_hero, style_centaur, fm_eimyrja_3.core.s
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Sinda, Shield of Spirits — Chained spirits circle her as a living shield — free them with your magic to reach her. Details: head: wraith, gear: spikecrown, off: chains, armor: shadow. Main colours: dark grey (#2a1a20), black (#0a0408), pale teal (#9fe8ff), red (#ff6040). Size: about 4.6× the height of the hero (a towering boss).
+Subject: Sinda, Shield of Spirits — Chained spirits circle her as a living shield — free them with your magic to reach her. Details: head: helm, gear: spikecrown, off: chains, armor: shadow. Main colours: dark grey (#2a1a20), black (#0a0408), pale teal (#9fe8ff), red (#ff6040). Size: about 4.6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. hurt: flinching backward, eyes shut, a few white impact sparks.
 2. casting wind-up: gathering glowing energy, arms / antennae raised — used for: attack patterns (rain, walls, bursts).

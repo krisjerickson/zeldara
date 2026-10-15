@@ -31,7 +31,7 @@ BD('fm_eisa_1.b','Hissa, the Quench-Hag','hum',148,'glide','#3a5a7a,#10202e,#c0d
 BD('fm_eisa_1.c','Hissa, the Quench-Hag','toad',150,'lumber','#4a6a6a,#1a2a2a,#9fe0ff,#ff8030',{crown:'#9fe0ff',motes:'bubbles'},'A vast steaming bath-toad wearing the hag\'s iron cauldron for a crown.');
 BD('fm_eisa_2.a','Hissa of the Flood','hum',165,'glide','#2a6a9a,#0a2a44,#bff0ff,#9fe0ff,#a0c8d8',{lower:'serpent',armor:'robe',head:'hood',gear:'coral',weapon:'trident',float:8,motes:'bubbles'},'Her lower half a coil of scalding water, she rides the flood that fills the hall.');
 BD('fm_eisa_2.b','Hissa of the Flood','kraken',170,'pulse','#2a5a7a,#0a1a2a,#bff0ff,#9fe0ff',{motes:'bubbles'},'A steaming water-hag with drowning arms, rising out of the quench pool.');
-BD('fm_eisa_3.a','Hissa, the Boiling Mother','hum',180,'phase','#d8e8f0,#5a7a8a,#ffffff,#ffe0a0,#e0e8ee,#ffb040',{lower:'wraith',armor:'shadow',head:'wraith',gear:'spikecrown',crownCol:'#ffffff',cast:true,off:'flame',float:12,wings:'ice',motes:'smoke',moteN:24},'Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal.');
+BD('fm_eisa_3.a','Hissa, the Boiling Mother','hum',180,'phase','#d8e8f0,#5a7a8a,#ffffff,#ffe0a0,#e0e8ee,#ffb040',{lower:'wraith',armor:'shadow',head:'hood',gear:'witch',cast:true,off:'flame',float:12,wings:'ice',motes:'smoke',moteN:24},'Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal.');
 BD('fm_eisa_3.b','Hissa, the Boiling Mother','orb',180,'pulse','#e0ecf4,#6a8a9a,#ffd080,#ffb040',{orb:'heart',orbR:44,motes:'smoke'},'A great boiling heart of steam and quench-water, throwing rings of scald.');
 
 // ════════════ GJALLR, THE SLAG TROLL (Slag Forge) ════════════
@@ -46,9 +46,9 @@ BD('fm_gjallr_3.b','Krag in the Slag Shell','golem',190,'lumber','#5a2a1a,#1a080
 // ════════════ EIMYRJA, THE CHAINMISTRESS (Ash Forge) ════════════
 BD('fm_eimyrja_1.a','Sinda, the Chainmistress','hum',175,'stride','#2a2224,#100a0c,#ff5030,#ffc060,#a05040,#ff7040',{build:'tall',armor:'plate',torsoCol:'#2a2224',head:'helm',gear:'spikecrown',crownCol:'#ff6030',weapon:'whip',off:'chains',chains:true,cape:'flame',hair:'wild',motes:'embers'},'A tall fire-giantess in black iron, burning chains coiling from her arms like whips.');
 BD('fm_eimyrja_1.b','Sinda, the Chainmistress','hum',170,'glide','#3a1010,#10060a,#ff5030,#ffc060,#c06050',{lower:'robe',armor:'robe',head:'face',gear:'crown',crownCol:'#ff8040',weapon:'chains',chains:true,cape:'long',capeCol:'#2a0a08',hair:'wild',motes:'embers'},'A queen of the chain-throne in a gown of ash, her chains alive in her hands.');
-BD('fm_eimyrja_2.a','Sinda of the Lanes','hum',185,'phase','#3a1010,#10060a,#ff6040,#ffd060',{lower:'wraith',armor:'shadow',head:'wraith',gear:'spikecrown',crownCol:'#ff6040',weapon:'whip',off:'chains',chains:true,wings:'flame',float:10,motes:'embers'},'She rises into the air and chains the hall into burning lanes.');
+BD('fm_eimyrja_2.a','Sinda of the Lanes','hum',185,'phase','#3a1010,#10060a,#ff6040,#ffd060',{lower:'wraith',armor:'shadow',head:'helm',gear:'spikecrown',crownCol:'#ff6040',weapon:'whip',off:'chains',chains:true,wings:'flame',float:10,motes:'embers'},'She rises into the air and chains the hall into burning lanes.');
 BD('fm_eimyrja_2.b','Sinda of the Lanes','spider',180,'stride','#2a1414,#0a0404,#ff6040,#ffc060',{mark:'runes',legBands:true,motes:'embers'},'Her chains become legs — a chain-spider strung across the hall.');
-BD('fm_eimyrja_3.a','Sinda, Shield of Spirits','hum',195,'phase','#2a1a20,#0a0408,#9fe8ff,#ff6040,#c06050,#9fe8ff',{lower:'wraith',armor:'shadow',head:'wraith',gear:'spikecrown',crownCol:'#ff6040',off:'chains',chains:true,cast:true,float:12,motes:'motes',moteN:24},'Chained spirits (pale blue) circle her as a living shield — free them with your magic to reach her.');
+BD('fm_eimyrja_3.a','Sinda, Shield of Spirits','hum',195,'phase','#2a1a20,#0a0408,#9fe8ff,#ff6040,#c06050,#9fe8ff',{lower:'wraith',armor:'shadow',head:'helm',gear:'spikecrown',crownCol:'#ff6040',off:'chains',chains:true,cast:true,float:12,motes:'motes',moteN:24},'Chained spirits (pale blue) circle her as a living shield — free them with your magic to reach her.');
 BD('fm_eimyrja_3.b','Sinda, Shield of Spirits','orb',190,'pulse','#3a1010,#0a0404,#9fe8ff,#ff6040',{orb:'heart',orbR:44,motes:'motes'},'A burning heart in a cage of chains, the bound spirits pressed against the bars.');
 
 Object.assign(typeof BOSS_THREADS!=='undefined'?BOSS_THREADS:{},{
@@ -56,3 +56,8 @@ Object.assign(typeof BOSS_THREADS!=='undefined'?BOSS_THREADS:{},{
   eisa:'Steam-pale blues and grey rags, the ladle, rising steam and scalding water.',
   gjallr:'Slag-brown and glowing cracks, bull horns, the crucible — cooling to black glass at the end.',
   eimyrja:'Black iron and burning chains, the spiked crown of fire; the chained spirits at the end.'});
+
+// round 57 (Kris: "You choose, then paint"): one design per phase, picked so each master keeps the same head and colours through all three —
+// Brokk a dragon head throughout, Hissa the hag's hood and hat, Krag the bull horns, Sinda the helm under her spiked crown of fire
+Object.assign(BOSS_PICK,{fm_glodr_1:'a',fm_glodr_2:'a',fm_glodr_3:'a',fm_eisa_1:'a',fm_eisa_2:'a',fm_eisa_3:'a',fm_gjallr_1:'a',fm_gjallr_2:'a',fm_gjallr_3:'b',fm_eimyrja_1:'a',fm_eimyrja_2:'a',fm_eimyrja_3:'a'});
+

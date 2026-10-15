@@ -41,8 +41,10 @@
     name(P,q,p,'ELDARA',zx,-1.25,s,{rule:true}); joinAnd(P,q,p,zx+1.2*s+W(q,p,'ELDARA',1.2*s)/2,0.1,0.32); name(P,q,p,'ELDOR',zx,1.42,s,{rule:true}); });
   // 2 ── One Great Z: a single ringed Z serves both names
   Q('qz_shared','One Great Z','One great Ringed Z over crossed axes serves both names: ELDARA beside its top, ELDOR beside its foot, AND between them on a rune band.',function(P,q,p){
-    var s=1.35, zx=-2.25; caption(P,q,p,'THE QUESTS OF',0.4,-2.45,0.42,1.6); ringZ(P,q,p,zx,0,s);
+    var s=1.35, zx=-1.4; ringZ(P,q,p,zx,0,s);      // round 57: shifted right so the whole mark (axes to the end of ELDARA) is centred
     var sz=1.0, wa=W(q,p,'ELDARA',sz), wo=W(q,p,'ELDOR',sz), x0=zx+1.35; front(q,p,'ELDARA',sz,x0+wa/2,-0.78); front(q,p,'ELDOR',sz,x0+wo/2,0.92);
+    // round 57 (Kris: "see if you can put 'the quests of' above 'Zeldara' to conserve space and make the other aspects bigger"): THE QUESTS OF sits small over ELDARA, ruled to its right edge
+    var qx=x0+0.62, qw=T(q,p,'THE QUESTS OF',0.34,qx+W(q,p,'THE QUESTS OF',0.34)/2,-1.62).w; P.w(0.45).ln([qx+qw+0.22,-1.62,x0+wa,-1.62]); P.fc(x0+wa+0.08,-1.62,0.05);
     P.w(0.6).ln([x0,-0.12,x0+wa,-0.12]).ln([x0,0.24,x0+wa,0.24]); T(q,p,'AND',0.26,x0+wa*0.5,0.06); });
   // 3 ── Side by Side: one line, the axes crossed between the names
   Q('qz_line','Side by Side','ZELDARA and ZELDOR on one line, crossed axes and a knot ring between them holding a triquetra; THE QUESTS OF above, a rune band below.',function(P,q,p){
@@ -93,9 +95,14 @@
   // the title page: a tall wordmark (three lines) gets the room it needs — the logo smaller and higher, the name a little higher
   var home1=ZBrand.home;
   ZBrand.home=function(c,cfg,W,H,t,o){ o=o||{}; var WD=ZBrand.wordById(o.word||(cfg.gen>=3?(ZBrand.WORDMARK||'ring_z'):'twin_axes')); if(!WD.tall||!(cfg.gen>=2))return home1(c,cfg,W,H,t,o);
-    var cfg2=Object.assign({},cfg,{ly:0.16,sr:0.085}); var sw=ZBrand.word, nar=W/(H/20)<16;
-    ZBrand.word=function(ctx,id,cx,cy,Hh,tt,al){ ZBrand.word=sw; return sw(ctx,id,cx,H*(nar?0.46:0.475),Math.min(H*0.062,W/11),tt,al); };
+    // round 57 (Kris: "the title page now needs to be rebalanced. the world tree image as well as the Zeldara and Zeldor title need to be bigger. OK to make the
+    // "new game" and "returning player" and the intro text a bit smaller"): the tree ~25% bigger, the wordmark ~30% bigger (THE QUESTS OF now inside it),
+    // the buttons and the story line ~20% smaller and lower
+    var nar=W/(H/20)<16, cfg2=ZBrand.homeCfg?ZBrand.homeCfg(cfg,W,H):cfg; var sw=ZBrand.word;
+    ZBrand.word=function(ctx,id,cx,cy,Hh,tt,al){ ZBrand.word=sw; return sw(ctx,id,cx,H*(nar?0.48:0.575),Math.min(H*(nar?0.066:0.08),W/(nar?10:9.5)),tt,al); };
     try{ return home1(c,cfg2,W,H,t,o); } finally { ZBrand.word=sw; } };
+  ZBrand.homeCfg=function(cfg,W,H){ var WD=ZBrand.wordById(cfg.gen>=3?(ZBrand.WORDMARK||'ring_z'):'twin_axes'); if(!WD||!WD.tall||!(cfg.gen>=2))return cfg; var nar=W/(H/20)<16; return Object.assign({},cfg,nar?{ly:0.17,sr:0.09}:{ly:0.215,sr:0.105,by:15.95,bs:0.78,ts:0.8}); };
+  var hl0=ZBrand.homeLayout; if(hl0)ZBrand.homeLayout=function(cfg,W,H,o){ return hl0(ZBrand.homeCfg(cfg,W,H),W,H,o); };      // the title scene's click areas sit on the rebalanced buttons
   // the story line under the buttons
   ZBrand.TAGLINE=['Four realms, one land. Free the bound spirits, break the Forges of Muspelheim,','and bring Runeheim\'s dead home to the light.'];
 })();
