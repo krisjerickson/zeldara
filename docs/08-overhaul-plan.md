@@ -655,3 +655,9 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - **DONE** — forge-masters as 28 Lab options over 12 phase forms (Bosses tab), own sprite wave 7.6; moving fire/steam; six loops held back and re-ordered (wave 59); wave 58 cut and in the Lab.
 - **Next:** Kris picks the forge-master forms (Bosses tab) and Muspelheim (Muspelheim tab) → set BOSS_PICK, send wave 7.6 (`generate.mjs --wave 7.6`), and build Muspelheim (round 56 plan) with his picks.
 
+## Round 57 (Kris, Oct 15)
+- Kris: "the title page now needs to be rebalanced … And all picks are in, take the comments and iterate for most of it per these comments"; then "any questions to ask or sheets to request before i log off for the evening? and anything we can do overnight to go onto the next stage?"; then "sheet requests are in".
+- Muspelheim picks: Surtharn — the six options read as his six phases (Colossus, Forge-king kept; Ash Tyrant, Jötunn, Obsidian, Volcano: keep the head; Jötunn in dark armour); walls — relief (no stray hands) and channels; amber too sci-fi, cage/lanterns need working miners not screams, lavafall more human; halls — Chain lift A, Lava raft B, Fortress gate B, Falling bridge A; great hearth A and C; Lodestar C closest but a lens and the six gems like the Sovereign staff; both ash-wardens.
+- **DONE** — title rebalanced; wave 60 (Surtharn phases, walls 2, Lodestar 2) and wave 7.6 (forge-masters) painted and in; Sovereign staff recipe.
+- **Next (overnight):** Muspelheim built (16c): five floors — the Chain Lifts, the Lava Rafts, the Ash-warden Fortress, the Falling Bridges (two old volcano bosses guarding each hall's way down, five chained spirits per hall), the throne cavern (Surtharn's six phases, the spirit walls, the great hearth: Sovereign staff + four Heartglasses → the Lodestar).
+

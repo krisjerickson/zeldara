@@ -9,6 +9,18 @@
   var page=function(pg){ if(IMG[pg]||tried[pg])return IMG[pg]; tried[pg]=1; var im=new Image(); im.onload=function(){ IMG[pg]=im; }; im.onerror=function(){ if(!im._b){ im._b=1; im.src='../assets/scenery/'+pg+'.webp'; } }; im.src='assets/scenery/'+pg+'.webp'; return null; };
   var draw=function(c,id,cx,foot,h,mw){ var it=M.items[id]; if(!it)return false; var im=page(it[0]); if(!im)return false; var s=Math.min(h/it[4],mw/it[3],2.6); c.imageSmoothingEnabled=true; c.imageSmoothingQuality='high'; c.drawImage(im,it[1],it[2],it[3],it[4],cx-it[3]*s/2,foot-it[4]*s,it[3]*s,it[4]*s); return true; };
   var SEC=[
+    // ── round 57 (wave 60): Kris's notes acted on ──
+    {k:'surt2',t:'👹 Surtharn — his six phases, one head',s:'round two · your note: "keep the head very similar throughout"; dark armour in every phase (no bare skin) · ☆ any phase that is right, notes on any that is not',L:[
+      ['surt_ph1','Phase 1 — the Molten Colossus','basalt and lava, the flaming greatsword'],['surt_ph2','Phase 2 — the Forge-king','iron plate, the bellows, the anvil-hammer'],
+      ['surt_ph3','Phase 3 — the Ash Tyrant','ash robes over armour, chains of spirit-light'],['surt_ph4','Phase 4 — the Horned Jötunn','horns on the crown, dark rune armour, a sword of fire'],
+      ['surt_ph5','Phase 5 — the Obsidian Warlord','obsidian armour, the cage of spirits in his chest'],['surt_ph6','Phase 6 — the Living Volcano','rising out of the magma, the same face and crown']]},
+    {k:'wall2',t:'⛓ The spirit walls — round two',s:'pick one (or more) · working, mining spirits, no screaming; old low-tech glass; human-like in the lava; no stray hands',L:[
+      ['sw2_relief','Spirits in relief','the relief again, every hand on a body'],['sw2_glass','Old glass','thick bubbly forge-window glass in iron frames, spirits at work behind it'],
+      ['sw2_cage','Cage wall at work','calm spirits mining and pushing ore carts behind the bars'],['sw2_lanterns','Chains and the miners','lantern-cages above, spirits mining and hauling below'],
+      ['sw2_lavafall','Spirit lavafall','clearly human spirits labouring inside the falling lava'],['sw2_channels','Rune channels (your pick)','redrawn alongside the others']]},
+    {k:'star2',t:'⭐ The Lodestar — round two',s:'pick one · like the Sovereign staff: a clear lens at the heart, the six elemental gems round it',L:[
+      ['ls2_a','White-gold and lens','white gold, the six gems round a clear lens'],['ls2_b','Silver compass-rose','runed wood and silver, a compass-rose ring of gems'],
+      ['ls2_c','Rune-ring lens','a rune-carved ring, a world-tree glowing in the lens']]},
     {k:'surt',t:'👹 Surtharn, Tyrant of Muspelheim',s:'pick one · six phases on the fifth floor, warded by everything but Sovereign',L:[
       ['surt_colossus','Molten colossus','cracked black basalt, rivers of lava, a crown of flame, a flaming greatsword'],['surt_forgeking','Forge-king','blackened iron plate, bellows on his back, an anvil-hammer, a beard of embers'],
       ['surt_ashtyrant','Ash tyrant','gaunt, in smouldering ash robes, a mask of molten gold, chains of spirit-light'],['surt_jotun','Horned jötunn','horned, rune-burnt skin, hair of flame, a sword of fire'],
@@ -39,7 +51,7 @@
     c.fillStyle='#ffd2a8'; c.font='600 15px "Segoe UI",sans-serif'; c.textAlign='center'; c.fillText(D.x[1],W/2,H*0.36); c.fillStyle='#c8a890'; c.font='12px "Segoe UI",sans-serif'; wrap(c,D.x[2],W/2,H*0.36+24,W*0.8,16);
     c.fillStyle='#8a6a58'; c.font='11px "Segoe UI",sans-serif'; c.fillText('waiting for the painted sheet · tools\\sprites\\round56.ps1 (wave 58)',W/2,H-16); };
   LAB_TABS.push({ id:'muspel', name:'Muspelheim',
-    blurb:'<b>Round 56 prep — Muspelheim, your picks first.</b> As you chose: halls 1–4 are each their own challenge (the Chain Lifts, the Lava Rafts, the Ash-warden Fortress, the Falling Bridges), with spirits to free along the way and two of the old volcano bosses guarding each hall; the fifth floor is Surtharn\'s throne cavern, walled with spirits; at the great hearth the <b>Sovereign staff</b> and the four Heartglasses become the Lodestar. Star (☆) one option in each section — for the halls, A or B for each piece. The code is being built meanwhile with drawn stand-ins.',
+    blurb:'<b>Round 57 — your Muspelheim notes, acted on.</b> Surtharn as six phases with one head and dark armour throughout; the spirit walls again (working and mining, never screaming; old forge glass instead of the tubes; human spirits in the lava; no stray hands); the Lodestar like the Sovereign staff with a lens and six gems. ☆ what is right, notes on anything not. Below them, round one with your picks: the halls (Chain lift A, Lava raft B, Fortress gate B, Falling bridge A), both ash-wardens, great hearth A for Muspelheim (C becomes Asgard\'s hearth of light). <i>The Sovereign staff is won by beating all sixteen mage towers — and now the blacksmith can also forge it once the forges rise.</i>',
     designs:Object.keys(BY).map(function(k){ return {id:k,name:BY[k].x[1]}; }),
     render:function(){ setTimeout(LBR.bind,0); var n=0; return SEC.map(function(S){ return LBR.sec(S.t,S.s)+'<div class="br-grid">'+S.L.map(function(x){ return LBR.card('muspel',{id:x[0],name:x[1],desc:x[2]},n++,S.k==='surt'||S.k==='wall'?420:360,S.k==='surt'?320:260,''); }).join('')+'</div>'; }).join(''); } });
 })();

@@ -62,3 +62,13 @@
     I.desc=I.desc.replace(/every element at once/g,'the Sovereign element').replace(/\+(\d+) all elements/,'+$1 Sovereign');
     if(I.slot==='lHand'||I.slot==='rHand')I.desc+=' Sovereign strikes with none of the six elements — but it is the bane of everything Muspelheim has warded: the forge-masters, Surtharn, and Asgard.'; });
 })();
+
+// ── round 57: the Sovereign staff at the forge too ──
+// Kris (Lab note on the Lodestar): "remind me of where you make the crafted staffs, as i wasn't finding this at the black smith" → card: "Both ways" —
+// still won by beating all sixteen mage towers (09i ZSov), and now forgeable once the forges rise, at a high cost, so the Lodestar is never out of reach.
+(function(){ if(typeof ZForge==='undefined'||typeof CRAFT_RECIPES==='undefined'||!ITEMS.sov_staff)return;
+  if(!ZForge.recipe('sov_staff'))CRAFT_RECIPES.push({result:'sov_staff',needs:{arcane_staff:1,gem_ruby:2,gem_sapphire:2,gem_emerald:2,skystone:1},gold:6000,label:'Sovereign Staff',tier:5,chain:'ultimate'});
+  if(ZForge.STAGE)ZForge.STAGE.sov_staff='forges';
+  var h0=ZForge.html; if(h0)ZForge.html=function(ps){ var h=h0.apply(ZForge,arguments), lane='<div class="zf-lane"><div class="zf-lh">'+(typeof ZElUI!=='undefined'?ZElUI.chips('all'):'')+'<span>The Sovereign staff</span><em>an Arcane Staff, two each of ruby, sapphire and emerald, and a Skystone — or win all sixteen mage towers</em></div><div class="zf-row">'+ZForge.node(ps,'arcane_staff')+ZForge.arrow+ZForge.node(ps,'sov_staff')+'</div></div>';
+    var i=h.lastIndexOf('</div>'); return i>=0?h.slice(0,i)+lane+h.slice(i):h+lane; };
+})();
