@@ -247,10 +247,10 @@ var ZSPR={
     // bosses, evolved forms, wardens, mage masters, island and volcano bosses, elites
     if(typeof BOSS_SLOT_LIST!=='undefined')BOSS_SLOT_LIST.forEach(function(slot){ var opt=(typeof BOSS_PICK!=='undefined'&&BOSS_PICK[slot])||'a', D=(typeof BOSS_ART!=='undefined'&&BOSS_ART[slot+'.'+opt])||{}, C=typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[slot];
       var q=Z.bossQ(slot,D,C);
-      var kit=Z.bossKit(slot), sub=/^fm_/.test(slot)?'Forge-masters':/^elite/.test(slot)?'Elites':/^bf_/.test(slot)?'Evolved boss forms':/^cw_/.test(slot)?'Castle wardens':/^mg_/.test(slot)?'Mage-tower masters':/^boss_isl/.test(slot)?'Island guardians':/^boss_v/.test(slot)?'Volcano bosses':'Guardians';
+      var kit=Z.bossKit(slot), sub=/^fm_/.test(slot)?'Forge-masters':/^surt_/.test(slot)?'Surtharn':/^elite/.test(slot)?'Elites':/^bf_/.test(slot)?'Evolved boss forms':/^cw_/.test(slot)?'Castle wardens':/^mg_/.test(slot)?'Mage-tower masters':/^boss_isl/.test(slot)?'Island guardians':/^boss_v/.test(slot)?'Volcano bosses':'Guardians';
       push({id:slot,group:'boss',sub:sub,name:D.name||(C&&C.name)||slot,q:q,look:D.lore||(C&&C.look)||'',atkTxt:C&&C.doing,pal:D.pal||(C&&C.spec&&C.spec.pal),arch:D.arch,
         gear:['head','gear','weapon','off','armor','cape','beast','build'].filter(function(k){ return D[k]&&D[k]!==true; }).map(function(k){ return k+': '+D[k]; }).join(', '),
-        kit:kit,specAnim:C&&C.spec&&C.spec.anim,humanoid:D.arch==='hum'||(!D.arch&&C&&!!Z.HUMANOID[C.spec&&C.spec.plan]),scale:Math.round(((D.h||110)/42)*10)/10,big:true,form:/^bf_|^fm_\w+_[23]$/.test(slot),wave:/^fm_/.test(slot)?7.6:(q||5)+2.5}); });      // round 56: the forge-masters' twelve forms are their own wave (painted once Kris picks in the Lab)
+        kit:kit,specAnim:C&&C.spec&&C.spec.anim,humanoid:D.arch==='hum'||(!D.arch&&C&&!!Z.HUMANOID[C.spec&&C.spec.plan]),scale:Math.round(((D.h||110)/42)*10)/10,big:true,form:/^bf_|^fm_\w+_[23]$/.test(slot),wave:/^fm_/.test(slot)?7.6:/^surt_/.test(slot)?7.7:(q||5)+2.5}); });      // round 56: the forge-masters' twelve forms are their own wave (painted once Kris picks in the Lab)
     // NPCs
     if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='npc')return; var walker=/Village folk/.test(C.sub);
       var RW=Z.REWORD[C.id]||{};
@@ -274,7 +274,7 @@ var ZSPR={
     L.forEach(function(e){ e.anims=Z.animsOf(e); e.sheets=Z.sheetsOf(e); });
     return (ZSPR._all=L); },
 
-  bossQ:function(slot,D,C){ var m; if((m=/^elite_(\d)/.exec(slot)))return +m[1]; if(/^boss_vr|volcano|^fm_/.test(slot))return 5; if((m=/^boss_isl_(\d)/.exec(slot)))return +m[1];
+  bossQ:function(slot,D,C){ var m; if((m=/^elite_(\d)/.exec(slot)))return +m[1]; if(/^boss_vr|volcano|^fm_|^surt_/.test(slot))return 5; if((m=/^boss_isl_(\d)/.exec(slot)))return +m[1];
     var cw=['thorn_knight','sun_baron','mill_ogre','lotus_naga','drowned_abbot','mangrove_chief','forge_thane','frost_queen','roc_lord','obsidian_jailer','ember_priest','bone_king'].indexOf(slot.replace(/^cw_/,'')); if(/^cw_/.test(slot)&&cw>=0)return Math.floor(cw/3)+1;
     var base=ZSPR.HERO.BOSS_BASE[slot]||slot.replace(/^(boss|bf)_/,'').replace(/_\d+$/,''); if(typeof BOSS_PHASES!=='undefined'&&BOSS_PHASES[base]&&BOSS_PHASES[base].q)return BOSS_PHASES[base].q;
     var w=(C&&C.where)||''; return /Grass/.test(w)?1:/Wet/.test(w)?2:/High/.test(w)?3:/Ash/.test(w)?4:0; },
@@ -342,11 +342,14 @@ var ZSPR={
       if(!t){ if(r==='hero_m.model'&&e.id==='hero_f')t='the approved model sheet of the hero boy: she matches his height, proportions, line weight and colouring style exactly (her hair and outfit are her own, as described)';
         else if(/^hero_[mf]\.model$/.test(r))t='the approved model sheet of this hero: keep the hero identical to it';
         else if(/^mt_/.test(r))t='the approved sheet of this mount: keep the mount identical to it';
+        else if(/^surt_ref_/.test(r))t='the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change';
         else t='the first approved sheet of this same character: keep the character identical to it'; }
       return 'Reference image '+(i+1)+' = '+t+'.'; }).join(' '); },
   refs:function(e,sh){ var r=['style_hero','style_centaur']; if(e.group==='hero'){ if(sh.key!=='model')r.push('hero_'+e.hero+'.model'); else if(e.hero==='f')r.push('hero_m.model'); }
     else if(e.group==='rider'||e.group==='vehicle')r.push('hero_'+(e.rider||e.id.split('_')[1])+'.model'); else if(sh!==e.sheets[0])r.push(e.sheets[0].id);
-    if(e.group==='rider'&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID['mt_'+e.mount])r.push('mt_'+e.mount+'.ride'); return r; },
+    if(e.group==='rider'&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID['mt_'+e.mount])r.push('mt_'+e.mount+'.ride');
+    var sm=/^surt_(\d)$/.exec(e.id); if(sm)r.push('surt_ref_'+sm[1]);      // round 59: Kris's approved painting of this phase (cut from wave 60) rides along so the head stays the same
+    return r; },
   prompt:function(e,sh,opts){ var Z=ZSPR, o=opts||{}, n=sh.poses.length, L=[];
     if(sh.multi){ L.push('Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of '+n+' DIFFERENT boss characters, one per cell.'); L.push(Z.refNote(e,sh));
       L.push('Layout: exactly '+n+' characters in a grid of '+sh.cols+' columns × '+sh.rows+' row'+(sh.rows>1?'s':'')+', evenly spaced, each one standing in a ready, menacing battle pose, in this order (left to right, top row first):');
@@ -373,7 +376,7 @@ var ZSPR={
   // ── totals and export ──
   stats:function(){ var S={chars:0,sheets:0,core:0,poses:0,byGroup:{},unknown:[]}; ZSPR.all().forEach(function(e){ S.chars++; var g=S.byGroup[e.group]=S.byGroup[e.group]||{chars:0,sheets:0,poses:0}; g.chars++; g.sheets+=e.sheets.length; S.sheets+=e.sheets.length; var nc=e.sheets.filter(function(x){ return (x.tier||'core')==='core'; }).length; S.core+=nc; g.core=(g.core||0)+nc;
       e.sheets.forEach(function(sh){ g.poses+=sh.poses.length; S.poses+=sh.poses.length; }); if(e.unknown&&e.unknown.length)S.unknown.push(e.id+': '+e.unknown.join(',')); }); return S; },
-  WAVES:{0:'Pilot (by hand)',1:'Heroes',1.5:'Mounts and riders',2:'Village, familiars',3:'Grasslands',3.5:'Grasslands bosses',4:'Wetlands',4.5:'Wetlands bosses',5:'Highlands',5.5:'Highlands bosses',6:'Ashlands',6.5:'Ashlands bosses',7:'Volcano',7.5:'Volcano bosses',7.6:'Forge-masters',8:'Vehicles',2.5:'Other bosses'},
+  WAVES:{0:'Pilot (by hand)',1:'Heroes',1.5:'Mounts and riders',2:'Village, familiars',3:'Grasslands',3.5:'Grasslands bosses',4:'Wetlands',4.5:'Wetlands bosses',5:'Highlands',5.5:'Highlands bosses',6:'Ashlands',6.5:'Ashlands bosses',7:'Volcano',7.5:'Volcano bosses',7.6:'Forge-masters',7.7:'Surtharn',8:'Vehicles',2.5:'Other bosses'},
   PILOT:['hero_m.model','hero_f.model','hero_m.move.s','hero_m.melee.s','meadow_goblin.core.s','meadow_goblin.fb','thistle_hog.core.q','npc_forge.core.f','mt_horse.ride','ride_m_horse.ride','boss_goblin_king.core.s','fam_grass.core.q'],
   requests:function(){ var out=[], Z=ZSPR;
     // the girl's three looks to compare: same model-sheet layout, one request per look

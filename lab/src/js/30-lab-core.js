@@ -203,7 +203,7 @@ var LabApp={
   init:function(){
     var self=this;
     try{ this.picks=JSON.parse(localStorage.getItem('zeldara-lab-picks')||'{}'); }catch(e){ this.picks={}; }
-    this.tab=LAB_TABS[0].id;
+    this.tab=(typeof LAB_ACTIVE!=='undefined'&&LAB_ACTIVE.length&&LAB_TABS.some(function(t){ return t.id===LAB_ACTIVE[0]; }))?LAB_ACTIVE[0]:LAB_TABS[0].id;   // round 59: open on the newest active tab
     this.renderTabs(); this.renderGrid();
     this.bind();
     // Shared store (artifact DB) — picks become readable by Claude.
@@ -248,13 +248,17 @@ var LabApp={
   // ── Tabs + grid ──
   renderTabs:function(){
     var self=this, el=document.getElementById('lab-tabs');
-    el.innerHTML=LAB_TABS.map(function(t){
+    // round 59 (Kris: "condense previous lab choices down as there are too many buttons"): the current tabs as buttons; every earlier round in one drop-down
+    var ACT=(typeof LAB_ACTIVE!=='undefined'?LAB_ACTIVE:[]), isAct=function(t){ return !ACT.length||ACT.indexOf(t.id)>=0||t.id===self.tab; }, cnt=function(t){ var n=t.designs.length, pk=t.designs.filter(function(d){var p=self.picks[self.key(t.id,d.id)];return p&&p.verdict;}).length; return n?pk+'/'+n:''; };
+    var arch=LAB_TABS.filter(function(t){ return !isAct(t); }), sel=arch.length?'<label class="lab-arch">📁 Earlier rounds <select id="lab-arch-sel"><option value="">— '+arch.length+' tabs —</option>'+arch.map(function(t){ return '<option value="'+t.id+'">'+t.name+(cnt(t)?' ('+cnt(t)+')':'')+'</option>'; }).join('')+'</select></label>':'';
+    el.innerHTML=LAB_TABS.filter(isAct).sort(function(a,b){ var ia=ACT.indexOf(a.id), ib=ACT.indexOf(b.id); return (ia<0?99:ia)-(ib<0?99:ib); }).map(function(t){
       var n=t.designs.length, picked=t.designs.filter(function(d){var p=self.picks[self.key(t.id,d.id)];return p&&p.verdict;}).length;
       if(t.id==='map'){ return '<button class="lab-tab" role="tab" data-tab="map" aria-selected="'+(t.id===self.tab)+'">'+t.name+'<span class="n" style="color:var(--rune)">new</span></button>'; }
       if(t.id==='sprites'&&window.SPRITE_PILOT){ n=SPRITE_PILOT.pilot.reduce(function(a,c){return a+c.variants.length;},0); picked=Object.keys(self.picks).filter(function(k){return k.indexOf(t.id+'-')===0&&self.picks[k].verdict;}).length; }
       return '<button class="lab-tab" role="tab" data-tab="'+t.id+'" aria-selected="'+(t.id===self.tab)+'">'+t.name+
         (n?'<span class="n">'+picked+'/'+n+'</span>':'<span class="n soon">soon</span>')+'</button>';
-    }).join('');
+    }).join('')+sel;
+    var se=document.getElementById('lab-arch-sel'); if(se)se.onchange=function(){ if(!se.value)return; self.tab=se.value; self.idx=0; if(document.body.classList.contains('walking'))self.close(); self.renderGrid(); };
   },
   thumbOf:function(tab,d){
     var k=tab+'-'+d.id; if(this.thumbs[k])return this.thumbs[k];

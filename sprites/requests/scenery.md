@@ -1,4 +1,4 @@
-# Scenery — 182 sheets, 1732 objects and textures (13 sheets in the pilot)
+# Scenery — 194 sheets, 1762 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -41,6 +41,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 58 | undefined | 4 | 28 |
 | 59 | undefined | 6 | 24 |
 | 60 | undefined | 3 | 15 |
+| 61 | Asgard and the Bifröst — options | 12 | 30 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -6439,6 +6440,264 @@ Layout: exactly 20 objects in a grid of 5 columns × 4 rows, evenly spaced, in t
 19. Basalt Rune — a single small treasure: basalt rune, found among the basalt columns.
 20. Dragon Tooth — a single small treasure: dragon tooth, found in the dragon skeleton valley.
 View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_asg_wall_opts
+
+Asgard on the lake — the walls, towers and great gate, three styles (one style per ROW, top to bottom: A, B, C); the city of the gods in Norse myth, all white stone, cream marble and gold; noble, bright and clean, slender columns and tall spires; original designs, no text · wave 61 · 9 items, 3 × 3 · 1536x1024
+
+- `asgA_wall` A · wall — 170 × 120 px
+- `asgA_tower` A · tower — 96 × 210 px
+- `asgA_gate` A · great gate — 190 × 170 px
+- `asgB_wall` B · wall — 170 × 120 px
+- `asgB_tower` B · tower — 96 × 210 px
+- `asgB_gate` B · great gate — 190 × 170 px
+- `asgC_wall` C · wall — 170 × 120 px
+- `asgC_tower` C · tower — 96 × 210 px
+- `asgC_gate` C · great gate — 190 × 170 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 9 separate pieces of scenery — Asgard on the lake — the walls, towers and great gate, three styles (one style per ROW, top to bottom: A, B, C); the city of the gods in Norse myth, all white stone, cream marble and gold; noble, bright and clean, slender columns and tall spires; original designs, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 9 objects in a grid of 3 columns × 3 rows, evenly spaced, in this order (left to right, top row first):
+1. A · wall — a straight section of a tall city wall of smooth WHITE stone blocks with gold-capped battlements, seen from above-front like the game scenery (about 1.9× the hero's height).
+2. A · tower — a round tower of white stone with a tall pointed GOLD spire roof and a gold finial (about 3.3× the hero's height).
+3. A · great gate — a great arched gate of white stone with two tall golden doors, closed, gold runes over the arch (about 2.7× the hero's height).
+4. B · wall — a straight section of a city wall of CREAM marble with a frieze of gilded knotwork along the top, rounded merlons (about 1.9× the hero's height).
+5. B · tower — a slender cream-marble tower crowned by a GILDED onion-shaped dome on a ring of little columns (about 3.3× the hero's height).
+6. B · great gate — a gatehouse of cream marble between two gilded domes, a portcullis of gold lattice, closed (about 2.7× the hero's height).
+7. C · wall — a straight section of a wall of PALE GRANITE blocks banded with three glowing gold rune-lines, plain square battlements (about 1.9× the hero's height).
+8. C · tower — a square pale-granite tower with gold rune-bands and a steep gold-tiled roof, a gold raven weather-vane (about 3.3× the hero's height).
+9. C · great gate — a tall square gate of pale granite, its doors one great gold shield-boss each, gold rune-bands, closed (about 2.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_asg_keep_opts
+
+Asgard — the citadel at the heart of the island (it rises in the middle, the four floors of Asgard are inside it); the city of the gods in Norse myth, all white stone, cream marble and gold; noble, bright and clean, slender columns and tall spires; original designs, no text · wave 61 · 3 items, 3 × 1 · 1536x1024
+
+- `asg_keep_a` Citadel of spires — 300 × 360 px
+- `asg_keep_b` Hall of shields — 340 × 300 px
+- `asg_keep_c` Tree-crowned keep — 300 × 360 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 separate pieces of scenery — Asgard — the citadel at the heart of the island (it rises in the middle, the four floors of Asgard are inside it); the city of the gods in Norse myth, all white stone, cream marble and gold; noble, bright and clean, slender columns and tall spires; original designs, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 3 objects in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. Citadel of spires — a tall palace of white stone, a cluster of slender towers with gold spires round one great central spire, a gold door at its foot (about 5.7× the hero's height).
+2. Hall of shields — a great long hall of cream marble whose roof is covered in golden shields like Valhöll, tall columns along its front, a gold door (about 4.8× the hero's height).
+3. Tree-crowned keep — a round keep of pale stone ringed with columns, crowned by a white-and-gold tree of light whose branches spread over it, a gold door (about 5.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_asg_ground_opts
+
+Asgard — the ground inside the walls, three tileable ground textures seen straight from above · wave 61 · 3 items, 3 × 1 · 1536x1024
+
+- `tx_asg_a` White marble flags — 256 × 256 px
+- `tx_asg_b` Cream rune-paving — 256 × 256 px
+- `tx_asg_c` Cloud-moss paving — 256 × 256 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 square ground-texture swatches — Asgard — the ground inside the walls, three tileable ground textures seen straight from above.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 3 swatches in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. White marble flags — large white marble flagstones with thin gold seams between them.
+2. Cream rune-paving — cream stone paving with a faint inlaid pattern of pale gold runes.
+3. Cloud-moss paving — pale grey paving stones with soft white cloud-moss and tiny gold flowers in the joints.
+View: seen from straight above, flat.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: each swatch is a flat square that fills its whole cell from edge to edge — no border, no frame, no vignette, no perspective, no lighting gradient across the square, no single large feature. The pattern must repeat seamlessly when the square is tiled in every direction. Keep every swatch very calm, even and LOW in contrast: it lies under the characters and must not compete with them. Mostly one flat base colour; the marks are small (each no wider than a twelfth of the square), only a little darker or lighter than the base, with NO dark outlines, and spread evenly. Leave a thin gap of plain white between the squares. No objects, no shadows of objects, no grid lines, no numbers, no labels, no text, no watermark.
+Background between the squares: plain white.
+```
+
+## sc_bifrost_opts
+
+The Bifröst — a short straight section of the bridge from the village pier to Asgard, seen from above-front like the game scenery (it is tiled end to end), running left to right; original designs, no text · wave 61 · 3 items, 3 × 1 · 1536x1024
+
+- `bif_a` Rainbow light — 200 × 96 px
+- `bif_b` Crystal and rainbow — 200 × 96 px
+- `bif_c` Rune-lit stone — 200 × 96 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 separate pieces of scenery — The Bifröst — a short straight section of the bridge from the village pier to Asgard, seen from above-front like the game scenery (it is tiled end to end), running left to right; original designs, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 3 objects in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. Rainbow light — a bridge of solid rainbow light: bands of red, orange, gold, green, blue and violet running along its length, translucent soft edges, a shimmer (about 1.5× the hero's height).
+2. Crystal and rainbow — a bridge of clear crystal slabs with a rainbow shimmering inside the crystal, thin gold rails (about 1.5× the hero's height).
+3. Rune-lit stone — a white stone bridge whose paving and low railings glow with lines of rainbow runes (about 1.5× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_notch_opts
+
+The notch at the end of the village pier — where the Lodestar is set to call the Bifröst; the end of a wooden pier on the lake, seen from above-front like the game scenery; original designs, no text · wave 61 · 3 items, 3 × 1 · 1536x1024
+
+- `notch_a` Carved post — 140 × 150 px
+- `notch_b` Rune stone — 140 × 150 px
+- `notch_c` Iron cradle — 140 × 150 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 separate pieces of scenery — The notch at the end of the village pier — where the Lodestar is set to call the Bifröst; the end of a wooden pier on the lake, seen from above-front like the game scenery; original designs, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 3 objects in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. Carved post — the last planks of a wooden pier, at its end a thick old oak post carved with runes and a staff-shaped notch cut into its top (about 2.4× the hero's height).
+2. Rune stone — the end of a wooden pier where a short standing stone is set into the boards, a staff-shaped slot carved down its face, faint runes (about 2.4× the hero's height).
+3. Iron cradle — the end of a wooden pier with a small iron cradle bolted to the boards, shaped to hold a staff upright, a ring of rune-plates round it (about 2.4× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_asg_circle_opts
+
+The rune circle at the heart of liberated Asgard — like the rune circle on the village green; here the hero raises the Lodestar and casts Godsbane into the sky; seen from above; the city of the gods in Norse myth, all white stone, cream marble and gold; noble, bright and clean, slender columns and tall spires; original designs, no text · wave 61 · 3 items, 3 × 1 · 1536x1024
+
+- `asg_circle_a` Gold ring of runes — 220 × 140 px
+- `asg_circle_b` Standing stones of light — 220 × 140 px
+- `asg_circle_c` World-tree mosaic — 220 × 140 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 separate pieces of scenery — The rune circle at the heart of liberated Asgard — like the rune circle on the village green; here the hero raises the Lodestar and casts Godsbane into the sky; seen from above; the city of the gods in Norse myth, all white stone, cream marble and gold; noble, bright and clean, slender columns and tall spires; original designs, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 3 objects in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. Gold ring of runes — a wide round floor of white marble with a ring of gold runes, a smaller ring inside it, a gold socket for a staff in the middle (about 3.5× the hero's height across).
+2. Standing stones of light — a round paved floor ringed by eight short white standing stones with gold tips, runes glowing between them, a socket in the middle (about 3.5× the hero's height across).
+3. World-tree mosaic — a round floor with a mosaic of the world tree in white, cream and gold, its roots forming a ring of runes, a socket in the middle (about 3.5× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_musp_sink_a
+
+Story panel — Muspelheim sinks (option A) · wave 61 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_musp_sink_a` Story panel — Muspelheim sinks (option A) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story panel — Muspelheim sinks (option A), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting: seen from the mainland shore at dusk, the great black volcano island of Muspelheim breaking apart and sinking into a boiling sea, lava pouring from its cracks, pillars of steam and smoke, the causeway gone; small pale-blue spirit lights and the hero, tiny, watching from the rocks in the foreground.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_musp_sink_b
+
+Story panel — Muspelheim sinks (option B) · wave 61 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_musp_sink_b` Story panel — Muspelheim sinks (option B) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story panel — Muspelheim sinks (option B), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting from high above: the volcano collapsing into the ocean in a ring of white steam, its glow fading under the waves, the black causeway sinking in a line toward the shore, the night sky orange with ash.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_asg_sky_a
+
+Story panel — Asgard opens in the sky (option A) · wave 61 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_asg_sky_a` Story panel — Asgard opens in the sky (option A) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story panel — Asgard opens in the sky (option A), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting: night over a calm lake; the clouds part in a great ring of golden light, and within it the underside of a white-and-gold city of spires appears, lowering slowly; rays of light fall onto the water; a small village on the shore in the foreground.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_asg_sky_b
+
+Story panel — Asgard opens in the sky (option B) · wave 61 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_asg_sky_b` Story panel — Asgard opens in the sky (option B) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story panel — Asgard opens in the sky (option B), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting: a blinding white-gold light tears open the sky above a lake at dawn; a city of white walls and gold spires descends out of it on beams of light; pale-blue spirits in a meadow look up.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_asg_lake_a
+
+Story panel — Asgard on the lake (option A) · wave 61 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_asg_lake_a` Story panel — Asgard on the lake (option A) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story panel — Asgard on the lake (option A), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting: the white-and-gold walled city of Asgard now resting on the lake as an island, its walls ringed by calm water reflecting it, gold spires catching the sunrise, the village pier in the foreground pointing at its gate.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_asg_lake_b
+
+Story panel — Asgard on the lake (option B) · wave 61 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_asg_lake_b` Story panel — Asgard on the lake (option B) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story panel — Asgard on the lake (option B), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting from above: a round walled island city of white stone and gold filling most of a lake, a central citadel of spires, mist on the water, the little village on the shore, the light warm and hopeful.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

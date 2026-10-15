@@ -16,7 +16,7 @@ var VILLAGE_CORE=[   // the enterable buildings (fixed; doors at the bottom cent
   {dx:10,dy:14,w:6,h:4,type:'apothecary'}, {dx:9,dy:-19,w:5,h:4,type:'merchant'}];
 // round 44 (Kris: "The village is too cluttered when at the final stage … look for how to reorganize such that walking paths and roads connect you to all
 // the buildings"): the last two stages get fewer houses, carts and gardens (44 → 38 buildings), so every door keeps open ground to a street
-var VR_EXTRA={ glimmer:false, glimmerAt:null, miraAt:null };      // round 52: what the village plan adds beyond its stage
+var VR_EXTRA={ glimmer:false, glimmerAt:null, miraAt:null, pierEnd:null, pierDir:null };      // round 52: what the village plan adds beyond its stage
 var VR={ R:[20,24,28,31,33], disk:[24,28,32,37,37], total:[13,20,28,34,38], houses:[2,9,17,23,27], carts:[1,3,4,5,5], gardens:[2,3,4,5,6],
   mills:[0,1,2,2,3], trees:[10,14,18,22,26], wallR:35 };
 // looks for the enterable buildings (borrowed from all four styles)
@@ -61,6 +61,7 @@ function villagePlan(stage,ok,water){
         if(!isW(cx,cy)||(stopU&&(used[key(cx,cy)]||used[key(cx2,cy2)])))break; join(prev,[cx,cy],cells); cells.push([cx,cy]); if(isW(cx2,cy2))cells.push([cx2,cy2]); ends=[cx,cy]; prev=[cx,cy]; } return {cells:cells,end:ends,dir:dv}; };
     H={anchor:A,dir:[ux,uy]};
     H.pier1=pierFrom(A.x,A.y,8);
+    VR_EXTRA.pierEnd=H.pier1&&H.pier1.end?H.pier1.end.slice():null; VR_EXTRA.pierDir=H.pier1?H.pier1.dir:null;      // round 59: the notch at the end of the pier (16e, the Bifröst)
     // boardwalk: water cells along the shore within 12 tiles of the anchor
     H.walk=[]; shore.forEach(function(q){ if(Math.hypot(q.x-A.x,q.y-A.y)>12)return; [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(o){ var x=q.x+o[0], y=q.y+o[1]; if(isW(x,y)&&!used[key(x,y)]){ used[key(x,y)]=1; H.walk.push([x,y]); } }); });
     H.pier1.cells.forEach(function(c){ used[key(c[0],c[1])]=1; });

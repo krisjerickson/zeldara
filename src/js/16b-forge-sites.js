@@ -136,7 +136,7 @@ setTimeout(function(){
     BossPhases.hud(this,false); if(typeof BossMoments!=='undefined')try{ BossMoments.finale(this,mon); }catch(e){} this._bossDefeated=true;
     var bc=this.interactables.find(function(i){ return i.type==='boss_chest'; }); if(bc)bc.locked=false; if(this._portalOpen)this._portalOpen();
     showNotif('🏆 '+mon.def.name+' falls! The hearth of the '+F.name+' blazes open — and the portal chest holds the key.','#ffdd44'); };
-  var bi=D._buildInteractables; D._buildInteractables=function(){ var r=bi.apply(this,arguments); if(this._forge){ try{ ZFORGE.placeSpirits(this); ZFORGE.placeHearth(this); }catch(e){ console.warn('forge',e); } } return r; };
+  var bi=D._buildInteractables; D._buildInteractables=function(){ var r=bi.apply(this,arguments); if(this._forge){ try{ ZFORGE.placeSpirits(this); if(this.floor>=1&&!this.isLastFloor&&typeof ZGANG!=='undefined')ZGANG.place(this,2); ZFORGE.placeHearth(this); }catch(e){ console.warn('forge',e); } } return r; };
   var it=D._interact; D._interact=function(){ var self=this; if(this._forge){ var near=this.interactables.find(function(i){ return !i.opened&&Math.hypot(self.px-i.x,self.py-i.y)<TILE*1.8; });
       if(near&&near.type==='forge_spirit'){ ZFORGE.freeSpirit(this,near); return; } if(near&&near.type==='forge_hearth'){ ZFORGE.hearth(this); return; }
       if(near&&near.type==='stairs_up'&&this.floor===1){ this._exitToWorld(null); return; } } return it.apply(this,arguments); };

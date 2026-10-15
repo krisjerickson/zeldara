@@ -23,8 +23,8 @@ with game(new=True, painted=True) as g:
       var moved=keys.filter(function(k,i){ var o=S.sp[k].o; return Math.hypot(o.x-p0[i][0],o.y-p0[i][1])>4; }).length; await w(14000);
       return {n:keys.length, live:keys.filter(function(k){ return !!S.sp[k].o._m; }).length, moved:moved, groups:S.groups.map(function(G){ return [G.g[0],G.stage,!!G.im]; }), spots:ZGREEN.spots(ws).length, kinds:ZGREEN.GROUPS.length}; })()""")
     check('All forty freed spirits are on the Green as themselves (%d living pictures), and they wander (%d moved in 9 s)' % (r['live'], r['moved']), r['n'] == 40 and r['live'] == 40 and r['moved'] >= 15, r)
-    held = [x for x in r['groups'] if x[1] == 'held' and x[2]]
-    check('They gather into groups at the green\'s spots (%s), never the same group twice at once; %d groups to draw from' % (r['groups'], r['kinds']), len(held) >= 1 and len(r['groups']) >= 2 and len(set(x[0] for x in r['groups'])) == len(r['groups']) and r['kinds'] >= 17, r)
+    held = [x for x in r['groups'] if x[1] == 'held' and not x[2]]      # round 59 (Kris): the forty gather as themselves — no group pictures on the Green
+    check('They gather in little groups of themselves at the green\'s spots (%s) — no group pictures on the Green (kept for the ending: %d)' % (r['groups'], r['kinds']), len(held) >= 1 and len(r['groups']) >= 2 and not any(x[2] for x in r['groups']) and r['kinds'] >= 17, r)
     # ── the forge: floor 1 → the way down ──
     r = g.js("""(async()=>{ var w=function(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }; var ws=game.scene.getScene('World'), ps=ws.playerState;
       ps.soulGems={1:1,2:1,3:1,4:1}; ps.completedQuests=['s1_dungeon','s2_dungeon','s3_dungeon','s4_dungeon','s1_tower','s2_tower','s3_tower','s4_tower']; ps.rescued=[1,2,3,4]; ps.unlockedSections=[1,2,3,4]; _wgApplyGates(ws.wd,ps); await w(2500); if(typeof FairyTalk!=='undefined')FairyTalk.close(); await w(400);

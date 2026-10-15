@@ -29,7 +29,7 @@ var ZMUSP={ on:true, FLOORS:5,
     (H.cross||[]).forEach(function(C,i){ ZMUSP.mkCross(sc,C,i); });
     (H.gates||[]).forEach(function(G,i){ ZMUSP.mkGate(sc,G,i); });
     (H.crumble||[]).forEach(function(k){ M.crumb[k]={st:0,t:0}; });
-    if(sc.floor<4){ ZMUSP.placeSpirits(sc); ZMUSP.guards(sc); }
+    if(sc.floor<4){ ZMUSP.placeSpirits(sc); ZMUSP.guards(sc); if(typeof ZGANG!=='undefined')ZGANG.place(sc,2,function(x,y){ var k=y*DW+x; return !M.lava[k]&&!M.block[k]&&!M.crumb[k]; }); }      // round 59: the bound gangs toil in the halls
     else ZMUSP.throne(sc);
     showNotif('🌋 Muspelheim — '+ZMUSP.HALLS[sc.floor]+(sc.floor<4?' ('+(sc.floor+1)+' / 4)':''),'#ffb070'); },
   T2P:function(i){ return {x:(i%DW)*TILE+TILE/2,y:Math.floor(i/DW)*TILE+TILE/2}; },
@@ -87,7 +87,7 @@ var ZMUSP={ on:true, FLOORS:5,
     if(L.length)showNotif('⚔ '+L.map(function(m){ return m.def.name; }).join(' and ')+' guard the way down!','#ffb070'); },
   // ── the throne cavern: the spirit walls, the great hearth ──
   throne:function(sc){ var F=ZMUSP.floorOf(sc), A=F&&F.arena, Z=typeof _scn==='function'?_scn():null; if(!A)return;
-    var walls=['sw_relief','sw_channels','sw2_cage','sw2_lanterns'];      // Kris's round-one picks (relief, channels) and the round-two miners until he chooses
+    var walls=['sw2_relief','sw2_glass','sw2_cage','sw2_lanterns','sw2_lavafall','sw2_channels'];      // round 59: Kris approved all six round-two walls
     if(Z&&Z.has)for(var i=0;i<6;i++){ var id=walls[i%walls.length]; if(!Z.has(id))continue; var x=(A[0]+1.5+i*(A[2]-2)/5)*TILE, y=(A[1]-0.2)*TILE; var im=Z.image(sc,id,x,y,Z.K*0.9,0.95); if(im)im.setOrigin(0.5,1); }
     var bc=sc.bossChestTile; if(!bc)return; var hx=null, hy=null; for(var r=3;r<7&&hx===null;r++)for(var a=0;a<12&&hx===null;a++){ var x2=Math.round(bc.x+Math.cos(a/12*Math.PI*2+Math.PI)*r), y2=Math.round(bc.y+Math.sin(a/12*Math.PI*2+Math.PI)*r); if((sc.dtiles[y2]||[])[x2]===DNG.FLOOR){ hx=x2; hy=y2; } }
     if(hx===null)return; var px=hx*TILE+TILE/2, py=hy*TILE+TILE/2, o={type:'musp_hearth',x:px,y:py,opened:false};
@@ -102,6 +102,7 @@ var ZMUSP={ on:true, FLOORS:5,
     [1,2,3,4].forEach(function(q){ inv.splice(inv.indexOf('heartglass_'+q),1); }); if(inv.indexOf('sov_staff')>=0)inv.splice(inv.indexOf('sov_staff'),1); else if(ps.equip)ps.equip.mWeapon=null;
     inv.push('lodestar'); if(typeof Tome!=='undefined'&&Tome.see)try{ Tome.see('item','lodestar'); }catch(e){}
     var o=sc._muspHearth; sc.cameras.main.flash(900,255,250,220); if(o)for(var i=0;i<40;i++){ var s=sc.add.circle(o.x,o.y-20,3,[0x9fe8ff,0xffe080,0xff6040,0x60ff80,0x60a0ff,0xc080ff][i%6],1).setDepth(9000); sc.tweens.add({targets:s,x:o.x+(Math.random()-0.5)*220,y:o.y-60-Math.random()*160,alpha:0,duration:1800,onComplete:function(){ this.targets[0].destroy(); }}); }
+    var Zp=typeof _scn==='function'?_scn():null; if(o&&Zp&&Zp.has&&Zp.has('ls2_c')){ var st=Zp.image(sc,'ls2_c',o.x,o.y-10,Zp.K*0.9,9001); if(st){ st.setOrigin(0.5,1); st.setAlpha(0); sc.tweens.add({targets:st,alpha:1,y:st.y-70,duration:1400,ease:'Sine.easeOut',onComplete:function(){ sc.tweens.add({targets:st,alpha:0,delay:1600,duration:700,onComplete:function(){ st.destroy(); }}); }}); } }      // round 59: the painted Lodestar (ls2_c) rises from the hearth
     showNotif('🌟 The staff drinks the four Heartglasses — a lens of white light opens at its heart: THE LODESTAR. It will lead the spirits home.','#fff2b0'); if(sc.worldScene._emitUI)sc.worldScene._emitUI(); if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('the Lodestar'); }catch(e){} },
   claim:function(sc){ var ps=sc.worldScene.playerState; ps.completedQuests=ps.completedQuests||[]; ['volcano_lord','muspelheim'].forEach(function(q){ if(ps.completedQuests.indexOf(q)<0)ps.completedQuests.push(q); });
     ps.gold=(ps.gold||0)+2500; ps.xp=(ps.xp||0)+500; if(typeof ZLoot!=='undefined')try{ ZLoot.site(sc,ps,4); }catch(e){}
@@ -186,7 +187,9 @@ ZMUSP.STAFF_HINT='the Sovereign staff';
 
 // ── the items: the Lodestar; the Sovereign plate now comes from Surtharn ──
 (function(){ if(typeof ITEMS==='undefined')return;
-  ITEMS.lodestar={magic:true,name:'The Lodestar',icon:'🌟',atk:40,slot:'mWeapon',spellMult:2.6,sell:0,buy:0,sov:1,el:'all',tomeHint:'Made at the great hearth of Muspelheim from the Sovereign staff and the four Heartglasses',desc:'+40 MAGIC ATK, ×2.6 spell dmg, Sovereign — the white lens at its heart was lit by the four realms\' freed light. It will lead the spirits home.',pic:'a white-gold staff crowned by a clear glowing lens ringed by six elemental gems'};
+  ITEMS.lodestar={magic:true,name:'The Lodestar',icon:'🌟',atk:40,slot:'mWeapon',spellMult:2.6,sell:0,buy:0,sov:1,el:'all',tomeHint:'Made at the great hearth of Muspelheim from the Sovereign staff and the four Heartglasses',desc:'+40 MAGIC ATK, ×2.6 spell dmg, Sovereign — the white lens at its heart was lit by the four realms\' freed light. It will lead the spirits home.',pic:'a white-gold staff whose head is a rune-carved ring holding the six elemental gems round a large clear lens, a faint world-tree in the lens'};
+  // round 59: Kris picked the Rune-ring lens (wave 60, ls2_c) — it is the Lodestar's painted icon until a square icon is painted
+  if(typeof ZScn!=='undefined'&&ZScn.META&&ZScn.META.items&&ZScn.META.items.ls2_c&&!ZScn.META.items.ic_lodestar)ZScn.META.items.ic_lodestar=ZScn.META.items.ls2_c;
   if(typeof ZSov!=='undefined'){ var S=ZSov.setOf&&ZSov.setOf('sov_plate'); if(S)S.how='Defeat Surtharn in Muspelheim'; } })();
 
 // ── hooks: the gate; the Dungeon learns Muspelheim ──

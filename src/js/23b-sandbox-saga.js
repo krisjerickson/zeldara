@@ -60,6 +60,17 @@ var SBSAGA={
     if(kit){ SBSAGA.add(ps.inventory,'sov_staff'); [1,2,3,4].forEach(function(q){ SBSAGA.add(ps.inventory,'heartglass_'+q); }); }
     setTimeout(function(){ ZMUSP.enter(ws,f); },first?2600:200); }); },
   kit:function(i){ SBSAGA.go(function(ws,ps){ var q=i+1; ps.inventory.push('soulglass_lattice_'+q,'hearth_tray_'+q); if(ws._emitUI)ws._emitUI(); showNotif('🧰 '+ZFORGE.F[SBSAGA.VIDS[i]].name+' hearth kit: its Soulglass Lattice and Hearth Tray, in your pack.','#ffd890'); }); },
+  // ── Ⅶ. the collapse and the Bifröst (round 59, 16d/16e) ──
+  esc:function(step){ SBSAGA.go(function(ws,ps){ var first=!SBSAGA.risen(ws); SBSAGA.rise(ws,ps); SBSAGA.KEYS.forEach(function(k){ SBSAGA.add(ps.inventory,k); }); ps.forgesDone=ps.forgesDone||[]; SBSAGA.VIDS.forEach(function(v){ SBSAGA.add(ps.forgesDone,v); });
+    if(ps.inventory.indexOf('lodestar')<0&&!(ps.equip&&ps.equip.mWeapon==='lodestar'))ps.inventory.push('lodestar'); ps.muspFreed=ps.muspFreed||[]; ZMUSP.spiritsFor(0).forEach(function(S){ SBSAGA.add(ps.muspFreed,S.id); });
+    setTimeout(function(){ var d=_volcanoSiteDefs().find(function(v){ return v.type==='volcano_main'; }), N=ZASG.notchAt();
+      if(step==='climb'){ ps.muspSunk=0; ZESC.begin(ws); return; }
+      if(step==='cw'){ if(ps.muspSunk){ showNotif('Muspelheim has already sunk in this game.','#ffb070'); return; } ps.muspEsc=2; if(d)SBSAGA.tp(ws,(d.tx+1.5)*TILE,(d.ty+3.2)*TILE); setTimeout(function(){ ZESC.causeway(ws); },300); return; }
+      if(step==='sink'){ ps.muspEsc=3; var an=ws.wd.volcanoAnchors&&ws.wd.volcanoAnchors.volcano_main; if(an&&!ps.muspSunk)SBSAGA.tp(ws,an.x*TILE+16,an.y*TILE+16); ZESC.sink(ws); return; }
+      ps.muspEsc=3; ps.muspSunk=1; ps.asgardDown=1; ZESC.sinkTerrain(ws); ZASG.carve(ws); N=ZASG.notchAt();
+      if(step==='notch'){ if(N)SBSAGA.tp(ws,N.x-TILE,N.y); showNotif('🌟 The end of the pier — [Tab] the notch to set the Lodestar in it.','#fff2b0'); return; }
+      if(step==='gods'){ ps.bifrost=1; ps.godsbane=1; ZASG.road(ws,false); ps.equip=ps.equip||{}; var i=ps.inventory.indexOf('lodestar'); if(i>=0){ if(ps.equip.mWeapon)ps.inventory.push(ps.equip.mWeapon); ps.inventory.splice(i,1); ps.equip.mWeapon='lodestar'; }
+        var P=ZASG.plan(ws); if(P.gate&&N)SBSAGA.tp(ws,(N.x+P.gate[0]*TILE+16)/2,(N.y+P.gate[1]*TILE+16)/2); ZGODS.slot(); if(ws._emitUI)ws._emitUI(); showNotif('✦ On the Bifröst, the Lodestar in hand — press V for Godsbane.','#fff2b0'); } },first?2600:300); }); },
   // ── the panel ──
   todo:function(what,round){ showNotif('🚧 '+what+' — not built yet (planned for round '+round+', doc 28).','#ffcc66'); },
   ARCS:function(){ var B=function(t,f,tip){ return {t:t,f:f,tip:tip}; }, T=function(t,what,r){ return {t:t,todo:[what,r]}; }, Q=function(f,tip){ return [1,2,3,4].map(function(q){ return B(String(q),function(){ f(q); },tip?tip(q):SBSAGA.REALM[q]); }); };
@@ -86,12 +97,12 @@ var SBSAGA={
         {l:'👹 Surtharn',b:[B('Fight',function(){ SBSAGA.musp(4); },'Surtharn, Tyrant of Muspelheim — six phases')]},
         {l:'⭐ The Lodestar',b:[B('Kit',function(){ SBSAGA.musp(4,true); },'The throne, with the Sovereign staff and the four Heartglasses in your pack — beat Surtharn, then [Tab] the great hearth')]} ]},
       {n:'Ⅶ',name:'The Collapse & the Bifröst',col:'#c8a8ff',sub:'the escape, the sinking causeway, Asgard descends',rows:[
-        {l:'🏃 Collapse',b:[T('Escape','Escaping Muspelheim as it falls',57),T('Causeway','The causeway sinks behind you',57)]},
-        {l:'🌈 Bifröst',b:[T('Asgard descends','Asgard descends over the sea',57),T('Pier notch','The Lodestar in the pier notch',57),T('Godsbane','The Bifröst and the final spell, Godsbane',57)]} ]},
-      {n:'Ⅷ',name:'Asgard',col:'#fff0a8',sub:'four floors, Grímnir, the hearth of light, the end',rows:[
+        {l:'🏃 Collapse',b:[B('Escape',function(){ SBSAGA.esc('climb'); },'The Lodestar made: Muspelheim falls — five collapsing floors, one timer'),B('Causeway',function(){ SBSAGA.esc('cw'); },'Out of the gate: the causeway sinks behind you')]},
+        {l:'🌈 Bifröst',b:[B('Asgard descends',function(){ SBSAGA.esc('sink'); },'On the mainland: Muspelheim sinks, Asgard comes down onto Mirror Lake'),B('Pier notch',function(){ SBSAGA.esc('notch'); },'Asgard on the lake, the Lodestar in your pack, at the end of the pier — [Tab] the notch'),B('Godsbane',function(){ SBSAGA.esc('gods'); },'The Bifröst stands; Godsbane learned, the Lodestar in hand — on the bridge (press V)')]} ]},
+      {n:'Ⅷ',name:'Asgard',col:'#fff0a8',sub:'four floors, Grímnir, the rune circle, the end',rows:[
         {l:'🏛 Floors',b:[1,2,3,4].map(function(f){ return T(String(f),'Asgard, floor '+f,58); })},
         {l:'🎭 Grímnir',b:[T('Fight','Grímnir, the Masked King',58)]},
-        {l:'🕯 The end',b:[T('Hearth of light','The hearth of light',58),T('Credits','The ending and the credits',58),T('Free roam','Free roam after the end',58)]} ]} ]; },
+        {l:'🕯 The end',b:[T('Rune circle','The rune circle at the heart of Asgard: Godsbane into the sky, the Bifröst remade into heaven',60),T('Credits','The ending and the credits',58),T('Free roam','Free roam after the end',58)]} ]} ]; },
   show:function(){ if(!SBSAGA.ws())return; closeModal('sandbox'); var el=document.getElementById('modal-saga');
     if(!el){ el=document.createElement('div'); el.id='modal-saga'; el.className='overlay'; el.style.display='none'; el.onclick=function(e){ if(e.target===el)closeModal('saga'); }; document.body.appendChild(el); }
     var A=SBSAGA.ARCS(), H=[]; SBSAGA._fn=[];

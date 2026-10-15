@@ -159,7 +159,7 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 
   All are weak only to Sovereign weapons and resisted only by Sovereign armour.
 - **Grímnir, the Masked King:** 5 phases, light flashing to black. The spell is his weak point in the last phase. A proposal for his phases comes with the build.
-- **The hearth of light:** the staff goes into its keyhole, a beam rises to the heavens, and the spirits, fairies and familiars follow. Credits, then free roam.
+- **The ending (decided Oct 15, Kris):** at the **rune circle in the heart of liberated Asgard** (like the rune circle on the village green) the hero raises the Lodestar and casts **Godsbane** into the sky; it remakes the Bifröst into heaven, and the spirits — now celebrating (the group scenes kept for this), the fairies and the familiars follow it home. Credits, then free roam. (Replaces the hearth of light.)
 
 ## 8. The spirits themselves (art)
 
@@ -196,8 +196,8 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 | 53 ✅ | soul gems from dungeon spirits, island metals, Mira's workshop interior + Mira, hearth trays, the Sovereign element | wave 54: Mira's furniture, gem/metal/tray icons; spirit, grouping and bindstone options to pick in the Lab |
 | 54–55 ✅ | the four forges remade (3 floors each, spirits, hearths, Heartglass, 4 forge-masters) — built in round 55 (`16b-forge-sites.js`); round 56: the forge-masters as 12 phase forms with Lab options (`07zz-boss-forge.js`), painted after Kris picks (wave 7.6) | forge floors, forge-masters (4 × 3 phases) |
 | 56 ✅ | Muspelheim (5 floors: Chain Lifts, Lava Rafts, Ash-warden Fortress, Falling Bridges, the Throne; Surtharn's 6 phases, the great hearth, the Lodestar) — built in round 58 (`16c-muspelheim.js`); Surtharn's painted boss sheets still to come | Muspelheim floors, spirit walls, Surtharn |
-| 57 | the collapse and escape, the causeway sinking, Asgard's descent, the pier notch, the Bifröst, the final spell | story panels, Asgard island, Bifröst |
-| 58 | Asgard (4 floors, 4 monster kinds, Grímnir), the hearth of light, the ending, credits, free roam | Asgard floors, monsters, Grímnir, ending |
+| 57 ✅ | the collapse and escape, the causeway sinking, Asgard's descent, the pier notch, the Bifröst, the final spell — built in round 59 (`16d-escape.js`, `16e-asgard.js`): a dedicated five-floor escape run on one timer, the causeway sinking behind you, Muspelheim sinking, Asgard on Mirror Lake, the notch, the Bifröst, Godsbane on its own button ([V]) | wave 61 options (Asgard walls/towers/gate, citadel, ground, Bifröst, notch, rune circle, six story panels); wave 7.7 Surtharn's boss sheets |
+| 58 | Asgard (4 floors, 4 monster kinds, Grímnir), the rune circle (the ending), credits, free roam — next (round 60) | Asgard floors, monsters, Grímnir, ending |
 
 **Round 52 as built** (`10w-spirits.js` ZSPIRIT): one bindstone per zone (10 per realm, 40 in all), each on an open reachable patch near the zone's runestone; a named Binder (40 different names) shows himself within ~13 tiles once you have earned that realm (a top-third monster of the realm, 6.4× health, 1.25× size, 1.3× attack, stays dead). Beat him: the spirit thanks you, gives a Soulglass shard of its realm and drifts off; freed spirits gather on the Runestone Green (a dozen drift around the stone, the rest rest in painted groups once wave 53 is in). The Glimmerhall rises on the green after any island's harbor quest; Sólveig fuses six shards of one realm into its lattice (Ember / Cinder / Slag / Ash Soulglass Lattice). The journal lists the bound spirits by realm. The harbour pool now opens through a wide funnel cove onto the lake (where the Bifröst will run).
 

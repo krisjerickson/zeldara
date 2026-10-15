@@ -104,5 +104,5 @@
   ZBrand.homeCfg=function(cfg,W,H){ var WD=ZBrand.wordById(cfg.gen>=3?(ZBrand.WORDMARK||'ring_z'):'twin_axes'); if(!WD||!WD.tall||!(cfg.gen>=2))return cfg; var nar=W/(H/20)<16; return Object.assign({},cfg,nar?{ly:0.17,sr:0.09}:{ly:0.215,sr:0.105,by:15.95,bs:0.78,ts:0.8}); };
   var hl0=ZBrand.homeLayout; if(hl0)ZBrand.homeLayout=function(cfg,W,H,o){ return hl0(ZBrand.homeCfg(cfg,W,H),W,H,o); };      // the title scene's click areas sit on the rebalanced buttons
   // the story line under the buttons
-  ZBrand.TAGLINE=['Four realms, one land. Free the bound spirits, break the Forges of Muspelheim,','and bring Runeheim\'s dead home to the light.'];
+  ZBrand.TAGLINE=['Four realms, one land. Free the bound spirits, break the Forges of Muspelheim,','and liberate the spirits of Runeheim.'];
 })();

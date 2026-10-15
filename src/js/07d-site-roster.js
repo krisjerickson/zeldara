@@ -133,6 +133,7 @@ function _bossSiteGate(ps,site,sites){
   return {open:!left.length,need:bon.length,done:bon.length-left.length,left:left};
 }
 function _siteLabel(s){
+  if(typeof VOLC_NAMES!=='undefined'&&s&&VOLC_NAMES[s.id])return _volcanoSiteLabel(s);      // round 59 (Kris): the forges and Muspelheim by their names, never "Volcano_mini"
   if(s.mage)return '🔮 '+s.name+' (Mage Tower)';
   if(s.name)return (s.boss?'★ ':'')+s.name+(s.type==='tower'?' (Tower)':' (Dungeon)');
   if(s.type==='harbor'){ var C=s.castle&&typeof CASTLE_ISLANDS!=='undefined'&&CASTLE_ISLANDS[s.castle]; return C?'Harbor → '+C.name+' (castle)':'Harbor → '+((typeof HARBOR_ISLANDS!=='undefined'&&HARBOR_ISLANDS[s.section])||{name:'Island'}).name+' (familiar)'; }

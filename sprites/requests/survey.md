@@ -1,4 +1,4 @@
-# Character survey — 452 characters, 1028 sheets (688 core), 7011 poses
+# Character survey — 458 characters, 1045 sheets (699 core), 7147 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: none.
 
@@ -7,7 +7,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | hero | 2 | 40 | 40 | 322 |
 | rider | 22 | 22 | 22 | 176 |
 | monster | 240 | 607 | 375 | 3811 |
-| boss | 88 | 248 | 140 | 1834 |
+| boss | 94 | 265 | 151 | 1970 |
 | npc | 42 | 53 | 53 | 424 |
 | mount | 11 | 11 | 11 | 88 |
 | familiar | 4 | 4 | 4 | 32 |
@@ -369,6 +369,12 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | fm_eimyrja_1 | Sinda, the Chainmistress | Forge-masters | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
 | fm_eimyrja_2 | Sinda of the Lanes | Forge-masters | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
 | fm_eimyrja_3 | Sinda, Shield of Spirits | Forge-masters | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
+| surt_1 | Surtharn, the Molten Colossus | Surtharn | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
+| surt_2 | Surtharn, the Forge-king | Surtharn | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
+| surt_3 | Surtharn, the Ash Tyrant | Surtharn | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
+| surt_4 | Surtharn, the Horned Jötunn | Surtharn | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
+| surt_5 | Surtharn, the Obsidian Warlord | Surtharn | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
+| surt_6 | Surtharn, the Living Volcano | Surtharn | q | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
 | npc_tavern | Rolf the Bartender | Village shops | f | Idle ×2; Talk ×2 (when you speak to them); Work: pour ×4 (Polishes a mug, then pours a frothy ale when you walk up.) | 1 |
 | npc_shop | Tilda the Merchant | Village shops | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Waves you in and pats the sack of goods.) | 1 |
 | npc_forge | Garrick the Blacksmith | Village shops | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Strikes the anvil — sparks fly on every blow.) | 1 |

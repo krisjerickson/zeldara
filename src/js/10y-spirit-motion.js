@@ -45,7 +45,7 @@ var ZSPM={ CUT:0.5,
     // FREE: drift towards the target, float, sway, ripple, glow
     if(m.tx!==undefined){ var dx=m.tx-C.x, dy=m.ty-C.y, d=Math.hypot(dx,dy); if(d>1.5){ var v=Math.min(d,m.spd*dt*(0.7+0.3*Math.sin(t*1.3+m.ph))); C.x+=dx/d*v; C.y+=dy/d*v; if(Math.abs(dx)>2)m.face=dx>0?1:-1; } else { m.tx=undefined; } if(C.scene&&typeof WR_DEPTH==='function')C.setDepth(WR_DEPTH(C.y)); }
     var fl=Math.sin((t+m.ph)*1.9)*3.2-4.5;      // float height above the shadow
-    if(m.hop>0){ m.hop=Math.max(0,m.hop-dt); fl-=Math.sin((1-m.hop/0.6)*Math.PI)*7; } else if(Math.random()<dt*0.04){ m.hop=0.6; }      // now and then a little happy bounce
+    if(m.hop>0){ m.hop=Math.max(0,m.hop-dt); fl-=Math.sin((1-m.hop/0.6)*Math.PI)*7; } else if(Math.random()<dt*0.04){ m.hop=0.6; }      // now and then a little happy bounce (Kris, round 59: the forty freed spirits are right — "a bit happy, but not yet celebrating")
     var br2=Math.sin((t+m.ph)*1.3);
     B.y=fl; B.scaleX=(1+0.012*br2)*m.face; B.scaleY=1-0.012*br2;
     UP.rotation=Math.sin((t+m.ph)*0.9)*0.045+(m.hop>0?Math.sin(m.hop*20)*0.03:0);
@@ -74,6 +74,10 @@ var ZGREEN={
   // round 56 (Kris's Saga-art notes: "the number of spirits changes, need to remake" / "the hearth changes size on this, need to remake"): those six loops
   // are re-ordered as gm_<group> (wave 59, one group per sheet); until they are painted the group shows its still picture, breathing
   REMAKE:{chaingang:1,haul:1,hearth_tale:1,mead_bench:1,reel:1,tafl:1},
+  // round 59 (Kris: "the spirits in the village center should leverage these 40 spirits … i was only requesting combinations for the volcanos"):
+  // the Green shows only the forty, each as itself; now and then a few drift together and sit a while as a little gathering of those same
+  // spirits. The group pictures (dances, toasts, games) are kept for the ending, in liberated Asgard (PICS stays off on the Green).
+  PICS:false,
   loop:function(scene,k){ if(typeof ZWE==='undefined')return null; return ZWE.animTex(scene,'gm_'+k)||(ZGREEN.REMAKE[k]?null:ZWE.animTex(scene,'gl_'+k)); },
   picOf:function(scene,g){ var Z=_scn(), A=ZGREEN.loop(scene,g[0]); if(A)return {anim:A}; return g[1]&&Z.has(g[1])?{still:g[1]}:null; },
   center:function(){ return {x:CENTER_X*TILE+16, y:CENTER_Y*TILE+16}; },
@@ -97,12 +101,13 @@ var ZGREEN={
     S.groups.forEach(function(G){ if(G.stage==='gather'&&(G.who.every(function(e){ return !e.o._m||e.o._m.tx===undefined; })||now>G.t0+14)){ ZGREEN.show(ws,G); G.stage='held'; G.until=now+25+Math.random()*25; } });
   },
   form:function(ws,S,spots,now){ var used={}, taken={}; S.groups.forEach(function(G){ used[G.g[0]]=1; taken[G.spot.x+','+G.spot.y]=1; });
-    var free=Object.keys(S.sp).map(function(k){ return S.sp[k]; }).filter(function(e){ return !e.busy; }), opts=ZGREEN.GROUPS.filter(function(g){ return !used[g[0]]&&ZGREEN.picOf(ws,g)&&free.length>=Math.min(g[2],free.length)&&free.length>=3; });
+    var free=Object.keys(S.sp).map(function(k){ return S.sp[k]; }).filter(function(e){ return !e.busy; }), opts=ZGREEN.PICS?ZGREEN.GROUPS.filter(function(g){ return !used[g[0]]&&ZGREEN.picOf(ws,g)&&free.length>=Math.min(g[2],free.length)&&free.length>=3; }):(free.length>=3?[['gather'+S.groups.length,null,3+Math.floor(Math.random()*3)]]:[]);
     var sp=spots.filter(function(p){ return !taken[p.x+','+p.y]; }); if(!opts.length||!sp.length)return;
     var g=opts[Math.floor(Math.random()*opts.length)], p=sp[Math.floor(Math.random()*sp.length)], n=Math.min(g[2],free.length), who=free.sort(function(a,b){ return Math.hypot(a.o.x-p.x,a.o.y-p.y)-Math.hypot(b.o.x-p.x,b.o.y-p.y); }).slice(0,n);
     who.forEach(function(e,i){ e.busy=true; var a=i/n*Math.PI*2; if(e.o._m)ZSPM.goTo(e.o,p.x+Math.cos(a)*TILE*1.2,p.y+Math.sin(a)*TILE*0.6,20); else ws.tweens.add({targets:e.o,x:p.x,y:p.y,duration:4000}); });
     S.groups.push({g:g,spot:p,who:who,stage:'gather',t0:now,until:now+60}); },
-  show:function(ws,G){ var P=ZGREEN.picOf(ws,G.g), p=G.spot, Z=_scn(), im=null; if(!P)return;
+  show:function(ws,G){ if(!ZGREEN.PICS){ var n=G.who.length; G.who.forEach(function(e,i){ var a=i/n*Math.PI*2+0.4, x=G.spot.x+Math.cos(a)*TILE*1.15, y=G.spot.y+Math.sin(a)*TILE*0.55; if(e.o._m){ ZSPM.goTo(e.o,x,y,8); e.o._m.face=Math.cos(a)>0?-1:1; } }); return; }      // a gathering: the same spirits, facing in, at rest
+    var P=ZGREEN.picOf(ws,G.g), p=G.spot, Z=_scn(), im=null; if(!P)return;
     if(P.anim){ var A=P.anim; im=ws.add.sprite(p.x,p.y+6,A.key,'0').setOrigin(A.ox,A.oy).setScale(A.scale*Z.K*1.05); try{ im.play(A.key); }catch(e){} }
     else { im=Z.image(ws,P.still,p.x,p.y+6,Z.K*1.05,WR_DEPTH(p.y)); if(im){ im._breathe=ws.tweens.add({targets:im,scaleY:im.scaleY*1.025,scaleX:im.scaleX*0.99,y:im.y-2,duration:1300,yoyo:true,repeat:-1,ease:'Sine.inOut'}); } }
     if(!im)return; im.setDepth(WR_DEPTH(p.y)).setAlpha(0); ws.tweens.add({targets:im,alpha:0.95,duration:900}); G.im=im;
@@ -118,3 +123,17 @@ var ZGREEN={
 })();
 // the group loops play slowly (four frames, about two and a half a second)
 (function(){ if(typeof ZWE==='undefined')return; ZWE.LOOP=ZWE.LOOP||{}; ZGREEN.GROUPS.concat(ZGREEN.BOUND).forEach(function(g){ ZWE.LOOP['gl_'+g[0]]=2.5; ZWE.LOOP['gm_'+g[0]]=2.5; }); })();
+
+// ── round 59: the bound groups work where Kris asked for them — the forges and Muspelheim's halls (never at the bindstones, never on the Green) ──
+// ZGANG.place(scene, n, avoid): n painted gang loops (Chain gang, The great haul) on open floor away from the stairs and the path, toiling.
+var ZGANG={ KINDS:['chaingang','haul'],
+  place:function(sc,n,ok){ if(typeof ZGREEN==='undefined'||!sc.dtiles)return []; var out=[], R=rngOf(5900+(sc.floor||0)*31+String(sc.siteId||'').length), up=sc.stairsUpTile||{x:-99,y:-99}, dn=sc.stairsDownTile||sc.bossChestTile||{x:-99,y:-99}, Z=_scn();
+    for(var t=0;t<4000&&out.length<n;t++){ var x=R.i(3,DW-5), y=R.i(3,DH-4), good=true;
+      for(var j=-1;j<=1&&good;j++)for(var i=-2;i<=2&&good;i++){ if((sc.dtiles[y+j]||[])[x+i]!==DNG.FLOOR||(ok&&!ok(x+i,y+j)))good=false; }
+      if(!good||Math.hypot(x-up.x,y-up.y)<7||Math.hypot(x-dn.x,y-dn.y)<7||out.some(function(o){ return Math.hypot(o.tx-x,o.ty-y)<10; }))continue;
+      var k=ZGANG.KINDS[out.length%2], px=x*TILE+TILE/2, py=y*TILE+TILE, A=ZGREEN.loop(sc,k), im=null;
+      if(A){ im=sc.add.sprite(px,py,A.key,'0').setOrigin(A.ox,A.oy).setScale(A.scale*Z.K*0.9); try{ im.play(A.key); }catch(e){} }
+      else { var gid=k==='chaingang'?'sp_grp_chaingang':'sp_g2_haul'; if(Z.has&&Z.has(gid)){ im=Z.image(sc,gid,px,py,Z.K*0.9,0); if(im)sc.tweens.add({targets:im,x:im.x-3,duration:900,yoyo:true,repeat:-1,ease:'Sine.inOut'}); } }
+      if(!im)continue; im.setDepth(py/1e4+5); out.push({tx:x,ty:y,im:im,k:k}); }
+    return out; } };
+
