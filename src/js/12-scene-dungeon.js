@@ -1386,8 +1386,8 @@ class DungeonScene extends Phaser.Scene{
     if(mon.dead)return;mon.dead=true;
     if(typeof ZAtlas!=='undefined')ZAtlas.died(this,mon);
     var ps=this.worldScene.playerState;
-    ps.xp+=mon.def.xp;this._floatText(mon.x,mon.y-28,'+'+mon.def.xp+' XP','#88aaff');
-    var g=mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1));
+    var _xp=(typeof ZPOT!=='undefined'?ZPOT.x(mon.def.xp):mon.def.xp); ps.xp+=_xp;this._floatText(mon.x,mon.y-28,'+'+_xp+' XP','#88aaff');
+    var g=(typeof ZPOT!=='undefined'?ZPOT.g(mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1))):mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1)));
     ps.gold+=g;this._floatText(mon.x,mon.y-40,'+'+g+'g','#ffd700');
     this._checkLevelUp(ps);
     if(Math.random()<0.08&&!mon.isBoss)this._dropItem(mon.def.sec);
@@ -1454,7 +1454,7 @@ class DungeonScene extends Phaser.Scene{
       var mins=[10,25,50,75]; var maxs=[50,75,100,150];
       var mn=mins[Math.min(sec-1,3)], mx=maxs[Math.min(sec-1,3)];
       var floorBonus=Math.floor(floor*mx*0.1); // each floor adds ~10% of max
-      var gold=mn+Math.floor(Math.random()*(mx-mn))+floorBonus;
+      var gold=mn+Math.floor(Math.random()*(mx-mn))+floorBonus; gold=(typeof ZPOT!=='undefined'?ZPOT.g(gold):gold);
       ps.gold+=gold;
       showNotif('💰 Found '+gold+' gold!','#ffd700');
       this.worldScene._emitUI();
@@ -1465,7 +1465,7 @@ class DungeonScene extends Phaser.Scene{
   }
   _dropItem(sec){
     // Area-specific potion (heals 10/20/30/40 by area)
-    var areaPot=['potion_a1','potion_a2','potion_a3','potion_a4'][Math.min((sec||1)-1,3)];
+    var areaPot=['pot_heal1','pot_heal2','pot_heal3','pot_heal4'][Math.min((sec||1)-1,3)];
     var pool=[areaPot,areaPot,areaPot].concat(
       [['iron_sword'],['long_sword'],['great_sword'],['flame_blade']][sec-1],
       [['leather'],['chain_mail'],['plate_armor'],['dragon_armor']][sec-1],

@@ -129,16 +129,16 @@ MX.onHp=function(mon,v){ var m=mon._m, old=mon._hp, d=old-v; if(!m||d<=0){ mon._
   var sc=mon._scene, A=sc&&sc._mxA, P=A?A.p():{x:mon.x,y:mon.y}, dist=Math.hypot(P.x-mon.x,P.y-mon.y), kind=MX._src||(dist<95?'melee':'ranged'), say=function(t,c){ if(A&&(m._sayT||0)<=0){ A.float(mon.x,mon.y-mon.def.r-18,t,c||'#bfe6ff'); m._sayT=0.5; } };
   m.hurtT=4; m.aggro=true; m.lastHit=kind;
   if(m.hidden||m.invuln>0||m.down>0){ d=0; say(m.hidden?'hidden':'immune'); }
-  var defs=mon.kit.def;
+  var defs=mon.kit.def, _strip=mon._zpStrip&&Date.now()<mon._zpStrip;      // round 61: the Silvered Edge strips armour and front-guard for 4 s
   for(var i=0;i<defs.length&&d>0;i++){ var D=defs[i], p=D.p;
     // ── familiar counters (07rb) ──
     if(D.name==='spiritward'&&m.sward>0){ if(kind==='familiar'){ d=0; say('rune ward','#c8b0ff'); MX.ev(mon,'def_spiritward'); continue; } if(kind==='melee'){ m.sward--; say(m.sward>0?'ward cracks ('+m.sward+')':'rune ward shatters!','#c8b0ff'); if(m.sward<=0&&A)MX.fxRing(A,mon.x,mon.y,30,'#c8b0ff'); } continue; }
     if(D.name==='mirror'&&kind==='familiar'&&MX._famK==='proj'){ d=0; say('mirrored!','#e0f0ff'); if(MX.onFamReflect)MX.onFamReflect(sc,MX._famId,mon); MX.ev(mon,'def_mirror'); continue; }
     if(D.name==='resist'&&kind==='familiar'&&MX._famEl===(p.el||'fire')){ d*=1-(p.red===undefined?0.75:p.red); say('resists','#e0d0a0'); continue; }
-    if(D.name==='front'){ var a=Math.atan2(P.y-mon.y,P.x-mon.x), df=Math.abs(Math.atan2(Math.sin(a-m.face),Math.cos(a-m.face))); if(df<(p.arc||1.1)){ d*= (1-(p.red===undefined?1:p.red)); say(p.red<1?'glancing':'blocked!','#e0e0e0'); MX.ev(mon,'def_front'); } }
+    if(D.name==='front'&&!_strip){ var a=Math.atan2(P.y-mon.y,P.x-mon.x), df=Math.abs(Math.atan2(Math.sin(a-m.face),Math.cos(a-m.face))); if(df<(p.arc||1.1)){ d*= (1-(p.red===undefined?1:p.red)); say(p.red<1?'glancing':'blocked!','#e0e0e0'); MX.ev(mon,'def_front'); } }
     else if(D.name==='reflect'&&kind==='ranged'){ d=0; say('reflected!','#c0f0ff'); MX.ev(mon,'def_reflect'); }
     else if(D.name==='immune'&&p.k===kind){ d*=MX.SHRUG; say('shrugs it off','#d8d0c0'); MX.shrugHint(mon,kind); }      // round 45 (Kris): "no effect" is now a quarter of the damage
-    else if(D.name==='armor'&&m.armor>0){ m.armor--; d*=1-(p.red||0.7); say(m.armor>0?'armor ('+m.armor+')':'armor breaks!','#ffd080'); if(m.armor<=0)MX.ev(mon,'def_armor_break'); }
+    else if(D.name==='armor'&&m.armor>0&&!_strip){ m.armor--; d*=1-(p.red||0.7); say(m.armor>0?'armor ('+m.armor+')':'armor breaks!','#ffd080'); if(m.armor<=0)MX.ev(mon,'def_armor_break'); }
     else if(D.name==='dodge'&&m.dodgeCd<=0){ m.dodgeCd=p.cd||4; d=0; say('dodged!','#ffffff'); MX.ev(mon,'def_dodge'); }
     else if(D.name==='tiny'&&Math.random()<(p.c||0.25)){ d=0; say('missed','#ffffff'); }
     else if(D.name==='thorns'&&kind==='melee'&&A){ A.hurt(p.d||1,'thorns','#c0e070',true); MX.ev(mon,'def_thorns'); }

@@ -13,7 +13,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 var ZASG={ on:true, LAKE:{x:600,y:600}, CD:20,
   kinds:function(){ if(ZASG._K)return ZASG._K; if(typeof WK!=='function'||typeof _wkReg!=='function')return null;
-    var K=ZASG._K={g:WK('plaza','#e6e0ce','#f4efe0',{pattern:'slab',flat:true}),w:WK('bwall','#ece6d6','#f6f2e6',{solid:true,wall:{top:'#f8f0da',face:'#cdbd92'}}),b:WK('plaza','#e8dcff','#fff4d8',{pattern:'slab',flat:true})};
+    var K=ZASG._K={g:WK('plaza','#e6e0ce','#f4efe0',{pattern:'asgslab',flat:true}),w:WK('bwall','#ece6d6','#f6f2e6',{solid:true,wall:{top:'#f8f0da',face:'#cdbd92'}}),b:WK('plaza','#e8dcff','#fff4d8',{pattern:'slab',flat:true})};
     _wkReg(K.g); _wkReg(K.w); _wkReg(K.b); return K; },
   water:function(t){ return t===T.DEEP_WATER||t===T.SHALLOW_WATER||t===T.LILY||t===T.REED; },
   // the island: lake water at least 6 tiles from any shore, within 56 tiles of the lake's middle; its rim is the wall
@@ -33,25 +33,52 @@ var ZASG={ on:true, LAKE:{x:600,y:600}, CD:20,
   // the island on the lake (quiet: on load, no show)
   carve:function(ws){ var wd=ws.wd; if(wd._asgDone)return; var K=ZASG.kinds(), P=ZASG.plan(ws), ch=[]; if(!K||!P.n)return;
     P.inner.forEach(function(c){ ZASG.put(wd,c[0],c[1],T.STONE_FLOOR,K.g,ch); }); P.rim.forEach(function(c){ ZASG.put(wd,c[0],c[1],T.BUILDING_WALL,K.w,ch); });
+    ZASG.lots(ws).forEach(function(L){ for(var y=L.y-L.d+1;y<=L.y;y++)for(var x=L.x-L.hw;x<=L.x+L.hw;x++)if(P.isl[y*WORLD_W+x])ZASG.put(wd,x,y,T.BUILDING_WALL,K.w,ch); });      // round 61: the citadel and the two halls are solid
     wd._asgDone=true; wd.baseVer=(wd.baseVer||0)+1; ZESC.refresh(ws,ch); ZASG.dress(ws); },
-  // the stand-ins: towers on the wall, the citadel in the middle (the painted pieces once Kris picks — wave 61)
-  dress:function(ws){ if(ws._asgDress)ws._asgDress.forEach(function(o){ o.destroy(); }); var P=ZASG.plan(ws), L=ws._asgDress=[], Z=typeof _scn==='function'?_scn():null;
-    var tower=function(x,y,s){ var px=x*TILE+16, py=y*TILE+28, g=ws.add.graphics().setDepth(typeof WR_DEPTH==='function'?WR_DEPTH(py):py); s=s||1;
+  // ── round 61: Kris's picks (Lab, Oct 16) — asgA_wall, asgA_gate, both towers (asgA_tower, asgC_tower), asg_keep_a "can be the central citadel",
+  //    asg_keep_b and asg_keep_c "should use as extra buildings in asgard", the world-tree circle asg_circle_c, the cream rune-paving tx_asg_b ──
+  KEEP:'asg_keep_a', HALLS:['asg_keep_b','asg_keep_c'], CIRCLE:'asg_circle_c', WALL:'asgA_wall', GATE:'asgA_gate', TOWERS:['asgA_tower','asgC_tower'], BIF:'bif_b', NOTCH:'notch_c',
+  // where the buildings stand: the citadel in the middle, a hall on each side (moved in until they sit well inside the walls)
+  lots:function(ws){ var P=ZASG.plan(ws); if(P._lots)return P._lots; var L=[{id:ZASG.KEEP,x:P.cx,y:P.cy,hw:3,d:3,m:1.3}], ok=function(x,y,hw,d){ for(var yy=y-d-4;yy<=y+4;yy++)for(var xx=x-hw-3;xx<=x+hw+3;xx++)if(!P.isl[yy*WORLD_W+xx])return false; return true; };
+    [-1,1].forEach(function(sd,i){ for(var off=17;off>=9;off--){ var x=P.cx+sd*off, y=P.cy+2; if(ok(x,y,2,3)){ L.push({id:ZASG.HALLS[i],x:x,y:y,hw:2,d:3,m:1.05}); break; } } });
+    return (P._lots=L); },
+  // the heart of Asgard: the rune circle in front of the citadel (the ending, round 62+)
+  // a painted piece laid flat (the whole picture, centred — ZScn.image cuts below the anchor)
+  flat:function(ws,id,x,y,m){ var Z=typeof _scn==='function'?_scn():null; if(!Z||!Z.has||!Z.has(id))return null; var S=Z.size(id,0), h=S.h*m, Q=Z.size(id,h), key='zsf_'+id+'_'+Math.round(h), RS=Z.RES||1, W=Math.ceil(Q.w)+4, H=Math.ceil(Q.h)+4;
+    if(!ws.textures.exists(key)){ var c=document.createElement('canvas'); c.width=W*RS; c.height=H*RS; var g=c.getContext('2d'); g.scale(RS,RS); Z.draw(g,id,Q.ax+2,Q.ay+2,h,{}); var t=ws.textures.addCanvas(key,c); try{ t.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} }
+    return ws.add.image(x,y,key).setOrigin(0.5,0.5).setScale(1/RS); },
+  heart:function(ws){ var P=ZASG.plan(ws); return {x:P.cx*TILE+16,y:(P.cy+7)*TILE+16}; },
+  dress:function(ws){ if(ws._asgDress)ws._asgDress.forEach(function(o){ if(o&&o.destroy)o.destroy(); }); var P=ZASG.plan(ws), L=ws._asgDress=[], Z=typeof _scn==='function'?_scn():null, has=function(id){ return Z&&Z.has&&Z.has(id); }, D=function(y){ return typeof WR_DEPTH==='function'?WR_DEPTH(y):y; };
+    var tower=function(x,y,s){ var px=x*TILE+16, py=y*TILE+28, g=ws.add.graphics().setDepth(D(py)); s=s||1;
       g.fillStyle(0x000000,0.22).fillEllipse(px,py,30*s,10*s); g.fillStyle(0xf2ecdc,1).fillRect(px-11*s,py-70*s,22*s,70*s); g.fillStyle(0xd8ccb0,1).fillRect(px+3*s,py-70*s,8*s,70*s);
       g.fillStyle(0xe8c048,1).fillTriangle(px-14*s,py-70*s,px+14*s,py-70*s,px,py-112*s); g.fillStyle(0xc8a030,1).fillTriangle(px,py-70*s,px+14*s,py-70*s,px,py-112*s); g.fillStyle(0xfff0a0,1).fillCircle(px,py-114*s,2.5*s); g.fillStyle(0x6a8ab0,1).fillRect(px-3*s,py-50*s,6*s,10*s); L.push(g); };
-    P.rim.forEach(function(c,i){ if(i%17===0)tower(c[0],c[1],1); });
-    var keep=ZASG.KEEP?ZASG.KEEP:null, cx=P.cx*TILE+16, cy=P.cy*TILE+16; if(keep&&Z&&Z.has&&Z.has(keep)){ var im=Z.image(ws,keep,cx,cy,Z.K*1.4,WR_DEPTH(cy)); if(im)L.push(im); }
-    else { [[-3,1,1.1],[3,1,1.1],[-1.5,-1,1.4],[1.5,-1,1.4],[0,0,2.1]].forEach(function(q){ tower(P.cx+q[0],P.cy+q[1],q[2]); }); var g=ws.add.graphics().setDepth(WR_DEPTH(cy+TILE*2)); g.fillStyle(0xe8c048,1).fillRoundedRect(cx-14,cy+10,28,34,{tl:14,tr:14,bl:0,br:0}); g.lineStyle(2,0xa07820,1).strokeRoundedRect(cx-14,cy+10,28,34,{tl:14,tr:14,bl:0,br:0}); L.push(g); }
-    var glow=ws.add.circle(cx,cy-40,90,0xfff2c0,0.12).setDepth(9000).setBlendMode(Phaser.BlendModes.ADD); ws.tweens.add({targets:glow,alpha:{from:0.06,to:0.16},duration:2400,yoyo:true,repeat:-1}); L.push(glow);
+    var put=function(id,x,y,m,o){ var im=Z.image(ws,id,x,y,m,D(y),o); if(im)L.push(im); return im; };
+    if(!has(ZASG.WALL)){ P.rim.forEach(function(c,i){ if(i%17===0)tower(c[0],c[1],1); }); }
+    else { // the walls: round the rim, evenly spaced; where the rim runs up and down, towers (a wall seen end-on would look wrong)
+      var gx=P.gate?P.gate[0]*TILE+16:-1e9, gy=P.gate?P.gate[1]*TILE+16:-1e9, cx0=P.cx*TILE+16, cy0=P.cy*TILE+16;
+      var R=P.rim.map(function(c){ var x=c[0]*TILE+16, y=c[1]*TILE+16; return {x:x,y:y,a:Math.atan2(y-cy0,x-cx0),d:Math.hypot(x-cx0,y-cy0)}; }).sort(function(a,b){ return a.a-b.a||b.d-a.d; });
+      var pick=[], last=null, first=null, step=150; R.forEach(function(q){ if(last&&Math.hypot(q.x-last.x,q.y-last.y)<step)return; if(first&&Math.hypot(q.x-first.x,q.y-first.y)<step*0.7)return; pick.push(q); last=q; if(!first)first=q; });
+      pick.forEach(function(q,i){ if(Math.hypot(q.x-gx,q.y-gy)<TILE*3.6)return; var side=Math.abs(Math.cos(q.a))>0.72, foot=q.y+16;
+        if(side||i%3===2)put(ZASG.TOWERS[(i>>1)%2],q.x,foot,side?0.95:1.05); else put(ZASG.WALL,q.x,foot,1); });
+      if(P.gate&&has(ZASG.GATE))put(ZASG.GATE,gx,gy+16,1.15); }
+    // the citadel and the two halls
+    ZASG.lots(ws).forEach(function(Lt,i){ var x=Lt.x*TILE+16, y=(Lt.y+1)*TILE; if(Lt.id&&has(Lt.id))put(Lt.id,x,y,Lt.m*(Z.K||1));
+      else if(i===0){ [[-3,1,1.1],[3,1,1.1],[-1.5,-1,1.4],[1.5,-1,1.4],[0,0,2.1]].forEach(function(q){ tower(Lt.x+q[0],Lt.y+q[1],q[2]); }); var g=ws.add.graphics().setDepth(D(y)); g.fillStyle(0xe8c048,1).fillRoundedRect(x-14,y-22,28,34,{tl:14,tr:14,bl:0,br:0}); L.push(g); } });
+    // the rune circle at the heart (flat on the ground)
+    var H=ZASG.heart(ws), ci=ZASG.flat(ws,ZASG.CIRCLE,H.x,H.y,1.7); if(ci){ ci.setDepth(-2.6); L.push(ci); }
+    var cx=P.cx*TILE+16, cy=P.cy*TILE+16, glow=ws.add.circle(cx,cy-60,110,0xfff2c0,0.12).setDepth(9000).setBlendMode(Phaser.BlendModes.ADD); ws.tweens.add({targets:glow,alpha:{from:0.05,to:0.14},duration:2400,yoyo:true,repeat:-1}); L.push(glow);
     ZASG.notchVis(ws); if(ws.playerState&&ws.playerState.bifrost)ZASG.rainbow(ws); },
   // ── the descent (after Muspelheim sinks) ──
   descend:function(ws){ var ps=ws.playerState, cam=ws.cameras.main, lx=ZASG.LAKE.x*TILE, ly=ZASG.LAKE.y*TILE; if(typeof ZCINE!=='undefined')ZCINE.bars(true); cam.stopFollow(); cam.pan(lx,ly,2200,'Sine.easeInOut');
-    ws.time.delayedCall(2300,function(){ showNotif('✨ A ring of golden light opens in the sky over Mirror Lake…','#fff2b0');
+    ws.time.delayedCall(2300,function(){ ZCINE.panel(ZASG.panelOf('sky'),'A ring of golden light opens in the sky over Mirror Lake…',4200,function(){ showNotif('✨ A ring of golden light opens in the sky over Mirror Lake…','#fff2b0');
       var ring=ws.add.circle(lx,ly-260,20,0xfff4c8,0.9).setDepth(9500).setBlendMode(Phaser.BlendModes.ADD); ws.tweens.add({targets:ring,scale:22,alpha:0.25,duration:2200,ease:'Sine.out'});
       for(var i=0;i<14;i++){ var r=ws.add.rectangle(lx+(i-7)*70,ly-200,14,800,0xfff0b0,0.0).setDepth(9400).setBlendMode(Phaser.BlendModes.ADD).setAngle((i-7)*2); ws.tweens.add({targets:r,alpha:0.22,duration:1200,delay:600+i*60,yoyo:true,hold:1600,onComplete:function(){ this.targets[0].destroy(); }}); }
       ws.time.delayedCall(2600,function(){ cam.flash(1200,255,250,230); cam.shake(1200,0.008); ps.asgardDown=1; ZASG.carve(ws); showNotif('🏰 ASGARD has come down onto Mirror Lake — a walled island of white stone and gold.','#fff2b0'); ring.destroy();
-        ws.time.delayedCall(3200,function(){ cam.startFollow(ws.player.cont,true,.1,.1); if(typeof ZCINE!=='undefined')ZCINE.bars(false); if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('Asgard comes down'); }catch(e){}
-          if(typeof ZSPIRIT!=='undefined')ZSPIRIT.talk('Mira the Mechanic','#ffd890','Did you SEE that?! A whole city, sat down on the lake like a duck! And not a door on the near side…<br><br>But listen — when I built the village pier, my grandmother made me cut a <b>notch</b> at its very end. "For a staff that will come one day," she said. I thought she was teasing me. Go to the <b>end of the pier</b>, '+heroName(ps)+'. Bring that staff of yours.',[{t:'To the pier'}],typeof ZMIRA!=='undefined'&&ZMIRA._draw?ZMIRA._draw():null); }); }); }); },
+        ws.time.delayedCall(3200,function(){ ZCINE.panel(ZASG.panelOf('lake'),'Asgard rests upon Mirror Lake.',4200,function(){ cam.startFollow(ws.player.cont,true,.1,.1); if(typeof ZCINE!=='undefined')ZCINE.bars(false); if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('Asgard comes down'); }catch(e){}
+          if(typeof ZSPIRIT!=='undefined')ZSPIRIT.talk('Mira the Mechanic','#ffd890','Did you SEE that?! A whole city, sat down on the lake like a duck! And not a door on the near side…<br><br>But listen — when I built the village pier, my grandmother made me cut a <b>notch</b> at its very end. "For a staff that will come one day," she said. I thought she was teasing me. Go to the <b>end of the pier</b>, '+heroName(ps)+'. Bring that staff of yours.',[{t:'To the pier'}],typeof ZMIRA!=='undefined'&&ZMIRA._draw?ZMIRA._draw():null); }); }); }); }); }); },
+  // the story panels Kris picked (the combined sky panel, option C, once painted — A until then)
+  PANELS:{sink:['pn_musp_sink_a'],sky:['pn_asg_sky_c','pn_asg_sky_a'],lake:['pn_asg_lake_a']},
+  panelOf:function(k){ var R=(typeof ZSCN_META!=='undefined'&&ZSCN_META.rooms)||{}; return (ZASG.PANELS[k]||[]).find(function(id){ return R[id]; })||null; },
   // ── the pier notch ──
   notchAt:function(){ var e=ZASG.pierEnd(); return e?{x:e[0]*TILE+16,y:e[1]*TILE+16}:null; },
   notchVis:function(ws){ if(ws._asgNotch){ ws._asgNotch.destroy(); ws._asgNotch=null; } var N=ZASG.notchAt(); if(!N||!(ws.playerState&&ws.playerState.asgardDown))return; var Z=typeof _scn==='function'?_scn():null, id=ZASG.NOTCH;
@@ -92,9 +119,14 @@ var ZASG={ on:true, LAKE:{x:600,y:600}, CD:20,
     for(var j=-2;j<=2;j++)for(var k=-2;k<=2;k++){ var gx=x1+k, gy=y1+j; if(P.isl[gy*WORLD_W+gx]&&wd.tiles[gy]&&wd.tiles[gy][gx]===T.BUILDING_WALL&&Math.hypot(k,j)<=1.6)ZASG.put(wd,gx,gy,T.STONE_FLOOR,K.g,ch); }
     wd._bifDone=true; wd._bifCells=ch.slice(); wd.baseVer=(wd.baseVer||0)+1; ZESC.refresh(ws,ch); ZASG.rainbow(ws); },
   // the shimmer over the Bifröst (bands of colour drifting along it)
+  // (no containers here: the World scene's camera does not draw a container's children — round 61 found the round 59 bands never showed)
   rainbow:function(ws){ if(ws._bifRb){ ws._bifRb.destroy(); ws._bifRb=null; } var N=ZASG.pierEnd(), P=ZASG.plan(ws); if(!N||!P.gate)return; var x0=N[0]*TILE+16, y0=N[1]*TILE+16, x1=P.gate[0]*TILE+16, y1=P.gate[1]*TILE+16, L=Math.hypot(x1-x0,y1-y0), a=Math.atan2(y1-y0,x1-x0);
-    var C=ws._bifRb=ws.add.container(x0,y0).setDepth(-3.5).setRotation(a), cols=[0xff6060,0xffa040,0xffe060,0x60e080,0x60a0ff,0xb070ff];
-    cols.forEach(function(c,i){ var r=ws.add.rectangle(L/2,(i-2.5)*14,L,14,c,0.5).setBlendMode(Phaser.BlendModes.ADD); C.add(r); ws.tweens.add({targets:r,alpha:{from:0.35,to:0.65},duration:900+i*130,yoyo:true,repeat:-1}); }); },
+    var Z=typeof _scn==='function'?_scn():null, list=[], cols=[0xff6060,0xffa040,0xffe060,0x60e080,0x60a0ff,0xb070ff], nx=-Math.sin(a), ny=Math.cos(a), mx=(x0+x1)/2, my=(y0+y1)/2, painted=!!(Z&&Z.has&&Z.has(ZASG.BIF));
+    ws._bifRb={list:list,destroy:function(){ list.forEach(function(o){ if(o&&o.scene){ ws.tweens.killTweensOf(o); o.destroy(); } }); list.length=0; }};
+    if(painted){ var m=1.25, seg=Z.size(ZASG.BIF,0).h*m*0.9, n=Math.max(1,Math.ceil(L/seg));
+      for(var i=0;i<n;i++){ var u=(i+0.5)/n, im=ZASG.flat(ws,ZASG.BIF,x0+(x1-x0)*u,y0+(y1-y0)*u,m); if(!im)break; im.setRotation(a+Math.PI/2).setDepth(-3.4); list.push(im); } }
+    cols.forEach(function(c,i){ var o=(i-2.5)*(painted?10:14), r=ws.add.rectangle(mx+nx*o,my+ny*o,L,painted?10:14,c,painted?0.10:0.5).setRotation(a).setDepth(-3.3).setBlendMode(Phaser.BlendModes.ADD); list.push(r);
+      ws.tweens.add({targets:r,alpha:painted?{from:0.04,to:0.16}:{from:0.35,to:0.65},duration:900+i*130,yoyo:true,repeat:-1}); }); },
   // ── on every load: re-carve what has happened ──
   watch:function(){ try{ if(typeof game==='undefined'||!game.scene)return; var ws=game.scene.getScene('World'); if(!ws||!ws.wd||!ws.playerState||!ws.sys||!ws.sys.isActive())return; var ps=ws.playerState, wd=ws.wd;
       if(ps.muspSunk&&!wd._muspSunk&&(wd._volcCarved||wd._volcSpawned))ZESC.sinkTerrain(ws);
@@ -106,6 +138,14 @@ var ZASG={ on:true, LAKE:{x:600,y:600}, CD:20,
     if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB))showNotif('🏛 The golden doors of the citadel are sealed by Grímnir, the Masked King. (Asgard\'s four floors and Grímnir come in round 60.)','#fff2b0'); return true; }
 };
 setInterval(ZASG.watch,1000);
+// round 61: the cream rune-paving inside the walls (tx_asg_b — the slab pattern if it is not painted)
+(function(){ if(typeof WPATTERN!=='undefined'&&!WPATTERN.asgslab)WPATTERN.asgslab=WPATTERN.slab; if(typeof ZScn!=='undefined'&&ZScn.GROUND_PAT){ ZScn.GROUND_PAT.asgslab='tx_asg_b'; if(ZScn.TEXA)ZScn.TEXA.tx_asg_b=[0.95,1.1]; } })();
+// round 61: a story panel — a painting fills the screen between the letterbox bars, fades in, holds, fades out (a click or a key skips it)
+if(typeof ZCINE!=='undefined')ZCINE.panel=function(id,cap,ms,cb){ var R=(typeof ZSCN_META!=='undefined'&&ZSCN_META.rooms)||{}, done=false, fin=function(){ if(done)return; done=true; document.removeEventListener('keydown',key,true); el.style.opacity='0'; setTimeout(function(){ el.remove(); },700); if(cb)cb(); }, key=function(){ fin(); };
+  if(!id||!R[id]||typeof document==='undefined'){ if(cb)cb(); return; } var base=(typeof ZScn!=='undefined'&&ZScn.BASE)||'assets/scenery/';
+  var el=document.createElement('div'); el.id='zcine-panel'; ['top','bot'].forEach(function(k){ var b=document.getElementById('zcine-'+k); if(b)b.style.zIndex='9995'; }); el.style.cssText='position:fixed;inset:0;z-index:9990;background:#000;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .7s ease;cursor:pointer';
+  el.innerHTML='<img src="'+base+R[id]+'" style="max-width:100%;max-height:100%;object-fit:contain"><div style="position:absolute;left:0;right:0;bottom:13vh;text-align:center;font:italic 600 20px Georgia,serif;color:#fff4d8;text-shadow:0 2px 6px #000">'+(cap||'')+'</div>';
+  document.body.appendChild(el); el.onclick=fin; ZCINE._panel=id; requestAnimationFrame(function(){ el.style.opacity='1'; }); setTimeout(function(){ document.addEventListener('keydown',key,true); },400); setTimeout(fin,ms||4200); };
 
 // ── GODSBANE: the Lodestar's one spell ──
 var ZGODS={

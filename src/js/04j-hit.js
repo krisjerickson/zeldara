@@ -18,19 +18,20 @@ var ZHit={
   _eq:function(ps,slot){ var id=ps&&ps.equip&&ps.equip[slot]; return id?ITEMS[id]:null; },
   SLOTS:['lHand','rHand','mWeapon','body','shield','head','feet','pants','gauntlets','neck','back','ring1','ring2','ring3','ring4','ring5','ring6','ring7','ring8','ring9','ring10'],
   pct:function(raw,def){ return raw*100/(100+ZHit.MK*Math.max(0,def||0)); },
-  defOf:function(mon){ return (mon.monDef!==undefined?mon.monDef:(mon.def&&mon.def.def))||0; },
+  defOf:function(mon){ if(mon&&mon._zpStrip&&Date.now()<mon._zpStrip)return 0; return (mon.monDef!==undefined?mon.monDef:(mon.def&&mon.def.def))||0; },
   // what the hero strikes with: {els, add} — add is the weapon's element number, joined to every hit that carries it
   hero:function(kind,o){ var ps=ZHit._ps(), els=[], add=0; o=o||{}; if(!ps)return {els:els,add:0};
     if(kind==='melee'){ var w=ZHit._eq(ps,'lHand'), g=ZHit._eq(ps,'gauntlets'); if(w&&w.el){ els=w.el==='all'?'all':w.el.slice(); add=w.elementDmg||0; }
       if(g&&g.el){ if(els!=='all'&&!els.length){ els=g.el.slice(); add+=g.elementDmg||0; } else if(els==='all'||els.indexOf(g.el[0])>=0)add+=g.elementDmg||0; } }      // element gauntlets lend their element to a plain blade
     else if(kind==='ranged'){ var b=ZHit._eq(ps,'rHand'); if(b&&b.el){ els=b.el==='all'?'all':b.el.slice(); add=b.elementDmg||0; } var ae=ZEL.AMMO[o.sub]; if(ae&&els!=='all'&&els.indexOf(ae)<0&&els.length<2)els.push(ae); }
     else if(kind==='spell'){ var e=o.spell?ZEL.SPELL[o.spell]:null; if(e)els=[e]; }
+    if(typeof ZPOT!=='undefined'&&(kind==='melee'||kind==='ranged'))els=ZPOT.coatEls(els);      // round 61: a weapon coating lends its element
     return {els:els,add:add}; },
   // shares from the gear: resistances, element power, spell power
   sums:function(ps){ ps=ps||ZHit._ps(); var res={}, pow={}, sp=0; if(!ps)return {res:res,pow:pow,spell:0};
     ZHit.SLOTS.forEach(function(s){ var it=ZHit._eq(ps,s); if(!it)return; var k;
       if(it.res)for(k in it.res)res[k]=(res[k]||0)+it.res[k]; if(it.elPow)for(k in it.elPow)pow[k]=(pow[k]||0)+it.elPow[k]; if(it.spellPow)sp+=it.spellPow; });
-    ZEL.LIST.forEach(function(e){ if(typeof _heroBuffActive==='function'&&_heroBuffActive(ps,'res_'+e))res[e]=(res[e]||0)+0.30; var cap=ZEL.resCap(); if(res[e]>cap)res[e]=cap; });
+    ZEL.LIST.forEach(function(e){ if(typeof _heroBuffActive==='function'&&_heroBuffActive(ps,'res_'+e))res[e]=(res[e]||0)+0.45; if(typeof _heroBuffActive==='function'&&_heroBuffActive(ps,'res_all'))res[e]=(res[e]||0)+0.20;      /* round 61: wards +45 %, the Prismatic Ward +20 % to all */ var cap=ZEL.resCap(); if(res[e]>cap)res[e]=cap; });
     sp+=Math.max(0,(ps.level||1)-1)*0.03;
     return {res:res,pow:pow,spell:sp}; },
   // a spell's power: tome × staff × (level and mage gear) × (the staff's own element)
@@ -44,11 +45,13 @@ var ZHit={
     var mel=ZEL.mon(mon), boss=ZEL.monBoss(mon), t=ZEL.tier(H.els,mel,boss), be=ZEL.bestEl(H.els,mel);
     if(kind==='familiar'&&t<0&&mon.kit&&mon.kit.def&&mon.kit.def.some(function(D){ return D.name==='resist'&&(D.p.el||'fire')===be; }))t=0;   // its kit already cuts this familiar (07rb) — not twice
     d*=ZEL.mult(t,kind,boss);
+    if(typeof ZPOT!=='undefined')d*=ZPOT.mult(kind,o);      // round 61: a coating's +15 %
     if(be&&kind!=='familiar'){ var S=ZHit.sums(); if(S.pow[be])d*=1+S.pow[be]; }
     d=Math.max(1,Math.round(d)); ZHit.last={t:t,el:be,kind:kind,els:H.els};
     if(t)ZHit.mark(scene,mon,t,be);
     if(kind==='ranged'&&ZEL.AMMO[o.sub]){ if(t>-2)ZHit.proc(scene,mon,ZEL.AMMO[o.sub],d,2); }      // an element arrow always does its work (burn, slow, root, arc) — in every scene
     else if(!o.noProc&&be&&kind!=='familiar'&&kind!=='spell'&&t>-2)ZHit.proc(scene,mon,be,d,t);
+    if(typeof ZPOT!=='undefined')try{ ZPOT.onHit(scene,mon,d,kind,o); }catch(e){}      // round 61: spell oils, the Silvered Edge
     return d; },
   // the step mark beside the damage number; the first of each kind is explained once
   mark:function(scene,mon,t,el){ var T=ZEL.TIER[String(t)]; if(!T||!scene)return; var now=Date.now(); if(mon._zmT&&now-mon._zmT<450)return; mon._zmT=now;
@@ -75,7 +78,7 @@ var ZHit={
   // what a tonic, an antidote or a draught does besides healing; returns the words for the notice ('' = nothing extra)
   useFx:function(ps,item){ var L=[]; if(!ps||!item)return '';
     if(item.buff&&typeof _heroBuffApply==='function'){ _heroBuffApply(ps,item.buff,120000); L.push({atkUp:'+25% ATK',defUp:'+25% DEF',spdUp:'+25% Speed'}[item.buff]+' for 2 min'); }
-    if(item.ward&&typeof _heroBuffApply==='function'){ _heroBuffApply(ps,'res_'+item.ward,120000); L.push('+30% '+ZEL.E[item.ward].n.toLowerCase()+' resistance for 2 min'); }
+    if(item.ward&&typeof _heroBuffApply==='function'){ if(item.ward==='all'){ _heroBuffApply(ps,'res_all',180000); L.push('+20% resistance to every element for 3 min'); } else { _heroBuffApply(ps,'res_'+item.ward,180000); L.push('+45% '+ZEL.E[item.ward].n.toLowerCase()+' resistance for 3 min'); } }
     if(item.cure){ try{ game.scene.getScenes(true).forEach(function(sc){ var S=sc._mxs; if(S){ S.poisonT=0; S.slowT=0; S.rootT=0; } if(sc._burnTime){ sc._burnTime=0; if(sc._showFireOverlay)sc._showFireOverlay(false); } }); }catch(e){} L.push('poison, burning and slow ended'); }
     return L.join(' · '); },
   // how long a status lasts on the hero

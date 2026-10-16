@@ -125,7 +125,7 @@ function _heroKillMonster(scene, mon){
   if(key==='VolcanoBossRush'){ showNotif('💀 '+mon.def.name+' defeated!','#ffdd44'); return; }
   if(ps&&mon.def){
     var xp=Math.ceil((mon.def.hp||20)*0.6), gold=5+Math.floor(Math.random()*10);
-    ps.xp+=xp; ps.gold+=gold;
+    xp=(typeof ZPOT!=='undefined'?ZPOT.x(xp):xp); gold=(typeof ZPOT!=='undefined'?ZPOT.g(gold):gold); ps.xp+=xp; ps.gold+=gold;
     _heroFloat(scene, mon.x, mon.y-36, '+'+xp+' xp +'+gold+'g', '#44ffaa');
     if(ws._checkLevelUp)ws._checkLevelUp(ps);
   }

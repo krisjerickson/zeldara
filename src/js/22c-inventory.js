@@ -66,7 +66,7 @@ var ZINV={filter:'all',sel:null,timer:null,
     if(cur&&cur!==it){ var d=function(k,l){ var v=(it[k]||0)-(cur[k]||0); return v?'<span class="zv-chip '+(v>0?'up':'dn')+'">'+(v>0?'+':'−')+Math.abs(v)+' '+l+'</span>':''; }; cmp='<div class="zv-cmp">Instead of '+cur.name+': '+((d('atk','ATK')+d('def','DEF'))||'<span class="zv-chip">no change in attack or defense</span>')+'</div>'; }
     var btn=''; if(s.k==='eq')btn='<button class="ir-equip zv-off" onclick="window._unequipSlot(\''+s.slot+'\')">Take off</button>';
     else if(ZINV.SLOT_NAME[sl]&&sl!=='ring'||sl==='ring')btn='<button class="ir-equip" onclick="ZINV.act(\''+id+'\')">'+(sl==='spell'||sl==='special'?'Ready it':'Equip')+'</button>';
-    else if(it.heal)btn='<button class="ir-equip" onclick="ZINV.act(\''+id+'\')">'+(sl==='food'?'Eat':'Use')+'</button>';
+    else if(it.heal||it.pot)btn='<button class="ir-equip" onclick="ZINV.act(\''+id+'\')">'+(sl==='food'?'Eat':it.pot&&it.pot.k==='flask'?'Ready to throw':'Use')+'</button>';
     return '<div class="zv-d-ico">'+ZIcon.item(id,4)+'</div><div class="zv-d-txt"><div class="zv-d-name">'+it.name+' <small>'+(ZINV.SLOT_NAME[sl]||({food:'Food',use:'Potion',gem:'Treasure',key:'Key',ammo:'Ammunition',material:'Material'})[sl]||'')+(s.k==='eq'?' · worn':'')+'</small></div>'+
       '<div class="zv-d-chips">'+ZINV.chips(it)+'</div><div class="zv-d-desc">'+(ZINV.plain(it)?'':(it.desc||''))+'</div>'+cmp+'</div><div class="zv-d-btn">'+btn+'</div>'; },
   setFilter:function(f){ ZINV.filter=f; ZINV.render(); },
@@ -75,7 +75,7 @@ var ZINV={filter:'all',sel:null,timer:null,
   actSlot:function(sk){ var W=ZINV.ws(); if(W&&W.playerState&&(W.playerState.equip||{})[sk]){ ZINV.sel=null; window._unequipSlot(sk); } },
   // an item's main action: equip it, or eat / drink it
   act:function(id){ var W=ZINV.ws(); if(!W)return; var ps=W.playerState, it=ITEMS[id], i=ps.inventory.indexOf(id); if(!it||i<0)return; var sl=ZINV.slotOf(it);
-    if(ZINV.SLOT_NAME[sl]){ ZINV.sel=null; window._equipItem(i,sl); } else if(it.heal){ window._useItem(i); if(ps.inventory.indexOf(id)<0)ZINV.sel=null; ZINV.render(ps); } },
+    if(ZINV.SLOT_NAME[sl]){ ZINV.sel=null; window._equipItem(i,sl); } else if(it.heal||it.pot){ window._useItem(i); if(ps.inventory.indexOf(id)<0)ZINV.sel=null; ZINV.render(ps); } },
   // the hero in the middle: his painted idle frames (the drawn stand-in when painted sprites are off)
   hero:function(){ var cv=document.getElementById('zv-hero-cv'); if(!cv)return; var x=cv.getContext('2d'), W=ZINV.ws(), who=(typeof _heroWho==='function'&&W)?_heroWho(W):'m', ch='hero_'+who, frames=null, n=1, t0=Date.now();
     var draw=function(){ var c=document.getElementById('zv-hero-cv'); if(!c||c!==cv){ clearInterval(ZINV.timer); ZINV.timer=null; return; } x.clearRect(0,0,cv.width,cv.height);

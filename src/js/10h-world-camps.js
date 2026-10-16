@@ -109,12 +109,12 @@ Object.assign(WorldScene.prototype,{
     var fl=document.getElementById('damage-flash'); if(fl){ fl.style.opacity='0.18'; clearTimeout(this._flashT); this._flashT=setTimeout(function(){ fl.style.opacity='0'; },280); }
     this._emitUI(); if(ps.hp<=0)this._worldPlayerDied(); },
   _campCollect(C,L){ var ps=this.playerState; SFX.pickup(); if(L.gl)L.gl.destroy(); var im=L.im; this.tweens.add({targets:im,y:im.y-24,alpha:0,duration:350,onComplete:function(){ im.destroy(); }});
-    if(L.kind==='gold'){ ps.gold+=L.qty; this._floatText(L.x,L.y-20,'+'+L.qty+'g','#ffd700'); }
+    if(L.kind==='gold'){ L.qty=(typeof ZPOT!=='undefined'?ZPOT.g(L.qty):L.qty); ps.gold+=L.qty; this._floatText(L.x,L.y-20,'+'+L.qty+'g','#ffd700'); }
     else if(L.kind==='ammo'){ ps.ammo=ps.ammo||{}; ps.ammo[L.item]=(ps.ammo[L.item]||0)+L.qty; this._floatText(L.x,L.y-20,'+'+L.qty+' '+(ITEMS[L.item]?ITEMS[L.item].name:L.item),'#ffe9a8'); }
     else { ps.inventory=ps.inventory||[]; ps.inventory.push(L.item); var I=ITEMS[L.item]; this._floatText(L.x,L.y-20,'+ '+(I?I.name:L.item),'#ffe9a8'); if(typeof Tome!=='undefined')Tome.see('item',L.item); }
     this._emitUI(); },
   _campUse(C){ var R=C.T.r, ps=this.playerState, q=C.sec; SFX.pickup();
-    if(R.k==='chest'){ var g=R.gold[0]+Math.floor(Math.random()*(R.gold[1]-R.gold[0]+1)); ps.gold+=g; this._floatText(C.x,C.y-44,'+'+g+'g','#ffd700');
+    if(R.k==='chest'){ var g=R.gold[0]+Math.floor(Math.random()*(R.gold[1]-R.gold[0]+1)); g=(typeof ZPOT!=='undefined'?ZPOT.g(g):g); ps.gold+=g; this._floatText(C.x,C.y-44,'+'+g+'g','#ffd700');
       var it=R.items[Math.floor(Math.random()*R.items.length)], it2=R.items[Math.floor(Math.random()*R.items.length)]; this._campDrop(C,it,ITEMS[it]&&ITEMS[it].type==='ammo'?'ammo':'item',ITEMS[it]&&ITEMS[it].qty); if(it2!==it)this._campDrop(C,it2,ITEMS[it2]&&ITEMS[it2].type==='ammo'?'ammo':'item',ITEMS[it2]&&ITEMS[it2].qty);
       ps.campsDone=ps.campsDone||{}; ps.campsDone[C.id]=1; C.state='spent'; if(C.spr)C.spr.setFrame('2'); showNotif('💰 '+C.T.name+': '+g+' gold and treasure!','#ffd700'); }
     else if(R.k==='well'){ ps.hp=ps.maxHp; this._floatText(C.x,C.y-44,'Fully healed!','#80ff90'); C.state='used'; if(C.glow)C.glow.setAlpha(0.15); }

@@ -222,3 +222,5 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 - **Collapse timer:** is it a hard fail if it runs out, or does it just hurt?
 - **Spirit look:** humanoid wisps, or animal-like?
 - **Credits:** text only, or over painted panels?
+
+**Round 61 note (Asgard in Kris's picks).** The island now wears the painted pieces: white walls with gold battlements (asgA) and the two tower styles round the rim, the golden-doored gate where the Bifröst lands, the citadel of spires in the middle with the Hall of shields and the Tree-crowned keep beside it, cream rune-paving, and the world-tree circle in front of the citadel — `ZASG.heart(ws)` is where the ending happens (the Lodestar raised, Godsbane cast into the sky, the Bifröst remade into heaven). The Bifröst is laid in crystal-and-rainbow slabs; the notch is an iron cradle. The cut-scenes show three story panels: Muspelheim sinking, Asgard opening in the sky (A until the joined panel C is painted), Asgard on the lake. Ideas for what makes Asgard's four floors (and the forges) more than a dungeon are in the Lab's "Realm ideas" tab, to be built in round 62.

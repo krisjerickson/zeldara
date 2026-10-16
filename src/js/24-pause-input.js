@@ -172,6 +172,7 @@ document.addEventListener('keydown',function(e){
   } else if(k==='c'){
     doCycleAmmo();
   } else if(k==='p'){
+    if(typeof ZPOT!=='undefined'&&ZPOT.keyDown(e,sc))return;      // round 61: with a flask in the pack, a tap drinks and holding P throws
     if(typeof ZQUICK!=='undefined')ZQUICK.use('potion');      // round 47: P drinks the equipped potion
     else if(_isOverworld(sc)&&sc._quickUsePotion)sc._quickUsePotion(); else if(ws2)ws2._quickUsePotion();
   }

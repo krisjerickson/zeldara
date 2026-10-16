@@ -557,7 +557,7 @@ function openBuildingShop(btype,ps,worldScene){
     return;
   }
   // ── Buy mode (default for all shops) ──
-  var found=false;
+  var found=false; if(typeof ZPOT!=='undefined')ZPOT.head(null);
   Object.keys(ITEMS).forEach(function(id){
     var it=ITEMS[id];
     if(!filter(it))return;
@@ -571,10 +571,12 @@ function openBuildingShop(btype,ps,worldScene){
     if(it.atk)stat='+'+it.atk+' ATK';
     if(it.def)stat+=(stat?' ':'')+('+ '+it.def+' DEF');
     if(it.heal)stat='Heals '+it.heal+' HP';
+    if(it.pot||it.ward)stat=it.desc;      // round 61: the potions say what they do
     if(it.goldVal)stat='Worth '+it.goldVal+'g';
     if(it.spdBonus)stat+=' +'+(it.spdBonus*100|0)+'% Spd';
     if(it.elementDmg)stat+=' +'+it.elementDmg+' '+it.element;
     var price=it.buy?it.buy+'g':it.goldVal?'Sell '+it.goldVal+'g':'—';
+    if(btype==='apothecary'&&typeof ZPOT!=='undefined')h+=ZPOT.head(it);
     h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(it,1.5)+'</div>'
       +'<div class="si-info"><div class="si-name">'+it.name+'</div>'
       +'<div class="si-desc">'+stat+' &nbsp;•&nbsp; '+price+'</div></div>';
@@ -662,8 +664,11 @@ window._buyItem=function(id,cost){
   if(ps.gold<cost){showNotif('Not enough gold!','#ff4444');return;}
   var it=ITEMS[id];
   // Max 5 potions cap
-  if(it&&it.slot==='use'){
-    var potCount=(ps.inventory||[]).filter(function(pid){return ITEMS[pid]&&ITEMS[pid].slot==='use';}).length;
+  if(it&&it.slot==='use'&&typeof ZPOT!=='undefined'&&ZPOT.bag(it)){      // round 61: oils, coatings, flasks, boons and wards — up to 5 of each
+    var _own=(ps.inventory||[]).filter(function(pid){return pid===id;}).length;
+    if(_own>=5){showNotif(it.name+': you carry 5 already','#ff8844');return;}
+  } else if(it&&it.slot==='use'){
+    var potCount=(ps.inventory||[]).filter(function(pid){return ITEMS[pid]&&ITEMS[pid].slot==='use'&&!(typeof ZPOT!=='undefined'&&ZPOT.bag(ITEMS[pid]));}).length;
     if(potCount>=5){showNotif('Potion bag full! (5/5 max)','#ff8844');return;}
   }
   ps.gold-=cost;

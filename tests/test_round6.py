@@ -127,7 +127,7 @@ with game(new=True) as g:
         check('A Chainmaster Warlock banishes one of your familiars', ok, g.ws("JSON.stringify(FAM_ST)"))
         g.ws("(()=>{ _cm._hp=0; ws._worldMonsterDied(_cm); })()")
         r = g.js("_tomeDefLines('cave_troll').map(l=>l[1]).join(' ')")
-        check('The Tome explains the counters (Spirit Ward on the Cave Troll)', 'Spirit Ward' in r, r)
+        check('The Tome explains the counters (Spirit Ward on the Cave Troll)', ('Spirit Ward' in r or 'Rune Ward' in r), r)
     # ── the old cave is gone; Ember Cave is an island dungeon ──
     if want('cave'):
         r = g.js("({cave:!!game.scene.getScene('Cave'), adv:ISL_ADV[3].type, design:(_dungeonDesignById(ISL_ADV[3].design)||{}).id, looks:EMBER_CAVE_DESIGNS.length})")

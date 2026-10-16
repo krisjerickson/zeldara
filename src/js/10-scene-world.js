@@ -2415,7 +2415,7 @@ class WorldScene extends Phaser.Scene{
     var xpMult=lvDiff>=5?3.0:lvDiff>=3?2.0:lvDiff>=1?1.5:lvDiff>=0?1.0:lvDiff>=-3?0.5:lvDiff>=-6?0.15:0.05;
     var xpGain=Math.max(1,Math.floor(mon.def.xp*0.33*xpMult));
     var gGain=Math.floor((mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1)))*0.33);
-    ps.xp+=xpGain; ps.gold+=gGain;
+    xpGain=(typeof ZPOT!=='undefined'?ZPOT.x(xpGain):xpGain); gGain=(typeof ZPOT!=='undefined'?ZPOT.g(gGain):gGain); ps.xp+=xpGain; ps.gold+=gGain;
     var xpColor=lvDiff>=3?'#ffdd44':lvDiff>=1?'#aaddff':lvDiff>=-3?'#88aaff':'#446688';
     this._floatText(mon.x,mon.y-28,'+'+(lvDiff>0?'★':'')+xpGain+' XP',xpColor);
     this._floatText(mon.x,mon.y-40,'+'+gGain+'g','#ffd700');

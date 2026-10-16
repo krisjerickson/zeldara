@@ -105,7 +105,8 @@ var ZESC={ on:true, FLOORS:5, TIME:[150,120,100,85], FRONT:[2.6,3.2,3.6,4.0], CW
     ws.time.delayedCall(1500,function(){ cam.shake(2600,0.018); smoke(); ws.time.delayedCall(900,smoke); ws.time.delayedCall(1800,smoke);
       ws.time.delayedCall(1400,function(){ ZESC.sinkTerrain(ws); cam.flash(800,255,200,150); });
       ws.time.delayedCall(3400,function(){ ps.muspSunk=1; showNotif('🌊 Muspelheim is gone beneath the sea. The spirits it held are free.','#9fe8ff'); if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('Muspelheim sinks'); }catch(e){}
-        if(typeof ZASG!=='undefined'&&ZASG.on)ZASG.descend(ws); else { cam.startFollow(ws.player.cont,true,.1,.1); if(typeof ZCINE!=='undefined')ZCINE.bars(false); } }); }); },
+        var next=function(){ if(typeof ZASG!=='undefined'&&ZASG.on)ZASG.descend(ws); else { cam.startFollow(ws.player.cont,true,.1,.1); if(typeof ZCINE!=='undefined')ZCINE.bars(false); } };
+        if(ZCINE.panel&&typeof ZASG!=='undefined'&&ZASG.panelOf)ZCINE.panel(ZASG.panelOf('sink'),'Muspelheim sinks beneath the sea.',4200,next); else next(); }); }); },      // round 61: Kris's story panel pn_musp_sink_a
   // the island, its rampart and the causeway become sea; the gate is gone
   sinkTerrain:function(ws){ var wd=ws.wd; if(!wd||wd._muspSunk)return; var d=_volcanoSiteDefs().find(function(v){ return v.type==='volcano_main'; }), an=wd.volcanoAnchors&&wd.volcanoAnchors.volcano_main; if(!d)return;
     var cx=d.tx+1.5, cy=d.ty+1.5, changed=[], sea=WSK&&WSK.sea, ok=function(t){ return t===T.DARK_ROCK||t===T.ASH_GROUND||t===T.OBSIDIAN||t===T.THIN_MAGMA||t===T.DEEP_MAGMA||t===T.ROCKY_GROUND||t===T.GRAVEL||t===T.CLIFF; };

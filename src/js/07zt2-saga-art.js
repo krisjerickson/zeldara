@@ -90,3 +90,49 @@
 (function(){ if(typeof WPROP==='undefined')return; WPROP.sheep=function(c,ctx,x,y,w,h,o){ var Zs=typeof _scn==='function'?_scn():null, ids=['pr_sheep_graze','pr_sheep_stand','pr_sheep_lie','pr_sheep_graze','pr_sheep_lamb'];
   if(!Zs||!Zs.has(ids[0]))return; var id=c.R.pick(ids); Zs.sprite(c.m,id,x+w/2,y+h-4,0,{w:(id==='pr_sheep_lamb'?30:44)*(Zs.K||1)}); }; })();
 
+// ═══ wave 63 (round 61): the new potions' icons, and the combined story panel "Asgard opens in the sky" ═══
+// Kris (Potions tab, Oct 16): ☆ healing by realm, the elixirs, Troll-blood, mana, Arcane Surge, Runic Tea, all six spell oils, the coatings and the
+// Silvered Edge, all four flasks, Giant's Draught, Gilded Tonic, Scholar's Tea, Phoenix Draught, stronger wards and the Prismatic Ward (22h-potions.js).
+// Kris (Asgard tab): pn_asg_sky_a — "this is the better image, except for the asgard island coming down. i like the harbor, the night scene, the
+// latern and the rocks you stand on"; pn_asg_sky_b — "this is good, but i mainly like the asgard sky island coming down and the spirits. we
+// shouldn't have the lion". So: option C, the two joined (the painter is shown both).
+(function(){ if(typeof ZSCN==='undefined')return; ZSCN.WAVES[63]='Round 61 — the new potions, and Asgard opens in the sky (A + B)';
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    {id:'sc_ic_pot_1',wave:63,fam:'icons',kind:'icon',cols:5,rows:4,size:'1536x1024',title:'Item icons — healing and mana potions and spell oils; every bottle a clearly different shape and colour',items:[
+      ['ic_pot_heal1','Minor Healing','a small round bottle of bright red potion with a cork',48,48],
+      ['ic_pot_heal2','Healing Potion','a round bottle of deep red potion with a cork and a red wax seal',48,48],
+      ['ic_pot_heal3','Greater Healing','a tall faceted bottle of glowing crimson potion with a silver cap',48,48],
+      ['ic_pot_heal4','Superior Healing','a big heart-shaped bottle of shining ruby potion with a gold stopper',48,48],
+      ['ic_pot_elixir','Elixir','a pear-shaped flask of swirling rose-and-gold liquid with a leaf on the stopper',48,48],
+      ['ic_pot_grand','Grand Elixir','an ornate gold-caged flask of radiant pink-gold liquid with tiny stars in it',48,48],
+      ['ic_pot_troll','Troll-blood Tonic','a squat stone jug of thick dark-green brew with a troll-tusk stopper',48,48],
+      ['ic_pot_mana','Mana Draught','a small round bottle of bright blue potion with a cork',48,48],
+      ['ic_pot_mana2','Greater Mana Draught','a tall faceted bottle of glowing deep-blue potion with a silver cap',48,48],
+      ['ic_pot_surge','Arcane Surge','a crystal vial of crackling violet-blue light with a rune on it',48,48],
+      ['ic_pot_tea','Runic Tea','a little clay teapot with glowing teal runes and steam',48,48],
+      ['ic_oil_frost','Frostbite Oil','a slim vial of icy pale-blue oil with frost on the glass',48,48],
+      ['ic_oil_ember','Cinder Oil','a slim vial of glowing orange oil with a tiny flame inside',48,48],
+      ['ic_oil_venom','Nightshade Oil','a slim vial of dark purple-green oil with a nightshade flower on the label',48,48],
+      ['ic_oil_storm','Thunderhead Oil','a slim vial of yellow oil with a little lightning bolt crackling inside',48,48],
+      ['ic_oil_root','Bramble Oil','a slim vial of green oil wrapped in a thorny bramble',48,48],
+      ['ic_oil_shade','Gloam Oil','a slim vial of black-violet oil with a pale glow inside',48,48]]},
+    {id:'sc_ic_pot_2',wave:63,fam:'icons',kind:'icon',cols:5,rows:4,size:'1536x1024',title:'Item icons — weapon coatings (small tins of blade-paste), flasks to throw, boon potions and a ward; every one a clearly different shape and colour',items:[
+      ['ic_coat_fire','Fire Coating','a small tin of glowing orange blade-paste with a flame mark',48,48],
+      ['ic_coat_grass','Grass Coating','a small tin of green blade-paste with a leaf mark',48,48],
+      ['ic_coat_water','Water Coating','a small tin of blue blade-paste with a wave mark',48,48],
+      ['ic_coat_earth','Earth Coating','a small tin of brown-amber blade-paste with a rock mark',48,48],
+      ['ic_coat_storm','Storm Coating','a small tin of violet blade-paste with a lightning mark',48,48],
+      ['ic_coat_shadow','Shadow Coating','a small tin of black-purple blade-paste with a crescent mark',48,48],
+      ['ic_coat_silver','Silvered Edge','a small tin of shining silver blade-paste with a whetstone',48,48],
+      ['ic_flask_fire','Fire Flask','a round glass grenade-flask of orange fire with a burning rag fuse',48,48],
+      ['ic_flask_frost','Frost Flask','a round glass flask of swirling white-blue frost with ice crystals on it',48,48],
+      ['ic_flask_smoke','Smoke Pellet','a small grey clay ball with a short fuse, wisps of smoke',48,48],
+      ['ic_flask_thunder','Thunder Flask','a round glass flask with a crackling yellow storm cloud inside',48,48],
+      ['ic_boon_giant','Giant\'s Draught','a huge stone tankard of frothy brown brew with a giant\'s fist on it',48,48],
+      ['ic_boon_gold','Gilded Tonic','a small bottle of shimmering gold liquid with a coin for a stopper',48,48],
+      ['ic_boon_xp','Scholar\'s Tea','a porcelain cup of pale tea on a little open book',48,48],
+      ['ic_boon_phoenix','Phoenix Draught','a tall flask of liquid fire with a phoenix feather in the stopper',48,48],
+      ['ic_ward_prism','Prismatic Ward','a six-sided crystal bottle with a band of all six element colours',48,48]]},
+    {id:'sc_pn_asg_sky_c',wave:63,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_asg_sky_a','sc_pn_asg_sky_b'],title:'Story panel — Asgard opens in the sky (option C: A and B joined)',items:[
+      ['pn_asg_sky_c','Asgard opens in the sky','a wide cinematic painting AT NIGHT, taken from reference A: the young hero in a green cloak standing on the dark rocks in the bottom-left corner, a lantern hanging from a tree branch beside him, a calm lake with the village harbour, its wooden piers, boats and lit cottages on the right shore, mountains behind under a starry sky. In the sky, taken from reference B: the floating island of Asgard — a white-and-gold city of spires on a great rock with waterfalls pouring off its edges — descending through a ring of parting clouds and golden light, and a few small glowing pale-blue spirit wisps drifting near the hero on the rocks. NO lion, no animal companion — the hero stands alone with the spirits.',1536,1024]]}]);
+})();

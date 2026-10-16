@@ -1,4 +1,4 @@
-# Scenery — 202 sheets, 1796 objects and textures (13 sheets in the pilot)
+# Scenery — 205 sheets, 1830 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -43,6 +43,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 60 | undefined | 3 | 15 |
 | 61 | Asgard and the Bifröst — options | 12 | 30 |
 | 62 | Round 60 — moving hearths, the Honour guard, sheep, the apothecary | 8 | 34 |
+| 63 | Round 61 — the new potions, and Asgard opens in the sky (A + B) | 3 | 34 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -6891,6 +6892,124 @@ Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in th
 5. Enchanting bench — a workbench for upgrading staffs: a staff clamped in a vice, cut gems in little dishes, glowing rune-carving tools (about 0.6× the hero's height).
 6. Mounted staffs — wall decoration: two crossed magic staffs mounted over a small round shield with a rune (about 0.6× the hero's height).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_pot_1
+
+Item icons — healing and mana potions and spell oils; every bottle a clearly different shape and colour · wave 63 · 17 items, 5 × 4 · 1536x1024
+
+- `ic_pot_heal1` Minor Healing — 48 × 48 px
+- `ic_pot_heal2` Healing Potion — 48 × 48 px
+- `ic_pot_heal3` Greater Healing — 48 × 48 px
+- `ic_pot_heal4` Superior Healing — 48 × 48 px
+- `ic_pot_elixir` Elixir — 48 × 48 px
+- `ic_pot_grand` Grand Elixir — 48 × 48 px
+- `ic_pot_troll` Troll-blood Tonic — 48 × 48 px
+- `ic_pot_mana` Mana Draught — 48 × 48 px
+- `ic_pot_mana2` Greater Mana Draught — 48 × 48 px
+- `ic_pot_surge` Arcane Surge — 48 × 48 px
+- `ic_pot_tea` Runic Tea — 48 × 48 px
+- `ic_oil_frost` Frostbite Oil — 48 × 48 px
+- `ic_oil_ember` Cinder Oil — 48 × 48 px
+- `ic_oil_venom` Nightshade Oil — 48 × 48 px
+- `ic_oil_storm` Thunderhead Oil — 48 × 48 px
+- `ic_oil_root` Bramble Oil — 48 × 48 px
+- `ic_oil_shade` Gloam Oil — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_heartglass
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 17 separate game icons — Item icons — healing and mana potions and spell oils; every bottle a clearly different shape and colour.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 17 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first); the last 3 cell(s) stay empty:
+1. Minor Healing — a small round bottle of bright red potion with a cork.
+2. Healing Potion — a round bottle of deep red potion with a cork and a red wax seal.
+3. Greater Healing — a tall faceted bottle of glowing crimson potion with a silver cap.
+4. Superior Healing — a big heart-shaped bottle of shining ruby potion with a gold stopper.
+5. Elixir — a pear-shaped flask of swirling rose-and-gold liquid with a leaf on the stopper.
+6. Grand Elixir — an ornate gold-caged flask of radiant pink-gold liquid with tiny stars in it.
+7. Troll-blood Tonic — a squat stone jug of thick dark-green brew with a troll-tusk stopper.
+8. Mana Draught — a small round bottle of bright blue potion with a cork.
+9. Greater Mana Draught — a tall faceted bottle of glowing deep-blue potion with a silver cap.
+10. Arcane Surge — a crystal vial of crackling violet-blue light with a rune on it.
+11. Runic Tea — a little clay teapot with glowing teal runes and steam.
+12. Frostbite Oil — a slim vial of icy pale-blue oil with frost on the glass.
+13. Cinder Oil — a slim vial of glowing orange oil with a tiny flame inside.
+14. Nightshade Oil — a slim vial of dark purple-green oil with a nightshade flower on the label.
+15. Thunderhead Oil — a slim vial of yellow oil with a little lightning bolt crackling inside.
+16. Bramble Oil — a slim vial of green oil wrapped in a thorny bramble.
+17. Gloam Oil — a slim vial of black-violet oil with a pale glow inside.
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_ic_pot_2
+
+Item icons — weapon coatings (small tins of blade-paste), flasks to throw, boon potions and a ward; every one a clearly different shape and colour · wave 63 · 16 items, 5 × 4 · 1536x1024
+
+- `ic_coat_fire` Fire Coating — 48 × 48 px
+- `ic_coat_grass` Grass Coating — 48 × 48 px
+- `ic_coat_water` Water Coating — 48 × 48 px
+- `ic_coat_earth` Earth Coating — 48 × 48 px
+- `ic_coat_storm` Storm Coating — 48 × 48 px
+- `ic_coat_shadow` Shadow Coating — 48 × 48 px
+- `ic_coat_silver` Silvered Edge — 48 × 48 px
+- `ic_flask_fire` Fire Flask — 48 × 48 px
+- `ic_flask_frost` Frost Flask — 48 × 48 px
+- `ic_flask_smoke` Smoke Pellet — 48 × 48 px
+- `ic_flask_thunder` Thunder Flask — 48 × 48 px
+- `ic_boon_giant` Giant's Draught — 48 × 48 px
+- `ic_boon_gold` Gilded Tonic — 48 × 48 px
+- `ic_boon_xp` Scholar's Tea — 48 × 48 px
+- `ic_boon_phoenix` Phoenix Draught — 48 × 48 px
+- `ic_ward_prism` Prismatic Ward — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_ic_heartglass
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 16 separate game icons — Item icons — weapon coatings (small tins of blade-paste), flasks to throw, boon potions and a ward; every one a clearly different shape and colour.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 16 objects in a grid of 5 columns × 4 rows, evenly spaced, in this order (left to right, top row first); the last 4 cell(s) stay empty:
+1. Fire Coating — a small tin of glowing orange blade-paste with a flame mark.
+2. Grass Coating — a small tin of green blade-paste with a leaf mark.
+3. Water Coating — a small tin of blue blade-paste with a wave mark.
+4. Earth Coating — a small tin of brown-amber blade-paste with a rock mark.
+5. Storm Coating — a small tin of violet blade-paste with a lightning mark.
+6. Shadow Coating — a small tin of black-purple blade-paste with a crescent mark.
+7. Silvered Edge — a small tin of shining silver blade-paste with a whetstone.
+8. Fire Flask — a round glass grenade-flask of orange fire with a burning rag fuse.
+9. Frost Flask — a round glass flask of swirling white-blue frost with ice crystals on it.
+10. Smoke Pellet — a small grey clay ball with a short fuse, wisps of smoke.
+11. Thunder Flask — a round glass flask with a crackling yellow storm cloud inside.
+12. Giant's Draught — a huge stone tankard of frothy brown brew with a giant's fist on it.
+13. Gilded Tonic — a small bottle of shimmering gold liquid with a coin for a stopper.
+14. Scholar's Tea — a porcelain cup of pale tea on a little open book.
+15. Phoenix Draught — a tall flask of liquid fire with a phoenix feather in the stopper.
+16. Prismatic Ward — a six-sided crystal bottle with a band of all six element colours.
+View: each one is a game icon — a single object drawn large, front-on with a slight three-quarter tilt, as on an inventory tile. Bold and simple so it still reads at 32 pixels: one clear silhouette, few details. No background plate, no circle or square behind it, no frame, no drop shadow. Items of the same kind must each have their own clearly different shape and colours, so no two icons on the sheet could be mistaken for each other.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_asg_sky_c
+
+Story panel — Asgard opens in the sky (option C: A and B joined) · wave 63 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_asg_sky_c` Asgard opens in the sky — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_asg_sky_a, sc_pn_asg_sky_b
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story panel — Asgard opens in the sky (option C: A and B joined), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting AT NIGHT, taken from reference A: the young hero in a green cloak standing on the dark rocks in the bottom-left corner, a lantern hanging from a tree branch beside him, a calm lake with the village harbour, its wooden piers, boats and lit cottages on the right shore, mountains behind under a starry sky. In the sky, taken from reference B: the floating island of Asgard — a white-and-gold city of spires on a great rock with waterfalls pouring off its edges — descending through a ring of parting clouds and golden light, and a few small glowing pale-blue spirit wisps drifting near the hero on the rocks. NO lion, no animal companion — the hero stands alone with the spirits..
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

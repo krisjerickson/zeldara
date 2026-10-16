@@ -201,6 +201,14 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
+
+### Round 61 (Oct 16, asked before bed)
+- Potion bag: healing + mana share the old bag of 5; oils, coatings, flasks, boons and wards up to 5 of EACH kind — keep, or something else?
+  - **Answered (Oct 16 card): "5 of each kind"** — as built.
+- Story panel "Asgard opens in the sky": show option A until the joined panel C is painted — or wait and show nothing?
+  - **Answered: "Show A for now"** — C swaps in by itself once painted.
+- Realm ideas (Lab, 12 cards): pick in the Lab — build the picks next round, or prototype one right away?
+  - **Answered: "Build picks next round"**.
 - (Round 60, Oct 16) **ANSWERED:** monster health by realm — **A: ×1 / 1.5 / 2 / 2.5** (base 16 / 69 / 176 / 375: Grasslands / Wetlands / Highlands / Ashlands; the forges and Muspelheim on the Ashlands' line; bosses unchanged).
 - (Round 60, Oct 16) **ANSWERED:** the forges' first floor — Kris: "like 2, dropping challenges, but have 4 levels for each mini volcano, and come up with new monsters for the volcanos that have unique attacks and skills" → the old challenge scenes are dropped; each forge is **four painted floors** in the new engine; **new forge monsters** with their own attacks and skills. The group loops — **approved as remade** (wave 59; only the Honour guard needs redoing). The sheep — **paint straight away**.
 - (Round 59, Oct 15) **ANSWERED:** the escape — **a dedicated escape run** (five short collapsing floors built for the run, one timer for the whole climb, then the sinking causeway; the timer kills you and you restart the climb); Godsbane — **its own button**, only with the Lodestar in hand, long cooldown, Grímnir's weak point in his last phase; Asgard's art (island, Bifröst, story panels) — **Lab options first**, drawn stand-ins meanwhile.
@@ -696,4 +704,14 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris (late): "remove the mechanic of chopping down trees" → done. "in adventure sites, the map shows where the exit is, but you should need to discover it. only show the exit once you've revealed it" → done.
 - **Round 60 DONE** — changelog [551]–[562].
 - **Next:** Kris runs `tools\sprites\round60.ps1`; picks in the Lab — Asgard (wave 61), Potions; then round 61: the picked potions (and their icons), Asgard with his picks, its four floors and Grímnir.
+
+## Round 61 (Kris, Oct 16) — Asgard in the picks, the potions, the realm ideas
+- Kris: "all picks in as well as new art". Round 60's paintings cut (8 scenery sheets, 24 atlas sheets incl. the surt_2.extra.s redo) and wired.
+- Asgard picks: asgA_wall, asgA_gate, asgA_tower + asgC_tower; asg_keep_a — "this can be the central citadel"; asg_keep_b, asg_keep_c — "this is also amazing, should use as extra buildings in asgard"; asg_circle_c, bif_b, notch_c, tx_asg_b; panels pn_musp_sink_a, pn_asg_lake_a; pn_asg_sky_a — "this is the better image, except for the asgard island coming down. i like the harbor, the night scene, the latern and the rocks you stand on"; pn_asg_sky_b — "this is good, but i mainly like the asgard sky island coming down and the spirits. we shouldn't have the lion" → panel C ordered (wave 63).
+- Potion picks: pr_heal_tiers, pr_elixir, pr_regen; pm_mana, pm_surge, pm_tea; all six oils; pw_elemental, pw_silver; all four flasks; pb_giant, pb_fortune, pb_scholar, pb_phoenix; pd_wards_up. Not picked: pr_heal_pct, pb_feather, pb_owl, pb_familiar, pd_wards_keep.
+- Forge-masters: all twelve ☆ (already in game).
+- Kris (mid-round): "we also still need to come up with good ideas for how the volcanos and asgard levels are differentiated from standard dungeons, castles and towers … come up with 12 fresh ideas … make lab options for this with some initial ideas drawn up" → the Lab's "Realm ideas" tab.
+- Card (answered before bed): potion bag — **5 of each kind**; sky panel — **show A for now**; realm ideas — **build the picks next round**.
+- **Round 61 DONE** — changelog [563]–[571].
+- **Next:** Kris runs `tools\sprites\round61.ps1` (wave 63: potion icons + sky panel C) and stars the Realm ideas; round 62: build the picked realm ideas into the forges and Asgard's citadel (its four floors and Grímnir), the ending at the rune circle.
 
