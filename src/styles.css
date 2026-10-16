@@ -800,3 +800,15 @@ body.sky-mode #world-labels, body.sky-mode #action-bar, body.sky-mode #action-ic
 .zfit-grid{background:#f6eedb;border-radius:10px;padding:8px}
 .zfit-grid .zfit-rh{color:#3a2a18}
 .tome-page .zfit-grid+.ze-note{color:#e8dcc0}
+/* round 60 (Kris: "when buying things from shops, the last items are underneath the buttons of the bottom of the screen"): every window sits above
+   the action bars (they stay on top of the overlays), so its last row can always be scrolled into view */
+.overlay{box-sizing:border-box;padding-top:10px;padding-bottom:136px}
+.overlay>.modal{max-height:calc(100vh - 150px)!important}
+/* round 60 (Kris: "text in pop ups is too small. should be increased by 2 points for the font"): the dialogs (spirits, fairies, Mira, Sólveig, the
+   Glasswright's and Mira's ingredient tiles) and the notices, two points larger */
+.ft-name{font-size:16px}
+.ft-text{font-size:14.5px;line-height:1.5}
+.ft-btns button{font-size:14px}
+.fairy-modal{max-width:600px}
+.fairy-modal.zt-wide{max-width:720px}
+.notif{font-size:15px}

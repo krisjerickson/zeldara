@@ -28,23 +28,24 @@ with game(new=True, painted=True) as g:
     # ── the forge: floor 1 → the way down ──
     r = g.js("""(async()=>{ var w=function(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }; var ws=game.scene.getScene('World'), ps=ws.playerState;
       ps.soulGems={1:1,2:1,3:1,4:1}; ps.completedQuests=['s1_dungeon','s2_dungeon','s3_dungeon','s4_dungeon','s1_tower','s2_tower','s3_tower','s4_tower']; ps.rescued=[1,2,3,4]; ps.unlockedSections=[1,2,3,4]; _wgApplyGates(ws.wd,ps); await w(2500); if(typeof FairyTalk!=='undefined')FairyTalk.close(); await w(400);
-      var site=ws.wd.sites.find(function(s){ return s.id==='volcano_n'; }); ws._enterSite(site); await w(1500); var vm=game.scene.getScene('VolcanoMaze');
-      vm._grantKey(); var o={noKey:ps.inventory.indexOf('volcano_key_n')<0, down:!!vm._forgeDown}; vm._exitToWorld(); await w(4500);
+      var site=ws.wd.sites.find(function(s){ return s.id==='volcano_n'; }); ws._enterSite(site); await w(5000); var D0=game.scene.getScene('Dungeon'), o={noKey:ps.inventory.indexOf('volcano_key_n')<0, mouth:D0._forge&&D0.floor===0&&game.scene.isActive('Dungeon'), old:game.scene.isActive('VolcanoMaze'),
+        mons:D0.monsters.filter(function(m){ return !m.dead; }).map(function(m){ return m.rid||(m.R&&m.R.id); })};      /* round 60: the world door opens straight onto the forge's first painted floor (the Mouth) */
+      game.scene.stop('Dungeon'); await w(400); ZFORGE.enter(ws,'volcano_n',1); await w(5000);
       var D=game.scene.getScene('Dungeon'); o.forge=D._forge; o.floor=D.floor; o.running=D.sys.settings.status===5; o.title=document.getElementById('dng-title').textContent; o.sp=(D._forgeSp||[]).length;
       var s0=D._forgeSp[0]; D.px=s0.x; D.py=s0.y; D._interact(); o.freed=(ps.forgeFreed||[]).length; o.vis=!!(s0.vis&&s0.vis._m); return o; })()""")
-    check('Floor 1\'s chest no longer holds the key — it opens the way down into "%s" (%d chained spirits)' % (r['title'], r['sp']), r['noKey'] and r['down'] and r['forge'] and r['running'] and r['floor'] == 1 and 'Ember Forge' in r['title'] and r['sp'] == 5, r)
+    check('The forge door opens straight onto its painted first floor, the Mouth (its own monsters: %s); floor 2, "%s", has %d chained spirits' % (sorted(set(r['mons'])), r['title'], r['sp']), r['noKey'] and r['mouth'] and not r['old'] and len(r['mons']) > 0 and set(r['mons']) <= {'bellows_imp', 'coalback'} and r['forge'] and r['running'] and r['floor'] == 1 and 'Ember Forge' in r['title'] and r['sp'] == 5, r)
     check('[Tab] by a chained spirit breaks its chains (it digs as a living picture until then)', r['freed'] == 1 and r['vis'], r)
     r = g.js("""(async()=>{ var w=function(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }; var ws=game.scene.getScene('World'), ps=ws.playerState; game.scene.stop('Dungeon'); await w(500);
-      game.scene.start('Dungeon',{site:ZFORGE.site('volcano_n'),floor:2,maxFloors:3,worldScene:ws,theme:'volcano',forgeKey:'volcano_key_n',forgeKeyName:'Ember Key'}); await w(5000);
+      game.scene.start('Dungeon',{site:ZFORGE.site('volcano_n'),floor:3,maxFloors:4,worldScene:ws,theme:'volcano',forgeKey:'volcano_key_n',forgeKeyName:'Ember Key'}); await w(5000);
       var D=game.scene.getScene('Dungeon'), B=D._bossGroup[0], o={last:D.isLastFloor, sp:(D._forgeSp||[]).length, hearth:!!D._forgeHearth, boss:B.def.name, ward:!!B.sovWard, phases:BossPhases.count(D._bossKey)};
       var e0=JSON.stringify(ps.equip||{}); ps.equip=ps.equip||{}; ps.equip.lHand='flame_iron'; o.plain=ZHit.dmg(D,B,50,'melee',{pure:true,noProc:true}); ps.equip.lHand='sov_axe'; o.sov=ZHit.dmg(D,B,50,'melee',{pure:true,noProc:true}); ps.equip=JSON.parse(e0);
       D.px=D._forgeHearth.x; D.py=D._forgeHearth.y; D._interact(); o.early=(ps.inventory||[]).indexOf('heartglass_1')>=0;
       var ph=[]; for(var k=0;k<3;k++){ var b=D._bossGroup[0]; ph.push(D._bossPhase); b.hp=0; D._monsterDied(b); await w(2200); } o.ph=ph; o.def=!!D._bossDefeated;
-      D._interact(); o.missing=(ps.inventory||[]).indexOf('heartglass_1')>=0; ps.inventory.push('soulglass_lattice_1','hearth_tray_1'); D._interact(); o.hg=ps.inventory.indexOf('heartglass_1')>=0&&ps.inventory.indexOf('hearth_tray_1')<0;
+      D.monsters.forEach(function(m){ m.hp=0; m.dead=true; }); D.px=D._forgeHearth.x; D.py=D._forgeHearth.y; D._interact(); o.missing=(ps.inventory||[]).indexOf('heartglass_1')>=0; ps.inventory.push('soulglass_lattice_1','hearth_tray_1'); D.px=D._forgeHearth.x; D.py=D._forgeHearth.y; D._interact(); o.hg=ps.inventory.indexOf('heartglass_1')>=0&&ps.inventory.indexOf('hearth_tray_1')<0;
       var bc=D.interactables.find(function(i){ return i.type==='boss_chest'; }); D.px=bc.x; D.py=bc.y; D._interact(); await w(2600);
       o.key=ps.inventory.indexOf('volcano_key_n')>=0; o.done=ps.forgesDone; o.world=game.scene.isActive('World'); o.s4=(ps.completedQuests||[]).filter(function(q){ return q==='s4_dungeon'; }).length;
       var d=document.createElement('div'); d.innerHTML=ZROLL.questHTML(ps); o.j=/The Forges of Muspelheim/.test(d.textContent)&&/Ember Forge ✓/.test(d.textContent); return o; })()""")
-    check('Floor 3: five more spirits, the hearth, and %s — three phases, warded (a fire blade %d, Sovereign %d)' % (r['boss'], r['plain'], r['sov']), r['last'] and r['sp'] == 5 and r['hearth'] and r['ward'] and r['phases'] == 3 and r['sov'] > r['plain'] * 4, r)
+    check('Floor 4, the Hearth Hall: the hearth and %s — three phases, warded (a fire blade %d, Sovereign %d)' % (r['boss'], r['plain'], r['sov']), r['last'] and r['sp'] == 0 and r['hearth'] and r['ward'] and r['phases'] == 3 and r['sov'] > r['plain'] * 4, r)
     check('The phases run in place (%s), then the forge-master falls' % r['ph'], r['ph'] == [1, 2, 3] and r['def'], r)
     check('The hearth waits for the forge-master, then needs the lattice AND the tray — and makes the Ember Heartglass', not r['early'] and not r['missing'] and r['hg'], r)
     check('The portal chest gives the key to the next forge and takes you out (the s4 quest is not touched); the journal lists the forge', r['key'] and r['done'] == ['volcano_n'] and r['world'] and r['s4'] == 1 and r['j'], r)

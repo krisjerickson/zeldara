@@ -51,11 +51,7 @@ var SBSAGA={
   forgesRise:function(){ SBSAGA.go(function(ws,ps){ SBSAGA.rise(ws,ps); setTimeout(function(){ var d=typeof _volcanoSiteDefs==='function'&&_volcanoSiteDefs().find(function(d){ return d.id==='volcano_n'; }); if(d&&typeof _sbTeleportTo==='function')_sbTeleportTo(d.tx+1,d.ty-3);
       showNotif('🌋 The forges have risen — the Ember Forge is before you (the others open with the key of the one before).','#ffb070'); },2600); }); },
   forge:function(i,floor){ SBSAGA.go(function(ws,ps){ var vid=SBSAGA.VIDS[i], F=ZFORGE.F[vid], first=!SBSAGA.risen(ws); SBSAGA.rise(ws,ps); for(var j=0;j<i;j++)SBSAGA.add(ps.inventory,SBSAGA.KEYS[j]); ps.forgesDone=ps.forgesDone||[]; for(j=0;j<i;j++)SBSAGA.add(ps.forgesDone,SBSAGA.VIDS[j]);
-    setTimeout(function(){ if(floor===1){ var site=ws.wd.sites.find(function(s){ return s.id===vid; }); if(!site){ showNotif('The forges are still rising — try again in a moment.','#ffb070'); return; } ws._enterSite(site); return; }
-      document.getElementById('hud').style.display='none'; document.getElementById('dungeon-hud').style.display='block'; if(game.scene.isPaused('World'))game.scene.resume('World'); game.scene.sleep('World');
-      if(game.scene.isActive('Dungeon')||game.scene.isPaused('Dungeon'))game.scene.stop('Dungeon');
-      game.scene.start('Dungeon',{site:ZFORGE.site(vid),floor:floor-1,maxFloors:3,worldScene:ws,theme:'volcano',forgeKey:SBSAGA.KEYS[i],forgeKeyName:F.name.replace(' Forge','')+' Key'});
-      showNotif(floor===2?'⬇ The '+F.name+' — the spirit galleries (five chained spirits).':'☠ The '+F.name+' — the forge-master\'s floor: five more spirits, the hearth, and the forge-master.','#ffb070'); },first?2600:300); }); },
+    setTimeout(function(){ ZFORGE.enter(ws,vid,floor-1); showNotif('🔥 The '+F.name+' — '+ZFORGE.HALLS[floor-1]+(floor===4?': the forge-master and the hearth.':'.'),'#ffb070'); },first?2600:300); }); },
   musp:function(f,kit){ SBSAGA.go(function(ws,ps){ var first=!SBSAGA.risen(ws); SBSAGA.rise(ws,ps); SBSAGA.KEYS.forEach(function(k){ SBSAGA.add(ps.inventory,k); }); ps.forgesDone=ps.forgesDone||[]; SBSAGA.VIDS.forEach(function(v){ SBSAGA.add(ps.forgesDone,v); });
     if(kit){ SBSAGA.add(ps.inventory,'sov_staff'); [1,2,3,4].forEach(function(q){ SBSAGA.add(ps.inventory,'heartglass_'+q); }); }
     setTimeout(function(){ ZMUSP.enter(ws,f); },first?2600:200); }); },
@@ -90,8 +86,8 @@ var SBSAGA={
         {l:'🔥 Hearth tray',b:Q(SBSAGA.tray,function(q){ return 'Mira\'s tray for the '+ZMIRA.FORGE[q]+' Forge'; })} ]},
       {n:'Ⅴ',name:'The Forges of Muspelheim',col:'#ffaa66',sub:'three floors each: the old challenge, the spirit galleries, the forge-master and the hearth',rows:[
         {l:'🌋 The forges rise',b:[B('Go',SBSAGA.forgesRise,'Four boss dungeons + four builders\' towers done — to the Ember Forge')]}].concat(['Ember','Cinder','Slag','Ash'].map(function(nm,i){ return {l:'🔥 '+nm,b:[
-          B('1',function(){ SBSAGA.forge(i,1); },'Floor 1 — the old challenge (its chest opens the way down)'), B('2',function(){ SBSAGA.forge(i,2); },'Floor 2 — the spirit galleries'),
-          B('3 ☠',function(){ SBSAGA.forge(i,3); },'Floor 3 — the forge-master, the hearth'), B('kit',function(){ SBSAGA.kit(i); },'Its lattice and tray, for the hearth')]}; }))},
+          B('1',function(){ SBSAGA.forge(i,1); },'Floor 1 — the Mouth (the forge\'s own monsters)'), B('2',function(){ SBSAGA.forge(i,2); },'Floor 2 — the spirit galleries (five chained spirits)'), B('3',function(){ SBSAGA.forge(i,3); },'Floor 3 — the deep workings (five more spirits)'),
+          B('4 ☠',function(){ SBSAGA.forge(i,4); },'Floor 4 — the hearth hall: the forge-master and the hearth'), B('kit',function(){ SBSAGA.kit(i); },'Its lattice and tray, for the hearth')]}; }))},
       {n:'Ⅵ',name:'Muspelheim',col:'#ff7a5a',sub:'four halls of trial, then Surtharn\'s throne and the great hearth',rows:[
         {l:'🏔 Halls',b:ZMUSP.HALLS.map(function(nm,f){ return B(String(f+1)+(f===4?' ☠':''),function(){ SBSAGA.musp(f); },nm); })},
         {l:'👹 Surtharn',b:[B('Fight',function(){ SBSAGA.musp(4); },'Surtharn, Tyrant of Muspelheim — six phases')]},

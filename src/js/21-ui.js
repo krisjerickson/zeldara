@@ -65,7 +65,7 @@ function renderQuestList(unlockedSections,completed,active,scene){
     h+='<div class="qdesc">The four forges rise off the coasts, one per realm, and open in turn — each key opens the next: Ember Forge (Grasslands) → Cinder Forge (Wetlands) → Slag Forge (Highlands) → Ash Forge (Ashlands). <b>'+keysHeld+' / 4 keys.</b></div>';
     h+='</div></div>';
     h+='<div class="qitem '+(bossDone?'qdone':'')+'" style="opacity:'+(keysDone?1:.55)+'"><div class="qico">⚔️</div><div class="qinf">';
-    h+='<div class="qtit">Defeat the Volcano Lord '+(bossDone?'✓':'')+'</div>';
+    h+='<div class="qtit">Defeat Surtharn, Tyrant of Muspelheim '+(bossDone?'✓':'')+'</div>';
     h+='<div class="qdesc">'+(keysDone?'Bring the four keys to Muspelheim, the great volcano off the Magma Channels on the Ashlands\' west coast.':'Win all four keys first.')+'</div>';
     h+='</div></div>';
     h+='</div>';
@@ -80,7 +80,7 @@ function renderQuestList(unlockedSections,completed,active,scene){
         var done=completed&&completed.includes(key);
         var isAct=active===key;
         h+='<div class="qitem '+(done?'qdone':'')+' '+(isAct?'qact':'')+'"><div class="qico">'+ZIcon.of(def,1.5)+'</div><div class="qinf"><div class="qtit">'+def.title+(done?' ✓':'')+'</div><div class="qdesc">'+def.desc+'</div></div>';
-        if(!done&&!isAct)h+='<button class="qacc" onclick="window._acceptQuest(\''+key+'\')">Accept</button>';
+        if(!done&&!isAct)h+=_atGuild()?'<button class="qacc" onclick="window._acceptQuest(\''+key+'\')">Accept</button>':'<span class="qbadge" style="opacity:.6" title="Quests are taken at the Adventurers\' Guild in the village">at the Guild</span>';      // round 60 (Kris): the quest button only shows quests; you take them at the guild
         else if(isAct)h+='<span class="qbadge">ACTIVE</span>';
         h+='</div>';
       }
@@ -112,7 +112,9 @@ function _journalSitesHTML(sec,scene){
   });
   return h;
 }
-window._acceptQuest=function(k){var ws=game.scene.getScene('World');if(ws)ws.acceptQuest(k);closeModal('quests');};
+// round 60: true only while the quest list was opened from inside the guild (or the quest board)
+function _atGuild(){ try{ var B=game.scene.getScene('Building'); return !!(B&&(game.scene.isActive('Building')||game.scene.isPaused('Building'))&&B.building&&(B.building.type==='guild'||B.building.type==='quest_board')); }catch(e){ return false; } }
+window._acceptQuest=function(k){ if(!_atGuild()){ showNotif('📜 Quests are taken at the Adventurers\' Guild in the village.','#ffdd44'); return; } var ws=game.scene.getScene('World');if(ws)ws.acceptQuest(k);closeModal('quests');};
 
 // ═══ World maps (Phase 3): HUD minimap around you + Full World Map ═════
 // Both draw from one 1-px-per-tile base image of the world (rebuilt only when

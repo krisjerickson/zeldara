@@ -50,3 +50,10 @@ function _chopStump(ctx,x,y,w){ var Z=_scn(); if(Z&&Z.draw(ctx,'tr_stump',x,y,0)
   ctx.fillStyle='#1c1610'; ctx.fillRect(x-r-1,y-r*0.9-1,r*2+2,r*0.9+2); ctx.fillStyle='#6a4a2c'; ctx.fillRect(x-r,y-r*0.9,r*2,r*0.9);
   ctx.fillStyle='#1c1610'; ctx.beginPath(); ctx.ellipse(x,y-r*0.9,r+1,r*0.45+1,0,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#c8a070'; ctx.beginPath(); ctx.ellipse(x,y-r*0.9,r,r*0.45,0,0,Math.PI*2); ctx.fill();
   ctx.strokeStyle='#8a6440'; ctx.lineWidth=1; ctx.beginPath(); ctx.ellipse(x,y-r*0.9,r*0.55,r*0.25,0,0,Math.PI*2); ctx.stroke(); }
+
+// ── round 60 (Kris: "remove the mechanic of chopping down trees. it doesn't add any utility and you lose the pretty trees as part of the scenery") ──
+// the axe no longer fells trees, and every tree a save had felled grows back on load
+(function(){ if(typeof WorldScene==='undefined')return; var P=WorldScene.prototype, ci=P._chopInit;
+  P._chopTree=function(){ return false; };
+  if(ci)P._chopInit=function(){ if(this.playerState)this.playerState.chopped=[]; return ci.apply(this,arguments); };
+  if(typeof ITEMS!=='undefined'&&ITEMS.axe)ITEMS.axe.desc='+7 ATK — a heavy woodcutter\'s axe'; })();

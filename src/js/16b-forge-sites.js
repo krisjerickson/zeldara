@@ -17,18 +17,27 @@ var ZFORGE={ on:true,
       volcano_s:{k:'slag',q:3,name:'Slag Forge',scene:'VolcanoPuzzle',boss:'forge_gjallr'},
       volcano_w:{k:'ash',q:4,name:'Ash Forge',scene:'VolcanoEscape',boss:'forge_eimyrja'} },
   byK:function(k){ for(var id in ZFORGE.F)if(ZFORGE.F[id].k===k)return Object.assign({vid:id},ZFORGE.F[id]); return null; },
-  site:function(vid){ var F=ZFORGE.F[vid]; return {id:'forge_'+F.k,type:'dungeon',section:4,design:'forge_'+F.k,forge:vid,name:F.name,floors:3}; },
+  // round 60 (Kris: "dropping challenges, but have 4 levels for each mini volcano, and come up with new monsters for the volcanos"): the old challenge
+  // scenes are gone — each forge is FOUR painted floors: the Mouth, the Spirit Galleries, the Deep Workings, the Hearth Hall (the forge-master)
+  FLOORS:4, HALLS:['The Mouth','The Spirit Galleries','The Deep Workings','The Hearth Hall'],
+  MONS:{ember:['bellows_imp','coalback'],cinder:['scald_wraith','quench_golem'],slag:['slag_crawler','ore_hurler'],ash:['chain_jailer','ash_banshee']},
+  KEYNAME:{volcano_n:'Ember Key',volcano_e:'Magma Key',volcano_s:'Obsidian Key',volcano_w:'Ashfire Key'},
+  site:function(vid){ var F=ZFORGE.F[vid]; return {id:'forge_'+F.k,type:'dungeon',section:4,design:'forge_'+F.k,forge:vid,name:F.name,floors:ZFORGE.FLOORS}; },
+  // from the world straight into the forge's first floor
+  enter:function(ws,vid,floor){ var F=ZFORGE.F[vid]; if(!F)return false; document.getElementById('hud').style.display='none'; document.getElementById('dungeon-hud').style.display='block';
+    if(game.scene.isPaused('World'))game.scene.resume('World'); game.scene.sleep('World'); if(game.scene.isActive('Dungeon')||game.scene.isPaused('Dungeon'))game.scene.stop('Dungeon');
+    game.scene.start('Dungeon',{site:ZFORGE.site(vid),floor:floor||0,maxFloors:ZFORGE.FLOORS,worldScene:ws,theme:'volcano',forgeKey:_volcanoKeyForSection(F.q),forgeKeyName:ZFORGE.KEYNAME[vid]}); return true; },
   of:function(scene){ var s=scene&&(scene._site||scene.site); return s&&s.forge?Object.assign({vid:s.forge},ZFORGE.F[s.forge]):null; },
   PER:5,
   // ── floor 1 → the Dungeon ──
   descend:function(vscene){ var ws=vscene.worldScene, F=ZFORGE.F[vscene.site&&vscene.site.id]; if(!F)return false; var key=vscene.sys.settings.key;
     document.getElementById('hud').style.display='none'; document.getElementById('dungeon-hud').style.display='block';
-    var data={site:ZFORGE.site(vscene.site.id),floor:1,maxFloors:3,worldScene:ws,theme:'volcano',forgeKey:vscene.keyId,forgeKeyName:vscene.keyName};
+    var data={site:ZFORGE.site(vscene.site.id),floor:1,maxFloors:ZFORGE.FLOORS,worldScene:ws,theme:'volcano',forgeKey:vscene.keyId,forgeKeyName:vscene.keyName};
     game.scene.stop(key); if(game.scene.isPaused('World'))game.scene.resume('World'); game.scene.sleep('World'); if(game.scene.getScene('Dungeon')&&game.scene.isActive('Dungeon'))game.scene.stop('Dungeon'); game.scene.start('Dungeon',data);      // the World sleeps (as for any site); the Dungeon runs
     showNotif('⬇ Down into the '+F.name+' — the spirit galleries.','#ffb070'); return true; },
   // ── the chained spirits ──
   spiritsFor:function(F,floor){ var L=typeof ZSPIRIT40!=='undefined'?ZSPIRIT40:[], base=((F.q%4))*10, out=[]; for(var i=0;i<ZFORGE.PER;i++){ var r=L[(base+(floor-1)*5+i)%40]; out.push({id:F.k+'_f'+floor+'_'+i,pic:r?r[0]:null,name:r?r[1]:'A spirit'}); } return out; },
-  placeSpirits:function(sc){ var F=ZFORGE.of(sc); if(!F||sc.floor<1)return; var ps=sc.worldScene.playerState, freed=(ps.forgeFreed||[]), R=rngOf(9100+F.q*31+sc.floor), en=sc.stairsUpTile||{x:0,y:0}, bx=sc.bossChestTile, list=ZFORGE.spiritsFor(F,sc.floor), placed=[];
+  placeSpirits:function(sc){ sc._forgeSp=[]; var F=ZFORGE.of(sc); if(!F||sc.floor<1||sc.floor>2)return; /* the galleries and the workings: five each */ var ps=sc.worldScene.playerState, freed=(ps.forgeFreed||[]), R=rngOf(9100+F.q*31+sc.floor), en=sc.stairsUpTile||{x:0,y:0}, bx=sc.bossChestTile, list=ZFORGE.spiritsFor(F,sc.floor), placed=[];
     for(var t=0;t<4000&&placed.length<list.length;t++){ var x=R.i(3,DW-4), y=R.i(3,DH-4); if(sc.dtiles[y][x]!==DNG.FLOOR||(sc._labReach&&!sc._labReach[y*DW+x]))continue; if(Math.hypot(x-en.x,y-en.y)<7)continue; if(bx&&Math.hypot(x-bx.x,y-bx.y)<5)continue;
       if(placed.some(function(p){ return Math.hypot(p.x-x,p.y-y)<9; }))continue; placed.push({x:x,y:y}); }
     sc._forgeSp=[]; placed.forEach(function(p,i){ var S=list[i], px=p.x*TILE+TILE/2, py=p.y*TILE+TILE/2, done=freed.indexOf(S.id)>=0; var o={type:'forge_spirit',sid:S.id,name:S.name,x:px,y:py,opened:done};
@@ -111,7 +120,7 @@ var ZFORGE={ on:true,
       for(var j2=1;j2<n;j2++)c.line(P[j2-1][0],P[j2-1][1],P[j2][0],P[j2][1],1,R.chance(0.3)?4:2,3);
       for(var s=0;s<7;s++){ var b=P[R.i(0,n-1)], sx=Math.max(5,Math.min(c.W-6,b[0]+R.i(-11,11))), sy=Math.max(5,Math.min(c.H-6,b[1]+R.i(-11,11))); c.disc(sx,sy,R.i(2,4),1); c.line(b[0],b[1],sx,sy,1,2,3); } }}; });
   // the site records the painter reads (palette, element, void)
-  var z0=ZSP.zsdSite; ZSP.zsdSite=function(id){ var m=/^forge_(ember|cinder|slag|ash)$/.exec(id||''); if(m){ var F=ZFORGE.byK(m[1]); return {id:id,type:'ember',name:F.name,q:4,floors:3,el:'fire',pal:typeof ZSD!=='undefined'&&ZSD.basePal?ZSD.basePal('ember',null,'fire'):null}; } return z0.apply(ZSP,arguments); };
+  var z0=ZSP.zsdSite; ZSP.zsdSite=function(id){ var m=/^forge_(ember|cinder|slag|ash)$/.exec(id||''); if(m){ var F=ZFORGE.byK(m[1]); return {id:id,type:'ember',name:F.name,q:4,floors:ZFORGE.FLOORS,el:'fire',pal:typeof ZSD!=='undefined'&&ZSD.basePal?ZSD.basePal('ember',null,'fire'):null}; } return z0.apply(ZSP,arguments); };
 })();
 
 // ── the items: the four Heartglasses ──
@@ -136,17 +145,22 @@ setTimeout(function(){
     BossPhases.hud(this,false); if(typeof BossMoments!=='undefined')try{ BossMoments.finale(this,mon); }catch(e){} this._bossDefeated=true;
     var bc=this.interactables.find(function(i){ return i.type==='boss_chest'; }); if(bc)bc.locked=false; if(this._portalOpen)this._portalOpen();
     showNotif('🏆 '+mon.def.name+' falls! The hearth of the '+F.name+' blazes open — and the portal chest holds the key.','#ffdd44'); };
-  var bi=D._buildInteractables; D._buildInteractables=function(){ var r=bi.apply(this,arguments); if(this._forge){ try{ ZFORGE.placeSpirits(this); if(this.floor>=1&&!this.isLastFloor&&typeof ZGANG!=='undefined')ZGANG.place(this,2); ZFORGE.placeHearth(this); }catch(e){ console.warn('forge',e); } } return r; };
+  var bi=D._buildInteractables; D._buildInteractables=function(){ var r=bi.apply(this,arguments); if(this._forge){ try{ ZFORGE.placeSpirits(this); if(this.floor>=1&&!this.isLastFloor&&typeof ZGANG!=='undefined')ZGANG.place(this,2); ZFORGE.placeHearth(this); showNotif('🔥 The '+ZFORGE.of(this).name+' — '+ZFORGE.HALLS[this.floor]+' ('+(this.floor+1)+' / '+ZFORGE.FLOORS+')','#ffb070'); }catch(e){ console.warn('forge',e); } } return r; };
   var it=D._interact; D._interact=function(){ var self=this; if(this._forge){ var near=this.interactables.find(function(i){ return !i.opened&&Math.hypot(self.px-i.x,self.py-i.y)<TILE*1.8; });
       if(near&&near.type==='forge_spirit'){ ZFORGE.freeSpirit(this,near); return; } if(near&&near.type==='forge_hearth'){ ZFORGE.hearth(this); return; }
-      if(near&&near.type==='stairs_up'&&this.floor===1){ this._exitToWorld(null); return; } } return it.apply(this,arguments); };
+      if(near&&near.type==='stairs_up'&&this.floor===0){ this._exitToWorld(null); return; } } return it.apply(this,arguments); };
   var up=D._updateInteractPrompt; D._updateInteractPrompt=function(){ var r=up.apply(this,arguments), self=this; if(!this._forge||!this.interactPrompt)return r;
     var near=this.interactables.find(function(i){ return !i.opened&&Math.hypot(self.px-i.x,self.py-i.y)<TILE*1.8; }); if(!near)return r;
     if(near.type==='forge_spirit')this.interactPrompt.setText('[Tab] Break '+near.name+'\'s chains').setPosition(this.px,this.py-52).setVisible(true);
     else if(near.type==='forge_hearth')this.interactPrompt.setText(this._bossDefeated?'[Tab] The hearth — lay the lattice in its tray':'The hearth (beat the forge-master)').setPosition(this.px,this.py-52).setVisible(true);
-    else if(near.type==='stairs_up'&&this.floor===1)this.interactPrompt.setText('[Tab] Climb out of the forge').setPosition(this.px,this.py-52).setVisible(true);
+    else if(near.type==='stairs_up'&&this.floor===0)this.interactPrompt.setText('[Tab] Climb out of the forge').setPosition(this.px,this.py-52).setVisible(true);
     return r; };
   var oc=D._openBossChest; D._openBossChest=function(){ if(this._forge)return ZFORGE.claim(this); return oc.apply(this,arguments); };
+  // round 60: the forge's own monsters — its two (55 %), the other forges' (20 %), the Ashlands' dungeon roster (25 %); the Mouth is theirs alone
+  var rs=D._spawnRosterMonster; D._spawnRosterMonster=function(mx,my){ var F=ZFORGE.of(this); if(!F||!ZFORGE.MONS[F.k])return rs.apply(this,arguments);
+    var r=Math.random(), own=ZFORGE.MONS[F.k], all=[].concat.apply([],Object.keys(ZFORGE.MONS).map(function(k){ return ZFORGE.MONS[k]; })), id=null;
+    if(r<0.55||this.floor===0)id=own[Math.floor(Math.random()*own.length)]; else if(r<0.75)id=all[Math.floor(Math.random()*all.length)];
+    if(!id||!MON_BY_ID[id])return rs.apply(this,arguments); var mon=MX.spawn(this,id,mx,my,{q:4}); if(mon){ mon.isBoss=false; mon.maxHp=Math.round(mon.maxHp*1.35); mon.hp=mon.maxHp; if(mon._hp!==undefined)mon._hp=mon.maxHp; this.monsters.push(mon); } return mon; };
 },0);
 
 // ── the journal: each open forge — its spirits freed, its Heartglass, its key ──
@@ -154,5 +168,19 @@ setTimeout(function(){
   ZROLL.questHTML=function(ps){ var h=q0.apply(ZROLL,arguments); if(!ps||typeof _finalQuestUnlocked!=='function'||!_finalQuestUnlocked(ps))return h;
     var g='<div class="qgrp" style="border:1px solid rgba(255,140,60,.4);background:rgba(60,20,10,.25);margin-bottom:14px"><div class="qgrp-hdr" style="color:#ffb070">🔥 The Forges of Muspelheim</div>';
     Object.keys(ZFORGE.F).forEach(function(vid){ var F=ZFORGE.F[vid], fr=(ps.forgeFreed||[]).filter(function(x){ return x.indexOf(F.k+'_')===0; }).length, hg=(ps.inventory||[]).indexOf('heartglass_'+F.q)>=0, done=(ps.forgesDone||[]).indexOf(vid)>=0;
-      g+='<div class="qitem '+(done&&hg?'qdone':'')+'"><div class="qico">'+['','🌿','💧','⛰','🔥'][F.q]+'</div><div class="qinf"><div class="qtit">'+F.name+(done?' ✓':'')+'</div><div class="qdesc">Spirits freed '+fr+' / '+(ZFORGE.PER*2)+' · Heartglass '+(hg?'✓':'— lattice + tray at its hearth')+' · '+(done?'key won':'forge-master waits on the third floor')+'</div></div></div>'; });
+      g+='<div class="qitem '+(done&&hg?'qdone':'')+'"><div class="qico">'+['','🌿','💧','⛰','🔥'][F.q]+'</div><div class="qinf"><div class="qtit">'+F.name+(done?' ✓':'')+'</div><div class="qdesc">Spirits freed '+fr+' / '+(ZFORGE.PER*2)+' · Heartglass '+(hg?'✓':'— lattice + tray at its hearth')+' · '+(done?'key won':'the forge-master waits on the fourth floor')+'</div></div></div>'; });
     return h+g+'</div>'; }; })();
+
+// ── round 60: the world's forge door goes straight into the painted forge (the old challenge scenes are no longer used) ──
+setTimeout(function(){ if(typeof WorldScene==='undefined')return; var W=WorldScene.prototype, en0=W._enterSite; W._enterSite=function(site){
+    if(ZFORGE.on&&site&&site.type==='volcano_mini'&&ZFORGE.F[site.id]){ var need=typeof _forgeNeeds==='function'?_forgeNeeds(site.id):null;
+      if(need&&(this.playerState.inventory||[]).indexOf(need)<0){ var prevId=VOLC_ORDER[VOLC_ORDER.indexOf(site.id)-1]; (this._showNotif?this._showNotif.bind(this):showNotif)('🔒 '+VOLC_NAMES[site.id]+' is sealed — it opens with the '+((ITEMS[need]||{}).name||'key')+' from the '+VOLC_NAMES[prevId]+'.','#ff8844'); return; }
+      ZFORGE.enter(this,site.id,0); return; }
+    return en0.apply(this,arguments); }; },0);
+
+// ── round 60 (Kris, Saga art: "image is good, but the flames moving needs to be in the image, not with an overlayed drawn art"): no drawn fire or
+// steam over the hearths any more — the painted 4-frame loop of each hearth plays in its place (wave 62, fa_hearth_<k>), else the still painting ──
+(function(){ if(typeof ZFORGE==='undefined')return; ZFORGE.alive=function(sc,k,im){ if(!im||typeof ZWE==='undefined')return; var A=ZWE.animTex(sc,'fa_hearth_'+k); if(!A)return;
+    var s=sc.add.sprite(im.x,im.y,A.key,'0').setOrigin(im.originX,im.originY).setDepth(im.depth); s.setDisplaySize(im.displayWidth,im.displayHeight); try{ s.play(A.key); }catch(e){} im.setVisible(false); im._zanim=s; };
+  if(typeof ZWE!=='undefined'){ ZWE.LOOP=ZWE.LOOP||{}; ['ember','cinder','slag','ash','great'].forEach(function(k){ ZWE.LOOP['fa_hearth_'+k]=6; }); }
+  if(typeof ZGREEN!=='undefined')ZGREEN.REMAKE.guard=1; })();

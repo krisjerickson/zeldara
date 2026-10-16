@@ -20,10 +20,10 @@ var ZTALK={ PX:150,
           (it.need?'<div class="zt-ct">'+(it.n||0)+' / '+it.need+'</div>':'')+(it.have?'<div class="zt-ck">✓</div>':(it.where?'<div class="zt-wh">'+it.where+'</div>':''))+'</div>'; }).join('')+(R.cost?'<div class="zt-tile zt-cost'+(R.costOk?' zt-have':' zt-miss')+'"><div class="zt-ic" style="font-size:22px">💰</div><div class="zt-nm">'+R.cost+' gold</div></div>':'')+(R.out?'<div class="zt-arrow">→</div><div class="zt-tile zt-out'+(R.done?' zt-have':'')+'"><div class="zt-ic">'+(typeof ZIcon!=='undefined'?ZIcon.item(R.out,2.1):'')+'</div><div class="zt-nm">'+((ITEMS[R.out]||{}).name||R.out)+'</div></div>':'')+'</div></div>'; }).join('')+'</div>'; }
 };
 (function(){ if(typeof document!=='undefined'){ var st=document.createElement('style'); st.textContent=
-  '.fairy-modal.zt-wide{max-width:640px}.zt-grid{margin-top:8px;display:flex;flex-direction:column;gap:7px}.zt-row{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:5px 7px}'+
-  '.zt-rt{font-size:11.5px;font-weight:700;margin-bottom:4px}.zt-ok{color:#9fe8ff;font-weight:600}.zt-tiles{display:flex;gap:6px;align-items:center;flex-wrap:wrap}'+
-  '.zt-tile{position:relative;width:76px;min-height:74px;border-radius:7px;border:1px solid rgba(255,255,255,.14);background:rgba(10,14,28,.6);text-align:center;padding:4px 2px;font-size:9.5px;line-height:1.15}'+
-  '.zt-ic{height:36px;display:flex;align-items:center;justify-content:center;font-size:26px}.zt-nm{margin-top:3px;color:#e6e0f4}.zt-ct{color:#ffd890;font-weight:700}.zt-wh{color:#9aa0b4;font-size:8.5px;margin-top:2px}'+
+  '.fairy-modal.zt-wide{max-width:720px}.zt-grid{margin-top:8px;display:flex;flex-direction:column;gap:7px}.zt-row{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:5px 7px}'+
+  '.zt-rt{font-size:13.5px;font-weight:700;margin-bottom:4px}.zt-ok{color:#9fe8ff;font-weight:600}.zt-tiles{display:flex;gap:6px;align-items:center;flex-wrap:wrap}'+
+  '.zt-tile{position:relative;width:88px;min-height:80px;border-radius:7px;border:1px solid rgba(255,255,255,.14);background:rgba(10,14,28,.6);text-align:center;padding:4px 2px;font-size:11.5px;line-height:1.15}'+
+  '.zt-ic{height:36px;display:flex;align-items:center;justify-content:center;font-size:26px}.zt-nm{margin-top:3px;color:#e6e0f4}.zt-ct{color:#ffd890;font-weight:700}.zt-wh{color:#9aa0b4;font-size:10.5px;margin-top:2px}'+
   '.zt-ck{position:absolute;top:2px;right:4px;color:#7cf0a0;font-weight:900;font-size:12px}.zt-have{border-color:rgba(124,240,160,.55)}'+
   '.zt-miss .zt-ic,.zt-miss .zt-nm{filter:grayscale(1);opacity:.42}.zt-arrow{font-size:18px;color:#ffd890;padding:0 2px}.zt-out{border-color:rgba(255,216,144,.5)}.zt-done{opacity:.8}';
   document.head.appendChild(st); } })();
@@ -59,4 +59,17 @@ setTimeout(function(){ if(typeof ZMIRA==='undefined')return;
       if(!done&&c(m)&&c(g))(function(q){ btns.push({t:'Make the '+ITEMS[ZMIRA.TRAY(q)].name+' ('+ZMIRA.COST+'g)',f:function(){ ZMIRA.make(ws,q); }}); })(q); }
     btns.push({t:'Farewell'});
     ZSPIRIT.talk('Mira the Mechanic','#ffd890','So you\'re '+heroName(ps)+'. Sólveig tells me you\'re making soulglass for the forges. Glass alone will melt in that heat — it needs a <b>hearth tray</b> under it. Bring me a realm\'s <b>metal</b> from its island trader and its <b>soul gem</b>, and I\'ll make that realm\'s tray.'+ZTALK.grid(rows),btns,ZMIRA._draw()); };
+},0);
+
+// ── round 60 (Kris: "when releasing the spirit, it still shows the old pixel art in the pop-up as well as when talking to fairies") ──
+// the freed spirit's own picture always (not the nearest stone's); the fairies and the fairy kings from their painted atlas frames, in the big box
+setTimeout(function(){
+  if(typeof ZSPIRIT!=='undefined'){ var fr0=ZSPIRIT.free; ZSPIRIT.free=function(ws,s){ ZSPIRIT._curS=s; try{ return fr0.apply(ZSPIRIT,arguments); } finally{ ZSPIRIT._curS=null; } };
+    var ds1=ZSPIRIT._drawSpirit; ZSPIRIT._drawSpirit=function(free,s){ return ds1.call(ZSPIRIT,free,s||ZSPIRIT._curS); }; }
+  if(typeof FairyTalk==='undefined'||typeof ZSPIRIT==='undefined')return;
+  FairyTalk.show=function(f,html,btns){ var col=f.F?f.F.col:'#ffe0ff', id=f.king?(typeof FAIRY_PICK!=='undefined'&&FAIRY_PICK[f.king]):(f.F&&f.F.id), ch=id?'fairy_'+id:null;
+    var fr=null, old=function(x,t){ try{ if(!fr)fr=f.king?fairyKingFrames(f.king):fairyFrames(f.F); x.drawImage(fr[t%4],0,0,96,96); }catch(e){} };
+    var draw=ch?ZTALK.ch(ch,old):old;
+    if(f.king&&ch){ var d0=draw; draw=function(x,t,S){ d0(x,t,S); x.save(); x.translate(S/2,S*0.1); x.fillStyle='#ffd84a'; x.beginPath(); x.moveTo(-14,10); x.lineTo(-11,-2); x.lineTo(-5,5); x.lineTo(0,-6); x.lineTo(5,5); x.lineTo(11,-2); x.lineTo(14,10); x.closePath(); x.fill(); x.restore(); }; draw.big=true; }
+    ZSPIRIT.talk((f.king?'👑 ':'✨ ')+f.name,col,html,btns,draw); };
 },0);

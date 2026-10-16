@@ -1,4 +1,4 @@
-# Scenery — 194 sheets, 1762 objects and textures (13 sheets in the pilot)
+# Scenery — 202 sheets, 1796 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -42,6 +42,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 59 | undefined | 6 | 24 |
 | 60 | undefined | 3 | 15 |
 | 61 | Asgard and the Bifröst — options | 12 | 30 |
+| 62 | Round 60 — moving hearths, the Honour guard, sheep, the apothecary | 8 | 34 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -6698,6 +6699,198 @@ Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: St
 The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
 Subject: a wide cinematic painting from above: a round walled island city of white stone and gold filling most of a lake, a central citadel of spires, mist on the water, the little village on the shore, the light warm and hopeful.
 The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fa_ember
+
+Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the green-gold fire moves; the iron, stone and everything else stay perfectly still · wave 62 · 4 items, 2 × 2 · 1024x1024
+
+- `fa_hearth_ember_1` Hearth of the Ember Forge — its flames moving — frame 1 — 120 × 110 px
+- `fa_hearth_ember_2` Hearth of the Ember Forge — its flames moving — frame 2 — 120 × 110 px
+- `fa_hearth_ember_3` Hearth of the Ember Forge — its flames moving — frame 3 — 120 × 110 px
+- `fa_hearth_ember_4` Hearth of the Ember Forge — its flames moving — frame 4 — 120 × 110 px
+
+Attach: style_hero, style_centaur, sc_forge_hearths
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the green-gold fire moves; the iron, stone and everything else stay perfectly still.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Hearth of the Ember Forge — its flames moving, the Ember Forge hearth (iron rim with leaf knotwork, green-gold flames among the coals, a great bellows beside it) (about 1.7× the hero's height): (1) the flames low and leaning left; (2) the flames rising, a flicker to the right; (3) the flames at their tallest, sparks lifting; (4) the flames settling, leaning back to the left.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fa_cinder
+
+Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the steam and the glow of the coals moves; the iron, stone and everything else stay perfectly still · wave 62 · 4 items, 2 × 2 · 1024x1024
+
+- `fa_hearth_cinder_1` Hearth of the Cinder Forge — its steam moving — frame 1 — 120 × 110 px
+- `fa_hearth_cinder_2` Hearth of the Cinder Forge — its steam moving — frame 2 — 120 × 110 px
+- `fa_hearth_cinder_3` Hearth of the Cinder Forge — its steam moving — frame 3 — 120 × 110 px
+- `fa_hearth_cinder_4` Hearth of the Cinder Forge — its steam moving — frame 4 — 120 × 110 px
+
+Attach: style_hero, style_centaur, sc_forge_hearths
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the steam and the glow of the coals moves; the iron, stone and everything else stay perfectly still.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Hearth of the Cinder Forge — its steam moving, the Cinder Forge hearth (wet steaming rim, blue-white coals, a quench trough beside it) (about 1.7× the hero's height): (1) a thin wisp of steam rising; (2) the steam puffing up in a round cloud; (3) the cloud drifting higher and thinning, a new wisp below; (4) the steam almost gone, the coals glowing brighter.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fa_slag
+
+Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the orange fire and a drip of molten slag from the crucible moves; the iron, stone and everything else stay perfectly still · wave 62 · 4 items, 2 × 2 · 1024x1024
+
+- `fa_hearth_slag_1` Hearth of the Slag Forge — its fire moving — frame 1 — 120 × 110 px
+- `fa_hearth_slag_2` Hearth of the Slag Forge — its fire moving — frame 2 — 120 × 110 px
+- `fa_hearth_slag_3` Hearth of the Slag Forge — its fire moving — frame 3 — 120 × 110 px
+- `fa_hearth_slag_4` Hearth of the Slag Forge — its fire moving — frame 4 — 120 × 110 px
+
+Attach: style_hero, style_centaur, sc_forge_hearths
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the orange fire and a drip of molten slag from the crucible moves; the iron, stone and everything else stay perfectly still.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Hearth of the Slag Forge — its fire moving, the Slag Forge hearth (rim crusted with cooling slag, deep orange coals, a crucible on chains above it) (about 1.7× the hero's height): (1) the fire low, a drop forming on the crucible lip; (2) the fire rising, the drop falling; (3) the fire tall, the drop splashing in the coals with sparks; (4) the fire settling, a new drop forming.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fa_ash
+
+Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the smoke, ash and embers moves; the iron, stone and everything else stay perfectly still · wave 62 · 4 items, 2 × 2 · 1024x1024
+
+- `fa_hearth_ash_1` Hearth of the Ash Forge — its smoke and embers moving — frame 1 — 120 × 110 px
+- `fa_hearth_ash_2` Hearth of the Ash Forge — its smoke and embers moving — frame 2 — 120 × 110 px
+- `fa_hearth_ash_3` Hearth of the Ash Forge — its smoke and embers moving — frame 3 — 120 × 110 px
+- `fa_hearth_ash_4` Hearth of the Ash Forge — its smoke and embers moving — frame 4 — 120 × 110 px
+
+Attach: style_hero, style_centaur, sc_forge_hearths
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the smoke, ash and embers moves; the iron, stone and everything else stay perfectly still.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Hearth of the Ash Forge — its smoke and embers moving, the Ash Forge hearth (black iron rim hung with broken chains, red-white coals and drifting ash) (about 1.7× the hero's height): (1) grey smoke curling up, a few embers; (2) the smoke rising higher, embers lifting; (3) the smoke spreading, embers at the top; (4) the smoke thinning, new embers popping from the coals.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_fa_great
+
+Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the fire in the hearth moves; the iron, stone and everything else stay perfectly still · wave 62 · 4 items, 2 × 2 · 1024x1024
+
+- `fa_hearth_great_1` The great hearth of Muspelheim — its fire moving — frame 1 — 150 × 150 px
+- `fa_hearth_great_2` The great hearth of Muspelheim — its fire moving — frame 2 — 150 × 150 px
+- `fa_hearth_great_3` The great hearth of Muspelheim — its fire moving — frame 3 — 150 × 150 px
+- `fa_hearth_great_4` The great hearth of Muspelheim — its fire moving — frame 4 — 150 × 150 px
+
+Attach: style_hero, style_centaur, sc_ghearth_opts
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Only the fire in the hearth moves; the iron, stone and everything else stay perfectly still.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — The great hearth of Muspelheim — its fire moving, the great hearth, option A (a giant round hearth of black iron and gold, four gem cradles, a staff socket in the middle) (about 2.4× the hero's height): (1) the fire low and golden; (2) the fire rising in tongues; (3) the fire at its tallest, sparks spiralling up; (4) the fire settling.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gloop2_guard
+
+Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Spirits are translucent glowing people of pale-blue runic light. Every frame shows the SAME group: the SAME number of people, EVERY ONE THE SAME SIZE AS IN EVERY OTHER FRAME (nobody grows or shrinks), the same props at the same size and place — only heads, arms and spears move a little. Never add, remove or merge anyone · wave 62 · 4 items, 2 × 2 · 1024x1024
+
+- `gm_guard_1` Honour guard — frame 1 — 200 × 128 px
+- `gm_guard_2` Honour guard — frame 2 — 200 × 128 px
+- `gm_guard_3` Honour guard — frame 3 — 200 × 128 px
+- `gm_guard_4` Honour guard — frame 4 — 200 × 128 px
+
+Attach: style_hero, style_centaur, sc_spirit_grp_opts, sc_gloop_2
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of animation frames — Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. Spirits are translucent glowing people of pale-blue runic light. Every frame shows the SAME group: the SAME number of people, EVERY ONE THE SAME SIZE AS IN EVERY OTHER FRAME (nobody grows or shrinks), the same props at the same size and place — only heads, arms and spears move a little. Never add, remove or merge anyone.
+The first two reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The other reference images are earlier sheets of this game that show each subject below as a single still picture: paint every subject to look exactly like its picture there (same design, colours, proportions and line weight).
+Layout: a grid of 2 columns × 2 rows, evenly spaced. Each ROW is ONE subject drawn 2 times, left to right, as the frames of a short looping animation. In every frame of a row the subject has exactly the same size, design and colours and stands at the same spot in its cell; only the moving parts change, as described. Every frame is separate and sits fully inside its own cell. Rows, top to bottom:
+Row 1 — Honour guard, exactly FIVE tall ancestor spirits (count them: five) in ONE straight line with spears and shields of light, all the same height (about 2× the hero's height): (1) all five standing to attention; (2) all five raising their spears in salute together; (3) all five with spears high, shields lifted; (4) all five lowering spears back to rest, the middle one nodding.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+No motion lines, no arrows, no numbers.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_sheep
+
+Village sheep — fluffy cartoon sheep with cream-white curly wool, black faces and legs, small ears, a friendly look; seen from above-front like the game scenery; no text · wave 62 · 4 items, 2 × 2 · 1024x1024
+
+- `pr_sheep_graze` Sheep grazing — 46 × 38 px
+- `pr_sheep_stand` Sheep standing — 44 × 40 px
+- `pr_sheep_lie` Sheep lying down — 46 × 30 px
+- `pr_sheep_lamb` Lamb — 32 × 30 px
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Village sheep — fluffy cartoon sheep with cream-white curly wool, black faces and legs, small ears, a friendly look; seen from above-front like the game scenery; no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Sheep grazing — a sheep with its head down, nibbling the grass, side view (about 0.6× the hero's height).
+2. Sheep standing — a sheep standing and looking up, three-quarter view (about 0.6× the hero's height).
+3. Sheep lying down — a sheep lying in the grass, legs tucked under, content (about 0.5× the hero's height).
+4. Lamb — a small fluffy lamb hopping, white wool, black face (about 0.5× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_int_apoth
+
+Interior furniture — the Sorcerer's Apothecary sells magic weapons and upgrades them: pieces for its shop room, seen from above-front like the game's other furniture; original designs, no text · wave 62 · 6 items, 3 × 2 · 1536x1024
+
+- `if_staffrack` Staff rack — 56 × 66 px
+- `if_wandcase` Wand case — 58 × 40 px
+- `if_orbstand` Orb pedestal — 30 × 54 px
+- `if_staffstand` Master staff on a plinth — 30 × 66 px
+- `if_enchantbench` Enchanting bench — 62 × 40 px
+- `iw_staffs` Mounted staffs — 58 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Interior furniture — the Sorcerer's Apothecary sells magic weapons and upgrades them: pieces for its shop room, seen from above-front like the game's other furniture; original designs, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters. The last reference image is an earlier sheet of the same family: match its line weight, colours and level of detail exactly.
+Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Staff rack — a tall wooden rack holding six magic staffs of different kinds — fire, water, leaf, stone, storm and shadow — each topped with its gem glowing softly (about as tall as the hero).
+2. Wand case — a glass-topped display case of polished dark wood with magic wands laid on green velvet, their tips glowing (about 0.6× the hero's height).
+3. Orb pedestal — a carved stone pedestal holding a floating glowing arcane orb circled by thin rune rings (about as tall as the hero).
+4. Master staff on a plinth — a single grand white-gold staff floating upright above a rune-carved plinth in a soft beam of light (about as tall as the hero).
+5. Enchanting bench — a workbench for upgrading staffs: a staff clamped in a vice, cut gems in little dishes, glowing rune-carving tools (about 0.6× the hero's height).
+6. Mounted staffs — wall decoration: two crossed magic staffs mounted over a small round shield with a rune (about 0.6× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

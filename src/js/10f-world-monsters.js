@@ -10,7 +10,7 @@ function monPool(q,seg){ return MON_ROSTER.filter(function(R){ return R.q===q&&R
 // pick a roster monster by the 80/15/5 rule; weight(R) biases the choice (terrain)
 function monPick(rng,q,seg,weight){ var r=rng.next(), pool, visitor=false;
   if(r<0.80)pool=monPool(q,seg);
-  else if(r<0.95)pool=MON_ROSTER.filter(function(R){ return R.q===q&&R.seg!==seg; });
+  else if(r<0.95)pool=MON_ROSTER.filter(function(R){ return R.q===q&&R.seg!==seg&&R.seg!=='forge'; });      // round 60: the forge monsters stay in the forges
   else { var qs=[1,2,3,4].filter(function(x){ return x!==q; }), oq=qs[Math.floor(rng.next()*qs.length)]; pool=monPool(oq,seg); visitor=true; }
   var ws=pool.map(function(R){ return weight?weight(R):1; }), tot=ws.reduce(function(a,b){return a+b;},0), x=rng.next()*tot;
   for(var i=0;i<pool.length;i++){ x-=ws[i]; if(x<=0)return {R:pool[i],visitor:visitor}; } return {R:pool[pool.length-1],visitor:visitor}; }

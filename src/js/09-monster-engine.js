@@ -21,11 +21,11 @@ var MX={ KITS:(typeof MON_KIT_SRC!=='undefined'?MON_KIT_SRC:{}), log:null,
     var hpF={brute:1.6,golem:1.7,construct:1.5,chesspiece:1.8,turtle:1.5,tree:1.5,drake:1.4,wisp:0.55,bat:0.6,swarm:0.7,small:0.7,book:0.6,orb:0.8,eye:0.8,caster:0.85,plant:0.9}[pl]||1;
     var spd={small:84,bat:90,wisp:70,bird:88,insect:66,spider:70,swarm:62,biped:58,brute:36,golem:30,construct:34,chesspiece:0,serpent:62,eel:60,blob:42,caster:48,plant:0,tree:0,frog:55,crab:52,quad:66,drake:70,turtle:34,book:64,eye:40,orb:30,wraith:56}[pl]; if(spd===undefined)spd=55;
     var lv=[1,8,15,22][q-1]+t-1;
-    var hp=Math.round([16,46,88,150][q-1]*(0.75+0.18*t)*hpF*(R.seg==='tow'?0.9:1));
+    var hp=Math.round([16,46,88,150][q-1]*[1,1.5,2,2.5][q-1]*(0.75+0.18*t)*hpF*(R.seg==='tow'?0.9:1));      // round 60 (Kris's card, option A): ×1 / 1.5 / 2 / 2.5 by realm → 16 / 69 / 176 / 375
     var atk=Math.round([4,9,14,20][q-1]*(0.85+0.1*t)*(R.seg==='dun'&&R.role==='melee'?1.15:1));
     var df=[0,2,5,8][q-1]+(/armor|shield|shell|columns|crystals|stone/.test(R.spec.feat)?2:0)+(pl==='golem'||pl==='construct'?2:0);
     var r={brute:14,golem:14,construct:13,chesspiece:15,drake:13,turtle:13,tree:13}[pl]||(/small|wisp|bat|book|swarm/.test(pl)?8:10);
-    return {lv:lv,hp:hp,atk:atk,def:df,spd:spd,r:r,xp:Math.round(hp*0.7+t*4),gMin:[2,6,10,16][q-1]*t,gMax:[5,12,20,30][q-1]*t};
+    return {lv:lv,hp:hp,atk:atk,def:df,spd:spd,r:r,xp:Math.round(hp/[1,1.5,2,2.5][q-1]*0.7+t*4),gMin:[2,6,10,16][q-1]*t,gMax:[5,12,20,30][q-1]*t};
   },
   // ── sprite texture: 4 frames of the pixel stand-in ──
   tex:function(scene,R){ var key='mx_'+R.id; if(scene.textures.exists(key))return key;

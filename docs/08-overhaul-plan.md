@@ -201,6 +201,8 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - **Phaser 4:** trial results in `13-next-steps-and-engine-options.md` §4b. **Round 18: the switch is built and the game is playable on both** (3.60 default; `?engine=4`, `/play4`, `--engine=4`). No decision yet on making Phaser 4 the default. Benchmarks: `tests/bench/`.
 
 ## Open questions
+- (Round 60, Oct 16) **ANSWERED:** monster health by realm — **A: ×1 / 1.5 / 2 / 2.5** (base 16 / 69 / 176 / 375: Grasslands / Wetlands / Highlands / Ashlands; the forges and Muspelheim on the Ashlands' line; bosses unchanged).
+- (Round 60, Oct 16) **ANSWERED:** the forges' first floor — Kris: "like 2, dropping challenges, but have 4 levels for each mini volcano, and come up with new monsters for the volcanos that have unique attacks and skills" → the old challenge scenes are dropped; each forge is **four painted floors** in the new engine; **new forge monsters** with their own attacks and skills. The group loops — **approved as remade** (wave 59; only the Honour guard needs redoing). The sheep — **paint straight away**.
 - (Round 59, Oct 15) **ANSWERED:** the escape — **a dedicated escape run** (five short collapsing floors built for the run, one timer for the whole climb, then the sinking causeway; the timer kills you and you restart the climb); Godsbane — **its own button**, only with the Lodestar in hand, long cooldown, Grímnir's weak point in his last phase; Asgard's art (island, Bifröst, story panels) — **Lab options first**, drawn stand-ins meanwhile.
 - (Round 57, Oct 15) **ANSWERED:** forge-masters — **Claude chooses** the design per phase (keeping each master's head and colours consistent) and sends the paintings; great hearth — **A for Muspelheim, C for Asgard's hearth of light** (white and gold); Sovereign staff — **both ways**: still won from the 16 mage towers, and forgeable at the blacksmith once the forges rise, at a high cost.
 - (Round 56, Oct 14; Kris: "the forgemaster names are too hard to pronounce…") **ANSWERED:** **Brokk** the Bellows-Wyrm (was Glóðr; the myths' bellows-worker), **Hissa** the Quench-Hag (was Eisa; the hiss of quenched iron), **Krag** the Slag Troll (was Gjallr; a crag of cooling slag), **Sinda** the Chainmistress (was Eimyrja; echoes Sindri the master smith, and cinder).
@@ -675,4 +677,23 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris (mid-round): "the mini volcanos don't use the new names, they just show volcano_mini as a label when you are near them" → done.
 - **Round 59 DONE** — see changelog [539]–[550]. Assumptions taken (say if any is wrong): the causeway, when it catches you, sends you back to the gate (not to the bottom of the climb); no monsters in the escape (the mountain is the enemy); the escape timer is 150/120/100/85 s by difficulty; Godsbane recovers in 20 s; Asgard's island keeps a 6-tile ring of open water.
 - **Next:** Kris runs `tools\sprites\round59.ps1` (wave 61 Asgard options, wave 7.7 Surtharn), picks Asgard in the Lab; round 60 — Asgard's four floors, its monsters, Grímnir, the rune circle and the ending, credits, free roam.
+
+## Round 60 (Kris, Oct 16) — the forges, the apothecary, potions, fixes
+- Kris: "new requests are in, as well as picks and feedback. We haven't built the volcano lord yet have we? also, it doesn't look like the mini volcano levels have been remade, or otherwise they haven't been re-wired. Look into this"
+- Found: the wiring worked, but each forge's first floor was still the OLD challenge scene (flat drawn art); only floors 2–3 were remade. The Volcano Lord was replaced by Surtharn (round 58); his painted sheets arrived this round.
+- Picks read: all twelve forge-master forms ☆; Saga art — the remade loops ☆ (card: approved), the Honour guard "size of spirits changes, needs to be the same", the four forges "the flames moving needs to be in the image, not with an overlayed drawn art". No Asgard picks yet (its sheets arrived during his session).
+- Card (answered): forges — **four painted floors, no old challenges, new monsters with their own attacks and skills**; group loops — **approved as remade**; sheep — **paint straight away**.
+- Kris (mid-round): "right now quests can be selected outside of the guild by just pressing the quest button. Quest button should only show quests, not allow you to acquire them" → done.
+- Kris (mid-round): "basic magic weapon and magic weapon upgrades should be at the apothecary, not the blacksmith" + "since apothecary sells the magic weapons and the upgrades, we need more art in the apothecary to show items like this in the room" → staff-craft at the apothecary; the Sovereign staff moved there; six furniture pieces ordered.
+- Kris (mid-round): "in the beginning of the village, there are old pixel drawn sheep. lets remove these and create painted art requests for sheep" → removed; four sheep ordered.
+- Kris (mid-round): "all the potions need to be rebalanced … come up with suggestions for me to select from and then we'll need to make new painted images" → the Lab's Potions tab.
+- Kris (mid-round): "when buying things from shops, the last items are underneath the buttons of the bottom of the screen" → done (all windows).
+- Kris (mid-round): "there are still pixel art flowers in the game near the village" → done.
+- Kris (mid-round): "when releasing the spirit, it still shows the old pixel art in the pop-up as well as when talking to fairies" → done.
+- Kris (late): "some places where there are terrain interfaces, there are too many terrain pieces. let's reduce terrain pieces overall by 30% in the game. also, text in pop ups is too small. should be increased by 2 points for the font" → done.
+- Kris (late): "when using the shield and holding the shield button, you still move at normal speed. it's ok to be able to move with shield up, but you should move at 1/4 speed" → done.
+- Kris (late): "monsters also need to have higher hp after the first region. propose updated hitpoint increased, with later regions gets at-least 2X" → card: option A, done.
+- Kris (late): "remove the mechanic of chopping down trees" → done. "in adventure sites, the map shows where the exit is, but you should need to discover it. only show the exit once you've revealed it" → done.
+- **Round 60 DONE** — changelog [551]–[562].
+- **Next:** Kris runs `tools\sprites\round60.ps1`; picks in the Lab — Asgard (wave 61), Potions; then round 61: the picked potions (and their icons), Asgard with his picks, its four floors and Grímnir.
 

@@ -1,12 +1,12 @@
-# Character survey — 458 characters, 1045 sheets (699 core), 7147 poses
+# Character survey — 466 characters, 1068 sheets (714 core), 7302 poses
 
-Made by build.mjs from the game data. Kit modules with no animation mapping: none.
+Made by build.mjs from the game data. Kit modules with no animation mapping: chain_jailer: guard.
 
 | Group | Characters | Sheets | Core sheets | Poses |
 |---|---|---|---|---|
 | hero | 2 | 40 | 40 | 322 |
 | rider | 22 | 22 | 22 | 176 |
-| monster | 240 | 607 | 375 | 3811 |
+| monster | 248 | 630 | 390 | 3966 |
 | boss | 94 | 265 | 151 | 1970 |
 | npc | 42 | 53 | 53 | 424 |
 | mount | 11 | 11 | 11 | 88 |
@@ -281,6 +281,14 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | volcanic_hexer | Volcanic Hexer | Ashlands · tower | s f b | Idle ×1; Hover ×4 (flit); Ranged attack ×2 (shoot, shoot); Hurt ×1; Death ×2 | 3 |
 | ember_construct | Runic Ember Construct | Ashlands · tower | s f b | Idle ×1; Move ×4 (lumber); Beam ×2 (beam); Hurt ×1; Guard ×2 (armor, bubble); Death ×2 | 3 |
 | flame_wisp | Flame Wisp | Ashlands · tower | q | Idle ×1; Move ×4 (orbit); Ranged attack ×2 (shoot); Hurt ×1; Death ×2 | 2 |
+| bellows_imp | Bellows Imp | Ashlands · forge | s f b | Idle ×1; Hover ×4 (flit, flee); Cast ×2 (gust, cloud); Hurt ×1; Death ×2 | 3 |
+| coalback | Coalback Tortoise | Ashlands · forge | s f b | Idle ×1; Move ×4 (lumber); Cast ×2 (aura); Hurt ×1; Guard ×2 (armor); Explode ×2 (explode); Death ×2 | 3 |
+| scald_wraith | Scald Wraith | Ashlands · forge | s f b | Idle ×1; Hover ×4 (drift); Ranged attack ×2 (shoot); Hurt ×1; Cast ×2 (cloud); Death ×2 | 3 |
+| quench_golem | Quench Golem | Ashlands · forge | s f b | Idle ×1; Move ×4 (lumber); Slam ×3 (slam); Hurt ×1; Guard ×2 (front); Enrage ×1 (enrage); Death ×2 | 3 |
+| slag_crawler | Slag Crawler | Ashlands · forge | q | Idle ×1; Move ×4 (chase); Melee attack ×2 (melee); Hurt ×1; Split copy ×1 (split); Death ×2 | 2 |
+| ore_hurler | Ore Hurler | Ashlands · forge | s f b | Idle ×1; Move ×4 (kite); Ranged attack ×2 (lob); Hurt ×1; Cast ×2 (trap); Death ×2 | 3 |
+| chain_jailer | Chain Jailer | Ashlands · forge | s f b | Idle ×1; Move ×4; Wide sweep ×2 (sweep); Hurt ×1; Grab ×2 (pull); Guard ×2 (front); Death ×2 | 3 |
+| ash_banshee | Ember Banshee | Ashlands · forge | s f b | Idle ×1; Move ×4; Cast ×2 (ring, summon); Hurt ×1; Blink ×2 (blink); Death ×2 | 3 |
 | boss_goblin_king | Grubnash the Great, the Goblin King | Guardians | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
 | bf_goblin_king_2 | Grubnash the Cave-Troll Rider | Evolved boss forms | q | Idle ×2; Move ×4; Ranged attack ×2 (lob); Hurt ×1; Lunge ×2 (lunge); Charge ×3 (charge); Wide sweep ×2 (sweep); Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (arrives in this form); Death ×2 | 3 |
 | boss_dark_warlock | Morvane, the Dark Warlock | Guardians | s f b | Idle ×2; Move ×4; Cast ×2 (basic attack); Hurt ×1; Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |

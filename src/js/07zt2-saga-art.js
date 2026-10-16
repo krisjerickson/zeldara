@@ -55,3 +55,38 @@
       'The reference images show the game\'s characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.\n'+
       'Subject: '+it[2]+'.\nThe painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.'; } return b0.apply(ZSCN,arguments); };
 })();
+
+// ═══ wave 62 (round 60): the forge hearths and the great hearth moving in the painting, the Honour guard remade, sheep, the apothecary's magic-weapon furniture ═══
+// Kris (Saga art, the four forges): "image is good, but the flames moving needs to be in the image, not with an overlayed drawn art"; (Honour guard)
+// "size of spirits changes, needs to be the same"; "in the beginning of the village, there are old pixel drawn sheep … create painted art requests for
+// sheep"; "since apothecary sells the magic weapons and the upgrades, we need more art in the apothecary to show items like this in the room".
+(function(){ if(typeof ZSCN==='undefined')return; ZSCN.WAVES[62]='Round 60 — moving hearths, the Honour guard, sheep, the apothecary';
+  var LOOP='Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. Copy the subject EXACTLY from its picture in the reference sheet: the SAME design, size, colours and place in every frame, the same camera and scale. ';
+  var hearth=function(k,name,what,move,frames){ return {id:'sc_fa_'+k,wave:62,fam:'fa_'+k,kind:'obj',cols:2,rows:2,size:'1024x1024',anim:1,refs:[k==='great'?'sc_ghearth_opts':'sc_forge_hearths'],title:LOOP+'Only the '+move+' moves; the iron, stone and everything else stay perfectly still',
+    seq:[['fa_hearth_'+k,name,what,'reg',k==='great'?150:120,k==='great'?150:110,frames]]}; };
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    hearth('ember','Hearth of the Ember Forge — its flames moving','the Ember Forge hearth (iron rim with leaf knotwork, green-gold flames among the coals, a great bellows beside it)','green-gold fire',['the flames low and leaning left','the flames rising, a flicker to the right','the flames at their tallest, sparks lifting','the flames settling, leaning back to the left']),
+    hearth('cinder','Hearth of the Cinder Forge — its steam moving','the Cinder Forge hearth (wet steaming rim, blue-white coals, a quench trough beside it)','steam and the glow of the coals',['a thin wisp of steam rising','the steam puffing up in a round cloud','the cloud drifting higher and thinning, a new wisp below','the steam almost gone, the coals glowing brighter']),
+    hearth('slag','Hearth of the Slag Forge — its fire moving','the Slag Forge hearth (rim crusted with cooling slag, deep orange coals, a crucible on chains above it)','orange fire and a drip of molten slag from the crucible',['the fire low, a drop forming on the crucible lip','the fire rising, the drop falling','the fire tall, the drop splashing in the coals with sparks','the fire settling, a new drop forming']),
+    hearth('ash','Hearth of the Ash Forge — its smoke and embers moving','the Ash Forge hearth (black iron rim hung with broken chains, red-white coals and drifting ash)','smoke, ash and embers',['grey smoke curling up, a few embers','the smoke rising higher, embers lifting','the smoke spreading, embers at the top','the smoke thinning, new embers popping from the coals']),
+    hearth('great','The great hearth of Muspelheim — its fire moving','the great hearth, option A (a giant round hearth of black iron and gold, four gem cradles, a staff socket in the middle)','fire in the hearth',['the fire low and golden','the fire rising in tongues','the fire at its tallest, sparks spiralling up','the fire settling']),
+    {id:'sc_gloop2_guard',wave:62,fam:'gloop2_guard',kind:'obj',cols:2,rows:2,size:'1024x1024',anim:1,refs:['sc_spirit_grp_opts','sc_gloop_2'],title:LOOP+'Spirits are translucent glowing people of pale-blue runic light. Every frame shows the SAME group: the SAME number of people, EVERY ONE THE SAME SIZE AS IN EVERY OTHER FRAME (nobody grows or shrinks), the same props at the same size and place — only heads, arms and spears move a little. Never add, remove or merge anyone',
+      seq:[['gm_guard','Honour guard','exactly FIVE tall ancestor spirits (count them: five) in ONE straight line with spears and shields of light, all the same height','reg',200,128,['all five standing to attention','all five raising their spears in salute together','all five with spears high, shields lifted','all five lowering spears back to rest, the middle one nodding']]]},
+    {id:'sc_sheep',wave:62,fam:'sheep',kind:'obj',cols:2,rows:2,size:'1024x1024',title:'Village sheep — fluffy cartoon sheep with cream-white curly wool, black faces and legs, small ears, a friendly look; seen from above-front like the game scenery; no text',items:[
+      ['pr_sheep_graze','Sheep grazing','a sheep with its head down, nibbling the grass, side view',46,38],
+      ['pr_sheep_stand','Sheep standing','a sheep standing and looking up, three-quarter view',44,40],
+      ['pr_sheep_lie','Sheep lying down','a sheep lying in the grass, legs tucked under, content',46,30],
+      ['pr_sheep_lamb','Lamb','a small fluffy lamb hopping, white wool, black face',32,30]]},
+    {id:'sc_int_apoth',wave:62,fam:'interior',kind:'obj',cols:3,rows:2,size:'1536x1024',title:'Interior furniture — the Sorcerer\'s Apothecary sells magic weapons and upgrades them: pieces for its shop room, seen from above-front like the game\'s other furniture; original designs, no text',items:[
+      ['if_staffrack','Staff rack','a tall wooden rack holding six magic staffs of different kinds — fire, water, leaf, stone, storm and shadow — each topped with its gem glowing softly',56,66],
+      ['if_wandcase','Wand case','a glass-topped display case of polished dark wood with magic wands laid on green velvet, their tips glowing',58,40],
+      ['if_orbstand','Orb pedestal','a carved stone pedestal holding a floating glowing arcane orb circled by thin rune rings',30,54],
+      ['if_staffstand','Master staff on a plinth','a single grand white-gold staff floating upright above a rune-carved plinth in a soft beam of light',30,66],
+      ['if_enchantbench','Enchanting bench','a workbench for upgrading staffs: a staff clamped in a vice, cut gems in little dishes, glowing rune-carving tools',62,40],
+      ['iw_staffs','Mounted staffs','wall decoration: two crossed magic staffs mounted over a small round shield with a rune',58,40]]}]);
+  if(ZSCN.expand)ZSCN.expand();      // the animation sheets get their frame items
+})();
+// the sheep: painted, or none at all (the old drawn ones are gone)
+(function(){ if(typeof WPROP==='undefined')return; WPROP.sheep=function(c,ctx,x,y,w,h,o){ var Zs=typeof _scn==='function'?_scn():null, ids=['pr_sheep_graze','pr_sheep_stand','pr_sheep_lie','pr_sheep_graze','pr_sheep_lamb'];
+  if(!Zs||!Zs.has(ids[0]))return; var id=c.R.pick(ids); Zs.sprite(c.m,id,x+w/2,y+h-4,0,{w:(id==='pr_sheep_lamb'?30:44)*(Zs.K||1)}); }; })();
+

@@ -72,8 +72,11 @@ var SCN_ROWS={
     WPROP[key]=function(c,ctx,x,y,w,h,o,P){ var Zs=_scn(), id=Zs&&rule(o||{}); if(id&&Zs.row(c.m,id,x,y+h,w))return; return old.apply(this,arguments); }; });
   // flowers: a few painted clumps where the dots were (only the default mixed colours; zones with their own flower colours keep their dots)
   var oldF=WPROP.flowers; if(oldF)WPROP.flowers=function(c,ctx,x,y,w,h,o,P){ var Zs=_scn(), ids=['pl_flowers_red','pl_flowers_yellow','pl_flowers_blue','pl_flowers_white'];
-    if(Zs&&!(o&&o.cols)&&Zs.has(ids[0])){ var n=Math.max(1,Math.round(((o&&o.n)||14)*w/LT/7)); for(var i=0;i<n;i++)Zs.draw(ctx,c.R.pick(ids),x+6+c.R.f()*(w-12),y+10+c.R.f()*(h-12),0,{w:22}); return; }
-    return oldF.apply(this,arguments); };
+    // round 60 (Kris: "there are still pixel art flowers in the game near the village … should be taken out"): every patch is painted clumps now —
+    // a zone's own flower colours pick the matching painted colours — and with no painted flowers there are no dots either
+    if(o&&o.cols){ var hue=function(cl){ var v=parseInt(cl.slice(1),16), r=v>>16, g=(v>>8)&255, b=v&255; return r>235&&g>235&&b>235?'pl_flowers_white':b>r&&b>=g?'pl_flowers_blue':r>200&&g>200?'pl_flowers_yellow':'pl_flowers_red'; }, L=[]; o.cols.forEach(function(cl){ var id=hue(cl); if(L.indexOf(id)<0)L.push(id); }); if(L.length)ids=L; }
+    if(Zs&&Zs.has(ids[0])){ var n=Math.max(1,Math.round(((o&&o.n)||14)*w/LT/7)); for(var i=0;i<n;i++)Zs.draw(ctx,c.R.pick(ids),x+6+c.R.f()*(w-12),y+10+c.R.f()*(h-12),0,{w:22}); return; }
+    return; };
   var oldT=WPROP.tuft; if(oldT)WPROP.tuft=function(c,ctx,x,y,w,h,o,P){ var Zs=_scn(); if(Zs&&Zs.has('pl_tuft')&&!(o&&o.col)){ Zs.draw(ctx,'pl_tuft',x+w/2,y+h-4,0,{w:Math.min(w-4,26)}); return; } return oldT.apply(this,arguments); };
   // windmill: the painted body, and the painted sails turning on its hub
   var oldW=WPROP.windmill; if(oldW)WPROP.windmill=function(c,ctx,x,y,w,h,o,P){ var Zs=_scn(), m=c.m; if(Zs&&Zs.has('vb_windmill')&&Zs.has('vb_windmill_sails')){ var Z=Zs.sprite(m,'vb_windmill',x+w/2,y+h,0,{w:(w+30)*Zs.KB});

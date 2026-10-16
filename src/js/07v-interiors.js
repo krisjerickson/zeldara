@@ -215,8 +215,8 @@ var INTERIOR_LAYOUTS={
   jeweler:{ deco:[['painting',1.5,2],['shelf',4.4,2.4,'gems'],['window',7,1],['shelf',9.2,2.4,'gems'],['clock',12,1]], rug:[5,5,4,3], npc:[7,2.6],
     props:[['showcase',5,3,4,1],['showcase',1,5,3,1],['showcase',10,5,3,1],['safe',12,2,1,1],['desk',1,2,3,1],['candelabra',4,7,1,1],['candelabra',9,7,1,1],['plant',12,7,1,1]],
     lights:[[7,4,140,0.35,{pulse:0.2}],[2.5,6,90,0.3,{pulse:0.3,period:1300}],[11.5,6,90,0.3,{pulse:0.3,period:1500}],[4.5,7.3,80,0.3,{flicker:0.2}],[9.5,7.3,80,0.3,{flicker:0.2}]], particles:'sparkle' },
-  apothecary:{ deco:[['herbs',1.2,3.4],['shelf2',4.6,2.4,'potions'],['starchart',7.2,1.2],['shelf2',8.6,2.6,'potions'],['herbs',11.4,1.4]], rug:[4,5,6,3], npc:[7,4],
-    props:[['cauldron',7,5,1,1,{col:'#60ff80'}],['shelfunit',1,2,2,1,{goods:'potions'}],['shelfunit',11,2,2,1,{goods:'potions'}],['longtable',3,3,3,1,{top:['potion','book','candle','potion']}],['crystalball',10,4,1,1],['herbs',1,6,2,1],['bookshelf',11,6,2,1],['candelabra',5,7,1,1],['candelabra',9,7,1,1]],
+  apothecary:{ deco:[['herbs',1.2,3.4],['shelf2',4.6,2.4,'potions'],['staffs',7.2,1.6],['shelf2',8.9,2.4,'potions'],['herbs',11.4,1.4]], rug:[4,5,6,3], npc:[7,4],
+    props:[['cauldron',7,5,1,1,{col:'#60ff80'}],['shelfunit',1,2,2,1,{goods:'potions'}],['staffrack',11,2,2,1],['wandcase',3,3,3,1],['orbstand',10,4,1,1],['enchantbench',1,6,2,1],['staffstand',12,5,1,1],['bookshelf',10,6,2,1],['candelabra',5,7,1,1],['candelabra',9,7,1,1]],      // round 60: it sells magic weapons now — a staff rack, a wand case, an orb, a master staff, the enchanting bench
     lights:[[7.5,5,150,0.5,{pulse:0.3,period:1600}],[10.5,4,90,0.45,{pulse:0.35,period:2100}],[5.5,7.3,80,0.3,{flicker:0.25}],[9.5,7.3,80,0.3,{flicker:0.25}]], particles:'bubbles', dark:0.15 },
   merchant:{ deco:[['shelf2',1.2,3.4,'bread'],['window',5,1],['window',8,1],['shelf2',10.4,2.4,'bread']], rug:null, npc:[6,2.6],
     props:[['oven',11,2,2,1],['cakecase',3,3,5,1],['shelfunit',1,2,2,1,{goods:'bread'}],['kneadtable',8,5,3,1],['sacks',1,6,2,1,{label:'FLOUR'}],['basket',4,6,1,1,{goods:'bread'}],['basket',5,7,1,1,{goods:'fruit'}],['barrel',12,6,1,1,{col:'#b88a4a'}]],

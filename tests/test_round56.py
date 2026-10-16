@@ -21,14 +21,14 @@ with game(new=True, painted=True) as g:
     # the Ember forge-master's floor: the boss is dressed in its painted form, the hearth breathes fire
     r = g.js("""(async()=>{ var w=function(ms){ return new Promise(function(r){ setTimeout(r,ms); }); }; var ws=game.scene.getScene('World'), ps=ws.playerState; ps.godMode=true;
       document.getElementById('hud').style.display='none'; document.getElementById('dungeon-hud').style.display='block'; game.scene.sleep('World');
-      game.scene.start('Dungeon',{site:ZFORGE.site('volcano_n'),floor:2,maxFloors:3,worldScene:ws,theme:'volcano',forgeKey:'volcano_key_n',forgeKeyName:'Ember Key'}); await w(5000);
+      game.scene.start('Dungeon',{site:ZFORGE.site('volcano_n'),floor:3,maxFloors:4,worldScene:ws,theme:'volcano',forgeKey:'volcano_key_n',forgeKeyName:'Ember Key'}); await w(5000);
       var D=game.scene.getScene('Dungeon'), B=D._bossGroup[0], H=D._forgeHearth, cnt=function(){ return D.children.list.filter(function(o){ return o.type==='Arc'&&Math.abs(o.x-H.x)<90&&o.y<H.y+30&&o.y>H.y-160; }).length; };
       var a=cnt(); await w(700); var b=cnt(), ys=D.children.list.filter(function(o){ return o.type==='Arc'&&Math.abs(o.x-H.x)<90&&o.y<H.y+30&&o.y>H.y-160; }).map(function(o){ return Math.round(o.y); });
       await w(1500); var chars=['glodr','eisa','gjallr','eimyrja'].reduce(function(n,k){ return n+[1,2,3].filter(function(i){ return !!ZAtlas.META.chars['fm_'+k+'_'+i]; }).length; },0);
       return {chars:chars, za:!!B._za, rig:!!(B.spr&&B.spr._rig), slot:B.spr&&B.spr._rig&&B.spr._rig.D&&B.spr._rig.D.id, name:B.def.name, painted:!!(H.vis&&H.vis.texture&&H.vis.texture.key), p0:a, p1:b, ys:ys.length?[Math.min.apply(null,ys),Math.max.apply(null,ys)]:[]}; })()""")
     check('Brokk is dressed in his painted-boss form (%s)' % r['slot'], r['rig'] and (r['slot'] or '').startswith('fm_glodr_1'), r)
     check('The forge-masters are painted (wave 7.6: %d of 12 forms in the atlas) and Brokk wears his painting' % r['chars'], r['chars'] == 12 and r['za'], r)
-    check('The Ember hearth has moving fire: particles rising over the painted hearth (%d, then %d)' % (r['p0'], r['p1']), r['painted'] and r['p1'] >= 6 and len(r['ys']) == 2 and r['ys'][1] - r['ys'][0] > 10, r)
+    check('The Ember hearth is the painting with no drawn fire over it (round 60, Kris: the flames must move in the image itself — its loop is ordered): %d, then %d drawn sparks' % (r['p0'], r['p1']), r['painted'] and r['p0'] <= 2 and r['p1'] <= 2, r)
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), K=['chaingang','haul','hearth_tale','mead_bench','reel','tafl']; return {ring:(ZGREEN.loop(ws,'ring')||{}).key, family:(ZGREEN.loop(ws,'family')||{}).key,
       remade:K.map(function(k){ var A=ZGREEN.loop(ws,k); return A&&A.key; })}; })()""")
     check('The approved loops play as before; the six remade ones play their new wave 59 loops (%s)' % r['remade'], 'gl_ring' in (r['ring'] or '') and 'gl_family' in (r['family'] or '') and all(k and 'gm_' in k for k in r['remade']), r)

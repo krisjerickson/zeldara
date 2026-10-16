@@ -15,5 +15,7 @@ var ZSTAIRMM={ on:true,
   draw:function(d){ if(!ZSTAIRMM.on||!d||!d.dtiles||!d._dngFogExplored)return; var cv=document.getElementById('minimap-hud-canvas'); if(!cv)return; var ctx=cv.getContext('2d'), sx=cv.width/DW, sy=cv.height/DH;
     var tw=d.siteType==='tower'||d._theme==='tower_island', on=d.stairsDownTile, back=d.stairsUpTile, P=function(t){ return [(t.x+0.5)*sx,(t.y+0.5)*sy]; };
     if(back){ var b=P(back); ZSTAIRMM.mark(ctx,b[0],b[1],4,tw,'#cfd8e8'); }
-    if(on&&!d.isLastFloor&&!ZSTAIRMM.hidden(d,on)){ var a=P(on); ctx.save(); ctx.fillStyle='rgba(255,210,90,0.28)'; ctx.beginPath(); ctx.arc(a[0],a[1],8,0,Math.PI*2); ctx.fill(); ctx.restore(); ZSTAIRMM.mark(ctx,a[0],a[1],5,!tw,'#ffd060'); } } };
+    // round 60 (Kris: "the map shows where the exit is, but you should need to discover it. only show the exit once you've revealed it")
+    var seen=function(t){ var F=d._dngFogExplored; if(!F)return true; for(var j=-1;j<=1;j++)for(var i=-1;i<=1;i++){ var k=(t.y+j)*DW+t.x+i; if(k>=0&&k<F.length&&F[k])return true; } return false; };
+    if(on&&!d.isLastFloor&&!ZSTAIRMM.hidden(d,on)&&seen(on)){ var a=P(on); ctx.save(); ctx.fillStyle='rgba(255,210,90,0.28)'; ctx.beginPath(); ctx.arc(a[0],a[1],8,0,Math.PI*2); ctx.fill(); ctx.restore(); ZSTAIRMM.mark(ctx,a[0],a[1],5,!tw,'#ffd060'); } } };
 (function(){ if(typeof _drawMinimapHud!=='function')return; var f0=_drawMinimapHud; _drawMinimapHud=function(ws,dng){ var r=f0.apply(this,arguments); try{ if(dng)ZSTAIRMM.draw(dng); }catch(e){} return r; }; })();

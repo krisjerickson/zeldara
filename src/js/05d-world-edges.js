@@ -133,7 +133,8 @@ var ZWE={
   // LOOK: how many, how grouped, how mixed, how varied in size, how much they sway, how many creatures — my defaults; the Lab's Terrain pieces tab offers the rest.
   // round 46 (Kris: "We should reduce the amount of terrain pieces regardless as they are now so many that they are distracting" → card: to about a
   // third, the edges of water and cliffs favoured): along the edges 0.85 → 0.38, in the open ground 0.21 (inDens), creatures halved.
-  LOOK:{dens:0.38,inDens:0.21,clump:0.7,vary:'mixed',size:0.15,sway:1,crit:0.5},
+  LOOK:{dens:0.266,inDens:0.147,      // round 60 (Kris: "there are too many terrain pieces. let's reduce terrain pieces overall by 30%"): was 0.38 / 0.21
+    clump:0.7,vary:'mixed',size:0.15,sway:1,crit:0.5},
   LOOKS:{dens:{sparse:0.5,natural:0.85,lush:1.4,wild:2},clump:{even:0,clusters:0.7,groves:1},vary:{one:'one',mixed:'mixed',all:'all'},size:{same:0,some:0.15,lots:0.3},sway:{still:0,gentle:1,breezy:2},crit:{few:0.5,some:1,many:2}},
   TALL:{ed_log_fallen:1,ed_log_mossy:1,ed_log_rotting:1,ed_rock_mossy:1,ed_iris:1,ed_dune_grass:1,ed_reeds:1,ed_cattails:1,ed_reeds_dry:1,ed_snow_pine:1,ed_basalt:1,ed_steam_vent:1,ed_foot_boulder:1,ed_talus_a:1,ed_talus_b:1,
     ed_obsidian:1,ed_sulphur:1,ed_snow_rock:1,ed_shore_rock:1,ed_ice_shards:1,ed_bramble:1,ed_toadstools:1,ed_fern:1,ed_heather:1,ed_ember_rocks:1},

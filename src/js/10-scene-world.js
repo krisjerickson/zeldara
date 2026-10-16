@@ -1494,7 +1494,7 @@ class WorldScene extends Phaser.Scene{
     // Signature terrain: slow on foot (water, marsh, boulders, lava crust),
     // full speed on the mount that crosses it.
     var shallowMult=terrainSpeedMult(_curTile,mount);
-    var baseSpd=180*(mdef?mdef.spdMult:1)*(1+(_stats.spdBonus||0))*bogMult*_spdMult*shallowMult*_heroBuffMult(ps,'spdUp');
+    var baseSpd=(this._shielding?0.25:1)*180*(mdef?mdef.spdMult:1)*(1+(_stats.spdBonus||0))*bogMult*_spdMult*shallowMult*_heroBuffMult(ps,'spdUp');
     var vx=0,vy=0;
     // SHIFT = shield block mode
     var _hadShield=this._shielding;

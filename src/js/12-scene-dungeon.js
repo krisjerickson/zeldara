@@ -1027,7 +1027,7 @@ class DungeonScene extends Phaser.Scene{
     // Bog slow timer
     if(this._bogSlowTimer>0){this._bogSlowTimer=Math.max(0,this._bogSlowTimer-dt);}
     var bogMult=(this._bogSlowTimer>0)?0.4:1.0;
-    var k=this.keys,spd=150*bogMult,vx=0,vy=0;
+    var k=this.keys,spd=150*bogMult*(this._shielding?0.25:1),vx=0,vy=0;      // round 60 (Kris): shield up — you can still move, at a quarter speed
     if(this._bogSlowTimer>0&&!this._bogFlashShown){this._bogFlashShown=true;this._floatText(this.px,this.py-28,'🐍 SLOWED!','#44cc44');}
     if(this._bogSlowTimer<=0)this._bogFlashShown=false;
     if(k.LEFT.isDown||k.A.isDown){vx=-spd;this.pdir='left';}
