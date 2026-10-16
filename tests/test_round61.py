@@ -24,7 +24,7 @@ with game(new=True, painted=True) as g:
       await w(1900); o.done=done; o.gone=!document.getElementById('zcine-panel'); var none=0; ZCINE.panel(null,'',500,function(){ none=1; }); o.none=none;
       o.sinkCode=/panelOf\(["']sink/.test(ZESC.sink.toString()); o.descCode=/panelOf\(["']sky/.test(ZASG.descend.toString())&&/panelOf\(["']lake/.test(ZASG.descend.toString()); return o; })()""" % W)
     check('The story panels play in the cut-scenes: Muspelheim sinks (%s), Asgard opens in the sky (%s — the joined panel C once painted), Asgard on the lake (%s); over the HUD, then gone' % (r['sink'], r['sky'], r['lake']),
-          r['sink'] == 'pn_musp_sink_a' and r['sky'] in ('pn_asg_sky_c', 'pn_asg_sky_a') and r['lake'] == 'pn_asg_lake_a' and r['shown'] and r['z'] > 1000 and r['done'] == 1 and r['gone'] and r['none'] == 1 and r['sinkCode'] and r['descCode'], r)
+          r['sink'] == 'pn_musp_sink_a' and r['sky'] == 'pn_asg_sky_c' and r['lake'] == 'pn_asg_lake_a' and r['shown'] and r['z'] > 1000 and r['done'] == 1 and r['gone'] and r['none'] == 1 and r['sinkCode'] and r['descCode'], r)
 
     # ── the potions ──
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.unlockedSections=[1,2,3,4]; ps.gold=99999; openBuildingShop('apothecary',ps,ws); var el=document.getElementById('camp-content'), names=Array.from(el.querySelectorAll('.si-name')).map(function(n){ return n.textContent; }), txt=el.textContent;
@@ -62,8 +62,8 @@ with game(new=True, painted=True) as g:
     r = g.js("""(async()=>{ %s var ws=game.scene.getScene('World'), ps=ws.playerState; ps.buffs={}; ps.inventory.push('boon_phoenix'); window._useItem(ps.inventory.lastIndexOf('boon_phoenix')); ps.maxHp=100; ps.hp=0; ws._worldPlayerDied(); await w(400);
       var o={hp:ps.hp, dying:!!ws._dying, gone:!ZPOT.on(ps,'zp_phoenix')}; return o; })()""" % W)
     check('The Phoenix Draught: you fall and rise again at 40%% (%s HP), once' % r['hp'], r['hp'] == 40 and not r['dying'] and r['gone'], r)
-    r = g.js("""(()=>{ var D=null; return {cave:['potion','mega_potion','potion_a1'].every(function(k){ return ITEMS[k].buy===0&&ITEMS[k].heal>0; }), icons:['pot_heal1','oil_frost','flask_fire','ward_prism'].every(function(k){ return ITEMS[k]._k===k; })}; })()""")
-    check('The old potions stay usable when carried (off the shelves); every new potion has its painted-icon key', r['cave'] and r['icons'], r)
+    r = g.js("""(()=>{ var D=null; return {painted:['pot_heal1','oil_frost','coat_silver','flask_thunder','boon_phoenix','ward_prism'].every(function(k){ return ZIcon.has('ic_'+k); }), cave:['potion','mega_potion','potion_a1'].every(function(k){ return ITEMS[k].buy===0&&ITEMS[k].heal>0; }), icons:['pot_heal1','oil_frost','flask_fire','ward_prism'].every(function(k){ return ITEMS[k]._k===k; })}; })()""")
+    check('The old potions stay usable when carried (off the shelves); every new potion has its painted icon (wave 63 in)', r['cave'] and r['icons'] and r['painted'], r)
     # the round 60 paintings, wired
     r = g.js("""(async()=>{ %s var ws=game.scene.getScene('World'); ZFORGE.enter(ws,'volcano_s',0); await w(6000); var D=game.scene.getScene('Dungeon'), mons=D.monsters.filter(function(m){ return !m.dead; }); var o={painted:mons.filter(function(m){ return m._za; }).length, n:mons.length};
       ZFORGE.enter(ws,'volcano_n',3); await w(6000); D=game.scene.getScene('Dungeon'); var H=D._forgeHearth; o.loop=!!(H&&H.vis&&H.vis._zanim&&H.vis._zanim.anims.isPlaying); D._exitToWorld(null); await w(1500); return o; })()""" % W)

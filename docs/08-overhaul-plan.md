@@ -713,5 +713,6 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris (mid-round): "we also still need to come up with good ideas for how the volcanos and asgard levels are differentiated from standard dungeons, castles and towers … come up with 12 fresh ideas … make lab options for this with some initial ideas drawn up" → the Lab's "Realm ideas" tab.
 - Card (answered before bed): potion bag — **5 of each kind**; sky panel — **show A for now**; realm ideas — **build the picks next round**.
 - **Round 61 DONE** — changelog [563]–[571].
+- Wave 63 in (Kris: "works! requests are in, start to process them"): potion icons and sky panel C wired — changelog [572].
 - **Next:** Kris runs `tools\sprites\round61.ps1` (wave 63: potion icons + sky panel C) and stars the Realm ideas; round 62: build the picked realm ideas into the forges and Asgard's citadel (its four floors and Grímnir), the ending at the rune circle.
 
