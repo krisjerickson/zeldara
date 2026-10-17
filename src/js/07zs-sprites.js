@@ -243,7 +243,7 @@ var ZSPR={
         look:H.LOOK[w]+', riding this mount: '+((C&&C.look)||('a '+(M.n||k)))+' The hero sits in the saddle holding the reins.',pal:C&&C.spec&&C.spec.pal,facings:['x'],flying:/sky|drake|phoenix|eagle|glider|void|dragon$/.test(k),wave:1.5}); }); });
     // monsters
     if(typeof MON_ROSTER!=='undefined')MON_ROSTER.forEach(function(R){ var plan=R.spec&&R.spec.plan; push({id:R.id,group:'monster',sub:Z.QN[R.q]+' · '+({main:'mainland',dun:'dungeon',tow:'tower'}[R.seg]||R.seg),name:R.name,q:R.q,seg:R.seg,
-      look:R.look,moveTxt:R.move,atkTxt:R.atk,defTxt:R.def,spTxt:R.sp,pal:R.spec&&R.spec.pal,plan:plan,specAnim:R.spec&&R.spec.anim,kit:Z.kitOf(R.id),humanoid:!!Z.HUMANOID[plan],scale:Z.SCALE[plan]||1,wave:R.seg==='forge'?7.8:undefined}); });      // round 60: the forge monsters are their own wave
+      look:R.look,moveTxt:R.move,atkTxt:R.atk,defTxt:R.def,spTxt:R.sp,pal:R.spec&&R.spec.pal,plan:plan,specAnim:R.spec&&R.spec.anim,kit:Z.kitOf(R.id),humanoid:!!Z.HUMANOID[plan],scale:Z.SCALE[plan]||1,wave:R.seg==='forge'?7.8:R.seg==='asgard'?7.9:undefined}); });      // round 60: the forge monsters are their own wave
     // bosses, evolved forms, wardens, mage masters, island and volcano bosses, elites
     if(typeof BOSS_SLOT_LIST!=='undefined')BOSS_SLOT_LIST.forEach(function(slot){ var opt=(typeof BOSS_PICK!=='undefined'&&BOSS_PICK[slot])||'a', D=(typeof BOSS_ART!=='undefined'&&BOSS_ART[slot+'.'+opt])||{}, C=typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[slot];
       var q=Z.bossQ(slot,D,C);
@@ -376,7 +376,7 @@ var ZSPR={
   // ── totals and export ──
   stats:function(){ var S={chars:0,sheets:0,core:0,poses:0,byGroup:{},unknown:[]}; ZSPR.all().forEach(function(e){ S.chars++; var g=S.byGroup[e.group]=S.byGroup[e.group]||{chars:0,sheets:0,poses:0}; g.chars++; g.sheets+=e.sheets.length; S.sheets+=e.sheets.length; var nc=e.sheets.filter(function(x){ return (x.tier||'core')==='core'; }).length; S.core+=nc; g.core=(g.core||0)+nc;
       e.sheets.forEach(function(sh){ g.poses+=sh.poses.length; S.poses+=sh.poses.length; }); if(e.unknown&&e.unknown.length)S.unknown.push(e.id+': '+e.unknown.join(',')); }); return S; },
-  WAVES:{0:'Pilot (by hand)',1:'Heroes',1.5:'Mounts and riders',2:'Village, familiars',3:'Grasslands',3.5:'Grasslands bosses',4:'Wetlands',4.5:'Wetlands bosses',5:'Highlands',5.5:'Highlands bosses',6:'Ashlands',6.5:'Ashlands bosses',7:'Volcano',7.5:'Volcano bosses',7.6:'Forge-masters',7.7:'Surtharn',7.8:'Forge monsters',8:'Vehicles',2.5:'Other bosses'},
+  WAVES:{0:'Pilot (by hand)',1:'Heroes',1.5:'Mounts and riders',2:'Village, familiars',3:'Grasslands',3.5:'Grasslands bosses',4:'Wetlands',4.5:'Wetlands bosses',5:'Highlands',5.5:'Highlands bosses',6:'Ashlands',6.5:'Ashlands bosses',7:'Volcano',7.5:'Volcano bosses',7.6:'Forge-masters',7.7:'Surtharn',7.8:'Forge monsters',7.9:'Asgard monsters',8:'Vehicles',2.5:'Other bosses'},
   PILOT:['hero_m.model','hero_f.model','hero_m.move.s','hero_m.melee.s','meadow_goblin.core.s','meadow_goblin.fb','thistle_hog.core.q','npc_forge.core.f','mt_horse.ride','ride_m_horse.ride','boss_goblin_king.core.s','fam_grass.core.q'],
   requests:function(){ var out=[], Z=ZSPR;
     // the girl's three looks to compare: same model-sheet layout, one request per look

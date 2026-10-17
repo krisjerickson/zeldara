@@ -202,6 +202,13 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 62 (Oct 17) — the realm ideas
+- Answered in the Lab (Kris: "i've picked the realm ideas now. let me know on any questions"): ☆ Heat and quench, Bellows and the lava tide, Brokkr's anvil, Free the toilers, Ore-cart rails; Heimdall's gaze, The einherjar rise at dusk, Climb Yggdrasil (note: "this is good, but rename the dragon, can't pronounce it"), The Norns' threads; The Ragnarök track. Not picked: Hnefatafl throne, the rune draft. → Grímnir is a phased boss fight.
+- Kris also: "not seeing the painted art potions in the design lab" → the Potions tab shows the painted icons.
+- Card (answered): forges — **one signature per forge** (heat everywhere; Ember: Brokkr's anvil; Cinder: the lava tide; Slag: ore-cart rails; Ash: free the toilers; Muspelheim a bit of each); the Ragnarök track — **Muspelheim and Asgard only**; the dragon — **Grimtooth**; Asgard's floors — **Heimdall → Einherjar → Norns → Yggdrasil**.
+- Floated again (Kris: "some of questions above i didn't answer"): Grímnir's throne room (tafl / fight / both) and the rune draft (left unpicked in the Lab).
+  - **Answered: "A phased boss fight"; the rune draft — "Leave it out"**.
+
 ### Round 61 (Oct 16, asked before bed)
 - Potion bag: healing + mana share the old bag of 5; oils, coatings, flasks, boons and wards up to 5 of EACH kind — keep, or something else?
   - **Answered (Oct 16 card): "5 of each kind"** — as built.
@@ -715,4 +722,11 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - **Round 61 DONE** — changelog [563]–[571].
 - Wave 63 in (Kris: "works! requests are in, start to process them"): potion icons and sky panel C wired — changelog [572].
 - **Next:** Kris runs `tools\sprites\round61.ps1` (wave 63: potion icons + sky panel C) and stars the Realm ideas; round 62: build the picked realm ideas into the forges and Asgard's citadel (its four floors and Grímnir), the ending at the rune circle.
+
+## Round 62 (Kris, Oct 17) — the realm ideas built
+- Kris: "great, proceed, things are committed. let me know what questions you have"; "i've picked the realm ideas now. let me know on any questions. also, not seeing the painted art potions in the design lab"; "i realized some of questions above i didn't answer, if you can float those again".
+- Realm picks and the cards: see Open questions › Round 62 (all answered).
+- Built: heat everywhere; one trial per forge; Asgard's citadel (five floors, Grímnir phased); the Ragnarök track; four Asgard monsters; Grímnir's Lab options; the Lab's potion icons.
+- **Round 62 DONE** — changelog [573]–[583].
+- **Next:** Kris runs `tools\sprites\round62.ps1` and picks Grímnir's three forms in the Lab (Bosses → Grímnir of Asgard); then the ending at the rune circle (Godsbane into the sky, the Bifröst remade into heaven) and Grímnir painted.
 

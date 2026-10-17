@@ -17,9 +17,10 @@ var LBB={ moving:true, vis:new Set(), QN:['','Grasslands','Wetlands','Highlands'
     [1,2,3,4].forEach(function(q){ F.push({grp:'islands',id:'isl'+q,title:QN[q]+' familiar island guardian',rows:[{slot:'boss_isl_'+q,lbl:'Island dungeon, last floor'}]}); });
     CHAR_ROSTER.filter(function(R){ return R.cat==='boss'&&R.sub==='Volcano boss rush'; }).forEach(function(R){ F.push({grp:'volcano',id:R.id,title:'Volcano boss rush · '+R.where,rows:[{slot:R.id,lbl:R.doing}]}); });
     if(typeof FORGE_FAMS!=='undefined')FORGE_FAMS.forEach(function(f){ F.push({grp:'forge',id:f[0],title:'NEW · '+f[1]+' · '+f[2]+' — 3 phases, a new form each',rows:f[3].map(function(l,i){ return {slot:'fm_'+f[0]+'_'+(i+1),lbl:'Phase '+(i+1)+' · '+l}; })}); });      // round 56: the forge-masters
+    if(typeof ASGARD_FAMS!=='undefined')ASGARD_FAMS.forEach(function(f){ F.push({grp:'asgard',id:f[0],title:'NEW · '+f[1]+' · '+f[2]+' — 3 phases, a new form each',rows:f[3].map(function(l,i){ return {slot:f[0]+'_'+(i+1),lbl:'Phase '+(i+1)+' · '+l}; })}); });      // round 62: Grímnir
     [1,2,3,4].forEach(function(q){ F.push({grp:'elites',id:'elite'+q,title:QN[q]+' elite · treasure-vault den',rows:[{slot:'elite_'+q,lbl:'One room: the elite + '+(2+q)+' of its kin'}]}); });
     return F.filter(function(f){ f.rows=f.rows.filter(function(r){ return BOSS_SLOTS[r.slot]; }); return f.rows.length; }); },
-  GROUPS:[['guardians','★ Quadrant guardians — every phase'],['wardens','🏰 Castle wardens'],['mages','🔮 Mage-tower masters'],['islands','🏝 Island guardians'],['forge','🔥 Forge-masters of Muspelheim — NEW, choose one per phase'],['volcano','🌋 Volcano boss rush'],['elites','💎 Elites (treasure vaults)']],
+  GROUPS:[['guardians','★ Quadrant guardians — every phase'],['wardens','🏰 Castle wardens'],['mages','🔮 Mage-tower masters'],['islands','🏝 Island guardians'],['asgard','👑 Grímnir of Asgard — NEW, choose one per phase'],['forge','🔥 Forge-masters of Muspelheim — NEW, choose one per phase'],['volcano','🌋 Volcano boss rush'],['elites','💎 Elites (treasure vaults)']],
   isNew:function(D){ return D.opt>='d'; },
   hasNew:function(slot){ return (BOSS_SLOTS[slot]||[]).some(LBB.isNew); },
   // the design the game will use: Kris's Lab pick, unless the slot was redrawn with new options he hasn't chosen from yet

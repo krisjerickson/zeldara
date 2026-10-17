@@ -136,3 +136,29 @@
     {id:'sc_pn_asg_sky_c',wave:63,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_asg_sky_a','sc_pn_asg_sky_b'],title:'Story panel — Asgard opens in the sky (option C: A and B joined)',items:[
       ['pn_asg_sky_c','Asgard opens in the sky','a wide cinematic painting AT NIGHT, taken from reference A: the young hero in a green cloak standing on the dark rocks in the bottom-left corner, a lantern hanging from a tree branch beside him, a calm lake with the village harbour, its wooden piers, boats and lit cottages on the right shore, mountains behind under a starry sky. In the sky, taken from reference B: the floating island of Asgard — a white-and-gold city of spires on a great rock with waterfalls pouring off its edges — descending through a ring of parting clouds and golden light, and a few small glowing pale-blue spirit wisps drifting near the hero on the rocks. NO lion, no animal companion — the hero stands alone with the spirits.',1536,1024]]}]);
 })();
+// ═══ wave 64 (round 62): the pieces of the realm trials — the forges' (fr_*) and Asgard's citadel (ar_*) ═══
+// Kris's ☆ (Lab, Realm ideas): heat and quench, the lava tide and bellows, Brokkr's anvil, ore-cart rails, free the toilers; Heimdall's gaze, the
+// einherjar's horn-braziers, the Norns' threads, Yggdrasil with Ratatoskr and the dragon renamed Grimtooth ("rename the dragon, can't pronounce it").
+(function(){ if(typeof ZSCN==='undefined')return; ZSCN.WAVES[64]='Round 62 — the forge trials and Asgard\'s citadel';
+  var LOOP='Animation frames — ONE subject shown FOUR times (a 2 × 2 grid, read left to right, top row first) as a 4-frame living loop. The SAME design, size, colours and place in every frame. ';
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    {id:'sc_fr_props',wave:64,fam:'fr_props',kind:'obj',cols:4,rows:2,size:'1536x1024',refs:['sc_forge_hearths'],title:'The forge trials — pieces for the floors of the four volcano forges (black iron, soot-dark stone, glowing orange forge-light), seen from above-front like the game scenery; no text',items:[
+      ['fr_anvil','Brokkr\'s anvil','a great black-iron anvil on a stone block, a glowing orange rune-key half-forged on it, a hammer leaning beside',90,62],
+      ['fr_quench','Quench trough','a long stone trough of cool blue water with steam curling off it, iron bands round it',80,48],
+      ['fr_bellows','Great bellows','a huge leather forge bellows on an iron frame with a long nozzle and a pump handle',86,62],
+      ['fr_orevein','Ore vein','a lump of dark rock with glowing orange ore nuggets in it',60,56],
+      ['fr_cart','Ore-cart','a small iron mine cart on rail wheels, heaped with glowing orange ore',72,56],
+      ['fr_switch','Rail switch','an iron rail-switch lever on a stone post with a red knob',40,58],
+      ['fr_spiritdoor','Spirit door','an arched doorway sealed by a shimmering pale-blue sheet of spirit-light with a rune at its middle, set in dark stone',72,96]]},
+    {id:'sc_ar_props',wave:64,fam:'ar_props',kind:'obj',cols:2,rows:2,size:'1024x1024',refs:['sc_asg_wall_opts'],title:'Asgard\'s citadel — pieces in white stone, cream and gold, seen from above-front like the game scenery; no text',items:[
+      ['ar_lens','Heimdall\'s lens','a tall white-and-gold stand holding a great round crystal lens that glows with rainbow light',56,84],
+      ['ar_brazier','Horn-brazier','a gold brazier shaped like a drinking horn on a tripod, a tall white-gold flame in it',56,86],
+      ['ar_thread','Golden thread post','a carved wooden post wound with shining golden threads that stretch away into the air',60,72],
+      ['ar_yggbranch','World-tree knot','a great twisting branch-knot of the world tree, pale bark with faint gold veins, small glowing leaves',96,72]]},
+    {id:'sc_ar_big',wave:64,fam:'ar_big',kind:'obj',cols:2,rows:1,size:'1536x1024',title:'Asgard\'s citadel — two large set-pieces, seen from above-front like the game scenery; no text',items:[
+      ['ar_norns','The three Norns','three tall serene women in pale robes (one young, one in her prime, one old) spinning golden threads at a loom beside a small well',170,120],
+      ['ar_grimtooth','Grimtooth','a great dark-purple dragon\'s head and claws rising from twisted roots, gnawing them, rot and purple mist about it, glowing red eyes',270,160]]},
+    {id:'sc_ar_rat',wave:64,fam:'ar_rat',kind:'obj',cols:2,rows:2,size:'1024x1024',anim:1,title:LOOP+'Ratatoskr, the cheeky red squirrel who runs up and down the world tree: running to the right in a 4-frame run cycle',
+      seq:[['ar_rat','Ratatoskr running','a cheeky red squirrel with a big bushy tail, a tiny satchel of messages on his back','reg',46,36,['legs stretched, tail up','legs gathered, tail curling','legs stretched, tail down','legs gathered, tail up']]]}]);
+  if(ZSCN.expand)ZSCN.expand();
+})();
