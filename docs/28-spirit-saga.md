@@ -17,7 +17,7 @@
 - **Mira's workshop** opens with **the first castle cleared anywhere**.
 - **Tray gems.** There are **four new soul gems**, one per region, each given by the spirit freed at that region's boss dungeon.
 - **Spirit guardians.** There are **40 new spirit shrines** (runestones, rune circles, landmarks), each guarded by a **named mini-boss** made from that region's monsters.
-- **After the ending:** **credits, then free roam.** The world is quieter and lit, and Asgard stays open.
+- **After the ending:** free roam — the world is quieter and lit, and Asgard stays open. **Credits paused (Kris, Oct 17):** "we're going to have another ending for the game after the spirits are released, so let's pause credits building for now, but remember we will come back to this".
 - **Already built (round 51):**
   - Forges and Muspelheim unlock with the 4 boss dungeons **and** the 4 master builders' towers.
   - They rise off reachable coasts on walled causeways.
@@ -224,3 +224,5 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 - **Credits:** text only, or over painted panels?
 
 **Round 61 note (Asgard in Kris's picks).** The island now wears the painted pieces: white walls with gold battlements (asgA) and the two tower styles round the rim, the golden-doored gate where the Bifröst lands, the citadel of spires in the middle with the Hall of shields and the Tree-crowned keep beside it, cream rune-paving, and the world-tree circle in front of the citadel — `ZASG.heart(ws)` is where the ending happens (the Lodestar raised, Godsbane cast into the sky, the Bifröst remade into heaven). The Bifröst is laid in crystal-and-rainbow slabs; the notch is an iron cradle. The cut-scenes show three story panels: Muspelheim sinking, Asgard opening in the sky (A until the joined panel C is painted), Asgard on the lake. Ideas for what makes Asgard's four floors (and the forges) more than a dungeon are in the Lab's "Realm ideas" tab, to be built in round 62.
+
+**Round 63 note (the ending built).** `16h-the-ending.js`: after Grímnir falls, [Tab] at `ZASG.heart(ws)` with the Lodestar plays the ending — Godsbane cast into the sky as a column of light, the Bifröst bent up into heaven, the forty spirits (freed forms), the group scenes, the fairy kings and the familiars rising along it. Four story panels (two Lab options each, wave 65) play between once Kris picks them. Grímnir stays three phases; Godsbane hits ×3 in the last. No credits yet — a second ending comes after the spirits are released.

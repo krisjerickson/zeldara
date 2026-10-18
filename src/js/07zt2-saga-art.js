@@ -162,3 +162,19 @@
       seq:[['ar_rat','Ratatoskr running','a cheeky red squirrel with a big bushy tail, a tiny satchel of messages on his back','reg',46,36,['legs stretched, tail up','legs gathered, tail curling','legs stretched, tail down','legs gathered, tail up']]]}]);
   if(ZSCN.expand)ZSCN.expand();
 })();
+// ═══ wave 65 (round 63): the ending's story panels — Lab options first (Kris's card), two of each ═══
+// Kris (Oct 15): "use the lodestar to cast godsbane into the sky and remake the bifrost into heaven to liberate the spirits"; keep the celebrating
+// group scenes for this. The same painted style as his picked Asgard panels (A's night harbour and lantern, the descending island, no lion).
+(function(){ if(typeof ZSCN==='undefined')return; ZSCN.WAVES[65]='Round 63 — the ending\'s story panels (two options each)';
+  var P=function(id,name,desc){ return {id:'sc_'+id,wave:65,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_asg_sky_c','sc_pn_asg_lake_a'],title:'Story panel — '+name,items:[[id,name,'a wide cinematic painting in the same style as the reference panels: '+desc+'. The young hero in a green cloak (as in the references); NO lion, no animal companion.',1536,1024]]}; };
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    P('pn_end_cast_a','Godsbane into the sky — A','the hero seen from behind, standing in a round white-and-gold world-tree mosaic circle in a white city of spires on a lake, raising a white-gold staff with a clear lens at its head; a column of white-gold light blasts from the staff straight up into a night sky full of stars'),
+    P('pn_end_cast_b','Godsbane into the sky — B','a low dramatic view: the hero raising the shining lens-staff overhead in the rune circle, the light tearing a round opening in the clouds above, golden rays falling all over the white city and the lake'),
+    P('pn_end_bif_a','The Bifröst remade into heaven — A','a rainbow bridge of crystal and light curving up out of the rune circle in the white city, high into a dawn sky where the clouds open onto a golden heaven'),
+    P('pn_end_bif_b','The Bifröst remade into heaven — B','seen from far across the lake: the white walled city on the water, and from its heart a great rainbow arching up and up into a glowing gap in the heavens'),
+    P('pn_end_home_a','The spirits go home — A','hundreds of small glowing pale-blue humanoid spirits, joyful and celebrating (dancing, waving, holding hands), streaming up the rainbow bridge into the light; little fairies with them; the hero small at the bottom, waving'),
+    P('pn_end_home_b','The spirits go home — B','close on a few glowing pale-blue spirits turning back to wave goodbye as they walk up the rainbow bridge, joyful, more spirits rising behind them into a golden heaven'),
+    P('pn_end_dawn_a','Dawn over the village — A','the little lakeside village at sunrise, lanterns going out, the white city calm on the lake, the faint rainbow fading in the morning sky, the hero sitting on the end of the pier'),
+    P('pn_end_dawn_b','Dawn over the village — B','the village green at sunrise with its ring of rune stones, villagers and the hero gathered, looking up at the last sparkles of the rainbow in a clear golden sky')]);
+})();
+

@@ -57,7 +57,7 @@ var ZCIT={ on:true, FLOORS:5,
       o.fire=sc.add.circle(p.x,p.y-30,12,0xffa040,0.8).setDepth(p.y/1e4+5.1).setBlendMode(Phaser.BlendModes.ADD); sc.tweens.add({targets:o.fire,scale:{from:0.8,to:1.25},alpha:{from:0.6,to:0.95},duration:260,yoyo:true,repeat:-1}); C.braziers.push(o); sc.interactables.push(o); });
     C.dead=[]; showNotif('🔥 Valhöll — the fallen einherjar rise again while the horn-braziers burn. Put them out (Tab).','#ffd890'); },
   lit:function(sc){ return !!(sc._cit&&sc._cit.braziers&&sc._cit.braziers.some(function(b){ return b.lit; })); },
-  douse:function(sc,o){ o.lit=false; o.opened=true; if(o.fire){ sc.tweens.killTweensOf(o.fire); sc.tweens.add({targets:o.fire,alpha:0,scale:0.2,duration:500}); } var left=sc._cit.braziers.filter(function(b){ return b.lit; }).length;
+  douse:function(sc,o){ o.lit=false; o.opened=true; if(o.vis&&o.vis.setTint)o.vis.setTint(0x5a5a68); if(o.fire){ sc.tweens.killTweensOf(o.fire); sc.tweens.add({targets:o.fire,alpha:0,scale:0.2,duration:500}); } var left=sc._cit.braziers.filter(function(b){ return b.lit; }).length;
     showNotif(left?'💨 The horn-brazier gutters out — '+left+' still burn.':'💨 The last horn-brazier goes dark. The fallen of Valhöll stay down now.','#ffd890'); },
   rise:function(sc,mon){ if(!sc._cit||sc.floor!==1||!ZCIT.lit(sc)||!/^einherjar_/.test(mon.rid||(mon.def&&mon.def.id)||''))return; var id=mon.rid||mon.def.id, x=mon.x, y=mon.y, n=(mon._risen||0)+1; if(n>3)return;
     sc.time.delayedCall(6000,function(){ if(!sc.sys||!sc.sys.isActive()||!ZCIT.lit(sc))return; var m=ZCIT.spawn(sc,id,x,y); if(m){ m._risen=n; if(sc._floatText)sc._floatText(x,y-40,'rises again!','#fff0b0'); } }); },
@@ -93,7 +93,9 @@ var ZCIT={ on:true, FLOORS:5,
     var gp=ZCIT.P([Math.round(F.w/2),F.h-2]); C.grim=ZCIT.prop(sc,'ar_grimtooth',gp.x,gp.y+40,function(g,x,y){ g.fillStyle(0x3a2a40,1).fillEllipse(x,y-10,120,50); g.fillStyle(0x5a3a5a,1).fillTriangle(x-50,y-20,x+50,y-20,x,y-70); g.fillStyle(0xff4060,1).fillCircle(x-16,y-40,5).fillCircle(x+16,y-40,5); g.fillStyle(0xf0e8d8,1); for(var i=-3;i<=3;i++)g.fillTriangle(x+i*12-5,y-20,x+i*12+5,y-20,x+i*12,y-8); }, 1.4);
     // Ratatoskr runs the trunk, top to bottom and back
     var path=(H.trunk||[]).map(ZCIT.P); C.rat={path:path,u:0,dir:1,caught:false,top:H.top?ZCIT.P(H.top):null};
-    C.rat.vis=sc.add.container(path[0]?path[0].x:0,path[0]?path[0].y:0).setDepth(9000); var Z=typeof _scn==='function'?_scn():null, im=Z&&Z.has&&Z.has('ar_rat_1')?Z.image(sc,'ar_rat_1',0,10,Z.K*0.8):null;
+    C.rat.vis=sc.add.container(path[0]?path[0].x:0,path[0]?path[0].y:0).setDepth(9000); var Z=typeof _scn==='function'?_scn():null, A=typeof ZWE!=='undefined'&&ZWE.animTex?ZWE.animTex(sc,'ar_rat'):null, im=null;
+    if(A){ im=sc.add.sprite(0,0,A.key,'0').setOrigin(0.5,0.7).setScale(0.9/(Z.RES||1)); try{ im.play(A.key); }catch(e){} } else if(Z&&Z.has&&Z.has('ar_rat_1'))im=Z.image(sc,'ar_rat_1',0,10,Z.K*0.8);      /* round 63: Ratatoskr runs (the painted 4-frame loop) */
+   
     if(im)C.rat.vis.add(im); else { C.rat.vis.add(sc.add.ellipse(0,0,16,10,0xc8642a,1)); C.rat.vis.add(sc.add.circle(8,-3,4,0xc8642a,1)); C.rat.vis.add(sc.add.ellipse(-10,-6,10,14,0xe08a40,1)); }
     showNotif('🌳 Yggdrasil — climb the World Tree! Grimtooth gnaws at the roots and his rot climbs after you. Catch Ratatoskr the squirrel for a way up.','#c8f0a0'); },
   yggTick:function(sc,dt){ var C=sc._cit; if(!C||C.rot===undefined)return; var F=ZCIT.floorOf(sc); C.rotT+=dt; if(C.rotT>3.2&&C.rot>C.rotTop){ C.rotT=0; C.rot--; }
@@ -121,6 +123,7 @@ var ZDOOM={ MAX:10, MARKS:[3,6,9],
     for(var i=1;i<=ZDOOM.MAX;i++){ var on2=i<=D.v, mk=ZDOOM.MARKS.indexOf(i)>=0; h+='<span style="width:12px;height:12px;border-radius:'+(mk?'2px':'50%')+';border:1px solid '+(mk?'#ffd060':'rgba(255,255,255,.35)')+';background:'+(on2?(A?'#9fd8ff':'#ff6030'):'rgba(20,20,30,.7)')+'"></span>'; }
     h+='</div>'; el.style.display='block'; if(el._h!==h){ el._h=h; el.innerHTML=h; } }
 };
+if(typeof ZWE!=='undefined'){ ZWE.LOOP=ZWE.LOOP||{}; ZWE.LOOP.ar_rat=10; }
 setInterval(function(){ try{ var D=game.scene.getScene('Dungeon'); if(!D||!game.scene.isActive('Dungeon')||!D._doom){ var el=document.getElementById('zdoom'); if(el)el.style.display='none'; } }catch(e){} },800);
 
 // ── the layouts (07zx ZSP) ──
@@ -186,7 +189,7 @@ setTimeout(function(){
   var sm=D._spawnMonster; D._spawnMonster=function(key,x,y,isBoss,mult){ if(this._asgc&&key==='grimnir'&&isBoss){ var L=BossPhases.spawn(this,'grimnir',1,x,y,mult||1); L.forEach(function(m){ m.sovWard=true; }); if(L[0])showNotif('👑 Grímnir, the Masked King, on the high seat of Asgard! (Warded — Sovereign and Godsbane bite deep.)','#fff2b0'); return L[0]||null; } return sm.apply(this,arguments); };
   var ob=D._onBossDefeated; D._onBossDefeated=function(mon){ if(!this._asgc)return ob.apply(this,arguments); var self=this, alive=(this._bossGroup||[]).filter(function(m){ return !m.dead&&m!==mon; }); if(alive.length)return;
     var ph=this._bossPhase||1; if(ph<BossPhases.count('grimnir')){ var P=BOSS_PHASES.grimnir.phases[ph]; this.cameras.main.flash(600,255,250,220); this.cameras.main.shake(800,0.012); showNotif('⚡ '+P.introT,'#fff2b0'); var x=mon.x, y=mon.y;
-      setTimeout(function(){ if(!self.sys||!self.monsters||!self.sys.displayList)return; var L=BossPhases.spawn(self,'grimnir',ph+1,x,y,1); L.forEach(function(m){ m.sovWard=true; }); },1200); return; }
+      setTimeout(function(){ if(!self.sys||!self.monsters||!self.sys.displayList)return; var L=BossPhases.spawn(self,'grimnir',ph+1,x,y,1); L.forEach(function(m){ m.sovWard=true; if(ph+1===BossPhases.count('grimnir'))m.godsbaneWeak=true; }); if(ph+1===BossPhases.count('grimnir'))showNotif('✦ The storm has one weak point — GODSBANE (V) strikes it three times as hard!','#fff2b0'); },1200); return; }
     BossPhases.hud(this,false); if(typeof BossMoments!=='undefined')try{ BossMoments.finale(this,mon); }catch(e){} this._bossDefeated=true; var ps=this.worldScene.playerState; ps.grimnirDown=1;
     var bc=this.interactables.find(function(i){ return i.type==='boss_chest'; }); if(bc)bc.locked=false; if(this._portalOpen)this._portalOpen();
     showNotif('🏆 Grímnir falls — the mask shatters, and the gate of heaven stands open. Go to the rune circle at Asgard\'s heart.','#fff2b0'); if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('Grímnir falls'); }catch(e){} };

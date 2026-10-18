@@ -202,6 +202,14 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 63 (Oct 17) — the ending
+- Grímnir: doc 28 said 5 phases (Godsbane his weak point in the last); round 62 built 3 (and the Lab has 3 forms). Keep 3 or go to 5?
+  - **Answered: "Keep 3 phases"** (Godsbane hits hardest in the last).
+- Credits (doc 28, still open): text only, or over painted panels?
+  - **Answered: "we're going to have another ending for the game after the spirits are released, so let's pause credits building for now, but remember we will come back to this"** — credits paused.
+- The ending's story panels (Godsbane into the sky; the Bifröst remade into heaven; the spirits going home; the village at dawn): Lab options first (two each), or paint straight away?
+  - **Answered: "Lab options first"**.
+
 ### Round 62 (Oct 17) — the realm ideas
 - Answered in the Lab (Kris: "i've picked the realm ideas now. let me know on any questions"): ☆ Heat and quench, Bellows and the lava tide, Brokkr's anvil, Free the toilers, Ore-cart rails; Heimdall's gaze, The einherjar rise at dusk, Climb Yggdrasil (note: "this is good, but rename the dragon, can't pronounce it"), The Norns' threads; The Ragnarök track. Not picked: Hnefatafl throne, the rune draft. → Grímnir is a phased boss fight.
 - Kris also: "not seeing the painted art potions in the design lab" → the Potions tab shows the painted icons.
@@ -729,4 +737,11 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Built: heat everywhere; one trial per forge; Asgard's citadel (five floors, Grímnir phased); the Ragnarök track; four Asgard monsters; Grímnir's Lab options; the Lab's potion icons.
 - **Round 62 DONE** — changelog [573]–[583].
 - **Next:** Kris runs `tools\sprites\round62.ps1` and picks Grímnir's three forms in the Lab (Bosses → Grímnir of Asgard); then the ending at the rune circle (Godsbane into the sky, the Bifröst remade into heaven) and Grímnir painted.
+
+## Round 63 (Kris, Oct 17) — the Bosses tab, the ending
+- Kris: "new requests are in, process them and new steps. i am not seeing the grimnir of asgard selection. clean up the bosses tab in the lab with new buttons that make it easier to find for me to choose"; mid-task: "i see the painted potions now, they look good".
+- Cards: see Open questions › Round 63 (all answered) — keep 3 phases; credits **paused** ("we're going to have another ending for the game after the spirits are released … remember we will come back to this"); ending panels — Lab options first.
+- Built: the Lab Bosses tab gets a row of group buttons (Grímnir of Asgard first, each with how many are left to pick); the ending at Asgard's rune circle (raise the Lodestar → Godsbane into the sky → the Bifröst remade → the spirits go home); Godsbane hits Grímnir ×3 in his last form; round 62's paintings wired (anvil, braziers, thread posts, Ratatoskr, Einherjar).
+- **Round 63 DONE** — changelog [584]–[589].
+- **Next:** Kris runs `tools\sprites\round63.ps1` (ending panel options), picks Grímnir's three forms (Lab → Bosses → 👑 Grímnir) and the ending panels (Lab → Asgard tab). Then: Grímnir painted, the picked panels wired. **Later (paused by Kris):** the credits, after the second ending.
 

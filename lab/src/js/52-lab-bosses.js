@@ -20,7 +20,12 @@ var LBB={ moving:true, vis:new Set(), QN:['','Grasslands','Wetlands','Highlands'
     if(typeof ASGARD_FAMS!=='undefined')ASGARD_FAMS.forEach(function(f){ F.push({grp:'asgard',id:f[0],title:'NEW · '+f[1]+' · '+f[2]+' — 3 phases, a new form each',rows:f[3].map(function(l,i){ return {slot:f[0]+'_'+(i+1),lbl:'Phase '+(i+1)+' · '+l}; })}); });      // round 62: Grímnir
     [1,2,3,4].forEach(function(q){ F.push({grp:'elites',id:'elite'+q,title:QN[q]+' elite · treasure-vault den',rows:[{slot:'elite_'+q,lbl:'One room: the elite + '+(2+q)+' of its kin'}]}); });
     return F.filter(function(f){ f.rows=f.rows.filter(function(r){ return BOSS_SLOTS[r.slot]; }); return f.rows.length; }); },
-  GROUPS:[['guardians','★ Quadrant guardians — every phase'],['wardens','🏰 Castle wardens'],['mages','🔮 Mage-tower masters'],['islands','🏝 Island guardians'],['asgard','👑 Grímnir of Asgard — NEW, choose one per phase'],['forge','🔥 Forge-masters of Muspelheim — NEW, choose one per phase'],['volcano','🌋 Volcano boss rush'],['elites','💎 Elites (treasure vaults)']],
+  // round 63 (Kris: "i am not seeing the grimnir of asgard selection. clean up the bosses tab in the lab with new buttons that make it easier to find"):
+  // one button per group (the new ones first, with how many still need a pick); the tab shows only the chosen group
+  GROUPS:[['asgard','👑 Grímnir of Asgard — NEW, choose one per phase','👑 Grímnir'],['forge','🔥 Forge-masters of Muspelheim — choose one per phase','🔥 Forge-masters'],['guardians','★ Quadrant guardians — every phase','★ Guardians'],['wardens','🏰 Castle wardens','🏰 Castle wardens'],['mages','🔮 Mage-tower masters','🔮 Mage towers'],['islands','🏝 Island guardians','🏝 Islands'],['volcano','🌋 Volcano boss rush','🌋 Boss rush'],['elites','💎 Elites (treasure vaults)','💎 Elites']],
+  view:(function(){ try{ return localStorage.getItem('zlab_bb_view')||null; }catch(e){ return null; } })(),
+  need:function(f){ return f.rows.filter(function(r){ return LBB.pickOf(r.slot)===null; }).length; },
+
   isNew:function(D){ return D.opt>='d'; },
   hasNew:function(slot){ return (BOSS_SLOTS[slot]||[]).some(LBB.isNew); },
   // the design the game will use: Kris's Lab pick, unless the slot was redrawn with new options he hasn't chosen from yet
@@ -50,11 +55,14 @@ var LBB={ moving:true, vis:new Set(), QN:['','Grasslands','Wetlands','Highlands'
     document.querySelectorAll('.bb-card').forEach(function(c){ var pk=LBB.pickOf(c.dataset.slot), on=pk===+c.dataset.i; c.classList.toggle('on',on); var b=c.querySelector('.bb-pick'); b.setAttribute('aria-pressed',String(on)); b.textContent=on?'✓ Chosen':'Choose this'; }); }
 };
 LAB_TABS.push({ id:'bosses', name:'Bosses',
-  blurb:'<b>Boss finalisation (round 8)</b> — your picks are in, and every multi-phase boss now keeps its <b>colours and signature pieces through all its phases</b> (crowns, hats, chest stars, background effects). Each guardian family starts with a <b>line-up</b> of every phase: mark it “The family looks right” or leave notes. Rows marked <b>NEW</b> were redrawn as you asked — choose one. Options you didn’t pick are kept under <b>Reference</b>. <button class="vbtn" id="bb-mv">⇄ Idle / on the move</button>',
+  blurb:'<b>Round 63 — the buttons at the top jump between the groups; Grímnir of Asgard is first: choose one form for each of his three phases.</b> The same as before: your picks are in, and every multi-phase boss now keeps its <b>colours and signature pieces through all its phases</b> (crowns, hats, chest stars, background effects). Each guardian family starts with a <b>line-up</b> of every phase: mark it “The family looks right” or leave notes. Rows marked <b>NEW</b> were redrawn as you asked — choose one. Options you didn’t pick are kept under <b>Reference</b>. <button class="vbtn" id="bb-mv">⇄ Idle / on the move</button>',
   designs:LBB.fams().reduce(function(a,f){ return a.concat(f.rows.map(function(r){ return {id:r.slot,name:(BA.of(r.slot)||{}).name||r.slot}; })); },[]),
   render:function(){ setTimeout(LBB.bind,0);
-    var F=LBB.fams(); return '<div class="bb-wrap">'+LBB.GROUPS.map(function(G){ var L=F.filter(function(f){ return f.grp===G[0]; }); if(!L.length)return '';
-      return '<h3 class="ch-sub">'+G[1]+' — '+L.length+'</h3>'+L.map(function(f){ return '<section class="bb-fam"><h4>'+f.title+'</h4>'+(f.grp==='guardians'||f.grp==='forge'?LBB.lineup(f):'')+f.rows.map(LBB.row).join('')+'</section>'; }).join(''); }).join('')+'</div>'; } });
+    var F=LBB.fams(), has=LBB.GROUPS.filter(function(G){ return F.some(function(f){ return f.grp===G[0]; }); }), need=function(g){ return F.filter(function(f){ return f.grp===g; }).reduce(function(n,f){ return n+LBB.need(f); },0); };
+    if(!LBB.view||!has.some(function(G){ return G[0]===LBB.view; }))LBB.view=(has.find(function(G){ return need(G[0])>0; })||has[0]||[null])[0];
+    var nav='<nav class="bb-nav">'+has.map(function(G){ var n=need(G[0]); return '<button class="vbtn bb-go'+(G[0]===LBB.view?' on':'')+'" data-g="'+G[0]+'">'+G[2]+(n?' <i class="bb-need">'+n+' to pick</i>':' <i class="bb-done">✓</i>')+'</button>'; }).join('')+'</nav>';
+    return nav+'<div class="bb-wrap">'+LBB.GROUPS.map(function(G){ if(G[0]!==LBB.view)return ''; var L=F.filter(function(f){ return f.grp===G[0]; }); if(!L.length)return '';
+      return '<h3 class="ch-sub">'+G[1]+' — '+L.length+'</h3>'+L.map(function(f){ return '<section class="bb-fam"><h4>'+f.title+'</h4>'+(f.grp==='guardians'||f.grp==='forge'||f.grp==='asgard'?LBB.lineup(f):'')+f.rows.map(LBB.row).join('')+'</section>'; }).join(''); }).join('')+'</div>'; } });
 LBB.lineup=function(f){ var k='bosses-fam-'+f.id, p=LabApp.picks[k]||{}, ok=p.verdict==='pick';
   return '<div class="bb-line"><div class="bb-lh"><b>Line-up — every phase with your picks</b><span>Kept through every phase: '+((typeof BOSS_THREADS!=='undefined'&&BOSS_THREADS[f.id])||'')+'</span></div>'+
     '<div class="bb-strip">'+f.rows.map(function(r){ var D=LBB.eff(r.slot); return '<figure><canvas class="bb-cv bb-lcv" width="200" height="190" data-slot="'+r.slot+'" data-id="'+D.id+'"></canvas><figcaption>'+r.lbl.split(' · ')[0]+'</figcaption></figure>'; }).join('')+'</div>'+
@@ -63,12 +71,14 @@ LBB.lineup=function(f){ var k='bosses-fam-'+f.id, p=LabApp.picks[k]||{}, ok=p.ve
 (function(){ var orig=LabApp.renderGrid;
   LabApp.renderGrid=function(quiet){ if(this.tab==='bosses'&&quiet&&document.querySelector('.bb-card')){ LBB.refresh(); this.renderTabs(); return; } return orig.call(this,quiet); };
   document.addEventListener('click',function(e){ if(e.target.id==='bb-mv'){ LBB.moving=!LBB.moving; return; }
+    var go=e.target.closest&&e.target.closest('.bb-go'); if(go){ LBB.view=go.dataset.g; try{ localStorage.setItem('zlab_bb_view',LBB.view); }catch(er){} LabApp.renderGrid(); window.scrollTo(0,0); return; }
     var fb=e.target.closest('.bb-famok'); if(fb){ var fk='bosses-fam-'+fb.dataset.fam, fp=LabApp.picks[fk]=LabApp.picks[fk]||{}; fp.verdict=fp.verdict==='pick'?null:'pick'; fp.regions=[]; LabApp.persist(fk); LBB.refresh(); return; }
     var b=e.target.closest('.bb-pick'); if(!b)return; var k='bosses-'+b.dataset.slot, p=LabApp.picks[k]=LabApp.picks[k]||{}, i=+b.dataset.i;
     if(p.verdict==='pick'&&p.regions&&p.regions[0]===i){ p.verdict=null; p.regions=[]; } else { p.verdict='pick'; p.regions=[i]; }
     LabApp.persist(k); LBB.refresh(); LabApp.renderTabs(); });
   document.addEventListener('input',function(e){ var ta=e.target.closest&&e.target.closest('.bb-notes'); if(!ta)return; var k='bosses-'+ta.dataset.slot, p=LabApp.picks[k]=LabApp.picks[k]||{}; p.notes=ta.value; LabApp.persist(k,900); });
   var st=document.createElement('style'); st.textContent=
+   '.bb-nav{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:8px;padding:10px 0 12px;margin-bottom:6px;background:var(--bg,#0a0e18);border-bottom:1px solid var(--soft)}.bb-go{font-size:.95rem;padding:8px 14px}.bb-go.on{border-color:var(--pick);color:var(--pick);background:rgba(127,216,154,.12)}.bb-need{font-style:normal;font-family:var(--mono);font-size:.72rem;color:#ffd070;margin-left:4px}.bb-done{font-style:normal;color:var(--pick);margin-left:4px}'+
    '.bb-fam{background:var(--surface);border:1px solid var(--soft);border-radius:12px;padding:10px 12px;margin:0 0 14px}.bb-fam h4{margin:2px 0 8px;font-family:var(--display);font-weight:400;font-size:1.1rem;letter-spacing:.03em}'+
    '.bb-row{border-top:1px solid var(--soft);padding:8px 0}.bb-rh{display:flex;flex-direction:column;gap:2px;margin:0 0 6px}.bb-rh span{color:var(--text);font-size:.9rem}.bb-rh em{color:var(--muted);font-style:normal;font-size:.78rem}'+
    '.bb-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}.bb-card{background:var(--ink);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}'+

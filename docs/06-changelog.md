@@ -987,3 +987,12 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[581] Fixed**: Nightshade Oil's poison never ticked (round 61: a trailing comment cut the rest of a line in `22h-potions.js`); the same slip in the cart code was caught before it shipped.
 - **[582] Ordered** (`tools/sprites/round62.ps1`): scenery wave 64 (fr_props, ar_props, ar_big, ar_rat) and sprite wave 7.9; Grímnir after his Lab picks.
 - **[583] Tests**: `tests/test_round62.py`.
+
+## Round 63 (Oct 17) — the Bosses tab, the ending
+- **[584] The Lab's Bosses tab** (`lab/src/js/52-lab-bosses.js`): a row of buttons across the top jumps between the boss groups — 👑 Grímnir of Asgard first, then the forge-masters, guardians, wardens, mages, islands, volcano and elites; each shows how many are still to pick (or ✓). Only the chosen group shows; the tab remembers it. (Kris: "i am not seeing the grimnir of asgard selection. clean up the bosses tab in the lab with new buttons".)
+- **[585] The ending** (`16h-the-ending.js`): once Grímnir has fallen, stand in the rune circle at liberated Asgard's heart with the Lodestar and press [Tab] — a column of light (Godsbane cast into the sky), the Bifröst bends up out of the circle into heaven, and the forty spirits (celebrating), the group scenes, the fairy kings and your familiars rise along it and go home. Story panels between (Kris's Lab picks; skipped until painted). After it you play on (`spiritsHome`).
+- **[586] Credits paused** — Kris: "we're going to have another ending for the game after the spirits are released, so let's pause credits building for now, but remember we will come back to this".
+- **[587] Grímnir stays three phases** (Kris's card); Godsbane now hits him three times as hard in the last.
+- **[588] Round 62's paintings wired**: Brokkr's anvil, the horn-braziers (go dark when doused), the Norns' thread posts, Ratatoskr (animated), the einherjar.
+- **[589] Ordered** (`tools/sprites/round63.ps1`): scenery wave 65 — two options for each of the four ending panels (Lab → Asgard tab). Tests: `tests/test_round63.py`.
+

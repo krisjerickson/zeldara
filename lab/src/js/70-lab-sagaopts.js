@@ -16,7 +16,7 @@
       var gl=c.createRadialGradient(W/2,H-20,8,W/2,H-20,W*0.5); gl.addColorStop(0,'rgba('+glow+','+(0.22+0.06*Math.sin(t*1.6))+')'); gl.addColorStop(1,'rgba('+glow+',0)'); c.fillStyle=gl; c.fillRect(0,0,W,H);
       if(D.S.panel?room(c,D.x[0],W,H):draw(c,D.x[0],W/2,H-12,H*0.86,W*0.9))return;
       c.fillStyle='#f4ecd8'; c.font='600 15px "Segoe UI",sans-serif'; c.textAlign='center'; c.fillText(D.x[1],W/2,H*0.3); c.fillStyle='#b8c4d0'; c.font='12px "Segoe UI",sans-serif'; wrap(c,D.x[2],W/2,H*0.3+24,W*0.82,16);
-      c.fillStyle='#7a8a98'; c.font='11px "Segoe UI",sans-serif'; c.fillText('waiting for the painted sheet · tools\\sprites\\'+(id==='pn_asg_sky_c'?'round61':'round59')+'.ps1',W/2,H-16); };
+      c.fillStyle='#7a8a98'; c.font='11px "Segoe UI",sans-serif'; c.fillText('waiting for the painted sheet · tools\\sprites\\'+(id==='pn_asg_sky_c'?'round61':/^pn_end_/.test(id)?'round63':'round59')+'.ps1',W/2,H-16); };
     LAB_TABS.push({ id:tab, name:name, blurb:blurb, designs:Object.keys(BY).map(function(k){ return {id:k,name:BY[k].x[1]}; }),
       render:function(){ setTimeout(LBR.bind,0); var n=0; return SEC.map(function(S){ return LBR.sec(S.t,S.s)+'<div class="br-grid">'+S.L.map(function(x){ return LBR.card(tab,{id:x[0],name:x[1],desc:x[2]},n++,S.panel?480:360,S.panel?320:270,''); }).join('')+'</div>'; }).join(''); } }); };
 
@@ -40,6 +40,11 @@
       ['pn_asg_sky_a','Asgard opens in the sky — A','a ring of golden light, the city lowering at night'],['pn_asg_sky_b','Asgard opens in the sky — B','a white-gold tear in the dawn sky'],
       ['pn_asg_lake_a','Asgard on the lake — A','resting on the water, the pier pointing at its gate'],['pn_asg_lake_b','Asgard on the lake — B','from above, a walled city filling the lake']]},
     {t:'🎞 Round 61 — Asgard opens in the sky, C (A and B joined)',s:'your notes: A\'s harbour, night, lantern and rocks · B\'s island coming down and the spirits · no lion',panel:true,L:[
-      ['pn_asg_sky_c','Asgard opens in the sky — C','A\'s night harbour, lantern and rocks; B\'s descending island and spirits; no lion']]}],
+      ['pn_asg_sky_c','Asgard opens in the sky — C','A\'s night harbour, lantern and rocks; B\'s descending island and spirits; no lion']]},
+    {t:'🌅 Round 63 — the ending\'s story panels',s:'pick one of each pair · they play when the Lodestar casts Godsbane into the sky at Asgard\'s heart',panel:true,L:[
+      ['pn_end_cast_a','Godsbane into the sky — A','from behind: the staff raised, a column of light into the stars'],['pn_end_cast_b','Godsbane into the sky — B','low view: the light tears open the clouds'],
+      ['pn_end_bif_a','The Bifröst into heaven — A','the rainbow bridge curves up out of the circle'],['pn_end_bif_b','The Bifröst into heaven — B','from across the lake: the arch into the heavens'],
+      ['pn_end_home_a','The spirits go home — A','a joyful host streaming up the bridge, the hero waving'],['pn_end_home_b','The spirits go home — B','a few spirits turn back to wave goodbye'],
+      ['pn_end_dawn_a','Dawn over the village — A','sunrise, the hero on the end of the pier'],['pn_end_dawn_b','Dawn over the village — B','the village green, everyone looking up']]}],
     '<b>Round 59 — Asgard and the Bifröst, options first.</b> After Muspelheim sinks, Asgard comes down onto Mirror Lake as a walled island of white and gold. Pick a style for its walls, the citadel, the ground, the Bifröst, the pier notch, the rune circle where the ending happens, and the story panels. Until the paintings are in, the game draws stand-ins.');
 })();
