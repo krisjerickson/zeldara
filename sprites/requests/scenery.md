@@ -1,4 +1,4 @@
-# Scenery — 234 sheets, 1927 objects and textures (13 sheets in the pilot)
+# Scenery — 235 sheets, 1928 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -51,6 +51,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 68 | Round 64e — the city of Asgard | 3 | 20 |
 | 69 | Round 65 — Solmyrk remade: options for his three phases | 4 | 17 |
 | 70 | Round 65 — cut-scene panels: Surtharn changes form | 5 | 5 |
+| 71 | Round 65b — cut-scene panel: Surtharn rises | 1 | 1 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -7688,6 +7689,24 @@ Attach: style_hero, style_centaur, sc_surth_phases, sc_pn_musp_sink_a
 Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — The Living Volcano, a painted story panel shown during a cut-scene.
 The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
 Subject: a wide cinematic painting in the same style as the reference panel: inside the burning throne cavern of Muspelheim, the obsidian shatters and Surtharn swells into a living volcano, lava pouring from his shoulders and crown, the whole cavern erupting. The young hero in a green cloak small in the foreground facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_surt_1
+
+Cut-scene panel — Surtharn Rises · wave 71 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_surt_1` Surtharn Rises — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_surth_phases, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — Surtharn Rises, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in the same style as the reference panel: inside the burning throne cavern of Muspelheim, the obsidian throne splits open and the Molten Colossus (as in the reference) rises out of the lava for the first time, huge, his burning greatsword dragged up out of the fire, embers and chains swinging; the hero stands his ground. The young hero in a green cloak small in the foreground facing him; no text.
 The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.

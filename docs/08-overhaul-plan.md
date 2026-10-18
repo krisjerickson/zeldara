@@ -207,6 +207,9 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Mapping? **Answered: phase 1 the golden angel, phase 2 the cracked mask, phase 3 the shadow.**
 - Phases 1 and 2: straight to sheets or options first? **Answered: "Options first".**
 - Cut-scenes for the phase changes (Solmyrk and Surtharn)? **Answered: painted panels** (the fight pauses, letterbox, 2–3 panels with a line each, then the new form); drawn placeholders until painted.
+- (Round 65b, sheets in) After the picks: **"Yes, straight away"** — Solmyrk's front/side/back sheets for each phase and his 4 cut-scene panels ordered from the picks, no further option round.
+- The light/black pulse: **"All three, as now"** — phase 1 mostly light, phase 2 even, phase 3 mostly black.
+- Intro cut-scenes: **"Yes, an intro too"** — one painted panel as Surtharn and as Solmyrk first rise.
 
 ### Round 64e (Oct 18, late) — Asgard (Kris heading to sleep: "ask me any questions you need to")
 - What fills the city? **Answered: "A living city"** — gold-roofed longhouses, mead halls, a market square, smithies, stables, gardens, statues of the gods, fountains, towers, matching the Asgard paintings (drawn stand-ins until painted).
@@ -802,3 +805,7 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Done: waves 67–68 in; changelog [634]–[639].
 - **Next:** Kris runs `tools\sprites\round66.ps1` (waves 69, 70) and picks Solmyrk's three forms in the Lab; then his sprite sheets (front/side/back) and his four cut-scene panels are ordered from the picks. Still open from the audit: the remaining drawn attack visuals (beam lines, tethers, lob arcs, familiar rings) to be checked boss by boss — the mage masters' audit found only warning lines and shots.
 
+## Round 65b (Kris, Oct 18 night) — the options painted, intros
+- Kris: "new sprite sheet requests in. any questions for me right now?" — answers in Open questions (picks → order straight away; pulse in all three phases; an intro too).
+- Done: waves 69–70 in (Solmyrk's 14 options in the Lab; Surtharn's five panels in the game); intro cut-scenes (placeholders; Surtharn's ordered as wave 71); changelog [640]–[642].
+- **Next:** Kris picks Solmyrk's three forms in the Lab (and runs `tools\sprites\round67.ps1` for Surtharn's intro panel). Then straight away: his front/side/back sheets for each phase from the picks (pulse kept in all three), his four transition panels and his intro panel.

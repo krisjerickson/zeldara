@@ -8,10 +8,13 @@
 // ║  · Painted panels: Surtharn's five (scenery wave 70, tools\sprites\round66.ps1); Solmyrk's four come once his three forms are picked.
 // ║    Until a panel is painted, a placeholder is drawn in its place: the boss's colours, the new form's own painted figure (or its drawn
 // ║    stand-in) rising out of light or fire, its name and the line.
+// ║ Round 65b: an intro too — one panel as Surtharn and as Solmyrk first rise (once a visit; the rules pop-up waits for it).
 // ║ Switch: ZCUT.on (Dev: ZCUT.on=false); the test suites keep it off (tests/harness.py).
 // ═══════════════════════════════════════════════════════════════════════
-var ZCUT={ on:true, ID:'zcut', HOLD:3600,
+var ZCUT={ on:true, ID:'zcut', HOLD:3600, seen:{},
   SETS:{
+    grimnir_1:[['pn_sol_0','On the high seat of Asgard a god of gold unfolds his wings — Solmyrk, the Black Sun.']],      // round 65b: the intros (Kris: "Yes, an intro too")
+    surtharn_1:[['pn_surt_1','The throne of Muspelheim splits open — Surtharn, the Molten Colossus, rises from the fire!']],
     grimnir_2:[['pn_sol_12_a','The golden mask splits — black light pours out of the crack.'],['pn_sol_12_b','Behind the Allfather\'s face, something else is looking out.']],
     grimnir_3:[['pn_sol_23_a','The mask shatters. All the light of Asgard drains into him…'],['pn_sol_23_b','…and what is left is the dark that was always underneath.']],
     surtharn_2:[['pn_surt_2','The greatsword melts into a hammer — the Forge-king!']],
@@ -52,5 +55,8 @@ var ZCUT={ on:true, ID:'zcut', HOLD:3600,
 setTimeout(function(){
   if(typeof PAUSE_OVERLAYS!=='undefined'&&PAUSE_OVERLAYS.indexOf(ZCUT.ID)<0)PAUSE_OVERLAYS.push(ZCUT.ID);      // the fight waits while it plays
   if(typeof BossPhases==='undefined')return; var s0=BossPhases.spawn;
-  BossPhases.spawn=function(scene,key,phase,x,y,mult){ var L=s0.apply(this,arguments); try{ if(phase>1&&ZCUT.SETS[key+'_'+phase]&&scene&&!scene._inspect)ZCUT.play(key,phase); }catch(e){ console.warn('cut-scene',e); } return L; };
+  BossPhases.spawn=function(scene,key,phase,x,y,mult){ var L=s0.apply(this,arguments); try{ if(ZCUT.SETS[key+'_'+phase]&&scene&&!scene._inspect&&L&&L.length){
+      if(phase>1)ZCUT.play(key,phase);
+      else if(!ZCUT.seen[key]){ ZCUT.seen[key]=1; setTimeout(function(){ if(scene.sys&&scene.sys.isActive())ZCUT.play(key,1); },700); } }      // the intro: once a visit to the game, not on every retry
+    }catch(e){ console.warn('cut-scene',e); } return L; };
 },0);

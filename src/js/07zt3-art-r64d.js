@@ -97,6 +97,9 @@
     SP('pn_surt_4','The Horned Jötunn','the ash swirls up and the giant grows huge, great curling horns bursting from his head, the Sword of Flame igniting in his fist'),
     SP('pn_surt_5','The Obsidian Warlord','the Jötunn is plunged into lava and climbs out in black obsidian armour, his molten heart glowing behind a plate of glass'),
     SP('pn_surt_6','The Living Volcano','the obsidian shatters and Surtharn swells into a living volcano, lava pouring from his shoulders and crown, the whole cavern erupting')]);
+  // ═══ wave 71: Surtharn's intro panel (Kris: "Yes, an intro too"); Solmyrk's comes with his picks ═══
+  ZSCN.WAVES[71]='Round 65b — cut-scene panel: Surtharn rises';
+  var s71=SP('pn_surt_1','Surtharn Rises','the obsidian throne splits open and the Molten Colossus (as in the reference) rises out of the lava for the first time, huge, his burning greatsword dragged up out of the fire, embers and chains swinging; the hero stands his ground'); s71.wave=71; ZSCN.SHEETS.push(s71);
   if(ZSCN.expand)ZSCN.expand();
 })();
 

@@ -30,10 +30,15 @@ with game(new=True, painted=True) as g:
       var el=document.getElementById('zcut'); o.cut=!!el; o.paused=isGamePaused(); o.img=el?(el.querySelector('.zcut-img').src||'').slice(0,22):''; o.cap=el?el.querySelector('.zcut-cap').textContent:'';
       if(el)el.click(); await w(800); el=document.getElementById('zcut'); o.second=el?el.querySelector('.zcut-cap').textContent:''; if(el)el.querySelector('.zcut-skip').click(); await w(1200); o.closed=!document.getElementById('zcut')&&!isGamePaused();
       var m2=(D._bossGroup||[]).find(function(b){ return !b.dead; }); o.form2=m2&&m2._gform; D._exitToWorld(null); await w(1500);
-      ZCUT.play('surtharn',4); await w(1500); var e2=document.getElementById('zcut'); o.surt=e2?e2.querySelector('.zcut-cap').textContent:''; if(e2)e2.querySelector('.zcut-skip').click(); await w(900); ZCUT.on=false; return o; })()""" % W)
+      ZCUT.play('surtharn',4); await w(1500); var e2=document.getElementById('zcut'); o.surt=e2?e2.querySelector('.zcut-cap').textContent:''; o.surtImg=e2?e2.querySelector('.zcut-img').src:''; if(e2)e2.querySelector('.zcut-skip').click(); await w(900);
+      ZCUT.seen={}; ZFT.on=true; ZMUSP.enter(ws,4); await w(4500); var e3=document.getElementById('zcut'); o.intro=e3?e3.querySelector('.zcut-cap').textContent:''; o.rulesFirst=!!document.getElementById('modal-forgetrial'); if(e3)e3.querySelector('.zcut-skip').click(); await w(2200);
+      var R=document.getElementById('modal-forgetrial'); o.rulesAfter=!!R; if(R)R.querySelector('.zft-go').click(); await w(400); var D2=game.scene.getScene('Dungeon'); D2._exitToWorld(null); await w(1500);
+      ZMUSP.enter(ws,4); await w(4500); o.again=!!document.getElementById('zcut'); var R2=document.getElementById('modal-forgetrial'); if(R2)R2.querySelector('.zft-go').click(); game.scene.getScene('Dungeon')._exitToWorld(null); await w(1200); ZFT.on=false; ZCUT.on=false; return o; })()""" % W)
     check('Solmyrk changes form behind a cut-scene: the game pauses, a placeholder panel plays (%s…) with its line ("%s"), then the next (“%s”); Skip ends it and form %s fights on' % (r['img'], r['cap'], r['second'], r.get('form2')),
           r['form'] == 1 and r['cut'] and r['paused'] and r['img'].startswith('data:image') and r['cap'] and r['second'] and r['second'] != r['cap'] and r['closed'] and r.get('form2') == 2, r)
-    check('Surtharn\'s changes have their cut-scenes too ("%s")' % r['surt'], 'Jötunn' in r['surt'], r)
+    check('Surtharn\'s changes have their cut-scenes too, painted ("%s")' % r['surt'], 'Jötunn' in r['surt'] and 'pn_surt_4' in r['surtImg'], r)
+    check('Round 65b: an intro as Surtharn first rises ("%s"); the rules pop-up waits for it (%s → %s); not again on the next visit (%s)' % (r['intro'], r['rulesFirst'], r['rulesAfter'], r['again']),
+          'Surtharn' in r['intro'] and not r['rulesFirst'] and r['rulesAfter'] and not r['again'], r)
     r = g.js("""(()=>{ var D=game.scene.getScene('World'), o={}; var a=ZShot.make(D,'bolt:#c040ff',100,100,0,10), b=ZShot.make(D,'fireball',100,100,0,10); o.bolt=a&&a._zpj; o.fire=b&&b._zpj; o.tint=a&&a.tintTopLeft; if(a)a.destroy(); if(b)b.destroy(); o.orb=ZShot.mxKind('orb','#c040ff');
       o.city=['asc_longhouse','asc_meadhall','asc_statue_thor','asc_lamp'].map(function(id){ return ZCITY.has(id); }); o.rubble=['es_rubble_a','es_rock_fall'].map(function(id){ return ZCITY.has(id); }); return o; })()""")
     check('The painted monster shots are in (a bolt tinted its colour, a fireball; the orb flies as an orb: %s)' % r['orb'], r['bolt'] == 'pj_bolt' and r['fire'] == 'pj_fireball' and r['orb'].startswith('orb:'), r)
@@ -47,6 +52,7 @@ n69 = {q['id']: len(q['items']) for q in L69}
 txt = ' '.join(q['body'] for q in L69)
 check('Ordered (scenery wave 69): Solmyrk\'s options — phase 1 ×3, phase 2 ×3 radiant + black, phase 3 ×8 (%s); golden not blue, no legs, the one eye, the binding arms' % n69,
       n69 == {'sc_gd_sol_1': 3, 'sc_gd_sol_2': 6, 'sc_gd_sol_3a': 4, 'sc_gd_sol_3b': 4} and 'NO blue' in txt and 'NO LEGS' in txt and 'ONE glowing eye' in txt and 'BINDING ARMS' in txt)
+check('Ordered (scenery wave 71): Surtharn\'s intro panel; round67.ps1 sends it', [q['id'] for q in S['requests'] if q.get('wave') == 71] == ['sc_pn_surt_1'] and '--wave 71' in open(os.path.join(ROOT, 'tools/sprites/round67.ps1')).read())
 check('Ordered (scenery wave 70): Surtharn\'s five cut-scene panels (%d); round66.ps1 sends waves 69 and 70' % len(L70), len(L70) == 5 and '69,70' in open(os.path.join(ROOT, 'tools/sprites/round66.ps1')).read())
 lab = open(os.path.join(ROOT, 'lab/index.html'), encoding='utf-8').read()
 check('The Lab: Solmyrk\'s options to pick, one per phase, at the top of the Solmyrk group', 'LSOL' in lab and 'gd_sol_3_' in lab and 'bosses-' in lab)

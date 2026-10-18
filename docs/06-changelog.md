@@ -1054,3 +1054,8 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[637] Solmyrk remade — options to pick** (cards: phase 1 the golden angel, phase 2 the cracked mask, phase 3 the shadow; "Options first"): scenery wave 69 orders 3 golden-angel options, 3 cracked-mask options (radiant and black), 8 shadow options for the final form — from Kris's pictures and notes in words only. Lab → Bosses → 👑 Solmyrk shows them at the top to pick (`lab/src/js/74-lab-solmyrk.js`); the sprite sheets and Solmyrk's painted cut-scene panels follow the picks.
 - **[638] Ordered** (`tools/sprites/round66.ps1`): scenery waves 69 (Solmyrk's options) and 70 (Surtharn's five cut-scene panels).
 - **[639] Tests**: `tests/test_round65.py`; the suites keep the cut-scenes off (`tests/harness.py`).
+
+## Round 65b (Kris, Oct 18 night) — Solmyrk's options painted, Surtharn's cut-scenes painted, intros
+- **[640] Waves 69–70 in**: Solmyrk's 14 painted options (3 golden angels, 3 cracked masks that pulse radiant ↔ black, 8 shadows) are in the Lab to pick (Bosses → 👑 Solmyrk, top); the shadows sit on a faint violet glow so their shapes read. Surtharn's five cut-scene panels are painted and play in the game instead of the placeholders.
+- **[641] Intro cut-scenes** (card: "Yes, an intro too"): one panel as Surtharn first rises in the throne cavern and as Solmyrk first rises on the high seat — once a visit to the game, not on every retry. The hall's rules pop-up waits until the cut-scene has ended. Surtharn's intro panel is ordered (scenery wave 71, `tools/sprites/round67.ps1`); Solmyrk's is ordered with his picks (placeholder until then).
+- **[642] Tests**: `tests/test_round65.py` (12 checks).

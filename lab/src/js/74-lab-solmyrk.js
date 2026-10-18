@@ -19,7 +19,8 @@ var LSOL={
   draw:function(cv,t){ var x=cv.getContext('2d'), W=cv.width, H=cv.height, id=cv.dataset.id, ph=cv.dataset.ph, A=LGOD.img(id), B=ph==='sol_2'?LGOD.img(id+'_dk'):null;
     x.save(); x.globalAlpha=1; x.fillStyle=ph==='sol_3'?'#07070c':'#0e1220'; x.fillRect(0,0,W,H);
     var put=function(P,a){ if(!P||a<0.01)return; var r=P.r, k=Math.min((H-16)/r[4],(W-12)/r[3]); x.globalAlpha=a; x.drawImage(P.im,r[1],r[2],r[3],r[4],W/2-r[3]*k/2,H-8-r[4]*k,r[3]*k,r[4]*k); };
-    if(A){ if(ph==='sol_1'){ var g=x.createRadialGradient(W/2,H*0.35,4,W/2,H*0.35,W*0.7); g.addColorStop(0,'rgba(255,236,170,.35)'); g.addColorStop(1,'rgba(255,236,170,0)'); x.fillStyle=g; x.fillRect(0,0,W,H); }
+    if(A){ if(ph==='sol_3'){ var v=x.createRadialGradient(W/2,H*0.45,4,W/2,H*0.45,W*0.75); v.addColorStop(0,'rgba(150,120,230,.22)'); v.addColorStop(1,'rgba(150,120,230,0)'); x.fillStyle=v; x.fillRect(0,0,W,H); }      /* the dark forms read against a faint violet glow */
+      if(ph==='sol_1'){ var g=x.createRadialGradient(W/2,H*0.35,4,W/2,H*0.35,W*0.7); g.addColorStop(0,'rgba(255,236,170,.35)'); g.addColorStop(1,'rgba(255,236,170,0)'); x.fillStyle=g; x.fillRect(0,0,W,H); }
       if(B&&typeof ZGOD!=='undefined'){ var lt=ZGOD.light(2,t); put(A,lt); put(B,1-lt); x.globalAlpha=1; x.font='600 10px "Segoe UI",sans-serif'; x.fillStyle=lt>0.5?'#fff2b0':'#c8d0e0'; x.fillText(lt>0.5?'☀ radiant':'● black',8,14); } else put(A,1); }
     else { x.globalAlpha=1; x.fillStyle='#6a7090'; x.font='600 12px "Segoe UI",sans-serif'; x.textAlign='center'; x.fillText('being painted…',W/2,H/2-6); x.font='10px "Segoe UI",sans-serif'; x.fillText('(tools\\sprites\\round66.ps1)',W/2,H/2+12); }
     x.restore(); },
