@@ -1059,3 +1059,8 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[640] Waves 69–70 in**: Solmyrk's 14 painted options (3 golden angels, 3 cracked masks that pulse radiant ↔ black, 8 shadows) are in the Lab to pick (Bosses → 👑 Solmyrk, top); the shadows sit on a faint violet glow so their shapes read. Surtharn's five cut-scene panels are painted and play in the game instead of the placeholders.
 - **[641] Intro cut-scenes** (card: "Yes, an intro too"): one panel as Surtharn first rises in the throne cavern and as Solmyrk first rises on the high seat — once a visit to the game, not on every retry. The hall's rules pop-up waits until the cut-scene has ended. Surtharn's intro panel is ordered (scenery wave 71, `tools/sprites/round67.ps1`); Solmyrk's is ordered with his picks (placeholder until then).
 - **[642] Tests**: `tests/test_round65.py` (12 checks).
+
+## Round 65c (Kris, Oct 18 night) — "Waiting for your picks", the ending panels picked
+- **[643] ⭐ Waiting for your picks** (Kris: "i'm not sure if i'm finding solmyrk picks. lets create a new button in the lab so i don't miss these"): a gold button first in the Lab's tab bar, glowing while decisions are open, with the count. Click it for the list (what to pick, where); "Go →" opens that tab and scrolls to it with a gold flash; each line ticks itself off once picked (`lab/src/js/75-lab-todo.js`; new decisions: `LTODO.add`). Now: Solmyrk's three forms.
+- **[644] Asgard's ending panels from Kris's picks** (Asgard tab): Godsbane into the sky A, the Bifröst into heaven A, the spirits go home B, dawn over the village B (`ZEND.PICK`).
+- **[645] Tests**: `tests/test_round65c.py` (6 checks).

@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ 16h-the-ending.js — round 63: THE SPIRITS GO HOME (doc 28 §7, decided Oct 15).
 // ║ Kris: "at the rune circle in the heart of liberated Asgard … use the lodestar to cast godsbane into the sky and remake the bifrost into heaven
-// ║ to liberate the spirits" — and keep the celebrating group scenes for this moment. Once Grímnir has fallen, stand in the world-tree circle at
+// ║ to liberate the spirits" — and keep the celebrating group scenes for this moment. Once Solmyrk has fallen, stand in the world-tree circle at
 // ║ Asgard's heart with the Lodestar: [Tab] raises it. A column of white-gold light climbs into the sky, the Bifröst bends up out of the circle into
 // ║ heaven, and the spirits — the forty, celebrating now, the group scenes, the fairy kings and your familiars — rise along it and are gone home.
 // ║ Story panels between (Lab options first — Kris's card; wave 65): Godsbane into the sky, the Bifröst remade into heaven, the spirits going
@@ -13,7 +13,7 @@ var ZEND={ on:true, R:TILE*2.4,
   PANELS:{cast:['pn_end_cast_a','pn_end_cast_b'],bifrost:['pn_end_bif_a','pn_end_bif_b'],home:['pn_end_home_a','pn_end_home_b'],dawn:['pn_end_dawn_a','pn_end_dawn_b']},
   // Kris's pick in the Lab ('asgard' tab, the ending panels) — else the first painted one — else none
   panel:function(k){ var R=(typeof ZSCN_META!=='undefined'&&ZSCN_META.rooms)||{}, L=ZEND.PANELS[k]||[], P=ZEND.PICK&&ZEND.PICK[k]; if(P&&R[P])return P; return L.find(function(id){ return R[id]; })||null; },
-  PICK:{},
+  PICK:{cast:'pn_end_cast_a',bifrost:'pn_end_bif_a',home:'pn_end_home_b',dawn:'pn_end_dawn_b'},      // round 65c: Kris's picks in the Lab (Asgard tab)
   ready:function(ps){ return !!(ps&&ps.grimnirDown&&!ps.spiritsHome); },
   check:function(ws){ var ps=ws.playerState; if(!ZEND.on||!ZEND.ready(ps)||!ws.player||ws._endBusy)return false; var H=ZASG.heart(ws), d=Math.hypot(ws.player.x-H.x,ws.player.y-H.y);
     if(d>ZEND.R){ if(ws._interactPrompt&&ws._interactPrompt._zsp==='end'){ ws._interactPrompt.destroy(); ws._interactPrompt=null; } return false; }

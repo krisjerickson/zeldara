@@ -809,3 +809,8 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris: "new sprite sheet requests in. any questions for me right now?" — answers in Open questions (picks → order straight away; pulse in all three phases; an intro too).
 - Done: waves 69–70 in (Solmyrk's 14 options in the Lab; Surtharn's five panels in the game); intro cut-scenes (placeholders; Surtharn's ordered as wave 71); changelog [640]–[642].
 - **Next:** Kris picks Solmyrk's three forms in the Lab (and runs `tools\sprites\round67.ps1` for Surtharn's intro panel). Then straight away: his front/side/back sheets for each phase from the picks (pulse kept in all three), his four transition panels and his intro panel.
+
+## Round 65c (Kris, Oct 18 night) — a button for open picks; the ending panels picked
+- Kris: "picks are in for asgard end scenes. i'm not sure if i'm finding solmyrk picks. lets create a new button in the lab so i don't miss these. also new sprite requests are processing".
+- Done: "⭐ Waiting for your picks" button in the Lab (Solmyrk's three forms listed); the ending plays cast A, Bifröst A, home B, dawn B; changelog [643]–[645].
+- **Next:** Kris picks Solmyrk's forms via the button → his sheets and panels ordered; bring in wave 71 (Surtharn's intro panel) when round67.ps1 finishes.
