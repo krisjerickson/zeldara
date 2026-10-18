@@ -202,6 +202,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 65 (Oct 18, evening) — Solmyrk remade, cut-scenes
+- Kris: "we need to change solmyrk … black spirit images are for the final phase. the dark armor with white wings is inspiration for the middle phase. and then white angels are inspiration for the first phase, but for any coloration, make it golden, not blue"; keep the bishop-like robes, the scepter, the single Odin eye and glowing eye, runic elements, no legs (hovering), the massive golden helmet; phase 2 the ravens, the golden mask breaking to show the dark demon, black sinuous arms coming out, the light/black pulse; the final form changes most — at least 6 options. Lab notes: grim_1 "wings longer and taller … faceted. outfit more grand, long and flowing and ethereal"; grim_2 "a combo between the 2 extremes"; grim_3 "darker … like the void … deep shadowy nothingness with long binding arms".
+- Mapping? **Answered: phase 1 the golden angel, phase 2 the cracked mask, phase 3 the shadow.**
+- Phases 1 and 2: straight to sheets or options first? **Answered: "Options first".**
+- Cut-scenes for the phase changes (Solmyrk and Surtharn)? **Answered: painted panels** (the fight pauses, letterbox, 2–3 panels with a line each, then the new form); drawn placeholders until painted.
+
 ### Round 64e (Oct 18, late) — Asgard (Kris heading to sleep: "ask me any questions you need to")
 - What fills the city? **Answered: "A living city"** — gold-roofed longhouses, mead halls, a market square, smithies, stables, gardens, statues of the gods, fountains, towers, matching the Asgard paintings (drawn stand-ins until painted).
 - Golden roads? **Answered: "From every gate"** — a golden road from each gate (and the Bifröst landing) to the rune circle at the centre, a glowing marker over the centre.
@@ -789,5 +795,10 @@ Rough total if everything is approved: 36–54 sessions (est.).
 ## Round 64e (Kris, late Oct 18) — Asgard played through
 - Kris: sandbox buttons for the Lodestar and the Heartglasses; Godsbane strong against all of Asgard's monsters; fill Asgard with buildings, golden roads to a clear centre; Asgard's instructions as click-away pop-ups with pictures; no flying whales; citadel floor 3: endless spawns, stuck on the left (couldn't cross). Questions asked before he slept, answered: a living city; roads from every gate; he didn't know to cut the thread; pop-ups for every instruction (Open questions, Round 64e).
 - Done: changelog [625]–[633].
-- **Next:** Kris runs `tools\sprites\round65.ps1` (waves 67 and 68); then intake and wiring (the city's painted buildings replace the drawn ones by id). Still open from the audit: the remaining drawn attack visuals (beam lines, tethers, lob arcs, familiar rings) to be checked boss by boss — the mage masters' audit found only warning lines and shots.
+- **Next:** Kris runs `tools\sprites\round65.ps1` (waves 67 and 68); then intake and wiring (the city's painted buildings replace the drawn ones by id).
+
+## Round 65 (Kris, Oct 18 evening) — challenge pop-ups, Solmyrk remade, cut-scenes
+- Kris: pop-ups at the start of every volcano and Asgard challenge; Solmyrk changed (his notes in the Sprite Library and eight inspiration pictures: white angels → phase 1 in gold, dark armour with white wings → phase 2, black spirits → the final form, at least 6 options); cut-scenes for Solmyrk's and Surtharn's changes, placeholders first; "new sprite orders are in, work on requesting new ones". Questions answered (Open questions, Round 65).
+- Done: waves 67–68 in; changelog [634]–[639].
+- **Next:** Kris runs `tools\sprites\round66.ps1` (waves 69, 70) and picks Solmyrk's three forms in the Lab; then his sprite sheets (front/side/back) and his four cut-scene panels are ordered from the picks. Still open from the audit: the remaining drawn attack visuals (beam lines, tethers, lob arcs, familiar rings) to be checked boss by boss — the mage masters' audit found only warning lines and shots.
 

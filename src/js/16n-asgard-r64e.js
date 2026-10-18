@@ -22,11 +22,7 @@ var ZAP={ on:true,
       ['ar_lens','<b>Against Asgard</b> it strikes three times as hard: the einherjar, the wardens, everything of the false god\'s. It shatters Heimdall\'s lenses for good.','✦'],
       ['gd_grim_1_d_dk','<b>Against Solmyrk</b> it tears the light off him — he turns black and open to your blows.','👑'],
       [null,'It takes <b>20 seconds</b> to gather light again.','⏳']]]; } },
-    {re:/While Solmyrk blazes with light/, f:function(){ return ['👑 Solmyrk, the Black Sun','Corrupted Odin swings between blinding light and a black that drinks it.',[
-      ['gd_grim_1_d','<b>☀ Radiant</b> — white light pours out of him: he is <b>shielded</b>, your blows do nothing.','☀'],
-      ['gd_grim_1_d_dk','<b>● Black</b> — the hall darkens, his one eye burns: <b>strike now!</b>','●'],
-      ['ls2_c','<b>Godsbane (V)</b> tears the light off him at once — black and open for 4 seconds.','✦'],
-      [null,'Three forms: the first mostly light, the second even, the last mostly black.','⚔']]]; } },
+    /* round 65: Solmyrk's rules come with the throne hall's pop-up (cit4), not twice */
     {re:/^❄ RAGNARÖK DRAWS NEAR/, f:function(m){ var n=(m.match(/\((\d+) \/ 10\)/)||[])[1]; return ['❄ Ragnarök draws near ('+(n||'?')+' / 10)','The track at the top fills with time, and jumps at every alarm.',[
       [null,'<b>Fimbulwinter</b> frosts the halls — you move a little slower with each mark (3, 6 and 9).','❄'],
       [null,'A few <b>einherjar walk in</b> — never more than the hall can hold.','⚔'],
@@ -92,4 +88,23 @@ var ZAP={ on:true,
   setTimeout(function(){ if(typeof ZDOOM==='undefined')return;
     // (the track's html is rebuilt when it changes: keep the button)
     var h1=ZDOOM.hud; ZDOOM.hud=function(sc){ var r=h1.apply(this,arguments), el=document.getElementById('zdoom'); if(el&&!el.querySelector('.zheat-q')&&el.firstChild){ var b=document.createElement('span'); b.className='zheat-q'; b.textContent='? Rules'; b.onclick=function(){ try{ var s=game.scene.getScene('Dungeon'); if(s)ZFT.rules(s,null,false); }catch(e){} }; el.firstChild.appendChild(b); } return r; }; },0);
+})();
+
+// ══ round 65 (Kris: "check that all volcano challenges as well as asgard challenges have pop ups that give you help to understand what to do
+// whenever the challenge starts … it needs to stop the game as a popup and give you enough to work off of"): the collapse of Muspelheim, the
+// sinking causeway, the pier notch and the rune circle at the end ══
+(function(){ if(typeof ZFT==='undefined')return;
+  ZFT.RULES.escape={t:'🌋 Muspelheim falls!',lead:'Surtharn is beaten and the Lodestar made — the volcano is collapsing. Run!',steps:[
+    [null,'<b>Five floors up</b> to the gate, one timer for all of them (top of the screen). Behind you the floor cracks and turns to lava — keep ahead of it.','⏳'],
+    ['es_rubble_a','<b>Rock falls</b> ahead of you: watch for the shadows. Fallen rubble <b>blocks the way</b> for a few seconds (even a roll) — go round through the gap, or <b>smash it with two blows</b>.','🪨'],
+    [null,'<b>Roll (Alt)</b> to get out from under a falling rock. The freed spirits follow the way you ran.','💨']]};
+  setTimeout(function(){ if(typeof ZESC==='undefined')return;
+    var c0=ZESC.causeway; ZESC.causeway=function(ws){ var r=c0.apply(this,arguments); try{ if(ZFT.on&&!(ws.playerState&&ws.playerState._zpCw)){ ws.playerState._zpCw=1; ZAP.info('🌊 The causeway sinks!','You are out of Muspelheim\'s gate — but the causeway to the shore is sinking behind you.',[
+        [null,'<b>Run along the causeway to the shore</b> — the water swallows it from behind. Standing in the water hurts.','🏃'],[null,'Roll (Alt) for speed. Once you reach the land, watch Muspelheim sink.','🌋']]); } }catch(e){} return r; };
+  },0);
+  // the pier notch and the rune circle: once, when you first come near with the Lodestar
+  setInterval(function(){ try{ if(!ZFT.on||ZFT.isOpen()||typeof game==='undefined')return; var ws=game.scene.getScene('World'); if(!ws||!ws.player||!ws.playerState||!ws.sys.isActive()||typeof ZASG==='undefined')return; var ps=ws.playerState;
+      var N=ZASG.notchAt(); if(N&&ps.asgardDown&&!ps.bifrost&&!ps._zpNotch&&ZASG.hasStaff(ps)&&Math.hypot(ws.player.x-N.x,ws.player.y-N.y)<TILE*4){ ps._zpNotch=1; ZAP.info('🌟 The notch at the end of the pier','Mira\'s grandmother cut it for a staff that would come one day.',[[ZASG.NOTCH||'notch_c','Stand at the notch and press <b>Tab</b>: the <b>Lodestar</b> settles into it.','🌟'],['bif_b','The freed spirits come from the Green, and the staff\'s light builds the <b>Bifröst</b> to Asgard\'s gate — and teaches you <b>Godsbane</b>.','🌈']]); return; }
+      if(typeof ZEND!=='undefined'&&ZEND.ready(ps)&&!ps._zpEnd){ var H=ZASG.heart(ws); if(Math.hypot(ws.player.x-H.x,ws.player.y-H.y)<TILE*8){ ps._zpEnd=1; ZAP.info('🌟 The Heart of Asgard','Solmyrk has fallen. One thing is left to do.',[[ZASG.CIRCLE||'asg_circle_c','Stand in the <b>world-tree circle</b> with the <b>Lodestar in hand</b> and press <b>Tab</b>: cast Godsbane into the sky.','🌟'],['bif_b','The Bifröst bends up out of the circle — and the spirits of Runeheim go home.','🌈']]); } }
+    }catch(e){} },800);
 })();

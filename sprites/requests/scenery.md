@@ -1,4 +1,4 @@
-# Scenery — 225 sheets, 1905 objects and textures (13 sheets in the pilot)
+# Scenery — 234 sheets, 1927 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -49,6 +49,8 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 66 | Round 64 — Solmyrk concept paintings (already painted) | 3 | 18 |
 | 67 | Round 64d — painted monster shots, the collapse rubble | 2 | 12 |
 | 68 | Round 64e — the city of Asgard | 3 | 20 |
+| 69 | Round 65 — Solmyrk remade: options for his three phases | 4 | 17 |
+| 70 | Round 65 — cut-scene panels: Surtharn changes form | 5 | 5 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -7495,6 +7497,198 @@ Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in th
 3. Runestone — a tall carved runestone of pale stone, its runes inlaid with gold (about 1.7× the hero's height).
 4. Cart — a small wooden hand-cart with gold bands, heaped with golden apples (about as tall as the hero).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gd_sol_1
+
+Concept options for the final boss, PHASE 1 — the golden angel. Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 3 items, 3 × 1 · 1536x1024
+
+- `gd_sol_1_a` The Gilded Seraph — 260 × 440 px
+- `gd_sol_1_b` The High Seat's Herald — 260 × 440 px
+- `gd_sol_1_c` The Sun-Crowned Allfather — 260 × 440 px
+
+Attach: style_hero, style_centaur, sc_gd_grim_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 separate pieces of scenery — Concept options for the final boss, PHASE 1 — the golden angel. Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 3 objects in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. The Gilded Seraph — three pairs of wings (two rising high above, one sweeping down), a full-face golden helm with a single eye-slit glowing white and a tall mitre-like crest, a cope of white and gold like a bishop's — golden angel: white and gold only (gold where there would be colour, NO blue or purple), wings very long and tall (taller than him), well-defined faceted feathers like blades of gold-white light; grand, long, flowing, ethereal bishop-like robes and vestments in layers of white and gold with gold runic embroidery; a massive golden helmet; ONE glowing eye only, like Odin (the other covered); holding a tall golden scepter-spear (Gungnir) (about 7× the hero's height).
+2. The High Seat's Herald — two enormous wings rising twice his height, each feather a faceted plate of gold; a golden helm with raven-wing cheek-guards and a short crown of spear points; a golden rune-disc halo behind; robes falling into a long train of light — golden angel: white and gold only (gold where there would be colour, NO blue or purple), wings very long and tall (taller than him), well-defined faceted feathers like blades of gold-white light; grand, long, flowing, ethereal bishop-like robes and vestments in layers of white and gold with gold runic embroidery; a massive golden helmet; ONE glowing eye only, like Odin (the other covered); holding a tall golden scepter-spear (Gungnir) (about 7× the hero's height).
+3. The Sun-Crowned Allfather — wings of crystalline golden light-shards, a golden helm crowned with sun-rays, a long beard of white light flowing from under it, the scepter topped with a radiant sun-stone, robes billowing upward as if in a wind of light — golden angel: white and gold only (gold where there would be colour, NO blue or purple), wings very long and tall (taller than him), well-defined faceted feathers like blades of gold-white light; grand, long, flowing, ethereal bishop-like robes and vestments in layers of white and gold with gold runic embroidery; a massive golden helmet; ONE glowing eye only, like Odin (the other covered); holding a tall golden scepter-spear (Gungnir) (about 7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gd_sol_2
+
+Concept options for the final boss, PHASE 2 — the cracked mask: half god of light, half the dark beneath; top row radiant, bottom row the same three in their black pulse. Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 6 items, 3 × 2 · 1536x1024
+
+- `gd_sol_2_a` Wings of Ash (radiant) — 260 × 300 px
+- `gd_sol_2_b` The Eclipse Mask (radiant) — 260 × 300 px
+- `gd_sol_2_c` The Fallen Allfather (radiant) — 260 × 300 px
+- `gd_sol_2_a_dk` Wings of Ash (black) — 260 × 300 px
+- `gd_sol_2_b_dk` The Eclipse Mask (black) — 260 × 300 px
+- `gd_sol_2_c_dk` The Fallen Allfather (black) — 260 × 300 px
+
+Attach: style_hero, style_centaur, sc_gd_grim_2, sc_gd_grim_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Concept options for the final boss, PHASE 2 — the cracked mask: half god of light, half the dark beneath; top row radiant, bottom row the same three in their black pulse. Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Wings of Ash (radiant) — dark ornate black-steel armour with gold filigree under torn white-and-gold robes, white feathered wings whose tips are burning black, the golden helmet-mask cracked across one side and behind the crack a black demon face with white slit eyes, two thin black sinuous clawed arms unfurling from the cracks in his back, two ravens circling him, golden scepter — ONE glowing eye like Odin — RADIANT: blazing with golden-white light (about 4.8× the hero's height).
+2. The Eclipse Mask (radiant) — a hooded figure in dark plate armour and a long dark cloak, the golden mask split down the middle (one half gold, one half black void with white slit eyes), a black sun with a ring of golden fire behind his head, white wings, ravens perched on both shoulders, black tendril-arms coiling out from under the cloak round the scepter — ONE glowing eye like Odin — RADIANT: blazing with golden-white light (about 4.8× the hero's height).
+3. The Fallen Allfather (radiant) — a white-winged dark knight, hood up, golden helmet shattering — shards of the golden mask floating away from a face of black nothing with one burning white eye; long black sinuous arms wrapped round his golden scepter and reaching out; ravens bursting from the cracks; robes ragged gold and black — ONE glowing eye like Odin — RADIANT: blazing with golden-white light (about 4.8× the hero's height).
+4. Wings of Ash (black) — dark ornate black-steel armour with gold filigree under torn white-and-gold robes, white feathered wings whose tips are burning black, the golden helmet-mask cracked across one side and behind the crack a black demon face with white slit eyes, two thin black sinuous clawed arms unfurling from the cracks in his back, two ravens circling him, golden scepter — ONE glowing eye like Odin — the SAME figure in its black pulse: turned to a black silhouette drinking the light, only the eye and the cracks burning white (about 4.8× the hero's height).
+5. The Eclipse Mask (black) — a hooded figure in dark plate armour and a long dark cloak, the golden mask split down the middle (one half gold, one half black void with white slit eyes), a black sun with a ring of golden fire behind his head, white wings, ravens perched on both shoulders, black tendril-arms coiling out from under the cloak round the scepter — ONE glowing eye like Odin — the SAME figure in its black pulse: turned to a black silhouette drinking the light, only the eye and the cracks burning white (about 4.8× the hero's height).
+6. The Fallen Allfather (black) — a white-winged dark knight, hood up, golden helmet shattering — shards of the golden mask floating away from a face of black nothing with one burning white eye; long black sinuous arms wrapped round his golden scepter and reaching out; ravens bursting from the cracks; robes ragged gold and black — ONE glowing eye like Odin — the SAME figure in its black pulse: turned to a black silhouette drinking the light, only the eye and the cracks burning white (about 4.8× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gd_sol_3a
+
+Concept options for the final boss, PHASE 3 — what is left when the mask is gone (1 of 2). Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 4 items, 4 × 1 · 1536x1024
+
+- `gd_sol_3_a` The Hollow King — 300 × 420 px
+- `gd_sol_3_b` The Binding Dark — 300 × 420 px
+- `gd_sol_3_c` The Wolf of the Last Night — 300 × 420 px
+- `gd_sol_3_d` The Black Sun — 300 × 420 px
+
+Attach: style_hero, style_centaur, sc_gd_grim_2
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Concept options for the final boss, PHASE 3 — what is left when the mask is gone (1 of 2). Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 4 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. The Hollow King — a towering shape of black smoke with a crown of black flame-horns, a face that is only five curved white slashes of light, four long arms ending in hooked claws reaching out, the body dissolving into black mist below — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
+2. The Binding Dark — a void-black body like a torn cloak of night, six long thin arms spreading like roots and chains, each ending in clawed fingers, one huge white eye in the middle — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
+3. The Wolf of the Last Night — a hunched towering shadow with a long wolf-like head, white slit eyes along the muzzle, a mane of black flame, very long clawed forelimbs, its hind body trailing away into smoke — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
+4. The Black Sun — a gaunt shadow figure inside a black eclipse ringed with white fire, arms stretched wide into many black tendrils, white slashes for eyes — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_gd_sol_3b
+
+Concept options for the final boss, PHASE 3 — what is left when the mask is gone (2 of 2). Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 4 items, 4 × 1 · 1536x1024
+
+- `gd_sol_3_e` The Raven Storm — 300 × 420 px
+- `gd_sol_3_f` The Unmasked One — 300 × 420 px
+- `gd_sol_3_g` The Shroud — 300 × 420 px
+- `gd_sol_3_h` The Fimbul Shade — 300 × 420 px
+
+Attach: style_hero, style_centaur, sc_gd_grim_2
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Concept options for the final boss, PHASE 3 — what is left when the mask is gone (2 of 2). Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 4 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. The Raven Storm — a storm of black feathers and smoke forming a giant figure, a raven-skull mask with white eye-slits, wings of smoke, long clawed arms — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
+2. The Unmasked One — shards of the broken golden mask circling a faceless void, a crown of black dead branches like antlers, arms like long dead branches ending in claws — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
+3. The Shroud — a vast hooded shape of black cloth and smoke, no face but white slit eyes and a thin white crescent of a grin, long ribbon-like arms that wrap and bind — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
+4. The Fimbul Shade — black ice and void, frost-white eye slits, a crown of jagged black ice, many long thin arms trailing frost and darkness — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_surt_2
+
+Cut-scene panel — The Forge-king · wave 70 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_surt_2` The Forge-king — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_surth_phases, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — The Forge-king, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in the same style as the reference panel: inside the burning throne cavern of Muspelheim, the Molten Colossus (as in the reference) drives his burning greatsword into the floor; it melts and reforges into a giant hammer as his body hardens into an armoured forge-king with an anvil-crown. The young hero in a green cloak small in the foreground facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_surt_3
+
+Cut-scene panel — The Ash Tyrant · wave 70 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_surt_3` The Ash Tyrant — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_surth_phases, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — The Ash Tyrant, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in the same style as the reference panel: inside the burning throne cavern of Muspelheim, the Forge-king bursts into a storm of ash; out of it strides the Ash Tyrant, chains of pale-blue spirit-light trailing from his hands to bound spirits. The young hero in a green cloak small in the foreground facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_surt_4
+
+Cut-scene panel — The Horned Jötunn · wave 70 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_surt_4` The Horned Jötunn — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_surth_phases, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — The Horned Jötunn, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in the same style as the reference panel: inside the burning throne cavern of Muspelheim, the ash swirls up and the giant grows huge, great curling horns bursting from his head, the Sword of Flame igniting in his fist. The young hero in a green cloak small in the foreground facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_surt_5
+
+Cut-scene panel — The Obsidian Warlord · wave 70 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_surt_5` The Obsidian Warlord — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_surth_phases, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — The Obsidian Warlord, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in the same style as the reference panel: inside the burning throne cavern of Muspelheim, the Jötunn is plunged into lava and climbs out in black obsidian armour, his molten heart glowing behind a plate of glass. The young hero in a green cloak small in the foreground facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_surt_6
+
+Cut-scene panel — The Living Volcano · wave 70 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_surt_6` The Living Volcano — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_surth_phases, sc_pn_musp_sink_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — The Living Volcano, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in the same style as the reference panel: inside the burning throne cavern of Muspelheim, the obsidian shatters and Surtharn swells into a living volcano, lava pouring from his shoulders and crown, the whole cavern erupting. The young hero in a green cloak small in the foreground facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

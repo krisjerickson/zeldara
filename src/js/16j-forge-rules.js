@@ -52,7 +52,7 @@ var ZFT={ on:true, ID:'modal-forgetrial',
       [null,'<b>Surtharn</b> fights in six phases, warded: <b>Sovereign</b> bites deep. Once he falls, the great hearth makes the <b>Lodestar</b> from the Sovereign staff and the four Heartglasses.','👑']]}
   },
   MUSP:[null,'<b>Each hall</b>: five chained spirits to free (Tab), and two old volcano bosses guarding the way down — the stairs open when both fall. The <b>Ragnarök track</b> rises with time and alarms: at 3, 6 and 9 the lava rises and fiercer foes walk in.','📯'],
-  keyOf:function(sc){ if(!sc)return null; if(sc._asgc||(typeof ZCIT!=='undefined'&&ZCIT.is(sc)))return 'cit'+Math.max(0,Math.min(4,sc.floor||0)); if(sc._musp)return 'musp'+Math.max(0,Math.min(4,sc.floor||0)); var F=typeof ZFORGE!=='undefined'?ZFORGE.of(sc):null; if(!F)return null; if(sc.isLastFloor)return 'hearth'; return F.k; },
+  keyOf:function(sc){ if(!sc)return null; if(sc._escRun)return sc.floor===0?'escape':null; if(sc._asgc||(typeof ZCIT!=='undefined'&&ZCIT.is(sc)))return 'cit'+Math.max(0,Math.min(4,sc.floor||0)); if(sc._musp)return 'musp'+Math.max(0,Math.min(4,sc.floor||0)); var F=typeof ZFORGE!=='undefined'?ZFORGE.of(sc):null; if(!F)return null; if(sc.isLastFloor)return 'hearth'; return F.k; },
   isOpen:function(){ var el=document.getElementById(ZFT.ID); return !!(el&&el.style.display!=='none'); },
   close:function(){ var el=document.getElementById(ZFT.ID); if(el)el.remove(); if(ZFT._raf){ cancelAnimationFrame(ZFT._raf); ZFT._raf=0; } var f=ZFT._onClose; ZFT._onClose=null; ZFT._key=null; if(f)try{ f(); }catch(e){} },
   _shell:function(title,lead){ ZFT.close(); var el=document.createElement('div'); el.id=ZFT.ID; el.className='zft';
@@ -63,7 +63,7 @@ var ZFT={ on:true, ID:'modal-forgetrial',
   rules:function(sc,key,auto){ key=key||ZFT.keyOf(sc); var R=ZFT.RULES[key]; if(!R)return false; var ps=ZFI.ps(sc)||{};
     if(auto&&ps.zftOff&&ps.zftOff[key])return false;
     var el=ZFT._shell(R.t,R.lead), body=el.querySelector('.zft-body'), foot=el.querySelector('.zft-foot'); ZFT._key=key;
-    var st=R.steps.slice(); if(/^musp[0-3]$/.test(key))st.push(ZFT.MUSP); if(/^cit[0-3]$/.test(key)&&ZFT.DOOM)st.push(ZFT.DOOM); if(key!=='musp4'&&key!=='hearth'&&!/^cit/.test(key))st.push(ZFT.HEAT); ZFT._steps(body,st);
+    var st=R.steps.slice(); if(/^musp[0-3]$/.test(key))st.push(ZFT.MUSP); if(/^cit[0-3]$/.test(key)&&ZFT.DOOM)st.push(ZFT.DOOM); if(key!=='musp4'&&key!=='hearth'&&key!=='escape'&&!/^cit/.test(key))st.push(ZFT.HEAT); ZFT._steps(body,st);
     var lab=document.createElement('label'); lab.className='zft-off'; lab.innerHTML='<input type="checkbox"'+(ps.zftOff&&ps.zftOff[key]?' checked':'')+'> Don\'t show this again when I come in (the <b>? Rules</b> button on the heat bar still opens it)'; foot.appendChild(lab);
     lab.querySelector('input').onchange=function(){ ps.zftOff=ps.zftOff||{}; if(this.checked)ps.zftOff[key]=1; else delete ps.zftOff[key]; };
     ZFT._btn(foot,'Begin ▶','zft-go',ZFT.close).focus(); return true; },
@@ -118,8 +118,8 @@ setTimeout(function(){ if(typeof ZFI==='undefined'||typeof DungeonScene==='undef
   // Loki's fly is swatted by an ordinary attack when it is close
   var pa=D._playerAttack; if(pa)D._playerAttack=function(){ var F=this._zfFly; if(F&&F.alive&&F.c&&Math.hypot(F.c.x-this.px,F.c.y-this.py)<70){ F.alive=false; var c=F.c, s=this; this.tweens.add({targets:c,alpha:0,scale:0.2,duration:300,onComplete:function(){ c.destroy(); }}); if(this._floatText)this._floatText(c.x,c.y-10,'Swat! Loki\'s fly flees','#c8f0a0'); } return pa.apply(this,arguments); };
   // the rules when you come in: a forge's first floor (and its hearth hall), and every hall of Muspelheim
-  var bi=D._buildInteractables; D._buildInteractables=function(){ var r=bi.apply(this,arguments), self=this; if(!ZFT.on||!(ZFI.hot(this)||this._asgc||(typeof ZCIT!=='undefined'&&ZCIT.is(this))))return r; var key=ZFT.keyOf(this), fl=this.floor;
-    if(key&&(this._musp||/^cit/.test(key)||fl===0||this.isLastFloor)){ setTimeout(function(){ try{ if(self.sys&&self.sys.isActive()&&self.floor===fl&&!self._playerDead&&!ZFT.isOpen())ZFT.rules(self,key,true); }catch(e){} },900); }
+  var bi=D._buildInteractables; D._buildInteractables=function(){ var r=bi.apply(this,arguments), self=this; if(!ZFT.on||!(ZFI.hot(this)||this._escRun||this._asgc||(typeof ZCIT!=='undefined'&&ZCIT.is(this))))return r; var key=ZFT.keyOf(this), fl=this.floor;
+    if(key)      /* round 65 (Kris: "check that all volcano challenges as well as asgard challenges have pop ups … whenever the challenge starts"): every floor */{ setTimeout(function(){ try{ if(self.sys&&self.sys.isActive()&&self.floor===fl&&!self._playerDead&&!ZFT.isOpen())ZFT.rules(self,key,true); }catch(e){} },900); }
     return r; };
   // "? Rules" on the heat bar
   var hh=ZFI.heatHud; ZFI.heatHud=function(sc){ var r=hh.apply(this,arguments), el=document.getElementById('zheat'); if(el&&!el.querySelector('.zheat-q')){ var d=el.firstChild, b=document.createElement('span'); b.className='zheat-q'; b.textContent='? Rules'; b.title='The rules of this place';
