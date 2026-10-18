@@ -1,4 +1,4 @@
-# Character survey — 473 characters, 1089 sheets (728 core), 7457 poses
+# Character survey — 473 characters, 1086 sheets (725 core), 7433 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: chain_jailer: guard; einherjar_shieldmaiden: guard.
 
@@ -7,7 +7,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: cha
 | hero | 2 | 40 | 40 | 322 |
 | rider | 22 | 22 | 22 | 176 |
 | monster | 252 | 642 | 398 | 4049 |
-| boss | 97 | 274 | 157 | 2042 |
+| boss | 97 | 271 | 154 | 2018 |
 | npc | 42 | 53 | 53 | 424 |
 | mount | 11 | 11 | 11 | 88 |
 | familiar | 4 | 4 | 4 | 32 |
@@ -387,9 +387,9 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: cha
 | surt_4 | Surtharn, the Horned Jötunn | Surtharn | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
 | surt_5 | Surtharn, the Obsidian Warlord | Surtharn | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
 | surt_6 | Surtharn, the Living Volcano | Surtharn | q | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
-| grim_1 | Grímnir, the Masked King | Guardians | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| grim_2 | Grímnir, the Wanderer | Guardians | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
-| grim_3 | Grímnir, the Storm of Ragnarök | Guardians | s f b | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 3 |
+| grim_1 | Grímnir, the Allfather's Mask | Guardians | q | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
+| grim_2 | Grímnir, the Wanderer of Two Lights | Guardians | q | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
+| grim_3 | Grímnir, the Eclipse of Ragnarök | Guardians | q | Idle ×2; Move ×4; Melee attack ×2 (basic attack); Hurt ×1; Cast ×2 (attack patterns (rain, walls, bursts)); Enrage ×1 (phase roar); Phase change ×2 (changes to the next phase); Death ×2 | 2 |
 | npc_tavern | Rolf the Bartender | Village shops | f | Idle ×2; Talk ×2 (when you speak to them); Work: pour ×4 (Polishes a mug, then pours a frothy ale when you walk up.) | 1 |
 | npc_shop | Tilda the Merchant | Village shops | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Waves you in and pats the sack of goods.) | 1 |
 | npc_forge | Garrick the Blacksmith | Village shops | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Strikes the anvil — sparks fly on every blow.) | 1 |

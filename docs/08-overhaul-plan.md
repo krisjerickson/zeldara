@@ -202,6 +202,14 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 64 (Oct 18) — Grímnir made god-like
+- Kris: "the options shown to pick from are not god-like enough, and i'm not seeing them transition between brilliant and bright and dark and ominous … going back and forth between brilliant white radiating out light (like the god they are pretending to be) but then also pulsing back to pure black and sucking away all the light (showing the corrupted nature of the god)"; inspiration images (Silksong / Hollow Knight) as style only, "closer to the overall nordic theme … instead of the bug theme".
+- Forms: keep three separate forms (Masked King, Wanderer Unmasked, Storm of Ragnarök), or one god whose light/dark swing deepens each phase?
+  - **Answered: "similar to option 1 and 2. the first form is mainly light, with slight pulses to dark, second is balanced between light and dark, pulsing between. the last is mainly dark, with minor pulses back to light"** → three forms, each redrawn god-like; the light/dark balance shifts form by form.
+- Does the light/dark pulse change the fight (when he can be hurt, what the arena does), or is it the look only?
+  - **Answered: "same as 1, but since the duration of dark and light change during the phases, make sure to also change when he is vulnerable"** → radiant = shielded and casting light; black = the arena darkens, light is drawn into him, and he can be hurt (Godsbane forces him black). Short openings in form 1, even in form 2, long in form 3.
+- Name: options go in the Lab (Bosses → 👑 Grímnir → Name) — Kris picks there.
+
 ### Round 63 (Oct 17) — the ending
 - Grímnir: doc 28 said 5 phases (Godsbane his weak point in the last); round 62 built 3 (and the Lab has 3 forms). Keep 3 or go to 5?
   - **Answered: "Keep 3 phases"** (Godsbane hits hardest in the last).
@@ -744,4 +752,14 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Built: the Lab Bosses tab gets a row of group buttons (Grímnir of Asgard first, each with how many are left to pick); the ending at Asgard's rune circle (raise the Lodestar → Godsbane into the sky → the Bifröst remade → the spirits go home); Godsbane hits Grímnir ×3 in his last form; round 62's paintings wired (anvil, braziers, thread posts, Ratatoskr, Einherjar).
 - **Round 63 DONE** — changelog [584]–[589].
 - **Next:** Kris runs `tools\sprites\round63.ps1` (ending panel options), picks Grímnir's three forms (Lab → Bosses → 👑 Grímnir) and the ending panels (Lab → Asgard tab). Then: Grímnir painted, the picked panels wired. **Later (paused by Kris):** the credits, after the second ending.
+
+## Round 64 (Kris, Oct 18) — the boss sheets re-cut; Grímnir made a god
+- Kris: "i found the bosses to review! they were in the sprite library under bosses (i thought they would be in the bosses). there are multiple cutting errors, and most of sutharn was not cut properly. also check to make sure that the size of the bosses will show up consistent during gameplay, as sometimes the images animation made it seem like the size of some bosses might change, but it's hard to know for sure. new requests are in."
+- Kris on Grímnir: "1. Let's think about different names. it's doesn't quite sound god-like enough. We might stick with grimnir, but give me some more options. 2. the options shown to pick from are not god-like enough, and i'm not seeing them transition between brilliant and bright and dark and ominous. Think of the final boss going back and forth between brilliant white radiating out light (like the god they are pretending to be) but then also pulsing back to pure black and sucking away all the light (showing the corrupted nature of the god). 3. I've attached some inspirational images from silksong and hollow knight, but they still need to be closer to the overall nordic theme we're going for instead of the bug theme from hollow knight" (images: style reference only).
+- Lab notes (Sprite Library → Bosses): pieces of the next pose under a frame on ~20 bosses; Surtharn "significant cutting error"; surt_6 "not painted images got loaded here"; Iron Sentinel, Swamp Witch 3, Storm Caller, Nova Sorceress "seem to change size during some of the frames"; Grímnir "i don't see the painted images … we might need to order images".
+- Found: Surtharn's preview page in the published Lab was an old one (the index pointed at the new layout → neighbours and wrong pictures showed). The stray pieces were small bits of the pose *underneath* (rocks over its head, a spark) given to the pose above. The size changes came from the cutter resizing single frames by their torso (a spread cape or a cast fooled it).
+- Built: all 265 boss sheets re-cut on the PC (a loose bit wholly below a pose's feet goes to the pose underneath; a boss keeps one scale per sheet), boss atlases and preview pages repacked and published; checked — standing / moving frames of every boss are within 8 % of its reference height, and an idle or walk cycle varies by 0.7 % (median). The atlas packer reads the PC's slow disk far less.
+- Grímnir: name options in the Lab; three NEW god options per form, drawn by a painter of their own and pulsing light ↔ black in the Lab; in the fight he is shielded while radiant and open while black, the beat set by form (cards above); Godsbane forces him black for 4 s. Painted concept options ordered (wave 66, radiant + black for each option).
+- **Round 64 DONE** — changelog [590]–[596].
+- **Next:** Kris runs `tools\sprites\round64.ps1` (wave 66 Grímnir concepts; also sends wave 65 if not in), picks Grímnir's name and his three forms (Lab → Bosses → 👑 Grímnir), and the ending panels (Lab → Asgard tab). Then the picked forms are painted as sprite sheets and the name goes into the game.
 

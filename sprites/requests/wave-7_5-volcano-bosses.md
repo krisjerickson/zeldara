@@ -1,4 +1,4 @@
-# Volcano bosses — 33 requests
+# Volcano bosses — 30 requests
 
 Save each result as `sprites/incoming/<request id>.png`.
 
@@ -606,16 +606,16 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## grim_1.core.s
+## grim_1.core.q
 
-Grímnir, the Masked King · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · core
+Grímnir, the Allfather's Mask · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Grímnir, the Masked King — A towering king in grey mail and a long wanderer's cloak, his face a smooth golden mask with one eye-slit; a spear of white light and a gold-rimmed shield. Details: head: face, gear: crown, weapon: spear, off: shield, armor: plate, cape: long, build: broad. Main colours: yellow (#d8c890), dark grey (#3a3a4a), pale yellow (#fff0b0), pale teal (#9fe8ff). Size: about 4× the height of the hero (a towering boss).
+Subject: Grímnir, the Allfather's Mask — He floats above his high seat in a mantle of white wolf-fur, a smooth golden mask with one burning eye-slit, a crown of three spear-points and a ring of runes behind his head. Wings of white light-feathers fan out behind him; Gungnir blazes in his hand. Every few heartbeats the light gutters and, for a breath, he is black. Main colours: white (#f6f2e8), dark grey (#2a2a36), yellow (#e8c060), pale yellow (#fff4c8). Size: about 4.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -625,47 +625,22 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. movement cycle frame 4: limbs passing the other way.
 7. melee wind-up: weapon / claw / jaw drawn back, body coiled — used for: basic attack.
 8. melee strike: full extension at the moment of impact, with a short teal-white swing arc.
-View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+View: three-quarter view facing down-and-RIGHT, camera slightly above, like the attached centaur reference turned to face right (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## grim_1.fb
+## grim_1.extra.q
 
-Grímnir, the Masked King · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1536x1024 · core
+Grímnir, the Allfather's Mask · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2 · 1536x1024 · extra
 
-Attach: style_hero, style_centaur, grim_1.core.s
-
-```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
-Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Grímnir, the Masked King — A towering king in grey mail and a long wanderer's cloak, his face a smooth golden mask with one eye-slit; a spear of white light and a gold-rimmed shield. Details: head: face, gear: crown, weapon: spear, off: shield, armor: plate, cape: long, build: broad. Main colours: yellow (#d8c890), dark grey (#3a3a4a), pale yellow (#fff0b0), pale teal (#9fe8ff). Size: about 4× the height of the hero (a towering boss).
-Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
-1. seen from the FRONT, standing at rest, relaxed and alert.
-2. seen from the FRONT, step / movement frame 1 of 2.
-3. seen from the FRONT, step / movement frame 2 of 2 (opposite limb).
-4. seen from the FRONT, melee strike: full extension at the moment of impact, with a short teal-white swing arc.
-5. seen from BEHIND, standing at rest, relaxed and alert.
-6. seen from BEHIND, step / movement frame 1 of 2.
-7. seen from BEHIND, step / movement frame 2 of 2 (opposite limb).
-8. seen from BEHIND, melee strike: full extension at the moment of impact, with a short teal-white swing arc.
-View: camera slightly above, as in a top-down RPG; each pose states its own facing.
-Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
-Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
-Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
-```
-
-## grim_1.extra.s
-
-Grímnir, the Masked King · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2 · 1536x1024 · extra
-
-Attach: style_hero, style_centaur, grim_1.core.s
+Attach: style_hero, style_centaur, grim_1.core.q
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Grímnir, the Masked King — A towering king in grey mail and a long wanderer's cloak, his face a smooth golden mask with one eye-slit; a spear of white light and a gold-rimmed shield. Details: head: face, gear: crown, weapon: spear, off: shield, armor: plate, cape: long, build: broad. Main colours: yellow (#d8c890), dark grey (#3a3a4a), pale yellow (#fff0b0), pale teal (#9fe8ff). Size: about 4× the height of the hero (a towering boss).
+Subject: Grímnir, the Allfather's Mask — He floats above his high seat in a mantle of white wolf-fur, a smooth golden mask with one burning eye-slit, a crown of three spear-points and a ring of runes behind his head. Wings of white light-feathers fan out behind him; Gungnir blazes in his hand. Every few heartbeats the light gutters and, for a breath, he is black. Main colours: white (#f6f2e8), dark grey (#2a2a36), yellow (#e8c060), pale yellow (#fff4c8). Size: about 4.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. hurt: flinching backward, eyes shut, a few white impact sparks.
 2. casting wind-up: gathering glowing energy, arms / antennae raised — used for: attack patterns (rain, walls, bursts).
@@ -675,22 +650,22 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. transformation: bursting upward in a pillar of light, new shape forming.
 7. death frame 1: buckling, losing balance.
 8. death frame 2: collapsed flat on the ground, still.
-View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+View: three-quarter view facing down-and-RIGHT, camera slightly above, like the attached centaur reference turned to face right (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## grim_2.core.s
+## grim_2.core.q
 
-Grímnir, the Wanderer · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · core
+Grímnir, the Wanderer of Two Lights · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Grímnir, the Wanderer — The mask has fallen: a grey one-eyed wanderer, half mist below the waist, two ravens circling him like smoke. Details: head: hood, weapon: staff, armor: rags, cape: tattered, build: lean. Main colours: light grey (#8a8a9a), dark grey (#2a2a3a), pale teal (#9fe8ff), white (#ffffff). Size: about 4× the height of the hero (a towering boss).
+Subject: Grímnir, the Wanderer of Two Lights — The mask is gone: a broad-brimmed wanderer's hat over a face of shadow and one white eye, a cloak of raven feathers, the lower body fraying into ribbons of light — and in the black beats, into smoke. Main colours: white (#e8e4dc), dark grey (#1c1c26), orange (#d8b060), pale blue (#e8f4ff). Size: about 4.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -700,47 +675,22 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. movement cycle frame 4: limbs passing the other way.
 7. melee wind-up: weapon / claw / jaw drawn back, body coiled — used for: basic attack.
 8. melee strike: full extension at the moment of impact, with a short teal-white swing arc.
-View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+View: three-quarter view facing down-and-RIGHT, camera slightly above, like the attached centaur reference turned to face right (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## grim_2.fb
+## grim_2.extra.q
 
-Grímnir, the Wanderer · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1536x1024 · core
+Grímnir, the Wanderer of Two Lights · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2 · 1536x1024 · extra
 
-Attach: style_hero, style_centaur, grim_2.core.s
-
-```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
-Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Grímnir, the Wanderer — The mask has fallen: a grey one-eyed wanderer, half mist below the waist, two ravens circling him like smoke. Details: head: hood, weapon: staff, armor: rags, cape: tattered, build: lean. Main colours: light grey (#8a8a9a), dark grey (#2a2a3a), pale teal (#9fe8ff), white (#ffffff). Size: about 4× the height of the hero (a towering boss).
-Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
-1. seen from the FRONT, standing at rest, relaxed and alert.
-2. seen from the FRONT, step / movement frame 1 of 2.
-3. seen from the FRONT, step / movement frame 2 of 2 (opposite limb).
-4. seen from the FRONT, melee strike: full extension at the moment of impact, with a short teal-white swing arc.
-5. seen from BEHIND, standing at rest, relaxed and alert.
-6. seen from BEHIND, step / movement frame 1 of 2.
-7. seen from BEHIND, step / movement frame 2 of 2 (opposite limb).
-8. seen from BEHIND, melee strike: full extension at the moment of impact, with a short teal-white swing arc.
-View: camera slightly above, as in a top-down RPG; each pose states its own facing.
-Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
-Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
-Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
-```
-
-## grim_2.extra.s
-
-Grímnir, the Wanderer · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2 · 1536x1024 · extra
-
-Attach: style_hero, style_centaur, grim_2.core.s
+Attach: style_hero, style_centaur, grim_2.core.q
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Grímnir, the Wanderer — The mask has fallen: a grey one-eyed wanderer, half mist below the waist, two ravens circling him like smoke. Details: head: hood, weapon: staff, armor: rags, cape: tattered, build: lean. Main colours: light grey (#8a8a9a), dark grey (#2a2a3a), pale teal (#9fe8ff), white (#ffffff). Size: about 4× the height of the hero (a towering boss).
+Subject: Grímnir, the Wanderer of Two Lights — The mask is gone: a broad-brimmed wanderer's hat over a face of shadow and one white eye, a cloak of raven feathers, the lower body fraying into ribbons of light — and in the black beats, into smoke. Main colours: white (#e8e4dc), dark grey (#1c1c26), orange (#d8b060), pale blue (#e8f4ff). Size: about 4.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. hurt: flinching backward, eyes shut, a few white impact sparks.
 2. casting wind-up: gathering glowing energy, arms / antennae raised — used for: attack patterns (rain, walls, bursts).
@@ -750,22 +700,22 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. transformation: bursting upward in a pillar of light, new shape forming.
 7. death frame 1: buckling, losing balance.
 8. death frame 2: collapsed flat on the ground, still.
-View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+View: three-quarter view facing down-and-RIGHT, camera slightly above, like the attached centaur reference turned to face right (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## grim_3.core.s
+## grim_3.core.q
 
-Grímnir, the Storm of Ragnarök · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · core
+Grímnir, the Eclipse of Ragnarök · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · core
 
 Attach: style_hero, style_centaur
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Grímnir, the Storm of Ragnarök — The god becomes the gale: a towering figure of storm-cloud and white lightning, a spear of lightning in his hand. Details: head: face, gear: crown, weapon: spear, armor: crystal, build: giant. Main colours: pale blue (#e0f0ff), muted blue (#5a6a8a), white (#ffffff), pale teal (#9fe8ff). Size: about 4.5× the height of the hero (a towering boss).
+Subject: Grímnir, the Eclipse of Ragnarök — The sun behind him is swallowed: an eclipse with a white corona. His head is a void with one white eye, his crown is jagged, his wings are torn black feathers and his body pours away into tendrils. Now and then the old light flares through him. Main colours: white (#dcdce6), black (#08080e), muted orange (#b8a070), white (#ffffff). Size: about 4.5× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -775,47 +725,22 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. movement cycle frame 4: limbs passing the other way.
 7. melee wind-up: weapon / claw / jaw drawn back, body coiled — used for: basic attack.
 8. melee strike: full extension at the moment of impact, with a short teal-white swing arc.
-View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+View: three-quarter view facing down-and-RIGHT, camera slightly above, like the attached centaur reference turned to face right (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
-## grim_3.fb
+## grim_3.extra.q
 
-Grímnir, the Storm of Ragnarök · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1536x1024 · core
+Grímnir, the Eclipse of Ragnarök · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2 · 1536x1024 · extra
 
-Attach: style_hero, style_centaur, grim_3.core.s
-
-```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
-Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Grímnir, the Storm of Ragnarök — The god becomes the gale: a towering figure of storm-cloud and white lightning, a spear of lightning in his hand. Details: head: face, gear: crown, weapon: spear, armor: crystal, build: giant. Main colours: pale blue (#e0f0ff), muted blue (#5a6a8a), white (#ffffff), pale teal (#9fe8ff). Size: about 4.5× the height of the hero (a towering boss).
-Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
-1. seen from the FRONT, standing at rest, relaxed and alert.
-2. seen from the FRONT, step / movement frame 1 of 2.
-3. seen from the FRONT, step / movement frame 2 of 2 (opposite limb).
-4. seen from the FRONT, melee strike: full extension at the moment of impact, with a short teal-white swing arc.
-5. seen from BEHIND, standing at rest, relaxed and alert.
-6. seen from BEHIND, step / movement frame 1 of 2.
-7. seen from BEHIND, step / movement frame 2 of 2 (opposite limb).
-8. seen from BEHIND, melee strike: full extension at the moment of impact, with a short teal-white swing arc.
-View: camera slightly above, as in a top-down RPG; each pose states its own facing.
-Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
-Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
-Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
-```
-
-## grim_3.extra.s
-
-Grímnir, the Storm of Ragnarök · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2 · 1536x1024 · extra
-
-Attach: style_hero, style_centaur, grim_3.core.s
+Attach: style_hero, style_centaur, grim_3.core.q
 
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Grímnir, the Storm of Ragnarök — The god becomes the gale: a towering figure of storm-cloud and white lightning, a spear of lightning in his hand. Details: head: face, gear: crown, weapon: spear, armor: crystal, build: giant. Main colours: pale blue (#e0f0ff), muted blue (#5a6a8a), white (#ffffff), pale teal (#9fe8ff). Size: about 4.5× the height of the hero (a towering boss).
+Subject: Grímnir, the Eclipse of Ragnarök — The sun behind him is swallowed: an eclipse with a white corona. His head is a void with one white eye, his crown is jagged, his wings are torn black feathers and his body pours away into tendrils. Now and then the old light flares through him. Main colours: white (#dcdce6), black (#08080e), muted orange (#b8a070), white (#ffffff). Size: about 4.5× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. hurt: flinching backward, eyes shut, a few white impact sparks.
 2. casting wind-up: gathering glowing energy, arms / antennae raised — used for: attack patterns (rain, walls, bursts).
@@ -825,7 +750,7 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. transformation: bursting upward in a pillar of light, new shape forming.
 7. death frame 1: buckling, losing balance.
 8. death frame 2: collapsed flat on the ground, still.
-View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+View: three-quarter view facing down-and-RIGHT, camera slightly above, like the attached centaur reference turned to face right (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.

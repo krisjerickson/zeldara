@@ -244,7 +244,16 @@ def find_poses(im, cols, rows, n):
             ex, ey = edge[k]; d2 = (fx[:, None] - ex[None, :]) ** 2 + (fy[:, None] - ey[None, :]) ** 2; dist.append(float(np.sqrt(d2.min())))
         near = int(np.argmin(dist)); home = int(np.argmin([abs(cx - centre[k][0]) / cw + abs(cy - centre[k][1]) / ch for k in range(n)]))
         pick = home if dist[home] < 1e8 and not (dist[near] <= 6 and dist[near] * 3 <= dist[home]) else near
-        if dist[pick] > 0.8 * max(cw, ch): small_owner[i] = -1; dropped += 1
+        # round 64 (Kris: "portion from different frame below the image"): a loose bit lying wholly below a pose's feet is
+        # not that pose's — it is the top of the pose underneath it (rocks over its head, a spark from its cast). It goes to
+        # the nearest pose it is not below, if that one is close; otherwise it is dropped.
+        below = lambda k: dist[k] > 6 and by0 > box[k][3] + 2
+        far = False
+        if dist[pick] < 1e8 and below(pick):
+            ok = [k for k in range(n) if dist[k] < 1e8 and not below(k)]
+            if ok and min(dist[k] for k in ok) <= 0.25 * ch: pick = min(ok, key=lambda k: dist[k])
+            else: far = True
+        if far or dist[pick] > 0.8 * max(cw, ch): small_owner[i] = -1; dropped += 1
         else: small_owner[i] = pick + 1
     own = np.where(own != 0, own, small_owner[lab]).astype(np.int16)
     # soft pixels (glow, halo, anti-aliased edge) go to the pose they are attached to: ownership grows outward step by step
@@ -371,7 +380,9 @@ def process(q, report=False, refs=None):
             if ref is not None and not q.get('legacy') and any(not shape[k] for k in groups[g]): ref['g'][g] = target
     for k in range(n):
         g = key(names[k]); target = (ref['g'].get(g) if ref else None) or gmed(g, T) * s_sheet * s_sheet
-        s_k = s_sheet if shape[k] else min(1.33, max(0.75, math.sqrt(target / M[k]['T']) / s_sheet)) * s_sheet
+        # round 64 (Kris: bosses "seem to change size during some of the frames"): a boss keeps one scale per sheet — the
+        # painter keeps a boss's size within a sheet, and the torso measure is fooled by spread capes, raised arms and casts
+        s_k = s_sheet if shape[k] or q['group'] == 'boss' else min(1.33, max(0.75, math.sqrt(target / M[k]['T']) / s_sheet)) * s_sheet
         sc.append(s_k); rel.append(round(s_k / s_sheet, 3))
     frames = []; anch = []
     for k in range(n):
@@ -394,7 +405,7 @@ def process(q, report=False, refs=None):
         pk = min(1.0, 132.0 / ch, 2048.0 / (cw * n)); pcw, pch = max(1, int(cw * pk)), max(1, int(ch * pk))
         sd = os.path.join(OUT, 'strips'); os.makedirs(sd, exist_ok=True)
         strip.resize((pcw * n, pch), Image.LANCZOS).save(os.path.join(sd, q['id'] + '.png'))
-        json.dump({'id': q['id'], 'cell': [pcw, pch], 'full': [cw, ch], 'n': n, 'names': [f[0] for f in frames], 'anch': anch, 'rel': rel, 'sheet_s': round(s_sheet, 4), 'sized': how,
+        json.dump({'id': q['id'], 'cell': [pcw, pch], 'full': [cw, ch], 'n': n, 'names': [f[0] for f in frames], 'anch': anch, 'rel': rel, 'bh': [round(H(M[k]) * sc[k], 1) for k in range(n)], 'shape': [bool(x) for x in shape], 'sheet_s': round(s_sheet, 4), 'sized': how,
                    'bg': note, 'split': mode, 'touch': info.get('touch', 0), 'overlap': info.get('overlap', False), 'odd': info.get('odd', []), 'dropped': info.get('dropped', 0),
                    'v': INTAKE_V, 'group': q['group'], 'wave': wave, 'src_mtime': os.path.getmtime(src)}, open(os.path.join(sd, q['id'] + '.json'), 'w'))
     return {'id': q['id'], 'ok': True, 'bg': note, 'split': mode, 'touch': info.get('touch', 0), 'overlap': info.get('overlap', False), 'cell': [cw, ch], 'frames': cells, 'rel': rel, 'sized': how, 'group': q['group'], 'wave': wave}
@@ -435,21 +446,30 @@ def pack(budget=140):
     index.json: pages {name: [w, h]}, chars {id: {h0: standing height in atlas px, pages: [...]}},
                 frames {"char/anim/facing/n": [page, x, y, w, h, cellW, cellH, offX, offY]}  (feet = bottom centre of the cell)"""
     R = load_requests(); done = set(os.path.splitext(os.path.basename(f))[0] for f in glob.glob(os.path.join(OUT, 'strips', '*.json')))
-    by = {}; chars = {}; anchors = {}; refs = load_refs()
+    by = {}; chars = {}; anchors = {}; refs = load_refs(); src = {}; listed = {}
+    # round 64: on a slow disk (the PC's shared folder) a stat per frame took minutes — so each character's folder is listed
+    # once, and an atlas is known to have changed by the mtimes of the sheets (strips/*.json) it is made from
+    def have(c, fn):
+        if c not in listed:
+            try: listed[c] = set(os.listdir(os.path.join(OUT, 'frames', c)))
+            except OSError: listed[c] = set()
+        return fn in listed[c]
     for f in sorted(glob.glob(os.path.join(OUT, 'strips', '*.json'))):
         m = json.load(open(f)); q = R.get(m['id'], {})
         if q.get('legacy') and q.get('supersededBy') in done: continue      # a newer version of this sheet is in
+        if 'anch' not in m: continue
+        st_ = os.stat(f); src.setdefault(atlas_name(m), []).append('%s:%d:%d' % (m['id'], st_.st_mtime, st_.st_size))
         for k, name in enumerate(m['names']):
-            fp = os.path.join(OUT, 'frames', name.split('/')[0], '_'.join(name.split('/')[1:]) + '.png')
-            if not os.path.exists(fp) or 'anch' not in m: continue
-            by.setdefault(atlas_name(m), {})[name] = fp; anchors[name] = m['anch'][k]
+            c = name.split('/')[0]; fn = '_'.join(name.split('/')[1:]) + '.png'
+            if not have(c, fn): continue
+            by.setdefault(atlas_name(m), {})[name] = os.path.join(OUT, 'frames', c, fn); anchors[name] = m['anch'][k]
             c = name.split('/')[0]; rf = refs.get(c) or {}
             # h0 = body height of the standing pose, a0 = square root of its ink area (what the game sizes by), both in atlas px
             chars.setdefault(c, {'h0': int(round(rf.get('h0') or HERO_PX * float(q.get('scale') or 1))), 'a0': round(rf.get('a0') or 0.75 * HERO_PX * float(q.get('scale') or 1), 1), 'pages': []})
     d = os.path.join(ROOT, 'assets', 'atlas'); os.makedirs(d, exist_ok=True); index = {'pages': {}, 'chars': chars, 'frames': {}}
     # Incremental: an atlas whose frames have not changed since it was packed is kept as it is (its part of the index is
     # remembered in sprites/out/atlas_state.json). Packing stops when the time budget is used up; run again to finish.
-    sf = os.path.join(OUT, 'atlas_state.json'); state = json.load(open(sf)) if os.path.exists(sf) else {}
+    sf = os.path.join(OUT, 'atlas_state.json'); state = json.load(open(sf)) if os.path.exists(sf) else {}; sf_t = state.get('__v2') or (os.path.getmtime(sf) if os.path.exists(sf) else 0); state['__v2'] = sf_t      # when the old-style pack was last saved
     t0 = time.time(); left = []
     def keep(name):
         st = state[name]; index['pages'].update(st['pages']); index['frames'].update(st['frames'])
@@ -458,9 +478,10 @@ def pack(budget=140):
             if c is None: c = chars[fr.split('/')[0]] = dict(st.get('h0', {}).get(fr.split('/')[0], {'h0': HERO_PX, 'a0': 0.75 * HERO_PX}), pages=[])
             if v[0] not in c['pages']: c['pages'].append(v[0])
     for name in sorted(by):
-        sig = hashlib.md5(('%d|%d|' % (PACK_V, HERO_PX) + '|'.join('%s:%d:%d:%s:%s' % (k, os.path.getmtime(v), os.path.getsize(v), anchors[k], chars[k.split('/')[0]]['h0']) for k, v in sorted(by[name].items()))).encode()).hexdigest()
-        st = state.get(name)
-        if st and st.get('sig') == sig and all(os.path.exists(os.path.join(d, pn + '.webp')) for pn in st['pages']): keep(name); continue
+        sig = hashlib.md5(('%d|%d|' % (PACK_V, HERO_PX) + '|'.join(sorted(src.get(name, []))) + '|' + '|'.join('%s:%s:%s' % (k, anchors[k], chars[k.split('/')[0]]['h0']) for k in sorted(by[name]))).encode()).hexdigest()
+        st = state.get(name); pages_ok = st and all(os.path.exists(os.path.join(d, pn + '.webp')) for pn in st['pages'])
+        if st and pages_ok and 'sig2' not in st and all(int(x.split(':')[1]) < sf_t for x in src.get(name, [])): st['sig2'] = sig     # packed before round 64 and its sheets unchanged since
+        if st and pages_ok and st.get('sig2') == sig: keep(name); continue
         if time.time() - t0 > budget:
             left.append(name)
             if st and all(os.path.exists(os.path.join(d, pn + '.webp')) for pn in st['pages']): keep(name)     # the older pack stays in use
@@ -485,7 +506,7 @@ def pack(budget=140):
             pn = '%s-%d' % (name, i); hh = min(PAGE, int(math.ceil(max(1, used) / 4) * 4))
             pg.crop((0, 0, PAGE, hh)).save(os.path.join(d, pn + '.webp'), 'WEBP', quality=85, method=4); index['pages'][pn] = [PAGE, hh]
         fr = {k: v for k, v in index['frames'].items() if k not in frames0}
-        state[name] = {'sig': sig, 'pages': {k: v for k, v in index['pages'].items() if k not in pages0}, 'frames': fr, 'h0': {c: {'h0': chars[c]['h0'], 'a0': chars[c]['a0']} for c in set(k.split('/')[0] for k in fr)}}
+        state[name] = {'sig2': sig, 'pages': {k: v for k, v in index['pages'].items() if k not in pages0}, 'frames': fr, 'h0': {c: {'h0': chars[c]['h0'], 'a0': chars[c]['a0']} for c in set(k.split('/')[0] for k in fr)}}
         json.dump(state, open(sf, 'w'), separators=(',', ':'))
     index['chars'] = {c: v for c, v in chars.items() if v['pages']}
     # one small picture per character (its standing frame) on a single sheet: the Tome's grid shows these without loading the big pages
@@ -549,6 +570,7 @@ def main():
     ids = [i for i in ids if (not want or i in want)]
     for i in [x for x in ids if x not in R]: print('?  %s.png is not a request id — skipped' % i)
     ids = [i for i in ids if i in R]
+    if limit == 0: ids = []                                       # --limit=0: only pack / preview, cut nothing (and do not look)
     ids.sort(key=lambda i: (2 if R[i]['group'] == 'rider' else 0 if first_anim(R[i]) in ('idle', 'still', 'float', 'ride_side', 'model') else 1, i))     # standing sheets first: they size the others
     for i in ids:
         mf = os.path.join(OUT, 'strips', i + '.json')                 # already cut and the sheet has not changed since → skip
