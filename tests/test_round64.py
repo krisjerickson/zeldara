@@ -15,10 +15,10 @@ ROOT = os.path.join(os.path.dirname(__file__), '..')
 with game(new=True, painted=True) as g:
     g.wait(4500)
     r = g.js("""(()=>{ var o={}; [1,2,3].forEach(function(f){ var F=ZGOD.FORMS[f], n=0, lt=0; for(var t=0;t<60;t+=0.05){ n++; if(ZGOD.light(f,t)>0.5)lt++; } o[f]=Math.round(lt/n*100); });
-      o.gods=['grim_1','grim_2','grim_3'].map(function(s){ return (BOSS_SLOTS[s]||[]).filter(function(D){ return D.arch==='god'; }).length; }); o.pick=['grim_1','grim_2','grim_3'].map(function(s){ return BA.of(s).arch; });
+      o.gods=['grim_1','grim_2','grim_3'].map(function(s){ return (BOSS_SLOTS[s]||[]).filter(function(D){ return D.arch==='god'; }).length; }); o.pick=['grim_1','grim_2','grim_3'].map(function(s){ return BA.of(s).arch; }); o.opts=['grim_1','grim_2','grim_3'].map(function(s){ return BA.of(s).opt; }); o.name=MDEFS.grimnir.name;
       var D=BA.of('grim_1'); BA.paint(D); o.eye=ZGOD.eye(D); o.names=GRIM_NAMES.length; return o; })()""")
     check('The beat: form 1 is mostly light (%d%%), form 2 even (%d%%), form 3 mostly black (%d%%)' % (r['1'], r['2'], r['3']), r['1'] > 70 and 40 <= r['2'] <= 60 and r['3'] < 30, r)
-    check('Three new god options for each form (%s), the game draws a god until Kris picks (%s); ten name options' % (r['gods'], r['pick']), r['gods'] == [3, 3, 3] and r['pick'] == ['god'] * 3 and r['names'] == 10, r)
+    check('Three new god options for each form (%s); Kris\'s picks are drawn (%s) and he is %s; ten name options' % (r['gods'], r['opts'], r['name']), r['gods'] == [3, 3, 3] and r['pick'] == ['god'] * 3 and r['opts'] == ['d', 'e', 'e'] and r['name'].startswith('Solmyrk') and r['names'] == 10, r)
     r = g.js("""(async()=>{ %s var ws=game.scene.getScene('World'), ps=ws.playerState; ps.godMode=true; ZCIT.enter(ws,4); await w(7000); var D=game.scene.getScene('Dungeon'), o={};
       var m=(D._bossGroup||[]).find(function(b){ return !b.dead; }); if(!m){ await w(2000); m=(D._bossGroup||[]).find(function(b){ return !b.dead; }); } o.form=m&&m._gform;
       m._gp={t:1,force:0}; await w(300); o.shine=m._grimShine; o.hitLight=ZHit.dmg(D,m,200,'melee'); o.vis=!!(D._gpv&&D._gpv.dark&&D._gpv.rays&&D._gpv.eye); o.darkA=D._gpv.dark.alpha;
@@ -32,9 +32,11 @@ with game(new=True, painted=True) as g:
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No script errors', not errs, errs[:4])
 
-req = json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'scenery.json'), encoding='utf8'))
-w66 = [q for q in req['requests'] if q.get('wave') == 66]
-check('Ordered (wave 66): painted concept options for each form, radiant and black (%d sheets, %d pictures)' % (len(w66), sum(len(q.get('items', [])) for q in w66)), len(w66) == 3)
+req = json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'requests.json'), encoding='utf8'))
+G = [q for q in req['requests'] if q['char'].startswith('grim_')]
+fac = sorted(set(q['facing'] for q in G))
+check('Ordered (sprite wave 7.95): Solmyrk\'s three forms, front, side and back (%d sheets, views %s); forms 2 and 3 use form 1 as their reference' % (len(G), fac),
+      len(G) == 9 and all(q['wave'] == 7.95 for q in G) and 'grim_1.core.s' in [r for q in G if q['id'] == 'grim_2.core.s' for r in q['refs']] and any('Odin' in q['body'] and 'RADIANT' in q['body'] for q in G))
 lab = open(os.path.join(ROOT, 'lab', 'index.html'), encoding='utf8').read()
 check('The Lab: Grímnir\'s names and the pulsing god cards are in the Bosses tab', 'GRIM_NAMES' in lab and 'LGOD' in lab and 'bb-name' in lab)
 I = json.load(open(os.path.join(ROOT, 'assets', 'atlas', 'index.json')))

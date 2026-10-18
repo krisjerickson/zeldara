@@ -247,10 +247,10 @@ var ZSPR={
     // bosses, evolved forms, wardens, mage masters, island and volcano bosses, elites
     if(typeof BOSS_SLOT_LIST!=='undefined')BOSS_SLOT_LIST.forEach(function(slot){ var opt=(typeof BOSS_PICK!=='undefined'&&BOSS_PICK[slot])||'a', D=(typeof BOSS_ART!=='undefined'&&BOSS_ART[slot+'.'+opt])||{}, C=typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[slot];
       var q=Z.bossQ(slot,D,C);
-      var kit=Z.bossKit(slot), sub=/^fm_/.test(slot)?'Forge-masters':/^surt_/.test(slot)?'Surtharn':/^elite/.test(slot)?'Elites':/^bf_/.test(slot)?'Evolved boss forms':/^cw_/.test(slot)?'Castle wardens':/^mg_/.test(slot)?'Mage-tower masters':/^boss_isl/.test(slot)?'Island guardians':/^boss_v/.test(slot)?'Volcano bosses':'Guardians';
-      push({id:slot,group:'boss',sub:sub,name:D.name||(C&&C.name)||slot,q:q,look:D.lore||(C&&C.look)||'',atkTxt:C&&C.doing,pal:D.pal||(C&&C.spec&&C.spec.pal),arch:D.arch,
-        gear:['head','gear','weapon','off','armor','cape','beast','build'].filter(function(k){ return D[k]&&D[k]!==true; }).map(function(k){ return k+': '+D[k]; }).join(', '),
-        kit:kit,specAnim:C&&C.spec&&C.spec.anim,humanoid:D.arch==='hum'||(!D.arch&&C&&!!Z.HUMANOID[C.spec&&C.spec.plan]),scale:Math.round(((D.h||110)/42)*10)/10,big:true,form:/^bf_|^fm_\w+_[23]$/.test(slot),wave:/^fm_/.test(slot)?7.6:/^surt_/.test(slot)?7.7:(q||5)+2.5}); });      // round 56: the forge-masters' twelve forms are their own wave (painted once Kris picks in the Lab)
+      var kit=Z.bossKit(slot), sub=/^fm_/.test(slot)?'Forge-masters':/^surt_/.test(slot)?'Surtharn':/^grim_/.test(slot)?'Solmyrk':/^elite/.test(slot)?'Elites':/^bf_/.test(slot)?'Evolved boss forms':/^cw_/.test(slot)?'Castle wardens':/^mg_/.test(slot)?'Mage-tower masters':/^boss_isl/.test(slot)?'Island guardians':/^boss_v/.test(slot)?'Volcano bosses':'Guardians';
+      push({id:slot,group:'boss',sub:sub,name:D.name||(C&&C.name)||slot,q:q,look:(D.lore||(C&&C.look)||'')+(D.arch==='god'?' '+Z.GOD_PAINT:''),atkTxt:C&&C.doing,pal:D.pal||(C&&C.spec&&C.spec.pal),arch:D.arch,
+        gear:D.god?Z.godGear(D.god):['head','gear','weapon','off','armor','cape','beast','build'].filter(function(k){ return D[k]&&D[k]!==true; }).map(function(k){ return k+': '+D[k]; }).join(', '),
+        kit:kit,specAnim:C&&C.spec&&C.spec.anim,humanoid:D.arch==='hum'||D.arch==='god'||(!D.arch&&C&&!!Z.HUMANOID[C.spec&&C.spec.plan]),scale:Math.round(((D.h||110)/42)*10)/10,big:true,form:/^bf_|^fm_\w+_[23]$/.test(slot),wave:/^fm_/.test(slot)?7.6:/^surt_/.test(slot)?7.7:/^grim_/.test(slot)?7.95:(q||5)+2.5}); });      /* round 64: Solmyrk's three forms, their own wave (front, side and back — Kris) */      // round 56: the forge-masters' twelve forms are their own wave (painted once Kris picks in the Lab)
     // NPCs
     if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='npc')return; var walker=/Village folk/.test(C.sub);
       var RW=Z.REWORD[C.id]||{};
@@ -296,7 +296,7 @@ var ZSPR={
     if(e.group==='animal'){ add('idle',2); add(e.floaty?'float':'move',4,'wanders, and flees when you come close'); if(e.large)add('melee',2,'fights back when cornered'); return A; }
     if(e.group==='vehicle'){ (e.vanims||[]).forEach(function(k){ add(k,k==='move'?4:2); }); return A; }
     // monsters and bosses: from the kit
-    var boss=e.group==='boss', floaty=/wisp|bat|bird|insect|firefly|eye|orb|swarm|book|swirl/.test(e.plan||'')||/orb|bird|wyvern/.test(e.arch||'');
+    var boss=e.group==='boss', floaty=/wisp|bat|bird|insect|firefly|eye|orb|swarm|book|swirl/.test(e.plan||'')||/orb|bird|wyvern|god/.test(e.arch||'');      /* round 64: Solmyrk floats */
     var R=Z.animsFromKit(e.kit,e.specAnim,floaty); e.unknown=R.unknown;
     R.list.forEach(function(k){ add(k,k==='idle'&&!boss?1:0,(R.uses[k]||[]).join(', ')); });   // round 21: monsters get their 2 death frames too
     if(boss){ if(!A.some(function(a){ return a.k==='cast'; }))add('cast',2,'attack patterns (rain, walls, bursts)'); if(!A.some(function(a){ return a.k==='enrage'; }))add('enrage',1,'phase roar'); add('transform',2,e.form?'arrives in this form':'changes to the next phase'); }
@@ -334,6 +334,16 @@ var ZSPR={
         else if(a.k==='talk'){ if(f==='f')return; } else fb.push({a:a.k,i:P.length-1,f:f,t:lab+P[P.length-1].t.replace(/ — used for:.*$/,'')}); }); });
       if(fb.length){ mk('fb','Front and back: idle, steps, main attack','x',fb); var sh=out.pop(); sh.tier='core'; out.splice(1,0,sh); } }
     return out; },
+  // round 64 — Solmyrk (Grímnir renamed): Kris "just go straight into the sprite sheet", "he is corrupted Odin", "create the full front side back like walking bosses"
+  GOD_PAINT:'He is Odin himself, corrupted into a false god. Paint him RADIANT in every pose — white, ivory and pale gold, glowing, light pouring off him (the game turns him pure black on its own, so never paint him dark). He FLOATS a little above the ground and never walks: his robe ends in a point, no feet. Keep the ONE glowing eye (the other sealed), the mask, the crown, the halo and the wings identical in every pose and view.',
+  godGear:function(G){ var T={lower:{spear:'his white robe narrows to a floating spear-point (no feet)',robe:'a long white robe to the ground',tendril:'his lower body frays into ribbons of light and storm-tendrils'},
+      mantle:{wolf:'a thick mantle of white wolf-fur on his shoulders',feather:'a cape of white raven feathers',raven:'a cloak of raven feathers',storm:'a mantle of thunderheads',plate:'golden shoulder-plates'},
+      head:{mask:'a smooth golden mask with ONE glowing eye-slit (the other eye sealed by a scar)',split:'a golden one-eyed mask cracked down the middle — one half radiant gold, the other half a black void',hat:'a broad-brimmed wanderer\'s hat shadowing one white eye',raven:'a raven-skull helm with a long beak',void:'a face of shadow with one white eye'},
+      crown:{spears:'a LOW crown of three short spear-points',antlers:'antlers of light',spikes:'a jagged crown of spikes',icicles:'a crown of icicles',ring:'a gold circlet with three rune-stones'},
+      halo:{runes:'a gold ring of runes behind his head',sun:'a blazing sun-wheel behind him',eclipse:'an eclipsed sun with a white corona behind his head'},
+      wings:{rays:'huge wings of long white light-feathers fanning up and out',raven:'great raven wings rimmed with light',tattered:'torn wings of light whose tears show darkness',storm:'wings of storm-cloud and white lightning'},
+      weapon:{gungnir:'the spear Gungnir blazing with white-gold light in his right hand',staff:'a wanderer\'s staff topped with a star'}}, L=[];
+    ['head','crown','halo','mantle','wings','weapon','lower'].forEach(function(k){ if(G[k]&&T[k]&&T[k][G[k]])L.push(T[k][G[k]]); }); if(G.beard)L.push('a long beard that pours down like light'); if(G.ravens)L.push('two black ravens on his shoulders'); return L.join('; '); },
   sheetTitle:function(poses){ var seen=[], Z=ZSPR; poses.forEach(function(p){ var l=Z.ANIM_LABEL[p.a]||p.a; if(seen.indexOf(l)<0)seen.push(l); }); return seen.join(', '); },
 
   // ── the request text for one sheet ──
@@ -342,12 +352,14 @@ var ZSPR={
       if(!t){ if(r==='hero_m.model'&&e.id==='hero_f')t='the approved model sheet of the hero boy: she matches his height, proportions, line weight and colouring style exactly (her hair and outfit are her own, as described)';
         else if(/^hero_[mf]\.model$/.test(r))t='the approved model sheet of this hero: keep the hero identical to it';
         else if(/^mt_/.test(r))t='the approved sheet of this mount: keep the mount identical to it';
+        else if(r==='grim_1.core.s'&&e.id!=='grim_1')t='the first form of this same god (Solmyrk): keep his art style, size, one-eyed golden mask, crown and colouring — and change only what is described for this form';
         else if(/^surt_ref_/.test(r))t='the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change';
         else t='the first approved sheet of this same character: keep the character identical to it'; }
       return 'Reference image '+(i+1)+' = '+t+'.'; }).join(' '); },
   refs:function(e,sh){ var r=['style_hero','style_centaur']; if(e.group==='hero'){ if(sh.key!=='model')r.push('hero_'+e.hero+'.model'); else if(e.hero==='f')r.push('hero_m.model'); }
     else if(e.group==='rider'||e.group==='vehicle')r.push('hero_'+(e.rider||e.id.split('_')[1])+'.model'); else if(sh!==e.sheets[0])r.push(e.sheets[0].id);
     if(e.group==='rider'&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID['mt_'+e.mount])r.push('mt_'+e.mount+'.ride');
+    if(/^grim_[23]$/.test(e.id)&&sh===e.sheets[0])r.push('grim_1.core.s');      /* round 64: Solmyrk's later forms are the same god — his first sheet rides along */
     var sm=/^surt_(\d)$/.exec(e.id); if(sm)r.push('surt_ref_'+sm[1]);      // round 59: Kris's approved painting of this phase (cut from wave 60) rides along so the head stays the same
     return r; },
   prompt:function(e,sh,opts){ var Z=ZSPR, o=opts||{}, n=sh.poses.length, L=[];

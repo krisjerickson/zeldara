@@ -202,6 +202,14 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 64b (Oct 18) — Solmyrk's paintings (Kris away for a few hours: "ask me any questions you have")
+- Painting order: each picked form is painted first (wave 66, radiant + black side by side) for your OK, then his sprite sheets go out with those paintings as the reference — as Surtharn's did. Or straight to the sprite sheets?
+  - **Answered: "just go straight into the sprite sheet"** → wave 66 dropped; sprite wave 7.95.
+- Who is Solmyrk: still the corrupted Odin who hid behind the Allfather's mask (Grímnir is one of Odin's names) — or a different being who stole Odin's high seat and wears his mask?
+  - **Answered: "he is corrupted Odin"**.
+- His sprite sheets: one 3/4 view, mirrored (like the flying bosses — the plan now), or front, side and back like the walking bosses?
+  - **Answered: "create the full front side back like walking bosses"**.
+
 ### Round 64 (Oct 18) — Grímnir made god-like
 - Kris: "the options shown to pick from are not god-like enough, and i'm not seeing them transition between brilliant and bright and dark and ominous … going back and forth between brilliant white radiating out light (like the god they are pretending to be) but then also pulsing back to pure black and sucking away all the light (showing the corrupted nature of the god)"; inspiration images (Silksong / Hollow Knight) as style only, "closer to the overall nordic theme … instead of the bug theme".
 - Forms: keep three separate forms (Masked King, Wanderer Unmasked, Storm of Ragnarök), or one god whose light/dark swing deepens each phase?
@@ -762,4 +770,7 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Grímnir: name options in the Lab; three NEW god options per form, drawn by a painter of their own and pulsing light ↔ black in the Lab; in the fight he is shielded while radiant and open while black, the beat set by form (cards above); Godsbane forces him black for 4 s. Painted concept options ordered (wave 66, radiant + black for each option).
 - **Round 64 DONE** — changelog [590]–[596].
 - **Next:** Kris runs `tools\sprites\round64.ps1` (wave 66 Grímnir concepts; also sends wave 65 if not in), picks Grímnir's name and his three forms (Lab → Bosses → 👑 Grímnir), and the ending panels (Lab → Asgard tab). Then the picked forms are painted as sprite sheets and the name goes into the game.
+- **Round 64b (Kris, Oct 18):** "picks are in for the phases of grimnir, now renamed to solmyrk. will be out for few hours, ask me any questions you have". Lab picks: form 1 D the Allfather's Mask ("this one is right, but the crown spikes are a little to tall"), form 2 E the Cracked Mask, form 3 E the Storm That Ends the World; the line-up "looks right"; the name Solmyrk, the Black Sun. → Built: picks baked, crown lowered, the boss renamed in every line the player sees (code names stay `grimnir`); wave 66 cut down to one painting per picked form (radiant + black). Questions under Open questions › Round 64b. Changelog [597]–[598].
+- **Round 64c (Kris's answers):** straight to the sprite sheets; he is corrupted Odin; front, side and back. → Ordered: sprite wave 7.95, 9 sheets (each form: side, front + back, the rest of his moves), painted radiant (the game makes him black), floating, form 1's first sheet the reference for forms 2 and 3. Changelog [599].
+- **Next:** Kris runs `tools\sprites\round64.ps1`; then intake, atlas, and Solmyrk's painted forms wired into the fight (the pulse tints the painted sheets).
 
