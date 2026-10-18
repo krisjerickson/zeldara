@@ -40,7 +40,7 @@ with game(new=True, painted=True) as g:
     r = g.js("""(()=>{ var d=game.scene.getScene('Dungeon'), t=d.stairsDownTile, cv=document.getElementById('minimap-hud-canvas'), c=cv.getContext('2d'); _drawMinimapHud(null,d);
       var x=Math.round((t.x+0.5)*cv.width/DW), y=Math.round((t.y+0.5)*cv.height/DH), p=c.getImageData(x,y,1,1).data, row=document.getElementById('mana-bar').closest('.srow');
       return {px:[p[0],p[1],p[2]], explored:!!d._dngFogExplored[t.y*DW+t.x], mana:row.style.display!=='none'}; })()""")
-    check('In the site the mana bar still shows, and the way down is marked in gold on the minimap before you find it (%s)' % r, r['mana'] and not r['explored'] and r['px'][0] > 200 and r['px'][1] > 150 and r['px'][2] < 140, r)
+    check('In the site the mana bar still shows, and the way down is NOT marked on the minimap before you find it (round 60, Kris: "only show the exit once you\'ve revealed it") (%s)' % r, r['mana'] and not r['explored'] and not (r['px'][0] > 200 and r['px'][1] > 150 and r['px'][2] < 140), r)
     r = g.js("""(async ()=>{ var d=game.scene.getScene('Dungeon'), ps=d.worldScene.playerState; if(ps.inventory.indexOf('sp_war_stomp')<0)ps.inventory.push('sp_war_stomp'); ps.equip.special='sp_war_stomp'; ZSKILL.cdUntil=0;
       var mon=d.monsters.find(function(m){ return !m.dead; }); mon.x=d.px+30; mon.y=d.py; if(mon.cont)mon.cont.setPosition(mon.x,mon.y); var h0=mon.hp!==undefined?mon.hp:mon._hp;
       window.dispatchEvent(new KeyboardEvent('keydown',{key:'z',bubbles:true})); document.dispatchEvent(new KeyboardEvent('keydown',{key:'z',bubbles:true}));

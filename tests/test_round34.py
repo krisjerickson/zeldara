@@ -28,16 +28,16 @@ with game(painted=False, lead=True) as g:
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, P=ws.player, c=_heroCtx(ws), m=window._m34, o={on:FAM_LEAD.on};
       var far=MX.spawn(ws,'thistle_hog',P.x+300,P.y,{q:1,temp:true}); ws.worldMonsters.push(far); var idle=MX.spawn(ws,'thistle_hog',P.x-70,P.y,{q:1,temp:true}); ws.worldMonsters.push(idle); c=_heroCtx(ws);
       delete m._engT; o.none=_famTargets(c).length;
-      _heroHitMonster(ws,m,1,{}); o.afterHeroHit=_famTargets(c).indexOf(m)>=0; o.idleLeft=_famTargets(c).indexOf(idle)<0;
+      _heroHitMonster(ws,m,1,{}); o.afterHeroHit=_famTargets(c).indexOf(m)>=0; o.idleJoins=_famTargets(c).indexOf(idle)>=0;      /* round 64 (Kris): once you fight, the monsters near you are fair game */
       var hp0=idle._hp; _famHit(ws,'fam_grass',{key:'grass',col:'#fff'},{kind:'proj'},idle,1,{}); o.famHitDoesNotEngage=!idle._engT;
-      m._engT=Date.now()-6000; o.lapsed=_famTargets(c).indexOf(m)<0;
+      m._engT=Date.now()-6000; ps._cbT=Date.now()-6000; o.lapsed=_famTargets(c).indexOf(m)<0;
       far._engT=Date.now(); o.tooFar=_famTargets(c).indexOf(far)<0; far.x=P.x+200; o.inRange=_famTargets(c).indexOf(far)>=0;
       m.isBoss=true; m._engT=Date.now()-60000; o.bossStays=_famTargets(c).indexOf(m)>=0; m.isBoss=false;
       FAM_LEAD.on=false; o.offAll=_famTargets(c).length>=3; FAM_LEAD.on=true; window._far=far; window._idle=idle; return o; })()""")
-    check('Follow my lead: familiars have no target until the hero strikes; then only that monster; a familiar\'s own hit engages nothing', r['on'] and r['none'] == 0 and r['afterHeroHit'] and r['idleLeft'] and r['famHitDoesNotEngage'], r)
+    check('Follow my lead: familiars have no target until the hero strikes; then that monster and (round 64) the others near him; a familiar\'s own hit engages nothing', r['on'] and r['none'] == 0 and r['afterHeroHit'] and r['idleJoins'] and r['famHitDoesNotEngage'], r)
     check('Engagement lapses after 5 s without an exchange; a target must be within 220 px of the hero; a boss stays engaged for the fight; the switch restores the old free-for-all', r['lapsed'] and r['tooFar'] and r['inRange'] and r['bossStays'] and r['offAll'], r)
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, c=_heroCtx(ws), m=window._m34, E={key:'grass',col:'#80ff90',core:'#fff'}, S={name:'Thorn',kind:'nova',cd:5,dmg:4,radius:150};
-      [m,window._far,window._idle].forEach(function(x){ delete x._engT; x._hp=x.maxHp; }); ps.familiar='fam_grass'; ps.ownedFamiliars=['fam_grass'];
+      [m,window._far,window._idle].forEach(function(x){ delete x._engT; x._hp=x.maxHp; }); ps._cbT=0; ps.familiar='fam_grass'; ps.ownedFamiliars=['fam_grass'];
       var a=_famCast(ws,'fam_grass',S,{x:c.x,y:c.y},c,ps,1,E); m._engT=Date.now(); var b=_famCast(ws,'fam_grass',S,{x:c.x,y:c.y},_heroCtx(ws),ps,1,E);
       return {idleCast:a,cast:b,hurtM:m._hp<m.maxHp,idleUntouched:window._idle._hp===window._idle.maxHp}; })()""")
     check('An area skill does not fire with nothing engaged, and when it fires it hurts only the engaged monster', not r['idleCast'] and r['cast'] and r['hurtM'] and r['idleUntouched'], r)

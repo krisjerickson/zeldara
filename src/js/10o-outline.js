@@ -22,7 +22,17 @@ var ZOL={ on:true, COL:0x7ff5e6, A:0.95, W:1.5, PAD:6,
     for(var i=0;i<L.length;i++){ var o=L[i]; if(o===cont||o.depth<=d0||!o.visible||o.alpha<0.35||!o._zcv||o.blendMode!==0||(o.scrollFactorX!==undefined&&o.scrollFactorX!==1))continue;
       if(o.cameraFilter&&scene.cameras&&(o.cameraFilter&scene.cameras.main.id))continue;
       var dw=o.displayWidth, dh=o.displayHeight, ox=o.x-o.originX*dw, oy=o.y-o.originY*dh; if(ox+dw<b.x||ox>b.r||oy+dh<b.y||oy>b.bt)continue; out.push(o); }
+    if(ZOL.mons)ZOL._monFront(scene,cont,b,d0,out);
     return out; },
+  // round 64d (Kris: "when you are fighting a boss and you are behind it, you can get lost. we need to make the outline like we do for when you
+  // are behind objects and buildings"): a monster or boss standing in front of the hero counts too — its pictures (inside its container) mask
+  // the ring like any standing picture
+  mons:true,
+  _monFront:function(scene,cont,b,d0,out){ var L=(scene.sys&&scene.sys.settings.key==='Dungeon')?scene.monsters:(scene.worldMonsters||scene.monsters); if(!L)return;
+    for(var i=0;i<L.length;i++){ var m=L[i], c=m&&m.cont; if(!c||m.dead||!c.scene||!c.visible||c.alpha<0.35||c.depth<=d0||m._lazyVis)continue; if(Math.abs(m.x-cont.x)>420||Math.abs(m.y-cont.y)>420)continue;
+      var r; try{ r=c.getBounds(); }catch(e){ continue; } if(r.right<b.x||r.x>b.r||r.bottom<b.y||r.y>b.bt)continue;
+      (function walk(L2){ L2.forEach(function(o){ if(o.type==='Container'){ if(o.visible&&o.list)walk(o.list); return; } if(o.type!=='Image'&&o.type!=='Sprite')return; if(!o.visible||o.alpha<0.35||o.blendMode!==0||!o.texture||o.texture.key==='__DEFAULT'||o.texture.key==='__MISSING')return;
+        if(o.width*Math.abs(o.scaleX)<6)return; o._zolPart=true; out.push(o); }); })(c.list||[]); } },
   tick:function(scene,cont,depth){ if(!scene||!cont||!cont.scene)return; var S=scene._zol||(scene._zol={n:0,front:[]});
     S.n++; var parts=ZOL._parts(cont), b=(ZOL.on&&cont.visible&&parts.length)?ZOL._box(cont,parts):null;
     if(S.n%2===0||!b)S.front=b?ZOL._front(scene,cont,b):[]; else S.front=S.front.filter(function(o){ return o.scene&&o.visible; });      // a chunk can be parked or dropped between two looks
@@ -48,6 +58,10 @@ var ZOL={ on:true, COL:0x7ff5e6, A:0.95, W:1.5, PAD:6,
     else parts.forEach(function(c){ place(c,0,0); rt.erase(st); });
     st.clearTint();
     // only where he is covered: the mask is the pictures in front of him
-    if(S.useMask){ var m=S.mrt, MT=m.texture; m.clear(); if(B&&MT&&MT.beginDraw){ MT.beginDraw(); S.front.forEach(function(o){ MT.batchDraw(o,o.x-x0,o.y-y0); }); MT.endDraw(); } else S.front.forEach(function(o){ m.draw(o,o.x-x0,o.y-y0); }); }
+    if(S.useMask){ var m=S.mrt, MT=m.texture, flat=S.front.filter(function(o){ return !o._zolPart; }), parts2=S.front.filter(function(o){ return o._zolPart; }); m.clear(); if(B&&MT&&MT.beginDraw){ MT.beginDraw(); flat.forEach(function(o){ MT.batchDraw(o,o.x-x0,o.y-y0); }); MT.endDraw(); } else flat.forEach(function(o){ m.draw(o,o.x-x0,o.y-y0); });
+      // a monster's pictures sit inside its container: each is stamped where it stands in the world
+      if(parts2.length){ if(!S.stamp2||!S.stamp2.scene)S.stamp2=scene.make.image({x:0,y:0,key:parts2[0].texture.key,add:false}); var s2=S.stamp2, Mx=S._mx||(S._mx=new Phaser.GameObjects.Components.TransformMatrix());
+        parts2.forEach(function(o){ try{ var w=o.getWorldTransformMatrix(Mx), d=w.decomposeMatrix(); if(s2.texture.key!==o.texture.key||s2.frame.name!==o.frame.name)s2.setTexture(o.texture.key,o.frame.name);
+          s2.setOrigin(o.originX,o.originY).setScale(d.scaleX,d.scaleY).setRotation(d.rotation).setFlip(o.flipX,o.flipY).setAlpha(1).setPosition(d.translateX-x0,d.translateY-y0); m.draw(s2); }catch(e){} }); } }
   }
 };

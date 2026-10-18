@@ -177,4 +177,15 @@
     P('pn_end_dawn_a','Dawn over the village — A','the little lakeside village at sunrise, lanterns going out, the white city calm on the lake, the faint rainbow fading in the morning sky, the hero sitting on the end of the pier'),
     P('pn_end_dawn_b','Dawn over the village — B','the village green at sunrise with its ring of rune stones, villagers and the hero gathered, looking up at the last sparkles of the rainbow in a clear golden sky')]);
 })();
-// (wave 66 — paintings of Solmyrk's forms — dropped: Kris, "just go straight into the sprite sheet"; his sheets are sprite wave 7.95)
+// ═══ wave 66 (round 64): Grímnir/Solmyrk concept paintings — three options per form, radiant (top row) and black (bottom row). Ordered before
+// Kris's answer "just go straight into the sprite sheet" and already painted (Oct 18), so they are cut and shown in the Lab (Bosses → 👑 Solmyrk):
+// each god card cross-fades its painted radiant and black versions. Not ordered again (a sheet already in sprites/incoming is skipped).
+(function(){ if(typeof ZSCN==='undefined')return; ZSCN.WAVES[66]='Round 64 — Solmyrk concept paintings (already painted)';
+  var S=function(f,name,L){ return {id:'sc_gd_grim_'+f,wave:66,fam:'gd_grim',kind:'obj',cols:3,rows:2,size:'1536x1024',title:'Concept options for the final boss, form '+f+' — '+name+': top row radiant, bottom row the same three turned black.',
+    items:L.map(function(o){ return ['gd_grim_'+f+'_'+o[0],o[1]+' (radiant)',o[1],200,260]; }).concat(L.map(function(o){ return ['gd_grim_'+f+'_'+o[0]+'_dk',o[1]+' (black)',o[1],200,260]; }))}; };
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    S(1,'mainly light',[['d','The Allfather\'s Mask'],['e','The Sun on the High Seat'],['f','The Raven-Crowned']]),
+    S(2,'light and black in even beats',[['d','The Wanderer of Two Lights'],['e','The Cracked Mask'],['f','The Raven God']]),
+    S(3,'mainly black',[['d','The Eclipse of Ragnarök'],['e','The Storm That Ends the World'],['f','The Fimbulwinter King']])]);
+  if(ZSCN.expand)ZSCN.expand();
+})();

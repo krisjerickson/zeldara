@@ -111,7 +111,7 @@ var ZVOID={ on:true, frameOn:true, VIG:0.5,
     // drifting pictures: a fixed place in a wide field that moves past at pf of the floor's speed, wrapped round the view
     if(S.dr){ var vw=cam.width/(cam.zoom||1), vh=cam.height/(cam.zoom||1); S.dr.forEach(function(d){ var span=vw+d.w+200, spanY=vh+d.h+200, ox=d.bx+S.t*d.vx-mx*d.pf, oy=d.by+S.t*d.vy-my*d.pf; ox=((ox%span)+span)%span-span/2; oy=((oy%spanY)+spanY)%spanY-spanY/2;
       d.o.setPosition(mx+ox,my+oy); if(d.pulse)d.o.setAlpha(d.a*(0.65+0.35*Math.sin(S.t*d.pulse+d.ph))); }); }
-    if(S.t>S.next){ S.next=S.t+5+Math.random()*7; try{ ZVOID.creature(scene); }catch(e){} } },
+    if(S.t>S.next){ var _st=scene._lab&&scene._lab.zvoid&&ZVOID.kindOf(scene._lab.zvoid)==='stars'; S.next=S.t+(_st?2+Math.random()*4:5+Math.random()*7); try{ ZVOID.creature(scene); }catch(e){} } },      /* round 64: shooting stars come more often */
   // ── the world ground round the game's site ──
   worldGround:function(scene){ try{ var ws=scene.worldScene||scene.scene.get('World'), wd=ws&&ws.wd, s=scene._site; if(!wd||!s||typeof WK_REG==='undefined')return null; var sx=Math.round(s.x!==undefined?s.x:s.tx), sy=Math.round(s.y!==undefined?s.y:s.ty); if(!(sx>=0))return null;
       var cnt={}; for(var dy=-6;dy<=6;dy+=2)for(var dx=-6;dx<=6;dx+=2){ var x=sx+dx, y=sy+dy; if(x<0||y<0||x>=WORLD_W||y>=WORLD_H)continue; var kd=WK_REG.list[wd.kind[y*WORLD_W+x]]; if(!kd)continue; var tid=ZScn.GROUND[kd.id]; if(!tid||/water|sea|lava|slab|flag|cobble/.test(tid))continue; cnt[tid]=(cnt[tid]||0)+1; }
@@ -135,7 +135,8 @@ var ZVOID={ on:true, frameOn:true, VIG:0.5,
   DRIFT:{ abyss:[['vd_fog_bank_1',3,0.6,560,-6,0,0.55],['vd_fog_bank_2',3,0.75,640,9,0,0.45],['vd_mist_wisps',3,0.9,420,-14,0,0.35],['vd_light_shaft',1,0.5,320,0,0,0.35]],
     clouds:[['vd_peak_1',2,0.35,300,0,0,1],['vd_peak_2',2,0.35,280,0,0,1],['vd_tower_far',1,0.3,200,0,0,0.95],['vd_cloud_1',4,0.6,380,10,1,0.95],['vd_cloud_2',4,0.75,420,16,1,0.9],['vd_cloud_3',4,0.9,220,22,2,0.9]],
     storm:[['vd_peak_2',2,0.35,280,0,0,0.7],['vd_cloud_1',4,0.6,380,14,1,0.75],['vd_cloud_2',5,0.75,420,22,2,0.7],['vd_cloud_3',4,0.9,220,30,2,0.7]],
-    stars:[['vd_milkyway',1,0.2,760,0,0,0.85],['vd_nebula_violet',1,0.25,520,0,0,0.7],['vd_nebula_rose',1,0.25,480,0,0,0.6],['vd_aurora',2,0.4,640,4,0,0.55,0.6],['vd_planet_ringed',1,0.15,170,0,0,0.95]],
+    // round 64 (Kris, in the Rift Tower: "it's great to have stars and some aurora borealis effects, but it shouldn't be full galaxies, and there should be shooting stars, but not moving constellations"): no milky way, nebulae or planet — the stars and the aurora
+    stars:[['vd_aurora',3,0.4,640,3,0,0.5,0.6]],
     deep:[], lava:[], rock:[], canopy:[['vd_cloud_3',4,0.85,220,12,1,0.55]] },
   painted:function(kind){ var Z=typeof _scn==='function'?_scn():null, D=ZVOID.DRIFT[kind]; return !!(Z&&D&&D.length&&D.some(function(d){ return Z.has(d[0]); })); },
   drifters:function(scene,m,V,kind,tint,dim){ var S=scene._zv, Z=typeof _scn==='function'?_scn():null, D=ZVOID.DRIFT[kind]; S.dr=[]; if(!Z||!D)return; var R=rngOf((m.w||40)*71+(m.h||40)*13+kind.length), storm=kind==='storm';
@@ -147,8 +148,9 @@ var ZVOID={ on:true, frameOn:true, VIG:0.5,
   creature:function(scene){ var S=scene._zv, m=scene._lab, V=m&&m.zvoid; if(!V)return; var kind=ZVOID.kindOf(V); if(kind==='terrain'||kind==='canopy')return; var cam=scene.cameras.main, wv=cam.worldView, LT0=typeof LT!=='undefined'?LT:32;
     // a clear spot in view
     var spot=null; for(var t=0;t<40&&!spot;t++){ var x=wv.x+Math.random()*wv.width, y=wv.y+Math.random()*wv.height, cx=Math.floor(x/LT0), cy=Math.floor(y/LT0), ok=true; for(var dy=-1;dy<=1&&ok;dy++)for(var dx=-1;dx<=1;dx++){ var X=cx+dx, Y=cy+dy; if(X>=0&&Y>=0&&X<m.w&&Y<m.h&&!(m._zclr&&m._zclr[Y*m.w+X])){ ok=false; break; } } if(ok)spot=[x,y]; }
-    if(!spot)return; var Z=typeof _scn==='function'?_scn():null, pic={lava:['vd_gargoyle_lava','vd_gargoyle_rock','vd_magma_serpent'],rock:['vd_mole','vd_rock_worm','vd_beetle'],deep:['vd_tentacle','vd_whale_fin'],clouds:['vd_sky_whale'],storm:['vd_storm_eel'],stars:['vd_star_whale'],abyss:['vd_bat_swarm']}[kind]||[], id=Z?Z.pick?Z.pick(pic,Math.random()):null:null;
-    if(kind==='stars'&&Math.random()<0.6&&Z&&Z.has('vd_shooting_star'))id='vd_shooting_star';
+    if(!spot)return; if(kind==='clouds')return;      /* round 64e (Kris: "the flying whales in asgard are weird, we should take these out"): nothing swims through the cloud-sky */
+    var Z=typeof _scn==='function'?_scn():null, pic={lava:['vd_gargoyle_lava','vd_gargoyle_rock','vd_magma_serpent'],rock:['vd_mole','vd_rock_worm','vd_beetle'],deep:['vd_tentacle','vd_whale_fin'],clouds:['vd_sky_whale'],storm:['vd_storm_eel'],stars:[],abyss:['vd_bat_swarm']}[kind]||[], id=Z?Z.pick?Z.pick(pic,Math.random()):null:null;
+    if(kind==='stars')id=Z&&Z.has('vd_shooting_star')?'vd_shooting_star':null;      // round 64: only shooting stars cross the starry void (the star-whale constellation is gone)
     var key=id?'zvc_'+id:'zvc_'+kind; if(!scene.textures.exists(key)){ var cv=id?(function(){ var sz=Z.size(id,LT0*2.4), c=mkCanvas(sz.w+4,sz.h+4); Z.draw(c.getContext('2d'),id,sz.ax+2,sz.ay+2,LT0*2.4); return c; })():ZVOID.critter(kind); if(!cv)return; scene.textures.addCanvas(key,cv); }
     var how=id==='vd_shooting_star'||(!id&&kind==='stars')?'shoot':/bat_swarm|sky_whale|storm_eel|star_whale/.test(id||'')||(!id&&(kind==='clouds'||kind==='storm'||kind==='abyss'))?'cross':'rise';
     if(how==='shoot'){ var ss=scene.add.image(spot[0],spot[1],key).setDepth(-11.5).setAlpha(0).setAngle(id?-20:25).setScale(id?0.8:1); if(!id)ss.setBlendMode(Phaser.BlendModes.ADD); S.crit.push(ss); scene.tweens.add({targets:ss,x:spot[0]+300,y:spot[1]+(id?-110:120),alpha:{from:1,to:0},duration:1100,ease:'Sine.in',onComplete:function(){ ss.destroy(); }}); return; }

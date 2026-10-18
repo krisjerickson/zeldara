@@ -22,7 +22,14 @@ Object.keys(SPIRIT_ELEMENTS).forEach(function(k){ SPIRIT_ELEMENTS[k].key=k; });
 // (mon._engT) in the last FAM_LEAD.secs seconds and it is within FAM_LEAD.far of him; a boss stays engaged for the whole fight once the first blow has landed.
 // A familiar's target must also be within FAM_LEAD.range of the hero. Familiar hits never engage anything. FAM_LEAD.on=false gives the old free-for-all.
 var FAM_LEAD={on:true,secs:5,range:220,far:350};
-function _famEngaged(m,c){ if(!FAM_LEAD.on)return true; if(!m||m.dead||!m._engT)return false; var d=_hbD(m,c.x,c.y); if(d>FAM_LEAD.far)return false; return !!(m.isBoss||(m.def&&m.def.boss))||Date.now()-m._engT<FAM_LEAD.secs*1000; }
+// Round 64 (Kris: "the new familiar requirement that familiars don't attack unless you attack enemies first seems to result in them not attacking
+// at all. we need to rebalance this, as they should auto attack as soon as you engage"): the hero's sword, axe and arrows never marked a monster
+// (only spells did), so familiars waited for ever. Now every hit of the hero's (ZHit.dmg) marks the monster, and once the hero is in a fight
+// (he struck, or something struck him, in the last FAM_LEAD.secs) every monster near him is fair game.
+function _famEngaged(m,c){ if(!FAM_LEAD.on)return true; if(!m||m.dead)return false; var d=_hbD(m,c.x,c.y); if(d>FAM_LEAD.far)return false; var now=Date.now();
+  if(m._engT&&(!!(m.isBoss||(m.def&&m.def.boss))||now-m._engT<FAM_LEAD.secs*1000))return true;
+  var ps=c.ps; return !!(ps&&ps._cbT&&now-ps._cbT<FAM_LEAD.secs*1000&&d<=FAM_LEAD.range); }
+setTimeout(function(){ if(typeof ZHit==='undefined')return; var d0=ZHit.dmg; ZHit.dmg=function(scene,mon,raw,kind,o){ if(mon&&kind!=='familiar'){ mon._engT=Date.now(); try{ var w=_heroWS(); if(w&&w.playerState)_heroCombatMark(w.playerState); }catch(e){} } return d0.apply(this,arguments); }; },0);
 function _famTargets(c){ return c.monsters.filter(function(m){ return !m.dead&&_famEngaged(m,c)&&(!FAM_LEAD.on||_hbD(m,c.x,c.y)<=FAM_LEAD.range); }); }
 // familiar damage to a boss is cut by the difficulty's share (ZDIFF famBoss: 0.6 / 0.5 / 0.4 / 0.3)
 function _famHit(scene,fid,E,S,m,dmg,o){ if(m&&(m.isBoss||(m.def&&m.def.boss))&&typeof ZDiff!=='undefined')dmg*=ZDiff.cur().famBoss; return _heroHitMonster(scene,m,dmg,Object.assign({src:'familiar',el:E.key,fk:S.kind==='proj'?'proj':'area',fid:fid},o||{})); }
@@ -224,7 +231,10 @@ function showFamiliarInfo(fid){ var f=FAMILIARS[fid]; if(!f)return; var ws=_hero
   el.innerHTML='<div class="modal fam-modal" onclick="event.stopPropagation()"><div class="mhdr"><span>'+f.icon+' '+f.n+' <small style="color:'+E.col+'">Level '+L+' / 6 · '+E.name+' familiar · '+(D.move==='hover'?'floats along behind you':'walks along behind you')+'</small></span><button class="mcls" onclick="document.getElementById(\'familiar-info-modal\').style.display=\'none\'">✕</button></div>'+
     '<div class="fam-top"><canvas id="fam-info-cv" width="112" height="112"></canvas><p>'+D.blurb+'</p></div>'+sk+
     '<div style="margin-top:8px;font-size:11px;color:'+(active?'#9f9':owned?'#aac':'#776')+'">'+(active?'● Active':owned?'Owned — press N to set it active':'Not found yet — clear the '+TOME_QN[E.q]+' familiar island')+'</div></div>';
-  el.style.display='flex'; var cv=document.getElementById('fam-info-cv'); if(cv){ var i2=0, fr=spiritFrames(D), x=cv.getContext('2d'); clearInterval(el._t); el._t=setInterval(function(){ if(!cv.isConnected){ clearInterval(el._t); return; } x.clearRect(0,0,112,112); x.drawImage(fr[i2++%4],0,0); },160); } }
+  el.style.display='flex'; var cv=document.getElementById('fam-info-cv'); if(cv){ var i2=0, fr=null, x=cv.getContext('2d'), ch='fam_'+D.el; clearInterval(el._t);
+    // round 64 (Kris: "when selecting familiar skills, it shows the old pixel art. we need to update this to the painted sprites"): the painted familiar, its idle and its attack
+    var painted=typeof ZAtlas!=='undefined'&&!ZAtlas.off&&ZAtlas.has(ch); if(painted)ZAtlas.thumbs(ch,112,8,function(L){ if(L&&L.length)fr=L; else if(!fr)fr=spiritFrames(D); }); if(!painted)fr=spiritFrames(D);
+    el._t=setInterval(function(){ if(!cv.isConnected){ clearInterval(el._t); return; } x.clearRect(0,0,112,112); if(fr&&fr.length)x.drawImage(fr[i2++%fr.length],0,0,112,112); },painted?220:160); } }
 function _familiarCardHTML(fid,ps,onclick,withInfoBtn){ var f=FAMILIARS[fid]; if(!f)return ''; var D=_famDesign(fid), E=SPIRIT_ELEMENTS[D.el], active=_heroFamiliarActive(ps,fid), L=_famLevel(ps,fid), sk=_famSkills(ps,fid);
   return '<div class="sp-row" style="display:block;cursor:pointer;border:1px solid '+(active?'rgba(100,200,100,.45)':'rgba(255,255,255,.06)')+';border-left:3px solid '+E.col+';border-radius:6px;margin-bottom:5px;padding:6px 8px" onclick="'+onclick+'">'+
     '<div style="display:flex;align-items:center;gap:7px"><span style="font-size:18px">'+ZIcon.of(f,1.5)+'</span><span style="flex:1"><span style="font-size:12px;font-weight:600;color:#def">'+f.n+'</span> <span style="font-size:10px;color:'+E.col+'">Lv '+L+'</span></span>'+

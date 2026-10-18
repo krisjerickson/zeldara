@@ -93,7 +93,7 @@ var BossRig={ keys:[], MAXTEX:8,
   applyNames:function(){ if(typeof CHAR_BY_ID==='undefined')return;
     BOSS_SLOT_LIST.forEach(function(sl){ var D=BA.of(sl); if(!D)return; if(CHAR_BY_ID[sl]){ CHAR_BY_ID[sl]._oldName=CHAR_BY_ID[sl]._oldName||CHAR_BY_ID[sl].name; CHAR_BY_ID[sl].name=D.name; } });
     Object.keys(CHAR_BOSS_FOR_MDEF).forEach(function(k){ var D=BA.of(CHAR_BOSS_FOR_MDEF[k]); if(D&&MDEFS[k])MDEFS[k].name=D.name; });
-    Object.keys(MON_BY_ID).forEach(function(rid){ var R=MON_BY_ID[rid]; if(R.chId){ var D=BA.of(R.chId); if(D)R.name=D.name; } });
+    Object.keys(MON_BY_ID).forEach(function(rid){ var R=MON_BY_ID[rid]; if(R.chId){ var D=BA.of(R.chId); if(D)R.name=/^mgi_/.test(rid)?D.name.split(',')[0]+' (echo)':D.name; } });
     CHAR_BOSS_BY_NAME={}; CHAR_ROSTER.forEach(function(R){ if(R.cat==='boss'){ CHAR_BOSS_BY_NAME[R.name.toUpperCase()]=R.id; if(R._oldName)CHAR_BOSS_BY_NAME[R._oldName.toUpperCase()]=R.id; } });
     // phase intros use the names ({prev} = the form before, {NAME} = the new form)
     if(typeof BOSS_PHASES!=='undefined')Object.keys(BOSS_PHASES).forEach(function(k){ var B=BOSS_PHASES[k]; B.phases.forEach(function(P,i){ if(!P||!P.introT)return; var prev=i===1?BA.of(CHAR_BOSS_FOR_MDEF[k]):BA.of(B.phases[i-1].form), cur=BA.of(P.form);
@@ -119,13 +119,14 @@ var BossRig={ keys:[], MAXTEX:8,
   MX.spawn=function(scene,rid,x,y,o){ var mon=sp.apply(this,arguments); if(!mon)return mon; var R=MON_BY_ID[rid], sl=R&&R.chId;
     if(sl&&BA.of(sl)&&mon.cont){ var old=mon.spr, fy=(mon.def.r||14)*0.9+1, body=BossRig.dress(scene,sl,null,mon,fy);
       if(body){ var i=mon.cont.getIndex(old), RR=body._rig; [RR.back,RR.wb,body,RR.pupil,RR.wf].filter(Boolean).forEach(function(o,j){ mon.cont.addAt(o,i+j); }); body._rig.cont=mon.cont; body._baseCol=old._baseCol; old.destroy(); mon.spr=body; mon.body=body; BossRig.size(mon,body._rig.D); } }
+    if(/^mgi_/.test(rid)&&mon.cont){ mon.cont.setAlpha(0.62); mon._echo=true; }
     return mon; };
   var an=MX.anim; MX.anim=function(A,mon,m,dt,dx){ an.apply(this,arguments); if(mon.spr&&mon.spr._rig)BossRig.tick(mon.spr._rig,dt); };
 })();
 // the engine rids that are painted bosses (phase forms + allies, wardens, masters)
 (function(){ Object.keys(BOSS_PHASES).forEach(function(k){ BOSS_PHASES[k].phases.forEach(function(P){ if(!P)return; if(MON_BY_ID[P.rid])MON_BY_ID[P.rid].chId=P.form; (P.allies||[]).forEach(function(a){ if(MON_BY_ID[a.rid])MON_BY_ID[a.rid].chId=a.form; }); }); });
   if(typeof CASTLE_ISLANDS!=='undefined')Object.keys(CASTLE_ISLANDS).forEach(function(k){ var C=CASTLE_ISLANDS[k]; if(C.rid&&MON_BY_ID[C.rid])MON_BY_ID[C.rid].chId=C.warden; });
-  if(typeof MAGE_TOWERS!=='undefined')MAGE_TOWERS.forEach(function(M){ if(M.rid&&MON_BY_ID[M.rid])MON_BY_ID[M.rid].chId=M.boss; });
+  if(typeof MAGE_TOWERS!=='undefined')MAGE_TOWERS.forEach(function(M){ if(M.rid&&MON_BY_ID[M.rid])MON_BY_ID[M.rid].chId=M.boss; var il=MON_BY_ID['mgi_'+M.key]; if(il)il.chId=M.boss; });      /* round 64 (Kris, fighting Xal'zor: the monsters he called up were old pixel art): a master's echoes wear the master's painting, as ghosts */
   BOSS_SLOT_LIST.forEach(function(sl){ if(CHAR_BY_ID[sl]&&CHAR_BY_ID[sl].spec)CHAR_BY_ID[sl].spec._bossSlot=sl; });   // the Tome paints them
   BossRig.applyNames(); })();
 

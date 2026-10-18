@@ -42,7 +42,8 @@ with game(new=True, painted=True) as g:
         out[sid] = g.js("""(()=>{ var d=game.scene.getScene('Dungeon'), m=d._lab, S=d._zv; for(var i=0;i<3;i++)ZVOID.creature(d); return {k:ZVOID.kindOf(m.zvoid), rock:m.zvoid.rock, dr:S&&S.dr?S.dr.length:0, ids:S&&S.dr?Array.from(new Set(S.dr.map(function(q){ return q.o.texture.key.slice(4); }))):[], crit:S?S.crit.map(function(c){ return c.texture.key; }):[]}; })()""")
     o = out
     check('The empty space is painted: fog banks over the abyss, the milky way / nebulae / aurora / planet round the shadow tower, clouds and far peaks round the sky cloister; painted creatures (%s)' % {k: (v['k'], v['dr']) for k, v in o.items()},
-          o['s3_dungeon']['dr'] >= 6 and 'vd_fog_bank_1' in o['s3_dungeon']['ids'] and 'vd_milkyway' in o['mage_rift_tower']['ids'] and 'vd_peak_1' in o['s3_b_sky_cloister']['ids']
+          o['s3_dungeon']['dr'] >= 6 and 'vd_fog_bank_1' in o['s3_dungeon']['ids'] and 'vd_aurora' in o['mage_rift_tower']['ids']      # round 64: the Rift Tower's sky is stars and aurora only (Kris)
+          and 'vd_peak_1' in o['s3_b_sky_cloister']['ids']
           and any('vd_' in c for v in o.values() for c in v['crit']), o)
     check('Underground rock follows the element: water sites in ore-veined granite (%s)' % o['s2_b_crystal_grotto']['rock'], o['s2_b_crystal_grotto']['rock'] == 'tx_v_ore', o['s2_b_crystal_grotto'])
     g.js("(()=>{ var ws=game.scene.getScene('World'); game.scene.stop('Dungeon'); ws.scene.wake('World'); })()"); g.wait(1500)

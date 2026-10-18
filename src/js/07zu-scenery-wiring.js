@@ -99,7 +99,7 @@ var SCN_ROWS={
     for(var i=0;i<n;i++){ var a=i/n*Math.PI*2; Zs.sprite(c.m,(i%3===1&&Zs.has('rn_toadstool_b'))?'rn_toadstool_b':'rn_toadstool',cx+Math.cos(a)*r,cy+Math.sin(a)*r*0.9+8,(26+c.R.f()*8)*Zs.K,{shw:0.3}); }
     addLight(c.m,cx,cy,r*1.4,o.rune||col,0.3,{react:true,rune:true,depth:-4}); };
   // rune circles (not the Runestone Green) and floor runes: flat pictures on the ground
-  var oldG=WPROP.runeglyph; if(oldG)WPROP.runeglyph=function(c,ctx,x,y,w,h,o,P){ var Zs=_scn(); o=o||{}; if(Zs&&Zs.has('rn_glyph_a')&&!o.col){ Zs.draw(ctx,'rn_glyph_a',x+w/2,y+h/2,0,{w:(o.size||18)*1.9}); addLight(c.m,x+w/2,y+h/2,o.r||48,'#6fe3f5',0.33,{react:true,rune:true,depth:-4}); return; } return oldG.apply(this,arguments); };
+  var oldG=WPROP.runeglyph; if(oldG)WPROP.runeglyph=function(c,ctx,x,y,w,h,o,P){ var Zs=_scn(); o=o||{}; if(Zs&&Zs.has('rn_glyph_a')){ Zs.draw(ctx,'rn_glyph_a',x+w/2,y+h/2+(o.size||18)*0.95,0,{w:(o.size||18)*1.9}); addLight(c.m,x+w/2,y+h/2,o.r||48,o.col||'#6fe3f5',0.33,{react:true,rune:true,depth:-4}); return; }      /* round 64d (Kris: "small runes spaced around the map that are the old pixel art"): every floor rune painted — the coloured ones were still drawn (only uncoloured ones took the painting); their colour stays in their glow */ return oldG.apply(this,arguments); };
 })();
 // ── towers, castles and mage towers: furnishings (the painters are TOWER_FLAT / TOWER_TALL in 07b, 07ta, 07zm) ──
 var TWR_PZ={bookshelf:'tf_bookshelf',wardrobe:'tf_wardrobe',lectern:'tf_lectern',globe:'tf_globe',candelabra:'tf_candelabra',statue:'tf_statue',pillar:'tf_pillar',telescope:'tf_telescope',

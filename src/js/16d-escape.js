@@ -12,7 +12,20 @@
 // ║    Asgard comes down onto Mirror Lake (16e).
 // ║ State: ps.muspEsc 1 = the climb, 2 = the causeway, 3 = done; ps.muspEscT the time left; ps.muspSunk once the mountain is gone.
 // ═══════════════════════════════════════════════════════════════════════
-var ZESC={ on:true, FLOORS:5, TIME:[150,120,100,85], FRONT:[2.6,3.2,3.6,4.0], CW:[3.0,3.6,4.1,4.6],
+var ZESC={ on:true,
+  // round 64d: fallen rock lies as RUBBLE that blocks the way for a few seconds, then crumbles (never for good, so nobody is trapped); two
+  // blows of your weapon smash a heap at once. Painted heaps from the painted rocks until their own sheet comes (round65.ps1, scenery wave 67).
+  RUB:{life:4.5, r:19, hits:2, line:0.45, every:[0.75,0.6], ids:['es_rubble_a','es_rubble_b','es_rubble_c','rk_lava_rock','dg_rubble','dg_boulder']},
+  rubble:function(sc,E,x,y){ E.rub=E.rub||[]; var Z=typeof _scn==='function'?_scn():null, id=null, L=ZESC.RUB.ids; for(var i=0;i<L.length;i++){ if(Z&&Z.has&&Z.has(L[i])&&(i>=3||Math.random()<0.8)){ id=L[i]; break; } }
+    var im=null; if(id){ try{ var z=Z.size(id,0); im=Z.image(sc,id,x,y+8,(ZESC.RUB.r*2.6)/Math.max(1,z.w),y/1e4+5); }catch(e){} }
+    if(!im){ im=sc.add.graphics().setDepth(y/1e4+5); im.fillStyle(0x000000,0.3).fillEllipse(x,y+8,48,14); [[-10,2,13],[9,0,12],[0,-8,11]].forEach(function(q){ im.fillStyle(0x4a3a36,1).fillCircle(x+q[0],y+q[1],q[2]); im.fillStyle(0xff6a20,0.55).fillCircle(x+q[0]+2,y+q[1]+3,q[2]*0.35); }); }
+    else { im.setScale(im.scaleX*0.3,im.scaleY*0.3); sc.tweens.add({targets:im,scaleX:im.scaleX/0.3,scaleY:im.scaleY/0.3,duration:140,ease:'Back.easeOut'}); }
+    E.rub.push({x:x,y:y,r:ZESC.RUB.r,t:ZESC.RUB.life,hits:ZESC.RUB.hits,im:im}); },
+  rubGone:function(sc,R,smash){ if(R.dead)return; R.dead=true; var im=R.im; if(im&&im.scene)sc.tweens.add({targets:im,alpha:0,y:(im.y||0)+(smash?0:6),duration:smash?180:500,onComplete:function(){ im.destroy(); }});
+    for(var n=0;n<(smash?8:5);n++){ var c=sc.add.circle(R.x,R.y,2.5,0x5a4a4a).setDepth(R.y/1e4+6); sc.tweens.add({targets:c,x:R.x+(Math.random()-0.5)*56,y:R.y-6-Math.random()*22,alpha:0,duration:480,onComplete:function(){ this.targets[0].destroy(); }}); } },
+  rubTick:function(sc,E,dt){ if(!E.rub)return; var W=DW; E.rub=E.rub.filter(function(R){ if(R.dead)return false; R.t-=dt; var k=Math.floor(R.y/TILE)*W+Math.floor(R.x/TILE);
+      if(R.t<=0||E.gone[k]){ ZESC.rubGone(sc,R,false); return false; } if(R.t<0.8&&R.im&&R.im.setAlpha)R.im.setAlpha(Math.max(0.2,R.t/0.8)); return true; }); },
+  rubAt:function(sc,x,y){ var E=sc._esc; if(!E||!E.rub)return null; for(var i=0;i<E.rub.length;i++){ var R=E.rub[i]; if(!R.dead&&Math.hypot(x-R.x,(y-R.y)*1.3)<R.r)return R; } return null; }, FLOORS:5, TIME:[150,120,100,85], FRONT:[2.6,3.2,3.6,4.0], CW:[3.0,3.6,4.1,4.6],
   HALLS:['The Throne Cavern falls','The Falling Bridges break','The Fortress burns','The Lava Rafts sink','The Chain Lifts snap'],
   total:function(ps){ var lv=typeof ZDiff!=='undefined'?ZDiff.lv(ps):1; return ZESC.TIME[lv]||120; },
   lv:function(ps){ return typeof ZDiff!=='undefined'?ZDiff.lv(ps):1; },
@@ -60,12 +73,18 @@ var ZESC={ on:true, FLOORS:5, TIME:[150,120,100,85], FRONT:[2.6,3.2,3.6,4.0], CW
       showNotif('🔥 The floor gives way under you — you leap ahead, burned!','#ff7040'); if(sc._updateDungeonHUD)sc._updateDungeonHUD(); if(ps.hp<=0){ ZESC.fail(sc,'fell'); return; } }
     if(E.hurtT>0)E.hurtT-=dt;
     // falling rocks ahead of you
-    E.rockT-=dt; if(E.rockT<=0&&hd>=0){ E.rockT=1.1+Math.random()*0.8; var lo=hd+2, hi=hd+8, cand=[]; for(var j=E.oi;j<E.order.length&&cand.length<60;j++){ var kq=E.order[j]; if(E.D[kq]<lo)continue; if(E.D[kq]>hi)break; cand.push(kq); }
-      if(cand.length){ var kr=cand[Math.floor(Math.random()*cand.length)], rx=(kr%W)*TILE+TILE/2+(Math.random()-0.5)*16, ry=Math.floor(kr/W)*TILE+TILE/2, sh=sc.add.ellipse(rx,ry,10,5,0x000000,0.45).setDepth(0.96);
-        sc.tweens.add({targets:sh,scaleX:5,scaleY:5,duration:900}); E.rocks.push({x:rx,y:ry,t:0.9,sh:sh}); } }
+    E.rockT-=dt; if(E.rockT<=0&&hd>=0){ E.rockT=ZESC.RUB.every[0]+Math.random()*ZESC.RUB.every[1]; var lo=hd+2, hi=hd+8, cand=[]; for(var j=E.oi;j<E.order.length&&cand.length<60;j++){ var kq=E.order[j]; if(E.D[kq]<lo)continue; if(E.D[kq]>hi)break; cand.push(kq); }
+      if(cand.length){ var kr=cand[Math.floor(Math.random()*cand.length)], cells=[kr];
+        // round 64d (Kris: the rocks "should be improved such that they put up barriers in your way as you try to escape. they shouldn't be permanent"):
+        // often a rockfall comes down ACROSS the way — the cells as far along as this one, near it — always leaving one gap to find (or smash through)
+        if(Math.random()<ZESC.RUB.line){ var kx=kr%W, ky=Math.floor(kr/W), row=[]; for(var dy2=-4;dy2<=4;dy2++)for(var dx2=-4;dx2<=4;dx2++){ var k3=(ky+dy2)*W+(kx+dx2); if(k3>=0&&k3<E.D.length&&E.D[k3]===E.D[kr]&&!E.gone[k3])row.push(k3); }
+          row.sort(function(){ return Math.random()-0.5; }); if(row.length>=2)row.pop(); cells=row.slice(0,4); if(cells.indexOf(kr)<0&&cells.length<1)cells=[kr]; }
+        cells.forEach(function(kc,ci){ var rx=(kc%W)*TILE+TILE/2+(Math.random()-0.5)*10, ry=Math.floor(kc/W)*TILE+TILE/2, sh=sc.add.ellipse(rx,ry,10,5,0x000000,0.45).setDepth(0.96);
+          sc.tweens.add({targets:sh,scaleX:5,scaleY:5,duration:900}); E.rocks.push({x:rx,y:ry,t:0.9+ci*0.08,sh:sh}); }); } }
     E.rocks=E.rocks.filter(function(R){ R.t-=dt; if(R.t>0)return true; R.sh.destroy(); var b=sc.add.circle(R.x,R.y-40,10,0x4a3a3a).setDepth(R.y/1e4+6); sc.tweens.add({targets:b,y:R.y,duration:120,onComplete:function(){ b.destroy(); for(var n=0;n<6;n++){ var c=sc.add.circle(R.x,R.y,3,0x5a4a4a).setDepth(R.y/1e4+6); sc.tweens.add({targets:c,x:R.x+(Math.random()-0.5)*50,y:R.y-10-Math.random()*20,alpha:0,duration:500,onComplete:function(){ this.targets[0].destroy(); }}); } }});
       if(Math.hypot(sc.px-R.x,sc.py-R.y)<26&&!ps.godMode){ var d2=Math.max(1,Math.round((ps.maxHp||30)*0.08)); ps.hp=Math.max(0,(ps.hp||0)-d2); sc.cameras.main.shake(160,0.008); showNotif('🪨 A falling rock! -'+d2,'#ffa070'); if(sc._updateDungeonHUD)sc._updateDungeonHUD(); if(ps.hp<=0)ZESC.fail(sc,'fell'); }
-      else sc.cameras.main.shake(90,0.003); return false; });
+      else sc.cameras.main.shake(90,0.003); ZESC.rubble(sc,E,R.x,R.y); return false; });
+    ZESC.rubTick(sc,E,dt);
     // the rumble; the spirits follow the path you ran
     E.shake-=dt; if(E.shake<=0){ E.shake=2.5+Math.random()*2; sc.cameras.main.shake(350,0.004); }
     var tr=E.trail; if(!tr.length||Math.hypot(tr[tr.length-1].x-sc.px,tr[tr.length-1].y-sc.py)>12){ tr.push({x:sc.px,y:sc.py}); if(tr.length>80)tr.shift(); }
@@ -171,4 +190,10 @@ setTimeout(function(){
   var uh=D._updateDungeonHUD; D._updateDungeonHUD=function(){ var r=uh.apply(this,arguments); if(this._escRun){ var tt=document.getElementById('dng-title'); if(tt)tt.textContent='🌋 Muspelheim falls — floor '+(this.floor+1)+' / '+ZESC.FLOORS; } return r; };
   var pd=D._playerDied; D._playerDied=function(){ if(this._escRun){ ZESC.fail(this,'fell'); return; } return pd.apply(this,arguments); };
   var ex=D._exitToWorld; D._exitToWorld=function(rw){ if(this._escRun&&!this._escOut){ showNotif('🔥 There is no way out but UP!','#ff8040'); return; } if(this._escRun)ZESC.hud(false); return ex.apply(this,arguments); };
+},0);
+
+// round 64d: the rubble stops you (a roll too — it is a wall, not a monster), but a heap that lands on you never holds you; your weapon breaks it
+setTimeout(function(){ if(typeof DungeonScene==='undefined')return; var D=DungeonScene.prototype, c0=D._canGoD;
+  D._canGoD=function(nx,ny){ if(this._esc&&this._esc.rub&&this._esc.rub.length){ var R=ZESC.rubAt(this,nx,ny); if(R&&ZESC.rubAt(this,this.px,this.py)!==R)return false; } return c0.apply(this,arguments); };
+  var pa=D._playerAttack; if(pa)D._playerAttack=function(){ var E=this._esc; if(E&&E.rub){ var self=this; E.rub.forEach(function(R){ if(!R.dead&&Math.hypot(self.px-R.x,self.py-R.y)<R.r+30){ R.hits--; try{ self.cameras.main.shake(80,0.003); }catch(e){} if(R.hits<=0){ ZESC.rubGone(self,R,true); if(self._floatText)self._floatText(R.x,R.y-24,'Smashed!','#ffd0a0'); } else if(R.im&&R.im.setTint){ R.im.setTint(0xffc0a0); var im=R.im; self.time.delayedCall(120,function(){ if(im.scene)im.clearTint(); }); } } }); } return pa.apply(this,arguments); };
 },0);

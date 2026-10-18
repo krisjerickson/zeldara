@@ -21,9 +21,9 @@ with game(new=True, painted=True) as g:
     r = g.js("""(async()=>{ %s %s ZFORGE.enter(ws,'volcano_n',0); await w(5500); var D=game.scene.getScene('Dungeon'), o={}; calm(D);
       D._heat=99; var T=D._zfTroughs[0]; tp(D,T.x,T.y+24); await w(400); o.cooled=D._heat<99; D._heat=80; D._interact(); o.quench=D._heat;
       var sd=D.stairsDownTile; tp(D,sd.x*TILE+16,sd.y*TILE+28); D._interact(); await w(300); o.sealed=D.floor===0&&game.scene.isActive('Dungeon');
-      D._zfVeins.forEach(function(V){ ZFI.mine(D,V); }); var A=D._zfAnvil; tp(D,A.x,A.y+30); D._interact(); o.minigame=!!document.getElementById('zf-forge'); o.narrow=D._zfGame.zone<0.2;
-      D._zfFly.alive=false; for(var i=0;i<3;i++){ var G=D._zfGame; G.c=(Math.sin(G.t*3.4)+1)/2; G.zone=1; var jd=Phaser.Input.Keyboard.JustDown; Phaser.Input.Keyboard.JustDown=function(){ return true; }; try{ ZFI.forgeTick(D,0); }finally{ Phaser.Input.Keyboard.JustDown=jd; } }
-      o.key=D._zfKey; await w(800); tp(D,sd.x*TILE+16,sd.y*TILE+28); D._interact(); await w(5500); o.down=game.scene.getScene('Dungeon').floor; return o; })()""" % (W, F))
+      D._zfVeins.forEach(function(V){ ZFI.mine(D,V); }); var A=D._zfAnvil; tp(D,A.x,A.y+30); D._interact(); await w(300); o.minigame=!!document.getElementById('modal-forgetrial'); document.querySelector('#modal-forgetrial .zft-go').click(); await w(300); o.narrow=ZFT._g.zone<0.2;
+      for(var i=0;i<3;i++){ var G=ZFT._g; G.zone=2; G.lock=0; ZFT._hit(D); await w(50); }      /* round 64d: the anvil runs in its own paused pop-up */
+      o.key=D._zfKey; document.querySelector('#modal-forgetrial .zft-go').click(); await w(800); tp(D,sd.x*TILE+16,sd.y*TILE+28); D._interact(); await w(5500); o.down=game.scene.getScene('Dungeon').floor; return o; })()""" % (W, F))
     check('The Ember Forge: the way down is rune-locked; three ore and three hammer strokes at Brokkr\'s anvil forge the key (Loki\'s fly narrows the strike); quench troughs cool the heat (%s)' % r.get('key'),
           r['cooled'] and r['quench'] == 0 and r['sealed'] and r['minigame'] and r['narrow'] and r['key'] == 'true' and r['down'] == 1, r)
     r = g.js("""(async()=>{ %s %s ZFORGE.enter(ws,'volcano_e',0); await w(5500); var D=game.scene.getScene('Dungeon'), o={}; calm(D); var T=D._zfTide[0]; o.cells=T.cells.length;
@@ -59,7 +59,7 @@ with game(new=True, painted=True) as g:
     r = g.js("""(async()=>{ %s %s ZCIT.enter(ws,4); await w(6500); var D=game.scene.getScene('Dungeon'), o={names:[]};
       for(var ph=0;ph<3;ph++){ var b=(D._bossGroup||[]).find(function(m){ return !m.dead; }); if(!b){ await w(1600); b=(D._bossGroup||[]).find(function(m){ return !m.dead; }); } if(!b)break; o.names.push(b.def.name); (D._bossGroup||[]).forEach(function(m){ m.dead=true; m.hp=0; }); D._onBossDefeated(b); await w(1600); }
       o.down=ps.grimnirDown; o.forms=BOSS_PHASES.grimnir.phases.map(function(P){ return P.form; }); o.slots=['grim_1','grim_2','grim_3'].every(function(s){ return BOSS_SLOTS[s]&&BOSS_SLOTS[s].length>=3; }); /* round 64: three more (the god options) */ D._exitToWorld(null); await w(1500); return o; })()""" % (W, F))
-    check('The Throne of Grímnir: three phases (%s); his look has three Lab options per phase' % ' → '.join(r['names']), len(r['names']) == 3 and 'Masked King' in r['names'][0] and r['down'] == 1 and r['slots'], r)
+    check('The Throne of Grímnir: three phases (%s); his look has three Lab options per phase' % ' → '.join(r['names']), len(r['names']) == 3 and ('Masked King' in r['names'][0] or 'Allfather' in r['names'][0]) and r['down'] == 1 and r['slots'], r)
     r = g.js("""(async()=>{ %s %s ZCIT.enter(ws,0); await w(6000); var D=game.scene.getScene('Dungeon'), o={}; calm(D); var n0=D.monsters.filter(function(m){ return !m.dead; }).length; ZDOOM.push(D,3); o.v=D._doom.v; o.lvl=ZDOOM.level(D); o.spawned=D.monsters.filter(function(m){ return !m.dead; }).length>n0;
       o.hud=!!document.getElementById('zdoom')&&document.getElementById('zdoom').style.display!=='none'; D._exitToWorld(null); await w(1200); o.reset=!ps.doomAsg;
       ZMUSP.enter(ws,0); await w(6000); var M=game.scene.getScene('Dungeon'); o.musp=M._doomRealm; o.mheat=ZFI.hot(M); ZFORGE.enter(ws,'volcano_n',0); await w(5500); o.forge=!game.scene.getScene('Dungeon')._doom; game.scene.getScene('Dungeon')._exitToWorld(null); await w(1200); return o; })()""" % (W, F))

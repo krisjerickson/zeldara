@@ -29,11 +29,11 @@ var SBSAGA={
   stone:function(q){ SBSAGA.go(function(ws,ps){ SBSAGA.open(ws,ps,[q]); var S=ZSPIRIT.shrines(ws).filter(function(s){ return s.q===q; }), s=S.find(function(s){ return !ZSPIRIT.freed(ps,s.id); });
     if(!s){ showNotif('All ten of the '+SBSAGA.REALM[q]+'\' spirits are free — taking you to one of their stones.','#9fe8ff'); s=S[0]; } if(!s)return;
     SBSAGA.tp(ws,s.x+180,s.y+70); showNotif('⛓ The bindstone of '+s.zname+' — '+s.spirit+' digs in chains. Walk closer and the Binder rises.','#9fe8ff'); }); },
-  freeTen:function(q){ SBSAGA.go(function(ws,ps){ SBSAGA.open(ws,ps,[q]); var n=0; ZSPIRIT.shrines(ws).filter(function(s){ return s.q===q; }).forEach(function(s){ if(ZSPIRIT.freed(ps,s.id))return; ps.spiritsFreed.push(s.id); ps.inventory.push('soulglass_'+s.q); s._won=true; SBSAGA.revis(s); n++; });
+  freeTen:function(q){ SBSAGA.go(function(ws,ps){ SBSAGA.open(ws,ps,[q]); var n=0; ZSPIRIT.shrines(ws).filter(function(s){ return s.q===q; }).forEach(function(s){ if(ZSPIRIT.freed(ps,s.id))return; ZSPIRIT.paid(ps); ps.spiritsFreed.push(s.id); ps.inventory.push('soulglass_'+s.q); ps.shardsGiven.push(s.id); s._won=true; SBSAGA.revis(s); n++; });
     if(ws._emitUI)ws._emitUI(); showNotif('✨ '+n+' spirits of the '+SBSAGA.REALM[q]+' freed — '+n+' Soulglass shards in your pack.','#9fe8ff'); }); },
   // ── II. the Green ──
   green:function(n){ SBSAGA.go(function(ws,ps){ var S=ZSPIRIT.shrines(ws), by=[[],[],[],[],[]]; S.forEach(function(s){ by[s.q].push(s); }); var L=[]; for(var i=0;i<10;i++)for(var q=1;q<=4;q++)if(by[q][i])L.push(by[q][i]);      // the realms in turn
-    ps.spiritsFreed=L.slice(0,n).map(function(s){ return s.id; }); S.forEach(function(s){ SBSAGA.revis(s); s._won=ps.spiritsFreed.indexOf(s.id)>=0; }); if(typeof ZGREEN!=='undefined')ZGREEN.clear(ws);
+    ZSPIRIT.paid(ps); ps.spiritsFreed=L.slice(0,n).map(function(s){ return s.id; }); ZSPIRIT.shards(ws,ps,S);      /* round 64d: each spirit freed here pays its own realm's shard */ S.forEach(function(s){ SBSAGA.revis(s); s._won=ps.spiritsFreed.indexOf(s.id)>=0; }); if(typeof ZGREEN!=='undefined')ZGREEN.clear(ws);
     SBSAGA.tp(ws,CENTER_X*TILE+16,(CENTER_Y+11)*TILE); showNotif('🌿 The Runestone Green with '+n+' freed spirits — they wander, and meet in groups ('+Math.min(4,Math.floor(n/7))+' at a time).','#9fe8ff'); }); },
   // ── III. Sólveig and the Glimmerhall ──
   glimmer:function(q){ SBSAGA.go(function(ws,ps){ SBSAGA.add(ps.completedQuests,'s1_harbor'); if(q){ for(var i=0;i<ZSPIRIT.NEED;i++)ps.inventory.push('soulglass_'+q); }
@@ -48,7 +48,7 @@ var SBSAGA={
   rise:function(ws,ps){ ['s1_dungeon','s2_dungeon','s3_dungeon','s4_dungeon','s1_tower','s2_tower','s3_tower','s4_tower'].forEach(function(k){ SBSAGA.add(ps.completedQuests,k); }); ps.rescued=ps.rescued||[]; [1,2,3,4].forEach(function(q){ SBSAGA.add(ps.rescued,q); });
     SBSAGA.quiet(ps); SBSAGA.open(ws,ps,[1,2,3,4]); },
   risen:function(ws){ return (ws.wd.sites||[]).some(function(s){ return s.id==='volcano_n'; }); },
-  forgesRise:function(){ SBSAGA.go(function(ws,ps){ SBSAGA.rise(ws,ps); setTimeout(function(){ var d=typeof _volcanoSiteDefs==='function'&&_volcanoSiteDefs().find(function(d){ return d.id==='volcano_n'; }); if(d&&typeof _sbTeleportTo==='function')_sbTeleportTo(d.tx+1,d.ty-3);
+  forgesRise:function(){ SBSAGA.go(function(ws,ps){ SBSAGA.rise(ws,ps); setTimeout(function(){ var d=typeof _volcanoSiteDefs==='function'&&_volcanoSiteDefs().find(function(d){ return d.id==='volcano_n'; }); if(d&&typeof _sbTeleportTo==='function')_sbTeleportTo(d.tx+1,d.ty+4);      /* round 64d: in front of the (now solid) forge, by its door */
       showNotif('🌋 The forges have risen — the Ember Forge is before you (the others open with the key of the one before).','#ffb070'); },2600); }); },
   forge:function(i,floor){ SBSAGA.go(function(ws,ps){ var vid=SBSAGA.VIDS[i], F=ZFORGE.F[vid], first=!SBSAGA.risen(ws); SBSAGA.rise(ws,ps); for(var j=0;j<i;j++)SBSAGA.add(ps.inventory,SBSAGA.KEYS[j]); ps.forgesDone=ps.forgesDone||[]; for(j=0;j<i;j++)SBSAGA.add(ps.forgesDone,SBSAGA.VIDS[j]);
     setTimeout(function(){ ZFORGE.enter(ws,vid,floor-1); showNotif('🔥 The '+F.name+' — '+ZFORGE.HALLS[floor-1]+(floor===4?': the forge-master and the hearth.':'.'),'#ffb070'); },first?2600:300); }); },
@@ -67,6 +67,13 @@ var SBSAGA={
       if(step==='notch'){ if(N)SBSAGA.tp(ws,N.x-TILE,N.y); showNotif('🌟 The end of the pier — [Tab] the notch to set the Lodestar in it.','#fff2b0'); return; }
       if(step==='gods'){ ps.bifrost=1; ps.godsbane=1; ZASG.road(ws,false); ps.equip=ps.equip||{}; var i=ps.inventory.indexOf('lodestar'); if(i>=0){ if(ps.equip.mWeapon)ps.inventory.push(ps.equip.mWeapon); ps.inventory.splice(i,1); ps.equip.mWeapon='lodestar'; }
         var P=ZASG.plan(ws); if(P.gate&&N)SBSAGA.tp(ws,(N.x+P.gate[0]*TILE+16)/2,(N.y+P.gate[1]*TILE+16)/2); ZGODS.slot(); if(ws._emitUI)ws._emitUI(); showNotif('✦ On the Bifröst, the Lodestar in hand — press V for Godsbane.','#fff2b0'); } },first?2600:300); }); },
+  // round 64e (Kris: "for the sandbox, we need to add buttons for giving the lodestone, as well as for each of the forged glass pieces"): single items
+  give:function(id){ SBSAGA.go(function(ws,ps){ ps.inventory=ps.inventory||[]; if(id==='lodestar'&&(ps.inventory.indexOf('lodestar')>=0||(ps.equip&&ps.equip.mWeapon==='lodestar'))){ showNotif('🌟 You already carry the Lodestar.','#fff2b0'); return; }
+    ps.inventory.push(id); if(typeof Tome!=='undefined'&&Tome.see)try{ Tome.see('item',id); }catch(e){} if(ws._emitUI)ws._emitUI(); showNotif('🎁 '+((ITEMS[id]&&ITEMS[id].name)||id)+' — in your pack.','#fff2b0'); }); },
+  // round 64e: Asgard's floors, Solmyrk and the rune circle, from the panel (the Bifröst stood, Godsbane learned, the Lodestar in hand)
+  asg:function(kind,f){ SBSAGA.esc('gods'); setTimeout(function(){ var ws=SBSAGA.ws(), ps=ws&&ws.playerState; if(!ws)return;
+    if(kind==='floor')ZCIT.enter(ws,f); else if(kind==='circle'){ ps.grimnirDown=1; ps.spiritsHome=0; var H=ZASG.heart(ws); SBSAGA.tp(ws,H.x,H.y+TILE*2); showNotif('🌟 Solmyrk has fallen — the rune circle at Asgard\'s heart: [Tab] with the Lodestar in hand.','#fff2b0'); }
+    else if(kind==='city'){ var P=ZASG.plan(ws); if(P.gate)SBSAGA.tp(ws,P.gate[0]*TILE+16,P.gate[1]*TILE+16-TILE*2); } },3400); },
   // ── the panel ──
   todo:function(what,round){ showNotif('🚧 '+what+' — not built yet (planned for round '+round+', doc 28).','#ffcc66'); },
   ARCS:function(){ var B=function(t,f,tip){ return {t:t,f:f,tip:tip}; }, T=function(t,what,r){ return {t:t,todo:[what,r]}; }, Q=function(f,tip){ return [1,2,3,4].map(function(q){ return B(String(q),function(){ f(q); },tip?tip(q):SBSAGA.REALM[q]); }); };
@@ -91,14 +98,16 @@ var SBSAGA={
       {n:'Ⅵ',name:'Muspelheim',col:'#ff7a5a',sub:'four halls of trial, then Surtharn\'s throne and the great hearth',rows:[
         {l:'🏔 Halls',b:ZMUSP.HALLS.map(function(nm,f){ return B(String(f+1)+(f===4?' ☠':''),function(){ SBSAGA.musp(f); },nm); })},
         {l:'👹 Surtharn',b:[B('Fight',function(){ SBSAGA.musp(4); },'Surtharn, Tyrant of Muspelheim — six phases')]},
-        {l:'⭐ The Lodestar',b:[B('Kit',function(){ SBSAGA.musp(4,true); },'The throne, with the Sovereign staff and the four Heartglasses in your pack — beat Surtharn, then [Tab] the great hearth')]} ]},
+        {l:'⭐ The Lodestar',b:[B('Kit',function(){ SBSAGA.musp(4,true); },'The throne, with the Sovereign staff and the four Heartglasses in your pack — beat Surtharn, then [Tab] the great hearth')]},
+        {l:'🎁 Give',b:[B('Lodestar',function(){ SBSAGA.give('lodestar'); },'The Lodestar, in your pack'),B('Staff',function(){ SBSAGA.give('sov_staff'); },'The Sovereign staff, in your pack')].concat([1,2,3,4].map(function(q){ return B('💎'+q,function(){ SBSAGA.give('heartglass_'+q); },'The '+((ITEMS['heartglass_'+q]||{}).name||('Heartglass '+q))+' (the '+['','Ember','Cinder','Slag','Ash'][q]+' Forge\'s hearth)'); }))} ]},
       {n:'Ⅶ',name:'The Collapse & the Bifröst',col:'#c8a8ff',sub:'the escape, the sinking causeway, Asgard descends',rows:[
         {l:'🏃 Collapse',b:[B('Escape',function(){ SBSAGA.esc('climb'); },'The Lodestar made: Muspelheim falls — five collapsing floors, one timer'),B('Causeway',function(){ SBSAGA.esc('cw'); },'Out of the gate: the causeway sinks behind you')]},
         {l:'🌈 Bifröst',b:[B('Asgard descends',function(){ SBSAGA.esc('sink'); },'On the mainland: Muspelheim sinks, Asgard comes down onto Mirror Lake'),B('Pier notch',function(){ SBSAGA.esc('notch'); },'Asgard on the lake, the Lodestar in your pack, at the end of the pier — [Tab] the notch'),B('Godsbane',function(){ SBSAGA.esc('gods'); },'The Bifröst stands; Godsbane learned, the Lodestar in hand — on the bridge (press V)')]} ]},
-      {n:'Ⅷ',name:'Asgard',col:'#fff0a8',sub:'four floors, Grímnir, the rune circle, the end',rows:[
-        {l:'🏛 Floors',b:[1,2,3,4].map(function(f){ return T(String(f),'Asgard, floor '+f,58); })},
-        {l:'🎭 Grímnir',b:[T('Fight','Grímnir, the Masked King',58)]},
-        {l:'🕯 The end',b:[T('Rune circle','The rune circle at the heart of Asgard: Godsbane into the sky, the Bifröst remade into heaven',60),T('Credits','The ending and the credits',58),T('Free roam','Free roam after the end',58)]} ]} ]; },
+      {n:'Ⅷ',name:'Asgard',col:'#fff0a8',sub:'four floors, Solmyrk, the rune circle, the end',rows:[
+        {l:'🏰 The city',b:[B('Gate',function(){ SBSAGA.asg('city'); },'Inside Asgard\'s gate, the golden roads before you (the Lodestar in hand)')]},
+        {l:'🏛 Floors',b:[1,2,3,4].map(function(f){ return B(String(f),function(){ SBSAGA.asg('floor',f-1); },'The citadel, floor '+f+' — '+ZCIT.HALLS[f-1]); })},
+        {l:'🎭 Solmyrk',b:[B('Fight',function(){ SBSAGA.asg('floor',4); },'Solmyrk, the Black Sun, on his throne')]},
+        {l:'🕯 The end',b:[B('Rune circle',function(){ SBSAGA.asg('circle'); },'Solmyrk fallen: the rune circle at the heart of Asgard — Godsbane into the sky, the Bifröst remade into heaven'),T('Credits','The ending and the credits',58),T('Free roam','Free roam after the end',58)]} ]} ]; },
   show:function(){ if(!SBSAGA.ws())return; closeModal('sandbox'); var el=document.getElementById('modal-saga');
     if(!el){ el=document.createElement('div'); el.id='modal-saga'; el.className='overlay'; el.style.display='none'; el.onclick=function(e){ if(e.target===el)closeModal('saga'); }; document.body.appendChild(el); }
     var A=SBSAGA.ARCS(), H=[]; SBSAGA._fn=[];

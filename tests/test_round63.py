@@ -21,7 +21,7 @@ with game(new=True, painted=True) as g:
     check('Ratatoskr runs (the painted loop); Grímnir\'s last phase (%s) has Godsbane for its weak point' % r.get('name'), r['anim'] and r['weak'], r)
     r = g.js("""(async()=>{ %s var ws=game.scene.getScene('World'), ps=ws.playerState; ps.asgardDown=1; ps.bifrost=1; ps.grimnirDown=1; if(ps.inventory.indexOf('lodestar')<0)ps.inventory.push('lodestar'); await w(2500);
       var H=ZASG.heart(ws); ws.player.x=H.x+200; ws.player.y=H.y; await w(400); var far=ZEND.check(ws); ws.player.x=H.x; ws.player.y=H.y+10; await w(400); var t=ws._interactPrompt&&ws._interactPrompt._zt;
-      ZEND.play(ws); await w(9000); var mid={busy:ws._endBusy, n:ZEND.count}; await w(9000); return {far:far, prompt:t, mid:mid, home:ps.spiritsHome, busy:ws._endBusy, bars:document.getElementById('zcine-top')&&document.getElementById('zcine-top').style.height}; })()""" % W)
+      ZEND.play(ws); await w(19000); var mid={busy:ws._endBusy, n:ZEND.count}; await w(22000);      /* round 64: the painted story panels now play between */ return {far:far, prompt:t, mid:mid, home:ps.spiritsHome, busy:ws._endBusy, bars:document.getElementById('zcine-top')&&document.getElementById('zcine-top').style.height}; })()""" % W)
     check('The ending: in the world-tree circle at Asgard\'s heart the Lodestar casts Godsbane into the sky ("%s"); the forty spirits rise along the Bifröst into heaven (%s); then you play on' % (r['prompt'], r['mid']['n']),
           not r['far'] and r['prompt'] and 'Godsbane' in r['prompt'] and r['mid']['busy'] and r['mid']['n'] == 40 and r['home'] == 1 and not r['busy'], r)
     errs = [e for e in g.errs if 'favicon' not in e]

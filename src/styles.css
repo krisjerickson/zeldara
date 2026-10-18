@@ -812,3 +812,15 @@ body.sky-mode #world-labels, body.sky-mode #action-bar, body.sky-mode #action-ic
 .fairy-modal{max-width:600px}
 .fairy-modal.zt-wide{max-width:720px}
 .notif{font-size:15px}
+/* round 64d (Kris: "let's just keep the smaller health, mana and experience bars like in the overworld, off on the top left"): in the adventure
+   sites, forges and boss fights the hero's bars are a small panel at the top left (as in the overworld) instead of a strip across the whole top;
+   the boss's bar moves up into the space that frees */
+#dng-top{right:auto;width:250px;flex-wrap:wrap;align-items:stretch;gap:6px}
+#dng-title{flex:1 1 100%;font-size:12px;padding:5px 10px;white-space:normal;line-height:1.25}
+#dng-bars{flex:1 1 100% !important;padding:5px 10px !important}
+#dng-gold-box{flex:1 1 auto;display:flex;align-items:center}
+#dng-exit-btn{flex:0 0 auto;padding:5px 12px}
+#boss-hud{top:14px}
+/* round 64d: the full world map hides the bars below it, so it may use the window's height (the 150 px kept for the bars cut its bottom off in Fit) */
+.overlay#modal-map>.modal{max-height:96vh!important}
+.overlay#modal-map{padding-bottom:10px}

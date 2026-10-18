@@ -11,7 +11,8 @@
 // camp data + prop art live in 07z-camp-art.js (shared with the Design Lab's Monster Camps tab)
 function _campLootTex(scene,item){ var a=CAMP_ITEM_ART[item]||'coin', name=Array.isArray(a)?a[0]:a, tint=Array.isArray(a)?a[1]:null, key='loot_'+name+(tint||''); if(scene.textures.exists(key))return key;
   // painted loot (round 31): a 64 px picture shown at half size; gems keep one painted colour
-  var Zs=_scn(), zid=Zs&&{meat:'lt_meat',gem:'lt_gem',arrows:'lt_arrows',potion:'lt_potion',coin:'lt_gold',bread:'it_bread',jar:'it_jar'}[name]; if(zid&&Zs.has(zid)){ var zk='lootz_'+name; if(!scene.textures.exists(zk)){ var zc=mkCanvas(64,64), zx=zc.getContext('2d'), zs=Zs.size(zid,0), zf=Math.min(2,52/Math.max(zs.w,zs.h)); softShadow(zx,32,52,zs.w*zf*0.45,4,0.35); Zs.draw(zx,zid,32,54,zs.h*zf); scene.textures.addCanvas(zk,zc); try{ scene.textures.get(zk).setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } return zk; }
+  // round 64 (Kris: camp rewards and meat still pixel art): the item's own painted icon first (ic_<item>: cheese, fish, stew, berries …), then the painted loot picture
+  var Zs=_scn(), own=Zs&&item&&Zs.has('ic_'+item)?'ic_'+item:null, zid=own||(Zs&&{meat:'lt_meat',gem:'lt_gem',arrows:'lt_arrows',potion:'lt_potion',coin:'lt_gold',bread:'it_bread',jar:'it_jar',berries:'lt_herb',bowl:'it_plate',fish:'lt_meat'}[name]); if(zid&&Zs.has(zid)){ var zk='lootz_'+(own||name); if(!scene.textures.exists(zk)){ var zc=mkCanvas(64,64), zx=zc.getContext('2d'), zs=Zs.size(zid,0), zf=Math.min(2,52/Math.max(zs.w,zs.h)); softShadow(zx,32,52,zs.w*zf*0.45,4,0.35); Zs.draw(zx,zid,32,54,zs.h*zf); scene.textures.addCanvas(zk,zc); try{ scene.textures.get(zk).setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } return zk; }
   var G=_msGrid(); CAMP_LOOT_ART[name](G,tint); _msShadeOutline(G); var cv=mkCanvas(32,32), x=cv.getContext('2d'); for(var k=0;k<1024;k++){ if(G.c[k]){ x.fillStyle=G.c[k]; x.fillRect(k%32,(k/32)|0,1,1); } } for(var k2=0;k2<1024;k2++){ if(G.o[k2]){ x.fillStyle=G.o[k2]; x.fillRect(k2%32,(k2/32)|0,1,1); } }
   var tx=scene.textures.addCanvas(key,cv); tx.setFilter(Phaser.Textures.FilterMode.NEAREST); return key; }
 
@@ -32,9 +33,9 @@ function campCelebrate(scene,x,y,title,sub){
 Object.assign(WorldScene.prototype,{
   _campTex(kind,tint){ var key='camp_'+kind+(tint?'_'+tint.slice(1):''); if(this.textures.exists(key))return key;
     // painted camp props (round 30): three 128 px frames like the drawn ones (0, 1 = in use; 2 = spent: fire out, chest open, the others dimmed)
-    var Zs=_scn(), pid='cp_'+kind; if(Zs&&!tint&&Zs.has(pid)){ var F=128, pc=mkCanvas(F*3,F), px=pc.getContext('2d'), sz=Zs.size(pid,0), k=Math.min(F*0.94/sz.h,F*0.96/sz.w), alt={campfire:'cp_campfire_out',chest:'cp_chest_open'}[kind];
+    var Zs=_scn(), pid='cp_'+kind; if(Zs&&Zs.has(pid)){ var F=128, pc=mkCanvas(F*3,F), px=pc.getContext('2d'), sz=Zs.size(pid,0), k=Math.min(F*0.94/sz.h,F*0.96/sz.w), alt={campfire:'cp_campfire_out',chest:'cp_chest_open'}[kind];      /* round 64: tinted camps (the witch's and the sulfur cauldron …) were left in pixel art — painted too, the tint a glow */
       for(var fi=0;fi<3;fi++){ var use=fi===2&&alt&&Zs.has(alt)?alt:pid, s2=Zs.size(use,0); if(fi===2&&use===pid){ px.save(); px.filter='grayscale(0.7) brightness(0.72)'; }
-        softShadow(px,fi*F+F/2,F*0.9-2,F*0.3,F*0.06,0.38); Zs.draw(px,use,fi*F+F/2,F*0.9,s2.h*k); if(fi===2&&use===pid)px.restore(); }
+        softShadow(px,fi*F+F/2,F*0.9-2,F*0.3,F*0.06,0.38); if(tint&&fi<2){ var tg=px.createRadialGradient(fi*F+F/2,F*0.62,2,fi*F+F/2,F*0.62,F*0.42); tg.addColorStop(0,rgba(tint,0.55)); tg.addColorStop(1,rgba(tint,0)); px.fillStyle=tg; px.fillRect(fi*F,0,F,F); } Zs.draw(px,use,fi*F+F/2,F*0.9,s2.h*k); if(fi===2&&use===pid)px.restore(); }
       var pt=this.textures.addCanvas(key,pc); for(var pf=0;pf<3;pf++)pt.add(String(pf),0,pf*F,0,F,F); try{ pt.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} return key; }
     var fr=_campPropFrames(kind,tint), cv=mkCanvas(96,32), x=cv.getContext('2d'); fr.forEach(function(f,i){ x.drawImage(f,i*32,0); });
     var tx=this.textures.addCanvas(key,cv); for(var i=0;i<3;i++)tx.add(String(i),0,i*32,0,32,32); tx.setFilter(Phaser.Textures.FilterMode.NEAREST); return key; },

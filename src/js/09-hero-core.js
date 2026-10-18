@@ -268,10 +268,11 @@ function _heroCastSpell(scene){
     _heroNova(scene,c.x,c.y,sp.aoe.r,sp.aoe.col,pow,'fire',_sid);
   } else if(sp.delay&&sp.aoe){
     var nI=sp.n||1;
-    for(var ii=0;ii<nI;ii++)(function(ii){ var tx=c.x+nx*200+(nI>1?(Math.random()-0.5)*150:0), ty=c.y+ny*200+(nI>1?(Math.random()-0.5)*120:0);
-      var mark=scene.add.circle(tx,ty,sp.aoe.r,sp.aoe.col,0.22).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(mark,'fx_meteor_mark',{a:0.85});
+    for(var ii=0;ii<nI;ii++)(function(ii){ var s={x:c.x+nx*200+(nI>1?(Math.random()-0.5)*150:0),y:c.y+ny*200+(nI>1?(Math.random()-0.5)*120:0)}, ms=((sp.delay||1)+ii*0.18)*1000;
+      if(typeof ZSEEK!=='undefined'&&ZSEEK.sight)s=ZSEEK.sight(scene,c.x,c.y,s.x,s.y);      // round 64: only where you can see — a wall pulls the spot back
+      var mark=scene.add.circle(s.x,s.y,sp.aoe.r,sp.aoe.col,0.22).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(mark,'fx_meteor_mark',{a:0.85});
       scene.tweens.add({targets:mark,alpha:0.5,duration:400,yoyo:true});
-      scene.time.delayedCall(((sp.delay||1)+ii*0.18)*1000,function(){ mark.destroy(); _heroNova(scene,tx,ty,sp.aoe.r,sp.aoe.col,pow*(nI>1?1:1.5),'fire',_sid); try{scene.cameras.main.shake(nI>1?90:200,0.008);}catch(e){} }); })(ii);
+      scene.time.delayedCall(ms,function(){ mark.destroy(); _heroNova(scene,s.x,s.y,sp.aoe.r,sp.aoe.col,pow*(nI>1?1:1.5),'fire',_sid); try{scene.cameras.main.shake(nI>1?90:200,0.008);}catch(e){} }); })(ii);
   } else if(tome.spellId==='thunder_step'){
     var ox=c.x, oy=c.y, step=8, dist=0, lx=c.x, ly=c.y;
     while(dist<sp.teleportDist){ var tx2=lx+nx*step, ty2=ly+ny*step; if(!_heroOpenAt(scene,tx2,ty2)||!_heroWalkAt(scene,tx2,ty2))break; lx=tx2; ly=ty2; dist+=step; }
@@ -281,6 +282,7 @@ function _heroCastSpell(scene){
   } else if(sp.cloud){
     if(!scene._heroClouds)scene._heroClouds=[];
     var clx=sp.cloud.at==='aim'?c.x+nx*160:c.x, cly=sp.cloud.at==='aim'?c.y+ny*160:c.y;
+    if(sp.cloud.at==='aim'&&typeof ZSEEK!=='undefined'&&ZSEEK.sight){ var _cs=ZSEEK.sight(scene,c.x,c.y,clx,cly); clx=_cs.x; cly=_cs.y; }      // round 64: only where you can see
     var cl=scene.add.circle(clx,cly,sp.cloud.r,sp.cloud.col,0.35).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(cl,sp.cloud.st==='slow'?'fx_zone_frost':'fx_zone_poison');
     scene._heroClouds.push({vis:cl,x:clx,y:cly,r:sp.cloud.r,life:sp.cloud.dur,tick:0,st:sp.cloud.st,spellId:_sid,dps:Math.max(sp.poisonDps||4,pow*(sp.cloud.st?0.3:0.25))});
     _heroFloat(scene,clx,cly-30,sp.cloud.st==='slow'?'🌨️ Blizzard':'☁️ Poison Mist',sp.cloud.st==='slow'?'#c8f0ff':'#44cc44');

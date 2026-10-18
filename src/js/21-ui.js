@@ -276,7 +276,12 @@ function openWorldMap(opts){
 }
 function _wmSizeCanvas(){
   var cv=document.getElementById('minimap-canvas'); if(!cv)return;
-  var side=Math.max(320,Math.min(window.innerHeight*0.94-90,window.innerWidth*0.96-300));
+  // round 64 (Kris: "the bottom 10% is cut off … let's just fix 'fit' view, so it shows the entire map"): measure the header (it wraps to two
+  // lines on narrower windows) instead of guessing 90 px, so the whole square map fits inside the modal
+  var md=document.querySelector('.wmap-modal'), hd=md&&md.querySelector('.mhdr'), hh=hd?hd.getBoundingClientRect().height+10:40, pad=md?(parseFloat(getComputedStyle(md).paddingTop)||0)+(parseFloat(getComputedStyle(md).paddingBottom)||0):28;
+  // round 64d: the modal's own height limit (a later rule caps every pop-up at the window less 150 px) is what the map must fit inside
+  var mx=md?parseFloat(getComputedStyle(md).maxHeight):NaN; if(!(mx>0))mx=window.innerHeight*0.94;
+  var side=Math.max(280,Math.min(Math.min(mx,window.innerHeight*0.96)-hh-pad-8,window.innerWidth*0.96-300));
   var dpr=Math.min(2,window.devicePixelRatio||1);
   cv.style.width=side+'px'; cv.style.height=side+'px';
   if(cv.width!==Math.round(side*dpr)){ cv.width=Math.round(side*dpr); cv.height=Math.round(side*dpr); }

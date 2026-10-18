@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ 16g-asgard-citadel.js — round 62: ASGARD'S CITADEL — four floors and Grímnir; and THE RAGNARÖK TRACK (Muspelheim and Asgard).
-// ║ Kris's ☆ (Lab, Realm ideas, Oct 17) and his card: floors in the order HEIMDALL → EINHERJAR → NORNS → YGGDRASIL, then Grímnir as a PHASED BOSS
+// ║ 16g-asgard-citadel.js — round 62: ASGARD'S CITADEL — four floors and Solmyrk; and THE RAGNARÖK TRACK (Muspelheim and Asgard).
+// ║ Kris's ☆ (Lab, Realm ideas, Oct 17) and his card: floors in the order HEIMDALL → EINHERJAR → NORNS → YGGDRASIL, then Solmyrk as a PHASED BOSS
 // ║ (the tafl board left out); the doom track in "Muspelheim and Asgard only"; the dragon under the World Tree renamed GRIMTOOTH ("rename the
 // ║ dragon, can't pronounce it"); the rune draft left out.
 // ║   1 HEIMDALL'S WATCH — the watchman's lenses sweep the hall with rainbow light. Caught in a beam: Gjallarhorn sounds, wardens and einherjar come
@@ -16,7 +16,7 @@
 // ║ Leaving the realm resets it. Painted pieces: scenery wave 64 (ar_*), the einherjar in sprite wave 7.9; drawn stand-ins until then.
 // ═══════════════════════════════════════════════════════════════════════
 var ZCIT={ on:true, FLOORS:5,
-  HALLS:['Heimdall\'s Watch','Valhöll','The Hall of the Norns','Yggdrasil','The Throne of Grímnir'],
+  HALLS:['Heimdall\'s Watch','Valhöll','The Hall of the Norns','Yggdrasil','The Throne of Solmyrk'],
   MONS:[['gjallar_warden','einherjar_shieldmaiden'],['einherjar_berserker','einherjar_shieldmaiden','einherjar_archer'],['einherjar_archer','einherjar_shieldmaiden'],['einherjar_berserker','einherjar_archer'],['einherjar_shieldmaiden']],
   site:function(){ return {id:'asgard_citadel',type:'dungeon',section:4,design:'asgard_citadel',asg:true,name:'The Citadel of Asgard',floors:ZCIT.FLOORS}; },
   is:function(sc){ var s=sc&&(sc._site||sc.site); return !!(s&&s.asg); },
@@ -128,7 +128,7 @@ setInterval(function(){ try{ var D=game.scene.getScene('Dungeon'); if(!D||!game.
 
 // ── the layouts (07zx ZSP) ──
 (function(){ if(typeof ZSP==='undefined')return;
-  ZSP.T.asgard_citadel={n:'The Citadel of Asgard',d:'Heimdall\'s Watch, Valhöll, the Hall of the Norns, Yggdrasil, the Throne of Grímnir.',liq:'chasm',built:true,arena:[25,17],near:0.85,
+  ZSP.T.asgard_citadel={n:'The Citadel of Asgard',d:'Heimdall\'s Watch, Valhöll, the Hall of the Norns, Yggdrasil, the Throne of Solmyrk.',liq:'chasm',built:true,arena:[25,17],near:0.85,
     s:function(fi){ return fi===3?[40,70]:fi===4?[50,40]:[60,40]; },
     gen:function(c,fi){ var R=c.R, W=c.W, H=c.H, cy=Math.round(H/2);
       if(fi===0){ // ── Heimdall's Watch: a long hall of pillars, lenses along the top wall ──
@@ -153,7 +153,7 @@ setInterval(function(){ try{ var D=game.scene.getScene('Dungeon'); if(!D||!game.
         for(var yy=H-9;yy>=5;yy-=3)c.hints.trunk.push([mx,yy]);
         [Math.round(H*0.72),Math.round(H*0.48),Math.round(H*0.25)].forEach(function(gy,i){ c.rect(mx-2,gy-1,5,3,3); var sd=i%2?1:-1, bx=mx+sd*11; c.rect(Math.min(mx,bx)-1,gy+3,Math.abs(bx-mx)+3,2,1); c.rect(bx-1,gy-5,3,9,1); c.rect(Math.min(mx,bx)-1,gy-5,Math.abs(bx-mx)+3,2,1); c.disc(bx,gy,3,5); });
         c.disc(mx,6,4,5); c.hints.top=[mx,9]; c.hints.up=[W-5,H-5]; c.hints.down=[mx,5,4]; }
-      else { // ── the Throne of Grímnir ──
+      else { // ── the Throne of Solmyrk ──
         c.fill(2); c.rect(3,3,W-6,H-6,1); c.rect(Math.round(c.cx)-3,3,7,H-6,5); for(var p2=0;p2<6;p2++){ c.rect(8+p2*7,8,2,2,6); c.rect(8+p2*7,H-10,2,2,6); }
         c.hints.up=[Math.round(c.cx),5]; c.hints.down=[Math.round(c.cx),H-9,10]; } }};
   // the look: cream rune-paving (Kris's tx_asg_b) and marble in white and gold; Yggdrasil's floor is bark and moss; beyond the walls, a sea of cloud
@@ -164,14 +164,14 @@ setInterval(function(){ try{ var D=game.scene.getScene('Dungeon'); if(!D||!game.
   var z0=ZSP.zsdSite; ZSP.zsdSite=function(id){ if(id==='asgard_citadel')return {id:id,type:'castle',name:'The Citadel of Asgard',q:4,floors:ZCIT.FLOORS,el:'storm',pal:{floor:'#e8e0cc',floor2:'#d8c890',wall:'#8a7e68',wallTop:'#f4ecd8',liquid:'#1a2a48',accent:'#ffd860',glow:'#fff0b0',void:'#0a1428'}}; return z0.apply(ZSP,arguments); };
 })();
 
-// ── Grímnir, the Masked King (three phases; his look from the Lab's Bosses tab, "Asgard") ──
+// ── Solmyrk, the Masked King (three phases; his look from the Lab's Bosses tab, "Asgard") ──
 (function(){ if(typeof MDEFS==='undefined'||typeof BOSS_PHASES==='undefined')return;
-  MDEFS.grimnir={name:'Grímnir, the Masked King',icon:'👑',hp:1800,atk:36,def:15,xp:3000,gMin:1000,gMax:1400,sec:4,color:0xd8c890,r:28,spd:46,moveType:'normal',atkType:'stomp',boss:true,lvMin:23,lvMax:25,sovWard:true};
-  var PH=[{nm:'the Masked King',hp:1,sc:2.6,introT:'Grímnir rises from the high seat — his golden mask turns toward you!',kit:'kite range=180 | beam wind=0.9 len=340 w=10 col=#fff0b0 m=1 cd=3.2 | summon id=einherjar_shieldmaiden n=2 max=3 cd=10',ev:[{k:'marks',every:6,n:3,rad:26,col:'#ffe890',say:'Spears of light rain down!'}]},
-    {nm:'the Wanderer Unmasked',hp:1.1,sc:2.6,bars:[{k:'ward',f:0.3,at:1}],introT:'The mask falls — the one-eyed Wanderer, and his ravens see everything!',kit:'blink every=3 d=150 | shoot p=feather n=5 sp=0.25 spd=210 m=0.5 cd=2.6 | pull r=200 keep=30 m=0.5 cd=4.5',ev:[{k:'rift',every:7,say:'The ravens drag you in!'}]},
-    {nm:'the Storm of Ragnarök',hp:1.25,sc:2.9,introT:'THE LAST STORM — Grímnir becomes the gale that ends the world!',kit:'chase | ring spd=160 max=240 gap=1 col=#9fe8ff m=0.9 cd=2.8 | beam wind=0.8 len=380 w=12 col=#ffffff m=1.2 cd=2.6 | charge wind=0.5 mult=3.4 stun=1 kb=70',ev:[{k:'wave',every:7,col:'#bfe8ff',say:'A gale sweeps the throne room — find the gap!'}]}];
+  MDEFS.grimnir={name:'Solmyrk, the Black Sun',icon:'👑',hp:1800,atk:36,def:15,xp:3000,gMin:1000,gMax:1400,sec:4,color:0xd8c890,r:28,spd:46,moveType:'normal',atkType:'stomp',boss:true,lvMin:23,lvMax:25,sovWard:true};
+  var PH=[{nm:'the Allfather\'s Mask',hp:1,sc:2.6,introT:'Solmyrk rises from the high seat — the Allfather\'s golden mask turns toward you!',kit:'kite range=180 | beam wind=0.9 len=340 w=10 col=#fff0b0 m=1 cd=3.2 | summon id=einherjar_shieldmaiden n=2 max=3 cd=10',ev:[{k:'marks',every:6,n:3,rad:26,col:'#ffe890',say:'Spears of light rain down!'}]},
+    {nm:'the Cracked Mask',hp:1.1,sc:2.6,bars:[{k:'ward',f:0.3,at:1}],introT:'The mask cracks down the middle — half god of light, half the black beneath!',kit:'blink every=3 d=150 | shoot p=feather n=5 sp=0.25 spd=210 m=0.5 cd=2.6 | pull r=200 keep=30 m=0.5 cd=4.5',ev:[{k:'rift',every:7,say:'The black half of his mask drags you in!'}]},
+    {nm:'the Storm That Ends the World',hp:1.25,sc:2.9,introT:'THE BLACK SUN — Solmyrk becomes the storm that ends the world!',kit:'chase | ring spd=160 max=240 gap=1 col=#9fe8ff m=0.9 cd=2.8 | beam wind=0.8 len=380 w=12 col=#ffffff m=1.2 cd=2.6 | charge wind=0.5 mult=3.4 stun=1 kb=70',ev:[{k:'wave',every:7,col:'#bfe8ff',say:'A gale sweeps the throne room — find the gap!'}]}];
   BOSS_PHASES.grimnir={q:4,asg:true,phases:PH.map(function(p,i){ var form='grim_'+(i+1), C=CHAR_BY_ID.grim, D=typeof BA!=='undefined'&&BA.of(form), P=Object.assign({form:form,rid:'bp_grimnir_'+(i+1)},p); delete P.nm;
-    MON_BY_ID[P.rid]={id:P.rid,name:'Grímnir, '+p.nm,q:4,seg:'boss',role:'boss',tier:5,spec:C?C.spec:{plan:'caster',pal:['#d8c890','#3a3a4a','#fff0b0','#9fe8ff']},tags:[],chId:D?form:undefined}; MX.KITS[P.rid]=P.kit; return P; })};
+    MON_BY_ID[P.rid]={id:P.rid,name:'Solmyrk, '+p.nm,q:4,seg:'boss',role:'boss',tier:5,spec:C?C.spec:{plan:'caster',pal:['#d8c890','#3a3a4a','#fff0b0','#9fe8ff']},tags:[],chId:D?form:undefined}; MX.KITS[P.rid]=P.kit; return P; })};
 })();
 
 // ── hooks: the citadel door; the Dungeon learns the citadel; Muspelheim gets the track ──
@@ -186,13 +186,13 @@ setTimeout(function(){
   if(typeof DungeonScene==='undefined')return; var D=DungeonScene.prototype;
   var i0=D.init; D.init=function(d){ var r=i0.apply(this,arguments); this._asgc=!!(d&&d.site&&d.site.asg); this._cit=null; this._doom=null; return r; };
   var gb=D._getBossKey; D._getBossKey=function(){ return this._asgc?'grimnir':gb.apply(this,arguments); };
-  var sm=D._spawnMonster; D._spawnMonster=function(key,x,y,isBoss,mult){ if(this._asgc&&key==='grimnir'&&isBoss){ var L=BossPhases.spawn(this,'grimnir',1,x,y,mult||1); L.forEach(function(m){ m.sovWard=true; }); if(L[0])L[0]._gform=1; if(L[0])showNotif('👑 Grímnir, the Masked King, on the high seat of Asgard! (Warded — Sovereign and Godsbane bite deep.)','#fff2b0'); return L[0]||null; } return sm.apply(this,arguments); };
+  var sm=D._spawnMonster; D._spawnMonster=function(key,x,y,isBoss,mult){ if(this._asgc&&key==='grimnir'&&isBoss){ /* round 64: the painted god is tall — set him a few rows down from the high seat's wall so his crown and halo show */ for(var dn=4;dn>0;dn--){ if(!this._canGoD||this._canGoD(x,y+dn*TILE)){ y+=dn*TILE; break; } } var L=BossPhases.spawn(this,'grimnir',1,x,y,mult||1); L.forEach(function(m){ m.sovWard=true; }); if(L[0])L[0]._gform=1; if(L[0])showNotif('👑 Solmyrk, the Black Sun, on the high seat of Asgard! (Warded — Sovereign and Godsbane bite deep.)','#fff2b0'); return L[0]||null; } return sm.apply(this,arguments); };
   var ob=D._onBossDefeated; D._onBossDefeated=function(mon){ if(!this._asgc)return ob.apply(this,arguments); var self=this, alive=(this._bossGroup||[]).filter(function(m){ return !m.dead&&m!==mon; }); if(alive.length)return;
     var ph=this._bossPhase||1; if(ph<BossPhases.count('grimnir')){ var P=BOSS_PHASES.grimnir.phases[ph]; this.cameras.main.flash(600,255,250,220); this.cameras.main.shake(800,0.012); showNotif('⚡ '+P.introT,'#fff2b0'); var x=mon.x, y=mon.y;
       setTimeout(function(){ if(!self.sys||!self.monsters||!self.sys.displayList)return; var L=BossPhases.spawn(self,'grimnir',ph+1,x,y,1); L.forEach(function(m){ m.sovWard=true; if(ph+1===BossPhases.count('grimnir'))m.godsbaneWeak=true; }); if(L[0])L[0]._gform=ph+1; if(ph+1===BossPhases.count('grimnir'))showNotif('✦ The storm has one weak point — GODSBANE (V) strikes it three times as hard!','#fff2b0'); },1200); return; }
     BossPhases.hud(this,false); if(typeof BossMoments!=='undefined')try{ BossMoments.finale(this,mon); }catch(e){} this._bossDefeated=true; var ps=this.worldScene.playerState; ps.grimnirDown=1;
     var bc=this.interactables.find(function(i){ return i.type==='boss_chest'; }); if(bc)bc.locked=false; if(this._portalOpen)this._portalOpen();
-    showNotif('🏆 Grímnir falls — the mask shatters, and the gate of heaven stands open. Go to the rune circle at Asgard\'s heart.','#fff2b0'); if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('Grímnir falls'); }catch(e){} };
+    showNotif('🏆 Solmyrk falls — the mask shatters, and the gate of heaven stands open. Go to the rune circle at Asgard\'s heart.','#fff2b0'); if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('Solmyrk falls'); }catch(e){} };
   var bi=D._buildInteractables; D._buildInteractables=function(){ var r=bi.apply(this,arguments); if(this._asgc){ try{ ZCIT.build(this); }catch(e){ console.warn('citadel',e); } } else if(this._musp){ try{ ZDOOM.start(this,'musp'); }catch(e){} } return r; };
   var cg=D._canGoD; D._canGoD=function(nx,ny){ var C=this._cit; if(C&&C.blocked){ var hw=7,hh=5, P=[[nx-hw,ny-hh],[nx+hw,ny-hh],[nx-hw,ny+hh],[nx+hw,ny+hh],[nx,ny]]; for(var i=0;i<P.length;i++){ var tx=Math.floor(P[i][0]/TILE), ty=Math.floor(P[i][1]/TILE); if(C.blocked[ty*DW+tx])return false; } } return cg.apply(this,arguments); };
   var mv=D._movePlayer; D._movePlayer=function(dt){ if(this._doomRealm==='asgard'&&ZDOOM.level(this)>0){ var k=1-0.08*ZDOOM.level(this), x0=this.px, y0=this.py, r=mv.apply(this,arguments); this.px=x0+(this.px-x0)*k; this.py=y0+(this.py-y0)*k; if(this.pCont)this.pCont.setPosition(this.px,this.py); return r; } return mv.apply(this,arguments); };

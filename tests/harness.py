@@ -61,7 +61,9 @@ def game(new=True, w=1280, h=800, save=None, painted=False, query='', lead=False
             pg.evaluate("(()=>{ if(typeof ZSave==='undefined')return; ZSave.migrateLegacy(); var p=ZSave.players()[0]; if(p)ZSave.choose(p.id,1); })()")
         pg.wait_for_timeout(1500)
         if not painted: pg.evaluate("(()=>{ try{ if(typeof ZAtlas!=='undefined')ZAtlas.off=true; if(typeof ZScn!==\'undefined\')ZScn.off=true; }catch(e){} })()")
-        pg.evaluate("(()=>{ try{ if(typeof ZDeath!=='undefined')ZDeath.auto=true; }catch(e){} })()")   # deaths apply at once in the suites (no effect, no pop-up to click); test_round33 switches it back on
+        pg.evaluate("(()=>{ try{ if(typeof ZDeath!=='undefined')ZDeath.auto=true; }catch(e){} })()")
+        pg.evaluate("(()=>{ try{ if(typeof ZFT!=='undefined')ZFT.on=false; }catch(e){} })()")
+        pg.evaluate("(()=>{ try{ if(typeof ZLEAVE!=='undefined')ZLEAVE.on=false; }catch(e){} })()")   # round 64d: the leave-page guard stays off in the suites (they reload pages)   # round 64d: the forge rules pop-ups stay shut in the suites (test_round64 opens them)   # deaths apply at once in the suites (no effect, no pop-up to click); test_round33 switches it back on
         if not lead: pg.evaluate("(()=>{ try{ if(typeof FAM_LEAD!=='undefined')FAM_LEAD.on=false; }catch(e){} })()")
         pg.evaluate("game.loop.smoothStep=false")  # headless runs at low FPS; use real elapsed time
         g = G(pg, errs)

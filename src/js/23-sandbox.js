@@ -12,7 +12,7 @@ function checkSandboxPw(){
 function _sbWs(){return game.scene.getScene('World');}
 // painted sprites (04f-atlas.js) on / off — off shows the stand-ins everywhere; remembered on this device
 // painted scenery (04h, round 30): on / off, and a size trial for objects and for buildings. The ground and its objects are painted once per area, so each change saves and reloads the page.
-function _sbReload(msg){ try{ var ws=_sbWs(); if(ws&&ws._save)ws._save(); }catch(e){} showNotif(msg+' — reloading…','#aaddff'); setTimeout(function(){ try{ location.reload(); }catch(e){} },700); }
+function _sbReload(msg){ try{ var ws=_sbWs(); if(ws&&ws._save)ws._save(); }catch(e){} showNotif(msg+' — reloading…','#aaddff'); setTimeout(function(){ try{ if(typeof ZLEAVE!=="undefined")ZLEAVE._reloading=true; location.reload(); }catch(e){} },700); }
 function sbScenery(){ if(typeof ZScn==='undefined')return; ZScn.set('zeldara_scenery',ZScn.off?'on':'off'); _sbReload('Painted scenery '+(ZScn.off?'on':'off')); }
 var SB_SCN_STEPS=[0.85,1,1.15,1.3,1.5];
 function sbScnSize(which){ if(typeof ZScn==='undefined')return; var cur=which==='kb'?ZScn.KB:ZScn.K, i=SB_SCN_STEPS.indexOf(cur), nx=SB_SCN_STEPS[(i+1)%SB_SCN_STEPS.length]; ZScn.set(which==='kb'?'zeldara_scn_kb':'zeldara_scn_k',nx); _sbReload((which==='kb'?'Building':'Object')+' size '+Math.round(nx*100)+'%'); }
@@ -88,7 +88,7 @@ function sbGoBigVolcano(){
   var big=_volcanoSiteDefs().find(function(d){return d.type==='volcano_main';});
   if(!big){showNotif('Big volcano not defined','#ff4444');return;}
   // Land the player a few tiles north of the door so they can walk in.
-  if(_sbTeleportTo(big.tx+1, big.ty-3)){
+  if(_sbTeleportTo(big.tx+1, big.ty+4)){
     showNotif('🌋 Teleported to the great volcano','#ff6633');
   }
 }
@@ -101,7 +101,7 @@ function sbGoMiniVolcano(){
   ws._sbMiniIdx=((ws._sbMiniIdx||0)+1) % minis.length;
   var idx=ws._sbMiniIdx;
   var m=minis[idx];
-  if(_sbTeleportTo(m.tx+1, m.ty-3)){
+  if(_sbTeleportTo(m.tx+1, m.ty+4)){
     var dirName=['N','E','S','W'][idx];
     showNotif('🔥 Teleported to mini-volcano '+(idx+1)+'/4 ('+dirName+')','#ffaa66');
   }

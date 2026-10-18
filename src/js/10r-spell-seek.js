@@ -11,3 +11,9 @@ var ZSEEK={ HALF:Math.PI/3, TURN:4.2,
   steer:function(scene,p,dt,mons){ var T=p.seek; if(T&&(T.dead||T.hp<=0)){ T=p.seek=ZSEEK.pick(scene,p.x,p.y,Math.atan2(p.vy,p.vx),320,mons); } if(!T)return;
     var spd=Math.hypot(p.vx,p.vy)||300, ta=Math.atan2(T.y-((T.def&&T.def.r)||10)*0.4-p.y,T.x-p.x), ca=Math.atan2(p.vy,p.vx), df=ta-ca; while(df>Math.PI)df-=Math.PI*2; while(df<-Math.PI)df+=Math.PI*2;
     ca+=Math.max(-ZSEEK.TURN*dt,Math.min(ZSEEK.TURN*dt,df)); p.vx=Math.cos(ca)*spd; p.vy=Math.sin(ca)*spd; if(p.vis&&p.vis.setRotation)try{ p.vis.setRotation(ca); }catch(e){} } };
+// ── round 64 (Kris: "for spells, this is actually OK that they don't auto focus on enemies, as they are very powerful and you should need to
+// learn how to use them … you shouldn't be able to use it to cast across walls that you can't see through. let's make sure you have line of
+// sight to where you cast, and the range can become shorter if you don't have line of sight"): a spell that lands on a spot (Starfall's stars,
+// Meteor, Blizzard) lands where you can see — if a wall is in the way, the spot is pulled back toward you to the last place in sight.
+ZSEEK.sight=function(scene,x,y,tx,ty){ if(typeof _heroLOS!=='function'||_heroLOS(scene,x,y,tx,ty))return {x:tx,y:ty,cut:false}; var d=Math.hypot(tx-x,ty-y), ux=(tx-x)/(d||1), uy=(ty-y)/(d||1), ok=0;
+  for(var r=12;r<=d;r+=6){ if(_heroLOS(scene,x,y,x+ux*r,y+uy*r))ok=r; else break; } ok=Math.max(0,ok-10); return {x:x+ux*ok,y:y+uy*ok,cut:true}; };

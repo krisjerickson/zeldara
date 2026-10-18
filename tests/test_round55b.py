@@ -21,7 +21,7 @@ with game(new=True, painted=True) as g:
       var M=document.getElementById('modal-saga'), A=M.querySelectorAll('.sbs-arc'); return {btn:true, shown:M.style.display, arcs:Array.from(A).map(function(a){ return a.querySelector('.sbs-h').textContent.slice(0,40); }),
         built:M.querySelectorAll('button[data-k]:not(.sbs-todo)').length, todo:M.querySelectorAll('button.sbs-todo').length, sandbox:document.getElementById('modal-sandbox').style.display}; })()""")
     check('The sandbox has a Spirit Saga button; it opens eight arcs (%s)' % ' · '.join(r.get('arcs', [])), r['btn'] and r['shown'] == 'flex' and len(r['arcs']) == 8 and r['sandbox'] == 'none', r)
-    check('%d milestone buttons wired, %d planned ones drawn dashed' % (r['built'], r['todo']), r['built'] >= 35 and r['todo'] >= 6, r)
+    check('%d milestone buttons wired, %d planned ones drawn dashed' % (r['built'], r['todo']), r['built'] >= 35 and r['todo'] >= 1, r)      # round 64e: Asgard's floors, Solmyrk and the rune circle are wired now
     g.shot('/tmp/round55b_saga.png')
     # a planned one does nothing but say so
     r = g.js("(async()=>{ var msg=null, n0=showNotif; showNotif=function(t){ msg=t; return n0.apply(this,arguments); }; document.querySelector('#modal-saga button.sbs-todo').click(); showNotif=n0; return {msg:msg, open:document.getElementById('modal-saga').style.display, scene:game.scene.isActive('World')}; })()")

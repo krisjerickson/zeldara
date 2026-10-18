@@ -31,11 +31,11 @@ var ZGP={ on:true, FORCE:4, SHIELD_SAY:0.9,
         eye:sc.add.image(0,0,ZGP._dot(sc)).setDepth(12.6).setBlendMode(Phaser.BlendModes.ADD), dots:[], dotT:0, said:0 }; }
     var m=L[0], g=m._gp||(m._gp={t:0,force:0}); g.t+=dt; if(g.force>0)g.force=Math.max(0,g.force-dt);
     var lt=ZGP.light(m), dk=1-lt, was=g.lastLt===undefined?1:g.lastLt; g.lastLt=lt; m._grimShine=lt>0.5;
-    if(was>0.5&&lt<=0.5){ if(!V.said||Date.now()-V.said>6000){ showNotif('● Grímnir turns black and drinks the light — STRIKE NOW!','#c8d0e0'); V.said=Date.now(); } }
-    if(!g.told&&lt>0.5){ g.told=1; showNotif('☀ While Grímnir blazes with light he cannot be hurt — strike when he turns black (Godsbane forces it).','#fff2b0'); }
-    ZGP._tint(m,lt);
+    if(was>0.5&&lt<=0.5){ if(!V.said||Date.now()-V.said>6000){ showNotif('● Solmyrk turns black and drinks the light — STRIKE NOW!','#c8d0e0'); V.said=Date.now(); } }
+    if(!g.told&&lt>0.5){ g.told=1; showNotif('☀ While Solmyrk blazes with light he cannot be hurt — strike when he turns black (Godsbane forces it).','#fff2b0'); }
+    ZGP._tint(m,lt); if(m.cont&&m.cont.setDepth){ if(dk>0.3)m.cont.setDepth(12.52); else if(m.cont.depth===12.52&&sc._yDepth)m.cont.setDepth(sc._yDepth(m.y)); }      /* round 64: while black he is drawn over the darkness — a black shape with a burning eye */
     // the room darkens round a pool of light at the hero's feet
-    V.dark.setPosition(sc.px,sc.py).setAlpha(0.88*dk).setScale(7.5);      // 1920 px across — a larger image is dropped by the renderer
+    V.dark.setPosition(sc.px,sc.py).setAlpha(0.8*dk).setScale(7.5);      // 1920 px across — a larger image is dropped by the renderer
     // rays of white light turning behind him
     var r=V.rays, t=g.t, cx=m.x, cy=m.y-((m.def&&m.def.r)||28)*1.6; r.clear();
     if(lt>0.02){ for(var i=0;i<16;i++){ var a=i/16*Math.PI*2+t*0.25, w=0.05+0.025*Math.sin(i*1.7), ln=150+60*Math.sin(i*2.3+t*1.3); r.fillStyle(0xfff6dc,0.22*lt); r.beginPath(); r.moveTo(cx,cy); r.lineTo(cx+Math.cos(a-w)*ln,cy+Math.sin(a-w)*ln); r.lineTo(cx+Math.cos(a+w)*ln,cy+Math.sin(a+w)*ln); r.closePath(); r.fillPath(); }
@@ -46,7 +46,7 @@ var ZGP={ on:true, FORCE:4, SHIELD_SAY:0.9,
     V.dotT-=dt; if(dk>0.3&&V.dotT<=0&&V.dots.length<40){ V.dotT=0.045; var an=Math.random()*Math.PI*2, rr=180+Math.random()*140, d=sc.add.image(cx+Math.cos(an)*rr,cy+Math.sin(an)*rr*0.8,ZGP._dot(sc)).setDepth(12.6).setBlendMode(Phaser.BlendModes.ADD).setScale(0.18+Math.random()*0.22).setAlpha(0); V.dots.push(d);
       sc.tweens.add({targets:d,x:cx,y:cy,alpha:{from:0.9,to:0},scale:0.05,duration:850+Math.random()*350,ease:'Quad.easeIn',onComplete:function(){ var k=V.dots.indexOf(d); if(k>=0)V.dots.splice(k,1); d.destroy(); }}); } },
   // Godsbane tears the light off him
-  force:function(sc){ var hit=false; ZGP.bosses(sc).forEach(function(m){ var g=m._gp||(m._gp={t:0,force:0}); g.force=ZGP.FORCE; m._grimShine=false; hit=true; }); if(hit)showNotif('✦ Godsbane tears the light from Grímnir — he is black and open!','#fff2b0'); return hit; }
+  force:function(sc){ var hit=false; ZGP.bosses(sc).forEach(function(m){ var g=m._gp||(m._gp={t:0,force:0}); g.force=ZGP.FORCE; m._grimShine=false; hit=true; }); if(hit)showNotif('✦ Godsbane tears the light from Solmyrk — he is black and open!','#fff2b0'); return hit; }
 };
 setTimeout(function(){
   // shielded while radiant: the hero's hits (every one goes through ZHit.dmg) do nothing

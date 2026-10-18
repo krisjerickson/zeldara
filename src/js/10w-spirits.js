@@ -78,7 +78,7 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
   _drawSpirit:function(free){ var cv=null; return function(x,t){ if(!cv){ cv=mkCanvas(40,60); var tmp={textures:{exists:function(){ return false; },addCanvas:function(k,c){ cv=c; return {setFilter:function(){}}; }}}; ZSPIRIT._spiritTex(tmp,free?'free':'toil'); } x.drawImage(cv,24,6+Math.sin(t*0.4)*2,48,72); }; },
   // ── per tick (world) ──
   tick:function(){ try{ if(!ZSPIRIT.on||typeof game==='undefined'||!game.scene)return; var ws=game.scene.getScene('World'); if(!ws||!ws.wd||!ws.player||!ws.playerState||!ws.sys.isActive())return; ZSPIRIT._ws=ws;
-      var ps=ws.playerState; if(!ps.spiritsFreed)ps.spiritsFreed=[]; var S=ZSPIRIT.shrines(ws), px=ws.player.x, py=ws.player.y;
+      var ps=ws.playerState; if(!ps.spiritsFreed)ps.spiritsFreed=[]; var S=ZSPIRIT.shrines(ws), px=ws.player.x, py=ws.player.y; ZSPIRIT.shards(ws,ps,S);
       S.forEach(function(s){ var d=Math.hypot(px-s.x,py-s.y), V=s._v, fr=ZSPIRIT.freed(ps,s.id);
         if(d<1200&&!V){ V=s._v={}; V.stone=ZSPIRIT._stoneImg(ws,s.x,s.y+10,fr,s); if(!fr){ V.sp=ZSPIRIT._spiritSprite(ws,s.x+34,s.y+16,'toil',WR_DEPTH(s.y+16),s); V.tw=ws.tweens.add({targets:V.sp,y:V.sp.y-2,duration:520,yoyo:true,repeat:-1,ease:'Sine.inOut'});
             var Zg=typeof _scn==='function'?_scn():null, gk=null;      // round 59 (Kris): ONE spirit at each bindstone — the chain-gang and haul groups belong in the forges and Muspelheim      // round 54c: Kris's picked bound groups (Chain gang, The great haul) at two stones in three; the loop (wave 56) when painted
@@ -90,6 +90,10 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
         // the Binder rises when you come near a bound spirit (and goes back to his post if you leave)
         if(!fr&&!s.mon&&!s._won&&d<420&&(ps.unlockedSections||[1]).indexOf(s.q)>=0)ZSPIRIT._binder(ws,s);
         if(s.mon&&!s.mon.dead&&d>1600){ ZSPIRIT._drop(ws,s.mon); s.mon=null; }
+        // round 64 (Kris, freeing Orm: "the monsters to complete the battle seem to have run away. make sure that all monsters that are part of
+        // liberating a spirit are drawn back to the rune with the spirit when they aren't engaged with you in battle"): the Binder (and whatever
+        // he called up) drifts back to the bindstone whenever it is not fighting you; one that strayed far is pulled back at once
+        if(s.mon&&!s.mon.dead)ZSPIRIT.leash(ws,s,px,py);
         if(s.mon&&s.mon.dead&&!fr){ s._won=true; s.mon=null; ZSPIRIT.free(ws,s); } });
       ZSPIRIT.green(ws); ZSPIRIT.glimmer(ws); }catch(e){ if(!ZSPIRIT._err){ ZSPIRIT._err=1; console.warn('spirits',e); } } },
   _binder:function(ws,s){ var pool=MON_ROSTER.filter(function(R){ return R.q===s.q&&R.seg==='main'&&MX.kit(R.id)&&!MON_LEGACY[R.id]; }); if(!pool.length)return;
@@ -98,8 +102,24 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
     var m=MX.spawn(ws,R.id,x,y,{q:s.q,hpMult:6.4,scale:1.25,temp:true,name:s.binder+' the Binder'}); if(!m)return; m.monAtk=Math.round(m.monAtk*1.3); m.def.atk=Math.round(m.def.atk*1.3); m.section=s.q; m._binder=s.id; m._noLoot=false; if(m._m)m._m.aggro=true; ws.worldMonsters.push(m); s.mon=m;
     if(!s._seen){ s._seen=true; showNotif('⛓ '+s.binder+' the Binder holds '+s.spirit+'\'s spirit at the bindstone of '+s.zname+'!','#9fe8ff'); }
     try{ var r=ws.add.circle(x,y,8,0x6fe3f5,0.5).setDepth(WR_DEPTH(y)); if(typeof ZFX!=='undefined')ZFX.dress(r,'fx_crack_ring'); ws.tweens.add({targets:r,radius:60,alpha:0,duration:500,onComplete:function(){ r.destroy(); }}); }catch(e){} },
+  LEASH:{r:200,far:640,spd:42,eng:3500},
+  leash:function(ws,s,px,py){ var now=Date.now(), L=ZSPIRIT.LEASH, mons=(ws.worldMonsters||[]).filter(function(m){ return m&&!m.dead&&(m===s.mon||m._binder===s.id||(m._summoner&&m._summoner===s.mon)); });
+    mons.forEach(function(m){ if(m!==s.mon&&!m._binder)m._binder=s.id; var dm=Math.hypot(m.x-s.x,m.y-s.y); if(dm<=L.r)return;
+      var eng=m._engT&&now-m._engT<L.eng, near=Math.hypot(px-m.x,py-m.y)<300; if(eng&&near)return;
+      var nx, ny; if(dm>L.far){ var a=Math.atan2(py-s.y,px-s.x)+((m===s.mon)?0:(Math.random()-0.5)); nx=s.x+Math.cos(a)*90; ny=s.y+Math.sin(a)*90;
+          try{ var r=ws.add.circle(nx,ny,8,0x6fe3f5,0.5).setDepth(WR_DEPTH(ny)); if(typeof ZFX!=='undefined')ZFX.dress(r,'fx_crack_ring'); ws.tweens.add({targets:r,radius:50,alpha:0,duration:450,onComplete:function(){ r.destroy(); }}); }catch(e){} }
+      else { var k=Math.min(1,L.spd/dm); nx=m.x+(s.x-m.x)*k; ny=m.y+(s.y-m.y)*k; }
+      m.x=nx; m.y=ny; if(m.cont&&m.cont.setPosition)m.cont.setPosition(nx,ny); if(m._m){ m._m.aggro=false; } }); },
   _drop:function(ws,m){ m.dead=true; m.temp=true; if(m.cont&&m.cont.destroy)m.cont.destroy(); var i=ws.worldMonsters.indexOf(m); if(i>=0)ws.worldMonsters.splice(i,1); },
-  free:function(ws,s){ var ps=ws.playerState; if(ZSPIRIT.freed(ps,s.id))return; ps.spiritsFreed.push(s.id); var item='soulglass_'+s.q; ps.inventory.push(item);
+  // round 64d (Kris: "i ended up with 22 ashland shards instead of shards from all of the different regions … making sure that each spirit you
+  // liberate gives you a shard from their representative region"): every freed spirit pays out ONE shard of its own realm, once, however it was
+  // freed (its bindstone, or the sandbox's buttons — the sandbox's "Green" used to free spirits without their shards). ps.shardsGiven keeps who
+  // has paid; an older save counts every spirit it has already freed as paid.
+  paid:function(ps){ if(!ps.shardsGiven)ps.shardsGiven=(ps.spiritsFreed||[]).slice(); return ps.shardsGiven; },
+  shards:function(ws,ps,S){ var G=ZSPIRIT.paid(ps), L=ps.spiritsFreed||[]; if(G.length>=L.length&&ps._shardN===L.length)return; ps._shardN=L.length; var got=[];
+    L.forEach(function(id){ if(G.indexOf(id)>=0)return; var s=(S||[]).find(function(x){ return x.id===id; }); if(!s)return; G.push(id); (ps.inventory=ps.inventory||[]).push('soulglass_'+s.q); got.push(s.q); });
+    if(got.length&&ws&&ws._emitUI)ws._emitUI(); return got; },
+  free:function(ws,s){ var ps=ws.playerState; if(ZSPIRIT.freed(ps,s.id))return; ZSPIRIT.paid(ps); ps.spiritsFreed.push(s.id); var item='soulglass_'+s.q; ps.inventory.push(item); ps.shardsGiven.push(s.id);
     var n=ZSPIRIT.count(ps,s.q), V=s._v;
     if(V){ if(V.lbl)V.lbl.destroy(); V.lbl=null; if(V.gang){ var gg=V.gang; V.gang=null; ws.tweens.add({targets:gg,alpha:0,duration:1200,onComplete:function(){ gg.destroy(); }}); } if(V.stone)V.stone.destroy(); V.stone=ZSPIRIT._stoneImg(ws,s.x,s.y+10,true,s);
       if(V.sp){ if(V.tw)V.tw.stop(); var ox=V.sp.x, oy=V.sp.y; V.sp.destroy(); var f=ZSPIRIT._spiritSprite(ws,ox,oy,'free',WR_DEPTH(oy),s); V.sp=f; f.setAlpha(0.95);

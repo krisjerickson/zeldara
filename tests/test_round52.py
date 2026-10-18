@@ -36,7 +36,7 @@ with game(new=True, painted=True) as g:
       return {freed:ZSPIRIT.freed(ps,id), shards:ps.inventory.filter(function(i){ return i==='soulglass_1'; }).length-n0, txt:txt.slice(0,140), freeVis:!!(s._v&&s._v.sp)}; })""", sid)
     check('Beat the Binder: the spirit is freed, thanks you ("%s…") and gives a Grasslands shard' % r['txt'][:60], r['freed'] and r['shards'] == 1 and 'chains' in r['txt'], r)
     # ── the Green ──
-    r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ZSPIRIT.shrines(ws).filter(function(s){ return s.q===1; }).slice(1,6).forEach(function(s){ ps.spiritsFreed.push(s.id); ps.inventory.push('soulglass_1'); });
+    r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ZSPIRIT.shrines(ws).filter(function(s){ return s.q===1; }).slice(1,6).forEach(function(s){ ps.spiritsFreed.push(s.id); ZSPIRIT.paid(ps).push(s.id); ps.inventory.push('soulglass_1'); });      /* round 64d: a freed spirit pays its shard once (shardsGiven) */
       ps.inventory.push('soulglass_2','soulglass_2','soulglass_2','soulglass_2','soulglass_2','soulglass_2');
       ws.player.x=CENTER_X*TILE+16; ws.player.y=(CENTER_Y+6)*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); await new Promise(function(r){ setTimeout(r,2500); });
       return {freed:ps.spiritsFreed.length, green:(function(S){ return S?Object.keys(S.sp).filter(function(k){ var o=S.sp[k].o; return o&&o.active; }).length:0; })(ws._zg)}; })()""")

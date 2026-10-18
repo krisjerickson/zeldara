@@ -202,6 +202,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 64e (Oct 18, late) — Asgard (Kris heading to sleep: "ask me any questions you need to")
+- What fills the city? **Answered: "A living city"** — gold-roofed longhouses, mead halls, a market square, smithies, stables, gardens, statues of the gods, fountains, towers, matching the Asgard paintings (drawn stand-ins until painted).
+- Golden roads? **Answered: "From every gate"** — a golden road from each gate (and the Bifröst landing) to the rune circle at the centre, a glowing marker over the centre.
+- Citadel floor 3, stuck on the left: **Answered: "Didn't know to cut"** the thread → make the thread and its job obvious (rules pop-up per hall, the thread glows and says so).
+- Which moments become pop-ups? **Answered: "Every instruction"** — every Asgard instruction or important event, with pictures; small notices only for minor things.
+
 ### Round 64b (Oct 18) — Solmyrk's paintings (Kris away for a few hours: "ask me any questions you have")
 - Painting order: each picked form is painted first (wave 66, radiant + black side by side) for your OK, then his sprite sheets go out with those paintings as the reference — as Surtharn's did. Or straight to the sprite sheets?
   - **Answered: "just go straight into the sprite sheet"** → wave 66 dropped; sprite wave 7.95.
@@ -773,4 +779,15 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - **Round 64b (Kris, Oct 18):** "picks are in for the phases of grimnir, now renamed to solmyrk. will be out for few hours, ask me any questions you have". Lab picks: form 1 D the Allfather's Mask ("this one is right, but the crown spikes are a little to tall"), form 2 E the Cracked Mask, form 3 E the Storm That Ends the World; the line-up "looks right"; the name Solmyrk, the Black Sun. → Built: picks baked, crown lowered, the boss renamed in every line the player sees (code names stay `grimnir`); wave 66 cut down to one painting per picked form (radiant + black). Questions under Open questions › Round 64b. Changelog [597]–[598].
 - **Round 64c (Kris's answers):** straight to the sprite sheets; he is corrupted Odin; front, side and back. → Ordered: sprite wave 7.95, 9 sheets (each form: side, front + back, the rest of his moves), painted radiant (the game makes him black), floating, form 1's first sheet the reference for forms 2 and 3. Changelog [599].
 - **Next:** Kris runs `tools\sprites\round64.ps1`; then intake, atlas, and Solmyrk's painted forms wired into the fight (the pulse tints the painted sheets).
+
+## Round 64d (Kris, Oct 18) — Solmyrk painted; fixes from play
+- Kris (while playing, one after another): spells — no auto-focus after all, but line of sight; familiars attack as soon as you engage, everywhere; the Rift Tower sky (stars and aurora, shooting stars, no galaxies or moving constellations); Xal'zor's mix of painted and pixel attacks and pixel summons → audit all attacks and summons, order art; the Ashlands camp cauldron → audit camps and overworld images; world map Fit cut off; meat pixel; Orm's monsters ran off; small runes pixel; burning ground on the lava unicorn / flying mounts; forges walkable; the Ember Forge needs a rules pop-up, Brokkr's anvil broken and monsters attack during it (check all volcano challenges); monsters and bosses don't block you; lost behind a boss; bosses at the top of the screen under the bars; the hearths need a pop-up with painted items and progress; 22 Ashland shards; the village map in the Grasslands forge; buttons that leave the game; the escape from Muspelheim too easy with roll — rocks should make temporary barriers.
+- Done as asked (changelog [600]–[624]); assumptions made while Kris was busy: rules pop-ups show on entering each forge, its hearth hall and each Muspelheim hall, with "don't show again" and a "? Rules" button; rubble lasts 4½ s and two blows smash it; a roll still passes monsters (a dodge) but not rubble; in boss fights the view leans toward the boss and eases out to about ¾ when needed; links open in a new tab during play.
+- The "circle with a plus" was the drawn monster shot (orb/bolt in a red warning ring); painted shots ordered (wave 67) and wired to replace the drawn ones as they arrive.
+- **Next:** Kris runs `tools\sprites\round65.ps1` (wave 67: painted shots, collapse rubble); then intake and wiring.
+
+## Round 64e (Kris, late Oct 18) — Asgard played through
+- Kris: sandbox buttons for the Lodestar and the Heartglasses; Godsbane strong against all of Asgard's monsters; fill Asgard with buildings, golden roads to a clear centre; Asgard's instructions as click-away pop-ups with pictures; no flying whales; citadel floor 3: endless spawns, stuck on the left (couldn't cross). Questions asked before he slept, answered: a living city; roads from every gate; he didn't know to cut the thread; pop-ups for every instruction (Open questions, Round 64e).
+- Done: changelog [625]–[633].
+- **Next:** Kris runs `tools\sprites\round65.ps1` (waves 67 and 68); then intake and wiring (the city's painted buildings replace the drawn ones by id). Still open from the audit: the remaining drawn attack visuals (beam lines, tethers, lob arcs, familiar rings) to be checked boss by boss — the mage masters' audit found only warning lines and shots.
 

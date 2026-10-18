@@ -28,7 +28,7 @@ var ZFX={ on:true,
     if(b>r+40&&b>=g-10)return 'fx_ring_ice'; if(g>r+30&&g>b)return 'fx_ring_heal'; if(r>150&&b<120)return 'fx_shockwave'; if(b>r&&r>g)return 'fx_burst_shadow'; return 'fx_shockwave'; } };
 // ── the monsters' side (09-monster-engine): warnings, rings, ground patches, breath, beams, gusts ──
 (function(){ if(typeof MX==='undefined'||!MX.tele)return; var T=MX.tele;
-  var l0=T.line; T.line=function(A,x,y,a,len,col,t){ var g=l0.apply(T,arguments); try{ var im=ZFX.put(A.scene,'fx_tele_line',x,y,len,Math.max(18,len*0.09),{ox:0,oy:0.5,rot:a,depth:g.depth,owner:g,a:0.85}); if(im)g.setAlpha(0.35); }catch(e){} return g; };
+  var l0=T.line; T.line=function(A,x,y,a,len,col,t){ var g=l0.apply(T,arguments); try{ var im=ZFX.put(A.scene,'fx_tele_line',x,y,len,Math.max(18,len*0.09),{ox:0,oy:0.5,rot:a,depth:g.depth,owner:g,a:0.85}); if(im)g.setVisible(false); }catch(e){} return g; };      /* round 64d: the painted warning alone, no drawn line under it */
   var c0=T.circle; T.circle=function(A,x,y,r,col,t){ var g=c0.apply(T,arguments); try{ var im=ZFX.put(A.scene,'fx_tele_circle',x,y,2*r,2*r,{depth:g.depth,owner:g,a:0.8}); if(im)g.setVisible(false); }catch(e){} return g; };
   // a wedge: the painted warning circle, cut to the wedge's shape
   var k0=T.cone; T.cone=function(A,x,y,a,len,half,col,t){ var g=k0.apply(T,arguments); try{ var im=ZFX.put(A.scene,'fx_tele_circle',x,y,2*len,2*len,{depth:g.depth,owner:g,a:0.85,rot:a}); if(im&&g.createGeometryMask){ im.setMask(g.createGeometryMask()); g.setAlpha(0.01); } }catch(e){} return g; };

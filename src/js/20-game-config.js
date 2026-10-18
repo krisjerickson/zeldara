@@ -25,6 +25,6 @@ game.events.once(Phaser.Core.Events.READY,function(){
     var o=document.createElement('div'); o.id='gl-reset'; o.textContent='✨ Refreshing graphics…';
     o.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#070b16;color:#bff6ff;font:600 20px Segoe UI,system-ui,sans-serif;z-index:9999';
     document.body.appendChild(o);
-    setTimeout(function(){ location.reload(); },700);
+    setTimeout(function(){ if(typeof ZLEAVE!=="undefined")ZLEAVE._reloading=true; location.reload(); },700);
   },false);
 });

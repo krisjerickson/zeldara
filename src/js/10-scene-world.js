@@ -968,8 +968,11 @@ class WorldScene extends Phaser.Scene{
     }
   }
   _spawnMeatPickup(x,y){
-    var glow=this.add.circle(x,y,16,0xff8800,0.45).setDepth(11);
-    var label=this.add.text(x,y,'🍖',{fontSize:'20px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(12);
+    // round 64 (Kris: "meat from killed animals is old pixel art"): the painted roast meat on a soft glow
+    var lk=typeof _campLootTex==='function'?_campLootTex(this,'roast_meat'):null, painted=lk&&lk.indexOf('lootz_')===0;
+    if(!this.textures.exists('glow')&&typeof CHX!=='undefined')CHX.glow(this);
+    var glow=painted&&this.textures.exists('glow')?this.add.image(x,y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xffa040).setAlpha(0.5).setDepth(11):this.add.circle(x,y,16,0xff8800,0.45).setDepth(11);
+    var label=painted?this.add.image(x,y,lk).setScale(0.7).setDepth(12):this.add.text(x,y,'🍖',{fontSize:'20px',fontFamily:'serif'}).setOrigin(.5,.5).setDepth(12);
     this.tweens.add({targets:label,y:y-8,duration:600,ease:'Sine.out'});
     this._meatPickups.push({x:x,y:y,glow:glow,label:label,life:30});
     showNotif('🍖 Roast Meat dropped! [Tab] to collect','#ffcc44');
@@ -1961,12 +1964,13 @@ class WorldScene extends Phaser.Scene{
     } else if(spDef.delay&&spDef.aoe){
       // Meteor / Starfall: impacts ahead in the aim direction after a short delay
       var nImp=spDef.n||1;
-      for(var ii=0;ii<nImp;ii++)(function(ii){ var tx2=px+nx*200+(nImp>1?(Math.random()-0.5)*150:0), ty2=py+ny*200+(nImp>1?(Math.random()-0.5)*120:0);
-        var ind=self.add.circle(tx2,ty2,spDef.aoe.r,spDef.aoe.col,0.22).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(ind,'fx_meteor_mark',{a:0.85});
+      for(var ii=0;ii<nImp;ii++)(function(ii){ var s={x:px+nx*200+(nImp>1?(Math.random()-0.5)*150:0),y:py+ny*200+(nImp>1?(Math.random()-0.5)*120:0)}, ms=(spDef.delay+ii*0.18)*1000;
+        if(typeof ZSEEK!=='undefined'&&ZSEEK.sight)s=ZSEEK.sight(self,px,py,s.x,s.y);      // round 64: only where you can see — a wall pulls the spot back
+        var ind=self.add.circle(s.x,s.y,spDef.aoe.r,spDef.aoe.col,0.22).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(ind,'fx_meteor_mark',{a:0.85});
         self.tweens.add({targets:ind,alpha:0.5,duration:400,yoyo:true});
-        self.time.delayedCall((spDef.delay+ii*0.18)*1000,function(){
+        self.time.delayedCall(ms,function(){
           ind.destroy();
-          self._spellNovaEffect(tx2,ty2,spDef.aoe.r,spDef.aoe.col,atkPow*(nImp>1?1:1.5),'fire',id);
+          self._spellNovaEffect(s.x,s.y,spDef.aoe.r,spDef.aoe.col,atkPow*(nImp>1?1:1.5),'fire',id);
           self.cameras.main.shake(nImp>1?90:200,nImp>1?0.006:0.012);
         }); })(ii);
     } else if(id==='thunder_step'){
@@ -1979,6 +1983,7 @@ class WorldScene extends Phaser.Scene{
     } else if(spDef.cloud){
       // Lingering cloud: Poison Mist on you, Blizzard where you aim
       var clx=spDef.cloud.at==='aim'?px+nx*160:px, cly=spDef.cloud.at==='aim'?py+ny*160:py;
+      if(spDef.cloud.at==='aim'&&typeof ZSEEK!=='undefined'&&ZSEEK.sight){ var _cs=ZSEEK.sight(self,px,py,clx,cly); clx=_cs.x; cly=_cs.y; }      // round 64: only where you can see
       var cloud=self.add.circle(clx,cly,spDef.cloud.r,spDef.cloud.col,0.35).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(cloud,spDef.cloud.st==='slow'?'fx_zone_frost':'fx_zone_poison');
       self._spellClouds.push({vis:cloud,x:clx,y:cly,r:spDef.cloud.r,life:spDef.cloud.dur,st:spDef.cloud.st,spellId:id,
         dps:Math.max(spDef.poisonDps||4,spDef.cloud.st?atkPow*0.3:0),dmgTick:0,dmgInterval:0.5,atk:atkPow});
