@@ -170,6 +170,8 @@ See docs/08 → Open questions → Round 67.
 
 ### 10.1 The elders and the twin at home
 
+(Round 68: in the game — the twin by the Home, `src/js/10zt-twin.js`; the elder is the game's **Elder Runa**, who already stands on the Green, so "Halla" below is Runa.)
+
 | When | Who | Line |
 |---|---|---|
 | Opening | Elder Halla | "Twenty winters, and not one cradle. Then the storm — and the lake brought you two." |

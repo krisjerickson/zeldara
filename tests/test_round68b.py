@@ -49,6 +49,8 @@ with game(new=True, painted=True) as g:
       ps.sagaSeen=[]; o.first=ZSAGA.play(ps,'realm4'); o.open=ZCUT.isOpen(); o.again=ZSAGA.play(ps,'realm4'); var el=document.getElementById('zcut'); if(el)el.remove();
       var q4=ZSPIRIT.shrines(ws).filter(function(s){ return s.q===4; }); ps.spiritsFreed=q4.map(function(s){ return s.id; }); ps.sagaSeen=[]; var called=null, p0=ZSAGA.play; ZSAGA.play=function(ps,k){ called=k; return true; };
       ZSAGA.afterTrace(ws,q4[0]); return new Promise(function(r){ setTimeout(function(){ o.realm=called; ZSAGA.play=p0; ZCUT.painted=pt; ZCUT.on=false; r(o); },1200); }); })()""")
+    t = g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, T=ws._twin; return {on:!!(T&&T.im.scene), name:T&&T.npc.n, ch:T&&T.ch, hero:ps.hero, npc:(ws._villageNPCs||[]).some(function(n){ return n.id==='vf_twin'; }), line:ZTWIN.line({spiritsFreed:new Array(21).fill('x')}), line0:ZTWIN.line({spiritsFreed:[]})}; })()")
+    check('The other twin stays in the village, by the Home, and talks of how far you have come (%s, %s)' % (t['name'], t['ch']), t['on'] and t['npc'] and t['ch'] == ('hero_m' if t['hero'] == 'f' else 'hero_f') and t['name'] in ('Zeldara', 'Zeldor') and 'map' in t['line'] and 'village' in t['line0'], t)
     check('The saga panels play once each, only when painted: the Ashlands\' tenth spirit tells the Ash Night (%s)' % z, (not z['notYet']) and z['first'] and z['open'] and not z['again'] and z['realm'] == 'realm4', z)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No game script errors', not errs, errs[:4])
