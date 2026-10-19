@@ -182,6 +182,7 @@ function _wmDrawView(ctx,cw,ch,ws,v,o){
   var rt=realms?_wmRealmTint(wd):null; if(realms){ if(rt){ ctx.globalAlpha=0.42; ctx.drawImage(rt,v.x/4,v.y/4,v.w/4,v.h/4,0,0,cw,ch); ctx.globalAlpha=1; } }      // round 45: the realm view
   ctx.drawImage(_wmFog(ps,ws._expVer||0),v.x/EXP_SCALE,v.y/EXP_SCALE,v.w/EXP_SCALE,v.h/EXP_SCALE,0,0,cw,ch);
   if(realms&&rt){ ctx.globalAlpha=0.16; ctx.drawImage(rt,v.x/4,v.y/4,v.w/4,v.h/4,0,0,cw,ch); ctx.globalAlpha=1; }      // faintly, under the fog too: where each realm lies
+  if(typeof ZSLW!=='undefined')try{ ZSLW.drawMap(ctx,v,sc,ws,o); }catch(e){}      // round 68: the soul-lines (doc 30)
   var inV=function(tx,ty,m){ m=m||4; return tx>=v.x-m&&ty>=v.y-m&&tx<=v.x+v.w+m&&ty<=v.y+v.h+m; };
   var lbl=function(txt,x,y,col,size,weight){ ctx.font=(weight||600)+' '+size+'px "Segoe UI",sans-serif'; ctx.lineWidth=Math.max(2,size/4); ctx.strokeStyle='rgba(0,0,0,.85)'; ctx.strokeText(txt,x,y); ctx.fillStyle=col; ctx.fillText(txt,x,y); };
   ctx.textAlign='center'; ctx.textBaseline='middle';

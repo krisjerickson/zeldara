@@ -250,6 +250,7 @@ function _wpField(D,stage,r0,r1){
 var _WPW={w:null,tried:false,seq:0,cb:{},kt:null,pool:[],owner:{}};
 // Round 40: a small pool of workers (up to three, one core left free) — the new terrain edges paint a finer field, so chunks are painted side by side.
 // _wpWorker() hands out the least busy one; _WPW.w stays the first (tests read it to see that workers run).
+var WP_QMAX=2;      // round 68: fields queued per worker at most (see wpChunkJob)
 function _wpWorker(){
   if(_WPW.tried){ var L=_WPW.pool; if(!L.length)return null; var best=L[0]; for(var q=1;q<L.length;q++)if(L[q]._busy<best._busy)best=L[q]; return best; }
   _WPW.tried=true;
@@ -291,7 +292,11 @@ function wpChunkJob(wd,cx,cy){
     while(performance.now()-t0<budget){
       if(phase===0){ // 1–2. the field: in the worker if we can, else in slices here
         var wk=_wpWorker();
-        if(wk){ if(!waiting){ waiting=true; var id=++_WPW.seq; if(wk._kt!==KT){ wk.postMessage({kt:KT}); wk._kt=KT; _WPW.kt=KT; } wk._busy++; _WPW.owner[id]=wk;
+        // round 68 (Kris: "the screen goes black except for some building labels…"): never queue more than WP_QMAX fields per worker. A worker
+        // answers in order, so after a waystone jump or a fast ride a long queue of chunks no longer needed sat in front of the ones on
+        // screen and the ground stayed black for many seconds; now a job waits here instead, and the chunks on screen are asked first.
+        if(wk){ if(!waiting&&wk._busy>=WP_QMAX)return false;
+          if(!waiting){ waiting=true; var id=++_WPW.seq; if(wk._kt!==KT){ wk.postMessage({kt:KT}); wk._kt=KT; _WPW.kt=KT; } wk._busy++; _WPW.owner[id]=wk;
             _WPW.cb[id]=function(res){ waiting=false; if(!res){ phase=0.5; row=0; D.KT=KT; D.dist=new Uint8Array(SW*SW); D.ek=new Uint16Array(SW*SW); return; } D.kb=res.kb; D.px=res.px; D.dist=res.dist; D.ek=res.ek; _WPW.ms=res.ms; var tf=performance.now(); finishField(); _WPW.finMs=performance.now()-tf; };
             D.id=id; var msg={}; for(var k0 in D)if(k0!=='KT'&&k0!=='N'&&k0!=='cells')msg[k0]=D[k0]; wk.postMessage(msg,[msg.kb.buffer,msg.px.buffer,msg.dist.buffer,msg.ek.buffer]); }
           return false; }

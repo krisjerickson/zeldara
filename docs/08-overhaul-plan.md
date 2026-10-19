@@ -879,3 +879,9 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Then Kris picked the rune vein + mote stitch (combined: the vein with a wave of motes, now first in the Lab tab) and made the rings round each runestone the outlines of end-game hamlets (Open questions → Round 68); changelog [669]–[670].
 - Kris: "do you have the command ready for new requests? please proceed" → round C ordered: scenery wave 74 (`tools/sprites/round70.ps1`, 3 sheets: rune stamps, joins and motes, the runestone ring); changelog [671]. The hamlets' craft buildings (20 trades, each spirit's trade twice across the realms) are left for a later wave, once the soul-lines are in the game.
 - **Next:** the sheets come in → shown in the Lab's Soul-lines up close tab; then round D (the reveal, the map page, the green paths), then soul-lines in the game.
+
+## Round 68 sprint (Kris, Oct 19) — soul-lines in the game, the black screen, the saga panels
+- Kris: "proceed! new requests are in. also take on as much as possible in this next sprint as i'll be out for a bit. give me questions and any new sprite requests you have in next 5 minutes. also continue to give me the git push command".
+- Asked first (Open questions → Round 68: H1, P1, G1, G2); ordered wave 75 (hamlets) and wave 76 (11 saga panels) — `tools/sprites/round71.ps1`.
+- Done: wave 74 in (the soul-line pieces); the soul-lines in the game with the trace, motes, map page, ghosts, green paths and hamlets; the black screen's likely cause fixed (the worker queue) plus the land drawn under unpainted chunks; the saga panels wired (play once painted); the forty memories; Lab → Soul-lines in the game; changelog [672]–[680].
+- **Next:** Kris ☆ a runestone ring (Lab → Soul-lines in the game) and looks at the reveal in the game; wave 75/76 in → the hamlets and panels go in; the elders', builders' and fairies' story lines after Kris reviews doc 30 §10.
