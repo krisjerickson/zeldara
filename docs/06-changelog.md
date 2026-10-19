@@ -1079,3 +1079,9 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[654] One notification per message** (Kris: "limit to one each of these, but they can pulse if you keep pressing buttons"): the same message (numbers aside) never stacks; the one showing takes the new words, stays up and pulses.
 - **[655] The outline behind a boss** (Kris: "the outline shows up elsewhere on the screen, and you still can't see yourself behind the boss"): behind a monster or boss the hero's whole outline shows with a see-through hero inside it, drawn above the boss — no mask to line up with a moving boss.
 - **[656] Tests**: `tests/test_round66.py` (11 checks); test_round64/65 follow the picked Solmyrk and the painted panels.
+
+## Round 66b (Kris, Oct 19) — round 69's sheets in; the spirits leave the Green
+- **[657] The hero with the Lodestar, painted** (8 sheets): spells with the Lodestar, Godsbane in front/side/back, raising it to the sky, setting it in the notch — boy and girl (atlas heroes-0/1).
+- **[658] Asgard's roads painted**: the gold-inlaid flagstones, the rune-engraved gold kerb, the mosaic ring and four rune medallions (Sowilo, Raidho, Dagaz, the world-tree) replace the stand-ins; the paving is laid a little finer (96 px tiles); medallions are cut whole from their page.
+- **[659] The spirits go home for good** (Kris: "after the spirits are released to heaven, they should no longer be at the village center"): once the ending has played, the Runestone Green is empty of spirits.
+- **[660] Tests**: `tests/test_round66b.py` (5 checks).

@@ -830,3 +830,7 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris: the golden road "looks too simple and weird" (cards: gold-inlaid flagstones, rune medallions, straight into the game); the staff pose when casting; sheets for Godsbane and the Lodestar; Godsbane across the screen; one notification each, pulsing; the outline behind bosses in the wrong place; Solmyrk's sheets in.
 - Done: changelog [649]–[656]; round69.ps1 orders scenery wave 73 and the 8 Lodestar hero sheets.
 - **Next:** when round69 is in — the painted road textures and medallions take over from the stand-ins; the hero's Lodestar poses replace the staff frames.
+
+## Round 66b (Kris, Oct 19) — round 69's sheets in; the spirits leave the Green
+- Kris: "looks great, and new sheet requests are in"; "after the spirits are released to heaven, they should no longer be at the village center".
+- Done: changelog [657]–[660].

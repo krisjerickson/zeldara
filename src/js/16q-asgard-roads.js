@@ -9,7 +9,7 @@
 // ║  · How it is drawn: the paving is laid as tiles inside a container masked by the road's shape (one mask per layer, so it stays cheap),
 // ║    over a darker gold edge line; nothing is stair-stepped on the diagonals.
 // ═══════════════════════════════════════════════════════════════════════
-var ZROAD={ on:true, CELL:128, MED:6, RIM:9,
+var ZROAD={ on:true, CELL:96, MED:6, RIM:9,
   // the smooth centre line of a road (the same smoothing the bands used)
   smooth:function(path){ var pts=path.map(function(c){ return {x:c[0]*TILE+16,y:c[1]*TILE+16}; }), out=[];
     for(var i=0;i<pts.length;i+=2){ var sx=0, sy=0, n=0; for(var j=Math.max(0,i-4);j<=Math.min(pts.length-1,i+4);j++){ sx+=pts[j].x; sy+=pts[j].y; n++; } out.push({x:sx/n,y:sy/n}); } if(pts.length)out.push(pts[pts.length-1]); return out; },
@@ -38,6 +38,9 @@ var ZROAD={ on:true, CELL:128, MED:6, RIM:9,
       x.strokeStyle='#d4a032'; x.lineWidth=4; x.lineCap='round'; x.beginPath(); var t=i%4; if(t===0){ x.moveTo(54,32); x.lineTo(40,46); x.lineTo(56,52); x.lineTo(42,66); } else if(t===1){ x.moveTo(42,30); x.lineTo(42,66); x.moveTo(42,32); x.lineTo(56,40); x.lineTo(42,48); x.lineTo(56,66); }
       else if(t===2){ x.moveTo(34,34); x.lineTo(34,62); x.lineTo(62,34); x.lineTo(62,62); x.lineTo(34,34); } else { x.moveTo(48,64); x.lineTo(48,34); x.moveTo(48,44); x.lineTo(38,34); x.moveTo(48,44); x.lineTo(58,34); x.moveTo(48,54); x.lineTo(36,46); x.moveTo(48,54); x.lineTo(60,46); } x.stroke();
       ws.textures.addCanvas(key,c); } return {key:key}; },
+  // a painted flat piece cut whole from its scenery page (the scenery helper anchors pictures at the foot)
+  cut:function(ws,id){ var key='zr_cut_'+id; if(ws.textures.exists(key))return key; var it=typeof ZScn!=='undefined'&&ZScn.META&&ZScn.META.items&&ZScn.META.items[id], pg=it&&ZScn.img&&ZScn.img[it[0]]; if(!pg||!pg.width)return null;
+    var c=document.createElement('canvas'); c.width=it[3]; c.height=it[4]; c.getContext('2d').drawImage(pg,it[1],it[2],it[3],it[4],0,0,it[3],it[4]); ws.textures.addCanvas(key,c); return key; },
   glowTex:function(ws){ var k='zr_glow'; if(ws.textures.exists(k))return k; var c=document.createElement('canvas'); c.width=c.height=64; var x=c.getContext('2d'), g=x.createRadialGradient(32,32,2,32,32,32);
     g.addColorStop(0,'rgba(255,250,220,1)'); g.addColorStop(0.35,'rgba(255,226,140,0.55)'); g.addColorStop(1,'rgba(255,220,120,0)'); x.fillStyle=g; x.fillRect(0,0,64,64); ws.textures.addCanvas(k,c); return k; },
   // one paving layer: tiles of a texture over every cell the shape touches, in a container masked by the shape
@@ -69,7 +72,7 @@ var ZROAD={ on:true, CELL:128, MED:6, RIM:9,
     paths.forEach(function(p){ var acc=TILE*2.2, idx=0, total=0; for(var i=1;i<p.length;i++)total+=Math.hypot(p[i].x-p[i-1].x,p[i].y-p[i-1].y);
       for(var j=1,run=0;j<p.length;j++){ var a=p[j-1], b=p[j], d=Math.hypot(b.x-a.x,b.y-a.y); while(acc<=run+d){ var u=(acc-run)/d, x=a.x+(b.x-a.x)*u, y=a.y+(b.y-a.y)*u;
           if(acc<total-TILE*2.5&&Math.hypot(x-H.x,y-H.y)>(ZCITY.RING+1.4)*TILE){ var M=ZROAD.medTex(ws,mi++), im=null;
-            if(M.id&&Z){ im=Z.image(ws,M.id,x,y,0.42,-3.58); if(im){ im.setOrigin(0.5,0.5); im.y=y; } } if(!im)im=ws.add.image(x,y,M.key).setDepth(-3.58).setDisplaySize(TILE*1.5,TILE*1.5*0.85);
+            if(M.id){ var mk=ZROAD.cut(ws,M.id); if(mk)im=ws.add.image(x,y,mk).setDepth(-3.58).setDisplaySize(TILE*1.55,TILE*1.55*0.86); } if(!im)im=ws.add.image(x,y,M.key).setDepth(-3.58).setDisplaySize(TILE*1.5,TILE*1.5*0.85);
             var gl=ws.add.image(x,y,gk).setDepth(-3.57).setBlendMode(Phaser.BlendModes.ADD).setDisplaySize(TILE*3.2,TILE*2.7).setAlpha(0.2); L.push(im); L.push(gl); meds.push({gl:gl,i:idx++}); }
           acc+=TILE*ZROAD.MED; } run+=d; } });
     ZROAD._layers=(ZROAD._layers||[]).filter(function(C){ return C.scene===ws; }); ZROAD.show(ws);

@@ -87,7 +87,7 @@ var ZGREEN={
     var keep=[]; out.forEach(function(p){ if(!keep.some(function(q){ return Math.hypot(q.x-p.x,q.y-p.y)<TILE*5; }))keep.push(p); }); return (ws.wd._gSpots=keep); },
   wander:function(ws,home){ var c=ZGREEN.center(), wd=ws.wd; for(var k=0;k<12;k++){ var a=home===undefined?Math.random()*Math.PI*2:home+(Math.random()-0.5)*1.4, r=TILE*(3.6+Math.random()*6.5), x=c.x+Math.cos(a)*r, y=c.y+Math.sin(a)*r*0.8, t=(wd.tiles[Math.floor(y/TILE)]||[])[Math.floor(x/TILE)]; if(t!==undefined&&canPassTile(t))return {x:x,y:y}; } return {x:c.x+TILE*4,y:c.y}; },
   tick:function(ws){ var ps=ws.playerState, c=ZGREEN.center(), near=Math.hypot(ws.player.x-c.x,ws.player.y-c.y)<1500, S=ws._zg||(ws._zg={sp:{},groups:[],next:0});
-    if(!near){ ZGREEN.clear(ws); return; }
+    if(!near||ps.spiritsHome){ ZGREEN.clear(ws); return; }      // round 66b (Kris: "after the spirits are released to heaven, they should no longer be at the village center")
     var freed=(ps.spiritsFreed||[]).slice(0,40), shr=ZSPIRIT.shrines(ws), now=Date.now()/1000;
     // each freed spirit, as itself
     freed.forEach(function(fid,i){ if(S.sp[fid])return; var s=shr.find(function(q){ return q.id===fid; }); if(!s)return; var home=i*2.39996, p=ZGREEN.wander(ws,home), id=ZSPIRIT.uniqueId(s,'free'), o=id?ZSPM.make(ws,id,p.x,p.y,'free',{depth:WR_DEPTH(p.y)}):null;
