@@ -873,4 +873,5 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris: "tattoo pick is in, lets proceed" — the pick is the **World-Tree** (no notes).
 - Done: Lab round B (Soul-lines up close tab: four line styles on the World-Tree at game scale, per realm, day/night, the trace with the pull-back); Solmyrk is an impostor in the game's texts; Pip and Wren hidden until the spirits go home; changelog [665]–[668].
 - Then Kris picked the rune vein + mote stitch (combined: the vein with a wave of motes, now first in the Lab tab) and made the rings round each runestone the outlines of end-game hamlets (Open questions → Round 68); changelog [669]–[670].
-- **Next:** Lab round C (order the painted pieces for that style) and round D (the reveal, the map page, the green paths), then soul-lines in the game.
+- Kris: "do you have the command ready for new requests? please proceed" → round C ordered: scenery wave 74 (`tools/sprites/round70.ps1`, 3 sheets: rune stamps, joins and motes, the runestone ring); changelog [671]. The hamlets' craft buildings (20 trades, each spirit's trade twice across the realms) are left for a later wave, once the soul-lines are in the game.
+- **Next:** the sheets come in → shown in the Lab's Soul-lines up close tab; then round D (the reveal, the map page, the green paths), then soul-lines in the game.

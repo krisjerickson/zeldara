@@ -124,6 +124,27 @@
       ['asr_med_b','Medallion — Raidho','a round medallion of polished gold set flush in white stone, a raised rim of tiny leaves, in the middle the journey rune ᚱ inlaid in white-gold, softly glowing',200,200],
       ['asr_med_c','Medallion — Dagaz','a round medallion of polished gold set flush in white stone, a raised rim of interlaced rings, in the middle the dawn rune ᛞ inlaid in white-gold, softly glowing',200,200],
       ['asr_med_d','Medallion — the world-tree','a round medallion of polished gold set flush in white stone, a raised rim of runes, in the middle a small white-gold world-tree, softly glowing',200,200]]}]);
+  // ═══ wave 74: the soul-lines painted (Lab round C, doc 30 §2) — Kris's picks: the World-Tree design, drawn as the rune vein with a wave of
+  //     light motes running along it (round 68); the ring round each runestone is also the outline of an end-game hamlet ═══
+  ZSCN.WAVES[74]='Round 68 — the soul-lines painted: rune stamps, knots, ends, motes and the runestone ring';
+  var SLV='a thin bright vein of calm rune-blue light (#6fe3f5, white-hot in its core) inlaid flush in the ground like a glowing crack, as on the freed bindstone in the reference';
+  var SLR=function(id,name,rn){ return [id,'Rune — '+name,'the rune '+rn+' cut shallow into the ground and glowing rune-blue from inside, a soft halo round it',28,28]; };
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    {id:'sc_soul_runes',wave:74,fam:'soullines',kind:'flat',cols:4,rows:2,size:'1536x1024',refs:['sc_spirit_sets','sc_rune_green'],title:'Soul-lines — small rune stamps that glow beside a line of light running over the land, seen from straight above, each one alone on a transparent background; the rune-blue light of the freed bindstone in the reference; no text, no letters other than the rune itself',items:[
+      SLR('sl_rune_a','Fehu','ᚠ'),SLR('sl_rune_b','Uruz','ᚢ'),SLR('sl_rune_c','Ansuz','ᚨ'),SLR('sl_rune_d','Raidho','ᚱ'),
+      SLR('sl_rune_e','Kenaz','ᚲ'),SLR('sl_rune_f','Gebo','ᚷ'),SLR('sl_rune_g','Wunjo','ᚹ'),SLR('sl_rune_h','Algiz','ᛉ')]},
+    {id:'sc_soul_knots',wave:74,fam:'soullines',kind:'flat',cols:4,rows:2,size:'1536x1024',refs:['sc_spirit_sets','sc_rune_green'],title:'Soul-lines — the joins of a line of light over the land: '+SLV+'; seen from straight above, each piece alone on a transparent background, no ground painted round it',items:[
+      ['sl_cross_a','Crossing — over and under','two veins of light crossing in an X; one passes over the other, which breaks for it on both sides like knot-work; a small bloom of light where they meet',72,72],
+      ['sl_cross_b','Crossing — clasp','two veins of light crossing, bound where they meet by a small round clasp of interlaced light',72,72],
+      ['sl_fork','Fork — a bough splits','one vein of light coming in from the bottom and splitting into two that curve away like the boughs of a tree, a bud of light at the split',72,72],
+      ['sl_end_a','Line end — curl','the end of a vein of light curling in on itself like a fern frond, the tip brightest',56,56],
+      ['sl_end_b','Line end — leaf','the end of a vein of light opening into a small leaf of the world-tree drawn in light',56,56],
+      ['sl_seed','The seed at the runestone','where a line is born: a small round socket of light set in the ground, three short veins leaving it, a tiny world-tree drawn in its middle',96,96],
+      ['sl_mote_a','Light mote','one soft round mote of rune-blue light with a white core and a faint four-point glint',20,20],
+      ['sl_mote_b','Light mote, small','one smaller mote of rune-blue light with a white core',16,16]]},
+    {id:'sc_soul_ring',wave:74,fam:'soullines',kind:'flat',cols:2,rows:1,size:'1536x1024',refs:['sc_spirit_sets','sc_rune_green'],title:'Soul-lines — the ring of light round a freed runestone, seen from straight above, alone on a transparent background with nothing painted inside or outside it (the runestone and the ground are added by the game)',items:[
+      ['sl_ring_a','The runestone ring','a large perfect ring made of '+SLV+', small glowing runes stamped at even steps round it, four short veins leaving it at the four quarters like roots',360,360],
+      ['sl_ring_b','The runestone ring, knotted','a large ring made of '+SLV+', woven from two veins that cross over and under each other in a loose knot-work braid all the way round, the four quarters marked by small blooms of light',360,360]]}]);
   if(ZSCN.expand)ZSCN.expand();
 })();
 

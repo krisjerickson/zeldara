@@ -1,4 +1,4 @@
-# Scenery — 242 sheets, 1940 objects and textures (13 sheets in the pilot)
+# Scenery — 245 sheets, 1958 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -54,6 +54,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 71 | Round 65b — cut-scene panel: Surtharn rises | 1 | 1 |
 | 72 | Round 65d — cut-scene panels: Solmyrk (intro, phase 1 → 2, phase 2 → 3) | 5 | 5 |
 | 73 | Round 66 — Asgard's golden roads: the paving, its rune border, the medallions | 2 | 7 |
+| 74 | Round 68 — the soul-lines painted: rune stamps, knots, ends, motes and the runestone ring | 3 | 18 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -7507,7 +7508,7 @@ Background: fully transparent (real alpha channel).
 
 ## sc_gd_sol_1
 
-Concept options for the final boss, PHASE 1 — the golden angel. Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 3 items, 3 × 1 · 1536x1024
+Concept options for the final boss, PHASE 1 — the golden angel. Solmyrk, the Black Sun — an impostor wearing Odin's stolen mask, the false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 3 items, 3 × 1 · 1536x1024
 
 - `gd_sol_1_a` The Gilded Seraph — 260 × 440 px
 - `gd_sol_1_b` The High Seat's Herald — 260 × 440 px
@@ -7516,7 +7517,7 @@ Concept options for the final boss, PHASE 1 — the golden angel. Solmyrk, the B
 Attach: style_hero, style_centaur, sc_gd_grim_1
 
 ```
-Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 separate pieces of scenery — Concept options for the final boss, PHASE 1 — the golden angel. Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 separate pieces of scenery — Concept options for the final boss, PHASE 1 — the golden angel. Solmyrk, the Black Sun — an impostor wearing Odin's stolen mask, the false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 3 objects in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
 1. The Gilded Seraph — three pairs of wings (two rising high above, one sweeping down), a full-face golden helm with a single eye-slit glowing white and a tall mitre-like crest, a cope of white and gold like a bishop's — golden angel: white and gold only (gold where there would be colour, NO blue or purple), wings very long and tall (taller than him), well-defined faceted feathers like blades of gold-white light; grand, long, flowing, ethereal bishop-like robes and vestments in layers of white and gold with gold runic embroidery; a massive golden helmet; ONE glowing eye only, like Odin (the other covered); holding a tall golden scepter-spear (Gungnir) (about 7× the hero's height).
@@ -7530,7 +7531,7 @@ Background: fully transparent (real alpha channel).
 
 ## sc_gd_sol_2
 
-Concept options for the final boss, PHASE 2 — the cracked mask: half god of light, half the dark beneath; top row radiant, bottom row the same three in their black pulse. Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 6 items, 3 × 2 · 1536x1024
+Concept options for the final boss, PHASE 2 — the cracked mask: half god of light, half the dark beneath; top row radiant, bottom row the same three in their black pulse. Solmyrk, the Black Sun — an impostor wearing Odin's stolen mask, the false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 6 items, 3 × 2 · 1536x1024
 
 - `gd_sol_2_a` Wings of Ash (radiant) — 260 × 300 px
 - `gd_sol_2_b` The Eclipse Mask (radiant) — 260 × 300 px
@@ -7542,7 +7543,7 @@ Concept options for the final boss, PHASE 2 — the cracked mask: half god of li
 Attach: style_hero, style_centaur, sc_gd_grim_2, sc_gd_grim_1
 
 ```
-Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Concept options for the final boss, PHASE 2 — the cracked mask: half god of light, half the dark beneath; top row radiant, bottom row the same three in their black pulse. Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 6 separate pieces of scenery — Concept options for the final boss, PHASE 2 — the cracked mask: half god of light, half the dark beneath; top row radiant, bottom row the same three in their black pulse. Solmyrk, the Black Sun — an impostor wearing Odin's stolen mask, the false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 6 objects in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. Wings of Ash (radiant) — dark ornate black-steel armour with gold filigree under torn white-and-gold robes, white feathered wings whose tips are burning black, the golden helmet-mask cracked across one side and behind the crack a black demon face with white slit eyes, two thin black sinuous clawed arms unfurling from the cracks in his back, two ravens circling him, golden scepter — ONE glowing eye like Odin — RADIANT: blazing with golden-white light (about 4.8× the hero's height).
@@ -7559,7 +7560,7 @@ Background: fully transparent (real alpha channel).
 
 ## sc_gd_sol_3a
 
-Concept options for the final boss, PHASE 3 — what is left when the mask is gone (1 of 2). Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 4 items, 4 × 1 · 1536x1024
+Concept options for the final boss, PHASE 3 — what is left when the mask is gone (1 of 2). Solmyrk, the Black Sun — an impostor wearing Odin's stolen mask, the false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 4 items, 4 × 1 · 1536x1024
 
 - `gd_sol_3_a` The Hollow King — 300 × 420 px
 - `gd_sol_3_b` The Binding Dark — 300 × 420 px
@@ -7569,7 +7570,7 @@ Concept options for the final boss, PHASE 3 — what is left when the mask is go
 Attach: style_hero, style_centaur, sc_gd_grim_2
 
 ```
-Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Concept options for the final boss, PHASE 3 — what is left when the mask is gone (1 of 2). Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Concept options for the final boss, PHASE 3 — what is left when the mask is gone (1 of 2). Solmyrk, the Black Sun — an impostor wearing Odin's stolen mask, the false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 4 objects in a grid of 4 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
 1. The Hollow King — a towering shape of black smoke with a crown of black flame-horns, a face that is only five curved white slashes of light, four long arms ending in hooked claws reaching out, the body dissolving into black mist below — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
@@ -7584,7 +7585,7 @@ Background: fully transparent (real alpha channel).
 
 ## sc_gd_sol_3b
 
-Concept options for the final boss, PHASE 3 — what is left when the mask is gone (2 of 2). Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 4 items, 4 × 1 · 1536x1024
+Concept options for the final boss, PHASE 3 — what is left when the mask is gone (2 of 2). Solmyrk, the Black Sun — an impostor wearing Odin's stolen mask, the false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text · wave 69 · 4 items, 4 × 1 · 1536x1024
 
 - `gd_sol_3_e` The Raven Storm — 300 × 420 px
 - `gd_sol_3_f` The Unmasked One — 300 × 420 px
@@ -7594,7 +7595,7 @@ Concept options for the final boss, PHASE 3 — what is left when the mask is go
 Attach: style_hero, style_centaur, sc_gd_grim_2
 
 ```
-Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Concept options for the final boss, PHASE 3 — what is left when the mask is gone (2 of 2). Solmyrk, the Black Sun — Odin himself corrupted into a false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Concept options for the final boss, PHASE 3 — what is left when the mask is gone (2 of 2). Solmyrk, the Black Sun — an impostor wearing Odin's stolen mask, the false god of Asgard, the final boss of a Norse fantasy game; HE HAS NO LEGS: his body ends in long trailing robes, mist or smoke and he floats above the ground; a full figure, front-facing with a slight three-quarter turn, alone on a transparent background, painted in the same style as the reference sheet, no text.
 The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
 Layout: exactly 4 objects in a grid of 4 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
 1. The Raven Storm — a storm of black feathers and smoke forming a giant figure, a raven-skull mask with white eye-slits, wings of smoke, long clawed arms — the final form: deep shadowy nothingness like the void, black smoke and darkness, no armour and no robes any more, LONG BINDING ARMS, eyes of burning white slashes of light; ominous, godlike, Norse; NOT an insect, not a bug (about 6.7× the hero's height).
@@ -7847,6 +7848,93 @@ Layout: exactly 4 objects in a grid of 4 columns × 1 rows, evenly spaced, in th
 2. Medallion — Raidho — a round medallion of polished gold set flush in white stone, a raised rim of tiny leaves, in the middle the journey rune ᚱ inlaid in white-gold, softly glowing (about 3.2× the hero's height across).
 3. Medallion — Dagaz — a round medallion of polished gold set flush in white stone, a raised rim of interlaced rings, in the middle the dawn rune ᛞ inlaid in white-gold, softly glowing (about 3.2× the hero's height across).
 4. Medallion — the world-tree — a round medallion of polished gold set flush in white stone, a raised rim of runes, in the middle a small white-gold world-tree, softly glowing (about 3.2× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_soul_runes
+
+Soul-lines — small rune stamps that glow beside a line of light running over the land, seen from straight above, each one alone on a transparent background; the rune-blue light of the freed bindstone in the reference; no text, no letters other than the rune itself · wave 74 · 8 items, 4 × 2 · 1536x1024
+
+- `sl_rune_a` Rune — Fehu — 28 × 28 px
+- `sl_rune_b` Rune — Uruz — 28 × 28 px
+- `sl_rune_c` Rune — Ansuz — 28 × 28 px
+- `sl_rune_d` Rune — Raidho — 28 × 28 px
+- `sl_rune_e` Rune — Kenaz — 28 × 28 px
+- `sl_rune_f` Rune — Gebo — 28 × 28 px
+- `sl_rune_g` Rune — Wunjo — 28 × 28 px
+- `sl_rune_h` Rune — Algiz — 28 × 28 px
+
+Attach: style_hero, style_centaur, sc_spirit_sets, sc_rune_green
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Soul-lines — small rune stamps that glow beside a line of light running over the land, seen from straight above, each one alone on a transparent background; the rune-blue light of the freed bindstone in the reference; no text, no letters other than the rune itself.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Rune — Fehu — the rune ᚠ cut shallow into the ground and glowing rune-blue from inside, a soft halo round it (about 0.4× the hero's height across).
+2. Rune — Uruz — the rune ᚢ cut shallow into the ground and glowing rune-blue from inside, a soft halo round it (about 0.4× the hero's height across).
+3. Rune — Ansuz — the rune ᚨ cut shallow into the ground and glowing rune-blue from inside, a soft halo round it (about 0.4× the hero's height across).
+4. Rune — Raidho — the rune ᚱ cut shallow into the ground and glowing rune-blue from inside, a soft halo round it (about 0.4× the hero's height across).
+5. Rune — Kenaz — the rune ᚲ cut shallow into the ground and glowing rune-blue from inside, a soft halo round it (about 0.4× the hero's height across).
+6. Rune — Gebo — the rune ᚷ cut shallow into the ground and glowing rune-blue from inside, a soft halo round it (about 0.4× the hero's height across).
+7. Rune — Wunjo — the rune ᚹ cut shallow into the ground and glowing rune-blue from inside, a soft halo round it (about 0.4× the hero's height across).
+8. Rune — Algiz — the rune ᛉ cut shallow into the ground and glowing rune-blue from inside, a soft halo round it (about 0.4× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_soul_knots
+
+Soul-lines — the joins of a line of light over the land: a thin bright vein of calm rune-blue light (#6fe3f5, white-hot in its core) inlaid flush in the ground like a glowing crack, as on the freed bindstone in the reference; seen from straight above, each piece alone on a transparent background, no ground painted round it · wave 74 · 8 items, 4 × 2 · 1536x1024
+
+- `sl_cross_a` Crossing — over and under — 72 × 72 px
+- `sl_cross_b` Crossing — clasp — 72 × 72 px
+- `sl_fork` Fork — a bough splits — 72 × 72 px
+- `sl_end_a` Line end — curl — 56 × 56 px
+- `sl_end_b` Line end — leaf — 56 × 56 px
+- `sl_seed` The seed at the runestone — 96 × 96 px
+- `sl_mote_a` Light mote — 20 × 20 px
+- `sl_mote_b` Light mote, small — 16 × 16 px
+
+Attach: style_hero, style_centaur, sc_spirit_sets, sc_rune_green
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Soul-lines — the joins of a line of light over the land: a thin bright vein of calm rune-blue light (#6fe3f5, white-hot in its core) inlaid flush in the ground like a glowing crack, as on the freed bindstone in the reference; seen from straight above, each piece alone on a transparent background, no ground painted round it.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Crossing — over and under — two veins of light crossing in an X; one passes over the other, which breaks for it on both sides like knot-work; a small bloom of light where they meet (about 1.1× the hero's height across).
+2. Crossing — clasp — two veins of light crossing, bound where they meet by a small round clasp of interlaced light (about 1.1× the hero's height across).
+3. Fork — a bough splits — one vein of light coming in from the bottom and splitting into two that curve away like the boughs of a tree, a bud of light at the split (about 1.1× the hero's height across).
+4. Line end — curl — the end of a vein of light curling in on itself like a fern frond, the tip brightest (about 0.9× the hero's height across).
+5. Line end — leaf — the end of a vein of light opening into a small leaf of the world-tree drawn in light (about 0.9× the hero's height across).
+6. The seed at the runestone — where a line is born: a small round socket of light set in the ground, three short veins leaving it, a tiny world-tree drawn in its middle (about 1.5× the hero's height across).
+7. Light mote — one soft round mote of rune-blue light with a white core and a faint four-point glint (about 0.3× the hero's height across).
+8. Light mote, small — one smaller mote of rune-blue light with a white core (about 0.3× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_soul_ring
+
+Soul-lines — the ring of light round a freed runestone, seen from straight above, alone on a transparent background with nothing painted inside or outside it (the runestone and the ground are added by the game) · wave 74 · 2 items, 2 × 1 · 1536x1024
+
+- `sl_ring_a` The runestone ring — 360 × 360 px
+- `sl_ring_b` The runestone ring, knotted — 360 × 360 px
+
+Attach: style_hero, style_centaur, sc_spirit_sets, sc_rune_green
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 2 separate pieces of scenery — Soul-lines — the ring of light round a freed runestone, seen from straight above, alone on a transparent background with nothing painted inside or outside it (the runestone and the ground are added by the game).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 2 objects in a grid of 2 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. The runestone ring — a large perfect ring made of a thin bright vein of calm rune-blue light (#6fe3f5, white-hot in its core) inlaid flush in the ground like a glowing crack, as on the freed bindstone in the reference, small glowing runes stamped at even steps round it, four short veins leaving it at the four quarters like roots (about 5.7× the hero's height across).
+2. The runestone ring, knotted — a large ring made of a thin bright vein of calm rune-blue light (#6fe3f5, white-hot in its core) inlaid flush in the ground like a glowing crack, as on the freed bindstone in the reference, woven from two veins that cross over and under each other in a loose knot-work braid all the way round, the four quarters marked by small blooms of light (about 5.7× the hero's height across).
 View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
