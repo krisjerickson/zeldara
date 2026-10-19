@@ -38,10 +38,14 @@ var LSS=(function(){ if(typeof LBR==='undefined'||typeof LSL==='undefined'||!LSL
       c.strokeStyle='#8ff0ff'; c.lineWidth=Math.max(1.2,0.09*k); var n=0; walk(D,w,ok,2.6,function(x,y,a,s){ var side=(n++%2?1:-1)*0.62, px=ox+(x-w.x0)*k-Math.sin(a)*side*k, py=oy+(y-w.y0)*k+Math.cos(a)*side*k; rune(c,px,py,a+Math.PI/2,0.24*k,n); }); },
     stitch:function(c,D,w,k,ox,oy,ok,t,nt){ c.save(); walk(D,w,ok,0.62,function(x,y,a,s){ var b=Math.max(0,Math.sin(s*0.75-t*3.2)), al=0.35+0.65*b*b, px=ox+(x-w.x0)*k, py=oy+(y-w.y0)*k, r=(0.1+0.07*b)*k;
         var gr=c.createRadialGradient(px,py,0,px,py,r*3.4); gr.addColorStop(0,'rgba(220,252,255,'+al+')'); gr.addColorStop(0.35,'rgba(111,227,245,'+(al*0.6)+')'); gr.addColorStop(1,'rgba(111,227,245,0)'); c.fillStyle=gr; c.beginPath(); c.arc(px,py,r*3.4,0,TAU); c.fill(); }); c.restore(); },
+    veinmote:function(c,D,w,k,ox,oy,ok,t,nt){ STY.vein(c,D,w,k,ox,oy,ok,t,nt);      // Kris's pick (round 68): the vein, with the stitch's wave of motes running along it
+      c.save(); c.globalCompositeOperation='lighter'; walk(D,w,ok,0.62,function(x,y,a,s){ var b=Math.max(0,Math.sin(s*0.75-t*3.2)); if(b<0.12)return; var al=b*b*(nt?0.9:0.7), px=ox+(x-w.x0)*k, py=oy+(y-w.y0)*k, r=(0.08+0.07*b)*k*3;
+        var gr=c.createRadialGradient(px,py,0,px,py,r); gr.addColorStop(0,'rgba(230,253,255,'+al+')'); gr.addColorStop(0.4,'rgba(111,227,245,'+(al*0.45)+')'); gr.addColorStop(1,'rgba(111,227,245,0)'); c.fillStyle=gr; c.beginPath(); c.arc(px,py,r,0,TAU); c.fill(); }); c.restore(); },
     groove:function(c,D,w,k,ox,oy,ok,t,nt){ var pl=0.65+0.35*Math.sin(t*1.8); c.save(); c.translate(0.08*k,0.1*k); strokeSet(c,D,w,k,ox,oy,ok,1.35*k,'rgba(255,248,230,.18)',true); c.restore();
       strokeSet(c,D,w,k,ox,oy,ok,1.3*k,'rgba(30,22,16,.62)',true); strokeSet(c,D,w,k,ox,oy,ok,0.95*k,'rgba(14,10,8,.82)',true);
       c.save(); c.shadowColor='#6fe3f5'; c.shadowBlur=(nt?16:9)*pl; strokeSet(c,D,w,k,ox,oy,ok,0.36*k,'rgba(111,227,245,'+(0.55+0.45*pl)+')',true); c.restore(); strokeSet(c,D,w,k,ox,oy,ok,0.12*k,'rgba(225,253,255,'+(0.5*pl)+')',true); } };
   var CARDS=[
+    {id:'ls_veinmote',st:'veinmote',name:'Vein + motes (your pick)',desc:'Your two picks together: the bright rune vein, with the stitch\'s slow wave of light motes running along it.'},
     {id:'ls_band',st:'band',name:'Knot band',desc:'A ribbon of rune-blue light about two tiles wide — two bright edges and a dark core, like carved knotwork — weaving over and under where it crosses.'},
     {id:'ls_vein',st:'vein',name:'Rune vein',desc:'One bright vein of light with small runes stamped along both sides, like the rune border round the old stones.'},
     {id:'ls_stitch',st:'stitch',name:'Mote stitch',desc:'A dotted line of light motes; a slow wave of brightness runs along it, so the land seems to breathe.'},
@@ -71,7 +75,7 @@ var LSS=(function(){ if(typeof LBR==='undefined'||typeof LSL==='undefined'||!LSL
     render:function(){ setTimeout(function(){ LBR.bind(); S.bind(); },0);
       return '<div class="sl-bar">'+[1,2,3,4].map(function(q){ return '<button class="vbtn ss-q" data-q="'+q+'" aria-pressed="'+(S.q===q)+'">'+['','🌿 Grasslands','💧 Wetlands','⛰ Highlands','🔥 Ashlands'][q]+'</button>'; }).join('')+
         '<label><input type="checkbox" id="ss-night"'+(S.night?' checked':'')+'> night</label><button class="vbtn" id="ss-free">▶ Free the spirit</button></div>'+
-        LBR.sec('Four ways to draw the line','pick any · ⛶ for full screen')+'<div class="br-grid sl-grid">'+CARDS.map(function(d,i){ return LBR.card('soulstyle',d,i,640,420,''); }).join('')+'</div>'; } });
+        LBR.sec('Your pick first, then the four ways to draw the line','pick any · ⛶ for full screen')+'<div class="br-grid sl-grid">'+CARDS.map(function(d,i){ return LBR.card('soulstyle',d,i,640,420,''); }).join('')+'</div>'; } });
   if(typeof LAB_ACTIVE!=='undefined')LAB_ACTIVE.unshift('soulstyle'); LBR.TABS.push('soulstyle');
   var st=document.createElement('style'); st.textContent='.ss-q[aria-pressed="true"]{border-color:var(--pick);color:var(--pick)}'; document.head.appendChild(st);
   if(typeof LTODO!=='undefined')LTODO.add({id:'soulstyle',label:'✦ Soul-lines — pick the line\'s look up close',where:'Soul-lines up close tab · 4 styles in the world',done:function(){ return CARDS.some(function(d){ return LBR.picked('soulstyle',d.id); }); },go:function(){ LTODO.goTo('soulstyle','.sl-bar',0); }});

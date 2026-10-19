@@ -202,6 +202,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 68 (Oct 19) — the line style; the settlements in the rings
+- Kris: "picks for day runelines are in. and the circles around the runestone are great, this can be outlines for what eventually will turn into the mini settlements at the very end of the game". Picks: **Rune vein** and **Mote stitch** (both).
+- L1 — Two styles picked: how do they combine? **Answered: vein + moving motes** — one line: the bright vein with its runes, and the stitch's slow wave of light motes running along it.
+- L2 — The settlements in the rings at the very end: who lives there? **Answered: each freed spirit's craft** — a hamlet in each runestone's ring built round that spirit's trade (a smith's ring has a forge, a weaver's has looms), lived in by villagers spreading out across Runeheim.
+- L3 — When do they appear? **Answered: after the credits** — free roam opens on the green land with all 40 standing.
+
 ### Round 67 (Oct 19) — soul-lines and the last saga (doc 30)
 - Kris: the premise in doc 30 §1; "Ask me any and all questions before implementing anything".
 - S1 — Two heroes, one played: where is the other twin? **Answered: stays in the village** (keeps the village going, helps piece the saga together; you swap who you play at home; both celebrated at the end).
@@ -866,4 +872,5 @@ Rough total if everything is approved: 36–54 sessions (est.).
 ## Round 68 (Kris, Oct 19) — soul-lines up close; the story fixes
 - Kris: "tattoo pick is in, lets proceed" — the pick is the **World-Tree** (no notes).
 - Done: Lab round B (Soul-lines up close tab: four line styles on the World-Tree at game scale, per realm, day/night, the trace with the pull-back); Solmyrk is an impostor in the game's texts; Pip and Wren hidden until the spirits go home; changelog [665]–[668].
-- **Next:** Kris picks a line style; then Lab round C (order the painted pieces for that style) and round D (the reveal, the map page, the green paths), then soul-lines in the game.
+- Then Kris picked the rune vein + mote stitch (combined: the vein with a wave of motes, now first in the Lab tab) and made the rings round each runestone the outlines of end-game hamlets (Open questions → Round 68); changelog [669]–[670].
+- **Next:** Lab round C (order the painted pieces for that style) and round D (the reveal, the map page, the green paths), then soul-lines in the game.

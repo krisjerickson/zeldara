@@ -55,9 +55,11 @@
 
 **After the gods** (§1, 28): the same lines become ~3-tile paths of grass and stone, so the whole tattoo is still visible from the map in green — the land wears the tattoo for good.
 
+**The settlements in the rings** (Kris, round 68: "the circles around the runestone are great, this can be outlines for what eventually will turn into the mini settlements at the very end of the game"): each runestone's ring in the World-Tree is the outline of a hamlet. After the credits, free roam opens with all 40 standing — each built round its freed spirit's trade (a smith's ring has a forge, a weaver's has looms, a fisher's has drying racks and a jetty when near water), lived in by villagers who have spread out across Runeheim, the children among them. The ring itself stays as the hamlet's path. Art: one small set of craft buildings per trade (to estimate in round C/D).
+
 **Getting Kris's feedback before building** (the Lab, several rounds; Kris: all four designs and all four line styles; hidden until freed with late hints at 8/10; a trace with the camera pulling back):
 1. **Round A — the whole shape** (built, round 67: Lab → Soul-lines, `lab/src/js/76-lab-soullines.js`). A Lab tab draws the real island (the game's own map) with each design A–D over it, a slider for 0→40 spirits freed, and the realms shaded. Pick one (or mix). **Kris picked the World-Tree** (round 68).
-2. **Round B — the line up close** (built, round 68: Lab → Soul-lines up close, `lab/src/js/77-lab-soulstyle.js`; knot band, rune vein, mote stitch, carved groove). The picked design in an in-world view with the four line styles side by side, by day and by night. Pick one.
+2. **Round B — the line up close** (built, round 68: Lab → Soul-lines up close, `lab/src/js/77-lab-soulstyle.js`; knot band, rune vein, mote stitch, carved groove). **Kris picked the rune vein and the mote stitch, combined: the bright vein with its runes, with the stitch's slow wave of light motes running along it** (shown as a fifth card, "Vein + motes"). The picked design in an in-world view with the four line styles side by side, by day and by night. Pick one.
 3. **Round C — painted look.** Order painted pieces for the chosen style (rune stamps, knot crossings, end-caps, rosettes at the runestones) and show them in the Lab view.
 4. **Round D — the reveal and the green.** The trace animation, the map page, and the post-game green paths, all in the Lab, before the game gets them.
 
