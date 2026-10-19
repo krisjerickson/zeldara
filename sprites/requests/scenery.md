@@ -1,4 +1,4 @@
-# Scenery — 235 sheets, 1928 objects and textures (13 sheets in the pilot)
+# Scenery — 240 sheets, 1933 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -52,6 +52,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 69 | Round 65 — Solmyrk remade: options for his three phases | 4 | 17 |
 | 70 | Round 65 — cut-scene panels: Surtharn changes form | 5 | 5 |
 | 71 | Round 65b — cut-scene panel: Surtharn rises | 1 | 1 |
+| 72 | Round 65d — cut-scene panels: Solmyrk (intro, phase 1 → 2, phase 2 → 3) | 5 | 5 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -7707,6 +7708,96 @@ Attach: style_hero, style_centaur, sc_surth_phases, sc_pn_musp_sink_a
 Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — Surtharn Rises, a painted story panel shown during a cut-scene.
 The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
 Subject: a wide cinematic painting in the same style as the reference panel: inside the burning throne cavern of Muspelheim, the obsidian throne splits open and the Molten Colossus (as in the reference) rises out of the lava for the first time, huge, his burning greatsword dragged up out of the fire, embers and chains swinging; the hero stands his ground. The young hero in a green cloak small in the foreground facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_sol_0
+
+Cut-scene panel — Solmyrk Rises · wave 72 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_sol_0` Solmyrk Rises — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sol_ref_1, sc_pn_surt_2
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — Solmyrk Rises, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting. Reference image 3 = the approved painting of Solmyrk's first form, the Gilded Seraph: copy him exactly. Reference image 4 = an approved cut-scene panel: paint in exactly its style, light and finish (but NOT its place or its boss). The place: the great throne hall at the top of the white-and-gold citadel of Asgard — tall white pillars, gold rune-carvings, a high seat on a stepped dais, a world-tree mosaic on the floor. above the high seat Solmyrk, the Gilded Seraph, rises for the first time — no legs, hovering — unfolding his four huge golden wings, light pouring off him across the hall, the sun-star scepter raised, his one eye burning in the visor of the tall crested helm. The young hero in a green cloak small in the foreground, seen from behind, facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_sol_12_a
+
+Cut-scene panel — The Golden Mask Splits · wave 72 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_sol_12_a` The Golden Mask Splits — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sol_ref_1, sol_ref_2, sc_pn_surt_2
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — The Golden Mask Splits, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting. Reference image 3 = the approved painting of Solmyrk's first form, the Gilded Seraph: copy him exactly. Reference image 4 = the approved painting of his second form, the Cracked Seraph (radiant): copy his body, wings, ravens and scepter exactly, but his helm is the tall crested golden helm of the first form, cracked open. Reference image 5 = an approved cut-scene panel: paint in exactly its style, light and finish (but NOT its place or its boss). The place: the great throne hall at the top of the white-and-gold citadel of Asgard — tall white pillars, gold rune-carvings, a high seat on a stepped dais, a world-tree mosaic on the floor. the Gilded Seraph reels in the air: a jagged crack runs down his tall crested golden helm and black light pours out of it, black ash creeping into the edges of his golden wings and robes. The young hero in a green cloak small in the foreground, seen from behind, facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_sol_12_b
+
+Cut-scene panel — Behind the Mask · wave 72 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_sol_12_b` Behind the Mask — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sol_ref_2, sol_ref_2d, sol_ref_1, sc_pn_surt_2
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — Behind the Mask, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting. Reference image 3 = the approved painting of his second form, the Cracked Seraph (radiant): copy his body, wings, ravens and scepter exactly, but his helm is the tall crested golden helm of the first form, cracked open. Reference image 4 = the same second form in its black pulse. Reference image 5 = his first form, for the helm: the cracked helm is this same crested golden helm. Reference image 6 = an approved cut-scene panel: paint in exactly its style, light and finish (but NOT its place or its boss). The place: the great throne hall at the top of the white-and-gold citadel of Asgard — tall white pillars, gold rune-carvings, a high seat on a stepped dais, a world-tree mosaic on the floor. close on him: behind the broken gold of the crested helm a black demon face with one burning white eye looks out; long black sinuous clawed arms of shadow uncoil from under his robes and black ravens burst up around him. The young hero in a green cloak small in the foreground, seen from behind, facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_sol_23_a
+
+Cut-scene panel — The Light Drains Away · wave 72 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_sol_23_a` The Light Drains Away — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sol_ref_2, sol_ref_3, sc_pn_surt_2
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — The Light Drains Away, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting. Reference image 3 = the approved painting of his second form, the Cracked Seraph (radiant): copy his body, wings, ravens and scepter exactly, but his helm is the tall crested golden helm of the first form, cracked open. Reference image 4 = the approved painting of his last form, the Hollow King: copy him exactly. Reference image 5 = an approved cut-scene panel: paint in exactly its style, light and finish (but NOT its place or its boss). The place: the great throne hall at the top of the white-and-gold citadel of Asgard — tall white pillars, gold rune-carvings, a high seat on a stepped dais, a world-tree mosaic on the floor. the cracked helm shatters into spinning gold shards; all the light of the hall streams into him in long golden streaks and his wings burn away into black ash, the white pillars going grey behind him. The young hero in a green cloak small in the foreground, seen from behind, facing him; no text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_sol_23_b
+
+Cut-scene panel — The Hollow King · wave 72 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_sol_23_b` The Hollow King — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sol_ref_3, sc_pn_surt_2
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cut-scene panel — The Hollow King, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting. Reference image 3 = the approved painting of his last form, the Hollow King: copy him exactly. Reference image 4 = an approved cut-scene panel: paint in exactly its style, light and finish (but NOT its place or its boss). The place: the great throne hall at the top of the white-and-gold citadel of Asgard — tall white pillars, gold rune-carvings, a high seat on a stepped dais, a world-tree mosaic on the floor. what is left looms over the hero: the Hollow King, a towering void of black smoke with a tall jagged black crown, a split of white light for its one eye and four long binding arms reaching out; the hall has gone dark, lit only by thin teal and violet edges of light. The young hero in a green cloak small in the foreground, seen from behind, facing him; no text.
 The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.

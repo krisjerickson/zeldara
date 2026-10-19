@@ -814,3 +814,8 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris: "picks are in for asgard end scenes. i'm not sure if i'm finding solmyrk picks. lets create a new button in the lab so i don't miss these. also new sprite requests are processing".
 - Done: "⭐ Waiting for your picks" button in the Lab (Solmyrk's three forms listed); the ending plays cast A, Bifröst A, home B, dawn B; changelog [643]–[645].
 - **Next:** Kris picks Solmyrk's forms via the button → his sheets and panels ordered; bring in wave 71 (Surtharn's intro panel) when round67.ps1 finishes.
+
+## Round 65d (Kris, Oct 18 night) — Solmyrk from the picks
+- Kris: "pics are in, let me know if any other questions you need my answer on". Picks: sol_1 a (Gilded Seraph), sol_2 a (Wings of Ash, with phase 1's helm cracked), sol_3 a (Hollow King).
+- Done: `ZSOL` puts the picked forms in the game; round68.ps1 orders his 9 sheets (wave 7.95) and 5 cut-scene panels (wave 72); changelog [646]–[648].
+- **Next:** when the sheets are in — intake, the atlas, and phase 3's light beats as a flare through the void (it is painted dark); the five panels into the cut-scenes.

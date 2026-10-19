@@ -248,7 +248,7 @@ var ZSPR={
     if(typeof BOSS_SLOT_LIST!=='undefined')BOSS_SLOT_LIST.forEach(function(slot){ var opt=(typeof BOSS_PICK!=='undefined'&&BOSS_PICK[slot])||'a', D=(typeof BOSS_ART!=='undefined'&&BOSS_ART[slot+'.'+opt])||{}, C=typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[slot];
       var q=Z.bossQ(slot,D,C);
       var kit=Z.bossKit(slot), sub=/^fm_/.test(slot)?'Forge-masters':/^surt_/.test(slot)?'Surtharn':/^grim_/.test(slot)?'Solmyrk':/^elite/.test(slot)?'Elites':/^bf_/.test(slot)?'Evolved boss forms':/^cw_/.test(slot)?'Castle wardens':/^mg_/.test(slot)?'Mage-tower masters':/^boss_isl/.test(slot)?'Island guardians':/^boss_v/.test(slot)?'Volcano bosses':'Guardians';
-      push({id:slot,group:'boss',sub:sub,name:D.name||(C&&C.name)||slot,q:q,look:(D.lore||(C&&C.look)||'')+(D.arch==='god'?' '+Z.GOD_PAINT:''),atkTxt:C&&C.doing,pal:D.pal||(C&&C.spec&&C.spec.pal),arch:D.arch,
+      push({id:slot,group:'boss',sub:sub,name:D.name||(C&&C.name)||slot,q:q,look:(D.lore||(C&&C.look)||'')+(D.arch==='god'?' '+(D.paint||Z.GOD_PAINT):''),atkTxt:C&&C.doing,pal:D.pal||(C&&C.spec&&C.spec.pal),arch:D.arch,
         gear:D.god?Z.godGear(D.god):['head','gear','weapon','off','armor','cape','beast','build'].filter(function(k){ return D[k]&&D[k]!==true; }).map(function(k){ return k+': '+D[k]; }).join(', '),
         kit:kit,specAnim:C&&C.spec&&C.spec.anim,humanoid:D.arch==='hum'||D.arch==='god'||(!D.arch&&C&&!!Z.HUMANOID[C.spec&&C.spec.plan]),scale:Math.round(((D.h||110)/42)*10)/10,big:true,form:/^bf_|^fm_\w+_[23]$/.test(slot),wave:/^fm_/.test(slot)?7.6:/^surt_/.test(slot)?7.7:/^grim_/.test(slot)?7.95:(q||5)+2.5}); });      /* round 64: Solmyrk's three forms, their own wave (front, side and back — Kris) */      // round 56: the forge-masters' twelve forms are their own wave (painted once Kris picks in the Lab)
     // NPCs
@@ -336,7 +336,7 @@ var ZSPR={
     return out; },
   // round 64 — Solmyrk (Grímnir renamed): Kris "just go straight into the sprite sheet", "he is corrupted Odin", "create the full front side back like walking bosses"
   GOD_PAINT:'He is Odin himself, corrupted into a false god. Paint him RADIANT in every pose — white, ivory and pale gold, glowing, light pouring off him (the game turns him pure black on its own, so never paint him dark). He FLOATS a little above the ground and never walks: his robe ends in a point, no feet. Keep the ONE glowing eye (the other sealed), the mask, the crown, the halo and the wings identical in every pose and view.',
-  godGear:function(G){ var T={lower:{spear:'his white robe narrows to a floating spear-point (no feet)',robe:'a long white robe to the ground',tendril:'his lower body frays into ribbons of light and storm-tendrils'},
+  godGear:function(G){ if(G.txt)return G.txt;      /* round 65d: Solmyrk's picked forms are described whole */ var T={lower:{spear:'his white robe narrows to a floating spear-point (no feet)',robe:'a long white robe to the ground',tendril:'his lower body frays into ribbons of light and storm-tendrils'},
       mantle:{wolf:'a thick mantle of white wolf-fur on his shoulders',feather:'a cape of white raven feathers',raven:'a cloak of raven feathers',storm:'a mantle of thunderheads',plate:'golden shoulder-plates'},
       head:{mask:'a smooth golden mask with ONE glowing eye-slit (the other eye sealed by a scar)',split:'a golden one-eyed mask cracked down the middle — one half radiant gold, the other half a black void',hat:'a broad-brimmed wanderer\'s hat shadowing one white eye',raven:'a raven-skull helm with a long beak',void:'a face of shadow with one white eye'},
       crown:{spears:'a LOW crown of three short spear-points',antlers:'antlers of light',spikes:'a jagged crown of spikes',icicles:'a crown of icicles',ring:'a gold circlet with three rune-stones'},
@@ -352,7 +352,11 @@ var ZSPR={
       if(!t){ if(r==='hero_m.model'&&e.id==='hero_f')t='the approved model sheet of the hero boy: she matches his height, proportions, line weight and colouring style exactly (her hair and outfit are her own, as described)';
         else if(/^hero_[mf]\.model$/.test(r))t='the approved model sheet of this hero: keep the hero identical to it';
         else if(/^mt_/.test(r))t='the approved sheet of this mount: keep the mount identical to it';
+        else if(r==='grim_1.core.s'&&e.id==='grim_3')t='the first form of this same god (Solmyrk): keep only his art style, outline weight and size — this last form is the void beneath and looks different, as described';      /* round 65d */
+        else if(r==='grim_1.core.s'&&e.id==='grim_2')t='the first form of this same god (Solmyrk): keep his art style, size, his tall crested golden helm (now cracked open) and the gold-and-ivory robes — and change only what is described for this form';
         else if(r==='grim_1.core.s'&&e.id!=='grim_1')t='the first form of this same god (Solmyrk): keep his art style, size, one-eyed golden mask, crown and colouring — and change only what is described for this form';
+        else if(/^sol_ref_2d$/.test(r))t='the approved painting of this exact form in its BLACK pulse: the same figure as the painting before it, shown dark — for reference only, paint the radiant version';
+        else if(/^sol_ref_/.test(r))t='the approved painting of this exact form of Solmyrk (Kris\'s pick): copy its helm or head, the one eye, the wings, the robes or body, the scepter and the colours exactly — only the poses and the views change';
         else if(/^surt_ref_/.test(r))t='the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change';
         else t='the first approved sheet of this same character: keep the character identical to it'; }
       return 'Reference image '+(i+1)+' = '+t+'.'; }).join(' '); },
@@ -360,6 +364,7 @@ var ZSPR={
     else if(e.group==='rider'||e.group==='vehicle')r.push('hero_'+(e.rider||e.id.split('_')[1])+'.model'); else if(sh!==e.sheets[0])r.push(e.sheets[0].id);
     if(e.group==='rider'&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID['mt_'+e.mount])r.push('mt_'+e.mount+'.ride');
     if(/^grim_[23]$/.test(e.id)&&sh===e.sheets[0])r.push('grim_1.core.s');      /* round 64: Solmyrk's later forms are the same god — his first sheet rides along */
+    var gm=/^grim_(\d)$/.exec(e.id); if(gm&&sh===e.sheets[0]){ r.push('sol_ref_'+gm[1]); if(gm[1]==='2')r.push('sol_ref_2d'); }      // round 65d: Kris's picked painting of this form rides along
     var sm=/^surt_(\d)$/.exec(e.id); if(sm)r.push('surt_ref_'+sm[1]);      // round 59: Kris's approved painting of this phase (cut from wave 60) rides along so the head stays the same
     return r; },
   prompt:function(e,sh,opts){ var Z=ZSPR, o=opts||{}, n=sh.poses.length, L=[];
