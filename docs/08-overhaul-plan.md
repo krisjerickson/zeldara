@@ -202,6 +202,25 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 67 (Oct 19) — soul-lines and the last saga (doc 30)
+- Kris: the premise in doc 30 §1; "Ask me any and all questions before implementing anything".
+- S1 — Two heroes, one played: where is the other twin? **Answered: stays in the village** (keeps the village going, helps piece the saga together; you swap who you play at home; both celebrated at the end).
+- S2 — The goddess? **Answered: Freya.**
+- S3 — Solmyrk? **Answered: an impostor** who stole Odin's high seat, mask and names (texts to update).
+- S4 — The world's name? **Answered: Runeheim**; Muspelheim stays Surtharn's fire realm.
+- T1 — Tattoo designs for Lab round A? **Answered: all four** (World-Tree, World-Serpent, Four Beasts, Rune Wheel).
+- T2 — Line styles for Lab round B? **Answered: all four** (knot band, rune vein, mote stitch, carved groove).
+- T3 — Unfreed pieces? **Answered: hidden, then a hint late** — once a realm is 8/10 freed, its missing pieces show as faint dotted ghosts on the map.
+- T4 — Lighting a piece? **Answered: trace + camera pull-back** (~3–4 s).
+- E1 — Familiars and fairy monarchs at the end? **Answered (Kris's words): "they all go like originally intended, and live only in legend thereafter".**
+- E2 — Post-game monsters? **Answered: gone everywhere** (sites become peaceful).
+- E3 — Credits? **Answered: after the celebration**, then free roam.
+- E4 — Pip and Wren? **Answered: removed until the end**; children appear across the land after it.
+- U1 — Who tells the story? **Answered: freed spirits; builders and fairies; elders and the other twin** (runic tablets not chosen).
+- U2 — Who are the twins? **Answered: the gods' last gift** — from their prison Odin and Freya sent two soul-sparks down in the storm; the lightning woke the runestones so the twins could light them.
+- U3 — Painted story panels? **Answered: 30+.**
+- U4 — Next? **Answered: both** — Lab round A and a first draft of the story pieces in the same round.
+
 ### Round 66 (Oct 18, night) — the golden roads of Asgard
 - Kris: "the golden road in asgard looks too simple and weird. we need to make it better looking, and possible with painted sprites".
 - The road's surface? **Answered: gold-inlaid flagstones** — white/cream flagstones like the picked rune-paving, gold inlay seams, a gold rune border along both edges (painted, seamless).
@@ -838,3 +857,8 @@ Rough total if everything is approved: 36–54 sessions (est.).
 ## Round 66c (Kris, Oct 19) — the black screen
 - Kris: "i'm walking around and have a bug where the screen goes black except for some building labels, some glowing artifacts from the familiars and falling leaves".
 - Done: the roads baked into plain tiles (no geometry masks); the outline never takes its mask off; changelog [661]–[662]. Not reproduced here — if it happens again, note where (place, time of day, what was on screen).
+
+## Round 67 (Kris, Oct 19) — soul-lines and the last saga
+- Kris: the premise (doc 30 §1) — the soul-cycle broken by Solmyrk and Surtharn, the twins from the lake, soul-lines tattooing the land as spirits are freed, Odin and Freya freed after Solmyrk, the land made green; "Ask me any and all questions before implementing anything"; record the story once optimised; ideas for the tattoo and for getting feedback; how the story unfolds; inconsistencies; latency.
+- Done: doc 30 (proposals, conflicts, speed plan, the saga as decided, first-draft story pieces, 33 panels); 16 questions asked and answered (Open questions → Round 67); Lab round A built (Soul-lines tab); changelog [663]–[664].
+- **Next:** Kris picks a design (or a mix) in the Lab and reviews the story draft; then Lab round B (line styles close up), and the story texts updated in the game (Solmyrk an impostor, Pip and Wren removed).
