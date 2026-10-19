@@ -79,7 +79,7 @@ var ZAP={ on:true,
       ['ar_yggbranch','<b>Climb</b> the trunk and its branches to the top.','🌳'],
       ['ar_grimtooth','<b>Grimtooth</b> gnaws at the roots: his rot climbs after you, and burns. Keep above it.','🐉'],
       ['ar_rat_1','<b>Catch Ratatoskr</b>, the squirrel running the trunk — he scampers you up a hidden way.','🐿']]},
-    cit4:{t:'👑 The Citadel — the Throne of Solmyrk',lead:'Corrupted Odin waits on the high seat.',steps:[
+    cit4:{t:'👑 The Citadel — the Throne of Solmyrk',lead:'The impostor waits on Odin\'s high seat, behind Odin\'s stolen mask.',steps:[
       ['gd_grim_1_d','<b>☀ Radiant</b>: he is shielded — your blows do nothing.','☀'],
       ['gd_grim_1_d_dk','<b>● Black</b>: the hall darkens, his eye burns — strike!','●'],
       ['ls2_c','<b>Godsbane (V)</b> forces him black for 4 seconds. Three forms; the last is mostly black.','✦']]}

@@ -36,7 +36,7 @@ with game(new=True) as g:
     n1 = g.js("(game.scene.getScene('World')._folk||[]).length")
     g.js("game.scene.getScene('World').playerState.rescued=[1,2,3,4]"); g.wait(2600)
     f5 = g.js("(()=>{ var ws=game.scene.getScene('World'); return (ws._folk||[]).map(f=>({id:f.F.id,x:f.x,y:f.y,tex:f.im.texture.key})); })()")
-    check('Village folk: 3 at stage 1, 11 at stage 5, each with its sprite', n1 == 3 and len(f5) == 11 and all(f['tex'] == 'ch_' + f['id'] for f in f5), (n1, len(f5)))
+    check('Village folk: 3 at stage 1, 9 at stage 5 (Pip and Wren wait for the ending, round 68), each with its sprite', n1 == 3 and len(f5) == 9 and all(f['tex'] == 'ch_' + f['id'] for f in f5), (n1, len(f5)))
     g.wait(6000)
     f5b = g.js("(game.scene.getScene('World')._folk||[]).map(f=>[f.x,f.y])")
     moved = sum(1 for a, b in zip(f5, f5b) if abs(a['x'] - b[0]) + abs(a['y'] - b[1]) > 4)

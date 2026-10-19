@@ -862,3 +862,8 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris: the premise (doc 30 §1) — the soul-cycle broken by Solmyrk and Surtharn, the twins from the lake, soul-lines tattooing the land as spirits are freed, Odin and Freya freed after Solmyrk, the land made green; "Ask me any and all questions before implementing anything"; record the story once optimised; ideas for the tattoo and for getting feedback; how the story unfolds; inconsistencies; latency.
 - Done: doc 30 (proposals, conflicts, speed plan, the saga as decided, first-draft story pieces, 33 panels); 16 questions asked and answered (Open questions → Round 67); Lab round A built (Soul-lines tab); changelog [663]–[664].
 - **Next:** Kris picks a design (or a mix) in the Lab and reviews the story draft; then Lab round B (line styles close up), and the story texts updated in the game (Solmyrk an impostor, Pip and Wren removed).
+
+## Round 68 (Kris, Oct 19) — soul-lines up close; the story fixes
+- Kris: "tattoo pick is in, lets proceed" — the pick is the **World-Tree** (no notes).
+- Done: Lab round B (Soul-lines up close tab: four line styles on the World-Tree at game scale, per realm, day/night, the trace with the pull-back); Solmyrk is an impostor in the game's texts; Pip and Wren hidden until the spirits go home; changelog [665]–[668].
+- **Next:** Kris picks a line style; then Lab round C (order the painted pieces for that style) and round D (the reveal, the map page, the green paths), then soul-lines in the game.

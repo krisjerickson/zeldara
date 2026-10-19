@@ -85,11 +85,11 @@ var VILLAGE_FOLK=[
   {id:'vf_elder',st:1,spot:'green',   r:1.5, line:'The Runestone has stood here since before the lake had a name. It hums when heroes pass.'},
   {id:'vf_farmer',st:1,spot:'vegplot',r:2,   line:'Carrots on the left, beans on the right — rows as straight as a rune!'},
   {id:'vf_fisher',st:1,spot:'pier',   r:0.6, line:'The lake gives when it wants to. Patience, dear.'},
-  {id:'vf_kid1',st:2,spot:'fountain', r:3,   line:'Bet you can\'t catch me! …Okay, you probably can.'},
+  {id:'vf_kid1',st:2,kid:true,spot:'fountain', r:3,   line:'Bet you can\'t catch me! …Okay, you probably can.'},
   {id:'vf_boatwright',st:2,spot:'boathouse',r:1.5,line:'Every plank sings if you fit it right. This one\'s a tenor.'},
   {id:'vf_miller',st:2,spot:'windmill',r:2,  line:'Wind\'s good today — plenty of flour for Benno\'s bread.'},
   {id:'vf_guard',st:3,spot:'gate',    r:1,   line:'All quiet at the gate. Monsters don\'t like our runes.'},
-  {id:'vf_kid2',st:3,spot:'cart',     r:3,   line:'Marta gives me an apple if I sweep round the carts!'},
+  {id:'vf_kid2',st:3,kid:true,spot:'cart',     r:3,   line:'Marta gives me an apple if I sweep round the carts!'},
   {id:'vf_vendor',st:3,spot:'cart',   r:1,   line:'Fresh from the gardens! Two coppers a bunch!'},
   {id:'vf_lamplighter',st:4,spot:'lamppost',r:4,line:'One lantern at a time, and the whole village glows.'},
   {id:'vf_keeper',st:5,spot:'lighthouse',r:1.2,line:'The light guides every boat home — and you too, traveller.'}
@@ -104,10 +104,11 @@ Object.assign(WorldScene.prototype,{
     if(kind==='gate')return near(cx-2,cy+Math.min(33,(wd.villageStage>=3?31:24)));
     return pick(kind)||near(cx+(i%2?4:-4),cy+5);
   },
+  // Pip and Wren (kid:true) are hidden away until the spirits go home (doc 30)
   _villageFolkInit(){ var st=(this.wd&&this.wd.villageStage)||1, self=this;
     if(!this._folk)this._folk=[]; if(!this._villageNPCs)this._villageNPCs=[];
     VILLAGE_FOLK.forEach(function(F,i){ var have=self._folk.find(function(f){ return f.F.id===F.id; });
-      if(F.st>st){ if(have){ have.im.destroy(); self._folk.splice(self._folk.indexOf(have),1); self._villageNPCs=self._villageNPCs.filter(function(n){ return n.id!==F.id; }); } return; }
+      if(F.st>st||(F.kid&&!(self.playerState&&self.playerState.spiritsHome))){ if(have){ have.im.destroy(); self._folk.splice(self._folk.indexOf(have),1); self._villageNPCs=self._villageNPCs.filter(function(n){ return n.id!==F.id; }); } return; }
       var s=self._villageFolkSpot(F.spot,i); if(!s)return;
       if(have){ have.hx=s.x; have.hy=s.y; return; }
       var R=CHAR_BY_ID[F.id], im=CHX.sprite(self,F.id,s.x,s.y+12,1.45); if(!im)return; im.setDepth(WR_DEPTH(s.y));

@@ -187,6 +187,7 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 | Mira's workshop was decoration | it gets an interior, Mira and the tray recipe |
 | The caged builders had no reason | the tyrant's ash-wardens took them to build his forges |
 | No ending | credits, then free roam |
+| Solmyrk read as Odin himself, corrupted | **round 68 (doc 30): Solmyrk is an impostor** who stole Odin's seat, mask and names; Odin and Freya are freed in the feast hall after him |
 
 ## 11. Build order (estimate)
 
@@ -228,3 +229,6 @@ Each forge becomes a real adventure site of 3 floors on the site engine (walls, 
 **Round 63 note (the ending built).** `16h-the-ending.js`: after Grímnir falls, [Tab] at `ZASG.heart(ws)` with the Lodestar plays the ending — Godsbane cast into the sky as a column of light, the Bifröst bent up into heaven, the forty spirits (freed forms), the group scenes, the fairy kings and the familiars rising along it. Four story panels (two Lab options each, wave 65) play between once Kris picks them. Grímnir stays three phases; Godsbane hits ×3 in the last. No credits yet — a second ending comes after the spirits are released.
 
 **Round 64 note (Grímnir made a god).** Kris: he swings between brilliant white light, "like the god they are pretending to be", and pure black "sucking away all the light (showing the corrupted nature of the god)" — Nordic, not insect-like. Three forms kept: form 1 mainly light, form 2 balanced, form 3 mainly black; he can be hurt only while black, so the openings follow the same beat (`ZGOD.light`, `16i-grimnir-pulse.js`); Godsbane forces him black. Name options are in the Lab (he stays Grímnir until Kris picks); painted concept options ordered (wave 66).
+
+**Round 64b — renamed: SOLMYRK, THE BLACK SUN** (Kris's pick from the Lab's names; sól + myrkr, the light and the black in one name). Forms: the Allfather's Mask (mostly light), the Cracked Mask (even), the Storm That Ends the World (mostly black). Where this doc says Grímnir, read Solmyrk.
+

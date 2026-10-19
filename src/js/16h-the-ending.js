@@ -50,7 +50,7 @@ var ZEND={ on:true, R:TILE*2.4,
     if(typeof ZAtlas!=='undefined'&&typeof FAIRY_PICK!=='undefined')[1,2,3,4].forEach(function(q){ var ch='fairy_'+FAIRY_PICK[q]; if(!ZAtlas.has||!ZAtlas.has(ch))return; try{ var im=ZAtlas.image?ZAtlas.image(ws,ch,H.x-150+q*60,H.y+120):null; if(im){ im.setDepth(9310); up(im,2600+q*200,0); } }catch(e){} });
     (ws._familiars||ws.familiars||[]).forEach(function(f,i){ var v=f&&(f.cont||f.vis||f.sprite); if(v&&v.scene)ws.tweens.add({targets:v,alpha:0.4,duration:1200,delay:3200+i*200,yoyo:true}); });
     showNotif('✨ The spirits of Runeheim rise along the Bifröst — singing, free at last.','#bfefff'); ZEND.count=n; },
-  finish:function(ws,L){ var ps=ws.playerState; ps.spiritsHome=1; ps.endingAt=Date.now(); L.forEach(function(o){ if(o&&o.scene)ws.tweens.add({targets:o,alpha:0,duration:800,onComplete:function(){ o.destroy(); }}); });
+  finish:function(ws,L){ var ps=ws.playerState; ps.spiritsHome=1; ps.endingAt=Date.now(); if(ws._villageFolkInit)try{ ws._villageFolkInit(); }catch(e){}      // Pip and Wren come home with the spirits (doc 30) L.forEach(function(o){ if(o&&o.scene)ws.tweens.add({targets:o,alpha:0,duration:800,onComplete:function(){ o.destroy(); }}); });
     if(typeof ZCINE!=='undefined')ZCINE.bars(false); ws.cameras.main.startFollow(ws.player.cont,true,.1,.1); ws._endBusy=false; if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('the spirits go home'); }catch(e){}
     showNotif('🌅 The spirits are home. Runeheim is quiet, and the light stays. (Your journey goes on.)','#fff2b0'); if(ws._emitUI)ws._emitUI(); }
 };
