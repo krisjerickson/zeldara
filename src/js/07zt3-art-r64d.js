@@ -145,6 +145,54 @@
     {id:'sc_soul_ring',wave:74,fam:'soullines',kind:'flat',cols:2,rows:1,size:'1536x1024',refs:['sc_spirit_sets','sc_rune_green'],title:'Soul-lines — the ring of light round a freed runestone, seen from straight above, alone on a transparent background with nothing painted inside or outside it (the runestone and the ground are added by the game)',items:[
       ['sl_ring_a','The runestone ring','a large perfect ring made of '+SLV+', small glowing runes stamped at even steps round it, four short veins leaving it at the four quarters like roots',360,360],
       ['sl_ring_b','The runestone ring, knotted','a large ring made of '+SLV+', woven from two veins that cross over and under each other in a loose knot-work braid all the way round, the four quarters marked by small blooms of light',360,360]]}]);
+  // ═══ wave 75: the hamlets in the runestone rings (Kris, round 68: "the circles around the runestone … mini settlements at the very end";
+  //     answers: each spirit's craft, standing after the credits; "Order now: 20 workshops + cottages") ═══
+  ZSCN.WAVES[75]='Round 68 — the end-game hamlets: a workshop for each of the 20 trades, cottages and yards';
+  var HB=function(n,title,items){ return {id:'sc_hamlet_'+n,wave:75,fam:'village',kind:'bld',cols:2,rows:2,size:'1024x1024',refs:['sc_vill_core_2','sc_vill_houses'],title:'Hamlet workshops '+n+' — '+title+'; small, homely buildings of a newly settled hamlet, in the same style, size and view as the village buildings in the reference, each alone on a transparent background, no text, no signs with letters',items:items}; };
+  var HW=function(id,name,desc){ return ['hw_'+id,name,desc,200,260]; };
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    HB(1,'cloth and sea',[HW('weaver','Weaver\'s house','a timber cottage with a wide open front: a big wooden loom inside, skeins of coloured wool hanging under the eave, a finished rug over the rail'),
+      HW('shipwright','Shipwright\'s shed','a long open-sided plank boat shed with a half-built little boat on trestles, curled wood shavings, a coil of rope and a pot of pitch'),
+      HW('netmender','Net-mender\'s hut','a small plank hut by a drying rack hung with fishing nets, glass floats and a basket of cork floats, a stool by the door'),
+      HW('fisher','Fisher\'s cottage','a little cottage on low stilts with a short jetty, a small rowing boat tied up, a rack of drying fish and a lobster pot')]),
+    HB(2,'field and hive',[HW('beekeeper','Beekeeper\'s cottage','a thatched cottage with a row of straw bee-skeps on a bench in a little flower garden, a honey pot by the door, a few bees'),
+      HW('carver','Carver\'s workshop','a wooden workshop with a carved dragon-head gable, a big log half-carved into a figure on the porch, chisels on the wall'),
+      HW('cooper','Cooper\'s shed','a stone shed with barrels stacked outside, iron hoops leaning on the wall, a half-made barrel with a fire basket inside it'),
+      HW('tanner','Tanner\'s yard','a low plank workshop with hides stretched on wooden frames outside, two big wooden vats, a scraping beam')]),
+    HB(3,'colour and flock',[HW('dyer','Dyer\'s house','a cottage with big dye vats steaming outside, lengths of blue, red and yellow cloth hung on poles to dry'),
+      HW('herder','Herder\'s steading','a turf-roofed longhouse with a wattle cattle pen beside it, a hay rick and a milking stool'),
+      HW('miller','The little mill','a small round stone windmill with four sails and a cart of flour sacks at its door'),
+      HW('stonemason','Stonemason\'s yard','an open stone yard with a lean-to roof: blocks of cut stone, a half-carved runestone, mallets and chisels on a bench')]),
+    HB(4,'home and hearth',[HW('midwife','Midwife\'s house','a warm, welcoming timber cottage with a herb garden, a cradle on the porch, clean linen on the line and a lantern by the door'),
+      HW('potter','Potter\'s house','a cottage with a round brick kiln beside it, shelves of pots drying in the sun, a potter\'s wheel under a little roof'),
+      HW('shepherd','Shepherd\'s cot','a small stone shepherd\'s hut with a dry-stone sheep fold, a crook by the door, three sheep'),
+      HW('smith','The little smithy','a stone smithy with an open front: a glowing forge, an anvil, horseshoes and tools on the wall, a water trough')]),
+    HB(5,'wood, ale, song and bread',[HW('forester','Forester\'s lodge','a log lodge with a stacked woodpile, an axe in a chopping block, a cart of logs and young trees planted in a row'),
+      HW('brewer','Brewhouse','a timber brewhouse with a copper kettle chimney, barrels and a bench with drinking horns out front, a hop vine on the wall'),
+      HW('skald','Skald\'s hall','a small carved hall with painted doorposts, a harp leaning by the door, benches round a fire pit outside for telling sagas'),
+      HW('baker','Bakehouse','a cottage with a big domed stone bread oven beside it, loaves cooling on a board, a wheelbarrow of firewood')]),
+    {id:'sc_hamlet_homes',wave:75,fam:'village',kind:'bld',cols:3,rows:2,size:'1536x1024',refs:['sc_vill_houses'],title:'Hamlet homes and yards — the cottages of a newly settled hamlet, fresh and new, in the same style, size and view as the village houses in the reference, each alone on a transparent background, no text',items:[
+      ['hh_new_a','New cottage','a small new timber cottage, fresh pale wood and a bright turf roof, flowers just planted by the door',136,240],
+      ['hh_new_b','New longhouse','a short new longhouse with a turf roof and smoke from the roof hole, a bench by the door',200,240],
+      ['hh_new_c','New stone cottage','a small new stone cottage with a thatched roof and a little vegetable patch',136,240],
+      ['hh_well','Hamlet well','a round stone well with a little roof and a bucket, a few flowers round it',90,120],
+      ['hh_yard','Children\'s play yard','a swing hung from a wooden frame, a seesaw and a little straw target with wooden toy swords, on grass',150,120],
+      ['hh_cart','Settler\'s cart','a wooden handcart loaded with bundles, a basket, a chicken coop and a child\'s doll on top',110,90]]}]);
+  // ═══ wave 76: the saga panels, first 11 of doc 30 §11 (answer: "Order the first 11") — the opening (the twins) and the old disasters ═══
+  ZSCN.WAVES[76]='Round 68 — saga panels: the opening (the twins) and the old disasters';
+  var SG=function(id,name,desc){ return {id:'sc_'+id,wave:76,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_end_dawn_b','sc_pn_end_home_b'],title:'Saga panel — '+name,items:[[id,name,'a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; '+desc+'. No text',1536,1024]]}; };
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    SG('pn_saga_cradles','The Empty Cradles','the Long Quiet: inside a dim timber longhouse, a row of empty wooden cradles, a grey-haired woman sitting beside them with her head bowed, cold ash in the hearth, grey light through the smoke-hole'),
+    SG('pn_saga_storm','The Storm on the Runestones','the worst storm anyone remembered, at night over green rolling grasslands: forks of blue-white lightning striking a line of tall grey runestones one after another, each one flaring rune-blue where it is struck'),
+    SG('pn_saga_basket','The Basket on the Lake','dawn after the storm: a woven reed basket drifting out of the mist on a calm wide lake toward a little wooden harbour, two tiny swaddled babies asleep in it, a soft rune-blue glow from the basket; fishermen on the pier pointing'),
+    SG('pn_saga_raised','The Village Raises the Twins','a warm cosy scene in a small Norse lakeside village: two toddlers, a girl and a boy, being fed goat\'s milk from a horn by kind villagers round a hearth, a goat looking on, the whole village fond of them'),
+    SG('pn_saga_eyes','Eyes Like Runes','the twins as children, a girl and a boy, sitting in the grass of a village green ringed with tall runestones; their eyes glow rune-blue and the runes on the nearest stone light up to answer them while the old villagers watch amazed'),
+    SG('pn_saga_sendoff','The Send-off','the village gate at morning, the whole village gathered: one twin (the hero in a green cloak, a staff in hand) setting out down the road, the other twin staying at the gate waving, the elders blessing them'),
+    SG('pn_saga_ashnight','The Ash Night','long ago: a night of fire and ash over a land of villages, a great fire giant\'s shadow rising out of a volcano on the horizon, burning ash falling like snow, people fleeing, a wall of fire beginning to rise on one side'),
+    SG('pn_saga_stonefall','The Stone-Fall','long ago in rocky highlands: the mountains breaking apart around deep mines, a huge cliff tearing open across the land, miners running from the dust, a faint glow deep in the broken stone'),
+    SG('pn_saga_blacktide','The Black Tide','long ago in green wetlands: a broad river rising black and swollen from the south, flooding the marsh villages, reed roofs and boats swept away, the black water standing up like a wall'),
+    SG('pn_saga_quiet','The Long Quiet','long ago: the last lakeside village in green grasslands in a grey dusk, few lights, old people at their doors, and at the edge of the fields faint pale-blue ghostly figures of the dead drifting at the edge of the lantern light'),
+    SG('pn_saga_gate','The Gate Shut','a glimpse, dark and mysterious: high in a white-and-gold citadel in the clouds, a great golden gate swinging shut, and through the narrowing gap a masked figure in a golden mask with one burning eye seated on a high throne; seen only in part')]);
   if(ZSCN.expand)ZSCN.expand();
 })();
 

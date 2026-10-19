@@ -207,6 +207,10 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - L1 — Two styles picked: how do they combine? **Answered: vein + moving motes** — one line: the bright vein with its runes, and the stitch's slow wave of light motes running along it.
 - L2 — The settlements in the rings at the very end: who lives there? **Answered: each freed spirit's craft** — a hamlet in each runestone's ring built round that spirit's trade (a smith's ring has a forge, a weaver's has looms), lived in by villagers spreading out across Runeheim.
 - L3 — When do they appear? **Answered: after the credits** — free roam opens on the green land with all 40 standing.
+- (Sprint before Kris steps out) H1 — Order the hamlet art now? **Answered: now — 20 workshops + cottages** (wave 75, 6 sheets).
+- P1 — The 33 saga panels? **Answered: the first 11 now** (the opening and the old disasters, wave 76); the rest after Kris reviews the story draft.
+- G1 — Soul-lines into the game while Kris is away? **Answered: straight into the game** (Lab round D built too; Kris reviews both after).
+- G2 — A spirit freed far from its piece? **Answered: map page flash** — a notice and the new piece glowing on the map; the full trace plays when you next walk near.
 
 ### Round 67 (Oct 19) — soul-lines and the last saga (doc 30)
 - Kris: the premise in doc 30 §1; "Ask me any and all questions before implementing anything".
