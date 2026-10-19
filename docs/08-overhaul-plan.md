@@ -834,3 +834,7 @@ Rough total if everything is approved: 36–54 sessions (est.).
 ## Round 66b (Kris, Oct 19) — round 69's sheets in; the spirits leave the Green
 - Kris: "looks great, and new sheet requests are in"; "after the spirits are released to heaven, they should no longer be at the village center".
 - Done: changelog [657]–[660].
+
+## Round 66c (Kris, Oct 19) — the black screen
+- Kris: "i'm walking around and have a bug where the screen goes black except for some building labels, some glowing artifacts from the familiars and falling leaves".
+- Done: the roads baked into plain tiles (no geometry masks); the outline never takes its mask off; changelog [661]–[662]. Not reproduced here — if it happens again, note where (place, time of day, what was on screen).

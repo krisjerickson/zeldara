@@ -43,12 +43,21 @@ var ZROAD={ on:true, CELL:96, MED:6, RIM:9,
     var c=document.createElement('canvas'); c.width=it[3]; c.height=it[4]; c.getContext('2d').drawImage(pg,it[1],it[2],it[3],it[4],0,0,it[3],it[4]); ws.textures.addCanvas(key,c); return key; },
   glowTex:function(ws){ var k='zr_glow'; if(ws.textures.exists(k))return k; var c=document.createElement('canvas'); c.width=c.height=64; var x=c.getContext('2d'), g=x.createRadialGradient(32,32,2,32,32,32);
     g.addColorStop(0,'rgba(255,250,220,1)'); g.addColorStop(0.35,'rgba(255,226,140,0.55)'); g.addColorStop(1,'rgba(255,220,120,0)'); x.fillStyle=g; x.fillRect(0,0,64,64); ws.textures.addCanvas(k,c); return k; },
-  // one paving layer: tiles of a texture over every cell the shape touches, in a container masked by the shape
-  layer:function(ws,texKey,shape,cells,depth,L){ var mg=ws.make.graphics({add:false}); shape(mg); var C=ws.add.container(0,0).setDepth(depth), S=ZROAD.CELL;
-    Object.keys(cells).forEach(function(k){ var p=k.split(','), cx=+p[0], cy=+p[1]; C.add(ws.add.image(cx*S,cy*S,texKey).setOrigin(0).setDisplaySize(S+1,S+1)); });
-    var ks=Object.keys(cells).map(function(k){ return k.split(',').map(Number); }); C._zrBox=ks.length?[Math.min.apply(null,ks.map(function(q){ return q[0]; }))*S,Math.min.apply(null,ks.map(function(q){ return q[1]; }))*S,(Math.max.apply(null,ks.map(function(q){ return q[0]; }))+1)*S,(Math.max.apply(null,ks.map(function(q){ return q[1]; }))+1)*S]:[0,0,0,0];
-    C._noCull=true; C.setMask(mg.createGeometryMask()); C._zrMask=mg; L.push(C); L.push(mg); (ZROAD._layers=ZROAD._layers||[]).push(C); return C; },      /* at (0,0) the world's culler would hide it — ZROAD.show() hides it instead when the city is off-screen */
-  show:function(ws){ var v=ws.cameras.main.worldView; (ZROAD._layers||[]).forEach(function(C){ if(!C.scene)return; var b=C._zrBox; C.setVisible(!(b[0]>v.right||b[2]<v.x||b[1]>v.bottom||b[3]<v.y)); }); },
+  // round 66c (Kris: "the screen goes black except for some building labels, some glowing artifacts from the familiars and falling leaves"):
+  // no masks any more. Every 96-px cell the roads touch is painted ONCE on a canvas — the dark gold edge, the rune kerb, the mosaic ring and
+  // the flagstones stroked with their textures as patterns (anchored to the world, so the cells join seamlessly) — packed ten by ten into
+  // 1024-px pages, and laid as plain pictures. Nothing stencils the screen, the world's culler skips the cells off-screen, one batch draws them.
+  img:function(id){ var im=typeof ZScn!=='undefined'&&!ZScn.off&&ZScn.timg&&ZScn.timg[id]; return im&&im.width?im:ZROAD.drawTex(id); },
+  bake:function(ws,cells,paint,depth,L){ var S=ZROAD.CELL, P=2, SL=S+2*P, PER=Math.floor(1024/SL), keys=Object.keys(cells), pages=Math.ceil(keys.length/(PER*PER)), n=0, uid=ZROAD._uid=(ZROAD._uid||0)+1;
+    for(var pg=0;pg<pages;pg++){ var key='zr_bake_'+uid+'_'+pg, c=document.createElement('canvas'); c.width=c.height=1024; var x=c.getContext('2d'), mine=keys.slice(pg*PER*PER,(pg+1)*PER*PER);
+      mine.forEach(function(k,q){ var gp=k.split(','), gx=+gp[0], gy=+gp[1], sx=(q%PER)*SL, sy=Math.floor(q/PER)*SL; x.save(); x.beginPath(); x.rect(sx,sy,SL,SL); x.clip(); x.translate(sx+P-gx*S,sy+P-gy*S); paint(x); x.restore(); });
+      ws.textures.addCanvas(key,c); var T=ws.textures.get(key);
+      mine.forEach(function(k,q){ var gp=k.split(','), gx=+gp[0], gy=+gp[1], fn='c'+q; T.add(fn,0,(q%PER)*SL+P,Math.floor(q/PER)*SL+P,S,S); var im=ws.add.image(gx*S,gy*S,key,fn).setOrigin(0).setDepth(depth); L.push(im); n++; });
+      (ZROAD._keys=ZROAD._keys||[]).push(key); }
+    return n; },
+  pat:function(x,id){ var im=ZROAD.img(id), p=x.createPattern(im,'repeat'), k=ZROAD.CELL/(im.width||256); try{ p.setTransform(new DOMMatrix([k,0,0,k,0,0])); }catch(e){} return p; },
+  path:function(x,pts,closed){ x.beginPath(); x.moveTo(pts[0].x,pts[0].y); for(var i=1;i<pts.length;i++)x.lineTo(pts[i].x,pts[i].y); if(closed)x.closePath(); },
+  show:function(){},      // (the masked layers of round 66 are gone)
   // every cell within reach of a line of points
   cells:function(pts,reach,out){ var S=ZROAD.CELL; for(var i=0;i<pts.length;i++){ var a=pts[i], b=pts[Math.min(pts.length-1,i+1)], n=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/32));
       for(var s=0;s<=n;s++){ var x=a.x+(b.x-a.x)*s/n, y=a.y+(b.y-a.y)*s/n; for(var gx=Math.floor((x-reach)/S);gx<=Math.floor((x+reach)/S);gx++)for(var gy=Math.floor((y-reach)/S);gy<=Math.floor((y+reach)/S);gy++)out[gx+','+gy]=1; } } return out; },
@@ -61,12 +70,14 @@ var ZROAD={ on:true, CELL:96, MED:6, RIM:9,
     // each road stops at the ring round the heart (inside it only the world-tree circle shows)
     var RR=ZCITY.RING*TILE, inR=function(q){ var dx=(q.x-H.x)/RR, dy=(q.y-H.y)/(RR*0.85); return dx*dx+dy*dy<1; };
     paths=paths.map(function(p){ var out=[]; for(var i=0;i<p.length;i++){ if(inR(p[i])){ if(out.length){ var a=out[out.length-1], b=p[i], lo=0, hi=1; for(var k=0;k<12;k++){ var m=(lo+hi)/2; if(inR({x:a.x+(b.x-a.x)*m,y:a.y+(b.y-a.y)*m}))hi=m; else lo=m; } out.push({x:a.x+(b.x-a.x)*hi,y:a.y+(b.y-a.y)*hi}); } break; } out.push(p[i]); } return out; }).filter(function(p){ return p.length>1; });
-    var edge=ws.add.graphics().setDepth(-3.64); paths.forEach(function(p){ ZROAD.stroke(edge,p,W+2*rim+6,0x7a5418,0.9); }); ZROAD.stroke(edge,ring,RW+2*rim+6,0x7a5418,0.9); L.push(edge);
-    var cAll={}; paths.forEach(function(p){ ZROAD.cells(p,W/2+rim+4,cAll); }); ZROAD.cells(ring,RW/2+rim+4,cAll);
-    var cRing=ZROAD.cells(ring,RW/2+4,{}), cRoad={}; paths.forEach(function(p){ ZROAD.cells(p,W/2+4,cRoad); });
-    ZROAD.layer(ws,ZROAD.tex(ws,'tx_asg_rim'),function(g){ paths.forEach(function(p){ ZROAD.stroke(g,p,W+2*rim); }); ZROAD.stroke(g,ring,RW+2*rim); },cAll,-3.63,L);
-    ZROAD.layer(ws,ZROAD.tex(ws,ZROAD.painted('tx_asg_plaza')?'tx_asg_plaza':'tx_asg_road'),function(g){ ZROAD.stroke(g,ring,RW); },cRing,-3.615,L);
-    ZROAD.layer(ws,ZROAD.tex(ws,'tx_asg_road'),function(g){ paths.forEach(function(p){ ZROAD.stroke(g,p,W); }); },cRoad,-3.61,L);
+    var cAll={}; paths.forEach(function(p){ ZROAD.cells(p,W/2+rim+6,cAll); }); ZROAD.cells(ring,RW/2+rim+6,cAll);
+    var baked=ZROAD.bake(ws,cAll,function(x){ x.lineJoin='round'; x.lineCap='round';
+      var all=function(w,style){ x.strokeStyle=style; x.lineWidth=w; paths.forEach(function(p){ if(p.length>1){ ZROAD.path(x,p); x.stroke(); } }); };
+      var rng=function(w,style){ x.strokeStyle=style; x.lineWidth=w; ZROAD.path(x,ring,true); x.stroke(); };
+      all(W+2*rim+6,'rgba(122,84,24,0.92)'); rng(RW+2*rim+6,'rgba(122,84,24,0.92)');                      // the dark gold edge
+      var rimP=ZROAD.pat(x,'tx_asg_rim'); all(W+2*rim,rimP); rng(RW+2*rim,rimP);                          // the rune kerb
+      rng(RW,ZROAD.pat(x,ZROAD.painted('tx_asg_plaza')?'tx_asg_plaza':'tx_asg_road'));                    // the mosaic ring
+      all(W,ZROAD.pat(x,'tx_asg_road')); },-3.61,L);                                                         // the flagstones
     // the medallions, and the light that runs along them toward the heart
     var meds=[], gk=ZROAD.glowTex(ws), Z=ZCITY.Z(), mi=0;
     paths.forEach(function(p){ var acc=TILE*2.2, idx=0, total=0; for(var i=1;i<p.length;i++)total+=Math.hypot(p[i].x-p[i-1].x,p[i].y-p[i-1].y);
@@ -75,7 +86,6 @@ var ZROAD={ on:true, CELL:96, MED:6, RIM:9,
             if(M.id){ var mk=ZROAD.cut(ws,M.id); if(mk)im=ws.add.image(x,y,mk).setDepth(-3.58).setDisplaySize(TILE*1.55,TILE*1.55*0.86); } if(!im)im=ws.add.image(x,y,M.key).setDepth(-3.58).setDisplaySize(TILE*1.5,TILE*1.5*0.85);
             var gl=ws.add.image(x,y,gk).setDepth(-3.57).setBlendMode(Phaser.BlendModes.ADD).setDisplaySize(TILE*3.2,TILE*2.7).setAlpha(0.2); L.push(im); L.push(gl); meds.push({gl:gl,i:idx++}); }
           acc+=TILE*ZROAD.MED; } run+=d; } });
-    ZROAD._layers=(ZROAD._layers||[]).filter(function(C){ return C.scene===ws; }); ZROAD.show(ws);
-    { var t0=ws.time.now; ws.time.addEvent({delay:50,loop:true,callback:function(){ var t=(ws.time.now-t0)/1000; ZROAD.show(ws); meds.forEach(function(m){ if(!m.gl.scene)return; var ph=((t*1.6-m.i*0.55)%3.2+3.2)%3.2, k=ph<0.9?Math.sin(ph/0.9*Math.PI):0; m.gl.setAlpha(0.18+0.75*k); }); }}); }
-    ZROAD._last={paths:paths.length,meds:meds.length,cells:Object.keys(cAll).length}; return meds; }
+    { var t0=ws.time.now; ws.time.addEvent({delay:50,loop:true,callback:function(){ var t=(ws.time.now-t0)/1000; meds.forEach(function(m){ if(!m.gl.scene)return; var ph=((t*1.6-m.i*0.55)%3.2+3.2)%3.2, k=ph<0.9?Math.sin(ph/0.9*Math.PI):0; m.gl.setAlpha(0.18+0.75*k); }); }}); }
+    ZROAD._last={paths:paths.length,meds:meds.length,cells:Object.keys(cAll).length,baked:baked}; return meds; }
 };

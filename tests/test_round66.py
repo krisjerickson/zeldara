@@ -30,9 +30,9 @@ with game(new=True, painted=True) as g:
     check('A spell in an adventure site plays the staff pose (%s)' % r['cast'], r['cast'][0] == 'magic_staff' and r['cast'][1] == 'magic_staff', r)
     check('With the Lodestar in hand: its own pose, the staff frames until painted (%s); Godsbane its own pose (%s)' % (r['castL'], r['gb']), r['castL'][0] == 'magic_lodestar' and r['castL'][1] in ('magic_staff', 'magic_lodestar') and r['gb'][0] == 'godsbane', r)
     check('Godsbane reaches the edge of the screen (%s px; the edge is %s px away)' % (r['reach'], r['edge']), r['reach'] >= r['edge'] and r['reach'] >= 440, r)
-    check('Behind a boss: the whole outline with a see-through hero, above the boss, at the hero (%s)' % r['ol'], r['ol'] and r['ol']['vis'] and not r['ol']['mask'] and r['ol']['dep'] >= 13.2 and abs(r['ol']['dx']) < 30, r)
+    check('Behind a boss: the whole outline with a see-through hero, above the boss, at the hero (%s)' % r['ol'], r['ol'] and r['ol']['vis'] and r['ol']['dep'] >= 13.2 and abs(r['ol']['dx']) < 30, r)
     check('Solmyrk\'s new sheets are in the atlas (%s) and his cut-scene panels are painted (%s)' % (r['sol'], r['pn']), all(r['sol']) and all(r['pn']), r)
-    check('Asgard\'s roads: four roads, paving and rim laid under one mask per layer, %s medallions (%s)' % (r['road'] and r['road'].get('meds'), r['layers']), r['road'] and r['road']['paths'] == 4 and r['road']['meds'] >= 12 and len(r['layers']) == 3 and all(m for n, m in r['layers']) and all(n > 5 for n, m in r['layers']), r)
+    check('Asgard\'s roads: four roads baked into %s plain tiles (no masks — round 66c), %s medallions' % (r['road'] and r['road'].get('baked'), r['road'] and r['road'].get('meds')), r['road'] and r['road']['paths'] == 4 and r['road']['meds'] >= 12 and r['road']['baked'] > 50 and not r['layers'], r)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No script errors', not errs, errs[:4])
 S = [q for q in json.load(open(os.path.join(ROOT, 'sprites/requests/scenery.json')))['requests'] if q.get('wave') == 73]

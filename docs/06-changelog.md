@@ -1085,3 +1085,7 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[658] Asgard's roads painted**: the gold-inlaid flagstones, the rune-engraved gold kerb, the mosaic ring and four rune medallions (Sowilo, Raidho, Dagaz, the world-tree) replace the stand-ins; the paving is laid a little finer (96 px tiles); medallions are cut whole from their page.
 - **[659] The spirits go home for good** (Kris: "after the spirits are released to heaven, they should no longer be at the village center"): once the ending has played, the Runestone Green is empty of spirits.
 - **[660] Tests**: `tests/test_round66b.py` (5 checks).
+
+## Round 66c (Kris, Oct 19) — the black screen
+- **[661] No more masks on the roads or the boss outline** (Kris: "the screen goes black except for some building labels, some glowing artifacts from the familiars and falling leaves"): could not be made to happen here, but both things new in round 66 leaned on WebGL masks — the roads' three masked layers (a stencil that, if left set, hides everything drawn after it) and the outline that took its mask off and put it back. The roads are now painted once into plain tiles (each 96-px cell baked on a canvas with its textures as patterns, packed into 1024-px pages); the outline keeps its mask and simply fills it whole when a monster stands in front. Same look, no stencil, and cheaper to draw.
+- **[662] Tests**: test_round66 follows the baked roads.

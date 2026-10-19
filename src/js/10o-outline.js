@@ -60,8 +60,7 @@ var ZOL={ on:true, COL:0x7ff5e6, A:0.95, W:1.5, PAD:6,
     // round 66 (Kris: "the outline shows up elsewhere on the screen, and you still can't see yourself behind the boss"): behind a monster or
     // boss the whole ring shows (no mask to line up with a moving, flipping, scaled boss), with a see-through copy of the hero inside it
     var monFront=S.front.some(function(o){ return o._zolPart; });
-    if(monFront){ if(S.masked!==false&&S.rt.clearMask){ S.rt.clearMask(); S.masked=false; } st.setAlpha(0.6); if(B){ T.beginDraw(); parts.forEach(function(c){ place(c,0,0); T.batchDraw(st); }); T.endDraw(); } else parts.forEach(function(c){ place(c,0,0); rt.draw(st); }); st.setAlpha(1); S.rt.setDepth(Math.max(depth,13.2)); return; }
-    if(S.useMask&&S.masked===false){ S.rt.setMask(S.bmask); S.masked=true; }
+    if(monFront){ if(S.useMask){ S.mrt.clear(); S.mrt.fill(0xffffff,1); }      /* round 66c: the mask is filled whole instead of being taken off and put back */ st.setAlpha(0.6); if(B){ T.beginDraw(); parts.forEach(function(c){ place(c,0,0); T.batchDraw(st); }); T.endDraw(); } else parts.forEach(function(c){ place(c,0,0); rt.draw(st); }); st.setAlpha(1); S.rt.setDepth(Math.max(depth,13.2)); return; }
     // only where he is covered: the mask is the pictures in front of him
     if(S.useMask){ var m=S.mrt, MT=m.texture, flat=S.front.filter(function(o){ return !o._zolPart; }), parts2=S.front.filter(function(o){ return o._zolPart; }); m.clear(); if(B&&MT&&MT.beginDraw){ MT.beginDraw(); flat.forEach(function(o){ MT.batchDraw(o,o.x-x0,o.y-y0); }); MT.endDraw(); } else flat.forEach(function(o){ m.draw(o,o.x-x0,o.y-y0); });
       // a monster's pictures sit inside its container: each is stamped where it stands in the world
