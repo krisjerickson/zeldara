@@ -18,7 +18,7 @@
 // ║   to load, for the Lab, and when painted sprites are switched off
 // ║   (Dev panel → "Painted sprites", or ?sprites=0).
 // ═══════════════════════════════════════════════════════════════════════
-var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},chars:{},frames:{}}, BASE:'assets/atlas/', SCALE:1.5, HERO_STANDIN:42,
+var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},chars:{},frames:{}}, BASE:'assets/atlas/', SCALE:1.5, HERO_STANDIN:42, CAST_FB:{magic_lodestar:'magic_staff',godsbane:'magic_staff',lodestar_raise:'cheer',lodestar_set:'pickup'},      /* round 66: until the Lodestar's own sheets are painted */
   st:{}, img:{}, _n:{}, _ix:{}, _f0:{}, _any:{}, _by:null, _pix:{}, _sw:[], _an:[], _swT:0,
   // characters without a painted sheet wear the nearest painted one (tc_sprint: its sheet was refused by the image service)
   ALIAS:{tc_sprint:'tc_roll'},
@@ -95,7 +95,7 @@ var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},cha
     if(c===ch){
       if(bowTimer>0){ fr([H.animFor(ps,'ranged'),'ranged_bow','idle'],f); i=Math.min(P.n-1,Math.floor((1-bowTimer/0.7)*P.n)); }
       else if(atkTimer>0){ fr([H.animFor(ps,'melee'),'melee_sword','idle'],f); i=Math.min(P.n-1,Math.floor((1-atkTimer/0.45)*P.n)); }
-      else if(st.cast>0){ st.cast-=dt; fr([st.castAnim||H.animFor(ps,'spell'),'magic_hand','cheer','idle'],f); i=Math.min(P.n-1,Math.floor((1-st.cast/(st.castT||0.4))*P.n)); }
+      else if(st.cast>0){ st.cast-=dt; fr([st.castAnim||H.animFor(ps,'spell'),ZAtlas.CAST_FB[st.castAnim]||null,'magic_hand','cheer','idle'],f); i=Math.min(P.n-1,Math.floor((1-st.cast/(st.castT||0.4))*P.n)); }
       else if(st.blocking||scene._shielding){ fr(['block','idle'],f); i=Math.min(P.n-1,st._zt>0.12?1:0); }
       else if(moving){ fr([(st.running||scene._sprintTimer>0)?'run':null,'walk','run','idle'],f); i=Math.floor(st._zt/(P.a==='run'?0.11:0.1))%P.n; }
       else { fr(['idle','walk'],f); i=P.a==='idle'?Math.floor(st._zt/0.6)%P.n:0; } }

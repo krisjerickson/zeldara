@@ -1,10 +1,10 @@
-# Character survey — 473 characters, 1089 sheets (728 core), 7457 poses
+# Character survey — 473 characters, 1097 sheets (736 core), 7517 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: chain_jailer: guard; einherjar_shieldmaiden: guard.
 
 | Group | Characters | Sheets | Core sheets | Poses |
 |---|---|---|---|---|
-| hero | 2 | 40 | 40 | 322 |
+| hero | 2 | 48 | 48 | 382 |
 | rider | 22 | 22 | 22 | 176 |
 | monster | 252 | 642 | 398 | 4049 |
 | boss | 97 | 274 | 157 | 2042 |
@@ -17,8 +17,8 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: cha
 
 | Id | Name | Group | Facings | Moves it must show | Sheets |
 |---|---|---|---|---|---|
-| hero_m | Zeldor (the boy) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
-| hero_f | Zeldara (the girl) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1 | 20 |
+| hero_m | Zeldor (the boy) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Spell with the Lodestar ×4; Godsbane ×4; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1; The Lodestar raised to the sky ×3; The Lodestar set in the notch ×3 | 24 |
+| hero_f | Zeldara (the girl) | Playable heroes | s f b | Idle ×2; Walk ×6; Run / Sprint ×2; Sword attack ×4; Battle axe attack ×4; Bow shot ×4; Crossbow shot ×4; Staff spell ×4; Wand spell ×2; Spell with the Lodestar ×4; Godsbane ×4; Bare-hand spell ×2; Shield block ×2; Roll ×3; Skill · Shield Bash ×3; Skill · War Stomp ×3; Skill · Whirlwind ×4; Skill · Smoke Bomb ×1; Skill · Blink ×2; Skill · Berserker ×2; Skill · Second Wind ×2; Skill · Time Slow ×2; Skill · Phantom Veil ×2; Skill · Meteor Strike ×3; Defeat ×3; Drink potion ×2; Eat ×1; Level up / victory ×2; Rest at a campfire ×1; Hurt ×1; Pick up / use ×1; The Lodestar raised to the sky ×3; The Lodestar set in the notch ×3 | 24 |
 | ride_m_horse | Zeldor (the boy) on Horse | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
 | ride_f_horse | Zeldara (the girl) on Horse | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |
 | ride_m_alligator | Zeldor (the boy) on Alligator | Hero on a mount | x | Ride · side ×4 (trotting, side view); Ride · front ×2 (toward the camera); Ride · back ×2 (away from the camera) | 1 |

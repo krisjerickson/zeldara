@@ -111,6 +111,19 @@
     SOLP('pn_sol_12_b','Behind the Mask',['sol_ref_2','sol_ref_2d','sol_ref_1'],[S2,S2D,'his first form, for the helm: the cracked helm is this same crested golden helm'],'close on him: behind the broken gold of the crested helm a black demon face with one burning white eye looks out; long black sinuous clawed arms of shadow uncoil from under his robes and black ravens burst up around him'),
     SOLP('pn_sol_23_a','The Light Drains Away',['sol_ref_2','sol_ref_3'],[S2,S3],'the cracked helm shatters into spinning gold shards; all the light of the hall streams into him in long golden streaks and his wings burn away into black ash, the white pillars going grey behind him'),
     SOLP('pn_sol_23_b','The Hollow King',['sol_ref_3'],[S3],'what is left looms over the hero: the Hollow King, a towering void of black smoke with a tall jagged black crown, a split of white light for its one eye and four long binding arms reaching out; the hall has gone dark, lit only by thin teal and violet edges of light')]);
+  // ═══ wave 73: Asgard's golden roads painted (Kris: "the golden road in asgard looks too simple and weird … possible with painted sprites";
+  //     cards: gold-inlaid flagstones, rune medallions, straight into the game) ═══
+  ZSCN.WAVES[73]='Round 66 — Asgard\'s golden roads: the paving, its rune border, the medallions';
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    {id:'sc_asg_road_tex',wave:73,fam:'asg_ground',kind:'tex',cols:3,rows:1,size:'1536x1024',refs:['sc_asg_ground_opts'],title:'Asgard — the golden roads, three tileable textures seen straight from above, in the same style as the cream rune-paving in the reference',items:[
+      ['tx_asg_road','Gold-inlaid flagstones','the paving of a royal road: large cream-white flagstones of slightly different sizes laid in staggered rows, every seam between them inlaid with a thin strip of polished gold, a few stones carrying a small faint gold rune; warm, clean and bright',256,256],
+      ['tx_asg_rim','Gold rune border','a band of polished gold kerb-stone densely engraved with a running line of Norse runes and knot-work, darker gold in the grooves, bright gold on the raised parts (it is tiled to edge the roads)',256,256],
+      ['tx_asg_plaza','Gold and white mosaic','a ring-road paving of small white and gold mosaic tiles in a pattern of interlaced knots and tiny leaves of the world-tree, gold-dominant',256,256]]},
+    {id:'sc_asg_road_med',wave:73,fam:'asg_circle',kind:'flat',cols:4,rows:1,size:'1536x1024',refs:['sc_asg_circle_opts'],title:'Asgard — round rune medallions set flush into the golden roads every few steps, seen from straight above, in the same style as the world-tree circle in the reference; original designs, no text',items:[
+      ['asr_med_a','Medallion — Sowilo','a round medallion of polished gold set flush in white stone, a raised rim of knot-work, in the middle the sun rune ᛋ inlaid in white-gold, softly glowing',200,200],
+      ['asr_med_b','Medallion — Raidho','a round medallion of polished gold set flush in white stone, a raised rim of tiny leaves, in the middle the journey rune ᚱ inlaid in white-gold, softly glowing',200,200],
+      ['asr_med_c','Medallion — Dagaz','a round medallion of polished gold set flush in white stone, a raised rim of interlaced rings, in the middle the dawn rune ᛞ inlaid in white-gold, softly glowing',200,200],
+      ['asr_med_d','Medallion — the world-tree','a round medallion of polished gold set flush in white stone, a raised rim of runes, in the middle a small white-gold world-tree, softly glowing',200,200]]}]);
   if(ZSCN.expand)ZSCN.expand();
 })();
 

@@ -1,4 +1,4 @@
-# Scenery — 240 sheets, 1933 objects and textures (13 sheets in the pilot)
+# Scenery — 242 sheets, 1940 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -53,6 +53,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 70 | Round 65 — cut-scene panels: Surtharn changes form | 5 | 5 |
 | 71 | Round 65b — cut-scene panel: Surtharn rises | 1 | 1 |
 | 72 | Round 65d — cut-scene panels: Solmyrk (intro, phase 1 → 2, phase 2 → 3) | 5 | 5 |
+| 73 | Round 66 — Asgard's golden roads: the paving, its rune border, the medallions | 2 | 7 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -7799,6 +7800,54 @@ Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Cu
 The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
 Subject: a wide cinematic painting. Reference image 3 = the approved painting of his last form, the Hollow King: copy him exactly. Reference image 4 = an approved cut-scene panel: paint in exactly its style, light and finish (but NOT its place or its boss). The place: the great throne hall at the top of the white-and-gold citadel of Asgard — tall white pillars, gold rune-carvings, a high seat on a stepped dais, a world-tree mosaic on the floor. what is left looms over the hero: the Hollow King, a towering void of black smoke with a tall jagged black crown, a split of white light for its one eye and four long binding arms reaching out; the hall has gone dark, lit only by thin teal and violet edges of light. The young hero in a green cloak small in the foreground, seen from behind, facing him; no text.
 The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_asg_road_tex
+
+Asgard — the golden roads, three tileable textures seen straight from above, in the same style as the cream rune-paving in the reference · wave 73 · 3 items, 3 × 1 · 1536x1024
+
+- `tx_asg_road` Gold-inlaid flagstones — 256 × 256 px
+- `tx_asg_rim` Gold rune border — 256 × 256 px
+- `tx_asg_plaza` Gold and white mosaic — 256 × 256 px
+
+Attach: style_hero, style_centaur, sc_asg_ground_opts
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 square ground-texture swatches — Asgard — the golden roads, three tileable textures seen straight from above, in the same style as the cream rune-paving in the reference.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 3 swatches in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. Gold-inlaid flagstones — the paving of a royal road: large cream-white flagstones of slightly different sizes laid in staggered rows, every seam between them inlaid with a thin strip of polished gold, a few stones carrying a small faint gold rune; warm, clean and bright.
+2. Gold rune border — a band of polished gold kerb-stone densely engraved with a running line of Norse runes and knot-work, darker gold in the grooves, bright gold on the raised parts (it is tiled to edge the roads).
+3. Gold and white mosaic — a ring-road paving of small white and gold mosaic tiles in a pattern of interlaced knots and tiny leaves of the world-tree, gold-dominant.
+View: seen from straight above, flat.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: each swatch is a flat square that fills its whole cell from edge to edge — no border, no frame, no vignette, no perspective, no lighting gradient across the square, no single large feature. The pattern must repeat seamlessly when the square is tiled in every direction. Keep every swatch very calm, even and LOW in contrast: it lies under the characters and must not compete with them. Mostly one flat base colour; the marks are small (each no wider than a twelfth of the square), only a little darker or lighter than the base, with NO dark outlines, and spread evenly. Leave a thin gap of plain white between the squares. No objects, no shadows of objects, no grid lines, no numbers, no labels, no text, no watermark.
+Background between the squares: plain white.
+```
+
+## sc_asg_road_med
+
+Asgard — round rune medallions set flush into the golden roads every few steps, seen from straight above, in the same style as the world-tree circle in the reference; original designs, no text · wave 73 · 4 items, 4 × 1 · 1536x1024
+
+- `asr_med_a` Medallion — Sowilo — 200 × 200 px
+- `asr_med_b` Medallion — Raidho — 200 × 200 px
+- `asr_med_c` Medallion — Dagaz — 200 × 200 px
+- `asr_med_d` Medallion — the world-tree — 200 × 200 px
+
+Attach: style_hero, style_centaur, sc_asg_circle_opts
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Asgard — round rune medallions set flush into the golden roads every few steps, seen from straight above, in the same style as the world-tree circle in the reference; original designs, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 4 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. Medallion — Sowilo — a round medallion of polished gold set flush in white stone, a raised rim of knot-work, in the middle the sun rune ᛋ inlaid in white-gold, softly glowing (about 3.2× the hero's height across).
+2. Medallion — Raidho — a round medallion of polished gold set flush in white stone, a raised rim of tiny leaves, in the middle the journey rune ᚱ inlaid in white-gold, softly glowing (about 3.2× the hero's height across).
+3. Medallion — Dagaz — a round medallion of polished gold set flush in white stone, a raised rim of interlaced rings, in the middle the dawn rune ᛞ inlaid in white-gold, softly glowing (about 3.2× the hero's height across).
+4. Medallion — the world-tree — a round medallion of polished gold set flush in white stone, a raised rim of runes, in the middle a small white-gold world-tree, softly glowing (about 3.2× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

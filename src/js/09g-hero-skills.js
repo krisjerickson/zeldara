@@ -15,7 +15,7 @@ var ZSKILL={ cdUntil:0, sprintUntil:0, berserkUntil:0,
     var now=Date.now(); if(now<ZSKILL.cdUntil){ showNotif('Special on cooldown: '+Math.ceil((ZSKILL.cdUntil-now)/1000)+'s remaining','#aaaaaa'); return; }
     var stats=ws.calcPlayerStats?ws.calcPlayerStats():{atk:ps.atk||3}, cdr=stats.cdReduce||0, id=item.skillId, c=_heroCtx(scene), ang=_heroDirAngle(c.dir), atk=stats.atk||ps.atk||3, T=typeof TILE!=='undefined'?TILE:32;
     if(id==='shield_bash'&&!(ps.equip&&ps.equip.shield)){ showNotif('Shield Bash requires a shield equipped!','#ff8844'); return; }
-    ZSKILL.cdUntil=now+(item.cd||8)*1000*(1-cdr); ZSKILL.cdLen=(item.cd||8)*(1-cdr);
+    ZSKILL.cdUntil=now+(item.cd||8)*1000*(1-cdr); ZSKILL.cdLen=(item.cd||8)*(1-cdr); if(typeof ZSPR!=='undefined'&&id!=='sprint'&&typeof _heroCastPose==='function')_heroCastPose(scene,ZSPR.HERO.animFor(ps,'skill',id0),0.5);      /* round 66: the painted skill pose everywhere */
     var iframes=function(t){ scene.playerIFrames=Math.max(scene.playerIFrames||0,t); scene.iFrames=Math.max(scene.iFrames||0,t); scene._iFrames=Math.max(scene._iFrames||0,t); };
     var ring=function(x,y,r0,r1,col,fx,ms,o){ var g=scene.add.circle(x,y,r0,col,0.55).setDepth(15); if(typeof ZFX!=='undefined')ZFX.dress(g,fx,o); scene.tweens.add({targets:g,radius:r1,alpha:0,duration:ms||450,onComplete:function(){ g.destroy(); }}); return g; };
     var near=function(x,y,r){ return (c.monsters||[]).filter(function(m){ return m&&!m.dead&&(typeof _hbD==='function'?_hbD(m,x,y):Math.hypot(m.x-x,m.y-y))<r; }); };

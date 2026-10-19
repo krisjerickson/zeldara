@@ -202,6 +202,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 66 (Oct 18, night) — the golden roads of Asgard
+- Kris: "the golden road in asgard looks too simple and weird. we need to make it better looking, and possible with painted sprites".
+- The road's surface? **Answered: gold-inlaid flagstones** — white/cream flagstones like the picked rune-paving, gold inlay seams, a gold rune border along both edges (painted, seamless).
+- What lines its edges? **Answered: rune medallions** — big gold rune medallions set into the road every few tiles, glowing faintly toward the centre.
+- Options in the Lab first, or straight into the game? **Answered: straight into the game.**
+
 ### Round 65 (Oct 18, evening) — Solmyrk remade, cut-scenes
 - Kris: "we need to change solmyrk … black spirit images are for the final phase. the dark armor with white wings is inspiration for the middle phase. and then white angels are inspiration for the first phase, but for any coloration, make it golden, not blue"; keep the bishop-like robes, the scepter, the single Odin eye and glowing eye, runic elements, no legs (hovering), the massive golden helmet; phase 2 the ravens, the golden mask breaking to show the dark demon, black sinuous arms coming out, the light/black pulse; the final form changes most — at least 6 options. Lab notes: grim_1 "wings longer and taller … faceted. outfit more grand, long and flowing and ethereal"; grim_2 "a combo between the 2 extremes"; grim_3 "darker … like the void … deep shadowy nothingness with long binding arms".
 - Mapping? **Answered: phase 1 the golden angel, phase 2 the cracked mask, phase 3 the shadow.**
@@ -819,3 +825,8 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris: "pics are in, let me know if any other questions you need my answer on". Picks: sol_1 a (Gilded Seraph), sol_2 a (Wings of Ash, with phase 1's helm cracked), sol_3 a (Hollow King).
 - Done: `ZSOL` puts the picked forms in the game; round68.ps1 orders his 9 sheets (wave 7.95) and 5 cut-scene panels (wave 72); changelog [646]–[648].
 - **Next:** when the sheets are in — intake, the atlas, and phase 3's light beats as a flare through the void (it is painted dark); the five panels into the cut-scenes.
+
+## Round 66 (Kris, Oct 19) — Asgard's roads, spell poses, Godsbane, notifications, the outline
+- Kris: the golden road "looks too simple and weird" (cards: gold-inlaid flagstones, rune medallions, straight into the game); the staff pose when casting; sheets for Godsbane and the Lodestar; Godsbane across the screen; one notification each, pulsing; the outline behind bosses in the wrong place; Solmyrk's sheets in.
+- Done: changelog [649]–[656]; round69.ps1 orders scenery wave 73 and the 8 Lodestar hero sheets.
+- **Next:** when round69 is in — the painted road textures and medallions take over from the stand-ins; the hero's Lodestar poses replace the staff frames.

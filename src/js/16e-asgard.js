@@ -6,8 +6,8 @@
 // ║  · The pier notch: the end of the village pier. Set the Lodestar in it: the freed spirits come from the Green and line up along the ley
 // ║    line to the pier, the staff's beam melts a road through Asgard's wall, and the BIFRÖST runs from the pier to the gate, shimmering.
 // ║  · The spirits teach the staff its one spell, GODSBANE (Kris, Oct 15 card: "its own button"): [V] (or the ✦ slot on the action bar), only with
-// ║    the Lodestar in hand, a beam of white-gold light — Sovereign, ×2 against Asgard's wards (and later Grímnir's weak point) — 20 s to recover.
-// ║  · Inside the walls: the citadel's door is sealed until round 60 (the four floors and Grímnir). The ending (Kris, Oct 15): at the rune circle
+// ║    the Lodestar in hand, a beam of white-gold light — Sovereign, ×2 against Asgard's wards (and later Solmyrk's weak point) — 20 s to recover.
+// ║  · Inside the walls: the citadel's door is sealed until round 60 (the four floors and Solmyrk). The ending (Kris, Oct 15): at the rune circle
 // ║    in the heart of liberated Asgard the Lodestar casts Godsbane into the sky and remakes the Bifröst into heaven.
 // ║ State: ps.asgardDown, ps.bifrost, ps.godsbane. The ground is re-carved from these on every load (ZASG.watch).
 // ═══════════════════════════════════════════════════════════════════════
@@ -87,7 +87,7 @@ var ZASG={ on:true, LAKE:{x:600,y:600}, CD:20,
   check:function(ws){ var ps=ws.playerState, N=ZASG.notchAt(); if(!ps||!ps.asgardDown||!N||!ws.player)return false; var d=Math.hypot(ws.player.x-N.x,ws.player.y-N.y); if(d>TILE*1.8){ if(ws._interactPrompt&&ws._interactPrompt._zsp==='notch'){ ws._interactPrompt.destroy(); ws._interactPrompt=null; } return false; }
     var has=ZASG.hasStaff(ps), t=ps.bifrost?'The notch — the Bifröst stands':has?'[Tab] Set the Lodestar in the notch':'The notch at the end of the pier (it waits for the Lodestar)';
     if(!ws._interactPrompt||ws._interactPrompt._zsp!=='notch'||ws._interactPrompt._zt!==t){ if(ws._interactPrompt)ws._interactPrompt.destroy(); ws._interactPrompt=domText(ws,N.x,N.y-44,t,{fontSize:'10px',color:'#fff2b0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); ws._interactPrompt._zsp='notch'; ws._interactPrompt._zt=t; }
-    if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB)){ if(ps.bifrost)showNotif('🌈 The Bifröst shines from the notch to Asgard\'s gate.','#fff2b0'); else if(has)ZASG.bifrost(ws); else showNotif('The notch is shaped for a staff — the Lodestar, made at Muspelheim\'s great hearth.','#fff2b0'); }
+    if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB)){ if(ps.bifrost)showNotif('🌈 The Bifröst shines from the notch to Asgard\'s gate.','#fff2b0'); else if(has){ if(typeof _heroCastPose==='function')_heroCastPose(ws,'lodestar_set',1.6); ZASG.bifrost(ws); } else showNotif('The notch is shaped for a staff — the Lodestar, made at Muspelheim\'s great hearth.','#fff2b0'); }
     return true; },
   hasStaff:function(ps){ return (ps.inventory||[]).indexOf('lodestar')>=0||(ps.equip&&ps.equip.mWeapon==='lodestar'); },
   // ── the Bifröst ──
@@ -106,7 +106,7 @@ var ZASG={ on:true, LAKE:{x:600,y:600}, CD:20,
       ws.time.delayedCall(1500,function(){ cam.flash(900,255,250,220); cam.shake(900,0.01); showNotif('🌈 The beam melts a road through Asgard\'s wall — the BIFRÖST!','#fff2b0'); ZASG.road(ws,true);
         ws.tweens.add({targets:beam,alpha:0,duration:1400,onComplete:function(){ beam.destroy(); }});
         ws.time.delayedCall(2600,function(){ cam.pan(N.x,N.y,1200,'Sine.easeInOut'); ws.time.delayedCall(1300,function(){
-          ZSPIRIT.talk('The spirits of Runeheim','#9fe8ff','We have waited so long at the edge of the light. You broke our chains, you broke the Tyrant\'s fire — and now the road stands.<br><br>The staff remembers the way home, but it needs a word to wake it. Take it from us: <b>GODSBANE</b>. Speak it with the Lodestar in your hand, and the light will answer. Behind those walls, Grímnir has shut the gate of heaven. Open it for us.<br><br><span style="color:#fff2b0">✦ Godsbane — press <b>V</b> (or the ✦ slot) with the Lodestar in your hand.</span>',[{t:'Godsbane',f:function(){ ZASG.learn(ws,sp,ley,st); }}],ZASG.face(ws)); }); }); }); }); },
+          ZSPIRIT.talk('The spirits of Runeheim','#9fe8ff','We have waited so long at the edge of the light. You broke our chains, you broke the Tyrant\'s fire — and now the road stands.<br><br>The staff remembers the way home, but it needs a word to wake it. Take it from us: <b>GODSBANE</b>. Speak it with the Lodestar in your hand, and the light will answer. Behind those walls, Solmyrk has shut the gate of heaven. Open it for us.<br><br><span style="color:#fff2b0">✦ Godsbane — press <b>V</b> (or the ✦ slot) with the Lodestar in your hand.</span>',[{t:'Godsbane',f:function(){ ZASG.learn(ws,sp,ley,st); }}],ZASG.face(ws)); }); }); }); }); },
   // the spirits' face in the dialog: the first freed spirit's own picture
   face:function(ws){ var ps=ws.playerState, shr=typeof ZSPIRIT!=='undefined'?ZSPIRIT.shrines(ws):[], id=null; (ps.spiritsFreed||[]).some(function(f){ var s=shr.find(function(q){ return q.id===f; }); id=s&&ZSPIRIT.uniqueId(s,'free'); return !!id; });
     if(!id&&typeof ZSPIRIT40!=='undefined'&&ZSPIRIT40[0])id='sp_u_'+ZSPIRIT40[0][0]+'_free'; return typeof ZTALK!=='undefined'&&id?ZTALK.scn(id,ZSPIRIT._drawSpirit?ZSPIRIT._drawSpirit(true):null):null; },
@@ -135,7 +135,7 @@ var ZASG={ on:true, LAKE:{x:600,y:600}, CD:20,
   // inside the walls: the citadel's door (sealed until round 60)
   citadel:function(ws){ var ps=ws.playerState; if(!ps||!ps.asgardDown||!ws.player)return false; var P=ZASG.plan(ws), dx=P.cx*TILE+16, dy=P.cy*TILE+16+TILE*1.5, d=Math.hypot(ws.player.x-dx,ws.player.y-dy); if(d>TILE*2.2){ if(ws._interactPrompt&&ws._interactPrompt._zsp==='citadel'){ ws._interactPrompt.destroy(); ws._interactPrompt=null; } return false; }
     if(!ws._interactPrompt||ws._interactPrompt._zsp!=='citadel'){ if(ws._interactPrompt)ws._interactPrompt.destroy(); ws._interactPrompt=domText(ws,dx,dy-60,'The citadel of Asgard — [Tab]',{fontSize:'10px',color:'#fff2b0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); ws._interactPrompt._zsp='citadel'; }
-    if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB))showNotif('🏛 The golden doors of the citadel are sealed by Grímnir, the Masked King. (Asgard\'s four floors and Grímnir come in round 60.)','#fff2b0'); return true; }
+    if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB))showNotif('🏛 The golden doors of the citadel are sealed by Solmyrk, the Black Sun. (Asgard\'s four floors and Solmyrk come in round 60.)','#fff2b0'); return true; }
 };
 setInterval(ZASG.watch,1000);
 // round 61: the cream rune-paving inside the walls (tx_asg_b — the slab pattern if it is not painted)
@@ -149,12 +149,14 @@ if(typeof ZCINE!=='undefined')ZCINE.panel=function(id,cap,ms,cb){ var R=(typeof 
 
 // ── GODSBANE: the Lodestar's one spell ──
 var ZGODS={
+  // how far the beam reaches: to the edge of the screen the way you face (never shorter than 440 px)
+  reach:function(sc,x,y,nx,ny){ var L=1e9; try{ var v=sc.cameras.main.worldView; if(nx>0.01)L=Math.min(L,(v.right-x)/nx); if(nx<-0.01)L=Math.min(L,(v.x-x)/nx); if(ny>0.01)L=Math.min(L,(v.bottom-y)/ny); if(ny<-0.01)L=Math.min(L,(v.y-y)/ny); }catch(e){} return Math.max(440,Math.min(1600,L===1e9?900:L+24)); },
   ready:function(ps){ return Math.max(0,((ps&&ps._gbUntil)||0)-Date.now()); },
   cast:function(scene){ var ws=typeof _heroWS==='function'?_heroWS():null, ps=ws&&ws.playerState; if(!ps||!scene)return;
     if(!ps.godsbane){ return; } if(!(ps.equip&&ps.equip.mWeapon==='lodestar')){ showNotif('✦ Godsbane answers only the Lodestar — take it in hand (Inventory → magic weapon).','#fff2b0'); return; }
     var key=scene.sys.settings.key; if(key==='Building'||key==='Sky'){ showNotif('✦ Not here.','#fff2b0'); return; }
     var left=ZGODS.ready(ps); if(left>0){ showNotif('✦ The Lodestar is still gathering light — '+Math.ceil(left/1000)+' s','#c8bfa0'); return; }
-    ps._gbUntil=Date.now()+ZASG.CD*1000; var c=_heroCtx(scene), ang=_heroDirAngle(c.dir), len=440, wdt=36, nx=Math.cos(ang), ny=Math.sin(ang);
+    ps._gbUntil=Date.now()+ZASG.CD*1000; var c=_heroCtx(scene), ang=_heroDirAngle(c.dir), nx=Math.cos(ang), ny=Math.sin(ang), len=ZGODS.reach(scene,c.x,c.y,nx,ny), wdt=40; if(typeof _heroCastPose==='function')_heroCastPose(scene,'godsbane',0.75);      /* round 66: the hero's own Godsbane pose */      /* round 66 (Kris: "godsbane should have longer range, essentially the entire length of the screen") */
     var S=typeof ZHit!=='undefined'&&ZHit.sums?ZHit.sums(ps):{spell:0}, I=ITEMS.lodestar||{atk:40,spellMult:2.6}, raw=Math.round((I.atk||40)*(I.spellMult||2.6)*(1+(S.spell||0))*1.6);
     var g=scene.add.graphics().setDepth(9000).setBlendMode(Phaser.BlendModes.ADD), ex=c.x+nx*len, ey=c.y+ny*len;
     g.lineStyle(wdt*1.6,0xfff0b0,0.28).lineBetween(c.x,c.y-10,ex,ey-10); g.lineStyle(wdt,0xfff8e0,0.6).lineBetween(c.x,c.y-10,ex,ey-10); g.lineStyle(8,0xffffff,1).lineBetween(c.x,c.y-10,ex,ey-10);

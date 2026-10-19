@@ -40,7 +40,7 @@ var ZOL={ on:true, COL:0x7ff5e6, A:0.95, W:1.5, PAD:6,
     try{ ZOL._draw(scene,cont,parts,b,S,depth); }catch(e){ if(S.rt)S.rt.setVisible(false); ZOL._err=(ZOL._err||0)+1; if(ZOL._err>30)ZOL.on=false; if(typeof console!=='undefined')console.warn('outline:',e&&e.message); } },
   _draw:function(scene,cont,parts,b,S,depth){ var P=ZOL.PAD, x0=Math.floor(b.x-P), y0=Math.floor(b.y-P), w=Math.ceil(b.r-b.x+2*P), h=Math.ceil(b.bt-b.y+2*P);
     if(!S.rt||!S.rt.scene){ S.rt=scene.add.renderTexture(0,0,w,h).setOrigin(0,0); S.rt._zolSkip=true; S.mrt=scene.make.renderTexture({x:0,y:0,width:w,height:h,add:false}).setOrigin(0,0);
-      S.stamp=scene.make.image({x:0,y:0,key:parts[0].texture.key,add:false}); S.useMask=!!(S.rt.setMask&&S.mrt.createBitmapMask); if(S.useMask)S.rt.setMask(S.mrt.createBitmapMask()); }
+      S.stamp=scene.make.image({x:0,y:0,key:parts[0].texture.key,add:false}); S.useMask=!!(S.rt.setMask&&S.mrt.createBitmapMask); if(S.useMask){ S.bmask=S.mrt.createBitmapMask(); S.rt.setMask(S.bmask); S.masked=true; } }
     if(S.rt.width<w||S.rt.height<h){ S.rt.resize(Math.max(w,S.rt.width),Math.max(h,S.rt.height)); S.mrt.resize(Math.max(w,S.mrt.width),Math.max(h,S.mrt.height)); }
     S.rt.setPosition(x0,y0).setDepth(depth).setVisible(true).setAlpha(ZOL.A); S.mrt.setPosition(x0,y0);
     var rt=S.rt, st=S.stamp, sx=cont.scaleX, sy=cont.scaleY, W=ZOL.W;
@@ -57,6 +57,11 @@ var ZOL={ on:true, COL:0x7ff5e6, A:0.95, W:1.5, PAD:6,
     if(B){ T._eraseMode=true; T.beginDraw(); parts.forEach(function(c){ place(c,0,0); T.batchDraw(st); }); T.endDraw(true); T._eraseMode=false; }
     else parts.forEach(function(c){ place(c,0,0); rt.erase(st); });
     st.clearTint();
+    // round 66 (Kris: "the outline shows up elsewhere on the screen, and you still can't see yourself behind the boss"): behind a monster or
+    // boss the whole ring shows (no mask to line up with a moving, flipping, scaled boss), with a see-through copy of the hero inside it
+    var monFront=S.front.some(function(o){ return o._zolPart; });
+    if(monFront){ if(S.masked!==false&&S.rt.clearMask){ S.rt.clearMask(); S.masked=false; } st.setAlpha(0.6); if(B){ T.beginDraw(); parts.forEach(function(c){ place(c,0,0); T.batchDraw(st); }); T.endDraw(); } else parts.forEach(function(c){ place(c,0,0); rt.draw(st); }); st.setAlpha(1); S.rt.setDepth(Math.max(depth,13.2)); return; }
+    if(S.useMask&&S.masked===false){ S.rt.setMask(S.bmask); S.masked=true; }
     // only where he is covered: the mask is the pictures in front of him
     if(S.useMask){ var m=S.mrt, MT=m.texture, flat=S.front.filter(function(o){ return !o._zolPart; }), parts2=S.front.filter(function(o){ return o._zolPart; }); m.clear(); if(B&&MT&&MT.beginDraw){ MT.beginDraw(); flat.forEach(function(o){ MT.batchDraw(o,o.x-x0,o.y-y0); }); MT.endDraw(); } else flat.forEach(function(o){ m.draw(o,o.x-x0,o.y-y0); });
       // a monster's pictures sit inside its container: each is stamped where it stands in the world

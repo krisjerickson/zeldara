@@ -26,6 +26,7 @@ var ZEND={ on:true, R:TILE*2.4,
     var at=function(ms,f){ ws.time.delayedCall(ms,function(){ try{ f(); }catch(e){ console.warn('ending',e); } }); };
     var panel=function(k,cap,next){ if(typeof ZCINE!=='undefined'&&ZCINE.panel)ZCINE.panel(ZEND.panel(k),cap,4600,next); else next(); };
     showNotif('🌟 You raise the Lodestar over the world-tree circle…','#fff2b0');
+    if(typeof _heroCastPose==='function')_heroCastPose(ws,'lodestar_raise',3.2);      // round 66: the hero raises it (painted pose)
     at(1600,function(){ panel('cast','The Lodestar wakes — Godsbane, cast into the sky.',function(){
       // the beam: a column of white-gold light into the sky
       var beam=ws.add.graphics().setDepth(9500).setBlendMode(Phaser.BlendModes.ADD); L.push(beam); var h=0;

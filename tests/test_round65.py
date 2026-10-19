@@ -35,7 +35,7 @@ with game(new=True, painted=True) as g:
       var R=document.getElementById('modal-forgetrial'); o.rulesAfter=!!R; if(R)R.querySelector('.zft-go').click(); await w(400); var D2=game.scene.getScene('Dungeon'); D2._exitToWorld(null); await w(1500);
       ZMUSP.enter(ws,4); await w(4500); o.again=!!document.getElementById('zcut'); var R2=document.getElementById('modal-forgetrial'); if(R2)R2.querySelector('.zft-go').click(); game.scene.getScene('Dungeon')._exitToWorld(null); await w(1200); ZFT.on=false; ZCUT.on=false; return o; })()""" % W)
     check('Solmyrk changes form behind a cut-scene: the game pauses, a placeholder panel plays (%s…) with its line ("%s"), then the next (“%s”); Skip ends it and form %s fights on' % (r['img'], r['cap'], r['second'], r.get('form2')),
-          r['form'] == 1 and r['cut'] and r['paused'] and r['img'].startswith('data:image') and r['cap'] and r['second'] and r['second'] != r['cap'] and r['closed'] and r.get('form2') == 2, r)
+          r['form'] == 1 and r['cut'] and r['paused'] and (r['img'].startswith('data:image') or r['img'].startswith('http')) and r['cap'] and r['second'] and r['second'] != r['cap'] and r['closed'] and r.get('form2') == 2, r)
     check('Surtharn\'s changes have their cut-scenes too, painted ("%s")' % r['surt'], 'Jötunn' in r['surt'] and 'pn_surt_4' in r['surtImg'], r)
     check('Round 65b: an intro as Surtharn first rises ("%s"); the rules pop-up waits for it (%s → %s); not again on the next visit (%s)' % (r['intro'], r['rulesFirst'], r['rulesAfter'], r['again']),
           'Surtharn' in r['intro'] and not r['rulesFirst'] and r['rulesAfter'] and not r['again'], r)

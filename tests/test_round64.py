@@ -136,7 +136,7 @@ req = json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'requests.json'),
 G = [q for q in req['requests'] if q['char'].startswith('grim_')]
 fac = sorted(set(q['facing'] for q in G))
 check('Ordered (sprite wave 7.95): Solmyrk\'s three forms, front, side and back (%d sheets, views %s); forms 2 and 3 use form 1 as their reference' % (len(G), fac),
-      len(G) == 9 and all(q['wave'] == 7.95 for q in G) and 'grim_1.core.s' in [r for q in G if q['id'] == 'grim_2.core.s' for r in q['refs']] and any('Odin' in q['body'] and 'RADIANT' in q['body'] for q in G))
+      len(G) == 9 and all(q['wave'] == 7.95 for q in G) and 'grim_1.core.s' in [r for q in G if q['id'] == 'grim_2.core.s' for r in q['refs']] and any(('Odin' in q['body'] or 'Seraph' in q['body']) and 'RADIANT' in q['body'] for q in G))  # round 65d: Solmyrk's picked forms
 lab = open(os.path.join(ROOT, 'lab', 'index.html'), encoding='utf8').read()
 check('The Lab: Grímnir\'s names and the pulsing god cards are in the Bosses tab', 'GRIM_NAMES' in lab and 'LGOD' in lab and 'bb-name' in lab)
 I = json.load(open(os.path.join(ROOT, 'assets', 'atlas', 'index.json')))

@@ -748,9 +748,14 @@ function toggleModal(id){
   if(id==='map'&&opening){ e.style.display='none'; openWorldMap(); }
 }
 function closeModal(id){var e=document.getElementById('modal-'+id);if(e)e.style.display='none';if(id==='tome')document.body.classList.remove('bars-hidden');if(id==='map'){ if(typeof WMAP!=='undefined')WMAP.travel=null; document.body.classList.remove('bars-hidden'); }if(id==='inventory')document.body.classList.remove('bars-hidden');}
+// round 66 (Kris: "when spamming spells and special moves, there are too many notifications that you can't cast things, and they tile down the
+// screen. limit to one each of these, but they can pulse if you keep pressing buttons"): the same message (numbers aside — "3 s", "need 20")
+// never stacks — the one already showing takes the new words, stays up longer and gives a little pulse.
 function showNotif(msg,col){
-  var a=document.getElementById('notif-area'),d=document.createElement('div');
-  d.className='notif';d.style.color=col||'#ffffff';d.textContent=msg;a.appendChild(d);
-  setTimeout(function(){d.style.transition='opacity .5s';d.style.opacity='0';setTimeout(function(){d.remove();},500);},2500);
+  var a=document.getElementById('notif-area'); if(!a)return; var key=String(msg).replace(/\d+(\.\d+)?/g,'#');
+  var fade=function(d){ clearTimeout(d._t1); clearTimeout(d._t2); d._t1=setTimeout(function(){ d._gone=true; d.style.transition='opacity .5s'; d.style.opacity='0'; d._t2=setTimeout(function(){ d.remove(); },500); },2500); };
+  for(var i=0;i<a.children.length;i++){ var o=a.children[i]; if(o._nk===key&&!o._gone){ o.textContent=msg; o.style.color=col||'#ffffff'; o._n=(o._n||1)+1;
+      o.classList.remove('notif-pulse'); void o.offsetWidth; o.classList.add('notif-pulse'); fade(o); return; } }
+  var d=document.createElement('div'); d.className='notif'; d._nk=key; d.style.color=col||'#ffffff'; d.textContent=msg; a.appendChild(d); fade(d);
 }
 

@@ -151,11 +151,12 @@ var ZSPR={
             staff:{label:'Staff',anim:'magic_staff',held:'a tall wooden staff topped with a glowing teal crystal'},
             wand:{label:'Wand',anim:'magic_wand',held:'a short carved wand with a glowing teal tip'},
             hand:{label:'Bare-hand spell',anim:'magic_hand',held:'no weapon, an open hand wreathed in teal light'},
-            shield:{label:'Shield',anim:'block',held:'a round wooden shield with an iron rim and a teal rune'}},
+            shield:{label:'Shield',anim:'block',held:'a round wooden shield with an iron rim and a teal rune'},
+            lodestar:{label:'The Lodestar',anim:'magic_lodestar',held:'the Lodestar (exactly as in its reference painting): a tall white-gold staff whose head is a rune-carved gold ring holding six small gems — red, blue, green, amber, yellow and violet — evenly round a large clear crystal lens that glows white'}},      // round 66
     weaponClass:function(itemId){ var it=typeof ITEMS!=='undefined'&&ITEMS[itemId], id=String(itemId||''); if(!it)return null;
       if(it.slot==='lHand')return /axe|cleaver/.test(id)?'axe':'sword';
       if(it.slot==='rHand')return /crossbow/.test(id)?'xbow':'bow';
-      if(it.slot==='mWeapon')return /wand/.test(id)?'wand':'staff';
+      if(it.slot==='mWeapon')return id==='lodestar'?'lodestar':/wand/.test(id)?'wand':'staff';
       if(it.slot==='shield')return 'shield'; return null; },
     ELEMENT_GLOW:{fire:'#ff8a2a',ice:'#9fe2ff',light:'#ffe86a',all:'#ffffff','':'#3fe6f2'},
     // every hero animation: frames, whether it is drawn per facing, and the pose words
@@ -172,6 +173,9 @@ var ZSPR={
       ranged_xbow:{n:4,label:'Crossbow shot',held:'xbow',p:['crossbow aim: stock at the shoulder, sighting','crossbow fire: recoil kick, a small flash at the bow (do not draw the bolt in flight)','crossbow lower: weapon tipped down','crossbow reload: pulling the string back with one hand']},
       magic_staff:{n:4,label:'Staff spell',held:'staff',p:['staff ready: staff upright in one hand','staff gather: staff raised, crystal blazing, free hand open','staff cast: staff thrust forward, a burst of teal light at the crystal','staff recover: staff swept down, sparks fading']},
       magic_wand:{n:2,label:'Wand spell',held:'wand',p:['wand flick wind-up: wand drawn back beside the head, tip glowing','wand cast: wand snapped forward, a teal spark leaping from the tip']},
+      // round 66 (Kris: "we also need special sheets for using godsbane and the lodestar")
+      magic_lodestar:{n:4,label:'Spell with the Lodestar',held:'lodestar',p:['Lodestar ready: the Lodestar upright in one hand, its lens glowing softly','Lodestar gather: the Lodestar raised, the six gems lighting up round the lens, the free hand open','Lodestar cast: the Lodestar thrust forward, a burst of white-gold light at the lens','Lodestar recover: the Lodestar swept down, white sparks fading']},
+      godsbane:{n:4,label:'Godsbane',held:'lodestar',p:['Godsbane gather: the Lodestar held high in both hands, the lens blazing white-gold, light gathering round the hero','Godsbane cast: the Lodestar levelled forward in both hands, a thick white-gold beam bursting from the lens (draw only the first part of the beam, at the lens)','Godsbane hold: braced and leaning into the beam, cape and hair blown back by the light','Godsbane recover: the Lodestar lowered, the lens dimming, white sparks drifting']},
       magic_hand:{n:2,label:'Bare-hand spell',held:'hand',p:['spell gather: one open hand raised, light pooling in the palm','spell cast: palm thrust forward, light bursting from it']},
       block:{n:2,label:'Shield block',held:'shield',p:['shield raise: shield brought up in front, knees bent','shield braced: crouched behind the shield, a blow glancing off in white sparks']},
       roll:{n:3,label:'Roll',p:['roll start: diving forward, arms reaching','roll tuck: curled into a ball mid-roll, motion lines','roll finish: rising in a low crouch']},
@@ -192,14 +196,16 @@ var ZSPR={
       cheer:{n:2,d:1,label:'Level up / victory',p:['fist raised in triumph','jumping with both arms up, sparkles']},
       rest:{n:1,d:1,label:'Rest at a campfire',p:['sitting cross-legged, warming the hands']},
       hurt:{n:1,d:1,label:'Hurt',p:['hurt: flinching back, eyes shut, white impact sparks']},
-      pickup:{n:1,d:1,label:'Pick up / use',p:['reaching out with one hand to take or use something']}
+      pickup:{n:1,d:1,label:'Pick up / use',p:['reaching out with one hand to take or use something']},
+      lodestar_raise:{n:3,d:1,label:'The Lodestar raised to the sky',held:'lodestar',p:['raising the Lodestar overhead in both hands, looking up','the Lodestar held high, a column of white-gold light shooting straight up from the lens','kneeling, the Lodestar planted upright beside the hero, the light still rising from it']},
+      lodestar_set:{n:3,d:1,label:'The Lodestar set in the notch',held:'lodestar',p:['stepping up with the Lodestar in both hands, its foot aimed down at a notch in a post','pushing the Lodestar\'s foot down into the notch, the lens flaring','stepping back with open hands as rainbow light runs up the staff']}
     },
     // hero sheets: per facing (f, s, b) …
     SHEETS_DIR:[['move2','Movement',['idle','walk','run']],['melee','Sword and battle axe',['melee_sword','melee_axe']],['ranged','Bow and crossbow',['ranged_bow','ranged_xbow']],
-                ['magic','Staff, wand and bare-hand spells',['magic_staff','magic_wand','magic_hand']],['defend','Shield block, roll and Shield Bash',['block','roll','shieldbash']]],
+                ['magic','Staff, wand and bare-hand spells',['magic_staff','magic_wand','magic_hand']],['lodestar','The Lodestar: spells and Godsbane',['magic_lodestar','godsbane']],['defend','Shield block, roll and Shield Bash',['block','roll','shieldbash']]],
     // … and once, in the side view
     SHEETS_ONE:[['skills_a','Skills: War Stomp, Whirlwind, Smoke Bomb',['war_stomp','whirlwind','smokebomb']],['skills_b','Skills: Blink, Berserker, Second Wind, Time Slow',['blink','berserker','secondwind','timeslow']],
-                ['skills_c','Skills: Phantom Veil, Meteor; defeat',['phantom','meteor','death']],['misc','Potion, food, cheer, rest, hurt, pick up',['drink','eat','cheer','rest','hurt','pickup']]],
+                ['skills_c','Skills: Phantom Veil, Meteor; defeat',['phantom','meteor','death']],['lodestar_b','The Lodestar raised to the sky and set in the notch',['lodestar_raise','lodestar_set']],['misc','Potion, food, cheer, rest, hurt, pick up',['drink','eat','cheer','rest','hurt','pickup']]],
     // game action → animation (what the mapping table in the Lab shows, and what the game will ask for)
     SKILL_ANIM:{sp_sprint:'run',sp_roll:'roll',sp_blink:'blink',sp_war_stomp:'war_stomp',sp_whirlwind:'whirlwind',sp_smokebomb:'smokebomb',sp_shieldbash:'shieldbash',sp_berserker:'berserker',sp_secondwind:'secondwind',sp_phantom:'phantom',sp_timeslow:'timeslow',sp_meteor:'meteor'},
     // today's stand-in for each animation (frames that already exist in the game)
@@ -355,6 +361,7 @@ var ZSPR={
         else if(r==='grim_1.core.s'&&e.id==='grim_3')t='the first form of this same god (Solmyrk): keep only his art style, outline weight and size — this last form is the void beneath and looks different, as described';      /* round 65d */
         else if(r==='grim_1.core.s'&&e.id==='grim_2')t='the first form of this same god (Solmyrk): keep his art style, size, his tall crested golden helm (now cracked open) and the gold-and-ivory robes — and change only what is described for this form';
         else if(r==='grim_1.core.s'&&e.id!=='grim_1')t='the first form of this same god (Solmyrk): keep his art style, size, one-eyed golden mask, crown and colouring — and change only what is described for this form';
+        else if(r==='lodestar_ref')t='the approved painting of the Lodestar, the staff the hero holds in these poses: copy it exactly (the white-gold staff, the rune-carved ring, the six gems round the clear lens) at a size that suits the hero';
         else if(/^sol_ref_2d$/.test(r))t='the approved painting of this exact form in its BLACK pulse: the same figure as the painting before it, shown dark — for reference only, paint the radiant version';
         else if(/^sol_ref_/.test(r))t='the approved painting of this exact form of Solmyrk (Kris\'s pick): copy its helm or head, the one eye, the wings, the robes or body, the scepter and the colours exactly — only the poses and the views change';
         else if(/^surt_ref_/.test(r))t='the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change';
@@ -363,6 +370,7 @@ var ZSPR={
   refs:function(e,sh){ var r=['style_hero','style_centaur']; if(e.group==='hero'){ if(sh.key!=='model')r.push('hero_'+e.hero+'.model'); else if(e.hero==='f')r.push('hero_m.model'); }
     else if(e.group==='rider'||e.group==='vehicle')r.push('hero_'+(e.rider||e.id.split('_')[1])+'.model'); else if(sh!==e.sheets[0])r.push(e.sheets[0].id);
     if(e.group==='rider'&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID['mt_'+e.mount])r.push('mt_'+e.mount+'.ride');
+    if(e.group==='hero'&&/^lodestar/.test(sh.key||''))r.push('lodestar_ref');      // round 66: the picked painting of the Lodestar rides along
     if(/^grim_[23]$/.test(e.id)&&sh===e.sheets[0])r.push('grim_1.core.s');      /* round 64: Solmyrk's later forms are the same god — his first sheet rides along */
     var gm=/^grim_(\d)$/.exec(e.id); if(gm&&sh===e.sheets[0]){ r.push('sol_ref_'+gm[1]); if(gm[1]==='2')r.push('sol_ref_2d'); }      // round 65d: Kris's picked painting of this form rides along
     var sm=/^surt_(\d)$/.exec(e.id); if(sm)r.push('surt_ref_'+sm[1]);      // round 59: Kris's approved painting of this phase (cut from wave 60) rides along so the head stays the same

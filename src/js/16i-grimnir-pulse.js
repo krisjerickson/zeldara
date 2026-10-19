@@ -24,6 +24,8 @@ var ZGP={ on:true, FORCE:4, SHIELD_SAY:0.9,
   eyeAt:function(m){ var R=m.body&&m.body._rig, b=R&&R.body; if(!b||!b.scene)return {x:m.x,y:m.y-60};
     try{ var bd=b.getBounds(), D=R.D, f=(!b._zk&&D&&D.arch==='god')?ZGOD.eye(D):[0.5,0.13]; return {x:bd.x+bd.width*(b.flipX?1-f[0]:f[0]),y:bd.y+bd.height*f[1]}; }catch(e){ return {x:m.x,y:m.y-60}; } },
   _tint:function(m,lt){ var R=m.body&&m.body._rig, c=Math.round(12+243*lt), col=(c<<16)|(c<<8)|Math.min(255,c+6);
+    // round 65d: the Hollow King is painted as the void — black beats keep his painted teal and violet edges; in the light beats the old gold light flares through him
+    if(m._gform===3&&R&&R.body&&R.body._zk){ var fl=lt>0.5&&(Math.floor(Date.now()/90)%3===0); [R.body,R.back,R.wb,R.wf].forEach(function(o){ if(o&&o.scene&&o.setTint){ if(fl&&o.setTintFill)o.setTintFill(0xfff0c0); else o.clearTint(); } }); return; }
     [R&&R.body,R&&R.back,R&&R.wb,R&&R.wf,R&&R.pupil].forEach(function(o){ if(o&&o.scene&&o.setTint){ if(lt>0.985)o.clearTint(); else o.setTint(col); } }); },
   tick:function(sc,dt){ if(!ZGP.on)return; var L=ZGP.bosses(sc), V=sc._gpv;
     if(!L.length){ if(V){ ['dark','rays','eye'].forEach(function(k){ if(V[k])V[k].destroy(); }); (V.dots||[]).forEach(function(d){ d.destroy(); }); sc._gpv=null; } return; }

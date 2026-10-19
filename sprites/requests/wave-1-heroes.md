@@ -1,4 +1,4 @@
-# Heroes — 43 requests
+# Heroes — 51 requests
 
 Save each result as `sprites/incoming/<request id>.png`.
 
@@ -160,6 +160,32 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
+## hero_m.lodestar.s
+
+Zeldor (the boy) · The Lodestar: spells and Godsbane · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_m.model, lodestar_ref
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved painting of the Lodestar, the staff the hero holds in these poses: copy it exactly (the white-gold staff, the rune-carved ring, the six gems round the clear lens) at a size that suits the hero.
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Held items in this sheet: the lodestar = the Lodestar (exactly as in its reference painting): a tall white-gold staff whose head is a rune-carved gold ring holding six small gems — red, blue, green, amber, yellow and violet — evenly round a large clear crystal lens that glows white. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Lodestar ready: the Lodestar upright in one hand, its lens glowing softly.
+2. Lodestar gather: the Lodestar raised, the six gems lighting up round the lens, the free hand open.
+3. Lodestar cast: the Lodestar thrust forward, a burst of white-gold light at the lens.
+4. Lodestar recover: the Lodestar swept down, white sparks fading.
+5. Godsbane gather: the Lodestar held high in both hands, the lens blazing white-gold, light gathering round the hero.
+6. Godsbane cast: the Lodestar levelled forward in both hands, a thick white-gold beam bursting from the lens (draw only the first part of the beam, at the lens).
+7. Godsbane hold: braced and leaning into the beam, cape and hair blown back by the light.
+8. Godsbane recover: the Lodestar lowered, the lens dimming, white sparks drifting.
+View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
 ## hero_m.defend.s
 
 Zeldor (the boy) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
@@ -286,6 +312,32 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. wand cast: wand snapped forward, a teal spark leaping from the tip.
 7. spell gather: one open hand raised, light pooling in the palm.
 8. spell cast: palm thrust forward, light bursting from it.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_m.lodestar.f
+
+Zeldor (the boy) · The Lodestar: spells and Godsbane · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_m.model, lodestar_ref
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved painting of the Lodestar, the staff the hero holds in these poses: copy it exactly (the white-gold staff, the rune-carved ring, the six gems round the clear lens) at a size that suits the hero.
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Held items in this sheet: the lodestar = the Lodestar (exactly as in its reference painting): a tall white-gold staff whose head is a rune-carved gold ring holding six small gems — red, blue, green, amber, yellow and violet — evenly round a large clear crystal lens that glows white. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Lodestar ready: the Lodestar upright in one hand, its lens glowing softly.
+2. Lodestar gather: the Lodestar raised, the six gems lighting up round the lens, the free hand open.
+3. Lodestar cast: the Lodestar thrust forward, a burst of white-gold light at the lens.
+4. Lodestar recover: the Lodestar swept down, white sparks fading.
+5. Godsbane gather: the Lodestar held high in both hands, the lens blazing white-gold, light gathering round the hero.
+6. Godsbane cast: the Lodestar levelled forward in both hands, a thick white-gold beam bursting from the lens (draw only the first part of the beam, at the lens).
+7. Godsbane hold: braced and leaning into the beam, cape and hair blown back by the light.
+8. Godsbane recover: the Lodestar lowered, the lens dimming, white sparks drifting.
 View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
@@ -424,6 +476,32 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
+## hero_m.lodestar.b
+
+Zeldor (the boy) · The Lodestar: spells and Godsbane · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_m.model, lodestar_ref
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved painting of the Lodestar, the staff the hero holds in these poses: copy it exactly (the white-gold staff, the rune-carved ring, the six gems round the clear lens) at a size that suits the hero.
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Held items in this sheet: the lodestar = the Lodestar (exactly as in its reference painting): a tall white-gold staff whose head is a rune-carved gold ring holding six small gems — red, blue, green, amber, yellow and violet — evenly round a large clear crystal lens that glows white. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Lodestar ready: the Lodestar upright in one hand, its lens glowing softly.
+2. Lodestar gather: the Lodestar raised, the six gems lighting up round the lens, the free hand open.
+3. Lodestar cast: the Lodestar thrust forward, a burst of white-gold light at the lens.
+4. Lodestar recover: the Lodestar swept down, white sparks fading.
+5. Godsbane gather: the Lodestar held high in both hands, the lens blazing white-gold, light gathering round the hero.
+6. Godsbane cast: the Lodestar levelled forward in both hands, a thick white-gold beam bursting from the lens (draw only the first part of the beam, at the lens).
+7. Godsbane hold: braced and leaning into the beam, cape and hair blown back by the light.
+8. Godsbane recover: the Lodestar lowered, the lens dimming, white sparks drifting.
+View: seen from behind (facing away from the viewer), camera slightly above — a top-down RPG "walking away" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
 ## hero_m.defend.b
 
 Zeldor (the boy) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
@@ -520,6 +598,30 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. defeat frame 1: staggering, weapon dropped.
 7. defeat frame 2: falling to the knees.
 8. defeat frame 3: lying on the ground, still.
+View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_m.lodestar_b.s
+
+Zeldor (the boy) · The Lodestar raised to the sky and set in the notch · 6 poses, 3 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_m.model, lodestar_ref
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved painting of the Lodestar, the staff the hero holds in these poses: copy it exactly (the white-gold staff, the rune-carved ring, the six gems round the clear lens) at a size that suits the hero.
+Subject: Zeldor (the boy) — the hero boy from reference image 1: a young adventurer with spiky tousled brown hair streaked with teal highlights, big teal eyes, a moss-green hooded short cape with a brown shoulder strap, a cream tunic, a brown leather belt with a square silver buckle and pouches, grey-olive trousers, big tan leather boots and bare forearms with wrist wraps. 
+Held items in this sheet: the lodestar = the Lodestar (exactly as in its reference painting): a tall white-gold staff whose head is a rune-carved gold ring holding six small gems — red, blue, green, amber, yellow and violet — evenly round a large clear crystal lens that glows white. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
+Layout: exactly 6 poses in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. raising the Lodestar overhead in both hands, looking up.
+2. the Lodestar held high, a column of white-gold light shooting straight up from the lens.
+3. kneeling, the Lodestar planted upright beside the hero, the light still rising from it.
+4. stepping up with the Lodestar in both hands, its foot aimed down at a notch in a post.
+5. pushing the Lodestar's foot down into the notch, the lens flaring.
+6. stepping back with open hands as rainbow light runs up the staff.
 View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
@@ -651,6 +753,32 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. wand cast: wand snapped forward, a teal spark leaping from the tip.
 7. spell gather: one open hand raised, light pooling in the palm.
 8. spell cast: palm thrust forward, light bursting from it.
+View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_f.lodestar.s
+
+Zeldara (the girl) · The Lodestar: spells and Godsbane · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_f.model, lodestar_ref
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved painting of the Lodestar, the staff the hero holds in these poses: copy it exactly (the white-gold staff, the rune-carved ring, the six gems round the clear lens) at a size that suits the hero.
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Held items in this sheet: the lodestar = the Lodestar (exactly as in its reference painting): a tall white-gold staff whose head is a rune-carved gold ring holding six small gems — red, blue, green, amber, yellow and violet — evenly round a large clear crystal lens that glows white. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Lodestar ready: the Lodestar upright in one hand, its lens glowing softly.
+2. Lodestar gather: the Lodestar raised, the six gems lighting up round the lens, the free hand open.
+3. Lodestar cast: the Lodestar thrust forward, a burst of white-gold light at the lens.
+4. Lodestar recover: the Lodestar swept down, white sparks fading.
+5. Godsbane gather: the Lodestar held high in both hands, the lens blazing white-gold, light gathering round the hero.
+6. Godsbane cast: the Lodestar levelled forward in both hands, a thick white-gold beam bursting from the lens (draw only the first part of the beam, at the lens).
+7. Godsbane hold: braced and leaning into the beam, cape and hair blown back by the light.
+8. Godsbane recover: the Lodestar lowered, the lens dimming, white sparks drifting.
 View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
@@ -789,6 +917,32 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
+## hero_f.lodestar.f
+
+Zeldara (the girl) · The Lodestar: spells and Godsbane · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_f.model, lodestar_ref
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved painting of the Lodestar, the staff the hero holds in these poses: copy it exactly (the white-gold staff, the rune-carved ring, the six gems round the clear lens) at a size that suits the hero.
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Held items in this sheet: the lodestar = the Lodestar (exactly as in its reference painting): a tall white-gold staff whose head is a rune-carved gold ring holding six small gems — red, blue, green, amber, yellow and violet — evenly round a large clear crystal lens that glows white. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Lodestar ready: the Lodestar upright in one hand, its lens glowing softly.
+2. Lodestar gather: the Lodestar raised, the six gems lighting up round the lens, the free hand open.
+3. Lodestar cast: the Lodestar thrust forward, a burst of white-gold light at the lens.
+4. Lodestar recover: the Lodestar swept down, white sparks fading.
+5. Godsbane gather: the Lodestar held high in both hands, the lens blazing white-gold, light gathering round the hero.
+6. Godsbane cast: the Lodestar levelled forward in both hands, a thick white-gold beam bursting from the lens (draw only the first part of the beam, at the lens).
+7. Godsbane hold: braced and leaning into the beam, cape and hair blown back by the light.
+8. Godsbane recover: the Lodestar lowered, the lens dimming, white sparks drifting.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
 ## hero_f.defend.f
 
 Zeldara (the girl) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
@@ -921,6 +1075,32 @@ Rules: the same character in every pose — identical proportions, outfit, colou
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
 ```
 
+## hero_f.lodestar.b
+
+Zeldara (the girl) · The Lodestar: spells and Godsbane · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_f.model, lodestar_ref
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved painting of the Lodestar, the staff the hero holds in these poses: copy it exactly (the white-gold staff, the rune-carved ring, the six gems round the clear lens) at a size that suits the hero.
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Held items in this sheet: the lodestar = the Lodestar (exactly as in its reference painting): a tall white-gold staff whose head is a rune-carved gold ring holding six small gems — red, blue, green, amber, yellow and violet — evenly round a large clear crystal lens that glows white. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Lodestar ready: the Lodestar upright in one hand, its lens glowing softly.
+2. Lodestar gather: the Lodestar raised, the six gems lighting up round the lens, the free hand open.
+3. Lodestar cast: the Lodestar thrust forward, a burst of white-gold light at the lens.
+4. Lodestar recover: the Lodestar swept down, white sparks fading.
+5. Godsbane gather: the Lodestar held high in both hands, the lens blazing white-gold, light gathering round the hero.
+6. Godsbane cast: the Lodestar levelled forward in both hands, a thick white-gold beam bursting from the lens (draw only the first part of the beam, at the lens).
+7. Godsbane hold: braced and leaning into the beam, cape and hair blown back by the light.
+8. Godsbane recover: the Lodestar lowered, the lens dimming, white sparks drifting.
+View: seen from behind (facing away from the viewer), camera slightly above — a top-down RPG "walking away" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
 ## hero_f.defend.b
 
 Zeldara (the girl) · Shield block, roll and Shield Bash · 8 poses, 4 × 2 · 1536x1024 · core
@@ -1017,6 +1197,30 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 6. defeat frame 1: staggering, weapon dropped.
 7. defeat frame 2: falling to the knees.
 8. defeat frame 3: lying on the ground, still.
+View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## hero_f.lodestar_b.s
+
+Zeldara (the girl) · The Lodestar raised to the sky and set in the notch · 6 poses, 3 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, hero_f.model, lodestar_ref
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved model sheet of this hero: keep the hero identical to it. Reference image 4 = the approved painting of the Lodestar, the staff the hero holds in these poses: copy it exactly (the white-gold staff, the rune-carved ring, the six gems round the clear lens) at a size that suits the hero.
+Subject: Zeldara (the girl) — the hero girl: a young adventurer the same age, height and chibi proportions as the hero boy in reference image 1, drawn in exactly the same style, with big teal eyes and LONG BRAIDED AUBURN hair streaked with teal highlights. Hair: two long braids falling in front of her shoulders to the waist, each closed with a silver bead clasp, and a braided leather headband with a small glowing teal gem at the brow. Outfit: a short deep teal-blue mantle with a pale fur collar, fastened at the shoulder with a round silver knotwork brooch; a sleeveless padded cream tunic with a band of wine-red knotwork along the hem, worn over a long-sleeved grey shirt; leather bracers; a wide belt with a square silver buckle; grey-olive trousers and wrapped boots with fur cuffs. 
+Held items in this sheet: the lodestar = the Lodestar (exactly as in its reference painting): a tall white-gold staff whose head is a rune-carved gold ring holding six small gems — red, blue, green, amber, yellow and violet — evenly round a large clear crystal lens that glows white. When a pose does not name a weapon, the hands are empty and the small sword stays sheathed at the hip.
+Layout: exactly 6 poses in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. raising the Lodestar overhead in both hands, looking up.
+2. the Lodestar held high, a column of white-gold light shooting straight up from the lens.
+3. kneeling, the Lodestar planted upright beside the hero, the light still rising from it.
+4. stepping up with the Lodestar in both hands, its foot aimed down at a notch in a post.
+5. pushing the Lodestar's foot down into the notch, the lens flaring.
+6. stepping back with open hands as rainbow light runs up the staff.
 View: side view facing RIGHT, camera slightly above — a top-down RPG side view (the game mirrors it for left).
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.

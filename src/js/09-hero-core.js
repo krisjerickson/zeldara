@@ -224,6 +224,10 @@ function _heroDied(scene){
   catch(e){ finish(); }
 }
 
+// round 66 (Kris: "i don't see the hero using the staff sprites when casting a spell"): the painted cast pose in EVERY scene — the overworld set
+// it, the adventure sites, dungeons, forges, Muspelheim and the citadel did not. The pose follows what is in hand (staff, wand, the Lodestar, a bare hand).
+function _heroWalkSt(scene){ return scene&&(scene.pWalkSt||scene.playerWalkState||scene.bWalkSt||(scene.player&&scene.player.sprite?scene.player:null)); }
+function _heroCastPose(scene,anim,t){ try{ var st=_heroWalkSt(scene); if(st&&anim){ st.castAnim=anim; st.cast=st.castT=t||0.45; } }catch(e){} }
 // ── Spells on X in every area (B3) ─────────────────────────────────────
 var _heroSpellCdUntil=0;
 function _heroCastSpell(scene){
@@ -239,6 +243,7 @@ function _heroCastSpell(scene){
   if(now<_heroSpellCdUntil)return;
   if((ps.mana||0)<sp.manaCost){ showNotif('Not enough mana! (need '+sp.manaCost+')','#4466ff'); return; }
   ps.mana=Math.max(0,ps.mana-sp.manaCost);
+  if(typeof ZSPR!=='undefined')_heroCastPose(scene,ZSPR.HERO.animFor(ps,'spell'),0.45);
   var stats=ws.calcPlayerStats?ws.calcPlayerStats():{};
   _heroSpellCdUntil=now+sp.cooldown*1000*(1-(stats.cdReduce||0));
   var c=_heroCtx(scene);
