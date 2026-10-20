@@ -20,12 +20,12 @@ with game(new=True, painted=True) as g:
     r = g.js("""(()=>{ var b=Array.from(document.querySelectorAll('#sandbox-panel button')).find(function(b){ return /Spirit Saga/.test(b.textContent); }); if(!b)return {btn:false}; b.click();
       var M=document.getElementById('modal-saga'), A=M.querySelectorAll('.sbs-arc'); return {btn:true, shown:M.style.display, arcs:Array.from(A).map(function(a){ return a.querySelector('.sbs-h').textContent.slice(0,40); }),
         built:M.querySelectorAll('button[data-k]:not(.sbs-todo)').length, todo:M.querySelectorAll('button.sbs-todo').length, sandbox:document.getElementById('modal-sandbox').style.display}; })()""")
-    check('The sandbox has a Spirit Saga button; it opens eight arcs (%s)' % ' · '.join(r.get('arcs', [])), r['btn'] and r['shown'] == 'flex' and len(r['arcs']) == 8 and r['sandbox'] == 'none', r)
-    check('%d milestone buttons wired, %d planned ones drawn dashed' % (r['built'], r['todo']), r['built'] >= 35 and r['todo'] >= 1, r)      # round 64e: Asgard's floors, Solmyrk and the rune circle are wired now
+    check('The sandbox has a Spirit Saga button; it opens nine arcs (round 71: the last saga) (%s)' % ' · '.join(r.get('arcs', [])), r['btn'] and r['shown'] == 'flex' and len(r['arcs']) == 9 and r['sandbox'] == 'none', r)
+    check('%d milestone buttons wired, %d planned ones drawn dashed' % (r['built'], r['todo']), r['built'] >= 35, r)      # round 71: none planned any more — the credits and free roam are built      # round 64e: Asgard's floors, Solmyrk and the rune circle are wired now
     g.shot('/tmp/round55b_saga.png')
     # a planned one does nothing but say so
-    r = g.js("(async()=>{ var msg=null, n0=showNotif; showNotif=function(t){ msg=t; return n0.apply(this,arguments); }; document.querySelector('#modal-saga button.sbs-todo').click(); showNotif=n0; return {msg:msg, open:document.getElementById('modal-saga').style.display, scene:game.scene.isActive('World')}; })()")
-    check('A planned milestone only says it is not built yet ("%s")' % (r['msg'] or '')[:70], r['msg'] and 'not built yet' in r['msg'] and r['open'] == 'flex', r)
+    r = g.js("(async()=>{ var b=document.querySelector('#modal-saga button.sbs-todo'); if(!b)return {none:true}; var msg=null, n0=showNotif; showNotif=function(t){ msg=t; return n0.apply(this,arguments); }; b.click(); showNotif=n0; return {msg:msg, open:document.getElementById('modal-saga').style.display, scene:game.scene.isActive('World')}; })()")
+    check('A planned milestone only says it is not built yet ("%s")' % (r.get('msg') or 'none left planned')[:70], r.get('none') or (r['msg'] and 'not built yet' in r['msg'] and r['open'] == 'flex'), r)
     # III. the Glimmerhall
     g.js("SBSAGA.show()"); g.js(CLICK + "(2,1,1)"); g.wait(8000)
     r = g.js("(()=>{ var ws=game.scene.getScene('World'), D=ZSPIRIT.door(); return {door:!!D, d:D?Math.round(Math.hypot(ws.player.x-D.x,ws.player.y-D.y)):-1, sh:ws.playerState.inventory.filter(function(i){ return i==='soulglass_2'; }).length}; })()")

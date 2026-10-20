@@ -17,14 +17,15 @@ var ZEND={ on:true, R:TILE*2.4,
   ready:function(ps){ return !!(ps&&ps.grimnirDown&&!ps.spiritsHome); },
   check:function(ws){ var ps=ws.playerState; if(!ZEND.on||!ZEND.ready(ps)||!ws.player||ws._endBusy)return false; var H=ZASG.heart(ws), d=Math.hypot(ws.player.x-H.x,ws.player.y-H.y);
     if(d>ZEND.R){ if(ws._interactPrompt&&ws._interactPrompt._zsp==='end'){ ws._interactPrompt.destroy(); ws._interactPrompt=null; } return false; }
-    var has=ZASG.hasStaff(ps), t=has?'[Tab] Raise the Lodestar — cast Godsbane into the sky':'The rune circle at Asgard\'s heart (bring the Lodestar)';
+    var bound=typeof ZFEAST!=='undefined'&&!ps.godsFree, has=ZASG.hasStaff(ps), t=bound?'[Tab] The gods are still bound in the feast hall — go to them':has?'[Tab] Raise the Lodestar — cast Godsbane into the sky':'The rune circle at Asgard\'s heart (bring the Lodestar)';      // round 71: Odin and Freya first (16s)
     if(!ws._interactPrompt||ws._interactPrompt._zsp!=='end'||ws._interactPrompt._zt!==t){ if(ws._interactPrompt)ws._interactPrompt.destroy(); ws._interactPrompt=domText(ws,H.x,H.y-70,t,{fontSize:'11px',color:'#fff2b0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); ws._interactPrompt._zsp='end'; ws._interactPrompt._zt=t; }
-    if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB)){ if(has)ZEND.play(ws); else showNotif('🌟 The circle waits for the Lodestar.','#fff2b0'); } return true; },
+    if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB)){ if(bound){ ZLS.play(ps,'fh_doors',function(){ ZFEAST.enter(ws,'World'); }); return true; } if(has)ZEND.play(ws); else showNotif('🌟 The circle waits for the Lodestar.','#fff2b0'); } return true; },
   // ── the scene ──
   play:function(ws){ var ps=ws.playerState, H=ZASG.heart(ws), cam=ws.cameras.main, L=[]; ws._endBusy=true; if(ws._interactPrompt){ ws._interactPrompt.destroy(); ws._interactPrompt=null; }
     if(typeof ZCINE!=='undefined')ZCINE.bars(true); cam.stopFollow(); cam.pan(H.x,H.y-80,1400,'Sine.easeInOut'); ws.player.x=H.x; ws.player.y=H.y+10; ZEND._t0=Date.now();
     var at=function(ms,f){ ws.time.delayedCall(ms,function(){ try{ f(); }catch(e){ console.warn('ending',e); } }); };
     var panel=function(k,cap,next){ if(typeof ZCINE!=='undefined'&&ZCINE.panel)ZCINE.panel(ZEND.panel(k),cap,4600,next); else next(); };
+    var GD=typeof ZFEAST!=='undefined'?ZFEAST.gods(ws,H.x,H.y-TILE*1.6,L):{}; ZEND._gods=GD;      // round 71: Odin and Freya at the circle
     showNotif('🌟 You raise the Lodestar over the world-tree circle…','#fff2b0');
     if(typeof _heroCastPose==='function')_heroCastPose(ws,'lodestar_raise',3.2);      // round 66: the hero raises it (painted pose)
     at(1600,function(){ panel('cast','The Lodestar wakes — Godsbane, cast into the sky.',function(){
@@ -36,7 +37,7 @@ var ZEND={ on:true, R:TILE*2.4,
         var rb=ws.add.graphics().setDepth(9400).setBlendMode(Phaser.BlendModes.ADD); L.push(rb); var cols=[0xff6060,0xffa040,0xffe060,0x60e080,0x60a0ff,0xb070ff];
         ws.tweens.addCounter({from:0,to:1,duration:2600,onUpdate:function(tw){ var v=tw.getValue(); rb.clear(); cols.forEach(function(c,i){ rb.lineStyle(10,c,0.45); rb.beginPath(); for(var s=0;s<=40*v;s++){ var u=s/40, x=H.x+Math.sin(u*Math.PI*0.9)*(220-i*12), y=H.y-20-u*900; if(s)rb.lineTo(x,y); else rb.moveTo(x,y); } rb.strokePath(); }); }});
         showNotif('🌈 The Bifröst bends up out of the circle — into heaven!','#fff2b0');
-        at(2800,function(){ panel('bifrost','The Bifröst is remade — a road into heaven.',function(){ ZEND.rise(ws,H,L); at(7200,function(){ panel('home','The spirits of Runeheim go home.',function(){ panel('dawn','Dawn over the village.',function(){ ZEND.finish(ws,L); }); }); }); }); }); }); }); }); },
+        at(2800,function(){ panel('bifrost','The Bifröst is remade — a road into heaven.',function(){ ZEND.rise(ws,H,L); at(7200,function(){ panel('home','The spirits of Runeheim go home.',function(){ if(typeof ZLS==='undefined'){ panel('dawn','Dawn over the village.',function(){ ZEND.finish(ws,L); }); return; } ZLS.play(ws.playerState,'gods_home',function(){ ZLS.village(ws,L,function(){ ZEND.finish(ws,L); }); }); }); });      /* round 71: the gods lead them home, then the village moment (16s) */ }); }); }); }); }); },
   // the spirits rise: the forty (celebrating now), the group scenes, the fairy kings, your familiars
   rise:function(ws,H,L){ var ps=ws.playerState, freed=(ps.spiritsFreed||[]).slice(), shr=typeof ZSPIRIT!=='undefined'&&ZSPIRIT.shrines?ZSPIRIT.shrines(ws):[], n=0, Z=typeof _scn==='function'?_scn():null;
     var up=function(o,delay,dx){ if(!o)return; L.push(o); o.setAlpha&&o.setAlpha(0); ws.tweens.add({targets:o,alpha:1,duration:500,delay:delay}); ws.tweens.add({targets:o,y:o.y-900,x:o.x+(dx||0),delay:delay+400,duration:5200,ease:'Sine.in'}); ws.tweens.add({targets:o,alpha:0,delay:delay+4600,duration:1000}); };
@@ -49,8 +50,9 @@ var ZEND={ on:true, R:TILE*2.4,
     // the four fairy kings and your familiars follow
     if(typeof ZAtlas!=='undefined'&&typeof FAIRY_PICK!=='undefined')[1,2,3,4].forEach(function(q){ var ch='fairy_'+FAIRY_PICK[q]; if(!ZAtlas.has||!ZAtlas.has(ch))return; try{ var im=ZAtlas.image?ZAtlas.image(ws,ch,H.x-150+q*60,H.y+120):null; if(im){ im.setDepth(9310); up(im,2600+q*200,0); } }catch(e){} });
     (ws._familiars||ws.familiars||[]).forEach(function(f,i){ var v=f&&(f.cont||f.vis||f.sprite); if(v&&v.scene)ws.tweens.add({targets:v,alpha:0.4,duration:1200,delay:3200+i*200,yoyo:true}); });
+    var GD=ZEND._gods||{}; ['odin','freya'].forEach(function(k,i){ var im=GD[k]; if(im&&im.scene)ws.tweens.add({targets:im,y:im.y-900,delay:400+i*300,duration:5600,ease:'Sine.in'}); });      // round 71: the gods walk up ahead of them
     showNotif('✨ The spirits of Runeheim rise along the Bifröst — singing, free at last.','#bfefff'); ZEND.count=n; },
-  finish:function(ws,L){ var ps=ws.playerState; ps.spiritsHome=1; ps.endingAt=Date.now(); if(ws._villageFolkInit)try{ ws._villageFolkInit(); }catch(e){}      // Pip and Wren come home with the spirits (doc 30) L.forEach(function(o){ if(o&&o.scene)ws.tweens.add({targets:o,alpha:0,duration:800,onComplete:function(){ o.destroy(); }}); });
+  finish:function(ws,L){ var ps=ws.playerState; ps.spiritsHome=1; ps.endingAt=Date.now(); if(ws._villageFolkInit)try{ ws._villageFolkInit(); }catch(e){}      /* Pip and Wren come home with the spirits (doc 30) */ L.forEach(function(o){ if(o&&o.scene)ws.tweens.add({targets:o,alpha:0,duration:800,onComplete:function(){ o.destroy(); }}); });
     if(typeof ZCINE!=='undefined')ZCINE.bars(false); ws.cameras.main.startFollow(ws.player.cont,true,.1,.1); ws._endBusy=false; if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('the spirits go home'); }catch(e){}
     showNotif('🌅 The spirits are home. Runeheim is quiet, and the light stays. (Your journey goes on.)','#fff2b0'); if(ws._emitUI)ws._emitUI(); }
 };

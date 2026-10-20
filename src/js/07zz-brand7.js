@@ -41,4 +41,19 @@
       P.w(0.6).ln([x0,-0.12,x0+wa,-0.12]).ln([x0,0.24,x0+wa,0.24]); var aw=W(q,'AND',D.z,fit(q,'and',D.z,0.26,trZ),trZ); cap(FZ,D.z,trZ,'and',0.26,x0+wa*0.5-aw/2,0.06);
       q.restore(); }; };
   ZBrand.FZ2.forEach(function(D){ ZBrand.WORDS.push({id:D.id,name:D.name,col:G,style:'gilded',gen:4,kind:'custom',fam:D.names,wt:'400',tall:true,desc:D.desc,paint:build(D)}); });
+  // Kris's pick (Lab → Fonts, round two): "Scribe's names, uncial Z" — the faces are embedded in the game by 07zy-brand-fonts3.js
+  ZBrand.WORDMARK='fz2_eag_unc'; ZBrand.TAGFONT='"Eagle Lake","Marcellus SC",Georgia,serif';
+  // Kris: "recommend new taglines for the intro screen to choose from now that the story has gotten more elaborate" — ten, two lines each,
+  // shown on the whole title page in the Lab. spoil: how much of the story it gives away (none / a hint / a reveal)
+  ZBrand.TAGLINES=[
+    ['tg_storm','Two foundlings from the storm. Forty spirits in chains.','Free them, break the forges, and bring the light back to Runeheim.','none'],
+    ['tg_gate','The gate of Asgard is shut, and no soul can rise or return.','Wake the runestones, free the forty spirits, and mend the cycle.','a hint'],
+    ['tg_runes','Two foundlings from the lake read runes no one else can.','Free the bound spirits, and draw the World-Tree across Runeheim.','none'],
+    ['tg_seat','A false god sits on Odin\'s high seat, and the dead have nowhere to go.','Two children of the storm are Runeheim\'s last hope.','a reveal (the false god)'],
+    ['tg_cradles','No child born in a lifetime. Then the lake brought two.','Free the spirits of Runeheim, and the land will bloom again.','none'],
+    ['tg_count','Forty spirits. Four forges. One false god.','Two twins from the storm, to set the souls of Runeheim free.','a hint'],
+    ['tg_lines','Every spirit you free draws a line of light across the land.','Finish the World-Tree, and open the gate of the gods.','a hint'],
+    ['tg_gods','Wake the runestones. Break the forges of Muspelheim.','Free Odin and Freya, and let the souls of Runeheim go home.','a reveal (the gods bound)'],
+    ['tg_milk','Raised on goat\'s milk and old songs, the twins of the storm set out','to free the spirits of Runeheim and open the gate of the gods.','none'],
+    ['tg_fire','Fire below, a false god above, and the dead with nowhere to go.','Free the spirits, and turn Runeheim green again.','a hint']];
 })();

@@ -15,7 +15,7 @@ with game(new=True, painted=True) as g:
     g.wait(4000)
     r = g.js("""(()=>{ var W=ZBrand.wordById(ZBrand.WORDMARK); return {title:document.title, wm:ZBrand.WORDMARK, tall:!!W.tall, fam:W.fam, n:(ZBrand.QZ||[]).length, names:(ZBrand.QZ||[]).map(function(id){ return ZBrand.wordById(id).name; }),
       tag:(ZBrand.TAGLINE||[]).join(' '), m:heroName({hero:'m'}), f:heroName({hero:'f'})}; })()""")
-    check('The game is THE QUESTS OF ZELDARA AND ZELDOR ("%s"); the title shows the new three-line name (%s) in MedievalSharp' % (r['title'], r['wm']), r['title'] == 'The Quests of Zeldara and Zeldor' and r['tall'] and r['fam'] == 'MedievalSharp', r)
+    check('The game is THE QUESTS OF ZELDARA AND ZELDOR ("%s"); the title shows the new three-line name (%s) in MedievalSharp' % (r['title'], r['wm']), r['title'] == 'The Quests of Zeldara and Zeldor' and r['tall'] and r['fam'] in ('MedievalSharp', 'Eagle Lake'), r)      # round 71: Kris's new pick
     check('Ten wordmarks to choose from (%s)' % ', '.join(r['names']), r['n'] == 10 and len(set(r['names'])) == 10, r)
     check('The heroes are Zeldara (the girl) and Zeldor (the boy); the land is Runeheim ("%s")' % r['tag'][:60], r['m'] == 'Zeldor' and r['f'] == 'Zeldara' and 'Runeheim' in r['tag'], r)
     # ── the forge by stages ──

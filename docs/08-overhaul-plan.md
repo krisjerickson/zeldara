@@ -210,6 +210,9 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - E3 — The images? **Answered: order them now** — the full list in doc 30 and round75.ps1; he reviews the painted results in the Lab.
 - Kris (later): "also for all of these added moments, add them as options in the sandbox for the spirit saga" → each new moment gets a button in the sandbox's Spirit saga page (23b-sandbox-saga.js).
 - E4 — The village moment? **Answered: all of it, with credits** — panels and an in-game scene at the village centre, the celebration, time passing, and scrolling credits over a painted backdrop; play on after.
+- Font pick (Lab, round 71): **Scribe's names, uncial Z** — Eagle Lake for ZELDARA / ZELDOR, Uncial Antiqua for the great Z, THE QUESTS OF and AND.
+- F4 — Use the faces round the game too? **Answered: yes, per the proposal** — Uncial Antiqua for big headings (realm banners, cut-scene and saga titles, the Tome's and windows' titles, the credits); Eagle Lake for names and labels (talk-box names, the area name, map labels, buttons, [Tab] prompts, item names); talk lines and long text stay in a readable book face.
+- Kris: "recommend new taglines for the intro screen to choose from now that the story has gotten more elaborate" → ten taglines on the whole title page in the Lab (Fonts tab).
 
 ### Round 70b (Oct 20, late) — a better font for Zeldara
 - Kris: "we still need to get a better font for zeldara, including for the intro screen. I've copied examples of font i like, create a variety of ~12 different updated zeldara and zeldor intro panels with a variety of different fonts inspired by the attached … Also create entire alphabets for these … and propose places for the font to be used throughout the game. It's also OK to have 2 fonts, 1 which is an elaborate version of the other, so group these fonts together, with 6 sets of more and less elaborate versions."

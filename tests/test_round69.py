@@ -59,6 +59,6 @@ with sync_playwright() as p:
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html"); pg.wait_for_timeout(1500)
     pg.evaluate("LTODO.goTo('hamlets','.br-grid',0)"); pg.wait_for_timeout(4000)
     n = pg.evaluate("(()=>{ var g=document.querySelectorAll('.br-grid'); return [g[0]?g[0].querySelectorAll('canvas').length:0, g[1]?g[1].querySelectorAll('canvas').length:0, LabApp.tab, g[2]?g[2].querySelectorAll('canvas').length:0]; })()")
-    check('The Lab\'s "Saga panels & hamlets" tab shows the 11 panels, the 36 buildings (round 70: the home colourings and the cradles) and the 40 hamlet folk in their workshops (%s)' % n, n == [11, 36, 'hamlets', 40], n)
+    check('The Lab\'s "Saga panels & hamlets" tab shows the 13 panels (round 71: the two glimpses), the 36 buildings (round 70: the home colourings and the cradles) and the 40 hamlet folk in their workshops (%s)' % n, n == [13, 36, 'hamlets', 40], n)
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d / %d passed' % (sum(res), len(res)))

@@ -107,7 +107,28 @@ var SBSAGA={
         {l:'🏰 The city',b:[B('Gate',function(){ SBSAGA.asg('city'); },'Inside Asgard\'s gate, the golden roads before you (the Lodestar in hand)')]},
         {l:'🏛 Floors',b:[1,2,3,4].map(function(f){ return B(String(f),function(){ SBSAGA.asg('floor',f-1); },'The citadel, floor '+f+' — '+ZCIT.HALLS[f-1]); })},
         {l:'🎭 Solmyrk',b:[B('Fight',function(){ SBSAGA.asg('floor',4); },'Solmyrk, the Black Sun, on his throne')]},
-        {l:'🕯 The end',b:[B('Rune circle',function(){ SBSAGA.asg('circle'); },'Solmyrk fallen: the rune circle at the heart of Asgard — Godsbane into the sky, the Bifröst remade into heaven'),T('Credits','The ending and the credits',58),T('Free roam','Free roam after the end',58)]} ]} ]; },
+        {l:'🕯 The end',b:[B('Rune circle',function(){ SBSAGA.asg('circle'); },'Solmyrk fallen: the rune circle at the heart of Asgard — Godsbane into the sky, the Bifröst remade into heaven')]} ]},
+      // round 71 (Kris: "for all of these added moments, add them as options in the sandbox for the spirit saga"): the last saga, doc 30 §15
+      {n:'Ⅸ',name:'The last saga',col:'#ffe6a0',sub:'the feast hall, Odin and Freya, the village moment, the celebration, the credits',rows:[
+        {l:'👁 Glimpses',b:[B('30th',function(){ SBSAGA.last('glimpse','orbs'); },'The 30th spirit: two orbs in the dark (the panel)'),B('40th',function(){ SBSAGA.last('glimpse','tattoo'); },'The 40th spirit: the whole tattoo seen from the sky (the panel)')]},
+        {l:'🏛 Feast hall',b:[B('Doors',function(){ SBSAGA.last('doors'); },'Solmyrk has just fallen: the citadel shakes, and golden doors open behind the high seat ([Tab] at them)'),B('Orbs',function(){ SBSAGA.last('hall'); },'Inside the feast hall, the gods still bound in the joined orbs — the Lodestar in hand: [Tab] at the orbs'),
+          B('Free',function(){ SBSAGA.last('free'); },'The feast hall after the orbs burst: Odin and Freya stand free — [Tab] for the truth about the twins')]},
+        {l:'🌈 The Bifröst',b:[B('With the gods',function(){ SBSAGA.last('circle'); },'The gods free: the rune circle — Godsbane into the sky, the Bifröst, the gods lead the spirits home, then the village')]},
+        {l:'🏡 The village',b:[B('Lightning & vines',function(){ SBSAGA.last('village'); },'At the village centre: Odin\'s lightning, Freya\'s vines, the land turning green, the celebration, the credits'),
+          B('Celebration',function(){ SBSAGA.last('celebrate'); },'The celebration of the twins, time passing, children born again (the panels)')]},
+        {l:'🎞 Credits',b:[B('Credits',function(){ SBSAGA.last('credits'); },'The credits over the painted backdrop, then the last picture'),B('Free roam',function(){ SBSAGA.last('roam'); },'After the end: the land green, the hamlets and their children, free roam')]} ]} ]; },
+  // round 71: the last saga's moments
+  last:function(kind,k){ if(kind==='glimpse'){ SBSAGA.go(function(ws,ps){ ZLS.play(ps,k); }); return; }
+    if(kind==='doors'||kind==='hall'||kind==='free'||kind==='circle'){ SBSAGA.esc('gods'); setTimeout(function(){ var ws=SBSAGA.ws(), ps=ws&&ws.playerState; if(!ws)return; ps.grimnirDown=1; ps.spiritsHome=0;
+        if(kind==='doors'){ ps.godsFree=0; ps.godsTold=0; ZCIT.enter(ws,4); setTimeout(function(){ var d=game.scene.getScene('Dungeon'); if(!d||!d._asgc)return; (d.monsters||[]).forEach(function(m){ if(m.isBoss&&m.cont){ m.dead=true; m.cont.destroy(); } }); d._bossDefeated=true; BossPhases&&BossPhases.hud&&BossPhases.hud(d,false); ZLS.play(ps,'fh_crumble',function(){ ZFEAST.door(d); }); },2600); return; }
+        if(kind==='hall'){ ps.godsFree=0; ps.godsTold=0; ZFEAST.enter(ws,'World'); return; }
+        if(kind==='free'){ ps.godsFree=1; ps.godsTold=0; ZFEAST.enter(ws,'World'); return; }
+        ps.godsFree=1; ps.godsTold=1; var H=ZASG.heart(ws); SBSAGA.tp(ws,H.x,H.y+TILE*2); showNotif('🌟 The gods are free and waiting — [Tab] in the rune circle with the Lodestar.','#fff2b0'); },3400); return; }
+    SBSAGA.go(function(ws,ps){ ps.grimnirDown=1; ps.godsFree=1; ps.godsTold=1;
+      if(kind==='village'){ ps.spiritsHome=0; if(typeof ZCINE!=='undefined')ZCINE.bars(true); var L=[]; ZLS.village(ws,L,function(){ ZEND.finish(ws,L); }); return; }
+      if(kind==='celebrate'){ ZLS.play(ps,'celebrate'); return; }
+      if(kind==='credits'){ ZLS.credits(ps,function(){ ZLS.play(ps,'after'); }); return; }
+      if(kind==='roam'){ ps.spiritsHome=1; ps.creditsSeen=1; if(ws._villageFolkInit)try{ ws._villageFolkInit(); }catch(e){} SBSAGA.tp(ws,(CENTER_X+0.5)*TILE,(CENTER_Y+5)*TILE); showNotif('🌅 After the end: Runeheim is green — the hamlets, their children, free roam.','#fff2b0'); } }); },
   show:function(){ if(!SBSAGA.ws())return; closeModal('sandbox'); var el=document.getElementById('modal-saga');
     if(!el){ el=document.createElement('div'); el.id='modal-saga'; el.className='overlay'; el.style.display='none'; el.onclick=function(e){ if(e.target===el)closeModal('saga'); }; document.body.appendChild(el); }
     var A=SBSAGA.ARCS(), H=[]; SBSAGA._fn=[];

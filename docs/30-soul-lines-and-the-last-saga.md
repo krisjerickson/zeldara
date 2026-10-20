@@ -342,3 +342,10 @@ THE QUESTS OF ZELDARA AND ZELDOR · Created by Kris Erickson · Story, world and
 ### 15.5 The sandbox (Kris: "add them as options in the sandbox for the spirit saga")
 
 The sandbox's Spirit saga page gets a button for each new moment: the two glimpses, the citadel shaking, the feast hall (doors / orbs / after the gods), the truth, the gods at the Bifröst, the village moment, the celebration, the credits and the last picture.
+
+### 15.6 Built (round 71)
+
+- `src/js/16s-the-last-saga.js`: ZLS (the sets through ZCUT, the village moment, the credits), ZFEAST + FeastHallScene (the walk-in hall, the orbs, the cast, the gods, the talk), the citadel hooks (the doors after Solmyrk).
+- `src/js/16h-the-ending.js`: the circle waits for `ps.godsFree`; the gods at the circle and on the Bifröst; then ZLS.village.
+- State: `ps.godsFree` (the orbs broken), `ps.godsTold` (the truth heard), `ps.lastSeen` (sets played), `ps.creditsSeen`.
+- Still panels only (next): Asgard sinking into the lake and the forges sinking happen in the panels; the world keeps Asgard on the lake and the forges as they are. The monsters still roam after the end.

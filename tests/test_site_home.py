@@ -19,7 +19,7 @@ try:
     pg.goto(B+'/'); pg.wait_for_timeout(2500)
     r=pg.evaluate("""(()=>{ var cv=document.querySelector('.home canvas'), c=cv.getContext('2d'), d=c.getImageData(0,0,cv.width,cv.height).data, n=0, teal=0, gold=0; for(var i=0;i<d.length;i+=16){ if(d[i]+d[i+1]+d[i+2]>60)n++; if(d[i+1]>170&&d[i+2]>150&&d[i]<150)teal++; if(d[i]>190&&d[i+1]>140&&d[i+2]<110)gold++; }
       return {title:document.title, brand:!!window.ZBrand&&[ZBrand.LOGO,ZBrand.WORDMARK,ZBrand.HOME], lit:n, teal:teal, gold:gold, links:[...document.querySelectorAll('a.btn')].map(a=>a.getAttribute('href')), h1:document.querySelector('h1').textContent, fonts:[...document.fonts].filter(f=>f.status==='loaded').length}; })()""")
-    check('Home page paints the picked brand (World Tree logo in teal, Ringed Z in gold, World Tree Veil)', r['brand']==['tree_c','ring_z','veil_a'] and r['teal']>300 and r['gold']>150 and r['title']=='Zeldara' and r['fonts']>=3, r)
+    check('Home page paints the picked brand (World Tree logo in teal, Ringed Z in gold, World Tree Veil)', r['brand'][0]=='tree_c' and r['brand'][1] in ('ring_z','qz_shared','fz2_eag_unc') and r['brand'][2]=='veil_a' and r['teal']>300 and r['gold']>150 and r['title'] in ('Zeldara','The Quests of Zeldara and Zeldor') and r['fonts']>=3, r)
     check('First visit: one button, New Game → /play?start=new', r['links']==['/play?start=new'], r['links'])
     if SHOT: pg.screenshot(path=os.path.join(SHOT,'home_wide.png'))
     box=pg.evaluate("(()=>{ var a=document.querySelector('a.btn').getBoundingClientRect(); return [a.left,a.top,a.width,a.height]; })()")

@@ -17,7 +17,7 @@ with game(new=True, painted=True) as g:
     # ── the E ──
     r = g.js("""(async ()=>{ await document.fonts.load('400 40px "MedievalSharp"'); var f='400 100px "MedievalSharp","Cinzel",Georgia,serif'; ZBrand._eM={}; var M=ZBrand.eMetrics(f);
       return {w:ZBrand.WORDMARK, font:document.fonts.check(f), st:ZBrand.E_STYLE, m:M?[M.top.x,M.bot.x]:null}; })()""")
-    check('The wordmark is in MedievalSharp (embedded; round 53: the new name), the E\'s top arm drawn out (arms %s)' % r['m'], r['w'] in ('rz_medieval',) + tuple('qz_'+k for k in ('twin','shared','line','cross','shield','seal','stagger','knot','stone','prow')) and r['font'] and r['st'] == 'top' and r['m'], r)
+    check('The wordmark is in MedievalSharp (embedded; round 53: the new name; round 71: Kris\'s new pick, Eagle Lake + Uncial), the E\'s top arm drawn out (arms %s)' % r['m'], r['w'] in ('rz_medieval','fz2_eag_unc') + tuple('qz_'+k for k in ('twin','shared','line','cross','shield','seal','stagger','knot','stone','prow')) and r['font'] and r['st'] == 'top' and r['m'], r)
     # ── the fill rule, by floor ──
     r = g.js("""(()=>{ var o={}; ZSD.sites().forEach(function(s){ var T=ZSP.T[s.id]; if(!T)return; o[s.id]=[ZVOID.kindOf(ZVOID.pick(s,T,0,3)),ZVOID.kindOf(ZVOID.pick(s,T,1,3))]; }); return o; })()""")
     bad = []

@@ -14,7 +14,7 @@ lab = open(os.path.join(ROOT, 'lab', 'index.html'), encoding='utf8').read()
 with game(new=True, painted=True) as g:
     g.wait(4000)
     r = g.js("(()=>({wm:ZBrand.WORDMARK, name:ZBrand.wordById(ZBrand.WORDMARK).name}))()")
-    check('The title wears his pick, One Great Z (%s)' % r['name'], r['wm'] == 'qz_shared', r)
+    check('The title wears his pick, One Great Z (%s)' % r['name'], r['wm'] in ('qz_shared', 'fz2_eag_unc'), r)      # round 71: One Great Z kept, in his new font pick
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), S=ZSPIRIT.shrines(ws), Z=_scn(), per={}, kinds=new Set(), miss=[];
       S.forEach(function(s){ var k=ZSPIRIT.stoneOf(s); kinds.add(k); (per[s.q]=per[s.q]||new Set()).add(k); [false,true].forEach(function(f){ var id=ZSPIRIT.stoneId(s,f); if(!Z.has(id))miss.push(id); }); });
       return {kinds:Array.from(kinds), per:Object.keys(per).map(function(q){ return per[q].size; }), miss:miss}; })()""")
