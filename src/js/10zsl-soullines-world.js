@@ -16,13 +16,14 @@ var ZSLW={ on:true, RES:16, NEAR:48, TRACE:3.6, MOTES:34, KEEP:24,
     var byZ={}; (ZSPIRIT.shrines(ws)||[]).forEach(function(s){ byZ[s.zone]=s; });
     var D=ZSL.build({cls:_WCLS,W:WORLD_W,H:WORLD_H,C:{x:CENTER_X,y:CENTER_Y},CH:WCH,at:function(z){ var s=byZ[z.id]; return s?{x:s.tx+0.5,y:s.ty+0.5}:null; }});
     D.shr=D.G.Z.map(function(z){ return byZ[z.id]||null; }); D.idx={}; D.shr.forEach(function(s,i){ if(s)D.idx[s.id]=i; });
-    Object.keys(D.cb).forEach(function(k){ var e=D.cb[k], O={}; e.st.forEach(function(si){ D.St[si].owner.forEach(function(o){ O[o]=1; }); }); e.z.forEach(function(i){ O[i]=1; }); e.own=Object.keys(O).map(Number).sort(function(a,b){ return a-b; }); });
+    Object.keys(D.cb).forEach(function(k){ var e=D.cb[k], O={}; e.st.forEach(function(si){ D.St[si].owner.forEach(function(o){ O[o]=1; }); }); e.z.forEach(function(i){ O[i]=1; }); (e.rd||[]).forEach(function(ri){ D.roads[ri].owner.forEach(function(o){ O[o]=1; }); }); e.own=Object.keys(O).map(Number).sort(function(a,b){ return a-b; }); });
     return (wd._zsl=D); },
   // which pieces are drawn: freed and already traced (old saves count as traced)
   seen:function(ps){ if(!ps.slSeen)ps.slSeen=(ps.spiritsFreed||[]).slice(); return ps.slSeen; },
   litFn:function(ws){ var ps=ws.playerState, D=ZSLW.data(ws), seen=ZSLW.seen(ps), L={}, any=false, tr=ws._zslT;
     seen.forEach(function(id){ var i=D.idx[id]; if(i!==undefined&&!(tr&&tr.i===i)){ L[i]=1; any=true; } });
     return function(o){ return o===-1?any:!!L[o]; }; },
+  tex:function(id){ return (typeof ZScn!=='undefined'&&ZScn.timg&&ZScn.timg[id]&&ZScn.timg[id].naturalWidth)?ZScn.timg[id]:null; },
   img:function(id){ var Z=typeof _scn==='function'?_scn():null; if(!Z||!Z.has(id))return null; var it=Z.META.items[id]; return [Z.img[it[0]],it[1],it[2],it[3],it[4]]; },
   style:function(ps){ return ps.spiritsHome?'green':'vein'; },
   // ── the ground: one half-size picture per chunk that the lit tattoo crosses ──
@@ -36,7 +37,7 @@ var ZSLW={ on:true, RES:16, NEAR:48, TRACE:3.6, MOTES:34, KEEP:24,
       if(painted>=2)continue; painted++;
       if(!c){ var cv=document.createElement('canvas'); cv.width=cv.height=WCH*ZSLW.RES; c=S.m[k]={cv:cv,key:'zsl_c'+(S.seq++)+'_'+k}; }
       var ctx=c.cv.getContext('2d'); ctx.clearRect(0,0,c.cv.width,c.cv.height);
-      ZSL.paint(ctx,D,{x0:cx*WCH,y0:cy*WCH,k:ZSLW.RES},{lit:lit,style:st,img:ZSLW.img,only:e.st,runes:e.ru,zones:e.z});
+      ZSL.paint(ctx,D,{x0:cx*WCH,y0:cy*WCH,k:ZSLW.RES},{lit:lit,style:st,img:ZSLW.img,tex:ZSLW.tex,only:e.st,runes:e.ru,zones:e.z,roads:e.rd||[]});
       if(ws.textures.exists(c.key)){ var tx=ws.textures.get(c.key); if(tx.refresh)tx.refresh(); } else { ws.textures.addCanvas(c.key,c.cv); try{ ws.textures.get(c.key).setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(er){} }
       if(!c.im||!c.im.scene){ c.im=ws.add.image(cx*cs,cy*cs,c.key).setOrigin(0,0).setScale(TILE/ZSLW.RES).setDepth(-5.5); c.im._zsl=1; }
       c.sig=sig; c.t=Date.now(); }
@@ -94,14 +95,14 @@ var ZSLW={ on:true, RES:16, NEAR:48, TRACE:3.6, MOTES:34, KEEP:24,
   // ── the hamlets in the rings (round 68, answers L2/L3/H1: each spirit's craft, standing after the credits) ──
   // A workshop for the spirit's trade (hw_<trade>, wave 75), new cottages, a well, a play yard and a cart inside the ring round its runestone.
   // Until wave 75 is in, the village's own houses stand in. Decoration only for now (no walls to bump into) — they are built near you only.
-  HAMLET:[['work',0,-5.2],['home',-6.2,-1.6],['home',6.0,-1.2],['home',-3.4,4.6],['well',3.6,3.4],['yard',-7.2,3.0],['cart',7.4,4.4],['home',1.2,6.8]],
+  // the spots come from ZSL.HAM (shared with the Lab): the workshop and a home north of the rune, two homes south, the well, the yard and the cart by the ring road
   HOMES:['hh_new_a','hh_new_b','hh_new_c'], STAND:{work:['vh_timber_b','vh_stone_b'],home:['vh_round','vh_wood','vh_timber_a','vh_stone','vh_thatch'],well:['vb_well','vp_well'],yard:[],cart:[]},
   tradeId:function(s){ return 'hw_'+String(s&&s.trade||'').replace(/^an? /,'').replace(/[^a-z]/g,''); },
   hamletPlan:function(ws,s){ var Z=typeof _scn==='function'?_scn():null, out=[], n=s.n||0;
-    ZSLW.HAMLET.forEach(function(h,j){ var kind=h[0], tx=Math.round(s.tx+h[1]), ty=Math.round(s.ty+h[2]), t=(ws.tiles[ty]||[])[tx]; if(t===undefined||!canPassTile(t))return;
+    ZSL.HAM.spots.forEach(function(h,j){ var kind=h[0], fx=s.tx+0.5+h[1], fy=s.ty+0.5+h[2], tx=Math.floor(fx), ty=Math.floor(fy-0.3), t=(ws.tiles[ty]||[])[tx]; if(t===undefined||!canPassTile(t))return;
       var id=kind==='work'?ZSLW.tradeId(s):kind==='home'?ZSLW.HOMES[(n+j)%3]:kind==='well'?'hh_well':kind==='yard'?'hh_yard':'hh_cart';
       if(!Z||!Z.has(id)){ var L=(ZSLW.STAND[kind]||[]).filter(function(k){ return Z&&Z.has(k); }); id=L.length?L[(n+j)%L.length]:null; }
-      if(id)out.push({id:id,x:tx*TILE+16,y:ty*TILE+28}); });
+      if(id)out.push({id:id,x:fx*TILE,y:fy*TILE}); });
     return out; },
   hamlets:function(ws){ var ps=ws.playerState, H=ws._zslH||(ws._zslH={}); if(!ps.spiritsHome){ Object.keys(H).forEach(function(k){ H[k].forEach(function(im){ if(im&&im.scene)im.destroy(); }); delete H[k]; }); return; }
     var Z=typeof _scn==='function'?_scn():null; if(!Z)return; var px=ws.player.x/TILE, py=ws.player.y/TILE;

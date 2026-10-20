@@ -1,4 +1,4 @@
-# Scenery — 267 sheets, 2000 objects and textures (13 sheets in the pilot)
+# Scenery — 292 sheets, 2120 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -58,6 +58,8 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 75 | Round 68 — the end-game hamlets: a workshop for each of the 20 trades, cottages and yards | 6 | 26 |
 | 76 | Round 68 — saga panels: the opening (the twins) and the old disasters | 11 | 11 |
 | 77 | Round 69 — saga panels redone without the hero: the storm, the Ash Night, the Stone-Fall, the Black Tide, the Long Quiet | 5 | 5 |
+| 78 | Round 69 — the hamlet workshops' furniture: one sheet for each of the twenty trades | 20 | 80 |
+| 79 | Round 69 — the forty keepsakes on the workshops' walls | 5 | 40 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -8381,6 +8383,671 @@ Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Sa
 The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
 Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world, long ago; the last lakeside village in green grasslands in a grey dusk, few lights, old people at their doors, and at the edge of the fields faint pale-blue ghostly figures of the dead drifting at the edge of the lantern light; quiet and sad, an empty village road. IMPORTANT: this happened long before the twins were born — there is NO hero in this picture: no boy or girl in a green cloak, no young adventurer with a sword, nobody seen from behind in the foreground. No text.
 The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_weaver
+
+Interior furniture — the weaver's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_weaver_loom` Great loom — 64 × 80 px
+- `hf_weaver_wheel` Spinning wheel — 44 × 44 px
+- `hf_weaver_wool` Wool baskets — 44 × 32 px
+- `hf_weaver_bolts` Cloth shelf — 56 × 64 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the weaver's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Great loom — a big upright wooden warp-weighted loom with a half-woven blue and red rune-pattern cloth on it (about 1.3× the hero's height).
+2. Spinning wheel — a wooden spinning wheel with a tuft of wool (about 0.7× the hero's height).
+3. Wool baskets — two baskets heaped with skeins of dyed wool, blue, red and gold (about 0.5× the hero's height).
+4. Cloth shelf — a shelf of folded woven cloths and rolled rugs (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_shipwright
+
+Interior furniture — the shipwright's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_shipwright_hull` Boat on trestles — 96 × 48 px
+- `hf_shipwright_bench` Shaping bench — 64 × 40 px
+- `hf_shipwright_ropes` Rope coils — 40 × 32 px
+- `hf_shipwright_oars` Oar rack — 48 × 72 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the shipwright's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Boat on trestles — a small half-built clinker boat on wooden trestles, planks overlapping (about 0.8× the hero's height).
+2. Shaping bench — a heavy workbench with an adze, a drawknife and curled wood shavings (about 0.6× the hero's height).
+3. Rope coils — coils of thick rope and a pot of pitch (about 0.5× the hero's height).
+4. Oar rack — a rack of new oars and a carved dragon prow leaning against it (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_netmender
+
+Interior furniture — the net-mender's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_netmender_rack` Net frame — 72 × 64 px
+- `hf_netmender_floats` Float baskets — 44 × 32 px
+- `hf_netmender_twine` Twine table — 56 × 36 px
+- `hf_netmender_nets` Hanging nets — 56 × 56 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the net-mender's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Net frame — a wooden frame with a big fishing net stretched across it, half mended (about as tall as the hero).
+2. Float baskets — baskets of glass fishing floats and cork floats (about 0.5× the hero's height).
+3. Twine table — a low table with balls of twine, a netting needle and a knife (about 0.6× the hero's height).
+4. Hanging nets — nets and lines hanging from pegs with shells tied on (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_fisher
+
+Interior furniture — the fisher's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_fisher_racks` Drying rack — 64 × 56 px
+- `hf_fisher_barrels` Fish barrels — 44 × 40 px
+- `hf_fisher_rods` Rod rack — 40 × 72 px
+- `hf_fisher_pots` Lobster pots — 48 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the fisher's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Drying rack — a wooden rack hung with drying fish (about as tall as the hero).
+2. Fish barrels — barrels of salted fish and a scale (about 0.6× the hero's height).
+3. Rod rack — fishing rods and a landing net on a rack (about as tall as the hero).
+4. Lobster pots — stacked woven lobster pots and a coil of line (about 0.6× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_beekeeper
+
+Interior furniture — the beekeeper's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_beekeeper_skeps` Bee skeps — 72 × 48 px
+- `hf_beekeeper_jars` Honey shelf — 56 × 64 px
+- `hf_beekeeper_press` Honey press — 44 × 48 px
+- `hf_beekeeper_veil` Veil and smoker — 40 × 48 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the beekeeper's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Bee skeps — three round straw bee-skeps on a bench, a few bees about (about 0.8× the hero's height).
+2. Honey shelf — shelves of honey jars glowing gold and beeswax candles (about as tall as the hero).
+3. Honey press — a wooden honey press dripping into a bucket (about 0.8× the hero's height).
+4. Veil and smoker — a hat with a veil and a bee smoker on a hook (about 0.8× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_carver
+
+Interior furniture — the carver's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_carver_figure` Half-carved log — 48 × 72 px
+- `hf_carver_bench` Carving bench — 64 × 40 px
+- `hf_carver_panel` Rune panel — 56 × 64 px
+- `hf_carver_heads` Dragon heads — 56 × 48 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the carver's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Half-carved log — a log half carved into a standing bear (about as tall as the hero).
+2. Carving bench — a bench with chisels, mallets and wood shavings (about 0.6× the hero's height).
+3. Rune panel — a carved wooden panel of knotwork and runes leaning on the wall (about as tall as the hero).
+4. Dragon heads — two carved dragon heads for a hall's gables (about 0.8× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_cooper
+
+Interior furniture — the cooper's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_cooper_barrels` New barrels — 64 × 56 px
+- `hf_cooper_hoops` Hoop rack — 44 × 56 px
+- `hf_cooper_fire` Firing basket — 44 × 48 px
+- `hf_cooper_staves` Staves — 56 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the cooper's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. New barrels — a stack of new oak barrels with iron hoops (about as tall as the hero).
+2. Hoop rack — iron hoops hanging on pegs and a hoop driver (about as tall as the hero).
+3. Firing basket — a half-made barrel over a little fire basket (about 0.8× the hero's height).
+4. Staves — a bundle of oak staves and a shaving horse (about 0.6× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_tanner
+
+Interior furniture — the tanner's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_tanner_frame` Stretching frame — 56 × 64 px
+- `hf_tanner_vats` Tanning vats — 64 × 44 px
+- `hf_tanner_beam` Scraping beam — 56 × 40 px
+- `hf_tanner_leathers` Finished leathers — 48 × 44 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the tanner's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Stretching frame — a hide stretched on a wooden frame (about as tall as the hero).
+2. Tanning vats — two big wooden vats of brown tanning water (about 0.7× the hero's height).
+3. Scraping beam — a sloping scraping beam with a curved knife (about 0.6× the hero's height).
+4. Finished leathers — rolls and stacks of finished leather, a belt and boots (about 0.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_dyer
+
+Interior furniture — the dyer's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_dyer_vats` Dye vats — 72 × 44 px
+- `hf_dyer_poles` Drying poles — 64 × 72 px
+- `hf_dyer_plants` Dye plants — 48 × 32 px
+- `hf_dyer_bench` Mordant bench — 56 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the dyer's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Dye vats — three steaming dye vats, blue, red and yellow (about 0.7× the hero's height).
+2. Drying poles — lengths of dyed cloth hung on poles to dry, blue, red, yellow and green (about as tall as the hero).
+3. Dye plants — baskets of woad leaves, madder roots and onion skins (about 0.5× the hero's height).
+4. Mordant bench — a bench with jars of mordant and a stirring paddle (about 0.6× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_herder
+
+Interior furniture — the herder's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_herder_churn` Butter churn — 36 × 48 px
+- `hf_herder_cheese` Cheese shelf — 56 × 64 px
+- `hf_herder_hay` Hay and feed — 64 × 40 px
+- `hf_herder_bells` Bells and halters — 48 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the herder's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Butter churn — a wooden butter churn and a milk pail (about 0.8× the hero's height).
+2. Cheese shelf — a shelf of round cheeses on boards (about as tall as the hero).
+3. Hay and feed — hay bales and a feed trough (about 0.6× the hero's height).
+4. Bells and halters — cow bells and rope halters hanging on pegs (about 0.6× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_miller
+
+Interior furniture — the miller's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_miller_stones` Millstones — 64 × 56 px
+- `hf_miller_sacks` Flour sacks — 56 × 44 px
+- `hf_miller_sieve` Sieve table — 56 × 40 px
+- `hf_miller_gears` Wooden gears — 56 × 64 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the miller's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Millstones — a pair of round millstones with a wooden hopper (about as tall as the hero).
+2. Flour sacks — stacked sacks of flour, one open with a scoop (about 0.7× the hero's height).
+3. Sieve table — a table with sieves and fine flour dust (about 0.6× the hero's height).
+4. Wooden gears — big wooden cog-wheels and a shaft (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_stonemason
+
+Interior furniture — the stonemason's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_stonemason_block` Stone block — 56 × 44 px
+- `hf_stonemason_runestone` Unfinished runestone — 40 × 72 px
+- `hf_stonemason_tools` Tool rack — 48 × 56 px
+- `hf_stonemason_rubble` Stone pile — 56 × 32 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the stonemason's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Stone block — a big cut stone block with a mallet and chisel on it (about 0.7× the hero's height).
+2. Unfinished runestone — a tall runestone half carved with knotwork (about as tall as the hero).
+3. Tool rack — a rack of chisels, mallets, a square and a plumb line (about as tall as the hero).
+4. Stone pile — a heap of cut stones and gravel (about 0.5× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_midwife
+
+Interior furniture — the midwife's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_midwife_cradle` Cradle — 48 × 36 px
+- `hf_midwife_herbs` Herb shelf — 56 × 64 px
+- `hf_midwife_tub` Washing tub — 48 × 36 px
+- `hf_midwife_chair` Birthing chair — 40 × 56 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the midwife's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Cradle — a carved wooden cradle with a soft blanket (about 0.6× the hero's height).
+2. Herb shelf — shelves of dried herbs, jars of salve and clean linen (about as tall as the hero).
+3. Washing tub — a wooden tub with warm water and towels (about 0.6× the hero's height).
+4. Birthing chair — a sturdy wooden chair with cushions and a shawl (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_potter
+
+Interior furniture — the potter's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_potter_wheel` Potter's wheel — 48 × 44 px
+- `hf_potter_kiln` Kiln — 56 × 64 px
+- `hf_potter_shelf` Pot shelf — 56 × 64 px
+- `hf_potter_clay` Clay bin — 44 × 32 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the potter's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Potter's wheel — a kick-wheel with a pot half thrown on it (about 0.7× the hero's height).
+2. Kiln — a small round brick kiln glowing inside (about as tall as the hero).
+3. Pot shelf — shelves of drying pots, jugs and bowls (about as tall as the hero).
+4. Clay bin — a wooden bin of wet clay and a wire cutter (about 0.5× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_shepherd
+
+Interior furniture — the shepherd's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_shepherd_shears` Shearing bench — 56 × 36 px
+- `hf_shepherd_fleeces` Fleece pile — 56 × 36 px
+- `hf_shepherd_crook` Crook and lamb pen — 56 × 48 px
+- `hf_shepherd_spindle` Wool bags — 44 × 44 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the shepherd's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Shearing bench — a low bench with shears and a fleece (about 0.6× the hero's height).
+2. Fleece pile — a soft pile of white and grey fleeces (about 0.6× the hero's height).
+3. Crook and lamb pen — a crook leaning on a little pen with a sleepy lamb (about 0.8× the hero's height).
+4. Wool bags — bags of raw wool and a drop spindle (about 0.7× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_smith
+
+Interior furniture — the smith's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_smith_forge` Forge — 64 × 64 px
+- `hf_smith_anvil` Anvil — 48 × 40 px
+- `hf_smith_quench` Quench barrel — 36 × 40 px
+- `hf_smith_rack` Tool rack — 56 × 64 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the smith's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Forge — a stone forge with glowing coals and bellows (about as tall as the hero).
+2. Anvil — an anvil on a stump with tongs and a hammer (about 0.6× the hero's height).
+3. Quench barrel — a barrel of water with steam, a horseshoe in it (about 0.6× the hero's height).
+4. Tool rack — a rack of finished tools, horseshoes and a sword (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_forester
+
+Interior furniture — the forester's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_forester_logs` Log stack — 64 × 44 px
+- `hf_forester_saplings` Sapling pots — 56 × 48 px
+- `hf_forester_bench` Tool bench — 56 × 40 px
+- `hf_forester_antlers` Antler rack — 48 × 48 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the forester's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Log stack — a neat stack of split logs and an axe in a block (about 0.7× the hero's height).
+2. Sapling pots — young trees in pots ready for planting (about 0.8× the hero's height).
+3. Tool bench — a bench with saws, wedges and a bow saw (about 0.6× the hero's height).
+4. Antler rack — a shed antler rack with a hunting horn and a lantern (about 0.8× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_brewer
+
+Interior furniture — the brewer's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_brewer_kettle` Copper kettle — 64 × 64 px
+- `hf_brewer_casks` Casks — 56 × 48 px
+- `hf_brewer_hops` Hops — 48 × 48 px
+- `hf_brewer_horns` Drinking table — 56 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the brewer's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Copper kettle — a big copper brewing kettle over a fire (about as tall as the hero).
+2. Casks — stacked casks with taps and a jug (about 0.8× the hero's height).
+3. Hops — hanging bunches of hops and a sack of barley (about 0.8× the hero's height).
+4. Drinking table — a table with drinking horns and a cask of mead (about 0.6× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_skald
+
+Interior furniture — the skald's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_skald_harp` Harp — 40 × 64 px
+- `hf_skald_benches` Story benches — 72 × 40 px
+- `hf_skald_scrolls` Saga shelf — 56 × 64 px
+- `hf_skald_stone` Saga stone — 40 × 56 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the skald's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Harp — a carved standing harp with a rune on its frame (about as tall as the hero).
+2. Story benches — benches round a little fire pit (about 0.6× the hero's height).
+3. Saga shelf — a shelf of carved saga-sticks, scrolls and a drinking horn (about as tall as the hero).
+4. Saga stone — a small carved picture-stone showing the twins and the World-Tree (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hf_baker
+
+Interior furniture — the baker's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text · wave 78 · 4 items, 2 × 2 · 1024x1024
+
+- `hf_baker_oven` Bread oven — 64 × 64 px
+- `hf_baker_table` Kneading table — 64 × 40 px
+- `hf_baker_loaves` Bread shelf — 56 × 64 px
+- `hf_baker_sacks` Grain and baskets — 48 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_1, sc_int_3
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior furniture — the baker's workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Bread oven — a domed stone bread oven with fire inside and a peel (about as tall as the hero).
+2. Kneading table — a table dusted with flour, dough and a rolling pin (about 0.6× the hero's height).
+3. Bread shelf — shelves of round loaves, buns and braided bread (about as tall as the hero).
+4. Grain and baskets — a sack of flour and baskets of bread (about 0.6× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hk_1
+
+Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text · wave 79 · 8 items, 4 × 2 · 1536x1024
+
+- `hk_asa` Keepsake of Asa — 40 × 40 px
+- `hk_bersi` Keepsake of Bersi — 40 × 40 px
+- `hk_dagny` Keepsake of Dagny — 40 × 40 px
+- `hk_eyvind` Keepsake of Eyvind — 40 × 40 px
+- `hk_frida` Keepsake of Frida — 40 × 40 px
+- `hk_geir` Keepsake of Geir — 40 × 40 px
+- `hk_hallveig` Keepsake of Hallveig — 40 × 40 px
+- `hk_ingolf` Keepsake of Ingolf — 40 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_wall
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Keepsake of Asa — a small framed birth-shawl, blue with a white rune border, never worn (about 0.6× the hero's height).
+2. Keepsake of Bersi — a child's small toy boat carved of wood, on a little shelf (about 0.6× the hero's height).
+3. Keepsake of Dagny — a scrap of mended net in a frame with a single glass float (about 0.6× the hero's height).
+4. Keepsake of Eyvind — an old fishing spear and a carved fish on a plaque (about 0.6× the hero's height).
+5. Keepsake of Frida — a framed golden honeycomb with a dried meadow flower (about 0.6× the hero's height).
+6. Keepsake of Geir — a small carved wooden panel of the World-Tree, its roots reaching far (about 0.6× the hero's height).
+7. Keepsake of Hallveig — two wooden cups on a little shelf, one always full (about 0.6× the hero's height).
+8. Keepsake of Ingolf — a pair of small leather boots hung on a peg (about 0.6× the hero's height).
+View: seen straight from the front, flat, to hang on a room's back wall in a top-down RPG.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hk_2
+
+Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text · wave 79 · 8 items, 4 × 2 · 1536x1024
+
+- `hk_jorunn` Keepsake of Jorunn — 40 × 40 px
+- `hk_ketil` Keepsake of Ketil — 40 × 40 px
+- `hk_liv` Keepsake of Liv — 40 × 40 px
+- `hk_magni` Keepsake of Magni — 40 × 40 px
+- `hk_nanna` Keepsake of Nanna — 40 × 40 px
+- `hk_oddny` Keepsake of Oddny — 40 × 40 px
+- `hk_ragna` Keepsake of Ragna — 40 × 40 px
+- `hk_sigrid` Keepsake of Sigrid — 40 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_wall
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Keepsake of Jorunn — a framed length of rune-blue cloth with a white knot pattern (about 0.6× the hero's height).
+2. Keepsake of Ketil — a goat's bell on a red cord and a curly horn (about 0.6× the hero's height).
+3. Keepsake of Liv — a little wooden mill-wheel on the wall (about 0.6× the hero's height).
+4. Keepsake of Magni — a stone mason's mark carved on a square of stone (about 0.6× the hero's height).
+5. Keepsake of Nanna — a pair of tiny knitted baby shoes on a ribbon (about 0.6× the hero's height).
+6. Keepsake of Oddny — a small old clay urn, cool and grey, with a rune on it (about 0.6× the hero's height).
+7. Keepsake of Ragna — a little girl's wooden shepherd's crook and a straw doll (about 0.6× the hero's height).
+8. Keepsake of Sigrid — a broken iron chain link, hung on the wall (about 0.6× the hero's height).
+View: seen straight from the front, flat, to hang on a room's back wall in a top-down RPG.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hk_3
+
+Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text · wave 79 · 8 items, 4 × 2 · 1536x1024
+
+- `hk_torvi` Keepsake of Torvi — 40 × 40 px
+- `hk_ulf` Keepsake of Ulf — 40 × 40 px
+- `hk_vigdis` Keepsake of Vigdis — 40 × 40 px
+- `hk_yrsa` Keepsake of Yrsa — 40 × 40 px
+- `hk_arnor` Keepsake of Arnor — 40 × 40 px
+- `hk_bodil` Keepsake of Bodil — 40 × 40 px
+- `hk_dalla` Keepsake of Dalla — 40 × 40 px
+- `hk_einar` Keepsake of Einar — 40 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_wall
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Keepsake of Torvi — a framed pressed marsh-tree leaf, silver-green (about 0.6× the hero's height).
+2. Keepsake of Ulf — an old carved drinking horn on a bracket (about 0.6× the hero's height).
+3. Keepsake of Vigdis — a carved saga-stick with runes all along it (about 0.6× the hero's height).
+4. Keepsake of Yrsa — a round braided loaf of bread, dried and kept on a plaque (about 0.6× the hero's height).
+5. Keepsake of Arnor — a framed woven cloth with a pattern like a singing mountain (about 0.6× the hero's height).
+6. Keepsake of Bodil — a model ship with a striped sail in a niche (about 0.6× the hero's height).
+7. Keepsake of Dalla — a net woven with tiny glowing beads (about 0.6× the hero's height).
+8. Keepsake of Einar — a polished round mirror of mountain-lake stone (about 0.6× the hero's height).
+View: seen straight from the front, flat, to hang on a room's back wall in a top-down RPG.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hk_4
+
+Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text · wave 79 · 8 items, 4 × 2 · 1536x1024
+
+- `hk_gudrun` Keepsake of Gudrun — 40 × 40 px
+- `hk_hakon` Keepsake of Hakon — 40 × 40 px
+- `hk_ingrid` Keepsake of Ingrid — 40 × 40 px
+- `hk_joreid` Keepsake of Joreid — 40 × 40 px
+- `hk_kolbein` Keepsake of Kolbein — 40 × 40 px
+- `hk_lofn` Keepsake of Lofn — 40 × 40 px
+- `hk_mord` Keepsake of Mord — 40 × 40 px
+- `hk_njal` Keepsake of Njal — 40 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_wall
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Keepsake of Gudrun — a tiny golden bee pinned on a little velvet cushion (about 0.6× the hero's height).
+2. Keepsake of Hakon — a small rune carving with an arrow-rune pointing to the lake (about 0.6× the hero's height).
+3. Keepsake of Ingrid — an old cooper's hoop driver hung like a trophy (about 0.6× the hero's height).
+4. Keepsake of Joreid — a child's leather shoe and a little wooden horse (about 0.6× the hero's height).
+5. Keepsake of Kolbein — a faded courting ribbon dyed blue, pinned in a frame (about 0.6× the hero's height).
+6. Keepsake of Lofn — two black raven feathers crossed on a small plaque (about 0.6× the hero's height).
+7. Keepsake of Mord — a child's small wooden flour cart (about 0.6× the hero's height).
+8. Keepsake of Njal — a mason's chisel stuck in a chunk of cooled black glass (about 0.6× the hero's height).
+View: seen straight from the front, flat, to hang on a room's back wall in a top-down RPG.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hk_5
+
+Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text · wave 79 · 8 items, 4 × 2 · 1536x1024
+
+- `hk_orm` Keepsake of Orm — 40 × 40 px
+- `hk_ranveig` Keepsake of Ranveig — 40 × 40 px
+- `hk_sverri` Keepsake of Sverri — 40 × 40 px
+- `hk_thora` Keepsake of Thora — 40 × 40 px
+- `hk_unn` Keepsake of Unn — 40 × 40 px
+- `hk_vali` Keepsake of Vali — 40 × 40 px
+- `hk_alfhild` Keepsake of Alfhild — 40 × 40 px
+- `hk_brand` Keepsake of Brand — 40 × 40 px
+
+Attach: style_hero, style_centaur, sc_int_wall
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 8 separate pieces of scenery — Keepsakes on a workshop's back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 8 objects in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Keepsake of Orm — a little silver birth-bell on a ribbon (about 0.6× the hero's height).
+2. Keepsake of Ranveig — a clay bowl holding four small gems, one of each realm's colour (about 0.6× the hero's height).
+3. Keepsake of Sverri — an old shepherd's lantern, its glass blue (about 0.6× the hero's height).
+4. Keepsake of Thora — a horseshoe forged from old black chain iron (about 0.6× the hero's height).
+5. Keepsake of Unn — a pine cone carved in obsidian on a small shelf (about 0.6× the hero's height).
+6. Keepsake of Vali — a small carved double-throne with two silver moons above it (about 0.6× the hero's height).
+7. Keepsake of Alfhild — a little carved figure of two children in a basket on the water (about 0.6× the hero's height).
+8. Keepsake of Brand — a dried green vine and a sprig of spring flowers in a frame (about 0.6× the hero's height).
+View: seen straight from the front, flat, to hang on a room's back wall in a top-down RPG.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

@@ -206,6 +206,13 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 - Kris: "great, new requests, picks and feedback is in". Picks: the reveal, the map page, **the runestone ring as the vein itself**. Note on "After the gods": "the roads should not completely follow the previous spirit lines. Make a smaller zeldara rune logo around the center rune, similar to the one in the original village, and then make roads that are more organized like a village immediately around the logo. Roads should also follow where the runelines were, but they should be more like a standard road that connects this new hamlets together."
 - Q1 — Five of the eleven saga panels are set long before the twins were born (the storm, the Ash Night, the Stone-Fall, the Black Tide, the Long Quiet), but the painter put the green-cloaked hero in them. Redo them without the hero? **Answered: redo the 5 without the hero** (wave 77, `tools/sprites/round72.ps1`; the six good panels are the style reference).
 
+- Kris (round 69, later): "where are the hamlet workshops and good saga panels in the design lab?" → a new Lab tab, Saga panels & hamlets.
+- Kris: "hamlet buildings should work like normal buildings, you shouldn't be able to walk through them. Also, you should be able to go into them using tab. They should also have thematic interiors based upon the spirits you released, and create new NPCs for each of these hamlet buildings based upon their trade and other details".
+- H2 — Who lives in each workshop? **Answered: 40 people, kin of the spirit** — each workshop its own named villager, a descendant or apprentice of that spirit, talking of the spirit, the trade and the realm.
+- H3 — Their pictures? **Answered: painted sprites** — a sheet per NPC in the village-folk style, and a portrait for their talk box.
+- H4 — The interiors' furniture? **Answered: new trade furniture** — a small sheet per trade, and the spirit's keepsake on the wall.
+- H5 — The homes too? **Answered: workshops only; homes solid** — every hamlet building blocks the way; only the workshop opens with [Tab].
+
 ### Round 68 (Oct 19) — the line style; the settlements in the rings
 - Kris: "picks for day runelines are in. and the circles around the runestone are great, this can be outlines for what eventually will turn into the mini settlements at the very end of the game". Picks: **Rune vein** and **Mote stitch** (both).
 - L1 — Two styles picked: how do they combine? **Answered: vein + moving motes** — one line: the bright vein with its runes, and the stitch's slow wave of light motes running along it.

@@ -1,4 +1,4 @@
-# Character survey — 473 characters, 1097 sheets (736 core), 7517 poses
+# Character survey — 513 characters, 1137 sheets (776 core), 7837 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: chain_jailer: guard; einherjar_shieldmaiden: guard.
 
@@ -8,7 +8,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: cha
 | rider | 22 | 22 | 22 | 176 |
 | monster | 252 | 642 | 398 | 4049 |
 | boss | 97 | 274 | 157 | 2042 |
-| npc | 42 | 53 | 53 | 424 |
+| npc | 82 | 93 | 93 | 744 |
 | mount | 11 | 11 | 11 | 88 |
 | familiar | 4 | 4 | 4 | 32 |
 | fairy | 23 | 23 | 23 | 184 |
@@ -432,6 +432,46 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: cha
 | tc_phantom | Wraithwalker Seren | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: cast ×4 (Teaches Phantom Veil — pass through enemies, untouchable for 3 seconds.) | 1 |
 | tc_timeslow | Chronomancer Vex | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: cast ×4 (Teaches Time Slow — everything around you slows to a crawl.) | 1 |
 | tc_meteor | Starfall Magus Orin | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: cast ×4 (Teaches Meteor Strike — call down a meteor on your target.) | 1 |
+| hk_asa | Hild | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Throws the shuttle through the loom and beats the weft down.) | 1 |
+| hk_bersi | Arni | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Planes a long oak plank with steady strokes.) | 1 |
+| hk_dagny | Gunnhild | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Knots twine into a torn net with quick fingers.) | 1 |
+| hk_eyvind | Kari | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: fish ×4 (Guts and salts the morning's catch.) | 1 |
+| hk_frida | Solvi | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Lifts a honeycomb frame and smiles at the bees.) | 1 |
+| hk_geir | Ottar | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Taps a chisel with a wooden mallet.) | 1 |
+| hk_hallveig | Steinar | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Hammers an iron hoop down onto a barrel.) | 1 |
+| hk_ingolf | Halla | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Scrapes a hide on the beam with a curved knife.) | 1 |
+| hk_jorunn | Edda | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Lifts a length of blue cloth from the vat on a paddle.) | 1 |
+| hk_ketil | Gorm | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: dig ×4 (Churns butter, humming to the cows outside.) | 1 |
+| hk_liv | Ylva | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: carry ×4 (Pours grain into the hopper; flour dust rises.) | 1 |
+| hk_magni | Rurik | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Cuts a rune into a stone with mallet and chisel.) | 1 |
+| hk_nanna | Inga | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Rocks the cradle and folds clean linen.) | 1 |
+| hk_oddny | Tova | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Shapes a pot on the turning wheel.) | 1 |
+| hk_ragna | Sigvald | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: carry ×4 (Shears a fleece with long careful snips.) | 1 |
+| hk_sigrid | Hjalti | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Hammers glowing iron on the anvil; sparks fly.) | 1 |
+| hk_torvi | Asgerd | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: chop ×4 (Splits a log with one clean stroke.) | 1 |
+| hk_ulf | Geirmund | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: pour ×4 (Stirs the mash in the copper kettle.) | 1 |
+| hk_vigdis | Saga | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Plucks the harp and recites a verse.) | 1 |
+| hk_yrsa | Bodvar | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: pour ×4 (Kneads dough on the floury table.) | 1 |
+| hk_arnor | Ragnhild | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Throws the shuttle through the loom and beats the weft down.) | 1 |
+| hk_bodil | Ivar | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Planes a long oak plank with steady strokes.) | 1 |
+| hk_dalla | Freydis | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Knots twine into a torn net with quick fingers.) | 1 |
+| hk_einar | Leif | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: fish ×4 (Guts and salts the morning's catch.) | 1 |
+| hk_gudrun | Alva | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Lifts a honeycomb frame and smiles at the bees.) | 1 |
+| hk_hakon | Sindri | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Taps a chisel with a wooden mallet.) | 1 |
+| hk_ingrid | Thorkel | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Hammers an iron hoop down onto a barrel.) | 1 |
+| hk_joreid | Hrefna | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Scrapes a hide on the beam with a curved knife.) | 1 |
+| hk_kolbein | Signy | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Lifts a length of blue cloth from the vat on a paddle.) | 1 |
+| hk_lofn | Starkad | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: dig ×4 (Churns butter, humming to the cows outside.) | 1 |
+| hk_mord | Grima | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: carry ×4 (Pours grain into the hopper; flour dust rises.) | 1 |
+| hk_njal | Hogni | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Cuts a rune into a stone with mallet and chisel.) | 1 |
+| hk_orm | Birna | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Rocks the cradle and folds clean linen.) | 1 |
+| hk_ranveig | Eldrid | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Shapes a pot on the turning wheel.) | 1 |
+| hk_sverri | Aslak | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: carry ×4 (Shears a fleece with long careful snips.) | 1 |
+| hk_thora | Thorvald | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Hammers glowing iron on the anvil; sparks fly.) | 1 |
+| hk_unn | Vigi | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: chop ×4 (Splits a log with one clean stroke.) | 1 |
+| hk_vali | Gudny | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: pour ×4 (Stirs the mash in the copper kettle.) | 1 |
+| hk_alfhild | Skuli | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Plucks the harp and recites a verse.) | 1 |
+| hk_brand | Helga | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: pour ×4 (Kneads dough on the floury table.) | 1 |
 | mt_horse | Horse | Stables | x | Move · side ×4 (trotting, side view); Move · front ×2 (toward the camera); Move · back ×2 (away from the camera) | 1 |
 | mt_alligator | Alligator | Key mounts | x | Move · side ×4 (trotting, side view); Move · front ×2 (toward the camera); Move · back ×2 (away from the camera) | 1 |
 | mt_boar | Battle Boar | Key mounts | x | Move · side ×4 (trotting, side view); Move · front ×2 (toward the camera); Move · back ×2 (away from the camera) | 1 |

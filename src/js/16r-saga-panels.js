@@ -7,18 +7,7 @@
 // ║ Round 69: five panels redone without the hero (wave 77, '_b') — the first ones had the twin in scenes from before the twins were born.
 // ═══════════════════════════════════════════════════════════════════════
 var ZSAGA={
-  SETS:{
-    opening:[['pn_saga_cradles','In the last village the cradles stood empty. No child had been born alive in a lifetime.'],
-      ['pn_saga_storm_b','Then came the worst storm anyone remembered — and the lightning struck the runestones, one after another.'],
-      ['pn_saga_basket','At dawn a basket drifted out of Mirror Lake. In it lay two babes whose eyes glowed rune-blue.'],
-      ['pn_saga_raised','The village named them Zeldara and Zeldor, and raised them on goat\'s milk and old songs.'],
-      ['pn_saga_eyes','They read runes no one else could, and the old stones woke for them.'],
-      ['pn_saga_sendoff','Now the village is old and tired. One twin goes out into Runeheim; the other stays to keep the village.']],
-    realm4:[['pn_saga_ashnight_b','The Ash Night: the night Asgard\'s gate shut, fire fell on the Ashlands and the Ember Wall rose.']],
-    realm3:[['pn_saga_stonefall_b','Three years on, the Highlands dug too deep for a voice in the stone — and the mountains broke.']],
-    realm2:[['pn_saga_blacktide_b','Then the Black Tide: the Silverrun rose black, and the marshes drank the villages.']],
-    realm1:[['pn_saga_quiet_b','Only the Grasslands were left — and the Long Quiet, when the dead drifted at the edge of the light.']],
-    gate:[['pn_saga_gate','High above, a golden gate had shut. On Odin\'s high seat sat someone in a golden mask.']] },
+  SETS:ZSAGA_SETS,      // the panels and their lines live in 07zsg-saga-sets.js (shared with the Lab, round 69)
   ready:function(k){ var S=ZSAGA.SETS[k]; return !!(S&&typeof ZCUT!=='undefined'&&S.every(function(p){ return ZCUT.painted(p[0]); })); },
   seen:function(ps){ return ps.sagaSeen||(ps.sagaSeen=[]); },
   // plays set k once per game, when painted; returns true if it plays
@@ -30,4 +19,4 @@ var ZSAGA={
   // a new game: the opening (old saves count it as seen)
   start:function(ws){ var ps=ws.playerState; if(!ps||ps.sagaSeen)return; if(!ws._newGame){ ps.sagaSeen=['opening']; return; } ZSAGA.seen(ps); setTimeout(function(){ if(ws.sys&&ws.sys.isActive())ZSAGA.play(ps,'opening'); },1500); }
 };
-if(typeof ZCUT!=='undefined'&&!ZCUT.LOOK.saga)ZCUT.LOOK.saga={bg:['#0c1a24','#03070b'],glow:'rgba(111,227,245,',sub:'#bff6ff'};
+if(typeof ZCUT!=='undefined'&&ZCUT.LOOK&&!ZCUT.LOOK.saga)ZCUT.LOOK.saga={bg:['#0c1a24','#03070b'],glow:'rgba(111,227,245,',sub:'#bff6ff'};

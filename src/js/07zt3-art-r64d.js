@@ -204,6 +204,18 @@
     SG2('pn_saga_stonefall_b','The Stone-Fall','rocky highlands: the mountains breaking apart around deep mines, a huge cliff tearing open across the land, bearded miners with lamps and picks running from the dust, a faint glow deep in the broken stone'),
     SG2('pn_saga_blacktide_b','The Black Tide','green wetlands: a broad river rising black and swollen from the south, flooding the marsh villages, reed roofs and boats swept away, the black water standing up like a wall, a few marsh folk on a stilt walkway looking on in horror'),
     SG2('pn_saga_quiet_b','The Long Quiet','the last lakeside village in green grasslands in a grey dusk, few lights, old people at their doors, and at the edge of the fields faint pale-blue ghostly figures of the dead drifting at the edge of the lantern light; quiet and sad, an empty village road')]);
+  // ═══ wave 78: the hamlet workshops' furniture, one sheet per trade (round 69, answer H4: "New trade furniture") ═══
+  // ═══ wave 79: each freed spirit's keepsake, hung on the back wall of their workshop ═══
+  if(typeof ZHAM!=='undefined'){
+    ZSCN.WAVES[78]='Round 69 — the hamlet workshops\' furniture: one sheet for each of the twenty trades';
+    ZSCN.WAVES[79]='Round 69 — the forty keepsakes on the workshops\' walls';
+    ZHAM.ORDER.forEach(function(t){ var T=ZHAM.TRADES[t]; ZSCN.SHEETS.push({id:'sc_hf_'+t,wave:78,fam:'interior',kind:'obj',cols:2,rows:2,size:'1024x1024',refs:['sc_int_1','sc_int_3'],
+      title:'Interior furniture — the '+ZHAM.tradeName(t)+'\'s workshop in a little Norse hamlet; the same style, size and view as the interior furniture in the reference, each piece alone on a transparent background, no people, no text',
+      items:T.f.map(function(f){ return ['hf_'+t+'_'+f[0],f[1],f[2],f[3],f[4]]; })}); });
+    for(var kq=0;kq<5;kq++)ZSCN.SHEETS.push({id:'sc_hk_'+(kq+1),wave:79,fam:'interior',kind:'wall',cols:4,rows:2,size:'1536x1024',refs:['sc_int_wall'],
+      title:'Keepsakes on a workshop\'s back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text',
+      items:ZHAM.KIN.slice(kq*8,kq*8+8).map(function(K){ return ['hk_'+K[0],'Keepsake of '+K[0].charAt(0).toUpperCase()+K[0].slice(1),K[6],40,40]; })});
+  }
   if(ZSCN.expand)ZSCN.expand();
 })();
 

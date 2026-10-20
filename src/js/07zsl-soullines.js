@@ -36,17 +36,21 @@ var ZSL=(function(){
     var reg={}; [1,2,3,4].forEach(function(q){ var L=Z.filter(function(z){ return z.r===q; }), x=0, y=0; L.forEach(function(z){ x+=z.x; y+=z.y; }); x/=L.length; y/=L.length; reg[q]={x:x,y:y,a:Math.atan2(y-C.y,x-C.x),L:L}; });
     return {W:W,H:H,C:C,Z:Z,ring:ring,reg:reg}; };
   // ── the World-Tree (Kris's pick, round 68) ──
-  var tree=function(G){ var C=G.C, out=[], add=function(p,w){ out.push({pts:p,w:w||1}); };
+  var tree=function(G){ var C=G.C, out=[], add=function(p,w){ out.push({pts:p,w:w||1}); }, rd=out.roads=[];      // rd: the roads after the gods (round 69)
     add(circ(C,34),1.3); add(circ(C,44),1);
     [1,2,3,4].forEach(function(q){ var R=G.reg[q], a=R.a, base={x:C.x+Math.cos(a)*44,y:C.y+Math.sin(a)*44}, mid={x:(base.x+R.x)/2,y:(base.y+R.y)/2};
-      var bough=cat([base,{x:mid.x+Math.cos(a+1.2)*30,y:mid.y+Math.sin(a+1.2)*30},{x:R.x,y:R.y}],false,6); twist(bough,9,130,q).forEach(function(s){ add(s,1.1); });
+      var bough=cat([base,{x:mid.x+Math.cos(a+1.2)*30,y:mid.y+Math.sin(a+1.2)*30},{x:R.x,y:R.y}],false,6); twist(bough,9,130,q).forEach(function(s){ add(s,1.1); }); rd.push([{x:C.x+Math.cos(a)*31,y:C.y+Math.sin(a)*31}].concat(bough));
       var nodes=[{x:R.x,y:R.y}], left=R.L.slice(), rr=rnd(q*977);
       while(left.length){ var best=null, bd=1e9, bn=null; left.forEach(function(z){ nodes.forEach(function(n){ var d=Math.hypot(n.x-z.x,n.y-z.y); if(d<bd){ bd=d; best=z; bn=n; } }); });
-        var br=bez(bn,best,(rr()<0.5?-1:1)*(0.18+rr()*0.12)); add(br,0.8); add(spiral(best,14,1.2,Math.atan2(best.y-bn.y,best.x-bn.x),rr()<0.5?-1:1),0.6); nodes.push(best); nodes.push(br[Math.floor(br.length/2)]); left.splice(left.indexOf(best),1); } });
+        var br=bez(bn,best,(rr()<0.5?-1:1)*(0.18+rr()*0.12)); add(br,0.8); rd.push(br); add(spiral(best,14,1.2,Math.atan2(best.y-bn.y,best.x-bn.x),rr()<0.5?-1:1),0.6); nodes.push(best); nodes.push(br[Math.floor(br.length/2)]); left.splice(left.indexOf(best),1); } });
     twist(cat(G.ring(0.9),true,8),8,150,0).forEach(function(s){ add(s,0.9); });      // the roots knotted round the coast
     return out; };
+  // ── the hamlet in each ring, after the gods (round 69 — Kris: "Make a smaller zeldara rune logo around the center rune, similar to the one in
+  //    the original village, and then make roads that are more organized like a village immediately around the logo"). Tiles from the stone. ──
+  S.HAM={ logo:3.7, plaza:4.8, ring:12, lane:1.6,
+    spots:[['work',-6.3,-3.7],['home',6.3,-3.7],['home',-6.4,8.5],['home',6.4,8.5],['well',3.1,-6.6],['yard',-14.6,2.6],['cart',14.4,3.4]] };
   // ── build: owners, crossings (over/under), runes, seeds, rings, chunk buckets ──
-  S.build=function(src){ var G=S.geo(src), St=tree(G), Zs=G.Z;
+  S.build=function(src){ var G=S.geo(src), St=tree(G), Zs=G.Z, RD=St.roads||[];
     Zs.forEach(function(z,i){ rosette(z,S.RING_R,i*0.7).forEach(function(r){ St.push({pts:r.pts,w:0.6,own:i,ring:r.ring?i:undefined}); }); });
     St.forEach(function(s,si){ s.id=si; s.owner=s.pts.map(function(p){ if(s.own!==undefined)return s.own; if(Math.hypot(p.x-G.C.x,p.y-G.C.y)<60)return -1; var b=0, bd=1e9; for(var i=0;i<Zs.length;i++){ var d=(p.x-Zs[i].x)*(p.x-Zs[i].x)+(p.y-Zs[i].y)*(p.y-Zs[i].y); if(d<bd){ bd=d; b=i; } } return b; }); s.gap=s.pts.map(function(){ return 0; }); });
     var B={}, BS=24, seg=[]; St.forEach(function(s){ for(var i=0;i<s.pts.length-1;i++){ var a=s.pts[i], b=s.pts[i+1], k=seg.length; seg.push([s.id,i,a,b]);
@@ -61,11 +65,15 @@ var ZSL=(function(){
     // each zone's piece: its farthest point from the runestone (the trace runs out to it)
     var reach=Zs.map(function(){ return 12; }); St.forEach(function(s){ s.pts.forEach(function(p,i){ var o=s.owner[i]; if(o<0)return; var d=Math.hypot(p.x-Zs[o].x,p.y-Zs[o].y); if(d>reach[o])reach[o]=d; }); });
     // chunk buckets (CH tiles), so a ground chunk only looks at what crosses it
-    var CH=src.CH||32, cb={}, put=function(x0,y0,x1,y1,kind,id){ for(var cx=Math.floor(x0/CH);cx<=Math.floor(x1/CH);cx++)for(var cy=Math.floor(y0/CH);cy<=Math.floor(y1/CH);cy++){ var k=cx+'_'+cy, e=cb[k]||(cb[k]={st:[],z:[],ru:[]}); if(e[kind].indexOf(id)<0)e[kind].push(id); } };
+    // the roads after the gods: each point owned like the lines; the bit inside a hamlet's ring road is left out (the hamlet has its own lanes)
+    var roads=RD.map(function(P,ri){ var own=[], cut=[]; P.forEach(function(p){ var b=-1, bd=1e9; for(var i=0;i<Zs.length;i++){ var d=Math.hypot(p.x-Zs[i].x,p.y-Zs[i].y); if(d<bd){ bd=d; b=i; } }
+      own.push(Math.hypot(p.x-G.C.x,p.y-G.C.y)<60?-1:b); cut.push(bd<S.HAM.ring-0.2||Math.hypot(p.x-G.C.x,p.y-G.C.y)<29?1:0); }); return {id:ri,pts:P,owner:own,cut:cut}; });
+    var CH=src.CH||32, cb={}, put=function(x0,y0,x1,y1,kind,id){ for(var cx=Math.floor(x0/CH);cx<=Math.floor(x1/CH);cx++)for(var cy=Math.floor(y0/CH);cy<=Math.floor(y1/CH);cy++){ var k=cx+'_'+cy, e=cb[k]||(cb[k]={st:[],z:[],ru:[],rd:[]}); if(e[kind].indexOf(id)<0)e[kind].push(id); } };
+    roads.forEach(function(r){ r.pts.forEach(function(p){ put(p.x-2,p.y-2,p.x+2,p.y+2,'rd',r.id); }); });
     St.forEach(function(s){ for(var i=0;i<s.pts.length;i++){ var p=s.pts[i]; put(p.x-2,p.y-2,p.x+2,p.y+2,'st',s.id); } });
-    Zs.forEach(function(z,i){ var R=S.RING_R*1.25; put(z.x-R,z.y-R,z.x+R,z.y+R,'z',i); });
+    Zs.forEach(function(z,i){ var R=S.HAM.ring+2; put(z.x-R,z.y-R,z.x+R,z.y+R,'z',i); });
     runes.forEach(function(r,i){ put(r.x-1,r.y-1,r.x+1,r.y+1,'ru',i); });
-    return {St:St,X:X,G:G,runes:runes,reach:reach,cb:cb,CH:CH}; };
+    return {St:St,X:X,G:G,runes:runes,reach:reach,cb:cb,CH:CH,roads:roads}; };
   // ── drawing ──
   // V: {x0,y0} the tile at the canvas origin, k pixels per tile; o: {lit(owner), ok(s,i) (the trace), style 'vein'|'green', night, img(id), only:[strand ids] (a chunk's list), zones:[zone ids]}
   S.paint=function(ctx,D,V,o){ o=o||{}; var k=V.k, X=function(x){ return (x-V.x0)*k; }, Y=function(y){ return (y-V.y0)*k; }, lit=o.lit||function(){ return true; }, ok=o.ok||null, green=o.style==='green';
@@ -75,13 +83,22 @@ var ZSL=(function(){
       L.forEach(function(s){ if(skipRing&&s.ring!==undefined)return; var dn=false; for(var i=0;i<s.pts.length;i++){ var p=s.pts[i]; if(on(s,i)&&!(useGap&&s.gap[i])){ var x=X(p.x), y=Y(p.y); if(dn)ctx.lineTo(x,y); else { ctx.moveTo(x,y); dn=true; } } else dn=false; } });
       ctx.stroke(); };
     ctx.save();
-    if(green){      // after the gods: the lines turn into paths of grass and stone (doc 30 §2)
-      pass(3.2*k,'rgba(52,96,40,.38)',false); pass(2.4*k,'rgba(138,118,84,.85)',false); pass(1.7*k,'rgba(168,148,106,.85)',false);
-      var hs=function(x,y){ var n=(Math.round(x*7)*374761393+Math.round(y*7)*668265263)|0; n=(n^(n>>>13))*1274126177|0; return ((n^(n>>>16))>>>0)/4294967296; };
-      L.forEach(function(s){ var acc=0; for(var i=1;i<s.pts.length;i++){ var a=s.pts[i-1], b=s.pts[i], d=Math.hypot(b.x-a.x,b.y-a.y); if(!on(s,i)){ acc=0; continue; }
-        while(acc<=d){ var u=d?acc/d:0, x=a.x+(b.x-a.x)*u, y=a.y+(b.y-a.y)*u, r=hs(x,y), ang=Math.atan2(b.y-a.y,b.x-a.x), off=(r-0.5)*1.1;
-          var px=X(x-Math.sin(ang)*off), py=Y(y+Math.cos(ang)*off); if(r<0.62){ ctx.fillStyle=r<0.3?'rgba(200,190,158,.7)':'rgba(182,172,142,.65)'; ctx.strokeStyle='rgba(92,78,54,.28)'; ctx.lineWidth=Math.max(1,0.05*k);
-          ctx.beginPath(); ctx.ellipse(px,py,(0.42+r*0.2)*k,(0.3+r*0.12)*k,ang+r*2,0,TAU); ctx.fill(); ctx.stroke(); } acc+=1.25; } acc-=d; } });
+    if(green){      // after the gods (round 69): roads joining the hamlets along where the lines ran, and each hamlet's own lanes round its rune
+      var tex=o.tex||function(){ return null; }, pat=function(id,fb){ var im=tex(id); if(!im)return fb; try{ var P=ctx.createPattern(im,'repeat'); if(P&&P.setTransform&&typeof DOMMatrix!=='undefined')P.setTransform(new DOMMatrix().translateSelf(-V.x0*k,-V.y0*k).scaleSelf(3*k/(im.width||256),3*k/(im.width||256))); return P||fb; }catch(e){ return fb; } };
+      var DIRT=pat('tx_dirt','#9b8460')/* one texture = 4 × 4 tiles, as on the ground */, COB=pat('tx_cobble','#a8a294'), H=S.HAM;
+      var RL=o.roads?o.roads.map(function(i){ return D.roads[i]; }):(D.roads||[]);
+      var road=function(width,style){ ctx.strokeStyle=style; ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.beginPath();
+        RL.forEach(function(r){ var dn=false; for(var i=0;i<r.pts.length;i++){ var p=r.pts[i]; if(lit(r.owner[i])&&!r.cut[i]){ var x=X(p.x), y=Y(p.y); if(dn)ctx.lineTo(x,y); else { ctx.moveTo(x,y); dn=true; } } else dn=false; } }); ctx.stroke(); };
+      road(3.0*k,'rgba(60,50,32,.32)'); road(2.4*k,DIRT); road(2.4*k,'rgba(120,96,60,.16)');
+      var Zh=o.zones?o.zones:D.G.Z.map(function(z,i){ return i; });
+      Zh.forEach(function(i){ var z=D.G.Z[i]; if(!lit(i))return; var cx=X(z.x), cy=Y(z.y);
+        ctx.lineCap='butt'; ctx.strokeStyle='rgba(60,50,32,.32)'; ctx.lineWidth=2.5*k; ctx.beginPath(); ctx.arc(cx,cy,H.ring*k,0,TAU); ctx.stroke();      // the ring road (the soul ring Kris kept)
+        ctx.strokeStyle=DIRT; ctx.lineWidth=2.0*k; ctx.beginPath(); ctx.arc(cx,cy,H.ring*k,0,TAU); ctx.stroke();
+        ctx.strokeStyle='rgba(50,44,36,.35)'; ctx.lineWidth=(H.lane+0.4)*k; ctx.beginPath(); [[0,-1],[1,0],[0,1],[-1,0]].forEach(function(d){ ctx.moveTo(cx+d[0]*H.plaza*k,cy+d[1]*H.plaza*k); ctx.lineTo(cx+d[0]*H.ring*k,cy+d[1]*H.ring*k); }); ctx.stroke();
+        ctx.strokeStyle=COB; ctx.lineWidth=H.lane*k; ctx.stroke();      // four lanes, north, east, south and west
+        ctx.strokeStyle='rgba(50,44,36,.35)'; ctx.lineWidth=1.9*k; ctx.beginPath(); ctx.arc(cx,cy,H.plaza*k,0,TAU); ctx.stroke(); ctx.strokeStyle=COB; ctx.lineWidth=1.5*k; ctx.stroke();      // the little square round the rune
+        var lg=img('rn_green'); if(lg){ var w=2*H.logo*k; ctx.drawImage(lg[0],lg[1],lg[2],lg[3],lg[4],cx-w/2,cy-w/2,w,w*lg[4]/lg[3]); }
+        else { ctx.fillStyle='rgba(111,227,245,.35)'; ctx.beginPath(); ctx.arc(cx,cy,H.logo*k,0,TAU); ctx.fill(); } });
       ctx.restore(); return; }
     var nt=!!o.night, sb=Math.max(2,k*(nt?0.44:0.26));
     pass(1.3*k,'rgba(111,227,245,'+(nt?0.22:0.13)+')',true,!!ringImg);

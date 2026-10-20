@@ -12,6 +12,14 @@ var LSG=(function(){ if(typeof LBR==='undefined'||typeof ZSL==='undefined'||type
   var S={ q:1, night:false, D:null, img:{}, cache:{}, t0:performance.now() }, TAU=Math.PI*2, TS=32;
   var load=function(src){ if(S.img[src])return S.img[src]; var im=new Image(); im.onerror=function(){ if(!im._b){ im._b=1; im.src='../'+src; } }; im.src=src; S.img[src]=im; return im; };
   var IMG=function(id){ var it=typeof ZSCN_META!=='undefined'&&ZSCN_META.items&&ZSCN_META.items[id]; if(!it)return null; var pg=load('assets/scenery/'+it[0]+'.webp'); return (pg.complete&&pg.naturalWidth)?[pg,it[1],it[2],it[3],it[4]]:null; };
+  var TEX=function(id){ var im=load('assets/scenery/tex/'+id+'.webp'); return (im.complete&&im.naturalWidth)?im:null; };
+  // a painted building standing at (x, footY) on the canvas, at game scale (k px per tile)
+  var ITEM=function(c,id,x,fy,k){ var it=typeof ZSCN_META!=='undefined'&&ZSCN_META.items&&ZSCN_META.items[id]; if(!it)return false; var pg=load('assets/scenery/'+it[0]+'.webp'); if(!(pg.complete&&pg.naturalWidth))return false;
+    var r=it[7]*k/32; c.drawImage(pg,it[1],it[2],it[3],it[4],x-it[5]*r,fy+5*k/32-it[6]*r,it[3]*r,it[4]*r); return true; };
+  // the hamlet of zone z after the gods (the same plan as the game: ZSL.HAM; the workshop of the zone's spirit's trade)
+  S.hamlet=function(c,v,z){ var D=S.data(), Zr=D.G.Z.filter(function(q){ return q.r===z.r; }), n=(z.r-1)*10+Zr.indexOf(z), sp=typeof ZSPIRIT40!=='undefined'?ZSPIRIT40[n%40]:null, tr=sp?'hw_'+String(sp[2]).replace(/^an? /,'').replace(/[^a-z]/g,''):'hw_weaver', homes=['hh_new_a','hh_new_b','hh_new_c'];
+    ZSL.HAM.spots.map(function(h,j){ return {id:h[0]==='work'?tr:h[0]==='home'?homes[(n+j)%3]:'hh_'+h[0],x:v.V.x0,dx:h[1],dy:h[2]}; }).sort(function(a,b){ return a.dy-b.dy; })
+      .forEach(function(o){ ITEM(c,o.id,(z.x+0.5+o.dx-v.V.x0)*v.k,(z.y+0.5+o.dy-v.V.y0)*v.k,v.k); }); };
   S.data=function(){ if(S.D)return S.D; var M=LabMap.build(); return (S.D=ZSL.build({cls:M.cls,W:M.W,H:M.H,C:{x:M.village.x,y:M.village.y},CH:32})); };
   // the spirits freed in the map card: 22, with the Grasslands at 9/10 so its ghosts show; the newest is the last
   S.freed=function(){ if(S._fr)return S._fr; var Z=S.data().G.Z, take={1:9,2:6,3:4,4:3}, L=[]; [2,1,3,4].forEach(function(q){ L=L.concat(Z.filter(function(z){ return z.r===q; }).slice(0,take[q]).map(function(z){ return z.i; })); }); return (S._fr=L); };
@@ -21,7 +29,7 @@ var LSG=(function(){ if(typeof LBR==='undefined'||typeof ZSL==='undefined'||type
     {id:'sg_ring_a',kind:'ring',ring:'painted',ringId:'sl_ring_a',name:'Runestone ring — painted, with runes',desc:'The painted ring (wave 74): a band of light with runes all round it and four flourishes at the quarters. Bolder: it reads as a magic circle round every freed stone.'},
     {id:'sg_ring_b',kind:'ring',ring:'painted',ringId:'sl_ring_b',name:'Runestone ring — painted, knotted',desc:'The painted knotted ring (wave 74): two veins braided over and under all the way round, four blooms of light at the quarters.'},
     {id:'sg_map',kind:'map',name:'The map page',desc:'The tattoo on the world map with 22 spirits freed: lit pieces in rune-blue, the newest pulsing until you have seen it (a spirit freed far away waits there, and traces when you next walk near), and — because the Grasslands are 9/10 — its last missing piece as a faint dotted ghost.'},
-    {id:'sg_green',kind:'green',name:'After the gods',desc:'When the spirits have gone home, the soul-lines turn into paths of grass and stone across the land; the rings round the runestones become the hamlets\' paths (the hamlets come after the credits).'}];
+    {id:'sg_green',kind:'green',name:'After the gods — the hamlet and its roads',desc:'Your note, round 69: each runestone gets a small Zeldara rune (the village Green\'s, smaller), a little square and four lanes round it like a village, inside the ring road (the soul ring you kept); the spirit\'s workshop, three new homes, the well, a play yard and a cart. Plain dirt roads join the hamlets, following where the soul-lines ran (the tree\'s boughs and branches, not every knot).'}];
   // the close-up view of a realm's window (the Lab round B window and ground)
   S.view=function(W,H,zf){ var w=LSS.window(S.q), z=w.z, k=Math.min(W/(LSS.WT*TS),H/(LSS.HT*TS))*TS*(zf||1), ox=W/2-(z.x-w.x0)*k, oy=H/2-(z.y-w.y0)*k; return {w:w,z:z,k:k,ox:ox,oy:oy,V:{x0:w.x0-ox/k,y0:w.y0-oy/k,k:k}}; };
   S.ground=function(c,W,H,v){ var g=LSS.paintGround(S.q); c.fillStyle='#05080c'; c.fillRect(0,0,W,H); c.drawImage(g,v.ox-LSS.MG*v.k,v.oy-LSS.MG*v.k,(LSS.WT+2*LSS.MG)*v.k,(LSS.HT+2*LSS.MG)*v.k); };
@@ -29,7 +37,7 @@ var LSG=(function(){ if(typeof LBR==='undefined'||typeof ZSL==='undefined'||type
     if(it){ var pg=load('assets/scenery/'+it[0]+'.webp'); if(pg.complete&&pg.naturalWidth){ var hh=2.6*k, ww=hh*it[3]/it[4]; c.drawImage(pg,it[1],it[2],it[3],it[4],bx-ww/2,by-hh*0.82,ww,hh); } }
     var hx=bx+3.2*k, hy=by+2.2*k; c.fillStyle='rgba(0,0,0,.3)'; c.beginPath(); c.ellipse(hx,hy,0.42*k,0.15*k,0,0,TAU); c.fill(); c.fillStyle='#3a8a4a'; c.fillRect(hx-0.3*k,hy-0.95*k,0.6*k,0.75*k); c.fillStyle='#f0c8a0'; c.beginPath(); c.arc(hx,hy-1.12*k,0.26*k,0,TAU); c.fill(); };
   // the lit layer, cached (the painted pieces are drawn once per view)
-  S.layer=function(W,H,v,o,key){ var ready=IMG('sl_rune_a')?1:0, K=key+'|'+W+'x'+H+'|'+S.q+'|'+S.night+'|'+v.k.toFixed(3)+'|'+ready; if(S.cache[K])return S.cache[K]; if(Object.keys(S.cache).length>40)S.cache={};
+  S.layer=function(W,H,v,o,key){ var ready=(IMG('sl_rune_a')?1:0)+(IMG('rn_green')?2:0), K=key+'|'+W+'x'+H+'|'+S.q+'|'+S.night+'|'+v.k.toFixed(3)+'|'+ready; if(S.cache[K])return S.cache[K]; if(Object.keys(S.cache).length>40)S.cache={};
     var cv=document.createElement('canvas'); cv.width=W; cv.height=H; ZSL.paint(cv.getContext('2d'),S.data(),v.V,Object.assign({img:IMG,night:S.night},o)); return (S.cache[K]=cv); };
   S.motes=function(c,v,lit,t){ var D=S.data(), m=IMG('sl_mote_a'), N=26, w=v.w, own=v.z.i;
     if(!S._mc||S._mc.q!==S.q){ var L=[]; D.St.forEach(function(s){ for(var j=0;j<s.pts.length-1;j+=5){ var p=s.pts[j]; if(p.x>w.x0-2&&p.x<w.x0+LSS.WT+2&&p.y>w.y0-2&&p.y<w.y0+LSS.HT+2&&!s.gap[j])L.push([s.id,j]); } }); S._mc={q:S.q,L:L}; }
@@ -41,9 +49,10 @@ var LSG=(function(){ if(typeof LBR==='undefined'||typeof ZSL==='undefined'||type
   S.closeup=function(c,W,H,t,C){ var D=S.data(), loop=7.5, age=C.kind==='reveal'?((t-S.t0)/1000)%loop:99, tr=age<3.6, zf=C.kind==='reveal'?1-0.16*Math.sin(Math.min(1,age/4.6)*Math.PI):1, v=S.view(W,H,zf), own=v.z.i;
     S.ground(c,W,H,v); if(S.night){ c.fillStyle='rgba(6,10,30,.6)'; c.fillRect(0,0,W,H); }
     var green=C.kind==='green', lit=function(o){ return !(tr&&o===own); };
-    c.drawImage(S.layer(W,H,v,{lit:lit,style:green?'green':'vein',ring:C.ring,ringId:C.ringId},C.id+(tr?'_t':'')),0,0);
+    c.drawImage(S.layer(W,H,v,{lit:lit,style:green?'green':'vein',ring:C.ring,ringId:C.ringId,tex:TEX},C.id+(tr?'_t':'')+(TEX('tx_dirt')?'x':'')+(TEX('tx_cobble')?'c':'')),0,0);
     if(tr){ var f=Math.min(1,age/3.4)*(D.reach[own]+2); ZSL.paint(c,D,v.V,{img:IMG,night:S.night,lit:function(o){ return o===own; },ok:function(s,i){ if(!s)return f>=ZSL.RING_R; var p=s.pts[i]; return Math.hypot(p.x-v.z.x,p.y-v.z.y)<=f; },only:D.St.filter(function(s){ return s.owner.indexOf(own)>=0; }).map(function(s){ return s.id; }),zones:[own]}); }
     if(!green)S.motes(c,v,lit,t);
+    if(green)S.hamlet(c,v,v.z);
     S.stone(c,v);
     if(C.kind==='reveal'&&age<3.2){ var bx=v.ox+(v.z.x-v.w.x0)*v.k, by=v.oy+(v.z.y-v.w.y0)*v.k; c.strokeStyle='rgba(255,255,255,'+(0.8*(1-age/3.2))+')'; c.lineWidth=2; c.beginPath(); c.arc(bx,by,(0.5+age*1.6)*v.k,0,TAU); c.stroke(); }
     return v; };
