@@ -1,4 +1,4 @@
-# Character survey — 537 characters, 1185 sheets (824 core), 8221 poses
+# Character survey — 539 characters, 1189 sheets (828 core), 8253 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: chain_jailer: guard; einherjar_shieldmaiden: guard.
 
@@ -8,7 +8,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: cha
 | rider | 22 | 22 | 22 | 176 |
 | monster | 252 | 642 | 398 | 4049 |
 | boss | 97 | 274 | 157 | 2042 |
-| npc | 106 | 141 | 141 | 1128 |
+| npc | 108 | 145 | 145 | 1160 |
 | mount | 11 | 11 | 11 | 88 |
 | familiar | 4 | 4 | 4 | 32 |
 | fairy | 23 | 23 | 23 | 184 |
@@ -432,6 +432,8 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: cha
 | tc_phantom | Wraithwalker Seren | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: cast ×4 (Teaches Phantom Veil — pass through enemies, untouchable for 3 seconds.) | 1 |
 | tc_timeslow | Chronomancer Vex | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: cast ×4 (Teaches Time Slow — everything around you slows to a crawl.) | 1 |
 | tc_meteor | Starfall Magus Orin | Castle teachers | f | Idle ×2; Talk ×2 (when you speak to them); Work: cast ×4 (Teaches Meteor Strike — call down a meteor on your target.) | 1 |
+| god_odin | Odin, the Allfather | Gods | f | Idle ×2; Talk ×2 (when you speak to them); Work: cast ×4 (Raises his spear to the sky and calls down a branching bolt of blue-white lightning, his cloak and beard blown back.); Move ×4 (walks around the village) | 2 |
+| god_freya | Freya, the Lady of the Fields | Gods | f | Idle ×2; Talk ×2 (when you speak to them); Work: cast ×4 (Spreads her hands low over the ground and green vines with white flowers burst out and race away from her, her falcon cloak lifting.); Move ×4 (walks around the village) | 2 |
 | hk_asa | Hild | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Throws the shuttle through the loom and beats the weft down.) | 1 |
 | hk_bersi | Arni | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: hammer ×4 (Planes a long oak plank with steady strokes.) | 1 |
 | hk_dagny | Gunnhild | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: craft ×4 (Knots twine into a torn net with quick fingers.) | 1 |

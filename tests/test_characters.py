@@ -29,12 +29,12 @@ with game(new=True) as g:
       return {c:c,sub:sub,dup:dup,bad:bad,miss:miss}; })()""")
     # round 70: counted by group, so a new group fails by name — 106 NPCs (shops 10, craftsmen 4, village folk 11, harbour islands 4, castle teachers 13,
     # hamlet folk 40 [round 69], children 24 [round 70]), 11 mounts, 77 bosses (… + 4 forge-masters, 1 in Asgard); familiars are spirits now
-    ROSTER = {'npc | Village shops': 10, 'npc | Craftsmen': 4, 'npc | Village folk': 11, 'npc | Harbor islands': 4, 'npc | Castle teachers': 13, 'npc | Hamlet folk': 40, 'npc | Village folk · children': 24,
+    ROSTER = {'npc | Village shops': 10, 'npc | Craftsmen': 4, 'npc | Village folk': 11, 'npc | Harbor islands': 4, 'npc | Castle teachers': 13, 'npc | Hamlet folk': 40, 'npc | Village folk · children': 24, 'npc | Gods': 2,
               'mount | Stables': 1, 'mount | Key mounts': 4, 'mount | Legend': 2, 'mount | Sky Port': 4,
               'boss | Dungeon guardians': 4, 'boss | Tower guardians': 4, 'boss | Island guardians': 4, 'boss | Volcano boss rush': 9, 'boss | Evolved forms': 23, 'boss | Castle wardens': 12,
               'boss | Mage-tower bosses': 16, 'boss | Forge-masters': 4, 'boss | Asgard': 1}
     diff = {k: (r['sub'].get(k), v) for k, v in ROSTER.items() if r['sub'].get(k) != v}; diff.update({k: (v, None) for k, v in r['sub'].items() if k not in ROSTER})
-    check('Roster: 106 NPCs, 11 mounts, 77 bosses, by group (%s)' % r['c'], r['c'] == {'npc': 106, 'mount': 11, 'boss': 77} and not diff, diff or r['c'])
+    check('Roster: 108 NPCs (with Odin and Freya), 11 mounts, 77 bosses, by group (%s)' % r['c'], r['c'] == {'npc': 108, 'mount': 11, 'boss': 77} and not diff, diff or r['c'])
     check('Unique ids; every one has look / doing / where text and paints all its frames', not r['dup'] and not r['bad'], (r['dup'], r['bad'][:8]))
     check('Every mount, familiar, craftsman, shop keeper and boss in the game data has a character (or, for bosses fought in phases, a painted form for each)', not r['miss'], r['miss'])
 

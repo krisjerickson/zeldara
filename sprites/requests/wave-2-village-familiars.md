@@ -1,4 +1,4 @@
-# Village, familiars — 143 requests
+# Village, familiars — 147 requests
 
 Save each result as `sprites/incoming/<request id>.png`.
 
@@ -1300,6 +1300,106 @@ View: seen from the front (facing the viewer), camera slightly above — a top-d
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## god_odin.core.f
+
+Odin, the Allfather · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Odin, the Allfather — Odin the Allfather, a god of a Norse fantasy world: a very tall, broad old man with a long silver-white beard braided with small gold rings, one eye covered by a plain dark leather patch and the other glowing soft rune-blue, weathered fair skin, a wide-brimmed grey traveller's hat over long white hair, a deep blue cloak lined with grey wolf fur and edged with gold knotwork, a mail shirt under a dark tunic, a tall spear of ash wood with a rune-carved leaf-shaped steel head, and a black raven perched on his shoulder; kind, wise and weary, NOT golden, NOT masked, nothing like the false god. Main colours: blue (#2a4a7a), grey (#4a4a52), yellow (#e8c860), black (#201810). Size: about 1.25× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Raises his spear to the sky and calls down a branching bolt of blue-white lightning, his cloak and beard blown back.), frame 1 of 4.
+6. at work (Raises his spear to the sky and calls down a branching bolt of blue-white lightning, his cloak and beard blown back.), frame 2 of 4.
+7. at work (Raises his spear to the sky and calls down a branching bolt of blue-white lightning, his cloak and beard blown back.), frame 3 of 4.
+8. at work (Raises his spear to the sky and calls down a branching bolt of blue-white lightning, his cloak and beard blown back.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## god_odin.walk
+
+Odin, the Allfather · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, god_odin.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Odin, the Allfather — Odin the Allfather, a god of a Norse fantasy world: a very tall, broad old man with a long silver-white beard braided with small gold rings, one eye covered by a plain dark leather patch and the other glowing soft rune-blue, weathered fair skin, a wide-brimmed grey traveller's hat over long white hair, a deep blue cloak lined with grey wolf fur and edged with gold knotwork, a mail shirt under a dark tunic, a tall spear of ash wood with a rune-carved leaf-shaped steel head, and a black raven perched on his shoulder; kind, wise and weary, NOT golden, NOT masked, nothing like the false god. Main colours: blue (#2a4a7a), grey (#4a4a52), yellow (#e8c860), black (#201810). Size: about 1.25× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## god_freya.core.f
+
+Freya, the Lady of the Fields · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Freya, the Lady of the Fields — Freya, a goddess of a Norse fantasy world: a tall, radiant woman with warm golden-brown sun-kissed skin and long red-gold hair in loose braids woven with small white and yellow flowers, a flowing green-and-gold gown, a long cloak of brown and gold falcon feathers over her shoulders like folded wings, a glowing amber necklace of many linked gold pieces at her throat, bare green-vine bracelets; warm, strong and joyful, NOT golden-white, nothing like the false god. Main colours: green (#3a7a3a), brown (#8a6a3a), orange (#f0c060), black (#201810). Size: about 1.25× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Spreads her hands low over the ground and green vines with white flowers burst out and race away from her, her falcon cloak lifting.), frame 1 of 4.
+6. at work (Spreads her hands low over the ground and green vines with white flowers burst out and race away from her, her falcon cloak lifting.), frame 2 of 4.
+7. at work (Spreads her hands low over the ground and green vines with white flowers burst out and race away from her, her falcon cloak lifting.), frame 3 of 4.
+8. at work (Spreads her hands low over the ground and green vines with white flowers burst out and race away from her, her falcon cloak lifting.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
+```
+
+## god_freya.walk
+
+Freya, the Lady of the Fields · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, god_freya.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Freya, the Lady of the Fields — Freya, a goddess of a Norse fantasy world: a tall, radiant woman with warm golden-brown sun-kissed skin and long red-gold hair in loose braids woven with small white and yellow flowers, a flowing green-and-gold gown, a long cloak of brown and gold falcon feathers over her shoulders like folded wings, a glowing amber necklace of many linked gold pieces at her throat, bare green-vine bracelets; warm, strong and joyful, NOT golden-white, nothing like the false god. Main colours: green (#3a7a3a), brown (#8a6a3a), orange (#f0c060), black (#201810). Size: about 1.25× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
 ```
 
 ## hk_asa.core.f

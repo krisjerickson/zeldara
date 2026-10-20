@@ -288,3 +288,57 @@ See docs/08 → Open questions → Round 67.
 - **Play**: each group plays one game — tag, hide-and-seek, the swing, the ring, the goats (a painted goat) or fishing; they stop and face you when you come close.
 - **Talk** ([Tab]): their own line, then one about the twins, by turns.
 - **Newborns**: two cradles in each midwife's workshop (hb_cradle_a–d).
+
+## 15. The last saga — the plan (round 71, answers E1–E4)
+
+Kris: "I haven't seen character and sprite or sheet recommendations from the freeing of Odin and Freya from the infinity bubble trap, nor casting the spell that frees them, nor going into the great hall after defeating Solmyrk. Go back into the saga and propose new images to inspire cut scenes for all the remaining items" — and: "for all of these added moments, add them as options in the sandbox for the spirit saga".
+
+### 15.1 The flow (what plays, in order)
+
+| # | Moment | Where | How | Panels (wave 82) |
+|---|---|---|---|---|
+| 1 | The 30th spirit freed | anywhere | glimpse | pn_saga_orbs |
+| 2 | The 40th spirit freed | anywhere | glimpse | pn_saga_tattoo |
+| 3 | Solmyrk falls; the citadel shakes | the throne hall | panel, then the hall's doors appear behind the high seat | pn_fh_crumble |
+| 4 | The feast hall opens | the throne hall → the feast hall | [Tab] at the golden doors | pn_fh_doors_m / _f |
+| 5 | Inside: the orbs joined like an infinity sign, voices, the Lodestar trembles | the feast hall (walk-in room, room_feast_hall + fh_orbs) | walk up to them | pn_fh_orbs |
+| 6 | Godsbane into the centre | the feast hall | [Tab] with the Lodestar at the orbs (fh_orbs_crack → fh_orbs_burst) | pn_fh_cast_m / _f |
+| 7 | A million shards of light | the feast hall | fx_god_shards | pn_fh_shards |
+| 8 | Odin and Freya, free | the feast hall (now room_feast_hall_lit) | the gods stand (painted characters) | pn_fh_gods |
+| 9 | The truth about the twins | the feast hall | they talk ([Tab], 6 lines) | pn_fh_truth_m / _f |
+| 10 | The heart of Asgard: Godsbane into the sky, the Bifröst (built, round 63) | the rune circle | as now, with the gods standing by | (pn_end_cast, pn_end_bif) |
+| 11 | The gods lead the spirits home; farewell | the Bifröst | the gods walk up ahead of the spirits | pn_end_gods_lead, pn_end_farewell |
+| 12 | Odin's lightning, Freya's vines | the village centre | the gods come to the green and cast (fx_odin_bolt, fx_freya_vines) | pn_vil_lightning, pn_vil_vines |
+| 13 | The land turns green; the forges sink; Asgard sinks into the lake; the monsters fade; out on the new paths | the village | panels (the land's change is ps.spiritsHome, built) | pn_vil_green, pn_vil_forges, pn_vil_asgard, pn_vil_monsters, pn_vil_paths |
+| 14 | The celebration of the twins; time passing; children again | the village green | panels, then the feast on the green in the game | pn_cel_feast, pn_cel_time, pn_cel_children |
+| 15 | Credits | — | scrolling credits over the backdrop | pn_credits |
+| 16 | After | — | the last picture, then free roam | pn_after |
+
+The panels with the hero in front (the doors, the cast, the truth) come in a Zeldara and a Zeldor version; the game shows the one you play.
+
+### 15.2 The art (round75.ps1)
+
+- **Odin and Freya** (characters, `src/js/07zg-gods.js`): idle, talk, a casting move (Odin raises his spear and calls lightning; Freya spreads her hands and vines burst out), and a walk (side, front, back). Our own designs from the old stories' attributes: Odin — one eye under a patch, the other rune-blue, silver braided beard, wide grey hat, blue wolf-fur cloak, rune spear, a raven; Freya — red-gold flower-braided hair, warm golden-brown skin, a falcon-feather cloak, the amber necklace, vine bracelets. Never golden or masked (that is Solmyrk).
+- **The feast hall** (wave 81): room_feast_hall (dim, dusty, an empty floor where the orbs float) and room_feast_hall_lit (the same hall alive); fh_orbs, fh_orbs_crack, fh_orbs_burst; fh_doors_shut / _open; fh_seat_odin, fh_seat_freya; fx_odin_bolt, fx_freya_vines, fx_god_shards, fx_god_ring.
+- **The panels** (wave 82): 26, listed in 15.1.
+
+### 15.3 What the gods say (first draft)
+
+In the feast hall ([Tab], in turn):
+1. **Odin:** "You came. Thirty-six winters we slept in our own light — and still you came."
+2. **Freya:** "Do you know why the runestones light for you? Why your eyes shone on the lake?"
+3. **Odin:** "The night the false one took us, we had one breath of light left. We spent it on you — two sparks, one for each of you."
+4. **Freya:** "We sent you down in the storm. The lightning woke the runestones, so that one day they would wake for you."
+5. **Odin:** "You are our last gift to Runeheim. And you have given it back to us."
+6. **Freya:** "Come. The spirits have waited long enough. Meet us at the heart of the city — and bring the Lodestar."
+
+At the Bifröst — **Freya:** "Valhalla for the brave, Fólkvangr for the rest — and every one of them home." **Odin:** "Go to your village. We will follow."
+At the village — **Odin:** "Runeheim! Look up." **Freya:** "And now… the spring."
+
+### 15.4 Credits (draft)
+
+THE QUESTS OF ZELDARA AND ZELDOR · Created by Kris Erickson · Story, world and design — Kris Erickson · Code, story drafts and art direction with Claude · Painted art made with an image model from our own descriptions · Typefaces: the picked title face (SIL Open Font License) · Phaser 3 · Thanks for playing — Runeheim is green again.
+
+### 15.5 The sandbox (Kris: "add them as options in the sandbox for the spirit saga")
+
+The sandbox's Spirit saga page gets a button for each new moment: the two glimpses, the citadel shaking, the feast hall (doors / orbs / after the gods), the truth, the gods at the Bifröst, the village moment, the celebration, the credits and the last picture.

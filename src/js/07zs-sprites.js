@@ -258,9 +258,9 @@ var ZSPR={
         gear:D.god?Z.godGear(D.god):['head','gear','weapon','off','armor','cape','beast','build'].filter(function(k){ return D[k]&&D[k]!==true; }).map(function(k){ return k+': '+D[k]; }).join(', '),
         kit:kit,specAnim:C&&C.spec&&C.spec.anim,humanoid:D.arch==='hum'||D.arch==='god'||(!D.arch&&C&&!!Z.HUMANOID[C.spec&&C.spec.plan]),scale:Math.round(((D.h||110)/42)*10)/10,big:true,form:/^bf_|^fm_\w+_[23]$/.test(slot),wave:/^fm_/.test(slot)?7.6:/^surt_/.test(slot)?7.7:/^grim_/.test(slot)?7.95:(q||5)+2.5}); });      /* round 64: Solmyrk's three forms, their own wave (front, side and back — Kris) */      // round 56: the forge-masters' twelve forms are their own wave (painted once Kris picks in the Lab)
     // NPCs
-    if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='npc')return; var walker=/Village folk/.test(C.sub);
+    if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='npc')return; var walker=/Village folk|Gods/.test(C.sub);      /* round 71: Odin and Freya walk (they lead the spirits up the Bifröst) */
       var RW=Z.REWORD[C.id]||{};
-      push({id:C.id,group:'npc',sub:C.sub,name:RW.name||C.name,q:0,look:(RW.look||C.look)+(C.heritage?' Looks: '+C.heritage+'.':''),doing:RW.doing||C.doing,where:C.where,pal:C.spec&&C.spec.pal,humanoid:true,scale:/kid|child/.test(C.spec&&C.spec.feat||'')?0.75:/dwarf/.test(C.spec&&C.spec.feat||'')?0.85:1,npc:true,walker:walker,trade:C.spec&&C.spec.anim,facings:['f'],wave:2}); });
+      push({id:C.id,group:'npc',sub:C.sub,name:RW.name||C.name,q:0,look:(RW.look||C.look)+(C.heritage?' Looks: '+C.heritage+'.':''),doing:RW.doing||C.doing,where:C.where,pal:C.spec&&C.spec.pal,humanoid:true,scale:C.sub==='Gods'?1.25:/kid|child/.test(C.spec&&C.spec.feat||'')?0.75:/dwarf/.test(C.spec&&C.spec.feat||'')?0.85:1,npc:true,walker:walker,trade:C.spec&&C.spec.anim,facings:['f'],wave:2}); });
     // mounts on their own (parked, or waiting at the stables)
     if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='mount')return; var k=C.id.replace(/^mt_/,'');
       push({id:C.id,group:'mount',sub:C.sub,name:C.name,q:0,look:C.look+' Saddled, no rider.',moveTxt:C.doing,pal:C.spec&&C.spec.pal,scale:1.6,facings:['x'],flying:/sky|drake|phoenix|eagle|glider|void|dragon$/.test(k),wave:1.5}); });

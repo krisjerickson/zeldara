@@ -1,4 +1,4 @@
-# Scenery — 294 sheets, 2130 objects and textures (13 sheets in the pilot)
+# Scenery — 325 sheets, 2169 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -61,6 +61,8 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 78 | Round 69 — the hamlet workshops' furniture: one sheet for each of the twenty trades | 20 | 80 |
 | 79 | Round 69 — the forty keepsakes on the workshops' walls | 5 | 40 |
 | 80 | Round 70 — the hamlet homes in more colours; newborns in their cradles | 2 | 10 |
+| 81 | Round 71 — the feast hall of Asgard: the room, the joined orbs, the doors and high seats, the gods' spells | 5 | 13 |
+| 82 | Round 71 — the last saga in panels: the feast hall, the gods, the village, the celebration, the credits | 26 | 26 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -9103,6 +9105,585 @@ Layout: exactly 4 objects in a grid of 4 columns × 1 rows, evenly spaced, in th
 3. Cradle with a waking baby — a woven basket cradle with a newborn baby with warm light-brown skin waving a tiny fist, a green blanket (about 0.6× the hero's height).
 4. Cradle with twins — a wide wooden cradle with two sleeping newborn babies with olive skin under one red blanket (about 0.6× the hero's height).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_room_feast
+
+The feast hall of Asgard, painted whole — dim and forgotten · wave 81 · 1 items, 1 × 1 · 1536x1024
+
+- `room_feast_hall` The feast hall (dim) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_room_3, sc_asg_keep_opts
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: The feast hall of Asgard, painted whole — dim and forgotten.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw any characters, monsters or people.
+Subject: the great feast hall of the gods in a white-and-gold citadel, seen from above at the same angle as the game (top-down, a little from the front), painted whole as one picture, in the style of the reference: a long hall running up the picture, tall white stone walls along the top and both sides with high narrow windows letting in thin beams of dusty light, carved wooden pillars with dragon-head tops in two rows, two very long feast tables with benches along the sides covered in dust, overturned golden cups and empty platters, round shields hung on the walls, a long cold fire trench down the middle, at the top end a raised dais with two great empty carved high seats side by side, and in the middle of the hall a wide EMPTY open space of patterned golden floor (something will float there); grand open golden doors at the bottom middle; grey-gold, hushed, still.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°: the back wall runs along the top of the picture with its face visible, the floor fills the middle, the side walls run down the left and right edges. Scale: the hero would be about one twelfth of the picture's height; leave plenty of open floor to walk and fight on.
+The painting fills the whole image edge to edge, as a finished game screen would. No text, no labels, no grid, no UI, no frame.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_room_feast_lit
+
+The feast hall of Asgard, painted whole — alive again · wave 81 · 1 items, 1 × 1 · 1536x1024
+
+- `room_feast_hall_lit` The feast hall (alive) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_room_feast
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: The feast hall of Asgard, painted whole — alive again.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw any characters, monsters or people.
+Subject: EXACTLY the same hall as the reference — the same walls, pillars, tables, dais, high seats and doors in the same places — but alive again: the fire trench burning bright, candles lit along the tables, warm golden light, fresh flowers and green vines climbing the pillars, banners of blue and green, the dust gone and the cups set upright, the middle of the hall still an open space.
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°: the back wall runs along the top of the picture with its face visible, the floor fills the middle, the side walls run down the left and right edges. Scale: the hero would be about one twelfth of the picture's height; leave plenty of open floor to walk and fight on.
+The painting fills the whole image edge to edge, as a finished game screen would. No text, no labels, no grid, no UI, no frame.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_god_orbs
+
+The gods' prison — two great orbs of light joined like an infinity sign, in the painted game style, each alone and centred on a transparent background, no text · wave 81 · 3 items, 3 × 1 · 1536x1024
+
+- `fh_orbs` The joined orbs — 360 × 210 px
+- `fh_orbs_crack` The orbs cracking — 360 × 210 px
+- `fh_orbs_burst` The orbs burst — 380 × 280 px
+
+Attach: style_hero, style_centaur, god_odin.core.f, god_freya.core.f
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 separate pieces of scenery — The gods' prison — two great orbs of light joined like an infinity sign, in the painted game style, each alone and centred on a transparent background, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 3 objects in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. The joined orbs — two great spheres of pale white-gold light floating side by side and touching, joined like an infinity sign (a figure-eight lying on its side), swirling softly inside; in the left sphere the dim curled sleeping shape of Odin (one-eyed, silver beard, blue cloak, spear), in the right sphere the dim curled sleeping shape of Freya (falcon-feather cloak, red-gold hair), as in the character references; thin golden chains of light wrapped round the place where they join (about 3.3× the hero's height).
+2. The orbs cracking — the SAME two joined orbs, cracking: bright white light pouring out of jagged cracks, the golden chains snapping, the gods inside awake and pressing their hands against the glass (about 3.3× the hero's height).
+3. The orbs burst — the orbs bursting: a great starburst of thousands of glittering white-gold shards of light flying outward from an empty centre, no figures (about 4.4× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_feast_props
+
+The feast hall's doors and high seats, in the style of the reference, seen from the front and a little above like the game, each alone on a transparent background, no text · wave 81 · 4 items, 4 × 1 · 1536x1024
+
+- `fh_doors_shut` The feast hall doors (shut) — 200 × 250 px
+- `fh_doors_open` The feast hall doors (open) — 200 × 250 px
+- `fh_seat_odin` Odin's high seat — 150 × 190 px
+- `fh_seat_freya` Freya's high seat — 150 × 190 px
+
+Attach: style_hero, style_centaur, sc_room_feast, sc_asg_keep_opts
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — The feast hall's doors and high seats, in the style of the reference, seen from the front and a little above like the game, each alone on a transparent background, no text.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 4 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. The feast hall doors (shut) — a pair of tall golden double doors in a white stone arch, carved with ravens on the left door and falcons on the right, shut, a thin line of light under them (about 4× the hero's height).
+2. The feast hall doors (open) — the SAME tall golden doors swung open inward, warm light and drifting dust pouring out of the dark doorway (about 4× the hero's height).
+3. Odin's high seat — a great carved high seat of dark wood and gold, its back rising in two raven heads, wolf pelts over it, on a low stone step (about 3× the hero's height).
+4. Freya's high seat — a great carved high seat of pale wood and gold, its back rising like two folded falcon wings, flowers twined round its arms, on a low stone step (about 3× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_god_fx
+
+The gods' spells, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black), each alone and centred · wave 81 · 4 items, 4 × 1 · 1536x1024
+
+- `fx_odin_bolt` Odin's lightning — 160 × 400 px
+- `fx_freya_vines` Freya's vines — 320 × 220 px
+- `fx_god_shards` Shards of light — 260 × 260 px
+- `fx_god_ring` The gods' halo — 220 × 120 px
+
+Attach: style_hero, style_centaur, sc_fx_blast
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — The gods' spells, painted on a PURE BLACK background (laid over the game as light, so the black must stay pure black), each alone and centred.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 4 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. Odin's lightning — a huge branching bolt of blue-white lightning coming straight down from the top, forking into many arms near the bottom, with a bright flash where it lands (about 6.3× the hero's height across).
+2. Freya's vines — green vines with leaves and small white flowers bursting outward across the ground from a glowing green centre, curling in every direction, seen from above (about 5.1× the hero's height across).
+3. Shards of light — a drifting cloud of glittering white-gold shards and sparks, like snow made of light (about 4.1× the hero's height across).
+4. The gods' halo — a soft ring of white-gold and green light on the ground with rising sparkles, where a god stands (about 3.5× the hero's height across).
+View: seen from straight above (a floor decal lying flat on the ground), as in a top-down RPG. No height, no side faces.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_saga_orbs
+
+Saga panel — Two Orbs in the Dark · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_saga_orbs` Two Orbs in the Dark — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Two Orbs in the Dark, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; a glimpse: in a vast dark hall of white and gold, two great spheres of pale light float side by side touching like an infinity sign; inside them, dim and asleep, Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references; golden chains of light round the join; far behind, small and blurred, a figure in a golden mask on a high seat. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_saga_tattoo
+
+Saga panel — The Whole Tattoo · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_saga_tattoo` The Whole Tattoo — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Whole Tattoo, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; Runeheim seen from very high above at night: across the whole land a vast World-Tree drawn in glowing rune-blue lines — roots, trunk and branches — joining forty small glowing rings, the lake and the little village at its heart, the four realms (green grasslands, marsh wetlands, rocky highlands, ash-grey ashlands) around it, and far above the lake a faint golden ring opening in the clouds. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_crumble
+
+Saga panel — The Citadel Shakes · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_crumble` The Citadel Shakes — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, sc_pn_sol_0
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Citadel Shakes, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the throne hall of white and gold pillars just after the false god's fall: his tall cracked golden mask lying on the steps before the empty high seat, pillars cracking, gold dust and small stones falling, light shafts tilting, black ash settling; no people. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_doors_m
+
+Saga panel — The Feast Hall Opens (Zeldor) · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_doors_m` The Feast Hall Opens (Zeldor) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, hero_m.model
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Feast Hall Opens (Zeldor), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the young hero Zeldor — the boy in the green cloak, exactly as in the hero reference seen from behind, small, before tall golden double doors carved with ravens and falcons as they swing open inward; warm dusty light pours out, and far inside a long dim hall the soft glow of two joined orbs of light. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_doors_f
+
+Saga panel — The Feast Hall Opens (Zeldara) · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_doors_f` The Feast Hall Opens (Zeldara) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, hero_f.model
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Feast Hall Opens (Zeldara), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the young hero Zeldara — the girl in the green cloak, exactly as in the hero reference seen from behind, small, before tall golden double doors carved with ravens and falcons as they swing open inward; warm dusty light pours out, and far inside a long dim hall the soft glow of two joined orbs of light. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_orbs
+
+Saga panel — The Orbs Joined · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_orbs` The Orbs Joined — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Orbs Joined, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; inside the gods' long feast hall — dusty tables, dragon-headed pillars, two empty high seats on a dais — two vast orbs of pale gold light float joined like an infinity sign above a cold fire trench; inside them Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references, stirring in their sleep; rings of soft light ripple out from the orbs like voices; in the near foreground a hand holds up a white-gold staff with a clear lens at its head, the lens trembling with light. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_cast_m
+
+Saga panel — Godsbane into the Centre (Zeldor) · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_cast_m` Godsbane into the Centre (Zeldor) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f, hero_m.model
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Godsbane into the Centre (Zeldor), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the young hero Zeldor — the boy in the green cloak, exactly as in the hero reference in the feast hall raising a white-gold staff with a clear lens; a straight beam of white-gold light shoots from it into the exact centre where two great joined orbs of light touch; the orbs crack with blinding light; inside them Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_cast_f
+
+Saga panel — Godsbane into the Centre (Zeldara) · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_cast_f` Godsbane into the Centre (Zeldara) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f, hero_f.model
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Godsbane into the Centre (Zeldara), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the young hero Zeldara — the girl in the green cloak, exactly as in the hero reference in the feast hall raising a white-gold staff with a clear lens; a straight beam of white-gold light shoots from it into the exact centre where two great joined orbs of light touch; the orbs crack with blinding light; inside them Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_shards
+
+Saga panel — A Million Shards of Light · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_shards` A Million Shards of Light — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — A Million Shards of Light, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the long feast hall filled with millions of glittering white-gold shards of light drifting down like snow after two great orbs have burst; the dusty tables, pillars and high seats lit gold; at the centre an empty bright space. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_gods
+
+Saga panel — Odin and Freya · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_gods` Odin and Freya — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Odin and Freya, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; in the falling light where the orbs were, Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references stand tall and free, the raven taking wing from Odin's shoulder, Freya's falcon cloak opening like wings, both looking down kindly and smiling; the feast hall behind them. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_truth_m
+
+Saga panel — The Truth (Zeldor) · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_truth_m` The Truth (Zeldor) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f, hero_m.model
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Truth (Zeldor), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references kneeling to the height of the young hero Zeldor — the boy in the green cloak, exactly as in the hero reference; Freya's hand on the hero's shoulder; between them, in a ring of light, a vision: a stormy night over a lake, lightning striking runestones on the shore, and two tiny blue sparks falling with the lightning into a small basket floating on the water. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_fh_truth_f
+
+Saga panel — The Truth (Zeldara) · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_fh_truth_f` The Truth (Zeldara) — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f, hero_f.model
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Truth (Zeldara), a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references kneeling to the height of the young hero Zeldara — the girl in the green cloak, exactly as in the hero reference; Freya's hand on the hero's shoulder; between them, in a ring of light, a vision: a stormy night over a lake, lightning striking runestones on the shore, and two tiny blue sparks falling with the lightning into a small basket floating on the water. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_end_gods_lead
+
+Saga panel — The Gods Lead Them Home · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_end_gods_lead` The Gods Lead Them Home — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Gods Lead Them Home, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references walking up a curving rainbow bridge of crystal and light into a dawn sky, leading hundreds of small glowing pale-blue humanoid spirits who dance and wave, little fairy kings and queens with shining wings, and small spirit animals; the white city on the lake far below. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_end_farewell
+
+Saga panel — Farewell · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_end_farewell` Farewell — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Farewell, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; at the foot of a rainbow bridge rising into a golden sky, Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references turn back and raise their hands in farewell to the small figure of a young hero in a green cloak standing in a rune circle far below; the spirits streaming up behind them. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_vil_lightning
+
+Saga panel — Odin's Lightning · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_vil_lightning` Odin's Lightning — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f, hero_m.model, hero_f.model
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Odin's Lightning, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the lakeside village green with its ring of glowing runestones at dawn: Odin stands at the centre with his spear raised and a great branching bolt of blue-white lightning strikes down from a clear sky into the central runestone; both twins (the boy and the girl in green cloaks, as in the hero references) beside him; villagers shielding their eyes in wonder. The people are of many backgrounds: about half white, the rest a mix of Black, East Asian, South Asian, Middle Eastern, Indigenous, Latino and mixed heritage — varied skin tones, hair and features, all one community. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_vil_vines
+
+Saga panel — Freya's Vines · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_vil_vines` Freya's Vines — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, god_odin.core.f, god_freya.core.f
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Freya's Vines, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the same village green: Freya kneels with her hands on the ground and green vines with white flowers burst out and race away along glowing blue rune lines in the ground, over the cobbles and out into the fields; villagers laughing as flowers open at their feet. The people are of many backgrounds: about half white, the rest a mix of Black, East Asian, South Asian, Middle Eastern, Indigenous, Latino and mixed heritage — varied skin tones, hair and features, all one community. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_vil_green
+
+Saga panel — The Land Turns Green · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_vil_green` The Land Turns Green — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Land Turns Green, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; Runeheim seen from high above at sunrise: the glowing rune lines across the land turning into green grassy roads and pale cobbled paths, and around them grey ash fields, black marsh and broken rock turning green, flowering and alive, spreading outward from the lake and the village. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_vil_forges
+
+Saga panel — The Forges Sink · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_vil_forges` The Forges Sink — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Forges Sink, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; seen from the mainland shore at sunrise: the black volcano island of the forges out at sea collapsing and sinking into calm water in great clouds of white steam, its fires going out, seabirds wheeling; a peaceful sea. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_vil_asgard
+
+Saga panel — Asgard Sinks into the Lake · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_vil_asgard` Asgard Sinks into the Lake — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Asgard Sinks into the Lake, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the white-and-gold walled city on the lake slowly sinking into the still water at dawn; only a few tall golden spires and the top of the citadel left above the surface, glowing softly, a fading rainbow above, the village on the shore watching. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_vil_monsters
+
+Saga panel — The Monsters Fade · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_vil_monsters` The Monsters Fade — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Monsters Fade, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the wild lands of a fantasy world in morning light: goblins, grey wolves, stone golems and little fire imps stopping in their tracks and dissolving into harmless motes of light that drift up like dandelion seeds; birds and deer returning to the meadow. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_vil_paths
+
+Saga panel — Out on the New Paths · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_vil_paths` Out on the New Paths — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Out on the New Paths, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; villagers walking out of the lakeside village along new green roads with carts, tools and children, toward small new hamlets rising round glowing runestones in every realm — timber cottages going up, a workshop roof being raised, families waving. The people are of many backgrounds: about half white, the rest a mix of Black, East Asian, South Asian, Middle Eastern, Indigenous, Latino and mixed heritage — varied skin tones, hair and features, all one community. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_cel_feast
+
+Saga panel — The Celebration of the Twins · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_cel_feast` The Celebration of the Twins — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, hero_m.model, hero_f.model
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Celebration of the Twins, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; a huge joyful feast on the village green at night: lanterns strung between the houses, a great bonfire, musicians with drums and fiddles, long tables of food, everyone dancing; both twins (the boy and the girl in green cloaks, as in the hero references) lifted up on the shoulders of the crowd, laughing. The people are of many backgrounds: about half white, the rest a mix of Black, East Asian, South Asian, Middle Eastern, Indigenous, Latino and mixed heritage — varied skin tones, hair and features, all one community. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_cel_time
+
+Saga panel — Time Passing · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_cel_time` Time Passing — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Time Passing, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; one painting of the seasons turning over a little hamlet round its runestone, from left to right: deep winter snow, then spring blossom, then golden summer fields, then red autumn — the hamlet growing bigger with each season, new houses, gardens and a workshop. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_cel_children
+
+Saga panel — Children Again · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_cel_children` Children Again — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — Children Again, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; the village in spring: a midwife holding up a newborn baby to happy parents at a cottage door, cradles in the sun, a toddler taking first steps toward a grandmother, two young children (a boy and a girl) running across the green with a kite, a goat chasing them. The people are of many backgrounds: about half white, the rest a mix of Black, East Asian, South Asian, Middle Eastern, Indigenous, Latino and mixed heritage — varied skin tones, hair and features, all one community. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_credits
+
+Saga panel — The Credits · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_credits` The Credits — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — The Credits, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; a calm wide night panorama for scrolling credits: the dark still lake with a few golden spires rising out of the water, the village lights small on the shore at the bottom, green hills with faint blue rune lines, and a huge quiet starry sky taking up the whole upper two-thirds of the picture with the stars forming a faint World-Tree, the middle of the sky dark and plain. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_pn_after
+
+Saga panel — After · wave 82 · 1 items, 1 × 1 · 1536x1024
+
+- `pn_after` After — 1536 × 1024 px
+
+Attach: style_hero, style_centaur, sc_pn_end_dawn_b, sc_pn_end_cast_a, hero_m.model, hero_f.model
+
+```
+Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Saga panel — After, a painted story panel shown during a cut-scene.
+The reference images show the game's characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.
+Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; both twins (the boy and the girl in green cloaks, as in the hero references) sitting side by side on a grassy hill at sunset, seen from behind and a little to the side, looking out over green lands, winding paths and small hamlets with smoke rising, the lake shining with golden spires in it; their eyes glow faintly rune-blue. No text.
+The painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).
