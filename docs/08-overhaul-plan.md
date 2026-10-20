@@ -202,12 +202,22 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 70b (Oct 20, late) — a better font for Zeldara
+- Kris: "we still need to get a better font for zeldara, including for the intro screen. I've copied examples of font i like, create a variety of ~12 different updated zeldara and zeldor intro panels with a variety of different fonts inspired by the attached … Also create entire alphabets for these … and propose places for the font to be used throughout the game. It's also OK to have 2 fonts, 1 which is an elaborate version of the other, so group these fonts together, with 6 sets of more and less elaborate versions."
+- His examples (described in words only): a Celtic uncial with high contrast; a pointed "Viking" uncial; a broad-pen uncial alphabet in copper ink; a thin, high-contrast deco capital face with small ornaments (a sparkle, a chevron, a triangle, long underlines); a high-contrast serif with curled swashes and ball ends; a hand-painted Swedish folk-art brush sign with a painted flower; a heavy didone with big looping swashes; a decorated blackletter with dotted strokes and curled hairlines.
+- F1 — The layout? **Answered: keep One Great Z** (his round-54 pick) — only the font and its flourishes change.
+- F2 — The colour? **Answered: gold, plus colour on the elaborate ones** — plain ones in today's gilded gold; the elaborate may add their own colour (copper ink, dala red and blue, blackletter dots).
+- F3 — The axes and the ringed Z? **Answered: only where they fit** — on the Norse sets (uncial, blackletter); not on the deco, swash, didone and brush sets.
+- Kris (later): "instead of having 6 sets with the more and less elaborate, let's do 12 sets of fonts to choose from" → twelve sets, each plain + elaborate (24 title panels).
+- Built: Lab → Fonts (changelog [697]). Waiting for his pick; then the picked face is embedded in the game and used per the proposal at the top of the tab.
+
 ### Round 70 (Oct 20, night) — a mixed Runeheim; the children
 - Kris: "overall things are good, but we need to get more mixed race for the NPCs and groups in the scenes, comments in the notes. We also need to come up with children to populate the world after the spirit cycle has begun again." Notes: hh_new_a "only have one cottage, longhouse or stone cottage per hamlet … change some of the coloration for variety"; hk_asa "about half that are racially white, but remainder should be more variety of races, and racial mixes"; pn_saga_raised "shows more children than zeldara and zeldor, which need to be removed … anytime we show a group of people, let's make them more mixed or blended race … redo this for any related images".
 - R1 — What to redo? **Answered: the kin, the saga panels with groups, and about half the village folk and shopkeepers.**
 - R2 — The kin? **Answered: redraw ~20, keep their designs** (only skin tone, hair and features change).
 - C1 — Children? **Answered: 24 painted children** — toddlers to young teens; 2–3 per hamlet from the 24, and the village; newborns in the midwives' cradles.
 - C2 — What do they do? **Answered: play together and talk** — tag, the swing, hide-and-seek, fishing at the pier, chasing the goats; a short line with [Tab]; some talk of the twins as heroes.
+- Built: round 74 ordered and in (37 redrawn sheets, 24 children, 8 panels, home colourings, cradles); the children play in the hamlets and the village (changelog [692]–[699], doc 30 §14).
 
 ### Round 69 (Oct 20) — the hamlets' roads; the saga panels in
 - Kris: "great, new requests, picks and feedback is in". Picks: the reveal, the map page, **the runestone ring as the vein itself**. Note on "After the gods": "the roads should not completely follow the previous spirit lines. Make a smaller zeldara rune logo around the center rune, similar to the one in the original village, and then make roads that are more organized like a village immediately around the logo. Roads should also follow where the runelines were, but they should be more like a standard road that connects this new hamlets together."

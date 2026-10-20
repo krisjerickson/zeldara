@@ -121,7 +121,9 @@ ZHAM.interior=function(n){ if(typeof INTERIOR_THEMES==='undefined'||INTERIOR_THE
   var F=T.f, P=function(i,x,y,w,h){ return ['hf',x,y,w,h,{pid:'hf_'+t+'_'+F[i][0],fb:ZHAM.FB[i]}]; };
   INTERIOR_LAYOUTS['ham_'+n]={ deco:[['window',2.6,1.2],['painting',6.3,1.4,null,'hk_'+K[0]],['window',10.2,1.2]], rug:[5,5,4,3], npc:[7,3.9],
     props:[P(0,1,2,3,2),P(1,10,2,3,2),P(2,1,5,3,2),P(3,10,5,3,2),['table',6,6,2,1,{top:['candle','plate']}],['stool',6,7,1,1],['stool',7,7,1,1],['plant',12,7,1,1],['plant',1,7,1,1]],
-    lights:[[7,1.6,150,0.32,{}],[3,4,120,0.22,{pulse:0.12}],[11,4,120,0.22,{pulse:0.12}]], particles:t==='smith'||t==='potter'||t==='baker'?'embers':t==='miller'?'flour':'dust' }; };
+    lights:[[7,1.6,150,0.32,{}],[3,4,120,0.22,{pulse:0.12}],[11,4,120,0.22,{pulse:0.12}]], particles:t==='smith'||t==='potter'||t==='baker'?'embers':t==='miller'?'flour':'dust' };
+  // round 70: the newborns — the midwife's workshop has two cradles with babies in them (wave 80, sc_babies; the empty cradle until painted)
+  if(t==='midwife')INTERIOR_LAYOUTS['ham_'+n].props.push(['hf',4,6,2,1,{pid:'hb_cradle_'+'abcd'[n%4],fb:'basket'}],['hf',8,6,2,1,{pid:'hb_cradle_'+'abcd'[(n+1)%4],fb:'basket'}]); };
 // the forty kin as characters (CH, 07s): the painted sheet hk_<spirit>.core.f (idle, talk, work), drawn stand-ins until it is in
 (function(){ if(typeof CH!=='function')return; ZHAM.KIN.forEach(function(K,i){ var t=ZHAM.trade(i), T=ZHAM.TRADES[t]||{}, S=ZHAM.spirit(i), pal=(T.pal||'#6a6a6a,#4a4a4a,#c8c8c8').split(','), skin=['#f0c8a0','#e0b08a','#c89070','#a87050'][i%4], hair=K[4]==='old'?'#d8d8d0':['#6a3a1a','#c89040','#2a1a10','#8a3a1a','#e8c878'][i%5];
     CH('npc','Hamlet folk',ZHAM.kinId(i),K[1],['person',T.anim||'craft',[pal[0],pal[1],pal[2],'#201810',skin,hair].join(','),(K[3]==='f'?'long,':'')+(K[4]==='old'?'grey,':'')+'apron'],

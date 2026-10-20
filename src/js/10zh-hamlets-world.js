@@ -16,11 +16,14 @@ var ZHAMW={ on:true, MARGIN:2.6, ROADW:2.4,
   // the pieces of every hamlet: what stands where (tiles), with the painted picture's width
   plan:function(ws){ var wd=ws.wd; if(wd._hamPlan)return wd._hamPlan; var Z=typeof _scn==='function'?_scn():null, out=[];
     (ZSPIRIT.shrines(ws)||[]).forEach(function(s){ var n=s.n||0, H={n:n,s:s,cx:s.tx+0.5,cy:s.ty+0.5,pieces:[]};
-      ZSL.HAM.spots.forEach(function(h,j){ var kind=h[0], id=kind==='work'?'hw_'+ZHAM.trade(n):kind==='home'?['hh_new_a','hh_new_b','hh_new_c'][(n+j)%3]:'hh_'+kind;
+      ZSL.HAM.spots.forEach(function(h,j){ var kind=h[0], id=kind==='work'?'hw_'+ZHAM.trade(n):kind==='home'?ZHAMW.home(Z,n,j):'hh_'+kind;
         if(!Z||!Z.has(id)){ var L=(ZHAMW.STAND[kind]||[]).filter(function(k){ return Z&&Z.has(k); }); id=L.length?L[(n+j)%L.length]:null; } if(!id)return;
         var sz=Z.size(id,0), fx=H.cx+h[1], fy=H.cy+h[2], wT=sz?sz.w*Z.K/TILE:3; H.pieces.push({kind:kind,id:id,fx:fx,fy:fy,w:wT,x0:Math.round(fx-wT*0.42),x1:Math.round(fx+wT*0.42)-1,y1:Math.floor(fy-0.3),y0:Math.floor(fy-0.3)-(ZHAMW.DEPTH[kind]||1)+1}); });
       out.push(H); });
     return (wd._hamPlan=out); },
+  // round 70 (Kris on hh_new_a: "only have one cottage, longhouse or stone cottage per hamlet, and we should change some of the coloration for
+  // variety"): the three homes of a hamlet are one of each kind (j = 1…3 → (n+j)%3), each in one of its colourings (wave 80: _2, _3) once painted
+  home:function(Z,n,j){ var b=['hh_new_a','hh_new_b','hh_new_c'][(n+j)%3], v=(n*2+j*5)%3, id=v?b.replace(/hh_new_(\w)/,'hh_new_$1'+(v+1)):b; return Z&&Z.has(id)?id:b; },
   grass:function(ws){ var wd=ws.wd; if(wd._hamGrass)return wd._hamGrass; for(var r=34;r<80;r++)for(var a=0;a<24;a++){ var x=Math.round(CENTER_X+Math.cos(a/24*Math.PI*2)*r), y=Math.round(CENTER_Y+Math.sin(a/24*Math.PI*2)*r);
       if(wd.tiles[y]&&wd.tiles[y][x]===T.GRASS)return (wd._hamGrass={t:T.GRASS,k:wd.kind[y*WORLD_W+x]}); } return (wd._hamGrass={t:T.GRASS,k:wd.kind[CENTER_Y*WORLD_W+CENTER_X]}); },
   KEEP:null,
@@ -48,8 +51,8 @@ var ZHAMW={ on:true, MARGIN:2.6, ROADW:2.4,
       if(d<60&&!have)IM[H.n]=H.pieces.map(function(q){ var im=Z.image(ws,q.id,q.fx*TILE,q.fy*TILE,Z.K,WR_DEPTH(q.fy*TILE)); if(im)im._zslHam=1; return im; }).filter(Boolean);
       else if(d>80&&have){ have.forEach(function(im){ if(im&&im.scene)im.destroy(); }); delete IM[H.n]; } }); },
   clear:function(ws){ var IM=ws._hamIm; if(IM)Object.keys(IM).forEach(function(k){ IM[k].forEach(function(im){ if(im&&im.scene)im.destroy(); }); }); ws._hamIm={}; },
-  tick:function(ws){ if(!ZHAMW.on||typeof ZHAM==='undefined')return; var ps=ws.playerState; if(!ps.spiritsHome){ ZHAMW.clear(ws); return; }
-    ZHAMW.carve(ws); ZHAMW.doors(ws); ZHAMW.show(ws); },
+  tick:function(ws){ if(!ZHAMW.on||typeof ZHAM==='undefined')return; var ps=ws.playerState; if(!ps.spiritsHome){ ZHAMW.clear(ws); if(typeof ZKIDW!=='undefined')ZKIDW.clear(ws); return; }
+    ZHAMW.carve(ws); ZHAMW.doors(ws); ZHAMW.show(ws); if(typeof ZKIDW!=='undefined')ZKIDW.manage(ws); },      // round 70: the children at play (10zk)
   // inside: talking with the kin ([Tab] again for more)
   talk:function(scene,n){ var K=ZHAM.KIN[n], S=ZHAM.spirit(n), L=ZHAM.lines(n), i=scene._hamLine||0, ch=ZHAM.kinId(n); scene._hamLine=(i+1)%L.length;
     var draw=function(x,t){ if(typeof ZAtlas!=='undefined'&&ZAtlas.drawTo(x,ch,['talk','idle'],'f',t,4,2,88,92))return; var R=typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[ch]; if(R&&typeof chFrames==='function'){ try{ var fr=chFrames(R); x.imageSmoothingEnabled=false; x.drawImage(fr[(t>>2)%fr.length],8,8,80,80); }catch(e){} } };

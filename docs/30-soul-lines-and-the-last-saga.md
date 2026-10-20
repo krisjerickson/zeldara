@@ -280,3 +280,11 @@ See docs/08 → Open questions → Round 67.
 - **Buildings**: solid; the workshop opens with [Tab] into `ham_<n>` — realm walls/floor, the trade's four pieces (hf_<trade>_*), the spirit's keepsake (hk_<spirit>), a table, a rug.
 - **The kin** (`ZHAM.KIN`, `src/js/07zh-hamlet-folk.js`): forty people, one per spirit, each with a memory of the spirit; they say who they are, the memory, their trade, their realm now.
 
+
+## 14. The children (round 70)
+
+- **Who** (`ZKIDS`, `src/js/07zh-hamlet-folk.js`): twenty-four children born as the cycle turned again — toddlers (~3), little ones (~6), children (~9), young teens (~13); about half white, the rest of mixed and varied heritage (`ZHERIT`). Each has what they wear and carry, a favourite game and a line.
+- **Where** (`ZKIDW`, `src/js/10zk-kids-world.js`): only after the gods. 2–3 in every hamlet's yard (the fifteen not in the village band, by turns), and the village band of nine: tag on the green, a ring by it, fishing at the pier.
+- **Play**: each group plays one game — tag, hide-and-seek, the swing, the ring, the goats (a painted goat) or fishing; they stop and face you when you come close.
+- **Talk** ([Tab]): their own line, then one about the twins, by turns.
+- **Newborns**: two cradles in each midwife's workshop (hb_cradle_a–d).

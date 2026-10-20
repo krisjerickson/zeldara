@@ -42,7 +42,7 @@ with game(new=True, painted=True) as g:
     check('The fairies are about half the hero\'s height again (%d px) and painted in their talk box' % r['fairyH'], 25 <= r['fairyH'] <= 45 and r['fairyPainted'], r)
     check('After the gods the hamlet\'s ring and a little beyond are walkable grass (%s blocked of %s), the wild dressing cleared (%s)' % (r['walk'][0], r['walk'][1], r['props']), r['walk'][0] == 0 and r['props'] > 50 and r['roadGrass'], r)
     check('Its buildings are solid and stand there (%d pictures); every workshop has a door (%d)' % (r['pics'], r['doors']), r['solid'] and r['pics'] >= 5 and r['doors'] == 40, r)
-    check('[Tab] at %s goes inside: %s, its four trade pieces (%s), the kin %s' % (r['bname'], r['room'], ','.join(r['furn']), r['npc']), r['inside'] and r['npc'] == 'hk_nanna' and len(r['furn']) == 4 and all(f.startswith('hf_midwife_') for f in r['furn']), r)
+    check('[Tab] at %s goes inside: %s, its four trade pieces (%s), the kin %s' % (r['bname'], r['room'], ','.join(r['furn']), r['npc']), r['inside'] and r['npc'] == 'hk_nanna' and len([f for f in r['furn'] if f.startswith('hf_midwife_')]) == 4 and all(f.startswith('hf_midwife_') or f.startswith('hb_cradle_') for f in r['furn']), r)
     check('…who talks of the spirit (%s)' % r['talk'][:60], 'Nanna' in r['talk'], r)
     check('Round 73 is in: Inga is painted, and so are the midwife\'s furniture and Nanna\'s keepsake (%s)' % r['painted'], all(r['painted']), r)
     errs = [e for e in g.errs if 'favicon' not in e]
@@ -59,6 +59,6 @@ with sync_playwright() as p:
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html"); pg.wait_for_timeout(1500)
     pg.evaluate("LTODO.goTo('hamlets','.br-grid',0)"); pg.wait_for_timeout(4000)
     n = pg.evaluate("(()=>{ var g=document.querySelectorAll('.br-grid'); return [g[0]?g[0].querySelectorAll('canvas').length:0, g[1]?g[1].querySelectorAll('canvas').length:0, LabApp.tab, g[2]?g[2].querySelectorAll('canvas').length:0]; })()")
-    check('The Lab\'s "Saga panels & hamlets" tab shows the 11 panels, the 26 buildings and the 40 hamlet folk in their workshops (%s)' % n, n == [11, 26, 'hamlets', 40], n)
+    check('The Lab\'s "Saga panels & hamlets" tab shows the 11 panels, the 36 buildings (round 70: the home colourings and the cradles) and the 40 hamlet folk in their workshops (%s)' % n, n == [11, 36, 'hamlets', 40], n)
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d / %d passed' % (sum(res), len(res)))
