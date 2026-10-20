@@ -166,6 +166,11 @@ var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},cha
   // gate used by the single-image hooks: true = handled here (hidden while loading); false = go on / fall back
   gate:function(im,ch){ if(!im._zm||im._zw)ZAtlas.own(im); var S=ZAtlas.state(ch); if(S==='load'){ ZAtlas.hide(im,true); return 'load'; } ZAtlas.hide(im,false); if(S!=='ok'){ if(im._zo)ZAtlas.unwear(im); return 'no'; } return 'ok'; },
   // one call for the simple cases: anims = wanted animation first, then fall-backs; rate = frames per second
+  // round 69 (Kris: the fairies' talk box "shows the old pixelated versions instead of the painted images"): draw a painted frame into a 2D
+  // canvas, fitted into a box and standing on its bottom; false while the page is loading (the caller draws its stand-in)
+  drawTo:function(ctx,ch,anims,face,i,bx,by,bw,bh){ if(ZAtlas.off||!ZAtlas.has(ch))return false; if(ZAtlas.state(ch)!=='ok')return false; var P=ZAtlas.pick(ch,anims,face); if(!P)return false;
+    var n=ZAtlas.name(ch,P.a,P.f,i%Math.max(1,P.n)), f=n&&ZAtlas.META.frames[n], img=f&&ZAtlas.img[f[0]]; if(!img)return false; var s=Math.min(bw/f[3],bh/f[4]), w=f[3]*s, h=f[4]*s;
+    ctx.save(); ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high'; ctx.drawImage(img,f[1],f[2],f[3],f[4],bx+(bw-w)/2,by+bh-h,w,h); ctx.restore(); return true; },
   simple:function(im,ch,anims,f,t,rate,centre,k){ if(!im)return false; var G=ZAtlas.gate(im,ch); if(G!=='ok')return G==='load';
     var P=ZAtlas.pick(ch,anims,f); if(!P){ if(im._zo)ZAtlas.unwear(im); return false; } return ZAtlas.wear(im,ch,P.a,P.f,Math.floor(t*rate)%P.n,k,centre); },
   // village folk and keepers (CHX._tick): f = the pixel frame it would show (0/1 idle, 2/3 doing its job)

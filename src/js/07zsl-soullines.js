@@ -89,6 +89,7 @@ var ZSL=(function(){
       var RL=o.roads?o.roads.map(function(i){ return D.roads[i]; }):(D.roads||[]);
       var road=function(width,style){ ctx.strokeStyle=style; ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.beginPath();
         RL.forEach(function(r){ var dn=false; for(var i=0;i<r.pts.length;i++){ var p=r.pts[i]; if(lit(r.owner[i])&&!r.cut[i]){ var x=X(p.x), y=Y(p.y); if(dn)ctx.lineTo(x,y); else { ctx.moveTo(x,y); dn=true; } } else dn=false; } }); ctx.stroke(); };
+      if(o.grassUnder){ var GR=pat('tx_grass','#5d8a4c'); road((2.4+3.2)*k,GR); (o.zones?o.zones:D.G.Z.map(function(z,i){ return i; })).forEach(function(i){ var z=D.G.Z[i]; if(!lit(i))return; ctx.fillStyle=GR; ctx.beginPath(); ctx.arc(X(z.x),Y(z.y),(H.ring+3.6)*k,0,TAU); ctx.fill(); }); }      // the Lab: the land under the hamlets and roads turns to grass (the game carves it, 10zh)
       road(3.0*k,'rgba(60,50,32,.32)'); road(2.4*k,DIRT); road(2.4*k,'rgba(120,96,60,.16)');
       var Zh=o.zones?o.zones:D.G.Z.map(function(z,i){ return i; });
       Zh.forEach(function(i){ var z=D.G.Z[i]; if(!lit(i))return; var cx=X(z.x), cy=Y(z.y);

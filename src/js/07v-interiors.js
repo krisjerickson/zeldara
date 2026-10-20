@@ -222,7 +222,8 @@ var INTERIOR_LAYOUTS={
     props:[['oven',11,2,2,1],['cakecase',3,3,5,1],['shelfunit',1,2,2,1,{goods:'bread'}],['kneadtable',8,5,3,1],['sacks',1,6,2,1,{label:'FLOUR'}],['basket',4,6,1,1,{goods:'bread'}],['basket',5,7,1,1,{goods:'fruit'}],['barrel',12,6,1,1,{col:'#b88a4a'}]],
     lights:[[12,2.6,170,0.55,{flicker:0.3}],[6.5,1.4,160,0.3,{}]], particles:'flour' }
 };
-function buildInterior(type){ var T=INTERIOR_THEMES[type]||INTERIOR_THEMES.shop, L=INTERIOR_LAYOUTS[type]||INTERIOR_LAYOUTS.shop, W=INT_MW, H=INT_MH, m=newMap(W,H);
+function buildInterior(type){ if(/^ham_/.test(type)&&typeof ZHAM!=='undefined'&&ZHAM.interior)ZHAM.interior(+type.slice(4));      // round 69: a hamlet workshop (07zh)
+  var T=INTERIOR_THEMES[type]||INTERIOR_THEMES.shop, L=INTERIOR_LAYOUTS[type]||INTERIOR_LAYOUTS.shop, W=INT_MW, H=INT_MH, m=newMap(W,H);
   m.base=mkCanvas(W*LT,H*LT); var ctx=m.base.getContext('2d'); _intPaintRoom(ctx,T,W,H); m.bg='#0a0604';
   var P={wood:type==='forge'||type==='armory'?'#5a3a24':type==='jeweler'?'#4a2a3a':shade(T.floorB,-0.05),trim:T.trim};
   var Zi=_scn();
@@ -235,10 +236,10 @@ function buildInterior(type){ var T=INTERIOR_THEMES[type]||INTERIOR_THEMES.shop,
   if(Zi&&Zi.has('ir_mat'))Zi.rect(m,'ir_mat',INT_DOOR[0]*LT+6,(H-2)*LT+12,LT*2-12,18);
   // walls solid; door open
   for(var y=0;y<H;y++)for(var x=0;x<W;x++){ if(y<2||x===0||x===W-1||(y===H-1&&INT_DOOR.indexOf(x)<0))setSolid(m,x,y,1); }
-  (L.props||[]).forEach(function(p){ var k=p[0], tx=p[1], ty=p[2], tw=p[3], th=p[4], o=p[5]||{}, fn=INT_PROPS[k]; if(!fn)return; var sw=tw*LT+8, sh=Math.max(INT_HT[k]||48,th*LT), n0=m.sprites.length;
+  (L.props||[]).forEach(function(p){ var k=p[0], tx=p[1], ty=p[2], tw=p[3], th=p[4], o=p[5]||{}, fn=INT_PROPS[k]||INT_PROPS[o.fb]; if(!fn)return; /* round 69: o.fb = the drawn stand-in for a painted piece (o.pid) */ var sw=tw*LT+8, sh=Math.max(INT_HT[k]||48,th*LT), n0=m.sprites.length;
     if(k==='bed')m.bed={x:tx*LT,y:ty*LT,w:tw*LT,h:th*LT,from:n0};      // round 44: the bed the hero sleeps in (11 _rest)
     // painted furniture (round 30): the pilot's eight pieces at their designed size; a counter or long table is stretched along its tiles. Things lying on a table are not drawn on the painted ones yet.
-    var Zs=_scn(), pid='if_'+k, done=false; if(Zs&&Zs.has(pid)){ var nat=Zs.size(pid,0), long=(k==='counter'||k==='longtable')&&tw*LT>nat.w*Zs.K*1.1;
+    var Zs=_scn(), pid=o.pid||'if_'+k, done=false; if(Zs&&Zs.has(pid)){ var nat=Zs.size(pid,0), long=(k==='counter'||k==='longtable')&&tw*LT>nat.w*Zs.K*1.1;
       done=long?Zs.sprite(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,nat.h*Zs.K,{stretch:tw*LT/(nat.w*Zs.K),shw:0.46}):Zs.fit(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,tw*LT+10,{shw:0.4}); }
     if(done&&o.top){ var topY=(ty+th)*LT-2-done.h*0.7, span=done.w*0.52; o.top.forEach(function(t,i){ var id='it_'+t; if(!Zs.has(id))return; Zs.sprite(m,id,(tx+tw/2)*LT+(o.top.length>1?(i/(o.top.length-1)-0.5)*span:0),topY,0,{shadow:false,sp:{depth:(ty+th)*LT-1}}); if(t==='candle')addLight(m,(tx+tw/2)*LT+(o.top.length>1?(i/(o.top.length-1)-0.5)*span:0),topY-12,46,'#ffd080',0.3,{flicker:0.25}); }); }
     if(done&&k==='shelfunit'&&o.goods){ var gid={jars:'is_jars',goods:'is_jars',potions:'is_potions',cloth:'is_books',bread:'is_jars'}[o.goods]; if(o.goods==='bread'||o.goods==='cloth'){ var one=o.goods==='bread'?'it_bread':'it_cloth'; if(Zs.has(one))[0.34,0.6].forEach(function(f){ [-0.2,0.2].forEach(function(dx){ Zs.sprite(m,one,(tx+tw/2)*LT+dx*done.w,(ty+th)*LT-2-done.h*f,0,{shadow:false,sp:{depth:(ty+th)*LT-1}}); }); }); } }
@@ -258,7 +259,7 @@ function buildInterior(type){ var T=INTERIOR_THEMES[type]||INTERIOR_THEMES.shop,
   return m; }
 // painted wall pieces (round 31): strips (shelves, hooks, tool rails) repeat along their width, single pieces hang in the middle of it
 var INT_WALL_STRIP={shelf:1,shelf2:1,hooks:1,herbs:1,tools:1,swords:1,shields:1};
-function _intWallPainted(Zs,m,d){ var id='iw_'+d[0]; if(!Zs.has(id))return false; var x=d[1]*LT, w=d[2]*LT, N=Zs.size(id,0), top=d[0]==='window'?8:d[0]==='banner'?2:d[0]==='shelf2'?22:12;
+function _intWallPainted(Zs,m,d){ var id=d[4]||'iw_'+d[0]; /* round 69: d[4] = a painted piece of its own (a spirit's keepsake) */ if(!Zs.has(id))return false; var x=d[1]*LT, w=d[2]*LT, N=Zs.size(id,0), top=d[0]==='window'?8:d[0]==='banner'?2:d[0]==='shelf2'?22:12;
   if(INT_WALL_STRIP[d[0]]){ var n=Math.max(1,Math.round(w/N.w)), each=w/n; for(var i=0;i<n;i++)Zs.hang(m,id,x+each*(i+0.5),top,Math.min(each,N.w*1.5),{depth:-1}); }
   else Zs.hang(m,id,x+w/2,top,Math.max(N.w,Math.min(w,N.w*1.7)),{depth:-1});
   return true; }

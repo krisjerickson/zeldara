@@ -896,3 +896,10 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Asked first (Open questions → Round 68: H1, P1, G1, G2); ordered wave 75 (hamlets) and wave 76 (11 saga panels) — `tools/sprites/round71.ps1`.
 - Done: wave 74 in (the soul-line pieces); the soul-lines in the game with the trace, motes, map page, ghosts, green paths and hamlets; the black screen's likely cause fixed (the worker queue) plus the land drawn under unpainted chunks; the saga panels wired (play once painted); the forty memories; the other twin by the Home and Elder Runa's lines; Lab → Soul-lines in the game; changelog [672]–[681].
 - **Next:** Kris ☆ a runestone ring (Lab → Soul-lines in the game) and looks at the reveal in the game; wave 75/76 in → the hamlets and panels go in; the elders', builders' and fairies' story lines after Kris reviews doc 30 §10.
+
+## Round 69 (Kris, Oct 20) — the hamlets after the gods, the hamlet folk, the saga panels, the fairies
+- Kris: "great, new requests, picks and feedback is in" (picks: the reveal, the map page, the ring as the vein itself; a note on After the gods); "round 72 requests in"; "where are the hamlet workshops and good saga panels in the design lab?"; "hamlet buildings should work like normal buildings … go into them using tab … thematic interiors … new NPCs"; "the fairies have gotten too large … shows the old pixelated versions"; "all of the land inbetween the circle rune lines needs to turn into grassland …".
+- Asked: Open questions → Round 69 (Q1, H2–H5).
+- Done: changelog [682]–[690] — the hamlet plan, grassland, solid buildings and workshop doors, interiors, the forty kin and their words, the fairies, the Lab tab, the five panels redone.
+- **Next:** round73.ps1 in → the hamlet folk, furniture and keepsakes go in; Kris looks at the hamlets in the Lab and in the game.
+

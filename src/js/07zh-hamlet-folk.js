@@ -109,6 +109,19 @@ var ZHAM={
   look:function(i){ var K=ZHAM.KIN[i], S=ZHAM.spirit(i), T=ZHAM.TRADES[ZHAM.trade(i)]||{}, age={young:'a young',grown:'a grown',old:'an old, grey-haired'}[K[4]], who=K[3]==='f'?'woman':'man';
     return K[1]+', '+K[2].replace(/^(her|his) /,S.name+'\'s ')+' (the freed spirit was '+S.trade+'): '+age+' '+who+' of the '+(S?ZHAM.REALM[S.q]:'')+', '+T.wear+'; '+ZHAM.RLOOK[S?S.q:1]+'.'; }
 };
+// ── a workshop's inside (07v buildInterior 'ham_<n>'): the realm's walls and floor, the trade's four pieces of furniture (wave 78; drawn stand-ins
+//    until they are in), the spirit's keepsake on the back wall between two windows (wave 79), a table, a rug, a plant; the kin at work ──
+ZHAM.ROOM={1:{wall:'plaster',floor:'planks',wallA:'#e4d8bc',wallB:'#c8b48c',trim:'#7a5a3a',floorA:'#b88a5a',floorB:'#8a643a',light:'#ffd8a0',rug:'#4a7a3a',rug2:'#e8d8a0'},
+  2:{wall:'boards',floor:'planks',wallA:'#8a7a5a',wallB:'#6a5a40',trim:'#3a5a5a',floorA:'#9a7a54',floorB:'#6e5434',light:'#d8f0d0',rug:'#2a5a6a',rug2:'#c8e0c0'},
+  3:{wall:'stone',floor:'flag',wallA:'#8a8478',wallB:'#6a645a',trim:'#5a4a3a',floorA:'#8a8276',floorB:'#625c52',light:'#ffe8c0',rug:'#6a3a2a',rug2:'#e8c890'},
+  4:{wall:'stone',floor:'flag',wallA:'#5a524e',wallB:'#423a36',trim:'#8a3a2a',floorA:'#5e5652',floorB:'#403834',light:'#ffb070',rug:'#7a2a1a',rug2:'#e8a050'}};
+ZHAM.FB={0:'barrel',1:'crates',2:'sacks',3:'basket'};      // the drawn stand-ins for the four pieces
+ZHAM.interior=function(n){ if(typeof INTERIOR_THEMES==='undefined'||INTERIOR_THEMES['ham_'+n])return; var S=ZHAM.spirit(n), t=ZHAM.trade(n), T=ZHAM.TRADES[t], K=ZHAM.KIN[n], R=ZHAM.ROOM[S.q];
+  INTERIOR_THEMES['ham_'+n]=Object.assign({name:S.name+'\'s workshop',npc:ZHAM.kinId(n),blurb:K[1]+' keeps '+S.name+'\'s workshop: the '+ZHAM.tradeName(t)+'\'s tools, and '+S.name+'\'s keepsake on the wall.'},R);
+  var F=T.f, P=function(i,x,y,w,h){ return ['hf',x,y,w,h,{pid:'hf_'+t+'_'+F[i][0],fb:ZHAM.FB[i]}]; };
+  INTERIOR_LAYOUTS['ham_'+n]={ deco:[['window',2.6,1.2],['painting',6.3,1.4,null,'hk_'+K[0]],['window',10.2,1.2]], rug:[5,5,4,3], npc:[7,3.4],
+    props:[P(0,1,2,3,2),P(1,10,2,3,2),P(2,1,5,3,2),P(3,10,5,3,2),['table',6,6,2,1,{top:['candle','plate']}],['stool',6,7,1,1],['stool',7,7,1,1],['plant',12,7,1,1],['plant',1,7,1,1]],
+    lights:[[7,1.6,150,0.32,{}],[3,4,120,0.22,{pulse:0.12}],[11,4,120,0.22,{pulse:0.12}]], particles:t==='smith'||t==='potter'||t==='baker'?'embers':t==='miller'?'flour':'dust' }; };
 // the forty kin as characters (CH, 07s): the painted sheet hk_<spirit>.core.f (idle, talk, work), drawn stand-ins until it is in
 (function(){ if(typeof CH!=='function')return; ZHAM.KIN.forEach(function(K,i){ var t=ZHAM.trade(i), T=ZHAM.TRADES[t]||{}, S=ZHAM.spirit(i), pal=(T.pal||'#6a6a6a,#4a4a4a,#c8c8c8').split(','), skin=['#f0c8a0','#e0b08a','#c89070','#a87050'][i%4], hair=K[4]==='old'?'#d8d8d0':['#6a3a1a','#c89040','#2a1a10','#8a3a1a','#e8c878'][i%5];
     CH('npc','Hamlet folk',ZHAM.kinId(i),K[1],['person',T.anim||'craft',[pal[0],pal[1],pal[2],'#201810',skin,hair].join(','),(K[3]==='f'?'long,':'')+(K[4]==='old'?'grey,':'')+'apron'],

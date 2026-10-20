@@ -88,7 +88,7 @@ var ZSLW={ on:true, RES:16, NEAR:48, TRACE:3.6, MOTES:34, KEEP:24,
   tick:function(){ try{ if(!ZSLW.on)return; var ws=ZSLW.main(); if(!ws)return; var D=ZSLW.data(ws); if(!D)return;
     if(ws._zslHook!==ws.sys.settings){ ws._zslHook=ws.sys.settings; ws._zslC=null; ws._zslM=null; ws._zslT=null; ws._zslH=null; ws.events.on('update',function(t,dt){ try{ ZSLW.frame(ws,dt); }catch(e){} });
       ws.events.once('shutdown',function(){ ws._wrUnder=null; ws._zslHook=null; ws._zslC=null; ws._zslM=null; ws._zslT=null; ws._zslH=null; }); }
-    ZSLW.under(ws); ZSLW.chunks(ws); ZSLW.hamlets(ws);
+    ZSLW.under(ws); ZSLW.chunks(ws); if(typeof ZHAMW!=='undefined')ZHAMW.tick(ws);      // round 69: the hamlets (10zh) — ZSLW.hamlets is the round 68 stand-in, no longer used
     if(typeof ZSAGA!=='undefined'&&!ws.playerState.sagaSeen)ZSAGA.start(ws);      // a new game: the saga's opening, once painted (16r)
     if(!ws._zslT&&!ws.playerState.spiritsHome){ var P=ZSLW.pending(ws); for(var n=0;n<P.length;n++){ var i=D.idx[P[n]], z=D.G.Z[i]; if(Math.hypot(ws.player.x/TILE-z.x,ws.player.y/TILE-z.y)<=ZSLW.NEAR*0.8){ ZSLW.trace(ws,i); break; } } }
   }catch(e){ if(!ZSLW._err){ ZSLW._err=1; console.warn('soul-lines',e); } } },

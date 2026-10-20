@@ -272,3 +272,11 @@ See docs/08 → Open questions → Round 67.
 | 33 | The credits backdrop | the end |
 
 (Plus today's: Muspelheim sinking, Asgard in the sky, Asgard on the lake, Solmyrk's and Surtharn's cut-scenes, and the ending's four.)
+
+## 13. The hamlets (round 69)
+
+- **Plan** (`ZSL.HAM`, Kris's note): a small Runestone-Green rune (rn_green, ~7 tiles) round each runestone; a cobbled square (r 4.8) and four cobbled lanes inside the dirt ring road (r 12 — the soul ring, as the vein, Kris's pick); the workshop (NW) and three homes (NE, SW, SE), the well, the play yard and the cart. Dirt roads along the World-Tree's boughs and branches join the hamlets and the village.
+- **Ground**: inside each ring road and ~2.6 tiles beyond, and along the roads with a margin, the land turns to walkable grass after the gods (`ZHAMW.carve`); wild props there go. The village, sites, waystones and crossings keep theirs.
+- **Buildings**: solid; the workshop opens with [Tab] into `ham_<n>` — realm walls/floor, the trade's four pieces (hf_<trade>_*), the spirit's keepsake (hk_<spirit>), a table, a rug.
+- **The kin** (`ZHAM.KIN`, `src/js/07zh-hamlet-folk.js`): forty people, one per spirit, each with a memory of the spirit; they say who they are, the memory, their trade, their realm now.
+

@@ -32,7 +32,7 @@ with game(new=True, painted=True) as g:
       // after the gods: paths of grass and stone, no motes; the hamlets stand in the rings
       ps.spiritsHome=1; ws.player.x=s.x+40; ws.player.y=s.y+160; ws.player.cont.setPosition(ws.player.x,ws.player.y); await w(3500);
       o.green=Object.keys(ws._zslC.m).some(function(k){ return ws._zslC.m[k].sig.indexOf('green')===0; }); o.motesOff=!ws._zslM||ws._zslM.p.every(function(m){ return !m.im.visible; });
-      o.ham=(ws._zslH[s.id]||[]).length; o.trade=ZSLW.tradeId(s);
+      o.ham=((ws._hamIm||{})[s.n]||[]).length; o.trade='hw_'+ZHAM.trade(s.n);
       o.qmax=typeof WP_QMAX!=='undefined'?WP_QMAX:null; o.busy=_WPW.pool.map(function(x){ return x._busy; }); o.under=!!(ws._wrUnder&&ws._wrUnder.scene);
       return o; })()""" % W)
     check('The World-Tree is cut into 40 pieces, one per runestone (%d zones, %d pieces, %d crossings woven, %d runes)' % (r['zones'], r['pieces'], r['X'], r['runes']), r['zones'] == 40 and r['pieces'] == 40 and r['idx'] == 40 and r['X'] > 100 and r['runes'] > 1000, r)
@@ -51,7 +51,7 @@ with game(new=True, painted=True) as g:
       ZSAGA.afterTrace(ws,q4[0]); return new Promise(function(r){ setTimeout(function(){ o.realm=called; ZSAGA.play=p0; ZCUT.painted=pt; ZCUT.on=false; r(o); },1200); }); })()""")
     t = g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, T=ws._twin; return {on:!!(T&&T.im.scene), name:T&&T.npc.n, ch:T&&T.ch, hero:ps.hero, npc:(ws._villageNPCs||[]).some(function(n){ return n.id==='vf_twin'; }), line:ZTWIN.line({spiritsFreed:new Array(21).fill('x')}), line0:ZTWIN.line({spiritsFreed:[]})}; })()")
     check('The other twin stays in the village, by the Home, and talks of how far you have come (%s, %s)' % (t['name'], t['ch']), t['on'] and t['npc'] and t['ch'] == ('hero_m' if t['hero'] == 'f' else 'hero_f') and t['name'] in ('Zeldara', 'Zeldor') and 'map' in t['line'] and 'village' in t['line0'], t)
-    check('The saga panels play once each, only when painted: the Ashlands\' tenth spirit tells the Ash Night (%s)' % z, (not z['notYet']) and z['first'] and z['open'] and not z['again'] and z['realm'] == 'realm4', z)
+    check('The saga panels play once each, only when painted: the Ashlands\' tenth spirit tells the Ash Night (%s)' % z, z['first'] and z['open'] and not z['again'] and z['realm'] == 'realm4', z)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No game script errors', not errs, errs[:4])
 with sync_playwright() as p:

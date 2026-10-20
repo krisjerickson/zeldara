@@ -85,7 +85,7 @@ Object.assign(WorldScene.prototype,{
         f.lbl=domText(self,f.x,f.y-30,'✨ '+f.name,{fontSize:'9px',color:'#ffe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20); }
       if(!near&&f.spr){ f.spr.destroy(); f.glow.destroy(); f.lbl.destroy(); f.spr=null; }
       if(!f.spr)return; f.t+=dt; var hx=f.home.ws?f.home.x*TILE+16:f.x, hy=f.home.ws?f.home.y*TILE+16:f.y, fx=hx+Math.cos(f.t*0.9)*70+Math.sin(f.t*2.1)*6, fy=hy-18+Math.sin(f.t*1.3)*16;
-      f.cx=fx; f.cy=fy; if(!(typeof ZAtlas!=='undefined'&&f.F&&ZAtlas.simple(f.spr,'fairy_'+f.F.id,['float','idle','move'],'q',f.t,10,true)))f.spr.setFrame(String(Math.floor(f.t*10)%4)); f.spr.setPosition(fx,fy).setFlipX(Math.cos(f.t*0.9+Math.PI/2)<0).setDepth(WR_DEPTH(fy+30)); f.glow.setPosition(fx,fy).setDepth(WR_DEPTH(fy+30)-0.00001); f.lbl.setPosition(fx,fy-24);
+      f.cx=fx; f.cy=fy; if(!(typeof ZAtlas!=='undefined'&&f.F&&ZAtlas.simple(f.spr,'fairy_'+f.F.id,['float','idle','move'],'q',f.t,10,true,f._k)))f.spr.setFrame(String(Math.floor(f.t*10)%4)); else if(!f._k&&f.spr._zo&&f.spr._zo.k)f._k=f.spr._zo.k*ZFAIRY_K;      // round 69: painted fairies at about half the hero's height (Kris: "the fairies have gotten too large") f.spr.setPosition(fx,fy).setFlipX(Math.cos(f.t*0.9+Math.PI/2)<0).setDepth(WR_DEPTH(fy+30)); f.glow.setPosition(fx,fy).setDepth(WR_DEPTH(fy+30)-0.00001); f.lbl.setPosition(fx,fy-24);
       var st=self._fairyState(f); f.lbl.setText((st.mark?st.mark+' ':'✨ ')+f.name); });
     (this._kings||[]).forEach(function(K){ var near=Math.hypot(px-K.x,py-K.y)<1400; if(near)self._hengeBuild(K); if(!K.spr)return; K.t+=dt; if(!(typeof ZAtlas!=='undefined'&&typeof FAIRY_MONARCH_PICK!=='undefined'&&ZAtlas.simple(K.spr,'monarch_'+FAIRY_MONARCH_PICK[K.q],['float','idle','move'],'q',K.t,8,false)))K.spr.setFrame(String(Math.floor(K.t*8)%4)); K.spr.setY(K.y-26+Math.sin(K.t*1.6)*5); });
     // sparkles where an active quest's object is buried
@@ -148,12 +148,14 @@ Object.assign(WorldScene.prototype,{
     campCelebrate(this,this.player.x,this.player.y,'The Monarch\'s blessing!','Up to '+_maxFamiliarSlots(ps)+' familiars can be active — press N'); if(typeof Tome!=='undefined')Tome.see('quest',qk); this._emitUI(); this._save&&this._save(); }
 });
 
+var ZFAIRY_K=0.55;      // round 69: painted fairies' size (× their hero-height scale)
 // ── dialogue box ──
 var FairyTalk={ show:function(f,html,btns){ var el=document.getElementById('fairy-talk'); if(!el){ el=document.createElement('div'); el.id='fairy-talk'; el.className='overlay'; el.style.display='none'; el.onclick=function(e){ if(e.target===el)FairyTalk.close(); }; document.body.appendChild(el); }
     var col=f.F?f.F.col:'#ffe0ff';
     el.innerHTML='<div class="modal fairy-modal" onclick="event.stopPropagation()" style="border-color:'+col+'"><div class="ft-row"><canvas id="ft-cv" width="96" height="96"></canvas><div><div class="ft-name" style="color:'+col+'">'+(f.king?'👑 ':'✨ ')+f.name+'</div><div class="ft-text">'+html+'</div></div></div><div class="ft-btns">'+btns.map(function(b,i){ return '<button data-i="'+i+'">'+b.t+'</button>'; }).join('')+'</div></div>';
     el.style.display='flex'; el.querySelectorAll('.ft-btns button').forEach(function(b){ b.onclick=function(){ var B=btns[+b.dataset.i]; FairyTalk.close(); if(B.f)setTimeout(B.f,30); }; });
-    var cv=document.getElementById('ft-cv'), x=cv.getContext('2d'), fr=f.king?fairyKingFrames(f.king):fairyFrames(f.F), i=0; clearInterval(FairyTalk._t); FairyTalk._t=setInterval(function(){ if(!cv.isConnected){ clearInterval(FairyTalk._t); return; } x.clearRect(0,0,96,96); x.imageSmoothingEnabled=true; if(f.king)x.drawImage(fr[i++%4],5,0,86,96); else x.drawImage(fr[i++%4],0,0,96,96); },120); },
+    var cv=document.getElementById('ft-cv'), x=cv.getContext('2d'), fr=f.king?fairyKingFrames(f.king):fairyFrames(f.F), i=0; clearInterval(FairyTalk._t); FairyTalk._t=setInterval(function(){ if(!cv.isConnected){ clearInterval(FairyTalk._t); return; } x.clearRect(0,0,96,96); x.imageSmoothingEnabled=true; var ch=f.king?(typeof FAIRY_MONARCH_PICK!=='undefined'?'monarch_'+FAIRY_MONARCH_PICK[f.king.q||f.king]:null):(f.F?'fairy_'+f.F.id:null);      // round 69: the painted fairy, not the old pixel one
+      if(ch&&typeof ZAtlas!=='undefined'&&ZAtlas.drawTo(x,ch,['float','idle','move'],'q',i,4,2,88,92)){ i++; return; } if(f.king)x.drawImage(fr[i++%4],5,0,86,96); else x.drawImage(fr[i++%4],0,0,96,96); },120); },
   close:function(){ var el=document.getElementById('fairy-talk'); if(el)el.style.display='none'; } };
 
 // ── trials: see 12b-trial-realm.js (every trial runs in its own temporary arena) ──

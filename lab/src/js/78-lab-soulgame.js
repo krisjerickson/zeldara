@@ -49,7 +49,7 @@ var LSG=(function(){ if(typeof LBR==='undefined'||typeof ZSL==='undefined'||type
   S.closeup=function(c,W,H,t,C){ var D=S.data(), loop=7.5, age=C.kind==='reveal'?((t-S.t0)/1000)%loop:99, tr=age<3.6, zf=C.kind==='reveal'?1-0.16*Math.sin(Math.min(1,age/4.6)*Math.PI):1, v=S.view(W,H,zf), own=v.z.i;
     S.ground(c,W,H,v); if(S.night){ c.fillStyle='rgba(6,10,30,.6)'; c.fillRect(0,0,W,H); }
     var green=C.kind==='green', lit=function(o){ return !(tr&&o===own); };
-    c.drawImage(S.layer(W,H,v,{lit:lit,style:green?'green':'vein',ring:C.ring,ringId:C.ringId,tex:TEX},C.id+(tr?'_t':'')+(TEX('tx_dirt')?'x':'')+(TEX('tx_cobble')?'c':'')),0,0);
+    c.drawImage(S.layer(W,H,v,{lit:lit,style:green?'green':'vein',ring:C.ring,ringId:C.ringId,tex:TEX,grassUnder:green},C.id+(tr?'_t':'')+(TEX('tx_dirt')?'x':'')+(TEX('tx_cobble')?'c':'')+(TEX('tx_grass')?'g':'')),0,0);
     if(tr){ var f=Math.min(1,age/3.4)*(D.reach[own]+2); ZSL.paint(c,D,v.V,{img:IMG,night:S.night,lit:function(o){ return o===own; },ok:function(s,i){ if(!s)return f>=ZSL.RING_R; var p=s.pts[i]; return Math.hypot(p.x-v.z.x,p.y-v.z.y)<=f; },only:D.St.filter(function(s){ return s.owner.indexOf(own)>=0; }).map(function(s){ return s.id; }),zones:[own]}); }
     if(!green)S.motes(c,v,lit,t);
     if(green)S.hamlet(c,v,v.z);

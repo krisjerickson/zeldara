@@ -2642,7 +2642,7 @@ class WorldScene extends Phaser.Scene{
       if(!this._interactPrompt){
         var dCX=nearBuilding.worldX+Math.floor(nearBuilding.w/2)*TILE+TILE/2;
         var dCY=nearBuilding.worldY+(nearBuilding.h-1)*TILE+TILE/2;
-        this._interactPrompt=this.add.text(dCX,dCY-22,'[Tab] Enter '+(bnames[nearBuilding.type]||nearBuilding.type),
+        this._interactPrompt=this.add.text(dCX,dCY-22,'[Tab] Enter '+(nearBuilding.name||bnames[nearBuilding.type]||nearBuilding.type),
           {fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
       }
       if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))this._enterBuilding(nearBuilding);
