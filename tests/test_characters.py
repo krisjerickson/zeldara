@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from harness import game
 SHOTS = sys.argv[1] if len(sys.argv) > 1 else None
 res = []
+BOSSTEX = ('ch_boss_', 'ba_')   # the stand-in, or the painted boss the boss rig (10k) puts on
 def check(n, ok, info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ') + n + ('' if ok else '  -> ' + str(info)), flush=True)
 TP = "(([x,y])=>{var ws=game.scene.getScene('World'); ws.player.x=x*TILE+16; ws.player.y=y*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); ws.cameras.main.centerOn(ws.player.x,ws.player.y);})"
@@ -21,16 +22,25 @@ with game(new=True) as g:
       Object.keys(FAMILIARS).forEach(function(f){ if(!SPIRIT_BY_ID[FAMILIARS[f].design])miss.push('familiar '+f); });
       [1,2,3,4].forEach(function(s){ if(!CHAR_BY_ID['crafts_'+s])miss.push('craftsman '+s); });
       Object.keys(CHAR_NPC_FOR_BUILDING).forEach(function(b){ if(!CHAR_BY_ID[CHAR_NPC_FOR_BUILDING[b]])miss.push('npc '+b); });
-      Object.keys(MDEFS).forEach(function(k){ if(MDEFS[k].boss&&!MDEFS[k].elite&&!CHX.bossId(k,MDEFS[k]))miss.push('boss '+k); });
+      var phased=function(k){ var P=typeof BOSS_PHASES!=='undefined'&&BOSS_PHASES[k]; return !!(P&&P.phases.length&&P.phases.every(function(p){ return typeof BOSS_SLOTS!=='undefined'&&BOSS_SLOTS[p.form]; })); };
+      Object.keys(MDEFS).forEach(function(k){ if(MDEFS[k].boss&&!MDEFS[k].elite&&!CHX.bossId(k,MDEFS[k])&&!phased(k))miss.push('boss '+k); });
       [1,2,3,4].forEach(function(s){ var B=HARBOR_ISLANDS[s]&&HARBOR_ISLANDS[s].boss; if(B&&!CHX.bossId(null,B))miss.push('island boss '+s); });
-      return {c:c,dup:dup,bad:bad,miss:miss}; })()""")
-    check('Roster: 41 NPCs (incl. 12 castle teachers), 11 mounts, 21 bosses + 23 evolved forms + 12 castle wardens + 16 mage-tower masters (familiars are spirits now)', r['c'] == {'npc': 41, 'mount': 11, 'boss': 72}, r['c'])
+      var sub={}; CHAR_ROSTER.forEach(function(R){ var k=R.cat+' | '+R.sub; sub[k]=(sub[k]||0)+1; });
+      return {c:c,sub:sub,dup:dup,bad:bad,miss:miss}; })()""")
+    # round 70: counted by group, so a new group fails by name — 106 NPCs (shops 10, craftsmen 4, village folk 11, harbour islands 4, castle teachers 13,
+    # hamlet folk 40 [round 69], children 24 [round 70]), 11 mounts, 77 bosses (… + 4 forge-masters, 1 in Asgard); familiars are spirits now
+    ROSTER = {'npc | Village shops': 10, 'npc | Craftsmen': 4, 'npc | Village folk': 11, 'npc | Harbor islands': 4, 'npc | Castle teachers': 13, 'npc | Hamlet folk': 40, 'npc | Village folk · children': 24,
+              'mount | Stables': 1, 'mount | Key mounts': 4, 'mount | Legend': 2, 'mount | Sky Port': 4,
+              'boss | Dungeon guardians': 4, 'boss | Tower guardians': 4, 'boss | Island guardians': 4, 'boss | Volcano boss rush': 9, 'boss | Evolved forms': 23, 'boss | Castle wardens': 12,
+              'boss | Mage-tower bosses': 16, 'boss | Forge-masters': 4, 'boss | Asgard': 1}
+    diff = {k: (r['sub'].get(k), v) for k, v in ROSTER.items() if r['sub'].get(k) != v}; diff.update({k: (v, None) for k, v in r['sub'].items() if k not in ROSTER})
+    check('Roster: 106 NPCs, 11 mounts, 77 bosses, by group (%s)' % r['c'], r['c'] == {'npc': 106, 'mount': 11, 'boss': 77} and not diff, diff or r['c'])
     check('Unique ids; every one has look / doing / where text and paints all its frames', not r['dup'] and not r['bad'], (r['dup'], r['bad'][:8]))
-    check('Every mount, familiar, craftsman, shop keeper and boss in the game data has a character', not r['miss'], r['miss'])
+    check('Every mount, familiar, craftsman, shop keeper and boss in the game data has a character (or, for bosses fought in phases, a painted form for each)', not r['miss'], r['miss'])
 
     # ── world bosses use their pixel sprite ──
     wb = g.js("(()=>{ var ws=game.scene.getScene('World'); return ws.worldMonsters.filter(m=>m.def&&m.def.boss).map(m=>[m.type, m.body.texture?m.body.texture.key:'circle']); })()")
-    check('World bosses are drawn with their boss sprites', wb and all(k.startswith('ch_boss_') for _, k in wb), wb)
+    check('World bosses are drawn with their boss sprites (painted, or the stand-in)', wb and all(k.startswith(BOSSTEX) for _, k in wb), wb)
 
     # ── village folk by stage ──
     n1 = g.js("(game.scene.getScene('World')._folk||[]).length")
@@ -62,7 +72,9 @@ with game(new=True) as g:
     g.js("(()=>{ var b=game.scene.getScene('Building'); b._exitBuilding(); })()"); g.wait(1500)
 
     # ── mounts under the hero, all directions ──
-    g.js(TP + "([CENTER_X+1,CENTER_Y+10])"); g.js("(()=>{ var ps=game.scene.getScene('World').playerState; ps.ownedMounts=Object.keys(MOUNTS); ps.godMode=true; })()")
+    # round 44: mounts wait at the village edge, so ride on open ground just outside it
+    g.js("(()=>{ var ws=game.scene.getScene('World'); for(var d=VILLAGE_RADIUS+4;d<VILLAGE_RADIUS+20;d++){ var x=CENTER_X+1, y=CENTER_Y+d, t=ws.tiles[y][x]; if(canPassTile(t,null)&&!FOOT_SLOW[t]&&canPassTile(ws.tiles[y][x+3],null)){ ws.player.x=x*TILE+16; ws.player.y=y*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); ws.cameras.main.centerOn(ws.player.x,ws.player.y); return; } } })()")
+    g.js("(()=>{ var ps=game.scene.getScene('World').playerState; ps.ownedMounts=Object.keys(MOUNTS); ps.godMode=true; })()")
     bad = []
     for m in ['alligator', 'boar', 'lava_unicorn', 'ash_salamander', 'dragon', 'sky_eagle', 'sky_glider', 'storm_drake', 'ember_phoenix', 'void_serpent']:
         g.js(f"game.scene.getScene('World').playerState.mount='{m}'")
@@ -94,7 +106,7 @@ with game(new=True) as g:
         for sec in [1, 2, 3, 4]:
             g.js(LAUNCH + f"(['{typ}',{sec}])"); g.wait(1400)
             gb.append(g.js("(()=>{ var d=game.scene.getScene('Dungeon'); var b=d&&d.monsters.find(m=>m.isBoss); return b?(b.body.texture?b.body.texture.key:'circle'):null; })()"))
-    check('All 8 dungeon/tower guardians use their boss sprites', all(k and k.startswith('ch_boss_') for k in gb), gb)
+    check('All 8 dungeon/tower guardians use their boss sprites', all(k and k.startswith(BOSSTEX) for k in gb), gb)
     if SHOTS:
         g.js("(()=>{ var d=game.scene.getScene('Dungeon'); var b=d.monsters.find(m=>m.isBoss); d.px=b.x-70; d.py=b.y+20; d.pCont.setPosition(d.px,d.py); d.cameras.main.centerOn(b.x,b.y); })()"); g.wait(700)
         g.shot(os.path.join(SHOTS, 'ch_boss_dungeon.png'))
@@ -107,7 +119,7 @@ with game(new=True) as g:
         br.append(g.js("(()=>{ var s=game.scene.getScene('VolcanoBossRush'); return (s.monsters||[]).map(m=>m.body.texture?m.body.texture.key:'circle'); })()"))
         g.js("(()=>{ var s=game.scene.getScene('VolcanoBossRush'); (s.monsters||[]).forEach(m=>{ if(m.cont)m.cont.destroy(); }); if(s.bossIdx<s.bosses.length-1)s._spawnNext(); })()"); g.wait(300)
     flat = [k for w in br for k in w]
-    check('Boss rush: imps use roster sprites, every boss its boss sprite', flat and all(k != 'circle' for k in flat) and sum(1 for k in flat if k.startswith('ch_boss_')) >= 9, br)
+    check('Boss rush: imps use roster sprites, every boss its boss sprite', flat and all(k != 'circle' for k in flat) and sum(1 for k in flat if k.startswith(BOSSTEX)) >= 9, br)
     g.js("(()=>{ game.scene.getScene('VolcanoBossRush').scene.stop(); game.scene.getScene('World').scene.wake('World'); })()"); g.wait(800)
 
     # ── Tome shows the sprites ──
