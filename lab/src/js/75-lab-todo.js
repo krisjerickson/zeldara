@@ -6,8 +6,13 @@
 // ║  · Ticked off by itself once picked (✓); when everything is picked the button says so and stops glowing.
 // ║ To add a decision: LTODO.add({id, label, where, done:function(){…}, go:function(){…}}).
 // ═══════════════════════════════════════════════════════════════════════
+// Round 72b (Kris: "change the "waiting for your picks" so you remove old ones once the picks are complete in the lab. this doesn't need to be
+// immediate, but only after you do a revision of the game or lab"): at each revision Claude checks the picks and lists the decisions now made
+// in RETIRED; those leave the list in that version (a decision made since stays ticked ✓ until the next revision).
 var LTODO={ L:[],
-  add:function(o){ LTODO.L=LTODO.L.filter(function(x){ return x.id!==o.id; }); LTODO.L.push(o); },
+  RETIRED:['sol0','sol1','sol2','soullines','soulstyle','soulgame','hamlets','zfonts','zfonts2','taglines'],      // round 72b
+  add:function(o){ if(LTODO.RETIRED.indexOf(o.id)>=0&&!window.__labNoRetire)return;      /* tests of the old asks set __labNoRetire */ LTODO.L=LTODO.L.filter(function(x){ return x.id!==o.id; }); LTODO.L.push(o); },
+  status:function(){ return LTODO.L.map(function(o){ var d=false; try{ d=!!o.done(); }catch(e){} return {id:o.id,done:d}; }); },      // for the revision check
   open:function(){ return LTODO.L.filter(function(o){ try{ return !o.done(); }catch(e){ return true; } }); },
   // open a tab, wait for it to draw, scroll to the element and flash it
   goTo:function(tab,sel,i){ var A=LabApp; if(A.tab!==tab){ A.tab=tab; A.idx=0; if(document.body.classList.contains('walking')&&A.close)A.close(); A.renderGrid(); }

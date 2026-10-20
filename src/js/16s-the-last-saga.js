@@ -84,7 +84,9 @@ var ZFEAST={ W:1152, H:768,
     var gl=sc.add.image(spot.x,spot.y-20,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xfff0b0).setAlpha(0.5).setScale(1.6).setDepth(spot.y+1); sc.tweens.add({targets:gl,alpha:0.25,duration:1400,yoyo:true,repeat:-1});
     showNotif('🚪 Behind the high seat, golden doors stand open — the feast hall of the gods. [Tab] at the doors.','#fff2b0'); },
   // into the hall: from the citadel (Dungeon) or, for an older save, from the rune circle (World)
-  enter:function(from,key){ var ws=key==='World'?from:from.worldScene; if(!ws)return; try{ if(key==='Dungeon'){ var dh=document.getElementById('dungeon-hud'); if(dh)dh.style.display='none'; } else { var hd=document.getElementById('hud'); if(hd)hd.style.display='none'; } }catch(e){}
+  // round 72 (feast hall polish): no action bar in the hall — there is nothing to fight
+  bars:function(on){ ['action-bar','action-icon-bar','ctrl-hint'].forEach(function(id){ var el=document.getElementById(id); if(!el)return; if(!on){ if(el._fhD===undefined)el._fhD=el.style.display; el.style.display='none'; } else if(el._fhD!==undefined){ el.style.display=el._fhD; el._fhD=undefined; } }); },
+  enter:function(from,key){ var ws=key==='World'?from:from.worldScene; if(!ws)return; ZFEAST.bars(false); try{ if(key==='Dungeon'){ var dh=document.getElementById('dungeon-hud'); if(dh)dh.style.display='none'; } else { var hd=document.getElementById('hud'); if(hd)hd.style.display='none'; } }catch(e){}
     game.scene.sleep(key); game.scene.run('FeastHall',{worldScene:ws,from:key}); },
   // a drawn hall until the painted one is in (and the same hall alive again)
   standin:function(lit){ var W=ZFEAST.W, H=ZFEAST.H, c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d');
@@ -105,7 +107,7 @@ class FeastHallScene extends Phaser.Scene{
   constructor(){ super('FeastHall'); }
   init(d){ this.worldScene=d.worldScene; this.from=d.from||'Dungeon'; this._busy=false; this._freed=!!(this.worldScene&&this.worldScene.playerState&&this.worldScene.playerState.godsFree); }
   create(){ var self=this, W=ZFEAST.W, H=ZFEAST.H, ps=this.worldScene.playerState; this.wd=null;
-    this.cameras.main.setBackgroundColor('#000'); this.cameras.main.setBounds(0,0,W,H); this.cameras.main.setZoom(1.9);
+    this.cameras.main.setBackgroundColor('#000'); this.cameras.main.setBounds(0,0,W,H); this.cameras.main.setZoom(1.5);      /* round 72: a little more of the great hall in view */
     if(typeof CHX!=='undefined')CHX.glow(this);
     if(!this.textures.exists('dot')){ var dc=document.createElement('canvas'); dc.width=dc.height=8; var dx=dc.getContext('2d'); dx.fillStyle='#fff'; dx.beginPath(); dx.arc(4,4,4,0,Math.PI*2); dx.fill(); this.textures.addCanvas('dot',dc); }
     this._bg(this._freed);
@@ -136,7 +138,10 @@ class FeastHallScene extends Phaser.Scene{
       c.add(this.add.circle(0,0,12,0xfff6d0,0.8).setBlendMode(Phaser.BlendModes.ADD)); im=c; }
     this._orbIm=im; this.tweens.add({targets:im,y:'-=6',duration:1800,yoyo:true,repeat:-1,ease:'Sine.inOut'});
     if(!this._orbGlow){ this._orbGlow=this.add.image(x,y,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xfff0b0).setScale(4).setAlpha(0.35).setDepth(y-1); this.tweens.add({targets:this._orbGlow,alpha:0.18,duration:1500,yoyo:true,repeat:-1}); } }
-  _godsIn(anim){ var G=ZFEAST.gods(this,this.ox,this.oy+40,null); this._gods=G; if(!anim)Object.keys(G).forEach(function(k){ G[k].setAlpha(1); }); }
+  // the gods: freed where the orbs were, they walk up to stand before their high seats on the dais (round 72); revisits find them there
+  _godsIn(anim,done){ var self=this, W=ZFEAST.W, H=ZFEAST.H, S={odin:[0.44,0.34],freya:[0.56,0.34]}, G=ZFEAST.gods(this,this.ox,this.oy+40,null); this._gods=G; this.gx=W*0.5; this.gy=H*0.34;
+    if(!anim){ Object.keys(G).forEach(function(k){ G[k].setAlpha(1).setPosition(W*S[k][0],H*S[k][1]+12).setDepth(H*S[k][1]+20); }); if(done)done(); return; }
+    this.time.delayedCall(1300,function(){ var n=0; Object.keys(G).forEach(function(k){ var im=G[k]; self.tweens.add({targets:im,x:W*S[k][0],y:H*S[k][1]+12,duration:2600,ease:'Sine.inOut',onUpdate:function(){ im.setDepth(im.y+8); },onComplete:function(){ if(++n===2&&done)done(); }}); }); }); }
   update(_,ms){ var dt=Math.min(0.1,ms/1000); if(this._busy||(typeof _anyModalOpen==='function'&&_anyModalOpen())||(typeof ZCUT!=='undefined'&&ZCUT.isOpen()))return; this._move(dt); this._near();
     if(this.by>ZFEAST.H*0.975)this._exit(); }
   _move(dt){ var k=this.keys, spd=110, vx=0, vy=0; if(k.LEFT.isDown||k.A.isDown)vx=-spd; if(k.RIGHT.isDown||k.D.isDown)vx=spd; if(k.UP.isDown||k.W.isDown)vy=-spd; if(k.DOWN.isDown||k.S.isDown)vy=spd; if(vx&&vy){ vx*=.707; vy*=.707; }
@@ -148,7 +153,7 @@ class FeastHallScene extends Phaser.Scene{
     if(!this._freed&&Math.hypot((x-this.ox)/1.6,y-this.oy-40)<52)return false; return true; }
   _near(){ var ps=this.worldScene.playerState, d=Math.hypot(this.bx-this.ox,this.by-this.oy-50), t='';
     if(!this._freed&&d<120)t=ZASG&&ZASG.hasStaff(ps)?'[Tab] Raise the Lodestar — Godsbane into the centre':'The orbs hum — the Lodestar could break them';
-    else if(this._freed&&this._gods&&d<120)t='[Tab] Talk to Odin and Freya';
+    else if(this._freed&&this._gods&&Math.hypot(this.bx-this.gx,this.by-this.gy)<140)t='[Tab] Talk to Odin and Freya';
     this.prompt.setText(t).setVisible(!!t).setPosition(this.bx,this.by-40);
     if(t&&Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(this._freed)this._talk(0); else if(ZASG&&ZASG.hasStaff(ps))this._cast(); else showNotif('🌟 Bring the Lodestar — only Godsbane can break the gods\' prison.','#fff2b0'); } }
   // Godsbane into the centre: the orbs crack, burst into shards, and the gods stand free
@@ -161,8 +166,8 @@ class FeastHallScene extends Phaser.Scene{
     if(this._orbIm){ this.tweens.killTweensOf(this._orbIm); this._orbIm.destroy(); this._orbIm=null; } if(this._orbGlow){ this._orbGlow.destroy(); this._orbGlow=null; }
     var b=Z&&Z.has('fh_orbs_burst')?Z.image(this,'fh_orbs_burst',x,y+110,1,9300):null; if(b){ b.setBlendMode(Phaser.BlendModes.ADD); this.tweens.add({targets:b,scaleX:b.scaleX*1.8,scaleY:b.scaleY*1.8,alpha:0,duration:1800,onComplete:function(){ b.destroy(); }}); }
     var em=this.add.particles(x,y,'dot',{speed:{min:40,max:260},angle:{min:0,max:360},lifespan:{min:1400,max:3200},gravityY:30,scale:{start:0.6,end:0},alpha:{start:1,end:0},tint:[0xfff6d0,0xf2c14e,0xffffff],blendMode:'ADD',emitting:false}).setDepth(9350); em.explode(260);
-    this.time.delayedCall(1700,function(){ ZLS.play(ps,'fh_free',function(){ self._freed=true; ps.godsFree=1; self._bg(true); self._godsIn(true); if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('the gods are free'); }catch(e){}
-      self.time.delayedCall(1400,function(){ ZLS.play(ps,'fh_truth',function(){ self._busy=false; self._talk(0); }); }); }); }); }
+    this.time.delayedCall(1700,function(){ ZLS.play(ps,'fh_free',function(){ self._freed=true; ps.godsFree=1; self._bg(true); if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('the gods are free'); }catch(e){}
+      self._godsIn(true,function(){ self.time.delayedCall(600,function(){ ZLS.play(ps,'fh_truth',function(){ self._busy=false; self._talk(0); }); }); }); }); }); }
   // the truth, in their words ([Tab] for more)
   _talk(i){ var self=this, L=ZFEAST.LINES, P=L[i], G=ZFEAST.GOD[P[0]], last=i+1>=L.length;
     var draw=function(x,t){ if(typeof ZAtlas!=='undefined'&&ZAtlas.drawTo&&ZAtlas.drawTo(x,G.id,['talk','idle'],'f',t,4,2,88,92))return; var R=typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[G.id]; if(R&&typeof chFrames==='function'){ try{ var fr=chFrames(R); x.imageSmoothingEnabled=false; x.drawImage(fr[(t>>2)%fr.length],8,8,80,80); }catch(e){} } };
@@ -171,7 +176,7 @@ class FeastHallScene extends Phaser.Scene{
   _goAhead(){ var self=this, ps=this.worldScene.playerState; ps.godsTold=1; if(typeof FairyTalk!=='undefined')try{ FairyTalk.close(); }catch(e){}
     showNotif('🌟 Odin and Freya go ahead to the rune circle at the heart of Asgard. Meet them there with the Lodestar.','#fff2b0');
     if(this._gods)Object.keys(this._gods).forEach(function(k){ var im=self._gods[k]; self.tweens.add({targets:im,alpha:0,y:im.y-50,duration:1600,onComplete:function(){ im.destroy(); }}); }); this._gods=null; }
-  _exit(){ var from=this.from; this.scene.stop('FeastHall'); try{ if(from==='Dungeon'){ var dh=document.getElementById('dungeon-hud'); if(dh)dh.style.display=''; } else { var hd=document.getElementById('hud'); if(hd)hd.style.display=''; } }catch(e){}
+  _exit(){ var from=this.from; ZFEAST.bars(true); this.scene.stop('FeastHall'); try{ if(from==='Dungeon'){ var dh=document.getElementById('dungeon-hud'); if(dh)dh.style.display=''; } else { var hd=document.getElementById('hud'); if(hd)hd.style.display=''; } }catch(e){}
     game.scene.wake(from); }
 }
 

@@ -80,7 +80,7 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errs.append(str(e)))
     pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=os.environ.get('PHASER_JS', os.path.join(R, 'tests', '.phaser', 'package', 'dist', 'phaser.min.js')), content_type="application/javascript"))
     pg.route(re.compile(r".*fonts.*"), lambda r: r.abort()); pg.route("http://lab.test/**", serve)
-    pg.goto('http://lab.test/'); pg.wait_for_timeout(2500); pg.click('.lab-tab[data-tab="tpieces"]'); pg.wait_for_timeout(2500)
+    pg.goto('http://lab.test/?tabs=all'); pg.wait_for_timeout(2500); pg.click('.lab-tab[data-tab="tpieces"]'); pg.wait_for_timeout(2500)
     r = pg.evaluate("""()=>{ var cards=document.querySelectorAll('.br-card[data-id^="look_"]'), rec=document.querySelectorAll('.br-card[data-id^="look_"] .bb-m').length;
       var px=0, cv=document.querySelector('.br-card[data-id="look_dens_natural"] canvas'), d=cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data; for(var i=3;i<d.length;i+=4*97)if(d[i])px++;
       document.querySelector('.br-card[data-id="look_sway_breezy"] .br-pick').click(); document.querySelector('.br-card[data-id="look_sway_still"] .br-pick').click();

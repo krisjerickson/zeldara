@@ -18,7 +18,7 @@ with sync_playwright() as p:
     pg.route(re.compile(r".*fonts.*"), lambda r: r.abort())
     html = open(os.path.join(HERE, '..', 'lab', 'index.html'), encoding='utf-8').read()
     pg.route("http://lab.test/**", lambda r: r.fulfill(body=html, content_type="text/html"))
-    pg.goto("http://lab.test/"); pg.wait_for_timeout(1500)
+    pg.goto("http://lab.test/?tabs=all"); pg.wait_for_timeout(1500)
     r = pg.evaluate("""(()=>{ var c={}, ids={}, dup=[], bad=[], reuse=[];
       MON_ROSTER.forEach(function(m){ var k=m.q+':'+(m.seg==='dun'?m.role:m.seg); c[k]=(c[k]||0)+1; if(ids[m.id])dup.push(m.id); ids[m.id]=1; if(m.reuse)reuse.push(m.reuse);
         try{ var f=msFrames(m.spec); var x=f[3].getContext('2d').getImageData(0,0,32,32).data, n=0; for(var i=3;i<x.length;i+=4)if(x[i]>0)n++; if(f.length!==4||n<40)bad.push(m.id+':'+n); }catch(e){ bad.push(m.id+':'+e.message); }

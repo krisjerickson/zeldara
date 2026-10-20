@@ -16,7 +16,7 @@ with sync_playwright() as p:
     pg.route(re.compile(r".*fonts.*"),lambda r: r.abort())
     html=open(os.path.join(HERE,'..','lab','index.html'),encoding='utf-8').read()
     pg.route("http://lab.test/**",lambda r: r.fulfill(body=html,content_type="text/html"))
-    pg.goto("http://lab.test/"); pg.wait_for_timeout(1500)
+    pg.goto("http://lab.test/?tabs=all"); pg.wait_for_timeout(1500)
     audit=pg.evaluate("""(()=>{ var t=LAB_TABS.find(t=>t.id==='world'); return t.designs.map(function(d){ var t0=performance.now(), m=d.build(d.seed||7), ms=performance.now()-t0;
       var sx=Math.floor(m.spawn.x/LT), sy=Math.floor(m.spawn.y/LT), open=0; for(var k=0;k<m.w*m.h;k++)if(!m.solid[k])open++;
       return {g:d.group,id:d.id,ms:Math.round(ms),open:open,spawnOk:!mapSolid(m,sx,sy),labels:m.labels.length,runes:m.stats.runes,lights:m.lights.length}; }); })()""")

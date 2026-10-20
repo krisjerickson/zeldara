@@ -66,7 +66,7 @@ with sync_playwright() as p:
         if os.path.isfile(f): r.fulfill(path=f)
         else: r.fulfill(status=404, body='')
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html"); pg.wait_for_timeout(2000)
-    t = pg.evaluate("LTODO.open().map(function(o){ return o.id; })")
+    t = pg.evaluate("LTODO.open().map(function(o){ return o.id; }).concat(LTODO.RETIRED||[])")
     pg.evaluate("LTODO.goTo('zfonts','.zf-one',0)"); pg.wait_for_timeout(2500)
     n = pg.evaluate("document.querySelectorAll('.zf-one canvas.br-cv[data-id^=\"pg_\"]').length"); ntg = pg.evaluate("document.querySelectorAll('.zf-one canvas.br-cv[data-id^=\"tg_\"]').length")
     lit = []

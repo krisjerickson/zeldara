@@ -41,7 +41,7 @@ with sync_playwright() as p:
     b=p.chromium.launch(args=["--use-gl=swiftshader","--enable-unsafe-swiftshader"]); pg=b.new_page(viewport={'width':1280,'height':1000}); errs=[]
     pg.on('pageerror',lambda e: errs.append(str(e)))
     pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
-    pg.goto('file://'+os.path.join(HERE,'..','lab','index.html')); pg.wait_for_timeout(1500)
+    pg.goto('file://'+os.path.join(HERE,'..','lab','index.html')+'?tabs=all'); pg.wait_for_timeout(1500)
     pg.click('.lab-tab:has-text("Projectiles")'); pg.wait_for_timeout(900)
     r=pg.evaluate("""(()=>{ var cards=document.querySelectorAll('.br-card[data-tab=proj]'), bad=[], cv=document.createElement('canvas'); cv.width=120; cv.height=80; var c=cv.getContext('2d');
       [['arrow','arrow_cold','arrow_fire','arrow_heat','dart'],['frost_bolt','fireball','lightning','ice_shards','void_orb'],['rock','spit','bone_arrow','dark_bolt']].forEach(function(K,gi){ [ZProj.ARROWS,ZProj.SPELLS,ZProj.SHOTS][gi].forEach(function(S){ K.forEach(function(k){ c.setTransform(1,0,0,1,0,0); c.clearRect(0,0,120,80); c.translate(60,40); try{ ZProj.draw(c,k,S,1.3); }catch(e){ bad.push(S.id+'/'+k+' '+e.message); return; } var d=c.getImageData(0,0,120,80).data, n=0; for(var i=3;i<d.length;i+=4)if(d[i]>60)n++; if(n<25)bad.push(S.id+'/'+k+' ink '+n); }); }); });

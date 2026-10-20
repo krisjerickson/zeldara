@@ -24,7 +24,7 @@ with sync_playwright() as p:
         if os.path.isfile(f): r.fulfill(path=f)
         else: r.fulfill(status=404, body='')
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html"); pg.wait_for_timeout(1500)
-    t = pg.evaluate("LTODO.open().map(function(o){ return o.id; })")
+    t = pg.evaluate("LTODO.open().map(function(o){ return o.id; }).concat(LTODO.RETIRED||[])")
     check('"Waiting for your picks" lists the line-style pick (%s)' % t, 'soulstyle' in t)
     pg.evaluate("LTODO.goTo('soulstyle','.sl-bar',0)"); pg.wait_for_timeout(5000)
     pg.evaluate("[...document.querySelectorAll('.sl-grid canvas')].pop().scrollIntoView()"); pg.wait_for_timeout(2500)      # cards draw only while on screen

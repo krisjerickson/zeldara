@@ -92,7 +92,7 @@ if only in (None,'lab'):
         b=p.chromium.launch(args=["--use-gl=swiftshader","--enable-unsafe-swiftshader"]); pg=b.new_page(viewport={'width':1280,'height':1000}); errs=[]
         pg.on('pageerror',lambda e: errs.append(str(e)))
         pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
-        pg.goto('file://'+os.path.abspath(os.path.join(os.path.dirname(__file__),'..','lab','index.html'))); pg.wait_for_timeout(1500)
+        pg.goto('file://'+os.path.abspath(os.path.join(os.path.dirname(__file__),'..','lab','index.html'))+'?tabs=all'); pg.wait_for_timeout(1500)
         pg.click('.lab-tab:has-text("Bosses")'); pg.wait_for_timeout(1500)
         n=pg.evaluate("[document.querySelectorAll('.bb-atk').length, (document.querySelector('.bb-row[data-slot=\"bf_rock_dragon_4\"] .bb-atk')||{}).textContent||'']")
         check('Lab: every boss row lists its signature attacks (+ last stand on final forms)', n[0]>=70 and 'Strafing run' in n[1] and 'last stand' in n[1], n)

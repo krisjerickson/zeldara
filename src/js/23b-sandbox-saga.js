@@ -17,7 +17,7 @@ var SBSAGA={
     var ws=SBSAGA.ws(); if(!ws)return;
     setTimeout(function(){      // the resume lands on the next game step; only then can a site be left (stopping a paused scene that is about to resume leaves it running)
       try{ if(typeof _sbStopAdventure==='function')_sbStopAdventure(); }catch(e){}
-      ['Dungeon','VolcanoMaze','VolcanoBulletHell','VolcanoPuzzle','VolcanoEscape'].forEach(function(k){ try{ if(game.scene.isActive(k)||game.scene.isPaused(k))game.scene.stop(k); }catch(e){} });
+      ['Dungeon','VolcanoMaze','VolcanoBulletHell','VolcanoPuzzle','VolcanoEscape','FeastHall'].forEach(function(k){ try{ if(game.scene.isActive(k)||game.scene.isPaused(k))game.scene.stop(k); }catch(e){} }); try{ if(typeof ZFEAST!=='undefined'&&ZFEAST.bars)ZFEAST.bars(true); }catch(e){}      /* round 72: the feast hall too */
       try{ if(game.scene.isSleeping('World'))game.scene.wake('World'); if(game.scene.isPaused('World'))game.scene.resume('World'); document.getElementById('hud').style.display=''; document.getElementById('dungeon-hud').style.display='none'; }catch(e){}
       setTimeout(function(){ try{ fn(ws,SBSAGA.ps(ws)); }catch(e){ console.warn('saga sandbox',e); showNotif('That milestone hit a snag: '+e.message,'#ff6666'); } },250); },150); },
   tp:function(ws,x,y){ ws.player.x=x; ws.player.y=y; ws.player.cont.setPosition(x,y); if(ws.cameras&&ws.cameras.main)ws.cameras.main.centerOn(x,y); },
@@ -128,7 +128,7 @@ var SBSAGA={
       if(kind==='village'){ ps.spiritsHome=0; if(typeof ZCINE!=='undefined')ZCINE.bars(true); var L=[]; ZLS.village(ws,L,function(){ ZEND.finish(ws,L); }); return; }
       if(kind==='celebrate'){ ZLS.play(ps,'celebrate'); return; }
       if(kind==='credits'){ ZLS.credits(ps,function(){ ZLS.play(ps,'after'); }); return; }
-      if(kind==='roam'){ ps.spiritsHome=1; ps.creditsSeen=1; if(ws._villageFolkInit)try{ ws._villageFolkInit(); }catch(e){} SBSAGA.tp(ws,(CENTER_X+0.5)*TILE,(CENTER_Y+5)*TILE); showNotif('🌅 After the end: Runeheim is green — the hamlets, their children, free roam.','#fff2b0'); } }); },
+      if(kind==='roam'){ ps.spiritsHome=1; ps.creditsSeen=1; ps.asgardDown=1; ps.bifrost=1; ps.muspSunk=1; if(ws.wd&&!ws.wd._volcCarved&&typeof _spawnVolcanoVisuals==='function')try{ _spawnVolcanoVisuals(ws); }catch(e){}      /* round 72: so the after-the-end world shows (16t): Asgard sunk to its spires, the forges gone */ if(ws._villageFolkInit)try{ ws._villageFolkInit(); }catch(e){} SBSAGA.tp(ws,(CENTER_X+0.5)*TILE,(CENTER_Y+5)*TILE); showNotif('🌅 After the end: Runeheim is green — the hamlets, their children, free roam. Asgard has sunk to its spires, the forges are gone, and no monster walks the land.','#fff2b0'); } }); },
   show:function(){ if(!SBSAGA.ws())return; closeModal('sandbox'); var el=document.getElementById('modal-saga');
     if(!el){ el=document.createElement('div'); el.id='modal-saga'; el.className='overlay'; el.style.display='none'; el.onclick=function(e){ if(e.target===el)closeModal('saga'); }; document.body.appendChild(el); }
     var A=SBSAGA.ARCS(), H=[]; SBSAGA._fn=[];

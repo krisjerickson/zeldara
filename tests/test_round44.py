@@ -97,7 +97,7 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errs.append(str(e)))
     pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=os.environ.get('PHASER_JS', os.path.join(R0, 'tests', '.phaser', 'package', 'dist', 'phaser.min.js')), content_type="application/javascript"))
     pg.route(re.compile(r".*fonts.*"), lambda r: r.abort()); pg.route("http://lab.test/**", serve)
-    pg.goto('http://lab.test/'); pg.wait_for_timeout(2500); pg.click('.lab-tab[data-tab="asites"]'); pg.wait_for_timeout(3000)
+    pg.goto('http://lab.test/?tabs=all'); pg.wait_for_timeout(2500); pg.click('.lab-tab[data-tab="asites"]'); pg.wait_for_timeout(3000)
     r = pg.evaluate("""()=>{ var o={chips:document.querySelectorAll('.as-site').length, cards:document.querySelectorAll('.br-card[data-tab=asites]').length};
       document.querySelector('[data-asite="lava_archipelago"]').click(); o.head=(document.querySelector('.as-head h3')||{}).textContent;
       document.querySelector('.br-card[data-id="lava_archipelago__1"] .br-pick').click(); document.querySelector('.br-card[data-id="lava_archipelago__2"] .br-pick').click();

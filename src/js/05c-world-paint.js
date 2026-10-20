@@ -308,12 +308,12 @@ function wpChunkJob(wd,cx,cy){
       if(phase===2){ // 3. built-surface patterns: cached world-aligned tiles, clipped to each kind
         if(!pq){ pq=[]; var bb={};
           for(var sy=0;sy<SW;sy++)for(var sx=0;sx<SW;sx++){ var kq=kb[sy*SW+sx], kd=KL[kq]; if(!kd.pattern||!WPATTERN[kd.pattern])continue; if(texOf[kq]===undefined){ var zs0=_scn(); texOf[kq]=(zs0&&zs0.ground(kd.id,kd.pattern))||0; } if(texOf[kq])continue; var b0=bb[kq]||(bb[kq]=[sx,sy,sx,sy]); if(sx<b0[0])b0[0]=sx; if(sy<b0[1])b0[1]=sy; if(sx>b0[2])b0[2]=sx; if(sy>b0[3])b0[3]=sy; }
-          Object.keys(bb).forEach(function(kq){ pq.push([+kq,bb[kq]]); });
+          Object.keys(bb).forEach(function(kq){ _wpBands(pq,+kq,bb[kq],0,S,GW); });      /* round 72 (lag): in bands of rows — one band a slice */
           // painted ground textures (04h, round 30): the kinds that have one get its marks laid over their generated colour
           var Zs=_scn(), tb={}; if(Zs){ for(var sy2=0;sy2<SW;sy2+=2)for(var sx2=0;sx2<SW;sx2+=2){ var kt=kb[sy2*SW+sx2], tid=texOf[kt]; if(tid===undefined)tid=texOf[kt]=Zs.ground(KL[kt].id,KL[kt].pattern)||0; if(!tid)continue; var b1=tb[kt]||(tb[kt]=[sx2,sy2,sx2,sy2]); if(sx2<b1[0])b1[0]=sx2; if(sy2<b1[1])b1[1]=sy2; if(sx2+1>b1[2])b1[2]=Math.min(SW-1,sx2+1); if(sy2+1>b1[3])b1[3]=Math.min(SW-1,sy2+1); }
-            Object.keys(tb).forEach(function(kq){ pq.push([+kq,tb[kq],texOf[kq]]); }); } }
+            Object.keys(tb).forEach(function(kq){ _wpBands(pq,+kq,tb[kq],texOf[kq],S,GW); }); } }
         if(!pq.length){ phase=3; row=0; continue; }
-        var item=pq.shift(); if(item[2])_wpTexFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1],item[2],/v$/.test(KL[item[0]].id)&&KL[item[0]].pattern==='planks'); else _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1]);
+        var item=pq.shift(); if(item[2])_wpTexFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1],item[2],/v$/.test(KL[item[0]].id)&&KL[item[0]].pattern==='planks',item[3]); else _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,item[0],item[1],item[3]);
         continue; }
       if(phase===3){ // 4. per-tile decoration, liquid glints, kind glows, walls
         var fake=_wpFakeC(wd,out,ox,oy);
@@ -405,7 +405,15 @@ function _wpPatTile(ki){
 }
 // A painted texture over one kind of ground: the same world-aligned fill and kind mask as a pattern, laid on with 'overlay'
 // (light and dark only), so each zone keeps its own grass colour.
-function _wpTexFill(ctx,kb,SW,S,GW,ox,oy,ki,b,tid,turn){
+// round 72 (lag, doc 33): a fill split into bands of WP_BAND tile rows. Each band reads the ground one tile beyond its rows (so the soft edge of
+// the mask is the same) but draws only its own rows (clip: [first row, last row + 1] in tiles, null = no limit), so no row is laid twice.
+var WP_BAND=8;
+function _wpBands(pq,ki,b,tid,S,GW){ var t0=Math.floor(b[1]/S), t1=Math.floor(b[3]/S), B=WP_BAND;
+  if(t1-t0<B*1.5){ pq.push([ki,b,tid,null]); return; }
+  for(var r=t0;r<=t1;r+=B){ var r1=Math.min(t1,r+B-1), y0=Math.max(b[1],(r-1)*S), y1=Math.min(b[3],(r1+2)*S-1); if(y1<y0)continue;
+    pq.push([ki,[b[0],y0,b[2],y1],tid,[r===t0?-99:r,r1>=t1?999:r1+1]]); } }
+function _wpClip(ctx,clip,f){ if(!clip){ f(); return; } ctx.save(); ctx.beginPath(); ctx.rect(-99999,clip[0]*LT,199998,(clip[1]-clip[0])*LT); ctx.clip(); f(); ctx.restore(); }
+function _wpTexFill(ctx,kb,SW,S,GW,ox,oy,ki,b,tid,turn,clip){
   var Zs=_scn(), ta=Zs?Zs.texa(tid):[0.5,0.9], tile=Zs&&Zs.detail(tid,128,ta[1]); if(!tile)return; if(turn)tile=Zs.turned(tile);
   var bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by; if(bw<=0||bh<=0)return;
   var W2=bw*LT, H2=bh*LT, lay=mkCanvas(W2,H2), g=lay.getContext('2d'), P={w:tile.width,h:tile.height};
@@ -414,9 +422,9 @@ function _wpTexFill(ctx,kb,SW,S,GW,ox,oy,ki,b,tid,turn){
   var mc=mkCanvas(bw*S,bh*S), mx=mc.getContext('2d'), im=mx.createImageData(bw*S,bh*S), dd=im.data;
   for(var yy=0;yy<bh*S;yy++)for(var xx=0;xx<bw*S;xx++){ if(kb[(yy+by*S)*SW+xx+bx*S]===ki)dd[(yy*bw*S+xx)*4+3]=255; }
   mx.putImageData(im,0,0); g.globalCompositeOperation='destination-in'; g.imageSmoothingEnabled=true; g.drawImage(mc,0,0,W2,H2);
-  ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=ta[0]; ctx.drawImage(lay,bx*LT,by*LT); ctx.restore();
+  _wpClip(ctx,clip,function(){ ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=ta[0]; ctx.drawImage(lay,bx*LT,by*LT); ctx.restore(); });
 }
-function _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,ki,b){
+function _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,ki,b,clip){
   var bx=Math.max(0,Math.floor(b[0]/S)-1), by=Math.max(0,Math.floor(b[1]/S)-1), bw=Math.min(GW,Math.ceil((b[2]+1)/S)+1)-bx, bh=Math.min(GW,Math.ceil((b[3]+1)/S)+1)-by;
   var P=_wpPatTile(ki), W2=bw*LT, H2=bh*LT, lay=mkCanvas(W2,H2), g=lay.getContext('2d');
   g.fillStyle=g.createPattern(P.cv,'repeat'); var wx=ox+bx*LT, wy=oy+by*LT, sx=((wx%P.w)+P.w)%P.w, sy=((wy%P.h)+P.h)%P.h;
@@ -424,7 +432,7 @@ function _wpPatternFill(ctx,kb,SW,S,GW,ox,oy,ki,b){
   var mc=mkCanvas(bw*S,bh*S), mx=mc.getContext('2d'), im=mx.createImageData(bw*S,bh*S), dd=im.data;
   for(var yy=0;yy<bh*S;yy++)for(var xx=0;xx<bw*S;xx++){ if(kb[(yy+by*S)*SW+xx+bx*S]===ki)dd[(yy*bw*S+xx)*4+3]=255; }
   mx.putImageData(im,0,0); g.globalCompositeOperation='destination-in'; g.imageSmoothingEnabled=true; g.drawImage(mc,0,0,W2,H2);
-  ctx.drawImage(lay,bx*LT,by*LT);
+  _wpClip(ctx,clip,function(){ ctx.drawImage(lay,bx*LT,by*LT); });
 }
 // A stand-in for the Lab builder context, enough for props and deco to draw.
 function _wpFakeC(wd,out,ox,oy){

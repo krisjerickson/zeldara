@@ -53,14 +53,14 @@ with sync_playwright() as p:
         if os.path.isfile(f): r.fulfill(path=f)
         else: r.fulfill(status=404, body='')
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html"); pg.wait_for_timeout(2000)
-    t = pg.evaluate("({sets:ZBrand.FONTSETS.length, fz:ZBrand.FZ.length, todo:LTODO.open().map(function(o){ return o.id; }), fonts:ZBrand.FONTSETS.filter(function(D){ return document.fonts.check(D.wt+' 20px \"'+D.fam+'\"'); }).length})")
+    t = pg.evaluate("({sets:ZBrand.FONTSETS.length, fz:ZBrand.FZ.length, todo:LTODO.open().map(function(o){ return o.id; }).concat(LTODO.RETIRED||[]), fonts:ZBrand.FONTSETS.filter(function(D){ return document.fonts.check(D.wt+' 20px \"'+D.fam+'\"'); }).length})")
     check('Twelve font sets, 24 title panels; "Waiting for your picks" asks for a font (%s)' % t, t['sets'] == 12 and t['fz'] == 24 and 'zfonts' in t['todo'] and t['fonts'] == 12, t)
     pg.evaluate("LTODO.goTo('zfonts','.br-grid',0)"); pg.wait_for_timeout(2500); pg.evaluate("document.querySelectorAll('details.br-ref').forEach(function(d){ d.open=true; })"); pg.wait_for_timeout(800)   # round 71: round 70's sets are a reference section
     lit = []
     for i in ['fz_uncial_p', 'fz_italiana_e', 'fz_grenze_e', 'abc_caveat']:
         pg.evaluate("document.querySelector('canvas.br-cv[data-id=\"%s\"]').scrollIntoView()" % i); pg.wait_for_timeout(1500)
         lit.append(pg.evaluate("(()=>{ var c=document.querySelector('canvas.br-cv[data-id=\"%s\"]'), d=c.getContext('2d').getImageData(0,0,c.width*0.56|0,c.height).data, n=0; for(var i=0;i<d.length;i+=32)if(d[i]>180&&d[i+1]>120)n++; return n; })()" % i))
-    n = pg.evaluate("[...document.querySelectorAll('canvas.br-cv[data-tab=\"zfonts\"]')].filter(function(c){ return !/^pg_/.test(c.dataset.id); }).length")
+    n = pg.evaluate("[...document.querySelectorAll('canvas.br-cv[data-tab=\"zfonts\"]')].filter(function(c){ return !/^(pg|tg)_/.test(c.dataset.id); }).length")
     check('The Fonts tab: 36 cards (each set\'s plain, elaborate and alphabets), the lettering drawn (%s)' % lit, n == 36 and all(x > 200 for x in lit), lit)
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d / %d passed' % (sum(res), len(res)))

@@ -174,6 +174,15 @@ try {
     S.req.map(q => '## ' + q.id + (q.pilot ? ' (pilot)' : '') + '\n\n' + q.title + ' · wave ' + q.wave + ' · ' + q.items.length + ' items, ' + q.cols + ' × ' + q.rows + ' · ' + q.size + '\n\n' + q.items.map(it => '- `' + it.id + '` ' + it.name + ' — ' + it.w + ' × ' + it.h + ' px').join('\n') + '\n\nAttach: ' + q.refs.join(', ') + '\n\n```\n' + full(q) + '\n```\n').join('\n'));
   console.log(`✓ sprites/requests/scenery.json  ${S.stats.sheets} scenery sheets, ${S.stats.items} items (${S.stats.pilot} pilot sheets)`);
 } catch (e) { console.warn('! scenery requests not exported: ' + e.message); }
+// ── Round 72: the music and sound list (src/js/07zau-audio-cues.js, doc 32) → sprites/requests/audio.json, for tools/audio (the effects script)
+try {
+  const vm = await import('node:vm'); const ctx = {}; ctx.globalThis = ctx;
+  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zau-audio-cues.js'), 'utf8') + '\n;globalThis.__aud=JSON.stringify({stats:ZAUD.stats(),style:ZAUD.STYLE,sfxStyle:ZAUD.SFXSTYLE,ambStyle:ZAUD.AMBSTYLE,cues:ZAUD.all().map(function(c){ return Object.assign({request:ZAUD.request(c)},c); })});', ctx);
+  const S = JSON.parse(ctx.__aud), ids = {}; S.cues.forEach(c => { if (ids[c.id]) throw new Error('audio id used twice: ' + c.id); ids[c.id] = 1; });
+  fs.mkdirSync(path.join(ROOT, 'sprites', 'requests'), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, 'sprites', 'requests', 'audio.json'), JSON.stringify({ made: 'build.mjs from src/js/07zau-audio-cues.js — do not edit by hand', how: 'music: paste request into Suno (Instrumental on); amb and sfx: sent by tools/audio (doc 32 §3.2)', stats: S.stats, cues: S.cues }, null, 0));
+  console.log(`✓ sprites/requests/audio.json  ${S.cues.length} sounds (${S.stats.music} music, ${S.stats.sting} stingers, ${S.stats.amb} ambience, ${S.stats.sfx} effects)`);
+} catch (e) { console.warn('! audio requests not exported: ' + e.message); }
 
 // ── Hosting: dist/ = what gets deployed — the home page at /, the game at /play, the Design Lab at /lab
 // (vercel.json: buildCommand "npm run build", outputDirectory "dist")

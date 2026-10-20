@@ -15,7 +15,7 @@ with sync_playwright() as p:
     pg.route(re.compile(r".*fonts.*"),lambda r: r.abort())
     html=open(os.path.join(HERE,'..','lab','index.html'),encoding='utf-8').read()
     pg.route("http://lab.test/**",lambda r: r.fulfill(body=html,content_type="text/html"))
-    pg.goto("http://lab.test/"); pg.wait_for_timeout(1200)
+    pg.goto("http://lab.test/?tabs=all"); pg.wait_for_timeout(1200)
     r=pg.evaluate("""(()=>{ var t0=performance.now(), M=buildWorldMap(12345), ms=performance.now()-t0, W=M.W, seen=worldMapReach(M);
       var zc={}, ocean=0, edgeLand=0; for(var i=0;i<W*M.H;i++){ var c=M.cls[i]; if(c===WM.OCEAN||c===WM.SHALLOW)ocean++; var x=i%W,y=(i/W)|0; if((x<8||y<8||x>=W-8||y>=M.H-8)&&!(c===WM.OCEAN||c===WM.SHALLOW))edgeLand++;
         var z=M.zone[i]; if(z!==255&&(c===WM.LAND||c===WM.ROAD||c===WM.BEACH||c===WM.PEAK)){ zc[z]=zc[z]||[0,0]; zc[z][0]++; if(seen[i])zc[z][1]++; } }

@@ -50,7 +50,7 @@ Object.assign(WorldScene.prototype,{
       if(!W.chunks.has(n.key)&&!W.jobs.has(n.key)&&!rdy[n.key])W.jobs.set(n.key,{n:n,job:wpChunkJob(self.wd,n.cx,n.cy)}); });
     // run paint jobs: visible chunks first; more time while something visible is missing
     var missingVis=need.some(function(n){ return n.vis&&!W.chunks.has(n.key)&&!rdy[n.key]; });
-    var budget=sync?1e9:(missingVis?14:6), t0=performance.now(), PF=typeof ZPERF!=='undefined'&&ZPERF.on;
+    var QB=typeof ZQUAL!=='undefined'?ZQUAL.budget:[6,14], budget=sync?1e9:(missingVis?QB[1]:QB[0]),      /* round 72: smaller on phones (10c2-quality.js) */ t0=performance.now(), PF=typeof ZPERF!=='undefined'&&ZPERF.on;
     // round 44 (lag): a finished chunk is mounted at the start of a later frame, one per frame — mounting uploads big pictures to the GPU, and doing
     // it in the same frame as painting made a long frame every time a chunk was finished
     W.ready=W.ready||[]; if(W.ready.length){ var R0=W.ready.shift(), tm=performance.now(); if(keep[R0.key]||sync){ var old0=W.chunks.get(R0.key); if(old0)this._wrUnmount(old0); W.chunks.set(R0.key,this._wrMount(R0.out)); } if(PF)ZPERF.note('mount',performance.now()-tm); if(!sync)t0=performance.now()-Math.min(budget,performance.now()-tm)*0.5; }
@@ -81,7 +81,8 @@ Object.assign(WorldScene.prototype,{
   _wrMount(o){
     var self=this, tag=(this._wrTag||'wc')+(this._wr.seq++), objs=[], keys=[], react=[], x0=o.cx*WCH*LT, y0=o.cy*WCH*LT, tall=null;
     var addTex=function(k,cv){ gpuTex(self,k,cv); keys.push(k); return k; };
-    objs.push(this.add.image(x0,y0,addTex(tag,o.canvas)).setOrigin(0,0).setDepth(-10));
+    var gs=typeof ZQUAL!=='undefined'?ZQUAL.small(o.canvas):null;      /* round 72 (phones): the ground uploaded at half size, shown at full — a quarter of the upload and of the graphics memory */
+    objs.push(this.add.image(x0,y0,addTex(tag,gs?gs.cv:o.canvas)).setOrigin(0,0).setDepth(-10).setScale(gs?gs.k:1));
     if(o.lavaMask){ var mk=addTex(tag+'_m',o.lavaMask);
       // both flowing layers share ONE bitmap mask (each mask costs extra full-screen passes)
       var lc=this.add.container(x0,y0).setDepth(-9), mi=self.make.image({x:x0,y:y0,key:mk,add:false}).setOrigin(0,0);
@@ -90,7 +91,7 @@ Object.assign(WorldScene.prototype,{
         ts._flow={vx:q[2],vy:q[3]}; ts.tilePositionX=x0; ts.tilePositionY=y0; lc.add(ts); });
       ZENG.mask(lc,mi,mk); lc._lava=lc.list; objs.push(lc); objs.push(mi);
     }
-    if(o.ley){ var li=this.add.image(x0,y0,addTex(tag+'_ley',o.ley)).setOrigin(0,0).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.8).setDepth(-5); objs.push(li);
+    if(o.ley){ var ls=typeof ZQUAL!=='undefined'?ZQUAL.small(o.ley):null, li=this.add.image(x0,y0,addTex(tag+'_ley',ls?ls.cv:o.ley)).setOrigin(0,0).setScale(ls?ls.k:1).setBlendMode(Phaser.BlendModes.ADD).setAlpha(0.8).setDepth(-5); objs.push(li);
       this.tweens.add({targets:li,alpha:0.5,duration:2200,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
     // sprites → the chunk's atlas (packed by the paint job)
     if(o.atlas){ var at=addTex(tag+'_a',o.atlas), tex=this.textures.get(at);

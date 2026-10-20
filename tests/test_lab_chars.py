@@ -17,7 +17,7 @@ with sync_playwright() as p:
     pg.route(re.compile(r".*fonts.*"), lambda r: r.abort())
     html = open(os.path.join(HERE, '..', 'lab', 'index.html'), encoding='utf-8').read()
     pg.route("http://lab.test/**", lambda r: r.fulfill(body=html, content_type="text/html"))
-    pg.goto("http://lab.test/"); pg.wait_for_timeout(1500)
+    pg.goto("http://lab.test/?tabs=all"); pg.wait_for_timeout(1500)
     pg.click('.lab-tab[data-tab="characters"]'); pg.wait_for_timeout(900)
     counts = {}
     for cat, n in [('npc', 41), ('mount', 11), ('boss', 72)]:

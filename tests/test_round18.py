@@ -106,7 +106,7 @@ with sync_playwright() as p:
     b=p.chromium.launch(args=["--use-gl=swiftshader","--enable-unsafe-swiftshader"]); pg=b.new_page(viewport={'width':1500,'height':1000}); errs=[]
     pg.on('pageerror',lambda e: errs.append(str(e)[:300]))
     pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PHASER, content_type="application/javascript"))
-    pg.goto('file://'+os.path.abspath(os.path.join(R,'lab','index.html'))); pg.wait_for_timeout(2500)
+    pg.goto('file://'+os.path.abspath(os.path.join(R,'lab','index.html'))+'?tabs=all'); pg.wait_for_timeout(2500)
     pg.click('.lab-tab:has-text("Sprite Library")'); pg.wait_for_timeout(900)
     r=pg.evaluate("({chips:document.querySelectorAll('.sl-grp').length, tabs:document.querySelectorAll('.sl-tab').length, refs:document.querySelectorAll('.sl-refs img').length, pilot:document.querySelectorAll('#lab-grid .sl-sh').length, girls:document.querySelectorAll('.sl-card[data-id^=hero_f]').length, locked:/look B/i.test(document.getElementById('lab-grid').textContent)&&/is locked/.test(document.getElementById('lab-grid').textContent), rcv:document.querySelectorAll('.sl-rcv .sl-strip').length, game:document.querySelectorAll('.sl-game').length, rows:[...document.querySelectorAll('.sl-tab')].map(function(t){ return t.rows.length; })})")
     check('Lab → Sprite Library opens on the Guide: totals, the two references, weapon / skill / action tables, 12 pilot requests', r['chips']==14 and r['tabs']==5 and r['refs']==2 and r['pilot']==12 and r['rows'][2]==9 and r['rows'][3]==13, r)

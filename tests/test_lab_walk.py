@@ -16,7 +16,7 @@ with sync_playwright() as p:
     pg.route(re.compile(r".*fonts.*"), lambda r: r.abort())
     html = open(__import__('os').path.join(HERE, '..', 'lab', 'index.html'), encoding='utf-8').read()
     pg.route("http://lab.test/**", lambda r: r.fulfill(body=html, content_type="text/html"))
-    pg.goto("http://lab.test/"); pg.wait_for_timeout(2500)
+    pg.goto("http://lab.test/?tabs=all"); pg.wait_for_timeout(2500)
     pg.screenshot(path=SHOTS + '/grid-towers.png')
     # connectivity audit
     audit = pg.evaluate("""(()=>{ var out=[]; LAB_TABS.forEach(function(t){ t.designs.forEach(function(d){ if(typeof d.build!=='function')return;

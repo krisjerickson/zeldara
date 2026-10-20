@@ -249,7 +249,7 @@ var LabApp={
   renderTabs:function(){
     var self=this, el=document.getElementById('lab-tabs');
     // round 59 (Kris: "condense previous lab choices down as there are too many buttons"): the current tabs as buttons; every earlier round in one drop-down
-    var ACT=(typeof LAB_ACTIVE!=='undefined'?LAB_ACTIVE:[]), isAct=function(t){ return !ACT.length||ACT.indexOf(t.id)>=0||t.id===self.tab; }, cnt=function(t){ var n=t.designs.length, pk=t.designs.filter(function(d){var p=self.picks[self.key(t.id,d.id)];return p&&p.verdict;}).length; return n?pk+'/'+n:''; };
+    var ACT=(typeof LAB_ACTIVE!=='undefined'&&!/[?&]tabs=all/.test(location.search)?LAB_ACTIVE:[])      /* round 72: ?tabs=all — every tab as a button (the older test suites click them) */, isAct=function(t){ return !ACT.length||ACT.indexOf(t.id)>=0||t.id===self.tab; }, cnt=function(t){ var n=t.designs.length, pk=t.designs.filter(function(d){var p=self.picks[self.key(t.id,d.id)];return p&&p.verdict;}).length; return n?pk+'/'+n:''; };
     var arch=LAB_TABS.filter(function(t){ return !isAct(t); }), sel=arch.length?'<label class="lab-arch">📁 Earlier rounds <select id="lab-arch-sel"><option value="">— '+arch.length+' tabs —</option>'+arch.map(function(t){ return '<option value="'+t.id+'">'+t.name+(cnt(t)?' ('+cnt(t)+')':'')+'</option>'; }).join('')+'</select></label>':'';
     el.innerHTML=LAB_TABS.filter(isAct).sort(function(a,b){ var ia=ACT.indexOf(a.id), ib=ACT.indexOf(b.id); return (ia<0?99:ia)-(ib<0?99:ib); }).map(function(t){
       var n=t.designs.length, picked=t.designs.filter(function(d){var p=self.picks[self.key(t.id,d.id)];return p&&p.verdict;}).length;

@@ -89,7 +89,7 @@ if only in (None,'lab'):
         b=p.chromium.launch(args=["--use-gl=swiftshader","--enable-unsafe-swiftshader"]); pg=b.new_page(viewport={'width':1280,'height':1000}); errs=[]
         pg.on('pageerror',lambda e: errs.append(str(e)))
         pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
-        pg.goto('file://'+os.path.abspath(os.path.join(os.path.dirname(__file__),'..','lab','index.html'))); pg.wait_for_timeout(1500)
+        pg.goto('file://'+os.path.abspath(os.path.join(os.path.dirname(__file__),'..','lab','index.html'))+'?tabs=all'); pg.wait_for_timeout(1500)
         pg.click('.lab-tab:has-text("Bosses")'); pg.wait_for_timeout(2000)
         n=pg.evaluate("[document.querySelectorAll('.bb-row').length, Math.min.apply(null,[...document.querySelectorAll('.bb-row')].map(r=>r.querySelectorAll('.bb-card').length)), document.querySelectorAll('.bb-cv').length]")
         check('Lab Bosses tab: every phase/form row with 2–3 animated options', n[0]>=76 and n[1]>=2, n)

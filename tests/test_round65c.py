@@ -19,6 +19,7 @@ with sync_playwright() as p:
         u = r.request.url.split('t.test/', 1)[1].split('?')[0]; f = os.path.join(R, u)
         if os.path.isfile(f): r.fulfill(path=f)
         else: r.fulfill(status=404, body='')
+    pg.add_init_script("window.__labNoRetire=1");      # round 72b: Solmyrk's asks are retired now; this test still walks them
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html"); pg.wait_for_timeout(1500)
     t0 = pg.evaluate("(document.getElementById('lab-todo-btn')||{}).textContent||''")
     n0 = int(re.sub(r'\D', '', t0) or 0)   # round 71: the list has grown since round 65 (8–9 asks); counted, not fixed

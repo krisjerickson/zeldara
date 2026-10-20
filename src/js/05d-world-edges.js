@@ -67,7 +67,7 @@ var ZWE={
     var Z=D._zc||(D._zc={y:a0,ly:0,C:{medge:[],rings:[],spray:[],fog:[],mist:[],glitter:[],embers:[],wisps:[],leaves:[],wet:[],edge:[],deep:[],bank:[],air:[],meadow:[]},needFlip:false,crk:null,stage:0});
     var C=Z.C, needFlip=Z.needFlip, H=ZWE._hash, crk=Z.crk, N=_wpNoise(), wantCrk=ZWE.fx('lava','cracks');
     if(Z.stage===2)return ZWE._flipRows(D,Z);
-    if(Z.stage===0){ var yEnd=Math.min(a1,Z.y+40);
+    if(Z.stage===0){ var yEnd=Math.min(a1,Z.y+(ZWE.ROWS||40));      /* round 72: fewer rows a slice on phones (10c2) */
     for(var y=Z.y;y<yEnd;y++)for(var x=a0;x<a1;x++){ var i=y*SW+x, k=kb[i], cl=KT.cls[k], e=ek[i], dl=dist[i]===255?99:dist[i]/8*16/S, h=H(x+D.tx0*S,y+D.ty0*S,17), X=ox+(x+0.5)*sp, Y=oy+(y+0.5)*sp;
       if(cl===1||cl===3){ if(dl<16&&!KT.liquid[e])needFlip=true; if(dl>3&&h<0.02)(cl===1?C.rings:C.fog).push([X,Y]); if(cl===3&&h<0.004)C.rings.push([X,Y]); if(cl===3&&dl>2&&h>0.985)C.wisps.push([X,Y]); }
       else if(cl===2){ if(dl<24&&!KT.liquid[e])needFlip=true; if(dl<2.5&&!KT.liquid[e]&&h<0.25)C.spray.push([X,Y]); }
