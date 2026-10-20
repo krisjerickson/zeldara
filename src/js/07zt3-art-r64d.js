@@ -193,6 +193,17 @@
     SG('pn_saga_blacktide','The Black Tide','long ago in green wetlands: a broad river rising black and swollen from the south, flooding the marsh villages, reed roofs and boats swept away, the black water standing up like a wall'),
     SG('pn_saga_quiet','The Long Quiet','long ago: the last lakeside village in green grasslands in a grey dusk, few lights, old people at their doors, and at the edge of the fields faint pale-blue ghostly figures of the dead drifting at the edge of the lantern light'),
     SG('pn_saga_gate','The Gate Shut','a glimpse, dark and mysterious: high in a white-and-gold citadel in the clouds, a great golden gate swinging shut, and through the narrowing gap a masked figure in a golden mask with one burning eye seated on a high throne; seen only in part')]);
+  // ═══ wave 77: five saga panels again, without the hero (round 69, answer Q1: "Redo the 5 without the hero") — they happen long before
+  //     the twins were born; the six good panels of wave 76 are the style reference ═══
+  ZSCN.WAVES[77]='Round 69 — saga panels redone without the hero: the storm, the Ash Night, the Stone-Fall, the Black Tide, the Long Quiet';
+  var NOH='IMPORTANT: this happened long before the twins were born — there is NO hero in this picture: no boy or girl in a green cloak, no young adventurer with a sword, nobody seen from behind in the foreground';
+  var SG2=function(id,name,desc){ return {id:'sc_'+id,wave:77,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_saga_cradles','sc_pn_saga_basket'],title:'Saga panel — '+name,items:[[id,name,'a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world, long ago; '+desc+'. '+NOH+'. No text',1536,1024]]}; };
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    SG2('pn_saga_storm_b','The Storm on the Runestones','the worst storm anyone remembered, at night over green rolling grasslands: forks of blue-white lightning striking a line of tall grey runestones one after another, each one flaring rune-blue where it is struck; an empty landscape, no people at all'),
+    SG2('pn_saga_ashnight_b','The Ash Night','a night of fire and ash over a land of villages: a great fire giant\'s shadow rising out of a volcano on the horizon, burning ash falling like snow, villagers (grown men and women, old folk) fleeing with bundles and carts, a wall of fire beginning to rise on one side'),
+    SG2('pn_saga_stonefall_b','The Stone-Fall','rocky highlands: the mountains breaking apart around deep mines, a huge cliff tearing open across the land, bearded miners with lamps and picks running from the dust, a faint glow deep in the broken stone'),
+    SG2('pn_saga_blacktide_b','The Black Tide','green wetlands: a broad river rising black and swollen from the south, flooding the marsh villages, reed roofs and boats swept away, the black water standing up like a wall, a few marsh folk on a stilt walkway looking on in horror'),
+    SG2('pn_saga_quiet_b','The Long Quiet','the last lakeside village in green grasslands in a grey dusk, few lights, old people at their doors, and at the edge of the fields faint pale-blue ghostly figures of the dead drifting at the edge of the lantern light; quiet and sad, an empty village road')]);
   if(ZSCN.expand)ZSCN.expand();
 })();
 

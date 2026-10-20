@@ -202,6 +202,10 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 69 (Oct 20) — the hamlets' roads; the saga panels in
+- Kris: "great, new requests, picks and feedback is in". Picks: the reveal, the map page, **the runestone ring as the vein itself**. Note on "After the gods": "the roads should not completely follow the previous spirit lines. Make a smaller zeldara rune logo around the center rune, similar to the one in the original village, and then make roads that are more organized like a village immediately around the logo. Roads should also follow where the runelines were, but they should be more like a standard road that connects this new hamlets together."
+- Q1 — Five of the eleven saga panels are set long before the twins were born (the storm, the Ash Night, the Stone-Fall, the Black Tide, the Long Quiet), but the painter put the green-cloaked hero in them. Redo them without the hero? **Answered: redo the 5 without the hero** (wave 77, `tools/sprites/round72.ps1`; the six good panels are the style reference).
+
 ### Round 68 (Oct 19) — the line style; the settlements in the rings
 - Kris: "picks for day runelines are in. and the circles around the runestone are great, this can be outlines for what eventually will turn into the mini settlements at the very end of the game". Picks: **Rune vein** and **Mote stitch** (both).
 - L1 — Two styles picked: how do they combine? **Answered: vein + moving motes** — one line: the bright vein with its runes, and the stitch's slow wave of light motes running along it.
