@@ -901,5 +901,6 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris: "great, new requests, picks and feedback is in" (picks: the reveal, the map page, the ring as the vein itself; a note on After the gods); "round 72 requests in"; "where are the hamlet workshops and good saga panels in the design lab?"; "hamlet buildings should work like normal buildings … go into them using tab … thematic interiors … new NPCs"; "the fairies have gotten too large … shows the old pixelated versions"; "all of the land inbetween the circle rune lines needs to turn into grassland …".
 - Asked: Open questions → Round 69 (Q1, H2–H5).
 - Done: changelog [682]–[690] — the hamlet plan, grassland, solid buildings and workshop doors, interiors, the forty kin and their words, the fairies, the Lab tab, the five panels redone.
-- **Next:** round73.ps1 in → the hamlet folk, furniture and keepsakes go in; Kris looks at the hamlets in the Lab and in the game.
+- Kris: "round 73 requests are in" → all 65 sheets cut and in the game and the Lab (changelog [691]).
+- **Next:** Kris looks at the hamlet folk (Lab → Saga panels & hamlets) and walks into a workshop after the gods.
 

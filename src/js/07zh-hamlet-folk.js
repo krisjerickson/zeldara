@@ -119,7 +119,7 @@ ZHAM.FB={0:'barrel',1:'crates',2:'sacks',3:'basket'};      // the drawn stand-in
 ZHAM.interior=function(n){ if(typeof INTERIOR_THEMES==='undefined'||INTERIOR_THEMES['ham_'+n])return; var S=ZHAM.spirit(n), t=ZHAM.trade(n), T=ZHAM.TRADES[t], K=ZHAM.KIN[n], R=ZHAM.ROOM[S.q];
   INTERIOR_THEMES['ham_'+n]=Object.assign({name:S.name+'\'s workshop',npc:ZHAM.kinId(n),blurb:K[1]+' keeps '+S.name+'\'s workshop: the '+ZHAM.tradeName(t)+'\'s tools, and '+S.name+'\'s keepsake on the wall.'},R);
   var F=T.f, P=function(i,x,y,w,h){ return ['hf',x,y,w,h,{pid:'hf_'+t+'_'+F[i][0],fb:ZHAM.FB[i]}]; };
-  INTERIOR_LAYOUTS['ham_'+n]={ deco:[['window',2.6,1.2],['painting',6.3,1.4,null,'hk_'+K[0]],['window',10.2,1.2]], rug:[5,5,4,3], npc:[7,3.4],
+  INTERIOR_LAYOUTS['ham_'+n]={ deco:[['window',2.6,1.2],['painting',6.3,1.4,null,'hk_'+K[0]],['window',10.2,1.2]], rug:[5,5,4,3], npc:[7,3.9],
     props:[P(0,1,2,3,2),P(1,10,2,3,2),P(2,1,5,3,2),P(3,10,5,3,2),['table',6,6,2,1,{top:['candle','plate']}],['stool',6,7,1,1],['stool',7,7,1,1],['plant',12,7,1,1],['plant',1,7,1,1]],
     lights:[[7,1.6,150,0.32,{}],[3,4,120,0.22,{pulse:0.12}],[11,4,120,0.22,{pulse:0.12}]], particles:t==='smith'||t==='potter'||t==='baker'?'embers':t==='miller'?'flour':'dust' }; };
 // the forty kin as characters (CH, 07s): the painted sheet hk_<spirit>.core.f (idle, talk, work), drawn stand-ins until it is in

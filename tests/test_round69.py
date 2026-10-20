@@ -35,6 +35,7 @@ with game(new=True, painted=True) as g:
       o.pics=(ws._hamIm[s.n]||[]).length;
       var B=ws.buildings.find(function(b){ return b.ham===s.n; }); o.bname=B&&B.name; ws._enterBuilding(B); await w(4000);
       var bs=game.scene.getScene('Building'); o.inside=bs.sys.isActive()&&bs.building.type==='ham_'+s.n; o.npc=bs._imap.npc.id; o.room=bs._imap.theme.name; o.furn=INTERIOR_LAYOUTS['ham_'+s.n].props.filter(function(p){ return p[5]&&p[5].pid; }).map(function(p){ return p[5].pid; });
+      o.painted=[ZAtlas.has('hk_nanna'),_scn().has('hf_midwife_cradle'),_scn().has('hk_nanna')];
       bs._npcInteract(); await w(800); o.talk=(document.querySelector('#fairy-talk .ft-text')||{}).textContent||''; return o; })()""" % W)
     check('The redone panels (no hero) are the ones the game plays', '_b' in r['sets'] and 'pn_saga_storm_b' in r['sets'] and 'pn_saga_storm,' not in r['sets'], r['sets'])
     check('Forty kin, each a character, each with their own words (%s)' % r['line'], r['kin'] == 40 and r['ch'] and 'Hallveig' in r['line'], r)
@@ -43,6 +44,7 @@ with game(new=True, painted=True) as g:
     check('Its buildings are solid and stand there (%d pictures); every workshop has a door (%d)' % (r['pics'], r['doors']), r['solid'] and r['pics'] >= 5 and r['doors'] == 40, r)
     check('[Tab] at %s goes inside: %s, its four trade pieces (%s), the kin %s' % (r['bname'], r['room'], ','.join(r['furn']), r['npc']), r['inside'] and r['npc'] == 'hk_nanna' and len(r['furn']) == 4 and all(f.startswith('hf_midwife_') for f in r['furn']), r)
     check('…who talks of the spirit (%s)' % r['talk'][:60], 'Nanna' in r['talk'], r)
+    check('Round 73 is in: Inga is painted, and so are the midwife\'s furniture and Nanna\'s keepsake (%s)' % r['painted'], all(r['painted']), r)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No game script errors', not errs, errs[:4])
 with sync_playwright() as p:
@@ -56,7 +58,7 @@ with sync_playwright() as p:
         else: r.fulfill(status=404, body='')
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html"); pg.wait_for_timeout(1500)
     pg.evaluate("LTODO.goTo('hamlets','.br-grid',0)"); pg.wait_for_timeout(4000)
-    n = pg.evaluate("(()=>{ var g=document.querySelectorAll('.br-grid'); return [g[0]?g[0].querySelectorAll('canvas').length:0, g[1]?g[1].querySelectorAll('canvas').length:0, LabApp.tab]; })()")
-    check('The Lab\'s "Saga panels & hamlets" tab shows the 11 panels and the 26 buildings (%s)' % n, n == [11, 26, 'hamlets'], n)
+    n = pg.evaluate("(()=>{ var g=document.querySelectorAll('.br-grid'); return [g[0]?g[0].querySelectorAll('canvas').length:0, g[1]?g[1].querySelectorAll('canvas').length:0, LabApp.tab, g[2]?g[2].querySelectorAll('canvas').length:0]; })()")
+    check('The Lab\'s "Saga panels & hamlets" tab shows the 11 panels, the 26 buildings and the 40 hamlet folk in their workshops (%s)' % n, n == [11, 26, 'hamlets', 40], n)
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d / %d passed' % (sum(res), len(res)))
