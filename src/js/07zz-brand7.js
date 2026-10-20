@@ -42,6 +42,8 @@
       q.restore(); }; };
   ZBrand.FZ2.forEach(function(D){ ZBrand.WORDS.push({id:D.id,name:D.name,col:G,style:'gilded',gen:4,kind:'custom',fam:D.names,wt:'400',tall:true,desc:D.desc,paint:build(D)}); });
   // Kris's pick (Lab → Fonts, round two): "Scribe's names, uncial Z" — the faces are embedded in the game by 07zy-brand-fonts3.js
+  // round 71c: Kris's own tagline (Lab note on today's: "I don't want to give away anything")
+  ZBrand.TAGLINE=['Four realms, one broken land. Free the bound spirits','and unravel the fragmented past to liberate Runeheim.'];
   ZBrand.WORDMARK='fz2_eag_unc'; ZBrand.TAGFONT='"Eagle Lake","Marcellus SC",Georgia,serif';
   // Kris: "recommend new taglines for the intro screen to choose from now that the story has gotten more elaborate" — ten, two lines each,
   // shown on the whole title page in the Lab. spoil: how much of the story it gives away (none / a hint / a reveal)

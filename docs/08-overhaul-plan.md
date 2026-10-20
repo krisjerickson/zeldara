@@ -202,6 +202,11 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 72 (Oct 20) — the saga, end to end
+- Kris's tagline (Lab note): "Four realms, one broken land. Free the bound spirits and unravel the fragmented past to liberate Runeheim." — "I don't want to give away anything ;)" → in the game.
+- Kris: "a new design lab that articulates each element of the full saga, end-to-end, both for me to review for accuracy as well as have it show where in the world you learn about each of these during the gameplay, starting from the intro scene all the way to the credits. Have multiple options for me to pick from for when and how you learn this info. Also, have a 2nd section for a "redundancy" check, where we will have a back-up option for how you learn this info. This should also be split into where you have a full cut-scene that explains a larger part of the story vs. hints that you get from NPCs or other minor progress throughout the game."
+- Built without new questions (the ask was specific): Lab → The saga, end to end; doc 31. Assumptions: 27 story elements in six acts; 1–3 ways each and 1–2 back-ups; ☆ more than one way if wanted; a schematic map (not the real map) for "where".
+
 ### Round 71 (Oct 20) — the font, round two; the last saga
 - Kris (font picks: Runeheim Uncial and Scribe's Hand, plain and alphabets): "1. I don't like any of the multicolored fonts, lets make them all gold 2. i don't like any of the frills on the elaborate fonts, let's skip these 3. For Zeldara and Zeldor, we need these to be all capital letters, but keep the same size of the letters for "eldara" and "eldor". also for "the quests of" and "and" 4. I like the axes around the Z, need to keep this. 5. Come up with 6 updated recommendations … 6. also have the current intro page for me to compare. Make entire intro pages for these so i can see the entire design."
 - Then: "I haven't seen character and sprite or sheet recommendations from the freeing of Odin and Freya from the infinity bubble trap, nor casting the spell that frees them, nor going into the great hall after defeating Solmyrk. Go back into the saga and propose new images to inspire cut scenes for all the remaining items, and recommend other things to do next."

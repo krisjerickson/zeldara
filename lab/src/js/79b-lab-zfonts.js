@@ -41,7 +41,7 @@
     var rd=['Eagle Lake','Uncial Antiqua'].map(function(f){ try{ return document.fonts.check('400 20px "'+f+'"')?1:0; }catch(e){ return 1; } }).join(''), key=id+W+'|'+rd+'|'+Math.floor((t||0)*4); if(cv._done===key&&!full)return;
     var home=ZBrand.HOMES.find(function(h){ return h.id===ZBrand.HOME; }), keep=ZBrand.TAGLINE; ZBrand.TAGLINE=T;
     try{ ZBrand.home(c,home,W,H,t||0,{sym:ZBrand.LOGO,word:ZBrand.WORDMARK,btns:['NEW GAME','RETURNING PLAYER']}); }catch(e){ console.warn('tagline page',e); } finally { ZBrand.TAGLINE=keep; } cv._done=key; };
-  var TAGS=[{id:'tg_current',name:'Today\'s tagline (for comparison)',desc:'“'+(TG0||[]).join(' ')+'”'}].concat(TGL.map(function(x,i){ return {id:x[0],name:'Tagline '+(i+1),desc:'“'+x[1]+' '+x[2]+'” · gives away: <b>'+x[3]+'</b>'}; }));
+  var TAGS=[{id:'tg_current',name:'Your tagline — in the game now',desc:'“'+(TG0||[]).join(' ')+'”'}].concat(TGL.map(function(x,i){ return {id:x[0],name:'Tagline '+(i+1),desc:'“'+x[1]+' '+x[2]+'” · gives away: <b>'+x[3]+'</b>'}; }));
   var page=function(cv,c,W,H,t,full,id){ var wid=id==='pg_current'?ZBrand.WORDMARK:id.slice(3), D=ZBrand.wordById(wid); if(!D)return; var R=(ZBrand.FZ2||[]).find(function(x){ return x.id===wid; });
     var rd=R?[R.names,R.z].map(function(f){ try{ return document.fonts.check('400 20px "'+f+'"')?1:0; }catch(e){ return 1; } }).join(''):'';
     var key=id+W+'|'+rd+'|'+Math.floor((t||0)*4); if(cv._done===key&&!full)return; var home=ZBrand.HOMES.find(function(h){ return h.id===ZBrand.HOME; });
