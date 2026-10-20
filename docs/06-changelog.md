@@ -1152,6 +1152,7 @@ Round 36 was the audit (`claude/20-balance-and-consistency.md`, no code). Round 
 - **[711] Tests**: `tests/test_round71.py` (14 checks); older suites follow the round (63: the gods freed first; 55b: nine arcs; 65c, 69, 70, 14, 47, 53, 54, site_home: the new picks and counts).
 
 ## Round 72 (Kris, Oct 20) — the saga, end to end
-- **[712] The tagline** (Kris's own, "I don't want to give away anything"): "Four realms, one broken land. Free the bound spirits / and unravel the fragmented past to liberate Runeheim." on the title page.
+- **[712] The tagline** (Kris's own, "I don't want to give away anything"): "Four realms, one broken land. Free the spirits / and unravel the fragmented past to liberate Runeheim." on the title page.
 - **[713] Lab → The saga, end to end** (`src/js/07zst-saga-story.js` ZSTORY, `lab/src/js/79c-lab-saga.js`, doc 31): the 27 story elements in six acts, from the cycle of souls to the credits. Each: what is true (☆ or a note to correct it), what stays a mystery until when, its painted panel; then 1–3 ways to learn it — 🎬 cut-scenes and 💬 hints — each on a map of Runeheim with when, from whom, a sample line and whether it is in the game, partly built or still to build (60 ways). Section 2, the redundancy check: 35 back-ups. At the top, the whole saga on one strip: cut-scenes, hints and back-ups, following his ☆.
 - **[714] Tests**: `tests/test_round72.py`.
+- **[715] The tagline, trimmed** (Kris: remove "bound" — "free implies they are bound"): "Four realms, one broken land. Free the spirits / and unravel the fragmented past to liberate Runeheim."
