@@ -126,3 +126,49 @@ ZHAM.interior=function(n){ if(typeof INTERIOR_THEMES==='undefined'||INTERIOR_THE
 (function(){ if(typeof CH!=='function')return; ZHAM.KIN.forEach(function(K,i){ var t=ZHAM.trade(i), T=ZHAM.TRADES[t]||{}, S=ZHAM.spirit(i), pal=(T.pal||'#6a6a6a,#4a4a4a,#c8c8c8').split(','), skin=['#f0c8a0','#e0b08a','#c89070','#a87050'][i%4], hair=K[4]==='old'?'#d8d8d0':['#6a3a1a','#c89040','#2a1a10','#8a3a1a','#e8c878'][i%5];
     CH('npc','Hamlet folk',ZHAM.kinId(i),K[1],['person',T.anim||'craft',[pal[0],pal[1],pal[2],'#201810',skin,hair].join(','),(K[3]==='f'?'long,':'')+(K[4]==='old'?'grey,':'')+'apron'],
       'Their workshop in the hamlet of '+(S?S.name:'the spirit')+' (after the gods)',ZHAM.look(i),T.doing||'Works at their trade.','Kin of the freed spirit '+(S?S.name:'')+'.'); }); })();
+// ═══ round 70 — A MIXED RUNEHEIM (Kris: "about half that are racially white, but remainder should be more variety of races, and racial mixes") ═══
+// Looks for the people redrawn: the kin at odd places (twenty of forty, every realm and trade), about half the village folk and shopkeepers.
+// Each look is added to the character's description (07zs) and tints its drawn stand-in; the painted sheets are ordered again (round74.ps1).
+var ZHERIT={ LOOKS:[['dark brown skin and short tightly coiled black hair','#6a4028'],['warm light-brown skin, monolid eyes and straight black hair','#d8a878'],['brown skin and thick wavy black hair','#a0683c'],
+    ['olive-brown skin and dark curly hair','#b88050'],['copper-brown skin and long straight black hair in braids','#a8683c'],['light brown skin, freckles and loose dark curls','#c08a5a'],
+    ['deep brown skin and black locs','#5a3420'],['golden-tan skin and dark brown hair','#c89060'],['light olive skin, almond eyes and soft brown hair','#d8b088'],['medium brown skin and black hair with a silver streak','#8a5434']],
+  VILLAGE:['npc_shop','npc_forge','npc_stables','npc_jeweler','npc_apothecary','vf_farmer','vf_fisher','vf_kid1','vf_guard','vf_vendor','vf_keeper'],
+  kin:function(i){ return i%2===1; },      // the kin redrawn (odd places)
+  apply:function(id,k){ var R=typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[id]; if(!R)return; var L=ZHERIT.LOOKS[k%ZHERIT.LOOKS.length]; R.heritage=L[0]; if(R.spec&&R.spec.pal&&R.spec.pal.length>4)R.spec.pal[4]=L[1]; } };
+(function(){ if(typeof CHAR_BY_ID==='undefined')return; var k=0; ZHAM.KIN.forEach(function(K,i){ if(ZHERIT.kin(i))ZHERIT.apply(ZHAM.kinId(i),k++); }); ZHERIT.VILLAGE.forEach(function(id){ ZHERIT.apply(id,k++); }); })();
+// ═══ round 70 — THE CHILDREN (answers C1, C2): twenty-four children, toddlers to young teens, born since the cycle turned again — or, the older
+// ones, the last few born in the Quiet and the first since the storm. After the gods they play in the hamlets' yards and round the village, in little
+// groups (tag, the swing, hide-and-seek, fishing at the pier, chasing the goats); [Tab] for a line. About half white, the rest of every background. ═══
+var ZKIDS={
+  // id, name, f/m, age (toddler/small/kid/teen), heritage look index (-1 = white), what they wear and carry, their game, their line
+  L:[['ck_ylva','Ylva','f','kid',-1,'a red wool dress and a wooden sword','tag','I\'m the twin and you\'re the monster! No — I\'m BOTH twins!'],
+    ['ck_bjorn','Little Bjorn','m','toddler',0,'a too-big knitted hat and a toy horse on a stick','goats','Goat! Goat! GOAT!'],
+    ['ck_saga','Saga','f','teen',-1,'a blue tunic and a harp on her back','sing','I\'m writing a song about the twins. It rhymes "Runeheim" with "dinner time".'],
+    ['ck_kai','Kai','m','kid',1,'a green tunic and a paper kite','kite','When I grow up I\'ll free spirits too. Are there any left? …Oh.'],
+    ['ck_amara','Amara','f','small',0,'a yellow dress and flower crown','hide','Shh! I\'m hiding. You didn\'t see me.'],
+    ['ck_eirik','Eirik','m','teen',-1,'a leather vest and a fishing rod','fish','The fish bite better since the gods came back. Probably. I haven\'t caught one yet.'],
+    ['ck_noor','Noor','f','kid',3,'an embroidered tunic and a basket of eggs','tag','You\'re it! No touch-backs!'],
+    ['ck_tove','Tove','f','toddler',-1,'a rabbit-ear hood and a rag doll','goats','Baa.'],
+    ['ck_ravi','Ravi','m','kid',2,'a patched cloak and a slingshot','hide','I found a frog. I named him Solmyrk. He\'s very bad.'],
+    ['ck_ingrid','Little Ingrid','f','small',-1,'a pinafore and two plaits','swing','Push me higher! Higher! To Asgard!'],
+    ['ck_tariq','Tariq','m','teen',3,'a smith\'s apron, too big for him','tag','I\'m apprenticed to the smith. Mostly I sweep.'],
+    ['ck_mei','Mei','f','kid',1,'a blue coat and a spinning top','swing','My grandmother says I was the first baby born in our hamlet. I\'m very important.'],
+    ['ck_olaf','Olaf','m','small',-1,'a round belly, a bun in each hand','sing','I\'m not eating the buns. I\'m guarding them.'],
+    ['ck_zuri','Zuri','f','teen',6,'a beaded headband and a bow','kite','I\'m going to be a ranger. I\'ve practised on the scarecrow. He\'s very still.'],
+    ['ck_finn','Finn','m','kid',5,'a fox-fur hat and a wooden shield','tag','Bet you can\'t catch me! …Okay, you probably can.'],
+    ['ck_asta','Asta','f','small',-1,'a green dress and a ball','hide','One… two… ten! Ready or not!'],
+    ['ck_mateo','Mateo','m','kid',7,'a red scarf and a little drum','sing','Boom! Boom! That\'s the Lodestar. Boom!'],
+    ['ck_sunniva','Sunniva','f','toddler',4,'a sheepskin wrap and a wooden spoon','goats','Sheep. No. GOAT.'],
+    ['ck_leif','Little Leif','m','small',-1,'a too-long tunic and a toy boat','fish','My boat is called the Bifröst. It sinks a lot.'],
+    ['ck_priya','Priya','f','teen',2,'a dyer\'s blue-stained hands and a scroll','sing','I can read runes now! That one says… "Do not lick the runestone."'],
+    ['ck_gunnar','Gunnar','m','kid',-1,'a horned helmet made of a bucket','tag','Rawr! I\'m Surtharn! …I\'m a nice Surtharn.'],
+    ['ck_hana','Hana','f','kid',8,'a lantern and a shawl','hide','The fairies are gone, but I still leave milk out. Just in case.'],
+    ['ck_odin','Little Odin','m','toddler',-1,'an eyepatch made of a leaf','goats','I have ONE eye. Like the god. The other one\'s under the leaf.'],
+    ['ck_lena','Lena','f','small',9,'a patchwork cloak and a jar of fireflies','swing','Did you really go to the sky? Was it cold? Did you bring me anything?']],
+  AGE:{toddler:'a toddler, about three years old',small:'a little child, about six',kid:'a child, about nine',teen:'a young teen, about thirteen'},
+  DO:{tag:'Runs and dodges, playing tag.',goats:'Toddles after a goat, giggling.',sing:'Sings and claps a game song.',kite:'Runs with a kite on a string.',hide:'Peeks out from behind something, playing hide-and-seek.',fish:'Fishes with a little rod, very patient.',swing:'Swings back and forth, kicking their feet.'}
+};
+(function(){ if(typeof CH!=='function')return; ZKIDS.L.forEach(function(K,i){ var L=K[4]>=0?ZHERIT.LOOKS[K[4]]:null, skin=L?L[1]:['#f0d0b0','#e8c0a0','#f4d8c0'][i%3], pal=['#c84030','#3a6a9a','#e0a030','#5a8a3a','#8a4a8a','#3a8a8a'][i%6];
+  var R=CH('npc','Village folk · children',K[0],K[1],['person','play',[pal,'#4a3a2a','#e8e0c0','#201810',skin,K[4]>=0?'#1a1410':['#c89040','#8a5a2a','#e8c878'][i%3]].join(','),'child,'+(K[2]==='f'?'long,':'')+'rosy'],
+    'The hamlets\' yards and the village (after the gods)',K[1]+': '+ZKIDS.AGE[K[3]]+', a '+(K[2]==='f'?'girl':'boy')+', '+K[5]+'; cheerful and full of mischief.',ZKIDS.DO[K[6]]||'Plays.','Born as the cycle turned again.');
+  if(L)R.heritage=L[0]; R.kid=K[3]; }); })();

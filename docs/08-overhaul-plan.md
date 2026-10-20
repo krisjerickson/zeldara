@@ -202,6 +202,13 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 70 (Oct 20, night) — a mixed Runeheim; the children
+- Kris: "overall things are good, but we need to get more mixed race for the NPCs and groups in the scenes, comments in the notes. We also need to come up with children to populate the world after the spirit cycle has begun again." Notes: hh_new_a "only have one cottage, longhouse or stone cottage per hamlet … change some of the coloration for variety"; hk_asa "about half that are racially white, but remainder should be more variety of races, and racial mixes"; pn_saga_raised "shows more children than zeldara and zeldor, which need to be removed … anytime we show a group of people, let's make them more mixed or blended race … redo this for any related images".
+- R1 — What to redo? **Answered: the kin, the saga panels with groups, and about half the village folk and shopkeepers.**
+- R2 — The kin? **Answered: redraw ~20, keep their designs** (only skin tone, hair and features change).
+- C1 — Children? **Answered: 24 painted children** — toddlers to young teens; 2–3 per hamlet from the 24, and the village; newborns in the midwives' cradles.
+- C2 — What do they do? **Answered: play together and talk** — tag, the swing, hide-and-seek, fishing at the pier, chasing the goats; a short line with [Tab]; some talk of the twins as heroes.
+
 ### Round 69 (Oct 20) — the hamlets' roads; the saga panels in
 - Kris: "great, new requests, picks and feedback is in". Picks: the reveal, the map page, **the runestone ring as the vein itself**. Note on "After the gods": "the roads should not completely follow the previous spirit lines. Make a smaller zeldara rune logo around the center rune, similar to the one in the original village, and then make roads that are more organized like a village immediately around the logo. Roads should also follow where the runelines were, but they should be more like a standard road that connects this new hamlets together."
 - Q1 — Five of the eleven saga panels are set long before the twins were born (the storm, the Ash Night, the Stone-Fall, the Black Tide, the Long Quiet), but the painter put the green-cloaked hero in them. Redo them without the hero? **Answered: redo the 5 without the hero** (wave 77, `tools/sprites/round72.ps1`; the six good panels are the style reference).

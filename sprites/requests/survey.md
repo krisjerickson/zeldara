@@ -1,4 +1,4 @@
-# Character survey — 513 characters, 1137 sheets (776 core), 7837 poses
+# Character survey — 537 characters, 1185 sheets (824 core), 8221 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: chain_jailer: guard; einherjar_shieldmaiden: guard.
 
@@ -8,7 +8,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: cha
 | rider | 22 | 22 | 22 | 176 |
 | monster | 252 | 642 | 398 | 4049 |
 | boss | 97 | 274 | 157 | 2042 |
-| npc | 82 | 93 | 93 | 744 |
+| npc | 106 | 141 | 141 | 1128 |
 | mount | 11 | 11 | 11 | 88 |
 | familiar | 4 | 4 | 4 | 32 |
 | fairy | 23 | 23 | 23 | 184 |
@@ -472,6 +472,30 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: cha
 | hk_vali | Gudny | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: pour ×4 (Stirs the mash in the copper kettle.) | 1 |
 | hk_alfhild | Skuli | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Plucks the harp and recites a verse.) | 1 |
 | hk_brand | Helga | Hamlet folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: pour ×4 (Kneads dough on the floury table.) | 1 |
+| ck_ylva | Ylva | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Runs and dodges, playing tag.); Move ×4 (walks around the village) | 2 |
+| ck_bjorn | Little Bjorn | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Toddles after a goat, giggling.); Move ×4 (walks around the village) | 2 |
+| ck_saga | Saga | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Sings and claps a game song.); Move ×4 (walks around the village) | 2 |
+| ck_kai | Kai | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Runs with a kite on a string.); Move ×4 (walks around the village) | 2 |
+| ck_amara | Amara | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Peeks out from behind something, playing hide-and-seek.); Move ×4 (walks around the village) | 2 |
+| ck_eirik | Eirik | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Fishes with a little rod, very patient.); Move ×4 (walks around the village) | 2 |
+| ck_noor | Noor | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Runs and dodges, playing tag.); Move ×4 (walks around the village) | 2 |
+| ck_tove | Tove | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Toddles after a goat, giggling.); Move ×4 (walks around the village) | 2 |
+| ck_ravi | Ravi | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Peeks out from behind something, playing hide-and-seek.); Move ×4 (walks around the village) | 2 |
+| ck_ingrid | Little Ingrid | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Swings back and forth, kicking their feet.); Move ×4 (walks around the village) | 2 |
+| ck_tariq | Tariq | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Runs and dodges, playing tag.); Move ×4 (walks around the village) | 2 |
+| ck_mei | Mei | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Swings back and forth, kicking their feet.); Move ×4 (walks around the village) | 2 |
+| ck_olaf | Olaf | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Sings and claps a game song.); Move ×4 (walks around the village) | 2 |
+| ck_zuri | Zuri | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Runs with a kite on a string.); Move ×4 (walks around the village) | 2 |
+| ck_finn | Finn | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Runs and dodges, playing tag.); Move ×4 (walks around the village) | 2 |
+| ck_asta | Asta | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Peeks out from behind something, playing hide-and-seek.); Move ×4 (walks around the village) | 2 |
+| ck_mateo | Mateo | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Sings and claps a game song.); Move ×4 (walks around the village) | 2 |
+| ck_sunniva | Sunniva | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Toddles after a goat, giggling.); Move ×4 (walks around the village) | 2 |
+| ck_leif | Little Leif | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Fishes with a little rod, very patient.); Move ×4 (walks around the village) | 2 |
+| ck_priya | Priya | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Sings and claps a game song.); Move ×4 (walks around the village) | 2 |
+| ck_gunnar | Gunnar | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Runs and dodges, playing tag.); Move ×4 (walks around the village) | 2 |
+| ck_hana | Hana | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Peeks out from behind something, playing hide-and-seek.); Move ×4 (walks around the village) | 2 |
+| ck_odin | Little Odin | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Toddles after a goat, giggling.); Move ×4 (walks around the village) | 2 |
+| ck_lena | Lena | Village folk · children | f | Idle ×2; Talk ×2 (when you speak to them); Work: play ×4 (Swings back and forth, kicking their feet.); Move ×4 (walks around the village) | 2 |
 | mt_horse | Horse | Stables | x | Move · side ×4 (trotting, side view); Move · front ×2 (toward the camera); Move · back ×2 (away from the camera) | 1 |
 | mt_alligator | Alligator | Key mounts | x | Move · side ×4 (trotting, side view); Move · front ×2 (toward the camera); Move · back ×2 (away from the camera) | 1 |
 | mt_boar | Battle Boar | Key mounts | x | Move · side ×4 (trotting, side view); Move · front ×2 (toward the camera); Move · back ×2 (away from the camera) | 1 |

@@ -1,4 +1,4 @@
-# Village, familiars — 95 requests
+# Village, familiars — 143 requests
 
 Save each result as `sprites/incoming/<request id>.png`.
 
@@ -36,7 +36,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Tilda the Merchant — A brisk trader in a teal vest and head-scarf, a bulging coin sack on her hip. Main colours: teal (#3a8a9a), dark blue (#2a4a5a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
+Subject: Tilda the Merchant — A brisk trader in a teal vest and head-scarf, a bulging coin sack on her hip. Looks: dark brown skin and short tightly coiled black hair. Main colours: teal (#3a8a9a), dark blue (#2a4a5a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -86,7 +86,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hana the Stable Master — A cheerful rancher in a straw hat and braids, leaning on a pitchfork. Main colours: brown (#8a6a3a), dark green (#3a4a2a), red (#c84030), black (#201810). Size: about 1× the height of the hero.
+Subject: Hana the Stable Master — A cheerful rancher in a straw hat and braids, leaning on a pitchfork. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a6a3a), dark green (#3a4a2a), red (#c84030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -161,7 +161,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Iva the Jeweler — Blonde, brass loupe-goggles pushed over her eyes, a glowing gem between her fingers. Main colours: teal (#2a5a6a), dark blue (#1a2a3a), teal (#60e0ff), black (#201810). Size: about 1× the height of the hero.
+Subject: Iva the Jeweler — Blonde, brass loupe-goggles pushed over her eyes, a glowing gem between her fingers. Looks: olive-brown skin and dark curly hair. Main colours: teal (#2a5a6a), dark blue (#1a2a3a), teal (#60e0ff), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -186,7 +186,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Morwen the Sorcerer — A tall sorceress in a starry pointed hat, violet robe and a bubbling potion. Main colours: dark violet (#3a2a5a), dark grey (#1a1a2a), violet (#b070ff), pale violet (#c0a0ff). Size: about 1× the height of the hero.
+Subject: Morwen the Sorcerer — A tall sorceress in a starry pointed hat, violet robe and a bubbling potion. Looks: copper-brown skin and long straight black hair in braids. Main colours: dark violet (#3a2a5a), dark grey (#1a1a2a), violet (#b070ff), pale violet (#c0a0ff). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -386,7 +386,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Tob the Farmer — Sun-browned farmer in a straw hat, green smock and pitchfork. Main colours: green (#6a8a3a), dark brown (#5a4a2a), yellow (#e0c070), black (#201810). Size: about 1× the height of the hero.
+Subject: Tob the Farmer — Sun-browned farmer in a straw hat, green smock and pitchfork. Looks: light brown skin, freckles and loose dark curls. Main colours: green (#6a8a3a), dark brown (#5a4a2a), yellow (#e0c070), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -411,7 +411,7 @@ Attach: style_hero, style_centaur, vf_farmer.core.f
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Tob the Farmer — Sun-browned farmer in a straw hat, green smock and pitchfork. Main colours: green (#6a8a3a), dark brown (#5a4a2a), yellow (#e0c070), black (#201810). Size: about 1× the height of the hero.
+Subject: Tob the Farmer — Sun-browned farmer in a straw hat, green smock and pitchfork. Looks: light brown skin, freckles and loose dark curls. Main colours: green (#6a8a3a), dark brown (#5a4a2a), yellow (#e0c070), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, walk cycle frame 1 of 4.
 2. side view facing RIGHT, walk cycle frame 2 of 4.
@@ -436,7 +436,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Old Nell the Fisher — A weathered fisherwoman in a blue oilskin and head-scarf, rod over the water. Main colours: blue (#3a6a8a), dark blue (#2a3a4a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
+Subject: Old Nell the Fisher — A weathered fisherwoman in a blue oilskin and head-scarf, rod over the water. Looks: deep brown skin and black locs. Main colours: blue (#3a6a8a), dark blue (#2a3a4a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -461,7 +461,7 @@ Attach: style_hero, style_centaur, vf_fisher.core.f
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Old Nell the Fisher — A weathered fisherwoman in a blue oilskin and head-scarf, rod over the water. Main colours: blue (#3a6a8a), dark blue (#2a3a4a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
+Subject: Old Nell the Fisher — A weathered fisherwoman in a blue oilskin and head-scarf, rod over the water. Looks: deep brown skin and black locs. Main colours: blue (#3a6a8a), dark blue (#2a3a4a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, walk cycle frame 1 of 4.
 2. side view facing RIGHT, walk cycle frame 2 of 4.
@@ -486,7 +486,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Pip — A small kid in a mustard shirt, bouncing a red ball. Main colours: orange (#e0a030), muted blue (#3a4a6a), red (#ff6040), black (#201810). Size: about 0.75× the height of the hero.
+Subject: Pip — A small kid in a mustard shirt, bouncing a red ball. Looks: golden-tan skin and dark brown hair. Main colours: orange (#e0a030), muted blue (#3a4a6a), red (#ff6040), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -511,7 +511,7 @@ Attach: style_hero, style_centaur, vf_kid1.core.f
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Pip — A small kid in a mustard shirt, bouncing a red ball. Main colours: orange (#e0a030), muted blue (#3a4a6a), red (#ff6040), black (#201810). Size: about 0.75× the height of the hero.
+Subject: Pip — A small kid in a mustard shirt, bouncing a red ball. Looks: golden-tan skin and dark brown hair. Main colours: orange (#e0a030), muted blue (#3a4a6a), red (#ff6040), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, walk cycle frame 1 of 4.
 2. side view facing RIGHT, walk cycle frame 2 of 4.
@@ -586,7 +586,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Watchman Corr — A gate guard in blue livery and a steel cap, spear upright. Main colours: muted blue (#4a5a7a), dark grey (#2a2a3a), yellow (#e8c040), black (#201810). Size: about 1× the height of the hero.
+Subject: Watchman Corr — A gate guard in blue livery and a steel cap, spear upright. Looks: light olive skin, almond eyes and soft brown hair. Main colours: muted blue (#4a5a7a), dark grey (#2a2a3a), yellow (#e8c040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -611,7 +611,7 @@ Attach: style_hero, style_centaur, vf_guard.core.f
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Watchman Corr — A gate guard in blue livery and a steel cap, spear upright. Main colours: muted blue (#4a5a7a), dark grey (#2a2a3a), yellow (#e8c040), black (#201810). Size: about 1× the height of the hero.
+Subject: Watchman Corr — A gate guard in blue livery and a steel cap, spear upright. Looks: light olive skin, almond eyes and soft brown hair. Main colours: muted blue (#4a5a7a), dark grey (#2a2a3a), yellow (#e8c040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, walk cycle frame 1 of 4.
 2. side view facing RIGHT, walk cycle frame 2 of 4.
@@ -736,7 +736,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Marta the Cart Vendor — A vendor in a red dress and white apron holding up fresh produce. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
+Subject: Marta the Cart Vendor — A vendor in a red dress and white apron holding up fresh produce. Looks: medium brown skin and black hair with a silver streak. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -761,7 +761,7 @@ Attach: style_hero, style_centaur, vf_vendor.core.f
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Marta the Cart Vendor — A vendor in a red dress and white apron holding up fresh produce. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
+Subject: Marta the Cart Vendor — A vendor in a red dress and white apron holding up fresh produce. Looks: medium brown skin and black hair with a silver streak. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, walk cycle frame 1 of 4.
 2. side view facing RIGHT, walk cycle frame 2 of 4.
@@ -836,7 +836,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Ilsa the Lighthouse Keeper — A lighthouse keeper in a navy pea-coat, cap and spyglass. Main colours: dark blue (#2a3a5a), dark blue (#1a2a3a), pale yellow (#ffe080), black (#201810). Size: about 1× the height of the hero.
+Subject: Ilsa the Lighthouse Keeper — A lighthouse keeper in a navy pea-coat, cap and spyglass. Looks: dark brown skin and short tightly coiled black hair. Main colours: dark blue (#2a3a5a), dark blue (#1a2a3a), pale yellow (#ffe080), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -861,7 +861,7 @@ Attach: style_hero, style_centaur, vf_keeper.core.f
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
-Subject: Ilsa the Lighthouse Keeper — A lighthouse keeper in a navy pea-coat, cap and spyglass. Main colours: dark blue (#2a3a5a), dark blue (#1a2a3a), pale yellow (#ffe080), black (#201810). Size: about 1× the height of the hero.
+Subject: Ilsa the Lighthouse Keeper — A lighthouse keeper in a navy pea-coat, cap and spyglass. Looks: dark brown skin and short tightly coiled black hair. Main colours: dark blue (#2a3a5a), dark blue (#1a2a3a), pale yellow (#ffe080), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, walk cycle frame 1 of 4.
 2. side view facing RIGHT, walk cycle frame 2 of 4.
@@ -1336,7 +1336,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Arni — Arni, Bersi's sister's grandson: a young man of the Grasslands, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a sprig of meadow flowers at the belt. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
+Subject: Arni — Arni, Bersi's sister's grandson: a young man of the Grasslands, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a sprig of meadow flowers at the belt. Looks: dark brown skin and short tightly coiled black hair. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1386,7 +1386,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Kari — Kari, Eyvind's son: a grown man of the Grasslands, an oilskin coat, tall boots and a woolly hat; a sprig of meadow flowers at the belt. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
+Subject: Kari — Kari, Eyvind's son: a grown man of the Grasslands, an oilskin coat, tall boots and a woolly hat; a sprig of meadow flowers at the belt. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1436,7 +1436,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Ottar — Ottar, Geir's great-grandson: a young man of the Grasslands, a leather apron full of chisels, wood shavings in the beard or hair; a sprig of meadow flowers at the belt. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
+Subject: Ottar — Ottar, Geir's great-grandson: a young man of the Grasslands, a leather apron full of chisels, wood shavings in the beard or hair; a sprig of meadow flowers at the belt. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1486,7 +1486,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Halla — Halla, Ingolf's sister: a grown woman of the Grasslands, a stained leather apron, sleeves rolled to the elbow; a sprig of meadow flowers at the belt. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
+Subject: Halla — Halla, Ingolf's sister: a grown woman of the Grasslands, a stained leather apron, sleeves rolled to the elbow; a sprig of meadow flowers at the belt. Looks: olive-brown skin and dark curly hair. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1536,7 +1536,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Gorm — Gorm, Ketil's nephew: a grown man of the Grasslands, a sheepskin vest, a crook and a horn at the belt; a sprig of meadow flowers at the belt. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
+Subject: Gorm — Gorm, Ketil's nephew: a grown man of the Grasslands, a sheepskin vest, a crook and a horn at the belt; a sprig of meadow flowers at the belt. Looks: copper-brown skin and long straight black hair in braids. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1586,7 +1586,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Rurik — Rurik, Magni's son: a grown man of the Wetlands, a stone-dust cloak, a leather cap and heavy gloves; reed-green and river-blue cloth, marsh boots. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
+Subject: Rurik — Rurik, Magni's son: a grown man of the Wetlands, a stone-dust cloak, a leather cap and heavy gloves; reed-green and river-blue cloth, marsh boots. Looks: light brown skin, freckles and loose dark curls. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1636,7 +1636,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Tova — Tova, Oddny's granddaughter: a grown woman of the Wetlands, clay to the elbows, a smock tied at the waist; reed-green and river-blue cloth, marsh boots. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
+Subject: Tova — Tova, Oddny's granddaughter: a grown woman of the Wetlands, clay to the elbows, a smock tied at the waist; reed-green and river-blue cloth, marsh boots. Looks: deep brown skin and black locs. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1686,7 +1686,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hjalti — Hjalti, Sigrid's apprentice: a young man of the Wetlands, a scorched leather apron, bare arms, a hammer in hand; reed-green and river-blue cloth, marsh boots. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
+Subject: Hjalti — Hjalti, Sigrid's apprentice: a young man of the Wetlands, a scorched leather apron, bare arms, a hammer in hand; reed-green and river-blue cloth, marsh boots. Looks: golden-tan skin and dark brown hair. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1736,7 +1736,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Geirmund — Geirmund, Ulf's grandson: a young man of the Wetlands, a round belly, a leather apron and a ladle; reed-green and river-blue cloth, marsh boots. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
+Subject: Geirmund — Geirmund, Ulf's grandson: a young man of the Wetlands, a round belly, a leather apron and a ladle; reed-green and river-blue cloth, marsh boots. Looks: light olive skin, almond eyes and soft brown hair. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1786,7 +1786,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Bodvar — Bodvar, Yrsa's son: a grown man of the Wetlands, a floury apron, a kerchief, a loaf under the arm; reed-green and river-blue cloth, marsh boots. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
+Subject: Bodvar — Bodvar, Yrsa's son: a grown man of the Wetlands, a floury apron, a kerchief, a loaf under the arm; reed-green and river-blue cloth, marsh boots. Looks: medium brown skin and black hair with a silver streak. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1836,7 +1836,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Ivar — Ivar, Bodil's grandson: a grown man of the Highlands, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a wool cloak against the mountain wind. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
+Subject: Ivar — Ivar, Bodil's grandson: a grown man of the Highlands, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a wool cloak against the mountain wind. Looks: dark brown skin and short tightly coiled black hair. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1886,7 +1886,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Leif — Leif, Einar's little brother, now grown: a grown man of the Highlands, an oilskin coat, tall boots and a woolly hat; a wool cloak against the mountain wind. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
+Subject: Leif — Leif, Einar's little brother, now grown: a grown man of the Highlands, an oilskin coat, tall boots and a woolly hat; a wool cloak against the mountain wind. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1936,7 +1936,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Sindri — Sindri, Hakon's apprentice: a young man of the Highlands, a leather apron full of chisels, wood shavings in the beard or hair; a wool cloak against the mountain wind. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
+Subject: Sindri — Sindri, Hakon's apprentice: a young man of the Highlands, a leather apron full of chisels, wood shavings in the beard or hair; a wool cloak against the mountain wind. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1986,7 +1986,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hrefna — Hrefna, Joreid's cousin: a grown woman of the Highlands, a stained leather apron, sleeves rolled to the elbow; a wool cloak against the mountain wind. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
+Subject: Hrefna — Hrefna, Joreid's cousin: a grown woman of the Highlands, a stained leather apron, sleeves rolled to the elbow; a wool cloak against the mountain wind. Looks: olive-brown skin and dark curly hair. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2036,7 +2036,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Starkad — Starkad, Lofn's son: a grown man of the Highlands, a sheepskin vest, a crook and a horn at the belt; a wool cloak against the mountain wind. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
+Subject: Starkad — Starkad, Lofn's son: a grown man of the Highlands, a sheepskin vest, a crook and a horn at the belt; a wool cloak against the mountain wind. Looks: copper-brown skin and long straight black hair in braids. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2086,7 +2086,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hogni — Hogni, Njal's brother: a grown man of the Ashlands, a stone-dust cloak, a leather cap and heavy gloves; ash-grey cloth with a little ember-red trim. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
+Subject: Hogni — Hogni, Njal's brother: a grown man of the Ashlands, a stone-dust cloak, a leather cap and heavy gloves; ash-grey cloth with a little ember-red trim. Looks: light brown skin, freckles and loose dark curls. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2136,7 +2136,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Eldrid — Eldrid, Ranveig's apprentice: a young woman of the Ashlands, clay to the elbows, a smock tied at the waist; ash-grey cloth with a little ember-red trim. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
+Subject: Eldrid — Eldrid, Ranveig's apprentice: a young woman of the Ashlands, clay to the elbows, a smock tied at the waist; ash-grey cloth with a little ember-red trim. Looks: deep brown skin and black locs. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2186,7 +2186,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Thorvald — Thorvald, Thora's son: a grown man of the Ashlands, a scorched leather apron, bare arms, a hammer in hand; ash-grey cloth with a little ember-red trim. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
+Subject: Thorvald — Thorvald, Thora's son: a grown man of the Ashlands, a scorched leather apron, bare arms, a hammer in hand; ash-grey cloth with a little ember-red trim. Looks: golden-tan skin and dark brown hair. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2236,7 +2236,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Gudny — Gudny, Vali's granddaughter: a young woman of the Ashlands, a round belly, a leather apron and a ladle; ash-grey cloth with a little ember-red trim. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
+Subject: Gudny — Gudny, Vali's granddaughter: a young woman of the Ashlands, a round belly, a leather apron and a ladle; ash-grey cloth with a little ember-red trim. Looks: light olive skin, almond eyes and soft brown hair. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2286,7 +2286,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Helga — Helga, Brand's granddaughter: a young woman of the Ashlands, a floury apron, a kerchief, a loaf under the arm; ash-grey cloth with a little ember-red trim. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
+Subject: Helga — Helga, Brand's granddaughter: a young woman of the Ashlands, a floury apron, a kerchief, a loaf under the arm; ash-grey cloth with a little ember-red trim. Looks: medium brown skin and black hair with a silver streak. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2297,6 +2297,1206 @@ Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this
 7. at work (Kneads dough on the floury table.), frame 3 of 4.
 8. at work (Kneads dough on the floury table.), frame 4 of 4.
 View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_ylva.core.f
+
+Ylva · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Ylva — Ylva: a child, about nine, a girl, a red wool dress and a wooden sword; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Runs and dodges, playing tag.), frame 1 of 4.
+6. at work (Runs and dodges, playing tag.), frame 2 of 4.
+7. at work (Runs and dodges, playing tag.), frame 3 of 4.
+8. at work (Runs and dodges, playing tag.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_ylva.walk
+
+Ylva · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_ylva.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Ylva — Ylva: a child, about nine, a girl, a red wool dress and a wooden sword; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_bjorn.core.f
+
+Little Bjorn · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Little Bjorn — Little Bjorn: a toddler, about three years old, a boy, a too-big knitted hat and a toy horse on a stick; cheerful and full of mischief. Looks: dark brown skin and short tightly coiled black hair. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Toddles after a goat, giggling.), frame 1 of 4.
+6. at work (Toddles after a goat, giggling.), frame 2 of 4.
+7. at work (Toddles after a goat, giggling.), frame 3 of 4.
+8. at work (Toddles after a goat, giggling.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_bjorn.walk
+
+Little Bjorn · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_bjorn.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Little Bjorn — Little Bjorn: a toddler, about three years old, a boy, a too-big knitted hat and a toy horse on a stick; cheerful and full of mischief. Looks: dark brown skin and short tightly coiled black hair. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_saga.core.f
+
+Saga · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Saga — Saga: a young teen, about thirteen, a girl, a blue tunic and a harp on her back; cheerful and full of mischief. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Sings and claps a game song.), frame 1 of 4.
+6. at work (Sings and claps a game song.), frame 2 of 4.
+7. at work (Sings and claps a game song.), frame 3 of 4.
+8. at work (Sings and claps a game song.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_saga.walk
+
+Saga · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_saga.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Saga — Saga: a young teen, about thirteen, a girl, a blue tunic and a harp on her back; cheerful and full of mischief. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_kai.core.f
+
+Kai · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Kai — Kai: a child, about nine, a boy, a green tunic and a paper kite; cheerful and full of mischief. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Runs with a kite on a string.), frame 1 of 4.
+6. at work (Runs with a kite on a string.), frame 2 of 4.
+7. at work (Runs with a kite on a string.), frame 3 of 4.
+8. at work (Runs with a kite on a string.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_kai.walk
+
+Kai · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_kai.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Kai — Kai: a child, about nine, a boy, a green tunic and a paper kite; cheerful and full of mischief. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_amara.core.f
+
+Amara · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Amara — Amara: a little child, about six, a girl, a yellow dress and flower crown; cheerful and full of mischief. Looks: dark brown skin and short tightly coiled black hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Peeks out from behind something, playing hide-and-seek.), frame 1 of 4.
+6. at work (Peeks out from behind something, playing hide-and-seek.), frame 2 of 4.
+7. at work (Peeks out from behind something, playing hide-and-seek.), frame 3 of 4.
+8. at work (Peeks out from behind something, playing hide-and-seek.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_amara.walk
+
+Amara · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_amara.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Amara — Amara: a little child, about six, a girl, a yellow dress and flower crown; cheerful and full of mischief. Looks: dark brown skin and short tightly coiled black hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_eirik.core.f
+
+Eirik · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Eirik — Eirik: a young teen, about thirteen, a boy, a leather vest and a fishing rod; cheerful and full of mischief. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Fishes with a little rod, very patient.), frame 1 of 4.
+6. at work (Fishes with a little rod, very patient.), frame 2 of 4.
+7. at work (Fishes with a little rod, very patient.), frame 3 of 4.
+8. at work (Fishes with a little rod, very patient.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_eirik.walk
+
+Eirik · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_eirik.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Eirik — Eirik: a young teen, about thirteen, a boy, a leather vest and a fishing rod; cheerful and full of mischief. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_noor.core.f
+
+Noor · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Noor — Noor: a child, about nine, a girl, an embroidered tunic and a basket of eggs; cheerful and full of mischief. Looks: olive-brown skin and dark curly hair. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Runs and dodges, playing tag.), frame 1 of 4.
+6. at work (Runs and dodges, playing tag.), frame 2 of 4.
+7. at work (Runs and dodges, playing tag.), frame 3 of 4.
+8. at work (Runs and dodges, playing tag.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_noor.walk
+
+Noor · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_noor.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Noor — Noor: a child, about nine, a girl, an embroidered tunic and a basket of eggs; cheerful and full of mischief. Looks: olive-brown skin and dark curly hair. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_tove.core.f
+
+Tove · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Tove — Tove: a toddler, about three years old, a girl, a rabbit-ear hood and a rag doll; cheerful and full of mischief. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Toddles after a goat, giggling.), frame 1 of 4.
+6. at work (Toddles after a goat, giggling.), frame 2 of 4.
+7. at work (Toddles after a goat, giggling.), frame 3 of 4.
+8. at work (Toddles after a goat, giggling.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_tove.walk
+
+Tove · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_tove.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Tove — Tove: a toddler, about three years old, a girl, a rabbit-ear hood and a rag doll; cheerful and full of mischief. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_ravi.core.f
+
+Ravi · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Ravi — Ravi: a child, about nine, a boy, a patched cloak and a slingshot; cheerful and full of mischief. Looks: brown skin and thick wavy black hair. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Peeks out from behind something, playing hide-and-seek.), frame 1 of 4.
+6. at work (Peeks out from behind something, playing hide-and-seek.), frame 2 of 4.
+7. at work (Peeks out from behind something, playing hide-and-seek.), frame 3 of 4.
+8. at work (Peeks out from behind something, playing hide-and-seek.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_ravi.walk
+
+Ravi · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_ravi.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Ravi — Ravi: a child, about nine, a boy, a patched cloak and a slingshot; cheerful and full of mischief. Looks: brown skin and thick wavy black hair. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_ingrid.core.f
+
+Little Ingrid · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Little Ingrid — Little Ingrid: a little child, about six, a girl, a pinafore and two plaits; cheerful and full of mischief. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Swings back and forth, kicking their feet.), frame 1 of 4.
+6. at work (Swings back and forth, kicking their feet.), frame 2 of 4.
+7. at work (Swings back and forth, kicking their feet.), frame 3 of 4.
+8. at work (Swings back and forth, kicking their feet.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_ingrid.walk
+
+Little Ingrid · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_ingrid.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Little Ingrid — Little Ingrid: a little child, about six, a girl, a pinafore and two plaits; cheerful and full of mischief. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_tariq.core.f
+
+Tariq · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Tariq — Tariq: a young teen, about thirteen, a boy, a smith's apron, too big for him; cheerful and full of mischief. Looks: olive-brown skin and dark curly hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Runs and dodges, playing tag.), frame 1 of 4.
+6. at work (Runs and dodges, playing tag.), frame 2 of 4.
+7. at work (Runs and dodges, playing tag.), frame 3 of 4.
+8. at work (Runs and dodges, playing tag.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_tariq.walk
+
+Tariq · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_tariq.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Tariq — Tariq: a young teen, about thirteen, a boy, a smith's apron, too big for him; cheerful and full of mischief. Looks: olive-brown skin and dark curly hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_mei.core.f
+
+Mei · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Mei — Mei: a child, about nine, a girl, a blue coat and a spinning top; cheerful and full of mischief. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Swings back and forth, kicking their feet.), frame 1 of 4.
+6. at work (Swings back and forth, kicking their feet.), frame 2 of 4.
+7. at work (Swings back and forth, kicking their feet.), frame 3 of 4.
+8. at work (Swings back and forth, kicking their feet.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_mei.walk
+
+Mei · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_mei.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Mei — Mei: a child, about nine, a girl, a blue coat and a spinning top; cheerful and full of mischief. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_olaf.core.f
+
+Olaf · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Olaf — Olaf: a little child, about six, a boy, a round belly, a bun in each hand; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Sings and claps a game song.), frame 1 of 4.
+6. at work (Sings and claps a game song.), frame 2 of 4.
+7. at work (Sings and claps a game song.), frame 3 of 4.
+8. at work (Sings and claps a game song.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_olaf.walk
+
+Olaf · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_olaf.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Olaf — Olaf: a little child, about six, a boy, a round belly, a bun in each hand; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_zuri.core.f
+
+Zuri · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Zuri — Zuri: a young teen, about thirteen, a girl, a beaded headband and a bow; cheerful and full of mischief. Looks: deep brown skin and black locs. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Runs with a kite on a string.), frame 1 of 4.
+6. at work (Runs with a kite on a string.), frame 2 of 4.
+7. at work (Runs with a kite on a string.), frame 3 of 4.
+8. at work (Runs with a kite on a string.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_zuri.walk
+
+Zuri · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_zuri.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Zuri — Zuri: a young teen, about thirteen, a girl, a beaded headband and a bow; cheerful and full of mischief. Looks: deep brown skin and black locs. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_finn.core.f
+
+Finn · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Finn — Finn: a child, about nine, a boy, a fox-fur hat and a wooden shield; cheerful and full of mischief. Looks: light brown skin, freckles and loose dark curls. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Runs and dodges, playing tag.), frame 1 of 4.
+6. at work (Runs and dodges, playing tag.), frame 2 of 4.
+7. at work (Runs and dodges, playing tag.), frame 3 of 4.
+8. at work (Runs and dodges, playing tag.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_finn.walk
+
+Finn · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_finn.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Finn — Finn: a child, about nine, a boy, a fox-fur hat and a wooden shield; cheerful and full of mischief. Looks: light brown skin, freckles and loose dark curls. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_asta.core.f
+
+Asta · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Asta — Asta: a little child, about six, a girl, a green dress and a ball; cheerful and full of mischief. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Peeks out from behind something, playing hide-and-seek.), frame 1 of 4.
+6. at work (Peeks out from behind something, playing hide-and-seek.), frame 2 of 4.
+7. at work (Peeks out from behind something, playing hide-and-seek.), frame 3 of 4.
+8. at work (Peeks out from behind something, playing hide-and-seek.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_asta.walk
+
+Asta · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_asta.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Asta — Asta: a little child, about six, a girl, a green dress and a ball; cheerful and full of mischief. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_mateo.core.f
+
+Mateo · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Mateo — Mateo: a child, about nine, a boy, a red scarf and a little drum; cheerful and full of mischief. Looks: golden-tan skin and dark brown hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Sings and claps a game song.), frame 1 of 4.
+6. at work (Sings and claps a game song.), frame 2 of 4.
+7. at work (Sings and claps a game song.), frame 3 of 4.
+8. at work (Sings and claps a game song.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_mateo.walk
+
+Mateo · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_mateo.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Mateo — Mateo: a child, about nine, a boy, a red scarf and a little drum; cheerful and full of mischief. Looks: golden-tan skin and dark brown hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_sunniva.core.f
+
+Sunniva · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Sunniva — Sunniva: a toddler, about three years old, a girl, a sheepskin wrap and a wooden spoon; cheerful and full of mischief. Looks: copper-brown skin and long straight black hair in braids. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Toddles after a goat, giggling.), frame 1 of 4.
+6. at work (Toddles after a goat, giggling.), frame 2 of 4.
+7. at work (Toddles after a goat, giggling.), frame 3 of 4.
+8. at work (Toddles after a goat, giggling.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_sunniva.walk
+
+Sunniva · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_sunniva.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Sunniva — Sunniva: a toddler, about three years old, a girl, a sheepskin wrap and a wooden spoon; cheerful and full of mischief. Looks: copper-brown skin and long straight black hair in braids. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_leif.core.f
+
+Little Leif · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Little Leif — Little Leif: a little child, about six, a boy, a too-long tunic and a toy boat; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Fishes with a little rod, very patient.), frame 1 of 4.
+6. at work (Fishes with a little rod, very patient.), frame 2 of 4.
+7. at work (Fishes with a little rod, very patient.), frame 3 of 4.
+8. at work (Fishes with a little rod, very patient.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_leif.walk
+
+Little Leif · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_leif.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Little Leif — Little Leif: a little child, about six, a boy, a too-long tunic and a toy boat; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_priya.core.f
+
+Priya · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Priya — Priya: a young teen, about thirteen, a girl, a dyer's blue-stained hands and a scroll; cheerful and full of mischief. Looks: brown skin and thick wavy black hair. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Sings and claps a game song.), frame 1 of 4.
+6. at work (Sings and claps a game song.), frame 2 of 4.
+7. at work (Sings and claps a game song.), frame 3 of 4.
+8. at work (Sings and claps a game song.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_priya.walk
+
+Priya · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_priya.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Priya — Priya: a young teen, about thirteen, a girl, a dyer's blue-stained hands and a scroll; cheerful and full of mischief. Looks: brown skin and thick wavy black hair. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_gunnar.core.f
+
+Gunnar · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Gunnar — Gunnar: a child, about nine, a boy, a horned helmet made of a bucket; cheerful and full of mischief. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Runs and dodges, playing tag.), frame 1 of 4.
+6. at work (Runs and dodges, playing tag.), frame 2 of 4.
+7. at work (Runs and dodges, playing tag.), frame 3 of 4.
+8. at work (Runs and dodges, playing tag.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_gunnar.walk
+
+Gunnar · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_gunnar.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Gunnar — Gunnar: a child, about nine, a boy, a horned helmet made of a bucket; cheerful and full of mischief. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_hana.core.f
+
+Hana · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Hana — Hana: a child, about nine, a girl, a lantern and a shawl; cheerful and full of mischief. Looks: light olive skin, almond eyes and soft brown hair. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Peeks out from behind something, playing hide-and-seek.), frame 1 of 4.
+6. at work (Peeks out from behind something, playing hide-and-seek.), frame 2 of 4.
+7. at work (Peeks out from behind something, playing hide-and-seek.), frame 3 of 4.
+8. at work (Peeks out from behind something, playing hide-and-seek.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_hana.walk
+
+Hana · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_hana.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Hana — Hana: a child, about nine, a girl, a lantern and a shawl; cheerful and full of mischief. Looks: light olive skin, almond eyes and soft brown hair. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid blue #0000FF background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_odin.core.f
+
+Little Odin · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Little Odin — Little Odin: a toddler, about three years old, a boy, an eyepatch made of a leaf; cheerful and full of mischief. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Toddles after a goat, giggling.), frame 1 of 4.
+6. at work (Toddles after a goat, giggling.), frame 2 of 4.
+7. at work (Toddles after a goat, giggling.), frame 3 of 4.
+8. at work (Toddles after a goat, giggling.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_odin.walk
+
+Little Odin · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_odin.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Little Odin — Little Odin: a toddler, about three years old, a boy, an eyepatch made of a leaf; cheerful and full of mischief. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_lena.core.f
+
+Lena · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Lena — Lena: a little child, about six, a girl, a patchwork cloak and a jar of fireflies; cheerful and full of mischief. Looks: medium brown skin and black hair with a silver streak. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Swings back and forth, kicking their feet.), frame 1 of 4.
+6. at work (Swings back and forth, kicking their feet.), frame 2 of 4.
+7. at work (Swings back and forth, kicking their feet.), frame 3 of 4.
+8. at work (Swings back and forth, kicking their feet.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## ck_lena.walk
+
+Lena · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, ck_lena.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Lena — Lena: a little child, about six, a girl, a patchwork cloak and a jar of fireflies; cheerful and full of mischief. Looks: medium brown skin and black hair with a silver streak. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
 Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
 Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.

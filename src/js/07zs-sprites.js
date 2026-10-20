@@ -260,7 +260,7 @@ var ZSPR={
     // NPCs
     if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='npc')return; var walker=/Village folk/.test(C.sub);
       var RW=Z.REWORD[C.id]||{};
-      push({id:C.id,group:'npc',sub:C.sub,name:RW.name||C.name,q:0,look:RW.look||C.look,doing:RW.doing||C.doing,where:C.where,pal:C.spec&&C.spec.pal,humanoid:true,scale:/kid|child/.test(C.spec&&C.spec.feat||'')?0.75:/dwarf/.test(C.spec&&C.spec.feat||'')?0.85:1,npc:true,walker:walker,trade:C.spec&&C.spec.anim,facings:['f'],wave:2}); });
+      push({id:C.id,group:'npc',sub:C.sub,name:RW.name||C.name,q:0,look:(RW.look||C.look)+(C.heritage?' Looks: '+C.heritage+'.':''),doing:RW.doing||C.doing,where:C.where,pal:C.spec&&C.spec.pal,humanoid:true,scale:/kid|child/.test(C.spec&&C.spec.feat||'')?0.75:/dwarf/.test(C.spec&&C.spec.feat||'')?0.85:1,npc:true,walker:walker,trade:C.spec&&C.spec.anim,facings:['f'],wave:2}); });
     // mounts on their own (parked, or waiting at the stables)
     if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='mount')return; var k=C.id.replace(/^mt_/,'');
       push({id:C.id,group:'mount',sub:C.sub,name:C.name,q:0,look:C.look+' Saddled, no rider.',moveTxt:C.doing,pal:C.spec&&C.spec.pal,scale:1.6,facings:['x'],flying:/sky|drake|phoenix|eagle|glider|void|dragon$/.test(k),wave:1.5}); });

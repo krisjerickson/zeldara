@@ -180,14 +180,16 @@
       ['hh_cart','Settler\'s cart','a wooden handcart loaded with bundles, a basket, a chicken coop and a child\'s doll on top',110,90]]}]);
   // ═══ wave 76: the saga panels, first 11 of doc 30 §11 (answer: "Order the first 11") — the opening (the twins) and the old disasters ═══
   ZSCN.WAVES[76]='Round 68 — saga panels: the opening (the twins) and the old disasters';
+  // round 70 (Kris: "anytime we show a group of people, let's make them more mixed or blended race as opposed to all white folks, but OK to have about half that are racially white")
+  var MIX=' The villagers are people of many backgrounds: about half white, the rest a mix of Black, East Asian, South Asian, Middle Eastern, Indigenous, Latino and mixed heritage — varied skin tones, hair and features, all one community';
   var SG=function(id,name,desc){ return {id:'sc_'+id,wave:76,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_end_dawn_b','sc_pn_end_home_b'],title:'Saga panel — '+name,items:[[id,name,'a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; '+desc+'. No text',1536,1024]]}; };
   ZSCN.SHEETS=ZSCN.SHEETS.concat([
     SG('pn_saga_cradles','The Empty Cradles','the Long Quiet: inside a dim timber longhouse, a row of empty wooden cradles, a grey-haired woman sitting beside them with her head bowed, cold ash in the hearth, grey light through the smoke-hole'),
     SG('pn_saga_storm','The Storm on the Runestones','the worst storm anyone remembered, at night over green rolling grasslands: forks of blue-white lightning striking a line of tall grey runestones one after another, each one flaring rune-blue where it is struck'),
-    SG('pn_saga_basket','The Basket on the Lake','dawn after the storm: a woven reed basket drifting out of the mist on a calm wide lake toward a little wooden harbour, two tiny swaddled babies asleep in it, a soft rune-blue glow from the basket; fishermen on the pier pointing'),
-    SG('pn_saga_raised','The Village Raises the Twins','a warm cosy scene in a small Norse lakeside village: two toddlers, a girl and a boy, being fed goat\'s milk from a horn by kind villagers round a hearth, a goat looking on, the whole village fond of them'),
-    SG('pn_saga_eyes','Eyes Like Runes','the twins as children, a girl and a boy, sitting in the grass of a village green ringed with tall runestones; their eyes glow rune-blue and the runes on the nearest stone light up to answer them while the old villagers watch amazed'),
-    SG('pn_saga_sendoff','The Send-off','the village gate at morning, the whole village gathered: one twin (the hero in a green cloak, a staff in hand) setting out down the road, the other twin staying at the gate waving, the elders blessing them'),
+    SG('pn_saga_basket','The Basket on the Lake','dawn after the storm: a woven reed basket drifting out of the mist on a calm wide lake toward a little wooden harbour, two tiny swaddled babies asleep in it, a soft rune-blue glow from the basket; fishermen on the pier pointing.'+MIX),
+    SG('pn_saga_raised','The Village Raises the Twins','a warm cosy scene in a small Norse lakeside village: two toddlers, a girl and a boy (the ONLY children in the picture — no other children at all), being fed goat\'s milk from a horn by kind grown-up and old villagers round a hearth, a goat looking on, the whole village fond of them.'+MIX),
+    SG('pn_saga_eyes','Eyes Like Runes','the twins as children, a girl and a boy, sitting in the grass of a village green ringed with tall runestones; their eyes glow rune-blue and the runes on the nearest stone light up to answer them while the old villagers watch amazed (the twins are the only children).'+MIX),
+    SG('pn_saga_sendoff','The Send-off','the village gate at morning, the whole village gathered: one twin (the hero in a green cloak, a staff in hand) setting out down the road, the other twin staying at the gate waving, the elders blessing them.'+MIX),
     SG('pn_saga_ashnight','The Ash Night','long ago: a night of fire and ash over a land of villages, a great fire giant\'s shadow rising out of a volcano on the horizon, burning ash falling like snow, people fleeing, a wall of fire beginning to rise on one side'),
     SG('pn_saga_stonefall','The Stone-Fall','long ago in rocky highlands: the mountains breaking apart around deep mines, a huge cliff tearing open across the land, miners running from the dust, a faint glow deep in the broken stone'),
     SG('pn_saga_blacktide','The Black Tide','long ago in green wetlands: a broad river rising black and swollen from the south, flooding the marsh villages, reed roofs and boats swept away, the black water standing up like a wall'),
@@ -197,7 +199,7 @@
   //     the twins were born; the six good panels of wave 76 are the style reference ═══
   ZSCN.WAVES[77]='Round 69 — saga panels redone without the hero: the storm, the Ash Night, the Stone-Fall, the Black Tide, the Long Quiet';
   var NOH='IMPORTANT: this happened long before the twins were born — there is NO hero in this picture: no boy or girl in a green cloak, no young adventurer with a sword, nobody seen from behind in the foreground';
-  var SG2=function(id,name,desc){ return {id:'sc_'+id,wave:77,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_saga_cradles','sc_pn_saga_basket'],title:'Saga panel — '+name,items:[[id,name,'a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world, long ago; '+desc+'. '+NOH+'. No text',1536,1024]]}; };
+  var SG2=function(id,name,desc){ return {id:'sc_'+id,wave:77,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_saga_cradles','sc_pn_saga_storm_b'],title:'Saga panel — '+name,items:[[id,name,'a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world, long ago; '+desc+'. '+NOH+'.'+(/storm/.test(id)?'':MIX)+' No text',1536,1024]]}; };
   ZSCN.SHEETS=ZSCN.SHEETS.concat([
     SG2('pn_saga_storm_b','The Storm on the Runestones','the worst storm anyone remembered, at night over green rolling grasslands: forks of blue-white lightning striking a line of tall grey runestones one after another, each one flaring rune-blue where it is struck; an empty landscape, no people at all'),
     SG2('pn_saga_ashnight_b','The Ash Night','a night of fire and ash over a land of villages: a great fire giant\'s shadow rising out of a volcano on the horizon, burning ash falling like snow, villagers (grown men and women, old folk) fleeing with bundles and carts, a wall of fire beginning to rise on one side'),
@@ -216,6 +218,22 @@
       title:'Keepsakes on a workshop\'s back wall — small treasured things of people long gone, hung or framed on a wooden wall, seen straight from the front; the same style as the wall decorations in the reference, each alone on a transparent background, no people, no text',
       items:ZHAM.KIN.slice(kq*8,kq*8+8).map(function(K){ return ['hk_'+K[0],'Keepsake of '+K[0].charAt(0).toUpperCase()+K[0].slice(1),K[6],40,40]; })});
   }
+  // ═══ wave 80 (round 70): the hamlet homes in more colours (Kris: "only have one cottage, longhouse or stone cottage per hamlet, and we should
+  //     change some of the coloration for variety"), and newborns in the midwives' cradles (answer C1) ═══
+  ZSCN.WAVES[80]='Round 70 — the hamlet homes in more colours; newborns in their cradles';
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    {id:'sc_hamlet_homes2',wave:80,fam:'village',kind:'bld',cols:3,rows:2,size:'1536x1024',refs:['sc_hamlet_homes','sc_vill_houses'],title:'Hamlet homes in other colours — EXACTLY the same three buildings as the reference (the new cottage, the new longhouse, the new stone cottage), same shapes, size and view, only their colours changed; each alone on a transparent background, no text',items:[
+      ['hh_new_a2','New cottage, blue','the same new timber cottage, but with a slate-blue shingle roof and whitewashed walls with blue shutters',136,240],
+      ['hh_new_b2','New longhouse, red','the same new longhouse, but with a red-brown wooden shingle roof and dark tarred plank walls',200,240],
+      ['hh_new_c2','New stone cottage, golden','the same new stone cottage, but of warm golden sandstone with a dark green turf roof',136,240],
+      ['hh_new_a3','New cottage, ochre','the same new timber cottage, but with ochre-yellow painted walls and a red tile roof',136,240],
+      ['hh_new_b3','New longhouse, green','the same new longhouse, but with a moss-green turf roof and pale silvered plank walls',200,240],
+      ['hh_new_c3','New stone cottage, grey','the same new stone cottage, but of grey granite with a blue slate roof and a red door',136,240]]},
+    {id:'sc_babies',wave:80,fam:'interior',kind:'obj',cols:4,rows:1,size:'1536x1024',refs:['sc_int_1','sc_hf_midwife'],title:'Newborns — the first babies of a new age, in the same style, size and view as the interior furniture in the reference, each alone on a transparent background, no text',items:[
+      ['hb_cradle_a','Cradle with a sleeping baby','a carved wooden cradle with a sleeping newborn baby with light skin, wrapped in a blue blanket',48,36],
+      ['hb_cradle_b','Cradle with a sleeping baby','a carved wooden cradle with a sleeping newborn baby with dark brown skin, wrapped in a yellow blanket',48,36],
+      ['hb_cradle_c','Cradle with a waking baby','a woven basket cradle with a newborn baby with warm light-brown skin waving a tiny fist, a green blanket',48,36],
+      ['hb_cradle_d','Cradle with twins','a wide wooden cradle with two sleeping newborn babies with olive skin under one red blanket',56,38]]}]);
   if(ZSCN.expand)ZSCN.expand();
 })();
 

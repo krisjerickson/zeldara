@@ -206,7 +206,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Garrick the Blacksmith — Bald and broad, soot on his cheeks, a heavy leather apron and a smith's hammer. Main colours: muted brown (#5a4a40), dark grey (#2a2220), orange (#ff9030), black (#201810). Size: about 1× the height of the hero.
+Subject: Garrick the Blacksmith — Bald and broad, soot on his cheeks, a heavy leather apron and a smith's hammer. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: muted brown (#5a4a40), dark grey (#2a2220), orange (#ff9030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
