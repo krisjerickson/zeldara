@@ -22,6 +22,8 @@ with game(new=None) as g:
     p = g.js("({p:__p, dx:Math.round(game.scene.getScene('World').player.x)})")
     check('The first steps in every direction need no new ground (%d chunks mounted, painting at most %.1f ms a frame)' % (p['p']['m'], p['p']['cmax']), p['p']['m'] == 0 and p['p']['cmax'] < 8, p)
     w = g.js("({used:!!ZWORLD.used, state:ZWORLD.state, why:ZWORLD.why})")
+    gl = g.js("(()=>{ var ws=game.scene.getScene('World'); return {reg:!!_WREG, zone:!!_WZONE, cls:!!_WCLS, same:_WREG===ws.wd.region, sl:!!(typeof ZSLW!=='undefined'&&ZSLW.data(ws))}; })()")
+    check('The baked world also sets the realm, zone and class grids (realms, map names, soul-lines) (%s)' % gl, all(gl.values()), gl)
     check('New Game used the baked world (assets/world/world.bin.gz) instead of generating it (%s)' % w, w['used'], w)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No game script errors', not errs, errs[:4])

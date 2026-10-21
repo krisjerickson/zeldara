@@ -89,7 +89,7 @@ var ZWP={ on:true, state:'off', why:'', pool:[], seq:0, cb:{}, QMAX:2, sent:{}, 
     return o; },
   // ── inside a worker ──
   W:{ init:function(m){ var R=ZWORLD.decode(m.buf); if(!R.wd){ postMessage({t:'ready',nk:-1,errs:['world: '+R.bad]}); return; }
-      _worldData=R.wd; try{ generateWorld(); }catch(e){} _wkInit(); _wzSkins();
+      _worldData=R.wd; _WREG=R.wd.region||null; _WZONE=R.wd.zone||null; _WCLS=R.wd.cls||null; try{ generateWorld(); }catch(e){} _wkInit(); _wzSkins();
       try{ if(typeof VR_KINDS!=='undefined')Object.keys(VR_KINDS).forEach(function(k){ _wkReg(VR_KINDS[k]); }); }catch(e){} try{ if(typeof ZASG!=='undefined')ZASG.kinds(); }catch(e){} try{ if(typeof ZCITY!=='undefined')ZCITY.kinds(); }catch(e){}      /* the kinds the game adds as it goes */ _WPW.tried=true; _WPW.pool=[]; _WPW.w=null;      /* the field is painted in this worker itself */
       if(typeof ZScn!=='undefined'){ ZScn.done=true; ZScn._started=true; }
       self.__zst(function(){ self.__zquiet=true; postMessage({t:'ready',nk:WK_REG.list.length,sigs:WK_REG.list.map(ZWP.sig),errs:ZWP_WERR.slice(0,8)}); },250); },      /* the script's own setTimeout(…,0) patches run first */

@@ -149,6 +149,7 @@ These help, but they don't remove the cost. Painting the ground still takes abou
   - the painted scenery the same to the eye (mean difference under 1 level): a page `<img>` is shrunk with mip-maps, a bitmap without — side by side at 4× they can't be told apart;
   - a tile changed during play (land to water) shows in the worker's picture (0 pixels differ).
 - **Measured** (test browser, two cores): painting on the main thread per chunk **181 ms → 6 ms** (the hand-over); no painting slice over 15 ms; chunks arrive 2–5× sooner. Mounting (the GPU upload) is unchanged and is now the only ground cost on the main thread — the next target (P4 and a pooled ground texture).
+- **Where it runs:** the site (Vercel) and the local game. The claude.ai copy can't carry the `.gz` world file, so there the world is generated and the ground painted as before.
 - **On a phone:** one worker (it holds a second copy of the script and the world in memory; not measured on a device yet). Please send the `?perf=1` readout (L3) — that is the real check.
 
 ## 5. Questions for Kris

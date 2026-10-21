@@ -22,9 +22,9 @@ with game(new=True, painted=True) as g:
     # ── chunk parking ──
     g.chunks()      # round 72: the ground on screen first (slow in a busy test machine)
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), p=ws.player, W=ws._wr, x0=p.x, y0=p.y; var go=async function(x,y){ p.x=x; p.y=y; p.cont.setPosition(x,y); ws.cameras.main.centerOn(x,y); await new Promise(r=>{ var t0=Date.now(), f=function(){ if((W.jobs.size===0&&W.chunks.size>0)||Date.now()-t0>20000)r(); else setTimeout(f,250); }; setTimeout(f,1500); }); };
-      await go(x0+TILE*110,y0); var parked=W.parked?W.parked.size:0, jobs0=W.jobs.size; await go(x0,y0); var back=W.parked?W.parked.size:0; return {parked:parked,back:back,lim:WR_PARK}; })()""")
-    check('Chunks that go off-screen are parked (%d kept, up to %d) and shown again when you walk back, not repainted' % (r['parked'], r['lim']),
-          r['parked'] > 0 and r['parked'] <= r['lim'] and r['back'] <= r['parked'], r)
+      var home=Array.from(W.chunks.keys()); await go(x0+TILE*110,y0); var parked=W.parked?W.parked.size:0, parkedHome=home.filter(function(k){ return W.parked&&W.parked.has(k); }); var mk=0, m0=ws._wrMount; ws._wrMount=function(o){ if(parkedHome.indexOf(o.cx+'_'+o.cy)>=0)mk++; return m0.apply(ws,arguments); }; await go(x0,y0); ws._wrMount=m0; var shown=parkedHome.filter(function(k){ return W.chunks.has(k); }).length; return {parked:parked,parkedHome:parkedHome.length,shown:shown,repainted:mk,lim:WR_PARK}; })()""")
+    check('Chunks that go off-screen are parked (%d kept, up to %d) and shown again when you walk back, not repainted (%d of %d back, %d repainted)' % (r['parked'], r['lim'], r['shown'], r['parkedHome'], r['repainted']),
+          r['parked'] > 0 and r['parked'] <= r['lim'] and r['parkedHome'] > 0 and r['shown'] == r['parkedHome'] and r['repainted'] == 0, r)      # round 72d: judged by the chunks themselves (the worker paints ahead faster, so more get parked)
     # ── behind things: outline only over the covered part ──
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), p=ws.player; await new Promise(r=>setTimeout(r,300)); var parts=ZOL._parts(p.cont); if(!parts.length)return {np:1};
       var b=ZOL._box(p.cont,parts), key=parts[0].texture.key; var im=ws.add.image((b.x+b.r)/2,b.y+(b.bt-b.y)*0.55,key).setOrigin(0.5,0).setDepth(p.cont.depth+50); im._zcv=true;

@@ -30,8 +30,8 @@ with game(new=True, painted=True) as g:
       var p0=G?G.kids.map(function(k){ return [k.x,k.y]; }):[]; await w(4000); o.moved=G?G.kids.filter(function(k,i){ return Math.hypot(k.x-p0[i][0],k.y-p0[i][1])>4; }).length:0;
       var npc=(ws._villageNPCs||[]).filter(function(n){ return n.kid; }); o.npcs=npc.length; var a=npc[0]; o.l1=a&&a.line; o.l2=a&&a.line; var nm=ZKIDW.names(ps); o.tw=ZKIDW.TWIN.some(function(t){ return t.replace(/\{h\}/g,nm.h).replace(/\{o\}/g,nm.o)===o.l2; }); o.named=ZKIDW.TWIN.filter(function(t){ return /\{h\}/.test(t); }).length;
       // the village band: near the green and the pier
-      ws.player.x=CENTER_X*TILE; ws.player.y=(CENTER_Y+6)*TILE; ws.player.cont.setPosition(ws.player.x,ws.player.y); await w(2000);
-      o.village=ws._zkG.filter(function(x){ return x.n<0&&x.on; }).map(function(x){ return x.game+':'+x.kids.length; });
+      ws.player.x=CENTER_X*TILE; ws.player.y=(CENTER_Y+6)*TILE; ws.player.cont.setPosition(ws.player.x,ws.player.y); await w(2000); for(var i=0;i<60&&!(ws._zkG&&ws._zkG.some(function(x){ return x.n<0&&x.on; }));i++)await w(250);
+      o.village=(ws._zkG||[]).filter(function(x){ return x.n<0&&x.on; }).map(function(x){ return x.game+':'+x.kids.length; });
       // far away: the hamlet's children go
       o.far=!G.on; ps.spiritsHome=0; await w(800); o.gone=!ws._zkG||!ws._zkG.some(function(x){ return x.on; }); ps.spiritsHome=1; return o; })()""" % W)
     check('Before the gods no children; after, the hamlet\'s children are there when you come near (%d, playing %s)' % (k['n'], k['game']), k['before'] and k['on'] and k['n'] == 3 and k['ims'] == 3, k)

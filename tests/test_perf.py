@@ -34,13 +34,13 @@ with game(new=None) as g:
     print('INFO patterns at load: %d made (%.1f MB) of %d used on the mainland / %d defined'%(p['made'],p['mb'],p['usedInWorld'],p['allKinds']))
     check('Ground patterns are warmed lazily (only those near the spawn at load)', 0<p['made']<p['usedInWorld'], p)
     check('...and every chunk on screen was painted with its patterns', p['chunks']>0 and not p['missing'], p['missing'])
-    wk=g.js("({worker:!!_WPW.w, err:_WPW.err||null, ms:_WPW.ms||null})")
+    wk=g.js("(typeof ZWP!=='undefined'&&ZWP.state==='ready')?{worker:true, err:null, ms:ZWP.readyMs, zwp:true}:{worker:!!_WPW.w, err:_WPW.err||null, ms:_WPW.ms||null}")      # round 72d: the worker painter (05c2) paints whole chunks; the field workers serve the main-thread path
     check('The chunk-paint worker runs in this build (minified code keeps its toString() sources working)', wk['worker'] and not wk['err'] and wk['ms'], wk)
     # on-demand pattern = eagerly warmed pattern (pixel-identical chunk)
     cmp=g.js("""(async function(){ var ws=game.scene.getScene('World'), wd=ws.wd, n=Math.ceil(WORLD_W/WCH), pick=null;
       for(var cy=0;cy<n&&!pick;cy++)for(var cx=0;cx<n&&!pick;cx++){ var L=_wpPatKindsIn(wd,cx,cy,cx,cy); if(L.length>=2)pick={cx:cx,cy:cy,kinds:L}; }
       if(!pick)return {err:'no chunk with unmade patterns'};
-      var paint=async function(){ var j=wpChunkJob(wd,pick.cx,pick.cy); while(!j.step(40))await new Promise(function(r){setTimeout(r,5);}); var c=j.out.canvas; return c.getContext('2d').getImageData(0,0,c.width,c.height).data; };
+      var paint=async function(){ var j=(typeof _wpChunkJob0==='function'?_wpChunkJob0:wpChunkJob)(wd,pick.cx,pick.cy);      /* the main-thread painter: its pattern cache is what this checks */ while(!j.step(40))await new Promise(function(r){setTimeout(r,5);}); var c=j.out.canvas; return c.getContext('2d').getImageData(0,0,c.width,c.height).data; };
       var before=pick.kinds.filter(function(k){ return !!_WPC[k]; }).length;
       var a=await paint(); var made=pick.kinds.filter(function(k){ return !!_WPC[k]; }).length;
       pick.kinds.forEach(function(k){ delete _WPC[k]; }); _wpWarmPatterns(); var b=await paint();

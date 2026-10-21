@@ -44,6 +44,8 @@ var ZWORLD={ URL:'assets/world/world.bin.gz', state:'idle', data:null, ms:0, why
       .catch(function(e){ ZWORLD.state='off'; ZWORLD.why=String(e&&e.message||e); }); },
   // the Boot scene asks: the world if it is here (it then becomes _worldData), else null — wait while it is still on its way (cb when settled)
   whenSettled:function(cb,maxMs){ var t0=Date.now(), go=function(){ if(ZWORLD.state==='loading'&&Date.now()-t0<(maxMs||8000)){ setTimeout(go,50); return; } cb(); }; go(); },
-  use:function(){ if(ZWORLD.state==='ready'&&ZWORLD.data&&typeof _worldData!=='undefined'&&!_worldData){ _worldData=ZWORLD.data; ZWORLD.data=null; ZWORLD.used=true; return true; } return false; }
+  use:function(){ if(ZWORLD.state==='ready'&&ZWORLD.data&&typeof _worldData!=='undefined'&&!_worldData){ _worldData=ZWORLD.data; ZWORLD.data=null; ZWORLD.used=true;
+      /* round 72e: what generating also leaves behind — the region, zone and class grids (realms, map names, soul-lines, hamlets, the new game's saga) */
+      _WREG=_worldData.region||null; _WZONE=_worldData.zone||null; _WCLS=_worldData.cls||null; return true; } return false; }
 };
 try{ ZWORLD.prefetch(); }catch(e){ ZWORLD.state='off'; }
