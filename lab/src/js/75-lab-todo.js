@@ -10,7 +10,7 @@
 // immediate, but only after you do a revision of the game or lab"): at each revision Claude checks the picks and lists the decisions now made
 // in RETIRED; those leave the list in that version (a decision made since stays ticked ✓ until the next revision).
 var LTODO={ L:[],
-  RETIRED:['sol0','sol1','sol2','soullines','soulstyle','soulgame','hamlets','zfonts','zfonts2','taglines'],      // round 72b
+  RETIRED:['sol0','sol1','sol2','soullines','soulstyle','soulgame','hamlets','zfonts','zfonts2','taglines','audio'],      // round 72d: 'audio' answered in chat (M1–M3)
   add:function(o){ if(LTODO.RETIRED.indexOf(o.id)>=0&&!window.__labNoRetire)return;      /* tests of the old asks set __labNoRetire */ LTODO.L=LTODO.L.filter(function(x){ return x.id!==o.id; }); LTODO.L.push(o); },
   status:function(){ return LTODO.L.map(function(o){ var d=false; try{ d=!!o.done(); }catch(e){} return {id:o.id,done:d}; }); },      // for the revision check
   open:function(){ return LTODO.L.filter(function(o){ try{ return !o.done(); }catch(e){ return true; } }); },

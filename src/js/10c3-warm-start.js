@@ -33,7 +33,9 @@ var ZWARM={ on:true, MAX:30000, MARGIN:360, el:null,
     var pats=true; try{ if(typeof _wpPatKindsIn==='function'){ var cx=Math.floor(ws.player.x/(WCH*TILE)), cy=Math.floor(ws.player.y/(WCH*TILE)), L=_wpPatKindsIn(ws.wd,cx-2,cy-2,cx+2,cy+2); if(L.length){ pats=false; _wpPatTile(L[0]); } } }catch(e){}
     var sheets=true; try{ if(typeof ZAtlas!=='undefined'&&!ZAtlas.off)sheets=!Object.keys(ZAtlas.st).some(function(p){ return ZAtlas.st[p]==='loading'; }); }catch(e){}
     var woke=0; (ws.worldMonsters||[]).forEach(function(m){ if(m&&m._lazyVis&&woke<6&&Math.abs(m.x-ws.player.x)<1400&&Math.abs(m.y-ws.player.y)<1000){ try{ ws._monWake(m); }catch(e){} woke++; } });
-    var steady=dt<45; W.smooth=ground&&pats&&sheets&&!woke&&steady?W.smooth+1:0;
+    // round 72d: with the worker painter (05c2) the chunks just beyond arrive moments later — let them land under the curtain too, so the first steps mount nothing
+    var flight=true; try{ if(typeof ZWP!=='undefined'&&ZWP.active(ws.wd)&&R)flight=!R.jobs.size&&!(R.ready&&R.ready.length); }catch(e){}
+    var steady=dt<45; W.smooth=ground&&pats&&sheets&&flight&&!woke&&steady?W.smooth+1:0;
     ZWARM.bar(need.length?have/need.length*0.85+(pats?0.05:0)+(sheets?0.05:0)+Math.min(0.05,W.smooth*0.01):0, ground?(sheets?'almost there':'bringing the people'):'painting the land around you');
     if(W.smooth>=6)ZWARM.done(ws,'ready'); }
 };
