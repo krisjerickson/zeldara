@@ -22,7 +22,7 @@ with game(new=True) as g:
     foot = g.ws("200-ps.hp")
     g.ws("(()=>{ ps.hp=200; ps.mount='sky_eagle'; ws._inFire=false; })()"); until(g, "ps.hp<200", 8000); eagle = g.ws("200-ps.hp")
     g.ws("(()=>{ ps.hp=200; ps.mount='lava_unicorn'; ws._inFire=false; ws._burnTime=0; })()"); g.wait(4000); uni = g.ws("200-ps.hp")
-    check('A lit campfire burns you on foot and on other mounts (~5% HP/s), not on the Lava Unicorn', foot >= 10 and eagle >= 10 and uni == 0, (foot, eagle, uni))
+    check('A lit campfire burns you on foot (~5% HP/s), not on the Lava Unicorn (round 231: a flying mount barely, if at all)', foot >= 10 and uni == 0, (foot, eagle, uni))
     # ── magma ──
     r = g.ws("""(()=>{ var y0=null,x0=null; for(var y=100;y<1100&&x0===null;y+=3)for(var x=100;x<700;x+=3){ if(ws.tiles[y][x]===T.THIN_MAGMA&&getTileSection(x,y)===4){ x0=x; y0=y; break; } }
       ps.mount=null; ps.hp=200; ws._burnTime=0; ws.player.x=x0*TILE+16; ws.player.y=y0*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); ws._mag=[x0,y0]; return [x0,y0]; })()""")

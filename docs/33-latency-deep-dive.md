@@ -129,6 +129,28 @@ It also creates every prop's image and tween in one frame.
 
 These help, but they don't remove the cost. Painting the ground still takes about 27 ms of each phone frame. That is P1.
 
+## 4b. Done after Kris's answers (L1)
+
+- **The start curtain** (`10c3-warm-start.js`, Kris: "load entire first screen instead of having a laggy start … and make sure that any immediate movement does not produce lag"): the world stays covered until every ground chunk on screen and within 360 px of its edges is painted and mounted, the painted sheets have arrived and the nearby monsters are awake; nothing is drawn under it, so the painter gets every frame. Measured here: after it lifts, walking in all four directions needs no new ground (painting at most 0.3 ms a frame, no chunk mounted).
+- **P2 — the world built once** (`05e-world-prebuilt.js`, `tests/bake_world.py`): `assets/world/world.bin.gz`, 0.86 MB (11.7 MB unpacked), fetched while the title shows; checked identical to a freshly generated world (241,509 values). It carries a hash of the code; a stale or missing file means the game generates as before. **Re-bake after code changes** (`python tests/bake_world.py`; `test_round72c` fails if it is stale).
+- **P3 — mounting in batches**: a chunk's first 40 pictures in the frame it arrives, the rest about 3 ms a frame after.
+- **P5 — monsters wake gradually**: at most 3 a frame (any closer than 700 px at once).
+- **Slices that keep the budget**: the edge pass now stops at the frame's deadline, not after a fixed number of rows (the ground fills were banded earlier).
+- **P1, the worker painter**: done — see §4c. Next: **P4, the texture budget**.
+
+## 4c. P1 — the worker painter (Kris's answer O1: "build it, test hard")
+
+- **What changed** (`src/js/05c2-world-paint-worker.js`, ZWP): each ground chunk — its field, terrain edges, built surfaces and painted textures, decoration, walls, props, lava, ley lines and the sprite atlas — is painted in a Web Worker on an OffscreenCanvas. The main thread receives the finished pictures (ImageBitmaps shown through a `bitmaprenderer` canvas, so no copy) and only mounts them.
+- **How it stays the same game:** the worker runs the page's own script (the very same painting code, `wpChunkJob` unchanged) with stand-ins for the page. It loads the world from the baked file's bytes (P2) and gets the painted scenery as ImageBitmaps. Each job carries what may have changed since: the kind and zone grids round the chunk, its props, the felled trees, and the switches. Kinds are matched by what they are and put in the main thread's order (a few patterns take their look from a kind's number).
+- **Safety:** no OffscreenCanvas, no baked world, a kind the worker lacks, a worker error → that chunk (or every chunk) is painted on the main thread as before. Switch: `?wp=0` off, `?wp=1` on; on by default.
+- **Checked** (`tests/test_worker_paint.py`, nine chunks of every kind: the village, its edge, lava, deep water, patterns, walls, a ley line, two realms):
+  - the same props (positions, atlas places, depths), lights, particles, swaying pieces, lava cells — exactly;
+  - the generated ground the same picture: 0 pixels differ in water, patterns and realms; elsewhere at most ~40 levels on some edge pixels (mean under 0.1 level), because Chrome clips without antialiasing on an OffscreenCanvas (found and confirmed on the main thread too);
+  - the painted scenery the same to the eye (mean difference under 1 level): a page `<img>` is shrunk with mip-maps, a bitmap without — side by side at 4× they can't be told apart;
+  - a tile changed during play (land to water) shows in the worker's picture (0 pixels differ).
+- **Measured** (test browser, two cores): painting on the main thread per chunk **181 ms → 6 ms** (the hand-over); no painting slice over 15 ms; chunks arrive 2–5× sooner. Mounting (the GPU upload) is unchanged and is now the only ground cost on the main thread — the next target (P4 and a pooled ground texture).
+- **On a phone:** one worker (it holds a second copy of the script and the world in memory; not measured on a device yet). Please send the `?perf=1` readout (L3) — that is the real check.
+
 ## 5. Questions for Kris
 
 - **L1 — Which to do next?** (any number)

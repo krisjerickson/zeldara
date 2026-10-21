@@ -27,6 +27,7 @@ with game(new=None) as g:
     r=g.ws("{h:ws.wd.map.height, ga:ws.wd.map.gateAt, cd:ws.wd.map.coastDist.constructor.name, n:ws.wd.map.coastDist.length, mx:Math.max.apply(null,Array.from(ws.wd.map.coastDist.subarray(0,5000)))}")
     check('World-map scratch grids freed (height, gateAt) and coastDist is one byte per tile', r['h'] is None and r['ga'] is None and r['cd']=='Uint8ClampedArray' and r['n']==1200*1200, r)
     # lazy patterns: few made at load, every mounted chunk has all of its patterns
+    until(g, "game.scene.getScene('World')._wr.chunks.size>0", 20000)      # round 72: the first chunks come from the paint worker a moment after the world is ready
     p=g.ws("""(function(){ var P=_wpIsPat(), used={}; for(var i=0;i<ws.wd.kind.length;i++)if(P[ws.wd.kind[i]])used[ws.wd.kind[i]]=1;
       var miss=[]; ws._wr.chunks.forEach(function(ch,k){ var L=_wpPatKindsIn(ws.wd,ch.cx,ch.cy,ch.cx,ch.cy); if(L.length)miss.push(k); });
       var px=0; for(var k in _WPC)px+=_WPC[k].w*_WPC[k].h*4; return {made:Object.keys(_WPC).length, usedInWorld:Object.keys(used).length, allKinds:WK_REG.list.filter(function(k,i){return P[i];}).length, mb:px/1048576, chunks:ws._wr.chunks.size, missing:miss}; })()""")

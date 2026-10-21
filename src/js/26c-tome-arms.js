@@ -40,7 +40,7 @@
     Object.keys(pairs).forEach(function(key){ var e=key.split('+'), g=gap(e[0],e[1]), L=pairs[key].sort(function(a,b){ return (ITEMS[a].slot==='rHand'?0:1)-(ITEMS[b].slot==='rHand'?0:1); }), m=midAng(e[0],e[1]);
       L.forEach(function(id,i){ if(g<=61)pos[id]=pol(m,ITEMS[id].slot==='rHand'?LANE_R[1]:LANE_R[2]-(i-(ITEMS[L[0]].slot==='rHand'?1:0))*46); else if(g<=121)pos[id]=pol(m+(i-(L.length-1)/2)*16,112); else pos[id]=pol(m+(i-(L.length-1)/2)*20,82); }); });
     // all six: the middle
-    var SA=[30,90,150,210]; mid.sort(function(a,b){ return a==='elemental_sovereign'?-1:b==='elemental_sovereign'?1:0; }).forEach(function(id,i){ pos[id]=i===0?[C,C]:pol(SA[(i-1)%4]+Math.floor((i-1)/4)*35,50); });
+    var SA=[30,90,150,210]; mid.sort(function(a,b){ return a==='elemental_sovereign'?-1:b==='elemental_sovereign'?1:0; }).forEach(function(id,i,L){ var n=L.length-1; pos[id]=i===0?[C,C]:n<=4?pol(SA[(i-1)%4],50):pol(51+(i-1)*360/n,n>6?58:50); });      /* round 72: more than four (the Lodestar joined) — spread evenly round the middle */
     // no element: a row under the wheel, outside it
     none.forEach(function(id,i){ pos[id]=[C+(i-(none.length-1)/2)*(SQ+14),ROWY]; });
     return (A._lay={pos:pos,byEl:byEl,duals:duals,mid:mid,none:none}); }

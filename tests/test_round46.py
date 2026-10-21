@@ -20,8 +20,9 @@ with game(new=True, painted=True) as g:
     check('Terrain pieces cut to about a third (density %s at edges, %s inside); chunk painting split into resumable steps' % (r['d'], r['i']),
           r['d'] <= 0.4 and r['i'] <= 0.25 and r['fr'] == 'function' and r['c'] == 'function', r)
     # ── chunk parking ──
-    r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), p=ws.player, W=ws._wr, x0=p.x, y0=p.y; var go=async function(x,y){ p.x=x; p.y=y; p.cont.setPosition(x,y); ws.cameras.main.centerOn(x,y); await new Promise(r=>setTimeout(r,2500)); };
-      await go(x0+TILE*70,y0); var parked=W.parked?W.parked.size:0, jobs0=W.jobs.size; await go(x0,y0); var back=W.parked?W.parked.size:0; return {parked:parked,back:back,lim:WR_PARK}; })()""")
+    g.chunks()      # round 72: the ground on screen first (slow in a busy test machine)
+    r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), p=ws.player, W=ws._wr, x0=p.x, y0=p.y; var go=async function(x,y){ p.x=x; p.y=y; p.cont.setPosition(x,y); ws.cameras.main.centerOn(x,y); await new Promise(r=>{ var t0=Date.now(), f=function(){ if((W.jobs.size===0&&W.chunks.size>0)||Date.now()-t0>20000)r(); else setTimeout(f,250); }; setTimeout(f,1500); }); };
+      await go(x0+TILE*110,y0); var parked=W.parked?W.parked.size:0, jobs0=W.jobs.size; await go(x0,y0); var back=W.parked?W.parked.size:0; return {parked:parked,back:back,lim:WR_PARK}; })()""")
     check('Chunks that go off-screen are parked (%d kept, up to %d) and shown again when you walk back, not repainted' % (r['parked'], r['lim']),
           r['parked'] > 0 and r['parked'] <= r['lim'] and r['back'] <= r['parked'], r)
     # ── behind things: outline only over the covered part ──

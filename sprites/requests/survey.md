@@ -1,6 +1,6 @@
 # Character survey — 539 characters, 1189 sheets (828 core), 8253 poses
 
-Made by build.mjs from the game data. Kit modules with no animation mapping: chain_jailer: guard; einherjar_shieldmaiden: guard.
+Made by build.mjs from the game data. Kit modules with no animation mapping: none.
 
 | Group | Characters | Sheets | Core sheets | Poses |
 |---|---|---|---|---|

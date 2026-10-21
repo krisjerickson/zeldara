@@ -39,8 +39,8 @@ with game(new=True) as g:
 
     # ── skills: never sold, 12 learnable ──
     r = g.js("""(()=>{ var sp=Object.keys(ITEMS).filter(k=>ITEMS[k].slot==='special'), sold=[]; Object.keys(BUILDING_SLOTS).forEach(b=>{ sp.forEach(k=>{ if(BUILDING_SLOTS[b](ITEMS[k]))sold.push(b+':'+k); }); });
-      var taught=Object.keys(CASTLE_ISLANDS).map(k=>CASTLE_ISLANDS[k].skill); return {n:sp.length, sold:sold, taught:new Set(taught).size, all:sp.every(k=>taught.indexOf(k)>=0), q:Object.keys(CASTLE_ISLANDS).map(k=>ITEMS[CASTLE_ISLANDS[k].skill].secReq===CASTLE_ISLANDS[k].sec).every(Boolean)}; })()""")
-    check('12 special skills, none sold in shops, each taught by exactly one castle master (by quadrant)', r['n'] == 12 and not r['sold'] and r['taught'] == 12 and r['all'] and r['q'], r)
+      var taught=Object.keys(CASTLE_ISLANDS).map(k=>CASTLE_ISLANDS[k].skill); return {n:sp.length, sold:sold, taught:new Set(taught).size, all:sp.filter(k=>k!=='sp_roll').every(k=>taught.indexOf(k)>=0), q:Object.keys(CASTLE_ISLANDS).map(k=>ITEMS[CASTLE_ISLANDS[k].skill].secReq===CASTLE_ISLANDS[k].sec).every(Boolean)}; })()""")
+    check('13 special skills (round 45: the roll is learned from the Tumbler, Petal Step took its castle), none sold in shops, the other 12 each taught by exactly one castle master (by quadrant)', r['n'] == 13 and not r['sold'] and r['taught'] == 12 and r['all'] and r['q'], r)
 
     # ── harbors + islands ──
     r = g.ws("ws.wd.sites.filter(s=>s.type==='harbor').map(s=>[s.section,s.castle||''])")
@@ -56,7 +56,7 @@ with game(new=True) as g:
     check('Castle island: its own name, roster monsters, a castle gate to enter', r['castle'] and r['name'] == 'Abbey Isle' and r['mons'] >= 8 and r['gate'], r)
     g.js("(()=>{ var I=game.scene.getScene('Island'); I._enterSite(I.sites[0]); })()"); g.wait(2500)
     r = g.js("(()=>{ var d=game.scene.getScene('Dungeon'); return {c:!!d._castle, style:d._labSpec&&d._labSpec.style&&d._labSpec.style.id, max:d.maxFloors}; })()")
-    check('The castle is a tower-style dungeon with its own look', r['c'] and r['style'] == 'drowned_abbey' and r['max'] == 3, r)
+    check('The castle is its own dungeon (round 79: the castle halls replaced the tower style), three floors', r['c'] and r['max'] == 3, r)
     g.js("""(()=>{ var d=game.scene.getScene('Dungeon'); var cs=CastleRun.site('q2_c'); d.scene.restart({site:cs,floor:cs.floors-1,maxFloors:cs.floors,worldScene:d.worldScene,returnScene:'Island',theme:'tower'}); })()"""); g.wait(3000)
     r = g.js("(()=>{ var d=game.scene.getScene('Dungeon'), b=(d._bossGroup||[])[0]; return {boss:b&&b.def.name, mx:!!(b&&b.mx), captive:!!d._captive, phases:BossPhases.count(d._bossKey)}; })()")
     check('Top floor: a one-phase warden and a caged master', 'Abbot' in r['boss'] and 'Drowned' in r['boss'] and r['mx'] and r['captive'] and r['phases'] == 1, r)

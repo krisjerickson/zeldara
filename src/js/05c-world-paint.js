@@ -288,7 +288,7 @@ function wpChunkJob(wd,cx,cy){
   var finishField=function(){ var lo=mkCanvas(SW,SW), lx=lo.getContext('2d'), img=lx.createImageData(SW,SW); img.data.set(D.px); lx.putImageData(img,0,0);
     ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='medium'; ctx.drawImage(lo,0,0,GW*LT,GW*LT); kb=D.kb; phase=D.E?1.5:2; };
   var job={out:out,phase:function(){return phase;},step:function(budget){
-    var t0=performance.now();
+    var t0=performance.now(); D._dl=t0+budget;      /* round 72: the edge pass (05d) stops at the same deadline */
     while(performance.now()-t0<budget){
       if(phase===0){ // 1–2. the field: in the worker if we can, else in slices here
         var wk=_wpWorker();

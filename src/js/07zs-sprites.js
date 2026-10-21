@@ -93,7 +93,8 @@ var ZSPR={
     melee:'melee',shoot:'ranged',lob:'ranged',beam:'beam',slam:'slam',sweep:'sweep',breath:'breath',grab:'grab',pull:'grab',
     ring:'cast',cloud:'cast',aura:'cast',summon:'cast',gust:'cast',drain:'cast',heal:'cast',marks:'cast',strike:'cast',trap:'cast',wall:'cast',echo:'cast',banish:'cast',
     // defences
-    front:'guard',armor:'guard',bubble:'guard',reflect:'guard',dodge:'dodge',explode:'explode',revive:'revive',enrage:'enrage',split:'split',
+    front:'guard',armor:'guard',bubble:'guard',reflect:'guard',guard:null,      /* round 72: a kit's own 'guard' move (chain jailer, einherjar shieldmaiden) — no extra picture, the hit tint shows it */
+    dodge:'dodge',explode:'explode',revive:'revive',enrage:'enrage',split:'split',
     // no picture needed (numbers or tints only)
     tiny:null,weak:null,immune:null,thorns:null,regen:null,resist:null,ward:null,mirror:null,nullaura:null,spiritward:null,'null':null
   },
@@ -207,7 +208,7 @@ var ZSPR={
     SHEETS_ONE:[['skills_a','Skills: War Stomp, Whirlwind, Smoke Bomb',['war_stomp','whirlwind','smokebomb']],['skills_b','Skills: Blink, Berserker, Second Wind, Time Slow',['blink','berserker','secondwind','timeslow']],
                 ['skills_c','Skills: Phantom Veil, Meteor; defeat',['phantom','meteor','death']],['lodestar_b','The Lodestar raised to the sky and set in the notch',['lodestar_raise','lodestar_set']],['misc','Potion, food, cheer, rest, hurt, pick up',['drink','eat','cheer','rest','hurt','pickup']]],
     // game action → animation (what the mapping table in the Lab shows, and what the game will ask for)
-    SKILL_ANIM:{sp_sprint:'run',sp_roll:'roll',sp_blink:'blink',sp_war_stomp:'war_stomp',sp_whirlwind:'whirlwind',sp_smokebomb:'smokebomb',sp_shieldbash:'shieldbash',sp_berserker:'berserker',sp_secondwind:'secondwind',sp_phantom:'phantom',sp_timeslow:'timeslow',sp_meteor:'meteor'},
+    SKILL_ANIM:{sp_sprint:'run',sp_roll:'roll',sp_petalstep:'roll',      /* round 72: Petal Step (round 45) — a quick step, the roll frames */ sp_blink:'blink',sp_war_stomp:'war_stomp',sp_whirlwind:'whirlwind',sp_smokebomb:'smokebomb',sp_shieldbash:'shieldbash',sp_berserker:'berserker',sp_secondwind:'secondwind',sp_phantom:'phantom',sp_timeslow:'timeslow',sp_meteor:'meteor'},
     // today's stand-in for each animation (frames that already exist in the game)
     LEGACY:{idle:'walk',walk:'walk',run:'walk',melee_sword:'attack',melee_axe:'attack',ranged_bow:'bow',ranged_xbow:'bow',magic_staff:'attack',magic_wand:'attack',magic_hand:'attack',block:'walk',roll:'walk',shieldbash:'attack'},
     BOSS_BASE:{bf_drakeling:'rock_dragon',bf_forge_guardian:'iron_sentinel',bf_shadow_twin:'shadow_lord'},

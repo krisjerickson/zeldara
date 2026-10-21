@@ -7,6 +7,7 @@
 var WR_DEPTH=function(y){ return 10+y/100000; };
 var WR_LIGHT_D=10.9;
 var WR_PARK=14;      // round 46: how many off-screen chunks stay parked on the GPU (about 4 MB each)
+var WR_SP_NOW=40;      // round 72 (P3): pictures a chunk makes in the frame it is mounted; the rest follow over the next frames
 function WR_CULL(scene){ var cam=scene.cameras.main, v=cam.worldView, id=cam.id, mx=160, x0=v.x-mx, x1=v.right+mx, y0=v.y-mx, y1=v.bottom+mx*1.8, L=scene.children.list, n=0;
   for(var i=0;i<L.length;i++){ var o=L[i], out; if(o.scrollFactorX!==1||o.scrollFactorY!==1||o.type==='Graphics'||o.type==='ParticleEmitter'||o.type==='Layer'||o._noCull)continue;
     if(o.type==='Container'){ out=o.x<x0-160||o.x>x1+160||o.y<y0-160||o.y>y1+160; }
@@ -42,6 +43,8 @@ Object.assign(WorldScene.prototype,{
   _updateChunks(sync){
     if(!this._wr)this._wrInit();
     var W=this._wr, self=this, need=this._wrNeeded(), keep={};
+    // round 72 (P3): finish the pictures of chunks mounted in earlier frames, about 3 ms a frame
+    if(this._wrPend&&this._wrPend.length){ var tp=performance.now(), PL=this._wrPend; while(PL.length&&(sync||performance.now()-tp<3)){ var pc=PL[0]; if(pc._dead||!pc.pend||!pc.pend.length){ PL.shift(); continue; } var im0=pc.pend.shift()(); if(im0&&pc._off){ im0._wrPv=im0.visible; im0.setVisible(false); } } }
     var rdy={}; (W.ready||[]).forEach(function(r){ rdy[r.key]=1; });
     // round 46 (lag): a chunk that went off-screen is parked (hidden, its pictures kept on the GPU) instead of thrown away, so walking back
     // shows it at once instead of painting it again — repainting the dense village chunks on every return was a long frame each time
@@ -79,7 +82,7 @@ Object.assign(WorldScene.prototype,{
   },
   _createChunk(cx,cy){ this._refreshChunkAt(cx*WCH,cy*WCH); },
   _wrMount(o){
-    var self=this, tag=(this._wrTag||'wc')+(this._wr.seq++), objs=[], keys=[], react=[], x0=o.cx*WCH*LT, y0=o.cy*WCH*LT, tall=null;
+    var self=this, tag=(this._wrTag||'wc')+(this._wr.seq++), objs=[], keys=[], react=[], x0=o.cx*WCH*LT, y0=o.cy*WCH*LT, tall=[], pend=null;      /* tall: an array from the start, so pictures made later still join it */
     var addTex=function(k,cv){ gpuTex(self,k,cv); keys.push(k); return k; };
     var gs=typeof ZQUAL!=='undefined'?ZQUAL.small(o.canvas):null;      /* round 72 (phones): the ground uploaded at half size, shown at full — a quarter of the upload and of the graphics memory */
     objs.push(this.add.image(x0,y0,addTex(tag,gs?gs.cv:o.canvas)).setOrigin(0,0).setDepth(-10).setScale(gs?gs.k:1));
@@ -95,14 +98,16 @@ Object.assign(WorldScene.prototype,{
       this.tweens.add({targets:li,alpha:0.5,duration:2200,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
     // sprites → the chunk's atlas (packed by the paint job)
     if(o.atlas){ var at=addTex(tag+'_a',o.atlas), tex=this.textures.get(at);
-      o.sprites.forEach(function(sp,i){ if(!sp.ap)return; var fn='s'+i; tex.add(fn,0,sp.ap[0],sp.ap[1],sp.aw,sp.ah);
+      var mkSp=function(sp,i){ if(!sp.ap)return; var fn='s'+i; tex.add(fn,0,sp.ap[0],sp.ap[1],sp.aw,sp.ah);
         var im=self.add.image(sp.x,sp.y,at,fn).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.flat?-6:sp.depth!==undefined&&sp.depth>=7000?WR_DEPTH(sp.y)+0.5:WR_DEPTH(sp.depth!==undefined?sp.depth:sp.y));
         if(sp.res){ im.setScale(1/sp.res); if(!tex._zlin){ tex._zlin=true; try{ tex.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} } }      // painted scenery (04h): drawn at 2 ×, shown at half size, smoothed
         if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
         if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
         if(!sp.flat&&sp.canvas&&typeof ZOL!=='undefined')ZOL.keep(im,sp.canvas,sp.res||1,true);      // round 45: the hero's outline shows through it (10o)
         if(sp.zed){ im._zh=sp.ah/(sp.res||1); (tall||(tall=[])).push(im); }      // round 43: a standing edge piece (05d TALL), depth-sorted by its foot
-        objs.push(im); });
+        objs.push(im); return im; };
+      // round 72 (P3, doc 33): a busy chunk's pictures are made a batch at a time over the next frames (_wrPend), not all in the frame it arrives
+      o.sprites.forEach(function(sp,i){ if(i<WR_SP_NOW)mkSp(sp,i); else (pend||(pend=[])).push(function(){ return mkSp(sp,i); }); });
     }
     // round 43: the pieces that sway (reeds, tufts, flowers…) and loop (steam vents, lava bubbles) — each its own image, moved by _wrTick
     var live=null;
@@ -148,7 +153,8 @@ Object.assign(WorldScene.prototype,{
     var crit=this._zcMount?this._zcMount(o,objs):null;      // round 43: the animals (10n)
     if(o.cracks){ var ck=this.add.image(x0,y0,addTex(tag+'_ck',o.cracks)).setOrigin(0,0).setDisplaySize(WCH*LT,WCH*LT).setBlendMode(Phaser.BlendModes.ADD).setDepth(-8.7).setAlpha(0.15); objs.push(ck);      // round 41: the cracks in the crust pulse
       this.tweens.add({targets:ck,alpha:0.85,duration:1300,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
-    return {objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy,lava:o.lavaCells&&o.lavaCells.length?o.lavaCells:null,flip:flip,live:live&&live.length?live:null,tall:tall,crit:crit};
+    var ch={objs:objs,keys:keys,react:react,cx:o.cx,cy:o.cy,lava:o.lavaCells&&o.lavaCells.length?o.lavaCells:null,flip:flip,live:live&&live.length?live:null,tall:tall,crit:crit,pend:pend};
+    if(pend)(this._wrPend||(this._wrPend=[])).push(ch); return ch;
   },
   // A Lab particle spec → Phaser emitter over an area (world px)
   _wrEmitter(p,a){
@@ -161,6 +167,7 @@ Object.assign(WorldScene.prototype,{
   // round 46: hide / show a parked chunk (each object keeps the visibility it had)
   _wrShow(ch,on){ ch._off=!on; ch.objs.forEach(function(o){ if(!o||!o.scene)return; if(!on){ o._wrPv=o._zv!==undefined?o._zv:o.visible; o._zv=undefined; o.setVisible(false); } else { o.setVisible(o._wrPv!==false); o._wrPv=undefined; } }); },
   _wrUnmount(ch){
+    ch._dead=true; ch.pend=null;
     var self=this; ch.objs.forEach(function(o){ self.tweens.killTweensOf(o); o.destroy(); });
     ch.keys.forEach(function(k){ if(self.textures.exists(k))self.textures.remove(k); });
   },

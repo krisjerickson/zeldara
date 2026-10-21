@@ -24,8 +24,8 @@ with game(new=True) as g:
         g.wait(900)
     check('Travel works through all 17 waystones in a row: [Tab] opens the map at each, the click moves you at once', not bad, bad[:3])
     # a second request while the arrival fade is still running must also move you
-    r=g.js("""(()=>{ var ws=game.scene.getScene('World'); WMAP.travel='ws_village'; ws._travelTo('ws_waystone_road'); var a=[ws.player.x/TILE|0]; WMAP.travel='ws_waystone_road'; ws._travelTo('ws_firefly_river'); a.push(ws.player.x/TILE|0); return a; })()""")
-    check('Two travels back to back both move you (no dependence on the camera fade)', r==[675,900], r)
+    r=g.js("""(()=>{ var ws=game.scene.getScene('World'); WMAP.travel='ws_village'; ws._travelTo('ws_waystone_road'); var a=[ws.player.x/TILE|0]; WMAP.travel='ws_waystone_road'; ws._travelTo('ws_firefly_river'); a.push(ws.player.x/TILE|0); var W=function(id){ return ws.wd.waystones.find(function(q){ return q.id===id; }).x; }; return [a,[W('ws_waystone_road'),W('ws_firefly_river')]]; })()""")
+    check('Two travels back to back both move you (no dependence on the camera fade)', all(abs(r[0][i]-r[1][i])<4 for i in (0,1)), r)      # round 72: by each waystone's own position (the map moved them a little since)
     # a fairy hovering at a waystone: the stone gets [Tab]; next to the fairy and away from the stone, the fairy does
     r=g.js("""(()=>{ var ws=game.scene.getScene('World'), f=ws._fairies&&ws._fairies.find(x=>x.spr); if(!f)return null; var w=ws.wd.waystones.slice().sort((a,b)=>Math.hypot(a.x*TILE-f.cx,a.y*TILE-f.cy)-Math.hypot(b.x*TILE-f.cx,b.y*TILE-f.cy))[0];
       var put=function(x,y){ ws.player.x=x; ws.player.y=y; ws.player.cont.setPosition(x,y); if(ws._interactPrompt){ ws._interactPrompt.destroy(); ws._interactPrompt=null; } ws._checkInteraction(); return ws._interactPrompt?(ws._interactPrompt._fairy?'fairy':ws._interactPrompt._ws?'stone':'other'):'none'; };

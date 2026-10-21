@@ -30,7 +30,7 @@ for painted in (True, False):
     with game(painted=painted) as g:
         check('World starts (%s)' % tag, to_world(g)); g.wait(1200)
         g.ws("(()=>{ ps.hp=ps.maxHp=99999; ps.ownedFamiliars=['fam_grass','fam_water','fam_earth','fam_fire']; ps.fairyKings=[2,3,4]; ps.familiar='fam_grass'; ps.familiar2='fam_water'; ps.familiar3='fam_earth'; ps.familiar4='fam_fire'; ws.worldMonsters.forEach(function(m){ m.x=m.spawnX=-9000; }); })()")
-        g.wait(2500); g.js("(()=>{ var ws=game.scene.getScene('World'); _heroSetPos(ws, ws.player.x, ws.player.y); })()"); g.wait(800)
+        g.wait(2500); g.js("(()=>{ var ws=game.scene.getScene('World'); _heroSetPos(ws, (CENTER_X+VILLAGE_RADIUS+14)*TILE, CENTER_Y*TILE); })()"); g.wait(2500)      # round 44: familiars wait at the village's edge — the pod is tested outside it
         S = g.js(WALK % json.dumps(LEGS))
         check('Four familiars are out (%s)' % tag, S['count'] == 4, S['count'])
         check('Walking, turning and reversing: no familiar overlaps the hero (%s)' % tag, S['n'] > 1500 and S['worst'] <= 1.0, {k: S[k] for k in ('n', 'worst', 'pair')})

@@ -34,6 +34,7 @@ with game() as g:
     # ★ bosses have phases (round 4): keep felling whatever boss stands until the fight is over
     for _ in range(12):
         if g.js("!!game.scene.getScene('Dungeon')._bossDefeated"): break
+        g.js("(()=>{ try{ FairyTalk.close(); }catch(e){} var f=document.getElementById('fairy-talk'); if(f)f.style.display='none'; try{ _pauseSync(); }catch(e){} })()")      # round 72: a talk (a freed spirit's) pauses the scene; close it
         g.js("var d=game.scene.getScene('Dungeon');var b=d.monsters.find(m=>m.isBoss&&!m.dead);if(b){b.hp=0;if(!b.dead)d._monsterDied(b);}"); g.wait(1800)
     check('Portal unlocked after boss', g.js("game.scene.getScene('Dungeon').interactables.find(i=>i.type==='boss_chest').locked===false"))
     g.js("var d=game.scene.getScene('Dungeon');var c=d.interactables.find(i=>i.type==='boss_chest');d.px=c.x;d.py=c.y;d._interact()"); g.wait(2000)

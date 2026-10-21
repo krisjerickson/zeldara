@@ -20,9 +20,10 @@ with sync_playwright() as p:
     pg.goto("http://lab.test/?tabs=all"); pg.wait_for_timeout(1500)
     pg.click('.lab-tab[data-tab="characters"]'); pg.wait_for_timeout(900)
     counts = {}
-    for cat, n in [('npc', 41), ('mount', 11), ('boss', 72)]:
-        pg.click(f'.ch-cat[data-cat="{cat}"]'); pg.wait_for_timeout(700)
+    for cat, n in [('npc', 108), ('mount', 11), ('boss', 77)]:      # round 72: 108 folk now (kin, children, the gods), 77 bosses (forges, Muspelheim, Asgard)
+        pg.click(f'.ch-cat[data-cat="{cat}"]'); pg.wait_for_timeout(2500)
         counts[cat] = pg.evaluate("document.querySelectorAll('.ch-card').length")
+        pg.evaluate("(()=>{ var L=document.querySelectorAll('.ch-spr'); if(L[2])L[2].scrollIntoView({block:'center'}); })()"); pg.wait_for_timeout(900)      # round 72: only cards on screen are drawn
         drawn = pg.evaluate("[...document.querySelectorAll('.ch-spr')].slice(0,6).filter(c=>{ var d=c.getContext('2d').getImageData(0,0,c.width,c.height).data; for(var i=3;i<d.length;i+=16)if(d[i])return true; return false; }).length")
         check(f'{cat}: {n} cards, sprites drawn', counts[cat] == n and drawn >= min(3, n), (counts[cat], drawn))
         if SHOTS: pg.screenshot(path=os.path.join(SHOTS, f'lab_chars_{cat}.png'))

@@ -55,8 +55,9 @@ with game(new=True, painted=True, query='?scenery=fake') as g:
       ps.equip.lHand='axe'; var w0=ps.wood||0, t0=wd.tiles[p.y][p.x]; o.cut=ws._chopTree(ws.player.x,ws.player.y,'up'); o.wood=(ps.wood||0)-w0; o.saved=ps.chopped.indexOf(key)>=0; o.was=t0===T.PROP; o.walk=!ALWAYS_BLOCKED.has(wd.tiles[p.y][p.x]); o.again=ws._chopTree(ws.player.x,ws.player.y,'up')&&ws._chopFind(ws.player.x,ws.player.y,'up')===p;
       var keep=ps.chopped.slice(); ps.chopped=[]; ws._chopInit(); o.back=wd.tiles[p.y][p.x]===T.PROP&&!wd._chopped.has(key); ps.chopped=keep; ws._chopInit(); o.down=wd._chopped.has(key);
       o.axeOk=ZCHOP.canChop({equip:{lHand:'battle_axe'}}); return o; })()""")
-    check('Chopping: no tree falls to a sword; an axe fells the one in front (%s), gives wood (+%s), frees the ground, is saved, and comes back for a save that never felled it' % (r.get('prop'), r.get('wood')),
-          not r.get('none') and r['noAxe'] is False and r['cut'] and r['wood'] >= 1 and r['saved'] and r['was'] and r['walk'] and not r['again'] and r['back'] and r['down'] and r['axeOk'], r)
+    # round 60 (Kris: "remove the mechanic of chopping down trees … you lose the pretty trees as part of the scenery"): nothing fells a tree any more
+    check('Chopping is gone (round 60): neither a sword nor an axe fells a tree (%s), no wood, the tree stays' % r.get('prop'),
+          not r.get('none') and r['noAxe'] is False and not r['cut'] and r['wood'] == 0 and not r['saved'] and r['was'] and not r['walk'], r)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No page errors', errs == [], errs[:4])
 

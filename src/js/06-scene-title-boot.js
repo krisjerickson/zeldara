@@ -72,6 +72,12 @@ class BootScene extends Phaser.Scene{
     this.time.delayedCall(50,function(){self._startGen();});
   }
   _startGen(){
+    // round 72 (P2, 05e-world-prebuilt.js): the world baked once and fetched while the title showed — used if it is here (and current);
+    // otherwise generated as before
+    var self=this; if(typeof ZWORLD!=='undefined'&&ZWORLD.state==='loading'){ this._pct.setText('Unpacking the world...'); ZWORLD.whenSettled(function(){ self._startGen2(); },8000); return; }
+    this._startGen2(); }
+  _startGen2(){
+    if(typeof ZWORLD!=='undefined')try{ ZWORLD.use(); }catch(e){}
     // The world is generated synchronously (the bar can't move during it), so the bar
     // just reports the real steps: generating → built → entering. No artificial ticks.
     var wd=generateWorld(), self=this;

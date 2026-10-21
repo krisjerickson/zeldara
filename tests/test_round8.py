@@ -52,7 +52,7 @@ if only in (None,'lab'):
         pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
         pg.goto('file://'+os.path.abspath(os.path.join(os.path.dirname(__file__),'..','lab','index.html'))+'?tabs=all'); pg.wait_for_timeout(1500)
         pg.evaluate("LabApp.picks['bosses-boss_goblin_king']={verdict:'pick',regions:[2]};0")
-        pg.click('.lab-tab:has-text("Bosses")'); pg.wait_for_timeout(2000)
+        pg.click('.lab-tab[data-tab="bosses"]'); pg.wait_for_timeout(2000); pg.evaluate("(()=>{ var b=document.querySelector('.bb-go[data-g=guardians]'); if(b)b.click(); })()"); pg.wait_for_timeout(1500)      # round 63: the tab shows one group at a time
         n=pg.evaluate("[document.querySelectorAll('.bb-line').length, document.querySelectorAll('.bb-row[data-slot=\"boss_goblin_king\"] > .bb-opts .bb-card').length, document.querySelectorAll('.bb-row[data-slot=\"boss_goblin_king\"] .bb-ref .bb-card').length, document.querySelectorAll('.bb-tag.new').length]")
         check('Lab: 8 family line-ups; a picked row shows its pick, the rest under Reference; NEW options tagged',n[0]==8 and n[1]==1 and n[2]==2 and n[3]==11,n)
         pg.click('.bb-famok >> nth=0'); pg.wait_for_timeout(300)

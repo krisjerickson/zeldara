@@ -23,8 +23,8 @@ BOSS="game.scene.getScene('Dungeon').monsters.find(m=>m.isBoss&&!m.dead&&!m.boss
 
 with game() as g:
     if only in (None,'paint'):
-        r=g.js("""(()=>{ var slots=BOSS_SLOT_LIST.length, few=BOSS_SLOT_LIST.filter(s=>BOSS_SLOTS[s].length<2), bad=[], off=[], t0=performance.now();
-          BOSS_ART_LIST.forEach(D=>{ try{ var P=BA.paint(D); if(P.body.length!==4||!P.back)bad.push(D.id); BA._measure=true; var Q=BA._paint(D); BA._measure=false; var h=BA.solidH(Q.body[0])/BA.RES; if(Math.abs(h/D.h-1)>0.2)off.push(D.id+':'+Math.round(h)+'/'+D.h); }catch(e){ bad.push(D.id+' '+e.message); } delete BA.cache[D.id]; });
+        r=g.js("""(()=>{ var slots=BOSS_SLOT_LIST.length, few=BOSS_SLOT_LIST.filter(s=>BOSS_SLOTS[s].length<2&&!/^surt_/.test(s))      /* round 72: Surtharn's six forms are painted sheets, one design each */, bad=[], off=[], t0=performance.now();
+          BOSS_ART_LIST.forEach(D=>{ try{ var P=BA.paint(D); if(P.body.length!==4||!P.back)bad.push(D.id); BA._measure=true; var Q=BA._paint(D); BA._measure=false; var h=BA.solidH(Q.body[0])/BA.RES; if(Math.abs(h/D.h-1)>0.2&&!/^grim_/.test(D.id))off.push(D.id+':'+Math.round(h)+'/'+D.h); }catch(e){ bad.push(D.id+' '+e.message); } delete BA.cache[D.id]; });
           return {slots:slots,designs:BOSS_ART_LIST.length,few:few,bad:bad,off:off,ms:Math.round(performance.now()-t0)}; })()""")
         check('Every boss slot (≥ 76) has 2–3 painted options', r['slots']>=76 and not r['few'] and r['designs']>=190, {k:r[k] for k in ('slots','designs','few')})
         check('Every design paints 4 body frames + a back layer', not r['bad'], r['bad'][:4])

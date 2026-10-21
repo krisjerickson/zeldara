@@ -68,5 +68,10 @@
     PN('pn_cel_children','Children Again',[],'the village in spring: a midwife holding up a newborn baby to happy parents at a cottage door, cradles in the sun, a toddler taking first steps toward a grandmother, two young children (a boy and a girl) running across the green with a kite, a goat chasing them',{mix:true}),
     PN('pn_credits','The Credits',[],'a calm wide night panorama for scrolling credits: the dark still lake with a few golden spires rising out of the water, the village lights small on the shore at the bottom, green hills with faint blue rune lines, and a huge quiet starry sky taking up the whole upper two-thirds of the picture with the stars forming a faint World-Tree, the middle of the sky dark and plain'),
     PN('pn_after','After',['hero_m.model','hero_f.model'],'both twins (the boy and the girl in green cloaks, as in the hero references) sitting side by side on a grassy hill at sunset, seen from behind and a little to the side, looking out over green lands, winding paths and small hamlets with smoke rising, the lake shining with golden spires in it; their eyes glow faintly rune-blue')]));
+  // ── wave 83 (round 72, the health check): the Lodestar was the one item in the game with no painted icon ──
+  ZSCN.WAVES[83]='Round 72 — the Lodestar\'s icon (the one item without one)';
+  ZSCN.SHEETS=ZSCN.SHEETS.concat([
+    {id:'sc_ic_lodestar',wave:83,fam:'icons',kind:'icon',cols:1,rows:1,size:'1024x1024',refs:['sc_ic_ui_1'],title:'The Lodestar — a game icon',items:[
+      ['ic_lodestar','The Lodestar','a tall white-gold staff crowned with a bright eight-pointed star of light inside a ring of four small coloured heartglass gems (green, blue, amber, red), glowing softly',48,48]]}]);
   if(ZSCN.expand)ZSCN.expand();
 })();

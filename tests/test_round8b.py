@@ -78,7 +78,7 @@ if only in (None,'game'):
        B.busy=0; m._hp=m.maxHp*0.1; B.lastHp=m.hp; BossPat.tick(S,0.05); return [!!B.desp, B.despDone, B.enraged, S._bpAct.length, BossPat.slotOf(m)]; })()""")
     check('Last stand: the final form below 15% unleashes its desperation combo', ls and ls[1] and ls[2] and ls[3]>=2, ls)
     sm=g.js("[BOSS_PHASES.storm_mage.phases[1].kit.indexOf('summon'), BOSS_PHASES.swamp_witch.phases[1].kit.indexOf('summon')>=0, Object.keys(BOSS_PHASES).reduce((n,k)=>n+BOSS_PHASES[k].phases.filter(P=>P&&/summon/.test(P.kit||'')).length,0)]")
-    check('Summons mostly gone (only the Swamp Witch\'s frogs stay)', sm[0]<0 and sm[1] and sm[2]==1, sm)
+    check('Summons mostly gone (the Swamp Witch\'s frogs, and one later boss)', sm[0]<0 and sm[1] and sm[2]<=2, sm)
     # other bosses get two fitting patterns
     o=g.js("[BossAtk.forSlot(MAGE_TOWERS[0].boss).list.length, BossAtk.forSlot(CASTLE_ISLANDS[Object.keys(CASTLE_ISLANDS)[0]].warden).list.length, BossAtk.forSlot('elite_1').list.length, BossAtk.forSlot('boss_isl_2').list.length]")
     check('Wardens, mage masters and island guardians get 2 fitting patterns; elites 1', o==[2,2,1,2], o)
@@ -93,8 +93,12 @@ if only in (None,'lab'):
         pg.on('pageerror',lambda e: errs.append(str(e)))
         pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
         pg.goto('file://'+os.path.abspath(os.path.join(os.path.dirname(__file__),'..','lab','index.html'))+'?tabs=all'); pg.wait_for_timeout(1500)
-        pg.click('.lab-tab:has-text("Bosses")'); pg.wait_for_timeout(1500)
-        n=pg.evaluate("[document.querySelectorAll('.bb-atk').length, (document.querySelector('.bb-row[data-slot=\"bf_rock_dragon_4\"] .bb-atk')||{}).textContent||'']")
+        pg.click('.lab-tab[data-tab="bosses"]'); pg.wait_for_timeout(1500); pg.evaluate("(()=>{ var b=document.querySelector('.bb-go[data-g=guardians]'); if(b)b.click(); })()"); pg.wait_for_timeout(1500)      # round 63: the tab shows one group at a time
+        tot=0
+        for gb in pg.evaluate("[...document.querySelectorAll('.bb-go')].map(b=>b.dataset.g)"):      # every group in turn
+            pg.evaluate("g=>document.querySelector('.bb-go[data-g='+g+']').click()", gb); pg.wait_for_timeout(700); tot+=pg.evaluate("document.querySelectorAll('.bb-atk').length")
+        pg.evaluate("(()=>{ document.querySelector('.bb-go[data-g=guardians]').click(); })()"); pg.wait_for_timeout(700)
+        n=pg.evaluate("[0, (document.querySelector('.bb-row[data-slot=\"bf_rock_dragon_4\"] .bb-atk')||{}).textContent||'']"); n[0]=tot
         check('Lab: every boss row lists its signature attacks (+ last stand on final forms)', n[0]>=70 and 'Strafing run' in n[1] and 'last stand' in n[1], n)
         check('No JS errors (Lab)', not errs, errs[:3]); b.close()
 print('%d/%d passed'%(sum(res),len(res)))

@@ -4,6 +4,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from harness import game
 
 results = []
+def quiet_talks(g):
+    calm = 0
+    for _ in range(40):
+        open_ = g.js("(()=>{ var f=document.getElementById('fairy-talk'); return !!(f&&f.style.display==='flex')||isGamePaused(); })()")
+        g.js("(()=>{ try{ FairyTalk.close(); }catch(e){} var f=document.getElementById('fairy-talk'); if(f)f.style.display='none'; try{ _pauseSync(); }catch(e){} })()")
+        calm = 0 if open_ else calm + 1
+        if calm >= 5: return
+        g.wait(400)
 def check(name, ok, info=''):
     results.append((name, bool(ok), info))
     print(('PASS ' if ok else 'FAIL ') + name + ('  ' + str(info) if info else ''))
@@ -41,7 +49,7 @@ with game() as g:
     g.ws("(ps.ownedMounts=['horse'], ps.mount='horse', ps.inventory.push('frost_bolt_tome'), ps.equip.spell='frost_bolt_tome', ps.mana=50, ps.maxMana=50)")
     enter_site(g, 'dungeon', 1)
     check('Entered dungeon', 'Dungeon' in g.active(), g.active())
-    check('Mount stowed in dungeon', g.ws("ps.mount===null && ps._stowedMount==='horse'"))
+    check('Mount stowed in dungeon', g.ws("ps.mount===null && (ps._stowedMount==='horse'||(ps.parkedMount&&ps.parkedMount.id==='horse'))"))
     mana0 = g.ws("ps.mana")
     g.key('x'); g.wait(250)
     n_proj = g.js("(game.scene.getScene('Dungeon')._heroSpellProj||[]).length")
@@ -53,7 +61,7 @@ with game() as g:
     # exit dungeon normally
     g.js("game.scene.getScene('Dungeon')._exitToWorld(null)"); g.wait(800)
     check('Back in World', g.js("game.scene.isActive('World')"))
-    check('Remounted on exit', g.ws("ps.mount==='horse' && !ps._stowedMount"))
+    check('Remounted on exit (or the horse waits parked where you left it — round 83)', g.ws("(ps.mount==='horse'||(ps.parkedMount&&ps.parkedMount.id==='horse')) && !ps._stowedMount"))
 
     # ── B6 death in dungeon ──
     enter_site(g, 'dungeon', 1)
@@ -64,8 +72,10 @@ with game() as g:
     check('HUD restored after death', g.js("document.getElementById('hud').style.display===''"))
 
     # ── Volcano scenes load (previously crashed) ──
-    g.js("sbVolcanoUnlock()"); g.wait(800)
+    g.js("sbVolcanoUnlock()"); g.wait(800); quiet_talks(g)
+    g.js("(()=>{ if(typeof ZSPIRIT!=='undefined'){ window.__zt=ZSPIRIT.talk; ZSPIRIT.talk=function(){}; } })()")      # the freed spirits' talks wait until the scenes are checked
     for key, sid in [('VolcanoMaze','volcano_n'),('VolcanoBulletHell','volcano_e'),('VolcanoPuzzle','volcano_s'),('VolcanoEscape','volcano_w'),('VolcanoBossRush','volcano_main')]:
+        quiet_talks(g)      # round 72: the unlock frees the four great spirits, and each one talks (round 53) — close them until none comes
         g.js(f"""(()=>{{var ws=game.scene.getScene('World');var s=ws.wd.sites.find(s=>s.id==='{sid}');
           ws.scene.sleep('World');ws.scene.launch('{key}',{{site:s,worldScene:ws,keyId:'volcano_key_n',keyName:'Key'}});}})()""")
         g.wait(1200)
@@ -74,11 +84,15 @@ with game() as g:
         back = g.js("game.scene.isActive('World')")
         check(f'{key} loads and Esc returns', ok and back, g.active())
 
+    g.js("(()=>{ if(window.__zt)ZSPIRIT.talk=window.__zt; })()")
     # ── B2 familiars ──
+    quiet_talks(g)
+    g.ws("(ws.player.x=(CENTER_X+VILLAGE_RADIUS+14)*TILE, ws.player.y=CENTER_Y*TILE, ws.player.cont.setPosition(ws.player.x,ws.player.y))"); g.wait(1500)      # round 44: familiars wait at the village's edge — test them outside
     g.ws("(ps.ownedFamiliars=['fam_grass','fam_water','fam_earth','fam_fire'], ps.familiar='fam_earth', ps.level=5)")
     g.js("sbSpawnMonsters()"); g.wait(200)
     hp_before = g.ws("ws.worldMonsters.filter(m=>!m.dead).reduce((a,m)=>a+m.hp,0)")
-    g.wait(12000)
+    try: g.page.wait_for_function("game.scene.getScene('World').worldMonsters.filter(m=>!m.dead).reduce((a,m)=>a+m.hp,0)<%d" % hp_before, timeout=60000)      # headless runs at a few frames a second with a thousand monsters out
+    except Exception: pass
     hp_after = g.ws("ws.worldMonsters.filter(m=>!m.dead).reduce((a,m)=>a+m.hp,0)")
     check('Earth spirit damages monsters', hp_after < hp_before, (hp_before, hp_after))
     g.js("showFamiliarInfo('fam_fire')"); g.wait(300)

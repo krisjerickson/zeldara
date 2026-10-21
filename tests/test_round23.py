@@ -44,6 +44,7 @@ with game(painted=True) as g:
     npc = g.ws("(ws._chAnim||[]).filter(i=>i._zo).map(i=>i._ch.id+':'+i.frame.name)")
     check('Village folk wear painted frames', len(npc) >= 1 and all(n.split(':')[1].startswith(n.split(':')[0] + '/') for n in npc), npc[:5])
     # riding
+    g.ws("(ws.player.x=(CENTER_X+VILLAGE_RADIUS+14)*TILE, ws.player.y=CENTER_Y*TILE, ws.player.cont.setPosition(ws.player.x,ws.player.y), 1)"); g.wait(1500)      # round 44: no riding inside the village — ride outside it
     g.ws("(ps.mount='horse',1)"); g.page.keyboard.down('d'); g.wait(600)
     for _ in range(20):     # the mounts page loads the first time it is needed
         if g.js("ZAtlas.ready('ride_m_horse')"): break

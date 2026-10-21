@@ -1126,7 +1126,7 @@ class WorldScene extends Phaser.Scene{
       var dx=px-mon.x, dy=py-mon.y, dist=Math.hypot(dx,dy);
       // 4× world: monsters far off-screen sleep (no AI, not drawn)
       if(dist>1700){ mon.cont.setVisible(false); if(mon.state!=='wander'){mon.state='wander';} return; }
-      if(mon._lazyVis)self._monWake(mon);   // first wake: name label + sprite texture (10f)
+      if(mon._lazyVis){ var fr0=self.game.loop.frame; if(self._wakeF!==fr0){ self._wakeF=fr0; self._wakeN=0; } if(dist<700||self._wakeN<3){ self._wakeN++; self._monWake(mon); } }   // first wake: name label + sprite texture (10f) — round 72 (P5): at most 3 a frame unless close by, so arriving somewhere does not make one long frame
       if(!mon.mx&&mon.rid&&typeof ZAtlas!=='undefined'){ try{ if(ZAtlas.mon(self,mon,null,dt,dx,dy)&&Math.abs(dx)>4&&mon.body.setFlipX)mon.body.setFlipX(dx<0); }catch(e){} }
       var mdef=mon.def;
       var spd=mdef.spd||50;

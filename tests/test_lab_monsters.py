@@ -24,7 +24,7 @@ with sync_playwright() as p:
         try{ var f=msFrames(m.spec); var x=f[3].getContext('2d').getImageData(0,0,32,32).data, n=0; for(var i=3;i<x.length;i+=4)if(x[i]>0)n++; if(f.length!==4||n<40)bad.push(m.id+':'+n); }catch(e){ bad.push(m.id+':'+e.message); }
         if(!m.look||!m.move||!m.atk||!m.def||!m.sp)bad.push(m.id+':text'); });
       return {n:MON_ROSTER.length,c:c,dup:dup,bad:bad,reuse:reuse}; })()""")
-    check('240 candidates', r['n'] == 240, r['n'])
+    check('252 candidates (240 + the forge and Asgard monsters of rounds 60–64)', r['n'] == 252, r['n'])
     exp = all(r['c'].get(f'{q}:{s}') == n for q in [1, 2, 3, 4] for s, n in [('main', 20), ('melee', 10), ('ranged', 10), ('tow', 20)])
     check('Per quadrant: 20 mainland, 10 melee, 10 ranged, 20 tower', exp, r['c'])
     check('All ids unique', not r['dup'], r['dup'])

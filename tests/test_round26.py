@@ -43,6 +43,7 @@ with game(painted=True) as g:
     check('Animals are painted pictures (not shapes)', len(an) >= 1 and all(a.startswith('animal_') for a in an), an)
     px = g.js("""(()=>{ var bad=[], P=game.scene.getScene('World').player, walk=function(L,vis,px,py){ L.forEach(function(o){ var v=vis&&o.visible!==false; if(o.list)return walk(o.list,v,o.x,o.y); if(!v||!o.texture||!o.frame||Math.hypot((px||0)+o.x-P.x,(py||0)+o.y-P.y)>900)return; var k=o.texture.key; if(/^(mx_(?!_lazy)|ch_|spirit_|fairy_|fairymonarch_|hero_|heroF_)/.test(k)||(/^ba_/.test(k)&&/^\\d+$/.test(o.frame.name)))bad.push(k+':'+o.frame.name); }); }; walk(game.scene.getScene('World').children.list,true); return bad; })()""")
     check('No visible pixel character sprite within 900 px of the hero', len(px) == 0, px[:8])
+    g.ws("(ws.player.x=(CENTER_X+VILLAGE_RADIUS+14)*TILE, ws.player.y=CENTER_Y*TILE, ws.player.cont.setPosition(ws.player.x,ws.player.y), 1)"); g.wait(1500)      # round 44: no riding inside the village — ride outside it
     g.ws("(ps.mount='horse',1)"); g.page.keyboard.down('d'); g.wait(700)
     for _ in range(20):
         if g.js("ZAtlas.ready('ride_m_horse')"): break

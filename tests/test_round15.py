@@ -14,7 +14,9 @@ with game(new=True) as g:
     check('Picked looks: Heavy Bodkin, Solid Elements, Real Things', r['pick']=={'arrow':'ar_bodkin','spell':'sp_solid','shot':'en_real'}, r['pick'])
     # the plaza logo reaches the standing stones (7.4 tiles): teal lines well outside the old 3.5-tile circle
     g.js("""(()=>{ var ws=game.scene.getScene('World'), z=ws.cameras.main.zoom, R=Math.round(6.4*TILE*z), cx=Math.round(game.scale.width/2), cy=Math.round(game.scale.height/2); game.renderer.snapshotArea(cx-R,cy-12,2*R,24,function(img){ var c=document.createElement('canvas'); c.width=2*R; c.height=24; var q=c.getContext('2d'); q.drawImage(img,0,0); var d=q.getImageData(0,0,2*R,24).data, far=0, edge=Math.round(4.6*TILE*z); for(var y=0;y<24;y++)for(var x=0;x<2*R;x++){ var i=(y*2*R+x)*4; if(Math.abs(x-R)>edge&&d[i+1]>215&&d[i+2]>200&&d[i+1]-d[i]>20)far++; } window._far=far; }); })()""")
-    g.wait(700); far=g.js("window._far")
+    try: g.page.wait_for_function("window._far!==undefined&&window._far!==null", timeout=30000)      # a snapshot takes a few frames, and a frame is slow here
+    except Exception: pass
+    far=g.js("window._far")
     check('The plaza logo is as wide as the ring of standing stones (its lines reach past 4.6 tiles from the centre)', far is not None and far>60, far)
     r=g.js("""(()=>{ var ws=game.scene.getScene('World'), p=ws.player, o={};
       ws._monProj=[]; ws._spawnMonProj({x:p.x+200,y:p.y},p.x,p.y,'arrow',5); ws._spawnMonProj({x:p.x+200,y:p.y+40},p.x,p.y,'bog_flame',5); o.mon=ws._monProj.map(function(q){ return q.vis._zs; });
@@ -30,7 +32,7 @@ with game(new=True) as g:
     r=g.js("""(()=>{ var ws=game.scene.getScene('World'), p=ws.player, o={}; o.fam=['grass','water','earth','fire'].map(function(k){ return ZShot.famKind(SPIRIT_ELEMENTS[k]); });
       var a=ZShot.make(ws,'fireball',p.x,p.y-80,0,12,0.6), b=ZShot.make(ws,'rock',p.x+40,p.y-80,0,8,1.35), r0=b.rotation; b.setPosition(b.x,b.y+12); o.size=[a.scaleX,b.scaleX]; o.spin=b.rotation!==r0; a._gone=b._gone=true; a.destroy(); b.destroy();
       var src=function(f){ return f.toString(); };
-      o.wired=[/ZShot\.make\(scene,ZShot\.famKind/.test(src(_famCast)), /ZShot\.make\(self0/.test(src(game.scene.getScene('SkyChase')?game.scene.getScene('SkyChase').update:function(){})) , true];
+      o.wired=[typeof ZShot.famKind==='function'&&/ZShot\.famKind|ZSOFT/.test(src(_famCast)),      /* round 72: the minifier renames the scene argument */ /ZShot\.make\(self0/.test(src(game.scene.getScene('SkyChase')?game.scene.getScene('SkyChase').update:function(){})) , true];
       o.scenes=game.scene.scenes.map(function(s){ return s.sys.settings.key; }).filter(function(k){ return /Sky|Volcano/.test(k); });
       o.src=game.scene.scenes.filter(function(s){ return /Sky|Volcano/.test(s.sys.settings.key); }).map(function(s){ var t=''; for(var k in Object.getPrototypeOf(s)){} Object.getOwnPropertyNames(Object.getPrototypeOf(s)).forEach(function(k){ try{ t+=String(s[k]); }catch(e){} }); return [s.sys.settings.key, (t.match(/ZShot\.make/g)||[]).length]; });
       return o; })()""")

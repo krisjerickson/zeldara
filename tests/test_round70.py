@@ -25,8 +25,8 @@ with game(new=True, painted=True) as g:
     check('The hamlets share the 15 children who are not in the village band, 2–3 to each hamlet', r['pool'] == 15 and r['k3'] == 3 and r['k4'] == 2, r)
     k = g.js("""(async()=>{ %s var ws=game.scene.getScene('World'), ps=ws.playerState, o={}; ps.godMode=true; if(typeof ZFT!=='undefined')ZFT.on=false; ps.hero='f';
       o.before=!(ws._zkG||[]).some(function(x){ return x.on; }); ps.spiritsHome=1;
-      var H=ZHAMW.plan(ws)[3]; ws.player.x=(H.cx+6)*TILE; ws.player.y=(H.cy+12)*TILE; ws.player.cont.setPosition(ws.player.x,ws.player.y); await w(3500);
-      var G=ws._zkG.find(function(x){ return x.key==='h3'; }); o.on=!!(G&&G.on); o.n=G?G.kids.length:0; o.game=G&&G.game; o.ims=G?G.kids.filter(function(k){ return k.im&&k.im.scene; }).length:0;
+      var H=ZHAMW.plan(ws)[3]; ws.player.x=(H.cx+6)*TILE; ws.player.y=(H.cy+12)*TILE; ws.player.cont.setPosition(ws.player.x,ws.player.y); await w(3500); for(var i=0;i<60&&!(ws._zkG&&ws._zkG.some(function(x){ return x.key==='h3'&&x.on; }));i++)await w(250);      /* a slow frame here: wait for the group to be made */
+      var G=(ws._zkG||[]).find(function(x){ return x.key==='h3'; }); o.on=!!(G&&G.on); o.n=G?G.kids.length:0; o.game=G&&G.game; o.ims=G?G.kids.filter(function(k){ return k.im&&k.im.scene; }).length:0;
       var p0=G?G.kids.map(function(k){ return [k.x,k.y]; }):[]; await w(4000); o.moved=G?G.kids.filter(function(k,i){ return Math.hypot(k.x-p0[i][0],k.y-p0[i][1])>4; }).length:0;
       var npc=(ws._villageNPCs||[]).filter(function(n){ return n.kid; }); o.npcs=npc.length; var a=npc[0]; o.l1=a&&a.line; o.l2=a&&a.line; var nm=ZKIDW.names(ps); o.tw=ZKIDW.TWIN.some(function(t){ return t.replace(/\{h\}/g,nm.h).replace(/\{o\}/g,nm.o)===o.l2; }); o.named=ZKIDW.TWIN.filter(function(t){ return /\{h\}/.test(t); }).length;
       // the village band: near the green and the pier

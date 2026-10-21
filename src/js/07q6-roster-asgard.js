@@ -1,6 +1,6 @@
 // ═══ ASGARD'S CITADEL — round 62 ═══════════════════════════════════════
 // Kris's ☆ (Lab, Realm ideas): Heimdall's gaze, "The einherjar rise at dusk", the Norns' threads, Yggdrasil (16g-asgard-citadel.js).
-// The einherjar — the slain warriors of Valhöll who fight all day and rise each evening — are Grímnir's guard in the citadel (seg 'asgard': only
+// The einherjar — the slain warriors of Valhöll who fight all day and rise each evening — are Solmyrk's guard in the citadel (seg 'asgard': only
 // there). Kits in 07rz2-asgard-kits.js; painted in sprite wave 7.9 ('Asgard').
 MON(4,'asgard','',5,'einherjar_berserker','Einherjar Berserker',['biped','slam','#c8b8a0,#4a3a2a,#fff0b0,#9fe8ff','horns,beard'],'T:asgard',
  'A ghostly-pale warrior of Valhöll, bare-chested under a wolf pelt, a great two-handed axe rimmed with gold light; his eyes burn white.',

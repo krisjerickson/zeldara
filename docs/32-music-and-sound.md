@@ -209,7 +209,25 @@ The second wave adds the nights, the other site kinds and the quieter places. Th
 
 It adds nothing to the download and stays as the fall-back.
 
-## 6. Questions for Kris
+## 6. Kris's answers (round 72) — and what is ready
+
+- **M1 → Premier, one month.** **M2 → ElevenLabs by script.** **M3 → Nordic folk** (the house style). M4 (not asked again): the first wave first.
+- Ready to run:
+  - `tools\audio\audio1.ps1` — asks for the ElevenLabs key in its window, shows the plan, then makes the first wave of ambience and effects (71 sounds × 2 takes ≈ 27,000 credits) with `tools/audio/sfx.mjs`, and runs the intake.
+  - `tools/audio/intake_audio.py` — the intake of §3.4 (ffmpeg: `winget install Gyan.FFmpeg`): trims, evens loudness, encodes Ogg + MP3, writes `assets/audio/index.json`. Tested here on stand-in tones.
+  - Music: Lab → Music & sound → Copy for Suno on each first-wave card, then save as `audio\incoming\<cue id>.wav` and run the intake.
+- **The sound engine is in the game** (Kris's answer O2, "build it now"; `src/js/04c2-audio-files.js`, ZAUDIO). It waits for the files: until a sound's file is in `assets/audio/`, the game plays its own procedural sound as before.
+  - **Buses:** music, ambience and effects, each with its own volume, under the master that 🔊 mutes. **Right-click 🔊 (or hold it on a phone)** for the three sliders; they are kept for next time (`zeldara_vol`).
+  - **Music streams** from an `<audio>` element into Web Audio; a looping piece is joined at its loop point by a second element (30 ms crossfade). Cues crossfade in 2 s; a fight comes in in 0.6 s and goes 4 s after the last blow.
+  - **The director** (once a second) picks the music and the ambience from where you are: the title; the village by day, by night, and green after the end; each realm by day and night; fights; the dungeons, towers, castles, mage towers, islands, the trial; bosses (and realm bosses with phases); the forges, Muspelheim and Surtharn, the escape, Asgard, the citadel and Solmyrk; the sky; homes, shops and Glimmerhall; the feast hall (and the gods freed). A cue with no file yet falls back to its nearest kin (night → day, Glimmerhall → the shops…), then to silence for music — the procedural boss music stays until the boss cues exist.
+  - **Ambience** loops sample-exact (decoded) and crossfades between places.
+  - **Effects** replace `hit`, `swing`, `roar`, `boom`, `stomp`, `warp`, `hurt`, `card`, `victory`, the pickup and the camp fanfare when their files exist, alternating the two takes with ±5 % pitch. The first time an effect is asked for, its takes are fetched and the procedural sound plays that once.
+  - **Stingers:** a quest done, a boss down; they duck the music for their length.
+  - The sound rests while the tab is hidden. The index of the files is put into the page by the build (no request when there are none).
+  - `?audio=off` turns the files off. Test: `tests/test_audio_engine.py` (stand-in tones).
+- Next: players on the Lab cards once the first files are in; more effects hooked as their files arrive (doors, waystones, spells by element, menus).
+
+## 6b. The questions as they were asked
 
 - **M1 — The Suno plan for the music?**
   - Premier for one month: 60 downloads, enough for the whole first wave plus redos.

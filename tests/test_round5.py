@@ -28,11 +28,9 @@ with game(new=True) as g:
         g.wait(1500)
         g.ws("_tp(_spot.x+TILE*8,_spot.y)"); g.wait(600)
         g.key('m'); g.wait(600)
-        r = g.js("({open:document.getElementById('modal-mounts').style.display, call:!!document.querySelector('#mounts-content .call-mount')})")
-        check('The mount menu offers Call Mount! while your mount waits', r['open'] == 'flex' and r['call'], r)
-        g.js("document.querySelector('#mounts-content .call-mount').click()")
+        # round 45 (Kris): M itself calls the waiting mount (the menu is only at the stables) — no Call Mount! button to press any more
         ok = until(g, "ps.mount==='horse'", 15000)
-        check('Call Mount! — it gallops to you and you ride again', ok and g.ws("!ps.parkedMount && !ws._pm"), g.ws("[ps.mount, ps.parkedMount, ws._pm&&ws._pm.goal]"))
+        check('M calls the mount — it gallops to you and you ride again', ok and g.ws("!ps.parkedMount && !ws._pm"), g.ws("[ps.mount, ps.parkedMount, ws._pm&&ws._pm.goal]"))
         g.ws("(()=>{ ws.worldAtkTimer=0; ws._worldAttack(); })()"); g.wait(1500)
         g.ws("(()=>{ var P=ps.parkedMount; _tp(P.x+10,P.y); })()"); g.wait(900)
         g.key('m'); g.wait(600)

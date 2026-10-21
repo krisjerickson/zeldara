@@ -1,0 +1,3858 @@
+{
+ "meadow_goblin": {
+  "dmg": 3,
+  "moved": 83,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "thistle_hog": {
+  "dmg": 5,
+  "moved": 323,
+  "ev": {
+   "mv_charge": 1,
+   "mv_charge_hit": 1,
+   "atk_melee": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "puffcap": {
+  "dmg": 0,
+  "moved": 48,
+  "ev": {
+   "mv_ambush_reveal": 1,
+   "atk_cloud": 1
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "hedge_sprite": {
+  "dmg": 4,
+  "moved": 82,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "tunnel_nipper": {
+  "dmg": 8,
+  "moved": 43,
+  "ev": {
+   "mv_burrow_pop": 2,
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "scarecrow_warden": {
+  "dmg": 2,
+  "moved": 48,
+  "ev": {
+   "mv_ambush_reveal": 1,
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bumble_knight": {
+  "dmg": 4,
+  "moved": 158,
+  "ev": {
+   "atk_lunge": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "dustwing_moth": {
+  "dmg": 0,
+  "moved": 45,
+  "ev": {
+   "atk_cloud": 1,
+   "zone_hit": 4
+  },
+  "pst": {
+   "st_blind": 4
+  },
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "runestone_crawler": {
+  "dmg": 7,
+  "moved": 39,
+  "ev": {
+   "mv_ambush_reveal": 1,
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "jackalope": {
+  "dmg": 6,
+  "moved": 160,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "kite_rider": {
+  "dmg": 10,
+  "moved": 157,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bramble_wolf": {
+  "dmg": 5,
+  "moved": 107,
+  "ev": {
+   "atk_lunge": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "barrow_skeleton": {
+  "dmg": 8,
+  "moved": 41,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "clover_slime": {
+  "dmg": 10,
+  "moved": 70,
+  "ev": {
+   "mv_leap": 2,
+   "atk_melee": 2,
+   "hit": 2,
+   "mv_leap_hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "harvest_mantis": {
+  "dmg": 7,
+  "moved": 48,
+  "ev": {
+   "mv_ambush_reveal": 1,
+   "atk_sweep": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "pooka": {
+  "dmg": 0,
+  "moved": 82,
+  "ev": {
+   "atk_swap": 1,
+   "hit": 1,
+   "mv_blink": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "hill_gnoll": {
+  "dmg": 5,
+  "moved": 95,
+  "ev": {
+   "atk_lob": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "echo_phantom": {
+  "dmg": 5,
+  "moved": 0,
+  "ev": {
+   "atk_echo": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "floatrock_gargoyle": {
+  "dmg": 6,
+  "moved": 48,
+  "ev": {
+   "mv_perch_swoop": 1,
+   "mv_perch_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "dung_roller": {
+  "dmg": 5,
+  "moved": 649,
+  "ev": {
+   "mv_roll": 1,
+   "mv_roll_hit": 1,
+   "atk_melee": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "goblin_cutthroat": {
+  "dmg": 16,
+  "moved": 88,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 4
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "tunnel_brute": {
+  "dmg": 5,
+  "moved": 57,
+  "ev": {
+   "atk_sweep": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "root_gnasher": {
+  "dmg": 4,
+  "moved": 42,
+  "ev": {
+   "mv_burrow_pop": 2,
+   "atk_grab": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bone_hound": {
+  "dmg": 18,
+  "moved": 49,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 6
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "shield_goblin": {
+  "dmg": 10,
+  "moved": 48,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "capmaul": {
+  "dmg": 6,
+  "moved": 70,
+  "ev": {
+   "mv_leap": 2,
+   "atk_slam": 1,
+   "hit": 1,
+   "zone_hit": 4,
+   "mv_leap_hit": 1
+  },
+  "pst": {
+   "st_slow": 4
+  },
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "rat_swarm": {
+  "dmg": 3,
+  "moved": 51,
+  "ev": {
+   "atk_melee": 5,
+   "hit": 3
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "barrow_knight": {
+  "dmg": 8,
+  "moved": 49,
+  "ev": {
+   "atk_sweep": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "clay_golemling": {
+  "dmg": 4,
+  "moved": 44,
+  "ev": {
+   "atk_grab": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "boarling": {
+  "dmg": 5,
+  "moved": 227,
+  "ev": {
+   "mv_charge": 1,
+   "mv_charge_hit": 1,
+   "atk_melee": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "goblin_slinger": {
+  "dmg": 6,
+  "moved": 70,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "proj_hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "skeleton_archer": {
+  "dmg": 6,
+  "moved": 41,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "spore_spitter": {
+  "dmg": 4,
+  "moved": 0,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 1,
+   "zone_hit": 3
+  },
+  "pst": {
+   "st_slow": 3
+  },
+  "fx": 1,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "blowgun_goblin": {
+  "dmg": 2,
+  "moved": 88,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_drowsy": 1
+  },
+  "fx": 1,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "glowworm": {
+  "dmg": 4,
+  "moved": 0,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bone_ballista": {
+  "dmg": 8,
+  "moved": 0,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "trap_kobold": {
+  "dmg": 2,
+  "moved": 62,
+  "ev": {
+   "atk_trap": 1,
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1,
+   "trap_hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 2,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "hive_keeper": {
+  "dmg": 8,
+  "moved": 88,
+  "ev": {
+   "atk_lob": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "shade_sniper": {
+  "dmg": 8,
+  "moved": 90,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "pebble_sprite": {
+  "dmg": 4,
+  "moved": 77,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "proj_hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "pixie_hexer": {
+  "dmg": 1,
+  "moved": 86,
+  "ev": {
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_shrink": 1
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "glyph_scribe": {
+  "dmg": 4,
+  "moved": 71,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "dawn_acolyte": {
+  "dmg": 2,
+  "moved": 96,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "grimoire": {
+  "dmg": 5,
+  "moved": 99,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "proj_hit": 1,
+   "atk_melee": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "candle_wraith": {
+  "dmg": 40003,
+  "moved": 42,
+  "ev": {
+   "def_aura": 3
+  },
+  "pst": {
+   "st_burn": 3
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "ley_mote": {
+  "dmg": 40005,
+  "moved": 0,
+  "ev": {
+   "atk_drain": 1,
+   "hit": 5
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "mirror_sprite": {
+  "dmg": 2,
+  "moved": 73,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 2,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "petal_witch": {
+  "dmg": 3,
+  "moved": 43,
+  "ev": {
+   "atk_gust": 1,
+   "hit": 2,
+   "atk_shoot": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 4,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "clockwork_owl": {
+  "dmg": 14,
+  "moved": 51,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "fae_enchantress": {
+  "dmg": 2,
+  "moved": 71,
+  "ev": {
+   "atk_shoot": 3,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_reverse": 1
+  },
+  "fx": 3,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "sentry_orb": {
+  "dmg": 6,
+  "moved": 0,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "apprentice_conjurer": {
+  "dmg": 6,
+  "moved": 106,
+  "ev": {
+   "atk_summon": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "starlight_wisp": {
+  "dmg": 6,
+  "moved": 31,
+  "ev": {
+   "atk_trap": 1,
+   "trap_hit": 1,
+   "mv_blink": 1
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "ink_imp": {
+  "dmg": 1,
+  "moved": 76,
+  "ev": {
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_blind": 1
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "wind_sylph": {
+  "dmg": 3,
+  "moved": 177,
+  "ev": {
+   "atk_gust": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "illusionist_gnome": {
+  "dmg": 3,
+  "moved": 88,
+  "ev": {
+   "atk_swap": 1,
+   "hit": 2,
+   "atk_shoot": 1,
+   "proj_hit": 1,
+   "mv_blink": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "rose_dryad": {
+  "dmg": 5,
+  "moved": 0,
+  "ev": {
+   "atk_strike": 2,
+   "hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "lantern_familiar": {
+  "dmg": 6,
+  "moved": 0,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "chime_spirit": {
+  "dmg": 4,
+  "moved": 0,
+  "ev": {
+   "atk_ring": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "wand_knight": {
+  "dmg": 16,
+  "moved": 48,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 3,
+   "proj_hit": 1,
+   "atk_melee": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bog_serpent": {
+  "dmg": 12,
+  "moved": 133,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "mud_troll": {
+  "dmg": 9,
+  "moved": 71,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "lily_lurker": {
+  "dmg": 15,
+  "moved": 0,
+  "ev": {
+   "mv_ambush_reveal": 1,
+   "atk_pull": 1,
+   "hit": 2,
+   "atk_melee": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "glowfrog": {
+  "dmg": 17,
+  "moved": 70,
+  "ev": {
+   "mv_leap": 2,
+   "atk_pull": 1,
+   "hit": 1,
+   "def_aura": 1,
+   "mv_leap_hit": 1
+  },
+  "pst": {
+   "st_poison": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "leech_swarm": {
+  "dmg": 12,
+  "moved": 49,
+  "ev": {
+   "mv_surface": 1,
+   "atk_melee": 4,
+   "hit": 4
+  },
+  "pst": {
+   "st_slow": 4
+  },
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "mire_crab": {
+  "dmg": 7,
+  "moved": 49,
+  "ev": {
+   "atk_grab": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "will_o_wisp": {
+  "dmg": 0,
+  "moved": 0,
+  "ev": {
+   "hit": 1,
+   "def_lure": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "peat_walker": {
+  "dmg": 20,
+  "moved": 49,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 2
+  },
+  "pst": {
+   "st_root": 2
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "shellback": {
+  "dmg": 12,
+  "moved": 724,
+  "ev": {
+   "mv_roll": 1,
+   "mv_roll_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "mangrove_strangler": {
+  "dmg": 11,
+  "moved": 0,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bloodgnats": {
+  "dmg": 9,
+  "moved": 88,
+  "ev": {
+   "atk_melee": 3,
+   "hit": 3
+  },
+  "pst": {
+   "st_slow": 3
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "reed_stalker": {
+  "dmg": 15,
+  "moved": 98,
+  "ev": {
+   "mv_ambush_reveal": 1,
+   "atk_lunge": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "waterlogged_revenant": {
+  "dmg": 10,
+  "moved": 73,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "stormeel": {
+  "dmg": 10,
+  "moved": 46,
+  "ev": {
+   "mv_surface": 1,
+   "atk_ring": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "heron_knight": {
+  "dmg": 13,
+  "moved": 127,
+  "ev": {
+   "atk_lunge": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "moss_golem": {
+  "dmg": 13,
+  "moved": 44,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1,
+   "zone_hit": 3
+  },
+  "pst": {
+   "st_slow": 3
+  },
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "slime_newts": {
+  "dmg": 4,
+  "moved": 75,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_slow": 1
+  },
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "stilt_bandit": {
+  "dmg": 3,
+  "moved": 57,
+  "ev": {
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "fog_phantom": {
+  "dmg": 20,
+  "moved": 52,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {
+   "st_dim": 2
+  },
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bog_hydra": {
+  "dmg": 30,
+  "moved": 0,
+  "ev": {
+   "atk_shoot": 2,
+   "atk_breath": 1,
+   "hit": 3,
+   "proj_hit": 2,
+   "atk_beam": 1
+  },
+  "pst": {
+   "st_poison": 2
+  },
+  "fx": 2,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "drowned_guard": {
+  "dmg": 14,
+  "moved": 49,
+  "ev": {
+   "atk_sweep": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "sludge_brute": {
+  "dmg": 13,
+  "moved": 44,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "gator_raider": {
+  "dmg": 12,
+  "moved": 233,
+  "ev": {
+   "mv_charge": 1,
+   "atk_sweep": 1,
+   "hit": 1,
+   "mv_charge_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "crypt_crawler": {
+  "dmg": 28,
+  "moved": 72,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {
+   "st_poison": 2
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "leech_knight": {
+  "dmg": 12,
+  "moved": 48,
+  "ev": {
+   "atk_drain": 1,
+   "hit": 3,
+   "atk_melee": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "mold_zombie": {
+  "dmg": 20,
+  "moved": 48,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "barnacle_brute": {
+  "dmg": 18,
+  "moved": 45,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "rootbound_thrall": {
+  "dmg": 12,
+  "moved": 48,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "skitter_crabs": {
+  "dmg": 10,
+  "moved": 71,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "naga_guard": {
+  "dmg": 54,
+  "moved": 49,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 6
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "spitfrog": {
+  "dmg": 10,
+  "moved": 71,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 1,
+   "zone_hit": 3,
+   "mv_leap": 1
+  },
+  "pst": {
+   "st_poison": 4
+  },
+  "fx": 1,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "harpoon_lizard": {
+  "dmg": 6,
+  "moved": 107,
+  "ev": {
+   "atk_pull": 1,
+   "hit": 1,
+   "atk_shoot": 2
+  },
+  "pst": {},
+  "fx": 2,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bubble_crab": {
+  "dmg": 3,
+  "moved": 56,
+  "ev": {
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "mud_mortar": {
+  "dmg": 10,
+  "moved": 0,
+  "ev": {
+   "atk_lob": 1,
+   "hit": 1,
+   "zone_hit": 6
+  },
+  "pst": {
+   "st_slow": 6
+  },
+  "fx": 2,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "dart_naga": {
+  "dmg": 7,
+  "moved": 63,
+  "ev": {
+   "mv_ambush_reveal": 1,
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_poison": 1
+  },
+  "fx": 3,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "coral_archer": {
+  "dmg": 12,
+  "moved": 88,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "proj_hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "ink_squid": {
+  "dmg": 6,
+  "moved": 41,
+  "ev": {
+   "atk_cloud": 1,
+   "zone_hit": 4,
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_blind": 4
+  },
+  "fx": 1,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "eel_turret": {
+  "dmg": 9,
+  "moved": 0,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "gnat_caller": {
+  "dmg": 9,
+  "moved": 95,
+  "ev": {
+   "atk_summon": 1
+  },
+  "pst": {
+   "st_slow": 3
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "lantern_thrower": {
+  "dmg": 20011,
+  "moved": 89,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 1,
+   "zone_hit": 3
+  },
+  "pst": {
+   "st_burn": 4
+  },
+  "fx": 1,
+  "frame": "2",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "swamp_witch": {
+  "dmg": 80020,
+  "moved": 178,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": true,
+  "mx": false
+ },
+ "tide_caller": {
+  "dmg": 40005,
+  "moved": 0,
+  "ev": {
+   "atk_cloud": 1,
+   "zone_hit": 4,
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_slow": 4
+  },
+  "fx": 3,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "mist_weaver": {
+  "dmg": 25,
+  "moved": 71,
+  "ev": {
+   "atk_summon": 1,
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_dim": 2
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "moon_moth_mage": {
+  "dmg": 10,
+  "moved": 155,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "hex_toad": {
+  "dmg": 3,
+  "moved": 70,
+  "ev": {
+   "mv_leap": 2,
+   "atk_shoot": 1,
+   "atk_pull": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_frog": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "rain_spirit": {
+  "dmg": 11,
+  "moved": 54,
+  "ev": {
+   "atk_strike": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "reflecting_nymph": {
+  "dmg": 7,
+  "moved": 73,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "leech_warlock": {
+  "dmg": 15,
+  "moved": 65,
+  "ev": {
+   "atk_drain": 1,
+   "hit": 5
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bubble_siren": {
+  "dmg": 3,
+  "moved": 127,
+  "ev": {
+   "atk_shoot": 1,
+   "hit": 4,
+   "def_lure": 3,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "lily_oracle": {
+  "dmg": 10,
+  "moved": 0,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "mire_shaman": {
+  "dmg": 4,
+  "moved": 86,
+  "ev": {
+   "atk_summon": 1,
+   "atk_cloud": 1,
+   "zone_hit": 3
+  },
+  "pst": {
+   "st_slow": 4
+  },
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "coral_enchantress": {
+  "dmg": 0,
+  "moved": 4,
+  "ev": {
+   "atk_wall": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 3,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "water_elemental": {
+  "dmg": 11,
+  "moved": 113,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "frost_lotus": {
+  "dmg": 10,
+  "moved": 77,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_freeze": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "kelp_wraith": {
+  "dmg": 22,
+  "moved": 0,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 2
+  },
+  "pst": {
+   "st_root": 2
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "rune_eels": {
+  "dmg": 10,
+  "moved": 107,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {
+   "st_slow": 2
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "glass_jelly": {
+  "dmg": 7,
+  "moved": 38,
+  "ev": {
+   "atk_ring": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "plague_alchemist": {
+  "dmg": 12,
+  "moved": 94,
+  "ev": {
+   "atk_lob": 3,
+   "hit": 1,
+   "zone_hit": 5
+  },
+  "pst": {
+   "st_poison": 3,
+   "st_slow": 2
+  },
+  "fx": 2,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "storm_heron": {
+  "dmg": 16,
+  "moved": 158,
+  "ev": {
+   "atk_lunge": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_poison": 3
+  },
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bell_ringer": {
+  "dmg": 14,
+  "moved": 0,
+  "ev": {
+   "atk_ring": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "mesa_golem": {
+  "dmg": 13,
+  "moved": 73,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "cliff_harpy": {
+  "dmg": 21,
+  "moved": 216,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "crag_ram": {
+  "dmg": 20,
+  "moved": 342,
+  "ev": {
+   "mv_charge": 1,
+   "mv_charge_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "frost_wolf": {
+  "dmg": 39,
+  "moved": 54,
+  "ev": {
+   "atk_breath": 1,
+   "hit": 3,
+   "atk_melee": 2
+  },
+  "pst": {
+   "st_slow": 1
+  },
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "geode_crab": {
+  "dmg": 10,
+  "moved": 57,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 3,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "gale_roc": {
+  "dmg": 25,
+  "moved": 244,
+  "ev": {
+   "atk_gust": 1,
+   "hit": 2,
+   "atk_lob": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "rockslide_beetle": {
+  "dmg": 18,
+  "moved": 793,
+  "ev": {
+   "mv_roll": 1,
+   "mv_roll_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "yeti_stomper": {
+  "dmg": 23,
+  "moved": 45,
+  "ev": {
+   "atk_lob": 1,
+   "atk_slam": 1,
+   "hit": 1,
+   "zone_hit": 6
+  },
+  "pst": {
+   "st_slow": 6
+  },
+  "fx": 2,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "chess_knight": {
+  "dmg": 23,
+  "moved": 101,
+  "ev": {
+   "mv_chessL": 2,
+   "atk_melee": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "chess_rook": {
+  "dmg": 25,
+  "moved": 891,
+  "ev": {
+   "mv_rook": 1,
+   "mv_rook_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "starfall_shard": {
+  "dmg": 21,
+  "moved": 338,
+  "ev": {
+   "mv_charge": 1,
+   "mv_charge_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "automaton_miner": {
+  "dmg": 55,
+  "moved": 41,
+  "ev": {
+   "mv_burrow_pop": 1,
+   "atk_melee": 2,
+   "hit": 5
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "snow_owl": {
+  "dmg": 33,
+  "moved": 62,
+  "ev": {
+   "mv_perch_swoop": 1,
+   "atk_summon": 1,
+   "mv_perch_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "harp_spectre": {
+  "dmg": 21,
+  "moved": 44,
+  "ev": {
+   "atk_ring": 1,
+   "hit": 2,
+   "atk_shoot": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 2,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "ridge_troll": {
+  "dmg": 23,
+  "moved": 51,
+  "ev": {
+   "atk_lob": 1,
+   "atk_sweep": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "craglings": {
+  "dmg": 18,
+  "moved": 78,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "glacier_wyrm": {
+  "dmg": 80,
+  "moved": 41,
+  "ev": {
+   "mv_burrow_pop": 1,
+   "atk_marks": 1,
+   "atk_melee": 2,
+   "hit": 4
+  },
+  "pst": {
+   "st_slow": 2
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bristleback_bear": {
+  "dmg": 27,
+  "moved": 50,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "mesa_scorpion": {
+  "dmg": 31,
+  "moved": 50,
+  "ev": {
+   "mv_burrow_pop": 1,
+   "atk_grab": 1,
+   "hit": 2,
+   "atk_melee": 2
+  },
+  "pst": {
+   "st_root": 1,
+   "st_poison": 1
+  },
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "glass_wyvern": {
+  "dmg": 29,
+  "moved": 106,
+  "ev": {
+   "atk_ring": 1,
+   "hit": 2,
+   "atk_breath": 1
+  },
+  "pst": {
+   "st_slow": 2
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "dwarf_axeman": {
+  "dmg": 23,
+  "moved": 51,
+  "ev": {
+   "atk_sweep": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "crystal_golemling": {
+  "dmg": 19,
+  "moved": 45,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "deep_mole": {
+  "dmg": 60,
+  "moved": 43,
+  "ev": {
+   "mv_burrow_pop": 1,
+   "atk_melee": 2,
+   "hit": 5
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "frost_ghoul": {
+  "dmg": 42,
+  "moved": 50,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {
+   "st_slow": 2
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "gargoyle_sentry": {
+  "dmg": 23,
+  "moved": 57,
+  "ev": {
+   "mv_perch_swoop": 1,
+   "mv_perch_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "cave_troll": {
+  "dmg": 30,
+  "moved": 56,
+  "ev": {
+   "atk_sweep": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "labyrinth_bull": {
+  "dmg": 26,
+  "moved": 230,
+  "ev": {
+   "mv_charge": 1,
+   "mv_charge_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "crystal_spider": {
+  "dmg": 23,
+  "moved": 50,
+  "ev": {
+   "atk_shoot": 1,
+   "hit": 2,
+   "proj_hit": 1,
+   "atk_melee": 2
+  },
+  "pst": {
+   "st_slow": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "shieldwall_dwarves": {
+  "dmg": 40,
+  "moved": 49,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "rock_hopper": {
+  "dmg": 20,
+  "moved": 732,
+  "ev": {
+   "mv_roll": 1,
+   "mv_roll_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "iron_sentinel": {
+  "dmg": 20,
+  "moved": 28,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "dwarf_crossbow": {
+  "dmg": 16,
+  "moved": 110,
+  "ev": {
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "geode_spitter": {
+  "dmg": 8,
+  "moved": 0,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "icicle_bats": {
+  "dmg": 12,
+  "moved": 94,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "minecart_bomber": {
+  "dmg": 35,
+  "moved": 97,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "echo_bat": {
+  "dmg": 23,
+  "moved": 101,
+  "ev": {
+   "atk_ring": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "boulder_goblin": {
+  "dmg": 21,
+  "moved": 136,
+  "ev": {
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "frost_archer": {
+  "dmg": 22,
+  "moved": 119,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "proj_hit": 2,
+   "zone_hit": 5
+  },
+  "pst": {
+   "st_slow": 7
+  },
+  "fx": 2,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "lantern_kobold": {
+  "dmg": 40015,
+  "moved": 83,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 1,
+   "zone_hit": 5
+  },
+  "pst": {
+   "st_slow": 3,
+   "st_burn": 2
+  },
+  "fx": 2,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "prism_eye": {
+  "dmg": 20032,
+  "moved": 45,
+  "ev": {
+   "atk_beam": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "storm_mage": {
+  "dmg": 30,
+  "moved": 76,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "astronomer_lich": {
+  "dmg": 20018,
+  "moved": 108,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 1,
+   "zone_hit": 2
+  },
+  "pst": {
+   "st_burn": 2
+  },
+  "fx": 4,
+  "frame": "1",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "frost_cantor": {
+  "dmg": 20014,
+  "moved": 82,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 2,
+   "atk_wall": 1
+  },
+  "pst": {
+   "st_freeze": 1
+  },
+  "fx": 3,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "gravity_adept": {
+  "dmg": 0,
+  "moved": 127,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "def_lure": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "cloud_sylph": {
+  "dmg": 16,
+  "moved": 52,
+  "ev": {
+   "atk_cloud": 1,
+   "zone_hit": 4,
+   "atk_strike": 2,
+   "hit": 1
+  },
+  "pst": {
+   "st_slow": 4
+  },
+  "fx": 1,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "chessmaster": {
+  "dmg": 4,
+  "moved": 0,
+  "ev": {
+   "atk_summon": 1,
+   "atk_gust": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "crystal_resonator": {
+  "dmg": 6,
+  "moved": 0,
+  "ev": {
+   "atk_ring": 1,
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 6,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "wind_monk": {
+  "dmg": 14,
+  "moved": 177,
+  "ev": {
+   "atk_gust": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "aurora_spirit": {
+  "dmg": 32,
+  "moved": 50,
+  "ev": {
+   "atk_beam": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "orrery": {
+  "dmg": 0,
+  "moved": 0,
+  "ev": {
+   "atk_ring": 1,
+   "atk_shoot": 1
+  },
+  "pst": {},
+  "fx": 4,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "stone_druid": {
+  "dmg": 16,
+  "moved": 61,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "blizzard_witch": {
+  "dmg": 9,
+  "moved": 79,
+  "ev": {
+   "atk_cloud": 1,
+   "zone_hit": 4,
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_blind": 4,
+   "st_slow": 1
+  },
+  "fx": 2,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "echo_sage": {
+  "dmg": 33,
+  "moved": 0,
+  "ev": {
+   "atk_shoot": 4,
+   "hit": 3,
+   "proj_hit": 3
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "seraph": {
+  "dmg": 20,
+  "moved": 52,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "rune_statue": {
+  "dmg": 22,
+  "moved": 47,
+  "ev": {
+   "atk_grab": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "telescope_eye": {
+  "dmg": 21,
+  "moved": 0,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "hailstone_imp": {
+  "dmg": 12,
+  "moved": 74,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "proj_hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "spellblade": {
+  "dmg": 75,
+  "moved": 48,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 5,
+   "proj_hit": 1,
+   "atk_melee": 2
+  },
+  "pst": {
+   "st_slow": 1
+  },
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "thunderbird": {
+  "dmg": 44,
+  "moved": 138,
+  "ev": {
+   "atk_lunge": 2,
+   "hit": 2,
+   "atk_strike": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "void_scholar": {
+  "dmg": 26,
+  "moved": 147,
+  "ev": {
+   "atk_shoot": 2,
+   "atk_swap": 1,
+   "hit": 3,
+   "proj_hit": 2,
+   "mv_blink": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "fire_imp": {
+  "dmg": 60018,
+  "moved": 24,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": true,
+  "mx": false
+ },
+ "ash_wraith": {
+  "dmg": 60017,
+  "moved": 39,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "lava_titan": {
+  "dmg": 60014,
+  "moved": 101,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "rock_dragon": {
+  "dmg": 6,
+  "moved": 58,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": false,
+  "mx": false
+ },
+ "magma_slug": {
+  "dmg": 60018,
+  "moved": 72,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1,
+   "zone_hit": 4
+  },
+  "pst": {
+   "st_burn": 4
+  },
+  "fx": 2,
+  "frame": "3",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "cinder_hounds": {
+  "dmg": 40023,
+  "moved": 109,
+  "ev": {
+   "atk_lunge": 2,
+   "hit": 1
+  },
+  "pst": {
+   "st_burn": 1
+  },
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "obsidian_stalker": {
+  "dmg": 60,
+  "moved": 80,
+  "ev": {
+   "mv_blink": 1,
+   "atk_melee": 2,
+   "hit": 3
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "sulfur_toad": {
+  "dmg": 46,
+  "moved": 70,
+  "ev": {
+   "mv_leap": 2,
+   "atk_cloud": 1,
+   "mv_leap_hit": 2
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "ember_mimic": {
+  "dmg": 8,
+  "moved": 0,
+  "ev": {
+   "mv_ambush_reveal": 1,
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "basalt_golem": {
+  "dmg": 58,
+  "moved": 34,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 2,
+   "atk_beam": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bone_revenant": {
+  "dmg": 25,
+  "moved": 200,
+  "ev": {
+   "atk_shoot": 2,
+   "atk_lunge": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "forge_automaton": {
+  "dmg": 60038,
+  "moved": 46,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1,
+   "zone_hit": 3
+  },
+  "pst": {
+   "st_burn": 3
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "ash_moths": {
+  "dmg": 20000,
+  "moved": 95,
+  "ev": {
+   "atk_cloud": 1,
+   "zone_hit": 2
+  },
+  "pst": {
+   "st_dim": 2
+  },
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "lava_eel": {
+  "dmg": 40025,
+  "moved": 59,
+  "ev": {
+   "atk_lob": 1,
+   "hit": 1,
+   "zone_hit": 2
+  },
+  "pst": {
+   "st_burn": 3
+  },
+  "fx": 1,
+  "frame": "1",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "chained_gargoyle": {
+  "dmg": 30,
+  "moved": 166,
+  "ev": {
+   "atk_lunge": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "pyre_cultist": {
+  "dmg": 40023,
+  "moved": 70,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 1,
+   "zone_hit": 3
+  },
+  "pst": {
+   "st_burn": 3
+  },
+  "fx": 4,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "salamander_wyrmling": {
+  "dmg": 60028,
+  "moved": 84,
+  "ev": {
+   "atk_breath": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_burn": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "cinder_scorpion": {
+  "dmg": 60050,
+  "moved": 53,
+  "ev": {
+   "mv_burrow_pop": 1,
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {
+   "st_burn": 2
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "scorched_paladin": {
+  "dmg": 60088,
+  "moved": 54,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 4
+  },
+  "pst": {
+   "st_burn": 4
+  },
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "phoenix_chick": {
+  "dmg": 60027,
+  "moved": 139,
+  "ev": {
+   "atk_breath": 1,
+   "hit": 1,
+   "atk_lunge": 1
+  },
+  "pst": {
+   "st_burn": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "magma_brute": {
+  "dmg": 40082,
+  "moved": 47,
+  "ev": {
+   "def_aura": 2,
+   "atk_melee": 1,
+   "hit": 2
+  },
+  "pst": {
+   "st_burn": 4
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "glass_blademaster": {
+  "dmg": 20156,
+  "moved": 99,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 6
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "hellhound": {
+  "dmg": 60061,
+  "moved": 84,
+  "ev": {
+   "atk_lunge": 1,
+   "hit": 1,
+   "atk_summon": 1
+  },
+  "pst": {
+   "st_burn": 2
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "ember_berserker": {
+  "dmg": 20031,
+  "moved": 48,
+  "ev": {
+   "atk_sweep": 2,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bonepit_ghoul": {
+  "dmg": 20,
+  "moved": 0,
+  "ev": {
+   "atk_pull": 1,
+   "hit": 1,
+   "atk_grab": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "slag_golem": {
+  "dmg": 31,
+  "moved": 45,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "salamander_warrior": {
+  "dmg": 81,
+  "moved": 139,
+  "ev": {
+   "atk_sweep": 1,
+   "hit": 3,
+   "atk_melee": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "chain_warden": {
+  "dmg": 61,
+  "moved": 1,
+  "ev": {
+   "atk_pull": 1,
+   "hit": 2,
+   "atk_slam": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "charred_zombies": {
+  "dmg": 44,
+  "moved": 49,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "molten_mimic": {
+  "dmg": 60124,
+  "moved": 70,
+  "ev": {
+   "mv_ambush_reveal": 1,
+   "mv_leap": 2,
+   "atk_melee": 2,
+   "hit": 4,
+   "mv_leap_hit": 1
+  },
+  "pst": {
+   "st_burn": 4
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "imp_bombardier": {
+  "dmg": 60023,
+  "moved": 74,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 1,
+   "zone_hit": 2
+  },
+  "pst": {
+   "st_burn": 3
+  },
+  "fx": 1,
+  "frame": "3",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "magma_vent": {
+  "dmg": 60074,
+  "moved": 0,
+  "ev": {
+   "atk_lob": 1,
+   "hit": 1,
+   "zone_hit": 4
+  },
+  "pst": {
+   "st_burn": 5
+  },
+  "fx": 4,
+  "frame": "1",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "obsidian_archer": {
+  "dmg": 40040,
+  "moved": 98,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "proj_hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "ember_sniper": {
+  "dmg": 35,
+  "moved": 78,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "sulfur_beetle": {
+  "dmg": 24,
+  "moved": 76,
+  "ev": {
+   "atk_lob": 1,
+   "hit": 1,
+   "zone_hit": 3
+  },
+  "pst": {
+   "st_poison": 3
+  },
+  "fx": 1,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "cinder_slinger": {
+  "dmg": 40015,
+  "moved": 79,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1,
+   "zone_hit": 3
+  },
+  "pst": {
+   "st_burn": 3
+  },
+  "fx": 2,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "pit_serpent": {
+  "dmg": 20036,
+  "moved": 49,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "proj_hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "ash_crossbow": {
+  "dmg": 60021,
+  "moved": 111,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1,
+   "zone_hit": 4
+  },
+  "pst": {
+   "st_burn": 4
+  },
+  "fx": 1,
+  "frame": "2",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "brimstone_eye": {
+  "dmg": 60025,
+  "moved": 72,
+  "ev": {
+   "atk_beam": 2,
+   "hit": 1
+  },
+  "pst": {
+   "st_burn": 1
+  },
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "flame_kite": {
+  "dmg": 40046,
+  "moved": 169,
+  "ev": {
+   "atk_lob": 2,
+   "hit": 2,
+   "zone_hit": 4
+  },
+  "pst": {
+   "st_burn": 4
+  },
+  "fx": 2,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "dark_warlock": {
+  "dmg": 60047,
+  "moved": 40,
+  "ev": {},
+  "pst": {},
+  "fx": 0,
+  "frame": null,
+  "alive": true,
+  "burn": true,
+  "mx": false
+ },
+ "pyromancer": {
+  "dmg": 60021,
+  "moved": 36,
+  "ev": {
+   "atk_ring": 1,
+   "hit": 1,
+   "atk_shoot": 1
+  },
+  "pst": {
+   "st_burn": 1
+  },
+  "fx": 3,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "obsidian_sorceress": {
+  "dmg": 13,
+  "moved": 81,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_root": 1
+  },
+  "fx": 4,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "cinder_lich": {
+  "dmg": 44,
+  "moved": 34,
+  "ev": {
+   "atk_summon": 1,
+   "atk_ring": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "magma_elemental": {
+  "dmg": 54,
+  "moved": 48,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1,
+   "zone_hit": 3
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "forge_artificer": {
+  "dmg": 51,
+  "moved": 78,
+  "ev": {
+   "atk_summon": 1
+  },
+  "pst": {},
+  "fx": 3,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "flame_djinn": {
+  "dmg": 120018,
+  "moved": 192,
+  "ev": {
+   "hit": 4,
+   "def_lure": 4,
+   "def_aura": 2
+  },
+  "pst": {
+   "st_burn": 2
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "smoke_wraith": {
+  "dmg": 60000,
+  "moved": 48,
+  "ev": {
+   "atk_cloud": 1,
+   "zone_hit": 4,
+   "mv_blink": 1
+  },
+  "pst": {
+   "st_blind": 4
+  },
+  "fx": 1,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "ash_oracle": {
+  "dmg": 20046,
+  "moved": 0,
+  "ev": {
+   "atk_marks": 1,
+   "hit": 2,
+   "zone_hit": 2
+  },
+  "pst": {
+   "st_burn": 2
+  },
+  "fx": 7,
+  "frame": "1",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "imp_summoner": {
+  "dmg": 40023,
+  "moved": 88,
+  "ev": {
+   "atk_summon": 1,
+   "atk_shoot": 1
+  },
+  "pst": {
+   "st_burn": 5
+  },
+  "fx": 3,
+  "frame": "1",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "dragon_priest": {
+  "dmg": 60033,
+  "moved": 63,
+  "ev": {
+   "atk_breath": 1,
+   "hit": 1
+  },
+  "pst": {
+   "st_burn": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "soul_furnace": {
+  "dmg": 40060,
+  "moved": 47,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1,
+   "def_aura": 2
+  },
+  "pst": {
+   "st_burn": 2
+  },
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "eclipse_witch": {
+  "dmg": 20018,
+  "moved": 0,
+  "ev": {
+   "atk_cloud": 1,
+   "zone_hit": 4,
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_blind": 4
+  },
+  "fx": 1,
+  "frame": "2",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "salamander_sage": {
+  "dmg": 14,
+  "moved": 68,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 3,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "meteor_caller": {
+  "dmg": 64,
+  "moved": 127,
+  "ev": {
+   "atk_lob": 1,
+   "hit": 1,
+   "zone_hit": 4
+  },
+  "pst": {},
+  "fx": 3,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "chainmaster": {
+  "dmg": 34,
+  "moved": 112,
+  "ev": {
+   "atk_pull": 1,
+   "hit": 5,
+   "atk_drain": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "phoenix_mage": {
+  "dmg": 14,
+  "moved": 106,
+  "ev": {
+   "atk_shoot": 2,
+   "atk_breath": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {},
+  "fx": 5,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "volcanic_hexer": {
+  "dmg": 40010,
+  "moved": 75,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_burn": 1
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "ember_construct": {
+  "dmg": 20032,
+  "moved": 61,
+  "ev": {
+   "atk_beam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "flame_wisp": {
+  "dmg": 18,
+  "moved": 137,
+  "ev": {
+   "atk_shoot": 2,
+   "hit": 2,
+   "proj_hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "bellows_imp": {
+  "dmg": 40014,
+  "moved": 145,
+  "ev": {
+   "atk_gust": 1,
+   "hit": 1,
+   "atk_cloud": 1,
+   "zone_hit": 3
+  },
+  "pst": {
+   "st_burn": 3
+  },
+  "fx": 1,
+  "frame": "1",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "coalback": {
+  "dmg": 60018,
+  "moved": 46,
+  "ev": {
+   "def_aura": 2
+  },
+  "pst": {
+   "st_burn": 2
+  },
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "scald_wraith": {
+  "dmg": 80014,
+  "moved": 38,
+  "ev": {
+   "atk_cloud": 1,
+   "zone_hit": 2,
+   "atk_shoot": 1,
+   "hit": 1,
+   "proj_hit": 1
+  },
+  "pst": {
+   "st_burn": 2
+  },
+  "fx": 2,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "quench_golem": {
+  "dmg": 32,
+  "moved": 45,
+  "ev": {
+   "atk_slam": 1,
+   "hit": 1,
+   "zone_hit": 3
+  },
+  "pst": {},
+  "fx": 1,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "slag_crawler": {
+  "dmg": 48,
+  "moved": 52,
+  "ev": {
+   "atk_melee": 2,
+   "hit": 2
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "ore_hurler": {
+  "dmg": 40019,
+  "moved": 80,
+  "ev": {
+   "atk_lob": 1,
+   "atk_trap": 1,
+   "hit": 1,
+   "zone_hit": 9,
+   "trap_hit": 1
+  },
+  "pst": {
+   "st_burn": 9,
+   "st_root": 1
+  },
+  "fx": 4,
+  "frame": "1",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "chain_jailer": {
+  "dmg": 20016,
+  "moved": 8,
+  "ev": {
+   "atk_pull": 1,
+   "hit": 1,
+   "atk_sweep": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "ash_banshee": {
+  "dmg": 60016,
+  "moved": 0,
+  "ev": {
+   "atk_ring": 1,
+   "hit": 1,
+   "atk_summon": 1
+  },
+  "pst": {
+   "st_burn": 1
+  },
+  "fx": 0,
+  "frame": "2",
+  "alive": true,
+  "burn": true,
+  "mx": true
+ },
+ "einherjar_berserker": {
+  "dmg": 31,
+  "moved": 184,
+  "ev": {
+   "mv_charge": 1,
+   "atk_sweep": 1,
+   "hit": 1,
+   "mv_charge_hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "einherjar_shieldmaiden": {
+  "dmg": 30,
+  "moved": 97,
+  "ev": {
+   "atk_lunge": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "0",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "einherjar_archer": {
+  "dmg": 44,
+  "moved": 105,
+  "ev": {
+   "atk_shoot": 3,
+   "hit": 2,
+   "proj_hit": 2
+  },
+  "pst": {},
+  "fx": 2,
+  "frame": "1",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ },
+ "gjallar_warden": {
+  "dmg": 35,
+  "moved": 14,
+  "ev": {
+   "atk_ring": 1,
+   "atk_slam": 1,
+   "hit": 1
+  },
+  "pst": {},
+  "fx": 0,
+  "frame": "3",
+  "alive": true,
+  "burn": false,
+  "mx": true
+ }
+}

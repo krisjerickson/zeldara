@@ -68,7 +68,7 @@ var ZWE={
     var C=Z.C, needFlip=Z.needFlip, H=ZWE._hash, crk=Z.crk, N=_wpNoise(), wantCrk=ZWE.fx('lava','cracks');
     if(Z.stage===2)return ZWE._flipRows(D,Z);
     if(Z.stage===0){ var yEnd=Math.min(a1,Z.y+(ZWE.ROWS||40));      /* round 72: fewer rows a slice on phones (10c2) */
-    for(var y=Z.y;y<yEnd;y++)for(var x=a0;x<a1;x++){ var i=y*SW+x, k=kb[i], cl=KT.cls[k], e=ek[i], dl=dist[i]===255?99:dist[i]/8*16/S, h=H(x+D.tx0*S,y+D.ty0*S,17), X=ox+(x+0.5)*sp, Y=oy+(y+0.5)*sp;
+    for(var y=Z.y;y<yEnd;y++){ if(y>Z.y+1&&D._dl&&performance.now()>D._dl){ yEnd=y; break; } for(var x=a0;x<a1;x++){      /* round 72: stop at the frame's budget (05c sets D._dl) */ var i=y*SW+x, k=kb[i], cl=KT.cls[k], e=ek[i], dl=dist[i]===255?99:dist[i]/8*16/S, h=H(x+D.tx0*S,y+D.ty0*S,17), X=ox+(x+0.5)*sp, Y=oy+(y+0.5)*sp;
       if(cl===1||cl===3){ if(dl<16&&!KT.liquid[e])needFlip=true; if(dl>3&&h<0.02)(cl===1?C.rings:C.fog).push([X,Y]); if(cl===3&&h<0.004)C.rings.push([X,Y]); if(cl===3&&dl>2&&h>0.985)C.wisps.push([X,Y]); }
       else if(cl===2){ if(dl<24&&!KT.liquid[e])needFlip=true; if(dl<2.5&&!KT.liquid[e]&&h<0.25)C.spray.push([X,Y]); }
       else if(cl===4){ if(h<0.03)C.embers.push([X,Y]); }
@@ -82,6 +82,7 @@ var ZWE={
       var lk=KT.land[k], h2=H(x+D.tx0*S,y+D.ty0*S,29);
       if(lk===2&&KT.cls[e]===2&&dl<5&&h2<0.05)C.wet.push([X,Y]); if((cl===1||cl===3)&&!KT.liquid[e]&&dl<8&&h2<0.03)C.edge.push([X,Y]); if(cl===1&&dl>4&&h2<0.01)C.deep.push([X,Y]);
       if((lk===4||lk===1)&&KT.cls[e]===3&&dl<3&&h2<0.05)C.bank.push([X,Y]); if(h2>0.9995)C.air.push([X,Y]); if(cl===2)C._sea=1; if(KT.wall[k])C._cliff=1; if(cl===3&&!KT.liquid[e]&&dl<8&&h2<0.03)C.medge.push([X,Y]); if(lk===1&&KT.cls[e]===1&&dl<14&&h2<0.01)C.meadow.push([X,Y]); }
+    }
     Z.y=yEnd; Z.needFlip=needFlip; Z.crk=crk; if(yEnd<a1)return false; Z.stage=1; return false; }
     var cap=function(L,n){ if(L.length<=n)return L; var o=[], st=L.length/n; for(var q=0;q<n;q++)o.push(L[Math.floor(q*st)]); return o; };
     var F={}; if(ZWE.fx('lake','rings')&&C.rings.length)F.rings=cap(C.rings,400); if(ZWE.fx('sea','spray')&&C.spray.length)F.spray=cap(C.spray,400); if(ZWE.fx('marsh','fog')&&C.fog.length>20)F.fog=cap(C.fog,300);

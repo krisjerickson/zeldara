@@ -36,9 +36,9 @@ class G:
         return self.js("game.scene.getScenes(true).map(s=>s.sys.settings.key)")
 
 @contextlib.contextmanager
-def game(new=True, w=1280, h=800, save=None, painted=False, query='', lead=False):   # lead=False: familiars attack anything in range, as the suites written before round 34 expect   # painted=False: the suites written for the stand-ins run with the painted sprites off (round 23)
+def game(new=True, w=1280, h=800, save=None, painted=False, query='', lead=False, args=()):   # lead=False: familiars attack anything in range, as the suites written before round 34 expect   # painted=False: the suites written for the stand-ins run with the painted sprites off (round 23)
     with sync_playwright() as p:
-        b = p.chromium.launch(args=["--use-gl=swiftshader", "--enable-unsafe-swiftshader"])
+        b = p.chromium.launch(args=["--use-gl=swiftshader", "--enable-unsafe-swiftshader"] + list(args))
         pg = b.new_page(viewport={"width": w, "height": h})
         errs = []
         pg.on("pageerror", lambda e: errs.append("PAGEERR " + str(e) + ((" @ " + " < ".join(l.strip()[3:60] for l in (getattr(e,"stack","") or "").split("\n")[1:5])) if (getattr(e,"stack","") or "").count("\n") else "")))
@@ -63,6 +63,7 @@ def game(new=True, w=1280, h=800, save=None, painted=False, query='', lead=False
         if not painted: pg.evaluate("(()=>{ try{ if(typeof ZAtlas!=='undefined')ZAtlas.off=true; if(typeof ZScn!==\'undefined\')ZScn.off=true; }catch(e){} })()")
         pg.evaluate("(()=>{ try{ if(typeof ZDeath!=='undefined')ZDeath.auto=true; }catch(e){} })()")
         pg.evaluate("(()=>{ try{ if(typeof ZFT!=='undefined')ZFT.on=false; }catch(e){} })()")
+        pg.evaluate("(()=>{ try{ if(typeof ZWARM!=='undefined')ZWARM.on=false; }catch(e){} })()")   # round 72: the start curtain (10c3) stays off in the suites (test_round72c turns it on)
         pg.evaluate("(()=>{ try{ if(typeof ZLEAVE!=='undefined')ZLEAVE.on=false; }catch(e){} })()")
         pg.evaluate("(()=>{ try{ if(typeof ZCUT!=='undefined')ZCUT.on=false; }catch(e){} })()")   # round 65: the bosses' cut-scenes stay off in the suites (test_round65 plays them)   # round 64d: the leave-page guard stays off in the suites (they reload pages)   # round 64d: the forge rules pop-ups stay shut in the suites (test_round64 opens them)   # deaths apply at once in the suites (no effect, no pop-up to click); test_round33 switches it back on
         if not lead: pg.evaluate("(()=>{ try{ if(typeof FAM_LEAD!=='undefined')FAM_LEAD.on=false; }catch(e){} })()")

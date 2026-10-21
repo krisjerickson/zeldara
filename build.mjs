@@ -60,7 +60,11 @@ const jsFiles = fs.readdirSync(jsDir).filter(f => f.endsWith('.js')).sort();
 // painted-sprite atlases (assets/atlas/, made by tools/sprites/intake.py --atlas): the index goes into the page, the pages are files beside it
 let atlasMeta = '{"pages":{},"chars":{},"frames":{}}'; try { atlasMeta = fs.readFileSync(path.join(ROOT, 'assets/atlas/index.json'), 'utf8').trim(); JSON.parse(atlasMeta); } catch (e) { atlasMeta = '{"pages":{},"chars":{},"frames":{}}'; }
 let scnMeta = '{"pages":[],"items":{},"tex":{}}'; try { scnMeta = fs.readFileSync(path.join(ROOT, 'assets/scenery/index.json'), 'utf8'); } catch (e) {}   // painted scenery (round 30)
-const js = 'var ZATLAS_META=' + atlasMeta + ';\nvar ZSCN_META=' + scnMeta + ';\n' + minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
+// round 72 (P2): a hash of everything that shapes the world — the game's code and the painted-art indexes, line endings evened out — so a
+// baked world (assets/world/world.bin.gz, tests/bake_world.py) is only used by the build it was made for (05e-world-prebuilt.js)
+const worldHash = (await import('node:crypto')).createHash('md5').update(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('\n').replace(/\r\n/g, '\n') + atlasMeta.replace(/\r\n/g, '\n') + scnMeta.replace(/\r\n/g, '\n')).digest('hex').slice(0, 16);
+let audioIdx = 'null'; try { audioIdx = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/audio/index.json'), 'utf8'))); } catch (e) {}   // round 72: the made sound files (tools/audio/intake_audio.py) — in the page, so no request is made when there are none
+const js = 'var ZATLAS_META=' + atlasMeta + ';\nvar ZAUDIO_INDEX=' + audioIdx + ';\nvar ZSCN_META=' + scnMeta + ';\nvar ZWORLD_HASH=' + JSON.stringify(worldHash) + ';\n' + minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
 
 // Engine switch (round 18): Phaser 3.60 is the default. `node build.mjs --engine=4` (or ZELDARA_ENGINE=4)
 // makes Phaser 4 the default; any built page also accepts ?engine=3 or ?engine=4 in its address.
