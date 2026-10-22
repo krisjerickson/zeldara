@@ -25,7 +25,8 @@ def ff(*a, capture=False):
     return r.stderr
 def dur(f):
     r = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=nw=1:nk=1', f], capture_output=True, text=True)
-    return round(float(r.stdout.strip() or 0), 3)
+    try: return round(float(r.stdout.strip() or 0), 3)
+    except ValueError: return 0.0      # an empty file (all silence trimmed away)
 def main():
     if not shutil.which('ffmpeg'):
         print('ffmpeg is not installed. In PowerShell:  winget install Gyan.FFmpeg   — then open a new PowerShell window and run this again.'); sys.exit(1)
@@ -50,17 +51,26 @@ def main():
         if cid not in cues: print('? %s: no cue with that id (check Lab → Music & sound)' % f); continue
         if IDS and cid not in IDS: continue
         c = cues[cid]; kind = 'sting' if c['group'] == 'sting' else c['kind']; base = cid + ('.' + take if take else '')
-        if not FORCE and os.path.exists(os.path.join(OUT, base + '.ogg')) and base in json.dumps(idx.get(cid, {})): continue
+        if not FORCE and os.path.exists(os.path.join(OUT, base + '.ogg')) and any(x.get('base') == base for x in idx.get(cid, {}).get('files', [])): continue      # exact (am_ash.b is not am_ash)
         src = os.path.join(INC, f); shutil.copy2(src, os.path.join(MAS, f))
         tmp = os.path.join(OUT, base + '.tmp.wav')
         # 1. trim the silence at both ends (a looping piece keeps its length)
         trim = [] if c['loop'] and kind == 'music' else ['-af', 'silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse']
         ff('-i', src, *trim, tmp)
-        # 2. even loudness (two passes)
+        if trim and dur(tmp) < 0.05: ff('-i', src, tmp)      # the trim ate a very quiet sound: keep it whole
+        # 2. even loudness (two passes). A sound shorter than 0.4 s has no measurable loudness (EBU R128 gates in 400 ms blocks — it reads
+        #    as -inf): those are brought to a peak of -1 dB instead.
         tgt = {'music': (-16, 11), 'sting': (-14, 11), 'amb': (-24, 7), 'sfx': (-18, 11)}[kind]
         st = ff('-i', tmp, '-af', 'loudnorm=I=%d:TP=-1:LRA=%d:print_format=json' % tgt, '-f', 'null', '-')
         meas = json.loads(st[st.rindex('{'):st.rindex('}') + 1])
-        ln = 'loudnorm=I=%d:TP=-1:LRA=%d:measured_I=%s:measured_TP=%s:measured_LRA=%s:measured_thresh=%s:offset=%s:linear=true' % (tgt + (meas['input_i'], meas['input_tp'], meas['input_lra'], meas['input_thresh'], meas['target_offset']))
+        try: mi = float(meas['input_i'])
+        except ValueError: mi = float('-inf')
+        if mi > -70 and all(re.match(r'^-?[0-9.]+$', str(meas[k])) for k in ('input_tp', 'input_lra', 'input_thresh', 'target_offset')):
+            ln = 'loudnorm=I=%d:TP=-1:LRA=%d:measured_I=%s:measured_TP=%s:measured_LRA=%s:measured_thresh=%s:offset=%s:linear=true' % (tgt + (meas['input_i'], meas['input_tp'], meas['input_lra'], meas['input_thresh'], meas['target_offset']))
+        else:
+            vd = ff('-i', tmp, '-af', 'volumedetect', '-f', 'null', '-'); m = re.search(r'max_volume:\s*(-?[0-9.]+) dB', vd)
+            peak = float(m.group(1)) if m else -1.0; ln = 'volume=%.2fdB' % max(-20.0, min(40.0, -1.0 - peak)); meas['input_i'] = 'peak %.1f dB' % peak
+            if peak < -60: print('! %s is almost silent — redo it:  node tools/audio/sfx.mjs --ids %s --force' % (base, cid))
         mono = kind in ('amb', 'sfx'); rate = '32000' if kind == 'sfx' else '44100'
         o_ogg, o_mp3 = os.path.join(OUT, base + '.ogg'), os.path.join(OUT, base + '.mp3')
         common = ['-af', ln, '-ar', rate] + (['-ac', '1'] if mono else [])
@@ -70,7 +80,8 @@ def main():
         d = dur(o_ogg); e = idx.setdefault(cid, {'kind': kind, 'loop': bool(c['loop']), 'files': []})
         e['files'] = [x for x in e['files'] if x['base'] != base] + [{'base': base, 'secs': d, 'ls': 0, 'le': d}]
         e['files'].sort(key=lambda x: x['base']); done += 1
-        print('✓ %-28s %-6s %6.1f s  ogg %4d KB  mp3 %4d KB  (was %.1f LUFS)' % (base, kind, d, os.path.getsize(o_ogg) // 1024, os.path.getsize(o_mp3) // 1024, float(meas['input_i'])))
+        print('✓ %-28s %-6s %6.1f s  ogg %4d KB  mp3 %4d KB  (was %s)' % (base, kind, d, os.path.getsize(o_ogg) // 1024, os.path.getsize(o_mp3) // 1024, meas['input_i'] if isinstance(meas['input_i'], str) and 'peak' in meas['input_i'] else '%.1f LUFS' % float(meas['input_i'])))
+        json.dump(idx, open(ip, 'w'), indent=1, sort_keys=True)      # after each sound, so a stop part-way loses nothing
     json.dump(idx, open(ip, 'w'), indent=1, sort_keys=True)
     have = sum(1 for k in idx); print('\n%d made now · %d of %d sounds in assets/audio · then tell Claude the audio is in' % (done, have, len(cues)))
 main()

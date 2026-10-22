@@ -149,7 +149,7 @@ See docs/08 → Open questions → Round 67.
 **Before (told in pieces, never in order):**
 - **The cycle.** In Runeheim the dead rose along the World Tree, carved into the Runestone Green, to Asgard — Odin's Valhalla for the fallen, Freya's Fólkvangr for the rest — and new souls came down the same way into newborns.
 - **Year 0 — the gate shuts.** Solmyrk, a thing of stolen light, came to Asgard wearing a golden mask. He caught Odin and Freya in two great orbs of their own light, sat in the high seat, took Odin's names, and shut Asgard's gate. No soul could rise; no new soul came down. The same night his ally **Surtharn** woke in Muspelheim: the **Ash Night** — fire and ash fell on the Ashlands, the **Ember Wall** rose against the Grasslands and the **Cinder Chasm** split from the Highlands. The Ashlands' people perished; their souls, with nowhere to go, were caught by Surtharn's **Binders** and chained to dig.
-- **Year ~3 — the Stone-Fall.** The Highlands' mines were made to dig deeper for "a voice in the stone"; the mountains broke, the **Great Scarp** tore open, the Highlands fell.
+- **Year ~3 — the Stone-Fall.** The Highlands' mines were made to dig deeper for "a voice in the stone"; the mountains broke, the **Great Scar** tore open, the Highlands fell.
 - **Year ~8 — the Black Tide.** The Silverrun rose black from the south; the marshes drank the Wetlands' villages; the river became a wall. Only the Grasslands were left.
 - **The Long Quiet.** No child was born alive in the last village. The dead of the Grasslands drifted at the edge of the light — until lately, when the Binders came over the walls for them too, and bindstones began to hum in the fields.
 - **Year ~20 — the storm.** On the worst night anyone remembered, lightning struck runestone after runestone across the Grasslands. At dawn a floating basket drifted out of Mirror Lake to the harbour with two babes in it; their eyes glowed rune-blue until they were nursed on goat's milk. The village named them **Zeldara** and **Zeldor**.
@@ -210,12 +210,12 @@ See docs/08 → Open questions → Round 67.
 
 **Highlands — the Stone-Fall**
 - **Arnor**, a weaver: "The miners said the stone was singing. They dug toward it. So did the mountain."
-- **Bodil**, a shipwright (old): "We built ships for a sea we could see from the peaks, to sail to the gods. The Scarp took the road to the sea."
+- **Bodil**, a shipwright (old): "We built ships for a sea we could see from the peaks, to sail to the gods. The Scar took the road to the sea."
 - **Dalla**, a net-mender: "There's a chamber under the mountains where light is chained like hounds."
 - **Einar**, a fisher (young): "In the mountain lakes you could see Asgard's reflection on still nights. Then only a golden mask."
 - **Gudrun**, a beekeeper: "The queen bee of my hives was golden. The Binders crushed her first."
 - **Hakon**, a carver: "Every rune in the mountains was carved toward the lake. As if it was the middle of everything."
-- **Ingrid**, a cooper (old): "Three winters after the gate shut, the Scarp split. That was the mountain answering the fire."
+- **Ingrid**, a cooper (old): "Three winters after the gate shut, the Scar split. That was the mountain answering the fire."
 - **Joreid**, a tanner (child): "I was the last child born in the Highlands. I lived three summers."
 - **Kolbein**, a dyer (young): "The one on the high seat has one eye too. But his eye has never seen anything."
 - **Lofn**, a herder: "When the gate shut, the ravens left Asgard and never came back. Two of them circled our hills, crying."
@@ -235,7 +235,7 @@ See docs/08 → Open questions → Round 67.
 ### 10.3 The builders (when freed)
 
 - **Bram** (Silverrun bridges): "The river wasn't always a wall. When the Wetlands fell it rose against us, black and fast, and every bridge went in a night."
-- **Mira** (Scarp lifts): "Surtharn's wardens took me for my lifts — he wanted to lower his chains deeper into the mountains."
+- **Mira** (Scar lifts): "Surtharn's wardens took me for my lifts — he wanted to lower his chains deeper into the mountains."
 - **Dunn** (Chasm iron bridges): "The Cinder Chasm opened the night the sky went quiet. I've been building bridges over it in my sleep ever since."
 - **Vela** (Ember Wall passes): "The Ember Wall is new, you know. Thirty-six years. My grandfather walked to the Ashlands for honey."
 
@@ -254,7 +254,7 @@ See docs/08 → Open questions → Round 67.
 | 4–5 | The village raises the twins; the twins' glowing eyes and the runes | opening |
 | 6 | The send-off at the village gate (one twin goes, one stays) | opening |
 | 7–9 | The Ash Night; the Ember Wall rising; the Cinder Chasm | the Ashlands' 10th spirit |
-| 10–11 | The Stone-Fall; the Great Scarp | the Highlands' 10th |
+| 10–11 | The Stone-Fall; the Great Scar | the Highlands' 10th |
 | 12–13 | The Black Tide; the Silverrun as a wall | the Wetlands' 10th |
 | 14 | The Long Quiet (the last village) | the Grasslands' 10th |
 | 15 | The gate shut — the masked one on the high seat (a glimpse) | the 20th spirit |

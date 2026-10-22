@@ -16,7 +16,7 @@ var ZSAGA={
   // after a spirit's soul-line is drawn: a realm at 10/10 tells its old disaster; the twentieth spirit, a glimpse of the gate
   afterTrace:function(ws,s){ var ps=ws.playerState; if(!ps||!s)return; var n=(ps.spiritsFreed||[]).length, q=s.q, inQ=ZSPIRIT.count(ps,q);
     // round 71: the first one not yet seen and painted of — this realm's disaster (10/10), the whole tattoo (40), the orbs (30), the gate (20)
-    var C=[inQ>=10?'realm'+q:null,n>=40?'tattoo':null,n>=30?'orbs':null,n>=20?'gate':null].filter(Boolean), L=ZSAGA.seen(ps), k=C.find(function(c){ return L.indexOf(c)<0&&ZSAGA.ready(c); });
+    var C=[inQ>=(q===1?10:1)?'realm'+q:null,      /* round 73 (Kris): the Wetlands, Highlands and Ashlands tell their old disaster with their FIRST freed spirit (the Grasslands' Long Quiet still at its tenth) */ n>=40?'tattoo':null,n>=30?'orbs':null,n>=20?'gate':null].filter(Boolean), L=ZSAGA.seen(ps), k=C.find(function(c){ return L.indexOf(c)<0&&ZSAGA.ready(c); });
     if(k)setTimeout(function(){ ZSAGA.play(ps,k); },900); },
   // a new game: the opening (old saves count it as seen)
   start:function(ws){ var ps=ws.playerState; if(!ps||ps.sagaSeen)return; if(!ws._newGame){ ps.sagaSeen=['opening']; return; } ZSAGA.seen(ps); setTimeout(function(){ if(ws.sys&&ws.sys.isActive())ZSAGA.play(ps,'opening'); },1500); }

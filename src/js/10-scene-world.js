@@ -2626,7 +2626,7 @@ class WorldScene extends Phaser.Scene{
           this._interactPrompt=domText(this,nearNPC.x,nearNPC.y-30,'[Tab] Talk to '+nearNPC.n,{fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
           this._interactPrompt._npc=nearNPC.id;
         }
-        if(Phaser.Input.Keyboard.JustDown(this.keys.TAB))showNotif(nearNPC.icon+' '+nearNPC.line,'#ffe9a8');
+        if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(typeof nearNPC.talk==='function')nearNPC.talk(this); else showNotif(nearNPC.icon+' '+nearNPC.line,'#ffe9a8'); }      // round 73: a folk member may have more to say (the twin teaches Godsbane)
         return;
       } else if(this._interactPrompt&&this._interactPrompt._npc){this._interactPrompt.destroy();this._interactPrompt=null;}
     }

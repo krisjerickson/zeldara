@@ -4,7 +4,7 @@
 var LabMap={ M:null, img:null, zoom:1, show:{zones:true,labels:true,sites:true,ways:true,gates:true} };
 LAB_TABS.splice(LAB_TABS.findIndex(function(t){return t.id==='world';})+1,0,{
   id:'map', name:'World Map', designs:[],
-  blurb:'<b>The new island</b> (1200 × 1200 tiles, 4× today): a rugged coast with bays, fjords, capes and islets. Four regions meet at <b>Mirror Lake</b>, split by natural borders: the Silverrun river, the Great Scarp, the Cinder Chasm and the Ember Wall. Each border has <b>three crossings</b> (lakeside, middle, coast) that all open when its craftsman is freed: Bram\'s bridges, Mira\'s lifts, Dunn\'s iron bridges, and Vela\'s passes through the Ember Wall. Each region holds its 10 designs as sub-zones. <b>Hover</b> to see a zone, <b>click</b> to walk its sample. Notes on the layout go in the box below.',
+  blurb:'<b>The new island</b> (1200 × 1200 tiles, 4× today): a rugged coast with bays, fjords, capes and islets. Four regions meet at <b>Mirror Lake</b>, split by natural borders: the Silverrun river, the Great Scar, the Cinder Chasm and the Ember Wall. Each border has <b>three crossings</b> (lakeside, middle, coast) that all open when its craftsman is freed: Bram\'s bridges, Mira\'s lifts, Dunn\'s iron bridges, and Vela\'s passes through the Ember Wall. Each region holds its 10 designs as sub-zones. <b>Hover</b> to see a zone, <b>click</b> to walk its sample. Notes on the layout go in the box below.',
   render:function(){
     setTimeout(LabMap.draw,30);
     var p=LabApp.picks['map-layout']||{};
@@ -40,7 +40,7 @@ LabMap.draw=function(){
   g.textAlign='center'; g.textBaseline='middle';
   if(sh.labels){ g.font='600 13px sans-serif'; WMAP_ZONES.forEach(function(z){ var n=_wmZoneName(z.id); g.lineWidth=3; g.strokeStyle='rgba(0,0,0,.75)'; g.strokeText(n,z.x,z.y-12); g.fillStyle='#fff'; g.fillText(n,z.x,z.y-12); });
     g.font='700 22px serif'; [['GRASSLANDS',900,60],['WETLANDS',880,1150],['HIGHLANDS',250,1160],['ASHLANDS',260,60]].forEach(function(q){ g.lineWidth=4; g.strokeStyle='rgba(0,0,0,.7)'; g.strokeText(q[0],q[1],q[2]); g.fillStyle='rgba(255,240,200,.95)'; g.fillText(q[0],q[1],q[2]); });
-    g.font='600 12px sans-serif'; [['Silverrun',820,M.armY(820)-14],['Great Scarp',M.armX(900)+50,900],['Cinder Chasm',300,M.armY(300)+16],['Ember Wall',M.armX(300)+44,300],['Mirror Lake',600,600]].forEach(function(q){ g.lineWidth=3; g.strokeStyle='rgba(0,0,0,.8)'; g.strokeText(q[0],q[1],q[2]); g.fillStyle='#bfe8ff'; g.fillText(q[0],q[1],q[2]); }); }
+    g.font='600 12px sans-serif'; [['Silverrun',820,M.armY(820)-14],['Great Scar',M.armX(900)+50,900],['Cinder Chasm',300,M.armY(300)+16],['Ember Wall',M.armX(300)+44,300],['Mirror Lake',600,600]].forEach(function(q){ g.lineWidth=3; g.strokeStyle='rgba(0,0,0,.8)'; g.strokeText(q[0],q[1],q[2]); g.fillStyle='#bfe8ff'; g.fillText(q[0],q[1],q[2]); }); }
   // village
   g.fillStyle='#e9c46a'; g.strokeStyle='#000'; g.lineWidth=2; g.beginPath(); g.arc(M.village.x,M.village.y,9,0,Math.PI*2); g.fill(); g.stroke();
   if(sh.labels){ g.font='700 13px sans-serif'; g.lineWidth=3; g.strokeText('Village',M.village.x,M.village.y+20); g.fillStyle='#ffe9a8'; g.fillText('Village',M.village.x,M.village.y+20); }
@@ -66,7 +66,7 @@ document.addEventListener('mousemove',function(e){
   if(e.target.id!=='map-cv'||!LabMap.M){ return; }
   var cv=e.target, r=cv.getBoundingClientRect(), x=Math.floor((e.clientX-r.left)/r.width*1200), y=Math.floor((e.clientY-r.top)/r.height*1200), M=LabMap.M, i=y*M.W+x, tip=document.getElementById('map-tip');
   var z=M.zone[i], cl=M.cls[i], rg=M.region[i], txt='';
-  var cname={0:'Open sea',1:'Shallows',2:'Beach',4:'Lake',5:'River',6:'Cliff (Great Scarp)',7:'Lava chasm',8:'Ember Wall ridge',9:'Road',10:'Bridge',11:'Village',12:'Mountain',13:'Crossing'}[cl];
+  var cname={0:'Open sea',1:'Shallows',2:'Beach',4:'Lake',5:'River',6:'Cliff (Great Scar)',7:'Lava chasm',8:'Ember Wall ridge',9:'Road',10:'Bridge',11:'Village',12:'Mountain',13:'Crossing'}[cl];
   LabMap._hoverZone=null;
   var gi=M.gateAt?M.gateAt[i]:0;
   if(gi){ var G=M.gates[gi-1], C=typeof CRAFTSMEN!=='undefined'?CRAFTSMEN[G.craftsman]:null; txt='<b>'+G.icon+' '+G.name+'</b> · '+G.borderName+'<br><span>'+WM_REGION_NAMES[G.from]+' ↔ '+WM_REGION_NAMES[G.to]+' · opens when '+(C?C.n:'the craftsman')+' is freed</span>'; }

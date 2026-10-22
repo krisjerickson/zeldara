@@ -32,7 +32,7 @@ var ZAUDIO={ on:true, BASE:'assets/audio/', idx:null, buf:{}, loading:{}, mus:nu
     fetch(u).then(function(r){ return r.arrayBuffer(); }).then(function(b){ return new Promise(function(res,rej){ a.decodeAudioData(b,res,rej); }); }).then(function(d){ ZAUDIO.buf[u]=d; delete ZAUDIO.loading[u]; if(cb)cb(d); }).catch(function(){ delete ZAUDIO.loading[u]; }); return null; },
   // an effect or stinger: true when a file played it
   play:function(id,o){ o=o||{}; if(!ZAUDIO.on||!ZAUDIO.has(id)||(typeof ZSFX!=='undefined'&&ZSFX.muted))return false; var a=ZAUDIO.ctx(); if(!a)return false; var F=ZAUDIO.idx[id].files, k=(ZAUDIO._var[id]=((ZAUDIO._var[id]||0)+1)%F.length), f=F[k], d=ZAUDIO.buffer(f);
-    if(!d){ F.forEach(function(x){ ZAUDIO.buffer(x); }); return false; }      /* the first time: all its takes are fetched now, the procedural sound plays this once */
+    if(!d){ var t0=Date.now(); F.forEach(function(x,i){ ZAUDIO.buffer(x,i===k?function(){ if(Date.now()-t0<350&&!o._late){ o._late=1; ZAUDIO.play(id,o); } }:null); }); return false; }      /* the first time: its takes are fetched now; if this one arrives within 0.35 s it still plays */
     var s=a.createBufferSource(), g=a.createGain(); s.buffer=d; s.playbackRate.value=o.pitch||(0.95+Math.random()*0.1); g.gain.value=o.vol||1; s.connect(g); g.connect(ZAUDIO.bus[ZAUDIO.idx[id].kind==='sting'?'music':'sfx']); s.start();
     if(ZAUDIO.idx[id].kind==='sting')ZAUDIO.duck(d.duration); return true; },
   duck:function(sec){ var g=ZAUDIO.bus&&ZAUDIO.bus.music, a=ZAUDIO.ctx(); if(!g||!a||!ZAUDIO.mus)return; var t=a.currentTime; g.gain.cancelScheduledValues(t); g.gain.setTargetAtTime(ZAUDIO.vol.music*0.35,t,0.08); g.gain.setTargetAtTime(ZAUDIO.vol.music,t+sec,0.6); },

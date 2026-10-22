@@ -3,6 +3,7 @@ Suno and ElevenLabs files. Run: python tests/test_audio_engine.py"""
 import os, sys, json, subprocess, tempfile
 sys.path.insert(0, os.path.dirname(__file__))
 from harness import game
+HERE = os.path.dirname(os.path.abspath(__file__))
 res = []
 def check(n, ok, info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ') + n + ('  ' + str(info)[:400] if info != '' else ''), flush=True)
@@ -21,10 +22,12 @@ add('sfx_sword_hit', 'sfx', False, 0.3, 900, takes=('', 'b')); add('st_quest', '
 json.dump(IDX, open(os.path.join(T, 'index.json'), 'w'))
 def serve(r):
     f = os.path.join(T, r.request.url.split('assets/audio/', 1)[1].split('?')[0])
-    return r.fulfill(path=f) if os.path.isfile(f) else r.fulfill(status=404, body='')
+    if os.path.isfile(f): return r.fulfill(path=f)
+    g2 = os.path.join(HERE, '..', 'assets', 'audio', r.request.url.split('assets/audio/', 1)[1].split('?')[0])   # the game's own made sounds (round 73), when a test sound has none
+    return r.fulfill(path=g2) if os.path.isfile(g2) else r.fulfill(status=404, body='')
 with game() as g:
     r = g.js("({idx:ZAUDIO.idx, on:ZAUDIO.on})")
-    check('Without sound files the engine stays out of the way (no index; the procedural sounds play)', r['on'] and r['idx'] is None, r)
+    check('The made sounds\' index is in the page (no request for it; %s sounds)' % (len(r['idx'] or {})), r['on'] and (r['idx'] is None or len(r['idx']) > 20), len(r['idx'] or {}))
     g.js("ZSFX.play('hit')")
     g.page.route('**/assets/audio/**', serve)
     g.js("(()=>{ ZAUDIO_INDEX=null; history.replaceState(null,'','?audio=fetch'); ZAUDIO.load(); })()"); g.key('ArrowRight', 80); g.page.wait_for_function('!!ZAUDIO.idx', timeout=30000); g.wait(300)

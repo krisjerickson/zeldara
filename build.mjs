@@ -63,8 +63,9 @@ let scnMeta = '{"pages":[],"items":{},"tex":{}}'; try { scnMeta = fs.readFileSyn
 // round 72 (P2): a hash of everything that shapes the world — the game's code and the painted-art indexes, line endings evened out — so a
 // baked world (assets/world/world.bin.gz, tests/bake_world.py) is only used by the build it was made for (05e-world-prebuilt.js)
 const worldHash = (await import('node:crypto')).createHash('md5').update(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('\n').replace(/\r\n/g, '\n') + atlasMeta.replace(/\r\n/g, '\n') + scnMeta.replace(/\r\n/g, '\n')).digest('hex').slice(0, 16);
+let videoIdx = 'null'; try { const vd = path.join(ROOT, 'assets/video'), V = {}; for (const f of fs.readdirSync(vd)) { const m = /^(.+)\.(mp4|webm)$/.exec(f); if (m) V[m[1]] = f; } if (Object.keys(V).length) videoIdx = JSON.stringify(V); } catch (e) {}   // round 73: the cut-scene clips (tools/video, 07zvc)
 let audioIdx = 'null'; try { audioIdx = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/audio/index.json'), 'utf8'))); } catch (e) {}   // round 72: the made sound files (tools/audio/intake_audio.py) — in the page, so no request is made when there are none
-const js = 'var ZATLAS_META=' + atlasMeta + ';\nvar ZAUDIO_INDEX=' + audioIdx + ';\nvar ZSCN_META=' + scnMeta + ';\nvar ZWORLD_HASH=' + JSON.stringify(worldHash) + ';\n' + minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
+const js = 'var ZATLAS_META=' + atlasMeta + ';\nvar ZAUDIO_INDEX=' + audioIdx + ';\nvar ZVIDEO_INDEX=' + videoIdx + ';\nvar ZSCN_META=' + scnMeta + ';\nvar ZWORLD_HASH=' + JSON.stringify(worldHash) + ';\n' + minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
 
 // Engine switch (round 18): Phaser 3.60 is the default. `node build.mjs --engine=4` (or ZELDARA_ENGINE=4)
 // makes Phaser 4 the default; any built page also accepts ?engine=3 or ?engine=4 in its address.
@@ -167,7 +168,7 @@ try {
 // Scenery requests (round 28): src/js/07zt-scenery.js → sprites/requests/scenery.json + scenery.md (the list to read).
 try {
   const vm = await import('node:vm'); const ctx = {}; ctx.globalThis = ctx;
-  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zh-hamlet-folk.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt-scenery.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zv-icons.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt2-saga-art.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt3-art-r64d.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt4-art-r71.js'), 'utf8') + '\n;globalThis.__scn=JSON.stringify({stats:ZSCN.stats(),req:ZSCN.requests(),waves:ZSCN.WAVES,style:ZSCN.STYLE,rules:ZSCN.RULES,rulesTex:ZSCN.RULES_TEX,bgAlpha:ZSCN.BG_ALPHA,bgTex:ZSCN.BG_TEX});', ctx, { timeout: 20000 });
+  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zh-hamlet-folk.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt-scenery.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zv-icons.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt2-saga-art.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt3-art-r64d.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt4-art-r71.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt5-art-r73.js'), 'utf8') + '\n;globalThis.__scn=JSON.stringify({stats:ZSCN.stats(),req:ZSCN.requests(),waves:ZSCN.WAVES,style:ZSCN.STYLE,rules:ZSCN.RULES,rulesTex:ZSCN.RULES_TEX,bgAlpha:ZSCN.BG_ALPHA,bgTex:ZSCN.BG_TEX});', ctx, { timeout: 20000 });
   const S = JSON.parse(ctx.__scn), out = path.join(ROOT, 'sprites', 'requests'); fs.mkdirSync(out, { recursive: true });
   const ids = {}; S.req.forEach(q => q.items.forEach(it => { if (ids[it.id]) throw new Error('scenery id used twice: ' + it.id); ids[it.id] = 1; }));
   S.req.forEach(q => { if (q.items.length > q.cols * q.rows) throw new Error(q.id + ': ' + q.items.length + ' items do not fit ' + q.cols + '×' + q.rows); });
@@ -187,6 +188,14 @@ try {
   fs.writeFileSync(path.join(ROOT, 'sprites', 'requests', 'audio.json'), JSON.stringify({ made: 'build.mjs from src/js/07zau-audio-cues.js — do not edit by hand', how: 'music: paste request into Suno (Instrumental on); amb and sfx: sent by tools/audio (doc 32 §3.2)', stats: S.stats, cues: S.cues }, null, 0));
   console.log(`✓ sprites/requests/audio.json  ${S.cues.length} sounds (${S.stats.music} music, ${S.stats.sting} stingers, ${S.stats.amb} ambience, ${S.stats.sfx} effects)`);
 } catch (e) { console.warn('! audio requests not exported: ' + e.message); }
+// ── Round 73: the cut-scene clips (src/js/07zvc-video-clips.js, docs/34) → sprites/requests/video.json, for tools/video/clips.py
+try {
+  const vm = await import('node:vm'); const ctx = {}; ctx.globalThis = ctx;
+  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zvc-video-clips.js'), 'utf8') + '\n;globalThis.__vid=JSON.stringify(ZVCLIP.all());', ctx);
+  const C = JSON.parse(ctx.__vid);
+  fs.writeFileSync(path.join(ROOT, 'sprites', 'requests', 'video.json'), JSON.stringify({ made: 'build.mjs from src/js/07zvc-video-clips.js — do not edit by hand', how: 'tools/video/clips.py: the first frame is the painted panel, the request says how it moves', clips: C }, null, 1));
+  console.log(`✓ sprites/requests/video.json  ${C.length} clips in ${new Set(C.map(c => c.wave)).size} waves`);
+} catch (e) { console.warn('! video requests not exported: ' + e.message); }
 
 // ── Hosting: dist/ = what gets deployed — the home page at /, the game at /play, the Design Lab at /lab
 // (vercel.json: buildCommand "npm run build", outputDirectory "dist")
@@ -201,6 +210,9 @@ try {
   for (const v of ['3', '4']) { fs.mkdirSync(D('dist', 'play' + v), { recursive: true }); fs.writeFileSync(D('dist', 'play' + v, 'index.html'), withEngine(outRaw, v, false)); }
   if (fs.existsSync(D('assets', 'atlas'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'atlas'), D('dist', 'play' + v, 'assets', 'atlas'));
   if (fs.existsSync(D('assets', 'scenery'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'scenery'), D('dist', 'play' + v, 'assets', 'scenery'));   // painted scenery (round 30)
+  if (fs.existsSync(D('assets', 'audio'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'audio'), D('dist', 'play' + v, 'assets', 'audio'));   // the made music and sounds (round 73)
+  if (fs.existsSync(D('assets', 'video'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'video'), D('dist', 'play' + v, 'assets', 'video'));   // the cut-scene clips (round 73)
+  if (fs.existsSync(D('assets', 'world'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'world'), D('dist', 'play' + v, 'assets', 'world'));   // the baked world (round 72)
   if (fs.existsSync(D('lab/index.html'))) fs.copyFileSync(D('lab/index.html'), D('dist', 'lab', 'index.html'));
   if (fs.existsSync(D('lab/preview'))) copyDir(D('lab/preview'), D('dist', 'lab', 'preview'));
   // the home page (Next.js, site/): it paints the brand with the game's own brand code

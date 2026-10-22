@@ -1,0 +1,160 @@
+{
+ "made": "build.mjs from src/js/07zvc-video-clips.js — do not edit by hand",
+ "how": "tools/video/clips.py: the first frame is the painted panel, the request says how it moves",
+ "clips": [
+  {
+   "id": "pn_forges_lodestar",
+   "wave": 1,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The camera slowly pushes in toward the anvil. The four glowing heart-glasses circle once around the staff and pour streams of green, blue, amber and red light into the star on its crown; the star flares brilliant white, sparks burst outward, lava glows brighter in the rivers below.",
+   "frame": "assets/scenery/rooms/pn_forges_lodestar.webp",
+   "where": "the moment the Lodestar is first made (16u: when it first comes into your hands)"
+  },
+  {
+   "id": "pn_binders_free",
+   "wave": 1,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The glowing chains snap and burst apart from the bindstone, links flying outward in slow motion; the pale spirit rises gently out of the stone toward the sky, eyes closed and at peace, the ember sparks fading; the dark shape in the mist slinks away.",
+   "frame": "assets/scenery/rooms/pn_binders_free.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_build_bram",
+   "wave": 1,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. Bram lifts his hammer in triumph; the first travellers and the cart roll across the new bridge; the river flows and glitters in the sunrise; the heron rises from the reeds and flies away.",
+   "frame": "assets/scenery/rooms/pn_build_bram.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_fh_cast_twins",
+   "wave": 1,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The beam of white-gold light from the twins grows stronger and rises into the place where the two orbs meet; cracks of light spread across the orbs; the gods inside stir.",
+   "frame": "assets/scenery/rooms/pn_fh_cast_twins.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_world_tree",
+   "wave": 1,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. A very slow descent toward the lake; the glowing World Tree under the water pulses gently, light flowing along its roots and branches like breath; ripples cross the glassy surface; village lights twinkle.",
+   "frame": "assets/scenery/rooms/pn_world_tree.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_lines_life",
+   "wave": 2,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The camera glides slowly forward along the glowing line of light; as the light passes, fresh green grass and small white flowers spring up along it and the faint path brightens; the dawn ahead grows warmer.",
+   "frame": "assets/scenery/rooms/pn_lines_life.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_build_mira",
+   "wave": 2,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. Mira pulls the great brass lever; the gears turn and the chains run; the wooden cage-lift begins to climb the cliff face, the lantern swinging; mist drifts below.",
+   "frame": "assets/scenery/rooms/pn_build_mira.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_build_dunn",
+   "wave": 2,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. Dunn swings his hammer down on the last glowing rivet; a burst of sparks; the iron bridge settles with a deep shudder; the lava glows and smoke drifts across the orange sky.",
+   "frame": "assets/scenery/rooms/pn_build_dunn.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_twin_teach_m",
+   "wave": 2,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The twin at the desk traces the glowing rune on the page with a finger; the rune glows brighter and the star on the Lodestar answers with the same light; candle flames flicker, dust motes drift.",
+   "frame": "assets/scenery/rooms/pn_twin_teach_m.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_twin_teach_f",
+   "wave": 2,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The twin at the desk traces the glowing rune on the page with a finger; the rune glows brighter and the star on the Lodestar answers with the same light; candle flames flicker, dust motes drift.",
+   "frame": "assets/scenery/rooms/pn_twin_teach_f.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_saga_orbs",
+   "wave": 2,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. A slow push-in toward the two orbs; the pale light inside them breathes slowly; the golden chains of light shimmer; the twins stand still, their cloaks stirring.",
+   "frame": "assets/scenery/rooms/pn_saga_orbs.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_saga_storm_b",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. Lightning flashes across the storm clouds, rain sweeps across the lake, the waves heave; a very slow push-in.",
+   "frame": "assets/scenery/rooms/pn_saga_storm_b.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_saga_basket",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The basket rocks gently on the water as the storm calms, the clouds parting a little; the glow around it pulses softly.",
+   "frame": "assets/scenery/rooms/pn_saga_basket.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_saga_sendoff",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The villagers wave; cloaks and banners stir in the wind; the morning light grows; a slow pull-back.",
+   "frame": "assets/scenery/rooms/pn_saga_sendoff.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_saga_ashnight_b",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. Ash falls and embers drift; the fires glow and flicker; smoke rolls across the sky.",
+   "frame": "assets/scenery/rooms/pn_saga_ashnight_b.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_saga_stonefall_b",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. Rocks tumble and dust billows down the mountainside; a slow shake of the camera.",
+   "frame": "assets/scenery/rooms/pn_saga_stonefall_b.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_saga_blacktide_b",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The black water surges and swirls; mist creeps over the marsh; lightning in the distance.",
+   "frame": "assets/scenery/rooms/pn_saga_blacktide_b.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_fh_shards",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The orbs burst into glittering shards that drift and spin slowly through the golden light.",
+   "frame": "assets/scenery/rooms/pn_fh_shards.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_fh_gods",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. Odin and Freya stand free and look up; the light around them settles; the raven ruffles its feathers; the falcon-feather cloak stirs.",
+   "frame": "assets/scenery/rooms/pn_fh_gods.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_end_gods_lead",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The gods walk slowly forward along the bright road; the light grows; cloaks flow.",
+   "frame": "assets/scenery/rooms/pn_end_gods_lead.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_cel_feast",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The villagers feast and laugh; lanterns sway; firelight flickers; the camera drifts slowly along the tables.",
+   "frame": "assets/scenery/rooms/pn_cel_feast.webp",
+   "where": ""
+  },
+  {
+   "id": "pn_cel_children",
+   "wave": 3,
+   "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The children run and play in the sunlight; grass and flowers sway; a slow, warm drift.",
+   "frame": "assets/scenery/rooms/pn_cel_children.webp",
+   "where": ""
+  }
+ ]
+}

@@ -202,6 +202,19 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 73b (Oct 22) — the cut-scene clips (docs/34)
+- Found while researching C1: OpenAI's Sora API shut down on Sept 24, 2026, so Kris's OpenAI key cannot make video; Google's Veo 3.1 preview ids end Oct 22; Google's Gemini Omni 1.1 Flash (GA Aug 27) takes the panel as the first frame (~$0.10/s at 720p, ~$0.035/s at 360p). The script (`tools/video/clips.py`, `video1.ps1`) is written for it; the player already plays a clip in place of a panel.
+- V1 — Which service makes the clips? (Gemini Omni Flash — needs a Gemini API key on a paid Google project — recommended / Kling via fal.ai / Runway) — *asked, awaiting answer*
+- V2 — Sound: the clips silent under the game's music (recommended) / keep the clip's own sound? — *asked, awaiting answer*
+- V3 — The 5-clip pilot at 720p (~$4) or 360p drafts first (~$1.40)? — *asked, awaiting answer*
+- V4 — After the pilot: every panel (~75, ~$60 at 720p) or only the big moments (~22, ~$18)? — *asked, awaiting answer*
+
+### Round 73 (Oct 22, night) — the saga feedback; cut-scenes
+- Kris: "The saga feedback is in, and we likely need to prep for actual cut-scenes instead of just the images. but we should start with the missing images". His notes (Lab → The saga, end to end): the Ash Night / Black Tide / Stone-Fall panels with the **first** freed spirit of their realm (not the 10th); "great scar", not "scarp"; **three separate cut-scenes**, one per builder who unlocks the next section; the bound spirits' cut-scene image is missing; the forges and the Lodestar as a cut-scene (propose a place); a simple soul-lines cut-scene when a spirit is freed that implies life will return (rune lines turning to paths and grass); **the other twin teaches Godsbane** (not the spirits) and studies the old texts the whole game; at the orbs the second twin comes to cast Godsbane with you — the image remade with Zeldara the same size as Zeldor; the World Tree is the final result: once the Bifröst has been remade, a massive World Tree seen in the lake's waters "like a tattoo under the water".
+- C1 — What is a cut-scene? **Answered: short AI video clips** (each panel turned into a few seconds of video by an image-to-video model, by script like the art).
+- C2 — When and where does the other twin teach Godsbane? **Answered: in the village, after the Lodestar** — the twin has studied the old texts all game (visit them in the village); once the Lodestar is whole they teach Godsbane, then come to Asgard and cast it with you.
+- C3 — What completes the World Tree under Mirror Lake? **Answered: all 40 spirits, after the end** — a cut-scene shows it glowing under the lake like a tattoo, and it stays.
+
 ### Round 72 (Oct 20) — the saga, end to end
 - Kris's tagline (Lab note): "Four realms, one broken land. Free the bound spirits and unravel the fragmented past to liberate Runeheim." — "I don't want to give away anything ;)" → in the game.
 - Kris: "a new design lab that articulates each element of the full saga, end-to-end, both for me to review for accuracy as well as have it show where in the world you learn about each of these during the gameplay, starting from the intro scene all the way to the credits. Have multiple options for me to pick from for when and how you learn this info. Also, have a 2nd section for a "redundancy" check, where we will have a back-up option for how you learn this info. This should also be split into where you have a full cut-scene that explains a larger part of the story vs. hints that you get from NPCs or other minor progress throughout the game."
@@ -956,4 +969,9 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Done: changelog [682]–[690] — the hamlet plan, grassland, solid buildings and workshop doors, interiors, the forty kin and their words, the fairies, the Lab tab, the five panels redone.
 - Kris: "round 73 requests are in" → all 65 sheets cut and in the game and the Lab (changelog [691]).
 - **Next:** Kris looks at the hamlet folk (Lab → Saga panels & hamlets) and walks into a workshop after the gods.
+
+## Round 73 (Kris, Oct 21–22) — the audio in; the saga feedback; the cut-scene clips
+- Kris: "audio is in!" → 71 cues, 142 takes wired through the game (27z ZAHOOK; changelog [742]). Then: "The saga feedback is in, and we likely need to prep for actual cut-scenes instead of just the images. but we should start with the missing images" → asked C1–C3 (Open questions › Round 73, answered).
+- Built while he slept: round 78's 13 pictures ordered (`tools/sprites/round78.ps1`, wave 84); the saga map rewritten to his notes (07zst); the realm panels with the first freed spirit; "Great Scar"; the other twin studies in the village and teaches Godsbane once the Lodestar is whole, the notch waits for the word, the twin casts with you in the feast hall (16u); the three builders', the first spirit's and the Lodestar's moments; the World Tree after the end with all forty; the clip pipeline and player (docs/34). Changelog [743]–[746]. Tests: `tests/test_round73b.py` (12).
+- **Next:** Kris runs `round78.ps1`; answers V1–V4; then `tools/video/video1.ps1` for the pilot.
 

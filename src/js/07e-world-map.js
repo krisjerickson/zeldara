@@ -5,7 +5,7 @@
 // ║ borders meeting at a central lake. Each border has THREE crossings
 // ║ (lakeside, middle, coast) that open together when its craftsman is freed:
 // ║   Grasslands↔Wetlands  Silverrun river   — Bram's bridges     (s1 tower)
-// ║   Wetlands↔Highlands   the Great Scarp   — Mira's lifts       (s2 tower)
+// ║   Wetlands↔Highlands   the Great Scar   — Mira's lifts       (s2 tower)
 // ║   Highlands↔Ashlands   Cinder Chasm      — Dunn's iron bridges(s3 tower)
 // ║   Ashlands↔Grasslands  Ember Wall ridge  — Vela's passes      (s4 tower)
 // ║ Each region holds its 10 Lab designs as hand-placed sub-zones, plus
@@ -65,7 +65,7 @@ var WMAP_VOLCANO_BAYS=[[60,1160],[1170,40],[1170,1170],[30,860],[30,30]];
 // north/south, 'h' = cross east/west. sides: [region before, region after] along dir.
 var WMAP_BORDERS=[
   {id:'silverrun',name:'Silverrun',   arm:'E',dir:'v',sides:[1,2],craftsman:1,kind:'bridge',icon:'🔨',names:['Lakeside Bridge','Millrace Bridge','Estuary Bridge']},
-  {id:'scarp',    name:'Great Scarp', arm:'S',dir:'h',sides:[3,2],craftsman:2,kind:'lift',  icon:'⚙️',names:['Lakeside Lift','Scarp Lift','Seacliff Lift']},
+  {id:'scarp',    name:'Great Scar', arm:'S',dir:'h',sides:[3,2],craftsman:2,kind:'lift',  icon:'⚙️',names:['Lakeside Lift','Scar Lift','Seacliff Lift']},
   {id:'chasm',    name:'Cinder Chasm',arm:'W',dir:'v',sides:[4,3],craftsman:3,kind:'iron',  icon:'⚒️',names:['Lakeside Iron Bridge','Chasm Iron Bridge','Cape Iron Bridge']},
   {id:'ember',    name:'Ember Wall',  arm:'N',dir:'h',sides:[4,1],craftsman:4,kind:'pass',  icon:'🧭',names:['Lakeside Pass','Ember Pass','Northcoast Pass']}
 ];
@@ -111,7 +111,7 @@ function buildWorldMap(seed){
   var paint=function(x,y,r,c,onlyLand){ for(var yy=Math.floor(y-r);yy<=y+r;yy++)for(var xx=Math.floor(x-r);xx<=x+r;xx++){ if(xx<0||yy<0||xx>=W||yy>=H)continue; if((xx-x)*(xx-x)+(yy-y)*(yy-y)>r*r)continue; var k=yy*W+xx; if(onlyLand&&(cls[k]===WM.OCEAN))continue; if(cls[k]===WM.LAKE&&c!==WM.LAKE)continue; cls[k]=c; } };
   var armEnd={};
   for(var x5=CX+40;x5<W;x5++){ var yy5=armY(x5), c5=cls[Math.round(yy5)*W+x5]; if(c5===WM.OCEAN||c5===WM.SHALLOW)break; paint(x5,yy5,4+n2(x5/30,0)*3,WM.RIVER,true); armEnd.E=x5; }       // east: Silverrun river
-  for(var y6=CY+40;y6<H;y6++){ var xx6=armX(y6), c6=cls[y6*W+Math.round(xx6)]; if(c6===WM.OCEAN||c6===WM.SHALLOW)break; paint(xx6,y6,2.5,WM.CLIFF,true); armEnd.S=y6; }                     // south: Great Scarp
+  for(var y6=CY+40;y6<H;y6++){ var xx6=armX(y6), c6=cls[y6*W+Math.round(xx6)]; if(c6===WM.OCEAN||c6===WM.SHALLOW)break; paint(xx6,y6,2.5,WM.CLIFF,true); armEnd.S=y6; }                     // south: Great Scar
   for(var x7=CX-40;x7>=0;x7--){ var yy7=armY(x7), c7=cls[Math.round(yy7)*W+x7]; if(c7===WM.OCEAN||c7===WM.SHALLOW)break; paint(x7,yy7,4+n2(x7/30,5)*2.5,WM.CHASM,true); armEnd.W=x7; }  // west: Cinder Chasm
   for(var y8=CY-40;y8>=0;y8--){ var xx8=armX(y8), c8=cls[y8*W+Math.round(xx8)]; if(c8===WM.OCEAN||c8===WM.SHALLOW)break; paint(xx8,y8,6+n2(3,y8/30)*4,WM.RIDGE,true); armEnd.N=y8; }     // north: Ember Wall
   // ── 4. village on the Grasslands shore of the lake ──

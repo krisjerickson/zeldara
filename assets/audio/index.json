@@ -1,0 +1,1280 @@
+{
+ "am_ash": {
+  "files": [
+   {
+    "base": "am_ash",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   },
+   {
+    "base": "am_ash.b",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   }
+  ],
+  "kind": "amb",
+  "loop": true
+ },
+ "am_cave": {
+  "files": [
+   {
+    "base": "am_cave",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   },
+   {
+    "base": "am_cave.b",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   }
+  ],
+  "kind": "amb",
+  "loop": true
+ },
+ "am_forge": {
+  "files": [
+   {
+    "base": "am_forge",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   },
+   {
+    "base": "am_forge.b",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   }
+  ],
+  "kind": "amb",
+  "loop": true
+ },
+ "am_highwind": {
+  "files": [
+   {
+    "base": "am_highwind",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   },
+   {
+    "base": "am_highwind.b",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   }
+  ],
+  "kind": "amb",
+  "loop": true
+ },
+ "am_lake": {
+  "files": [
+   {
+    "base": "am_lake",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   },
+   {
+    "base": "am_lake.b",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   }
+  ],
+  "kind": "amb",
+  "loop": true
+ },
+ "am_marsh": {
+  "files": [
+   {
+    "base": "am_marsh",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   },
+   {
+    "base": "am_marsh.b",
+    "le": 29.9,
+    "ls": 0,
+    "secs": 29.9
+   }
+  ],
+  "kind": "amb",
+  "loop": true
+ },
+ "am_meadow_day": {
+  "files": [
+   {
+    "base": "am_meadow_day",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   },
+   {
+    "base": "am_meadow_day.b",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   }
+  ],
+  "kind": "amb",
+  "loop": true
+ },
+ "am_meadow_night": {
+  "files": [
+   {
+    "base": "am_meadow_night",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   },
+   {
+    "base": "am_meadow_night.b",
+    "le": 30.0,
+    "ls": 0,
+    "secs": 30.0
+   }
+  ],
+  "kind": "amb",
+  "loop": true
+ },
+ "am_orbs": {
+  "files": [
+   {
+    "base": "am_orbs",
+    "le": 20.0,
+    "ls": 0,
+    "secs": 20.0
+   },
+   {
+    "base": "am_orbs.b",
+    "le": 20.0,
+    "ls": 0,
+    "secs": 20.0
+   }
+  ],
+  "kind": "amb",
+  "loop": true
+ },
+ "sfx_arrow_hit": {
+  "files": [
+   {
+    "base": "sfx_arrow_hit",
+    "le": 0.154,
+    "ls": 0,
+    "secs": 0.154
+   },
+   {
+    "base": "sfx_arrow_hit.b",
+    "le": 0.223,
+    "ls": 0,
+    "secs": 0.223
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_axe_hit": {
+  "files": [
+   {
+    "base": "sfx_axe_hit",
+    "le": 0.6,
+    "ls": 0,
+    "secs": 0.6
+   },
+   {
+    "base": "sfx_axe_hit.b",
+    "le": 0.6,
+    "ls": 0,
+    "secs": 0.6
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_axe_swing": {
+  "files": [
+   {
+    "base": "sfx_axe_swing",
+    "le": 0.495,
+    "ls": 0,
+    "secs": 0.495
+   },
+   {
+    "base": "sfx_axe_swing.b",
+    "le": 0.543,
+    "ls": 0,
+    "secs": 0.543
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_beast_bite": {
+  "files": [
+   {
+    "base": "sfx_beast_bite",
+    "le": 0.329,
+    "ls": 0,
+    "secs": 0.329
+   },
+   {
+    "base": "sfx_beast_bite.b",
+    "le": 0.449,
+    "ls": 0,
+    "secs": 0.449
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_beast_growl": {
+  "files": [
+   {
+    "base": "sfx_beast_growl",
+    "le": 0.875,
+    "ls": 0,
+    "secs": 0.875
+   },
+   {
+    "base": "sfx_beast_growl.b",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_bifrost": {
+  "files": [
+   {
+    "base": "sfx_bifrost",
+    "le": 3.0,
+    "ls": 0,
+    "secs": 3.0
+   },
+   {
+    "base": "sfx_bifrost.b",
+    "le": 2.293,
+    "ls": 0,
+    "secs": 2.293
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_block": {
+  "files": [
+   {
+    "base": "sfx_block",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_block.b",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_boss_charge": {
+  "files": [
+   {
+    "base": "sfx_boss_charge",
+    "le": 2.0,
+    "ls": 0,
+    "secs": 2.0
+   },
+   {
+    "base": "sfx_boss_charge.b",
+    "le": 1.951,
+    "ls": 0,
+    "secs": 1.951
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_boss_fall": {
+  "files": [
+   {
+    "base": "sfx_boss_fall",
+    "le": 2.072,
+    "ls": 0,
+    "secs": 2.072
+   },
+   {
+    "base": "sfx_boss_fall.b",
+    "le": 2.48,
+    "ls": 0,
+    "secs": 2.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_boss_phase": {
+  "files": [
+   {
+    "base": "sfx_boss_phase",
+    "le": 1.691,
+    "ls": 0,
+    "secs": 1.691
+   },
+   {
+    "base": "sfx_boss_phase.b",
+    "le": 2.38,
+    "ls": 0,
+    "secs": 2.38
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_boss_roar": {
+  "files": [
+   {
+    "base": "sfx_boss_roar",
+    "le": 2.0,
+    "ls": 0,
+    "secs": 2.0
+   },
+   {
+    "base": "sfx_boss_roar.b",
+    "le": 1.613,
+    "ls": 0,
+    "secs": 1.613
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_boss_slam": {
+  "files": [
+   {
+    "base": "sfx_boss_slam",
+    "le": 1.2,
+    "ls": 0,
+    "secs": 1.2
+   },
+   {
+    "base": "sfx_boss_slam.b",
+    "le": 1.2,
+    "ls": 0,
+    "secs": 1.2
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_boss_stomp": {
+  "files": [
+   {
+    "base": "sfx_boss_stomp",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   },
+   {
+    "base": "sfx_boss_stomp.b",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_bow_shot": {
+  "files": [
+   {
+    "base": "sfx_bow_shot",
+    "le": 0.399,
+    "ls": 0,
+    "secs": 0.399
+   },
+   {
+    "base": "sfx_bow_shot.b",
+    "le": 0.6,
+    "ls": 0,
+    "secs": 0.6
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_camp": {
+  "files": [
+   {
+    "base": "sfx_camp",
+    "le": 1.651,
+    "ls": 0,
+    "secs": 1.651
+   },
+   {
+    "base": "sfx_camp.b",
+    "le": 1.175,
+    "ls": 0,
+    "secs": 1.175
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_chest": {
+  "files": [
+   {
+    "base": "sfx_chest",
+    "le": 0.727,
+    "ls": 0,
+    "secs": 0.727
+   },
+   {
+    "base": "sfx_chest.b",
+    "le": 0.711,
+    "ls": 0,
+    "secs": 0.711
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_coin": {
+  "files": [
+   {
+    "base": "sfx_coin",
+    "le": 0.311,
+    "ls": 0,
+    "secs": 0.311
+   },
+   {
+    "base": "sfx_coin.b",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_crumble": {
+  "files": [
+   {
+    "base": "sfx_crumble",
+    "le": 2.592,
+    "ls": 0,
+    "secs": 2.592
+   },
+   {
+    "base": "sfx_crumble.b",
+    "le": 2.682,
+    "ls": 0,
+    "secs": 2.682
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_door": {
+  "files": [
+   {
+    "base": "sfx_door",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   },
+   {
+    "base": "sfx_door.b",
+    "le": 0.679,
+    "ls": 0,
+    "secs": 0.679
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_drink": {
+  "files": [
+   {
+    "base": "sfx_drink",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   },
+   {
+    "base": "sfx_drink.b",
+    "le": 0.523,
+    "ls": 0,
+    "secs": 0.523
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_earth": {
+  "files": [
+   {
+    "base": "sfx_earth",
+    "le": 1.2,
+    "ls": 0,
+    "secs": 1.2
+   },
+   {
+    "base": "sfx_earth.b",
+    "le": 1.2,
+    "ls": 0,
+    "secs": 1.2
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_fall": {
+  "files": [
+   {
+    "base": "sfx_fall",
+    "le": 0.711,
+    "ls": 0,
+    "secs": 0.711
+   },
+   {
+    "base": "sfx_fall.b",
+    "le": 1.2,
+    "ls": 0,
+    "secs": 1.2
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_fire": {
+  "files": [
+   {
+    "base": "sfx_fire",
+    "le": 0.555,
+    "ls": 0,
+    "secs": 0.555
+   },
+   {
+    "base": "sfx_fire.b",
+    "le": 0.772,
+    "ls": 0,
+    "secs": 0.772
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_frost": {
+  "files": [
+   {
+    "base": "sfx_frost",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   },
+   {
+    "base": "sfx_frost.b",
+    "le": 0.458,
+    "ls": 0,
+    "secs": 0.458
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_gem": {
+  "files": [
+   {
+    "base": "sfx_gem",
+    "le": 0.6,
+    "ls": 0,
+    "secs": 0.6
+   },
+   {
+    "base": "sfx_gem.b",
+    "le": 0.6,
+    "ls": 0,
+    "secs": 0.6
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_godsbane": {
+  "files": [
+   {
+    "base": "sfx_godsbane",
+    "le": 2.0,
+    "ls": 0,
+    "secs": 2.0
+   },
+   {
+    "base": "sfx_godsbane.b",
+    "le": 1.227,
+    "ls": 0,
+    "secs": 1.227
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_great_door": {
+  "files": [
+   {
+    "base": "sfx_great_door",
+    "le": 2.16,
+    "ls": 0,
+    "secs": 2.16
+   },
+   {
+    "base": "sfx_great_door.b",
+    "le": 2.288,
+    "ls": 0,
+    "secs": 2.288
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_hurt": {
+  "files": [
+   {
+    "base": "sfx_hurt",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_hurt.b",
+    "le": 0.25,
+    "ls": 0,
+    "secs": 0.25
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_insect": {
+  "files": [
+   {
+    "base": "sfx_insect",
+    "le": 0.415,
+    "ls": 0,
+    "secs": 0.415
+   },
+   {
+    "base": "sfx_insect.b",
+    "le": 0.676,
+    "ls": 0,
+    "secs": 0.676
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_light": {
+  "files": [
+   {
+    "base": "sfx_light",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   },
+   {
+    "base": "sfx_light.b",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_lightning": {
+  "files": [
+   {
+    "base": "sfx_lightning",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   },
+   {
+    "base": "sfx_lightning.b",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_line_trace": {
+  "files": [
+   {
+    "base": "sfx_line_trace",
+    "le": 2.431,
+    "ls": 0,
+    "secs": 2.431
+   },
+   {
+    "base": "sfx_line_trace.b",
+    "le": 2.064,
+    "ls": 0,
+    "secs": 2.064
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_lodestar": {
+  "files": [
+   {
+    "base": "sfx_lodestar",
+    "le": 2.0,
+    "ls": 0,
+    "secs": 2.0
+   },
+   {
+    "base": "sfx_lodestar.b",
+    "le": 2.0,
+    "ls": 0,
+    "secs": 2.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_mon_die": {
+  "files": [
+   {
+    "base": "sfx_mon_die",
+    "le": 0.594,
+    "ls": 0,
+    "secs": 0.594
+   },
+   {
+    "base": "sfx_mon_die.b",
+    "le": 0.8,
+    "ls": 0,
+    "secs": 0.8
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_mon_hit": {
+  "files": [
+   {
+    "base": "sfx_mon_hit",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_mon_hit.b",
+    "le": 0.292,
+    "ls": 0,
+    "secs": 0.292
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_nature": {
+  "files": [
+   {
+    "base": "sfx_nature",
+    "le": 1.2,
+    "ls": 0,
+    "secs": 1.2
+   },
+   {
+    "base": "sfx_nature.b",
+    "le": 1.2,
+    "ls": 0,
+    "secs": 1.2
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_nomana": {
+  "files": [
+   {
+    "base": "sfx_nomana",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_nomana.b",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_orbs_burst": {
+  "files": [
+   {
+    "base": "sfx_orbs_burst",
+    "le": 1.841,
+    "ls": 0,
+    "secs": 1.841
+   },
+   {
+    "base": "sfx_orbs_burst.b",
+    "le": 2.372,
+    "ls": 0,
+    "secs": 2.372
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_page": {
+  "files": [
+   {
+    "base": "sfx_page",
+    "le": 0.6,
+    "ls": 0,
+    "secs": 0.6
+   },
+   {
+    "base": "sfx_page.b",
+    "le": 0.468,
+    "ls": 0,
+    "secs": 0.468
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_pickup": {
+  "files": [
+   {
+    "base": "sfx_pickup",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_pickup.b",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_roll": {
+  "files": [
+   {
+    "base": "sfx_roll",
+    "le": 0.6,
+    "ls": 0,
+    "secs": 0.6
+   },
+   {
+    "base": "sfx_roll.b",
+    "le": 0.6,
+    "ls": 0,
+    "secs": 0.6
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_rubble": {
+  "files": [
+   {
+    "base": "sfx_rubble",
+    "le": 0.965,
+    "ls": 0,
+    "secs": 0.965
+   },
+   {
+    "base": "sfx_rubble.b",
+    "le": 1.218,
+    "ls": 0,
+    "secs": 1.218
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_rune_wake": {
+  "files": [
+   {
+    "base": "sfx_rune_wake",
+    "le": 2.0,
+    "ls": 0,
+    "secs": 2.0
+   },
+   {
+    "base": "sfx_rune_wake.b",
+    "le": 2.0,
+    "ls": 0,
+    "secs": 2.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_shield_break": {
+  "files": [
+   {
+    "base": "sfx_shield_break",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   },
+   {
+    "base": "sfx_shield_break.b",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_slime": {
+  "files": [
+   {
+    "base": "sfx_slime",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_slime.b",
+    "le": 0.375,
+    "ls": 0,
+    "secs": 0.375
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_spirit_free": {
+  "files": [
+   {
+    "base": "sfx_spirit_free",
+    "le": 1.465,
+    "ls": 0,
+    "secs": 1.465
+   },
+   {
+    "base": "sfx_spirit_free.b",
+    "le": 2.0,
+    "ls": 0,
+    "secs": 2.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_spit": {
+  "files": [
+   {
+    "base": "sfx_spit",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_spit.b",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_sword_hit": {
+  "files": [
+   {
+    "base": "sfx_sword_hit",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_sword_hit.b",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_sword_swing": {
+  "files": [
+   {
+    "base": "sfx_sword_swing",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_sword_swing.b",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_thunder": {
+  "files": [
+   {
+    "base": "sfx_thunder",
+    "le": 2.48,
+    "ls": 0,
+    "secs": 2.48
+   },
+   {
+    "base": "sfx_thunder.b",
+    "le": 2.186,
+    "ls": 0,
+    "secs": 2.186
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_travel": {
+  "files": [
+   {
+    "base": "sfx_travel",
+    "le": 1.48,
+    "ls": 0,
+    "secs": 1.48
+   },
+   {
+    "base": "sfx_travel.b",
+    "le": 1.48,
+    "ls": 0,
+    "secs": 1.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_ui_buy": {
+  "files": [
+   {
+    "base": "sfx_ui_buy",
+    "le": 0.434,
+    "ls": 0,
+    "secs": 0.434
+   },
+   {
+    "base": "sfx_ui_buy.b",
+    "le": 0.6,
+    "ls": 0,
+    "secs": 0.6
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_ui_click": {
+  "files": [
+   {
+    "base": "sfx_ui_click",
+    "le": 0.144,
+    "ls": 0,
+    "secs": 0.144
+   },
+   {
+    "base": "sfx_ui_click.b",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_ui_close": {
+  "files": [
+   {
+    "base": "sfx_ui_close",
+    "le": 0.22,
+    "ls": 0,
+    "secs": 0.22
+   },
+   {
+    "base": "sfx_ui_close.b",
+    "le": 0.287,
+    "ls": 0,
+    "secs": 0.287
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_ui_error": {
+  "files": [
+   {
+    "base": "sfx_ui_error",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_ui_error.b",
+    "le": 0.267,
+    "ls": 0,
+    "secs": 0.267
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_ui_note": {
+  "files": [
+   {
+    "base": "sfx_ui_note",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
+   },
+   {
+    "base": "sfx_ui_note.b",
+    "le": 0.348,
+    "ls": 0,
+    "secs": 0.348
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_ui_open": {
+  "files": [
+   {
+    "base": "sfx_ui_open",
+    "le": 0.278,
+    "ls": 0,
+    "secs": 0.278
+   },
+   {
+    "base": "sfx_ui_open.b",
+    "le": 0.309,
+    "ls": 0,
+    "secs": 0.309
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_undead": {
+  "files": [
+   {
+    "base": "sfx_undead",
+    "le": 0.746,
+    "ls": 0,
+    "secs": 0.746
+   },
+   {
+    "base": "sfx_undead.b",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_vines": {
+  "files": [
+   {
+    "base": "sfx_vines",
+    "le": 1.856,
+    "ls": 0,
+    "secs": 1.856
+   },
+   {
+    "base": "sfx_vines.b",
+    "le": 2.195,
+    "ls": 0,
+    "secs": 2.195
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_water": {
+  "files": [
+   {
+    "base": "sfx_water",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   },
+   {
+    "base": "sfx_water.b",
+    "le": 1.0,
+    "ls": 0,
+    "secs": 1.0
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_waystone": {
+  "files": [
+   {
+    "base": "sfx_waystone",
+    "le": 2.0,
+    "ls": 0,
+    "secs": 2.0
+   },
+   {
+    "base": "sfx_waystone.b",
+    "le": 1.181,
+    "ls": 0,
+    "secs": 1.181
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_whistle": {
+  "files": [
+   {
+    "base": "sfx_whistle",
+    "le": 0.8,
+    "ls": 0,
+    "secs": 0.8
+   },
+   {
+    "base": "sfx_whistle.b",
+    "le": 0.8,
+    "ls": 0,
+    "secs": 0.8
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ }
+}

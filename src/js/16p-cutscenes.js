@@ -47,6 +47,13 @@ var ZCUT={ on:true, ID:'zcut', HOLD:3600, seen:{},
     var end=function(){ if(ended)return; ended=true; el.id='zcut-closing'; clearTimeout(timer); document.removeEventListener('keydown',key,true); el.style.opacity='0'; setTimeout(function(){ el.remove(); if(done)done(); },500); };
     var next=function(){ clearTimeout(timer); i++; if(i>=S.length){ end(); return; } var id=S[i][0], line=S[i][1]; img.style.opacity='0'; cap.textContent='';
       var show=function(src){ if(ended)return; img.onload=function(){ img.style.opacity='1'; cap.textContent=line; }; img.src=src; timer=setTimeout(next,ZCUT.HOLD); };
+      var v=el.querySelector('.zcut-vid'), vsrc=typeof ZVID!=='undefined'&&ZVID.src(id); if(v){ try{ v.pause(); }catch(e){} v.style.opacity='0'; }
+      if(vsrc){ if(!v){ v=document.createElement('video'); v.className='zcut-vid'; v.playsInline=true; v.setAttribute('playsinline',''); v.preload='auto'; v.style.cssText=img.style.cssText; el.insertBefore(v,img); }      /* round 73: the clip in place of the still (07zvc) */
+        v.muted=!ZVID.sound; v.style.display=''; img.style.display='none'; var ok=false;
+        v.onloadeddata=function(){ if(ended||ok)return; ok=true; v.style.opacity='1'; cap.textContent=line; try{ var pp=v.play(); if(pp&&pp.catch)pp.catch(function(){}); }catch(e){} timer=setTimeout(next,Math.max(ZCUT.HOLD,(v.duration||8)*1000+1200)); };
+        v.onerror=function(){ if(ok||ended)return; ok=true; v.style.display='none'; img.style.display=''; var s2=ZCUT.painted(id); if(s2)show(s2); else ZCUT.placeholder(boss,ph,i,line,show); };
+        v.src=vsrc; return; }
+      if(v)v.style.display='none'; img.style.display='';
       var src=ZCUT.painted(id); if(src)show(src); else ZCUT.placeholder(boss,ph,i,line,show); };
     var key=function(e){ if(!ZCUT.isOpen())return; e.preventDefault(); e.stopImmediatePropagation(); if(e.key==='Escape')end(); else if(e.key===' '||e.key==='Enter')next(); };
     document.addEventListener('keydown',key,true); el.querySelector('.zcut-skip').onclick=function(e){ e.stopPropagation(); end(); }; el.onclick=function(){ next(); };

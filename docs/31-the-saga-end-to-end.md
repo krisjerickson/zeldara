@@ -109,12 +109,12 @@ The source is `src/js/07zst-saga-story.js` (ZSTORY); the Lab tab is **The saga, 
 
 ### 9. The Stone-Fall
 
-**True:** Three years on, the Highlands' mines were driven deeper after "a voice in the stone"; the mountains broke and the Great Scarp tore open.
+**True:** Three years on, the Highlands' mines were driven deeper after "a voice in the stone"; the mountains broke and the Great Scar tore open.
 
 | | Kind | Where | When | How | Sample | Status |
 |---|---|---|---|---|---|---|
 | Way A | 🎬 cut-scene | the SW Highlands | the Highlands' tenth spirit | the realm's panel, The Stone-Fall | "Three years on, the Highlands dug too deep for a voice in the stone — and the mountains broke." | in the game |
-| Way B | 💬 hint | a realm crossing (a builder's tower) | freeing Mira (the Scarp lifts) | the builder's line | "Surtharn's wardens took me for my lifts — he wanted to lower his chains deeper into the mountains." | to build |
+| Way B | 💬 hint | a realm crossing (a builder's tower) | freeing Mira (the Scar lifts) | the builder's line | "Surtharn's wardens took me for my lifts — he wanted to lower his chains deeper into the mountains." | to build |
 | Way C | 💬 hint | a bindstone | Highlands spirits | their memories | Arnor: "The miners said the stone was singing. They dug toward it. So did the mountain." | in the game |
 | Back-up X | 💬 hint | an adventure site | a Highlands mine or dungeon | a runic tablet only the twins can read | "Deeper, said the voice. Deeper, and the light is yours." | to build |
 
@@ -131,7 +131,7 @@ The source is `src/js/07zst-saga-story.js` (ZSTORY); the Lab tab is **The saga, 
 
 ### 11. The barriers and the builders
 
-**True:** The Ember Wall, the Great Scarp, the Silverrun and the Cinder Chasm cut the realms apart. Four builders, taken by Surtharn's wardens, can reopen the crossings once freed.
+**True:** The Ember Wall, the Great Scar, the Silverrun and the Cinder Chasm cut the realms apart. Four builders, taken by Surtharn's wardens, can reopen the crossings once freed.
 
 | | Kind | Where | When | How | Sample | Status |
 |---|---|---|---|---|---|---|
