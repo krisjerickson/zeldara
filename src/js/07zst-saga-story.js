@@ -16,7 +16,7 @@ var ZSTORY={
     stones:[0.66,0.36,'a bindstone'],crossing:[0.62,0.5,'a realm crossing (a builder\'s tower)'],fairy:[0.8,0.4,'a fairy ring'],site:[0.34,0.6,'an adventure site'],
     forge:[0.09,0.5,'the forges of Muspelheim (at sea)'],musp:[0.07,0.1,'Muspelheim'],asgard:[0.6,0.64,'Asgard, on Mirror Lake'],citadel:[0.6,0.6,'the citadel of Asgard'],
     hall:[0.62,0.6,'the feast hall'],circle:[0.6,0.67,'the rune circle at Asgard\'s heart'],sky:[0.5,0.06,'the sky (a glimpse)'],any:[0.92,0.08,'anywhere (on a milestone)'],
-    tome:[0.08,0.92,'the Tome'],map:[0.92,0.92,'the map page'],hamlets:[0.7,0.5,'the hamlets'],workshop:[0.45,0.45,'Mira\'s workshop']},
+    tome:[0.08,0.92,'the Tome'],map:[0.92,0.92,'the map page'],hamlets:[0.7,0.5,'the hamlets'],workshop:[0.45,0.45,'Mira\'s workshop'],lake:[0.57,0.68,'Mirror Lake (under the water)']},
   ACTS:[['I','The Quiet','the world and the twins — the opening'],['II','The Bindings','the spirits in chains and how the realms fell'],['III','The Hidden Sky','the shut gate and the gods\' prison'],
     ['IV','Fire','the forges, Muspelheim and the Lodestar'],['V','Asgard','the false god, the feast hall and the truth'],['VI','Home','the spirits go home and Runeheim turns green']],
   BEATS:[]
@@ -119,7 +119,7 @@ var ZSTORY={
      O('hint','stones','Ashlands spirits','their memories','Vali: "There were two thrones in the feast hall once. Now there are none, and two moons inside." · Sverri: "I saw two lights go out above the clouds that night, like a pair of eyes closing."','built'),
      O('hint','fairy','befriending the Grasslands\' fairy monarch','the monarch\'s line','"Before the quiet, my court danced on the Bifröst. The one with the spear and the one with the falcon cloak laughed with us."')],
     [O('hint','home','thirty freed','the other twin','"I dreamed of two moons in a dark room. They were breathing."'),
-     O('cut','feast','the feast hall','your twin walks in beside you and casts Godsbane with you — two beams into the orbs (pn_fh_cast_twins, round 78)','"Godsbane — the two of you together, into the very centre, where the two lights meet."','built')]);
+     O('cut','hall','the feast hall','your twin walks in beside you and casts Godsbane with you — two beams into the orbs (pn_fh_cast_twins, round 78)','"Godsbane — the two of you together, into the very centre, where the two lights meet."','built')]);
   B(2,'tattoo','The World Tree complete','When all forty spirits are free — after the end — their lines join into one great World Tree across Runeheim, and it shines under Mirror Lake like a tattoo under the water, and stays.',
     '','pn_saga_tattoo',
     [O('cut','lake','the fortieth spirit, after the end','the World Tree under Mirror Lake (pn_world_tree, round 78), and its light stays in the lake','"And under Mirror Lake, where the twins were found, the World Tree shines — whole at last."','built'),

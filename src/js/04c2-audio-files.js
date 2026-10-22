@@ -18,7 +18,7 @@ var ZAUDIO={ on:true, BASE:'assets/audio/', idx:null, buf:{}, loading:{}, mus:nu
   FALL:{mu_village_night:'mu_village_day',mu_grass_night:'mu_grass_day',mu_wet_night:'mu_wet_day',mu_high_night:'mu_high_day',mu_ash_night:'mu_ash_day',mu_green:'mu_village_day',mu_home:'mu_village_day',mu_shops:'mu_village_day',mu_glimmerhall:'mu_shops',
     mu_tower:'mu_dungeon',mu_castle:'mu_dungeon',mu_mage:'mu_tower',mu_island:'mu_dungeon',mu_trial:'mu_tower',mu_sky:'mu_island',mu_boss_mage:'mu_boss',mu_boss_realm:'mu_boss',mu_muspelheim:'mu_forges',mu_citadel:'mu_asgard',mu_feast_hall:'mu_asgard',
     am_meadow_night:'am_meadow_day',am_village:'am_meadow_day',am_tower:'am_cave',am_castle:'am_cave',am_asgard:'am_highwind',am_sky:'am_highwind',am_sea:'am_lake',am_orbs:'am_asgard'},
-  ext:function(){ if(ZAUDIO._ext)return ZAUDIO._ext; var a=document.createElement('audio'); return (ZAUDIO._ext=a.canPlayType&&a.canPlayType('audio/ogg; codecs="vorbis"')?'ogg':'mp3'); },
+  ext:function(){ if(ZAUDIO._ext)return ZAUDIO._ext; if(typeof ZAUDIO_EXT!=='undefined'&&ZAUDIO_EXT)return (ZAUDIO._ext=ZAUDIO_EXT);      /* the claude.ai copy carries the .mp3 takes only (its file limit) */ var a=document.createElement('audio'); return (ZAUDIO._ext=a.canPlayType&&a.canPlayType('audio/ogg; codecs="vorbis"')?'ogg':'mp3'); },
   has:function(id){ return !!(ZAUDIO.idx&&ZAUDIO.idx[id]&&ZAUDIO.idx[id].files&&ZAUDIO.idx[id].files.length); },
   pick:function(id){ var n=0; while(id&&!ZAUDIO.has(id)&&n++<4)id=ZAUDIO.FALL[id]; return id&&ZAUDIO.has(id)?id:null; },
   url:function(f){ return ZAUDIO.BASE+f.base+'.'+ZAUDIO.ext(); },

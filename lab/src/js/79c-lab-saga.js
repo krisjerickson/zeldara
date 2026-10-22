@@ -10,7 +10,7 @@
 // ║ Picks: 'storymap-<id>' (sm_t_<beat> the truth, sm_o_<beat>_<a|b|c> a way, sm_b_<beat>_<x|y> a back-up).
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof LBR==='undefined'||typeof ZSTORY==='undefined')return; LBR.TABS.push('storymap');
-  var S=ZSTORY, BE=S.BEATS, AB='abc', XY='xy', IMG={}, CUT='#f2c14e', HINT='#6fe3f5', BAK='#c8a8ff';
+  var S=ZSTORY, BE=S.BEATS, AB='abcdefgh', XY='xy', IMG={}, CUT='#f2c14e', HINT='#6fe3f5', BAK='#c8a8ff';
   var load=function(src){ if(IMG[src])return IMG[src]; var im=new Image(); im.onerror=function(){ if(!im._b){ im._b=1; im.src='../'+src; } }; im.src=src; IMG[src]=im; return im; };
   var R=function(){ return (typeof ZSCN_META!=='undefined'&&ZSCN_META.rooms)||{}; };
   var picked=function(id){ return LBR.picked('storymap',id); };

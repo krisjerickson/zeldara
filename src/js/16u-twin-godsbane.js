@@ -33,8 +33,9 @@ var ZTGB={ on:true,
   // ── the twin at their books (the painted picture, once in; until then the standing twin as before) ──
   study:function(ws){ var T=ws._twin, ps=ws.playerState; if(!T||!T.im||!T.im.scene)return; var Z=typeof _scn==='function'?_scn():null, id='twin_study_'+(ZTWIN.other(ps).ch==='hero_m'?'m':'f');
     var want=!ps.spiritsHome&&Z&&Z.has&&Z.has(id);      /* after the end they stand up and join the celebration */
-    if(want&&!T.desk){ var im=Z.image(ws,id,T.im.x,T.im.y-5,Z.K||1,T.im.depth); if(!im)return; T.desk=im; T.im.setVisible(false); }
-    else if(!want&&T.desk){ T.desk.destroy(); T.desk=null; T.im.setVisible(true); } },
+    var D=ws._twinDesk; if(D&&(!D.scene||D._for!==T)){ if(D.scene)D.destroy(); D=ws._twinDesk=null; }      /* a new twin (the other hero picked): a new desk */
+    if(want&&!D){ var im=Z.image(ws,id,T.im.x,T.im.y-5,Z.K||1,T.im.depth); if(!im)return; im._for=T; ws._twinDesk=im; T.im.setVisible(false); }
+    else if(!want&&D){ D.destroy(); ws._twinDesk=null; T.im.setVisible(true); } },
   // ── the feast hall: your twin beside you ──
   fhMake:function(sc){ var ps=sc.worldScene&&sc.worldScene.playerState; if(!ps||typeof ZTWIN==='undefined'||typeof ZAtlas==='undefined')return; var O=ZTWIN.other(ps); if(!ZAtlas.has(O.ch))return;
     var x=sc.bx-46, y=sc.by+4, im=sc.add.image(x,y+12,'__WHITE').setOrigin(0.5,1); var dir=ZAtlas.count&&ZAtlas.count(O.ch,'idle','b')>0?'b':'f';

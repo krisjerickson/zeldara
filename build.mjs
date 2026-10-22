@@ -100,7 +100,7 @@ if (process.argv.includes('--check')) {
 fs.writeFileSync(path.join(ROOT, 'index.html'), out);
 // Artifact variant of the game (published to claude.ai): head without <meta>, body, fixed engine tag
 { const oa = withEngine(outRaw, ENGINE_ARG, true), t = oa.match(/<title>[\s\S]*?<\/title>/)[0];
-  fs.writeFileSync(path.join(ROOT, 'zeldara.artifact.html'), t + oa.slice(oa.indexOf('</title>') + 8, oa.indexOf('</head>')).replace(/<meta[^>]*>\s*/g, '') + oa.slice(oa.indexOf('<body>') + 6, oa.lastIndexOf('</body>'))); }
+  fs.writeFileSync(path.join(ROOT, 'zeldara.artifact.html'), (t + oa.slice(oa.indexOf('</title>') + 8, oa.indexOf('</head>')).replace(/<meta[^>]*>\s*/g, '') + oa.slice(oa.indexOf('<body>') + 6, oa.lastIndexOf('</body>'))).replace('var ZAUDIO_INDEX=', 'var ZAUDIO_EXT="mp3";var ZAUDIO_INDEX=')); }   // round 73: the claude.ai copy has the .mp3 takes only (its file limit)
 console.log(`✓ index.html  ${(out.length / 1024).toFixed(0)} KB  from ${jsFiles.length} JS files`);
 
 // ── Design Lab (Phase 2): lab/src → lab/index.html (+ lab/lab.artifact.html for publishing)

@@ -12,9 +12,9 @@ with game(painted=True) as g:
       return {gb:B.godsbane.truth, bar:cuts('barriers'), tat:B.tattoo.truth, ash:cuts('ashnight'), forg:cuts('forges'), lines:cuts('lines'),
         sets:['firstfree','build1','build2','build3','lodestar','worldtree'].filter(function(k){ return !ZSAGA_SETS[k]; }), tt:!!ZLAST_SETS.twinteach,
         pics:['sc_pn_binders_free','sc_pn_build_bram','sc_pn_build_mira','sc_pn_build_dunn','sc_pn_forges_lodestar','sc_pn_lines_life','sc_pn_twin_teach_m','sc_pn_twin_teach_f','sc_pn_fh_cast_twins','sc_pn_saga_orbs','sc_pn_world_tree','sc_twin_study','sc_fx_lake_tree'].filter(function(id){ return !ZSCN.SHEETS.some(function(S){ return S.id===id&&S.wave===84; }); }),
-        scar:JSON.stringify(ZSTORY.BEATS).indexOf('Scarp')}; })()""")
+        scar:JSON.stringify(ZSTORY.BEATS).indexOf('Scarp'), badloc:[].concat.apply([],ZSTORY.BEATS.map(function(b){ return (b.opts||[]).filter(function(o){ return !ZSTORY.LOC[o.loc]; }).map(function(o){ return b.id+':'+o.loc; }); }))}; })()""")
     check('The saga map tells Kris\'s version: the twin teaches Godsbane, three builder cut-scenes, the World Tree after the end, the realm panels with the first spirit',
-          'twin' in s['gb'] and len([w for w in s['bar'] if 'freed' in w]) == 3 and 'after the end' in s['tat'] and any('first freed' in w for w in s['ash']) and s['forg'] and len(s['lines']) >= 1 and s['scar'] < 0, s)
+          'twin' in s['gb'] and len([w for w in s['bar'] if 'freed' in w]) == 3 and 'after the end' in s['tat'] and any('first freed' in w for w in s['ash']) and s['forg'] and len(s['lines']) >= 1 and s['scar'] < 0 and not s['badloc'], s)   # every place is on the Lab's map (a missing one stopped the Lab)
     check('The new panel sets are there, and the 13 round-78 pictures are asked for (wave 84)', not s['sets'] and s['tt'] and not s['pics'], s)
     g.page.wait_for_function('!!game.scene.getScene("World")._twin', timeout=60000)
     t = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, T=ws._twin; return {twin:!!T, talk:!!(T&&T.npc&&T.npc.talk===ZTGB.talk), can:ZTGB.canTeach(ps)}; })()""")
@@ -59,5 +59,15 @@ with game(painted=True) as g:
         check('ffmpeg is here (to make the test clip)', False)
     errs = [x for x in g.errs if 'favicon' not in x and '404' not in x and 'MEDIA_ERR' not in x and 'not a video' not in x]
     check('No game script errors', not errs, errs[:4])
+# the painted pieces for the game, with stand-in pictures (?scenery=fake): the twin at their books; the World Tree's light under the lake
+with game(painted=True, query='?scenery=fake') as g:
+    g.page.wait_for_function('!!game.scene.getScene("World")._twin', timeout=60000); g.wait(2500)
+    k = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, T=ws._twin, D=ws._twinDesk; var r={fake:ZScn.faked||0, has:ZScn.has('twin_study_'+(ZTWIN.other(ps).ch==='hero_m'?'m':'f')), desk:!!(D&&D.scene), twinHidden:!!(T&&!T.im.visible)};
+      ps.spiritsFreed=[]; for(var i=0;i<40;i++)ps.spiritsFreed.push('s'+i); ps.spiritsHome=1; ps.worldTree=1; ZTGB.tick(); ZTGB.tick(); var L=ws._wTree; r.tree=!!(L&&L.scene); r.blend=L&&L.blendMode; r.depth=L&&L.depth;
+      r.deskAfter=!!(ws._twinDesk&&ws._twinDesk.scene); r.twinBack=!!(T&&T.im.visible); return r; })()""")
+    check('The other twin sits at their books in the village (the painted picture in place of the standing twin)', k['fake'] > 0 and k['has'] and k['desk'] and k['twinHidden'], k)
+    check('After the end with all forty: the World Tree\'s light lies under Mirror Lake (added light, under the world), and the twin stands up to celebrate', k['tree'] and k['blend'] == 1 and k['depth'] < 0 and not k['deskAfter'] and k['twinBack'], k)
+    errs = [x for x in g.errs if 'favicon' not in x and '404' not in x]
+    check('No game script errors (stand-in scenery)', not errs, errs[:4])
 print('\n%d/%d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)
