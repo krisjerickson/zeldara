@@ -176,12 +176,13 @@ function villagePlan(stage,ok,water){
   if(st>=5&&special.vela){ var b5=special.vela; P('balloondock',b5[0],b5[1],4,2,{},true); plan.landmarks.push({x:b5[0],y:b5[1],w:4,h:3,text:'Vela\'s Sky Dock — balloons to every corner of the world.'}); }
   // town wall & turrets (the walled harbour town's): gates from stage 3, the full ring from stage 4
   if(st>=3){ var gatesOnly=st===3;
-    wallCells.forEach(function(c){ if(c.gate||WA(c.x,c.y))return; if(gatesOnly&&!(Math.abs(c.x)<=7&&Math.abs(c.y)>20))return; plan.solid.push([c.x,c.y]); });
+    var GAP=function(c){ return !!(typeof VR_EXTRA!=='undefined'&&VR_EXTRA.roadGaps&&VR_EXTRA.roadGaps[c.x+','+c.y]); };      // round 72g: openings where the hamlets' roads leave the village (10zh)
+    wallCells.forEach(function(c){ if(c.gate||GAP(c)||WA(c.x,c.y))return; if(gatesOnly&&!(Math.abs(c.x)<=7&&Math.abs(c.y)>20))return; plan.solid.push([c.x,c.y]); });
     var gt=[[-5,-33],[4,-33],[-5,31],[4,31]], towers=gatesOnly?gt:W8.map(function(q){return [q[0]-1,q[1]-1];}).concat(gt,[[-33,-3],[-33,5],[31,-3],[31,5]]);
     // round 47 (Kris: "there are wall images that overlap the turrets, but the turrets shouldn't be overlapped with these"): no wall picture
     // inside a turret's footprint (a run of wall is split there), and the wall pieces next to a turret are drawn behind it
     var byTower=function(c){ return towers.some(function(q){ return c.x>=q[0]&&c.x<=q[0]+1&&c.y>=q[1]&&c.y<=q[1]+1; }); }, nearTower=function(c){ return towers.some(function(q){ return c.x>=q[0]-2&&c.x<=q[0]+3&&c.y>=q[1]-2&&c.y<=q[1]+3; }); };
-    for(var e2=0;e2<8;e2++){ var cells=wallCells.filter(function(c){ return c.e===e2&&!c.gate&&(!gatesOnly||(Math.abs(c.x)<=7&&Math.abs(c.y)>20)); }), runs=[], cur=[];
+    for(var e2=0;e2<8;e2++){ var cells=wallCells.filter(function(c){ return c.e===e2&&!c.gate&&!GAP(c)&&(!gatesOnly||(Math.abs(c.x)<=7&&Math.abs(c.y)>20)); }), runs=[], cur=[];
       cells.forEach(function(c,ci){ var prev=ci?cells[ci-1]:null; if(byTower(c)){ if(cur.length)runs.push(cur); cur=[]; return; } if(prev&&Math.max(Math.abs(prev.x-c.x),Math.abs(prev.y-c.y))>1&&cur.length){ runs.push(cur); cur=[]; } cur.push(c); }); if(cur.length)runs.push(cur);
       runs.forEach(function(run){ for(var i3=0;i3<run.length;i3+=4){ var seg=run.slice(i3,i3+4), xs=seg.map(function(q){return q.x;}), ys=seg.map(function(q){return q.y;}), x0=Math.min.apply(null,xs), y0=Math.min.apply(null,ys);
         P('vwall',x0,y0,Math.max.apply(null,xs)-x0+1,Math.max.apply(null,ys)-y0+1,{pts:seg.map(function(q){return [q.x-x0,q.y-y0];}),low:seg.some(nearTower)?1:0},false); } }); }

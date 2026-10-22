@@ -31,6 +31,7 @@ function _updateVolcanoQuestHUD(){
   var el=document.getElementById('volcano-quest');
   if(!el||!ps){ if(el) el.classList.remove('show'); return; }
   if(!_finalQuestUnlocked(ps)){ el.classList.remove('show'); return; }
+  if(ps.muspEntered||ps.muspFreed||ps.muspSunk||ps.muspEsc){ el.classList.remove('show'); return; }      // round 72g (Kris): gone once you have entered Muspelheim (older saves: once it is freed, fallen or escaped)
   el.classList.add('show');
   var k=_volcanoKeysHeld(ps);
   var keysEl=document.getElementById('vq-keys');

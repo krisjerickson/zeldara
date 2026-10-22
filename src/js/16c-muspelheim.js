@@ -19,7 +19,8 @@ var ZMUSP={ on:true, FLOORS:5,
   site:function(){ return {id:'muspelheim',type:'dungeon',section:4,design:'muspelheim',musp:true,name:'Muspelheim',floors:ZMUSP.FLOORS}; },
   is:function(sc){ var s=sc&&(sc._site||sc.site); return !!(s&&s.musp); },
   // ── through the gate ──
-  enter:function(ws,floor){ document.getElementById('hud').style.display='none'; document.getElementById('dungeon-hud').style.display='block';
+  enter:function(ws,floor){ if(ws&&ws.playerState)ws.playerState.muspEntered=1;      /* round 72g (Kris): the "all four keys" notice goes once you are in */
+    document.getElementById('hud').style.display='none'; document.getElementById('dungeon-hud').style.display='block';
     if(game.scene.isPaused('World'))game.scene.resume('World'); game.scene.sleep('World'); if(game.scene.isActive('Dungeon')||game.scene.isPaused('Dungeon'))game.scene.stop('Dungeon');
     game.scene.start('Dungeon',{site:ZMUSP.site(),floor:floor||0,maxFloors:ZMUSP.FLOORS,worldScene:ws,theme:'volcano'}); },
   floorOf:function(sc){ try{ return ZSP.design('muspelheim',ZMUSP.FLOORS).floors[sc.floor]; }catch(e){ return null; } },

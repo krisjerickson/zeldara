@@ -17,7 +17,8 @@ var ZSLW={ on:true, RES:16, NEAR:48, TRACE:3.6, MOTES:34, KEEP:24,
     var D=ZSL.build({cls:_WCLS,W:WORLD_W,H:WORLD_H,C:{x:CENTER_X,y:CENTER_Y},CH:WCH,at:function(z){ var s=byZ[z.id]; return s?{x:s.tx+0.5,y:s.ty+0.5}:null; }});
     D.shr=D.G.Z.map(function(z){ return byZ[z.id]||null; }); D.idx={}; D.shr.forEach(function(s,i){ if(s)D.idx[s.id]=i; });
     Object.keys(D.cb).forEach(function(k){ var e=D.cb[k], O={}; e.st.forEach(function(si){ D.St[si].owner.forEach(function(o){ O[o]=1; }); }); e.z.forEach(function(i){ O[i]=1; }); (e.rd||[]).forEach(function(ri){ D.roads[ri].owner.forEach(function(o){ O[o]=1; }); }); e.own=Object.keys(O).map(Number).sort(function(a,b){ return a-b; }); });
-    return (wd._zsl=D); },
+    wd._zsl=D; if(typeof ZHAMW!=='undefined'&&ZHAMW.wetCut)ZHAMW.wetCut(ws,D);      /* round 72g: no road into Mirror Lake */
+    return D; },
   // which pieces are drawn: freed and already traced (old saves count as traced)
   seen:function(ps){ if(!ps.slSeen)ps.slSeen=(ps.spiritsFreed||[]).slice(); return ps.slSeen; },
   litFn:function(ws){ var ps=ws.playerState, D=ZSLW.data(ws), seen=ZSLW.seen(ps), L={}, any=false, tr=ws._zslT;
@@ -88,6 +89,7 @@ var ZSLW={ on:true, RES:16, NEAR:48, TRACE:3.6, MOTES:34, KEEP:24,
   tick:function(){ try{ if(!ZSLW.on)return; var ws=ZSLW.main(); if(!ws)return; var D=ZSLW.data(ws); if(!D)return;
     if(ws._zslHook!==ws.sys.settings){ ws._zslHook=ws.sys.settings; ws._zslC=null; ws._zslM=null; ws._zslT=null; ws._zslH=null; ws.events.on('update',function(t,dt){ try{ ZSLW.frame(ws,dt); }catch(e){} });
       ws.events.once('shutdown',function(){ ws._wrUnder=null; ws._zslHook=null; ws._zslC=null; ws._zslM=null; ws._zslT=null; ws._zslH=null; }); }
+    if(typeof ZHAMW!=='undefined'&&ZHAMW.wetCut&&ws.wd._bifCells&&D._wetBif!==ws.wd._bifCells.length){ D._wetBif=ws.wd._bifCells.length; ZHAMW.wetCut(ws,D); }      /* round 72g: before the roads are drawn */
     ZSLW.under(ws); ZSLW.chunks(ws); if(typeof ZHAMW!=='undefined')ZHAMW.tick(ws);      // round 69: the hamlets (10zh) — ZSLW.hamlets is the round 68 stand-in, no longer used
     if(typeof ZSAGA!=='undefined'&&!ws.playerState.sagaSeen)ZSAGA.start(ws);      // a new game: the saga's opening, once painted (16r)
     if(!ws._zslT&&!ws.playerState.spiritsHome){ var P=ZSLW.pending(ws); for(var n=0;n<P.length;n++){ var i=D.idx[P[n]], z=D.G.Z[i]; if(Math.hypot(ws.player.x/TILE-z.x,ws.player.y/TILE-z.y)<=ZSLW.NEAR*0.8){ ZSLW.trace(ws,i); break; } } }

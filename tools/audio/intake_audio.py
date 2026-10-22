@@ -16,6 +16,7 @@ import os, sys, json, re, shutil, subprocess
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 INC, MAS, OUT = (os.path.join(ROOT, 'audio', 'incoming'), os.path.join(ROOT, 'audio', 'masters'), os.path.join(ROOT, 'assets', 'audio'))
 args = sys.argv[1:]; FORCE = '--force' in args
+FROM = args[args.index('--from') + 1] if '--from' in args else None      # round 72h: pick the cue files out of another folder (Suno downloads)
 IDS = None
 if '--ids' in args: IDS = set(args[args.index('--ids') + 1].split(','))
 def ff(*a, capture=False):
@@ -31,6 +32,15 @@ def main():
     cues = {c['id']: c for c in json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'audio.json'), encoding='utf-8'))['cues']}
     os.makedirs(MAS, exist_ok=True); os.makedirs(OUT, exist_ok=True)
     ip = os.path.join(OUT, 'index.json'); idx = json.load(open(ip)) if os.path.exists(ip) else {}
+    if FROM and os.path.isdir(FROM):
+        os.makedirs(INC, exist_ok=True); got = 0
+        for f in os.listdir(FROM):
+            m = re.match(r'^((?:mu|st)_[a-z0-9_]+?)(?: ?\(\d+\))?\.(mp3|wav|m4a|flac|ogg)$', f, re.I)
+            if not m or m.group(1).lower() not in cues: continue
+            dst = os.path.join(INC, m.group(1).lower() + '.' + m.group(2).lower())
+            if os.path.exists(dst) and not FORCE: continue
+            shutil.copy2(os.path.join(FROM, f), dst); got += 1; print('← %s' % f)
+        print('%d file(s) taken from %s' % (got, FROM))
     files = sorted(f for f in os.listdir(INC) if re.search(r'\.(wav|mp3|ogg|flac|m4a)$', f, re.I)) if os.path.isdir(INC) else []
     done = 0
     for f in files:

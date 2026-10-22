@@ -11,7 +11,7 @@ with game(new=True, painted=True) as g:
     g.wait(4500)
     r = g.js("""(async()=>{ %s var ws=game.scene.getScene('World'), ps=ws.playerState, o={}; ps.godMode=true; ZFT.on=false;
       o.fr=['hero_m','hero_f'].map(function(h){ return [ZAtlas.count(h,'magic_lodestar','s'),ZAtlas.count(h,'godsbane','f'),ZAtlas.count(h,'godsbane','b'),ZAtlas.count(h,'lodestar_raise','s'),ZAtlas.count(h,'lodestar_set','s')]; });
-      ps.equip.spell='frost_bolt_tome'; ps.equip.mWeapon='lodestar'; ps.mana=999; _heroCastSpell(ws); await w(150); o.pose=ws.player.anim;
+      ps.equip.spell='frost_bolt_tome'; ps.equip.mWeapon='lodestar'; ps.mana=999; var seen=[], hk=function(){ seen.push(ws.player.anim); }; ws.events.on('postupdate',hk); _heroCastSpell(ws); await w(2500); ws.events.off('postupdate',hk); o.pose=seen.filter(function(a){ return /^magic_/.test(a||''); })[0]||seen[seen.length-1];      /* headless runs at ~3 fps: the 0.45 s pose may last one frame — every frame's pose is recorded */
       o.tex=['tx_asg_road','tx_asg_rim','tx_asg_plaza'].map(ZROAD.painted); o.med=['asr_med_a','asr_med_d'].map(function(k){ return ZCITY.has(k); });
       ps.spiritsFreed=(ZSPIRIT.shrines(ws)||[]).slice(0,12).map(function(s){ return s.id; }); var c=ZGREEN.center(); ws.player.x=c.x; ws.player.y=c.y+120; ws.player.cont.setPosition(ws.player.x,ws.player.y); await w(2500);
       o.before=ws._zg?Object.keys(ws._zg.sp).length:0; ps.spiritsHome=1; await w(1500); o.after=ws._zg?Object.keys(ws._zg.sp).length:0; return o; })()""" % W)

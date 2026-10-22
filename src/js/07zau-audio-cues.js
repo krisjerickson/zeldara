@@ -9,7 +9,26 @@
 // ═══════════════════════════════════════════════════════════════════════
 var ZAUD={
   // the house style, added to every music request (Suno's "Style of music" box)
-  STYLE:'instrumental, Nordic folk fantasy game score, nyckelharpa, hardanger fiddle, tagelharpa, wooden flute, lyre, frame drum, low wordless choir, warm hall reverb, organic acoustic, no lyrics, no modern drums, no synths, no electric guitar',
+  // round 72h (Kris's own Suno tracks and prompts: "epic … makes you think you might be in a dungeon, has plenty of electronic music influences
+  // as well as nordic influences"; the dungeon remix: "a more intense dungeon theme … even more deep bass lines"): Nordic folk meets electronic
+  STYLE:'epic fantasy RPG game score, Nordic folk meets dark electronic: nyckelharpa, hardanger fiddle, tagelharpa, frame drums and war drums over deep sub bass, dark synth pads and pulsing electronic arpeggios, cinematic and mysterious, ancient halls',
+  // the gentle pieces (the village, nights, the last saga, the voiced and violin pieces) keep the same world in a softer form
+  STYLE_SOFT:'fantasy RPG game score, Nordic folk with a subtle electronic touch: nyckelharpa, hardanger fiddle, lyre, wooden flute, soft synth pads, warm low bass, cinematic and intimate, ancient and tender',
+  // the feel per group, added after the cue's own words (the dungeon family takes Kris's remix words)
+  FLAVOR:{title:'grand and epic, the electronic pulse woven under the folk instruments',village:'warm and homely, acoustic instruments in front',realms:'open and adventurous, a steady electronic pulse under folk melodies',
+    sites:'an intense dungeon theme with even deeper bass lines, driving electronic rhythm, echoing stone',fights:'intense and driving, heavy deep bass, pounding war drums and electronic beats',endgame:'massive and dark, deep bass, war drums, electronic pulse, a sense of fate',
+    last:'cinematic and emotional, the electronic elements soft and wide',sting:'a short musical moment, no electronic beat'},
+  // round 72h (Kris): some — not all — pieces carry a voice or a solo: an elven woman's wordless song ("brings you to tears"), deep wordless
+  // dwarven men's voices over low drumming, or a slow piercing violin
+  VOX:{mu_saga_storm:'elf',mu_village_night:'elf',mu_grass_night:'elf',mu_glimpse:'elf',mu_gods_free:'elf',mu_glimmerhall:'elf',mu_credits:'elf',
+    mu_saga_old:'dwarf',mu_high_day:'dwarf',mu_forges:'dwarf',mu_castle:'dwarf',
+    mu_wet_night:'violin',mu_ash_night:'violin',mu_high_night:'violin',mu_feast_hall:'violin',mu_asgard_down:'violin',mu_bifrost:'violin'},
+  VOXSTYLE:{elf:'a solo ethereal female voice singing a wordless elven melody (vocalise, no words), pure, tender and heartbreaking, slow',dwarf:'deep low male choir humming and chanting wordlessly like dwarves in a mountain hall, grave and slow, over low resonant drumming',violin:'a slow, piercing, aching solo violin in the high register carries the melody'},
+  VOXLYRICS:{elf:'[Intro]\n[Instrumental]\n\n[Verse]\n[Wordless female vocalise, soft and high]\nAaah… ooh… aaah…\n\n[Instrumental break]\n\n[Verse]\n[Wordless female vocalise, aching]\nOoh… aaah… ooh…\n\n[Outro]\n[Instrumental]',
+    dwarf:'[Intro]\n[Low drums]\n\n[Verse]\n[Deep male choir humming, wordless]\nMmm… ohh… mmm…\n\n[Instrumental break]\n\n[Verse]\n[Deep male choir, low wordless chant]\nOhh… mmm… ohh…\n\n[Outro]\n[Low drums]'},
+  // Kris's own tracks to start from in Suno (Remix / Cover with these words): the dungeon family from "Untitled (Extend)", the rest from scratch
+  REMIX:{mu_dungeon:'Untitled (Extend)',mu_tower:'Untitled (Extend)',mu_castle:'RPG intro',mu_mage:'Untitled (Extend)',mu_boss:'Untitled (Extend)',mu_boss_realm:'Untitled (Extend)',mu_title:'RPG intro'},
+  EXCLUDE:'lyrics, words, rap, pop vocals, autotune, EDM drop, dubstep, electric guitar',
   // ambience and effects are asked of a sound-effects model in plain words; this is added to each
   SFXSTYLE:'fantasy adventure game sound effect, clean, close, no music, no voices',
   AMBSTYLE:'seamless looping ambience for a fantasy game, no music, no voices, steady, no sudden events',
@@ -127,7 +146,15 @@ var ZAUD={
   all:function(){ if(ZAUD._all)return ZAUD._all; var out=[], mk=function(kind){ return function(c){ out.push({id:c[0],kind:kind,group:c[1],name:c[2],where:c[3],words:c[4],secs:c[5],loop:!!c[6],tier:c[7],bpm:c[8]||0}); }; };
     ZAUD.MUSIC.forEach(mk('music')); ZAUD.AMB.forEach(mk('amb')); ZAUD.SFX.forEach(mk('sfx')); return (ZAUD._all=out); },
   // the words to paste or send: music → Suno's style box; the rest → the sound-effects model
-  request:function(c){ if(c.kind==='music')return c.words+(c.bpm?', about '+c.bpm+' bpm':'')+(c.loop?', steady from start to end so it can loop, no fade-out':'')+'. '+ZAUD.STYLE;
+  request:function(c){ if(c.kind==='music')return ZAUD.suno(c).style;
     return c.words+'. '+(c.kind==='amb'?ZAUD.AMBSTYLE:ZAUD.SFXSTYLE); },
+  // what goes into Suno for a music cue: Title (the cue id, so the download arrives named), Style, Lyrics (only for the voiced ones),
+  // Instrumental on/off, Exclude styles, and — for a few — which of Kris's tracks to remix from
+  suno:function(c){ var v=ZAUD.VOX[c.id]||null, fl=ZAUD.FLAVOR[c.group]||'';
+    var soft=c.group==='village'||c.group==='last'||/_night$/.test(c.id)||v==='elf'||v==='violin';
+    if(soft&&/sites|fights|endgame/.test(c.group))fl='';      /* a voiced piece in a hard group keeps its own words */
+    var style=c.words+(fl?'; '+fl:'')+(v?'; '+ZAUD.VOXSTYLE[v]:'')+(c.bpm?'; about '+c.bpm+' bpm':'')+(c.loop?'; steady from start to end so it can loop, no fade-out':'')+'. '+(soft?ZAUD.STYLE_SOFT:ZAUD.STYLE);
+    var voiced=v==='elf'||v==='dwarf';
+    return {title:c.id, style:style, lyrics:voiced?ZAUD.VOXLYRICS[v]:'', instrumental:!voiced, exclude:voiced?ZAUD.EXCLUDE.replace('lyrics, words, ','clear words, '):ZAUD.EXCLUDE+', vocals', vox:v, remix:ZAUD.REMIX[c.id]||null}; },
   stats:function(){ var A=ZAUD.all(), s={music:0,sting:0,amb:0,sfx:0,t1:0,musicSecs:0}; A.forEach(function(c){ if(c.kind==='music'){ if(c.group==='sting')s.sting++; else { s.music++; s.musicSecs+=c.secs; } } else s[c.kind]++; if(c.tier===1)s.t1++; }); return s; }
 };
