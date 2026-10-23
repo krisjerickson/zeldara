@@ -334,6 +334,11 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
     [0,'Boats over light','small boats with lanterns drifting over the glowing tree','And it stayed.'],
     [0,'Whole','a wide view of the lake, the spires and the glowing tree, shooting stars','Whole at last.']]);
 
+  // ── for tools/video/storyboards.py (build.mjs → sprites/requests/storyboards.json): each frame's scene with the hero named, per version ──
+  ZSB.NEG='text, captions, subtitles, logos, watermark, extra people, new characters, face changes, distorted hands, photorealism, 3D render look, style change, flicker';
+  ZSB.export=function(){ var nm={m:'Zeldor',f:'Zeldara'}; return {neg:ZSB.NEG,scenes:ZSB.SCENES.map(function(s){ return {id:s.id,name:s.name,wave:s.wave,plays:s.plays,story:s.story,beats:s.beats.map(function(b){
+      var f=function(k){ var o=k==='m'?'f':'m'; return b.desc.replace(/\{H\}/g,nm[k]).replace(/\{O\}/g,nm[o]).replace(/\{T\}/g,'the twins Zeldor and Zeldara').replace(/\{K\}/g,'the little twins'); };
+      return {n:b.n,who:b.who,title:b.title,cap:b.cap,ids:b.ids,m:f('m'),f:f('f')}; })}; })}; };
   // ── the sheets for the painting script (generate.mjs --set scenery --wave 85…89) ──
   if(typeof ZSCN==='undefined')return;
   Object.keys(ZSB.WAVES).forEach(function(w){ ZSCN.WAVES[w]='Round 79 — '+ZSB.WAVES[w]; });

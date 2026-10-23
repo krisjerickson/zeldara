@@ -12,8 +12,12 @@
   var painted=function(id){ var R=(typeof ZSCN_META!=='undefined'&&ZSCN_META.rooms)||{}; return !!R[id]; };
   var WHO={0:'',h:'you',o:'you + your twin',t:'both twins'};
   // a contact sheet of the scene's frames: the painted picture (the Zeldor version) or a numbered stand-in with the frame's title
+  // round 79b: once the pictures are in, tools/video/storyboards.py makes a contact sheet per cut-scene (lab/preview/storyboards/) — shown as is
+  var SHEET={}, sheetOf=function(sc){ var who=sc.beats.some(function(b){ return b.ids.length>1; })?'zeldor':'all', k=sc.id+'_'+who; if(SHEET[k])return SHEET[k];
+    var im=new Image(); im.onerror=function(){ if(!im._b){ im._b=1; im.src='../lab/preview/storyboards/'+k+'.webp'; } else im._dead=1; }; im.src='preview/storyboards/'+k+'.webp'; SHEET[k]=im; return im; };
   var draw=function(cv,c,W,H,t,full,id){ var sc=ZSB.SCENES.find(function(s){ return s.id===id; }); if(!sc)return; var B=sc.beats, n=B.length, cols=n>9?4:3, rows=Math.ceil(n/cols), cw=W/cols, ch=H/rows;
     c.fillStyle='#05070b'; c.fillRect(0,0,W,H);
+    var shI=sheetOf(sc); if(shI.complete&&shI.naturalWidth){ var s2=Math.min(W/shI.naturalWidth,H/shI.naturalHeight), dw=shI.naturalWidth*s2, dh=shI.naturalHeight*s2; c.drawImage(shI,(W-dw)/2,(H-dh)/2,dw,dh); return; }
     B.forEach(function(b,i){ var x=(i%cols)*cw, y=Math.floor(i/cols)*ch, pid=b.ids[0], ok=painted(pid), im=ok?load(pid):null;
       if(im&&im.complete&&im.naturalWidth)c.drawImage(im,x+2,y+2,cw-4,ch-4);
       else { var g=c.createLinearGradient(x,y,x,y+ch); g.addColorStop(0,'#101a2a'); g.addColorStop(1,'#070b12'); c.fillStyle=g; c.fillRect(x+2,y+2,cw-4,ch-4);

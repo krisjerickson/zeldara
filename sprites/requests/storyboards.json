@@ -1,0 +1,3195 @@
+{
+ "made": "build.mjs from src/js/07zt6-storyboards.js — do not edit by hand",
+ "neg": "text, captions, subtitles, logos, watermark, extra people, new characters, face changes, distorted hands, photorealism, 3D render look, style change, flicker",
+ "scenes": [
+  {
+   "id": "spirit",
+   "name": "The first spirit freed",
+   "wave": 85,
+   "plays": "the first spirit you free (then each realm's first spirit can reuse it)",
+   "story": "A spirit chained to a bindstone toils without rest. You come close, see how the chains have worn it thin, lay your hand on the stone — your eyes burn rune-blue — and the chains burst. The spirit rises free; lines of light run out from under your feet into the land and the grass follows them; the spirit thanks you and drifts away over the hills to the village, where it waits on the Green, the first to come home.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The toiling spirit",
+     "cap": "Chained to a stone in the fields, a spirit of Runeheim toiled without rest.",
+     "ids": [
+      "sb_spirit_01"
+     ],
+     "m": "a pale, translucent spirit of a village woman in a shawl, glowing soft rune-blue, chained to a tall dark bindstone carved with one rune, bound in heavy black-iron chains that glow ember-red where they bite in a misty meadow at dusk, swinging a heavy pick at the rock with slumped shoulders, ember sparks rising; the chains drag at her wrists",
+     "f": "a pale, translucent spirit of a village woman in a shawl, glowing soft rune-blue, chained to a tall dark bindstone carved with one rune, bound in heavy black-iron chains that glow ember-red where they bite in a misty meadow at dusk, swinging a heavy pick at the rock with slumped shoulders, ember sparks rising; the chains drag at her wrists"
+    },
+    {
+     "n": 2,
+     "who": "h",
+     "title": "You come closer",
+     "cap": "With its Binder gone, you came closer.",
+     "ids": [
+      "sb_spirit_02_m",
+      "sb_spirit_02_f"
+     ],
+     "m": "Zeldor walking through tall dusk grass toward the distant bindstone and its toiling spirit, sword in hand; behind Zeldor a dark hunched Binder (a chain-keeper of fire) crumbles into ash and embers",
+     "f": "Zeldara walking through tall dusk grass toward the distant bindstone and its toiling spirit, sword in hand; behind Zeldara a dark hunched Binder (a chain-keeper of fire) crumbles into ash and embers"
+    },
+    {
+     "n": 3,
+     "who": "h",
+     "title": "Its struggle",
+     "cap": "You saw how the chains had worn it thin.",
+     "ids": [
+      "sb_spirit_03_m",
+      "sb_spirit_03_f"
+     ],
+     "m": "close on the spirit at the bindstone: her tired face, tears of light, the ember-red chains biting her wrists; Zeldor kneeling beside her, looking at her with deep concern",
+     "f": "close on the spirit at the bindstone: her tired face, tears of light, the ember-red chains biting her wrists; Zeldara kneeling beside her, looking at her with deep concern"
+    },
+    {
+     "n": 4,
+     "who": "h",
+     "title": "The rune on the stone",
+     "cap": "The old rune flickered, as if it knew you.",
+     "ids": [
+      "sb_spirit_04_m",
+      "sb_spirit_04_f"
+     ],
+     "m": "Zeldor standing before the tall bindstone, reaching toward its single carved rune, which flickers faintly as if it knows Zeldor; the chained spirit watching over Zeldor's shoulder",
+     "f": "Zeldara standing before the tall bindstone, reaching toward its single carved rune, which flickers faintly as if it knows Zeldara; the chained spirit watching over Zeldara's shoulder"
+    },
+    {
+     "n": 5,
+     "who": "h",
+     "title": "Your hand on the stone",
+     "cap": "You laid your hand on the stone — and your eyes burned rune-blue.",
+     "ids": [
+      "sb_spirit_05_m",
+      "sb_spirit_05_f"
+     ],
+     "m": "Zeldor's open palm pressed flat on the carved rune; Zeldor's eyes blazing bright rune-blue; neon rune-blue light flowing out of the hand into the stone's carved lines and racing along the chains",
+     "f": "Zeldara's open palm pressed flat on the carved rune; Zeldara's eyes blazing bright rune-blue; neon rune-blue light flowing out of the hand into the stone's carved lines and racing along the chains"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "The chains break",
+     "cap": "The chains burst apart.",
+     "ids": [
+      "sb_spirit_06_m",
+      "sb_spirit_06_f"
+     ],
+     "m": "the black chains bursting apart in a blast of rune-blue light, glowing links flying outward in slow motion, the bindstone cracking with light; the spirit flinging up her arms; Zeldor shielding Zeldor's eyes",
+     "f": "the black chains bursting apart in a blast of rune-blue light, glowing links flying outward in slow motion, the bindstone cracking with light; the spirit flinging up her arms; Zeldara shielding Zeldara's eyes"
+    },
+    {
+     "n": 7,
+     "who": "h",
+     "title": "Free",
+     "cap": "For the first time in years, a soul of Runeheim was free.",
+     "ids": [
+      "sb_spirit_07_m",
+      "sb_spirit_07_f"
+     ],
+     "m": "the spirit rising from the stone, peaceful, eyes closed, hands open, glowing brighter; Zeldor looking up at her from below, the broken chains on the grass",
+     "f": "the spirit rising from the stone, peaceful, eyes closed, hands open, glowing brighter; Zeldara looking up at her from below, the broken chains on the grass"
+    },
+    {
+     "n": 8,
+     "who": "h",
+     "title": "Lines beneath your feet",
+     "cap": "Beneath your feet, lines of light ran out into the land.",
+     "ids": [
+      "sb_spirit_08_m",
+      "sb_spirit_08_f"
+     ],
+     "m": "seen from above: from beneath Zeldor's feet, glowing rune-blue lines spread out through the grass like a Norse tattoo, branching and curling; Zeldor looking down in wonder",
+     "f": "seen from above: from beneath Zeldara's feet, glowing rune-blue lines spread out through the grass like a Norse tattoo, branching and curling; Zeldara looking down in wonder"
+    },
+    {
+     "n": 9,
+     "who": "h",
+     "title": "Life follows the light",
+     "cap": "And where the light ran, the land remembered green.",
+     "ids": [
+      "sb_spirit_09_m",
+      "sb_spirit_09_f"
+     ],
+     "m": "a single line of light racing away across a grey, withered land toward the horizon; along it fresh green grass and small white flowers spring up; Zeldor small in the foreground watching it go",
+     "f": "a single line of light racing away across a grey, withered land toward the horizon; along it fresh green grass and small white flowers spring up; Zeldara small in the foreground watching it go"
+    },
+    {
+     "n": 10,
+     "who": "h",
+     "title": "Her thanks",
+     "cap": "\"Thank you. Now I can go home.\"",
+     "ids": [
+      "sb_spirit_10_m",
+      "sb_spirit_10_f"
+     ],
+     "m": "the spirit floating before Zeldor, touching Zeldor's forehead with a glowing hand and a soft smile; a small shard of glowing glass drifting down into Zeldor's hand",
+     "f": "the spirit floating before Zeldara, touching Zeldara's forehead with a glowing hand and a soft smile; a small shard of glowing glass drifting down into Zeldara's hand"
+    },
+    {
+     "n": 11,
+     "who": "h",
+     "title": "Toward the village",
+     "cap": "She drifted away over the hills, toward the village.",
+     "ids": [
+      "sb_spirit_11_m",
+      "sb_spirit_11_f"
+     ],
+     "m": "night: the spirit drifting away over rolling hills toward a distant village by a lake, trailing light; Zeldor small on the hill watching her go; aurora above",
+     "f": "night: the spirit drifting away over rolling hills toward a distant village by a lake, trailing light; Zeldara small on the hill watching her go; aurora above"
+    },
+    {
+     "n": 12,
+     "who": "o",
+     "title": "Home on the Green",
+     "cap": "On the Green she waited, glowing — the first to come home.",
+     "ids": [
+      "sb_spirit_12_m",
+      "sb_spirit_12_f"
+     ],
+     "m": "night on the village green round a tall old runestone carved with a tree: the spirit arriving and settling in a soft ring of light by the stone; Zeldara and a few villagers looking up at her in wonder",
+     "f": "night on the village green round a tall old runestone carved with a tree: the spirit arriving and settling in a soft ring of light by the stone; Zeldor and a few villagers looking up at her in wonder"
+    }
+   ]
+  },
+  {
+   "id": "bram",
+   "name": "Bram raises the Silverrun bridge",
+   "wave": 85,
+   "plays": "freeing Bram the Builder (their tower) — then the crossing",
+   "story": "You free Bram the Builder from a cage at the top of a tower in the Grasslands, walk with them to the Silverrun, help while they work out the problem and build, and see it finished — and the first people cross.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "The cage",
+     "cap": "At the top of the tower, Surtharn's wardens had caged a builder.",
+     "ids": [
+      "sb_bram_01_m",
+      "sb_bram_01_f"
+     ],
+     "m": "the top of a dark stone tower in the Grasslands at dusk: Bram the Builder (exactly as in the character reference) locked in a black iron cage, gripping the bars; an ash-warden crumbling to ash beside it; Zeldor stepping up with a glowing rune-key",
+     "f": "the top of a dark stone tower in the Grasslands at dusk: Bram the Builder (exactly as in the character reference) locked in a black iron cage, gripping the bars; an ash-warden crumbling to ash beside it; Zeldara stepping up with a glowing rune-key"
+    },
+    {
+     "n": 2,
+     "who": "h",
+     "title": "Free",
+     "cap": "\"Free at last! I'll raise the bridge to the Wetlands.\"",
+     "ids": [
+      "sb_bram_02_m",
+      "sb_bram_02_f"
+     ],
+     "m": "the cage door swung open; Bram stepping out and stretching, laughing, clapping Zeldor on the shoulder with a big hand, his hammer back in his other hand",
+     "f": "the cage door swung open; Bram stepping out and stretching, laughing, clapping Zeldara on the shoulder with a big hand, his hammer back in his other hand"
+    },
+    {
+     "n": 3,
+     "who": "h",
+     "title": "The river wall",
+     "cap": "The Silverrun ran like a wall between the realms.",
+     "ids": [
+      "sb_bram_03_m",
+      "sb_bram_03_f"
+     ],
+     "m": "Bram and Zeldor on the bank of the Silverrun: a wide wild river racing dark and fast like a wall of water, the broken stumps of an old bridge, the misty Wetlands on the far side",
+     "f": "Bram and Zeldara on the bank of the Silverrun: a wide wild river racing dark and fast like a wall of water, the broken stumps of an old bridge, the misty Wetlands on the far side"
+    },
+    {
+     "n": 4,
+     "who": "h",
+     "title": "The plan",
+     "cap": "Bram drew the bridge on parchment, then in the air with his hammer.",
+     "ids": [
+      "sb_bram_04_m",
+      "sb_bram_04_f"
+     ],
+     "m": "Bram unrolling a big parchment of bridge drawings on a flat rock, its rune marks glowing faintly, pointing across the river with his hammer; Zeldor holding down a corner",
+     "f": "Bram unrolling a big parchment of bridge drawings on a flat rock, its rune marks glowing faintly, pointing across the river with his hammer; Zeldara holding down a corner"
+    },
+    {
+     "n": 5,
+     "who": "h",
+     "title": "Timber and stone",
+     "cap": "Timber from the Grasslands, stone from the riverbank.",
+     "ids": [
+      "sb_bram_05_m",
+      "sb_bram_05_f"
+     ],
+     "m": "Bram swinging an axe at a great pine, logs and cut stone piled by the river; Zeldor hauling a beam on one shoulder",
+     "f": "Bram swinging an axe at a great pine, logs and cut stone piled by the river; Zeldara hauling a beam on one shoulder"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "Runes in the stone",
+     "cap": "Every stone he set, he marked with a rune.",
+     "ids": [
+      "sb_bram_06_m",
+      "sb_bram_06_f"
+     ],
+     "m": "Bram knee-deep in the river setting a great stone pier, tapping a carved keystone so its rune flares neon blue and the water parts around it; Zeldor steadying the stone",
+     "f": "Bram knee-deep in the river setting a great stone pier, tapping a carved keystone so its rune flares neon blue and the water parts around it; Zeldara steadying the stone"
+    },
+    {
+     "n": 7,
+     "who": "h",
+     "title": "Under the northern lights",
+     "cap": "They worked through the night under the northern lights.",
+     "ids": [
+      "sb_bram_07_m",
+      "sb_bram_07_f"
+     ],
+     "m": "night: the half-built arches over the river lit by lanterns, Bram hammering on a beam, Zeldor holding a lantern high; a wide aurora borealis across the sky and a shooting star",
+     "f": "night: the half-built arches over the river lit by lanterns, Bram hammering on a beam, Zeldara holding a lantern high; a wide aurora borealis across the sky and a shooting star"
+    },
+    {
+     "n": 8,
+     "who": "h",
+     "title": "The keystone",
+     "cap": "At dawn, the keystone.",
+     "ids": [
+      "sb_bram_08_m",
+      "sb_bram_08_f"
+     ],
+     "m": "dawn: Bram and Zeldor hauling on ropes and pulleys to lower a great glowing keystone into the top of the central arch",
+     "f": "dawn: Bram and Zeldara hauling on ropes and pulleys to lower a great glowing keystone into the top of the central arch"
+    },
+    {
+     "n": 9,
+     "who": "h",
+     "title": "The bridge",
+     "cap": "Bram raises the Silverrun bridge.",
+     "ids": [
+      "sb_bram_09_m",
+      "sb_bram_09_f"
+     ],
+     "m": "sunrise: the finished stone-and-timber bridge arching across the silver river, runes glowing along its rail; Bram raising his hammer in triumph on the bank, Zeldor beside him",
+     "f": "sunrise: the finished stone-and-timber bridge arching across the silver river, runes glowing along its rail; Bram raising his hammer in triumph on the bank, Zeldara beside him"
+    },
+    {
+     "n": 10,
+     "who": "h",
+     "title": "The first to cross",
+     "cap": "For the first time in years, the Grasslands and the Wetlands touch again.",
+     "ids": [
+      "sb_bram_10_m",
+      "sb_bram_10_f"
+     ],
+     "m": "the first travellers and a cart rolling across the new bridge to the green misty Wetlands, a heron rising from the reeds; Zeldor walking onto the bridge, Bram waving",
+     "f": "the first travellers and a cart rolling across the new bridge to the green misty Wetlands, a heron rising from the reeds; Zeldara walking onto the bridge, Bram waving"
+    }
+   ]
+  },
+  {
+   "id": "mira",
+   "name": "Mira's lift up the Great Scar",
+   "wave": 85,
+   "plays": "freeing Mira the Mechanic (their tower) — then the crossing",
+   "story": "You free Mira the Mechanic from a cage at the top of a tower in the Wetlands, walk with them to the Great Scar, help while they work out the problem and build, and see it finished — and the first people cross.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "The cage",
+     "cap": "In a tower above the marsh, the wardens had caged a mechanic.",
+     "ids": [
+      "sb_mira_01_m",
+      "sb_mira_01_f"
+     ],
+     "m": "a tower on stilts above the misty Wetlands marsh: Mira the Mechanic (exactly as in the character reference) inside an iron cage, already picking the lock with a little wrench; an ash-warden fading to ash; Zeldor arriving",
+     "f": "a tower on stilts above the misty Wetlands marsh: Mira the Mechanic (exactly as in the character reference) inside an iron cage, already picking the lock with a little wrench; an ash-warden fading to ash; Zeldara arriving"
+    },
+    {
+     "n": 2,
+     "who": "h",
+     "title": "Free",
+     "cap": "\"Thank you! My lift will carry you up to the Highlands.\"",
+     "ids": [
+      "sb_mira_02_m",
+      "sb_mira_02_f"
+     ],
+     "m": "the cage door clanging open; Mira bursting out, goggles pushed up, grinning, holding up a brass gear; Zeldor laughing",
+     "f": "the cage door clanging open; Mira bursting out, goggles pushed up, grinning, holding up a brass gear; Zeldara laughing"
+    },
+    {
+     "n": 3,
+     "who": "h",
+     "title": "The Great Scar",
+     "cap": "The Great Scar: a mountain torn in two.",
+     "ids": [
+      "sb_mira_03_m",
+      "sb_mira_03_f"
+     ],
+     "m": "Mira and Zeldor small at the foot of the Great Scar: a towering torn cliff of broken rock with waterfalls pouring down it, rubble below, the Highlands far above in the clouds",
+     "f": "Mira and Zeldara small at the foot of the Great Scar: a towering torn cliff of broken rock with waterfalls pouring down it, rubble below, the Highlands far above in the clouds"
+    },
+    {
+     "n": 4,
+     "who": "h",
+     "title": "Measuring",
+     "cap": "Mira measured the cliff twice, and the wind three times.",
+     "ids": [
+      "sb_mira_04_m",
+      "sb_mira_04_f"
+     ],
+     "m": "Mira squinting through a brass telescope at the cliff top, chalk sums scribbled on a rock, Zeldor holding a long plumb line in the wind",
+     "f": "Mira squinting through a brass telescope at the cliff top, chalk sums scribbled on a rock, Zeldara holding a long plumb line in the wind"
+    },
+    {
+     "n": 5,
+     "who": "h",
+     "title": "Gears and a rune-heart",
+     "cap": "Gears, chains — and a rune-stone heart.",
+     "ids": [
+      "sb_mira_05_m",
+      "sb_mira_05_f"
+     ],
+     "m": "Mira at a workshop cart heaped with gears, chains and a brass winch, sparks flying from her tools as she fits a glowing rune-stone into the engine's heart; Zeldor handing her a wrench",
+     "f": "Mira at a workshop cart heaped with gears, chains and a brass winch, sparks flying from her tools as she fits a glowing rune-stone into the engine's heart; Zeldara handing her a wrench"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "The first chain",
+     "cap": "Someone had to carry the first chain to the top.",
+     "ids": [
+      "sb_mira_06_m",
+      "sb_mira_06_f"
+     ],
+     "m": "Mira and Zeldor climbing the cliff face on ropes, carrying the first great chain and a pulley to the top, mist and waterfalls far below",
+     "f": "Mira and Zeldara climbing the cliff face on ropes, carrying the first great chain and a pulley to the top, mist and waterfalls far below"
+    },
+    {
+     "n": 7,
+     "who": "h",
+     "title": "Lanterns on the cliff",
+     "cap": "By night the cliff glittered with her lanterns.",
+     "ids": [
+      "sb_mira_07_m",
+      "sb_mira_07_f"
+     ],
+     "m": "night: the lift's timber frame climbing the cliff, lit by lanterns, Mira welding with bright sparks high up, Zeldor below; an aurora borealis across the sky",
+     "f": "night: the lift's timber frame climbing the cliff, lit by lanterns, Mira welding with bright sparks high up, Zeldara below; an aurora borealis across the sky"
+    },
+    {
+     "n": 8,
+     "who": "h",
+     "title": "The lever",
+     "cap": "Then she pulled the lever.",
+     "ids": [
+      "sb_mira_08_m",
+      "sb_mira_08_f"
+     ],
+     "m": "Mira gripping the great brass lever with both hands at the foot of the lift, Zeldor beside her, both looking up as the gears begin to turn and the runes on them glow",
+     "f": "Mira gripping the great brass lever with both hands at the foot of the lift, Zeldara beside her, both looking up as the gears begin to turn and the runes on them glow"
+    },
+    {
+     "n": 9,
+     "who": "h",
+     "title": "Up the Scar",
+     "cap": "Mira's lift climbs the Great Scar.",
+     "ids": [
+      "sb_mira_09_m",
+      "sb_mira_09_f"
+     ],
+     "m": "the wooden cage-lift climbing the cliff face on chains and turning gears, Mira and Zeldor inside looking out at the view, a lantern swinging, mist below",
+     "f": "the wooden cage-lift climbing the cliff face on chains and turning gears, Mira and Zeldara inside looking out at the view, a lantern swinging, mist below"
+    },
+    {
+     "n": 10,
+     "who": "h",
+     "title": "The Highlands",
+     "cap": "The road to the Highlands is open.",
+     "ids": [
+      "sb_mira_10_m",
+      "sb_mira_10_f"
+     ],
+     "m": "sunrise: Mira and Zeldor stepping out of the lift at the top onto the rocky Highlands, snowy peaks ahead, Mira waving her goggles",
+     "f": "sunrise: Mira and Zeldara stepping out of the lift at the top onto the rocky Highlands, snowy peaks ahead, Mira waving her goggles"
+    }
+   ]
+  },
+  {
+   "id": "dunn",
+   "name": "Dunn's iron bridge over the Cinder Chasm",
+   "wave": 85,
+   "plays": "freeing Dunn the Dwarf Forger (their tower) — then the crossing",
+   "story": "You free Dunn the Dwarf Forger from a cage at the top of a tower in the Highlands, walk with them to the Cinder Chasm, help while they work out the problem and build, and see it finished — and the first people cross.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "The cage",
+     "cap": "High in the mountains, the wardens had caged a dwarf forger.",
+     "ids": [
+      "sb_dunn_01_m",
+      "sb_dunn_01_f"
+     ],
+     "m": "a snowy mountain tower in the Highlands: Dunn the dwarf forger (exactly as in the character reference) rattling the bars of an iron cage; an ash-warden crumbling; Zeldor arriving through the snow",
+     "f": "a snowy mountain tower in the Highlands: Dunn the dwarf forger (exactly as in the character reference) rattling the bars of an iron cage; an ash-warden crumbling; Zeldara arriving through the snow"
+    },
+    {
+     "n": 2,
+     "who": "h",
+     "title": "Free",
+     "cap": "\"Ha! Let me at my anvil — an iron bridge to the Ashlands it is!\"",
+     "ids": [
+      "sb_dunn_02_m",
+      "sb_dunn_02_f"
+     ],
+     "m": "Dunn out of the cage, roaring with laughter, lifting his big hammer over his head; Zeldor grinning",
+     "f": "Dunn out of the cage, roaring with laughter, lifting his big hammer over his head; Zeldara grinning"
+    },
+    {
+     "n": 3,
+     "who": "h",
+     "title": "The chasm",
+     "cap": "The Cinder Chasm opened the night the sky went quiet.",
+     "ids": [
+      "sb_dunn_03_m",
+      "sb_dunn_03_f"
+     ],
+     "m": "Dunn and Zeldor on the edge of the Cinder Chasm: a deep gorge glowing with lava far below, a smoky orange sky, the ash-grey Ashlands on the far side",
+     "f": "Dunn and Zeldara on the edge of the Cinder Chasm: a deep gorge glowing with lava far below, a smoky orange sky, the ash-grey Ashlands on the far side"
+    },
+    {
+     "n": 4,
+     "who": "h",
+     "title": "A forge on the edge",
+     "cap": "Dunn built a forge on the edge of the chasm.",
+     "ids": [
+      "sb_dunn_04_m",
+      "sb_dunn_04_f"
+     ],
+     "m": "Dunn's forge built on the edge of the chasm, bellows roaring, Zeldor pumping the bellows, Dunn hammering a glowing iron girder on the anvil",
+     "f": "Dunn's forge built on the edge of the chasm, bellows roaring, Zeldara pumping the bellows, Dunn hammering a glowing iron girder on the anvil"
+    },
+    {
+     "n": 5,
+     "who": "h",
+     "title": "Runes in the iron",
+     "cap": "Iron for the heat, runes for the holding.",
+     "ids": [
+      "sb_dunn_05_m",
+      "sb_dunn_05_f"
+     ],
+     "m": "Dunn carving runes into a red-hot girder; the runes cool to a bright neon rune-blue glow; Zeldor watching",
+     "f": "Dunn carving runes into a red-hot girder; the runes cool to a bright neon rune-blue glow; Zeldara watching"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "Out over the fire",
+     "cap": "Beam by beam, out over the fire.",
+     "ids": [
+      "sb_dunn_06_m",
+      "sb_dunn_06_f"
+     ],
+     "m": "a timber crane swinging the first iron girder out over the glowing abyss, Dunn riding the girder with his hammer, Zeldor hauling the rope",
+     "f": "a timber crane swinging the first iron girder out over the glowing abyss, Dunn riding the girder with his hammer, Zeldara hauling the rope"
+    },
+    {
+     "n": 7,
+     "who": "h",
+     "title": "Between lava and aurora",
+     "cap": "Lava below, the northern lights above.",
+     "ids": [
+      "sb_dunn_07_m",
+      "sb_dunn_07_f"
+     ],
+     "m": "night: the half-built iron bridge silhouetted over the lava glow, sparks flying from Dunn's hammer, an aurora borealis above",
+     "f": "night: the half-built iron bridge silhouetted over the lava glow, sparks flying from Dunn's hammer, an aurora borealis above"
+    },
+    {
+     "n": 8,
+     "who": "h",
+     "title": "The last rivet",
+     "cap": "Dunn drives the last rivet.",
+     "ids": [
+      "sb_dunn_08_m",
+      "sb_dunn_08_f"
+     ],
+     "m": "Dunn striking the last glowing rivet on the massive black-iron bridge, sparks flying; Zeldor holding the rivet tongs",
+     "f": "Dunn striking the last glowing rivet on the massive black-iron bridge, sparks flying; Zeldara holding the rivet tongs"
+    },
+    {
+     "n": 9,
+     "who": "h",
+     "title": "Across",
+     "cap": "Across the Cinder Chasm lie the Ashlands.",
+     "ids": [
+      "sb_dunn_09_m",
+      "sb_dunn_09_f"
+     ],
+     "m": "the massive black-iron bridge spanning the chasm, runes glowing along it; Dunn and Zeldor walking across it toward the Ashlands",
+     "f": "the massive black-iron bridge spanning the chasm, runes glowing along it; Dunn and Zeldara walking across it toward the Ashlands"
+    },
+    {
+     "n": 10,
+     "who": "h",
+     "title": "The smoke of Muspelheim",
+     "cap": "And beyond them, the smoke of Muspelheim.",
+     "ids": [
+      "sb_dunn_10_m",
+      "sb_dunn_10_f"
+     ],
+     "m": "Dunn and Zeldor at the far end of the bridge looking out over the ash-grey plains; far to the west, a black volcano smokes over the sea",
+     "f": "Dunn and Zeldara at the far end of the bridge looking out over the ash-grey plains; far to the west, a black volcano smokes over the sea"
+    }
+   ]
+  },
+  {
+   "id": "vela",
+   "name": "Vela's passes over the Ember Wall",
+   "wave": 85,
+   "plays": "freeing Captain Vela (their tower) — then the crossing",
+   "story": "You free Captain Vela from a cage at the top of a tower in the Ashlands, walk with them to the Ember Wall, help while they work out the problem and build, and see it finished — and the first people cross.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "The cage",
+     "cap": "In a tower in the ash, the wardens had caged a sky captain.",
+     "ids": [
+      "sb_vela_01_m",
+      "sb_vela_01_f"
+     ],
+     "m": "a black tower in the ash-grey Ashlands: Captain Vela (exactly as in the character reference) in an iron cage, a brass compass in her hand; an ash-warden crumbling; Zeldor arriving through drifting ash",
+     "f": "a black tower in the ash-grey Ashlands: Captain Vela (exactly as in the character reference) in an iron cage, a brass compass in her hand; an ash-warden crumbling; Zeldara arriving through drifting ash"
+    },
+    {
+     "n": 2,
+     "who": "h",
+     "title": "Free",
+     "cap": "\"You found me! The sky ports are yours to command.\"",
+     "ids": [
+      "sb_vela_02_m",
+      "sb_vela_02_f"
+     ],
+     "m": "Vela out of the cage, settling her captain's coat, pointing her compass at the sky with a grin; Zeldor beside her",
+     "f": "Vela out of the cage, settling her captain's coat, pointing her compass at the sky with a grin; Zeldara beside her"
+    },
+    {
+     "n": 3,
+     "who": "h",
+     "title": "The Ember Wall",
+     "cap": "The Ember Wall had burned for thirty-six years.",
+     "ids": [
+      "sb_vela_03_m",
+      "sb_vela_03_f"
+     ],
+     "m": "Vela and Zeldor before the Ember Wall: a long ridge of glowing magma and fire cutting the land, lava cascading down it, the green Grasslands just visible beyond the smoke",
+     "f": "Vela and Zeldara before the Ember Wall: a long ridge of glowing magma and fire cutting the land, lava cascading down it, the green Grasslands just visible beyond the smoke"
+    },
+    {
+     "n": 4,
+     "who": "h",
+     "title": "The old ways",
+     "cap": "Vela knew the old ways over the ridge.",
+     "ids": [
+      "sb_vela_04_m",
+      "sb_vela_04_f"
+     ],
+     "m": "Vela unrolling an old star chart on a rock, her compass glowing, tracing a route over the ridge; Zeldor leaning in",
+     "f": "Vela unrolling an old star chart on a rock, her compass glowing, tracing a route over the ridge; Zeldara leaning in"
+    },
+    {
+     "n": 5,
+     "who": "h",
+     "title": "The sky skiff",
+     "cap": "And she knew the winds.",
+     "ids": [
+      "sb_vela_05_m",
+      "sb_vela_05_f"
+     ],
+     "m": "a small wooden sky skiff with patched sails and glowing rune-lamps coming down out of the clouds to a rocky landing; Vela hailing it, Zeldor beside her",
+     "f": "a small wooden sky skiff with patched sails and glowing rune-lamps coming down out of the clouds to a rocky landing; Vela hailing it, Zeldara beside her"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "Over the fire",
+     "cap": "They sailed over the fire under the northern lights.",
+     "ids": [
+      "sb_vela_06_m",
+      "sb_vela_06_f"
+     ],
+     "m": "night: Vela at the helm of the sky skiff with Zeldor, sailing over the burning Ember Wall, an aurora borealis and a shooting star above",
+     "f": "night: Vela at the helm of the sky skiff with Zeldara, sailing over the burning Ember Wall, an aurora borealis and a shooting star above"
+    },
+    {
+     "n": 7,
+     "who": "h",
+     "title": "Rune-lanterns",
+     "cap": "Where her rune-lanterns fell, the fire cooled to stone.",
+     "ids": [
+      "sb_vela_07_m",
+      "sb_vela_07_f"
+     ],
+     "m": "Vela and Zeldor dropping glowing rune-lanterns from the skiff onto the wall; where they land, the lava cools to black stone in a widening path, steam rising",
+     "f": "Vela and Zeldara dropping glowing rune-lanterns from the skiff onto the wall; where they land, the lava cools to black stone in a widening path, steam rising"
+    },
+    {
+     "n": 8,
+     "who": "h",
+     "title": "The pass",
+     "cap": "A pass through the Ember Wall.",
+     "ids": [
+      "sb_vela_08_m",
+      "sb_vela_08_f"
+     ],
+     "m": "a road of cooled black stone through the Ember Wall, steam rising, runes glowing along its edges; Vela and Zeldor walking it toward the green Grasslands",
+     "f": "a road of cooled black stone through the Ember Wall, steam rising, runes glowing along its edges; Vela and Zeldara walking it toward the green Grasslands"
+    },
+    {
+     "n": 9,
+     "who": "h",
+     "title": "The sky port",
+     "cap": "The sky ports are yours to command — all Runeheim is open.",
+     "ids": [
+      "sb_vela_09_m",
+      "sb_vela_09_f"
+     ],
+     "m": "the village harbour's new sky port by the lake: the skiff moored at a tall mast with lanterns, Vela waving from the deck, Zeldor on the quay",
+     "f": "the village harbour's new sky port by the lake: the skiff moored at a tall mast with lanterns, Vela waving from the deck, Zeldara on the quay"
+    }
+   ]
+  },
+  {
+   "id": "opening",
+   "name": "The opening — the Long Quiet, the storm and the twins",
+   "wave": 86,
+   "plays": "a new game (replaces the six opening panels)",
+   "story": "The dead of Runeheim once rose along the World Tree and new souls came down it. Then the road went quiet: no child was born in the last village for twenty winters, and the Binders came for the dead. On the night of a terrible storm lightning struck the runestones, and at dawn a basket drifted out of Mirror Lake with two babes whose eyes glowed rune-blue. The village raised them; the stones woke for them. Sixteen winters on, one twin goes out into Runeheim and the other stays.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The cycle of souls",
+     "cap": "Once, the dead rose along the World Tree — and new souls came down it into every cradle.",
+     "ids": [
+      "sb_opening_01"
+     ],
+     "m": "night over a village by a great lake: a vast World Tree of rune-blue light rising from the carved runestone on the village green up into the aurora; souls of light rising along it, small sparks drifting down into the village",
+     "f": "night over a village by a great lake: a vast World Tree of rune-blue light rising from the carved runestone on the village green up into the aurora; souls of light rising along it, small sparks drifting down into the village"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The road goes quiet",
+     "cap": "Then the road went quiet.",
+     "ids": [
+      "sb_opening_02"
+     ],
+     "m": "far above the clouds, a great golden gate swinging shut; the World Tree of light below it fading and going dark; the aurora dimming",
+     "f": "far above the clouds, a great golden gate swinging shut; the World Tree of light below it fading and going dark; the aurora dimming"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Empty cradles",
+     "cap": "In the last village, the cradles stood empty — twenty winters, and not one child.",
+     "ids": [
+      "sb_opening_03"
+     ],
+     "m": "a candlelit village nursery with rows of empty wooden cradles; an old woman holding a folded birth-shawl, looking out of a window at a pale aurora",
+     "f": "a candlelit village nursery with rows of empty wooden cradles; an old woman holding a folded birth-shawl, looking out of a window at a pale aurora"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "The edge of the light",
+     "cap": "The dead drifted at the edge of the light — and the Binders came for them.",
+     "ids": [
+      "sb_opening_04"
+     ],
+     "m": "dusk at the edge of the Grasslands: pale rune-blue spirits drifting at the edge of the fields; villagers at the timber palisade watching; in the mist, a dark Binder's chain glinting",
+     "f": "dusk at the edge of the Grasslands: pale rune-blue spirits drifting at the edge of the fields; villagers at the timber palisade watching; in the mist, a dark Binder's chain glinting"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The storm",
+     "cap": "Then came the worst storm anyone remembered — and the lightning struck the runestones.",
+     "ids": [
+      "sb_opening_05"
+     ],
+     "m": "the worst storm anyone remembered: lightning striking a tall runestone in the fields so its rune blazes neon rune-blue; more runestones lit across the dark plain under the rain",
+     "f": "the worst storm anyone remembered: lightning striking a tall runestone in the fields so its rune blazes neon rune-blue; more runestones lit across the dark plain under the rain"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "The basket",
+     "cap": "At dawn, a basket drifted out of Mirror Lake.",
+     "ids": [
+      "sb_opening_06"
+     ],
+     "m": "dawn after the storm: a beautiful carved floating basket glowing softly, drifting across calm Mirror Lake toward the village harbour; the last of the aurora and a shooting star in the pale sky",
+     "f": "dawn after the storm: a beautiful carved floating basket glowing softly, drifting across calm Mirror Lake toward the village harbour; the last of the aurora and a shooting star in the pale sky"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "Two babes",
+     "cap": "Inside lay two babes, their eyes glowing rune-blue.",
+     "ids": [
+      "sb_opening_07"
+     ],
+     "m": "on the village pier an old fisher lifting the blanket in the basket: two babes inside, their eyes glowing bright rune-blue; villagers gathering in astonishment",
+     "f": "on the village pier an old fisher lifting the blanket in the basket: two babes inside, their eyes glowing bright rune-blue; villagers gathering in astonishment"
+    },
+    {
+     "n": 8,
+     "who": "t",
+     "title": "Raised by the village",
+     "cap": "The village raised them on goat's milk and old songs.",
+     "ids": [
+      "sb_opening_08"
+     ],
+     "m": "a warm sunny village green: the little twins toddling among goats, an old woman feeding them, an elder playing a lyre and singing to them",
+     "f": "a warm sunny village green: the little twins toddling among goats, an old woman feeding them, an elder playing a lyre and singing to them"
+    },
+    {
+     "n": 9,
+     "who": "t",
+     "title": "The stones wake",
+     "cap": "They read runes no one else could — and the old stones woke for them.",
+     "ids": [
+      "sb_opening_09"
+     ],
+     "m": "dusk on the village green: the little twins laying small hands on the tall carved runestone; its runes waking with neon rune-blue light; Elder Runa (as in the reference) staring in wonder",
+     "f": "dusk on the village green: the little twins laying small hands on the tall carved runestone; its runes waking with neon rune-blue light; Elder Runa (as in the reference) staring in wonder"
+    },
+    {
+     "n": 10,
+     "who": "t",
+     "title": "Sixteen winters on",
+     "cap": "Sixteen winters on, the twins were grown.",
+     "ids": [
+      "sb_opening_10"
+     ],
+     "m": "inside a glass-domed hall with rune-etched windows glowing blue: the twins Zeldor and Zeldara — one practising with a sword, the other bent over an old rune tablet; warm light",
+     "f": "inside a glass-domed hall with rune-etched windows glowing blue: the twins Zeldor and Zeldara — one practising with a sword, the other bent over an old rune tablet; warm light"
+    },
+    {
+     "n": 11,
+     "who": "o",
+     "title": "The choice",
+     "cap": "One would go out into Runeheim; the other would stay and keep the village.",
+     "ids": [
+      "sb_opening_11_m",
+      "sb_opening_11_f"
+     ],
+     "m": "sunrise on the village green by the carved runestone: Elder Runa (as in the reference) holding out a pack and a sword; Zeldor taking them; Zeldara beside them holding an armful of old books",
+     "f": "sunrise on the village green by the carved runestone: Elder Runa (as in the reference) holding out a pack and a sword; Zeldara taking them; Zeldor beside them holding an armful of old books"
+    },
+    {
+     "n": 12,
+     "who": "o",
+     "title": "The send-off",
+     "cap": "And so one twin went out — and the other stayed.",
+     "ids": [
+      "sb_opening_12_m",
+      "sb_opening_12_f"
+     ],
+     "m": "at the village gate at dawn, villagers waving; Zeldor walking out along the road toward the wild lands, looking back once; Zeldara at the gate waving, a book under one arm",
+     "f": "at the village gate at dawn, villagers waving; Zeldara walking out along the road toward the wild lands, looking back once; Zeldor at the gate waving, a book under one arm"
+    }
+   ]
+  },
+  {
+   "id": "quiet",
+   "name": "The Long Quiet",
+   "wave": 86,
+   "plays": "the Grasslands' tenth freed spirit",
+   "story": "Once the roads of the Grasslands ran to every realm. One by one the others fell and their walls rose, until only the Grasslands were left; no child was born, the dead drifted at the edge of the light, and lately the Binders came over the walls for them and bindstones began to hum in the fields.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The roads to every realm",
+     "cap": "Once, the roads of the Grasslands ran to every realm.",
+     "ids": [
+      "sb_quiet_01"
+     ],
+     "m": "long ago: busy roads leaving the Grasslands toward every horizon, travellers and carts, banners, runestones glowing, a midsummer festival",
+     "f": "long ago: busy roads leaving the Grasslands toward every horizon, travellers and carts, banners, runestones glowing, a midsummer festival"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The walls rise",
+     "cap": "One by one, the other realms fell — and the walls rose.",
+     "ids": [
+      "sb_quiet_02"
+     ],
+     "m": "from a hill at dusk, three horizons: a wall of fire, broken mountains, a black river",
+     "f": "from a hill at dusk, three horizons: a wall of fire, broken mountains, a black river"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "The last village",
+     "cap": "Only the Grasslands were left.",
+     "ids": [
+      "sb_quiet_03"
+     ],
+     "m": "a lonely walled village by a lake, fields gone fallow, a timber palisade being raised",
+     "f": "a lonely walled village by a lake, fields gone fallow, a timber palisade being raised"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "No child",
+     "cap": "And no child was born.",
+     "ids": [
+      "sb_quiet_04"
+     ],
+     "m": "an old couple sitting by an empty cradle in a quiet house, an aurora pale outside the window",
+     "f": "an old couple sitting by an empty cradle in a quiet house, an aurora pale outside the window"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The dead at the edge",
+     "cap": "The dead drifted at the edge of the light…",
+     "ids": [
+      "sb_quiet_05"
+     ],
+     "m": "dusk: pale rune-blue spirits drifting at the edge of the fields, unable to rise",
+     "f": "dusk: pale rune-blue spirits drifting at the edge of the fields, unable to rise"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "Over the walls",
+     "cap": "…until the Binders came over the walls for them.",
+     "ids": [
+      "sb_quiet_06"
+     ],
+     "m": "night: dark hunched Binders with ember-glowing chains climbing over the palisade, dragging pale spirits away; villagers hiding with lanterns",
+     "f": "night: dark hunched Binders with ember-glowing chains climbing over the palisade, dragging pale spirits away; villagers hiding with lanterns"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "The humming stones",
+     "cap": "And bindstones began to hum in the fields.",
+     "ids": [
+      "sb_quiet_07"
+     ],
+     "m": "night: bindstones in the fields with chained spirits, their ember-red chains glowing under a pale aurora",
+     "f": "night: bindstones in the fields with chained spirits, their ember-red chains glowing under a pale aurora"
+    }
+   ]
+  },
+  {
+   "id": "ashnight",
+   "name": "The Ash Night",
+   "wave": 86,
+   "plays": "the Ashlands' first freed spirit",
+   "story": "The Ashlands were orchards and honey. The night Asgard's gate shut, the sky turned red over Muspelheim; fire and ash fell, the Ember Wall rose in one night and the Cinder Chasm split the earth. By morning the Ashlands were grey, and their souls were bound to dig.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "Orchards and honey",
+     "cap": "Once the Ashlands were orchards and honey.",
+     "ids": [
+      "sb_ashnight_01"
+     ],
+     "m": "long ago: the Ashlands as warm golden orchards and beehives, little stone villages, a honey cart on the road",
+     "f": "long ago: the Ashlands as warm golden orchards and beehives, little stone villages, a honey cart on the road"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The sky turns red",
+     "cap": "The night the gate shut, the sky turned red.",
+     "ids": [
+      "sb_ashnight_02"
+     ],
+     "m": "night: over the western sea a black volcano erupting, the whole sky turning red above the orchards; villagers on rooftops staring",
+     "f": "night: over the western sea a black volcano erupting, the whole sky turning red above the orchards; villagers on rooftops staring"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Fire and ash",
+     "cap": "Fire and ash fell on the Ashlands.",
+     "ids": [
+      "sb_ashnight_03"
+     ],
+     "m": "fire and ash raining on the villages, people fleeing with lanterns and children",
+     "f": "fire and ash raining on the villages, people fleeing with lanterns and children"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "The Ember Wall",
+     "cap": "The Ember Wall rose in one night.",
+     "ids": [
+      "sb_ashnight_04"
+     ],
+     "m": "a wall of magma bursting up along a ridge, cutting the land in two",
+     "f": "a wall of magma bursting up along a ridge, cutting the land in two"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The Cinder Chasm",
+     "cap": "And the Cinder Chasm split the earth.",
+     "ids": [
+      "sb_ashnight_05"
+     ],
+     "m": "the ground tearing open between the Ashlands and the mountains, lava glowing far below",
+     "f": "the ground tearing open between the Ashlands and the mountains, lava glowing far below"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "Grey morning",
+     "cap": "By morning, the Ashlands were grey.",
+     "ids": [
+      "sb_ashnight_06"
+     ],
+     "m": "a silent grey morning, ash over everything, the orchards burned",
+     "f": "a silent grey morning, ash over everything, the orchards burned"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "Bound to dig",
+     "cap": "Their souls were bound — and made to dig.",
+     "ids": [
+      "sb_ashnight_07"
+     ],
+     "m": "Binders leading long lines of chained pale spirits down into glowing mine mouths toward the smoking volcano",
+     "f": "Binders leading long lines of chained pale spirits down into glowing mine mouths toward the smoking volcano"
+    }
+   ]
+  },
+  {
+   "id": "stonefall",
+   "name": "The Stone-Fall",
+   "wave": 86,
+   "plays": "the Highlands' first freed spirit",
+   "story": "The Highlands lived by their mines. Three years after the Ash Night the stone began to sing; the miners were driven deeper toward the voice, the mountains broke and the Great Scar tore open. The miners dig still — for him.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The mines",
+     "cap": "The Highlands lived by the mines.",
+     "ids": [
+      "sb_stonefall_01"
+     ],
+     "m": "Highland mountain villages and mine mouths with lanterns, miners with picks, snowy peaks",
+     "f": "Highland mountain villages and mine mouths with lanterns, miners with picks, snowy peaks"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "A voice in the stone",
+     "cap": "Then the stone began to sing.",
+     "ids": [
+      "sb_stonefall_02"
+     ],
+     "m": "deep in a mine tunnel, miners listening to a glowing vein in the rock that pulses like a heartbeat",
+     "f": "deep in a mine tunnel, miners listening to a glowing vein in the rock that pulses like a heartbeat"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Deeper",
+     "cap": "\"Deeper,\" said the voice.",
+     "ids": [
+      "sb_stonefall_03"
+     ],
+     "m": "miners digging feverishly downward toward a glow far below, a foreman urging them on",
+     "f": "miners digging feverishly downward toward a glow far below, a foreman urging them on"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "The mountain breaks",
+     "cap": "So the mountain dug toward them.",
+     "ids": [
+      "sb_stonefall_04"
+     ],
+     "m": "the snowy peaks cracking apart, an avalanche of rock",
+     "f": "the snowy peaks cracking apart, an avalanche of rock"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The Great Scar",
+     "cap": "And the Great Scar tore open.",
+     "ids": [
+      "sb_stonefall_05"
+     ],
+     "m": "a vast cliff tearing open across the land, cutting the Highlands away",
+     "f": "a vast cliff tearing open across the land, cutting the Highlands away"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "Silence",
+     "cap": "Three years after the Ash Night, the Highlands fell.",
+     "ids": [
+      "sb_stonefall_06"
+     ],
+     "m": "snow falling softly over a ruined mountain village",
+     "f": "snow falling softly over a ruined mountain village"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "They dig still",
+     "cap": "The miners dig still — for him.",
+     "ids": [
+      "sb_stonefall_07"
+     ],
+     "m": "chained pale spirits of miners swinging picks in a glowing cavern, a Binder watching",
+     "f": "chained pale spirits of miners swinging picks in a glowing cavern, a Binder watching"
+    }
+   ]
+  },
+  {
+   "id": "blacktide",
+   "name": "The Black Tide",
+   "wave": 86,
+   "plays": "the Wetlands' first freed spirit",
+   "story": "The Wetlands were mills and boats on a bright river. Five years after the Stone-Fall the Silverrun ran black from the south; the mill wheels turned backwards, the marshes drank the villages and the river became a wall.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "Mills and boats",
+     "cap": "The Wetlands were mills and boats on the Silverrun.",
+     "ids": [
+      "sb_blacktide_01"
+     ],
+     "m": "Wetland stilt villages and water mills on the bright Silverrun, little boats, herons",
+     "f": "Wetland stilt villages and water mills on the bright Silverrun, little boats, herons"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The river turns black",
+     "cap": "Then the Silverrun ran black from the south.",
+     "ids": [
+      "sb_blacktide_02"
+     ],
+     "m": "black water creeping up the bright river from the south",
+     "f": "black water creeping up the bright river from the south"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Backwards",
+     "cap": "The mill wheels turned backwards.",
+     "ids": [
+      "sb_blacktide_03"
+     ],
+     "m": "a mill wheel turning backwards, a miller staring at it",
+     "f": "a mill wheel turning backwards, a miller staring at it"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "The marsh rises",
+     "cap": "The marshes drank the villages.",
+     "ids": [
+      "sb_blacktide_04"
+     ],
+     "m": "the marsh rising and swallowing houses and roads",
+     "f": "the marsh rising and swallowing houses and roads"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "A wall of water",
+     "cap": "And the river became a wall.",
+     "ids": [
+      "sb_blacktide_05"
+     ],
+     "m": "the river grown wide, wild and dark, bridges swept away",
+     "f": "the river grown wide, wild and dark, bridges swept away"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "It came up through",
+     "cap": "\"It came up through.\"",
+     "ids": [
+      "sb_blacktide_06"
+     ],
+     "m": "under the black water, ember-red chains pulling pale spirits down",
+     "f": "under the black water, ember-red chains pulling pale spirits down"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "Mist",
+     "cap": "Five years after the Stone-Fall, the Wetlands were gone.",
+     "ids": [
+      "sb_blacktide_07"
+     ],
+     "m": "mist over drowned rooftops, a lone heron",
+     "f": "mist over drowned rooftops, a lone heron"
+    }
+   ]
+  },
+  {
+   "id": "gate",
+   "name": "A glimpse: the gate shut",
+   "wave": 87,
+   "plays": "the twentieth spirit freed",
+   "story": "Twenty spirits free — and for a moment the sky shows you something: a golden gate shut high above, and on Odin's high seat someone in a golden mask. No soul can rise, and none come down.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "The sky parts",
+     "cap": "Twenty spirits free — and the sky showed you something.",
+     "ids": [
+      "sb_gate_01_m",
+      "sb_gate_01_f"
+     ],
+     "m": "night: Zeldor on a hill just after freeing a spirit, looking up as the aurora parts like a curtain",
+     "f": "night: Zeldara on a hill just after freeing a spirit, looking up as the aurora parts like a curtain"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The gate",
+     "cap": "High above, a golden gate had shut.",
+     "ids": [
+      "sb_gate_02"
+     ],
+     "m": "far above the clouds, a vast golden gate shut fast, bound with chains of light",
+     "f": "far above the clouds, a vast golden gate shut fast, bound with chains of light"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "The mask",
+     "cap": "On Odin's high seat sat someone in a golden mask.",
+     "ids": [
+      "sb_gate_03"
+     ],
+     "m": "a white-and-gold hall beyond the gate: on a high seat sits a still figure in a golden mask, its face hidden",
+     "f": "a white-and-gold hall beyond the gate: on a high seat sits a still figure in a golden mask, its face hidden"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "No soul rises",
+     "cap": "No soul could rise…",
+     "ids": [
+      "sb_gate_04"
+     ],
+     "m": "pale souls rising toward the gate and turning back, drifting down again",
+     "f": "pale souls rising toward the gate and turning back, drifting down again"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "None come down",
+     "cap": "…and none came down.",
+     "ids": [
+      "sb_gate_05"
+     ],
+     "m": "small sparks of new life at the gate, unable to come down, fading",
+     "f": "small sparks of new life at the gate, unable to come down, fading"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "The sky closes",
+     "cap": "Then the sky closed again.",
+     "ids": [
+      "sb_gate_06_m",
+      "sb_gate_06_f"
+     ],
+     "m": "Zeldor on the hill as the sky closes again, Zeldor's eyes glowing faintly rune-blue, resolute",
+     "f": "Zeldara on the hill as the sky closes again, Zeldara's eyes glowing faintly rune-blue, resolute"
+    }
+   ]
+  },
+  {
+   "id": "orbs",
+   "name": "A glimpse: two lights in the dark",
+   "wave": 87,
+   "plays": "the thirtieth spirit freed",
+   "story": "Thirty spirits free — and the sky opens once more: two great lights float joined in a dark hall far above, sleeping figures inside, and something in a golden mask keeps watch. Far apart, both twins look up at the same moment.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "Once more",
+     "cap": "Thirty spirits free — and the sky opened once more.",
+     "ids": [
+      "sb_orbs_01_m",
+      "sb_orbs_01_f"
+     ],
+     "m": "night: Zeldor by a freed bindstone looking up as the aurora opens again",
+     "f": "night: Zeldara by a freed bindstone looking up as the aurora opens again"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "A dark hall",
+     "cap": "In a dark hall far above…",
+     "ids": [
+      "sb_orbs_02"
+     ],
+     "m": "a vast dark hall of white and gold far above, dust in shafts of pale light",
+     "f": "a vast dark hall of white and gold far above, dust in shafts of pale light"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Two lights",
+     "cap": "…two great lights floated side by side…",
+     "ids": [
+      "sb_orbs_03"
+     ],
+     "m": "two great orbs of pale light floating joined like an infinity sign, breathing slowly",
+     "f": "two great orbs of pale light floating joined like an infinity sign, breathing slowly"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "Asleep",
+     "cap": "…asleep.",
+     "ids": [
+      "sb_orbs_04"
+     ],
+     "m": "inside the orbs, dim and asleep: Odin (the old one-eyed god: silver braided beard, wide grey hat, deep blue wolf-fur cloak, the spear Gungnir, a raven) and Freya (red-gold hair braided with flowers, falcon-feather cloak, glowing amber necklace)",
+     "f": "inside the orbs, dim and asleep: Odin (the old one-eyed god: silver braided beard, wide grey hat, deep blue wolf-fur cloak, the spear Gungnir, a raven) and Freya (red-gold hair braided with flowers, falcon-feather cloak, glowing amber necklace)"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The watcher",
+     "cap": "And something in a golden mask kept watch.",
+     "ids": [
+      "sb_orbs_05"
+     ],
+     "m": "far across the hall, small on a high seat, a figure in a golden mask watching the orbs",
+     "f": "far across the hall, small on a high seat, a figure in a golden mask watching the orbs"
+    },
+    {
+     "n": 6,
+     "who": "o",
+     "title": "Both look up",
+     "cap": "Far apart, both twins looked up at the same moment.",
+     "ids": [
+      "sb_orbs_06_m",
+      "sb_orbs_06_f"
+     ],
+     "m": "split view: on the left Zeldor on a hill under the aurora, on the right Zeldara at a window of a lamplit study full of books — both looking up at the same moment",
+     "f": "split view: on the left Zeldara on a hill under the aurora, on the right Zeldor at a window of a lamplit study full of books — both looking up at the same moment"
+    }
+   ]
+  },
+  {
+   "id": "lodestar",
+   "name": "The Lodestar is made",
+   "wave": 87,
+   "plays": "Surtharn falls — the great hearth",
+   "story": "Surtharn's last ember goes out. Behind his throne is the great hearth. You lay the staff on the anvil and set the four Heartglasses round it; they rise, pour their light into the staff, and a white star wakes at its crown. You lift the Lodestar — and Muspelheim begins to fall.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "The last ember",
+     "cap": "Surtharn's last ember went out.",
+     "ids": [
+      "sb_lodestar_01_m",
+      "sb_lodestar_01_f"
+     ],
+     "m": "the throne cavern of Muspelheim: a giant's fallen molten body cooling to black stone, its last ember fading; Zeldor standing, breathing hard",
+     "f": "the throne cavern of Muspelheim: a giant's fallen molten body cooling to black stone, its last ember fading; Zeldara standing, breathing hard"
+    },
+    {
+     "n": 2,
+     "who": "h",
+     "title": "The great hearth",
+     "cap": "Behind his throne lay the great hearth.",
+     "ids": [
+      "sb_lodestar_02_m",
+      "sb_lodestar_02_f"
+     ],
+     "m": "behind the fallen throne, a vast forge cavern opening: a huge anvil lit from below by lava, chained spirits watching from the walls; Zeldor walking toward it",
+     "f": "behind the fallen throne, a vast forge cavern opening: a huge anvil lit from below by lava, chained spirits watching from the walls; Zeldara walking toward it"
+    },
+    {
+     "n": 3,
+     "who": "h",
+     "title": "The staff on the anvil",
+     "cap": "You laid the staff on the anvil…",
+     "ids": [
+      "sb_lodestar_03_m",
+      "sb_lodestar_03_f"
+     ],
+     "m": "Zeldor laying a plain silver-and-gold staff on the great anvil",
+     "f": "Zeldara laying a plain silver-and-gold staff on the great anvil"
+    },
+    {
+     "n": 4,
+     "who": "h",
+     "title": "Four Heartglasses",
+     "cap": "…and set the four Heartglasses round it.",
+     "ids": [
+      "sb_lodestar_04_m",
+      "sb_lodestar_04_f"
+     ],
+     "m": "Zeldor setting four glowing glasses in a ring round the anvil — green, blue, amber and red",
+     "f": "Zeldara setting four glowing glasses in a ring round the anvil — green, blue, amber and red"
+    },
+    {
+     "n": 5,
+     "who": "h",
+     "title": "They rise",
+     "cap": "The glasses rose.",
+     "ids": [
+      "sb_lodestar_05_m",
+      "sb_lodestar_05_f"
+     ],
+     "m": "the four Heartglasses lifting into the air and circling the staff, Zeldor stepping back in awe",
+     "f": "the four Heartglasses lifting into the air and circling the staff, Zeldara stepping back in awe"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "Their light",
+     "cap": "And poured their light into the staff.",
+     "ids": [
+      "sb_lodestar_06"
+     ],
+     "m": "streams of green, blue, amber and red light pouring from the four glasses into the staff on the anvil",
+     "f": "streams of green, blue, amber and red light pouring from the four glasses into the staff on the anvil"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "The star wakes",
+     "cap": "A white star woke at its crown.",
+     "ids": [
+      "sb_lodestar_07"
+     ],
+     "m": "a blinding white star igniting in the ring at the staff's crown, light blasting across the cavern",
+     "f": "a blinding white star igniting in the ring at the staff's crown, light blasting across the cavern"
+    },
+    {
+     "n": 8,
+     "who": "h",
+     "title": "The Lodestar",
+     "cap": "The Lodestar.",
+     "ids": [
+      "sb_lodestar_08_m",
+      "sb_lodestar_08_f"
+     ],
+     "m": "Zeldor lifting the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) overhead; light filling the cavern; the chained spirits on the walls looking up as their chains begin to glow",
+     "f": "Zeldara lifting the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) overhead; light filling the cavern; the chained spirits on the walls looking up as their chains begin to glow"
+    },
+    {
+     "n": 9,
+     "who": "h",
+     "title": "Muspelheim shakes",
+     "cap": "And Muspelheim began to fall.",
+     "ids": [
+      "sb_lodestar_09_m",
+      "sb_lodestar_09_f"
+     ],
+     "m": "the cavern trembling, rocks falling, lava surging; Zeldor turning to run with the Lodestar",
+     "f": "the cavern trembling, rocks falling, lava surging; Zeldara turning to run with the Lodestar"
+    }
+   ]
+  },
+  {
+   "id": "escape",
+   "name": "Muspelheim falls",
+   "wave": 87,
+   "plays": "after the Lodestar is made — the escape",
+   "story": "You run up through the collapsing mountain with the spirits behind you, every chain breaking as the Lodestar passes, out along the causeway as it sinks, to the shore — and watch Muspelheim fall into the sea. Then the sky clears.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "Run",
+     "cap": "You ran.",
+     "ids": [
+      "sb_escape_01_m",
+      "sb_escape_01_f"
+     ],
+     "m": "Zeldor running up a collapsing lava tunnel holding the glowing Lodestar, freed spirits flying behind like a comet's tail",
+     "f": "Zeldara running up a collapsing lava tunnel holding the glowing Lodestar, freed spirits flying behind like a comet's tail"
+    },
+    {
+     "n": 2,
+     "who": "h",
+     "title": "Every chain",
+     "cap": "Every chain you passed, broke.",
+     "ids": [
+      "sb_escape_02_m",
+      "sb_escape_02_f"
+     ],
+     "m": "a cavern wall of chained spirits; as Zeldor runs past with the Lodestar, every chain bursts and the spirits pour free",
+     "f": "a cavern wall of chained spirits; as Zeldara runs past with the Lodestar, every chain bursts and the spirits pour free"
+    },
+    {
+     "n": 3,
+     "who": "h",
+     "title": "The causeway",
+     "cap": "Out onto the causeway.",
+     "ids": [
+      "sb_escape_03_m",
+      "sb_escape_03_f"
+     ],
+     "m": "night: Zeldor bursting out onto a long walled causeway over the sea, the volcano erupting behind",
+     "f": "night: Zeldara bursting out onto a long walled causeway over the sea, the volcano erupting behind"
+    },
+    {
+     "n": 4,
+     "who": "h",
+     "title": "Sinking behind you",
+     "cap": "It sank behind you, stone by stone.",
+     "ids": [
+      "sb_escape_04_m",
+      "sb_escape_04_f"
+     ],
+     "m": "the causeway crumbling into the sea stone by stone just behind Zeldor's running feet",
+     "f": "the causeway crumbling into the sea stone by stone just behind Zeldara's running feet"
+    },
+    {
+     "n": 5,
+     "who": "h",
+     "title": "The shore",
+     "cap": "From the shore, you watched.",
+     "ids": [
+      "sb_escape_05_m",
+      "sb_escape_05_f"
+     ],
+     "m": "Zeldor on the mainland rocks turning to look back, spirits gathered around",
+     "f": "Zeldara on the mainland rocks turning to look back, spirits gathered around"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "Into the sea",
+     "cap": "Muspelheim fell into the sea.",
+     "ids": [
+      "sb_escape_06"
+     ],
+     "m": "the great black volcano island breaking apart and sinking into a boiling sea in a ring of steam",
+     "f": "the great black volcano island breaking apart and sinking into a boiling sea in a ring of steam"
+    },
+    {
+     "n": 7,
+     "who": "h",
+     "title": "The sky clears",
+     "cap": "And the sky cleared.",
+     "ids": [
+      "sb_escape_07_m",
+      "sb_escape_07_f"
+     ],
+     "m": "the steam clearing over calm sea; an aurora borealis and shooting stars returning to the night sky; Zeldor small on the rocks",
+     "f": "the steam clearing over calm sea; an aurora borealis and shooting stars returning to the night sky; Zeldara small on the rocks"
+    }
+   ]
+  },
+  {
+   "id": "asgard",
+   "name": "Asgard comes down",
+   "wave": 87,
+   "plays": "after Muspelheim — Asgard on the lake",
+   "story": "With the fire broken the sky opens over Mirror Lake. A white-and-gold city appears in a ring of golden light and comes slowly down to rest on the lake, its gate facing the village pier. Your staff fits the notch at the pier's end — but it does not wake.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The sky opens",
+     "cap": "With the fire broken, the sky began to open.",
+     "ids": [
+      "sb_asgard_01"
+     ],
+     "m": "night over Mirror Lake and the village on its shore: the clouds parting in a great ring of golden light",
+     "f": "night over Mirror Lake and the village on its shore: the clouds parting in a great ring of golden light"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "A city in the sky",
+     "cap": "Asgard.",
+     "ids": [
+      "sb_asgard_02"
+     ],
+     "m": "within the ring, the underside of a white-and-gold city of spires appearing",
+     "f": "within the ring, the underside of a white-and-gold city of spires appearing"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Coming down",
+     "cap": "It came down slowly, as if it were tired.",
+     "ids": [
+      "sb_asgard_03"
+     ],
+     "m": "the city lowering slowly on beams of light; villagers crowding the pier",
+     "f": "the city lowering slowly on beams of light; villagers crowding the pier"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "On the lake",
+     "cap": "And came to rest on Mirror Lake.",
+     "ids": [
+      "sb_asgard_04"
+     ],
+     "m": "the city touching the lake; a wave of golden light rolling across the water",
+     "f": "the city touching the lake; a wave of golden light rolling across the water"
+    },
+    {
+     "n": 5,
+     "who": "h",
+     "title": "The gate and the pier",
+     "cap": "Its gate faced the village pier.",
+     "ids": [
+      "sb_asgard_05_m",
+      "sb_asgard_05_f"
+     ],
+     "m": "dawn: Asgard as a walled island of white and gold, its gate facing the village pier; Zeldor at the pier's end holding the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star)",
+     "f": "dawn: Asgard as a walled island of white and gold, its gate facing the village pier; Zeldara at the pier's end holding the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star)"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "The notch",
+     "cap": "The staff fit the notch — but it did not wake.",
+     "ids": [
+      "sb_asgard_06_m",
+      "sb_asgard_06_f"
+     ],
+     "m": "Zeldor kneeling at a carved notch at the very end of the pier, the Lodestar set in it but dark; Zeldor puzzled",
+     "f": "Zeldara kneeling at a carved notch at the very end of the pier, the Lodestar set in it but dark; Zeldara puzzled"
+    }
+   ]
+  },
+  {
+   "id": "twinteach",
+   "name": "Your twin finds the word",
+   "wave": 87,
+   "plays": "the Lodestar in hand — [Tab] by your twin",
+   "story": "You run home with the Lodestar. Your twin is where they always are — at the books — and pulls down the oldest saga, the one nobody could read. On its last page is one rune. You read it together, eyes glowing, and the word wakes: GODSBANE. \"When you reach the gods, I'll be there.\"",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "Home",
+     "cap": "You ran home with the Lodestar.",
+     "ids": [
+      "sb_twinteach_01_m",
+      "sb_twinteach_01_f"
+     ],
+     "m": "dusk: Zeldor running up the village lane with the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) toward a lamplit house",
+     "f": "dusk: Zeldara running up the village lane with the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) toward a lamplit house"
+    },
+    {
+     "n": 2,
+     "who": "o",
+     "title": "At the books",
+     "cap": "Your twin was where they always were — at the books.",
+     "ids": [
+      "sb_twinteach_02_m",
+      "sb_twinteach_02_f"
+     ],
+     "m": "a lamplit study crammed with books and scrolls: Zeldara at the desk looking up as Zeldor comes in",
+     "f": "a lamplit study crammed with books and scrolls: Zeldor at the desk looking up as Zeldara comes in"
+    },
+    {
+     "n": 3,
+     "who": "o",
+     "title": "The oldest saga",
+     "cap": "\"The oldest saga — the one nobody could read.\"",
+     "ids": [
+      "sb_twinteach_03_m",
+      "sb_twinteach_03_f"
+     ],
+     "m": "Zeldara pulling a huge, ancient, rune-bound book from a high shelf, eyes wide at the Lodestar; Zeldor holding the staff",
+     "f": "Zeldor pulling a huge, ancient, rune-bound book from a high shelf, eyes wide at the Lodestar; Zeldara holding the staff"
+    },
+    {
+     "n": 4,
+     "who": "o",
+     "title": "One rune",
+     "cap": "On its last page, a single rune.",
+     "ids": [
+      "sb_twinteach_04_m",
+      "sb_twinteach_04_f"
+     ],
+     "m": "the old book open on the desk: on its last page a single rune that glows the same white as the Lodestar's star; both twins leaning in",
+     "f": "the old book open on the desk: on its last page a single rune that glows the same white as the Lodestar's star; both twins leaning in"
+    },
+    {
+     "n": 5,
+     "who": "o",
+     "title": "Together",
+     "cap": "You read it together.",
+     "ids": [
+      "sb_twinteach_05_m",
+      "sb_twinteach_05_f"
+     ],
+     "m": "close: the faces of Zeldor and Zeldara side by side over the page, both their eyes glowing rune-blue",
+     "f": "close: the faces of Zeldara and Zeldor side by side over the page, both their eyes glowing rune-blue"
+    },
+    {
+     "n": 6,
+     "who": "o",
+     "title": "GODSBANE",
+     "cap": "GODSBANE.",
+     "ids": [
+      "sb_twinteach_06_m",
+      "sb_twinteach_06_f"
+     ],
+     "m": "the rune lifting off the page as light and flying to the Lodestar's star, which flares; Zeldor and Zeldara lit by it",
+     "f": "the rune lifting off the page as light and flying to the Lodestar's star, which flares; Zeldara and Zeldor lit by it"
+    },
+    {
+     "n": 7,
+     "who": "o",
+     "title": "\"I'll be there\"",
+     "cap": "\"When you reach the gods, I'll be there.\"",
+     "ids": [
+      "sb_twinteach_07_m",
+      "sb_twinteach_07_f"
+     ],
+     "m": "at the study door: Zeldara pulling on a cloak, hand on Zeldor's shoulder, both looking out toward the lake where Asgard glows",
+     "f": "at the study door: Zeldor pulling on a cloak, hand on Zeldara's shoulder, both looking out toward the lake where Asgard glows"
+    }
+   ]
+  },
+  {
+   "id": "bifrost",
+   "name": "The Bifröst rises",
+   "wave": 87,
+   "plays": "the pier's notch, with the word",
+   "story": "At the end of the pier you speak the word and set the staff. On the Green the spirits gather along the lines; the star blazes and a bridge of light runs out across the lake to Asgard's gate, and the spirits bless the road.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "The notch waits",
+     "cap": "At the end of the pier, the notch waited.",
+     "ids": [
+      "sb_bifrost_01_m",
+      "sb_bifrost_01_f"
+     ],
+     "m": "night: Zeldor at the end of the pier holding the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) over the carved notch; Asgard glowing across the lake; aurora above",
+     "f": "night: Zeldara at the end of the pier holding the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) over the carved notch; Asgard glowing across the lake; aurora above"
+    },
+    {
+     "n": 2,
+     "who": "h",
+     "title": "The word",
+     "cap": "You spoke the word, and set the staff.",
+     "ids": [
+      "sb_bifrost_02_m",
+      "sb_bifrost_02_f"
+     ],
+     "m": "Zeldor setting the staff into the notch, eyes glowing rune-blue, lips speaking",
+     "f": "Zeldara setting the staff into the notch, eyes glowing rune-blue, lips speaking"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Along the lines",
+     "cap": "On the Green, the spirits gathered along the lines.",
+     "ids": [
+      "sb_bifrost_03"
+     ],
+     "m": "the village green at night: freed spirits lining up along glowing soul-lines that run toward the pier",
+     "f": "the village green at night: freed spirits lining up along glowing soul-lines that run toward the pier"
+    },
+    {
+     "n": 4,
+     "who": "h",
+     "title": "The star blazes",
+     "cap": "The star blazed.",
+     "ids": [
+      "sb_bifrost_04_m",
+      "sb_bifrost_04_f"
+     ],
+     "m": "the Lodestar's star blazing white in the notch, a beam shooting across the lake; Zeldor shielding Zeldor's eyes",
+     "f": "the Lodestar's star blazing white in the notch, a beam shooting across the lake; Zeldara shielding Zeldara's eyes"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "A bridge of light",
+     "cap": "And a bridge of light ran out across the lake.",
+     "ids": [
+      "sb_bifrost_05"
+     ],
+     "m": "a bridge of rainbow light building outward across the dark lake toward Asgard's golden gate",
+     "f": "a bridge of rainbow light building outward across the dark lake toward Asgard's golden gate"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "Blessed",
+     "cap": "The spirits blessed the road.",
+     "ids": [
+      "sb_bifrost_06"
+     ],
+     "m": "spirits floating along both sides of the rainbow bridge like lanterns",
+     "f": "spirits floating along both sides of the rainbow bridge like lanterns"
+    },
+    {
+     "n": 7,
+     "who": "h",
+     "title": "To Asgard",
+     "cap": "The Bifröst — to Asgard's gate.",
+     "ids": [
+      "sb_bifrost_07_m",
+      "sb_bifrost_07_f"
+     ],
+     "m": "Zeldor stepping onto the Bifröst toward the golden gate, the Lodestar in hand",
+     "f": "Zeldara stepping onto the Bifröst toward the golden gate, the Lodestar in hand"
+    }
+   ]
+  },
+  {
+   "id": "surt1",
+   "name": "Surtharn rises",
+   "wave": 88,
+   "plays": "Surtharn's throne — his first form",
+   "story": "In the deepest cavern of Muspelheim the chained spirits dig. The black throne cracks, lava pours up, and Surtharn, the Molten Colossus, rises with his burning greatsword.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The deep halls",
+     "cap": "In the deepest hall of Muspelheim, the spirits dug.",
+     "ids": [
+      "sb_surt1_01"
+     ],
+     "m": "the throne cavern of Muspelheim: rivers of lava, chained pale spirits digging at the walls",
+     "f": "the throne cavern of Muspelheim: rivers of lava, chained pale spirits digging at the walls"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The throne cracks",
+     "cap": "The throne of Muspelheim split open.",
+     "ids": [
+      "sb_surt1_02"
+     ],
+     "m": "a black basalt throne splitting down the middle, light pouring out",
+     "f": "a black basalt throne splitting down the middle, light pouring out"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Lava rises",
+     "cap": "Fire rose from below.",
+     "ids": [
+      "sb_surt1_03"
+     ],
+     "m": "lava welling up through the cracked throne",
+     "f": "lava welling up through the cracked throne"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "A hand of fire",
+     "cap": "A hand of fire took hold.",
+     "ids": [
+      "sb_surt1_04"
+     ],
+     "m": "a giant hand of molten rock gripping the edge of the throne",
+     "f": "a giant hand of molten rock gripping the edge of the throne"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The Molten Colossus",
+     "cap": "Surtharn, the Molten Colossus!",
+     "ids": [
+      "sb_surt1_05"
+     ],
+     "m": "Surtharn the fire giant (as in the reference) rising as the Molten Colossus, a burning greatsword in his fist, roaring",
+     "f": "Surtharn the fire giant (as in the reference) rising as the Molten Colossus, a burning greatsword in his fist, roaring"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "Facing him",
+     "cap": "\"Every gem of Runeheim is mine by right!\"",
+     "ids": [
+      "sb_surt1_06_m",
+      "sb_surt1_06_f"
+     ],
+     "m": "Zeldor small in the foreground raising a sword against the towering fire giant",
+     "f": "Zeldara small in the foreground raising a sword against the towering fire giant"
+    }
+   ]
+  },
+  {
+   "id": "surt2",
+   "name": "The Forge-king",
+   "wave": 88,
+   "plays": "Surtharn's second form",
+   "story": "The Colossus drives his greatsword into the floor; it melts and climbs his arms as armour and reforges into a hammer and an anvil-crown — the Forge-king.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "Staggered",
+     "cap": "He staggered…",
+     "ids": [
+      "sb_surt2_01"
+     ],
+     "m": "Surtharn the fire giant (as in the reference) as the Molten Colossus staggering, his greatsword glowing white-hot",
+     "f": "Surtharn the fire giant (as in the reference) as the Molten Colossus staggering, his greatsword glowing white-hot"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The sword in the floor",
+     "cap": "…and drove his sword into the floor.",
+     "ids": [
+      "sb_surt2_02"
+     ],
+     "m": "he drives the burning greatsword deep into the cavern floor",
+     "f": "he drives the burning greatsword deep into the cavern floor"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Melting",
+     "cap": "The sword melted.",
+     "ids": [
+      "sb_surt2_03"
+     ],
+     "m": "the greatsword melting into a pool of molten iron around his feet",
+     "f": "the greatsword melting into a pool of molten iron around his feet"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "Armour",
+     "cap": "The iron climbed him.",
+     "ids": [
+      "sb_surt2_04"
+     ],
+     "m": "the molten iron climbing his arms and hardening into armour plates",
+     "f": "the molten iron climbing his arms and hardening into armour plates"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "Hammer and crown",
+     "cap": "The Forge-king!",
+     "ids": [
+      "sb_surt2_05"
+     ],
+     "m": "the iron reforging into a giant hammer in his hands and an anvil-shaped crown on his head",
+     "f": "the iron reforging into a giant hammer in his hands and an anvil-shaped crown on his head"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "The shockwave",
+     "cap": "His hammer rang the cavern.",
+     "ids": [
+      "sb_surt2_06_m",
+      "sb_surt2_06_f"
+     ],
+     "m": "the Forge-king striking the floor; a ring of fire rolling out; Zeldor bracing behind a shield",
+     "f": "the Forge-king striking the floor; a ring of fire rolling out; Zeldara bracing behind a shield"
+    }
+   ]
+  },
+  {
+   "id": "surt3",
+   "name": "The Ash Tyrant",
+   "wave": 88,
+   "plays": "Surtharn's third form",
+   "story": "The Forge-king cracks and bursts into a storm of ash; out of it strides the Ash Tyrant, chains of spirit-light trailing from his hands to the bound spirits.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "Cracks",
+     "cap": "The Forge-king cracked…",
+     "ids": [
+      "sb_surt3_01"
+     ],
+     "m": "the Forge-king's armour cracking, light spilling from the cracks",
+     "f": "the Forge-king's armour cracking, light spilling from the cracks"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "A storm of ash",
+     "cap": "…and burst into ash.",
+     "ids": [
+      "sb_surt3_02"
+     ],
+     "m": "he bursts into a whirling storm of ash and embers",
+     "f": "he bursts into a whirling storm of ash and embers"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "The spirits pulled in",
+     "cap": "The ash took the spirits with it.",
+     "ids": [
+      "sb_surt3_03"
+     ],
+     "m": "pale spirits pulled into the ash storm by ember-red chains",
+     "f": "pale spirits pulled into the ash storm by ember-red chains"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "The Ash Tyrant",
+     "cap": "The Ash Tyrant!",
+     "ids": [
+      "sb_surt3_04"
+     ],
+     "m": "out of the storm strides the Ash Tyrant, a giant of ash with chains of pale spirit-light trailing from his hands",
+     "f": "out of the storm strides the Ash Tyrant, a giant of ash with chains of pale spirit-light trailing from his hands"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "A shield of souls",
+     "cap": "He hid behind the souls he had chained.",
+     "ids": [
+      "sb_surt3_05"
+     ],
+     "m": "the Ash Tyrant holding chained spirits before him like a shield",
+     "f": "the Ash Tyrant holding chained spirits before him like a shield"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "Through the ash",
+     "cap": "You pushed on through the ash.",
+     "ids": [
+      "sb_surt3_06_m",
+      "sb_surt3_06_f"
+     ],
+     "m": "Zeldor pushing forward through the ash storm, eyes glowing rune-blue",
+     "f": "Zeldara pushing forward through the ash storm, eyes glowing rune-blue"
+    }
+   ]
+  },
+  {
+   "id": "surt4",
+   "name": "The Horned Jötunn",
+   "wave": 88,
+   "plays": "Surtharn's fourth form",
+   "story": "The ash swirls up and the giant grows huge; horns burst from his brow and he draws the Sword of Flame.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "Rising ash",
+     "cap": "The ash rose…",
+     "ids": [
+      "sb_surt4_01"
+     ],
+     "m": "the ash swirling upward into a towering column",
+     "f": "the ash swirling upward into a towering column"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "Huge",
+     "cap": "…and he grew.",
+     "ids": [
+      "sb_surt4_02"
+     ],
+     "m": "the giant growing huge, his head cracking the cavern roof",
+     "f": "the giant growing huge, his head cracking the cavern roof"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Horns",
+     "cap": "Horns tore from his brow.",
+     "ids": [
+      "sb_surt4_03"
+     ],
+     "m": "great curling horns bursting from his brow",
+     "f": "great curling horns bursting from his brow"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "Into the fire",
+     "cap": "He reached into the fire…",
+     "ids": [
+      "sb_surt4_04"
+     ],
+     "m": "he plunges his hand into a river of lava",
+     "f": "he plunges his hand into a river of lava"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The Sword of Flame",
+     "cap": "…and drew the Sword of Flame!",
+     "ids": [
+      "sb_surt4_05"
+     ],
+     "m": "the Horned Jötunn lifting the blazing Sword of Flame",
+     "f": "the Horned Jötunn lifting the blazing Sword of Flame"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "Tiny",
+     "cap": "The Horned Jötunn.",
+     "ids": [
+      "sb_surt4_06_m",
+      "sb_surt4_06_f"
+     ],
+     "m": "Zeldor tiny at his feet, looking up",
+     "f": "Zeldara tiny at his feet, looking up"
+    }
+   ]
+  },
+  {
+   "id": "surt5",
+   "name": "The Obsidian Warlord",
+   "wave": 88,
+   "plays": "Surtharn's fifth form",
+   "story": "The Jötunn falls into the lava; the lava boils, and he climbs out in black obsidian armour with his molten heart glowing behind glass.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The fall",
+     "cap": "He fell into the fire.",
+     "ids": [
+      "sb_surt5_01"
+     ],
+     "m": "the Horned Jötunn toppling backward into a lake of lava",
+     "f": "the Horned Jötunn toppling backward into a lake of lava"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "Boiling",
+     "cap": "The lava boiled.",
+     "ids": [
+      "sb_surt5_02"
+     ],
+     "m": "the lava lake boiling and churning",
+     "f": "the lava lake boiling and churning"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "A black hand",
+     "cap": "Something black rose from it.",
+     "ids": [
+      "sb_surt5_03"
+     ],
+     "m": "a hand of black glass rising out of the lava",
+     "f": "a hand of black glass rising out of the lava"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "Obsidian",
+     "cap": "He climbed out in black glass.",
+     "ids": [
+      "sb_surt5_04"
+     ],
+     "m": "he climbs out in gleaming black obsidian armour",
+     "f": "he climbs out in gleaming black obsidian armour"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The molten heart",
+     "cap": "His molten heart burned behind the glass.",
+     "ids": [
+      "sb_surt5_05"
+     ],
+     "m": "close: his molten heart glowing behind a plate of glass in his chest",
+     "f": "close: his molten heart glowing behind a plate of glass in his chest"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "The Obsidian Warlord",
+     "cap": "The Obsidian Warlord!",
+     "ids": [
+      "sb_surt5_06_m",
+      "sb_surt5_06_f"
+     ],
+     "m": "Zeldor facing the Obsidian Warlord across the cavern",
+     "f": "Zeldara facing the Obsidian Warlord across the cavern"
+    }
+   ]
+  },
+  {
+   "id": "surt6",
+   "name": "The Living Volcano",
+   "wave": 88,
+   "plays": "Surtharn's last form",
+   "story": "The obsidian shatters and Surtharn swells into a living volcano; the whole cavern erupts.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "Shattered",
+     "cap": "The obsidian shattered.",
+     "ids": [
+      "sb_surt6_01"
+     ],
+     "m": "the obsidian armour shattering into black shards",
+     "f": "the obsidian armour shattering into black shards"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "Swelling",
+     "cap": "He swelled…",
+     "ids": [
+      "sb_surt6_02"
+     ],
+     "m": "Surtharn swelling, rock and fire pouring together",
+     "f": "Surtharn swelling, rock and fire pouring together"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Lava from his crown",
+     "cap": "…lava poured from his crown…",
+     "ids": [
+      "sb_surt6_03"
+     ],
+     "m": "lava pouring from his shoulders and crown",
+     "f": "lava pouring from his shoulders and crown"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "The cavern erupts",
+     "cap": "…and the cavern erupted.",
+     "ids": [
+      "sb_surt6_04"
+     ],
+     "m": "the whole cavern erupting with fire",
+     "f": "the whole cavern erupting with fire"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The volcano itself",
+     "cap": "The last ember — Surtharn becomes the volcano itself!",
+     "ids": [
+      "sb_surt6_05"
+     ],
+     "m": "Surtharn has become a living volcano filling the cavern",
+     "f": "Surtharn has become a living volcano filling the cavern"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "Amid the fire",
+     "cap": "Now — or never.",
+     "ids": [
+      "sb_surt6_06_m",
+      "sb_surt6_06_f"
+     ],
+     "m": "Zeldor amid falling rock and fire, raising a weapon",
+     "f": "Zeldara amid falling rock and fire, raising a weapon"
+    }
+   ]
+  },
+  {
+   "id": "sol1",
+   "name": "Solmyrk, the Black Sun",
+   "wave": 88,
+   "plays": "the citadel's throne hall — his first form",
+   "story": "In the white-and-gold throne hall the figure in the golden mask stirs on Odin's high seat, rises, and unfolds wings of light: Solmyrk, the Black Sun.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The throne hall",
+     "cap": "The throne hall of Asgard.",
+     "ids": [
+      "sb_sol1_01"
+     ],
+     "m": "the vast white-and-gold throne hall of the citadel of Asgard, columns and tall windows",
+     "f": "the vast white-and-gold throne hall of the citadel of Asgard, columns and tall windows"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The high seat",
+     "cap": "On Odin's high seat, the masked one waited.",
+     "ids": [
+      "sb_sol1_02"
+     ],
+     "m": "on the high seat at the end of the hall, a still figure in a golden mask",
+     "f": "on the high seat at the end of the hall, a still figure in a golden mask"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "He rises",
+     "cap": "He rose.",
+     "ids": [
+      "sb_sol1_03"
+     ],
+     "m": "the masked figure rising from the high seat",
+     "f": "the masked figure rising from the high seat"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "Wings of light",
+     "cap": "Wings of light unfolded.",
+     "ids": [
+      "sb_sol1_04"
+     ],
+     "m": "great wings of golden light unfolding from his back",
+     "f": "great wings of golden light unfolding from his back"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "Gungnir",
+     "cap": "A god of gold — Solmyrk, the Black Sun.",
+     "ids": [
+      "sb_sol1_05"
+     ],
+     "m": "the masked god in gold and white raising a shining spear, a crown of spikes above the golden mask",
+     "f": "the masked god in gold and white raising a shining spear, a crown of spikes above the golden mask"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "Before him",
+     "cap": "You raised the Lodestar.",
+     "ids": [
+      "sb_sol1_06_m",
+      "sb_sol1_06_f"
+     ],
+     "m": "Zeldor with the Lodestar standing before the golden figure",
+     "f": "Zeldara with the Lodestar standing before the golden figure"
+    }
+   ]
+  },
+  {
+   "id": "sol2",
+   "name": "The Cracked Mask",
+   "wave": 88,
+   "plays": "Solmyrk's second form",
+   "story": "The golden mask cracks; black light pours out of the crack; his wings tear to darkness — behind the Allfather's face something else is looking out.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The blow",
+     "cap": "The light struck the mask…",
+     "ids": [
+      "sb_sol2_01"
+     ],
+     "m": "a beam of white light striking the golden mask",
+     "f": "a beam of white light striking the golden mask"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "A crack",
+     "cap": "…and it cracked.",
+     "ids": [
+      "sb_sol2_02"
+     ],
+     "m": "a crack running down the middle of the golden mask",
+     "f": "a crack running down the middle of the golden mask"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Black light",
+     "cap": "Black light poured out.",
+     "ids": [
+      "sb_sol2_03"
+     ],
+     "m": "black light pouring out of the crack",
+     "f": "black light pouring out of the crack"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "Torn wings",
+     "cap": "His wings tore into darkness.",
+     "ids": [
+      "sb_sol2_04"
+     ],
+     "m": "half his wings tearing into darkness",
+     "f": "half his wings tearing into darkness"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "Half and half",
+     "cap": "Behind the Allfather's face, something else is looking out.",
+     "ids": [
+      "sb_sol2_05"
+     ],
+     "m": "the Cracked Mask: one half radiant god, the other a black void",
+     "f": "the Cracked Mask: one half radiant god, the other a black void"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "Bracing",
+     "cap": "You held your ground.",
+     "ids": [
+      "sb_sol2_06_m",
+      "sb_sol2_06_f"
+     ],
+     "m": "Zeldor bracing against a wind of black and gold light",
+     "f": "Zeldara bracing against a wind of black and gold light"
+    }
+   ]
+  },
+  {
+   "id": "sol3",
+   "name": "The Storm That Ends the World",
+   "wave": 88,
+   "plays": "Solmyrk's last form",
+   "story": "The mask shatters; all the light of Asgard drains into him; he swells into a storm of thunderheads before an eclipsed sun — the dark that was always underneath.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The mask shatters",
+     "cap": "The mask shattered.",
+     "ids": [
+      "sb_sol3_01"
+     ],
+     "m": "the golden mask shattering into pieces",
+     "f": "the golden mask shattering into pieces"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The light drains",
+     "cap": "All the light of Asgard drained into him…",
+     "ids": [
+      "sb_sol3_02"
+     ],
+     "m": "rivers of golden light flowing across the hall into him",
+     "f": "rivers of golden light flowing across the hall into him"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Storm",
+     "cap": "…and he swelled into storm.",
+     "ids": [
+      "sb_sol3_03"
+     ],
+     "m": "he swells into a towering storm cloud",
+     "f": "he swells into a towering storm cloud"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "Eclipse",
+     "cap": "The sun went dark behind him.",
+     "ids": [
+      "sb_sol3_04"
+     ],
+     "m": "an eclipsed sun behind him, a white corona",
+     "f": "an eclipsed sun behind him, a white corona"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The Storm That Ends the World",
+     "cap": "The Storm That Ends the World!",
+     "ids": [
+      "sb_sol3_05"
+     ],
+     "m": "a colossal storm figure with wings of cloud and white lightning and a pale one-eyed mask",
+     "f": "a colossal storm figure with wings of cloud and white lightning and a pale one-eyed mask"
+    },
+    {
+     "n": 6,
+     "who": "h",
+     "title": "The Lodestar raised",
+     "cap": "And what was left was the dark that had always been underneath.",
+     "ids": [
+      "sb_sol3_06_m",
+      "sb_sol3_06_f"
+     ],
+     "m": "Zeldor tiny below the storm, raising the glowing Lodestar",
+     "f": "Zeldara tiny below the storm, raising the glowing Lodestar"
+    }
+   ]
+  },
+  {
+   "id": "feasthall",
+   "name": "The feast hall — the gods freed",
+   "wave": 89,
+   "plays": "Solmyrk falls (through to the gods freed)",
+   "story": "Solmyrk's mask lies in pieces and the citadel shakes. Golden doors open behind the high seat onto the dusty feast hall of the gods, where two orbs float joined like an infinity sign. Your twin comes running; together you cast Godsbane into the centre, the orbs crack and burst into a million shards — and Odin and Freya stand free as the hall wakes.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "The mask in pieces",
+     "cap": "Solmyrk fell, and his mask lay in pieces.",
+     "ids": [
+      "sb_feasthall_01_m",
+      "sb_feasthall_01_f"
+     ],
+     "m": "the white-and-gold throne hall: a broken golden mask in pieces on the floor, darkness dissolving into smoke; Zeldor standing over it",
+     "f": "the white-and-gold throne hall: a broken golden mask in pieces on the floor, darkness dissolving into smoke; Zeldara standing over it"
+    },
+    {
+     "n": 2,
+     "who": "h",
+     "title": "The citadel shakes",
+     "cap": "The citadel shook.",
+     "ids": [
+      "sb_feasthall_02_m",
+      "sb_feasthall_02_f"
+     ],
+     "m": "the hall shaking, dust falling from the columns; behind the high seat a crack of golden light; Zeldor turning",
+     "f": "the hall shaking, dust falling from the columns; behind the high seat a crack of golden light; Zeldara turning"
+    },
+    {
+     "n": 3,
+     "who": "h",
+     "title": "Golden doors",
+     "cap": "Behind the high seat, golden doors swung open.",
+     "ids": [
+      "sb_feasthall_03_m",
+      "sb_feasthall_03_f"
+     ],
+     "m": "tall golden doors behind the high seat swinging open, warm light spilling out; Zeldor silhouetted before them",
+     "f": "tall golden doors behind the high seat swinging open, warm light spilling out; Zeldara silhouetted before them"
+    },
+    {
+     "n": 4,
+     "who": "h",
+     "title": "The feast hall",
+     "cap": "The feast hall of the gods.",
+     "ids": [
+      "sb_feasthall_04_m",
+      "sb_feasthall_04_f"
+     ],
+     "m": "Zeldor stepping into a vast dusty feast hall: long tables, cobwebs, banners, two empty high seats",
+     "f": "Zeldara stepping into a vast dusty feast hall: long tables, cobwebs, banners, two empty high seats"
+    },
+    {
+     "n": 5,
+     "who": "h",
+     "title": "The orbs",
+     "cap": "Two great orbs, joined like an infinity sign — and voices inside.",
+     "ids": [
+      "sb_feasthall_05_m",
+      "sb_feasthall_05_f"
+     ],
+     "m": "two great orbs of light floating joined like an infinity sign above the hall, faint shapes inside; the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) trembling in Zeldor's hand",
+     "f": "two great orbs of light floating joined like an infinity sign above the hall, faint shapes inside; the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) trembling in Zeldara's hand"
+    },
+    {
+     "n": 6,
+     "who": "o",
+     "title": "Your twin comes",
+     "cap": "And your twin came running to your side.",
+     "ids": [
+      "sb_feasthall_06_m",
+      "sb_feasthall_06_f"
+     ],
+     "m": "Zeldara running in through the golden doors to Zeldor's side",
+     "f": "Zeldor running in through the golden doors to Zeldara's side"
+    },
+    {
+     "n": 7,
+     "who": "t",
+     "title": "Together",
+     "cap": "Together, you spoke the word.",
+     "ids": [
+      "sb_feasthall_07"
+     ],
+     "m": "the twins Zeldor and Zeldara, seen from behind, both raising their hands and the Lodestar toward the orbs, eyes glowing rune-blue",
+     "f": "the twins Zeldor and Zeldara, seen from behind, both raising their hands and the Lodestar toward the orbs, eyes glowing rune-blue"
+    },
+    {
+     "n": 8,
+     "who": "t",
+     "title": "Into the centre",
+     "cap": "Godsbane — into the centre, where the two lights meet.",
+     "ids": [
+      "sb_feasthall_08"
+     ],
+     "m": "one beam of white-gold light rising from the twins Zeldor and Zeldara into the place where the two orbs meet",
+     "f": "one beam of white-gold light rising from the twins Zeldor and Zeldara into the place where the two orbs meet"
+    },
+    {
+     "n": 9,
+     "who": 0,
+     "title": "Cracks",
+     "cap": "The orbs cracked…",
+     "ids": [
+      "sb_feasthall_09"
+     ],
+     "m": "cracks of light spreading across the two orbs",
+     "f": "cracks of light spreading across the two orbs"
+    },
+    {
+     "n": 10,
+     "who": 0,
+     "title": "A million shards",
+     "cap": "…and burst into a million shards of light.",
+     "ids": [
+      "sb_feasthall_10"
+     ],
+     "m": "the orbs bursting into a million glittering shards of light filling the hall",
+     "f": "the orbs bursting into a million glittering shards of light filling the hall"
+    },
+    {
+     "n": 11,
+     "who": "t",
+     "title": "Free",
+     "cap": "Odin and Freya — free.",
+     "ids": [
+      "sb_feasthall_11"
+     ],
+     "m": "in the falling light stand Odin (the old one-eyed god: silver braided beard, wide grey hat, deep blue wolf-fur cloak, the spear Gungnir, a raven) and Freya (red-gold hair braided with flowers, falcon-feather cloak, glowing amber necklace); the twins Zeldor and Zeldara small before them",
+     "f": "in the falling light stand Odin (the old one-eyed god: silver braided beard, wide grey hat, deep blue wolf-fur cloak, the spear Gungnir, a raven) and Freya (red-gold hair braided with flowers, falcon-feather cloak, glowing amber necklace); the twins Zeldor and Zeldara small before them"
+    },
+    {
+     "n": 12,
+     "who": 0,
+     "title": "The hall wakes",
+     "cap": "And the feast hall woke.",
+     "ids": [
+      "sb_feasthall_12"
+     ],
+     "m": "the feast hall alive again: dust gone, banners bright, candles lighting themselves along the tables, golden light",
+     "f": "the feast hall alive again: dust gone, banners bright, candles lighting themselves along the tables, golden light"
+    }
+   ]
+  },
+  {
+   "id": "truth",
+   "name": "The truth about the twins",
+   "wave": 89,
+   "plays": "after the gods are freed — they talk",
+   "story": "Odin and Freya thank the twins and tell them the truth: on the night the false one took them they had one breath of light left, and spent it on two sparks sent down in the storm. The lightning woke the runestones so the stones would wake for them. The twins are the gods' last gift to Runeheim.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "t",
+     "title": "You came",
+     "cap": "\"You came. Thirty-six winters we slept in our own light — and still you came.\"",
+     "ids": [
+      "sb_truth_01"
+     ],
+     "m": "Odin kneeling to the twins' level in the bright feast hall, a big kind hand held out; the twins Zeldor and Zeldara before him",
+     "f": "Odin kneeling to the twins' level in the bright feast hall, a big kind hand held out; the twins Zeldor and Zeldara before him"
+    },
+    {
+     "n": 2,
+     "who": "t",
+     "title": "Why the stones light",
+     "cap": "\"Do you know why the runestones light for you?\"",
+     "ids": [
+      "sb_truth_02"
+     ],
+     "m": "Freya touching the twins' cheeks, her amber necklace glowing; the twins Zeldor and Zeldara with their eyes glowing rune-blue",
+     "f": "Freya touching the twins' cheeks, her amber necklace glowing; the twins Zeldor and Zeldara with their eyes glowing rune-blue"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "One breath of light",
+     "cap": "\"The night the false one took us, we had one breath of light left…\"",
+     "ids": [
+      "sb_truth_03"
+     ],
+     "m": "a memory, painted softer: Odin and Freya as the orbs close around them, cupping two tiny sparks of light between their hands",
+     "f": "a memory, painted softer: Odin and Freya as the orbs close around them, cupping two tiny sparks of light between their hands"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "Down in the storm",
+     "cap": "\"We sent you down in the storm.\"",
+     "ids": [
+      "sb_truth_04"
+     ],
+     "m": "a memory: two tiny sparks falling through storm clouds, lightning striking runestones far below",
+     "f": "a memory: two tiny sparks falling through storm clouds, lightning striking runestones far below"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The basket of light",
+     "cap": "\"The lightning woke the runestones, so that one day they would wake for you.\"",
+     "ids": [
+      "sb_truth_05"
+     ],
+     "m": "a memory: the sparks settling into a glowing basket on Mirror Lake at dawn",
+     "f": "a memory: the sparks settling into a glowing basket on Mirror Lake at dawn"
+    },
+    {
+     "n": 6,
+     "who": "t",
+     "title": "The last gift",
+     "cap": "\"You are our last gift to Runeheim.\"",
+     "ids": [
+      "sb_truth_06"
+     ],
+     "m": "the twins Zeldor and Zeldara looking at each other in wonder, their eyes glowing, the gods smiling behind them",
+     "f": "the twins Zeldor and Zeldara looking at each other in wonder, their eyes glowing, the gods smiling behind them"
+    },
+    {
+     "n": 7,
+     "who": "t",
+     "title": "Bring the Lodestar",
+     "cap": "\"Come. The spirits have waited long enough.\"",
+     "ids": [
+      "sb_truth_07"
+     ],
+     "m": "Freya pointing out through the hall's open doors toward the heart of the city; Odin raising Gungnir; the twins Zeldor and Zeldara turning to go",
+     "f": "Freya pointing out through the hall's open doors toward the heart of the city; Odin raising Gungnir; the twins Zeldor and Zeldara turning to go"
+    }
+   ]
+  },
+  {
+   "id": "home",
+   "name": "The spirits go home",
+   "wave": 89,
+   "plays": "the rune circle at Asgard's heart",
+   "story": "At the heart of Asgard the twins set the Lodestar and cast Godsbane into the sky. The Bifröst rises into heaven; from every realm the spirits come; Odin and Freya lead them home — the brave to Valhalla, the rest to Fólkvangr — and the familiars and fairy monarchs go with them. \"Go to your village. We will follow.\"",
+   "beats": [
+    {
+     "n": 1,
+     "who": "t",
+     "title": "The rune circle",
+     "cap": "At the heart of Asgard, the rune circle.",
+     "ids": [
+      "sb_home_01"
+     ],
+     "m": "a great rune circle at the heart of the white-and-gold city; Odin (the old one-eyed god: silver braided beard, wide grey hat, deep blue wolf-fur cloak, the spear Gungnir, a raven) and Freya (red-gold hair braided with flowers, falcon-feather cloak, glowing amber necklace) and the twins Zeldor and Zeldara arriving",
+     "f": "a great rune circle at the heart of the white-and-gold city; Odin (the old one-eyed god: silver braided beard, wide grey hat, deep blue wolf-fur cloak, the spear Gungnir, a raven) and Freya (red-gold hair braided with flowers, falcon-feather cloak, glowing amber necklace) and the twins Zeldor and Zeldara arriving"
+    },
+    {
+     "n": 2,
+     "who": "t",
+     "title": "The Lodestar set",
+     "cap": "The Lodestar, set at the heart.",
+     "ids": [
+      "sb_home_02"
+     ],
+     "m": "the twins Zeldor and Zeldara together setting the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) upright in the centre of the circle, the runes waking",
+     "f": "the twins Zeldor and Zeldara together setting the Lodestar (a tall staff of silver and gold crowned by a ring of four gems — green, blue, amber, red — around a blazing white star) upright in the centre of the circle, the runes waking"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Into the sky",
+     "cap": "Godsbane — into the sky.",
+     "ids": [
+      "sb_home_03"
+     ],
+     "m": "a pillar of white-gold light shooting from the circle up into the night clouds, an aurora flaring around it",
+     "f": "a pillar of white-gold light shooting from the circle up into the night clouds, an aurora flaring around it"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "The Bifröst rises",
+     "cap": "The Bifröst rose into heaven.",
+     "ids": [
+      "sb_home_04"
+     ],
+     "m": "a spiralling rainbow bridge rising from the city up through the clouds into heaven",
+     "f": "a spiralling rainbow bridge rising from the city up through the clouds into heaven"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "From every realm",
+     "cap": "From every realm, the spirits came.",
+     "ids": [
+      "sb_home_05"
+     ],
+     "m": "seen from high above: from every corner of the land, pale spirits rising along glowing soul-lines toward the city",
+     "f": "seen from high above: from every corner of the land, pale spirits rising along glowing soul-lines toward the city"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "They lead them home",
+     "cap": "Odin and Freya led them home.",
+     "ids": [
+      "sb_home_06"
+     ],
+     "m": "Odin and Freya walking up the rainbow bridge ahead of a long procession of glowing spirits",
+     "f": "Odin and Freya walking up the rainbow bridge ahead of a long procession of glowing spirits"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "Valhalla and Fólkvangr",
+     "cap": "Valhalla for the brave, Fólkvangr for the rest.",
+     "ids": [
+      "sb_home_07"
+     ],
+     "m": "high in the clouds the bridge parting: one way to golden halls of warriors, the other to flowering fields in the sky",
+     "f": "high in the clouds the bridge parting: one way to golden halls of warriors, the other to flowering fields in the sky"
+    },
+    {
+     "n": 8,
+     "who": 0,
+     "title": "Into legend",
+     "cap": "The familiars and the fairy monarchs went with them — into legend.",
+     "ids": [
+      "sb_home_08"
+     ],
+     "m": "small elemental familiars (fire, water, nature, earth) and three angelic fairy monarchs rising with the spirits",
+     "f": "small elemental familiars (fire, water, nature, earth) and three angelic fairy monarchs rising with the spirits"
+    },
+    {
+     "n": 9,
+     "who": 0,
+     "title": "Farewell",
+     "cap": "\"Go to your village. We will follow.\"",
+     "ids": [
+      "sb_home_09"
+     ],
+     "m": "Freya looking back from the bridge and waving, Odin raising Gungnir",
+     "f": "Freya looking back from the bridge and waving, Odin raising Gungnir"
+    },
+    {
+     "n": 10,
+     "who": "t",
+     "title": "The sky closes",
+     "cap": "And the sky closed softly behind them.",
+     "ids": [
+      "sb_home_10"
+     ],
+     "m": "the twins Zeldor and Zeldara alone in the rune circle as the bridge fades into a soft aurora and a shooting star",
+     "f": "the twins Zeldor and Zeldara alone in the rune circle as the bridge fades into a soft aurora and a shooting star"
+    }
+   ]
+  },
+  {
+   "id": "village",
+   "name": "Lightning and vines — Runeheim changed",
+   "wave": 89,
+   "plays": "back at the village after the Bifröst",
+   "story": "On the Green, Odin calls \"Runeheim! Look up,\" and blue lightning wakes every runestone at once. Freya kneels — \"And now… the spring\" — and green vines run out along the soul-lines. The lines become roads of grass and stone; the monsters fade; the forges and Asgard sink; people walk out on the new roads and hamlets rise. Over a green Runeheim, the northern lights.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "t",
+     "title": "Home",
+     "cap": "You came home.",
+     "ids": [
+      "sb_village_01"
+     ],
+     "m": "dusk on the village green by the carved runestone: the twins Zeldor and Zeldara among the villagers, the spirits gone, everyone looking up",
+     "f": "dusk on the village green by the carved runestone: the twins Zeldor and Zeldara among the villagers, the spirits gone, everyone looking up"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "Look up",
+     "cap": "\"Runeheim! Look up.\"",
+     "ids": [
+      "sb_village_02"
+     ],
+     "m": "Odin in the clouds above the village raising Gungnir, lightning gathering",
+     "f": "Odin in the clouds above the village raising Gungnir, lightning gathering"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Every stone at once",
+     "cap": "Every runestone woke at once.",
+     "ids": [
+      "sb_village_03"
+     ],
+     "m": "seen from high above: blue-white lightning striking the village runestone, and every runestone across the whole land lighting at once",
+     "f": "seen from high above: blue-white lightning striking the village runestone, and every runestone across the whole land lighting at once"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "The spring",
+     "cap": "\"And now… the spring.\"",
+     "ids": [
+      "sb_village_04"
+     ],
+     "m": "Freya kneeling on the village green, both hands on the earth, flowers bursting up around her",
+     "f": "Freya kneeling on the village green, both hands on the earth, flowers bursting up around her"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "The vines run",
+     "cap": "The spring ran out along the soul-lines.",
+     "ids": [
+      "sb_village_05"
+     ],
+     "m": "green vines with white flowers racing out from the green along the glowing soul-lines in every direction",
+     "f": "green vines with white flowers racing out from the green along the glowing soul-lines in every direction"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "Roads of grass",
+     "cap": "The lines of light became roads.",
+     "ids": [
+      "sb_village_06"
+     ],
+     "m": "from high above: the lines of light across the land turning into roads of grass and stone, like a tree drawn on the world",
+     "f": "from high above: the lines of light across the land turning into roads of grass and stone, like a tree drawn on the world"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "The monsters fade",
+     "cap": "The monsters faded into light.",
+     "ids": [
+      "sb_village_07"
+     ],
+     "m": "monsters across the land fading into drifting motes of light",
+     "f": "monsters across the land fading into drifting motes of light"
+    },
+    {
+     "n": 8,
+     "who": 0,
+     "title": "The forges sink",
+     "cap": "The forges sank into the sea.",
+     "ids": [
+      "sb_village_08"
+     ],
+     "m": "the four forge-towers at sea sinking into the waves in steam",
+     "f": "the four forge-towers at sea sinking into the waves in steam"
+    },
+    {
+     "n": 9,
+     "who": 0,
+     "title": "Asgard settles",
+     "cap": "Asgard settled into the lake.",
+     "ids": [
+      "sb_village_09"
+     ],
+     "m": "the white-and-gold city sinking into Mirror Lake until only its golden spires stand above the water",
+     "f": "the white-and-gold city sinking into Mirror Lake until only its golden spires stand above the water"
+    },
+    {
+     "n": 10,
+     "who": 0,
+     "title": "Out on the new roads",
+     "cap": "People walked out on the new roads.",
+     "ids": [
+      "sb_village_10"
+     ],
+     "m": "villagers with carts and children walking out along the new grassy roads",
+     "f": "villagers with carts and children walking out along the new grassy roads"
+    },
+    {
+     "n": 11,
+     "who": 0,
+     "title": "Hamlets",
+     "cap": "And homes rose in every realm.",
+     "ids": [
+      "sb_village_11"
+     ],
+     "m": "small hamlets with houses and gardens rising round runestones across the land",
+     "f": "small hamlets with houses and gardens rising round runestones across the land"
+    },
+    {
+     "n": 12,
+     "who": 0,
+     "title": "A green Runeheim",
+     "cap": "Runeheim was green again.",
+     "ids": [
+      "sb_village_12"
+     ],
+     "m": "night over a green Runeheim, an aurora borealis and shooting stars over the lake and the spires",
+     "f": "night over a green Runeheim, an aurora borealis and shooting stars over the lake and the spires"
+    }
+   ]
+  },
+  {
+   "id": "celebrate",
+   "name": "The celebration — children again",
+   "wave": 89,
+   "plays": "after the land turns green",
+   "story": "The village celebrates the twins on the Green under lanterns and the aurora. Time passes; the first newborn cries; Pip and Wren play with the twins; children play at being twins in every hamlet.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "t",
+     "title": "The feast",
+     "cap": "The village celebrated the twins.",
+     "ids": [
+      "sb_celebrate_01"
+     ],
+     "m": "long tables on the village green under lanterns, villagers raising cups to the twins Zeldor and Zeldara at the head of the table",
+     "f": "long tables on the village green under lanterns, villagers raising cups to the twins Zeldor and Zeldara at the head of the table"
+    },
+    {
+     "n": 2,
+     "who": "t",
+     "title": "Dancing",
+     "cap": "They danced till the stars came out.",
+     "ids": [
+      "sb_celebrate_02"
+     ],
+     "m": "dancing round the carved runestone, Elder Runa with the twins Zeldor and Zeldara, music, an aurora above",
+     "f": "dancing round the carved runestone, Elder Runa with the twins Zeldor and Zeldara, music, an aurora above"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "Seasons",
+     "cap": "Time passed.",
+     "ids": [
+      "sb_celebrate_03"
+     ],
+     "m": "the village green through the seasons in one picture: blossom, summer, autumn leaves, snow",
+     "f": "the village green through the seasons in one picture: blossom, summer, autumn leaves, snow"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "The first cry",
+     "cap": "And a child was born.",
+     "ids": [
+      "sb_celebrate_04"
+     ],
+     "m": "a mother holding a newborn in a cosy room, the father laughing, the elder in the doorway in tears",
+     "f": "a mother holding a newborn in a cosy room, the father laughing, the elder in the doorway in tears"
+    },
+    {
+     "n": 5,
+     "who": "t",
+     "title": "Pip and Wren",
+     "cap": "Pip and Wren, among the first.",
+     "ids": [
+      "sb_celebrate_05"
+     ],
+     "m": "two young village children (as in the references) running to the twins Zeldor and Zeldara on the green",
+     "f": "two young village children (as in the references) running to the twins Zeldor and Zeldara on the green"
+    },
+    {
+     "n": 6,
+     "who": 0,
+     "title": "Playing twins",
+     "cap": "\"We play twins. I always have to be Zeldor…\"",
+     "ids": [
+      "sb_celebrate_06"
+     ],
+     "m": "children in a hamlet playing at being the twins with wooden swords and a stick for a staff",
+     "f": "children in a hamlet playing at being the twins with wooden swords and a stick for a staff"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "Cradles",
+     "cap": "Every hamlet had its own.",
+     "ids": [
+      "sb_celebrate_07"
+     ],
+     "m": "a midwife's workshop with full cradles and smiling families",
+     "f": "a midwife's workshop with full cradles and smiling families"
+    },
+    {
+     "n": 8,
+     "who": "t",
+     "title": "From the hill",
+     "cap": "And children were born again in Runeheim.",
+     "ids": [
+      "sb_celebrate_08"
+     ],
+     "m": "the twins Zeldor and Zeldara sitting on a hill watching children play in the hamlets below at sunset",
+     "f": "the twins Zeldor and Zeldara sitting on a hill watching children play in the hamlets below at sunset"
+    }
+   ]
+  },
+  {
+   "id": "credits",
+   "name": "The credits — and after",
+   "wave": 89,
+   "plays": "after the celebration",
+   "story": "The credits roll over the night lake under forty stars; the twins on a hill over a green Runeheim; then the road goes on.",
+   "beats": [
+    {
+     "n": 1,
+     "who": 0,
+     "title": "The night lake",
+     "cap": "(the credits)",
+     "ids": [
+      "sb_credits_01"
+     ],
+     "m": "Mirror Lake at night reflecting an aurora, forty bright stars above, golden spires in the water",
+     "f": "Mirror Lake at night reflecting an aurora, forty bright stars above, golden spires in the water"
+    },
+    {
+     "n": 2,
+     "who": "t",
+     "title": "Forty stars",
+     "cap": "Forty spirits, home.",
+     "ids": [
+      "sb_credits_02"
+     ],
+     "m": "the twins Zeldor and Zeldara on the pier looking up at the forty stars",
+     "f": "the twins Zeldor and Zeldara on the pier looking up at the forty stars"
+    },
+    {
+     "n": 3,
+     "who": "t",
+     "title": "The hill",
+     "cap": "Runeheim is green again.",
+     "ids": [
+      "sb_credits_03"
+     ],
+     "m": "the twins Zeldor and Zeldara on a grassy hill at sunrise over a green Runeheim of roads and hamlets",
+     "f": "the twins Zeldor and Zeldara on a grassy hill at sunrise over a green Runeheim of roads and hamlets"
+    },
+    {
+     "n": 4,
+     "who": "t",
+     "title": "The road on",
+     "cap": "Your journey goes on.",
+     "ids": [
+      "sb_credits_04"
+     ],
+     "m": "the twins Zeldor and Zeldara walking away together down a grassy road toward the horizon",
+     "f": "the twins Zeldor and Zeldara walking away together down a grassy road toward the horizon"
+    }
+   ]
+  },
+  {
+   "id": "worldtree",
+   "name": "The World Tree under the lake",
+   "wave": 89,
+   "plays": "all forty spirits free, after the end",
+   "story": "After the end, the last spirit is freed. Its line races to join the others, and all forty draw one great World Tree across Runeheim. The tree's light flows into Mirror Lake and shines under the water like a tattoo — and stays.",
+   "beats": [
+    {
+     "n": 1,
+     "who": "h",
+     "title": "The fortieth",
+     "cap": "The fortieth spirit, free.",
+     "ids": [
+      "sb_worldtree_01_m",
+      "sb_worldtree_01_f"
+     ],
+     "m": "Zeldor by a bindstone in a green land as the last spirit rises free",
+     "f": "Zeldara by a bindstone in a green land as the last spirit rises free"
+    },
+    {
+     "n": 2,
+     "who": 0,
+     "title": "The last line",
+     "cap": "Its line ran to meet the others.",
+     "ids": [
+      "sb_worldtree_02"
+     ],
+     "m": "its line of light racing across the land to join the others",
+     "f": "its line of light racing across the land to join the others"
+    },
+    {
+     "n": 3,
+     "who": 0,
+     "title": "One tree",
+     "cap": "Forty lines — one tree.",
+     "ids": [
+      "sb_worldtree_03"
+     ],
+     "m": "from high above: all the lines of light across Runeheim joining into one great World Tree",
+     "f": "from high above: all the lines of light across Runeheim joining into one great World Tree"
+    },
+    {
+     "n": 4,
+     "who": 0,
+     "title": "Into the lake",
+     "cap": "Its light flowed into the lake…",
+     "ids": [
+      "sb_worldtree_04"
+     ],
+     "m": "the tree's light flowing down into Mirror Lake",
+     "f": "the tree's light flowing down into Mirror Lake"
+    },
+    {
+     "n": 5,
+     "who": 0,
+     "title": "Under the water",
+     "cap": "…and shone under the water like a tattoo.",
+     "ids": [
+      "sb_worldtree_05"
+     ],
+     "m": "Mirror Lake from above at twilight, a vast World Tree of rune-blue and gold light glowing deep under its water",
+     "f": "Mirror Lake from above at twilight, a vast World Tree of rune-blue and gold light glowing deep under its water"
+    },
+    {
+     "n": 6,
+     "who": "t",
+     "title": "On the pier",
+     "cap": "Where the twins were found, the World Tree shines.",
+     "ids": [
+      "sb_worldtree_06"
+     ],
+     "m": "the twins Zeldor and Zeldara on the village pier at night looking down at the glowing tree under the water, an aurora above",
+     "f": "the twins Zeldor and Zeldara on the village pier at night looking down at the glowing tree under the water, an aurora above"
+    },
+    {
+     "n": 7,
+     "who": 0,
+     "title": "Boats over light",
+     "cap": "And it stayed.",
+     "ids": [
+      "sb_worldtree_07"
+     ],
+     "m": "small boats with lanterns drifting over the glowing tree",
+     "f": "small boats with lanterns drifting over the glowing tree"
+    },
+    {
+     "n": 8,
+     "who": 0,
+     "title": "Whole",
+     "cap": "Whole at last.",
+     "ids": [
+      "sb_worldtree_08"
+     ],
+     "m": "a wide view of the lake, the spires and the glowing tree, shooting stars",
+     "f": "a wide view of the lake, the spires and the glowing tree, shooting stars"
+    }
+   ]
+  }
+ ]
+}

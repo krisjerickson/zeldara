@@ -232,6 +232,7 @@ def pack(J):
 def check(J):
     miss = []; bad = []; odd = []; done = 0
     for q in J['requests']:
+        if q['id'].startswith('sc_sb_'): continue      # story frames: tools/video/storyboards.py reports those
         src = os.path.join(IN, q['id'] + '.png'); mf = os.path.join(OUT, 'sheets', q['id'] + '.json')
         if not os.path.exists(src): miss.append(q); continue
         M = json.load(open(mf)) if os.path.exists(mf) else None
@@ -258,6 +259,7 @@ def main():
     J = load(); force = '--force' in sys.argv; n = ok = 0
     if '--check' not in sys.argv:
         for q in J['requests']:
+            if q['id'].startswith('sc_sb_'): continue      # round 79: story frames feed the video app, not the game (tools/video/storyboards.py)
             src = os.path.join(IN, q['id'] + '.png'); mf = os.path.join(OUT, 'sheets', q['id'] + '.json')
             if not os.path.exists(src): continue
             if not force and os.path.exists(mf):

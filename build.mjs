@@ -196,6 +196,14 @@ try {
   fs.writeFileSync(path.join(ROOT, 'sprites', 'requests', 'video.json'), JSON.stringify({ made: 'build.mjs from src/js/07zvc-video-clips.js — do not edit by hand', how: 'tools/video/clips.py: the first frame is the painted panel, the request says how it moves', clips: C }, null, 1));
   console.log(`✓ sprites/requests/video.json  ${C.length} clips in ${new Set(C.map(c => c.wave)).size} waves`);
 } catch (e) { console.warn('! video requests not exported: ' + e.message); }
+// ── Round 79: the story cut-scenes (src/js/07zt6-storyboards.js, doc 35) → sprites/requests/storyboards.json, for tools/video/storyboards.py
+try {
+  const vm = await import('node:vm'); const ctx = {}; ctx.globalThis = ctx;
+  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zt6-storyboards.js'), 'utf8') + '\n;globalThis.__sb=JSON.stringify(ZSB.export());', ctx);
+  const SB = JSON.parse(ctx.__sb);
+  fs.writeFileSync(path.join(ROOT, 'sprites', 'requests', 'storyboards.json'), JSON.stringify(Object.assign({ made: 'build.mjs from src/js/07zt6-storyboards.js — do not edit by hand' }, SB), null, 1));
+  console.log(`✓ sprites/requests/storyboards.json  ${SB.scenes.length} story cut-scenes`);
+} catch (e) { console.warn('! storyboards not exported: ' + e.message); }
 
 // ── Hosting: dist/ = what gets deployed — the home page at /, the game at /play, the Design Lab at /lab
 // (vercel.json: buildCommand "npm run build", outputDirectory "dist")

@@ -13,13 +13,46 @@ a = ap.parse_args()
 FF = shutil.which('ffmpeg') or sys.exit('ffmpeg not found - see docs/32 (the audio intake) for how to get it.')
 try: IDS = [c['id'] for c in json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'video.json'), encoding='utf-8'))['clips']]
 except Exception: IDS = []
+# round 79: the story cut-scenes' montages — <scene>_<who>.mp4 (who: zeldor / zeldara / all) → sb_<scene>_<who>.mp4; or one clip per shot,
+# <scene>_<who>_<nn>.mp4, joined here in order (a short fade at each join) once every shot of that montage is in
+try:
+    SB = json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'storyboards.json'), encoding='utf-8'))['scenes']
+    for sc in SB:
+        whos = ['zeldor', 'zeldara'] if any(len(b['ids']) > 1 for b in sc['beats']) else ['all']
+        IDS += ['sb_%s_%s' % (sc['id'], w) for w in whos]
+    SBN = {sc['id']: len(sc['beats']) for sc in SB}
+except Exception: SB = []; SBN = {}
 OUT = os.path.join(ROOT, 'assets', 'video'); os.makedirs(OUT, exist_ok=True)
 VID = ('.mp4', '.mov', '.webm', '.m4v')
 files = [f for f in sorted(os.listdir(a.src)) if f.lower().endswith(VID)] if os.path.isdir(a.src) else []
 def match(f):
     n = os.path.splitext(f)[0].lower()
+    if n.startswith('sb_'): n = n[3:]
+    for sid in SBN:      # a whole montage: <scene>_<who>
+        for w in ('zeldor', 'zeldara', 'all'):
+            if n == '%s_%s' % (sid, w) or n.startswith('%s_%s ' % (sid, w)) or n.startswith('%s_%s(' % (sid, w)): return 'sb_%s_%s' % (sid, w)
     hits = [i for i in IDS if i in n]
     return max(hits, key=len) if hits else (n if n.startswith('pn_') and not IDS else None)
+# shots of a montage, one clip each: join them when all are there
+import re
+SHOT = re.compile(r'^(?:sb_)?([a-z0-9]+)_(zeldor|zeldara|all)_(\d\d)')
+shots = {}
+for f in files:
+    m = SHOT.match(os.path.splitext(f)[0].lower())
+    if m and m.group(1) in SBN: shots.setdefault((m.group(1), m.group(2)), {})[int(m.group(3))] = f
+files = [f for f in files if not (SHOT.match(os.path.splitext(f)[0].lower()) and SHOT.match(os.path.splitext(f)[0].lower()).group(1) in SBN)]
+for (sid, w), got in sorted(shots.items()):
+    n = SBN[sid]; dst = os.path.join(OUT, 'sb_%s_%s.mp4' % (sid, w))
+    if len(got) < n: print('  ..    %s %s: %d of %d shots in - waiting for the rest' % (sid, w, len(got), n)); continue
+    if os.path.isfile(dst) and os.path.getmtime(dst) >= max(os.path.getmtime(os.path.join(a.src, g)) for g in got.values()): print('  have  sb_%s_%s' % (sid, w)); continue
+    ins = []; flt = []
+    for i in range(1, n + 1):
+        ins += ['-i', os.path.join(a.src, got[i])]
+        flt.append('[%d:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,setsar=1,fps=24,fade=t=in:st=0:d=0.25[v%d]' % (i - 1, i - 1))
+    flt.append(''.join('[v%d]' % i for i in range(n)) + 'concat=n=%d:v=1:a=0[out]' % n)
+    r = subprocess.run([FF, '-y', '-loglevel', 'error'] + ins + ['-filter_complex', ';'.join(flt), '-map', '[out]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '26', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', dst + '.tmp.mp4'])
+    if r.returncode: print('X   montage %s %s' % (sid, w)); continue
+    os.replace(dst + '.tmp.mp4', dst); print('OK  sb_%s_%s.mp4  <- %d shots joined  %.1f MB' % (sid, w, n, os.path.getsize(dst) / 1e6))
 pairs = []; loose = []
 for f in files:
     i = match(f)
