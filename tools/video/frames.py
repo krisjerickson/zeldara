@@ -3,8 +3,11 @@ cut-scene clips, ready to drop into a video app — every clip's painted panel (
 (the middle, a little above centre, where the faces usually are) → sprites/video_frames/<id>.png, plus <id>.txt with the words to paste.
 A frame already there is kept. Clips whose panel is not painted yet are listed.
   python tools/video/frames.py            [--wave N]"""
-import os, sys, json, argparse
-from PIL import Image
+import os, sys, json, argparse, shutil, subprocess
+try: from PIL import Image                                   # Pillow if it is there; otherwise ffmpeg (as for the audio) does the crop
+except ImportError: Image = None
+FF = shutil.which('ffmpeg')
+if Image is None and not FF: sys.exit('Needs Pillow (pip install pillow) or ffmpeg (as for the audio intake).')
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 ap = argparse.ArgumentParser(); ap.add_argument('--wave', type=int); a = ap.parse_args()
 REQ = os.path.join(ROOT, 'sprites', 'requests', 'video.json')
@@ -18,8 +21,13 @@ for c in C:
     with open(os.path.join(OUT, c['id'] + '.txt'), 'w', encoding='utf-8') as f:
         f.write('CLIP  %s   (wave %d)\nPLAYS %s\nSAVE AS  %s.mp4\n\nPROMPT\n%s\n\nNEGATIVE PROMPT (if the app has the box)\n%s\n' % (c['id'], c['wave'], c.get('where', ''), c['id'], c['request'], c.get('neg', '')))
     if os.path.isfile(dst): have += 1; continue
-    im = Image.open(src).convert('RGB'); w, h = im.size; th = round(w * 9 / 16)
-    if th < h: top = max(0, min(h - th, round((h - th) * 0.4))); im = im.crop((0, top, w, top + th))
-    im.save(dst); made += 1; print('  +  %s.png' % c['id'])
+    if Image is not None:
+        im = Image.open(src).convert('RGB'); w, h = im.size; th = round(w * 9 / 16)
+        if th < h: top = max(0, min(h - th, round((h - th) * 0.4))); im = im.crop((0, top, w, top + th))
+        im.save(dst)
+    else:                                                    # the same crop: full width, 16:9 high, 40% of the spare height above
+        r = subprocess.run([FF, '-y', '-loglevel', 'error', '-i', src, '-vf', "crop=iw:trunc(iw*9/16/2)*2:0:(ih-trunc(iw*9/16/2)*2)*0.4", '-frames:v', '1', dst])
+        if r.returncode: print('X   ' + c['id']); continue
+    made += 1; print('  +  %s.png' % c['id'])
 print('\n%d new frame(s), %d already there  ->  %s' % (made, have, OUT))
 if wait: print('Not painted yet (round 78): ' + ', '.join(wait))

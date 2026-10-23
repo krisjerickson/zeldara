@@ -11,7 +11,8 @@ param([switch]$Intake, [int]$Wave = 0)
 Set-Location (Join-Path $PSScriptRoot '..\..')
 if (-not $Intake) {
   if ($Wave -gt 0) { python tools/video/frames.py --wave $Wave } else { python tools/video/frames.py }
-  if ($LASTEXITCODE -eq 0) { Start-Process explorer.exe (Resolve-Path sprites\video_frames) }
+  if ($LASTEXITCODE -ne 0) { Write-Host "`nThe frames were not made (see the error above)." -ForegroundColor Red; exit 1 }
+  Start-Process explorer.exe (Resolve-Path sprites\video_frames)
   Write-Host "`nMake the clips in the video app, then run:  .\tools\video\video1.ps1 -Intake" -ForegroundColor Green
   exit 0
 }
