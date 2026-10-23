@@ -42,9 +42,22 @@ var ZVCLIP={
          2:['pn_lines_life','pn_build_mira','pn_build_dunn','pn_twin_teach_m','pn_twin_teach_f','pn_saga_orbs'],
          3:['pn_saga_storm_b','pn_saga_basket','pn_saga_sendoff','pn_saga_ashnight_b','pn_saga_stonefall_b','pn_saga_blacktide_b','pn_fh_shards','pn_fh_gods','pn_end_gods_lead','pn_cel_feast','pn_cel_children']},
   // where each one plays (for the Lab and the doc): the cut-scene set that shows the panel
-  WHERE:{pn_forges_lodestar:'the moment the Lodestar is first made (16u: when it first comes into your hands)'},
+  WHERE:{pn_forges_lodestar:'the moment the Lodestar is first made at the great hearth (when it first comes into your hands)',
+    pn_binders_free:'the first spirit you free (then the line of light)', pn_lines_life:'the first spirit you free, after the chains fall',
+    pn_build_bram:'freeing Bram — the Silverrun bridge', pn_build_mira:'freeing Mira — the lift up the Great Scar', pn_build_dunn:'freeing Dunn — the Cinder Chasm bridge',
+    pn_twin_teach_m:'the twin\'s lesson — Godsbane (you play Zeldor)', pn_twin_teach_f:'the twin\'s lesson — Godsbane (you play Zeldara)',
+    pn_fh_cast_twins:'the feast hall — the twins cast Godsbane together', pn_world_tree:'all forty spirits free, after the end',
+    pn_saga_orbs:'the thirtieth spirit — a glimpse of the orbs', pn_saga_storm_b:'the opening — the storm', pn_saga_basket:'the opening — the basket on the lake',
+    pn_saga_sendoff:'the opening — the village sends you out', pn_saga_ashnight_b:'the Ashlands\' first freed spirit — the Ash Night',
+    pn_saga_stonefall_b:'the Highlands\' first freed spirit — the Stone-Fall', pn_saga_blacktide_b:'the Wetlands\' first freed spirit — the Black Tide',
+    pn_fh_shards:'the feast hall — the orbs burst', pn_fh_gods:'the feast hall — Odin and Freya free', pn_end_gods_lead:'the gods lead you home',
+    pn_cel_feast:'the celebration — the feast', pn_cel_children:'the celebration — the children'},
+  // round 73b (Kris: "we have few enough videos we don't need to use an api, i can hand place the requests"): made by hand in a video app —
+  // the first frame from tools/video/frames.py (sprites\video_frames\<id>.png), the words from the Lab (Cut-scene clips), the download
+  // renamed <id>.mp4 or matched by tools/video/intake_video.py. NEG: for the apps with a "negative prompt" box.
+  NEG:'text, captions, subtitles, logos, watermark, extra people, new characters, face changes, distorted hands, camera cuts, scene change, photorealism, 3D render look, style change, flicker',
   request:function(id){ var m=ZVCLIP.CLIPS[id]; return m?ZVCLIP.DEF+m:null; },
-  all:function(){ var out=[]; Object.keys(ZVCLIP.WAVES).forEach(function(w){ ZVCLIP.WAVES[w].forEach(function(id){ out.push({id:id,wave:+w,request:ZVCLIP.request(id),frame:'assets/scenery/rooms/'+id+'.webp',where:ZVCLIP.WHERE[id]||''}); }); }); return out; }
+  all:function(){ var out=[]; Object.keys(ZVCLIP.WAVES).forEach(function(w){ ZVCLIP.WAVES[w].forEach(function(id){ out.push({id:id,wave:+w,request:ZVCLIP.request(id),frame:'assets/scenery/rooms/'+id+'.webp',where:ZVCLIP.WHERE[id]||'',neg:ZVCLIP.NEG,motion:ZVCLIP.CLIPS[id]}); }); }); return out; }
 };
 // the player's side (16p): a clip for this panel, if it is in
 var ZVID={ on:true, sound:false,

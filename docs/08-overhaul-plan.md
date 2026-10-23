@@ -204,10 +204,10 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ### Round 73b (Oct 22) — the cut-scene clips (docs/34)
 - Found while researching C1: OpenAI's Sora API shut down on Sept 24, 2026, so Kris's OpenAI key cannot make video; Google's Veo 3.1 preview ids end Oct 22; Google's Gemini Omni 1.1 Flash (GA Aug 27) takes the panel as the first frame (~$0.10/s at 720p, ~$0.035/s at 360p). The script (`tools/video/clips.py`, `video1.ps1`) is written for it; the player already plays a clip in place of a panel.
-- V1 — Which service makes the clips? (Gemini Omni Flash — needs a Gemini API key on a paid Google project — recommended / Kling via fal.ai / Runway) — *asked, awaiting answer*
-- V2 — Sound: the clips silent under the game's music (recommended) / keep the clip's own sound? — *asked, awaiting answer*
-- V3 — The 5-clip pilot at 720p (~$4) or 360p drafts first (~$1.40)? — *asked, awaiting answer*
-- V4 — After the pilot: every panel (~75, ~$60 at 720p) or only the big moments (~22, ~$18)? — *asked, awaiting answer*
+- V1 — Which service makes the clips? **Answered: by hand, no API** — "we have few enough videos we don't need to use an api, i can hand place the requests. how does this change the recommendations?" → doc 34 rewritten: a video app by hand (Kling ~$10/month, Google Flow/Gemini with AI Pro ~$20, Runway ~$15; try the first pilot clip in two), `video1.ps1` makes the 16:9 first frames + the words, `-Intake` takes the downloads in; the Lab's **Cut-scene clips** tab has the queue with Copy buttons.
+- V2 — Sound: **no preference** → silent under the game's music.
+- V3 — The pilot's quality: **no preference** → the app's normal quality (720p or better).
+- V4 — After the pilot: **no preference** → decide after the pilot.
 
 ### Round 73 (Oct 22, night) — the saga feedback; cut-scenes
 - Kris: "The saga feedback is in, and we likely need to prep for actual cut-scenes instead of just the images. but we should start with the missing images". His notes (Lab → The saga, end to end): the Ash Night / Black Tide / Stone-Fall panels with the **first** freed spirit of their realm (not the 10th); "great scar", not "scarp"; **three separate cut-scenes**, one per builder who unlocks the next section; the bound spirits' cut-scene image is missing; the forges and the Lodestar as a cut-scene (propose a place); a simple soul-lines cut-scene when a spirit is freed that implies life will return (rune lines turning to paths and grass); **the other twin teaches Godsbane** (not the spirits) and studies the old texts the whole game; at the orbs the second twin comes to cast Godsbane with you — the image remade with Zeldara the same size as Zeldor; the World Tree is the final result: once the Bifröst has been remade, a massive World Tree seen in the lake's waters "like a tattoo under the water".
@@ -973,5 +973,5 @@ Rough total if everything is approved: 36–54 sessions (est.).
 ## Round 73 (Kris, Oct 21–22) — the audio in; the saga feedback; the cut-scene clips
 - Kris: "audio is in!" → 71 cues, 142 takes wired through the game (27z ZAHOOK; changelog [742]). Then: "The saga feedback is in, and we likely need to prep for actual cut-scenes instead of just the images. but we should start with the missing images" → asked C1–C3 (Open questions › Round 73, answered).
 - Built while he slept: round 78's 13 pictures ordered (`tools/sprites/round78.ps1`, wave 84); the saga map rewritten to his notes (07zst); the realm panels with the first freed spirit; "Great Scar"; the other twin studies in the village and teaches Godsbane once the Lodestar is whole, the notch waits for the word, the twin casts with you in the feast hall (16u); the three builders', the first spirit's and the Lodestar's moments; the World Tree after the end with all forty; the clip pipeline and player (docs/34). Changelog [743]–[746]. Tests: `tests/test_round73b.py` (12).
-- **Next:** Kris runs `round78.ps1`; answers V1–V4; then `tools/video/video1.ps1` for the pilot.
+- **Next:** Kris runs `round78.ps1`; then `.\tools\video\video1.ps1` (the first frames) and makes the pilot clips by hand (Lab → Cut-scene clips); `video1.ps1 -Intake` takes them in.
 

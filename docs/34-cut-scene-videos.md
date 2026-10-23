@@ -4,34 +4,25 @@ Kris, round 73: *"we likely need to prep for actual cut-scenes instead of just t
 Answer C1 (docs/08 › Open questions › Round 73): **short AI video clips**. The images come first (round 78, 13 pictures); each painted
 panel then becomes the **first frame** of a short clip that brings it to life.
 
-## 1. What changed in the field (checked Oct 21, 2026)
+## 1. Made by hand (round 73b)
 
-| Option | Image → video | Rough price | Notes |
+Kris, round 73b: *"we have few enough videos we don't need to use an api, i can hand place the requests."* So the clips are made in a
+video app by hand, like the Suno music: no key, no script sending anything. (For the record: OpenAI's Sora API shut down on Sept 24,
+2026, and Google's Veo 3.1 preview ids end Oct 22 — an API route would have meant Google's Gemini Omni Flash; `tools/video/clips.py`
+stays in the repo for that, unused.)
+
+**Which app** (consumer plans, prices checked Oct 2026; no review tests animating paintings, so try the pilot's first clip in two apps
+and keep the better):
+
+| App | Plan | Good at | Notes |
 |---|---|---|---|
-| **OpenAI Sora 2 API** | — | — | **Shut down Sept 24, 2026** (the app closed Apr 26). Kris's OpenAI key cannot make video any more. |
-| Google Veo 3.1 (Gemini API, preview ids) | first + last frame | $0.05–0.40/s | The preview ids **shut down Oct 22, 2026**; Google points to Gemini Omni Flash. |
-| **Google Gemini Omni 1.1 Flash** (GA Aug 27, 2026) — *recommended* | first frame, optional last frame, 16:9 or 9:16 | ~$0.10/s at 720p, ~$0.035/s at 360p (drafts) | Paid tier only (no free tier), SynthID watermark, extensions up to 40 s. One request per clip. |
-| Kling v3 (through fal.ai) | first + end frame | ~$0.08–0.11/s (sound extra) | A second key (fal.ai). Good motion. |
-| Runway Gen-4 Turbo | first frame, 5 or 10 s | ~$0.05/s | Silent. Runway's own API key and credits. |
+| **Kling** (3.0) | Standard ~$10/month (660 credits); Pro ~$37 | keeping faces steady; start image; a negative-prompt box | free tier is watermarked; paid exports clean; credits per clip vary by length and quality — check before a big wave |
+| **Google Flow / Gemini app** (Veo 3.1, Omni Flash) | with Google AI Pro ~$20/month | sticking closely to the start image; first and last frame (Omni) | every clip carries Google's invisible SynthID mark |
+| **Runway** (Gen-4.5) | Standard ~$15/month | steady shots | 2–10 s clips |
 
-Prices are as published by Google and resellers in Sept–Oct 2026; check the pricing page before a big wave.
+22 clips at about 8 s fit easily in one month of any of these.
 
-**Recommendation: Gemini Omni 1.1 Flash.** It is on Google's main API, takes the panel as the first frame, is cheap enough to
-draft at 360p, and the script is already written for it. Kris needs a **Gemini API key** from Google AI Studio on a project with billing
-turned on (the key stays with Kris — read in the PowerShell window, never written to disk).
-
-## 2. Cost
-
-About 8 seconds a clip:
-
-| Wave | Clips | 720p | 360p draft |
-|---|---|---|---|
-| 1 — the pilot | 5 | ~$4 | ~$1.40 |
-| 2 — the rest of round 73's moments | 6 | ~$5 | ~$1.70 |
-| 3 — the opening, the realms, the feast hall, the celebration | 11 | ~$9 | ~$3 |
-| Every panel in the game (about 75) | — | ~$60 | ~$21 |
-
-## 3. Where the clips play
+## 2. Where the clips play
 
 - **In place of the panel**, everywhere a cut-scene shows one (16p ZCUT: the bosses' changes, the saga, the last saga). The line is
   shown under it as before; the next panel follows when the clip ends (or on a click / Enter); Skip still skips.
@@ -42,17 +33,19 @@ About 8 seconds a clip:
   into your hands) — the first of the pilot clips.
 - `?video=0` turns clips off (to compare with the stills).
 
-## 4. The pipeline
+## 3. The pipeline (by hand)
 
-1. **The motion** — `src/js/07zvc-video-clips.js`: `ZVCLIP.DEF` (what every clip keeps: the painting, the faces, one shot, no text) and
-   `ZVCLIP.CLIPS` (per panel: how it moves). `build.mjs` exports `sprites/requests/video.json`.
-2. **Make** — `tools/video/clips.py` (Python + Pillow): crops the panel (`assets/scenery/rooms/<id>.webp`, 3:2) to 16:9, sends it as
-   the first frame with the motion text to Gemini Omni Flash, saves `sprites/video_incoming/<id>.mp4`. A clip already there is skipped
-   (nothing is paid for twice). `--dry-run` shows what would be sent and the rough cost.
-3. **Take in** — `tools/video/intake_video.py` (ffmpeg): 1280 wide, H.264, CRF 26, fast start, no sound → `assets/video/<id>.mp4`
-   (about 1–2 MB a clip).
-4. **Build** — `build.mjs` lists `assets/video` into the page (`ZVIDEO_INDEX`) and copies the clips to `dist/play*/assets/video`.
-5. Kris runs it all with **`.\tools\video\video1.ps1`** (wave 1; `-Res 360p` for drafts; `-Wave 2` for the next).
+1. **The motion** — `src/js/07zvc-video-clips.js`: `ZVCLIP.DEF` (what every clip keeps: the painting, the faces, one shot, no text),
+   `ZVCLIP.CLIPS` (per panel: how it moves), `ZVCLIP.NEG` (a negative prompt for apps that have the box), `WHERE` (where each plays),
+   `WAVES`. `build.mjs` exports `sprites/requests/video.json`.
+2. **The first frames** — `.\tools\video\video1.ps1` (`tools/video/frames.py`): every clip's panel cropped to 16:9 →
+   `sprites\video_frames\<id>.png`, with `<id>.txt` beside it (where it plays, the file name, the prompt, the negative prompt); opens the folder.
+3. **Make them** in the app: the frame as the start image, the prompt (from the `.txt` or the Lab's **Cut-scene clips** tab, Copy
+   buttons), 16:9, about 8 s; download.
+4. **Take in** — `.\tools\video\video1.ps1 -Intake` (`tools/video/intake_video.py --from Downloads --ask`): a file whose name holds a
+   clip id is matched; any other video from the last two days is shown and you type which clip it is. ffmpeg → 1280 wide, H.264, no sound
+   → `assets/video/<id>.mp4` (about 1–2 MB). Then the build lists `assets/video` into the page (`ZVIDEO_INDEX`) and copies the clips to
+   `dist/play*/assets/video`.
 
 The waves (07zvc `WAVES`):
 
@@ -62,11 +55,9 @@ The waves (07zvc `WAVES`):
 
 Waves 1–2 need round 78's pictures first (`.\tools\sprites\round78.ps1`); wave 3 can go now.
 
-## 5. Questions (docs/08 › Open questions › Round 73b)
+## 4. Decisions (docs/08 › Open questions › Round 73b)
 
-- **V1** Which service: Gemini Omni Flash (recommended) / Kling via fal.ai / Runway?
-- **V2** Sound: clips silent under the music (recommended) / keep the clip's own sound?
-- **V3** The pilot at 720p (~$4) or as 360p drafts first (~$1.40)?
-- **V4** After the pilot: every panel, or only the big moments?
+- **V1** By hand, no API (Kris). The app: his choice — try the first pilot clip in two.
+- **V2–V4** No preference → silent under the music; the pilot at the app's normal quality (720p or better); decide the rest after the pilot.
 
 Tests: `tests/test_round73b.py` (a clip plays in place of the still, muted, with its line; a broken clip falls back to the picture).

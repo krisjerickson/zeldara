@@ -1,24 +1,20 @@
-# Zeldara round 73 (answer C1): THE FIRST CUT-SCENE CLIPS - wave 1, the pilot (5 clips): the Lodestar made, the chains falling away,
-# Bram's bridge, the twins casting Godsbane, the World Tree under the lake. Each starts from its painted panel, so run round78.ps1 first
-# (and tell Claude the images are in) - a clip whose panel is not in yet is skipped.
-# A clip already in sprites\video_incoming is skipped, so nothing is paid for twice - it is safe to run this again to retry.
-# Run from PowerShell:
+# Zeldara round 73b: THE CUT-SCENE CLIPS, MADE BY HAND (Kris: "we have few enough videos we don't need to use an api, i can hand place
+# the requests"). No key, nothing sent from here.
 #   cd C:\Claude\games\Zeldara-v4
-#   .\tools\video\video1.ps1                (or:  .\tools\video\video1.ps1 -Res 360p   for cheap drafts)
-# The key is a Google AI Studio (Gemini API) key on a paid project. It is read from this window and never written to disk.
-param([string]$Res = '720p', [int]$Wave = 1)
+#   .\tools\video\video1.ps1            1) makes the first frames (sprites\video_frames\<id>.png, 16:9) with <id>.txt beside each
+#                                          (the words to paste) and opens the folder
+#   .\tools\video\video1.ps1 -Intake    2) after you have downloaded the clips: takes them in from your Downloads, then builds
+# In the video app: start image = the frame, prompt = the PROMPT in the .txt (or the Copy box in the Lab, tab "Cut-scene clips"),
+# 16:9, about 8 seconds; download, and name the file <id>.mp4 (or leave the name - step 2 asks which clip each new video is).
+# Wave 1 (the pilot, 5 clips) needs round 78's pictures first (.\tools\sprites\round78.ps1) - until then its frames are listed as missing.
+param([switch]$Intake, [int]$Wave = 0)
 Set-Location (Join-Path $PSScriptRoot '..\..')
-Write-Host "`n1/3  What will be sent (nothing is sent in this step):" -ForegroundColor Cyan
-python tools/video/clips.py --wave $Wave --res $Res --dry-run
-if ($LASTEXITCODE -ne 0) { exit 1 }
-if (-not $env:GEMINI_API_KEY) {
-  $k = Read-Host 'Paste your Gemini API key (it stays in this window only)'
-  if (-not $k) { Write-Host 'No key given - stopping.'; exit 1 }
-  $env:GEMINI_API_KEY = $k.Trim()
+if (-not $Intake) {
+  if ($Wave -gt 0) { python tools/video/frames.py --wave $Wave } else { python tools/video/frames.py }
+  if ($LASTEXITCODE -eq 0) { Start-Process explorer.exe (Resolve-Path sprites\video_frames) }
+  Write-Host "`nMake the clips in the video app, then run:  .\tools\video\video1.ps1 -Intake" -ForegroundColor Green
+  exit 0
 }
-Write-Host "`n2/3  Wave $Wave - sending (each clip takes a minute or two):" -ForegroundColor Cyan
-python tools/video/clips.py --wave $Wave --res $Res
-Write-Host "`n3/3  Taking the clips in:" -ForegroundColor Cyan
-python tools/video/intake_video.py
-node build.mjs | Select-String 'video|minified game'
-Write-Host "`nDone. Tell Claude the clips are in. (Lines starting with an X failed - run this script again to retry.)" -ForegroundColor Green
+python tools/video/intake_video.py --from "$env:USERPROFILE\Downloads" --ask
+node build.mjs | Select-String 'video|index.html'
+Write-Host "`nDone. Tell Claude the clips are in." -ForegroundColor Green
