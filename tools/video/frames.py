@@ -1,7 +1,7 @@
 """Round 73b (Kris: "we have few enough videos we don't need to use an api, i can hand place the requests"): the first frames for the
 cut-scene clips, ready to drop into a video app — every clip's painted panel (assets/scenery/rooms/<id>.webp, 3:2) cropped to 16:9
 (the middle, a little above centre, where the faces usually are) → sprites/video_frames/<id>.png, plus <id>.txt with the words to paste.
-A frame already there is kept. Clips whose panel is not painted yet are listed.
+A frame already there is kept (unless its panel was painted again since). Clips whose panel is not painted yet are listed.
   python tools/video/frames.py            [--wave N]"""
 import os, sys, json, argparse, shutil, subprocess
 try: from PIL import Image                                   # Pillow if it is there; otherwise ffmpeg (as for the audio) does the crop
@@ -20,7 +20,7 @@ for c in C:
     if not os.path.isfile(src): wait.append(c['id']); continue
     with open(os.path.join(OUT, c['id'] + '.txt'), 'w', encoding='utf-8') as f:
         f.write('CLIP  %s   (wave %d)\nPLAYS %s\nSAVE AS  %s.mp4\n\nPROMPT\n%s\n\nNEGATIVE PROMPT (if the app has the box)\n%s\n' % (c['id'], c['wave'], c.get('where', ''), c['id'], c['request'], c.get('neg', '')))
-    if os.path.isfile(dst): have += 1; continue
+    if os.path.isfile(dst) and os.path.getmtime(dst) >= os.path.getmtime(src): have += 1; continue      # a repainted panel makes a new frame
     if Image is not None:
         im = Image.open(src).convert('RGB'); w, h = im.size; th = round(w * 9 / 16)
         if th < h: top = max(0, min(h - th, round((h - th) * 0.4))); im = im.crop((0, top, w, top + th))
