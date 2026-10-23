@@ -15,6 +15,13 @@ Kris: "the videos are coming along, but we need to make them tell the story a bi
 
 **Every request** keeps the game's look (the panel style references, the character and model sheets) and adds Kris's epic touch: neon rune-glow, the northern lights at night and dusk, now and then a shooting star. No old picture is changed.
 
+**Making the montages (round 79b):**
+
+1. `.\tools\video\storyboards.ps1` puts the frames in `sprites\storyboards\<cut-scene>\<zeldor|zeldara|all>\`, in order and cropped to 16:9, with `montage.txt` beside them, and opens the folder. Run it again as more pictures arrive.
+2. In the video app, attach the folder's pictures in order and paste the VIDEO prompt from `montage.txt`. Save the clip as `<cut-scene>_<who>.mp4` (for example `spirit_zeldor.mp4`).
+3. If the app takes fewer pictures at once, make one clip per shot instead, named `<cut-scene>_<who>_<nn>.mp4`.
+4. `.\tools\video\video1.ps1 -Intake` takes the montages in, joining the shots where needed, as `assets/video/sb_<cut-scene>_<who>.mp4`.
+
 **Next, once the pictures are in:**
 
 1. The frames go to the video app as one montage clip per cut-scene.
