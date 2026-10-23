@@ -29,4 +29,11 @@ foreach ($w in $waves) {
   Write-Host "`nWave $w - sending:" -ForegroundColor Cyan
   node tools/sprites/generate.mjs --set scenery --wave $w --concurrency 3
 }
-Write-Host "`nDone. Tell Claude the round 79 pictures are in. (Lines starting with an X failed - run this script again to retry.)" -ForegroundColor Green
+# a second pass: anything that failed (a hiccup, or the API credit running out) is tried again; then what is still missing, per wave
+Write-Host "`nSecond pass - retrying anything that failed:" -ForegroundColor Cyan
+foreach ($w in $waves) { node tools/sprites/generate.mjs --set scenery --wave $w --concurrency 3 | Select-String 'request\(s\) to send|^Done' }
+Write-Host "`nWhere each wave stands:" -ForegroundColor Cyan
+$left = 0
+foreach ($w in @(85, 86, 87, 88, 89)) { $line = node tools/sprites/generate.mjs --set scenery --wave $w --dry-run | Select-Object -First 1; Write-Host "  wave $w  $line"; if ($line -match '^(\d+) request') { $left += [int]$Matches[1] } }
+if ($left -gt 0) { Write-Host "`n$left picture(s) still to make - run  .\tools\sprites\round79.ps1  again (it only sends what is missing)." -ForegroundColor Yellow }
+else { Write-Host "`nAll 352 story pictures are in. Tell Claude the round 79 pictures are in." -ForegroundColor Green }

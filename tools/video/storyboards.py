@@ -17,6 +17,7 @@ IN = os.path.join(ROOT, 'sprites', 'incoming'); OUT = os.path.join(ROOT, 'sprite
 ap = argparse.ArgumentParser(); ap.add_argument('--scene'); a = ap.parse_args()
 J = json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'storyboards.json'), encoding='utf-8'))
 SECS = 5      # about how long each mini scene runs
+TW, TH = 640, 360      # a frame on the Lab's sheet (round 79b: big enough to look at)
 
 def crop169(src):
     im = Image.open(src).convert('RGB'); w, h = im.size; th = round(w * 9 / 16)
@@ -39,7 +40,7 @@ def montage_text(sc, who, beats):
     return '\n'.join(L) + '\n'
 
 def contact(sc, frames):
-    n = len(frames); cols = 4 if n > 9 else 3; rows = (n + cols - 1) // cols; tw, th = 384, 216
+    n = len(frames); cols = 4 if n > 9 else 3; rows = (n + cols - 1) // cols; tw, th = TW, TH
     sheet = Image.new('RGB', (cols * tw, rows * th), (5, 7, 11)); d = ImageDraw.Draw(sheet)
     for i, (num, path) in enumerate(frames):
         x, y = (i % cols) * tw, (i // cols) * th
@@ -49,6 +50,7 @@ def contact(sc, frames):
     return sheet
 
 os.makedirs(PREV, exist_ok=True); made = have = 0; report = []
+IX = os.path.join(PREV, 'index.json'); INDEX = json.load(open(IX)) if os.path.isfile(IX) else {}
 for sc in J['scenes']:
     if a.scene and sc['id'] != a.scene: continue
     versions = any(len(b['ids']) > 1 for b in sc['beats'])
@@ -61,9 +63,14 @@ for sc in J['scenes']:
             if os.path.isfile(dst) and os.path.getmtime(dst) >= os.path.getmtime(src): have += 1; continue
             crop169(src).save(dst); made += 1
         if got:
-            open(os.path.join(d, 'montage.txt'), 'w', encoding='utf-8').write(montage_text(sc, who, sc['beats']))
-            contact(sc, frames).save(os.path.join(PREV, '%s_%s.webp' % (sc['id'], who)), 'WEBP', quality=82)
+            open(os.path.join(d, 'montage.txt'), 'w', encoding='utf-8').write((sc.get('montage') or {}).get(who) or montage_text(sc, who, sc['beats']))
+            key = '%s_%s' % (sc['id'], who); src_mt = max(os.path.getmtime(p) for _, p in frames if p); sp = os.path.join(PREV, key + '.webp')
+            if not (os.path.isfile(sp) and INDEX.get(key, {}).get('n') == [x for x, p in frames if p] and os.path.getmtime(sp) >= src_mt):
+                contact(sc, frames).save(sp, 'WEBP', quality=80)
+            INDEX[key] = {'n': [x for x, p in frames if p], 'cols': 4 if len(frames) > 9 else 3, 'tw': TW, 'th': TH}
+            json.dump(INDEX, open(IX, 'w'), indent=0)      # kept as it goes (a long run can be stopped and started again)
         report.append('%-11s %-8s %2d of %2d frames%s' % (sc['id'], who, got, len(sc['beats']), '  ✓ ready' if got == len(sc['beats']) else ''))
+json.dump(INDEX, open(IX, 'w'), indent=0)      # which frames each Lab sheet holds (build.mjs puts it in the Lab)
 print('\n'.join(report))
 ready = sum(1 for r in report if 'ready' in r)
 print('\n%d new frame(s), %d already made; %d of %d montages ready  ->  %s' % (made, have, ready, len(report), OUT))

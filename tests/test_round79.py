@@ -26,14 +26,18 @@ with sync_playwright() as p:
         else: r.fulfill(status=404, body='')
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html?tabs=all"); pg.wait_for_timeout(2500)
     pg.evaluate("LTODO.goTo('storyb','.br-grid',0)"); pg.wait_for_timeout(3000)
-    t = pg.evaluate("""(()=>({cards:document.querySelectorAll('canvas.br-cv[data-tab="storyb"]').length, rows:document.querySelectorAll('.sb-t tbody tr').length, scenes:ZSB.SCENES.length,
+    t = pg.evaluate("""(()=>({cards:document.querySelectorAll('canvas.br-cv[data-tab="storyb"]').length, rows:document.querySelectorAll('.sbf').length, prompts:document.querySelectorAll('textarea[data-au^="sbp_"]').length, montages:document.querySelectorAll('textarea[data-au^="sbm_"]').length, canv:document.querySelectorAll('canvas.sbf-cv').length, scenes:ZSB.SCENES.length,
       beats:ZSB.SCENES.reduce(function(a,s){ return a+s.beats.length; },0), sizes:ZSB.SCENES.map(function(s){ return s.beats.length; }), caps:ZSB.SCENES.every(function(s){ return s.beats.every(function(b){ return b.cap&&b.cap.length>3; }); }),
       todo:LTODO.open().map(function(o){ return o.id; }).indexOf('storyb')>=0, builders:['bram','mira','dunn','vela'].every(function(id){ return ZSB.SCENES.some(function(s){ return s.id===id&&s.beats.length>=9; }); }),
       boss:['surt1','surt2','surt3','surt4','surt5','surt6','sol1','sol2','sol3'].every(function(id){ return ZSB.SCENES.some(function(s){ return s.id===id; }); })}))()""")
-    check('Lab -> Story cut-scenes: %d cut-scenes, %d frames, each scene a card and a table with a line per frame' % (t['scenes'], t['beats']), t['cards'] == t['scenes'] and t['rows'] == t['beats'] and t['caps'] and min(t['sizes']) >= 4 and max(t['sizes']) <= 12, t)
+    check('Lab -> Story cut-scenes: %d cut-scenes, %d frames — each scene a card, its montage video prompt(s), and every frame with its picture, line and picture prompt(s)' % (t['scenes'], t['beats']), t['cards'] == t['scenes'] and t['rows'] == t['beats'] and t['canv'] == t['beats'] and t['prompts'] == 352 and t['montages'] == 57 and t['caps'] and min(t['sizes']) >= 4 and max(t['sizes']) <= 12, t)
     check('The builders (all four) and every boss form are there; "read the story lines" waits in the picks', t['builders'] and t['boss'] and t['todo'], t)
     sp = pg.evaluate("(()=>{ var s=ZSB.SCENES.find(function(x){ return x.id==='spirit'; }); return s.beats.map(function(b){ return b.title; }); })()")
     check('The first spirit: toiling, you come, its struggle, the rune, your hand and blue eyes, the chains break, lines beneath you, home to the village (%s)' % ' / '.join(sp), len(sp) == 12 and 'Your hand on the stone' in sp and 'The chains break' in sp and 'Lines beneath your feet' in sp and 'Toward the village' in sp)
+    v = pg.evaluate("""(()=>{ var z=document.querySelector('.sbv-btn[data-v=zeldara]'); z.click(); var a=document.body.classList.contains('sb-zeldara'), vis=Array.from(document.querySelectorAll('textarea[data-au^="sbp_sb_spirit_05"]')).filter(function(t){ return t.closest('details').offsetParent!==null; }).map(function(t){ return t.dataset.au; });
+      document.querySelector('canvas.sbf-cv[data-sc="spirit"][data-i="4"]').click(); var big=!!document.querySelector('.sbf-big canvas'), cap=(document.querySelector('.sbf-bigcap')||{}).textContent; document.querySelector('.sbf-big').click();
+      document.querySelector('.sbv-btn[data-v=zeldor]').click(); return {zeldara:a, vis:vis, big:big, cap:cap, back:!document.body.classList.contains('sb-zeldara')}; })()""")
+    check('The Zeldor / Zeldara switch shows that version\'s prompts; a frame opens big with its line (%s)' % v['cap'], v['zeldara'] and v['vis'] == ['sbp_sb_spirit_05_f'] and v['big'] and 'eyes burned' in (v['cap'] or '') and v['back'], v)
     check('No Lab errors', not errs, errs[:3])
     b.close()
 print('\n%d/%d passed' % (sum(res), len(res)))

@@ -338,7 +338,18 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
   ZSB.NEG='text, captions, subtitles, logos, watermark, extra people, new characters, face changes, distorted hands, photorealism, 3D render look, style change, flicker';
   ZSB.export=function(){ var nm={m:'Zeldor',f:'Zeldara'}; return {neg:ZSB.NEG,scenes:ZSB.SCENES.map(function(s){ return {id:s.id,name:s.name,wave:s.wave,plays:s.plays,story:s.story,beats:s.beats.map(function(b){
       var f=function(k){ var o=k==='m'?'f':'m'; return b.desc.replace(/\{H\}/g,nm[k]).replace(/\{O\}/g,nm[o]).replace(/\{T\}/g,'the twins Zeldor and Zeldara').replace(/\{K\}/g,'the little twins'); };
-      return {n:b.n,who:b.who,title:b.title,cap:b.cap,ids:b.ids,m:f('m'),f:f('f')}; })}; })}; };
+      return {n:b.n,who:b.who,title:b.title,cap:b.cap,ids:b.ids,m:f('m'),f:f('f')}; }),montage:(function(){ var o={}; ZSB.whos(s).forEach(function(w){ o[w]=ZSB.montage(s,w); }); return o; })()}; })}; };
+  // ── round 79b: the montage words for the video app (tools/video/storyboards.py writes them as montage.txt; the Lab shows them) ──
+  ZSB.SECS=5;
+  ZSB.whos=function(sc){ return sc.beats.some(function(b){ return b.ids.length>1; })?['zeldor','zeldara']:['all']; };
+  ZSB.shot=function(b,who){ var nm={m:'Zeldor',f:'Zeldara'}, k=who==='zeldara'?'f':'m', o=k==='m'?'f':'m';
+    return b.desc.replace(/\{H\}/g,nm[k]).replace(/\{O\}/g,nm[o]).replace(/\{T\}/g,'the twins Zeldor and Zeldara').replace(/\{K\}/g,'the little twins'); };
+  ZSB.montage=function(sc,who){ var n=sc.beats.length, L=['CUT-SCENE  '+sc.name+'  ('+sc.id+(who==='all'?'':', you play '+who.charAt(0).toUpperCase()+who.slice(1))+')','PLAYS  '+sc.plays,'','STORY',sc.story,'',
+      'VIDEO (paste this as the prompt, with the '+n+' pictures attached in order)',
+      'One continuous montage of '+n+' mini scenes, 16:9, about '+(n*ZSB.SECS)+' seconds in all. Each attached picture, in order, is the first frame of its own mini scene of about '+ZSB.SECS+' seconds; each mini scene moves gently from its picture (a slow camera move; cloth, hair, mist, fire and light moving; magic glowing and flowing), then a soft quick cut or cross-fade into the next. Keep every painting\'s style, colours and light exactly; the characters keep the same faces, clothes and proportions from shot to shot. No text, no captions, no logos.','','SHOTS'];
+    sc.beats.forEach(function(b,i){ L.push((i<9?' ':'')+(i+1)+'. '+('0'+b.n).slice(-2)+'.png  '+b.title+' — '+ZSB.shot(b,who).replace(/\.$/,'')+'.   Line under it: '+b.cap); });
+    L.push('','NEGATIVE PROMPT (if the app has the box)',ZSB.NEG,'','If the app cannot take all '+n+' pictures at once: make each shot as its own clip from its picture (about '+ZSB.SECS+' s, the shot\'s words as the prompt) and save them as '+sc.id+'_'+who+'_<nn>.mp4 — the intake joins them into one montage.');
+    return L.join('\n')+'\n'; };
   // ── the sheets for the painting script (generate.mjs --set scenery --wave 85…89) ──
   if(typeof ZSCN==='undefined')return;
   Object.keys(ZSB.WAVES).forEach(function(w){ ZSCN.WAVES[w]='Round 79 — '+ZSB.WAVES[w]; });

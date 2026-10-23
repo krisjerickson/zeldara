@@ -122,7 +122,8 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   // The index goes into the Lab's code; the pages are copied next to the Lab (lab/preview/) and loaded from there.
   let previews = {}; try { previews = JSON.parse(r('sprites/preview/index.json')); for (const id of Object.keys(previews)) if (!incoming.includes(id)) incoming.push(id);
     fs.mkdirSync(path.join(ROOT, 'lab/preview'), { recursive: true }); for (const f of fs.readdirSync(path.join(ROOT, 'sprites/preview')).filter(f => /\.webp$/.test(f))) fs.copyFileSync(path.join(ROOT, 'sprites/preview', f), path.join(ROOT, 'lab/preview', f)); } catch (e) {}
-  const labJs = minify(shared + 'var ZSCN_META=' + scnMeta + ';\n' + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
+  let sbSheets = '{}'; try { sbSheets = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/storyboards/index.json'), 'utf8'))); } catch (e) {}   // round 79b: the story frames' sheets (tools/video/storyboards.py)
+  const labJs = minify(shared + 'var ZSCN_META=' + scnMeta + ';\n' + 'var ZSB_SHEETS=' + sbSheets + ';\n' + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
   if (/<\/script>/i.test(labJs)) throw new Error('Literal </script> in lab JS');
   const labRaw = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs), lab = withEngine(labRaw, ENGINE_ARG, false);
   if (process.argv.includes('--check')) {
