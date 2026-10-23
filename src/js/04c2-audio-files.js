@@ -33,7 +33,9 @@ var ZAUDIO={ on:true, BASE:'assets/audio/', idx:null, buf:{}, loading:{}, mus:nu
   // an effect or stinger: true when a file played it
   play:function(id,o){ o=o||{}; if(!ZAUDIO.on||!ZAUDIO.has(id)||(typeof ZSFX!=='undefined'&&ZSFX.muted))return false; var a=ZAUDIO.ctx(); if(!a)return false; var F=ZAUDIO.idx[id].files, k=(ZAUDIO._var[id]=((ZAUDIO._var[id]||0)+1)%F.length), f=F[k], d=ZAUDIO.buffer(f);
     if(!d){ var t0=Date.now(); F.forEach(function(x,i){ ZAUDIO.buffer(x,i===k?function(){ if(Date.now()-t0<350&&!o._late){ o._late=1; ZAUDIO.play(id,o); } }:null); }); return false; }      /* the first time: its takes are fetched now; if this one arrives within 0.35 s it still plays */
-    var s=a.createBufferSource(), g=a.createGain(); s.buffer=d; s.playbackRate.value=o.pitch||(0.95+Math.random()*0.1); g.gain.value=o.vol||1; s.connect(g); g.connect(ZAUDIO.bus[ZAUDIO.idx[id].kind==='sting'?'music':'sfx']); s.start();
+    var s=a.createBufferSource(), g=a.createGain(); s.buffer=d; s.playbackRate.value=o.pitch||(0.95+Math.random()*0.1); g.gain.value=o.vol||1; var out=ZAUDIO.bus[ZAUDIO.idx[id].kind==='sting'?'music':'sfx'];
+    if(o.lp){ var lp=a.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=o.lp; lp.Q.value=0.5; s.connect(lp); lp.connect(g); } else s.connect(g);      /* round 80: o.lp muffles a harsh take (ZAUD.SOFT) */
+    g.connect(out); s.start();
     if(ZAUDIO.idx[id].kind==='sting')ZAUDIO.duck(d.duration); return true; },
   duck:function(sec){ var g=ZAUDIO.bus&&ZAUDIO.bus.music, a=ZAUDIO.ctx(); if(!g||!a||!ZAUDIO.mus)return; var t=a.currentTime; g.gain.cancelScheduledValues(t); g.gain.setTargetAtTime(ZAUDIO.vol.music*0.35,t,0.08); g.gain.setTargetAtTime(ZAUDIO.vol.music,t+sec,0.6); },
   // ── music: a streamed piece, looped by two elements taking turns ──

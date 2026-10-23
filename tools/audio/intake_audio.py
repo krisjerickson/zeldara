@@ -43,6 +43,7 @@ def main():
             shutil.copy2(os.path.join(FROM, f), dst); got += 1; print('← %s' % f)
         print('%d file(s) taken from %s' % (got, FROM))
     files = sorted(f for f in os.listdir(INC) if re.search(r'\.(wav|mp3|ogg|flac|m4a)$', f, re.I)) if os.path.isdir(INC) else []
+    files = [f for f in files if not re.search(r'\.e\d\.\w+$', f) and '.prev.' not in f]      # round 80: the ethereal options wait for Kris's pick in the Lab
     done = 0
     for f in files:
         m = re.match(r'^([a-z0-9_]+?)(?:\.([b-d]))?(?:\.prev)?\.(wav|mp3|ogg|flac|m4a)$', f, re.I)

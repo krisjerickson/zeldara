@@ -15,6 +15,8 @@
 //   --concurrency 2     requests in flight at once
 //   --force             redo a sound whose file already exists (the old one is kept as .prev.mp3)
 //   --dry-run           print the plan and the credits, send nothing
+//   --set ethereal      round 80: the gentle, ethereal remake of every effect (07zau2-ethereal.js) — two options each, saved beside
+//                       today's as <id>.e1.mp3 / <id>.e2.mp3 (they stay out of the game until picked in the Lab); implies --kind sfx --tier all
 // It is safe to stop and restart: a sound whose file already exists is skipped (nothing is paid for twice).
 // The key is read from the environment only. It is never written to disk or printed.
 // ═══════════════════════════════════════════════════════════════════════
@@ -24,16 +26,18 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const arg = (name, def) => { const i = process.argv.indexOf('--' + name); if (i < 0) return def; const v = process.argv[i + 1]; return !v || v.startsWith('--') ? true : v; };
 const DRY = !!arg('dry-run', false), FORCE = !!arg('force', false), TAKES = Math.max(1, Math.min(4, +arg('takes', 2))), CONC = Math.max(1, Math.min(4, +arg('concurrency', 2)));
-const TIER = String(arg('tier', '1')), KIND = String(arg('kind', 'amb,sfx')), IDS = arg('ids', '') ? String(arg('ids', '')).split(',') : null;
+const ETH = arg('set', '') === 'ethereal';
+const TIER = String(arg('tier', ETH ? 'all' : '1')), KIND = String(arg('kind', ETH ? 'sfx' : 'amb,sfx')), IDS = arg('ids', '') ? String(arg('ids', '')).split(',') : null;
 const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'sprites', 'requests', 'audio.json'), 'utf8'));
 const OUT = path.join(ROOT, 'audio', 'incoming'); fs.mkdirSync(OUT, { recursive: true });
 const kindOf = c => c.kind === 'music' ? (c.group === 'sting' ? 'sting' : 'music') : c.kind;
 const want = J.cues.filter(c => (IDS ? IDS.includes(c.id) : (TIER === 'all' || String(c.tier) === TIER) && (KIND === 'all' || KIND.split(',').includes(kindOf(c)))) && kindOf(c) !== 'music');
-const file = (c, t) => path.join(OUT, c.id + (t ? '.' + 'bcd'[t - 1] : '') + '.mp3');
+const file = (c, t) => path.join(OUT, c.id + (ETH ? '.e' + (t + 1) : (t ? '.' + 'bcd'[t - 1] : '')) + '.mp3');
+if (ETH) J.cues.forEach(c => { if (c.eth) c.request = c.eth; });      // the gentle words
 const jobs = []; want.forEach(c => { for (let t = 0; t < TAKES; t++) if (FORCE || !fs.existsSync(file(c, t))) jobs.push({ c, t }); });
 const secs = c => Math.max(0.5, Math.min(30, c.secs));
 const credits = jobs.reduce((a, j) => a + Math.ceil(secs(j.c) * 40), 0);
-console.log(`${want.length} sounds (${KIND}, wave ${TIER}) × ${TAKES} take(s): ${jobs.length} to make, about ${credits.toLocaleString()} credits (40 a second)`);
+console.log(`${want.length} sounds (${ETH ? 'the ethereal remake, ' : ''}${KIND}, wave ${TIER}) × ${TAKES} take(s): ${jobs.length} to make, about ${credits.toLocaleString()} credits (40 a second)`);
 if (DRY) { jobs.forEach(j => console.log(`  ${j.c.id}${j.t ? ' (take ' + (j.t + 1) + ')' : ''}  ${secs(j.c)} s${j.c.loop ? ' loop' : ''}  — ${j.c.request.slice(0, 110)}…`)); process.exit(0); }
 const KEY = process.env.ELEVENLABS_API_KEY; if (!KEY) { console.error('No ELEVENLABS_API_KEY in this window — run tools\\audio\\audio1.ps1, which asks for it.'); process.exit(1); }
 let ok = 0, bad = 0;
@@ -53,4 +57,4 @@ async function one(j) {
   bad++; console.log(`X ${c.id}: the service stayed busy — run again to retry`);
 }
 const q = jobs.slice(); await Promise.all(Array.from({ length: CONC }, async () => { while (q.length) await one(q.shift()); }));
-console.log(`\nDone: ${ok} made, ${bad} failed. Files: audio\\incoming\\  — then run: python tools/audio/intake_audio.py`);
+console.log(`\nDone: ${ok} made, ${bad} failed. Files: audio\\incoming\\  — ` + (ETH ? 'tell Claude the new sounds are in (they go to the Lab to pick from first)' : 'then run: python tools/audio/intake_audio.py'));

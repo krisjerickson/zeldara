@@ -202,6 +202,13 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 80 (Oct 24) — gentler sounds; the twin's library
+- Kris: "the sound effects in the game so far are to harsh and piercing. The "page turn" sound effect between image frames sounds like a hard door slam, and when you hover and click over buttons, it's too hard and harsh … much more gentle, somewhat ethereal to go with the epic and godly theme … Let's plan to remake these. Also, the other twin studying needs to be in a separate library building … ok to have another bed in your house, and the other twin sleeps there at night … make space for a library in the town, and you should be able to enter it like other buildings. make requests towards this".
+- L1 — Which sounds? **Answered: every sound effect** — "let's remake every sound effect, but then in the lab, i want to have these as options to choose between". Then: "skills should also have their own sounds" and "the sounds for not being able to use a skill needs to be much lighter and smoother".
+- L2 — Where? **Answered: near your Home.**
+- L3 — The look? **Answered: a Norse timber saga-hall.**
+- L4 — The twin's day and night? **Answered: the library by day, the second bed in your Home at night.**
+
 ### Round 79 (Oct 23) — story cut-scenes from many pictures
 - Kris: "the videos are coming along, but we need to make them tell the story a bit more … all the builder videos should tell the story of you freeing the builder, accompanying them to the impassible barrier, them working on the solution, and then having them complete the build … the spirits one should start by showing the spirit that has been chained and was toiling … placing your hand on it with your eyes going blue … the chains break … the rune lines forming below you … the spirit traveling to the village. For all of the cutscene, propose both story lines as well as develop images for about 6-12 different parts of the story … Start with proposals for each of the different images for each cut scene as well as develop the requests for the images i can send for processing".
 - S1 — Hero versions of the story frames? **Answered: both versions** (Zeldor and Zeldara; the game plays the one you chose).
@@ -987,4 +994,9 @@ Rough total if everything is approved: 36–54 sessions (est.).
 - Kris: the videos should tell the story — the builders (freed, to the barrier, working, built), the spirit (toiling, your hand on the stone with your eyes going blue, the chains break, the lines beneath you, home to the village); "for all of the cutscene, propose both story lines as well as develop images for about 6-12 different parts … Start with proposals … as well as develop the requests". Asked S1–S4 (Open questions › Round 79, answered); plus "keep the epic theme going … glowing runes … aurora borealis … shooting stars … don't change [the current images]".
 - Built: the proposals and the requests — 33 cut-scenes, 254 frames, 352 pictures (doc 35, Lab → Story cut-scenes, `round79.ps1`, waves 85–89). Changelog [752].
 - **Next:** Kris reads the story lines in the Lab (☆ or notes with frame numbers), then sends `round79.ps1` (or `-Wave 85` first). Once in: the frames stay out of the game's files (they feed the video app); the montage clips come back one per cut-scene, and the game plays them with a line per beat.
+
+## Round 80 (Kris, Oct 24) — gentler sounds; the twin's library
+- Kris: the sounds are too harsh (the page turn like a door slam, the clicks); remake them gentle and ethereal; skills and mounts their own sounds; "can't use a skill" lighter and smoother; the twin's study in a library building near the Home that you can enter, a second bed in the Home where the twin sleeps at night. Asked L1–L4 (Open questions › Round 80, answered).
+- Built: the stopgap softening; the remake's words for all 147 effects, `audio2.ps1`; the library's pictures requested, `round80.ps1` (doc 36). Changelog [755]–[756].
+- **Next:** Kris runs `audio2.ps1` and `round80.ps1`; then the Lab's per-effect picker (today · option 1 · option 2), and the library in the village (placed near the Home, enterable, the twin inside by day, in the bed at night).
 

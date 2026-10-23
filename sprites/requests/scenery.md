@@ -1,4 +1,4 @@
-# Scenery — 690 sheets, 2535 objects and textures (13 sheets in the pilot)
+# Scenery — 694 sheets, 2554 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -70,6 +70,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 87 | Round 79 — Story cut-scenes 3: the glimpses, the Lodestar, Muspelheim, Asgard, Godsbane, the Bifröst | 78 | 78 |
 | 88 | Round 79 — Story cut-scenes 4: Surtharn's and Solmyrk's forms | 63 | 63 |
 | 89 | Round 79 — Story cut-scenes 5: the feast hall, the truth, home, the land changed, the celebration, the World Tree | 68 | 68 |
+| 90 | Round 80 — the twin's library: the saga-hall, its furniture, the second bed | 4 | 19 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -16266,6 +16267,112 @@ Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: St
 The reference images: the painted story panels show the style, light and finish to match (not their scenes); the character sheets and model sheets show exactly how the named characters look — draw them exactly like that (faces, hair, outfits, proportions), in the same bold hand-drawn cartoon look, not a photo, not 3D.
 Subject: a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene) — one moment of a story told in pictures. The land of Runeheim, a Norse fantasy world; The scene: a wide view of the lake, the spires and the glowing tree, shooting stars. Keep it epic: where it fits, runes and magic glow with a bright neon rune-blue light, night and dusk skies carry a shimmering aurora borealis, and now and then a shooting star crosses the sky — accents in the game's own style. No lion, no centaur, no animal companion unless named, no valknut symbol. No text.
 The painting fills the whole image edge to edge like a wide film still, with room for the action to move. No text, no labels, no frame, no UI.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_library
+
+The library — a Norse timber saga-hall in the village (two takes to pick from) · wave 90 · 2 items, 2 × 1 · 1536x1024
+
+- `vb_library_a` The library (take A) — 240 × 250 px
+- `vb_library_b` The library (take B) — 260 × 270 px
+
+Attach: style_hero, style_centaur, sc_glimmerhall, sc_vill_core_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 2 separate pieces of scenery — The library — a Norse timber saga-hall in the village (two takes to pick from).
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 2 objects in a grid of 2 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. The library (take A) — a Norse timber saga-hall — the village library: a long hall of dark carved timber on a fieldstone base, a steep turf-and-shingle roof with crossed carved dragon-head gable ends, carved posts by a wide arched double door, tall narrow windows whose small panes glow with warm lamplight and faint light-blue runes (#6fe3f5), a carved sign of an open book over the door, a stack of scrolls and a reading bench by the door, lanterns on posts; the gable end with the door faces the viewer (about 4× the hero's height).
+2. The library (take B) — a Norse timber saga-hall — the village library: a long hall of dark carved timber on a fieldstone base, a steep turf-and-shingle roof with crossed carved dragon-head gable ends, carved posts by a wide arched double door, tall narrow windows whose small panes glow with warm lamplight and faint light-blue runes (#6fe3f5), a carved sign of an open book over the door, a stack of scrolls and a reading bench by the door, lanterns on posts; a little wider, with a small square lantern tower of rune-lit glass rising from the middle of the roof ridge (about 4.3× the hero's height).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°: the front wall with its door faces the viewer at the bottom, and the roof rises behind it. Walls are vertical; no side perspective, no vanishing point. The bottom edge is where the building meets the ground, with the door in the middle of the front wall unless said otherwise.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_int_library
+
+Interior furniture — the library · wave 90 · 10 items, 5 × 2 · 1536x1024
+
+- `if_lib_shelf` Tall bookshelf — 44 × 84 px
+- `if_lib_shelf_low` Low bookcase — 72 × 44 px
+- `if_scroll_rack` Scroll rack — 40 × 56 px
+- `if_rune_tablets` Rune tablets — 36 × 50 px
+- `if_saga_lectern` Saga lectern — 32 × 46 px
+- `if_lib_table` Reading table — 96 × 44 px
+- `if_map_table` Map table — 80 × 48 px
+- `if_lib_ladder` Library ladder — 22 × 80 px
+- `if_lib_candles` Candle stand — 20 × 44 px
+- `if_saga_stone` Saga stone — 36 × 60 px
+
+Attach: style_hero, style_centaur, sc_int_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 10 separate pieces of scenery — Interior furniture — the library.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 10 objects in a grid of 5 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. Tall bookshelf — a tall dark-timber bookshelf packed with old leather-bound books and a few scrolls, carved knotwork on top (about 1.3× the hero's height).
+2. Low bookcase — a long low bookcase of old books with a candle and a small rune stone on top (about 0.7× the hero's height).
+3. Scroll rack — a wooden rack of pigeonholes full of rolled scrolls tied with ribbon (about as tall as the hero).
+4. Rune tablets — a stand holding carved stone tablets of runes, one glowing faint light blue (about 0.8× the hero's height).
+5. Saga lectern — a carved wooden lectern holding a huge open old saga, a ribbon marker hanging down (about 0.7× the hero's height).
+6. Reading table — a long reading table with open books, an inkpot and quill and two candles (about 0.7× the hero's height).
+7. Map table — a table with an old hand-drawn map of a round land of four realms around a lake, weighed down with stones (about 0.8× the hero's height).
+8. Library ladder — a tall wooden ladder for the high shelves (about 1.3× the hero's height).
+9. Candle stand — a tall iron candle stand with three lit candles (about 0.7× the hero's height).
+10. Saga stone — a small carved standing stone indoors, covered in runes and knotwork, one rune glowing light blue (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_int_library_wall
+
+Interior wall pieces — the library · wave 90 · 4 items, 2 × 2 · 1024x1024
+
+- `iw_tree_panel` World Tree panel — 44 × 40 px
+- `iw_realm_banners` Four realm banners — 48 × 36 px
+- `iw_rune_window` Rune window — 26 × 34 px
+- `iw_star_chart` Star chart — 40 × 30 px
+
+Attach: style_hero, style_centaur, sc_int_1
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 4 separate pieces of scenery — Interior wall pieces — the library.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 4 objects in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. World Tree panel — a carved wooden wall panel of a great tree with roots and branches, its lines glowing faint light blue (about 0.6× the hero's height).
+2. Four realm banners — four small hanging banners side by side in green, blue, amber and red, each with a simple rune (about 0.6× the hero's height).
+3. Rune window — a tall narrow window whose small panes are etched with glowing light-blue runes, night outside (about 0.5× the hero's height).
+4. Star chart — an old parchment star chart of constellations pinned to the wall (about 0.5× the hero's height).
+View: seen straight from the front, flat, to hang on a room's back wall in a top-down RPG.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_twin_bed
+
+The second bed in your Home — empty by day, the other twin asleep in it at night · wave 90 · 3 items, 3 × 1 · 1536x1024
+
+- `if_bed_twin` The twin's bed — 44 × 72 px
+- `twin_sleep_m` Zeldor asleep — 44 × 72 px
+- `twin_sleep_f` Zeldara asleep — 44 × 72 px
+
+Attach: style_hero, style_centaur, sc_int_1, hero_m.model, hero_f.model, sc_twin_study
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 3 separate pieces of scenery — The second bed in your Home — empty by day, the other twin asleep in it at night.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 3 objects in a grid of 3 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. The twin's bed — a wooden bed like the first, with a teal-and-cream patchwork quilt and a small pile of old books by the pillow, empty, neatly made (about as tall as the hero).
+2. Zeldor asleep — the same bed with Zeldor (the boy in the hero reference: spiky brown hair) asleep under the quilt, an open book face-down on his chest (about as tall as the hero).
+3. Zeldara asleep — the same bed with Zeldara (the girl in the hero reference: long auburn braids) asleep under the quilt, an open book face-down on her chest (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
 Background: fully transparent (real alpha channel).

@@ -9,7 +9,10 @@
 var ZAHOOK={ on:true, last:{}, GAP:{sfx_ui_note:1200,sfx_ui_click:120,sfx_coin:150,sfx_hurt:250,sfx_mon_hit:90,sfx_page:500,sfx_ui_open:200,sfx_ui_close:200,sfx_pickup:150,sfx_gem:150,sfx_sword_swing:120,sfx_axe_swing:120,sfx_spit:150,sfx_arrow_hit:80},
   // play a made sound; o.hush: hush the procedural sound for that many ms
   s:function(id,o){ if(!ZAHOOK.on||typeof ZAUDIO==='undefined')return false; var now=Date.now(), g=ZAHOOK.GAP[id]||60; if(now-(ZAHOOK.last[id]||0)<g)return false; ZAHOOK.last[id]=now;
+    var sf=typeof ZAUD!=='undefined'&&ZAUD.SOFT&&ZAUD.SOFT[id]; if(sf&&!(ZAUDIO.idx&&ZAUDIO.idx[id]&&ZAUDIO.idx[id].eth))o=Object.assign({},sf,o||{});      /* round 80: softer and muffled until the ethereal take is picked */
     var ok=ZAUDIO.play(id,o); if(ok&&o&&o.hush)ZAUDIO._hush=now+o.hush; return ok; },
+  // round 80: a sound of its own if it is in, else the old one
+  pick:function(id,alt){ return typeof ZAUDIO!=='undefined'&&ZAUDIO.has&&ZAUDIO.has(id)?id:alt; },
   wrap:function(obj,name,after,before){ if(!obj||typeof obj[name]!=='function')return false; var f0=obj[name];
     obj[name]=function(){ var pre; try{ if(before)pre=before.apply(this,arguments); }catch(e){} var r=f0.apply(this,arguments); try{ after.call(this,r,arguments,pre); }catch(e){} return r; }; return true; },
   wrapG:function(name,after,before){ if(typeof window[name]!=='function')return false; var f0=window[name];
@@ -20,7 +23,7 @@ var ZAHOOK={ on:true, last:{}, GAP:{sfx_ui_note:1200,sfx_ui_click:120,sfx_coin:1
   // the spell's sound by its element (doc 32: frost, water, fire, lightning, nature, earth, light)
   SPELLS:{frost_bolt:'sfx_frost',ice_shards:'sfx_frost',blizzard:'sfx_frost',tidal_wave:'sfx_water',fireball:'sfx_fire',flame_nova:'sfx_fire',meteor:'sfx_fire',chain_lightning:'sfx_lightning',thunder_step:'sfx_lightning',starfall:'sfx_lightning',
     thorn_snare:'sfx_nature',poison_mist:'sfx_nature',stone_spikes:'sfx_earth',arcane_burst:'sfx_light',void_orb:'sfx_light',void_rift:'sfx_light',spirit_drain:'sfx_light'},
-  spellSfx:function(id){ var s=ZAHOOK.SPELLS[id]; if(s)return s; var el=typeof ZEL!=='undefined'&&ZEL.SPELL&&ZEL.SPELL[id]; return {fire:'sfx_fire',water:'sfx_water',grass:'sfx_nature',earth:'sfx_earth',storm:'sfx_lightning'}[el]||'sfx_light'; },
+  spellSfx:function(id){ if(typeof ZAUDIO!=='undefined'&&ZAUDIO.has&&ZAUDIO.has('sfx_sp_'+id))return 'sfx_sp_'+id;      /* round 80: the spell's own sound */ var s=ZAHOOK.SPELLS[id]; if(s)return s; var el=typeof ZEL!=='undefined'&&ZEL.SPELL&&ZEL.SPELL[id]; return {fire:'sfx_fire',water:'sfx_water',grass:'sfx_nature',earth:'sfx_earth',storm:'sfx_lightning'}[el]||'sfx_light'; },
   install:function(){
     var H=ZAHOOK, s=H.s, W=typeof WorldScene!=='undefined'?WorldScene.prototype:null, D=typeof DungeonScene!=='undefined'?DungeonScene.prototype:null;
     // ── the procedural names the game already calls (04c): files where they exist; the silent ones get theirs ──
@@ -77,7 +80,11 @@ var ZAHOOK={ on:true, last:{}, GAP:{sfx_ui_note:1200,sfx_ui_click:120,sfx_coin:1
     if(typeof game!=='undefined'&&game.events)game.events.on('poststep',function(){ var ps=H.ps(); if(!ps)return; var g=ps.gold||0, hp=ps.hp||0;
       if(H._g!==undefined&&g!==H._g&&H._ps===ps){ if(g>H._g&&!_PAUSE.active)s('sfx_coin'); else if(g<H._g&&_PAUSE.active)s('sfx_ui_buy'); }
       if(H._hp!==undefined&&H._ps===ps&&hp<H._hp&&hp>0)s('sfx_hurt');
-      H._g=g; H._hp=hp; H._ps=ps; });
+      var mt=ps.mount||null; if(H._ps===ps&&mt&&mt!==H._mt&&H.pick('sfx_mt_'+mt,null))s('sfx_mt_'+mt);      /* round 80: the animal's own call as you climb on */
+      H._g=g; H._hp=hp; H._ps=ps; H._mt=mt; });
+    // round 80: each skill its own sound (Kris: "skills should also have their own sounds"), once it is in; else the old whoosh
+    if(typeof ZSKILL!=='undefined')H.wrap(ZSKILL,'use',function(r,a,pre){ if(pre&&ZSKILL.cdUntil!==pre.cd){ var id=pre.id; if(id)s(H.pick('sfx_sk_'+id,'sfx_skill')); } },
+      function(){ var ws=H.ws(), ps=ws&&ws.playerState, it=ps&&typeof ITEMS!=='undefined'&&ps.equip&&ITEMS[ps.equip.special]; return {cd:ZSKILL.cdUntil, id:it&&it.skillId}; });
     // the everyday effects are fetched once the sound unlocks, so the first swing already has its file (the rest arrive on first use)
     var warm=function(){ if(typeof ZAUDIO==='undefined'||!ZAUDIO.idx||!ZSFX._unlocked)return; var phone=typeof ZQUAL!=='undefined'&&ZQUAL.mode==='phone'; (phone?H.WARM:Object.keys(ZAUDIO.idx).filter(function(k){ return ZAUDIO.idx[k].kind==='sfx'; })).forEach(function(id){      /* a computer fetches every effect (≈ 20 MB decoded); a phone the everyday ones */ var E=ZAUDIO.idx[id]; if(E)E.files.forEach(function(f){ ZAUDIO.buffer(f); }); }); H.warmed=true; };
     var tw=setInterval(function(){ if(H.warmed){ clearInterval(tw); return; } warm(); },1500);
