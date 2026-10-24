@@ -334,9 +334,111 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
     [0,'Boats over light','small boats with lanterns drifting over the glowing tree','And it stayed.'],
     [0,'Whole','a wide view of the lake, the spires and the glowing tree, shooting stars','Whole at last.']]);
 
+  // ═══ round 81c: Kris's notes on the montages (docs/37 §6; answers in docs/08 › Round 81c) ═══
+  // · "more scenes that shouldn't have the heros yet": the glimpses' frames in Asgard (gate, two lights 2–5). · "we also need to plan the entire
+  //   scenes with zeldara instead of zeldor, when you choose zeldara as your hero": the hero style picture put the boy hero into frames that both
+  //   versions share — so every frame now either shows the hero you play (a Zeldor and a Zeldara version), both twins, or neither twin (no hero
+  //   picture sent, and said so). · The boss forms show the whole boss in every step (Surtharn's colours kept, Solmyrk as the three approved
+  //   forms, the last one a dark demon, not bright). · A new montage: Solmyrk defeated (to the golden doors); the feast hall is its own montage,
+  //   empty of people, the orbs with Odin and Freya inside. · The Lodestar set at Asgard's heart; Zeldara, not Freya, after the spring; the
+  //   celebration's Zeldara always the same girl; the first parents (and Pip and Wren's) are other villagers.
+  var SC_=function(id){ return ZSB.SCENES.find(function(s){ return s.id===id; }); };
+  var renum=function(sc){ sc.beats.forEach(function(b,i){ b.n=i+1; var base='sb_'+sc.id+'_'+('0'+b.n).slice(-2); b.ids=(b.who==='h'||b.who==='o')?[base+'_m',base+'_f']:[base]; }); };
+  ZSB.R81C=[];      // the frames to paint again (their scene ids, numbered as now)
+  var fix=function(id,n,o){ var sc=SC_(id), b=sc.beats[n-1]; Object.keys(o).forEach(function(k){ b[k]=o[k]; }); b.r81c=true; };
+  var nohero=function(id,list,extra){ list.forEach(function(n){ var b=SC_(id).beats[n-1]; b.nohero=true; b.r81c=true; if(extra)b.desc+=extra; }); };
+  var SURTLOOK=' — Surtharn as in the reference: a colossal fire giant of cracked black-and-orange molten rock, lava glowing in the cracks, a flaming orange beard and blazing eyes; only the giant (no other person) is in the picture';
+  var SURTREF=function(k){ return ['sc_pn_surt_'+k,'sc_surth_phases']; };
+  var SOL1='Solmyrk in his first form, the Gilded Seraph (copy the reference exactly: three pairs of great golden wings, a full-face golden helm with a single glowing white eye-slit and a tall mitre-like crest, a cope of white and gold, a sun-star scepter, hovering with no legs)';
+  var SOL2='Solmyrk in his second form, Wings of Ash (copy the reference exactly: the tall crested golden helm cracked open and behind the crack a black demon face with white slit eyes, dark black-steel armour with gold filigree under torn white-and-gold robes, white feathered wings burning black at the tips, two thin black clawed shadow-arms, two ravens circling, a golden scepter)';
+  var SOL3='Solmyrk in his last form, the Hollow King (copy the reference exactly: a towering shape of black smoke with a crown of black flame-horns, a face that is only five curved white slashes of light, four long arms ending in hooked claws, the body dissolving into black mist; a dark demon — not bright, not golden)';
+  var WHOLE=' His whole figure is in the picture, head to wings, not only the mask';
+  // the glimpses: no hero in Asgard (Kris; R1: Zeldor stays on the hill in the first and last frames)
+  nohero('gate',[2,3,4,5]); nohero('orbs',[2,3,4,5]);
+  // frames the hero belongs in become a Zeldor and a Zeldara version
+  fix('lodestar',6,{who:'h',desc:'streams of green, blue, amber and red light pouring from the four glasses into the staff on the anvil; {H} beside the anvil shielding {H}\'s eyes'});
+  fix('lodestar',7,{who:'h',desc:'a blinding white star igniting in the ring at the staff\'s crown, light blasting across the cavern; {H} thrown back a step by the light'});
+  fix('escape',6,{who:'h',desc:'the great black volcano island breaking apart and sinking into a boiling sea in a ring of steam; {H} small on the mainland rocks in the foreground, watching'});
+  fix('asgard',1,{who:'h',desc:'night over Mirror Lake and the village on its shore: the clouds parting in a great ring of golden light; {H} small on the village pier, looking up'});
+  fix('asgard',2,{who:'h',desc:'within the ring of light, the underside of a white-and-gold city of spires appearing; {H} on the pier shading {H}\'s eyes'});
+  fix('asgard',3,{who:'h',desc:'the city lowering slowly on beams of light; villagers crowding the pier, {H} at the front'});
+  fix('asgard',4,{who:'h',desc:'the city touching the lake; a wave of golden light rolling across the water toward the pier where {H} stands'});
+  nohero('bifrost',[3]);
+  fix('bifrost',5,{who:'h',desc:'a bridge of rainbow light building outward across the dark lake toward Asgard\'s golden gate; {H} at the end of the pier, the Lodestar blazing in the notch beside {H}'});
+  fix('bifrost',6,{who:'h',desc:'spirits floating along both sides of the rainbow bridge like lanterns; {H} small at the start of the bridge, looking along it'});
+  // Surtharn: the whole giant in every step, his own colours, his own hands
+  ['surt1','surt2','surt3','surt4','surt5','surt6'].forEach(function(id,k){ SC_(id).refs=SURTREF(k+1); nohero(id,[1,2,3,4,5]); });
+  [['surt1',[4,5]],['surt2',[1,2,3,5]],['surt3',[1,4,5]],['surt4',[1,2,5]],['surt5',[1,3,4,5]],['surt6',[1,2,3,5]]].forEach(function(q){ q[1].forEach(function(n){ SC_(q[0]).beats[n-1].desc+=SURTLOOK; }); });
+  fix('surt2',4,{desc:'close on Surtharn himself: the molten iron of his melted greatsword climbing up HIS OWN huge arms and chest and hardening into dark iron armour plates'+SURTLOOK});
+  fix('surt4',3,{desc:'great curling black horns bursting from the brow of the same molten giant as in the frames before and after — black-and-orange molten rock glowing with lava, a flaming orange beard, blazing eyes (NOT pale, NOT white, NOT blue, NOT furred, NOT a frost giant)'+SURTLOOK});
+  fix('surt4',4,{desc:'the Horned Jötunn — the horned molten giant himself — plunging HIS OWN huge clawed hand into a river of lava to draw out a sword'+SURTLOOK});
+  fix('surt4',6,{desc:'{H} tiny at the feet of the Horned Jötunn, looking up; the horned molten giant holds high the blazing Sword of Flame he has just drawn from the lava'});
+  fix('surt5',2,{desc:'the lava lake boiling and churning, great bubbles bursting, steam rising — the giant has sunk beneath it: no figure, no giant, no hand, no person in the picture'});
+  fix('surt6',4,{who:'h',nohero:false,desc:'the whole cavern erupting with fire around {H}, alone, shielding against the blast (the other twin is not here)'});
+  // Solmyrk: his whole figure in every step, as the three approved forms
+  SC_('sol1').refs=['sol_ref_1','sc_pn_sol_0']; SC_('sol2').refs=['sol_ref_2','sc_pn_sol_12_a','sc_pn_sol_12_b']; SC_('sol3').refs=['sol_ref_3','sc_pn_sol_23_a','sc_pn_sol_23_b'];
+  nohero('sol1',[1,2,3,4,5]); nohero('sol2',[1,2,3,4,5]); nohero('sol3',[1,2,3,4,5]);
+  fix('sol1',2,{desc:'on the high seat at the end of the white-and-gold hall, still as a statue: '+SOL1+', wings folded'});
+  fix('sol1',3,{desc:SOL1+', rising slowly from the high seat into the air'});
+  fix('sol1',4,{desc:SOL1+', unfolding his great golden wings from HIS OWN back above the high seat — the wings are Solmyrk\'s; no one else in the picture has wings'});
+  fix('sol1',5,{desc:SOL1+', raising his scepter, light pouring off him across the hall — a god of gold'});
+  fix('sol2',1,{desc:'a beam of white light striking the golden helm of '+SOL1+'; he reels in the air.'+WHOLE});
+  fix('sol2',2,{desc:'a jagged crack running down the middle of Solmyrk\'s tall crested golden helm as he hangs in the air above the high seat — '+SOL1+'.'+WHOLE});
+  fix('sol2',3,{desc:'black light pouring out of the crack in Solmyrk\'s helm, black ash creeping into the edges of his golden wings and robes.'+WHOLE});
+  fix('sol2',4,{desc:'Solmyrk\'s own wings tearing into black ash on one side — the wings are on Solmyrk; no one else in the picture has wings.'+WHOLE});
+  fix('sol2',5,{desc:SOL2+' — the Cracked Mask, whole, hovering over the hall'});
+  fix('sol2',6,{desc:'{H} bracing against a wind of black and gold light pouring from '+SOL2+', who looms over {H}'});
+  fix('sol3',1,{desc:'Solmyrk\'s cracked helm shattering into spinning gold shards, the black demon face behind it laughing; '+SOL2+'.'+WHOLE});
+  fix('sol3',2,{desc:'all the light of the throne hall streaming in long golden rivers INTO Solmyrk, who hangs whole at the centre of the hall, his wings burning away into black ash, the white pillars going grey (not an empty throne)'});
+  fix('sol3',3,{desc:'Solmyrk swelling into a towering black storm, the Hollow King taking shape in the thunderheads: '+SOL3});
+  fix('sol3',4,{desc:SOL3+', looming before an eclipsed sun with a thin white corona — his dark form fills the sky'});
+  fix('sol3',5,{desc:'The Storm That Ends the World: '+SOL3+', at full size inside black thunderheads lit by white lightning, before the eclipsed sun — dark and terrible'});
+  fix('sol3',6,{desc:'{H} tiny below '+SOL3+', raising the glowing Lodestar against the black storm'});
+  // Solmyrk defeated — a montage of its own, to the golden doors (R3); the feast hall is the next one
+  var FH=SC_('feasthall'), fhOld=FH.beats.slice(0,3), NOPPL='. The feast hall is EMPTY of people — no guests, no crowd, no villagers anywhere';
+  ZSB.SCENES.splice(ZSB.SCENES.indexOf(FH),0,{id:'solfall',name:'Solmyrk defeated',wave:89,plays:'Solmyrk\'s last form beaten — to the golden doors',
+    story:'The Lodestar\'s light strikes the Storm That Ends the World. The storm tears, the Hollow King comes apart, and the light he stole flows back into the hall. His golden mask falls in pieces; the citadel shakes, and behind the high seat golden doors swing open.',
+    refs:['sol_ref_3','sc_pn_sol_23_b','sc_pn_fh_crumble'],beats:[
+      {who:'h',title:'The Lodestar\'s light',desc:'{H} raising the Lodestar; a beam of white star-light from it striking the chest of '+SOL3,cap:'The Lodestar\'s light struck the storm.',refs:[]},
+      {who:0,title:'The storm tears',desc:'the black storm tearing apart around '+SOL3+', white light bursting through the thunderheads',cap:'The storm tore open…',refs:[],nohero:true},
+      {who:0,title:'The dark comes apart',desc:'the Hollow King\'s four arms and crown of black flame dissolving into smoke, his dark form collapsing inward',cap:'…and the dark came apart.',refs:[],nohero:true},
+      {who:0,title:'The light comes home',desc:'golden light flowing back out of the fading darkness into the throne hall\'s pillars; the grey pillars turning white and gold again',cap:'The light he stole flowed home.',refs:[],nohero:true},
+      {who:0,title:'The mask falls',desc:'the shattered golden mask clattering down the steps of the empty high seat as the last black smoke drifts away',cap:'His mask fell.',refs:[],nohero:true}].map(function(b){ b.r81c=true; return b; }).concat(fhOld.map(function(b){ b.r81c=true; if(b.title==='Golden doors')b.desc+='; the hall beyond the doors is empty and dusty — no people'; return b; }))});
+  FH.beats=FH.beats.slice(3); FH.plays='in the feast hall, after Solmyrk — Godsbane'; FH.name='The feast hall — Godsbane';
+  FH.story='You step into the empty, dusty feast hall of the gods, where two orbs float joined like an infinity sign with Odin and Freya asleep inside. Your twin comes running; together you cast Godsbane into the centre, the orbs crack and burst into a million shards — and Odin and Freya stand free as the hall wakes.';
+  var fd=function(t,who,d,np){ var b=FH.beats.find(function(x){ return x.title===t; }); b.who=who; b.desc=d+(np===false?'':NOPPL); b.r81c=true; b.nohero=who===0; };
+  fd('The feast hall','h','{H} stepping into a vast dusty feast hall: long empty tables, cobwebs, faded banners, two empty high seats');
+  fd('The orbs','h','two great orbs of light floating joined like an infinity sign above the hall; inside them, dim and asleep, Odin in one and Freya in the other ('+GODS+'); '+LODE+' trembling in {H}\'s hand');
+  fd('Your twin comes','o','{O} running in through the golden doors to {H}\'s side, the two joined orbs glowing above');
+  fd('Together','t','{T}, seen from behind, both raising their hands and the Lodestar toward ONE pair of joined orbs shaped like an infinity sign, Odin asleep in one and Freya in the other — only these two orbs, no others');
+  fd('Into the centre','t','one beam of white-gold light rising from {T} into the point where the two joined orbs meet — the same infinity-sign pair, Odin and Freya inside');
+  fd('Cracks',0,'cracks of light spreading across the two joined orbs, Odin and Freya stirring inside');
+  fd('A million shards',0,'the two joined orbs bursting into a million glittering shards of light filling the empty hall');
+  fd('Free','t','in the falling light stand '+GODS+'; {T} before them — only these four in the hall');
+  fd('The hall wakes','t','the feast hall alive again: dust gone, banners bright, candles lighting themselves along the long empty tables, golden light; {T} alone in the middle of the hall, looking around in wonder');
+  renum(SC_('solfall')); renum(FH); ['lodestar','escape','asgard','bifrost','surt6'].forEach(function(id){ renum(SC_(id)); });
+  // the spirits go home: the Lodestar at the heart of the circle
+  fix('home',3,{who:'t',desc:LODE+' set upright at the centre of the great rune circle in the heart of Asgard, a pillar of white-gold light shooting from its star up into the night clouds, an aurora flaring around it; {T} at the circle\'s edge'});
+  // lightning and vines: the twins (Zeldara — not Freya) watch the land change
+  var ZF='. Zeldara is the girl with long auburn braids, silver clasps, a teal gem on her brow and a teal-green mantle with a fur collar — not the red-gold-haired goddess; neither god is in this picture';
+  nohero('village',[2]);
+  [[5,'green vines with white flowers racing out from the green along the glowing soul-lines in every direction; {T} watching from the edge of the green'],[6,'from a hilltop: {T}, seen from behind, looking out as the lines of light across the land turn into roads of grass and stone, like a tree drawn on the world'],
+   [7,'monsters across the land fading into drifting motes of light; {T} on a ridge watching them go'],[8,'the four forge-towers at sea sinking into the waves in steam; {T} on the shore watching'],[9,'the white-and-gold city sinking into Mirror Lake until only its golden spires stand above the water; {T} on the village pier'],
+   [10,'villagers with carts and children walking out along the new grassy roads; {T} waving them off at the village gate'],[11,'small hamlets with houses and gardens rising round runestones across the land; {T} walking a new road between them'],
+   [12,'night over a green Runeheim, an aurora borealis and shooting stars over the lake and the spires; {T} sitting together on a hill']].forEach(function(q){ fix('village',q[0],{who:'t',desc:q[1]+ZF,nogods:true}); });
+  // the celebration: one Zeldara throughout; the first parents (and Pip and Wren's) are other villagers
+  var ZC=' Zeldara exactly as in her reference — long auburn braids with silver clasps, a small teal gem on her brow, a teal-green mantle with a pale fur collar — the only girl dressed like this', PAR='a young village mother (dark hair under a simple headscarf, a plain wool dress) and a young village father (a broad young farmer with a short beard) — ordinary villagers, NOT the twins';
+  [1,2,8].forEach(function(n){ var b=SC_('celebrate').beats[n-1]; fix('celebrate',n,{desc:b.desc+ZC}); });
+  fix('celebrate',4,{desc:'in a cosy room, '+PAR+': the mother holding their newborn, the father laughing, Elder Runa in the doorway in tears',nohero:true});
+  fix('celebrate',5,{who:0,desc:'Pip and Wren, two young village children (as in the references), running across the green into the arms of their parents — '+PAR,cap:'Pip and Wren, among the first.',nohero:true});
+  nohero('celebrate',[3,7]);
+  // the World Tree: the tree alone where no twin is named
+  nohero('worldtree',[2,3,4,5,7,8]);
+  ['home','village','celebrate'].forEach(function(id){ renum(SC_(id)); });
+  ZSB.R81C=[].concat.apply([],ZSB.SCENES.map(function(sc){ return [].concat.apply([],sc.beats.filter(function(b){ return b.r81c; }).map(function(b){ return b.ids.map(function(i){ return 'sc_'+i; }); })); }));
   // ── for tools/video/storyboards.py (build.mjs → sprites/requests/storyboards.json): each frame's scene with the hero named, per version ──
   ZSB.NEG='text, captions, subtitles, logos, watermark, extra people, new characters, face changes, distorted hands, photorealism, 3D render look, style change, flicker';
-  ZSB.export=function(){ var nm={m:'Zeldor',f:'Zeldara'}; return {neg:ZSB.NEG,scenes:ZSB.SCENES.map(function(s){ return {id:s.id,name:s.name,wave:s.wave,plays:s.plays,story:s.story,beats:s.beats.map(function(b){
+  ZSB.export=function(){ var nm={m:'Zeldor',f:'Zeldara'}; return {neg:ZSB.NEG,redo81c:ZSB.R81C,scenes:ZSB.SCENES.map(function(s){ return {id:s.id,name:s.name,wave:s.wave,plays:s.plays,story:s.story,beats:s.beats.map(function(b){
       var f=function(k){ var o=k==='m'?'f':'m'; return b.desc.replace(/\{H\}/g,nm[k]).replace(/\{O\}/g,nm[o]).replace(/\{T\}/g,'the twins Zeldor and Zeldara').replace(/\{K\}/g,'the little twins'); };
       return {n:b.n,who:b.who,title:b.title,cap:b.cap,ids:b.ids,m:f('m'),f:f('f')}; }),montage:(function(){ var o={}; ZSB.whos(s).forEach(function(w){ o[w]=ZSB.montage(s,w); }); return o; })()}; })}; };
   // ── round 79b: the montage words for the video app (tools/video/storyboards.py writes them as montage.txt; the Lab shows them) ──
@@ -378,10 +480,11 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
   ZSB.PASTNO=function(id,n){ return id==='truth'?'. A memory from before the twins were born: Zeldor and Zeldara are NOT in this picture as children or as young heroes — they exist here only as the two tiny sparks of light described':
     id==='opening'&&n>=6?'. The twins appear ONLY as two newborn babes wrapped in the basket — no older child, no young hero, no boy in a green cape, no girl with auburn braids anywhere else in the picture':
     '. This happens long before the twins Zeldor and Zeldara were born: they are NOT in this picture — no young hero, no boy in a green cape, no girl with auburn braids, no white-haired companion, no adventurer watching from the side or the foreground. Only the people and things described: villagers, miners, travellers and spirits of that time, a mix of skin tones as in the reference panels'; };
+  ZSB.NOHERO='. Neither twin is in this picture — no young hero, no boy in a green cape, no girl with auburn braids, nobody watching from the side or the foreground; only what is described';
   ZSB.REDO81=['opening_01','opening_02','opening_04','opening_05','truth_04','truth_05'].concat([].concat.apply([],['quiet','ashnight','stonefall','blacktide'].map(function(r){ return [1,2,3,4,5,6,7].map(function(n){ return r+'_0'+n; }); }))).map(function(x){ return 'sc_sb_'+x; });
   var out=[];
-  ZSB.SCENES.forEach(function(sc){ sc.beats.forEach(function(b){ var base='sb_'+sc.id+'_'+('0'+b.n).slice(-2), past=ZSB.past(sc.id,b.n), refs=past?ZSB.PASTREF[sc.id].concat(sc.refs).concat(b.refs).slice(0,6):ZSB.BASE.concat(sc.refs).concat(b.refs).slice(0,6);
-      var one=function(id,k,extra){ var d=ZSB.STYLE+fill(b.desc,k||'m')+ZSB.EPIC+(past?ZSB.PASTNO(sc.id,b.n):'')+ZSB.NO; out.push({id:'sc_'+id,wave:sc.wave,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',noStyle:past||undefined,refs:refs.concat(extra||[]).slice(0,8),title:'Story frame — '+sc.name+', '+b.n+'. '+b.title+(k?(k==='m'?' (you play Zeldor)':' (you play Zeldara)'):''),items:[[id,b.title,d,1536,1024]],sb:{scene:sc.id,n:b.n,k:k||''}}); };
+  ZSB.SCENES.forEach(function(sc){ sc.beats.forEach(function(b){ var base='sb_'+sc.id+'_'+('0'+b.n).slice(-2), past=ZSB.past(sc.id,b.n), nh=!past&&b.nohero, refs=(past?ZSB.PASTREF[sc.id].concat(sc.refs).concat(b.refs):nh?sc.refs.concat(b.refs):(b.who==='h'||b.who==='o'||b.who==='t')&&b.r81c?['sc_pn_end_dawn_b'].concat(sc.refs).concat(b.refs):ZSB.BASE.concat(sc.refs).concat(b.refs)).filter(function(r){ return !(b.nogods&&/^god_/.test(r)); }).slice(0,6);      /* round 81c: no hero picture where no twin belongs */
+      var one=function(id,k,extra){ var d=ZSB.STYLE+fill(b.desc,k||'m')+ZSB.EPIC+(past?ZSB.PASTNO(sc.id,b.n):nh?ZSB.NOHERO:'')+ZSB.NO; out.push({id:'sc_'+id,wave:sc.wave,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',noStyle:past||nh||undefined,refs:refs.concat(extra||[]).slice(0,8),title:'Story frame — '+sc.name+', '+b.n+'. '+b.title+(k?(k==='m'?' (you play Zeldor)':' (you play Zeldara)'):''),items:[[id,b.title,d,1536,1024]],sb:{scene:sc.id,n:b.n,k:k||''}}); };
       if(b.who==='h'||b.who==='o'){ one(base+'_m','m',['hero_m.model'].concat(b.who==='o'?['hero_f.model']:[])); one(base+'_f','f',['hero_f.model'].concat(b.who==='o'?['hero_m.model']:[])); }
       else { one(base,null,b.who==='t'?['hero_m.model','hero_f.model']:[]); } }); });
   ZSB.count=out.length; ZSCN.SHEETS=ZSCN.SHEETS.concat(out);

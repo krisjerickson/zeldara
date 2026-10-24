@@ -45,3 +45,61 @@ Kris: "there are many points in the story that zeldara and zeldor are not yet bo
   - a plain line: "long before the twins were born: they are NOT in this picture". In the memories the twins are only the two sparks; in the basket they are only the two babes.
 - **Painted again (34):** opening 1, 2, 4, 5; the Long Quiet, the Ash Night, the Stone-Fall and the Black Tide 1–7 each; the truth 4, 5. Opening 3, 6–9 (the cradles, the basket, the babes, the toddlers) and the truth 3 were right and stay.
 - **To run:** `.\tools\sprites\round81.ps1`. It moves the old ones to `sprites\_replaced_r81` and sends the 34. Then Claude remakes the montages and the Lab sheets.
+
+## 6. The story montages put right (round 81c)
+
+Kris went through the montages and listed what is wrong; then: "we need to plan the entire scenes with zeldara instead of zeldor, when you choose zeldara as your hero". His answers: R1 Zeldor stays on the hill in the glimpses' first and last frames; R2 the light drains *into* Solmyrk; R3 the Solmyrk-defeated montage ends at the golden doors.
+
+**The rule now, for every frame:**
+- It shows the hero you play, and comes in a Zeldor and a Zeldara version.
+- Or it shows both twins.
+- Or it shows neither twin: no hero picture is sent with it, and the request says plainly that neither twin is in it.
+
+The boy hero had crept into frames that both versions share; that can no longer happen. Eleven shared frames were looked at and are right, so they stay. They are listed in `test_round81`.
+
+**What changes:**
+- **The glimpses (the gate, the two lights):**
+  - Frames 2–5 (in Asgard) show no heroes.
+  - Zeldor stays on the hill in the first and last frames.
+  - "Both look up" keeps both twins.
+- **The hero's own moments** become Zeldor and Zeldara versions:
+  - the Lodestar's light and the star waking;
+  - Muspelheim sinking;
+  - Asgard coming down (seen from the pier);
+  - the Bifröst building and the spirits along it;
+  - the cavern erupting (the hero you play, alone).
+- **Surtharn:** the whole giant is in every step of his six forms, in his own black-and-orange molten colours. Each form now matches its approved panel.
+  - "Armour": the iron climbs his own arms.
+  - "Horns": the same molten giant, not a pale frost giant.
+  - "Into the fire": his own hand goes into the lava.
+  - "Tiny": he holds the Sword of Flame.
+  - "Boiling": only the lava, with him beneath it.
+- **Solmyrk:** his whole figure is in every step, as the three approved forms (the Gilded Seraph, Wings of Ash, the Hollow King).
+  - The wings are his, not the hero's.
+  - The mask cracks and shatters on him.
+  - The light drains into him.
+  - The eclipse and the storm are the dark Hollow King, and "The Lodestar raised" shows him over you.
+- **New montage — Solmyrk defeated (8 frames):**
+  1. The Lodestar's light strikes him.
+  2. The storm tears.
+  3. The dark comes apart.
+  4. The light comes home to the hall.
+  5. The mask falls.
+  6. The mask in pieces.
+  7. The citadel shakes.
+  8. The golden doors open.
+- **The feast hall (its own montage, 9 frames):** it is empty of people, apart from the twins and then the gods.
+  - The joined orbs hold Odin and Freya.
+  - "Together" and "Into the centre" show only that one infinity-sign pair.
+  - "Free" shows the twins and the gods; "The hall wakes" shows only the twins.
+- **The spirits go home:** "Into the sky" shows the Lodestar set at the heart of Asgard.
+- **Lightning and vines:**
+  - After Freya's spring, the twins watch the land change. Zeldara is described so she is not mistaken for Freya, and the gods' pictures are not sent.
+  - Odin's call shows no hero.
+- **The celebration:**
+  - Zeldara is the same girl in every frame.
+  - The first cry shows a young village couple (not the twins).
+  - Pip and Wren run to those same parents.
+- **The World Tree:** the tree alone wherever no twin is named.
+
+**To run:** `.\tools\sprites\round81c.ps1` (126 frames). It moves the old pictures, and old frames that no longer exist, to `sprites\_replaced_r81c`, then sends the list. Then Claude remakes the montages and the Lab sheets.

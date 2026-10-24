@@ -51,6 +51,18 @@ PAST = ['sc_sb_opening_0%d' % n for n in (1, 2, 4, 5)] + ['sc_sb_truth_04', 'sc_
 bad = [i for i in PAST if 'style_hero' in RQ[i]['refs'] or any(r.startswith('hero_') for r in RQ[i]['refs']) or 'NOT in this picture' not in RQ[i]['body'] or 'sc_pn_end_cast_a' in RQ[i]['refs']]
 check('The %d frames set before the twins carry no hero picture and say the twins are not there' % len(PAST), len(PAST) == 34 and not bad, bad[:4])
 check('Frames with the twins still carry their pictures (the first spirit, the send-off)', 'hero_m.model' in RQ['sc_sb_spirit_05_m']['refs'] and 'style_hero' in RQ['sc_sb_opening_12_m']['refs'] and 'NOT in this picture' not in RQ['sc_sb_opening_10']['body'])
+# round 81c (Kris: "we need to plan the entire scenes with zeldara instead of zeldor"): a frame both versions share never carries the boy hero
+SB = json.load(open(os.path.join(R, 'sprites', 'requests', 'storyboards.json'), encoding='utf-8'))
+KEEP = {('spirit', 1), ('home', 4), ('home', 5), ('home', 6), ('home', 7), ('home', 8), ('home', 9), ('village', 3), ('village', 4), ('celebrate', 6), ('credits', 1)}      # looked at: no lone hero in them
+shared = [(sc['id'], b['n']) for sc in SB['scenes'] for b in sc['beats'] if not b['who'] and 'style_hero' in RQ['sc_' + b['ids'][0]]['refs'] and (sc['id'], b['n']) not in KEEP]
+check('Every frame both versions share shows neither twin, or both (%d to look at)' % len(shared), not shared, shared[:6])
+ids = [s2['id'] for s2 in SB['scenes']]; sf = next(s2 for s2 in SB['scenes'] if s2['id'] == 'solfall'); fh = next(s2 for s2 in SB['scenes'] if s2['id'] == 'feasthall')
+check('Solmyrk defeated is its own montage (%d frames, to the golden doors), then the feast hall (%d)' % (len(sf['beats']), len(fh['beats'])), ids.index('solfall') == ids.index('feasthall') - 1 and len(sf['beats']) >= 6 and sf['beats'][-1]['title'] == 'Golden doors' and fh['beats'][0]['title'] == 'The feast hall')
+fhb = [RQ['sc_' + i]['body'] for b in fh['beats'] for i in b['ids']]
+check('The feast hall is empty of people in every frame; the orbs hold Odin and Freya', all('EMPTY of people' in t for t in fhb) and 'Odin in one and Freya in the other' in RQ['sc_sb_feasthall_02_m']['body'])
+check('Solmyrk whole in every step, the last form a dark demon; Surtharn in his own colours', all('Hollow King' in RQ['sc_sb_sol3_0%d' % n]['body'] for n in (3, 4, 5)) and 'not bright' in RQ['sc_sb_sol3_05']['body'] and 'whole figure' in RQ['sc_sb_sol2_01']['body'] and 'NOT a frost giant' in RQ['sc_sb_surt4_03']['body'] and 'HIS OWN huge clawed hand' in RQ['sc_sb_surt4_04']['body'])
+check('After the spring it is Zeldara, not Freya; the first parents and Pip and Wren\'s are other villagers', all('god_freya.core.f' not in RQ['sc_sb_village_%02d' % n]['refs'] and 'not the red-gold-haired goddess' in RQ['sc_sb_village_%02d' % n]['body'] for n in range(5, 13)) and 'NOT the twins' in RQ['sc_sb_celebrate_04']['body'] and 'NOT the twins' in RQ['sc_sb_celebrate_05']['body'])
+check('%d frames to paint again (round81c.ps1)' % len(SB['redo81c']), 100 < len(SB['redo81c']) < 140 and all(i in RQ for i in SB['redo81c']))
 E = json.load(open(os.path.join(R, 'lab', 'preview', 'audio', 'eth.json')))
 check('The gentle sounds are joined for the Lab: %d effects, all with both options' % len(E['items']), len(E['items']) >= 147 and all('e1' in v and 'e2' in v for v in E['items'].values()) and all(os.path.isfile(os.path.join(R, 'lab', 'preview', 'audio', 'eth_%s.mp3' % k)) for k in ('cur', 'e1', 'e2')))
 with sync_playwright() as p:

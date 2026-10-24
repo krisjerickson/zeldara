@@ -202,6 +202,12 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 81c (Oct 24) — the story montages put right
+- Kris listed what is wrong in the montages (doc 37 §6): heroes in the glimpses' Asgard frames; the bosses not whole or in the wrong colours, the hero doing the boss's acts; no montage of Solmyrk defeated; people in the feast hall; Freya in place of Zeldara after the spring; several girls as Zeldara in the celebration; the first parents (and Pip and Wren's) drawn as the twins. Then: "we need to plan the entire scenes with zeldara instead of zeldor, when you choose zeldara as your hero".
+- R1 — The glimpses' first and last frames (Zeldor on the hill)? **Answered: keep the hero on the hill**; only the Asgard frames lose the heroes.
+- R2 — "The light drains": which way? **Answered: into Solmyrk**, his whole figure at the centre, not an empty throne.
+- R3 — Where does the new "Solmyrk defeated" montage end? **Answered: at the golden doors** (~8 frames); the feast hall montage starts as you step in.
+
 ### Round 80 (Oct 24) — gentler sounds; the twin's library
 - Kris: "the sound effects in the game so far are to harsh and piercing. The "page turn" sound effect between image frames sounds like a hard door slam, and when you hover and click over buttons, it's too hard and harsh … much more gentle, somewhat ethereal to go with the epic and godly theme … Let's plan to remake these. Also, the other twin studying needs to be in a separate library building … ok to have another bed in your house, and the other twin sleeps there at night … make space for a library in the town, and you should be able to enter it like other buildings. make requests towards this".
 - L1 — Which sounds? **Answered: every sound effect** — "let's remake every sound effect, but then in the lab, i want to have these as options to choose between". Then: "skills should also have their own sounds" and "the sounds for not being able to use a skill needs to be much lighter and smoother".
