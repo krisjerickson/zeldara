@@ -9,7 +9,7 @@
 var ZAHOOK={ on:true, last:{}, GAP:{sfx_ui_note:1200,sfx_ui_click:120,sfx_coin:150,sfx_hurt:250,sfx_mon_hit:90,sfx_page:500,sfx_ui_open:200,sfx_ui_close:200,sfx_pickup:150,sfx_gem:150,sfx_sword_swing:120,sfx_axe_swing:120,sfx_spit:150,sfx_arrow_hit:80},
   // play a made sound; o.hush: hush the procedural sound for that many ms
   s:function(id,o){ if(!ZAHOOK.on||typeof ZAUDIO==='undefined')return false; var now=Date.now(), g=ZAHOOK.GAP[id]||60; if(now-(ZAHOOK.last[id]||0)<g)return false; ZAHOOK.last[id]=now;
-    var sf=typeof ZAUD!=='undefined'&&ZAUD.SOFT&&ZAUD.SOFT[id]; if(sf&&!(ZAUDIO.idx&&ZAUDIO.idx[id]&&ZAUDIO.idx[id].eth))o=Object.assign({},sf,o||{});      /* round 80: softer and muffled until the ethereal take is picked */
+    var sf=typeof ZAUD!=='undefined'&&ZAUD.SOFT&&ZAUD.SOFT[id]; if(sf)o=Object.assign({},ZAUDIO.idx&&ZAUDIO.idx[id]&&ZAUDIO.idx[id].eth?{vol:Math.min(0.7,sf.vol*2)}:sf,o||{});      /* round 80: softer and muffled until the ethereal take is picked; round 81: a picked gentle take is not muffled, only kept quiet (UI sounds sit under the music) */
     var ok=ZAUDIO.play(id,o); if(ok&&o&&o.hush)ZAUDIO._hush=now+o.hush; return ok; },
   // round 80: a sound of its own if it is in, else the old one
   pick:function(id,alt){ return typeof ZAUDIO!=='undefined'&&ZAUDIO.has&&ZAUDIO.has(id)?id:alt; },

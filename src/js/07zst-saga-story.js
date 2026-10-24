@@ -11,7 +11,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 var ZSTORY={
   // where on the (schematic) map of Runeheim: x, y in 0–1, and a name
-  LOC:{village:[0.5,0.5,'the village'],green:[0.5,0.47,'the Runestone Green'],home:[0.47,0.53,'the Home (the other twin)'],tavern:[0.53,0.53,'the tavern'],harbour:[0.56,0.6,'the harbour'],
+  LOC:{village:[0.5,0.5,'the village'],green:[0.5,0.47,'the Runestone Green'],home:[0.47,0.53,'the Home and the library (the other twin)'],tavern:[0.53,0.53,'the tavern'],harbour:[0.56,0.6,'the harbour'],
     grass:[0.74,0.28,'the NE Grasslands'],wet:[0.74,0.72,'the SE Wetlands'],high:[0.26,0.72,'the SW Highlands'],ash:[0.26,0.28,'the NW Ashlands'],
     stones:[0.66,0.36,'a bindstone'],crossing:[0.62,0.5,'a realm crossing (a builder\'s tower)'],fairy:[0.8,0.4,'a fairy ring'],site:[0.34,0.6,'an adventure site'],
     forge:[0.09,0.5,'the forges of Muspelheim (at sea)'],musp:[0.07,0.1,'Muspelheim'],asgard:[0.6,0.64,'Asgard, on Mirror Lake'],citadel:[0.6,0.6,'the citadel of Asgard'],
@@ -55,8 +55,8 @@ var ZSTORY={
   B(0,'sendoff','One goes, one stays','The village, old and tired, sends one twin out into Runeheim; the other stays to keep the village and studies the old sagas the whole game — and it is they who find the Lodestar\'s word.',
     '','pn_saga_sendoff',
     [O('cut','village','a new game — the opening, panel 6','the opening cut-scene: the send-off at the gate','"One twin goes out into Runeheim; the other stays to keep the village."','built'),
-     O('hint','home','the first steps','the other twin by the Home','"I\'ll keep the village going — you bring them home. Come back and tell me everything you find."','built'),
-     O('hint','home','the whole game','the other twin at their books by the Home (round 73: a painted picture, round 78)','(always studying the old texts)','built')],
+     O('hint','home','the first steps','the other twin, in the library (round 80)','"I\'ll keep the village going — you bring them home. Come back and tell me everything you find."','built'),
+     O('hint','home','the whole game','the other twin at their books in the library by day, asleep in the second bed in your Home at night (round 80)','(always studying the old texts)','built')],
     [O('hint','any','the first minutes','the quest journal\'s first entry','"Your twin keeps the village. Free the bound spirits — and come home with what you learn."')]);
   // ═══ II · THE BINDINGS ═══
   B(1,'binders','The bound spirits','With the gate shut, the dead had nowhere to go. Surtharn\'s Binders caught them and chained them to bindstones — forty across the four realms.',
@@ -140,8 +140,8 @@ var ZSTORY={
     [O('hint','home','Asgard on the lake','the other twin','"The basket came from the lake. Whatever is up there, it knows us."','built')]);
   B(3,'godsbane','Godsbane and the Bifröst','The other twin, who has studied the old sagas the whole game, finds the Lodestar\'s one word — Godsbane — and teaches it once the Lodestar is whole. Set in the pier\'s notch, the Lodestar raises the Bifröst to Asgard\'s gate, and the spirits bless the road.',
     '',null,
-    [O('cut','home','the Lodestar in hand — [Tab] by your twin','the twin\'s lesson (pn_twin_teach, round 78) and the word','"I\'ve been reading these texts since the day you left. Say it with me: GODSBANE."','built'),
-     O('hint','harbour','the pier notch','the notch wants the word first; then the Bifröst rises and the spirits bless the road','"The staff fits the notch, but it does not wake… go home and ask."','built'),
+    [O('cut','home','the Lodestar in hand — [Tab] by your twin (the library by day; wake them at Home by night)','the twin\'s lesson (pn_twin_teach, round 78) and the word','"I\'ve been reading these texts since the day you left. Say it with me: GODSBANE."','built'),
+     O('hint','harbour','the pier notch','the notch wants the word first; then the Bifröst rises and the spirits bless the road','"The staff fits the notch, but it does not wake… find them in the library and ask."','built'),
      O('cut','harbour','the pier notch','a panel: the Bifröst rising from the notch to the gate','"From the notch, a bridge of light runs out across the lake to the gods\' gate."')],
     [O('hint','tome','learning it','the Tome\'s skills page','Godsbane — what it does','partly')]);
   // ═══ V · ASGARD ═══

@@ -48,8 +48,8 @@ class WorldScene extends Phaser.Scene{
     });
 
     // Building labels
-    var bicons={tavern:'🍺',shop:'🛒',house:'🏠',forge:'⚒️',guild:'📜',quest_board:'📋',stables:'🐎',armory:'⚔️',clothing:'🧥',jeweler:'💍',apothecary:'🔮',merchant:'🍞'};
-    var bnames={tavern:'Tavern',shop:'General Shop',house:'Home',forge:'Blacksmith',guild:'Guild',quest_board:'Quest Board',stables:'Stables',armory:'Armory',clothing:'Clothing',jeweler:'Jeweler',apothecary:'Sorcerer\'s Apothecary',merchant:'Merchant'};
+    var bicons={tavern:'🍺',shop:'🛒',house:'🏠',forge:'⚒️',guild:'📜',quest_board:'📋',stables:'🐎',armory:'⚔️',clothing:'🧥',jeweler:'💍',apothecary:'🔮',merchant:'🍞',library:'📚'};
+    var bnames={tavern:'Tavern',shop:'General Shop',house:'Home',forge:'Blacksmith',guild:'Guild',quest_board:'Quest Board',stables:'Stables',armory:'Armory',clothing:'Clothing',jeweler:'Jeweler',apothecary:'Sorcerer\'s Apothecary',merchant:'Merchant',library:'Library'};
     wd.buildings.forEach(function(b){
       var bcx=b.worldX+(b.w*TILE)/2, bcy=b.worldY+(b.h*TILE)/2;
       self.add.text(bcx,bcy,bicons[b.type]||'🏛',{fontSize:'22px',fontFamily:'serif'}).setOrigin(.5).setDepth(4);
@@ -2637,7 +2637,7 @@ class WorldScene extends Phaser.Scene{
         if(Math.hypot(px-(s.tx*TILE+TILE*1.5),py-(s.ty*TILE+TILE*1.5))<TILE*2.5){nearSite=s;break;}
       }
     }
-    var bnames={tavern:'Tavern',shop:'General Shop',house:'Home',forge:'Blacksmith',guild:'Guild',quest_board:'Quest Board',stables:'Stables',armory:'Armory',clothing:'Clothing',jeweler:'Jeweler',apothecary:'Sorcerer\'s Apothecary',merchant:'Merchant'};
+    var bnames={tavern:'Tavern',shop:'General Shop',house:'Home',forge:'Blacksmith',guild:'Guild',quest_board:'Quest Board',stables:'Stables',armory:'Armory',clothing:'Clothing',jeweler:'Jeweler',apothecary:'Sorcerer\'s Apothecary',merchant:'Merchant',library:'Library'};
     if(nearBuilding){
       if(!this._interactPrompt){
         var dCX=nearBuilding.worldX+Math.floor(nearBuilding.w/2)*TILE+TILE/2;

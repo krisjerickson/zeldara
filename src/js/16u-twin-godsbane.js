@@ -31,11 +31,9 @@ var ZTGB={ on:true,
     showNotif('✦ You learned GODSBANE from '+ZTWIN.other(ps).name+' — [V] with the Lodestar in hand. Now: the notch at the end of the pier.','#fff2b0');
     if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('Godsbane'); }catch(e){} if(ws._emitUI)ws._emitUI(); },
   // ── the twin at their books (the painted picture, once in; until then the standing twin as before) ──
-  study:function(ws){ var T=ws._twin, ps=ws.playerState; if(!T||!T.im||!T.im.scene)return; var Z=typeof _scn==='function'?_scn():null, id='twin_study_'+(ZTWIN.other(ps).ch==='hero_m'?'m':'f');
-    var want=!ps.spiritsHome&&Z&&Z.has&&Z.has(id);      /* after the end they stand up and join the celebration */
-    var D=ws._twinDesk; if(D&&(!D.scene||D._for!==T)){ if(D.scene)D.destroy(); D=ws._twinDesk=null; }      /* a new twin (the other hero picked): a new desk */
-    if(want&&!D){ var im=Z.image(ws,id,T.im.x,T.im.y-5,Z.K||1,T.im.depth); if(!im)return; im._for=T; ws._twinDesk=im; T.im.setVisible(false); }
-    else if(!want&&D){ D.destroy(); ws._twinDesk=null; T.im.setVisible(true); } },
+  // round 80 (Kris: "the other twin studying needs to be in a separate library building. right now being outside your home looks weird"): the desk
+  // by the Home is gone — the twin studies in the library now (16v-twin-library.js); this only clears a desk left from before
+  study:function(ws){ var D=ws._twinDesk; if(D){ if(D.scene)D.destroy(); ws._twinDesk=null; if(ws._twin&&ws._twin.im&&ws._twin.im.scene)ws._twin.im.setVisible(true); } },
   // ── the feast hall: your twin beside you ──
   fhMake:function(sc){ var ps=sc.worldScene&&sc.worldScene.playerState; if(!ps||typeof ZTWIN==='undefined'||typeof ZAtlas==='undefined')return; var O=ZTWIN.other(ps); if(!ZAtlas.has(O.ch))return;
     var x=sc.bx-46, y=sc.by+4, im=sc.add.image(x,y+12,'__WHITE').setOrigin(0.5,1); var dir=ZAtlas.count&&ZAtlas.count(O.ch,'idle','b')>0?'b':'f';
@@ -72,7 +70,7 @@ setTimeout(function(){
       if(ps&&N&&ws.player&&!ps.bifrost&&!ps.godsbane&&ps.asgardDown&&ZASG.hasStaff(ps)&&Math.hypot(ws.player.x-N.x,ws.player.y-N.y)<=TILE*1.8){
         var t='The Lodestar sleeps — '+ZTWIN.other(ps).name+' may know its word';
         if(!ws._interactPrompt||ws._interactPrompt._zt!==t){ if(ws._interactPrompt)ws._interactPrompt.destroy(); ws._interactPrompt=domText(ws,N.x,N.y-44,t,{fontSize:'10px',color:'#fff2b0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); ws._interactPrompt._zsp='notch'; ws._interactPrompt._zt=t; }
-        if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB))showNotif('🌟 The staff fits the notch, but it does not wake. '+ZTWIN.other(ps).name+' has read the old sagas all this time — go home and ask.','#fff2b0');
+        if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB))showNotif('🌟 The staff fits the notch, but it does not wake. '+ZTWIN.other(ps).name+' has read the old sagas all this time — find them in the library and ask.','#fff2b0');
         return true; }
       return c0.apply(this,arguments); }; }
   // the feast hall: your twin with you, and casting with you; the cast panel with both of you once painted

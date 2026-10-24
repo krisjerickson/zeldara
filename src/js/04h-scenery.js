@@ -28,7 +28,7 @@ var ZScn={
   fake:function(){ if(typeof ZSCN==='undefined'||typeof document==='undefined')return 0; var M=ZScn.META, n=0, PW=2048, x=2, y=2, rowH=0, pg=0, cv=null, g=null, hue=0;
     var page=function(){ cv=document.createElement('canvas'); cv.width=PW; cv.height=2048; g=cv.getContext('2d'); ZScn.img['fake'+pg]=cv; x=2; y=2; rowH=0; };
     page(); M.items=Object.assign({},M.items); M.tex=Object.assign({},M.tex);
-    ZSCN.SHEETS.forEach(function(S){ S.items.forEach(function(it){ var id=it[0]; hue=(hue+47)%360;
+    ZSCN.SHEETS.forEach(function(S){ if(S.sb)return;      /* round 81: the 352 story frames (one 2048 page each) took the page down — they never show in the game */ S.items.forEach(function(it){ var id=it[0]; hue=(hue+47)%360;
       if(S.kind==='tex'){ if(ZScn.timg[id])return; var t=document.createElement('canvas'); t.width=t.height=256; var tg=t.getContext('2d'); tg.fillStyle='hsl('+hue+',35%,50%)'; tg.fillRect(0,0,256,256); tg.strokeStyle='hsl('+hue+',40%,30%)'; tg.lineWidth=5; for(var i=0;i<4;i++)for(var j=0;j<4;j++){ tg.strokeRect(i*64+6+(j%2)*10,j*64+6,52,52); } ZScn.timg[id]=t; M.tex[id]={file:''}; n++; return; }
       if(M.items[id]&&ZScn.img[M.items[id][0]])return; var w=it[3]*2, h=it[4]*2; if(w>PW-4){ h=Math.round(h*(PW-4)/w); w=PW-4; } if(x+w>PW-2){ x=2; y+=rowH+2; rowH=0; } if(y+h>2046){ pg++; page(); }
       g.fillStyle='hsla('+hue+',55%,55%,0.92)'; g.fillRect(x+3,y+3,w-6,h-6); g.strokeStyle='#1a1420'; g.lineWidth=5; g.strokeRect(x+3,y+3,w-6,h-6); g.fillStyle='#fff'; g.font='bold '+Math.max(9,Math.min(22,w/id.length*1.5))+'px sans-serif'; g.textAlign='center'; g.fillText(id,x+w/2,y+h/2+5,w-8);

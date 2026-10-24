@@ -13,7 +13,8 @@ var VILLAGE_CORE=[   // the enterable buildings (fixed; doors at the bottom cent
   {dx:-12,dy:-12,w:5,h:4,type:'tavern'}, {dx:7,dy:-12,w:5,h:4,type:'shop'}, {dx:-12,dy:6,w:4,h:4,type:'house'},
   {dx:8,dy:6,w:4,h:4,type:'forge'}, {dx:-4,dy:-14,w:4,h:3,type:'guild'}, {dx:14,dy:-4,w:6,h:5,type:'stables'},
   {dx:-20,dy:-8,w:5,h:4,type:'armory'}, {dx:-20,dy:4,w:5,h:4,type:'clothing'}, {dx:0,dy:14,w:5,h:4,type:'jeweler'},
-  {dx:10,dy:14,w:6,h:4,type:'apothecary'}, {dx:9,dy:-19,w:5,h:4,type:'merchant'}];
+  {dx:10,dy:14,w:6,h:4,type:'apothecary'}, {dx:9,dy:-19,w:5,h:4,type:'merchant'},
+  {dx:-15,dy:-3,w:5,h:4,type:'library'}];      // round 80 (Kris: "the other twin studying needs to be in a separate library building … make space for a library in the town"; L2: near your Home)
 // round 44 (Kris: "The village is too cluttered when at the final stage … look for how to reorganize such that walking paths and roads connect you to all
 // the buildings"): the last two stages get fewer houses, carts and gardens (44 → 38 buildings), so every door keeps open ground to a street
 var VR_EXTRA={ glimmer:false, glimmerAt:null, miraAt:null, pierEnd:null, pierDir:null };      // round 52: what the village plan adds beyond its stage
@@ -25,7 +26,8 @@ var VR_CORE_LOOK={ tavern:{style:'timber',roof:'#a8452e',roofPat:'tile',sign:'#c
   guild:{style:'stone',roof:'#5a5a6a',roofPat:'slate',sign:'#e0c060'}, stables:{style:'wood',roof:'#8a6440',roofPat:'shingle',sign:'#8a6440',wallH:40},
   armory:{style:'stone',roof:'#3e4656',roofPat:'slate',sign:'#8a8a90'}, clothing:{style:'timber',roof:'#6a3a5a',roofPat:'tile',awning:'#b070d0',sign:'#b070d0'},
   jeweler:{style:'round',roof:'#c4a25a',sign:'#40c0d0'}, apothecary:{style:'wood',roof:'#3f6a3a',roofPat:'shingle',sign:'#60a060'},
-  merchant:{style:'timber',roof:'#8a5a2a',roofPat:'tile',awning:'#e0a030',sign:'#f0c040'} };
+  merchant:{style:'timber',roof:'#8a5a2a',roofPat:'tile',awning:'#e0a030',sign:'#f0c040'},
+  library:{style:'wood',roof:'#3f6a3a',roofPat:'shingle',sign:'#6fe3f5'} };
 var VR_HOUSE_LOOKS=[ // weights: runestone round cottages first, then the other villages' houses
   {w:4,style:'round',roofs:['#b8964a','#a88a44','#c4a25a']},
   {w:2,style:'wood',roofPat:'shingle',roofs:['#3f6a3a','#4f7a44','#5a4a7a']},

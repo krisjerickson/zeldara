@@ -54,6 +54,7 @@ function buildVillage(tiles){
     {dx: 0, dy:14, w:5,h:4,type:'jeweler'},
     {dx:10, dy:14, w:6,h:4,type:'apothecary'},
     {dx: 9, dy:-19,w:5,h:4,type:'merchant'}, // moved up, away from shop
+    {dx:-15,dy:-3, w:5,h:4,type:'library',name:'The Library'}, // round 80 (Kris): the twin's library, a Norse saga-hall across the street from your Home
   ];
   bdefs.forEach(function(b){
     var bx=vx+b.dx,by=vy+b.dy;

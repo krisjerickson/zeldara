@@ -17,7 +17,7 @@ with game(new=True, painted=True) as g:
     r = g.js("""(async()=>{ %s var ws=game.scene.getScene('World'), ps=ws.playerState, o={}; ps.godMode=true; if(typeof ZFT!=='undefined')ZFT.on=false;
       var D=ZSLW.data(ws), S=ZSPIRIT.shrines(ws); o.zones=D.G.Z.length; o.pieces=D.reach.filter(function(r){ return r>12; }).length; o.X=D.X.length; o.runes=D.runes.length; o.idx=Object.keys(D.idx).length;
       var s=S[0]; ws.player.x=s.x+60; ws.player.y=s.y+40; ws.player.cont.setPosition(ws.player.x,ws.player.y); await w(2500);
-      ZSPIRIT.free(ws,s); o.seen0=ps.slSeen.indexOf(s.id); o.mapNew=ps.slMapNew; await w(300); FairyTalk.close(); await w(2600); o.tracing=!!ws._zslT; o.zoomOut=ws.cameras.main.zoom<1.39;
+      ZSPIRIT.free(ws,s); o.seen0=ps.slSeen.indexOf(s.id); o.mapNew=ps.slMapNew; await w(300); FairyTalk.close(); o.tracing=false; o.zoomOut=false; for(var q=0;q<26;q++){ await w(100); if(ws._zslT)o.tracing=true; if(ws.cameras.main.zoom<1.39)o.zoomOut=true; }      /* round 81: the trace is quicker now — watch for it the whole time */
       await w(5000); o.seen1=ps.slSeen.indexOf(s.id)>=0; o.ch=Object.keys(ws._zslC.m).length; o.sig=Object.keys(ws._zslC.m).map(function(k){ return ws._zslC.m[k].sig; })[0]||'';
       o.motes=ws._zslM?ws._zslM.p.filter(function(m){ return m.im.visible; }).length:0; o.zoomBack=Math.abs(ws.cameras.main.zoom-1.4)<0.02;
       // a spirit freed far away waits (map page flash), and traces when you walk near
@@ -47,10 +47,11 @@ with game(new=True, painted=True) as g:
     z = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, o={}; var pt=ZCUT.painted; ZCUT.on=true;
       o.notYet=ZSAGA.ready('realm4'); ZCUT.painted=function(id){ return /^pn_saga_/.test(id)?'data:image/gif;base64,R0lGODlhAQABAAAAACw=':pt(id); };
       ps.sagaSeen=[]; o.first=ZSAGA.play(ps,'realm4'); o.open=ZCUT.isOpen(); o.again=ZSAGA.play(ps,'realm4'); var el=document.getElementById('zcut'); if(el)el.remove();
-      var q4=ZSPIRIT.shrines(ws).filter(function(s){ return s.q===4; }); ps.spiritsFreed=q4.map(function(s){ return s.id; }); ps.sagaSeen=[]; var called=null, p0=ZSAGA.play; ZSAGA.play=function(ps,k){ called=k; return true; };
+      var q4=ZSPIRIT.shrines(ws).filter(function(s){ return s.q===4; }); ps.spiritsFreed=q4.map(function(s){ return s.id; }); ps.sagaSeen=['firstfree'];      /* round 73: the first spirit freed has its own panels, told before */ var called=null, p0=ZSAGA.play; ZSAGA.play=function(ps,k){ called=k; return true; };
       ZSAGA.afterTrace(ws,q4[0]); return new Promise(function(r){ setTimeout(function(){ o.realm=called; ZSAGA.play=p0; ZCUT.painted=pt; ZCUT.on=false; r(o); },1200); }); })()""")
-    t = g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, T=ws._twin; return {on:!!(T&&T.im.scene), name:T&&T.npc.n, ch:T&&T.ch, hero:ps.hero, npc:(ws._villageNPCs||[]).some(function(n){ return n.id==='vf_twin'; }), line:ZTWIN.line({spiritsFreed:new Array(21).fill('x')}), line0:ZTWIN.line({spiritsFreed:[]})}; })()")
-    check('The other twin stays in the village, by the Home, and talks of how far you have come (%s, %s)' % (t['name'], t['ch']), t['on'] and t['npc'] and t['ch'] == ('hero_m' if t['hero'] == 'f' else 'hero_f') and t['name'] in ('Zeldara', 'Zeldor') and 'map' in t['line'] and 'village' in t['line0'], t)
+    t = g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, T=ws._twin; return {on:!!(T&&T.im.scene), name:T&&T.npc.n, ch:T&&T.ch, hero:ps.hero, npc:(ws._villageNPCs||[]).some(function(n){ return n.id==='vf_twin'; }), line:ZTWIN.line({spiritsFreed:new Array(21).fill('x')}), line0:ZTWIN.line({spiritsFreed:[]}), where:ZTWIN.where(ps,ws), other:ZTWIN.other(ps).ch}; })()")
+    # round 81 (Kris): the other twin studies in the library by day (and sleeps at Home by night) — no longer outside the Home (test_round81)
+    check('The other twin stays in the village — in the library now — and talks of how far you have come (%s)' % t['other'], ((t['where'] in ('library', 'bed') and not t['on'] and not t['npc']) or (t['where'] == 'out' and t['on'] and t['npc'])) and t['other'] == ('hero_m' if t['hero'] == 'f' else 'hero_f') and 'map' in t['line'] and 'village' in t['line0'], t)
     check('The saga panels play once each, only when painted: the Ashlands\' tenth spirit tells the Ash Night (%s)' % z, z['first'] and z['open'] and not z['again'] and z['realm'] == 'realm4', z)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No game script errors', not errs, errs[:4])
