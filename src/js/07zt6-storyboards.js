@@ -367,9 +367,21 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
     if(/\{H\}/.test(t))who.push(ZSB.HERO[k]); if(/\{O\}/.test(t))who.push(ZSB.HERO[o]); if(/\{T\}/.test(t))who.push(ZSB.TWINS); if(/\{K\}/.test(t))who.push(ZSB.KIDS);
     var body=t.replace(/\{H\}/g,NAME[k]).replace(/\{O\}/g,NAME[o]).replace(/\{T\}/g,'the twins Zeldor and Zeldara').replace(/\{K\}/g,'the little twins');
     return (who.length?'Who is in it: '+who.join('; ')+'. The scene: ':'The scene: ')+body; };
+  // round 81 (Kris: "there are many points in the story that zeldara and zeldor are not yet born or at the age of the game, but they show up in
+  // the image. they need to be removed for all of the frames where they are not yet grown up and part of the saga yet"): the frames set before
+  // the twins (the opening's first five, the four realms' falls, the truth's memories) get no hero style picture, the old saga panels (no
+  // heroes in them) as the style to match, and a plain line that the twins are not there. ZSB.REDO81: the frames painted again.
+  ZSB.PAST={quiet:1,ashnight:1,stonefall:1,blacktide:1,opening:[1,2,3,4,5,6,7],truth:[3,4,5]};
+  ZSB.PASTREF={quiet:['sc_pn_saga_quiet_b','sc_pn_saga_cradles'],ashnight:['sc_pn_saga_ashnight_b','sc_pn_saga_quiet_b'],stonefall:['sc_pn_saga_stonefall_b','sc_pn_saga_quiet_b'],blacktide:['sc_pn_saga_blacktide_b','sc_pn_saga_quiet_b'],
+    opening:['sc_pn_saga_storm_b','sc_pn_saga_cradles','sc_pn_saga_quiet_b'],truth:['sc_pn_saga_storm_b','sc_pn_saga_basket']};
+  ZSB.past=function(id,n){ var P=ZSB.PAST[id]; return P===1||(P&&P.indexOf(n)>=0); };
+  ZSB.PASTNO=function(id,n){ return id==='truth'?'. A memory from before the twins were born: Zeldor and Zeldara are NOT in this picture as children or as young heroes — they exist here only as the two tiny sparks of light described':
+    id==='opening'&&n>=6?'. The twins appear ONLY as two newborn babes wrapped in the basket — no older child, no young hero, no boy in a green cape, no girl with auburn braids anywhere else in the picture':
+    '. This happens long before the twins Zeldor and Zeldara were born: they are NOT in this picture — no young hero, no boy in a green cape, no girl with auburn braids, no white-haired companion, no adventurer watching from the side or the foreground. Only the people and things described: villagers, miners, travellers and spirits of that time, a mix of skin tones as in the reference panels'; };
+  ZSB.REDO81=['opening_01','opening_02','opening_04','opening_05','truth_04','truth_05'].concat([].concat.apply([],['quiet','ashnight','stonefall','blacktide'].map(function(r){ return [1,2,3,4,5,6,7].map(function(n){ return r+'_0'+n; }); }))).map(function(x){ return 'sc_sb_'+x; });
   var out=[];
-  ZSB.SCENES.forEach(function(sc){ sc.beats.forEach(function(b){ var base='sb_'+sc.id+'_'+('0'+b.n).slice(-2), refs=ZSB.BASE.concat(sc.refs).concat(b.refs).slice(0,6);
-      var one=function(id,k,extra){ var d=ZSB.STYLE+fill(b.desc,k||'m')+ZSB.EPIC+ZSB.NO; out.push({id:'sc_'+id,wave:sc.wave,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:refs.concat(extra||[]).slice(0,8),title:'Story frame — '+sc.name+', '+b.n+'. '+b.title+(k?(k==='m'?' (you play Zeldor)':' (you play Zeldara)'):''),items:[[id,b.title,d,1536,1024]],sb:{scene:sc.id,n:b.n,k:k||''}}); };
+  ZSB.SCENES.forEach(function(sc){ sc.beats.forEach(function(b){ var base='sb_'+sc.id+'_'+('0'+b.n).slice(-2), past=ZSB.past(sc.id,b.n), refs=past?ZSB.PASTREF[sc.id].concat(sc.refs).concat(b.refs).slice(0,6):ZSB.BASE.concat(sc.refs).concat(b.refs).slice(0,6);
+      var one=function(id,k,extra){ var d=ZSB.STYLE+fill(b.desc,k||'m')+ZSB.EPIC+(past?ZSB.PASTNO(sc.id,b.n):'')+ZSB.NO; out.push({id:'sc_'+id,wave:sc.wave,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',noStyle:past||undefined,refs:refs.concat(extra||[]).slice(0,8),title:'Story frame — '+sc.name+', '+b.n+'. '+b.title+(k?(k==='m'?' (you play Zeldor)':' (you play Zeldara)'):''),items:[[id,b.title,d,1536,1024]],sb:{scene:sc.id,n:b.n,k:k||''}}); };
       if(b.who==='h'||b.who==='o'){ one(base+'_m','m',['hero_m.model'].concat(b.who==='o'?['hero_f.model']:[])); one(base+'_f','f',['hero_f.model'].concat(b.who==='o'?['hero_m.model']:[])); }
       else { one(base,null,b.who==='t'?['hero_m.model','hero_f.model']:[]); } }); });
   ZSB.count=out.length; ZSCN.SHEETS=ZSCN.SHEETS.concat(out);

@@ -899,7 +899,7 @@ var ZSCN={
   rel:function(h){ var k=h/63; return k<0.35?'a small item, under half the hero\'s height':k<0.8?'about '+(Math.round(k*10)/10)+'× the hero\'s height':k<1.25?'about as tall as the hero':'about '+(Math.round(k*10)/10)+'× the hero\'s height'; },
   requests:function(){ return ZSCN.SHEETS.map(function(S){ var a=S.refs?null:ZSCN.anchor(S.fam), anc=a&&a!==S.id&&S.kind!=='tex'?a:null, T=Object.assign({},S,{anchorRef:!!anc});
     return {id:S.id,set:'scenery',kind:S.kind,fam:S.fam,wave:S.wave,pilot:!!S.pilot,title:S.title,cols:S.cols,rows:S.rows,size:S.size||'1536x1024',bg:S.kind==='tex'||S.kind==='room'?'opaque':'transparent',
-      refs:['style_hero','style_centaur'].concat(anc?[anc]:[]).concat(S.refs||[]),items:S.items.map(function(it){ var o={id:it[0],name:it[1],w:it[3],h:it[4]}; if(it[5]){ o.grp=it[5].grp; o.anc=it[5].anc; } return o; }),poses:S.items.map(function(it){ return it[0]; }),
+      refs:(S.noStyle?[]:['style_hero','style_centaur']).concat(anc?[anc]:[]).concat(S.refs||[]),items:S.items.map(function(it){ var o={id:it[0],name:it[1],w:it[3],h:it[4]}; if(it[5]){ o.grp=it[5].grp; o.anc=it[5].anc; } return o; }),poses:S.items.map(function(it){ return it[0]; }),
       body:ZSCN.body(T),tail:S.kind==='tex'?'tex':S.kind==='room'?'room':'obj'}; }); },
   stats:function(){ var o={sheets:ZSCN.SHEETS.length,items:0,pilot:0,byWave:{}}; ZSCN.SHEETS.forEach(function(S){ o.items+=S.items.length; if(S.pilot)o.pilot++; var w=o.byWave[S.wave]||(o.byWave[S.wave]={name:ZSCN.WAVES[S.wave],sheets:0,items:0}); w.sheets++; w.items+=S.items.length; }); return o; }
 };

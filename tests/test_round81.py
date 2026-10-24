@@ -45,6 +45,12 @@ with game(painted=True) as g:
     check('After the end, by day, the twin is out with everyone again', o['out'] and o['where'] == 'out' and o['npc'], o)
     errs = [x for x in g.errs if 'favicon' not in x and '404' not in x]
     check('No game script errors', not errs, errs[:3])
+# round 81b (Kris: "zeldara and zeldor are not yet born or at the age of the game, but they show up in the image"): the frames before the twins
+J = json.load(open(os.path.join(R, 'sprites', 'requests', 'scenery.json'), encoding='utf-8')); RQ = {q['id']: q for q in J['requests']}
+PAST = ['sc_sb_opening_0%d' % n for n in (1, 2, 4, 5)] + ['sc_sb_truth_04', 'sc_sb_truth_05'] + ['sc_sb_%s_0%d' % (r, n) for r in ('quiet', 'ashnight', 'stonefall', 'blacktide') for n in range(1, 8)]
+bad = [i for i in PAST if 'style_hero' in RQ[i]['refs'] or any(r.startswith('hero_') for r in RQ[i]['refs']) or 'NOT in this picture' not in RQ[i]['body'] or 'sc_pn_end_cast_a' in RQ[i]['refs']]
+check('The %d frames set before the twins carry no hero picture and say the twins are not there' % len(PAST), len(PAST) == 34 and not bad, bad[:4])
+check('Frames with the twins still carry their pictures (the first spirit, the send-off)', 'hero_m.model' in RQ['sc_sb_spirit_05_m']['refs'] and 'style_hero' in RQ['sc_sb_opening_12_m']['refs'] and 'NOT in this picture' not in RQ['sc_sb_opening_10']['body'])
 E = json.load(open(os.path.join(R, 'lab', 'preview', 'audio', 'eth.json')))
 check('The gentle sounds are joined for the Lab: %d effects, all with both options' % len(E['items']), len(E['items']) >= 147 and all('e1' in v and 'e2' in v for v in E['items'].values()) and all(os.path.isfile(os.path.join(R, 'lab', 'preview', 'audio', 'eth_%s.mp3' % k)) for k in ('cur', 'e1', 'e2')))
 with sync_playwright() as p:

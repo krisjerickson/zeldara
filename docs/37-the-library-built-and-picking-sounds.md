@@ -33,3 +33,15 @@ Your Home now has the twin's bed by the hearth (the chest moved beside your own 
 - `10zt-twin.js`: `ZTWIN.where` (library / bed / out). `16u`: the old desk removed. `07zst`: the saga map's lines say "library".
 - `tools/audio/eth_preview.py`, `tools/audio/pick_sounds.py`, `lab/src/js/79g-lab-r81.js`, `build.mjs` (`ZSFX_PICK`).
 - Tests: `tests/test_round81.py`.
+
+## 5. The story frames before the twins (round 81b)
+
+Kris: "there are many points in the story that zeldara and zeldor are not yet born or at the age of the game, but they show up in the image. they need to be removed for all of the frames where they are not yet grown up and part of the saga yet."
+
+- **Why it happened:** every picture request carried the game's hero style picture, and the history frames had nothing saying who was *not* there, so the painter put a young hero (and a white-haired companion) in as a watcher.
+- **The fix, for every frame set before the twins** (the opening's frames 1–7, all four realms' falls, the truth's memories 3–5):
+  - no hero style picture;
+  - the old saga panels (the Long Quiet, the Ash Night, the Stone-Fall, the Black Tide, the cradles, the storm, the basket — no heroes in them) as the style to match;
+  - a plain line: "long before the twins were born: they are NOT in this picture". In the memories the twins are only the two sparks; in the basket they are only the two babes.
+- **Painted again (34):** opening 1, 2, 4, 5; the Long Quiet, the Ash Night, the Stone-Fall and the Black Tide 1–7 each; the truth 4, 5. Opening 3, 6–9 (the cradles, the basket, the babes, the toddlers) and the truth 3 were right and stay.
+- **To run:** `.\tools\sprites\round81.ps1`. It moves the old ones to `sprites\_replaced_r81` and sends the 34. Then Claude remakes the montages and the Lab sheets.
