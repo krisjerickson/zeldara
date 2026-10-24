@@ -12552,7 +12552,7 @@ Story frame — A glimpse: the gate shut, 2. The gate · wave 87 · 1 items, 1 �
 
 - `sb_gate_02` The gate — 1536 × 1024 px
 
-Attach: 
+Attach: sc_pn_saga_gate, sc_pn_saga_orbs
 
 ```
 Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story frame — A glimpse: the gate shut, 2. The gate — one frame of a story cut-scene told in pictures, which will be animated into a short video.
@@ -12570,7 +12570,7 @@ Story frame — A glimpse: the gate shut, 3. The mask · wave 87 · 1 items, 1 �
 
 - `sb_gate_03` The mask — 1536 × 1024 px
 
-Attach: 
+Attach: sc_pn_saga_gate, sc_pn_saga_orbs
 
 ```
 Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story frame — A glimpse: the gate shut, 3. The mask — one frame of a story cut-scene told in pictures, which will be animated into a short video.
@@ -12588,7 +12588,7 @@ Story frame — A glimpse: the gate shut, 4. No soul rises · wave 87 · 1 items
 
 - `sb_gate_04` No soul rises — 1536 × 1024 px
 
-Attach: 
+Attach: sc_pn_saga_gate, sc_pn_saga_orbs
 
 ```
 Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story frame — A glimpse: the gate shut, 4. No soul rises — one frame of a story cut-scene told in pictures, which will be animated into a short video.
@@ -12606,7 +12606,7 @@ Story frame — A glimpse: the gate shut, 5. None come down · wave 87 · 1 item
 
 - `sb_gate_05` None come down — 1536 × 1024 px
 
-Attach: 
+Attach: sc_pn_saga_gate, sc_pn_saga_orbs
 
 ```
 Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: Story frame — A glimpse: the gate shut, 5. None come down — one frame of a story cut-scene told in pictures, which will be animated into a short video.

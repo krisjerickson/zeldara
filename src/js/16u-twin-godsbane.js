@@ -52,7 +52,7 @@ var ZTGB={ on:true,
     var ps=ws.playerState; ZTGB.study(ws); if(ws._twin&&ws._twin.npc)ws._twin.npc.talk=ZTGB.talk;      /* the twin answers [Tab] (10-scene-world calls npc.talk) */ if(typeof _anyModalOpen==='function'&&_anyModalOpen())return; if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&ZCUT.isOpen())return;
     // what this game had when it was loaded counts as already told (an old save does not replay three crossings at once)
     var st=ws._ztgb; if(!st||st.ps!==ps){ st=ws._ztgb={ps:ps,res:(ps.rescued||[]).slice(),staff:typeof ZASG!=='undefined'&&ZASG.hasStaff(ps)}; return; }
-    for(var k=1;k<=3;k++)if((ps.rescued||[]).indexOf(k)>=0&&st.res.indexOf(k)<0&&!ZTGB.seen(ps,'build'+k)){ st.res.push(k); ZSAGA.play(ps,'build'+k); return; }
+    for(var k=1;k<=4;k++)if((ps.rescued||[]).indexOf(k)>=0&&st.res.indexOf(k)<0&&!ZTGB.seen(ps,'build'+k)){ st.res.push(k); ZSAGA.play(ps,'build'+k); return; }
     var has=typeof ZASG!=='undefined'&&ZASG.hasStaff(ps); if(has&&!st.staff){ st.staff=true; if(!ZTGB.seen(ps,'lodestar')&&ZSAGA.play(ps,'lodestar'))return; }
     var n=(ps.spiritsFreed||[]).length;
     if(ps.spiritsHome&&n>=40){ if(!ZTGB.seen(ps,'tattoo')&&ZSAGA.play(ps,'tattoo'))return; if(!ps.worldTree){ ps.worldTree=1; ZSAGA.play(ps,'worldtree'); } }

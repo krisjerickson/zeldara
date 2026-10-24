@@ -65,7 +65,8 @@ let scnMeta = '{"pages":[],"items":{},"tex":{}}'; try { scnMeta = fs.readFileSyn
 const worldHash = (await import('node:crypto')).createHash('md5').update(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('\n').replace(/\r\n/g, '\n') + atlasMeta.replace(/\r\n/g, '\n') + scnMeta.replace(/\r\n/g, '\n')).digest('hex').slice(0, 16);
 let videoIdx = 'null'; try { const vd = path.join(ROOT, 'assets/video'), V = {}; for (const f of fs.readdirSync(vd)) { const m = /^(.+)\.(mp4|webm)$/.exec(f); if (m) V[m[1]] = f; } if (Object.keys(V).length) videoIdx = JSON.stringify(V); } catch (e) {}   // round 73: the cut-scene clips (tools/video, 07zvc)
 let audioIdx = 'null'; try { audioIdx = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/audio/index.json'), 'utf8'))); } catch (e) {}   // round 72: the made sound files (tools/audio/intake_audio.py) — in the page, so no request is made when there are none
-const js = 'var ZATLAS_META=' + atlasMeta + ';\nvar ZAUDIO_INDEX=' + audioIdx + ';\nvar ZVIDEO_INDEX=' + videoIdx + ';\nvar ZSCN_META=' + scnMeta + ';\nvar ZWORLD_HASH=' + JSON.stringify(worldHash) + ';\n' + minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
+let storyIdx = 'null'; try { const SI = JSON.parse(fs.readFileSync(path.join(ROOT, 'assets/story/index.json'), 'utf8')); for (const k of Object.keys(SI)) delete SI[k].src; storyIdx = JSON.stringify(SI); } catch (e) {}   // round 82: the story frames' sheets (tools/video/story_atlas.py)
+const js = 'var ZATLAS_META=' + atlasMeta + ';\nvar ZSTORY_INDEX=' + storyIdx + ';\nvar ZAUDIO_INDEX=' + audioIdx + ';\nvar ZVIDEO_INDEX=' + videoIdx + ';\nvar ZSCN_META=' + scnMeta + ';\nvar ZWORLD_HASH=' + JSON.stringify(worldHash) + ';\n' + minify(jsFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join(''), 'game JS');
 
 // Engine switch (round 18): Phaser 3.60 is the default. `node build.mjs --engine=4` (or ZELDARA_ENGINE=4)
 // makes Phaser 4 the default; any built page also accepts ?engine=3 or ?engine=4 in its address.
@@ -221,7 +222,8 @@ try {
   if (fs.existsSync(D('assets', 'atlas'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'atlas'), D('dist', 'play' + v, 'assets', 'atlas'));
   if (fs.existsSync(D('assets', 'scenery'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'scenery'), D('dist', 'play' + v, 'assets', 'scenery'));   // painted scenery (round 30)
   if (fs.existsSync(D('assets', 'audio'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'audio'), D('dist', 'play' + v, 'assets', 'audio'));   // the made music and sounds (round 73)
-  if (fs.existsSync(D('assets', 'video'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'video'), D('dist', 'play' + v, 'assets', 'video'));   // the cut-scene clips (round 73)
+  if (fs.existsSync(D('assets', 'video'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'video'), D('dist', 'play' + v, 'assets', 'video'));
+  if (fs.existsSync(D('assets', 'story'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'story'), D('dist', 'play' + v, 'assets', 'story'));   // the story frames (round 82)   // the cut-scene clips (round 73)
   if (fs.existsSync(D('assets', 'world'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'world'), D('dist', 'play' + v, 'assets', 'world'));   // the baked world (round 72)
   if (fs.existsSync(D('lab/index.html'))) fs.copyFileSync(D('lab/index.html'), D('dist', 'lab', 'index.html'));
   if (fs.existsSync(D('lab/preview'))) copyDir(D('lab/preview'), D('dist', 'lab', 'preview'));

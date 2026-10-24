@@ -12,6 +12,9 @@
 // ║ Switch: ZCUT.on (Dev: ZCUT.on=false); the test suites keep it off (tests/harness.py).
 // ═══════════════════════════════════════════════════════════════════════
 var ZCUT={ on:true, ID:'zcut', HOLD:3600, seen:{},
+  // round 82 (Kris: "make sure there is enough time to read everything"): each picture stays long enough to read its line — about 13 letters a
+  // second on top of a few seconds to take in the picture; a click, Space or Enter still goes on at once
+  hold:function(line){ var n=String(line||'').length; return Math.max(5200,Math.min(16000,3000+n*75)); },
   SETS:{
     grimnir_1:[['pn_sol_0','On the high seat of Asgard a god of gold unfolds his wings — Solmyrk, the Black Sun.']],      // round 65b: the intros (Kris: "Yes, an intro too")
     surtharn_1:[['pn_surt_1','The throne of Muspelheim splits open — Surtharn, the Molten Colossus, rises from the fire!']],
@@ -41,16 +44,20 @@ var ZCUT={ on:true, ID:'zcut', HOLD:3600, seen:{},
     var el=document.createElement('div'); el.id=ZCUT.ID; el.style.cssText='position:fixed;inset:0;z-index:9990;background:#000;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease;cursor:pointer';
     el.innerHTML='<div class="zcut-bar" style="position:absolute;left:0;right:0;top:0;height:11vh;background:#000;z-index:2"></div><div class="zcut-bar" style="position:absolute;left:0;right:0;bottom:0;height:11vh;background:#000;z-index:2"></div>'+
       '<img class="zcut-img" style="max-width:100%;max-height:78vh;object-fit:contain;opacity:0;transition:opacity .6s ease">'+
-      '<div class="zcut-cap" style="position:absolute;left:0;right:0;bottom:13vh;text-align:center;font:italic 600 22px Georgia,serif;color:#fff4d8;text-shadow:0 2px 8px #000;z-index:3;padding:0 6vw"></div>'+
+      '<div class="zcut-cap" style="position:absolute;left:0;right:0;bottom:0;height:11vh;display:flex;align-items:center;justify-content:center;text-align:center;font:italic 600 clamp(16px,2vw,23px)/1.3 Georgia,serif;color:#fff4d8;text-shadow:0 2px 8px #000,0 0 3px #000;z-index:3;padding:0 15vw;box-sizing:border-box"></div>'+
+      '<div class="zcut-n" style="position:absolute;left:18px;bottom:3.4vh;z-index:4;font:600 12px Segoe UI,sans-serif;color:rgba(255,244,216,.65)"></div>'+
       '<button class="zcut-skip" style="position:absolute;right:18px;bottom:3vh;z-index:4;font:600 13px Segoe UI,sans-serif;padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.4);background:rgba(20,20,26,.7);color:#eee;cursor:pointer">Skip ▶▶</button>';
     document.body.appendChild(el); var img=el.querySelector('.zcut-img'), cap=el.querySelector('.zcut-cap'), i=-1, timer=null, ended=false;
     var end=function(){ if(ended)return; ended=true; el.id='zcut-closing'; clearTimeout(timer); document.removeEventListener('keydown',key,true); el.style.opacity='0'; setTimeout(function(){ el.remove(); if(done)done(); },500); };
-    var next=function(){ clearTimeout(timer); i++; if(i>=S.length){ end(); return; } var id=S[i][0], line=S[i][1]; img.style.opacity='0'; cap.textContent='';
-      var show=function(src){ if(ended)return; img.onload=function(){ img.style.opacity='1'; cap.textContent=line; }; img.src=src; timer=setTimeout(next,ZCUT.HOLD); };
+    var nEl=el.querySelector('.zcut-n');
+    var next=function(){ clearTimeout(timer); i++; if(i>=S.length){ end(); return; } var id=S[i][0], line=S[i][1]; img.style.opacity='0'; cap.textContent=''; if(nEl)nEl.textContent=S.length>1?(i+1)+' / '+S.length+'   ·   click or Space to go on':'click or Space to go on';
+      var show=function(src){ if(ended)return; if(typeof ZSFR!=='undefined')ZSFR.hide(el); img.style.display=''; img.onload=function(){ if(ended)return; img.style.opacity='1'; cap.textContent=line; clearTimeout(timer); timer=setTimeout(next,ZCUT.hold(line)); }; img.src=src; timer=setTimeout(next,ZCUT.hold(line)+1500); };      /* round 82: the time to read starts when the picture shows */
+      if(/^sb:/.test(id)&&typeof ZSFR!=='undefined'){ var v0=el.querySelector('.zcut-vid'); if(v0){ try{ v0.pause(); }catch(e){} v0.style.display='none'; } img.style.display='none';      /* round 82: a story frame, cut from its cut-scene's sheet (16w) */
+        ZSFR.show(el,id,function(){ if(ended)return; cap.textContent=line; clearTimeout(timer); timer=setTimeout(next,ZCUT.hold(line)); }); timer=setTimeout(next,ZCUT.hold(line)+4000); return; }
       var v=el.querySelector('.zcut-vid'), vsrc=typeof ZVID!=='undefined'&&ZVID.src(id); if(v){ try{ v.pause(); }catch(e){} v.style.opacity='0'; }
       if(vsrc){ if(!v){ v=document.createElement('video'); v.className='zcut-vid'; v.playsInline=true; v.setAttribute('playsinline',''); v.preload='auto'; v.style.cssText=img.style.cssText; el.insertBefore(v,img); }      /* round 73: the clip in place of the still (07zvc) */
-        v.muted=!ZVID.sound; v.style.display=''; img.style.display='none'; var ok=false;
-        v.onloadeddata=function(){ if(ended||ok)return; ok=true; v.style.opacity='1'; cap.textContent=line; try{ var pp=v.play(); if(pp&&pp.catch)pp.catch(function(){}); }catch(e){} timer=setTimeout(next,Math.max(ZCUT.HOLD,(v.duration||8)*1000+1200)); };
+        v.muted=!ZVID.sound; v.style.display=''; img.style.display='none'; if(typeof ZSFR!=='undefined')ZSFR.hide(el); var ok=false;
+        v.onloadeddata=function(){ if(ended||ok)return; ok=true; v.style.opacity='1'; cap.textContent=line; try{ var pp=v.play(); if(pp&&pp.catch)pp.catch(function(){}); }catch(e){} timer=setTimeout(next,Math.max(ZCUT.hold(line),(v.duration||8)*1000+1200)); };
         v.onerror=function(){ if(ok||ended)return; ok=true; v.style.display='none'; img.style.display=''; var s2=ZCUT.painted(id); if(s2)show(s2); else ZCUT.placeholder(boss,ph,i,line,show); };
         v.src=vsrc; return; }
       if(v)v.style.display='none'; img.style.display='';
