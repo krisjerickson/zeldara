@@ -39,7 +39,7 @@ Kris: "as i develop the videos, lets get the current image panels and text in th
 | The World Tree | all forty spirits, after the end |
 
 - **The files:**
-  - One picture per cut-scene, `assets/story/<scene>.webp`: its frames at 1280×720, four to a row. There are 34 sheets, about 69 MB in all; each one is fetched only when its moment comes.
+  - One picture per cut-scene, `assets/story/<scene>.webp`: its frames at 1280×720, four to a row. There are 34 sheets, about 69 MB in all; each one is fetched only when its moment comes. The claude.ai copy of the game holds a smaller version of each sheet (960×540 frames), because that copy can hold at most 256 MB in all.
   - `tools/video/story_atlas.py` makes them, remaking a sheet only when one of its frames was painted again. The game code is in `src/js/16w-story-frames.js`.
 
 ## 2. Making the montage videos — the process now
