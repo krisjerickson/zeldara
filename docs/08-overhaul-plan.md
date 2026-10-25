@@ -202,6 +202,16 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 83 (Oct 24) — no more chipping bosses down from afar
+- Kris: "we need to fix being able to range attack bosses from afar with spells to slowly kill the bosses. Few ideas: 1. bosses come at you when you attack with range weapons and spells. currently they sometimes just hover around the same area 2. mana regeneration should be slower overall, such that you might need to use mana potion if you want to continuously spam spells. Come up with other ideas as well".
+- Found: mana comes back at 4 per second, plus up to 4 more from gear (so 4–8/s); Frost Bolt costs 8 every 0.8 s (10/s), so a caster nearly never runs dry. Bosses move by kits: several "lumber" slowly or stand "still", "kite" ones keep ~190 px away, "hover" ones drift — none of them answers a hit from far away.
+- B1 — How a boss answers a hit from range? **Answered: charge in** — hit from beyond ~5 tiles, it drops its keep-away pattern and comes straight at you, faster, for a few seconds; a boss rooted in place pulls you in.
+- B2 — Mana regeneration? **Answered: slower in fights** — 1.5 mp/s while fighting, 4 out of a fight; gear adds at most +2.5 (was +4).
+- B3 — Which other ideas? **Answered: mana potions reworked** (cheaper, 5 of each, a short wait between drinks) **and ward against range** — Kris: "ward against range should only be for spells, projectiles should still be full attack" (bosses take −40 % from spells cast from beyond ~6 tiles; arrows and bolts in full).
+- B4 — Bosses only, or also the big monsters (elites, tower guardians)? **Answered: bosses and their forms** (tower, dungeon and island bosses, Surtharn's and Solmyrk's forms, the trial bosses); the mana change is everywhere.
+- Also (mid-round, Kris): "monsters that create walls or barriers that stop your movement can't be cast on top of you, otherwise you just get stuck and eventually die" — done, doc 39 §4.
+- Also (mid-round, Kris): "some spells push-back ability is too strong. let's limit how much you can push back monsters, and should be less for bigger monsters and bosses" — done, doc 39 §5 (specific request; assumptions there: a quarter for bosses, a third for the biggest, 60 px in 3 s at most).
+
 ### Round 81c (Oct 24) — the story montages put right
 - Kris listed what is wrong in the montages (doc 37 §6): heroes in the glimpses' Asgard frames; the bosses not whole or in the wrong colours, the hero doing the boss's acts; no montage of Solmyrk defeated; people in the feast hall; Freya in place of Zeldara after the spring; several girls as Zeldara in the celebration; the first parents (and Pip and Wren's) drawn as the twins. Then: "we need to plan the entire scenes with zeldara instead of zeldor, when you choose zeldara as your hero".
 - R1 — The glimpses' first and last frames (Zeldor on the hill)? **Answered: keep the hero on the hill**; only the Asgard frames lose the heroes.

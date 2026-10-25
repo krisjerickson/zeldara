@@ -39,7 +39,7 @@ var ZHit={
     if(st&&st.el&&e&&(st.el==='all'||st.el.indexOf(e)>=0))m*=1+ZEL.STAFF_POW;
     return Math.round(Math.max(5,(tome&&tome.atk)||12)*m); },
   // ── the hit ──  kind: 'melee' | 'ranged' | 'spell' | 'familiar' | 'skill'.  o: {el, sub, spell, pure, noProc, rnd}
-  dmg:function(scene,mon,raw,kind,o){ o=o||{}; if(!mon)return 0; var H=o.el!==undefined?{els:o.el==='all'?'all':ZEL.els(o.el),add:0}:ZHit.hero(kind==='skill'?'melee':kind,o);
+  dmg:function(scene,mon,raw,kind,o){ o=o||{}; if(!mon)return 0; if(kind!=='familiar'){ var _cps=ZHit._ps(); if(_cps)_cps._cbT=Date.now(); }      /* round 83: you are fighting (ZMREGEN) */ var H=o.el!==undefined?{els:o.el==='all'?'all':ZEL.els(o.el),add:0}:ZHit.hero(kind==='skill'?'melee':kind,o);
     var def=o.pure?0:ZHit.defOf(mon), d=ZHit.pct(raw+H.add,def);
     if(kind==='familiar'){ d=Math.min(d,Math.max(1,raw-def+1)); }
     var mel=ZEL.mon(mon), boss=ZEL.monBoss(mon), t=ZEL.tier(H.els,mel,boss), be=ZEL.bestEl(H.els,mel);
@@ -52,7 +52,24 @@ var ZHit={
     if(kind==='ranged'&&ZEL.AMMO[o.sub]){ if(t>-2)ZHit.proc(scene,mon,ZEL.AMMO[o.sub],d,2); }      // an element arrow always does its work (burn, slow, root, arc) — in every scene
     else if(!o.noProc&&be&&kind!=='familiar'&&kind!=='spell'&&t>-2)ZHit.proc(scene,mon,be,d,t);
     if(typeof ZPOT!=='undefined')try{ ZPOT.onHit(scene,mon,d,kind,o); }catch(e){}      // round 61: spell oils, the Silvered Edge
+    d=ZHit.range(scene,mon,kind,d);
     return d; },
+  // ── round 83: no more wearing a boss down from afar (Kris: "we need to fix being able to range attack bosses from afar with spells to
+  // slowly kill the bosses") — for bosses and their forms (towers, dungeons, islands, Surtharn, Solmyrk, the trials):
+  //   · B1 "charge in": a boss struck by an arrow or a spell from beyond 5 tiles drops its keep-away pattern and comes straight at you,
+  //     faster, for a few seconds (09 MX.tick; the old dungeon and field bosses chase); one rooted in place pulls you in instead
+  //   · B3 "ward against range" (Kris: "ward against range should only be for spells, projectiles should still be full attack"):
+  //     a spell landed from beyond 6 tiles does 40 % less; arrows and bolts hit in full
+  CHARGE_R:160, CHARGE_T:3.5, WARD_R:192, WARD:0.4,
+  isBoss:function(mon){ return !!(mon&&(mon.isBoss||(mon.def&&mon.def.boss))); },
+  far:function(scene,mon){ if(!scene||!mon)return 0; var x=scene.player?scene.player.x:scene.px, y=scene.player?scene.player.y:scene.py; return (typeof x==='number'&&typeof y==='number')?Math.hypot(x-mon.x,y-mon.y):0; },
+  range:function(scene,mon,kind,d){ if((kind!=='spell'&&kind!=='ranged')||!ZHit.isBoss(mon)||mon.dead)return d; var far=ZHit.far(scene,mon), r=(mon.def&&mon.def.r)||10;
+    if(far>ZHit.CHARGE_R+r){ var M=mon._m; if(M&&!M.hidden){ if(!(M.charge>0))ZHit.say(scene,mon,'it comes for you!','#ff9a70'); M.charge=Math.max(M.charge||0,ZHit.CHARGE_T); M.aggro=true; }
+      else if(!M){ if(!(mon._charge>Date.now()))ZHit.say(scene,mon,'it comes for you!','#ff9a70'); mon._charge=Date.now()+ZHit.CHARGE_T*1000; mon.state='chase'; } }
+    if(kind==='spell'&&far>ZHit.WARD_R+r){ d=Math.max(1,Math.round(d*(1-ZHit.WARD))); var now=Date.now(); if(!mon._wardT||now-mon._wardT>2500){ mon._wardT=now; ZHit.say(scene,mon,'warded — get closer','#c8b0ff');
+        var ps=ZHit._ps(); if(ps&&!(ps.seenEl&&ps.seenEl.ward)){ (ps.seenEl=ps.seenEl||{}).ward=1; try{ if(typeof showNotif==='function')showNotif('🛡 Bosses ward off spells cast from far away (40 % less) — get closer, or use your bow: arrows hit in full.','#c8b0ff'); }catch(e){} } } }
+    return d; },
+  say:function(scene,mon,t,c){ var r=(mon.def&&mon.def.r)||10; try{ if(typeof _heroFloat==='function')_heroFloat(scene,mon.x,mon.y-r-30,t,c); }catch(e){} },
   // the step mark beside the damage number; the first of each kind is explained once
   mark:function(scene,mon,t,el){ var T=ZEL.TIER[String(t)]; if(!T||!scene)return; var now=Date.now(); if(mon._zmT&&now-mon._zmT<450)return; mon._zmT=now;
     var col=t>0?((ZEL.E[el]||{}).col||'#ffe080'):'#9aa4b4', r=(mon.def&&mon.def.r)||10;
@@ -73,7 +90,8 @@ var ZHit={
   axe:function(scene,mon){ var ps=ZHit._ps(), w=ZHit._eq(ps,'lHand'); if(!w||w.cls!=='axe'||mon.dead||mon.isBoss||(mon.def&&mon.def.boss))return; try{ if(typeof _heroHold==='function')_heroHold(scene,mon,0.3); }catch(e){} },
   swing:function(){ var ps=ZHit._ps(), w=ZHit._eq(ps,'lHand'); return w&&w.cls==='axe'?{t:0.62,reach:14}:{t:0.45,reach:0}; },
   // ── a monster's hit on the hero: cut by the resistance to the monster's element (its better one) ──
-  taken:function(dmg,mon,ps){ if(!mon||!(dmg>0))return dmg; var E=ZEL.mon(mon); if(!E.length)return dmg; var S=ZHit.sums(ps), r=1; E.forEach(function(e){ r=Math.min(r,S.res[e]||0); }); if(r>=1)r=0;
+  taken:function(dmg,mon,ps){ if(ps&&dmg>0)ps._hurtAt=Date.now();      /* round 83: being struck slows mana (09-hero-core ZMREGEN) */
+    if(!mon||!(dmg>0))return dmg; var E=ZEL.mon(mon); if(!E.length)return dmg; var S=ZHit.sums(ps), r=1; E.forEach(function(e){ r=Math.min(r,S.res[e]||0); }); if(r>=1)r=0;
     return r>0?Math.max(1,Math.round(dmg*(1-r))):dmg; },
   // what a tonic, an antidote or a draught does besides healing; returns the words for the notice ('' = nothing extra)
   useFx:function(ps,item){ var L=[]; if(!ps||!item)return '';

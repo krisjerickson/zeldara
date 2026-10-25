@@ -154,7 +154,7 @@ function _famFx(scene,m,S,E,mult){ if(m.dead)return; var f=S.fx;
   if(f==='root'||f==='freeze'||f==='stun'){ var hd=_heroHold(scene,m,S.t||1); if(hd>0&&typeof _heroSlow==='function')_heroSlow(scene,m,hd,0.05); }
   else if(f==='slow')_heroSlow(scene,m,S.t||2,0.6);
   else if(f==='burn'||f==='poison')_heroBurn(m,S.t||3,Math.max(1,S.dmg*mult*0.3),E.key);
-  else if(f==='knock'||f==='push'){ var a=Math.atan2(m.y-scene._famOy,m.x-scene._famOx); for(var st=0,mv=0;mv<(f==='push'?80:45);mv+=6){ var nx=m.x+Math.cos(a)*6, ny=m.y+Math.sin(a)*6; if(!_heroMonsterCanStand(scene,nx,ny))break; m.x=nx; m.y=ny; } if(m.cont)m.cont.setPosition(m.x,m.y); m._lastX=m.x; m._lastY=m.y; }
+  else if(f==='knock'||f==='push'){ var a=Math.atan2(m.y-scene._famOy,m.x-scene._famOx); ZKB.push(scene,m,Math.cos(a),Math.sin(a),f==='push'?80:45);      /* round 83: limited, less for big ones (ZKB) */ m._lastY=m.y; }
   else if(f==='pull'){ var d=Math.hypot(scene._famOx-m.x,scene._famOy-m.y)||1, k=Math.min(60,d-24)/d; if(k>0){ var nx2=m.x+(scene._famOx-m.x)*k, ny2=m.y+(scene._famOy-m.y)*k; if(_heroMonsterCanStand(scene,nx2,ny2)){ m.x=nx2; m.y=ny2; if(m.cont)m.cont.setPosition(m.x,m.y); m._lastX=m.x; m._lastY=m.y; } } } }
 function _famRing(scene,x,y,r,col,dur){ var g=scene.add.circle(x,y,8,hexNum(col),0.35).setStrokeStyle(3,hexNum(col),0.9).setDepth(12.6); scene.tweens.add({targets:g,radius:r,alpha:0,duration:dur||450,onComplete:function(){ g.destroy(); }}); }
 function _famCast(scene,fid,S,v,c,ps,mult,E){ var mons=_famTargets(c), dmg=(S.dmg||0)*mult; scene._famOx=c.x; scene._famOy=c.y;

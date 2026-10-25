@@ -86,7 +86,11 @@ MX.status=function(A,st,dur,val){ if(!st)return; var S=MX.S(A.scene), P=A.p(); d
 MX.moveMods=function(scene){ var S=scene._mxs; if(!S)return {mult:1,rev:false}; var m=1;
   if(S.rootT>0)m=0; else { if(S.slowT>0)m*=1-S.slowP; if(S.frogT>0)m*=0.6; }
   return {mult:m,rev:S.revT>0}; };
-MX.blocked=function(scene,x,y){ var fx=scene._mxFx; if(!fx||!fx.walls.length)return false; for(var i=0;i<fx.walls.length;i++){ var w=fx.walls[i]; if(Math.abs(x-w.x)<w.w/2+6&&Math.abs(y-w.y)<w.h/2+6)return true; } return false; };
+MX.blocked=function(scene,x,y){ var fx=scene._mxFx; if(!fx||!fx.walls.length)return false; var P0=MX.A(scene).p(), px=P0.x, py=P0.y;
+  for(var i=0;i<fx.walls.length;i++){ var w=fx.walls[i]; if(Math.abs(x-w.x)<w.w/2+6&&Math.abs(y-w.y)<h2(w)){
+      if(typeof px==='number'&&Math.abs(px-w.x)<w.w/2+6&&Math.abs(py-w.y)<h2(w))continue;      /* round 83: a wall you are already in never holds you — walk out */
+      return true; } } return false;
+  function h2(w){ return w.h/2+6; } };
 MX.dmgOut=function(scene){ var S=scene._mxs; return S&&S.shrinkT>0?0.7:1; };
 
 // ── spawning ──────────────────────────────────────────────────────────
@@ -121,6 +125,8 @@ MX.reset=function(mon){ var k=mon.kit, m=mon._m={t:Math.random()*3,cd:{},busy:nu
 // ── damage taken (all scene damage code goes through mon.hp -= dmg) ──
 // round 45 (Kris: "When you attack an enemy and it says "no effect" it should just be a lot less damage as opposed to no damage"; answered: 25 %)
 MX.SHRUG=0.25;
+// round 83 (ZHit.range): a boss struck from afar comes straight for you — one rooted in place pulls you in; fliers fly over walls
+MX.STAY={still:1,perch:1,burrow:1,rook:1,weeping:1}; MX.FLY={hover:1,flit:1,orbit:1,drift:1,blink:1};
 // the first time in a game a kind of monster shrugs off a kind of attack: say what works instead
 MX.shrugHint=function(mon,kind){ var k=mon.rid+'|'+kind; MX._shrug=MX._shrug||{}; if(MX._shrug[k])return; MX._shrug[k]=1;
   var other=kind==='melee'?'your bow, a spell or your familiars':kind==='ranged'?'your sword, a spell or your familiars':'another kind of attack';
@@ -163,7 +169,7 @@ MX.onDeath=function(A,mon){ var defs=mon.kit.def, P=A.p();
 
 // ── main per-monster tick ─────────────────────────────────────────────
 MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(), dx=P.x-mon.x, dy=P.y-mon.y, dist=Math.hypot(dx,dy);
-  m.t+=dt; m._sayT=(m._sayT||0)-dt; m.dodgeCd-=dt; if(m.invuln>0)m.invuln-=dt; m.hurtT-=dt;
+  m.t+=dt; m._sayT=(m._sayT||0)-dt; m.dodgeCd-=dt; if(m.charge>0)m.charge-=dt; if(m.invuln>0)m.invuln-=dt; m.hurtT-=dt;
   for(var c in m.cd)m.cd[c]-=dt;
   // night-only monsters sleep by day
   if(mon.tags&&mon.tags.indexOf('night')>=0&&A.world&&A.night()<0.35&&!m.aggro){ mon.cont.setVisible(false); m.hidden=true; m.nightHide=true; return; }
@@ -190,6 +196,10 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   var backOff=k._ranged&&m.aggro&&!mon.isBoss&&!m.hidden&&dist<(k.move.p.keep||140)&&(!m.busy||m.busy.moveOk)&&sees();   // no sight → close in instead
   if(goHome&&(!m.busy||m.busy.moveOk)){ MX.step(A,mon,Math.atan2(home.y-mon.y,home.x-mon.x),spd*0.9,dt); }
   else if(backOff){ MX.step(A,mon,Math.atan2(-dy,-dx),spd*0.9,dt); }
+  else if(m.charge>0&&m.aggro&&!m.hidden&&(!m.busy||m.busy.moveOk)){      /* round 83: the boss comes for you */
+    if(dist<=mon.def.r+18)m.charge=0;
+    else if(MX.STAY[k.move.name]){ if(sees())MX.push(A,-dx/(dist||1),-dy/(dist||1),dt*30); }      /* a boss rooted in place pulls you in instead */
+    else MX.step(A,mon,Math.atan2(dy,dx),spd*1.6,dt,!!(k.move.p.fly||MX.FLY[k.move.name])); }
   else if(!m.busy||m.busy.moveOk){ if(m.flee&&m.aggro){ MX.step(A,mon,Math.atan2(-dy,-dx),spd*1.2,dt); }
     else (MX.MOVE[k.move.name]||MX.MOVE.chase)(A,mon,m,P,dist,dt,spd,k.move.p); }
   // face the player (shield monsters turn slowly)
@@ -359,7 +369,8 @@ MX.ATK={
   marks:{range:260,wind:0.3,cd:4.5,fire:function(A,mon,m,P,p){ var n=p.n||5; for(var i=0;i<n;i++){ var x=P.x+(i?(Math.random()-0.5)*(p.spread||140):0), y=P.y+(i?(Math.random()-0.5)*(p.spread||140):0); MX.tele.circle(A,x,y,p.rad||22,p.col||'#ff6040',(p.delay||1.2)+i*(p.seq||0));
       (function(x,y,i){ A.scene.time.delayedCall(((p.delay||1.2)+i*(p.seq||0))*1000,function(){ if(mon.dead)return; MX.fxRing(A,x,y,p.rad||22,p.col||'#ff9040'); var P2=A.p(); if(Math.hypot(P2.x-x,P2.y-y)<(p.rad||22)+6){ A.setIfr(0); MX.hitP(A,mon,p,1); } if(p.zone)MX.zone(A,{x:x,y:y,r:p.rad||22,t:p.zt||3,st:p.zone,src:mon}); }); })(x,y,i); } }},
   swap:{range:220,wind:0.6,cd:6,start:function(A,mon){ MX.fxRing(A,mon.x,mon.y,20,'#ff80ff'); },fire:function(A,mon,m,P,p){ var x=mon.x, y=mon.y; mon.x=P.x; mon.y=P.y; A.setP(x,y); MX.fxRing(A,x,y,20,'#ff80ff'); A.float(x,y-40,'swapped!','#ff80ff'); MX.ev(mon,'hit'); }},
-  wall:{range:220,wind:0.6,cd:7,fire:function(A,mon,m,P,p){ var a=Math.atan2(P.y-mon.y,P.x-mon.x)+Math.PI/2; for(var i=-1;i<=1;i++)MX.wall(A,P.x+Math.cos(a)*i*34+(Math.random()-0.5)*6,P.y+Math.sin(a)*i*34-40,30,30,p.dur||6,p.col); MX.ev(mon,'hit'); }},
+  wall:{range:220,wind:0.6,cd:7,fire:function(A,mon,m,P,p){ var b=Math.atan2(mon.y-P.y,mon.x-P.x), a=b+Math.PI/2, cx=P.x+Math.cos(b)*52, cy=P.y+Math.sin(b)*52;      /* round 83: the line rises a step from you, toward the monster — never across you */
+    for(var i=-1;i<=1;i++)MX.wall(A,cx+Math.cos(a)*i*34+(Math.random()-0.5)*6,cy+Math.sin(a)*i*34,30,30,p.dur||6,p.col); MX.ev(mon,'hit'); }},
   echo:{range:200,wind:0.4,cd:2.5,fire:function(A,mon,m,P,p){ if(m.lastHit==='melee'){ var a=Math.atan2(P.y-mon.y,P.x-mon.x); MX.fxRing(A,mon.x,mon.y,40,'#9fe8ff'); if(Math.hypot(P.x-mon.x,P.y-mon.y)<70&&MX.sees(A,mon,P.x,P.y))MX.hitP(A,mon,p,1,'echo','#9fe8ff'); }
       else MX.ATK.shoot.fire(A,mon,m,P,Object.assign({p:'orb',col:'#9fe8ff',homing:0},p)); }}
 };
@@ -369,7 +380,11 @@ MX.ATK.banish={range:300,wind:0.7,cd:14,want:function(A,mon,m,P,d,p){ return !!(
 MX.famStagger=function(A,x,y,r,amt,why){ if(MX.famStaggerAt)MX.famStaggerAt(A.scene,x,y,r,amt,why); };
 // give one monster extra kit tokens (elites): clone its kit so the others stay as they were
 MX.addToKit=function(mon,toks){ if(!mon||!mon.kit)return; var k={move:mon.kit.move,atk:mon.kit.atk.slice(),def:mon.kit.def.slice()}; (toks||[]).forEach(function(t){ var P=MX.parse('still | '+t); k.atk=k.atk.concat(P.atk); k.def=k.def.concat(P.def); P.def.forEach(function(d){ if(d.name==='spiritward'&&mon._m)mon._m.sward=d.p.n||3; }); }); mon.kit=k; };
-MX.wall=function(A,x,y,w,h,t,col){ var g=A.scene.add.rectangle(x,y,w,h,MX.col(col||'#b0a090'),0.95).setStrokeStyle(2,0x302820,0.8).setDepth(A.depth(y+h/2)); MX.fx(A).walls.push({x:x,y:y,w:w,h:h,t:t||6,g:g}); };
+// round 83 (Kris: "monsters that create walls or barriers that stop your movement can't be cast on top of you, otherwise you just get stuck
+// and eventually die"): a wall block is never raised on you (nor closer than a step) — and one you stand in never holds you (MX.blocked)
+MX.WALL_CLEAR=20;
+MX.wall=function(A,x,y,w,h,t,col){ var P=A.p(); if(Math.abs(P.x-x)<w/2+MX.WALL_CLEAR&&Math.abs(P.y-y)<h/2+MX.WALL_CLEAR)return false;
+  var g=A.scene.add.rectangle(x,y,w,h,MX.col(col||'#b0a090'),0.95).setStrokeStyle(2,0x302820,0.8).setDepth(A.depth(y+h/2)); MX.fx(A).walls.push({x:x,y:y,w:w,h:h,t:t||6,g:g}); return true; };
 
 // ── scene-wide tick: projectiles, zones, traps, telegraphs, statuses ──
 MX.tickScene=function(scene,dt){ var A=MX.A(scene), F=MX.fx(A), P=A.p(), S=MX.S(scene);

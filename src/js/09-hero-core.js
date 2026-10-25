@@ -93,6 +93,19 @@ function _hbD(m,x,y){ if(!m||!m._hurtR)return Math.hypot(m.x-x,m.y-y); var p=_hb
 // a projectile / blast of radius pad touches the monster?
 function _hbHit(m,x,y,pad){ return m._hurtR?_hbD(m,x,y)<=pad:Math.hypot(m.x-x,m.y-y)<=((m.def&&m.def.r)||10)+pad; }
 
+// ── round 83 (Kris: "mana regeneration should be slower overall, such that you might need to use mana potion if you want to continuously
+// spam spells"; B2 — slower in fights): 1.5 mp/s while you fight (you struck or were struck in the last 6 s, or a boss is on you), 4 mp/s
+// out of a fight; gear adds at most +2.5 (calcPlayerStats)
+var ZMREGEN={ FIGHT:1.5, REST:4, GEAR:2.5, HOLD:6000,
+  bossOn:function(sc,ps){ var now=Date.now(); if(ps._mbT&&now-ps._mbT<500)return ps._mbOn; ps._mbT=now; ps._mbOn=false; if(!sc)return false;
+    var L=sc.monsters||[], W=sc.worldMonsters, px=sc.player?sc.player.x:sc.px, py=sc.player?sc.player.y:sc.py; if(typeof px!=='number')return false;
+    var chk=function(m){ if(!m||m.dead||!(m.isBoss||(m.def&&m.def.boss)))return false; if(m._m?!m._m.aggro:m.state!=='chase')return false; return Math.hypot(m.x-px,m.y-py)<520; };
+    for(var i=0;i<L.length;i++)if(chk(L[i])){ ps._mbOn=true; return true; }
+    if(W&&W!==L)for(var j=0;j<W.length;j++)if(chk(W[j])){ ps._mbOn=true; return true; }
+    return false; },
+  fighting:function(sc,ps){ if(!ps)return false; var now=Date.now(); if(typeof ps.hp==='number'){ if(ps._mhp!==undefined&&ps.hp<ps._mhp)ps._hurtAt=now; ps._mhp=ps.hp; }      /* any hurt, from any source */ return now-(ps._cbT||0)<ZMREGEN.HOLD||now-(ps._hurtAt||0)<ZMREGEN.HOLD||ZMREGEN.bossOn(sc,ps); },
+  rate:function(sc,ps,mr){ return (ZMREGEN.fighting(sc,ps)?ZMREGEN.FIGHT:ZMREGEN.REST)+Math.max(0,Math.min(ZMREGEN.GEAR,mr||0)); } };
+function _heroManaRegen(sc,ps,mr){ return ZMREGEN.rate(sc,ps,mr); }
 // Damage one monster from any source (spell, familiar, burn). Returns damage dealt.
 // opts: {pure:true} ignores DEF · {col:'#hex'} · {suffix:'🔥'}
 function _heroHitMonster(scene, mon, raw, opts){
@@ -241,7 +254,7 @@ function _heroCastSpell(scene){
   if(key==='Building'){ showNotif('No spell casting indoors','#99aaff'); return; }
   var sp=SPELL_DATA[tome.spellId], now=Date.now();
   if(now<_heroSpellCdUntil)return;
-  if((ps.mana||0)<sp.manaCost){ showNotif('Not enough mana! (need '+sp.manaCost+')','#4466ff'); return; }
+  if((ps.mana||0)<sp.manaCost){ showNotif('Not enough mana! (need '+sp.manaCost+')','#4466ff'); if(typeof ZPOT!=='undefined'&&ZPOT.manaHint)ZPOT.manaHint(); return; }
   ps.mana=Math.max(0,ps.mana-sp.manaCost);
   if(typeof ZSPR!=='undefined')_heroCastPose(scene,ZSPR.HERO.animFor(ps,'spell'),0.45);
   var stats=ws.calcPlayerStats?ws.calcPlayerStats():{};
@@ -294,11 +307,23 @@ function _heroCastSpell(scene){
   }
   if(ws._emitUI)ws._emitUI();
 }
+// ── round 83 (Kris: "some spells push-back ability is too strong. let's limit how much you can push back monsters, and should be less for
+// bigger monsters and bosses"): every push you give a monster (Tidal Wave, a familiar's gust or shove, Whirlwind) goes through ZKB.amt:
+//   · by size: a small monster takes the full push; it shrinks with size to a third for the biggest; a boss takes a quarter
+//   · a limit: no monster is pushed more than 60 px in 3 s (scaled the same way — a boss at most 15 px), so it cannot be held off
+var ZKB={ WIN:3000, CAP:60, BOSS:0.25,
+  size:function(m){ if(typeof ZHit!=='undefined'&&ZHit.isBoss(m))return ZKB.BOSS; var r=(m&&m.def&&m.def.r)||10, sc=(m&&m._scale)||1; r*=sc; return r<=12?1:r>=30?0.35:1-(r-12)/18*0.65; },
+  amt:function(m,want){ if(!m||!(want>0))return 0; var now=Date.now(); if(!m._kbT||now-m._kbT>ZKB.WIN){ m._kbT=now; m._kbN=0; } var f=ZKB.size(m), a=Math.max(0,Math.min(want*f,ZKB.CAP*f-(m._kbN||0))); m._kbN=(m._kbN||0)+a; return a; },
+  // move m up to `want` px along (ux,uy), stopping at walls; returns how far it went
+  push:function(scene,m,ux,uy,want){ var a=ZKB.amt(m,want), l=Math.hypot(ux,uy)||1, mv=0; ux/=l; uy/=l; if(a<=0)return 0;
+    var can=function(x,y){ return typeof _heroMonsterCanStand==='function'?_heroMonsterCanStand(scene,x,y):scene._canGoMonster?scene._canGoMonster(x,y):scene._canGoD?scene._canGoD(x,y):true; };
+    while(mv<a){ var st=Math.min(6,a-mv), nx=m.x+ux*st, ny=m.y+uy*st; if(!can(nx,ny))break; m.x=nx; m.y=ny; mv+=st; }
+    if(m.cont)m.cont.setPosition(m.x,m.y); m._lastX=m.x; m._lastY=m.y; return mv; } };
 // extra spell effects (round 5 spells): root · drain (heals you) · knockback · short stun
 function _spellExtraFx(scene,m,eff,dmg,vx,vy,dur){ if(!m||m.dead)return;
   if(eff==='root'||eff==='stun_short'){ var t=dur||(eff==='root'?1.4:0.8); if(!_heroHold(scene,m,t))return; _heroFloat(scene,m.x,m.y-26,eff==='root'?'rooted!':'stunned!',eff==='root'?'#90e060':'#e0c080'); }
   else if(eff==='drain'){ var ws=_heroWS(), ps=ws&&ws.playerState; if(!ps)return; var h=Math.max(1,Math.round((dmg||4)*0.4)); ps.hp=Math.min(ps.maxHp,ps.hp+h); var c=_heroCtx(scene); _heroFloat(scene,c.x,c.y-34,'+'+h,'#80ff90'); if(ws._emitUI)ws._emitUI(); }
-  else if(eff==='kb'){ var l=Math.hypot(vx||0,vy||0)||1, nx=m.x+(vx||0)/l*30, ny=m.y+(vy||0)/l*30, ok=scene._canGoMonster?scene._canGoMonster(nx,ny):scene._canGoD?scene._canGoD(nx,ny):true; if(ok){ m.x=nx; m.y=ny; if(m.cont)m.cont.setPosition(nx,ny); } } }
+  else if(eff==='kb'){ ZKB.push(scene,m,vx||0,vy||0,30); } }      // round 83: limited, and less for big monsters and bosses (ZKB)
 function _heroNova(scene,x,y,r,col,dmg,effect,spellId){
   var ring=scene.add.circle(x,y,4,col,0.9).setDepth(15);; if(typeof ZFX!=='undefined')ZFX.dress(ring,ZFX.NOVA[effect]||ZFX.ringFor(col));
   scene.tweens.add({targets:ring,scaleX:r/4,scaleY:r/4,alpha:0,duration:350,onComplete:function(){ring.destroy();}});
@@ -428,7 +453,7 @@ function _heroUpkeep(dtMs){
   try{
     if(!_isOverworld(sc)){
       // Mana regenerates everywhere (the World scene does its own).
-      if(ps.mana<ps.maxMana){ var mr=(ws.calcPlayerStats?ws.calcPlayerStats().manaRegen:0)||0; ps.mana=Math.min(ps.maxMana,ps.mana+(4+mr)*dt); }
+      if(ps.mana<ps.maxMana){ var mr=(ws.calcPlayerStats?ws.calcPlayerStats().manaRegen:0)||0; ps.mana=Math.min(ps.maxMana,ps.mana+_heroManaRegen(sc,ps,mr)*dt); }
       _heroSpellTick(sc,dt);
     }
     _heroFamiliarsTick(sc,dt);

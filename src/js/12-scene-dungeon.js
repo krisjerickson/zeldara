@@ -1197,6 +1197,8 @@ class DungeonScene extends Phaser.Scene{
       var isRanged=['arrow','flame','bog_flame','heat_seek','scatter','scatter_arrow','scatter_flame','lightning'].includes(at);
       var RANGED_CHASE=isRanged?260:190;
       if(dist<RANGED_CHASE)mon.state='chase'; else if(dist>320)mon.state='wander';
+      var _chg=mon._charge>Date.now();      // round 83 (ZHit.range): a boss struck from afar comes straight at you, faster
+      if(_chg){ mon.state='chase'; if(dist>(mon.def.r||10)+16){ var _ca=Math.atan2(dy,dx), _cx=mon.x+Math.cos(_ca)*(mon.def.spd||55)*0.6*dt, _cy=mon.y+Math.sin(_ca)*(mon.def.spd||55)*0.6*dt; if(self._canGoD(_cx,mon.y))mon.x=_cx; if(self._canGoD(mon.x,_cy))mon.y=_cy; } else mon._charge=0; }
       var mdefSpd=mon.def.spd||55;
       var spd=mon.isBoss?Math.min(mdefSpd+15,90):mdefSpd;
       if(!mon._md)mon._md={};
@@ -1248,7 +1250,7 @@ class DungeonScene extends Phaser.Scene{
           if(self._canGoD(mon.x,nmy))mon.y=nmy;
         }
         // Ranged monsters keep preferred firing distance
-        if(isRanged&&mt!=='orbit'){
+        if(isRanged&&mt!=='orbit'&&!_chg){
           var prefDist=120;
           var ang2=Math.atan2(dy,dx);
           if(dist<prefDist-20){
@@ -1478,7 +1480,8 @@ class DungeonScene extends Phaser.Scene{
     if(!ps.inventory)ps.inventory=[];
     // Max 5 potions cap — count all slot:'use' items
     if(item&&item.slot==='use'){
-      var potCount=ps.inventory.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='use';}).length;
+      var _bg=typeof ZPOT!=='undefined'&&ZPOT.bag(item);      // round 61/83: oils, flasks, boons, wards and mana draughts — 5 of each kind
+      var potCount=ps.inventory.filter(function(id){return _bg?id===itemId:(ITEMS[id]&&ITEMS[id].slot==='use'&&!(typeof ZPOT!=='undefined'&&ZPOT.bag(ITEMS[id])));}).length;
       if(potCount>=5){showNotif('Potion full (5/5) — dropped '+item.icon+' '+item.name,'#ff8844');return;}
     }
     // Add to inventory — show top notification only (no popup)

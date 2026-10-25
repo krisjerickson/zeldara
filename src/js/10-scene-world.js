@@ -261,9 +261,9 @@ class WorldScene extends Phaser.Scene{
     this._tickHomeCast(dt);
     this._homeCastHit=false; // reset hit flag each frame
     // Familiars (auto-attack + visual orbit) — generic helper, works in any scene
-    // Mana regen (4 base + up to +4 from items, capped at 8 total)
+    // Mana regen — round 83: 1.5 mp/s in a fight, 4 out of one, + up to 2.5 from items (09-hero-core ZMREGEN)
     var ps2=this.playerState;
-    if(ps2.mana<ps2.maxMana){var _mr=this.calcPlayerStats().manaRegen||0;ps2.mana=Math.min(ps2.maxMana,ps2.mana+(4+_mr)*dt);}
+    if(ps2.mana<ps2.maxMana){var _mr=this.calcPlayerStats().manaRegen||0;ps2.mana=Math.min(ps2.maxMana,ps2.mana+_heroManaRegen(this,ps2,_mr)*dt);}
     // Player projectiles and spell effects
     this._updatePlayerProj(dt);
     this._updateSpellClouds(dt);
@@ -1150,6 +1150,8 @@ class WorldScene extends Phaser.Scene{
       // Ranged attackers enter chase state from further away
       var chaseRange=isRangedAtk?300:220;
       if(dist<chaseRange)mon.state='chase'; else if(dist>350)mon.state='wander';
+      var _chg=mon._charge>Date.now();      // round 83 (ZHit.range): a boss struck from afar comes straight at you, faster
+      if(_chg){ mon.state='chase'; if(dist>(mdef.r||10)+16){ var _ca=Math.atan2(dy,dx), _cx=mon.x+Math.cos(_ca)*spd*0.6*dt, _cy=mon.y+Math.sin(_ca)*spd*0.6*dt; if(self._canGoMonster(_cx,mon.y))mon.x=_cx; if(self._canGoMonster(mon.x,_cy))mon.y=_cy; } else mon._charge=0; }
 
       // Movement by moveType
       if(mon.state==='chase'){
@@ -1205,7 +1207,7 @@ class WorldScene extends Phaser.Scene{
         // ── Ranged distance correction (all ranged atkType monsters) ───────
         // Orbit already manages distance; others need explicit range-keeping.
         var mt2=mdef.moveType||'normal';
-        if(isRangedAtk&&mt2!=='orbit'){
+        if(isRangedAtk&&mt2!=='orbit'&&!_chg){
           var prefDist=140; // preferred firing range in pixels
           var ang2=Math.atan2(dy,dx);
           if(dist<prefDist-20){
@@ -1741,8 +1743,7 @@ class WorldScene extends Phaser.Scene{
           var _zd=ZHit.dmg(self,m,wwDmg,'skill',{pure:true,el:ZEL.SKILL.whirlwind,noProc:true}); MX._src='melee'; m.hp=Math.max(0,m.hp-_zd); MX._src=null;
           m.hpFill.displayWidth=Math.max(0,28*(m.hp/m.maxHp));
           var ka=Math.atan2(m.y-p.y,m.x-p.x);
-          m.x+=Math.cos(ka)*64;m.y+=Math.sin(ka)*64;
-          m.cont.setPosition(m.x,m.y);
+          ZKB.push(self,m,Math.cos(ka),Math.sin(ka),64);      // round 83: limited, less for big ones and bosses, and never into a wall (ZKB)
           self._floatText(m.x,m.y-22,'-'+_zd,'#88ffee');
           if(m.hp<=0)self._worldMonsterDied(m);
         }
@@ -1885,7 +1886,7 @@ class WorldScene extends Phaser.Scene{
     var spDef=SPELL_DATA[tomeItem.spellId];
     if(!spDef)return;
     // Check mana and cooldown
-    if((ps.mana||0)<spDef.manaCost){showNotif('Not enough mana! (need '+spDef.manaCost+')','#4466ff');return;}
+    if((ps.mana||0)<spDef.manaCost){showNotif('Not enough mana! (need '+spDef.manaCost+')','#4466ff'); if(typeof ZPOT!=='undefined'&&ZPOT.manaHint)ZPOT.manaHint();return;}
     if((this._spellCd||0)>0)return;
     ps.mana=Math.max(0,(ps.mana||0)-spDef.manaCost);
     this._spellCd=spDef.cooldown;
@@ -2598,7 +2599,7 @@ class WorldScene extends Phaser.Scene{
       }
     }
     cdReduce=Math.min(0.80,cdReduce);
-    manaRegen=Math.min(4.0,manaRegen);
+    manaRegen=Math.min(2.5,manaRegen);      // round 83 (B2): gear adds at most +2.5 mp/s (was +4)
     // Update maxMana dynamically
     ps.maxMana=50+maxManaBonus;
     return{atk:atk,def:def,cdReduce:cdReduce,manaRegen:manaRegen,spdBonus:spdBonus,spellMult:spellMult};

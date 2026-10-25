@@ -82,7 +82,7 @@ var ZSOFT={ on:true,
   // traps: a painted snare / mine / rune, or a soft disc
   wrap('trap','fire',function(A,go){ var T=MX.fx(A).traps, n0=T.length, r=go(); for(var i=n0;i<T.length;i++){ var t=T[i]; if(t&&t.g&&!t._zd){ t._zd=1; var id='fx_trap_'+t.k; if(ZFX.has(id))ZFX.dress(t.g,id,{k:1.5,a:1}); else ZSOFT.dress(t.g,null,'disc',{a:0.8}); } } return r; });
   // a stone wall raised by an attack: the painted block when it is in
-  if(MX.wall){ var w0=MX.wall; MX.wall=function(A,x,y,w,h,t,col){ var r=w0.apply(MX,arguments); try{ var W=MX.fx(A).walls, o=W[W.length-1]; if(o&&o.g&&ZFX.has('fx_wall_stone')){ ZFX.put(A.scene,'fx_wall_stone',x,y,w*1.15,h*1.6,{depth:o.g.depth,owner:o.g,a:1,oy:0.62}); o.g.setAlpha(0.01); } }catch(e){} return r; }; }
+  if(MX.wall){ var w0=MX.wall; MX.wall=function(A,x,y,w,h,t,col){ var r=w0.apply(MX,arguments); if(r===false)return r; try{ var W=MX.fx(A).walls, o=W[W.length-1]; if(o&&o.g&&ZFX.has('fx_wall_stone')){ ZFX.put(A.scene,'fx_wall_stone',x,y,w*1.15,h*1.6,{depth:o.g.depth,owner:o.g,a:1,oy:0.62}); o.g.setAlpha(0.01); } }catch(e){} return r; }; }
 })();
 
 // ── shots: what they leave behind ──

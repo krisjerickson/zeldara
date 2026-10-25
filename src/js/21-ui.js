@@ -423,7 +423,7 @@ function updateInventoryModal(ps){
       +'<div class="stat-row"><span>ATK</span><span class="sv">'+stats.atk+'</span></div>'
       +'<div class="stat-row"><span>DEF</span><span class="sv">'+stats.def+'</span></div>'
       +'<div class="stat-row"><span>Mana</span><span class="sv">'+(Math.floor(ps.mana||0))+'/'+ps.maxMana+'</span></div>'
-      +(stats.manaRegen>0?'<div class="stat-row"><span>MP Regen</span><span class="sv">'+(4+stats.manaRegen).toFixed(1)+'/s</span></div>':'')
+      +(stats.manaRegen>0?'<div class="stat-row"><span>MP Regen</span><span class="sv">'+(1.5+stats.manaRegen).toFixed(1)+' in a fight · '+(4+stats.manaRegen).toFixed(1)+'/s</span></div>':'')
       +(stats.cdReduce>0?'<div class="stat-row"><span>Cooldown</span><span class="sv">-'+Math.round(stats.cdReduce*100)+'%</span></div>':'')
       +(stats.spdBonus>0?'<div class="stat-row"><span>Speed</span><span class="sv">+'+(Math.round(stats.spdBonus*100))+'%</span></div>':'')
       +'<div class="stat-row"><span>XP</span><span class="sv">'+ps.xp+'/ '+(ps.level*100)+'</span></div>'

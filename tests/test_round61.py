@@ -35,7 +35,7 @@ with game(new=True, painted=True) as g:
           not r['old'] and not r['has'] and not r['heads'] and r['prices'] == [15, 35, 75, 130, 140, 380, 450, 70, 180], r)
     r = g.js("""(async()=>{ %s var ws=game.scene.getScene('World'), ps=ws.playerState, o={}; var drink=function(id){ ps.inventory.push(id); window._useItem(ps.inventory.lastIndexOf(id)); };
       ps.maxHp=200; ps.hp=50; drink('pot_heal2'); o.h2=ps.hp; ps.hp=50; drink('pot_elixir'); o.el=ps.hp; ps.hp=10; drink('pot_grand'); o.gr=ps.hp;
-      ps.hp=20; drink('pot_troll'); await w(2100); o.troll=ps.hp; ps.maxMana=60; ps.mana=0; drink('pot_mana'); o.m1=ps.mana; drink('pot_mana2'); o.m2=ps.mana===ps.maxMana;
+      ps.hp=20; drink('pot_troll'); await w(2100); o.troll=ps.hp; ps.maxMana=60; ps.mana=0; drink('pot_mana'); o.m1=ps.mana; ps._manaPotT=0; drink('pot_mana2');      /* round 83: a 4 s wait between mana draughts */ o.m2=ps.mana===ps.maxMana;
       ps.gold=0; var old=ps.maxHp; drink('boon_giant'); o.giant=[old,ps.maxHp]; ps.buffs.zp_giant=Date.now()-1; await w(300); o.giantOff=ps.maxHp;
       drink('boon_gold'); drink('boon_xp'); o.g=ZPOT.g(100); o.x=ZPOT.x(100); drink('ward_fire'); drink('ward_prism'); var S=ZHit.sums(ps); o.res=[Math.round(S.res.fire*100),Math.round(S.res.water*100)]; o.left=ps.inventory.filter(function(k){ return /^(pot_|boon_|ward_)/.test(k); }).length;
       o.hud=document.getElementById('zpot-hud')&&document.getElementById('zpot-hud').textContent; return o; })()""" % W)

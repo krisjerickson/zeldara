@@ -18,10 +18,11 @@ var ZPOT={
   OILS:{frost:['Frostbite Oil','❄','#9fe0ff','slows'],ember:['Cinder Oil','🔥','#ff9040','burns'],venom:['Nightshade Oil','☠','#9fff70','poisons'],storm:['Thunderhead Oil','⚡','#ffe860','arcs'],root:['Bramble Oil','🌿','#80d060','roots'],shade:['Gloam Oil','🌑','#c090ff','drains']},
   GROUPS:{heal:'❤ Healing',mana:'💧 Mana',oil:'🧪 Spell oils — your spells gain an effect for 2 minutes (one oil at a time)',coat:'🗡 Weapon coatings — melee and arrows, 2 minutes',flask:'💣 Flasks — hold P to throw the one you ready',boon:'✨ Boons',ward:'🛡 Element wards — 3 minutes',tonic:'🧪 Tonics'},
   _lg:null,
+  MANA_CD:4000,      // round 83 (B3, Kris: "mana potions reworked"): cheaper, up to 5 of each kind in their own bag, 4 s between drinks; Shift+P drinks one
   head:function(it){ if(!it){ ZPOT._lg=null; return ''; } var g=it.pot&&it.pot.g||(it.ward?'ward':null); if(!g||g===ZPOT._lg)return ''; ZPOT._lg=g;
     return '<div style="margin:12px 0 4px;padding-bottom:3px;border-bottom:1px solid rgba(255,255,255,.12);font-weight:700;font-size:13px;color:#e8d8b0">'+(ZPOT.GROUPS[g]||g)+'</div>'; },
   // oils, coatings, flasks, boons and wards: up to five of each kind (healing and mana share the old bag of five)
-  bag:function(it){ if(!it)return false; if(it.ward)return true; var k=it.pot&&it.pot.g; return k==='oil'||k==='coat'||k==='flask'||k==='boon'||k==='ward'; },
+  bag:function(it){ if(!it)return false; if(it.ward)return true; var k=it.pot&&it.pot.g; return k==='oil'||k==='coat'||k==='flask'||k==='boon'||k==='ward'||k==='mana'; },      // round 83: mana potions too — up to 5 of each, beside the healing bag
   ps:function(){ try{ var ws=game.scene.getScene('World'); return ws&&ws.playerState; }catch(e){ return null; } },
   on:function(ps,k){ return typeof _heroBuffActive==='function'&&_heroBuffActive(ps,k); },
   left:function(ps,k){ return ps&&ps.buffs&&ps.buffs[k]?Math.max(0,ps.buffs[k]-Date.now()):0; },
@@ -32,7 +33,8 @@ var ZPOT={
       case 'elixir': var h=Math.round(ps.maxHp*0.5); ps.hp=Math.min(ps.maxHp,ps.hp+h); ZHit.useFx(ps,{cure:1}); fx='+'+h+' HP · poison, burning and slow ended'; break;
       case 'grand': ps.hp=ps.maxHp; ZHit.useFx(ps,{cure:1}); B('zp_grand',10000); fx='full health, then 4 HP a second for 10 s'; break;
       case 'troll': B('zp_troll',12000); fx='5% of your health a second for 12 s'; break;
-      case 'mana': var mm=ps.maxMana||50, add=P.all?mm:40; ps.mana=Math.min(mm,(ps.mana||0)+add); fx=P.all?'mana full':'+40 mana'; break;
+      case 'mana': var now=Date.now(), w=(ps._manaPotT||0)-now; if(w>0){ showNotif('💧 Too soon — the last draught is still settling ('+Math.ceil(w/1000)+' s)','#7fa8ff'); return false; }      // round 83: a short wait between drinks
+        ps._manaPotT=now+ZPOT.MANA_CD; var mm=ps.maxMana||50, add=P.all?mm:40; ps.mana=Math.min(mm,(ps.mana||0)+add); fx=P.all?'mana full':'+40 mana'; break;
       case 'surge': B('zp_surge',10000); fx='spells cost no mana for 10 s'; break;
       case 'tea': B('zp_tea',120000); fx='spell cooldowns −30% for 2 min'; break;
       case 'oil': ps.zpOil=P.e; B('zp_oil',120000); fx='your spells '+ZPOT.OILS[P.e][3]+' for 2 min'; break;
@@ -61,6 +63,14 @@ var ZPOT={
     }catch(err){} ZPOT._in=false; },
   g:function(n){ var ps=ZPOT.ps(); return ps&&ZPOT.on(ps,'zp_gold')?Math.round(n*1.3):n; },
   x:function(n){ var ps=ZPOT.ps(); return ps&&ZPOT.on(ps,'zp_xp')?Math.round(n*1.3):n; },
+  // round 83: Shift+P drinks a mana draught — the small one unless you are missing more than it gives
+  manaKey:function(){ var ws=game.scene.getScene('World'), ps=ws&&ws.playerState; if(!ps)return; var inv=ps.inventory||[], miss=(ps.maxMana||50)-(ps.mana||0);
+    if(miss<1){ showNotif('💧 Your mana is full','#7fa8ff'); return; }
+    var has=function(id){ return inv.indexOf(id)>=0; }, id=miss>60&&has('pot_mana2')?'pot_mana2':has('pot_mana')?'pot_mana':has('pot_mana2')?'pot_mana2':null;
+    if(!id){ showNotif('💧 No mana draughts — the Apothecary sells them','#ff8844'); return; }
+    window._useItem(inv.indexOf(id)); },
+  manaHint:function(){ var ps=ZPOT.ps(); if(!ps||ps._manaHint)return; var inv=ps.inventory||[]; if(inv.indexOf('pot_mana')<0&&inv.indexOf('pot_mana2')<0)return; ps._manaHint=1;
+    setTimeout(function(){ try{ showNotif('💧 Shift+P drinks a mana draught','#7fa8ff'); }catch(e){} },900); },
   // ── flasks (hold P) ──
   flasks:function(ps){ var seen={}, out=[]; (ps.inventory||[]).forEach(function(id){ var I=ITEMS[id]; if(I&&I.pot&&I.pot.k==='flask'&&!seen[id]){ seen[id]=1; out.push(id); } }); return out; },
   curFlask:function(ps){ ps.quick=ps.quick||{}; var id=ps.quick.flask; if(id&&(ps.inventory||[]).indexOf(id)>=0)return id; var L=ZPOT.flasks(ps); ps.quick.flask=L[0]||null; return ps.quick.flask; },
@@ -118,8 +128,8 @@ var ZPOT={
   P('pot_elixir','Elixir','⚗️','heal','elixir',140,3,'Heals half your health and cures poison, burning and slow','a pear-shaped flask of swirling rose-and-gold liquid with a leaf on the stopper');
   P('pot_grand','Grand Elixir','⚗️','heal','grand',380,4,'Full health, then 4 HP a second for 10 s; cures poison, burning and slow','an ornate gold-caged flask of radiant pink-gold liquid with tiny stars in it');
   P('pot_troll','Troll-blood Tonic','🧪','heal','troll',45,2,'Heals 5% of your max health a second for 12 s (60% in all)','a squat stone jug of thick dark-green brew with a troll-tusk stopper');
-  P('pot_mana','Mana Draught','💧','mana','mana',25,1,'Restores 40 mana','a small round bottle of bright blue potion with a cork');
-  P('pot_mana2','Greater Mana Draught','💧','mana','mana',90,3,'Restores all your mana','a tall faceted bottle of glowing deep-blue potion with a silver cap',{all:true});
+  P('pot_mana','Mana Draught','💧','mana','mana',12,1,'Restores 40 mana','a small round bottle of bright blue potion with a cork');
+  P('pot_mana2','Greater Mana Draught','💧','mana','mana',50,3,'Restores all your mana','a tall faceted bottle of glowing deep-blue potion with a silver cap',{all:true});
   P('pot_surge','Arcane Surge','💠','mana','surge',120,3,'For 10 s your spells cost no mana','a crystal vial of crackling violet-blue light with a rune on it');
   P('pot_tea','Runic Tea','🍵','mana','tea',70,2,'Spell cooldowns 30% shorter for 2 minutes','a little clay teapot with glowing teal runes and steam');
   [['frost','Frostbite Oil','❄',55,2,'Your spells also slow what they hit (−40% speed, 2 s) — 2 minutes','a slim vial of icy pale-blue oil with frost on the glass'],
