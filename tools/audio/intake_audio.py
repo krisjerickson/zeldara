@@ -54,7 +54,7 @@ def main():
         c = cues[cid]; kind = 'sting' if c['group'] == 'sting' else c['kind']; base = cid + ('.' + take if take else '')
         if not FORCE and os.path.exists(os.path.join(OUT, base + '.ogg')) and any(x.get('base') == base for x in idx.get(cid, {}).get('files', [])): continue      # exact (am_ash.b is not am_ash)
         src = os.path.join(INC, f); shutil.copy2(src, os.path.join(MAS, f))
-        tmp = os.path.join(OUT, base + '.tmp.wav')
+        import tempfile; tmp = os.path.join(tempfile.gettempdir(), 'zaud_' + base + '.tmp.wav')      # round 84: outside the game folder (deleting there may not be allowed)
         # 1. trim the silence at both ends (a looping piece keeps its length)
         trim = [] if c['loop'] and kind == 'music' else ['-af', 'silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse']
         ff('-i', src, *trim, tmp)
@@ -77,7 +77,8 @@ def main():
         common = ['-af', ln, '-ar', rate] + (['-ac', '1'] if mono else [])
         ff('-i', tmp, *common, '-c:a', 'libvorbis', '-q:a', '2' if mono else '3', o_ogg)
         ff('-i', tmp, *common, '-c:a', 'libmp3lame', '-b:a', '64k' if mono else '128k', o_mp3)
-        os.remove(tmp)
+        try: os.remove(tmp)
+        except OSError: pass
         d = dur(o_ogg); e = idx.setdefault(cid, {'kind': kind, 'loop': bool(c['loop']), 'files': []})
         e['files'] = [x for x in e['files'] if x['base'] != base] + [{'base': base, 'secs': d, 'ls': 0, 'le': d}]
         e['files'].sort(key=lambda x: x['base']); done += 1

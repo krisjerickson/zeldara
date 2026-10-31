@@ -158,3 +158,102 @@ var ZAUD={
     return {title:c.id, style:style, lyrics:voiced?ZAUD.VOXLYRICS[v]:'', instrumental:!voiced, exclude:voiced?ZAUD.EXCLUDE.replace('lyrics, words, ','clear words, '):ZAUD.EXCLUDE+', vocals', vox:v, remix:ZAUD.REMIX[c.id]||null}; },
   stats:function(){ var A=ZAUD.all(), s={music:0,sting:0,amb:0,sfx:0,t1:0,musicSecs:0}; A.forEach(function(c){ if(c.kind==='music'){ if(c.group==='sting')s.sting++; else { s.music++; s.musicSecs+=c.secs; } } else s[c.kind]++; if(c.tier===1)s.t1++; }); return s; }
 };
+// ── round 84 (Kris, Oct 30): "the songs are coming out well, but we need a bit more electronic influences, and more electric bass when
+// appropriate. the more chill relaxing songs are OK, but should match bit more of the epic and engaging energy of the game, a bit more fast
+// paced"; and "i'm worried … might not have long enough music for ongoing play in the different regions … i'd suggest around 10 minutes
+// for such tracks": the house styles lean electronic with an electric-bass groove; the gentle pieces get a pulse and ~15 % more tempo; every
+// piece you stay with for a long while (the village, the realms, the sites, the endgame places) asks for a long-form ~10-minute piece ──
+(function(){
+  ZAUD.STYLE='epic fantasy RPG game score, Nordic folk meets driving dark electronic: nyckelharpa, hardanger fiddle, tagelharpa and war drums over deep sub bass and a punchy electric bass groove, electronic drums, dark synth pads and pulsing electronic arpeggios; cinematic, energetic and engaging, ancient halls';
+  ZAUD.STYLE_SOFT='fantasy RPG game score, Nordic folk with a clear electronic pulse: nyckelharpa, hardanger fiddle, lyre, wooden flute, shimmering synth pads and arpeggios, a warm electric bass groove and a light electronic beat; uplifting, engaging and quietly epic, moving forward, never sleepy';
+  ZAUD.FLAVOR.title='grand, epic and driving, the electronic pulse and electric bass woven under the folk instruments';
+  ZAUD.FLAVOR.village='warm and homely but lively, acoustic instruments in front over a steady electronic pulse and a bouncing electric bass line';
+  ZAUD.FLAVOR.realms='open, adventurous and on the move, a driving electronic pulse and electric bass under the folk melodies';
+  ZAUD.FLAVOR.sites='an intense dungeon theme with even deeper bass lines, a gritty electric bass riff, driving electronic rhythm, echoing stone';
+  ZAUD.FLAVOR.fights='intense and fast, heavy deep bass and a hard electric bass riff, pounding war drums and electronic beats';
+  ZAUD.FLAVOR.endgame='massive and dark, deep sub bass and a heavy electric bass line, war drums, a strong electronic pulse, a sense of fate';
+  ZAUD.FLAVOR.last='cinematic and emotional, the electronic elements wide and present, a warm electric bass underneath';
+  ZAUD.EXCLUDE=ZAUD.EXCLUDE.replace('electric guitar','electric guitar solo, distorted rock guitar');
+  // how long each piece should be: ~10 minutes where you stay a long time (Suno makes up to 8 minutes at once; Extend once to reach ~10)
+  ZAUD.LONG={mu_village_day:600,mu_village_night:600,mu_green:600,mu_grass_day:600,mu_grass_night:600,mu_wet_day:600,mu_wet_night:600,mu_high_day:600,mu_high_night:600,
+    mu_ash_day:600,mu_ash_night:600,mu_dungeon:600,mu_tower:600,mu_castle:600,mu_mage:600,mu_island:600,mu_sky:600,mu_forges:600,mu_muspelheim:600,mu_asgard:600,mu_citadel:600,
+    mu_title:240,mu_home:240,mu_shops:300,mu_glimmerhall:240,mu_trial:300,mu_fight:150,mu_boss:240,mu_boss_mage:240,mu_boss_realm:300,mu_surtharn:300,mu_solmyrk:360,mu_escape:180,mu_feast_hall:240,mu_celebration:180};
+  // the calmer pieces you play through for a long time, re-worded with more drive (the cut-scene moments keep their stillness)
+  ZAUD.WORDS84={
+    mu_title:'main theme; a noble hardanger fiddle melody over a droning nyckelharpa and a low choir hum, a four-note rising motif (the twins) that returns, building with frame drums and a rising electronic arpeggio to one hopeful full statement',
+    mu_village_night:'village night; lyre and flute over a soft steady electronic beat and a round electric bass, starlit and warm, gently moving, crickets',
+    mu_home:'cozy hearth; lyre and humming over a light electronic pulse and soft electric bass, warm and content, like a family song',
+    mu_glimmerhall:'magical shimmering hall; bowed glass-like strings, harp and soft choir over sparkling synth arpeggios and a light beat, wonder',
+    mu_grass_night:'open night under the aurora; flute and lyre over a soft driving electronic pulse and electric bass, stars wheeling, quietly adventurous',
+    mu_wet_day:'misty marsh; reed pipes and watery harp, nyckelharpa over a rolling electronic rhythm and a deep electric bass, a little eerie but beautiful',
+    mu_wet_night:'will-o\'-the-wisp night; airy flute, soft bells and a deep drone over a pulsing synth arpeggio and a rubbery electric bass, mysterious',
+    mu_high_night:'cold mountain night; a lonely fiddle and wind-like choir over a steady electronic beat and a deep electric bass, vast and moving',
+    mu_ash_night:'embers at night; deep drone and dark choir murmur over a heartbeat electronic kick and a smouldering electric bass line, tense',
+    mu_dungeon:'dark cavern exploration; dripping plucks, low drone and bowed strings over a creeping electronic beat and a gritty electric bass riff, tension that keeps moving',
+    mu_tower:'climbing a strange tower; airy strings and harp arpeggios over a climbing electronic sequence and a bouncing electric bass, curious, rising',
+    mu_mage:'arcane study; bell-like tones, harp and whispering choir over glittering synth arpeggios and a pulsing electric bass, magical and uneasy',
+    mu_asgard:'majestic but hollow golden city; choir, harp and distant horns over a slow-burning electronic pulse and deep bass, something missing, eerie beauty'};
+  ZAUD.MUSIC.forEach(function(c){ if(ZAUD.WORDS84[c[0]])c[4]=ZAUD.WORDS84[c[0]]; });
+  ZAUD.VOXSTYLE.elf=ZAUD.VOXSTYLE.elf.replace(', slow',', flowing'); ZAUD.VOXSTYLE.dwarf=ZAUD.VOXSTYLE.dwarf.replace('grave and slow','grave and steady');
+  ZAUD.MUSIC.forEach(function(c){ var id=c[0], L=ZAUD.LONG[id]; if(L)c[5]=L;
+    var soft=c[1]==='village'||c[1]==='last'||/_night$/.test(id)||(ZAUD.VOX[id]==='elf'||ZAUD.VOX[id]==='violin');
+    if(c[8]&&c[1]!=='sting'&&(soft||c[1]==='realms'))c[8]=Math.round(c[8]*(soft?1.15:1.08)); });      // the gentle ones a bit faster; the realms a touch
+  ZAUD._all=null;
+  var s0=ZAUD.suno; ZAUD.suno=function(c){ var S=s0.apply(ZAUD,arguments), L=ZAUD.LONG[c.id];
+    if(L>=480)S.style=S.style.replace('; steady from start to end so it can loop, no fade-out','; a long-form piece of about 10 minutes for continuous play — several sections and variations that keep returning to the main theme, steady energy all the way, no ending and no fade-out');
+    else if(L&&c.loop)S.style=S.style.replace('; steady from start to end so it can loop','; about '+Math.round(L/60)+' minutes, steady from start to end so it can loop');
+    S.long=L>=480; S.mins=L?Math.round(L/60):0; return S; };
+})();
+// ── round 84 (Kris: "we also need to get a bit more variety of instruments overall. the sound is amazing, but it gets repeated a bit too
+// much. so minor variety added in"): the house style keeps the world (Nordic folk meets electronic, the electric bass) but no longer names
+// the same four instruments every time — each piece has its own lead instruments, the realms and places each their own colour ──
+(function(){
+  ZAUD.STYLE='epic fantasy RPG game score, Nordic folk meets driving dark electronic, deep sub bass and a punchy electric bass groove, electronic drums, synth pads and pulsing arpeggios; cinematic, energetic and engaging';
+  ZAUD.STYLE_SOFT='fantasy RPG game score, Nordic folk with a clear electronic pulse, a warm electric bass groove and a light electronic beat, shimmering synth pads; uplifting, engaging and quietly epic, moving forward, never sleepy';
+  ZAUD.INSTR={
+    mu_title:'hardanger fiddle, nyckelharpa, low choir, frame drums, a rising analog synth arpeggio',
+    mu_saga_storm:'lyre, thunder drums, low strings, a soft synth drone',
+    mu_saga_old:'tagelharpa, low male choir, a distant lur horn, a deep synth pad',
+    mu_glimpse:'bowed glass, music-box lyre, celesta, granular synth shimmer',
+    mu_village_day:'lute, nyckelharpa, wooden flute, hand claps, a bouncy plucked synth',
+    mu_village_night:'lyre, kantele, soft flute, a warm Rhodes-like synth',
+    mu_home:'kantele, humming, soft accordion, a mellow synth pad',
+    mu_shops:'lute, button accordion, wooden percussion, marimba-like plucked synth',
+    mu_glimmerhall:'harp, glass harmonica, soft choir, sparkling FM bells',
+    mu_green:'willow flute, fiddle, mandolin, hand drums, a bright synth lead',
+    mu_grass_day:'willow flute (seljefløyte), hardanger fiddle, bodhrán, a plucked arpeggio synth',
+    mu_grass_night:'low whistle, kantele, a soft pulsing synth, distant frame drum',
+    mu_wet_day:'reed pipes, kantele, watery harp, a deep Reese bass',
+    mu_wet_night:'low whistle, soft bells, waterphone-like textures, a rubbery synth bass',
+    mu_high_day:'goat horn (bukkehorn), lur horns, big war drums, a soaring analog synth brass',
+    mu_high_night:'solo fiddle, throat-singing drone, a cold glassy synth pad',
+    mu_ash_day:'tagelharpa, hurdy-gurdy, jaw harp, metallic industrial percussion, a gritty synth bass',
+    mu_ash_night:'cello, dark choir murmur, slow taiko, a smouldering distorted synth bass',
+    mu_dungeon:'cello ostinato, hammered dulcimer, granular textures, an 808 sub bass',
+    mu_tower:'celesta, harp, a climbing sequenced synth, light strings',
+    mu_castle:'brass, Swedish bagpipe (säckpipa), marching snare and frame drum, low strings',
+    mu_mage:'glass harmonica, whispering choir, FM bells, a pulsing analog synth',
+    mu_island:'fiddle, accordion, bodhrán, a sea-shanty rhythm, a round analog bass',
+    mu_trial:'music box, kalimba, pizzicato strings, playful chiptune-like arpeggios',
+    mu_sky:'hardanger fiddle, wide strings, an airy synth lead, light breakbeat',
+    mu_fight:'taiko, hurdy-gurdy, aggressive fiddle ostinato, a hard electronic beat',
+    mu_boss:'war drums, aggressive fiddles, wordless choir shouts, a heavy synth bass',
+    mu_boss_realm:'huge war drums, full choir, horns, a menacing distorted synth riff',
+    mu_boss_mage:'frantic harp and strings, FM bells, choir stabs, a glitchy electronic beat',
+    mu_forges:'anvil percussion, low brass, deep throat-singing, an overdriven synth bass',
+    mu_muspelheim:'roaring choir, taiko, low brass drones, a growling synth bass',
+    mu_surtharn:'colossal drums, roaring low choir, frantic hurdy-gurdy, a distorted electric bass',
+    mu_escape:'fast fiddle runs, breakbeat drums, a racing synth arpeggio, driving electric bass',
+    mu_asgard_down:'choir, bright bells, a vast golden pad',
+    mu_asgard:'harp, choir, distant lur horns, a cathedral organ, a slow-burning synth pulse',
+    mu_citadel:'pipe organ, cello, ticking percussion, choir whispers, a dark synth pulse',
+    mu_solmyrk:'enormous drums, dark full choir, horns, pipe organ, a heavy distorted synth bass',
+    mu_feast_hall:'celestial strings, two soft wordless voices, a humming synth drone',
+    mu_gods_free:'warm strings, choir, harp, a soft electric bass',
+    mu_bifrost:'soaring choir and strings, shimmering harp, glittering synth arpeggios',
+    mu_village_moment:'thunder drums, blooming strings and flutes, a bright synth swell',
+    mu_celebration:'fast fiddles, accordion, stamping and clapping, flutes, a bouncy electric bass',
+    mu_credits:'the instruments of the whole game: fiddle, flute, choir, harp, synth arpeggios and electric bass'};
+  var s1=ZAUD.suno; ZAUD.suno=function(c){ var S=s1.apply(ZAUD,arguments), I=ZAUD.INSTR[c.id];
+    if(I){ var i=S.style.lastIndexOf('. '); S.style=S.style.slice(0,i)+'; lead instruments: '+I+S.style.slice(i); } return S; };
+})();

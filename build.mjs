@@ -125,7 +125,8 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
     fs.mkdirSync(path.join(ROOT, 'lab/preview'), { recursive: true }); for (const f of fs.readdirSync(path.join(ROOT, 'sprites/preview')).filter(f => /\.webp$/.test(f))) fs.copyFileSync(path.join(ROOT, 'sprites/preview', f), path.join(ROOT, 'lab/preview', f)); } catch (e) {}
   let sbSheets = '{}'; try { sbSheets = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/storyboards/index.json'), 'utf8'))); } catch (e) {}   // round 79b: the story frames' sheets (tools/video/storyboards.py)
   let sfxPick = '{}'; try { sfxPick = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/audio/eth.json'), 'utf8'))); } catch (e) {}   // round 81: the gentle sounds to pick from (tools/audio/eth_preview.py)
-  const labJs = minify(shared + 'var ZSCN_META=' + scnMeta + ';\n' + 'var ZSB_SHEETS=' + sbSheets + ';\n' + 'var ZSFX_PICK=' + sfxPick + ';\n' + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
+  let sfx84 = '{}'; try { sfx84 = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/audio/s84.json'), 'utf8'))); } catch (e) {}   // round 84: every take side by side (tools/audio/sfx_preview.py)
+  const labJs = minify(shared + 'var ZSCN_META=' + scnMeta + ';\n' + 'var ZSB_SHEETS=' + sbSheets + ';\n' + 'var ZSFX_PICK=' + sfxPick + ';\n' + 'var ZSFX84=' + sfx84 + ';\n' + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
   if (/<\/script>/i.test(labJs)) throw new Error('Literal </script> in lab JS');
   const labRaw = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs), lab = withEngine(labRaw, ENGINE_ARG, false);
   if (process.argv.includes('--check')) {
@@ -185,7 +186,7 @@ try {
 // ── Round 72: the music and sound list (src/js/07zau-audio-cues.js, doc 32) → sprites/requests/audio.json, for tools/audio (the effects script)
 try {
   const vm = await import('node:vm'); const ctx = {}; ctx.globalThis = ctx;
-  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zau-audio-cues.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zau2-ethereal.js'), 'utf8') + '\n;globalThis.__aud=JSON.stringify({stats:ZAUD.stats(),style:ZAUD.STYLE,sfxStyle:ZAUD.SFXSTYLE,ambStyle:ZAUD.AMBSTYLE,ethStyle:ZAUD.ETHSTYLE,cues:ZAUD.all().map(function(c){ return Object.assign({request:ZAUD.request(c)},c.kind==="sfx"?{eth:ZAUD.eth(c)}:{},c); })});', ctx);
+  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zau-audio-cues.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zau2-ethereal.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zau3-sfx84.js'), 'utf8') + '\n;globalThis.__aud=JSON.stringify({stats:ZAUD.stats(),style:ZAUD.STYLE,sfxStyle:ZAUD.SFXSTYLE,ambStyle:ZAUD.AMBSTYLE,ethStyle:ZAUD.ETHSTYLE,cues:ZAUD.all().map(function(c){ return Object.assign({request:ZAUD.request(c)},c.kind==="sfx"?{eth:ZAUD.eth(c),v84:ZAUD.v84(c)}:{},c); })});', ctx);
   const S = JSON.parse(ctx.__aud), ids = {}; S.cues.forEach(c => { if (ids[c.id]) throw new Error('audio id used twice: ' + c.id); ids[c.id] = 1; });
   fs.mkdirSync(path.join(ROOT, 'sprites', 'requests'), { recursive: true });
   fs.writeFileSync(path.join(ROOT, 'sprites', 'requests', 'audio.json'), JSON.stringify({ made: 'build.mjs from src/js/07zau-audio-cues.js — do not edit by hand', how: 'music: paste request into Suno (Instrumental on); amb and sfx: sent by tools/audio (doc 32 §3.2)', stats: S.stats, cues: S.cues }, null, 0));

@@ -1,0 +1,17 @@
+# round 84b: Mira's lift and Vela's pass are not there before they are built (doc 40 §1b) - 16 pictures
+sc_sb_vela_01_m
+sc_sb_vela_01_f
+sc_sb_vela_02_m
+sc_sb_vela_02_f
+sc_sb_vela_03_m
+sc_sb_vela_03_f
+sc_sb_vela_04_m
+sc_sb_vela_04_f
+sc_sb_vela_05_m
+sc_sb_vela_05_f
+sc_sb_vela_06_m
+sc_sb_vela_06_f
+sc_sb_vela_07_m
+sc_sb_vela_07_f
+sc_sb_mira_07_m
+sc_sb_mira_07_f

@@ -7,16 +7,20 @@
 // ║  · Library → the two paintings of the saga-hall (take A, take B): ☆ the one for the village. Picks: 'library-vb_library_a' / '_b'.
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof LAB_TABS==='undefined'||typeof LBR==='undefined')return;
-  var P=typeof ZSFX_PICK!=='undefined'&&ZSFX_PICK&&ZSFX_PICK.items?ZSFX_PICK.items:{}, IDS=Object.keys(P);
+  // round 84: every take side by side — today's, the round-80 gentle ones, real recordings from the Sonniss library, and the ones worded by
+  // what happens (tools/audio/sfx_preview.py → s84_<kind>.mp3); pick one, or two the game alternates. Picks: 'sfxpick-<id>', e.g. 'l2' or 'l1+n2'
+  var V84=typeof ZSFX84!=='undefined'&&ZSFX84&&ZSFX84.items&&Object.keys(ZSFX84.items).length;
+  var P=V84?ZSFX84.items:(typeof ZSFX_PICK!=='undefined'&&ZSFX_PICK&&ZSFX_PICK.items?ZSFX_PICK.items:{}), IDS=Object.keys(P), PFX=V84?'s84_':'eth_';
+  var KINDS=['cur','l1','l2','l3','n1','n2','e1','e2'], KN={cur:'Today',l1:'Rec 1',l2:'Rec 2',l3:'Rec 3',n1:'New 1',n2:'New 2',e1:'Gentle 1',e2:'Gentle 2'};
   var esc=function(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); };
   var CUES=typeof ZAUD!=='undefined'?ZAUD.all().filter(function(c){ return c.kind==='sfx'; }):[], BY={}; CUES.forEach(function(c){ BY[c.id]=c; });
   var GN={}; if(typeof ZAUD!=='undefined')ZAUD.GROUPS.forEach(function(g){ GN[g[0]]=g[1]; });
   var key=function(id){ return 'sfxpick-'+id; }, pickOf=function(id){ var p=LabApp.picks[key(id)]; return p&&p.verdict||null; };
-  var NAMES={cur:'Keep today\'s',e1:'Option 1',e2:'Option 2',both:'1 + 2'};
+  var NAMES={cur:'Keep today\'s',e1:'Option 1',e2:'Option 2',both:'1 + 2'}, picksOf=function(id){ var v=pickOf(id); return !v||v==='cur'?[]:v==='both'?['e1','e2']:String(v).split('+'); };
   // ── the sounds: three joined files, decoded once, a piece played at a time ──
   var AC=null, BUF={}, LOAD={}, cur=null;
   var load=function(k){ if(LOAD[k])return LOAD[k]; AC=AC||new (window.AudioContext||window.webkitAudioContext)();
-    LOAD[k]=fetch('preview/audio/eth_'+k+'.mp3').then(function(r){ if(!r.ok)throw new Error(r.status); return r.arrayBuffer(); }).then(function(b){ return new Promise(function(ok,no){ AC.decodeAudioData(b,ok,no); }); }).then(function(d){ BUF[k]=d; return d; });
+    LOAD[k]=fetch('preview/audio/'+PFX+k+'.mp3').then(function(r){ if(!r.ok)throw new Error(r.status); return r.arrayBuffer(); }).then(function(b){ return new Promise(function(ok,no){ AC.decodeAudioData(b,ok,no); }); }).then(function(d){ BUF[k]=d; return d; });
     LOAD[k].catch(function(){ LOAD[k]=null; }); return LOAD[k]; };
   var play=function(id,k,btn){ var seg=P[id]&&P[id][k]; if(!seg)return; if(cur){ try{ cur.src.stop(); }catch(e){} if(cur.btn)cur.btn.classList.remove('on'); cur=null; }
     if(btn)btn.classList.add('wait');
@@ -25,6 +29,10 @@
   var row=function(id){ var c=BY[id]||{id:id,name:id,where:''}, p=pickOf(id), has=P[id]||{};
     var pb=function(k,lab){ return has[k]?'<button class="vbtn sfp-play" data-id="'+id+'" data-k="'+k+'" title="'+has[k][1]+' s">▶ '+lab+'</button>':'<span class="sfp-none">'+(k==='cur'?'made by code today':'—')+'</span>'; };
     var ch=function(v){ var ok=v==='cur'?!!has.cur:v==='both'?!!(has.e1&&has.e2):!!has[v]; return ok?'<button class="vbtn sfp-v" data-id="'+id+'" data-v="'+v+'" aria-pressed="'+(p===v)+'">'+NAMES[v]+'</button>':''; };
+    if(V84){ var mine=picksOf(id), kp=function(k){ return has[k]?'<span class="sfp-k"><button class="vbtn sfp-play" data-id="'+id+'" data-k="'+k+'" title="'+has[k][1]+' s">▶ '+KN[k]+'</button>'+(k==='cur'?'':'<button class="vbtn sfp-v" data-id="'+id+'" data-v="'+k+'" aria-pressed="'+(mine.indexOf(k)>=0)+'">☆</button>')+'</span>':''; };
+      return '<tr class="sfp-r'+(p?' done':'')+'" data-id="'+id+'"><td><b>'+esc(c.name)+'</b><br><code>'+id+'</code><div class="sfp-where">'+esc(c.where)+'</div></td>'+
+        '<td class="sfp-pl" colspan="2">'+KINDS.map(kp).join('')+(has.cur?'<button class="vbtn sfp-v" data-id="'+id+'" data-v="cur" aria-pressed="'+(p==='cur')+'">Keep today\'s</button>':'')+'</td>'+
+        '<td class="sfp-w"><details><summary>the words sent</summary>'+esc(c.v84||(typeof ZAUD!=='undefined'&&ZAUD.v84?ZAUD.v84(c):''))+'</details></td></tr>'; }
     return '<tr class="sfp-r'+(p?' done':'')+'" data-id="'+id+'"><td><b>'+esc(c.name)+'</b><br><code>'+id+'</code><div class="sfp-where">'+esc(c.where)+'</div></td>'+
       '<td class="sfp-pl">'+pb('cur','Today')+pb('e1','1')+pb('e2','2')+'</td><td class="sfp-ch">'+ch('cur')+ch('e1')+ch('e2')+ch('both')+'</td>'+
       '<td class="sfp-w"><details><summary>the words sent</summary>'+esc(typeof ZAUD!=='undefined'&&ZAUD.eth&&BY[id]?ZAUD.eth(c):c.eth||'')+'</details></td></tr>'; };
@@ -32,6 +40,10 @@
   var section=function(){ if(!IDS.length)return '<div class="sm-legend">The gentle sounds are not in this Lab yet (tools/audio/eth_preview.py makes them).</div>';
     var groups=[]; CUES.forEach(function(c){ if(P[c.id]&&groups.indexOf(c.group)<0)groups.push(c.group); });
     var n=count(), rows=groups.map(function(g){ var L=CUES.filter(function(c){ return c.group===g&&P[c.id]; }); return '<tr class="au-g"><td colspan="4">'+(GN[g]||g)+' <span>· '+L.length+'</span></td></tr>'+L.map(function(c){ return row(c.id); }).join(''); }).join('');
+    if(V84)return '<div class="sm-legend"><b>Round 84 — pick the sounds.</b> Every effect now has up to seven takes: <b>Today</b> (in the game now), <b>Rec 1–3</b> — real recordings cut from the Sonniss library (physical sounds: hits, steps, doors, water, animals), <b>New 1–2</b> — asked again worded by what happens (once you run <code>tools\\audio\\audio3.ps1</code>), and the round-80 <b>Gentle 1–2</b>. '+
+      '▶ plays a take; ☆ picks it — pick <b>one</b>, or <b>two</b> and the game alternates them so it never sounds the same twice; <b>Keep today\'s</b> leaves it as it is. All play at the same loudness here; in the game the menu and page sounds sit quieter. Picks save as you click; tell Claude when you are done.</div>'+
+      '<div class="sfp-bar"><span id="sfp-n">'+n+' of '+IDS.length+' picked</span><button class="vbtn" id="sfp-next">▶ Next to pick</button><label><input type="checkbox" id="sfp-hide"> hide the picked ones</label></div>'+
+      '<table class="au-t sfp-t"><thead><tr><th>Sound</th><th colspan="2">Listen ▶ · pick ☆ (one or two)</th><th>Words</th></tr></thead><tbody>'+rows+'</tbody></table>';
     return '<div class="sm-legend"><b>Round 81 — pick the gentle sounds.</b> Every effect was made again, gentle and ethereal, two ways. Play <b>today\'s</b> take (where there is one — the rest are made by code today), <b>option 1</b> and <b>option 2</b>, then pick: '+
       '<b>keep today\'s</b>, <b>1</b>, <b>2</b>, or <b>1 + 2</b> (the game alternates the two so it never sounds the same twice). All are at the same loudness here; in the game the menu and page sounds sit quieter under the music. '+
       'The new skill, spell and mount sounds have no take today — pick 1, 2 or both. Picks save as you click; when you are done tell Claude and they go into the game.</div>'+
@@ -39,11 +51,14 @@
       '<table class="au-t sfp-t"><thead><tr><th>Sound</th><th>Listen</th><th>Pick</th><th>Words</th></tr></thead><tbody>'+rows+'</tbody></table>'; };
   // into the Music & sound tab, first
   var A=LAB_TABS.find(function(t){ return t.id==='audio'; });
-  if(A){ var r0=A.render; A.render=function(){ return LBR.sec('Pick the gentle sounds',IDS.length+' effects · today · option 1 · option 2')+section()+r0.apply(this,arguments); };
+  if(A){ var r0=A.render; A.render=function(){ return LBR.sec(V84?'Pick the sounds':'Pick the gentle sounds',IDS.length+' effects · '+(V84?'today · recordings · new · gentle':'today · option 1 · option 2'))+section()+r0.apply(this,arguments); };
     A.blurb='<b>Round 81 — pick the gentle sounds</b> at the top: every effect made again gentle and ethereal, two options each beside today\'s take; pick one (or 1 + 2) per effect. Below: the music cues for Suno and the plan.'; }
   document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.sfp-play'); if(b){ play(b.dataset.id,b.dataset.k,b); return; }
-    var v=e.target.closest&&e.target.closest('.sfp-v'); if(v){ var k=key(v.dataset.id), p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=p.verdict===v.dataset.v?null:v.dataset.v; LabApp.persist(k);
-      var tr=v.closest('tr'); tr.querySelectorAll('.sfp-v').forEach(function(x){ x.setAttribute('aria-pressed',String(x.dataset.v===p.verdict)); }); tr.classList.toggle('done',!!p.verdict);
+    var v=e.target.closest&&e.target.closest('.sfp-v'); if(v){ var k=key(v.dataset.id), p=LabApp.picks[k]=LabApp.picks[k]||{}; var dv=v.dataset.v;
+      if(V84&&dv!=='cur'){ var L=picksOf(v.dataset.id), i=L.indexOf(dv); if(i>=0)L.splice(i,1); else { L.push(dv); if(L.length>2)L.shift(); } p.verdict=L.length?L.join('+'):null; }      /* round 84: one or two takes */
+      else p.verdict=p.verdict===dv?null:dv;
+      LabApp.persist(k);
+      var tr=v.closest('tr'), mine=picksOf(v.dataset.id); tr.querySelectorAll('.sfp-v').forEach(function(x){ x.setAttribute('aria-pressed',String(V84?(x.dataset.v==='cur'?p.verdict==='cur':mine.indexOf(x.dataset.v)>=0):x.dataset.v===p.verdict)); }); tr.classList.toggle('done',!!p.verdict);
       var el=document.getElementById('sfp-n'); if(el)el.textContent=count()+' of '+IDS.length+' picked'; return; }
     if(e.target.id==='sfp-next'){ var tr2=[].slice.call(document.querySelectorAll('.sfp-r')).find(function(t){ return !pickOf(t.dataset.id); }); if(tr2){ tr2.scrollIntoView({block:'center',behavior:'smooth'}); tr2.classList.add('flash'); setTimeout(function(){ tr2.classList.remove('flash'); },1200); var pb=tr2.querySelector('.sfp-play'); if(pb)play(tr2.dataset.id,pb.dataset.k,pb); } } });
   document.addEventListener('change',function(e){ if(e.target.id==='sfp-hide')document.body.classList.toggle('sfp-hide',e.target.checked); });
@@ -51,9 +66,14 @@
   var LIBS=[{id:'vb_library_a',name:'The library — take A',desc:'The gable end with the carved double door facing you, dragon heads on the gable, rune-lit windows, the open-book sign, a reading bench and scrolls by the door.'},
     {id:'vb_library_b',name:'The library — take B',desc:'A little wider, with a small lantern tower of rune-lit glass on the roof ridge. Otherwise as A.'}];
   LBR.TABS.push('library');
+  var LIBIMG={};
   LBR.drawers.library=function(cv,c,W,H,t,full,id){ var g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0e1a2a'); g.addColorStop(1,'#1d3020'); c.fillStyle=g; c.fillRect(0,0,W,H);
-    c.fillStyle='#3a5a32'; c.fillRect(0,H*0.82,W,H*0.18); var Z=typeof _scn==='function'?_scn():null;
-    if(!Z||!Z.has(id)||!Z.draw(c,id,W/2,H*0.9,H*0.8)){ c.fillStyle='#8aa0b8'; c.font=Math.round(H/18)+'px "Segoe UI",sans-serif'; c.textAlign='center'; c.fillText('painting loading…',W/2,H/2); } };
+    c.fillStyle='#3a5a32'; c.fillRect(0,H*0.82,W,H*0.18);
+    // round 84 (Kris: "im also not seeing the library images, just 'painting loading'"): the Lab has no ZScn — draw from the atlas page itself
+    var it=typeof ZSCN_META!=='undefined'&&ZSCN_META.items&&ZSCN_META.items[id], ok=false;
+    if(it){ var P=LIBIMG[it[0]]; if(!P){ P=LIBIMG[it[0]]=new Image(); (function(im,f){ im.onerror=function(){ if(!im._b){ im._b=1; im.src='../'+f; } }; im.src=f; })(P,'assets/scenery/'+it[0]+'.webp'); }
+      if(P.complete&&P.naturalWidth){ var hh=H*0.8, s=Math.min(hh/it[4],W*0.9/it[3]); c.drawImage(P,it[1],it[2],it[3],it[4],W/2-it[3]*s/2,H*0.9-it[4]*s,it[3]*s,it[4]*s); ok=true; } }
+    if(!ok){ c.fillStyle='#8aa0b8'; c.font=Math.round(H/18)+'px "Segoe UI",sans-serif'; c.textAlign='center'; c.fillText('painting loading…',W/2,H/2); } };
   LAB_TABS.push({ id:'library', name:'Library',
     blurb:'<b>Round 81 — the twin\'s library.</b> The Norse saga-hall now stands in the village, across the street from your Home: go in through its door like the shops. By day your twin reads at their desk inside ([Tab] to talk — with the Lodestar they teach you Godsbane); at night they sleep in the second bed in your Home. <b>☆ the painting you want for the village</b> (take A is in the game until you pick). The room itself is in the Interiors tab (The Library).',
     designs:LIBS.map(function(d){ return {id:d.id,name:d.name}; }),

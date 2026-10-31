@@ -161,6 +161,90 @@
   "kind": "amb",
   "loop": true
  },
+ "mu_glimpse": {
+  "files": [
+   {
+    "base": "mu_glimpse",
+    "le": 208.04,
+    "ls": 0,
+    "secs": 208.04
+   }
+  ],
+  "kind": "music",
+  "loop": false
+ },
+ "mu_home": {
+  "files": [
+   {
+    "base": "mu_home",
+    "le": 198.0,
+    "ls": 0,
+    "secs": 198.0
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_saga_old": {
+  "files": [
+   {
+    "base": "mu_saga_old",
+    "le": 186.064,
+    "ls": 0,
+    "secs": 186.064
+   }
+  ],
+  "kind": "music",
+  "loop": false
+ },
+ "mu_saga_storm": {
+  "files": [
+   {
+    "base": "mu_saga_storm",
+    "le": 229.69,
+    "ls": 0,
+    "secs": 229.69
+   }
+  ],
+  "kind": "music",
+  "loop": false
+ },
+ "mu_title": {
+  "files": [
+   {
+    "base": "mu_title",
+    "le": 222.254,
+    "ls": 0,
+    "secs": 222.254
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_village_day": {
+  "files": [
+   {
+    "base": "mu_village_day",
+    "le": 204.68,
+    "ls": 0,
+    "secs": 204.68
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_village_night": {
+  "files": [
+   {
+    "base": "mu_village_night",
+    "le": 193.44,
+    "ls": 0,
+    "secs": 193.44
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "sfx_arrow_hit": {
   "files": [
    {

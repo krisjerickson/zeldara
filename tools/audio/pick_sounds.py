@@ -1,6 +1,6 @@
 """Round 81: put Kris's picks of the gentle sounds into the game (Lab → Music & sound → "Pick the gentle sounds").
 
-  sprites/requests/sound_picks.json    {id: "cur" | "e1" | "e2" | "both"}  — Claude writes it from the Lab's picks
+  sprites/requests/sound_picks.json    {id: "cur" | "e1" | "e2" | "both" | "l1".."l3" | "n1" | "n2" | "<take>+<take>"}  — Claude writes it from the Lab's picks
 
   cur   today's take stays (still played softer and muffled where it was harsh — ZAUD.SOFT)
   e1    option 1 becomes the sound          e2   option 2 becomes the sound
@@ -23,15 +23,17 @@ def move(src, dst_dir):
     if not DRY: shutil.move(src, dst)
 todo = []
 for cid, p in sorted(picks.items()):
-    if p not in ('e1', 'e2', 'both'): continue
-    srcs = [os.path.join(INC, cid + '.' + ('e1' if p in ('e1', 'both') else 'e2') + '.mp3')] + ([os.path.join(INC, cid + '.e2.mp3')] if p == 'both' else [])
+    # round 84: any take — e1/e2 (round 80), l1-l3 (the Sonniss library), n1/n2 (worded by what happens) — or two joined by '+' (alternating)
+    ks = ['e1', 'e2'] if p == 'both' else [k for k in str(p).split('+') if k in ('e1', 'e2', 'l1', 'l2', 'l3', 'n1', 'n2')]
+    if not ks: continue
+    srcs = [os.path.join(INC, cid + '.' + k + '.mp3') for k in ks[:2]]
     if not all(os.path.isfile(s) for s in srcs): print('?  %s: the %s file is not in audio/incoming' % (cid, p)); continue
     for ext in ('.mp3', '.wav', '.b.mp3', '.b.wav'): move(os.path.join(INC, cid + ext), OLD)
     for ext in ('.mp3', '.ogg', '.b.mp3', '.b.ogg'): move(os.path.join(AS, cid + ext), os.path.join(OLD, 'assets'))
     if not DRY:
         shutil.copy2(srcs[0], os.path.join(INC, cid + '.mp3'))
-        if p == 'both': shutil.copy2(srcs[1], os.path.join(INC, cid + '.b.mp3'))
-    todo.append(cid); print('%-26s <- %s' % (cid, {'e1': 'option 1', 'e2': 'option 2', 'both': 'options 1 + 2 (alternating)'}[p]))
+        if len(srcs) > 1: shutil.copy2(srcs[1], os.path.join(INC, cid + '.b.mp3'))
+    todo.append(cid); print('%-26s <- %s' % (cid, ' + '.join(ks[:2]) + (' (alternating)' if len(ks) > 1 else '')))
 keep = sum(1 for p in picks.values() if p == 'cur')
 print('\n%d to put in, %d keep today\'s take' % (len(todo), keep))
 if DRY or not todo: sys.exit(0)

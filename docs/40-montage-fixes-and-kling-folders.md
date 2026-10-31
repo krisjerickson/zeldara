@@ -75,3 +75,49 @@ All **52** music cues (43 pieces and 9 stingers) have their Suno words. None are
 - **Claude, after the pictures:** `storyboards.py`, `story_atlas.py` and `kling.py`, the game's story sheets, an empty `_HOLD` list, the game artifact.
 - **Ambience:** 7 of 16 loops still missing (`audio1.ps1`).
 - **The Lab's to-do list:** the saga map, the round-73 clips and the story lines are retired; the sound picks and the library remain.
+
+## 6. More fixes (round 84b)
+
+- **Mira and Vela checked, as Kris asked.** Their montages now hold back what they build until they build it, the same as Bram's and Dunn's.
+  - Mira's cliff is bare until her first chain goes up.
+  - Mira's frame 7 had a finished lift cage hanging; it is now the lift half built.
+  - Vela's Ember Wall is one unbroken ridge of fire, with no road, bridge or arches across it, until her lanterns cool the first stretch.
+  - 16 pictures, a separate list from round 84 so that one is never painted twice: `.\tools\sprites\redo.ps1 -List redo84b`.
+- **The Library tab** showed "painting loading…" forever, because the Lab has no scenery loader. It now draws the two takes straight from the atlas page.
+
+## 7. Music: longer, more electronic, more instruments (Kris's notes)
+
+Kris: "a bit more electronic influences, and more electric bass when appropriate … the more chill relaxing songs … a bit more fast paced"; "i'm worried … might not have long enough music for ongoing play … around 10 minutes"; "a bit more variety of instruments overall … it gets repeated a bit too much".
+
+- **Style:**
+  - The house style now leans harder electronic: a punchy electric-bass groove, electronic drums, pulsing arpeggios.
+  - The gentle style has a clear pulse, an electric-bass groove and a light beat.
+  - Every group's feel names the electric bass.
+  - The Exclude box now bans only lead or distorted electric guitar, not the bass.
+- **Tempo:** the gentle pieces are about 15 % faster; the realms about 8 %. The calm pieces you play through (village nights, home, glimmerhall, the realm nights, the marsh, the caverns, the towers, the mage towers, Asgard) are re-worded with more drive. The cut-scene moments keep their stillness.
+- **Length:**
+  - Every piece you stay with for a long while asks for a long-form ~10-minute piece: the village by day and night, the green land after the end, all eight realm day and night pieces, the caverns, towers, castles, mage towers, islands, sky, forges, Muspelheim, Asgard and the citadel. Several sections and variations return to the main theme, with no ending.
+  - Suno makes up to 8 minutes in one go; then ⋯ → Edit → Extend once to reach ~10. The Lab card says how, and keeping Suno's second take as `<id>.b.mp3` adds variety (the game alternates the two).
+  - Shorter targets elsewhere: fights 2.5 min; bosses 4–5 (Solmyrk 6); the escape 3; the title, home, shops and trials 4–5.
+- **Instruments:**
+  - The house style no longer names the same four instruments every time.
+  - Each piece has its own lead instruments: willow flute and bodhrán on the Grasslands; reed pipes, kantele and a Reese bass in the Wetlands; goat horn, lur and synth brass in the Highlands; hurdy-gurdy, jaw harp and industrial percussion in the Ashlands; cello, dulcimer and an 808 in the caverns; säckpipa and brass in the castles; glass harmonica and FM bells for the mages; accordion and a shanty rhythm on the islands; music box and kalimba for the trials; pipe organ in the citadel; and so on (`ZAUD.INSTR`).
+- **Taken in:** the first seven songs from Suno — the title, the storm, the old sorrows, the glimpse, home, the village by day and the village by night (3–4 minutes each). They play in the game.
+  - The village pieces were made before the new prompts; remaking them at ~10 minutes is Kris's call.
+  - The intake now keeps its temporary files outside the game folder. Deleting there isn't allowed, and the read-only `assets/audio/index.json` had to be made writable.
+- **Where to drop music:** `audio\incoming\<cue id>.mp3` (or `.wav`). A second take goes in as `<cue id>.b.mp3`.
+
+## 8. The sound effects: every take side by side (S1 answered: both)
+
+- **The library:** `audio\library` holds Sonniss's GDC 2024 bundle (9 zips, 22 GB). It is 182 packs but only about 4 recordings per pack (609 in all), so it covers the physical sounds only in part.
+  - `tools/audio/lib_picks.py` reads the zips in place, cuts each named recording into its separate hits, and makes up to three candidates per effect for 82 effects (`<id>.l1–l3.mp3`).
+  - Each candidate is cut to about the effect's length, with a soft start and a gentle fade, 60 Hz – 11 kHz, under -1 dB.
+  - Covered: weapon hits and whooshes, shield, doors, gates, the lever, chest and wood, glass, stone and rubble, water, the potion bottle, page and UI clicks, horse, boar, hens, the red kite, the anvil, the bell, fire, electricity, thunder, the crowd and children.
+  - Not covered: no bows, coins, grass footsteps or dig sounds. Earlier years of the archive (2015–2023) would fill much more.
+- **Re-worded ElevenLabs takes (`07zau3-sfx84.js`):**
+  - Every effect's action comes first (what makes the sound, on what, how hard), followed by a short tail of a few words, sent at prompt influence 0.8.
+  - Run `.\tools\audio\audio3.ps1` (two takes each, about 13,000 credits); the takes arrive as `<id>.n1/.n2.mp3`.
+- **The Lab** (Music & sound → **Pick the sounds**):
+  - Each effect shows Today, Rec 1–3, New 1–2 (after audio3) and Gentle 1–2, each with ▶.
+  - ☆ picks one take, or two that the game alternates; "Keep today's" leaves it as it is.
+  - Made by `tools/audio/sfx_preview.py` (joined files `s84_<kind>.mp3`). `tools/audio/pick_sounds.py` puts the picks in the game; a pick can be any take or two joined by `+`.

@@ -50,7 +50,8 @@
   var VOXN={elf:'🧝 elven woman\'s voice (wordless)',dwarf:'⛏ deep dwarven men\'s voices (wordless)',violin:'🎻 slow solo violin'};
   var field=function(id,k,label,txt,rows){ return '<div class="au-f"><span class="au-l">'+label+'</span><span class="au-req"><textarea readonly rows="'+(rows||2)+'" data-au="'+id+'_'+k+'">'+esc(txt)+'</textarea><button class="vbtn au-copy" data-au="'+id+'_'+k+'">⧉ Copy</button></span></div>'; };
   var sunoBox=function(q){ var S=ZAUD.suno(q);
-    return (S.vox?'<div class="au-vox">'+VOXN[S.vox]+'</div>':'')+(S.remix?'<div class="au-remix">Start from your track <b>'+esc(S.remix)+'</b> (Remix / Cover) with these words — or make it new.</div>':'')+
+    var LEN=S.long?'<div class="au-remix">⏱ <b>About 10 minutes</b> — you stay in this place a long time. In Suno, Advanced options → song length as long as it goes (up to 8 min), or Auto; then ⋯ → Edit → <b>Extend</b> from near the end with the same style words until it is about 10 minutes, and download the whole song. Keeping Suno\'s second take too (save it as <code>'+q.id+'.b.mp3</code>) gives even more variety.</div>':(S.mins?'<div class="au-remix">⏱ About '+S.mins+' minute'+(S.mins>1?'s':'')+'.</div>':'');      /* round 84 (Kris): lengths for ongoing play */
+    return LEN+(S.vox?'<div class="au-vox">'+VOXN[S.vox]+'</div>':'')+(S.remix?'<div class="au-remix">Start from your track <b>'+esc(S.remix)+'</b> (Remix / Cover) with these words — or make it new.</div>':'')+
       field(q.id,'t','Title',S.title,1)+field(q.id,'s','Style of music',S.style,4)+
       (S.lyrics?field(q.id,'l','Lyrics — Instrumental <b>off</b>',S.lyrics,4):'<div class="au-f"><span class="au-l">Lyrics</span><span class="au-inst">Instrumental <b>on</b> — no lyrics</span></div>')+
       field(q.id,'x','Exclude styles',S.exclude,1); };
