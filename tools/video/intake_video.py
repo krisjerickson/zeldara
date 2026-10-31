@@ -53,6 +53,33 @@ for (sid, w), got in sorted(shots.items()):
     r = subprocess.run([FF, '-y', '-loglevel', 'error'] + ins + ['-filter_complex', ';'.join(flt), '-map', '[out]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '26', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', dst + '.tmp.mp4'])
     if r.returncode: print('X   montage %s %s' % (sid, w)); continue
     os.replace(dst + '.tmp.mp4', dst); print('OK  sb_%s_%s.mp4  <- %d shots joined  %.1f MB' % (sid, w, n, os.path.getsize(dst) / 1e6))
+# round 84: Kling parts (tools/video/kling.py, video_requests/): <scene>_<who>_p<k>.mp4, who = zeldor / zeldara / all / both ("both": the
+# same pictures in both heroes' versions, used for each) - joined in order once every part of that montage is in
+PART = re.compile(r'^(?:sb_)?([a-z0-9]+)_(zeldor|zeldara|all|both)_p(\d+)')
+try: NP = json.load(open(os.path.join(ROOT, 'video_requests', 'parts.json')))['parts']
+except Exception: NP = {}
+pf = {}
+for f in files:
+    m = PART.match(os.path.splitext(f)[0].lower())
+    if m and m.group(1) in SBN:
+        k = (m.group(1), m.group(2), int(m.group(3))); old = pf.get(k)
+        if not old or os.path.getmtime(os.path.join(a.src, f)) > os.path.getmtime(os.path.join(a.src, old)): pf[k] = f      # the newest take wins
+files = [f for f in files if not (PART.match(os.path.splitext(f)[0].lower()) and PART.match(os.path.splitext(f)[0].lower()).group(1) in SBN)]
+for sid in sorted({k[0] for k in pf}):
+    n = NP.get(sid, 1); versions = any(len(b['ids']) > 1 for b in [sc for sc in SB if sc['id'] == sid][0]['beats'])
+    for w in (['zeldor', 'zeldara'] if versions else ['all']):
+        got = [pf.get((sid, w, k)) or pf.get((sid, 'both', k)) for k in range(1, n + 1)]
+        if None in got: print('  ..    %s %s: %d of %d parts in - waiting for the rest' % (sid, w, n - got.count(None), n)); continue
+        dst = os.path.join(OUT, 'sb_%s_%s.mp4' % (sid, w))
+        if os.path.isfile(dst) and os.path.getmtime(dst) >= max(os.path.getmtime(os.path.join(a.src, g)) for g in got): print('  have  sb_%s_%s' % (sid, w)); continue
+        ins = []; flt = []
+        for i, g in enumerate(got):
+            ins += ['-i', os.path.join(a.src, g)]
+            flt.append('[%d:v]scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,setsar=1,fps=24[v%d]' % (i, i))
+        flt.append(''.join('[v%d]' % i for i in range(len(got))) + 'concat=n=%d:v=1:a=0[out]' % len(got))
+        r = subprocess.run([FF, '-y', '-loglevel', 'error'] + ins + ['-filter_complex', ';'.join(flt), '-map', '[out]', '-c:v', 'libx264', '-preset', 'slow', '-crf', '26', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', dst + '.tmp.mp4'])
+        if r.returncode: print('X   montage %s %s' % (sid, w)); continue
+        os.replace(dst + '.tmp.mp4', dst); print('OK  sb_%s_%s.mp4  <- %d part(s) joined  %.1f MB' % (sid, w, len(got), os.path.getsize(dst) / 1e6))
 pairs = []; loose = []
 for f in files:
     i = match(f)

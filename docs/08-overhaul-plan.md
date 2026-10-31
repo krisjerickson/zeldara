@@ -202,6 +202,11 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 84 (Oct 30) — catch-up; montage fixes; Kling folders; sounds
+- Kris: "catch me back on where we are at and what to do next" — sounds ("not very happy with my options … improve the prompts … or perhaps find a new place to request these"), videos ("individual folders for each video with all of the images in each folder as well as a single prompt"), music ("float links if so"). Mid-round: frame-by-frame montage notes (doc 40 §1, all done; 122 pictures, `redo.ps1 -List redo84`).
+- Specific, done (assumptions): Kling folders as Kling 4.0 Keyframes parts of at most 6 pictures × 5 s (doc 40 §2); "no children until the celebration's first cry" applied to every montage; the Lodestar drawn as Kris's round-59 pick everywhere; the Black Tide's last frame emptied of people like the Ash Night and Stone-Fall ones.
+- S1 — Sound effects: re-prompt, a real library (Sonniss GDC archive), or both? (asked)
+
 ### Round 83 (Oct 24) — no more chipping bosses down from afar
 - Kris: "we need to fix being able to range attack bosses from afar with spells to slowly kill the bosses. Few ideas: 1. bosses come at you when you attack with range weapons and spells. currently they sometimes just hover around the same area 2. mana regeneration should be slower overall, such that you might need to use mana potion if you want to continuously spam spells. Come up with other ideas as well".
 - Found: mana comes back at 4 per second, plus up to 4 more from gear (so 4–8/s); Frost Bolt costs 8 every 0.8 s (10/s), so a caster nearly never runs dry. Bosses move by kits: several "lumber" slowly or stand "still", "kite" ones keep ~190 px away, "hover" ones drift — none of them answers a hit from far away.
