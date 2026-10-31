@@ -52,7 +52,7 @@ One command paints them: `.\tools\sprites\redo.ps1 -List redo84`. The list is `s
 ## 3. Sound effects — why they miss, and the options
 
 - **Why:** every one of the 147 ethereal prompts is ~8 words of action followed by the same ~45-word style tail ("soft, airy and shimmering, warm and rounded, a faint magical sparkle and soft reverb tail …"). The tail outweighs the action, so most takes come out as the same sparkly whoosh. ElevenLabs' own advice: name the source, the material and the action; don't stack unrelated qualities; use high prompt influence (0.7–1.0) for precise results. We sent 0.5.
-- **The options** (Kris to choose, docs/08 Round 84 S1):
+- **The options** — Kris chose **C, both** (docs/08 Round 84 S1):
   - **A — Re-prompt.** Action first (what makes the sound, on what, how hard), a short style tail of a few words, prompt influence 0.8, 4 takes each.
   - **B — A real sound library.** Sonniss gave away its whole GameAudioGDC archive, 2015–2024 (Aug 2026): royalty-free, usable in a commercial game, no credit needed. AI training is not allowed, which we don't do. Kris downloads it; Claude searches it on the PC by file name and category, picks 3 candidates per sound, softens them (gentle attack, low-pass, a little reverb) and puts them in the Lab picker beside today's.
   - **C — Both (recommended).** The library for physical sounds (steps, hits, doors, water, animals, mounts, UI clicks); re-prompted ElevenLabs for the magic (spells, runes, spirits, Bifröst).
