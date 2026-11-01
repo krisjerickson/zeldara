@@ -143,7 +143,7 @@ function _buildGameWorld(){
         if(!best)return; x=ob.x+best[0]; y=ob.y+best[1]; moved.push({x:ob.x,y:ob.y,w:ob.w,h:ob.h,dx:best[0],dy:best[1]}); }
       if(ob.o.solid!==false||ob.o.claim)take(x,y,ob.w,ob.h);
       addProp({prop:ob.prop,x:ox+x,y:oy+y,w:ob.w,h:ob.h,o:ob.o,zi:zi});
-      if(ob.o.solid!==false)for(var a2=0;a2<ob.h;a2++)for(var b2=0;b2<ob.w;b2++){ var X=ox+x+b2, Y=oy+y+a2; if(!ALWAYS_BLOCKED.has(tiles[Y][X]))tiles[Y][X]=T.PROP; } });
+      if(ob.o.solid!==false)for(var a2=0;a2<ob.h;a2++)for(var b2=0;b2<ob.w;b2++){ if(ob.prop==='arch'&&ob.w>=3&&b2>0&&b2<ob.w-1)continue;      /* round 84c: an arch's opening is open */ var X=ox+x+b2, Y=oy+y+a2; if(!ALWAYS_BLOCKED.has(tiles[Y][X]))tiles[Y][X]=T.PROP; } });
     c.landmarks.forEach(function(L){ var lx=L.x, ly=L.y; moved.some(function(mv){ if(L.x<mv.x+mv.w&&L.x+L.w>mv.x&&L.y<mv.y+mv.h&&L.y+L.h>mv.y){ lx+=mv.dx; ly+=mv.dy; return true; } return false; });
       landmarks.push({x:(ox+lx)*LT,y:(oy+ly)*LT,w:L.w*LT,h:L.h*LT,text:L.text.replace(/^Press M: /,'Seen from above (world map, B): '),zone:z.id}); });
     // particles the design emits from its layout (e.g. the Starfall crater's sparks)
@@ -278,6 +278,10 @@ function _buildGameWorld(){
     props:props,propsByChunk:byChunk,landmarks:landmarks,runeSpots:stampSpawns,ley:ley,shafts:shafts,stampParts:stampParts,
     map:M,region:region,zone:zone,cls:cls,baseVer:0,
     spawnX:CENTER_X*TILE+TILE/2, spawnY:CENTER_Y*TILE+TILE/2};
+  // round 84c (Kris: "we are also still finding invisible walls"): land that runs straight across a region border (a beach at x 1042–1048,
+  // y 588–589) stopped you at a line you could not see — that edge is a cliff now (the gates, set just below, keep their own cells)
+  for(var ys=1;ys<H-1;ys++)for(var xs=1;xs<W-1;xs++){ var ks=ys*W+xs, rs=region[ks]; if(rs===0||reserved[ks]===1||!canPassTile(tiles[ys][xs],null))continue;
+    if([ks+1,ks+W].some(function(k2){ var r2=region[k2]; return r2!==0&&r2!==rs&&reserved[k2]!==1&&canPassTile(tiles[(k2/W)|0][k2%W],null); }))setTK(xs,ys,T.CLIFF,G(WSK.cliff)); }
   _wgApplyGates(wd,{rescued:[],unlockedSections:[1]});
   // Free the world map's build-only scratch grids (height 5.8 MB, gateAt 1.4 MB: nothing reads them
   // after this; gates carry their own cells). coastDist is only read by the map base image

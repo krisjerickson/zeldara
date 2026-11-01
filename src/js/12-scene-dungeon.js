@@ -1037,10 +1037,10 @@ class DungeonScene extends Phaser.Scene{
     if(vx&&vy){vx*=.707;vy*=.707;}
     var _mm=MX.moveMods(this); if(_mm.rev){vx=-vx;vy=-vy;} vx*=_mm.mult; vy*=_mm.mult;
     // ice floors: you slide — velocity changes slowly and carries on when you let go
-    var _S=this._mxs; if(_S&&_S.slipT>0){ var sv=this._slipV||(this._slipV={x:vx,y:vy}), kk=Math.min(1,dt*1.6); sv.x+=(vx-sv.x)*kk; sv.y+=(vy-sv.y)*kk; if(!this._canGoD(this.px+sv.x*dt,this.py))sv.x*=-0.4; if(!this._canGoD(this.px,this.py+sv.y*dt))sv.y*=-0.4; vx=sv.x; vy=sv.y; } else this._slipV=null;
+    var _S=this._mxs; if(_S&&_S.slipT>0){ var sv=this._slipV||(this._slipV={x:vx,y:vy}), kk=Math.min(1,dt*1.6); sv.x+=(vx-sv.x)*kk; sv.y+=(vy-sv.y)*kk; if(!this._heroGoD(this.px+sv.x*dt,this.py))sv.x*=-0.4; if(!this._heroGoD(this.px,this.py+sv.y*dt))sv.y*=-0.4; vx=sv.x; vy=sv.y; } else this._slipV=null;
     var nx=this.px+vx*dt,ny=this.py+vy*dt;
-    if(this._canGoD(nx,this.py))this.px=nx;
-    if(this._canGoD(this.px,ny))this.py=ny;
+    if(this._heroGoD(nx,this.py))this.px=nx;
+    if(this._heroGoD(this.px,ny))this.py=ny;
     if(vx||vy)this.p_bobPhase+=dt*8;
     this.pHead.setY(-11+Math.sin(this.p_bobPhase)*2*(vx||vy?1:0));
     this.pWeapon.setPosition(this.pdir==='left'?-12:12,-2);
@@ -1119,6 +1119,11 @@ class DungeonScene extends Phaser.Scene{
     this.add.rectangle(cx,cy,TILE,TILE,hexNum(this._zspFloorCol),1).setDepth(-9.5);
     for(var i=0;i<12;i++){ var d=this.add.circle(cx+(Math.random()-0.5)*20,cy+(Math.random()-0.5)*20,2+Math.random()*3,0x9a8a78,0.9).setDepth(12); this.tweens.add({targets:d,y:d.y+12+Math.random()*10,alpha:0,duration:700+Math.random()*500,onComplete:(function(o){ return function(){ o.destroy(); }; })(d)}); }
     try{ this.cameras.main.shake(180,0.004); }catch(e){} showNotif('🚪 A hidden door grinds open!','#ffe9a8'); try{ _drawMinimapHud(null,this); }catch(e){} if(typeof ZSFX!=='undefined')try{ ZSFX.play('warp'); }catch(e){} }
+  // round 84c (Kris: "we are also still finding invisible walls"): the hero is stopped by a box at his FEET (his painted feet stand about 15 px
+  // below this.py; the box sat at his waist, so he stopped well short of a wall ahead and his feet sank into one behind). The query point is
+  // moved down to the feet, so every wrapper of _canGoD (Muspelheim, the escape, the citadel) measures the feet too. Standing where the feet box
+  // is already blocked (an old save, a knock-back), he moves by the old box, so he is never stuck.
+  _heroGoD(nx,ny){ var F=ZFEET.D; if(this._canGoD(nx,ny+F))return true; if(!this._canGoD(this.px,this.py+F))return this._canGoD(nx,ny); return false; }
   _canGoD(nx,ny){
     var hw=7,hh=5;
     var corners=[[nx-hw,ny-hh],[nx+hw,ny-hh],[nx-hw,ny+hh],[nx+hw,ny+hh],[nx,ny]];
@@ -1164,8 +1169,8 @@ class DungeonScene extends Phaser.Scene{
         var _ks=Math.hypot(pr.vx,pr.vy)||1;
         var _kb=self.siteSection===3?96:32;
         var _kbx=pr.vx/_ks*_kb,_kby=pr.vy/_ks*_kb;
-        if(self._canGoD(self.px+_kbx,self.py+_kby)){self.px+=_kbx;self.py+=_kby;}
-        else if(self._canGoD(self.px+_kbx*0.4,self.py+_kby*0.4)){self.px+=_kbx*0.4;self.py+=_kby*0.4;}
+        if(self._heroGoD(self.px+_kbx,self.py+_kby)){self.px+=_kbx;self.py+=_kby;}
+        else if(self._heroGoD(self.px+_kbx*0.4,self.py+_kby*0.4)){self.px+=_kbx*0.4;self.py+=_kby*0.4;}
         self.pCont.setPosition(self.px,self.py);
         self._monsterHitsPlayer({def:{atk:pr.dmg},isBoss:pr.isBoss});
         return false;
@@ -1567,7 +1572,7 @@ class DungeonScene extends Phaser.Scene{
     var reward={completedQuest:qKey,message:rw.message,color:rw.color};
     if(rw.mount){if(!ps.ownedMounts)ps.ownedMounts=[];if(!ps.ownedMounts.includes(rw.mount)){ps.ownedMounts.push(rw.mount);if(!ps.mount&&!ps._stowedMount)ps._stowedMount=rw.mount;}}
     if(rw.rings){rw.rings.forEach(function(r){ps.inventory.push(r);var ri=ITEMS[r];if(ri)showNotif('💍 Found: '+ri.name,'#ffccff');});}
-    if(rw.unlockSection)reward.unlockSection=rw.unlockSection;
+    if(rw.unlockSection){ reward.unlockSection=rw.unlockSection; if(this._returnScene==='World'){ try{ var _us=ps.unlockedSections||(ps.unlockedSections=[1]); if(_us.indexOf(rw.unlockSection)<0){ _us.push(rw.unlockSection); this._unlockedNow=rw.unlockSection; } }catch(e){} } }      // round 84c: the region opens at once (fleeing in the 2 s before the exit lost it); the exit still announces it
     // Boss tower: the captive craftsman moves to the village
     if(this.siteType==='tower'){
       if(!ps.rescued)ps.rescued=[];
@@ -1645,7 +1650,7 @@ class DungeonScene extends Phaser.Scene{
   _exitToWorld(reward){
     var ws=this.worldScene;
     // Only give section unlock if NOT an island dungeon/volcano/tower
-    if(reward&&reward.unlockSection&&this._returnScene==='World')ws.unlockSection(reward.unlockSection);
+    if(reward&&reward.unlockSection&&this._returnScene==='World'){ if(this._unlockedNow===reward.unlockSection&&ws&&ws.playerState){ var _ul=ws.playerState.unlockedSections, _ui=_ul.indexOf(reward.unlockSection); if(_ui>=0)_ul.splice(_ui,1); this._unlockedNow=null; } ws.unlockSection(reward.unlockSection); }
     // Record exit time for respawn system
     if(ws&&ws.playerState){
       if(!ws.playerState.siteExitTimes)ws.playerState.siteExitTimes={};

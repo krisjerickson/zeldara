@@ -124,10 +124,10 @@ var WP_KT=null;    // kinds as flat typed tables (shared with the worker)
 function _wpKindTables(){
   if(WP_KT&&WP_KT.n===WK_REG.list.length)return WP_KT;
   var L=WK_REG.list, n=L.length, T8=function(){ return new Uint8Array(n); }, F=function(m){ return new Float32Array(n*(m||1)); };
-  var t={n:n,soft:T8(),nowarp:T8(),pat:T8(),wall:T8(),noFace:T8(),liquid:T8(),road:T8(),strata:T8(),flat:T8(),rimW:T8(),hasRim:T8(),hasShore:T8(),cls:T8(),land:T8(),sc:F(),A:F(3),B:F(3),face:F(3),face2:F(3),rim:F(3),shore:F(3)};
+  var t={n:n,soft:T8(),nowarp:T8(),pat:T8(),wall:T8(),noFace:T8(),liquid:T8(),road:T8(),strata:T8(),flat:T8(),rimW:T8(),hasRim:T8(),hasShore:T8(),cls:T8(),land:T8(),blk:T8(),sc:F(),A:F(3),B:F(3),face:F(3),face2:F(3),rim:F(3),shore:F(3)};
   L.forEach(function(k,i){ t.soft[i]=k.soft?1:0; t.nowarp[i]=k.nowarp?1:0; t.pat[i]=k.pattern?1:0; t.wall[i]=k.wall?1:0; t.noFace[i]=k.wall&&k.wall.noFace?1:0; t.liquid[i]=k.liquid?1:0; t.road[i]=k.roadish?1:0; t.strata[i]=k.wall&&k.wall.strata?1:0; t.flat[i]=k.flat?1:0;
     t.sc[i]=k.sc||0.18; var A=k.wall?k._top:k._a, B=k.wall?k._top2:k._b; for(var c=0;c<3;c++){ t.A[i*3+c]=A[c]; t.B[i*3+c]=B[c]; if(k.wall){ t.face[i*3+c]=k._face[c]; t.face2[i*3+c]=k._face2[c]; } if(k._rim)t.rim[i*3+c]=k._rim[c]; if(k._shore)t.shore[i*3+c]=k._shore[c]; }
-    t.hasRim[i]=k._rim?1:0; t.rimW[i]=k.rimW||1; t.hasShore[i]=k._shore?1:0;
+    t.hasRim[i]=k._rim?1:0; t.rimW[i]=k.rimW||1; t.hasShore[i]=k._shore?1:0; t.blk[i]=k.solid?1:0;      /* round 84c: ground you cannot walk on */
     // round 40 (terrain edges): what kind of edge this ground makes — cls 1 lake, 2 sea, 3 marsh water, 4 lava; land 1 grass, 2 sand, 3 snow, 4 mud, 5 scree, 6 crust/ash
     var id=k.id||''; t.cls[i]=k.lava?4:!k.liquid?0:/^(sea|reef)$/.test(id)?2:/^(shallow|deep|marsh|bog|swamp)$/.test(id)?3:1;
     t.land[i]=k.liquid||k.wall?0:/grass|meadow|turf|green|wild|heath|verge|bloom|crop|garden|moss|^land$/.test(id)?1:/sand|shore|isle|dune|beach/.test(id)?2:/snow|ice|frost|glacier/.test(id)?3:/mud|soil|earth|marsh/.test(id)?4:/scree|rubble|grey|rock|dust/.test(id)?5:/crust|ash|scorch|char|cinder|glass/.test(id)?6:0; });
@@ -156,6 +156,8 @@ function _wpField(D,stage,r0,r1){
       var kw=kAt(Math.floor(fx+dwx),Math.floor(fy+dwy));
       if(KT.pat[ku]||KT.wall[ku]||KT.pat[kw]||KT.wall[kw])kw=kAt(Math.floor(fx+dwx*0.45),Math.floor(fy+dwy*0.45));
       if(KT.road[kw])kw=ku;
+      // round 84c (invisible walls): where ground you can walk meets ground you cannot, the outline wanders less, and a blocked tile is never painted as walkable ground
+      if(KT.blk[ku]!==KT.blk[kw]){ kw=kAt(Math.floor(fx+dwx*0.35),Math.floor(fy+dwy*0.35)); if(KT.blk[ku]&&!KT.blk[kw])kw=ku; }
       kb[py*SW+pxx]=(KT.nowarp[ku]||KT.nowarp[kw])?ku:kw; }
     return;
   }
@@ -203,7 +205,10 @@ function _wpField(D,stage,r0,r1){
         else if(!isF&&d<14.5){
           var kL=KT.liquid[ki], eL=KT.liquid[e9], kH=KT.cls[ki]===4, eH=KT.cls[e9]===4, kW=KT.wall[ki], eW=KT.wall[e9], cl=kL?KT.cls[ki]:eL?KT.cls[e9]:0, st=Ec.st[cl], BL=Ec.bl[cl], OVR=(BL&14)!==0, i3s=ki*3, sr, sg, sb;
           if(kH){ sr=255; sg=236; sb=150; } else if(KT.hasShore[ki]){ sr=KT.shore[i3s]; sg=KT.shore[i3s+1]; sb=KT.shore[i3s+2]; } else { sr=r+(255-r)*0.5; sg=g+(255-g)*0.5; sb=b+(255-b)*0.5; }
-          if(!(OVR&&!kW&&!eW)){
+          // round 84c (invisible walls): deep water you cannot wade meets water you can (the Wetlands' deep pools in their shallows) — the two used to
+          // fade into each other with no line. Now the deep side darkens toward the edge and a pale lip of foam marks where the shallows end.
+          if(kL&&eL&&KT.blk[ki]!==KT.blk[e9]){ if(KT.blk[ki]){ if(d<3.4)f*=0.6+0.118*d; } else if(d<1.9){ m=0.55; r+=(232-r)*m; g+=(244-g)*m; b+=(238-b)*m; } else if(d<3.2)f*=1.07; }
+          else if(!(OVR&&!kW&&!eW)){
             if(st===1){      // clean ink line
               if(kL&&!eL){ if(d<1.6)f*=0.5; else if(d<2.6)f*=0.82; else if(d<4.6){ m=0.5; r+=(sr-r)*m; g+=(sg-g)*m; b+=(sb-b)*m; } }
               else if(kL&&eL){ m=Math.max(0,0.5-d/10); if(m>0){ colK(e9,fx2,fy2,cc); r+=(cc[0]-r)*m; g+=(cc[1]-g)*m; b+=(cc[2]-b)*m; } }      // two waters (reef and sea, lake and creek) fade into each other, no line

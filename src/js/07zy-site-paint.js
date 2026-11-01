@@ -37,7 +37,10 @@ var ZSPP={
     var has=function(t){ var id=TWR_PZ[t]||(typeof TWR_PZ_FLAT!=='undefined'&&TWR_PZ_FLAT[t]); return !!(id&&Zs.has(id)); };
     var flat=function(t){ return typeof TWR_PZ_FLAT!=='undefined'&&!!TWR_PZ_FLAT[t]; };
     var put=function(t,x,y,w,h){ if(!has(t))return false; for(var j=0;j<h;j++)for(var i=0;i<w;i++)if(!free(x+i,y+j)&&!(flat(t)&&K.walk(K.at(x+i,y+j))))return false;
-      if(!flat(t)&&!K.place(x,y,w,h))return false; var it={type:t,x:x,y:y,w:w,h:h}; if(!_twrPainted(m,it,SS,R)){ if(!flat(t))for(var j2=0;j2<h;j2++)for(var i2=0;i2<w;i2++)m.solid[(y+j2)*W+x+i2]=0; return false; } return true; };
+      if(!flat(t)&&!K.place(x,y,w,h))return false; var it={type:t,x:x,y:y,w:w,h:h}, n0=m.sprites.length; if(!_twrPainted(m,it,SS,R)){ if(!flat(t))for(var j2=0;j2<h;j2++)for(var i2=0;i2<w;i2++)m.solid[(y+j2)*W+x+i2]=0; return false; }
+      // round 84c (invisible walls): a piece narrower than its tiles frees the bare end tiles
+      if(!flat(t)){ var sp=m.sprites[n0]; if(sp&&sp.canvas&&!sp.flat){ var pw=sp.canvas.width/(sp.res||1)-6,l=sp.x-pw/2+4,r=sp.x+pw/2-4; for(var i5=0;i5<w;i5++){ if(Math.min((x+i5+1)*LT,r)-Math.max((x+i5)*LT,l)>=LT*0.35||Math.floor(sp.x/LT)===x+i5)continue; for(var j5=0;j5<h;j5++)m.solid[(y+j5)*W+x+i5]=0; } } }
+      return true; };
     // the entry hall: a runner from the arrival and a pair of plants or statues beside it
     var up=K.up; if(up){ for(var d=0;d<4;d++){ var dx=[0,0,1,-1][d], dy=[1,-1,0,0][d], ok=true; for(var q=2;q<6&&ok;q++)if(!K.walk(K.at(up[0]+dx*q,up[1]+dy*q)))ok=false; if(!ok)continue;
         var rx0=dx?(dx>0?up[0]+2:up[0]-5):up[0]-1, ry0=dy?(dy>0?up[1]+2:up[1]-5):up[1]-1, rw0=dx?4:2, rh0=dy?4:2; put('runner',rx0,ry0,rw0,rh0);
@@ -85,6 +88,13 @@ var ZSPP={
       var n=nz(x*0.12,y*0.12); ctx.fillStyle=rgba(n>0.5?'#ffffff':'#000000',Math.abs(n-0.5)*0.16); ctx.fillRect(px,py,LT,LT); }
     // recolour the whole ground layer to the palette in one go (the textures keep their light and shade)
     tint(P.floor,0.42,0,0,W*LT,H*LT);
+    // round 84c (Kris: "we are also still finding invisible walls"): a wall whose top or face has the floor's own tone reads as floor (Bone Pit,
+    // Rivendell, Root Hollow, the island tower…) — measure the painted floor and push the wall's top and face apart from it, as 07b towerWall does
+    (function(){ var n=0,r=0,gg=0,b=0; try{ for(var k0=0;k0<W*H&&n<600;k0+=7){ var v0=g[k0]; if(v0!==1&&v0!==5)continue; var d0=ctx.getImageData((k0%W)*LT+8,((k0/W)|0)*LT+8,16,16).data; for(var p0=0;p0<d0.length;p0+=16){ r+=d0[p0]; gg+=d0[p0+1]; b+=d0[p0+2]; n++; } } }catch(e){}
+      if(!n)return; var lf=(r*0.3+gg*0.59+b*0.11)/n/255, L=function(c){ var q=_scnRGB(c); return (q[0]*0.3+q[1]*0.59+q[2]*0.11)/255; }, up=lf<0.45;
+      P=Object.assign({},P);
+      for(var i1=0;i1<6&&Math.abs(L(P.wallTop)-lf)<0.18;i1++)P.wallTop=shade(P.wallTop,up?0.18:-0.18);
+      for(var i2=0;i2<6&&Math.abs(L(P.wall)-lf)<0.14;i2++)P.wall=shade(P.wall,-0.2); })();
     // liquid
     var lq=liq==='lava'?tex('tx_lava',128):liq==='water'?tex('tx_water_deep',128):liq==='swamp'?tex('tx_swamp',128):null;
     for(var y2=0;y2<H;y2++)for(var x2=0;x2<W;x2++){ var v2=g[y2*W+x2]; if(v2!==3&&v2!==4)continue; var px2=x2*LT, py2=y2*LT;

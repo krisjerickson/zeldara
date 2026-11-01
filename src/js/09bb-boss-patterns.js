@@ -11,7 +11,8 @@
 // ║ screen-wide patterns.
 // ═══════════════════════════════════════════════════════════════════════
 var BossPat={
-  D_TELE:26, D_FX:30, D_DARK:40,   // above the dungeon's fog of war (25): telegraphs must always be readable
+  D_TELE:26, D_FX:30, D_DARK:40,
+  SAFE:0.3,      // round 84c: the least share of the screen a screen-wide attack leaves safe (Kris: "at least 25% … and multiple locations")   // above the dungeon's fog of war (25): telegraphs must always be readable
   // ── helpers ──
   rig:function(m){ var b=m.spr||m.body; return b&&b._rig||null; },
   slotOf:function(m){ var R=BossPat.rig(m); return R&&R.D&&R.D.slot||null; },
@@ -79,8 +80,12 @@ var BossPat={
   PAT:{
     // ☄ strikes fall down columns of the screen
     rain:function(c){ var S=c.S, F=BossPat.field(S), n=Math.max(7,Math.round(F.w/58)), cw=F.w/n, waves=c.R.waves+(c.B.enraged?1:0), g=BossPat.gfx(S), fx=BossPat.gfx(S,BossPat.D_FX), t=0, w=0, cols=null, hit=false, drops=[];
-      var pick=function(){ var safe={}, ng=c.R.gaps, p=Math.floor(S.px-F.x)/cw|0; var start=Math.floor(Math.random()*n); for(var k=0;k<ng;k++)safe[(start+k*Math.max(2,Math.floor(n/ng)))%n]=1; if(w>0&&cols)Object.keys(cols).forEach(function(k){ if(!cols[k])safe[k]=0; }); var L={}; for(var i=0;i<n;i++)L[i]=safe[i]?0:1;
-        var free=0; for(var j=0;j<n;j++)if(!L[j])free++; if(!free)L[(start+1)%n]=0; return L; };
+      // round 84c (Kris: "the regions that are safe are too sparse, like only 1 line in the entire screen … at least 25% of the screen that is safe and
+      // multiple locations"): the open columns are at least BossPat.SAFE of the screen, in 2+ separate groups spread across it; a later wave moves them
+      var pick=function(){ var ng=Math.max(2,c.R.gaps|0), need=Math.max(ng,Math.ceil(n*BossPat.SAFE)), gw=Math.max(1,Math.ceil(need/ng)), prev=(w>0&&cols)?cols:null, best=null, bs=-1;
+        for(var tr=0;tr<12;tr++){ var safe={}, start=Math.floor(Math.random()*n), stp=n/ng; for(var k=0;k<ng;k++){ var c0=Math.floor(start+k*stp+Math.random()*Math.max(0,stp-gw-1))%n; for(var q=0;q<gw;q++)safe[(c0+q)%n]=1; }
+          var sc=0; for(var i0=0;i0<n;i0++)if(safe[i0]&&!(prev&&!prev[i0]))sc++; if(sc>bs){ bs=sc; best=safe; } if(!prev)break; }
+        var L={}; for(var i=0;i<n;i++)L[i]=best[i]?0:1; return L; };
       var colOf={rock:'#9a8a78',coins:'#e8c040',lightning:'#fff8c0',fire:'#ff8030',blades:'#c8c8e0',light:'#fff0b0',bubbles:'#a0ff60',frost:'#c0f0ff'}[c.theme]||c.col;
       var tele=c.tele;
       return {dur:tele*waves+1, upd:function(dt){ t+=dt; if(!cols){ cols=pick(); t=0; hit=false; }
@@ -93,7 +98,7 @@ var BossPat={
             if(all||t>tele+0.55){ w++; if(w>=waves)return true; drops=[]; cols=pick(); t=0; hit=false; } }
           return false; }, kill:function(){ g.destroy(); fx.destroy(); }}; },
     // ⇶ a wall sweeps across the screen with gaps
-    wall:function(c){ var S=c.S, F=BossPat.field(S), horiz=Math.random()<0.6, dir=Math.random()<0.5?1:-1, L=horiz?F.h:F.w, span=horiz?F.w:F.h, ng=c.q<=2?2:1, gw=c.q<=2?92:78, gaps=[], t=0, g=BossPat.gfx(S,BossPat.D_FX), hit=false, waves=c.q>=3?2:1, w=0;
+    wall:function(c){ var S=c.S, F=BossPat.field(S), horiz=Math.random()<0.6, dir=Math.random()<0.5?1:-1, L=horiz?F.h:F.w, span=horiz?F.w:F.h, ng=L>520?3:2, gw=Math.max(c.q<=2?92:78,L*BossPat.SAFE*1.1/ng), gaps=[],      /* round 84c: 2–3 gaps, together at least a quarter of the wall */ t=0, g=BossPat.gfx(S,BossPat.D_FX), hit=false, waves=c.q>=3?2:1, w=0;
       var mk=function(){ gaps=[]; for(var i=0;i<ng;i++){ var p; for(var k=0;k<20;k++){ p=40+Math.random()*(L-80-gw); if(!gaps.some(function(q){ return Math.abs(q-p)<gw*1.6; }))break; } gaps.push(p); } t=0; hit=false; };
       mk(); var colW={thunder:'#fff8c0',gears:'#c8a040',lava:'#ff7020',fire:'#ff8030',void:'#8060ff',light:'#fff0b0',frost:'#c0f0ff',wave:'#60c0ff'}[c.theme]||c.col, spd=span/(2.3/c.R.speed), tele=c.tele;
       return {dur:(tele+2.4)*waves, upd:function(dt){ t+=dt; g.clear(); var C=BossPat.col(colW);
@@ -148,7 +153,7 @@ var BossPat={
           var p=pos(k), sp=t*14; g.fillStyle(C,0.25); g.fillCircle(p[0],p[1],20); g.lineStyle(4,C,0.95); g.beginPath(); for(var i=0;i<3;i++){ var aa=sp+i*2.09; g.moveTo(p[0],p[1]); g.lineTo(p[0]+Math.cos(aa)*16,p[1]+Math.sin(aa)*16); } g.strokePath(); g.fillStyle(0xffffff,0.9); g.fillCircle(p[0],p[1],4);
           var leg=k<1?0:1; if(!hit[leg]&&Math.hypot(S.px-p[0],S.py-p[1])<20){ hit[leg]=true; BossPat.hurt(S,c,0.9); } return false; }, kill:function(){ g.destroy(); }}; },
     // ◎ a shockwave ring with one gap
-    quake:function(c){ var S=c.S, m=c.m, g=BossPat.gfx(S,BossPat.D_FX), t=0, cx=m.x, cy=m.y, rings=[], max=360, sp=190*c.R.speed, tele=Math.min(c.tele,0.7), gapW=c.q<=2?1.1:0.85;
+    quake:function(c){ var S=c.S, m=c.m, g=BossPat.gfx(S,BossPat.D_FX), t=0, cx=m.x, cy=m.y, rings=[], max=360, sp=190*c.R.speed, tele=Math.min(c.tele,0.7), gapW=c.q<=2?1.9:1.65;      /* round 84c: the gap is at least a quarter of the ring (was 1.1 / 0.85 rad) */
       var add=function(){ rings.push({R:10,gap:Math.atan2(S.py-cy,S.px-cx)+(Math.random()<0.5?1:-1)*(1.2+Math.random()*1.4),hit:false}); };
       return {attached:true, dur:tele+max/sp+0.8, upd:function(dt){ t+=dt; g.clear(); var C=BossPat.col(c.col);
           if(t<tele){ BossPat.frame(m,'2'); g.lineStyle(3,C,0.6); g.strokeCircle(cx,cy,24+t*20); return false; }

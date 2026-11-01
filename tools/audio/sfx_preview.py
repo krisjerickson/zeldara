@@ -17,7 +17,7 @@ import os, sys, json, re, shutil, subprocess, wave, tempfile
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 INC = os.path.join(ROOT, 'audio', 'incoming'); CUR = os.path.join(ROOT, 'assets', 'audio'); OUT = os.path.join(ROOT, 'lab', 'preview', 'audio')
 RATE, GAP = 32000, 0.35
-KINDS = ['cur', 'e1', 'e2', 'l1', 'l2', 'l3', 'n1', 'n2']
+KINDS = ['cur', 'e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2']      # round 84c: l4-l6 from the GDC2023 bundle
 args = sys.argv[1:]
 if '--kinds' in args: KINDS = args[args.index('--kinds') + 1].split(',')
 TMP = tempfile.gettempdir()
@@ -78,5 +78,5 @@ def main():
         ff('-i', wv, '-c:a', 'libmp3lame', '-b:a', '64k', os.path.join(OUT, 's84_%s.mp3' % k))
         print('->  lab/preview/audio/s84_%s.mp3  %.1f min  %d KB' % (k, pos[k] / RATE / 60, os.path.getsize(os.path.join(OUT, 's84_%s.mp3' % k)) // 1024))
     json.dump({'gap': GAP, 'rate': RATE, 'items': idx}, open(IX, 'w'), separators=(',', ':'))
-    print('%d effects in the Lab: %s' % (len(idx), ', '.join('%s %d' % (k, sum(k in v for v in idx.values())) for k in ['cur', 'e1', 'e2', 'l1', 'l2', 'l3', 'n1', 'n2'])))
+    print('%d effects in the Lab: %s' % (len(idx), ', '.join('%s %d' % (k, sum(k in v for v in idx.values())) for k in ['cur', 'e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2'])))
 main()

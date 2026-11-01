@@ -41,6 +41,7 @@ var ZCUT={ on:true, ID:'zcut', HOLD:3600, seen:{},
       if(form&&typeof BA!=='undefined'&&BA.of){ var D=BA.of(form); if(D){ var th=BA.thumbs(D,420); finish(th&&th[0]?th[0]:(th&&th.width?th:null)); return; } } }catch(e){}
     finish(null); },
   play:function(boss,ph,done){ var S=ZCUT.SETS[boss+'_'+ph]; if(!ZCUT.on||!S||ZCUT.isOpen()){ if(done)done(); return false; }
+    ZCUT._key=boss+'_'+ph;      /* round 84: which cut-scene is up — its music (04c2 ZAUDIO.cutCue) */
     var el=document.createElement('div'); el.id=ZCUT.ID; el.style.cssText='position:fixed;inset:0;z-index:9990;background:#000;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease;cursor:pointer';
     el.innerHTML='<div class="zcut-bar" style="position:absolute;left:0;right:0;top:0;height:11vh;background:#000;z-index:2"></div><div class="zcut-bar" style="position:absolute;left:0;right:0;bottom:0;height:11vh;background:#000;z-index:2"></div>'+
       '<img class="zcut-img" style="max-width:100%;max-height:78vh;object-fit:contain;opacity:0;transition:opacity .6s ease">'+

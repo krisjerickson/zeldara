@@ -12,8 +12,8 @@
 // ║  · After the end, by day, the twin is out on the Green with everyone (10zt) and the library is quiet.
 // ║  · Which painting of the hall: LIB_TAKE ('a' or 'b' — Kris picks in the Lab, Library tab).
 // ═══════════════════════════════════════════════════════════════════════
-var LIB_TAKE='a';
-var ZLIB={
+var LIB_TAKE='b';      // round 84c: Kris picked take B in the Lab (Oct 31)
+var ZLIB={ TWIN_K:0.55,
   mf:function(ps){ return typeof ZTWIN!=='undefined'&&ZTWIN.other(ps).ch==='hero_f'?'f':'m'; },
   ws:function(){ return typeof game!=='undefined'&&game.scene?game.scene.getScene('World'):null; },
   where:function(){ var ws=ZLIB.ws(), ps=ws&&ws.playerState; if(!ps||typeof ZTWIN==='undefined')return 'library'; return ZTWIN.where(ps,ws); },
@@ -44,7 +44,7 @@ var ZLIB={
   var b0=buildInterior; buildInterior=function(type){ var lib=type==='library', house=type==='house'; if(!lib&&!house)return b0.apply(this,arguments);
     var ws=ZLIB.ws(), ps=ws&&ws.playerState, mf=ps?ZLIB.mf(ps):'m', at=ZLIB.where(), Z=typeof _scn==='function'?_scn():null, L=INTERIOR_LAYOUTS[type], E=null;
     L.props.forEach(function(p){ var o=p[5]||{};
-      if(lib&&o.desk){ E=p; o.pid=at==='library'?'twin_study_'+mf:'if_desk'; }
+      if(lib&&o.desk){ E=p; o.pid=at==='library'?'twin_study_'+mf:'if_desk'; o.k=at==='library'?ZLIB.TWIN_K:0; }      // round 84 (Kris: "your twin is very large and should be resized to be similar to your size")
       if(house&&o.twinBed){ E=p; o.pid=at==='bed'&&Z&&Z.has&&Z.has('twin_sleep_'+mf)?'twin_sleep_'+mf:'if_bed_twin'; } });
     var m=b0.apply(this,arguments); if(!E)return m;
     if(lib){ m.twinHere=at==='library'; if(!m.twinHere){ var lp=L.props.find(function(p){ return p[5]&&p[5].lect; }); m.npc.x=(lp[1]+lp[3]/2)*LT; m.npc.y=(lp[2]+lp[4]+0.6)*LT; } }
@@ -53,7 +53,7 @@ var ZLIB={
   setTimeout(function(){ if(typeof BuildingScene==='undefined')return; var B=BuildingScene.prototype;
     var name=function(sc){ var ps=sc.worldScene&&sc.worldScene.playerState; return ps&&typeof ZTWIN!=='undefined'?ZTWIN.other(ps).name:'your twin'; };
     var sn=B._spawnNPC; B._spawnNPC=function(type){ var m=this._imap;
-      if(type==='library'){ var N=m.npc; this.npcX=N.x; this.npcY=N.y; domText(this,N.x,N.y-(m.twinHere?116:62),m.twinHere?name(this):'The old sagas',{fontSize:'8px',color:m.twinHere?'#fff2b0':'#cfeaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(9400); return; }
+      if(type==='library'){ var N=m.npc; this.npcX=N.x; this.npcY=N.y; domText(this,N.x,N.y-(m.twinHere?74:62),m.twinHere?name(this):'The old sagas',{fontSize:'8px',color:m.twinHere?'#fff2b0':'#cfeaff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(9400); return; }
       var r=sn.apply(this,arguments);
       if(type==='house'&&m.twinBed&&m.twinBed.asleep){ var self=this, T=m.twinBed, z=0; this.time.addEvent({delay:900,loop:true,callback:function(){ z++; var t=domText(self,T.x+6,T.y-30,z%2?'z':'Z',{fontSize:(7+z%3*2)+'px',color:'#cfe0ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(9300);
         self.tweens.add({targets:t,y:T.y-56,x:T.x+16,alpha:0,duration:1700,onComplete:function(){ t.destroy(); }}); }}); }

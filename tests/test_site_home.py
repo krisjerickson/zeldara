@@ -30,7 +30,7 @@ try:
     check('New Game opens the game at /play with the name dialog already open (and no game HUD on the title)', r['path'].rstrip('/')=='/play' and r['game'] and r['dlg']=='flex' and r['hud']=='none', r)
     pg.fill('#zp-name','Kris'); pg.click('#zp-next'); pg.wait_for_timeout(300)
     pg.evaluate("document.querySelectorAll('.zp-slot')[0].querySelector('[data-a=new]').click()")
-    pg.wait_for_timeout(200); pg.evaluate("document.querySelector('.zp-hero[data-h=m]').click()")
+    pg.wait_for_timeout(200); pg.evaluate("document.querySelector('.zp-hero[data-h=m]').click(); document.getElementById('zp-begin').click()")
     for _ in range(60):
         pg.wait_for_timeout(250)
         if pg.evaluate("!!(game.scene.isActive('World') && game.scene.getScene('World').player)"): break

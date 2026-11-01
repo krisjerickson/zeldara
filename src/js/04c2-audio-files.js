@@ -56,9 +56,15 @@ var ZAUDIO={ on:true, BASE:'assets/audio/', idx:null, buf:{}, loading:{}, mus:nu
     ZAUDIO.ambCue=want; var old=ZAUDIO.amb; ZAUDIO.amb=null; if(old){ old.g.gain.setTargetAtTime(0.0001,a.currentTime,0.8); setTimeout(function(){ try{ old.s.stop(); }catch(x){} },3500); } if(!want)return;
     var s=a.createBufferSource(), g=a.createGain(); s.buffer=d; s.loop=true; if(f.le){ s.loopStart=f.ls||0; s.loopEnd=f.le; } g.gain.value=0.0001; s.connect(g); g.connect(ZAUDIO.bus.amb); s.start(); g.gain.setTargetAtTime(1,a.currentTime,0.8); ZAUDIO.amb={s:s,g:g,id:want}; },
   // ── the director ──
+  // round 84 (Kris: "there's also still no music playing at the intro video"): the cut-scene → its piece (others keep what is playing)
+  cutCue:function(k){ k=String(k||'').replace(/^story_/,'');
+    if(/opening/.test(k))return 'mu_saga_storm'; if(/realm[1-4]|quiet|blacktide|stonefall|ashnight/.test(k))return 'mu_saga_old'; if(/saga_(gate|orbs)/.test(k))return 'mu_glimpse';
+    if(/asg_|panel_pn_asg/.test(k))return 'mu_asgard_down'; if(/bifrost|gods_home|pn_end_/.test(k))return 'mu_bifrost'; if(/fh_orbs|fh_cast/.test(k))return 'mu_feast_hall'; if(/fh_free|fh_truth/.test(k))return 'mu_gods_free';
+    if(/vil_/.test(k))return 'mu_village_moment'; if(/celebrate/.test(k))return 'mu_celebration'; if(/last_after|credits|worldtree/.test(k))return 'mu_credits'; return null; },
   realmCue:['mu_grass','mu_grass','mu_wet','mu_high','mu_ash'], realmAmb:['am_meadow','am_meadow','am_marsh','am_highwind','am_ash'],
   decide:function(){ if(typeof game==='undefined'||!game.scene)return null; var S=game.scene, act=function(k){ return S.isActive(k); };
     if(act('Title')||act('Boot'))return {m:'mu_title',a:null};
+    if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&ZCUT.isOpen()&&ZCUT._key){ var cm=ZAUDIO.cutCue(ZCUT._key); if(cm)return {m:cm,a:null}; }      // round 84: the story's own music under its cut-scenes
     if(act('FeastHall')){ var fh=S.getScene('FeastHall'), ps0=fh&&fh.worldScene&&fh.worldScene.playerState; return {m:ps0&&ps0.godsFree?'mu_gods_free':'mu_feast_hall',a:'am_orbs'}; }
     if(act('VolcanoEscape'))return {m:'mu_escape',a:'am_forge'}; if(act('VolcanoBossRush')||act('VolcanoMaze')||act('VolcanoBulletHell')||act('VolcanoPuzzle'))return {m:'mu_forges',a:'am_forge'};
     if(act('Sky'))return {m:'mu_sky',a:'am_sky'};
@@ -78,7 +84,7 @@ var ZAUDIO={ on:true, BASE:'assets/audio/', idx:null, buf:{}, loading:{}, mus:nu
     if(typeof _inVillagePx==='function'&&_inVillagePx(x,y,4))return {m:ps.spiritsHome?'mu_green':night?'mu_village_night':'mu_village_day',a:night?'am_meadow_night':'am_village'};
     var q=typeof getTileSection==='function'?getTileSection(Math.floor(x/TILE),Math.floor(y/TILE))||1:1;
     return {m:ZAUDIO.realmCue[q]+(night?'_night':'_day'),a:ZAUDIO.realmAmb[q]==='am_meadow'?(night?'am_meadow_night':'am_meadow_day'):ZAUDIO.realmAmb[q]}; },
-  tick:function(){ try{ if(!ZAUDIO.on||!ZAUDIO.idx||(typeof ZSFX!=='undefined'&&(ZSFX.muted||!ZSFX._unlocked)))return; if(typeof _anyModalOpen==='function'&&_anyModalOpen()&&!(typeof game!=='undefined'&&game.scene.isActive('Title')))return;
+  tick:function(){ try{ if(!ZAUDIO.on||!ZAUDIO.idx||(typeof ZSFX!=='undefined'&&(ZSFX.muted||!ZSFX._unlocked)))return; if(typeof _anyModalOpen==='function'&&_anyModalOpen()&&!(typeof game!=='undefined'&&game.scene.isActive('Title'))&&!(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&ZCUT.isOpen()))return;
       var d=ZAUDIO.decide(); if(!d)return; ZAUDIO.music(d.m,d.fast?0.6:2); ZAUDIO.ambience(d.a); }catch(e){ if(!ZAUDIO._err){ ZAUDIO._err=1; console.warn('audio',e); } } },
   // the 🔊 panel: right-click or long-press the button
   panel:function(){ var el=document.getElementById('zaud-panel'); if(el){ el.remove(); return; } el=document.createElement('div'); el.id='zaud-panel';

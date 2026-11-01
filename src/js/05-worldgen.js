@@ -77,6 +77,8 @@ function canPassTile(t,mount){
     if(t===T.OCEAN||t===T.BUILDING_WALL)return false;
     return true;
   }
+  // round 84c (invisible walls): the other fliers (Sky Eagle, Storm Drake, Void Serpent — canCross 'all') fly over water and cliffs too; they were stopped like walkers
+  var md0=mount&&MOUNTS[mount]; if(md0&&md0.canCross==='all')return t!==T.OCEAN&&t!==T.BUILDING_WALL;
   var md=mount&&MOUNTS[mount];
   if(md&&Array.isArray(md.canCross)&&md.canCross.indexOf(t)>=0)return true;
   if(ALWAYS_BLOCKED.has(t))return false;

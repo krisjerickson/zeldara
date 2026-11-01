@@ -26,7 +26,7 @@ with game(new=None) as g:
     g.js("document.querySelectorAll('.zp-slot')[1].querySelector('[data-a=new]').click()")
     g.wait(200); nh=g.js("document.querySelectorAll('.zp-hero').length")
     check('…then asks which hero to play (boy or girl)', nh==2, nh)
-    g.js("document.querySelector('.zp-hero[data-h=f]').click()")
+    g.js("document.querySelector('.zp-hero[data-h=f]').click(); document.getElementById('zp-begin').click()")      # round 85: Begin Quest
     check('Starting a new game in slot 2 enters the world', to_world(g))
     g.js("game.scene.getScene('World')._save()")
     k=g.js("Object.keys(localStorage).filter(k=>/^zeldara_save_/.test(k))")

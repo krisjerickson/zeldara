@@ -22,7 +22,7 @@ if(typeof ZLAST_SETS!=='undefined')ZLAST_SETS.twinteach=[['pn_twin_teach_{w}','{
 var ZTGB={ on:true,
   // ── the twin's lesson ──
   canTeach:function(ps){ return !!(ps&&!ps.godsbane&&typeof ZASG!=='undefined'&&ZASG.hasStaff(ps)); },
-  talk:function(ws){ var ps=ws.playerState, O=ZTWIN.other(ps); if(!ZTGB.canTeach(ps)){ showNotif('💬 '+ZTWIN.line(ps),'#ffe9a8'); return; }
+  talk:function(ws){ var ps=ws.playerState, O=ZTWIN.other(ps); if(!ZTGB.canTeach(ps)){ if(typeof ZDLG!=='undefined'&&ZDLG.on)ZDLG.say(O.name,ZTWIN.line(ps),{id:O.ch}); else showNotif('💬 '+ZTWIN.line(ps),'#ffe9a8'); return; }
     var go=function(){ var draw=typeof ZTALK!=='undefined'&&ZTALK.ch?ZTALK.ch(O.ch,null):function(){};
       ZSPIRIT.talk(O.name,'#fff2b0','You found it — the Lodestar! Let me see… <i>yes</i>. It\'s in the oldest saga, the one nobody could read: the staff of the gods sleeps until it hears one word.<br><br>I\'ve been reading these texts since the day you left. Say it with me: <b>GODSBANE</b>. Speak it with the Lodestar in your hand, and the light will answer.<br><br>Set the staff in the notch at the end of the pier — and when you reach the gods, I\'ll be there. We do this together.<br><br><span style="color:#fff2b0">✦ Godsbane — press <b>V</b> (or the ✦ slot) with the Lodestar in your hand.</span>',
         [{t:'✦ Godsbane',f:function(){ ZTGB.learn(ws); }}],draw); };

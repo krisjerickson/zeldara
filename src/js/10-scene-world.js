@@ -1529,8 +1529,9 @@ class WorldScene extends Phaser.Scene{
     var tileAtX=this.tiles[Math.floor(p.y/TILE)]?this.tiles[Math.floor(p.y/TILE)][Math.floor(p.x/TILE)]:T.OCEAN;
     var onTree=tileAtX===T.TREE;
     if(onTree&&!mount){nx=p.x+vx*dt*.33;ny=p.y+vy*dt*.33;}
-    if(this._canGo(nx,p.y,mount))p.x=nx;
-    if(this._canGo(p.x,ny,mount))p.y=ny;
+    var _sh=0; if(this._canGo(nx,p.y,mount))p.x=nx; else _sh=this._secHit;
+    if(this._canGo(p.x,ny,mount))p.y=ny; else _sh=_sh||this._secHit;
+    if(_sh&&(vx||vy)&&typeof ZSEAL!=='undefined')ZSEAL.hit(this,_sh,p.x+Math.sign(vx)*14,p.y+6+Math.sign(vy)*12);      // round 84c: a sealed region shows its ward where you touch it
     if(vx||vy)p._bobPhase+=dt*8;
     var bob=Math.sin(p._bobPhase)*2*(vx||vy?1:0);
     p.head.setY(-12+bob);
@@ -1860,10 +1861,18 @@ class WorldScene extends Phaser.Scene{
       return true;
     });
   }
+  // round 84c (Kris: "we are also still finding invisible walls"): the box that stops the hero sits at his FEET (it was at his waist — he
+  // stopped about 20 px short of whatever he walked up to, and stood with his feet inside what was below him). A hero already standing where
+  // the feet box is blocked (an old save, a knock-back) still moves by the old box, so he is never stuck.
   _canGo(nx,ny,mount){
-    var hw=8,hh=6;
+    var F=typeof ZFEET!=='undefined'?ZFEET.W:6; if(this._canGoBox(nx,ny,mount,F))return true;
+    var p=this.player; if(p&&!this._canGoBox(p.x,p.y,mount,F))return this._canGoBox(nx,ny,mount,0);
+    return false;
+  }
+  _canGoBox(nx,ny,mount,off){
+    var hw=8,hh=6; this._secHit=0;
     if(typeof _vbBlocked==='function'&&this.player&&_vbBlocked(this.wd,nx,ny,this.player.x,this.player.y))return false;      // painted buildings are solid to their edges (round 33)
-    var corners=[[nx-hw,ny-hh],[nx+hw,ny-hh],[nx-hw,ny+hh],[nx+hw,ny+hh],[nx,ny]];
+    var fy=ny+(off||0), corners=[[nx-hw,fy-hh],[nx+hw,fy-hh],[nx-hw,fy+hh],[nx+hw,fy+hh],[nx,fy]];
     for(var i=0;i<corners.length;i++){
       var cx=corners[i][0],cy=corners[i][1];
       var tx=Math.floor(cx/TILE),ty=Math.floor(cy/TILE);
@@ -1873,7 +1882,7 @@ class WorldScene extends Phaser.Scene{
       if(this._mxFx&&MX.blocked(this,cx,cy))return false;
       // Section lock
       var sec=getTileSection(tx,ty);
-      if(sec>0&&!this.playerState.unlockedSections.includes(sec))return false;
+      if(sec>0&&!this.playerState.unlockedSections.includes(sec)){ this._secHit=sec; return false; }
     }
     return true;
   }
@@ -2627,7 +2636,7 @@ class WorldScene extends Phaser.Scene{
           this._interactPrompt=domText(this,nearNPC.x,nearNPC.y-30,'[Tab] Talk to '+nearNPC.n,{fontSize:'10px',color:'#ffff88',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20);
           this._interactPrompt._npc=nearNPC.id;
         }
-        if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(typeof nearNPC.talk==='function')nearNPC.talk(this); else showNotif(nearNPC.icon+' '+nearNPC.line,'#ffe9a8'); }      // round 73: a folk member may have more to say (the twin teaches Godsbane)
+        if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(typeof nearNPC.talk==='function')nearNPC.talk(this); else if(typeof ZDLG!=='undefined'&&ZDLG.on)ZDLG.say(nearNPC.n,String(nearNPC.line||'').replace(/^\s*[A-Z][\w'’ .-]{1,30}:\s*["“]?/,'').replace(/["”]\s*$/,''),{id:nearNPC.id}); else showNotif(nearNPC.icon+' '+nearNPC.line,'#ffe9a8'); }      // round 84: in the dialogue box (07zdlg)      // round 73: a folk member may have more to say (the twin teaches Godsbane)
         return;
       } else if(this._interactPrompt&&this._interactPrompt._npc){this._interactPrompt.destroy();this._interactPrompt=null;}
     }
@@ -2968,6 +2977,7 @@ class WorldScene extends Phaser.Scene{
       }
       if(!d.ownedMounts)d.ownedMounts=[];
       if(!d.unlockedSections)d.unlockedSections=[1];
+      (d.completedQuests||[]).forEach(function(q){ var m=/^s([1-3])_tower$/.exec(q); if(m&&d.unlockedSections.indexOf(+m[1]+1)<0)d.unlockedSections.push(+m[1]+1); });      // round 84c: a region whose master builder was freed is open (a run that fled the tower right after the win had lost it)
       Object.assign(this.playerState,d);
       // Guard: fill any missing equip slots added since save
       var eq=this.playerState.equip=this.playerState.equip||{};

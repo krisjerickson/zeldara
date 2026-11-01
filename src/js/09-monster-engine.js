@@ -39,7 +39,7 @@ var MX={ KITS:(typeof MON_KIT_SRC!=='undefined'?MON_KIT_SRC:{}), log:null,
 MX.A=function(scene){ if(scene._mxA)return scene._mxA; var W=_isOverworld(scene), A={scene:scene,world:W};
   A.p=function(){ return W?{x:scene.player.x,y:scene.player.y}:{x:scene.px,y:scene.py}; };
   A.setP=function(x,y){ if(W){ if(scene._canGo(x,scene.player.y,scene.playerState.mount))scene.player.x=x; if(scene._canGo(scene.player.x,y,scene.playerState.mount))scene.player.y=y; scene.player.cont.setPosition(scene.player.x,scene.player.y); }
-    else { if(scene._canGoD(x,scene.py))scene.px=x; if(scene._canGoD(scene.px,y))scene.py=y; scene.pCont.setPosition(scene.px,scene.py); } };
+    else { var gd=scene._heroGoD?scene._heroGoD.bind(scene):scene._canGoD.bind(scene); if(gd(x,scene.py))scene.px=x; if(gd(scene.px,y))scene.py=y; scene.pCont.setPosition(scene.px,scene.py); } };
   A.ps=function(){ return W?scene.playerState:scene.worldScene.playerState; };
   A.ifr=function(){ return W?(scene.worldIFrames||0):(scene.playerIFrames||0); };
   A.setIfr=function(v){ if(W)scene.worldIFrames=v; else scene.playerIFrames=v; };
@@ -198,7 +198,7 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   else if(backOff){ MX.step(A,mon,Math.atan2(-dy,-dx),spd*0.9,dt); }
   else if(m.charge>0&&m.aggro&&!m.hidden&&(!m.busy||m.busy.moveOk)){      /* round 83: the boss comes for you */
     if(dist<=mon.def.r+18)m.charge=0;
-    else if(MX.STAY[k.move.name]){ if(sees())MX.push(A,-dx/(dist||1),-dy/(dist||1),dt*30); }      /* a boss rooted in place pulls you in instead */
+    else if(MX.STAY[k.move.name]){ if(dist<=mon.def.r+110)m.charge=0; else if(sees()&&MX.canPull(A))MX.push(A,-dx/(dist||1),-dy/(dist||1),dt*MX.PULL.drag); }      /* a boss rooted in place pulls you in instead (round 84c: gently, and only to the edge of its reach) */
     else MX.step(A,mon,Math.atan2(dy,dx),spd*1.6,dt,!!(k.move.p.fly||MX.FLY[k.move.name])); }
   else if(!m.busy||m.busy.moveOk){ if(m.flee&&m.aggro){ MX.step(A,mon,Math.atan2(-dy,-dx),spd*1.2,dt); }
     else (MX.MOVE[k.move.name]||MX.MOVE.chase)(A,mon,m,P,dist,dt,spd,k.move.p); }
@@ -212,7 +212,7 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   k.def.forEach(function(D){ var p=D.p;
     if(D.name==='regen'){ var onT=!p.on||(p.on==='water'&&A.isWater(mon.x,mon.y+8))||(p.on==='lava'&&A.isLava(mon.x,mon.y+8))||(p.on==='mud'); if(onT&&mon._hp<mon.maxHp){ mon._hp=Math.min(mon.maxHp,mon._hp+(p.r||1)*dt*mon.maxHp*0.02); } }
     if(D.name==='aura'&&dist<(p.r||40)&&sees()){ m.auraT=(m.auraT||0)-dt; if(m.auraT<=0){ m.auraT=1; A.hurt(mon.def.atk*(p.m||0.25),'',p.col||'#ff9060',true); if(p.st)MX.status(A,p.st,p.t||2,p.v); MX.ev(mon,'def_aura'); } }
-    if(D.name==='lure'&&m.aggro&&!m.hidden&&dist<(p.r||160)&&dist>30&&sees()){ var l=dist||1; MX.push(A,-dx/l,-dy/l,(p.str||2)*dt*14); m.lureT=(m.lureT===undefined?1:m.lureT)+dt; if(m.lureT>=1){ m.lureT=0; A.float(P.x,P.y-40,'drawn in…','#c0f0ff'); MX.ev(mon,'hit'); MX.ev(mon,'def_lure'); } }
+    if(D.name==='lure'&&m.aggro&&!m.hidden&&dist<(p.r||160)&&dist>30&&sees()){ var l=dist||1; if(MX.canPull(A))MX.push(A,-dx/l,-dy/l,(p.str||2)*dt*(mon.isBoss?9:14));      /* round 84c: a roll slips it; a boss's lure is gentler */ m.lureT=(m.lureT===undefined?1:m.lureT)+dt; if(m.lureT>=1){ m.lureT=0; A.float(P.x,P.y-40,'drawn in…','#c0f0ff'); MX.ev(mon,'hit'); MX.ev(mon,'def_lure'); } }
     if(D.name==='heal'){ m.healT=(m.healT||0)-dt; if(m.healT<=0){ m.healT=p.cd||4; A.list().forEach(function(o){ if(o!==mon&&!o.dead&&Math.hypot(o.x-mon.x,o.y-mon.y)<(p.r||160)&&o.hp<o.maxHp){ o._hp=Math.min(o.maxHp,o._hp+o.maxHp*(p.a||0.2)); MX.fxRing(A,o.x,o.y,18,'#ffe070'); MX.ev(mon,'def_heal'); } }); } }
   });
   MX.anim(A,mon,m,dt,dx);
@@ -313,15 +313,22 @@ MX.tele={
 };
 MX.fxRing=function(A,x,y,r,col){ var c=A.scene.add.circle(x,y,4,MX.col(col),0).setStrokeStyle(3,MX.col(col),0.8).setDepth(A.depth(y)+0.3); A.scene.tweens.add({targets:c,radius:r,alpha:0,duration:420,onComplete:function(){ c.destroy(); }}); };
 MX.fxDot=function(A,x,y,col,a){ var c=A.scene.add.circle(x+(Math.random()-0.5)*8,y,2.5,MX.col(col),a||0.8).setDepth(A.depth(y)-0.01); A.scene.tweens.add({targets:c,alpha:0,duration:700,onComplete:function(){ c.destroy(); }}); };
+// round 84c (Kris: "some of the boss pull-in mechanics are too strong, and you just get perma stuck next to the boss, even if you roll away"):
+//  · a boss's pull (the 'pull' move) waits at least PULL.bossCd s (its own cd × PULL.bossK), drags you PULL.frac of the way, and leaves you
+//    PULL.keep px outside its body — in reach of a jump back, not under its feet;
+//  · after any pull you are free of pulls for PULL.grace s, and a roll slips every pull for about a second (MX._slip, set by 10p-roll);
+//  · the rooted boss struck from afar drags you at PULL.drag px/s (was 30) and lets go at the edge of its reach.
+MX.PULL={bossCd:7, bossK:1.8, frac:0.6, keep:60, grace:3.5, drag:16};
+MX.canPull=function(A){ var n=Date.now(); return !(MX._slip>n)&&!(A&&A.scene&&A.scene._pullFree>n); };
 MX.push=function(A,ux,uy,dist){ var n=Math.ceil(dist/6), P=A.p(); for(var i=0;i<n;i++){ var P1=A.p(); A.setP(P1.x+ux*6,P1.y+uy*6); } };
 // ── attacks ───────────────────────────────────────────────────────────
 // round 6: nobody attacks through walls — sight from the monster to a point
 MX.sees=function(A,mon,x,y){ return A.los(mon.x,mon.y-6,x,y-6); };
 MX.NO_LOS={summon:1};   // attacks that don't need to see you
 MX.runAtk=function(A,mon,m,P,d,dt){ var b=m.busy, AT=MX.ATK[b.a.name]; b.t+=dt;
-  if(b.phase==='wind'){ if(b.t>=b.wind){ b.phase='act'; b.t=0; if(AT.fire)AT.fire(A,mon,m,A.p(),b.a.p,b); m.strikeT=0.25; if(!AT.act){ MX.endAtk(m,b); } } return; }
-  if(AT.act){ if(AT.act(A,mon,m,A.p(),b.a.p,b,dt))MX.endAtk(m,b); } };
-MX.endAtk=function(m,b){ var AT=MX.ATK[b.a.name]; m.cd[b.key]=(b.a.p.cd!==undefined?b.a.p.cd:(AT.cd||1.6))*(b.cdk||1); m.busy=null; };
+  if(b.phase==='wind'){ if(b.t>=b.wind){ b.phase='act'; b.t=0; if(AT.fire)AT.fire(A,mon,m,A.p(),b.a.p,b); m.strikeT=0.25; if(!AT.act){ m._boss=!!mon.isBoss; MX.endAtk(m,b); } } return; }
+  if(AT.act){ if(AT.act(A,mon,m,A.p(),b.a.p,b,dt)){ m._boss=!!mon.isBoss; MX.endAtk(m,b); } } };
+MX.endAtk=function(m,b){ var AT=MX.ATK[b.a.name]; m.cd[b.key]=(b.a.p.cd!==undefined?b.a.p.cd:(AT.cd||1.6))*(b.cdk||1); if(b.a.name==='pull'&&m._boss)m.cd[b.key]=Math.max(MX.PULL.bossCd,m.cd[b.key]*MX.PULL.bossK); m.busy=null; };      /* round 84c: a boss's pull waits longer */
 MX.hitP=function(A,mon,p,mult,label,col){ var ok=A.hurt(mon.def.atk*(p.m||mult||1)*(mon._m.enraged?1.3:1),label,col); if(ok){ try{ A.ps()._lastFoe=mon.def.name; }catch(e){} if(p.st)MX.status(A,p.st,p.t||2.5,p.v); if(p.kb){ var P=A.p(), l=Math.hypot(P.x-mon.x,P.y-mon.y)||1; MX.push(A,(P.x-mon.x)/l,(P.y-mon.y)/l,p.kb); } if(p.steal){ var g=MX.status(A,'steal',0,p.steal); if(g){ mon._m.stolen=(mon._m.stolen||0)+g; mon._m.flee=true; } } MX.ev(mon,'hit'); } return ok; };
 MX.proj=function(A,o){ var s=A.scene, g=(typeof ZShot!=='undefined'&&ZShot.make(s,ZShot.mxKind(o.kind,o.col),o.x,o.y,Math.atan2(o.vy||0,o.vx||1),A.depth(o.y)+0.5))||s.add.circle(o.x,o.y,o.r||5,MX.col(o.col||'#ffcc66')).setDepth(A.depth(o.y)+0.5); if(o.glow)g.setStrokeStyle(2,0xffffff,0.6); o.vis=g; o.life=o.life||3; MX.fx(A).proj.push(o); return o; };
 MX.zone=function(A,o){ var s=A.scene, g=s.add.circle(o.x,o.y,o.r,MX.col(o.col||({slow:'#88c0ff',poison:'#80e060',burn:'#ff8040',blind:'#303040',sneeze:'#e0c0e0',root:'#80a040',dmg:'#ff6060',lava:'#ff6a20'}[o.st]||'#aaaaaa')),0.28).setDepth(A.depth(o.y)-0.02); o.vis=g; o.tick=0; o.t=Math.min(o.t||3,10); MX.fx(A).zones.push(o); return o; };      // round 45: never longer than 10 s
@@ -353,8 +360,11 @@ MX.ATK={
       if(!b.hit&&(Math.abs(d-b.R)<9||(d>b.R0&&d<b.R))&&!inGap&&A.los(b.cx,b.cy,P.x,P.y)){ b.hit=true; MX.hitP(A,mon,p,0.9,'','#9fe8ff'); }
       if(!b.fs&&b.R>=60){ b.fs=true; MX.famStagger(A,b.cx,b.cy,(p.max||230),30,'shriek'); } if(b.R>=(p.max||230)){ g.destroy(); return true; } return false; }},
   pull:{range:170,wind:0.45,cd:4,want:function(A,mon,m,P,d,p){ return d<=(p.r||170)&&d>40; },start:function(A,mon,m,P,p){ MX.tele.line(A,mon.x,mon.y,Math.atan2(P.y-mon.y,P.x-mon.x),Math.hypot(P.x-mon.x,P.y-mon.y),p.col||'#ff7090',0.45); },
-    fire:function(A,mon,m,P,p){ var d=Math.hypot(P.x-mon.x,P.y-mon.y); if(d>(p.r||170)+20||!MX.sees(A,mon,P.x,P.y))return; var l=d||1, g=A.scene.add.graphics().setDepth(A.depth(mon.y)+1); g.lineStyle(3,MX.col(p.col||'#ff7090'),0.9); g.lineBetween(mon.x,mon.y,P.x,P.y); A.scene.tweens.add({targets:g,alpha:0,duration:300,onComplete:function(){ g.destroy(); }});
-      MX.push(A,(mon.x-P.x)/l,(mon.y-P.y)/l,Math.max(0,d-(p.keep||30))); if(p.m!==0)MX.hitP(A,mon,Object.assign({m:0.5},p),0.5,'pulled','#ff90b0'); else MX.ev(mon,'hit'); }},
+    fire:function(A,mon,m,P,p){ var d=Math.hypot(P.x-mon.x,P.y-mon.y); if(d>(p.r||170)+20||!MX.sees(A,mon,P.x,P.y))return;
+      if(!MX.canPull(A)){ if(MX._slip>Date.now())A.float(P.x,P.y-30,'slipped free!','#bfe6ff'); return; }      /* round 84c */
+      var l=d||1, g=A.scene.add.graphics().setDepth(A.depth(mon.y)+1); g.lineStyle(3,MX.col(p.col||'#ff7090'),0.9); g.lineBetween(mon.x,mon.y,P.x,P.y); A.scene.tweens.add({targets:g,alpha:0,duration:300,onComplete:function(){ g.destroy(); }});
+      var keep=p.keep||30, fr=1; if(mon.isBoss){ keep=Math.max(keep,(mon.def.r||18)+MX.PULL.keep); fr=MX.PULL.frac; } if(A.scene)A.scene._pullFree=Date.now()+MX.PULL.grace*1000;
+      MX.push(A,(mon.x-P.x)/l,(mon.y-P.y)/l,Math.max(0,d-keep)*fr); if(p.m!==0)MX.hitP(A,mon,Object.assign({m:0.5},p),0.5,'pulled','#ff90b0'); else MX.ev(mon,'hit'); }},
   gust:{range:150,wind:0.5,cd:3.5,start:function(A,mon,m,P,p){ MX.tele.cone(A,mon.x,mon.y,Math.atan2(P.y-mon.y,P.x-mon.x),p.r||150,0.5,'#e0f4ff',p.wind||0.5); },
     fire:function(A,mon,m,P,p){ var d=Math.hypot(P.x-mon.x,P.y-mon.y); for(var i=0;i<10;i++)MX.fxDot(A,mon.x+(P.x-mon.x)*i/10,mon.y+(P.y-mon.y)*i/10,'#f4f8ff',0.8); MX.famStagger(A,P.x,P.y,90,45,'gust'); if(d<=(p.r||150)&&MX.sees(A,mon,P.x,P.y)){ var l=d||1; MX.push(A,(P.x-mon.x)/l,(P.y-mon.y)/l,p.dist||110); if(p.m)MX.hitP(A,mon,p,p.m); else MX.ev(mon,'hit'); A.float(P.x,P.y-40,'whoosh!','#e0f4ff'); } }},
   grab:{range:32,wind:0.3,cd:3.5,fire:function(A,mon,m,P,p){ if(Math.hypot(P.x-mon.x,P.y-mon.y)<=(p.r||34)+8&&MX.sees(A,mon,P.x,P.y)){ if(MX.hitP(A,mon,p,0.8,'grabbed','#ffb060'))MX.status(A,'root',p.root||1.2); } }},

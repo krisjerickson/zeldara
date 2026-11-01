@@ -201,7 +201,7 @@ function _wmDrawView(ctx,cw,ch,ws,v,o){
     ctx.font=(big?11:8)+'px serif'; ctx.fillStyle='#fff'; ctx.fillText(G.open?G.icon:'🔒',gx,gy+1);
     if(big&&o.labels!==false){ var lx=G.dir==='v'?gx:gx+r+6, ly=G.dir==='v'?gy+r+10:gy-r-6; ctx.textAlign=G.dir==='v'?'center':'left'; lbl(G.name,lx,ly,G.open?col:'#b8b8c8',11,700); ctx.textAlign='center'; } });
   // sites (explored only; the active quest's site always)
-  (wd.sites||[]).forEach(function(S){ var sx=S.tx+1.5, sy=S.ty+1.5; if(!inV(sx,sy))return; var q=ps.activeQuest&&!S.bonus&&ps.activeQuest==='s'+S.section+'_'+S.type;
+  (wd.sites||[]).forEach(function(S){ var sx=S.tx+1.5, sy=S.ty+1.5; if(!inV(sx,sy))return; var q=ps.activeQuest&&(typeof ZQMAP!=='undefined'?ZQMAP.siteOf(wd,ps.activeQuest)===S:!S.bonus&&ps.activeQuest==='s'+S.section+'_'+S.type);      /* round 85: only the quest's own site (not every mage tower or castle isle of that type) */
     if(!q&&!_wmExplored(ps,sx,sy))return; var px=X(sx),py=Y(sy), r=(big?8:5);
     if(q){ ctx.fillStyle='rgba(255,255,80,.35)'; ctx.beginPath(); ctx.arc(px,py,r*2,0,Math.PI*2); ctx.fill(); }
     ctx.fillStyle='rgba(0,0,0,.65)'; ctx.beginPath(); ctx.arc(px,py,r,0,Math.PI*2); ctx.fill(); ctx.strokeStyle=q?'#ffff44':S.boss?'#ffd24a':'#c8b8ff'; ctx.lineWidth=q?2.5:1.5; ctx.stroke();

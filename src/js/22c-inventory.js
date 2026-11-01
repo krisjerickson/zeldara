@@ -79,6 +79,9 @@ var ZINV={filter:'all',sel:null,timer:null,
   // the hero in the middle: his painted idle frames (the drawn stand-in when painted sprites are off)
   hero:function(){ var cv=document.getElementById('zv-hero-cv'); if(!cv)return; var x=cv.getContext('2d'), W=ZINV.ws(), who=(typeof _heroWho==='function'&&W)?_heroWho(W):'m', ch='hero_'+who, frames=null, n=1, t0=Date.now();
     var draw=function(){ var c=document.getElementById('zv-hero-cv'); if(!c||c!==cv){ clearInterval(ZINV.timer); ZINV.timer=null; return; } x.clearRect(0,0,cv.width,cv.height);
+      var pid='hero_portrait_'+(who==='f'?'f':'m'), Zs=typeof _scn==='function'?_scn():null;      // round 84c: the hero painted large (07zt8), sharp at any screen
+      if(Zs&&Zs.has(pid)){ var dpr=Math.min(3,window.devicePixelRatio||1); if(!cv._hd){ cv._hd=dpr; cv.style.width=cv.width+'px'; cv.style.height=cv.height+'px'; cv.width=Math.round(cv.width*dpr); cv.height=Math.round(cv.height*dpr); }
+        var sx=cv._hd, br=1+0.008*Math.sin((Date.now()-t0)/700); x.clearRect(0,0,cv.width,cv.height); x.save(); x.imageSmoothingEnabled=true; x.imageSmoothingQuality='high'; x.translate(cv.width/2,cv.height-18*sx); x.scale(sx,sx*br); try{ Zs.draw(x,pid,0,0,262,{}); }catch(e){} x.restore(); return; }
       if(frames){ var f=frames[Math.floor((Date.now()-t0)/260)%n]; x.imageSmoothingEnabled=true; x.drawImage(f,(cv.width-f.width)/2,cv.height-f.height-18); }
       else { try{ var k=(who==='f'&&game.textures.exists('heroF_front_0'))?'heroF_front_0':'hero_front_0', im=game.textures.get(k).getSourceImage(), s=Math.min(200/im.height,200/im.width); x.imageSmoothingEnabled=false; x.drawImage(im,(cv.width-im.width*s)/2,cv.height-im.height*s-22,im.width*s,im.height*s); }catch(e){} } };
     if(ZINV.timer)clearInterval(ZINV.timer); ZINV.timer=setInterval(draw,130); draw();

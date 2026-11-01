@@ -13,7 +13,9 @@ var ZMB={ on:true, K:0.75, KY:0.42, BOSS:0.55,
   box:function(m){ var r=(m.def&&m.def.r)||14, B=typeof _hbBox==='function'?_hbBox(m):null;
     if(B){ var R=m._hurtR, sy=Math.abs((R.cont&&R.cont.scaleY)||1), foot=m.y+(R.fy||0)*sy, rx=Math.max(14,B.rx*ZMB.BOSS), ry=Math.max(9,Math.min(rx*0.5,B.ry*0.4)); return {x:m.x,y:foot-ry*0.6,rx:rx,ry:ry}; }
     var s=Math.abs((m.cont&&m.cont.scaleY)||1); r=r*Math.min(1.6,Math.max(0.7,s)); return {x:m.x,y:m.y+r*0.55,rx:Math.max(8,r*ZMB.K),ry:Math.max(6,r*ZMB.KY)}; },
-  solid:function(m){ if(!m||m.dead||m.hp<=0||m._gone||m._noBlock||m._lazyVis)return false; var c=m.cont; if(c&&(c.visible===false||c.alpha<0.2||!c.scene))return false; return true; },
+  solid:function(m){ if(!m||m.dead||m.hp<=0||m._gone||m._noBlock||m._lazyVis)return false; var c=m.cont; if(c&&(c.visible===false||c.alpha<0.2||!c.scene))return false;
+    var s=m._m; if(s&&(s.sub||(s.hidden&&!(m.kit&&m.kit.move&&m.kit.move.name==='disguise'))))return false; if(m.spr&&m.spr.alpha<0.35)return false;      // round 84c (invisible walls): a burrowed, lurking or submerged monster (its picture faded, not its box) does not stop you
+    return true; },
   list:function(sc){ return (sc.monsters&&sc.sys&&sc.sys.settings.key==='Dungeon')?sc.monsters:(sc.worldMonsters||sc.monsters||[]); },
   // how far inside the nearest oval (x, y) is: < 1 inside
   depth:function(sc,x,y){ var L=ZMB.list(sc), best=9; for(var i=0;i<L.length;i++){ var m=L[i]; if(!m||Math.abs(m.x-x)>200||Math.abs(m.y-y)>200||!ZMB.solid(m))continue; var b=ZMB.box(m); var dx=(x-b.x)/b.rx, dy=(y-b.y)/b.ry, d=Math.hypot(dx,dy); if(d<best)best=d; } return best; },

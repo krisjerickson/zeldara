@@ -10,7 +10,7 @@
 var SCN_RULES={
   // ruins and landmarks
   column:function(o){ return o.broken?{id:'ru_column_broken',h:74}:{id:'ru_column',h:112}; },
-  wall:function(o,w){ return {id:o.char?'ru_wall_charred':'ru_wall',w:w+8,light:o.rune?[0,-30,56,o.rune,0.35,{react:true,rune:true}]:null}; },
+  wall:function(o,w){ return {id:o.char?'ru_wall_charred':'ru_wall',w:w+8,dy:14,      /* round 84c (invisible walls): its rubble base stands on its solid row, not behind it */light:o.rune?[0,-30,56,o.rune,0.35,{react:true,rune:true}]:null}; },
   rib:function(o){ return {id:'lm_rib',h:122*(o.s||1)}; },
   skull:function(o){ return {id:'lm_skull',w:102*(o.s||1.4),light:o.eye?[-12*(o.s||1.4),-36*(o.s||1.4),34,o.eye,0.5,{pulse:0.4}]:null}; },
   hut:function(o,w){ return {id:o.stilts?'hb_hut_stilts':'hb_hut',w:w+18,light:o.lit!==false?[0,-30,50,'#ffc870',0.3,{flicker:0.2}]:null}; },

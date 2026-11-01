@@ -82,6 +82,9 @@ function buildCavern(D, seed, opts){
     }
   }
   if(D.paintHazards)D.paintHazards(ctx,ctxInfo,nz);
+  // round 84c (invisible walls): a rock top the floor's own tone reads as floor (Bone Pit, the elite dens, every boss arena) — push it apart
+  (function(){ var L=function(c){ var q=_scnRGB(c); return (q[0]*0.3+q[1]*0.59+q[2]*0.11)/255; }, lf=(L(P.floorA)+L(P.floorB||P.floorA))/2, top=P.rockTop, i=0;
+    if(!top)return; while(i++<6&&Math.abs(L(top)-lf)<0.16)top=shade(top,lf<0.45?0.2:-0.2); if(top!==P.rockTop)P=Object.assign({},P,{rockTop:top}); })();
   // rock with 3/4 faces
   for(var ry=0;ry<H;ry++)for(var rx=0;rx<W;rx++){
     var kk=ry*W+rx; if(!g[kk])continue;

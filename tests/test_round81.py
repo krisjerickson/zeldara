@@ -16,7 +16,7 @@ with game(painted=True) as g:
       var st={}; [1,5].forEach(function(s){ villageApply(ws.wd,s); st[s]=ws.wd.props.filter(function(p){ return p.prop==='vbuild'&&p.o&&p.o.core==='library'; }).length; });
       return {b:[b.dx,b.dy,b.name], dist:Math.hypot(b.dx+2-(h.dx+2),b.dy+b.h-(h.dy+h.h)), ov:ov, door:door, step:step, st:st, pid:VB_PAINTED.library, outside:!!ws._twin, where:ZTWIN.where(ps,ws)}; })()""")
     check('The library stands in the village near your Home (%s, %.1f tiles from its door), its own ground, a door with open ground in front, at every stage' % (r['b'], r['dist']),
-          r['b'][2] == 'The Library' and r['dist'] < 12 and not r['ov'] and r['door'] and r['step'] and r['st'] == {'1': 1, '5': 1} and r['pid'] == 'vb_library_a', r)
+          r['b'][2] == 'The Library' and r['dist'] < 12 and not r['ov'] and r['door'] and r['step'] and r['st'] == {'1': 1, '5': 1} and r['pid'] == 'vb_library_b', r)
     check('By day the twin is not outside the Home any more — they are in the library', not r['outside'] and r['where'] == 'library', r)
     g.js("(()=>{ var ws=game.scene.getScene('World'), b=ws.buildings.find(b=>b.type==='library'); ws.player.x=b.worldX+2*TILE+16; ws.player.y=b.worldY+(b.h)*TILE+8; })()"); g.wait(600)
     pr = g.js("(()=>{ var ws=game.scene.getScene('World'); return ws._interactPrompt&&ws._interactPrompt.text; })()")

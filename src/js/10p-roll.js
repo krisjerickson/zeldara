@@ -25,9 +25,9 @@ var ZROLL={ CD:1.85,      // round 46 (Kris: "we need to have a longer cool-down
     var dir=dun?sc.pdir:(sc.player&&sc.player.dir); if(!dx&&!dy){ dx=dir==='left'?-1:dir==='right'?1:0; dy=dir==='up'?-1:dir==='down'||!dir?1:0; }
     var l=Math.hypot(dx,dy)||1; dx/=l; dy/=l;
     var get=function(){ return dun?[sc.px,sc.py]:[sc.player.x,sc.player.y]; }, set=function(x,y){ if(dun){ sc.px=x; sc.py=y; sc.pCont.setPosition(x,y); } else { sc.player.x=x; sc.player.y=y; sc.player.cont.setPosition(x,y); } },
-      ok=function(x,y){ return dun?sc._canGoD(x,y):sc._canGo(x,y,null); };
+      ok=function(x,y){ return dun?(sc._heroGoD?sc._heroGoD(x,y):sc._canGoD(x,y)):sc._canGo(x,y,null); };
     if(W)sc.worldIFrames=Math.max(sc.worldIFrames||0,ZROLL.IFR); else sc.playerIFrames=Math.max(sc.playerIFrames||0,ZROLL.IFR);
-    ZROLL._cdUntil=Date.now()+ZROLL.CD*1000; ZROLL._ui();
+    ZROLL._cdUntil=Date.now()+ZROLL.CD*1000; ZROLL._ui(); if(typeof MX!=='undefined')MX._slip=Date.now()+1100;      /* round 84c: a roll slips any pull for about a second */
     var st=dun?sc.pWalkSt:sc.player; if(st&&typeof ZSPR!=='undefined'){ try{ st.castAnim=ZSPR.HERO.animFor(ps,'skill','sp_roll'); st.cast=st.castT=ZROLL.T+0.08; }catch(e){} }
     var p0=get(), dist=TILE*ZROLL.DIST, steps=12, i=0;
     sc.time.addEvent({delay:ZROLL.T*1000/steps,repeat:steps-1,callback:function(){ i++; var q=get(), e=dist/steps, nx=q[0]+dx*e, ny=q[1]+dy*e;
@@ -63,7 +63,7 @@ var ZROLL={ CD:1.85,      // round 46 (Kris: "we need to have a longer cool-down
       else ZROLL.say(ZROLL.LINES.wait+' ('+(ps.rollPins||[]).length+' / '+ZROLL.PINS+')'); }
     else ZROLL.say(ZROLL.LINES.after);
     if(ws._emitUI)ws._emitUI(); },
-  say:function(t){ showNotif('🤸 '+ZROLL.NAME+': '+t,'#ffe0c0'); },
+  say:function(t){ if(typeof ZDLG!=='undefined'&&ZDLG.on){ ZDLG.say(ZROLL.NAME,String(t).replace(/^["“]|["”]$/g,'')); return; } showNotif('🤸 '+ZROLL.NAME+': '+t,'#ffe0c0'); },
   // every frame in the World: the talk prompt and picking up pins
   tick:function(ws){ if(!ws.player||!ws.wd)return; if(ZROLL._built!==ws.wd)ZROLL.build(ws); var ps=ws.playerState, N=ZROLL.npc; if(!N)return; var px=ws.player.x, py=ws.player.y, near=Math.hypot(px-N.x,py-N.y)<TILE*1.8;
     if(near&&!ZROLL._lbl){ ZROLL._lbl=domText(ws,N.x,N.y-62,'[Tab] Talk to '+ZROLL.NAME,{fontSize:'10px',color:'#ffe9a8',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(20); }

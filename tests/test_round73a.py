@@ -8,7 +8,7 @@ def check(n, ok, info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ') + n + ('  ' + str(info)[:500] if info != '' else ''), flush=True)
 with game() as g:
     r = g.js("({n:ZAUDIO.idx&&Object.keys(ZAUDIO.idx).length, files:ZAUDIO.idx&&Object.values(ZAUDIO.idx).reduce((a,e)=>a+e.files.length,0), hooks:!!ZAHOOK.installed})")
-    check('The 71 made sounds (142 takes) are in the page and the hooks are on (%s)' % r, r['n'] == 71 and r['files'] == 142 and r['hooks'], r)
+    check('The made sounds (at least 71, 142 takes — round 84: the music joins them) are in the page and the hooks are on (%s)' % r, r['n'] >= 71 and r['files'] >= 142 and r['hooks'], r)
     g.js("window.__played=[]; (function(){ var p=ZAUDIO.play; ZAUDIO.play=function(id){ var x=p.apply(this,arguments); if(x)__played.push(id); return x; }; })()")
     g.key('ArrowRight', 120)
     g.page.wait_for_function("ZAHOOK.warmed&&Object.keys(ZAUDIO.buf).length>=10", timeout=60000); g.wait(1500)

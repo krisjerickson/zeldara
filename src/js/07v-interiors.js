@@ -240,12 +240,15 @@ function buildInterior(type){ if(/^ham_/.test(type)&&typeof ZHAM!=='undefined'&&
     if(k==='bed')m.bed={x:tx*LT,y:ty*LT,w:tw*LT,h:th*LT,from:n0};      // round 44: the bed the hero sleeps in (11 _rest)
     // painted furniture (round 30): the pilot's eight pieces at their designed size; a counter or long table is stretched along its tiles. Things lying on a table are not drawn on the painted ones yet.
     var Zs=_scn(), pid=o.pid||'if_'+k, done=false; if(Zs&&Zs.has(pid)){ var nat=Zs.size(pid,0), long=(k==='counter'||k==='longtable')&&tw*LT>nat.w*Zs.K*1.1;
-      done=long?Zs.sprite(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,nat.h*Zs.K,{stretch:tw*LT/(nat.w*Zs.K),shw:0.46}):Zs.fit(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,tw*LT+10,{shw:0.4}); }
+      done=long?Zs.sprite(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,nat.h*Zs.K,{stretch:tw*LT/(nat.w*Zs.K),shw:0.46}):(o.k?(function(){ var Z0=Zs.size(pid,0), hh=Z0.h*Zs.K, ww=Z0.w*Zs.K, mw=tw*LT+10; if(ww>mw)hh*=mw/ww; return Zs.sprite(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,hh*o.k,{shw:0.4}); })():Zs.fit(m,pid,(tx+tw/2)*LT,(ty+th)*LT-2,tw*LT+10,{shw:0.4})); }      /* round 84: o.k scales a painted piece (the twin at the desk) */
     if(done&&o.top){ var topY=(ty+th)*LT-2-done.h*0.7, span=done.w*0.52; o.top.forEach(function(t,i){ var id='it_'+t; if(!Zs.has(id))return; Zs.sprite(m,id,(tx+tw/2)*LT+(o.top.length>1?(i/(o.top.length-1)-0.5)*span:0),topY,0,{shadow:false,sp:{depth:(ty+th)*LT-1}}); if(t==='candle')addLight(m,(tx+tw/2)*LT+(o.top.length>1?(i/(o.top.length-1)-0.5)*span:0),topY-12,46,'#ffd080',0.3,{flicker:0.25}); }); }
     if(done&&k==='shelfunit'&&o.goods){ var gid={jars:'is_jars',goods:'is_jars',potions:'is_potions',cloth:'is_books',bread:'is_jars'}[o.goods]; if(o.goods==='bread'||o.goods==='cloth'){ var one=o.goods==='bread'?'it_bread':'it_cloth'; if(Zs.has(one))[0.34,0.6].forEach(function(f){ [-0.2,0.2].forEach(function(dx){ Zs.sprite(m,one,(tx+tw/2)*LT+dx*done.w,(ty+th)*LT-2-done.h*f,0,{shadow:false,sp:{depth:(ty+th)*LT-1}}); }); }); } }
     if(!done)addSprite(m,(tx+tw/2)*LT,(ty+th)*LT-2,sw,sh,function(c,w,h){ fn(c,w,h,P,o); });
     if(k==='bed'&&m.bed){ m.bed.to=m.sprites.length; for(var bi=n0;bi<m.sprites.length;bi++)m.sprites[bi]._bed=true; }
-    for(var yy=ty;yy<ty+th;yy++)for(var xx=tx;xx<tx+tw;xx++)setSolid(m,xx,yy,1); });
+    // round 84c (Kris: "we are also still finding invisible walls"): a painted piece narrower than its tiles (the cake display, the jeweller's
+    // cases, the quest board, the trough, the twin's desk) leaves its bare end tiles walkable — only the tiles the picture stands on stop you
+    var pl=-1e9,pr=1e9,pcx=(tx+tw/2)*LT; if(done&&done.w&&k!=='bed'){ pl=pcx-done.ax+4; pr=pcx-done.ax+done.w-4; }
+    for(var yy=ty;yy<ty+th;yy++)for(var xx=tx;xx<tx+tw;xx++){ if(Math.min((xx+1)*LT,pr)-Math.max(xx*LT,pl)<LT*0.35&&Math.floor(pcx/LT)!==xx)continue; setSolid(m,xx,yy,1); } });
   (L.lights||[]).forEach(function(l){ addLight(m,l[0]*LT,l[1]*LT,l[2],l[4]&&l[4].col||T.light,l[3],Object.assign({depth:9000},l[4]||{})); });
   // window light shafts
   (L.deco||[]).forEach(function(d,i){ if(d[0]!=='window')return; var sw=d[2]*LT, c=mkCanvas(sw+80,190), x=c.getContext('2d'); var g=x.createLinearGradient(0,0,0,190); g.addColorStop(0,'rgba(255,240,200,.55)'); g.addColorStop(1,'rgba(255,240,200,0)'); x.fillStyle=g; x.beginPath(); x.moveTo(20,0); x.lineTo(20+sw,0); x.lineTo(sw+80,190); x.lineTo(60,190); x.fill(); m.shafts.push({x:d[1]*LT-20,y:48,canvas:c,a:0.35,sway:true}); });

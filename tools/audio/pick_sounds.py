@@ -24,16 +24,16 @@ def move(src, dst_dir):
 todo = []
 for cid, p in sorted(picks.items()):
     # round 84: any take — e1/e2 (round 80), l1-l3 (the Sonniss library), n1/n2 (worded by what happens) — or two joined by '+' (alternating)
-    ks = ['e1', 'e2'] if p == 'both' else [k for k in str(p).split('+') if k in ('e1', 'e2', 'l1', 'l2', 'l3', 'n1', 'n2')]
+    ks = ['e1', 'e2'] if p == 'both' else [k for k in str(p).split('+') if k in ('e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2')]
     if not ks: continue
-    srcs = [os.path.join(INC, cid + '.' + k + '.mp3') for k in ks[:2]]
+    srcs = [os.path.join(INC, cid + '.' + k + '.mp3') for k in ks[:3]]      # round 84c: up to three takes the game rotates through
     if not all(os.path.isfile(s) for s in srcs): print('?  %s: the %s file is not in audio/incoming' % (cid, p)); continue
-    for ext in ('.mp3', '.wav', '.b.mp3', '.b.wav'): move(os.path.join(INC, cid + ext), OLD)
-    for ext in ('.mp3', '.ogg', '.b.mp3', '.b.ogg'): move(os.path.join(AS, cid + ext), os.path.join(OLD, 'assets'))
+    for ext in ('.mp3', '.wav', '.b.mp3', '.b.wav', '.c.mp3', '.c.wav'): move(os.path.join(INC, cid + ext), OLD)
+    for ext in ('.mp3', '.ogg', '.b.mp3', '.b.ogg', '.c.mp3', '.c.ogg'): move(os.path.join(AS, cid + ext), os.path.join(OLD, 'assets'))
     if not DRY:
         shutil.copy2(srcs[0], os.path.join(INC, cid + '.mp3'))
-        if len(srcs) > 1: shutil.copy2(srcs[1], os.path.join(INC, cid + '.b.mp3'))
-    todo.append(cid); print('%-26s <- %s' % (cid, ' + '.join(ks[:2]) + (' (alternating)' if len(ks) > 1 else '')))
+        for i, s2 in enumerate(srcs[1:]): shutil.copy2(s2, os.path.join(INC, cid + '.' + 'bc'[i] + '.mp3'))
+    todo.append(cid); print('%-26s <- %s' % (cid, ' + '.join(ks[:3]) + (' (rotating)' if len(ks) > 1 else '')))
 keep = sum(1 for p in picks.values() if p == 'cur')
 print('\n%d to put in, %d keep today\'s take' % (len(todo), keep))
 if DRY or not todo: sys.exit(0)

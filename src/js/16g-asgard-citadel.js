@@ -63,7 +63,7 @@ var ZCIT={ on:true, FLOORS:5,
     sc.time.delayedCall(6000,function(){ if(!sc.sys||!sc.sys.isActive()||!ZCIT.lit(sc))return; var m=ZCIT.spawn(sc,id,x,y); if(m){ m._risen=n; if(sc._floatText)sc._floatText(x,y-40,'rises again!','#fff0b0'); } }); },
   // ══ 3 THE HALL OF THE NORNS ══
   norns:function(sc,H){ var C=sc._cit, F=ZCIT.floorOf(sc); C.bridges={}; C.threads=[]; C.cuts=[]; C.rewinds=3; C.blocked={};
-    (H.spans||[]).forEach(function(S){ C.bridges[S.id]={cells:S.cells,open:false,g:null}; S.cells.forEach(function(k){ C.blocked[k]=1; }); });
+    (H.spans||[]).forEach(function(S){ C.bridges[S.id]={cells:S.cells,open:false,g:null}; S.cells.forEach(function(k){ C.blocked[k]=1; }); ZCIT._shut(sc,C.bridges[S.id],F); });
     (H.walls||[]).forEach(function(Wl){ C.bridges[Wl.id]={cells:Wl.cells,wall:true,open:false}; Wl.cells.forEach(function(k){ C.blocked[k]=1; }); });
     // the wall cells are drawn as a golden loom-screen
     Object.keys(C.bridges).forEach(function(id){ var B=C.bridges[id]; if(!B.wall)return; var g=B.g=sc.add.graphics().setDepth(9.4); B.cells.forEach(function(k){ var x=(k%F.w)*TILE, y=((k/F.w)|0)*TILE; g.fillStyle(0x8a7040,1).fillRect(x,y,TILE,TILE); for(var i=0;i<4;i++){ g.lineStyle(1,0xffd860,0.8).lineBetween(x+4+i*7,y,x+4+i*7,y+TILE); } }); });
@@ -79,8 +79,14 @@ var ZCIT={ on:true, FLOORS:5,
     else if(o.eff==='wall'){ ZCIT.openSpan(sc,'wall',true); if(sc._openChest)try{ sc._openChest(); }catch(e){} showNotif('🧵 The thread parts — the loom-wall unravels, and behind it the Norns\' gift.','#ffe890'); }
     else { rec.mons=ZCIT.around(sc,3,['einherjar_berserker','einherjar_shieldmaiden','einherjar_archer']); ZDOOM.push(sc,1,'a fate cut wrong'); showNotif('🧵 The thread parts — and three einherjar wake from their fate! ([R] rewinds the cut)','#ff9070'); }
     C.cuts.push(rec); },
+  // round 84c (Kris: "we are also still finding invisible walls"): a span not yet spun is painted as planks under it but blocked — now the gap
+  // shows as open sky (dark, a few stars, a faint dashed thread where the bridge will be) until its thread is cut
+  _shut:function(sc,B,F){ if(!B||B.wall)return; F=F||ZCIT.floorOf(sc); if(B.sg){ B.sg.setVisible(!B.open); return; } var g=B.sg=sc.add.graphics().setDepth(1.55);
+    B.cells.forEach(function(k){ var x=(k%F.w)*TILE, y=((k/F.w)|0)*TILE; g.fillStyle(0x080b1c,0.94).fillRect(x,y,TILE,TILE); if(((k*7919)%5)===0){ g.fillStyle(0xdfe8ff,0.8).fillCircle(x+6+(k*13)%20,y+6+(k*29)%20,1.2); } });
+    g.lineStyle(1,0xffd860,0.35); B.cells.forEach(function(k){ var x=(k%F.w)*TILE, y=((k/F.w)|0)*TILE; g.lineBetween(x+4,y+TILE/2,x+12,y+TILE/2); g.lineBetween(x+20,y+TILE/2,x+28,y+TILE/2); }); g.setVisible(!B.open); },
   openSpan:function(sc,id,open){ var C=sc._cit, B=C.bridges[id], F=ZCIT.floorOf(sc); if(!B)return; B.open=open; B.cells.forEach(function(k){ if(open)delete C.blocked[k]; else C.blocked[k]=1; });
     if(B.wall){ if(B.g)B.g.setVisible(!open); return; }
+    if(B.sg)B.sg.setVisible(!open);
     if(B.g){ B.g.destroy(); B.g=null; } if(open){ var g=B.g=sc.add.graphics().setDepth(1.6); B.cells.forEach(function(k){ var x=(k%F.w)*TILE, y=((k/F.w)|0)*TILE; g.fillStyle(0xd8b050,0.95).fillRect(x+2,y+2,TILE-4,TILE-4); g.lineStyle(1,0xfff0a0,1).strokeRect(x+3,y+3,TILE-6,TILE-6); }); g.setAlpha(0); sc.tweens.add({targets:g,alpha:1,duration:600}); } },
   rewind:function(sc){ var C=sc._cit; if(!C||!C.cuts)return; var ps=sc.worldScene.playerState; if(!(typeof ZASG!=='undefined'&&ZASG.hasStaff(ps))){ showNotif('⏳ Only the Lodestar can turn a fate back.','#c8bfa0'); return; }
     if(C.rewinds<=0){ showNotif('⏳ The Lodestar has no more turnings left on this floor.','#c8bfa0'); return; } var rec=C.cuts.pop(); if(!rec){ showNotif('⏳ No cut to rewind.','#c8bfa0'); return; }
