@@ -28,7 +28,7 @@ var ZBV={ on:true, K:0.45, KX:0.24, KY:0.26, TOP:0.17, HERO:0.82, PULL:46, NEAR:
     if(cam.setFollowOffset)cam.setFollowOffset(-S.ox,-S.oy);
     // still cut off at the top (a tall boss far above)? the view eases out a little (to about three quarters), and back in when the fight moves on
     if(S.z0===undefined||(S.zs!==undefined&&Math.abs(cam.zoom-S.zs)>1e-4)){ S.z0=cam.zoom; S.zf=1; }      // someone else set the zoom: that is the base
-    var zf=1; if(m&&S.over>0&&sc.sys.settings.key==='Dungeon')zf=Math.max(ZBV.ZMIN,1-S.over); S.zf+=(zf-S.zf)*Math.min(1,dt*2.4); if(Math.abs(S.zf-1)<0.002&&zf===1)S.zf=1; S.zs=S.z0*S.zf; if(Math.abs(cam.zoom-S.zs)>1e-4)cam.setZoom(S.zs); else S.zs=cam.zoom; }
+    var zf=1; if(m&&S.over>0&&sc.sys.settings.key==='Dungeon')zf=Math.max(ZBV.ZMIN,1-S.over); S.zf+=(zf-S.zf)*Math.min(1,dt*2.4); if(Math.abs(S.zf-1)<0.002&&zf===1)S.zf=1; S.zs=S.z0*S.zf; if(Math.abs(cam.zoom-S.zs)>1e-4)(cam._setZoomRaw||cam.setZoom).call(cam,S.zs); else S.zs=cam.zoom; }      /* round 86: raw — the phone's zoom (24v) is already in cam.zoom */
 };
 setTimeout(function(){
   if(typeof DungeonScene!=='undefined'){ var D=DungeonScene.prototype, u0=D.update; D.update=function(t,ms){ var r=u0.apply(this,arguments); if(this._ready&&!this._playerDead)try{ ZBV.tick(this,this.px,this.py,Math.min(0.1,ms/1000)); }catch(e){ if(!this._zbvErr){ this._zbvErr=1; console.warn('boss view',e); } } return r; }; }
