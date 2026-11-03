@@ -43,7 +43,7 @@ var ZPOT={
       case 'gold': B('zp_gold',300000); fx='+30% gold for 5 min'; break;
       case 'xp': B('zp_xp',300000); fx='+30% experience for 5 min'; break;
       case 'phoenix': B('zp_phoenix',600000); fx='if you fall in the next 10 min, you rise again'; break;
-      case 'flask': ps.quick=ps.quick||{}; ps.quick.flask=item._k; showNotif(item.icon+' '+item.name+' readied — hold P to throw it','#ffd090'); return false;
+      case 'flask': ps.quick=ps.quick||{}; ps.quick.flask=item._k; showNotif(item.icon+' '+item.name+' readied — hold P (or the 🧪 button) to throw it'+((ps.inventory||[]).some(function(x){ return ZQUICK.isPotion(x); })?'':'; with no potion to drink, a tap throws it too'),'#ffd090'); return false;
     }
     if(typeof ZSFX!=='undefined')try{ ZSFX.play('potion'); }catch(e){}
     showNotif(item.icon+' '+item.name+' — '+fx,'#44ffaa'); if(ws&&ws._emitUI)ws._emitUI(); ZPOT.hud(); return true; },
@@ -176,7 +176,10 @@ var ZPOT={
     var cur0=ZQUICK.cur; ZQUICK.cur=function(ps,kind){ if(kind!=='potion')return cur0.apply(this,arguments); ps.quick=ps.quick||{}; var id=ps.quick.potion; if(id&&ZQUICK.count(ps,id)>0&&ZQUICK.isPotion(id))return id;
       var mh=ps.maxHp||100, val=function(k){ var I=ITEMS[k], p=I.pot; return p&&p.k==='elixir'?mh*0.5:p&&p.k==='grand'?mh:(p&&p.g!=='heal'?-1:(I.heal||0)); };
       var L=ZQUICK.list(ps,'potion').sort(function(a,b){ return val(b)-val(a); }); id=L[0]||null; ps.quick.potion=id; return id; };
-    var use0=ZQUICK.use; ZQUICK.use=function(kind){ var ws=ZQUICK.ws(), ps=ws&&ws.playerState; if(kind==='potion'&&ps){ var id=ZQUICK.cur(ps,'potion'), I=id&&ITEMS[id]; if(I&&I.pot&&I.pot.k!=='ward'){ window._useItem(ps.inventory.indexOf(id)); ZQUICK.cur(ps,'potion'); ZQUICK.bar(); return; } } return use0.apply(this,arguments); };
+    // round 86b (Kris: "i bought a smoke pellet potion in the apothecary, but when clicking on potions, it says i have none"): a flask is thrown,
+    // not drunk, so it never counted as a potion — with no potion to drink, P (or the 🧪 button) now throws the readied flask instead
+    var use0=ZQUICK.use; ZQUICK.use=function(kind){ var ws=ZQUICK.ws(), ps=ws&&ws.playerState; if(kind==='potion'&&ps&&!ZQUICK.cur(ps,'potion')&&ZPOT.curFlask(ps)){ var sc=typeof _activePlayScene==='function'?_activePlayScene(false):null; if(sc&&ZPOT.throwFlask(sc)!==false){ ZQUICK.bar(); return; } }
+      if(kind==='potion'&&ps){ var id=ZQUICK.cur(ps,'potion'), I=id&&ITEMS[id]; if(I&&I.pot&&I.pot.k!=='ward'){ window._useItem(ps.inventory.indexOf(id)); ZQUICK.cur(ps,'potion'); ZQUICK.bar(); return; } } return use0.apply(this,arguments); };
     var pan0=ZQUICK.panel; ZQUICK.panel=function(ps){ var h=pan0.apply(this,arguments), F=ZPOT.flasks(ps); if(!F.length)return h; var cur=ZPOT.curFlask(ps);
       var sel='<label style="display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-size:12px;color:#cfe">Hold P — throw<select onchange="ZQUICK.setQ(\'flask\',this.value)" style="background:#10202a;color:#e8f6ff;border:1px solid rgba(159,232,255,.35);border-radius:5px;padding:2px 4px;font-size:12px">'+F.map(function(id){ return '<option value="'+id+'"'+(id===cur?' selected':'')+'>'+ITEMS[id].icon+' '+ITEMS[id].name+' ×'+ZQUICK.count(ps,id)+'</option>'; }).join('')+'</select></label>';
       return h.replace(/<\/div>$/,sel+'</div>'); }; }

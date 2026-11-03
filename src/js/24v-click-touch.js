@@ -2,18 +2,18 @@
 // ║ 24v-click-touch.js — round 86: CLICK (OR TAP) TO INTERACT, AND THE PHONE LAYOUT PUT RIGHT.
 // ║ Kris: "we also need a different way to interact instead of tab. you should be able to just click on the thing instead of needing to do
 // ║ tab. lets also make this a feature for our desktop version"; on the phone: "all of the space, ctrl, c, shift, p o x m need to have icons
-// ║ removed and small clickable icons like the attack button. also, needs to be more zoomed out, things are too big … zoom out 50%, also
+// ║ removed and small clickable icons like the attack button. also, needs to be more zoomed out, things are too big … zoom out 50% (then: 18%), also
 // ║ the banner at the top which tells you where you are is too large".
 // ║  · CLICK TO INTERACT (desktop and phone): click or tap a door, a person, a chest, the stairs, a waystone — anything that shows a
 // ║    "[Tab] …" line. Near enough, it happens at once (as Tab). Further off, the hero walks there in a straight line (up to 6 s; any
 // ║    movement key or the thumbstick takes over) and then does it. A click on open ground just walks there. The lines read "Tap" on a phone.
 // ║  · PHONE: the bar of key-labelled slots (SPC CTRL C SHIFT P O X M N Z) is gone; next to the round buttons there is a column of small
 // ║    round ones — ammo (C), potion (P), food (O), mount (M), familiar (N); the ≡ menu keeps only what has no button.
-// ║  · PHONE: the view is zoomed out by half (ZCLICK.ZOOM — every play scene's camera, set as it opens); the place banner and the realm
+// ║  · PHONE: the view is zoomed out by 18 % (ZCLICK.ZOOM — every play scene's camera, set as it opens); the place banner and the realm
 // ║    panel at the top are smaller.
 // ║ Switches: ZCLICK.on (click to interact), ZCLICK.ZOOM (phone zoom factor, 1 = as on desktop).
 // ═══════════════════════════════════════════════════════════════════════
-var ZCLICK={ on:true, ZOOM:0.5, REACH:2.6, goal:null, _down:null,
+var ZCLICK={ on:true, ZOOM:0.82,      /* round 86b (Kris: "50% was way too zoomed out … only zoom out by 18%") */  REACH:2.6, goal:null, _down:null,
   SCENES:{World:1,Island:1,Dungeon:1,Building:1},
   touch:function(){ return typeof ZTOUCH!=='undefined'&&ZTOUCH.want(); },
   scene:function(){ var s=typeof _activePlayScene==='function'?_activePlayScene(false):null; return s&&ZCLICK.SCENES[s.sys.settings.key]?s:null; },
@@ -46,12 +46,18 @@ var ZCLICK={ on:true, ZOOM:0.5, REACH:2.6, goal:null, _down:null,
   mini:function(){ if(typeof ZTOUCH==='undefined'||!ZTOUCH.el||ZTOUCH.el.querySelector('.zt-mini'))return; if(!ZTOUCH.KEYS.c)ZTOUCH.KEYS.c=['c','KeyC',67];
     var col=document.createElement('div'); col.className='zt-mini'; col.innerHTML=ZCLICK.MINI.map(function(b){ return '<button class="zt-b zt-sm" data-k="'+b[0]+'" aria-label="'+b[2]+'">'+b[1]+'</button>'; }).join('');
     ZTOUCH.el.appendChild(col);
-    col.querySelectorAll('.zt-sm').forEach(function(b){ b.addEventListener('pointerdown',function(e){ e.preventDefault(); e.stopPropagation(); b.classList.add('down'); setTimeout(function(){ b.classList.remove('down'); },150); ZTOUCH.tap(b.dataset.k); }); });
+    // round 86b: the buttons press and release like the keys (so holding 🧪 throws the readied flask, as holding P does)
+    col.querySelectorAll('.zt-sm').forEach(function(b){ var k=b.dataset.k, t0=0; b.addEventListener('pointerdown',function(e){ e.preventDefault(); e.stopPropagation(); try{ b.setPointerCapture(e.pointerId); }catch(x){} b.classList.add('down'); t0=Date.now(); ZTOUCH.key(k,true); });
+      var up=function(){ if(!b.classList.contains('down'))return; b.classList.remove('down'); var left=Math.max(0,70-(Date.now()-t0)); setTimeout(function(){ ZTOUCH.key(k,false); },left); }; b.addEventListener('pointerup',up); b.addEventListener('pointercancel',up); b.addEventListener('lostpointercapture',up); });
     // the ≡ menu keeps only what has no button now (the pause panel ☰ has the map, quests, inventory and Tome)
     ZTOUCH.el.querySelectorAll('.zt-m').forEach(function(m){ if(/^(m|n|p|o|b|q|i|t|esc)$/.test(m.dataset.k))m.style.display='none'; });
     // the thumbstick half of the screen: a drag steers, a quick tap there is a tap on the world like anywhere else
     var pad=ZTOUCH.el.querySelector('.zt-pad'); if(pad){ var pd=null; pad.addEventListener('pointerdown',function(e){ ZCLICK.stop(); pd={x:e.clientX,y:e.clientY,t:Date.now()}; });
       pad.addEventListener('pointerup',function(e){ var D=pd; pd=null; if(D&&Math.hypot(e.clientX-D.x,e.clientY-D.y)<14&&Date.now()-D.t<350)ZCLICK.click(e); }); } },
+  // round 86b (Kris: "on the mobile version, i'm currently not able to click on the map and get it to pop up"): the whole corner map is a
+  // button for Map & Quests (its small 🗺 was the only target, and on a phone it is shrunk to a few pixels)
+  mapTap:function(){ var h=document.getElementById('minimap-hud'); if(!h||h._zct)return; h._zct=1; h.style.pointerEvents='auto'; h.style.cursor='pointer'; h.title='World map (B)';
+    h.addEventListener('click',function(e){ e.stopPropagation(); e.preventDefault(); if(typeof ZPAUSE!=='undefined')ZPAUSE.go('map'); else if(typeof openWorldMap==='function')openWorldMap(); },true); },
   css:function(){ if(document.getElementById('zclick-css'))return; var st=document.createElement('style'); st.id='zclick-css'; st.textContent=
     'body.ztouch-on #action-icon-bar{display:none!important}'+
     '.zt-mini{position:absolute;right:calc(max(14px,env(safe-area-inset-right)) + 222px);bottom:max(14px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:6px;pointer-events:none}'+
@@ -59,24 +65,41 @@ var ZCLICK={ on:true, ZOOM:0.5, REACH:2.6, goal:null, _down:null,
     '@media (max-height:430px){.zt-mini{transform:scale(.82);transform-origin:right bottom;right:calc(max(14px,env(safe-area-inset-right)) + 186px)}}'+
     'body.ztouch-on #zone-banner{top:58px}body.ztouch-on #zone-banner .zb-name{font-size:14px}body.ztouch-on #zone-banner .zb-reg{font-size:8px;letter-spacing:1px}'+
     'body.ztouch-on #region-panel{left:auto;right:6px;top:4px;transform:scale(.6);transform-origin:top right}body.ztouch-on #minimap-hud{top:40px;bottom:auto;right:6px;transform:scale(.48);transform-origin:top right}body.ztouch-on #stats-panel{transform:scale(.78);transform-origin:top left}'+
-    'body.zclick-hover #phaser-root canvas{cursor:pointer}';
+    'body.zclick-hover #phaser-root canvas{cursor:pointer}'+
+    // round 86b (Kris: "the inventory and other tabs doesn't scale … check … that the screen is balanced for visibility in the inventory and other
+    // tabs"): on a phone (or any short window) every menu is scaled to fit — the factor (--zmz) follows the screen, ~0.67 on a phone held sideways
+    'body.zmz-on .overlay>.modal{zoom:var(--zmz,.7);max-height:calc((100vh - 48px) / var(--zmz,.7))!important;max-width:calc(98vw / var(--zmz,.7))!important;overflow:auto!important}'+
+    'body.zmz-on .overlay{align-items:flex-start!important}body.zmz-on .overlay>.modal{margin-top:6px!important;margin-bottom:0!important}'+
+    'body.zmz-on.zpz-on .overlay{padding-top:40px}body.zmz-on #zpause{padding:3px 6px;gap:5px}body.zmz-on #zpause button{padding:4px 8px;font-size:12px}'+
+    'body.zmz-on #zaud-panel,body.zmz-on #quick-pick-popup,body.zmz-on #zdlg .zd-box{zoom:var(--zmz,.7)}';
     document.head.appendChild(st); },
+  // the words on a phone: no Tab key there
+  word:function(t){ if(typeof t!=='string'||t.indexOf('Tab')<0||!ZCLICK.touch())return t;
+    return t.replace(/\b(?:press|pressing|hit)\s+\[?Tab\]?/gi,'tap').replace(/\bwith\s+\[Tab\]/g,'with a tap').replace(/(^|\n)([^\w\[\]]{0,6}?)\s*\[Tab\]\s*/g,'$1$2👆 Tap: ').replace(/\[Tab\]/g,'tap').replace(/\(Tab\)/g,'(tap)').replace(/\bTab\b/g,'Tap'); },
+  textPatch:function(){ if(typeof Phaser==='undefined'||!Phaser.GameObjects||!Phaser.GameObjects.Text)return; var T=Phaser.GameObjects.Text.prototype; if(T._zwRaw)return; var raw=T._zwRaw=T.setText;
+    T.setText=function(v){ return raw.call(this,typeof v==='string'?ZCLICK.word(v):v); }; },
   // the phone's zoom: a play scene's main camera is set ZOOM times what the scene asks for (Title and Boot as they are). 16l's boss view
   // eases the zoom itself through _setZoomRaw, on top of what is already set.
   zoomPatch:function(){ if(typeof Phaser==='undefined'||!Phaser.Cameras)return; var C=Phaser.Cameras.Scene2D.Camera.prototype; if(C._setZoomRaw)return; var raw=C._setZoomRaw=C.setZoom;
     C.setZoom=function(x,y){ try{ var sc=this.scene, k=sc&&sc.sys&&sc.sys.settings.key; if(ZCLICK.ZOOM!==1&&k&&k!=='Title'&&k!=='Boot'&&sc.cameras&&this===sc.cameras.main&&ZCLICK.touch()){ x*=ZCLICK.ZOOM; if(y!==undefined)y*=ZCLICK.ZOOM; } }catch(e){} return raw.call(this,x,y); }; }
 };
-(function(){ ZCLICK.css(); ZCLICK.zoomPatch();
-  var bind=function(){ ZCLICK.zoomPatch(); var cv=typeof game!=='undefined'&&game.canvas; if(!cv){ setTimeout(bind,400); return; }
+(function(){ ZCLICK.css(); ZCLICK.zoomPatch(); ZCLICK.textPatch();
+  var bind=function(){ ZCLICK.zoomPatch(); ZCLICK.textPatch(); var cv=typeof game!=='undefined'&&game.canvas; if(!cv){ setTimeout(bind,400); return; }
     cv.addEventListener('pointerdown',function(e){ ZCLICK._down={x:e.clientX,y:e.clientY,t:Date.now()}; });
     cv.addEventListener('pointerup',function(e){ var D=ZCLICK._down; ZCLICK._down=null; if(!D||Math.hypot(e.clientX-D.x,e.clientY-D.y)>14||Date.now()-D.t>600)return; ZCLICK.click(e); });
     // a pointer over something you can use (desktop)
     cv.addEventListener('pointermove',function(e){ if(e.pointerType!=='mouse')return; var s=ZCLICK.scene(), P=s&&ZCLICK.prompt(s), on=false; if(P){ var p=ZCLICK.worldPoint(s,e); on=Math.hypot(p.x-P.x,p.y-P.y)<TILE*ZCLICK.REACH; } document.body.classList.toggle('zclick-hover',on); });
   };
   if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',bind); else bind();
-  setInterval(ZCLICK.step,50); setInterval(ZCLICK.mini,600);
+  // the menus' scale on a small screen
+  var fit=function(){ var on=ZCLICK.touch()||window.innerHeight<560; document.body.classList.toggle('zmz-on',on); if(on){ var z=Math.max(0.55,Math.min(1,window.innerHeight/560,window.innerWidth/1000)); document.documentElement.style.setProperty('--zmz',z.toFixed(3)); } };
+  window.addEventListener('resize',fit); window.addEventListener('orientationchange',function(){ setTimeout(fit,300); }); setInterval(fit,2000); setTimeout(fit,500);
+  setInterval(ZCLICK.step,50); setInterval(ZCLICK.mini,600); setInterval(ZCLICK.mapTap,1000);
   // the keyboard takes over from a walk
   document.addEventListener('keydown',function(e){ if(e._ztouch||!ZCLICK.goal)return; if(/^(w|a|s|d|arrow\w+)$/i.test(e.key||''))ZCLICK.stop(); },true);
   // "[Tab]" reads "Tap" on a phone
-  if(typeof domText==='function'){ var dt0=domText; domText=function(sc,x,y,txt,st){ if(typeof txt==='string'&&ZCLICK.touch())txt=txt.replace(/\[Tab\]/g,'👆 Tap'); return dt0.call(this,sc,x,y,txt,st); }; }
+  // round 86b (Kris: "since in mobile we can't click tab, it shouldn't say 'tab'"): on a phone every "[Tab] …" line, prompt and message
+  // reads "👆 Tap: …" — the floating prompts (DOM and canvas text, as made and as changed) and the lines at the top
+  if(typeof domText==='function'){ var dt0=domText; domText=function(sc,x,y,txt,st){ var o=dt0.call(this,sc,x,y,ZCLICK.word(txt),st); if(o&&typeof o.setText==='function'&&!o._zw){ var s0=o.setText; o.setText=function(t){ return s0.call(this,ZCLICK.word(t)); }; o._zw=1; } return o; }; }
+  if(typeof showNotif==='function'){ var sn0=showNotif; showNotif=function(m){ var a=[].slice.call(arguments); a[0]=ZCLICK.word(m); return sn0.apply(this,a); }; window.showNotif=showNotif; }
 })();

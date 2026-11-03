@@ -32,5 +32,17 @@ with game(painted=False) as g:
 with game(painted=False, w=812, h=375, query='?touch=1') as g:
     g.wait(3000)
     t = g.js("""(()=>{ var ws=game.scene.getScene('World'); return {mini:document.querySelectorAll('#ztouch .zt-mini .zt-sm').length, bar:getComputedStyle(document.getElementById('action-icon-bar')).display, zoom:ws.cameras.main.zoom}; })()""")
-    check('Phone: five small round buttons for the slots, the key-labelled bar hidden, the view zoomed out by half (%s)' % t, t['mini'] == 5 and t['bar'] == 'none' and abs(t['zoom'] - 0.7) < 0.01, t)
+    check('Phone: five small round buttons for the slots, the key-labelled bar hidden, the view zoomed out by 18 %% (%s)' % t, t['mini'] == 5 and t['bar'] == 'none' and abs(t['zoom'] - 1.4 * 0.82) < 0.01, t)
+    q = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.gold=999; ps.inventory=[]; window._buyItem('flask_smoke',25); var said=[], o=window.showNotif; window.showNotif=function(t){ said.push(t); return o.apply(this,arguments); }; window._said=said;
+      var w=ZCLICK.word('[Tab] Talk to Bram')+' | '+ZCLICK.word('Stand at a waystone and press [Tab] to travel'); return {w:w}; })()""")
+    g.js("ZTOUCH.tap('p')"); g.wait(700)
+    q2 = g.js("({said:window._said, inv:game.scene.getScene('World').playerState.inventory})")
+    check('A smoke pellet alone: tapping 🧪 throws it (no more "no potions")', not any('No potions' in x for x in q2['said']) and 'flask_smoke' not in q2['inv'], q2)
+    check('On a phone, no "Tab": %s' % q['w'], 'Tab' not in q['w'] and 'Tap' in q['w'], q)
+    g.js("document.getElementById('minimap-hud').click()"); g.wait(900)
+    m = g.js("ZPAUSE.cur()")
+    check('Tap the corner map: the map opens (%s)' % m, m == 'map', m)
+    g.js("ZPAUSE.go('inventory')"); g.wait(900)
+    iv = g.js("(()=>{ var r=document.querySelector('#modal-inventory .modal').getBoundingClientRect(); return {top:Math.round(r.top), bottom:Math.round(r.bottom), h:innerHeight}; })()")
+    check('The inventory fits the phone screen, below the tabs (%s)' % iv, iv['top'] >= 30 and iv['bottom'] <= iv['h'] + 1, iv)
 print('%d / %d passed' % (sum(res), len(res)))

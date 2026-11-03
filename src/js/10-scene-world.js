@@ -2510,7 +2510,10 @@ class WorldScene extends Phaser.Scene{
     var ctx=this._worldFogCtx;if(!ctx)return;
     var cam=this.cameras.main;
     var ps=this.playerState, EG=this._expGrid&&this._expGrid();if(!ps||!EG)return;
-    var sx=cam.scrollX,sy=cam.scrollY,zoom=cam.zoom;
+    // round 86b (Kris: "blacked out portions of the map on the mobile version, mainly on the right side"): the screen's top-left in the world is
+    // worldView, not scrollX — with a zoom other than 1 the camera zooms about the centre, so the fog was drawn shifted (by half the screen ×
+    // (zoom − 1)) and, zoomed out on a phone, left whole strips of what you had explored black
+    var wv=cam.worldView, sx=(wv&&wv.width)?wv.x:cam.scrollX, sy=(wv&&wv.height)?wv.y:cam.scrollY, zoom=cam.zoom;
     var cellPx=EXP_SCALE*TILE; // world-pixel size of one EXP cell (256px)
     var cCellX=Math.floor(sx/cellPx),cCellY=Math.floor(sy/cellPx);
     if(cCellX===this._worldFogLastCellX&&cCellY===this._worldFogLastCellY&&!this._worldFogDirty)return;
