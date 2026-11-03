@@ -34,3 +34,6 @@ sprites/incoming/*.png
 sprites/incoming/_log.jsonl
 lab/preview/
 sprites/incoming/.claims/
+
+# round 85: the dormant Vite/React skeleton and old builds stay on this PC only (Vercel took the skeleton for a second app to deploy)
+archive/
