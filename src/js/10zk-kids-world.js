@@ -13,7 +13,7 @@ var ZKIDW={ on:true, NEAR:56, FAR:76,
   GAMES:['tag','hide','swing','goats','ring','tag','hide','ring'],
   VILLAGE:[{key:'v_green',spot:'green',game:'tag',ids:['ck_ylva','ck_noor','ck_finn','ck_gunnar']},{key:'v_ring',spot:'green',off:[4,2],game:'ring',ids:['ck_ingrid','ck_saga','ck_mateo']},{key:'v_pier',spot:'pier',game:'fish',ids:['ck_eirik','ck_leif']}],
   TWIN:['Are you {h}? THE {h}? Can I hold your sword? Just for a bit?','Mum says {h} and {o} woke every runestone. I\'m going to wake one too. A small one.','We play twins. I always have to be {o}, because nobody can be {h} as well as you.',
-    'Gran says before you, there were hardly any children in the hamlets. Where did they all go? …Oh. We\'re them.','You walked all the way to the gods? My legs get tired walking to the well.','I said hello to our runestone. It didn\'t say anything. Do they talk to you?',
+    'Gran says before you, there were no children at all. Not one. …Then us.','You walked all the way to the gods? My legs get tired walking to the well.','I said hello to our runestone. It didn\'t say anything. Do they talk to you?',
     'When I grow up I\'m going to be a hero like {h}. Or a baker. Probably a baker.','{o} came by and showed us how to hold a sword. Then we weren\'t allowed sticks any more.'],
   idx:function(id){ for(var i=0;i<ZKIDS.L.length;i++)if(ZKIDS.L[i][0]===id)return i; return -1; },
   // the children who live in the hamlets (the village's own band stays in the village)

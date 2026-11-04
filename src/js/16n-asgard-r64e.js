@@ -17,9 +17,9 @@ var ZAP={ on:true,
     ZFT._onClose=cb||null; ZFT._btn(foot,btn||'Got it ▶','zft-go',ZFT.close).focus(); return true; },
   // which notices become pop-ups: the notice's start → the pop-up
   NOTES:[
-    {re:/^✦ You learned GODSBANE/, f:function(){ return ['✦ Godsbane — the Lodestar\'s spell','The spirits of Runeheim taught the Lodestar its one spell.',[
+    {re:/^✦ You learned GODSBANE/, f:function(m){ var tw=(String(m).match(/from (\S+) —/)||[])[1]||'Your twin'; return ['✦ Godsbane — the Lodestar\'s spell',tw+' found it in the oldest saga — the Lodestar\'s one word.',[
       ['ls2_c','<b>Cast it with V</b> (or the ✦ slot on the action bar) — only with the <b>Lodestar in hand</b> (Inventory → magic weapon). A beam of white-gold light runs ahead of you.','🌟'],
-      ['ar_lens','<b>Against Asgard</b> it strikes three times as hard: the einherjar, the wardens, everything of the false god\'s. It shatters Heimdall\'s lenses for good.','✦'],
+      ['ar_lens','<b>Against Asgard</b> it strikes three times as hard: the einherjar, the wardens, everything that serves the golden mask. It shatters Heimdall\'s lenses for good.','✦'],
       ['gd_grim_1_d_dk','<b>Against Solmyrk</b> it tears the light off him — he turns black and open to your blows.','👑'],
       [null,'It takes <b>20 seconds</b> to gather light again.','⏳']]]; } },
     /* round 65: Solmyrk's rules come with the throne hall's pop-up (cit4), not twice */
@@ -32,7 +32,7 @@ var ZAP={ on:true,
   ],
   // the first steps into the city: follow the golden roads
   enterPop:function(ws){ var ps=ws.playerState; if(ps._asgIn||typeof ZASG==='undefined')return; ps._asgIn=1;
-    ZAP.info('🏰 Asgard','The city of the gods, come down onto Mirror Lake — and held by the false god.',[
+    ZAP.info('🏰 Asgard','The city of the gods, come down onto Mirror Lake — and held by the one in the golden mask.',[
       [ZASG.GATE||'asgA_gate','<b>Follow the golden roads</b> — every one leads to the heart of the city.','🛣'],
       [ZASG.CIRCLE||'asg_circle_c','At the heart: the <b>world-tree rune circle</b>, under the column of light, before the citadel.','🌟'],
       [ZASG.KEEP||'asg_keep_a','The <b>Citadel</b> behind it: five floors to Solmyrk\'s throne. Tab at its golden doors.','🏛'],
@@ -79,7 +79,7 @@ var ZAP={ on:true,
       ['ar_yggbranch','<b>Climb</b> the trunk and its branches to the top.','🌳'],
       ['ar_grimtooth','<b>Grimtooth</b> gnaws at the roots: his rot climbs after you, and burns. Keep above it.','🐉'],
       ['ar_rat_1','<b>Catch Ratatoskr</b>, the squirrel running the trunk — he scampers you up a hidden way.','🐿']]},
-    cit4:{t:'👑 The Citadel — the Throne of Solmyrk',lead:'The impostor waits on Odin\'s high seat, behind Odin\'s stolen mask.',steps:[
+    cit4:{t:'👑 The Citadel — the Throne of Solmyrk',lead:'On Odin\'s high seat, the one in the golden mask waits.',steps:[
       ['gd_grim_1_d','<b>☀ Radiant</b>: he is shielded — your blows do nothing.','☀'],
       ['gd_grim_1_d_dk','<b>● Black</b>: the hall darkens, his eye burns — strike!','●'],
       ['ls2_c','<b>Godsbane (V)</b> forces him black for 4 seconds. Three forms; the last is mostly black.','✦']]}
@@ -104,7 +104,7 @@ var ZAP={ on:true,
   },0);
   // the pier notch and the rune circle: once, when you first come near with the Lodestar
   setInterval(function(){ try{ if(!ZFT.on||ZFT.isOpen()||typeof game==='undefined')return; var ws=game.scene.getScene('World'); if(!ws||!ws.player||!ws.playerState||!ws.sys.isActive()||typeof ZASG==='undefined')return; var ps=ws.playerState;
-      var N=ZASG.notchAt(); if(N&&ps.asgardDown&&!ps.bifrost&&!ps._zpNotch&&ZASG.hasStaff(ps)&&Math.hypot(ws.player.x-N.x,ws.player.y-N.y)<TILE*4){ ps._zpNotch=1; ZAP.info('🌟 The notch at the end of the pier','Mira\'s grandmother cut it for a staff that would come one day.',[[ZASG.NOTCH||'notch_c','Stand at the notch and press <b>Tab</b>: the <b>Lodestar</b> settles into it.','🌟'],['bif_b','The freed spirits come from the Green, and the staff\'s light builds the <b>Bifröst</b> to Asgard\'s gate — and teaches you <b>Godsbane</b>.','🌈']]); return; }
+      var N=ZASG.notchAt(); if(N&&ps.asgardDown&&!ps.bifrost&&!ps._zpNotch&&ZASG.hasStaff(ps)&&Math.hypot(ws.player.x-N.x,ws.player.y-N.y)<TILE*4){ ps._zpNotch=1; ZAP.info('🌟 The notch at the end of the pier','Mira\'s grandmother cut it for a staff that would come one day.',[[ZASG.NOTCH||'notch_c','Stand at the notch and press <b>Tab</b>: the <b>Lodestar</b> settles into it.','🌟'],['bif_b','The freed spirits come from the Green, and the staff\'s light builds the <b>Bifröst</b> to Asgard\'s gate — once you speak the word your twin found: <b>Godsbane</b>.','🌈']]); return; }
       if(typeof ZEND!=='undefined'&&ZEND.ready(ps)&&!ps._zpEnd){ var H=ZASG.heart(ws); if(Math.hypot(ws.player.x-H.x,ws.player.y-H.y)<TILE*8){ ps._zpEnd=1; ZAP.info('🌟 The Heart of Asgard','Solmyrk has fallen. One thing is left to do.',[[ZASG.CIRCLE||'asg_circle_c','Stand in the <b>world-tree circle</b> with the <b>Lodestar in hand</b> and press <b>Tab</b>: cast Godsbane into the sky.','🌟'],['bif_b','The Bifröst bends up out of the circle — and the spirits of Runeheim go home.','🌈']]); } }
     }catch(e){} },800);
 })();

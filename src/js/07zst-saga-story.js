@@ -181,7 +181,7 @@ var ZSTORY={
   B(5,'children','Children again','The village celebrates the twins; time passes; children are born again in Runeheim — Pip and Wren among the first — and every hamlet has its own.',
     '','pn_cel_children',
     [O('cut','green','after the land turns green','panels: the celebration, time passing, children again','"And children were born again in Runeheim."','built'),
-     O('hint','hamlets','free roam after the end','the children at play in every hamlet, and the newborns in the midwives\' cradles','"We play twins. I always have to be Zeldor…"','built')],
+     O('hint','hamlets','free roam after the end','the children at play in every hamlet, and the newborns in the midwives\' cradles','"We play twins. I always have to be the other one…"','built')],
     [O('hint','green','after the end','Pip and Wren on the Green','"Marta gives me an apple if I sweep round the carts!"','built')]);
   B(5,'credits','The credits — and after','The credits roll over the night lake (the forty spirits named); the last picture: the twins on a hill over a green Runeheim. Then you play on.',
     '','pn_after',

@@ -5,7 +5,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 
-const BLURB = 'Four realms. One awakening. Wake the waystones, befriend the spirits, and face the Volcano Lord.';
+const BLURB = 'Four realms, one broken land. Free the spirits and unravel the fragmented past to liberate Runeheim.';
 const LINKS = { 'NEW GAME': '/play?start=new', 'RETURNING PLAYER': '/play?start=returning' };
 
 export default function Home() {

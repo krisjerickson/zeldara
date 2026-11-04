@@ -1,5 +1,6 @@
 # Zeldara: PAINT CHOSEN PICTURES AGAIN (round 84 - for Kris's picture fixes, e.g. a montage frame with the wrong hero).
 # Claude fixes the words in the game files and tells you the ids; this moves the old pictures to sprites\_replaced_redo (never deleted)
+# Round 88 fix: the id list is $todo (PowerShell names ignore case, so $list was the -List text and squashed every id into one).
 # and paints just those again, with the new words.
 # Run from PowerShell:
 #   cd C:\Claude\games\Zeldara-v4
@@ -13,10 +14,10 @@ Set-Location (Join-Path $PSScriptRoot '..\..')
 node build.mjs | Out-Null
 if ($List) { $Ids = ((Get-Content "sprites\requests\$List.txt") | Where-Object { $_ -and -not $_.StartsWith('#') }) -join ',' }
 if (-not $Ids) { Write-Host 'Give -Ids a,b or -List name'; exit 1 }
-$list = $Ids.Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+$todo = $Ids.Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_ }
 New-Item -ItemType Directory -Force -Path 'sprites\_replaced_redo' | Out-Null
 $moved = 0
-foreach ($id in $list) {
+foreach ($id in $todo) {
   $src = "sprites\incoming\$id.png"
   if (Test-Path $src) { $dst = "sprites\_replaced_redo\$id.$(Get-Date -Format yyyyMMddHHmmss).png"; Move-Item $src $dst; $moved++ } }
 Write-Host "$moved old picture(s) moved to sprites\_replaced_redo" -ForegroundColor Cyan
@@ -25,8 +26,8 @@ if (-not $env:OPENAI_API_KEY) {
   if (-not $k) { Write-Host 'No key given - stopping.'; exit 1 }
   $env:OPENAI_API_KEY = $k.Trim()
 }
-$joined = $list -join ','
-Write-Host "`n1/2  Sending $($list.Count) picture(s):" -ForegroundColor Cyan
+$joined = $todo -join ','
+Write-Host "`n1/2  Sending $($todo.Count) picture(s):" -ForegroundColor Cyan
 node tools/sprites/generate.mjs --set scenery --ids $joined --concurrency 3
 Write-Host "`n2/2  Second pass - retrying anything that failed:" -ForegroundColor Cyan
 node tools/sprites/generate.mjs --set scenery --ids $joined --concurrency 3 | Select-String 'request\(s\) to send|^Done'

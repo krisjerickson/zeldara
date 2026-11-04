@@ -48,14 +48,16 @@ var ZTGB={ on:true,
     sc.time.delayedCall(2600,function(){ sc.tweens.add({targets:beam,alpha:0,duration:900,onComplete:function(){ beam.destroy(); T.cast=false; }}); }); },
   // ── the moments: watched once a second ──
   seen:function(ps,k){ return (ps.sagaSeen||[]).indexOf(k)>=0; },
+  // the ending is done: the credits have rolled (ps.creditsSeen) — or a save that loaded already past the ending (older saves have no creditsSeen)
+  ended:function(ps,ws){ return !!(ps&&(ps.creditsSeen||(ws&&ws._ztgb&&ws._ztgb.ps===ps&&ws._ztgb.oldEnd))); },
   tick:function(){ try{ if(!ZTGB.on||typeof game==='undefined'||!game.scene)return; var ws=game.scene.getScene('World'); if(!ws||!ws.playerState||!ws.player||!ws.sys.isActive())return;
     var ps=ws.playerState; ZTGB.study(ws); if(ws._twin&&ws._twin.npc)ws._twin.npc.talk=ZTGB.talk;      /* the twin answers [Tab] (10-scene-world calls npc.talk) */ if(typeof _anyModalOpen==='function'&&_anyModalOpen())return; if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&ZCUT.isOpen())return;
     // what this game had when it was loaded counts as already told (an old save does not replay three crossings at once)
-    var st=ws._ztgb; if(!st||st.ps!==ps){ st=ws._ztgb={ps:ps,res:(ps.rescued||[]).slice(),staff:typeof ZASG!=='undefined'&&ZASG.hasStaff(ps)}; return; }
+    var st=ws._ztgb; if(!st||st.ps!==ps){ st=ws._ztgb={ps:ps,res:(ps.rescued||[]).slice(),staff:typeof ZASG!=='undefined'&&ZASG.hasStaff(ps),oldEnd:!!(ps.spiritsHome&&!ps.creditsSeen)}; return; }
     for(var k=1;k<=4;k++)if((ps.rescued||[]).indexOf(k)>=0&&st.res.indexOf(k)<0&&!ZTGB.seen(ps,'build'+k)){ st.res.push(k); ZSAGA.play(ps,'build'+k); return; }
     var has=typeof ZASG!=='undefined'&&ZASG.hasStaff(ps); if(has&&!st.staff){ st.staff=true; if(!ZTGB.seen(ps,'lodestar')&&ZSAGA.play(ps,'lodestar'))return; }
     var n=(ps.spiritsFreed||[]).length;
-    if(ps.spiritsHome&&n>=40){ if(!ZTGB.seen(ps,'tattoo')&&ZSAGA.play(ps,'tattoo'))return; if(!ps.worldTree){ ps.worldTree=1; ZSAGA.play(ps,'worldtree'); } }
+    if(ZTGB.ended(ps,ws)&&n>=40){ if(!ZTGB.seen(ps,'tattoo')&&ZSAGA.play(ps,'tattoo'))return; if(!ps.worldTree){ ps.worldTree=1; ZSAGA.play(ps,'worldtree'); } }
     if(ps.worldTree)ZTGB.lakeTree(ws);
   }catch(e){ if(!ZTGB._err){ ZTGB._err=1; console.warn('saga r73',e); } } },
   // the World Tree's light under Mirror Lake (once painted: fx_lake_tree)
@@ -83,7 +85,7 @@ setTimeout(function(){
   // the first spirit freed: the chains fall away and the line of light (it plays before the realm's old disaster)
   if(typeof ZSAGA!=='undefined'){ var at=ZSAGA.afterTrace; ZSAGA.afterTrace=function(ws,s){ var ps=ws&&ws.playerState; if(ps&&(ps.spiritsFreed||[]).length>=1&&!ZTGB.seen(ps,'firstfree')&&ZSAGA.ready('firstfree')){ setTimeout(function(){ ZSAGA.play(ps,'firstfree',function(){ at.call(ZSAGA,ws,s); }); },900); return; }
       // the whole tattoo waits for the end (C3) — the 40th before the ending is told then
-      if(ps&&!ps.spiritsHome){ var L=ZSAGA.seen(ps), had=L.indexOf('tattoo')>=0; if(!had)L.push('tattoo'); at.apply(this,arguments); if(!had){ var i=L.indexOf('tattoo'); if(i>=0)L.splice(i,1); } return; }
+      if(ps&&!ZTGB.ended(ps,ws)){ var L=ZSAGA.seen(ps), had=L.indexOf('tattoo')>=0; if(!had)L.push('tattoo'); at.apply(this,arguments); if(!had){ var i=L.indexOf('tattoo'); if(i>=0)L.splice(i,1); } return; }
       return at.apply(this,arguments); }; }
 },0);
 setInterval(ZTGB.tick,1000);

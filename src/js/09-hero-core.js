@@ -197,7 +197,7 @@ function _heroRestoreMount(ws){
 // ── One death flow for every area (B6) ─────────────────────────────────
 var _HERO_AREA_NAMES={Dungeon:'the dungeon',Island:'the island',Building:'a building',Sky:'the sky',
   VolcanoMaze:'the Ember maze',VolcanoBulletHell:'the Magma climb',VolcanoPuzzle:'the Obsidian vault',
-  VolcanoEscape:'the Ashfire chamber',VolcanoBossRush:'the Volcano Lord’s arena'};
+  VolcanoEscape:'the Ashfire chamber',VolcanoBossRush:'Surtharn’s throne'};
 function _heroDied(scene){
   // round 45 (Kris: "in dungeons when you die, it just pauses, but then doesn't bring you back"): the flag lived on the scene object, which Phaser
   // reuses — after a first death in any dungeon every later one stopped here. Now it only guards one fall (a few seconds).

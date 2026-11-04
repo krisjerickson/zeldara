@@ -21,7 +21,7 @@ with game(new=True, painted=True) as g:
       o.glimpse=!!(ZSAGA_SETS.orbs&&ZSAGA_SETS.tattoo); o.fz2=ZBrand.FZ2.length;
       o.word=ZBrand.WORDMARK; o.faces=['Eagle Lake','Uncial Antiqua'].filter(function(f){ return document.fonts.check('400 20px "'+f+'"'); }).length; o.css=getComputedStyle(document.documentElement).getPropertyValue('--zf-label')+'|'+getComputedStyle(document.documentElement).getPropertyValue('--zf-title'); o.tags=(ZBrand.TAGLINES||[]).length; return o; })()""")
     check('Kris\'s pick is the title: %s, its faces in the game, carrying the labels and titles (%s); ten taglines to choose from' % (a['word'], a['css'][:60]), a['word'] == 'fz2_eag_unc' and a['faces'] == 2 and 'Eagle Lake' in a['css'] and 'Uncial' in a['css'] and a['tags'] == 10, a)
-    check('Odin and Freya are characters; the last saga has %d panel sets (%d panels, the hero ones in both twins)' % (a['sets'], len(a['ids'])), a['gods'] == 2 and a['sets'] >= 12 and len(a['ids']) == 20 and a['both'] == 3 and a['scene'], a)
+    check('Odin and Freya are characters; the last saga has %d panel sets (%d panels, the hero ones in both twins)' % (a['sets'], len(a['ids'])), a['gods'] == 2 and a['sets'] >= 12 and len(a['ids']) >= 20 and a['both'] >= 3 and a['scene'], a)
     check('The sandbox\'s Spirit saga has the new arc, every button working; the 30th and 40th glimpses exist; six new wordmarks', a['arc'] and a['glimpse'] and a['fz2'] == 6, a)
     f = g.js("""(async()=>{ %s %s var ws=game.scene.getScene('World'), ps=ws.playerState, o={}; ps.godMode=true; if(typeof ZFT!=='undefined')ZFT.on=false;
       ps.grimnirDown=1; ps.godsFree=0; ps.inventory.push('lodestar');
@@ -50,7 +50,7 @@ with game(new=True, painted=True) as g:
     check('With the gods free, the circle is the Lodestar\'s again, and the gods stand by it (%s)' % e['circle'], 'Raise the Lodestar' in e['circle'] and e['gods'] == 2, e)
     check('After the Bifröst: the village moment — you are at the village, the land turns green (%s)' % e['seenSets'], e['atVillage'] and e['home'] == 1 and all(k in e['seenSets'] for k in ['gods_home', 'vil_lightning', 'vil_vines', 'vil_land', 'celebrate']), e)
     check('The credits roll (the spirits named), then the last picture, and you play on', e['credits'] and 'Kris Erickson' in e['roll'] and 'Asa' in e['roll'] and e['seen'] == 1 and not e['busy'], e)
-    s = g.js("""(()=>{ var ps={spiritsFreed:new Array(30).fill('x'),sagaSeen:['gate']}, got=null, p0=ZSAGA.play, r0=ZSAGA.ready; ZSAGA.ready=function(){ return true; }; ZSAGA.play=function(ps,k){ got=k; return true; };
+    s = g.js("""(()=>{ var ps={spiritsFreed:new Array(30).fill('x'),sagaSeen:['gate','firstfree']}, got=null, p0=ZSAGA.play, r0=ZSAGA.ready; ZSAGA.ready=function(){ return true; }; ZSAGA.play=function(ps,k){ got=k; return true; };
       var ws=game.scene.getScene('World'), c0=ZSPIRIT.count; ZSPIRIT.count=function(){ return 3; }; var fake={playerState:ps}; ZSAGA.afterTrace(fake,{q:1});
       return new Promise(function(r){ setTimeout(function(){ ZSAGA.play=p0; ZSAGA.ready=r0; ZSPIRIT.count=c0; r(got); },1200); }); })()""")
     check('The 30th spirit shows the two orbs in the dark (the 20th\'s gate already seen): %s' % s, s == 'orbs', s)

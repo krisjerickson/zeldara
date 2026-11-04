@@ -279,11 +279,11 @@ var ITEMS={   // var: 03b-elements.js wraps it so gem-set ids (iron_helm~fire) r
   permafrost:  {name:'Permafrost',   icon:'❄️',atk:22,slot:'lHand',sell:150,crafted:true,element:'ice',   elementDmg:12,desc:'+22 ATK +12 ice — Forge: Great Sword+2xSapphire+1800g'},
   cyclone_blade:{name:'Cyclone Blade',icon:'⚡',   atk:26,slot:'lHand',sell:180,crafted:true,element:'light',elementDmg:10,desc:'+26 ATK +10 lightning — Forge: Great Sword+2xEmerald+2200g'},
   // ── Tier 4 Crafted Weapons (flame blade + gem + 3000-5000g) ─────────────
-  volcano_lord:{name:'Volcano Lord', icon:'🌋',atk:32,slot:'lHand',sell:400,crafted:true,element:'fire',  elementDmg:15,desc:'+32 ATK +15 fire — Forge: Flame Blade+2xRuby+3000g'},
+  volcano_lord:{name:'Muspel Blade', icon:'🌋',atk:32,slot:'lHand',sell:400,crafted:true,element:'fire',  elementDmg:15,desc:'+32 ATK +15 fire — Forge: Flame Blade+2xRuby+3000g'},
   absolute_zero:{name:'Absolute Zero',icon:'❄️',atk:30,slot:'lHand',sell:400,crafted:true,element:'ice',   elementDmg:18,desc:'+30 ATK +18 ice — Forge: Flame Blade+2xSapphire+3500g'},
   thunder_god: {name:'Thunder God',  icon:'⚡',   atk:35,slot:'lHand',sell:500,crafted:true,element:'light',elementDmg:16,desc:'+35 ATK +16 lightning — Forge: Flame Blade+2xEmerald+4000g'},
   // ── Ultimate (any Tier 4 + all 3 gems + 5000g) ───────────────────────────
-  elemental_sovereign:{name:'Elemental Sovereign',icon:'✨',atk:45,slot:'lHand',sell:800,crafted:true,element:'all',elementDmg:20,desc:'+45 ATK +20 all elements — Forge: Volcano Lord+Ruby+Sapphire+Emerald+5000g'},
+  elemental_sovereign:{name:'Elemental Sovereign',icon:'✨',atk:45,slot:'lHand',sell:800,crafted:true,element:'all',elementDmg:20,desc:'+45 ATK +20 all elements — Forge: Muspel Blade+Ruby+Sapphire+Emerald+5000g'},
   // AMMO — arrows (for bows) and darts (for crossbows). Stored in ps.ammo[id]=qty
   arrow_normal:  {name:'Normal Arrow',       icon:'🏹',type:'ammo',ammoFor:'bow', subtype:'normal',buy:5, sell:2,qty:10,secReq:1,desc:'Standard arrow × 10 per purchase'},
   arrow_cold:    {name:'Cold Arrow',         icon:'🧊',type:'ammo',ammoFor:'bow', subtype:'cold',  buy:15,sell:5,qty:5, secReq:2,desc:'Slows target 50% for 2s × 5 per purchase'},
@@ -506,7 +506,7 @@ const CRAFT_RECIPES=[
   {result:'flame_iron',   needs:{iron_sword:1,    gem_ruby:1},     gold:200,  label:'Flame Iron',    tier:1, chain:'fire'},
   {result:'inferno_edge', needs:{flame_iron:1,    gem_ruby:1},     gold:500,  label:'Inferno Edge',  tier:2, chain:'fire'},
   {result:'magma_cleaver',needs:{inferno_edge:1,  gem_ruby:1},     gold:1500, label:'Magma Cleaver', tier:3, chain:'fire'},
-  {result:'volcano_lord', needs:{magma_cleaver:1, gem_ruby:1},     gold:3000, label:'Volcano Lord',  tier:4, chain:'fire'},
+  {result:'volcano_lord', needs:{magma_cleaver:1, gem_ruby:1},     gold:3000, label:'Muspel Blade',  tier:4, chain:'fire'},
   // ── Ice chain: each tier consumes 1 sapphire ───────────────────────────
   {result:'frost_iron',   needs:{iron_sword:1,    gem_sapphire:1}, gold:300,  label:'Frost Iron',    tier:1, chain:'ice'},
   {result:'glacier_sword',needs:{frost_iron:1,    gem_sapphire:1}, gold:700,  label:'Glacier Sword', tier:2, chain:'ice'},

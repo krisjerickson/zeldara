@@ -12,8 +12,8 @@ var ZGOD_LOOK={
 (function(){ if(typeof CH!=='function')return;
   CH('npc','Gods','god_odin','Odin, the Allfather',['person','cast','#2a4a7a,#4a4a52,#e8c860,#201810,#e8c8a8,#e8e8e0','beard,grey,cape,staff,big'],
     'The feast hall of Asgard, the Bifröst, the village centre (the end)',ZGOD_LOOK.odin,
-    'Raises his spear to the sky and calls down a branching bolt of blue-white lightning, his cloak and beard blown back.','Freed from the orb in the feast hall; tells the twin the truth about the storm.');
+    'Raises his spear to the sky and calls down a branching bolt of blue-white lightning, his cloak and beard blown back.','Freed from the orb in the feast hall; tells the twin the truth about the storm.').tomeLook='One eye, a grey hat, a wolf-fur cloak and the spear Gungnir. A raven rides his shoulder.';
   CH('npc','Gods','god_freya','Freya, the Lady of the Fields',['person','cast','#3a7a3a,#8a6a3a,#f0c060,#201810,#c89070,#d87a3a','long,cape,crown'],
     'The feast hall of Asgard, the Bifröst, the village centre (the end)',ZGOD_LOOK.freya,
-    'Spreads her hands low over the ground and green vines with white flowers burst out and race away from her, her falcon cloak lifting.','Freed from the orb in the feast hall; sends the spring back into the land.');
+    'Spreads her hands low over the ground and green vines with white flowers burst out and race away from her, her falcon cloak lifting.','Freed from the orb in the feast hall; sends the spring back into the land.').tomeLook='Red-gold hair braided with flowers, a cloak of falcon feathers and the amber necklace Brísingamen.';
 })();

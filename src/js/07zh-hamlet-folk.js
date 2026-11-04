@@ -56,7 +56,7 @@ var ZHAM={
   },
   // per spirit (ZSPIRIT40 order): kin id, name, how they are kin, f/m, age, what they say of the spirit, the keepsake on the wall
   KIN:[
-    ['asa','Hild','her granddaughter','f','grown','Grandmother wove twenty birth-shawls no child ever wore. This one I wore — the first. She\'d have laughed.','a small framed birth-shawl, blue with a white rune border, never worn'],
+    ['asa','Hild','her granddaughter','f','grown','Grandmother wove twenty birth-shawls no child ever wore. My daughter wore the first. She\'d have laughed.','a small framed birth-shawl, blue with a white rune border, never worn'],
     ['bersi','Arni','his sister\'s grandson','m','young','Bersi died a boy, before he could build his first boat. I build them for him. Every one has his name cut in the keel.','a child\'s small toy boat carved of wood, on a little shelf'],
     ['dagny','Gunnhild','her niece','f','grown','Aunt Dagny saw two little lights on the water the night of the storm. Nobody believed her. Now everyone knows.','a scrap of mended net in a frame with a single glass float'],
     ['eyvind','Kari','his son','m','grown','Father used to say the lake gives when it wants to. It gave the land back. I think it wanted to.','an old fishing spear and a carved fish on a plaque'],

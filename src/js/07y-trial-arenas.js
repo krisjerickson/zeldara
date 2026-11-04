@@ -2,7 +2,7 @@
 // ║ TRIAL REALM — data + arena builders (round 5). Shared with the Design
 // ║ Lab's "Familiar Trials" tab; the running trials live in 12b.
 // ═══════════════════════════════════════════════════════════════════════
-var FAIRY_NAMES={1:['Pip','Bramble','Clover','Wren','Sorrel'],2:['Lily','Marsh','Ripple','Nixie','Fenna'],3:['Flint','Aster','Quartz','Heather','Tor'],4:['Ember','Cinder','Ashe','Soot','Pyra']};
+var FAIRY_NAMES={1:['Primrose','Bramble','Clover','Linnet','Sorrel'],2:['Lily','Marsh','Ripple','Nixie','Fenna'],3:['Flint','Aster','Quartz','Heather','Tor'],4:['Ember','Cinder','Ashe','Soot','Pyra']};
 var TRIAL_THEMES={
   rune_targets:{name:'Rune Target Practice',icon:'🎯',text:'Glowing rune stars pop up around the arena. Lead your familiar (or run) to each one before it fades.'},
   echo_path:{name:'Echo Path',icon:'🎼',text:'Rune tiles light up in a sequence. Walk them in the same order — each round is longer.'},

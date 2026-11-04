@@ -7,7 +7,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof INTERIOR_THEMES==='undefined'||typeof INTERIOR_LAYOUTS==='undefined')return;
   INTERIOR_THEMES.glimmerhall={name:'The Glimmerhall',npc:null,wall:'plaster',floor:'marble',wallA:'#2e4a66',wallB:'#1d3248',trim:'#9fe8ff',floorA:'#c8d8e0',floorB:'#8aa4b4',light:'#bff4ff',rug:'#1d5a6a',rug2:'#9fe8ff',
-    blurb:'A hall of glass on the village green: tall windows of coloured glass, a glassblower\'s furnace glowing blue, a long fusing bench with half-made lattices, shelves of soulglass shards sorted by realm, the four realms\' banners, lamps of captured spirit light — and Sólveig the Glasswright at her bench.'};
+    blurb:'A hall of glass on the village green: tall windows of coloured glass, a glassblower\'s furnace glowing blue, a long fusing bench with half-made lattices, shelves of soulglass shards sorted by realm, the four realms\' banners, lamps of soulglass light — and Sólveig the Glasswright at her bench.'};
   // her pieces are drawn as their nearest kin (a glass furnace = the forge hearth, the fusing bench = the long table)
   if(typeof INT_PROPS!=='undefined'){ INT_PROPS.glassfurnace=function(){ return INT_PROPS.forgehearth.apply(this,arguments); }; INT_PROPS.fusebench=function(ctx,w,h,P,o){ return INT_PROPS.longtable(ctx,w,h,P,o||{}); };
     if(typeof INT_HT!=='undefined'){ INT_HT.glassfurnace=INT_HT.forgehearth||88; INT_HT.fusebench=INT_HT.longtable||48; } }

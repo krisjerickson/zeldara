@@ -59,7 +59,7 @@ function renderQuestList(unlockedSections,completed,active,scene){
     var keysDone=keysHeld>=4;
     var bossDone=psRef.completedQuests&&psRef.completedQuests.includes('volcano_lord');
     h+='<div class="qgrp" style="border:1px solid rgba(255,100,40,.45);background:rgba(60,18,10,.3);margin-bottom:14px">';
-    h+='<div class="qgrp-hdr" style="color:#ff8844">🌋 The Forges of Muspelheim '+(bossDone?'✓':'(Final Quest)')+'</div>';
+    h+='<div class="qgrp-hdr" style="color:#ff8844">🌋 The Forges of Muspelheim '+(bossDone?'✓':'(the road to Asgard)')+'</div>';
     h+='<div class="qitem '+(keysDone?'qdone':'')+'"><div class="qico">🔑</div><div class="qinf">';
     h+='<div class="qtit">Win the key of each forge '+(keysDone?'✓':'')+'</div>';
     h+='<div class="qdesc">The four forges rise off the coasts, one per realm, and open in turn — each key opens the next: Ember Forge (Grasslands) → Cinder Forge (Wetlands) → Slag Forge (Highlands) → Ash Forge (Ashlands). <b>'+keysHeld+' / 4 keys.</b></div>';

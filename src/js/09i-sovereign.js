@@ -20,7 +20,7 @@ var ZSov={
     {piece:'sov_ring',     how:'Raise all four familiars to their last level', f:function(ps){ var L=ps.famLevels||{}, own=ps.ownedFamiliars||[]; return [['fam_grass','fam_water','fam_earth','fam_fire'].filter(function(f){ return own.indexOf(f)>=0&&(L[f]||1)>=6; }).length,4]; }},
     {piece:'sov_gauntlets',how:'Clear every monster camp in the four realms', f:function(ps){ var ws=ZSov._ws(), n=(ws&&ws._camps)?ws._camps.filter(function(c){ return /^c[1-4]_/.test(c.id||''); }).length:132, d=ps.campsDone||{}; return [Object.keys(d).filter(function(k){ return /^c[1-4]_/.test(k); }).length,n||132]; }},
     {piece:'sov_boots',    how:'Walk every region of the four realms',     f:function(ps){ var n=typeof WMAP_ZONES!=='undefined'?WMAP_ZONES.length:40; return [Math.min(n,(ps.visitedZones||[]).length),n]; }},
-    {piece:'sov_plate',    how:'Defeat the Volcano Lord',                  f:function(ps){ return [ZSov._q(ps,'volcano_lord')?1:0,1]; }}],
+    {piece:'sov_plate',    how:'Defeat Surtharn in Muspelheim',                  f:function(ps){ return [ZSov._q(ps,'volcano_lord')?1:0,1]; }}],
   _q:function(ps,k){ return (ps.completedQuests||[]).indexOf(k)>=0; },
   _ws:function(){ try{ return game.scene.getScene('World'); }catch(e){ return null; } },
   owned:function(ps,id){ if((ps.sovGot||[]).indexOf(id)>=0)return true; if((ps.inventory||[]).indexOf(id)>=0)return true; var e=ps.equip||{}; for(var k in e)if(e[k]===id)return true; return false; },

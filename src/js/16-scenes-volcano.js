@@ -793,7 +793,7 @@ class VolcanoBossRushScene extends Phaser.Scene {
     this.keys=this.input.keyboard.addKeys({UP:'UP',DOWN:'DOWN',LEFT:'LEFT',RIGHT:'RIGHT',W:'W',A:'A',S:'S',D:'D',SPACE:'SPACE',SHIFT:Phaser.Input.Keyboard.KeyCodes.SHIFT,TAB:Phaser.Input.Keyboard.KeyCodes.TAB});
     this.input.keyboard.on('keydown-TAB',function(e){e.preventDefault();});
     document.getElementById('dungeon-hud').style.display='block';
-    this.titleTxt=this.add.text(this.scale.width/2,18,'⚔️ Muspelheim — the Volcano Lord',{fontSize:'15px',color:'#ff4444',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,fontStyle:'bold'}).setOrigin(.5).setScrollFactor(0).setDepth(100);
+    this.titleTxt=this.add.text(this.scale.width/2,18,'⚔️ Muspelheim — Surtharn',{fontSize:'15px',color:'#ff4444',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,fontStyle:'bold'}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.bossTxt=this.add.text(this.scale.width/2,40,'',{fontSize:'12px',color:'#ffaa44',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.hintTxt=this.add.text(this.scale.width/2,this.scale.height-26,'WASD: move • SPACE: attack • SHIFT: shield • CTRL: bow',{fontSize:'10px',color:'#cca988',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     // 10 waves, ramping difficulty. Wave 1 is a SWARM (3 simultaneous
@@ -977,7 +977,7 @@ class VolcanoBossRushScene extends Phaser.Scene {
     this._done=true;
     var bg=this.add.rectangle(this.scale.width/2, this.scale.height/2, 420, 150, 0x110000, 0.92).setScrollFactor(0).setDepth(200);
     this.add.text(this.scale.width/2, this.scale.height/2-18, '💀 DEFEATED', {fontSize:'22px',color:'#ff4444',fontFamily:'Segoe UI',fontStyle:'bold',stroke:'#000',strokeThickness:4}).setOrigin(.5).setScrollFactor(0).setDepth(201);
-    this.add.text(this.scale.width/2, this.scale.height/2+20, 'The Volcano Lord remains…', {fontSize:'12px',color:'#cccccc',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(201);
+    this.add.text(this.scale.width/2, this.scale.height/2+20, 'Surtharn remains…', {fontSize:'12px',color:'#cccccc',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(201);
     var self=this;
     this.time.delayedCall(1600,function(){ _heroDied(self); });
   }

@@ -230,7 +230,7 @@ CH('npc','Village folk','vf_farmer','Tob the Farmer',['person','dig','#6a8a3a,#5
 CH('npc','Village folk','vf_fisher','Old Nell the Fisher',['person','fish','#3a6a8a,#2a3a4a,#e8e0c0,#201810,#e8c0a0,#c8c8c8','scarf,rod,grey'],
   'On the pier (stage 1+)','A weathered fisherwoman in a blue oilskin and head-scarf, rod over the water.','Casts the line and waits for a bite.');
 CH('npc','Village folk','vf_kid1','Pip',['person','play','#e0a030,#3a4a6a,#ff6040,#201810,#f0c8a0,#8a5a2a','child,ball,rosy'],
-  'The village green (stage 2+)','A small kid in a mustard shirt, bouncing a red ball.','Tosses the ball and chases it round the fountain.');
+  'The village green (after the end)','A small kid in a mustard shirt, bouncing a red ball.','Tosses the ball and chases it round the fountain.');
 CH('npc','Village folk','vf_boatwright','Hesk the Boatwright',['person','hammer','#6a5a4a,#3a2a20,#c8a060,#201810,#d8a888,#2a2a2a','bandana,leather,hammer,beard'],
   'The boathouse (stage 2+)','A wiry boat builder in a red bandana and leather apron.','Hammers planks on a hull.');
 CH('npc','Village folk','vf_guard','Watchman Corr',['person','stand','#4a5a7a,#2a2a3a,#e8c040,#201810,#e0b890,#3a2a1a','armor,helmet,spear,shield'],
@@ -238,7 +238,7 @@ CH('npc','Village folk','vf_guard','Watchman Corr',['person','stand','#4a5a7a,#2
 CH('npc','Village folk','vf_miller','Greta the Miller',['person','carry','#e8dcc0,#6a5a4a,#c8a060,#201810,#f0c8a0,#c8a060','scarf,sack,apron'],
   'By the windmill (stage 2+)','Flour-dusted miller in a pale dress and scarf, a sack over her shoulder.','Hauls sacks of flour from the mill.');
 CH('npc','Village folk','vf_kid2','Wren',['person','play','#60a0e0,#4a3a5a,#ffe060,#201810,#e8c0a0,#1a1a1a','child,pony,rosy'],
-  'Near the carts (stage 3+)','A quick kid with a black ponytail and a sky-blue tunic.','Skips between the market carts.');
+  'The village green (after the end)','A quick kid with a black ponytail and a sky-blue tunic.','Skips between the market carts.');
 CH('npc','Village folk','vf_vendor','Marta the Cart Vendor',['person','wave','#c84030,#4a3a2a,#e8e0c0,#201810,#f0c8a0,#6a3a1a','bun,apron,bread'],
   'The market carts (stage 3+)','A vendor in a red dress and white apron holding up fresh produce.','Calls out the day\'s prices.');
 CH('npc','Village folk','vf_lamplighter','Old Fenwick',['person','light','#3a3a4a,#2a2a30,#ffc060,#201810,#e8c0a0,#c8c8c8','cap,grey,beard,lamp'],
@@ -318,7 +318,7 @@ CH('boss','Volcano boss rush','boss_vr_lava_wyrm','Lava Wyrm',['eel','lunge','#c
 CH('boss','Volcano boss rush','boss_vr_ashen_knight','Ashen Knight',['biped','lunge','#5a5050,#2a2424,#ff7030,#ff4020','armor,helmet,sword,shield,cape'],'Boss rush · wave 7','A charred knight in ash-grey plate with an ember-red cape.','Charges with sword lunges.');
 CH('boss','Volcano boss rush','boss_vr_pyrokraken','Pyrokraken',['kraken','pulse','#8a2a1a,#4a1008,#ffb040,#ffe060',''],'Boss rush · wave 8','A fire kraken with glowing suckers.','Lashes tentacles in fiery rings.');
 CH('boss','Volcano boss rush','boss_vr_inferno_wraith','Inferno Wraith',['wraith','cast','#8a2a1a,#3a0a08,#ff6020,#ffe060','flames,crown,chains'],'Boss rush · wave 9','A crowned wraith wreathed in fire and chains.','Hurls fire and drifts through walls of flame.');
-CH('boss','Volcano boss rush','boss_volcano_lord','Volcano Lord',['brute','slam','#4a1a10,#1a0806,#ff6020,#ffe060','horns,spikes,glowcore,crown'],'The volcano summit · final wave','A horned magma giant with a molten core and a crown of spikes.','Slams the ground in rings of fire — the final battle.');
+CH('boss','Muspelheim','boss_volcano_lord','Surtharn, Tyrant of Muspelheim',['brute','slam','#4a1a10,#1a0806,#ff6020,#ffe060','horns,spikes,glowcore,crown'],'The throne of Muspelheim','A fire giant of cracked black-and-orange molten rock, horned and crowned, a burning greatsword in his fist.','Fights in six forms, from the Molten Colossus to the Living Volcano.');
 
 // ── bosses · evolved forms (multi-phase guardians, 09b-boss-phases.js) ──
 CH('boss','Evolved forms','bf_goblin_king_2','Goblin Warlord',['biped','lunge','#2e8a22,#1e4a12,#e8c040,#ff4020','crown,cape,axe,ears,tusks,armor,shield,horns'],'Goblin King · phase 2 · The Throne Warren','Bigger, horned and armoured; a war-axe and a spiked shield.','Charges, cleaves in a wide arc and hurls fire-pots.');

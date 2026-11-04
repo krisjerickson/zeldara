@@ -130,7 +130,7 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
     if(typeof ZSFX!=='undefined')try{ ZSFX.play('warp'); }catch(e){}
     var realm=ZSPIRIT.REALM[s.q], need=ZSPIRIT.NEED, have=ZSPIRIT.items(ps,item);
     var mem=ZSPIRIT.MEMORY[s.spirit];
-    ZSPIRIT.talk(s.spirit,ZSPIRIT.COL,'<b>The chains are gone…</b> I was '+s.trade+' in the '+realm+', before the Binders dragged me to this stone to dig for the Tyrant of Muspelheim. Thank you, '+heroName(ps)+'.<br><br>'+(mem?'<i style="color:#cdeff8">“'+mem+'”</i><br><br>':'')+'Watch the ground — my soul-line goes into the land.<br><br>Take this — a <b>Soulglass shard</b>, a piece of the light that held me here. I am going home, to the Runestone Green.<br><br><span style="color:#9fe8ff">Soulglass of the '+realm+': '+have+' (the Glasswright needs '+need+') · spirits freed here: '+n+' / 10</span>',[{t:'Go in peace'}],ZSPIRIT._drawSpirit(true));
+    ZSPIRIT.talk(s.spirit,ZSPIRIT.COL,'<b>The chains are gone…</b> I was '+s.trade+' in the '+realm+', before the Binders dragged me to this stone to dig for the fire under the ash. Thank you, '+heroName(ps)+'.<br><br>'+(mem?'<i style="color:#cdeff8">“'+mem+'”</i><br><br>':'')+'Watch the ground — my soul-line goes into the land.<br><br>Take this — a <b>Soulglass shard</b>, a piece of the light that held me here. I am going home, to the Runestone Green.<br><br><span style="color:#9fe8ff">Soulglass of the '+realm+': '+have+' (the Glasswright needs '+need+') · spirits freed here: '+n+' / 10</span>',[{t:'Go in peace'}],ZSPIRIT._drawSpirit(true));
     if(typeof ZSAVE!=='undefined')try{ ZSAVE.auto('a spirit freed'); }catch(e){}
     if(ws._emitUI)ws._emitUI(); },
   // the freed spirits gather on the Runestone Green
@@ -159,7 +159,7 @@ var ZSPIRIT={ on:true, NEED:6, REALM:['','Grasslands','Wetlands','Highlands','As
     if(!tgt){ if(ws._interactPrompt&&ws._interactPrompt._zsp){ ws._interactPrompt.destroy(); ws._interactPrompt=null; } return false; }
     if(!ws._interactPrompt||ws._interactPrompt._zsp!==tgt.id){ if(ws._interactPrompt)ws._interactPrompt.destroy(); ws._interactPrompt=domText(ws,tgt.x,tgt.y,tgt.t,{fontSize:'10px',color:'#9fe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); ws._interactPrompt._zsp=tgt.id; }
     if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB)){ if(tgt.id==='glim')ZSPIRIT.solveig(ws); else if(!ZSPIRIT.freed(ps,tgt.s.id)){ var s=tgt.s;
-        ZSPIRIT.talk(s.spirit,'#7fb8c8','<i>(The spirit\'s chains rattle as it swings its pick.)</i> Please… '+s.binder+' the Binder keeps me here, digging for the Tyrant. '+((ps.unlockedSections||[1]).indexOf(s.q)<0?'He will not show himself to one who has not yet earned the '+ZSPIRIT.REALM[s.q]+'.':'Beat him and I am free!'),[{t:'I will free you'}],ZSPIRIT._drawSpirit(false)); } }
+        ZSPIRIT.talk(s.spirit,'#7fb8c8','<i>(The spirit\'s chains rattle as it swings its pick.)</i> Please… '+s.binder+' the Binder keeps me here, digging for the fire under the ash. '+((ps.unlockedSections||[1]).indexOf(s.q)<0?'He will not show himself to one who has not yet earned the '+ZSPIRIT.REALM[s.q]+'.':'Beat him and I am free!'),[{t:'I will free you'}],ZSPIRIT._drawSpirit(false)); } }
     return true; },
   // ── Sólveig the Glasswright ──
   solveig:function(ws){ var ps=ws.playerState, rows='', btns=[];

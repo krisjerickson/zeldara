@@ -103,7 +103,7 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
     [0,'Two babes','on the village pier an old fisher lifting the blanket in the basket: two babes inside — a baby boy with a soft tuft of brown hair and a baby girl with a soft tuft of reddish-brown (auburn) hair, neither with white, silver or blond hair — their eyes glowing bright rune-blue; villagers gathering in astonishment','Inside lay two babes, their eyes glowing rune-blue.'],
     ['t','Raised by the village','a warm sunny village green: '+'{K}'+' toddling among goats, an old woman feeding them, an elder playing a lyre and singing to them','The village raised them on goat\'s milk and old songs.'],
     ['t','The stones wake','dusk on the village green: '+'{K}'+' laying small hands on the tall carved runestone; its runes waking with neon rune-blue light; Elder Runa (as in the reference) staring in wonder','They read runes no one else could — and the old stones woke for them.'],
-    ['t','Sixteen winters on','inside a glass-domed hall with rune-etched windows glowing blue: '+'{T}'+' — one practising with a sword, the other bent over an old rune tablet; warm light','Sixteen winters on, the twins were grown.'],
+    ['t','Sixteen winters on','inside a glass-domed hall with rune-etched windows glowing blue: '+'{T}'+' — one practising with a sword, the other bent over an old rune tablet; warm light','Sixteen winters on, the twins were nearly grown.'],
     ['o','The choice','sunrise on the village green by the carved runestone: Elder Runa (as in the reference) holding out a pack and a sword; {H} taking them; {O} beside them holding an armful of old books','One would go out into Runeheim; the other would stay and keep the village.'],
     ['o','The send-off','at the village gate at dawn, villagers waving; {H} walking out along the road toward the wild lands, looking back once; {O} at the gate waving, a book under one arm','And so one twin went out — and the other stayed.']]);
   var REALM=function(id,name,plays,story,beats){ S(id,name,86,plays,story,[],beats.map(function(b){ return [0,b[0],b[1],b[2]]; })); };
@@ -317,7 +317,7 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
     [0,'Seasons','the village green through the seasons in one picture: blossom, summer, autumn leaves, snow','Time passed.'],
     [0,'The first cry','a mother holding a newborn in a cosy room, the father laughing, the elder in the doorway in tears','And a child was born.'],
     ['t','Pip and Wren','two young village children (as in the references) running to {T} on the green','Pip and Wren, among the first.'],
-    [0,'Playing twins','children in a hamlet playing at being the twins with wooden swords and a stick for a staff','"We play twins. I always have to be Zeldor…"'],
+    [0,'Playing twins','children in a hamlet playing at being the twins with wooden swords and a stick for a staff','"We play twins. I always have to be {O}…"'],
     [0,'Cradles','a midwife\'s workshop with full cradles and smiling families','Every hamlet had its own.'],
     ['t','From the hill','{T} sitting on a hill watching children play in the hamlets below at sunset','And children were born again in Runeheim.']]);
   S('credits','The credits — and after',89,'after the celebration','The credits roll over the night lake under forty stars; the twins on a hill over a green Runeheim; then the road goes on.',['sc_pn_credits','sc_pn_after'],[
