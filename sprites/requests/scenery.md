@@ -1,4 +1,4 @@
-# Scenery — 710 sheets, 2570 objects and textures (13 sheets in the pilot)
+# Scenery — 711 sheets, 2572 objects and textures (13 sheets in the pilot)
 
 Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scenery.ps1`; results go to `sprites/incoming/<sheet id>.png`.
 
@@ -71,6 +71,7 @@ Made by build.mjs from `src/js/07zt-scenery.js`. Send with `tools\sprites\scener
 | 88 | Round 79 — Story cut-scenes 4: Surtharn's and Solmyrk's forms | 64 | 64 |
 | 89 | Round 79 — Story cut-scenes 5: the feast hall, the truth, home, the land changed, the celebration, the World Tree | 74 | 74 |
 | 90 | Round 80 — the twin's library: the saga-hall, its furniture, the second bed | 4 | 19 |
+| 92 | Round 84c — the heroes painted large for the inventory | 1 | 2 |
 
 ## sc_vill_core_1 (pilot)
 
@@ -5376,7 +5377,7 @@ Item icons — swords, axes and other melee weapons · wave 34 · 22 items, 5 ×
 - `ic_magma_cleaver` Magma Cleaver — 48 × 48 px
 - `ic_permafrost` Permafrost — 48 × 48 px
 - `ic_cyclone_blade` Cyclone Blade — 48 × 48 px
-- `ic_volcano_lord` Volcano Lord — 48 × 48 px
+- `ic_volcano_lord` Muspel Blade — 48 × 48 px
 - `ic_absolute_zero` Absolute Zero — 48 × 48 px
 - `ic_thunder_god` Thunder God — 48 × 48 px
 - `ic_elemental_sovereign` Elemental Sovereign — 48 × 48 px
@@ -5405,7 +5406,7 @@ Layout: exactly 22 objects in a grid of 5 columns × 5 rows, evenly spaced, in t
 16. Magma Cleaver — melee weapon, black rock with glowing lava cracks.
 17. Permafrost — melee weapon, dark blue ice with white rime.
 18. Cyclone Blade — melee weapon, wrapped in a swirl of wind and sparks.
-19. Volcano Lord — melee weapon, a massive blade of black rock with rivers of glowing lava.
+19. Muspel Blade — melee weapon, a massive blade of black rock with rivers of glowing lava.
 20. Absolute Zero — melee weapon, a blade of pure pale-blue ice with a white glow.
 21. Thunder God — melee weapon, a golden blade crackling with white lightning.
 22. Elemental Sovereign — melee weapon, a blade in three parts of fire, ice and lightning, glowing.
@@ -16660,6 +16661,27 @@ Layout: exactly 3 objects in a grid of 3 columns × 1 rows, evenly spaced, in th
 1. The twin's bed — a wooden bed like the first, with a teal-and-cream patchwork quilt and a small pile of old books by the pillow, empty, neatly made (about as tall as the hero).
 2. Zeldor asleep — the same bed with Zeldor (the boy in the hero reference: spiky brown hair) asleep under the quilt, an open book face-down on his chest (about as tall as the hero).
 3. Zeldara asleep — the same bed with Zeldara (the girl in the hero reference: long auburn braids) asleep under the quilt, an open book face-down on her chest (about as tall as the hero).
+View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
+Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
+Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel).
+```
+
+## sc_hero_portrait
+
+The heroes painted large — Zeldor and Zeldara, standing, for the inventory · wave 92 · 2 items, 2 × 1 · 1536x1024
+
+- `hero_portrait_m` Zeldor, painted large — 180 × 260 px
+- `hero_portrait_f` Zeldara, painted large — 180 × 260 px
+
+Attach: style_hero, style_centaur, hero_m.model, hero_f.model
+
+```
+Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: a sheet of 2 separate pieces of scenery — The heroes painted large — Zeldor and Zeldara, standing, for the inventory.
+The reference images show the game's characters; use them only for the art style (outline weight, flat shading, teal highlights, magenta rim). Do not draw the characters.
+Layout: exactly 2 objects in a grid of 2 columns × 1 rows, evenly spaced, in this order (left to right, top row first):
+1. Zeldor, painted large — Zeldor — the young man in the hero reference, an adult (spiky brown hair, the same face, colours and clothes), standing full length in a relaxed, ready three-quarter pose facing the viewer, feet together on the ground, the whole figure from the top of the head to the soles of the boots in frame, nothing cut off; plain travelling clothes as in the reference (no extra armour, no weapon in hand), painted in much finer detail than the small walking sprite — the face, hair, eyes, stitching, belt buckle and boot laces all crisp; a soft rim light of faint light-blue rune glow (#6fe3f5) on one side (about 4.1× the hero's height).
+2. Zeldara, painted large — Zeldara — the young woman in the hero reference, an adult (long auburn braids, the same face, colours and clothes), standing full length in a relaxed, ready three-quarter pose facing the viewer, feet together on the ground, the whole figure from the top of the head to the soles of the boots in frame, nothing cut off; plain travelling clothes as in the reference (no extra armour, no weapon in hand), painted in much finer detail than the small walking sprite — the face, hair, eyes, stitching, belt buckle and boot laces all crisp; a soft rim light of faint light-blue rune glow (#6fe3f5) on one side (about 4.1× the hero's height).
 View: classic top-down RPG three-quarter view — the camera looks down from the front at about 45°, so you see the front face and the top of every object; vertical things stand upright. The bottom edge of each object is where it meets the ground.
 Art style (match the attached reference images exactly — they show the game's characters; paint the scenery so it belongs in the same picture): bold hand-drawn cartoon game art, NOT pixel art and NOT 3D render. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise, no photo detail. Chunky, slightly exaggerated storybook proportions: thick beams, fat roof tiles, big simple shapes that read at small size. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of roofs, stone, leaves and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Runes, crystals, magic and enchanted things glow white-cyan with a soft teal halo; fire and lamps glow warm orange. Saturated but limited palette. Light comes from the upper left.
 Rules: every object is separate, sits fully inside its own cell with clear empty space on all sides, and is centred in its cell; nothing touches or crosses into a neighbouring cell. All objects on the sheet share one line weight, one palette and one viewing angle. Draw every object as large as its cell comfortably allows, keeping its own proportions (the game scales each one to its real size). Draw only the object: no ground, no grass patch, no cast shadow on the ground, no scenery behind it, no people, no frame, no grid lines, no numbers, no labels, no text, no watermark.

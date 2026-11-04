@@ -38,7 +38,8 @@ def prompt(sc, beats, who, part, nparts):
     for i, b in enumerate(beats):
         L.append('%d.0-%d.0s (@Image%d) %s: %s.' % (i * SECS, (i + 1) * SECS, i + 1, b['title'], b[k].rstrip('.')))
     L += ['', 'Keep every painting\'s style, colours and light exactly; every character keeps the same face, hair, clothes and proportions from shot to shot; '
-          'no new characters, no extra people, no children unless they are in the picture. No text, no captions, no subtitles, no logos, no background music.']
+          'no new characters, no extra people, no children unless they are in the picture. No text, no captions, no subtitles, no logos, no background music.',
+          'Nothing from after the Viking age: ' + J.get('neg', '').split('flicker, ', 1)[-1] + '.']      # round 88 (Kris: umbrellas in the rain)
     return '\n'.join(L) + '\n'
 
 os.makedirs(OUT, exist_ok=True); parts = {}; made = kept = 0; listing = []
@@ -58,11 +59,12 @@ for nn, sc in enumerate(scenes, 1):
             os.makedirs(d, exist_ok=True)
             for j, s in enumerate(srcs, 1):
                 t = os.path.join(d, '%02d.png' % j)
-                if os.path.isfile(t) and os.path.getmtime(t) >= os.path.getmtime(s): kept += 1; continue
+                if os.path.isfile(t) and os.path.getmtime(t) >= os.path.getmtime(s) - 2 and os.path.getsize(t) == os.path.getsize(s): kept += 1; continue      # round 88: a copy cut short is made again; the 2 s allow for the shared folder's clock (the folders hold hard links that follow the remade picture)
                 if not os.path.exists(t):
                     try: os.link(s, t); made += 1; continue      # a hard link: no second copy on disk, and it follows the picture when it is remade
                     except OSError: pass
-                shutil.copy2(s, t); made += 1
+                with open(s, 'rb') as fa, open(t, 'wb') as fb: shutil.copyfileobj(fa, fb, 1 << 20)      # round 88: plain reads and writes (sendfile stalls on the PC's shared folder)
+                shutil.copystat(s, t); made += 1
             open(os.path.join(d, 'PROMPT.txt'), 'w', encoding='utf-8').write(prompt(sc, beats, 'zeldor' if who == 'both' else who, pi, len(P)))
             for f in os.listdir(d):
                 if f.startswith('SAVE AS '): os.replace(os.path.join(d, f), os.path.join(d, 'SAVE AS %s.mp4' % name)) if f != 'SAVE AS %s.mp4' % name else None

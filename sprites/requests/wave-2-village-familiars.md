@@ -3636,7 +3636,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Stone Colossus (earth familiar) — A broad earth-spirit of glowing stone and crystal veins that thuds along behind you and shakes the ground.  Size: about 0.8049999999999999× the height of the hero.
+Subject: Stone Colossus (earth familiar) — A broad familiar of glowing stone and crystal veins that thuds along behind you and shakes the ground.  Size: about 0.8049999999999999× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. hovering, body tilted slightly forward — used for: follows the hero.
 2. hover cycle frame 2: bobbing up, wings / trails spread.

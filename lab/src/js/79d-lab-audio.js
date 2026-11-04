@@ -55,7 +55,7 @@
       field(q.id,'t','Title',S.title,1)+field(q.id,'s','Style of music',S.style,4)+
       (S.lyrics?field(q.id,'l','Lyrics — Instrumental <b>off</b>',S.lyrics,4):'<div class="au-f"><span class="au-l">Lyrics</span><span class="au-inst">Instrumental <b>on</b> — no lyrics</span></div>')+
       field(q.id,'x','Exclude styles',S.exclude,1); };
-  var musicCards=function(G){ return MU.filter(function(q){ return q.group===G; }).map(function(q){ return cardOf({id:q.id,name:q.name,desc:'<b>Plays:</b> '+esc(q.where)+'<br>'+sunoBox(q)},420,230); }).join(''); };
+  var musicCards=function(G){ return MU.filter(function(q){ return q.group===G; }).map(function(q){ return cardOf({id:q.id,name:q.name,desc:(typeof LABMU!=='undefined'?LABMU.card(q.id):'')+'<b>Plays:</b> '+esc(q.where)+'<br>'+sunoBox(q)},420,230); }).join(''); };
   var sheet=function(){ var rows=ZAUD.GROUPS.filter(function(g){ return REST.some(function(q){ return q.group===g[0]; }); }).map(function(g){ var L=REST.filter(function(q){ return q.group===g[0]; });
       return '<tr class="au-g"><td colspan="5">'+g[1]+' <span>· '+L.length+'</span></td></tr>'+L.map(function(q){ var T=TIER[q.tier]||TIER[3]; return '<tr><td><b>'+esc(q.name)+'</b><br><code>'+q.id+'</code></td><td>'+esc(q.where)+'</td><td>'+(q.secs<1?q.secs+' s':mmss(Math.round(q.secs)))+(q.loop?' ⟲':'')+'</td><td style="color:'+T[1]+'">'+T[0]+'</td><td class="au-w">'+esc(ZAUD.request(q))+'</td></tr>'; }).join(''); }).join('');
     return '<table class="au-t"><thead><tr><th>Sound</th><th>Where</th><th>Length</th><th>Wave</th><th>The words sent</th></tr></thead><tbody>'+rows+'</tbody></table>'; };
@@ -65,7 +65,7 @@
     blurb:'<b>Round 72 — music, ambience and sound effects: the proposal.</b> Every cue with where it plays and the words for Suno (Copy button), the ambience and effects sheet, and the plan. ☆ the plan and the cues you are happy with; notes to change them.',
     designs:[PLAN].concat(MU.map(function(q){ return {id:q.id,name:q.name}; })).map(function(d){ return {id:d.id,name:d.name}; }),
     render:function(){ setTimeout(LBR.bind,0); n=0;
-      return LEGEND+LBR.sec('The plan','two roads into the game')+'<div class="br-grid sm-one">'+cardOf(PLAN,1400,460)+'</div>'+
+      return (typeof LABMU!=='undefined'?LABMU.section(MU):'')+LEGEND+LBR.sec('The plan','two roads into the game')+'<div class="br-grid sm-one">'+cardOf(PLAN,1400,460)+'</div>'+
         ['title','village','realms','sites','fights','endgame','last','sting'].map(function(G){ return LBR.sec(GN[G],MU.filter(function(q){ return q.group===G; }).length+' cues')+'<div class="br-grid au-grid">'+musicCards(G)+'</div>'; }).join('')+
         LBR.sec('Ambience and effects — the request sheet','sent by script to a sound-effects model')+sheet(); } });
   if(typeof LAB_ACTIVE!=='undefined')LAB_ACTIVE.unshift('audio');

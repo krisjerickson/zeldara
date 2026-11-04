@@ -39,15 +39,15 @@ var ZAUDIO={ on:true, BASE:'assets/audio/', idx:null, buf:{}, loading:{}, mus:nu
     if(ZAUDIO.idx[id].kind==='sting')ZAUDIO.duck(d.duration); return true; },
   duck:function(sec){ var g=ZAUDIO.bus&&ZAUDIO.bus.music, a=ZAUDIO.ctx(); if(!g||!a||!ZAUDIO.mus)return; var t=a.currentTime; g.gain.cancelScheduledValues(t); g.gain.setTargetAtTime(ZAUDIO.vol.music*0.35,t,0.08); g.gain.setTargetAtTime(ZAUDIO.vol.music,t+sec,0.6); },
   // ── music: a streamed piece, looped by two elements taking turns ──
-  _el:function(f){ var e=new Audio(); e.src=ZAUDIO.url(f); e.preload='auto'; e.crossOrigin='anonymous'; return e; },
+  _el:function(f){ var e=new Audio(); e.src=ZAUDIO.url(f); e._f=f.base; e.preload='auto'; e.crossOrigin='anonymous'; return e; },
   music:function(id,fade){ var a=ZAUDIO.ctx(); if(!a)return; var want=ZAUDIO.pick(id); if(want===ZAUDIO.cue)return; ZAUDIO.cue=want; var old=ZAUDIO.mus; ZAUDIO.mus=null; fade=fade||2;
     if(old)ZAUDIO._stop(old,fade); if(!want)return;
-    var E=ZAUDIO.idx[want], f=E.files[0], g=a.createGain(); g.gain.value=0.0001; g.connect(ZAUDIO.bus.music);
+    var E=ZAUDIO.idx[want], F=E.files, tk=ZAUDIO._take||(ZAUDIO._take={}), f=F[(tk[want]=((tk[want]||0)+1))%F.length], g=a.createGain();      /* round 88: a cue with two takes (Kris's second Suno piece) starts on the other one each time, and the loop hands over to it */ g.gain.value=0.0001; g.connect(ZAUDIO.bus.music);
     var M={id:want,f:f,g:g,loop:E.loop,els:[],cur:0,t:null};
     var start=function(i,at){ var e=M.els[i]||(M.els[i]=ZAUDIO._el(f)); if(!e._n){ try{ e._n=a.createMediaElementSource(e); e._g=a.createGain(); e._n.connect(e._g); e._g.connect(g); }catch(x){} } e.currentTime=at||0; if(e._g)e._g.gain.value=1; var p=e.play(); if(p&&p.catch)p.catch(function(){}); M.cur=i; };
     start(0,0); g.gain.setTargetAtTime(1,a.currentTime,fade/3);
     // the loop: shortly before loopEnd the other element starts at loopStart and the two cross over in 30 ms
-    if(M.loop)M.t=setInterval(function(){ if(ZAUDIO.mus!==M)return; var e=M.els[M.cur]; if(!e||e.paused)return; var le=f.le||e.duration; if(le&&e.currentTime>=le-0.06){ var o=M.cur, n=1-o; start(n,f.ls||0); var eo=M.els[o]; if(eo&&eo._g){ eo._g.gain.setTargetAtTime(0,a.currentTime,0.01); setTimeout(function(){ try{ eo.pause(); }catch(x){} },120); } else { try{ eo.pause(); }catch(x){} } } },20);
+    if(M.loop)M.t=setInterval(function(){ if(ZAUDIO.mus!==M)return; var e=M.els[M.cur]; if(!e||e.paused)return; var le=f.le||e.duration; if(le&&e.currentTime>=le-0.06){ var o=M.cur, n=1-o; if(F.length>1){ f=F[(F.indexOf(f)+1)%F.length]; M.f=f; var en=M.els[n]; if(en&&en._f!==f.base){ en.src=ZAUDIO.url(f); en._f=f.base; } } start(n,f.ls||0); var eo=M.els[o]; if(eo&&eo._g){ eo._g.gain.setTargetAtTime(0,a.currentTime,0.01); setTimeout(function(){ try{ eo.pause(); }catch(x){} },120); } else { try{ eo.pause(); }catch(x){} } } },20);
     ZAUDIO.mus=M; },
   _stop:function(M,fade){ var a=ZAUDIO.ctx(); if(M.t)clearInterval(M.t); try{ M.g.gain.setTargetAtTime(0.0001,a.currentTime,(fade||2)/3); }catch(e){} setTimeout(function(){ M.els.forEach(function(e){ try{ e.pause(); }catch(x){} }); try{ M.g.disconnect(); }catch(x){} },(fade||2)*1000+400); },
   // ── ambience: one decoded loop at a time, crossfaded ──

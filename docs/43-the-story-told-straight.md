@@ -47,3 +47,46 @@ Kris: "Map and quests still needs to be larger as well as tome. inventory should
   - Right: the bag's tabs in one row, the bag (the only part that scrolls) and the picked item.
 - **Tome:** its sections sit in one row that slides sideways. The list and the open page share the rest of the screen side by side.
 - Tests: `tests/test_round88.py` (7: two phone sizes and the desktop) and `tests/test_round87.py` (3). `test_round71` was brought up to date (later panel sets; the first-spirit panel comes before the 30th's).
+
+## Round 88b — the new pictures, the music and the sound picks in
+### The redone frames
+All 138 frames of `redo84` and `redo84b` and the inventory portrait (`sc_hero_portrait`) were painted after two fixes:
+- `redo.ps1` used `$list` while its `-List` parameter is `$List`. PowerShell names ignore case, so every id was squashed into one and nothing was sent; the list is `$todo` now.
+- The scenery export left out `07zt8` (the portrait), and the sprite export failed on `window.addEventListener` from `07zdlg`. Both are fixed in `build.mjs`.
+
+The 59 montage folders, the Lab sheets and the 18 sheets the game plays from (`assets/story`) were made again, and the portrait was cut (`hero_portrait_m` / `_f`).
+
+### The review (doc 40's rules)
+| Scene | Problem | Done |
+|---|---|---|
+| The Long Quiet 6 | a child-sized figure hiding with the villagers | prompt: adults only, no children |
+| The Black Tide 6 | living people chained under the water | prompt: pale, translucent spirits, no living people |
+| Asgard comes down 3 (Zeldara) | a child-sized figure on the pier | prompt: adults only, as tall as the hero |
+| Bram 4 and 5 | piers and scaffolding already in the river | prompt: nothing in or over the water yet |
+| Dunn 2 | gate towers and chains at the chasm edge | prompt: bare cliff edges, no bridgeheads |
+| Mira 5 | lift frames by the falls before her first chain | prompt: the cliff is bare rock |
+| Vela 1 | arches in front of the Ember Wall | prompt: nothing built in front of it |
+
+`sprites/requests/redo88.txt` (13 pictures): `.\tools\sprites\redo.ps1 -List redo88`.
+Minor, left as they are: a few unsure crowd faces (Stone-Fall, village, celebration 1); sky in the Lodestar's cavern (1–2); Runa drawn as a man in celebration 2.
+
+### The video negative prompt
+Kris: Kling had people take out umbrellas in the rain. `ZSB.NEG` now also excludes anything from after the Viking age: umbrellas, parasols, modern clothing, glasses, watches, phones, guns, cars, tyres, plastic, zippers, electric lights, street lamps, power lines, paved roads and modern buildings.
+
+### The music
+All of Kris's Suno pieces are in the game. There are 13 cues: the title, the two old sagas, the glimpse, the village by day and by night, the hearth, the shops, Glimmerhall, the green again, the Grasslands by day and by night, and the caverns. `mu_home2` and `mu_village_day2` became second takes (`.b`).
+
+`04c2` starts a two-take cue on the other take each time, and the loop hands over to the other take.
+
+In the Lab, Music & sound opens with **Your music — in the game**: a 2-minute preview player per take (`tools/audio/music_preview.py` → `lab/preview/music`, `LABMU.IN` in `79k2`). The same players appear on each cue's card. On the hosted Lab, a link plays the whole piece.
+
+### The sound picks
+Kris's 95 picks are in `sprites/requests/sound_picks.json`.
+- 73 change the sound; 48 of those rotate two or three takes.
+- 22 keep today's take.
+
+They were put in with `pick_sounds.py` and `intake_audio.py`, and each is marked "eth". The old takes are in `audio/replaced_r81`.
+
+### Also picked in the Lab, for the next round
+- **Boss shapes:** all 12 were picked. On eight of them Kris noted "50% of the map is too much for the safe zone, especially for harder difficulties". When they are wired in, the safe share scales with difficulty.
+- **Dialogue box:** the Rune-stone look.

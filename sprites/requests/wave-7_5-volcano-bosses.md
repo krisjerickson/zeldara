@@ -519,7 +519,7 @@ Attach: style_hero, style_centaur
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Surtharn, the Volcano Lord — The fire-giant of the world's end: horned, crowned, with a flaming sword. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#4a1a10), black (#1a0806), red (#ff6020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
-How it behaves in the game (for the poses): Slams the ground in rings of fire — the final battle.
+How it behaves in the game (for the poses): Fights in six forms, from the Molten Colossus to the Living Volcano.
 Layout: exactly 6 poses in a grid of 3 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -543,7 +543,7 @@ Attach: style_hero, style_centaur, boss_volcano_lord.core.s
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtharn, the Volcano Lord — The fire-giant of the world's end: horned, crowned, with a flaming sword. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#4a1a10), black (#1a0806), red (#ff6020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
-How it behaves in the game (for the poses): Slams the ground in rings of fire — the final battle.
+How it behaves in the game (for the poses): Fights in six forms, from the Molten Colossus to the Living Volcano.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. seen from the FRONT, standing at rest, relaxed and alert.
 2. seen from the FRONT, step / movement frame 1 of 2.
@@ -569,7 +569,7 @@ Attach: style_hero, style_centaur, boss_volcano_lord.core.s
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtharn, the Volcano Lord — The fire-giant of the world's end: horned, crowned, with a flaming sword. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#4a1a10), black (#1a0806), red (#ff6020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
-How it behaves in the game (for the poses): Slams the ground in rings of fire — the final battle.
+How it behaves in the game (for the poses): Fights in six forms, from the Molten Colossus to the Living Volcano.
 Layout: exactly 7 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. slam wind-up: rearing up, weapon or fists raised high overhead — used for: basic attack.
 2. slam impact: crashing down into the ground, body compressed.
@@ -594,7 +594,7 @@ Attach: style_hero, style_centaur, boss_volcano_lord.core.s
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Surtharn, the Volcano Lord — The fire-giant of the world's end: horned, crowned, with a flaming sword. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, cape: flame, build: giant. Main colours: dark red (#4a1a10), black (#1a0806), red (#ff6020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
-How it behaves in the game (for the poses): Slams the ground in rings of fire — the final battle.
+How it behaves in the game (for the poses): Fights in six forms, from the Molten Colossus to the Living Volcano.
 Layout: exactly 4 poses in a grid of 2 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. transformation: doubled over, cracks of light breaking through the body — used for: changes to the next phase.
 2. transformation: bursting upward in a pillar of light, new shape forming.

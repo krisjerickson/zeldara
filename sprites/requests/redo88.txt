@@ -1,0 +1,14 @@
+# round 88: the frames the review of redo84 flagged (doc 43 §3) - 13 pictures
+sc_sb_quiet_06
+sc_sb_blacktide_06
+sc_sb_asgard_03_f
+sc_sb_bram_04_m
+sc_sb_bram_04_f
+sc_sb_bram_05_m
+sc_sb_bram_05_f
+sc_sb_dunn_02_m
+sc_sb_dunn_02_f
+sc_sb_mira_05_m
+sc_sb_mira_05_f
+sc_sb_vela_01_m
+sc_sb_vela_01_f
