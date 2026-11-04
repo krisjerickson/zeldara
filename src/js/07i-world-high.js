@@ -94,7 +94,7 @@ WORLD_DESIGNS.push(
   ground:WK('grass','#6a9a4a','#86b060',{sc:0.12,deco:WDECO.grass('rgba(50,80,30,.5)',0.35)}), kinds:[H_ROCK('#b0a490','#7a6e5c',{wall:{top:'#b0a490',face:'#7a6e5c',strata:false}}),WK('stairs','#a89c86','#a89c86',{deco:WDECO.steps('#b0a48e')}),WK('path','#9a8a68','#ac9c78',{sc:0.3})],
   hills:{sc:0.05,k:1},
   layout:function(c){ for(var y=9;y<58;y+=12){ for(var x=0;x<c.W;x++)c.set(x,y+Math.round((c.nz(x*0.06,y)-0.5)*4),'rock'); var gx=c.R.i(8,50); for(var d=-3;d<=3;d++)for(var dx=0;dx<3;dx++)if(c.is(gx+dx,y+d,'rock'))c.set(gx+dx,y+d,'stairs'); } c.line('path',[[30,60],[30,0]],2,10,['grass']); },
-  props:function(c){ c.scatter('hut',6,{w:3,h:2,roof:'#8a4a32',wall:'#c8b08a'}); c.scatter('sheep',24,{solid:false}); c.scatter('banner',16,{}); c.scatter('flowers',30,{solid:false,claim:false,cols:['#fff3a8','#ffffff','#ffb0c8']});
+  props:function(c){ c.scatter('hut',6,{w:3,h:2,roof:'#8a4a32',wall:'#c8b08a'}); c.scatter('sheep',24,{});      /* round 86c: sheep stop you */ c.scatter('banner',16,{}); c.scatter('flowers',30,{solid:false,claim:false,cols:['#fff3a8','#ffffff','#ffb0c8']});
     var p=c.randomOpen('grass'); if(p){ c.place('runecircle',p.x-1,p.y-1,3,3,{solid:false,col:'#fff0c0',n:6}); c.landmark(p.x-1,p.y-1,3,3,'Shepherd\'s rune — flocks never stray past it.'); } },
   particles:[WPART.petals(['#ffe0a0','#ffffff','#ffb0b0'])] },
 

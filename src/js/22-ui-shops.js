@@ -330,7 +330,7 @@ function showQuickPick(type){
 
   } else if(type==='potion'){
     var pots=inv.filter(function(id){return ITEMS[id]&&ITEMS[id].slot==='use';});
-    if(!pots.length)h+='<div style="color:#445;font-size:11px">No potions in inventory.<br><span style="font-size:10px;color:#334">Buy from the Camp Shop.</span></div>';
+    if(!pots.length)h+='<div style="color:#445;font-size:11px">No potions in your pack.<br><span style="font-size:10px;color:#8aa0b8">The Apothecary in the village sells them.</span></div>';
     pots.forEach(function(id){h+=itemRow(id,inv.indexOf(id),"window._useItem("+inv.indexOf(id)+");document.getElementById('quick-pick-popup').style.display='none'",'Use','');});
 
   } else if(type==='food'){

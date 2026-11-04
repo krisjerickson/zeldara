@@ -167,7 +167,7 @@ function villageDesign(S,stage){
       c.scatter('tree',S.trees==='giant'?10:14,{kind:S.trees==='pine'?'pine':'round',col:S.treeCol,s:S.trees==='giant'?1.7:1,on:'grass'});
       c.scatter('bush',10,{col:'#3e6e36',berry:st>=5?'#ff9ad8':null,on:'grass'}); c.scatter('flowers',st>=5?45:20,{solid:false,claim:false,on:'grass'});
       P('fence',6,28,6,1,{solid:false,kind:S.fence}); P('fence',48,32,7,1,{solid:false,kind:S.fence});
-      if(S.id==='runestone'){ P('fence',48,44,8,1,{solid:false,kind:'stone'}); for(var sh=0;sh<4;sh++)P('sheep',49+sh*2,46,1,1,{solid:false}); }
+      if(S.id==='runestone'){ P('fence',48,44,8,1,{kind:'stone'}); for(var sh=0;sh<4;sh++)P('sheep',49+sh*2,46,1,1,{}); }      /* round 86c: solid */
       if(S.id==='harbor'){ [[3,3],[55,3],[55,55]].forEach(function(q){ P('tower',q[0]-1,q[1]-1,3,3,{flag:'#3a6ac8'}); }); P('fence',6,4,20,1,{solid:false,kind:'stone'}); P('fence',36,4,17,1,{solid:false,kind:'stone'}); P('fence',57,6,1,1,{solid:false,kind:'stone'}); P('boatv',6,54,3,1,{solid:false,any:true,sail:true}); P('boatv',19,56,3,1,{solid:false,any:true}); }
       else P('boatv',14,54,3,1,{solid:false,any:true,sail:st>=3});
       // ── growth by stage ──

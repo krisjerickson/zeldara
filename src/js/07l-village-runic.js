@@ -153,7 +153,7 @@ function villagePlan(stage,ok,water){
     P('vbuild',l.x,l.y,l.w,l.h,{style:L.style,roof:HR.pick(L.roofs),roofPat:L.roofPat,chimney:ch,smoke:ch&&HR.chance(0.72),flowers:HR.chance(st>=3?0.7:0.35),doorX:Math.floor(l.w/2),nl:1,wallH:L.style==='round'?40:44},true);
     var lx=l.x+Math.floor(l.w/2)+1; if(lx<l.x+l.w)P('lantern',lx,l.y+l.h,1,1,{col:HR.pick(['#ffd27a','#ffc070','#9fe8ff'])},false);
     if(HR.chance(0.5))P('flowers',l.x-1,l.y+l.h,1,1,{n:6,solid:false},false);
-    if((i*7+3)%5<2)P('vdress',l.x-1,l.y+l.h-1,1,1,{id:['vp_woodpile','vp_barrels','vp_crates','vp_haystack','vp_laundry'][i%5]},false); });
+    if((i*7+3)%5<2)P('vdress',l.x-1,l.y+l.h-1,1,1,{id:['vp_woodpile','vp_barrels','vp_crates','vp_haystack','vp_laundry'][i%5]},i%5!==4); });      /* round 86c: woodpiles, barrels, crates and haystacks are solid (the laundry line is not) */
   plan.houses=VILLAGE_CORE.length+nh+extra;
   // vegetable gardens (neat rows, the harbour town's gardens tidied up)
   var ng=0; gardens.forEach(function(gd){ if(ng>=VR.gardens[s]||Math.hypot(gd.x+gd.w/2,gd.y+1.5)>Rs+2)return; ng++; for(var j=0;j<3;j++)for(var i=0;i<gd.w;i++)setK(gd.x+i,gd.y+j,'vsoil'); P('vegplot',gd.x,gd.y,gd.w,3,{seed:ng},false); mark(gd.x,gd.y,gd.w,3,1,1); });      // round 45: nothing grows on a garden (a tree stood in one)
@@ -168,7 +168,7 @@ function villagePlan(stage,ok,water){
   if(st>=3&&special.mira){ var b3=special.mira; P('vbuild',b3[0],b3[1],4,3,{style:'stone',roof:'#6a6a70',roofPat:'slate',sign:'#c0c0c8',doorX:2,smoke:true,chimney:true,nl:1,pid:'vb_workshop'},true);
     [[3,-11],[-2,-11],[3,11],[-4,11],[11,4],[-11,4],[11,-1],[-11,-1]].forEach(function(q){ P('lamppost',q[0],q[1],1,1,{},false); });
     plan.landmarks.push({x:b3[0],y:b3[1],w:4,h:4,text:'Mira\'s Workshop — gears, lamps and the windmills that power them.'}); }
-  if(st>=4&&special.dunn){ var b4=special.dunn; P('vbuild',b4[0],b4[1],5,3,{style:'stone',roof:'#3a3a40',roofPat:'slate',sign:'#ff8a40',chimney:true,smoke:true,doorX:2,nl:1,pid:'vb_forge_hall'},true); P('anvil',b4[0]+5,b4[1]+2,1,1,{},false); P('statue',-4,5,1,1,{},true);
+  if(st>=4&&special.dunn){ var b4=special.dunn; P('vbuild',b4[0],b4[1],5,3,{style:'stone',roof:'#3a3a40',roofPat:'slate',sign:'#ff8a40',chimney:true,smoke:true,doorX:2,nl:1,pid:'vb_forge_hall'},true); P('anvil',b4[0]+5,b4[1]+2,1,1,{},true); P('statue',-4,5,1,1,{},true);
     plan.landmarks.push({x:b4[0],y:b4[1],w:5,h:4,text:'Dunn\'s Forge Hall — the finest steel on the island, and the statue he cast for the green.'}); }
   VR_EXTRA.glimmerAt=special.glimmer?[special.glimmer[0],special.glimmer[1],7,4]:null;
   if(VR_EXTRA.glimmer&&special.glimmer){ var bg=special.glimmer; P('vbuild',bg[0],bg[1],7,4,{style:'stone',roof:'#7fd8ff',roofPat:'slate',sign:'#9fe8ff',doorX:3,nl:1,chimney:false,pid:'vb_glimmerhall'},true);
@@ -190,14 +190,14 @@ function villagePlan(stage,ok,water){
         P('vwall',x0,y0,Math.max.apply(null,xs)-x0+1,Math.max.apply(null,ys)-y0+1,{pts:seg.map(function(q){return [q.x-x0,q.y-y0];}),low:seg.some(nearTower)?1:0},false); } }); }
     towers.forEach(function(q){ P('tower',q[0],q[1],2,2,{flag:st>=5?'#6fe3f5':'#c84a3a'},true); });
   } else { // before the wall: dry-stone walls round the sheep pen (runestone)
-    P('fence',22,8,7,1,{kind:'stone'},false); for(var sh=0;sh<3;sh++)P('sheep',23+sh*2,10,1,1,{},false); }
+    P('fence',22,8,7,1,{kind:'stone'},true); for(var sh=0;sh<3;sh++)P('sheep',23+sh*2,10,1,1,{},true); }      /* round 86c (Kris: "you can currently walk through some things that you shouldn't … sheep"): the sheep and their dry-stone wall stop you */
   // ── the harbour, growing with the village ──
   plan.walk=[];
   if(H){ var pc=function(list){ (list||[]).forEach(function(c){ setK(c[0],c[1],'vpier'); plan.walk.push(c); }); };
     var p1=H.pier1.cells.slice(0,st>=2?99:8); pc(p1);
     if(H.hut)P('vbuild',H.hut[0],H.hut[1],3,3,{style:'wood',roof:'#4f7a44',roofPat:'shingle',sign:'#4a9ad0',doorX:1,chimney:true,smoke:true,nl:1,pid:'vb_fishing_hut'},true);
-    if(H.hut){ P('vdress',H.hut[0]+3,H.hut[1]+2,1,1,{id:'vp_fish_rack'},false); P('vdress',H.hut[0]-1,H.hut[1]+2,1,1,{id:'vp_nets'},false); }
-    if(st>=2){ pc(H.walk); if(H.boathouse){ P('boathouse',H.boathouse[0],H.boathouse[1],4,3,{},true); P('vdress',H.boathouse[0]+4,H.boathouse[1]+2,1,1,{id:'hb_cargo'},false); } }
+    if(H.hut){ P('vdress',H.hut[0]+3,H.hut[1]+2,1,1,{id:'vp_fish_rack'},true); P('vdress',H.hut[0]-1,H.hut[1]+2,1,1,{id:'vp_nets'},false); }
+    if(st>=2){ pc(H.walk); if(H.boathouse){ P('boathouse',H.boathouse[0],H.boathouse[1],4,3,{},true); P('vdress',H.boathouse[0]+4,H.boathouse[1]+2,1,1,{id:'hb_cargo'},true); } }
     if(st>=3){ if(H.stilt){ pc(H.stiltWalk); P('stilthouse',H.stilt[0],H.stilt[1],4,3,{roof:'#3f6a3a'},true); plan.landmarks.push({x:H.stilt[0],y:H.stilt[1],w:4,h:3,text:'The Lake House — built on stilts over Mirror Lake. Fishers swear the lake glows beneath it on quiet nights.'}); }
       if(H.pier2)pc(H.pier2.cells); }
     if(st>=4)H.quay.forEach(function(c){ setK(c[0],c[1],'vquay'); });

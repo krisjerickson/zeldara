@@ -69,3 +69,9 @@ var ZOL={ on:true, COL:0x7ff5e6, A:0.95, W:1.5, PAD:6,
           s2.setOrigin(o.originX,o.originY).setScale(d.scaleX,d.scaleY).setRotation(d.rotation).setFlip(o.flipX,o.flipY).setAlpha(1).setPosition(d.translateX-x0,d.translateY-y0); m.draw(s2); }catch(e){} }); } }
   }
 };
+// round 86c (Kris: "in the mobile version, i notice the outlines when you are behind things is offset, slightly above and right compared to
+// what it should be … it also went away after some playing"): the outline's mask is drawn in a buffer the size of the screen when it is
+// made; a phone resizes the game after it starts (the address bar slides away, the phone turns), and the mask stayed at the old size —
+// shifted — until the scene was rebuilt. On every resize the outline's buffers are dropped and made again at the new size.
+ZOL.reset=function(){ try{ (game.scene.scenes||[]).forEach(function(sc){ var S=sc._zol; if(!S||!S.rt)return; try{ if(S.rt.clearMask)S.rt.clearMask(true); }catch(e){} try{ S.rt.destroy(); }catch(e){} try{ S.mrt.destroy(); }catch(e){} try{ S.stamp.destroy(); }catch(e){} S.rt=null; S.mrt=null; S.stamp=null; S.bmask=null; S.masked=false; }); }catch(e){} };
+(function hook(){ if(typeof game==='undefined'||!game||!game.scale||!game.scale.on){ setTimeout(hook,500); return; } var t=null; game.scale.on('resize',function(){ clearTimeout(t); t=setTimeout(ZOL.reset,120); }); })();

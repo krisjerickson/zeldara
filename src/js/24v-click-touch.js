@@ -92,7 +92,7 @@ var ZCLICK={ on:true, ZOOM:0.82,      /* round 86b (Kris: "50% was way too zoome
   };
   if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',bind); else bind();
   // the menus' scale on a small screen
-  var fit=function(){ var on=ZCLICK.touch()||window.innerHeight<560; document.body.classList.toggle('zmz-on',on); if(on){ var z=Math.max(0.55,Math.min(1,window.innerHeight/560,window.innerWidth/1000)); document.documentElement.style.setProperty('--zmz',z.toFixed(3)); } };
+  var fit=function(){ var on=ZCLICK.touch()||window.innerHeight<560; document.body.classList.toggle('zmz-on',on); if(on){ var z=Math.max(0.85,Math.min(1,window.innerWidth/960));      /* round 86c: readable first — the menus scroll rather than shrink (was ~0.67 on a phone) */ document.documentElement.style.setProperty('--zmz',z.toFixed(3)); } };
   window.addEventListener('resize',fit); window.addEventListener('orientationchange',function(){ setTimeout(fit,300); }); setInterval(fit,2000); setTimeout(fit,500);
   setInterval(ZCLICK.step,50); setInterval(ZCLICK.mini,600); setInterval(ZCLICK.mapTap,1000);
   // the keyboard takes over from a walk
