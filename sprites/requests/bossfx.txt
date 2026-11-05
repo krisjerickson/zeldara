@@ -1,0 +1,13 @@
+# round 90: the bosses' area attacks, painted (doc 45) - 12 sheets, 70 pieces
+sc_bfx_ember
+sc_bfx_stone
+sc_bfx_storm
+sc_bfx_bog
+sc_bfx_frost
+sc_bfx_void
+sc_bfx_iron
+sc_bfx_light
+sc_bfx_surt
+sc_bfx_sol
+sc_bfx_strikes_1
+sc_bfx_strikes_2
