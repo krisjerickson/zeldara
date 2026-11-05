@@ -18,7 +18,7 @@ with sync_playwright() as p:
     pg.evaluate("LABMU.IN.mu_home=LABMU.IN.mu_home||[['mu_home',240],['mu_home.b',250]]")
     pg.click('.lab-tab[data-tab="audio"]'); pg.wait_for_timeout(900)
     r = pg.evaluate("""(()=>({top:document.querySelectorAll('.lmu-grid .lmu-c').length, players:document.querySelectorAll('.lmu-grid audio').length,
-      card:document.querySelectorAll('.lmu-in audio').length, src:(document.querySelector('.lmu-grid audio')||{}).getAttribute&&document.querySelector('.lmu-grid audio').getAttribute('src'), left:(document.querySelector('.lmu-left')||{}).textContent||''}))()""")
+      card:document.querySelectorAll('.lmu-in audio').length, src:(document.querySelector('.lmu-grid audio')||{}).getAttribute&&document.querySelector('.lmu-grid audio').getAttribute('src'), left:[...document.querySelectorAll('.lmu-left')].map(e=>e.textContent).join(' | ')}))()""")
     check('Music & sound: "Your music — in the game" with a player per take (%d pieces listed, %s)' % (n, r), r['top'] >= 1 and r['players'] >= 2 and r['card'] >= 2 and r['src'].startswith('preview/music/') and 'Still to make' in r['left'], r)
     check('No Lab script errors', not errs, errs[:3])
 print('%d / %d passed' % (sum(res), len(res)))

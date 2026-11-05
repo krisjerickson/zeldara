@@ -16,10 +16,14 @@ var LABMU={ IN:{},
     return '<div class="lmu-in">✓ In the game'+(T.length>1?' — '+T.length+' takes, the game alternates them':'')+T.map(LABMU.player).join('')+'</div>'; },
   section:function(MU){ var ids=MU.map(function(q){ return q.id; }).filter(function(id){ return LABMU.IN[id]; }), left=MU.filter(function(q){ return !LABMU.IN[q.id]&&/^mu_/.test(q.id); });
     if(!ids.length)return '';
+    var R89='<div class="lmu-left"><b>Round 89 — the new sound for the pieces still to make</b> (each card\'s Suno boxes carry it): electric fiddles and electric lyres beside the folk instruments; '+
+      'a punchy, virtuosic electric bass, a different technique per piece (slap and double-thumb runs, two-hand tapping, ringing harmonics, envelope-filter funk, chordal strums, fretless, odd meters, fuzz under the drops); '+
+      '12 wordless voices (kulning calls, a northern chanting call, throat singing, a war band\'s chant, a valkyrie soprano, a women\'s harmony choir, Celtic lilting and mouth music, a monks\' chant, whispers, a giant\'s growl, a man and a woman in call and answer); '+
+      'Celtic electronic for the Wetlands, the islands, the village day and the celebration; cinematic adventure electronic for the journeys by day; and the battles in full EDM, each its own kind — melodic dubstep with an electric violin hero, drumstep, neurofunk, drum and bass, darksynth.</div>';
     var nm={}; MU.forEach(function(q){ nm[q.id]=q; });
     return LBR.sec('Your music — in the game',ids.length+' pieces · '+(LABMU.hosted()?'the whole pieces, from the game':'previews of the first 2 minutes'))+
       '<div class="lmu-grid">'+ids.map(function(id){ var q=nm[id]; return '<div class="lmu-c"><b>'+q.name+'</b> <code>'+id+'</code><div class="lmu-w">'+q.where+'</div>'+LABMU.IN[id].map(LABMU.player).join('')+'</div>'; }).join('')+'</div>'+
-      '<div class="lmu-left"><b>Still to make ('+left.length+'):</b> '+left.map(function(q){ return q.name; }).join(' · ')+'.</div>'; }
+      R89+'<div class="lmu-left"><b>Still to make ('+left.length+'):</b> '+left.map(function(q){ return q.name; }).join(' · ')+'.</div>'; }
 };
 (function(){ var st=document.createElement('style'); st.textContent=
   '.lmu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px;margin:8px 0 18px}'+

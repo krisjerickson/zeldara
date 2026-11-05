@@ -17,17 +17,17 @@ with sync_playwright() as p:
         if os.path.isfile(f): r.fulfill(path=f)
         else: r.fulfill(status=404, body='')
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html?tabs=all"); pg.wait_for_timeout(2500)
-    z = pg.evaluate("""(()=>{ var M=ZAUD.all().filter(function(c){ return c.kind==='music'; }), S=M.map(function(c){ return ZAUD.suno(c); }), by={elf:0,dwarf:0,violin:0};
-      S.forEach(function(s){ if(s.vox)by[s.vox]++; }); var long=Math.max.apply(null,S.map(function(s){ return s.style.length; }));
-      var voiced=S.filter(function(s){ return s.vox==='elf'||s.vox==='dwarf'; }), d=ZAUD.suno(M.find(function(c){ return c.id==='mu_dungeon'; })), v=ZAUD.suno(M.find(function(c){ return c.id==='mu_village_night'; }));
+    z = pg.evaluate("""(()=>{ var M=ZAUD.all().filter(function(c){ return c.kind==='music'; }), S=M.map(function(c){ return ZAUD.suno(c); }), by={};
+      S.forEach(function(s){ if(s.vox)by[s.vox]=(by[s.vox]||0)+1; }); var long=Math.max.apply(null,S.map(function(s){ return s.style.length; }));
+      var voiced=S.filter(function(s){ return s.vox&&s.vox!=='violin'; }), d=ZAUD.suno(M.find(function(c){ return c.id==='mu_dungeon'; })), v=ZAUD.suno(M.find(function(c){ return c.id==='mu_village_night'; }));
       return {n:M.length, by:by, long:long, titles:S.every(function(s,i){ return s.title===M[i].id; }), voicedOk:voiced.every(function(s){ return !s.instrumental&&s.lyrics.length>20&&!/\\b(the|and)\\b/i.test(s.lyrics.replace(/\\[[^\\]]*\\]/g,'')); }),
-        dungeon:/electronic/.test(d.style)&&/deeper bass/.test(d.style)&&d.remix, softNight:/subtle electronic/.test(v.style)&&!/war drums/.test(v.style)}; })()""")
+        dungeon:/electronic/.test(d.style)&&/deeper bass/.test(d.style)&&d.remix, softNight:/electronic pulse/.test(v.style)&&!/war drums/.test(v.style), nVoiced:voiced.length}; })()""")
     check('Every cue has Suno boxes: Title = its id, Style (at most %d characters), the voiced ones with wordless lyrics and Instrumental off (%s)' % (z['long'], z['by']), z['titles'] and z['long'] <= 1000 and z['voicedOk'], z)
-    check('Some — not all — pieces carry a voice or a solo: %d elven, %d dwarven, %d violin of %d' % (z['by']['elf'], z['by']['dwarf'], z['by']['violin'], z['n']), 4 <= z['by']['elf'] <= 10 and 3 <= z['by']['dwarf'] <= 6 and 4 <= z['by']['violin'] <= 8 and sum(z['by'].values()) < z['n'] / 2, z)
+    check('Some — not all — pieces carry a voice or a solo, in many kinds (round 89: %s of %d)' % (z['by'], z['n']), len(z['by']) >= 10 and max(z['by'].values()) <= 8 and sum(z['by'].values()) < z['n'], z)
     check('The house style is Kris\'s: Nordic folk meets dark electronic, the dungeon with deeper bass from his remix; the gentle pieces softer (%s)' % {k: z[k] for k in ('dungeon', 'softNight')}, z['dungeon'] and z['softNight'], z)
     pg.evaluate("LTODO.goTo('audio','.au-grid',0)"); pg.wait_for_timeout(2500)
     t = pg.evaluate("({cards:document.querySelectorAll('canvas.br-cv[data-tab=\"audio\"]').length, boxes:document.querySelectorAll('textarea[data-au$=\"_s\"]').length, lyr:document.querySelectorAll('textarea[data-au$=\"_l\"]').length, vox:document.querySelectorAll('.au-vox').length, remix:document.querySelectorAll('.au-remix').length})")
-    check('Lab → Music & sound: a card per cue with its Suno boxes (%s)' % t, t['boxes'] == z['n'] and t['lyr'] == z['by']['elf'] + z['by']['dwarf'] and t['vox'] == sum(z['by'].values()) and t['remix'] >= 5, t)
+    check('Lab → Music & sound: a card per cue with its Suno boxes (%s)' % t, t['boxes'] == z['n'] and t['lyr'] == z['nVoiced'] and t['vox'] >= sum(z['by'].values()) and t['remix'] >= 5, t)
     pg.evaluate("document.querySelector('textarea[data-au=\"mu_village_night_s\"]').closest('.br-card,.br-cell,div').scrollIntoView()"); pg.wait_for_timeout(1200)
     pg.screenshot(path='/tmp/claude-0/aud/lab_suno.png')
     check('No Lab script errors', not errs, errs[:3])
