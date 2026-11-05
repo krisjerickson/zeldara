@@ -5,7 +5,8 @@ Kling 4.0's Keyframes mode takes up to 10 pictures and makes up to 30 s in one g
 So a cut-scene's frames go in parts of at most 6 (6 x 5 s = 30 s); a 12-frame cut-scene is 2 parts. Each part is one folder:
 
   video_requests/<NN>_<scene>_<who>[_p<k>]/   01.png 02.png ...   the pictures, in order (upload them in this order)
-                                             PROMPT.txt           the one prompt to paste
+                                             PROMPT.txt           the one prompt to paste (short: what moves, not what is in the pictures)
+                                             NEGATIVE.txt         for Kling's Negative prompt box
                                              SAVE AS <name>.mp4   an empty file whose name is what to call the download
   video_requests/README.txt                  the steps, once
   video_requests/parts.json                  how many parts each montage has (tools/video/intake_video.py joins them)
@@ -28,19 +29,34 @@ def split(n):
     for p in range(k): m = base + (1 if p < extra else 0); out.append(list(range(i, i + m))); i += m
     return out
 
+# round 88c (Kris: "For the new prompt, kling discarded the image input, and came up with new ones"): the prompt had grown to ~3,900
+# characters — the painter's full descriptions (with their lists of things NOT to draw) and the after-the-Viking-age list — so Kling read
+# it as a story to invent. Now the pictures carry the content: the prompt only says to animate them as they are, and what MOVES in each
+# shot (camera and small motions, read from the picture's words). It stays short (well under Kling's 2,500 characters); the things to
+# keep out go to NEGATIVE.txt, for Kling's separate Negative prompt box.
+MOTION = [('aurora', 'the aurora ripples'), ('lava|ember|fire|flame|forge|molten', 'flames and embers flicker'), ('river|lake|water|sea|waterfall|falls|tide', 'the water flows'),
+          ('snow|frost|ice', 'snow drifts'), ('mist|fog|smoke|steam|ash', 'mist and smoke drift'), ('rune|glow|light|magic|spell', 'the runes and magic pulse softly'),
+          ('banner|cloak|hair|braid', 'cloaks, hair and banners stir in the wind'), ('rain|storm|lightning', 'rain falls and the sky flickers'), ('star', 'stars twinkle')]
+CAMERA = ['slow push-in', 'slow pan to the right', 'slow pull-back', 'slow pan to the left', 'gentle drift upward', 'slow push-in']
+import re as _re
+def motion(desc):
+    d = desc.lower(); out = [m for k, m in MOTION if _re.search(r'\b(' + k + ')', d)]
+    return ', '.join(out[:3]) or 'the light shifts gently'
+
 def prompt(sc, beats, who, part, nparts):
     k = 'f' if who == 'zeldara' else 'm'; n = len(beats)
-    L = ['Use ' + ', '.join('@Image%d' % (i + 1) for i in range(n)) + ' as keyframes: ' +
-         ', '.join('@Image%d at %ds' % (i + 1, i * SECS) for i in range(n)) + '. Total length %d seconds, 16:9.' % (n * SECS), '',
-         'A painted 2D fantasy story montage%s: %d short shots of %d seconds. Each shot opens exactly on its keyframe picture and moves gently from it '
-         '— a slow camera push or pan; hair, cloth, mist, fire, water and light moving; magic glowing and flowing — then a clean hard cut to the next keyframe '
-         'at the next timestamp. No morphing from one picture into the next.' % ('' if nparts == 1 else ' (part %d of %d)' % (part, nparts), n, SECS), '']
+    L = ['Animate these %d pictures exactly as they are. @Image1 to @Image%d are the keyframes, in order: each one IS the frame at its timestamp '
+         '(@Image1 at 0s%s). Keep every picture\'s content, characters, composition, colours and painted style; do not add, remove or redesign anything. '
+         'Total %d seconds, 16:9.' % (n, n, ''.join(', @Image%d at %ds' % (i + 1, i * SECS) for i in range(1, n)), n * SECS), '',
+         'Each shot holds its picture and moves only a little: a slow camera move and small natural motion. Clean cut to the next picture at its timestamp, no morphing.', '']
     for i, b in enumerate(beats):
-        L.append('%d.0-%d.0s (@Image%d) %s: %s.' % (i * SECS, (i + 1) * SECS, i + 1, b['title'], b[k].rstrip('.')))
-    L += ['', 'Keep every painting\'s style, colours and light exactly; every character keeps the same face, hair, clothes and proportions from shot to shot; '
-          'no new characters, no extra people, no children unless they are in the picture. No text, no captions, no subtitles, no logos, no background music.',
-          'Nothing from after the Viking age: ' + J.get('neg', '').split('flicker, ', 1)[-1] + '.']      # round 88 (Kris: umbrellas in the rain)
+        L.append('%d-%ds @Image%d (%s): %s; %s.' % (i * SECS, (i + 1) * SECS, i + 1, b['title'], CAMERA[i % len(CAMERA)], motion(b[k])))
+    L += ['', 'Same faces, hair and clothes in every shot. No new people or objects, no text.']
     return '\n'.join(L) + '\n'
+
+def negative():
+    return ('new characters, extra people, changed faces, changed clothes, new objects, new buildings, scene change, redesign, morphing, '
+            'text, captions, subtitles, logos, watermark, photorealism, 3D render look, flicker, ' + J.get('neg', '').split('flicker, ', 1)[-1] + '\n')
 
 os.makedirs(OUT, exist_ok=True); parts = {}; made = kept = 0; listing = []
 scenes = sorted(J['scenes'], key=lambda s: ORDER.index(s['id']) if s['id'] in ORDER else 99)
@@ -66,6 +82,7 @@ for nn, sc in enumerate(scenes, 1):
                 with open(s, 'rb') as fa, open(t, 'wb') as fb: shutil.copyfileobj(fa, fb, 1 << 20)      # round 88: plain reads and writes (sendfile stalls on the PC's shared folder)
                 shutil.copystat(s, t); made += 1
             open(os.path.join(d, 'PROMPT.txt'), 'w', encoding='utf-8').write(prompt(sc, beats, 'zeldor' if who == 'both' else who, pi, len(P)))
+            open(os.path.join(d, 'NEGATIVE.txt'), 'w', encoding='utf-8').write(negative())
             for f in os.listdir(d):
                 if f.startswith('SAVE AS '): os.replace(os.path.join(d, f), os.path.join(d, 'SAVE AS %s.mp4' % name)) if f != 'SAVE AS %s.mp4' % name else None
             open(os.path.join(d, 'SAVE AS %s.mp4' % name), 'a').close()
@@ -77,7 +94,8 @@ Each folder here is ONE video to make. Work through them in any order.
 
   1. Kling -> Video -> Kling 4.0 -> Keyframes.
   2. Upload the folder's pictures IN ORDER: 01.png, 02.png, ...
-  3. Paste PROMPT.txt into the prompt box.
+  3. Paste PROMPT.txt into the prompt box, and NEGATIVE.txt into the Negative prompt box (if Kling shows one;
+     if not, leave it out - never add it to the prompt).
   4. Length: 5 seconds per picture (it says the total on the first line of PROMPT.txt). 16:9, 1080p.
   5. Download the video and name it what the "SAVE AS ..." file in the folder says (e.g. opening_zeldor_p1.mp4).
      Leave it in your Downloads.
