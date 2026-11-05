@@ -173,6 +173,18 @@
   "kind": "music",
   "loop": true
  },
+ "mu_fight": {
+  "files": [
+   {
+    "base": "mu_fight",
+    "le": 207.72,
+    "ls": 0,
+    "secs": 207.72
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "mu_glimmerhall": {
   "files": [
    {
@@ -299,6 +311,18 @@
   "kind": "music",
   "loop": true
  },
+ "mu_tower": {
+  "files": [
+   {
+    "base": "mu_tower",
+    "le": 359.88,
+    "ls": 0,
+    "secs": 359.88
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "mu_village_day": {
   "files": [
    {
@@ -324,6 +348,30 @@
     "le": 193.44,
     "ls": 0,
     "secs": 193.44
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_wet_day": {
+  "files": [
+   {
+    "base": "mu_wet_day",
+    "le": 359.96,
+    "ls": 0,
+    "secs": 359.96
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_wet_night": {
+  "files": [
+   {
+    "base": "mu_wet_night",
+    "le": 299.96,
+    "ls": 0,
+    "secs": 299.96
    }
   ],
   "kind": "music",

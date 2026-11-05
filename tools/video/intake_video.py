@@ -1,6 +1,6 @@
 """Round 73: take the made clips in → assets/video/<id>.mp4 (1280 wide, H.264, small, starts playing at once on the web; no sound unless
 --sound: the game's music plays under the cut-scenes). Needs ffmpeg (as for the audio).
-  python tools/video/intake_video.py                                   from sprites/video_incoming
+  python tools/video/intake_video.py                                   from sprites/video_incoming, and every Kling video dropped into its folder in video_requests/
   python tools/video/intake_video.py --from %USERPROFILE%\\Downloads    from your downloads (round 73b: clips made by hand)
 A file whose name holds a clip id (pn_world_tree.mp4, "pn_world_tree (1).mp4", kling_pn_world_tree.mp4) is matched by the id. With --ask,
 every other video made in the last --days days (default 2) is shown, and you type the number of the clip it is (Enter skips it).
@@ -24,6 +24,20 @@ try:
 except Exception: SB = []; SBN = {}
 OUT = os.path.join(ROOT, 'assets', 'video'); os.makedirs(OUT, exist_ok=True)
 VID = ('.mp4', '.mov', '.webm', '.m4v')
+# round 88d (Kris: "check in the folder … or if you can find it in downloads"): a Kling download can simply be dropped into its own folder in
+# video_requests/ (any name, e.g. kling_20261105_VIDEO_….mp4) — it is taken as that folder's "SAVE AS <name>.mp4" (copied into
+# sprites/video_incoming/<name>.mp4, the newest drop wins), then joined with the montage's other parts like any other
+VR = os.path.join(ROOT, 'video_requests'); VI = os.path.join(ROOT, 'sprites', 'video_incoming')
+if os.path.isdir(VR):
+    for d in sorted(os.listdir(VR)):
+        D = os.path.join(VR, d)
+        if not os.path.isdir(D): continue
+        save = [f[8:] for f in os.listdir(D) if f.startswith('SAVE AS ')]; vids = [f for f in os.listdir(D) if f.lower().endswith(VID) and not f.startswith('SAVE AS ') and os.path.getsize(os.path.join(D, f)) > 0]
+        if not save or not vids: continue
+        v = max(vids, key=lambda f: os.path.getmtime(os.path.join(D, f))); dst = os.path.join(VI, save[0]); os.makedirs(VI, exist_ok=True)
+        if not os.path.isfile(dst) or os.path.getmtime(dst) < os.path.getmtime(os.path.join(D, v)):
+            with open(os.path.join(D, v), 'rb') as fa, open(dst, 'wb') as fb: shutil.copyfileobj(fa, fb, 1 << 20)
+            shutil.copystat(os.path.join(D, v), dst); print('in  %s  <- %s/%s' % (save[0], d, v))
 files = [f for f in sorted(os.listdir(a.src)) if f.lower().endswith(VID)] if os.path.isdir(a.src) else []
 def match(f):
     n = os.path.splitext(f)[0].lower()

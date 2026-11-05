@@ -16,6 +16,7 @@ if (-not $Intake) {
   Write-Host "`nMake the clips in the video app, then run:  .\tools\video\video1.ps1 -Intake" -ForegroundColor Green
   exit 0
 }
+python tools/video/intake_video.py      # the Kling videos dropped into their folders in video_requests\ (round 88d)
 python tools/video/intake_video.py --from "$env:USERPROFILE\Downloads" --ask
 node build.mjs | Select-String 'video|index.html'
 Write-Host "`nDone. Tell Claude the clips are in." -ForegroundColor Green

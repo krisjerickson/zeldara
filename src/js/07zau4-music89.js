@@ -76,17 +76,20 @@
     mu_solmyrk:'monk',mu_asgard:'whisper',mu_citadel:'monk',mu_gods_free:'duet',mu_celebration:'mouth',mu_tower:'valkyrie'});
   // ── the battles: full EDM, each its own kind (from Kris's "medievalcore EDM": melodic dubstep and drumstep with folk leads) ──
   ZAUD.EDM89={
-    mu_fight:['medievalcore EDM: punchy electro-house with a hurdy-gurdy and electric fiddle lead, sidechained supersaws, a quick build and a short hard drop',145],
-    mu_boss:['medievalcore EDM with an electric violin as the hero: the violin dances fast runs and slides over melodic dubstep — soaring supersaw chords, glitchy chopped folk leads, a halftime drop with growling, talking basses, war drums under it all',150],
-    mu_boss_realm:['epic melodic dubstep and drumstep: huge emotional build-ups, a soaring soprano over massive supersaw chords, then a heavy drop of growling wobble bass and drumstep breaks, war horns',150],
-    mu_boss_mage:['glitchy neurofunk drum and bass: stuttering glitch edits, FM bells and choir stabs, a rolling Reese bass, frantic and clever',174],
-    mu_surtharn:['heavy dubstep and drumstep: colossal halftime drops, distorted growling basses, a giant\'s roar, war drums and fire, relentless',150],
-    mu_solmyrk:['dark cinematic EDM: darksynth and hardstyle kicks, a pipe organ and a monks\' chant over a pounding four-on-the-floor, trailer-sized drops',150],
-    mu_escape:['cinematic violin EDM at full speed: a racing electric violin lead over fast drum and bass, a rolling Reese bass, breakbeats, no rest',174]};
+    mu_fight:['medieval midcore EDM: a mid-tempo electro groove with a hurdy-gurdy and electric fiddle lead, sidechained synth chords, a quick build and a short punchy drop',115],
+    mu_boss:['medieval midcore EDM with an electric violin as the hero: the violin dances runs and slides over mid-tempo melodic bass music — soaring supersaw chords, chopped folk leads, a heavy but controlled halftime drop, war drums under it all',120],
+    mu_boss_realm:['epic melodic midcore EDM: emotional build-ups, a soaring soprano over big supersaw chords, then a deep melodic drop with a rolling wobble bass, war horns',122],
+    mu_boss_mage:['glitchy mid-tempo electronica: stuttering glitch edits, FM bells and choir stabs, a rolling bass, clever and restless',118],
+    mu_surtharn:['heavy mid-tempo bass music: colossal halftime drops, deep growling basses, a giant\'s roar, war drums and fire, relentless but never harsh',120],
+    mu_solmyrk:['dark cinematic midcore EDM: darksynth, a pipe organ and a monks\' chant over a steady four-on-the-floor, trailer-sized drops',120],
+    mu_escape:['driving cinematic violin EDM: a racing electric violin lead over busy breakbeats and a rolling bass, urgent, no rest',125]};
+  // round 89b (Kris: "the medievalcore EDM at 145 BPM for the mu_fight was too much. I toned it down by saying medieval midcore EDM at 115 BPM. Let's
+  // recheck prompts so we don't get into hardcore EDM, and keep at or below 125 BPM"): every battle is midcore, no piece above 125 bpm
+  ZAUD.BPMMAX=125; ZAUD.EDMEXCL='hardcore EDM, hardstyle, gabber, drum and bass, screeching brostep, harsh distortion';
   // the electric violin as a lead voice (Kris: Warbringer, Lindsey Stirling): aching in the quiet parts, dancing over the drops
   ZAUD.VOXSTYLE.violin='an electric violin carries the melody as the hero of the piece — aching and soaring in the quiet parts, dancing with fast runs, slides and bow-bounce when the beat comes in';
   Object.assign(ZAUD.VOX,{mu_sky:'violin',mu_high_day:'kulning'});      /* the sky: violin EDM over open air */
-  ZAUD.MUSIC.forEach(function(c){ var E=ZAUD.EDM89[c[0]]; if(E)c[8]=E[1]; }); ZAUD._all=null;
+  ZAUD.MUSIC.forEach(function(c){ var E=ZAUD.EDM89[c[0]]; if(E)c[8]=E[1]; if(c[8]>ZAUD.BPMMAX)c[8]=ZAUD.BPMMAX; }); ZAUD._all=null;
   // ── lead instruments: the electric fiddles and lyres, the Celtic colours ──
   Object.assign(ZAUD.INSTR,{
     mu_wet_day:'uilleann pipes, electric lyre with shimmering delay, Celtic harp, bodhrán, a bubbly synth arpeggio',
@@ -134,10 +137,10 @@
     if(I)P.push('lead instruments: '+I);
     if(A)P.push(A);
     if(b)P.push('bass: '+b);
-    var tail=E?'epic fantasy RPG boss battle, medievalcore EDM: folk instruments over festival-sized electronic drops, punchy, heavy and cinematic':ZAUD.CELT89[id]?ZAUD.STYLE_CELT:soft?ZAUD.STYLE_SOFT:ZAUD.STYLE;
+    var tail=E?'epic fantasy RPG boss battle, medieval midcore EDM: folk instruments over mid-tempo electronic drops, punchy and cinematic, never harsh':ZAUD.CELT89[id]?ZAUD.STYLE_CELT:soft?ZAUD.STYLE_SOFT:ZAUD.STYLE;
     if(fl){ var P2=P.slice(); P2.splice(1,0,fl); if(P2.join('; ').length+tail.length<960)P=P2; }
     S.style=P.join('; ')+'. '+tail;
-    if(E)S.exclude=S.exclude.replace('EDM drop, dubstep, ','').replace(', EDM drop, dubstep','');
+    if(E)S.exclude=S.exclude.replace('EDM drop, dubstep, ','').replace(', EDM drop, dubstep','')+', '+ZAUD.EDMEXCL;
     var voiced=v&&v!=='violin'; S.instrumental=!voiced; if(voiced){ S.lyrics=ZAUD.VOXLYRICS[v]||''; S.exclude=S.exclude.replace('lyrics, words, ','clear words, ').replace(/, vocals$/,''); }
     else { S.lyrics=''; if(!/vocals$/.test(S.exclude))S.exclude+=', vocals'; }
     S.edm=!!E; S.celt=!!ZAUD.CELT89[id]; S.bass=B[id]||''; return S; };
