@@ -2812,7 +2812,7 @@ class WorldScene extends Phaser.Scene{
       var onScr=(p2[0]>-100&&p2[0]<hostW+100&&p2[1]>-50&&p2[1]<hostH+50);
       if(near&&onScr){
         _wsLblShow(obj.lblEl,p2[0],p2[1]);
-        var gt=obj.s.boss?_bossSiteGate(self.playerState,obj.s,self.wd.sites):null, txt=(self._nearSite===obj.s?'[Tab] Enter ':'')+_siteLabel(obj.s)+(gt&&!gt.open?'  🔒 '+gt.done+'/'+gt.need:''); if(obj.lblEl.textContent!==txt)obj.lblEl.textContent=txt;      // round 45: the one label (the low-res yellow prompt is gone)
+        var gt=obj.s.boss?_bossSiteGate(self.playerState,obj.s,self.wd.sites):null, txt=(self._nearSite===obj.s?'[Tab] Enter ':'')+_siteLabel(obj.s)+(gt&&!gt.open?'  🔒 '+gt.done+'/'+gt.need:''); if(typeof ZCLICK!=='undefined'&&ZCLICK.word)txt=ZCLICK.word(txt); if(obj.lblEl.textContent!==txt)obj.lblEl.textContent=txt;      // round 45: the one label (the low-res yellow prompt is gone)
       } else {
         _wsLblHide(obj.lblEl);
       }

@@ -19,7 +19,11 @@ var ZCLICK={ on:true, ZOOM:0.82,      /* round 86b (Kris: "50% was way too zoome
   scene:function(){ var s=typeof _activePlayScene==='function'?_activePlayScene(false):null; return s&&ZCLICK.SCENES[s.sys.settings.key]?s:null; },
   hero:function(s){ var k=s.sys.settings.key; if(k==='Dungeon')return {x:s.px,y:s.py}; if(k==='Building')return {x:s.bx,y:s.by}; return s.player?{x:s.player.x,y:s.player.y}:null; },
   // the "[Tab] …" line showing now, and where its thing stands (the line floats about 30 px above it)
-  prompt:function(s){ var P=s._interactPrompt||s.interactPrompt; if(!P||P.visible===false||P.active===false||!(P.text||(P._el&&P._el.textContent)))return null; return {x:P.x,y:P.y+30}; },
+  prompt:function(s){ var P=s._interactPrompt||s.interactPrompt; if(!P||P.visible===false||P.active===false||!(P.text||(P._el&&P._el.textContent))){ var St=s._nearSite; return St?ZCLICK.siteXY(St):null; } return {x:P.x,y:P.y+30}; },
+  // round 89 (Kris: "in the mobile app, i wasn't able to enter adventure sites with clicking, and it still showed 'tab to enter'"): an adventure
+  // site has no "[Tab]" line of its own (its label, a page element, says it), so the site itself counts: its middle is the thing to tap
+  siteXY:function(St){ return {x:St.tx*TILE+TILE*1.5,y:St.ty*TILE+TILE*1.5}; },
+  siteAt:function(s,p){ var L=s.sites||[], best=null, bd=TILE*3; L.forEach(function(St){ var c=ZCLICK.siteXY(St), d=Math.hypot(c.x-p.x,c.y-p.y); if(d<bd){ bd=d; best=St; } }); return best; },
   busy:function(){ return (typeof _openOverlays==='function'&&_openOverlays().length)||(typeof isGamePaused==='function'&&isGamePaused())||(typeof ZPAUSE!=='undefined'&&ZPAUSE.cur&&ZPAUSE.cur()); },
   worldPoint:function(s,e){ var cv=game.canvas, r=cv.getBoundingClientRect(), gx=(e.clientX-r.left)*game.scale.width/r.width, gy=(e.clientY-r.top)*game.scale.height/r.height; return s.cameras.main.getWorldPoint(gx,gy); },
   ring:function(s,x,y,col){ try{ var g=s.add.graphics().setDepth(9999); g.lineStyle(2,col||0x6fe3f5,0.9); g.strokeCircle(x,y,10); s.tweens.add({targets:g,alpha:0,scale:1.6,duration:420,onComplete:function(){ g.destroy(); }}); g.x=0; }catch(e){} },
@@ -31,14 +35,17 @@ var ZCLICK={ on:true, ZOOM:0.82,      /* round 86b (Kris: "50% was way too zoome
     var N=s.sys.settings.key==='World'?ZCLICK.npcAt(s,p):null;
     if(N){ ZCLICK.ring(s,N.x,N.y-14,0xfff2b0); if(Math.hypot(N.x-H.x,N.y-H.y)<T*1.8){ ZCLICK.stop(); ZCLICK.talk(s,N); } else ZCLICK.goal={s:s,x:N.x,y:N.y+TILE*0.6,t0:Date.now(),last:{x:H.x,y:H.y,t:Date.now()},npc:N}; return; }
     if(P&&(Math.hypot(p.x-P.x,p.y-P.y)<T*ZCLICK.REACH||Math.hypot(p.x-H.x,p.y-H.y)<T*1.6)){ ZCLICK.ring(s,P.x,P.y,0xfff2b0); ZCLICK.stop(); ZCLICK.act(); return; }
+    var Si=s.sys.settings.key==='World'?ZCLICK.siteAt(s,p):null;      /* a site further off: walk to it, then go in */
+    if(Si){ var sc=ZCLICK.siteXY(Si); ZCLICK.ring(s,sc.x,sc.y,0xfff2b0); ZCLICK.goal={s:s,x:sc.x,y:sc.y+TILE*1.2,t0:Date.now(),last:{x:H.x,y:H.y,t:Date.now()},site:Si}; return; }
     ZCLICK.ring(s,p.x,p.y); ZCLICK.goal={s:s,x:p.x,y:p.y,t0:Date.now(),last:{x:H.x,y:H.y,t:Date.now()},act:true}; },
   stop:function(){ if(ZCLICK.goal){ ZCLICK.goal=null; if(typeof ZTOUCH!=='undefined')ZTOUCH.stick(null); } },
   // walk toward the goal, a little at a time; arrive, give up when stuck, or do the thing on reaching it
   step:function(){ var G=ZCLICK.goal; if(!G)return; var s=ZCLICK.scene(); if(!s||s!==G.s||ZCLICK.busy()){ ZCLICK.stop(); return; } var H=ZCLICK.hero(s); if(!H){ ZCLICK.stop(); return; }
     var now=Date.now(), dx=G.x-H.x, dy=G.y-H.y, d=Math.hypot(dx,dy), P=ZCLICK.prompt(s);
     if(G.npc){ if(Math.hypot(G.npc.x-H.x,G.npc.y-H.y)<TILE*1.6){ var n=G.npc; ZCLICK.stop(); ZCLICK.talk(s,n); return; } }
+    else if(G.site){ if(s._nearSite===G.site){ ZCLICK.stop(); ZCLICK.act(); return; } }
     else if(P&&Math.hypot(G.x-P.x,G.y-P.y)<TILE*ZCLICK.REACH){ ZCLICK.stop(); ZCLICK.act(); return; }      // reached what was clicked
-    if(d<12||now-G.t0>6000){ ZCLICK.stop(); return; }
+    if(d<12||now-G.t0>(G.site?9000:6000)){ ZCLICK.stop(); return; }
     if(now-G.last.t>650){ if(Math.hypot(H.x-G.last.x,H.y-G.last.y)<6){ ZCLICK.stop(); return; } G.last={x:H.x,y:H.y,t:now}; }      // blocked: stop
     if(typeof ZTOUCH!=='undefined')ZTOUCH.stick({x:dx/d,y:dy/d}); },
   // ── the phone: small round buttons for the slots ──

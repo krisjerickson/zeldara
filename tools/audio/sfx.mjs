@@ -27,24 +27,25 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 const arg = (name, def) => { const i = process.argv.indexOf('--' + name); if (i < 0) return def; const v = process.argv[i + 1]; return !v || v.startsWith('--') ? true : v; };
 const DRY = !!arg('dry-run', false), FORCE = !!arg('force', false), TAKES = Math.max(1, Math.min(4, +arg('takes', 2))), CONC = Math.max(1, Math.min(4, +arg('concurrency', 2)));
 const ETH = arg('set', '') === 'ethereal';
-const V84 = arg('set', '') === 'v84';      // round 84: worded by what happens (src/js/07zau3-sfx84.js) - <id>.n1.mp3, .n2.mp3, prompt influence 0.8
-const TIER = String(arg('tier', (ETH || V84) ? 'all' : '1')), KIND = String(arg('kind', (ETH || V84) ? 'sfx' : 'amb,sfx')), IDS = arg('ids', '') ? String(arg('ids', '')).split(',') : null;
+const V84 = arg('set', '') === 'v84';
+const V89 = arg('set', '') === 'v89';      // round 89: 3-5 brand-new takes per effect with fewer than three picks (07zau5-sfx89.js) - <id>.v1-v5.mp3, one prompt each      // round 84: worded by what happens (src/js/07zau3-sfx84.js) - <id>.n1.mp3, .n2.mp3, prompt influence 0.8
+const TIER = String(arg('tier', (ETH || V84 || V89) ? 'all' : '1')), KIND = String(arg('kind', (ETH || V84 || V89) ? 'sfx' : 'amb,sfx')), IDS = arg('ids', '') ? String(arg('ids', '')).split(',') : null;
 const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'sprites', 'requests', 'audio.json'), 'utf8'));
 const OUT = path.join(ROOT, 'audio', 'incoming'); fs.mkdirSync(OUT, { recursive: true });
 const kindOf = c => c.kind === 'music' ? (c.group === 'sting' ? 'sting' : 'music') : c.kind;
-const want = J.cues.filter(c => (IDS ? IDS.includes(c.id) : (TIER === 'all' || String(c.tier) === TIER) && (KIND === 'all' || KIND.split(',').includes(kindOf(c)))) && kindOf(c) !== 'music');
-const file = (c, t) => path.join(OUT, c.id + (V84 ? '.n' + (t + 1) : ETH ? '.e' + (t + 1) : (t ? '.' + 'bcd'[t - 1] : '')) + '.mp3');
+const want = J.cues.filter(c => (!V89 || (c.v89 && c.v89.length)) && (IDS ? IDS.includes(c.id) : (TIER === 'all' || String(c.tier) === TIER) && (KIND === 'all' || KIND.split(',').includes(kindOf(c)))) && kindOf(c) !== 'music');
+const file = (c, t) => path.join(OUT, c.id + (V89 ? '.v' + (t + 1) : V84 ? '.n' + (t + 1) : ETH ? '.e' + (t + 1) : (t ? '.' + 'bcd'[t - 1] : '')) + '.mp3');
 if (ETH) J.cues.forEach(c => { if (c.eth) c.request = c.eth; });
 if (V84) J.cues.forEach(c => { if (c.v84) c.request = c.v84; });      // the gentle words
-const jobs = []; want.forEach(c => { for (let t = 0; t < TAKES; t++) if (FORCE || !fs.existsSync(file(c, t))) jobs.push({ c, t }); });
+const jobs = []; want.forEach(c => { for (let t = 0; t < (V89 ? c.v89.length : TAKES); t++) if (FORCE || !fs.existsSync(file(c, t))) jobs.push({ c, t }); });
 const secs = c => Math.max(0.5, Math.min(30, c.secs));
 const credits = jobs.reduce((a, j) => a + Math.ceil(secs(j.c) * 40), 0);
-console.log(`${want.length} sounds (${ETH ? 'the ethereal remake, ' : ''}${KIND}, wave ${TIER}) × ${TAKES} take(s): ${jobs.length} to make, about ${credits.toLocaleString()} credits (40 a second)`);
-if (DRY) { jobs.forEach(j => console.log(`  ${j.c.id}${j.t ? ' (take ' + (j.t + 1) + ')' : ''}  ${secs(j.c)} s${j.c.loop ? ' loop' : ''}  — ${j.c.request.slice(0, 110)}…`)); process.exit(0); }
+console.log(`${want.length} sounds (${ETH ? 'the ethereal remake, ' : V89 ? 'round 89 new takes, ' : ''}${KIND}, wave ${TIER}) × ${V89 ? '3-5' : TAKES} take(s): ${jobs.length} to make, about ${credits.toLocaleString()} credits (40 a second)`);
+if (DRY) { jobs.forEach(j => console.log(`  ${j.c.id}${j.t ? ' (take ' + (j.t + 1) + ')' : ''}  ${secs(j.c)} s${j.c.loop ? ' loop' : ''}  — ${(V89 ? j.c.v89[j.t] : j.c.request).slice(0, 110)}…`)); process.exit(0); }
 const KEY = process.env.ELEVENLABS_API_KEY; if (!KEY) { console.error('No ELEVENLABS_API_KEY in this window — run tools\\audio\\audio1.ps1, which asks for it.'); process.exit(1); }
 let ok = 0, bad = 0;
 async function one(j) {
-  const c = j.c, body = { text: c.request, duration_seconds: secs(c), prompt_influence: V84 ? 0.8 : 0.5, model_id: 'eleven_text_to_sound_v2' };
+  const c = j.c, body = { text: V89 ? c.v89[j.t] : c.request, duration_seconds: secs(c), prompt_influence: V89 ? 0.7 : V84 ? 0.8 : 0.5, model_id: 'eleven_text_to_sound_v2' };
   if (c.loop) body.loop = true;
   for (let tries = 1; tries <= 3; tries++) {
     try {
