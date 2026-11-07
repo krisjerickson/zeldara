@@ -47,6 +47,8 @@ Every family has seven pieces, one for each part an attack is built from:
 - ☆ the families you like and write notes for changes. Picks are stored as `bossfx-<family>`; the tab also waits in "Waiting for your picks".
 
 ## Next, after the review
+**Round 91 (doc 47): this wiring is in the fights now**, without waiting for the review (Kris saw flat attacks in a fight). Lab picks and notes can still change a family.
+
 After the cut, BossPat lays the pieces over its shapes:
 - the strike falls onto the warning sigil and bursts into the impact;
 - the wall is built from bands;

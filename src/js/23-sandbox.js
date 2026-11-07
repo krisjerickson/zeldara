@@ -490,3 +490,15 @@ function sbRunBot(){
 (function(){ if(typeof document==='undefined'||typeof setInterval==='undefined')return; setInterval(function(){ try{ var ws=typeof game!=='undefined'&&game.scene&&game.scene.getScene('World'), on=!!(ws&&ws.playerState&&ws.playerState.godMode), el=document.getElementById('god-badge');
     if(on&&!el){ el=document.createElement('div'); el.id='god-badge'; el.textContent='⚡ INVINCIBLE — test mode (Dev panel → God Mode)'; el.style.cssText='position:fixed;top:78px;left:50%;transform:translateX(-50%);z-index:350;background:rgba(60,30,0,.88);border:1px solid #ffaa44;color:#ffd9a0;font:600 11px Segoe UI,sans-serif;padding:4px 12px;border-radius:10px;pointer-events:none;letter-spacing:.04em'; document.body.appendChild(el); }
     if(el)el.style.display=on?'':'none'; }catch(e){} },700); })();
+// ─── round 91 (Kris: "i thought we had added in a roll skill early in the game, but not finding it currently. it might be that i'm using sandbox to
+// advance through and didn't earn it. we should make it so you have a sandbox option for earning it"). The roll is Tumbler Pia's lesson by the Rime
+// Spire (10p-roll.js); the sandbox can now teach it at once. Three buttons the panel always had — Give All Spells, All Special Skills and
+// Complete All Quests — had no code behind them (they did nothing); they work now, and the last two teach the roll too.
+function _sbRollDone(ps){ ps.canRoll=true; ps.rollQ=2; ps.rollPins=[0,1,2]; if(typeof ZROLL!=='undefined'){ (ZROLL.pins||[]).forEach(function(p){ try{ if(p.im&&p.im.scene)p.im.destroy(); }catch(e){} p.got=true; }); try{ ZROLL._ui(); }catch(e){} } }
+function _sbDone(ws,msg,col){ try{ if(typeof updateInventoryModal==='function')updateInventoryModal(ws.playerState); }catch(e){} if(ws._emitUI)ws._emitUI(); if(ws._save)ws._save(); showNotif(msg,col||'#88ffcc'); }
+function sbLearnRoll(){ var ws=_sbWs(); if(!ws||!ws.playerState)return; _sbRollDone(ws.playerState); _sbDone(ws,'🤸 You know how to ROLL — press Alt (Tumbler Pia\'s lesson marked done)'); }
+function _sbGiveSlot(ps,slot,skip){ if(!ps.inventory)ps.inventory=[]; var n=0; Object.keys(ITEMS).forEach(function(k){ if(ITEMS[k].slot!==slot||(skip&&skip[k]))return; if(ps.inventory.indexOf(k)<0&&!(ps.equip&&Object.keys(ps.equip).some(function(e){ return ps.equip[e]===k; }))){ ps.inventory.push(k); n++; } }); return n; }
+function sbAllSpells(){ var ws=_sbWs(); if(!ws||!ws.playerState)return; var n=_sbGiveSlot(ws.playerState,'spell'); _sbDone(ws,'✨ All spells given ('+n+' new)','#bfa8ff'); }
+function sbAllSkills(){ var ws=_sbWs(); if(!ws||!ws.playerState)return; var n=_sbGiveSlot(ws.playerState,'special',{sp_roll:1}); _sbRollDone(ws.playerState); _sbDone(ws,'⚡ All special skills given ('+n+' new) — and the Roll (Alt)'); }
+function sbCompleteQuests(){ var ws=_sbWs(); if(!ws||!ws.playerState)return; var ps=ws.playerState; if(typeof ALL_MAIN_QUESTS!=='undefined'&&typeof _completeQuest==='function')ALL_MAIN_QUESTS.forEach(function(q){ _completeQuest(ps,q); });
+  _sbRollDone(ps); _sbDone(ws,'📜 All main quests complete (dungeons, towers, harbors, sky ports) — and the Roll learned','#ffe9a8'); }
