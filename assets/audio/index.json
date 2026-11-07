@@ -161,6 +161,30 @@
   "kind": "amb",
   "loop": true
  },
+ "mu_ash_day": {
+  "files": [
+   {
+    "base": "mu_ash_day",
+    "le": 274.32,
+    "ls": 0,
+    "secs": 274.32
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_ash_night": {
+  "files": [
+   {
+    "base": "mu_ash_night",
+    "le": 274.6,
+    "ls": 0,
+    "secs": 274.6
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "mu_dungeon": {
   "files": [
    {
@@ -240,6 +264,30 @@
     "le": 194.8,
     "ls": 0,
     "secs": 194.8
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_high_day": {
+  "files": [
+   {
+    "base": "mu_high_day",
+    "le": 264.0,
+    "ls": 0,
+    "secs": 264.0
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_high_night": {
+  "files": [
+   {
+    "base": "mu_high_night",
+    "le": 264.52,
+    "ls": 0,
+    "secs": 264.52
    }
   ],
   "kind": "music",
