@@ -14,7 +14,7 @@ So a cut-scene's frames go in parts of at most 6 (6 x 5 s = 30 s); a 12-frame cu
 heroes' versions (make it once; the intake uses it for both), or "all" for a cut-scene without the twins.
 A folder is made again only when one of its pictures changed.   python tools/video/kling.py   (after tools/video/storyboards.py)
 """
-import os, sys, json, shutil
+import os, sys, json, shutil, re
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 SB = os.path.join(ROOT, 'sprites', 'storyboards'); OUT = os.path.join(ROOT, 'video_requests')
 J = json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'storyboards.json'), encoding='utf-8'))
@@ -36,26 +36,36 @@ def split(n):
 # it as a story to invent. Now the pictures carry the content: the prompt only says to animate them as they are, and what MOVES in each
 # shot (camera and small motions, read from the picture's words). It stays short (well under Kling's 2,500 characters); the things to
 # keep out go to NEGATIVE.txt, for Kling's separate Negative prompt box.
-MOTION = [('aurora', 'the aurora ripples'), ('lava|ember|fire|flame|forge|molten', 'flames and embers flicker'), ('river|lake|water|sea|waterfall|falls|tide', 'the water flows'),
-          ('snow|frost|ice', 'snow drifts'), ('mist|fog|smoke|steam|ash', 'mist and smoke drift'), ('rune|glow|light|magic|spell', 'the runes and magic pulse softly'),
-          ('banner|cloak|hair|braid', 'cloaks, hair and banners stir in the wind'), ('rain|storm|lightning', 'rain falls and the sky flickers'), ('star', 'stars twinkle')]
+MOTION = [('aurora', 'aurora surging'), ('lava|ember|fire|flame|forge|molten', 'flames roaring'), ('river|lake|water|sea|waterfall|falls|tide', 'water rushing'),
+          ('snow|frost|ice', 'snow swirling'), ('mist|fog|smoke|steam|ash', 'smoke billowing'), ('rune|glow|light|magic|spell', 'runes flaring'),
+          ('banner|cloak|hair|braid', 'cloaks whipping in the wind'), ('rain|storm|lightning', 'lightning cracking'), ('star', 'shooting stars')]
 CAMERA = ['slow push-in', 'slow pan to the right', 'slow pull-back', 'slow pan to the left', 'gentle drift upward', 'slow push-in']
 import re as _re
 def motion(desc):
     d = desc.lower(); out = [m for k, m in MOTION if _re.search(r'\b(' + k + ')', d)]
     return ', '.join(out[:3]) or 'the light shifts gently'
 
+# round 88f (Kris: "It's not putting the images in order, even though we say @image1 … now the videos are too dull. There used to be
+# lightning strikes and doors to asgard closing, and now the image is just too still"): the pictures are named image1.png … image6.png
+# (as the prompt calls them), each shot names what its picture shows so Kling can tell them apart and keep the order, and each shot says
+# what HAPPENS (the story line) with bold movement — the pictures stay the content, the motion comes back.
+CAMERA = ['fast push-in', 'sweeping pan to the right', 'slow orbit around the subject', 'crane up and over', 'dolly back to reveal', 'tracking shot to the left']
+def gist(desc):
+    d = re.sub(r'\(exactly as in [^)]*\)', '', desc.split(';')[0].split(':')[-1] if ':' in desc.split(';')[0][:60] else desc.split(';')[0]).strip()
+    S = re.split(r',| — | so ', d); d = S[0] + (', ' + S[1] if len(S) > 1 and len(S[0].split()) < 7 else ''); w = d.rstrip('.,;').split(); return ' '.join(w[:16]).rstrip('.,;')
+
 def prompt(sc, beats, who, part, nparts, sec=None):
-    k = 'f' if who == 'zeldara' else 'm'; n = len(beats); SECS = sec or shot(n)
-    L = ['Animate these %d pictures exactly as they are. @Image1 to @Image%d are the keyframes, in order: each one IS the frame at its timestamp '
-         '(@Image1 at 0s%s). Keep every picture\'s content, characters, composition, colours and painted style; do not add, remove or redesign anything. '
-         'Total %s seconds, 16:9.' % (n, n, ''.join(', @Image%d at %ss' % (i + 1, fs(i * SECS)) for i in range(1, n)), fs(n * SECS)), '',
-         'Each shot holds its picture and moves only a little: a slow camera move and small natural motion. Clean cut to the next picture at its timestamp, no morphing.', '']
+    k = 'f' if who == 'zeldara' else 'm'; n = len(beats); SECS = sec or shot(n); nm = {'f': 'Zeldara', 'm': 'Zeldor'}[k]; ot = {'f': 'Zeldor', 'm': 'Zeldara'}[k]
+    L = ['A dramatic, living cinematic montage made from these %d pictures, in this exact order: %s. Total %s seconds, 16:9.' % (n, ', '.join('@image%d' % (i + 1) for i in range(n)), fs(n * SECS)),
+         'Each picture is one shot of about %s seconds. Every shot starts on its picture and comes alive with strong movement — characters move, act and react; '
+         'lightning, fire, magic, water, wind and weather animate boldly; the camera moves with energy — then a quick cut to the next picture. '
+         'Keep each picture\'s characters, places, colours and painted style.' % fs(SECS), '']
     for i, b in enumerate(beats):
-        L.append('%s-%ss @Image%d (%s): %s; %s.' % (fs(i * SECS), fs((i + 1) * SECS), i + 1, b['title'], CAMERA[i % len(CAMERA)], motion(b[k])))
-    L += ['', 'Use all %d pictures, in this order, each for about %s seconds; do not skip, merge or reorder any. Same faces, hair and clothes in every shot.' % (n, fs(SECS)),
-          'Avoid: new people, new creatures, new objects or buildings, changing any face, hair, clothes or scenery, umbrellas, modern clothes, '
-          'glasses, phones, guns, cars, street lamps, text, captions, logos, photorealism, morphing between pictures.']      # round 88e (Kris: Kling has no negative box - the key ones go in the prompt)
+        cap = re.sub(r'\{H\}', nm, re.sub(r'\{O\}', ot, str(b.get('cap', '')))).strip().strip('"“”')
+        L.append('Shot %d — @image%d (%s-%ss) %s: %s. Action: %s Moves: %s; %s.' % (i + 1, i + 1, fs(i * SECS), fs((i + 1) * SECS), b['title'], gist(b[k]), cap if cap.endswith(('.', '!', '?', '…')) else cap + '.', CAMERA[i % len(CAMERA)], motion(b[k])))
+    L += ['', 'Use all %d pictures, in this order — @image1 first and @image%d last; do not skip, merge or reorder any. Same faces, hair and clothes in every shot.' % (n, n),
+          'Avoid: new people, new creatures, new buildings, changing any face, hair or clothes, umbrellas, modern clothes, '
+          'glasses, phones, guns, cars, street lamps, text, captions, logos, photorealism, morphing between pictures.']
     return '\n'.join(L) + '\n'
 
 def negative():
@@ -79,7 +89,9 @@ for nn, sc in enumerate(scenes, 1):
             if not all(os.path.isfile(s) for s in srcs): listing.append('%02d  %-26s  waiting for its pictures' % (nn, name)); continue
             os.makedirs(d, exist_ok=True)
             for j, s in enumerate(srcs, 1):
-                t = os.path.join(d, '%02d.png' % j)
+                t = os.path.join(d, 'image%d.png' % j)      # round 88f: named as the prompt calls them
+                o2 = os.path.join(d, '%02d.png' % j)
+                if os.path.isfile(o2): os.makedirs(os.path.join(OLD, os.path.basename(d)), exist_ok=True); os.replace(o2, os.path.join(OLD, os.path.basename(d), '%02d.png' % j))
                 if os.path.isfile(t) and os.path.getmtime(t) >= os.path.getmtime(s) - 2 and os.path.getsize(t) == os.path.getsize(s): kept += 1; continue      # round 88: a copy cut short is made again; the 2 s allow for the shared folder's clock (the folders hold hard links that follow the remade picture)
                 if not os.path.exists(t):
                     try: os.link(s, t); made += 1; continue      # a hard link: no second copy on disk, and it follows the picture when it is remade
@@ -106,7 +118,7 @@ open(os.path.join(OUT, 'README.txt'), 'w', encoding='utf-8').write('''MAKING THE
 Each folder here is ONE video to make. Work through them in any order.
 
   1. Kling -> Video -> Kling 4.0 -> Keyframes.
-  2. Upload the folder's pictures IN ORDER: 01.png, 02.png, ...
+  2. Upload the folder's pictures IN ORDER: image1.png, image2.png, ... (the prompt calls them @image1, @image2, ...)
   3. Paste PROMPT.txt into the prompt box (it already says what to avoid).
   4. Length: 20 seconds at most — the first line of PROMPT.txt says how long; every picture is used (up to 6, about 3.3 s each). 16:9, 1080p.
   5. Download the video and drop it into its folder (any name is fine) - or leave it in your Downloads named as the
