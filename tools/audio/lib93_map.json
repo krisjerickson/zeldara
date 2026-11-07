@@ -1,0 +1,38 @@
+{
+ "sfx_frost": [
+  "Ice Cracking"
+ ],
+ "sfx_sp_ice_shards": [
+  "Ice Cracking"
+ ],
+ "sfx_sp_starfall": [
+  "Fireworks_Single_Close.*Whistle"
+ ],
+ "sfx_coin": [
+  "Coins"
+ ],
+ "sfx_crumble": [
+  "Building Collapse"
+ ],
+ "sfx_boss_slam": [
+  "Modern Cinematic Impact"
+ ],
+ "sfx_boss_fall": [
+  "Building Collapse"
+ ],
+ "sfx_undead": [
+  "Zombie"
+ ],
+ "sfx_sp_tidal_wave": [
+  "Shore Waves"
+ ],
+ "sfx_sp_void_orb": [
+  "Dark Drone"
+ ],
+ "sfx_travel": [
+  "Transition Whooshes"
+ ],
+ "sfx_ui_note": [
+  "Kawaii UI"
+ ]
+}

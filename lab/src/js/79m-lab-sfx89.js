@@ -6,7 +6,7 @@
 // ║ pick yet come first. Picks: 'sfx89-<id>' (e.g. 'l2+v3'); until you touch a row it stands at what you kept. The effects that already
 // ║ have three picks are listed below, done.
 // ═══════════════════════════════════════════════════════════════════════
-(function(){ if(typeof LAB_TABS==='undefined'||typeof ZAUD==='undefined'||!ZAUD.V89)return;
+(function(){ if(typeof LAB_TABS==='undefined'||typeof ZAUD==='undefined'||!ZAUD.V89||ZAUD.V93)return;      /* round 93: the new section (79m2) takes its place */
   var T=LAB_TABS.find(function(t){ return t.id==='sfxpick'; }); if(!T)return;
   var ITEMS=typeof ZSFX84!=='undefined'&&ZSFX84&&ZSFX84.items||{}, CUES={}; ZAUD.all().forEach(function(c){ if(c.kind==='sfx')CUES[c.id]=c; });
   var KN={cur:'Today',l1:'Rec 1',l2:'Rec 2',l3:'Rec 3',l4:'Rec 4',l5:'Rec 5',l6:'Rec 6',n1:'New 84·1',n2:'New 84·2',e1:'Gentle 1',e2:'Gentle 2',v1:'New 1',v2:'New 2',v3:'New 3',v4:'New 4',v5:'New 5'};

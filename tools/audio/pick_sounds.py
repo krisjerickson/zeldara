@@ -24,7 +24,7 @@ def move(src, dst_dir):
 todo = []
 for cid, p in sorted(picks.items()):
     # round 84: any take — e1/e2 (round 80), l1-l3 (the Sonniss library), n1/n2 (worded by what happens) — or two joined by '+' (alternating)
-    ks = ['e1', 'e2'] if p == 'both' else [k for k in str(p).split('+') if k in ('e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2', 'v1', 'v2', 'v3', 'v4', 'v5')]
+    ks = ['e1', 'e2'] if p == 'both' else [k for k in str(p).split('+') if k in ('e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2', 'v1', 'v2', 'v3', 'v4', 'v5', 'w1', 'w2', 'w3', 'w4', 'w5', 'r1')]
     if not ks: continue
     srcs = [os.path.join(INC, cid + '.' + k + '.mp3') for k in ks[:3]]      # round 84c: up to three takes the game rotates through
     if not all(os.path.isfile(s) for s in srcs): print('?  %s: the %s file is not in audio/incoming' % (cid, p)); continue

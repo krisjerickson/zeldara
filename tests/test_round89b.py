@@ -17,11 +17,11 @@ with sync_playwright() as p:
     t = pg.evaluate("""(()=>{ var R=[...document.querySelectorAll('.s89-r')]; return {rows:R.length, first:R[0]&&R[0].dataset.id, firstNew:R[0]&&R[0].querySelectorAll('.s89-k.new').length,
       kept:R.filter(r=>r.querySelector('.s89-k.kept')).length, newTotal:document.querySelectorAll('.s89-k.new').length, keptOn:document.querySelectorAll('.s89-k.kept .s89-v[aria-pressed="true"]').length,
       oldTable:!!document.querySelector('.sfp-t:not(.s89-t)'), top:document.querySelector('.s89-t').getBoundingClientRect().top<document.querySelector('.sfp-t:not(.s89-t)').getBoundingClientRect().top}; })()""")
-    check('Sound effects: 105 effects on top (the unpicked first, five new takes), 389 new takes, kept ones shown ★, the old table below (%s)' % t, t['rows'] == 105 and t['firstNew'] == 5 and t['newTotal'] == 389 and t['keptOn'] >= 100 and t['oldTable'] and t['top'], t)
+    check('Sound effects (round 93 table now): 147 effects on top (the unpicked first, five takes), 584 new takes, kept ones shown ★, the old table below (%s)' % t, t['rows'] == 147 and t['firstNew'] == 5 and t['newTotal'] == 584 and t['keptOn'] >= 100 and t['oldTable'] and t['top'], t)
     pg.evaluate("ZSFX84.items[document.querySelector('.s89-r').dataset.id]=Object.assign(ZSFX84.items[document.querySelector('.s89-r').dataset.id]||{},{v1:[0,1]})")
-    k = pg.evaluate("""(()=>{ var r=document.querySelector('.s89-r'+'[data-id="sfx_sk_sprint"]')||[...document.querySelectorAll('.s89-r')].find(r=>r.querySelector('.s89-k.kept')); var id=r.dataset.id; var b=r.querySelector('.s89-k.kept .s89-v'); b.click(); return [id, (LabApp.picks['sfx89-'+id]||{}).verdict]; })()""")
+    k = pg.evaluate("""(()=>{ var r=document.querySelector('.s89-r'+'[data-id="sfx_sk_sprint"]')||[...document.querySelectorAll('.s89-r')].find(r=>r.querySelector('.s89-k.kept')); var id=r.dataset.id; var b=r.querySelector('.s89-k.kept .s89-v'); b.click(); return [id, (LabApp.picks['sfx93-'+id]||{}).verdict]; })()""")
     check('A click on a kept ★ drops it and saves the new pick list (%s)' % k, k[1] is not None, k)
     a = pg.evaluate("""(()=>{ var n=document.querySelectorAll('.s89-r .sfx-ok').length, m=document.querySelectorAll('.sfp-r .sfx-ok').length; var b=document.querySelector('.sfp-r .sfx-ok'); b.click(); var id=b.dataset.id; return {n:n, m:m, v:(LabApp.picks['sfxok-'+id]||{}).verdict, row:b.closest('tr').classList.contains('ok'), cnt:(document.getElementById('sfx-okn')||{}).textContent}; })()""")
-    check('Every effect has its own Approve button, in both tables; it saves and marks the row (%s)' % a, a['n'] == 105 and a['m'] >= 140 and a['v'] == 'approved' and a['row'], a)
+    check('Every effect has its own Approve button, in both tables; it saves and marks the row (%s)' % a, a['n'] == 147 and a['m'] >= 140 and a['v'] == 'approved' and a['row'], a)
     check('No Lab script errors', not errs, errs[:3])
 print('%d / %d passed' % (sum(res), len(res)))
