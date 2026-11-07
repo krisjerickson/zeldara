@@ -36,13 +36,13 @@ var ZWP={ on:true, state:'off', why:'', pool:[], seq:0, cb:{}, QMAX:2, sent:{}, 
     if(typeof OffscreenCanvas==='undefined'||typeof Worker==='undefined'||typeof createImageBitmap==='undefined'){ ZWP.why='no OffscreenCanvas'; ZWP.state='no'; return; }
     try{ var t=new OffscreenCanvas(4,4).getContext('2d'); if(!t||!t.createPattern)throw 0; }catch(e){ ZWP.why='no 2D OffscreenCanvas'; ZWP.state='no'; return; }
     if(!ZWP_SCRIPT||!ZWP_SCRIPT.textContent){ ZWP.why='no script text'; ZWP.state='no'; return; }
-    if(typeof ZWORLD==='undefined'||!ZWORLD.buf){ ZWP.why='no baked world'; ZWP.state='no'; return; }
+    if(typeof ZWORLD==='undefined'||!ZWORLD.buf||ZWORLD.state!=='ready'&&!ZWORLD.used){ ZWP.why='no baked world'+(typeof ZWORLD!=='undefined'&&ZWORLD.why?' ('+ZWORLD.why+')':''); ZWP.state='no'; return; }      /* round 90b: a stale baked file (its hash differs) is no world for the workers either */
     ZWP.state='loading'; ZWP.t0=performance.now();
     var url=URL.createObjectURL(new Blob([ZWP.PRELUDE(),ZWP_SCRIPT.textContent],{type:'text/javascript'})), n=1;
     try{ var hc=(navigator.hardwareConcurrency||2); n=(typeof ZQUAL!=='undefined'&&ZQUAL.mode==='phone')?1:Math.max(1,Math.min(2,hc-1)); }catch(e){}
     if(ZWP.N)n=ZWP.N;
     for(var i=0;i<n;i++)(function(){ var w; try{ w=new Worker(url); }catch(e){ ZWP.fail('worker: '+e.message); return; } w._busy=0; w._ready=false;
-      w.onmessage=function(e){ var m=e.data; if(m.t==='ready'){ w._ready=true; w._nk=m.nk; w._sigs=m.sigs||[]; w._errs=m.errs; if(ZWP.state==='loading'){ ZWP.state='ready'; ZWP.readyMs=Math.round(performance.now()-ZWP.t0); } return; }
+      w.onmessage=function(e){ var m=e.data; if(m.t==='ready'){ if(!(m.nk>0)){ ZWP.fail('worker could not load the world: '+((m.errs||[])[0]||'?')); return; } w._ready=true; w._nk=m.nk; w._sigs=m.sigs||[]; w._errs=m.errs; if(ZWP.state==='loading'){ ZWP.state='ready'; ZWP.readyMs=Math.round(performance.now()-ZWP.t0); } return; }
         if(m.t==='kinds'){ w._kwait=false; w._miss=new Set(m.miss||[]); return; }
         if(m.t==='done'||m.t==='err'){ w._busy=Math.max(0,w._busy-1); var cb=ZWP.cb[m.id]; delete ZWP.cb[m.id]; if(cb)cb(m); } };
       w.onerror=function(ev){ ZWP.fail('worker error: '+(ev&&ev.message)); try{ ev.preventDefault(); }catch(x){} };
@@ -63,6 +63,7 @@ var ZWP={ on:true, state:'off', why:'', pool:[], seq:0, cb:{}, QMAX:2, sent:{}, 
   // a job with the same face as wpChunkJob: step() until true, then .out
   job:function(wd,cx,cy){ var phase=0, done=false, failed=false, fb=null, out=null, self={out:null,phase:function(){ return fb?fb.phase():phase; }};
     self.step=function(budget){ if(fb){ var r=fb.step(budget); self.out=fb.out; return r; } if(done)return true;
+      if(!failed&&ZWP.state!=='ready'){ failed=true; ZWP.why=ZWP.why||'workers stopped'; }      /* round 90b: the workers failed after this job was made — paint it here (it used to wait for ever: the world stayed blank) */
       if(failed){ ZWP.stats.fb++; fb=_wpChunkJob0(wd,cx,cy); var r2=fb.step(budget); self.out=fb.out; return r2; }
       if(phase===1)return false;
       if(ZWP.imgPend>0){ return false; } ZWP.sendImgs(); if(ZWP.imgPend>0)return false;
@@ -94,7 +95,7 @@ var ZWP={ on:true, state:'off', why:'', pool:[], seq:0, cb:{}, QMAX:2, sent:{}, 
       if(typeof ZScn!=='undefined'){ ZScn.done=true; ZScn._started=true; }
       self.__zst(function(){ self.__zquiet=true; postMessage({t:'ready',nk:WK_REG.list.length,sigs:WK_REG.list.map(ZWP.sig),errs:ZWP_WERR.slice(0,8)}); },250); },      /* the script's own setTimeout(…,0) patches run first */
     kinds:function(m){ var L=WK_REG.list, by={}, used=new Set(), N=[], miss=[]; L.forEach(function(k){ var sg=ZWP.sig(k); (by[sg]=by[sg]||[]).push(k); });
-      m.sigs.forEach(function(sg,i){ var c=(by[sg]||[]).find(function(k){ return !used.has(k); }); if(c)used.add(c); else { c=Object.assign({},WSK.vgrass); delete c._zsig; miss.push(i); } N.push(c); });
+      m.sigs.forEach(function(sg,i){ var c=(by[sg]||[]).find(function(k){ return !used.has(k); }); if(c)used.add(c); else { c=Object.assign({},WSK&&WSK.vgrass||{id:'?'}); delete c._zsig; miss.push(i); } N.push(c); });
       L.forEach(function(k){ if(!used.has(k))N.push(k); }); N.forEach(function(k,i){ k._gi=i; }); WK_REG.list=N; WP_KT=null; _WPISPAT=null; _WPC={};      /* the tables and tiles made with the old numbers */
       postMessage({t:'kinds',miss:miss}); },
     img:function(m){ var b=m.bmp; b.complete=true; b.naturalWidth=b.width; b.naturalHeight=b.height; if(typeof ZScn!=='undefined')ZScn[m.k][m.id]=b; },
