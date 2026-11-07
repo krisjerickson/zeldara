@@ -11,7 +11,8 @@
   var SC=typeof ZSB!=='undefined'&&ZSB.SCENES?ZSB.SCENES.find(function(s){ return s.id==='opening'; }):null;
   var CAPS=SC?SC.beats.slice(0,6).map(function(b){ return String(b.cap||'').replace(/\{H\}/g,'Zeldor').replace(/\{O\}/g,'Zeldara'); }):[];
   var V=[{id:'opening_20',name:'A · as made — 20 seconds',file:'preview/cutscene/opening_p1_20s.mp4',secs:20,desc:'Kling\'s video as it came: each picture and its line for about 3.3 seconds.'},
-         {id:'opening_30',name:'B · slowed to 30 seconds',file:'preview/cutscene/opening_p1_30s.mp4',secs:30,desc:'The same video slowed to 30 seconds — 5 seconds a line; the frames in between are made by motion interpolation, so it stays smooth.'}];
+         {id:'opening_30',name:'B · slowed to 30 seconds',file:'preview/cutscene/opening_p1_30s.mp4',secs:30,desc:'The same video slowed to 30 seconds — 5 seconds a line; the frames in between are made by motion interpolation, so it stays smooth.'},
+         {id:'opening_40',name:'C · slowed to 40 seconds (round 92b)',file:'preview/cutscene/opening_p1_40s.mp4',secs:40,desc:'Kris: "much better, but we actually need to make it more like 40 seconds in total" — the same video at 40 seconds, 6.7 s a line.'}];
   var MUSIC='preview/music/mu_saga_storm.mp3';
   var key=function(id){ return 'cutvid-'+id; }, picked=function(id){ var p=LabApp.picks[key(id)]; return !!(p&&p.verdict==='pick'); };
   var card=function(D){ var p=LabApp.picks[key(D.id)]||{};

@@ -14,7 +14,7 @@
   var set=function(k,v){ var p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=v; LabApp.persist(k); };
   var nIdeas=function(){ return D.ideas.filter(function(I){ return on('cutidea-'+I.id); }).length; };
   var SN={}; D.styles.forEach(function(s){ SN[s.id]=s; });
-  var SCOL={living:'#9fd0ff',director:'#ffd27a',onetake:'#7fe08a',rhythm:'#ff8a6a',poem:'#c8a8ff'};
+  var SCOL=window.ZCS_COL={living:'#9fd0ff',director:'#ffd27a',onetake:'#7fe08a',rhythm:'#ff8a6a',poem:'#c8a8ff',flames:'#ffa64d',tapestry:'#e0b0ff',storybook:'#f2e3b0',runestone:'#6fe3f5',frozen:'#b8e0ff'};
   // ── 1. what makes a great cut-scene ──
   var PRIN=[
     ['One job','Every cut-scene does one thing: reveal, reward, warn, or turn the story. If it does two, cut one.'],
@@ -52,11 +52,11 @@
     designs:D.ideas.map(function(I){ return {id:I.id,name:I.title}; }),
     render:function(){ setTimeout(drawThumbs,0);
       return LBR.sec('What makes a great cut-scene','eight things the best ones share (doc 48)')+'<div class="cs-pr8">'+PRIN.map(function(x,i){ return '<div><b>'+(i+1)+'. '+x[0]+'</b><p>'+x[1]+'</p></div>'; }).join('')+'</div>'+
-        LBR.sec('Five ways to prompt Kling','from "animate the picture exactly" to "let it dream" — all of them use every picture')+'<div class="cs-st5">'+D.styles.map(function(S){
+        LBR.sec('Ten ways to prompt Kling','from "animate the picture exactly" to "let it dream" — all of them use every picture')+'<div class="cs-st5">'+D.styles.map(function(S){
           return '<div class="cs-st" style="border-top:3px solid '+SCOL[S.id]+'"><b style="color:'+SCOL[S.id]+'">'+S.name+'</b><div class="cs-free">freedom '+'●'.repeat(S.free)+'○'.repeat(5-S.free)+'</div><p>'+esc(S.how)+'</p>'+
             '<dl><dt>Like</dt><dd>'+esc(S.like)+'</dd><dt>Cutting</dt><dd>'+esc(S.cut)+'</dd><dt>Best for</dt><dd>'+esc(S.best)+'</dd><dt>Words</dt><dd>'+esc(S.text)+'</dd></dl></div>'; }).join('')+'</div>'+
-        LBR.sec('How the words appear','the first montage, three ways · the game\'s music under it · ☆ the one you like')+player()+
-        LBR.sec('Ten first tries — ☆ five','<span class="cs-count">'+nIdeas()+' / 5 picked</span> · every picture of the scene in each · each folder is ready in video_requests (S01 … S10)')+'<div class="cs-ideas">'+D.ideas.map(idea).join('')+'</div>'; } });
+        LBR.sec('How the words appear — the first try','kept for comparison · round 92b\'s five new options are at the top')+player()+
+        LBR.sec('Ten first tries on ten scenes (kept) — ☆ up to five','<span class="cs-count">'+nIdeas()+' / 5 picked</span> · every picture of the scene in each · each folder is ready in video_requests (S01 … S10)')+'<div class="cs-ideas">'+D.ideas.map(idea).join('')+'</div>'; } });
   // thumbnails from the story-frame sheets (as the Story cut-scenes tab)
   var SHEET={}, sheet=function(key){ if(SHEET[key])return SHEET[key]; var im=new Image(); im.onload=drawThumbs; im.onerror=function(){ if(!im._b){ im._b=1; im.src='../lab/preview/storyboards/'+key+'.webp'; } }; im.src='preview/storyboards/'+key+'.webp'; return (SHEET[key]=im); };
   function drawThumbs(){ document.querySelectorAll('canvas.cs-fr').forEach(function(cv){ var key=cv.dataset.key, I=IX[key], sc=SB.find(function(s){ return s.id===cv.dataset.sc; }), c=cv.getContext('2d'); if(!sc)return;
