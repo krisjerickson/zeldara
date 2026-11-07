@@ -6,7 +6,6 @@ So a cut-scene's frames go in parts of at most 6 (6 x 5 s = 30 s); a 12-frame cu
 
   video_requests/<NN>_<scene>_<who>[_p<k>]/   01.png 02.png ...   the pictures, in order (upload them in this order)
                                              PROMPT.txt           the one prompt to paste (short: what moves, not what is in the pictures)
-                                             NEGATIVE.txt         for Kling's Negative prompt box
                                              SAVE AS <name>.mp4   an empty file whose name is what to call the download
   video_requests/README.txt                  the steps, once
   video_requests/parts.json                  how many parts each montage has (tools/video/intake_video.py joins them)
@@ -19,8 +18,10 @@ import os, sys, json, shutil
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 SB = os.path.join(ROOT, 'sprites', 'storyboards'); OUT = os.path.join(ROOT, 'video_requests')
 J = json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'storyboards.json'), encoding='utf-8'))
-SECS, MAXP, MAXLEN = 5, 5, 20      # round 88d (Kris: the cheaper Kling model makes at most 20 s): up to 5 pictures a part; 5 s a shot, 4 s when a part has 5
+SECS, MAXP, MAXLEN = 5, 6, 20      # round 88e (Kris: "we need to reduce the amount of time per each image instead of reducing the number of images"): parts keep up to 6
+# pictures, as before; a part never runs past 20 s (the cheaper Kling model) - each picture gets 20 s / pictures (3.3 s with 6), 5 s at most
 shot = lambda n: min(SECS, MAXLEN / n)
+fs = lambda x: ('%.1f' % x).rstrip('0').rstrip('.')      # 3.3, 6.7, 10
 ORDER = ['opening', 'spirit', 'quiet', 'bram', 'blacktide', 'mira', 'stonefall', 'dunn', 'ashnight', 'vela', 'gate', 'orbs',
          'surt1', 'surt2', 'surt3', 'surt4', 'surt5', 'surt6', 'lodestar', 'escape', 'asgard', 'twinteach', 'bifrost',
          'sol1', 'sol2', 'sol3', 'solfall', 'feasthall', 'truth', 'home', 'village', 'celebrate', 'credits', 'worldtree']
@@ -48,11 +49,13 @@ def prompt(sc, beats, who, part, nparts, sec=None):
     k = 'f' if who == 'zeldara' else 'm'; n = len(beats); SECS = sec or shot(n)
     L = ['Animate these %d pictures exactly as they are. @Image1 to @Image%d are the keyframes, in order: each one IS the frame at its timestamp '
          '(@Image1 at 0s%s). Keep every picture\'s content, characters, composition, colours and painted style; do not add, remove or redesign anything. '
-         'Total %d seconds, 16:9.' % (n, n, ''.join(', @Image%d at %gs' % (i + 1, i * SECS) for i in range(1, n)), n * SECS), '',
+         'Total %s seconds, 16:9.' % (n, n, ''.join(', @Image%d at %ss' % (i + 1, fs(i * SECS)) for i in range(1, n)), fs(n * SECS)), '',
          'Each shot holds its picture and moves only a little: a slow camera move and small natural motion. Clean cut to the next picture at its timestamp, no morphing.', '']
     for i, b in enumerate(beats):
-        L.append('%g-%gs @Image%d (%s): %s; %s.' % (i * SECS, (i + 1) * SECS, i + 1, b['title'], CAMERA[i % len(CAMERA)], motion(b[k])))
-    L += ['', 'Same faces, hair and clothes in every shot. No new people or objects, no text.']
+        L.append('%s-%ss @Image%d (%s): %s; %s.' % (fs(i * SECS), fs((i + 1) * SECS), i + 1, b['title'], CAMERA[i % len(CAMERA)], motion(b[k])))
+    L += ['', 'Use all %d pictures, in this order, each for about %s seconds; do not skip, merge or reorder any. Same faces, hair and clothes in every shot.' % (n, fs(SECS)),
+          'Avoid: new people, new creatures, new objects or buildings, changing any face, hair, clothes or scenery, umbrellas, modern clothes, '
+          'glasses, phones, guns, cars, street lamps, text, captions, logos, photorealism, morphing between pictures.']      # round 88e (Kris: Kling has no negative box - the key ones go in the prompt)
     return '\n'.join(L) + '\n'
 
 def negative():
@@ -60,6 +63,7 @@ def negative():
             'text, captions, subtitles, logos, watermark, photorealism, 3D render look, flicker, ' + J.get('neg', '').split('flicker, ', 1)[-1] + '\n')
 
 os.makedirs(OUT, exist_ok=True); parts = {}; made = kept = 0; listing = []; keep = set()
+OLD = os.path.join(ROOT, '_to_delete', 'video_requests_old')
 scenes = sorted(J['scenes'], key=lambda s: ORDER.index(s['id']) if s['id'] in ORDER else 99)
 for nn, sc in enumerate(scenes, 1):
     versions = any(len(b['ids']) > 1 for b in sc['beats'])
@@ -83,15 +87,14 @@ for nn, sc in enumerate(scenes, 1):
                 with open(s, 'rb') as fa, open(t, 'wb') as fb: shutil.copyfileobj(fa, fb, 1 << 20)      # round 88: plain reads and writes (sendfile stalls on the PC's shared folder)
                 shutil.copystat(s, t); made += 1
             open(os.path.join(d, 'PROMPT.txt'), 'w', encoding='utf-8').write(prompt(sc, beats, 'zeldor' if who == 'both' else who, pi, len(P)))
-            open(os.path.join(d, 'NEGATIVE.txt'), 'w', encoding='utf-8').write(negative())
-            if len(beats) * SECS > MAXLEN:      # 4 s a shot in the 20-s model; the same part at 5 s a shot for the longer model
-                open(os.path.join(d, 'PROMPT_25s_longer_model.txt'), 'w', encoding='utf-8').write(prompt(sc, beats, 'zeldor' if who == 'both' else who, pi, len(P), SECS))
+            for old in ('NEGATIVE.txt', 'PROMPT_25s_longer_model.txt'):      # round 88e: no negative box in Kling; every part fits 20 s
+                if os.path.isfile(os.path.join(d, old)):
+                    os.makedirs(os.path.join(OLD, d.split(os.sep)[-1]), exist_ok=True); os.replace(os.path.join(d, old), os.path.join(OLD, d.split(os.sep)[-1], old))
             for f in os.listdir(d):
                 if f.startswith('SAVE AS '): os.replace(os.path.join(d, f), os.path.join(d, 'SAVE AS %s.mp4' % name)) if f != 'SAVE AS %s.mp4' % name else None
             open(os.path.join(d, 'SAVE AS %s.mp4' % name), 'a').close()
-            listing.append('%02d  %-26s  %d pictures, %g s   %s' % (nn, name, len(beats), len(beats) * shot(len(beats)), sc['name'])); keep.add('%02d_%s' % (nn, name))
-# folders of an earlier split (round 88d: parts of 5 at most, was 6) move to _to_delete/video_requests_old (nothing is deleted)
-OLD = os.path.join(ROOT, '_to_delete', 'video_requests_old')
+            listing.append('%02d  %-26s  %d pictures, %s s   %s' % (nn, name, len(beats), fs(len(beats) * shot(len(beats))), sc['name'])); keep.add('%02d_%s' % (nn, name))
+# folders of an earlier split move to _to_delete/video_requests_old (nothing is deleted)
 for d in sorted(os.listdir(OUT)):
     if os.path.isdir(os.path.join(OUT, d)) and d not in keep:
         os.makedirs(OLD, exist_ok=True); t = os.path.join(OLD, d); n2 = 1
@@ -104,9 +107,8 @@ Each folder here is ONE video to make. Work through them in any order.
 
   1. Kling -> Video -> Kling 4.0 -> Keyframes.
   2. Upload the folder's pictures IN ORDER: 01.png, 02.png, ...
-  3. Paste PROMPT.txt into the prompt box, and NEGATIVE.txt into the Negative prompt box (if Kling shows one;
-     if not, leave it out - never add it to the prompt).
-  4. Length: at most 20 seconds — the first line of PROMPT.txt says how long (5 s a picture, 4 s when a part has 5). 16:9, 1080p.
+  3. Paste PROMPT.txt into the prompt box (it already says what to avoid).
+  4. Length: 20 seconds at most — the first line of PROMPT.txt says how long; every picture is used (up to 6, about 3.3 s each). 16:9, 1080p.
   5. Download the video and drop it into its folder (any name is fine) - or leave it in your Downloads named as the
      "SAVE AS ..." file says (e.g. opening_zeldor_p1.mp4).
   6. When you have a few: in PowerShell

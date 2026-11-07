@@ -21,5 +21,7 @@ with sync_playwright() as p:
     pg.evaluate("ZSFX84.items[document.querySelector('.s89-r').dataset.id]=Object.assign(ZSFX84.items[document.querySelector('.s89-r').dataset.id]||{},{v1:[0,1]})")
     k = pg.evaluate("""(()=>{ var r=document.querySelector('.s89-r'+'[data-id="sfx_sk_sprint"]')||[...document.querySelectorAll('.s89-r')].find(r=>r.querySelector('.s89-k.kept')); var id=r.dataset.id; var b=r.querySelector('.s89-k.kept .s89-v'); b.click(); return [id, (LabApp.picks['sfx89-'+id]||{}).verdict]; })()""")
     check('A click on a kept ★ drops it and saves the new pick list (%s)' % k, k[1] is not None, k)
+    a = pg.evaluate("""(()=>{ var n=document.querySelectorAll('.s89-r .sfx-ok').length, m=document.querySelectorAll('.sfp-r .sfx-ok').length; var b=document.querySelector('.sfp-r .sfx-ok'); b.click(); var id=b.dataset.id; return {n:n, m:m, v:(LabApp.picks['sfxok-'+id]||{}).verdict, row:b.closest('tr').classList.contains('ok'), cnt:(document.getElementById('sfx-okn')||{}).textContent}; })()""")
+    check('Every effect has its own Approve button, in both tables; it saves and marks the row (%s)' % a, a['n'] == 105 and a['m'] >= 140 and a['v'] == 'approved' and a['row'], a)
     check('No Lab script errors', not errs, errs[:3])
 print('%d / %d passed' % (sum(res), len(res)))

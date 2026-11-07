@@ -38,7 +38,14 @@
       '<div class="sfp-bar"><span id="s89-n">'+count()+' of '+IDS.length+' looked at</span><button class="vbtn" id="s89-next">▶ Next to pick</button></div>'+
       '<table class="au-t sfp-t s89-t"><thead><tr><th>Sound</th><th>Kept ★ and new takes — ▶ listen · ☆ pick (up to three)</th><th>Words</th></tr></thead><tbody>'+IDS.map(row).join('')+'</tbody></table>'+
       '<h3 class="br-h">Already three picks<span>done — kept as they are</span></h3>'; };
-  var r0=T.render; T.render=function(){ return LBR.sec('Round 89 — the new takes',IDS.length+' effects · kept ★ + new')+section()+r0.apply(this,arguments); };
+  // round 89c (Kris: "make a separate button to select for each sound of 'approved' for when i know i am happy with the sound picks"):
+  // ✓ Approved on every effect (both tables); approved rows turn green and can be hidden. Picks: 'sfxok-<id>' verdict 'approved'.
+  var okKey=function(id){ return 'sfxok-'+id; }, isOk=function(id){ var p=LabApp.picks[okKey(id)]; return !!(p&&p.verdict==='approved'); };
+  var okBtn=function(id){ return '<button class="vbtn sfx-ok" data-id="'+id+'" aria-pressed="'+isOk(id)+'">'+(isOk(id)?'✓ Approved':'Approve')+'</button>'; };
+  var okCount=function(){ var all=[].slice.call(document.querySelectorAll('.s89-r,.sfp-r')).map(function(r){ return r.dataset.id; }).filter(function(x,i,A){ return A.indexOf(x)===i; }); return all.filter(isOk).length+' of '+all.length+' approved'; };
+  var dress=function(){ [].slice.call(document.querySelectorAll('.s89-r,.sfp-r')).forEach(function(r){ var td=r.querySelector('td'); if(!td||td.querySelector('.sfx-ok'))return; td.insertAdjacentHTML('beforeend','<div class="sfx-okw">'+okBtn(r.dataset.id)+'</div>'); r.classList.toggle('ok',isOk(r.dataset.id)); });
+    var bar=document.querySelector('.sfp-bar'); if(bar&&!document.getElementById('sfx-okn'))bar.insertAdjacentHTML('beforeend','<span id="sfx-okn">'+okCount()+'</span><label><input type="checkbox" id="sfx-okhide"> hide the approved ones</label>'); };
+  var r0=T.render; T.render=function(){ setTimeout(dress,0); setTimeout(dress,400); return LBR.sec('Round 89 — the new takes',IDS.length+' effects · kept ★ + new · ✓ approve when happy')+section()+r0.apply(this,arguments); };
   T.name='Sound effects'; T.blurb='<b>Round 89 — more takes.</b> At the top: every effect with fewer than three picks, its kept takes and 3–5 brand-new ones. Below: the effects already done.';
   document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.s89-play'); if(b){ play(b.dataset.id,b.dataset.k,b); return; }
     var v=e.target.closest&&e.target.closest('.s89-v'); if(v&&!v.disabled){ var id=v.dataset.id, k=key(id), L=mine(id), i=L.indexOf(v.dataset.k);
@@ -46,8 +53,13 @@
       var p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=L.join('+'); LabApp.persist(k);
       var tr=v.closest('tr'); tr.querySelectorAll('.s89-v').forEach(function(x){ var on=L.indexOf(x.dataset.k)>=0; x.setAttribute('aria-pressed',String(on)); x.textContent=on?'★':'☆'; }); tr.classList.toggle('done',L.length>0);
       var n=document.getElementById('s89-n'); if(n)n.textContent=count()+' of '+IDS.length+' looked at'; return; }
+    var ok=e.target.closest&&e.target.closest('.sfx-ok'); if(ok){ var id2=ok.dataset.id, k2=okKey(id2), p2=LabApp.picks[k2]=LabApp.picks[k2]||{}; p2.verdict=isOk(id2)?null:'approved'; LabApp.persist(k2);
+      document.querySelectorAll('.sfx-ok[data-id="'+id2+'"]').forEach(function(x){ var on=isOk(id2); x.setAttribute('aria-pressed',String(on)); x.textContent=on?'✓ Approved':'Approve'; var tr=x.closest('tr'); if(tr)tr.classList.toggle('ok',on); });
+      var c=document.getElementById('sfx-okn'); if(c)c.textContent=okCount(); return; }
     if(e.target.id==='s89-next'){ var tr2=[].slice.call(document.querySelectorAll('.s89-r')).find(function(t){ return !touched(t.dataset.id); }); if(tr2){ tr2.scrollIntoView({block:'center',behavior:'smooth'}); tr2.classList.add('flash'); setTimeout(function(){ tr2.classList.remove('flash'); },1200); } } });
-  var st=document.createElement('style'); st.textContent='.s89-k{display:inline-flex;align-items:center;gap:2px;margin:2px 8px 2px 0}.s89-k .vbtn{padding:4px 8px}.s89-k.kept .s89-play{border-color:#7fe08a}'+
+  document.addEventListener('change',function(e){ if(e.target.id==='sfx-okhide')document.body.classList.toggle('sfx-okhide',e.target.checked); });
+  var st=document.createElement('style'); st.textContent='.sfx-okw{margin-top:6px}.sfx-ok[aria-pressed="true"]{background:#1f6a3a;border-color:#8fe8a0;color:#fff}tr.ok td:first-child{box-shadow:inset 4px 0 0 #8fe8a0}body.sfx-okhide tr.ok{display:none}#sfx-okn{color:#8fe8a0}'+
+    '.s89-k{display:inline-flex;align-items:center;gap:2px;margin:2px 8px 2px 0}.s89-k .vbtn{padding:4px 8px}.s89-k.kept .s89-play{border-color:#7fe08a}'+
     '.s89-v[aria-pressed="true"]{background:#2a5a3a;border-color:#7fe08a;color:#f0fff2}.s89-v[disabled]{opacity:.35}.s89-wait{color:#5f7088;font:12px "Segoe UI",sans-serif}.s89-play.on{background:#1d4a5a;border-color:#6fe3f5}.s89-play.wait{opacity:.6}'+
     '.s89-tag{color:#ffd27a;font-size:12px;margin-top:3px}.s89-r.done td:first-child b{color:#9fd48a}.s89-r.flash{outline:2px solid #6fe3f5}.s89-pl{white-space:normal}.s89-t ol{margin:4px 0 0 16px;padding:0}';
   document.head.appendChild(st);
