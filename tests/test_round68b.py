@@ -52,7 +52,7 @@ with game(new=True, painted=True) as g:
     t = g.js("(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, T=ws._twin; return {on:!!(T&&T.im.scene), name:T&&T.npc.n, ch:T&&T.ch, hero:ps.hero, npc:(ws._villageNPCs||[]).some(function(n){ return n.id==='vf_twin'; }), line:ZTWIN.line({spiritsFreed:new Array(21).fill('x')}), line0:ZTWIN.line({spiritsFreed:[]}), where:ZTWIN.where(ps,ws), other:ZTWIN.other(ps).ch}; })()")
     # round 81 (Kris): the other twin studies in the library by day (and sleeps at Home by night) — no longer outside the Home (test_round81)
     check('The other twin stays in the village — in the library now — and talks of how far you have come (%s)' % t['other'], ((t['where'] in ('library', 'bed') and not t['on'] and not t['npc']) or (t['where'] == 'out' and t['on'] and t['npc'])) and t['other'] == ('hero_m' if t['hero'] == 'f' else 'hero_f') and 'map' in t['line'] and 'village' in t['line0'], t)
-    check('The saga panels play once each, only when painted: the Ashlands\' tenth spirit tells the Ash Night (%s)' % z, z['first'] and z['open'] and not z['again'] and z['realm'] == 'realm4', z)
+    check('The saga panels play once each, only when painted; round 95: the Ash Night no longer comes with a freed spirit (the first steps into the Ashlands bring it) (%s)' % z, z['first'] and z['open'] and not z['again'] and z['realm'] is None, z)
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No game script errors', not errs, errs[:4])
 with sync_playwright() as p:

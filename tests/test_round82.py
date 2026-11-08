@@ -32,7 +32,7 @@ with game(painted=True) as g:
     o3 = g.js("(()=>{ var el=document.getElementById('zcut'); return el&&el.querySelector('.zcut-n').textContent; })()")
     check('Space goes on at once', o3 and o3.startswith('2 / 12'), o3)
     g.page.keyboard.press('Escape'); g.wait(1200)
-    b = g.js("""(()=>new Promise(function(res){ var ps=game.scene.getScene('World').playerState; ps.rescued=[1,2,3,4]; ps.sagaSeen=['opening']; delete ZCUT.SETS['story_saga_build4'];
+    b = g.js("""(()=>new Promise(function(res){ var ps=game.scene.getScene('World').playerState; ps.rescued=[1,2,3,4]; ps.sagaSeen=['opening']; delete ZCUT.SETS['story_saga_build4']; if(typeof ZSQ!=='undefined')ZSQ.lastEnd=0;      /* round 95: a calm moment (else it waits its turn in the story queue) */
       var ok=ZSAGA.play(ps,'build4'); setTimeout(function(){ var el=document.getElementById('zcut'); res({ok:ok, n:(ZCUT.SETS['story_saga_build4']||[]).length, open:!!el, cap:el&&el.querySelector('.zcut-cap').textContent}); },2500); }))()""")
     check('Vela\'s crossing now has its cut-scene (%s)' % b, b['ok'] and b['n'] == 9 and b['open'], b)
     errs = [x for x in g.errs if 'favicon' not in x and '404' not in x]
