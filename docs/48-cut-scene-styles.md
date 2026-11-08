@@ -147,3 +147,29 @@ Each try is a whole scene: every one of its pictures in one 20-second video, in 
 | O18 | Wide, Then Close | Exactly two shots per picture: the wide, then a close-up of the one detail as it lands (the doors meeting, the hands on the shawl, the chain links, the rune, the babes). |
 
 The prompts are about 7,600 characters, the longest yet; the fourteen were about 3,400. If Kling cuts one short, tell Claude the number and they will be trimmed.
+
+## Round 99 — every montage remade as a Locked Shot List
+
+Kris: "i am also very happy with how the intro video is in the game. Let's remake all video prompts to mimic how we developed this video."
+
+**What was made:**
+
+- `tools/video/lock_scenes.py` gives every frame of all 34 cut-scenes (259 frames) its own short list of actions and its end frame. They are written from what each picture was painted to show. `{H}` is the hero you play and `{O}` the other twin.
+- `tools/video/kling.py` now writes every part's PROMPT.txt in the O17 format.
+
+**What each PROMPT.txt contains:**
+
+1. The five scene-lock rules. Rule 4 lists that part's own shots by title.
+2. For each shot:
+   - **START:** exactly @imageN, followed by what is in the picture (the painter's words).
+   - **ACTION:** the numbered actions, in order.
+   - **END FRAME:** how the shot ends.
+   - **NOT IN THIS SHOT:** the picture's own "no …" words, plus the big events of the other pictures in the part (lightning, fire, the gate, chains, the basket, the rainbow bridge, beams of light, the Lodestar, the orbs, the giant…), plus "nothing flows between things".
+3. The avoid-list.
+
+**Facts:**
+
+- 93 prompts in all.
+- Each runs about 3,700–6,800 characters. The O17 prompt that worked was 7,600.
+- The intro's own folder (`01_opening_both_p1`) has a DONE.txt and is left as it is.
+- When the new parts come in, the intake will need the game to know each part's cut points, as `ZSC.CLIPS` does for the intro. They will be found from the video's own cuts.
