@@ -48,6 +48,13 @@ def game(new=True, w=1280, h=800, save=None, painted=False, query='', lead=False
         def _serve(r):   # the page itself, and the files beside it (painted-sprite atlases under assets/)
             u = r.request.url.split('zeldara.test/', 1)[1].split('?')[0]
             f = os.path.join(os.path.dirname(os.path.abspath(INDEX)), u)
+            if u.startswith('assets/') and os.path.isfile(f) and f.endswith('.mp4'):      # round 97: videos answer byte ranges (as a real server does), so they can seek
+                rg = r.request.headers.get('range'); n = os.path.getsize(f)
+                if rg:
+                    a0, _, b0 = rg.replace('bytes=', '').partition('-'); a0 = int(a0 or 0); b0 = min(int(b0) if b0 else n - 1, a0 + (4 << 20) - 1, n - 1)
+                    with open(f, 'rb') as fh: fh.seek(a0); body = fh.read(b0 - a0 + 1)
+                    return r.fulfill(status=206, body=body, headers={'Content-Type': 'video/mp4', 'Accept-Ranges': 'bytes', 'Content-Range': 'bytes %d-%d/%d' % (a0, b0, n), 'Content-Length': str(len(body))})
+                return r.fulfill(path=f, headers={'Accept-Ranges': 'bytes', 'Content-Type': 'video/mp4'})
             if u.startswith('assets/') and os.path.isfile(f): return r.fulfill(path=f)
             if u.startswith('assets/'): return r.fulfill(status=404, body='')
             return r.fulfill(body=html, content_type="text/html")
