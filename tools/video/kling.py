@@ -68,6 +68,58 @@ def prompt(sc, beats, who, part, nparts, sec=None):
           'glasses, phones, guns, cars, street lamps, text, captions, logos, photorealism, morphing between pictures.']
     return '\n'.join(L) + '\n'
 
+# round 99 (Kris: "i am also very happy with how the intro video is in the game. Let's remake all video prompts to mimic how we developed this
+# video"): every part is now a LOCKED SHOT LIST, as the intro (O17) was — each picture a sealed mini-scene: START exactly on the picture (what
+# is in it), the only actions that happen in it (tools/video/lock_scenes.py, written per frame), an END FRAME, and NOT IN THIS SHOT (the
+# picture's own "no …" words, plus the other pictures' big events: the lightning, the fire, the gate… only where they belong). Hard cuts.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from lock_scenes import A as LOCK_ACTS
+SIGS = [('lightning', r'lightning|thunder'), ('rain or storm', r'\brain\b|storm'), ('fire, lava or embers', r'\blava|fire|flame|ember|erupt|molten|magma'),
+        ('gate or doors', r'\bgate\b|doors'), ('chains', r'chain'), ('basket or babes', r'basket|babe|newborn'), ('rainbow bridge', r'rainbow|bifr'),
+        ('beams or pillars of light', r'beams? of (?:light|white|star)|pillar of (?:white-gold )?light|beam shoot'), ('snow', r'\bsnow'), ('bursting or shattering', r'burst|shatter|explod'),
+        ('Lodestar', r'lodestar'), ('orbs', r'\borbs?\b'), ('shooting star', r'shooting star'), ('giant', r'\bgiant|surtharn'), ('Odin or Freya', r'\bodin|freya')]
+def _clean(d, nm, ot):
+    d = re.sub(r'\(exactly as in [^)]*\)', '', d); d = re.sub(r'\s*\((?:no|NO|not|NOT)[^)]*\)', '', d)
+    d = d.replace('Zeldor', '\x00').replace('Zeldara', ot if nm == 'Zeldor' else 'Zeldara').replace('\x00', nm) if nm == 'Zeldor' else d
+    parts = re.split(r';|\s—\s|\.\s|,?\s+(?=(?:with\s+)?NO\b)', d); see, no = [], []
+    for x in parts:
+        x = re.sub(r'\s+with$', '', x.strip(' .,')).strip(' .,')
+        if not x: continue
+        if re.match(r'(?i)^(no|nothing|not|neither|only|the cliff still bare|the river beyond still|the chasm behind|beside them the chasm|behind them|in the distance the ember wall)\b', x) or re.search(r'\bNO\b|\bnothing stands|\bno bridge', x): no.append(x)
+        else: see.append(x)
+    s = '; '.join(see); w = s.split()
+    return (' '.join(w[:60]) + ('…' if len(w) > 60 else '')), no
+def prompt(sc, beats, who, part, nparts, sec=None):
+    k = 'f' if who == 'zeldara' else 'm'; n = len(beats); SECS = sec or shot(n); nm = {'f': 'Zeldara', 'm': 'Zeldor'}[k]; ot = {'f': 'Zeldor', 'm': 'Zeldara'}[k]
+    acts = LOCK_ACTS[sc['id']]; sub = lambda t: t.replace('{H}', nm).replace('{O}', ot)
+    rows = []
+    for b in beats:
+        a = sub(acts[b['n'] - 1]); do, _, endf = a.partition('=>'); do = [x.strip() for x in do.split(';') if x.strip()]
+        see, no = _clean(b.get(k) or b.get('m') or '', nm, ot)
+        rows.append(dict(b=b, do=do, end=endf.strip() or 'the picture as painted, its actions done', see=see, no=no, txt=(see + ' ' + ' '.join(do)).lower()))
+    for i, r in enumerate(rows):
+        mine = [lab for lab, rx in SIGS if re.search(rx, r['txt'])]
+        others = [lab for lab, rx in SIGS if lab not in mine and any(re.search(rx, o['txt']) for j, o in enumerate(rows) if j != i)]
+        r['never'] = r['no'] + (['no ' + ', no '.join(others)] if others else []) + ['nothing flows or travels from one thing to another unless an action says so']
+    T = [('%d (%s)' % (i + 1, r['b']['title'].lower())) for i, r in enumerate(rows)]
+    L = ['THE LOCKED SHOT LIST. A cinematic story montage of %s seconds, 16:9, made of %d shots that follow this shot list exactly — like a storyboard turned into film. Strong, clear, energetic motion; no improvisation.' % (fs(n * SECS), n),
+         'LENGTH: the game will show this video slowed to about twice its length, so make every movement clear, full and complete — energetic, never sluggish.', '',
+         'SCENE LOCK — THE MOST IMPORTANT RULES:',
+         '1. %d separate mini-scenes, one per picture, in order: %s. Each begins exactly on its picture and stays in that place for its whole time. Then a HARD CUT to the next. Never dissolve, blend or morph one picture into another.' % (n, ', '.join('@image%d' % (i + 1) for i in range(n))),
+         '2. In each scene ONLY the numbered actions written for it happen, in that order. Everything else in the picture stays as painted, alive only in small ways (cloth and hair stirring, flames flickering, mist, light, aurora rippling).',
+         '3. Nothing travels between things: no beams, pulses, sparks or streams of light flowing from one object to another, unless an action says so.',
+         '4. Every event belongs to ONE shot only: ' + ', '.join(T) + '. Never show one of them in another shot.',
+         '5. Do not reinterpret the story. Do not add people, creatures, places or objects that are not in that picture. Same faces, hair, clothes and colours as painted.', '',
+         'LOOK: the hand-painted Norse fantasy storybook style of the pictures — painterly, deep colour, glowing neon rune-blue magic, aurora borealis.',
+         'CAMERA: one unbroken shot per picture with ONE simple move (a push-in, a tilt or a slow drift). No cuts inside a shot. Each shot ends on its END FRAME, then a hard cut.', '', 'THE SHOTS:']
+    for i, r in enumerate(rows):
+        acts_txt = ' '.join('(%d) %s;' % (j + 1, x) for j, x in enumerate(r['do'])).rstrip(';') + '.'
+        L.append('SHOT %d — @image%d, %s–%s s — %s. START: exactly @image%d (%s). ACTION, in order: %s END FRAME: %s. NOT IN THIS SHOT: %s.' % (
+            i + 1, i + 1, fs(i * SECS), fs((i + 1) * SECS), r['b']['title'].upper(), i + 1, r['see'], acts_txt, r['end'], '; '.join(r['never'])))
+    L += ['', 'End on @image%d, held for a moment.' % n, '',
+          'AVOID (everywhere): any picture shown out of order or skipped; events from one picture appearing in another; morphing between pictures; light or energy flowing between objects; new people or creatures; changed faces, hair or clothes; anything modern (umbrellas, glasses, phones, guns, cars, street lamps); text, letters, captions, logos or watermarks; photorealism or a 3D-render look; extra fingers or limbs; flicker. No speech or lip-sync.']
+    return '\n'.join(L) + '\n'
+
 def negative():
     return ('new characters, extra people, changed faces, changed clothes, new objects, new buildings, scene change, redesign, morphing, '
             'text, captions, subtitles, logos, watermark, photorealism, 3D render look, flicker, ' + J.get('neg', '').split('flicker, ', 1)[-1] + '\n')
@@ -98,6 +150,7 @@ for nn, sc in enumerate(scenes, 1):
                     except OSError: pass
                 with open(s, 'rb') as fa, open(t, 'wb') as fb: shutil.copyfileobj(fa, fb, 1 << 20)      # round 88: plain reads and writes (sendfile stalls on the PC's shared folder)
                 shutil.copystat(s, t); made += 1
+            if os.path.isfile(os.path.join(d, 'DONE.txt')): listing.append('%02d  %-26s  DONE - in the game' % (nn, name)); keep.add('%02d_%s' % (nn, name)); continue      # round 99: a part already made and in the game keeps its folder as it is
             open(os.path.join(d, 'PROMPT.txt'), 'w', encoding='utf-8').write(prompt(sc, beats, 'zeldor' if who == 'both' else who, pi, len(P)))
             for old in ('NEGATIVE.txt', 'PROMPT_25s_longer_model.txt'):      # round 88e: no negative box in Kling; every part fits 20 s
                 if os.path.isfile(os.path.join(d, old)):
@@ -116,6 +169,8 @@ json.dump({'secs': SECS, 'max': MAXLEN, 'parts': parts}, open(os.path.join(OUT, 
 open(os.path.join(OUT, 'README.txt'), 'w', encoding='utf-8').write('''MAKING THE STORY VIDEOS IN KLING  (round 84; doc 40)
 
 Each folder here is ONE video to make. Work through them in any order.
+Round 99: every PROMPT.txt is now a LOCKED SHOT LIST, made the way the intro was (O17): each picture its own mini-scene, the only
+actions that happen in it, its end frame, and what must NOT happen in it. Paste the whole prompt (about 5,000-7,000 characters).
 
   1. Kling -> Video -> Kling 4.0 -> Keyframes.
   2. Upload the folder's pictures IN ORDER: image1.png, image2.png, ... (the prompt calls them @image1, @image2, ...)
