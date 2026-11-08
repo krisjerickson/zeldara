@@ -198,3 +198,20 @@ Answered (docs/08 › Round 98): **Q1 Master Oswin** · **Q2 a Training tab in t
 - **Q2 Where the Training tab lives:** the inventory, the pause panel, or the Tome?
 - **Q3 Accepting quests:** drop it (the journal tracks everything; the guild is where you hear about them), keep it with a real reason (one tracked quest with a compass), or keep it as it is?
 - **Q4 The first minutes:** a guided walk-through (taught by doing), cards as things come up, or both? Can players skip it?
+
+## 9. Your first 100 gold (Kris, Nov 8: "an easy way to get our first 100 gold, with two 50g early quests for a sword and a shield")
+
+You start with 0 gold and the wooden sword. The village shop sells the **Iron Sword (40 g)** and the **Wood Shield (25 g)**; 100 gold buys both with a potion's worth over (25 g). Goblins drop 3–8 g, so today the first sword takes about ten fights.
+
+Proposed: Oswin's first visit hands out two 50 g tasks; paying them is his reason to send you to the shop (lesson 4 follows when you have the gold). Six candidates — ☆ two in the Lab (Training & quests, top):
+
+| Task | Giver | What you do | Teaches |
+|---|---|---|---|
+| Goblins in the vegetable plot | Tob the Farmer, via Oswin | drive off 5 goblins by the north gate | attacking, the shield prompt |
+| Wake the old waystone | Oswin | Tab the waystone on the Grasslands road, travel back | the map pin, waystones, travel (no fighting) |
+| The camp on the east road | Oswin | beat the nearest camp's guards; its chest holds the 50 g | camps and chests |
+| The fisher's net | Old Nell the Fisher | fetch her net from the far shore (two skeletons) | following a pin, Tab to pick up, a ranged foe |
+| Pia's pins pay as well | Pia | the Tumbler's Lesson also gives 50 g | the roll |
+| Oswin's goblin bounty | Oswin | 5 g a goblin, up to 10 | nothing new — the freest |
+
+My suggestion: **the vegetable plot + the waystone** — one fight close to home and one trip with no fighting, about ten minutes together; then the shop, then Pia and the first treasure site as Oswin's next tasks.

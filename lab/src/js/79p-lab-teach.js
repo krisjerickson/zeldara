@@ -24,6 +24,13 @@
       '<div class="tm tm-corner"><div class="tm-scroll"><b>🛡 New: the shield</b><p>Hold <span class="tk-k">Shift</span> to block. Click for more.</p></div></div>'],
      ['point','Point at it','A glowing arrow points at the thing itself (the HUD button, the waystone, the Binder) with one line beside it; no pause. Best for "where", weakest for "how".',
       '<div class="tm tm-point"><div class="tm-thing">🗿</div><div class="tm-arrow">➜</div><div class="tm-tip"><b>A waystone.</b> Tab to wake it — then travel between any you have woken.</div></div>']]},
+   gold:{t:'Your first 100 gold — two 50 g tasks from Oswin',s:'☆ two (you start with 0 g; the village shop sells the Iron Sword 40 g and the Wood Shield 25 g — 100 g leaves a potion\'s worth over)',o:[
+     ['plot','Goblins in the vegetable plot','<b>Tob the Farmer</b>\'s rows by the north gate are being raided: drive off the 5 goblins (they come back each night until you do). Close to home, short. <b>Teaches:</b> attacking, the first hits, the shield prompt. Paid by Oswin on your return: 50 g.',''],
+     ['waystone','Wake the old waystone','"The waystone on the Grasslands road has slept twenty winters." Walk to it, <b>Tab</b> to wake it, and come back by <b>travelling</b> from it to the village stone. No fighting. <b>Teaches:</b> the map pin, waystones and travel. 50 g.',''],
+     ['camp','The camp on the east road','A goblin camp sits on the road east of the village (the nearest of the purpose camps). Beat its guards — its chest holds Oswin\'s 50 g (he "lost" it to them). <b>Teaches:</b> camps, chests, that monsters guard things.',''],
+     ['net','The fisher\'s net','<b>Old Nell the Fisher</b> at the pier lost her net to the far shore of the lake; two skeletons stand over it. Bring it back. <b>Teaches:</b> following a pin, Tab to pick things up, a ranged foe. 50 g.',''],
+     ['pins','Pia\'s pins pay as well','The Tumbler\'s Lesson (by the Rime Spire) gives 50 g on top of the roll — "I juggle for jarls; take it." Further out and a little harder. <b>Teaches:</b> the roll.',''],
+     ['bounty','Oswin\'s goblin bounty','5 g a goblin, up to 10 (50 g), anywhere in the Grasslands — the board counts them for you. The freest: fight where you like. <b>Teaches:</b> little new; good for players who just want to go.','']]},
    pause:{t:'When lessons pause the game',s:'☆ one',o:[
      ['big','Big ones pause, small ones don\'t','Systems (sites, forges, spirits, the hearth) pause with the full card; small things (a key, a shop) use the corner scroll.',''],
      ['always','Every lesson pauses','Clear and calm; more interruptions.',''],
@@ -89,17 +96,17 @@
     return '<tr class="tl-'+(v||'x')+'"><td>'+(i+1)+'</td><td><b>'+esc(L[0])+'</b></td><td>'+esc(L[1])+'</td><td>'+esc(L[2])+'</td><td><button class="vbtn tl-v" data-k="'+k+'">'+lab+'</button></td><td><input class="tl-n" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Note…"></td></tr>'; };
   var answered='<div class="ta"><b>Answered first (docs/08 › Round 98):</b> <span>🧙 Master Oswin of the guild guides you</span><span>📚 a <b>Training</b> tab in the pause panel (it replaces Controls)</span><span>✕ "Accept" goes — the journal tracks every quest; you can track one</span><span>🚶 a short guided walk + lesson cards, skippable</span></div>';
   LAB_TABS.push({ id:'teach', name:'Training & quests',
-    blurb:'<b>Round 98 — teaching the game, and the quests that carry you.</b> The review is doc 52 (what the game asks of you, what teaches today, what is missing, every quest checked). Your four answers are in; below are the choices left: how a lesson looks, the first minutes, Oswin\'s voice, the journal, tracking — and every lesson and quest text to keep, change or cut.',
+    blurb:'<b>Round 98 — teaching the game, and the quests that carry you.</b> New at the top: <b>your first 100 gold</b> — ☆ two of Oswin\'s 50 g tasks (sword + shield). The review is doc 52 (what the game asks of you, what teaches today, what is missing, every quest checked). Your four answers are in; below are the choices left: how a lesson looks, the first minutes, Oswin\'s voice, the journal, tracking — and every lesson and quest text to keep, change or cut.',
     designs:[].concat.apply([],Object.keys(G).map(function(g){ return G[g].o.map(function(o){ return {id:g+'_'+o[0],name:G[g].t+': '+o[1]}; }); })).concat(EX.map(function(x){ return {id:'ex_'+x[0],name:'Extra: '+x[1]}; })).concat(LES.map(function(L,i){ return {id:'les_'+(i+1),name:'Lesson '+(i+1)+': '+L[0]}; })).concat([{id:'qt_all',name:'The quest texts'}]),
     render:function(){ var nEx=EX.filter(function(x){ return V(K('ex',x[0]))==='pick'; }).length;
-      return answered+grp('look')+grp('pause')+grp('first')+grp('voice')+grp('journal')+grp('track')+grp('path')+
+      return answered+grp('gold')+grp('look')+grp('pause')+grp('first')+grp('voice')+grp('journal')+grp('track')+grp('path')+
         LBR.sec('Extras','☆ any ('+nEx+' picked)')+'<div class="tc-grid">'+EX.map(function(x){ return cardHTML('ex',[x[0],x[1],x[2],'']); }).join('')+'</div>'+
         LBR.sec('Every lesson — when it is taught and how','click the button to cycle ✓ Keep · ✎ Change · ✕ Cut; a note says what to change (doc 52 §4)')+
         '<table class="tl"><thead><tr><th>#</th><th>Lesson</th><th>Taught when</th><th>How</th><th></th><th></th></tr></thead><tbody>'+LES.map(lesRow).join('')+'</tbody></table>'+
         LBR.sec('The quest texts — before → after','the journal, the map\'s path line and the side-quest badges (doc 52 §6)')+
         '<table class="tq"><tbody>'+QT.map(function(q){ return '<tr><td>'+esc(q[0])+'</td><td>→</td><td>'+esc(q[1])+'</td></tr>'; }).join('')+'</tbody></table>'+
         (function(){ var k=K('qt','all'), on=V(k)==='pick'; return '<div class="tc-a"><button class="vbtn tc-pk" data-g="qt" data-id="all" aria-pressed="'+on+'">'+(on?'★ Approved':'☆ Approve these')+'</button></div><textarea class="mn-notes tc-n" data-k="'+k+'" rows="2" placeholder="Notes on the quest texts…">'+esc(P(k).notes||'')+'</textarea>'; })(); } });
-  var single=function(g){ return g!=='ex'&&g!=='qt'; };
+  var single=function(g){ return g!=='ex'&&g!=='qt'&&g!=='gold'; };
   document.addEventListener('click',function(e){
     var b=e.target.closest&&e.target.closest('.tc-pk'); if(b){ var g=b.dataset.g, id=b.dataset.id, k=K(g,id), was=V(k)==='pick';
       if(single(g)&&G[g])G[g].o.forEach(function(o){ var k2=K(g,o[0]); if(k2!==k&&V(k2)==='pick'){ LabApp.picks[k2].verdict=null; LabApp.persist(k2); } });
@@ -128,7 +135,8 @@
   if(typeof LAB_ACTIVE!=='undefined')LAB_ACTIVE.unshift('teach');
   var picked=function(g){ return G[g].o.some(function(o){ return V(K(g,o[0]))==='pick'; }); };
   if(typeof LTODO!=='undefined'){
-    LTODO.add({id:'teachlook',label:'📚 Training & quests: how lessons look, when they pause, the first minutes, Oswin\'s voice',where:'Training & quests tab · top',done:function(){ return ['look','pause','first','voice'].every(picked); },go:function(){ LTODO.goTo('teach','.tc-grid',0); }});
-    LTODO.add({id:'teachjournal',label:'📜 Training & quests: the journal, tracking, the path line',where:'Training & quests tab · middle',done:function(){ return ['journal','track','path'].every(picked); },go:function(){ LTODO.goTo('teach','.tc-grid',4); }});
+    LTODO.add({id:'teachlook',label:'📚 Training & quests: how lessons look, when they pause, the first minutes, Oswin\'s voice',where:'Training & quests tab · top',done:function(){ return ['look','pause','first','voice'].every(picked); },go:function(){ LTODO.goTo('teach','.tc-grid',1); }});
+    LTODO.add({id:'teachgold',label:'💰 Your first 100 gold: ☆ two of Oswin\'s 50 g tasks',where:'Training & quests tab · top',done:function(){ return G.gold.o.filter(function(o){ return V(K('gold',o[0]))==='pick'; }).length>=2; },go:function(){ LTODO.goTo('teach','.tc-grid',0); }});
+    LTODO.add({id:'teachjournal',label:'📜 Training & quests: the journal, tracking, the path line',where:'Training & quests tab · middle',done:function(){ return ['journal','track','path'].every(picked); },go:function(){ LTODO.goTo('teach','.tc-grid',5); }});
     LTODO.add({id:'teachles',label:'✓ Training & quests: the 31 lessons and the quest texts (keep · change · cut)',where:'Training & quests tab · bottom',done:function(){ return LES.every(function(L,i){ return !!V('teach-les_'+(i+1)); })&&!!V(K('qt','all')); },go:function(){ LTODO.goTo('teach','.tl',0); }}); }
 })();
