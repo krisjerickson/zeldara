@@ -215,3 +215,50 @@ Proposed: Oswin's first visit hands out two 50 g tasks; paying them is his reaso
 | Oswin's goblin bounty | Oswin | 5 g a goblin, up to 10 | nothing new — the freest |
 
 My suggestion: **the vegetable plot + the waystone** — one fight close to home and one trip with no fighting, about ten minutes together; then the shop, then Pia and the first treasure site as Oswin's next tasks.
+
+## 10. Built (round 100) — from the Lab picks
+
+**The picks:**
+
+| Choice | Picked |
+|---|---|
+| First 100 gold | the camp on the east road + the fisher's net |
+| How a lesson looks | Oswin speaks it, in the dialogue box, with "Don't show lessons" and a way back on in the pause panel |
+| When lessons pause | every lesson pauses |
+| The first minutes | your twin walks you out (Kris's note: "after coming out of Oswin's shop, elder runa should show you the runestones") |
+| Oswin's voice | the stern scholar |
+| The journal | the Saga + Side quests |
+| Tracking | on the minimap |
+| The path | a line under the minimap |
+| Extras | banner, suggested level, rumours, "Stuck?" from Oswin, more help on Hearthside (all but "Show me") |
+| Lessons and quest texts | all 31 lessons kept; the quest texts approved |
+
+**The new files:**
+
+- **`21t-lessons.js` (ZLES)** — the 31 lessons and their triggers.
+  - Oswin speaks each in the dialogue box, the game paused, with "Got it" and "Don't show lessons".
+  - Ragnarök shows only the big ones.
+  - An old save counts what it has already done as taught.
+  - The **Training** tab replaces Controls in the pause panel. It lists every lesson (??? until met), All keys (keyboard and touch), "Show lessons as they come", and a button to the old Controls page (difficulty, save, main menu).
+- **`21q2-journal.js` (ZJOUR)** — the journal and the path.
+  - **The Saga:** 37 steps to the end. Done steps are ✓, the current one is lit, the next two are shown, the rest are ???.
+  - **Side quests:** grouped (Oswin's first tasks, Islands, Castle isles, Mage towers, Sky ports, Fairies, the Dragon, After the end), each with a SIDE badge.
+  - No more Accept; ◎ Track on any quest instead.
+  - A gold arrow on the little map's rim points to what is tracked (or to the Saga's next step), with its distance.
+  - "Next on your path" runs to the end and sits under the little map.
+  - A banner appears when a Saga step is done, saying what is next.
+  - The suggested level shows on pins and quests.
+- **`21u-oswin.js` (ZOSW)** — Oswin and the two starter tasks.
+  - Oswin speaks at the guild, then the journal opens. On the first visit he gives the two 50 g tasks. On later visits he gives the next step, a rumour (a faint ring on the map), and a stronger hint if the Saga hasn't moved for 20 minutes of play. On Hearthside a reminder also comes every 5 minutes.
+  - **Oswin's purse:** the nearest camp east of the village; its chest pays 50 g.
+  - **Old Nell's net:** on the lake's far shore with two skeletons; Tab to take it, and Nell pays 50 g.
+- **`21v-first-walk.js` (ZWALK)** — the first minutes on a new game.
+  1. Your twin speaks, with "I know how to play — skip the lessons".
+  2. Walk.
+  3. Swing three times.
+  4. Open the map.
+  5. Go to the guild, where Oswin speaks.
+  6. Coming out, Elder Runa shows you the Runestone and the waystones.
+- **ZDLG** takes small buttons under the words (`extra`).
+- **Tests:** `tests/test_round100.py` (22). `test_round85` was updated for the Training tab. The older suites keep all four new switches off (`tests/harness.py`).
+

@@ -134,13 +134,16 @@ var ZDLG={ on:true, style:'rune', CPS:20, PAGE:150, _q:[], open:false,
       close:function(){ clearTimeout(timer); clearInterval(wrap._pt); if(wrap.parentNode)wrap.parentNode.removeChild(wrap); if(o.onClose)o.onClose(); },
       el:wrap, box:box, pages:P };
     box.addEventListener('click',function(e){ e.stopPropagation(); api.next(); });
+    if(o.extra&&o.extra.length){ var ex=document.createElement('div'); ex.className='zd-extra'; ex.style.cssText='position:absolute;left:22px;bottom:6px;display:flex;gap:8px;pointer-events:auto';      /* round 100: small choices under the words ("Don\'t show lessons") */
+      o.extra.forEach(function(x){ var bt=document.createElement('button'); bt.type='button'; bt.textContent=x.t; bt.style.cssText='font:600 12px "Segoe UI",sans-serif;padding:3px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.35);background:rgba(10,14,20,.6);color:inherit;opacity:.85;cursor:pointer';
+        bt.addEventListener('click',function(e){ e.stopPropagation(); try{ x.f(api); }catch(er){} if(x.close!==false)api.close(); }); ex.appendChild(bt); }); box.appendChild(ex); }
     type(); return api; },
   // ── in the game: one box at a time, the game paused under it ──
   root:function(){ var r=document.getElementById('zdlg'); if(!r){ r=document.createElement('div'); r.id='zdlg'; r.style.cssText='position:fixed;inset:0;z-index:420;display:none;--zdb:112px'; document.body.appendChild(r); } return r; },
   say:function(name,text,opt){ opt=opt||{}; if(typeof document==='undefined')return false;
     if(ZDLG.open){ ZDLG._q.push([name,text,opt]); return true; }
     var r=ZDLG.root(); r.style.display='block'; ZDLG.open=true; ZDLG._t0=Date.now();
-    ZDLG.cur=ZDLG.render(r,{style:ZDLG.style,name:name,text:text,icon:opt.icon,portrait:opt.portrait||ZDLG.portraitFor(opt.id),z:1,onClose:function(){ ZDLG.cur=null;
+    ZDLG.cur=ZDLG.render(r,{style:ZDLG.style,name:name,text:text,icon:opt.icon,portrait:opt.portrait||ZDLG.portraitFor(opt.id),z:1,extra:opt.extra,onClose:function(){ ZDLG.cur=null;
       var nx=ZDLG._q.shift(); if(nx){ ZDLG.open=false; ZDLG.say(nx[0],nx[1],nx[2]); return; }
       r.style.display='none'; ZDLG.open=false; ZDLG._closedAt=Date.now(); ZDLG.calm(); if(opt.done)try{ opt.done(); }catch(e){} }});
     return true; },
