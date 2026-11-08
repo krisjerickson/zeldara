@@ -3,7 +3,7 @@
 Round 93: of 31 found, 12 were kept as truly thematic (ice cracking, a firework whistle for Starfall, coins, building collapse …); the 19 that only
 matched by pack (a typewriter for a page, a chainsaw for chopping …) went to _to_delete/lib93_rejected and are out of the map.
 → audio/incoming/<id>.r1.mp3 (the cutting as lib_picks.py: a separate hit, about the effect's length, soft start, gentle fade).
-    python tools/audio/lib93.py [--ids a,b] [--force]
+    python tools/audio/lib93.py [--ids a,b] [--force]      round 93b: --map lib93b_map.json --slot r2 (the 2015-2017 bundles)
 """
 import os, sys, json, re, zipfile, subprocess, hashlib, tempfile
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -11,10 +11,11 @@ LIB = os.path.join(ROOT, 'audio', 'library'); INC = os.path.join(ROOT, 'audio', 
 CACHE = os.path.join(tempfile.gettempdir(), 'zlibcache'); os.makedirs(CACHE, exist_ok=True)
 args = sys.argv[1:]; FORCE = '--force' in args; ONLY = set(args[args.index('--ids') + 1].split(',')) if '--ids' in args else None
 C = json.load(open(os.path.join(LIB, 'catalog.json'), encoding='utf-8'))['files']
-M = json.load(open(os.path.join(ROOT, 'tools', 'audio', 'lib93_map.json'), encoding='utf-8'))
+MAPF = args[args.index('--map') + 1] if '--map' in args else 'lib93_map.json'; SLOT = args[args.index('--slot') + 1] if '--slot' in args else 'r1'      # round 93b: the 2015-2017 bundles → lib93b_map.json, --slot r2
+M = json.load(open(os.path.join(ROOT, 'tools', 'audio', MAPF), encoding='utf-8'))
 src = open(os.path.join(ROOT, 'tools', 'audio', 'lib_picks.py'), encoding='utf-8').read()
 OLD = set(m.lower() for m in re.findall(r"'([^']{6,})'", src.split('MAP = {', 1)[1]))      # every recording offered in rounds 84 and 84c
-def fresh(f): n = f['path'].lower(); return not any(o in n for o in OLD)
+def fresh(f): n = f['path'].lower(); return '__macosx' not in n and not os.path.basename(n).startswith('._') and not any(o in n for o in OLD)      # round 93b: not the Mac resource-fork copies in the 2015-2017 zips
 def ff(*a):
     r = subprocess.run(['ffmpeg', '-hide_banner', '-y', '-loglevel', 'error', *a], capture_output=True, text=True)
     if r.returncode: raise RuntimeError(r.stderr[-300:])
@@ -52,7 +53,7 @@ cues = {c['id']: c for c in json.load(open(os.path.join(ROOT, 'sprites', 'reques
 usedrec = set(); made = 0; miss = []
 for cid, rxs in M.items():
     if ONLY and cid not in ONLY: continue
-    dst = os.path.join(INC, cid + '.r1.mp3')
+    dst = os.path.join(INC, cid + '.' + SLOT + '.mp3')
     if os.path.isfile(dst) and not FORCE: continue
     pick = None
     for rx in rxs:

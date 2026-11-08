@@ -7,7 +7,7 @@
 (function(){ if(typeof LAB_TABS==='undefined'||typeof ZAUD==='undefined'||!ZAUD.V93)return;
   var T=LAB_TABS.find(function(t){ return t.id==='sfxpick'; }); if(!T)return;
   var ITEMS=typeof ZSFX84!=='undefined'&&ZSFX84&&ZSFX84.items||{}, CUES={}; ZAUD.all().forEach(function(c){ if(c.kind==='sfx')CUES[c.id]=c; });
-  var KN={cur:'Today',l1:'Rec 1',l2:'Rec 2',l3:'Rec 3',l4:'Rec 4',l5:'Rec 5',l6:'Rec 6',n1:'New 84·1',n2:'New 84·2',e1:'Gentle 1',e2:'Gentle 2',v1:'New 89·1',v2:'New 89·2',v3:'New 89·3',v4:'New 89·4',v5:'New 89·5',w1:'New 1',w2:'New 2',w3:'New 3',w4:'New 4',w5:'New 5',r1:'Library'};
+  var KN={cur:'Today',l1:'Rec 1',l2:'Rec 2',l3:'Rec 3',l4:'Rec 4',l5:'Rec 5',l6:'Rec 6',n1:'New 84·1',n2:'New 84·2',e1:'Gentle 1',e2:'Gentle 2',v1:'New 89·1',v2:'New 89·2',v3:'New 89·3',v4:'New 89·4',v5:'New 89·5',w1:'New 1',w2:'New 2',w3:'New 3',w4:'New 4',w5:'New 5',r1:'Library',r2:'Library 2'};
   var IDS=Object.keys(ZAUD.KEPT93).filter(function(id){ return (ZAUD.V93[id]||[]).length||ZAUD.LIB93[id]; }).sort(function(a,b){ return (ZAUD.KEPT93[a]||[]).length-(ZAUD.KEPT93[b]||[]).length; });
   var esc=function(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); };
   var key=function(id){ return 'sfx93-'+id; };
@@ -21,7 +21,7 @@
   var play=function(id,k,btn){ var seg=ITEMS[id]&&ITEMS[id][k]; if(!seg)return; if(cur){ try{ cur.s.stop(); }catch(e){} if(cur.b)cur.b.classList.remove('on'); cur=null; } btn.classList.add('wait');
     load(k).then(function(d){ if(AC.state==='suspended')AC.resume(); var s=AC.createBufferSource(); s.buffer=d; s.connect(AC.destination); s.start(0,Math.max(0,seg[0]-0.02),seg[1]+0.08); btn.classList.remove('wait'); btn.classList.add('on'); cur={s:s,b:btn}; s.onended=function(){ btn.classList.remove('on'); }; },
       function(){ btn.classList.remove('wait'); btn.textContent='✗ not in yet'; }); };
-  var row=function(id){ var c=CUES[id]||{name:id,where:''}, kept=ZAUD.KEPT93[id]||[], M=mine(id), V=ZAUD.V93[id]||[], has=ITEMS[id]||{}, LB=ZAUD.LIB93[id]?['r1']:[];
+  var row=function(id){ var c=CUES[id]||{name:id,where:''}, kept=ZAUD.KEPT93[id]||[], M=mine(id), V=ZAUD.V93[id]||[], has=ITEMS[id]||{}, LB=(ZAUD.LIB93[id]?['r1']:[]).concat(has.r2?['r2']:[]);      /* round 93b: a second library take from the 2015-2017 bundles */
     var take=function(k,isNew,words){ var on=M.indexOf(k)>=0, ready=!!has[k];
       return '<span class="s89-k'+(isNew?' new':' kept')+'">'+(ready?'<button class="vbtn s89-play" data-id="'+id+'" data-k="'+k+'">▶ '+KN[k]+'</button>':'<span class="s89-wait" title="'+esc(words||'')+'">'+KN[k]+' — not made yet</span>')+
         '<button class="vbtn s89-v" data-id="'+id+'" data-k="'+k+'" aria-pressed="'+on+'"'+(ready||!isNew?'':' disabled')+'>'+(on?'★':'☆')+'</button></span>'; };

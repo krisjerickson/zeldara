@@ -1,0 +1,83 @@
+{
+ "sfx_lightning": [
+  "Thunder_Crack_Fienup"
+ ],
+ "sfx_thunder": [
+  "Thunder_Boom_Fienup"
+ ],
+ "sfx_sp_thunder_step": [
+  "Thunder_Rumble_Mid_Fienup"
+ ],
+ "sfx_sp_chain_lightning": [
+  "Thunder_Crack_Fienup"
+ ],
+ "sfx_sp_starfall": [
+  "Whistling Firecracker"
+ ],
+ "sfx_sk_meteor": [
+  "Whistling Firecracker"
+ ],
+ "sfx_frost": [
+  "Ice,Impact,Throw,Snowball"
+ ],
+ "sfx_sp_ice_shards": [
+  "ICE BLOCK"
+ ],
+ "sfx_sp_frost_bolt": [
+  "Stuart Duffield - Ice SFX"
+ ],
+ "sfx_drake": [
+  "Dragon Roaring"
+ ],
+ "sfx_mt_dragon": [
+  "Dragon Roaring"
+ ],
+ "sfx_mt_ash_salamander": [
+  "Dragon Long Huff"
+ ],
+ "sfx_boss_roar": [
+  "Rage Monster"
+ ],
+ "sfx_beast_growl": [
+  "Dog Growl 33|Mutt Growl"
+ ],
+ "sfx_undead": [
+  "Aggressive Zombie"
+ ],
+ "sfx_mt_boar": [
+  "Pig 01 Snort"
+ ],
+ "sfx_serpent": [
+  "Creature Hiss|Hisses Dry"
+ ],
+ "sfx_sword_hit": [
+  "Knife_Sword_Hit_Multiple"
+ ],
+ "sfx_feast": [
+  "Crowd,ambience,bar perspective"
+ ],
+ "sfx_door": [
+  "HOUSE DOOR Bedroom Wood"
+ ],
+ "sfx_great_door": [
+  "HOUSE Clean Wood Creek"
+ ],
+ "sfx_page": [
+  "Paper Handling and Turning"
+ ],
+ "sfx_splash": [
+  "Splash_Dive_Fienup"
+ ],
+ "sfx_anvil": [
+  "Ilmarinen,blacksmith,forge,hammer,anvil"
+ ],
+ "sfx_coin": [
+  "California Foley.*coins|^coins2"
+ ],
+ "sfx_fire": [
+  "flame roar whoosh"
+ ],
+ "sfx_sp_fireball": [
+  "flame roar whoosh"
+ ]
+}

@@ -17,7 +17,7 @@ import os, sys, json, re, shutil, subprocess, wave, tempfile
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 INC = os.path.join(ROOT, 'audio', 'incoming'); CUR = os.path.join(ROOT, 'assets', 'audio'); OUT = os.path.join(ROOT, 'lab', 'preview', 'audio')
 RATE, GAP = 32000, 0.35
-KINDS = ['cur', 'e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2', 'v1', 'v2', 'v3', 'v4', 'v5', 'w1', 'w2', 'w3', 'w4', 'w5', 'r1']      # round 93: w1-w5 the thematic takes, r1 a fresh library take      # round 84c: l4-l6 from the GDC2023 bundle; round 89: v1-v5 the new takes
+KINDS = ['cur', 'e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2', 'v1', 'v2', 'v3', 'v4', 'v5', 'w1', 'w2', 'w3', 'w4', 'w5', 'r1', 'r2']      # round 93: w1-w5 the thematic takes, r1 a fresh library take      # round 84c: l4-l6 from the GDC2023 bundle; round 89: v1-v5 the new takes
 args = sys.argv[1:]
 if '--kinds' in args: KINDS = args[args.index('--kinds') + 1].split(',')
 TMP = tempfile.gettempdir()
