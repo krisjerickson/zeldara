@@ -32,11 +32,11 @@
   var readS=function(line){ return 1.4+String(line).split(/\s+/).length*0.36; };      // ≈ 165 words a minute while watching the picture, plus a breath
   var cur=function(){ var o=OPT.find(function(x){ return on('cuttext2-'+x[0]); }); return o?o[0]:'build'; };
   var panels=function(){ var p=P('cutpanel-on'); return p.verdict!=='off'; };
-  var plan=function(V){ var n=CAPS.length, T=V/n, pl=panels(); return CAPS.map(function(c,i){ var r=readS(c), isP=pl&&(i===0||i===n-1); return {i:i,cap:c,panel:isP,shot:T,secs:isP?T:Math.max(T,r),rate:isP?1:Math.max(0.5,T/Math.max(T,r)),pread:isP?r+1.2:0}; }); };
+  var plan=function(V){ var n=CAPS.length, T=V/n, pl=panels(); return CAPS.map(function(c,i){ var r=readS(c), isP=pl&&i===0;      /* round 92c (Kris: "let's only have the full panel with text before the first image, others, including the end, should have below") */ return {i:i,cap:c,panel:isP,shot:T,secs:isP?T:Math.max(T,r),rate:isP?1:Math.max(0.5,T/Math.max(T,r)),pread:isP?r+1.2:0}; }); };
   var total=function(V){ return plan(V).reduce(function(a,s){ return a+s.secs+s.pread; },0); };
   var words=function(){ return '<div class="ct2"><div class="ct2-stage"><video class="ct2-v" preload="auto" playsinline muted></video><div class="ct2-panel"><div class="ct2-pt"></div></div></div>'+
       '<div class="ct2-under"></div><div class="cs-ctl">'+OPT.map(function(o,i){ return '<button class="vbtn ct2-go" data-o="'+o[0]+'">▶ '+(i+1)+'. '+o[1]+'</button>'; }).join('')+'<button class="vbtn ct2-stop">■ Stop</button></div>'+
-      '<div class="ct2-sw"><label><input type="checkbox" class="ct2-pan"'+(panels()?' checked':'')+'> First and last lines as their own full-screen panel</label><span class="ct2-tot"></span></div>'+
+      '<div class="ct2-sw"><label><input type="checkbox" class="ct2-pan"'+(panels()?' checked':'')+'> First line as its own full-screen panel</label><span class="ct2-tot"></span></div>'+
       '<div class="cs-modes">'+OPT.map(function(o,i){ var k='cuttext2-'+o[0]; return '<div class="cs-mode'+(on(k)?' on':'')+'"><b>'+(i+1)+'. '+o[1]+'</b><p>'+o[2]+'</p><button class="vbtn ct2-pk" data-k="'+k+'" aria-pressed="'+on(k)+'">'+(on(k)?'★ Picked':'☆ Pick')+'</button>'+
         '<textarea class="mn-notes cs-note" data-k="'+k+'" rows="1" placeholder="Notes…">'+esc(P(k).notes||'')+'</textarea></div>'; }).join('')+'</div></div>'; };
   // ── one video, fourteen ways ──
@@ -89,7 +89,7 @@
     '.ct2{margin:6px 0 18px;max-width:1000px}.ct2-stage{position:relative;background:#000;border-radius:10px 10px 0 0;overflow:hidden}.ct2-v{display:block;width:100%;aspect-ratio:16/9;background:#000}'+
     '.ct2-panel{position:absolute;inset:0;background:#000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .8s}.ct2-panel.show{opacity:1}'+
     '.ct2-pt{max-width:72%;text-align:center;color:#f2e3b0;font:italic clamp(20px,3vw,36px)/1.5 Georgia,serif}.ct2-pt span{display:inline;opacity:0;transition:opacity .9s;margin-right:.3em}.ct2-pt span.in{opacity:1}'+
-    '.ct2-under{min-height:118px;padding:18px 28px;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:0 .35em;color:#f2e3b0;font:italic 23px/1.45 Georgia,serif;text-align:center;background:linear-gradient(#05080d,#0a0f17);border-top:1px solid #1b2738}'+
+    '.ct2-under{min-height:132px;padding:18px 28px;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:0 .35em;color:#f2e3b0;font:italic 29px/1.4 Georgia,serif;text-align:center;background:linear-gradient(#05080d,#0a0f17);border-top:1px solid #1b2738}'+
     '.ct2-under span{opacity:0;transition:opacity .9s ease,transform .9s ease,filter .9s ease,text-shadow 1.6s ease}'+
     '.ct2-build span{transform:translateY(8px)}.ct2-build span.in{opacity:1;transform:none}.ct2-build span.out{opacity:0;transition-duration:.7s}'+
     '.ct2-swap{position:relative}.ct2-swap span{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);transition-duration:.8s}.ct2-swap span.in{opacity:1}.ct2-swap span.out{opacity:0}'+
