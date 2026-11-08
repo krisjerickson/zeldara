@@ -202,6 +202,14 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 98 (Nov 8) — teaching the game; the quests reviewed
+- Kris: "we need to make some sort of tutorial and better guidance … Do a deep dive on the entire game, what we need to teach, when we should teach it and how. Consider a new tab … 'training' … a deep dive on our quests … with side-quests being indicated as such … Do the review and ask me basic questions first, and then for any options … build out a section in the lab". Review: doc 52.
+- T1 — Who guides (tells you what's next, hands out quests)? **Answered: Master Oswin** of the guild (he speaks in the dialogue box; the twin stays the story voice).
+- T2 — Where the Training list lives? **Answered: a tab in the pause panel** (it replaces the static Controls page).
+- T3 — "Accept" at the guild (it changes nothing today)? **Answered: drop it** — the journal tracks every quest; one can be tracked.
+- T4 — The first minutes? **Answered: both, skippable** — a short guided walk taught by doing, then lesson cards just in time; "I know how to play" turns them off.
+- The options left are in the Lab → Training & quests (how lessons look, when they pause, the first-minutes script, Oswin's voice, the journal, tracking, the path line, extras, the 31 lessons, the quest texts).
+
 ### Round 87 (Nov 3) — the hero choice and the story read end to end
 - Kris: "the intro screen selecting zeldara and zeldor is no longer thematic, referring to upbringings not in alignment with the storyline. Suggest updates to this, and check throughout the game for any narrative inconsistencies".
 - Found (audit of every player-facing line against docs/agent-context/zeldara-saga.md and 07zst): the hero cards give the twins separate parents and homelands (a shieldmaiden's daughter from the fjords, a woodcutter's son); the home page says "befriend the spirits, and face the Volcano Lord"; a pop-up says the spirits taught Godsbane (the twin does); "the false god"/"the impostor" before the citadel; the journal calls the forges the "Final Quest"; "Sixteen winters on, the twins were grown"; "hardly any children" (there were none); Pip and Wren hinted on the green early; an old "Volcano Lord" Tome entry and a sword of that name; Solmyrk's Tome entry describes Odin's Wanderer; a familiar called an "earth-spirit"; "captured spirit light" lamps; a grown hamlet woman wearing the first birth-shawl; a fixed "Zeldor" in a caption. 20 in all (list in round 87 notes, doc 43 when built).
