@@ -79,6 +79,26 @@ STYLES = [
       best='when the story should flow as one — the pictures guide the look, the storyline guides what happens',
       cut='whatever the story needs — one flowing scene or a few linked shots', text='the line under the picture, fading in fragments',
       how='The pictures are inspiration only — a mood board for the world, characters, places and light. Kling follows a written storyline, beat by beat; it need not show any picture as it is, or in order.'),
+ # round 96 (Kris: "the new kling prompts were mostly a waste, except for this one: Rhythm Montage … we still have something happen within a single
+ # image that shouldn't … I really liked the person zoom-ins in the director's cut … way too much interpretation that fully changed the story. We really
+ # need to reinforce that each image should be its own mini scene, with specific things that are told to be done in the scene, and for those things to
+ # only happen in the scene"): SCENE-LOCKED — every picture is a sealed mini-scene with its own short list of actions; four ways to cut them
+ dict(id='lock_rhythm', name='Scene-Locked Rhythm', free=1, lock=True, like='the Rhythm Montage you liked, with every picture sealed as its own mini-scene',
+      best='the opening and any lore montage — strong motion, beat cuts, nothing leaking between pictures',
+      cut='hard cuts on the beat; inside each picture 2–3 quick cuts (wide → punch-in → wide) that never leave that picture', text='the line under the picture',
+      how='Six sealed mini-scenes. Each has its own numbered actions and its own "never here" list; punch-ins and beat cuts stay inside the picture.'),
+ dict(id='lock_faces', name='Scene-Locked Faces', free=1, lock=True, like='the person zoom-ins you liked in the Director\'s Cut, on the locked scenes',
+      best='scenes with people in them — the feeling lands on a face',
+      cut='one shot per picture: the action plays wide, then the camera pushes in to a face or hands from that same picture; hard cut', text='the line under the picture',
+      how='Each scene plays its actions, then pushes in on the person the moment belongs to (a named face from the picture) as they react. No new people.'),
+ dict(id='lock_shots', name='The Locked Shot List', free=1, lock=True, like='a storyboard artist\'s shot list — start frame, action, end frame — the most literal of the four',
+      best='testing how exactly Kling will follow orders; a baseline for every other scene',
+      cut='one unbroken shot per picture, then a hard cut; no cuts inside a picture', text='the line under the picture',
+      how='Each scene is written as START (the picture) → ACTION (numbered, in order) → END FRAME (what it looks like at the cut). One camera move only.'),
+ dict(id='lock_two', name='Wide, Then Close', free=1, lock=True, like='classic two-shot coverage: the wide establishes, the insert lands the moment (game cut-scenes, TV drama)',
+      best='moments that hinge on one detail — a door meeting, a hand on a shawl, a rune flaring',
+      cut='exactly two shots per picture: the picture wide with its action, then a cut-in close-up of the one detail in that same picture', text='the line under the picture',
+      how='Shot A: the picture as painted, its actions playing. Shot B: a close-up of the key detail already in that picture as the action lands. Then a hard cut.'),
 ]
 SBY = {s['id']: s for s in STYLES}
 
@@ -295,6 +315,9 @@ ONE += [dict(OPEN, id='o_story_' + k, style='story', title=t, **x) for k, t, x i
    thread='a loop: the basket at dawn is the mystery at the start and the answer at the end; a bloom of light carries us into the past and a lightning flash brings us back.',
    camera='a slow push-in on the basket; a dreamlike transition into the past; the past told in flowing glides; a hard flash-cut back to dawn; a final rise above the pier.',
    endon='the basket at the pier at dawn, the shooting star above.'))]]
+ONE += [dict(OPEN, id='o_' + st, style=st, title=t, new=96) for st, t in [
+  ('lock_rhythm', 'Scene-Locked Rhythm — the one you liked, every picture sealed'), ('lock_faces', 'Scene-Locked Faces — each scene lands on a face'),
+  ('lock_shots', 'The Locked Shot List — start, action, end frame'), ('lock_two', 'Wide, Then Close — the picture, then its one detail')]]
 for o in ONE:
     if o['style'] == 'director':
         o['lines'] = ['wide on the village by the lake under the World Tree of light, then a close-up of a soul of light rising past the lens and a spark drifting down toward a cottage roof',
@@ -318,6 +341,66 @@ for o in ONE:
                       'the empty cradles and the old woman by the window', 'the dead drifting at the edge of the light, a Binder\'s chain in the mist',
                       'the storm: lightning striking the runestones so they blaze', 'dawn: the glowing basket drifting across Mirror Lake']
 
+# ── round 96: SCENE-LOCKED — the opening's six pictures as six sealed mini-scenes (written from the paintings themselves) ──
+# see: what is IN the picture (so Kling knows what it may move); do: the only actions, in order; face: the person the push-in lands on;
+# close: the one detail for a close-up; endf: the frame at the cut; never: what must NOT happen in THIS picture (it belongs to another one)
+LOCK = [
+ dict(tag='THE TREE OF SOULS', see='a giant World Tree made of rune-blue light rising behind a carved runestone arch; pale human-shaped souls of light inside its trunk and branches; a crowd of villagers with torches below; an old man in a fur cloak on the left with both arms raised; aurora over a lake and mountains',
+      do=['the souls of light float steadily UP the trunk and along the branches and fade into the aurora at the top', 'the old man on the left lifts his arms higher, and the villagers raise their faces to the tree', 'torches flicker, the aurora ripples, the lake shimmers'],
+      face='the old man on the left, his face lit blue, looking up in awe', close='souls of light rising inside the glowing trunk', endf='the tree full of rising light, the crowd looking up',
+      never='no lightning, no rain, no gate; the runestone arch keeps a steady glow and sends no light anywhere; no souls come down; no falling stars'),
+ dict(tag='THE GATE SHUTS', see='a golden gate at the top of a citadel floating on clouds; a golden World Tree in the clouds below it; villagers in fur cloaks on a timber balcony at the bottom of the picture, looking up',
+      do=['the two great doors of the golden gate swing shut until they meet — the bright gold line between them narrows and vanishes', 'the golden tree in the clouds dims from the top down and goes dark', 'the villagers on the balcony lower their heads; a hooded woman presses her hands together'],
+      face='the hooded woman on the balcony as the light drains from her face', close='the golden doors meeting and the line of light vanishing', endf='the gate closed, the tree in the clouds dark, the people below with heads bowed',
+      never='no lightning, no blue tree, no souls of light; nothing flies out of the gate; the citadel does not fall or burn'),
+ dict(tag='THE EMPTY CRADLES', see='a candlelit nursery: rows of empty wooden cradles with fur blankets; an old woman with a silver bun and a fur cloak holding a folded white birth-shawl; a window to the aurora and a calmly glowing runestone outside',
+      do=['the old woman slowly draws the folded shawl against her chest and lowers her eyes', 'the candle flames tremble and their light wavers over the empty cradles', 'outside the window the aurora ripples softly'],
+      face='the old woman\'s lined face, eyes lowered, as she holds the shawl', close='her hands tightening on the folded shawl', endf='the old woman alone with the empty cradles, the shawl held close',
+      never='no babies or children anywhere, the cradles stay empty and still, no one else enters; the runestone outside does not flash or pulse; no lightning, no storm'),
+ dict(tag='THE EDGE OF THE LIGHT', see='dusk at the edge of the fields; villagers in fur cloaks with spears behind a pointed timber palisade with fire baskets; pale rune-blue ghostly spirits standing in the mist across the fields; heavy dark iron chains hanging between tall rocks with glowing runes',
+      do=['the pale spirits drift slowly through the mist, flickering, staying out in the fields', 'the dark chains sway and grind tight, glinting in the dusk', 'the villagers tighten their grip on their spears; the man in front turns his head toward the spirits'],
+      face='the bearded man at the palisade, jaw set, watching the spirits', close='the heavy chain links grinding tight', endf='the villagers at the palisade facing the misty fields and the spirits beyond',
+      never='no lightning or rain; the chains stay where they hang and do not reach the spirits or the people; no Binders or monsters appear; the spirits do not cross the palisade; the runes keep a steady glow (no light runs from one stone to another)'),
+ dict(tag='THE STORM', see='a dark plain in heavy rain; a tall central runestone with a blazing rune; lightning bolts around it; broken rocks in the air; smaller runestones glowing across the plain; villagers on the left watching',
+      do=['heavy rain sweeps across the plain', 'a great lightning bolt strikes the tall central runestone and its rune flares blinding neon rune-blue — this is the strike of the whole video', 'at that same instant every smaller runestone on the plain flares together; the villagers flinch and shield their eyes'],
+      face='an old woman among the villagers, flinching, her face lit by the blue flash', close='the rune on the central stone blazing as the bolt hits', endf='the central runestone blazing blue in the rain',
+      never='the lightning strikes only here, only the central stone; no light travels from stone to stone (they flare at the same moment); no gate, no tree, no basket'),
+ dict(tag='THE BASKET AT DAWN', see='dawn over still Mirror Lake; a carved wooden basket with two glowing rune-blue lanterns floating near a timber pier; two newborn babes asleep in it under soft blankets (a boy with a tuft of brown hair, a girl with a tuft of auburn hair); villagers on the pier: an old white-bearded man and a woman in a pink hood; a waterfall, the rising sun, a shooting star',
+      do=['the basket glides gently toward the pier, rings of ripples spreading on the still water', 'the babes sleep peacefully; the girl stirs and settles', 'the villagers on the pier lean forward in wonder; the woman presses her hands to her heart', 'one shooting star streaks across the dawn sky'],
+      face='the woman in the pink hood, hands to her heart, eyes shining', close='the two sleeping babes in the basket', endf='the basket at the pier in the dawn light, the shooting star above',
+      never='no storm, no lightning, no rain; the babes do not wake, cry, grow or change; no other babies; nothing rises out of the basket; the lanterns keep a steady glow'),
+]
+LOCK_RULES = ('SCENE LOCK — THE MOST IMPORTANT RULES:\n'
+  '1. Six separate mini-scenes, one per picture, in order: @image1, @image2, @image3, @image4, @image5, @image6. Each begins exactly on its picture and stays in that place for its whole time. Then a HARD CUT to the next. Never dissolve, blend or morph one picture into another.\n'
+  '2. In each scene ONLY the numbered actions written for it happen, in that order. Everything else in the picture stays as painted, alive only in small ways (cloth and hair stirring, flames flickering, mist, aurora rippling).\n'
+  '3. Nothing travels between things: no beams, pulses, sparks or streams of light flowing from one object to another, unless an action says so.\n'
+  '4. Every event belongs to ONE scene only: the souls rising (scene 1), the gate shutting (2), the empty cradles (3), the chains (4), the lightning (5), the basket and the babes (6). Never show one of them in another scene.\n'
+  '5. Do not reinterpret the story. Do not add people, creatures, places or objects that are not in that picture. Same faces, hair, clothes and colours as painted.')
+
+def lock_prompt(I):
+    S = SBY[I['style']]; n = len(LOCK); t = LONG / n; v = S['id']
+    head = {'lock_rhythm': 'SCENE-LOCKED RHYTHM MONTAGE. An epic, energetic mythic prologue of %s seconds, 16:9, cut like a game trailer to a steady beat of about 115 BPM (medieval midcore EDM). Strong, bold motion in every scene.',
+            'lock_faces': 'SCENE-LOCKED, WITH FACES. A cinematic mythic prologue of %s seconds, 16:9. Each scene plays its actions with strong, clear motion, then the camera pushes in to the face of the person the moment belongs to, as they react.',
+            'lock_shots': 'THE LOCKED SHOT LIST. A mythic prologue of %s seconds, 16:9, made of six shots that follow this shot list exactly — like a storyboard turned into film. Strong, clear motion; no improvisation.',
+            'lock_two': 'WIDE, THEN CLOSE. A cinematic mythic prologue of %s seconds, 16:9. Every scene is exactly two shots: the picture wide with its actions, then a close-up of one detail from that same picture as the action lands.'}[v] % fs(n * t)
+    cut = {'lock_rhythm': 'CUTTING: hard cuts on the beat. Inside a scene you may cut 2–3 times on the beat between the full picture and a punch-in on a detail OF THAT SAME PICTURE (never a detail from another picture). Speed-ramp into slow motion on the lightning strike in scene 5. Camera shake only in scene 5.',
+           'lock_faces': 'CAMERA: one shot per scene — open on the full picture while the actions play, then a smooth push-in to the named face (or hands) from that picture for the last second. Shallow focus on the face. Hard cut to the next scene.',
+           'lock_shots': 'CAMERA: one unbroken shot per scene with ONE simple move (a push-in, a tilt or a slow drift). No cuts inside a scene. Each scene ends on its END FRAME, then a hard cut.',
+           'lock_two': 'CUTTING: shot A — the full picture, the actions playing (about two thirds of the scene); shot B — a hard cut to the close-up of the named detail from the same picture as the action finishes (the last third). Then a hard cut to the next scene.'}[v]
+    P = [head, I['slow'], '', LOCK_RULES, '',
+         'LOOK: the hand-painted Norse fantasy storybook style of the pictures — painterly, deep colour, glowing neon rune-blue magic, aurora borealis.', cut,
+         'LIGHT AND COLOUR: %s.' % I['arc'], '', 'THE SCENES:']
+    for i, L in enumerate(LOCK):
+        a, b = fs(i * t), fs((i + 1) * t); acts = ' '.join('(%d) %s;' % (k + 1, x) for k, x in enumerate(L['do'])).rstrip(';') + '.'
+        if v == 'lock_shots':
+            P.append('SHOT %d — @image%d, %s–%s s — %s. START: exactly @image%d (%s). ACTION, in order: %s END FRAME: %s. NOT IN THIS SHOT: %s.' % (i + 1, i + 1, a, b, L['tag'], i + 1, L['see'], acts, L['endf'], L['never']))
+        else:
+            extra = {'lock_rhythm': 'Punch-in on: %s.' % L['close'], 'lock_faces': 'Push in to: %s.' % L['face'], 'lock_two': 'Close-up: %s.' % L['close']}[v]
+            P.append('SCENE %d — @image%d, %s–%s s — %s. In the picture: %s. Only these happen: %s %s Never here: %s.' % (i + 1, i + 1, a, b, L['tag'], L['see'], acts, extra, L['never']))
+    P += ['', 'End on @image6 at the pier, held for a moment.', '',
+          'AVOID (everywhere): any picture shown out of order or skipped; events from one picture appearing in another; morphing between pictures; light or energy flowing between objects; new people or creatures; changed faces, hair or clothes; anything modern (umbrellas, glasses, phones, guns, cars, street lamps); text, letters, captions, logos or watermarks; photorealism or a 3D-render look; extra fingers or limbs; flicker. No speech or lip-sync.']
+    return '\n'.join(P) + '\n'
+
 def frames(I):
     sc = SC[I['scene']]; B = sc['beats']
     if I.get('part'):      # the same split as kling.py (6 at most)
@@ -327,6 +410,7 @@ def frames(I):
     return B
 
 def prompt(I):
+    if SBY[I['style']].get('lock'): return lock_prompt(I)
     S = SBY[I['style']]; B = frames(I); n = len(B); t = LONG / n; tot = fs(n * t); ims = ', '.join('@image%d' % (i + 1) for i in range(n))
     L = I['lines']; assert len(L) == n, (I['id'], len(L), n)
     if S['id'] == 'living':
@@ -446,7 +530,7 @@ def main():
                 made += 1
             open(os.path.join(d, 'PROMPT.txt'), 'w', encoding='utf-8').write(pr); open(os.path.join(d, 'SAVE AS %s.mp4' % name), 'a').close()
         O.append(dict(k=k, id=I['id'], scene='opening', who='zeldor', part=1, style=I['style'], title=I['title'], why=SBY[I['style']]['best'],
-                      frames=[b['n'] for b in B], caps=[b.get('cap', '') for b in B], secs=LONG, prompt=pr, chars=len(pr), folder=folder, save=name + '.mp4'))
+                      frames=[b['n'] for b in B], caps=[b.get('cap', '') for b in B], secs=LONG, prompt=pr, chars=len(pr), folder=folder, save=name + '.mp4', new=I.get('new')))
         print('O%02d  %-22s %d pictures, prompt %d characters%s' % (k, I['style'], len(B), len(pr), '' if have else '   (pictures not here)'))
     js = ('// made by tools/video/kling_styles.py (round 92, doc 48) — do not edit by hand\nvar ZCUTSTY=' +
           json.dumps({'styles': STYLES, 'ideas': L, 'one': O}, ensure_ascii=False) + ';\n')

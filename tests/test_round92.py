@@ -9,7 +9,7 @@ def check(n, ok, info=''):
 sys.path.insert(0, os.path.join(R, 'tools', 'video')); import importlib.util
 spec = importlib.util.spec_from_file_location('ks', os.path.join(R, 'tools', 'video', 'kling_styles.py')); ks = importlib.util.module_from_spec(spec); spec.loader.exec_module(ks)
 st = [s['id'] for s in ks.STYLES]
-check('Eleven styles (five, five more, and story-led), with different freedoms (%s)' % st, len(st) == 11 and len({s['free'] for s in ks.STYLES}) >= 4)
+check('Fifteen styles (five, five more, story-led, and round 96\'s four scene-locked), with different freedoms (%s)' % st, len(st) == 15 and len({s['free'] for s in ks.STYLES}) >= 4)
 I = ks.IDEAS; P = {i['id']: ks.prompt(i) for i in I}
 check('Ten ideas, two per style, ten different scenes', len(I) == 10 and all(sum(1 for i in I if i['style'] == s) == 2 for s in st[:5]) and len({i['scene'] for i in I}) == 10)
 allimg = all(all('@image%d' % (k + 1) in P[i['id']] for k in range(len(ks.frames(i)))) for i in I)
@@ -20,7 +20,7 @@ bad = [k for k, v in P.items() if 'umbrella' not in v or 'text' not in v.lower()
 check('Each says what to keep out (modern things, text) in the prompt itself', not bad, bad)
 check('No story words (captions) inside the videos: the prompts ask for no text', all('captions' in v or 'text' in v for v in P.values()))
 O = ks.ONE; PO = {o['id']: ks.prompt(o) for o in O}
-check('One video, fourteen ways: the opening in ten styles and four story-led versions (%d)' % len(O), len(O) == 14 and len({o['style'] for o in O}) == 11 and sum(1 for o in O if o['style'] == 'story') == 4)
+check('One video, eighteen ways: ten styles, four story-led, four scene-locked (%d)' % len(O), len(O) == 18 and len({o['style'] for o in O}) == 15 and sum(1 for o in O if o.get('new') == 96) == 4 and sum(1 for o in O if o['style'] == 'story') == 4)
 check('The story-led ones say the pictures are inspiration only, and give a timed storyline', all('INSPIRATION ONLY' in PO[o['id']] and '16–20 s' in PO[o['id']] for o in O if o['style'] == 'story'))
 check('Each one-video prompt asks for movement that holds up when slowed to 40 s', all('40 seconds' in v for v in PO.values()))
 with sync_playwright() as p:
@@ -37,8 +37,8 @@ with sync_playwright() as p:
     pg.route("http://lab.test/**", serve)
     pg.goto("http://lab.test/?tabs=all"); pg.wait_for_timeout(1500)
     pg.click('.lab-tab[data-tab="cutstyle"]'); pg.wait_for_timeout(1000)
-    t = pg.evaluate("({ideas:document.querySelectorAll('.cs-idea').length, styles:document.querySelectorAll('.cs-st').length, prin:document.querySelectorAll('.cs-pr8>div').length, thumbs:document.querySelectorAll('.cs-fr').length, todo:(LTODO.L||[]).filter(function(x){ return /^cut(one|text2)$/.test(x.id); }).length})")
-    check('Lab → Cut-scene styles: 8 principles, 5 styles, 10 tries with every picture, waiting in the to-do list (%s)' % t, t['ideas'] == 24 and t['styles'] == 11 and t['prin'] == 8 and t['thumbs'] == sum(len(ks.frames(i)) for i in I) + 6 and t['todo'] == 2, t)
+    t = pg.evaluate("({ideas:document.querySelectorAll('.cs-idea').length, styles:document.querySelectorAll('.cs-st').length, prin:document.querySelectorAll('.cs-pr8>div').length, thumbs:document.querySelectorAll('.cs-fr').length, todo:(LTODO.L||[]).filter(function(x){ return /^cutlock$/.test(x.id); }).length})")
+    check('Lab → Cut-scene styles: 8 principles, 5 styles, 10 tries with every picture, waiting in the to-do list (%s)' % t, t['ideas'] == 28 and t['styles'] == 15 and t['prin'] == 8 and t['thumbs'] == sum(len(ks.frames(i)) for i in I) + 6 and t['todo'] == 1, t)
     pg.evaluate("document.querySelector('.cs-ipk').scrollIntoView()")
     for k in range(6): pg.click('.cs-ipk >> nth=%d' % k); pg.wait_for_timeout(80)
     n = pg.evaluate("Object.keys(LabApp.picks).filter(function(k){ return /^cutidea-/.test(k)&&LabApp.picks[k].verdict==='pick'; }).length")

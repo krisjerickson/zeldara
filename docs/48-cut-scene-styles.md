@@ -113,3 +113,37 @@ Each try is a whole scene: every one of its pictures in one 20-second video, in 
 **Kept:** the ten tries on other scenes (S01–S10) stay, further down the tab.
 
 **Lab:** `lab/src/js/79o2-lab-cutstyles2.js`. Test: `tests/test_round92.py` (19).
+
+## Round 96 — scene-locked (Kris's notes on the fourteen)
+
+**What Kris said about the fourteen:**
+
+- **Rhythm Montage:** "rather good … best so far … I like how much things are moving". One thing pulsed from one part of a picture to another, which it shouldn't have.
+- **Director's Cut:** worse and out of order, but "I do like the zoom in on people".
+- **Living, Frozen, Runestone, Tapestry:** "too much interpretation", "out of order", "mixing elements within the different images", "lightning struck in an image when it shouldn't have".
+- **The fix he asked for:** "each image should be its own mini scene, with specific things that are told to be done in the scene, and for those things to only happen in the scene."
+
+**The four new prompts** (O15–O18, styles `lock_*`, `LOCK` and `lock_prompt()` in tools/video/kling_styles.py) share one structure:
+
+- **The scene lock (five rules at the top):**
+  1. Six mini-scenes, in order, hard cuts only — no dissolve, blend or morph.
+  2. Only the numbered actions happen in each scene; everything else stays as painted, alive only in small ways.
+  3. Nothing travels between things: no beams, pulses or sparks between objects.
+  4. Each event belongs to one scene only: souls rising (1), gate shutting (2), cradles (3), chains (4), lightning (5), basket and babes (6).
+  5. No reinterpretation and nothing added.
+- **Each scene, written from the painting itself:**
+  - what is in the picture
+  - 3–4 numbered actions, the only things that happen
+  - a "never here" list that names the neighbours' events (lightning only in the storm; the runestones flare together, so no light runs between them; the chains never reach anyone)
+  - the face for a push-in, the detail for a close-up, the end frame
+
+**How the four cut the same six scenes:**
+
+| Folder | Name | How it cuts |
+|---|---|---|
+| O15 | Scene-Locked Rhythm | The liked one, sealed: beat cuts and punch-ins only inside each picture; slow motion and camera shake only on the lightning. |
+| O16 | Scene-Locked Faces | The actions play wide, then a push-in to the named face (the old man looking up; the hooded woman; the old woman with the shawl; the bearded man at the palisade; the old woman flinching; the woman in pink with her hands to her heart). |
+| O17 | The Locked Shot List | START → ACTION → END FRAME → NOT IN THIS SHOT; one shot and one camera move per picture. The most literal of the four. |
+| O18 | Wide, Then Close | Exactly two shots per picture: the wide, then a close-up of the one detail as it lands (the doors meeting, the hands on the shawl, the chain links, the rune, the babes). |
+
+The prompts are about 7,600 characters, the longest yet; the fourteen were about 3,400. If Kling cuts one short, tell Claude the number and they will be trimmed.
