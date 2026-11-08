@@ -221,15 +221,17 @@ try {
   const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); for (const e of fs.readdirSync(from, { withFileTypes: true })) { const a = path.join(from, e.name), b = path.join(to, e.name); if (e.isDirectory()) copyDir(a, b); else fs.copyFileSync(a, b); } };
   try { fs.rmSync(D('dist'), { recursive: true, force: true }); } catch (e) { /* folder where deleting is not allowed: the files below are overwritten in place */ }
   fs.mkdirSync(D('dist', 'lab'), { recursive: true }); fs.mkdirSync(D('dist', 'play'), { recursive: true });
-  fs.copyFileSync(D('index.html'), D('dist', 'play', 'index.html'));
-  // the same game with the other engine as its default, so both can be tried from one deploy: /play4 (Phaser 4), /play3 (Phaser 3.60)
-  for (const v of ['3', '4']) { fs.mkdirSync(D('dist', 'play' + v), { recursive: true }); fs.writeFileSync(D('dist', 'play' + v, 'index.html'), withEngine(outRaw, v, false)); }
-  if (fs.existsSync(D('assets', 'atlas'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'atlas'), D('dist', 'play' + v, 'assets', 'atlas'));
-  if (fs.existsSync(D('assets', 'scenery'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'scenery'), D('dist', 'play' + v, 'assets', 'scenery'));   // painted scenery (round 30)
-  if (fs.existsSync(D('assets', 'audio'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'audio'), D('dist', 'play' + v, 'assets', 'audio'));   // the made music and sounds (round 73)
-  if (fs.existsSync(D('assets', 'video'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'video'), D('dist', 'play' + v, 'assets', 'video'));
-  if (fs.existsSync(D('assets', 'story'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'story'), D('dist', 'play' + v, 'assets', 'story'));   // the story frames (round 82)   // the cut-scene clips (round 73)
-  if (fs.existsSync(D('assets', 'world'))) for (const v of ['', '3', '4']) copyDir(D('assets', 'world'), D('dist', 'play' + v, 'assets', 'world'));   // the baked world (round 72)
+  // round 94 (Kris: Vercel asked for an upgrade): ONE copy of the game's files. Hobby keeps up to ~6 deployments inside 10 GB of
+  // Deployment Storage, and dist/ was ~1.5 GB because /play, /play3 and /play4 each carried every asset (and music as mp3 + ogg).
+  //  · the hosted game plays the .mp3 takes only (every browser plays mp3) — the .ogg twins stay in assets/ for local play
+  //  · /play3 and /play4 are tiny pages that forward to /play?engine=3 / ?engine=4 (the page already reads ?engine=)
+  //  · mu_home take 1 is not shipped (round 92: the game plays take 2 only)
+  fs.writeFileSync(D('dist', 'play', 'index.html'), fs.readFileSync(D('index.html'), 'utf8').replace('var ZAUDIO_INDEX=', 'var ZAUDIO_EXT="mp3";var ZAUDIO_INDEX='));
+  for (const v of ['3', '4']) { fs.mkdirSync(D('dist', 'play' + v), { recursive: true }); fs.writeFileSync(D('dist', 'play' + v, 'index.html'), `<!doctype html><meta charset="utf-8"><title>Zeldara</title><script>(function(){var q=location.search.replace(/^\\?/,'').split('&').filter(function(p){return p&&!/^engine=/.test(p);});q.unshift('engine=${v}');location.replace('/play/?'+q.join('&')+location.hash);})();</script><meta http-equiv="refresh" content="0;url=/play/?engine=${v}"><body style="background:#000;color:#63f2dc;font-family:sans-serif"><p style="padding:2em"><a style="color:#63f2dc" href="/play/?engine=${v}">Zeldara (Phaser ${v})</a></p>`); }
+  const SKIP = { audio: f => /\.ogg$/i.test(f) || /^mu_home\.(mp3|ogg)$/.test(f) };
+  const copyAsset = k => { const from = D('assets', k); if (!fs.existsSync(from)) return; const to = D('dist', 'play', 'assets', k); fs.mkdirSync(to, { recursive: true });
+    for (const e of fs.readdirSync(from, { withFileTypes: true })) { if (SKIP[k] && SKIP[k](e.name)) continue; if (e.isDirectory()) copyDir(path.join(from, e.name), path.join(to, e.name)); else fs.copyFileSync(path.join(from, e.name), path.join(to, e.name)); } };
+  ['atlas', 'scenery', 'audio', 'video', 'story', 'world'].forEach(copyAsset);   /* sprites (r30 scenery), music and sounds (r73), cut-scene clips, story frames (r82), the baked world (r72) */
   if (fs.existsSync(D('lab/index.html'))) fs.copyFileSync(D('lab/index.html'), D('dist', 'lab', 'index.html'));
   if (fs.existsSync(D('lab/preview'))) copyDir(D('lab/preview'), D('dist', 'lab', 'preview'));
   // the home page (Next.js, site/): it paints the brand with the game's own brand code
@@ -246,5 +248,7 @@ try {
     } else console.log('! next not installed (npm install) — using the plain fallback page for /');
   }
   if (!home) fs.writeFileSync(D('dist', 'index.html'), '<!doctype html><meta charset="utf-8"><title>Zeldara</title><meta http-equiv="refresh" content="0;url=/play"><body style="background:#000;color:#63f2dc;font-family:sans-serif"><p style="padding:2em">Zeldara — <a style="color:#63f2dc" href="/play">play</a></p>');
+  { let n = 0, big = 0; const walk = d => { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const f = path.join(d, e.name); if (e.isDirectory()) walk(f); else { const z = fs.statSync(f).size; n += z; if (/[\\/]lab[\\/]preview[\\/]/.test(f)) big += z; } } }; walk(D('dist'));
+    console.log(`✓ dist/ is ${(n / 1e6).toFixed(0)} MB` + (big ? ` (${(big / 1e6).toFixed(0)} MB of it is lab/preview, which is not in git, so Vercel never gets it)` : '')); }
   console.log('✓ dist/ ready for hosting: ' + (home ? 'home page (Next.js) at /' : 'fallback page at /') + ', game at /play, Lab at /lab');
 }

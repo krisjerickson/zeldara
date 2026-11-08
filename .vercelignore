@@ -12,3 +12,7 @@ dist/
 /lab/index.html
 /lab/lab.artifact.html
 *.bak
+# round 94: never upload the sound library, the Kling folders or the Lab previews
+/audio/
+video_requests/
+lab/preview/

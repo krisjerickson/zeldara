@@ -37,3 +37,8 @@ sprites/incoming/.claims/
 
 # round 85: the dormant Vite/React skeleton and old builds stay on this PC only (Vercel took the skeleton for a second app to deploy)
 archive/
+
+# round 94: the sound library zips and the Kling folders stay on this PC (tens of GB) — never commit them
+audio/library/
+audio/incoming/
+video_requests/
