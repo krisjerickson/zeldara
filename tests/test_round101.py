@@ -73,8 +73,14 @@ with sync_playwright() as p:
     pg.evaluate("document.querySelector('.pz-pk[data-g=\"hp\"][data-id=\"teal\"]').click()"); pg.wait_for_timeout(200)
     v = pg.evaluate("(LabApp.picks['pol-hp_teal']||{}).verdict")
     check('A pick is kept (%s)' % v, v == 'pick', v)
+    sg = pg.evaluate("""(()=>{ var seg=document.querySelector('.pz-seg[data-k="pol-art_gate"]'); seg.querySelector('[data-v="pick"]').click(); var a=(LabApp.picks['pol-art_gate']||{}).verdict;
+      seg.querySelector('[data-v="cut"]').click(); var b=(LabApp.picks['pol-art_gate']||{}).verdict; seg.querySelector('[data-v="cut"]').click(); var c=(LabApp.picks['pol-art_gate']||{}).verdict;
+      var cols=document.querySelector('.pz-rules').previousElementSibling.querySelectorAll('thead th').length; return [a,b,c,seg.children.length,cols]; })()""")
+    check('Painted art rows: three buttons — ✓ gives pick (not "change"), ✕ skip, again clears (%s); the spell table has 8 columns' % sg, sg[:4] == ['pick', 'cut', None, 3] and sg[4] == 8, sg)
     pg.evaluate("LTODO.goTo('guide','.gd-imp',0)"); pg.wait_for_timeout(1200)
     gd = pg.evaluate("({rows:document.querySelectorAll('.gd-t tbody tr').length, imp:document.querySelectorAll('.gd-imp tr').length})")
+    gv = pg.evaluate("""(()=>{ var seg=document.querySelector('.gd-seg'); seg.querySelector('[data-v="pick"]').click(); return (LabApp.picks[seg.dataset.k]||{}).verdict; })()""")
+    check('Mechanics guide: ✓ Do gives pick (%s)' % gv, gv == 'pick', gv)
     check('Lab → Mechanics guide: %d mechanics, %d improvements' % (gd['rows'], gd['imp']), gd['rows'] >= 30 and gd['imp'] >= 12, gd)
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d/%d passed' % (sum(res), len(res)))

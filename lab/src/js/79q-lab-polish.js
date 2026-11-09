@@ -29,8 +29,7 @@
    ['dfloor','Dungeon and tower floors and walls (bulk background)','Pixel tiles (the one big area still pixel)','Painted floor and wall textures per theme, laid like the world\'s painted ground. <b>Trial one theme first</b> and measure the load (each theme adds a texture page)','8 themes × 1 page','medium — trial first'],
    ['toast','Item and loot icons in messages','Emoji (💰 🍖 💎)','The painted item icons the inventory already uses','none — code','none'],
    ['hudico','The HUD (health, mana, experience)','Thin bars with small painted icons','The new HUD (section 3)','depends on the pick','tiny']];
-  var AV=[[null,'·'],['pick','✓ Order / do'],['change','✎ Change'],['cut','✕ Skip']];
-  // ── 2. pop-ups: where plain text appears today ──
+    // ── 2. pop-ups: where plain text appears today ──
   var POPS=[['Messages (toasts)','439 calls in 67 files','a dark pill, top centre, 2.5 s: loot, gold, warnings, level-ups, quests, NPC lines, saves — all the same look','sorted by kind (below)'],
     ['NPC lines inside toasts','≈21','"🙏 Fairy: “Thank you!…”" in a toast that fades','the dialogue box, or a speech bubble over the speaker'],
     ['Old talk box (FairyTalk)','12 calls, 2 files','spirits\' thanks, fairies','the dialogue box (section 1)'],
@@ -86,7 +85,7 @@
    zones:{t:'Where an arrow hits',s:'☆ one',o:[
      ['three','Head · body · legs','Head ×2 and a short stagger; body ×1; legs ×0.7 and slowed for 3 s. Bosses: head ×1.5.',''],
      ['two','Weak spot · body','Every monster has one glowing weak spot (head, core, eye…) ×2; the rest ×1.',''],
-     ['crit','Draw = crit','No zones; a full draw is a sure critical (×2).','']]},
+     ['crit','Draw = crit','No zones: half a draw is ×1.5 (your note), a full draw a sure critical ×2; a quick tap ×1.','']]},
    load:{t:'The load screen — words and look',s:'☆ one (no spoilers)',o:[
      ['rune','The runestones wake','Lines in the title\'s rune lettering, glowing teal, one after another under a rune progress bar: "The runestones are waking…" · "Painting the land…" · "The spirits are listening…"','<div class="pzm night pz-load"><div class="l1">The runestones are waking…</div><div class="pb"><i style="width:58%"></i></div><div class="l2">Painting the land…</div></div>'],
      ['saga','A line of the story','One quiet line from the opening, changing each load: "Sixteen winters on, the road out of the village is open." · "Ten spirits are bound in every realm."','<div class="pzm night pz-load"><div class="l1">Ten spirits are bound in every realm.</div><div class="pb"><i style="width:58%"></i></div></div>'],
@@ -94,12 +93,28 @@
      ['quiet','Just the circle','The rune circle turning and the bar; no words.','<div class="pzm night pz-load"><div class="ring"></div><div class="pb"><i style="width:58%"></i></div></div>']]}
   };
   // ── spells: today → proposed (stronger, slower, dearer) and the effect each leaves ──
-  var SPX={frost_bolt:['Freeze','frozen 1.5 s in an ice shell (bosses: slowed)'],fireball:['Burn','burns for 4 s'],chain_lightning:['Shock','stunned 0.5 s; the next hit +25 %'],flame_nova:['Burn','burns for 4 s'],
-    ice_shards:['Chill','slowed; three chills freeze'],void_orb:['Hex','defence −30 % for 5 s'],meteor:['Burn + knock-down',''],thunder_step:['Shock','stunned 1.5 s'],poison_mist:['Poison','poisoned while in the mist and 3 s after'],
-    arcane_burst:['Mark','the next hit is critical'],thorn_snare:['Rooted','vines hold it 2 s'],tidal_wave:['Soaked','knocked back; soaked + lightning ×2, soaked + frost freezes'],stone_spikes:['Earth-bound','stone cuffs: rooted 2 s, fliers grounded'],
-    blizzard:['Chill → Freeze',''],void_rift:['Hex',''],spirit_drain:['Drained','heals you; its blows weaker 4 s'],starfall:['Starstruck','dazed: it stumbles 2 s']};
-  var spellRows=function(){ var D=typeof SPELL_DATA!=='undefined'?SPELL_DATA:{}; return Object.keys(D).map(function(id){ var s=D[id], m2=Math.round(s.manaCost*2), c2=Math.max(2.5,Math.round(s.cooldown*3*10)/10), x=SPX[id]||['—',''];
-      return '<tr><td><b>'+esc(s.name)+'</b></td><td>'+s.manaCost+' → <b>'+m2+'</b></td><td>'+s.cooldown+' s → <b>'+c2+' s</b></td><td>×1 → <b>×2.5</b></td><td><b>'+esc(x[0])+'</b>'+(x[1]?' — '+esc(x[1]):'')+'</td></tr>'; }).join(''); };
+  /* round 101b (Kris on the numbers: "some of these don't talk about duration … make sure none are permanent … for bosses … some should be no
+     effect depending on what type of boss it is, and others should be lessened … a column for which types of monsters are not impacted … like
+     fire-type should not be effected by burning, but should be more effected by chill and freeze"): every effect has a time, a boss rule, the
+     monster elements that shrug it off and the ones it hits harder (the six elements of 03b). */
+  var ST={freeze:['Freeze','frozen in ice 1.5 s','great bosses: never frozen — slowed 40 % for 1.5 s · elites: frozen 0.75 s','water-type: half the time','fire-type: 2.5 s'],
+    chill:['Chill','slowed 35 % for 3 s; three chills within 4 s freeze it 1.5 s','slowed 20 %, never frozen','water-type','fire-type: two chills freeze'],
+    burn:['Burn','burns for 4 s (a quarter of the hit again)','half: 2 s','fire-type: no burn · water-type: half','grass-type: 6 s'],
+    burnkd:['Burn + knock-down','knocked down 1 s, burns 4 s','no knock-down; burns 2 s','fire-type: no burn','grass-type: 6 s'],
+    shock:['Shock','stunned 0.5 s; the next hit within 3 s +25 %','no stun — the +25 % only','storm-type: none · earth-type: half','water-type and anything soaked: stun ×2'],
+    shock2:['Shock','stunned 1.5 s where you land','no stun — the +25 % only','storm-type: none · earth-type: half','water-type and anything soaked: stun ×2'],
+    poison:['Poison','poisoned in the mist and 3 s after (8 s at most)','half the damage','earth-type and shadow-type: none','—'],
+    mark:['Mark','the next hit within 4 s is critical','the same','—','—'],
+    root:['Rooted','vines hold it 2 s','great bosses: none · elites: 1 s','fire-type (burns the vines) and fliers','earth-type: 3 s'],
+    soak:['Soaked','knocked back; soaked 5 s (soaked + storm ×2, soaked + frost freezes)','no knock-back; soaked as usual','water-type','fire-type: soaked 8 s and its blows −20 %'],
+    earth:['Earth-bound','stone cuffs: rooted 2 s; fliers brought down 3 s','flying bosses brought down 1.5 s; others none','earth-type','water-type: 3 s · storm-type fliers: down 4 s'],
+    hex:['Hex','defence −30 % for 5 s','−15 % for 5 s','shadow-type','storm-type: −45 %'],
+    drain:['Drained','heals you 30 % of the hit; its blows −20 % for 4 s','its blows −10 %','shadow-type: no healing','—'],
+    star:['Starstruck','dazed 2 s: it stumbles and misses','none','storm-type','shadow-type: 3 s']};
+  var SPX={frost_bolt:'freeze',fireball:'burn',chain_lightning:'shock',flame_nova:'burn',ice_shards:'chill',void_orb:'hex',meteor:'burnkd',thunder_step:'shock2',poison_mist:'poison',
+    arcane_burst:'mark',thorn_snare:'root',tidal_wave:'soak',stone_spikes:'earth',blizzard:'chill',void_rift:'hex',spirit_drain:'drain',starfall:'star'};
+  var spellRows=function(){ var D=typeof SPELL_DATA!=='undefined'?SPELL_DATA:{}; return Object.keys(D).map(function(id){ var s=D[id], m2=Math.round(s.manaCost*2), c2=Math.max(2.5,Math.round(s.cooldown*3*10)/10), x=ST[SPX[id]]||['—','','','',''];
+      var el=typeof ZEL!=='undefined'&&ZEL.SPELL&&ZEL.E[ZEL.SPELL[id]]; return '<tr><td><b>'+esc(s.name)+'</b>'+(el?' <span style="color:'+el.col+'">'+el.em+'</span>':'')+'</td><td>'+s.manaCost+' → <b>'+m2+'</b></td><td>'+s.cooldown+' s → <b>'+c2+' s</b></td><td>×2.5</td><td><b>'+esc(x[0])+'</b> — '+esc(x[1])+'</td><td>'+esc(x[2])+'</td><td class="pz-no">'+esc(x[3])+'</td><td class="pz-more">'+esc(x[4])+'</td></tr>'; }).join(''); };
   // ── sky ports: the review ──
   var SKY=[['fix1','<b>Fixed now:</b> the formation could leave the screen','The galleon that crosses the top was counted as a member of the formation; its missing place stopped the march from turning, so the whole formation drifted off the side (x −388) where nothing could reach it. It now turns at the edges and is held on screen.'],
     ['fix2','<b>Fixed now:</b> turning at the edges','It flipped direction every frame while past an edge; now it turns once per edge and drops a step.'],
@@ -140,7 +155,8 @@
     return '<article class="tc'+(on?' on':'')+'"><b>'+o[1]+'</b><p>'+o[2]+'</p>'+(m?'<div class="tc-m pz-mock" data-kind="'+(/^(hp|mana|xp)$/.test(o[3])?o[3]:'')+'" data-id="'+o[0]+'">'+m+'</div>':'')+'<div class="tc-a"><button class="vbtn pz-pk" data-g="'+g+'" data-id="'+o[0]+'" aria-pressed="'+on+'">'+(on?'★ Picked':'☆ Pick')+'</button></div>'+
       '<textarea class="mn-notes pz-n" data-k="'+k+'" rows="1" placeholder="Notes…">'+esc(P(k).notes||'')+'</textarea></article>'; };
   var grp=function(g){ var D=G[g]; return LBR.sec(D.t,D.s)+'<div class="tc-grid">'+D.o.map(function(o){ return cardHTML(g,o); }).join('')+'</div>'; };
-  var cyc=function(k){ var v=V(k), lab=(AV.find(function(x){ return x[0]===v; })||AV[0])[1]; return '<button class="vbtn tl-v pz-cy" data-k="'+k+'">'+lab+'</button>'; };
+  /* round 101b: three plain buttons (the cycle shared the Training tab's .tl-v class, so its click handler stepped it twice — only "✎ Change" ever showed) */
+  var cyc=function(k,lab1){ var v=V(k); return '<span class="pz-seg" data-k="'+k+'">'+[['pick',lab1||'✓ Order'],['change','✎ Change'],['cut','✕ Skip']].map(function(o){ return '<button class="vbtn pz-sg'+(v===o[0]?' on '+o[0]:'')+'" data-v="'+o[0]+'">'+o[1]+'</button>'; }).join('')+'</span>'; };
   var multi=function(g,list,fn){ return list.map(function(x){ var k=K(g,x[0]), on=V(k)==='pick'; return fn(x,k,on); }).join(''); };
   var answered='<div class="ta"><b>Answered first (docs/08 › Round 101):</b> <span>📍 the bars sit top-left in every scene that is not paused</span><span>🎈 sky ports may be reworked</span><span>🎨 paintings are ordered once ✓ here</span><span>📖 the mechanics guide: the Lab now (its own tab), the game later</span></div>';
   var placement='<table class="tl"><thead><tr><th>Scene</th><th>Where health / mana / experience sit today</th><th>Proposed</th></tr></thead><tbody>'+
@@ -150,7 +166,7 @@
     designs:[].concat.apply([],Object.keys(G).map(function(g){ return G[g].o.map(function(o){ return {id:g+'_'+o[0],name:G[g].t+': '+o[1]}; }); })).concat(ART.map(function(a){ return {id:'art_'+a[0],name:'Painted: '+a[1]}; })).concat(SKY.map(function(a){ return {id:'sky_'+a[0],name:'Sky port: '+a[0]}; })).concat(SHOTS.map(function(a){ return {id:'shot_'+a[0],name:'Kling shot: '+a[1]}; })).concat([{id:'spells_all',name:'Spells: the new numbers'}]),
     render:function(){ var nShot=SHOTS.filter(function(x){ return V(K('shot',x[0]))==='pick'; }).length;
       return answered+
-        LBR.sec('1 · Painted art — every place still drawn','✓ order / do · ✎ change · ✕ skip — the "fixed now" rows are already in')+
+        LBR.sec('1 · Painted art — every place still drawn','✓ order · ✎ change (say what in the note) · ✕ skip — click again to clear; the "in" rows are already in the game')+
         '<table class="tl pz-art"><thead><tr><th>Place</th><th>Today</th><th>Proposed</th><th>To paint</th><th>Load</th><th></th><th></th></tr></thead><tbody>'+
         multi('art',ART,function(a,k){ return '<tr class="tl-'+(V(k)||'x')+'"><td><b>'+a[1]+'</b></td><td>'+a[2]+'</td><td>'+a[3]+'</td><td>'+a[4]+'</td><td>'+a[5]+'</td><td>'+(/^(bossfb|emoji|late)$/.test(a[0])?'<span class="pz-done">in</span>':cyc(k))+'</td><td><input class="tl-n pz-in" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Note…"></td></tr>'; })+'</tbody></table>'+
         LBR.sec('2 · Pop-ups — where plain text appears','the survey, then the looks')+
@@ -159,15 +175,16 @@
         LBR.sec('3 · Health, mana and experience','drag the level: the marks grow as you level')+'<div class="pz-lv">Level <input type="range" id="pz-lv" min="1" max="20" value="'+LVL+'"> <b id="pz-lvn">'+LVL+'</b></div>'+
         grp('hp')+grp('mana')+grp('xp')+LBR.sec('Where the bars sit','top-left in every scene that is not paused (your answer)')+placement+
         grp('boss')+
-        LBR.sec('5 · Spells — stronger, slower, dearer','mana ×2 · cool-down ×3 (at least 2.5 s) · power ×2.5 · every spell leaves a mark on the foe')+
-        '<table class="tl"><thead><tr><th>Spell</th><th>Mana</th><th>Cool-down</th><th>Power</th><th>What it leaves</th></tr></thead><tbody>'+spellRows()+'</tbody></table>'+
+        LBR.sec('5 · Spells — stronger, slower, dearer','mana ×2 · cool-down ×3 (at least 2.5 s) · power ×2.5 · every effect timed, with its boss rule and the monster types it skips or hits harder (your notes, round 101b)')+
+        '<table class="tl"><thead><tr><th>Spell</th><th>Mana</th><th>Cool-down</th><th>Power</th><th>What it leaves, and for how long</th><th>Bosses</th><th>Shrug it off</th><th>Hit harder</th></tr></thead><tbody>'+spellRows()+'</tbody></table>'+
+        '<div class="ta pz-rules"><b>Every effect ends — none is permanent.</b> <span>casting again refreshes the time, never past its cap</span><span>after a freeze, root or stun ends, the same one can\'t land again for 4 s</span><span>the effect\'s icon over the head drains as it runs out (your note on status: tint + icons)</span></div>'+
         (function(){ var k=K('spells','all'), on=V(k)==='pick'; return '<div class="tc-a"><button class="vbtn pz-pk" data-g="spells" data-id="all" aria-pressed="'+on+'">'+(on?'★ Approved':'☆ Approve these numbers')+'</button></div><textarea class="mn-notes pz-n" data-k="'+k+'" rows="1" placeholder="Notes on the numbers…">'+esc(P(k).notes||'')+'</textarea>'; })()+
         '<div class="ta pz-x2"><b>X twice to cast (the same in every steering option):</b> <span><b>hold X</b> → the aim mark shows where it lands</span><span><b>let go</b> → the mark stays 2.5 s; <b>press X</b> → cast</span><span><b>double-tap X</b> (two presses inside 0.3 s) → cast at once</span><span>Space, Esc or moving away cancels; no mana is spent until it casts</span></div>'+
         grp('aim')+grp('status')+
         LBR.sec('6 · Arrows and bolts — aim, then shoot','they are dear and a bit rare; half of the missed arrows can be picked up again')+grp('arrow')+grp('zones')+
         LBR.sec('7 · The load screen','today: "Generating world…" and "1200 × 1200 tiles — four regions, twelve crossings, seventeen waystones" in 9 px grey')+grp('load').replace(LBR.sec(G.load.t,G.load.s),'')+
-        LBR.sec('8 · Sky ports — the review','✓ do · ✕ skip; a bot played wave 1 before and after the fix: before, 0 hits in 90 s; after, 10 fliers down in about a minute')+
-        '<table class="tl"><tbody>'+multi('sky',SKY,function(a,k){ return '<tr class="tl-'+(V(k)||'x')+'"><td style="width:34%">'+a[1]+'</td><td>'+a[2]+'</td><td>'+(/^fix/.test(a[0])?'<span class="pz-done">in</span>':cyc(k))+'</td><td><input class="tl-n pz-in" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Note…"></td></tr>'; })+'</tbody></table>'+
+        LBR.sec('8 · Sky ports — the review','✓ do · ✎ change · ✕ skip; a bot played wave 1 before and after the fix: before, 0 hits in 90 s; after, 10 fliers down in about a minute')+
+        '<table class="tl"><tbody>'+multi('sky',SKY,function(a,k){ return '<tr class="tl-'+(V(k)||'x')+'"><td style="width:34%">'+a[1]+'</td><td>'+a[2]+'</td><td>'+(/^fix/.test(a[0])?'<span class="pz-done">in</span>':cyc(k,'✓ Do'))+'</td><td><input class="tl-n pz-in" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Note…"></td></tr>'; })+'</tbody></table>'+
         LBR.sec('9 · Special Kling shots','☆ five ('+nShot+' picked) — each goes into ONE picture of one montage; the rest stay locked shot lists')+
         '<div class="tc-grid">'+multi('shot',SHOTS,function(s,k,on){ return '<article class="tc'+(on?' on':'')+'"><b>'+s[1]+'</b><p class="pz-where">🎬 '+s[2]+'</p><p>'+s[3]+'</p><div class="tc-a"><button class="vbtn pz-pk" data-g="shot" data-id="'+s[0]+'" aria-pressed="'+on+'">'+(on?'★ Picked':'☆ Pick')+'</button></div><textarea class="mn-notes pz-n" data-k="'+k+'" rows="1" placeholder="Notes…">'+esc(P(k).notes||'')+'</textarea></article>'; })+'</div>'; } });
   var single=function(g){ return !!G[g]; };
@@ -178,8 +195,8 @@
       if(single(g))G[g].o.forEach(function(o){ var k2=K(g,o[0]); if(k2!==k&&V(k2)==='pick'){ LabApp.picks[k2].verdict=null; LabApp.persist(k2); } });
       var p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=was?null:'pick'; LabApp.persist(k);
       document.querySelectorAll('.pz-pk').forEach(function(x){ var on=V(K(x.dataset.g,x.dataset.id))==='pick'; x.setAttribute('aria-pressed',String(on)); x.textContent=on?(x.dataset.g==='spells'?'★ Approved':'★ Picked'):(x.dataset.g==='spells'?'☆ Approve these numbers':'☆ Pick'); var c=x.closest('.tc'); if(c)c.classList.toggle('on',on); }); return; }
-    var cv=e.target.closest&&e.target.closest('.pz-cy'); if(cv){ var k3=cv.dataset.k, cur=V(k3), i=AV.findIndex(function(x){ return x[0]===cur; }), nx=AV[(i+1)%AV.length];
-      var p3=LabApp.picks[k3]=LabApp.picks[k3]||{}; p3.verdict=nx[0]; LabApp.persist(k3); cv.textContent=nx[1]; cv.closest('tr').className='tl-'+(nx[0]||'x'); } });
+    var sg=e.target.closest&&e.target.closest('.pz-sg'); if(sg){ var seg=sg.parentNode, k3=seg.dataset.k, nv=V(k3)===sg.dataset.v?null:sg.dataset.v;
+      var p3=LabApp.picks[k3]=LabApp.picks[k3]||{}; p3.verdict=nv; LabApp.persist(k3); [].forEach.call(seg.children,function(b){ b.className='vbtn pz-sg'+(b.dataset.v===nv?' on '+nv:''); }); var tr=seg.closest('tr'); if(tr)tr.className='tl-'+(nv||'x'); } });
   document.addEventListener('change',function(e){ var t=e.target.closest&&e.target.closest('.pz-n,.pz-in'); if(!t)return; var p=LabApp.picks[t.dataset.k]=LabApp.picks[t.dataset.k]||{}; p.notes=t.value; LabApp.persist(t.dataset.k); });
   var st=document.createElement('style'); st.textContent=
     '.pzm{position:relative;min-height:70px;padding:10px;border-radius:8px;background:linear-gradient(#5f8f4f,#4a7a40);display:flex;flex-direction:column;gap:6px;justify-content:center;font:12px "Segoe UI",sans-serif;color:#e8f0f8}.pzm.dark{background:#0b1220}.pzm.night{background:radial-gradient(ellipse at 50% 120%,#173a4a,#05080f 70%);align-items:center}.pzm small{opacity:.7}'+
@@ -206,7 +223,7 @@
     '.pz-zone{align-items:center}.pz-zone span{padding:2px 10px;border:1px solid #445;border-radius:5px}.pz-zone .on{border-color:#ffe066;color:#ffe066}'+
     '.pz-load .l1{font:600 17px Georgia,serif;color:#9ff8f0;text-shadow:0 0 12px #4ff0e0}.pz-load .l2{font:12px Georgia;color:#6fb8c8}.pz-load .l3{font:13px "Segoe UI";color:#cfe0ea}.pz-load .pb{width:70%;height:4px;background:#13242e;border-radius:3px}.pz-load .pb i{display:block;height:100%;background:linear-gradient(90deg,#4ff0e0,#9f6fff);box-shadow:0 0 8px #4ff0e0}'+
     '.pz-load .ring{width:38px;height:38px;border-radius:50%;border:2px dashed #4ff0e0;animation:pzr 4s linear infinite;box-shadow:0 0 12px #4ff0e0}@keyframes pzr{to{transform:rotate(360deg)}}'+
-    '.pz-lv{margin:4px 0 8px;font:13px "Segoe UI";color:#cfe0ea}.pz-lv input{vertical-align:middle;width:220px}.pz-art td{font-size:12.5px}.pz-art .tl-n{min-width:110px}.pz-done{color:#9ff0b0;font:600 12px "Segoe UI"}.pz-where{color:#9fd0ff;font-size:12px}.pz-x2{margin-top:10px}';
+    '.pz-lv{margin:4px 0 8px;font:13px "Segoe UI";color:#cfe0ea}.pz-lv input{vertical-align:middle;width:220px}.pz-art td{font-size:12.5px}.pz-art .tl-n{min-width:110px}.pz-seg{display:inline-flex;gap:3px;white-space:nowrap}.pz-sg{padding:4px 8px;font-size:12px;opacity:.75}.pz-sg.on{opacity:1}.pz-sg.on.pick{background:#1f6a3a;border-color:#8fe8a0;color:#fff}.pz-sg.on.change{background:#6a5a1a;border-color:#ffd870;color:#fff}.pz-sg.on.cut{background:#6a2a2a;border-color:#ff9a8a;color:#fff}.pz-done{color:#9ff0b0;font:600 12px "Segoe UI"}.pz-where{color:#9fd0ff;font-size:12px}.pz-x2{margin-top:10px}.pz-no{color:#ff9a8a}.pz-more{color:#9ff0b0}.pz-rules{margin-top:8px}';
   document.head.appendChild(st);
   if(typeof LAB_ACTIVE!=='undefined')LAB_ACTIVE.unshift('polish');
   var picked=function(g){ return G[g].o.some(function(o){ return V(K(g,o[0]))==='pick'; }); };

@@ -55,7 +55,6 @@
     ['dig','Dig spots that sparkle','Once you can dig.'],
     ['pia','Pia on the map','The roll quest pinned from the start (it is the only movement skill).'],
     ['guidegame','This guide in the game','The Training tab gets a "How it works" page with these entries (your answer: later).']];
-  var IV=[[null,'·'],['pick','✓ Do'],['change','✎ Change'],['cut','✕ Skip']];
   var groups=[]; M.forEach(function(m){ if(groups.indexOf(m[0])<0)groups.push(m[0]); });
   LAB_TABS.push({ id:'guide', name:'Mechanics guide',
     blurb:'<b>Round 101 — every mechanic in one place.</b> What it does, the keys, where you get it, how it grows, and what could be better. The improvements are at the bottom: ✓ do · ✎ change · ✕ skip. It goes into the game later (Training or the Tome).',
@@ -63,13 +62,13 @@
     render:function(){ return groups.map(function(g){ return LBR.sec(g,M.filter(function(m){ return m[0]===g; }).length+' mechanics')+
         '<table class="tl gd-t"><thead><tr><th>Mechanic</th><th>Keys</th><th>How it works</th><th>Where you get it</th><th>How it grows</th><th>Could be better</th></tr></thead><tbody>'+
         M.filter(function(m){ return m[0]===g; }).map(function(m){ return '<tr><td><b>'+esc(m[1])+'</b></td><td class="gd-k">'+esc(m[2])+'</td><td>'+esc(m[3])+'</td><td>'+esc(m[4])+'</td><td>'+esc(m[5])+'</td><td class="gd-i">'+esc(m[6])+'</td></tr>'; }).join('')+'</tbody></table>'; }).join('')+
-      LBR.sec('Improvements I recommend','✓ do · ✎ change · ✕ skip — one click cycles')+
-      '<table class="tl gd-imp"><tbody>'+IMP.map(function(x){ var k='guide-imp_'+x[0], v=V(k), lab=(IV.find(function(y){ return y[0]===v; })||IV[0])[1];
-        return '<tr class="tl-'+(v||'x')+'"><td style="width:26%"><b>'+esc(x[1])+'</b></td><td>'+esc(x[2])+'</td><td><button class="vbtn tl-v gd-cy" data-k="'+k+'">'+lab+'</button></td><td><input class="tl-n gd-n" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Note…"></td></tr>'; }).join('')+'</tbody></table>'; } });
-  document.addEventListener('click',function(e){ var cv=e.target.closest&&e.target.closest('.gd-cy'); if(!cv)return; var k=cv.dataset.k, cur=V(k), i=IV.findIndex(function(x){ return x[0]===cur; }), nx=IV[(i+1)%IV.length];
-    var p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=nx[0]; LabApp.persist(k); cv.textContent=nx[1]; cv.closest('tr').className='tl-'+(nx[0]||'x'); });
+      LBR.sec('Improvements I recommend','✓ do · ✎ change · ✕ skip — click again to clear')+
+      '<table class="tl gd-imp"><tbody>'+IMP.map(function(x){ var k='guide-imp_'+x[0], v=V(k);
+        return '<tr class="tl-'+(v||'x')+'"><td style="width:26%"><b>'+esc(x[1])+'</b></td><td>'+esc(x[2])+'</td><td><span class="pz-seg gd-seg" data-k="'+k+'">'+[['pick','✓ Do'],['change','✎ Change'],['cut','✕ Skip']].map(function(o){ return '<button class="vbtn gd-sg'+(v===o[0]?' on '+o[0]:'')+'" data-v="'+o[0]+'">'+o[1]+'</button>'; }).join('')+'</span></td><td><input class="tl-n gd-n" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Note…"></td></tr>'; }).join('')+'</tbody></table>'; } });
+  document.addEventListener('click',function(e){ var sg=e.target.closest&&e.target.closest('.gd-sg'); if(!sg)return; var seg=sg.parentNode, k=seg.dataset.k, nv=V(k)===sg.dataset.v?null:sg.dataset.v;      /* round 101b: plain buttons (the shared .tl-v cycle was stepped twice by the Training tab's handler) */
+    var p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=nv; LabApp.persist(k); [].forEach.call(seg.children,function(b){ b.className='vbtn gd-sg'+(b.dataset.v===nv?' on '+nv:''); }); seg.closest('tr').className='tl-'+(nv||'x'); });
   document.addEventListener('change',function(e){ var t=e.target.closest&&e.target.closest('.gd-n'); if(!t)return; var p=LabApp.picks[t.dataset.k]=LabApp.picks[t.dataset.k]||{}; p.notes=t.value; LabApp.persist(t.dataset.k); });
-  var st=document.createElement('style'); st.textContent='.gd-t td{font-size:12.5px}.gd-k{white-space:nowrap;color:#ffe6a8}.gd-i{color:#9fd0ff}';
+  var st=document.createElement('style'); st.textContent='.gd-t td{font-size:12.5px}.gd-k{white-space:nowrap;color:#ffe6a8}.gd-i{color:#9fd0ff}.pz-seg{display:inline-flex;gap:3px;white-space:nowrap}.gd-sg{padding:4px 8px;font-size:12px;opacity:.75}.gd-sg.on{opacity:1}.gd-sg.on.pick{background:#1f6a3a;border-color:#8fe8a0;color:#fff}.gd-sg.on.change{background:#6a5a1a;border-color:#ffd870;color:#fff}.gd-sg.on.cut{background:#6a2a2a;border-color:#ff9a8a;color:#fff}';
   document.head.appendChild(st);
   if(typeof LAB_ACTIVE!=='undefined')LAB_ACTIVE.unshift('guide');
   if(typeof LTODO!=='undefined')LTODO.add({id:'guideimp',label:'📖 Mechanics guide: read it, ✓ / ✕ the improvements',where:'Mechanics guide tab · bottom',done:function(){ return IMP.every(function(x){ return !!V('guide-imp_'+x[0]); }); },go:function(){ LTODO.goTo('guide','.gd-imp',0); }});
