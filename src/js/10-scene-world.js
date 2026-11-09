@@ -52,7 +52,8 @@ class WorldScene extends Phaser.Scene{
     var bnames={tavern:'Tavern',shop:'General Shop',house:'Home',forge:'Blacksmith',guild:'Guild',quest_board:'Quest Board',stables:'Stables',armory:'Armory',clothing:'Clothing',jeweler:'Jeweler',apothecary:'Sorcerer\'s Apothecary',merchant:'Merchant',library:'Library'};
     wd.buildings.forEach(function(b){
       var bcx=b.worldX+(b.w*TILE)/2, bcy=b.worldY+(b.h*TILE)/2;
-      self.add.text(bcx,bcy,bicons[b.type]||'🏛',{fontSize:'22px',fontFamily:'serif'}).setOrigin(.5).setDepth(4);
+      var _bp0=typeof VB_PAINTED!=='undefined'&&VB_PAINTED[b.type], _bz=typeof _scn==='function'&&_scn();
+      if(!(_bp0&&_bz&&_bz.has(_bp0)))self.add.text(bcx,bcy,bicons[b.type]||'🏛',{fontSize:'22px',fontFamily:'serif'}).setOrigin(.5).setDepth(4);      /* round 101: the emoji sat hidden under every painted building — drawn only where no painting stands */
       // DOM label for building name
       var bEl=document.createElement('div');
       bEl.className='wlbl building hidden';
@@ -72,6 +73,10 @@ class WorldScene extends Phaser.Scene{
       // Sleep: hide overlay so labels don't ghost over Building/Dungeon/Island.
       this.events.on('sleep',function(){lblHostEl.style.display='none';});
       this.events.on('wake', function(){lblHostEl.style.display='block';});
+      /* round 101: the world's region name ("Village Center") stayed up inside dungeons, towers and islands, under the boss's bar */
+      this.events.on('sleep',function(){ var rp=document.getElementById('region-panel'); if(rp)rp.style.visibility='hidden'; });
+      this.events.on('wake', function(){ var rp=document.getElementById('region-panel'); if(rp)rp.style.visibility=''; });
+      this.events.on('shutdown',function(){ var rp=document.getElementById('region-panel'); if(rp)rp.style.visibility=''; });
       // Shutdown (full restart): tear down DOM labels so they don't accumulate.
       var _selfWS=this;
       this.events.on('shutdown',function(){

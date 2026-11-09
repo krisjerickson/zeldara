@@ -22,8 +22,8 @@ var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},cha
   st:{}, img:{}, _n:{}, _ix:{}, _f0:{}, _any:{}, _by:null, _pix:{}, _sw:[], _an:[], _swT:0,
   // characters without a painted sheet wear the nearest painted one (tc_sprint: its sheet was refused by the image service)
   ALIAS:{tc_sprint:'tc_roll'},
-  off:(function(){ try{ if(/[?&]sprites=0/.test(location.search))return true; return localStorage.getItem('zeldara_sprites')==='off'; }catch(e){ return false; } })(),
-  setOff:function(v){ ZAtlas.off=!!v; try{ localStorage.setItem('zeldara_sprites',v?'off':'on'); }catch(e){} },
+  off:(function(){ try{ if(/[?&]sprites=0/.test(location.search))return true; try{ localStorage.removeItem('zeldara_sprites'); }catch(e){} return false; }catch(e){ return false; } })(),      /* round 101 (Kris): painted art only — the Dev switch is gone, a stored 'off' is cleared; ?sprites=0 stays for tests */
+  setOff:function(v){ ZAtlas.off=!!v; },
   A:function(ch){ return (!ZAtlas.META.chars[ch]&&ZAtlas.ALIAS[ch])||ch; },
   has:function(ch){ return !ZAtlas.off&&!!ZAtlas.META.chars[ZAtlas.A(ch)]; },
   _index:function(){ if(ZAtlas._by)return; var by={}, F=ZAtlas.META.frames; Object.keys(F).forEach(function(n){ (by[F[n][0]]=by[F[n][0]]||[]).push(n); var k=n.slice(0,n.lastIndexOf('/')); (ZAtlas._ix[k]=ZAtlas._ix[k]||[]).push(+n.slice(n.lastIndexOf('/')+1));
@@ -147,7 +147,7 @@ var ZAtlas={ META:(typeof ZATLAS_META!=='undefined'&&ZATLAS_META)||{pages:{},cha
   // legacy (non-engine) bosses on the rig: called from the rig's own loop (10k)
   rigTick:function(scene,R,dt){ var b=R.body, mon=R.mon; if(mon&&mon.mx)return !!mon._za;      // engine bosses are driven from MX.anim
     if(!mon){ mon=R._zmon||(R._zmon={hp:1,def:{r:14}}); mon.x=R.cont?R.cont.x:b.x; mon.y=R.cont?R.cont.y:b.y; mon.body=b; mon.cont=R.cont; }
-    var pp=(typeof CHX!=='undefined'&&CHX.ppos(scene))||mon; if(!mon._za&&Math.hypot(pp.x-mon.x,pp.y-mon.y)>1500)return false;      // far away: its page is not loaded yet
+    var pp=(typeof CHX!=='undefined'&&CHX.ppos(scene))||mon; if(!mon._za&&Math.hypot(pp.x-mon.x,pp.y-mon.y)>1500){ var c0=ZAtlas.monCh(mon,b); if(c0&&ZAtlas.META.chars[ZAtlas.A(c0)]&&ZAtlas.state(c0)!=='bad'){ b._zm=true; ZAtlas.hide(b,true); return true; } return false; }      /* round 101 (Kris: "spawned boss monsters are sometimes old pixel art"): far away its painted pages are fetched at once and the drawn stand-in stays hidden — it never shows */
     return ZAtlas.mon(scene,mon,null,dt,pp.x-mon.x,pp.y-mon.y); },
   // a short painted death: the last pose stays a moment and fades
   died:function(scene,mon){ try{ if(!mon||!mon._za||!mon._zch||mon._zs.rig)return; var ch=mon._zch, P=ZAtlas.pick(ch,['death'],mon._zs.face); if(!P||P.a!=='death')return; var spr=mon.spr||mon.body, n0=ZAtlas.name(ch,'death',P.f,0), key='za_'+ZAtlas.META.frames[n0][0];

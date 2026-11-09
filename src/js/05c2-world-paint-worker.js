@@ -59,7 +59,7 @@ var ZWP={ on:true, state:'off', why:'', pool:[], seq:0, cb:{}, QMAX:2, sent:{}, 
   sig:function(k){ if(!k)return ''; if(k._zsig)return k._zsig; var o=[]; Object.keys(k).sort().forEach(function(p){ if(p[0]==='_')return; var v=k[p]; if(typeof v==='function'){ o.push(p+':f'+String(v).length); return; } try{ o.push(p+':'+JSON.stringify(v)); }catch(e){ o.push(p+':?'); } }); return (k._zsig=o.join(',')); },
   // the worker puts its kinds in this thread's order (a few drawings take their pattern from a kind's number); until it has, no jobs go to it
   kinds:function(w){ var L=WK_REG.list; if(w._kn===L.length&&!w._kwait)return true; if(w._kwait)return false; w._kwait=true; w._kn=L.length; w.postMessage({t:'kinds',sigs:L.map(ZWP.sig)}); return false; },
-  cfg:function(){ return {scnOff:typeof ZScn!=='undefined'?!!ZScn.off:true, zwe:typeof ZWE!=='undefined'?!!ZWE.on:false}; },
+  cfg:function(){ return {scnOff:typeof ZScn!=='undefined'?!!ZScn.off:true, scnV:typeof ZScn!=='undefined'?(ZScn._lateV||0):0, zwe:typeof ZWE!=='undefined'?!!ZWE.on:false}; },
   // a job with the same face as wpChunkJob: step() until true, then .out
   job:function(wd,cx,cy){ var phase=0, done=false, failed=false, fb=null, out=null, self={out:null,phase:function(){ return fb?fb.phase():phase; }};
     self.step=function(budget){ if(fb){ var r=fb.step(budget); self.out=fb.out; return r; } if(done)return true;
@@ -107,7 +107,7 @@ var ZWP={ on:true, state:'off', why:'', pool:[], seq:0, cb:{}, QMAX:2, sent:{}, 
     job:function(m){ var t0=performance.now(), wd=_worldData;
       try{ for(var y=0;y<m.hh;y++){ wd.kind.set(m.kw.subarray(y*m.ww,(y+1)*m.ww),(m.y0+y)*WORLD_W+m.x0); wd.zone.set(m.zw.subarray(y*m.ww,(y+1)*m.ww),(m.y0+y)*WORLD_W+m.x0); }
         wd.propsByChunk=wd.propsByChunk||{}; wd.propsByChunk[m.key]=m.props; wd._chopped=new Set(m.chop); wd.stampParts=[]; wd.shafts=[];
-        if(typeof ZScn!=='undefined'){ if(ZWP._so!==undefined&&ZWP._so!==m.cfg.scnOff){ _WPC={}; ZScn._sc={}; ZScn._scq=[]; ZScn._pat={}; } ZWP._so=m.cfg.scnOff; ZScn.off=m.cfg.scnOff; }      /* painted scenery switched: the cached tiles were made with the other setting */ if(typeof ZWE!=='undefined')ZWE.on=m.cfg.zwe;
+        if(typeof ZScn!=='undefined'){ if((ZWP._so!==undefined&&ZWP._so!==m.cfg.scnOff)||(ZWP._sv!==undefined&&ZWP._sv!==m.cfg.scnV)){ _WPC={}; ZScn._sc={}; ZScn._scq=[]; ZScn._pat={}; } ZWP._so=m.cfg.scnOff; ZWP._sv=m.cfg.scnV; ZScn.off=m.cfg.scnOff; }      /* painted scenery switched: the cached tiles were made with the other setting */ if(typeof ZWE!=='undefined')ZWE.on=m.cfg.zwe;
         var J=_wpChunkJob0(wd,m.cx,m.cy), n=0; while(!J.step(1e9)){ if(++n>1000)throw new Error('the job did not finish'); }
         var o=J.out, T=[], res={};
         Object.keys(o).forEach(function(k){ var v=o[k];

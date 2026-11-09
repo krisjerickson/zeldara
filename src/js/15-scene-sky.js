@@ -135,10 +135,10 @@ class SkyScene extends Phaser.Scene{
       for(var i=0;i<self.enemies.length;i++){ var e=self.enemies[i]; if(e.dead)continue; var r=e.boss?60:e.h*0.55; if(Math.abs(b.x-e.cont.x)<r&&Math.abs(b.y-e.cont.y)<r){ self._hit(e,b.dmg); if(b.pierce-->0)continue; b.vis.destroy(); return false; } }
       for(var j=0;j<self.bunkers.length;j++){ var c=self.bunkers[j]; if(c.hp>0&&Math.abs(b.x-c.x)<8&&Math.abs(b.y-c.y)<8&&!b.pierce){ b.vis.destroy(); return false; } } return true; });
     // the formation marches; the bottom of each column bombs
-    var alive=this.enemies.filter(function(e){ return !e.dead; });
+    var alive=this.enemies.filter(function(e){ return !e.dead&&!e.mother&&!e.boss&&e.bx!==undefined; });      /* round 101: the galleon (no place in the formation) counted as a member — its NaN place stopped the march turning and the formation drifted off-screen where it could not be shot */
     if(!this.bossOn&&alive.length){ var F=this.form, sp=F.spd*(1+(1-alive.length/(SKY.ROWS[Math.min(this.waveNum-1,3)][0]*SKY.ROWS[Math.min(this.waveNum-1,3)][1]))*2.2), minX=1e9, maxX=-1e9, maxY=0;
       F.x+=F.dx*sp*dt; alive.forEach(function(e){ minX=Math.min(minX,e.bx+F.x); maxX=Math.max(maxX,e.bx+F.x); maxY=Math.max(maxY,e.by+F.y); });
-      if(maxX>W-30||minX<30){ F.dx*=-1; F.x+=F.dx*4; F.y+=F.step; }
+      var nd=maxX>W-30?-1:minX<30?1:F.dx; if(nd!==F.dx){ F.dx=nd; F.y+=F.step; } if(maxX>W-30)F.x-=maxX-(W-30); else if(minX<30)F.x+=30-minX;      /* round 101: turn by which edge it touches (it used to flip every frame while past an edge) and never leave the screen */
       alive.forEach(function(e){ e.t+=dt; e.cont.setPosition(e.bx+F.x,e.by+F.y+Math.sin(e.t*3)*2); if(e.im&&e.im._zch&&typeof ZAtlas!=='undefined'){ try{ ZAtlas.simple(e.im,e.im._zch,['move','idle','fly','walk'],'x',e.t,8,true,e.im._zk); }catch(err){} } });
       if(maxY>this.py-110)this.bunkers.forEach(function(c){ if(c.hp>0&&c.y<maxY+20){ c.hp=0; c.vis.setVisible(false); } });
       if(maxY>this.py-30){ this.cityHp-=120; this._hurtShip(); alive.forEach(function(e){ e.dead=true; e.cont.destroy(); }); }

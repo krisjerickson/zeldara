@@ -39,6 +39,6 @@ with game(painted=True) as g:
     # switched off: every call says no, so the painters draw as before
     r = g.js("(()=>{ ZScn.off=true; var m={sprites:[],lights:[]}; var o=[ZScn.has('vb_tavern'),ZScn.sprite(m,'tr_round_a',0,0,100),ZScn.ground('grass'),_scn(),m.sprites.length]; ZScn.off=false; return o; })()")
     check('Switched off, nothing painted is used (the drawn scenery is the fallback)', r == [False, False, None, None, 0], r)
-    check('The Dev panel has the scenery switch and the two size buttons', g.js("!!document.getElementById('sb-scenery')&&/100%/.test(document.getElementById('sb-scn-k').textContent)&&/115%/.test(document.getElementById('sb-scn-kb').textContent)"))
+    check('The Dev panel has the two size buttons (round 101: the painted switch is gone)', g.js("!document.getElementById('sb-scenery')&&/100%/.test(document.getElementById('sb-scn-k').textContent)&&/115%/.test(document.getElementById('sb-scn-kb').textContent)"))
     check('No page errors', not g.errs, g.errs[:3])
 print('%d/%d passed' % (sum(res), len(res))); sys.exit(0 if all(res) else 1)

@@ -6,7 +6,9 @@ the only things that happen in it, an END FRAME, and a NOT IN THIS SHOT list nam
 nothing travelling between things, no reinterpretation. Here are the actions for every frame of every cut-scene, written from what each
 picture was painted to show (sprites/requests/storyboards.json). {H} = the hero you play, {O} = the other twin.
 
-One line per frame: "action ; action ; action => end frame". The picture's own words become IN THE PICTURE; its "no …" clauses and the
+One line per frame: "action ; action ; action => end frame". Round 101 (Kris: "the bag gets given to zeldara in image 5, and then she gives it to
+zeldor - she needs to keep the bag and put it on. Then in image 6 … she loses the bag"): every hand-over now says who KEEPS the thing, and a
+thing carried into a later shot is named there as still carried (SCENE LOCK rule 6 in tools/video/kling.py). The picture's own words become IN THE PICTURE; its "no …" clauses and the
 other frames' signature events become NOT IN THIS SHOT (tools/video/kling.py).
 """
 A = {
@@ -21,8 +23,8 @@ A = {
   "the little twins toddle after the goats, laughing ; the old woman holds out a cup of milk to them ; the elder strums the lyre and sways as he sings => the sunny green, the twins among the goats",
   "the little twins press their small hands to the runestone ; the carved runes wake one by one under their hands, glowing rune-blue ; Elder Runa steps back in wonder => the runestone glowing round the twins' hands",
   "one twin swings the sword through a practice form ; the other runs a finger along the rune tablet and the rune glows ; the light through the rune-etched windows shifts => the twins at work in the glass-domed hall",
-  "Elder Runa holds out the pack and the sword ; {H} takes them and straps on the sword ; {O} hugs the armful of books and smiles => {H} with the pack and sword, {O} with the books",
-  "the villagers wave ; {H} walks out along the road, then turns and looks back once ; {O} waves from the gate, a book under one arm => {H} small on the road, {O} at the gate"],
+  "Elder Runa holds out the pack and the sword ; {H} takes them, swings the pack onto {H}'s own back and buckles the sword at {H}'s own hip — {H} KEEPS both and hands nothing to anyone ; {O} hugs {O}'s own armful of books and smiles ({O} never touches the pack or the sword) => {H} wearing the pack on {H}'s back and the sword at {H}'s hip, {O} with the books",
+  "the villagers wave ; {H} walks out along the road with the pack on {H}'s back and the sword at {H}'s hip the whole way, then turns and looks back once — the pack never comes off, is never dropped and never vanishes ; {O} waves from the gate, a book under one arm => {H} small on the road, still wearing the pack and sword, {O} at the gate"],
  'spirit': [
   "the spirit swings the heavy pick against the rock again and again, shoulders slumped ; the ember-red chains tug at her wrists with every swing ; mist drifts over the meadow => the spirit bent at the bindstone",
   "{H} walks steadily through the tall grass toward the bindstone, sword in hand ; behind {H} the Binder crumbles into ash and embers that blow away => {H} nearing the stone, the Binder gone",
@@ -33,7 +35,7 @@ A = {
   "the spirit rises slowly from the stone, eyes closed, hands open, glowing brighter ; {H} looks up at her ; the broken chains lie still in the grass => the spirit floating above the stone",
   "glowing rune-blue lines spread out from beneath {H}'s feet through the grass, branching and curling ; {H} looks down in wonder, turning slowly => the lines spread round {H} like a tattoo",
   "a single line of light races away across the grey land toward the horizon ; fresh green grass and small white flowers spring up along it ; {H} watches it go => the green path to the horizon",
-  "the spirit touches {H}'s forehead with a glowing hand and smiles ; a small shard of glowing glass drifts down into {H}'s open hand ; {H} closes the hand round it => the shard glowing in {H}'s hand",
+  "the spirit touches {H}'s forehead with a glowing hand and smiles ; a small shard of glowing glass drifts down into {H}'s open hand ; {H} closes the hand round it and keeps it => the shard glowing in {H}'s hand",
   "the spirit drifts away over the hills toward the village, trailing light ; {H} watches from the hill ; the aurora ripples above => the spirit a small light far away",
   "the spirit glides down onto the green and settles in a soft ring of light by the runestone ; the villagers look up in wonder ; {H} stands among them => the spirit glowing by the runestone"],
  'quiet': [
@@ -46,7 +48,7 @@ A = {
   "the bindstones hum and the chained spirits strain at their chains ; the ember-red chains pulse ; the pale aurora ripples above => the bindstones across the dark fields"],
  'bram': [
   "Bram rattles the cage bars ; the ash-warden crumbles away into ash ; {H} steps up and lifts the glowing rune-key toward the lock => {H} at the cage with the rune-key",
-  "the cage door swings open ; Bram steps out, stretches and laughs ; he claps {H} on the shoulder, hammer in his other hand => Bram free, laughing",
+  "the cage door swings open ; Bram steps out, stretches and laughs ; he claps {H} on the shoulder, his own hammer staying in his other hand => Bram free, laughing",
   "the river races dark and fast ; Bram and {H} stand on the bank staring across the open water ; mist drifts over the far Wetlands => the wide river with nothing across it",
   "Bram unrolls the parchment and its rune marks glow ; he points across the river with his hammer ; {H} holds down a corner against the wind => the plan on the rock, the river still open",
   "Bram swings the axe into the great pine and chips fly ; {H} hauls a beam on one shoulder to the pile ; the river runs on beyond, empty => logs and stone piled by the river",
@@ -68,7 +70,7 @@ A = {
   "the cage door clangs open ; Mira bursts out, pushes up her goggles and holds up a brass gear, grinning ; {H} laughs => Mira free with the gear",
   "the waterfalls pour down the torn cliff ; rubble shifts at its foot ; Mira and {H} look up at the bare cliff => the bare Great Scar",
   "Mira squints through the brass telescope at the cliff top ; {H} holds the plumb line steady in the gusting wind ; the chalk sums on the rock => Mira measuring, the cliff still bare",
-  "sparks fly from Mira's tools ; she sets the glowing rune-stone into the engine's heart and it pulses ; {H} hands her a wrench => the engine's heart glowing",
+  "sparks fly from Mira's tools ; she sets the glowing rune-stone into the engine's heart and it pulses ; {H} hands her a wrench and Mira keeps it (nothing is handed back) => the engine's heart glowing, the wrench in Mira's hand",
   "Mira and {H} climb the cliff on ropes, hauling the great chain and the pulley ; mist and waterfalls fall away below => the two high on the cliff with the first chain",
   "Mira welds high on the frame, bright sparks falling ; lanterns sway on the half-built lift ; the aurora ripples above => the half-built lift lit at night",
   "Mira hauls the brass lever down with both hands ; the gears begin to turn and their runes glow ; both look up => the gears turning",
@@ -170,12 +172,12 @@ A = {
  'lodestar': [
   "the last ember fades from the giant's body as it cools to black stone ; {H} breathes hard => the giant cold and black",
   "{H} walks toward the great anvil ; the lava glows beneath it ; the chained spirits watch from the walls => {H} before the anvil",
-  "{H} lays the staff on the great anvil ; the lava light flickers across it => the staff on the anvil",
+  "{H} lays the staff on the great anvil and lets go — it stays lying on the anvil ; the lava light flickers across it => the staff on the anvil",
   "{H} sets the four Heartglasses in a ring round the anvil one by one ; each glows => the four glasses round the anvil",
   "the four Heartglasses lift into the air and begin to circle the staff => the glasses circling",
   "streams of green, blue, amber and red light pour from the four glasses into the staff ; {H} shields their eyes => the staff full of light",
   "a blinding white star wakes at the head of the staff ; light blasts across the cavern ; {H} is thrown back a step => the star blazing",
-  "{H} lifts the Lodestar overhead ; light fills the cavern ; the spirits' chains begin to glow => the Lodestar raised",
+  "{H} takes the Lodestar from the anvil and lifts it overhead, holding it to the end ; light fills the cavern ; the spirits' chains begin to glow => the Lodestar raised",
   "the cavern shakes, rocks fall, lava surges ; {H} turns and runs with the Lodestar => {H} running"],
  'escape': [
   "{H} runs up the collapsing tunnel with the glowing Lodestar ; freed spirits stream behind like a comet's tail => {H} racing upward",
@@ -195,7 +197,7 @@ A = {
  'twinteach': [
   "{H} runs up the lane with the Lodestar toward the lamplit house => {H} at the door",
   "{O} looks up from the books as {H} comes in => the twins in the study",
-  "{O} pulls the huge rune-bound book from the high shelf, eyes on the Lodestar => the old book in {O}'s hands",
+  "{O} pulls the huge rune-bound book from the high shelf and holds it, eyes on the Lodestar => the old book in {O}'s hands",
   "the rune on the last page glows the same white as the Lodestar's star ; both twins lean in => the glowing rune",
   "both twins' eyes glow rune-blue as they read together => the two faces over the page",
   "the rune lifts off the page as light and flies to the Lodestar's star, which flares => the star flaring",
@@ -240,7 +242,7 @@ A = {
   "the tall golden doors swing open and warm light spills out ; {H} stands silhouetted => the open doors"],
  'feasthall': [
   "{H} steps slowly into the dusty hall ; cobwebs sway ; the faded banners hang still => the empty feast hall",
-  "the two joined orbs breathe above the hall ; the Lodestar trembles in {H}'s hand => the orbs and the trembling staff",
+  "the two joined orbs breathe above the hall ; the Lodestar trembles in {H}'s hand, {H} gripping it tight => the orbs and the trembling staff",
   "{O} runs in through the golden doors to {H}'s side => the twins together",
   "the twins raise their hands and the Lodestar toward the joined orbs => the twins reaching up",
   "one beam of white-gold light rises from the twins into the point where the two orbs meet => the beam at the centre",

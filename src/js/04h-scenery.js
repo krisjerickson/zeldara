@@ -7,12 +7,12 @@
 // ║   ZScn.pattern(ctx, id, px)             a repeating ground texture
 // ║ Each returns false when the picture is not there (not painted yet, still loading, switched off): the painter
 // ║ then draws what it always drew. Placement, collision and depth sorting are untouched — only the picture changes.
-// ║ Switch: Dev panel → "Painted scenery", or ?scenery=0. Size trial: ZScn.K (objects) and ZScn.KB (buildings),
+// ║ Switch: ?scenery=0 (tests only; round 101 removed the Dev panel switch). Size trial: ZScn.K (objects) and ZScn.KB (buildings),
 // ║ also in the Dev panel; both need a reload, because the ground is painted once per area.
 // ═══════════════════════════════════════════════════════════════════════
 var ZScn={
   META:(typeof ZSCN_META!=='undefined'&&ZSCN_META)||{pages:[],items:{},tex:{}}, BASE:'assets/scenery/', img:{}, timg:{}, done:false, _n:0, _cb:[],
-  off:(function(){ try{ if(/[?&]scenery=0/.test(location.search))return true; return localStorage.getItem('zeldara_scenery')==='off'; }catch(e){ return false; } })(),
+  off:(function(){ try{ if(/[?&]scenery=0/.test(location.search))return true; try{ localStorage.removeItem('zeldara_scenery'); }catch(e){} return false; }catch(e){ return false; } })(),      /* round 101: painted only — the Dev switch is gone; ?scenery=0 stays for tests */
   K:(function(){ try{ var v=parseFloat(localStorage.getItem('zeldara_scn_k')); return v>=0.5&&v<=2?v:1; }catch(e){ return 1; } })(),
   KB:(function(){ try{ var v=parseFloat(localStorage.getItem('zeldara_scn_kb')); return v>=0.5&&v<=2?v:1.15; }catch(e){ return 1.15; } })(),      // buildings at 115 % (Kris, round 31)
   RES:2,           // painted objects are drawn into canvases at twice the world's pixels and shown at half size, so they stay sharp at the camera's zoom

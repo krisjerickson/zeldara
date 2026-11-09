@@ -109,7 +109,8 @@ def prompt(sc, beats, who, part, nparts, sec=None):
          '2. In each scene ONLY the numbered actions written for it happen, in that order. Everything else in the picture stays as painted, alive only in small ways (cloth and hair stirring, flames flickering, mist, light, aurora rippling).',
          '3. Nothing travels between things: no beams, pulses, sparks or streams of light flowing from one object to another, unless an action says so.',
          '4. Every event belongs to ONE shot only: ' + ', '.join(T) + '. Never show one of them in another shot.',
-         '5. Do not reinterpret the story. Do not add people, creatures, places or objects that are not in that picture. Same faces, hair, clothes and colours as painted.', '',
+         '5. Do not reinterpret the story. Do not add people, creatures, places or objects that are not in that picture. Same faces, hair, clothes and colours as painted.',
+         '6. CARRIED THINGS STAY PUT: whatever a person holds, wears or is given (a pack, a sword, a staff, a book, a shard, a tool) stays with that same person for the rest of the shot and into the next shots. Nobody passes it on, puts it down, drops it or loses it, and it never vanishes, unless an action says so.', '',      # round 101
          'LOOK: the hand-painted Norse fantasy storybook style of the pictures — painterly, deep colour, glowing neon rune-blue magic, aurora borealis.',
          'CAMERA: one unbroken shot per picture with ONE simple move (a push-in, a tilt or a slow drift). No cuts inside a shot. Each shot ends on its END FRAME, then a hard cut.', '', 'THE SHOTS:']
     for i, r in enumerate(rows):

@@ -22,12 +22,17 @@
     load(k).then(function(d){ if(AC.state==='suspended')AC.resume(); var s=AC.createBufferSource(); s.buffer=d; s.connect(AC.destination); s.start(0,Math.max(0,seg[0]-0.02),seg[1]+0.08); btn.classList.remove('wait'); btn.classList.add('on'); cur={s:s,b:btn}; s.onended=function(){ btn.classList.remove('on'); }; },
       function(){ btn.classList.remove('wait'); btn.textContent='✗ not in yet'; }); };
   var row=function(id){ var c=CUES[id]||{name:id,where:''}, kept=ZAUD.KEPT93[id]||[], M=mine(id), V=ZAUD.V93[id]||[], has=ITEMS[id]||{}, LB=(ZAUD.LIB93[id]?['r1']:[]).concat(has.r2?['r2']:[]);      /* round 93b: a second library take from the 2015-2017 bundles */
+    /* round 101: every take you picked (any round) first, then the offered ones until there are five to choose from */
+    var SRC=(ZAUD.SRC101||{})[id]||{}, opts=[], seen={}, add=function(k,isNew,w){ if(seen[k])return; seen[k]=1; opts.push([k,isNew,w]); };
+    kept.forEach(function(k){ add(k,false); }); M.forEach(function(k){ add(k,!/^(cur|e\d|l\d|n\d)$/.test(k)); });
+    var rest=LB.map(function(k){ return [k,true,'a fresh recording from the Sonniss library']; }).concat(V.map(function(w,i){ return ['w'+(i+1),true,w]; })).filter(function(o){ return !seen[o[0]]; });
+    while(opts.length<5&&rest.length){ var o=rest.shift(); add(o[0],o[1],o[2]); }
     var take=function(k,isNew,words){ var on=M.indexOf(k)>=0, ready=!!has[k];
       return '<span class="s89-k'+(isNew?' new':' kept')+'">'+(ready?'<button class="vbtn s89-play" data-id="'+id+'" data-k="'+k+'">▶ '+KN[k]+'</button>':'<span class="s89-wait" title="'+esc(words||'')+'">'+KN[k]+' — not made yet</span>')+
         '<button class="vbtn s89-v" data-id="'+id+'" data-k="'+k+'" aria-pressed="'+on+'"'+(ready||!isNew?'':' disabled')+'>'+(on?'★':'☆')+'</button></span>'; };
     return '<tr class="s89-r'+(M.length?' done':'')+'" data-id="'+id+'"><td><b>'+esc(c.name)+'</b><br><code>'+id+'</code><div class="sfp-where">'+esc(c.where)+'</div><div class="s93-mean">🎯 '+esc((ZAUD.MEAN93||{})[id]||'')+'</div>'+
-      '<div class="s89-tag">'+(kept.length?'kept: '+kept.map(function(k){ return KN[k]||k; }).join(', '):'<b>no pick yet — five new takes</b>')+'</div></td>'+
-      '<td class="s89-pl">'+kept.map(function(k){ return take(k,false); }).join('')+LB.map(function(k){ return take(k,true,'a fresh recording from the Sonniss library'); }).join('')+V.map(function(w,i){ return take('w'+(i+1),true,w); }).join('')+'</td>'+
+      '<div class="s89-tag">'+(kept.length?'kept: '+kept.map(function(k){ return (KN[k]||k)+(SRC[k]?' <i class="s101-src">('+SRC[k].replace(/\+/g,' · ').replace('game','in the game').replace('lab','picked earlier').replace('kept','kept 89')+')</i>':''); }).join(', '):'<b>no pick yet — five new takes</b>')+(M.length>3?' <b class="s101-trim">· '+M.length+' ★ — the game rotates three: ☆ the ones to drop</b>':'')+'</div></td>'+
+      '<td class="s89-pl">'+opts.map(function(o){ return take(o[0],o[1],o[2]); }).join('')+'</td>'+
       '<td class="sfp-w"><details><summary>the new words</summary><ol>'+V.map(function(w){ return '<li>'+esc(w)+'</li>'; }).join('')+'</ol></details></td></tr>'; };
   var count=function(){ return IDS.filter(function(id){ return touched(id); }).length; };
   var section=function(){ var made=IDS.filter(function(id){ return ITEMS[id]&&(ITEMS[id].w1||ITEMS[id].r1); }).length;
@@ -47,7 +52,7 @@
   T.name='Sound effects'; T.blurb='<b>Round 93 — thematic takes.</b> At the top: every effect, what it stands for, your kept takes and new ones naming the real sound — five to choose from.';
   document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.s89-play'); if(b){ play(b.dataset.id,b.dataset.k,b); return; }
     var v=e.target.closest&&e.target.closest('.s89-v'); if(v&&!v.disabled){ var id=v.dataset.id, k=key(id), L=mine(id), i=L.indexOf(v.dataset.k);
-      if(i>=0)L.splice(i,1); else { if(L.length>=3)L.shift(); L.push(v.dataset.k); }
+      if(i>=0)L.splice(i,1); else { if(L.length>=3){ v.classList.add('s101-full'); setTimeout(function(){ v.classList.remove('s101-full'); },900); var tg=v.closest('tr').querySelector('.s89-tag'); if(tg&&!tg.querySelector('.s101-msg'))tg.insertAdjacentHTML('beforeend',' <b class="s101-msg">three ★ already — ☆ one first</b>'); return; } L.push(v.dataset.k); }
       var p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=L.join('+'); LabApp.persist(k);
       var tr=v.closest('tr'); tr.querySelectorAll('.s89-v').forEach(function(x){ var on=L.indexOf(x.dataset.k)>=0; x.setAttribute('aria-pressed',String(on)); x.textContent=on?'★':'☆'; }); tr.classList.toggle('done',L.length>0);
       var n=document.getElementById('s89-n'); if(n)n.textContent=count()+' of '+IDS.length+' looked at'; return; }
@@ -59,7 +64,7 @@
   var st=document.createElement('style'); st.textContent='.sfx-okw{margin-top:6px}.sfx-ok[aria-pressed="true"]{background:#1f6a3a;border-color:#8fe8a0;color:#fff}tr.ok td:first-child{box-shadow:inset 4px 0 0 #8fe8a0}body.sfx-okhide tr.ok{display:none}#sfx-okn{color:#8fe8a0}'+
     '.s89-k{display:inline-flex;align-items:center;gap:2px;margin:2px 8px 2px 0}.s89-k .vbtn{padding:4px 8px}.s89-k.kept .s89-play{border-color:#7fe08a}'+
     '.s89-v[aria-pressed="true"]{background:#2a5a3a;border-color:#7fe08a;color:#f0fff2}.s89-v[disabled]{opacity:.35}.s89-wait{color:#5f7088;font:12px "Segoe UI",sans-serif}.s89-play.on{background:#1d4a5a;border-color:#6fe3f5}.s89-play.wait{opacity:.6}'+
-    '.s89-tag{color:#ffd27a;font-size:12px;margin-top:3px}.s89-r.done td:first-child b{color:#9fd48a}.s89-r.flash{outline:2px solid #6fe3f5}.s89-pl{white-space:normal}.s89-t ol{margin:4px 0 0 16px;padding:0}.s93-mean{color:#9fd0ff;font-size:12px;margin-top:3px}';
+    '.s89-tag{color:#ffd27a;font-size:12px;margin-top:3px}.s89-r.done td:first-child b{color:#9fd48a}.s89-r.flash{outline:2px solid #6fe3f5}.s89-pl{white-space:normal}.s89-t ol{margin:4px 0 0 16px;padding:0}.s93-mean{color:#9fd0ff;font-size:12px;margin-top:3px}.s101-src{color:#b9c6d8;font-style:normal}.s101-trim,.s101-msg{color:#ffb38a}.s101-full{outline:2px solid #ffb38a}';
   document.head.appendChild(st);
   if(typeof LTODO!=='undefined')LTODO.add({id:'sfx93',label:'🔊 Thematic sound takes: pick for '+IDS.length+' effects',where:'Sound effects tab · top section',done:function(){ return count()>=IDS.length; },go:function(){ LTODO.goTo('sfxpick','.s89-t',0); }});
 })();

@@ -202,6 +202,13 @@ Kris wants to do everything in one coordinated effort, organized before kickoff.
 
 ## Open questions
 
+### Round 101 (Nov 8) — the leftover pixel art, pop-ups, the HUD, spells and aiming, sky ports, the mechanics guide; 15 special Kling shots
+- Kris: a deep dive on all outdated pixel art (sandbox toggle, bridge gates, rune-lines, spawned bosses, NPC pop-ups, pixel under painted buildings), pop-ups, health/mana/XP (4 types each, not a Zelda copy, growing with level, in the same place everywhere), boss bars, spells (stronger, longer cool-down, more mana, status effects, aim with X), projectiles (aim, head/leg shots), the load text, sky ports, and a Lab place explaining every mechanic; then "propose 15 different types of unique shots … i'll select 5 of these to feed into Kling". Everything trialled in the Lab first.
+- U1 — Where should health, mana and experience live on screen (the same in every scene)? **Answered: top-left**, the same in every scene.
+- U2 — Sky ports: fix within today's battle, or free to rework the battle itself? **Answered: free to rework** (proposals in the Lab first).
+- U3 — How many new paintings may this round order (each costs an image request)? **Answered: order freely** — every proposal approved in the Lab.
+- U4 — The mechanics guide: only in the Lab for you, or also in the game for players? **Answered: Lab now, game later** (the Tome or Training once it is right).
+
 ### Round 98 (Nov 8) — teaching the game; the quests reviewed
 - Kris: "we need to make some sort of tutorial and better guidance … Do a deep dive on the entire game, what we need to teach, when we should teach it and how. Consider a new tab … 'training' … a deep dive on our quests … with side-quests being indicated as such … Do the review and ask me basic questions first, and then for any options … build out a section in the lab". Review: doc 52.
 - T1 — Who guides (tells you what's next, hands out quests)? **Answered: Master Oswin** of the guild (he speaks in the dialogue box; the twin stays the story voice).

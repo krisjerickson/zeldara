@@ -173,3 +173,11 @@ Kris: "i am also very happy with how the intro video is in the game. Let's remak
 - Each runs about 3,700–6,800 characters. The O17 prompt that worked was 7,600.
 - The intro's own folder (`01_opening_both_p1`) has a DONE.txt and is left as it is.
 - When the new parts come in, the intake will need the game to know each part's cut points, as `ZSC.CLIPS` does for the intro. They will be found from the video's own cuts.
+
+## Round 101 — carried things stay put (Nov 8)
+
+Kris on the second opening video (01_opening_zeldara_p2): "so close to being correct", but in picture 5 the pack was handed to Zeldara and she
+passed it to Zeldor; in picture 6 she lost it walking away. Picture 5 now says she swings the pack onto her own back, buckles the sword on and
+keeps both (Zeldor never touches them); picture 6 says the pack and sword stay on her to the end frame. Every prompt gained SCENE LOCK rule 6
+("CARRIED THINGS STAY PUT"), and all 259 frames were scanned for hand-overs — the Soulglass shard, Bram's hammer, Mira's wrench, the staff on
+the anvil, the Lodestar and the twin's book now say who keeps what. 15 special shot types to pick five from: doc 53 §10 and the Lab.

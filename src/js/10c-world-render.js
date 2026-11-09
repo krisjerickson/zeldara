@@ -18,6 +18,12 @@ Object.assign(WorldScene.prototype,{
   _wrInit(){
     if(this._wr)return;
     this._wr={chunks:new Map(),jobs:new Map(),seq:0};
+    /* round 101 (Kris: "remove pixel art wherever it is not needed … loading artifacts that would show them"): on a slow line the world starts
+       before every painted page is in (12 s at most) and the chunks made meanwhile showed the drawn stand-ins. When the last page arrives,
+       every painted chunk is made again from the painted pictures. */
+    if(typeof ZScn!=='undefined'&&!ZScn.done&&!ZScn.off){ var me=this; ZScn._cb.push(function(){ try{ if(!me.sys||!me._wr)return; ZScn._lateV=(ZScn._lateV||0)+1; ZScn._sc={}; ZScn._scq=[]; ZScn._pat={}; if(typeof _WPC!=='undefined')_WPC={};
+      if(typeof ZWP!=='undefined'&&ZWP.sendImgs)ZWP.sendImgs(); var K=[]; me._wr.chunks.forEach(function(c,k){ K.push(k); }); if(me._wr.parked)me._wr.parked.forEach(function(c,k){ K.push(k); });
+      K.forEach(function(k){ var p=k.split('_'); me._refreshChunkAt(+p[0]*WCH,+p[1]*WCH); }); ZScn._lateN=K.length; }catch(e){ console.warn('late scenery repaint',e); } }); }
     this.cameras.main.setBackgroundColor('#0f3764');
     var self=this;
     [['glow',128,function(x){ var g=x.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(0.35,'rgba(255,255,255,0.45)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,128,128); }],
