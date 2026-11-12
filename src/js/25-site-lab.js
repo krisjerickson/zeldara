@@ -59,8 +59,8 @@ function openSiteLab(){
   closeModal('sandbox');
   var groups=_slCatalog();
   if(!SITE_LAB.tab||!groups.some(function(g){return g.id===SITE_LAB.tab;}))SITE_LAB.tab=groups[0].id;
-  _slRenderOpts(); _slRenderTabs(groups); _slRenderGrid(groups);
   var el=document.getElementById('modal-sitelab'); if(el)el.style.display='flex';
+  _slRenderOpts(); _slRenderTabs(groups); _slRenderGrid(groups);
 }
 function _slRenderOpts(){
   var o=SITE_LAB.opts, seg=function(key,val,label){ return '<button class="sl-seg" data-k="'+key+'" data-v="'+val+'" aria-pressed="'+(String(o[key])===String(val))+'">'+label+'</button>'; };
@@ -78,7 +78,7 @@ function _slRenderTabs(groups){
   el.querySelectorAll('.sl-tab').forEach(function(b){ b.onclick=function(){ SITE_LAB.tab=b.dataset.g; _slSavePrefs(); _slRenderTabs(groups); _slRenderGrid(groups); }; });
 }
 function _slRenderGrid(groups){
-  var g=groups.find(function(x){return x.id===SITE_LAB.tab;}), ps=game.scene.getScene('World').playerState, el=document.getElementById('sl-grid');
+  var g=groups.find(function(x){return x.id===SITE_LAB.tab;}), ps=game.scene.getScene('World').playerState, el=document.getElementById('sl-grid'); SITE_LAB.queue=[];
   SITE_LAB._sites={}; SITE_LAB.queue=[];
   el.innerHTML=g.sites.map(function(s){
     SITE_LAB._sites[s.id]=s;
@@ -87,7 +87,7 @@ function _slRenderGrid(groups){
     var kind=s.castle?'Castle':s.island?(s.cave?'Island cave':'Island '+s.type):(s.boss?'★ Boss '+s.type:'Bonus '+s.type);
     var fl=''; for(var f=0;f<s.floors;f++){ var last=f===s.floors-1; fl+='<button class="sl-fl'+(last?' last':'')+'" data-s="'+s.id+'" data-f="'+f+'" title="'+(last?(s.bonus?'Vault floor':'Guardian floor'):'Floor '+(f+1))+'">'+(f+1)+(last?' ☠':'')+'</button>'; }
     var th=SITE_LAB.thumbs[s.id];
-    if(!th&&!s.cave)SITE_LAB.queue.push(s.id);
+    if(!th&&!s.cave&&SITE_LAB.queue.indexOf(s.id)<0)SITE_LAB.queue.push(s.id);
     return '<div class="sl-card'+(s.boss?' boss':'')+'"><div class="sl-thumb" id="slth-'+s.id+'" style="'+(th?'background-image:url('+th+')':'')+'">'+(th?'':(s.cave?'Side-view cave':'rendering…'))+'</div>'+
       '<div class="sl-body"><div class="sl-name">'+(s.boss?'<span class="st">★</span> ':'')+s.name+'</div>'+
       '<div class="sl-meta">'+kind+' · '+s.floors+' floors · guardian '+_slGuardian(s)+'</div>'+
@@ -100,6 +100,7 @@ function _slRenderGrid(groups){
 // Thumbnails of floor 1, rendered one at a time so the page stays responsive.
 function _slPumpThumbs(){
   if(SITE_LAB.busy)return;
+  var md=document.getElementById('modal-sitelab'); if(!md||md.style.display==='none'){ SITE_LAB.queue=[]; return; }      /* round 102: no thumbnails are drawn once the Site Lab is closed (they kept building floors behind a launch) */
   var id=SITE_LAB.queue.shift(); if(!id)return;
   SITE_LAB.busy=true;
   setTimeout(function(){
@@ -123,7 +124,7 @@ function _slPumpThumbs(){
 function _slLaunch(id,floor){
   var ws=game.scene.getScene('World'); if(!ws||!ws.player)return;
   var s=SITE_LAB._sites&&SITE_LAB._sites[id]; if(!s)return;
-  closeModal('sitelab'); closeModal('sandbox');
+  closeModal('sitelab'); closeModal('sandbox'); SITE_LAB.queue=[];
   var ps=ws.playerState, o=SITE_LAB.opts;
   ps.godMode=!!o.god; var gs=document.getElementById('sb-godmode-status'); if(gs)gs.style.display=ps.godMode?'':'none';
   if(ps.hp<=0)ps.hp=ps.maxHp;

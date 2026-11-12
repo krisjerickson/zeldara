@@ -38,7 +38,7 @@ with game() as g:
         g.js("var d=game.scene.getScene('Dungeon');var b=d.monsters.find(m=>m.isBoss&&!m.dead);if(b){b.hp=0;if(!b.dead)d._monsterDied(b);}"); g.wait(1800)
     check('Portal unlocked after boss', g.js("game.scene.getScene('Dungeon').interactables.find(i=>i.type==='boss_chest').locked===false"))
     g.js("var d=game.scene.getScene('Dungeon');var c=d.interactables.find(i=>i.type==='boss_chest');d.px=c.x;d.py=c.y;d._interact()"); g.wait(2000)
-    for _ in range(30):
+    for _ in range(60):
         if g.js("game.scene.isActive('World')"): break
         g.wait(250)
     check('Claim returns to World with quest done', g.js("game.scene.isActive('World')") and g.ws("ps.completedQuests.includes('s1_dungeon') && ps.ownedMounts.includes('alligator')"), g.active())

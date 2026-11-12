@@ -579,7 +579,7 @@ function openBuildingShop(btype,ps,worldScene){
     if(btype==='apothecary'&&typeof ZPOT!=='undefined')h+=ZPOT.head(it);
     h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(it,1.5)+'</div>'
       +'<div class="si-info"><div class="si-name">'+it.name+'</div>'
-      +'<div class="si-desc">'+stat+' &nbsp;•&nbsp; '+price+'</div></div>';
+      +'<div class="si-desc">'+stat+' &nbsp;•&nbsp; '+price+_gearCmp(it)+'</div></div>';
     if(it.buy&&it.type==='ammo'){      // round 47 (Kris: "you should be able to buy multiple sets of 5 arrows and darts at the same time"): − / + packs, one Buy, the window stays open
       var nq=Math.max(1,Math.min(20,(window._ammoQty||{})[id]||1));
       h+='<span class="si-qty" style="display:inline-flex;align-items:center;gap:4px;margin-right:6px"><button class="si-buy" style="min-width:24px;padding:2px 6px" onclick="window._ammoStep(\''+id+'\',-1)">−</button><b id="aq-'+id+'" style="min-width:34px;text-align:center;font-size:12px">×'+nq+'</b><button class="si-buy" style="min-width:24px;padding:2px 6px" onclick="window._ammoStep(\''+id+'\',1)">+</button></span>'
@@ -646,7 +646,7 @@ function openCampModal(site,ps,worldScene){
     var item=ITEMS[si.id];if(!item||!item.buy)return;
     var canAfford=ps.gold>=item.buy;
     var stat=item.atk?'ATK +'+item.atk:item.def?'DEF +'+item.def:item.heal?'Heals '+item.heal+' HP':'';
-    h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(item,1.5)+'</div><div class="si-info"><div class="si-name">'+item.name+'</div><div class="si-desc">'+stat+' &nbsp;•&nbsp; '+item.buy+'g</div></div><button class="si-buy" '+(canAfford?'':'disabled')+' onclick="window._buyItem(\''+si.id+'\','+item.buy+')">'+(canAfford?'Buy':'No gold')+'</button></div>';
+    h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(item,1.5)+'</div><div class="si-info"><div class="si-name">'+item.name+'</div><div class="si-desc">'+stat+' &nbsp;•&nbsp; '+item.buy+'g'+_gearCmp(item)+'</div></div><button class="si-buy" '+(canAfford?'':'disabled')+' onclick="window._buyItem(\''+si.id+'\','+item.buy+')">'+(canAfford?'Buy':'No gold')+'</button></div>';
   });
   // Sell wood logs
   var wood=ps.wood||0;
@@ -759,3 +759,9 @@ function showNotif(msg,col){
   var d=document.createElement('div'); d.className='notif'; d._nk=key; d.style.color=col||'#ffffff'; d.textContent=msg; a.appendChild(d); fade(d);
 }
 
+
+// round 102 (Kris ✓ "Gear comparison: green / red numbers when you look at gear in shops"): against what you wear in that slot now
+function _gearCmp(it){ try{ if(!it||!it.slot)return ''; var ws=game.scene.getScene('World'), ps=ws&&ws.playerState; if(!ps||!ps.equip)return ''; var cur=ps.equip[it.slot]?ITEMS[ps.equip[it.slot]]:null;
+    if(cur===it)return ' <span class="gc gc-same">· worn</span>'; var out=[]; ['atk','def'].forEach(function(k){ var d=(it[k]||0)-((cur&&cur[k])||0); if(d)out.push('<span class="gc '+(d>0?'gc-up':'gc-down')+'">'+(d>0?'▲ +':'▼ ')+d+' '+k.toUpperCase()+'</span>'); });
+    if(!out.length)return cur?' <span class="gc gc-same">· same as your '+cur.name+'</span>':''; return ' &nbsp;'+out.join(' ')+(cur?' <span class="gc gc-same">vs your '+cur.name+'</span>':' <span class="gc gc-same">(slot empty)</span>'); }catch(e){ return ''; } }
+if(typeof document!=='undefined'){ var _gcSt=document.createElement('style'); _gcSt.textContent='.gc{font-weight:700;font-size:11px}.gc-up{color:#6fe08a}.gc-down{color:#ff7a6a}.gc-same{color:#8a96a8;font-weight:400}'; document.head.appendChild(_gcSt); }

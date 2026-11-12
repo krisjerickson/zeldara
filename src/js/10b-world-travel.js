@@ -42,6 +42,13 @@ Object.assign(WorldScene.prototype,{
     // banks: just past the first/last border cell along the crossing
     var lo=0,hi=0; g.cells.forEach(function(c){ var a=g.dir==='v'?((c[0]/WORLD_W)|0)-g.y:(c[0]%WORLD_W)-g.x; if(a<lo)lo=a; if(a>hi)hi=a; });
     var bank={'-1':(lo-1)*TILE,'1':(hi+1)*TILE}, half=Math.max(-bank['-1'],bank['1']);
+    /* round 102 (Kris ✓ "a painted rune-gate"): the painted gate on each bank once its sheet is in (07zt10 gate_closed / gate_open) */
+    var Zg=typeof ZScn!=='undefined'&&!ZScn.off?ZScn:null, gid=g.open?'gate_open':'gate_closed', gw=TILE*6.2;
+    if(Zg&&Zg.has(gid)){ var T=Zg.texture(this,gid,gw,{shadow:false}); if(T){ for(var s3=-1;s3<=1;s3+=2){ var gx=cx+along[0]*bank[s3], gy=cy+along[1]*bank[s3];
+          parts.push(this.add.image(gx,gy,T.key).setOrigin(0.5,0.75).setDisplaySize(gw,gw*T.h/T.w).setRotation(g.dir==='v'?0:Math.PI/2).setDepth(6)); }
+        var C0=CRAFTSMEN[g.craftsman], t0=(g.open?g.icon+' ':'🔒 ')+g.name+(g.open?'':'\n'+(C0?'free '+C0.n:'')), lx0=cx+along[0]*(half+TILE*1.5), ly0=cy+along[1]*(half+TILE*1.5)-30;
+        parts.push(domText(this,lx0,ly0,t0,{fontSize:'10px',color:g.open?'#ffe9a8':'#ffb0a0',fontFamily:'Segoe UI',align:'center',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(8));
+        this._gateObjs[g.id]={open:g.open,parts:parts}; return; } }
     for(var s=-1;s<=1;s+=2)for(var q=-1;q<=1;q+=2){
       var px=cx+along[0]*bank[s]+across[0]*q*TILE*2.6, py=cy+along[1]*bank[s]+across[1]*q*TILE*2.6;
       parts.push(this.add.rectangle(px,py-8,7,22,g.open?0x6a4a2a:0x4a3a2a).setStrokeStyle(1,0x000000,.6).setDepth(6));
@@ -75,6 +82,11 @@ Object.assign(WorldScene.prototype,{
   _drawCache(c){
     var old=this._cacheObjs[c.id]; if(old)old.forEach(function(o){o.destroy();});
     var open=this.playerState.openedCaches.indexOf(c.id)>=0, x=c.x*TILE+TILE/2, y=c.y*TILE+TILE/2, parts=[];
+    /* round 102 (Kris: "i also found a chest in the wetlands with old pixel art"): the hidden caches wear the painted chest (cp_chest / cp_chest_open) */
+    var Zc=typeof ZScn!=='undefined'&&!ZScn.off?ZScn:null, cid=open?'cp_chest_open':'cp_chest';
+    if(Zc&&Zc.has(cid)){ var CT=Zc.texture(this,cid,34,{shadow:false}); if(CT){ parts.push(this.add.ellipse(x,y+10,30,9,0x000000,.32).setDepth(4)); parts.push(this.add.image(x,y+12,CT.key).setOrigin(0.5,1).setDisplaySize(34,34*CT.h/CT.w).setDepth(typeof WR_DEPTH==='function'?WR_DEPTH(y+12):5));
+        if(!open){ var sp0=this.add.circle(x,y-4,16,0xffd24a,.14).setDepth(5).setBlendMode(Phaser.BlendModes.ADD); this.tweens.add({targets:sp0,alpha:{from:.05,to:.25},duration:1100,yoyo:true,repeat:-1}); parts.push(sp0); }
+        this._cacheObjs[c.id]=parts; return; } }
     parts.push(this.add.ellipse(x,y+9,26,8,0x000000,.35).setDepth(4));
     parts.push(this.add.rectangle(x,y+2,22,14,open?0x4a3420:0x7a4a22).setStrokeStyle(2,0x2a1808,1).setDepth(5));
     parts.push(this.add.rectangle(x,y-7,22,6,open?0x3a2818:0x8a5a2a).setStrokeStyle(2,0x2a1808,1).setDepth(5).setAngle(open?-18:0));

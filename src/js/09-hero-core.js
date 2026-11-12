@@ -261,14 +261,15 @@ function _heroCastSpell(scene){
   _heroSpellCdUntil=now+sp.cooldown*1000*(1-(stats.cdReduce||0));
   var c=_heroCtx(scene);
   var pow=ZHit.spellPow(ps,tome,stats.spellMult), _sid=tome.spellId;      // tome × staff × level and mage gear × the staff's own element (round 37)
-  var ang=_heroDirAngle(c.dir), nx=Math.cos(ang), ny=Math.sin(ang);
+  var _AC=typeof ZAIM!=='undefined'&&ZAIM.cur&&ZAIM.cur.sc===scene?ZAIM.cur:null;      /* round 102: X twice — cast where the rune circle is */
+  var ang=_AC?_AC.ang:_heroDirAngle(c.dir), nx=Math.cos(ang), ny=Math.sin(ang);
   var col=sp.proj?sp.proj.col:(sp.aoe?sp.aoe.col:(sp.cloud?sp.cloud.col:0xaaddff));
   // Cast flash
   var ring=scene.add.circle(c.x,c.y,16,col,0.55).setDepth(19);
   scene.tweens.add({targets:ring,scaleX:2.4,scaleY:2.4,alpha:0,duration:260,onComplete:function(){ring.destroy();}});
   if(!scene._heroSpellProj)scene._heroSpellProj=[];
   if(sp.proj){
-    var n=sp.proj.count||1, _seek=typeof ZSEEK!=='undefined'?ZSEEK.pick(scene,c.x,c.y,ang,sp.proj.spd*2.4,c.monsters):null;      // round 47: the strongest enemy ahead
+    var n=sp.proj.count||1, _seek=_AC?(_AC.mon&&!_AC.mon.dead?_AC.mon:null):(typeof ZSEEK!=='undefined'?ZSEEK.pick(scene,c.x,c.y,ang,sp.proj.spd*2.4,c.monsters):null);      // round 47: the strongest enemy ahead
     for(var i=0;i<n;i++){
       (function(i){
         var a=ang+(n>1&&!sp.proj.burstDelay?(i-(n-1)/2)*(sp.proj.spread||0.3):0);
@@ -286,7 +287,7 @@ function _heroCastSpell(scene){
     _heroNova(scene,c.x,c.y,sp.aoe.r,sp.aoe.col,pow,'fire',_sid);
   } else if(sp.delay&&sp.aoe){
     var nI=sp.n||1;
-    for(var ii=0;ii<nI;ii++)(function(ii){ var s={x:c.x+nx*200+(nI>1?(Math.random()-0.5)*150:0),y:c.y+ny*200+(nI>1?(Math.random()-0.5)*120:0)}, ms=((sp.delay||1)+ii*0.18)*1000;
+    for(var ii=0;ii<nI;ii++)(function(ii){ var _ad=_AC?_AC.d:200, s={x:c.x+nx*_ad+(nI>1?(Math.random()-0.5)*150:0),y:c.y+ny*_ad+(nI>1?(Math.random()-0.5)*120:0)}, ms=((sp.delay||1)+ii*0.18)*1000;
       if(typeof ZSEEK!=='undefined'&&ZSEEK.sight)s=ZSEEK.sight(scene,c.x,c.y,s.x,s.y);      // round 64: only where you can see — a wall pulls the spot back
       var mark=scene.add.circle(s.x,s.y,sp.aoe.r,sp.aoe.col,0.22).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(mark,'fx_meteor_mark',{a:0.85});
       scene.tweens.add({targets:mark,alpha:0.5,duration:400,yoyo:true});
@@ -299,7 +300,7 @@ function _heroCastSpell(scene){
     scene.playerIFrames=Math.max(scene.playerIFrames||0,0.5); scene.iFrames=Math.max(scene.iFrames||0,0.5); scene._iFrames=Math.max(scene._iFrames||0,0.5);
   } else if(sp.cloud){
     if(!scene._heroClouds)scene._heroClouds=[];
-    var clx=sp.cloud.at==='aim'?c.x+nx*160:c.x, cly=sp.cloud.at==='aim'?c.y+ny*160:c.y;
+    var _cd=_AC?_AC.d:160, clx=sp.cloud.at==='aim'?c.x+nx*_cd:c.x, cly=sp.cloud.at==='aim'?c.y+ny*_cd:c.y;
     if(sp.cloud.at==='aim'&&typeof ZSEEK!=='undefined'&&ZSEEK.sight){ var _cs=ZSEEK.sight(scene,c.x,c.y,clx,cly); clx=_cs.x; cly=_cs.y; }      // round 64: only where you can see
     var cl=scene.add.circle(clx,cly,sp.cloud.r,sp.cloud.col,0.35).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(cl,sp.cloud.st==='slow'?'fx_zone_frost':'fx_zone_poison');
     scene._heroClouds.push({vis:cl,x:clx,y:cly,r:sp.cloud.r,life:sp.cloud.dur,tick:0,st:sp.cloud.st,spellId:_sid,dps:Math.max(sp.poisonDps||4,pow*(sp.cloud.st?0.3:0.25))});
@@ -396,8 +397,8 @@ function _heroBolt(scene,x1,y1,x2,y2,col){
 // crowd control with diminishing returns (round 6): while a monster is held, each new root/stun/freeze
 // lasts half as long as the last; when the hold ends it can't be held again for 3 s; bosses take half.
 function _ccDur(m,t){ if(!m||!(t>0))return 0; var now=(m._m&&m._m.t!==undefined)?m._m.t:Date.now()/1000, c=m._cc||(m._cc={n:0,until:-99});
-  if(now>=c.until&&now<c.until+3)return 0;           // immune for 3 s after a hold
-  if(now>=c.until+3)c.n=0;                            // fresh start
+  if(now>=c.until&&now<c.until+4)return 0;           // immune for 4 s after a hold (round 102: the Lab's rule — was 3 s)
+  if(now>=c.until+4)c.n=0;                            // fresh start
   var d=t*Math.pow(0.5,c.n)*(m.isBoss?0.5:1); if(d<0.15)return 0; c.n++; c.until=Math.max(c.until,now+d); return d; }
 function _heroHold(scene,m,t){ var d=_ccDur(m,t); if(d<=0){ if(!m._ccSay||(Date.now()-m._ccSay)>1500){ m._ccSay=Date.now(); _heroFloat(scene,m.x,m.y-((m.def&&m.def.r)||10)-22,'resists hold','#d0d0d0'); } return 0; }
   if(m._m){ m._m.stunT=Math.max(m._m.stunT||0,d); } else { m._stun=Math.max(m._stun||0,d); m.atkTimer=Math.max(m.atkTimer||0,d); } return d; }

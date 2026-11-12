@@ -69,8 +69,9 @@ with game(new=True) as g:
       ps.level=11; ps.equip.mWeapon=null; ps.equip.head='mage_hood'; o.pow=[ZHit.spellPow(ps,ITEMS.fireball_tome,1),ZHit.spellPow(ps,ITEMS.fireball_tome,1.5)]; ps.equip.mWeapon='ember_staff'; o.staff=[ZHit.spellPow(ps,ITEMS.fireball_tome,1.5),ZHit.spellPow(ps,ITEMS.frost_bolt_tome,1.5)]; ps.level=1; ps.equip.head=null; ps.equip.mWeapon=null; return o; })()""")
     check('Armor resists: five fire pieces stop at −50%% (a fire monster\'s 100 becomes %d), a grass monster is unchanged, a two-element warden strikes with the element you resist least; burning is halved too, slowing is not' % r['taken'][0],
           r['res'] == 0.5 and r['taken'][0] == 50 and r['taken'][1] == 100 and r['taken'][2] == 100 and r['dur'] == [2, 4] and abs(r['ward'] - 0.45) < 1e-9, r)
+    P = lambda v: int(round(v) * 2.5 + 0.5)
     check('Spell power grows with level (3%% each) and mage gear, and a staff of the spell\'s element adds a quarter (Fireball 15: %s; with the Ember Staff %d, Frost Bolt with it %d)' % (r['pow'], r['staff'][0], r['staff'][1]),
-          r['pow'] == [round(15 * 1.38), round(15 * 1.5 * 1.38)] and r['staff'][0] == round(15 * 1.5 * 1.38 * 1.25) and r['staff'][1] == round(12 * 1.5 * 1.38), r)
+          r['pow'] == [P(15 * 1.38), P(15 * 1.5 * 1.38)] and r['staff'][0] == P(15 * 1.5 * 1.38 * 1.25) and r['staff'][1] == P(12 * 1.5 * 1.38), r)      # round 102: spells ×2.5 (09s ZSPELL102)
     # 5 — items, forge
     r = g.js("""(()=>{ var o={}, I=ITEMS; o.n=Object.keys(I).length; o.axes=Object.keys(I).filter(function(k){ return I[k].cls==='axe'; }).length; o.xbows=Object.keys(I).filter(function(k){ return I[k].cls==='xbow'; }).length;
       var sov=Object.keys(I).filter(function(k){ return I[k].sov; }).concat(['elemental_sovereign']), slots={}; sov.forEach(function(k){ slots[I[k].slot+(I[k].cls?':'+I[k].cls:'')]=1; }); o.sov=Object.keys(slots).sort();

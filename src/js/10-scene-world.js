@@ -1936,7 +1936,8 @@ class WorldScene extends Phaser.Scene{
     })();
     // Direction-based aiming: facing direction + optional 45° modifier
     var px=this.player.x,py=this.player.y;
-    var _aimAng=this._getAimAngle();
+    var _AC=typeof ZAIM!=='undefined'&&ZAIM.cur&&ZAIM.cur.sc===this?ZAIM.cur:null;      /* round 102: X twice — cast where the rune circle is */
+    var _aimAng=_AC?_AC.ang:this._getAimAngle();
     var nx=Math.cos(_aimAng),ny=Math.sin(_aimAng);
     var _spStats=this.calcPlayerStats();
     var atkPow=ZHit.spellPow(ps,tomeItem,_spStats.spellMult);      // tome × staff × level and mage gear × the staff's own element (round 37)
@@ -1946,7 +1947,7 @@ class WorldScene extends Phaser.Scene{
     if(!this._spellClouds)this._spellClouds=[];
     if(spDef.proj){
       // Projectile spells
-      var _seek=typeof ZSEEK!=='undefined'?ZSEEK.pick(this,px,py,_aimAng,spDef.proj.spd*2.5,this.worldMonsters):null;      // round 47: the strongest enemy ahead
+      var _seek=_AC?(_AC.mon&&!_AC.mon.dead?_AC.mon:null):(typeof ZSEEK!=='undefined'?ZSEEK.pick(this,px,py,_aimAng,spDef.proj.spd*2.5,this.worldMonsters):null);      // round 47: the strongest enemy ahead
       var count=spDef.proj.count||1;
       for(var pi=0;pi<count;pi++){
         var ang=Math.atan2(ny,nx);
@@ -1979,7 +1980,7 @@ class WorldScene extends Phaser.Scene{
     } else if(spDef.delay&&spDef.aoe){
       // Meteor / Starfall: impacts ahead in the aim direction after a short delay
       var nImp=spDef.n||1;
-      for(var ii=0;ii<nImp;ii++)(function(ii){ var s={x:px+nx*200+(nImp>1?(Math.random()-0.5)*150:0),y:py+ny*200+(nImp>1?(Math.random()-0.5)*120:0)}, ms=(spDef.delay+ii*0.18)*1000;
+      for(var ii=0;ii<nImp;ii++)(function(ii){ var _ad=_AC?_AC.d:200, s={x:px+nx*_ad+(nImp>1?(Math.random()-0.5)*150:0),y:py+ny*_ad+(nImp>1?(Math.random()-0.5)*120:0)}, ms=(spDef.delay+ii*0.18)*1000;
         if(typeof ZSEEK!=='undefined'&&ZSEEK.sight)s=ZSEEK.sight(self,px,py,s.x,s.y);      // round 64: only where you can see — a wall pulls the spot back
         var ind=self.add.circle(s.x,s.y,spDef.aoe.r,spDef.aoe.col,0.22).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(ind,'fx_meteor_mark',{a:0.85});
         self.tweens.add({targets:ind,alpha:0.5,duration:400,yoyo:true});
@@ -1997,7 +1998,7 @@ class WorldScene extends Phaser.Scene{
       self.worldIFrames=0.5;
     } else if(spDef.cloud){
       // Lingering cloud: Poison Mist on you, Blizzard where you aim
-      var clx=spDef.cloud.at==='aim'?px+nx*160:px, cly=spDef.cloud.at==='aim'?py+ny*160:py;
+      var _cd=_AC?_AC.d:160, clx=spDef.cloud.at==='aim'?px+nx*_cd:px, cly=spDef.cloud.at==='aim'?py+ny*_cd:py;
       if(spDef.cloud.at==='aim'&&typeof ZSEEK!=='undefined'&&ZSEEK.sight){ var _cs=ZSEEK.sight(self,px,py,clx,cly); clx=_cs.x; cly=_cs.y; }      // round 64: only where you can see
       var cloud=self.add.circle(clx,cly,spDef.cloud.r,spDef.cloud.col,0.35).setDepth(14);; if(typeof ZFX!=='undefined')ZFX.dress(cloud,spDef.cloud.st==='slow'?'fx_zone_frost':'fx_zone_poison');
       self._spellClouds.push({vis:cloud,x:clx,y:cly,r:spDef.cloud.r,life:spDef.cloud.dur,st:spDef.cloud.st,spellId:id,
@@ -2618,7 +2619,7 @@ class WorldScene extends Phaser.Scene{
     cdReduce=Math.min(0.80,cdReduce);
     manaRegen=Math.min(2.5,manaRegen);      // round 83 (B2): gear adds at most +2.5 mp/s (was +4)
     // Update maxMana dynamically
-    ps.maxMana=50+maxManaBonus;
+    ps.maxMana=50+3*Math.max(0,(ps.level||1)-1)+maxManaBonus;      /* round 102 (Kris: "Similar for mana amount"): the pool grows 3 a level, so the dearer spells stay castable */
     return{atk:atk,def:def,cdReduce:cdReduce,manaRegen:manaRegen,spdBonus:spdBonus,spellMult:spellMult};
   }
 

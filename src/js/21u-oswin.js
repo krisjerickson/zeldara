@@ -27,6 +27,9 @@ var ZOSW={ on:true, NAME:'Master Oswin', ID:'npc_guild', PAY:50,
     else { if(T.camp===1||T.net&&T.net<3)L.push(ZOSW.remind(ws));
       var N=typeof ZQMAP!=='undefined'?ZQMAP.next(ws):null; if(N&&!(T.camp===1||T.net&&T.net<3))L.push('What is next: '+N.t.charAt(0).toLowerCase()+N.t.slice(1)+'.');
       if(ZOSW.stuck(ws)){ var tg=typeof ZJOUR!=='undefined'?ZJOUR.target(ws):null; if(tg)L.push('You have been circling. Listen: '+tg.t+' — '+Math.round(Math.hypot(tg.x-ws.player.x,tg.y-ws.player.y)/TILE)+' paces to the '+ZOSW.dir(ws,tg.x,tg.y)+'. The gold arrow on your little map points there.'); ps.pathT=0; }
+      /* round 102 (Kris ✓ "say early what the end needs … only once you reveal the volcanos"): when the forges rise, Oswin names the staff the great hearth needs */
+      if(typeof _finalQuestUnlocked==='function'&&_finalQuestUnlocked(ps)&&!ps.oswinStaff&&(ps.inventory||[]).indexOf('sov_staff')<0&&!(ps.equip&&ps.equip.mWeapon==='sov_staff')){ ps.oswinStaff=true;
+        L.push('The volcanoes have woken — so hear what the old sagas say. The great hearth under Muspelheim takes four Heartglasses and the Sovereign staff. The staff goes to whoever beats all sixteen mage-tower masters — or the apothecary can work an Arcane staff up into one, for six thousand gold and a fistful of gems. Choose your road, and start putting gold aside.'); }
       var R=ZOSW.rumour(ws); if(R)L.push(R);
       if(!L.length)L.push('The list is shorter than it was. Keep going.'); }
     var say=function(i){ if(i>=L.length){ ZOSW.journal(ws); return; } ZDLG.say(ZOSW.NAME,L[i],{id:ZOSW.ID,icon:'📜',done:function(){ say(i+1); }}); };

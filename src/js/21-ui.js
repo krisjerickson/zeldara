@@ -335,6 +335,9 @@ function _wmRenderSide(ws){
     WMAP_BORDERS.forEach(function(B){ var gs=wd.gates.filter(function(g){return g.border===B.id;}), open=gs.length&&gs[0].open, C=CRAFTSMEN[B.craftsman];
       h+='<div class="wm-lg"><i style="background:'+(open?_WM_BORDER_COL[B.id]:'#40404a')+'"></i><span><b>'+B.name+'</b> · '+(open?B.icon+' open (3 crossings)':'🔒 free '+(C?C.n:'the craftsman'))+'</span></div>'; });
     h+='<h4>Waystones</h4><div class="wm-note">'+act.length+' / '+wd.waystones.length+' active. Stand at one and press <b>[Tab]</b> to travel.</div>';
+    h+=_realmCard(ws);
+    /* round 102 (Kris ✓ "Which mount crosses what — a line on the map legend"): every mount you own and the ground it takes at full speed */
+    var _om=(ps.ownedMounts||[]).filter(function(m){ return MOUNTS[m]; }); if(_om.length){ h+='<h4>Your mounts</h4>'; _om.forEach(function(m){ h+='<div class="wm-lg"><span><b>'+MOUNTS[m].icon+' '+MOUNTS[m].n+'</b> · '+_mountCrossWords(m)+'</span></div>'; }); }
     h+='<div class="wm-note">Drag to pan · wheel or buttons to zoom · only explored land is shown.</div>';
   }
   // only touch the DOM when the panel changed — rebuilding it on every
@@ -617,3 +620,27 @@ window._unequipSlot=function(slot){
   ps.inventory.push(id);
   updateInventoryModal(ps);ws._emitUI();
 };
+
+// round 102: the ground a mount takes at full speed, in words (the map's legend and the Tome)
+function _mountCrossWords(id){ var M=MOUNTS[id]; if(!M)return ''; var c=M.canCross; if(c==='all')return 'flies over everything'; if(c==='land_and_deep')return 'flies over all land (not the open sea)';
+  if(!Array.isArray(c)||!c.length)return 'roads and grass, faster'; var W=[], has=function(t){ return c.indexOf(t)>=0; };
+  if(has(T.DEEP_WATER)||has(T.SHALLOW_WATER))W.push('water'); if(has(T.REED)||has(T.MUD)||has(T.LILY))W.push('marsh'); if(has(T.SMALL_BOULDER)||has(T.LARGE_BOULDER))W.push('boulder fields');
+  if(has(T.THIN_MAGMA))W.push('lava crust'); if(has(T.DEEP_MAGMA))W.push('deep lava'); if(has(T.REEF))W.push('the light coastal sea'); return W.length?W.join(', '):'roads and grass, faster'; }
+
+// round 102 (Kris ✓ "A realm card on the map", with his note: "shouldn't come at the beginning of the game fully clarified. you should need to
+// learn from a quest, NPC or finding one of each for this to initially populate. then OK to have for each section"): a line appears only once
+// you have found one of its kind anywhere — cleared a treasure site, freed a spirit, freed a builder, won a key mount — then it shows for every
+// open realm.
+function _realmCard(ws){ try{ var ps=ws.playerState, wd=ws.wd, done=ps.lockedSites||[], ul=ps.unlockedSections||[1], S=typeof ZSPIRIT!=='undefined'?ZSPIRIT.shrines(ws):[], fr=ps.spiritsFreed||[];
+    var tre=function(q){ var L=(wd.sites||[]).filter(function(s){ return s.section===q&&(s.type==='tower'||s.type==='dungeon')&&!s.boss&&!s.mage; }); return [L.filter(function(s){ return done.indexOf(s.id)>=0; }).length,L.length]; };
+    var spi=function(q){ var L=S.filter(function(s){ return s.q===q; }); return [L.filter(function(s){ return fr.indexOf(s.id)>=0; }).length,L.length]; };
+    var bld=function(q){ var B=(typeof WMAP_BORDERS!=='undefined'?WMAP_BORDERS:[]).find(function(b){ return b.from===q||b.sec===q; }); var gs=B?wd.gates.filter(function(g){ return g.border===B.id; }):[]; return gs.length?!!gs[0].open:null; };
+    var KEY={1:'alligator',2:'boar',3:'lava_unicorn',4:'ash_salamander'}, own=ps.ownedMounts||[];
+    var know={sites:[1,2,3,4].some(function(q){ return tre(q)[0]>0; }), spirits:fr.length>0, builder:(wd.gates||[]).some(function(g){ return g.open; }), mount:[1,2,3,4].some(function(q){ return own.indexOf(KEY[q])>=0; })};
+    if(!know.sites&&!know.spirits&&!know.builder&&!know.mount)return '';
+    var h='<h4>The realms</h4>'; ul.slice().sort().forEach(function(q){ var bits=[];
+      if(know.sites){ var t=tre(q); bits.push('🗝 '+t[0]+' / '+t[1]+' treasure sites'); }
+      if(know.spirits){ var p=spi(q); bits.push('✦ '+p[0]+' / '+p[1]+' spirits'); }
+      if(know.mount)bits.push(MOUNTS[KEY[q]]?(own.indexOf(KEY[q])>=0?MOUNTS[KEY[q]].icon+' mount won':'mount: not yet'):'');
+      h+='<div class="wm-lg"><span><b>'+(WM_REGION_NAMES[q]||('Realm '+q))+'</b> · '+bits.filter(Boolean).join(' · ')+'</span></div>'; });
+    return h; }catch(e){ return ''; } }

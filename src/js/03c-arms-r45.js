@@ -80,5 +80,5 @@ var R45_RARE={
     var nd=Object.keys(r.needs).map(function(k){ return (r.needs[k]>1?r.needs[k]+'× ':'')+(ITEMS[k]?ITEMS[k].name:k); }).join(' + ');
     it.desc=st.join(' ')+(it.cls==='axe'?' — axe':r.chain==='bow'?' — bow':'')+' — Forge: '+nd+' + '+r.gold+'g'; });
   Object.keys(R45_RARE).forEach(function(k){ if(ITEMS[k])ITEMS[k].hint=R45_RARE[k].how; });
-  if(ITEMS.sp_roll){ delete ITEMS.sp_roll.buy; ITEMS.sp_roll.desc='No longer a skill: the roll is a move of its own (Alt), taught by Tumbler Pia outside the Rime Spire.'; }
+  if(ITEMS.sp_roll){ delete ITEMS.sp_roll.buy; ITEMS.sp_roll.desc='No longer a skill: the roll is a move of its own (Alt), taught by Tumbler Pia on the meadow north of the village.'; }
 })();

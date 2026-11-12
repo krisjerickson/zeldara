@@ -12,7 +12,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 var BossPat={
   D_TELE:26, D_FX:30, D_DARK:40,
-  SAFE:0.3,      // round 84c: the least share of the screen a screen-wide attack leaves safe (Kris: "at least 25% … and multiple locations")   // above the dungeon's fog of war (25): telegraphs must always be readable
+  SAFE:0.36,      // round 102: 0.3 → 0.36 (a bit more open, Kris) · round 84c: the least share of the screen a screen-wide attack leaves safe (Kris: "at least 25% … and multiple locations")   // above the dungeon's fog of war (25): telegraphs must always be readable
   // ── helpers ──
   rig:function(m){ var b=m.spr||m.body; return b&&b._rig||null; },
   slotOf:function(m){ var R=BossPat.rig(m); return R&&R.D&&R.D.slot||null; },
@@ -22,6 +22,10 @@ var BossPat={
     if(v.width&&S.px>v.x+40&&S.px<v.x+v.width-40&&S.py>v.y+40&&S.py<v.y+v.height-40)return {x:v.x+16,y:v.y+16,w:v.width-32,h:v.height-110};   // the visible screen (minus the hotbar)
     return {x:S.px-w/2+16,y:S.py-h/2+16,w:w-32,h:h-32}; },
   P:function(S){ return {x:S.px,y:S.py}; },
+  /* round 102 (Kris, the Lava Archipelago: "some of the area attacks are still not possible to dodge … make a bit more open or safe areas … not
+     considering places outside of the boss arena walls as suitable safe-spaces"): a safe lane only counts where the hero can stand */
+  walk:function(S,x,y){ try{ if(S._canGoD)return !!S._canGoD(x,y); if(typeof _heroMonsterCanStand==='function')return !!_heroMonsterCanStand(S,x,y); }catch(e){} return true; },
+  lane:function(S,F,cross,a0,a1){ var n=0, ok=0; for(var u=a0+8;u<a1-4;u+=Math.max(10,(a1-a0)/4))for(var v=(cross?F.x:F.y)+12;v<(cross?F.x+F.w:F.y+F.h)-6;v+=26){ n++; if(cross?BossPat.walk(S,v,u):BossPat.walk(S,u,v))ok++; } return n?ok/n:0; },
   hurt:function(S,ctx,mult,label){ var A=MX.A(S); return A.hurt(ctx.dmg*(mult||1),label||'',ctx.col); },
   col:function(c){ return MX.col(c); },
   // round 9: a boss always stands where the hero can reach it — on a tile reachable from the
@@ -85,6 +89,11 @@ var BossPat={
       var pick=function(){ var ng=Math.max(2,c.R.gaps|0), need=Math.max(ng,Math.ceil(n*BossPat.SAFE)), gw=Math.max(1,Math.ceil(need/ng)), prev=(w>0&&cols)?cols:null, best=null, bs=-1;
         for(var tr=0;tr<12;tr++){ var safe={}, start=Math.floor(Math.random()*n), stp=n/ng; for(var k=0;k<ng;k++){ var c0=Math.floor(start+k*stp+Math.random()*Math.max(0,stp-gw-1))%n; for(var q=0;q<gw;q++)safe[(c0+q)%n]=1; }
           var sc=0; for(var i0=0;i0<n;i0++)if(safe[i0]&&!(prev&&!prev[i0]))sc++; if(sc>bs){ bs=sc; best=safe; } if(!prev)break; }
+        /* round 102: a safe column must have ground the hero can stand on; a dead column (wall, lava, outside the arena) is moved to the nearest standable one, and more are opened until the safe share is met */
+        var wk=[]; for(var iw=0;iw<n;iw++)wk[iw]=BossPat.lane(S,F,false,F.x+iw*cw,F.x+(iw+1)*cw); var good=function(i){ return wk[i]>=0.25; };
+        var fixd={}; Object.keys(best).forEach(function(k0){ var i0=+k0; if(good(i0)){ fixd[i0]=1; return; } for(var dd=1;dd<n;dd++){ if(i0-dd>=0&&good(i0-dd)&&!fixd[i0-dd]){ fixd[i0-dd]=1; return; } if(i0+dd<n&&good(i0+dd)&&!fixd[i0+dd]){ fixd[i0+dd]=1; return; } } });
+        var cnt=function(){ return Object.keys(fixd).length; }, open=n-wk.filter(function(x){ return x<0.25; }).length; while(cnt()<Math.min(open,Math.max(2,Math.ceil(open*BossPat.SAFE)))){ var added=false; for(var ia=0;ia<n&&!added;ia++){ if(fixd[ia]||!good(ia))continue; if(fixd[ia-1]||fixd[ia+1]){ fixd[ia]=1; added=true; } } if(!added)for(var ib=0;ib<n;ib++)if(!fixd[ib]&&good(ib)){ fixd[ib]=1; break; } if(!added&&cnt()>=open)break; if(cnt()>=n)break; }
+        best=fixd;
         var L={}; for(var i=0;i<n;i++)L[i]=best[i]?0:1; return L; };
       var colOf={rock:'#9a8a78',coins:'#e8c040',lightning:'#fff8c0',fire:'#ff8030',blades:'#c8c8e0',light:'#fff0b0',bubbles:'#a0ff60',frost:'#c0f0ff'}[c.theme]||c.col;
       var tele=c.tele;
@@ -105,7 +114,7 @@ var BossPat={
           return false; }, kill:function(){ g.destroy(); fx.destroy(); if(P)P.kill(); if(PF)PF.kill(); }}; },
     // ⇶ a wall sweeps across the screen with gaps
     wall:function(c){ var S=c.S, F=BossPat.field(S), horiz=Math.random()<0.6, dir=Math.random()<0.5?1:-1, L=horiz?F.h:F.w, span=horiz?F.w:F.h, ng=L>520?3:2, gw=Math.max(c.q<=2?92:78,L*BossPat.SAFE*1.1/ng), gaps=[],      /* round 84c: 2–3 gaps, together at least a quarter of the wall */ t=0, g=BossPat.gfx(S,BossPat.D_FX), hit=false, waves=c.q>=3?2:1, w=0;
-      var mk=function(){ gaps=[]; for(var i=0;i<ng;i++){ var p; for(var k=0;k<20;k++){ p=40+Math.random()*(L-80-gw); if(!gaps.some(function(q){ return Math.abs(q-p)<gw*1.6; }))break; } gaps.push(p); } t=0; hit=false; };
+      var mk=function(){ gaps=[]; for(var i=0;i<ng;i++){ var p, bp=null, bw=-1; for(var k=0;k<30;k++){ p=40+Math.random()*(L-80-gw); if(gaps.some(function(q){ return Math.abs(q-p)<gw*1.6; }))continue; var a0=(horiz?F.y:F.x)+p, lw=BossPat.lane(S,F,horiz,a0,a0+gw); if(lw>bw){ bw=lw; bp=p; } if(lw>=0.5)break; } gaps.push(bp===null?p:bp); } t=0; hit=false; };      /* round 102: each gap where the hero can stand */
       mk(); var colW={thunder:'#fff8c0',gears:'#c8a040',lava:'#ff7020',fire:'#ff8030',void:'#8060ff',light:'#fff0b0',frost:'#c0f0ff',wave:'#60c0ff'}[c.theme]||c.col, spd=span/(2.3/c.R.speed), tele=c.tele, P=BossPat.art(c,BossPat.D_FX), TH=Math.max(52,Math.min(76,L/9));      /* round 91: painted wall pieces (09bc) */
       var segsOf=function(){ var sg=[], s1=0; gaps.slice().sort(function(a,b){ return a-b; }).forEach(function(p){ sg.push([s1,p]); s1=p+gw; }); sg.push([s1,L]); return sg; };
       var bands=function(at,al){ segsOf().forEach(function(sg){ if(sg[1]<=sg[0]+4)return; var a0=(horiz?F.y:F.x)+sg[0], a1=(horiz?F.y:F.x)+sg[1];

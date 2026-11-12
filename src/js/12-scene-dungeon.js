@@ -519,6 +519,16 @@ class DungeonScene extends Phaser.Scene{
     var bc=this.bossChestTile; if(!bc)return;
     var x=bc.x*TILE+TILE/2, y=bc.y*TILE+TILE/2, self=this;
     var vault=this._isBonus, zb=this._lab?-3:3, zl=this._lab?13:4;
+    /* round 102 (Kris: "exit portals need painted art update"): the painted portal — sealed (07zt10 en_portal_sealed / en_vault_sealed, until
+       they are in: the open portal painting, darkened and red) and open (en_portal / en_vault_open) */
+    var Zp=typeof ZScn!=='undefined'&&!ZScn.off?ZScn:null, pid=function(open){ var L=vault?(open?['en_vault_open','en_portal']:['en_vault_sealed','en_portal']):(open?['en_portal']:['en_portal_sealed','en_portal']); for(var i=0;i<L.length;i++)if(Zp&&Zp.has(L[i]))return L[i]; return null; };
+    var pk=pid(false);
+    if(pk){ var PT=Zp.texture(this,pk,64,{shadow:false}); if(PT){ var pim=this.add.image(x,y+TILE*0.45,PT.key).setOrigin(0.5,1).setDepth(this._yDepth?this._yDepth(y+TILE*0.45):zb); var stand=pk==='en_portal'; if(stand)pim.setTint(vault?0xc8a050:0x993344).setAlpha(0.9);
+        var plbl=this.add.text(x,y-46,vault?'⛓ Sealed Vault':'⛓ Sealed Exit',{fontSize:'8px',color:vault?'#ffd27a':'#ff8899',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(zl);
+        var glow=this.add.circle(x,y,18,vault?0xffd060:0xff3050,0.18).setDepth(zb), ptw=this.tweens.add({targets:glow,scaleX:1.3,scaleY:1.3,alpha:0.06,duration:900,yoyo:true,repeat:-1});
+        this._portalOpen=function(){ var ok=pid(true); if(ok){ var T2=Zp.texture(self,ok,64,{shadow:false}); if(T2)pim.setTexture(T2.key); } pim.clearTint().setAlpha(1); glow.setFillStyle(vault?0xffe9a8:0x66ffee,0.25);
+          plbl.setText(vault?'💎 Treasure Vault':'★ Exit Portal').setColor(vault?'#ffe9a8':'#aaffee'); var burst=self.add.circle(x,y,6,0xaaffff,0.8).setDepth(5); self.tweens.add({targets:burst,scaleX:8,scaleY:8,alpha:0,duration:600,onComplete:function(){burst.destroy();}}); };
+        var b0=this.interactables.find(function(i){return i.type==='boss_chest';}); if(b0&&!b0.locked)this._portalOpen(); return; } }
     var ring=this.add.circle(x,y,15,0x000000,0).setStrokeStyle(3,vault?0xc89a2a:0xaa2244,0.9).setDepth(zb);
     var core=this.add.circle(x,y,11,vault?0x3a2a08:0x440011,0.7).setDepth(zb);
     var lbl=this.add.text(x,y-26,vault?'⛓ Sealed Vault':'⛓ Sealed Exit',{fontSize:'8px',color:vault?'#ffd27a':'#ff8899',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(zl);

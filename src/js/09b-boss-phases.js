@@ -96,11 +96,13 @@ var BossPhases={
   hudTick:function(scene){ var el=document.getElementById('boss-hud'); if(!el||el.style.display==='none')return; var L=(scene._bossGroup||[]).filter(function(m){ return m&&!m.dead; }); var key=scene._bossKey, n=BossPhases.count(key), ph=scene._bossPhase||1;
     var boss=(scene._bossGroup||[])[0]; if(!boss){ el.style.display='none'; return; }
     var html='<div class="bh-name">'+boss.def.name+(n>1?'<span class="bh-ph">'+Array.from({length:n},function(_,i){ return '<i class="'+(i<ph?'on':'')+'"></i>'; }).join('')+' Phase '+ph+' / '+n+'</span>':'<span class="bh-ph">'+(String(key).indexOf('elite_')===0?'★ Elite':String(key).indexOf('mg_')===0?'🔮 Tower master':'Castle warden')+'</span>')+'</div>';
-    var bar=function(label,v,max,col,dim){ return '<div class="bh-bar'+(dim?' dim':'')+'"><b style="width:'+Math.max(0,Math.min(100,v/max*100))+'%;background:'+col+'"></b><span>'+label+'</span></div>'; };
+    var TR=el._tr||(el._tr={}), now=Date.now(), dtt=Math.min(0.2,(now-(el._trT||now))/1000); el._trT=now;      /* round 102 (Kris ✓ the knotwork bar): a pale trail where damage just landed, notches where the extra bars wake */
+    var bar=function(label,v,max,col,dim,notch){ var pc=Math.max(0,Math.min(100,v/max*100)), k=label.replace(/ —.*$/,''), t=TR[k]===undefined?pc:TR[k]; t=t<pc?pc:Math.max(pc,t-Math.max(4,(t-pc)*2.2)*dtt); TR[k]=t;
+      return '<div class="bh-bar'+(dim?' dim':'')+'"><s style="width:'+t.toFixed(1)+'%"></s><b style="width:'+pc+'%;background:'+col+'"></b>'+(notch||[]).map(function(a){ return '<u style="left:'+Math.round(a*100)+'%"></u>'; }).join('')+'<span>'+label+'</span></div>'; };
     L.forEach(function(m,i){ var pct=m.hp/m.maxHp; if(i>0){ html+=bar(m.def.name,m.hp,m.maxHp,'#e05050'); return; }
       (m.bars||[]).forEach(function(b){ if(b.hp<=0)return; var act=pct<=b.at; html+=bar(b.ic+' '+b.n+(act?' — '+b.hint:' (at '+Math.round(b.at*100)+'% HP)'),b.hp,b.max,b.col,!act); });
-      html+=bar('❤ Health',m.hp,m.maxHp,'#ff4a4a'); });
-    if(el._last!==html){ el.innerHTML=html; el._last=html; } },
+      html+=bar('❤ Health',m.hp,m.maxHp,'#ff4a4a',false,(m.bars||[]).map(function(b){ return b.at; })); });
+    if(el._last!==html){ el.innerHTML=html; el._last=html; } if(el._trK!==key){ el._trK=key; el._tr={}; } },
   // Called when a boss-flagged monster dies. Returns true when the fight goes on
   // (allies still up, or the next phase starts); false = the guardian is finally beaten.
   onDefeated:function(scene,mon){ var key=scene._bossKey||mon.bossKey||(mon.def&&mon.def._bossKey)||scene._getBossKey(), n=BossPhases.count(key), ph=scene._bossPhase||1;

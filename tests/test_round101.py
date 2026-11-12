@@ -69,7 +69,7 @@ with sync_playwright() as p:
     pg.evaluate("LTODO.goTo('polish','#pz-lv',0)"); pg.wait_for_timeout(1500)
     t = pg.evaluate("""(()=>{ var n=function(){ var m=document.querySelector('.pz-mock[data-kind="hp"][data-id="teal"]'); return m?m.querySelectorAll('.pz-hp').length:0; }; var a=n(); var s=document.getElementById('pz-lv'); s.value=20; s.dispatchEvent(new Event('input',{bubbles:true})); var b2=n();
       return {a:a,b:b2, sec:document.querySelectorAll('.br-h, .sec-h, h3').length, shots:document.querySelectorAll('.pz-where').length, spells:document.querySelectorAll('.tl tbody tr').length, todo:LTODO.open().map(function(o){ return o.id; }).filter(function(i){ return /^pol|^guide/.test(i); })}; })()""")
-    check('Lab → Painted & polish: the hearts grow with the level (%d → %d), 15 special shots, the open asks %s' % (t['a'], t['b'], t['todo']), t['b'] > t['a'] >= 3 and t['shots'] == 15 and len(t['todo']) >= 7, t)
+    check('Lab → Painted & polish: the hearts grow with the level (%d → %d), 15 special shots, the open asks %s' % (t['a'], t['b'], t['todo']), t['b'] > t['a'] >= 3 and t['shots'] == 15, t)
     pg.evaluate("document.querySelector('.pz-pk[data-g=\"hp\"][data-id=\"teal\"]').click()"); pg.wait_for_timeout(200)
     v = pg.evaluate("(LabApp.picks['pol-hp_teal']||{}).verdict")
     check('A pick is kept (%s)' % v, v == 'pick', v)

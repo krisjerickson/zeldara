@@ -18,7 +18,7 @@ var ZROLL={ CD:1.85,      // round 46 (Kris: "we need to have a longer cool-down
   can:function(ps){ return !!(ps&&ps.canRoll); },
   // the roll itself
   go:function(sc){ var ps=ZROLL.ps(); if(!sc||!ps)return; var key=sc.sys.settings.key;
-    if(!ZROLL.can(ps)){ if(!ZROLL._toldT||Date.now()-ZROLL._toldT>4000){ ZROLL._toldT=Date.now(); showNotif('🤸 You don\'t know how to roll yet — '+ZROLL.NAME+', camped outside the Rime Spire, could teach you.','#ffd8a0'); } return; }
+    if(!ZROLL.can(ps)){ if(!ZROLL._toldT||Date.now()-ZROLL._toldT>4000){ ZROLL._toldT=Date.now(); showNotif('🤸 You don\'t know how to roll yet — '+ZROLL.NAME+', camped on the meadow just north of the village, could teach you.','#ffd8a0'); } return; }
     if((ZROLL._cdUntil||0)>Date.now())return; if(ps.mount&&_isOverworld(sc))return;      // no rolling in the saddle
     var dun=key==='Dungeon', W=_isOverworld(sc), k=sc.keys||{}, dx=0, dy=0;
     if(k.A&&k.A.isDown||k.LEFT&&k.LEFT.isDown)dx-=1; if(k.D&&k.D.isDown||k.RIGHT&&k.RIGHT.isDown)dx+=1; if(k.W&&k.W.isDown||k.UP&&k.UP.isDown)dy-=1; if(k.S&&k.S.isDown||k.DOWN&&k.DOWN.isDown)dy+=1;
@@ -39,7 +39,10 @@ var ZROLL={ CD:1.85,      // round 46 (Kris: "we need to have a longer cool-down
     var cd=el.querySelector('.cd'); if(cd){ cd.style.height=(left/ZROLL.CD*100)+'%'; } if(left>0)setTimeout(ZROLL._ui,60); },
   // ── the quest ──
   site:function(ws){ return (ws.wd&&ws.wd.sites||[]).find(function(s){ return s.mage==='rime_spire'; })||null; },
-  spot:function(ws){ var s=ZROLL.site(ws); if(!s)return null; var x=(s.tx+1.5)*TILE, y=(s.ty+3)*TILE+TILE*2.5; for(var r=0;r<6;r++)for(var a=0;a<8;a++){ var nx=x+Math.cos(a*0.785)*r*TILE+TILE*3, ny=y+Math.sin(a*0.785)*r*TILE; if(ws._canGo(nx,ny,null))return {x:nx,y:ny}; } return {x:x+TILE*3,y:y}; },
+  /* round 102 (Kris: "make this starting quest even easier to get to … very close to the north of the village, like 1.5 screen lengths away to
+     the north"): Pia camps on the meadow just north of the village, not by the Rime Spire */
+  NORTH:1.5,
+  spot:function(ws){ var wd=ws.wd; if(!wd)return null; var cam=ws.cameras&&ws.cameras.main, sh=cam?cam.height/(cam.zoom||1):720, x=wd.spawnX, y=wd.spawnY-sh*ZROLL.NORTH; for(var r=0;r<6;r++)for(var a=0;a<8;a++){ var nx=x+Math.cos(a*0.785)*r*TILE+TILE*3, ny=y+Math.sin(a*0.785)*r*TILE; if(ws._canGo(nx,ny,null))return {x:nx,y:ny}; } return {x:x+TILE*3,y:y}; },
   build:function(ws){ var ps=ws.playerState; if(!ps||ZROLL._built===ws.wd)return; ZROLL._built=ws.wd; ZROLL.clear(ws);
     if(!ps.rollQ)ps.rollQ=ps.canRoll?2:0;
     if(ps.equip&&ps.equip.special==='sp_roll'){ ps.equip.special=null; ps.canRoll=true; ps.rollQ=2; }      // old saves: the Roll skill becomes the roll

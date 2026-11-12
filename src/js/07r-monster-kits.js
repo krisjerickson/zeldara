@@ -154,7 +154,7 @@ MKIT('gargoyle_sentry','perch r=110 soft=2.5');
 MKIT('cave_troll','lumber | sweep r=66 arc=2.6 wind=0.7 m=1.5 kb=110 | grab r=34 root=1.2');
 MKIT('labyrinth_bull','charge wind=0.7 mult=4.8 stun=3 dur=1.3 kb=90');
 MKIT('crystal_spider','chase s=1.2 | shoot p=web spd=240 st=slow v=0.45 t=3 m=0.3 cd=3 | melee m=0.9 | weak k=melee m=1.3');
-MKIT('shieldwall_dwarves','lumber | melee m=1 r=44 | front red=1 arc=1.4');
+MKIT('shieldwall_dwarves','lumber | melee m=1 r=44 | front red=0.7 arc=1.4');
 MKIT('rock_hopper','roll spd=240 b=5 cd=2.5 dizzy=1');
 MKIT('dwarf_crossbow','kite range=210 | shoot p=bolt pierce=1 spd=360 m=1 cd=3');
 MKIT('geode_spitter','still | shoot p=shard n=3 sp=0.3 spd=240 m=0.5 stick=1.5 cd=2.8 | bubble n=2 t=1.5');

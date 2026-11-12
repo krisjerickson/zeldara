@@ -825,3 +825,10 @@ body.sky-mode #world-labels, body.sky-mode #action-bar, body.sky-mode #action-ic
 /* round 64d: the full world map hides the bars below it, so it may use the window's height (the 150 px kept for the bars cut its bottom off in Fit) */
 .overlay#modal-map>.modal{max-height:96vh!important}
 .overlay#modal-map{padding-bottom:10px}
+/* round 102 (Kris ✓ the knotwork boss bar): a gilt knotwork frame, a pale damage trail, notches where the extra bars wake */
+#boss-hud .bh-bar{border:2px solid #b89a5a;box-shadow:0 0 0 2px rgba(40,26,8,.85),0 0 10px rgba(0,0,0,.6);border-radius:3px;background:rgba(18,6,8,.85)}
+#boss-hud .bh-bar s{position:absolute;left:0;top:0;bottom:0;background:#f8e0c0;opacity:.55;text-decoration:none}
+#boss-hud .bh-bar b{background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(0,0,0,.18))!important;z-index:1}
+#boss-hud .bh-bar u{position:absolute;top:0;bottom:0;width:2px;background:#ffe6a8;box-shadow:0 0 4px #ffe6a8;z-index:2;text-decoration:none}
+#boss-hud .bh-bar span{z-index:3}
+#boss-hud.zbh-pic .bh-bar{border-image:var(--zbh-frame) 12 fill / 12px stretch;border-width:6px}

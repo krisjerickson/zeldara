@@ -55,7 +55,7 @@ var ZJOUR={ on:true,
     var M=typeof ZMIRA!=='undefined'?ZMIRA:null, tq=ps.tq||{};
     var st=[]; if(tq.camp)st.push({id:'tq_camp',t:'Oswin\'s purse — the camp on the east road',sub:'beat its guards; its chest holds 50 g',done:tq.camp>=3,trk:'tq:camp'});
     if(tq.net)st.push({id:'tq_net',t:'Old Nell\'s net',sub:tq.net>=3?'returned':tq.net===2?'take it back to Old Nell at the pier':'fetch it from the lake\'s far shore — two skeletons stand over it',done:tq.net>=3,trk:'tq:net'});
-    if(ps.rollQ!==undefined||ps.canRoll)st.push({id:'roll',t:'The Tumbler\'s Lesson — Pia\'s pins',sub:ps.canRoll?'the roll (Alt) is yours':'by the Rime Spire; the reward: the roll',done:!!ps.canRoll,trk:'roll'});
+    if(ps.rollQ!==undefined||ps.canRoll)st.push({id:'roll',t:'The Tumbler\'s Lesson — Pia\'s pins',sub:ps.canRoll?'the roll (Alt) is yours':'on the meadow just north of the village; the reward: the roll',done:!!ps.canRoll,trk:'roll'});
     if(st.length)G.push({n:'Oswin\'s first tasks',L:st});
     var isl=[]; ul.forEach(function(r){ var S=(wd.sites||[]).find(function(s){ return s.section===r&&s.type==='harbor'&&!s.castle; }); if(!S)return; isl.push({id:S.id,t:(M?M.ISLE[r]:'The island')+' — a familiar',sub:'its trader sells '+(M&&ITEMS[M.METAL[r]]?ITEMS[M.METAL[r]].name:'the realm\'s metal')+', which Mira needs for '+ZJOUR.RS[r]+' tray · Lv '+ZJOUR.LV[r]+'+',done:cq.indexOf('s'+r+'_harbor')>=0,S:S,r:r}); });
     if(isl.length)G.push({n:'Islands',L:isl});
@@ -73,7 +73,7 @@ var ZJOUR={ on:true,
   target:function(ws){ ws=ws||ZJOUR.ws(); if(!ws||!ws.playerState)return null; var ps=ws.playerState, k=ps.tracked, wd=ws.wd||{}, P=function(S,t){ return S?{x:(S.tx+1.5)*TILE,y:(S.ty+1.5)*TILE,t:t||ZJOUR.nm(S)}:null; };
     if(typeof ZWALK!=='undefined'&&ZWALK.target){ var w=ZWALK.target(ws); if(w)return w; }
     if(k){ if(k.indexOf('tq:')===0&&typeof ZOSW!=='undefined'){ var o=ZOSW.target(ws,k.slice(3)); if(o)return o; }
-      else if(k==='roll'&&typeof ZROLL!=='undefined'){ var R=(wd.sites||[]).find(function(s){ return s.mage&&/rime/i.test(s.name||''); }); if(R&&!ps.canRoll)return P(R,'Pia, by the Rime Spire'); }
+      else if(k==='roll'&&typeof ZROLL!=='undefined'){ var N=ZROLL.npc||ZROLL.spot(ws); if(N&&!ps.canRoll)return {x:N.x,y:N.y,t:'Pia, just north of the village'}; }      /* round 102: Pia moved north of the village */
       else { var S=(wd.sites||[]).find(function(s){ return s.id===k; }); if(S&&!ZJOUR.siteDone(ps,S))return P(S); } ps.tracked=null; }
     if(typeof ZOSW!=='undefined'){ var t=ZOSW.target(ws); if(t)return t; }
     var c=ZJOUR.current(ws); return c&&c.S?P(c.S,c.t):null; },

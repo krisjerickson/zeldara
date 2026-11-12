@@ -114,7 +114,7 @@ function _activePlayScene(includePaused){
 }
 
 // ── The one keyboard handler ─────────────────────────────────────────────
-var _MENU_HOTKEYS={i:'inventory',q:'quests',b:'map',t:'tome'};
+var _MENU_HOTKEYS={i:'inventory','/':'inventory',q:'quests',b:'map',t:'tome'};      /* round 102 (Kris): / opens the inventory too — a quick pause in the middle of a fight */
 document.addEventListener('keydown',function(e){
   if(_isTyping())return;
   if(!game||!game.scene||game.scene.isActive('Title')||game.scene.isActive('Boot'))return;
@@ -160,10 +160,11 @@ document.addEventListener('keydown',function(e){
   var ws2=game.scene.getScene('World');
   if(k==='control'){
     var key=sc.sys.settings.key;
-    if(_isOverworld(sc))_fireWorldBow(sc);
+    if(typeof ZDRAW!=='undefined'&&ZDRAW.on&&(_isOverworld(sc)||key==='Dungeon'))ZDRAW.start(sc,e);      /* round 102: hold to draw, let go to shoot (09s) */
+    else if(_isOverworld(sc))_fireWorldBow(sc);
     else if(key==='Dungeon')_fireSceneBow(sc,'dungeon');
   } else if(k==='x'){
-    _heroCastSpell(sc);
+    if(typeof ZAIM!=='undefined')ZAIM.press(sc,e); else _heroCastSpell(sc);      /* round 102: X twice — the first shows where it lands (09s) */
   } else if(k==='z'){
     if(typeof ZSKILL!=='undefined')ZSKILL.use(sc);      // round 49: skills in the adventure sites too
     else if(_isOverworld(sc)&&sc._useSpecial)sc._useSpecial();

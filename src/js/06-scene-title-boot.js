@@ -64,27 +64,31 @@ class BootScene extends Phaser.Scene{
     var named=false;   // the wordmark (Ringed Z) above the loading bar
     try{ if(typeof ZBrand!=='undefined'&&ZBrand.WORDMARK){ if(this.textures.exists('boot_brand'))this.textures.remove('boot_brand'); var tall=!!ZBrand.wordById(ZBrand.WORDMARK).tall, bt=this.textures.createCanvas('boot_brand',620,tall?200:200); ZBrand.word(bt.getContext(),ZBrand.WORDMARK,310,100,tall?30:34,0); bt.refresh(); this.add.image(w/2,h/2-(tall?112:84),'boot_brand');      /* round 53: the three-line name sits higher */ named=true; } }catch(e){}
     if(!named)this.add.text(w/2,h/2-30,'THE QUESTS OF ZELDARA AND ZELDOR',{fontSize:'24px',color:'#ffffff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
-    this.add.rectangle(w/2,h/2+8,420,20,0x111122).setStrokeStyle(1,0x00f5ff);
-    this._bar=this.add.rectangle(w/2-206,h/2+8,4,18,0x00f5ff).setOrigin(0,.5);
-    this._pct=this.add.text(w/2,h/2+26,'Generating world...',{fontSize:'11px',color:'#6688aa',fontFamily:'Segoe UI'}).setOrigin(.5);
-    this.add.text(w/2,h/2+50,'1200 × 1200 tiles — four regions, twelve crossings, seventeen waystones',{fontSize:'9px',color:'#334455',fontFamily:'Segoe UI'}).setOrigin(.5);
+        /* round 102 (Kris: "When you load the game, there's old text about the 4 quadrants and realms. update the text both for what it says and what
+       the text looks like"; ✓ "The runestones wake"): rune lettering glowing teal, one line per stage under a thin rune bar — no spoilers */
+    this.add.rectangle(w/2,h/2+8,420,8,0x0b1c24).setStrokeStyle(1,0x2a6a70);
+    this._bar=this.add.rectangle(w/2-208,h/2+8,4,6,0x4ff0e0).setOrigin(0,.5);
+    var RF='"Eagle Lake","Uncial Antiqua",Georgia,serif';
+    this._pct=this.add.text(w/2,h/2+36,'The runestones are waking…',{fontSize:'19px',color:'#9ff8f0',fontFamily:RF}).setOrigin(.5).setShadow(0,0,'#4ff0e0',12,true,true);
+    this._pct2=this.add.text(w/2,h/2+62,'',{fontSize:'12px',color:'#5fb8c0',fontFamily:RF}).setOrigin(.5);
+    try{ this.tweens.add({targets:this._pct,alpha:0.7,duration:1100,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }catch(e){}
     var self=this;
     this.time.delayedCall(50,function(){self._startGen();});
   }
   _startGen(){
     // round 72 (P2, 05e-world-prebuilt.js): the world baked once and fetched while the title showed — used if it is here (and current);
     // otherwise generated as before
-    var self=this; if(typeof ZWORLD!=='undefined'&&ZWORLD.state==='loading'){ this._pct.setText('Unpacking the world...'); ZWORLD.whenSettled(function(){ self._startGen2(); },8000); return; }
+    var self=this; if(typeof ZWORLD!=='undefined'&&ZWORLD.state==='loading'){ this._pct.setText('The runestones are waking…'); ZWORLD.whenSettled(function(){ self._startGen2(); },8000); return; }
     this._startGen2(); }
   _startGen2(){
     if(typeof ZWORLD!=='undefined')try{ ZWORLD.use(); }catch(e){}
     // The world is generated synchronously (the bar can't move during it), so the bar
     // just reports the real steps: generating → built → entering. No artificial ticks.
     var wd=generateWorld(), self=this;
-    this._bar.setSize(412,18);
-    this._pct.setText('Entering world...');
+    this._bar.setSize(416,6);
+    this._pct.setText('The spirits are listening…'); if(this._pct2)this._pct2.setText('Painting the land…');
     // one frame so "Entering world" shows; the World scene's create() does the rest
-    this.time.delayedCall(16,function(){ var go=function(){ self.scene.start('World',{newGame:self._newGame}); }; if(typeof ZScn!=='undefined'){ if(!ZScn.done&&!ZScn.off){ var tk=self.time.addEvent({delay:200,loop:true,callback:function(){ var pr=ZScn.progress(); try{ self._pct.setText('Loading painted scenery… '+pr[0]+' / '+pr[1]); }catch(e){} }}); var go0=go; go=function(){ tk.remove(); go0(); }; } ZScn.whenReady(go,12000); } else go(); });   // the painted scenery is fetched first (the ground is painted once)
+    this.time.delayedCall(16,function(){ var go=function(){ self.scene.start('World',{newGame:self._newGame}); }; if(typeof ZScn!=='undefined'){ if(!ZScn.done&&!ZScn.off){ var tk=self.time.addEvent({delay:200,loop:true,callback:function(){ var pr=ZScn.progress(); try{ self._pct.setText('Painting the land…'); if(self._pct2)self._pct2.setText(pr[0]+' / '+pr[1]); self._bar.setSize(Math.max(4,416*(pr[1]?pr[0]/pr[1]:0)),6); }catch(e){} }}); var go0=go; go=function(){ tk.remove(); go0(); }; } ZScn.whenReady(go,12000); } else go(); });   // the painted scenery is fetched first (the ground is painted once)
   }
 }
 

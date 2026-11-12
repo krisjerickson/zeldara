@@ -1,0 +1,11 @@
+# round 102 - the last paintings (Lab > Painted & polish, every row approved)
+sc_r102_gate
+sc_r102_lines
+sc_r102_skyline
+sc_r102_skyfx
+sc_r102_status
+sc_r102_icons
+sc_r102_aim
+sc_r102_hud
+sc_r102_portal
+sc_r102_dfloor

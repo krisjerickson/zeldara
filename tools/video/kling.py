@@ -74,6 +74,10 @@ def prompt(sc, beats, who, part, nparts, sec=None):
 # picture's own "no …" words, plus the other pictures' big events: the lightning, the fire, the gate… only where they belong). Hard cuts.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lock_scenes import A as LOCK_ACTS
+try:
+    from lock_scenes import SPECIAL as LOCK_SPECIAL      # round 102: five special shots
+except ImportError:
+    LOCK_SPECIAL = {}
 SIGS = [('lightning', r'lightning|thunder'), ('rain or storm', r'\brain\b|storm'), ('fire, lava or embers', r'\blava|fire|flame|ember|erupt|molten|magma'),
         ('gate or doors', r'\bgate\b|doors'), ('chains', r'chain'), ('basket or babes', r'basket|babe|newborn'), ('rainbow bridge', r'rainbow|bifr'),
         ('beams or pillars of light', r'beams? of (?:light|white|star)|pillar of (?:white-gold )?light|beam shoot'), ('snow', r'\bsnow'), ('bursting or shattering', r'burst|shatter|explod'),
@@ -112,11 +116,12 @@ def prompt(sc, beats, who, part, nparts, sec=None):
          '5. Do not reinterpret the story. Do not add people, creatures, places or objects that are not in that picture. Same faces, hair, clothes and colours as painted.',
          '6. CARRIED THINGS STAY PUT: whatever a person holds, wears or is given (a pack, a sword, a staff, a book, a shard, a tool) stays with that same person for the rest of the shot and into the next shots. Nobody passes it on, puts it down, drops it or loses it, and it never vanishes, unless an action says so.', '',      # round 101
          'LOOK: the hand-painted Norse fantasy storybook style of the pictures — painterly, deep colour, glowing neon rune-blue magic, aurora borealis.',
-         'CAMERA: one unbroken shot per picture with ONE simple move (a push-in, a tilt or a slow drift). No cuts inside a shot. Each shot ends on its END FRAME, then a hard cut.', '', 'THE SHOTS:']
+         'CAMERA: one unbroken shot per picture with ONE simple move (a push-in, a tilt or a slow drift) — except a shot marked SPECIAL CAMERA, which does exactly that move. No cuts inside a shot. Each shot ends on its END FRAME, then a hard cut.', '', 'THE SHOTS:']
     for i, r in enumerate(rows):
         acts_txt = ' '.join('(%d) %s;' % (j + 1, x) for j, x in enumerate(r['do'])).rstrip(';') + '.'
-        L.append('SHOT %d — @image%d, %s–%s s — %s. START: exactly @image%d (%s). ACTION, in order: %s END FRAME: %s. NOT IN THIS SHOT: %s.' % (
-            i + 1, i + 1, fs(i * SECS), fs((i + 1) * SECS), r['b']['title'].upper(), i + 1, r['see'], acts_txt, r['end'], '; '.join(r['never'])))
+        sp = LOCK_SPECIAL.get((sc['id'], r['b']['n']))
+        L.append('SHOT %d — @image%d, %s–%s s — %s. START: exactly @image%d (%s). ACTION, in order: %s %sEND FRAME: %s. NOT IN THIS SHOT: %s.' % (
+            i + 1, i + 1, fs(i * SECS), fs((i + 1) * SECS), r['b']['title'].upper(), i + 1, r['see'], acts_txt, ('SPECIAL CAMERA, this shot only: %s. ' % sp) if sp else '', r['end'], '; '.join(r['never'])))
     L += ['', 'End on @image%d, held for a moment.' % n, '',
           'AVOID (everywhere): any picture shown out of order or skipped; events from one picture appearing in another; morphing between pictures; light or energy flowing between objects; new people or creatures; changed faces, hair or clothes; anything modern (umbrellas, glasses, phones, guns, cars, street lamps); text, letters, captions, logos or watermarks; photorealism or a 3D-render look; extra fingers or limbs; flicker. No speech or lip-sync.']
     return '\n'.join(L) + '\n'

@@ -17,6 +17,7 @@
     ['grid','Matchups','▦','Everything you carry, against each element of foe. Pick a column to see the foes of that element you have met.'],
     ['realms','Realms','🗺️','The world tinted by each realm\'s element, and what each place you have found gives. (The same view is a switch on the map: B → Realms.)'],
     ['journey','Journey','🛤️','The road through the four realms, milestone by milestone. The marker shows where you are and what comes next.'],
+    ['glass','Glass road','💠','What the freed spirits\' Soulglass becomes, realm by realm — lattice, tray, Heartglass — and at the end the Lodestar. A step shows its name once you have reached the one before it.'],
     ['web','Web','🕸️','Pick an element and follow its threads: its weapons, spells, familiar, gem, realm, the foes it beats and the guardians who wield it.']];
   var E=ZEL.E, L=ZEL.LIST, esc=function(s){ return String(s==null?'':s).replace(/[<>&"]/g,function(c){ return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]; }); };
   function ps(){ return Tome.ps()||{}; }
@@ -129,11 +130,37 @@
     out.forEach(function(m){ if(m.won)m.found=true; }); return out; }
   function pageJourney(){ var P=ps(), ul=P.unlockedSections||[1], youSet=false, h='<div class="zfit-jy">';
     [1,2,3,4].forEach(function(q){ var open=ul.indexOf(q)>=0, M=milestones(q), done=M.filter(function(m){ return m.won; }).length;
-      h+='<section class="zfit-jr'+(open?'':' shut')+'" style="--zc:'+E[REL[q]].col+'"><h5>'+E[REL[q]].em+' '+QN[q]+' <span>'+done+' / '+M.length+'</span>'+(open?'':' <em>— not open yet</em>')+'</h5><div class="zfit-road">';
+      h+='<section class="zfit-jr'+(open?'':' shut')+'" style="--zc:'+E[REL[q]].col+'"><h5>'+ZIcon.html(E[REL[q]].ic,E[REL[q]].em,1.15)+' '+QN[q]+' <span>'+done+' / '+M.length+'</span>'+(open?'':' <em>— not open yet</em>')+'</h5><div class="zfit-road">';
       M.forEach(function(m){ var you=!youSet&&open&&!m.won; if(you)youSet=true;
         h+='<div class="zfit-ms'+(m.won?' won':'')+(you?' you':'')+(m.found?'':' unk')+'" title="'+esc(m.found?m.n+' — '+m.g:'? — still to find')+'"><i>'+(m.found?ZIcon.html(m.zi,m.ic,1.4):'?')+'</i><b>'+esc(m.found?m.n:'?')+'</b><small>'+esc(m.found?m.g:'')+'</small>'+(you?'<u>you are here</u>':'')+'</div>'; });
       h+='</div></section>'; });
     return h+'</div>'; }
+
+  // ── round 102 (Kris: "Make an additional section of this that explains what you need to do with all of the glass shards, and eventually
+  //    making the lodestar"): the glass road — a road per realm like the Journey, then the Lodestar ──
+  function pageGlass(){ var P=ps(), inv=P.inventory||[], eqw=(P.equip||{}).mWeapon, hasI=function(id){ return inv.indexOf(id)>=0||eqw===id; }, lode=hasI('lodestar')||!!P.lodestarMade||!!P.bifrost;
+    var risen=typeof _finalQuestUnlocked==='function'&&_finalQuestUnlocked(P), fr=(P.spiritsFreed||[]).length, M=typeof ZMIRA!=='undefined'?ZMIRA:null, nm=function(id,fb){ return ITEMS[id]?ITEMS[id].name:fb; };
+    var anyOf=function(f){ return [1,2,3,4].some(f); }, hg=function(q){ return lode||hasI('heartglass_'+q); }, tray=function(q){ return hg(q)||hasI('hearth_tray_'+q)||!!((P.traysMade||{})[q]); }, lat=function(q){ return hg(q)||hasI('soulglass_lattice_'+q); };
+    var knowLat=fr>0||anyOf(lat), knowTray=(P.castlesDone||[]).length>0||anyOf(tray)||(M&&anyOf(function(q){ return hasI(M.METAL[q])||hasI(M.GEM[q]); })), knowHg=risen||anyOf(hg);
+    var ul=P.unlockedSections||[1], youSet=false, h='<div class="zfit-jy">';
+    [1,2,3,4].forEach(function(q){ var open=ul.indexOf(q)>=0, cnt=typeof ZSPIRIT!=='undefined'?ZSPIRIT.count(P,q):0, need=typeof ZSPIRIT!=='undefined'?ZSPIRIT.NEED:6;
+      var steps=[{ic:'✦',it:'soulglass_'+q,n:'Soulglass shards',g:cnt+' / '+need+' — free the realm\'s bound spirits at their bindstones',won:lat(q)||cnt>=need,found:fr>0||lat(q)},
+        {ic:'💠',it:'soulglass_lattice_'+q,n:nm('soulglass_lattice_'+q,'The lattice'),g:'Sólveig in the Glimmerhall fuses six shards into it',won:lat(q),found:knowLat},
+        {ic:'⚙',it:M&&M.METAL[q],n:M?nm(M.METAL[q],'The metal'):'The metal',g:M?'sold by the '+M.ISLE[q]+' trader':'an island trader',won:tray(q)||(M&&hasI(M.METAL[q])),found:knowTray},
+        {ic:'💎',it:M&&M.GEM[q],n:M?nm(M.GEM[q],'The soul gem'):'The soul gem',g:'the great spirit of the realm\'s ★ boss dungeon',won:tray(q)||(M&&hasI(M.GEM[q])),found:knowTray},
+        {ic:'🍳',it:'hearth_tray_'+q,n:nm('hearth_tray_'+q,'The hearth tray'),g:'Mira makes it from the metal and the soul gem',won:tray(q),found:knowTray},
+        {ic:'🔥',it:'heartglass_'+q,n:nm('heartglass_'+q,'The Heartglass'),g:'the '+(M?M.FORGE[q]:'')+' Forge\'s hearth: lattice on the tray',won:hg(q),found:knowHg}];
+      var done=steps.filter(function(m){ return m.won; }).length;
+      h+='<section class="zfit-jr'+(open?'':' shut')+'" style="--zc:'+E[REL[q]].col+'"><h5>'+ZIcon.html(E[REL[q]].ic,E[REL[q]].em,1.15)+' '+QN[q]+' <span>'+done+' / '+steps.length+'</span>'+(open?'':' <em>— not open yet</em>')+'</h5><div class="zfit-road">';
+      steps.forEach(function(m){ var you=!youSet&&open&&!m.won&&m.found; if(you)youSet=true;
+        h+='<div class="zfit-ms'+(m.won?' won':'')+(you?' you':'')+(m.found?'':' unk')+'" title="'+esc(m.found?m.n+' — '+m.g:'? — learn more on the road')+'"><i>'+(m.found?(m.it&&ITEMS[m.it]&&typeof ZIcon!=='undefined'?ZIcon.item(m.it,1.4):m.ic):'?')+'</i><b>'+esc(m.found?m.n:'?')+'</b><small>'+esc(m.found?m.g:'')+'</small></div>'; });
+      h+='</div></section>'; });
+    var fin=[{ic:'🔥',n:'Four Heartglasses',g:[1,2,3,4].filter(hg).length+' / 4',won:[1,2,3,4].every(hg),found:knowHg},
+      {ic:'🪄',it:'sov_staff',n:nm('sov_staff','The Sovereign staff'),g:'won from all sixteen mage towers — or the apothecary works an Arcane staff up into one (6,000 gold and gems)',won:lode||hasI('sov_staff'),found:risen},
+      {ic:'✦',it:'lodestar',n:nm('lodestar','The Lodestar'),g:'Muspelheim\'s great hearth: the staff and the four Heartglasses together',won:lode,found:risen}];
+    h+='<section class="zfit-jr" style="--zc:#fff2b0"><h5>✦ The Lodestar <span>'+fin.filter(function(m){ return m.won; }).length+' / 3</span></h5><div class="zfit-road">';
+    fin.forEach(function(m){ h+='<div class="zfit-ms'+(m.won?' won':'')+(m.found?'':' unk')+'" title="'+esc(m.found?m.n+' — '+m.g:'? — the road goes on')+'"><i>'+(m.found?(m.it&&ITEMS[m.it]&&typeof ZIcon!=='undefined'?ZIcon.item(m.it,1.4):m.ic):'?')+'</i><b>'+esc(m.found?m.n:'?')+'</b><small>'+esc(m.found?m.g:'')+'</small></div>'; });
+    return h+'</section></div>'; }
 
   // ── 6. web ─────────────────────────────────────────────────────────
   function webNodes(e){ var P=ps(), G=[];
@@ -174,7 +201,7 @@
     var b=tabs.querySelector('[data-tcat="fits"]'); if(b)b.innerHTML=ZIcon.html('tm_paths','✨',1.35)+' How it all fits';
     if(Tome.ui.cat!=='fits'){ return; } grid.classList.add('tome-page'); monList._v=null;
     var h='<div class="zfit-tabs">'+PAGES.map(function(p){ return '<button data-fpg="'+p[0]+'" class="'+(p[0]===F.pg?'on':'')+'">'+p[2]+' '+p[1]+'</button>'; }).join('')+'</div>';
-    try{ h+=({stars:pageStars,compass:pageCompass,grid:pageGrid,realms:pageRealms,journey:pageJourney,web:pageWeb})[F.pg](); }catch(err){ h+='<p class="tome-empty">This page could not be drawn.</p>'; if(typeof console!=='undefined')console.warn('tome fits',F.pg,err); }
+    try{ h+=({stars:pageStars,compass:pageCompass,grid:pageGrid,realms:pageRealms,journey:pageJourney,glass:pageGlass,web:pageWeb})[F.pg](); }catch(err){ h+='<p class="tome-empty">This page could not be drawn.</p>'; if(typeof console!=='undefined')console.warn('tome fits',F.pg,err); }
     grid.innerHTML=h; try{ det.innerHTML=detail(); }catch(err){ det.innerHTML=''; }
     if(F.pg==='realms')setTimeout(drawRealms,0);
     if(typeof ZIcon!=='undefined'){ ZIcon.hydrate(grid); ZIcon.hydrate(det); } };

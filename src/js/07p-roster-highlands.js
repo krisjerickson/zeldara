@@ -140,7 +140,7 @@ MON(3,'dun','melee',4,'labyrinth_bull','Labyrinth Bull',['brute','lunge','#6a4a3
 MON(3,'dun','melee',3,'crystal_spider','Crystal Spider',['spider','spit','#c0e0ff,#5a7090,#a0e0ff,#ff4080','crystals'],'',
  'Glassy spider with a crystal abdomen.','Wall-crawls.','Web shot (slow) + bite.','Fragile but fast.','Webs across doorways — burn them.');
 MON(3,'dun','melee',4,'shieldwall_dwarves','Shield-wall Dwarves',['biped','lunge','#9aa8b0,#4a5058,#e8c040,#80ffff','helmet,shield,spear'],'pack',
- 'Two ghost dwarves locked shield to shield.','Advance together.','Spear pokes over the shields.','Front is impenetrable.','Split them up (lure one) to get around.');
+ 'Two ghost dwarves locked shield to shield.','Advance together.','Spear pokes over the shields.','The shields turn most blows from the front: only a third gets through.','Get behind them for full damage, or split them up (lure one).');
 MON(3,'dun','melee',2,'rock_hopper','Rock Hopper',['small','slam','#8a8478,#4a4640,#ffb060,#ffd080','spikes'],'pack',
  'Hopping rock imps.','Bounce off walls.','Bounce-slam.','Low HP.','Bounces get faster each wall hit.');
 MON(3,'dun','ranged',3,'iron_sentinel','Iron Sentinel',['construct','shoot','#8a8e96,#3a3e46,#7fe8ff,#7fe8ff','rivets'],'',

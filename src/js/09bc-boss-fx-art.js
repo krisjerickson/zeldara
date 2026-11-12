@@ -39,6 +39,9 @@
     x.globalCompositeOperation='destination-out'; x.beginPath(); x.moveTo(W/2,H/2); x.arc(W/2,H/2,Math.max(W,H),-gapW/2,gapW/2,false); x.closePath(); x.fill();
     var T=S.textures.addCanvas(key,cv); try{ T.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} return key; };
   // a layer of painted pieces for one attack: begin() each frame, put() each piece, end() hides the rest; kill() at the end. null = not painted
+  /* round 102 (Kris: "the painted boss attack images need to go behind the boss and hero, right now they go on top and it difficult to see
+     things"): every painted piece lies just under the actors (they stand at 10 and up); the darkness of an eclipse (D_DARK) stays on top */
+  BossPat.D_ART=9.4; BossPat.artD=function(d){ return d>=BossPat.D_DARK?d:Math.min(d,BossPat.D_ART+(d>=BossPat.D_FX?0.2:0)); };
   BossPat.art=function(c,depth){ if(BossPat.ART_OFF)return null; var fam=BossPat.famFor(c), S=c.S; if(!fam||!BossPat.artKey(S,fam,'mark'))return null;
     return { fam:fam, pool:[], n:0, d:depth===undefined?BossPat.D_TELE:depth,
       key:function(role){ return BossPat.artKey(S,fam,role); },
@@ -46,7 +49,7 @@
       put:function(role,x,y,w,h,o){ var k=role.indexOf('zbfx_')===0?role:this.key(role); if(!k)return null; o=o||{}; var im=this.pool[this.n];
         if(!im){ im=S.add.image(x,y,k); this.pool.push(im); } else if(im.texture.key!==k)im.setTexture(k); this.n++;
         im.setVisible(true).setOrigin(o.ox===undefined?0.5:o.ox,o.oy===undefined?0.5:o.oy).setPosition(x,y).setDisplaySize(Math.max(1,w),Math.max(1,h)).setRotation(o.rot||0)
-          .setAlpha(o.a===undefined?1:Math.max(0,Math.min(1,o.a))).setDepth(o.d===undefined?this.d:o.d).setBlendMode(o.add?Phaser.BlendModes.ADD:Phaser.BlendModes.NORMAL); return im; },
+          .setAlpha(o.a===undefined?1:Math.max(0,Math.min(1,o.a))).setDepth(BossPat.artD(o.d===undefined?this.d:o.d)).setBlendMode(o.add?Phaser.BlendModes.ADD:Phaser.BlendModes.NORMAL); return im; },
       // a length of wall pieces from (x0,y0) to (x1,y1), thick px high, laid end to end
       band:function(x0,y0,x1,y1,thick,o){ var L=Math.hypot(x1-x0,y1-y0); if(L<2)return; var seg=thick*1.9, n=Math.max(1,Math.ceil(L/seg)), a=Math.atan2(y1-y0,x1-x0), w=L/n;
         for(var i=0;i<n;i++){ var t=(i+0.5)/n; this.put('band',x0+(x1-x0)*t,y0+(y1-y0)*t,w*1.12,thick,Object.assign({rot:a},o||{})); } },
@@ -56,6 +59,6 @@
       kill:function(){ this.pool.forEach(function(im){ try{ im.destroy(); }catch(e){} }); this.pool=[]; } }; };
   // a painted piece that fades out on its own (the deadly ground a strafing run leaves behind)
   BossPat.artFade=function(c,role,x,y,size,life,depth){ var fam=BossPat.famFor(c), k=fam&&BossPat.artKey(c.S,fam,role); if(!k)return null;
-    var im=c.S.add.image(x,y,k).setDisplaySize(size,size*c.S.textures.get(k).getSourceImage().height/c.S.textures.get(k).getSourceImage().width).setRotation(Math.random()*6.28).setAlpha(0.9).setDepth(depth===undefined?BossPat.D_TELE-1:depth);
+    var im=c.S.add.image(x,y,k).setDisplaySize(size,size*c.S.textures.get(k).getSourceImage().height/c.S.textures.get(k).getSourceImage().width).setRotation(Math.random()*6.28).setAlpha(0.9).setDepth(BossPat.artD(depth===undefined?BossPat.D_TELE-1:depth));
     c.S.tweens.add({targets:im,alpha:0,delay:life*600,duration:life*400,onComplete:function(){ im.destroy(); }}); return im; };
 })();

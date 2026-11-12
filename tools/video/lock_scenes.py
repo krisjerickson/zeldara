@@ -306,3 +306,13 @@ A = {
   "small boats with lanterns drift over the glowing tree => the boats over the light",
   "shooting stars cross the sky over the lake, the spires and the glowing tree => the whole lake"],
 }
+
+# Round 102 (Kris picked five of the fifteen special shots, Lab › Painted & polish › 9): each goes into ONE picture of one montage and is
+# that shot's camera; every other shot keeps the one simple move. (scene, frame number) → the camera words.
+SPECIAL = {
+ ('mira', 3): 'DOLLY-ZOOM — the camera rolls slowly back while the lens zooms in, so the people at the edge stay the same size while the Great Scar behind them stretches away and deepens: a feeling of vertigo',
+ ('village', 12): 'CRANE UP — the shot starts low and close on a single flower at the bottom of the picture and rises steadily high into the air until the whole green land fills the frame (end on the full picture)',
+ ('escape', 1): 'WHIP-PAN — one fast whip-pan that catches the running hero mid-sprint, the world smeared with motion blur behind, then the camera settles and runs alongside',
+ ('surt1', 5): 'LOW-ANGLE TILT — the camera starts on the floor at the giant\'s feet and tilts all the way up his full height to his burning face (end on the full picture)',
+ ('feasthall', 7): 'SLOW-MOTION MOMENT — the shards burst outward, slow almost to a stop in mid-air, hang glittering for a beat, then rush on at full speed',
+}
