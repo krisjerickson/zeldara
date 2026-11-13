@@ -46,7 +46,7 @@ def main():
     files = [f for f in files if not re.search(r'\.e\d\.\w+$', f) and '.prev.' not in f]      # round 80: the ethereal options wait for Kris's pick in the Lab
     done = 0
     for f in files:
-        m = re.match(r'^([a-z0-9_]+?)(?:\.([b-d]))?(?:\.prev)?\.(wav|mp3|ogg|flac|m4a)$', f, re.I)
+        m = re.match(r'^([a-z0-9_]+?)(?:\.([b-g]))?(?:\.prev)?\.(wav|mp3|ogg|flac|m4a)$', f, re.I)      # round 103: variants .b … .g
         if not m or '.prev.' in f: continue
         cid, take = m.group(1), (m.group(2) or '')
         if cid not in cues: print('? %s: no cue with that id (check Lab → Music & sound)' % f); continue

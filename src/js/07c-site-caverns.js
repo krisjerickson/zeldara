@@ -81,6 +81,10 @@ function buildCavern(D, seed, opts){
       if(D.floorDeco)D.floorDeco(ctx,px,py,tx,ty,R,n);
     }
   }
+  /* round 103 (Lab › Painted & polish ✓ "dfloor", the trial): the painted dungeon floor's light and dark laid over the generated floor with
+     'overlay', so each cavern keeps its own colours and gains the painted flagstones (one 256 px texture, 4 × 4 tiles a repeat) */
+  var _dfl=typeof ZScn!=='undefined'&&ZScn.detail&&ZScn.detail('tx_dng_floor',LT*4,1.25), _dwl=typeof ZScn!=='undefined'&&ZScn.detail&&ZScn.detail('tx_dng_wall',LT*2,1.2);
+  if(_dfl){ try{ ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=0.85; ctx.fillStyle=ctx.createPattern(_dfl,'repeat'); ctx.beginPath(); for(var fy=0;fy<H;fy++)for(var fx=0;fx<W;fx++)if(!g[fy*W+fx])ctx.rect(fx*LT,fy*LT,LT,LT); ctx.fill(); ctx.restore(); }catch(e){ ctx.restore(); } }
   if(D.paintHazards)D.paintHazards(ctx,ctxInfo,nz);
   // round 84c (invisible walls): a rock top the floor's own tone reads as floor (Bone Pit, the elite dens, every boss arena) — push it apart
   (function(){ var L=function(c){ var q=_scnRGB(c); return (q[0]*0.3+q[1]*0.59+q[2]*0.11)/255; }, lf=(L(P.floorA)+L(P.floorB||P.floorA))/2, top=P.rockTop, i=0;
@@ -95,9 +99,11 @@ function buildCavern(D, seed, opts){
     var top=faceOpen?12:LT;
     var gg=ctx.createLinearGradient(px2,py2,px2,py2+top); gg.addColorStop(0,shade(P.rockTop,0.1)); gg.addColorStop(1,P.rockTop);
     ctx.fillStyle=gg; ctx.fillRect(px2,py2,LT,top);
+    if(_dwl){ ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=0.55; ctx.fillStyle=ctx.createPattern(_dwl,'repeat'); ctx.fillRect(px2,py2,LT,top); ctx.restore(); }      /* round 103: the wall's top shows the same bricks, fainter */
     for(var q=0;q<4;q++){ ctx.fillStyle=rgba(shade(P.rockTop,R.chance(0.5)?0.2:-0.25),0.6); ctx.fillRect(px2+R.f()*28,py2+R.f()*(top-3),4,2); }
     if(faceOpen){ var fg=ctx.createLinearGradient(px2,py2+top,px2,py2+LT); fg.addColorStop(0,P.rockFace); fg.addColorStop(1,shade(P.rockFace,-0.35)); ctx.fillStyle=fg; ctx.fillRect(px2,py2+top,LT,LT-top);
-      ctx.strokeStyle=rgba(shade(P.rockFace,-0.5),0.7); ctx.lineWidth=1; for(var c=0;c<2;c++){ var cx=px2+4+R.f()*24; ctx.beginPath(); ctx.moveTo(cx,py2+top+2); ctx.lineTo(cx+R.f()*6-3,py2+LT-2); ctx.stroke(); }
+      if(_dwl){ ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=0.9; ctx.fillStyle=ctx.createPattern(_dwl,'repeat'); ctx.fillRect(px2,py2+top,LT,LT-top); ctx.restore(); }      /* the painted wall's bricks on the face */
+      ctx.strokeStyle=rgba(shade(P.rockFace,-0.5),_dwl?0.4:0.7); ctx.lineWidth=1; for(var c=0;c<2;c++){ var cx=px2+4+R.f()*24; ctx.beginPath(); ctx.moveTo(cx,py2+top+2); ctx.lineTo(cx+R.f()*6-3,py2+LT-2); ctx.stroke(); }
       var sg=ctx.createLinearGradient(0,py2+LT,0,py2+LT+10); sg.addColorStop(0,'rgba(0,0,0,.35)'); sg.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=sg; ctx.fillRect(px2,py2+LT,LT,10); }
     if(D.rockDeco)D.rockDeco(ctx,px2,py2,rx,ry,R,faceOpen,m);
     // irregular rubble along exposed side edges

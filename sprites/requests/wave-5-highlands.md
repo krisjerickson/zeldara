@@ -1700,7 +1700,7 @@ Attach: style_hero, style_centaur
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Shield-wall Dwarves — Two ghost dwarves locked shield to shield. Main colours: muted blue (#9aa8b0), grey (#4a5058), yellow (#e8c040), pale teal (#80ffff). Size: about 1× the height of the hero.
-How it behaves in the game (for the poses): Advance together. Spear pokes over the shields. Front is impenetrable.
+How it behaves in the game (for the poses): Advance together. Spear pokes over the shields. The shields turn most blows from the front: only a third gets through.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. movement cycle frame 1: leading limb forward, weight landing — used for: lumber.
@@ -1726,7 +1726,7 @@ Attach: style_hero, style_centaur, shieldwall_dwarves.core.s
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Shield-wall Dwarves — Two ghost dwarves locked shield to shield. Main colours: muted blue (#9aa8b0), grey (#4a5058), yellow (#e8c040), pale teal (#80ffff). Size: about 1× the height of the hero.
-How it behaves in the game (for the poses): Advance together. Spear pokes over the shields. Front is impenetrable.
+How it behaves in the game (for the poses): Advance together. Spear pokes over the shields. The shields turn most blows from the front: only a third gets through.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. seen from the FRONT, standing at rest, relaxed and alert.
 2. seen from the FRONT, step / movement frame 1 of 2.
@@ -1752,7 +1752,7 @@ Attach: style_hero, style_centaur, shieldwall_dwarves.core.s
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Shield-wall Dwarves — Two ghost dwarves locked shield to shield. Main colours: muted blue (#9aa8b0), grey (#4a5058), yellow (#e8c040), pale teal (#80ffff). Size: about 1× the height of the hero.
-How it behaves in the game (for the poses): Advance together. Spear pokes over the shields. Front is impenetrable.
+How it behaves in the game (for the poses): Advance together. Spear pokes over the shields. The shields turn most blows from the front: only a third gets through.
 Layout: exactly 4 poses in a grid of 4 columns × 1 row, evenly spaced, in this order (left to right, top row first):
 1. guarding: shield / shell / armour plates raised in front, braced — used for: front.
 2. guard hit: recoiling slightly as a blow glances off, sparks.

@@ -62,10 +62,10 @@ with sync_playwright() as p:
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html?tabs=all"); pg.wait_for_timeout(2500)
     k = pg.evaluate("[ZAUD.KEPT93.sfx_sword_swing, ZAUD.SRC101.sfx_sword_swing]")
     check('Sound picks recovered: sword swing keeps n2, l4, l6 (%s)' % k, all(x in k[0] for x in ('n2', 'l4', 'l6')) and k[1].get('n2'), k)
-    pg.evaluate("LTODO.goTo('sfxpick','.s89-t',0)"); pg.wait_for_timeout(1500)
-    r = pg.evaluate("""(()=>{ var tr=document.querySelector('.s89-r[data-id="sfx_sword_swing"]'); var n=[].slice.call(document.querySelectorAll('.s89-r')).map(function(t){ return t.querySelectorAll('.s89-k').length; });
-      return {kept:tr?[].slice.call(tr.querySelectorAll('.s89-k.kept .s89-v')).map(function(b){ return b.dataset.k+(b.getAttribute('aria-pressed')==='true'?'★':''); }):null, min:Math.min.apply(null,n), rows:n.length, tag:tr?tr.querySelector('.s89-tag').textContent:''}; })()""")
-    check('Lab → Sound effects: the recovered takes are shown ★ and every effect has at least 5 to choose from (%s)' % r, r['kept'] and all(x + '★' in r['kept'] for x in ('n2', 'l4', 'l6')) and r['min'] >= 5 and 'in the game' in r['tag'], r)
+    pg.evaluate("LTODO.goTo('sfxpick','#s103',0)"); pg.wait_for_timeout(1500)      # round 103: the one table (79m3)
+    r = pg.evaluate("""(()=>{ var tr=document.querySelector('.s103-r[data-id="sfx_sword_swing"]'); var n=[].slice.call(document.querySelectorAll('.s103-r')).map(function(t){ return t.querySelectorAll('.s103-k').length; });
+      return {kept:tr?[].slice.call(tr.querySelectorAll('.s103-v[aria-pressed="true"]')).map(function(b){ return b.dataset.k; }):null, min:Math.min.apply(null,n), rows:n.length}; })()""")
+    check('Lab → Sound effects: the recovered takes are ★ and every effect has at least 5 to choose from (%s)' % r, r['kept'] and all(x in r['kept'] for x in ('n2', 'l4', 'l6')) and r['min'] >= 5, r)
     pg.evaluate("LTODO.goTo('polish','#pz-lv',0)"); pg.wait_for_timeout(1500)
     t = pg.evaluate("""(()=>{ var n=function(){ var m=document.querySelector('.pz-mock[data-kind="hp"][data-id="teal"]'); return m?m.querySelectorAll('.pz-hp').length:0; }; var a=n(); var s=document.getElementById('pz-lv'); s.value=20; s.dispatchEvent(new Event('input',{bubbles:true})); var b2=n();
       return {a:a,b:b2, sec:document.querySelectorAll('.br-h, .sec-h, h3').length, shots:document.querySelectorAll('.pz-where').length, spells:document.querySelectorAll('.tl tbody tr').length, todo:LTODO.open().map(function(o){ return o.id; }).filter(function(i){ return /^pol|^guide/.test(i); })}; })()""")

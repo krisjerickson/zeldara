@@ -101,9 +101,19 @@ var ZSL=(function(){
         var lg=img('rn_green'); if(lg){ var w=2*H.logo*k; ctx.drawImage(lg[0],lg[1],lg[2],lg[3],lg[4],cx-w/2,cy-w/2,w,w*lg[4]/lg[3]); }
         else { ctx.fillStyle='rgba(111,227,245,.35)'; ctx.beginPath(); ctx.arc(cx,cy,H.logo*k,0,TAU); ctx.fill(); } });
       ctx.restore(); return; }
-    var nt=!!o.night, sb=Math.max(2,k*(nt?0.44:0.26));
-    pass(1.3*k,'rgba(111,227,245,'+(nt?0.22:0.13)+')',true,!!ringImg);
-    pass(0.5*k,'rgba(4,22,30,'+(nt?0.2:0.32)+')',true,!!ringImg);
+    var nt=!!o.night, sb=Math.max(2,k*(nt?0.44:0.26)), rb=img('sl_ribbon');
+    /* round 103 (Lab › Painted & polish ✓ "lines"): the painted rune ribbon is laid along the vein in thin slices that follow each bend; the
+       neon core and its glow stay on top (Kris's rule: keep the neon glow). Without the painting: the old soft glow. */
+    var ribbon=function(hh){ var im=rb[0], cut=rb[3]*0.1, sx=rb[1]+cut, sy=rb[2], sw=rb[3]-cut*2, sh=rb[4], rep=hh*sw/sh; ctx.save(); ctx.globalAlpha=nt?0.92:0.74;
+      L.forEach(function(s){ if(ringImg&&s.ring!==undefined)return; var u=0, prev=null;
+        for(var i=0;i<s.pts.length;i++){ var p=s.pts[i]; if(!(on(s,i)&&!s.gap[i])){ prev=null; continue; } var x=X(p.x), y=Y(p.y);
+          if(prev){ var dx=x-prev.x, dy=y-prev.y, d=Math.hypot(dx,dy); if(d>0.01){ var done=0; ctx.save(); ctx.translate(prev.x,prev.y); ctx.rotate(Math.atan2(dy,dx));
+              while(done<d-0.01){ var take=Math.max(0.05,Math.min(d-done,rep-u)), s0=u/rep*sw, sl=take/rep*sw; ctx.drawImage(im,sx+s0,sy,Math.max(0.5,Math.min(sl,sw-s0)),sh,done-0.5,-hh/2,take+1,hh); done+=take; u+=take; if(u>=rep-0.01)u=0; }      /* u: the place along the ribbon, kept in 0..rep so it never stalls */
+              ctx.restore(); } }
+          prev={x:x,y:y}; } });
+      ctx.restore(); };
+    if(rb)ribbon(1.25*k);
+    else { pass(1.3*k,'rgba(111,227,245,'+(nt?0.22:0.13)+')',true,!!ringImg); pass(0.5*k,'rgba(4,22,30,'+(nt?0.2:0.32)+')',true,!!ringImg); }
     ctx.save(); ctx.shadowColor='#6fe3f5'; ctx.shadowBlur=sb; pass(0.26*k,'#d8fbff',true,!!ringImg); ctx.restore();
     // the runes beside the vein
     var R=o.runes?o.runes.map(function(i){ return D.runes[i]; }):D.runes, rs=0.9*k;

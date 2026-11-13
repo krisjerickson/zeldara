@@ -30,7 +30,7 @@ var ZSLW={ on:true, RES:16, NEAR:48, TRACE:3.6, MOTES:34, KEEP:24,
   // ── the ground: one half-size picture per chunk that the lit tattoo crosses ──
   chunks:function(ws){ var D=ZSLW.data(ws); if(!D)return; var S=ws._zslC||(ws._zslC={m:{},seq:0}), cam=ws.cameras.main, cs=WCH*TILE, dw=cam.width/cam.zoom, dh=cam.height/cam.zoom;
     var vx=cam.scrollX+(cam.width-dw)/2, vy=cam.scrollY+(cam.height-dh)/2, x0=Math.floor(vx/cs)-1, x1=Math.floor((vx+dw)/cs)+1, y0=Math.floor(vy/cs)-1, y1=Math.floor((vy+dh)/cs)+1;
-    var lit=ZSLW.litFn(ws), ps=ws.playerState, st=ZSLW.style(ps), ready=ZSLW.img('sl_ring_a')?1:0, painted=0, keep={};
+    var lit=ZSLW.litFn(ws), ps=ws.playerState, st=ZSLW.style(ps), ready=(ZSLW.img('sl_ring_a')?1:0)+(ZSLW.img('sl_ribbon')?2:0), painted=0, keep={};
     for(var cy=y0;cy<=y1;cy++)for(var cx=x0;cx<=x1;cx++){ var k=cx+'_'+cy, e=D.cb[k]; if(!e)continue; keep[k]=1;
       var sig=st+ready+e.own.map(function(o){ return lit(o)?1:0; }).join(''), c=S.m[k];
       if(c&&c.sig===sig){ c.t=Date.now(); continue; }

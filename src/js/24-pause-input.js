@@ -169,7 +169,7 @@ document.addEventListener('keydown',function(e){
     if(typeof ZSKILL!=='undefined')ZSKILL.use(sc);      // round 49: skills in the adventure sites too
     else if(_isOverworld(sc)&&sc._useSpecial)sc._useSpecial();
   } else if(k==='g'){
-    if(_isOverworld(sc)&&sc._dig)sc._dig(); else showNotif('You can only dig outdoors','#8899aa');
+    /* round 103: no more digging — the fairies' objects are picked up by walking over them */
   } else if(k==='c'){
     doCycleAmmo();
   } else if(k==='p'){

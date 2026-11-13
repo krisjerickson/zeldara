@@ -50,8 +50,8 @@ if(typeof document!=='undefined'&&typeof setInterval!=='undefined'){ setInterval
     '.zh-mana{position:relative;height:11px;border-radius:30px 30px 5px 5px;background:#10202c;border:1px solid rgba(140,170,255,.35);overflow:hidden;transition:width .4s}.zh-mana i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#4ff0a0,#4fb8ff 45%,#9f6fff);box-shadow:0 0 10px #6f9fff;transition:width .25s}'+
     '.zh-mana b{position:absolute;right:6px;top:-1px;font:600 9px "Segoe UI";color:#e6f0ff;text-shadow:0 0 3px #000}'+
     '.zh-xp{display:flex;align-items:center;gap:6px}.zh-lv{color:#ffe6a8;font:700 11px Georgia,serif;white-space:nowrap}.zh-bn{display:flex;gap:3px}'+
-    '.zh-b{position:relative;width:13px;height:21px;background:#1c2432;clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%)}.zh-b i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(#ffe066,#ffb020);box-shadow:0 0 6px #ffc030}'+
-    '.zh-b.pic{clip-path:none;background-size:100% 100%;background-color:transparent}.zh-b.pic i{background-size:13px 21px;background-position:bottom;box-shadow:none}'+
+    '.zh-b{position:relative;width:16px;height:26px;background:#1c2432;clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%)}.zh-b i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(#ffe066,#ffb020);box-shadow:0 0 6px #ffc030}'+
+    '.zh-b.pic{clip-path:none;background-size:100% 100%;background-color:transparent}.zh-b.pic i{background-size:16px 26px;background-position:bottom;box-shadow:none}'+
     '.zh-gold{color:#ffd700;font:600 11px "Segoe UI"}body.ztouch-on #zhud{transform:scale(.72);transform-origin:top left}';
   document.head.appendChild(_zhSt); }
 // ── round 102: the monsters' bars (Kris ✓ "Monster and world-boss health bars: the new bars — painted frame, drawn fill"): a dark well in a

@@ -33,7 +33,6 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
    ['binder','Bindstones and spirits','—',1,'your first Binder','The dead of Runeheim are chained to bindstones. Beat the Binder and the spirit goes free — and leaves you a shard of soulglass.'],
    ['glimmer','The Glimmerhall and lattices','Tab at Sólveig',1,'your first shard of soulglass','Six shards of one realm make its lattice. Sólveig the Glasswright fuses them in the Glimmerhall, when it stands on the Green. The forges will need all four.'],
    ['familiar','Familiars and the fairies','N choose — touch: ≡ More',0,'your first familiar','N chooses which familiar fights beside you. The fairies by the waystones teach it new skills, one errand at a time.'],
-   ['dig','Digging','G (outdoors)',0,'the fairies\' errands','G digs where you stand. The fairies hide what they want under rune spaces — the Tome\'s quest page and the sparkles show where.'],
    ['skill','Skills','Z — touch: 💥',0,'your first skill','Z uses your special skill. The masters held in the island castles teach them — one each.'],
    ['spell','Spells and mana','X cast · Shift+P mana — touch: ✨',0,'your first spell','X casts the spell in your tome. Spells drink mana; it comes back on its own, or from a mana draught (Shift and P).'],
    ['mount','Mounts and crossing','M — touch: ≡ More',0,'your first mount','M gets you on or off. Each boss dungeon\'s mount crosses the ground of the next realm — swamp, scree, ash. Choose which one at the stables.'],
@@ -44,7 +43,15 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
    ['forges','The forges','? Rules on the heat bar',1,'the forges rising','Four forges rise off the coasts, each opening the next. Heat climbs as you go down — cool it at the troughs. At each forge\'s hearth, the realm\'s lattice in its tray becomes its Heartglass.'],
    ['hearth','The great hearth','—',1,'your first forge won','At Muspelheim\'s great hearth you will need the Sovereign staff from the apothecary — six thousand gold, start saving — and all four Heartglasses. Together they make the Lodestar.'],
    ['godsbane','Godsbane','V — touch: ✦',1,'your twin finds the word','V speaks Godsbane through the Lodestar. Only it can break what the false god made.'],
-   ['asgard','The Bifröst and Asgard','Tab at the notch',1,'Asgard coming down','Asgard rests on the lake now. The Lodestar fits the notch at the end of the pier — once it knows its word.']],
+   ['asgard','The Bifröst and Asgard','Tab at the notch',1,'Asgard coming down','Asgard rests on the lake now. The Lodestar fits the notch at the end of the pier — once it knows its word.'],
+   /* round 103 — combat rhythm (09t), each taught by its own teacher: [6] who says it (a character id), [7] the name if there is none */
+   ['r_sword','Sword combo','Space on the beat',0,'the armoury keeper','On the anvil a smith keeps time, and so does a blade. Strike, and when the swing comes back a rune-ring shines round you — press Space while it shines. The second blow bites deeper, the third sweeps wide and throws them back. Rush it and the beat is lost.','npc_armory','The armourer'],
+   ['r_parry','Perfect block','Shift just as the blow lands',0,'the armoury keeper','Anyone can hide behind a shield. Raise it at the last moment — just as the blow falls — and it turns the blow aside: no hurt to you, the brute stumbles, and your next swing cannot miss its mark.','npc_armory','The armourer'],
+   ['r_follow','Follow-up shot','Ctrl, a full draw',0,'the armoury keeper, once you have a bow','A full draw at something that cannot move — frozen, rooted, stunned or reeling — and the arrow finds the gap in its hide. Half again on top of the draw.','npc_armory','The armourer'],
+   ['r_axe','Axe rhythm','Space on the beat',0,'the blacksmith, once you hold an axe','An axe keeps a slower time: two beats. Swing, wait for the ring as it comes back, and swing again on it — the second goes all the way round you and cleaves everything near.','npc_forge','The blacksmith'],
+   ['r_counter','Roll-counter','Alt, then Space',0,'Pia, after the roll','You rolled — now answer. Swing as you come up out of it and you catch them open: half again as hard, and they reel.','','Pia'],
+   ['r_weave','Rune-weave','Space ×3, then X',0,'the first mage-tower master','A sword finisher leaves the air humming. Cast within a breath of it and the spell rides the hum: a quarter stronger, and it goes where your blade went — no need to aim.','','The tower\'s master'],
+   ['r_together','Together!','—',0,'your first fairy','Strike the same foe as your familiar, close together — within half a breath — and both blows land harder. You will see the spark.','','The fairy']],
   ps:function(){ try{ var ws=game.scene.getScene('World'); return ws&&ws.playerState; }catch(e){ return null; } },
   seen:function(ps){ return ps.lessons||(ps.lessons={}); },
   byId:function(id){ return ZLES.L.find(function(x){ return x[0]===id; }); },
@@ -52,7 +59,8 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
   // mark as taught; show it unless lessons are off (or it is small and this is Ragnarök)
   teach:function(id,quiet){ var ps=ZLES.ps(), L=ZLES.byId(id); if(!ps||!L)return false; var S=ZLES.seen(ps); if(S[id])return false; S[id]=Date.now();
     if(quiet||ZLES.off(ps)||(+ps.difficulty===3&&!L[3])||typeof ZDLG==='undefined'||!ZDLG.on)return false;
-    ZDLG.say(ZLES.NAME,L[5],{id:ZLES.ID,icon:'📜',extra:[{t:'Got it',f:function(){}},{t:'Don\'t show lessons',f:function(){ ps.lessonsOff=1; showNotif('📚 Lessons off — turn them back on in the pause panel → Training.','#cfe8ff'); }}]});
+    var who=L[6]&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[L[6]]?CHAR_BY_ID[L[6]].name:(L[7]||ZLES.NAME); if(L[0]==='r_counter'&&typeof ZROLL!=='undefined'&&ZROLL.NAME)who=ZROLL.NAME;
+    ZDLG.say(who,L[5],{id:L[6]||(L[7]?undefined:ZLES.ID),icon:L[0].indexOf('r_')===0?'⚔':'📜',extra:[{t:'Got it',f:function(){}},{t:'Don\'t show lessons',f:function(){ ps.lessonsOff=1; showNotif('📚 Lessons off — turn them back on in the pause panel → Training.','#cfe8ff'); }}]});
     return true; },
   // ── the triggers, every ~0.8 s ──
   _hp:null, _t:0,
@@ -65,12 +73,12 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
     var sc=ZLES.scene(), key=sc&&sc.sys.settings.key, B=key==='Building'?sc.building:null;
     // a hard blow: a quarter of your health in one go
     var hp=ps.hp, mx=ps.maxHp||30; if(ZLES._hp!==null&&ZLES._hp-hp>=mx*0.22&&hp>0)T('shield',1); ZLES._hp=hp;
-    if(B){ T('shop',/^(shop|armory|clothing|merchant)$/.test(B.type)); T('rest',/^(tavern|house)$/.test(B.type)); T('crafts',/^(forge|jeweler|apothecary)$/.test(B.type)); }
+    if(B){ T('r_sword',B.type==='armory'); T('r_parry',B.type==='armory'&&!!S.r_sword); T('r_follow',B.type==='armory'&&!!S.r_parry&&(!!(ps.equip&&ps.equip.rHand)||has(function(i,I){ return I.slot==='rHand'; }))); T('r_axe',B.type==='forge'&&has(function(i,I){ return I.cls==='axe'; }));      /* round 103: the rhythm's teachers */
+      T('shop',/^(shop|armory|clothing|merchant)$/.test(B.type)); T('rest',/^(tavern|house)$/.test(B.type)); T('crafts',/^(forge|jeweler|apothecary)$/.test(B.type)); }
     if(key==='Dungeon'&&sc._ready)T('inside',1); if(key==='Sky')T('sky',1);
     ZLES.L.forEach(function(L){ if(!S[L[0]]&&ZLES.auto[L[0]]&&ZLES.cond(L[0],ws,ps,sc))T(L[0],1); });
-    if(S.familiar&&!S.dig&&Date.now()-S.familiar>90000)T('dig',1);
   }catch(e){ if(!ZLES._err){ ZLES._err=1; console.warn('lessons',e); } } },
-  auto:{bow:1,camp:1,sites:1,potion:1,level:1,roll:1,elements:1,binder:1,glimmer:1,familiar:1,skill:1,spell:1,mount:1,mira:1,ward:1,forges:1,hearth:1,godsbane:1,asgard:1,death:1,waystone:1},
+  auto:{r_counter:1,r_weave:1,r_together:1,bow:1,camp:1,sites:1,potion:1,level:1,roll:1,elements:1,binder:1,glimmer:1,familiar:1,skill:1,spell:1,mount:1,mira:1,ward:1,forges:1,hearth:1,godsbane:1,asgard:1,death:1,waystone:1},
   cond:function(id,ws,ps){ var inv=ps.inventory||[], has=function(fn){ return inv.some(function(i){ var I=ITEMS[i]; return I&&fn(i,I); }); }, P=ws&&ws.player, near=function(x,y,r){ return P&&Math.hypot(P.x-x,P.y-y)<r*TILE; };
     switch(id){
       case 'move': case 'map': case 'guild': return (ps.level||1)>1;
@@ -81,6 +89,9 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
       case 'level': return (ps.level||1)>=2;
       case 'death': return !!ZLES._died;
       case 'roll': return !!ps.canRoll;
+      case 'r_counter': return !!ps.canRoll&&!!(ps.lessons&&ps.lessons.roll);
+      case 'r_weave': return (ps.mageDone||[]).length>0;
+      case 'r_together': return (ps.ownedFamiliars||[]).length>0&&!!(ps.lessons&&ps.lessons.familiar);
       case 'elements': return !!(ps.seenEl&&(ps.seenEl.weak||ps.seenEl.res));
       case 'ward': return !!(ps.seenEl&&ps.seenEl.ward);
       case 'waystone': return (ps.activatedWaystones||[]).length>1;
@@ -95,11 +106,11 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
       case 'hearth': return (ps.forgesDone||[]).length>=1;
       case 'godsbane': return !!ps.godsbane;
       case 'asgard': return !!ps.asgardDown;
-      case 'shield': case 'shop': case 'rest': case 'crafts': case 'inside': case 'sky': case 'dig': return (ps.level||1)>3;
+      case 'shield': case 'shop': case 'rest': case 'crafts': case 'inside': case 'sky': return (ps.level||1)>3;
     } return false; },
   // ── the Training tab ──
   KEYS:[['Move','W A S D / arrows','the stick'],['Attack','Space','⚔'],['Talk · open · enter · take','Tab','✋'],['Shield (hold)','Shift','🛡'],['Roll','Alt','🤸'],['Bow','Ctrl','🏹'],['Change arrows','C','—'],
-    ['Spell','X','✨'],['Skill','Z','💥'],['Godsbane','V','✦'],['Potion · mana · throw a flask','P · Shift+P · hold P','≡ More'],['Food','O','≡ More'],['Mount','M','≡ More'],['Familiar','N','≡ More'],['Dig','G','—'],
+    ['Spell','X','✨'],['Skill','Z','💥'],['Godsbane','V','✦'],['Potion · mana · throw a flask','P · Shift+P · hold P','≡ More'],['Food','O','≡ More'],['Mount','M','≡ More'],['Familiar','N','≡ More'],
     ['Map & quests','Q · B','🗺'],['Inventory','I','🎒'],['Tome','T','📖'],['Pause panel','Esc','☰']],
   panel:function(){ var o=document.getElementById('modal-training'); if(!o){ o=document.createElement('div'); o.className='overlay'; o.id='modal-training'; o.style.display='none'; o.onclick=function(){ o.style.display='none'; if(typeof ZPAUSE!=='undefined')ZPAUSE.sync(); }; document.body.appendChild(o); }
     var ps=ZLES.ps()||{}, S=ZLES.seen(ps), sel=ZLES._sel&&S[ZLES._sel]?ZLES._sel:(ZLES.L.find(function(L){ return S[L[0]]; })||[null])[0], esc=function(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;'); };

@@ -16,24 +16,39 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 INC, AS, OLD = os.path.join(ROOT, 'audio', 'incoming'), os.path.join(ROOT, 'assets', 'audio'), os.path.join(ROOT, 'audio', 'replaced_r81')
 DRY = '--dry-run' in sys.argv
 picks = json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'sound_picks.json'), encoding='utf-8'))
+# round 103: --ids a,b (put only these in, in batches); --was <file> (what the game had before, so "cur" can be found again)
+ONLY = set(sys.argv[sys.argv.index('--ids') + 1].split(',')) if '--ids' in sys.argv else None
+WAS = json.load(open(sys.argv[sys.argv.index('--was') + 1], encoding='utf-8')) if '--was' in sys.argv else {}
+MAXT = 7      # round 103 (Kris kept up to seven ★ on some effects): the game rotates through all of them (variants .b … .g)
 def move(src, dst_dir):
     if not os.path.isfile(src): return
     os.makedirs(dst_dir, exist_ok=True); dst = os.path.join(dst_dir, os.path.basename(src)); n = 1
     while os.path.exists(dst): n += 1; dst = os.path.join(dst_dir, '%s.%d' % (os.path.basename(src), n))
     if not DRY: shutil.move(src, dst)
 todo = []
+def cur_take(cid):
+    # 'cur' = the take the Lab calls "Today": kept as <id>.cur.mp3 the first time it is needed
+    keep = os.path.join(INC, cid + '.cur.mp3')
+    if os.path.isfile(keep): return keep
+    w = WAS.get(cid); src = os.path.join(INC, cid + '.mp3') if w in (None, 'cur') else os.path.join(OLD, cid + '.mp3')
+    if not os.path.isfile(src): return None
+    if not DRY: shutil.copy2(src, keep)
+    return keep if not DRY else src
 for cid, p in sorted(picks.items()):
+    if ONLY is not None and cid not in ONLY: continue
     # round 84: any take — e1/e2 (round 80), l1-l3 (the Sonniss library), n1/n2 (worded by what happens) — or two joined by '+' (alternating)
-    ks = ['e1', 'e2'] if p == 'both' else [k for k in str(p).split('+') if k in ('e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2', 'v1', 'v2', 'v3', 'v4', 'v5', 'w1', 'w2', 'w3', 'w4', 'w5', 'r1', 'r2')]
-    if not ks: continue
-    srcs = [os.path.join(INC, cid + '.' + k + '.mp3') for k in ks[:3]]      # round 84c: up to three takes the game rotates through
+    ks = ['e1', 'e2'] if p == 'both' else [k for k in str(p).split('+') if k in ('cur', 'e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2', 'v1', 'v2', 'v3', 'v4', 'v5', 'w1', 'w2', 'w3', 'w4', 'w5', 'r1', 'r2')]
+    if not ks or ks == ['cur'] and WAS.get(cid) in (None, 'cur'): continue      # today's take alone, and it is what the game has
+    srcs = [cur_take(cid) if k == 'cur' else os.path.join(INC, cid + '.' + k + '.mp3') for k in ks[:MAXT]]      # round 84c: the takes the game rotates through (round 103: up to seven)
+    if not all(srcs): print('?  %s: today\'s take could not be found' % cid); continue
     if not all(os.path.isfile(s) for s in srcs): print('?  %s: the %s file is not in audio/incoming' % (cid, p)); continue
-    for ext in ('.mp3', '.wav', '.b.mp3', '.b.wav', '.c.mp3', '.c.wav'): move(os.path.join(INC, cid + ext), OLD)
-    for ext in ('.mp3', '.ogg', '.b.mp3', '.b.ogg', '.c.mp3', '.c.ogg'): move(os.path.join(AS, cid + ext), os.path.join(OLD, 'assets'))
+    VAR = ['', '.b', '.c', '.d', '.e', '.f', '.g']
+    for v in VAR:
+        for ext in ('.mp3', '.wav'): move(os.path.join(INC, cid + v + ext), OLD)
+        for ext in ('.mp3', '.ogg'): move(os.path.join(AS, cid + v + ext), os.path.join(OLD, 'assets'))
     if not DRY:
-        shutil.copy2(srcs[0], os.path.join(INC, cid + '.mp3'))
-        for i, s2 in enumerate(srcs[1:]): shutil.copy2(s2, os.path.join(INC, cid + '.' + 'bc'[i] + '.mp3'))
-    todo.append(cid); print('%-26s <- %s' % (cid, ' + '.join(ks[:3]) + (' (rotating)' if len(ks) > 1 else '')))
+        for i, s2 in enumerate(srcs): shutil.copy2(s2, os.path.join(INC, cid + VAR[i] + '.mp3'))
+    todo.append(cid); print('%-26s <- %s' % (cid, ' + '.join(ks[:MAXT]) + (' (rotating)' if len(ks) > 1 else '')))
 keep = sum(1 for p in picks.values() if p == 'cur')
 print('\n%d to put in, %d keep today\'s take' % (len(todo), keep))
 if DRY or not todo: sys.exit(0)

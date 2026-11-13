@@ -3,7 +3,7 @@
 // ║ • 5 fairies per quadrant flit around its 4 waystones + one rune circle.
 // ║   Before you own that quadrant's familiar they just chat (and hint at
 // ║   the island). Afterwards fairy n teaches skill n+1: find the object she
-// ║   asks for (dig with G at another rune space — the Tome quest page, the
+// ║   asks for (round 103: found lying at another rune space, picked up by walking over it — no more digging — the Tome quest page, the
 // ║   map ring and sparkles show where), bring it back, and your familiar
 // ║   passes her trial → it learns the skill.
 // ║ • Fairy Kings (Wetlands, Highlands, Ashlands) hold court in huge rune
@@ -91,10 +91,15 @@ Object.assign(WorldScene.prototype,{
     // sparkles where an active quest's object is buried
     this._fairyVisT-=dt; if(this._fairyVisT<=0){ this._fairyVisT=0.35; var act=this._activeDigs();
       act.forEach(function(D){ var sx=D.x*TILE+16, sy=D.y*TILE+16, d=Math.hypot(px-sx,py-sy); if(d<TILE*12){ var n=d<TILE*3?4:2; for(var i=0;i<n;i++){ var s=self.add.circle(sx+(Math.random()-0.5)*26,sy+(Math.random()-0.5)*18,d<TILE*3?2.4:1.6,0xfff0a0,1).setDepth(WR_DEPTH(sy)+0.01); self.tweens.add({targets:s,y:s.y-18,alpha:0,duration:900,onComplete:function(){ s.destroy(); }}); } } }); }
-    // dig prompt
-    var nd=this._activeDigs().find(function(D){ return Math.hypot(px-(D.x*TILE+16),py-(D.y*TILE+16))<TILE*2.2; });
-    if(nd&&!this._digPrompt){ this._digPrompt=domText(this,px,py-50,'[G] Dig here',{fontSize:'10px',color:'#fff0a0',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(20); }
-    if(this._digPrompt){ if(!nd){ this._digPrompt.destroy(); this._digPrompt=null; } else this._digPrompt.setPosition(px,py-50); }
+    /* round 103 (Kris: "we likely should just take it completely out of the game"; Lab ✓ take digging out): no more digging — the object
+       lies in the open at its spot with a golden glint, and walking over it picks it up */
+    var act2=this._activeDigs(), G=this._glints||(this._glints={});
+    act2.forEach(function(D){ var sx=D.x*TILE+16, sy=D.y*TILE+16, d=Math.hypot(px-sx,py-sy), k=D.obj.id;
+      if(d<TILE*14&&!G[k]){ if(typeof CHX!=='undefined'&&CHX.glow)CHX.glow(self); var gl=self.add.image(sx,sy,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xfff0a0).setAlpha(0.7).setScale(0.32).setDepth(WR_DEPTH(sy)+0.005), ic=domText(self,sx,sy-4,D.obj.icon,{fontSize:'16px'}).setOrigin(.5).setDepth(WR_DEPTH(sy)+0.006);
+        self.tweens.add({targets:gl,scale:0.46,alpha:0.95,duration:700,yoyo:true,repeat:-1,ease:'Sine.inOut'}); self.tweens.add({targets:ic,y:sy-9,duration:900,yoyo:true,repeat:-1,ease:'Sine.inOut'}); G[k]={gl:gl,ic:ic}; }
+      if(G[k]&&d>=TILE*16){ G[k].gl.destroy(); G[k].ic.destroy(); delete G[k]; }
+      if(d<TILE*1.1)self._pickObj(D); });
+    Object.keys(G).forEach(function(k){ if(!act2.some(function(D){ return D.obj.id===k; })){ G[k].gl.destroy(); G[k].ic.destroy(); delete G[k]; } });
   },
   _activeDigs(){ var ps=this.playerState, Q=ps.fairyQuests||{}, out=[], self=this; Object.keys(Q).forEach(function(k){ var S=Q[k]; if(!S||S.st!=='seek')return; (S.need||[]).forEach(function(oid){ if((S.got||[]).indexOf(oid)<0&&self._digSpots[oid])out.push(self._digSpots[oid]); }); }); return out; },
   // where this fairy's story stands
@@ -117,8 +122,8 @@ Object.assign(WorldScene.prototype,{
     if(st.k==='done')return FairyTalk.show(f,'Your '+fam.n+' is shining brighter every day. I taught it '+FAM_SKILLS[fam.el][f.i+1].name+' — use it well!',[{t:'Thank you!'}]);
     if(st.k==='wait'){ var prev=this._fairies.find(function(x){ return x.q===f.q&&x.i===_famLevel(ps,fid)-1; }); return FairyTalk.show(f,'Ooh, a '+fam.n+'! It isn\'t ready for my lesson yet. First visit '+(prev?prev.name+' near '+prev.home.name:'my sisters')+' — she teaches the lesson before mine.',[{t:'I\'ll go'}]); }
     var skill=FAM_SKILLS[fam.el][f.i+1], tp=_trialPlanOf(f.q,f.i), tr={name:tp.name+' ('+TRIAL_THEMES[tp.theme].name+')',text:TRIAL_THEMES[tp.theme].text};
-    if(st.k==='offer')return FairyTalk.show(f,'What a lovely '+fam.n+'! I could teach it <b>'+skill.name+'</b> — '+skill.text.toLowerCase()+' But first, fetch me the <b>'+o.icon+' '+o.name+'</b>. It\'s buried '+o.where+' in <b>'+_fairyZoneName(o.zone)+'</b>, beside the runes at its heart.'+(ps.hasTrowel?'':' Here — take this <b>Fairy Trowel</b>. Press <b>G</b> to dig.'),[{t:'I\'ll find it!',f:function(){ self._fairyAccept(qk,[o.id],f.q,'Fairy '+f.name); }},{t:'Later'}]);
-    if(st.k==='seek')return FairyTalk.show(f,'The '+o.icon+' '+o.name+' is buried '+o.where+' in '+_fairyZoneName(o.zone)+'. '+this._digHint(o.id)+' Look for golden sparkles, then press <b>G</b> to dig. (Your Tome\'s Quests page and the map show the area too.)',[{t:'On my way'}]);
+    if(st.k==='offer')return FairyTalk.show(f,'What a lovely '+fam.n+'! I could teach it <b>'+skill.name+'</b> — '+skill.text.toLowerCase()+' But first, fetch me the <b>'+o.icon+' '+o.name+'</b>. It lies '+o.where+' in <b>'+_fairyZoneName(o.zone)+'</b>, beside the runes at its heart — look for a golden glint in the grass and walk over it.',[{t:'I\'ll find it!',f:function(){ self._fairyAccept(qk,[o.id],f.q,'Fairy '+f.name); }},{t:'Later'}]);
+    if(st.k==='seek')return FairyTalk.show(f,'The '+o.icon+' '+o.name+' lies '+o.where+' in '+_fairyZoneName(o.zone)+'. '+this._digHint(o.id)+' Look for its golden glint and walk over it to pick it up. (Your Tome\'s Quests page and the map show the area too.)',[{t:'On my way'}]);
     if(st.k==='ready')return FairyTalk.show(f,'You found it! '+o.icon+' Now your '+fam.n+' must show me what it can do. <b>Trial: '+tr.name+'</b> — '+tr.text,[{t:'Step through the portal',f:function(){ TrialRealm.enter(self,{key:qk,q:f.q,i:f.i,fid:fid,stages:[tp.theme],tier:tp.tier,title:tp.name,host:f.name,win:function(){ self._fairyWin(f,qk,fid,skill); }}); }},{t:'Not yet'}]); },
   _talkKing(K){ var self=this, ps=this.playerState, fid=FAM_BY_SEC[K.q], fam=FAMILIARS[fid], own=(ps.ownedFamiliars||[]).indexOf(fid)>=0, qk='king'+K.q, S=(ps.fairyQuests||{})[qk], done=(ps.fairyKings||[]).indexOf(K.id)>=0, need=FAIRY_KING_OBJECTS[K.q].map(function(a){ return a[0]; });
     var Kf={name:K.name,F:{col:_monarchOf(K.q).glow},king:K.q};
@@ -129,17 +134,12 @@ Object.assign(WorldScene.prototype,{
     var MS=MONARCH_TRIAL_PLAN[K.q]||['guardian','shadow_duel'];
     return FairyTalk.show(Kf,'All three! Now you and your familiar enter my realm for '+MS.length+' trials in a row: '+MS.map(function(t){ return '<b>'+TRIAL_THEMES[t].name+'</b>'; }).join(' → ')+'. Fall at any one and we begin again.',[{t:'Enter the Monarch\'s realm',f:function(){ TrialRealm.enter(self,{key:qk,q:K.q,i:9,fid:fid,stages:MS,tier:K.q+1,title:'Trial of '+_monarchOf(K.q).name,host:_monarchOf(K.q).name,win:function(){ self._kingWin(K,qk); }}); }},{t:'Not yet'}]); },
   _fairyAccept(qk,need,q,who,king){ var ps=this.playerState; if(!ps.fairyQuests)ps.fairyQuests={}; ps.fairyQuests[qk]={st:'seek',need:need,got:[],q:q,who:who,king:!!king,t:Date.now()};
-    if(!ps.hasTrowel){ ps.hasTrowel=true; showNotif('🪏 Fairy Trowel — press G to dig','#fff0a0'); }
     showNotif('📜 Quest added to your Tome: '+need.map(function(id){ var D=this._digSpots[id]; return D?D.obj.icon+' '+D.obj.name:id; },this).join(', '),'#ffe8ff'); if(typeof Tome!=='undefined')Tome.see('quest',qk); this._save&&this._save(); },
   _digHint(oid){ var D=this._digSpots[oid]; if(!D)return ''; var ws=this.wd.waystones.filter(function(w){ return w.region===D.q; }), best=null, bd=1e9; ws.forEach(function(w){ var d=Math.hypot(w.x-D.x,w.y-D.y); if(d<bd){bd=d;best=w;} });
     return best?'From the '+best.name+', head '+_dirWord(D.x-best.x,D.y-best.y)+' about '+Math.round(bd)+' steps.':''; },
-  _dig(){ var ps=this.playerState, px=this.player.x, py=this.player.y, self=this; if(!ps.hasTrowel){ showNotif('You need a Fairy Trowel to dig — ask a fairy by the runestones.','#c8b8a0'); return; }
-    if(this._digCd>Date.now())return; this._digCd=Date.now()+600;
-    for(var i=0;i<10;i++){ var d=this.add.circle(px+(Math.random()-0.5)*10,py+10,2+Math.random()*2,0x7a5a3a,1).setDepth(WR_DEPTH(py)+0.01); this.tweens.add({targets:d,x:d.x+(Math.random()-0.5)*40,y:d.y-10-Math.random()*16,alpha:0,duration:500,onComplete:function(){ this.targets[0].destroy(); }}); }
-    var hole=this.add.ellipse(px,py+12,18,7,0x3a2a1a,0.8).setDepth(WR_DEPTH(py)-0.001); this.tweens.add({targets:hole,alpha:0,delay:4000,duration:1500,onComplete:function(){ hole.destroy(); }});
-    var D=this._activeDigs().find(function(D){ return Math.hypot(px-(D.x*TILE+16),py-(D.y*TILE+16))<TILE*1.8; });
-    if(!D){ var near=this._activeDigs().find(function(D){ return Math.hypot(px-(D.x*TILE+16),py-(D.y*TILE+16))<TILE*12; }); showNotif(near?'Only dirt… the sparkles are close — keep looking!':'Only dirt here.','#c8b8a0'); return; }
-    var Q=ps.fairyQuests, qk=Object.keys(Q).find(function(k){ return Q[k].st==='seek'&&Q[k].need.indexOf(D.obj.id)>=0; }); if(!qk)return; Q[qk].got.push(D.obj.id);
+  _dig(){},      // round 103: digging is gone (objects are picked up by walking over them)
+  _pickObj(D){ var ps=this.playerState, px=this.player.x, py=this.player.y, Q=ps.fairyQuests||{}, qk=Object.keys(Q).find(function(k){ return Q[k].st==='seek'&&Q[k].need.indexOf(D.obj.id)>=0; }); if(!qk||Q[qk].got.indexOf(D.obj.id)>=0)return;
+    Q[qk].got.push(D.obj.id); if(typeof ZSFX!=='undefined')try{ ZSFX.play('pickup'); }catch(e){}
     campCelebrate(this,px,py,D.obj.icon+' '+D.obj.name+' found!',Q[qk].got.length>=Q[qk].need.length?'Bring it to '+Q[qk].who:(Q[qk].need.length-Q[qk].got.length)+' more to find');
     if(typeof Tome!=='undefined')Tome.see('quest',qk); this._save&&this._save(); },
   _fairyWin(f,qk,fid,skill){ var ps=this.playerState; ps.famLevels=ps.famLevels||{}; ps.famLevels[fid]=_famLevel(ps,fid)+1; ps.fairyQuests[qk].st='done';

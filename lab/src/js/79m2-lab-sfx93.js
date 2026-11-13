@@ -48,7 +48,7 @@
   var okCount=function(){ var all=[].slice.call(document.querySelectorAll('.s89-r,.sfp-r')).map(function(r){ return r.dataset.id; }).filter(function(x,i,A){ return A.indexOf(x)===i; }); return all.filter(isOk).length+' of '+all.length+' approved'; };
   var dress=function(){ [].slice.call(document.querySelectorAll('.s89-r,.sfp-r')).forEach(function(r){ var td=r.querySelector('td'); if(!td||td.querySelector('.sfx-ok'))return; td.insertAdjacentHTML('beforeend','<div class="sfx-okw">'+okBtn(r.dataset.id)+'</div>'); r.classList.toggle('ok',isOk(r.dataset.id)); });
     var bar=document.querySelector('.sfp-bar'); if(bar&&!document.getElementById('sfx-okn'))bar.insertAdjacentHTML('beforeend','<span id="sfx-okn">'+okCount()+'</span><label><input type="checkbox" id="sfx-okhide"> hide the approved ones</label>'); };
-  var r0=T.render; T.render=function(){ setTimeout(dress,0); setTimeout(dress,400); return LBR.sec('Round 93 — thematic takes',IDS.length+' effects · five to choose from · ✓ approve when happy')+section()+r0.apply(this,arguments); };
+  var r0=T.render; T._r93=r0; T.render=function(){ setTimeout(dress,0); setTimeout(dress,400); if(ZAUD.GAME103)return r0.apply(this,arguments);      /* round 103: 79m3 shows the one table; this keeps the older ones */ return LBR.sec('Round 93 — thematic takes',IDS.length+' effects · five to choose from · ✓ approve when happy')+section()+r0.apply(this,arguments); };
   T.name='Sound effects'; T.blurb='<b>Round 93 — thematic takes.</b> At the top: every effect, what it stands for, your kept takes and new ones naming the real sound — five to choose from.';
   document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.s89-play'); if(b){ play(b.dataset.id,b.dataset.k,b); return; }
     var v=e.target.closest&&e.target.closest('.s89-v'); if(v&&!v.disabled){ var id=v.dataset.id, k=key(id), L=mine(id), i=L.indexOf(v.dataset.k);
@@ -66,5 +66,5 @@
     '.s89-v[aria-pressed="true"]{background:#2a5a3a;border-color:#7fe08a;color:#f0fff2}.s89-v[disabled]{opacity:.35}.s89-wait{color:#5f7088;font:12px "Segoe UI",sans-serif}.s89-play.on{background:#1d4a5a;border-color:#6fe3f5}.s89-play.wait{opacity:.6}'+
     '.s89-tag{color:#ffd27a;font-size:12px;margin-top:3px}.s89-r.done td:first-child b{color:#9fd48a}.s89-r.flash{outline:2px solid #6fe3f5}.s89-pl{white-space:normal}.s89-t ol{margin:4px 0 0 16px;padding:0}.s93-mean{color:#9fd0ff;font-size:12px;margin-top:3px}.s101-src{color:#b9c6d8;font-style:normal}.s101-trim,.s101-msg{color:#ffb38a}.s101-full{outline:2px solid #ffb38a}';
   document.head.appendChild(st);
-  if(typeof LTODO!=='undefined')LTODO.add({id:'sfx93',label:'🔊 Thematic sound takes: pick for '+IDS.length+' effects',where:'Sound effects tab · top section',done:function(){ return count()>=IDS.length; },go:function(){ LTODO.goTo('sfxpick','.s89-t',0); }});
+  if(typeof LTODO!=='undefined'&&!ZAUD.GAME103)LTODO.add({id:'sfx93',label:'🔊 Thematic sound takes: pick for '+IDS.length+' effects',where:'Sound effects tab · top section',done:function(){ return count()>=IDS.length; },go:function(){ LTODO.goTo('sfxpick','.s89-t',0); }});
 })();

@@ -64,9 +64,9 @@ var ZSTAT={ on:true, LOCK:4,
     if(oid&&!ov&&typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has(oid)){ var OT=ZScn.texture(scene,oid,64,{shadow:false}); if(OT){ ov=m._zsOv=scene.add.image(m.x,m.y,OT.key).setOrigin(0.5,0.85).setDepth(((m.cont||m.spr||{}).depth||9)+0.5).setAlpha(0.85); ov._k=oid; } }
     var ic=m._zsIc;
     if(!L){ if(ic){ ic.destroy(); m._zsIc=null; } return; }
-    if(!ic||!ic.scene||ic._k!==top){ if(ic)ic.destroy(); var id='st_icon_'+top, T=typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has(id)&&ZScn.texture(scene,id,22,{shadow:false});
+    if(!ic||!ic.scene||ic._k!==top){ if(ic)ic.destroy(); var id='st_icon_'+top, T=typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has(id)&&ZScn.texture(scene,id,28,{shadow:false});
       ic=scene.add.container(m.x,m.y).setDepth(40); var ring=scene.add.graphics(); ic.add(ring); ic._ring=ring;
-      ic.add(T?scene.add.image(0,0,T.key).setDisplaySize(18,18):scene.add.text(0,0,L[1],{fontSize:'13px',fontFamily:'serif'}).setOrigin(0.5)); ic._k=top; m._zsIc=ic; } },
+      ic.add(T?scene.add.image(0,0,T.key).setDisplaySize(23,23):scene.add.text(0,0,L[1],{fontSize:'13px',fontFamily:'serif'}).setOrigin(0.5)); ic._k=top; m._zsIc=ic; } },
   tick:function(scene,dt){ if(!ZSTAT.on)return; var c=typeof _heroCtx==='function'?_heroCtx(scene):null; if(!c)return;
     c.monsters.forEach(function(m){ var S=m._zst; if(!S)return; if(m.dead){ if(m._zsIc){ m._zsIc.destroy(); m._zsIc=null; } if(m._zsOv){ m._zsOv.destroy(); m._zsOv=null; } m._zst=null; return; }
       var ch=false; for(var k in S){ var o=S[k]; if(o.t<=0)continue; o.t-=dt;
@@ -75,7 +75,7 @@ var ZSTAT={ on:true, LOCK:4,
       if(ch||!m._zsIc)ZSTAT.show(scene,m);
       var r0=((m.def&&m.def.r)||12)*((m._scale)||1); if(m._zsOv&&m._zsOv.scene){ m._zsOv.setPosition(m.x,m.y).setDisplaySize(Math.max(36,r0*3.4),Math.max(36,r0*3.4)); }
       var ic=m._zsIc; if(ic&&ic.scene){ var r=r0, top=S[m._zsTop]; ic.setPosition(m.x,m.y-Math.max(30,r*2.2)-10);
-        var g=ic._ring; g.clear(); if(top&&top.max>0){ g.lineStyle(2,ZSTAT.LOOK[m._zsTop][0],0.95); g.beginPath(); g.arc(0,0,12,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.max(0,top.t/top.max),false); g.strokePath(); } } }); },
+        var g=ic._ring; g.clear(); if(top&&top.max>0){ g.lineStyle(2.5,ZSTAT.LOOK[m._zsTop][0],0.95); g.beginPath(); g.arc(0,0,12.5,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.max(0,top.t/top.max),false); g.strokePath(); } } }); },
   // the numbers a mark, a shock, a hex add to the next hit; the blows a soaked or drained foe deals
   hitMult:function(m){ var S=m&&m._zst; if(!S)return 1; var f=1; if(S.hex&&S.hex.t>0)f*=S.hex.f||1.3; if(S.mark&&S.mark.t>0){ f*=2; S.mark.t=0; m._zsCrit=true; } if(S.shock&&S.shock.t>0&&S.shock.bonus){ f*=S.shock.bonus; S.shock.bonus=0; } return f; },
   weak:function(m){ var S=m&&m._zst, w=0; if(!S)return 0; ['soak','drain'].forEach(function(k){ if(S[k]&&S[k].t>0&&S[k].weak)w=Math.max(w,S[k].weak); }); return w; } };
