@@ -1,0 +1,43 @@
+{
+ "round": 104,
+ "take": "x",
+ "note": "Five brand-new takes for each effect below (audio\\incoming\\<id>.x1.mp3 … .x5.mp3). Effects still with no ★ after every earlier round, and every effect marked ↻ Remake all in the Lab.",
+ "items": {
+  "sfx_sp_starfall": {
+   "why": "no ★ after 18 takes — every earlier try was a whistle or a meteor",
+   "meaning": "casting Starfall — stars falling from the sky",
+   "secs": 1.4,
+   "words": [
+    "a cascade of tiny glass bells tumbling downward in pitch, bright and twinkling, ending in a soft shimmering sparkle — game sound effect, clean and clear, no music, no voices",
+    "a single bright star falling: a high crystalline ping that slides down and lands with a soft glittering burst like scattered diamonds — game sound effect, clean and clear, no music, no voices",
+    "a rain of small magical twinkles falling one after another from high to low, each a clear tiny chime, a faint airy shimmer behind them — game sound effect, clean and clear, no music, no voices",
+    "a sparkling celestial shimmer, like a wind chime made of starlight, sweeping downward and settling into a gentle fading glow — game sound effect, clean and clear, no music, no voices",
+    "three falling stars landing one, two, three — each a bright tinkling sparkle with a soft magical thump — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sp_chain_lightning": {
+   "why": "no ★ after 20 takes — the zaps all sounded alike",
+   "meaning": "casting Chain Lightning — one bolt jumping from foe to foe",
+   "secs": 1.0,
+   "words": [
+    "a sharp thunderclap snap, then the bolt ricochets three times left to right, each jump a crisp electric crack, ending in a fizzle — game sound effect, clean and clear, no music, no voices",
+    "a high-voltage arc leaping between metal poles: three bright popping discharges, quick and rhythmic, with a buzzing hum between — game sound effect, clean and clear, no music, no voices",
+    "a whip-crack of static electricity that branches and forks, crackling outward in a fast chain, then cutting to silence — game sound effect, clean and clear, no music, no voices",
+    "a lightning strike with a heavy crack followed by rapid-fire spark chatter jumping away into the distance — game sound effect, clean and clear, no music, no voices",
+    "a tesla coil discharge: a sizzling electric roar that snaps from point to point three times, bright and dangerous — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sk_berserker": {
+   "why": "no ★ after 17 takes — heartbeats, drums and roars all missed",
+   "meaning": "the skill Berserker — the hero's battle rage takes hold",
+   "secs": 1.0,
+   "words": [
+    "a heavy axe haft slammed twice against a wooden shield, then a deep surging whoosh of rising power — game sound effect, clean and clear, no music, no voices",
+    "an anvil struck once with a great hammer, the ring swelling into a low rumbling surge of red-hot energy — game sound effect, clean and clear, no music, no voices",
+    "a burst of flame flaring up around a warrior, a deep fiery whoomp with crackling embers and a metallic shimmer — game sound effect, clean and clear, no music, no voices",
+    "chainmail and armour shaking hard as muscles tense, a leather creak and a low powerful thrum building to a hit — game sound effect, clean and clear, no music, no voices",
+    "a bone-deep sub-bass boom with a sharp metallic scrape of a blade being drawn and a hot crackling aura — game sound effect, clean and clear, no music, no voices"
+   ]
+  }
+ }
+}

@@ -37,7 +37,7 @@ def cur_take(cid):
 for cid, p in sorted(picks.items()):
     if ONLY is not None and cid not in ONLY: continue
     # round 84: any take — e1/e2 (round 80), l1-l3 (the Sonniss library), n1/n2 (worded by what happens) — or two joined by '+' (alternating)
-    ks = ['e1', 'e2'] if p == 'both' else [k for k in str(p).split('+') if k in ('cur', 'e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2', 'v1', 'v2', 'v3', 'v4', 'v5', 'w1', 'w2', 'w3', 'w4', 'w5', 'r1', 'r2')]
+    ks = ['e1', 'e2'] if p == 'both' else [k for k in str(p).split('+') if k in ('cur', 'e1', 'e2', 'l1', 'l2', 'l3', 'l4', 'l5', 'l6', 'n1', 'n2', 'v1', 'v2', 'v3', 'v4', 'v5', 'w1', 'w2', 'w3', 'w4', 'w5', 'r1', 'r2', 'x1', 'x2', 'x3', 'x4', 'x5')]
     if not ks or ks == ['cur'] and WAS.get(cid) in (None, 'cur'): continue      # today's take alone, and it is what the game has
     srcs = [cur_take(cid) if k == 'cur' else os.path.join(INC, cid + '.' + k + '.mp3') for k in ks[:MAXT]]      # round 84c: the takes the game rotates through (round 103: up to seven)
     if not all(srcs): print('?  %s: today\'s take could not be found' % cid); continue

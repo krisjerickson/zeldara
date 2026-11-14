@@ -165,9 +165,9 @@
   "files": [
    {
     "base": "mu_ash_day",
-    "le": 274.32,
+    "le": 239.16,
     "ls": 0,
-    "secs": 274.32
+    "secs": 239.16
    }
   ],
   "kind": "music",
@@ -297,15 +297,9 @@
   "files": [
    {
     "base": "mu_home",
-    "le": 198.0,
+    "le": 239.84,
     "ls": 0,
-    "secs": 198.0
-   },
-   {
-    "base": "mu_home.b",
-    "le": 212.8,
-    "ls": 0,
-    "secs": 212.8
+    "secs": 239.84
    }
   ],
   "kind": "music",
@@ -393,9 +387,9 @@
   "files": [
    {
     "base": "mu_village_night",
-    "le": 193.44,
+    "le": 285.32,
     "ls": 0,
-    "secs": 193.44
+    "secs": 285.32
    }
   ],
   "kind": "music",

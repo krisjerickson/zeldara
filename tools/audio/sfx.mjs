@@ -28,15 +28,16 @@ const arg = (name, def) => { const i = process.argv.indexOf('--' + name); if (i 
 const DRY = !!arg('dry-run', false), FORCE = !!arg('force', false), TAKES = Math.max(1, Math.min(4, +arg('takes', 2))), CONC = Math.max(1, Math.min(4, +arg('concurrency', 2)));
 const ETH = arg('set', '') === 'ethereal';
 const V84 = arg('set', '') === 'v84';
-const V89 = arg('set', '') === 'v89' || arg('set', '') === 'v93', V93 = arg('set', '') === 'v93';      // round 93: thematic takes up to five per effect (07zau7-sfx93.js) - <id>.w1-w5.mp3
+const RM = arg('set', '') === 'remake', RMJ = RM ? JSON.parse(fs.readFileSync(path.join(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..'), 'sprites', 'requests', 'sfx_remake.json'), 'utf8')) : null;      // round 104: --set remake — five brand-new takes per effect in sprites/requests/sfx_remake.json, saved as <id>.x1-x5.mp3
+const V89 = arg('set', '') === 'v89' || arg('set', '') === 'v93' || RM, V93 = arg('set', '') === 'v93' || RM;      // round 93: thematic takes up to five per effect (07zau7-sfx93.js) - <id>.w1-w5.mp3
       // round 89: 3-5 brand-new takes per effect with fewer than three picks (07zau5-sfx89.js) - <id>.v1-v5.mp3, one prompt each      // round 84: worded by what happens (src/js/07zau3-sfx84.js) - <id>.n1.mp3, .n2.mp3, prompt influence 0.8
 const TIER = String(arg('tier', (ETH || V84 || V89) ? 'all' : '1')), KIND = String(arg('kind', (ETH || V84 || V89) ? 'sfx' : 'amb,sfx')), IDS = arg('ids', '') ? String(arg('ids', '')).split(',') : null;
 const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'sprites', 'requests', 'audio.json'), 'utf8'));
 const OUT = path.join(ROOT, 'audio', 'incoming'); fs.mkdirSync(OUT, { recursive: true });
 const kindOf = c => c.kind === 'music' ? (c.group === 'sting' ? 'sting' : 'music') : c.kind;
-if (V93) J.cues.forEach(c => { c.v89 = c.v93 || null; });
+if (V93) J.cues.forEach(c => { c.v89 = RM ? ((RMJ.items[c.id] || {}).words || null) : (c.v93 || null); if (RM && RMJ.items[c.id] && RMJ.items[c.id].secs) c.secs = RMJ.items[c.id].secs; });
 const want = J.cues.filter(c => (!V89 || (c.v89 && c.v89.length)) && (IDS ? IDS.includes(c.id) : (TIER === 'all' || String(c.tier) === TIER) && (KIND === 'all' || KIND.split(',').includes(kindOf(c)))) && kindOf(c) !== 'music');
-const file = (c, t) => path.join(OUT, c.id + (V93 ? '.w' + (t + 1) : V89 ? '.v' + (t + 1) : V84 ? '.n' + (t + 1) : ETH ? '.e' + (t + 1) : (t ? '.' + 'bcd'[t - 1] : '')) + '.mp3');
+const file = (c, t) => path.join(OUT, c.id + (RM ? '.' + (RMJ.take || 'x') + (t + 1) : V93 ? '.w' + (t + 1) : V89 ? '.v' + (t + 1) : V84 ? '.n' + (t + 1) : ETH ? '.e' + (t + 1) : (t ? '.' + 'bcd'[t - 1] : '')) + '.mp3');
 if (ETH) J.cues.forEach(c => { if (c.eth) c.request = c.eth; });
 if (V84) J.cues.forEach(c => { if (c.v84) c.request = c.v84; });      // the gentle words
 const jobs = []; want.forEach(c => { for (let t = 0; t < (V89 ? c.v89.length : TAKES); t++) if (FORCE || !fs.existsSync(file(c, t))) jobs.push({ c, t }); });

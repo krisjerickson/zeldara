@@ -28,7 +28,11 @@ with game(painted=True, w=1280, h=720) as g:
     g.wait(300)
     def swing():
         return g.js("(()=>{ var d=%s; d.playerAtkTimer=0; d._playerAttack(); var C=ZRHY.S.cur; return C?{m:C.m,tag:C.tag,hit:C.hit,step:ZRHY.S.step}:null; })()" % D)
-    a = swing(); g.wait(560); b = swing(); g.wait(560); c = swing()
+    def beat():      # round 104: swing on the beat, timed inside the page (a fixed wait was flaky in a slow browser)
+        return g.js("(async()=>{ var d=%s; var w=ZRHY.win(); await new Promise(r=>setTimeout(r,Math.max(0,(w[0]+0.06-ZRHY.now())*1000))); d.playerAtkTimer=0; d._playerAttack(); var C=ZRHY.S.cur; return C?{m:C.m,tag:C.tag,hit:C.hit,step:ZRHY.S.step}:null; })()" % D)
+    g.js("ZRHY.SW.sword=[0,0.7]")      # the test browser draws a frame every ~0.2 s: a wider beat so the timing is the page's, not the test's
+    a = swing(); b = beat(); c = beat()
+    g.js("ZRHY.SW.sword=[0,0.28]")
     check('Sword combo: on the beat the 2nd swing ×1.2, the 3rd a finisher ×1.6 (%s · %s · %s)' % (a, b, c), a and a['hit'] and a['m'] == 1 and b['m'] == 1.2 and abs(c['m'] - 1.6) < 1e-6 and 'finisher' in c['tag'], (a, b, c))
     g.wait(900); a = swing(); g.wait(200); g.page.keyboard.press(' '); g.wait(360); b = g.js("ZRHY.S.early")
     g.wait(20); b2 = swing()
