@@ -227,7 +227,7 @@ function _buildGameWorld(){
             if(!ok2||sites.some(function(s){ return Math.abs(s.tx+1-xx2)<far&&Math.abs(s.ty+1-yy2)<far; })||magePos.some(function(p){ return Math.hypot(p.x-xx2,p.y-yy2)<40; })||Math.hypot(xx2-CENTER_X,yy2-CENTER_Y)<VILLAGE_RADIUS+30)continue; alt=[xx2,yy2]; bd=d2; }
           if(alt){ x=alt[0]; y=alt[1]; k=y*W+x; } }
         var M=list[got], tx=x-1, ty=y-1, zi=zone[k];
-        var obj={type:'tower',section:r,tx:tx,ty:ty,id:'mage_'+M.key,mage:M.key,design:_mageBg(M),name:M.name,floors:M.floors,zone:(WMAP_ZONES[zi]||{}).id};
+        var obj={type:'tower',section:r,tx:tx,ty:ty,id:'mage_'+M.key,mage:M.key,design:_mageBg(M),name:M.name,floors:typeof _siteFloorCap==='function'?_siteFloorCap('mage_'+M.key,M.floors):M.floors,zone:(WMAP_ZONES[zi]||{}).id};
         clearAround(x,y+1,4);
         for(var dy2=-1;dy2<=3;dy2++)for(var dx2=-1;dx2<=3;dx2++){ var X=tx+dx2, Y=ty+dy2; if(cls[Y*W+X]===WM.LAND)kind[Y*W+X]=G(WSK.plaza); }
         for(var dy1=0;dy1<3;dy1++)for(var dx1=0;dx1<3;dx1++)tiles[ty+dy1][tx+dx1]=T.STONE_FLOOR;

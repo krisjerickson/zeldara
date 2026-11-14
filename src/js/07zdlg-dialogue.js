@@ -141,6 +141,8 @@ var ZDLG={ on:true, style:'rune', CPS:20, PAGE:150, _q:[], open:false,
   // ── in the game: one box at a time, the game paused under it ──
   root:function(){ var r=document.getElementById('zdlg'); if(!r){ r=document.createElement('div'); r.id='zdlg'; r.style.cssText='position:fixed;inset:0;z-index:420;display:none;--zdb:112px'; document.body.appendChild(r); } return r; },
   say:function(name,text,opt){ opt=opt||{}; if(typeof document==='undefined')return false;
+    /* round 106 (Kris: "I got stuck last time I died … a layered popup from master oswin … dieing should only have the trace the rune popup"): nothing speaks while the death pop-up is up — it waits */
+    if(typeof ZDeath!=='undefined'&&ZDeath.busy){ var a=arguments; setTimeout(function(){ ZDLG.say.apply(ZDLG,a); },700); return true; }
     if(ZDLG.open){ ZDLG._q.push([name,text,opt]); return true; }
     var r=ZDLG.root(); r.style.display='block'; ZDLG.open=true; ZDLG._t0=Date.now();
     ZDLG.cur=ZDLG.render(r,{style:ZDLG.style,name:name,text:text,icon:opt.icon,portrait:opt.portrait||ZDLG.portraitFor(opt.id),z:1,extra:opt.extra,onClose:function(){ ZDLG.cur=null;
@@ -159,7 +161,7 @@ var ZDLG={ on:true, style:'rune', CPS:20, PAGE:150, _q:[], open:false,
 // the game's own wiring (not in the Lab): keys, the pause list, who speaks through the box
 if(typeof window!=='undefined')window.addEventListener('load',function(){ if(typeof game==='undefined'||typeof PAUSE_OVERLAYS==='undefined')return;
   if(PAUSE_OVERLAYS.indexOf('zdlg')<0)PAUSE_OVERLAYS.push('zdlg');      // the game waits while someone is talking
-  document.addEventListener('keydown',function(e){ if(!ZDLG.open||!ZDLG.cur)return; var k=e.key;
+  document.addEventListener('keydown',function(e){ if(!ZDLG.open||!ZDLG.cur)return; if(typeof ZDeath!=='undefined'&&ZDeath.busy)return;      /* round 106: the death pop-up's keys are its own */ var k=e.key;
     if(k===' '||k==='Enter'||k==='e'||k==='E'||k==='Tab'){ e.preventDefault(); e.stopImmediatePropagation(); if(!e.repeat&&Date.now()-ZDLG._t0>180)ZDLG.cur.next(); return; }
     if(k==='Escape'){ e.preventDefault(); e.stopImmediatePropagation(); ZDLG._q=[]; ZDLG.cur.close(); return; }
     e.stopImmediatePropagation(); },true);

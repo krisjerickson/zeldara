@@ -15,7 +15,7 @@ var ZBV={ on:true, K:0.45, KX:0.24, KY:0.26, TOP:0.17, HERO:0.82, PULL:46, NEAR:
     for(var i=0;i<(L||[]).length;i++){ var m=L[i]; if(!m||m.dead||m.hp<=0||!m.cont||!m.cont.visible||!(m.isBoss||(m.def&&m.def.boss)))continue; if(m._m&&m._m.aggro===false&&!m._engT)continue; var d=Math.hypot(m.x-hx,m.y-hy); if(d<bd){ bd=d; best=m; } } return best; },
   // the boss's drawn body: centre and top
   body:function(m){ try{ var r=m.cont.getBounds(); if(r.height>8&&r.height<2000)return {cx:r.centerX,cy:r.centerY,top:r.y}; }catch(e){} var h=((m.def&&m.def.r)||30)*3; return {cx:m.x,cy:m.y-h/2,top:m.y-h}; },
-  tick:function(sc,hx,hy,dt){ var cam=sc.cameras&&sc.cameras.main; if(!cam)return; var S=sc._zbv||(sc._zbv={ox:0,oy:0}), wx=0, wy=0, m=ZBV.on?ZBV.boss(sc,hx,hy):null;
+  tick:function(sc,hx,hy,dt){ var cam=sc.cameras&&sc.cameras.main; if(!cam)return; if(sc._bcOn&&sc._bcMode==='still'){ if(sc._zbv){ sc._zbv.z0=undefined; sc._zbv.zs=undefined; sc._zbv.ox=sc._zbv.oy=0; } if(cam.setFollowOffset)cam.setFollowOffset(0,0); return; }      /* round 106: the still boss-arena camera (12c) frames the fight itself */ var S=sc._zbv||(sc._zbv={ox:0,oy:0}), wx=0, wy=0, m=ZBV.on?ZBV.boss(sc,hx,hy):null;
     S.over=0; if(m){ var zb=S.z0||cam.zoom, W=cam.width/zb, H=cam.height/zb, B=ZBV.body(m), dx=B.cx-hx, dy=B.cy-hy;
       wx=Math.max(-W*ZBV.KX,Math.min(W*ZBV.KX,dx*ZBV.K)); wy=Math.max(-H*ZBV.KY,Math.min(H*ZBV.KY,dy*ZBV.K));
       // the boss's head under the top bar? lean up a little more — while the hero stays clear of the bottom

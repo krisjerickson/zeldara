@@ -1206,6 +1206,7 @@ class DungeonScene extends Phaser.Scene{
       if(mon.dead)return;
       if(mon._hold>0){ mon._hold-=dt; if(mon.mx)MX.anim(MX.A(self),mon,mon._m,dt,0); return; }   // performing a boss pattern / staggered (09bb)
       if(mon.mx){ MX.tick(self,mon,dt); return; }
+      if(mon.isBoss&&typeof BMOVE!=='undefined'){ try{ BMOVE.tickL(self,mon,dt); }catch(e){} if(mon._bmm&&mon._bmm._bmv)return; }      /* round 106: bosses come for you (09u) */
       if(mon.rid&&typeof Tome!=='undefined'&&Math.hypot(self.px-mon.x,self.py-mon.y)<280)Tome.see('monster',mon.rid);
       var dx=self.px-mon.x,dy=self.py-mon.y,dist=Math.hypot(dx,dy);
       var at=mon.def.atkType||'melee';

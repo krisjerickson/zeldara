@@ -222,7 +222,8 @@ function _wmDrawView(ctx,cw,ch,ws,v,o){
     ctx.strokeStyle='#002830'; ctx.lineWidth=1.2; ctx.strokeRect(px-w/2,py-h/2,w,h); });
   // player arrow
   if(ws.player){ var ptx=ws.player.x/TILE, pty=ws.player.y/TILE, a={up:-Math.PI/2,down:Math.PI/2,left:Math.PI,right:0}[ws.player.dir]||Math.PI/2;
-    var px2=X(ptx),py2=Y(pty), s2=big?9:7; ctx.save(); ctx.translate(px2,py2); ctx.rotate(a);
+    var px2=X(ptx),py2=Y(pty), s2=big?13:9; ctx.save(); ctx.translate(px2,py2);      /* round 105 (Kris: "you should have yourself more prominently displayed"): a bigger arrow on a dark disc with a white rim */
+    ctx.fillStyle='rgba(0,20,16,.75)'; ctx.beginPath(); ctx.arc(0,0,s2*1.25,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#ffffff'; ctx.lineWidth=2; ctx.stroke(); ctx.rotate(a);
     ctx.fillStyle='#00ffcc'; ctx.strokeStyle='#002a22'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(s2,0); ctx.lineTo(-s2*0.7,s2*0.65); ctx.lineTo(-s2*0.35,0); ctx.lineTo(-s2*0.7,-s2*0.65); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); }
   ctx.restore();
 }
@@ -287,12 +288,20 @@ function _wmSizeCanvas(){
   cv.style.width=side+'px'; cv.style.height=side+'px';
   if(cv.width!==Math.round(side*dpr)){ cv.width=Math.round(side*dpr); cv.height=Math.round(side*dpr); }
   WMAP.dpr=dpr; WMAP.side=side;
+  var sd=document.getElementById('wmap-side'); if(sd){ sd.style.maxHeight=side+'px'; sd.style.overflowY='auto'; }      /* round 106 (Kris: "we need a scroll bar for the waystones, as you can't get to the ashland ones at the bottom"): the side list scrolls inside the map's height */
 }
 function _wmView(){
   var n=WORLD_W/WMAP.zoom, cx=WMAP.cx===null?WORLD_W/2:WMAP.cx, cy=WMAP.cy===null?WORLD_H/2:WMAP.cy;
   if(WMAP.zoom<=1){ cx=WORLD_W/2; cy=WORLD_H/2; }
   return {x:Math.max(0,Math.min(WORLD_W-n,cx-n/2)),y:Math.max(0,Math.min(WORLD_H-n,cy-n/2)),w:n,h:n};
 }
+// round 105 (Kris: "on the map, you should have yourself more prominently displayed, and pulsing for better seeing"): a pulsing ring and a
+// "You" tag laid over the map where the hero stands (it follows pan and zoom; hidden when you are off the view)
+function _wmYou(cv,ws,v){ var wrap=cv.parentNode; if(!wrap||!ws.player)return; var y=document.getElementById('wm-you');
+  if(!y){ y=document.createElement('div'); y.id='wm-you'; y.innerHTML='<i></i><i></i><b>You</b>'; wrap.appendChild(y);
+    var st=document.createElement('style'); st.textContent='#wm-you{position:absolute;width:0;height:0;pointer-events:none;z-index:3}#wm-you i{position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;border:3px solid #00ffcc;box-shadow:0 0 10px #00ffcc,inset 0 0 6px #00ffcc;animation:wmYou 1.4s ease-out infinite}#wm-you i+i{animation-delay:.7s}#wm-you b{position:absolute;left:-20px;top:-34px;width:40px;text-align:center;font:700 11px "Segoe UI",sans-serif;color:#002a22;background:#00ffcc;border-radius:8px;padding:1px 0;box-shadow:0 0 8px #00ffcc;animation:wmYouTag 1.4s ease-in-out infinite}@keyframes wmYou{0%{transform:scale(.45);opacity:1}100%{transform:scale(2.1);opacity:0}}@keyframes wmYouTag{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}'; document.head.appendChild(st); }
+  var tx=ws.player.x/TILE, ty=ws.player.y/TILE, w=cv.clientWidth||WMAP.side, inV=tx>=v.x&&ty>=v.y&&tx<=v.x+v.w&&ty<=v.y+v.h;
+  y.style.display=inV?'':'none'; if(inV){ y.style.left=(cv.offsetLeft+(tx-v.x)/v.w*w)+'px'; y.style.top=(cv.offsetTop+(ty-v.y)/v.h*(cv.clientHeight||w))+'px'; } }
 function renderMinimap(wd,player,unlockedSections,exploredGrid,expVer,activeQuest,force){
   var cv=document.getElementById('minimap-canvas');if(!cv||!wd)return;
   var mapModal=document.getElementById('modal-map');
@@ -300,7 +309,7 @@ function renderMinimap(wd,player,unlockedSections,exploredGrid,expVer,activeQues
   var now=Date.now(); if(!force&&now-WMAP.last<90)return; WMAP.last=now;
   var ws=game.scene.getScene('World'); if(!ws||!ws.playerState)return;
   var ctx=cv.getContext('2d');
-  _wmDrawView(ctx,cv.width,cv.height,ws,_wmView(),{full:true,travel:WMAP.travel});
+  var _v=_wmView(); _wmDrawView(ctx,cv.width,cv.height,ws,_v,{full:true,travel:WMAP.travel}); _wmYou(cv,ws,_v);
   document.querySelectorAll('.wmap-z').forEach(function(b){ b.classList.toggle('on',+b.dataset.z===WMAP.zoom); });
 }
 // every waystone you can travel to: the mainland's + one per harbor island (drawn at its harbor)

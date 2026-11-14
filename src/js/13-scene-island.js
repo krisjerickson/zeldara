@@ -96,7 +96,7 @@ function _buildIslandWorld(key,castle){
   // the adventure entrance: a site door like the mainland's (3×3: wall, door, stone floor)
   var A=_islAt(ISL_ANCH.adv), tx=A.x-1, ty=A.y-1, adv, site;
   if(castle){ site=Object.assign(CastleRun.site(castle.key),{tx:tx,ty:ty,islAdv:true}); }
-  else { adv=ISL_ADV[q]||ISL_ADV[1]; site={id:'isl_adv_'+q+'_'+adv.type,type:adv.kind||(adv.type==='tower_island'?'tower':'dungeon'),section:q,design:adv.design,island:true,name:adv.label.replace(/^\S+\s/,''),floors:adv.floors||4,tx:tx,ty:ty,islAdv:true,
+  else { adv=ISL_ADV[q]||ISL_ADV[1]; site={id:'isl_adv_'+q+'_'+adv.type,type:adv.kind||(adv.type==='tower_island'?'tower':'dungeon'),section:q,design:adv.design,island:true,name:adv.label.replace(/^\S+\s/,''),floors:_siteFloorCap('isl_adv_'+q+'_'+adv.type,adv.floors||4),tx:tx,ty:ty,islAdv:true,
     theme:adv.theme||(adv.type==='volcano'?'volcano':adv.type==='tower_island'?'tower_island':'cave_dungeon')}; }
   for(var dy1=0;dy1<3;dy1++)for(var dx1=0;dx1<3;dx1++)tiles[ty+dy1][tx+dx1]=T.STONE_FLOOR;
   for(var dx3=0;dx3<3;dx3++)tiles[ty][tx+dx3]=T.BUILDING_WALL; tiles[ty+2][tx+1]=T.DOOR;

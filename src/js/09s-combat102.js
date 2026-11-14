@@ -86,14 +86,20 @@ var ZAIM={ on:true, cur:null, KEEP:2.5, held:false, mv:{},
   spell:function(){ var ws=_heroWS(), ps=ws&&ws.playerState, t=ps&&ps.equip&&ITEMS[ps.equip.spell]; return t&&SPELL_DATA[t.spellId]?{id:t.spellId,d:SPELL_DATA[t.spellId]}:null; },
   ready:function(sc){ var S=ZAIM.spell(); if(!S)return 0; if(typeof _isOverworld==='function'&&_isOverworld(sc))return Math.max(0,sc._spellCd||0); return Math.max(0,((typeof _heroSpellCdUntil!=='undefined'?_heroSpellCdUntil:0)-Date.now())/1000); },
   press:function(sc,e){ if(e&&e.repeat)return; if(!ZAIM.on||!ZAIM.ok(sc)){ _heroCastSpell(sc); return; }
-    ZAIM.held=true; ZAIM.L('press '+(ZAIM.cur?'armed':'')); if(ZAIM.cur&&ZAIM.cur.sc===sc){ ZAIM.fire(sc); return; } ZAIM.arm(sc); },
+    ZAIM.held=true; ZAIM.L('press '+(ZAIM.cur?'armed':'')); if(ZAIM.cur&&ZAIM.cur.sc===sc){ ZAIM.fire(sc); return; }
+    /* round 106 (Kris: "you should not be able to start with using them … if you can't cast the spell yet, and it should tell you this"):
+       no rune circle without the mana or while the spell recharges — say which */
+    var S0=ZAIM.spell(), ps0=_heroWS()&&_heroWS().playerState, rd=ZAIM.ready(sc), c0=_heroCtx(sc), at={x:c0.x,y:c0.y+6,def:{r:10}};
+    if(S0&&ps0&&(ps0.mana||0)<S0.d.manaCost){ ZAIM.held=false; ZSTAT.say(sc,at,'not enough mana ('+Math.floor(ps0.mana||0)+' / '+S0.d.manaCost+')','#7f9fff'); if(typeof ZPOT!=='undefined'&&ZPOT.manaHint)try{ ZPOT.manaHint(); }catch(e2){} return; }
+    if(rd>0.05){ ZAIM.held=false; ZSTAT.say(sc,at,S0?S0.d.name+' recharging — '+rd.toFixed(1)+' s':'recharging '+rd.toFixed(1)+' s','#9fd0ff'); return; }
+    ZAIM.arm(sc); },
   release:function(){ ZAIM.held=false; if(ZAIM.cur)ZAIM.cur.t=ZAIM.KEEP; },
   arm:function(sc){ var c=_heroCtx(sc), S=ZAIM.spell(), a=_isOverworld(sc)&&sc._getAimAngle?sc._getAimAngle():_heroDirAngle(c.dir), rng=S&&S.d.proj?Math.min(320,S.d.proj.spd*0.9):220;
     var mon=typeof ZSEEK!=='undefined'?ZSEEK.pick(sc,c.x,c.y,a,rng,c.monsters):null, x=mon?mon.x:c.x+Math.cos(a)*(S&&S.d.cloud?160:S&&S.d.delay?200:150), y=mon?mon.y:c.y+Math.sin(a)*(S&&S.d.cloud?160:S&&S.d.delay?200:150);
     var r=S?(S.d.aoe?S.d.aoe.r:S.d.cloud?S.d.cloud.r:S.d.splashR?Math.min(60,S.d.splashR):22):22, el=typeof ZEL!=='undefined'&&ZEL.E[ZEL.SPELL[S&&S.id]], col=el?parseInt(el.col.slice(1),16):0x9ff8f0;
     var g=sc.add.graphics().setDepth(18), T=typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has('aim_rune')&&ZScn.texture(sc,'aim_rune',r*2.2,{shadow:false}), im=T?sc.add.image(x,y,T.key).setDepth(18).setTint(col).setAlpha(0.85):null;
     ZAIM.cur={sc:sc,x:x,y:y,mon:mon,r:r,col:col,g:g,im:im,t:ZAIM.KEEP,spin:0};
-    var ready=ZAIM.ready(sc); if(ready>0.05)ZSTAT.say(sc,{x:c.x,y:c.y+6,def:{r:10}},'recharging '+ready.toFixed(1)+' s','#9fd0ff'); },
+    },
   log:[], L:function(t){ ZAIM.log.push(t); if(ZAIM.log.length>20)ZAIM.log.shift(); },
   clear:function(why){ var C=ZAIM.cur; if(!C)return; ZAIM.L('clear '+(why||'')); try{ C.g.destroy(); if(C.im)C.im.destroy(); }catch(e){} ZAIM.cur=null; },
   fire:function(sc){ var C=ZAIM.cur, c=_heroCtx(sc); if(!C)return; if(C.mon&&!C.mon.dead){ C.x=C.mon.x; C.y=C.mon.y; } C.ang=Math.atan2(C.y-c.y,C.x-c.x); C.d=Math.max(40,Math.hypot(C.x-c.x,C.y-c.y));
@@ -115,10 +121,25 @@ var ZAIM={ on:true, cur:null, KEEP:2.5, held:false, mv:{},
     else { g.lineStyle(2.5,C.col,0.9*a); g.strokeCircle(C.x,C.y,C.r); g.lineStyle(1.5,C.col,0.6*a); for(var i=0;i<6;i++){ var an=C.spin*1.2+i*Math.PI/3; g.lineBetween(C.x+Math.cos(an)*(C.r-6),C.y+Math.sin(an)*(C.r-6),C.x+Math.cos(an)*(C.r+5),C.y+Math.sin(an)*(C.r+5)); } g.fillStyle(C.col,0.10*a); g.fillCircle(C.x,C.y,C.r); } } };
 // ── the steady draw ──
 var ZDRAW={ on:true, cur:null, FULL:0.8, TAP:0.15, flying:[],
-  start:function(sc,e){ if(e&&e.repeat)return; if(!ZDRAW.on){ ZDRAW.shoot(sc,1); return; } if(ZDRAW.cur)return; var c=_heroCtx(sc), a=_isOverworld(sc)&&sc._getAimAngle?sc._getAimAngle():_heroDirAngle(c.dir);
-    var mon=typeof ZSEEK!=='undefined'?ZSEEK.pick(sc,c.x,c.y,a,340,c.monsters):null, g=sc.add.graphics().setDepth(18), T=typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has('aim_reticle')&&ZScn.texture(sc,'aim_reticle',56,{shadow:false});
-    ZDRAW.cur={sc:sc,t0:performance.now(),mon:mon,a:a,g:g,im:T?sc.add.image(c.x,c.y,T.key).setDepth(18):null}; },
-  release:function(){ var C=ZDRAW.cur; if(!C)return; ZDRAW.cur=null; var held=(performance.now()-C.t0)/1000, m=held<ZDRAW.TAP?1:held>=ZDRAW.FULL?2:held>=ZDRAW.FULL/2?1.5:1;
+  start:function(sc,e){ if(e&&e.repeat)return; if(!ZDRAW.on){ ZDRAW.shoot(sc,1); return; }
+    /* round 105 (Kris: "i now have loads of arrows as ammo, but i am unable to use them or shoot"): a draw that never heard its Ctrl let go
+       (another scene, a lost key-up) used to block every later shot — a stale one is dropped now, and if the draw cannot start the arrow
+       flies at once instead of nothing happening */
+    if(ZDRAW.cur){ var o=ZDRAW.cur; if(o.sc===sc&&sc.sys.isActive()&&performance.now()-o.t0<3000)return; ZDRAW.drop(); }
+    if(!ZDRAW.why(sc))return;
+    try{ var c=_heroCtx(sc), a=_isOverworld(sc)&&sc._getAimAngle?sc._getAimAngle():_heroDirAngle(c.dir), mon=null;
+      try{ mon=typeof ZSEEK!=='undefined'?ZSEEK.pick(sc,c.x,c.y,a,340,c.monsters):null; }catch(e2){ mon=null; }
+      var g=sc.add.graphics().setDepth(18), T=null; try{ T=typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has('aim_reticle')&&ZScn.texture(sc,'aim_reticle',56,{shadow:false}); }catch(e3){ T=null; }
+      ZDRAW.cur={sc:sc,t0:performance.now(),mon:mon,a:a,g:g,im:T?sc.add.image(c.x,c.y,T.key).setDepth(18):null}; }
+    catch(err){ ZDRAW.drop(); if(!ZDRAW._w){ ZDRAW._w=1; console.warn('draw',err); } ZDRAW.shoot(sc,1); } },
+  drop:function(){ var C=ZDRAW.cur; ZDRAW.cur=null; if(C){ try{ C.g.destroy(); if(C.im)C.im.destroy(); }catch(e){} } },
+  // can a bow shot happen at all? if not, say why (instead of a silent Ctrl)
+  why:function(sc){ var ws=_heroWS(), ps=ws&&ws.playerState; if(!ps)return false; var b=ps.equip&&ps.equip.rHand?ITEMS[ps.equip.rHand]:null, say=function(t){ if(!ZDRAW._sayT||Date.now()-ZDRAW._sayT>2500){ ZDRAW._sayT=Date.now(); showNotif(t,'#ff8844'); } return false; };
+    if(!b||b.slot!=='rHand')return say(ps.equip&&ps.equip.mWeapon?'Magic weapon in hand — X casts spells. Put a bow in the Ranged slot to shoot.':'No bow in your Ranged slot — equip one in the inventory to shoot.');
+    var xb=b.cls==='xbow'||/cross/i.test(b.name||''), pre=xb?'dart':'arrow', other=xb?'arrow':'dart', A=ps.ammo||{}, n=function(p){ return Object.keys(A).filter(function(k){ return k.indexOf(p)===0; }).reduce(function(s,k){ return s+(A[k]||0); },0); };
+    if(!n(pre))return say(n(other)?('Your '+b.name+' shoots '+pre+'s — your '+n(other)+' '+other+'s need a '+(xb?'bow':'crossbow')+'.'):'Out of '+pre+'s! The armoury sells them.');
+    return true; },
+  release:function(){ var C=ZDRAW.cur; if(!C)return; ZDRAW.cur=null; if(!C.sc.sys||!C.sc.sys.isActive()){ try{ C.g.destroy(); if(C.im)C.im.destroy(); }catch(e){} return; } var held=(performance.now()-C.t0)/1000, m=held<ZDRAW.TAP?1:held>=ZDRAW.FULL?2:held>=ZDRAW.FULL/2?1.5:1;
     try{ C.g.destroy(); if(C.im)C.im.destroy(); }catch(e){} if(!C.sc.sys.isActive())return; ZDRAW.shoot(C.sc,m,C.mon&&!C.mon.dead?C.mon:null); },
   arr:function(sc){ var key=sc.sys.settings.key; return _isOverworld(sc)?(sc._playerProj||(sc._playerProj=[])):key==='Dungeon'?(sc._dngPlayerProj||(sc._dngPlayerProj=[])):(sc._islPlayerProj||(sc._islPlayerProj=[])); },
   shoot:function(sc,mult,mon){ var A=ZDRAW.arr(sc), n0=A.length, key=sc.sys.settings.key, ws=_heroWS(), ps=ws&&ws.playerState, am=ps&&ps.ammo?JSON.stringify(ps.ammo):'';
@@ -158,4 +179,7 @@ var ZDRAW={ on:true, cur:null, FULL:0.8, TAP:0.15, flying:[],
   window.addEventListener('keydown',function(e){ ZAIM.key(e,true); if(e.key==='Escape'||e.key===' '){ if(ZAIM.cur)ZAIM.clear('key'); } },true);
   window.addEventListener('keyup',function(e){ ZAIM.key(e,false); var k=String(e.key||'').toLowerCase(); if(k==='x')ZAIM.release(); if(k==='control')ZDRAW.release(); },true);
   window.addEventListener('blur',function(){ ZAIM.mv={}; ZAIM.release(); if(ZDRAW.cur)ZDRAW.release(); });
+  /* round 105: any key or click with Ctrl no longer down lets a held draw go (the key-up of Ctrl can be lost to the system) */
+  var lost=function(e){ if(ZDRAW.cur&&e&&!e._ztouch&&e.ctrlKey===false&&String(e.key||'').toLowerCase()!=='control')ZDRAW.release(); };
+  window.addEventListener('keydown',lost,true); window.addEventListener('mousedown',lost,true);
 })();

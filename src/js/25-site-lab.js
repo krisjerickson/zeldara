@@ -21,7 +21,7 @@ function _slCatalog(){
   [1,2,3,4].forEach(function(sec){
     var a=ISL_ADV[sec]; if(!a)return;
     var name=a.label.replace(/^\S+\s/,'');
-    isl.push({id:'isl_adv_'+sec+'_'+a.type, type:a.kind||(a.type==='tower_island'?'tower':'dungeon'), section:sec, design:a.design, island:true, name:name, floors:a.floors||4, _theme:a.theme||(a.type==='volcano'?'volcano':a.type==='tower_island'?'tower_island':'cave_dungeon')});
+    isl.push({id:'isl_adv_'+sec+'_'+a.type, type:a.kind||(a.type==='tower_island'?'tower':'dungeon'), section:sec, design:a.design, island:true, name:name, floors:_siteFloorCap('isl_adv_'+sec+'_'+a.type,a.floors||4), _theme:a.theme||(a.type==='volcano'?'volcano':a.type==='tower_island'?'tower_island':'cave_dungeon')});
   });
   groups.push({id:'isl', name:'Harbor islands', sites:isl});
   if(typeof CASTLE_ISLANDS!=='undefined')groups.push({id:'castles', name:'Island castles', sites:Object.keys(CASTLE_ISLANDS).map(function(k){ return CastleRun.site(k); })});

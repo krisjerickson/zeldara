@@ -185,6 +185,18 @@
   "kind": "music",
   "loop": true
  },
+ "mu_castle": {
+  "files": [
+   {
+    "base": "mu_castle",
+    "le": 263.8,
+    "ls": 0,
+    "secs": 263.8
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "mu_dungeon": {
   "files": [
    {
@@ -201,9 +213,9 @@
   "files": [
    {
     "base": "mu_fight",
-    "le": 207.72,
+    "le": 239.2,
     "ls": 0,
-    "secs": 207.72
+    "secs": 239.2
    }
   ],
   "kind": "music",
@@ -305,6 +317,30 @@
   "kind": "music",
   "loop": true
  },
+ "mu_island": {
+  "files": [
+   {
+    "base": "mu_island",
+    "le": 263.64,
+    "ls": 0,
+    "secs": 263.64
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_mage": {
+  "files": [
+   {
+    "base": "mu_mage",
+    "le": 264.76,
+    "ls": 0,
+    "secs": 264.76
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "mu_saga_old": {
   "files": [
    {
@@ -341,6 +377,18 @@
   "kind": "music",
   "loop": true
  },
+ "mu_sky": {
+  "files": [
+   {
+    "base": "mu_sky",
+    "le": 239.56,
+    "ls": 0,
+    "secs": 239.56
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "mu_title": {
   "files": [
    {
@@ -360,6 +408,18 @@
     "le": 359.88,
     "ls": 0,
     "secs": 359.88
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_trial": {
+  "files": [
+   {
+    "base": "mu_trial",
+    "le": 239.04,
+    "ls": 0,
+    "secs": 239.04
    }
   ],
   "kind": "music",

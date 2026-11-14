@@ -832,3 +832,5 @@ body.sky-mode #world-labels, body.sky-mode #action-bar, body.sky-mode #action-ic
 #boss-hud .bh-bar u{position:absolute;top:0;bottom:0;width:2px;background:#ffe6a8;box-shadow:0 0 4px #ffe6a8;z-index:2;text-decoration:none}
 #boss-hud .bh-bar span{z-index:3}
 #boss-hud.zbh-pic .bh-bar{border-image:var(--zbh-frame) 12 fill / 12px stretch;border-width:6px}
+#wmap-side{scrollbar-width:thin;scrollbar-color:#6fe3f5 rgba(255,255,255,.06);padding-right:4px}
+#wmap-side::-webkit-scrollbar{width:8px}#wmap-side::-webkit-scrollbar-thumb{background:#4f8fa0;border-radius:4px}#wmap-side::-webkit-scrollbar-track{background:rgba(255,255,255,.05)}

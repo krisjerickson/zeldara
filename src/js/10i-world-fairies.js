@@ -107,13 +107,16 @@ Object.assign(WorldScene.prototype,{
     if(!own)return {k:'chat'}; if(L>f.i+1)return {k:'done'}; if(L<f.i+1)return {k:'wait'};
     if(!S)return {k:'offer',mark:'❗'}; if(S.st==='seek'){ var ok=(S.got||[]).length>=S.need.length; return {k:ok?'ready':'seek',mark:ok?'⭐':'❔',S:S}; } return {k:'offer',mark:'❗'}; },
   _checkFairy(){ if(!this._fairies)return false; var px=this.player.x, py=this.player.y, f=null, bd=TILE*1.9;
-    this._fairies.forEach(function(x){ if(!x.spr)return; var d=Math.hypot(px-x.cx,py-(x.cy+18)); if(d<bd){bd=d;f=x;} });
+    /* round 106 (Kris: "you should also always be able to press tab to talk to fairies, even after you've interacted with them"): a fairy flits
+       round a circle about two tiles wide, so standing still you were only near her now and then — she can be talked to anywhere near her
+       circle now, not just where she is this moment */
+    this._fairies.forEach(function(x){ if(!x.spr)return; var hx=x.home&&x.home.ws?x.home.x*TILE+16:x.x, hy=(x.home&&x.home.ws?x.home.y*TILE+16:x.y)-18, d=Math.min(Math.hypot(px-x.cx,py-(x.cy+18))*0.8, Math.hypot(px-hx,py-(hy+18))*0.62); if(d<bd){bd=d;f=x;} });
     var K=null; (this._kings||[]).forEach(function(k){ if(k.spr&&Math.hypot(px-k.x,py-k.y)<TILE*3)K=k; });
     // the waystone wins when you are closer to it than to the fairy (so [Tab] still activates / travels)
-    if(this._nearWaystone){ var w=this._nearWaystone(), wdist=w?Math.hypot(px-(w.x*TILE+16),py-(w.y*TILE+16)):1e9; if(w&&f&&wdist<bd+TILE*1.5)f=null;   // round 12: at a waystone [Tab] is the waystone's unless the fairy is clearly closer
+    var onStone=false; if(this._nearWaystone){ var w=this._nearWaystone(), wdist=w?Math.hypot(px-(w.x*TILE+16),py-(w.y*TILE+16)):1e9; if(w&&f&&wdist<TILE*0.95)f=null; onStone=!!(w&&wdist<TILE*3);   // round 106: the waystone's [Tab] only when you stand on the stone itself; anywhere else near, the fairy's (was: whichever was closer)
       if(w&&!f&&K&&wdist<TILE*2.2)K=null; }
     var tgt=f||K; if(!tgt){ if(this._interactPrompt&&this._interactPrompt._fairy){ this._interactPrompt.destroy(); this._interactPrompt=null; } return false; }
-    var id=tgt.id; if(!this._interactPrompt||this._interactPrompt._fairy!==id){ if(this._interactPrompt)this._interactPrompt.destroy(); this._interactPrompt=domText(this,tgt.x,tgt.y-(K&&!f?130:52),'[Tab] Talk to '+(f?f.name:K.name),{fontSize:'10px',color:'#ffe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); this._interactPrompt._fairy=id; }
+    var id=tgt.id+(f&&onStone?'~':''); if(!this._interactPrompt||this._interactPrompt._fairy!==id){ if(this._interactPrompt)this._interactPrompt.destroy(); this._interactPrompt=domText(this,tgt.x,tgt.y-(K&&!f?130:52),'[Tab] Talk to '+(f?f.name:K.name)+(f&&onStone?'\n(stand on the stone to travel)':''),{fontSize:'10px',color:'#ffe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); this._interactPrompt._fairy=id; }
     if(Phaser.Input.Keyboard.JustDown(this.keys.TAB)){ if(f)this._talkFairy(f); else this._talkKing(K); }
     return true; },
   _talkFairy(f){ var self=this, ps=this.playerState, st=this._fairyState(f), fid=FAM_BY_SEC[f.q], fam=FAMILIARS[fid], o=_fairyObj(f.q,f.i), qk='q'+f.q+'_f'+f.i, isl=(HARBOR_ISLANDS[f.q]||{}).name||'the island';

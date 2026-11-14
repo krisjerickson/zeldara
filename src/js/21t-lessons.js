@@ -66,7 +66,7 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
   _hp:null, _t:0,
   scene:function(){ try{ var a=game.scene.getScenes(true).filter(function(s){ return ['World','Dungeon','Building','Island','Sky'].indexOf(s.sys.settings.key)>=0; }); return a[a.length-1]||null; }catch(e){ return null; } },
   tick:function(){ try{ if(!ZLES.on||typeof game==='undefined'||!game.scene)return; var ws=game.scene.getScene('World'), ps=ws&&ws.playerState; if(!ps||!ws.player)return;
-    if(typeof _anyModalOpen==='function'&&_anyModalOpen())return; if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&ZCUT.isOpen())return;
+    if(typeof _anyModalOpen==='function'&&_anyModalOpen())return; if(typeof ZDeath!=='undefined'&&ZDeath.busy)return;      /* round 106: nothing over the death pop-up */ if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&ZCUT.isOpen())return;
     var S=ZLES.seen(ps), has=function(fn){ return (ps.inventory||[]).some(function(i){ var I=ITEMS[i]; return I&&fn(i,I); }); }, T=function(id,c){ if(!S[id]&&c)ZLES.teach(id); };
     // an old save: what it has done counts as taught, quietly
     if(!ps._lesInit){ ps._lesInit=1; if(!ws._newGame){ ZLES.L.forEach(function(L){ if(ZLES.cond(L[0],ws,ps))S[L[0]]=S[L[0]]||1; }); ['move','map','guild','shop','rest','camp','sites'].forEach(function(id){ if((ps.level||1)>1)S[id]=S[id]||1; }); } return; }
@@ -76,6 +76,7 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
     if(B){ T('r_sword',B.type==='armory'); T('r_parry',B.type==='armory'&&!!S.r_sword); T('r_follow',B.type==='armory'&&!!S.r_parry&&(!!(ps.equip&&ps.equip.rHand)||has(function(i,I){ return I.slot==='rHand'; }))); T('r_axe',B.type==='forge'&&has(function(i,I){ return I.cls==='axe'; }));      /* round 103: the rhythm's teachers */
       T('shop',/^(shop|armory|clothing|merchant)$/.test(B.type)); T('rest',/^(tavern|house)$/.test(B.type)); T('crafts',/^(forge|jeweler|apothecary)$/.test(B.type)); }
     if(key==='Dungeon'&&sc._ready)T('inside',1); if(key==='Sky')T('sky',1);
+    if(ZLES._died&&!S.death)ZLES.teach('death',true);      /* round 106: the death pop-up already says it all — the lesson goes quietly into Training */
     ZLES.L.forEach(function(L){ if(!S[L[0]]&&ZLES.auto[L[0]]&&ZLES.cond(L[0],ws,ps,sc))T(L[0],1); });
   }catch(e){ if(!ZLES._err){ ZLES._err=1; console.warn('lessons',e); } } },
   auto:{r_counter:1,r_weave:1,r_together:1,bow:1,camp:1,sites:1,potion:1,level:1,roll:1,elements:1,binder:1,glimmer:1,familiar:1,skill:1,spell:1,mount:1,mira:1,ward:1,forges:1,hearth:1,godsbane:1,asgard:1,death:1,waystone:1},

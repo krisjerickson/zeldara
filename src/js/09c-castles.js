@@ -14,7 +14,7 @@ var CastleRun={
   done:function(ps,key){ return (ps.castlesDone||[]).indexOf(key)>=0; },
   // Dungeon site for a castle (entered from the island)
   site:function(key){ var C=CASTLE_ISLANDS[key], S=TOWER_STYLES_BY_ID[C.castle];
-    return {id:'isl_castle_'+key,type:'tower',section:C.sec,design:C.castle,castle:key,name:S?S.name:C.name,floors:C.floors}; },
+    return {id:'isl_castle_'+key,type:'tower',section:C.sec,design:C.castle,castle:key,name:S?S.name:C.name,floors:typeof _siteFloorCap==='function'?_siteFloorCap('isl_castle_'+key,C.floors):C.floors}; },
   // one-phase warden (engine monster). Round 35 (Kris): 1.5 × the health of its realm's guardian (base.hp already holds every boss multiplier; it used to be multiplied again, to 4.2 ×) — stronger than a guardian's single phase because the warden has only one.
   spawnWarden:function(scene,C,x,y,mult){ var base=MDEFS[CASTLE_TOWER_BOSS[C.sec-1]]; if(!base)return null; mult=mult||1;
     var st={hp:Math.round(base.hp*WARDEN_HP*mult),atk:Math.round(base.atk*0.9*mult),def:Math.round((base.def||0)*mult),lv:base.lvMax||base.lvMin||5,xp:Math.round(base.xp*0.7),gMin:base.gMin,gMax:base.gMax,r:Math.max(16,base.r)};

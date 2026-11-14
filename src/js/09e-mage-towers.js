@@ -15,7 +15,7 @@
 var MageRun={
   of:function(site){ return site&&site.mage?MAGE_BY_KEY[site.mage]:null; },
   done:function(ps,key){ return (ps.mageDone||[]).indexOf(key)>=0; },
-  site:function(M){ return {id:'mage_'+M.key,type:'tower',section:M.q,design:_mageBg(M),mage:M.key,name:M.name,floors:M.floors}; },
+  site:function(M){ return {id:'mage_'+M.key,type:'tower',section:M.q,design:_mageBg(M),mage:M.key,name:M.name,floors:typeof _siteFloorCap==='function'?_siteFloorCap('mage_'+M.key,M.floors):M.floors}; },
   spawnBoss:function(scene,M,x,y,mult){ var base=MDEFS[CASTLE_TOWER_BOSS[M.q-1]]; if(!base)return null; mult=mult||1;
     var st={hp:Math.round(base.hp*WARDEN_HP*mult),atk:Math.round(base.atk*0.85*mult),def:Math.round((base.def||0)*mult),lv:base.lvMax||base.lvMin||5,xp:Math.round(base.xp*0.7),gMin:base.gMin,gMax:base.gMax,r:Math.max(16,base.r)};
     var mon=MX.spawn(scene,M.rid,x,y,{q:M.q,stats:st,scale:2.1/MX.scaleOf(MON_BY_ID[M.rid])});

@@ -134,15 +134,15 @@ var ZDeath={
   fxOff:function(scene){ var h=document.getElementById('zdeath-fx'); if(h)h.remove(); var cv=document.querySelector('#game-container canvas')||document.querySelector('canvas'); if(cv){ cv.style.transition='filter .6s ease-out'; cv.style.filter=''; }
     try{ var hs=scene&&scene._zHeroSpr; if(hs&&hs.active&&hs._zdA!==undefined){ hs.setAlpha(hs._zdA).setAngle(hs._zdR||0); delete hs._zdA; } }catch(e){} },
   // 3. the pop-up
-  show:function(L,I,done){ ZDeath._css(); var T=ZDeath.text(L,I), el=document.getElementById('modal-death'); if(!el){ el=document.createElement('div'); el.id='modal-death'; document.body.appendChild(el); }
+  show:function(L,I,done){ ZDeath._css(); try{ if(typeof ZDLG!=='undefined'&&ZDLG.cur){ ZDLG._q=[]; ZDLG.cur.close(); } if(typeof FairyTalk!=='undefined')FairyTalk.close(); }catch(e0){}      /* round 106: only this pop-up on a death */ var T=ZDeath.text(L,I), el=document.getElementById('modal-death'); if(!el){ el=document.createElement('div'); el.id='modal-death'; document.body.appendChild(el); }
     var esc=function(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }, gold=esc(T.gold).replace(/(\d+) gold/,'<b>$1</b> gold').replace(/gold: (\d+)/,'gold: <b>$1</b>');
     el.innerHTML='<div class="zd '+L.id+'" style="--zc:'+((L.fx&&L.fx.col)||'#6fe3f5')+'">'+(I.preview?'<div class="zd-n">DESIGN '+I.preview+' OF '+ZDEATH.LOOKS.length+' · PREVIEW</div>':'')+
       '<div class="zd-ico">'+(ZDeath._ICO[L.id]||'💀')+'</div><h2>'+esc(T.title)+'</h2><div class="zd-sub">'+esc(T.sub)+'</div>'+T.lines.map(function(p){ return '<p>'+esc(p)+'</p>'; }).join('')+
       (T.bill?'<table>'+T.bill.map(function(b){ return '<tr><td>'+esc(b[0])+'</td><td>'+b[1]+' g</td></tr>'; }).join('')+'</table>':'')+
       '<div class="zd-gold">'+gold+'</div><div class="zd-wake">'+esc(T.wake)+'</div><button id="zdeath-btn">'+esc(T.btn)+'</button></div>';
-    el.style.display='flex'; var btn=document.getElementById('zdeath-btn'), fin=false, go=function(){ if(fin)return; fin=true; el.style.display='none'; el.innerHTML=''; document.removeEventListener('keydown',key,true); done&&done(); },
+    el.style.display='flex'; var btn=document.getElementById('zdeath-btn'), fin=false, go=function(){ if(fin)return; fin=true; el.style.display='none'; el.innerHTML=''; window.removeEventListener('keydown',key,true); done&&done(); },
       key=function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); e.stopPropagation(); if(Date.now()-t0>600)go(); } }, t0=Date.now();
-    btn.onclick=go; document.addEventListener('keydown',key,true); try{ btn.focus(); }catch(e){} },
+    btn.onclick=go; window.addEventListener('keydown',key,true); try{ btn.focus(); }catch(e){} },
   // the whole flow. apply() = the scene's own penalty and move; it returns (or sets ZDeath._lost to) the gold taken
   run:function(scene,info,apply){ var ps=(typeof _heroWS==='function'&&_heroWS()&&_heroWS().playerState)||{};
     if(ZDeath.auto||typeof document==='undefined'){ apply(); return; } if(ZDeath.busy){ apply(); return; } ZDeath.busy=true; ZDeath._t0=Date.now();      // round 45: never leave a fall without its penalty and the trip home

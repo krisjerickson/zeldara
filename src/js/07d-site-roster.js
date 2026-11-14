@@ -8,6 +8,14 @@
 // ║ per floor (tower plan/mirror/room shuffle; cavern seed).
 // ═══════════════════════════════════════════════════════════════════════
 var SITE_FLOORS={1:[4,5],2:[5,6],3:[6,7],4:[7,8]};   // floors by region; boss sites use the top
+// round 106 (Kris: "some of the adventure site levels take too long to work through, especially some of the dungeons that have dozens of
+// mini rooms … reducing the total number of levels for these specific sites"): the sites whose floors are the biggest (walkable area and
+// the walk from stairs to stairs, measured on every floor) keep fewer floors — about 9,000 walkable tiles and a 650-tile walk in all, never
+// fewer than three (two for a mage tower). The guardian is still on the last floor. Was → now in the comments.
+var SITE_FLOOR_CAP={ s3_dungeon:3 /* 7 · 26,800 tiles */, s4_b_boulder_field:3 /* 8 · 26,500 */, s2_b_crystal_grotto:3 /* 6 · 16,500, a 977-tile walk */, s2_b_root_hollow:3 /* 5 · 13,600 */,
+  isl_adv_4_tower_island:3 /* 5 · 11,800 */, isl_castle_q4_c:3 /* 4 · 10,000 */, s3_b_pillared_hall:4 /* 6 · a 947-tile walk */, s4_dungeon:6 /* 8 */, s4_b_spiral_chasm:6 /* 7 */,
+  s4_b_reflecting_hall:6 /* 7 */, mage_monolith:2 /* 3 · 8,200 */ };
+function _siteFloorCap(id,n){ var c=SITE_FLOOR_CAP[id]; return c&&c<n?c:n; }
 var SITE_ROSTER={
   1:[{kind:'tower',design:'silverwood',boss:true},{kind:'dungeon',design:'sunken_courtyard',boss:true},
      {kind:'tower',design:'elven_library'},{kind:'tower',design:'hyrule_keep'},{kind:'dungeon',design:'mushroom_forest'}],
@@ -47,9 +55,10 @@ function _rosterSitesFor(sec){
   var lohi=SITE_FLOORS[sec]||[4,5], bonusN=0;
   return (SITE_ROSTER[sec]||[]).map(function(r){
     var floors=r.boss?lohi[1]:lohi[bonusN++%2];
-    return { type:r.kind, section:sec, design:r.design, boss:!!r.boss, bonus:!r.boss, floors:floors,
+    var id=r.boss?('s'+sec+'_'+r.kind):('s'+sec+'_b_'+r.design);
+    return { type:r.kind, section:sec, design:r.design, boss:!!r.boss, bonus:!r.boss, floors:_siteFloorCap(id,floors),
       name:_siteDesignName(r.kind,r.design),
-      id:r.boss?('s'+sec+'_'+r.kind):('s'+sec+'_b_'+r.design) };
+      id:id };
   });
 }
 

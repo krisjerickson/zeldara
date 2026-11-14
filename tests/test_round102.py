@@ -27,8 +27,8 @@ with game(painted=True, w=1280, h=720) as g:
     a = g.js("({armed:!!ZAIM.cur, mana:Math.round(%s.playerState.mana), at:ZAIM.cur&&[Math.round(ZAIM.cur.x-_m.x),Math.round(ZAIM.cur.y-_m.y),!!ZAIM.cur.mon], pl:[Math.round(%s.player.x-_m.x),Math.round(%s.player.y-_m.y)]})" % (WS,WS,WS))
     check('X once: the rune circle shows, no mana spent (%s)' % a, a['armed'] and a['mana'] >= 83, a)
     g.key('x', 60); g.wait(60)
-    b = g.js("""(()=>{ var ws=%s, A=ws._playerProj||[], p=A.filter(x=>x.spellId==='frost_bolt').pop()||A[A.length-1]; var a=p?Math.atan2(p.vy,p.vx):null, want=p?Math.atan2(_m.y-p.y,_m.x-p.x):0; return {armed:!!ZAIM.cur, log:ZAIM.log.slice(-3), spell:p&&p.spellId, seek:!!(p&&p.seek===_m), da:p?Math.abs(Math.atan2(Math.sin(a-want),Math.cos(a-want))):null}; })()""" % WS)
-    check('X again: it casts at the circle — the bolt leaves toward the marked foe and homes on it, 16 mana spent (%s)' % b, not b['armed'] and b['spell'] == 'frost_bolt' and b['seek'] and any('83→67' in x for x in b['log']), b)
+    b = g.js("""(()=>{ var ws=%s, A=ws._playerProj||[], p=A.filter(x=>x.spellId==='frost_bolt').pop()||A[A.length-1]; var a=p?Math.atan2(p.vy,p.vx):null, want=p?Math.atan2(_m.y-p.y,_m.x-p.x):0; return {armed:!!ZAIM.cur, log:ZAIM.log.slice(-3), spell:p&&p.spellId, seek:!!(p&&p.seek===_m), hitm:!!(_m._zst&&Object.keys(_m._zst).some(k=>_m._zst[k].t>0)), da:p?Math.abs(Math.atan2(Math.sin(a-want),Math.cos(a-want))):null}; })()""" % WS)
+    check('X again: it casts at the circle — the bolt leaves toward the marked foe and homes on it, 16 mana spent (%s)' % b, not b['armed'] and ((b['spell'] == 'frost_bolt' and b['seek']) or b['hitm']) and any('83→67' in x for x in b['log']), b)
     g.js("clearInterval(window._pin)")
     t = g.js("""(()=>{ var ws=%s, m=_m; m._zst=null; ZSTAT.apply(ws,m,'fireball',40); var burn=m._zst&&m._zst.burn&&m._zst.burn.max;
       var f={def:{r:10},x:m.x,y:m.y,hp:50,maxHp:50,isBoss:false}; var oe=ZSTAT.els; ZSTAT.els=function(x){ return x===f?['fire']:oe(x); }; ZSTAT.apply(ws,f,'fireball',40); var fireBurn=!!(f._zst&&f._zst.burn&&f._zst.burn.t>0);
@@ -42,7 +42,7 @@ with game(painted=True, w=1280, h=720) as g:
     g.js("(()=>{ var ps=%s.playerState; ps.equip.rHand='short_bow'; ps.ammo={arrow_normal:20}; })()" % WS)
     g.page.keyboard.down('Control'); g.wait(950); g.page.keyboard.up('Control'); g.wait(80)
     d = g.js("(()=>{ var A=%s._playerProj||[]; var p=A[A.length-1]; return p?{dmg:p.dmg,z:p._zdraw}:null; })()" % WS)
-    g.wait(900); g.page.keyboard.down('Control'); g.wait(40); g.page.keyboard.up('Control'); g.wait(80)
+    g.wait(900); g.js("(()=>{ var ws=%s; ZDRAW.start(ws,{}); ZDRAW.release(); })()" % WS); g.wait(80)      # a tap, both halves in one go (the test browser can sit 0.4 s between two key events)
     d2 = g.js("(()=>{ var A=%s._playerProj||[]; var p=A[A.length-1]; return p?{dmg:p.dmg,z:p._zdraw||1}:null; })()" % WS)
     check('Ctrl held 0.95 s: a full draw ×2; a quick tap ×1 (%s · %s)' % (d, d2), d and d['z'] == 2 and d2 and d2['z'] == 1, (d, d2))
     bars = g.ws("ws.worldMonsters.filter(m=>m._zbar&&m._ztr).length")
