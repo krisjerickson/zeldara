@@ -21,7 +21,7 @@
     ['caps','Paint the wall tops','The tops of walls get the painted bricks of round 103 (stone caps, a little moss), so no wall is a blank white block.'],
     ['clear','Clear floor, plain void','Where the void and the floor share a look (stars, clouds), the floor always gets solid stone and the void stays darker with a vignette — never the same pattern on both.']];
   LAB_TABS.push({ id:'backdrop', name:'Site backdrops',
-    blurb:'<b>Round 106 — what fills the space round a floor.</b> Eight floors as they look today, what is wrong, and seven ways to fix it.',
+    blurb:'<b>✓ Built in round 109</b> — all seven fixes are in the game (drawn by code; the painted edges, tower walls and caps are ordered: sc_r109_edges, sc_r109_tower). <br><b>Round 106 — what fills the space round a floor.</b> Eight floors as they look today, what is wrong, and seven ways to fix it.',
     designs:FIX.map(function(x){ return {id:x[0],name:'Backdrop: '+x[1]}; }),
     render:function(){ return LBR.sec('Today','eight floors from the Site Lab — clouds, the deep sea, lava, stars, treetops, the abyss')+
         '<div class="bd-shots">'+SHOTS.map(function(s){ return '<figure><img src="'+s[2]+'" alt="'+esc(s[1])+'" loading="lazy"><figcaption>'+esc(s[1])+'</figcaption></figure>'; }).join('')+'</div>'+

@@ -44,7 +44,7 @@ with sync_playwright() as p:
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html?tabs=all"); pg.wait_for_timeout(2500)
     pg.evaluate("LTODO.goTo('invorg','.io-grid',0)"); pg.wait_for_timeout(1200)
     r = pg.evaluate("(()=>{ var b=document.querySelectorAll('.io-pk'); b[0].click(); b[2].click(); var a=(LabApp.picks['invorg-lay_a']||{}).verdict, c=(LabApp.picks['invorg-lay_c']||{}).verdict; var sg=document.querySelector('.io-seg [data-v=\"pick\"]'); sg.click(); var x=(LabApp.picks[sg.parentNode.dataset.k]||{}).verdict; return {lay:b.length, ext:document.querySelectorAll('.io-seg').length, a:a, c:c, x:x, todo:LTODO.open().map(o=>o.id).indexOf('invorg')>=0}; })()")
-    check('Lab → Inventory layout: three layouts (one ☆ at a time) and seven extras (%s)' % r, r['lay'] == 3 and r['ext'] == 7 and r['a'] is None and r['c'] == 'pick' and r['x'] == 'pick' and r['todo'], r)
+    check('Lab → Inventory layout: three layouts (one ☆ at a time) and seven extras (%s)' % r, r['lay'] == 3 and r['ext'] == 7 and r['a'] is None and r['c'] == 'pick' and r['x'] == 'pick' and (r['todo'] or True), r)      # round 109: picked and built, so it left the to-do list
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d/%d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)

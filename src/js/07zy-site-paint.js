@@ -82,9 +82,10 @@ var ZSPP={
     var tex=function(id,px){ return Z?Z.pattern(ctx,id,px||128):null; };
     var tint=function(col,a,x,y,w,h){ ctx.save(); ctx.globalCompositeOperation='color'; ctx.globalAlpha=a; ctx.fillStyle=col; ctx.fillRect(x,y,w,h); ctx.restore(); };
     // ground
+    var _zbSolid=typeof ZBD!=='undefined'&&ZBD.solid(V0);      /* round 109: where the void looks like a floor (stars, clouds), the floor is solid stone */
     var f1=tex(built?th.fb:th.fn,128), f2=tex(built?th.f2b:th.f2n,128), nz=vnoise(ZSD.seed(site.id)+fi);
     for(var y=0;y<H;y++)for(var x=0;x<W;x++){ var v=g[y*W+x], px=x*LT, py=y*LT; if(!(v===1||v===5||v===6||v===7&&false))continue;
-      var two=v===5; ctx.fillStyle=two?P.floor2:P.floor; ctx.fillRect(px,py,LT,LT); var pt=two?f2:f1; if(pt){ ctx.save(); ctx.globalAlpha=0.85; ctx.fillStyle=pt; ctx.fillRect(px,py,LT,LT); ctx.restore(); }
+      var two=v===5; ctx.fillStyle=two?P.floor2:P.floor; ctx.fillRect(px,py,LT,LT); var pt=two?f2:f1; if(pt){ ctx.save(); ctx.globalAlpha=0.85; ctx.fillStyle=pt; ctx.fillRect(px,py,LT,LT); ctx.restore(); } if(_zbSolid)ZBD.solidFloor(ctx,px,py,LT);
       var n=nz(x*0.12,y*0.12); ctx.fillStyle=rgba(n>0.5?'#ffffff':'#000000',Math.abs(n-0.5)*0.16); ctx.fillRect(px,py,LT,LT); }
     // recolour the whole ground layer to the palette in one go (the textures keep their light and shade)
     tint(P.floor,0.42,0,0,W*LT,H*LT);
@@ -117,7 +118,7 @@ var ZSPP={
       for(var j=-1;j<=1&&!near;j++)for(var i2=-1;i2<=1;i2++){ var a2=at(x3+i2,y3+j); if(walk(a2)||a2===3||a2===6){ near=true; break; } }
       if(!near){ ctx.fillStyle=shade(P.void,0.03); ctx.fillRect(px3,py3,LT,LT); continue; }
       var face=walk(at(x3,y3+1))||at(x3,y3+1)===6||(V0&&V0.k==='terrain'&&openBelow(x3,y3+1)), top=face?(built?10:12):LT;
-      var tg=ctx.createLinearGradient(px3,py3,px3,py3+top); tg.addColorStop(0,shade(P.wallTop,0.1)); tg.addColorStop(1,P.wallTop); ctx.fillStyle=tg; ctx.fillRect(px3,py3,LT,top);
+      var tg=ctx.createLinearGradient(px3,py3,px3,py3+top); tg.addColorStop(0,shade(P.wallTop,0.1)); tg.addColorStop(1,P.wallTop); ctx.fillStyle=tg; ctx.fillRect(px3,py3,LT,top); if(typeof ZBD!=='undefined')ZBD.cap(ctx,px3,py3,LT,top,P,R,built,site&&site.el);      /* round 109: painted caps */
       if(!built){ for(var q=0;q<3;q++){ ctx.fillStyle=rgba(shade(P.wallTop,R.chance(0.5)?0.22:-0.25),0.55); ctx.fillRect(px3+R.f()*27,py3+R.f()*(top-3),4,2); } }
       if(face){ var fg=ctx.createLinearGradient(px3,py3+top,px3,py3+LT); fg.addColorStop(0,P.wall); fg.addColorStop(1,shade(P.wall,-0.35)); ctx.fillStyle=fg; ctx.fillRect(px3,py3+top,LT,LT-top);
         if(wt){ ctx.save(); ctx.globalAlpha=0.45; ctx.fillStyle=wt; ctx.fillRect(px3,py3+top,LT,LT-top); ctx.restore(); }
@@ -139,7 +140,8 @@ var ZSPP={
         while(q9.length){ var k7=q9.pop(), X7=k7%W, Y7=(k7/W)|0; [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var X=X7+d[0], Y=Y7+d[1]; if(X<0||Y<0||X>=W||Y>=H)return; var kk=Y*W+X; if(oc[kk]===2)return; if(oc[kk]===1||clr[kk]){ oc[kk]=2; q9.push(kk); } }); }
         for(var k6=0;k6<W*H;k6++)if(oc[k6]===2)clr[k6]=1; }
       ctx.save(); ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='#000'; for(var k9=0;k9<W*H;k9++)if(clr[k9])ctx.fillRect((k9%W)*LT,((k9/W)|0)*LT,LT,LT); ctx.restore();
-      F._clr=clr; ZVOID.rim(ctx,V,F,LT); m.zvoid=V; m._zclr=clr; m._zbox=bx1>=0?[bx0,by0,bx1,by1]:null; }
+      F._clr=clr; ZVOID.rim(ctx,V,F,LT); if(typeof ZBD!=='undefined')try{ ZBD.edge(ctx,{V:V,clr:clr,W:W,H:H,LT:LT,P:P,R:R,wt:wt,g:g,walk:walk}); }catch(e){ console.warn('edge',e); }      /* round 109: a built edge */
+      m.zvoid=V; m._zclr=clr; m._zbox=bx1>=0?[bx0,by0,bx1,by1]:null; }
     m.base=cv; m.bg=P.void;
     // pillars, rocks, hedges (tile 6): painted pieces standing on their tile
     var pl6=built?th.pb:th.pn;

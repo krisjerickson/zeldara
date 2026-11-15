@@ -25,7 +25,7 @@
    ['junk','Mark to sell','A 🪙 mark on anything; the shops then offer "Sell all marked".'],
    ['newdot','A dot on new things','A small dot on what you picked up since you last looked; it goes once you have seen it.']];
   LAB_TABS.push({ id:'invorg', name:'Inventory layout',
-    blurb:'<b>Round 105 — sorting the gear.</b> Three ways to organise weapons, armour and accessories (☆ one), and extras (✓ / ✕ each).',
+    blurb:'<b>✓ Built in round 109</b> — your picks: sub-tabs under each tab, with all seven extras (sort menu, element chips, upgrades only, stacking ×3, tier badges, 🪙 mark to sell, new-item dots). <br><b>Round 105 — sorting the gear.</b> Three ways to organise weapons, armour and accessories (☆ one), and extras (✓ / ✕ each).',
     designs:LAY.map(function(x){ return {id:'lay_'+x[0],name:'Layout: '+x[1]}; }).concat(EXT.map(function(x){ return {id:'x_'+x[0],name:'Extra: '+x[1]}; })),
     render:function(){
       return LBR.sec('Today','one Weapons tab: 52 melee weapons, 29 bows and crossbows, 10 staffs — Armor: 71 pieces in 6 slots — Accessories: 34 in 3')+

@@ -540,6 +540,8 @@ function openBuildingShop(btype,ps,worldScene){
     if(sellableItems.length===0){
       h+='<p style="color:#445;font-size:12px;padding:12px">Nothing to sell. Items with a sell value will appear here.</p>';
     } else {
+      var MK=ps.sellMarks||{}, mk=sellableItems.filter(function(e){ return MK[e.id]; }), mkG=mk.reduce(function(a,e){ return a+(e.it.sell||Math.floor((e.it.buy||10)*0.4)); },0);      /* round 109: the inventory's 🪙 marks */
+      if(mk.length)h+='<button class="si-buy zv-sellall" style="width:100%;margin:0 0 8px;padding:8px;background:rgba(200,160,0,.25);border-color:rgba(255,210,80,.7);color:#ffd700;font-weight:700" onclick="window._merchantSellMarked()">🪙 Sell all marked — '+mk.length+' item'+(mk.length>1?'s':'')+' for '+mkG+'g</button>';
       h+='<div class="item-list">';
       sellableItems.forEach(function(e){
         var it=e.it;var sellVal=it.sell||Math.floor((it.buy||10)*0.4);
@@ -619,6 +621,10 @@ window._merchantSellItem=function(idx){
   showNotif('Sold '+it.icon+' '+it.name+' for '+sellVal+'g','#ffd700');
   ws._emitUI();openBuildingShop('merchant',ps,ws);
 };
+window._merchantSellMarked=function(){ var ws=game.scene.getScene('World'); if(!ws)return; var ps=ws.playerState, MK=ps.sellMarks||{}, inv=ps.inventory||[], g=0, n=0;
+  for(var i=inv.length-1;i>=0;i--){ var it=ITEMS[inv[i]]; if(!it||!MK[inv[i]])continue; g+=it.sell||Math.floor((it.buy||10)*0.4); n++; inv.splice(i,1); }
+  Object.keys(MK).forEach(function(id){ if(inv.indexOf(id)<0)delete MK[id]; });
+  if(n){ ps.gold+=g; showNotif('🪙 Sold '+n+' marked item'+(n>1?'s':'')+' for '+g+'g','#ffd700'); } ws._emitUI(); openBuildingShop('merchant',ps,ws); };
 window._sellGem=function(id){
   var ws=game.scene.getScene('World');if(!ws)return;
   var ps=ws.playerState;var inv=ps.inventory;

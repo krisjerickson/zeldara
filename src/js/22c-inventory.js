@@ -16,6 +16,37 @@ var ZINV={filter:'all',sel:null,timer:null,
     ['accessories','Accessories','tab_accessories','💍',['neck','back','ring']],['ammo','Ammo','tab_ammo','🏹',['ammo']],['food','Food','tab_food','🍖',['food']],['potions','Potions','tab_potions','🧪',['use']],
     ['gems','Treasure','tab_gems','💎',['gem','key','material','misc']],['spells','Spells','ui_spell','✨',['spell']],['skills','Skills','ui_special','⚡',['special']]],
   ws:function(){ try{ return game.scene.getScene('World'); }catch(e){ return null; } },
+  // ── round 109 (Lab › Inventory layout, Kris's picks: sub-tabs + all seven extras) ──
+  // sub-tabs under Weapons / Armor / Accessories; a sort menu; element chips; "upgrades only"; the same item stacked (×3);
+  // tier badges I–V; 🪙 mark to sell (the merchant then offers "Sell all marked"); a dot on what is new since you last looked
+  sub:{}, sort:'power', el:null, upg:false, _shown:[],
+  SUBS:{weapons:[['all','All','⚔️'],['sword','Swords','⚔️',function(it){ return it.slot==='lHand'&&it.cls!=='axe'; }],['axe','Axes','🪓',function(it){ return it.slot==='lHand'&&it.cls==='axe'; }],
+      ['bow','Bows','🏹',function(it){ return it.slot==='rHand'&&it.cls!=='xbow'; }],['xbow','Crossbows','🎯',function(it){ return it.slot==='rHand'&&it.cls==='xbow'; }],['staff','Staffs','🔮',function(it){ return it.slot==='mWeapon'; }]],
+    armor:[['all','All','🛡️'],['head','Helmets','🪖'],['body','Body','🛡️'],['pants','Legs','🦵'],['feet','Boots','🥾'],['gauntlets','Gloves','🧤'],['shield','Shields','🛡️']],
+    accessories:[['all','All','💍'],['neck','Amulets','🧿'],['back','Cloaks','🧣'],['ring','Rings','💍']]},
+  SORTS:[['power','Power'],['tier','Tier'],['element','Element'],['newest','Newest'],['name','Name']],
+  GEAR:{lHand:1,rHand:1,mWeapon:1,body:1,shield:1,head:1,feet:1,pants:1,gauntlets:1,neck:1,back:1,ring:1},
+  subOk:function(F,k,it){ var L=ZINV.SUBS[F]; if(!L||!k||k==='all')return true; var S=L.find(function(x){ return x[0]===k; }); if(!S)return true; return S[3]?S[3](it):ZINV.slotOf(it)===k; },
+  power:function(it){ return (it.atk||0)+(it.def||0)+(it.heal||0)+(it.elementDmg||0)+Math.round((it.spellMult||0)*10); },
+  tier:function(it){ if(!it||!ZINV.GEAR[ZINV.slotOf(it)])return 0; if(it.sov)return 5; return Math.max(1,Math.min(5,(it.secReq||1)+(it.crafted?1:0))); },
+  ROMAN:['','I','II','III','IV','V'],
+  els:function(it){ return typeof ZEL!=='undefined'&&ZEL.carried?ZEL.carried(it):((it.el||[]).slice()); },
+  up:function(ps,it){ var eq=ps.equip||{}, sl=ZINV.slotOf(it); if(!ZINV.GEAR[sl])return false; var cur; if(sl==='ring'){ var w=null; for(var r=1;r<=10;r++){ var c=eq['ring'+r]&&ITEMS[eq['ring'+r]]; if(!c)return true; if(!w||ZINV.power(c)<ZINV.power(w))w=c; } cur=w; } else cur=eq[sl]&&ITEMS[eq[sl]]; return !cur||ZINV.power(it)>ZINV.power(cur); },
+  marked:function(ps,id){ return !!(ps.sellMarks&&ps.sellMarks[id]); },
+  mark:function(id){ var W=ZINV.ws(); if(!W)return; var ps=W.playerState, M=ps.sellMarks||(ps.sellMarks={}); if(M[id])delete M[id]; else M[id]=1; ZINV.render(ps); },
+  isNew:function(ps,id){ return !!(ps.invSeen&&!ps.invSeen[id]); },
+  seenInit:function(ps){ if(ps.invSeen)return; ps.invSeen={}; (ps.inventory||[]).forEach(function(i){ ps.invSeen[i]=1; }); Object.keys(ps.ammo||{}).forEach(function(i){ ps.invSeen[i]=1; }); },      /* an older save: what it holds is not new */
+  setSub:function(k){ ZINV.sub[ZINV.filter]=k; ZINV.render(); },
+  setSort:function(k){ ZINV.sort=k; ZINV.render(); },
+  setEl:function(e){ ZINV.el=ZINV.el===e?null:e; ZINV.render(); },
+  setUpg:function(){ ZINV.upg=!ZINV.upg; ZINV.render(); },
+  tools:function(ps,F,inv){ var h='', L=ZINV.SUBS[F];
+    if(L){ var n=function(S){ return inv.filter(function(id){ var it=ITEMS[id]; return it&&ZINV.TABS.find(function(t){ return t[0]===F; })[4].indexOf(ZINV.slotOf(it))>=0&&ZINV.subOk(F,S[0],it); }).length; }, cur=ZINV.sub[F]||'all';
+      h+='<div class="zv-subs">'+L.map(function(S){ var c=n(S); return '<button class="zv-sub'+(cur===S[0]?' on':'')+(c||S[0]==='all'?'':' none')+'" onclick="ZINV.setSub(\''+S[0]+'\')">'+S[2]+' '+S[1]+' <i>'+c+'</i></button>'; }).join('')+'</div>'; }
+    if(L||F==='all'){ h+='<div class="zv-tools"><label class="zv-sort">Sort <select onchange="ZINV.setSort(this.value)">'+ZINV.SORTS.map(function(o){ return '<option value="'+o[0]+'"'+(ZINV.sort===o[0]?' selected':'')+'>'+o[1]+'</option>'; }).join('')+'</select></label>';
+      if(typeof ZEL!=='undefined')h+='<span class="zv-els">'+ZEL.LIST.map(function(e){ var E=ZEL.E[e]; return '<button class="zv-el'+(ZINV.el===e?' on':'')+'" style="--c:'+E.col+'" data-tip="Only '+E.n+' gear" onclick="ZINV.setEl(\''+e+'\')">'+E.em+'</button>'; }).join('')+'</span>';
+      h+='<button class="zv-upg'+(ZINV.upg?' on':'')+'" data-tip="Only what beats what you wear" onclick="ZINV.setUpg()">▲ Upgrades only</button></div>'; }
+    return h; },
   slotOf:function(it){ return it&&(it.slot||it.type)||'misc'; },
   // what an item does, as short coloured chips
   stats:function(it){ if(!it)return []; var L=[]; if(it.atk)L.push(['+'+it.atk+' ATK','a']); if(it.def)L.push(['+'+it.def+' DEF','d']); if(it.heal)L.push(['+'+it.heal+' HP','h']); if(it.elementDmg)L.push(['+'+it.elementDmg+' '+(it.element||''),'e']);
@@ -29,6 +60,7 @@ var ZINV={filter:'all',sel:null,timer:null,
       (it?ZIcon.item(id,small?1.9:2.6)+(typeof ZElUI!=='undefined'?ZElUI.pips(it):''):ZIcon.html('sl_'+base,ZINV.SLOT_FB[base],small?1.7:2.3,'zv-empty'))+'</div>'; },
   quick:function(tip,html,on,click){ return '<div class="zv-slot sm'+(on?' full':'')+'" data-tip="'+tip+'" onclick="'+click+'">'+html+'</div>'; },
   render:function(ps){ var W=ZINV.ws(); if(!ps){ if(!W||!W.playerState)return; ps=W.playerState; } var inv=ps.inventory||[], eq=ps.equip||{}, st=calcStatsFromState(ps), F=ZINV.filter; if(F==='magic')F=ZINV.filter='skills'; /* round 102: Spells and Skills are two tabs now */
+    ZINV.seenInit(ps); ZINV._shown=[];      /* round 109: a dot stays while the inventory is open; closing it marks what was shown as seen (ZINV.flush) */
     var tb=document.getElementById('inv-tabs'), ct=document.getElementById('inv-content'); if(!ct)return; if(tb){ tb.innerHTML=''; tb.style.display='none'; }
     // ── left: the hero and his gear ──
     var h='<div class="zv"><div class="zv-left"><div class="zv-doll"><div class="zv-col">'+ZINV.LEFT.map(function(s){ return ZINV.slot(ps,s); }).join('')+'</div>'+
@@ -45,15 +77,24 @@ var ZINV={filter:'all',sel:null,timer:null,
     h+='<div class="zv-stats">'+S('ui_heart','❤️','Health',ps.hp+' / '+ps.maxHp)+S('ui_mana','💧','Mana',Math.floor(ps.mana||0)+' / '+ps.maxMana)+S('ui_attack','⚔️','Attack',st.atk)+S('ui_defend','🛡️','Defense',st.def)+S('ui_gold','💰','Gold',ps.gold)+S('ui_xp','⭐','Experience',ps.xp+' / '+(ps.level*100))+
       (st.spdBonus>0?S('st_speed','💨','Speed','+'+Math.round(st.spdBonus*100)+'%'):'')+(st.cdReduce>0?S('st_haste','⏳','Cooldown','−'+Math.round(st.cdReduce*100)+'%'):'')+(st.manaRegen>0?S('ui_mana','💧','Mana regen',(1.5+st.manaRegen).toFixed(1)+' fighting · '+(4+st.manaRegen).toFixed(1)+'/s'):'')+'</div>'+(typeof ZElUI!=='undefined'&&ZElUI.resLine(ps)?'<div class="zv-res"><span class="l">Resists</span>'+ZElUI.resLine(ps)+'</div>':'')+'</div>';
     // ── right: tabs, tiles, detail ──
-    h+='<div class="zv-right"><div class="zv-tabs">'+ZINV.TABS.map(function(t){ return '<button class="inv-tab-btn'+(F===t[0]?' itab-active':'')+'" data-tip="'+t[1]+'" onclick="ZINV.setFilter(\''+t[0]+'\')">'+ZIcon.html(t[2],t[3],1.5)+'<span>'+t[1]+'</span></button>'; }).join('')+'</div>';
-    var T=ZINV.TABS.filter(function(t){ return t[0]===F; })[0]||ZINV.TABS[0], want=T[4], cnt={}, order=[];
-    inv.forEach(function(id){ var it=ITEMS[id]; if(!it)return; if(want&&want.indexOf(ZINV.slotOf(it))<0)return; if(!cnt[id]){ cnt[id]=0; order.push(id); } cnt[id]++; });
+    h+='<div class="zv-right"><div class="zv-tabs">'+ZINV.TABS.map(function(t){ return '<button class="inv-tab-btn'+(F===t[0]?' itab-active':'')+'" data-tip="'+t[1]+'" onclick="ZINV.setFilter(\''+t[0]+'\')">'+ZIcon.html(t[2],t[3],1.5)+'<span>'+t[1]+'</span></button>'; }).join('')+'</div>'+ZINV.tools(ps,F,inv);
+    var T=ZINV.TABS.filter(function(t){ return t[0]===F; })[0]||ZINV.TABS[0], want=T[4], cnt={}, order=[], subK=ZINV.sub[F]||'all', firstAt={};
+    inv.forEach(function(id,ix){ var it=ITEMS[id]; if(!it)return; if(want&&want.indexOf(ZINV.slotOf(it))<0)return; if(!ZINV.subOk(F,subK,it))return;
+      if(ZINV.GEAR[ZINV.slotOf(it)]){ if(ZINV.el&&ZINV.els(it).indexOf(ZINV.el)<0)return; if(ZINV.upg&&!ZINV.up(ps,it))return; }
+      if(!cnt[id]){ cnt[id]=0; order.push(id); } cnt[id]++; firstAt[id]=ix; });
     var ammo=ps.ammo||{}; if(!want||want.indexOf('ammo')>=0)Object.keys(ammo).forEach(function(a){ if(ammo[a]>0&&ITEMS[a]&&!cnt[a]){ cnt[a]=ammo[a]; order.push(a); } });
     var rank={lHand:1,rHand:2,mWeapon:3,body:4,shield:5,head:6,gauntlets:7,pants:8,feet:9,neck:10,back:11,ring:12,spell:13,special:14,use:15,food:16,ammo:17,gem:18,key:19,material:20,misc:21};
-    order.sort(function(a,b){ var A=ITEMS[a],B=ITEMS[b]; return (rank[ZINV.slotOf(A)]||30)-(rank[ZINV.slotOf(B)]||30)||((B.atk||0)+(B.def||0)+(B.heal||0))-((A.atk||0)+(A.def||0)+(A.heal||0))||A.name.localeCompare(B.name); });
-    h+='<div class="zv-grid">'+(order.length?order.map(function(id){ var it=ITEMS[id], on=ZINV.sel&&ZINV.sel.k==='inv'&&ZINV.sel.id===id, sl=ZINV.slotOf(it), cur=eq[sl]&&ITEMS[eq[sl]], up=cur&&((it.atk||0)+(it.def||0))>((cur.atk||0)+(cur.def||0));
-        return '<div class="zv-tile'+(on?' on':'')+'" data-tip="'+it.name.replace(/"/g,'&quot;')+'" onclick="ZINV.pick(\''+id+'\')" ondblclick="ZINV.act(\''+id+'\')">'+ZIcon.item(id,2.5)+(typeof ZElUI!=='undefined'?ZElUI.pips(it):'')+(cnt[id]>1?'<b class="zv-n">'+cnt[id]+'</b>':'')+(up?'<i class="zv-up">▲</i>':'')+'</div>'; }).join(''):
-      '<div class="zv-none">'+(F==='all'?'Your pack is empty. Shops, chests and fallen monsters will fill it.':'Nothing of this kind in your pack.')+'</div>')+'</div>';
+    var SO=ZINV.sort, elk=function(it){ var e=ZINV.els(it); return e.length?ZEL.LIST.indexOf(e[0]):99; };
+    order.sort(function(a,b){ var A=ITEMS[a],B=ITEMS[b], g=(rank[ZINV.slotOf(A)]||30)-(rank[ZINV.slotOf(B)]||30);
+      if(SO==='name')return A.name.localeCompare(B.name);
+      if(SO==='newest')return (firstAt[b]===undefined?-1:firstAt[b])-(firstAt[a]===undefined?-1:firstAt[a])||A.name.localeCompare(B.name);
+      if(g)return g;
+      if(SO==='tier')return ZINV.tier(B)-ZINV.tier(A)||ZINV.power(B)-ZINV.power(A)||A.name.localeCompare(B.name);
+      if(SO==='element')return elk(A)-elk(B)||ZINV.power(B)-ZINV.power(A)||A.name.localeCompare(B.name);
+      return ZINV.power(B)-ZINV.power(A)||A.name.localeCompare(B.name); });
+    h+='<div class="zv-grid">'+(order.length?order.map(function(id){ var it=ITEMS[id], on=ZINV.sel&&ZINV.sel.k==='inv'&&ZINV.sel.id===id, sl=ZINV.slotOf(it), cur=eq[sl]&&ITEMS[eq[sl]], up=cur&&((it.atk||0)+(it.def||0))>((cur.atk||0)+(cur.def||0)), tr=ZINV.tier(it), nw=ZINV.isNew(ps,id), mk=ZINV.marked(ps,id); if(nw)ZINV._shown.push(id);
+        return '<div class="zv-tile'+(on?' on':'')+(nw?' zv-new':'')+(mk?' zv-mk':'')+'" data-tip="'+(it.name+(cnt[id]>1?' ×'+cnt[id]:'')+(tr?' · tier '+ZINV.ROMAN[tr]:'')+(mk?' · marked to sell':'')+(nw?' · new':'')).replace(/"/g,'&quot;')+'" onclick="ZINV.pick(\''+id+'\')" ondblclick="ZINV.act(\''+id+'\')">'+ZIcon.item(id,2.5)+(typeof ZElUI!=='undefined'?ZElUI.pips(it):'')+(cnt[id]>1?'<b class="zv-n">×'+cnt[id]+'</b>':'')+(up?'<i class="zv-up">▲</i>':'')+(tr?'<i class="zv-tier t'+tr+'">'+ZINV.ROMAN[tr]+'</i>':'')+(mk?'<i class="zv-coin">🪙</i>':'')+(nw?'<i class="zv-dot"></i>':'')+'</div>'; }).join(''):
+      '<div class="zv-none">'+(F==='all'&&!inv.length?'Your pack is empty. Shops, chests and fallen monsters will fill it.':(ZINV.el||ZINV.upg)&&(ZINV.SUBS[F]||F==='all')?'Nothing here with these filters — <a href="#" onclick="ZINV.el=null;ZINV.upg=false;ZINV.render();return false">show everything</a>.':'Nothing of this kind in your pack.')+'</div>')+'</div>';
     h+='<div class="zv-detail">'+ZINV.detail(ps)+'</div></div></div>';
     if(F==='skills'&&typeof CASTLE_ISLANDS!=='undefined'){ var learned=ps.skillsLearned||[]; h+='<div class="zv-foot"><b>The twelve masters</b> — '+learned.length+' / 12 skills learned. Each castle island holds a master who teaches one.</div>'; }
     var own=ps.ownedFamiliars||[]; if(own.length&&typeof _familiarCardHTML==='function'){ h+='<div class="zv-fams"><div class="zv-fams-t">Familiars <span>— click for details · N to switch</span></div>'; own.forEach(function(fid){ h+=_familiarCardHTML(fid,ps,"showFamiliarInfo('"+fid+"')"); }); h+='</div>'; }
@@ -68,11 +109,13 @@ var ZINV={filter:'all',sel:null,timer:null,
     else if((it.heal||it.pot)&&!(it.pot&&it.pot.k==='flask'))btn='<button class="ir-equip" onclick="ZINV.use(\''+id+'\')">'+(sl==='food'||it.food?'Eat now':'Drink now')+'</button>'+(ZINV.SLOT_NAME[sl]?'<button class="ir-equip zv-off" onclick="ZINV.put(\''+id+'\')">Put on '+(sl==='food'?'O':'P')+'</button>':'');      /* round 102 (Kris: "should be able to consume food and potions while in the inventory") */
     else if(ZINV.SLOT_NAME[sl]&&sl!=='ring'||sl==='ring')btn='<button class="ir-equip" onclick="ZINV.act(\''+id+'\')">'+(sl==='spell'||sl==='special'?'Ready it':'Equip')+'</button>';
     else if(it.heal||it.pot)btn='<button class="ir-equip" onclick="ZINV.act(\''+id+'\')">'+(sl==='food'?'Eat':it.pot&&it.pot.k==='flask'?'Ready to throw':'Use')+'</button>';
+    if(s.k==='inv'&&ZINV.GEAR[sl])btn+='<button class="ir-equip zv-off zv-mkb" onclick="ZINV.mark(\''+id+'\')">'+(ZINV.marked(ps,id)?'🪙 Unmark':'🪙 Mark to sell')+'</button>';      /* round 109 */
+    var tr=ZINV.tier(it);
     return '<div class="zv-d-ico">'+ZIcon.item(id,4)+'</div><div class="zv-d-txt"><div class="zv-d-name">'+it.name+' <small>'+(ZINV.SLOT_NAME[sl]||({food:'Food',use:'Potion',gem:'Treasure',key:'Key',ammo:'Ammunition',material:'Material'})[sl]||'')+(s.k==='eq'?' · worn':'')+'</small></div>'+
       '<div class="zv-d-chips">'+ZINV.chips(it)+'</div><div class="zv-d-desc">'+(ZINV.plain(it)?'':(it.desc||''))+'</div>'+cmp+'</div><div class="zv-d-btn">'+btn+'</div>'; },
   setFilter:function(f){ ZINV.filter=f; ZINV.render(); },
   pick:function(id){ ZINV.sel={k:'inv',id:id}; ZINV.render(); },
-  pickSlot:function(sk){ ZINV.sel={k:'eq',slot:sk}; var base=sk.indexOf('ring')===0?'ring':sk, T=ZINV.TABS.filter(function(t){ return t[4]&&t[4].indexOf(base)>=0; })[0]; if(T)ZINV.filter=T[0]; ZINV.render(); },
+  pickSlot:function(sk){ ZINV.sel={k:'eq',slot:sk}; var base=sk.indexOf('ring')===0?'ring':sk, T=ZINV.TABS.filter(function(t){ return t[4]&&t[4].indexOf(base)>=0; })[0]; if(T){ ZINV.filter=T[0]; var L=ZINV.SUBS[T[0]]; if(L){ var ss=L.find(function(S){ return S[0]!=='all'&&(S[3]?false:S[0]===base); }); ZINV.sub[T[0]]=ss?ss[0]:'all'; } } ZINV.render(); },
   actSlot:function(sk){ var W=ZINV.ws(); if(W&&W.playerState&&(W.playerState.equip||{})[sk]){ ZINV.sel=null; window._unequipSlot(sk); } },
   // an item's main action: equip it, or eat / drink it
   use:function(id){ var W=ZINV.ws(); if(!W)return; var ps=W.playerState, i=ps.inventory.indexOf(id); if(i<0)return; window._useItem(i); if(ps.inventory.indexOf(id)<0)ZINV.sel=null; else ZINV.sel={k:'inv',id:id}; ZINV.render(ps); if(W._emitUI)W._emitUI(); },
@@ -91,6 +134,8 @@ var ZINV={filter:'all',sel:null,timer:null,
     if(ZINV.timer)clearInterval(ZINV.timer); ZINV.timer=setInterval(draw,130); draw();
     if(typeof ZAtlas!=='undefined'&&!ZAtlas.off&&ZAtlas.has(ch)){ var P=ZAtlas.pick(ch,['idle','still','float'],'f'); ZAtlas.thumbs(ch,260,8,function(L){ if(L&&L.length){ frames=L; n=Math.max(1,Math.min(L.length,(P&&P.n)||1)); draw(); } }); } }
 };
+ZINV.flush=function(){ var W=ZINV.ws(), ps=W&&W.playerState; if(!ps||!ps.invSeen)return; ZINV._shown.forEach(function(i){ ps.invSeen[i]=1; }); ZINV._shown=[]; };
+setTimeout(function(){ ['closeModal','toggleModal'].forEach(function(fn){ var f0=window[fn]; if(typeof f0!=='function')return; window[fn]=function(){ var r=f0.apply(this,arguments); try{ var el=document.getElementById('modal-inventory'); if(ZINV._shown.length&&(!el||el.style.display==='none'||el.offsetParent===null))ZINV.flush(); }catch(e){} return r; }; }); if(typeof ZPAUSE!=='undefined')['resume','go'].forEach(function(fn){ var f1=ZPAUSE[fn]; if(typeof f1!=='function')return; ZPAUSE[fn]=function(t){ if(ZINV._shown.length&&(fn==='resume'||t!=='inventory'))ZINV.flush(); return f1.apply(this,arguments); }; }); },0);
 function updateInventoryModal(ps){ try{ ZINV.render(ps); }catch(e){ if(typeof console!=='undefined')console.error('inventory',e); } }
 // the slot picker of the old layout now just selects the slot here
 window._openSlotPicker2=function(sk){ ZINV.pickSlot(sk); };
