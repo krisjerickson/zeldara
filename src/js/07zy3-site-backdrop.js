@@ -18,6 +18,7 @@ var ZBD={ on:true, OFF:{}, FAR:1/3,
   SOLID:{stars:1,clouds:1,storm:1},
   HAZE:{clouds:'#c8d8f0',storm:'#38404c',stars:'#05060f',lava:'#2a0c04',deep:'#04121e',canopy:'#0c1e10',abyss:'#06080c'},
   rq:function(seed){ var s0=(seed>>>0)||1, f=function(){ s0=(s0*1664525+1013904223)>>>0; return s0/4294967296; }; return {f:f, chance:function(p){ return f()<p; }, i:function(a,b){ return a+Math.floor(f()*(b-a+1)); }}; },
+  fp:function(ctx,c){ if(!c)return null; try{ return (typeof HTMLCanvasElement!=='undefined'&&c instanceof HTMLCanvasElement)||(c.getContext&&c.width)?ctx.createPattern(c,'repeat'):c; }catch(e){ return null; } },      /* a canvas → a fill pattern for this context */
   ok:function(f){ return ZBD.on&&!ZBD.OFF[f]; },
   kind:function(V){ return V?(V.k==='sea'?V.sea:V.k):null; },
   pat:function(id,px){ var Z=typeof ZScn!=='undefined'?ZScn:null; return Z&&!Z.off&&Z.timg&&Z.timg[id]&&Z.tile?Z.tile(id,px||128):null; },
@@ -26,23 +27,24 @@ var ZBD={ on:true, OFF:{}, FAR:1/3,
   shade:function(hex,f){ var c=typeof _scnRGB==='function'?_scnRGB(hex):[90,90,90], m=function(v){ return Math.max(0,Math.min(255,Math.round(f<0?v*(1+f):v+(255-v)*f))); }; return 'rgb('+m(c[0])+','+m(c[1])+','+m(c[2])+')'; },
   // ── the floor picture (07zy ZSPP.paint) ──
   // a wall top: painted bricks and a little moss over the flat colour
-  cap:function(ctx,px,py,LT,top,P,R0,built,el){ if(!ZBD.ok('caps')||top<4)return; var R=ZBD.rq(px*7+py*131+3);      /* its own random numbers (the floor's own stay as they were) */ var pt=ZBD.pat(el==='fire'?'tx_cap_basalt':built?'tx_cap_brick':'tx_cap_stone',96)||(typeof ZScn!=='undefined'&&ZScn.detail&&ZScn.detail('tx_dng_wall',LT*2,1.2));
-    if(pt){ ctx.save(); ctx.globalAlpha=0.55; ctx.fillStyle=pt; ctx.fillRect(px,py,LT,top); ctx.restore(); }
-    { ctx.save(); var bh=Math.max(5,Math.min(9,Math.round(top/2))), bw=LT/2, mo=ZBD.shade(P.wallTop,-0.5);      /* bricks: rows, staggered joints, each brick a shade lighter or darker */
+  cap:function(ctx,px,py,LT,top,P,R0,built,el){ if(!ZBD.ok('caps')||top<4)return; var R=ZBD.rq(px*7+py*131+3);      /* its own random numbers (the floor's own stay as they were) */ var pc=ZBD.pat(el==='fire'?'tx_cap_basalt':built?'tx_cap_brick':'tx_cap_stone',96), pt=pc||(typeof ZScn!=='undefined'&&ZScn.detail&&ZScn.detail('tx_dng_wall',LT*2,1.2));
+    if(pc){ ctx.save(); ctx.globalAlpha=0.9; ctx.fillStyle=ZBD.fp(ctx,pc); ctx.fillRect(px,py,LT,top); ctx.globalCompositeOperation='color'; ctx.globalAlpha=0.28; ctx.fillStyle=P.wallTop; ctx.fillRect(px,py,LT,top); ctx.restore(); }      /* the painted caps (sc_r109_tower), leaning to the site's own stone */
+    else if(pt){ ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=0.55; ctx.fillStyle=ZBD.fp(ctx,pt); ctx.fillRect(px,py,LT,top); ctx.restore(); }
+    if(!pc){ ctx.save(); var bh=Math.max(5,Math.min(9,Math.round(top/2))), bw=LT/2, mo=ZBD.shade(P.wallTop,-0.5);      /* bricks: rows, staggered joints, each brick a shade lighter or darker */
       for(var r=0,yy=py;yy<py+top;r++,yy+=bh){ var hh=Math.min(bh,py+top-yy), off=(r%2)*bw/2; for(var xx=px-off;xx<px+LT;xx+=bw){ var x0=Math.max(px,xx), x1=Math.min(px+LT,xx+bw); if(x1<=x0)continue;
           ctx.globalAlpha=0.14; ctx.fillStyle=R&&R.chance(0.5)?'#ffffff':'#000000'; ctx.fillRect(x0+1,yy+1,x1-x0-1.5,hh-1.5); ctx.globalAlpha=0.55; ctx.fillStyle=mo; if(xx>=px)ctx.fillRect(xx,yy,1.2,hh); }
         ctx.globalAlpha=0.55; ctx.fillStyle=mo; ctx.fillRect(px,yy+hh-1.2,LT,1.2); } ctx.restore(); }
     ctx.fillStyle='rgba(255,255,255,.12)'; ctx.fillRect(px,py,LT,1);
     if(el!=='fire'&&R&&R.chance(built?0.3:0.55)){ var n=1+(R.chance(0.5)?1:0); for(var i=0;i<n;i++){ ctx.fillStyle='rgba('+(70+R.i(0,30))+','+(120+R.i(0,40))+','+(50+R.i(0,20))+',0.55)'; ctx.beginPath(); ctx.ellipse(px+R.f()*LT,py+1+R.f()*Math.min(4,top-2),2+R.f()*3,1+R.f()*1.2,0,0,Math.PI*2); ctx.fill(); } } },
   // a floor cell: solid stone, so it never looks like the void round it
-  solidFloor:function(ctx,px,py,LT){ var pt=(typeof ZScn!=='undefined'&&ZScn.detail&&ZScn.detail('tx_dng_floor',LT*4,1.25))||ZBD.pat('tx_flagstone',128)||ZBD.pat('tx_cobble',128); if(!pt)return; ctx.save(); ctx.globalAlpha=0.55; ctx.fillStyle=pt; ctx.fillRect(px,py,LT,LT); ctx.restore(); },
+  solidFloor:function(ctx,px,py,LT){ var d=typeof ZScn!=='undefined'&&ZScn.detail&&ZScn.detail('tx_dng_floor',LT*4,1.25), pt=d||ZBD.pat('tx_flagstone',128)||ZBD.pat('tx_cobble',128); if(!pt)return; ctx.save(); if(d){ ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=0.85; } else ctx.globalAlpha=0.55; ctx.fillStyle=ZBD.fp(ctx,pt); ctx.fillRect(px,py,LT,LT); ctx.restore(); },
   // the floor's edge where it meets the backdrop: rounded corners, a lip, a face hanging below, a shadow under it
   edge:function(ctx,o){ if(!ZBD.ok('rim')||!o||!o.V||!o.clr)return; var V=o.V, k=ZBD.kind(V), W=o.W, H=o.H, LT=o.LT, P=o.P, R=ZBD.rq(o.W*977+o.H*31+7), clr=o.clr,
       G=o.g, wk=o.walk, dark=new Uint8Array(W*H), at=function(x,y){ return x<0||y<0||x>=W||y>=H?0:G[y*W+x]; };
     /* the dark mass: wall far from any floor (a built site keeps it, painted near-black) — the floor's edge meets it as it meets the void */
     if(G&&wk)for(var yd=0;yd<H;yd++)for(var xd=0;xd<W;xd++){ var kd=yd*W+xd; if(clr[kd]||G[kd]!==2)continue; var nr=false; for(var j0=-1;j0<=1&&!nr;j0++)for(var i0=-1;i0<=1;i0++){ var a0=at(xd+i0,yd+j0); if(wk(a0)||a0===3||a0===6){ nr=true; break; } } if(!nr)dark[kd]=1; }
     var C=function(x,y){ if(x<0||y<0||x>=W||y>=H)return true; var k0=y*W+x; return !!(clr[k0]||dark[k0]); }, T0=function(x,y){ if(x<0||y<0||x>=W||y>=H)return true; return !!clr[y*W+x]; }, dkc=ZBD.shade(P.void||'#000000',0.03), isl=ZBD.island(V), tw=!!V.tower&&ZBD.ok('tower'),
-      hF=k==='terrain'&&!tw?LT*0.34:k==='rock'?LT*0.42:isl?LT*1.75:tw?LT*0.95:LT*1.15, rr=LT*0.4, ep=ZBD.pat(ZBD.EDGE[V.el]||'tx_ed_stone',128)||o.wt, S=ZBD.shade;
+      hF=k==='terrain'&&!tw?LT*0.34:k==='rock'?LT*0.42:isl?LT*1.75:tw?LT*0.95:LT*1.15, rr=LT*0.4, ep0=isl?ZBD.pat('tx_isl_under',128):null, ep1=ep0||ZBD.pat(ZBD.EDGE[V.el]||'tx_ed_stone',128), ep=ZBD.fp(ctx,ep1)||o.wt, S=ZBD.shade;
     // 1. round off the floor's outer corners (the tile steps)
     ctx.save();
     var cut=function(cx,cy,sx,sy,tr){ ctx.globalCompositeOperation=tr?'destination-out':'source-over'; ctx.fillStyle=tr?'#000':dkc; var ox=cx+sx*rr, oy=cy+sy*rr; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(ox,cy); var a0=sy>0?-Math.PI/2:Math.PI/2, a1=sx>0?Math.PI:0; ctx.arc(ox,oy,rr,a0,a1,(sx>0)===(sy>0)); ctx.closePath(); ctx.fill(); };
@@ -57,7 +59,7 @@ var ZBD={ on:true, OFF:{}, FAR:1/3,
       else { ctx.lineTo(xs[2],top+h); ctx.lineTo(xs[3],top+h); }
       ctx.closePath(); ctx.clip();
       var fg=ctx.createLinearGradient(0,top,0,top+h); fg.addColorStop(0,S(P.wall,-0.05)); fg.addColorStop(0.55,S(P.wall,-0.42)); fg.addColorStop(1,S(P.wall,-0.75)); ctx.fillStyle=fg; ctx.fillRect(px2-1,top,LT+2,h+2);
-      if(ep){ ctx.globalAlpha=0.5; ctx.fillStyle=ep; ctx.fillRect(px2-1,top,LT+2,h+2); ctx.globalAlpha=1; }
+      if(ep){ ctx.globalAlpha=ep1?0.88:0.5; ctx.fillStyle=ep; ctx.fillRect(px2-1,top,LT+2,h+2); ctx.globalAlpha=1; } if(ep1){ var bf=ctx.createLinearGradient(0,top,0,top+h); bf.addColorStop(0,'rgba(0,0,0,0)'); bf.addColorStop(1,'rgba(0,0,0,.6)'); ctx.fillStyle=bf; ctx.fillRect(px2-1,top,LT+2,h+2); }      /* a painted face still darkens as it goes down */
       if(tw){ ctx.fillStyle='rgba(0,0,0,.25)'; for(var b=top+6;b<top+h;b+=7)ctx.fillRect(px2,b,LT,1); }      /* the gallery's masonry */
       var dk=ctx.createLinearGradient(0,top,0,top+5); dk.addColorStop(0,'rgba(0,0,0,.45)'); dk.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=dk; ctx.fillRect(px2,top,LT,5);
       ctx.restore();
@@ -88,7 +90,7 @@ var ZBD={ on:true, OFF:{}, FAR:1/3,
   // the tower's own wall, with arched windows the sky shows through
   towerTile:function(el,mage){ var key='tw_'+el+(mage?'_m':''); if(ZBD._c[key])return ZBD._c[key]; var S=256, cv=mkCanvas(S,S), g=cv.getContext('2d'), R=rngOf(key.length*71+3), pt=ZBD.pat(mage?'tx_tw_wall_mage':'tx_tw_wall',S);
     var base={fire:'#4a3530',water:'#3a4652',earth:'#5a5046',storm:'#4a4e5a',shadow:'#3a3448',grass:'#4c5244'}[el]||'#504a46'; if(mage)base='#463c58';
-    g.fillStyle=base; g.fillRect(0,0,S,S); if(pt){ g.globalAlpha=0.85; g.fillStyle=pt; g.fillRect(0,0,S,S); g.globalAlpha=1; }
+    g.fillStyle=base; g.fillRect(0,0,S,S); if(pt){ g.globalAlpha=1; g.fillStyle=ZBD.fp(g,pt); g.fillRect(0,0,S,S); g.globalAlpha=1; }
     else { var bh=16; for(var y=0;y<S;y+=bh){ var off=(y/bh)%2?20:0; for(var x=-40;x<S;x+=40){ var v=R.f()*0.16-0.08; g.fillStyle=ZBD.shade(base,v); g.fillRect(x+off+1,y+1,38,bh-2); } } g.fillStyle='rgba(0,0,0,.35)'; for(var y1=0;y1<S;y1+=bh)g.fillRect(0,y1,S,1); }
     var win=function(cx,top,w,h){ g.save(); g.fillStyle='rgba(0,0,0,.45)'; g.beginPath(); g.moveTo(cx-w/2-5,top+h+6); g.lineTo(cx-w/2-5,top+w/2); g.arc(cx,top+w/2,w/2+5,Math.PI,0); g.lineTo(cx+w/2+5,top+h+6); g.closePath(); g.fill();
       g.fillStyle=ZBD.shade(base,0.25); g.beginPath(); g.moveTo(cx-w/2-4,top+h+5); g.lineTo(cx-w/2-4,top+w/2); g.arc(cx,top+w/2,w/2+4,Math.PI,0); g.lineTo(cx+w/2+4,top+h+5); g.closePath(); g.fill();

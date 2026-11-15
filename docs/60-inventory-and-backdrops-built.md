@@ -36,10 +36,20 @@ Kept in the save: `ps.sellMarks`, `ps.invSeen`.
 | **Painted wall caps** | Every wall top gets staggered bricks with light and dark stones, a top highlight and a little moss (the round-103 painted bricks under them where loaded). No more blank white blocks. |
 | **Clear floor, plain void** | Over the stars, clouds or a storm, the floor gets solid stone, and the void is darker with a stronger vignette. |
 
-**Paintings ordered** (drawn by code until they are in): `.\tools\sprites\redo.ps1 -List r109`
+**Paintings: in** (round 109b). They replace the drawn stand-ins:
+
+- The painted faces hang under floor edges, one stone per element. Over an abyss or the stars, the island underside with roots is used instead.
+- Wall tops get the painted caps (rough stone, dressed brick, or basalt in the fire realm), tinted toward the site's own stone.
+- Tower floors are ringed by the painted tower wall, with violet runed stone for mage towers.
+- The round-106 healing wells (stone, frost and basalt; full and spent) are in too.
+
+What was ordered:
 
 - `sc_r109_edges`: the hanging face in six stones, one per element.
 - `sc_r109_tower`: the tower's inner wall (plain and mage), a floating island's underside, and three wall caps.
+
+Also fixed in 109b: the painted textures are canvases and must be turned into fill patterns (`ZBD.fp`). Before that, a painted cap filled as a blank block.
+
 
 **Note:** in dark sites, the exploration fog still hides what you haven't seen. Its square edges are the fog, not the floor.
 
