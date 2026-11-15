@@ -9,6 +9,8 @@
 // ║ The last third of the monsters still roam freely.
 // ═══════════════════════════════════════════════════════════════════════
 // camp data + prop art live in 07z-camp-art.js (shared with the Design Lab's Monster Camps tab)
+/* round 108: no night creatures guard a camp (asleep and unseen by day, they kept its chest shut) */
+function _campNoGuard(R){ var t=R&&R.tags; return !!(t&&(Array.isArray(t)?t.indexOf('night')>=0:/(^|\|)night(\||$)/.test(t))); }
 function _campLootTex(scene,item){ var a=CAMP_ITEM_ART[item]||'coin', name=Array.isArray(a)?a[0]:a, tint=Array.isArray(a)?a[1]:null, key='loot_'+name+(tint||''); if(scene.textures.exists(key))return key;
   // painted loot (round 31): a 64 px picture shown at half size; gems keep one painted colour
   // round 64 (Kris: camp rewards and meat still pixel art): the item's own painted icon first (ic_<item>: cheese, fish, stew, berries …), then the painted loot picture
@@ -59,13 +61,19 @@ Object.assign(WorldScene.prototype,{
         if(done[id]){ C.state='spent'; if(C.spr)C.spr.setFrame('2'); if(C.glow)C.glow.setVisible(false); this._camps.push(C); return C; }
         var n=Math.max(2,Math.min(7,3+Math.floor(rng.next()*3)+ZDiff.cur().guards)); for(var i=0;i<n;i++){ var a=i/n*Math.PI*2+rng.next()*0.4, gx=x+Math.cos(a)*(42+rng.next()*14), gy=y+Math.sin(a)*(30+rng.next()*10);
           if(!self._canGoMonster(gx,gy)){ gx=x+Math.cos(a)*24; gy=y+Math.sin(a)*18; }
-          var pick=null; for(var k=0;k<8&&(!pick||MON_LEGACY[pick.R.id]);k++)pick=monPick(rng,sec,'main');
-          if(!pick||MON_LEGACY[pick.R.id])continue;
+          var pick=null; for(var k=0;k<8&&(!pick||MON_LEGACY[pick.R.id]||_campNoGuard(pick.R));k++)pick=monPick(rng,sec,'main');
+          if(!pick||MON_LEGACY[pick.R.id]||_campNoGuard(pick.R))continue;
           var mon=this._spawnRosterMon(pick.R.id,gx,gy,sec,rng,{alpha:i===0&&n>=ZDiff.cur().alphaAt}); if(!mon)continue;
           mon.campId=id; mon.leashR=80; mon.campHome={x:x,y:y,r:TILE*8,leash:90}; C.guards.push(mon); if(guards)guards[sec]=(guards[sec]||0)+1; }
     this._camps.push(C); return C; },
   _campGuardDied(mon){ var C=this._camps&&this._camps.find(function(c){ return c.id===mon.campId; }); if(!C||C.state!=='guarded')return;
-    if(C.guards.some(function(g){ return !g.dead; })){ var left=C.guards.filter(function(g){ return !g.dead; }).length; if(left<=2)this._floatText(C.x,C.y-40,left+' guard'+(left>1?'s':'')+' left','#ffe9a8'); return; }
+    if(C.guards.some(function(g){ return !g.dead; })){ var alive=C.guards.filter(function(g){ return !g.dead; }), left=alive.length; this._floatText(C.x,C.y-40,left+' guard'+(left>1?'s':'')+' left','#ffe9a8');
+      /* round 108 (Kris: "i defeated the first 3 monsters for the first quest, but i wasn't able to open the chest"): a guard still hiding
+         (an ambusher, a burrower, a night creature asleep by day) kept the chest shut with nothing to see. When only hidden guards are left
+         they burst out to fight for it. */
+      if(alive.every(function(g){ return g._m&&g._m.hidden; })){ var self=this; alive.forEach(function(g){ var m=g._m; m.hidden=false; m.lurk=false; m.nightHide=false; m.aggro=true; m.up=99; try{ g.cont.setVisible(true).setAlpha(1); }catch(e){} self._floatText(g.x,g.y-26,'!','#ff6040'); });
+        showNotif('⚠ '+(left>1?'The last '+left+' guards burst':'The last guard bursts')+' out of hiding!','#ffb070'); }
+      return; }
     this._campCleared(C); },
   _campCleared(C){ var R=C.T.r, self=this, ps=this.playerState, q=C.sec; C.state='open'; C.clearedAt=Date.now();
     if(typeof Tome!=='undefined')Tome.see('place','camp_'+C.T.id);

@@ -4,7 +4,7 @@
 // ║  · [Tab] at Oswin in the guild: he speaks in the dialogue box, then the journal opens. First visit: who he is and your first two tasks,
 // ║    50 g each — enough for the village shop's Iron Sword (40 g) and Wood Shield (25 g), with a potion's worth over. Later visits: the next
 // ║    step of the Saga, and a rumour of something you have not found yet (a castle isle, a mage tower, the island) — a faint ring on the map.
-// ║  · Oswin's purse: the nearest goblin camp east of the village; beat its guards and its chest holds his 50 g.
+// ║  · Oswin's purse: the nearest camp with a chest east of the village; beat its guards and its chest holds his 50 g.
 // ║  · Old Nell's net: snagged on the far shore of Mirror Lake, two skeletons standing over it; [Tab] to take it, back to Old Nell at the pier
 // ║    for 50 g.
 // ║  · Stuck: when the Saga has not moved for 20 minutes of play, Oswin's next words are a stronger hint (where, which way, how far); on
@@ -21,7 +21,7 @@ var ZOSW={ on:true, NAME:'Master Oswin', ID:'npc_guild', PAY:50,
     if(typeof ZLES!=='undefined')ZLES.teach('guild',true);
     if(ps.oswin===1&&!T.camp&&!T.net){ ZOSW.give(ws);
       L.push('So the lake\'s foundling finally comes to my door. Sit. Every road out of this village is shut by something — a tower, a dungeon, a thing in the dark. I keep the list. You will clear it.');
-      L.push('But not with that stick. Start small, and earn your steel: a goblin camp squats on the road east of the village — they took my purse, fifty gold, and it sits in their chest. Take it back and keep it.');
+      L.push('But not with that stick. Start small, and earn your steel: '+(function(){ var C=ZOSW.camp(ws); return C?'the '+C.T.name+', a camp on the road east of the village':'a camp on the road east of the village'; })()+' — its guards took my purse, fifty gold, and it sits in their chest. Beat every guard (some hide until you come close), then Tab at the chest. Keep the gold.');
       L.push('And Old Nell at the pier lost her net to the lake\'s far shore. Two skeletons stand over it. Bring it to her; she will pay you fifty more. The village shop has an iron sword for forty and a wood shield for twenty-five. Spend it there.');
       L.push('Everything I tell you is written in your journal. Come back when you are done, and I will tell you what is next.'); }
     else { if(T.camp===1||T.net&&T.net<3)L.push(ZOSW.remind(ws));
@@ -35,19 +35,20 @@ var ZOSW={ on:true, NAME:'Master Oswin', ID:'npc_guild', PAY:50,
     var say=function(i){ if(i>=L.length){ ZOSW.journal(ws); return; } ZDLG.say(ZOSW.NAME,L[i],{id:ZOSW.ID,icon:'📜',done:function(){ say(i+1); }}); };
     if(typeof ZDLG!=='undefined'&&ZDLG.on)say(0); else { showNotif('📜 '+L.join(' '),'#ffdd44'); ZOSW.journal(ws); } },
   journal:function(ws){ var ps=ws.playerState; if(typeof renderQuestList==='function')renderQuestList(ps.unlockedSections,ps.completedQuests,ps.activeQuest,ws); if(typeof toggleModal==='function'){ var e=document.getElementById('modal-quests'); if(!e||e.style.display==='none')toggleModal('quests'); } },
-  remind:function(ws){ var T=ZOSW.tq(ws.playerState), a=[]; if(T.camp===1)a.push('my purse is still in that goblin camp to the east'); if(T.net===1)a.push('Old Nell\'s net still lies on the far shore'); if(T.net===2)a.push('you have Nell\'s net — take it to her at the pier');
+  remind:function(ws){ var T=ZOSW.tq(ws.playerState), a=[]; if(T.camp===1)a.push('my purse is still in that camp to the east'+(function(){ var C=ZOSW.camp(ws); return C?' — the '+C.T.name:''; })()); if(T.net===1)a.push('Old Nell\'s net still lies on the far shore'); if(T.net===2)a.push('you have Nell\'s net — take it to her at the pier');
     return a.length?'Well? '+a.join('; and ').replace(/^./,function(c){ return c.toUpperCase(); })+'.':''; },
   // ── the two tasks ──
   give:function(ws){ var ps=ws.playerState, T=ZOSW.tq(ps); T.camp=1; T.net=1; var C=ZOSW.camp(ws); if(C)T.campId=C.id; ZOSW.netSpot(ws); ps.tracked='tq:camp'; },
-  camp:function(ws){ var T=ZOSW.tq(ws.playerState), all=ws._camps||[]; if(T.campId){ var c=all.find(function(C){ return C.id===T.campId; }); if(c)return c; }
-    var G=all.filter(function(C){ return C.sec===1&&C.state==='guarded'; }), E=G.filter(function(C){ return C.tx>CENTER_X; }), P=(E.length?E:G).slice().sort(function(a,b){ return Math.hypot(a.tx-CENTER_X,a.ty-CENTER_Y)-Math.hypot(b.tx-CENTER_X,b.ty-CENTER_Y); }); return P[0]||null; },
+  camp:function(ws){ var T=ZOSW.tq(ws.playerState), all=ws._camps||[]; if(T.campId){ var c=all.find(function(C){ return C.id===T.campId; }); if(c&&(c.T.r.k==='chest'||T.camp!==1||c.state!=='guarded'))return c; }      /* round 108: a save whose camp has no chest (the camps were re-dealt) is given the nearest one with a chest */
+    var G0=all.filter(function(C){ return C.sec===1&&C.state==='guarded'; }), G1=G0.filter(function(C){ return C.T.r.k==='chest'; }), G=G1.length?G1:G0, E=G.filter(function(C){ return C.tx>CENTER_X; }),      /* round 108: a camp with a chest (his purse is in one) */
+    P=(E.length?E:G).slice().sort(function(a,b){ return Math.hypot(a.tx-CENTER_X,a.ty-CENTER_Y)-Math.hypot(b.tx-CENTER_X,b.ty-CENTER_Y); }); var R=P[0]||null; if(R&&T.camp===1)T.campId=R.id; return R; },
   // the net: on the shore of Mirror Lake, the side farthest from the village
   netSpot:function(ws){ var T=ZOSW.tq(ws.playerState); if(T.netAt)return T.netAt; var L=(typeof ZASG!=='undefined'&&ZASG.LAKE)||{x:600,y:600}, best=null, bd=-1;
     for(var k=0;k<48;k++){ var a=k/48*Math.PI*2; for(var r=6;r<90;r++){ var tx=Math.round(L.x+Math.cos(a)*r), ty=Math.round(L.y+Math.sin(a)*r), wx=tx*TILE+16, wy=ty*TILE+16;
         if(ws._canGo&&!ws._canGo(wx,wy,null))continue; var sec=getTileSection(tx,ty)||0, d=Math.hypot(tx-CENTER_X,ty-CENTER_Y); if((sec===0||sec===1)&&d<130&&d>bd){ bd=d; best={x:wx,y:wy}; } break; } }      /* the first dry tile out from the lake's middle, on open ground (the village's or the Grasslands'), farthest from the village */
     T.netAt=best||{x:(CENTER_X+30)*TILE,y:(CENTER_Y+20)*TILE}; return T.netAt; },
   target:function(ws,which){ var ps=ws.playerState, T=ZOSW.tq(ps);
-    if((!which||which==='camp')&&T.camp===1){ var C=ZOSW.camp(ws); if(C)return {x:C.x,y:C.y,t:'Oswin\'s purse — the goblin camp east of the village'}; }
+    if((!which||which==='camp')&&T.camp===1){ var C=ZOSW.camp(ws); if(C)return {x:C.x,y:C.y,t:'Oswin\'s purse — the '+C.T.name+' east of the village'}; }
     if((!which||which==='net')&&T.net===1){ var N=ZOSW.netSpot(ws); return {x:N.x,y:N.y,t:'Old Nell\'s net — the lake\'s far shore'}; }
     if((!which||which==='net')&&T.net===2){ var F=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_fisher'; }); if(F)return {x:F.x,y:F.y,t:'Old Nell at the pier'}; }
     return null; },
