@@ -10,6 +10,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 // camp data + prop art live in 07z-camp-art.js (shared with the Design Lab's Monster Camps tab)
 /* round 108: no night creatures guard a camp (asleep and unseen by day, they kept its chest shut) */
+function _campSwapGuard(R,id,i){ var P=MON_ROSTER.filter(function(o){ return o.q===R.q&&o.seg===R.seg&&!MON_LEGACY[o.id]&&!_campNoGuard(o)&&typeof MX!=='undefined'&&MX.kit(o.id); }); if(!P.length)return R; var h=0, k=String(id)+'#'+i; for(var j=0;j<k.length;j++)h=(h*31+k.charCodeAt(j))>>>0; return P[h%P.length]; }
 function _campNoGuard(R){ var t=R&&R.tags; return !!(t&&(Array.isArray(t)?t.indexOf('night')>=0:/(^|\|)night(\||$)/.test(t))); }
 function _campLootTex(scene,item){ var a=CAMP_ITEM_ART[item]||'coin', name=Array.isArray(a)?a[0]:a, tint=Array.isArray(a)?a[1]:null, key='loot_'+name+(tint||''); if(scene.textures.exists(key))return key;
   // painted loot (round 31): a 64 px picture shown at half size; gems keep one painted colour
@@ -61,8 +62,9 @@ Object.assign(WorldScene.prototype,{
         if(done[id]){ C.state='spent'; if(C.spr)C.spr.setFrame('2'); if(C.glow)C.glow.setVisible(false); this._camps.push(C); return C; }
         var n=Math.max(2,Math.min(7,3+Math.floor(rng.next()*3)+ZDiff.cur().guards)); for(var i=0;i<n;i++){ var a=i/n*Math.PI*2+rng.next()*0.4, gx=x+Math.cos(a)*(42+rng.next()*14), gy=y+Math.sin(a)*(30+rng.next()*10);
           if(!self._canGoMonster(gx,gy)){ gx=x+Math.cos(a)*24; gy=y+Math.sin(a)*18; }
-          var pick=null; for(var k=0;k<8&&(!pick||MON_LEGACY[pick.R.id]||_campNoGuard(pick.R));k++)pick=monPick(rng,sec,'main');
-          if(!pick||MON_LEGACY[pick.R.id]||_campNoGuard(pick.R))continue;
+          var pick=null; for(var k=0;k<8&&(!pick||MON_LEGACY[pick.R.id]);k++)pick=monPick(rng,sec,'main');
+          if(!pick||MON_LEGACY[pick.R.id])continue;
+          if(_campNoGuard(pick.R))pick={R:_campSwapGuard(pick.R,id,i)};      /* round 108: a day-awake stand-in, chosen without the rng (the camps and their ids stay where saves expect them) */
           var mon=this._spawnRosterMon(pick.R.id,gx,gy,sec,rng,{alpha:i===0&&n>=ZDiff.cur().alphaAt}); if(!mon)continue;
           mon.campId=id; mon.leashR=80; mon.campHome={x:x,y:y,r:TILE*8,leash:90}; C.guards.push(mon); if(guards)guards[sec]=(guards[sec]||0)+1; }
     this._camps.push(C); return C; },
@@ -76,6 +78,7 @@ Object.assign(WorldScene.prototype,{
       return; }
     this._campCleared(C); },
   _campCleared(C){ var R=C.T.r, self=this, ps=this.playerState, q=C.sec; C.state='open'; C.clearedAt=Date.now();
+    if(/^c[1-4]_/.test(C.id||'')){ ps.campsCleared=ps.campsCleared||{}; ps.campsCleared[C.id]=1; }      /* round 108: every camp beaten counts for the Sovereign gauntlets (only chest, gem and rune camps used to: the rest could never count) */
     if(typeof Tome!=='undefined')Tome.see('place','camp_'+C.T.id);
     var sub={food:'Food is up for grabs!',chest:'The chest is unguarded — [Tab] to open it',well:'The spring is free — [Tab] to drink and heal',mana:'The waters are free — [Tab] to restore mana',buff:'The shrine is free — [Tab] for its blessing',xp:'The stone is free — [Tab] to read its runes',ammo:'Arrows lie ready to collect!',gems:'Gems glitter where the guards stood!'}[R.k];
     campCelebrate(this,C.x,C.y,C.T.name+' cleared!',sub);
