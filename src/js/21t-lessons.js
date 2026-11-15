@@ -67,6 +67,7 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
   scene:function(){ try{ var a=game.scene.getScenes(true).filter(function(s){ return ['World','Dungeon','Building','Island','Sky'].indexOf(s.sys.settings.key)>=0; }); return a[a.length-1]||null; }catch(e){ return null; } },
   tick:function(){ try{ if(!ZLES.on||typeof game==='undefined'||!game.scene)return; var ws=game.scene.getScene('World'), ps=ws&&ws.playerState; if(!ps||!ws.player)return;
     if(typeof _anyModalOpen==='function'&&_anyModalOpen())return; if(typeof ZDeath!=='undefined'&&ZDeath.busy)return;      /* round 106: nothing over the death pop-up */ if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&ZCUT.isOpen())return;
+    if(typeof ZSQ!=='undefined'&&ZSQ.hold(ps))return;      /* round 107: a story cut-scene due goes first */
     var S=ZLES.seen(ps), has=function(fn){ return (ps.inventory||[]).some(function(i){ var I=ITEMS[i]; return I&&fn(i,I); }); }, T=function(id,c){ if(!S[id]&&c)ZLES.teach(id); };
     // an old save: what it has done counts as taught, quietly
     if(!ps._lesInit){ ps._lesInit=1; if(!ws._newGame){ ZLES.L.forEach(function(L){ if(ZLES.cond(L[0],ws,ps))S[L[0]]=S[L[0]]||1; }); ['move','map','guild','shop','rest','camp','sites'].forEach(function(id){ if((ps.level||1)>1)S[id]=S[id]||1; }); } return; }

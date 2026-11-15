@@ -24,7 +24,7 @@ var ZWALK={ on:true,
   tick:function(){ try{ var ws=ZWALK.ws(); if(!ws||!ws.playerState||!ws.player)return; var ps=ws.playerState;
     if(ps.walk===undefined){ if(!ZWALK.on||!ws._newGame){ ps.walk='done'; return; }
       if(Date.now()-(ZWALK._born||(ZWALK._born=Date.now()))<4000)return; if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&(ZCUT.isOpen()||document.getElementById('zcut-closing')))return; if(typeof _anyModalOpen==='function'&&_anyModalOpen())return;
-      if(typeof ZSQ!=='undefined'&&ps.sagaQ&&ps.sagaQ.indexOf('opening')>=0)return;      /* the opening still waiting its turn */
+      if(typeof ZSQ!=='undefined'&&(ZSQ.hold(ps)||(ps.sagaQ&&ps.sagaQ.indexOf('opening')>=0)||Date.now()-ZSQ.lastEnd<1500))return;      /* round 107: the opening first (still to come, playing or just closed) */
       ZWALK.hi(ws); return; }
     if(!ZWALK.on||ps.walk==='done'||!ws.sys.isActive())return;
     if(ps.walk==='move'&&ZWALK._p&&Math.hypot(ws.player.x-ZWALK._p.x,ws.player.y-ZWALK._p.y)>TILE*3){ if(typeof ZLES!=='undefined')ZLES.teach('move',true); ZWALK.go(ws,'attack'); }

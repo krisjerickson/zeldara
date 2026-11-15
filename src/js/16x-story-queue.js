@@ -19,19 +19,28 @@ var ZSQ={ on:true, GAP:40000, lastEnd:0, REALMS:[2,3,4],
   ws:function(){ return typeof game!=='undefined'&&game.scene?game.scene.getScene('World'):null; },
   busy:function(){ return !!((typeof ZCUT!=='undefined'&&ZCUT.isOpen&&ZCUT.isOpen())||document.getElementById('zcut-closing')); },
   // the moment is calm enough for a story cut-scene
-  calm:function(){ if(!ZSQ.t0||Date.now()-ZSQ.t0<1500)return false;      /* a moment to arrive after the game opens */
-    var ws=ZSQ.ws(); if(!ws||!ws.sys||!ws.sys.isActive()||!ws.player||!ws.playerState)return false;
+  calm:function(soft){ if(!ZSQ.t0||Date.now()-ZSQ.t0<1500)return false;      /* a moment to arrive after the game opens (soft: a lesson or pop-up open does not count — ZSQ.hold) */
+    var ws=ZSQ.ws(); if(!ws||!ws.sys||!(ws.sys.isActive()||soft&&ws.sys.isPaused()&&typeof _anyModalOpen==='function'&&_anyModalOpen())||!ws.player||!ws.playerState)return false;      /* soft: the overworld paused under a box */
     if(ZSQ.busy()||Date.now()-ZSQ.lastEnd<ZSQ.GAP)return false;
-    if(typeof _anyModalOpen==='function'&&_anyModalOpen())return false;
+    if(!soft&&typeof _anyModalOpen==='function'&&_anyModalOpen())return false;
     if(ws._zslT||ws._bifBusy)return false;      /* a soul-line being drawn; the Bifröst rising */
     var x=ws.player.x, y=ws.player.y;
     return !(ws.worldMonsters||[]).some(function(m){ return m&&!m.dead&&m._engT&&Date.now()-m._engT<5000&&Math.hypot(m.x-x,m.y-y)<420; }); },
+  // round 107 (Kris: "since the tutorial, the cut scenes don't seem to be working, and it goes straight to the tutorial"): the story comes
+  // first. The opening of a new game, and any cut-scene whose moment has come, hold back the lessons, Oswin's hints and the first walk
+  // (21t, 21u, 21v) — before, a lesson box or the twin's greeting could open first, and the cut-scene then waited behind one box after another.
+  opening:function(ps){ var ws=ZSQ.ws(); if(!ps||!ws||ws.playerState!==ps||!ws._newGame||(ps.sagaSeen||[]).indexOf('opening')>=0||!ZSAGA.ready('opening'))return false;
+    if(!ZSQ._opT)ZSQ._opT=Date.now(); return Date.now()-ZSQ._opT<45000; },      /* never more than 45 s (a safety: the tutorial is not held for ever) */
+  hold:function(ps){ try{ if(!ZSQ.on||typeof ZCUT==='undefined'||!ZCUT.on||typeof ZSAGA==='undefined')return false; if(ZSQ.busy())return true; if(ZSQ.opening(ps))return true;
+    return !!(ps&&ps.sagaQ&&ps.sagaQ.length&&ZSQ.calm(true)); }catch(e){ return false; } },
   queue:function(ps){ return ps.sagaQ||(ps.sagaQ=[]); },
   add:function(ps,k){ var Q=ZSQ.queue(ps); if(Q.indexOf(k)<0)Q.push(k); },
   // play now, past the queue
   now:function(ps,k,done){ ZSQ._now=true; try{ return ZSQ._p0.call(ZSAGA,ps,k,done); } finally{ ZSQ._now=false; } },
   tick:function(){ try{ if(!ZSQ.on||typeof ZSAGA==='undefined')return; if(ZSQ.busy())ZSQ.lastEnd=Date.now();
-    var ws=ZSQ.ws(); if(!ws||!ws.sys||!ws.sys.isActive()||!ws.player||!ws.playerState||!ws.playerState.sagaSeen)return; var ps=ws.playerState; if(!ZSQ.t0)ZSQ.t0=Date.now();
+    var ws=ZSQ.ws(); if(!ws||!ws.sys||!ws.sys.isActive()||!ws.player||!ws.playerState)return; var ps=ws.playerState; if(!ZSQ.t0)ZSQ.t0=Date.now();
+    if(!ps.sagaSeen)ZSAGA.start(ws);      /* round 107: no longer only from the soul-lines' tick (a slow first build there kept the opening back) */
+    if(ZSQ.opening(ps)){ if(Date.now()-ZSQ.t0>=1500&&!ZSQ.busy()&&!(typeof _anyModalOpen==='function'&&_anyModalOpen())){ var iq=ZSQ.queue(ps).indexOf('opening'); if(iq>=0)ZSQ.queue(ps).splice(iq,1); ZSQ.now(ps,'opening'); } return; }      /* the opening: at once, before anything else */
     // the first steps into a realm: its old disaster (queued like any other)
     if(typeof getTileSection==='function'&&typeof TILE!=='undefined'){ var q=getTileSection(Math.floor(ws.player.x/TILE),Math.floor(ws.player.y/TILE)), R=ps.realmsEntered||(ps.realmsEntered=[]);
       if(ZSQ.REALMS.indexOf(q)>=0&&R.indexOf(q)<0){ R.push(q); ZSAGA.play(ps,'realm'+q); } }

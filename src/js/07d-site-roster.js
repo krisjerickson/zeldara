@@ -12,9 +12,9 @@ var SITE_FLOORS={1:[4,5],2:[5,6],3:[6,7],4:[7,8]};   // floors by region; boss s
 // mini rooms … reducing the total number of levels for these specific sites"): the sites whose floors are the biggest (walkable area and
 // the walk from stairs to stairs, measured on every floor) keep fewer floors — about 9,000 walkable tiles and a 650-tile walk in all, never
 // fewer than three (two for a mage tower). The guardian is still on the last floor. Was → now in the comments.
-var SITE_FLOOR_CAP={ s3_dungeon:3 /* 7 · 26,800 tiles */, s4_b_boulder_field:3 /* 8 · 26,500 */, s2_b_crystal_grotto:3 /* 6 · 16,500, a 977-tile walk */, s2_b_root_hollow:3 /* 5 · 13,600 */,
+var SITE_FLOOR_CAP={ s3_dungeon:4 /* 7 · 26,800 tiles */, s4_b_boulder_field:4 /* 8 · 26,500 */, s2_b_crystal_grotto:4 /* 6 · 16,500, a 977-tile walk */, s2_b_root_hollow:3 /* 5 · 13,600 */,
   isl_adv_4_tower_island:3 /* 5 · 11,800 */, isl_castle_q4_c:3 /* 4 · 10,000 */, s3_b_pillared_hall:4 /* 6 · a 947-tile walk */, s4_dungeon:6 /* 8 */, s4_b_spiral_chasm:6 /* 7 */,
-  s4_b_reflecting_hall:6 /* 7 */, mage_monolith:2 /* 3 · 8,200 */ };
+  s4_b_reflecting_hall:6 /* 7 */ };      /* round 107 (Kris: "the floor changes are sometimes too extreme, instead of 7 to 3 and 8 to 3, we should still have 4 floors … For 6 to 3, should be 4 instead. Monolith mage tower should stay at 3") */
 function _siteFloorCap(id,n){ var c=SITE_FLOOR_CAP[id]; return c&&c<n?c:n; }
 var SITE_ROSTER={
   1:[{kind:'tower',design:'silverwood',boss:true},{kind:'dungeon',design:'sunken_courtyard',boss:true},

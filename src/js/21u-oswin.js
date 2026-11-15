@@ -53,7 +53,7 @@ var ZOSW={ on:true, NAME:'Master Oswin', ID:'npc_guild', PAY:50,
     return null; },
   next:function(ws){ var T=ZOSW.tq(ws.playerState); if(!ws.playerState.oswin&&!T.camp)return {t:'Visit Master Oswin at the Adventurers\' Guild in the village'};
     var tg=ZOSW.target(ws); return tg?{t:tg.t}:null; },
-  tick:function(){ try{ if(!ZOSW.on)return; var ws=ZOSW.ws(); if(!ws||!ws.playerState||!ws.player||!ws.sys.isActive()||ws.wd&&ws.wd.islKey)return; var ps=ws.playerState, T=ZOSW.tq(ps);
+  tick:function(){ try{ if(!ZOSW.on)return; var ws=ZOSW.ws(); if(!ws||!ws.playerState||!ws.player||!ws.sys.isActive()||ws.wd&&ws.wd.islKey)return; var ps=ws.playerState, T=ZOSW.tq(ps); if(typeof ZSQ!=='undefined'&&ZSQ.hold(ps))return;      /* round 107: a story cut-scene due goes first */
     // play time since the Saga last moved (for "stuck")
     var c=typeof ZJOUR!=='undefined'?ZJOUR.current(ws):null, id=c?c.id:''; if(ps._pathId!==id){ ps._pathId=id; ps.pathT=0; } else if(!(typeof isGamePaused==='function'&&isGamePaused()))ps.pathT=(ps.pathT||0)+1;
     if(+ps.difficulty===0&&ps.pathT>0&&ps.pathT%300===0&&ZOSW.stuck(ws)){ var N=typeof ZQMAP!=='undefined'?ZQMAP.next(ws):null; if(N)showNotif('📜 Oswin\'s reminder — '+N.t,'#ffe27a'); }

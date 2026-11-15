@@ -10,10 +10,10 @@ WS = "game.scene.getScene('World')"; D = "game.scene.getScene('Dungeon')"
 with game(w=1280, h=720) as g:
     g.wait(2500)
     f = g.js("(()=>{ var o={}; _slCatalog().forEach(gr=>gr.sites.forEach(s=>{ o[s.id]=s.floors; })); var w={}; %s.wd.sites.forEach(s=>{ if(s.id)w[s.id]=s.floors; }); return {lab:o, world:w}; })()" % WS)
-    want = {'s3_dungeon': 3, 's4_b_boulder_field': 3, 's2_b_crystal_grotto': 3, 's2_b_root_hollow': 3, 's3_b_pillared_hall': 4, 's4_dungeon': 6, 'isl_castle_q4_c': 3, 'mage_monolith': 2, 's1_tower': 5}
+    want = {'s3_dungeon': 4, 's4_b_boulder_field': 4, 's2_b_crystal_grotto': 4, 's2_b_root_hollow': 3, 's3_b_pillared_hall': 4, 's4_dungeon': 6, 'isl_castle_q4_c': 3, 'mage_monolith': 3, 's1_tower': 5}
     got = {k: f['lab'].get(k) for k in want}
     check('The biggest sites are shorter (%s)' % got, got == want, got)
-    check('…and the world agrees (s3_dungeon %s, mage_monolith %s)' % (f['world'].get('s3_dungeon'), f['world'].get('mage_monolith')), f['world'].get('s3_dungeon') == 3 and f['world'].get('mage_monolith') == 2, f['world'])
+    check('…and the world agrees (s3_dungeon %s, mage_monolith %s)' % (f['world'].get('s3_dungeon'), f['world'].get('mage_monolith')), f['world'].get('s3_dungeon') == 4 and f['world'].get('mage_monolith') == 3, f['world'])
     # aiming needs mana and a ready spell
     g.js("(()=>{ var ws=%s, ps=ws.playerState; var t=Object.keys(ITEMS).find(k=>ITEMS[k].spellId==='frost_bolt'); ps.inventory.push(t); ps.equip.spell=t; ZAIM.on=true; ZDRAW.on=true; })()" % WS)
     a = g.js("(()=>{ var ws=%s, ps=ws.playerState; ps.mana=2; ZAIM.cur=null; ZAIM.press(ws,{}); var n=!!ZAIM.cur; ps.mana=ps.maxMana; ws._spellCd=3; ZAIM.press(ws,{}); var c=!!ZAIM.cur; ws._spellCd=0; ZAIM.press(ws,{}); var ok=!!ZAIM.cur; ZAIM.clear('t'); return {nomana:n, cd:c, ok:ok}; })()" % WS)
