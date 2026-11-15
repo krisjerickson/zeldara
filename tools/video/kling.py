@@ -78,6 +78,7 @@ try:
     from lock_scenes import SPECIAL as LOCK_SPECIAL      # round 102: five special shots
 except ImportError:
     LOCK_SPECIAL = {}
+WOODEN = {'opening'}      # round 110: the scenes where the hero still has only the wooden practice sword
 SIGS = [('lightning', r'lightning|thunder'), ('rain or storm', r'\brain\b|storm'), ('fire, lava or embers', r'\blava|fire|flame|ember|erupt|molten|magma'),
         ('gate or doors', r'\bgate\b|doors'), ('chains', r'chain'), ('basket or babes', r'basket|babe|newborn'), ('rainbow bridge', r'rainbow|bifr'),
         ('beams or pillars of light', r'beams? of (?:light|white|star)|pillar of (?:white-gold )?light|beam shoot'), ('snow', r'\bsnow'), ('bursting or shattering', r'burst|shatter|explod'),
@@ -124,6 +125,8 @@ def prompt(sc, beats, who, part, nparts, sec=None):
             i + 1, i + 1, fs(i * SECS), fs((i + 1) * SECS), r['b']['title'].upper(), i + 1, r['see'], acts_txt, ('SPECIAL CAMERA, this shot only: %s. ' % sp) if sp else '', r['end'], '; '.join(r['never'])))
     L += ['', 'End on @image%d, held for a moment.' % n, '',
           'AVOID (everywhere): any picture shown out of order or skipped; events from one picture appearing in another; morphing between pictures; light or energy flowing between objects; new people or creatures; changed faces, hair or clothes; anything modern (umbrellas, glasses, phones, guns, cars, street lamps); text, letters, captions, logos or watermarks; photorealism or a 3D-render look; extra fingers or limbs; flicker. No speech or lip-sync.']
+    if sc['id'] in WOODEN:      # round 110 (Kris: "you only start with the wooden sword, so the intro videos should have a wooden sword, not the metal one")
+        L = [x + (' Never a metal, steel or glowing sword: the hero\'s only sword here is a plain wooden practice sword.' if x.startswith('AVOID (everywhere)') else '') for x in L]
     return '\n'.join(L) + '\n'
 
 def negative():

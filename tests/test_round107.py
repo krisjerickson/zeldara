@@ -24,7 +24,7 @@ with game(painted=True, real=True) as g:
         if s['walk']: break
     check('…then your twin greets you and the first walk begins (%s)' % s, not s['cut'] and s['walk'] in ('hi', 'move') and s['dlg'], s)
     # a cut-scene due, while a lesson box is up: it plays as soon as the box closes, before any other lesson
-    g.js("(()=>{ ZDLG.cur&&ZDLG.cur.close(); var ws=game.scene.getScene('World'), ps=ws.playerState; ps.walk='done'; ZWALK.on=false; ZSQ.lastEnd=0; ZLES.seen(ps).potion=0; delete ZLES.seen(ps).potion; ZLES.teach('potion'); ps.sagaQ=['realm2']; ps.sagaSeen=ps.sagaSeen.filter(k=>k!=='realm2'); })()")
+    g.js("(()=>{ for(var k=0;k<4&&ZDLG.cur;k++)ZDLG.cur.close(); var ws=game.scene.getScene('World'), ps=ws.playerState; ps.walk='done'; ZWALK.on=false; ZSQ.lastEnd=0; ZLES.seen(ps).potion=0; delete ZLES.seen(ps).potion; ZLES.teach('potion'); ps.sagaQ=['realm2']; ps.sagaSeen=ps.sagaSeen.filter(k=>k!=='realm2'); })()")
     g.wait(600)
     a = g.js(S)
     check('A cut-scene due waits behind the open lesson box, and holds the next lessons (%s)' % a, a['dlg'] and not a['cut'] and a['hold'] and a['q'] == ['realm2'], a)

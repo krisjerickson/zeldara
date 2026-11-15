@@ -1,0 +1,6 @@
+# round 110 - the opening's last frames painted again with the hero's WOODEN practice sword (Kris: "you only start with the wooden sword")
+sc_sb_opening_10
+sc_sb_opening_11_m
+sc_sb_opening_11_f
+sc_sb_opening_12_m
+sc_sb_opening_12_f

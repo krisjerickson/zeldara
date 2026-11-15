@@ -22,8 +22,12 @@ WS = "game.scene.getScene('World')"
 with game(painted=True, w=1280, h=720) as g:
     g.wait(3500)
     g.js("(()=>{ ['ZLES','ZWALK','ZOSW','ZJOUR'].forEach(function(k){ window[k].on=true; }); var ws=%s, ps=ws.playerState; ws._newGame=true; delete ps.walk; ps.lessons={}; ps._lesInit=1; ps.tq={camp:0,net:0}; ps.oswin=0; ps.tracked=null; ZWALK._born=Date.now()-5000; })()" % WS)
-    ok = until(g, "ZDLG.open&&!!document.querySelector('#zdlg .zd-extra')", 6000)
-    check('A new game: your twin speaks first, with "I know how to play — skip the lessons" (%s)' % g.js("document.querySelector('#zdlg .zd-name')&&document.querySelector('#zdlg .zd-name').textContent"), ok and 'skip' in (g.js("document.querySelector('#zdlg .zd-extra').textContent") or ''))
+    until(g, "ZDLG.open", 8000)      # round 110: Master Oswin greets you (two lines, the skip on the second)
+    for _ in range(6):
+        if g.js("!!(ZDLG.open&&document.querySelector('#zdlg .zd-extra'))"): break
+        g.page.keyboard.press('Space'); g.wait(700)
+    ok = until(g, "ZDLG.open&&!!document.querySelector('#zdlg .zd-extra')", 3000)
+    check('A new game: Master Oswin speaks first, with "I know how to play — skip the lessons" (%s)' % g.js("document.querySelector('#zdlg .zd-name')&&document.querySelector('#zdlg .zd-name').textContent"), ok and 'Oswin' in (g.js("document.querySelector('#zdlg .zd-name').textContent") or '') and 'skip' in (g.js("document.querySelector('#zdlg .zd-extra').textContent") or ''))
     if SHOTS: g.shot(os.path.join(SHOTS, '1_twin.png'))
     talk_through(g); g.wait(700)
     a = g.js("(()=>({walk:%s.playerState.walk, line:(document.getElementById('zpath')||{}).textContent}))()" % WS)
@@ -34,7 +38,8 @@ with game(painted=True, w=1280, h=720) as g:
     g.wait(700); check('Three swings → "open the map"', g.js("%s.playerState.walk" % WS) == 'map')
     g.js("openWorldMap()"); g.wait(1000); g.js("(()=>{ if(typeof closeModal==='function')closeModal('map'); })()"); g.wait(700)
     b = g.js("(()=>{ var ws=%s, t=ZJOUR.target(ws); return {walk:ws.playerState.walk, t:t&&t.t}; })()" % WS)
-    check('Opening the map → "go to the guild", the gold arrow pointing to it (%s)' % b, b['walk'] == 'guild' and 'Guild' in (b['t'] or ''), b)
+    check('Opening the map → "follow Master Oswin to his guild", the gold arrow pointing to him (round 110) (%s)' % b, b['walk'] == 'follow' and 'Oswin' in (b['t'] or ''), b)
+    g.js("(()=>{ ZDLG.cur&&ZDLG.cur.close(); ZWALK.unspawn(%s); ZWALK.go(%s,'guild'); })()" % (WS, WS)); g.wait(600)      # his walk to the door: test_round110
     g.js("ZOSW.talk(%s)" % WS); g.wait(500)
     c = g.js("(()=>({name:document.querySelector('#zdlg .zd-name').textContent, text:document.querySelector('#zdlg .zd-text').textContent}))()")
     check('At the guild Master Oswin speaks — the stern scholar (%s…)' % c['text'][:40], c['name'] == 'Master Oswin', c)
