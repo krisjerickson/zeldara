@@ -43,9 +43,21 @@ var ZOSW={ on:true, NAME:'Master Oswin', ID:'npc_guild', PAY:50,
     var G0=all.filter(function(C){ return C.sec===1&&C.state==='guarded'; }), G1=G0.filter(function(C){ return C.T.r.k==='chest'; }), G=G1.length?G1:G0, E=G.filter(function(C){ return C.tx>CENTER_X; }),      /* round 108: a camp with a chest (his purse is in one) */
     P=(E.length?E:G).slice().sort(function(a,b){ return Math.hypot(a.tx-CENTER_X,a.ty-CENTER_Y)-Math.hypot(b.tx-CENTER_X,b.ty-CENTER_Y); }); var R=P[0]||null; if(R&&T.camp===1)T.campId=R.id; return R; },
   // the net: on the shore of Mirror Lake, the side farthest from the village
-  netSpot:function(ws){ var T=ZOSW.tq(ws.playerState); if(T.netAt)return T.netAt; var L=(typeof ZASG!=='undefined'&&ZASG.LAKE)||{x:600,y:600}, best=null, bd=-1;
-    for(var k=0;k<48;k++){ var a=k/48*Math.PI*2; for(var r=6;r<90;r++){ var tx=Math.round(L.x+Math.cos(a)*r), ty=Math.round(L.y+Math.sin(a)*r), wx=tx*TILE+16, wy=ty*TILE+16;
-        if(ws._canGo&&!ws._canGo(wx,wy,null))continue; var sec=getTileSection(tx,ty)||0, d=Math.hypot(tx-CENTER_X,ty-CENTER_Y); if((sec===0||sec===1)&&d<130&&d>bd){ bd=d; best={x:wx,y:wy}; } break; } }      /* the first dry tile out from the lake's middle, on open ground (the village's or the Grasslands'), farthest from the village */
+  // round 110 (Kris: "the beginning quest of finding the fisher's net is not currently possible, as the skeleton dog standing over it is in
+  // the highlands, and stuck there"): the net lies on a shore of Mirror Lake you can WALK to from the village without leaving the
+  // Grasslands — found by walking out from the Green over open ground of the village and the Grasslands only; the farthest such shore.
+  // A save whose net lay somewhere else gets the new place.
+  reach:function(ws){ if(ws._tqReach&&ws._tqReach.wd===ws.wd)return ws._tqReach; var W=WORLD_W, H=WORLD_H, seen=new Uint8Array(W*H), q=[CENTER_Y*W+CENTER_X], shore=[], L=(typeof ZASG!=='undefined'&&ZASG.LAKE)||{x:600,y:600}, tl=ws.tiles||ws.wd.tiles;
+    var ok=function(x,y){ if(x<1||y<1||x>=W-1||y>=H-1)return false; if(Math.hypot(x-CENTER_X,y-CENTER_Y)>150)return false; var sc=getTileSection(x,y)||0; if(sc!==0&&sc!==1)return false; return !ws._canGo||ws._canGo(x*TILE+16,y*TILE+16,null); };
+    var wet=function(x,y){ var t=tl[y]&&tl[y][x]; return t===T.SHALLOW_WATER||t===T.DEEP_WATER; };
+    seen[q[0]]=1; for(var i=0;i<q.length;i++){ var c=q[i], x=c%W, y=(c/W)|0;
+      if((wet(x+1,y)||wet(x-1,y)||wet(x,y+1)||wet(x,y-1))&&Math.hypot(x-L.x,y-L.y)<75)shore.push(c);
+      [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(o){ var nx=x+o[0], ny=y+o[1], k=ny*W+nx; if(seen[k]||!ok(nx,ny))return; seen[k]=1; q.push(k); }); }
+    ws._tqReach={wd:ws.wd,seen:seen,shore:shore}; return ws._tqReach; },
+  netOk:function(ws,N){ try{ var R=ZOSW.reach(ws), tx=Math.floor(N.x/TILE), ty=Math.floor(N.y/TILE); return !!R.seen[ty*WORLD_W+tx]; }catch(e){ return true; } },
+  netSpot:function(ws){ var T=ZOSW.tq(ws.playerState); if(T.netAt&&ZOSW.netOk(ws,T.netAt))return T.netAt;
+    var R=ZOSW.reach(ws), best=null, bd=-1; R.shore.forEach(function(c){ var x=c%WORLD_W, y=(c/WORLD_W)|0, d=Math.hypot(x-CENTER_X,y-CENTER_Y); if(d>bd&&d>14){ bd=d; best={x:x*TILE+16,y:y*TILE+16}; } });
+    if(T.netAt&&ws._tqNet){ try{ ws._tqNet.destroy(); }catch(e){} ws._tqNet=null; (ws._tqNetG||[]).forEach(function(m){ if(m&&!m.dead){ m.dead=true; try{ m.cont.destroy(); }catch(e){} } }); ws._tqNetG=[]; }
     T.netAt=best||{x:(CENTER_X+30)*TILE,y:(CENTER_Y+20)*TILE}; return T.netAt; },
   target:function(ws,which){ var ps=ws.playerState, T=ZOSW.tq(ps);
     if((!which||which==='camp')&&T.camp===1){ var C=ZOSW.camp(ws); if(C)return {x:C.x,y:C.y,t:'Oswin\'s purse — the '+C.T.name+' east of the village'}; }
@@ -67,9 +79,20 @@ var ZOSW={ on:true, NAME:'Master Oswin', ID:'npc_guild', PAY:50,
     // Old Nell takes it back
     var F=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_fisher'; }); if(F&&!F._tq){ F._tq=1; F.talk=function(sc){ ZOSW.nell(ws); }; }
   }catch(e){ if(!ZOSW._err){ ZOSW._err=1; console.warn('oswin',e); } } },
-  netMake:function(ws,N){ try{ var im=ws.add.text(N.x,N.y,'🕸',{fontSize:'24px'}).setOrigin(0.5).setDepth(WR_DEPTH(N.y)); ws._tqNet=im; ws.events.once('shutdown',function(){ ws._tqNet=null; ws._tqNetG=null; ws._tqNetP=null; });
+  // the net itself: painted (07zt13 pc_fish_net) once in, drawn until then — a heap of knotted net with cork floats (it was a 🕸 emoji)
+  netImage:function(ws,N){ var Zs=typeof _scn==='function'?_scn():null, zt=Zs&&Zs.has&&Zs.has('pc_fish_net')&&Zs.texture(ws,'pc_fish_net',34), im;
+    if(zt)im=ws.add.image(N.x,N.y+10,zt.key).setOrigin(0.5,1).setScale(zt.scale);
+    else { if(!ws.textures.exists('zosw_net')){ var c=mkCanvas(64,44), g=c.getContext('2d'); g.fillStyle='rgba(0,0,0,.25)'; g.beginPath(); g.ellipse(32,38,28,6,0,0,Math.PI*2); g.fill();
+        g.fillStyle='#8a7350'; g.beginPath(); g.moveTo(6,36); g.quadraticCurveTo(10,14,30,10); g.quadraticCurveTo(54,12,58,36); g.closePath(); g.fill();
+        g.save(); g.clip(); g.strokeStyle='#d8c8a0'; g.lineWidth=1.2; for(var k=-60;k<80;k+=7){ g.beginPath(); g.moveTo(k,44); g.lineTo(k+40,0); g.stroke(); g.beginPath(); g.moveTo(k,0); g.lineTo(k+40,44); g.stroke(); } g.restore();
+        g.strokeStyle='#4a3a20'; g.lineWidth=1.5; g.beginPath(); g.moveTo(6,36); g.quadraticCurveTo(10,14,30,10); g.quadraticCurveTo(54,12,58,36); g.stroke();
+        [[14,26],[30,16],[46,22],[24,33],[50,33]].forEach(function(f){ g.fillStyle='#e0a040'; g.beginPath(); g.ellipse(f[0],f[1],4,3,0,0,Math.PI*2); g.fill(); g.strokeStyle='#6a4a1a'; g.lineWidth=1; g.stroke(); });
+        ws.textures.addCanvas('zosw_net',c); } im=ws.add.image(N.x,N.y+10,'zosw_net').setOrigin(0.5,1).setScale(0.9); }
+    return im.setDepth(WR_DEPTH(N.y)); },
+  netMake:function(ws,N){ try{ var im=ZOSW.netImage(ws,N); ws._tqNet=im; ws.events.once('shutdown',function(){ ws._tqNet=null; ws._tqNetG=null; ws._tqNetP=null; });
       var pool=(typeof MON_ROSTER!=='undefined'?MON_ROSTER:[]).filter(function(R){ return R.q===1&&typeof MX!=='undefined'&&MX.kit(R.id)&&!(typeof MON_LEGACY!=='undefined'&&MON_LEGACY[R.id]); }), bones=pool.filter(function(R){ return /skelet|bone|barrow|wight|crypt|grave/.test(R.id); }), id=((bones.length?bones:pool)[0]||{}).id; ws._tqNetG=[]; if(!id)return;      /* the Grasslands' own skeletons (those the monster engine knows) */
-      [[-60,-20],[56,24]].forEach(function(o){ var m=typeof MX!=='undefined'?MX.spawn(ws,id,N.x+o[0],N.y+o[1],{q:1,temp:true}):null; if(m){ m.section=1; ws.worldMonsters.push(m); ws._tqNetG.push(m); } }); }catch(e){ console.warn('net',e); } },
+      [[-60,-20],[56,24]].forEach(function(o){ var gx=N.x+o[0], gy=N.y+o[1]; for(var t=0;t<16&&ws._canGo&&!ws._canGo(gx,gy,null);t++){ var a=t*0.9; gx=N.x+Math.cos(a)*(40+t*4); gy=N.y+Math.sin(a)*(30+t*3); }      /* round 110: on ground you can reach */
+        var m=typeof MX!=='undefined'?MX.spawn(ws,id,gx,gy,{q:1,temp:true}):null; if(m){ m.section=1; m._guard=true; ws.worldMonsters.push(m); ws._tqNetG.push(m); } }); }catch(e){ console.warn('net',e); } },
   take:function(ws){ var T=ZOSW.tq(ws.playerState); if(T.net!==1||!ws._tqNet)return false; var N=ZOSW.netSpot(ws); if(Math.hypot(ws.player.x-N.x,ws.player.y-N.y)>TILE*1.6)return false;
     if((ws._tqNetG||[]).some(function(m){ return m&&!m.dead; })){ showNotif('💀 The skeletons stand over the net — beat them first.','#ffcc88'); return true; }
     T.net=2; ws._tqNet.destroy(); ws._tqNet=null; if(ws._tqNetP){ ws._tqNetP.destroy(); ws._tqNetP=null; } showNotif('🕸 You take Old Nell\'s net — back to the pier with it.','#cfe8ff'); if(ws.playerState.tracked==='tq:net'||!ws.playerState.tracked)ws.playerState.tracked='tq:net'; return true; },

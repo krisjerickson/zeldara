@@ -465,15 +465,23 @@ class WorldScene extends Phaser.Scene{
     var fr=(fleeRanges[a.type]||4)*TILE;
     var dist=Math.hypot(a.x-plx,a.y-ply);
     a.ph+=dt*3;
-    if(a.state!=='flee'&&dist<fr){
-      a.state='flee';a.timer=1.8+Math.random()*1.5;
+    // round 110 (Kris: "make the animals slightly slower than you … or they can scurry fast, but then they slow down and stop sometime for
+    // you to catch up with them"): a quick dash away, slowing as it tires, then a rest where it lets you come close; a few dashes and it is gone
+    a.cool=Math.max(0,(a.cool||0)-dt);
+    var near=a.state==='rest'?TILE*1.3:(a.cool>0?fr*0.45:fr);
+    if(a.state!=='flee'&&a.state!=='gone'&&dist<near){
+      a.state='flee';a.timer=1.5+Math.random()*0.9;a.ft=0;a.flees=(a.flees||0)+1;
       var fAng=Math.atan2(a.y-ply,a.x-plx)+(Math.random()-.5)*0.6;
-      var fs=fleeSpd[a.type]||130;
-      a.vx=Math.cos(fAng)*fs;a.vy=Math.sin(fAng)*fs;
+      var fs=Math.min(fleeSpd[a.type]||130,162)*(a.flees>1?0.85:1);      /* the dash never outruns you for long: at most 0.9 of your walk */
+      a.fdx=Math.cos(fAng);a.fdy=Math.sin(fAng);a.fs=fs;
     }
     if(a.state==='flee'){
+      a.ft=(a.ft||0)+dt; var tire=a.ft<0.45?1:Math.max(0.3,1-(a.ft-0.45)*0.55);      /* a burst, then tiring */
+      a.vx=a.fdx*a.fs*tire;a.vy=a.fdy*a.fs*tire;
       a.x+=a.vx*dt;a.y+=a.vy*dt;a.timer-=dt;
-      if(a.timer<=0)a.state='gone';
+      if(a.timer<=0){ if(a.flees>=4)a.state='gone'; else { a.state='rest';a.timer=1.8+Math.random()*1.2;a.vx=0;a.vy=0; } }
+    } else if(a.state==='rest'){
+      a.timer-=dt; if(a.timer<=0){ a.state='idle';a.timer=1+Math.random()*2;a.cool=3; }
     } else if(a.state==='wander'){
       a.x+=a.vx*dt;a.y+=a.vy*dt;a.timer-=dt;
       if(a.timer<=0){a.state='idle';a.timer=1.5+Math.random()*2.5;a.vx=0;a.vy=0;}
@@ -747,11 +755,14 @@ class WorldScene extends Phaser.Scene{
           a.state='wander';
         }
         // Flee if player gets too close
-        if(dist<def.fleeR){a.state='flee';a.fleeTimer=0;a.corneredTimer=0;}
+        if(dist<def.fleeR){a.state='flee';a.fleeTimer=0;a.fleeTot=0;a.breath=0;a.corneredTimer=0;}
       } else if(a.state==='flee'){
-        a.fleeTimer+=dt;
-        // Accelerate away
-        var fleeSpd=def.spd*(1+Math.min(a.fleeTimer*0.4,1.2));
+        a.fleeTimer+=dt; a.fleeTot=(a.fleeTot||0)+dt;
+        // round 110 (Kris: "make the animals slightly slower than you … or they can scurry fast, but then they slow down and stop sometime
+        // for you to catch up with them"): a dash (never faster than 0.92 of your walk), tiring to a trot, then a stop to catch its breath
+        var dash=Math.min(def.spd*1.9,166), ft=a.fleeTimer, fleeSpd=ft<0.8?dash:Math.max(def.spd*0.6,dash*(1-(ft-0.8)*0.38));
+        if(a.breath>0){ a.breath-=dt; if(a.breath<=0)a.fleeTimer=0.35; }
+        else if(ft>2.8){ a.breath=1.3+Math.random()*0.9; }
         // Find direction toward nearest safe tile
         var safeTx=null,safeTy=null,bestSafeDist=9999;
         var ax=Math.floor(a.x/TILE),ay=Math.floor(a.y/TILE);
@@ -778,10 +789,11 @@ class WorldScene extends Phaser.Scene{
           var fd=Math.hypot(px-a.x,py-a.y)||1;
           a.vx=-(px-a.x)/fd*fleeSpd; a.vy=-(py-a.y)/fd*fleeSpd;
         }
+        if(a.breath>0){ a.vx=0; a.vy=0; }      /* catching its breath: your chance */
         // Cornered check: if player is between us and safety, switch to fight
-        if(dist<80&&a.fleeTimer>3){a.state='fight';a.atkTimer=0;}
+        if(dist<80&&a.fleeTot>3&&!(a.breath>0)){a.state='fight';a.atkTimer=0;}
         // Return to idle if player far enough away
-        if(dist>def.fleeR*1.6){a.state='idle';a.wanderTimer=2;}
+        if(dist>def.fleeR*1.6){a.state='idle';a.wanderTimer=2;a.breath=0;a.fleeTot=0;}
       } else if(a.state==='fight'){
         // Charge at player
         var fd2=Math.hypot(px-a.x,py-a.y)||1;

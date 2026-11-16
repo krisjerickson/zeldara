@@ -142,7 +142,12 @@ var ZDeath={
       '<div class="zd-gold">'+gold+'</div><div class="zd-wake">'+esc(T.wake)+'</div><button id="zdeath-btn">'+esc(T.btn)+'</button></div>';
     el.style.display='flex'; var btn=document.getElementById('zdeath-btn'), fin=false, go=function(){ if(fin)return; fin=true; el.style.display='none'; el.innerHTML=''; window.removeEventListener('keydown',key,true); done&&done(); },
       key=function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); e.stopPropagation(); if(Date.now()-t0>600)go(); } }, t0=Date.now();
-    btn.onclick=go; window.addEventListener('keydown',key,true); try{ btn.focus(); }catch(e){} },
+    /* round 110 (Kris: "clicking on trace the rune doesn't work, just enter"): something over the page could take the click — the pop-up
+       stands on top of everything now, and a press anywhere on its button counts, caught before anything else can take it */
+    el.style.zIndex='100050'; el.style.pointerEvents='auto';
+    var tap=function(e){ var R=btn.getBoundingClientRect(), x=e.clientX, y=e.clientY; if(x>=R.left-6&&x<=R.right+6&&y>=R.top-6&&y<=R.bottom+6){ e.preventDefault(); e.stopPropagation(); if(Date.now()-t0>400)go(); } };
+    var go0=go; go=function(){ window.removeEventListener('pointerup',tap,true); window.removeEventListener('click',tap,true); go0(); };
+    btn.onclick=go; window.addEventListener('keydown',key,true); window.addEventListener('pointerup',tap,true); window.addEventListener('click',tap,true); try{ btn.focus(); }catch(e){} },
   // the whole flow. apply() = the scene's own penalty and move; it returns (or sets ZDeath._lost to) the gold taken
   run:function(scene,info,apply){ var ps=(typeof _heroWS==='function'&&_heroWS()&&_heroWS().playerState)||{};
     if(ZDeath.auto||typeof document==='undefined'){ apply(); return; } if(ZDeath.busy){ apply(); return; } ZDeath.busy=true; ZDeath._t0=Date.now();      // round 45: never leave a fall without its penalty and the trip home

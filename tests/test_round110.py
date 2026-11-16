@@ -26,14 +26,21 @@ check('…other scenes keep their swords', 'Never a metal' not in kling.prompt(q
 WS = "game.scene.getScene('World')"
 S = "(()=>{ var ws=%s, ps=ws.playerState, O=ZWALK._ow; return {walk:ps.walk, ow:!!O, d:O?Math.round(Math.hypot(O.x-ws.player.x,O.y-ws.player.y)):null, cut:ZCUT.isOpen(), who:ZDLG.cur?document.querySelector('#zdlg .zd-name')&&document.querySelector('#zdlg .zd-name').textContent:null}; })()" % WS
 with game(painted=True, real=True) as g:
-    g.wait(2500)
-    a = g.js(S)
-    check('A new game: Master Oswin stands on the Green beside you from the first moment (%s)' % a, a['ow'] and a['d'] is not None and a['d'] < 260, a)
+    g.js("(()=>{ var s0=ZWALK.spawn; window._owAt=null; ZWALK.spawn=function(ws){ if(!ZWALK._ow&&!window._owAt){ var W=ws._wr, need=ws._wrNeeded?ws._wrNeeded():[]; window._owAt={late:Date.now()-(ZWALK._born||Date.now())>24000, ready:need.every(function(n){ if(!n.vis)return true; var c=W&&W.chunks.get(n.key); return !!c&&!(c.pend&&c.pend.length); })}; } return s0.apply(this,arguments); }; })()")
+    for i in range(30):
+        g.wait(700); a = g.js(S)
+        if a['ow']: break
+    at = g.js("window._owAt")
+    check('A new game: Master Oswin waits on the Green beside you, appearing only once the Green is drawn (%s, %s)' % (a, at), a['ow'] and a['d'] is not None and a['d'] < 260 and at and (at['ready'] or at['late']), (a, at))      # the safety: never more than 25 s (the headless browser paints slowly under the opening)
     g.js("(()=>{ var b=document.querySelector('#'+ZCUT.ID+' .zcut-skip'); if(b)b.click(); })()")
     for i in range(20):
         g.wait(1000); b = g.js(S)
         if b['walk']: break
     check('After the opening, it is Oswin who greets you (%s)' % b, b['walk'] == 'hi' and b['who'] and 'Oswin' in b['who'], b)
+    g.js("(()=>{ var ws=%s; for(var k=0;k<4&&ZDLG.cur;k++)ZDLG.cur.close(); ws.playerState.walk='attack'; ZWALK._hits=0; ws.worldAtkTimer=0; })()" % WS)
+    for _ in range(3): g.js("(()=>{ var ws=%s; ws.worldAtkTimer=0; ws._worldAttack(); })()" % WS); g.wait(200)
+    g.wait(900); h = g.js(S)
+    check('Three swings (however you swing): Oswin answers and starts leading you (%s)' % h, h['walk'] == 'follow' and h['who'] and 'Oswin' in h['who'], h)
     g.js("(()=>{ var ws=%s; ZDLG.cur&&ZDLG.cur.close(); ZDLG.cur&&ZDLG.cur.close(); ZWALK.go(ws,'follow'); ZWALK.SPD=900; })()" % WS)
     for i in range(40):
         g.wait(500)

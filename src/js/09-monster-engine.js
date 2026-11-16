@@ -172,7 +172,7 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   m.t+=dt; m._sayT=(m._sayT||0)-dt; m.dodgeCd-=dt; if(m.charge>0)m.charge-=dt; if(m.invuln>0)m.invuln-=dt; m.hurtT-=dt;
   for(var c in m.cd)m.cd[c]-=dt;
   // night-only monsters sleep by day
-  if(mon.tags&&mon.tags.indexOf('night')>=0&&A.world&&A.night()<0.35&&!m.aggro&&!mon._binder&&!mon.campId&&!mon.isBoss){      /* round 108: never a monster something waits on (a spirit's Binder, a camp guard, a boss) — by day it could not be found or hit */ mon.cont.setVisible(false); m.hidden=true; m.nightHide=true; return; }
+  if(mon.tags&&mon.tags.indexOf('night')>=0&&A.world&&A.night()<0.35&&!m.aggro&&!mon._binder&&!mon.campId&&!mon.isBoss&&!mon._guard){      /* round 108: never a monster something waits on (a spirit's Binder, a camp guard, a boss) — by day it could not be found or hit */ mon.cont.setVisible(false); m.hidden=true; m.nightHide=true; return; }
   if(m.nightHide){ m.nightHide=false; m.hidden=false; }
   mon.cont.setVisible(true);
   if(dist<280&&typeof Tome!=='undefined'&&!m.hidden)Tome.see('monster',mon.rid);

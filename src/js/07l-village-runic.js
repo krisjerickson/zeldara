@@ -83,7 +83,7 @@ function villagePlan(stage,ok,water){
     H.quay=shore.filter(function(q){ return Math.hypot(q.x-A.x,q.y-A.y)<=10; }).map(function(q){ return [q.x,q.y]; });
     // reserve the land by the water: fishing hut + quay
     H.quay.forEach(function(c){ mark(c[0],c[1],1,1,0,2); });
-    H.hut=null; for(var r=2;r<8&&!H.hut;r++)for(var j=-r;j<=r&&!H.hut;j++)for(var i=-r;i<=r;i++){ var x=A.x-Math.round(ux*3)+i, y=A.y-Math.round(uy*3)+j; if(free(x,y,3,3)){ H.hut=[x,y]; mark(x,y,3,3,1,2); break; } }
+    H.hut=null; for(var r=2;r<8&&!H.hut;r++)for(var j=-r;j<=r&&!H.hut;j++)for(var i=-r;i<=r;i++){ var x=A.x-Math.round(ux*3)+i, y=A.y-Math.round(uy*3)+j; if(free(x,y,4,4)){ H.hut=[x,y]; mark(x,y,4,4,1,2); break; }      /* round 110 (Kris: "the fishing pier building is oddly smaller than other buildings"): 4 × 4 like the houses (was 3 × 3) */ }
   })();
   var streets=[   // [x0,y0,x1,y1,width,kind,fromStage]
     [1,-9,1,-40,2,'vstreet',1],[-1.5,9,-1.5,40,2.5,'vstreet',1],[9,2,40,2,2,'vstreet',1],[-9,2,-40,2,2,'vstreet',1]];
@@ -195,8 +195,8 @@ function villagePlan(stage,ok,water){
   plan.walk=[];
   if(H){ var pc=function(list){ (list||[]).forEach(function(c){ setK(c[0],c[1],'vpier'); plan.walk.push(c); }); };
     var p1=H.pier1.cells.slice(0,st>=2?99:8); pc(p1);
-    if(H.hut)P('vbuild',H.hut[0],H.hut[1],3,3,{style:'wood',roof:'#4f7a44',roofPat:'shingle',sign:'#4a9ad0',doorX:1,chimney:true,smoke:true,nl:1,pid:'vb_fishing_hut'},true);
-    if(H.hut){ P('vdress',H.hut[0]+3,H.hut[1]+2,1,1,{id:'vp_fish_rack'},true); P('vdress',H.hut[0]-1,H.hut[1]+2,1,1,{id:'vp_nets'},false); }
+    if(H.hut)P('vbuild',H.hut[0],H.hut[1],4,4,{style:'wood',roof:'#4f7a44',roofPat:'shingle',sign:'#4a9ad0',doorX:2,chimney:true,smoke:true,nl:1,pid:'vb_fishing_hut'},true);
+    if(H.hut){ P('vdress',H.hut[0]+4,H.hut[1]+3,1,1,{id:'vp_fish_rack'},true); P('vdress',H.hut[0]-1,H.hut[1]+3,1,1,{id:'vp_nets'},false); }
     if(st>=2){ pc(H.walk); if(H.boathouse){ P('boathouse',H.boathouse[0],H.boathouse[1],4,3,{},true); P('vdress',H.boathouse[0]+4,H.boathouse[1]+2,1,1,{id:'hb_cargo'},true); } }
     if(st>=3){ if(H.stilt){ pc(H.stiltWalk); P('stilthouse',H.stilt[0],H.stilt[1],4,3,{roof:'#3f6a3a'},true); plan.landmarks.push({x:H.stilt[0],y:H.stilt[1],w:4,h:3,text:'The Lake House — built on stilts over Mirror Lake. Fishers swear the lake glows beneath it on quiet nights.'}); }
       if(H.pier2)pc(H.pier2.cells); }

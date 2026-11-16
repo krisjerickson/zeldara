@@ -14,6 +14,22 @@
 // ═══════════════════════════════════════════════════════════════════════
 var ZROLL={ CD:1.85,      // round 46 (Kris: "we need to have a longer cool-down for it" → card: 0.75 s added to the 1.1 s)
   DIST:3, T:0.26, IFR:0.55, PINS:3, NPC:'tc_roll', NAME:'Tumbler Pia',
+  // round 110 (Kris: "mia's juggling pins need to be larger, and make a painted image for these, as they are odd looking"): Pia's own
+  // juggling clubs, about knee high with a soft glint so you can spot them in the grass — painted (07zt13 sc_r110_pins) once they are in,
+  // drawn until then (they were a small bowling emoji)
+  PIN_COL:[['#e04848','#ffd060'],['#2fc8c0','#ffffff'],['#9a5ae0','#d8d8e8']], PIN_H:40,
+  pinImage:function(ws,k,x,y){ var Zs=typeof _scn==='function'?_scn():null, id='pc_juggle_pin_'+'abc'[k%3], zt=Zs&&Zs.has&&Zs.has(id)&&Zs.texture(ws,id,ZROLL.PIN_H), im;
+    if(zt)im=ws.add.image(x,y,zt.key).setOrigin(0.5,1).setScale(zt.scale);
+    else { var key='zroll_pin_'+(k%3); if(!ws.textures.exists(key)){ var C=ZROLL.PIN_COL[k%3], c=mkCanvas(28,64), g=c.getContext('2d');
+        g.fillStyle='rgba(0,0,0,.28)'; g.beginPath(); g.ellipse(14,61,10,3,0,0,Math.PI*2); g.fill();
+        g.save(); g.translate(14,58); g.rotate(0.12); g.fillStyle=C[1]; g.strokeStyle='#2a1a10'; g.lineWidth=1.5;
+        g.beginPath(); g.moveTo(-3,0); g.quadraticCurveTo(-10,-14,-8,-26); g.quadraticCurveTo(-6,-38,-2.5,-44); g.lineTo(-2.5,-50); g.arc(0,-52,4.5,Math.PI*0.9,Math.PI*0.1); g.lineTo(2.5,-44); g.quadraticCurveTo(6,-38,8,-26); g.quadraticCurveTo(10,-14,3,0); g.closePath(); g.fill(); g.stroke();
+        g.fillStyle=C[0]; g.fillRect(-7.5,-30,15,5); g.fillRect(-4,-44,8,3); g.beginPath(); g.arc(0,-52,4.5,0,Math.PI*2); g.fill(); g.stroke();
+        g.fillStyle='rgba(255,255,255,.55)'; g.beginPath(); g.ellipse(-3.5,-20,1.6,8,0.15,0,Math.PI*2); g.fill(); g.restore(); ws.textures.addCanvas(key,c); }
+      im=ws.add.image(x,y,key).setOrigin(0.5,1).setScale(ZROLL.PIN_H/64*1.15); }
+    im.setDepth(WR_DEPTH(y));
+    try{ var gw=ws.add.image(x,y-ZROLL.PIN_H*0.45,ws.textures.exists('glow')?'glow':'__WHITE').setBlendMode(Phaser.BlendModes.ADD).setTint(0xffe9a0).setAlpha(0.35).setScale(0.5).setDepth(WR_DEPTH(y)-0.01); ws.tweens.add({targets:gw,alpha:0.7,scale:0.62,duration:900,yoyo:true,repeat:-1,ease:'Sine.inOut'}); im._glow=gw; }catch(e){}
+    return im; },
   ps:function(){ var ws=game&&game.scene&&game.scene.getScene('World'); return ws&&ws.playerState; },
   can:function(ps){ return !!(ps&&ps.canRoll); },
   // the roll itself
@@ -52,7 +68,7 @@ var ZROLL={ CD:1.85,      // round 46 (Kris: "we need to have a longer cool-down
     if(!im)im=ws.add.text(P.x,P.y,'🤸',{fontSize:'26px'}).setOrigin(0.5,1).setDepth(WR_DEPTH(P.y));
     ZROLL.npc={x:P.x,y:P.y,im:im};
     // her three pins, blown across the meadow (only while the quest is on)
-    var R2=rngOf(4242), pins=[]; if(ps.rollQ<2){ for(var k=0;k<ZROLL.PINS;k++){ var got=(ps.rollPins||[]).indexOf(k)>=0; if(got)continue; for(var t=0;t<60;t++){ var a=R2.f()*Math.PI*2, d=TILE*(7+R2.f()*9), x=P.x+Math.cos(a)*d, y=P.y+Math.sin(a)*d; if(ws._canGo(x,y,null)){ var pin=ws.add.text(x,y,'🎳',{fontSize:'16px'}).setOrigin(0.5,1).setDepth(WR_DEPTH(y)).setVisible(ps.rollQ===1); ws.tweens.add({targets:pin,y:y-4,duration:800,yoyo:true,repeat:-1,ease:'Sine.inOut'}); pins.push({k:k,x:x,y:y,im:pin}); break; } } } }
+    var R2=rngOf(4242), pins=[]; if(ps.rollQ<2){ for(var k=0;k<ZROLL.PINS;k++){ var got=(ps.rollPins||[]).indexOf(k)>=0; if(got)continue; for(var t=0;t<60;t++){ var a=R2.f()*Math.PI*2, d=TILE*(7+R2.f()*9), x=P.x+Math.cos(a)*d, y=P.y+Math.sin(a)*d; if(ws._canGo(x,y,null)){ var pin=ZROLL.pinImage(ws,k,x,y).setVisible(ps.rollQ===1); ws.tweens.add({targets:pin,y:y-5,duration:800,yoyo:true,repeat:-1,ease:'Sine.inOut'}); if(pin._glow){ pin._glow.setVisible(ps.rollQ===1); var gl=pin._glow; pin.on('destroy',function(){ try{ gl.destroy(); }catch(e){} }); } pins.push({k:k,x:x,y:y,im:pin}); break; } } } }
     ZROLL.pins=pins; },
   clear:function(ws){ if(ZROLL.npc&&ZROLL.npc.im&&ZROLL.npc.im.scene)ZROLL.npc.im.destroy(); (ZROLL.pins||[]).forEach(function(p){ if(p.im&&p.im.scene)p.im.destroy(); }); ZROLL.npc=null; ZROLL.pins=[]; if(ZROLL._lbl){ ZROLL._lbl.destroy(); ZROLL._lbl=null; } },
   LINES:{
@@ -61,7 +77,7 @@ var ZROLL={ CD:1.85,      // round 46 (Kris: "we need to have a longer cool-down
     done:'"My pins! Right — tuck your chin, drop your shoulder, and go. On the ice, the ones who stand still are the ones who fall. Press Alt to roll, the way you\'re running — nothing can touch you while you tumble."',
     after:'"Roll through it, not away from it! The witch\'s lances can\'t hit what isn\'t there."'},
   talk:function(ws){ var ps=ws.playerState;
-    if(ps.rollQ===0){ ps.rollQ=1; ps.rollPins=[]; (ZROLL.pins||[]).forEach(function(p){ p.im.setVisible(true); }); ZROLL.say(ZROLL.LINES.meet); showNotif('📜 New quest: The Tumbler\'s Lesson — find Pia\'s 3 juggling pins','#ffe9a8'); }
+    if(ps.rollQ===0){ ps.rollQ=1; ps.rollPins=[]; (ZROLL.pins||[]).forEach(function(p){ p.im.setVisible(true); if(p.im._glow)p.im._glow.setVisible(true); }); ZROLL.say(ZROLL.LINES.meet); showNotif('📜 New quest: The Tumbler\'s Lesson — find Pia\'s 3 juggling pins','#ffe9a8'); }
     else if(ps.rollQ===1){ if((ps.rollPins||[]).length>=ZROLL.PINS){ ps.rollQ=2; ps.canRoll=true; ZROLL.say(ZROLL.LINES.done); showNotif('🤸 You learned to ROLL — press Alt','#88ffcc'); ZROLL._ui(); if(ws._save)ws._save(); }
       else ZROLL.say(ZROLL.LINES.wait+' ('+(ps.rollPins||[]).length+' / '+ZROLL.PINS+')'); }
     else ZROLL.say(ZROLL.LINES.after);

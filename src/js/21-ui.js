@@ -315,7 +315,9 @@ function renderMinimap(wd,player,unlockedSections,exploredGrid,expVer,activeQues
 // every waystone you can travel to: the mainland's + one per harbor island (drawn at its harbor)
 function _wmAllWaystones(wd){ if(!wd)return []; var L=(wd.waystones||[]).slice(); if(wd.islKey)return L;
   (wd.sites||[]).forEach(function(s){ if(s.type!=='harbor')return; var key=s.section+(s.isle||'a'); L.push({id:'wsi_'+key,name:(typeof _islName==='function'?_islName(key):'Island')+' Waystone',x:s.tx+1,y:s.ty+1,region:s.section,island:key,site:s}); }); return L; }
+var WM_FREE=true;      // round 110 (Kris: "let's just make all waypoints free to travel to"): every waystone is free (false: the old gold between regions)
 function _wmCost(ws,from,to){
+  if(WM_FREE)return 0;
   if(!from||!to||from.id===to.id)return 0;
   if(to.region===0)return 0;                                   // going home is always free
   var rf=from.region===0?1:from.region;                        // the village sits on the Grasslands shore

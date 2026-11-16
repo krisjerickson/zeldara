@@ -34,11 +34,13 @@ with game(painted=True, w=1280, h=720) as g:
     check('…then "walk" is the first step, in the line under the little map (%s)' % a, a['walk'] == 'move' and 'W A S D' in (a['line'] or ''), a)
     g.js("(()=>{ var p=%s.player; p.x+=TILE*4; })()" % WS); g.wait(900)
     check('Walking on moves it to the sword', g.js("%s.playerState.walk" % WS) == 'attack')
-    for _ in range(3): g.page.keyboard.press('Space'); g.wait(250)
-    g.wait(700); check('Three swings → "open the map"', g.js("%s.playerState.walk" % WS) == 'map')
-    g.js("openWorldMap()"); g.wait(1000); g.js("(()=>{ if(typeof closeModal==='function')closeModal('map'); })()"); g.wait(700)
-    b = g.js("(()=>{ var ws=%s, t=ZJOUR.target(ws); return {walk:ws.playerState.walk, t:t&&t.t}; })()" % WS)
-    check('Opening the map → "follow Master Oswin to his guild", the gold arrow pointing to him (round 110) (%s)' % b, b['walk'] == 'follow' and 'Oswin' in (b['t'] or ''), b)
+    talk_through(g); g.wait(400)      # round 110b: Oswin says what is next
+    for _ in range(6):
+        if g.js("%s.playerState.walk" % WS) != 'attack': break
+        g.page.keyboard.press('Space'); g.wait(650)
+    g.wait(700)
+    b = g.js("(()=>{ var ws=%s, t=ZJOUR.target(ws); return {walk:ws.playerState.walk, t:t&&t.t, who:ZDLG.cur&&document.querySelector('#zdlg .zd-name').textContent}; })()" % WS)
+    check('Three swings → Oswin answers at once and leads you: "follow Master Oswin", the gold arrow pointing to him (round 110b) (%s)' % b, b['walk'] == 'follow' and 'Oswin' in (b['t'] or '') and 'Oswin' in (b['who'] or ''), b)
     g.js("(()=>{ ZDLG.cur&&ZDLG.cur.close(); ZWALK.unspawn(%s); ZWALK.go(%s,'guild'); })()" % (WS, WS)); g.wait(600)      # his walk to the door: test_round110
     g.js("ZOSW.talk(%s)" % WS); g.wait(500)
     c = g.js("(()=>({name:document.querySelector('#zdlg .zd-name').textContent, text:document.querySelector('#zdlg .zd-text').textContent}))()")

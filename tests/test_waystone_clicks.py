@@ -19,8 +19,9 @@ with game(new=True) as g:
     pos = g.js("""(()=>{ var ws=game.scene.getScene('World'), w=ws.wd.waystones.find(q=>q.region===2), cv=document.getElementById('minimap-canvas'), r=cv.getBoundingClientRect(), v=_wmView(); return {x:r.left+(w.x-v.x)/v.w*r.width, y:r.top+(w.y-v.y)/v.h*r.height}; })()""")
     g.page.mouse.click(pos['x'], pos['y']); g.wait(1800)
     r = g.ws("{sec:ws.currentSection(), gold:ps.gold, open:document.getElementById('modal-map').style.display}")
-    check('Clicking a waystone marker on the map travels there (and charges the fare)', r['sec'] == 2 and r['gold'] < 999 and r['open'] == 'none', r)
+    check('Clicking a waystone marker on the map travels there (free since round 110)', r['sec'] == 2 and r['gold'] == 999 and r['open'] == 'none', r)
     gold = r['gold']
+    g.js("(()=>{ var ws=game.scene.getScene('World'), p=ws.player, w=ws.wd.waystones.slice().sort((a,b)=>Math.hypot(a.x*TILE-p.x,a.y*TILE-p.y)-Math.hypot(b.x*TILE-p.x,b.y*TILE-p.y))[0]; p.x=w.x*TILE+16; p.y=w.y*TILE+16; p.cont.setPosition(p.x,p.y); })()"); g.wait(300)      # round 106: Tab travels from ON the stone (a fairy may live beside it)
     g.key('Tab', 120); g.wait(600)
     b = g.js("(()=>{ var b=document.querySelector('.wm-ws[data-ws=ws_village]'); b.scrollIntoView(); var r=b.getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height/2}; })()")
     g.page.mouse.click(b['x'], b['y']); g.wait(1800)

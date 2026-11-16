@@ -4,7 +4,7 @@
 // ║   Crossings — 3 per border; shut (the river / cliff / chasm / ridge) until
 // ║     the border's craftsman is freed, then all three are built at once.
 // ║   Waystones — [Tab] to activate; [Tab] again to open the travel map.
-// ║     Travel: free inside a region and to the village, gold across regions.
+// ║     Travel: free inside a region and to the village, gold across regions (round 110: all free — WM_FREE, 21-ui).
 // ═══════════════════════════════════════════════════════════════════════
 Object.assign(WorldScene.prototype,{
   _initTravel(){
@@ -83,7 +83,7 @@ Object.assign(WorldScene.prototype,{
     var old=this._cacheObjs[c.id]; if(old)old.forEach(function(o){o.destroy();});
     var open=this.playerState.openedCaches.indexOf(c.id)>=0, x=c.x*TILE+TILE/2, y=c.y*TILE+TILE/2, parts=[];
     /* round 102 (Kris: "i also found a chest in the wetlands with old pixel art"): the hidden caches wear the painted chest (cp_chest / cp_chest_open) */
-    var Zc=typeof ZScn!=='undefined'&&!ZScn.off?ZScn:null, cid=open?'cp_chest_open':'cp_chest';
+    var Zc=typeof ZScn!=='undefined'&&!ZScn.off?ZScn:null, cv=(typeof CACHE_CHEST_V!=='undefined'&&CACHE_CHEST_V[c.region])||'', cid=open?'cp_chest_open':'cp_chest'; if(cv&&Zc&&Zc.has('cp_chest'+cv+(open?'_open':'')))cid='cp_chest'+cv+(open?'_open':'');      /* round 110: the realm's own chest */
     if(Zc&&Zc.has(cid)){ var CT=Zc.texture(this,cid,34,{shadow:false}); if(CT){ parts.push(this.add.ellipse(x,y+10,30,9,0x000000,.32).setDepth(4)); parts.push(this.add.image(x,y+12,CT.key).setOrigin(0.5,1).setDisplaySize(34,34*CT.h/CT.w).setDepth(typeof WR_DEPTH==='function'?WR_DEPTH(y+12):5));
         if(!open){ var sp0=this.add.circle(x,y-4,16,0xffd24a,.14).setDepth(5).setBlendMode(Phaser.BlendModes.ADD); this.tweens.add({targets:sp0,alpha:{from:.05,to:.25},duration:1100,yoyo:true,repeat:-1}); parts.push(sp0); }
         this._cacheObjs[c.id]=parts; return; } }

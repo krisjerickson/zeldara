@@ -33,12 +33,16 @@ function campCelebrate(scene,x,y,title,sub){
   b.innerHTML='<div class="cb-t">✨ '+title+' ✨</div><div class="cb-s">'+(sub||'')+'</div>'; b.classList.remove('on'); void b.offsetWidth; b.classList.add('on'); clearTimeout(b._t); b._t=setTimeout(function(){ b.classList.remove('on'); },3200);
 }
 
+/* round 110 (Kris: "chests in the overworld overall should be reviewed and updated, where needed, with painted images"): each realm's
+   chest camp gets its own painted chest (07zt13 sc_r110_chests) — the Wetlands' sunken chest, the Highlands' dwarven strongbox, the
+   Ashlands' obsidian coffer; the Grasslands keep the bandits' chest. Until they are in, all four wear that one. */
+var CAMP_CHEST_V={sunken_chest:'_sunken',dwarf_strongbox:'_dwarf',obsidian_coffer:'_obsidian'}, CACHE_CHEST_V={2:'_sunken',3:'_dwarf',4:'_obsidian'};
 Object.assign(WorldScene.prototype,{
-  _campTex(kind,tint){ var key='camp_'+kind+(tint?'_'+tint.slice(1):''); if(this.textures.exists(key))return key;
+  _campTex(kind,tint,tid){ var cv0=kind==='chest'?(CAMP_CHEST_V[tid]||''):'', key='camp_'+kind+cv0+(tint?'_'+tint.slice(1):''); if(this.textures.exists(key))return key;
     // painted camp props (round 30): three 128 px frames like the drawn ones (0, 1 = in use; 2 = spent: fire out, chest open, the others dimmed)
-    var Zs=_scn(), pid='cp_'+kind; if(Zs&&Zs.has(pid)){ var F=128, pc=mkCanvas(F*3,F), px=pc.getContext('2d'), sz=Zs.size(pid,0), k=Math.min(F*0.94/sz.h,F*0.96/sz.w), alt={campfire:'cp_campfire_out',chest:'cp_chest_open'}[kind];      /* round 64: tinted camps (the witch's and the sulfur cauldron …) were left in pixel art — painted too, the tint a glow */
+    var Zs=_scn(), pid='cp_'+kind; if(cv0&&Zs&&Zs.has(pid+cv0))pid=pid+cv0; else cv0=''; if(Zs&&Zs.has(pid)){ var F=128, pc=mkCanvas(F*3,F), px=pc.getContext('2d'), sz=Zs.size(pid,0), k=Math.min(F*0.94/sz.h,F*0.96/sz.w), alt={campfire:'cp_campfire_out',chest:cv0&&Zs.has('cp_chest'+cv0+'_open')?'cp_chest'+cv0+'_open':'cp_chest_open'}[kind];      /* round 64: tinted camps (the witch's and the sulfur cauldron …) were left in pixel art — painted too, the tint a glow */
       for(var fi=0;fi<3;fi++){ var use=fi===2&&alt&&Zs.has(alt)?alt:pid, s2=Zs.size(use,0); if(fi===2&&use===pid){ px.save(); px.filter='grayscale(0.7) brightness(0.72)'; }
-        softShadow(px,fi*F+F/2,F*0.9-2,F*0.3,F*0.06,0.38); if(tint&&fi<2){ var tg=px.createRadialGradient(fi*F+F/2,F*0.62,2,fi*F+F/2,F*0.62,F*0.42); tg.addColorStop(0,rgba(tint,0.55)); tg.addColorStop(1,rgba(tint,0)); px.fillStyle=tg; px.fillRect(fi*F,0,F,F); } Zs.draw(px,use,fi*F+F/2,F*0.9,s2.h*k); if(fi===2&&use===pid)px.restore(); }
+        softShadow(px,fi*F+F/2,F*0.9-2,F*0.3,F*0.06,0.38); if(tint&&fi<2){ var tg=px.createRadialGradient(fi*F+F/2,F*0.62,2,fi*F+F/2,F*0.62,F*0.42); tg.addColorStop(0,rgba(tint,0.55)); tg.addColorStop(1,rgba(tint,0)); px.fillStyle=tg; px.fillRect(fi*F,0,F,F); } Zs.draw(px,use,fi*F+F/2,F*0.9,s2.h*Math.min(k,F*0.86/s2.h,F*0.96/s2.w));      /* round 110: the open chest's lid stands taller — it no longer runs off the top */ if(fi===2&&use===pid)px.restore(); }
       var pt=this.textures.addCanvas(key,pc); for(var pf=0;pf<3;pf++)pt.add(String(pf),0,pf*F,0,F,F); try{ pt.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} return key; }
     var fr=_campPropFrames(kind,tint), cv=mkCanvas(96,32), x=cv.getContext('2d'); fr.forEach(function(f,i){ x.drawImage(f,i*32,0); });
     var tx=this.textures.addCanvas(key,cv); for(var i=0;i<3;i++)tx.add(String(i),0,i*32,0,32,32); tx.setFilter(Phaser.Textures.FilterMode.NEAREST); return key; },
@@ -57,7 +61,7 @@ Object.assign(WorldScene.prototype,{
   _makeCamp(sec,tx,ty,T0,id,rng,guards){
     var x=tx*TILE+TILE/2, y=ty*TILE+TILE/2, self=this, done=(this.playerState.campsDone=this.playerState.campsDone||{});
         var C={id:id,T:T0,sec:sec,tx:tx,ty:ty,x:x,y:y,guards:[],state:'guarded',loot:[],t:0};
-        C.spr=this.add.image(x,y+14,this._campTex(T0.prop,T0.tint),'0').setOrigin(0.5,0.9).setDepth(WR_DEPTH(y)); C.spr.setScale(1.7*32/C.spr.frame.width*(C.spr.frame.width>32&&_scn()?_scn().K:1));   // painted props are 128 px frames (04h)
+        C.spr=this.add.image(x,y+14,this._campTex(T0.prop,T0.tint,T0.id),'0').setOrigin(0.5,0.9).setDepth(WR_DEPTH(y)); C.spr.setScale(1.7*32/C.spr.frame.width*(C.spr.frame.width>32&&_scn()?_scn().K:1));   // painted props are 128 px frames (04h)
         if(/campfire|lantern|moonwell|well|obelisk|shrine|cauldron|crystal|totem/.test(T0.prop)&&CHX.glow(this)){ C.glow=this.add.image(x,y+2,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(hexNum(T0.tint||(T0.prop==='campfire'?'#ff9040':'#ffe8a0'))).setAlpha(0.45).setScale(T0.prop==='campfire'?1.1:0.8).setDepth(typeof WR_LIGHT_D!=='undefined'?WR_LIGHT_D:WR_DEPTH(y)); C.glow._base={x:x,y:y,r:70,a:0.45,noCut:false}; }
         if(done[id]){ C.state='spent'; if(C.spr)C.spr.setFrame('2'); if(C.glow)C.glow.setVisible(false); this._camps.push(C); return C; }
         var n=Math.max(2,Math.min(7,3+Math.floor(rng.next()*3)+ZDiff.cur().guards)); for(var i=0;i<n;i++){ var a=i/n*Math.PI*2+rng.next()*0.4, gx=x+Math.cos(a)*(42+rng.next()*14), gy=y+Math.sin(a)*(30+rng.next()*10);

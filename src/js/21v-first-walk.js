@@ -17,6 +17,12 @@ var ZWALK={ on:true,
   STEPS:{follow:'Follow Master Oswin to his Adventurers\' Guild',move:'Walk — W A S D or the arrow keys (on a phone: the stick on the left)',attack:'Swing your sword — Space (on a phone: ⚔), three times',map:'Open the map — Q (or the 🗺 button) — the guild is marked',
     guild:'Go to the Adventurers\' Guild — Tab at its door',runa:'Elder Runa is waiting for you by the Runestone on the Green'},
   ws:function(){ try{ return game.scene.getScene('World'); }catch(e){ return null; } },
+  // round 110b (Kris: "the background hasn't yet rendered, and it looks weird. he should only start speaking once you've loaded into the
+  // village green"): the Green is on screen — its painted ground chunks all mounted and drawn — and a moment has passed to take it in
+  ready:function(ws){ try{ if(typeof ZScn!=='undefined'&&!ZScn.done&&!ZScn.off)return false; var W=ws._wr; if(!W||!ws._wrNeeded)return false;      /* round 110c: no painter yet = nothing drawn yet */
+      var ok=ws._wrNeeded().every(function(n){ if(!n.vis)return true; var c=W.chunks.get(n.key); return !!c&&!(c.pend&&c.pend.length); });
+      if(!ok){ ZWALK._rdyT=0; return Date.now()-(ZWALK._born||Date.now())>25000; }      /* never wait more than 25 s */
+      if(!ZWALK._rdyT)ZWALK._rdyT=Date.now(); return Date.now()-ZWALK._rdyT>1200; }catch(e){ return true; } },
   line:function(ws){ var ps=ws&&ws.playerState; if(!ZWALK.on||!ps||!ZWALK.STEPS[ps.walk])return null; return ZWALK.STEPS[ps.walk]+(ps.walk==='attack'?' ('+(ZWALK._hits||0)+' / 3)':''); },
   guild:function(ws){ return (ws.wd&&ws.wd.buildings||[]).find(function(b){ return b.type==='guild'; })||(ws.wd&&ws.wd.buildings||[]).find(function(b){ return b.type==='quest_board'; }); },
   target:function(ws){ var ps=ws.playerState; if(!ZWALK.on||!ps)return null;
@@ -29,15 +35,16 @@ var ZWALK={ on:true,
   done:function(ps){ ps.walk='done'; if(typeof ZLES!=='undefined'){ ['move','map'].forEach(function(id){ ZLES.teach(id,true); }); } },
   tick:function(){ try{ var ws=ZWALK.ws(); if(!ws||!ws.playerState||!ws.player)return; var ps=ws.playerState;
     if(ps.walk===undefined){ if(!ZWALK.on||!ws._newGame){ ps.walk='done'; return; }
-      ZWALK.spawn(ws);      /* round 110: Oswin is on the Green from the first moment */
-      if(Date.now()-(ZWALK._born||(ZWALK._born=Date.now()))<4000)return; if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&(ZCUT.isOpen()||document.getElementById('zcut-closing')))return; if(typeof _anyModalOpen==='function'&&_anyModalOpen())return;
+      if(!ZWALK._born)ZWALK._born=Date.now(); if(!ZWALK.ready(ws))return;      /* round 110b: nothing until the Green is drawn */
+      ZWALK.spawn(ws);      /* round 110: Oswin is on the Green, waiting for you */
+      if(Date.now()-ZWALK._born<4000)return; if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&(ZCUT.isOpen()||document.getElementById('zcut-closing')))return; if(typeof _anyModalOpen==='function'&&_anyModalOpen())return;
       if(typeof ZSQ!=='undefined'&&(ZSQ.hold(ps)||(ps.sagaQ&&ps.sagaQ.indexOf('opening')>=0)||Date.now()-ZSQ.lastEnd<1500))return;      /* round 107: the opening first (still to come, playing or just closed) */
       ZWALK.hi(ws); return; }
     if(!ZWALK.on||ps.walk==='done'||!ws.sys.isActive())return;
     if(ZWALK.OW_STEPS.indexOf(ps.walk)>=0)ZWALK.spawn(ws); else ZWALK.unspawn(ws);
     if(ps.walk==='follow'&&!ZWALK._fsaid&&!(typeof _anyModalOpen==='function'&&_anyModalOpen())){ ZWALK._fsaid=1; ZWALK.lead(ws); }
-    if(ps.walk==='move'&&ZWALK._p&&Math.hypot(ws.player.x-ZWALK._p.x,ws.player.y-ZWALK._p.y)>TILE*3){ if(typeof ZLES!=='undefined')ZLES.teach('move',true); ZWALK.go(ws,'attack'); }
-    else if(ps.walk==='attack'&&(ZWALK._hits||0)>=3)ZWALK.go(ws,'map');
+    if(ps.walk==='move'&&ZWALK._p&&Math.hypot(ws.player.x-ZWALK._p.x,ws.player.y-ZWALK._p.y)>TILE*3){ if(typeof ZLES!=='undefined')ZLES.teach('move',true); ZWALK.go(ws,'attack'); ZWALK.say(ws,'Steady on your feet — good. Now show me that sword arm: three swings. (Space, or the ⚔ button.)'); }
+    else if(ps.walk==='attack'&&(ZWALK._hits||0)>=3){ if(typeof ZLES!=='undefined')ZLES.teach('map',true); ZWALK.go(ws,'follow'); ZWALK._fsaid=1; ZWALK.lead(ws,true); }      /* round 110b: he answers at once and leads you (Kris: "I swung my sword 3 times and nothing happened … he didn't lead me") */
     else if(ps.walk==='guild'&&ps.oswin)ZWALK.go(ws,'runa');
     if(ps.walk==='runa'){ var R=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_elder'; }); if(R&&!R._walk){ R._walk=1; R.talk=function(){ ZWALK.runa(ws,R); }; } }
   }catch(e){ if(!ZWALK._err){ ZWALK._err=1; console.warn('first walk',e); } } },
@@ -67,8 +74,9 @@ var ZWALK={ on:true,
     prev[q[0]]=-1; var ok=function(x,y){ return ws._canGo((x+X0)*TILE+TILE/2,(y+Y0)*TILE+TILE/2,null); };
     for(var i=0;i<q.length&&prev[goal]===-2;i++){ var c=q[i], cx=c%W, cy=(c/W)|0; [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]].forEach(function(d){ var nx=cx+d[0], ny=cy+d[1]; if(nx<0||ny<0||nx>=W||ny>=H)return; var k=ny*W+nx; if(prev[k]!==-2||!ok(nx,ny))return; if(d[0]&&d[1]&&(!ok(cx+d[0],cy)||!ok(cx,cy+d[1])))return; prev[k]=c; q.push(k); }); }
     if(prev[goal]===-2)return [to]; var out=[]; for(var k=goal;k>=0;k=prev[k])out.push({x:(k%W+X0)*TILE+TILE/2,y:((k/W)|0)*TILE+Y0*TILE+TILE/2}); out.reverse(); out.push(to); return out; },
-  lead:function(ws){ var O=ZWALK.spawn(ws), d=ZWALK.door(ws); if(!O||!d)return; O.path=ZWALK.route(ws,{x:O.x,y:O.y},d); O.i=0;
-    if(typeof ZDLG!=='undefined'&&ZDLG.on)ZDLG.say(ZOSW_NAME(),'Good — you know where it is. Now come along, I will walk you there myself. Stay close!',{id:'npc_guild',icon:'📜'}); },
+  lead:function(ws,sw){ var O=ZWALK.spawn(ws), d=ZWALK.door(ws); if(!O||!d)return; O.path=ZWALK.route(ws,{x:O.x,y:O.y},d); O.i=0;
+    ZWALK.say(ws,sw?'Ha! A fine arm — that wooden blade will do for now. Come along, I will walk you to my guild hall myself. Stay close! (Q opens your map any time — the guild is the gold mark.)':'Come along, I will walk you to my guild hall myself. Stay close!'); },
+  say:function(ws,t){ if(typeof ZDLG!=='undefined'&&ZDLG.on)ZDLG.say(ZOSW_NAME(),t,{id:'npc_guild',icon:'📜'}); else showNotif('📜 Master Oswin: '+t,'#ffe9a8'); },
   // each frame: Oswin walks his route, waits when you fall behind, and goes in at the door
   step:function(ws,dt){ var O=ZWALK._ow; if(!O||O.ws!==ws||!O.im||!O.im.active)return; var P=ws.player, ps=ws.playerState, dP=Math.hypot(P.x-O.x,P.y-O.y), moving=false;
     if(ps.walk==='follow'&&O.path&&!(typeof _anyModalOpen==='function'&&_anyModalOpen())){
@@ -86,5 +94,6 @@ var ZWALK={ on:true,
     if(typeof ZDLG!=='undefined'&&ZDLG.on)say(0); else say(L.length); }
 };
 // the sword swings and the map (they move the walk on)
-document.addEventListener('keydown',function(e){ var ws=ZWALK.ws(), ps=ws&&ws.playerState; if(!ps||ps.walk!=='attack'||e.key!==' '||e.repeat)return; if(typeof _anyModalOpen==='function'&&_anyModalOpen())return; ZWALK._hits=(ZWALK._hits||0)+1; });
+// the sword swings (round 110b: counted from the swing itself — Space, the ⚔ button or a click — not from one key)
+(function(){ if(typeof WorldScene==='undefined')return; var a0=WorldScene.prototype._worldAttack; WorldScene.prototype._worldAttack=function(){ var ps=this.playerState, can=!(this.worldAtkTimer>0); var r=a0.apply(this,arguments); try{ if(can&&ps&&ps.walk==='attack'){ ZWALK._hits=(ZWALK._hits||0)+1; } }catch(e){} return r; }; })();
 setInterval(function(){ var ws=ZWALK.ws(), ps=ws&&ws.playerState; if(ps&&ps.walk==='map'){ var m=document.getElementById('modal-map'); if(m&&m.style.display!=='none'&&m.offsetParent!==null){ if(typeof ZLES!=='undefined')ZLES.teach('map',true); ZWALK.go(ws,'follow'); } } ZWALK.tick(); },500);
