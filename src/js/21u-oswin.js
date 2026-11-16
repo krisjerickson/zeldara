@@ -80,7 +80,7 @@ var ZOSW={ on:true, NAME:'Master Oswin', ID:'npc_guild', PAY:50,
     var F=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_fisher'; }); if(F&&!F._tq){ F._tq=1; F.talk=function(sc){ ZOSW.nell(ws); }; }
   }catch(e){ if(!ZOSW._err){ ZOSW._err=1; console.warn('oswin',e); } } },
   // the net itself: painted (07zt13 pc_fish_net) once in, drawn until then — a heap of knotted net with cork floats (it was a 🕸 emoji)
-  netImage:function(ws,N){ var Zs=typeof _scn==='function'?_scn():null, zt=Zs&&Zs.has&&Zs.has('pc_fish_net')&&Zs.texture(ws,'pc_fish_net',34), im;
+  netImage:function(ws,N){ var Zs=typeof _scn==='function'?_scn():null, zt=Zs&&Zs.has&&Zs.has('pc_fish_net')&&Zs.texture(ws,'pc_fish_net',44), im;
     if(zt)im=ws.add.image(N.x,N.y+10,zt.key).setOrigin(0.5,1).setScale(zt.scale);
     else { if(!ws.textures.exists('zosw_net')){ var c=mkCanvas(64,44), g=c.getContext('2d'); g.fillStyle='rgba(0,0,0,.25)'; g.beginPath(); g.ellipse(32,38,28,6,0,0,Math.PI*2); g.fill();
         g.fillStyle='#8a7350'; g.beginPath(); g.moveTo(6,36); g.quadraticCurveTo(10,14,30,10); g.quadraticCurveTo(54,12,58,36); g.closePath(); g.fill();
