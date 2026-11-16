@@ -62,6 +62,7 @@ with game(painted=True, w=1280, h=720) as g:
     g.js("(()=>{ var ws=%s, ps=ws.playerState; window._g0=ps.gold; ZOSW.nell(ws); })()" % WS); g.wait(300); talk_through(g)
     h = g.js("(()=>{ var ps=%s.playerState; return {net:ps.tq.net, gold:ps.gold-window._g0}; })()" % WS)
     check('Not while the skeletons stand; then Tab takes it, and Old Nell pays 50 g (%s → %s, %s)' % (t1, t2, h), t1 == 1 and t2 == 2 and h['net'] == 3 and h['gold'] == 50, h)
+    g.js("(()=>{ var ws=%s; ws.playerState.walk='runa'; ws.player.x=CENTER_X*TILE; ws.player.y=CENTER_Y*TILE; ZWALK._t=Date.now(); ZWALK.tick(); })()" % WS); g.wait(300)      # round 112: walking far out ends Runa's step; back on the Green for her talk
     g.js("(()=>{ var ws=%s, R=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_elder'; }); window._R=!!R; if(R&&R.talk)R.talk(ws); })()" % WS); g.wait(400)
     i = g.js("(()=>({R:window._R, name:ZDLG.open&&document.querySelector('#zdlg .zd-name').textContent}))()")
     talk_through(g); g.wait(600)

@@ -69,14 +69,26 @@ var ZJOUR={ on:true,
     G.push({n:'The Dragon',L:[{id:'dragon',t:'Every tower, dungeon, island and sky port ('+d+' / 16)',sub:'the Dragon flies over all land and deep water',done:(ps.ownedMounts||[]).indexOf('dragon')>=0}]});
     if(ps.spiritsHome)G.push({n:'After the end',L:[{id:'tree',t:'All forty spirits free ('+(ps.spiritsFreed||[]).length+' / 40)',sub:'the World Tree under the lake',done:!!ps.worldTree}]});
     return G; },
-  // ── tracking: what the arrow points to ──
-  target:function(ws){ ws=ws||ZJOUR.ws(); if(!ws||!ws.playerState)return null; var ps=ws.playerState, k=ps.tracked, wd=ws.wd||{}, P=function(S,t){ return S?{x:(S.tx+1.5)*TILE,y:(S.ty+1.5)*TILE,t:t||ZJOUR.nm(S)}:null; };
-    if(typeof ZWALK!=='undefined'&&ZWALK.target){ var w=ZWALK.target(ws); if(w)return w; }
+  // ── tracking: what the arrows point to ──
+  // round 112 (Kris: "whatever side quest you choose is a yellow indicator on the map. it seemed to be stuck at the town center … let's
+  // have the main quest be a runic teal indicator on the map as well, but let's get rid of the proximity counter"):
+  //  · sideT — the side quest you chose (yellow). Oswin leading you to his guild comes first; then the quest you made current; only then
+  //    Elder Runa's step and Oswin's first tasks. Runa no longer outranks the quest you chose (that was the arrow stuck on the Green).
+  //  · mainT — the next step of the Saga (runic teal), always shown beside it.
+  //  · target — the one the old callers want: the side quest if there is one, else the Saga.
+  P:function(S,t){ return S?{x:(S.tx+1.5)*TILE,y:(S.ty+1.5)*TILE,t:t||ZJOUR.nm(S)}:null; },
+  sideT:function(ws){ ws=ws||ZJOUR.ws(); if(!ws||!ws.playerState)return null; var ps=ws.playerState, k=ps.tracked, wd=ws.wd||{}, Wk=typeof ZWALK!=='undefined'&&ZWALK.target&&ZWALK.on;
+    if(Wk&&(ps.walk==='follow'||ps.walk==='guild'||ps.walk==='map')){ var w=ZWALK.target(ws); if(w)return w; }      /* Oswin leading you to his guild */
     if(k){ if(k.indexOf('tq:')===0&&typeof ZOSW!=='undefined'){ var o=ZOSW.target(ws,k.slice(3)); if(o)return o; }
       else if(k==='roll'&&typeof ZROLL!=='undefined'){ var N=ZROLL.npc||ZROLL.spot(ws); if(N&&!ps.canRoll)return {x:N.x,y:N.y,t:'Pia, just north of the village'}; }      /* round 102: Pia moved north of the village */
-      else { var S=(wd.sites||[]).find(function(s){ return s.id===k; }); if(S&&!ZJOUR.siteDone(ps,S))return P(S); } ps.tracked=null; }
+      else { var S=(wd.sites||[]).find(function(s){ return s.id===k; }); if(S&&!ZJOUR.siteDone(ps,S))return ZJOUR.P(S); }
+      ps.tracked=null; }
+    if(Wk&&ps.walk==='runa'){ var w2=ZWALK.target(ws); if(w2)return w2; }
     if(typeof ZOSW!=='undefined'){ var t=ZOSW.target(ws); if(t)return t; }
-    var c=ZJOUR.current(ws); return c&&c.S?P(c.S,c.t):null; },
+    return null; },
+  mainT:function(ws){ ws=ws||ZJOUR.ws(); if(!ws||!ws.playerState)return null; var c=ZJOUR.current(ws); if(c&&c.S)return ZJOUR.P(c.S,c.t);
+    var n=typeof ZQMAP!=='undefined'&&ZQMAP.next?ZQMAP.next(ws):null; return n&&n.S?ZJOUR.P(n.S,n.t):null; },
+  target:function(ws){ ws=ws||ZJOUR.ws(); if(!ws||!ws.playerState)return null; return ZJOUR.sideT(ws)||ZJOUR.mainT(ws); },
   siteDone:function(ps,S){ var cq=ps.completedQuests||[]; if(S.mage)return (ps.mageDone||[]).indexOf(S.mage)>=0; if(S.castle)return (ps.castlesDone||[]).indexOf(S.castle)>=0; if(S.bonus)return (ps.bonusCleared||[]).indexOf(S.id)>=0;
     return cq.indexOf(S.id)>=0||cq.indexOf('s'+S.section+'_'+S.type)>=0; },
   // ── the journal ──
@@ -95,14 +107,24 @@ var ZJOUR={ on:true,
   render:function(scene){ var c=document.getElementById('quest-list-container'); if(!c)return false; var ws=(scene&&scene.playerState)?scene:ZJOUR.ws(); if(!ws||!ws.playerState)return false; var h=ZJOUR.html(ws); if(c._qh!==h){ c._qh=h; c.innerHTML=h; } return true; },
   // ── the line under the little map ──
   line:function(){ var hud=document.getElementById('minimap-hud'); if(!hud)return; var el=document.getElementById('zpath'); if(!el){ el=document.createElement('div'); el.id='zpath'; el.title='Next on your path — click for the map'; el.onclick=function(){ if(typeof openWorldMap==='function')openWorldMap(); }; hud.appendChild(el); }
-    var ws=ZJOUR.ws(), w=typeof ZWALK!=='undefined'&&ZWALK.line?ZWALK.line(ws):null, N=w?{t:w}:(typeof ZQMAP!=='undefined'?ZQMAP.next(ws):null), t=N?N.t:'';
-    if(el._t!==t){ el._t=t; el.innerHTML=t?'<b>'+(w?'▸ ':'▶ Next: ')+'</b>'+String(t).replace(/</g,'&lt;'):''; el.style.display=t?'':'none'; } },
-  // ── the gold arrow on the little map's rim ──
-  arrow:function(ws){ var cv=document.getElementById('minimap-hud-canvas'); if(!cv||!ws||!ws.player)return; var T=ZJOUR.target(ws); if(!T)return; var ctx=cv.getContext('2d'), cw=cv.width, ch=cv.height, dx=T.x-ws.player.x, dy=T.y-ws.player.y, d=Math.hypot(dx,dy)/TILE, a=Math.atan2(dy,dx), R=Math.min(cw,ch)*0.43, t=Date.now()/1000;
-    ctx.save(); ctx.translate(cw/2,ch/2); if(d<3){ ctx.strokeStyle='rgba(255,224,90,'+(0.6+0.3*Math.sin(t*5))+')'; ctx.lineWidth=4; ctx.beginPath(); ctx.arc(0,0,14,0,Math.PI*2); ctx.stroke(); ctx.restore(); return; }
-    ctx.rotate(a); ctx.translate(R,0); ctx.fillStyle='#ffd84a'; ctx.strokeStyle='#2a1a00'; ctx.lineWidth=3; ctx.shadowColor='rgba(255,210,60,.9)'; ctx.shadowBlur=10+4*Math.sin(t*4);
-    ctx.beginPath(); ctx.moveTo(16,0); ctx.lineTo(-10,-12); ctx.lineTo(-4,0); ctx.lineTo(-10,12); ctx.closePath(); ctx.stroke(); ctx.fill(); ctx.restore();
-    ctx.save(); ctx.fillStyle='#fff3c0'; ctx.font='700 20px "Segoe UI",sans-serif'; ctx.textAlign='center'; ctx.shadowColor='#000'; ctx.shadowBlur=4; var lx=cw/2+Math.cos(a)*(R-30), ly=ch/2+Math.sin(a)*(R-30)+7; ctx.fillText(Math.round(d)+'',lx,ly); ctx.restore(); },
+    var ws=ZJOUR.ws(), w=typeof ZWALK!=='undefined'&&ZWALK.line?ZWALK.line(ws):null, ps=ws&&ws.playerState, c=ps?ZJOUR.current(ws):null, o=ps&&!ps.oswin&&typeof ZOSW!=='undefined'?ZOSW.next(ws):null, N=o&&/Visit Master Oswin/.test(o.t)?o:(c?{t:c.t}:null), S=ps?ZJOUR.sideT(ws):null, e=function(x){ return String(x).replace(/</g,'&lt;'); };
+    var h=w?'<div class="zp-w"><b>▸ </b>'+e(w)+'</div>':'';      /* round 112: the Saga in teal, the side quest you chose in yellow */
+    if(N&&N.t)h+='<div class="zp-m"><b>ᛉ Saga: </b>'+e(N.t)+'</div>'; if(S&&S.t&&!w)h+='<div class="zp-s"><b>★ </b>'+e(S.t)+'</div>';
+    if(el._t!==h){ el._t=h; el.innerHTML=h; el.style.display=h?'':'none'; } },
+  // ── the arrows on the little map's rim (round 112: yellow = your side quest, runic teal = the Saga; no distance number) ──
+  COL:{side:{f:'#ffd84a',s:'#2a1a00',g:'rgba(255,210,60,.9)',r:'255,224,90'},main:{f:'#3ff0d8',s:'#03302c',g:'rgba(60,240,215,.95)',r:'70,240,215'}},
+  arrow:function(ws){ var cv=document.getElementById('minimap-hud-canvas'); if(!cv||!ws||!ws.player)return; var S=ZJOUR.sideT(ws), M=ZJOUR.mainT(ws);
+    if(S&&M&&Math.hypot(S.x-M.x,S.y-M.y)<TILE*2)S=null;      /* the same place: the Saga's mark alone */
+    var ctx=cv.getContext('2d'); if(M)ZJOUR.mark(ctx,cv,ws,M,'main'); if(S)ZJOUR.mark(ctx,cv,ws,S,'side'); },
+  mark:function(ctx,cv,ws,T,kind){ var C=ZJOUR.COL[kind], cw=cv.width, ch=cv.height, dx=T.x-ws.player.x, dy=T.y-ws.player.y, d=Math.hypot(dx,dy)/TILE, a=Math.atan2(dy,dx), R=Math.min(cw,ch)*(kind==='main'?0.43:0.40), t=Date.now()/1000;
+    ctx.save(); ctx.translate(cw/2,ch/2);
+    if(d<3){ ctx.strokeStyle='rgba('+C.r+','+(0.6+0.3*Math.sin(t*5))+')'; ctx.lineWidth=4; ctx.beginPath(); ctx.arc(0,0,kind==='main'?18:13,0,Math.PI*2); ctx.stroke(); ctx.restore(); return; }
+    ctx.rotate(a); ctx.translate(R,0); ctx.fillStyle=C.f; ctx.strokeStyle=C.s; ctx.lineWidth=3; ctx.shadowColor=C.g; ctx.shadowBlur=10+4*Math.sin(t*4);
+    if(kind==='main'){      /* a rune-cut diamond with a tine: the Saga */
+      ctx.beginPath(); ctx.moveTo(18,0); ctx.lineTo(2,-11); ctx.lineTo(-12,0); ctx.lineTo(2,11); ctx.closePath(); ctx.stroke(); ctx.fill();
+      ctx.shadowBlur=0; ctx.strokeStyle=C.s; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(-6,0); ctx.lineTo(10,0); ctx.moveTo(3,0); ctx.lineTo(-2,-5); ctx.moveTo(3,0); ctx.lineTo(-2,5); ctx.stroke(); }
+    else { ctx.beginPath(); ctx.moveTo(16,0); ctx.lineTo(-10,-12); ctx.lineTo(-4,0); ctx.lineTo(-10,12); ctx.closePath(); ctx.stroke(); ctx.fill(); }
+    ctx.restore(); },
   // ── a Saga step done: the banner (what it opened, what is next) ──
   _done:null,
   watch:function(){ try{ if(!ZJOUR.on){ var zp=document.getElementById('zpath'); if(zp)zp.style.display='none'; return; } var ws=ZJOUR.ws(); if(!ws||!ws.playerState||!ws.player)return; ZJOUR.line(); var L=ZJOUR.steps(ws), D=L.filter(function(s){ return s.done; }).map(function(s){ return s.id; });
@@ -131,7 +153,7 @@ setTimeout(function(){
     '.zj-q{display:flex;gap:8px;align-items:center;padding:5px 6px;border-bottom:1px solid rgba(255,255,255,.06);font:13px/1.35 "Segoe UI";color:#e3ecf6}.zj-q>span{flex:1}.zj-q small{display:block;color:#8aa0b8}.zj-q.done{opacity:.5}.zj-q i{flex:none;font-style:normal;font:700 9px "Segoe UI";letter-spacing:.08em;padding:1px 5px;border:1px solid #8aa0b8;border-radius:4px;color:#8aa0b8}'+
     '.zj-lv{color:#9fb0c8;font-weight:600}.zj-lv.low{color:#ff8a7a}.zj-none{color:#8aa0b8;font:13px "Segoe UI"}'+
     '.zj-trk{flex:none;font:600 11px "Segoe UI";padding:3px 8px;border-radius:7px;border:1px solid rgba(255,216,74,.6);background:rgba(40,30,0,.5);color:#ffe27a;cursor:pointer}.zj-trk.on{background:#ffd84a;color:#2a1a00}'+
-    '#zpath{margin:4px auto 0;max-width:240px;padding:4px 8px;border-radius:8px;background:rgba(5,8,18,.78);border:1px solid rgba(255,216,74,.45);color:#fff3c0;font:600 11px/1.3 "Segoe UI",sans-serif;text-align:center;cursor:pointer;text-shadow:0 1px 2px #000;pointer-events:auto}#zpath b{color:#ffd84a}'+
+    '#zpath{margin:4px auto 0;max-width:240px;padding:4px 8px;border-radius:8px;background:rgba(5,8,18,.78);border:1px solid rgba(255,216,74,.45);color:#fff3c0;font:600 11px/1.3 "Segoe UI",sans-serif;text-align:center;cursor:pointer;text-shadow:0 1px 2px #000;pointer-events:auto}#zpath b{color:#ffd84a}#zpath>div{margin:1px 0}#zpath .zp-m{color:#b8fff2}#zpath .zp-m b{color:#3ff0d8;text-shadow:0 0 6px rgba(60,240,215,.7)}#zpath .zp-s{color:#fff3c0}#zpath .zp-s b{color:#ffd84a}'+
     '#zq-banner{position:fixed;left:50%;top:14%;transform:translate(-50%,-12px);z-index:400;min-width:300px;max-width:min(680px,92vw);padding:14px 22px;border-radius:12px;background:linear-gradient(180deg,rgba(40,30,8,.94),rgba(16,12,4,.94));border:2px solid #ffd84a;box-shadow:0 0 28px rgba(255,210,60,.35);text-align:center;opacity:0;pointer-events:none;transition:opacity .5s,transform .5s}'+
     '#zq-banner.show{opacity:1;transform:translate(-50%,0)}.zqb-t{color:#fff3c0;font:600 18px "Cinzel",Georgia,serif}.zqb-n{color:#e8d8a0;font:14px "Segoe UI";margin-top:4px}';
   document.head.appendChild(st);

@@ -45,7 +45,7 @@ var ZQMAP={ on:true, _c:null, _t:0,
   // the side panel block
   html:function(ws){ var L=ZQMAP.list(ws), N=ZQMAP.next(ws), h='<div id="wm-quests">'+(N?'<div class="wmq-next"><b>Next on your path</b><span>'+N.t+'</span>'+(N.S?'<button class="wmq-go" data-x="'+(N.S.tx+1.5)+'" data-y="'+(N.S.ty+1.5)+'" title="Show on the map">📍</button>':'')+'</div>':'')+'<h4>Your quests <span class="wmq-n">'+L.length+'</span></h4>';
     if(!L.length)h+='<div class="wm-note">Nothing open just now. Visit the guild in the village for a quest, or explore — what you find appears here.</div>';
-    L.forEach(function(q){ h+='<div class="wmq'+(q.act?' act':'')+'"><b class="wmq-k">'+q.n+'</b><span class="wmq-t">'+q.ic+' '+q.title+'<small>'+q.sub+' · '+Math.round(q.d)+' tiles '+q.dir+'</small></span><button class="wmq-go" data-x="'+q.tx+'" data-y="'+q.ty+'" title="Show on the map">📍</button></div>'; });
+    L.forEach(function(q){ h+='<div class="wmq'+(q.act?' act':'')+'"><b class="wmq-k">'+q.n+'</b><span class="wmq-t">'+q.ic+' '+q.title+'<small>'+q.sub+' · to the '+q.dir+'</small></span><button class="wmq-go" data-x="'+q.tx+'" data-y="'+q.ty+'" title="Show on the map">📍</button></div>'; });
     return h+'<button class="wmq-j">📜 Quest journal</button></div>'; },
   // the numbered pins on the map
   pins:function(ctx,cw,ch,ws,v,o){ if(!ZQMAP.on||!o||!o.full)return; var L=ZQMAP.list(ws); if(!L.length)return; var sc=cw/v.w, t=Date.now()/1000;

@@ -13,11 +13,11 @@ var ZCURQ={ on:true,
   set:function(ws,id){ var ps=ws.playerState; ps.tracked=ps.tracked===id?null:id; var m=/^s(\d)_(tower|dungeon|harbor|skyport)$/.exec(id||''); ps.activeQuest=ps.tracked&&m?id:null;
     if(typeof ZQMAP!=='undefined')ZQMAP._c=null; var c=document.getElementById('quest-list-container'); if(c)c._qh='';
     try{ if(typeof ZJOUR!=='undefined'&&ZJOUR.render)ZJOUR.render(ws); }catch(e){}
-    var t=ZCURQ.now(ws); if(ps.tracked&&t)showNotif('★ Current quest: '+t.t+' — the gold arrow points the way','#ffe27a'); else if(!ps.tracked)showNotif('☆ No current quest — the arrow follows the Saga','#cfe8ff');
+    var t=ZCURQ.now(ws); if(ps.tracked&&t)showNotif('★ Current quest: '+t.t+' — the yellow arrow points the way','#ffe27a'); else if(!ps.tracked)showNotif('☆ No side quest chosen — the teal rune arrow still follows the Saga','#cfe8ff');
     ZCURQ.redraw(ws); },
   redraw:function(ws){ try{ var m=document.getElementById('modal-map'); if(m&&m.style.display!=='none'&&m.offsetParent!==null&&typeof renderMinimap==='function')renderMinimap(ws.wd,null,null,null,0,null,true); }catch(e){} },
   // the star pin on the big map
-  pin:function(cv,ws,v){ var wrap=cv.parentNode; if(!wrap)return; var el=document.getElementById('wm-cur'), T=ZCURQ.on?ZCURQ.now(ws):null;
+  pin:function(cv,ws,v){ var wrap=cv.parentNode; if(!wrap)return; var el=document.getElementById('wm-cur'), T=ZCURQ.on?ZCURQ.sideT(ws):null; try{ ZCURQ.mainPin(cv,ws,v); }catch(e){}
     if(!el){ el=document.createElement('div'); el.id='wm-cur'; el.innerHTML='<i></i><u>★</u><b></b>'; wrap.appendChild(el);
       var st=document.createElement('style'); st.textContent='#wm-cur{position:absolute;width:0;height:0;pointer-events:none;z-index:3}#wm-cur i{position:absolute;left:-15px;top:-15px;width:30px;height:30px;border-radius:50%;border:3px solid #ffd84a;box-shadow:0 0 12px #ffd84a;animation:wmYou 1.6s ease-out infinite}'+
         '#wm-cur u{position:absolute;left:-12px;top:-14px;width:24px;text-align:center;font:700 20px/24px serif;text-decoration:none;color:#ffe27a;text-shadow:0 0 6px #000,0 0 10px #ffb000}'+
@@ -27,7 +27,21 @@ var ZCURQ={ on:true,
     if(!T){ el.style.display='none'; return; }
     var tx=T.x/TILE, ty=T.y/TILE, w=cv.clientWidth||(typeof WMAP!=='undefined'?WMAP.side:400), inV=tx>=v.x&&ty>=v.y&&tx<=v.x+v.w&&ty<=v.y+v.h;
     el.style.display=inV?'':'none'; if(!inV)return; el.style.left=(cv.offsetLeft+(tx-v.x)/v.w*w)+'px'; el.style.top=(cv.offsetTop+(ty-v.y)/v.h*(cv.clientHeight||w))+'px';
-    var ps=ws.playerState, lab=(ps.tracked?'':'Next: ')+T.t; el.querySelector('b').innerHTML='<span>'+String(lab).replace(/</g,'&lt;')+'</span>'; }
+    var lab=T.t; el.querySelector('b').innerHTML='<span>'+String(lab).replace(/</g,'&lt;')+'</span>'; },
+  // round 112: the yellow pin is the side quest you chose (or Oswin's first tasks); the Saga has its own runic teal pin
+  sideT:function(ws){ try{ return typeof ZJOUR!=='undefined'&&ZJOUR.sideT?ZJOUR.sideT(ws):null; }catch(e){ return null; } },
+  mainT:function(ws){ try{ return typeof ZJOUR!=='undefined'&&ZJOUR.mainT?ZJOUR.mainT(ws):null; }catch(e){ return null; } },
+  mainPin:function(cv,ws,v){ var wrap=cv.parentNode; if(!wrap)return; var el=document.getElementById('wm-main'), T=ZCURQ.on?ZCURQ.mainT(ws):null;
+    if(!el){ el=document.createElement('div'); el.id='wm-main'; el.innerHTML='<i></i><u>ᛉ</u><b></b>'; wrap.appendChild(el);
+      var st=document.createElement('style'); st.textContent='#wm-main{position:absolute;width:0;height:0;pointer-events:none;z-index:3}#wm-main i{position:absolute;left:-16px;top:-16px;width:32px;height:32px;transform:rotate(45deg);border:3px solid #3ff0d8;box-shadow:0 0 14px #3ff0d8,inset 0 0 8px rgba(60,240,215,.6);background:rgba(3,48,44,.55);animation:wmRune 1.8s ease-in-out infinite}'+
+        '#wm-main u{position:absolute;left:-12px;top:-13px;width:24px;text-align:center;font:700 19px/26px "Segoe UI Symbol","Noto Sans Runic",serif;text-decoration:none;color:#c8fff6;text-shadow:0 0 6px #000,0 0 10px #3ff0d8}'+
+        '#wm-main b{position:absolute;left:-100px;bottom:20px;width:200px;text-align:center;font:700 11px "Segoe UI",sans-serif;color:#03302c}#wm-main b span{background:#3ff0d8;border-radius:8px;padding:1px 7px;box-shadow:0 1px 4px rgba(0,0,0,.6);white-space:nowrap}'+
+        '@keyframes wmRune{0%,100%{box-shadow:0 0 8px #3ff0d8,inset 0 0 6px rgba(60,240,215,.5)}50%{box-shadow:0 0 20px #3ff0d8,inset 0 0 12px rgba(60,240,215,.9)}}';
+      document.head.appendChild(st); }
+    if(!T){ el.style.display='none'; return; }
+    var tx=T.x/TILE, ty=T.y/TILE, w=cv.clientWidth||(typeof WMAP!=='undefined'?WMAP.side:400), inV=tx>=v.x&&ty>=v.y&&tx<=v.x+v.w&&ty<=v.y+v.h;
+    el.style.display=inV?'':'none'; if(!inV)return; el.style.left=(cv.offsetLeft+(tx-v.x)/v.w*w)+'px'; el.style.top=(cv.offsetTop+(ty-v.y)/v.h*(cv.clientHeight||w))+'px';
+    el.querySelector('b').innerHTML='<span>ᛉ Saga: '+String(T.t).replace(/</g,'&lt;')+'</span>'; }
 };
 (function(){
   // the big map: the star pin with "You"
@@ -35,10 +49,10 @@ var ZCURQ={ on:true,
   // the map's quest list: ☆ to make one current (★ the current one)
   if(typeof ZQMAP!=='undefined'&&ZQMAP.html){ var h0=ZQMAP.html; ZQMAP.html=function(ws){ var h=h0.apply(this,arguments); try{ ws=ws||ZCURQ.ws(); var tr=ws&&ws.playerState&&ws.playerState.tracked;
       ZQMAP.list(ws).forEach(function(q){ var on=tr===q.id, k='data-x="'+q.tx+'" data-y="'+q.ty+'" title="Show on the map">📍</button>', i=h.indexOf(k);
-        if(i>=0){ var j=i+k.length; h=h.slice(0,j)+'<button class="wmq-cur'+(on?' on':'')+'" data-cur="'+q.id+'" title="'+(on?'Your current quest — click to let it go':'Make this your current quest: the gold arrow points to it')+'">'+(on?'★':'☆')+'</button>'+h.slice(j); } });
+        if(i>=0){ var j=i+k.length; h=h.slice(0,j)+'<button class="wmq-cur'+(on?' on':'')+'" data-cur="'+q.id+'" title="'+(on?'Your current quest — click to let it go':'Make this your current quest: the yellow arrow points to it')+'">'+(on?'★':'☆')+'</button>'+h.slice(j); } });
     }catch(e){} return h; }; }
   // the journal: "Track" is called what it is
-  if(typeof ZJOUR!=='undefined'&&ZJOUR.html){ var j0=ZJOUR.html; ZJOUR.html=function(ws){ var h=j0.apply(this,arguments); return String(h).replace(/◎ Track/g,'☆ Make current').replace(/◉ Tracked/g,'★ Current quest').replace(/title="Track it — an arrow on the little map"/g,'title="Make it your current quest — the gold arrow points to it, and it is starred on the map"'); }; }
+  if(typeof ZJOUR!=='undefined'&&ZJOUR.html){ var j0=ZJOUR.html; ZJOUR.html=function(ws){ var h=j0.apply(this,arguments); return String(h).replace(/◎ Track/g,'☆ Make current').replace(/◉ Tracked/g,'★ Current quest').replace(/title="Track it — an arrow on the little map"/g,'title="Make it your current quest — the yellow arrow points to it, and it is starred on the map"'); }; }
   document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.wmq-cur'); if(!b)return; e.stopPropagation(); e.preventDefault(); var ws=ZCURQ.ws(); if(ws&&ws.playerState)ZCURQ.set(ws,b.dataset.cur); },true);
 })();
 // ── round 110 (Kris: "it would also be helpful to have monster camps shown somehow on the map"): every monster camp you have explored near
@@ -59,7 +73,7 @@ ZCURQ.camps=function(ctx,cw,ch,ws,v,o){ if(!ZCURQ.CAMPS||!o||!o.full||!ws||!ws._
 (function(){
   if(typeof _wmDrawView==='function'){ var d1=_wmDrawView; _wmDrawView=function(ctx,cw,ch,ws,v,o){ var r=d1.apply(this,arguments); try{ ZCURQ.camps(ctx,cw,ch,ws,v,o); }catch(e){} return r; }; }
   if(typeof ZQMAP!=='undefined'&&ZQMAP.html){ var h1=ZQMAP.html; ZQMAP.html=function(ws){ var h=h1.apply(this,arguments); if(!ZCURQ.CAMPS)return h;
-      var leg='<div class="wm-note wmq-camps"><span style="color:#e0483c">▲</span> monster camps still guarded · <span style="color:#5cc86a">▲</span> beaten · <span style="color:#8a8f88">▲</span> reward taken — the places you have explored</div>';
+      var leg='<div class="wm-note wmq-camps"><span style="color:#e0483c">▲</span> monster camps still guarded · <span style="color:#5cc86a">▲</span> beaten · <span style="color:#8a8f88">▲</span> reward taken — the places you have explored</div>'+'<div class="wm-note wmq-marks"><span style="color:#3ff0d8">◆ ᛉ</span> the Saga\'s next step · <span style="color:#ffd84a">★</span> the side quest you chose (☆ to choose one)</div>';
       var k='<button class="wmq-j">'; var i=h.lastIndexOf(k); return i>=0?h.slice(0,i)+leg+h.slice(i):h+leg; }; }
 })();
 // ── round 110 (Kris: "as well as quest locations on the map. like the first ones for master oswin"): the side quests that have a place —

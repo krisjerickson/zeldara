@@ -25,6 +25,7 @@ var ZWALK={ on:true,
       if(!ZWALK._rdyT)ZWALK._rdyT=Date.now(); return Date.now()-ZWALK._rdyT>1200; }catch(e){ return true; } },
   line:function(ws){ var ps=ws&&ws.playerState; if(!ZWALK.on||!ps||!ZWALK.STEPS[ps.walk])return null; return ZWALK.STEPS[ps.walk]+(ps.walk==='attack'?' ('+(ZWALK._hits||0)+' / 3)':''); },
   guild:function(ws){ return (ws.wd&&ws.wd.buildings||[]).find(function(b){ return b.type==='guild'; })||(ws.wd&&ws.wd.buildings||[]).find(function(b){ return b.type==='quest_board'; }); },
+  RUNA_FAR:40, RUNA_MS:240000,
   target:function(ws){ var ps=ws.playerState; if(!ZWALK.on||!ps)return null;
     if(ps.walk==='guild'||ps.walk==='map'){ var G=ZWALK.guild(ws); if(G)return {x:G.worldX+Math.floor(G.w/2)*TILE+TILE/2,y:G.worldY+G.h*TILE,t:'The Adventurers\' Guild'}; }
     if(ps.walk==='runa'){ var R=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_elder'; }); if(R)return {x:R.x,y:R.y,t:'Elder Runa, by the Runestone'}; }
@@ -47,6 +48,11 @@ var ZWALK={ on:true,
     else if(ps.walk==='attack'&&(ZWALK._hits||0)>=3){ if(typeof ZLES!=='undefined')ZLES.teach('map',true); ZWALK.go(ws,'follow'); ZWALK._fsaid=1; ZWALK.lead(ws,true); }      /* round 110b: he answers at once and leads you (Kris: "I swung my sword 3 times and nothing happened … he didn't lead me") */
     else if(ps.walk==='guild'&&ps.oswin)ZWALK.go(ws,'runa');
     if(ps.walk==='runa'){ var R=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_elder'; }); if(R&&!R._walk){ R._walk=1; R.talk=function(){ ZWALK.runa(ws,R); }; } }
+    // round 112 (Kris: the arrow "seemed to be stuck at the town center"): Runa's step no longer waits for ever — walk out of the village
+    // (or let four minutes pass) and her lesson comes as a note, the walk ends, and the arrows follow your quests
+    if(ps.walk==='runa'){ if(!ZWALK._t)ZWALK._t=Date.now(); var far=Math.hypot(ws.player.x/TILE-CENTER_X,ws.player.y/TILE-CENTER_Y)>ZWALK.RUNA_FAR;
+      if(far||Date.now()-ZWALK._t>ZWALK.RUNA_MS){ var R2=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_elder'; }); if(R2&&R2._walk){ R2.talk=null; R2._walk=0; }
+        if(typeof ZLES!=='undefined')ZLES.teach('waystone',true); showNotif('ᛟ Elder Runa\'s lesson: lay your hand on a waystone (Tab) to wake it — from any waystone you can travel to every one you have woken.','#b8fff2'); ZWALK.done(ps); ZWALK.go(ws,'done'); } }
   }catch(e){ if(!ZWALK._err){ ZWALK._err=1; console.warn('first walk',e); } } },
   hi:function(ws){ var ps=ws.playerState, O=typeof ZTWIN!=='undefined'?ZTWIN.other(ps):{name:'your twin',ch:null}, H=ps.hero==='f'?'Zeldara':'Zeldor'; ps.walk='hi'; ZWALK.spawn(ws);
     var L=['There you are, '+H+'! Up at last. I am Master Oswin, keeper of the Adventurers\' Guild — the whole village has waited for this day, and '+O.name+' is already at the library with a pile of old books.',
