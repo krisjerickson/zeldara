@@ -484,9 +484,21 @@
   "files": [
    {
     "base": "sfx_anvil",
-    "le": 0.115,
+    "le": 0.253,
     "ls": 0,
-    "secs": 0.115
+    "secs": 0.253
+   },
+   {
+    "base": "sfx_anvil.b",
+    "le": 0.319,
+    "ls": 0,
+    "secs": 0.319
+   },
+   {
+    "base": "sfx_anvil.c",
+    "le": 0.246,
+    "ls": 0,
+    "secs": 0.246
    }
   ],
   "kind": "sfx",
@@ -497,15 +509,21 @@
   "files": [
    {
     "base": "sfx_arrow_hit",
-    "le": 0.361,
-    "ls": 0,
-    "secs": 0.361
-   },
-   {
-    "base": "sfx_arrow_hit.b",
     "le": 0.199,
     "ls": 0,
     "secs": 0.199
+   },
+   {
+    "base": "sfx_arrow_hit.b",
+    "le": 0.296,
+    "ls": 0,
+    "secs": 0.296
+   },
+   {
+    "base": "sfx_arrow_hit.c",
+    "le": 0.48,
+    "ls": 0,
+    "secs": 0.48
    }
   ],
   "kind": "sfx",
@@ -571,24 +589,18 @@
    },
    {
     "base": "sfx_axe_swing.c",
-    "le": 0.491,
-    "ls": 0,
-    "secs": 0.491
-   },
-   {
-    "base": "sfx_axe_swing.d",
     "le": 0.407,
     "ls": 0,
     "secs": 0.407
    },
    {
-    "base": "sfx_axe_swing.e",
+    "base": "sfx_axe_swing.d",
     "le": 0.453,
     "ls": 0,
     "secs": 0.453
    },
    {
-    "base": "sfx_axe_swing.f",
+    "base": "sfx_axe_swing.e",
     "le": 0.507,
     "ls": 0,
     "secs": 0.507
@@ -611,6 +623,12 @@
     "le": 0.365,
     "ls": 0,
     "secs": 0.365
+   },
+   {
+    "base": "sfx_beast_bite.c",
+    "le": 0.311,
+    "ls": 0,
+    "secs": 0.311
    }
   ],
   "kind": "sfx",
@@ -630,6 +648,12 @@
     "le": 0.903,
     "ls": 0,
     "secs": 0.903
+   },
+   {
+    "base": "sfx_beast_growl.c",
+    "le": 0.897,
+    "ls": 0,
+    "secs": 0.897
    }
   ],
   "kind": "sfx",
@@ -640,33 +664,21 @@
   "files": [
    {
     "base": "sfx_bell",
-    "le": 2.426,
+    "le": 1.874,
     "ls": 0,
-    "secs": 2.426
+    "secs": 1.874
    },
    {
     "base": "sfx_bell.b",
-    "le": 1.565,
+    "le": 1.754,
     "ls": 0,
-    "secs": 1.565
+    "secs": 1.754
    },
    {
     "base": "sfx_bell.c",
     "le": 5.013,
     "ls": 0,
     "secs": 5.013
-   },
-   {
-    "base": "sfx_bell.d",
-    "le": 1.874,
-    "ls": 0,
-    "secs": 1.874
-   },
-   {
-    "base": "sfx_bell.e",
-    "le": 1.754,
-    "ls": 0,
-    "secs": 1.754
    }
   ],
   "kind": "sfx",
@@ -677,9 +689,21 @@
   "files": [
    {
     "base": "sfx_bifrost",
-    "le": 5.032,
+    "le": 1.857,
     "ls": 0,
-    "secs": 5.032
+    "secs": 1.857
+   },
+   {
+    "base": "sfx_bifrost.b",
+    "le": 2.229,
+    "ls": 0,
+    "secs": 2.229
+   },
+   {
+    "base": "sfx_bifrost.c",
+    "le": 2.495,
+    "ls": 0,
+    "secs": 2.495
    }
   ],
   "kind": "sfx",
@@ -1920,18 +1944,19 @@
   "loop": false
  },
  "sfx_mon_hit": {
+  "eth": true,
   "files": [
    {
     "base": "sfx_mon_hit",
-    "le": 0.48,
+    "le": 0.271,
     "ls": 0,
-    "secs": 0.48
+    "secs": 0.271
    },
    {
     "base": "sfx_mon_hit.b",
-    "le": 0.292,
+    "le": 0.476,
     "ls": 0,
-    "secs": 0.292
+    "secs": 0.476
    }
   ],
   "kind": "sfx",
@@ -2453,6 +2478,12 @@
     "le": 4.984,
     "ls": 0,
     "secs": 4.984
+   },
+   {
+    "base": "sfx_sink.b",
+    "le": 2.585,
+    "ls": 0,
+    "secs": 2.585
    }
   ],
   "kind": "sfx",
@@ -2479,6 +2510,12 @@
     "le": 1.549,
     "ls": 0,
     "secs": 1.549
+   },
+   {
+    "base": "sfx_sk_meteor.b",
+    "le": 0.804,
+    "ls": 0,
+    "secs": 0.804
    }
   ],
   "kind": "sfx",
