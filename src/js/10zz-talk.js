@@ -40,7 +40,7 @@ setTimeout(function(){ if(typeof ZSPIRIT==='undefined')return;
   var ds0=ZSPIRIT._drawSpirit; ZSPIRIT._drawSpirit=function(free,s){ var fb=ds0.apply(ZSPIRIT,arguments);
     if(!s){ try{ var ws=game.scene.getScene('World'), b=1e9; (ws&&ws.wd&&ws.wd._shrines||[]).forEach(function(q){ var d=Math.hypot(ws.player.x-q.x,ws.player.y-q.y); if(d<TILE*4&&d<b){ b=d; s=q; } }); }catch(e){} }
     var id=s&&ZSPIRIT.uniqueId(s,free?'free':'toil'); return id?ZTALK.scn(id,fb):fb; };
-  ZSPIRIT._drawSolveig=function(){ return ZTALK.scn('np_solveig',function(x,t){ x.save(); x.translate(48,50+Math.sin(t*0.3)); x.fillStyle='#2e4a66'; x.beginPath(); x.moveTo(-16,40); x.lineTo(-10,0); x.lineTo(10,0); x.lineTo(16,40); x.closePath(); x.fill(); x.fillStyle='#f0d2b0'; x.beginPath(); x.arc(0,-10,10,0,Math.PI*2); x.fill(); x.restore(); }); };
+  ZSPIRIT._drawSolveig=function(){ return ZTALK.ch('vf_glass',ZTALK.scn('np_solveig',function(x,t){ x.save(); x.translate(48,50+Math.sin(t*0.3)); x.fillStyle='#2e4a66'; x.beginPath(); x.moveTo(-16,40); x.lineTo(-10,0); x.lineTo(10,0); x.lineTo(16,40); x.closePath(); x.fill(); x.fillStyle='#f0d2b0'; x.beginPath(); x.arc(0,-10,10,0,Math.PI*2); x.fill(); x.restore(); })); };      /* round 114: her painted character first (vf_glass), then the still painting */
   // Sólveig: the shards of each realm as tiles (six needed), the lattice they make
   ZSPIRIT.solveig=function(ws){ var ps=ws.playerState, btns=[], rows=[];
     for(var q=1;q<=4;q++){ var sh=ZSPIRIT.items(ps,'soulglass_'+q), latK='soulglass_lattice_'+q, lat=ZSPIRIT.items(ps,latK)||((ps.inventory||[]).indexOf('heartglass_'+q)>=0), fr=ZSPIRIT.count(ps,q);

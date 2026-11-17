@@ -1,4 +1,4 @@
-# Character survey — 539 characters, 1189 sheets (828 core), 8253 poses
+# Character survey — 540 characters, 1191 sheets (830 core), 8269 poses
 
 Made by build.mjs from the game data. Kit modules with no animation mapping: none.
 
@@ -8,7 +8,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | rider | 22 | 22 | 22 | 176 |
 | monster | 252 | 642 | 398 | 4049 |
 | boss | 97 | 274 | 157 | 2042 |
-| npc | 108 | 145 | 145 | 1160 |
+| npc | 109 | 147 | 147 | 1176 |
 | mount | 11 | 11 | 11 | 88 |
 | familiar | 4 | 4 | 4 | 32 |
 | fairy | 23 | 23 | 23 | 184 |
@@ -415,6 +415,7 @@ Made by build.mjs from the game data. Kit modules with no animation mapping: non
 | vf_vendor | Marta the Cart Vendor | Village folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Calls out the day's prices.); Move ×4 (walks around the village) | 2 |
 | vf_lamplighter | Old Fenwick | Village folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: light ×4 (Walks the streets at dusk lighting each lantern.); Move ×4 (walks around the village) | 2 |
 | vf_keeper | Ilsa the Lighthouse Keeper | Village folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: look ×4 (Watches the lake for boats.); Move ×4 (walks around the village) | 2 |
+| vf_glass | Sólveig the Glasswright | Village folk | f | Idle ×2; Talk ×2 (when you speak to them); Work: work ×4 (Holds a shard of soulglass up to the light and hums to it, then sets it into a lattice.); Move ×4 (walks around the village) | 2 |
 | isl_harbor | Harbormaster Quill | Harbor islands | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Rings you back to the mainland ferry.) | 1 |
 | isl_trader | Coral the Island Trader | Harbor islands | f | Idle ×2; Talk ×2 (when you speak to them); Work: wave ×4 (Shows off exotic wares; the parrot squawks.) | 1 |
 | isl_well | Sister Mael | Harbor islands | f | Idle ×2; Talk ×2 (when you speak to them); Work: heal ×4 (Blesses the well; green motes rise and heal you.) | 1 |

@@ -245,6 +245,9 @@ CH('npc','Village folk','vf_lamplighter','Old Fenwick',['person','light','#3a3a4
   'The lamp-posts at dusk (stage 4+)','A stooped lamplighter in a grey coat carrying a long lighting pole.','Walks the streets at dusk lighting each lantern.');
 CH('npc','Village folk','vf_keeper','Ilsa the Lighthouse Keeper',['person','look','#2a3a5a,#1a2a3a,#ffe080,#201810,#e8c0a0,#6a3a1a','cap,long,spyglass,cape'],
   'The lighthouse (stage 5)','A lighthouse keeper in a navy pea-coat, cap and spyglass.','Watches the lake for boats.');
+// round 114 (Kris: "I also see a missing Glasswright NPC sprite"): Sólveig had only her still painting (np_solveig) in the Glimmerhall
+CH('npc','Village folk','vf_glass','Sólveig the Glasswright',['person','work','#3a5a8a,#6a4a2a,#9fe8ff,#201810,#f0d2b0,#e8dcb8','braids,long,apron,silver,gloves'],
+  'The Glimmerhall (from the first familiar island on)','A tall, kind glassmaker in her fifties with long silver-blond braids, a deep blue dress under a scorched leather apron, thick gloves tucked in her belt and a small glowing light-blue shard of glass in one hand.','Holds a shard of soulglass up to the light and hums to it, then sets it into a lattice.');
 
 // ── NPCs · harbor islands ──
 CH('npc','Harbor islands','isl_harbor','Harbormaster Quill',['person','wave','#2a4a6a,#1a2a3a,#e8c040,#201810,#d8a888,#8a8a8a','tricorn,grey,moustache,key'],

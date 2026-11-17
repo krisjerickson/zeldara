@@ -23,6 +23,8 @@
     if(typeof BuildingScene==='undefined')return; var B=BuildingScene.prototype;
     var sn=B._spawnNPC; B._spawnNPC=function(type){ if(!(this.building&&this.building.type==='glimmerhall'))return sn.apply(this,arguments);
       var N=this._imap.npc, nx=N.x, ny=N.y, Z=typeof _scn==='function'?_scn():null; this.npcX=nx; this.npcY=ny;
+      if(typeof ZAtlas!=='undefined'&&!ZAtlas.off&&ZAtlas.has('vf_glass')&&typeof CHX!=='undefined'){ var cont=this.add.container(nx,ny).setDepth(ny+14); cont.add(this.add.ellipse(0,14,20,6,0x000000,.3)); this._npcSpr=CHX.sprite(this,'vf_glass',0,16,1.25); cont.add(this._npcSpr);      /* round 114: her painted character, once it is in */
+        domText(this,nx,ny-34,'Sólveig the Glasswright',{fontSize:'8px',color:'#9fe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setDepth(9400); return; }
       var im=Z&&Z.has&&Z.has('np_solveig')?Z.image(this,'np_solveig',nx,ny+16,Z.K,ny+14):null;
       if(im){ im.setOrigin(0.5,1); this.tweens.add({targets:im,y:im.y-2,duration:1600,yoyo:true,repeat:-1,ease:'Sine.inOut'}); }
       else { var g=this.add.graphics().setDepth(ny+14); g.fillStyle(0x000000,0.3).fillEllipse(nx,ny+14,20,6); g.fillStyle(0x2e4a66,1).fillTriangle(nx-9,ny+12,nx+9,ny+12,nx,ny-8); g.fillStyle(0xf0d2b0,1).fillCircle(nx,ny-12,6); g.fillStyle(0xe8e0c0,1).fillRect(nx-6,ny-16,12,4); g.fillStyle(0x9fe8ff,0.8).fillCircle(nx+10,ny-2,4); }

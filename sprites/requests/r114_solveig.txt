@@ -1,0 +1,3 @@
+# round 114 - Solveig the Glasswright as a full character (she had only her still painting): idle, talk and work, then walking
+vf_glass.core.f
+vf_glass.walk

@@ -40,5 +40,36 @@ with game(painted=True) as g:
     # Mira / Sólveig: the Saga talk still runs
     f = g.js("""(()=>{ var out={}; ['ZMIRA.talk','ZSPIRIT.solveig'].forEach(function(k){ var o=k.split('.'), O=window[o[0]]; if(!O||!O[o[1]]){ out[k]='none'; return; } out[k]=/m0\\.apply|s0\\.apply/.test(O[o[1]].toString()); }); return out; })()""")
     check('Mira and Sólveig still hand you their part of the Saga after any request (%s)' % f, all(v is True or v == 'none' for v in f.values()), f)
+
+# the Lab: the villagers' saga (backstories and five arcs)
+import re, json
+from playwright.sync_api import sync_playwright
+R = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+with sync_playwright() as p:
+    PH = os.path.join(R, 'tests', '.phaser', 'package', 'dist', 'phaser.min.js')
+    b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1400, "height": 1000}); errs = []
+    pg.on("pageerror", lambda e: errs.append(str(e)))
+    pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
+    pg.route(re.compile(r".*fonts.*"), lambda r: r.abort())
+    def sv(r):
+        u = r.request.url.split('t.test/', 1)[1].split('?')[0]; f = os.path.join(R, u)
+        r.fulfill(path=f) if os.path.isfile(f) else r.fulfill(status=404, body='')
+    pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html?tabs=all"); pg.wait_for_timeout(2500)
+    pg.evaluate("LTODO.goTo('npcarcs','.na-pick',0)"); pg.wait_for_timeout(1500)
+    a = pg.evaluate("""({arcs:document.querySelectorAll('.na-arc:not(.na-seas)').length, seas:document.querySelectorAll('.na-arc:not(.na-seas) .na-sea').length, chapters:[].slice.call(document.querySelectorAll('.na-arc:not(.na-seas)')).map(a=>a.querySelectorAll('.na-ch tbody tr').length),
+      stories:document.querySelectorAll('.na-v').length, sol:!!document.getElementById('na-v-solveig'), words:Object.keys(LVSTORY).every(k=>LVSTORY[k].story.join(' ').split(/\s+/).length>=100), season:!!document.querySelector('.na-seas')})""")
+    check("Lab → The villagers' saga: five arcs, six chapters each, three with the seasons, and every villager's backstory (%s)" % a,
+          a['arcs'] == 5 and a['seas'] == 3 and all(c == 6 for c in a['chapters']) and a['stories'] >= 34 and a['sol'] and a['words'] and a['season'], a)
+    pk = pg.evaluate("""(()=>{ var b=document.querySelector('#na-year .na-sg[data-v=pick]'); b.click(); var on=document.getElementById('na-year').className; b.click(); return on; })()""")
+    check('A pick marks the arc (%s)' % pk, 'na-pick' in pk, pk)
+    pg.evaluate("document.querySelector('#na-v-oswin').open=true"); pg.wait_for_timeout(300)
+    pg.screenshot(path='/tmp/claude-0/lab_arcs.png', full_page=False)
+    pg.locator('#na-homecomings').screenshot(path='/tmp/claude-0/lab_arc1.png')
+    check('No Lab script errors', not errs, errs[:3])
+    b.close()
+# Sólveig is a character now (her sheets are in the request list)
+q = json.load(open(os.path.join(R, 'sprites', 'requests', 'requests.json')))
+ids = [x['id'] for x in q['requests'] if x['char'] == 'vf_glass']
+check('Sólveig the Glasswright is a full character: her idle/talk/work and walking sheets are ordered (%s)' % ids, 'vf_glass.core.f' in ids and 'vf_glass.walk' in ids, ids)
 print('\n%d / %d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)

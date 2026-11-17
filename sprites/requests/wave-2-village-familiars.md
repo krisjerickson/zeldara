@@ -1,4 +1,4 @@
-# Village, familiars — 147 requests
+# Village, familiars — 149 requests
 
 Save each result as `sprites/incoming/<request id>.png`.
 
@@ -862,6 +862,56 @@ Attach: style_hero, style_centaur, vf_keeper.core.f
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ilsa the Lighthouse Keeper — A lighthouse keeper in a navy pea-coat, cap and spyglass. Looks: dark brown skin and short tightly coiled black hair. Main colours: dark blue (#2a3a5a), dark blue (#1a2a3a), pale yellow (#ffe080), black (#201810). Size: about 1× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. side view facing RIGHT, walk cycle frame 1 of 4.
+2. side view facing RIGHT, walk cycle frame 2 of 4.
+3. side view facing RIGHT, walk cycle frame 3 of 4.
+4. side view facing RIGHT, walk cycle frame 4 of 4.
+5. seen from the FRONT, walking toward the camera, step 1 of 2.
+6. seen from the FRONT, walking toward the camera, step 2 of 2.
+7. seen from BEHIND, walking away, step 1 of 2.
+8. seen from BEHIND, walking away, step 2 of 2.
+View: camera slightly above, as in a top-down RPG; each pose states its own facing.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## vf_glass.core.f
+
+Sólveig the Glasswright · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
+Subject: Sólveig the Glasswright — A tall, kind glassmaker in her fifties with long silver-blond braids, a deep blue dress under a scorched leather apron, thick gloves tucked in her belt and a small glowing light-blue shard of glass in one hand. Main colours: blue (#3a5a8a), brown (#6a4a2a), pale teal (#9fe8ff), black (#201810). Size: about 1× the height of the hero.
+Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
+1. standing at rest, relaxed and alert.
+2. the same stance with a small breathing motion (chest raised, weight shifted).
+3. talking: mouth open, one hand raised in a friendly gesture — used for: when you speak to them.
+4. talking: nodding, the other hand gesturing.
+5. at work (Holds a shard of soulglass up to the light and hums to it, then sets it into a lattice.), frame 1 of 4.
+6. at work (Holds a shard of soulglass up to the light and hums to it, then sets it into a lattice.), frame 2 of 4.
+7. at work (Holds a shard of soulglass up to the light and hums to it, then sets it into a lattice.), frame 3 of 4.
+8. at work (Holds a shard of soulglass up to the light and hums to it, then sets it into a lattice.), frame 4 of 4.
+View: seen from the front (facing the viewer), camera slightly above — a top-down RPG "walking toward the camera" view.
+Art style (match the attached reference images exactly): bold hand-drawn cartoon game sprite, NOT pixel art and NOT 3D. Thick, confident dark outlines (near-black, heavier on the outer silhouette, thinner inside). Flat cel shading with 2–3 clean tones per material, no soft gradients, no painterly texture, no noise. Chunky chibi proportions: big head, compact body, oversized hands, boots and weapons, strong readable silhouette. SIGNATURE: bright teal / cyan highlights (#3fe6f2) as crisp shapes on the upper-left edges of hair, fur, cloth and metal, as if lit by teal rune-light, plus a thin magenta-violet rim (#c04be0) on the lower-right shadow edges. Magic, eyes of magical creatures, runes and enchanted weapons glow white-cyan with a soft teal halo. Saturated but limited palette. Light comes from the upper left.
+Rules: the same character in every pose — identical proportions, outfit, colours and line weight. Every pose drawn at the same scale with the feet (or lowest point) on the same ground line in each cell. Each pose sits fully inside its own cell with clear empty space on all sides; nothing crosses into a neighbouring cell. No ground shadow, no floor, no scenery, no frame, no grid lines, no numbers, no labels, no text, no watermark.
+Background: fully transparent (real alpha channel). If you cannot produce real transparency, use one flat solid green #00FF00 background with no texture, no gradient and no checkerboard pattern.
+```
+
+## vf_glass.walk
+
+Sólveig the Glasswright · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
+
+Attach: style_hero, style_centaur, vf_glass.core.f
+
+```
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
+Subject: Sólveig the Glasswright — A tall, kind glassmaker in her fifties with long silver-blond braids, a deep blue dress under a scorched leather apron, thick gloves tucked in her belt and a small glowing light-blue shard of glass in one hand. Main colours: blue (#3a5a8a), brown (#6a4a2a), pale teal (#9fe8ff), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. side view facing RIGHT, walk cycle frame 1 of 4.
 2. side view facing RIGHT, walk cycle frame 2 of 4.
