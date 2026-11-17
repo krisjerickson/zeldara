@@ -159,6 +159,9 @@ var ZSS={ WAVE:112,
     flash:'the peak of the action at its most dramatic: the burst of light and motion at full force',bullet:'a frozen moment at the peak of the action, debris and light hanging in the air',sil:'the main figure in silhouette against the brightest light of the scene',
     pov:'the view through the hero\'s eyes: exactly what they are looking at, nobody in front',top:'the scene seen from straight above'};
   ZSS.NOHERO={macro:1,insert:1,pov:1,flash:1,bullet:1};
+  // round 113d (Kris: "It was better last time when I had 6 to 7 to choose from to get down to the right 2 or 3"): three more shots per frame,
+  // in the order of what Kris kept from the first ten — the close detail, the far wide, the low angle, the faces, then the rest
+  ZSS.MORE=['ecu','xwide','low','react','macro','insert','ots','sil','track','close','bullet'];
   ZSS.AUTO=[]; ZSS.AUTO_WAVE=114;
   if(typeof ZSB!=='undefined'&&ZSB.SCENES){ var ORD=['opening','spirit','quiet','bram','blacktide','mira','stonefall','dunn','ashnight','vela','gate','orbs','surt1','surt2','surt3','surt4','surt5','surt6','lodestar','escape','asgard','twinteach','bifrost','sol1','sol2','sol3','solfall','feasthall','truth','home','village','celebrate','credits','worldtree'];
     ZSCN.WAVES[ZSS.AUTO_WAVE]='Round 113 — shot series for every story frame (three shots each, a cut-scene at a time)';
@@ -167,14 +170,15 @@ var ZSS={ WAVE:112,
         var pl=ZSS.plan(sc,b), P=ZSS.PAT[pl.k], hero=b.ids.length>1||b.who==='t', past=ZSS.PAST[sc.id]===1||(ZSS.PAST[sc.id]||[]).indexOf&&(ZSS.PAST[sc.id]||[]).indexOf(b.n)>=0;
         var par=ZSS.parent(sc.id,b.n,b.ids.length>1), PS=ZSCN.SHEETS.find(function(x){ return x.id===par; }), base=(PS&&PS.refs||[]).filter(function(r){ return r!=='hero_m.model'&&r!=='hero_f.model'; });
         var row={scene:sc.id,n:b.n,k:pl.k,parent:par,shots:[]};
-        P.sh.slice(0,3).forEach(function(lens,i){ var who=hero&&!ZSS.NOHERO[lens]&&b.ids.length>1?'h':0, id=ZSS.id(sc.id,b.n,i+1,who);
+        var SIX=P.sh.slice(0,3); ZSS.MORE.forEach(function(l){ if(SIX.length<6&&SIX.indexOf(l)<0&&!(l==='wide'&&SIX.indexOf('xwide')>=0))SIX.push(l); });      /* round 113d: six to choose from (the first three as planned, ids kept) */
+        SIX.forEach(function(lens,i){ var who=hero&&!ZSS.NOHERO[lens]&&b.ids.length>1?'h':0, id=ZSS.id(sc.id,b.n,i+1,who);
           var gist=String(b.desc||'').replace(/\{H\}/g,'Zeldor').replace(/\{O\}/g,'Zeldara').replace(/\{T\}/g,'the twins').replace(/\{K\}/g,'the little twins');
           var whoTxt=who==='h'?' Zeldor (the boy hero: spiky tousled brown hair with teal streaks, big teal eyes, a moss-green hooded short cape, cream tunic, big tan boots — exactly as in the hero reference) is in this shot.':past?' This happens long before the twins were born: no young hero, no boy in a green cape, no girl with auburn braids anywhere'+(sc.id==='opening'&&b.n>=6?' (the twins appear only as the two newborn babes)':'')+'.':(b.ids.length>1?' Neither twin is in this shot — only what is described.':'');
           var d=STY+'. THE SHOT: '+ZSS.LENS[lens]+' — '+ZSS.CAM[lens]+'. THE MOMENT (as in the first reference): '+gist+'.'+whoTxt+(ZSB.nokids?ZSB.nokids(sc.id,b.n).replace(/^\.\s*/,' '):'')+EPIC+NO;
           var models=b.who==='t'&&!ZSS.NOHERO[lens]?['hero_m.model','hero_f.model']:who==='h'?(b.who==='o'?['hero_m.model','hero_f.model']:['hero_m.model']):[];
           if(b.who==='t'&&!ZSS.NOHERO[lens])whoTxt=' Both twins are in this shot as in the frame: '+ZSB.TWINS+'.'; else if(who==='h'&&b.who==='o')whoTxt+=' Zeldara, his twin, is with him as in the frame (exactly as in her reference).';
           var refs=[par].concat(base).slice(0,8-models.length).concat(models);
-          var sh={id:id,wave:ZSS.AUTO_WAVE,fam:'series',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',noStyle:true,refs:refs,title:'Shot series — '+sc.name+', frame '+b.n+' ('+b.title+'), shot '+(i+1)+' of 3: '+ZSS.LENS[lens],items:[[id.replace(/^sc_/,''),ZSS.LENS[lens],d,1536,1024]],ss:{scene:sc.id,n:b.n,k:i+1,who:who,auto:true}};
+          var sh={id:id,wave:ZSS.AUTO_WAVE,fam:'series',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',noStyle:true,refs:refs,title:'Shot series — '+sc.name+', frame '+b.n+' ('+b.title+'), shot '+(i+1)+' of 6: '+ZSS.LENS[lens],items:[[id.replace(/^sc_/,''),ZSS.LENS[lens],d,1536,1024]],ss:{scene:sc.id,n:b.n,k:i+1,who:who,auto:true}};
           row.shots.push({lens:lens,who:who,id:id}); ZSCN.SHEETS.push(sh); });
         ZSS.AUTO.push(row); }); }); }
   // the request text: cut from the story frame (the first reference), the camera changes, nothing else

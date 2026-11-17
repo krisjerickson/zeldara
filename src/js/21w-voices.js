@@ -27,8 +27,12 @@ var ZVOICE={ on:true, V:{"oswin": {"who": "Master Oswin", "pick": "The legend wh
   talkVF:function(ws,n){ var k=ZVOICE.KEY[n.id]; if(!k)return; if(typeof ZNPCQ!=='undefined'&&ZNPCQ.talk(ws,k))return;
     var ps=ws.playerState, story=n.line&&(n.id==='vf_elder'||n.id==='vf_fisher')&&Math.random()<0.35;      /* Runa's and Nell's old story lines still come up now and then */
     ZVOICE.say(k,story?String(n.line).replace(/^\s*[A-Z][\w'’ .-]{1,30}:\s*["“]?/,'').replace(/["”]\s*$/,''):ZVOICE.line(k,ps,'talk')); },
-  wire:function(ws){ (ws._villageNPCs||[]).forEach(function(n){ if(!ZVOICE.KEY[n.id]||n._walk)return; if(n.talk&&n.talk._zv)return; if(n.talk&&!n._zv)return;      /* the first walk's own talk (Runa) comes first */
-      n._zv=1; n.talk=function(){ ZVOICE.talkVF(ws,n); }; n.talk._zv=1; }); },
+  // every villager's Tab goes through here; a talk set by another part of the game (the first walk's Runa, Oswin's net for Nell) is kept
+  // and used while it has business: Runa during the first walk, Nell while her net is out
+  wire:function(ws){ (ws._villageNPCs||[]).forEach(function(n){ var k=ZVOICE.KEY[n.id]; if(!k)return; if(n.talk&&n.talk._zv)return;
+      var own=n.talk||null; n._zv=1; n.talk=function(sc){ var ps=ws.playerState, T=typeof ZOSW!=='undefined'?ZOSW.tq(ps):{};
+        if(n._walk&&own)return own(sc); if(k==='nell'&&own&&(T.net===1||T.net===2))return own(sc); if(typeof ZNPCQ!=='undefined'&&ZNPCQ.talk(ws,k))return; if(own&&k!=='nell'&&!ZVOICE.V[k])return own(sc); ZVOICE.talkVF(ws,n); };
+      n.talk._zv=1; n.talk._own=own; }); },
   // Bram, Dunn and Vela come home
   FOLK:[{id:'zv_bram',ch:'crafts_1',k:'bram',near:'green',dx:-4,dy:2},{id:'zv_dunn',ch:'crafts_3',k:'dunn',b:'forge'},{id:'zv_vela',ch:'crafts_4',k:'vela',near:'pier',dx:0,dy:-2}],
   home:function(ws){ var ps=ws.playerState; ws._zvFolk=ws._zvFolk||{}; if(typeof ZNPCQ==='undefined'||typeof CHX==='undefined')return;
