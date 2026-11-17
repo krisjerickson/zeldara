@@ -6,7 +6,7 @@
 // ║    extreme close-up on the eyes, a reaction, a low-angle hero shot… — that the game plays like a film: each shot held 1.2–2.5 s with
 // ║    one camera move (push, pull, pan, tilt, crane, orbit, shake) and a cut between shots (hard cut, white or red flash, whip, dissolve,
 // ║    dip to black).
-// ║  · ZSS.TOP: the first ten series (63 shots). Each shot is ONE picture: sheet sc_ss_<scene>_<nn>_<k> (+ _m when the hero is in it —
+// ║  · ZSS.TOP: the first series (round 112: ten, 63 shots; round 112d: Kris's cut — nine, 3 shots each, 26 pictures). Each shot is ONE picture: sheet sc_ss_<scene>_<nn>_<k> (+ _m when the hero is in it —
 // ║    Kris: Zeldor first, Zeldara once the look is right). Its first reference is the story frame it is cut from, so the place, the
 // ║    light and the people stay the same; only the camera changes.
 // ║  · ZSS.PLAN: the rule that breaks every other frame into a series (the Lab's Shot series tab shows all 259 frames with their plan).
@@ -102,16 +102,24 @@ var ZSS={ WAVE:112,
    [0,'low','low angle: '+GODS+', rising out of the light with arms spread, Freya\'s falcon-feather cloak opening like wings, the shards swirling round them','cut','tiltU',[.5,.4,1.3]],
    [0,'two','close on the faces of '+GODS+', eyes open at last: Odin weary and kind, Freya smiling with tears of light','dissolve','push',[.5,.35,1.9]]]);
 
+  // round 112d (Kris: "this is a good start, but it was too many to have 6 or 7 images, we need to trim down to 3. see my feedbacks"):
+  // each series keeps the shots Kris kept in the Lab (the painted ones, so nothing is painted again); the storm series is cut ("we already
+  // have a good video"). x.k is a shot's number in the first cut — its picture's id keeps it.
+  ZSS.KEEP={opening_07:[1,4,6],spirit_05:[3,4,6],spirit_06:[2,3,5],ashnight_04:[1,5],mira_08:[2,5,6],lodestar_06:[1,6,7],bifrost_05:[1,3,6],sol2_02:[1,3,6],feasthall_07:[1,3,6]};
+  ZSS.CUTS={opening_05:'we already have a good video'};
+  ZSS.FIRST=ZSS.TOP.map(function(S){ return {scene:S.scene,n:S.n,count:S.shots.length}; });
+  ZSS.TOP=ZSS.TOP.filter(function(S){ return !ZSS.CUTS[S.scene+'_'+('0'+S.n).slice(-2)]; }).map(function(S){ var K=ZSS.KEEP[S.scene+'_'+('0'+S.n).slice(-2)]; S.first=S.shots.length;
+    S.shots.forEach(function(x,i){ x.k=i+1; }); if(K)S.shots=S.shots.filter(function(x){ return K.indexOf(x.k)>=0; }); return S; });
   // ── the plan for every other frame: a pattern from what the frame shows ──
   ZSS.PAT={
-    impact:{n:'Impact',sh:['macro','flash','bullet','react','insert'],how:'macro on the thing about to break → the burst on a white flash → a frozen moment → a reaction → the pieces settling'},
-    transform:{n:'Transformation',sh:['ecu','med','low','react'],how:'extreme close-up on the first change → mid-change → the new form from a low angle → the hero (or a bystander) reacting'},
-    build:{n:'Building montage',sh:['insert','insert','wide','xwide'],how:'hands at work (two inserts) → the work growing (wide) → the finished thing in its landscape'},
-    journey:{n:'Journey',sh:['xwide','track','ots','wide'],how:'where we are (extreme wide) → tracking along with them → over the shoulder at what lies ahead → arrival'},
-    talk:{n:'Conversation',sh:['two','ots','ots','close'],how:'two-shot → over one shoulder → over the other → close on the line that matters'},
-    reveal:{n:'Reveal',sh:['insert','ots','close','ecu','react'],how:'a detail → over the shoulder → close → extreme close-up of the reveal → the faces that see it'},
-    boss:{n:'Boss entrance',sh:['sil','ecu','low','wide'],how:'silhouette → extreme close-up on one terrible feature → full figure from a low angle → the hero tiny before it'},
-    memory:{n:'Memory',sh:['xwide','med','close','insert'],how:'the land as it was (extreme wide) → the people in it → one face → one telling object (warm, slow dissolves)'},
+    impact:{n:'Impact',sh:['macro','flash','react'],how:'macro on the thing about to break → the burst on a white flash → a reaction, or the pieces settling'},
+    transform:{n:'Transformation',sh:['ecu','low','react'],how:'extreme close-up on the first change → the new form from a low angle → the hero (or a bystander) reacting'},
+    build:{n:'Building montage',sh:['insert','wide','xwide'],how:'hands at work → the work growing → the finished thing in its landscape'},
+    journey:{n:'Journey',sh:['xwide','track','ots'],how:'where we are (extreme wide) → tracking along with them → over the shoulder at what lies ahead'},
+    talk:{n:'Conversation',sh:['two','ots','close'],how:'two-shot → over the shoulder → close on the line that matters'},
+    reveal:{n:'Reveal',sh:['ots','ecu','react'],how:'over the shoulder → extreme close-up of the reveal → the faces that see it'},
+    boss:{n:'Boss entrance',sh:['sil','ecu','low'],how:'silhouette → extreme close-up on one terrible feature → the full figure from a low angle, the hero tiny before it'},
+    memory:{n:'Memory',sh:['xwide','close','insert'],how:'the land as it was → one face → one telling object (warm, slow dissolves)'},
     vista:{n:'Vista',sh:['xwide','pov','sil'],how:'extreme wide → what the hero sees → the hero\'s silhouette against it'}};
   ZSS.PAST={quiet:1,ashnight:1,stonefall:1,blacktide:1,opening:[1,2,3,4,5,6,7],truth:[3,4,5]};
   ZSS.plan=function(sc,b){ var t=(b.title+' '+b.desc+' '+b.cap).toLowerCase(), past=ZSS.PAST[sc.id]===1||(ZSS.PAST[sc.id]||[]).indexOf&&(ZSS.PAST[sc.id]||[]).indexOf(b.n)>=0;
@@ -125,14 +133,14 @@ var ZSS={ WAVE:112,
   ZSS.id=function(s,n,k,who){ return 'sc_ss_'+s+'_'+('0'+n).slice(-2)+'_'+k+(who==='h'?'_m':''); };
   ZSS.parent=function(s,n,anyHero){ var base='sc_sb_'+s+'_'+('0'+n).slice(-2); return anyHero?base+'_m':base; };
   if(typeof ZSCN==='undefined')return;
-  ZSCN.WAVES[ZSS.WAVE]='Round 112 — shot series: the first ten story frames as runs of film shots';
+  ZSCN.WAVES[ZSS.WAVE]='Round 112 — shot series: the first story frames as runs of three film shots';
   var STY='a wide cinematic painting in exactly the style, light and finish of the first reference (the story frame this shot is cut from) — the SAME moment, the same place, the same people and clothes, the same colours and light; only the camera has moved. The land of Runeheim, a Norse fantasy world';
   var EPIC=' Keep it epic: where it fits, runes and magic glow with a bright neon rune-blue light, and night skies carry a shimmering aurora borealis.';
   var NO=' No lion, no centaur, no animal companion unless named, no valknut symbol. No text, no letters, no frame, no split panels: ONE picture.';
   ZSS.TOP.forEach(function(S){ var anyH=S.shots.some(function(x){ return x[0]==='h'; }), par=ZSS.parent(S.scene,S.n,anyH), P=ZSCN.SHEETS.find(function(x){ return x.id===par; }), past=ZSS.PAST[S.scene]===1||(ZSS.PAST[S.scene]||[]).indexOf&&(ZSS.PAST[S.scene]||[]).indexOf(S.n)>=0;
     var base=(P&&P.refs||[]).filter(function(r){ return r!=='hero_m.model'&&r!=='hero_f.model'; });
     S.parent=par;
-    S.shots.forEach(function(x,i){ var who=x[0], id=ZSS.id(S.scene,S.n,i+1,who), L=ZSS.LENS[x[1]]||x[1];
+    S.shots.forEach(function(x,i){ var who=x[0], id=ZSS.id(S.scene,S.n,x.k||i+1,who), L=ZSS.LENS[x[1]]||x[1];
       var whoTxt=who==='h'?' Zeldor (the boy hero: spiky tousled brown hair with teal streaks, big teal eyes, a moss-green hooded short cape, cream tunic, big tan boots — exactly as in the hero reference) is in this shot.':
         past?' This happens long before the twins were born: no young hero, no boy in a green cape, no girl with auburn braids anywhere'+(S.scene==='opening'&&S.n>=6?' (the twins appear only as the two newborn babes)':'')+'. No children anywhere apart from those described.':' Neither twin is in this shot — no young hero, no boy in a green cape, no girl with auburn braids; only what is described.';
       var d=STY+'. THE SHOT: '+L+' ('+(ZSS.MOVE[x[4]]||'')+' feel) — '+x[2]+'.'+whoTxt+EPIC+NO;

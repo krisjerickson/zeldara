@@ -20,8 +20,12 @@
   var row=function(k,body){ var v=V(k); return '<div class="np-row np-'+(v||'x')+'" data-row="'+k+'"><div class="np-b">'+body+'</div><div class="np-a">'+seg(k)+note(k)+'</div></div>'; };
   var designs=[]; N.forEach(function(x){ x.ideas.forEach(function(I,i){ designs.push({id:x.id+'_i'+(i+1),name:x.n+' — idea: '+I[0]}); }); if(x.arc)designs.push({id:x.id+'_arc',name:x.n+' — how they grow'}); x.side.forEach(function(S,i){ designs.push({id:x.id+'_q'+(i+1),name:x.n+' — side quest: '+S[0]}); }); });
   LNPC.D.forEach(function(d){ designs.push({id:'d_'+d[0],name:'Drama: '+d[1]}); }); LNPC.E.forEach(function(d){ designs.push({id:'e_'+d[0],name:'Idea: '+d[1]}); }); LNPC.A.forEach(function(d){ designs.push({id:'a_'+d[0],name:'Art: '+d[1]}); });
+  // round 112d (Kris: "when choosing personalities … it keeps minimizing the NPC i'm selecting"): a pick redraws the tab, so which
+  // villagers are open is remembered (and kept in this browser), not reset to the top three
+  var OPEN={}; try{ OPEN=JSON.parse(localStorage.getItem('np_open')||'null')||null; }catch(e){ OPEN=null; } if(!OPEN){ OPEN={}; N.slice(0,3).forEach(function(x){ OPEN[x.id]=1; }); }
+  document.addEventListener('toggle',function(e){ var d=e.target; if(!d||!d.classList||!d.classList.contains('np-card'))return; var id=d.id.replace(/^np-/,''); if(d.open)OPEN[id]=1; else delete OPEN[id]; try{ localStorage.setItem('np_open',JSON.stringify(OPEN)); }catch(er){} },true);
   var card=function(x,r){ var top=r<20, mult=x.meet/AVG, q=Q[x.q]||Q.none, k0='npcs-'+x.id;
-    var h='<details class="np-card'+(TOP6.indexOf(x.id)>=0?' np-top':'')+'" id="np-'+x.id+'"'+(r<3?' open':'')+'><summary><span class="np-rk">'+(r+1)+'</span><b>'+esc(x.n)+'</b>'+(x.count?' <small>× '+x.count+'</small>':'')+
+    var h='<details class="np-card'+(TOP6.indexOf(x.id)>=0?' np-top':'')+'" id="np-'+x.id+'"'+(OPEN[x.id]?' open':'')+'><summary><span class="np-rk">'+(r+1)+'</span><b>'+esc(x.n)+'</b>'+(x.count?' <small>× '+x.count+'</small>':'')+
       '<span class="np-role">'+esc(x.role)+'</span><span class="np-m" title="'+esc(x.how)+'">'+x.meet+(x.count?' each':'')+' <i>meetings</i> · '+mult.toFixed(1)+'× avg</span><span class="np-q" style="--c:'+q[1]+'">'+q[0]+'</span></summary>';
     h+='<div class="np-in"><p class="np-how"><b>Where:</b> '+esc(x.where)+' · <b>How the '+x.meet+' are counted:</b> '+esc(x.how)+'<br><b>Quests today:</b> '+esc(x.qt)+'</p>';
     h+='<h5>Personality — '+x.ideas.length+' ideas (✓ the one you like, or more than one to mix)</h5>';
@@ -46,7 +50,7 @@
       h+=LBR.sec('The art this needs','once you have picked, I order only the art for what you ✓');
       h+=LNPC.A.map(function(d){ return row('npcs-a_'+d[0],'<b>'+esc(d[1])+'</b> <span class="np-rw">'+esc(d[3])+' sheets</span><p>'+esc(d[2])+'</p>'); }).join('');
       return h; } });
-  document.addEventListener('click',function(e){ var g=e.target.closest&&e.target.closest('.np-go'); if(g){ e.preventDefault(); var d=document.getElementById('np-'+g.dataset.id); if(d){ d.open=true; d.scrollIntoView({behavior:'smooth',block:'start'}); } return; }
+  document.addEventListener('click',function(e){ var g=e.target.closest&&e.target.closest('.np-go'); if(g){ e.preventDefault(); var d=document.getElementById('np-'+g.dataset.id); if(d){ d.open=true; OPEN[g.dataset.id]=1; d.scrollIntoView({behavior:'smooth',block:'start'}); } return; }
     var sg=e.target.closest&&e.target.closest('.np-seg .np-sg'); if(!sg)return; var s=sg.parentNode, k=s.dataset.k, nv=V(k)===sg.dataset.v?null:sg.dataset.v, p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=nv; LabApp.persist(k);
     [].forEach.call(s.children,function(x){ x.className='vbtn np-sg'+(x.dataset.v===nv?' on '+nv:''); }); var r=s.closest('.np-row'); if(r)r.className='np-row np-'+(nv||'x'); });
   document.addEventListener('change',function(e){ var t=e.target.closest&&e.target.closest('.np-n'); if(!t)return; var p=LabApp.picks[t.dataset.k]=LabApp.picks[t.dataset.k]||{}; p.notes=t.value; LabApp.persist(t.dataset.k); });

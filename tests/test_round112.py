@@ -31,10 +31,10 @@ with game(painted=True) as g:
     h = g.js("""(()=>{ ZJOUR.line(); var el=document.getElementById('zpath'); return el&&el.innerHTML; })()""")
     check('Under the little map: the Saga in teal and your side quest in yellow (%s)' % (h or '')[:160], h and 'zp-m' in h and 'zp-s' in h, h)
     k = g.js("""(()=>{ var r=ZSS.SHEETS[0]; return {top:ZSS.TOP.length, shots:ZSS.SHEETS.length, hero:ZSS.SHEETS.filter(s=>/_m$/.test(s.id)).length, zeldara:ZSS.SHEETS.filter(s=>/_f$/.test(s.id)).length, first:r.refs[0], id:r.id,
-      allParent:ZSS.SHEETS.every(s=>/^sc_sb_/.test(s.refs[0])), heroRef:ZSS.SHEETS.filter(s=>/_m$/.test(s.id)).every(s=>s.refs.indexOf('hero_m.model')>=0), sizes:ZSS.TOP.every(S=>S.shots.length>=3&&S.shots.length<=10),
-      inScn:ZSCN.SHEETS.filter(s=>/^sc_ss_/.test(s.id)).length, body:/FIRST reference/.test(ZSCN.body(ZSS.SHEETS[0])), plan:ZSS.plan(ZSB.SCENES[0],ZSB.SCENES[0].beats[0]).count}; })()""")
-    check('Ten shot series, 3-10 shots each, every shot cut from its story frame (its first reference), Zeldor only for now (%s)' % k,
-          k['top'] == 10 and k['shots'] == 63 and k['zeldara'] == 0 and k['hero'] == 11 and k['allParent'] and k['heroRef'] and k['sizes'] and k['inScn'] == 63 and k['body'] and k['plan'] >= 3, k)
+      allParent:ZSS.SHEETS.every(s=>/^sc_sb_/.test(s.refs[0])), heroRef:ZSS.SHEETS.filter(s=>/_m$/.test(s.id)).every(s=>s.refs.indexOf('hero_m.model')>=0), sizes:ZSS.TOP.every(S=>S.shots.length>=2&&S.shots.length<=3), kept:ZSS.TOP.map(S=>S.shots.map(x=>x.k).join('')).join(' '),
+      inScn:ZSCN.SHEETS.filter(s=>/^sc_ss_/.test(s.id)).length, storm:ZSS.TOP.some(S=>S.scene==='opening'&&S.n===5), body:/FIRST reference/.test(ZSCN.body(ZSS.SHEETS[0])), plan:ZSS.plan(ZSB.SCENES[0],ZSB.SCENES[0].beats[0]).count}; })()""")
+    check('Round 112d: the nine series trimmed to Kris\'s picks (three shots, the storm cut), each shot cut from its story frame, Zeldor only for now (%s)' % k,
+          k['top'] == 9 and k['shots'] == 26 and k['zeldara'] == 0 and k['hero'] == 10 and k['allParent'] and k['heroRef'] and k['sizes'] and k['inScn'] == 26 and not k['storm'] and k['kept'].startswith('146 346 235 15') and k['body'] and k['plan'] >= 3, k)
 
 # the Lab: the Villagers tab and the Shot series tab
 import re
@@ -56,10 +56,12 @@ with sync_playwright() as p:
       arcs:document.querySelectorAll('.np-row[data-row$="_arc"]').length, riddles:document.querySelectorAll('.np-rid').length, meets:document.querySelector('#np-oswin .np-m').textContent, dramas:document.querySelectorAll('.np-row[data-row^="npcs-d_"]').length})""")
     check('Lab → Villagers: every NPC ranked with its meetings, 3 ideas for the top 20, 2 for the rest, 2+ side quests each, arcs for the top 6, riddles, dramas (%s)' % n,
           n['cards'] >= 40 and n['top20'] and n['rest'] and n['side'] and n['arcs'] == 6 and n['riddles'] >= 15 and '62' in n['meets'] and n['dramas'] >= 6, n)
+    op = pg.evaluate("""(()=>{ var d=document.getElementById('np-pell'); d.open=true; d.dispatchEvent(new Event('toggle')); d.querySelector('.np-seg .np-sg').click(); LabApp.renderGrid(true); var d2=document.getElementById('np-pell'); var r=d2&&d2.open; d2.querySelector('.np-seg .np-sg').click(); return r; })()""")
+    check('Lab → Villagers: a pick no longer closes the villager you are on (the tab redraws with it still open) (%s)' % op, op is True, op)
     pg.screenshot(path='/tmp/claude-0/lab_npcs.png')
     pg.evaluate("LTODO.goTo('series','.ss-tops',0)"); pg.wait_for_timeout(1500)
     s2 = pg.evaluate("""({tops:document.querySelectorAll('.ss-top').length, scenes:document.querySelectorAll('.ss-sc').length, frames:document.querySelectorAll('.ss-f').length, starred:document.querySelectorAll('.ss-f.top').length, thumbs:[].slice.call(document.querySelectorAll('.ss-th')).filter(x=>x.style.backgroundImage).length})""")
-    check('Lab → Shot series: the first ten with shot lists, and all 34 cut-scenes broken into their 259 frames (%s)' % s2, s2['tops'] == 10 and s2['scenes'] == 34 and s2['frames'] == 259 and s2['starred'] == 10, s2)
+    check('Lab → Shot series: the nine with their three shots, and all 34 cut-scenes broken into their 259 frames (%s)' % s2, s2['tops'] == 9 and s2['scenes'] == 34 and s2['frames'] == 259 and s2['starred'] == 9, s2)
     pg.evaluate("document.querySelector('.ss-play').click()"); pg.wait_for_timeout(2600)
     pg.locator('.ss-top').first.screenshot(path='/tmp/claude-0/lab_series_top.png')
     pg.screenshot(path='/tmp/claude-0/lab_series.png')

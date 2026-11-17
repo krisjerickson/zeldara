@@ -5,6 +5,7 @@ it makes, per series and hero:
   lab/preview/series/<scene>_<nn>_<who>.webp   a strip of its shots in order, each cropped to 16:9 (640 x 360), for the Lab's animatic
   lab/preview/series/index.json                which shots each strip holds (the Lab reads it at build time as ZSS_SHEETS)
 
+Round 112d: only the shots a series keeps are in its strip, in order (index.json 'n' = positions).
 <who> is "zeldor" / "zeldara" (a shot with no hero in it is used in both) or "all" for a series with no hero shot.
 The shots stay out of the game's files until the game plays them.   python tools/video/series_preview.py   (after node build.mjs)
 """
@@ -34,7 +35,7 @@ for (sc, nn), L in sorted(series.items()):
         for i, suf, sid in L:
             if suf and suf != k: continue
             src = os.path.join(IN, sid + '.png'); shots.append((i, src if os.path.exists(src) else None))
-        have = [i for i, s in shots if s]
+        have = [j + 1 for j, (i, s) in enumerate(shots) if s]      # round 112d: positions in the strip (a trimmed series keeps its shots' old numbers)
         key = '%s_%s_%s' % (sc, nn, who); out = os.path.join(PREV, key + '.webp')
         if not have: index.pop(key, None); continue
         strip = Image.new('RGB', (TW * len(shots), TH), (5, 7, 11))
