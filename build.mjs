@@ -114,7 +114,7 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   // 03-data (items, monsters, spells) + 09b (boss phases) feed the Bosses / Mage Towers tabs;
   // the Lab has no monster engine, so 09b gets a stub MX to hang its helpers on.
   const sharedFiles = ['00-header.js', '00a-engine.js', '01-sprite-data.js', '02-hero-api.js', '03-data.js', '03b-elements.js']
-    .concat(jsFiles.filter(f => /^07/.test(f)));
+    .concat(jsFiles.filter(f => /^07/.test(f))).concat(['21w-voices.js', '21x-npc-quests.js', '21x2-npc-quest-list.js']);      // round 113b: the villagers' voices and requests, for the Lab's preview
   const shared = sharedFiles.map(f => fs.readFileSync(path.join(jsDir, f), 'utf8')).join('')
     + '\nif(typeof MX==="undefined"){ var MX={KITS:(typeof MON_KIT_SRC!=="undefined"?MON_KIT_SRC:{})}; }'
     + '\nif(typeof MON_BY_ID==="undefined"){ var MON_BY_ID={}; (typeof MON_ROSTER!=="undefined"?MON_ROSTER:[]).forEach(function(R){ MON_BY_ID[R.id]=R; }); }\n'

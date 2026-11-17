@@ -85,3 +85,14 @@ The portraits, props, creatures, story moments and mini-game art come with the r
 - Bram comes home and Tob's "!";
 - passing remarks;
 - a delivery riddle.
+
+## 113b: shot series for every frame, and the words as phrases
+
+- **Words:** a series' line comes out phrase by phrase, as in the game's story clips. Each phrase fades in together, with a short pause before the next, over the first two shots.
+- **Kris:** "the 2 or 3 images expansion is good, let's plan for all the new images needed now".
+- **Every other story frame gets three shots** from its pattern (`ZSS.AUTO`, wave 114): 249 frames and 747 pictures, 250 of them with Zeldor in them (his version first).
+  - The camera is told in words (`ZSS.CAM`).
+  - The moment comes from the frame itself, sent as the first reference.
+- **Not planned:** the storm frame (opening 5), which keeps its video.
+- **To make them:** one list per cut-scene, `sprites/requests/r114_NN_<scene>.txt`. Run `.\tools\sprites\redo.ps1 -List r114_01_opening` and so on, a cut-scene at a time, then `python tools/video/series_preview.py`.
+- **In the Lab:** a table shows each cut-scene's frames, pictures, painted count and command, and every frame lists its three shots.

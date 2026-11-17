@@ -35,5 +35,28 @@ with game(painted=True) as g:
     check("Passing remarks: walk by Tob and he says something (%s)" % h, h['said'], h)
     k = g.js("""(()=>{ var ws=%s, ps=ws.playerState; ps.tracked=null; ps.nq.paperwork={s:0,got:{},h:0,kn:0,in:{}}; var S=ZNPCQ.st(ps,'paperwork'); var w=ZNPCQ.talk(ws,'tob'); var g0=ps.gold; ZNPCQ.talk(ws,'hesk'); var S2=ZNPCQ.st(ps,'paperwork'); return {acc:!!S, wrong:w, step:S2.s, done:!!S2.done}; })()""" % WS)
     check("A delivery riddle: the wrong villager says so; Hesk is right (%s)" % k, k['acc'] and k['wrong'] and (k['done'] or k['step'] >= 1), k)
+
+# the Lab: meet the villagers
+import re
+from playwright.sync_api import sync_playwright
+R = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+with sync_playwright() as p:
+    PH = os.path.join(R, 'tests', '.phaser', 'package', 'dist', 'phaser.min.js')
+    b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1400, "height": 950}); errs = []
+    pg.on("pageerror", lambda e: errs.append(str(e)))
+    pg.route(re.compile(r".*(cdnjs|jsdelivr).*phaser.*"), lambda r: r.fulfill(path=PH, content_type="application/javascript"))
+    pg.route(re.compile(r".*fonts.*"), lambda r: r.abort())
+    def sv(r):
+        u = r.request.url.split('t.test/', 1)[1].split('?')[0]; f = os.path.join(R, u)
+        r.fulfill(path=f) if os.path.isfile(f) else r.fulfill(status=404, body='')
+    pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html?tabs=all"); pg.wait_for_timeout(2500)
+    pg.evaluate("LTODO.goTo('npcs','.np-tab',0)"); pg.wait_for_timeout(1200)
+    m = pg.evaluate("""(()=>{ var t=document.querySelectorAll('.vm-tile').length, warn=[...document.querySelectorAll('.vm-tile i')].filter(i=>/⚠/.test(i.textContent)).length; document.querySelector('.vm-tile[data-k="morwen"]').click(); return {t:t, warn:warn}; })()""")
+    pg.wait_for_timeout(1500)
+    n = pg.evaluate("""(()=>{ var P=document.getElementById('vm-panel'); var r={open:P&&P.style.display==='flex', box:!!P.querySelector('.vm-stage [class^="zd-s-"]'), quests:P.querySelectorAll('.vm-q').length, stages:P.querySelectorAll('.vm-st').length, bad:P.querySelectorAll('.vm-chk li.bad').length}; P.querySelector('.vm-pq').click(); return r; })()""")
+    pg.keyboard.press('Escape'); pg.wait_for_timeout(300); gone = pg.evaluate("document.getElementById('vm-panel').style.display")
+    check('Lab → Villagers: meet all 34 as painted; Morwen opens with her lines in the game\'s dialogue box, her two requests to play through, the Saga stages, checks all green (%s %s)' % (m, n),
+          m['t'] == 34 and m['warn'] == 0 and n['open'] and n['box'] and n['quests'] == 2 and n['stages'] == 5 and n['bad'] == 0 and gone == 'none', (m, n, gone))
+    check('No Lab script errors', not errs, errs[:3])
 print('\n%d / %d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)
