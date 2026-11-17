@@ -1,0 +1,25 @@
+# round 113 - shot series for "feasthall" (three shots per frame, Zeldor first)
+sc_ss_feasthall_01_1_m
+sc_ss_feasthall_01_2
+sc_ss_feasthall_01_3_m
+sc_ss_feasthall_02_1_m
+sc_ss_feasthall_02_2_m
+sc_ss_feasthall_02_3_m
+sc_ss_feasthall_03_1_m
+sc_ss_feasthall_03_2_m
+sc_ss_feasthall_03_3_m
+sc_ss_feasthall_04_1
+sc_ss_feasthall_04_2
+sc_ss_feasthall_04_3
+sc_ss_feasthall_05_1
+sc_ss_feasthall_05_2
+sc_ss_feasthall_05_3
+sc_ss_feasthall_06_1
+sc_ss_feasthall_06_2
+sc_ss_feasthall_06_3
+sc_ss_feasthall_08_1
+sc_ss_feasthall_08_2
+sc_ss_feasthall_08_3
+sc_ss_feasthall_09_1
+sc_ss_feasthall_09_2
+sc_ss_feasthall_09_3

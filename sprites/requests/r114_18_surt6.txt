@@ -1,0 +1,19 @@
+# round 113 - shot series for "surt6" (three shots per frame, Zeldor first)
+sc_ss_surt6_01_1
+sc_ss_surt6_01_2
+sc_ss_surt6_01_3
+sc_ss_surt6_02_1
+sc_ss_surt6_02_2
+sc_ss_surt6_02_3
+sc_ss_surt6_03_1
+sc_ss_surt6_03_2
+sc_ss_surt6_03_3
+sc_ss_surt6_04_1
+sc_ss_surt6_04_2
+sc_ss_surt6_04_3_m
+sc_ss_surt6_05_1
+sc_ss_surt6_05_2
+sc_ss_surt6_05_3
+sc_ss_surt6_06_1_m
+sc_ss_surt6_06_2_m
+sc_ss_surt6_06_3_m

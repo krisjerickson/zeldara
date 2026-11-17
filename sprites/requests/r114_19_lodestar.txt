@@ -1,0 +1,25 @@
+# round 113 - shot series for "lodestar" (three shots per frame, Zeldor first)
+sc_ss_lodestar_01_1_m
+sc_ss_lodestar_01_2
+sc_ss_lodestar_01_3_m
+sc_ss_lodestar_02_1
+sc_ss_lodestar_02_2_m
+sc_ss_lodestar_02_3_m
+sc_ss_lodestar_03_1
+sc_ss_lodestar_03_2_m
+sc_ss_lodestar_03_3_m
+sc_ss_lodestar_04_1
+sc_ss_lodestar_04_2_m
+sc_ss_lodestar_04_3_m
+sc_ss_lodestar_05_1
+sc_ss_lodestar_05_2_m
+sc_ss_lodestar_05_3_m
+sc_ss_lodestar_07_1
+sc_ss_lodestar_07_2_m
+sc_ss_lodestar_07_3_m
+sc_ss_lodestar_08_1
+sc_ss_lodestar_08_2_m
+sc_ss_lodestar_08_3_m
+sc_ss_lodestar_09_1_m
+sc_ss_lodestar_09_2_m
+sc_ss_lodestar_09_3_m

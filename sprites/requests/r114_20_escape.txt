@@ -1,0 +1,22 @@
+# round 113 - shot series for "escape" (three shots per frame, Zeldor first)
+sc_ss_escape_01_1_m
+sc_ss_escape_01_2_m
+sc_ss_escape_01_3_m
+sc_ss_escape_02_1
+sc_ss_escape_02_2
+sc_ss_escape_02_3_m
+sc_ss_escape_03_1
+sc_ss_escape_03_2
+sc_ss_escape_03_3_m
+sc_ss_escape_04_1_m
+sc_ss_escape_04_2_m
+sc_ss_escape_04_3_m
+sc_ss_escape_05_1_m
+sc_ss_escape_05_2
+sc_ss_escape_05_3_m
+sc_ss_escape_06_1
+sc_ss_escape_06_2
+sc_ss_escape_06_3_m
+sc_ss_escape_07_1_m
+sc_ss_escape_07_2
+sc_ss_escape_07_3_m

@@ -1,0 +1,22 @@
+# round 113 - shot series for "twinteach" (three shots per frame, Zeldor first)
+sc_ss_twinteach_01_1_m
+sc_ss_twinteach_01_2_m
+sc_ss_twinteach_01_3_m
+sc_ss_twinteach_02_1_m
+sc_ss_twinteach_02_2
+sc_ss_twinteach_02_3_m
+sc_ss_twinteach_03_1_m
+sc_ss_twinteach_03_2_m
+sc_ss_twinteach_03_3_m
+sc_ss_twinteach_04_1_m
+sc_ss_twinteach_04_2_m
+sc_ss_twinteach_04_3_m
+sc_ss_twinteach_05_1_m
+sc_ss_twinteach_05_2_m
+sc_ss_twinteach_05_3_m
+sc_ss_twinteach_06_1_m
+sc_ss_twinteach_06_2_m
+sc_ss_twinteach_06_3_m
+sc_ss_twinteach_07_1_m
+sc_ss_twinteach_07_2_m
+sc_ss_twinteach_07_3_m

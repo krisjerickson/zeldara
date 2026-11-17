@@ -1,0 +1,13 @@
+# round 113 - shot series for "credits" (three shots per frame, Zeldor first)
+sc_ss_credits_01_1
+sc_ss_credits_01_2
+sc_ss_credits_01_3
+sc_ss_credits_02_1
+sc_ss_credits_02_2
+sc_ss_credits_02_3
+sc_ss_credits_03_1
+sc_ss_credits_03_2
+sc_ss_credits_03_3
+sc_ss_credits_04_1
+sc_ss_credits_04_2
+sc_ss_credits_04_3

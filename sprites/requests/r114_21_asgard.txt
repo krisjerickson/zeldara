@@ -1,0 +1,19 @@
+# round 113 - shot series for "asgard" (three shots per frame, Zeldor first)
+sc_ss_asgard_01_1_m
+sc_ss_asgard_01_2_m
+sc_ss_asgard_01_3_m
+sc_ss_asgard_02_1_m
+sc_ss_asgard_02_2_m
+sc_ss_asgard_02_3_m
+sc_ss_asgard_03_1
+sc_ss_asgard_03_2_m
+sc_ss_asgard_03_3_m
+sc_ss_asgard_04_1_m
+sc_ss_asgard_04_2_m
+sc_ss_asgard_04_3_m
+sc_ss_asgard_05_1_m
+sc_ss_asgard_05_2_m
+sc_ss_asgard_05_3_m
+sc_ss_asgard_06_1_m
+sc_ss_asgard_06_2_m
+sc_ss_asgard_06_3_m

@@ -1,0 +1,19 @@
+# round 113 - shot series for "bifrost" (three shots per frame, Zeldor first)
+sc_ss_bifrost_01_1
+sc_ss_bifrost_01_2_m
+sc_ss_bifrost_01_3_m
+sc_ss_bifrost_02_1
+sc_ss_bifrost_02_2_m
+sc_ss_bifrost_02_3_m
+sc_ss_bifrost_03_1
+sc_ss_bifrost_03_2
+sc_ss_bifrost_03_3
+sc_ss_bifrost_04_1
+sc_ss_bifrost_04_2_m
+sc_ss_bifrost_04_3_m
+sc_ss_bifrost_06_1
+sc_ss_bifrost_06_2_m
+sc_ss_bifrost_06_3_m
+sc_ss_bifrost_07_1
+sc_ss_bifrost_07_2_m
+sc_ss_bifrost_07_3_m

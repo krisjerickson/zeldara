@@ -1,0 +1,19 @@
+# round 113 - shot series for "ashnight" (three shots per frame, Zeldor first)
+sc_ss_ashnight_01_1
+sc_ss_ashnight_01_2
+sc_ss_ashnight_01_3
+sc_ss_ashnight_02_1
+sc_ss_ashnight_02_2
+sc_ss_ashnight_02_3
+sc_ss_ashnight_03_1
+sc_ss_ashnight_03_2
+sc_ss_ashnight_03_3
+sc_ss_ashnight_05_1
+sc_ss_ashnight_05_2
+sc_ss_ashnight_05_3
+sc_ss_ashnight_06_1
+sc_ss_ashnight_06_2
+sc_ss_ashnight_06_3
+sc_ss_ashnight_07_1
+sc_ss_ashnight_07_2
+sc_ss_ashnight_07_3

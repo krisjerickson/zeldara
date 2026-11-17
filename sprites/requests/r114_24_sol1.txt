@@ -1,0 +1,19 @@
+# round 113 - shot series for "sol1" (three shots per frame, Zeldor first)
+sc_ss_sol1_01_1
+sc_ss_sol1_01_2
+sc_ss_sol1_01_3
+sc_ss_sol1_02_1
+sc_ss_sol1_02_2
+sc_ss_sol1_02_3
+sc_ss_sol1_03_1
+sc_ss_sol1_03_2
+sc_ss_sol1_03_3
+sc_ss_sol1_04_1
+sc_ss_sol1_04_2
+sc_ss_sol1_04_3
+sc_ss_sol1_05_1
+sc_ss_sol1_05_2
+sc_ss_sol1_05_3
+sc_ss_sol1_06_1_m
+sc_ss_sol1_06_2_m
+sc_ss_sol1_06_3_m

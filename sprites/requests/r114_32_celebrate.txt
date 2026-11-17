@@ -1,0 +1,25 @@
+# round 113 - shot series for "celebrate" (three shots per frame, Zeldor first)
+sc_ss_celebrate_01_1
+sc_ss_celebrate_01_2
+sc_ss_celebrate_01_3
+sc_ss_celebrate_02_1
+sc_ss_celebrate_02_2
+sc_ss_celebrate_02_3
+sc_ss_celebrate_03_1
+sc_ss_celebrate_03_2
+sc_ss_celebrate_03_3
+sc_ss_celebrate_04_1
+sc_ss_celebrate_04_2
+sc_ss_celebrate_04_3
+sc_ss_celebrate_05_1
+sc_ss_celebrate_05_2
+sc_ss_celebrate_05_3
+sc_ss_celebrate_06_1
+sc_ss_celebrate_06_2
+sc_ss_celebrate_06_3
+sc_ss_celebrate_07_1
+sc_ss_celebrate_07_2
+sc_ss_celebrate_07_3
+sc_ss_celebrate_08_1
+sc_ss_celebrate_08_2
+sc_ss_celebrate_08_3
