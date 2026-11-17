@@ -86,8 +86,9 @@ ZCURQ.side=function(ws){ var ps=ws.playerState, out=[];
   if(ps.rollQ===1&&typeof ZROLL!=='undefined'){ var L=(ZROLL.pins||[]).filter(function(p){ return !p.got; }), P=ws.player;
     if(L.length){ var n=L.slice().sort(function(p,q){ return Math.hypot(p.x-P.x,p.y-P.y)-Math.hypot(q.x-P.x,q.y-P.y); })[0]; out.push({id:'roll',x:n.x,y:n.y,ic:'🤸',title:'Pia\'s juggling pins',sub:L.length+' still in the meadow'}); }
     else { var N=ZROLL.npc||(ZROLL.spot&&ZROLL.spot(ws)); if(N)out.push({id:'roll',x:N.x,y:N.y,ic:'🤸',title:'Back to Tumbler Pia',sub:'all three pins found'}); } }
+  if(typeof ZNPCQ!=='undefined')ZNPCQ.Q.forEach(function(q){ var S=ZNPCQ.st(ps,q.id); if(!S||S.done)return; var t=ZNPCQ.target(ws,q.id); if(t)out.push({id:'nq:'+q.id,x:t.x,y:t.y,ic:q.riddle?'🧩':'💬',title:q.name,sub:t.t}); });      /* round 113: the villagers' requests */
   return out; };
 (function(){ if(typeof ZQMAP==='undefined'||!ZQMAP.list)return; var l0=ZQMAP.list; ZQMAP.list=function(ws){ var L=l0.apply(this,arguments); ws=ws||ZCURQ.ws(); if(!ws||!ws.playerState||!ws.player)return L;
-    var S=[]; try{ S=ZCURQ.side(ws); }catch(e){} if(!S.length)return L; var tr=ws.playerState.tracked, px=ws.player.x/TILE, py=ws.player.y/TILE, out=L.filter(function(q){ return !/^(tq:|roll$)/.test(q.id); });
+    var S=[]; try{ S=ZCURQ.side(ws); }catch(e){} if(!S.length)return L; var tr=ws.playerState.tracked, px=ws.player.x/TILE, py=ws.player.y/TILE, out=L.filter(function(q){ return !/^(tq:|nq:|roll$)/.test(q.id); });
     S.forEach(function(s){ var q={id:s.id,tx:s.x/TILE,ty:s.y/TILE,ic:s.ic,title:s.title,sub:s.sub,act:tr===s.id,side:true}; q.d=Math.hypot(q.tx-px,q.ty-py); var a=Math.atan2(q.ty-py,q.tx-px); q.dir=['E','SE','S','SW','W','NW','N','NE'][((Math.round(a/(Math.PI/4))%8)+8)%8]; out.push(q); });
     out.sort(function(a,b){ return (b.act?1:0)-(a.act?1:0)||(b.side?1:0)-(a.side?1:0)||a.d-b.d; }); out=out.slice(0,16); out.forEach(function(q,i){ q.n=i+1; }); return out; }; })();

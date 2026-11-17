@@ -57,6 +57,7 @@ var ZJOUR={ on:true,
     if(tq.net)st.push({id:'tq_net',t:'Old Nell\'s net',sub:tq.net>=3?'returned':tq.net===2?'take it back to Old Nell at the pier':'fetch it from the lake\'s far shore — two skeletons stand over it',done:tq.net>=3,trk:'tq:net'});
     if(ps.rollQ!==undefined||ps.canRoll)st.push({id:'roll',t:'The Tumbler\'s Lesson — Pia\'s pins',sub:ps.canRoll?'the roll (Alt) is yours':'on the meadow just north of the village; the reward: the roll',done:!!ps.canRoll,trk:'roll'});
     if(st.length)G.push({n:'Oswin\'s first tasks',L:st});
+    if(typeof ZNPCQ!=='undefined'){ var vq=ZNPCQ.journalRows(ws); if(vq.length)G.push({n:'Villagers\' requests',L:vq}); }      /* round 113 */
     var isl=[]; ul.forEach(function(r){ var S=(wd.sites||[]).find(function(s){ return s.section===r&&s.type==='harbor'&&!s.castle; }); if(!S)return; isl.push({id:S.id,t:(M?M.ISLE[r]:'The island')+' — a familiar',sub:'its trader sells '+(M&&ITEMS[M.METAL[r]]?ITEMS[M.METAL[r]].name:'the realm\'s metal')+', which Mira needs for '+ZJOUR.RS[r]+' tray · Lv '+ZJOUR.LV[r]+'+',done:cq.indexOf('s'+r+'_harbor')>=0,S:S,r:r}); });
     if(isl.length)G.push({n:'Islands',L:isl});
     var cas=(wd.sites||[]).filter(function(s){ return s.type==='harbor'&&s.castle&&ex(s); }).map(function(s){ var C=typeof CASTLE_ISLANDS!=='undefined'&&CASTLE_ISLANDS[s.castle], sk=C&&ITEMS[C.skill]; return {id:s.id,t:(C?C.name:'A castle isle'),sub:'a skill'+(sk?': '+sk.name:'')+((ps.castlesDone||[]).length?'':' — the first castle opens Mira\'s workshop (the Saga needs it)'),done:(ps.castlesDone||[]).indexOf(s.castle)>=0,S:s,r:s.section}; });
@@ -81,6 +82,7 @@ var ZJOUR={ on:true,
     if(Wk&&(ps.walk==='follow'||ps.walk==='guild'||ps.walk==='map')){ var w=ZWALK.target(ws); if(w)return w; }      /* Oswin leading you to his guild */
     if(k){ if(k.indexOf('tq:')===0&&typeof ZOSW!=='undefined'){ var o=ZOSW.target(ws,k.slice(3)); if(o)return o; }
       else if(k==='roll'&&typeof ZROLL!=='undefined'){ var N=ZROLL.npc||ZROLL.spot(ws); if(N&&!ps.canRoll)return {x:N.x,y:N.y,t:'Pia, just north of the village'}; }      /* round 102: Pia moved north of the village */
+      else if(k.indexOf('nq:')===0&&typeof ZNPCQ!=='undefined'){ var nq=ZNPCQ.target(ws,k.slice(3)); if(nq)return nq; }      /* round 113: a villager's request */
       else { var S=(wd.sites||[]).find(function(s){ return s.id===k; }); if(S&&!ZJOUR.siteDone(ps,S))return ZJOUR.P(S); }
       ps.tracked=null; }
     if(Wk&&ps.walk==='runa'){ var w2=ZWALK.target(ws); if(w2)return w2; }

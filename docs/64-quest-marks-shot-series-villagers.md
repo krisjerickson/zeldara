@@ -110,3 +110,18 @@ The picks are `npcs-<npc>_i<k>`, `_arc`, `_q<k>`, `npcs-d_*`, `npcs-e_*` and `np
   - the ten series (63 shots, each cut from its frame);
   - the Lab's two tabs.
 - **`test_round100.py` updated:** Runa's talk now happens on the Green.
+
+## Later in round 112 (c–f)
+
+- **Shot series in the Lab:** each series plays full screen as in the game (black bars, the picture, its words in the bottom bar; Space = next shot, arrows = other series, Esc closes). The words come out one by one over the first two shots.
+- **Three shots a frame** (Kris: "it was too many to have 6 or 7 images, we need to trim down to 3"):
+  - Each series keeps the shots Kris picked: `ZSS.KEEP`, the Ember Wall keeps two.
+  - The storm series is cut: "we already have a good video".
+  - Every other frame is planned at three shots.
+  - Nothing was painted again.
+- **What the first batch taught us:** the story frame as first reference keeps close-ups consistent, but it pulls every shot back to its own framing. Shots set before or after the frame's moment (the Ember Wall rising), or framed very differently from it, need that reference loosened.
+- **Villagers tab:** picking no longer closes the villager you are on. Open cards are remembered across the Lab's redraws.
+- **Site backdrops tab:** the eight floors were taken again from the Site Lab with the round-109 backdrops and the painted edges, tower walls and caps. They sit above the round-106 pictures, each with ✓ / ✎ and a note.
+- **Sounds:**
+  - Kris's picks for 10 effects are in the game, put in by `pick_sounds.py`: anvil, arrow hit, axe swing, beast bite, beast growl, bell, Bifröst, monster hit, sink and Meteor.
+  - The five new takes for Berserker, Chain Lightning and Starfall (`audio6.ps1`) were made but had not reached the Lab. They now play under "Remake all".
