@@ -71,8 +71,8 @@ var ZWP={ on:true, state:'off', why:'', pool:[], seq:0, cb:{}, QMAX:2, sent:{}, 
       var MG=1, MW=4, GW=WCH+2*MG, tx0=cx*WCH-MG-MW, ty0=cy*WCH-MG-MW, WW=GW+2*MW, x0=Math.max(0,tx0), y0=Math.max(0,ty0), x1=Math.min(WORLD_W,tx0+WW), y1=Math.min(WORLD_H,ty0+WW), ww=Math.max(0,x1-x0), hh=Math.max(0,y1-y0);
       var kw=new (wd.kind.constructor)(ww*hh), zw=new (wd.zone.constructor)(ww*hh); for(var y=0;y<hh;y++){ kw.set(wd.kind.subarray((y0+y)*WORLD_W+x0,(y0+y)*WORLD_W+x0+ww),y*ww); zw.set(wd.zone.subarray((y0+y)*WORLD_W+x0,(y0+y)*WORLD_W+x0+ww),y*ww); }
       if(w._miss.size)for(var q=0;q<kw.length;q++){ if(w._miss.has(kw[q])){ failed=true; ZWP.why='a kind the worker lacks: '+(WK_REG.list[kw[q]]||{}).id; return self.step(budget); } }
-      var key=cx+'_'+cy, props=(wd.propsByChunk&&wd.propsByChunk[key])||[], chop=wd._chopped&&wd._chopped.size?Array.from(wd._chopped):[];
-      var id=++ZWP.seq, msg={t:'job',id:id,cx:cx,cy:cy,key:key,x0:x0,y0:y0,ww:ww,hh:hh,kw:kw,zw:zw,props:props,chop:chop,cfg:ZWP.cfg()};
+      var key=cx+'_'+cy, props=(wd.propsByChunk&&wd.propsByChunk[key])||[];
+      var id=++ZWP.seq, msg={t:'job',id:id,cx:cx,cy:cy,key:key,x0:x0,y0:y0,ww:ww,hh:hh,kw:kw,zw:zw,props:props,cfg:ZWP.cfg()};
       try{ w.postMessage(msg,[kw.buffer,zw.buffer]); }catch(e){ failed=true; ZWP.why='post: '+e.message; return self.step(budget); }
       w._busy++; phase=1; var tq=performance.now();
       ZWP.cb[id]=function(m){ if(m.t!=='done'){ failed=true; ZWP.lastErr=m.why; return; } var tc=performance.now(); out=ZWP.unpack(wd,m.out); var dc=performance.now()-tc; ZWP.stats.conv+=dc; ZWP.stats.convPend=(ZWP.stats.convPend||0)+dc; if(dc>ZWP.stats.maxConv)ZWP.stats.maxConv=dc; ZWP.stats.jobs++; ZWP.stats.wms+=m.ms; self.out=out; done=true; };
@@ -106,7 +106,7 @@ var ZWP={ on:true, state:'off', why:'', pool:[], seq:0, cb:{}, QMAX:2, sent:{}, 
       var o={}; for(var k in v){ if(!Object.prototype.hasOwnProperty.call(v,k))continue; var x=ZWP.W.clean(v[k],T,depth+1); if(x!==undefined)o[k]=x; } return o; },
     job:function(m){ var t0=performance.now(), wd=_worldData;
       try{ for(var y=0;y<m.hh;y++){ wd.kind.set(m.kw.subarray(y*m.ww,(y+1)*m.ww),(m.y0+y)*WORLD_W+m.x0); wd.zone.set(m.zw.subarray(y*m.ww,(y+1)*m.ww),(m.y0+y)*WORLD_W+m.x0); }
-        wd.propsByChunk=wd.propsByChunk||{}; wd.propsByChunk[m.key]=m.props; wd._chopped=new Set(m.chop); wd.stampParts=[]; wd.shafts=[];
+        wd.propsByChunk=wd.propsByChunk||{}; wd.propsByChunk[m.key]=m.props; wd.stampParts=[]; wd.shafts=[];
         if(typeof ZScn!=='undefined'){ if((ZWP._so!==undefined&&ZWP._so!==m.cfg.scnOff)||(ZWP._sv!==undefined&&ZWP._sv!==m.cfg.scnV)){ _WPC={}; ZScn._sc={}; ZScn._scq=[]; ZScn._pat={}; } ZWP._so=m.cfg.scnOff; ZWP._sv=m.cfg.scnV; ZScn.off=m.cfg.scnOff; }      /* painted scenery switched: the cached tiles were made with the other setting */ if(typeof ZWE!=='undefined')ZWE.on=m.cfg.zwe;
         var J=_wpChunkJob0(wd,m.cx,m.cy), n=0; while(!J.step(1e9)){ if(++n>1000)throw new Error('the job did not finish'); }
         var o=J.out, T=[], res={};

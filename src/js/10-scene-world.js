@@ -139,7 +139,8 @@ class WorldScene extends Phaser.Scene{
     ownedFamiliars:[],
     skills:[],lockedSites:[]  };
     if(!this._newGame)this._loadSave(); else if(typeof ZSave!=='undefined'&&ZSave.pendingHero){ this.playerState.hero=ZSave.pendingHero; ZSave.pendingHero=null; }
-    if(this._chopInit)this._chopInit();      // round 40: the trees this save has felled (10m)
+    // round 114d (Kris: "remove chopping entirely"; "turn into gold"): an old save's wood — and any wood logs in the pack — become gold, 5 a log, once
+    _zWoodToGold(this.playerState,this);
     if(this._newGame&&typeof ZSave!=='undefined'&&ZSave.pendingDiff!==undefined&&ZSave.pendingDiff!==null){ this.playerState.difficulty=ZSave.pendingDiff; ZSave.pendingDiff=null; }   // difficulty chosen on the hero screen (04g)
     if(this.playerState.hero!=='f')this.playerState.hero='m';
     villageApply(this.wd,villageStageOf(this.playerState));   // the village at its current stage (grows as craftsmen are freed)
@@ -2432,8 +2433,6 @@ class WorldScene extends Phaser.Scene{
       self._hitLargeAnimal(a,stats.atk);
       hit=true;
     });
-    // Axe: fell the tree in front (round 40, 10m-chop.js — the old check read ps.equipped and T.TREE tiles, which the painted world no longer has)
-    if(this._chopTree&&this._chopTree(p.x,p.y,dir))hit=true;
     if(!hit)this._floatText(px,py-25,'miss','#666666');
   }
 
@@ -3018,4 +3017,8 @@ class WorldScene extends Phaser.Scene{
     }catch(e){}
   }
 }
+// round 114d (Kris: "remove chopping entirely"; "turn into gold"): an old save's wood — and any wood logs in the pack — become gold, 5 a log, once
+function _zWoodToGold(ps,sc){ if(!ps)return; var logs=(ps.inventory||[]).filter(function(i){ return i==='wood_log'; }).length, n=(ps.wood|0)+logs; if(logs)ps.inventory=ps.inventory.filter(function(i){ return i!=='wood_log'; });
+  if(ps.equip)['lHand','rHand','food'].forEach(function(k){ if(ps.equip[k]==='wood_log')ps.equip[k]=null; }); delete ps.wood; delete ps.chopped;
+  if(n>0){  ps.gold=(ps.gold||0)+n*5; if(sc&&sc.time)sc.time.delayedCall(3000,function(){ if(typeof showNotif==='function')showNotif('🪵 The village bought your '+n+' wood log'+(n>1?'s':'')+' — '+(n*5)+' gold. (Trees are left standing now.)','#ffd700'); }); } }
 

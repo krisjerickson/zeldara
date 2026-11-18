@@ -337,7 +337,7 @@ function wpChunkJob(wd,cx,cy){
         // round 46 (lag): the edge pieces are one step and the props a few per step, so painting a busy village chunk never makes one long frame
         if(D.E&&!out._zp){ var zpDone=true; try{ zpDone=ZWE.pieces(D,ctx,KL,out)!==false; }catch(e){ WP_ERR['edge pieces: '+e.message]=(WP_ERR['edge pieces: '+e.message]||0)+1; } if(zpDone)out._zp=1; continue; }      // round 40: pieces along the edges, over the ground's own marks
         var list0=(wd.propsByChunk&&wd.propsByChunk[cx+'_'+cy])||[], fk=_wpFakeC(wd,out,ox,oy), pi0=out._pi||0, list=list0.slice(pi0,pi0+4); out._pi=pi0+4;
-        list.forEach(function(p){ if(wd._chopped&&wd._chopped.size&&wd._chopped.has(p.x+'_'+p.y+'_'+p.prop)){ if(typeof _chopStump==='function')_chopStump(ctx,(p.x-tx0+(p.w||1)/2)*LT,(p.y-ty0+(p.h||1))*LT-6,(p.w||1)*LT); return; }      // round 40: a felled tree leaves a stump (10m)
+        list.forEach(function(p){
           var Z=p.Z||(p.zi>=0&&p.zi!==255?skins[p.zi].Z:null), fn=WPROP[p.prop]||(Z&&Z.draw&&Z.draw[p.prop]); if(!fn)return;
           fk.R=rngOf(_wpHash(p.x,p.y,11)); var n0=out.sprites.length, nl=out.lights.length;
           try{ fn(fk,ctx,(p.x-tx0)*LT,(p.y-ty0)*LT,p.w*LT,p.h*LT,p.o||{},(Z&&Z.pal)||{}); }catch(e){ var ek=p.prop+': '+e.message; WP_ERR[ek]=(WP_ERR[ek]||0)+1; }

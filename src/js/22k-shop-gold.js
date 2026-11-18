@@ -59,7 +59,7 @@ var ZSHOP={ on:true, last:null, gold:null,
   // buying and selling keep the window open
   var keep=function(name){ var f0=window[name]; if(typeof f0!=='function')return; window[name]=function(){ var was=ZSHOP.open(), c0=window.closeModal; if(was)window.closeModal=function(id){ if(id!=='camp')return c0.apply(this,arguments); };
       var r; try{ r=f0.apply(this,arguments); } finally{ window.closeModal=c0; } if(was){ if(!ZSHOP.open()){ var m=document.getElementById('modal-camp'); if(m)m.style.display='flex'; } ZSHOP.refresh(); } return r; }; };
-  ['_buyItem','_sellWood','_sellGem','_merchantSellItem','_merchantSellMarked','_merchantToggle','_buyAmmoN','_craftItem'].forEach(keep);
+  ['_buyItem','_sellGem','_merchantSellItem','_merchantSellMarked','_merchantToggle','_buyAmmoN','_craftItem'].forEach(keep);
   // anything else that redraws the window (the apothecary's extras, the forge's tree) gets the banner too
   var c=document.getElementById('camp-content'); if(c&&typeof MutationObserver!=='undefined'){ var busy=false; new MutationObserver(function(){ if(busy)return; busy=true; try{ ZSHOP.dress(); }catch(e){} busy=false; }).observe(c,{childList:true}); }
   setInterval(function(){ try{ ZSHOP.dressOther(); }catch(e){} if(ZSHOP.open()){ var ps=ZSHOP.ps(); if(ps&&ps.gold!==ZSHOP.gold)ZSHOP.dress(); } else ZSHOP.gold=null; },400);

@@ -654,12 +654,6 @@ function openCampModal(site,ps,worldScene){
     var stat=item.atk?'ATK +'+item.atk:item.def?'DEF +'+item.def:item.heal?'Heals '+item.heal+' HP':'';
     h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(item,1.5)+'</div><div class="si-info"><div class="si-name">'+item.name+'</div><div class="si-desc">'+stat+' &nbsp;•&nbsp; '+item.buy+'g'+_gearCmp(item)+'</div></div><button class="si-buy" '+(canAfford?'':'disabled')+' onclick="window._buyItem(\''+si.id+'\','+item.buy+')">'+(canAfford?'Buy':'No gold')+'</button></div>';
   });
-  // Sell wood logs
-  var wood=ps.wood||0;
-  if(wood>0){
-    var wgold=wood*5;
-    h+='<div class="shop-item" style="border-color:rgba(160,100,30,.35);background:rgba(80,50,10,.2)"><div class="si-icon">🪵</div><div class="si-info"><div class="si-name">Wood Logs</div><div class="si-desc">'+wood+' logs &nbsp;•&nbsp; 5g each = <span style="color:#ffd700">'+wgold+'g</span></div></div><button class="si-buy" style="background:rgba(100,70,10,.35);border-color:rgba(180,130,40,.5);color:#e8b840" onclick="window._sellWood()">Sell All</button></div>';
-  }
   h+='<p style="font-size:10px;color:#445;margin-top:8px;text-align:center">You have <span style="color:#ffd700">'+ps.gold+'g</span>'+(wood>0?' &nbsp;|&nbsp; 🪵 '+wood+'/99':'')+'</p>';
   document.getElementById('camp-content').innerHTML=h;
   toggleModal('camp');
@@ -689,16 +683,6 @@ window._buyItem=function(id,cost){
   }
   ws._emitUI();
   closeModal('camp');
-};
-window._sellWood=function(){
-  var ws=game.scene.getScene('World');if(!ws)return;
-  var ps=ws.playerState;
-  var wood=ps.wood||0;
-  if(wood<=0){showNotif('No wood to sell!','#ff4444');return;}
-  var gold=wood*5;
-  ps.gold+=gold;ps.wood=0;
-  showNotif('Sold '+wood+'🪵 for '+gold+'g!','#ffd700');
-  ws._emitUI();closeModal('camp');
 };
 window._buyAmmoQuick=function(id){
   var ws=game.scene.getScene('World');if(!ws)return;

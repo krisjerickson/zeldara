@@ -56,7 +56,7 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
   list:function(cat){ var out=[];
     if(cat==='monster'){ MON_ROSTER.forEach(function(R){ out.push(R.id); }); CHAR_ROSTER.forEach(function(R){ if(R.cat==='boss')out.push(R.id); }); }
     else if(cat==='mount')out=Object.keys(MOUNTS); else if(cat==='familiar')out=Object.keys(FAMILIARS); else if(cat==='spell')out=Object.keys(SPELL_DATA).filter(function(k){ return k!=='meteor'; });
-    else if(cat==='item')out=Object.keys(ITEMS).filter(function(k){ return ITEMS[k].slot!=='material'||k==='wood_log'; });
+    else if(cat==='item')out=Object.keys(ITEMS).filter(function(k){ return ITEMS[k].slot!=='material'; });
     else if(cat==='place'){ WMAP_ZONES.forEach(function(z){ out.push('zone_'+z.id); }); out.push('village'); if(typeof BOSS_ARENAS!=='undefined')Object.keys(BOSS_ARENAS).forEach(function(k){ out.push('arena_'+k); }); if(typeof CAMP_BY_ID!=='undefined')Object.keys(CAMP_BY_ID).forEach(function(k){ out.push('camp_'+k); }); if(typeof CASTLE_ISLANDS!=='undefined')Object.keys(CASTLE_ISLANDS).forEach(function(k){ out.push('castle_'+k); }); var ws=game.scene.getScene('World'); ((ws&&ws.wd&&ws.wd.sites)||[]).forEach(function(s){ out.push('site_'+s.id); }); }
     else if(cat==='quest'){ [1,2,3,4].forEach(function(q){ for(var i=0;i<5;i++)out.push('q'+q+'_f'+i); if(FAIRY_KING_OBJECTS[q])out.push('king'+q); }); }
     else if(cat==='character'){ CHAR_ROSTER.forEach(function(R){ if(R.cat==='npc')out.push(R.id); }); out.push('npc_house'); }

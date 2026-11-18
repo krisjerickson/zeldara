@@ -115,9 +115,10 @@
     steps:[{k:'visit',at:'firefrost',hide:2,ic:'🔭',name:"Vela's spyglass",sub:"where the fire meets the frost",found:["Half buried in ash-dusted snow — a brass spyglass."]}],
     end:["Captain's log: the hero passed the test. The captain is generous. Here."],reward:{gold:150,items:[['spyglass',1]]}});
   // ── Bram ──
-  A({id:'bench',giver:'bram',name:"A Bench on the Green",offer:["The Green needs a bench by the Runestone. I've measured the spot by eye. It's perfect. Five logs of timber — you've got an axe."],
-    steps:[{k:'give',it:'wood_log',n:5,sub:"five wood logs (chop trees with the axe)",remind:"Five logs. I can already see the bench. It's lovely.",done:["Five logs, perfectly chosen. Well — I'd have chosen differently. But fine."]}],
-    end:["Done. Level to a hair. Sit on it any time."],reward:{gold:100,items:[['bread',2]],f:function(ws,ps){ ps.benchBuilt=1; }}});
+  A({id:'bench',giver:'bram',name:"A Bench on the Green",offer:["The Green needs a bench by the Runestone. I've measured the spot by eye. It's perfect. Driftwood — five pieces. The Silverrun carries it down and leaves it on the shores. Seasoned by water. Best timber there is. I'm right about this."],
+    steps:[{k:'fetch',sub:"five pieces of driftwood on the shores",remind:"Five pieces of driftwood. The shores, by the harbours. Grey and smooth — you'll know it.",done:["Five pieces, perfectly chosen. Well — I'd have chosen differently. But fine."],
+      items:[1,1,1,2,2].map(function(r,i){ return {it:'q_drift'+(i+1),ic:'🪵',name:'driftwood',r:r,at:'shore:'+r}; })}],
+    end:["Done. Level to a hair. Sit on it any time."],reward:{gold:100,items:[['bread',2]],f:function(ws,ps){ ps.benchBuilt=1; }}});      /* round 114d (Kris: "driftwood is good"): the logs came from chopping, which is gone */
   // ── Corr ──
   A({id:'poem',giver:'corr',name:"A Poem for Ilsa",need:function(ps){ var ws=ZNPCQ.ws(); return !!(ws&&(ws._villageNPCs||[]).some(function(n){ return n.id==='vf_keeper'; })); },offer:["A poem. For Ilsa. At the lighthouse. Don't read it. …Fine, read it, and fix it on the way if you must. 'O Ilsa, light of the lighthouse, you are brighter than a… fight mouse.'"],
     steps:[{k:'choose',to:'ilsa',sub:"take Corr's poem to Ilsa at the lighthouse",ask:["(You hand Ilsa the poem. Which ending did you write in?)"],opts:["…brighter than the moon","…brighter than a fight mouse","…brighter than my lantern"],ok:0,right:["'Brighter than the moon.' …Who wrote this? Corr? (She smiles, and does not stop smiling.) Tell him… tell him to come up for tea."],wrong:"Ilsa frowns, kindly. 'That's… a strange thing to call someone.' Maybe try a different ending?"},

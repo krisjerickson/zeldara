@@ -64,7 +64,7 @@ var LTRAIN={
      when:'The first rumour Oswin gives you (one line added to what he already says).',who:'Master Oswin',
      say:'I have drawn a ring on your map — a dashed one. Roughly there, not exactly. Rumours are like that. Once you have walked it, the ring goes.',
      why:'Small; the rings otherwise look like a bug.'},
-    {id:'axe',pri:3,t:'The axe is heavy',sys:'10q-axe.js — an axe swings in 0.9 s (a sword 0.45 s) and you stand still while you swing it; it hits harder. (Felling trees with it has been switched off since round 60, and is up for removal altogether.)',
+    {id:'axe',pri:3,t:'The axe is heavy',sys:'10q-axe.js — an axe swings in 0.9 s (a sword 0.45 s) and you stand still while you swing it; it hits harder. (Felling trees is gone altogether — removed in round 114d.)',
      when:'The first time you hold an axe.',who:'Garrick the Blacksmith',
      say:'An axe. Good. It is heavy: you stand still while you swing it, so swing on purpose — and it bites twice as deep as a sword. Do not let anyone sell you painted pig-iron.',
      why:'Standing still mid-swing feels like a bug if nobody says it is the point.'},
