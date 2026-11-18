@@ -68,7 +68,7 @@ with game(painted=True, w=1280, h=720) as g:
     talk_through(g); g.wait(600)
     j = g.js("(()=>{ var ps=%s.playerState; return {walk:ps.walk, way:!!ps.lessons.waystone}; })()" % WS)
     check('Coming out, Elder Runa shows you the runestones and the waystones; the walk is done (%s, %s)' % (i, j), i['name'] == 'Elder Runa' and j['walk'] == 'done' and j['way'], (i, j))
-    g.js("(()=>{ var ps=%s.playerState; ps.lessonsOff=0; delete ps.lessons.level; ps.level=2; })()" % WS)
+    g.js("(()=>{ var ps=%s.playerState; ps.lessonsOff=0; delete ps.lessons.level; ps.level=2; ZLES._lastT=0; ZLES._hurtT=0;      /* round 114c: lessons come 20 s apart — start the clock fresh */ })()" % WS)
     ok = until(g, "ZDLG.open&&/Master Oswin/.test(document.querySelector('#zdlg .zd-name').textContent)", 4000)
     btn = g.js("[...document.querySelectorAll('#zdlg .zd-extra button')].map(b=>b.textContent)")
     check('A lesson as it comes: Oswin speaks it, the game paused, with "Don\'t show lessons" (%s)' % btn, ok and 'Don\'t show lessons' in btn and g.js("isGamePaused()"), btn)

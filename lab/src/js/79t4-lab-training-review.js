@@ -17,11 +17,11 @@ var LTRAIN={
      was:'Before: the death pop-up said you wake at a quarter of your strength, and nothing said how to mend.'},
     {id:'rest',t:'The tavern (now on its own)',who:'Master Oswin',when:'The first time you walk into the tavern.',
      say:'The tavern fills a cup that heals and lends you strength for a while. Rolf will tell you it cures everything. It does not cure Rolf.',
-     was:'Before: shared a pop-up with the bed, at the first house.'}],
+     was:'Before: shared a pop-up with the bed, at the first house.'},
+    {id:'calm',t:'Every lesson waits until the fight is over',how:'✓ Built (round 114c — you liked the rule). Before, a lesson pauses the game the moment its trigger happens — a Binder comes near, a camp, your first potion picked up, your first bow — even in the middle of a fight. Now every lesson waits until you are out of combat (the same test the bed uses), except the three that belong in a fight: the shield (on your first hard blow), weak and resist, and bosses warding off spells from afar.'},
+    {id:'gap',t:'One lesson at a time, with a breath between',how:'✓ Built (round 114c). Two triggers can land in the same second (a new realm, a Binder, a camp). Now at most one lesson every 20 seconds; the rest wait in a queue (kept in your save) and come in order.'}],
   RULES:[
-    {id:'calm',t:'Every lesson waits until the fight is over',how:'Today a lesson pauses the game the moment its trigger happens — a Binder comes near, a camp, your first potion picked up, your first bow — even in the middle of a fight. Proposed: every lesson waits until you are out of combat (the same test the bed uses), except the three that belong in a fight: the shield (on your first hard blow), weak and resist, and bosses warding off spells from afar.'},
-    {id:'gap',t:'One lesson at a time, with a breath between',how:'Two triggers can land in the same second (a new realm, a Binder, a camp). Proposed: at most one lesson every 20 seconds; the rest wait their turn, in order.'},
-    {id:'who',t:'Who teaches: each their own',how:'Proposed: Oswin keeps the big ones (saving, the map marks, rumours), and the rest come from whoever would know — Morwen for potions and flasks, Hana for mounts, Garrick for the axe, Quill for the harbours, Corr for the night, Runa for the villagers\' requests, your twin for the Tome. (Or ✕ this and Oswin says them all.)'}],
+    {id:'who',t:'Who teaches: each their own',how:'Agreed (you liked the rules) — used as each lesson below is built. Oswin keeps the big ones (saving, the map marks, rumours), and the rest come from whoever would know — Morwen for potions and flasks, Hana for mounts, Garrick for the axe, Quill for the harbours, Corr for the night, Runa for the villagers\' requests, your twin for the Tome. (Or ✕ this and Oswin says them all.)'}],
   // the missing mechanics: what the game does (from its code), when to teach it, who, the words, how big it is
   MISS:[
     {id:'save',pri:1,t:'Saving',sys:'21c-save.js — the game saves itself only when you finish a site, go down a floor, complete a quest, clear a castle or tower, free a craftsman, wake a waystone, learn a spell or familiar skill, or sleep. Walking out of a site and fast travel do not save. Anything else needs the 💾 in your pack or the Tome.',
@@ -64,10 +64,10 @@ var LTRAIN={
      when:'The first rumour Oswin gives you (one line added to what he already says).',who:'Master Oswin',
      say:'I have drawn a ring on your map — a dashed one. Roughly there, not exactly. Rumours are like that. Once you have walked it, the ring goes.',
      why:'Small; the rings otherwise look like a bug.'},
-    {id:'chop',pri:2,t:'Chopping trees, and selling the wood',sys:'10m-chop.js — any axe in your hand fells the tree in front of you (1–5 wood, up to 99); wood sells at the traders\' camps (⛺ on the map), 5 gold a log. Village trees stay standing. The axe is also heavy: you stand still while you swing it.',
-     when:'The first time you hold an axe outside the village.',who:'Garrick the Blacksmith',
-     say:'An axe. Good. Two things. It is heavy: you stand still while you swing it, so swing on purpose. And it fells trees — any tree outside the village. The traders at the camps pay five gold a log. Honest wood. Do not let anyone sell you painted pine.',
-     why:'Nothing tells you trees can be cut, or that wood is worth anything.'},
+    {id:'axe',pri:3,t:'The axe is heavy',sys:'10q-axe.js — an axe swings in 0.9 s (a sword 0.45 s) and you stand still while you swing it; it hits harder. (Felling trees with it has been switched off since round 60, and is up for removal altogether.)',
+     when:'The first time you hold an axe.',who:'Garrick the Blacksmith',
+     say:'An axe. Good. It is heavy: you stand still while you swing it, so swing on purpose — and it bites twice as deep as a sword. Do not let anyone sell you painted pig-iron.',
+     why:'Standing still mid-swing feels like a bug if nobody says it is the point.'},
     {id:'mount2',pri:2,t:'Mounts: calling yours, and getting thrown off',sys:'10j-world-mounts.js — attacking throws you off; the mount waits where you left it; M calls it back to you; mounts wait outside the village.',
      when:'Folded into the mount lesson (its words change).',who:'Hana the Stable Master (instead of Oswin)',
      say:'Bramble says: swing a sword from the saddle and you are walking. She waits where you left her — M calls her back, from anywhere outside the village. Mounts do not do villages. Bramble says the cobbles are beneath her.',
@@ -112,11 +112,11 @@ var LTRAIN={
       (x.when?'<p><b>When:</b> '+esc(x.when)+'</p>':'')+(x.say?'<div class="tr-say">“'+esc(x.say)+'”</div>':'')+(x.why?'<p class="tr-why">'+esc(x.why)+'</p>':'')+'</div>'+
       '<div class="tr-a">'+seg(k,kind==='built'?OK:DO)+note(k,kind==='built'?'Change the words or timing…':'Note…')+'</div></div>'; };
   LAB_TABS.push({ id:'trainrev', name:'Missing lessons',
-    blurb:'<b>Round 114 — a review of what the game never explains.</b> The two bed lessons you described are built: after your first two hearts are gone (once the fight is over), and Oswin\'s own version after your first fall. Below them, two rules for all lessons and '+LTRAIN.MISS.length+' mechanics that are in the game but never taught — each with when, who and the words. ✓ to build, ✎ to change, ✕ to skip.',
+    blurb:'<b>Round 114c — your two rules are built</b> (lessons wait until the fight is over; one at a time, 20 s apart). <b>Round 114 — a review of what the game never explains.</b> The two bed lessons you described are built: after your first two hearts are gone (once the fight is over), and Oswin\'s own version after your first fall. Below them, two rules for all lessons and '+LTRAIN.MISS.length+' mechanics that are in the game but never taught — each with when, who and the words. ✓ to build, ✎ to change, ✕ to skip.',
     designs:LTRAIN.BUILT.concat(LTRAIN.RULES,LTRAIN.MISS).map(function(x){ return {id:x.id,name:x.t}; }),
-    render:function(){ var h=LBR.sec('Built this round — check the words and the timing','both from Master Oswin, both shown on every difficulty');
+    render:function(){ var h=LBR.sec('Built — check the words and the timing','the bed lessons from Master Oswin, on every difficulty; and your two rules for every lesson');
       h+=LTRAIN.BUILT.map(function(x){ return card(x,'built'); }).join('');
-      h+=LBR.sec('Two rules for every lesson','and who teaches');
+      h+=LBR.sec('Who teaches','agreed');
       h+=LTRAIN.RULES.map(function(x){ return card(x); }).join('');
       h+=LBR.sec('In the game, never taught','most important first · from reading the game\'s code, file by file');
       h+=LTRAIN.MISS.slice().sort(function(a,b){ return a.pri-b.pri; }).map(function(x){ return card(x); }).join('');

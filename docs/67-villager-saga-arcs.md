@@ -195,7 +195,7 @@ Mini-chapters: **Benno the Baker** — Trying very hard; **Old Fenwick** — Lam
 
 The first frost in thirty-six years, then snow. The village keeps a true Yule: the Yule log, lights in every window, and the Thaw-Moot game of hnefatafl against Elder Runa, who has not lost since she was nine.
 
-Mini-chapters: **Elder Runa** — Hnefatafl at Yule; **Hana the Stable Master** — Bramble in the snow; **Tob the Farmer** — Naming the snowmen; **Watchman Corr** — A Yule poem for Greta.
+Mini-chapters: **Elder Runa** — Hnefatafl at Yule; **Hana the Stable Master** — Bramble in the snow; **Tob the Farmer** — Naming the snowmen; **Watchman Corr** — A Yule poem for Ilsa, left at the gate.
 
 ✦ Mini-game: hnefatafl against Runa (win: her old rune-board; lose: she teaches you a trick for next time).
 

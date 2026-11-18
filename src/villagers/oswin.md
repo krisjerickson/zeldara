@@ -112,7 +112,7 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 - Old Nell tells bigger fish stories than I tell troll stories. It's not a competition. It is. She's winning.
 - Rolf flyted me into silence once. Once. It took him two hours and a stool to stand on.
 - Hana's horses don't like me. They remember the Ash Night better than I'd like.
-- Corr asked me to read his poem. I'm a brave man. I'm not that brave.
+- Corr asked me to read his poem to Ilsa. I'm a brave man. I'm not that brave.
 - Your twin has a wall in that library covered in string. I asked what it was. They said 'everything'. I left.
 - Pia dropped from the rafters onto my desk last week. I didn't scream. I barked. Different thing.
 - Iva told me my old ring is glass. I said 'It's sentimental glass.' She softened. A little.

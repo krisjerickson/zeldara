@@ -622,9 +622,9 @@ After the end she comes down to the village to see the spring she sent along the
 
 Corr was eight when the Ash Night came, a boy from the Ashlands' eastern edge visiting the last village with his big brother Njal for the summer fair. Njal went home ahead of him to fetch the cart. The Ember Wall rose that night, and Corr was on one side of it and his brother on the other. He has lived in the village ever since, raised by whoever had a spare bed, which was eventually Brask.
 
-He joined the gate watch at sixteen because, he says, he wanted to be standing at the gate when somebody came back. Nobody ever did. So he started writing poems to pass the nights — love poems, mostly, to Greta the miller, who has no idea. They are very bad. "Your hair is like flour, your eyes like a mill, my heart is a millstone, it turns for you still." He has three hundred of them.
+He joined the gate watch at sixteen because, he says, he wanted to be standing at the gate when somebody came back. Nobody ever did. So he started writing poems to pass the nights — love poems, all of them, to the light on the point: Ilsa, the lighthouse keeper, who has lit her lamp every night of the Quiet for ships that never came. He has watched that light from the gate for twenty years. The poems are very bad. "O Ilsa, light of the lighthouse, you are brighter than a… fight mouse." He has three hundred of them.
 
-He has never once left his post during a watch. He has never once told Greta.
+He has never once left his post during a watch. He has never once climbed the hill to the lighthouse.
 
 **In the Saga**
 
@@ -634,7 +634,7 @@ He has never once left his post during a watch. He has never once told Greta.
 
 **Ties**
 
-- Greta: the poems' entire subject.
+- Ilsa: the poems' entire subject; A Poem for Ilsa is his side quest.
 - Brask: took him in; drilled him; cannot bear the poems.
 - Rolf: reads them aloud at the tavern. Corr has asked him to stop. Corr has not asked very firmly.
 - Tilda: sells him ink "at the poetry rate".
@@ -692,7 +692,7 @@ Greta was born in a Wetlands mill-town on the Silverrun, the elder of two miller
 
 She was right. In the eighth winter of the Quiet the Silverrun ran black from the south and Liv's mill-wheel, by the account of the one cart that escaped, turned backwards before the water took it. Greta has trusted nothing since but the wind, and she trusts the wind with a passion. A north wind means news. An east wind means guests. A west wind — from the Ashlands — means trouble, and she spits at it.
 
-She has no idea Corr has written three hundred love poems about her. She thinks he stands at the gate looking at the windmill because he's worried about the sails.
+She judges the whole village by which way its chimneys smoke, and she has never once been caught in the rain.
 
 **In the Saga**
 
@@ -702,7 +702,7 @@ She has no idea Corr has written three hundred love poems about her. She thinks 
 
 **Ties**
 
-- Corr: oblivious.
+- Benno: buys all her flour, and asks every morning which way the wind is blowing for the bread.
 - Hesk: argues that planks don't sing, wind does.
 - Oswin: spits west when he passes; says he brings a bad wind.
 
@@ -769,7 +769,7 @@ After the end, ships come back. She lights the lighthouse the first night a sail
 
 - Fenwick: finds his gloom beautiful.
 - Nell: the two of them watch the lake from either end of the harbour.
-- Corr: reads her poems; is humbled; writes worse ones.
+- Corr: the poems' subject. She knows. She has been waiting twenty years for him to bring one up the hill.
 
 ## Pip
 

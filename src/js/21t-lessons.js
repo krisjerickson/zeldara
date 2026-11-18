@@ -61,8 +61,15 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
   byId:function(id){ return ZLES.L.find(function(x){ return x[0]===id; }); },
   off:function(ps){ return !ZLES.on||!!(ps&&ps.lessonsOff); },
   // mark as taught; show it unless lessons are off (or it is small and this is Ragnarök)
-  teach:function(id,quiet){ var ps=ZLES.ps(), L=ZLES.byId(id); if(!ps||!L)return false; var S=ZLES.seen(ps); if(S[id])return false; S[id]=Date.now();
-    if(quiet||ZLES.off(ps)||(+ps.difficulty===3&&!L[3])||typeof ZDLG==='undefined'||!ZDLG.on)return false;
+  // round 114c (Kris ✓ the rules): every lesson waits until the fight is over — except the three that belong in a fight — and they come one at
+  // a time, at least GAP apart; a lesson that has to wait goes in a queue (ps.lesQ, saved) and is shown, in order, as soon as it may be
+  FIGHT:{shield:1,elements:1,ward:1}, GAP:20000, _lastT:0,
+  ready:function(ps){ if(Date.now()-ZLES._lastT<ZLES.GAP)return false; if(typeof ZDLG!=='undefined'&&ZDLG.open)return false; return ZLES.calm(ZLES.scene(),ps); },
+  teach:function(id,quiet){ var ps=ZLES.ps(), L=ZLES.byId(id); if(!ps||!L)return false; var S=ZLES.seen(ps); if(S[id])return false;
+    var show=!(quiet||ZLES.off(ps)||(+ps.difficulty===3&&!L[3])||typeof ZDLG==='undefined'||!ZDLG.on);
+    if(show&&!ZLES.FIGHT[id]&&!ZLES.ready(ps)){ var Q=ps.lesQ||(ps.lesQ=[]); if(Q.indexOf(id)<0)Q.push(id); return false; }
+    S[id]=Date.now(); if(ps.lesQ){ var qi=ps.lesQ.indexOf(id); if(qi>=0)ps.lesQ.splice(qi,1); }
+    if(!show)return false; ZLES._lastT=Date.now();
     var who=L[6]&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[L[6]]?CHAR_BY_ID[L[6]].name:(L[7]||ZLES.NAME); if(L[0]==='r_counter'&&typeof ZROLL!=='undefined'&&ZROLL.NAME)who=ZROLL.NAME;
     ZDLG.say(who,L[5],{id:L[6]||(L[7]?undefined:ZLES.ID),icon:L[0].indexOf('r_')===0?'⚔':'📜',extra:[{t:'Got it',f:function(){}},{t:'Don\'t show lessons',f:function(){ ps.lessonsOff=1; showNotif('📚 Lessons off — turn them back on in the pause panel → Training.','#cfe8ff'); }}]});
     return true; },
@@ -80,6 +87,7 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
     var S=ZLES.seen(ps), has=function(fn){ return (ps.inventory||[]).some(function(i){ var I=ITEMS[i]; return I&&fn(i,I); }); }, T=function(id,c){ if(!S[id]&&c)ZLES.teach(id); };
     // an old save: what it has done counts as taught, quietly
     if(!ps._lesInit){ ps._lesInit=1; if(!ws._newGame){ ZLES.L.forEach(function(L){ if(ZLES.cond(L[0],ws,ps))S[L[0]]=S[L[0]]||1; }); ['move','map','guild','shop','rest','camp','sites'].forEach(function(id){ if((ps.level||1)>1)S[id]=S[id]||1; }); } return; }
+    if(ps.lesQ&&ps.lesQ.length&&ZLES.ready(ps)){ var q0=ps.lesQ[0]; if(S[q0])ps.lesQ.shift(); else ZLES.teach(q0); }      /* round 114c: the queue first, in order */
     var sc=ZLES.scene(), key=sc&&sc.sys.settings.key, B=key==='Building'?sc.building:null;
     // a hard blow: a quarter of your health in one go
     var hp=ps.hp, mx=ps.maxHp||30; if(ZLES._hp!==null&&hp<ZLES._hp)ZLES._hurtT=Date.now(); if(ZLES._hp!==null&&ZLES._hp-hp>=mx*0.22&&hp>0)T('shield',1); ZLES._hp=hp;

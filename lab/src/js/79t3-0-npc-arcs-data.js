@@ -98,7 +98,7 @@ var LNARC={
           moment:'The village toasts with water. Rolf says it\'s the saddest thing he\'s ever poured.' },
         { t:'Chapter 1 — Yule', when:'The Grasslands', saga:'Bram\'s rescue; the first spirits',
           story:'The first frost in thirty-six years, then snow. The village keeps a true Yule: the Yule log, lights in every window, and the Thaw-Moot game of hnefatafl against Elder Runa, who has not lost since she was nine.',
-          minis:[['runa','Hnefatafl at Yule'],['hana','Bramble in the snow'],['tob','Naming the snowmen'],['corr','A Yule poem for Greta']],
+          minis:[['runa','Hnefatafl at Yule'],['hana','Bramble in the snow'],['tob','Naming the snowmen'],['corr','A Yule poem for Ilsa, left at the gate']],
           moment:'Mini-game: hnefatafl against Runa (win: her old rune-board; lose: she teaches you a trick for next time).' },
         { t:'Chapter 2 — The Taste-Off', when:'The Wetlands', saga:'Bram\'s bridge; Mira\'s rescue',
           story:'The thaw and the spring rains; the floods go down and the Silverrun runs clear. At the spring market Benno and Morwen settle "bread versus potion" at last, with you as judge. Marta is back with a real cart.',
