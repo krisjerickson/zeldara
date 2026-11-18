@@ -18,7 +18,11 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
    ['map','The pause panel, the map and the path','Esc · Q map · B map — touch: ☰',1,'leaving your Home the first time','Esc opens the pause panel: the map, your pack, the Tome, this Training. Q opens the map. Under the little map in the corner stands the next step on your path — follow it when in doubt.'],
    ['guild','The guild and your quests','Q · the journal (📜)',1,'entering the guild','Every quest you hear of is written in your journal by itself — the Saga in order, the side quests below it. Choose one to track and an arrow on the little map points the way.'],
    ['shop','Shops, gold and selling','Tab at the keeper',0,'the first shop you walk into','Shops buy what you no longer need and sell what you do. The village shop keeps an iron sword and a wood shield — a beginner\'s first coin goes there.'],
-   ['rest','Resting and the tavern','Tab at the bed · the tavern keeper',0,'resting or the tavern the first time','Sleep at your Home to mend for nothing. The tavern fills a cup that heals and lends you strength for a while.'],
+   ['rest','The tavern','Tab at the tavern keeper',0,'the tavern the first time','The tavern fills a cup that heals and lends you strength for a while. Rolf will tell you it cures everything. It does not cure Rolf.'],
+   /* round 114 (Kris: "sleeping in your bed to fully restore your health. This can be a pop-up once you've lost your first 2 hearts. It should also not
+      pop-up until your out of combat. If you die, it can be a different pop-up that explains that you can heal by sleeping. Probably master oswin") */
+   ['bed','Sleeping in your bed','Tab at your bed, in your Home',1,'losing your first two hearts','You have taken a few knocks. Food mends you slowly and a potion at once — but your own bed mends everything. Go home and Tab at your bed: you wake with every heart and all your mana back, and your saga is saved while you sleep. It costs nothing.'],
+   ['bed_fall','After a fall, go home to bed','Tab at your bed, in your Home',1,'the first time you fall','So you fell. It happens to everyone worth a song — I once fell off a troll. You wake on the Green with only a quarter of your hearts, so do not go straight back out. Walk to your Home and Tab at your bed: sleep, and you wake whole, every heart and all your mana.'],
    ['shield','The shield','Shift (hold) — touch: 🛡 (hold)',1,'the first hard blow you take','Hold Shift and your shield takes the blow — most of it, sometimes all. You walk like a cart in mud while it is up. No shield in your hand, no block.'],
    ['bow','The bow and its arrows','Ctrl shoot · C change arrows — touch: 🏹',0,'your first bow','Ctrl looses an arrow; C changes which arrows you nock. Arrows are bought at the armoury — a bow without them is a stick.'],
    ['camp','Camps','—',0,'the first camp you come near','Two of every three monsters guard something: a fire, a chest, a well, a shrine. Beat every guard and it is yours. Food and wells come back; chests do not.'],
@@ -64,6 +68,11 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
     return true; },
   // ── the triggers, every ~0.8 s ──
   _hp:null, _t:0,
+  per:function(mx){ return typeof ZHUD!=='undefined'&&ZHUD.hearts?ZHUD.hearts(mx).per:10; },
+  // out of combat: nothing hurt you for six seconds and nothing near is hunting you
+  calm:function(sc,ps){ if(Date.now()-(ZLES._hurtT||0)<6000)return false; if(!sc)return true; var L=sc.monsters||[], W=sc.worldMonsters, P=sc.player, px=P?P.x:sc.px, py=P?P.y:sc.py; if(typeof px!=='number')return true;
+    var hunt=function(m){ if(!m||m.dead)return false; var ag=m._m?m._m.aggro:(m.state==='chase'||!!m.aggro); return ag&&Math.hypot(m.x-px,m.y-py)<TILE*12; };
+    return !L.some(hunt)&&!(W&&W!==L&&W.some(hunt)); },
   scene:function(){ try{ var a=game.scene.getScenes(true).filter(function(s){ return ['World','Dungeon','Building','Island','Sky'].indexOf(s.sys.settings.key)>=0; }); return a[a.length-1]||null; }catch(e){ return null; } },
   tick:function(){ try{ if(!ZLES.on||typeof game==='undefined'||!game.scene)return; var ws=game.scene.getScene('World'), ps=ws&&ws.playerState; if(!ps||!ws.player)return;
     if(typeof _anyModalOpen==='function'&&_anyModalOpen())return; if(typeof ZDeath!=='undefined'&&ZDeath.busy)return;      /* round 106: nothing over the death pop-up */ if(typeof ZCUT!=='undefined'&&ZCUT.isOpen&&ZCUT.isOpen())return;
@@ -73,9 +82,12 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
     if(!ps._lesInit){ ps._lesInit=1; if(!ws._newGame){ ZLES.L.forEach(function(L){ if(ZLES.cond(L[0],ws,ps))S[L[0]]=S[L[0]]||1; }); ['move','map','guild','shop','rest','camp','sites'].forEach(function(id){ if((ps.level||1)>1)S[id]=S[id]||1; }); } return; }
     var sc=ZLES.scene(), key=sc&&sc.sys.settings.key, B=key==='Building'?sc.building:null;
     // a hard blow: a quarter of your health in one go
-    var hp=ps.hp, mx=ps.maxHp||30; if(ZLES._hp!==null&&ZLES._hp-hp>=mx*0.22&&hp>0)T('shield',1); ZLES._hp=hp;
+    var hp=ps.hp, mx=ps.maxHp||30; if(ZLES._hp!==null&&hp<ZLES._hp)ZLES._hurtT=Date.now(); if(ZLES._hp!==null&&ZLES._hp-hp>=mx*0.22&&hp>0)T('shield',1); ZLES._hp=hp;
+    // round 114: your bed — once two hearts are gone and the fight is over; after your first fall, Oswin's own version (and then the first is not needed)
+    if(!S.bed&&!ps.slept&&hp>0&&mx-hp>=2*ZLES.per(mx)&&ZLES.calm(sc,ps))T('bed',1);
+    if(ZLES._died&&!S.bed_fall){ if(!ZLES._dT)ZLES._dT=Date.now(); else if(Date.now()-ZLES._dT>1500&&ZLES.calm(sc,ps)){ ZLES.teach('bed_fall'); S.bed=S.bed||Date.now(); } }
     if(B){ T('r_sword',B.type==='armory'); T('r_parry',B.type==='armory'&&!!S.r_sword); T('r_follow',B.type==='armory'&&!!S.r_parry&&(!!(ps.equip&&ps.equip.rHand)||has(function(i,I){ return I.slot==='rHand'; }))); T('r_axe',B.type==='forge'&&has(function(i,I){ return I.cls==='axe'; }));      /* round 103: the rhythm's teachers */
-      T('shop',/^(shop|armory|clothing|merchant)$/.test(B.type)); T('rest',/^(tavern|house)$/.test(B.type)); T('crafts',/^(forge|jeweler|apothecary)$/.test(B.type)); }
+      T('shop',/^(shop|armory|clothing|merchant)$/.test(B.type)); T('rest',B.type==='tavern'); T('crafts',/^(forge|jeweler|apothecary)$/.test(B.type)); }
     if(key==='Dungeon'&&sc._ready)T('inside',1); if(key==='Sky')T('sky',1);
     if(ZLES._died&&!S.death)ZLES.teach('death',true);      /* round 106: the death pop-up already says it all — the lesson goes quietly into Training */
     ZLES.L.forEach(function(L){ if(!S[L[0]]&&ZLES.auto[L[0]]&&ZLES.cond(L[0],ws,ps,sc))T(L[0],1); });

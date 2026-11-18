@@ -162,7 +162,7 @@ class BuildingScene extends Phaser.Scene{
       if(self._sleepEv){ self._sleepEv.remove(); self._sleepEv=null; }
       var finish=function(){ parts.forEach(function(p){ self.tweens.killTweensOf(p); p.destroy(); }); self._bedIms.forEach(function(im){ im.setVisible(true); });
         self.bx=B.x+B.w+14; self.by=B.y+B.h+6; self.bCont.setPosition(self.bx,self.by).setDepth(self.by).setVisible(true); self.bdir='down';
-        ps.hp=ps.maxHp; if(ps.maxMp)ps.mp=ps.maxMp; showNotif('💤 You wake up rested — HP fully restored!','#44ffaa'); self.worldScene._emitUI(); self._resting=false; };
+        ps.hp=ps.maxHp; if(ps.maxMp)ps.mp=ps.maxMp; ps.slept=(ps.slept||0)+1;      /* round 114: the bed lesson is not needed once you have slept */  showNotif('💤 You wake up rested — HP fully restored!','#44ffaa'); self.worldScene._emitUI(); self._resting=false; };
       if(W&&parts[0]&&parts[0].setFrame){ var sl2=parts[0]; sl2.setTexture(W.key,'0').setOrigin(W.ox,W.oy); var k=0; self.time.addEvent({delay:380,repeat:W.n-1,callback:function(){ k++; if(k<W.n)sl2.setFrame(String(k)); else finish(); }}); self.time.delayedCall(380*W.n+60,function(){ if(self._resting)finish(); }); }
       else self.time.delayedCall(700,finish); });
   }

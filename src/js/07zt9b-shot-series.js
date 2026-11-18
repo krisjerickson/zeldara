@@ -107,6 +107,7 @@ var ZSS={ WAVE:112,
   // have a good video"). x.k is a shot's number in the first cut — its picture's id keeps it.
   ZSS.KEEP={opening_07:[1,4,6],spirit_05:[3,4,6],spirit_06:[2,3,5],ashnight_04:[1,5],mira_08:[2,5,6],lodestar_06:[1,6,7],bifrost_05:[1,3,6],sol2_02:[1,3,6],feasthall_07:[1,3,6]};
   ZSS.CUTS={opening_05:'we already have a good video'};
+  ZSS.CUTS.opening_00='the intro will be a real video (Kris, round 114: "the first half is already really good, so let\'s not worry about the intro video for the new images")';      /* the whole opening leaves the plan */
   ZSS.FIRST=ZSS.TOP.map(function(S){ return {scene:S.scene,n:S.n,count:S.shots.length}; });
   ZSS.TOP=ZSS.TOP.filter(function(S){ return !ZSS.CUTS[S.scene+'_'+('0'+S.n).slice(-2)]; }).map(function(S){ var K=ZSS.KEEP[S.scene+'_'+('0'+S.n).slice(-2)]; S.first=S.shots.length;
     S.shots.forEach(function(x,i){ x.k=i+1; }); if(K)S.shots=S.shots.filter(function(x){ return K.indexOf(x.k)>=0; }); return S; });
@@ -164,6 +165,7 @@ var ZSS={ WAVE:112,
   ZSS.MORE=['ecu','xwide','low','react','macro','insert','ots','sil','track','close','bullet'];
   ZSS.AUTO=[]; ZSS.AUTO_WAVE=114;
   if(typeof ZSB!=='undefined'&&ZSB.SCENES){ var ORD=['opening','spirit','quiet','bram','blacktide','mira','stonefall','dunn','ashnight','vela','gate','orbs','surt1','surt2','surt3','surt4','surt5','surt6','lodestar','escape','asgard','twinteach','bifrost','sol1','sol2','sol3','solfall','feasthall','truth','home','village','celebrate','credits','worldtree'];
+    ZSS.ORD=ORD;
     ZSCN.WAVES[ZSS.AUTO_WAVE]='Round 113 — shot series for every story frame (three shots each, a cut-scene at a time)';
     ZSB.SCENES.slice().sort(function(a,b){ return ORD.indexOf(a.id)-ORD.indexOf(b.id); }).forEach(function(sc){ if(ZSS.CUTS[sc.id+'_00'])return;
       sc.beats.forEach(function(b){ var key=sc.id+'_'+('0'+b.n).slice(-2); if(ZSS.CUTS[key]||ZSS.TOP.some(function(S){ return S.scene===sc.id&&S.n===b.n; }))return;
