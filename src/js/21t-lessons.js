@@ -34,6 +34,7 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
    ['roll','The roll','Alt — touch: 🤸',1,'learning it from Pia','Alt throws you three paces the way you are moving. Nothing touches you while you tumble — then you need a breath before the next.'],
    ['elements','Elements: weak and resist','the Tome → Elements',1,'your first weak or resisted blow','Water beats fire, fire beats grass, grass beats earth, earth beats water; storm and shadow bite each other. Hit a weakness and the number flares; hit a resistance and it fades. The Tome shows each beast\'s.'],
    ['waystone','Waystones and travel','Tab at a waystone',1,'Elder Runa shows you','Tab wakes a waystone. From any waystone you can travel to every one you have woken — the village stone is always awake.'],
+   ['season','The turning of the year','—',1,'the first time the season turns','Feel that? The year is turning. Thirty-six winters we had — one long grey one. Now every road you open turns the wheel: spring, summer, autumn, winter. The land changes with it, the trees, the food in the shops, even old Fenwick\'s mood. Grandmother said the year only turns when the roads are open. She was usually right. Usually.','vf_elder'],
    ['binder','Bindstones and spirits','—',1,'your first Binder','The dead of Runeheim are chained to bindstones. Beat the Binder and the spirit goes free — and leaves you a shard of soulglass.'],
    ['glimmer','The Glimmerhall and lattices','Tab at Sólveig',1,'your first shard of soulglass','Six shards of one realm make its lattice. Sólveig the Glasswright fuses them in the Glimmerhall, when it stands on the Green. The forges will need all four.'],
    ['familiar','Familiars and the fairies','N choose — touch: ≡ More',0,'your first familiar','N chooses which familiar fights beside you. The fairies by the waystones teach it new skills, one errand at a time.'],
@@ -100,7 +101,7 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
     if(ZLES._died&&!S.death)ZLES.teach('death',true);      /* round 106: the death pop-up already says it all — the lesson goes quietly into Training */
     ZLES.L.forEach(function(L){ if(!S[L[0]]&&ZLES.auto[L[0]]&&ZLES.cond(L[0],ws,ps,sc))T(L[0],1); });
   }catch(e){ if(!ZLES._err){ ZLES._err=1; console.warn('lessons',e); } } },
-  auto:{r_counter:1,r_weave:1,r_together:1,bow:1,camp:1,sites:1,potion:1,level:1,roll:1,elements:1,binder:1,glimmer:1,familiar:1,skill:1,spell:1,mount:1,mira:1,ward:1,forges:1,hearth:1,godsbane:1,asgard:1,death:1,waystone:1},
+  auto:{season:1,r_counter:1,r_weave:1,r_together:1,bow:1,camp:1,sites:1,potion:1,level:1,roll:1,elements:1,binder:1,glimmer:1,familiar:1,skill:1,spell:1,mount:1,mira:1,ward:1,forges:1,hearth:1,godsbane:1,asgard:1,death:1,waystone:1},
   cond:function(id,ws,ps){ var inv=ps.inventory||[], has=function(fn){ return inv.some(function(i){ var I=ITEMS[i]; return I&&fn(i,I); }); }, P=ws&&ws.player, near=function(x,y,r){ return P&&Math.hypot(P.x-x,P.y-y)<r*TILE; };
     switch(id){
       case 'move': case 'map': case 'guild': return (ps.level||1)>1;
@@ -110,6 +111,7 @@ var ZLES={ on:true, NAME:'Master Oswin', ID:'npc_guild',
       case 'potion': return has(function(i,I){ return I.slot==='use'||I.slot==='food'||/food/.test(I.slot||''); });
       case 'level': return (ps.level||1)>=2;
       case 'death': return !!ZLES._died;
+      case 'season': return (ps.seasonsSeen||[]).length>1;
       case 'roll': return !!ps.canRoll;
       case 'r_counter': return !!ps.canRoll&&!!(ps.lessons&&ps.lessons.roll);
       case 'r_weave': return (ps.mageDone||[]).length>0;

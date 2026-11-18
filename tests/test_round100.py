@@ -77,7 +77,7 @@ with game(painted=True, w=1280, h=720) as g:
     check('"Don\'t show lessons" turns them off', g.js("%s.playerState.lessonsOff==1&&!ZDLG.open" % WS))
     g.js("ZPAUSE.go('training')"); g.wait(700)
     k = g.js("(()=>{ var o=document.getElementById('modal-training'); return {shown:o&&o.style.display!=='none', items:o.querySelectorAll('.ztr-i').length, taught:o.querySelectorAll('.ztr-i:not(.q)').length, tab:!!document.querySelector('.zpz-t[data-t=training]'), ctl:!document.querySelector('.zpz-t[data-t=controls]'), box:o.querySelector('.ztr-on').checked}; })()")
-    check('The Training tab (in Controls\' place): every lesson (32 + round 103\'s six rhythm lessons + round 114\'s two bed lessons, and All keys), the ones met readable, the rest ??? (%s)' % k, k['shown'] and k['items'] == 40 and k['taught'] >= 6 and k['tab'] and k['ctl'] and k['box'] is False, k)
+    check('The Training tab (in Controls\' place): every lesson (32 + round 103\'s six rhythm lessons + round 114\'s two bed lessons, round 115\'s turning of the year, and All keys), the ones met readable, the rest ??? (%s)' % k, k['shown'] and k['items'] == 41 and k['taught'] >= 6 and k['tab'] and k['ctl'] and k['box'] is False, k)
     if SHOTS: g.shot(os.path.join(SHOTS, '4_training.png'))
     g.js("(()=>{ var c=document.querySelector('#modal-training .ztr-on'); c.checked=true; c.dispatchEvent(new Event('change')); })()")
     check('…and "Show lessons as they come" turns them back on', g.js("%s.playerState.lessonsOff==0" % WS))

@@ -141,6 +141,7 @@ class WorldScene extends Phaser.Scene{
     if(!this._newGame)this._loadSave(); else if(typeof ZSave!=='undefined'&&ZSave.pendingHero){ this.playerState.hero=ZSave.pendingHero; ZSave.pendingHero=null; }
     // round 114d (Kris: "remove chopping entirely"; "turn into gold"): an old save's wood — and any wood logs in the pack — become gold, 5 a log, once
     _zWoodToGold(this.playerState,this);
+    if(typeof ZSEASON!=='undefined')ZSEASON.init(this);      // round 115: the world opens in its season (10zs)
     if(this._newGame&&typeof ZSave!=='undefined'&&ZSave.pendingDiff!==undefined&&ZSave.pendingDiff!==null){ this.playerState.difficulty=ZSave.pendingDiff; ZSave.pendingDiff=null; }   // difficulty chosen on the hero screen (04g)
     if(this.playerState.hero!=='f')this.playerState.hero='m';
     villageApply(this.wd,villageStageOf(this.playerState));   // the village at its current stage (grows as craftsmen are freed)

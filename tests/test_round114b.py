@@ -27,7 +27,7 @@ with game(painted=True) as g:
     check('After your first fall: a moment later, Oswin\'s own "go home to bed" (and the first bed lesson is then not needed) (%s)' % d,
           d['wait'] is False and d['fall'] and d['bed'] and 'fell' in d['said'], d)
     e = g.js("""(()=>{ var L=ZLES.byId('rest'), B=ZLES.byId('bed'), F=ZLES.byId('bed_fall'); return {rest:L&&L[5], bed:!!B&&B[3]===1, fall:!!F&&F[3]===1, n:ZLES.L.length}; })()""")
-    check('The tavern has its own lesson now; both bed lessons are shown on every difficulty (%s)' % e, e['bed'] and e['fall'] and 'tavern' in e['rest'] and 'bed' not in e['rest'].lower() and e['n'] == 39, e)
+    check('The tavern has its own lesson now; both bed lessons are shown on every difficulty (%s)' % e, e['bed'] and e['fall'] and 'tavern' in e['rest'] and 'bed' not in e['rest'].lower() and e['n'] == 40, e)
     # round 114c — Kris ✓ the rules: lessons wait until the fight is over (except the fight ones) and come one at a time
     r = g.js("(()=>{ " + SETUP + """ delete S.camp; delete S.potion; delete S.shield; ZLES._hurtT=0; ZLES._hp=ps.hp;
       var m={x:ws.player.x+40,y:ws.player.y,state:'chase',aggro:true,dead:false}; ws.worldMonsters.push(m);
