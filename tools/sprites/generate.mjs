@@ -20,6 +20,7 @@
 //   --concurrency 2     requests in flight at once
 //   --force             redo requests whose file already exists (the old file is kept as .prev.png)
 //   --dry-run           print the plan, send nothing
+//   --timeout 240       seconds one request may take before it is abandoned and tried again (round 116: a hung request no longer stalls the run)
 //   --set scenery       send the scenery sheets (sprites/requests/scenery.json, round 28) instead of the character sheets;
 //                       waves 21–32, or --pilot for one sheet of each family (12 sheets) to judge the look first
 //
@@ -37,7 +38,7 @@ const arg = (name, def) => { const i = process.argv.indexOf('--' + name); if (i 
 const DRY = !!arg('dry-run', false), FORCE = !!arg('force', false);
 const MODEL = arg('model', 'gpt-image-2.5-sunburst'), QUALITY = arg('quality', 'medium');
 const LIMIT = +arg('limit', 1e9), CONC = Math.max(1, Math.min(6, +arg('concurrency', 2)));
-const TIER = arg('tier', 'all');
+const TIER = arg('tier', 'all'), TIMEOUT = Math.max(30, +arg('timeout', 240)) * 1000;
 const waves = arg('wave', null) === null ? null : String(arg('wave')).split(',').map(Number);
 const ids = arg('ids', null) ? String(arg('ids')).split(',') : null;
 const group = arg('group', null);
@@ -78,8 +79,8 @@ async function send(q) {
   for (const r of q.refs) form.append('image[]', new Blob([fs.readFileSync(refPath(r))], { type: 'image/png' }), r.replace(/[^a-z0-9_.-]/gi, '_') + '.png');
   for (let attempt = 1; attempt <= 6; attempt++) {
     let res, body;
-    try { res = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: 'Bearer ' + KEY }, body: form }); body = await res.json(); }
-    catch (e) { if (attempt === 6) throw e; await sleep(4000 * attempt); continue; }
+    try { res = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { Authorization: 'Bearer ' + KEY }, body: form, signal: AbortSignal.timeout(TIMEOUT) }); body = await res.json(); }
+    catch (e) { const why = e && (e.name === 'TimeoutError' || e.name === 'AbortError') ? 'no answer in ' + TIMEOUT / 1000 + ' s' : e.message; console.log(`  … ${q.id}: ${why} — trying again (${attempt}/6)`); if (attempt === 6) throw new Error(why); await sleep(4000 * attempt); continue; }      /* round 116: a hung request is abandoned and tried again, so one stuck connection never stalls the run */
     if (res.ok && body.data && body.data[0] && body.data[0].b64_json) {
       const file = outPath(q.id); if (fs.existsSync(file)) fs.renameSync(file, file.replace(/\.png$/, '.prev.png'));
       fs.writeFileSync(file, Buffer.from(body.data[0].b64_json, 'base64'));

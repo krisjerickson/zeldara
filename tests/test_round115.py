@@ -16,7 +16,10 @@ with game(painted=True) as g:
     check("The grass takes the season's colour (autumn warmer, winter paler); summer is as painted; rock never changes (%s)" % b,
           b['su'] == b['a0'] and b['au'][0] > b['a0'][0] and b['au'] != b['a0'] and (max(b['wi'])-min(b['wi'])) < (max(b['a0'])-min(b['a0'])) and b['rock'], b)
     c = g.js("""(()=>{ var s0=ZSEASON.cur; ZSEASON.set('au'); var t=ZSEASON.item('tr_round_a'), r=ZSEASON.item('rk_rock'); ZSEASON.set('su'); var s=ZSEASON.item('tr_round_a'); ZSEASON.set(s0); return {tree:t, rock:r, summer:s}; })()""")
-    check('Trees are drawn in their season (tinted until their autumn painting is in); rocks and summer are left alone (%s)' % c, c['tree'] and c['tree'].get('f') and c['rock'] is None and c['summer'] is None, c)
+    check('Trees are drawn in their season (their autumn painting, or tinted until it is in); rocks and summer are left alone (%s)' % c, c['tree'] and (c['tree'].get('f') or c['tree']['id'] == 'tr_round_a_au') and c['rock'] is None and c['summer'] is None, c)
+    for i in range(60):      # round 116: with the seasons' pages in, the first chunks take a little longer to paint
+        if g.js("(()=>{ var n=0; %s._wr.chunks.forEach(function(){ n++; }); return n; })()" % WS): break
+        g.wait(1000)
     d = g.js("""(()=>{ var ws=%s, ps=ws.playerState; ps.unlockedSections=[1]; ps.spiritsHome=0; ZSEASON.tick(); var start=ZSEASON.cur; ps.unlockedSections=[1,2,3]; ZSEASON.tick();
       var ban=document.getElementById('zq-banner'), badge=document.getElementById('zseason'); return {start:start, now:ZSEASON.cur, seen:ps.seasonsSeen, ban:ban&&ban.textContent, badge:badge&&badge.textContent, rn:ZSEASON._rn, air:!!ws._zsAir, cfg:ZWP.cfg().season}; })()""" % WS)
     check('Opening the Highlands turns the year to autumn: a banner, the mark by the little map, the world repainted, leaves in the air, and the workers told (%s)' % d,
@@ -34,6 +37,11 @@ with game(painted=True) as g:
     cols = {'au': shot('au')}
     for name, u in (('wi', [1,2,3,4]), ('sp', [1]), ('su', [1,2])):
         g.js("""(()=>{ var ps=%s.playerState; ps.unlockedSections=%s; ZSEASON.tick(); })()""" % (WS, u)); cols[name] = shot(name)
+    from PIL import Image
+    im = Image.open('/tmp/claude-0/season_au.png').convert('RGB'); W_, H_ = im.size
+    strips = [im.crop((x, 100, x + 40, 200)).resize((1, 1)).getpixel((0, 0)) for x in (1040, 1120, W_ - 40)]      # open ground right of the rune circle, out to the very edge
+    green = [i for i, p in enumerate(strips) if p[1] - p[0] > 25]
+    check('Round 116: no strip of the screen is left in the old season after the turn (chunks still being painted are painted again) (%s)' % strips, not green, strips)
     check('On screen: the world repaints in each season — autumn warmest, winter palest, summer greenest (%s)' % cols,
           cols['au'][0] - cols['au'][1] > cols['su'][0] - cols['su'][1] and cols['su'][1] - cols['su'][0] > cols['wi'][1] - cols['wi'][0], cols)
     e = g.js("""(()=>{ var L=ZLES.byId('season'); return {lesson:!!L, who:L&&L[6], cond:ZLES.cond('season',%s,{seasonsSeen:['sp','su']})}; })()""" % WS)

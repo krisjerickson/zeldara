@@ -38,10 +38,14 @@ for (sc, nn), L in sorted(series.items()):
         have = [j + 1 for j, (i, s) in enumerate(shots) if s]      # round 112d: positions in the strip (a trimmed series keeps its shots' old numbers)
         key = '%s_%s_%s' % (sc, nn, who); out = os.path.join(PREV, key + '.webp')
         if not have: index.pop(key, None); continue
+        # round 116: a strip already made from these same shots is kept (a long run can stop and go on where it was)
+        newest = max(os.path.getmtime(s) for i, s in shots if s)
+        if os.path.isfile(out) and os.path.getmtime(out) >= newest and (index.get(key) or {}).get('n') == have: continue
         strip = Image.new('RGB', (TW * len(shots), TH), (5, 7, 11))
         for j, (i, s) in enumerate(shots):
             if s: strip.paste(crop169(s), (j * TW, 0))
-        strip.save(out, quality=80, method=4); index[key] = {'n': have, 'count': len(shots), 'tw': TW, 'th': TH}; made += 1
+        strip.save(out, quality=60, method=4); index[key] = {'n': have, 'count': len(shots), 'tw': TW, 'th': TH}; made += 1      # round 116: quality 60 (the Lab's 256 MB)
+        json.dump(index, open(IX, 'w'), indent=1)      # round 116: saved as it goes
         print('  %-24s %d of %d shots' % (key, len(have), len(shots)))
 json.dump(index, open(IX, 'w'), indent=1)
 print('%d strip(s) made -> lab/preview/series/ (rebuild the Lab: node build.mjs)' % made)

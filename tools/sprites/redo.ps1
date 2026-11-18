@@ -16,11 +16,19 @@ if ($List) { $Ids = ((Get-Content "sprites\requests\$List.txt") | Where-Object {
 if (-not $Ids) { Write-Host 'Give -Ids a,b or -List name'; exit 1 }
 $todo = $Ids.Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_ }
 New-Item -ItemType Directory -Force -Path 'sprites\_replaced_redo' | Out-Null
-$moved = 0
+# Round 116 (Kris: "Last time i had these get stuck, and then it ditched the ones that had processed so far and started at the beginning
+# again"): only a picture OLDER than this redo request is moved aside. The request's time is the list file's (Claude writes it), or for
+# -Ids a stamp made the first time these ids are run. So running the same command again after a stop keeps every picture painted since.
+$stampDir = 'sprites\_replaced_redo\.stamps'; New-Item -ItemType Directory -Force -Path $stampDir | Out-Null
+if ($List) { $since = (Get-Item "sprites\requests\$List.txt").LastWriteTime }
+else { $h = [System.BitConverter]::ToString([System.Security.Cryptography.MD5]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes(($todo | Sort-Object) -join ','))).Replace('-','').Substring(0,12)
+  $stamp = "$stampDir\$h"; if (-not (Test-Path $stamp)) { Set-Content $stamp (Get-Date -Format o) }; $since = (Get-Item $stamp).LastWriteTime }
+$moved = 0; $kept = 0
 foreach ($id in $todo) {
   $src = "sprites\incoming\$id.png"
-  if (Test-Path $src) { $dst = "sprites\_replaced_redo\$id.$(Get-Date -Format yyyyMMddHHmmss).png"; Move-Item $src $dst; $moved++ } }
-Write-Host "$moved old picture(s) moved to sprites\_replaced_redo" -ForegroundColor Cyan
+  if (Test-Path $src) { if ((Get-Item $src).LastWriteTime -lt $since) { $dst = "sprites\_replaced_redo\$id.$(Get-Date -Format yyyyMMddHHmmss).png"; Move-Item $src $dst; $moved++ } else { $kept++ } } }
+Write-Host "$moved old picture(s) moved to sprites\_replaced_redo; $kept painted since this request was made are kept" -ForegroundColor Cyan
+Write-Host "(For NEW pictures use .\tools\sprites\paint.ps1 - it never moves anything.)" -ForegroundColor DarkGray
 if (-not $env:OPENAI_API_KEY) {
   $k = Read-Host 'Paste your OpenAI API key (it stays in this window only)'
   if (-not $k) { Write-Host 'No key given - stopping.'; exit 1 }
@@ -28,9 +36,9 @@ if (-not $env:OPENAI_API_KEY) {
 }
 $joined = $todo -join ','
 Write-Host "`n1/2  Sending $($todo.Count) picture(s):" -ForegroundColor Cyan
-node tools/sprites/generate.mjs --set scenery --ids $joined --concurrency 3
+node tools/sprites/generate.mjs --set scenery --ids $joined --concurrency 3 --timeout 240
 Write-Host "`n2/2  Second pass - retrying anything that failed:" -ForegroundColor Cyan
-node tools/sprites/generate.mjs --set scenery --ids $joined --concurrency 3 | Select-String 'request\(s\) to send|^Done'
+node tools/sprites/generate.mjs --set scenery --ids $joined --concurrency 3 --timeout 240 | Select-String 'request\(s\) to send|^Done'
 $line = node tools/sprites/generate.mjs --set scenery --ids $joined --dry-run | Select-Object -First 1
 if ($line -match '^0 request') { Write-Host "`nAll in. Tell Claude the redo pictures are in." -ForegroundColor Green }
 else { Write-Host "`n$line - run the same command again (it only sends what is missing)." -ForegroundColor Yellow }

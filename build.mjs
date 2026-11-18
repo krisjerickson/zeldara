@@ -127,11 +127,12 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   // The index goes into the Lab's code; the pages are copied next to the Lab (lab/preview/) and loaded from there.
   let previews = {}; try { previews = JSON.parse(r('sprites/preview/index.json')); for (const id of Object.keys(previews)) if (!incoming.includes(id)) incoming.push(id);
     fs.mkdirSync(path.join(ROOT, 'lab/preview'), { recursive: true }); for (const f of fs.readdirSync(path.join(ROOT, 'sprites/preview')).filter(f => /\.webp$/.test(f))) fs.copyFileSync(path.join(ROOT, 'sprites/preview', f), path.join(ROOT, 'lab/preview', f)); } catch (e) {}
+  let seasPrev = '{}'; try { seasPrev = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/seasart/index.json'), 'utf8'))); } catch (e) {}   // round 116: the seasonal paintings as they come in (tools/sprites/season_preview.py)
   let ssSheets = '{}'; try { ssSheets = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/series/index.json'), 'utf8'))); } catch (e) {}   // round 112: the shot series' strips (tools/video/series_preview.py)
   let sbSheets = '{}'; try { sbSheets = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/storyboards/index.json'), 'utf8'))); } catch (e) {}   // round 79b: the story frames' sheets (tools/video/storyboards.py)
   let sfxPick = '{}'; try { sfxPick = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/audio/eth.json'), 'utf8'))); } catch (e) {}   // round 81: the gentle sounds to pick from (tools/audio/eth_preview.py)
   let sfx84 = '{}'; try { sfx84 = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/audio/s84.json'), 'utf8'))); } catch (e) {}   // round 84: every take side by side (tools/audio/sfx_preview.py)
-  const labJs = minify(shared + 'var ZSCN_META=' + scnMeta + ';\n' + 'var ZSB_SHEETS=' + sbSheets + ';\n' + 'var ZSS_SHEETS=' + ssSheets + ';\n' + 'var ZSFX_PICK=' + sfxPick + ';\n' + 'var ZSFX84=' + sfx84 + ';\n' + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
+  const labJs = minify(shared + 'var ZSCN_META=' + scnMeta + ';\n' + 'var ZSB_SHEETS=' + sbSheets + ';\n' + 'var ZSS_SHEETS=' + ssSheets + ';\n' + 'var ZSEAS_PREV=' + seasPrev + ';\n' + 'var ZSFX_PICK=' + sfxPick + ';\n' + 'var ZSFX84=' + sfx84 + ';\n' + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
   if (/<\/script>/i.test(labJs)) throw new Error('Literal </script> in lab JS');
   const labRaw = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs), lab = withEngine(labRaw, ENGINE_ARG, false);
   if (process.argv.includes('--check')) {
@@ -143,7 +144,10 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   const title = labRaw.match(/<title>[\s\S]*?<\/title>/)[0];
   const head = labRaw.slice(labRaw.indexOf('</title>') + 8, labRaw.indexOf('</head>'));
   const body = labRaw.slice(labRaw.indexOf('<body>') + 6, labRaw.lastIndexOf('</body>'));
-  fs.writeFileSync(path.join(ROOT, 'lab/lab.artifact.html'), withEngine(title + head.replace(/<meta[^>]*>\s*/g, '') + body, ENGINE_ARG, true));
+  // round 116: two Labs (one artifact holds at most 256 MB) — the new half (the main Lab, with Kris's picks) and the earlier rounds (lab/src/js/99-lab-sets.js)
+  const setTag = set => '<script>var LAB_SET=' + JSON.stringify(set) + ';</script>';
+  fs.writeFileSync(path.join(ROOT, 'lab/lab.artifact.html'), withEngine(title + head.replace(/<meta[^>]*>\s*/g, '') + setTag('new') + body, ENGINE_ARG, true));
+  fs.writeFileSync(path.join(ROOT, 'lab/lab-old.artifact.html'), withEngine(title.replace(/<title>([\s\S]*?)<\/title>/, '<title>$1 — earlier rounds</title>') + head.replace(/<meta[^>]*>\s*/g, '') + setTag('old') + body, ENGINE_ARG, true));
   console.log(`✓ lab/index.html  ${(lab.length / 1024).toFixed(0)} KB  from ${labFiles.length} lab files`);
 }
 

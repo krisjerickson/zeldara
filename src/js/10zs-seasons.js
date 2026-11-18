@@ -53,6 +53,8 @@ var ZSEASON={ on:true, cur:'su', force:null, _t:0, loaded:{},
   repaint:function(ws){ try{ if(!ws||!ws._wr||typeof ZScn==='undefined')return; if(ws.wd)ws.wd.baseVer=(ws.wd.baseVer||0)+1;      /* the little map and the world map redraw their colours (21-ui _wmBase) */
       ZScn._lateV=(ZScn._lateV||0)+1; ZScn._sc={}; ZScn._scq=[]; ZScn._pat={}; if(typeof _WPC!=='undefined')_WPC={};
       if(typeof ZWP!=='undefined'&&ZWP.sendImgs)ZWP.sendImgs(); var K=[]; ws._wr.chunks.forEach(function(c,k){ K.push(k); }); if(ws._wr.parked)ws._wr.parked.forEach(function(c,k){ K.push(k); });
+      /* round 116: a chunk still being painted, or painted but not yet shown, would come out in the old season (a green strip at the edge in autumn): paint those again too */
+      ws._wr.jobs.forEach(function(J,k){ if(K.indexOf(k)<0)K.push(k); }); (ws._wr.ready||[]).forEach(function(R){ if(K.indexOf(R.key)<0)K.push(R.key); }); if(ws._wr.ready)ws._wr.ready.length=0;
       K.forEach(function(k){ var p=k.split('_'); ws._refreshChunkAt(+p[0]*WCH,+p[1]*WCH); }); ZSEASON._rn=K.length; }catch(e){ console.warn('season repaint',e); } },
   // the world starts in its season (before the first chunk is painted: WorldScene.create calls this)
   init:function(ws){ var ps=ws&&ws.playerState; ZSEASON.set(ZSEASON.of(ps)); if(ps){ var Sn=ps.seasonsSeen||(ps.seasonsSeen=[]); if(Sn.indexOf(ZSEASON.cur)<0)Sn.push(ZSEASON.cur); }
