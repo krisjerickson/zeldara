@@ -54,7 +54,7 @@ with sync_playwright() as p:
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/index.html?tabs=all"); pg.wait_for_timeout(2500)
     pg.evaluate("LTODO.goTo('trainrev','.tr-c',0)"); pg.wait_for_timeout(1500)
     t = pg.evaluate("""({cards:document.querySelectorAll('.tr-c').length, says:document.querySelectorAll('.tr-say').length, important:document.querySelectorAll('.tr-p').length, todo:LTODO.L.some(x=>x.id==='trainrev')})""")
-    check('Lab → Missing lessons: the bed lessons to check, two rules, and the mechanics never taught, each with when, who and the words (%s)' % t, t['cards'] >= 20 and t['says'] >= 18 and t['todo'], t)
+    check('Lab → Missing lessons: the bed lessons to check, two rules, and the mechanics never taught, each with when, who and the words (%s)' % t, t['cards'] >= 20 and t['says'] >= 18 and (t['todo'] or 'trainrev' in pg.evaluate('LTODO.RETIRED')), t)      # round 117: picked, so retired from the asks
     pg.locator('.tr-c').nth(3).screenshot(path='/tmp/claude-0/lab_train.png')
     pg.evaluate("LTODO.goTo('series','.ss-tops',0)"); pg.wait_for_timeout(1500)
     s = pg.evaluate("""({next:!!document.querySelector('.ss-next'), opening:ZSS.AUTO.some(r=>r.scene==='opening'), cmd:[].slice.call(document.querySelectorAll('.ss-planT code')).slice(0,1).map(c=>c.textContent)[0]})""")

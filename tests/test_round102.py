@@ -61,7 +61,7 @@ with game(painted=True, w=1280, h=720) as g:
     fr=[d for d in tb['kit']['def'] if d['name']=='front']
     check('Shield-wall dwarves: blows from the front now get 30 %% through (%s)' % fr, fr and fr[0]['p']['red'] == 0.7, tb['kit'])
     g.key('Escape', 50); g.wait(300)
-    sp2 = g.js("""(()=>{ var ws=%s, s=(ws.wd._shrines||[]).find(x=>x.q===1); ZSPIRIT.free(ws,s); var ft=document.getElementById('fairy-talk'); return {dlg:!!(ZDLG.open&&ZDLG.cur), old:!!(ft&&ft.style.display!=='none'&&ft.isConnected), pic:!!document.querySelector('#zdlg .zd-pic canvas'), txt:(document.querySelector('#zdlg .zd-name')||{}).textContent}; })()""" % WS)
+    sp2 = g.js("""(()=>{ var ws=%s, s=(ws.wd._shrines||[]).find(x=>x.q===1); if(window.ZCALMBOX)ZCALMBOX.userT=Date.now(); ZSPIRIT.free(ws,s); var ft=document.getElementById('fairy-talk'); return {dlg:!!(ZDLG.open&&ZDLG.cur), old:!!(ft&&ft.style.display!=='none'&&ft.isConnected), pic:!!document.querySelector('#zdlg .zd-pic canvas'), txt:(document.querySelector('#zdlg .zd-name')||{}).textContent}; })()""" % WS)
     g.wait(1500)
     check('A freed spirit thanks you in the dialogue box, its painted face beside the words (%s)' % sp2, sp2['dlg'] and not sp2['old'] and sp2['pic'], sp2)
     g.js("(()=>{ if(ZDLG.cur){ ZDLG._q=[]; ZDLG.cur.close(); } })()"); g.wait(300)

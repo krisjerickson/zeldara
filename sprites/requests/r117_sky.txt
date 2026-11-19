@@ -1,0 +1,5 @@
+# round 117 - the four sky guardians (the sky ports' bosses): wings up, wings down, enraged
+sc_sky_guard_1
+sc_sky_guard_2
+sc_sky_guard_3
+sc_sky_guard_4

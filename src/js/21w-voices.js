@@ -31,7 +31,7 @@ var ZVOICE={ on:true, V:{"oswin": {"who": "Master Oswin", "pick": "The legend wh
   // and used while it has business: Runa during the first walk, Nell while her net is out
   wire:function(ws){ (ws._villageNPCs||[]).forEach(function(n){ var k=ZVOICE.KEY[n.id]; if(!k)return; if(n.talk&&n.talk._zv)return;
       var own=n.talk||null; n._zv=1; n.talk=function(sc){ var ps=ws.playerState, T=typeof ZOSW!=='undefined'?ZOSW.tq(ps):{};
-        if(n._walk&&own)return own(sc); if(k==='nell'&&own&&(T.net===1||T.net===2))return own(sc); if(typeof ZNPCQ!=='undefined'&&ZNPCQ.talk(ws,k))return; if(own&&k!=='nell'&&!ZVOICE.V[k])return own(sc); ZVOICE.talkVF(ws,n); };
+        if(n._walk&&own)return own(sc); if(k==='nell'&&(T.net===1||T.net===2)&&typeof ZOSW!=='undefined')return ZOSW.nell(ws);      /* round 117 (Kris: "finding fisher net didn't give me the gold"): Nell's net business goes straight to Oswin's code — it used to depend on Oswin's tick having set her talk first, which a story cut-scene waiting could hold back */ if(typeof ZNPCQ!=='undefined'&&ZNPCQ.talk(ws,k))return; if(own&&k!=='nell'&&!ZVOICE.V[k])return own(sc); ZVOICE.talkVF(ws,n); };
       n.talk._zv=1; n.talk._own=own; }); },
   // Bram, Dunn and Vela come home
   FOLK:[{id:'zv_bram',ch:'crafts_1',k:'bram',near:'green',dx:-4,dy:2},{id:'zv_dunn',ch:'crafts_3',k:'dunn',b:'forge'},{id:'zv_vela',ch:'crafts_4',k:'vela',near:'pier',dx:0,dy:-2}],

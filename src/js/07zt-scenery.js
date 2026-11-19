@@ -894,7 +894,7 @@ var ZSCN={
     var lay=one?'Layout: the object alone, centred, filling most of the image with a clear margin all round.\n':
       'Layout: exactly '+n+(tex?' swatches':' objects')+' in a grid of '+S.cols+' columns × '+S.rows+' rows, evenly spaced, in this order (left to right, top row first)'+(n<S.cols*S.rows?'; the last '+(S.cols*S.rows-n)+' cell(s) stay empty':'')+':\n';
     var list=S.items.map(function(it,i){ return (one?'Subject: ':(i+1)+'. ')+it[1]+' — '+it[2]+(tex||S.kind==='icon'?'':S.kind==='flat'?' (about '+(Math.round(Math.max(it[3],it[4])/63*10)/10)+'× the hero\'s height across)':' ('+ZSCN.rel(it[4])+')')+'.'; }).join('\n');
-    return head+lay+list+'\n'+ZSCN.VIEW[S.kind]; },
+    return head+lay+list+'\n'+(S.view||ZSCN.VIEW[S.kind]); },      /* round 117: a sheet may give its own view (the sky guardians, seen from below) */
   // a size in words, relative to the hero (63 px)
   rel:function(h){ var k=h/63; return k<0.35?'a small item, under half the hero\'s height':k<0.8?'about '+(Math.round(k*10)/10)+'× the hero\'s height':k<1.25?'about as tall as the hero':'about '+(Math.round(k*10)/10)+'× the hero\'s height'; },
   requests:function(){ return ZSCN.SHEETS.map(function(S){ var a=S.refs?null:ZSCN.anchor(S.fam), anc=a&&a!==S.id&&S.kind!=='tex'?a:null, T=Object.assign({},S,{anchorRef:!!anc});

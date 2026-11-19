@@ -155,7 +155,7 @@ MX.onHp=function(mon,v){ var m=mon._m, old=mon._hp, d=old-v; if(!m||d<=0){ mon._
   if(d>0&&mon.bars&&MX._barHit)d=MX._barHit(mon,d,kind,say);
   d=Math.round(d*10)/10; var nv=old-d;
   if(nv<=0){ var rv=defs.find(function(D){ return D.name==='revive'; });
-    if(rv&&!m.revived){ m.revived=true; m.down=rv.p.t||5; mon._hp=1; mon.cont.setAlpha(0.55); say('…it will rise again','#e0d8c0'); MX.ev(mon,'def_revive_down'); return; } }
+    if(rv&&!m.revived&&!MX.bossy(mon)){ m.revived=true; m.down=rv.p.t||5; mon._hp=1; mon.cont.setAlpha(0.55); say('…it will rise again','#e0d8c0'); MX.ev(mon,'def_revive_down'); return; } }
   mon._hp=nv;
   if(mon._hp>0){ defs.forEach(function(D){ if(D.name==='enrage'&&!m.enraged&&mon._hp<mon.maxHp*0.5){ m.enraged=true; say('ENRAGED!','#ff6040'); MX.ev(mon,'def_enrage'); } if(D.name==='flee'&&mon._hp<mon.maxHp*0.25){ m.flee=true; } }); }
   else if(sc&&A) MX.onDeath(A,mon);
@@ -210,10 +210,10 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
       if((AT.want?AT.want(A,mon,m,P,dist,a.p):dist<=(a.p.r||(AT.range||40)))&&(MX.NO_LOS[a.name]||sees())){ m.busy={a:a,key:key,t:0,phase:'wind',wind:(a.p.wind!==undefined?a.p.wind:(AT.wind||0.3))*(mon.isBoss?ZDiff.cur().tele*MX.bossRate(mon):1),cdk:mon.isBoss?ZDiff.cur().every*MX.bossRate(mon):1,moveOk:!!AT.moveOk}; if(AT.start)AT.start(A,mon,m,P,a.p); MX.ev(mon,'atk_'+a.name); break; } } }
   // passive defences
   k.def.forEach(function(D){ var p=D.p;
-    if(D.name==='regen'){ var onT=!p.on||(p.on==='water'&&A.isWater(mon.x,mon.y+8))||(p.on==='lava'&&A.isLava(mon.x,mon.y+8))||(p.on==='mud'); if(onT&&mon._hp<mon.maxHp){ mon._hp=Math.min(mon.maxHp,mon._hp+(p.r||1)*dt*mon.maxHp*0.02); } }
+    if(D.name==='regen'){ var onT=!p.on||(p.on==='water'&&A.isWater(mon.x,mon.y+8))||(p.on==='lava'&&A.isLava(mon.x,mon.y+8))||(p.on==='mud'); if(onT&&mon._hp<mon.maxHp&&!MX.bossy(mon)){ mon._hp=Math.min(mon.maxHp,mon._hp+(p.r||1)*dt*mon.maxHp*0.02); }      /* round 117 (Kris: "let's remove boss healing"): bosses never heal */ }
     if(D.name==='aura'&&dist<(p.r||40)&&sees()){ m.auraT=(m.auraT||0)-dt; if(m.auraT<=0){ m.auraT=1; A.hurt(mon.def.atk*(p.m||0.25),'',p.col||'#ff9060',true); if(p.st)MX.status(A,p.st,p.t||2,p.v); MX.ev(mon,'def_aura'); } }
     if(D.name==='lure'&&m.aggro&&!m.hidden&&dist<(p.r||160)&&dist>30&&sees()){ var l=dist||1; if(MX.canPull(A))MX.push(A,-dx/l,-dy/l,(p.str||2)*dt*(mon.isBoss?9:14));      /* round 84c: a roll slips it; a boss's lure is gentler */ m.lureT=(m.lureT===undefined?1:m.lureT)+dt; if(m.lureT>=1){ m.lureT=0; A.float(P.x,P.y-40,'drawn in…','#c0f0ff'); MX.ev(mon,'hit'); MX.ev(mon,'def_lure'); } }
-    if(D.name==='heal'){ m.healT=(m.healT||0)-dt; if(m.healT<=0){ m.healT=p.cd||4; A.list().forEach(function(o){ if(o!==mon&&!o.dead&&Math.hypot(o.x-mon.x,o.y-mon.y)<(p.r||160)&&o.hp<o.maxHp){ o._hp=Math.min(o.maxHp,o._hp+o.maxHp*(p.a||0.2)); MX.fxRing(A,o.x,o.y,18,'#ffe070'); MX.ev(mon,'def_heal'); } }); } }
+    if(D.name==='heal'){ m.healT=(m.healT||0)-dt; if(m.healT<=0){ m.healT=p.cd||4; A.list().forEach(function(o){ if(o!==mon&&!o.dead&&!MX.bossy(o)&&Math.hypot(o.x-mon.x,o.y-mon.y)<(p.r||160)&&o.hp<o.maxHp){ o._hp=Math.min(o.maxHp,o._hp+o.maxHp*(p.a||0.2)); MX.fxRing(A,o.x,o.y,18,'#ffe070'); MX.ev(mon,'def_heal'); } }); } }
   });
   MX.anim(A,mon,m,dt,dx);
 };
@@ -302,6 +302,8 @@ MX.MOVE={
     if(!m.aggro)return MX.wander(A,mon,m,dt,spd); if((m.cd.roll||0)<=0&&d<260){ m.cd.roll=p.cd||3.5; m.rl={t:0,b:0,a:Math.atan2(P.y-mon.y,P.x-mon.x)}; MX.ev(mon,'mv_roll'); } else if(d>60)MX.step(A,mon,Math.atan2(P.y-mon.y,P.x-mon.x),spd*0.5,dt); }
 };
 MX.MOVE.float=MX.MOVE.drift;
+/* round 117 (Kris: "let's remove boss healing. it's too powerful"): a boss never mends — no regen, no drain-heal, no healer's touch, no second rising */
+MX.bossy=function(m){ return !!(m&&(m.isBoss||m.bossKey||(m.def&&m.def.boss))); };
 MX.DEF={spiritward:1,mirror:1,nullaura:1,resist:1,lure:1,front:1,reflect:1,immune:1,armor:1,dodge:1,tiny:1,thorns:1,bubble:1,weak:1,revive:1,enrage:1,flee:1,split:1,explode:1,regen:1,aura:1,heal:1};
 // ── visuals: telegraphs & small effects ───────────────────────────────
 MX.fx=function(A){ var s=A.scene; return s._mxFx||(s._mxFx={proj:[],zones:[],marks:[],tele:[],teth:[],walls:[],traps:[]}); };
@@ -374,7 +376,7 @@ MX.ATK={
   cloud:{range:200,wind:0.4,cd:5,fire:function(A,mon,m,P,p){ var self=p.at==='self', x=self?mon.x:P.x, y=self?mon.y:P.y; MX.zone(A,{x:x,y:y,r:p.rad||50,t:p.dur||4,st:p.st||'slow',v:p.v,dps:p.dps?mon.def.atk*p.dps:0,src:mon}); }},
   drain:{range:170,wind:0.5,cd:5,moveOk:true,fire:function(A,mon,m,P,p,b){ b.g=A.scene.add.graphics().setDepth(A.depth(mon.y)+1); b.acc=0; },
     act:function(A,mon,m,P,p,b,dt){ var d=Math.hypot(P.x-mon.x,P.y-mon.y); b.g.clear(); if(d>(p.r||170)+30||b.t>(p.dur||3)||!MX.sees(A,mon,P.x,P.y)){ b.g.destroy(); return true; } b.g.lineStyle(3,MX.col(p.col||'#c04060'),0.8); b.g.lineBetween(mon.x,mon.y-6,P.x,P.y-10);
-      b.acc+=dt; if(b.acc>=0.5){ b.acc=0; if(A.hurt(mon.def.atk*(p.m||0.25),'drain','#c04060',true)){ mon._hp=Math.min(mon.maxHp,mon._hp+mon.def.atk*(p.m||0.25)); MX.ev(mon,'hit'); } } return false; }},
+      b.acc+=dt; if(b.acc>=0.5){ b.acc=0; if(A.hurt(mon.def.atk*(p.m||0.25),'drain','#c04060',true)){ if(!MX.bossy(mon))mon._hp=Math.min(mon.maxHp,mon._hp+mon.def.atk*(p.m||0.25)); MX.ev(mon,'hit'); }      /* round 117: a boss's drain still hurts, but no longer heals it */ } return false; }},
   strike:{range:320,wind:0,cd:0.5,want:function(A,mon,m,P,d,p){ var S=MX.S(A.scene); return d<=(p.r||320)&&S.still>=(p.still||1.5); },fire:function(A,mon,m,P,p){ var S=MX.S(A.scene); S.still=0; var x=P.x, y=P.y; MX.tele.circle(A,x,y,22,p.col||'#ffff80',0.45); A.scene.time.delayedCall(450,function(){ if(mon.dead)return; var g=A.scene.add.rectangle(x,y-60,4,120,MX.col(p.col||'#ffff80'),0.9).setDepth(A.depth(y)+3); A.scene.tweens.add({targets:g,alpha:0,duration:250,onComplete:function(){ g.destroy(); }}); var P2=A.p(); if(Math.hypot(P2.x-x,P2.y-y)<24)MX.hitP(A,mon,p,1.2,'⚡','#ffff80'); }); }},
   marks:{range:260,wind:0.3,cd:4.5,fire:function(A,mon,m,P,p){ var n=p.n||5; for(var i=0;i<n;i++){ var x=P.x+(i?(Math.random()-0.5)*(p.spread||140):0), y=P.y+(i?(Math.random()-0.5)*(p.spread||140):0); MX.tele.circle(A,x,y,p.rad||22,p.col||'#ff6040',(p.delay||1.2)+i*(p.seq||0));
       (function(x,y,i){ A.scene.time.delayedCall(((p.delay||1.2)+i*(p.seq||0))*1000,function(){ if(mon.dead)return; MX.fxRing(A,x,y,p.rad||22,p.col||'#ff9040'); var P2=A.p(); if(Math.hypot(P2.x-x,P2.y-y)<(p.rad||22)+6){ A.setIfr(0); MX.hitP(A,mon,p,1); } if(p.zone)MX.zone(A,{x:x,y:y,r:p.rad||22,t:p.zt||3,st:p.zone,src:mon}); }); })(x,y,i); } }},

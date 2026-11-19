@@ -119,6 +119,9 @@ document.addEventListener('keydown',function(e){
   if(_isTyping())return;
   if(!game||!game.scene||game.scene.isActive('Title')||game.scene.isActive('Boot'))return;
   var k=(e.key||'').toLowerCase();
+  /* round 117 (Kris: "skyport battles don't allow you to use the sky bombs"): the sky port reads its own keys (X sky bomb, Alt roll, Shift
+     shield). This handler runs first and marked X and Alt as handled, and Phaser skips any key already marked, so the bomb and the roll never fired. */
+  if(game.scene.isActive('Sky'))return;
 
   // Alt (round 45): roll — Fn never reaches a web page. Alt is held back from the browser so its menu bar does not open.
   if(e.key==='Alt'){ e.preventDefault(); if(!_openOverlays().length&&!(typeof _PAUSE!=='undefined'&&_PAUSE.active)){ var _rs=_activePlayScene(false); if(_rs&&typeof ZROLL!=='undefined'&&(_isOverworld(_rs)||_rs.sys.settings.key==='Dungeon'))ZROLL.go(_rs); } return; }

@@ -11,10 +11,13 @@
 // ║   • Painted where the pictures exist: the hero's sky ship, the realm's painted flying monsters, floating islands, the sky dock; the new sky
 // ║     sheets (wave 47, sk_*: backdrops, galleons, bunkers, wingman, power-ups, explosions) are used as soon as they are in; until then they are drawn.
 // ═══════════════════════════════════════════════════════════════════════
+var _skyPh2=function(B){ return B.hp<B.maxHp*0.5; };
 var SKY={
   BG:{1:['#7ec8f0','#e6f6ff','#ffe9b0'],2:['#5f9fb8','#cfe6e2','#e8f0e0'],3:['#33508f','#a9c2ea','#e8eeff'],4:['#2e1626','#d0603e','#ffd08a']},
   FLY:/bird|bat|moth|wasp|wisp|fly|kite|sylph|spirit|harpy|wing|drake|gull|crow|owl|heron|phoenix|wyvern|imp|sprite|djinn|gargoyle/,
-  ROWS:[[4,9],[4,10],[5,10],[5,11]], MOTHER:{1:'mt_sky_glider',2:'mt_storm_drake',3:'mt_ember_phoenix',4:'mt_void_serpent'},
+  ROWS:[[4,9],[4,10],[5,10],[5,11]],
+  /* round 117: each realm's sky guardian (painted in sc_sky_guardians; tint for the stand-in until then) */
+  GUARD:{1:{name:'The Gale Roc',tint:0xbfffd0},2:{name:'The Mist Heron-Wyrm',tint:0xbfe8ff},3:{name:'The Thunder Gryphon',tint:0xd8e0ff},4:{name:'The Ember Wyvern',tint:0xffc0a0}}, BOSS_HP:1, MOTHER:{1:'mt_sky_glider',2:'mt_storm_drake',3:'mt_ember_phoenix',4:'mt_void_serpent'},
   // the realm's flyers (painted roster monsters) for the formation
   flyers:function(q){ var L=(typeof MON_ROSTER!=='undefined'?MON_ROSTER:[]).filter(function(R){ var pl=(R.spec&&R.spec.plan)||''; return R.q===q&&(SKY.FLY.test(R.id)||SKY.FLY.test(String(pl))); });
     if(L.length<3)L=(typeof MON_ROSTER!=='undefined'?MON_ROSTER:[]).filter(function(R){ return R.q===q; }).slice(0,6); return L; }
@@ -97,16 +100,23 @@ class SkyScene extends Phaser.Scene{
     cont.add(im); return {cont:cont,im:im,R:R,x:x,y:y,h:h,t:Math.random()*3,dead:false}; }
   _banner(t){ var b=domText(this,this.W/2,this.H*0.42,t,{fontSize:'26px',color:'#ffe9a8',fontFamily:'"Cinzel",Georgia,serif',stroke:'#000',strokeThickness:5}).setOrigin(.5).setDepth(40); this.tweens.add({targets:b,alpha:0,delay:1300,duration:600,onComplete:function(){ b.destroy(); }}); }
   // ── the guardian (wave 5): a great painted beast that sweeps and fires fans of shots ──
-  _boss(){ this.bossOn=true; var id=SKY.MOTHER[this.sec], R={id:id}, e=this._mkEnemy(null,this.W/2,110,90), Z=null;
-    if(typeof ZAtlas!=='undefined'){ try{ e.im.destroy(); var im=this.add.image(0,0,'__DEFAULT').setOrigin(0.5,0.6); if(ZAtlas.simple(im,id,['ride_side','move','idle'],'x',0,6,true,ZAtlas.kHeight(id,120))){ e.cont.removeAll(); e.cont.add(im); e.im=im; } else { im.destroy(); e.cont.add(e.im=this.add.text(0,0,'🐉',{fontSize:'80px'}).setOrigin(0.5)); } }catch(err){} }
-    e.boss=true; e.hp=e.maxHp=180+this.sec*90+(this.ps.level||1)*6; e.t=0; e.bar=this.add.rectangle(this.W/2,52,this.W*0.5,8,0xff5040).setDepth(30); e.barBg=this.add.rectangle(this.W/2,52,this.W*0.5,8,0x101010,0.7).setDepth(29);
-    this.enemies=[e]; this._banner('The Sky Guardian!'); }
+  _boss(){ this.bossOn=true; var self=this, sec=this.sec, G=SKY.GUARD[sec]||SKY.GUARD[1], Z=typeof ZScn!=='undefined'?ZScn:null, e;
+    /* round 117 (Kris: "skyport boss is too difficult. it also does not show up in the game visually, we might need to develop new sprites"):
+       the guardian was a mount's riding pictures, loaded once and never shown. Now: its own painting (sc_sky_guardians, sk_gd_<realm>_a/_b/_c —
+       wings up, wings down, enraged), and until that is in, the realm's biggest flyer drawn large and tinted. */
+    var fr=['a','b','c'].map(function(x){ var id='sk_gd_'+sec+'_'+x, t=Z&&Z.has&&Z.has(id)&&Z.texture(self,id,170,{shadow:false}); return t&&t.key; });
+    if(fr[0]){ var cont=this.add.container(this.W/2,110).setDepth(8), im=this.add.image(0,0,fr[0]); cont.add(im); e={cont:cont,im:im,x:this.W/2,y:110,h:150,t:0,dead:false,_fr:fr}; }
+    else { var R=this.FLY[this.FLY.length-1]||this.FLY[0]; e=this._mkEnemy(R,this.W/2,110,110); if(e.im&&e.im.setTint)e.im.setTint(G.tint); if(e.im&&e.im.type==='Text')e.im.setText('🐉').setFontSize(90); }
+    e.boss=true; e.name=G.name; e.hp=e.maxHp=Math.round((100+sec*45+(this.ps.level||1)*3)*(SKY.BOSS_HP||1)); e.t=0;
+    e.bar=this.add.rectangle(this.W/2,52,this.W*0.5,8,0xff5040).setDepth(30); e.barBg=this.add.rectangle(this.W/2,52,this.W*0.5,8,0x101010,0.7).setDepth(29);
+    if(this.bombs<2){ this.bombs=2; showNotif('💣 The port crews hand up fresh sky bombs — X to drop one','#bff6ff'); }
+    this.enemies=[e]; this._banner(G.name+'!'); this._hudUp(); }
   // ── skills ──
   _roll(){ if(this.done||this.cd.roll>0)return; var dir=(this.keys.A.isDown||this.keys.LEFT.isDown)?-1:(this.keys.D.isDown||this.keys.RIGHT.isDown)?1:(this.rollDir||1); this.rollT=0.32; this.rollDir=dir; this.cd.roll=1.1; this.iT=Math.max(this.iT,0.45);
     this.tweens.add({targets:this.plCont,angle:dir*360,duration:320,onComplete:(function(c){ return function(){ c.angle=0; }; })(this.plCont)}); }
   _shield(){ if(this.done||this.cd.shield>0)return; this.shieldT=2.6; this.cd.shield=12; this.shieldVis.setVisible(true); this._hudUp(); }
   _bomb(){ if(this.done||this.bombs<=0)return; this.bombs--; var self=this; this.cameras.main.flash(260,255,250,220); this.eshots.forEach(function(s){ s.vis.destroy(); if(s.streak)s.streak.destroy(); }); this.eshots=[];
-    this.enemies.forEach(function(e){ if(!e.dead)self._hit(e,e.boss?25:6+self.waveNum*2); }); this._hudUp(); }
+    this.enemies.forEach(function(e){ if(!e.dead)self._hit(e,e.boss?Math.max(25,Math.round(e.maxHp*0.12)):6+self.waveNum*2); }); this._hudUp(); }
   _fire(charged){ var self=this, n=this.buff.tri>0?3:1, dmg=this.shipDmg*(charged?4:1);
     for(var i=0;i<n;i++){ var a=-Math.PI/2+(n>1?(i-1)*0.18:0); self._shot(self.px,self.py-22,a,dmg,charged); }
     this.wing.forEach(function(w){ self._shot(w.x,w.y-10,-Math.PI/2,Math.max(1,dmg*0.4),false); }); }
@@ -127,7 +137,7 @@ class SkyScene extends Phaser.Scene{
     else if(d.k==='wing'){ this.buff.wing=15; if(!this.wing.length)[-1,1].forEach(function(s){ var Z=typeof ZScn!=='undefined'?ZScn:null, t=Z&&Z.has('sk_drone')&&Z.texture(self,'sk_drone',22,{shadow:false}), v=t?self.add.image(0,0,t.key).setDepth(10):self.add.triangle(0,0,0,-8,-7,6,7,6,0xbff6ff).setDepth(10); self.wing.push({s:s,x:self.px,y:self.py,vis:v}); }); }
     showNotif({tri:'🔱 Triple shot!',rapid:'⚡ Rapid fire!',wing:'🕊️ Wingmen!',shield:'🛡️ Wind shield!',bomb:'💣 +1 sky bomb',heal:'💚 The port is patched up'}[d.k],'#bff6ff'); this._hudUp(); }
   _gainXp(n){ this.shipXp+=n; var need=this._xpForLevel(this.shipLevel); if(this.shipXp>=need){ this.shipXp-=need; this.shipLevel++; this.shipDmg=this.shipBaseDmg+this.shipLevel; this._banner('Ship level '+this.shipLevel+'!'); } this._hudUp(); }
-  _hudUp(){ if(!this.hud)return; this.hud.setText(this.bossOn?'The Sky Guardian':'Wave '+this.waveNum+' / '+this._totalWaves+'   ·   score '+this.score+(this.combo>=5?'  ×'+Math.min(5,1+Math.floor(this.combo/5)):''));
+  _hudUp(){ if(!this.hud)return; this.hud.setText(this.bossOn?((this.enemies[0]&&this.enemies[0].name)||'The Sky Guardian'):'Wave '+this.waveNum+' / '+this._totalWaves+'   ·   score '+this.score+(this.combo>=5?'  ×'+Math.min(5,1+Math.floor(this.combo/5)):''));
     this.hudL.setText('Ship Lv '+this.shipLevel+' · shot '+this.shipDmg+'   '+'♥'.repeat(Math.max(0,this.lives)));
     this.hudR.setText('💣 '+this.bombs+'   🛡 '+(this.cd.shield>0?Math.ceil(this.cd.shield)+'s':'ready')+(this.buff.tri>0?'   🔱':'')+(this.buff.rapid>0?'   ⚡':'')+(this.buff.wing>0?'   🕊️':''));
     var pct=Math.max(0,this.cityHp/this.cityMaxHp); this.cityBar.width=(this.W-40)*pct; this.cityBar.setFillStyle(pct>0.6?0x44ff88:pct>0.3?0xffaa00:0xff3322); }
@@ -169,7 +179,9 @@ class SkyScene extends Phaser.Scene{
     if(this._mother){ var M=this._mother; if(M.dead)this._mother=null; else { M.cont.x+=M.dir*120*dt; if(M.cont.x<-80||M.cont.x>W+80){ M.dead=true; M.cont.destroy(); this._mother=null; } } }
     // the guardian
     if(this.bossOn){ var B=this.enemies[0]; if(B&&!B.dead){ B.t+=dt; B.cont.setPosition(W/2+Math.sin(B.t*0.6)*W*0.33,110+Math.sin(B.t*1.3)*24); this._bfT=(this._bfT||1.5)-dt;
-      if(this._bfT<=0){ var ph=B.hp<B.maxHp*0.5; this._bfT=ph?0.9:1.4; var a0=Math.atan2(this.py-B.cont.y,this.px-B.cont.x), n=ph?7:5; for(var q=0;q<n;q++)this._eshot(B.cont.x,B.cont.y+30,a0+(q-(n-1)/2)*0.16,220,true); } } }
+      if(this._bfT<=0){ var ph=B.hp<B.maxHp*0.5; this._bfT=ph?1.3:1.9; var a0=Math.atan2(this.py-B.cont.y,this.px-B.cont.x), n=ph?5:3; for(var q=0;q<n;q++)this._eshot(B.cont.x,B.cont.y+30,a0+(q-(n-1)/2)*0.24,170,true); }      /* round 117 (Kris: "too difficult"): fans of 3 / 5 (were 5 / 7), every 1.9 / 1.3 s (1.4 / 0.9), slower shots with wider gaps */
+      if(B._fr){ var fi=_skyPh2(B)?(Math.floor(B.t*5)%2?2:0):(Math.floor(B.t*4)%2); if(!B._fr[fi])fi=Math.floor(B.t*4)%2; if(B._fi!==fi&&B._fr[fi]){ B._fi=fi; B.im.setTexture(B._fr[fi]); } }
+      else if(B.im&&B.im._zch&&typeof ZAtlas!=='undefined'){ try{ ZAtlas.simple(B.im,B.im._zch,['move','idle','fly','walk'],'x',B.t,8,true,B.im._zk); }catch(err){} } } }
     // enemy shots
     this.eshots=this.eshots.filter(function(s){ s.x+=s.vx*dt; s.y+=s.vy*dt; s.vis.setPosition(s.x,s.y); if(s.y>H+20||s.x<-20||s.x>W+20){ s.vis.destroy(); if(s.streak)s.streak.destroy(); return false; }
       for(var j=0;j<self.bunkers.length;j++){ var c=self.bunkers[j]; if(c.hp>0&&Math.abs(s.x-c.x)<9&&Math.abs(s.y-c.y)<9){ c.hp--; if(c.bank)self._bankWear(c.bank); else c.vis.setAlpha(0.3+c.hp*0.22); if(c.hp<=0)c.vis.setVisible(false); s.vis.destroy(); if(s.streak)s.streak.destroy(); return false; } }
