@@ -38,8 +38,9 @@ var ZSEASON={ on:true, cur:'su', force:null, _t:0, loaded:{},
   // ── trees, bushes, flowers, edge pieces: their seasonal painting when it is in, else tinted ──
   VEGID:/^(tr_(round|blossom|willow|mangrove_a|cypress|pine_a|pine_b|drowned)|pl_(bush|bush_berry|bush_flower|flowers|tuft|tallgrass|fern|reeds|cattails|lilypad|heather|vine|wheat|corn|crop|hedge|topiary|trellis)|ed_(tuft_a|tuft_b|reeds|cattails|cliff_grass|log_mossy|rock_mossy|wildflowers|iris|ivy|moss_patch|clover|fern|bramble|heather|dune_grass|alpine_flowers|lily))/,
   F:{sp:'hue-rotate(10deg) saturate(0.85) brightness(1.05)',au:'sepia(0.4) hue-rotate(-34deg) saturate(1.3) brightness(0.97)',wi:'saturate(0.42) brightness(1.09) contrast(0.95)',bl:'saturate(1.1) brightness(1.03)'},
-  item:function(id){ var s=ZSEASON.cur; if(!ZSEASON.on||s==='su'||!ZSEASON.VEGID.test(id)||/_(sp|au|wi)$/.test(id))return null; var A=ZSEASON.S[s].art;
-    if(A&&typeof ZScn!=='undefined'&&ZScn.has(id+'_'+A))return {id:id+'_'+A}; return {id:id,f:ZSEASON.F[s]}; },
+  item:function(id){ var s=ZSEASON.cur; if(!ZSEASON.on||s==='su'||/_(sp|au|wi)$/.test(id))return null; var A=ZSEASON.S[s].art;
+    if(A&&typeof ZScn!=='undefined'&&ZScn.has(id+'_'+A))return {id:id+'_'+A};      /* round 118: anything with a seasonal painting uses it (wave S2: the village's buildings and props) */
+    if(!ZSEASON.VEGID.test(id))return null; return {id:id,f:ZSEASON.F[s]}; },
   // the painted ground marks: the seasonal sheet's when it is in
   TEX:/^tx_(grass|grass_wild|grass_village|moss|heath|marsh|dirt|mud|soil)$/,
   tex:function(id){ var A=ZSEASON.on&&ZSEASON.S[ZSEASON.cur]&&ZSEASON.S[ZSEASON.cur].art; if(!A||!ZSEASON.TEX.test(id)||typeof ZScn==='undefined')return id; var a=id+'_'+A; return ZScn.timg[a]?a:id; },

@@ -203,7 +203,9 @@ MX.tick=function(scene,mon,dt){ var A=MX.A(scene), m=mon._m, k=mon.kit, P=A.p(),
   else if(!m.busy||m.busy.moveOk){ if(m.flee&&m.aggro){ MX.step(A,mon,Math.atan2(-dy,-dx),spd*1.2,dt); }
     else (MX.MOVE[k.move.name]||MX.MOVE.chase)(A,mon,m,P,dist,dt,spd,k.move.p); }
   // face the player (shield monsters turn slowly)
-  var want=Math.atan2(dy,dx), turn=k.def.some(function(D){ return D.name==='front'; })?1.8:12, dd=Math.atan2(Math.sin(want-m.face),Math.cos(want-m.face)); m.face+=Math.max(-turn*dt,Math.min(turn*dt,dd));
+  var want=Math.atan2(dy,dx), fr=k.def.some(function(D){ return D.name==='front'; }), turn=fr?MX.TURN.track:12, dd=Math.atan2(Math.sin(want-m.face),Math.cos(want-m.face));
+  if(fr){ if(Math.abs(dd)>MX.TURN.arc){ m.behindT=(m.behindT||0)+dt; turn=m.behindT<MX.TURN.wait?0:MX.TURN.slow; } else m.behindT=0; }      /* round 119 (Kris): a shield monster you get behind is slow to turn round: it waits a moment, then turns slowly */
+  m.face+=Math.max(-turn*dt,Math.min(turn*dt,dd));
   // attacks
   if(m.busy){ MX.runAtk(A,mon,m,P,dist,dt); }
   else if(m.aggro&&!m.hidden&&!(A.world&&getTileSection(Math.floor(P.x/TILE),Math.floor(P.y/TILE))===0)){ for(var i=0;i<k.atk.length;i++){ var a=k.atk[i], AT=MX.ATK[a.name], key=a.name+i; if((m.cd[key]||0)>0)continue;
@@ -304,6 +306,7 @@ MX.MOVE={
 MX.MOVE.float=MX.MOVE.drift;
 /* round 117 (Kris: "let's remove boss healing. it's too powerful"): a boss never mends — no regen, no drain-heal, no healer's touch, no second rising */
 MX.bossy=function(m){ return !!(m&&(m.isBoss||m.bossKey||(m.def&&m.def.boss))); };
+MX.TURN={track:1.8,arc:1.1,wait:0.5,slow:0.85};      /* round 119: front-guard turning: tracking speed in front, the out-of-front arc, the pause and the slow turn (rad/s) */
 MX.DEF={spiritward:1,mirror:1,nullaura:1,resist:1,lure:1,front:1,reflect:1,immune:1,armor:1,dodge:1,tiny:1,thorns:1,bubble:1,weak:1,revive:1,enrage:1,flee:1,split:1,explode:1,regen:1,aura:1,heal:1};
 // ── visuals: telegraphs & small effects ───────────────────────────────
 MX.fx=function(A){ var s=A.scene; return s._mxFx||(s._mxFx={proj:[],zones:[],marks:[],tele:[],teth:[],walls:[],traps:[]}); };

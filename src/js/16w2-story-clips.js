@@ -22,7 +22,8 @@ var ZSC={ on:true,
     F.forEach(function(f){ var w=f.split(' '); if(w.length>9){ var h=Math.ceil(w.length/2); out.push(w.slice(0,h).join(' ')); out.push(w.slice(h).join(' ')); } else out.push(f); }); return out; },
   // the part of a montage that plays frame fid ('sb:<scene>:<frame id>'), or null
   seg:function(fid){ if(!ZSC.on)return null; var p=String(fid).split(':'), C=ZSC.CLIPS[p[1]]; if(!C)return null; var m=/_(\d+)(?:_[mf])?$/.exec(p[2]||''); if(!m)return null; var n=+m[1];
-    for(var i=0;i<C.length;i++){ var c=C[i]; if(n<c.from||n>c.to)continue; var src=typeof ZVID!=='undefined'&&ZVID.src(c.vid); if(!src)return null; var k=n-c.from; return {src:src,a:c.cuts[k],b:c.cuts[k+1],k:k}; }
+    var hf=null; try{ var ws=game.scene.getScene('World'); hf=ws&&ws.playerState&&ws.playerState.hero==='f'?'f':'m'; }catch(e){}
+    for(var i=0;i<C.length;i++){ var c=C[i]; if(n<c.from||n>c.to)continue; if(c.hero&&hf&&c.hero!==hf)continue;      /* round 118: a cut made for one hero (16w3, the shot-series cuts) */ var src=typeof ZVID!=='undefined'&&ZVID.src(c.vid); if(!src)return null; var k=n-c.from; return {src:src,a:c.cuts[k],b:c.cuts[k+1],k:k}; }
     return null; },
   story:function(){ var k=String(ZCUT._key||''), L=ZCUT.SETS[k]||[]; return ZSC.on&&/^story_/.test(k)&&L.length>=3; },
   // the words, fragment by fragment, over ms; gone 0.9 s before the cut

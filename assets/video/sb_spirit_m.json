@@ -1,0 +1,462 @@
+{
+ "scene": "spirit",
+ "name": "The first spirit freed",
+ "hero": "m",
+ "fps": 24,
+ "size": [
+  1280,
+  720
+ ],
+ "frames": [
+  {
+   "n": 1,
+   "title": "The toiling spirit",
+   "cap": "Chained to a stone in the fields, a spirit of Runeheim toiled without rest.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 2,
+     "lens": "track",
+     "who": 0,
+     "id": "sc_ss_spirit_01_2",
+     "dur": 3.52,
+     "move": "push",
+     "in": "fade",
+     "start": 0.0
+    },
+    {
+     "k": 4,
+     "lens": "ecu",
+     "who": 0,
+     "id": "sc_ss_spirit_01_4",
+     "dur": 3.52,
+     "move": "pull",
+     "in": "cut",
+     "start": 3.52
+    }
+   ],
+   "dur": 7.04,
+   "start": 0.0,
+   "end": 7.04
+  },
+  {
+   "n": 2,
+   "title": "You come closer",
+   "cap": "With its Binder gone, you came closer.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 1,
+     "lens": "xwide",
+     "who": "h",
+     "id": "sc_ss_spirit_02_1_m",
+     "dur": 2.26,
+     "move": "push",
+     "in": "dissolve",
+     "start": 7.04
+    },
+    {
+     "k": 2,
+     "lens": "track",
+     "who": "h",
+     "id": "sc_ss_spirit_02_2_m",
+     "dur": 2.26,
+     "move": "push",
+     "in": "cut",
+     "start": 9.3
+    }
+   ],
+   "dur": 4.52,
+   "start": 7.04,
+   "end": 11.56
+  },
+  {
+   "n": 3,
+   "title": "Its struggle",
+   "cap": "You saw how the chains had worn it thin.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 6,
+     "lens": "react",
+     "who": "h",
+     "id": "sc_ss_spirit_03_6_m",
+     "dur": 2.43,
+     "move": "push",
+     "in": "dissolve",
+     "start": 11.56
+    },
+    {
+     "k": 4,
+     "lens": "ecu",
+     "who": "h",
+     "id": "sc_ss_spirit_03_4_m",
+     "dur": 2.81,
+     "move": "pull",
+     "in": "cut",
+     "start": 13.99
+    }
+   ],
+   "dur": 5.24,
+   "start": 11.56,
+   "end": 16.8
+  },
+  {
+   "n": 4,
+   "title": "The rune on the stone",
+   "cap": "The old rune flickered, as if it knew you.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 6,
+     "lens": "react",
+     "who": "h",
+     "id": "sc_ss_spirit_04_6_m",
+     "dur": 2.43,
+     "move": "push",
+     "in": "dissolve",
+     "start": 16.8
+    },
+    {
+     "k": 4,
+     "lens": "ecu",
+     "who": "h",
+     "id": "sc_ss_spirit_04_4_m",
+     "dur": 2.81,
+     "move": "panR",
+     "in": "cut",
+     "start": 19.23
+    }
+   ],
+   "dur": 5.24,
+   "start": 16.8,
+   "end": 22.04
+  },
+  {
+   "n": 5,
+   "title": "Your hand on the stone",
+   "cap": "You laid your hand on the stone \u2014 and your eyes burned rune-blue.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 3,
+     "lens": "ecu",
+     "who": "h",
+     "id": "sc_ss_spirit_05_3_m",
+     "cut": "cut",
+     "move": "shake",
+     "top": true,
+     "dur": 1.92,
+     "in": "dissolve",
+     "start": 22.04
+    },
+    {
+     "k": 4,
+     "lens": "ecu",
+     "who": "h",
+     "id": "sc_ss_spirit_05_4_m",
+     "cut": "flashblue",
+     "move": "push",
+     "top": true,
+     "dur": 1.92,
+     "in": "flashblue",
+     "start": 23.96
+    },
+    {
+     "k": 6,
+     "lens": "low",
+     "who": "h",
+     "id": "sc_ss_spirit_05_6_m",
+     "cut": "cut",
+     "move": "tiltU",
+     "top": true,
+     "dur": 2.83,
+     "in": "cut",
+     "start": 25.88
+    }
+   ],
+   "dur": 6.68,
+   "start": 22.04,
+   "end": 28.71
+  },
+  {
+   "n": 6,
+   "title": "The chains break",
+   "cap": "The chains burst apart.",
+   "by": "kris",
+   "action": true,
+   "shots": [
+    {
+     "k": 2,
+     "lens": "wide",
+     "who": "h",
+     "id": "sc_ss_spirit_06_2_m",
+     "cut": "flash",
+     "move": "shake",
+     "top": true,
+     "dur": 1.6,
+     "in": "flash",
+     "start": 28.71
+    },
+    {
+     "k": 3,
+     "lens": "bullet",
+     "who": 0,
+     "id": "sc_ss_spirit_06_3",
+     "cut": "cut",
+     "move": "orbit",
+     "top": true,
+     "dur": 1.54,
+     "in": "cut",
+     "start": 30.31
+    }
+   ],
+   "dur": 3.14,
+   "start": 28.71,
+   "end": 31.85
+  },
+  {
+   "n": 7,
+   "title": "Free",
+   "cap": "For the first time in years, a soul of Runeheim was free.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 4,
+     "lens": "ecu",
+     "who": "h",
+     "id": "sc_ss_spirit_07_4_m",
+     "dur": 1.51,
+     "move": "pull",
+     "in": "dissolve",
+     "start": 31.85
+    },
+    {
+     "k": 2,
+     "lens": "track",
+     "who": "h",
+     "id": "sc_ss_spirit_07_2_m",
+     "dur": 1.96,
+     "move": "pull",
+     "in": "cut",
+     "start": 33.36
+    },
+    {
+     "k": 1,
+     "lens": "xwide",
+     "who": "h",
+     "id": "sc_ss_spirit_07_1_m",
+     "dur": 2.85,
+     "move": "push",
+     "in": "cut",
+     "start": 35.32
+    }
+   ],
+   "dur": 6.32,
+   "start": 31.85,
+   "end": 38.17
+  },
+  {
+   "n": 8,
+   "title": "Lines beneath your feet",
+   "cap": "Beneath your feet, lines of light ran out into the land.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 4,
+     "lens": "ecu",
+     "who": "h",
+     "id": "sc_ss_spirit_08_4_m",
+     "dur": 1.66,
+     "move": "pull",
+     "in": "dissolve",
+     "start": 38.17
+    },
+    {
+     "k": 5,
+     "lens": "low",
+     "who": "h",
+     "id": "sc_ss_spirit_08_5_m",
+     "dur": 1.95,
+     "move": "push",
+     "in": "cut",
+     "start": 39.83
+    },
+    {
+     "k": 6,
+     "lens": "react",
+     "who": "h",
+     "id": "sc_ss_spirit_08_6_m",
+     "dur": 2.34,
+     "move": "push",
+     "in": "cut",
+     "start": 41.78
+    }
+   ],
+   "dur": 5.96,
+   "start": 38.17,
+   "end": 44.12
+  },
+  {
+   "n": 9,
+   "title": "Life follows the light",
+   "cap": "And where the light ran, the land remembered green.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 4,
+     "lens": "ecu",
+     "who": "h",
+     "id": "sc_ss_spirit_09_4_m",
+     "dur": 2.12,
+     "move": "pull",
+     "in": "dissolve",
+     "start": 44.12
+    },
+    {
+     "k": 3,
+     "lens": "ots",
+     "who": "h",
+     "id": "sc_ss_spirit_09_3_m",
+     "dur": 3.12,
+     "move": "panL",
+     "in": "cut",
+     "start": 46.24
+    }
+   ],
+   "dur": 5.24,
+   "start": 44.12,
+   "end": 49.36
+  },
+  {
+   "n": 10,
+   "title": "Her thanks",
+   "cap": "\"Thank you. Now I can go home.\"",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 1,
+     "lens": "two",
+     "who": "h",
+     "id": "sc_ss_spirit_10_1_m",
+     "dur": 2.26,
+     "move": "push",
+     "in": "dissolve",
+     "start": 49.36
+    },
+    {
+     "k": 4,
+     "lens": "ecu",
+     "who": "h",
+     "id": "sc_ss_spirit_10_4_m",
+     "dur": 2.26,
+     "move": "panR",
+     "in": "cut",
+     "start": 51.62
+    }
+   ],
+   "dur": 4.52,
+   "start": 49.36,
+   "end": 53.88
+  },
+  {
+   "n": 11,
+   "title": "Toward the village",
+   "cap": "She drifted away over the hills, toward the village.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 4,
+     "lens": "ecu",
+     "who": "h",
+     "id": "sc_ss_spirit_11_4_m",
+     "dur": 1.82,
+     "move": "pull",
+     "in": "dissolve",
+     "start": 53.88
+    },
+    {
+     "k": 1,
+     "lens": "xwide",
+     "who": "h",
+     "id": "sc_ss_spirit_11_1_m",
+     "dur": 3.42,
+     "move": "push",
+     "in": "cut",
+     "start": 55.7
+    }
+   ],
+   "dur": 5.24,
+   "start": 53.88,
+   "end": 59.12
+  },
+  {
+   "n": 12,
+   "title": "Home on the Green",
+   "cap": "On the Green she waited, glowing \u2014 the first to come home.",
+   "by": "kris",
+   "action": false,
+   "shots": [
+    {
+     "k": 6,
+     "lens": "react",
+     "who": "h",
+     "id": "sc_ss_spirit_12_6_m",
+     "dur": 1.64,
+     "move": "pull",
+     "in": "dissolve",
+     "start": 59.12
+    },
+    {
+     "k": 2,
+     "lens": "track",
+     "who": "h",
+     "id": "sc_ss_spirit_12_2_m",
+     "dur": 1.9,
+     "move": "pull",
+     "in": "cut",
+     "start": 60.76
+    },
+    {
+     "k": 1,
+     "lens": "xwide",
+     "who": "h",
+     "id": "sc_ss_spirit_12_1_m",
+     "dur": 2.77,
+     "move": "pull",
+     "in": "cut",
+     "start": 62.66
+    }
+   ],
+   "dur": 6.32,
+   "start": 59.12,
+   "end": 65.43
+  }
+ ],
+ "cuts": [
+  0.0,
+  7.265,
+  11.785,
+  17.025,
+  22.265,
+  28.86,
+  32.075,
+  38.395,
+  44.345,
+  49.585,
+  54.105,
+  59.345,
+  66.43
+ ],
+ "length": 66.43
+}

@@ -86,6 +86,7 @@ var LSAGA5={
     play:'The fog line as a visible horizon that recedes by quarter (code). A sailing trip after the end. The ghost ship as one new site. Brask\'s choice as a dialogue choice that shows in the epilogue.',
     seasons:'The fog lifts with each season: thin spring mist, summer haze, autumn sea-fog, winter frost-smoke, and a clear sea at Freya\'s spring.',
     guard:'Nothing beyond the sea is shown in detail; the outside world stays a door, not a new map. No children come off the first ship (the first cry is still Runeheim\'s own).',
-    cost:'The ghost ship site (≈ $0.30 in sheets), 6 story frames (≈ $0.47), the fog horizon in code; a foreign captain sheet ×2 (≈ $0.08).' }
+    cost:'The ghost ship site (≈ $0.30 in sheets), 6 story frames (≈ $0.47), the fog horizon in code; a foreign captain sheet ×2 (≈ $0.08).',
+    answer:'You asked: "make sure you can still sail to the islands without the fog saga getting in the way — how does this track?" It never gets in the way. The fog stands far out at sea, BEYOND the four harbour islands — the islands are inside it, in the same water as Mirror Lake\'s harbours. Every boat, harbour and island trip works exactly as it does now, from the start of the game. The fog is only (1) the grey horizon you see past the islands, which thins on each realm\'s coast as it opens, and (2) story moments: the ghost ship drifts into a harbour island\'s bay (a new place to visit there, not a block), Hesk\'s boat is launched from the harbour, and after the end a new trip appears at the harbour — "sail beyond". Nothing about sailing is locked behind it, and nothing you can do now is taken away.' }
   ]
 };

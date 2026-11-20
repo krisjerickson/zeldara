@@ -1,0 +1,80 @@
+{
+ "made": "round 118: the shots kept per frame, in the order they play \u2014 Kris's picks from the Lab (Shot series \u2014 pick), copied here by Claude before each cut. A frame with no pick keeps its first series' shots (or its first two).",
+ "spirit_11": {
+  "keep": [
+   4,
+   1
+  ]
+ },
+ "spirit_12": {
+  "keep": [
+   6,
+   2,
+   1
+  ]
+ },
+ "spirit_06": {
+  "keep": [
+   2,
+   3
+  ]
+ },
+ "spirit_08": {
+  "keep": [
+   4,
+   5,
+   6
+  ]
+ },
+ "spirit_09": {
+  "keep": [
+   4,
+   3
+  ]
+ },
+ "spirit_03": {
+  "keep": [
+   6,
+   4
+  ]
+ },
+ "spirit_01": {
+  "keep": [
+   2,
+   4
+  ]
+ },
+ "spirit_07": {
+  "keep": [
+   4,
+   2,
+   1
+  ]
+ },
+ "spirit_10": {
+  "keep": [
+   1,
+   4
+  ]
+ },
+ "spirit_02": {
+  "keep": [
+   1,
+   2
+  ]
+ },
+ "spirit_04": {
+  "keep": [
+   6,
+   4
+  ]
+ },
+ "spirit_05": {
+  "keep": [
+   3,
+   4,
+   6
+  ],
+  "note": "Kris (round 112d): too many, cut out 1, 2 and 5"
+ }
+}

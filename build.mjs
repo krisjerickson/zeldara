@@ -127,12 +127,13 @@ if (fs.existsSync(path.join(ROOT, 'lab/src/lab.template.html'))) {
   // The index goes into the Lab's code; the pages are copied next to the Lab (lab/preview/) and loaded from there.
   let previews = {}; try { previews = JSON.parse(r('sprites/preview/index.json')); for (const id of Object.keys(previews)) if (!incoming.includes(id)) incoming.push(id);
     fs.mkdirSync(path.join(ROOT, 'lab/preview'), { recursive: true }); for (const f of fs.readdirSync(path.join(ROOT, 'sprites/preview')).filter(f => /\.webp$/.test(f))) fs.copyFileSync(path.join(ROOT, 'sprites/preview', f), path.join(ROOT, 'lab/preview', f)); } catch (e) {}
+  let ssCuts = '{}'; try { const vd = path.join(ROOT, 'assets/video'), C = {}; for (const f of fs.readdirSync(vd)) if (/^sb_.+_m\.json$/.test(f)) { const e = JSON.parse(fs.readFileSync(path.join(vd, f), 'utf8')); C[e.scene] = e; } ssCuts = JSON.stringify(C); } catch (e) {}   // round 118: the final cuts (tools/video/series_cut.py)
   let seasPrev = '{}'; try { seasPrev = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/seasart/index.json'), 'utf8'))); } catch (e) {}   // round 116: the seasonal paintings as they come in (tools/sprites/season_preview.py)
   let ssSheets = '{}'; try { ssSheets = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/series/index.json'), 'utf8'))); } catch (e) {}   // round 112: the shot series' strips (tools/video/series_preview.py)
   let sbSheets = '{}'; try { sbSheets = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/storyboards/index.json'), 'utf8'))); } catch (e) {}   // round 79b: the story frames' sheets (tools/video/storyboards.py)
   let sfxPick = '{}'; try { sfxPick = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/audio/eth.json'), 'utf8'))); } catch (e) {}   // round 81: the gentle sounds to pick from (tools/audio/eth_preview.py)
   let sfx84 = '{}'; try { sfx84 = JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'lab/preview/audio/s84.json'), 'utf8'))); } catch (e) {}   // round 84: every take side by side (tools/audio/sfx_preview.py)
-  const labJs = minify(shared + 'var ZSCN_META=' + scnMeta + ';\n' + 'var ZSB_SHEETS=' + sbSheets + ';\n' + 'var ZSS_SHEETS=' + ssSheets + ';\n' + 'var ZSEAS_PREV=' + seasPrev + ';\n' + 'var ZSFX_PICK=' + sfxPick + ';\n' + 'var ZSFX84=' + sfx84 + ';\n' + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
+  const labJs = minify(shared + 'var ZSCN_META=' + scnMeta + ';\n' + 'var ZSB_SHEETS=' + sbSheets + ';\n' + 'var ZSS_SHEETS=' + ssSheets + ';\n' + 'var ZSEAS_PREV=' + seasPrev + ';\n' + 'var ZSS_CUTS=' + ssCuts + ';\n' + 'var ZSFX_PICK=' + sfxPick + ';\n' + 'var ZSFX84=' + sfx84 + ';\n' + 'var ZSPR_INCOMING=' + JSON.stringify(incoming) + ', ZSPR_PREVIEW=' + JSON.stringify(previews) + ';\n' + labFiles.map(f => fs.readFileSync(path.join(labDir, f), 'utf8')).join(''), 'lab JS');
   if (/<\/script>/i.test(labJs)) throw new Error('Literal </script> in lab JS');
   const labRaw = r('lab/src/lab.template.html').replace('{{JS}}', () => labJs), lab = withEngine(labRaw, ENGINE_ARG, false);
   if (process.argv.includes('--check')) {
@@ -192,6 +193,15 @@ try {
     S.req.map(q => '## ' + q.id + (q.pilot ? ' (pilot)' : '') + '\n\n' + q.title + ' · wave ' + q.wave + ' · ' + q.items.length + ' items, ' + q.cols + ' × ' + q.rows + ' · ' + q.size + '\n\n' + q.items.map(it => '- `' + it.id + '` ' + it.name + ' — ' + it.w + ' × ' + it.h + ' px').join('\n') + '\n\nAttach: ' + q.refs.join(', ') + '\n\n```\n' + full(q) + '\n```\n').join('\n'));
   console.log(`✓ sprites/requests/scenery.json  ${S.stats.sheets} scenery sheets, ${S.stats.items} items (${S.stats.pilot} pilot sheets)`);
 } catch (e) { console.warn('! scenery requests not exported: ' + e.message); }
+// ── Round 118: the shot series' plan (07zt9b ZSS) → sprites/requests/series_plan.json, for tools/video/series_cut.py (the final cut of a cut-scene)
+try {
+  const vm = await import('node:vm'); const ctx = {}; ctx.globalThis = ctx;
+  vm.runInNewContext(fs.readFileSync(path.join(jsDir, '07zt-scenery.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt6-storyboards.js'), 'utf8') + '\n;' + fs.readFileSync(path.join(jsDir, '07zt9b-shot-series.js'), 'utf8') +
+    '\n;globalThis.__ssp=JSON.stringify({scenes:ZSB.SCENES.map(function(sc){ return {id:sc.id,name:sc.name,whos:ZSB.whos(sc),beats:sc.beats.map(function(b){ var A=(ZSS.AUTO||[]).find(function(r){ return r.scene===sc.id&&r.n===b.n; }), T=ZSS.TOP.find(function(S){ return S.scene===sc.id&&S.n===b.n; });' +
+    ' return {n:b.n,title:b.title,cap:b.cap,ids:b.ids,shots:A?A.shots.map(function(x,j){ return {k:j+1,lens:x.lens,who:x.who,id:x.id}; }):T?T.shots.map(function(x,j){ return {k:x.k||j+1,lens:x[1],who:x[0],id:ZSS.id(sc.id,b.n,x.k||j+1,x[0]),cut:x[3],move:x[4],top:true}; }):[]}; })}; })});', ctx);
+  fs.writeFileSync(path.join(ROOT, 'sprites', 'requests', 'series_plan.json'), JSON.stringify(Object.assign({ made: 'build.mjs from src/js/07zt9b-shot-series.js — do not edit by hand' }, JSON.parse(ctx.__ssp)), null, 1));
+  console.log('✓ sprites/requests/series_plan.json  the shot series, frame by frame');
+} catch (e) { console.warn('! series plan not exported: ' + e.message); }
 // ── Round 72: the music and sound list (src/js/07zau-audio-cues.js, doc 32) → sprites/requests/audio.json, for tools/audio (the effects script)
 try {
   const vm = await import('node:vm'); const ctx = {}; ctx.globalThis = ctx;
