@@ -9,14 +9,18 @@
   var P=function(k){ return LabApp.picks[k]||{}; }, V=function(k){ return P(k).verdict||null; };
   var SN={sp:'Spring',au:'Autumn',wi:'Winter (mild)'}, SRC=[]; Object.keys(X.src).forEach(function(id){ var o=X.src[id]; if(SRC.indexOf(o)<0)SRC.push(o); });
   var title=function(id){ var S=typeof ZSCN!=='undefined'&&ZSCN.SHEETS.find(function(s){ return s.id===id; }); return S?S.title.replace(/ — in .*$/,''):id; };
-  var img=function(id,cap){ return HAVE[id]||!/^sc_seas_/.test(id)?'<figure class="sa-f"><img loading="lazy" src="preview/seasart/'+id+'.webp" data-big="'+id+'" alt=""><figcaption>'+esc(cap)+'</figcaption></figure>':'<figure class="sa-f sa-wait"><div>painting…</div><figcaption>'+esc(cap)+'</figcaption></figure>'; };
+  var ORIG={}; (X.orig||[]).forEach(function(i){ ORIG[i]=1; }); var img=function(id,cap){ if(X.orig&&!/^sc_(seas|fest)_/.test(id)&&id!=='ingame'&&!ORIG[id])return '<figure class="sa-f sa-wait"><div>the approved sheet, in the game today</div><figcaption>'+esc(cap)+'</figcaption></figure>'; return HAVE[id]||!/^sc_seas_/.test(id)?'<figure class="sa-f"><img loading="lazy" src="preview/seasart/'+id+'.webp" data-big="'+id+'" alt=""><figcaption>'+esc(cap)+'</figcaption></figure>':'<figure class="sa-f sa-wait"><div>painting…</div><figcaption>'+esc(cap)+'</figcaption></figure>'; };
+  (X.fest||[]).forEach(function(i){ HAVE[i]=1; });
   var pick=function(id){ if(!HAVE[id])return ''; var k='seasart-'+id, v=V(k); return '<div class="sa-a"><span class="sa-seg" data-k="'+k+'">'+[['pick','✓ Good'],['cut','↻ Paint again']].map(function(o){ return '<button class="vbtn sa-sg'+(v===o[0]?' on '+o[0]:'')+'" data-v="'+o[0]+'">'+o[1]+'</button>'; }).join('')+'</span><input class="tl-n sa-n" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="What to change…"></div>'; };
   LAB_TABS.push({ id:'seasart', name:'Seasons: the paintings',
-    blurb:'<b>Round 116 — the seasons\' paintings, as they come in.</b> Each approved sheet of the world beside its spring, autumn and mild-winter repaint (the same items in the same places — only the season changes). ✓ the good ones; ↻ with a note for any to paint again. Click a picture to see it large. They are in the game now (the last row); anything not yet repainted is tinted from its summer picture.',
-    designs:Object.keys(X.src).concat(['sc_seas_air','sc_seas_icons']).map(function(id){ return {id:id,name:id}; }),
+    blurb:'<b>Round 120 — wave S2 is in: the village\'s buildings and props in autumn and mild winter, and the festivals (dressings, set-pieces, food) further down.</b> <b>Round 116 — the seasons\' paintings, as they come in.</b> Each approved sheet of the world beside its spring, autumn and mild-winter repaint (the same items in the same places — only the season changes). ✓ the good ones; ↻ with a note for any to paint again. Click a picture to see it large. They are in the game now (the last row); anything not yet repainted is tinted from its summer picture.',
+    designs:Object.keys(X.src).concat(['sc_seas_air','sc_seas_icons'],X.fest||[]).map(function(id){ return {id:id,name:id}; }),
     render:function(){ var n=(X.sheets||[]).length, tot=Object.keys(X.src).length+2;
       var h=LBR.sec('The world, season by season',n+' of '+tot+' sheets painted'+(X.at?' · as of '+esc(X.at):'')+' · ✓ good · ↻ paint again');
       h+=SRC.map(function(o){ return '<div class="sa-row"><h4>'+esc(title(o))+'</h4><div class="sa-g">'+img(o,'Today (summer)')+['sp','au','wi'].map(function(s){ var id='sc_seas_'+s+'_'+o.replace(/^sc_/,''); return '<div class="sa-c">'+img(id,SN[s])+pick(id)+'</div>'; }).join('')+'</div></div>'; }).join('');
+      if((X.fest||[]).length){ var FN={sc_fest_dress_sp:'Spring festival — the dressings',sc_fest_dress_su:'Midsummer — the dressings',sc_fest_dress_au:'Harvest — the dressings',sc_fest_dress_wi:'Yule — the dressings',sc_fest_dress_bl:'Freya\'s Blessing — the dressings',sc_fest_set_sp:'Spring festival — the set-pieces',sc_fest_set_su:'Midsummer — the set-pieces',sc_fest_set_au:'Harvest — the set-pieces',sc_fest_set_wi:'Yule — the set-pieces',sc_fest_set_bl:'Freya\'s Blessing — the set-pieces',sc_fest_food:'Festival food and keepsakes'};
+        h+=LBR.sec('The festivals (wave S2, round 120)','what the village is dressed with for each festival, the Green\'s set-pieces and the food · ✓ good · ↻ paint again');
+        h+='<div class="sa-row"><div class="sa-g sa-fest">'+X.fest.map(function(id){ return '<div class="sa-c">'+img(id,FN[id]||id)+pick(id)+'</div>'; }).join('')+'</div></div>'; }
       h+=LBR.sec('The air, and the seasons\' marks and food','new sheets (no original)');
       h+='<div class="sa-row"><div class="sa-g">'+['sc_seas_air','sc_seas_icons'].map(function(id){ return '<div class="sa-c">'+img(id,id==='sc_seas_air'?'What drifts past':'Marks and seasonal food')+pick(id)+'</div>'; }).join('')+'</div></div>';
       h+=LBR.sec('In the game today','spring, summer, autumn, winter — with the paintings above (wave S1). Things not yet repainted are tinted');
@@ -35,6 +39,6 @@
     '@media (max-width:800px){.sa-g{grid-template-columns:repeat(2,minmax(0,1fr))}}';
   document.head.appendChild(st);
   if(typeof LAB_ACTIVE!=='undefined')LAB_ACTIVE.unshift('seasart');
-  if(typeof LTODO!=='undefined')LTODO.add({id:'seasart',label:'🍂 Seasons — the paintings: ✓ or ↻ each seasonal sheet as it comes in',where:'Seasons: the paintings tab',
-    done:function(){ return (X.sheets||[]).length>0&&(X.sheets||[]).every(function(id){ return !!V('seasart-'+id); }); },go:function(){ LTODO.goTo('seasart','.sa-row',0); }});
+  if(typeof LTODO!=='undefined')LTODO.add({id:'seasart2',label:'🍂 Seasons wave S2: ✓ or ↻ the village\'s autumn and winter sheets and the festival paintings',where:'Seasons: the paintings tab',
+    done:function(){ return (X.sheets||[]).concat(X.fest||[]).length>0&&(X.sheets||[]).concat(X.fest||[]).every(function(id){ return !!V('seasart-'+id); }); },go:function(){ LTODO.goTo('seasart','.sa-row',0); }});
 })();

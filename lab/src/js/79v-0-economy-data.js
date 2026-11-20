@@ -14,7 +14,7 @@ var LECO={
     ['Alphas are harder but pay the same','An Alpha has 1.6 × health and 1.3 × attack, and the same gold and XP as any other monster of its kind.'],
     ['The first realm is the tightest; the last is flooded','The Grasslands\' kit costs about 12 minutes of site gold; in the Ashlands it costs 6. A full Ashlands sweep brings about 70,000 g.'],
     ['Gold is not the real bottleneck; gems and coins are','A plain monster drops its gem 1.5 % of the time. Every forge recipe, staff and gem setting needs gems, and the jeweller wants 3 Dungeon Coins on top of the gold.'],
-    ['Two choices can lock a completionist out','Each sky port gives one of two rewards and then locks (the Flame Sword and the Sky Sword exist only there). Oswin\'s Tankards: the Raven cloak or 600 g, never both.'],
+    ['One choice can lock a completionist out','Oswin\'s Tankards: the Raven cloak or 600 g, never both. (Round 120 correction: the sky ports\' swords are also sold on Ember Isle and Frost Isle, so the sky ports lock nothing away.)'],
     ['Dying costs a tenth of what you carry','The more you save for a 2,000 g recipe, the more one death costs, so saving up is punished.']
   ],
   // ── every way to earn gold (live numbers are filled in from LECO.M by the tab) ──

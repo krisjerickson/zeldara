@@ -12,7 +12,7 @@ REQ = json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'scenery.json'), 
 seas = [q for q in REQ if q['id'].startswith('sc_seas_')]
 def prev(i):
     src = os.path.join(IN, i + '.png'); dst = os.path.join(OUT, i + '.webp')
-    if not os.path.isfile(src): return False
+    if not os.path.isfile(src): return os.path.isfile(dst)      # round 120: a preview made earlier still counts (the PNG may be on another machine)
     if not os.path.isfile(dst) or os.path.getmtime(dst) < os.path.getmtime(src):
         im = Image.open(src).convert('RGBA'); bg = Image.new('RGBA', im.size, (34, 40, 52, 255)); bg.alpha_composite(im)
         w = 900; bg = bg.convert('RGB').resize((w, round(im.size[1] * w / im.size[0])), Image.LANCZOS); bg.save(dst, 'WEBP', quality=72, method=5)
@@ -22,6 +22,8 @@ for q in seas:
     m = re.match(r'^sc_seas_(sp|au|wi)_(.+)$', q['id'])
     if m: src[q['id']] = 'sc_' + m.group(2)
     if prev(q['id']): have.append(q['id'])
-for o in sorted(set(src.values())): prev(o)
-json.dump({'sheets': have, 'src': src, 'at': time.strftime('%Y-%m-%d %H:%M')}, open(os.path.join(OUT, 'index.json'), 'w'), indent=0)
+S1SRC = {'sc_edge_1', 'sc_edge_3', 'sc_edge_4', 'sc_edge_6', 'sc_plants_1', 'sc_plants_2', 'sc_plants_3', 'sc_tex_earth', 'sc_tex_grass', 'sc_trees_1', 'sc_trees_2', 'sc_trees_3'}
+orig = [o for o in sorted(set(src.values())) if o in S1SRC and prev(o)]      # round 120: the Lab holds at most 511 files, so wave S2's originals (the village, approved and in the game) get no preview
+fest = [q['id'] for q in REQ if q['id'].startswith('sc_fest_') and prev(q['id'])]      # round 120: the festival sheets (wave S2)
+json.dump({'sheets': have, 'src': src, 'fest': fest, 'orig': orig, 'at': time.strftime('%Y-%m-%d %H:%M')}, open(os.path.join(OUT, 'index.json'), 'w'), indent=0)
 print('%d of %d seasonal sheets painted -> lab/preview/seasart/' % (len(have), len(seas)))
