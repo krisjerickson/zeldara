@@ -7,7 +7,7 @@
 // ║ Picks: 'worldlook2-<id>' ✓ / ? / ✕ + note; the sprite lab: 'worldlook2-spr' {regions:[variant]}.
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof LAB_TABS==='undefined'||typeof LBR==='undefined')return;
-  var I=function(n){ return 'preview/worldlook2/'+n+'.jpg'; };
+  var I=function(n){ var p='preview/worldlook2/'+n+'.jpg'; return typeof R127A==='function'?R127A(p):p; };
   var esc=function(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); };
   var P=function(k){ return LabApp.picks[k]||{}; }, V=function(k){ return P(k).verdict||null; };
   var Q=function(k){ try{ return (LabApp.picks['worldlook-'+k]||{}).notes||''; }catch(e){ return ''; } };

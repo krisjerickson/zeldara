@@ -8,7 +8,7 @@
 // ║ what is ordered (07zt19, r127_seasons). Picks: 'seasons5-<s>' ✓ / ? / ✕ + note.
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof LAB_TABS==='undefined'||typeof LBR==='undefined')return;
-  var I=function(n){ return 'preview/seasons5/'+n+'.jpg'; };
+  var I=function(n){ var p='preview/seasons5/'+n+'.jpg'; return typeof R127A==='function'?R127A(p):p; };
   var esc=function(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); };
   var P=function(k){ return LabApp.picks[k]||{}; }, V=function(k){ return P(k).verdict||null; };
   var S=[
