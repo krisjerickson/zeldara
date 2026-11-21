@@ -10,21 +10,23 @@
 // ║  · the air: petals and pollen, fireflies on summer nights, falling leaves, frost glitter and a rare thin flurry (never a snowstorm)
 // ║  · the turn: a banner, a mark by the little map, Elder Runa's lesson (21t); the world repaints once
 // ║  · each season's paintings load only when it comes (pages seas_<s>-N, textures *_<s>)
+// ║ Round 127 (Kris: separate the first spring from Freya's): sp is THE THAW — muted, its own paintings (_th) — and bl, Freya's spring, takes
+// ║ the lush spring paintings (_sp). Requests: 07zt19.
 // ║ Switch: ZSEASON.on. ?season=au (sp su au wi bl) forces one, for looking.
 // ═══════════════════════════════════════════════════════════════════════
 var ZSEASON={ on:true, cur:'su', force:null, _t:0, loaded:{},
-  S:{sp:{n:'Spring',ic:'🌱',col:'#c8f0a8',art:'sp',ban:['Spring comes to Runeheim','The first spring in thirty-six years — buds on the Green, birds back over the lake.']},
+  S:{sp:{n:'The thaw',ic:'🌱',col:'#c8dcb0',art:'th',ban:['The thaw','The first spring in thirty-six years — grey snow in the shadows, buds on the birches, the first birds back.']},
      su:{n:'Summer',ic:'☀️',col:'#ffe27a',art:null,ban:['Summer','The Silverrun runs clear, and the nights are warm.']},
      au:{n:'Autumn',ic:'🍂',col:'#ffb46a',art:'au',ban:['Autumn','The leaves turn gold along the Highlands\' road.']},
      wi:{n:'Winter',ic:'❄️',col:'#d8ecff',art:'wi',ban:['Winter','A mild one — frost on the grass and bright, low sun.']},
-     bl:{n:'Spring',ic:'🌸',col:'#ffd0e4',art:null,ban:['The real spring','Freya\'s spring runs out along the soul-lines.']}},
+     bl:{n:'Freya\'s spring',ic:'🌸',col:'#ffd0e4',art:'sp',ban:['Freya\'s spring','The land bursts into flower — blossom runs out along the soul-lines.']}},
   ORDER:['sp','su','au','wi','bl'],
   // which season your progress is in: the realm furthest open, and Freya's spring once the spirits are home
   of:function(ps){ if(ZSEASON.force)return ZSEASON.force; if(!ps)return 'sp'; if(ps.spiritsHome)return 'bl'; var u=ps.unlockedSections||[1], m=Math.max.apply(null,u.concat([1])); return ['sp','sp','su','au','wi'][Math.min(4,m)]||'wi'; },
   // ── the ground's colour ──
   VEGK:{grass:1,meadow:1,verge:1,land:1,turf:1,green:1,isle:1,wild:1,vgrass:1,vgreen:1,garden:1,moss:1,heath:1,heather:1,marsh:1,crop:1,soil:1,vsoil:1},
   // [hue shift (degrees), saturation ×, lightness +, blue +]: spring fresh and light, autumn gold, winter pale and frosted (no white-out)
-  G:{sp:[10,0.82,0.05,0],au:[-52,1.0,-0.02,-6],wi:[-8,0.42,0.07,7],bl:[6,1.08,0.03,0]},      /* winter: frost, not snow (Kris: "not overly snowy") */
+  G:{sp:[14,0.62,0.01,5],au:[-52,1.0,-0.02,-6],wi:[-8,0.42,0.07,7],bl:[6,1.08,0.03,0]},      /* winter: frost, not snow (Kris: "not overly snowy") */
   grade:function(c,s){ var g=ZSEASON.G[s]; if(!g||!c)return c; var r=c[0]/255, gg=c[1]/255, b=c[2]/255, mx=Math.max(r,gg,b), mn=Math.min(r,gg,b), h=0, sa=0, l=(mx+mn)/2, d=mx-mn;
     if(d){ sa=l>0.5?d/(2-mx-mn):d/(mx+mn); h=mx===r?(gg-b)/d+(gg<b?6:0):mx===gg?(b-r)/d+2:(r-gg)/d+4; h*=60; }
     h=(h+g[0]+360)%360; sa=Math.max(0,Math.min(1,sa*g[1])); l=Math.max(0,Math.min(1,l+g[2]));
@@ -37,8 +39,8 @@ var ZSEASON={ on:true, cur:'su', force:null, _t:0, loaded:{},
     if(typeof WP_KT!=='undefined'&&WP_KT&&typeof _wpKindTables==='function'){ WP_KT=null; _wpKindTables(); } },      /* the painter's colour tables (05c) are made again from them, at once (a chunk being painted still needs one) */
   // ── trees, bushes, flowers, edge pieces: their seasonal painting when it is in, else tinted ──
   VEGID:/^(tr_(round|blossom|willow|mangrove_a|cypress|pine_a|pine_b|drowned)|pl_(bush|bush_berry|bush_flower|flowers|tuft|tallgrass|fern|reeds|cattails|lilypad|heather|vine|wheat|corn|crop|hedge|topiary|trellis)|ed_(tuft_a|tuft_b|reeds|cattails|cliff_grass|log_mossy|rock_mossy|wildflowers|iris|ivy|moss_patch|clover|fern|bramble|heather|dune_grass|alpine_flowers|lily))/,
-  F:{sp:'hue-rotate(10deg) saturate(0.85) brightness(1.05)',au:'sepia(0.4) hue-rotate(-34deg) saturate(1.3) brightness(0.97)',wi:'saturate(0.42) brightness(1.09) contrast(0.95)',bl:'saturate(1.1) brightness(1.03)'},
-  item:function(id){ var s=ZSEASON.cur; if(!ZSEASON.on||s==='su'||/_(sp|au|wi)$/.test(id))return null; var A=ZSEASON.S[s].art;
+  F:{sp:'saturate(0.62) sepia(0.12) hue-rotate(8deg) brightness(1.0)',au:'sepia(0.4) hue-rotate(-34deg) saturate(1.3) brightness(0.97)',wi:'saturate(0.42) brightness(1.09) contrast(0.95)',bl:'saturate(1.1) brightness(1.03)'},
+  item:function(id){ var s=ZSEASON.cur; if(!ZSEASON.on||s==='su'||/_(sp|au|wi|th)$/.test(id))return null; var A=ZSEASON.S[s].art;
     if(A&&typeof ZScn!=='undefined'&&ZScn.has(id+'_'+A))return {id:id+'_'+A};      /* round 118: anything with a seasonal painting uses it (wave S2: the village's buildings and props) */
     if(!ZSEASON.VEGID.test(id))return null; return {id:id,f:ZSEASON.F[s]}; },
   // the painted ground marks: the seasonal sheet's when it is in
@@ -75,7 +77,7 @@ var ZSEASON={ on:true, cur:'su', force:null, _t:0, loaded:{},
     mk('zs_petal',10,8,function(x){ x.fillStyle='#ffd6e6'; x.beginPath(); x.ellipse(5,4,4.5,2.6,0.4,0,Math.PI*2); x.fill(); x.fillStyle='rgba(255,255,255,.7)'; x.beginPath(); x.ellipse(4,3.4,2,1.1,0.4,0,Math.PI*2); x.fill(); });
     mk('zs_leaf',12,8,function(x){ x.fillStyle='#ffffff'; x.beginPath(); x.moveTo(1,4); x.quadraticCurveTo(6,-1,11,4); x.quadraticCurveTo(6,9,1,4); x.fill(); x.strokeStyle='rgba(0,0,0,.25)'; x.beginPath(); x.moveTo(2,4); x.lineTo(10,4); x.stroke(); });
     mk('zs_flake',6,6,function(x){ var g=x.createRadialGradient(3,3,0,3,3,3); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(1,'rgba(255,255,255,0)'); x.fillStyle=g; x.fillRect(0,0,6,6); }); },
-  AIR:{sp:{tex:'zs_petal',freq:420,tint:[0xffd6e6,0xffffff,0xf8f0c0],grav:12,speedX:[-18,-6],life:7000,scale:[0.8,1.2]},
+  AIR:{sp:{tex:'zs_flake',freq:1500,tint:[0xe8ece0,0xd8dccc,0xf0f0e8],grav:6,speedX:[-10,-3],life:8000,scale:[0.5,0.8]},      /* round 127: the thaw — a few drifting catkin seeds, no petals yet */
        su:{tex:'dot',freq:900,tint:[0xfff6a0,0xc8ff90],grav:-4,speedX:[-6,6],life:5000,scale:[0.5,0.9],night:true,add:true},
        au:{tex:'zs_leaf',freq:260,tint:[0xe8a030,0xd06a20,0xb84a1c,0xf0c040,0x9a5a28],grav:22,speedX:[-24,-8],life:7000,scale:[0.8,1.3],spin:true},
        wi:{tex:'zs_flake',freq:1600,tint:[0xffffff,0xe8f4ff],grav:16,speedX:[-10,-2],life:8000,scale:[0.5,0.9]},

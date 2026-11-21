@@ -1,0 +1,21 @@
+# Round 127 — the world, revamped: the paintings to see before choosing — 4 flourish frames, 3 landmark sheets, 4 vistas, 2 grand-exterior
+# sheets, the aurora, water, ground, air and night-light pieces. 18 sheets. Nothing goes into the game until Kris picks.
+# .\tools\sprites\paint.ps1 -List r127_world
+sc_wl_frame_tapestry
+sc_wl_frame_stage
+sc_wl_frame_saga
+sc_wl_frame_runestone
+sc_wl_landmarks_1
+sc_wl_landmarks_2
+sc_wl_landmarks_3
+sc_wl_vista_silverrun
+sc_wl_vista_scar
+sc_wl_vista_ember
+sc_wl_vista_lilies
+sc_wl_sites_1
+sc_wl_sites_2
+sc_wl_aurora
+sc_wl_water
+sc_wl_ground
+sc_wl_air
+sc_wl_lights

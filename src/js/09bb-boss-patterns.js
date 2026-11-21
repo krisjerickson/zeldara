@@ -212,7 +212,7 @@ var BossPat={
           if(P)P.end(); return t>=dur; }, kill:function(){ im.destroy(); g.destroy(); if(P)P.kill(); }}; },
     // ⧉ copies of the boss appear and strike through your position together
     mirror:function(c){ var S=c.S, m=c.m, R=BossPat.rig(m), g=BossPat.gfx(S,BossPat.D_FX), t=0, n=c.q>=4?3:2, copies=[], tele=c.tele+0.25, hit=false, P=BossPat.art(c,BossPat.D_FX);      /* round 91: painted beams (09bc) */
-      for(var i=0;i<n;i++){ var a=Math.random()*Math.PI*2/n+i*Math.PI*2/n, x=S.px+Math.cos(a)*170, y=S.py+Math.sin(a)*130, im=null;
+      for(var i=0;i<n;i++){ var a=Math.random()*Math.PI*2/n+i*Math.PI*2/n, x=S.px+Math.cos(a)*170, y=S.py+Math.sin(a)*130, im=null; if(typeof BARENA!=='undefined'&&!BARENA.in(S,x,y)){ var nq=BARENA.near(S,x,y); x=nq[0]; y=nq[1]; }      /* round 127: copies stand on arena floor (09bd) */
         if(R&&R.body&&R.body.texture)im=S.add.image(x,y+R.fy,R.body.texture.key,'2').setOrigin(R.body.originX,R.body.originY).setScale(R.body.scaleX,R.body.scaleY).setAlpha(0).setTint(BossPat.col(c.col)).setBlendMode(Phaser.BlendModes.ADD).setDepth(BossPat.D_FX-1);
         copies.push({x:x,y:y,im:im,a:Math.atan2(S.py-y,S.px-x)}); }
       return {dur:tele+0.6, upd:function(dt){ t+=dt; g.clear(); var C=BossPat.col(c.col); if(P)P.begin();

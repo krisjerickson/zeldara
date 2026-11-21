@@ -9,7 +9,7 @@ R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 S = {x['id']: x for x in json.load(open(os.path.join(R, 'sprites', 'requests', 'scenery.json'), encoding='utf-8'))['requests']}
 sp = [i for i in S if i.startswith('sc_seas_sp_vill')]
 check('Spring: the five building sheets are asked for, wave 123, each a repaint of its summer sheet (%s)' % sp,
-      len(sp) == 5 and all(S[i]['wave'] == 123 and S[i]['refs'][0] == 'sc_' + i[len('sc_seas_sp_'):] and 'spring flowers' in S[i]['body'] for i in sp))
+      len(sp) == 5 and all(S[i]["wave"] in (123, 127) and S[i]['refs'][0] == 'sc_' + i[len('sc_seas_sp_'):] and ('spring flowers' in S[i]['body'] or 'FREYA' in S[i]['body']) for i in sp))
 lst = [l for l in open(os.path.join(R, 'sprites', 'requests', 'r122_spring_village.txt')).read().split() if l.startswith('sc_')]
 check('…and r122_spring_village lists exactly them', sorted(lst) == sorted(sp), lst)
 f = [i for i in S if re.match(r'^sc_ss_.*_f$', i)]

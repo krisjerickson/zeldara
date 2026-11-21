@@ -1,0 +1,39 @@
+# Round 127 — the five seasons (Kris: separate the muted first spring from Freya's; the first true harvest; the first happy Yule; Freya's
+# flowery spring). The thaw repainted (17), the land in each celebration (5), the village's spring repaints re-aimed at Freya's spring (5,
+# replacing r122_spring_village), and the festival dressings and set-pieces re-told (8). 35 sheets.
+# .\tools\sprites\paint.ps1 -List r127_seasons
+sc_seas_sp_vill_core_1
+sc_seas_sp_vill_core_2
+sc_seas_sp_vill_houses
+sc_seas_sp_vill_special_1
+sc_seas_sp_vill_special_2
+sc_fest_dress_sp
+sc_fest_dress_au
+sc_fest_dress_wi
+sc_fest_dress_bl
+sc_fest_set_sp
+sc_fest_set_au
+sc_fest_set_wi
+sc_fest_set_bl
+sc_seas_th_tex_grass
+sc_seas_th_tex_earth
+sc_seas_th_trees_1
+sc_seas_th_trees_2
+sc_seas_th_trees_3
+sc_seas_th_plants_1
+sc_seas_th_plants_2
+sc_seas_th_plants_3
+sc_seas_th_edge_1
+sc_seas_th_edge_3
+sc_seas_th_edge_4
+sc_seas_th_edge_6
+sc_seas_th_vill_core_1
+sc_seas_th_vill_core_2
+sc_seas_th_vill_houses
+sc_seas_th_vill_special_1
+sc_seas_th_vill_special_2
+sc_land_thaw
+sc_land_thaw_set
+sc_land_harvest
+sc_land_yule
+sc_land_bloom

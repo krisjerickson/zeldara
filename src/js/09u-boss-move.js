@@ -13,7 +13,7 @@
 var BMOVE={ on:true, FAR:120, WAIT:1.6, CD:[4,6], WANDER:[7.5,10.5], NEAR:[96,132], WARN:0.45,
   busy:function(mon,m){ return !!((m.busy&&!m.busy.moveOk)||(mon._bp&&(mon._bp.busy||mon._bp.stagT>0))||m.stunT>0||m.down>0||mon._hold>0||m.hidden); },
   spot:function(A,mon,P,side){ var best=null; for(var i=0;i<14;i++){ var a=(side!==undefined?side+(Math.random()-0.5)*1.2:Math.random()*Math.PI*2), r=BMOVE.NEAR[0]+Math.random()*(BMOVE.NEAR[1]-BMOVE.NEAR[0]), x=P.x+Math.cos(a)*r, y=P.y+Math.sin(a)*r;
-      if(!A.canGoM(x,y,mon))continue; if(A.scene._canGoD&&!A.scene._canGoD(x,y))continue;      /* ground you can stand on too (not lava) */ if(A.isLava&&A.isLava(x,y))continue; if(typeof MX!=='undefined'&&MX.sees&&!MX.sees(A,{x:x,y:y},P.x,P.y))continue; best={x:x,y:y}; break; } return best; },
+      if(!A.canGoM(x,y,mon))continue; if(A.scene._canGoD&&!A.scene._canGoD(x,y))continue;      /* ground you can stand on too (not lava) */ if(A.isLava&&A.isLava(x,y))continue; if(typeof BARENA!=='undefined'&&!BARENA.in(A.scene,x,y))continue;      /* round 127: only arena floor (09bd) */ if(typeof MX!=='undefined'&&MX.sees&&!MX.sees(A,{x:x,y:y},P.x,P.y))continue; best={x:x,y:y}; break; } return best; },
   go:function(A,mon,m,P,side){ var to=BMOVE.spot(A,mon,P,side); if(!to)return false; m._bmv={t:BMOVE.WARN,to:to}; m.invuln=Math.max(m.invuln||0,BMOVE.WARN+0.2);
     try{ MX.fxRing(A,mon.x,mon.y,26,'#e8d0ff'); var g=A.scene.add.circle(to.x,to.y,6,0xe8d0ff,0.35).setDepth(A.depth(to.y)-0.1); A.scene.tweens.add({targets:g,radius:28,alpha:0.08,duration:BMOVE.WARN*1000,onComplete:function(){ g.destroy(); }}); }catch(e){}
     try{ if(mon.cont)A.scene.tweens.add({targets:mon.cont,alpha:0.15,duration:BMOVE.WARN*900}); }catch(e){} return true; },
