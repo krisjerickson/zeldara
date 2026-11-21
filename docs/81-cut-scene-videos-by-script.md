@@ -41,3 +41,24 @@ The **NOT IN THIS SHOT** list is never sent as names, because a video model show
 - **Cost:** about **$0.10 a second at 720p**, from third-party estimates that are not yet verified. That is about $2 for a 20-second cut-scene, plus any redos. Check the Google bill after the first run.
 - **Not yet confirmed:** the exact duration format. The script sends `"4s"` and falls back to `"4"` if Google refuses it; the first real run will settle it.
 - **Tests:** `test_round126` (8 checks). They use a dry run on a test folder, so nothing is sent.
+
+## First run: RESOURCE_EXHAUSTED (round 126b)
+On Kris's first run, each of the five shots was accepted and then failed within about 8 seconds with `RESOURCE_EXHAUSTED`. Google means the key's project has no video quota.
+
+**Most likely cause:** Gemini Omni Flash is **not on the Gemini API free tier**. The Google AI subscription that runs Flow does not pay for the API. That is what third-party guides say (Google's own pricing page should be checked):
+- A project needs a linked billing account and **prepaid credit**: $5 minimum, valid 12 months.
+- With that, it moves to **Tier 1**, capped at $250 a month and $10 per 10 minutes.
+- Failed requests are not charged.
+
+**Fix, in AI Studio:**
+1. Check that the key belongs to the project with billing.
+2. Link billing and prepay at least $5.
+3. Check that Omni Flash shows a daily request limit above 0.
+
+**Changes to the script:**
+- **When quota runs out:**
+  - On `RESOURCE_EXHAUSTED`, it tries the next model, waits a minute and tries once more.
+  - It then **stops** with the steps above instead of sending every shot.
+- **`-Test`:** one 3-second 360p text-to-video (a few cents) to check whether the key can make video at all.
+- **Smaller pictures:** each picture is sent as a 1280×720 JPEG instead of a 2–3 MB PNG.
+- **Cost estimate:** now **$0.07–0.10 a second** at 720p. One guide reads Google's November price as $12 per million output tokens × 5,792 tokens a second ≈ $0.07/s.

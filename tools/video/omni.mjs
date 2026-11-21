@@ -29,7 +29,7 @@ const MODELS = (arg('model', 'gemini-omni-1.2-flash,gemini-omni-1.1-flash')).spl
 const SECS = +arg('secs', 4), RES = arg('res', '720p'), DRY = has('dry');
 const ONLY = arg('shots') ? arg('shots').split(',').map(Number) : null;
 const KEY = process.env.GEMINI_API_KEY;
-const BASE = 'https://generativelanguage.googleapis.com/v1beta';
+const BASE = process.env.OMNI_BASE || 'https://generativelanguage.googleapis.com/v1beta';
 if (!KEY && !DRY) { console.log('No GEMINI_API_KEY — run tools\\video\\omni.ps1, which asks for it.'); process.exit(1); }
 
 // ── the shots, from the folder's pictures and its PROMPT.txt (the Locked Shot List) ──
@@ -63,11 +63,21 @@ async function call(url, opt) {
   return j;
 }
 
+// the picture goes as a 1280×720 JPEG (a 2–3 MB PNG is ten times the bytes for the same picture); the PNG if ffmpeg can't
+function picture(n, file) {
+  const jpg = path.join(CL, '_in' + String(n).padStart(2, '0') + '.jpg');
+  try { execFileSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', path.join(DIR, file), '-vf', 'scale=1280:720:force_original_aspect_ratio=decrease', '-q:v', '3', jpg], { stdio: 'ignore' });
+    return { mime: 'image/jpeg', data: fs.readFileSync(jpg).toString('base64') }; }
+  catch (e) { return { mime: 'image/png', data: fs.readFileSync(path.join(DIR, file)).toString('base64') }; }
+}
+const QUOTA = /RESOURCE_EXHAUSTED|quota|rate limit|429/i;
+function quotaErr(msg) { const e = new Error(msg); e.quota = true; return e; }
+
 async function makeShot(n, file, out) {
-  const data = fs.readFileSync(path.join(DIR, file)).toString('base64');
+  const pic = picture(n, file), data = pic.data; let lastQuota = null;
   for (const model of MODELS) {
     for (const dur of [SECS + 's', String(SECS)]) {
-      const body = { model, background: true, input: [{ type: 'image', mime_type: 'image/png', data }, { type: 'text', text: shotText(n) }],
+      const body = { model, background: true, input: [{ type: 'image', mime_type: pic.mime, data }, { type: 'text', text: shotText(n) }],
         generation_config: { video_config: { task: 'image_to_video' } },
         response_format: { type: 'video', aspect_ratio: '16:9', duration: dur, resolution: RES, delivery: 'inline' } };
       if (DRY) { console.log(JSON.stringify({ ...body, input: [{ ...body.input[0], data: '<' + data.length + ' base64 chars>' }, body.input[1]] }, null, 1)); return; }
@@ -76,6 +86,7 @@ async function makeShot(n, file, out) {
       catch (e) {
         if (e.status === 400 && /duration/i.test(e.message) && dur.endsWith('s')) continue;      // the duration's format, the other way
         if ((e.status === 404 || e.status === 400) && /model/i.test(e.message)) { console.log('  ' + model + ': ' + e.message + ' — trying the next model'); break; }
+        if (e.status === 429 || QUOTA.test(e.message)) { lastQuota = model + ': ' + e.message; console.log('  ' + lastQuota + ' — trying the next model'); break; }
         throw e;
       }
       const t0 = Date.now();
@@ -85,6 +96,8 @@ async function makeShot(n, file, out) {
         it = await call(BASE + '/interactions/' + encodeURIComponent(it.id), { method: 'GET' });
       }
       process.stdout.write('\n');
+      const why = JSON.stringify(it.errors || it.error || '');
+      if (it.status !== 'completed' && QUOTA.test(why)) { lastQuota = model + ': ' + it.status + ' — ' + why.slice(0, 200); console.log('  ' + lastQuota + ' — trying the next model'); break; }
       if (it.status !== 'completed') throw new Error('shot ' + n + ': ' + it.status + ' — ' + JSON.stringify(it.errors || it.error || '').slice(0, 300));
       const v = it.output_video || (it.steps || []).map(s => s.output_video || s.video).find(Boolean);
       if (!v) throw new Error('shot ' + n + ': finished but no video in the answer (keys: ' + Object.keys(it).join(', ') + ')');
@@ -94,18 +107,50 @@ async function makeShot(n, file, out) {
       return;
     }
   }
+  if (lastQuota) throw quotaErr('shot ' + n + ': no quota on any model (' + MODELS.join(', ') + ')');
   throw new Error('shot ' + n + ': none of the models (' + MODELS.join(', ') + ') took the request');
 }
 
+const HELP = `
+STOPPED: Google says this key has no video quota left (RESOURCE_EXHAUSTED). Nothing was charged — failed requests are free.
+The usual cause: Gemini Omni Flash is NOT on the Gemini API free tier, and the Google AI subscription that runs Flow does not
+pay for the API. To fix it, in Google AI Studio (aistudio.google.com):
+  1. Make sure the key you pasted belongs to the project you set up billing on (Dashboard → API keys shows each key's project).
+  2. Billing: link a billing account to that project and add prepaid credit (at least $5; ~$2 makes this whole cut-scene).
+     It should then show "Tier 1" — that can take a few minutes.
+  3. Rate limits (Dashboard → Usage / Rate limits): Gemini Omni Flash should show a requests-per-day limit above 0.
+  Then run the same command again. To check the key on its own first, cheaply (one 3-second 360p clip, a few cents):
+     .\\tools\\video\\omni.ps1 -Folder ${FOLDER} -Test`;
 const CL = path.join(DIR, 'clips'); fs.mkdirSync(CL, { recursive: true });
+
+// --test: one tiny text-to-video (3 s, 360p) — does this key make video at all?
+if (has('test')) {
+  for (const model of MODELS) {
+    try {
+      let it = await call(BASE + '/interactions', { method: 'POST', body: JSON.stringify({ model, background: true, input: [{ type: 'text', text: 'A calm painted river at dusk, gentle mist, hand-painted storybook style.' }],
+        generation_config: { video_config: { task: 'text_to_video' } }, response_format: { type: 'video', aspect_ratio: '16:9', duration: '3s', resolution: '360p', delivery: 'inline' } }) });
+      while (!['completed', 'failed', 'cancelled', 'incomplete', 'budget_exceeded'].includes(it.status)) { await sleep(8000); process.stdout.write('.'); it = await call(BASE + '/interactions/' + encodeURIComponent(it.id), { method: 'GET' }); }
+      console.log('\n' + model + ': ' + it.status + (it.status === 'completed' ? ' — this key makes video. Run without -Test.' : ' — ' + JSON.stringify(it.errors || it.error || '').slice(0, 300)));
+      if (it.status === 'completed') { const v = it.output_video; if (v && v.data) fs.writeFileSync(path.join(CL, '_test.mp4'), Buffer.from(v.data, 'base64')); process.exit(0); }
+    } catch (e) { console.log(model + ': ' + e.message); }
+  }
+  console.log(HELP); process.exit(1);
+}
 const want = imgs.map((f, i) => [i + 1, f]).filter(([n]) => !ONLY || ONLY.includes(n));
-console.log(FOLDER + ': ' + imgs.length + ' pictures, ' + want.length + ' shot(s) to check · ' + SECS + ' s each at ' + RES + ' · about $' + (want.length * SECS * 0.1).toFixed(2) + ' if all are made (Omni Flash ~$0.10 a second at 720p; check your Google bill)');
+console.log(FOLDER + ': ' + imgs.length + ' pictures, ' + want.length + ' shot(s) to check · ' + SECS + ' s each at ' + RES + ' · about $' + (want.length * SECS * 0.07).toFixed(2) + '–' + (want.length * SECS * 0.1).toFixed(2) + ' if all are made (Omni Flash ~$0.07–0.10 a second at 720p; check your Google bill)');
 let made = 0, failed = 0;
 for (const [n, f] of want) {
   const out = path.join(CL, 'shot' + String(n).padStart(2, '0') + '.mp4');
   if (fs.existsSync(out) && !DRY) { console.log('  · shot ' + n + ' already made'); continue; }
   console.log('Shot ' + n + ' — from ' + f);
-  try { await makeShot(n, f, out); if (!DRY) made++; } catch (e) { failed++; console.log('  ✗ ' + e.message); }
+  try { await makeShot(n, f, out); if (!DRY) made++; }
+  catch (e) {
+    if (e.quota) {      // maybe only a per-minute limit: wait once, try again; if still none, stop — no point sending the rest
+      console.log('  … no quota — waiting a minute and trying shot ' + n + ' once more'); await sleep(+(process.env.OMNI_WAIT || 65000));
+      try { await makeShot(n, f, out); made++; continue; } catch (e2) { if (e2.quota) { console.log(HELP); process.exit(1); } failed++; console.log('  ✗ ' + e2.message); continue; }
+    }
+    failed++; console.log('  ✗ ' + e.message);
+  }
 }
 if (DRY) process.exit(0);
 const clips = imgs.map((f, i) => path.join(CL, 'shot' + String(i + 1).padStart(2, '0') + '.mp4'));
