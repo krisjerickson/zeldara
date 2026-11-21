@@ -161,6 +161,30 @@
   "kind": "amb",
   "loop": true
  },
+ "mu_asgard": {
+  "files": [
+   {
+    "base": "mu_asgard",
+    "le": 264.88,
+    "ls": 0,
+    "secs": 264.88
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_asgard_down": {
+  "files": [
+   {
+    "base": "mu_asgard_down",
+    "le": 142.837,
+    "ls": 0,
+    "secs": 142.837
+   }
+  ],
+  "kind": "music",
+  "loop": false
+ },
  "mu_ash_day": {
   "files": [
    {
@@ -180,6 +204,48 @@
     "le": 274.6,
     "ls": 0,
     "secs": 274.6
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_boss": {
+  "files": [
+   {
+    "base": "mu_boss",
+    "le": 234.8,
+    "ls": 0,
+    "secs": 234.8
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_boss_mage": {
+  "files": [
+   {
+    "base": "mu_boss_mage",
+    "le": 234.0,
+    "ls": 0,
+    "secs": 234.0
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_boss_realm": {
+  "files": [
+   {
+    "base": "mu_boss_realm",
+    "le": 234.4,
+    "ls": 0,
+    "secs": 234.4
+   },
+   {
+    "base": "mu_boss_realm.b",
+    "le": 233.96,
+    "ls": 0,
+    "secs": 233.96
    }
   ],
   "kind": "music",
@@ -221,6 +287,18 @@
   "kind": "music",
   "loop": true
  },
+ "mu_escape": {
+  "files": [
+   {
+    "base": "mu_escape",
+    "le": 254.72,
+    "ls": 0,
+    "secs": 254.72
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "mu_fight": {
   "files": [
    {
@@ -228,6 +306,18 @@
     "le": 239.2,
     "ls": 0,
     "secs": 239.2
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_forges": {
+  "files": [
+   {
+    "base": "mu_forges",
+    "le": 269.0,
+    "ls": 0,
+    "secs": 269.0
    }
   ],
   "kind": "music",
@@ -353,6 +443,18 @@
   "kind": "music",
   "loop": true
  },
+ "mu_muspelheim": {
+  "files": [
+   {
+    "base": "mu_muspelheim",
+    "le": 269.64,
+    "ls": 0,
+    "secs": 269.64
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "mu_saga_old": {
   "files": [
    {
@@ -396,6 +498,18 @@
     "le": 239.56,
     "ls": 0,
     "secs": 239.56
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_surtharn": {
+  "files": [
+   {
+    "base": "mu_surtharn",
+    "le": 254.4,
+    "ls": 0,
+    "secs": 254.4
    }
   ],
   "kind": "music",
