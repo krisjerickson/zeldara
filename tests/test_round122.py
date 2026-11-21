@@ -29,19 +29,9 @@ for who in ('zeldor', 'zeldara'):
 lab = open(os.path.join(R, 'lab', 'lab.artifact.html'), encoding='utf8').read()
 check('Lab: the props\' Spring slots show the summer painting with keep / paint a spring version', 'Keep the summer look' in lab and 'Paint a spring version' in lab and 'seasspring' in lab)
 
-# ── round 122b: Cut-scene looks ──
+# ── round 122b: Cut-scene looks (round 124: only Saga kept from round 122 — the new looks are tested in test_round124) ──
 import glob
-D = os.path.join(R, 'lab', 'preview', 'looks'); E = {}
-for f in glob.glob(os.path.join(D, 'cl_*.json')): e = json.load(open(f)); E[(e['scene'], e['look'])] = e
-sc5 = ['spirit', 'bram', 'mira', 'dunn', 'vela']
-check('Cut-scene looks: the five finished cut-scenes, four looks each (%d edits)' % len(E), all((s, l) in E for s in sc5 for l in ('saga', 'pulse', 'storybook', 'dream')))
-rd = lambda c: 1.4 + len(c.split()) * 0.36
-check('…every frame of every look lasts at least as long as its words take to read', all(f['end'] - f['start'] >= rd(f['cap']) - 0.01 for e in E.values() for f in e['frames']))
-check('…Pulse cuts on the beat (every shot a whole number of 112-BPM beats)', all(abs(x[4] / (60 / 112) - round(x[4] / (60 / 112))) < 0.02 for (s, l), e in E.items() if l == 'pulse' for f in e['frames'] for x in f['shots']))
-check('…and the looks really differ: their lengths and their transitions', all(len({round(E[(s, l)]['length']) for l in ('saga', 'pulse', 'storybook', 'dream')}) >= 3 for s in sc5) and
-      {x[3] for f in E[('spirit', 'storybook')]['frames'] for x in f['shots']} != {x[3] for f in E[('spirit', 'pulse')]['frames'] for x in f['shots']})
-data = open(os.path.join(R, 'lab', 'src', 'js', '79w-0-cutlooks-data.js'), encoding='utf-8').read(); X = json.loads(data[data.index('=') + 1:].rstrip().rstrip(';'))
-check('Lab: the Cut-scene looks tab, every video with its asset-store link (%d)' % sum(len(s['looks']) for s in X['scenes']),
-      "id:'cutlook'" in lab or 'id:"cutlook"' in lab and len(X['scenes']) == 5 and all(l['url'] for s in X['scenes'] for l in s['looks'].values()) and sum(len(s['looks']) for s in X['scenes']) == 20)
+D = os.path.join(R, 'lab', 'preview', 'looks')
+check('Cut-scene looks: the five Saga cuts are kept', all(os.path.exists(os.path.join(D, 'cl_%s_saga.json' % s)) for s in ['spirit', 'bram', 'mira', 'dunn', 'vela']))
 print('\n%d / %d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)
