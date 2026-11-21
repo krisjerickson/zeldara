@@ -1,0 +1,7 @@
+# Round 122 — the village buildings in early spring: flowers, blossom, fresh green (Kris: "paint a spring version for all buildings").
+# .\tools\sprites\paint.ps1 -List r122_spring_village
+sc_seas_sp_vill_core_1
+sc_seas_sp_vill_core_2
+sc_seas_sp_vill_houses
+sc_seas_sp_vill_special_1
+sc_seas_sp_vill_special_2

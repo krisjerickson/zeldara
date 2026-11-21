@@ -28,6 +28,15 @@
       var X=s==='wi'?WI121[src]:null;      /* round 121: Kris's notes on the first winter repaints */
       ZSCN.SHEETS.push({id:ZSEASART.id(src,s),wave:X?121:118,fam:'seas_'+s,kind:S.kind,cols:S.cols,rows:S.rows,size:S.size,noStyle:true,refs:[src],season:s,src:src,look:LOOKB[s]+(X?' '+X:''),keep:KEEPB,
         title:S.title+' — in '+ZSEASART.NAME[s],items:S.items.map(function(it){ return [it[0]+'_'+s,it[1]+' ('+ZSEASART.NAME[s]+')',it[2],it[3],it[4]]; })}); }); });
+  // ── round 122 (Kris: "let's plan to paint a spring version for all buildings, and we can add in spring things like flowers"): the five
+  //    building sheets in early spring — the season the game opens in and stays in through the first two realms. Props keep their summer look
+  //    until Kris asks (Lab › Seasons: the paintings). .\tools\sprites\paint.ps1 -List r122_spring_village
+  ZSCN.WAVES[123]='Round 122 — the village buildings in early spring (flowers, blossom, fresh green)';
+  var LOOKSP='EARLY SPRING in the village, the first in thirty-six years — window boxes and planters overflowing with fresh spring flowers (white, yellow, pale blue, soft pink: crocus, primrose, daffodils, violets); a few small clusters of white and pale-pink blossom on any tree or climbing branch beside a wall; young bright-green ivy and new leaves climbing the walls; small tufts of new grass and wildflowers at the foot of walls and steps; a bird\'s nest under one eave; the thatch and roofs fresh and clean after the thaw; soft, fresh morning light. Cheerful but light: flowers ADDED around the buildings, never covering doors, signs or windows';
+  ['sc_vill_core_1','sc_vill_core_2','sc_vill_houses','sc_vill_special_1','sc_vill_special_2'].forEach(function(src){
+    var S=ZSCN.SHEETS.find(function(x){ return x.id===src; }); if(!S)return; var s='sp';
+    ZSCN.SHEETS.push({id:ZSEASART.id(src,s),wave:123,fam:'seas_'+s,kind:S.kind,cols:S.cols,rows:S.rows,size:S.size,noStyle:true,refs:[src],season:s,src:src,look:LOOKSP,keep:KEEPB,
+      title:S.title+' — in '+ZSEASART.NAME[s],items:S.items.map(function(it){ return [it[0]+'_'+s,it[1]+' ('+ZSEASART.NAME[s]+')',it[2],it[3],it[4]]; })}); });
   // ── A · the festival dressings: small pieces hung on any building (the game places them at the door, ridge, windows and eaves) ──
   var D=' Each piece alone and centred on a transparent background, seen from the front as it would hang on a timber-and-stone Norse village building in a top-down RPG, small and readable.'+NO;
   ZSCN.SHEETS.push(

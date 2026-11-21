@@ -85,6 +85,7 @@ SIGS = [('lightning', r'lightning|thunder'), ('rain or storm', r'\brain\b|storm'
         ('Lodestar', r'lodestar'), ('orbs', r'\borbs?\b'), ('shooting star', r'shooting star'), ('giant', r'\bgiant|surtharn'), ('Odin or Freya', r'\bodin|freya')]
 def _clean(d, nm, ot):
     d = re.sub(r'\(exactly as in [^)]*\)', '', d); d = re.sub(r'\s*\((?:no|NO|not|NOT)[^)]*\)', '', d)
+    d = re.sub(r'\(([^()]*)\)', lambda m: '(' + m.group(1).replace(' — ', ', ') + ')', d)      # round 122: a dash inside brackets ("…grip — NOT a metal blade)") is not a split point
     d = d.replace('Zeldor', '\x00').replace('Zeldara', ot if nm == 'Zeldor' else 'Zeldara').replace('\x00', nm) if nm == 'Zeldor' else d
     parts = re.split(r';|\s—\s|\.\s|,?\s+(?=(?:with\s+)?NO\b)', d); see, no = [], []
     for x in parts:
