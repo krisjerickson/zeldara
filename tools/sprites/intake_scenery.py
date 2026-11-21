@@ -212,6 +212,15 @@ def pack(J):
             if not os.path.exists(p): continue
             if q['kind'] == 'tex': Image.open(p).convert('RGB').save(os.path.join(ASSETS, 'tex', it['id'] + '.webp'), quality=88); index['tex'][it['id']] = {'file': 'tex/' + it['id'] + '.webp', 'horiz': bool(it.get('horiz'))}
             else: fams.setdefault(q['fam'], []).append((it, p))
+    # round 124b — THE GUARD (round 120 wrote an index from a partial copy of the pictures and the game lost 2,300 painted items, its ground
+    # textures and its room backdrops): never write pages or an index that would drop anything the current index holds.
+    ip = os.path.join(ASSETS, 'index.json')
+    if os.path.exists(ip) and '--rebuild' not in sys.argv:
+        cur0 = json.load(open(ip)); have = set(index['items']) | set(index['tex']) | set(it['id'] for L in fams.values() for it, p in L) | set(index.get('rooms', {}))
+        lost = [k for k in list(cur0.get('items', {})) + list(cur0.get('tex', {})) + list(cur0.get('rooms', {})) if k not in have]
+        if lost:
+            raise SystemExit('STOP: this would drop %d painted pieces the game has now (e.g. %s). The cut pictures for them are not here — run the '
+                             'intake on the PC that has all of sprites/out/scenery, or pass --rebuild if dropping them is really meant. Nothing was written.' % (len(lost), ', '.join(lost[:6])))
     for fam, L in sorted(fams.items()):
         L.sort(key=lambda e: -e[0]['size'][1]); pages = []; cur = None
         def new_page(): return {'im': Image.new('RGBA', (PAGE, PAGE), (0, 0, 0, 0)), 'x': PAD, 'y': PAD, 'rowh': 0, 'used': 0}
