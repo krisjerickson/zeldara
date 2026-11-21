@@ -58,7 +58,7 @@
   var unique=function(){ var h=LBR.sec('The unique mechanics we keep','key items with their own way of being won: none of them is sold, dropped at random or changed by this review');
     return h+'<table class="tl eco-t"><thead><tr><th>Key item</th><th>How it is won</th><th>Code</th></tr></thead><tbody>'+LECO2.UNIQUE.map(function(u){ return '<tr><td><b>'+esc(u[0])+'</b></td><td>'+esc(u[1])+'</td><td><small>'+esc(u[2])+'</small></td></tr>'; }).join('')+'</tbody></table>'; };
   LAB_TABS.push({ id:'economy2', name:'Economy — round 2',
-    blurb:'<b>Round 120 — the economy with your picks in.</b> '+esc(LECO2.PICKED)+' The game compared realm by realm for a story player and an explorer; what is still out of balance; <b>9 new proposals</b> (N1–N9); finding and buying items, with <b>9 item proposals</b> (I1–I9, new items included); and the unique mechanics we keep.',
+    blurb:'<b>Round 121 — ✓ all of it, and it is built:</b> every proposal on this page and in Economy (round 119) except treasure maps is in the game (docs/76). The ✓ buttons work again (both tabs were catching the same click). <b>Round 120 — the economy with your picks in.</b> '+esc(LECO2.PICKED)+' The game compared realm by realm for a story player and an explorer; what is still out of balance; <b>9 new proposals</b> (N1–N9); finding and buying items, with <b>9 item proposals</b> (I1–I9, new items included); and the unique mechanics we keep.',
     designs:[{id:'economy2',name:'Economy — round 2'}],
     render:function(){ var h=LBR.sec('The game, phase by phase','switch the scenario and the player');
       h+='<div id="e2-phase">'+phase()+'</div>';

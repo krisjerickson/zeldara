@@ -4,70 +4,81 @@
   "keep": [
    4,
    1
-  ]
+  ],
+  "notes": ""
  },
  "spirit_12": {
   "keep": [
    6,
    2,
    1
-  ]
+  ],
+  "notes": ""
  },
  "spirit_06": {
   "keep": [
    2,
    3
-  ]
+  ],
+  "notes": "skip 1, 4, and 6"
  },
  "spirit_08": {
   "keep": [
    4,
    5,
    6
-  ]
+  ],
+  "notes": ""
  },
  "spirit_09": {
   "keep": [
    4,
    3
-  ]
+  ],
+  "notes": ""
  },
  "spirit_03": {
   "keep": [
    6,
    4
-  ]
+  ],
+  "notes": ""
  },
  "spirit_01": {
   "keep": [
    2,
    4
-  ]
+  ],
+  "notes": ""
  },
  "spirit_07": {
   "keep": [
    4,
    2,
    1
-  ]
+  ],
+  "notes": ""
  },
  "spirit_10": {
   "keep": [
    1,
    4
-  ]
+  ],
+  "notes": ""
  },
  "spirit_02": {
   "keep": [
    1,
    2
-  ]
+  ],
+  "notes": ""
  },
  "spirit_04": {
   "keep": [
    6,
    4
-  ]
+  ],
+  "notes": ""
  },
  "spirit_05": {
   "keep": [
@@ -75,6 +86,31 @@
    4,
    6
   ],
-  "note": "Kris (round 112d): too many, cut out 1, 2 and 5"
+  "note": "Kris (round 112d): too many, cut out 1, 2 and 5",
+  "notes": "too many, cut out 1, 2 and 5"
+ },
+ "opening_05": {
+  "notes": "skip this one, we already have a good video"
+ },
+ "opening_07": {
+  "notes": "too many images, cut out 2, 3 and 5"
+ },
+ "bifrost_05": {
+  "notes": "skip 2, 4, 5"
+ },
+ "lodestar_06": {
+  "notes": "skip 2, 3, 4, 5"
+ },
+ "feasthall_07": {
+  "notes": "skip 2, 4, 5, 7"
+ },
+ "ashnight_04": {
+  "notes": "skip 2, 3, 4, and 6"
+ },
+ "mira_08": {
+  "notes": "skip 1, 3, and 4 "
+ },
+ "sol2_02": {
+  "notes": "skip 2, 4, 5"
  }
 }

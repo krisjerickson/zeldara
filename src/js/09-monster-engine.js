@@ -59,7 +59,7 @@ MX.A=function(scene){ if(scene._mxA)return scene._mxA; var W=_isOverworld(scene)
     var S=MX.S(scene), df=(W?scene.calcPlayerStats().def:(calcStatsFromState(ps).def||0))||0, src=MX.striker(A), bm=src&&src.isBoss&&src.def&&src.def.atk>0?raw/src.def.atk:0, dmg=ZDiff.hit(raw,df,ps.maxHp,bm); if(src&&typeof ZHit!=='undefined')dmg=ZHit.taken(dmg,src,ps); if(S.markT>0)dmg=Math.ceil(dmg*1.25);      // (resistance to the striker's element — round 37)
     if(src){ src._engT=Date.now(); ps._lastFoe=src.def&&src.def.name; }      // the one who struck is now engaged (familiars may answer) and is named if the hero falls
     if(!noIfr)dmg=W?scene._applyShieldToDmg(dmg):_heroApplyShield(scene,ps,dmg,P.x,P.y); if(dmg<=0){ A.setIfr(0.4); return false; }
-    ps.hp=Math.max(0,ps.hp-dmg); if(!noIfr)A.setIfr(0.6); A.float(P.x,P.y-30,'-'+dmg+(label?' '+label:''),col||'#ff4433');
+    ps.hp=Math.max(0,ps.hp-dmg); scene._hitThisFloor=true; if(!noIfr)A.setIfr(0.6); A.float(P.x,P.y-30,'-'+dmg+(label?' '+label:''),col||'#ff4433');
     if(!noIfr){ var fl=document.getElementById('damage-flash'); if(fl){ fl.style.opacity='0.18'; clearTimeout(scene._flashT); scene._flashT=setTimeout(function(){fl.style.opacity='0';},300); } }
     if(W){ scene._homeCastHit=true; scene._emitUI(); if(ps.hp<=0)scene._worldPlayerDied(); } else { if(scene._updateDungeonHUD)scene._updateDungeonHUD(); if(ps.hp<=0)scene._playerDied(); }
     return true; };

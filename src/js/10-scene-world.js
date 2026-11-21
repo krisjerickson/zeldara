@@ -1461,8 +1461,7 @@ class WorldScene extends Phaser.Scene{
     this._dying=true;
     var ps=this.playerState; delete ps._lastFoe;
     // Apply penalty immediately
-    var goldLoss=Math.floor(ps.gold*0.10);
-    ps.gold=Math.max(0,ps.gold-goldLoss);
+    var _lp=ZECO.die(this), goldLoss=_lp.g;      // round 121: a lost purse where you fell (walk back for it), not a lost tenth
     ps.hp=ps.maxHp; if(ps.maxMana)ps.mana=ps.maxMana;      // round 45 (Kris: "when dieing, you should come back with full health")
     // Brief red flash — fades on its own, no pause
     var flash=document.getElementById('damage-flash');
@@ -1495,7 +1494,7 @@ class WorldScene extends Phaser.Scene{
     this.worldIFrames=3.0;
     this._dying=false;
     this._emitUI();
-    showNotif('💀 Defeated! -'+goldLoss+'g — back to village','#ff3322');
+    showNotif('💀 Defeated! '+(goldLoss?'You dropped a purse of '+goldLoss+'g where you fell — walk back for it':'')+(_lp.lost?' (your earlier purse of '+_lp.lost+'g is lost)':'')+' — back to village','#ff3322');
     showNotif('HP restored to 25%','#44ffaa');
   }
 
@@ -1518,7 +1517,7 @@ class WorldScene extends Phaser.Scene{
     // Signature terrain: slow on foot (water, marsh, boulders, lava crust),
     // full speed on the mount that crosses it.
     var shallowMult=terrainSpeedMult(_curTile,mount);
-    var baseSpd=(this._shielding?0.25:1)*180*(mdef?mdef.spdMult:1)*(1+(_stats.spdBonus||0))*bogMult*_spdMult*shallowMult*_heroBuffMult(ps,'spdUp');
+    var baseSpd=(this._shielding?0.25:1)*180*(mdef?mdef.spdMult*(1+0.05*(ps.saddle||0)):1)*(1+(_stats.spdBonus||0))*bogMult*_spdMult*shallowMult*_heroBuffMult(ps,'spdUp');
     var vx=0,vy=0;
     // SHIFT = shield block mode
     var _hadShield=this._shielding;
@@ -2446,15 +2445,17 @@ class WorldScene extends Phaser.Scene{
     var lvDiff=monLv-ps.level;
     // XP scales by level difference: beating higher-level = bonus XP, lower = penalty
     var xpMult=lvDiff>=5?3.0:lvDiff>=3?2.0:lvDiff>=1?1.5:lvDiff>=0?1.0:lvDiff>=-3?0.5:lvDiff>=-6?0.15:0.05;
-    var xpGain=Math.max(1,Math.floor(mon.def.xp*0.33*xpMult));
-    var gGain=Math.floor((mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1)))*0.33);
-    xpGain=(typeof ZPOT!=='undefined'?ZPOT.x(xpGain):xpGain); gGain=(typeof ZPOT!=='undefined'?ZPOT.g(gGain):gGain); ps.xp+=xpGain; ps.gold+=gGain;
+    /* round 121 (the economy, docs/76): a world monster pays half its purse (a camp's guards the whole purse until the camp falls); an Alpha 2.5 × gold, 2 × XP; XP through ZECO (first of its kind, Rested) */
+    var _cg=mon.campId&&this._camps&&this._camps.some(function(c){ return c.id===mon.campId&&c.state==='guarded'; }), _cut=_cg?1:ZECO.CUT, _al=mon.alpha?ZECO.ALPHA_G:1;
+    var xpGain=ZECO.xpGive(this,ps,Math.max(1,mon.def.xp*0.33*xpMult*(mon.alpha?ZECO.ALPHA_X:1)),{kill:1,rid:mon.R&&mon.R.id,daring:lvDiff>=1?xpMult:0,x:mon.x,y:mon.y});
+    var gGain=ZECO.gold(ps,(mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1)))*_cut*_al,mon.alpha?'alpha':'mon',this);
     var xpColor=lvDiff>=3?'#ffdd44':lvDiff>=1?'#aaddff':lvDiff>=-3?'#88aaff':'#446688';
     this._floatText(mon.x,mon.y-28,'+'+(lvDiff>0?'★':'')+xpGain+' XP',xpColor);
     this._floatText(mon.x,mon.y-40,'+'+gGain+'g','#ffd700');
     this._checkLevelUp(ps);
     mon.respawnTimer=75;
     if(mon.campId)this._campGuardDied(mon);
+    try{ ZECO.afterKill(this,mon,{g:gGain}); }catch(e){ console.warn('ZECO.afterKill',e); }
     var cont=mon.cont;
     this.tweens.add({targets:cont,alpha:0,scaleX:1.4,scaleY:1.4,duration:500,ease:'Power2',onComplete:function(){cont.setAlpha(0);}});
   }
@@ -2471,10 +2472,10 @@ class WorldScene extends Phaser.Scene{
     var cap=this._levelCap(ps);
     if(ps.level>=cap){
       // Cap hit — clamp XP so it doesn't accumulate past the cap
-      ps.xp=Math.min(ps.xp,(cap*100)-1);
+      ZECO.over(this,ps,cap);      // round 121: past the cap, XP fills Valour
       return;
     }
-    var needed=ps.level*100;
+    var needed=_xpNeed(ps.level);      // round 121 (N1): 300 × level, 400 × level from 15
     if(ps.xp>=needed){
       ps.xp-=needed;ps.level++;
       var hpGain=5+Math.floor((ps.level-1)/2); // Lv3=6, Lv5=7, Lv7=8...

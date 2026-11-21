@@ -135,7 +135,7 @@ function _heroKillMonster(scene, mon){
   // boss rush / anything else: generic reward + mark dead
   mon.dead=true; if(mon.cont)mon.cont.setAlpha(key==='VolcanoBossRush'?0.3:0.2);
   var ws=_heroWS(), ps=ws&&ws.playerState;
-  if(key==='VolcanoBossRush'){ showNotif('💀 '+mon.def.name+' defeated!','#ffdd44'); return; }
+  if(key==='VolcanoBossRush'){ showNotif('💀 '+mon.def.name+' defeated!','#ffdd44'); try{ if(ps)ZECO.gold(ps,ZECO.FLOOR[4]*0.4,'prize'); }catch(e){} return; }      // round 121: the boss rush pays the floor
   if(ps&&mon.def){
     var xp=Math.ceil((mon.def.hp||20)*0.6), gold=5+Math.floor(Math.random()*10);
     xp=(typeof ZPOT!=='undefined'?ZPOT.x(xp):xp); gold=(typeof ZPOT!=='undefined'?ZPOT.g(gold):gold); ps.xp+=xp; ps.gold+=gold;

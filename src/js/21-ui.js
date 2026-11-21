@@ -19,7 +19,7 @@ function updateHUD(state){
   var manaPct=Math.min(100,mana/maxMana*100);
   _hudW('mana-bar','width',manaPct+'%');
   _hudW('mana-val','text',mana+'/'+maxMana);
-  _hudW('xp-bar','width',Math.min(100,xp/(level*100)*100)+'%');
+  _hudW('xp-bar','width',Math.min(100,xp/_xpNeed(level)*100)+'%');
   var lvCap=ul&&ul.length?((Math.max.apply(null,ul)>=4?20:Math.max.apply(null,ul)>=3?15:Math.max.apply(null,ul)>=2?10:5)):5;
   _hudW('lv-val','text','Lv '+level+'/'+lvCap);
   _hudW('gold-val','text',gold+'g');
@@ -440,7 +440,7 @@ function updateInventoryModal(ps){
       +(stats.manaRegen>0?'<div class="stat-row"><span>MP Regen</span><span class="sv">'+(1.5+stats.manaRegen).toFixed(1)+' in a fight · '+(4+stats.manaRegen).toFixed(1)+'/s</span></div>':'')
       +(stats.cdReduce>0?'<div class="stat-row"><span>Cooldown</span><span class="sv">-'+Math.round(stats.cdReduce*100)+'%</span></div>':'')
       +(stats.spdBonus>0?'<div class="stat-row"><span>Speed</span><span class="sv">+'+(Math.round(stats.spdBonus*100))+'%</span></div>':'')
-      +'<div class="stat-row"><span>XP</span><span class="sv">'+ps.xp+'/ '+(ps.level*100)+'</span></div>'
+      +'<div class="stat-row"><span>XP</span><span class="sv">'+ps.xp+'/ '+_xpNeed(ps.level)+'</span></div>'
       +'</div>';
     // Active slots
     h+='<div style="font-size:9px;color:#557;text-transform:uppercase;letter-spacing:.5px;margin-top:10px;margin-bottom:5px">Active Slots</div>';

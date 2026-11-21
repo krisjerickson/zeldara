@@ -7,14 +7,15 @@
 (function(){ if(typeof ZLoot==='undefined'||typeof R45_RARE==='undefined')return;
   var K=Object.keys(R45_RARE);
   ZLoot.rareFor=function(scene,ps,sec){ var got=[], first, key;
-    if(scene._castle){ key=scene._castle.key; first=!CastleRun.done(ps,key); K.forEach(function(id){ if(R45_RARE[id].wardens.indexOf(key)>=0&&(first||Math.random()<0.25))got.push(id); }); }
-    else if(scene._mage){ key=scene._mage.key; first=!MageRun.done(ps,key); K.forEach(function(id){ if(R45_RARE[id].masters.indexOf(key)>=0&&(first||Math.random()<0.25))got.push(id); }); }
+    var RM=ps.rareMiss||(ps.rareMiss={}), lucky=function(k){ var hit=Math.random()<0.25||(RM[k]||0)>=3; RM[k]=hit?0:(RM[k]||0)+1; return hit; };      /* round 121: a sure one on the 4th rematch without */
+    if(scene._castle){ key=scene._castle.key; first=!CastleRun.done(ps,key); var lk=first||lucky('c_'+key); K.forEach(function(id){ if(R45_RARE[id].wardens.indexOf(key)>=0&&lk)got.push(id); }); }
+    else if(scene._mage){ key=scene._mage.key; first=!MageRun.done(ps,key); var lm=first||lucky('m_'+key); K.forEach(function(id){ if(R45_RARE[id].masters.indexOf(key)>=0&&lm)got.push(id); }); }
     else if(!scene._isIsland&&!(scene._site&&!scene._site.boss)&&!scene._wasDone){ K.forEach(function(id){ if(R45_RARE[id].boss.indexOf(sec)>=0)got.push(id); }); }
     return got; };
   var _site=ZLoot.site; ZLoot.site=function(scene,ps,sec){ var extra=[]; try{ extra=ZLoot.rareFor(scene,ps,sec); }catch(e){} _site.apply(ZLoot,arguments);
     if(extra.length){ extra.forEach(function(id){ ZLoot.give(ps,id); }); ZLoot._say(scene,extra,4200); } };
   var _kill=ZLoot.kill; ZLoot.kill=function(A,mon){ _kill.apply(ZLoot,arguments);
     try{ if(!mon||!mon.alpha||mon._noLoot)return; var els=ZEL.mon(mon), ps=A.ps(); if(!els.length||!ps)return;
-      var L=K.filter(function(id){ var R=R45_RARE[id]; return R.alpha&&R.els.some(function(e){ return els.indexOf(e)>=0; }); }); if(!L.length||Math.random()>=0.2)return;
+      var L=K.filter(function(id){ var R=R45_RARE[id]; return R.alpha&&R.els.some(function(e){ return els.indexOf(e)>=0; }); }); if(!L.length||Math.random()>=0.35)return;      /* round 121: 1 in 5 → 35 % */
       var id=L[Math.floor(Math.random()*L.length)]; ZLoot.give(ps,id); A.float(mon.x,mon.y-((mon.def&&mon.def.r)||10)-44,'✦ '+ITEMS[id].name,'#ffe9a8'); if(typeof showNotif==='function')showNotif('✦ The Alpha '+mon.def.name+' left a '+ITEMS[id].name+' — a rare forging item','#ffe9a8'); }catch(e){} };
 })();

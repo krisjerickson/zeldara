@@ -31,8 +31,8 @@ function _showTavernMenu(ps, ws){
   window._tavernAct=function(act){
     if(act==='rest'){
       if(ps.gold<10){showNotif('Not enough gold!','#ff4444');return;}
-      ps.gold-=10; ps.hp=ps.maxHp;
-      showNotif('💤 Rested for 10g. HP restored!','#44ffaa');
+      ps.gold-=10; ps.hp=ps.maxHp; ps.rested=Math.max(ps.rested||0,Math.round(_xpNeed(ps.level||1)*0.5));      // round 121: Rested — the next XP counts double
+      showNotif('💤 Rested for 10g. HP restored — and you are Rested: your next '+ps.rested+' XP counts double','#44ffaa');
     } else if(act==='drink'){
       if(ps.gold<100){showNotif('Not enough gold!','#ff4444');return;}
       ps.gold-=100; ps.hp=ps.maxHp;

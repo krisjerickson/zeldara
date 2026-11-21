@@ -1,0 +1,11 @@
+# Round 121 — the economy's new things (docs/76): .\tools\sprites\paint.ps1 -List r121_economy
+sc_eco_icons_1
+sc_eco_icons_2
+sc_eco_icons_3
+sc_eco_icons_4
+sc_eco_icons_5
+sc_eco_icons_6
+sc_eco_icons_7
+sc_eco_icons_8
+sc_eco_icons_9
+sc_eco_props

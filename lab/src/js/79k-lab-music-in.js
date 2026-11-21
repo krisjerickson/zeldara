@@ -10,7 +10,7 @@ var LABMU={ IN:{},
   mmss:function(s){ s=Math.round(s||0); return Math.floor(s/60)+':'+('0'+s%60).slice(-2); },
   hosted:function(){ return /vercel\.app$|localhost$/.test(location.hostname); },
   player:function(t){ var take=t[0], secs=t[1], lbl=/\.b$/.test(take)?'take 2':'take 1';
-    return '<div class="lmu-p"><span class="lmu-t">'+lbl+' · '+LABMU.mmss(secs)+'</span><audio controls preload="none" src="'+(LABMU.hosted()?'../play/assets/audio/'+take+'.mp3':'preview/music/'+take+'.mp3')+'"></audio>'+'</div>'; },      /* hosted: the whole piece from the game's files (the Lab's previews are not in git) */
+    return '<div class="lmu-p"><span class="lmu-t">'+lbl+' · '+LABMU.mmss(secs)+'</span><audio controls preload="none" src="'+(LABMU.hosted()?'../play/assets/audio/'+take+'.mp3':(LABMU.JOIN&&LABMU.JOIN[take]&&typeof LAB_SET!=='undefined'&&LAB_SET==='new')?'preview/music/'+LABMU.JOIN[take][0]+'.mp3#t='+LABMU.JOIN[take][1]+','+LABMU.JOIN[take][2]:'preview/music/'+take+'.mp3')+'"></audio>'+'</div>'; },      /* hosted: the whole piece from the game's files (the Lab's previews are not in git) */
 
   card:function(id){ var T=LABMU.IN[id]; if(!T)return '<div class="lmu-none">Not made yet — the Suno words are below.</div>';
     return '<div class="lmu-in">✓ In the game'+(T.length>1?' — '+T.length+' takes, the game alternates them':'')+T.map(LABMU.player).join('')+'</div>'; },

@@ -21,7 +21,8 @@
      "who": 0,
      "id": "sc_ss_spirit_01_2",
      "dur": 3.52,
-     "move": "push",
+     "move": "establish",
+     "fx": "dark",
      "in": "fade",
      "start": 0.0
     },
@@ -31,12 +32,14 @@
      "who": 0,
      "id": "sc_ss_spirit_01_4",
      "dur": 3.52,
-     "move": "pull",
+     "move": "dutch",
+     "fx": "dark",
      "in": "cut",
      "start": 3.52
     }
    ],
    "dur": 7.04,
+   "mood": "dread",
    "start": 0.0,
    "end": 7.04
   },
@@ -53,7 +56,8 @@
      "who": "h",
      "id": "sc_ss_spirit_02_1_m",
      "dur": 2.26,
-     "move": "push",
+     "move": "creep",
+     "fx": "dark",
      "in": "dissolve",
      "start": 7.04
     },
@@ -63,12 +67,14 @@
      "who": "h",
      "id": "sc_ss_spirit_02_2_m",
      "dur": 2.26,
-     "move": "push",
+     "move": "dutch",
+     "fx": "dark",
      "in": "cut",
      "start": 9.3
     }
    ],
    "dur": 4.52,
+   "mood": "dread",
    "start": 7.04,
    "end": 11.56
   },
@@ -85,7 +91,8 @@
      "who": "h",
      "id": "sc_ss_spirit_03_6_m",
      "dur": 2.43,
-     "move": "push",
+     "move": "creep",
+     "fx": "dark",
      "in": "dissolve",
      "start": 11.56
     },
@@ -95,12 +102,14 @@
      "who": "h",
      "id": "sc_ss_spirit_03_4_m",
      "dur": 2.81,
-     "move": "pull",
+     "move": "dutch",
+     "fx": "dark",
      "in": "cut",
      "start": 13.99
     }
    ],
    "dur": 5.24,
+   "mood": "dread",
    "start": 11.56,
    "end": 16.8
   },
@@ -117,8 +126,9 @@
      "who": "h",
      "id": "sc_ss_spirit_04_6_m",
      "dur": 2.43,
-     "move": "push",
-     "in": "dissolve",
+     "move": "orbit",
+     "fx": "glow",
+     "in": "flashblue",
      "start": 16.8
     },
     {
@@ -127,12 +137,14 @@
      "who": "h",
      "id": "sc_ss_spirit_04_4_m",
      "dur": 2.81,
-     "move": "panR",
+     "move": "snapglow",
+     "fx": "glow",
      "in": "cut",
      "start": 19.23
     }
    ],
    "dur": 5.24,
+   "mood": "magic",
    "start": 16.8,
    "end": 22.04
   },
@@ -152,7 +164,7 @@
      "move": "shake",
      "top": true,
      "dur": 1.92,
-     "in": "dissolve",
+     "in": "flashblue",
      "start": 22.04
     },
     {
@@ -181,6 +193,7 @@
     }
    ],
    "dur": 6.68,
+   "mood": "magic",
    "start": 22.04,
    "end": 28.71
   },
@@ -212,11 +225,12 @@
      "move": "orbit",
      "top": true,
      "dur": 1.54,
-     "in": "cut",
+     "in": "whip",
      "start": 30.31
     }
    ],
    "dur": 3.14,
+   "mood": "impact",
    "start": 28.71,
    "end": 31.85
   },
@@ -233,8 +247,9 @@
      "who": "h",
      "id": "sc_ss_spirit_07_4_m",
      "dur": 1.51,
-     "move": "pull",
-     "in": "dissolve",
+     "move": "snapglow",
+     "fx": "glow",
+     "in": "flashblue",
      "start": 31.85
     },
     {
@@ -243,7 +258,8 @@
      "who": "h",
      "id": "sc_ss_spirit_07_2_m",
      "dur": 1.96,
-     "move": "pull",
+     "move": "crane",
+     "fx": "glow",
      "in": "cut",
      "start": 33.36
     },
@@ -253,12 +269,14 @@
      "who": "h",
      "id": "sc_ss_spirit_07_1_m",
      "dur": 2.85,
-     "move": "push",
+     "move": "pull",
+     "fx": "glow",
      "in": "cut",
      "start": 35.32
     }
    ],
    "dur": 6.32,
+   "mood": "magic",
    "start": 31.85,
    "end": 38.17
   },
@@ -275,7 +293,8 @@
      "who": "h",
      "id": "sc_ss_spirit_08_4_m",
      "dur": 1.66,
-     "move": "pull",
+     "move": "snapglow",
+     "fx": "glow",
      "in": "dissolve",
      "start": 38.17
     },
@@ -285,7 +304,8 @@
      "who": "h",
      "id": "sc_ss_spirit_08_5_m",
      "dur": 1.95,
-     "move": "push",
+     "move": "orbit",
+     "fx": "glow",
      "in": "cut",
      "start": 39.83
     },
@@ -296,11 +316,13 @@
      "id": "sc_ss_spirit_08_6_m",
      "dur": 2.34,
      "move": "push",
+     "fx": "glow",
      "in": "cut",
      "start": 41.78
     }
    ],
    "dur": 5.96,
+   "mood": "magic",
    "start": 38.17,
    "end": 44.12
   },
@@ -317,7 +339,8 @@
      "who": "h",
      "id": "sc_ss_spirit_09_4_m",
      "dur": 2.12,
-     "move": "pull",
+     "move": "snapglow",
+     "fx": "glow",
      "in": "dissolve",
      "start": 44.12
     },
@@ -327,12 +350,14 @@
      "who": "h",
      "id": "sc_ss_spirit_09_3_m",
      "dur": 3.12,
-     "move": "panL",
+     "move": "orbit",
+     "fx": "glow",
      "in": "cut",
      "start": 46.24
     }
    ],
    "dur": 5.24,
+   "mood": "magic",
    "start": 44.12,
    "end": 49.36
   },
@@ -349,7 +374,8 @@
      "who": "h",
      "id": "sc_ss_spirit_10_1_m",
      "dur": 2.26,
-     "move": "push",
+     "move": "arc",
+     "fx": "warm",
      "in": "dissolve",
      "start": 49.36
     },
@@ -359,12 +385,14 @@
      "who": "h",
      "id": "sc_ss_spirit_10_4_m",
      "dur": 2.26,
-     "move": "panR",
+     "move": "handheld",
+     "fx": "warm",
      "in": "cut",
      "start": 51.62
     }
    ],
    "dur": 4.52,
+   "mood": "tender",
    "start": 49.36,
    "end": 53.88
   },
@@ -381,7 +409,8 @@
      "who": "h",
      "id": "sc_ss_spirit_11_4_m",
      "dur": 1.82,
-     "move": "pull",
+     "move": "push",
+     "fx": "",
      "in": "dissolve",
      "start": 53.88
     },
@@ -391,12 +420,14 @@
      "who": "h",
      "id": "sc_ss_spirit_11_1_m",
      "dur": 3.42,
-     "move": "push",
-     "in": "cut",
+     "move": "panR",
+     "fx": "",
+     "in": "whip",
      "start": 55.7
     }
    ],
    "dur": 5.24,
+   "mood": "journey",
    "start": 53.88,
    "end": 59.12
   },
@@ -413,7 +444,8 @@
      "who": "h",
      "id": "sc_ss_spirit_12_6_m",
      "dur": 1.64,
-     "move": "pull",
+     "move": "handheld",
+     "fx": "warm",
      "in": "dissolve",
      "start": 59.12
     },
@@ -423,7 +455,8 @@
      "who": "h",
      "id": "sc_ss_spirit_12_2_m",
      "dur": 1.9,
-     "move": "pull",
+     "move": "arc",
+     "fx": "warm",
      "in": "cut",
      "start": 60.76
     },
@@ -433,12 +466,14 @@
      "who": "h",
      "id": "sc_ss_spirit_12_1_m",
      "dur": 2.77,
-     "move": "pull",
+     "move": "farewell",
+     "fx": "warm",
      "in": "cut",
      "start": 62.66
     }
    ],
    "dur": 6.32,
+   "mood": "tender",
    "start": 59.12,
    "end": 65.43
   }
@@ -447,10 +482,10 @@
   0.0,
   7.265,
   11.785,
-  17.025,
-  22.265,
+  16.95,
+  22.19,
   28.86,
-  32.075,
+  32.0,
   38.395,
   44.345,
   49.585,

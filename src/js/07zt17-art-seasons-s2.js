@@ -11,14 +11,22 @@
 // ║  Festival story frames (24) come with S5, the festival clothes with S4. .\tools\sprites\paint.ps1 -List r118_seasons_s2
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof ZSCN==='undefined'||typeof ZSEASART==='undefined')return;
+  ZSCN.WAVES[121]='Round 121 — the winter village painted again, with Kris\'s notes (a few festive touches; the gardens harvested)';
   ZSCN.WAVES[118]='Round 118 — the seasons, wave S2: the village in autumn and winter, the festival dressings and set-pieces, the festival food';
   var NO=' No pixel art. No text, no letters, no numbers.';
   var LOOKB={au:'AUTUMN in the village — fallen gold and rust leaves gathered on the roofs, in gutters and against the walls; climbing ivy and vines on the walls turned red; window boxes and gardens with late flowers, pumpkins, gourds and drying herbs; a few apples in baskets by doors; warm, low golden light',
     wi:'A MILD WINTER in the village — a light white hoarfrost on the roofs, thatch and ledges (NOT deep snow: the roof colours still show); a few short icicles at the eaves; thin smoke curling from every chimney; windows glowing warm amber; bare vines on the walls; firewood stacked by doors; cool, clear light'};
   var KEEPB='The buildings themselves — their shape, walls, roofs, doors, signs, colours and every made detail — stay exactly as in the reference; only what the season brings is added (leaves, frost, smoke, light, a few seasonal things by the doors).';
+  // ── round 121 (Kris, Lab › Seasons: the paintings): "let's have some mild festive decor as well, like some wreaths and holly, but don't have too
+  //    much, just minor additions" (village buildings 1, 2, craftsmen's buildings, tall landmarks, props 1) and "vegetables should be picked and
+  //    gone at this point" (props 3). These sheets are painted again: .\tools\sprites\redo.ps1 -List r121_winter_redo
+  var FEST='A FEW SMALL FESTIVE TOUCHES for midwinter, kept minor: a small evergreen wreath with red berries on some doors, a sprig of holly over a window or a sign, a short twist of fir bough along an occasional eave or rail. Not on every building, not covering anything; most of each building looks exactly as before with only frost added.';
+  var WI121={sc_vill_core_1:FEST,sc_vill_core_2:FEST,sc_vill_special_1:FEST,sc_vill_special_2:FEST,sc_vprops_1:FEST,
+    sc_vprops_3:'THE GARDENS ARE HARVESTED: every vegetable patch is bare dark soil in neat rows with a little frost, the crops picked and gone (no cabbages, carrots, leeks or pumpkins left in the ground — at most a few dry stalks); the fences, walls, hedges and banners as before, lightly frosted.'};
   ['au','wi'].forEach(function(s){ ['sc_vill_core_1','sc_vill_core_2','sc_vill_houses','sc_vill_special_1','sc_vill_special_2','sc_vprops_1','sc_vprops_2','sc_vprops_3','sc_vprops_4'].forEach(function(src){
       var S=ZSCN.SHEETS.find(function(x){ return x.id===src; }); if(!S)return;
-      ZSCN.SHEETS.push({id:ZSEASART.id(src,s),wave:118,fam:'seas_'+s,kind:S.kind,cols:S.cols,rows:S.rows,size:S.size,noStyle:true,refs:[src],season:s,src:src,look:LOOKB[s],keep:KEEPB,
+      var X=s==='wi'?WI121[src]:null;      /* round 121: Kris's notes on the first winter repaints */
+      ZSCN.SHEETS.push({id:ZSEASART.id(src,s),wave:X?121:118,fam:'seas_'+s,kind:S.kind,cols:S.cols,rows:S.rows,size:S.size,noStyle:true,refs:[src],season:s,src:src,look:LOOKB[s]+(X?' '+X:''),keep:KEEPB,
         title:S.title+' — in '+ZSEASART.NAME[s],items:S.items.map(function(it){ return [it[0]+'_'+s,it[1]+' ('+ZSEASART.NAME[s]+')',it[2],it[3],it[4]]; })}); }); });
   // ── A · the festival dressings: small pieces hung on any building (the game places them at the door, ridge, windows and eaves) ──
   var D=' Each piece alone and centred on a transparent background, seen from the front as it would hang on a timber-and-stone Norse village building in a top-down RPG, small and readable.'+NO;

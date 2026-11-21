@@ -21,6 +21,9 @@ THE RULES OF THE EDIT
   and never shorter than its shots need (1.15 s each for a burst of action, 1.6 s otherwise). The frame's time is shared among its kept
   shots by how much there is to take in: a wide shot gets more, a close-up or an insert less, and the last shot of a frame holds a little
   longer so the line is read before the cut. More shots kept = quicker cutting, the same overall length.
+  Camera (round 121) — each frame's mood comes from its words (impact · magic · dread · tender · journey): impacts crash-zoom and shake with
+  whip-pans between shots, magic cranes and snaps in with a breathing glow, dread leans (dutch) and creeps with dark edges, tender moments
+  sway like a hand-held camera, journeys pan wide; the first shot comes down out of the sky, the last pulls up and away. Otherwise:
   Camera — the next shot decides. If the next shot is tighter (wide → close-up), this one pushes in, as if leaning toward it; if it is
   wider, this one pulls back; the same size drifts sideways (alternating). The first shot of the cut-scene pushes in slowly, the last pulls
   back as it fades out. The planned moves of the first series (shake, tilt up, orbit…) are kept. Close-ups and inserts move least.
@@ -42,8 +45,33 @@ ACTION = {'spirit': [6]}          # frames cut as a burst of action
 FLASH_IN = {'spirit': {6: 'white'}}  # frames that come in on a flash instead of a dissolve
 
 
+MOODS = [('impact', r'burst|break|broke|shatter|strik|slam|crash|roar|explod|snap|tore|smash|fell upon'),
+         ('dread', r'chain|toil|worn|thin|dark|shadow|binder|alone|cold|bound|dread|never'),
+         ('tender', r'thank|home|smile|hand in|first to come|embrace|hug|tears'),
+         ('magic', r'rune|light|glow|spirit|free|burn|blue|shine|shone|green|remember|magic|stars?'),
+         ('journey', r'drift|over the hills|toward|ran out|road|walk|travel|sail|across')]
+MOVES = ('push', 'pull', 'panR', 'panL', 'tiltU', 'tiltD', 'crane', 'orbit', 'shake', 'establish', 'farewell', 'crash', 'whipshake', 'snapglow', 'dutch', 'creep', 'handheld', 'arc')
+import re as _re
+def mood(text, action):
+    t = (text or '').lower()
+    if action: return 'impact'
+    for m, rx in MOODS:
+        if _re.search(rx, t): return m
+    return ''
+
+
 def read(line):
     return 1.4 + len(str(line or '').split()) * 0.36
+
+
+_SB = None
+def sb_id(scene, n):
+    """the story frame's own painting: sc_sb_<scene>_<nn> (shared) or sc_sb_<scene>_<nn>_m (Zeldor's)"""
+    global _SB
+    if _SB is None:
+        _SB = {q['id'] for q in json.load(open(os.path.join(ROOT, 'sprites', 'requests', 'scenery.json'), encoding='utf-8'))['requests'] if q['id'].startswith('sc_sb_')}
+    base = 'sc_sb_%s_%02d' % (scene, n)
+    return base + '_m' if base + '_m' in _SB else base
 
 
 def plan_edit(scene, plan, picks):
@@ -52,6 +80,7 @@ def plan_edit(scene, plan, picks):
     for b in sc['beats']:
         key = '%s_%02d' % (scene, b['n']); pk = picks.get(key) or {}
         by_k = {x['k']: x for x in b['shots']}
+        by_k[0] = {'k': 0, 'lens': 'wide', 'who': '', 'id': sb_id(scene, b['n'])}      # round 121: the frame's own painting can be kept (Kris's pick 0)
         keep = [k for k in pk.get('keep', []) if k in by_k] or ([x['k'] for x in b['shots'] if x.get('top')] or [x['k'] for x in b['shots']][:2])
         shots = [dict(by_k[k]) for k in keep]
         act = b['n'] in ACTION.get(scene, [])
@@ -60,26 +89,34 @@ def plan_edit(scene, plan, picks):
         wts = [WEIGHT.get(s['lens'], 1.0) for s in shots]; wts[-1] += 0.25
         for s, w in zip(shots, wts): s['dur'] = round(total * w / sum(wts), 2)
         frames.append({'n': b['n'], 'title': b['title'], 'cap': b['cap'], 'by': pk.get('by', 'kris'), 'action': act, 'shots': shots, 'dur': round(total, 2)})
-    # camera moves: the next shot decides
-    flat = [s for f in frames for s in f['shots']]; side = 1
-    for i, s in enumerate(flat):
-        if s.get('move') in ('shake', 'tiltU', 'tiltD', 'orbit', 'push', 'pull', 'panL', 'panR', 'crane'):
-            continue
-        a = SCALE.get(s['lens'], 1.5)
-        if i == len(flat) - 1: s['move'] = 'pull'
-        elif i == 0: s['move'] = 'push'
-        else:
-            b2 = SCALE.get(flat[i + 1]['lens'], 1.5)
-            if b2 > a + 0.4: s['move'] = 'push'
-            elif b2 < a - 0.4: s['move'] = 'pull'
-            else: s['move'] = 'panR' if side > 0 else 'panL'; side = -side
+    # camera moves (round 121, Kris: "the special effects applied to the first set of images were better … zooming in, out, to the side,
+    # vibrating for effect … make all of these cutscene progressions cinematic"): each frame's MOOD comes from its words, and the mood,
+    # the lens and the next shot choose the move. The planned moves (TOP) are kept.
+    flat = [s for f in frames for s in f['shots']]; side = 1; prev = None
+    for fi, f in enumerate(frames):
+        f['mood'] = mood(f['cap'] + ' ' + f['title'], f['action'])
+        for j, s in enumerate(f['shots']):
+            i = flat.index(s)
+            if s.get('move') in MOVES and s.get('top'): prev = s['move']; continue
+            a = SCALE.get(s['lens'], 1.5); nxt = flat[i + 1] if i + 1 < len(flat) else None; b2 = SCALE.get(nxt['lens'], 1.5) if nxt else a; m = f['mood']
+            if i == 0: mv = 'establish'
+            elif i == len(flat) - 1: mv = 'farewell'
+            elif m == 'impact': mv = 'crash' if j == 0 else ('whipshake' if j % 2 else 'shake')
+            elif m == 'magic': mv = 'crane' if a <= 1 else 'snapglow' if a >= 3 else 'orbit'
+            elif m == 'dread': mv = 'dutch' if a >= 2 else 'creep'
+            elif m == 'tender': mv = 'handheld' if a >= 2 else 'arc'
+            elif m == 'journey': mv = ('panR' if side > 0 else 'panL') if a <= 1.5 else 'push'
+            else: mv = 'push' if b2 > a + 0.4 else 'pull' if b2 < a - 0.4 else ('panR' if side > 0 else 'panL')
+            if mv in ('panR', 'panL'): side = -side
+            if mv == prev and mv not in ('shake',): mv = {'push': 'dutch', 'pull': 'crane', 'crane': 'pull', 'orbit': 'push', 'handheld': 'arc', 'arc': 'handheld', 'creep': 'dutch', 'dutch': 'creep'}.get(mv, mv)
+            s['move'] = mv; s['fx'] = {'impact': 'shake', 'magic': 'glow', 'dread': 'dark', 'tender': 'warm'}.get(m, ''); prev = mv
     # cuts and times: hard cuts inside a frame, a dissolve (or a flash) between frames
     for fi, f in enumerate(frames):
         for j, s in enumerate(f['shots']):
             if fi == 0 and j == 0: s['in'] = 'fade'
-            elif j == 0: s['in'] = {'white': 'flash', 'blue': 'flashblue'}.get(FLASH_IN.get(scene, {}).get(f['n']), 'dissolve')
-            else: s['in'] = {'flashblue': 'flashblue', 'flash': 'flash'}.get(s.get('cut'), 'cut')
-    XF = {'dissolve': 0.45, 'flash': 0.3, 'flashblue': 0.3, 'fade': 0.7, 'cut': 0.0}
+            elif j == 0: s['in'] = {'white': 'flash', 'blue': 'flashblue'}.get(FLASH_IN.get(scene, {}).get(f['n'])) or ('flash' if f['mood'] == 'impact' else 'flashblue' if f['mood'] == 'magic' and 'rune' in f['cap'].lower() else 'dissolve')
+            else: s['in'] = {'flashblue': 'flashblue', 'flash': 'flash'}.get(s.get('cut')) or ('whip' if f['mood'] in ('impact', 'journey') else 'cut')
+    XF = {'dissolve': 0.45, 'flash': 0.3, 'flashblue': 0.3, 'fade': 0.7, 'cut': 0.0, 'whip': 0.24}
     t = 0.0
     for f in frames:
         f['start'] = round(t, 3)
@@ -112,20 +149,54 @@ def ease(u): return u * u * (3 - 2 * u)
 
 
 def camera(move, u, close, t):
-    """zoom and offset at progress u (0..1) for a move; close-ups move least"""
-    k = 0.55 if close else 1.0; e = ease(u)
-    if move == 'push': return 1.04 + 0.12 * k * e, 0, 0, 0
-    if move == 'pull': return 1.16 - 0.12 * k * e, 0, 0, 0
-    if move == 'panR': return 1.10, (-0.7 + 1.4 * e) * k, 0, 0
-    if move == 'panL': return 1.10, (0.7 - 1.4 * e) * k, 0, 0
-    if move == 'tiltU': return 1.12, 0, (0.8 - 1.6 * e), 0
-    if move == 'tiltD': return 1.12, 0, (-0.8 + 1.6 * e), 0
-    if move == 'crane': return 1.12 - 0.06 * e, 0, (0.8 - 1.4 * e), 0
-    if move == 'orbit': return 1.12 + 0.03 * math.sin(e * math.pi), (-0.5 + 1.0 * e) * k, 0, -1.2 + 2.4 * e
-    if move == 'shake':
-        a = max(0.0, 1 - u * 1.6)
-        return 1.10, math.sin(t * 61) * 0.25 * a, math.cos(t * 47) * 0.25 * a, math.sin(t * 37) * 0.6 * a
-    return 1.06, 0, 0, 0
+    """zoom, x / y offset (−1..1 of the spare room) and roll at progress u (0..1); close-ups move a little less"""
+    k = 0.75 if close else 1.0; e = ease(u)
+    sway = lambda a: (math.sin(t * 1.7) * 0.10 * a + math.sin(t * 2.9 + 1) * 0.06 * a, math.cos(t * 1.3) * 0.08 * a + math.sin(t * 3.7) * 0.04 * a)
+    if move == 'push': return 1.04 + 0.22 * k * e, 0, -0.08 * e, 0
+    if move == 'pull': return 1.26 - 0.22 * k * e, 0, 0, 0
+    if move == 'panR': return 1.18, (-0.95 + 1.9 * e) * k, 0, 0
+    if move == 'panL': return 1.18, (0.95 - 1.9 * e) * k, 0, 0
+    if move == 'tiltU': return 1.16, 0, (0.9 - 1.8 * e), 0
+    if move == 'tiltD': return 1.16, 0, (-0.9 + 1.8 * e), 0
+    if move == 'crane': return 1.22 - 0.12 * e, 0, (0.9 - 1.6 * e), 0
+    if move == 'establish': return 1.32 - 0.24 * e, 0, (-0.8 + 1.0 * e), 0            # down out of the sky, opening up
+    if move == 'farewell': return 1.0 + 0.30 * (1 - e), 0, (0.2 - 0.6 * e), 0          # pulls up and away
+    if move == 'orbit': return 1.18 + 0.05 * math.sin(e * math.pi), (-0.7 + 1.4 * e) * k, 0, -2.0 + 4.0 * e
+    if move == 'arc': return 1.14 + 0.06 * e, (0.5 - 1.0 * e) * k, 0, 1.0 - 2.0 * e
+    if move == 'dutch': return 1.08 + 0.18 * e, 0, 0, 3.5 * e                           # a slow lean, the world off true
+    if move == 'creep': return 1.02 + 0.12 * e, 0, 0.15 * e, 0                          # a slow, uneasy push
+    if move == 'handheld': x, y = sway(1.0); return 1.10 + 0.10 * e, x, y, math.sin(t * 1.1) * 0.6
+    if move == 'snapglow':                                                               # a snap in, then a slow drift
+        z = 1.0 + 0.30 * min(1.0, u / 0.18) ** 0.5 + 0.04 * e; return z, 0, -0.1, 0
+    if move in ('shake', 'crash', 'whipshake'):
+        a = max(0.0, 1 - u * (1.3 if move == 'shake' else 1.0))
+        z = (1.0 + 0.32 * min(1.0, u / 0.12)) if move == 'crash' else 1.16 + 0.06 * e
+        ox = (0.6 - 1.2 * e) if move == 'whipshake' else 0
+        return z, ox + math.sin(t * 61) * 0.35 * a, math.cos(t * 47) * 0.35 * a, math.sin(t * 37) * 1.4 * a
+    return 1.08, 0, 0, 0
+
+
+def mblur(img, n):
+    """a horizontal motion blur n pixels long (the whip)"""
+    if n < 2: return img
+    c = np.cumsum(np.pad(img, ((0, 0), (n, 0), (0, 0)), mode='edge'), axis=1); return (c[:, n:] - c[:, :-n]) / n
+
+
+def effects(img, fx, u, t):
+    """the look of the shot's mood: a vignette always, a breathing glow for magic, darker edges for dread, warmth for tenderness"""
+    h, w = img.shape[:2]
+    if not hasattr(effects, 'V'):
+        yy, xx = np.mgrid[0:h, 0:w]; d = np.sqrt(((xx - w / 2) / (w / 2)) ** 2 + ((yy - h / 2) / (h / 2)) ** 2); effects.V = np.clip(1 - 0.38 * (d - 0.55), 0.45, 1.0)[..., None].astype(np.float32)
+    V = effects.V
+    if fx == 'dark': img = img * (V ** 2.2) * 0.93
+    else: img = img * V
+    if fx == 'glow':
+        small = Image.fromarray(np.clip(img, 0, 255).astype(np.uint8)).resize((w // 8, h // 8), Image.Resampling.BILINEAR)
+        from PIL import ImageFilter
+        bl = np.asarray(small.filter(ImageFilter.GaussianBlur(3)).resize((w, h), Image.Resampling.BILINEAR), dtype=np.float32)
+        a = 0.22 + 0.12 * math.sin(t * 3.0); img = img + np.clip(bl - 90, 0, 255) * a * np.array([0.75, 0.95, 1.1], dtype=np.float32)
+    if fx == 'warm': img = img * np.array([1.05, 1.0, 0.93], dtype=np.float32)
+    return img
 
 
 def render(ed, src, out):
@@ -134,13 +205,13 @@ def render(ed, src, out):
     total = int(round(ed['length'] * FPS))
     p = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', '%dx%d' % (W, H), '-r', str(FPS), '-i', '-',
                           '-c:v', 'libx264', '-preset', 'slow', '-crf', '27', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out], stdin=subprocess.PIPE)
-    XF = {'dissolve': 0.45, 'flash': 0.3, 'flashblue': 0.3, 'fade': 0.7}
+    XF = {'dissolve': 0.45, 'flash': 0.3, 'flashblue': 0.3, 'fade': 0.7, 'whip': 0.24}
 
     def shot_frame(i, t):
         s = flat[i]; d = s['dur'] + (XF.get(flat[i + 1]['in'], 0) / 2 if i + 1 < len(flat) else 1.0)      # a shot runs on under the dissolve after it
         u = min(1.0, max(0.0, (t - s['start'] + XF.get(s['in'], 0) / 2) / (d + XF.get(s['in'], 0) / 2)))
         z, ox, oy, r = camera(s['move'], u, SCALE.get(s['lens'], 1.5) >= 3, t)
-        return view(pics[s['id']], z, ox, oy, r)
+        return effects(view(pics[s['id']], z, ox, oy, r), s.get('fx', ''), u, t)
 
     for fn in range(total):
         t = fn / FPS
@@ -152,6 +223,8 @@ def render(ed, src, out):
             if x and t > nx['start'] - x / 2:
                 v = (t - (nx['start'] - x / 2)) / x
                 if nx['in'] == 'dissolve': img = img * (1 - ease(v)) + shot_frame(i + 1, t) * ease(v)
+                elif nx['in'] == 'whip':
+                    k = int(140 * math.sin(math.pi * v)); img = mblur(img, k) * (1 - v) + mblur(shot_frame(i + 1, t), k) * v
                 else:
                     col = np.array([255, 255, 255] if nx['in'] == 'flash' else [170, 235, 255], dtype=np.float32); v = min(1.0, 2 * v)
                     img = img * (1 - v) + col * v
@@ -161,6 +234,8 @@ def render(ed, src, out):
             col = np.array([255, 255, 255] if s['in'] == 'flash' else [170, 235, 255], dtype=np.float32); img = img * (1 - v) + col * v
         elif x and t < s['start'] + x / 2 and i > 0 and s['in'] == 'dissolve':
             v = (t - (s['start'] - x / 2)) / x; img = shot_frame(i - 1, t) * (1 - ease(v)) + img * ease(v)
+        elif x and t < s['start'] + x / 2 and i > 0 and s['in'] == 'whip':
+            v = (t - (s['start'] - x / 2)) / x; k = int(140 * math.sin(math.pi * v)); img = mblur(shot_frame(i - 1, t), k) * (1 - v) + mblur(img, k) * v
         if t < 0.7: img = img * ease(t / 0.7)                                       # from black
         if t > ed['length'] - 1.0: img = img * ease(max(0.0, (ed['length'] - t) / 1.0))   # to black
         p.stdin.write(np.clip(img, 0, 255).astype(np.uint8).tobytes())

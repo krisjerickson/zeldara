@@ -23,8 +23,8 @@ check('…the shots Kris kept, in his order, every frame (%s)' % [[s['k'] for s 
       all([s['k'] for s in f['shots']] == PK['spirit_%02d' % f['n']]['keep'] for f in ed['frames']))
 flat = [s for f in ed['frames'] for s in f['shots']]
 SC = {'xwide': 0, 'wide': 0, 'track': 1, 'ots': 1.5, 'low': 1.5, 'two': 1.5, 'pov': 2.2, 'react': 2.5, 'close': 3, 'ecu': 4}
-bad = [(s['id'], s['move']) for i, s in enumerate(flat[:-1]) if not s.get('top') and i > 0 and ((SC.get(flat[i+1]['lens'], 1.5) > SC.get(s['lens'], 1.5) + 0.4 and s['move'] != 'push') or (SC.get(flat[i+1]['lens'], 1.5) < SC.get(s['lens'], 1.5) - 0.4 and s['move'] != 'pull'))]
-check('…the camera pushes in before a tighter shot and pulls back before a wider one (%d shots)' % len(flat), not bad, bad)
+moves = [s['move'] for s in flat]
+check('…the camera moves cinematically (round 121): %d kinds of move, never the same twice in a row except a shake (%s)' % (len(set(moves)), moves), len(set(moves)) >= 7 and all(a != b or a == 'shake' for a, b in zip(moves, moves[1:])))
 check('…the chains breaking cuts quicker (%.1f s a shot) than the frames around it (%.1f s)' % (fr[6]['dur'] / len(fr[6]['shots']), fr[5]['dur'] / len(fr[5]['shots'])), fr[6]['dur'] / len(fr[6]['shots']) < min(fr[5]['dur'] / len(fr[5]['shots']), fr[7]['dur'] / len(fr[7]['shots'])))
 ST = """(()=>{ var el=document.getElementById('zcut'); if(!el)return null; var v=el.querySelector('.zsc-vid'), cap=el.querySelector('.zcut-cap');
   return {vid:!!(v&&v.style.display!=='none'&&v.style.opacity==='1'), src:v?v.getAttribute('src'):'', t:v?Math.round(v.currentTime*100)/100:null, paused:v?v.paused:null, words:cap?cap.querySelectorAll('.zsc-w').length:0, cap:cap?cap.textContent:'', key:ZCUT._key}; })()"""
@@ -41,7 +41,7 @@ with game(painted=True, w=1280, h=720) as g:
     g.js("(()=>{ if(ZCUT.isOpen())ZCUT.close&&ZCUT.close(); var el=document.getElementById('zcut'); if(el)el.remove(); ZCUT._open=false; })()"); g.wait(500)
     f = g.js("(()=>{ var ps=game.scene.getScene('World').playerState; ps.hero='f'; var L=ZSFR.frames(ZSFR.MAP['saga_firstfree']); return L?ZSC.seg(L[1][0]):'nolist'; })()")
     check("Zeldara's frames are not given Zeldor's video (they stay paintings until hers is cut) (%s)" % f, f is None, f)
-    s = g.js("""(()=>{ var S=ZSCN.SHEETS.filter(function(x){ return x.wave===118; }); return {n:S.length, bld:S.filter(function(x){ return x.season&&/vill_/.test(x.src); }).length, fest:S.filter(function(x){ return x.fam==='fest'; }).length, body:/A MILD WINTER in the village/.test(ZSCN.body(S.find(function(x){ return x.id==='sc_seas_wi_vill_core_1'; })))}; })()""")
+    s = g.js("""(()=>{ var S=ZSCN.SHEETS.filter(function(x){ return x.wave===118||(x.wave===121&&/^sc_seas_wi_/.test(x.id)); }); return {n:S.length, bld:S.filter(function(x){ return x.season&&/vill_/.test(x.src); }).length, fest:S.filter(function(x){ return x.fam==='fest'; }).length, body:/A MILD WINTER in the village/.test(ZSCN.body(S.find(function(x){ return x.id==='sc_seas_wi_vill_core_1'; })))}; })()""")
     check('Seasons wave S2: %d sheets — %d village building repaints, %d festival dressings and set-pieces, the village look in the request (%s)' % (s['n'], s['bld'], s['fest'], s), s['n'] == 29 and s['bld'] == 10 and s['fest'] == 10 and s['body'], s)
     it = g.js("(()=>{ ZSEASON.set('wi'); var r=ZSEASON.item('vb_tavern'); ZSEASON.set('su'); return r; })()")
     check('A village building with no winter painting yet is drawn as it is (no tint for buildings) (%s)' % it, it is None, it)

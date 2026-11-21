@@ -1,0 +1,7 @@
+# Round 121 — Kris's notes on the winter village (Lab › Seasons: the paintings). Painted AGAIN with: .\tools\sprites\redo.ps1 -List r121_winter_redo
+sc_seas_wi_vill_core_1
+sc_seas_wi_vill_core_2
+sc_seas_wi_vill_special_1
+sc_seas_wi_vill_special_2
+sc_seas_wi_vprops_1
+sc_seas_wi_vprops_3

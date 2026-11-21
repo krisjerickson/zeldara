@@ -211,6 +211,8 @@ class SkyScene extends Phaser.Scene{
       4:[{id:'sky_sword',   label:'Sky Sword',   icon:'✨', desc:'+28 ATK +6 storm — sky-forged blade'},   {id:'skystone', n:2,label:'2 Skystones',icon:'💫', desc:'Rare storm gem — for master-work forging'}]
     };
     var rewards=rewardsBySec[sec]||rewardsBySec[4];
+    /* round 121 (Kris ✓ "Nothing is lost for a collector"): a port won again offers the reward not taken */
+    var _tk=((ps.skyTaken=ps.skyTaken||{})[sec])||[], _left=rewards.filter(function(r){ return _tk.indexOf(r.id)<0; }); if(_tk.length&&_left.length)rewards=_left;
     self.add.rectangle(W/2,H/2,W*0.7,220,0x050a18,0.95).setStrokeStyle(2,0x88aaff).setDepth(40);
     domText(self,W/2,H/2-86,'The port stands! Choose 1 reward  ·  score '+this.score,{fontSize:'16px',color:'#aaddff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5).setDepth(41);
     rewards.forEach(function(r,i){ var bx=W/2+(i-(rewards.length-1)/2)*170;
@@ -219,7 +221,7 @@ class SkyScene extends Phaser.Scene{
       domText(self,bx,H/2+8,r.label,{fontSize:'11px',color:'#aaccff',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5).setDepth(42);
       domText(self,bx,H/2+28,r.desc,{fontSize:'9px',color:'#8a9ab0',fontFamily:'Segoe UI',align:'center',wordWrap:{width:130}}).setOrigin(.5).setDepth(42);
       btn.on('pointerover',function(){btn.setStrokeStyle(2,0x88ccff);}); btn.on('pointerout',function(){btn.setStrokeStyle(1,0x4488aa);});
-      btn.on('pointerup',function(){ var ps2=self.ps; if(!ps2.inventory)ps2.inventory=[]; for(var _n=0;_n<(r.n||1);_n++)ps2.inventory.push(r.id); var it=ITEMS[r.id]; showNotif((it?it.icon:r.icon||'')+'  '+r.label+' added to inventory!','#aaddff'); self.worldScene._emitUI(); self.time.delayedCall(500,function(){ self._exitToWorld(); }); }); });
+      btn.on('pointerup',function(){ var ps2=self.ps; if(!ps2.inventory)ps2.inventory=[]; var _T=(ps2.skyTaken=ps2.skyTaken||{}); (_T[sec]=_T[sec]||[]).push(r.id); for(var _n=0;_n<(r.n||1);_n++)ps2.inventory.push(r.id); var it=ITEMS[r.id]; showNotif((it?it.icon:r.icon||'')+'  '+r.label+' added to inventory!','#aaddff'); self.worldScene._emitUI(); self.time.delayedCall(500,function(){ self._exitToWorld(); }); }); });
   }
   _exitToWorld(){
     (this.enemies||[]).forEach(function(e){if(e.cont&&e.cont.scene)e.cont.destroy();});

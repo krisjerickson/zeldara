@@ -89,7 +89,7 @@
     designs:[{id:'economy',name:'Economy'}],
     render:function(){ setTimeout(function(){ if(document.getElementById('ecs-cut'))paint(); },0);
       return head()+flow()+ramp()+sources()+sites()+find()+comps()+theory()+props()+rule()+tryit()+'<div class="na-fb">'+note('eco-notes','Anything else about the economy…')+'</div>'+srcs(); } });
-  document.addEventListener('click',function(e){ var sg=e.target.closest&&e.target.closest('.eco-seg .eco-sg'); if(!sg)return; var s=sg.parentNode, k=s.dataset.k, nv=V(k)===sg.dataset.v?null:sg.dataset.v, p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=nv; p.tab='economy'; LabApp.persist(k);
+  document.addEventListener('click',function(e){ var sg=e.target.closest&&e.target.closest('.eco-seg:not(.e2-seg) .eco-sg'); if(!sg)return; var s=sg.parentNode, k=s.dataset.k, nv=V(k)===sg.dataset.v?null:sg.dataset.v, p=LabApp.picks[k]=LabApp.picks[k]||{}; p.verdict=nv; p.tab='economy'; LabApp.persist(k);
     [].forEach.call(s.children,function(x){ x.className='vbtn eco-sg'+(x.dataset.v===nv?' on '+nv:''); }); var c=s.closest('.na-arc'); if(c)c.className=c.className.replace(/\bna-(pick|mix|cut|x)\b/,'na-'+(nv||'x')); });
   document.addEventListener('change',function(e){ var t=e.target.closest&&e.target.closest('.eco-n'); if(t){ var p=LabApp.picks[t.dataset.k]=LabApp.picks[t.dataset.k]||{}; p.notes=t.value; p.tab='economy'; LabApp.persist(t.dataset.k); return; }
     if(e.target.closest&&e.target.closest('.eco-try'))paint(); });

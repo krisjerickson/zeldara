@@ -38,8 +38,9 @@ var ZLoot={
       ZLoot._say(scene,got,2600); }catch(e){ if(typeof console!=='undefined')console.warn('ZLoot.site',e); } },
   // ── a monster falls: the gem of its element, by how strong it was ──
   kill:function(A,mon){ try{ if(!mon||mon.temp&&!mon.alpha||mon._noLoot)return; var els=ZEL.mon(mon); if(!els.length)return; var ps=A.ps(), boss=mon.isBoss||(mon.def&&mon.def.boss); if(boss||!ps)return;
-      var elite=!!(mon.def&&mon.def.elite), tier=(mon.R&&mon.R.tier)||1, p=elite?1:mon.alpha?0.35:els.length>1?0.12:tier>=4?0.05:0.015;
-      if(Math.random()>=p)return; var e=els[Math.floor(Math.random()*els.length)], id=ZLoot.gemOf(e,elite&&Math.random()<0.25); if(!ITEMS[id])return;
+      var elite=!!(mon.def&&mon.def.elite), tier=(mon.R&&mon.R.tier)||1, p=elite||mon.alpha?1:els.length>1?0.12:tier>=4?0.05:0.015;      /* round 121: an Alpha always drops its gem */
+      var e=els[Math.floor(Math.random()*els.length)]; if(typeof ZECO!=='undefined')p=ZECO.pity(ps,e,p);      /* N4: +0.1 % for every kill of that element without its gem */
+      if(Math.random()>=p){ if(typeof ZECO!=='undefined')ZECO.pityMiss(ps,e); return; } if(typeof ZECO!=='undefined')ZECO.pity(ps,e,p,true); var id=ZLoot.gemOf(e,elite&&Math.random()<0.25); if(!ITEMS[id])return;
       ZLoot.give(ps,id); if(elite)ZLoot.give(ps,'dungeon_coin');
       A.float(mon.x,mon.y-((mon.def&&mon.def.r)||10)-30,'💎 '+ITEMS[id].name,ZEL.E[e].col); if(typeof showNotif==='function')showNotif('💎 '+mon.def.name+' dropped '+ITEMS[id].name+(elite?' and a Dungeon Coin':''),ZEL.E[e].col); }catch(e){} },
   // ── the jeweller's shelf ──

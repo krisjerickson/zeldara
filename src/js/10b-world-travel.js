@@ -215,7 +215,7 @@ Object.assign(WorldScene.prototype,{
     var key=inVillage?'village':z?z.id:null;
     if(key&&key!==this._zoneKey){
       this._zoneKey=key; var ps=this.playerState;
-      if(z&&ps.visitedZones.indexOf(z.id)<0){ ps.visitedZones.push(z.id); if(typeof Tome!=='undefined')Tome.see('place','zone_'+z.id); }
+      if(z&&ps.visitedZones.indexOf(z.id)<0){ ps.visitedZones.push(z.id); try{ var _dq=Math.max(1,getTileSection(Math.floor(this.player.x/TILE),Math.floor(this.player.y/TILE))||1), _dx=ZECO.xpGive(this,ps,25*_dq*(_dq+1)); showNotif('🧭 Discovery: '+(z.name||'a new place')+' — +'+_dx+' XP','#9fd0ff'); this._checkLevelUp(ps); }catch(e){} if(typeof Tome!=='undefined')Tome.see('place','zone_'+z.id); }
       var el=document.getElementById('zone-banner');
       if(el){ el.querySelector('.zb-name').textContent=inVillage?'The Village':_wmZoneName(z.id); el.querySelector('.zb-reg').textContent=inVillage?'Mirror Lake shore':WM_REGION_NAMES[z.r];
         el.classList.add('on'); clearTimeout(this._zbT); this._zbT=setTimeout(function(){el.classList.remove('on');},2600); }

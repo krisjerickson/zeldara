@@ -10,7 +10,7 @@ var LECO={
     ['3 in 4 gold pieces come from monsters inside sites','Monsters in towers, dungeons, castles and vaults pay their full purse. Out in the world they pay a third (the world cut, 0.33).'],
     ['Finishing a place pays almost nothing','The Dawn Sanctum\'s 98 monsters carry about 9,100 g; beating its guardian adds 200 g. The prize for the hardest fight is 2 % of the run.'],
     ['A rematch pays more than the first win','Boss towers and dungeons: 50 g × realm the first time, 75 g × realm on a rematch.'],
-    ['There are no treasure chests on the floors','The chest code is still there (60 % gold, 40 % an item), but none of the new floor designs has a treasure spot, so no chest ever appears.'],
+    ['Floor chests are plain (corrected in round 121)','Every floor has its chests — 2 on a tower floor, 3 on a dungeon floor (my round-119 check looked only at the old treasure spots and wrongly said none). Each one is 60 % gold, 40 % an item, the same every time. Round 121 gives them the rarity roll you picked.'],
     ['Alphas are harder but pay the same','An Alpha has 1.6 × health and 1.3 × attack, and the same gold and XP as any other monster of its kind.'],
     ['The first realm is the tightest; the last is flooded','The Grasslands\' kit costs about 12 minutes of site gold; in the Ashlands it costs 6. A full Ashlands sweep brings about 70,000 g.'],
     ['Gold is not the real bottleneck; gems and coins are','A plain monster drops its gem 1.5 % of the time. Every forge recipe, staff and gem setting needs gems, and the jeweller wants 3 Dungeon Coins on top of the gold.'],

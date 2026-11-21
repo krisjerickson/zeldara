@@ -24,6 +24,14 @@ for q in seas:
     if prev(q['id']): have.append(q['id'])
 S1SRC = {'sc_edge_1', 'sc_edge_3', 'sc_edge_4', 'sc_edge_6', 'sc_plants_1', 'sc_plants_2', 'sc_plants_3', 'sc_tex_earth', 'sc_tex_grass', 'sc_trees_1', 'sc_trees_2', 'sc_trees_3'}
 orig = [o for o in sorted(set(src.values())) if o in S1SRC and prev(o)]      # round 120: the Lab holds at most 511 files, so wave S2's originals (the village, approved and in the game) get no preview
+import base64, io
+thumb = {}      # round 121: wave S2's originals as small pictures inside the Lab's code (the Lab holds at most 511 files)
+for o in sorted(set(src.values())):
+    if o in S1SRC: continue
+    pth = os.path.join(IN, o + '.png')
+    if not os.path.isfile(pth): continue
+    im = Image.open(pth).convert('RGBA'); bg = Image.new('RGBA', im.size, (34, 40, 52, 255)); bg.alpha_composite(im); bg = bg.convert('RGB'); bg = bg.resize((450, round(bg.size[1] * 450 / bg.size[0])), Image.LANCZOS)
+    b = io.BytesIO(); bg.save(b, 'WEBP', quality=60); thumb[o] = 'data:image/webp;base64,' + base64.b64encode(b.getvalue()).decode()
 fest = [q['id'] for q in REQ if q['id'].startswith('sc_fest_') and prev(q['id'])]      # round 120: the festival sheets (wave S2)
-json.dump({'sheets': have, 'src': src, 'fest': fest, 'orig': orig, 'at': time.strftime('%Y-%m-%d %H:%M')}, open(os.path.join(OUT, 'index.json'), 'w'), indent=0)
+json.dump({'sheets': have, 'src': src, 'fest': fest, 'orig': orig, 'thumb': thumb, 'at': time.strftime('%Y-%m-%d %H:%M')}, open(os.path.join(OUT, 'index.json'), 'w'), indent=0)
 print('%d of %d seasonal sheets painted -> lab/preview/seasart/' % (len(have), len(seas)))

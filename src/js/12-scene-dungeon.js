@@ -33,7 +33,8 @@ class DungeonScene extends Phaser.Scene{
     this._inspect=data.inspect||null; // Site Lab (sandbox) inspect options: {mons,fog,dark}
     this._trialRun=data.trial||null; this._trialOver=false; this._tr=null;   // the fairies' trial realm (12b)
   }
-  create(){
+  create(){ this._floorXp=0; this._hitThisFloor=false; this._flawDone=false;      // round 121: Flawless floors (22m ZECO.flawless)
+
     _heroStowMount(this);
     window._dngExit=function(){var ds=game.scene.getScene('Dungeon');if(!ds)return;if(ds._playerDead||ps0dead()){showNotif('You have fallen — there is no fleeing now.','#ff8866');return;}ds._exitToWorld(null);};      // round 45: no flee after death
     var ps0dead=function(){ var w=game.scene.getScene('World'); return !!(w&&w.playerState&&w.playerState.hp<=0); };
@@ -1404,9 +1405,10 @@ class DungeonScene extends Phaser.Scene{
     if(mon.dead)return;mon.dead=true;
     if(typeof ZAtlas!=='undefined')ZAtlas.died(this,mon);
     var ps=this.worldScene.playerState;
-    var _xp=(typeof ZPOT!=='undefined'?ZPOT.x(mon.def.xp):mon.def.xp); ps.xp+=_xp;this._floatText(mon.x,mon.y-28,'+'+_xp+' XP','#88aaff');
-    var g=(typeof ZPOT!=='undefined'?ZPOT.g(mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1))):mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1)));
-    ps.gold+=g;this._floatText(mon.x,mon.y-40,'+'+g+'g','#ffd700');
+    ZECO.runStart(this);      /* round 121: the run's ledger (the spoils card), XP through ZECO */
+    var _xp=ZECO.xpGive(this,ps,mon.def.xp*(mon.alpha?ZECO.ALPHA_X:1),{kill:1,rid:mon.R&&mon.R.id,x:mon.x,y:mon.y}); this._floatText(mon.x,mon.y-28,'+'+_xp+' XP','#88aaff');
+    var g=ZECO.gold(ps,(mon.def.gMin+Math.floor(Math.random()*(mon.def.gMax-mon.def.gMin+1)))*(mon.alpha?ZECO.ALPHA_G:1),'mon',this);
+    this._floatText(mon.x,mon.y-40,'+'+g+'g','#ffd700');
     this._checkLevelUp(ps);
     if(Math.random()<0.08&&!mon.isBoss)this._dropItem(mon.def.sec);
     if(mon.isBoss)this._onBossDefeated(mon);
@@ -1441,8 +1443,8 @@ class DungeonScene extends Phaser.Scene{
     var ul=ps.unlockedSections||[1];
     var maxSec=Math.max.apply(null,ul);
     var cap=maxSec>=4?20:maxSec>=3?15:maxSec>=2?10:5;
-    if(ps.level>=cap){ps.xp=Math.min(ps.xp,(cap*100)-1);return;}
-    var needed=ps.level*100;
+    if(ps.level>=cap){ ZECO.over(this,ps,cap); return; }      // round 121: past the cap, XP fills Valour
+    var needed=_xpNeed(ps.level);
     if(ps.xp>=needed){
       ps.xp-=needed;ps.level++;
       var hpGain=5+Math.floor((ps.level-1)/2);
@@ -1533,6 +1535,7 @@ class DungeonScene extends Phaser.Scene{
   }
   _openBossChest(){
     var ps=this.worldScene.playerState, sec=this.siteSection, self=this;
+    try{ ZECO.bountyEvent(ps,'site',{id:this.siteId}); }catch(e){}
     if(!ps.inventory)ps.inventory=[];
     var gem=ZLoot.realmGem(sec);      // the realm's own gems (round 37)
     ZLoot.site(this,ps,sec);         // + the guardian's gems and dungeon coins, by what kind of place this is
@@ -1541,7 +1544,7 @@ class DungeonScene extends Phaser.Scene{
     if(this._mage){ MageRun.claim(this); return; }
     // ── Island dungeon: the guardian's defeat clears the island → familiar
     if(this._isIsland){
-      var goldAdv=80*sec; ps.gold+=goldAdv; ps.inventory.push(gem);
+      var goldAdv=ZECO.gold(ps,ZECO.prize(this,'island',true),'prize',this); ps.inventory.push(gem);
       showNotif('+'+goldAdv+'g + gem — the island guardian is beaten!','#44ffaa');
       _completeQuest(ps,'s'+sec+'_harbor');
       _awardIslandFamiliar(ps,sec);
@@ -1551,11 +1554,11 @@ class DungeonScene extends Phaser.Scene{
     if(this._isBonus){
       if(!ps.bonusCleared)ps.bonusCleared=[];
       if(this._wasDone){
-        var g3=30*sec+10*this.maxFloors; ps.gold+=g3; this._dropItem(sec);
+        var g3=ZECO.gold(ps,ZECO.prize(this,'vault',false),'prize',this); this._dropItem(sec);
         showNotif('💎 Vault refilled: +'+g3+'g','#ffdd44');
       } else {
         ps.bonusCleared.push(this.siteId);
-        var g4=60*sec+15*this.maxFloors; ps.gold+=g4; ps.inventory.push(gem);
+        var g4=ZECO.gold(ps,ZECO.prize(this,'vault',true),'prize',this); ps.inventory.push(gem);
         var gear=[['iron_sword','leather'],['long_sword','chain_mail'],['great_sword','plate_armor'],['flame_blade','dragon_armor']][sec-1]||['iron_sword'];
         var gi=gear[Math.floor(Math.random()*gear.length)]; if(ITEMS[gi])ps.inventory.push(gi);
         if(!ps.relics)ps.relics=[];
@@ -1575,7 +1578,7 @@ class DungeonScene extends Phaser.Scene{
     if(!ps.lockedSites.includes(this.siteId))ps.lockedSites.push(this.siteId);
     // Rematch (already cleared before this run): gold + potion + gem, no first-clear rewards
     if(this._wasDone){
-      var g2=75*sec; ps.gold+=g2; ps.inventory.push(gem);
+      var g2=ZECO.gold(ps,ZECO.prize(this,'boss',false),'prize',this); ps.inventory.push(gem);
       showNotif('⚔️ Rematch won! +'+g2+'g and a gem','#ffdd44');
       this._dropItem(sec);
       this.time.delayedCall(1500,function(){self._exitToWorld(null);});return;
@@ -1589,7 +1592,7 @@ class DungeonScene extends Phaser.Scene{
       if(!ps.rescued)ps.rescued=[];
       if(!ps.rescued.includes(sec)){ ps.rescued.push(sec); var C=CRAFTSMEN[sec]; if(C)this.time.delayedCall(900,function(){showNotif(C.icon+' '+C.n+' has moved into the village!','#ffe9a8');}); }
     }
-    var goldBonus=50*sec;ps.gold+=goldBonus;
+    var goldBonus=ZECO.gold(ps,ZECO.prize(this,'boss',true),'prize',this);
     showNotif('+'+goldBonus+'g','#ffd700');showNotif(rw.message,rw.color||'#ffdd44');
     this.time.delayedCall(2000,function(){self._exitToWorld(reward);});
   }
@@ -1619,7 +1622,7 @@ class DungeonScene extends Phaser.Scene{
     document.getElementById('dng-hp-bar').style.background=hpCol;
     document.getElementById('dng-hp-txt').textContent=ps.hp+'/'+ps.maxHp;
     // XP bar
-    var xpPct=Math.min(100,(ps.xp/(ps.level*100))*100);
+    var xpPct=Math.min(100,(ps.xp/_xpNeed(ps.level))*100);
     var xpBar=document.getElementById('dng-xp-bar');
     if(xpBar)xpBar.style.width=xpPct+'%';
     var lvEl=document.getElementById('dng-lv-txt');

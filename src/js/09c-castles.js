@@ -44,10 +44,10 @@ var CastleRun={
     return fresh; },
   // castle chest (top floor) after the warden falls
   claim:function(scene){ var ps=scene.worldScene.playerState, C=scene._castle, sec=C.sec, first=!CastleRun.done(ps,C.key);
-    if(first){ if(!ps.castlesDone)ps.castlesDone=[]; ps.castlesDone.push(C.key); var g=70*sec; ps.gold+=g; CastleRun.learn(ps,C.skill);
+    if(first){ if(!ps.castlesDone)ps.castlesDone=[]; ps.castlesDone.push(C.key); var g=ZECO.gold(ps,ZECO.prize(scene,'castle',true),'prize',scene); CastleRun.learn(ps,C.skill); var _nm=ZECO.WARDEN_NAMED&&ZECO.WARDEN_NAMED[C.key]; if(_nm&&ITEMS[_nm]&&!ZECO.owns(ps,_nm)){ ps.inventory.push(_nm); scene.time.delayedCall(2600,function(){ showNotif('✦ The warden\'s own: '+ITEMS[_nm].name+' (a Relic)','#fff2c8'); }); }
       var T=CHAR_BY_ID[C.teacher]; if(T)scene.time.delayedCall(1200,function(){ showNotif('🙏 '+T.name+': “Thank you! Practise well — the '+C.name+' is yours to explore.”','#aaffcc'); });
       showNotif('🏰 '+C.name+' castle cleared! +'+g+'g','#ffdd44'); if(typeof campCelebrate==='function')campCelebrate(scene,scene.px,scene.py,'Castle cleared!'); }
-    else { var g2=40*sec; ps.gold+=g2; scene._dropItem(sec); showNotif('🏰 Rematch won! +'+g2+'g','#ffdd44'); }
+    else { var g2=ZECO.gold(ps,ZECO.prize(scene,'castle',false),'prize',scene); scene._dropItem(sec); showNotif('🏰 Rematch won! +'+g2+'g','#ffdd44'); }
     scene.time.delayedCall(2000,function(){ scene._exitToWorld(null); }); }
 };
 // ── Time Slow: engine monsters near the hero move and attack at 30% ──

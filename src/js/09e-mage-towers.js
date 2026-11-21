@@ -30,9 +30,9 @@ var MageRun={
     if(!quiet)showNotif('📖 Learned '+it.icon+' '+it.name+'!'+(eq?' Equipped — press X to cast it.':' Equip it in the Spell slot.'),'#e0c0ff');
     if(typeof Tome!=='undefined')Tome.see('spell',tome); return fresh; },
   claim:function(scene){ var ps=scene.worldScene.playerState, M=scene._mage, first=!MageRun.done(ps,M.key);
-    if(first){ if(!ps.mageDone)ps.mageDone=[]; ps.mageDone.push(M.key); var g=60*M.q; ps.gold+=g; MageRun.learn(ps,M.spell);
+    if(first){ if(!ps.mageDone)ps.mageDone=[]; ps.mageDone.push(M.key); var g=ZECO.gold(ps,ZECO.prize(scene,'mage',true),'prize',scene); MageRun.learn(ps,M.spell);
       showNotif('🔮 '+M.name+' conquered! +'+g+'g','#ffdd44'); if(typeof campCelebrate==='function')campCelebrate(scene,scene.px,scene.py,'Spell learned!',(ITEMS[M.spell]||{}).name||''); }
-    else { var g2=35*M.q; ps.gold+=g2; scene._dropItem(M.q); showNotif('🔮 Rematch won! +'+g2+'g','#ffdd44'); }
+    else { var g2=ZECO.gold(ps,ZECO.prize(scene,'mage',false),'prize',scene); scene._dropItem(M.q); showNotif('🔮 Rematch won! +'+g2+'g','#ffdd44'); }
     scene.time.delayedCall(2000,function(){ scene._exitToWorld(null); }); }
 };
 // ── the 'slip' status (ice floors): register it with the monster engine ──
