@@ -197,6 +197,18 @@
   "kind": "music",
   "loop": true
  },
+ "mu_credits": {
+  "files": [
+   {
+    "base": "mu_credits",
+    "le": 232.995,
+    "ls": 0,
+    "secs": 232.995
+   }
+  ],
+  "kind": "music",
+  "loop": false
+ },
  "mu_dungeon": {
   "files": [
    {
