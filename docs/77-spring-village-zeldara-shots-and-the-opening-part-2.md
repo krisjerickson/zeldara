@@ -42,3 +42,28 @@ Once they are in, each cut gets a Zeldara version (`series_cut.py`).
   - an entry in `ZSC.CLIPS` (frames 7–12, one per hero).
 
 Tests: `test_round122` (8).
+
+## Round 122b — Zeldara held; four looks for each finished cut-scene
+
+**Zeldara is held.** Kris: "i don't want to request the zeldara images until i've selected all the zeldor ones into the cut-scenes, otherwise we'll request too many".
+- `tools/sprites/zeldara_shots.py` asks for nothing until every cut-scene with both twins has a pick in every frame. So far 5 of 25 are done.
+- Until then, `07zt9c-zeldara-shots.js` has an empty list and the `r122_zeldara_shots` list is gone (moved to `_to_delete` on the PC).
+- Run the tool again once the picks are done. It then asks only for the kept hero shots: about 95 pictures today, more with the other cut-scenes.
+
+**Cut-scene looks (new Lab tab).** Kris: "my picks for the images get turned into 4 different cinematic versions of the cut-scene for me to select from, with different timings and effects … different looks and moods … for the completed ones so far".
+- **The cut-scenes:** the five with every frame picked — the first spirit freed, Bram, Mira, Dunn and Vela. Each is cut four ways by `tools/video/cut_looks.py`. The kept shots, their order and the words are the same in all four.
+
+| Look | Pace | Camera | Transitions | Colour |
+|---|---|---|---|---|
+| **Saga** — epic widescreen | slowest (×1.22) | cranes, long pushes, orbits, larger moves | hard cuts inside a frame, long dissolves between frames, a white flash on the blows | 2.39:1 letterbox, teal-and-orange, film grain |
+| **Pulse** — the trailer cut | quickest; every shot a whole number of beats at 112 BPM | snap and crash zooms that hit fast and settle, a kick on the beat | cuts and whip-pans; frames come in on a flash, a whip or a dip to black | punchy contrast, colour fringing on the hits |
+| **Storybook** — a painted tale | calm (×1.15) | gentle Ken Burns drifts only | soft dissolves; an iris (closing circle) between frames | warm parchment, paper grain, oval vignette |
+| **Dream** — a memory | floating (×1.12) | slow drifting, hand-held float | ghosted dissolves; dips to white between frames | bloom, colour drained toward blue-violet, a drifting light leak |
+
+- **The words:** every frame still lasts at least as long as its words take to read.
+- **The videos:** 960×540, 49–81 s, 8–18 MB each. They sit in the Lab's **asset store** (`assets` capability, about 238 MB of 1 GB), not in its files, which are at the 511 limit. The links are in `lab/preview/looks/assets.json`; `tools/video/cut_looks_lab.py` writes the tab's data (`79w-0-cutlooks-data.js`).
+- **In the Lab:** Cut-scene looks shows the four side by side, with the words under each video and ⛶ full screen that keeps them.
+- **Picks:** ★ one look per cut-scene (`cutlook-<scene>`), or one for all (`cutlook-all`), with notes.
+- **Next:** the chosen look becomes the game's cut for each cut-scene, and the same look is used for the rest as they are picked.
+
+Tests: `test_round122` (12).
