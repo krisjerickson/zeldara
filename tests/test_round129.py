@@ -36,6 +36,17 @@ check('Today\'s kit attacks Kris left out make way (%d), and allies where he lef
 check('Only bosses with magic blink; the others leap, stomp, charge, dive, burrow, drift or swoop',
       all(E['mv'] != 'blink' for E in S.values() if E['b'] in ('goblin_king', 'rock_dragon', 'iron_sentinel', 'lava_titan', 'q4_b')))
 
+# ── sound previews: the take lists and the sound files belong together (round 129) ──
+import subprocess
+SJ = json.load(open(os.path.join(R, 'lab', 'preview', 'audio', 's84.json')))['items']
+off = []
+for k in sorted({k for v in SJ.values() for k in v}):
+    end = max(v[k][0] + v[k][1] for v in SJ.values() if k in v)
+    d = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', os.path.join(R, 'lab', 'preview', 'audio', 's84_%s.mp3' % k)], capture_output=True, text=True).stdout or 0)
+    if end > d + 0.3 or d - end > 3: off.append((k, round(end, 1), round(d, 1)))
+check('Sound previews: every take list fits its sound file (the Lab played other sounds when they did not)', not off, off)
+check('Sound effects Lab refuses a file that does not match its list', "throw new Error('stale')" in open(os.path.join(R, 'lab', 'src', 'js', '79m3-lab-sfx103.js'), encoding='utf-8').read())
+
 from harness import game
 LAUNCH = """(([typ,sec,ph,dif])=>{var ws=game.scene.getScene('World');var ps=ws.playerState; ps.godMode=true; ps.difficulty=dif;
   var site=ws.wd.sites.find(s=>s.type===typ&&s.section===sec); var mf=site.floors||{1:3,2:4,3:5,4:6}[sec];

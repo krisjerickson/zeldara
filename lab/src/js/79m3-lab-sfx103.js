@@ -31,7 +31,10 @@
   // the player (the joined preview files, tools/audio/sfx_preview.py), a piece at a time
   var AC=null, LOAD={}, cur=null;
   var load=function(k){ if(LOAD[k])return LOAD[k]; AC=AC||new (window.AudioContext||window.webkitAudioContext)();
-    LOAD[k]=fetch('preview/audio/s84_'+k+'.mp3').then(function(r){ if(!r.ok)throw new Error(r.status); return r.arrayBuffer(); }).then(function(b){ return new Promise(function(ok,no){ AC.decodeAudioData(b,ok,no); }); });
+    LOAD[k]=fetch('preview/audio/s84_'+k+'.mp3').then(function(r){ if(!r.ok)throw new Error(r.status); return r.arrayBuffer(); }).then(function(b){ return new Promise(function(ok,no){ AC.decodeAudioData(b,ok,no); }); })
+      /* round 129 (Kris: "loads of sound effects that have a star that i never approved"): the Lab had the take lists of Nov 20 but the sound files of
+         Nov 7, so most takes played a piece of another sound. Now a file that does not match its list is refused, never played wrong. */
+      .then(function(d){ var end=0; Object.keys(ITEMS).forEach(function(i){ var g=ITEMS[i][k]; if(g)end=Math.max(end,g[0]+g[1]); }); if(end>d.duration+0.3||d.duration-end>3){ console.warn('sfx preview out of date',k,end,d.duration); throw new Error('stale'); } return d; });
     LOAD[k].catch(function(){ LOAD[k]=null; }); return LOAD[k]; };
   var play=function(id,k,btn){ var seg=ITEMS[id]&&ITEMS[id][k]; if(!seg)return; if(cur){ try{ cur.s.stop(); }catch(e){} if(cur.b)cur.b.classList.remove('on'); cur=null; } btn.classList.add('wait');
     load(k).then(function(d){ if(AC.state==='suspended')AC.resume(); var s=AC.createBufferSource(); s.buffer=d; s.connect(AC.destination); s.start(0,Math.max(0,seg[0]-0.02),seg[1]+0.08); btn.classList.remove('wait'); btn.classList.add('on'); cur={s:s,b:btn}; s.onended=function(){ btn.classList.remove('on'); }; },
