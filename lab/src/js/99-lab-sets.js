@@ -4,7 +4,7 @@
 // ║ build.mjs writes lab/lab.artifact.html with LAB_SET='new' (the Lab Kris uses, with its picks) and lab/lab-old.artifact.html with
 // ║ LAB_SET='old' (the earlier rounds, to look back at). lab/index.html (local, and the tests) has no LAB_SET: every tab.
 // ═══════════════════════════════════════════════════════════════════════
-var LAB_NEW=['seasonsall','sfxpick','storyb','teach','polish','guide','invorg','backdrop','npcs','npcarcs','trainrev','seasons','seasart','series','sagas5','serpick','seasdeco','economy','economy2','audio','cutlook','worldlook','seasons5','worldlook3','vidcompare','bossplan2','engage','publish','icons'];
+var LAB_NEW=['engage2','seasonsall','sfxpick','storyb','teach','polish','guide','invorg','backdrop','npcs','npcarcs','trainrev','seasons','seasart','series','sagas5','serpick','seasdeco','economy','economy2','audio','cutlook','worldlook','seasons5','worldlook3','vidcompare','bossplan2','engage','publish','icons'];
 (function(){ if(typeof LAB_SET==='undefined'||!LAB_SET||typeof LAB_TABS==='undefined')return;
   var keep=function(t){ return (LAB_NEW.indexOf(t.id)>=0)===(LAB_SET==='new'); }, K=LAB_TABS.filter(keep);
   LAB_TABS.length=0; K.forEach(function(t){ LAB_TABS.push(t); });
