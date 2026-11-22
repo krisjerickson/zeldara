@@ -31,7 +31,7 @@ new_ids = [i[0] for s in IC['sheets'] for i in s['items']]
 check('Icons: %d new icons on 3 sheets, no id twice, none already painted' % len(new_ids),
       len(IC['sheets']) == 3 and len(new_ids) == len(set(new_ids)) and not set(new_ids) & set(json.load(open(os.path.join(R, 'assets', 'scenery', 'index.json')))['items']))
 S = {x['id']: x for x in json.load(open(os.path.join(R, 'sprites', 'requests', 'scenery.json')))['requests']}
-lst = [l for l in open(os.path.join(R, 'sprites', 'requests', 'r128_icons.txt')).read().split() if l.startswith('sc_')]
+lst = [l.strip() for l in open(os.path.join(R, 'sprites', 'requests', 'r128_icons.txt')).read().splitlines() if l.strip().startswith('sc_')]
 check('Icons: r128_icons lists the 3 new sheets (wave 129); the economy\'s icons are already ordered', len(lst) == 3 and all(i in S and S[i]['wave'] == 129 for i in lst) and all('sc_eco_icons_%d' % i in S for i in range(1, 10)), lst)
 check('Icons: every wiring points at a painted icon that exists', all(w[1] in L['have']['pos'] for p in IC['parts'] for w in p['wire']))
 B = J('lab/src/js/79y2-0-bossplan2-data.js', 'LBPLAN2')
@@ -68,6 +68,6 @@ s5 = os.listdir(os.path.join(R, 'lab', 'preview', 'seasons5b'))
 check('Lab › The five seasons: the game now and the land pieces laid in, for every season', all('season_%s_%s.jpg' % (x, p) in s5 for x in ('sp', 'su', 'au', 'wi', 'bl') for p in ('village', 'grass')) and all('land_%s_village.jpg' % x in s5 for x in ('sp', 'au', 'wi', 'bl')))
 lab = open(os.path.join(R, 'lab', 'lab.artifact.html'), encoding='utf-8').read()
 check('Lab: the five new places are built in (and the round-127 boss plan and world take 2 retired)', all(("id:'%s'" % t) in lab.replace('"', "'") for t in ('engage', 'publish', 'icons', 'bossplan2', 'worldlook3'))
-      and "'bossplan','worldlook2']" in lab.replace('"', "'"))
+      and re.search(r"RETIRED:\[[^\]]*'bossplan','worldlook2'", lab.replace('"', "'")))
 print('\n%d / %d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)

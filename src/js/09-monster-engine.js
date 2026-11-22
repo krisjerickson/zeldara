@@ -151,6 +151,7 @@ MX.onHp=function(mon,v){ var m=mon._m, old=mon._hp, d=old-v; if(!m||d<=0){ mon._
     else if(D.name==='bubble'){ var now=m.t; m.hits=m.hits.filter(function(h){ return now-h<1.5; }); m.hits.push(now); if(m.hits.length>=(p.n||3)){ m.invuln=p.t||2; m.hits=[]; say('shielded!','#9fe8ff'); MX.ev(mon,'def_bubble'); } }
     else if(D.name==='weak'&&p.k===kind){ d*=p.m||2; }
   }
+  if(d>0&&MX.dmgMod)d=MX.dmgMod(mon,d,kind);      /* round 129: the boss plan's weak points, shields, stances and wardens (09bx) */
   if(d>0&&sc)d*=MX.dmgOut(sc);
   if(d>0&&mon.bars&&MX._barHit)d=MX._barHit(mon,d,kind,say);
   d=Math.round(d*10)/10; var nv=old-d;

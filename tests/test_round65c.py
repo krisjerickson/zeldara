@@ -32,8 +32,8 @@ with sync_playwright() as p:
     check('"Go →" opens the Bosses tab at phase 2, below the header (%s)' % r, r['tab'] == 'bosses' and 150 < r['top'] < 420 and not r['pop'])
     pg.click('.sol-card[data-slot="sol_2"][data-i="1"] .bb-pick'); pg.wait_for_timeout(500)
     t1 = pg.evaluate("document.getElementById('lab-todo-btn').textContent")
-    pg.click('#lab-todo-btn'); pg.wait_for_timeout(300); d = pg.evaluate("[...document.querySelectorAll('#lab-todo-pop .todo-row')].map(e=>e.classList.contains('done'))")
-    check('Picking one ticks it off (%s; %s)' % (t1.strip(), d), str(n0 - 1) in t1 and d[:3] == [False, True, False])
+    pg.click('#lab-todo-btn'); pg.wait_for_timeout(300); d = pg.evaluate("[...document.querySelectorAll('#lab-todo-pop .todo-row b')].map(e=>e.textContent)")
+    check('Picking one takes it off the list at once (round 129) (%s; %s)' % (t1.strip(), d[:3]), str(n0 - 1) in t1 and len(d) == len(rows) - 1 and rows[1] not in d and rows[0] in d)
     check('No Lab script errors', not errs, errs[:3])
 with game(new=True) as g:
     g.wait(3000)
