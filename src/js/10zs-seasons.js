@@ -40,7 +40,9 @@ var ZSEASON={ on:true, cur:'su', force:null, _t:0, loaded:{},
   // ── trees, bushes, flowers, edge pieces: their seasonal painting when it is in, else tinted ──
   VEGID:/^(tr_(round|blossom|willow|mangrove_a|cypress|pine_a|pine_b|drowned)|pl_(bush|bush_berry|bush_flower|flowers|tuft|tallgrass|fern|reeds|cattails|lilypad|heather|vine|wheat|corn|crop|hedge|topiary|trellis)|ed_(tuft_a|tuft_b|reeds|cattails|cliff_grass|log_mossy|rock_mossy|wildflowers|iris|ivy|moss_patch|clover|fern|bramble|heather|dune_grass|alpine_flowers|lily))/,
   F:{sp:'saturate(0.62) sepia(0.12) hue-rotate(8deg) brightness(1.0)',au:'sepia(0.4) hue-rotate(-34deg) saturate(1.3) brightness(0.97)',wi:'saturate(0.42) brightness(1.09) contrast(0.95)',bl:'saturate(1.1) brightness(1.03)'},
-  item:function(id){ var s=ZSEASON.cur; if(!ZSEASON.on||s==='su'||/_(sp|au|wi|th)$/.test(id))return null; var A=ZSEASON.S[s].art;
+  /* round 129 (Kris, Lab › The five seasons, autumn: "we need to make sure that no evergreen trees and shrubs turn orange"): in autumn the evergreens keep their summer green */
+  EVER:/^(tr_(pine|mangrove)|pl_(hedge|topiary)|ed_(ivy|moss_patch))/,
+  item:function(id){ var s=ZSEASON.cur; if(!ZSEASON.on||s==='su'||/_(sp|au|wi|th)$/.test(id))return null; if(s==='au'&&ZSEASON.EVER.test(id))return null; var A=ZSEASON.S[s].art;
     if(A&&typeof ZScn!=='undefined'&&ZScn.has(id+'_'+A))return {id:id+'_'+A};      /* round 118: anything with a seasonal painting uses it (wave S2: the village's buildings and props) */
     if(!ZSEASON.VEGID.test(id))return null; return {id:id,f:ZSEASON.F[s]}; },
   // the painted ground marks: the seasonal sheet's when it is in

@@ -1,0 +1,11 @@
+# Round 129 — the seasons' gaps (9 sheets, wave 131): the village props in the thaw and in Freya's spring, the missing Blossom Feast pieces.
+#   .\tools\sprites\paint.ps1 -List r129_seasons
+sc_seas_th_vprops_1
+sc_seas_th_vprops_2
+sc_seas_th_vprops_3
+sc_seas_th_vprops_4
+sc_seas_sp_vprops_1
+sc_seas_sp_vprops_2
+sc_seas_sp_vprops_3
+sc_seas_sp_vprops_4
+sc_fest_set_bl2
