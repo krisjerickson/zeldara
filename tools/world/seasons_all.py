@@ -57,7 +57,7 @@ def sheet_info(k):
     if not q: return {'id': k, 'title': '(not ordered)', 'n': 0, 'got': 0, 'state': 'none', 'items': []}
     its = [{'id': it['id'], 'n': it['name'], 'p': painted(it['id']), 'ev': bool(EVER.match(it['id'])) and k.startswith('sc_seas_au')} for it in q['items']]
     got = sum(1 for x in its if x['p'])
-    st = 'new' if k in NEW else ('in' if got == len(its) else 'part' if got else 'ordered')
+    st = 'in' if its and got == len(its) else ('new' if k in NEW else 'part' if got else 'ordered')
     return {'id': k, 'title': re.sub(r'\. Each piece.*$|Each piece.*$', '', q.get('title', '')).strip(), 'n': len(its), 'got': got, 'state': st, 'wave': q.get('wave'), 'tex': q['kind'] == 'tex', 'items': its}
 
 
@@ -80,28 +80,32 @@ def data():
 
 
 def contact(name, items, col):
-    """One picture of a group: every piece on a soft ground, its name under it; not painted yet → a dashed box."""
+    """One picture of a group: every piece at its own painted size (round 129b: Kris could not judge the small ones), its name under it;
+    not painted yet → a dashed box. Small pieces are shown at twice their size (marked ×2)."""
     from PIL import Image, ImageDraw, ImageFont
-    cw, ch, cols = 176, 196, 8
-    rows = max(1, -(-len(items) // cols)); W = cw * min(cols, max(1, len(items))); H = ch * rows + 8
-    im = Image.new('RGB', (W, H), (34, 38, 32)); d = ImageDraw.Draw(im)
-    try: font = ImageFont.truetype('DejaVuSans.ttf', 12)
+    def src(it):
+        a = os.path.join(R, 'sprites', 'out', 'scenery', 'items', it['id'] + '.png'); b = os.path.join(R, 'assets', 'scenery', 'tex', it['id'] + '.webp')
+        return a if os.path.exists(a) else b if os.path.exists(b) else None
+    pics = []
+    for it in items:
+        p = src(it) if it['p'] else None; im = Image.open(p).convert('RGBA') if p else None; up = 1
+        if im is not None:
+            if max(im.size) < 140: up = 2; im = im.resize((im.width * 2, im.height * 2), Image.LANCZOS)
+            if max(im.size) > 420: im.thumbnail((420, 420), Image.LANCZOS)
+        pics.append((it, im, up))
+    cw = max([180] + [im.width + 24 for it, im, up in pics if im is not None]); chh = max([150] + [im.height + 20 for it, im, up in pics if im is not None]) + 34
+    cols = max(2, min(6, 1900 // cw)); rows = max(1, -(-len(pics) // cols)); W = cw * min(cols, max(1, len(pics))); H = chh * rows + 8
+    im0 = Image.new('RGB', (W, H), (34, 38, 32)); d = ImageDraw.Draw(im0)
+    try: font = ImageFont.truetype('DejaVuSans.ttf', 15)
     except Exception: font = ImageFont.load_default()
-    for k, it in enumerate(items):
-        x, y = (k % cols) * cw, (k // cols) * ch + 4
-        d.rounded_rectangle([x + 4, y, x + cw - 4, y + ch - 8], 10, fill=(52, 60, 46) if it['p'] else (40, 40, 40), outline=(220, 120, 60) if it.get('ev') else None, width=3)
-        src = os.path.join(R, 'sprites', 'out', 'scenery', 'items', it['id'] + '.png')
-        tx = os.path.join(R, 'assets', 'scenery', 'tex', it['id'] + '.webp')
-        p = src if os.path.exists(src) else tx if os.path.exists(tx) else None
-        if it['p'] and p:
-            pc = Image.open(p).convert('RGBA'); pc.thumbnail((cw - 20, ch - 44), Image.LANCZOS)
-            im.paste(pc, (x + (cw - pc.width) // 2, y + 6 + (ch - 44 - pc.height)), pc)
+    for k, (it, im, up) in enumerate(pics):
+        x, y = (k % cols) * cw, (k // cols) * chh + 4
+        d.rounded_rectangle([x + 4, y, x + cw - 4, y + chh - 8], 10, fill=(52, 60, 46) if im is not None else (40, 40, 40), outline=(220, 120, 60) if it.get('ev') else None, width=3)
+        if im is not None: im0.paste(im, (x + (cw - im.width) // 2, y + 8 + (chh - 44 - im.height)), im)
         else:
-            for t in range(0, 140, 14): d.line([x + 20 + t, y + 20, x + 26 + t, y + 20], fill=(120, 120, 120))
-            d.text((x + 24, y + 70), 'not painted yet', fill=(160, 160, 160), font=font)
-        nm = it['n'][:26]
-        d.text((x + 10, y + ch - 30), nm, fill=(235, 230, 210), font=font)
-    im.save(os.path.join(OUT, name + '.jpg'), quality=82)
+            d.text((x + 24, y + chh // 2 - 20), 'not painted yet', fill=(160, 160, 160), font=font)
+        d.text((x + 10, y + chh - 32), (it['n'][:34] + ('  ×2' if up == 2 else '')), fill=(235, 230, 210), font=font)
+    im0.save(os.path.join(OUT, name + '.jpg'), quality=88)
 
 
 def sheets():
