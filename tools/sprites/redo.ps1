@@ -9,7 +9,7 @@
 #   .\tools\sprites\redo.ps1 -List redo84                                 the list Claude wrote in sprites\requests\redo84.txt
 # The key is read from this window and never written to disk. Safe to run again: a picture already moved is kept, and only what is
 # missing is sent.
-param([string]$Ids = '', [string]$List = '')
+param([string]$Ids = '', [string]$List = '', [switch]$NewKey)      # round 129: -NewKey asks for a fresh key even if one is already set
 Set-Location (Join-Path $PSScriptRoot '..\..')
 node build.mjs | Out-Null
 if ($List) { $Ids = ((Get-Content "sprites\requests\$List.txt") | Where-Object { $_ -and -not $_.StartsWith('#') }) -join ',' }
@@ -29,7 +29,7 @@ foreach ($id in $todo) {
   if (Test-Path $src) { if ((Get-Item $src).LastWriteTime -lt $since) { $dst = "sprites\_replaced_redo\$id.$(Get-Date -Format yyyyMMddHHmmss).png"; Move-Item $src $dst; $moved++ } else { $kept++ } } }
 Write-Host "$moved old picture(s) moved to sprites\_replaced_redo; $kept painted since this request was made are kept" -ForegroundColor Cyan
 Write-Host "(For NEW pictures use .\tools\sprites\paint.ps1 - it never moves anything.)" -ForegroundColor DarkGray
-if (-not $env:OPENAI_API_KEY) {
+if ($NewKey -or -not $env:OPENAI_API_KEY) {
   $k = Read-Host 'Paste your OpenAI API key (it stays in this window only)'
   if (-not $k) { Write-Host 'No key given - stopping.'; exit 1 }
   $env:OPENAI_API_KEY = $k.Trim()
