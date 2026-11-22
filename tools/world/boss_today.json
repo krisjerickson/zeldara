@@ -1,0 +1,3238 @@
+{
+ "phases": {
+  "goblin_king": {
+   "q": 1,
+   "phases": [
+    null,
+    {
+     "form": "bf_goblin_king_2",
+     "arena": "throne_warren",
+     "hp": 1.1,
+     "introT": "{prev} crashes through the floor into the Throne Warren — and returns as {NAME}!",
+     "kit": "charge wind=0.6 mult=3.4 stun=1 kb=60 | sweep r=62 arc=3.2 m=1.2 cd=2.6 | lob rad=30 t=1 zone=burn zt=3 col=#ff7030 m=0.8 cd=3.4 | lunge r=110 m=1.1 cd=3",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 6,
+       "n": 3,
+       "rad": 22,
+       "col": "#c8a878",
+       "say": "The crowd throws rocks!"
+      }
+     ],
+     "rid": "bp_goblin_king_2",
+     "intro": "Grubnash the Great crashes through the floor into the Throne Warren — and returns as GRUBNASH THE CAVE-TROLL RIDER!"
+    }
+   ]
+  },
+  "dark_warlock": {
+   "q": 1,
+   "phases": [
+    null,
+    {
+     "form": "bf_dark_warlock_2",
+     "arena": "moon_canopy",
+     "hp": 1.1,
+     "introT": "{prev} rips open a moon-gate — {NAME} waits in the canopy!",
+     "kit": "blink every=2.6 d=150 | shoot p=orb n=3 sp=0.3 homing=1 spd=150 m=0.6 cd=2.4 | beam wind=1 len=320 w=10 col=#ff60ff m=1 cd=4 | ring spd=140 max=200 gap=1 col=#c080ff m=0.8 cd=5",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 2,
+       "rad": 26,
+       "col": "#d0c8ff",
+       "say": "Moonbeams strike!"
+      }
+     ],
+     "rid": "bp_dark_warlock_2",
+     "intro": "Morvane rips open a moon-gate — MORVANE THE BROOD-QUEEN waits in the canopy!"
+    }
+   ]
+  },
+  "swamp_witch": {
+   "q": 2,
+   "phases": [
+    null,
+    {
+     "form": "bf_swamp_witch_2",
+     "arena": "sunken_grotto",
+     "hp": 1.15,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.35,
+       "at": 1
+      }
+     ],
+     "introT": "{prev} sinks into the mire — {NAME} rises in the Sunken Grotto!",
+     "kit": "kite range=190 | cloud at=player rad=70 st=poison v=2 dur=4 cd=5 | lob n=2 rad=30 t=1 zone=poison zt=4 col=#80e060 m=0.8 cd=3 | summon id=glowfrog n=2 max=3 cd=10",
+     "ev": [
+      {
+       "k": "geyser",
+       "every": 6,
+       "n": 2,
+       "rad": 34,
+       "st": "poison",
+       "col": "#8ad040",
+       "say": "Mud geysers bubble up!"
+      }
+     ],
+     "rid": "bp_swamp_witch_2",
+     "intro": "Granny Greenteeth sinks into the mire — GREENTEETH, THE HAG OF THE HUT rises in the Sunken Grotto!"
+    },
+    {
+     "form": "bf_swamp_witch_3",
+     "arena": "cauldron_pit",
+     "hp": 1.3,
+     "sc": 2.6,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.3,
+       "at": 1
+      },
+      {
+       "k": "guard",
+       "f": 0.3,
+       "at": 0.5
+      }
+     ],
+     "introT": "{prev} dives into her cauldron — {NAME} bursts out!",
+     "kit": "leap every=1.6 d=110 | pull r=190 keep=26 m=0.5 cd=4 | drain r=160 m=0.3 dur=2.5 col=#80e060 cd=6 | slam r=70 zone=poison zt=4 m=1.1 cd=3.2",
+     "ev": [
+      {
+       "k": "lob",
+       "every": 5,
+       "n": 3,
+       "rad": 32,
+       "st": "poison",
+       "col": "#a0ff60",
+       "say": "The cauldron boils over!"
+      }
+     ],
+     "rid": "bp_swamp_witch_3",
+     "intro": "Greenteeth dives into her cauldron — GREENTEETH, THE MIRE HYDRA bursts out!"
+    }
+   ]
+  },
+  "storm_mage": {
+   "q": 2,
+   "phases": [
+    null,
+    {
+     "form": "bf_storm_mage_2",
+     "arena": "cathedral_roof",
+     "hp": 1.15,
+     "bars": [
+      {
+       "k": "guard",
+       "f": 0.35,
+       "at": 1
+      }
+     ],
+     "introT": "{prev} bursts through the roof — {NAME} commands the rooftop!",
+     "kit": "kite range=200 | beam wind=0.8 len=340 w=10 col=#fff080 m=1 cd=2.6 | gust r=180 dist=120 m=0.4 cd=4 | shoot p=spark n=3 sp=0.25 spd=260 m=0.6 cd=2.2",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 4,
+       "n": 3,
+       "rad": 24,
+       "col": "#fff080",
+       "say": "Lightning strikes the roof!"
+      }
+     ],
+     "rid": "bp_storm_mage_2",
+     "intro": "Tharnwald bursts through the roof — THARNWALD, THE TEMPEST MAGE commands the rooftop!"
+    },
+    {
+     "form": "bf_storm_mage_3",
+     "arena": "storm_eye",
+     "hp": 1.3,
+     "sc": 2.4,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.3,
+       "at": 1
+      },
+      {
+       "k": "guard",
+       "f": 0.25,
+       "at": 0.5
+      }
+     ],
+     "introT": "{prev} dissolves into the storm itself — {NAME}!",
+     "kit": "hover | ring spd=170 max=260 gap=1 col=#fff080 m=0.9 cd=3 | strike still=1.2 col=#ffff80 m=1 | beam wind=1 len=360 w=12 col=#c8e0ff m=1.1 cd=3.6",
+     "ev": [
+      {
+       "k": "wind",
+       "every": 7,
+       "dist": 90,
+       "say": "The storm wind howls!"
+      },
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 4,
+       "rad": 22,
+       "col": "#fff080"
+      }
+     ],
+     "rid": "bp_storm_mage_3",
+     "intro": "Tharnwald dissolves into the storm itself — THARNWALD UNBOUND, THE STORM GIANT!"
+    }
+   ]
+  },
+  "rock_dragon": {
+   "q": 3,
+   "phases": [
+    null,
+    {
+     "form": "bf_rock_dragon_2",
+     "arena": "geode_hollow",
+     "hp": 1.15,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.35,
+       "at": 1
+      }
+     ],
+     "introT": "{prev} plunges into the earth — {NAME} glows in the Geode Hollow!",
+     "kit": "chase | breath r=130 cone=0.6 col=#80e0ff st=slow v=0.35 m=1 cd=2.8 | shoot p=shard n=5 sp=0.22 ric=1 spd=260 m=0.5 cd=2.6",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 3,
+       "rad": 24,
+       "col": "#80e0ff",
+       "say": "Crystal shards fall!"
+      }
+     ],
+     "rid": "bp_rock_dragon_2",
+     "intro": "Grauldr plunges into the earth — GRAULDR THE GEODE DRAKE glows in the Geode Hollow!"
+    },
+    {
+     "form": "bf_rock_dragon_3",
+     "arena": "chasm_bridge",
+     "hp": 1.25,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.3,
+       "at": 1
+      },
+      {
+       "k": "ward",
+       "f": 0.25,
+       "at": 0.5
+      }
+     ],
+     "introT": "The mountain shakes — {NAME} blocks the chasm bridge!",
+     "kit": "lumber | slam r=80 m=1.3 kb=80 cd=3 | charge wind=0.6 mult=3.4 stun=1 kb=60 | lob n=3 rad=30 t=1.1 col=#9a8a78 m=1 cd=3.4",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 4,
+       "n": 4,
+       "rad": 26,
+       "col": "#c8b090",
+       "say": "Rocks fall from the ceiling!"
+      }
+     ],
+     "rid": "bp_rock_dragon_3",
+     "intro": "The mountain shakes — GRAULDR THE EARTHSHAKER blocks the chasm bridge!"
+    },
+    {
+     "form": "bf_rock_dragon_4",
+     "arena": "dragon_summit",
+     "hp": 1.35,
+     "sc": 2.6,
+     "bars": [
+      {
+       "k": "guard",
+       "f": 0.25,
+       "at": 1
+      },
+      {
+       "k": "plate",
+       "f": 0.25,
+       "at": 0.6
+      },
+      {
+       "k": "ward",
+       "f": 0.25,
+       "at": 0.3
+      }
+     ],
+     "allies": [
+      {
+       "form": "bf_drakeling",
+       "n": 2,
+       "hp": 0.35,
+       "kit": "flit | lunge r=130 spd=520 m=1 cd=2.6 fly=1 | shoot p=shard spd=260 m=0.5 cd=2.4",
+       "rid": "bp_rock_dragon_4_a0"
+      }
+     ],
+     "introT": "{NAME} takes the summit — and its drakelings dive in!",
+     "kit": "chase | breath r=150 cone=0.65 col=#ff6030 st=burn m=1.2 cd=3 | lob n=4 rad=34 t=1.3 zone=lava zt=4 col=#ff8030 m=1.1 cd=4 | sweep r=70 arc=3.6 m=1.2 cd=3",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 5,
+       "rad": 30,
+       "col": "#ff8030",
+       "zone": "burn",
+       "say": "Meteors rain down!"
+      }
+     ],
+     "rid": "bp_rock_dragon_4",
+     "intro": "GRAULDR, TYRANT OF THE MOUNTAIN takes the summit — and its drakelings dive in!"
+    }
+   ]
+  },
+  "iron_sentinel": {
+   "q": 3,
+   "phases": [
+    null,
+    {
+     "form": "bf_iron_sentinel_2",
+     "arena": "gear_hall",
+     "hp": 1.15,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.35,
+       "at": 1
+      }
+     ],
+     "introT": "{prev} drops into the Gear Hall and rebuilds itself as {NAME}!",
+     "kit": "lumber | slam r=76 m=1.3 cd=2.8 | lob n=3 rad=30 t=1.1 col=#9a8a78 zone=burn zt=3 m=0.9 cd=3.4",
+     "ev": [
+      {
+       "k": "geyser",
+       "every": 5,
+       "n": 3,
+       "rad": 30,
+       "st": "burn",
+       "col": "#e0e0e0",
+       "say": "Steam vents blast!"
+      }
+     ],
+     "rid": "bp_iron_sentinel_2",
+     "intro": "Brokkrun drops into the Gear Hall and rebuilds itself as BROKKRUN THE SIEGE SENTINEL!"
+    },
+    {
+     "form": "bf_iron_sentinel_3",
+     "arena": "observatory_dome",
+     "hp": 1.25,
+     "sc": 2.5,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.3,
+       "at": 1
+      },
+      {
+       "k": "guard",
+       "f": 0.25,
+       "at": 0.5
+      }
+     ],
+     "introT": "Star-lenses slide into place — {NAME} awakens under the dome!",
+     "kit": "still | beam wind=1 len=360 w=12 col=#80e0ff m=1.1 cd=2.4 | pull r=220 keep=60 m=0.3 cd=5 | ring spd=160 max=240 gap=1 col=#9fe8ff m=0.9 cd=3.6",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 4,
+       "rad": 24,
+       "col": "#fff4c0",
+       "say": "Starlight focuses!"
+      }
+     ],
+     "rid": "bp_iron_sentinel_3",
+     "intro": "Star-lenses slide into place — BROKKRUN, THE ORRERY COLOSSUS awakens under the dome!"
+    },
+    {
+     "form": "bf_iron_sentinel_4",
+     "arena": "star_forge",
+     "hp": 1.35,
+     "sc": 2.4,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.25,
+       "at": 1
+      },
+      {
+       "k": "guard",
+       "f": 0.25,
+       "at": 0.6
+      },
+      {
+       "k": "ward",
+       "f": 0.25,
+       "at": 0.3
+      }
+     ],
+     "allies": [
+      {
+       "form": "bf_forge_guardian",
+       "n": 2,
+       "hp": 0.35,
+       "kit": "lumber | slam r=66 m=1.3 zone=burn zt=2 cd=3 | armor n=3 red=0.6",
+       "rid": "bp_iron_sentinel_4_a0"
+      }
+     ],
+     "introT": "In the Star Forge, {NAME} ignites — with two Forge Guardians!",
+     "kit": "charge wind=0.6 mult=3.4 stun=1 kb=60 | beam wind=0.9 len=380 w=12 col=#ff4020 m=1.2 cd=3 | wall dur=6 col=#8a8e96 cd=8 | shoot p=bolt n=4 sp=0.2 spd=300 m=0.6 cd=2.6",
+     "ev": [
+      {
+       "k": "lob",
+       "every": 5,
+       "n": 4,
+       "rad": 30,
+       "st": "burn",
+       "col": "#ffe070",
+       "say": "Molten star-metal splashes!"
+      }
+     ],
+     "rid": "bp_iron_sentinel_4",
+     "intro": "In the Star Forge, BROKKRUN PRIME, THE SENTINEL OF THE STAR FORGE ignites — with two Forge Guardians!"
+    }
+   ]
+  },
+  "lava_titan": {
+   "q": 4,
+   "phases": [
+    null,
+    {
+     "form": "bf_lava_titan_2",
+     "arena": "crust_field",
+     "hp": 1.1,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.35,
+       "at": 1
+      }
+     ],
+     "introT": "{prev} melts into the lava sea — {NAME} rises from the crust!",
+     "kit": "lumber | slam r=80 zone=lava zt=4 m=1.3 cd=3 | lob n=3 rad=32 t=1 zone=lava zt=4 col=#ff6a20 m=1 cd=3.2",
+     "ev": [
+      {
+       "k": "geyser",
+       "every": 5,
+       "n": 3,
+       "rad": 34,
+       "st": "burn",
+       "col": "#ff6a20",
+       "say": "The crust cracks — lava bursts up!"
+      }
+     ],
+     "rid": "bp_lava_titan_2",
+     "intro": "Surtvald melts into the lava sea — SURTVALD THE MAGMA TITAN rises from the crust!"
+    },
+    {
+     "form": "bf_lava_titan_3",
+     "arena": "lava_falls",
+     "hp": 1.2,
+     "sc": 2.4,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.3,
+       "at": 1
+      },
+      {
+       "k": "guard",
+       "f": 0.25,
+       "at": 0.5
+      }
+     ],
+     "introT": "Cooled to black glass, {NAME} stands on the lava falls!",
+     "kit": "lumber | shoot p=glass n=7 sp=0.18 spd=260 m=0.5 cd=2.4 | slam r=76 m=1.3 cd=3 | reflect",
+     "ev": [
+      {
+       "k": "wave",
+       "every": 7,
+       "col": "#ff6a20",
+       "say": "A lava wave pours down the terrace!"
+      }
+     ],
+     "rid": "bp_lava_titan_3",
+     "intro": "Cooled to black glass, SURTVALD THE WORLDBURNER stands on the lava falls!"
+    },
+    {
+     "form": "bf_lava_titan_4",
+     "arena": "caldera_rim",
+     "hp": 1.3,
+     "sc": 2.4,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.22,
+       "at": 1
+      },
+      {
+       "k": "plate",
+       "f": 0.22,
+       "at": 0.66
+      },
+      {
+       "k": "guard",
+       "f": 0.22,
+       "at": 0.33
+      }
+     ],
+     "introT": "{NAME} charges round the caldera rim!",
+     "kit": "charge wind=0.6 mult=3.4 stun=1 kb=60 | aura r=56 m=0.35 st=burn t=2 | marks n=6 rad=26 delay=1.3 seq=0.15 spread=180 col=#ff8040 zone=burn m=1 cd=4",
+     "ev": [
+      {
+       "k": "geyser",
+       "every": 5,
+       "n": 4,
+       "rad": 32,
+       "st": "burn",
+       "col": "#ff6a20",
+       "say": "Lava geysers erupt!"
+      }
+     ],
+     "rid": "bp_lava_titan_4",
+     "intro": "SURTVALD THE MOLTEN BEHEMOTH charges round the caldera rim!"
+    },
+    {
+     "form": "bf_lava_titan_5",
+     "arena": "volcano_heart",
+     "hp": 1.4,
+     "sc": 2.8,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.25,
+       "at": 1
+      },
+      {
+       "k": "guard",
+       "f": 0.25,
+       "at": 0.6
+      },
+      {
+       "k": "plate",
+       "f": 0.25,
+       "at": 0.3
+      }
+     ],
+     "allies": [
+      {
+       "form": "bf_lava_titan_2",
+       "n": 2,
+       "hp": 0.3,
+       "kit": "lumber | slam r=70 zone=lava zt=3 m=1.2 cd=3.2 | armor n=3 red=0.6",
+       "rid": "bp_lava_titan_5_a0"
+      }
+     ],
+     "introT": "At the heart of the volcano, {NAME} beats — and two Magma Titans rise to guard it!",
+     "kit": "hover | ring spd=160 max=260 gap=1 col=#ff7030 st=burn m=1 cd=3 | lob n=5 rad=34 t=1.3 zone=lava zt=4 col=#ff8030 m=1.1 cd=4 | beam wind=1 len=360 w=14 col=#ffb040 m=1.2 cd=4.5",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 4,
+       "n": 5,
+       "rad": 30,
+       "col": "#ff8030",
+       "zone": "lava",
+       "say": "Meteors!"
+      },
+      {
+       "k": "geyser",
+       "every": 6,
+       "n": 3,
+       "rad": 32,
+       "st": "burn",
+       "col": "#ff6a20"
+      }
+     ],
+     "rid": "bp_lava_titan_5",
+     "intro": "At the heart of the volcano, THE HEART OF MUSPEL beats — and two Magma Titans rise to guard it!"
+    }
+   ]
+  },
+  "shadow_lord": {
+   "q": 4,
+   "phases": [
+    null,
+    {
+     "form": "bf_shadow_lord_2",
+     "arena": "shattered_sanctum",
+     "hp": 1.1,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.35,
+       "at": 1
+      }
+     ],
+     "introT": "{prev} melts into the dark — {NAME} stalks the Shattered Sanctum!",
+     "kit": "blink every=2.4 d=140 | cloud at=player rad=80 st=blind dur=3 cd=6 | shoot p=orb homing=1 spd=160 m=0.7 cd=2.2 | drain r=170 m=0.3 dur=2.5 col=#c040ff cd=6",
+     "ev": [
+      {
+       "k": "geyser",
+       "every": 6,
+       "n": 3,
+       "rad": 36,
+       "st": "blind",
+       "col": "#303040",
+       "say": "Shadow pools spread!"
+      }
+     ],
+     "rid": "bp_shadow_lord_2",
+     "intro": "Malgorath melts into the dark — MALGORATH THE SOUL-SHROUD stalks the Shattered Sanctum!"
+    },
+    {
+     "form": "bf_shadow_lord_3",
+     "arena": "mirror_hall",
+     "hp": 1.2,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.3,
+       "at": 1
+      },
+      {
+       "k": "guard",
+       "f": 0.25,
+       "at": 0.5
+      }
+     ],
+     "introT": "{NAME} steps out of the mirrors!",
+     "kit": "chase s=1.15 | melee n=3 m=0.9 | swap r=240 cd=7 | echo m=0.8 | lunge r=130 m=1.2 cd=3",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 4,
+       "rad": 24,
+       "col": "#c8d8ff",
+       "say": "The mirrors flash!"
+      }
+     ],
+     "rid": "bp_shadow_lord_3",
+     "intro": "MALGORATH THE DREAD-RIDER steps out of the mirrors!"
+    },
+    {
+     "form": "bf_shadow_lord_4",
+     "arena": "starless_void",
+     "hp": 1.3,
+     "sc": 2.6,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.22,
+       "at": 1
+      },
+      {
+       "k": "guard",
+       "f": 0.22,
+       "at": 0.66
+      },
+      {
+       "k": "plate",
+       "f": 0.22,
+       "at": 0.33
+      }
+     ],
+     "introT": "Everything goes dark — {NAME} opens!",
+     "kit": "drift keep=160 | beam wind=0.9 len=380 w=10 col=#c040ff m=1.1 cd=2.6 | beam wind=1.2 len=380 w=10 col=#ff60ff m=1 cd=3.4 | pull r=240 keep=70 m=0.3 cd=5",
+     "ev": [
+      {
+       "k": "rift",
+       "every": 7,
+       "say": "A void rift pulls at you!"
+      },
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 3,
+       "rad": 26,
+       "col": "#c040ff"
+      }
+     ],
+     "rid": "bp_shadow_lord_4",
+     "intro": "Everything goes dark — MALGORATH, THE DREAD-WING opens!"
+    },
+    {
+     "form": "bf_shadow_lord_5",
+     "arena": "dawn_altar",
+     "hp": 1.4,
+     "sc": 2.6,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.25,
+       "at": 1
+      },
+      {
+       "k": "ward",
+       "f": 0.25,
+       "at": 0.6
+      },
+      {
+       "k": "guard",
+       "f": 0.25,
+       "at": 0.3
+      }
+     ],
+     "allies": [
+      {
+       "form": "bf_shadow_twin",
+       "n": 2,
+       "hp": 0.3,
+       "kit": "blink every=2.2 d=120 | shoot p=orb homing=1 spd=160 m=0.6 cd=2.4 | dodge cd=3",
+       "rid": "bp_shadow_lord_5_a0"
+      }
+     ],
+     "introT": "At the Dawn Altar, {NAME} splits into three!",
+     "kit": "blink every=3 d=150 | ring spd=170 max=260 gap=1 col=#ffe080 m=1 cd=3 | shoot p=orb n=5 sp=0.25 homing=1 spd=160 m=0.6 cd=2.6 | marks n=6 rad=26 delay=1.2 seq=0.12 spread=170 col=#ffe080 m=1 cd=4 | drain r=180 m=0.3 dur=2 col=#ffe080 cd=7",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 4,
+       "n": 4,
+       "rad": 28,
+       "col": "#ffe8a0",
+       "say": "Dawn light scorches the altar!"
+      }
+     ],
+     "rid": "bp_shadow_lord_5",
+     "intro": "At the Dawn Altar, MALGORATH ASCENDANT, THE FALLEN DAWN splits into three!"
+    }
+   ]
+  },
+  "forge_glodr": {
+   "q": 4,
+   "forge": true,
+   "phases": [
+    {
+     "hp": 1,
+     "sc": 2.4,
+     "introT": "Brokk uncoils from the forge-fire!",
+     "kit": "lumber | breath r=150 cone=0.65 col=#ff6030 st=burn m=1.1 cd=3 | sweep r=62 arc=3.2 m=1.2 cd=2.6",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 6,
+       "n": 3,
+       "rad": 24,
+       "col": "#ff8040",
+       "say": "Sparks rain from the bellows!"
+      }
+     ],
+     "form": "fm_glodr_1",
+     "rid": "bp_forge_glodr_1"
+    },
+    {
+     "hp": 1.1,
+     "sc": 2.5,
+     "introT": "Brokk burrows into the coals — the floor will burst!",
+     "kit": "burrow | slam r=70 zone=burn zt=4 m=1.2 cd=3.2 | lob n=3 rad=30 t=1 zone=burn zt=3 col=#ff7030 m=0.8 cd=3.4",
+     "ev": [
+      {
+       "k": "geyser",
+       "every": 5,
+       "n": 3,
+       "rad": 34,
+       "st": "burn",
+       "col": "#ff6020",
+       "say": "Lava geysers rise under you!"
+      }
+     ],
+     "form": "fm_glodr_2",
+     "rid": "bp_forge_glodr_2"
+    },
+    {
+     "hp": 1.2,
+     "sc": 2.7,
+     "introT": "The bellows burst — the whole hall breathes fire!",
+     "kit": "chase | breath r=170 cone=0.8 col=#ff5020 st=burn m=1.3 cd=2.2 | ring spd=150 max=220 gap=1 col=#ff8040 st=burn m=0.8 cd=3.5",
+     "ev": [
+      {
+       "k": "wave",
+       "every": 7,
+       "col": "#ff6a20",
+       "say": "A wave of fire rolls across the hall!"
+      }
+     ],
+     "form": "fm_glodr_3",
+     "rid": "bp_forge_glodr_3"
+    }
+   ]
+  },
+  "forge_eisa": {
+   "q": 4,
+   "forge": true,
+   "phases": [
+    {
+     "hp": 1,
+     "sc": 2.2,
+     "introT": "Hissa rises from the quench pool!",
+     "kit": "kite range=190 | shoot p=orb n=3 sp=0.3 homing=1 spd=150 m=0.6 cd=2.4 | cloud at=player rad=70 st=slow v=2 dur=4 cd=5",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 6,
+       "n": 2,
+       "rad": 26,
+       "col": "#bfe8ff",
+       "say": "Steam jets hiss up!"
+      }
+     ],
+     "form": "fm_eisa_1",
+     "rid": "bp_forge_eisa_1"
+    },
+    {
+     "hp": 1.1,
+     "sc": 2.3,
+     "introT": "Hissa floods the hall — islands of rock in scalding water!",
+     "kit": "blink every=2.6 d=150 | lob n=4 rad=46 t=1 zone=slip zt=7 col=#bfe8ff m=0.3 cd=5 | beam wind=1 len=320 w=10 col=#9fe0ff m=1 cd=4",
+     "ev": [
+      {
+       "k": "wave",
+       "every": 7,
+       "col": "#60b0ff",
+       "say": "Scalding water surges across the floor!"
+      }
+     ],
+     "form": "fm_eisa_2",
+     "rid": "bp_forge_eisa_2"
+    },
+    {
+     "hp": 1.2,
+     "sc": 2.5,
+     "introT": "Hissa boils it all — stay in the dry!",
+     "kit": "kite range=170 | ring spd=140 max=200 gap=1 col=#ffffff st=burn m=0.8 cd=4 | drain r=160 m=0.3 dur=2.5 col=#9fe0ff cd=6",
+     "ev": [
+      {
+       "k": "geyser",
+       "every": 5,
+       "n": 3,
+       "rad": 36,
+       "st": "burn",
+       "col": "#e0f4ff",
+       "say": "The water boils up!"
+      }
+     ],
+     "form": "fm_eisa_3",
+     "rid": "bp_forge_eisa_3"
+    }
+   ]
+  },
+  "forge_gjallr": {
+   "q": 4,
+   "forge": true,
+   "phases": [
+    {
+     "hp": 1,
+     "sc": 2.5,
+     "introT": "Krag lumbers out of the crucible!",
+     "kit": "lumber | slam r=70 zone=burn zt=4 m=1.2 cd=3.2 | sweep r=62 arc=3.2 m=1.2 cd=2.6",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 6,
+       "n": 3,
+       "rad": 24,
+       "col": "#ff9040",
+       "say": "Slag pours from the crucible!"
+      }
+     ],
+     "form": "fm_gjallr_1",
+     "rid": "bp_forge_gjallr_1"
+    },
+    {
+     "hp": 1.1,
+     "sc": 2.6,
+     "introT": "Krag hurls molten boulders and shakes ore loose!",
+     "kit": "charge wind=0.6 mult=3.4 stun=1 kb=60 | lob n=2 rad=34 t=1 zone=burn zt=4 col=#ff7030 m=0.8 cd=2.8",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 4,
+       "rad": 22,
+       "col": "#c8a878",
+       "say": "Ore crashes from the roof!"
+      }
+     ],
+     "form": "fm_gjallr_2",
+     "rid": "bp_forge_gjallr_2"
+    },
+    {
+     "hp": 1.2,
+     "sc": 2.8,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.35,
+       "at": 1
+      }
+     ],
+     "introT": "Krag armours himself in cooling slag — break the shell!",
+     "kit": "lumber | slam r=80 zone=burn zt=4 m=1.4 cd=2.8 | ring spd=130 max=190 gap=1 col=#ff8040 st=burn m=0.7 cd=5",
+     "ev": [
+      {
+       "k": "geyser",
+       "every": 6,
+       "n": 2,
+       "rad": 34,
+       "st": "burn",
+       "col": "#ff7030",
+       "say": "The slag floor cracks!"
+      }
+     ],
+     "form": "fm_gjallr_3",
+     "rid": "bp_forge_gjallr_3"
+    }
+   ]
+  },
+  "forge_eimyrja": {
+   "q": 4,
+   "forge": true,
+   "phases": [
+    {
+     "hp": 1,
+     "sc": 2.3,
+     "introT": "Sinda rises from the chain throne!",
+     "kit": "kite range=170 | pull r=190 keep=30 m=0.4 cd=5 | lunge r=110 m=1.1 cd=3",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 6,
+       "n": 3,
+       "rad": 24,
+       "col": "#ff5030",
+       "say": "Burning chains whip down!"
+      }
+     ],
+     "form": "fm_eimyrja_1",
+     "rid": "bp_forge_eimyrja_1"
+    },
+    {
+     "hp": 1.1,
+     "sc": 2.4,
+     "introT": "Sinda chains the hall into lanes!",
+     "kit": "blink every=3.2 d=150 | beam wind=0.8 len=320 w=10 col=#ff6040 m=0.9 cd=3 | pull r=190 keep=26 m=0.5 cd=4",
+     "ev": [
+      {
+       "k": "rift",
+       "every": 7,
+       "say": "The chains drag you in!"
+      }
+     ],
+     "form": "fm_eimyrja_2",
+     "rid": "bp_forge_eimyrja_2"
+    },
+    {
+     "hp": 1.2,
+     "sc": 2.6,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.3,
+       "at": 1
+      }
+     ],
+     "introT": "Sinda wraps herself in chained spirits — free them with your magic!",
+     "kit": "chase | sweep r=70 arc=3.2 m=1.3 cd=2.4 | pull r=200 keep=26 m=0.5 cd=3.5 | shoot p=orb n=4 sp=0.25 spd=200 m=0.5 cd=2.6",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 3,
+       "rad": 26,
+       "col": "#ff7040",
+       "say": "Chains fall like rain!"
+      }
+     ],
+     "form": "fm_eimyrja_3",
+     "rid": "bp_forge_eimyrja_3"
+    }
+   ]
+  },
+  "musp_g1": {
+   "q": 4,
+   "musp": true,
+   "phases": [
+    {
+     "form": "boss_vr_ember_wraith",
+     "rid": "bp_musp_g1_1",
+     "hp": 1,
+     "sc": 2,
+     "kit": "blink every=4 d=140 | shoot p=orb n=3 sp=0.3 spd=170 m=0.6 cd=2.4",
+     "introT": "",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 7,
+       "n": 2,
+       "rad": 22,
+       "col": "#ff8040",
+       "say": "Embers fall from the roof!"
+      }
+     ],
+     "allies": [
+      {
+       "form": "boss_vr_magma_spitter",
+       "rid": "bp_musp_g1_1_a0",
+       "n": 1,
+       "hp": 0.9,
+       "kit": "chase | lob n=3 rad=30 t=1 zone=burn zt=3 col=#ff7030 m=0.8 cd=3 | lunge r=110 m=1 cd=3"
+      }
+     ]
+    }
+   ]
+  },
+  "musp_g2": {
+   "q": 4,
+   "musp": true,
+   "phases": [
+    {
+     "form": "boss_vr_obsidian_golem",
+     "rid": "bp_musp_g2_1",
+     "hp": 1,
+     "sc": 2,
+     "kit": "charge wind=0.7 mult=3 stun=1 kb=50 | slam r=70 zone=burn zt=3 m=1.2 cd=3.2",
+     "introT": "",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 7,
+       "n": 2,
+       "rad": 22,
+       "col": "#ff8040",
+       "say": "Embers fall from the roof!"
+      }
+     ],
+     "allies": [
+      {
+       "form": "boss_vr_cinder_phoenix",
+       "rid": "bp_musp_g2_1_a0",
+       "n": 1,
+       "hp": 0.9,
+       "kit": "flit | lunge r=130 m=1.1 cd=3 | ring spd=140 max=180 gap=1 col=#ff9030 st=burn m=0.6 cd=4.5"
+      }
+     ]
+    }
+   ]
+  },
+  "musp_g3": {
+   "q": 4,
+   "musp": true,
+   "phases": [
+    {
+     "form": "boss_vr_lava_wyrm",
+     "rid": "bp_musp_g3_1",
+     "hp": 1,
+     "sc": 2,
+     "kit": "burrow | lunge r=120 m=1.2 cd=2.8 | lob n=2 rad=30 t=1 zone=burn zt=3 col=#ff6020 m=0.8 cd=3.4",
+     "introT": "",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 7,
+       "n": 2,
+       "rad": 22,
+       "col": "#ff8040",
+       "say": "Embers fall from the roof!"
+      }
+     ],
+     "allies": [
+      {
+       "form": "boss_vr_ashen_knight",
+       "rid": "bp_musp_g3_1_a0",
+       "n": 1,
+       "hp": 0.9,
+       "kit": "charge wind=0.6 mult=3 stun=1 kb=60 | sweep r=64 arc=3 m=1.2 cd=2.4"
+      }
+     ]
+    }
+   ]
+  },
+  "musp_g4": {
+   "q": 4,
+   "musp": true,
+   "phases": [
+    {
+     "form": "boss_vr_pyrokraken",
+     "rid": "bp_musp_g4_1",
+     "hp": 1,
+     "sc": 2,
+     "kit": "lumber | ring spd=130 max=200 gap=1 col=#ff7030 st=burn m=0.7 cd=3.6 | pull r=180 keep=30 m=0.4 cd=5",
+     "introT": "",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 7,
+       "n": 2,
+       "rad": 22,
+       "col": "#ff8040",
+       "say": "Embers fall from the roof!"
+      }
+     ],
+     "allies": [
+      {
+       "form": "boss_vr_inferno_wraith",
+       "rid": "bp_musp_g4_1_a0",
+       "n": 1,
+       "hp": 0.9,
+       "kit": "kite range=180 | beam wind=0.9 len=300 w=10 col=#ff6030 m=0.9 cd=3.4 | pull r=190 keep=28 m=0.4 cd=5"
+      }
+     ]
+    }
+   ]
+  },
+  "surtharn": {
+   "q": 4,
+   "musp": true,
+   "phases": [
+    {
+     "form": "surt_1",
+     "rid": "bp_surtharn_1",
+     "hp": 1,
+     "sc": 2.6,
+     "introT": "Surtharn rises from the magma, his greatsword burning!",
+     "kit": "lumber | sweep r=80 arc=3.4 m=1.3 cd=2.6 | slam r=80 zone=burn zt=4 m=1.2 cd=3.4",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 6,
+       "n": 3,
+       "rad": 26,
+       "col": "#ff8040",
+       "say": "The blade sets the floor alight!"
+      }
+     ]
+    },
+    {
+     "form": "surt_2",
+     "rid": "bp_surtharn_2",
+     "hp": 1.05,
+     "sc": 2.7,
+     "introT": "The Forge-king — his hammer rings the cavern!",
+     "kit": "lumber | slam r=90 zone=burn zt=4 m=1.3 cd=3 | ring spd=140 max=230 gap=1 col=#ff9040 st=burn m=0.8 cd=3.6",
+     "ev": [
+      {
+       "k": "wave",
+       "every": 8,
+       "col": "#ff7030",
+       "say": "A shockwave rolls from the anvil!"
+      }
+     ]
+    },
+    {
+     "form": "surt_3",
+     "rid": "bp_surtharn_3",
+     "hp": 1.1,
+     "sc": 2.7,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.3,
+       "at": 1
+      }
+     ],
+     "introT": "The Ash Tyrant drives the bound host before him — free them with your magic!",
+     "kit": "kite range=190 | pull r=210 keep=30 m=0.5 cd=4 | shoot p=orb n=5 sp=0.25 spd=190 m=0.5 cd=2.6",
+     "ev": [
+      {
+       "k": "rift",
+       "every": 7,
+       "say": "Chains of spirit-light drag you in!"
+      }
+     ]
+    },
+    {
+     "form": "surt_4",
+     "rid": "bp_surtharn_4",
+     "hp": 1.15,
+     "sc": 2.8,
+     "introT": "The Horned Jötunn — the Sword of Flame sweeps the whole hall!",
+     "kit": "charge wind=0.6 mult=3.4 stun=1 kb=70 | beam wind=1 len=360 w=12 col=#ff6020 m=1.1 cd=3",
+     "ev": [
+      {
+       "k": "wave",
+       "every": 7,
+       "col": "#ff5020",
+       "say": "The sword of flame sweeps — find the gap!"
+      }
+     ]
+    },
+    {
+     "form": "surt_5",
+     "rid": "bp_surtharn_5",
+     "hp": 1.2,
+     "sc": 2.8,
+     "bars": [
+      {
+       "k": "plate",
+       "f": 0.35,
+       "at": 1
+      }
+     ],
+     "introT": "The Obsidian Warlord — his molten heart is caged in glass. Break the plate!",
+     "kit": "lumber | lob n=4 rad=40 t=1.1 zone=burn zt=4 col=#ff7030 m=0.9 cd=3 | slam r=84 zone=burn zt=4 m=1.3 cd=3",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 5,
+       "n": 4,
+       "rad": 28,
+       "col": "#ffb040",
+       "say": "Meteors fall!"
+      }
+     ]
+    },
+    {
+     "form": "surt_6",
+     "rid": "bp_surtharn_6",
+     "hp": 1.3,
+     "sc": 3,
+     "introT": "THE LAST EMBER — Surtharn becomes the volcano itself!",
+     "kit": "chase | ring spd=160 max=240 gap=1 col=#ff6020 st=burn m=0.9 cd=2.8 | breath r=190 cone=0.9 col=#ff5020 st=burn m=1.3 cd=2.4 | lob n=4 rad=36 t=1 zone=burn zt=4 col=#ff7030 m=0.8 cd=3.2",
+     "ev": [
+      {
+       "k": "geyser",
+       "every": 4,
+       "n": 4,
+       "rad": 36,
+       "st": "burn",
+       "col": "#ff6020",
+       "say": "The lava rises!"
+      }
+     ]
+    }
+   ]
+  },
+  "grimnir": {
+   "q": 4,
+   "asg": true,
+   "phases": [
+    {
+     "form": "grim_1",
+     "rid": "bp_grimnir_1",
+     "hp": 1,
+     "sc": 2.6,
+     "introT": "Solmyrk rises from the high seat — the Allfather's golden mask turns toward you!",
+     "kit": "kite range=180 | beam wind=0.9 len=340 w=10 col=#fff0b0 m=1 cd=3.2 | summon id=einherjar_shieldmaiden n=2 max=3 cd=10",
+     "ev": [
+      {
+       "k": "marks",
+       "every": 6,
+       "n": 3,
+       "rad": 26,
+       "col": "#ffe890",
+       "say": "Spears of light rain down!"
+      }
+     ]
+    },
+    {
+     "form": "grim_2",
+     "rid": "bp_grimnir_2",
+     "hp": 1.1,
+     "sc": 2.6,
+     "bars": [
+      {
+       "k": "ward",
+       "f": 0.3,
+       "at": 1
+      }
+     ],
+     "introT": "The mask cracks down the middle — half god of light, half the black beneath!",
+     "kit": "blink every=3 d=150 | shoot p=feather n=5 sp=0.25 spd=210 m=0.5 cd=2.6 | pull r=200 keep=30 m=0.5 cd=4.5",
+     "ev": [
+      {
+       "k": "rift",
+       "every": 7,
+       "say": "The black half of his mask drags you in!"
+      }
+     ]
+    },
+    {
+     "form": "grim_3",
+     "rid": "bp_grimnir_3",
+     "hp": 1.25,
+     "sc": 2.9,
+     "introT": "THE BLACK SUN — Solmyrk becomes the storm that ends the world!",
+     "kit": "chase | ring spd=160 max=240 gap=1 col=#9fe8ff m=0.9 cd=2.8 | beam wind=0.8 len=380 w=12 col=#ffffff m=1.2 cd=2.6 | charge wind=0.5 mult=3.4 stun=1 kb=70",
+     "ev": [
+      {
+       "k": "wave",
+       "every": 7,
+       "col": "#bfe8ff",
+       "say": "A gale sweeps the throne room — find the gap!"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "info": {
+  "rain": {
+   "ic": "☄",
+   "n": "Sky rain",
+   "hint": "strikes fall down columns of the screen — stand in an open column"
+  },
+  "wall": {
+   "ic": "⇶",
+   "n": "Sweeping wall",
+   "hint": "a wall crosses the screen — slip through a gap"
+  },
+  "burst": {
+   "ic": "✺",
+   "n": "Radial burst",
+   "hint": "beams fan out from the boss — stand between them"
+  },
+  "spin": {
+   "ic": "↻",
+   "n": "Rotating beams",
+   "hint": "beams sweep around the boss — keep moving with the gap"
+  },
+  "floor": {
+   "ic": "▤",
+   "n": "Floor takeover",
+   "hint": "half the floor becomes deadly — cross to the other half"
+  },
+  "burrow": {
+   "ic": "⤓",
+   "n": "Burrow & erupt",
+   "hint": "a trail hunts you — step away before it erupts"
+  },
+  "boomerang": {
+   "ic": "⟲",
+   "n": "Boomerang",
+   "hint": "it flies out and comes back — dodge it twice"
+  },
+  "quake": {
+   "ic": "◎",
+   "n": "Shockwave",
+   "hint": "a ring spreads from the boss — stand in its gap"
+  },
+  "combo": {
+   "ic": "⚔",
+   "n": "Leaping combo",
+   "hint": "three slams toward you, then a shockwave"
+  },
+  "strafe": {
+   "ic": "➶",
+   "n": "Strafing run",
+   "hint": "a charge down a marked lane leaves fire behind"
+  },
+  "eclipse": {
+   "ic": "◐",
+   "n": "Eclipse",
+   "hint": "darkness falls — blades strike from the dark"
+  },
+  "mirror": {
+   "ic": "⧉",
+   "n": "Mirror images",
+   "hint": "copies appear and strike together"
+  }
+ },
+ "attacks": {
+  "goblin_king": {
+   "col": "#ffd040",
+   "desp": [
+    "rain:coins",
+    "quake"
+   ],
+   "phases": [
+    [
+     "quake",
+     "rain:coins",
+     "boomerang:hammer"
+    ],
+    [
+     "strafe",
+     "quake",
+     "rain:rock",
+     "combo"
+    ]
+   ]
+  },
+  "dark_warlock": {
+   "col": "#60ffb0",
+   "desp": [
+    "spin",
+    "rain:blades"
+   ],
+   "phases": [
+    [
+     "burst",
+     "boomerang:orb",
+     "floor:web"
+    ],
+    [
+     "spin",
+     "floor:web",
+     "burrow",
+     "burst"
+    ]
+   ]
+  },
+  "swamp_witch": {
+   "col": "#a0ff60",
+   "desp": [
+    "floor:bog",
+    "rain:bubbles",
+    "burst"
+   ],
+   "phases": [
+    [
+     "floor:bog",
+     "boomerang:lantern",
+     "rain:bubbles"
+    ],
+    [
+     "floor:bog",
+     "rain:bubbles",
+     "combo",
+     "boomerang:lantern"
+    ],
+    [
+     "burrow",
+     "burst",
+     "floor:bog",
+     "rain:bubbles"
+    ]
+   ]
+  },
+  "storm_mage": {
+   "col": "#fff080",
+   "desp": [
+    "wall:thunder",
+    "rain:lightning",
+    "spin"
+   ],
+   "phases": [
+    [
+     "rain:lightning",
+     "boomerang:orb",
+     "burst"
+    ],
+    [
+     "wall:thunder",
+     "rain:lightning",
+     "spin",
+     "boomerang:orb"
+    ],
+    [
+     "quake",
+     "wall:thunder",
+     "rain:lightning",
+     "combo"
+    ]
+   ]
+  },
+  "rock_dragon": {
+   "col": "#c080ff",
+   "desp": [
+    "strafe:fire",
+    "rain:rock",
+    "burst:crystal"
+   ],
+   "phases": [
+    [
+     "rain:rock",
+     "combo",
+     "quake"
+    ],
+    [
+     "burst:crystal",
+     "rain:rock",
+     "combo",
+     "quake"
+    ],
+    [
+     "strafe:fire",
+     "rain:rock",
+     "burst:crystal",
+     "wall:fire"
+    ],
+    [
+     "strafe:fire",
+     "wall:fire",
+     "rain:rock",
+     "spin"
+    ]
+   ]
+  },
+  "iron_sentinel": {
+   "col": "#ff9030",
+   "desp": [
+    "spin",
+    "wall:gears",
+    "rain:rock"
+   ],
+   "phases": [
+    [
+     "spin",
+     "boomerang:axe",
+     "quake"
+    ],
+    [
+     "wall:gears",
+     "quake",
+     "rain:rock",
+     "boomerang:hammer"
+    ],
+    [
+     "spin",
+     "wall:gears",
+     "rain:rock",
+     "burst"
+    ],
+    [
+     "combo",
+     "boomerang:hammer",
+     "spin",
+     "wall:gears"
+    ]
+   ]
+  },
+  "lava_titan": {
+   "col": "#ff7020",
+   "desp": [
+    "floor:lava",
+    "rain:fire",
+    "spin"
+   ],
+   "phases": [
+    [
+     "floor:lava",
+     "combo",
+     "quake"
+    ],
+    [
+     "floor:lava",
+     "wall:lava",
+     "combo",
+     "rain:fire"
+    ],
+    [
+     "combo",
+     "wall:lava",
+     "rain:fire",
+     "floor:lava"
+    ],
+    [
+     "strafe:fire",
+     "floor:lava",
+     "quake",
+     "burrow"
+    ],
+    [
+     "burst",
+     "spin",
+     "floor:lava",
+     "rain:fire"
+    ]
+   ]
+  },
+  "shadow_lord": {
+   "col": "#a0a0ff",
+   "desp": [
+    "eclipse",
+    "spin",
+    "mirror"
+   ],
+   "phases": [
+    [
+     "eclipse",
+     "rain:blades",
+     "mirror"
+    ],
+    [
+     "spin",
+     "mirror",
+     "rain:blades",
+     "eclipse"
+    ],
+    [
+     "strafe",
+     "rain:blades",
+     "eclipse",
+     "wall:void"
+    ],
+    [
+     "strafe",
+     "spin",
+     "wall:void",
+     "burst"
+    ],
+    [
+     "wall:light",
+     "burst",
+     "rain:light",
+     "mirror"
+    ]
+   ]
+  }
+ },
+ "castles": {
+  "q1_b": {
+   "sec": 1,
+   "name": "Thornwood Isle",
+   "castle": "thornwood_keep",
+   "warden": "cw_thorn_knight",
+   "teacher": "tc_sprint",
+   "skill": "sp_sprint",
+   "floors": 2,
+   "kit": "chase | lunge r=120 m=1.1 cd=2.6 | sweep r=60 arc=2.8 m=1 cd=2.4 | thorns d=2",
+   "en": [
+    "bramble_wolf",
+    "thistle_hog",
+    "rose_dryad"
+   ],
+   "key": "q1_b",
+   "rid": "cwd_q1_b"
+  },
+  "q1_c": {
+   "sec": 1,
+   "name": "Sunflower Isle",
+   "castle": "sunflower_chateau",
+   "warden": "cw_sun_baron",
+   "teacher": "tc_petal",
+   "skill": "sp_petalstep",
+   "floors": 2,
+   "kit": "chase s=1.15 | melee n=3 m=0.8 | cloud at=player rad=60 st=blind dur=2 cd=7 | dodge cd=3",
+   "en": [
+    "bumble_knight",
+    "clover_slime",
+    "harvest_mantis"
+   ],
+   "key": "q1_c",
+   "rid": "cwd_q1_c"
+  },
+  "q1_d": {
+   "sec": 1,
+   "name": "Millwind Isle",
+   "castle": "windmill_bastion",
+   "warden": "cw_mill_ogre",
+   "teacher": "tc_whirlwind",
+   "skill": "sp_whirlwind",
+   "floors": 2,
+   "kit": "lumber | slam r=72 m=1.3 cd=2.8 | lob n=2 rad=30 t=1 col=#d0b880 m=0.9 cd=3.2",
+   "en": [
+    "hill_gnoll",
+    "dung_roller",
+    "scarecrow_warden"
+   ],
+   "key": "q1_d",
+   "rid": "cwd_q1_d"
+  },
+  "q2_b": {
+   "sec": 2,
+   "name": "Lotus Isle",
+   "castle": "lotus_palace",
+   "warden": "cw_lotus_naga",
+   "teacher": "tc_smokebomb",
+   "skill": "sp_smokebomb",
+   "floors": 3,
+   "kit": "kite range=180 | beam wind=0.9 len=320 w=10 col=#60c0c8 m=1 cd=3 | shoot p=poison n=3 sp=0.25 st=poison t=3 m=0.6 cd=2.4",
+   "en": [
+    "lily_lurker",
+    "glowfrog",
+    "heron_knight"
+   ],
+   "key": "q2_b",
+   "rid": "cwd_q2_b"
+  },
+  "q2_c": {
+   "sec": 2,
+   "name": "Abbey Isle",
+   "castle": "drowned_abbey",
+   "warden": "cw_drowned_abbot",
+   "teacher": "tc_shieldbash",
+   "skill": "sp_shieldbash",
+   "floors": 3,
+   "kit": "still | ring spd=150 max=230 gap=1 col=#80e0c0 m=0.9 cd=3.2 | summon id=waterlogged_revenant n=2 max=3 cd=10 | shoot p=orb homing=1 spd=150 m=0.6 cd=2.6",
+   "en": [
+    "waterlogged_revenant",
+    "mire_crab",
+    "fog_phantom"
+   ],
+   "key": "q2_c",
+   "rid": "cwd_q2_c"
+  },
+  "q2_d": {
+   "sec": 2,
+   "name": "Mangrove Isle",
+   "castle": "mangrove_fort",
+   "warden": "cw_mangrove_chief",
+   "teacher": "tc_blink",
+   "skill": "sp_blink",
+   "floors": 3,
+   "kit": "lumber | slam r=70 m=1.2 cd=3 | pull r=180 keep=30 m=0.5 cd=4 | regen r=0.6",
+   "en": [
+    "mangrove_strangler",
+    "reed_stalker",
+    "bloodgnats"
+   ],
+   "key": "q2_d",
+   "rid": "cwd_q2_d"
+  },
+  "q3_b": {
+   "sec": 3,
+   "name": "Anvil Isle",
+   "castle": "dwarven_hold",
+   "warden": "cw_forge_thane",
+   "teacher": "tc_warstomp",
+   "skill": "sp_war_stomp",
+   "floors": 3,
+   "kit": "chase | slam r=70 zone=burn zt=3 m=1.3 cd=2.8 | melee n=2 m=1 | armor n=4 red=0.6",
+   "en": [
+    "dwarf_axeman",
+    "automaton_miner",
+    "crystal_golemling"
+   ],
+   "key": "q3_b",
+   "rid": "cwd_q3_b"
+  },
+  "q3_c": {
+   "sec": 3,
+   "name": "Glacier Isle",
+   "castle": "glacier_citadel",
+   "warden": "cw_frost_queen",
+   "teacher": "tc_secondwind",
+   "skill": "sp_secondwind",
+   "floors": 3,
+   "kit": "kite range=190 | beam wind=0.8 len=320 w=10 col=#bfe8ff st=freeze t=1 m=1 cd=3 | wall dur=5 col=#c0e8ff cd=7 | shoot p=ice n=3 sp=0.2 spd=250 st=slow v=0.3 t=2 m=0.6 cd=2.4",
+   "en": [
+    "frost_wolf",
+    "frost_ghoul",
+    "icicle_bats"
+   ],
+   "key": "q3_c",
+   "rid": "cwd_q3_c"
+  },
+  "q3_d": {
+   "sec": 3,
+   "name": "Eyrie Isle",
+   "castle": "eyrie_castle",
+   "warden": "cw_roc_lord",
+   "teacher": "tc_berserker",
+   "skill": "sp_berserker",
+   "floors": 3,
+   "kit": "orbit r=150 | lunge r=180 spd=560 m=1.2 cd=2.6 fly=1 | gust r=200 dist=120 m=0.4 cd=4",
+   "en": [
+    "gale_roc",
+    "cliff_harpy",
+    "crag_ram"
+   ],
+   "key": "q3_d",
+   "rid": "cwd_q3_d"
+  },
+  "q4_b": {
+   "sec": 4,
+   "name": "Obsidian Isle",
+   "castle": "obsidian_bastille",
+   "warden": "cw_obsidian_jailer",
+   "teacher": "tc_phantom",
+   "skill": "sp_phantom",
+   "floors": 4,
+   "kit": "lumber | pull r=200 keep=30 m=0.5 cd=3.6 | slam r=72 m=1.4 cd=3 | reflect | armor n=4 red=0.6",
+   "en": [
+    "obsidian_stalker",
+    "chain_warden",
+    "basalt_golem"
+   ],
+   "key": "q4_b",
+   "rid": "cwd_q4_b"
+  },
+  "q4_c": {
+   "sec": 4,
+   "name": "Cinder Isle",
+   "castle": "ember_sanctum",
+   "warden": "cw_ember_priest",
+   "teacher": "tc_timeslow",
+   "skill": "sp_timeslow",
+   "floors": 4,
+   "kit": "kite range=190 | ring spd=160 max=230 gap=1 col=#ff7030 st=burn m=1 cd=3 | marks n=5 rad=26 delay=1.2 spread=160 col=#ff8040 zone=burn m=1 cd=4",
+   "en": [
+    "pyre_cultist",
+    "cinder_hounds",
+    "salamander_warrior"
+   ],
+   "key": "q4_c",
+   "rid": "cwd_q4_c"
+  },
+  "q4_d": {
+   "sec": 4,
+   "name": "Bonefall Isle",
+   "castle": "bone_throne_keep",
+   "warden": "cw_bone_king",
+   "teacher": "tc_meteor",
+   "skill": "sp_meteor",
+   "floors": 4,
+   "kit": "drift keep=150 | summon id=charred_zombies n=2 max=4 cd=9 | shoot p=bone n=3 sp=0.25 homing=1 spd=170 m=0.7 cd=2.4 | revive t=4",
+   "en": [
+    "bone_revenant",
+    "charred_zombies",
+    "bonepit_ghoul"
+   ],
+   "key": "q4_d",
+   "rid": "cwd_q4_d"
+  }
+ },
+ "mages": [
+  {
+   "key": "rime_spire",
+   "q": 1,
+   "i": 0,
+   "name": "The Rime Spire",
+   "spell": "frost_bolt_tome",
+   "bg": "frost_spire",
+   "boss": "mg_rime_witch",
+   "bossName": "Frostwhisper",
+   "title": "the Rime Witch",
+   "spec": [
+    "person",
+    "cast",
+    "#bfe8ff,#3a6a9a,#e0f8ff,#2050c0,#e8f0f8,#f4f8ff",
+    "robe,long,staff,hood"
+   ],
+   "kit": "kite range=170 | shoot p=ice n=3 sp=0.3 st=slow t=2 m=0.6 cd=2.2 | lob n=3 rad=42 t=1 zone=slip zt=6 col=#bfe8ff m=0.3 cd=5 | blink every=5 d=140 | banish r=300 t=10 cd=15",
+   "skills": [
+    "❄️ Frost bolts slow you",
+    "🧊 Rime floor — patches of ice you slide across",
+    "✨ Blinks away when you close in"
+   ],
+   "look": "A pale witch in frost-blue robes; frost creeps along the floor wherever she walks.",
+   "floors": 2,
+   "rid": "mgb_rime_spire"
+  },
+  {
+   "key": "scriptorium",
+   "q": 1,
+   "i": 1,
+   "name": "The Scriptorium Tower",
+   "spell": "sky_storm_tome",
+   "bg": "floating_library",
+   "boss": "mg_arcane_scribe",
+   "bossName": "Magister Quillon",
+   "title": "the Arcane Scribe",
+   "spec": [
+    "person",
+    "cast",
+    "#6a4ab0,#2a1a5a,#e0c060,#bff6ff,#f0d8c0,#c8c8c8",
+    "wizard,robe,beard,grey,book,staff"
+   ],
+   "kit": "kite range=190 | shoot p=orb n=3 sp=0.25 homing=1 spd=150 m=0.5 cd=2.4 | blink every=3.2 d=150 | summon id=mgi_scriptorium n=2 max=2 cd=11 | banish r=300 t=10 cd=15",
+   "skills": [
+    "📚 Homing arcane missiles",
+    "🪞 Mirror images — two copies of him that hit weakly",
+    "✨ Blinks around the room"
+   ],
+   "look": "A bearded old wizard in violet with a quill behind his ear and a book that writes itself.",
+   "floors": 2,
+   "rid": "mgb_scriptorium"
+  },
+  {
+   "key": "hearthfire",
+   "q": 1,
+   "i": 2,
+   "name": "Hearthfire Tower",
+   "spell": "fireball_tome",
+   "bg": "sorcerers_apothecary",
+   "boss": "mg_hearth_witch",
+   "bossName": "Cindra",
+   "title": "the Hearth-Witch",
+   "spec": [
+    "person",
+    "cast",
+    "#b83a1a,#4a1a0a,#ffb040,#ffe060,#f0c8a0,#e05020",
+    "robe,long,hood,potion"
+   ],
+   "kit": "kite range=170 | lob n=2 rad=34 t=1 zone=burn zt=4 col=#ff7030 m=0.8 cd=2.8 | ring spd=130 max=190 gap=1 col=#ff8040 st=burn m=0.7 cd=5 | banish r=300 t=10 cd=15",
+   "skills": [
+    "🔥 Fireballs leave burning ground",
+    "🔥 Rings of flame spread out from her"
+   ],
+   "look": "A red-hooded village witch, her cauldron always bubbling; sparks leap from her fingers.",
+   "floors": 2,
+   "rid": "mgb_hearthfire"
+  },
+  {
+   "key": "rootspire",
+   "q": 1,
+   "i": 3,
+   "name": "The Rootspire",
+   "spell": "thorn_tome",
+   "bg": "druid_grove_spire",
+   "boss": "mg_thorn_druid",
+   "bossName": "Old Bramblebeard",
+   "title": "the Thorn Druid",
+   "spec": [
+    "person",
+    "cast",
+    "#4a7a3a,#2a3a1a,#80d050,#ffe060,#c89868,#8ab070",
+    "robe,beard,long,staff"
+   ],
+   "kit": "drift keep=140 | shoot p=thorn n=3 sp=0.3 st=root t=1.2 m=0.6 cd=2.6 | pull r=190 keep=30 m=0.4 cd=5 | regen r=0.5 | banish r=300 t=10 cd=15",
+   "skills": [
+    "🌿 Thorns root you in place",
+    "🪢 Vines pull you to him",
+    "💚 Slowly heals"
+   ],
+   "look": "An ancient druid whose beard has grown into brambles; flowers bloom where he stands.",
+   "floors": 2,
+   "rid": "mgb_rootspire"
+  },
+  {
+   "key": "conductor",
+   "q": 2,
+   "i": 0,
+   "name": "The Conductor's Spire",
+   "spell": "arc_lightning",
+   "bg": "storm_rod_tower",
+   "boss": "mg_storm_caller",
+   "bossName": "Voltara",
+   "title": "the Storm-Caller",
+   "spec": [
+    "person",
+    "cast",
+    "#3a5a9a,#1a2a4a,#fff080,#ffffa0,#e8d0c0,#f0f0ff",
+    "robe,long,staff,crown"
+   ],
+   "kit": "kite range=200 | beam wind=0.8 len=320 w=10 col=#fff080 m=0.9 cd=3 | strike still=1.1 col=#ffff80 m=0.9 | shoot p=spark n=4 sp=0.2 spd=260 m=0.5 cd=2.2 | banish r=300 t=12 cd=15",
+   "skills": [
+    "⚡ Lightning beams",
+    "⚡ Stand still and lightning finds you",
+    "⚡ Spark volleys"
+   ],
+   "look": "A storm sorceress crowned with crackling light; her hair floats as if underwater.",
+   "floors": 3,
+   "rid": "mgb_conductor"
+  },
+  {
+   "key": "frozen_belfry",
+   "q": 2,
+   "i": 1,
+   "name": "The Frozen Belfry",
+   "spell": "ice_storm_tome",
+   "bg": "frost_spire",
+   "boss": "mg_shard_sorcerer",
+   "bossName": "Glacius",
+   "title": "the Shard Sorcerer",
+   "spec": [
+    "person",
+    "cast",
+    "#8ab8e0,#2a4a7a,#e0f8ff,#80e0ff,#d8e0e8,#e0f0ff",
+    "robe,hood,staff,beard"
+   ],
+   "kit": "kite range=190 | shoot p=shard n=5 sp=0.18 ric=1 spd=250 m=0.5 cd=2.4 | lob n=4 rad=46 t=1 zone=slip zt=7 col=#bfe8ff m=0.3 cd=5 | beam wind=0.9 len=300 w=10 col=#bfe8ff st=freeze t=1 m=0.8 cd=5 | banish r=300 t=12 cd=15",
+   "skills": [
+    "🧊 Turns the floor into an ice rink — you slide",
+    "❄️ Freezing beam",
+    "🔹 Bouncing ice shards"
+   ],
+   "look": "A hooded ice-sorcerer, his robe hung with icicles, his breath a cloud of frost.",
+   "floors": 3,
+   "rid": "mgb_frozen_belfry"
+  },
+  {
+   "key": "mire_tower",
+   "q": 2,
+   "i": 2,
+   "name": "The Mire Tower",
+   "spell": "thunder_storm",
+   "bg": "witch_hollow",
+   "boss": "mg_bog_hexwitch",
+   "bossName": "Mother Morrow",
+   "title": "the Bog Hex-Witch",
+   "spec": [
+    "person",
+    "cast",
+    "#5a7a3a,#2a3a1a,#a0ff60,#ffe060,#a8b088,#4a4a3a",
+    "robe,hood,long,potion"
+   ],
+   "kit": "kite range=180 | cloud at=player rad=70 st=poison v=3 dur=4 cd=5 | shoot p=poison n=1 spd=160 homing=1 st=frog t=4 m=0.5 cd=8 | summon id=glowfrog n=2 max=3 cd=10 | banish r=300 t=12 cd=15",
+   "skills": [
+    "☠️ Poison clouds",
+    "🐸 Her hex turns you into a frog (slow, weak)",
+    "🐸 Calls frogs to fight for her"
+   ],
+   "look": "A crooked bog-witch with moss in her hair and a necklace of frog bones.",
+   "floors": 3,
+   "rid": "mgb_mire_tower"
+  },
+  {
+   "key": "drowned_lighthouse",
+   "q": 2,
+   "i": 3,
+   "name": "The Drowned Lighthouse",
+   "spell": "tidal_tome",
+   "bg": "tidal_aquarium",
+   "boss": "mg_sea_warlock",
+   "bossName": "Tidelord Marenus",
+   "title": "the Sea-Warlock",
+   "spec": [
+    "person",
+    "cast",
+    "#2a6a8a,#0a2a3a,#60c0ff,#c0f0ff,#a8c8c0,#1a3a3a",
+    "robe,beard,staff,crown"
+   ],
+   "kit": "drift keep=150 | gust r=220 dist=140 m=0.4 cd=4 | ring spd=140 max=240 gap=2 col=#60c0ff m=0.8 cd=4 | wall dur=5 col=#60c0ff cd=8 | shoot p=water n=3 sp=0.3 spd=200 m=0.5 cd=2.6 | banish r=300 t=12 cd=15",
+   "skills": [
+    "🌊 Waves shove you across the room",
+    "🌊 Rings of water",
+    "🧱 Walls of water block your path"
+   ],
+   "look": "A drowned warlock-king with a crown of coral and a beard of seaweed.",
+   "floors": 3,
+   "rid": "mgb_drowned_lighthouse"
+  },
+  {
+   "key": "ember_observatory",
+   "q": 3,
+   "i": 0,
+   "name": "The Ember Observatory",
+   "spell": "flame_wave",
+   "bg": "astral_observatory",
+   "boss": "mg_nova_sorceress",
+   "bossName": "Pyrrhia",
+   "title": "the Nova Sorceress",
+   "spec": [
+    "person",
+    "cast",
+    "#e05020,#5a1a0a,#ffd060,#fff0a0,#f0c8a0,#ff8030",
+    "robe,long,staff,crown"
+   ],
+   "kit": "chase s=0.8 | ring spd=160 max=220 gap=1 col=#ff7030 st=burn m=1 cd=3 | marks n=4 rad=28 delay=1.1 spread=150 col=#ff8040 m=0.9 cd=5 | blink every=4 d=160 | banish r=300 t=14 cd=15",
+   "skills": [
+    "💥 Novas of flame burst out of her",
+    "☄️ Burning star-marks rain on you",
+    "✨ Blinks away"
+   ],
+   "look": "A star-gazing fire mage whose robe glows like embers; tiny suns orbit her staff.",
+   "floors": 3,
+   "rid": "mgb_ember_observatory"
+  },
+  {
+   "key": "hollow_spire",
+   "q": 3,
+   "i": 1,
+   "name": "The Hollow Spire",
+   "spell": "lightning_bolt",
+   "bg": "void_rift_hall",
+   "boss": "mg_void_warlock",
+   "bossName": "Nihilus",
+   "title": "the Void Warlock",
+   "spec": [
+    "person",
+    "cast",
+    "#2a1a3a,#0a0614,#a040ff,#ff60ff,#9a90a8,#1a1020",
+    "robe,hood,staff"
+   ],
+   "kit": "kite range=200 | cloud at=player rad=100 st=blind v=1 dur=4 cd=9 | shoot p=orb n=2 sp=0.3 homing=1 spd=110 st=slow t=2 m=0.8 cd=2.8 | blink every=3 d=170 | banish r=300 t=14 cd=15",
+   "skills": [
+    "🌑 Darkness — you go blind; only his glowing eyes show",
+    "🔮 Slow void orbs follow you",
+    "✨ Blinks in the dark"
+   ],
+   "look": "A hooded warlock made of shadow; only his violet eyes are ever clearly seen.",
+   "floors": 3,
+   "rid": "mgb_hollow_spire"
+  },
+  {
+   "key": "lightning_rod",
+   "q": 3,
+   "i": 2,
+   "name": "The Lightning Rod Tower",
+   "spell": "blizzard_tome",
+   "bg": "storm_rod_tower",
+   "boss": "mg_thunder_magus",
+   "bossName": "Stormhelm",
+   "title": "the Thunder Magus",
+   "spec": [
+    "person",
+    "cast",
+    "#6a7a9a,#2a3a5a,#ffff80,#ffffa0,#d8b090,#e8e8e8",
+    "armor,helmet,staff,beard,grey"
+   ],
+   "kit": "chase | blink every=2.4 d=170 | slam r=80 m=1.2 cd=3 | strike still=1 col=#ffff80 m=1 | shoot p=spark n=5 sp=0.2 spd=280 st=root t=0.6 m=0.5 cd=3.2 | banish r=300 t=14 cd=15",
+   "skills": [
+    "⚡ Teleports next to you and slams",
+    "⚡ Stunning sparks",
+    "⚡ Lightning if you stand still"
+   ],
+   "look": "A battle-mage in storm-grey plate, a lightning rod for a staff.",
+   "floors": 3,
+   "rid": "mgb_lightning_rod"
+  },
+  {
+   "key": "monolith",
+   "q": 3,
+   "i": 3,
+   "name": "The Monolith",
+   "spell": "spikes_tome",
+   "bg": "runic_scriptorium",
+   "boss": "mg_stone_shaper",
+   "bossName": "Gravelord Thane",
+   "title": "the Stone Shaper",
+   "spec": [
+    "person",
+    "cast",
+    "#8a7a6a,#3a3028,#c0a080,#ffb040,#b0a090,#6a5a4a",
+    "robe,beard,staff,big"
+   ],
+   "kit": "lumber | marks n=6 rad=26 delay=1 spread=170 col=#b09070 m=1 cd=4 | wall dur=6 col=#8a7a6a cd=7 | shoot p=rock n=3 sp=0.25 st=shrink t=5 m=0.7 cd=6 | armor n=4 red=0.5 | banish r=300 t=14 cd=15",
+   "skills": [
+    "🪨 Earth spikes burst up under you",
+    "🧱 Raises stone walls",
+    "🔻 Shrinking curse (you deal less damage)",
+    "🛡 Stone armour"
+   ],
+   "look": "A hulking earth-mage whose skin is cracked granite; runes glow in the cracks.",
+   "floors": 3,
+   "rid": "mgb_monolith"
+  },
+  {
+   "key": "frostbitten_crown",
+   "q": 4,
+   "i": 0,
+   "name": "The Frostbitten Crown",
+   "spell": "frost_storm_tome",
+   "bg": "crystal_conservatory",
+   "boss": "mg_blizzard_king",
+   "bossName": "Hiemal",
+   "title": "the Blizzard King",
+   "spec": [
+    "person",
+    "cast",
+    "#bfe8ff,#1a3a6a,#ffffff,#80e0ff,#b0c8d8,#e0f8ff",
+    "robe,crown,staff,beard,grey"
+   ],
+   "kit": "kite range=200 | cloud at=player rad=110 st=slow v=0.5 dur=5 cd=6 | lob n=5 rad=50 t=1.2 zone=slip zt=8 col=#e0f8ff m=0.4 cd=5 | beam wind=0.8 len=340 w=12 col=#e0f8ff st=freeze t=1.2 m=1 cd=4.5 | ring spd=150 max=230 gap=1 col=#bfe8ff st=slow m=0.8 cd=5 | banish r=300 t=16 cd=15",
+   "skills": [
+    "🌨 Blizzards slow everything",
+    "🧊 Ice floors everywhere — you slide",
+    "❄️ Freezing beam",
+    "❄️ Rings of frost"
+   ],
+   "look": "An undying ice-king in a crown of icicles, a blizzard swirling around his throne.",
+   "floors": 4,
+   "rid": "mgb_frostbitten_crown"
+  },
+  {
+   "key": "rift_tower",
+   "q": 4,
+   "i": 1,
+   "name": "The Rift Tower",
+   "spell": "void_blast",
+   "bg": "void_rift_hall",
+   "boss": "mg_rift_lich",
+   "bossName": "Xal'zor",
+   "title": "the Rift Lich",
+   "spec": [
+    "person",
+    "cast",
+    "#3a2a5a,#0a0614,#c040ff,#40ffa0,#c8c0b0,#1a1020",
+    "robe,hood,staff,crown"
+   ],
+   "kit": "drift keep=170 | cloud at=player rad=110 st=blind dur=4 cd=10 | beam wind=1 len=360 w=12 col=#a040ff m=1.1 cd=3.4 | shoot p=orb n=3 sp=0.25 homing=1 spd=140 st=reverse t=3 m=0.7 cd=6 | summon id=mgi_rift_tower n=2 max=3 cd=12 | banish r=300 t=16 cd=15",
+   "skills": [
+    "🌑 Blinds you — the room goes dark",
+    "🔀 Hexes that reverse your controls",
+    "🟣 Void beams",
+    "🪞 Echo copies of himself"
+   ],
+   "look": "A skeletal lich wrapped in torn space; stars show through the holes in his robe.",
+   "floors": 4,
+   "rid": "mgb_rift_tower"
+  },
+  {
+   "key": "crimson_spire",
+   "q": 4,
+   "i": 2,
+   "name": "The Crimson Spire",
+   "spell": "drain_tome",
+   "bg": "blood_moon_chapel",
+   "boss": "mg_soul_drinker",
+   "bossName": "Lady Vesperine",
+   "title": "the Soul Drinker",
+   "spec": [
+    "person",
+    "cast",
+    "#8a1a2a,#1a0a10,#ff4060,#ff2040,#e0d0d0,#1a1010",
+    "dress,long,crown,cape"
+   ],
+   "kit": "drift keep=140 | drain r=170 m=0.35 dur=3 col=#ff4060 cd=5 | shoot p=orb n=4 sp=0.25 homing=1 spd=170 st=reverse t=2.5 m=0.6 cd=4 | blink every=3.5 d=150 | regen r=0.8 | banish r=300 t=16 cd=15",
+   "skills": [
+    "🩸 Drains your life to heal herself",
+    "💘 Charm — your controls reverse",
+    "🦇 Homing blood-bats",
+    "✨ Blinks"
+   ],
+   "look": "A pale vampire enchantress in crimson velvet, a ruby crown and a cloak of bats.",
+   "floors": 4,
+   "rid": "mgb_crimson_spire"
+  },
+  {
+   "key": "astral_spire",
+   "q": 4,
+   "i": 3,
+   "name": "The Astral Spire",
+   "spell": "inferno_tome",
+   "bg": "dreaming_loft",
+   "boss": "mg_star_sorcerer",
+   "bossName": "Astraeus",
+   "title": "the Star Sorcerer",
+   "spec": [
+    "person",
+    "cast",
+    "#2a2a6a,#0a0a2a,#fff0a0,#ffe060,#d8c0a0,#e8e4dc",
+    "wizard,robe,beard,grey,staff"
+   ],
+   "kit": "kite range=210 | marks n=7 rad=30 delay=1.2 spread=200 col=#fff0a0 m=1.1 cd=4 | cloud at=player rad=90 st=slow v=0.6 dur=4 cd=7 | blink every=3 d=180 | shoot p=spark n=5 sp=0.2 spd=260 m=0.6 cd=2.4 | banish r=300 t=16 cd=15",
+   "skills": [
+    "🌠 Starfall — meteors rain on marked spots",
+    "⏳ Slows time around you",
+    "✨ Blinks among the stars"
+   ],
+   "look": "An ancient star-sorcerer in a midnight robe sewn with real stars.",
+   "floors": 4,
+   "rid": "mgb_astral_spire"
+  }
+ ],
+ "forge": [
+  [
+   "glodr",
+   "Ember Forge",
+   "Brokk, the Bellows-Wyrm",
+   [
+    "Breath sweeps from the bellows",
+    "Burrows — lava geysers rise under you",
+    "The bellows burst — the whole hall breathes fire"
+   ]
+  ],
+  [
+   "eisa",
+   "Cinder Forge",
+   "Hissa, the Quench-Hag",
+   [
+    "Steam bolts and cinder imps",
+    "Floods the hall — islands of rock in scalding water",
+    "Boils it all — stay in the dry"
+   ]
+  ],
+  [
+   "gjallr",
+   "Slag Forge",
+   "Krag, the Slag Troll",
+   [
+    "Slag pours and walls you in",
+    "Molten boulders, ore shaken loose",
+    "Armoured in cooling slag — break the shell"
+   ]
+  ],
+  [
+   "eimyrja",
+   "Ash Forge",
+   "Sinda, the Chainmistress",
+   [
+    "Chain lashes that pull you in",
+    "Chains the hall into lanes",
+    "Wraps herself in chained spirits — free them"
+   ]
+  ]
+ ],
+ "asg": [
+  [
+   "grim",
+   "Citadel of Asgard",
+   "Solmyrk, the Black Sun",
+   [
+    "The Allfather's Mask — mostly light: spears of light, shield-maidens at his call",
+    "The Cracked Mask — light and black in even beats; the dark half drags you in",
+    "The Storm That Ends the World — mostly black: gales and lightning sweep the throne room"
+   ]
+  ]
+ ],
+ "vr": [
+  {
+   "id": "boss_goblin_king",
+   "sub": "Dungeon guardians",
+   "where": "Grasslands ★ dungeon (exit portal)",
+   "doing": "Rushes you and throws a fan of arrows (scatter shot)."
+  },
+  {
+   "id": "boss_swamp_witch",
+   "sub": "Dungeon guardians",
+   "where": "Wetlands ★ dungeon (exit portal)",
+   "doing": "Circles you and hurls green bog-flame."
+  },
+  {
+   "id": "boss_rock_dragon",
+   "sub": "Dungeon guardians",
+   "where": "Highlands ★ dungeon (exit portal)",
+   "doing": "Charges, then sprays a spread of fire."
+  },
+  {
+   "id": "boss_lava_titan",
+   "sub": "Dungeon guardians",
+   "where": "Ashlands ★ dungeon (exit portal)",
+   "doing": "Slow; stomps shockwaves around itself."
+  },
+  {
+   "id": "boss_dark_warlock",
+   "sub": "Tower guardians",
+   "where": "Grasslands ★ tower (top floor)",
+   "doing": "Blinks around the room and fires homing hexes."
+  },
+  {
+   "id": "boss_storm_mage",
+   "sub": "Tower guardians",
+   "where": "Wetlands ★ tower (top floor)",
+   "doing": "Strafes and calls lightning bolts."
+  },
+  {
+   "id": "boss_iron_sentinel",
+   "sub": "Tower guardians",
+   "where": "Highlands ★ tower (top floor)",
+   "doing": "Marches forward and fires scatter bolts."
+  },
+  {
+   "id": "boss_shadow_lord",
+   "sub": "Tower guardians",
+   "where": "Ashlands ★ tower (top floor)",
+   "doing": "Teleports and launches seeking shadow bolts."
+  },
+  {
+   "id": "boss_isl_1",
+   "sub": "Island guardians",
+   "where": "Pirate Cave (Grasslands island)",
+   "doing": "Rushes in with cutlass slashes."
+  },
+  {
+   "id": "boss_isl_2",
+   "sub": "Island guardians",
+   "where": "Bog Grotto (Wetlands island)",
+   "doing": "Stomps the ground — shockwave rings."
+  },
+  {
+   "id": "boss_isl_3",
+   "sub": "Island guardians",
+   "where": "Ember Cave (Highlands island)",
+   "doing": "Heavy stomps that shake the cave floor."
+  },
+  {
+   "id": "boss_isl_4",
+   "sub": "Island guardians",
+   "where": "Frost Spire (Ashlands island)",
+   "doing": "Teleports and strikes with frost."
+  },
+  {
+   "id": "boss_vr_ember_wraith",
+   "sub": "Volcano boss rush",
+   "where": "Boss rush · wave 2",
+   "doing": "Drifts at you in swirling sparks."
+  },
+  {
+   "id": "boss_vr_magma_spitter",
+   "sub": "Volcano boss rush",
+   "where": "Boss rush · wave 3",
+   "doing": "Spits globs of lava."
+  },
+  {
+   "id": "boss_vr_obsidian_golem",
+   "sub": "Volcano boss rush",
+   "where": "Boss rush · wave 4",
+   "doing": "Slow, crushing slams."
+  },
+  {
+   "id": "boss_vr_cinder_phoenix",
+   "sub": "Volcano boss rush",
+   "where": "Boss rush · wave 5",
+   "doing": "Fast swooping dives."
+  },
+  {
+   "id": "boss_vr_lava_wyrm",
+   "sub": "Volcano boss rush",
+   "where": "Boss rush · wave 6",
+   "doing": "Lunges out of the lava."
+  },
+  {
+   "id": "boss_vr_ashen_knight",
+   "sub": "Volcano boss rush",
+   "where": "Boss rush · wave 7",
+   "doing": "Charges with sword lunges."
+  },
+  {
+   "id": "boss_vr_pyrokraken",
+   "sub": "Volcano boss rush",
+   "where": "Boss rush · wave 8",
+   "doing": "Lashes tentacles in fiery rings."
+  },
+  {
+   "id": "boss_vr_inferno_wraith",
+   "sub": "Volcano boss rush",
+   "where": "Boss rush · wave 9",
+   "doing": "Hurls fire and drifts through walls of flame."
+  },
+  {
+   "id": "boss_volcano_lord",
+   "sub": "Muspelheim",
+   "where": "The throne of Muspelheim",
+   "doing": "Fights in six forms, from the Molten Colossus to the Living Volcano."
+  },
+  {
+   "id": "bf_goblin_king_2",
+   "sub": "Evolved forms",
+   "where": "Goblin King · phase 2 · The Throne Warren",
+   "doing": "Charges, cleaves in a wide arc and hurls fire-pots."
+  },
+  {
+   "id": "bf_dark_warlock_2",
+   "sub": "Evolved forms",
+   "where": "Dark Warlock · phase 2 · The Moonlit Canopy",
+   "doing": "Blinks around, fires fans of homing hexes and a sweeping beam."
+  },
+  {
+   "id": "bf_swamp_witch_2",
+   "sub": "Evolved forms",
+   "where": "Swamp Witch · phase 2 · The Sunken Grotto",
+   "doing": "Poison clouds, lobbed brew and bog frogs; a ✨ ward only spells break."
+  },
+  {
+   "id": "bf_swamp_witch_3",
+   "sub": "Evolved forms",
+   "where": "Swamp Witch · phase 3 · The Cauldron Pit",
+   "doing": "Leaps, tongue-pulls you in, drains life, calls leeches; ✨ ward and 🏹 guard."
+  },
+  {
+   "id": "bf_storm_mage_2",
+   "sub": "Evolved forms",
+   "where": "Storm Mage · phase 2 · The Cathedral Rooftop",
+   "doing": "Lightning beams, gusts that shove you to the edge; 🏹 guard only arrows break."
+  },
+  {
+   "id": "bf_storm_mage_3",
+   "sub": "Evolved forms",
+   "where": "Storm Mage · phase 3 · The Eye of the Storm",
+   "doing": "Gapped lightning rings, strikes if you stand still, storm sprites; ✨ ward."
+  },
+  {
+   "id": "bf_rock_dragon_2",
+   "sub": "Evolved forms",
+   "where": "Rock Dragon · phase 2 · The Geode Hollow",
+   "doing": "Crystal breath, shard volleys that ricochet, crystal golemlings; 🛡 plate."
+  },
+  {
+   "id": "bf_rock_dragon_3",
+   "sub": "Evolved forms",
+   "where": "Rock Dragon · phase 3 · The Chasm Bridge",
+   "doing": "Slams that crack the bridge, charges, falling rocks; 🛡 plate + ✨ ward."
+  },
+  {
+   "id": "bf_rock_dragon_4",
+   "sub": "Evolved forms",
+   "where": "Rock Dragon · phase 4 · The Dragon's Summit",
+   "doing": "Fire breath, meteors, and two Crystal Drakelings fight beside it."
+  },
+  {
+   "id": "bf_drakeling",
+   "sub": "Evolved forms",
+   "where": "Rock Dragon · phase 4 ally",
+   "doing": "Darting lunges and crystal spit."
+  },
+  {
+   "id": "bf_iron_sentinel_2",
+   "sub": "Evolved forms",
+   "where": "Iron Sentinel · phase 2 · The Gear Hall",
+   "doing": "Hammer slams, mortar lobs, repair drones; 🛡 plate."
+  },
+  {
+   "id": "bf_iron_sentinel_3",
+   "sub": "Evolved forms",
+   "where": "Iron Sentinel · phase 3 · The Observatory Dome",
+   "doing": "Rotating star-beams, pulls you in, shock rings; 🛡 plate + 🏹 guard."
+  },
+  {
+   "id": "bf_iron_sentinel_4",
+   "sub": "Evolved forms",
+   "where": "Iron Sentinel · phase 4 · The Star Forge",
+   "doing": "Drill charges, beams, walls; two Forge Guardians fight with it."
+  },
+  {
+   "id": "bf_forge_guardian",
+   "sub": "Evolved forms",
+   "where": "Iron Sentinel · phase 4 ally",
+   "doing": "Hammer slams that leave burning slag."
+  },
+  {
+   "id": "bf_lava_titan_2",
+   "sub": "Evolved forms",
+   "where": "Lava Titan · phase 2 · The Cooling Crust",
+   "doing": "Slams leave lava pools, lobbed magma, magma vents; 🛡 plate."
+  },
+  {
+   "id": "bf_lava_titan_3",
+   "sub": "Evolved forms",
+   "where": "Lava Titan · phase 3 · The Lava Falls Terrace",
+   "doing": "Glass-shard fans, reflecting armour, charred zombies; 🛡 plate + 🏹 guard."
+  },
+  {
+   "id": "bf_lava_titan_4",
+   "sub": "Evolved forms",
+   "where": "Lava Titan · phase 4 · The Caldera Rim",
+   "doing": "Charges, burning aura, meteor marks; ✨ ward + 🛡 plate + 🏹 guard."
+  },
+  {
+   "id": "bf_lava_titan_5",
+   "sub": "Evolved forms",
+   "where": "Lava Titan · phase 5 · The Heart of the Volcano",
+   "doing": "Fire rings, meteors, lava everywhere; two Magma Titans guard it."
+  },
+  {
+   "id": "bf_shadow_lord_2",
+   "sub": "Evolved forms",
+   "where": "Shadow Lord · phase 2 · The Shattered Sanctum",
+   "doing": "Blind clouds, homing shadows, drain; ✨ ward."
+  },
+  {
+   "id": "bf_shadow_lord_3",
+   "sub": "Evolved forms",
+   "where": "Shadow Lord · phase 3 · The Hall of Mirrors",
+   "doing": "Sword combos, swaps places with you, mirror echoes; 🛡 plate + 🏹 guard."
+  },
+  {
+   "id": "bf_shadow_lord_4",
+   "sub": "Evolved forms",
+   "where": "Shadow Lord · phase 4 · The Starless Void",
+   "doing": "Twin beams, gravity pull, void rifts, shadow wraiths; ✨ ward + 🏹 guard + 🛡 plate."
+  },
+  {
+   "id": "bf_shadow_lord_5",
+   "sub": "Evolved forms",
+   "where": "Shadow Lord · phase 5 · The Dawn Altar",
+   "doing": "Everything at once — and two Shadow Twins fight beside it."
+  },
+  {
+   "id": "bf_shadow_twin",
+   "sub": "Evolved forms",
+   "where": "Shadow Lord · phase 5 ally",
+   "doing": "Blinks and fires homing shadow bolts."
+  },
+  {
+   "id": "cw_thorn_knight",
+   "sub": "Castle wardens",
+   "where": "Thornwood Keep",
+   "doing": "Charges and slashes; thorns hurt when you hit him up close."
+  },
+  {
+   "id": "cw_sun_baron",
+   "sub": "Castle wardens",
+   "where": "Sunflower Château",
+   "doing": "Fast rapier combos and a dazzling sun-flash."
+  },
+  {
+   "id": "cw_mill_ogre",
+   "sub": "Castle wardens",
+   "where": "Windmill Bastion",
+   "doing": "Heavy slams and thrown grain sacks."
+  },
+  {
+   "id": "cw_lotus_naga",
+   "sub": "Castle wardens",
+   "where": "Lotus Water Palace",
+   "doing": "Water beams and poison spit from the pools."
+  },
+  {
+   "id": "cw_drowned_abbot",
+   "sub": "Castle wardens",
+   "where": "Drowned Abbey",
+   "doing": "Rings of water and summoned drowned monks."
+  },
+  {
+   "id": "cw_mangrove_chief",
+   "sub": "Castle wardens",
+   "where": "Mangrove Fort",
+   "doing": "Root slams and vine pulls."
+  },
+  {
+   "id": "cw_forge_thane",
+   "sub": "Castle wardens",
+   "where": "Dwarven Hold",
+   "doing": "Hammer slams that leave burning slag; tough armour."
+  },
+  {
+   "id": "cw_frost_queen",
+   "sub": "Castle wardens",
+   "where": "Glacier Citadel",
+   "doing": "Freezing beams and ice walls."
+  },
+  {
+   "id": "cw_roc_lord",
+   "sub": "Castle wardens",
+   "where": "Eyrie Castle",
+   "doing": "Dives from above and blasts you with wind."
+  },
+  {
+   "id": "cw_obsidian_jailer",
+   "sub": "Castle wardens",
+   "where": "Obsidian Bastille",
+   "doing": "Chain pulls, slams and reflecting armour."
+  },
+  {
+   "id": "cw_ember_priest",
+   "sub": "Castle wardens",
+   "where": "Ember Sanctum",
+   "doing": "Fire rings, meteors and burning ground."
+  },
+  {
+   "id": "cw_bone_king",
+   "sub": "Castle wardens",
+   "where": "Bone Throne Keep",
+   "doing": "Raises bone minions and hurls cursed skulls."
+  },
+  {
+   "id": "mg_rime_witch",
+   "sub": "Mage-tower bosses",
+   "where": "The Rime Spire (Grasslands)",
+   "doing": "❄️ Frost bolts slow you · 🧊 Rime floor — patches of ice you slide across · ✨ Blinks away when you close in"
+  },
+  {
+   "id": "mg_arcane_scribe",
+   "sub": "Mage-tower bosses",
+   "where": "The Scriptorium Tower (Grasslands)",
+   "doing": "📚 Homing arcane missiles · 🪞 Mirror images — two copies of him that hit weakly · ✨ Blinks around the room"
+  },
+  {
+   "id": "mg_hearth_witch",
+   "sub": "Mage-tower bosses",
+   "where": "Hearthfire Tower (Grasslands)",
+   "doing": "🔥 Fireballs leave burning ground · 🔥 Rings of flame spread out from her"
+  },
+  {
+   "id": "mg_thorn_druid",
+   "sub": "Mage-tower bosses",
+   "where": "The Rootspire (Grasslands)",
+   "doing": "🌿 Thorns root you in place · 🪢 Vines pull you to him · 💚 Slowly heals"
+  },
+  {
+   "id": "mg_storm_caller",
+   "sub": "Mage-tower bosses",
+   "where": "The Conductor's Spire (Wetlands)",
+   "doing": "⚡ Lightning beams · ⚡ Stand still and lightning finds you · ⚡ Spark volleys"
+  },
+  {
+   "id": "mg_shard_sorcerer",
+   "sub": "Mage-tower bosses",
+   "where": "The Frozen Belfry (Wetlands)",
+   "doing": "🧊 Turns the floor into an ice rink — you slide · ❄️ Freezing beam · 🔹 Bouncing ice shards"
+  },
+  {
+   "id": "mg_bog_hexwitch",
+   "sub": "Mage-tower bosses",
+   "where": "The Mire Tower (Wetlands)",
+   "doing": "☠️ Poison clouds · 🐸 Her hex turns you into a frog (slow, weak) · 🐸 Calls frogs to fight for her"
+  },
+  {
+   "id": "mg_sea_warlock",
+   "sub": "Mage-tower bosses",
+   "where": "The Drowned Lighthouse (Wetlands)",
+   "doing": "🌊 Waves shove you across the room · 🌊 Rings of water · 🧱 Walls of water block your path"
+  },
+  {
+   "id": "mg_nova_sorceress",
+   "sub": "Mage-tower bosses",
+   "where": "The Ember Observatory (Highlands)",
+   "doing": "💥 Novas of flame burst out of her · ☄️ Burning star-marks rain on you · ✨ Blinks away"
+  },
+  {
+   "id": "mg_void_warlock",
+   "sub": "Mage-tower bosses",
+   "where": "The Hollow Spire (Highlands)",
+   "doing": "🌑 Darkness — you go blind; only his glowing eyes show · 🔮 Slow void orbs follow you · ✨ Blinks in the dark"
+  },
+  {
+   "id": "mg_thunder_magus",
+   "sub": "Mage-tower bosses",
+   "where": "The Lightning Rod Tower (Highlands)",
+   "doing": "⚡ Teleports next to you and slams · ⚡ Stunning sparks · ⚡ Lightning if you stand still"
+  },
+  {
+   "id": "mg_stone_shaper",
+   "sub": "Mage-tower bosses",
+   "where": "The Monolith (Highlands)",
+   "doing": "🪨 Earth spikes burst up under you · 🧱 Raises stone walls · 🔻 Shrinking curse (you deal less damage) · 🛡 Stone armour"
+  },
+  {
+   "id": "mg_blizzard_king",
+   "sub": "Mage-tower bosses",
+   "where": "The Frostbitten Crown (Ashlands)",
+   "doing": "🌨 Blizzards slow everything · 🧊 Ice floors everywhere — you slide · ❄️ Freezing beam · ❄️ Rings of frost"
+  },
+  {
+   "id": "mg_rift_lich",
+   "sub": "Mage-tower bosses",
+   "where": "The Rift Tower (Ashlands)",
+   "doing": "🌑 Blinds you — the room goes dark · 🔀 Hexes that reverse your controls · 🟣 Void beams · 🪞 Echo copies of himself"
+  },
+  {
+   "id": "mg_soul_drinker",
+   "sub": "Mage-tower bosses",
+   "where": "The Crimson Spire (Ashlands)",
+   "doing": "🩸 Drains your life to heal herself · 💘 Charm — your controls reverse · 🦇 Homing blood-bats · ✨ Blinks"
+  },
+  {
+   "id": "mg_star_sorcerer",
+   "sub": "Mage-tower bosses",
+   "where": "The Astral Spire (Ashlands)",
+   "doing": "🌠 Starfall — meteors rain on marked spots · ⏳ Slows time around you · ✨ Blinks among the stars"
+  },
+  {
+   "id": "fm_glodr",
+   "sub": "Forge-masters",
+   "where": "the Ember Forge",
+   "doing": "breathing fire in sweeps, burrowing under the coals"
+  },
+  {
+   "id": "fm_eisa",
+   "sub": "Forge-masters",
+   "where": "the Cinder Forge",
+   "doing": "hurling steam bolts, flooding the hall with scalding water"
+  },
+  {
+   "id": "fm_gjallr",
+   "sub": "Forge-masters",
+   "where": "the Slag Forge",
+   "doing": "pouring slag and hurling molten boulders"
+  },
+  {
+   "id": "fm_eimyrja",
+   "sub": "Forge-masters",
+   "where": "the Ash Forge",
+   "doing": "lashing chains and dragging you in"
+  },
+  {
+   "id": "grim",
+   "sub": "Asgard",
+   "where": "the Citadel of Asgard",
+   "doing": "spears of light; then the cracked mask, half light, half dark; at last the storm that ends the world."
+  }
+ ],
+ "mdefs": {
+  "goblin_king": {
+   "name": "Grubnash the Great, the Goblin King",
+   "hp": 342,
+   "atk": 9,
+   "def": 4,
+   "el": null,
+   "atkType": "scatter_arrow",
+   "moveType": "rush",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 1
+  },
+  "swamp_witch": {
+   "name": "Granny Greenteeth, the Swamp Witch",
+   "hp": 504,
+   "atk": 12,
+   "def": 6,
+   "el": null,
+   "atkType": "flame",
+   "moveType": "orbit",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 2
+  },
+  "iron_sentinel": {
+   "name": "Brokkrun, the Iron Sentinel",
+   "hp": 648,
+   "atk": 18,
+   "def": 12,
+   "el": null,
+   "atkType": "scatter",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 3
+  },
+  "shadow_lord": {
+   "name": "Malgorath, the Shadow Lord",
+   "hp": 936,
+   "atk": 28,
+   "def": 13,
+   "el": null,
+   "atkType": "heat_seek",
+   "moveType": "teleport",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 4
+  },
+  "dark_warlock": {
+   "name": "Morvane, the Dark Warlock",
+   "hp": 270,
+   "atk": 11,
+   "def": 3,
+   "el": null,
+   "atkType": "heat_seek",
+   "moveType": "teleport",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 1
+  },
+  "storm_mage": {
+   "name": "Tharnwald, the Storm Mage",
+   "hp": 432,
+   "atk": 14,
+   "def": 5,
+   "el": null,
+   "atkType": "lightning",
+   "moveType": "strafe",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 2
+  },
+  "rock_dragon": {
+   "name": "Grauldr, the Rock Dragon",
+   "hp": 720,
+   "atk": 18,
+   "def": 9,
+   "el": null,
+   "atkType": "scatter_flame",
+   "moveType": "rush",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 3
+  },
+  "lava_titan": {
+   "name": "Surtvald, the Lava Titan",
+   "hp": 1044,
+   "atk": 25,
+   "def": 13,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 4
+  },
+  "forge_glodr": {
+   "name": "Brokk, the Bellows-Wyrm",
+   "hp": 900,
+   "atk": 30,
+   "def": 12,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": true,
+   "sec": 4
+  },
+  "forge_eisa": {
+   "name": "Hissa, the Quench-Hag",
+   "hp": 820,
+   "atk": 30,
+   "def": 12,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": true,
+   "sec": 4
+  },
+  "forge_gjallr": {
+   "name": "Krag, the Slag Troll",
+   "hp": 1000,
+   "atk": 30,
+   "def": 12,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": true,
+   "sec": 4
+  },
+  "forge_eimyrja": {
+   "name": "Sinda, the Chainmistress",
+   "hp": 860,
+   "atk": 30,
+   "def": 12,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": true,
+   "sec": 4
+  },
+  "musp_g1": {
+   "name": "Guards of The Chain Lifts",
+   "hp": 720,
+   "atk": 24,
+   "def": 10,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 4
+  },
+  "musp_g2": {
+   "name": "Guards of The Lava Rafts",
+   "hp": 800,
+   "atk": 26,
+   "def": 10,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 4
+  },
+  "musp_g3": {
+   "name": "Guards of The Ash-warden Fortress",
+   "hp": 880,
+   "atk": 28,
+   "def": 10,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 4
+  },
+  "musp_g4": {
+   "name": "Guards of The Falling Bridges",
+   "hp": 960,
+   "atk": 30,
+   "def": 10,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": null,
+   "sec": 4
+  },
+  "surtharn": {
+   "name": "Surtharn, Tyrant of Muspelheim",
+   "hp": 1500,
+   "atk": 34,
+   "def": 14,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": true,
+   "sec": 4
+  },
+  "grimnir": {
+   "name": "Solmyrk, the Black Sun",
+   "hp": 1800,
+   "atk": 36,
+   "def": 15,
+   "el": null,
+   "atkType": "stomp",
+   "moveType": "normal",
+   "kit": null,
+   "res": null,
+   "sovWard": true,
+   "sec": 4
+  }
+ },
+ "desc": {
+  "boss_goblin_king": "◎ Shockwave · ☄ Sky rain (gold) · ⟲ Boomerang (hammer)",
+  "bf_goblin_king_2": "➶ Strafing run · ◎ Shockwave · ☄ Sky rain (rocks) · ⚔ Leaping combo — last stand: ☄ Sky rain (gold) + ◎ Shockwave",
+  "boss_dark_warlock": "✺ Radial burst · ⟲ Boomerang (orb) · ▤ Floor takeover (webs)",
+  "bf_dark_warlock_2": "↻ Rotating beams · ▤ Floor takeover (webs) · ⤓ Burrow & erupt · ✺ Radial burst — last stand: ↻ Rotating beams + ☄ Sky rain (blades)",
+  "boss_swamp_witch": "▤ Floor takeover (bog) · ⟲ Boomerang (lantern) · ☄ Sky rain (bog bubbles)",
+  "bf_swamp_witch_2": "▤ Floor takeover (bog) · ☄ Sky rain (bog bubbles) · ⚔ Leaping combo · ⟲ Boomerang (lantern)",
+  "bf_swamp_witch_3": "⤓ Burrow & erupt · ✺ Radial burst · ▤ Floor takeover (bog) · ☄ Sky rain (bog bubbles) — last stand: ▤ Floor takeover (bog) + ☄ Sky rain (bog bubbles) + ✺ Radial burst",
+  "boss_storm_mage": "☄ Sky rain (lightning) · ⟲ Boomerang (orb) · ✺ Radial burst",
+  "bf_storm_mage_2": "⇶ Sweeping wall (thunder) · ☄ Sky rain (lightning) · ↻ Rotating beams · ⟲ Boomerang (orb)",
+  "bf_storm_mage_3": "◎ Shockwave · ⇶ Sweeping wall (thunder) · ☄ Sky rain (lightning) · ⚔ Leaping combo — last stand: ⇶ Sweeping wall (thunder) + ☄ Sky rain (lightning) + ↻ Rotating beams",
+  "boss_rock_dragon": "☄ Sky rain (rocks) · ⚔ Leaping combo · ◎ Shockwave",
+  "bf_rock_dragon_2": "✺ Radial burst (crystal) · ☄ Sky rain (rocks) · ⚔ Leaping combo · ◎ Shockwave",
+  "bf_rock_dragon_3": "➶ Strafing run (fire) · ☄ Sky rain (rocks) · ✺ Radial burst (crystal) · ⇶ Sweeping wall (fire)",
+  "bf_rock_dragon_4": "➶ Strafing run (fire) · ⇶ Sweeping wall (fire) · ☄ Sky rain (rocks) · ↻ Rotating beams — last stand: ➶ Strafing run (fire) + ☄ Sky rain (rocks) + ✺ Radial burst (crystal)",
+  "bf_drakeling": "⚔ Leaping combo · ◎ Shockwave — last stand: ☄ Sky rain (rocks) + ⚔ Leaping combo",
+  "boss_iron_sentinel": "↻ Rotating beams · ⟲ Boomerang (axe) · ◎ Shockwave",
+  "bf_iron_sentinel_2": "⇶ Sweeping wall (gears) · ◎ Shockwave · ☄ Sky rain (rocks) · ⟲ Boomerang (hammer)",
+  "bf_iron_sentinel_3": "↻ Rotating beams · ⇶ Sweeping wall (gears) · ☄ Sky rain (rocks) · ✺ Radial burst",
+  "bf_iron_sentinel_4": "⚔ Leaping combo · ⟲ Boomerang (hammer) · ↻ Rotating beams · ⇶ Sweeping wall (gears) — last stand: ↻ Rotating beams + ⇶ Sweeping wall (gears) + ☄ Sky rain (rocks)",
+  "bf_forge_guardian": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "boss_lava_titan": "▤ Floor takeover (lava) · ⚔ Leaping combo · ◎ Shockwave",
+  "bf_lava_titan_2": "▤ Floor takeover (lava) · ⇶ Sweeping wall (lava) · ⚔ Leaping combo · ☄ Sky rain (fire)",
+  "bf_lava_titan_3": "⚔ Leaping combo · ⇶ Sweeping wall (lava) · ☄ Sky rain (fire) · ▤ Floor takeover (lava)",
+  "bf_lava_titan_4": "➶ Strafing run (fire) · ▤ Floor takeover (lava) · ◎ Shockwave · ⤓ Burrow & erupt",
+  "bf_lava_titan_5": "✺ Radial burst · ↻ Rotating beams · ▤ Floor takeover (lava) · ☄ Sky rain (fire) — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire) + ↻ Rotating beams",
+  "boss_shadow_lord": "◐ Eclipse · ☄ Sky rain (blades) · ⧉ Mirror images",
+  "bf_shadow_lord_2": "↻ Rotating beams · ⧉ Mirror images · ☄ Sky rain (blades) · ◐ Eclipse",
+  "bf_shadow_lord_3": "➶ Strafing run · ☄ Sky rain (blades) · ◐ Eclipse · ⇶ Sweeping wall (void)",
+  "bf_shadow_lord_4": "➶ Strafing run · ↻ Rotating beams · ⇶ Sweeping wall (void) · ✺ Radial burst",
+  "bf_shadow_lord_5": "⇶ Sweeping wall (light) · ✺ Radial burst · ☄ Sky rain (light) · ⧉ Mirror images — last stand: ◐ Eclipse + ↻ Rotating beams + ⧉ Mirror images",
+  "bf_shadow_twin": "✺ Radial burst · ⧉ Mirror images — last stand: ◐ Eclipse + ✺ Radial burst",
+  "cw_thorn_knight": "⧉ Mirror images · ◐ Eclipse — last stand: ✺ Radial burst + ⧉ Mirror images",
+  "cw_sun_baron": "✺ Radial burst · ▤ Floor takeover (lava) — last stand: ☄ Sky rain (fire) + ✺ Radial burst",
+  "cw_mill_ogre": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "cw_lotus_naga": "⇶ Sweeping wall (wave) · ▤ Floor takeover (bog) — last stand: ⟲ Boomerang (orb) + ⇶ Sweeping wall (wave)",
+  "cw_drowned_abbot": "✺ Radial burst · ⧉ Mirror images — last stand: ◐ Eclipse + ✺ Radial burst",
+  "cw_mangrove_chief": "☄ Sky rain (bog bubbles) · ✺ Radial burst — last stand: ▤ Floor takeover (bog) + ☄ Sky rain (bog bubbles)",
+  "cw_forge_thane": "✺ Radial burst · ▤ Floor takeover (lava) — last stand: ☄ Sky rain (fire) + ✺ Radial burst",
+  "cw_frost_queen": "⇶ Sweeping wall (frost) · ☄ Sky rain (frost) — last stand: ↻ Rotating beams + ⇶ Sweeping wall (frost)",
+  "cw_roc_lord": "↻ Rotating beams · ☄ Sky rain (lightning) — last stand: ⟲ Boomerang (orb) + ↻ Rotating beams",
+  "cw_obsidian_jailer": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "cw_ember_priest": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "cw_bone_king": "⧉ Mirror images · ◐ Eclipse — last stand: ✺ Radial burst + ⧉ Mirror images",
+  "mg_rime_witch": "⇶ Sweeping wall (frost) · ☄ Sky rain (frost) — last stand: ↻ Rotating beams + ⇶ Sweeping wall (frost)",
+  "mg_arcane_scribe": "◐ Eclipse · ✺ Radial burst — last stand: ⧉ Mirror images + ◐ Eclipse",
+  "mg_hearth_witch": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "mg_thorn_druid": "✺ Radial burst · ▤ Floor takeover (bog) — last stand: ☄ Sky rain (bog bubbles) + ✺ Radial burst",
+  "mg_storm_caller": "☄ Sky rain (lightning) · ⟲ Boomerang (orb) — last stand: ↻ Rotating beams + ☄ Sky rain (lightning)",
+  "mg_shard_sorcerer": "⇶ Sweeping wall (frost) · ☄ Sky rain (frost) — last stand: ↻ Rotating beams + ⇶ Sweeping wall (frost)",
+  "mg_bog_hexwitch": "▤ Floor takeover (bog) · ☄ Sky rain (bog bubbles) — last stand: ✺ Radial burst + ▤ Floor takeover (bog)",
+  "mg_sea_warlock": "⟲ Boomerang (orb) · ⇶ Sweeping wall (wave) — last stand: ▤ Floor takeover (bog) + ⟲ Boomerang (orb)",
+  "mg_nova_sorceress": "↻ Rotating beams · ✺ Radial burst — last stand: ⟲ Boomerang (orb) + ↻ Rotating beams",
+  "mg_void_warlock": "⧉ Mirror images · ◐ Eclipse — last stand: ✺ Radial burst + ⧉ Mirror images",
+  "mg_thunder_magus": "⟲ Boomerang (orb) · ↻ Rotating beams — last stand: ☄ Sky rain (lightning) + ⟲ Boomerang (orb)",
+  "mg_stone_shaper": "◎ Shockwave · ☄ Sky rain (rocks) — last stand: ⚔ Leaping combo + ◎ Shockwave",
+  "mg_blizzard_king": "↻ Rotating beams · ⇶ Sweeping wall (frost) — last stand: ☄ Sky rain (frost) + ↻ Rotating beams",
+  "mg_rift_lich": "◐ Eclipse · ✺ Radial burst — last stand: ⧉ Mirror images + ◐ Eclipse",
+  "mg_soul_drinker": "⧉ Mirror images · ◐ Eclipse — last stand: ✺ Radial burst + ⧉ Mirror images",
+  "mg_star_sorcerer": "↻ Rotating beams · ✺ Radial burst — last stand: ⟲ Boomerang (orb) + ↻ Rotating beams",
+  "boss_isl_1": "✺ Radial burst · ▤ Floor takeover (lava) — last stand: ☄ Sky rain (fire) + ✺ Radial burst",
+  "boss_isl_2": "✺ Radial burst · ▤ Floor takeover (bog) — last stand: ☄ Sky rain (bog bubbles) + ✺ Radial burst",
+  "boss_isl_3": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "boss_isl_4": "↻ Rotating beams · ⇶ Sweeping wall (frost) — last stand: ☄ Sky rain (frost) + ↻ Rotating beams",
+  "boss_vr_ember_wraith": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "boss_vr_magma_spitter": "✺ Radial burst · ▤ Floor takeover (lava) — last stand: ☄ Sky rain (fire) + ✺ Radial burst",
+  "boss_vr_obsidian_golem": "✺ Radial burst · ▤ Floor takeover (lava) — last stand: ☄ Sky rain (fire) + ✺ Radial burst",
+  "boss_vr_cinder_phoenix": "▤ Floor takeover (lava) · ☄ Sky rain (fire) — last stand: ✺ Radial burst + ▤ Floor takeover (lava)",
+  "boss_vr_lava_wyrm": "▤ Floor takeover (lava) · ☄ Sky rain (fire) — last stand: ✺ Radial burst + ▤ Floor takeover (lava)",
+  "boss_vr_ashen_knight": "✺ Radial burst · ▤ Floor takeover (lava) — last stand: ☄ Sky rain (fire) + ✺ Radial burst",
+  "boss_vr_pyrokraken": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "boss_vr_inferno_wraith": "▤ Floor takeover (lava) · ☄ Sky rain (fire) — last stand: ✺ Radial burst + ▤ Floor takeover (lava)",
+  "boss_volcano_lord": "✺ Radial burst · ▤ Floor takeover (lava) — last stand: ☄ Sky rain (fire) + ✺ Radial burst",
+  "elite_1": "✺ Radial burst",
+  "elite_2": "☄ Sky rain (bog bubbles)",
+  "elite_3": "◎ Shockwave",
+  "elite_4": "▤ Floor takeover (lava)",
+  "fm_glodr_1": "▤ Floor takeover (lava) · ☄ Sky rain (fire) — last stand: ✺ Radial burst + ▤ Floor takeover (lava)",
+  "fm_glodr_2": "⟲ Boomerang (orb) · ↻ Rotating beams — last stand: ✺ Radial burst + ⟲ Boomerang (orb)",
+  "fm_glodr_3": "➶ Strafing run · ⚔ Leaping combo — last stand: ◎ Shockwave + ➶ Strafing run",
+  "fm_eisa_1": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "fm_eisa_2": "↻ Rotating beams · ✺ Radial burst — last stand: ⟲ Boomerang (orb) + ↻ Rotating beams",
+  "fm_eisa_3": "◐ Eclipse · ✺ Radial burst — last stand: ⧉ Mirror images + ◐ Eclipse",
+  "fm_gjallr_1": "⚔ Leaping combo · ◎ Shockwave — last stand: ☄ Sky rain (rocks) + ⚔ Leaping combo",
+  "fm_gjallr_2": "✺ Radial burst · ⟲ Boomerang (orb) — last stand: ↻ Rotating beams + ✺ Radial burst",
+  "fm_gjallr_3": "⟲ Boomerang (orb) · ↻ Rotating beams — last stand: ✺ Radial burst + ⟲ Boomerang (orb)",
+  "fm_eimyrja_1": "▤ Floor takeover (lava) · ☄ Sky rain (fire) — last stand: ✺ Radial burst + ▤ Floor takeover (lava)",
+  "fm_eimyrja_2": "⟲ Boomerang (orb) · ↻ Rotating beams — last stand: ✺ Radial burst + ⟲ Boomerang (orb)",
+  "fm_eimyrja_3": "✺ Radial burst · ⟲ Boomerang (orb) — last stand: ↻ Rotating beams + ✺ Radial burst",
+  "surt_1": "▤ Floor takeover (lava) · ☄ Sky rain (fire) — last stand: ✺ Radial burst + ▤ Floor takeover (lava)",
+  "surt_2": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "surt_3": "▤ Floor takeover (lava) · ☄ Sky rain (fire) — last stand: ✺ Radial burst + ▤ Floor takeover (lava)",
+  "surt_4": "☄ Sky rain (fire) · ✺ Radial burst — last stand: ▤ Floor takeover (lava) + ☄ Sky rain (fire)",
+  "surt_5": "✺ Radial burst · ▤ Floor takeover (lava) — last stand: ☄ Sky rain (fire) + ✺ Radial burst",
+  "surt_6": "▤ Floor takeover (lava) · ☄ Sky rain (fire) — last stand: ✺ Radial burst + ▤ Floor takeover (lava)",
+  "grim_1": "⟲ Boomerang (orb) · ↻ Rotating beams — last stand: ✺ Radial burst + ⟲ Boomerang (orb)",
+  "grim_2": "⟲ Boomerang (orb) · ↻ Rotating beams — last stand: ✺ Radial burst + ⟲ Boomerang (orb)",
+  "grim_3": "✺ Radial burst · ⧉ Mirror images — last stand: ◐ Eclipse + ✺ Radial burst"
+ },
+ "bars": {
+  "ward": {
+   "n": "Ward",
+   "ic": "✨",
+   "col": "#c080ff",
+   "only": [
+    "spell",
+    "familiar"
+   ],
+   "hint": "Use spells!"
+  },
+  "guard": {
+   "n": "Guard",
+   "ic": "🏹",
+   "col": "#ffd060",
+   "only": [
+    "ranged"
+   ],
+   "hint": "Use arrows!"
+  },
+  "plate": {
+   "n": "Plate",
+   "ic": "🛡",
+   "col": "#a8b0c0",
+   "only": [
+    "melee"
+   ],
+   "hint": "Use your sword!"
+  }
+ },
+ "diff": [
+  {
+   "id": "hearthside",
+   "name": "Hearthside",
+   "icon": "🔥",
+   "tag": "A tale told by the fire",
+   "text": "Gentler foes, smaller packs and slower bosses with long warnings. For a first journey.",
+   "bossHp": 0.75,
+   "bossDmg": 0.8,
+   "tele": 1.25,
+   "every": 1.25,
+   "speed": 0.9,
+   "waves": 0,
+   "stand": 0.15,
+   "stag": 0.8,
+   "monHp": 0.8,
+   "monDmg": 0.8,
+   "count": 0.8,
+   "guards": -1,
+   "alphaAt": 9,
+   "kin": 0,
+   "reward": 1,
+   "armorK": 2,
+   "monArmorK": 2.7,
+   "bossHit": 0.07,
+   "famBoss": 0.6,
+   "el": {
+    "bane": 2.2,
+    "weak": 1.6,
+    "res": 0.65,
+    "ward": 0.45,
+    "bossUp": 1.3,
+    "bossDown": 0.85,
+    "resCap": 0.55
+   }
+  },
+  {
+   "id": "wayfarer",
+   "name": "Wayfarer",
+   "icon": "🧭",
+   "tag": "The road as it was meant to be walked",
+   "text": "The balanced journey: the game as it has played until now.",
+   "bossHp": 1,
+   "bossDmg": 1,
+   "tele": 1,
+   "every": 1,
+   "speed": 1,
+   "waves": 0,
+   "stand": 0.15,
+   "stag": 1,
+   "monHp": 1,
+   "monDmg": 1,
+   "count": 1,
+   "guards": 0,
+   "alphaAt": 5,
+   "kin": 0,
+   "reward": 1,
+   "armorK": 1.5,
+   "monArmorK": 2,
+   "bossHit": 0.1,
+   "famBoss": 0.5,
+   "el": {
+    "bane": 2,
+    "weak": 1.5,
+    "res": 0.6,
+    "ward": 0.35,
+    "bossUp": 1.25,
+    "bossDown": 0.8,
+    "resCap": 0.5
+   }
+  },
+  {
+   "id": "shieldbearer",
+   "name": "Shieldbearer",
+   "icon": "🛡️",
+   "tag": "For proven warriors",
+   "text": "Bosses have half again the health, warn less and strike sooner. Monsters are tougher and come in bigger packs.",
+   "bossHp": 1.5,
+   "bossDmg": 1.25,
+   "tele": 0.85,
+   "every": 0.85,
+   "speed": 1.1,
+   "waves": 0,
+   "stand": 0.2,
+   "stag": 1.15,
+   "monHp": 1.3,
+   "monDmg": 1.2,
+   "count": 1.25,
+   "guards": 1,
+   "alphaAt": 4,
+   "kin": 1,
+   "reward": 1.15,
+   "armorK": 1.2,
+   "monArmorK": 1.6,
+   "bossHit": 0.13,
+   "famBoss": 0.4,
+   "el": {
+    "bane": 1.9,
+    "weak": 1.45,
+    "res": 0.55,
+    "ward": 0.3,
+    "bossUp": 1.2,
+    "bossDown": 0.75,
+    "resCap": 0.45
+   }
+  },
+  {
+   "id": "ragnarok",
+   "name": "Ragnarök",
+   "icon": "🌋",
+   "tag": "The twilight of the realms",
+   "text": "Bosses have more than twice the health, barely warn, add an extra wave to their attacks and make their last stand early. Monsters hit hard and swarm.",
+   "bossHp": 2.2,
+   "bossDmg": 1.5,
+   "tele": 0.7,
+   "every": 0.7,
+   "speed": 1.2,
+   "waves": 1,
+   "stand": 0.3,
+   "stag": 1.3,
+   "monHp": 1.7,
+   "monDmg": 1.45,
+   "count": 1.5,
+   "guards": 2,
+   "alphaAt": 3,
+   "kin": 2,
+   "reward": 1.3,
+   "armorK": 1,
+   "monArmorK": 1.3,
+   "bossHit": 0.16,
+   "famBoss": 0.3,
+   "el": {
+    "bane": 1.8,
+    "weak": 1.4,
+    "res": 0.5,
+    "ward": 0.25,
+    "bossUp": 1.15,
+    "bossDown": 0.7,
+    "resCap": 0.4
+   }
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+# Round 128 — the last emojis, painted (3 icon sheets, wave 129).  .\tools\sprites\paint.ps1 -List r128_icons
+# (The economy's item, trophy and saddle icons — sc_eco_icons_1…9, round 121 — are painted and come in with this round's intake.)
+sc_ic_r128_menu
+sc_ic_r128_seasons
+sc_ic_r128_places

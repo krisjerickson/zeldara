@@ -1,0 +1,2048 @@
+{
+"sfx_anvil": {
+"mine": [
+"r2",
+"w1",
+"w3"
+],
+"removed": [],
+"game": [
+"r2",
+"w1",
+"w3"
+],
+"extra": []
+},
+"sfx_arrow_hit": {
+"mine": [
+"n2",
+"w2",
+"w3"
+],
+"removed": [],
+"game": [
+"n2",
+"w2",
+"w3"
+],
+"extra": []
+},
+"sfx_axe_hit": {
+"mine": [
+"l1",
+"n1",
+"n2",
+"w1",
+"w4",
+"w2"
+],
+"removed": [],
+"game": [
+"l1",
+"n1",
+"n2",
+"w1",
+"w4",
+"w2"
+],
+"extra": []
+},
+"sfx_axe_swing": {
+"mine": [
+"l4",
+"l6",
+"w2",
+"w3",
+"w5"
+],
+"removed": [],
+"game": [
+"l4",
+"l6",
+"w2",
+"w3",
+"w5"
+],
+"extra": []
+},
+"sfx_beast_bite": {
+"mine": [
+"l5",
+"w4",
+"w1"
+],
+"removed": [],
+"game": [
+"l5",
+"w4",
+"w1"
+],
+"extra": []
+},
+"sfx_beast_growl": {
+"mine": [
+"l5",
+"n1",
+"w1"
+],
+"removed": [],
+"game": [
+"l5",
+"n1",
+"w1"
+],
+"extra": []
+},
+"sfx_bell": {
+"mine": [
+"n1",
+"n2",
+"l4"
+],
+"removed": [],
+"game": [
+"n1",
+"n2",
+"l4"
+],
+"extra": []
+},
+"sfx_bifrost": {
+"mine": [
+"w1",
+"w2",
+"w4"
+],
+"removed": [],
+"game": [
+"w1",
+"w2",
+"w4"
+],
+"extra": []
+},
+"sfx_bird": {
+"mine": [
+"l4",
+"l6",
+"l1",
+"w4",
+"w5"
+],
+"removed": [],
+"game": [
+"l4",
+"l6",
+"l1",
+"w4",
+"w5"
+],
+"extra": []
+},
+"sfx_block": {
+"mine": [
+"l1",
+"n2"
+],
+"removed": [],
+"game": [
+"l1",
+"n2"
+],
+"extra": []
+},
+"sfx_boss_charge": {
+"mine": [
+"e1",
+"e2"
+],
+"removed": [],
+"game": [
+"e1",
+"e2"
+],
+"extra": []
+},
+"sfx_boss_fall": {
+"mine": [
+"n1",
+"n2",
+"l5"
+],
+"removed": [
+"cur"
+],
+"game": [
+"cur",
+"n1",
+"n2",
+"l5"
+],
+"extra": [
+"cur"
+]
+},
+"sfx_boss_phase": {
+"mine": [
+"e1",
+"l4",
+"l6",
+"w3",
+"w5"
+],
+"removed": [],
+"game": [
+"e1",
+"l4",
+"l6",
+"w3",
+"w5"
+],
+"extra": []
+},
+"sfx_boss_roar": {
+"mine": [
+"l3",
+"n1",
+"n2",
+"w4",
+"w2",
+"w1"
+],
+"removed": [
+"cur"
+],
+"game": [
+"cur",
+"l3",
+"n1",
+"n2",
+"w4",
+"w2",
+"w1"
+],
+"extra": [
+"cur"
+]
+},
+"sfx_boss_slam": {
+"mine": [
+"l3",
+"n1",
+"n2",
+"r1"
+],
+"removed": [],
+"game": [
+"l3",
+"n1",
+"n2",
+"r1"
+],
+"extra": []
+},
+"sfx_boss_stomp": {
+"mine": [
+"l3",
+"l1"
+],
+"removed": [],
+"game": [
+"l3",
+"l1"
+],
+"extra": []
+},
+"sfx_bow_draw": {
+"mine": [
+"e1",
+"l5"
+],
+"removed": [],
+"game": [
+"e1",
+"l5"
+],
+"extra": []
+},
+"sfx_bow_shot": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_camp": {
+"mine": [
+"e2",
+"e1"
+],
+"removed": [],
+"game": [
+"e2",
+"e1"
+],
+"extra": []
+},
+"sfx_chest": {
+"mine": [
+"e1",
+"e2"
+],
+"removed": [],
+"game": [
+"e1",
+"e2"
+],
+"extra": []
+},
+"sfx_chop": {
+"mine": [
+"n1",
+"n2"
+],
+"removed": [],
+"game": [
+"n1",
+"n2"
+],
+"extra": []
+},
+"sfx_coin": {
+"mine": [
+"l5",
+"n1",
+"n2"
+],
+"removed": [],
+"game": [
+"l5",
+"n1",
+"n2"
+],
+"extra": []
+},
+"sfx_crossbow": {
+"mine": [
+"l4",
+"n2",
+"n1",
+"w1"
+],
+"removed": [],
+"game": [
+"l4",
+"n2",
+"n1",
+"w1"
+],
+"extra": []
+},
+"sfx_crumble": {
+"mine": [
+"l1",
+"l4",
+"l5"
+],
+"removed": [
+"cur"
+],
+"game": [
+"cur",
+"l1",
+"l4",
+"l5"
+],
+"extra": [
+"cur"
+]
+},
+"sfx_dark": {
+"mine": [
+"n1",
+"n2"
+],
+"removed": [],
+"game": [
+"n1",
+"n2"
+],
+"extra": []
+},
+"sfx_dig": {
+"mine": [
+"l1",
+"l2"
+],
+"removed": [],
+"game": [
+"l1",
+"l2"
+],
+"extra": []
+},
+"sfx_door": {
+"mine": [
+"e1",
+"e2",
+"l4"
+],
+"removed": [],
+"game": [
+"e1",
+"e2",
+"l4"
+],
+"extra": []
+},
+"sfx_drake": {
+"mine": [
+"e1",
+"l4"
+],
+"removed": [],
+"game": [
+"e1",
+"l4"
+],
+"extra": []
+},
+"sfx_drink": {
+"mine": [
+"l2",
+"l4",
+"n2",
+"w1",
+"w5"
+],
+"removed": [
+"cur"
+],
+"game": [
+"cur",
+"l2",
+"l4",
+"n2",
+"w1",
+"w5"
+],
+"extra": [
+"cur"
+]
+},
+"sfx_earth": {
+"mine": [
+"cur"
+],
+"removed": [
+"l1"
+],
+"game": [
+"cur",
+"l1"
+],
+"extra": [
+"l1"
+]
+},
+"sfx_eat": {
+"mine": [
+"e2",
+"n1"
+],
+"removed": [],
+"game": [
+"e2",
+"n1"
+],
+"extra": []
+},
+"sfx_fall": {
+"mine": [
+"cur"
+],
+"removed": [
+"n1",
+"n2"
+],
+"game": [
+"cur",
+"n1",
+"n2"
+],
+"extra": [
+"n1",
+"n2"
+]
+},
+"sfx_fam_call": {
+"mine": [
+"e1",
+"e2"
+],
+"removed": [],
+"game": [
+"e1",
+"e2"
+],
+"extra": []
+},
+"sfx_fam_earth": {
+"mine": [
+"l1",
+"l2",
+"n2"
+],
+"removed": [],
+"game": [
+"l1",
+"l2",
+"n2"
+],
+"extra": []
+},
+"sfx_fam_fire": {
+"mine": [
+"l4",
+"n1",
+"e2"
+],
+"removed": [],
+"game": [
+"l4",
+"n1",
+"e2"
+],
+"extra": []
+},
+"sfx_fam_grass": {
+"mine": [
+"e1",
+"l1",
+"l4"
+],
+"removed": [],
+"game": [
+"e1",
+"l1",
+"l4"
+],
+"extra": []
+},
+"sfx_fam_water": {
+"mine": [
+"e1",
+"e2"
+],
+"removed": [],
+"game": [
+"e1",
+"e2"
+],
+"extra": []
+},
+"sfx_feast": {
+"mine": [
+"v1"
+],
+"removed": [],
+"game": [
+"v1"
+],
+"extra": []
+},
+"sfx_fire": {
+"mine": [
+"l3",
+"l5",
+"n2",
+"w1",
+"w2",
+"w3"
+],
+"removed": [],
+"game": [
+"l3",
+"l5",
+"n2",
+"w1",
+"w2",
+"w3"
+],
+"extra": []
+},
+"sfx_frost": {
+"mine": [
+"e1",
+"l6",
+"l2"
+],
+"removed": [],
+"game": [
+"e1",
+"l6",
+"l2"
+],
+"extra": []
+},
+"sfx_gem": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [],
+"extra": []
+},
+"sfx_goat": {
+"mine": [
+"n1",
+"n2"
+],
+"removed": [
+"e2"
+],
+"game": [
+"n1",
+"n2",
+"e2"
+],
+"extra": [
+"e2"
+]
+},
+"sfx_godsbane": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_golem": {
+"mine": [
+"e2",
+"l4",
+"n1",
+"w1",
+"w2"
+],
+"removed": [],
+"game": [
+"e2",
+"l4",
+"n1",
+"w1",
+"w2"
+],
+"extra": []
+},
+"sfx_great_door": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_hens": {
+"mine": [
+"n1",
+"n2",
+"l2"
+],
+"removed": [],
+"game": [
+"n1",
+"n2",
+"l2"
+],
+"extra": []
+},
+"sfx_hooves": {
+"mine": [
+"l5",
+"n2"
+],
+"removed": [
+"e1"
+],
+"game": [
+"l5",
+"n2",
+"e1"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_hurt": {
+"mine": [
+"w3",
+"w2"
+],
+"removed": [],
+"game": [
+"w3",
+"w2"
+],
+"extra": []
+},
+"sfx_insect": {
+"mine": [
+"cur",
+"w4"
+],
+"removed": [],
+"game": [
+"cur",
+"w4"
+],
+"extra": []
+},
+"sfx_kids": {
+"mine": [
+"n1",
+"n2"
+],
+"removed": [],
+"game": [
+"n1",
+"n2"
+],
+"extra": []
+},
+"sfx_lava": {
+"mine": [
+"l5",
+"l2"
+],
+"removed": [],
+"game": [
+"l5",
+"l2"
+],
+"extra": []
+},
+"sfx_lever": {
+"mine": [
+"l2",
+"l3",
+"l1"
+],
+"removed": [
+"e2"
+],
+"game": [
+"e2",
+"l2",
+"l3",
+"l1"
+],
+"extra": [
+"e2"
+]
+},
+"sfx_light": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_lightning": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_line_trace": {
+"mine": [
+"e1"
+],
+"removed": [],
+"game": [
+"e1"
+],
+"extra": []
+},
+"sfx_locked": {
+"mine": [
+"n2",
+"n1",
+"l4"
+],
+"removed": [
+"e1",
+"e2"
+],
+"game": [
+"e1",
+"e2",
+"n2",
+"n1",
+"l4"
+],
+"extra": [
+"e1",
+"e2"
+]
+},
+"sfx_lodestar": {
+"mine": [
+"l5"
+],
+"removed": [],
+"game": [
+"l5"
+],
+"extra": []
+},
+"sfx_mana": {
+"mine": [
+"e2",
+"e1"
+],
+"removed": [],
+"game": [
+"e2",
+"e1"
+],
+"extra": []
+},
+"sfx_mon_armor": {
+"mine": [
+"l1",
+"l3"
+],
+"removed": [],
+"game": [
+"l1",
+"l3"
+],
+"extra": []
+},
+"sfx_mon_die": {
+"mine": [
+"l4",
+"l3"
+],
+"removed": [],
+"game": [
+"l4",
+"l3"
+],
+"extra": []
+},
+"sfx_mon_hit": {
+"mine": [
+"cur",
+"w3"
+],
+"removed": [],
+"game": [
+"cur",
+"w3"
+],
+"extra": []
+},
+"sfx_mt_alligator": {
+"mine": [
+"e2",
+"n1",
+"n2"
+],
+"removed": [
+"e1"
+],
+"game": [
+"e1",
+"e2",
+"n1",
+"n2"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_mt_ash_salamander": {
+"mine": [
+"e2",
+"l4"
+],
+"removed": [
+"e1"
+],
+"game": [
+"e2",
+"l4",
+"e1"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_mt_boar": {
+"mine": [
+"l1",
+"l5"
+],
+"removed": [
+"e1",
+"e2"
+],
+"game": [
+"l1",
+"l5",
+"e1",
+"e2"
+],
+"extra": [
+"e1",
+"e2"
+]
+},
+"sfx_mt_dragon": {
+"mine": [
+"e2",
+"n1"
+],
+"removed": [
+"e1"
+],
+"game": [
+"e2",
+"n1",
+"e1"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_mt_ember_phoenix": {
+"mine": [
+"v5"
+],
+"removed": [],
+"game": [
+"v5"
+],
+"extra": []
+},
+"sfx_mt_horse": {
+"mine": [
+"e1",
+"e2",
+"n1"
+],
+"removed": [],
+"game": [
+"e1",
+"e2",
+"n1"
+],
+"extra": []
+},
+"sfx_mt_lava_unicorn": {
+"mine": [
+"n1"
+],
+"removed": [
+"e1",
+"e2"
+],
+"game": [
+"n1",
+"e1",
+"e2"
+],
+"extra": [
+"e1",
+"e2"
+]
+},
+"sfx_mt_sky_eagle": {
+"mine": [
+"v5",
+"v1"
+],
+"removed": [],
+"game": [
+"v5",
+"v1"
+],
+"extra": []
+},
+"sfx_mt_sky_glider": {
+"mine": [
+"e2",
+"n2"
+],
+"removed": [],
+"game": [
+"e2",
+"n2"
+],
+"extra": []
+},
+"sfx_mt_storm_drake": {
+"mine": [
+"v1",
+"v4"
+],
+"removed": [
+"e2"
+],
+"game": [
+"v1",
+"v4",
+"e2"
+],
+"extra": [
+"e2"
+]
+},
+"sfx_mt_void_serpent": {
+"mine": [
+"v1"
+],
+"removed": [],
+"game": [
+"v1"
+],
+"extra": []
+},
+"sfx_nature": {
+"mine": [
+"l2",
+"l5"
+],
+"removed": [],
+"game": [
+"l2",
+"l5"
+],
+"extra": []
+},
+"sfx_nomana": {
+"mine": [
+"e1",
+"e2"
+],
+"removed": [],
+"game": [
+"e1",
+"e2"
+],
+"extra": []
+},
+"sfx_orbs_burst": {
+"mine": [
+"n1",
+"n2"
+],
+"removed": [],
+"game": [
+"n1",
+"n2"
+],
+"extra": []
+},
+"sfx_page": {
+"mine": [
+"l1",
+"l4",
+"n2"
+],
+"removed": [
+"cur"
+],
+"game": [
+"cur",
+"l1",
+"l4",
+"n2"
+],
+"extra": [
+"cur"
+]
+},
+"sfx_pickup": {
+"mine": [
+"e1",
+"l1"
+],
+"removed": [],
+"game": [
+"e1",
+"l1"
+],
+"extra": []
+},
+"sfx_roll": {
+"mine": [
+"cur",
+"v1"
+],
+"removed": [],
+"game": [
+"cur",
+"v1"
+],
+"extra": []
+},
+"sfx_rubble": {
+"mine": [
+"l1",
+"l6"
+],
+"removed": [
+"cur"
+],
+"game": [
+"l1",
+"l6",
+"cur"
+],
+"extra": [
+"cur"
+]
+},
+"sfx_rune_wake": {
+"mine": [
+"e2",
+"n2",
+"n1"
+],
+"removed": [],
+"game": [
+"e2",
+"n2",
+"n1"
+],
+"extra": []
+},
+"sfx_serpent": {
+"mine": [
+"n1",
+"n2"
+],
+"removed": [],
+"game": [
+"n1",
+"n2"
+],
+"extra": []
+},
+"sfx_sheep": {
+"mine": [
+"e1",
+"n2"
+],
+"removed": [],
+"game": [
+"e1",
+"n2"
+],
+"extra": []
+},
+"sfx_shield_break": {
+"mine": [
+"l2",
+"l6",
+"e2",
+"w4",
+"w5"
+],
+"removed": [
+"e1"
+],
+"game": [
+"e1",
+"l2",
+"l6",
+"e2",
+"w4",
+"w5"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_sink": {
+"mine": [
+"l1",
+"w2"
+],
+"removed": [],
+"game": [
+"l1",
+"w2"
+],
+"extra": []
+},
+"sfx_sk_berserker": {
+"mine": [],
+"removed": [],
+"game": [],
+"extra": []
+},
+"sfx_sk_blink": {
+"mine": [
+"v5"
+],
+"removed": [],
+"game": [
+"v5"
+],
+"extra": []
+},
+"sfx_sk_meteor": {
+"mine": [
+"l5",
+"w1"
+],
+"removed": [],
+"game": [
+"l5",
+"w1"
+],
+"extra": []
+},
+"sfx_sk_petal_step": {
+"mine": [
+"l6",
+"n1"
+],
+"removed": [
+"e1"
+],
+"game": [
+"l6",
+"n1",
+"e1"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_sk_phantom_veil": {
+"mine": [
+"n1",
+"n2"
+],
+"removed": [
+"e1"
+],
+"game": [
+"n1",
+"n2",
+"e1"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_sk_roll": {
+"mine": [
+"e2",
+"l4",
+"l6"
+],
+"removed": [
+"e1"
+],
+"game": [
+"e1",
+"e2",
+"l4",
+"l6"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_sk_second_wind": {
+"mine": [
+"v3"
+],
+"removed": [],
+"game": [
+"v3"
+],
+"extra": []
+},
+"sfx_sk_shield_bash": {
+"mine": [
+"l1"
+],
+"removed": [],
+"game": [
+"l1"
+],
+"extra": []
+},
+"sfx_sk_smoke_bomb": {
+"mine": [
+"l1"
+],
+"removed": [],
+"game": [
+"l1"
+],
+"extra": []
+},
+"sfx_sk_sprint": {
+"mine": [
+"l4",
+"l5"
+],
+"removed": [],
+"game": [
+"l4",
+"l5"
+],
+"extra": []
+},
+"sfx_sk_time_slow": {
+"mine": [],
+"removed": [
+"e2"
+],
+"game": [
+"e2"
+],
+"extra": [
+"e2"
+]
+},
+"sfx_sk_war_stomp": {
+"mine": [
+"v5"
+],
+"removed": [],
+"game": [
+"v5"
+],
+"extra": []
+},
+"sfx_sk_whirlwind": {
+"mine": [
+"e1",
+"l1"
+],
+"removed": [],
+"game": [
+"e1",
+"l1"
+],
+"extra": []
+},
+"sfx_skill": {
+"mine": [
+"l5",
+"n2"
+],
+"removed": [],
+"game": [
+"l5",
+"n2"
+],
+"extra": []
+},
+"sfx_sleep": {
+"mine": [
+"n1"
+],
+"removed": [],
+"game": [
+"n1"
+],
+"extra": []
+},
+"sfx_slime": {
+"mine": [
+"e2",
+"l1",
+"e1",
+"w1",
+"w2"
+],
+"removed": [],
+"game": [
+"e2",
+"l1",
+"e1",
+"w1",
+"w2"
+],
+"extra": []
+},
+"sfx_sp_arcane_burst": {
+"mine": [
+"l4"
+],
+"removed": [
+"e1",
+"e2"
+],
+"game": [
+"l4",
+"e1",
+"e2"
+],
+"extra": [
+"e1",
+"e2"
+]
+},
+"sfx_sp_blizzard": {
+"mine": [
+"v5"
+],
+"removed": [],
+"game": [
+"v5"
+],
+"extra": []
+},
+"sfx_sp_chain_lightning": {
+"mine": [],
+"removed": [],
+"game": [],
+"extra": []
+},
+"sfx_sp_fireball": {
+"mine": [
+"n1",
+"l5",
+"n2"
+],
+"removed": [
+"e1",
+"e2"
+],
+"game": [
+"e1",
+"e2",
+"n1",
+"l5",
+"n2"
+],
+"extra": [
+"e1",
+"e2"
+]
+},
+"sfx_sp_flame_nova": {
+"mine": [
+"l5",
+"n2",
+"n1"
+],
+"removed": [
+"e1",
+"e2"
+],
+"game": [
+"e1",
+"e2",
+"l5",
+"n2",
+"n1"
+],
+"extra": [
+"e1",
+"e2"
+]
+},
+"sfx_sp_frost_bolt": {
+"mine": [
+"e1"
+],
+"removed": [],
+"game": [
+"e1"
+],
+"extra": []
+},
+"sfx_sp_ice_shards": {
+"mine": [
+"l4"
+],
+"removed": [],
+"game": [
+"l4"
+],
+"extra": []
+},
+"sfx_sp_poison_mist": {
+"mine": [
+"v1"
+],
+"removed": [],
+"game": [
+"v1"
+],
+"extra": []
+},
+"sfx_sp_spirit_drain": {
+"mine": [
+"l4"
+],
+"removed": [
+"e1",
+"e2"
+],
+"game": [
+"l4",
+"e1",
+"e2"
+],
+"extra": [
+"e1",
+"e2"
+]
+},
+"sfx_sp_starfall": {
+"mine": [],
+"removed": [],
+"game": [],
+"extra": []
+},
+"sfx_sp_stone_spikes": {
+"mine": [
+"l6"
+],
+"removed": [
+"e1"
+],
+"game": [
+"l6",
+"e1"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_sp_thorn_snare": {
+"mine": [
+"n2"
+],
+"removed": [],
+"game": [
+"n2"
+],
+"extra": []
+},
+"sfx_sp_thunder_step": {
+"mine": [
+"v1"
+],
+"removed": [
+"e1"
+],
+"game": [
+"v1",
+"e1"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_sp_tidal_wave": {
+"mine": [
+"l4",
+"n1",
+"n2"
+],
+"removed": [
+"e1"
+],
+"game": [
+"e1",
+"l4",
+"n1",
+"n2"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_sp_void_orb": {
+"mine": [
+"e1",
+"n2"
+],
+"removed": [
+"e2"
+],
+"game": [
+"e1",
+"n2",
+"e2"
+],
+"extra": [
+"e2"
+]
+},
+"sfx_sp_void_rift": {
+"mine": [
+"n2"
+],
+"removed": [
+"e1",
+"e2"
+],
+"game": [
+"n2",
+"e1",
+"e2"
+],
+"extra": [
+"e1",
+"e2"
+]
+},
+"sfx_spirit_free": {
+"mine": [
+"l4"
+],
+"removed": [],
+"game": [
+"l4"
+],
+"extra": []
+},
+"sfx_spirit_mon": {
+"mine": [
+"e2",
+"l4"
+],
+"removed": [],
+"game": [
+"e2",
+"l4"
+],
+"extra": []
+},
+"sfx_spit": {
+"mine": [
+"n1",
+"n2"
+],
+"removed": [],
+"game": [
+"n1",
+"n2"
+],
+"extra": []
+},
+"sfx_splash": {
+"mine": [
+"e2",
+"l2",
+"l4"
+],
+"removed": [
+"e1"
+],
+"game": [
+"e1",
+"e2",
+"l2",
+"l4"
+],
+"extra": [
+"e1"
+]
+},
+"sfx_stairs": {
+"mine": [
+"l4",
+"l5"
+],
+"removed": [],
+"game": [
+"l4",
+"l5"
+],
+"extra": []
+},
+"sfx_step_grass": {
+"mine": [
+"n1",
+"l2",
+"l4",
+"w2",
+"w3"
+],
+"removed": [],
+"game": [
+"n1",
+"l2",
+"l4",
+"w2",
+"w3"
+],
+"extra": []
+},
+"sfx_step_stone": {
+"mine": [
+"l2",
+"n2"
+],
+"removed": [],
+"game": [
+"l2",
+"n2"
+],
+"extra": []
+},
+"sfx_step_water": {
+"mine": [
+"e2",
+"n1",
+"l5",
+"w4",
+"w5",
+"w3"
+],
+"removed": [],
+"game": [
+"e2",
+"n1",
+"l5",
+"w4",
+"w5",
+"w3"
+],
+"extra": []
+},
+"sfx_step_wood": {
+"mine": [
+"l4",
+"l5",
+"e1",
+"w2",
+"w3",
+"w4"
+],
+"removed": [],
+"game": [
+"l4",
+"l5",
+"e1",
+"w2",
+"w3",
+"w4"
+],
+"extra": []
+},
+"sfx_summon": {
+"mine": [
+"l5"
+],
+"removed": [],
+"game": [
+"l5"
+],
+"extra": []
+},
+"sfx_sword_hit": {
+"mine": [
+"l1",
+"l4",
+"n1",
+"w1",
+"w4",
+"w5"
+],
+"removed": [],
+"game": [
+"l1",
+"l4",
+"n1",
+"w1",
+"w4",
+"w5"
+],
+"extra": []
+},
+"sfx_sword_swing": {
+"mine": [
+"n2",
+"l4",
+"l6",
+"w4",
+"w1",
+"w5"
+],
+"removed": [],
+"game": [
+"n2",
+"l4",
+"l6",
+"w4",
+"w1",
+"w5"
+],
+"extra": []
+},
+"sfx_talk": {
+"mine": [
+"v2"
+],
+"removed": [],
+"game": [
+"v2"
+],
+"extra": []
+},
+"sfx_thunder": {
+"mine": [
+"l5",
+"n1",
+"n2"
+],
+"removed": [
+"cur"
+],
+"game": [
+"cur",
+"l5",
+"n1",
+"n2"
+],
+"extra": [
+"cur"
+]
+},
+"sfx_trap": {
+"mine": [
+"n2",
+"n1"
+],
+"removed": [],
+"game": [
+"n2",
+"n1"
+],
+"extra": []
+},
+"sfx_travel": {
+"mine": [
+"e2",
+"l4"
+],
+"removed": [],
+"game": [
+"e2",
+"l4"
+],
+"extra": []
+},
+"sfx_ui_buy": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_ui_click": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_ui_close": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_ui_equip": {
+"mine": [
+"l5"
+],
+"removed": [],
+"game": [
+"l5"
+],
+"extra": []
+},
+"sfx_ui_error": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_ui_note": {
+"mine": [
+"e2",
+"n1"
+],
+"removed": [],
+"game": [
+"e2",
+"n1"
+],
+"extra": []
+},
+"sfx_ui_open": {
+"mine": [
+"cur"
+],
+"removed": [],
+"game": [
+"cur"
+],
+"extra": []
+},
+"sfx_ui_save": {
+"mine": [
+"n1"
+],
+"removed": [],
+"game": [
+"n1"
+],
+"extra": []
+},
+"sfx_ui_tab": {
+"mine": [
+"l1",
+"l4"
+],
+"removed": [],
+"game": [
+"l1",
+"l4"
+],
+"extra": []
+},
+"sfx_undead": {
+"mine": [
+"e2",
+"l5",
+"l6",
+"r2",
+"w4",
+"w2"
+],
+"removed": [],
+"game": [
+"e2",
+"l5",
+"l6",
+"r2",
+"w4",
+"w2"
+],
+"extra": []
+},
+"sfx_vines": {
+"mine": [
+"l1"
+],
+"removed": [
+"cur"
+],
+"game": [
+"l1",
+"cur"
+],
+"extra": [
+"cur"
+]
+},
+"sfx_water": {
+"mine": [
+"l6",
+"n1",
+"n2",
+"w1",
+"w2",
+"w3"
+],
+"removed": [],
+"game": [
+"l6",
+"n1",
+"n2",
+"w1",
+"w2",
+"w3"
+],
+"extra": []
+},
+"sfx_waystone": {
+"mine": [
+"e1",
+"e2"
+],
+"removed": [],
+"game": [
+"e1",
+"e2"
+],
+"extra": []
+},
+"sfx_whistle": {
+"mine": [
+"n1",
+"e1",
+"n2"
+],
+"removed": [
+"cur"
+],
+"game": [
+"cur",
+"n1",
+"e1",
+"n2"
+],
+"extra": [
+"cur"
+]
+},
+"sfx_wings": {
+"mine": [
+"n2"
+],
+"removed": [],
+"game": [
+"n2"
+],
+"extra": []
+}
+}

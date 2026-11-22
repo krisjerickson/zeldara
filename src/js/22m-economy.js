@@ -129,7 +129,7 @@ var ZECO={ on:true,
     if(!ws.textures.exists('zeco_purse')){ var c=mkCanvas(32,30), g=c.getContext('2d'); g.fillStyle='rgba(0,0,0,.3)'; g.beginPath(); g.ellipse(16,27,12,3,0,0,Math.PI*2); g.fill();
       g.fillStyle='#8a5a2a'; g.beginPath(); g.moveTo(6,26); g.quadraticCurveTo(2,10,16,8); g.quadraticCurveTo(30,10,26,26); g.closePath(); g.fill(); g.fillStyle='#5a3a1a'; g.fillRect(11,6,10,4);
       g.fillStyle='#ffd84a'; [[10,22],[16,24],[22,21]].forEach(function(p){ g.beginPath(); g.arc(p[0],p[1],3,0,Math.PI*2); g.fill(); }); ws.textures.addCanvas('zeco_purse',c); }
-    var im=(typeof _scn==='function'&&_scn()&&_scn().has&&_scn().has('ec_purse'))?_scn().image(ws,'ec_purse',P.x,P.y+6,26,WR_DEPTH(P.y)):null;
+    var im=(typeof _scn==='function'&&_scn()&&_scn().has&&_scn().has('ec_purse'))?_scn().image(ws,'ec_purse',P.x,P.y+6,_scn().K,WR_DEPTH(P.y))      /* round 128: a multiplier, not a height */:null;
     ws._zPurse=im||ws.add.image(P.x,P.y+6,'zeco_purse').setOrigin(0.5,1).setDepth(WR_DEPTH(P.y));
     ws._zPurseG=ws.add.circle(P.x,P.y,16,0xffd84a,0.18).setDepth(WR_DEPTH(P.y)-0.01); ws.tweens.add({targets:ws._zPurseG,alpha:0.05,scale:1.6,duration:900,yoyo:true,repeat:-1}); },
   purseClear:function(ws){ if(ws._zPurse){ if(ws._zPurse.scene)ws._zPurse.destroy(); ws._zPurse=null; } if(ws._zPurseG){ if(ws._zPurseG.scene)ws._zPurseG.destroy(); ws._zPurseG=null; } },

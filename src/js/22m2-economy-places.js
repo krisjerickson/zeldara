@@ -153,7 +153,7 @@
   // the board on the Green ([Tab] beside it)
   ZECO.boardSpot=function(){ return {x:(CENTER_X+4)*TILE,y:(CENTER_Y+3)*TILE}; };
   ZECO.boardShow=function(ws){ if(ws._zBoard&&ws._zBoard.scene)return; var P=ZECO.boardSpot(), Z=typeof _scn==='function'?_scn():null;
-    var im=Z&&Z.has&&Z.has('ec_board')?Z.image(ws,'ec_board',P.x,P.y,70,WR_DEPTH(P.y)):null;
+    var im=Z&&Z.has&&Z.has('ec_board')?Z.image(ws,'ec_board',P.x,P.y,Z.K,WR_DEPTH(P.y))      /* round 128: the 5th argument is a size multiplier — 70 drew the board 70 times too big and covered the village */:null;
     if(!im){ if(!ws.textures.exists('zeco_board')){ var c=mkCanvas(56,60), g=c.getContext('2d'); g.fillStyle='rgba(0,0,0,.25)'; g.beginPath(); g.ellipse(28,57,24,4,0,0,Math.PI*2); g.fill(); g.fillStyle='#5a3a1a'; g.fillRect(8,20,5,38); g.fillRect(43,20,5,38);
         g.fillStyle='#8a6030'; g.fillRect(4,8,48,30); g.fillStyle='#6a4a20'; g.fillRect(2,4,52,6); g.fillStyle='#f0e6c8'; [[9,14],[23,13],[37,15]].forEach(function(p){ g.fillRect(p[0],p[1],11,14); }); g.fillStyle='#c03020'; [[14,15],[28,14],[42,16]].forEach(function(p){ g.beginPath(); g.arc(p[0],p[1],1.6,0,6.3); g.fill(); }); ws.textures.addCanvas('zeco_board',c); }
       im=ws.add.image(P.x,P.y,'zeco_board').setOrigin(0.5,1).setDepth(WR_DEPTH(P.y)); }
