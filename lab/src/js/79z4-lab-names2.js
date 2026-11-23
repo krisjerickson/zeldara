@@ -42,22 +42,52 @@
       '<div class="nm-say">ZEE-lee-a · '+esc(n[2])+'</div><div class="nm-title">The Quests of Zelia and '+esc(n[1])+'</div><p>'+esc(n[3])+'</p><p class="nm-risk'+(/^medium/.test(n[4])?' hi':'')+'">Close to anything known: '+esc(n[4])+'</p>'+
       '<span class="wl-seg" data-k="'+k+'">'+[['pick','✓ I like it'],['maybe','? Maybe'],['cut','✕ No']].map(function(b){ return '<button class="vbtn wl-sg nm-sg'+(v===b[0]?' on '+b[0]:'')+'" data-v="'+b[0]+'">'+b[1]+'</button>'; }).join('')+'</span>'+
       '<input class="tl-n wl-n" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Your note…"></div>'; };
+  // round 129c (Kris: "these are only OK, come up with 20 new combos that use K for the first letter. look to nordic themes for inspiration,
+  // but they need to be easy to pronounce, and don't have to be nordic"). Picks: 'names4-<id>' ✓ / ? / ✕ + note; 'names4-fav' {regions:[id]}.
+  var K=[
+   ['k01','Kaia','Kaedor','KY-a · KAY-dor','Kaedor keeps the rhythm and the "-dor" of Zeldor you liked; Kaia is light and quick.'],
+   ['k02','Kelda','Kenrik','KEL-da · KEN-rik','In Old Norse a kelda is a spring of water; Kenrik is a Nordic twist on Henrik.'],
+   ['k03','Katla','Korvin','KAT-la · KOR-vin','Katla is an Icelandic volcano (and a dragon in a much-loved Swedish children\'s tale); Korvin means raven, as in Odin\'s ravens.'],
+   ['k04','Kara','Karsten','KAR-a · KAR-sten','Kára is a valkyrie in the old poems; Karsten is a common Danish and Norwegian name. Strong and plain.'],
+   ['k05','Kira','Kolvar','KEER-a · KOL-var','Kolvar ends like Ingvar and Ivar — Norse without being hard to say.'],
+   ['k06','Kenna','Kendor','KEN-a · KEN-dor','The closest echo of each other: Ken-na and Ken-dor. Twins whose names rhyme in the middle.'],
+   ['k07','Kaja','Kasper','KY-a · KAS-per','Both everyday names in Denmark and Norway today; Kasper was one of the three wise men.'],
+   ['k08','Karin','Kaldrin','KAR-in · KAL-drin','Kaldrin has "kald", cold — a winter-born brother; Karin is the Nordic Katherine.'],
+   ['k09','Kyra','Kodran','KY-ra · KOD-ran','Kodran is a man in one of the old Icelandic sagas; Kyra is bright and modern.'],
+   ['k10','Kaisa','Kestor','KY-sa · KES-tor','Kaisa is the Finnish Katherine; Kestor ends in "-tor", the Thor sound.'],
+   ['k11','Kirsa','Kardor','KEER-sa · KAR-dor','Kirsa comes from the cherry (kirsebær); Kardor is solid, a "-dor" name with weight.'],
+   ['k12','Kalla','Kalvar','KAL-a · KAL-var','Matching first halves: Kal-la and Kal-var. Kalla also means "to call" in Swedish.'],
+   ['k13','Klara','Kristof','KLAR-a · KRIS-tof','Clear and bright (Klara means "clear"); Kristof is easy everywhere.'],
+   ['k14','Kelsa','Kelvor','KEL-sa · KEL-vor','Another matched pair (Kel-sa, Kel-vor) with the "-or" at the end.'],
+   ['k15','Katrin','Kordan','KAT-rin · KOR-dan','A classic Nordic sister\'s name with a strong, rolling brother\'s name.'],
+   ['k16','Kaya','Kade','KY-a · KADE','The shortest pair: one syllable for him, two for her; quick to say and to shout.'],
+   ['k17','Kerra','Korrin','KER-a · KOR-in','Both with a rolled double r; Korrin has a little of the forest (corrie, a mountain hollow).'],
+   ['k18','Kaili','Konrad','KY-lee · KON-rad','Konrad (bold counsel) is a long-loved name in the North; Kaili is soft beside it.'],
+   ['k19','Kolla','Koldor','KOL-a · KOL-dor','Kolla is an Old Norse woman\'s name; Koldor (from "kol", coal) — a hearth-and-forge brother.'],
+   ['k20','Kinna','Kilian','KIN-a · KIL-ee-an','Kinna is a Swedish town and name; Kilian is easy and gentle.']];
+  var kcard=function(n){ var k='names4-'+n[0], v=P(k).verdict||'', fav=(P('names4-fav').regions||[])[0];
+    return '<div class="nm-c'+(v?' v-'+v:'')+(fav===n[0]?' fav':'')+'"><div class="nm-h"><b>'+esc(n[1])+' &amp; '+esc(n[2])+'</b><button class="vbtn nm-fav4'+(fav===n[0]?' on':'')+'" data-c="'+n[0]+'">'+(fav===n[0]?'★ Favourite':'☆ Favourite')+'</button></div>'+
+      '<div class="nm-say">'+esc(n[3])+'</div><div class="nm-title">The Quests of '+esc(n[1])+' and '+esc(n[2])+'</div><p>'+esc(n[4])+'</p>'+
+      '<span class="wl-seg" data-k="'+k+'">'+[['pick','✓ I like it'],['maybe','? Maybe'],['cut','✕ No']].map(function(b){ return '<button class="vbtn wl-sg nm-sg'+(v===b[0]?' on '+b[0]:'')+'" data-v="'+b[0]+'">'+b[1]+'</button>'; }).join('')+'</span>'+
+      '<input class="tl-n wl-n" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Your note…"></div>'; };
   LAB_TABS.push({ id:'names2', name:'The twins\' names — 10 more',
-    blurb:'<b>Round 2 (top): Zelia stays, and ten names for the brother without "zeld"</b> — some keep the "-or", a few do not. <b>Round 1</b> below: ten new pairs, as you asked. Each shares its first letter, is easy to say, and the brother\'s name ends like Thor. None clashes with a name already in the game. The last one keeps Zeldor so you can weigh it honestly: the ZELD- start is the part that sits close to Zelda. ✓ the ones you like, ★ your favourite, and I\'ll check the shortlist against the trademark registers and the Steam store (not legal advice — a lawyer should confirm the final choice).',
+    blurb:'<b>Round 3 (top): twenty pairs that start with K</b> — Nordic-flavoured, easy to say, none already a name in the game (Kai, Kari and Kettil are, so they were left out). <b>Round 2:</b> Zelia stays, and ten names for the brother without "zeld"</b> — some keep the "-or", a few do not. <b>Round 1</b> below: ten new pairs, as you asked. Each shares its first letter, is easy to say, and the brother\'s name ends like Thor. None clashes with a name already in the game. The last one keeps Zeldor so you can weigh it honestly: the ZELD- start is the part that sits close to Zelda. ✓ the ones you like, ★ your favourite, and I\'ll check the shortlist against the trademark registers and the Steam store (not legal advice — a lawyer should confirm the final choice).',
     designs:N.map(function(n){ return {id:'names2-'+n[0],name:'Names: '+n[1]+' & '+n[2]}; }),
     render:function(){ var fav=(P('names2-fav').regions||[])[0];
-      return '<h3 class="nm-sec">Round 2 — Zelia stays: ten brothers without "zeld"</h3><div class="nm-g">'+B.map(bcard).join('')+'</div><h3 class="nm-sec">Round 1 — the ten pairs</h3><div class="nm-g">'+N.map(function(n){ var k='names2-'+n[0], v=P(k).verdict||'', hi=/^HIGH/.test(n[6]);
+      return '<h3 class="nm-sec">Round 3 — twenty pairs that start with K</h3><div class="nm-g">'+K.map(kcard).join('')+'</div><h3 class="nm-sec">Round 2 — Zelia stays: ten brothers without "zeld"</h3><div class="nm-g">'+B.map(bcard).join('')+'</div><h3 class="nm-sec">Round 1 — the ten pairs</h3><div class="nm-g">'+N.map(function(n){ var k='names2-'+n[0], v=P(k).verdict||'', hi=/^HIGH/.test(n[6]);
         return '<div class="nm-c'+(v?' v-'+v:'')+(fav===n[0]?' fav':'')+'"><div class="nm-h"><b>'+esc(n[1])+' &amp; '+esc(n[2])+'</b><button class="vbtn nm-fav'+(fav===n[0]?' on':'')+'" data-c="'+n[0]+'">'+(fav===n[0]?'★ Favourite':'☆ Favourite')+'</button></div>'+
           '<div class="nm-say">'+esc(n[3])+'</div><div class="nm-title">'+esc(n[5])+'</div><p>'+esc(n[4])+'</p><p class="nm-risk'+(hi?' hi':'')+'">Close to anything known: '+esc(n[6])+'</p>'+
           '<span class="wl-seg" data-k="'+k+'">'+[['pick','✓ I like it'],['maybe','? Maybe'],['cut','✕ No']].map(function(b){ return '<button class="vbtn wl-sg nm-sg'+(v===b[0]?' on '+b[0]:'')+'" data-v="'+b[0]+'">'+b[1]+'</button>'; }).join('')+'</span>'+
           '<input class="tl-n wl-n" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Your note…"></div>'; }).join('')+'</div>'+
         '<textarea class="wl-n wl-all" data-k="names2-all" placeholder="Anything about the names — a sound you want, a letter, one to mix…">'+esc(P('names2-all').notes||'')+'</textarea>'; } });
+  if(typeof LTODO!=='undefined')LTODO.add({id:'names4',label:'✍ The twins\' names, round 3: twenty pairs starting with K — ✓ the ones you like and ★ a favourite',where:'The twins\' names tab (round 3, at the top)',
+    done:function(){ return !!(P('names4-fav').regions||[]).length; },go:function(){ LTODO.goTo('names2','.nm-c',0); }});
   if(typeof LTODO!=='undefined')LTODO.add({id:'names3',label:'✍ Zelia and …: ten names for the brother without "zeld" — ✓ the ones you like and ★ a favourite',where:'The twins\' names tab (round 2, at the top)',
     done:function(){ return !!(P('names3-fav').regions||[]).length; },go:function(){ LTODO.goTo('names2','.nm-c',0); }});
   if(typeof LAB_ACTIVE!=='undefined'&&LAB_ACTIVE.indexOf('names2')<0)LAB_ACTIVE.unshift('names2');
-  document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.nm-fav,.nm-fav3'); if(b){ var k=b.classList.contains('nm-fav3')?'names3-fav':'names2-fav', p=LabApp.picks[k]||(LabApp.picks[k]={}); p.regions=[b.dataset.c]; if(LabApp.persist)LabApp.persist(k); setTimeout(function(){ var y=window.scrollY; LabApp.renderGrid(true); window.scrollTo(0,y); },0); return; }
-    var s=e.target.closest&&e.target.closest('.nm-c .wl-sg'); if(s){ var c=s.closest('.nm-c'); setTimeout(function(){ var p=LabApp.picks[s.parentNode.dataset.k]||{}; c.className='nm-c'+(p.verdict?' v-'+p.verdict:'')+(c.querySelector('.nm-fav.on,.nm-fav3.on')?' fav':''); },0); } });
+  document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.nm-fav,.nm-fav3,.nm-fav4'); if(b){ var k=b.classList.contains('nm-fav4')?'names4-fav':b.classList.contains('nm-fav3')?'names3-fav':'names2-fav', p=LabApp.picks[k]||(LabApp.picks[k]={}); p.regions=[b.dataset.c]; if(LabApp.persist)LabApp.persist(k); setTimeout(function(){ var y=window.scrollY; LabApp.renderGrid(true); window.scrollTo(0,y); },0); return; }
+    var s=e.target.closest&&e.target.closest('.nm-c .wl-sg'); if(s){ var c=s.closest('.nm-c'); setTimeout(function(){ var p=LabApp.picks[s.parentNode.dataset.k]||{}; c.className='nm-c'+(p.verdict?' v-'+p.verdict:'')+(c.querySelector('.nm-fav.on,.nm-fav3.on,.nm-fav4.on')?' fav':''); },0); } });
   var st=document.createElement('style'); st.textContent='.nm-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}.nm-c{background:#0b121c;border:1px solid #243246;border-top:4px solid #7fc8ff;border-radius:10px;padding:10px 12px;font:13px/1.45 "Segoe UI";color:#c8d4e4}.nm-c.v-pick{border-color:#8fe8a0}.nm-c.v-maybe{border-color:#ffd76a}.nm-c.v-cut{border-color:#ff9a8a;opacity:.7}.nm-c.fav{box-shadow:0 0 0 2px #ffd76a}'+
-    '.nm-h{display:flex;justify-content:space-between;align-items:center;gap:8px}.nm-h b{font:600 20px "Segoe UI";color:#ffe9a8}.nm-fav.on,.nm-fav3.on{background:#5a4a10;color:#ffe9a8}.nm-sec{font:600 18px "Segoe UI";color:#ffe9a8;margin:14px 0 8px}.nm-say{color:#9fe8ff;font:12px "Segoe UI";letter-spacing:.5px}.nm-title{font:italic 13px Georgia,serif;color:#e8d8b0;margin:2px 0 4px}.nm-c p{margin:4px 0}.nm-risk{color:#8a9ab0;font-size:12px}.nm-risk.hi{color:#ffb0a0}';
+    '.nm-h{display:flex;justify-content:space-between;align-items:center;gap:8px}.nm-h b{font:600 20px "Segoe UI";color:#ffe9a8}.nm-fav.on,.nm-fav3.on,.nm-fav4.on{background:#5a4a10;color:#ffe9a8}.nm-sec{font:600 18px "Segoe UI";color:#ffe9a8;margin:14px 0 8px}.nm-say{color:#9fe8ff;font:12px "Segoe UI";letter-spacing:.5px}.nm-title{font:italic 13px Georgia,serif;color:#e8d8b0;margin:2px 0 4px}.nm-c p{margin:4px 0}.nm-risk{color:#8a9ab0;font-size:12px}.nm-risk.hi{color:#ffb0a0}';
   document.head.appendChild(st);
 })();
