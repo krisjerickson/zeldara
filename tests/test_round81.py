@@ -27,16 +27,16 @@ with game(painted=True) as g:
         o = g.js("""(()=>{ var s=game.scene.getScene('Building'), m=s._imap; return {name:m.theme.name, here:m.twinHere, tb:m.twinBed, p:s.interactPrompt.visible&&s.interactPrompt.text, n:m.sprites.length, pids:INTERIOR_LAYOUTS['%s'].props.map(function(p){ return p[5]&&p[5].pid; }).filter(Boolean)}; })()""" % kind)
         return o
     d = inside('library', 0, 3, 6.6)
-    check('Inside by day: the twin at their desk, [Tab] talks to them (%s)' % d['p'], d['name'] == 'The Library' and d['here'] and d['p'] == '[Tab] Talk to Zeldara' and 'twin_study_f' in d['pids'] and 'if_saga_lectern' in d['pids'] and d['n'] > 15, d)
+    check('Inside by day: the twin at their desk, [Tab] talks to them (%s)' % d['p'], d['name'] == 'The Library' and d['here'] and d['p'] == '[Tab] Talk to Zola' and 'twin_study_f' in d['pids'] and 'if_saga_lectern' in d['pids'] and d['n'] > 15, d)
     t = g.js("""(()=>{ var s=game.scene.getScene('Building'), got=null, z0=ZSPIRIT.talk, ps=s.worldScene.playerState; ps.inventory=(ps.inventory||[]).concat(['lodestar']); ps.godsbane=0;
       var c0=ZCUT.painted; ZCUT.painted=function(){ return false; }; ZSPIRIT.talk=function(n,c,h,opts){ got={n:n,opts:(opts||[]).map(function(o){ return o.t; })}; }; try{ s._npcInteract(); }finally{ ZSPIRIT.talk=z0; ZCUT.painted=c0; } return got; })()""")
-    check('With the Lodestar in hand, the twin in the library teaches Godsbane (%s)' % t, t and t['n'] == 'Zeldara' and '✦ Godsbane' in t['opts'], t)
+    check('With the Lodestar in hand, the twin in the library teaches Godsbane (%s)' % t, t and t['n'] == 'Zola' and '✦ Godsbane' in t['opts'], t)
     g.js("(()=>{ game.scene.getScene('Building')._exitBuilding(); })()"); g.wait(700)
     h = inside('house', 0, 6, 5.8)
     check('Your Home has a second bed — empty by day', h['tb'] and not h['tb']['asleep'] and 'if_bed_twin' in h['pids'] and not h['p'], h)
     g.js("(()=>{ game.scene.getScene('Building')._exitBuilding(); })()"); g.wait(700)
     h2 = inside('house', 1, 6, 5.8)
-    check('At night the twin sleeps in it (%s) — and the Lodestar wakes them for the lesson' % h2['p'], h2['tb']['asleep'] and 'twin_sleep_f' in h2['pids'] and h2['p'] == '[Tab] Wake Zeldara', h2)
+    check('At night the twin sleeps in it (%s) — and the Lodestar wakes them for the lesson' % h2['p'], h2['tb']['asleep'] and 'twin_sleep_f' in h2['pids'] and h2['p'] == '[Tab] Wake Zola', h2)
     g.js("(()=>{ game.scene.getScene('Building')._exitBuilding(); })()"); g.wait(700)
     n = inside('library', 1, 7, 5)
     check('At night the library\'s desk is empty and the lectern reads the old sagas (%s)' % n['p'], not n['here'] and n['p'] == '[Tab] Read the saga', n)
@@ -61,7 +61,7 @@ check('Solmyrk defeated is its own montage (%d frames, to the golden doors), the
 fhb = [RQ['sc_' + i]['body'] for b in fh['beats'] for i in b['ids']]
 check('The feast hall is empty of people in every frame; the orbs hold Odin and Freya', all('EMPTY of people' in t for t in fhb) and 'Odin in one and Freya in the other' in RQ['sc_sb_feasthall_02_m']['body'])
 check('Solmyrk whole in every step, the last form a dark demon; Surtharn in his own colours', all('Hollow King' in RQ['sc_sb_sol3_0%d' % n]['body'] for n in (3, 4, 5)) and 'not bright' in RQ['sc_sb_sol3_05']['body'] and 'whole figure' in RQ['sc_sb_sol2_01']['body'] and 'NOT a frost giant' in RQ['sc_sb_surt4_03']['body'] and 'HIS OWN huge clawed hand' in RQ['sc_sb_surt4_04']['body'])
-check('After the spring it is Zeldara, not Freya; the first parents and Pip and Wren\'s are other villagers', all('god_freya.core.f' not in RQ['sc_sb_village_%02d' % n]['refs'] and 'not the red-gold-haired goddess' in RQ['sc_sb_village_%02d' % n]['body'] for n in range(5, 13)) and 'NOT the twins' in RQ['sc_sb_celebrate_04']['body'] and 'NOT the twins' in RQ['sc_sb_celebrate_05']['body'])
+check('After the spring it is Zola, not Freya; the first parents and Pip and Wren\'s are other villagers', all('god_freya.core.f' not in RQ['sc_sb_village_%02d' % n]['refs'] and 'not the red-gold-haired goddess' in RQ['sc_sb_village_%02d' % n]['body'] for n in range(5, 13)) and 'NOT the twins' in RQ['sc_sb_celebrate_04']['body'] and 'NOT the twins' in RQ['sc_sb_celebrate_05']['body'])
 check('%d frames to paint again (round81c.ps1)' % len(SB['redo81c']), 100 < len(SB['redo81c']) < 140 and all(i in RQ for i in SB['redo81c']))
 E = json.load(open(os.path.join(R, 'lab', 'preview', 'audio', 'eth.json')))
 check('The gentle sounds are joined for the Lab: %d effects, all with both options' % len(E['items']), len(E['items']) >= 147 and all('e1' in v and 'e2' in v for v in E['items'].values()) and all(os.path.isfile(os.path.join(R, 'lab', 'preview', 'audio', 'eth_%s.mp3' % k)) for k in ('cur', 'e1', 'e2')))

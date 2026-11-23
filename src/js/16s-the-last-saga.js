@@ -12,7 +12,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 var ZLS={ on:true,
   who:function(ps){ return ps&&ps.hero==='f'?'f':'m'; },
-  names:function(ps){ var f=ps&&ps.hero==='f'; return {H:f?'Zeldara':'Zeldor',O:f?'Zeldor':'Zeldara'}; },
+  names:function(ps){ var f=ps&&ps.hero==='f'; return {H:f?'Zola':'Zoldor',O:f?'Zoldor':'Zola'}; },
   // play a set of ZLAST_SETS (or ZSAGA_SETS with o.saga) through ZCUT; done() after (also when it cannot play)
   play:function(ps,k,done){ var S=(typeof ZLAST_SETS!=='undefined'&&ZLAST_SETS[k])||(typeof ZSAGA_SETS!=='undefined'&&ZSAGA_SETS[k]); if(!S||typeof ZCUT==='undefined'||!ZLS.on){ if(done)done(); return false; }
     var w=ZLS.who(ps), N=ZLS.names(ps); ZCUT.SETS['last_'+k]=S.map(function(p){ return [p[0].replace('{w}',w),p[1].replace(/\{H\}/g,N.H).replace(/\{O\}/g,N.O)]; });
@@ -46,7 +46,7 @@ var ZLS={ on:true,
     ws.tweens.addCounter({from:0,to:1,duration:2200,onUpdate:function(tw){ var v=tw.getValue(); g.clear(); T.forEach(function(t,i){ g.lineStyle(3,0x7fe08a,0.8*(1-v*0.5)); g.beginPath(); g.moveTo(x,y); for(var s=1;s<=20;s++){ var u=s/20*v, r=u*420, a=t.a+Math.sin(u*9+i)*0.25; g.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r*0.6); } g.strokePath(); g.fillStyle(0xffffff,0.8); g.fillCircle(x+Math.cos(t.a)*v*420,y+Math.sin(t.a)*v*252,3); }); },onComplete:function(){ ws.tweens.add({targets:g,alpha:0,duration:900}); }}); },
   // ── the credits: scrolling over the painted backdrop (pn_credits) ──
   CREDITS:function(ps){ var N=ZLS.names(ps), sp=typeof ZSPIRIT40!=='undefined'?ZSPIRIT40:[], R=['Grasslands','Wetlands','Highlands','Ashlands'];
-    var h=['<h1>THE QUESTS OF<br>ZELDARA AND ZELDOR</h1>','<p class="b">Created by</p><p>Kris Erickson</p>','<p class="b">Story, world and design</p><p>Kris Erickson</p>','<p class="b">Code, story drafts and art direction</p><p>with Claude</p>',
+    var h=['<h1>THE QUESTS OF<br>ZOLA AND ZOLDOR</h1>','<p class="b">Created by</p><p>Kris Erickson</p>','<p class="b">Story, world and design</p><p>Kris Erickson</p>','<p class="b">Code, story drafts and art direction</p><p>with Claude</p>',
       '<p class="b">Painted art</p><p>made with an image model from our own descriptions</p>','<p class="b">Built with</p><p>Phaser 3</p>','<p class="b">The twins</p><p>'+N.H+', who went out — and '+N.O+', who kept the village</p>','<p class="b">The gods</p><p>Odin, the Allfather · Freya, the Lady of the Fields</p>'];
     R.forEach(function(r,q){ var L=sp.filter(function(s){ return s[3]===q+1; }).map(function(s){ return s[1]+', '+s[2].replace(/^an? /,''); }); if(L.length)h.push('<p class="b">The spirits of the '+r+'</p><p class="s">'+L.join('<br>')+'</p>'); });
     h.push('<p class="b">And every hamlet, every child born again</p><p>Runeheim is green again.</p>','<h2>Thanks for playing.</h2>'); return h.join(''); },

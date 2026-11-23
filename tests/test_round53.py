@@ -1,4 +1,4 @@
-"""Round 53 — the new name (THE QUESTS OF ZELDARA AND ZELDOR; ten wordmarks in the Lab; the heroes are Zeldara and Zeldor; the land is
+"""Round 53 — the new name (THE QUESTS OF ZOLA AND ZOLDOR; ten wordmarks in the Lab; the heroes are Zola and Zoldor; the land is
 Runeheim), the forge by stages (docs/29), the ring cap, Sovereign as the seventh element, and the spirit saga part 2: soul gems from the
 dungeon spirits, island metals, Mira's workshop and the hearth trays. Plus the wave 54 option sheets and the Lab's "Spirits & stones".
 Run: python tests/test_round53.py"""
@@ -15,9 +15,9 @@ with game(new=True, painted=True) as g:
     g.wait(4000)
     r = g.js("""(()=>{ var W=ZBrand.wordById(ZBrand.WORDMARK); return {title:document.title, wm:ZBrand.WORDMARK, tall:!!W.tall, fam:W.fam, n:(ZBrand.QZ||[]).length, names:(ZBrand.QZ||[]).map(function(id){ return ZBrand.wordById(id).name; }),
       tag:(ZBrand.TAGLINE||[]).join(' '), m:heroName({hero:'m'}), f:heroName({hero:'f'})}; })()""")
-    check('The game is THE QUESTS OF ZELDARA AND ZELDOR ("%s"); the title shows the new three-line name (%s) in MedievalSharp' % (r['title'], r['wm']), r['title'] == 'The Quests of Zeldara and Zeldor' and r['tall'] and r['fam'] in ('MedievalSharp', 'Eagle Lake'), r)      # round 71: Kris's new pick
+    check('The game is THE QUESTS OF ZOLA AND ZOLDOR ("%s"); the title shows the new three-line name (%s) in MedievalSharp' % (r['title'], r['wm']), r['title'] == 'The Quests of Zola and Zoldor' and r['tall'] and r['fam'] in ('MedievalSharp', 'Eagle Lake'), r)      # round 71: Kris's new pick
     check('Ten wordmarks to choose from (%s)' % ', '.join(r['names']), r['n'] == 10 and len(set(r['names'])) == 10, r)
-    check('The heroes are Zeldara (the girl) and Zeldor (the boy); the land is Runeheim ("%s")' % r['tag'][:60], r['m'] == 'Zeldor' and r['f'] == 'Zeldara' and 'Runeheim' in r['tag'], r)
+    check('The heroes are Zola (the girl) and Zoldor (the boy); the land is Runeheim ("%s")' % r['tag'][:60], r['m'] == 'Zoldor' and r['f'] == 'Zola' and 'Runeheim' in r['tag'], r)
     # ── the forge by stages ──
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.gold=99999; ps.inventory=ps.inventory.concat(['iron_sword','gem_ruby','gem_ruby','flame_iron']);
       var L=function(id){ return !!ZForge.lock(ps,id); }, o={t1:L('flame_iron'), t2:L('inferno_edge'), t3:L('magma_cleaver'), t4:L('volcano_lord'), xb:L('ember_crossbow'), ab:L('geyser_arbalest'), du:L(ZForge.DUAL[0]), top:L('elemental_sovereign')};
@@ -36,7 +36,7 @@ with game(new=True, painted=True) as g:
     # ── soul gems, metals, Mira ──
     r = g.js("""(async()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.godMode=true; ps.completedQuests=(ps.completedQuests||[]).concat(['s1_dungeon']); await new Promise(function(r){ setTimeout(r,2500); });
       var el=document.getElementById('fairy-talk'), t=el&&el.style.display!=='none'?el.textContent:''; FairyTalk.close(); return {gem:ps.inventory.indexOf('grovesoul')>=0, t:t.slice(0,160), metals:[1,2,3,4].map(function(q){ return HARBOR_ISLANDS[q].shopItems.indexOf(ZMIRA.METAL[q])>=0; }), price:ITEMS.sea_silver.buy}; })()""")
-    check('Winning the Grasslands\' boss dungeon frees its great spirit, who gives the Grovesoul ("%s…")' % r['t'][:70], r['gem'] and 'Hildr' in r['t'] and 'Zeldor' in r['t'], r)
+    check('Winning the Grasslands\' boss dungeon frees its great spirit, who gives the Grovesoul ("%s…")' % r['t'][:70], r['gem'] and 'Hildr' in r['t'] and 'Zoldor' in r['t'], r)
     check('Each familiar island\'s trader sells its realm\'s metal (Sea-silver %dg …)' % r['price'], all(r['metals']), r)
     r = g.js("""(async()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.rescued=[1,2]; ps.unlockedSections=[1,2,3]; var st=villageStageOf(ps); villageApply(ws.wd,st).forEach(function(c){ ws._refreshChunkAt(c[0]*WCH,c[1]*WCH); }); ws.wd.villageStage=st;
       await new Promise(function(r){ setTimeout(r,1500); }); var D=ZMIRA.door(); ws.player.x=D.x; ws.player.y=D.y+20; ws.player.cont.setPosition(ws.player.x,ws.player.y); await new Promise(function(r){ setTimeout(r,800); });
@@ -53,6 +53,6 @@ with game(new=True, painted=True) as g:
     errs = [e for e in g.errs if 'favicon' not in e]
     check('No script errors', not errs, errs[:4])
 
-check('The Lab has "The new name" (ten wordmarks) and "Spirits & stones" (looks, groupings, bindstones)', re.search(r"id:['\"]qname", lab) and re.search(r"id:['\"]spiritopt", lab) and 'Zeldara &amp; Zeldor Design Lab' in lab)
+check('The Lab has "The new name" (ten wordmarks) and "Spirits & stones" (looks, groupings, bindstones)', re.search(r"id:['\"]qname", lab) and re.search(r"id:['\"]spiritopt", lab) and 'Zola &amp; Zoldor Design Lab' in lab)
 print('\n%d / %d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)

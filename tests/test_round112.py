@@ -33,7 +33,7 @@ with game(painted=True) as g:
     k = g.js("""(()=>{ var r=ZSS.SHEETS[0]; return {top:ZSS.TOP.length, shots:ZSS.SHEETS.length, hero:ZSS.SHEETS.filter(s=>/_m$/.test(s.id)).length, zeldara:ZSS.SHEETS.filter(s=>/_f$/.test(s.id)).length, first:r.refs[0], id:r.id,
       allParent:ZSS.SHEETS.every(s=>/^sc_sb_/.test(s.refs[0])), heroRef:ZSS.SHEETS.filter(s=>/_m$/.test(s.id)).every(s=>s.refs.indexOf('hero_m.model')>=0), sizes:ZSS.TOP.every(S=>S.shots.length>=2&&S.shots.length<=3), kept:ZSS.TOP.map(S=>S.shots.map(x=>x.k).join('')).join(' '),
       inScn:ZSCN.SHEETS.filter(s=>/^sc_ss_/.test(s.id)&&s.wave===112).length, auto:ZSS.AUTO.length, storm:ZSS.TOP.some(S=>S.scene==='opening'&&S.n===5), body:/FIRST reference/.test(ZSCN.body(ZSS.SHEETS[0])), plan:ZSS.plan(ZSB.SCENES[0],ZSB.SCENES[0].beats[0]).count}; })()""")
-    check('Round 112d: the nine series trimmed to Kris\'s picks (three shots, the storm cut), each shot cut from its story frame, Zeldor only for now (%s)' % k,
+    check('Round 112d: the nine series trimmed to Kris\'s picks (three shots, the storm cut), each shot cut from its story frame, Zoldor only for now (%s)' % k,
           k['top'] == 9 and k['shots'] == 26 and k['zeldara'] == 0 and k['hero'] == 10 and k['allParent'] and k['heroRef'] and k['sizes'] and k['inScn'] == 26 and not k['storm'] and k['kept'].startswith('146 346 235 15') and k['body'] and k['plan'] >= 3, k)
 
 # the Lab: the Villagers tab and the Shot series tab

@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ ZELDARA BRAND (round 10): our own runic symbol logos, "Zeldara" wordmarks
+// ║ ZOLA BRAND (round 10): our own runic symbol logos, "Zola" wordmarks
 // ║ and home-page looks — all drawn in code (no image files), shared by the
 // ║ Design Lab (Logos / Wordmarks / Home Pages tabs) and, once Kris picks,
 // ║ the title screen and the Next.js home page.
@@ -71,7 +71,7 @@ var ZBrand={ cache:{},
 
   S('world_tree','World Tree','#6fe38a','bevel','The tree of life in a ring — branches above, roots below, runes around the rim.',function(P,L){
     tree(P,L,L===1?1.05:0.92,0); if(L>=2)P.w(1.2).ci(0,0,0.98).w(1); if(L>=3){ P.w(0.5).ci(0,0,1.16); P.w(0.7).rr(1.3,16,0.16,1); P.w(0.5).ci(0,0,1.44); } });
-  S('zel_rune','Zel-Rune Shield','#4fe8ff','neon','The Z-rune of Zeldara on a kite shield, with spirit wings.',function(P,L){
+  S('zel_rune','Zel-Rune Shield','#4fe8ff','neon','The Z-rune of Zola on a kite shield, with spirit wings.',function(P,L){
     P.w(1.3).ln([-0.62,-0.72,0.62,-0.72,0.62,0.08,0,0.94,-0.62,0.08],true).w(1.3); zr(P,L===1?1.05:0.95); P.w(1);
     if(L>=2){ P.w(0.5).ln([-0.5,-0.6,0.5,-0.6,0.5,0.03,0,0.76,-0.5,0.03],true).w(1); P.fc(0,-0.86,0.06); }
     if(L>=3){ P.mir(function(){ for(var k=0;k<5;k++)P.w(0.9).qd([0.66,-0.52+k*0.1,0.98,-0.5+k*0.09,1.42-k*0.13,-1.0+k*0.2]); }); P.w(0.6).rune(-0.36,-0.86,0.14,2).rune(0.36,-0.86,0.14,5); } });
@@ -86,7 +86,7 @@ var ZBrand={ cache:{},
     P.w(1.6).ln([0,-0.5,0,0.78]).w(1); P.fp([-0.07,0.74,0.07,0.74,0,0.98]); P.w(1.3).ln([-0.3,-0.5,0.3,-0.5]).w(1); P.ln([0,-0.5,0,-0.82]); P.fc(0,-0.88,0.08);
     P.mir(function(){ var n=L===1?1:L===2?3:5; for(var k=0;k<n;k++)P.qd([0.14,-0.42+k*0.07,0.5+k*0.05,-0.5+k*0.06,1.08-k*0.13,-0.98+k*0.2]); });
     if(L>=3){ P.w(0.5).ci(0,-0.1,1.2); P.w(0.6).rune(0,0,0.14,6).rune(0,0.3,0.14,2).rune(0,-0.26,0.14,5); P.w(0.7).rr(1.36,14,0.14,2); } });
-  S('wisp','Spirit Wisp','#5ff0d0','neon','A friendly spirit flame with a curl of light — the familiars of Zeldara.',function(P,L){
+  S('wisp','Spirit Wisp','#5ff0d0','neon','A friendly spirit flame with a curl of light — the familiars of Zola.',function(P,L){
     P.w(1.2).qd([0,-0.95,0.2,-0.5,0.5,-0.1,0.86,0.42,0.3,0.78,0,0.94,-0.3,0.78,-0.86,0.42,-0.5,-0.1,-0.3,-0.4,0,-0.95]).w(1);
     P.qd([0.1,0.5,-0.3,0.5,-0.24,0.16,-0.16,-0.14,0.16,-0.08]); if(L>=2){ P.fc(-0.14,0.3,0.07); P.fc(0.2,0.3,0.07); }
     if(L>=3){ P.w(0.7).ar(0,0.2,1.16,PI*0.15,PI*0.85); P.rot(3,function(){ P.w(0.8).qd([0,-1.3,0.08,-1.18,0,-1.08,-0.08,-1.18,0,-1.3]); },PI/3); P.w(0.5).ticks(1.3,1.36,24,0.13); } });
@@ -129,7 +129,7 @@ var ZBrand={ cache:{},
     P.w(1.2).rot(6,function(){ P.ln([0,0,0,-0.94]); P.ln([-0.2,-0.52,0,-0.34,0.2,-0.52]); if(L>=2)P.ln([-0.16,-0.84,0,-0.68,0.16,-0.84]); if(L>=3){ P.ln([0,-1.04,0.07,-0.94,0,-0.84,-0.07,-0.94],true); } }).w(1);
     if(L>=2){ var h=[]; for(var i=0;i<6;i++)h.push(Math.cos(i/6*PI*2)*0.2,Math.sin(i/6*PI*2)*0.2); P.ln(h,true); }
     if(L>=3){ var o=[]; for(var j=0;j<6;j++)o.push(Math.cos(j/6*PI*2)*1.3,Math.sin(j/6*PI*2)*1.3); P.w(0.5).ln(o,true); P.rot(6,function(){ P.fc(0,-0.66,0.04); },PI/6); } });
-  S('realm_peak','Realm Peaks','#ff8a6a','gilded','Mountain, volcano and rising sun in a diamond frame — the land of Zeldara.',function(P,L){
+  S('realm_peak','Realm Peaks','#ff8a6a','gilded','Mountain, volcano and rising sun in a diamond frame — the land of Zola.',function(P,L){
     P.w(1.2).ln([0,-0.98,0.98,0,0,0.98,-0.98,0],true).w(1); P.ln([-0.6,0.3,-0.22,-0.22,0,0.06,0.26,-0.42,0.6,0.3]); P.ci(-0.3,-0.5,0.11);
     if(L>=2){ P.ln([-0.68,0.3,0.68,0.3]); P.qd([-0.4,0.5,-0.2,0.42,0,0.5,0.2,0.58,0.4,0.5]); P.ln([0.2,-0.32,0.26,-0.26,0.32,-0.32]); }
     if(L>=3){ P.w(0.5).ln([0,-1.18,1.18,0,0,1.18,-1.18,0],true); P.w(0.7).rot(4,function(i){ P.rune(0,-1.34,0.14,i+1); }); P.qd([-0.26,0.68,-0.13,0.62,0,0.68,0.13,0.74,0.26,0.68]); P.star(0.5,-0.6,0.05,4,0.35); P.w(0.5).ticks(0.15,0.2,8,0.2); } });
@@ -143,7 +143,7 @@ var ZBrand={ cache:{},
     P.ln([0,-0.16,0.16,0,0,0.16,-0.16,0],true); if(L>=2)P.ci(0,0,0.6); if(L>=3){ P.w(0.5).ci(0,0,1.14); P.w(0.7).rot(4,function(i){ P.rune(0,-1.26,0.14,i*2); },PI/4); P.w(0.5).ci(0,0,1.4); } });
 })();
 
-// ═══════════ WORDMARKS: "ZELDARA" ═══════════
+// ═══════════ WORDMARKS: "ZOLA" ═══════════
 // kinds: 'staves' (our own straight-stroke rune letters), 'font' (a display face + our ornaments)
 (function(){ var W=function(id,name,col,style,desc,o){ ZBrand.WORDS.push(Object.assign({id:id,name:name,col:col,style:style,desc:desc},o)); };
   // rune-letter strokes in a 0.6 × 1 box (y down)
@@ -159,7 +159,7 @@ var ZBrand={ cache:{},
   W('world_tree_a','Tree-A','#ff9a50','bevel','Rune letters where each A is a little tree and the D holds a gem.',{kind:'staves',track:0.26,treeA:true,gemD:true});
   W('blackstone','Blackstone','#ff7a7a','gilded','Heavy medieval lettering with ember glow — the Ashlands voice.',{kind:'font',font:'"Pirata One","MedievalSharp",Georgia,serif',track:0.06,sizeK:1.15});
   W('seal','Stacked Seal','#c8d0e0','carved','ZEL over DARA in a square seal with corner runes — for stamps and small spaces.',{kind:'staves',stack:true,track:0.22});
-  var word='ZELDARA';
+  var word='ZOLA';
   // returns layout width for a staves wordmark at cap height H
   var stavesW=function(D,H){ var gw=0.6*(D.narrow||1), n=7; return (n*gw+(n-1)*D.track)*H; };
   ZBrand._word=function(c,D,H,k,line){ var G=D.glyph===2?ZBrand.GLYPH2:ZBrand.GLYPH, gw=0.6*(D.narrow||1), lw=H*0.12*k*(D.kind==='staves'&&D.glyph===2?0.7:1); c.lineWidth=lw; c.lineJoin=D.round?'round':'miter'; c.lineCap=D.round?'round':'butt'; c.miterLimit=3;

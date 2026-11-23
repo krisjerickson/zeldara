@@ -1,8 +1,8 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ 07zz-brand7.js — round 71: THE FONT, ROUND TWO (the Lab's Fonts tab, 79b-lab-zfonts.js).
 // ║ Kris picked Runeheim Uncial (Uncial Antiqua) and Scribe's Hand (Eagle Lake), plain, and said: "1. I don't like any of the multicolored
-// ║ fonts, lets make them all gold 2. i don't like any of the frills on the elaborate fonts, let's skip these 3. For Zeldara and Zeldor, we need
-// ║ these to be all capital letters, but keep the same size of the letters for "eldara" and "eldor". also for "the quests of" and "and"
+// ║ fonts, lets make them all gold 2. i don't like any of the frills on the elaborate fonts, let's skip these 3. For Zola and Zoldor, we need
+// ║ these to be all capital letters, but keep the same size of the letters for "ola" and "oldor". also for "the quests of" and "and"
 // ║ 4. I like the axes around the Z, need to keep this. 5. Come up with 6 updated recommendations … 6. also have the current intro page for me
 // ║ to compare. Make entire intro pages for these".
 // ║ Six wordmarks, all gilded gold, no flourishes, One Great Z with the ringed Z over the crossed axes. Every word is in capitals, each set so
@@ -28,14 +28,14 @@
       var cap=function(F,fam,tr,lc,sz0,x0,cy,front){ var sz=fit(q,lc,fam,sz0,tr), s=lc.toUpperCase(), w=W(q,s,fam,sz,tr), y=cy+0.35*sz0-0.35*sz;
         if(front){ var pe=p.slice(); pe[1]=Math.max(p[1],1.5); erase(q,function(){ ZBrand.text(q,pe,s,F,'400',sz,tr*sz,x0+w/2,y,{norm:true}); }); }
         T(F,tr,s,sz,x0+w/2,y); return {w:w,sz:sz}; };
-      var s=1.35, x0=1.35, wa=W(q,'ELDARA',D.names,fit(q,'eldara',D.names,1,trN),trN), wo=W(q,'ELDOR',D.names,fit(q,'eldara',D.names,1,trN),trN), L=-2.25, R=x0+Math.max(wa,wo), dx=-(L+R)/2;
+      var s=1.35, x0=1.35, wa=W(q,'OLA',D.names,fit(q,'ola',D.names,1,trN),trN), wo=W(q,'OLDOR',D.names,fit(q,'ola',D.names,1,trN),trN), L=-2.25, R=x0+Math.max(wa,wo), dx=-(L+R)/2;
       q.save(); q.translate(dx,0);
       // the ringed Z over the crossed axes
       P.axe(0,0,2.9*s,-0.7,true); P.axe(0,0,2.9*s,0.7); erase(q,function(){ q.beginPath(); q.arc(0,0,1.2*s,0,PI*2); q.fill(); });
       T(FZ,trZ,'Z',1.7*s,0,0); P.w(0.45).ci(0,0,0.9*s).ci(0,0,1.14*s); q.save(); P.w(0.8).braid(ZBrand.ring(1.02*s),22,0.065*s); q.restore();
-      // ELDARA and ELDOR: both at the size that fits ELDARA to eldara's room
-      var szN=fit(q,'eldara',D.names,1,trN), yA=-0.78+0.35-0.35*szN, yO=0.92+0.35-0.35*szN, F2=function(t,y){ var pe=p.slice(), w=W(q,t,D.names,szN,trN); pe[1]=Math.max(p[1],1.5); erase(q,function(){ ZBrand.text(q,pe,t,FN,'400',szN,trN*szN,x0+w/2,y,{norm:true}); }); T(FN,trN,t,szN,x0+w/2,y); };
-      F2('ELDARA',yA); F2('ELDOR',yO);
+      // OLA and OLDOR: both at the size that fits OLA to ola's room
+      var szN=fit(q,'ola',D.names,1,trN), yA=-0.78+0.35-0.35*szN, yO=0.92+0.35-0.35*szN, F2=function(t,y){ var pe=p.slice(), w=W(q,t,D.names,szN,trN); pe[1]=Math.max(p[1],1.5); erase(q,function(){ ZBrand.text(q,pe,t,FN,'400',szN,trN*szN,x0+w/2,y,{norm:true}); }); T(FN,trN,t,szN,x0+w/2,y); };
+      F2('OLA',yA); F2('OLDOR',yO);
       // THE QUESTS OF over the first name, ruled to its end; AND between the rules — capitals in the room the lower case took
       var Q=cap(FZ,D.z,trZ,'The Quests of',0.34,x0+0.1,-1.62); P.w(0.45).ln([x0+0.1+Q.w+0.22,-1.62,x0+wa,-1.62]); P.fc(x0+wa+0.08,-1.62,0.05);
       P.w(0.6).ln([x0,-0.12,x0+wa,-0.12]).ln([x0,0.24,x0+wa,0.24]); var aw=W(q,'AND',D.z,fit(q,'and',D.z,0.26,trZ),trZ); cap(FZ,D.z,trZ,'and',0.26,x0+wa*0.5-aw/2,0.06);

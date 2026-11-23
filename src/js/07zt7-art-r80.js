@@ -4,7 +4,7 @@
 // ║ need to make space for a library in the town, and you should be able to enter it like other buildings. make requests towards this";
 // ║ L2–L4: near your Home; a Norse timber saga-hall; the library by day, the second bed at night).
 // ║  Wave 90 — the library (two takes of the saga-hall to pick from), its furniture and wall pieces, and the second bed (empty by day,
-// ║            the twin asleep in it at night — a Zeldor and a Zeldara version).
+// ║            the twin asleep in it at night — a Zoldor and a Zola version).
 // ║ Order: .\tools\sprites\round80.ps1
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof ZSCN==='undefined')return;
@@ -32,6 +32,6 @@
       ['iw_star_chart','Star chart','an old parchment star chart of constellations pinned to the wall',40,30]]},
     {id:'sc_twin_bed',wave:90,fam:'interior',kind:'obj',cols:3,rows:1,size:'1536x1024',refs:['sc_int_1','hero_m.model','hero_f.model','sc_twin_study'],title:'The second bed in your Home — empty by day, the other twin asleep in it at night',items:[
       ['if_bed_twin','The twin\'s bed','a wooden bed like the first, with a teal-and-cream patchwork quilt and a small pile of old books by the pillow, empty, neatly made',44,72],
-      ['twin_sleep_m','Zeldor asleep','the same bed with Zeldor (the boy in the hero reference: spiky brown hair) asleep under the quilt, an open book face-down on his chest',44,72],
-      ['twin_sleep_f','Zeldara asleep','the same bed with Zeldara (the girl in the hero reference: long auburn braids) asleep under the quilt, an open book face-down on her chest',44,72]]}]);
+      ['twin_sleep_m','Zoldor asleep','the same bed with Zoldor (the boy in the hero reference: spiky brown hair) asleep under the quilt, an open book face-down on his chest',44,72],
+      ['twin_sleep_f','Zola asleep','the same bed with Zola (the girl in the hero reference: long auburn braids) asleep under the quilt, an open book face-down on her chest',44,72]]}]);
 })();

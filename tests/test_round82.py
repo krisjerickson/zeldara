@@ -20,7 +20,7 @@ with game(painted=True) as g:
     used = set(r['scenes'])
     check('Every story moment has its frames (none missing: %s)' % r['bad'], not r['bad'])
     check('Every cut-scene is played somewhere in the game (%d)' % len(used), used >= {s['id'] for s in S['scenes']}, sorted({s['id'] for s in S['scenes']} - used))
-    check('Playing Zeldara, her version of a frame is shown; shared frames once (%s)' % r['fh'], r['fh'] == ['sb:feasthall:sb_feasthall_03_f', 'sb:feasthall:sb_feasthall_04', 'sb:feasthall:sb_feasthall_05'])
+    check('Playing Zola, her version of a frame is shown; shared frames once (%s)' % r['fh'], r['fh'] == ['sb:feasthall:sb_feasthall_03_f', 'sb:feasthall:sb_feasthall_04', 'sb:feasthall:sb_feasthall_05'])
     check('Time to read: at least 5 s a picture, longer for a long line (%s ms)' % r['hold'], r['hold'][0] >= 5000 and r['hold'][1] >= 11000)
     g.wait(2500)
     o = g.js("(()=>{ var el=document.getElementById('zcut'), d=el&&el.querySelector('.zcut-sb'); return {open:!!el, sb:d&&d.style.backgroundImage, op:d&&d.style.opacity, cap:el&&el.querySelector('.zcut-cap').textContent, n:el&&el.querySelector('.zcut-n').textContent}; })()")

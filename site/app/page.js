@@ -1,5 +1,5 @@
 'use client';
-// The Zeldara home page: Kris's picks — the World Tree Veil page, the World Tree logo and the Ringed Z
+// The Zola home page: Kris's picks — the World Tree Veil page, the World Tree logo and the Ringed Z
 // wordmark — painted on one canvas by the same code the game's title uses (public/brand.js, built from
 // src/js/07zz-brand*.js). Real links sit over the two painted buttons and lead into the game at /play.
 import { useEffect, useRef, useState } from 'react';
@@ -43,9 +43,9 @@ export default function Home() {
   return (
     <main className="home">
       <Script src="/brand.js" strategy="afterInteractive" onReady={() => setBrand(true)} />
-      <h1 className="sr">The Quests of Zeldara and Zeldor</h1>
+      <h1 className="sr">The Quests of Zola and Zoldor</h1>
       <canvas ref={canvas} aria-hidden="true" />
-      {!brand && <div className="loading">ZELDARA</div>}
+      {!brand && <div className="loading">ZOLA</div>}
       {rects.map((r) => (
         <a key={r.label} className="btn" href={LINKS[r.label]} style={{ left: r.x, top: r.y, width: r.w, height: r.h }}
           onClick={() => { try { sessionStorage.setItem('zeldara_start', r.label === 'NEW GAME' ? 'new' : 'returning'); } catch (e) {} }}>

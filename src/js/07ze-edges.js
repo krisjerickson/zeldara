@@ -174,7 +174,7 @@ var ZEdge={ TW:16, TH:9, cache:{},
 // beach with finer sand; mountain edge, marsh, lava and snow line — layered + pieces. Every moving card starts from
 // that pick and adds one kind of movement. The old version (quests-of-zeldara-v3, WorldScene.renderTileAnimations)
 // drew a shimmer line drifting across each water tile, a warm pulse on lava and two swaying grass blades per tile;
-// the "Old Zeldara" card of each place redraws that on top of the pick, for comparison.
+// the "Old Zola" card of each place redraws that on top of the pick, for comparison.
 // ZEdge.frame(c, place, moveId, t, W, H, cv) draws one frame: the still picture (cached), a moving layer worked out
 // on the sample field (lapping, waves, ripples, flow), moving pieces drawn over it (particles), then the pieces.
 ZEdge.BASE={lake:'inkdress',beach:'inkdress',cliff:'dress',marsh:'dress',lava:'dress',snow:'dress'};
@@ -183,32 +183,32 @@ ZEdge.MOVE={
         {id:'m2',name:'Shimmering ripples', fx:['ripple','sparkle'],    desc:'Light ripples run across the whole lake and the sun glints on them. The shore stays still and clean.'},
         {id:'m3',name:'Sky in the water',   fx:['lap','sky'],           desc:'Gentle lapping, and slow cloud reflections drift over the water — the lake mirrors the sky.'},
         {id:'m4',name:'Rain rings',         fx:['rings','lap'],         desc:'Drops or fish break the surface: rings open and fade all over the lake, with soft lapping at the edge.'},
-        {id:'m5',name:'Old Zeldara shimmer',fx:['retro'],               desc:'What the old version did, on top of your pick: a thin bright line drifting across each water tile and grass blades swaying.'}],
+        {id:'m5',name:'Old Zola shimmer',fx:['retro'],               desc:'What the old version did, on top of your pick: a thin bright line drifting across each water tile and grass blades swaying.'}],
   beach:[{id:'m1',name:'Rolling waves',     fx:['waves'],               desc:'Wave crests roll in from the open sea and break into foam on the sand, one after another.'},
         {id:'m2',name:'Lapping tide',       fx:['lap'],                 desc:'Calmer water: the foam runs up the beach and slides back, leaving wet sand that dries.'},
         {id:'m3',name:'Sunlit sea',         fx:['waves','ripple','sparkle'], desc:'Rolling waves with light glinting on the sea between them.'},
         {id:'m4',name:'Surf and spray',     fx:['waves','spray'],       desc:'Stronger surf: the breaking waves throw up white spray along the beach.'},
-        {id:'m5',name:'Old Zeldara shimmer',fx:['retro'],               desc:'What the old version did, on top of your pick: a drifting bright line per water tile.'}],
+        {id:'m5',name:'Old Zola shimmer',fx:['retro'],               desc:'What the old version did, on top of your pick: a drifting bright line per water tile.'}],
   marsh:[{id:'m1',name:'Bubbling bog',      fx:['lap','bubbles'],       desc:'Soft lapping round the mud banks and bubbles rising and popping in the pools.'},
         {id:'m2',name:'Rain on the marsh',  fx:['rings','ripple'],      desc:'Rings open all over the pools and the water ripples; lily pads bob.'},
         {id:'m3',name:'Drifting fog',       fx:['fog','lap'],           desc:'Low fog drifts slowly over the marsh, thinning and thickening.'},
         {id:'m4',name:'Fireflies at dusk',  fx:['dusk','fireflies','ripple'], desc:'The light drops a little and fireflies wander over the water and reeds.'},
-        {id:'m5',name:'Old Zeldara shimmer',fx:['retro'],               desc:'What the old version did, on top of your pick: drifting shimmer lines on the water, swaying grass.'}],
+        {id:'m5',name:'Old Zola shimmer',fx:['retro'],               desc:'What the old version did, on top of your pick: drifting shimmer lines on the water, swaying grass.'}],
   lava:[{id:'m1',name:'Flowing crust',      fx:['flow'],                desc:'The lava moves: dark plates of crust drift downstream with bright seams between them.'},
         {id:'m2',name:'Molten river',       fx:['flow','glow'],         desc:'Bright streaks race along the stream and the banks glow and fade with it.'},
         {id:'m3',name:'Bubbling pool',      fx:['lavabubbles','glow'],  desc:'Thick bubbles swell and burst on the lava; the crust beside it glows.'},
         {id:'m4',name:'Embers rising',      fx:['flow','embers'],       desc:'Flowing lava with sparks and embers lifting off it into the air.'},
-        {id:'m5',name:'Old Zeldara pulse',  fx:['retro'],               desc:'What the old version did, on top of your pick: a slow warm pulse over each lava tile.'}],
+        {id:'m5',name:'Old Zola pulse',  fx:['retro'],               desc:'What the old version did, on top of your pick: a slow warm pulse over each lava tile.'}],
   cliff:[{id:'m1',name:'Cloud shadows',     fx:['clouds'],              desc:'Shadows of clouds sweep slowly over the mountain, cliff and grass alike.'},
         {id:'m2',name:'Falling stones',     fx:['pebbles','windgrass'], desc:'Now and then a stone drops down the cliff face and puffs dust at the foot; the grass moves in the wind.'},
         {id:'m3',name:'Mist at the foot',   fx:['mist'],                desc:'A soft mist breathes along the foot of the cliffs.'},
         {id:'m4',name:'Wind in the grass',  fx:['windgrass','clouds'],  desc:'Waves of wind run through the highland grass under passing cloud shadows.'},
-        {id:'m5',name:'Old Zeldara sway',   fx:['retro'],               desc:'What the old version did, on top of your pick: two grass blades swaying in every grass tile.'}],
+        {id:'m5',name:'Old Zola sway',   fx:['retro'],               desc:'What the old version did, on top of your pick: two grass blades swaying in every grass tile.'}],
   snow:[{id:'m1',name:'Falling snow',       fx:['snow'],                desc:'Snow falls over everything, near flakes faster than far ones.'},
         {id:'m2',name:'Blowing snow',       fx:['spindrift'],           desc:'Gusts lift snow off the drifts and blow it across the edge onto the rock and grass.'},
         {id:'m3',name:'Glittering snow',    fx:['glitter'],             desc:'The snowfield glitters in the sun; the edge stays still.'},
         {id:'m4',name:'Mountain weather',   fx:['snow','clouds','windgrass'], desc:'Light snow, cloud shadows and wind in the grass below the snow line.'},
-        {id:'m5',name:'Old Zeldara sway',   fx:['retro'],               desc:'What the old version did, on top of your pick: swaying grass blades.'}]
+        {id:'m5',name:'Old Zola sway',   fx:['retro'],               desc:'What the old version did, on top of your pick: swaying grass blades.'}]
 };
 // sample lists per place, worked out once
 ZEdge._prepMove=function(scene){ var F=ZEdge.field(scene,16,true); if(F._mv)return F; var K=ZEdge.K, SW=F.SW, SH=F.SH, kb=F.kb, D=F.d, EK=F.ek, M={wat:[],lav:[],wet:[],sno:[],grs:[],nearLav:[],wallTop:[],wallFoot:[],crust:[],hotRow:new Uint8Array(SH)};

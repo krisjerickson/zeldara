@@ -37,7 +37,7 @@ with sync_playwright() as p:
     v = pg.evaluate("""(()=>{ var z=document.querySelector('.sbv-btn[data-v=zeldara]'); z.click(); var a=document.body.classList.contains('sb-zeldara'), vis=Array.from(document.querySelectorAll('textarea[data-au^="sbp_sb_spirit_05"]')).filter(function(t){ return t.closest('details').offsetParent!==null; }).map(function(t){ return t.dataset.au; });
       document.querySelector('canvas.sbf-cv[data-sc="spirit"][data-i="4"]').click(); var big=!!document.querySelector('.sbf-big canvas'), cap=(document.querySelector('.sbf-bigcap')||{}).textContent; document.querySelector('.sbf-big').click();
       document.querySelector('.sbv-btn[data-v=zeldor]').click(); return {zeldara:a, vis:vis, big:big, cap:cap, back:!document.body.classList.contains('sb-zeldara')}; })()""")
-    check('The Zeldor / Zeldara switch shows that version\'s prompts; a frame opens big with its line (%s)' % v['cap'], v['zeldara'] and v['vis'] == ['sbp_sb_spirit_05_f'] and v['big'] and 'eyes burned' in (v['cap'] or '') and v['back'], v)
+    check('The Zoldor / Zola switch shows that version\'s prompts; a frame opens big with its line (%s)' % v['cap'], v['zeldara'] and v['vis'] == ['sbp_sb_spirit_05_f'] and v['big'] and 'eyes burned' in (v['cap'] or '') and v['back'], v)
     check('No Lab errors', not errs, errs[:3])
     b.close()
 print('\n%d/%d passed' % (sum(res), len(res)))

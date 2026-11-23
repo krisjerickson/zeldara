@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ ZELDARA BRAND, round 12 (third pass):
+// ║ ZOLA BRAND, round 12 (third pass):
 // ║  • 20 more logos (gen 3), all teal, dense, no fractals: 9 after the nine
 // ║    pictures Kris sent (our own drawings of each picture's layout and motifs,
 // ║    nothing traced) + 11 that build on Crossed Axes and his other picks.
@@ -121,11 +121,11 @@ ZBrand.TIER2=['crossed_axes','axes_serpent','axes_tree','blade_b','serpent_coil'
     ['rz_medieval','MedievalSharp','400','Medieval pen','Broad-nib medieval lettering, friendly and readable.',0.12],
     ['rz_marcellus','Marcellus SC','400','Roman inscription','Calm Roman capitals — the Highland Wide face from the first round.',0.16]];
   ZBrand.RZ_FONTS.forEach(function(F){ var font='"'+F[1]+'","Cinzel",Georgia,serif';
-    ZBrand.WORDS.push({id:F[0],name:'Ringed Z · '+F[1],col:G,style:'gilded',gen:3,kind:'custom',fam:F[1],wt:F[2],tag:F[3],desc:F[4],paint:function(P,q,p){ var o={norm:true}, m=ZBrand.text(q,p,'ELDARA',font,F[2],1.2,F[5],0,0,{dry:true,norm:true}), zx=-m.w/2-0.25, tx=0.95;
+    ZBrand.WORDS.push({id:F[0],name:'Ringed Z · '+F[1],col:G,style:'gilded',gen:3,kind:'custom',fam:F[1],wt:F[2],tag:F[3],desc:F[4],paint:function(P,q,p){ var o={norm:true}, m=ZBrand.text(q,p,'OLA',font,F[2],1.2,F[5],0,0,{dry:true,norm:true}), zx=-m.w/2-0.25, tx=0.95;
       P.axe(zx,0,2.9,-0.7,true); P.axe(zx,0,2.9,0.7); erase(q,function(){ q.beginPath(); q.arc(zx,0,1.2,0,PI*2); q.fill(); }); ZBrand.text(q,p,'Z',font,F[2],1.7,0,zx,0,o);
       P.w(0.45).ci(zx,0,0.9).ci(zx,0,1.14); q.save(); q.translate(zx,0); P.w(0.8).braid(ZBrand.ring(1.02),22,0.065); q.restore();
-      var pe=p.slice(); pe[1]=Math.max(p[1],1.5); erase(q,function(){ ZBrand.text(q,pe,'ELDARA',font,F[2],1.2,F[5],tx,-0.1,o); });      // round 47 (Kris: "the E is currently behind the lines create the axe, but it needs to be in front of these")
-      var e=ZBrand.text(q,p,'ELDARA',font,F[2],1.2,F[5],tx,-0.1,o), x0=tx-e.w/2, x1=tx+e.w/2; P.w(0.7).ln([x0,0.7,x1,0.7]).ln([x0,1.14,x1,1.14]); P.w(0.55); runes(P,x0+0.1,x1-0.1,0.92,0.26,4); }}); });
+      var pe=p.slice(); pe[1]=Math.max(p[1],1.5); erase(q,function(){ ZBrand.text(q,pe,'OLA',font,F[2],1.2,F[5],tx,-0.1,o); });      // round 47 (Kris: "the E is currently behind the lines create the axe, but it needs to be in front of these")
+      var e=ZBrand.text(q,p,'OLA',font,F[2],1.2,F[5],tx,-0.1,o), x0=tx-e.w/2, x1=tx+e.w/2; P.w(0.7).ln([x0,0.7,x1,0.7]).ln([x0,1.14,x1,1.14]); P.w(0.55); runes(P,x0+0.1,x1-0.1,0.92,0.26,4); }}); });
 })();
 
 // ═══════════ HOME PAGE: the pick (World Tree Veil), reworked for the new logo and typeface ═══════════
@@ -144,7 +144,7 @@ ZBrand.TIER2=['crossed_axes','axes_serpent','axes_tree','blade_b','serpent_coil'
 // (The icon is the small level drawn under 16 px radius.)
 (function(){ var K=ZBrand.K, F=K.F, inC=K.inC, TC=ZBrand.byId('tree_c'), big=TC.draw, l0=ZBrand.layers;
   ZBrand.layers=function(S,R,L){ ZBrand._drawR=R; return l0(S,R,L); };
-  TC.name='World Tree'; TC.final=true; TC.desc='The Zeldara logo: the world tree, crown mirrored by its roots, inside key and rune borders. Medium: tree and rune ring. Small: tree, circles and dots. Icon: just the tree.';
+  TC.name='World Tree'; TC.final=true; TC.desc='The Zola logo: the world tree, crown mirrored by its roots, inside key and rune borders. Medium: tree and rune ring. Small: tree, circles and dots. Icon: just the tree.';
   TC.draw=function(P,L){ if(L>=3)return big(P,3);
     if(L===2){ inC(P,0,0.03,0.9,function(){ P.ftree(5,3); }); P.w(0.9).ci(0,0,0.88); P.w(0.5).ci(0,0,1.36); P.w(0.8).band(ZBrand.ring(1.12),16,0.26,2); return; }
     var w0=P.w, bold=function(k,f){ P.w=function(m){ return w0((m||1)*k); }; f(); P.w=w0; };

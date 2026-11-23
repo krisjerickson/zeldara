@@ -39,7 +39,7 @@ var ZSEASART={ WAVE:115,
      ['ic_frost_herb','Frost-herb','a sprig of a pale blue-green herb rimed with frost',48,48],['ic_hazelnuts','Hazelnuts','a small heap of hazelnuts, some still in their green husks',48,48]]});
   // the request text: a repaint of the first reference, only the season changing
   var b0=ZSCN.body; ZSCN.body=function(S){ if(!S||!S.season)return b0.apply(ZSCN,arguments); var tex=S.kind==='tex', n=S.items.length;
-    return 'Create ONE image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor: '+(tex?'a sheet of '+n+' square ground-texture swatches':'a sheet of '+n+' separate pieces of scenery')+' — '+S.title+'.\n'+
+    return 'Create ONE image for a 2D top-down action RPG called The Quests of Zola and Zoldor: '+(tex?'a sheet of '+n+' square ground-texture swatches':'a sheet of '+n+' separate pieces of scenery')+' — '+S.title+'.\n'+
       'This is a SEASONAL REPAINT of the FIRST reference image, an approved sheet of this game\'s art. Keep everything about it — the same items, in the same order, the same places and sizes in the grid, the same painted style, outlines, highlights and lighting angle'+(tex?', and every swatch still a seamless repeating tile':', each still on a transparent background')+'. Change ONLY the season, to '+(S.look||ZSEASART.LOOK[S.season])+'.\n'+(S.keep||ZSEASART.KEEP)+'\n'+
       'Layout: exactly '+n+(tex?' swatches':' objects')+' in a grid of '+S.cols+' columns × '+S.rows+' rows, as in the reference (left to right, top row first)'+(n<S.cols*S.rows?'; the last '+(S.cols*S.rows-n)+' cell(s) stay empty':'')+':\n'+
       S.items.map(function(it,i){ return (i+1)+'. '+it[1]+' — '+it[2]+'.'; }).join('\n')+'\n'+ZSCN.VIEW[S.kind]; };

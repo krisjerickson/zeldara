@@ -1,4 +1,4 @@
-"""Round 122: the village buildings in early spring (requests), the Zeldara versions of the kept shots (requests), the opening's part-2
+"""Round 122: the village buildings in early spring (requests), the Zola versions of the kept shots (requests), the opening's part-2
 Kling prompts fixed (a dash inside brackets no longer splits the sword's description), and the Lab's spring slots.
 python tests/test_round122.py   (after node build.mjs)"""
 import sys, os, json, re
@@ -13,7 +13,7 @@ check('Spring: the five building sheets are asked for, wave 123, each a repaint 
 lst = [l for l in open(os.path.join(R, 'sprites', 'requests', 'r122_spring_village.txt')).read().split() if l.startswith('sc_')]
 check('…and r122_spring_village lists exactly them', sorted(lst) == sorted(sp), lst)
 f = [i for i in S if re.match(r'^sc_ss_.*_f$', i)]
-check('Zeldara (round 122b): held — no Zeldara shot is asked for, and there is no list, until every twin cut-scene is picked (%d asked)' % len(f),
+check('Zola (round 122b): held — no Zola shot is asked for, and there is no list, until every twin cut-scene is picked (%d asked)' % len(f),
       len(f) == 0 and not os.path.exists(os.path.join(R, 'sprites', 'requests', 'r122_zeldara_shots.txt')))
 picks = json.load(open(os.path.join(R, 'sprites', 'requests', 'series_picks.json'), encoding='utf-8'))
 check('The Lab\'s shot picks are copied (%d frames)' % (len(picks) - 1), len(picks) - 1 >= 58 and picks['bram_04']['keep'] == [4, 5, 3])
@@ -23,7 +23,7 @@ g = {'__file__': os.path.join(R, 'tools', 'video', 'kling.py'), '__name__': 'kt'
 sc = [s for s in g['J']['scenes'] if s['id'] == 'opening'][0]
 for who in ('zeldor', 'zeldara'):
     t = g['prompt'](sc, sc['beats'][6:12], who, 2, 2); s4 = re.search(r'SHOT 4 .*', t).group(0); s5 = re.search(r'SHOT 5 .*', t).group(0)
-    hero = 'Zeldor' if who == 'zeldor' else 'Zeldara'
+    hero = 'Zoldor' if who == 'zeldor' else 'Zola'
     check('Kling, opening part 2 (%s): the wooden sword\'s words stay together in START, and %s takes the pack and sword' % (who, hero),
           'grip, NOT a metal blade)' in s4.split('ACTION')[0] and 'NOT IN THIS SHOT: NOT' not in t and ('%s takes them' % hero) in s5)
 lab = open(os.path.join(R, 'lab', 'lab.artifact.html'), encoding='utf8').read()

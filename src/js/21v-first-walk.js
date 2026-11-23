@@ -54,7 +54,7 @@ var ZWALK={ on:true,
       if(far||Date.now()-ZWALK._t>ZWALK.RUNA_MS){ var R2=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_elder'; }); if(R2&&R2._walk){ R2.talk=null; R2._walk=0; }
         if(typeof ZLES!=='undefined')ZLES.teach('waystone',true); showNotif('ᛟ Elder Runa\'s lesson: lay your hand on a waystone (Tab) to wake it — from any waystone you can travel to every one you have woken.','#b8fff2'); ZWALK.done(ps); ZWALK.go(ws,'done'); } }
   }catch(e){ if(!ZWALK._err){ ZWALK._err=1; console.warn('first walk',e); } } },
-  hi:function(ws){ var ps=ws.playerState, O=typeof ZTWIN!=='undefined'?ZTWIN.other(ps):{name:'your twin',ch:null}, H=ps.hero==='f'?'Zeldara':'Zeldor'; ps.walk='hi'; ZWALK.spawn(ws);
+  hi:function(ws){ var ps=ws.playerState, O=typeof ZTWIN!=='undefined'?ZTWIN.other(ps):{name:'your twin',ch:null}, H=ps.hero==='f'?'Zola':'Zoldor'; ps.walk='hi'; ZWALK.spawn(ws);
     var L=['There you are, '+H+'! Up at last. I am Master Oswin, keeper of the Adventurers\' Guild — the whole village has waited for this day, and '+O.name+' is already at the library with a pile of old books.',
       'Before I take you to my guild, let me see you stand on your own feet. Walk a little — and then show me that sword arm.'];
     if(typeof ZDLG==='undefined'||!ZDLG.on){ ZWALK.go(ws,'move'); return; }
@@ -92,7 +92,7 @@ var ZWALK={ on:true,
         else { ZWALK.unspawn(ws); if(typeof ZDLG!=='undefined'&&ZDLG.on)ZDLG.say(ZOSW_NAME(),'Here we are — my guild hall. In you come: Tab at the door.',{id:'npc_guild',icon:'📜'}); ZWALK.go(ws,'guild'); return; } } }
     else if(dP<TILE*6)O.im.setFlipX(P.x<O.x);
     var bob=moving?Math.abs(Math.sin(Date.now()/110))*2:0; O.im.setPosition(O.x,O.y+12-bob).setDepth(WR_DEPTH(O.y)); if(O.tag)O.tag.setPosition(O.x,O.y-44-bob); O.npc.x=O.x; O.npc.y=O.y; },
-  runa:function(ws,R){ var ps=ws.playerState, H=ps.hero==='f'?'Zeldara':'Zeldor';
+  runa:function(ws,R){ var ps=ws.playerState, H=ps.hero==='f'?'Zola':'Zoldor';
     var L=['There you are, '+H+'. Come — put your hand on the Runestone. It woke for you and your twin the night the lake gave you to us. No one else has ever made it hum.',
       'Out in the land stand smaller stones cut the same way: waystones. Lay your hand on one — Tab — and it wakes. From any waystone you can travel to every one you have woken, and this village stone is always awake.',
       'So go as far as you dare. The stones will bring you home.'];

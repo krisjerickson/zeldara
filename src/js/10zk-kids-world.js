@@ -20,7 +20,7 @@ var ZKIDW={ on:true, NEAR:56, FAR:76,
   pool:function(){ if(ZKIDW._pool)return ZKIDW._pool; var V={}; ZKIDW.VILLAGE.forEach(function(g){ g.ids.forEach(function(id){ V[id]=1; }); }); return (ZKIDW._pool=ZKIDS.L.map(function(K,i){ return i; }).filter(function(i){ return !V[ZKIDS.L[i][0]]; })); },
   kidsFor:function(n){ var P=ZKIDW.pool(), c=2+(n%2), out=[]; for(var j=0;j<c;j++){ var k=P[(n*7+j*5)%P.length]; if(out.indexOf(k)<0)out.push(k); } return out; },
   gameFor:function(n){ return ZKIDW.GAMES[n%ZKIDW.GAMES.length]; },
-  names:function(ps){ var f=ps&&ps.hero==='f'; return {h:f?'Zeldara':'Zeldor',o:f?'Zeldor':'Zeldara'}; },
+  names:function(ps){ var f=ps&&ps.hero==='f'; return {h:f?'Zola':'Zoldor',o:f?'Zoldor':'Zola'}; },
   // the groups: where each plays, who, and what
   groups:function(ws){ if(ws._zkG)return ws._zkG; var G=[];
     if(typeof ZHAMW!=='undefined')ZHAMW.plan(ws).forEach(function(H){ var y=H.pieces.find(function(q){ return q.kind==='yard'; }), hx=(y?y.fx:H.cx)*TILE, hy=((y?y.fy:H.cy+1.5)+1.6)*TILE;

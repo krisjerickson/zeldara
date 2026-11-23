@@ -28,7 +28,7 @@ var ZSFR={ on:true, BASE:'assets/story/',
   ps:function(){ var ws=typeof game!=='undefined'&&game.scene&&game.scene.getScene('World'); return ws&&ws.playerState; },
   // the frames of a cut-scene (from..to, counted from 1) for the hero you play, each with its line — or null if any is not painted
   frames:function(R,ps){ if(!ZSFR.on||!R)return null; var sc=ZSFR.scene(R[0]), I=ZSFR.idx()[R[0]]; if(!sc||!I||!I.at)return null; ps=ps||ZSFR.ps();
-    var f=ps&&ps.hero==='f', nm={H:f?'Zeldara':'Zeldor',O:f?'Zeldor':'Zeldara'}, a=(R[1]||1)-1, b=R[2]||sc.beats.length, L=[];
+    var f=ps&&ps.hero==='f', nm={H:f?'Zola':'Zoldor',O:f?'Zoldor':'Zola'}, a=(R[1]||1)-1, b=R[2]||sc.beats.length, L=[];
     for(var i=a;i<b&&i<sc.beats.length;i++){ var bt=sc.beats[i], id=bt.ids.length>1?bt.ids[f?1:0]:bt.ids[0]; if(!I.at[id])return null;
       L.push(['sb:'+R[0]+':'+id,String(bt.cap||'').replace(/\{H\}/g,nm.H).replace(/\{O\}/g,nm.O)]); }
     return L.length?L:null; },

@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ 07zz-brand6.js — round 70b: A BETTER FONT FOR ZELDARA (the Lab's Fonts tab, 79b-lab-zfonts.js).
+// ║ 07zz-brand6.js — round 70b: A BETTER FONT FOR ZOLA (the Lab's Fonts tab, 79b-lab-zfonts.js).
 // ║ Kris: "we still need to get a better font for zeldara, including for the intro screen … create a variety of ~12 different updated
 // ║ zeldara and zeldor intro panels with a variety of different fonts inspired by the attached … create entire alphabets … propose places
 // ║ for the font to be used throughout the game. It's also OK to have 2 fonts, 1 which is an elaborate version of the other" — then:
@@ -23,7 +23,7 @@
       idea:'A calligrapher\'s broad pen, slanted and lively. Elaborate: the great Z rubricated in red like a manuscript initial, red pen-dots round its ring, hairline tails.'},
     {id:'macondo',name:'Skald Swash',fam:'Macondo',wt:'400',famE:'Macondo Swash Caps',lc:true,lcE:false,norse:true,orn:'uncial',ring:TEAL,tr:0.04,small:true,
       insp:'the pointed "Viking" uncial with its diamond dots',
-      idea:'A friendly uncial-flavoured hand that stays readable small. Elaborate: its swash capitals (ELDARA in curling caps), the Z\'s ring in soul-line teal.'},
+      idea:'A friendly uncial-flavoured hand that stays readable small. Elaborate: its swash capitals (OLA in curling caps), the Z\'s ring in soul-line teal.'},
     {id:'italiana',name:'Soulful Deco',fam:'Italiana',wt:'400',lc:false,orn:'deco',gc:IVORY,tr:0.16,small:true,
       insp:'the thin high-contrast deco capitals with small ornaments (the soulful font)',
       idea:'Tall thin deco capitals, widely spaced. Elaborate: ivory letters with the ornaments set into them — a sparkle in the D, mountains in the O, a pointer in the R, a long double rule from the L, a hairline beside the last R.'},
@@ -32,13 +32,13 @@
       idea:'Geometric hairline capitals — the lightest of the twelve. Elaborate: the same ornaments in glowing teal, like soul-light caught in the letters.'},
     {id:'playfair',name:'Fjord Serif',fam:'Playfair Display',wt:'400',lc:true,orn:'curl',bc:SAPH,tr:0.03,small:true,
       insp:'the high-contrast serif with curled swashes and ball ends',
-      idea:'A high-contrast book serif with ball ends. Elaborate: a curling swash from the Z\'s crown, a long tapering stroke under eldor, a curl off the last a — sapphire balls at their ends.'},
+      idea:'A high-contrast book serif with ball ends. Elaborate: a curling swash from the Z\'s crown, a long tapering stroke under oldor, a curl off the last a — sapphire balls at their ends.'},
     {id:'cormorant',name:'Saga Garamond',fam:'Cormorant Garamond',wt:'500',lc:true,orn:'curl',gc:IVORY,tr:0.03,small:true,
       insp:'the high-contrast serif with curled swashes',
       idea:'A light, elegant old-style serif — reads like a printed saga. Elaborate: ivory letters with gold curls and swashes.'},
     {id:'yeseva',name:'Midsummer Loops',fam:'Yeseva One',wt:'400',lc:true,orn:'loop',gc:CREAM,tr:0.02,small:false,
       insp:'the heavy display serif with big looping swashes',
-      idea:'A bold display serif with quirky curves. Elaborate: cream letters, big looping swashes off the Z, the last a and under eldor, in gold.'},
+      idea:'A bold display serif with quirky curves. Elaborate: cream letters, big looping swashes off the Z, the last a and under oldor, in gold.'},
     {id:'abril',name:'Hall Banner',fam:'Abril Fatface',wt:'400',lc:true,orn:'loop',lc2:CORAL,tr:0.02,small:false,
       insp:'the heavy didone with looping swashes',
       idea:'The heaviest face — a great-hall banner. Elaborate: gold letters with coral loops.'},
@@ -86,7 +86,7 @@
     var T=function(q,p,s,sz,x,y){ return ZBrand.text(q,p,s,F,wt,sz,D.tr*sz,x,y,{norm:true}); };
     var Wx=function(q,s,sz){ return ZBrand.text(q,[0,1,0,0],s,F,wt,sz,D.tr*sz,0,0,{norm:true,dry:true}).w; };
     var front=function(q,p,s,sz,x,y){ var pe=p.slice(); pe[1]=Math.max(p[1],1.5); erase(q,function(){ T(q,pe,s,sz,x,y); }); return T(q,p,s,sz,x,y); };
-    var t1=lc?'eldara':'ELDARA', t2=lc?'eldor':'ELDOR', qo=lc?'The Quests of':'THE QUESTS OF', an=lc?'and':'AND';
+    var t1=lc?'ola':'OLA', t2=lc?'oldor':'OLDOR', qo=lc?'The Quests of':'THE QUESTS OF', an=lc?'and':'AND';
     return function(P,q,p){ var s=1.35, sz=1.0, wa=Wx(q,t1,sz), wo=Wx(q,t2,sz), zs=D.norse?1.7*s:3.25, wz=Wx(q,'Z',zs), zx, x0, L;
       if(D.norse){ zx=0; x0=zx+1.35; L=zx-2.25; } else { zx=0; x0=zx+wz/2+0.1; L=zx-wz/2; }
       var R=x0+Math.max(wa,wo), dx=-(L+R)/2+(E&&D.orn==='dala'?-0.35:0); q.save(); q.translate(dx,0);
@@ -126,9 +126,9 @@
     curl:function(P,q,p,D,o){ var c=G, bc=D.bc||G, A=o.A, O=o.O, ea=A.xs[A.xs.length-1]+A.ws[A.ws.length-1], eo=O.x0+O.w, zt=0.07-o.zs*0.35, zl=o.zx-o.wz*0.45;
       curl(q,p,spiral(bz([zl+0.25,zt+0.04,zl-0.25,zt-0.35,zl-0.9,zt-0.2,zl-1.0,zt+0.35]),0.32,1.1,-1),0.09,c,bc);      // from the Z's crown, curling back
       curl(q,p,spiral(bz([ea-0.12,o.y1+0.3,ea+0.3,o.y1+0.4,ea+0.65,o.y1+0.1,ea+0.6,o.y1-0.35]),0.2,1.0,-1),0.07,c,bc);  // off the last a
-      var zb=o.zx+o.wz*0.4; rib(q,p,bz([zb,1.24,zb+0.8,1.5,eo-0.6,1.48,eo+0.5,1.3]),swell(0.08,0.02,0.006),c); ball(q,p,eo+0.52,1.29,0.03,bc); },  // a long stroke under eldor
+      var zb=o.zx+o.wz*0.4; rib(q,p,bz([zb,1.24,zb+0.8,1.5,eo-0.6,1.48,eo+0.5,1.3]),swell(0.08,0.02,0.006),c); ball(q,p,eo+0.52,1.29,0.03,bc); },  // a long stroke under oldor
     loop:function(P,q,p,D,o){ var c=D.lc2||G, A=o.A, O=o.O, lxx=lx(A,1), top=o.y1-0.38, ea=A.xs[A.xs.length-1]+A.ws[A.ws.length-1], zl=o.zx-o.wz*0.35, zt=0.07-o.zs*0.35;
-      var eo=O.x0+O.w; curl(q,p,bz([eo-0.15,o.y2+0.3,eo+0.5,o.y2+0.55,eo+0.3,o.y2+1.15,eo-0.3,o.y2+0.85,eo-0.6,o.y2+0.6,eo-0.2,o.y2+0.4,eo-1.6,o.y2+0.62]),0.09,c);   // a loop down from the end of eldor, running back under it
+      var eo=O.x0+O.w; curl(q,p,bz([eo-0.15,o.y2+0.3,eo+0.5,o.y2+0.55,eo+0.3,o.y2+1.15,eo-0.3,o.y2+0.85,eo-0.6,o.y2+0.6,eo-0.2,o.y2+0.4,eo-1.6,o.y2+0.62]),0.09,c);   // a loop down from the end of oldor, running back under it
       curl(q,p,bz([ea-0.1,o.y1+0.32,ea+0.6,o.y1+0.45,ea+0.75,o.y1-0.35,ea+0.3,o.y1-0.25,ea-0.05,o.y1-0.15,ea+0.5,o.y1-0.9,ea+1.0,o.y1-0.85]),0.1,c);   // and off the last a
       curl(q,p,bz([zl+0.1,zt+0.05,zl-0.5,zt-0.3,zl-0.4,zt+0.6,zl-0.9,zt+0.4,zl-1.3,zt+0.2,zl-1.1,zt-0.4,zl-0.7,zt-0.5]),0.1,c); },   // and from the Z
     dala:function(P,q,p,D,o){ var fx=o.x0+o.wa+0.75, fy=-1.05, k=0.85;

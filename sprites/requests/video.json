@@ -79,7 +79,7 @@
    "wave": 2,
    "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The twin at the desk traces the glowing rune on the page with a finger; the rune glows brighter and the star on the Lodestar answers with the same light; candle flames flicker, dust motes drift.",
    "frame": "assets/scenery/rooms/pn_twin_teach_m.webp",
-   "where": "the twin's lesson — Godsbane (you play Zeldor)",
+   "where": "the twin's lesson — Godsbane (you play Zoldor)",
    "neg": "text, captions, subtitles, logos, watermark, extra people, new characters, face changes, distorted hands, camera cuts, scene change, photorealism, 3D render look, style change, flicker",
    "motion": "The twin at the desk traces the glowing rune on the page with a finger; the rune glows brighter and the star on the Lodestar answers with the same light; candle flames flicker, dust motes drift."
   },
@@ -88,7 +88,7 @@
    "wave": 2,
    "request": "Animate this exact painting as one continuous cinematic shot of about 8 seconds. Keep the painted style, colours, lighting and composition of the image; the characters keep exactly the same faces, clothes and proportions. Gentle, slow camera movement; natural motion of cloth, hair, mist, fire and light. No text, no captions, no logos, no camera cuts, no new characters. The twin at the desk traces the glowing rune on the page with a finger; the rune glows brighter and the star on the Lodestar answers with the same light; candle flames flicker, dust motes drift.",
    "frame": "assets/scenery/rooms/pn_twin_teach_f.webp",
-   "where": "the twin's lesson — Godsbane (you play Zeldara)",
+   "where": "the twin's lesson — Godsbane (you play Zola)",
    "neg": "text, captions, subtitles, logos, watermark, extra people, new characters, face changes, distorted hands, camera cuts, scene change, photorealism, 3D render look, style change, flicker",
    "motion": "The twin at the desk traces the glowing rune on the page with a finger; the rune glows brighter and the star on the Lodestar answers with the same light; candle flames flicker, dust motes drift."
   },

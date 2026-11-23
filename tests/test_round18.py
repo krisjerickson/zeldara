@@ -45,7 +45,7 @@ with game(new=None) as g:
     g.js("document.getElementById('zp-name').value='Rin'; document.getElementById('zp-next').click()"); g.wait(200)
     g.js("document.querySelectorAll('.zp-slot')[0].querySelector('[data-a=new]').click()"); g.wait(400)
     r=g.js("({n:document.querySelectorAll('.zp-hero').length, t:[...document.querySelectorAll('.zp-hero b')].map(function(b){ return b.textContent; }), drawn:[...document.querySelectorAll('.zp-hero canvas')].map(function(cv){ var d=cv.getContext('2d').getImageData(0,0,100,168).data, n=0; for(var i=3;i<d.length;i+=4)if(d[i]>40)n++; return n; })})")
-    check('New Game asks which hero: Zeldara (the girl) or Zeldor (the boy), each with a picture (round 53)', r['n']==2 and r['t']==['Zeldara','Zeldor'] and min(r['drawn'])>800, r)
+    check('New Game asks which hero: Zola (the girl) or Zoldor (the boy), each with a picture (round 53)', r['n']==2 and r['t']==['Zola','Zoldor'] and min(r['drawn'])>800, r)
     g.js("document.querySelector('.zp-hero[data-h=f]').click(); document.getElementById('zp-begin').click()")      # round 85: Begin Quest
     check('Choosing the girl starts the game', to_world(g))
     g.wait(900); g.key('d',300); g.wait(200)
@@ -114,7 +114,7 @@ with sync_playwright() as p:
     pg.evaluate("document.querySelector('.sl-grp[data-sl=m1]').click()"); pg.wait_for_timeout(1200)
     r=pg.evaluate("""(()=>{ var cards=document.querySelectorAll('.sl-card'), o={n:cards.length, painted:0}; document.querySelectorAll('.sl-cv').forEach(function(cv){ var d=cv.getContext('2d').getImageData(0,0,72,72).data, n=0; for(var i=3;i<d.length;i+=4)if(d[i]>40)n++; if(n>60)o.painted++; });
       var li=document.querySelector('.sl-card .sl-sh'); li.querySelector('.sl-show').click(); o.pre=li.querySelector('.sl-pre').textContent; return o; })()""")
-    check('Grasslands monsters: 60 cards, each with its stand-in; Show reveals the full request', r['n']==60 and r['painted']>=58 and 'Zeldara' in r['pre'] and 'teal' in r['pre'] and 'sprites/incoming/' in r['pre'] and 'Layout: exactly' in r['pre'], [r['n'],r['painted'],r['pre'][:120]])
+    check('Grasslands monsters: 60 cards, each with its stand-in; Show reveals the full request', r['n']==60 and r['painted']>=58 and 'Zola' in r['pre'] and 'teal' in r['pre'] and 'sprites/incoming/' in r['pre'] and 'Layout: exactly' in r['pre'], [r['n'],r['painted'],r['pre'][:120]])
     pg.evaluate("document.querySelector('.sl-card .br-pick').click()"); pg.wait_for_timeout(200)
     pg.evaluate("(function(){ var ta=document.querySelector('.sl-card .br-notes'); ta.value='needs a net attack'; ta.dispatchEvent(new Event('input',{bubbles:true})); })()"); pg.wait_for_timeout(200)
     r=pg.evaluate("({p:LabApp.picks['sprlib-'+document.querySelector('.sl-card').dataset.id], txt:document.querySelector('.sl-card .br-pick').textContent})")

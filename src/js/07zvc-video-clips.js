@@ -45,7 +45,7 @@ var ZVCLIP={
   WHERE:{pn_forges_lodestar:'the moment the Lodestar is first made at the great hearth (when it first comes into your hands)',
     pn_binders_free:'the first spirit you free (then the line of light)', pn_lines_life:'the first spirit you free, after the chains fall',
     pn_build_bram:'freeing Bram — the Silverrun bridge', pn_build_mira:'freeing Mira — the lift up the Great Scar', pn_build_dunn:'freeing Dunn — the Cinder Chasm bridge',
-    pn_twin_teach_m:'the twin\'s lesson — Godsbane (you play Zeldor)', pn_twin_teach_f:'the twin\'s lesson — Godsbane (you play Zeldara)',
+    pn_twin_teach_m:'the twin\'s lesson — Godsbane (you play Zoldor)', pn_twin_teach_f:'the twin\'s lesson — Godsbane (you play Zola)',
     pn_fh_cast_twins:'the feast hall — the twins cast Godsbane together', pn_world_tree:'all forty spirits free, after the end',
     pn_saga_orbs:'the thirtieth spirit — a glimpse of the orbs', pn_saga_storm_b:'the opening — the storm', pn_saga_basket:'the opening — the basket on the lake',
     pn_saga_sendoff:'the opening — the village sends you out', pn_saga_ashnight_b:'the Ashlands\' first freed spirit — the Ash Night',

@@ -10,9 +10,9 @@
 // ║  Pictures: sheet sc_sb_<scene>_<nn>, item sb_<scene>_<nn> (+ _m / _f when the twin you play is in it). Waves 85–89. Doc 35.
 // ═══════════════════════════════════════════════════════════════════════
 var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and the four builders',86:'Story cut-scenes 2: the opening and the four realms\' falls',87:'Story cut-scenes 3: the glimpses, the Lodestar, Muspelheim, Asgard, Godsbane, the Bifröst',88:'Story cut-scenes 4: Surtharn\'s and Solmyrk\'s forms',89:'Story cut-scenes 5: the feast hall, the truth, home, the land changed, the celebration, the World Tree'},
-  HERO:{m:'Zeldor (the boy hero: spiky tousled brown hair with teal streaks, big teal eyes, a moss-green hooded short cape, cream tunic, big tan boots — exactly as in the hero reference)',
-        f:'Zeldara (the girl hero: long auburn braids with silver clasps, a small glowing teal gem on her brow, big teal eyes, a short teal-green mantle with a pale fur collar — exactly as in the hero reference)'},
-  TWINS:'the twins Zeldor (the boy: spiky brown hair, moss-green cape) and Zeldara (the girl: long auburn braids, teal-green mantle with a fur collar), exactly as in the hero references — the SAME age, about sixteen, and the SAME height',
+  HERO:{m:'Zoldor (the boy hero: spiky tousled brown hair with teal streaks, big teal eyes, a moss-green hooded short cape, cream tunic, big tan boots — exactly as in the hero reference)',
+        f:'Zola (the girl hero: long auburn braids with silver clasps, a small glowing teal gem on her brow, big teal eyes, a short teal-green mantle with a pale fur collar — exactly as in the hero reference)'},
+  TWINS:'the twins Zoldor (the boy: spiky brown hair, moss-green cape) and Zola (the girl: long auburn braids, teal-green mantle with a fur collar), exactly as in the hero references — the SAME age, about sixteen, and the SAME height',
   KIDS:'the twins as small children (a little boy with spiky brown hair and a little girl with auburn braids, both with big teal eyes)',
   STYLE:'a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene) — one moment of a story told in pictures. The land of Runeheim, a Norse fantasy world; ',
   EPIC:'. Keep it epic: where it fits, runes and magic glow with a bright neon rune-blue light, night and dusk skies carry a shimmering aurora borealis, and now and then a shooting star crosses the sky — accents in the game\'s own style',
@@ -338,11 +338,11 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
   // ═══ round 81c: Kris's notes on the montages (docs/37 §6; answers in docs/08 › Round 81c) ═══
   // · "more scenes that shouldn't have the heros yet": the glimpses' frames in Asgard (gate, two lights 2–5). · "we also need to plan the entire
   //   scenes with zeldara instead of zeldor, when you choose zeldara as your hero": the hero style picture put the boy hero into frames that both
-  //   versions share — so every frame now either shows the hero you play (a Zeldor and a Zeldara version), both twins, or neither twin (no hero
+  //   versions share — so every frame now either shows the hero you play (a Zoldor and a Zola version), both twins, or neither twin (no hero
   //   picture sent, and said so). · The boss forms show the whole boss in every step (Surtharn's colours kept, Solmyrk as the three approved
   //   forms, the last one a dark demon, not bright). · A new montage: Solmyrk defeated (to the golden doors); the feast hall is its own montage,
-  //   empty of people, the orbs with Odin and Freya inside. · The Lodestar set at Asgard's heart; Zeldara, not Freya, after the spring; the
-  //   celebration's Zeldara always the same girl; the first parents (and Pip and Wren's) are other villagers.
+  //   empty of people, the orbs with Odin and Freya inside. · The Lodestar set at Asgard's heart; Zola, not Freya, after the spring; the
+  //   celebration's Zola always the same girl; the first parents (and Pip and Wren's) are other villagers.
   var SC_=function(id){ return ZSB.SCENES.find(function(s){ return s.id===id; }); };
   var renum=function(sc){ sc.beats.forEach(function(b,i){ b.n=i+1; var base='sb_'+sc.id+'_'+('0'+b.n).slice(-2); b.ids=(b.who==='h'||b.who==='o')?[base+'_m',base+'_f']:[base]; }); };
   ZSB.R81C=[];      // the frames to paint again (their scene ids, numbered as now)
@@ -354,9 +354,9 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
   var SOL2='Solmyrk in his second form, Wings of Ash (copy the reference exactly: the tall crested golden helm cracked open and behind the crack a black demon face with white slit eyes, dark black-steel armour with gold filigree under torn white-and-gold robes, white feathered wings burning black at the tips, two thin black clawed shadow-arms, two ravens circling, a golden scepter)';
   var SOL3='Solmyrk in his last form, the Hollow King (copy the reference exactly: a towering shape of black smoke with a crown of black flame-horns, a face that is only five curved white slashes of light, four long arms ending in hooked claws, the body dissolving into black mist; a dark demon — not bright, not golden)';
   var WHOLE=' His whole figure is in the picture, head to wings, not only the mask';
-  // the glimpses: no hero in Asgard (Kris; R1: Zeldor stays on the hill in the first and last frames)
+  // the glimpses: no hero in Asgard (Kris; R1: Zoldor stays on the hill in the first and last frames)
   nohero('gate',[2,3,4,5]); nohero('orbs',[2,3,4,5]);
-  // frames the hero belongs in become a Zeldor and a Zeldara version
+  // frames the hero belongs in become a Zoldor and a Zola version
   fix('lodestar',6,{who:'h',desc:'streams of green, blue, amber and red light pouring from the four glasses into the staff on the anvil; {H} beside the anvil shielding {H}\'s eyes'});
   fix('lodestar',7,{who:'h',desc:'a blinding white light waking in the clear lens at the head of the staff, which has just become '+LODE+', light blasting across the cavern; {H} thrown back a step by the light'});
   fix('escape',6,{who:'h',desc:'the great black volcano island breaking apart and sinking into a boiling sea in a ring of steam; {H} small on the mainland rocks in the foreground, watching'});
@@ -420,15 +420,15 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
   renum(SC_('solfall')); renum(FH); ['lodestar','escape','asgard','bifrost','surt6'].forEach(function(id){ renum(SC_(id)); });
   // the spirits go home: the Lodestar at the heart of the circle
   fix('home',3,{who:'t',desc:LODE+' set upright at the centre of the great rune circle in the heart of Asgard, a pillar of white-gold light shooting from its star up into the night clouds, an aurora flaring around it; {T} at the circle\'s edge'});
-  // lightning and vines: the twins (Zeldara — not Freya) watch the land change
-  var ZF='. Zeldara is the girl with long auburn braids, silver clasps, a teal gem on her brow and a teal-green mantle with a fur collar — not the red-gold-haired goddess; neither god is in this picture';
+  // lightning and vines: the twins (Zola — not Freya) watch the land change
+  var ZF='. Zola is the girl with long auburn braids, silver clasps, a teal gem on her brow and a teal-green mantle with a fur collar — not the red-gold-haired goddess; neither god is in this picture';
   nohero('village',[2]);
   [[5,'green vines with white flowers racing out from the green along the glowing soul-lines in every direction; {T} watching from the edge of the green'],[6,'from a hilltop: {T}, seen from behind, looking out as the lines of light across the land turn into roads of grass and stone, like a tree drawn on the world'],
    [7,'monsters across the land fading into drifting motes of light; {T} on a ridge watching them go'],[8,'the four forge-towers at sea sinking into the waves in steam; {T} on the shore watching'],[9,'the white-and-gold city sinking into Mirror Lake until only its golden spires stand above the water; {T} on the village pier'],
    [10,'villagers with carts and children walking out along the new grassy roads; {T} waving them off at the village gate'],[11,'small hamlets with houses and gardens rising round runestones across the land; {T} walking a new road between them'],
    [12,'night over a green Runeheim, an aurora borealis and shooting stars over the lake and the spires; {T} sitting together on a hill']].forEach(function(q){ fix('village',q[0],{who:'t',desc:q[1]+ZF,nogods:true}); });
-  // the celebration: one Zeldara throughout; the first parents (and Pip and Wren's) are other villagers
-  var ZC=' Zeldara exactly as in her reference — long auburn braids with silver clasps, a small teal gem on her brow, a teal-green mantle with a pale fur collar — the only girl dressed like this', PAR='a young village mother (dark hair under a simple headscarf, a plain wool dress) and a young village father (a broad young farmer with a short beard) — ordinary villagers, NOT the twins';
+  // the celebration: one Zola throughout; the first parents (and Pip and Wren's) are other villagers
+  var ZC=' Zola exactly as in her reference — long auburn braids with silver clasps, a small teal gem on her brow, a teal-green mantle with a pale fur collar — the only girl dressed like this', PAR='a young village mother (dark hair under a simple headscarf, a plain wool dress) and a young village father (a broad young farmer with a short beard) — ordinary villagers, NOT the twins';
   [1,2,8].forEach(function(n){ var b=SC_('celebrate').beats[n-1]; fix('celebrate',n,{desc:b.desc+ZC}); });
   fix('celebrate',4,{desc:'in a cosy room, '+PAR+': the mother holding their newborn, the father laughing, Elder Runa in the doorway in tears',nohero:true});
   fix('celebrate',5,{who:0,desc:'Pip and Wren, two young village children (as in the references), running across the green into the arms of their parents — '+PAR,cap:'Pip and Wren, among the first.',nohero:true});
@@ -464,7 +464,7 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
     // the feast hall, 7 (Kris: "shows shards of light, but no odin or freya, whom should be shown becoming freed from the bursting orbs");
     // the truth, 6 (Kris: "shows 3 random gods, but should be odin and freya in the sky behind them")
     var fh7=SC_('feasthall')&&SC_('feasthall').beats[6]; if(fh7)fh7.desc='the two joined orbs bursting into a million glittering shards of light — and out of the burst, Odin and Freya breaking free: '+GODS+', awake, rising out of the light with their arms spread, the shards swirling round them. The feast hall is EMPTY of people — no guests, no crowd, no villagers anywhere';
-    var tr6=SC_('truth')&&SC_('truth').beats[5]; if(tr6)tr6.desc='the twins Zeldor and Zeldara looking at each other in wonder, their eyes glowing rune-blue; behind them, filling the sky above the bright feast hall, ONLY two gods, huge and smiling down at them — Odin and Freya, exactly as in the character references: '+GODS+'. No other gods or figures';
+    var tr6=SC_('truth')&&SC_('truth').beats[5]; if(tr6)tr6.desc='the twins Zoldor and Zola looking at each other in wonder, their eyes glowing rune-blue; behind them, filling the sky above the bright feast hall, ONLY two gods, huge and smiling down at them — Odin and Freya, exactly as in the character references: '+GODS+'. No other gods or figures';
     // the spirits go home (Kris: "the lodestar looks different between 2. and 3., should look like it does in 2."): frame 2's painting goes with 3
     var hm3=SC_('home')&&SC_('home').beats[2]; if(hm3){ hm3.vref={m:['sc_sb_home_02'],f:['sc_sb_home_02']}; hm3.desc+=' — the Lodestar exactly as it looks in the reference painting of the twins setting it'; }
     // lightning and vines (Kris: "1., 3., 4. and 10. should not have children yet. 2. Look up shows vines on the houses, which should be removed")
@@ -476,14 +476,14 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
   // ── for tools/video/storyboards.py (build.mjs → sprites/requests/storyboards.json): each frame's scene with the hero named, per version ──
   ZSB.NEG='text, captions, subtitles, logos, watermark, extra people, new characters, face changes, distorted hands, photorealism, 3D render look, style change, flicker, '+
     /* round 88 (Kris: Kling had people take out umbrellas in the rain): nothing from after the Viking age */ 'umbrellas, parasols, modern clothing, hoodies, jeans, sneakers, glasses, sunglasses, wristwatches, phones, guns, cars, wheels with tyres, plastic, zippers, electric lights, street lamps, power lines, paved roads, modern buildings';
-  ZSB.export=function(){ var nm={m:'Zeldor',f:'Zeldara'}; return {neg:ZSB.NEG,redo81c:ZSB.R81C,scenes:ZSB.SCENES.map(function(s){ return {id:s.id,name:s.name,wave:s.wave,plays:s.plays,story:s.story,beats:s.beats.map(function(b){
-      var f=function(k){ var o=k==='m'?'f':'m'; return b.desc.replace(/\{H\}/g,nm[k]).replace(/\{O\}/g,nm[o]).replace(/\{T\}/g,'the twins Zeldor and Zeldara').replace(/\{K\}/g,'the little twins'); };
+  ZSB.export=function(){ var nm={m:'Zoldor',f:'Zola'}; return {neg:ZSB.NEG,redo81c:ZSB.R81C,scenes:ZSB.SCENES.map(function(s){ return {id:s.id,name:s.name,wave:s.wave,plays:s.plays,story:s.story,beats:s.beats.map(function(b){
+      var f=function(k){ var o=k==='m'?'f':'m'; return b.desc.replace(/\{H\}/g,nm[k]).replace(/\{O\}/g,nm[o]).replace(/\{T\}/g,'the twins Zoldor and Zola').replace(/\{K\}/g,'the little twins'); };
       return {n:b.n,who:b.who,title:b.title,cap:b.cap,ids:b.ids,m:f('m'),f:f('f')}; }),montage:(function(){ var o={}; ZSB.whos(s).forEach(function(w){ o[w]=ZSB.montage(s,w); }); return o; })()}; })}; };
   // ── round 79b: the montage words for the video app (tools/video/storyboards.py writes them as montage.txt; the Lab shows them) ──
   ZSB.SECS=5;
   ZSB.whos=function(sc){ return sc.beats.some(function(b){ return b.ids.length>1; })?['zeldor','zeldara']:['all']; };
-  ZSB.shot=function(b,who){ var nm={m:'Zeldor',f:'Zeldara'}, k=who==='zeldara'?'f':'m', o=k==='m'?'f':'m';
-    return b.desc.replace(/\{H\}/g,nm[k]).replace(/\{O\}/g,nm[o]).replace(/\{T\}/g,'the twins Zeldor and Zeldara').replace(/\{K\}/g,'the little twins'); };
+  ZSB.shot=function(b,who){ var nm={m:'Zoldor',f:'Zola'}, k=who==='zeldara'?'f':'m', o=k==='m'?'f':'m';
+    return b.desc.replace(/\{H\}/g,nm[k]).replace(/\{O\}/g,nm[o]).replace(/\{T\}/g,'the twins Zoldor and Zola').replace(/\{K\}/g,'the little twins'); };
   ZSB.montage=function(sc,who){ var n=sc.beats.length, L=['CUT-SCENE  '+sc.name+'  ('+sc.id+(who==='all'?'':', you play '+who.charAt(0).toUpperCase()+who.slice(1))+')','PLAYS  '+sc.plays,'','STORY',sc.story,'',
       'VIDEO (paste this as the prompt, with the '+n+' pictures attached in order)',
       'One continuous montage of '+n+' mini scenes, 16:9, about '+(n*ZSB.SECS)+' seconds in all. Each attached picture, in order, is the first frame of its own mini scene of about '+ZSB.SECS+' seconds; each mini scene moves gently from its picture (a slow camera move; cloth, hair, mist, fire and light moving; magic glowing and flowing), then a soft quick cut or cross-fade into the next. Keep every painting\'s style, colours and light exactly; the characters keep the same faces, clothes and proportions from shot to shot. No text, no captions, no logos.','','SHOTS'];
@@ -494,7 +494,7 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
   if(typeof ZSCN==='undefined')return;
   Object.keys(ZSB.WAVES).forEach(function(w){ ZSCN.WAVES[w]='Round 79 — '+ZSB.WAVES[w]; });
   // the characters are described once, up front; in the scene they are named (the hero you play: {H}; the other twin: {O}; both: {T}; as children: {K})
-  var NAME={m:'Zeldor',f:'Zeldara'};
+  var NAME={m:'Zoldor',f:'Zola'};
   var CAST={Bram:'Bram the Builder (a stocky bearded man in a flat cap and a leather work-vest, with a big hammer — exactly as in the character reference)',
     Mira:'Mira the Mechanic (a young woman with wild red hair, brass goggles, work overalls and a tool belt — exactly as in the character reference)',
     Dunn:'Dunn the dwarf forger (a big red beard, a leather apron, a heavy hammer — exactly as in the character reference)',
@@ -505,7 +505,7 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
   var fill=function(t,k){ var o=k==='m'?'f':'m', who=[];
     Object.keys(CAST).forEach(function(n){ if(t.indexOf(n)>=0&&!((n==='Odin'||n==='Freya')&&/\(the old one-eyed god/.test(t)))who.push(CAST[n]); });
     if(/\{H\}/.test(t))who.push(ZSB.HERO[k]); if(/\{O\}/.test(t))who.push(ZSB.HERO[o]); if(/\{T\}/.test(t))who.push(ZSB.TWINS); if(/\{K\}/.test(t))who.push(ZSB.KIDS);
-    var body=t.replace(/\{H\}/g,NAME[k]).replace(/\{O\}/g,NAME[o]).replace(/\{T\}/g,'the twins Zeldor and Zeldara').replace(/\{K\}/g,'the little twins');
+    var body=t.replace(/\{H\}/g,NAME[k]).replace(/\{O\}/g,NAME[o]).replace(/\{T\}/g,'the twins Zoldor and Zola').replace(/\{K\}/g,'the little twins');
     return (who.length?'Who is in it: '+who.join('; ')+'. The scene: ':'The scene: ')+body; };
   // round 81 (Kris: "there are many points in the story that zeldara and zeldor are not yet born or at the age of the game, but they show up in
   // the image. they need to be removed for all of the frames where they are not yet grown up and part of the saga yet"): the frames set before
@@ -515,28 +515,28 @@ var ZSB={ SCENES:[], WAVES:{85:'Story cut-scenes 1: the first spirit freed and t
   ZSB.PASTREF={quiet:['sc_pn_saga_quiet_b','sc_pn_saga_cradles'],ashnight:['sc_pn_saga_ashnight_b','sc_pn_saga_quiet_b'],stonefall:['sc_pn_saga_stonefall_b','sc_pn_saga_quiet_b'],blacktide:['sc_pn_saga_blacktide_b','sc_pn_saga_quiet_b'],
     opening:['sc_pn_saga_storm_b','sc_pn_saga_cradles','sc_pn_saga_quiet_b'],truth:['sc_pn_saga_storm_b','sc_pn_saga_basket']};
   ZSB.past=function(id,n){ var P=ZSB.PAST[id]; return P===1||(P&&P.indexOf(n)>=0); };
-  ZSB.PASTNO=function(id,n){ return id==='truth'?'. A memory from before the twins were born: Zeldor and Zeldara are NOT in this picture as children or as young heroes — they exist here only as the two tiny sparks of light described':
+  ZSB.PASTNO=function(id,n){ return id==='truth'?'. A memory from before the twins were born: Zoldor and Zola are NOT in this picture as children or as young heroes — they exist here only as the two tiny sparks of light described':
     id==='opening'&&n>=6?'. The twins appear ONLY as two newborn babes wrapped in the basket — no older child, no young hero, no boy in a green cape, no girl with auburn braids anywhere else in the picture':
-    '. This happens long before the twins Zeldor and Zeldara were born: they are NOT in this picture — no young hero, no boy in a green cape, no girl with auburn braids, no white-haired companion, no adventurer watching from the side or the foreground. Only the people and things described: villagers, miners, travellers and spirits of that time, a mix of skin tones as in the reference panels'; };
+    '. This happens long before the twins Zoldor and Zola were born: they are NOT in this picture — no young hero, no boy in a green cape, no girl with auburn braids, no white-haired companion, no adventurer watching from the side or the foreground. Only the people and things described: villagers, miners, travellers and spirits of that time, a mix of skin tones as in the reference panels'; };
   // round 84 (Kris: "the entire 'the opening and the four realms falls' needs to make sure that there are no children in the images ...
   // no children other than zeldara and zeldor"): no child was born for twenty winters before the twins
   ZSB.NOKIDS={opening:1,quiet:1,blacktide:1,stonefall:1,ashnight:1};
   // and everywhere else before the land comes back (no child is born until the gods return): the twins are the only young people
   ZSB.KIDSOK={celebrate:1,credits:1,worldtree:1};      // the first child is born at the celebration
   ZSB.nokids=function(id,n){ if(!ZSB.NOKIDS[id])return (ZSB.KIDSOK[id]&&!(id==='celebrate'&&n<=3))?'':      /* round 84 (Kris): the celebration's feast and dancing come before the first cry */
-   '. No children or babies anywhere in this picture — no child has been born in Runeheim since before the twins: apart from the twins, every person is a grown-up or an elder'; return id==='opening'&&n>=6?'. The ONLY children anywhere in this picture are the twins themselves (Zeldor and Zeldara); no other children, no other babies — every other person is a grown-up or an elder':
+   '. No children or babies anywhere in this picture — no child has been born in Runeheim since before the twins: apart from the twins, every person is a grown-up or an elder'; return id==='opening'&&n>=6?'. The ONLY children anywhere in this picture are the twins themselves (Zoldor and Zola); no other children, no other babies — every other person is a grown-up or an elder':
     '. NO children anywhere in this picture — no child has been born in Runeheim for twenty winters: every person is a grown-up or an elder, no kids, no babies, no teenagers'; };
   ZSB.NOHERO='. Neither twin is in this picture — no young hero, no boy in a green cape, no girl with auburn braids, nobody watching from the side or the foreground; only what is described';
   ZSB.REDO81=['opening_01','opening_02','opening_04','opening_05','truth_04','truth_05'].concat([].concat.apply([],['quiet','ashnight','stonefall','blacktide'].map(function(r){ return [1,2,3,4,5,6,7].map(function(n){ return r+'_0'+n; }); }))).map(function(x){ return 'sc_sb_'+x; });
   var out=[];
   ZSB.SCENES.forEach(function(sc){ sc.beats.forEach(function(b){ var base='sb_'+sc.id+'_'+('0'+b.n).slice(-2), past=ZSB.past(sc.id,b.n), nh=!past&&b.nohero, refs=(past?ZSB.PASTREF[sc.id].concat(sc.refs).concat(b.refs):nh?(sc.refs.concat(b.refs).length?sc.refs.concat(b.refs):['sc_pn_saga_gate','sc_pn_saga_orbs']):(b.who==='h'||b.who==='o'||b.who==='t')&&b.r81c?['sc_pn_end_dawn_b'].concat(sc.refs).concat(b.refs):ZSB.BASE.concat(sc.refs).concat(b.refs)).filter(function(r){ return !(b.nogods&&/^god_/.test(r)); }).slice(0,6);      /* round 81c: no hero picture where no twin belongs */
-      var one=function(id,k,extra){ var d=ZSB.STYLE+fill(b.desc,k||'m')+ZSB.EPIC+(past?ZSB.PASTNO(sc.id,b.n):nh?ZSB.NOHERO:'')+ZSB.nokids(sc.id,b.n)+ZSB.NO; out.push({id:'sc_'+id,wave:sc.wave,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',noStyle:past||nh||undefined,refs:(function(){ var vr=((b.vref&&b.vref[k||'m'])||[]).concat(/Lodestar reference/.test(b.desc)?['lodestar_ref']:[]); return refs.slice(0,6-vr.length).concat(vr).concat(extra||[]).slice(0,8); })(),title:'Story frame — '+sc.name+', '+b.n+'. '+b.title+(k?(k==='m'?' (you play Zeldor)':' (you play Zeldara)'):''),items:[[id,b.title,d,1536,1024]],sb:{scene:sc.id,n:b.n,k:k||''}}); };
+      var one=function(id,k,extra){ var d=ZSB.STYLE+fill(b.desc,k||'m')+ZSB.EPIC+(past?ZSB.PASTNO(sc.id,b.n):nh?ZSB.NOHERO:'')+ZSB.nokids(sc.id,b.n)+ZSB.NO; out.push({id:'sc_'+id,wave:sc.wave,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',noStyle:past||nh||undefined,refs:(function(){ var vr=((b.vref&&b.vref[k||'m'])||[]).concat(/Lodestar reference/.test(b.desc)?['lodestar_ref']:[]); return refs.slice(0,6-vr.length).concat(vr).concat(extra||[]).slice(0,8); })(),title:'Story frame — '+sc.name+', '+b.n+'. '+b.title+(k?(k==='m'?' (you play Zoldor)':' (you play Zola)'):''),items:[[id,b.title,d,1536,1024]],sb:{scene:sc.id,n:b.n,k:k||''}}); };
       if(b.who==='h'||b.who==='o'){ one(base+'_m','m',['hero_m.model'].concat(b.who==='o'?['hero_f.model']:[])); one(base+'_f','f',['hero_f.model'].concat(b.who==='o'?['hero_m.model']:[])); }
       else { one(base,null,b.who==='t'?['hero_m.model','hero_f.model']:[]); } }); });
   ZSB.count=out.length; ZSCN.SHEETS=ZSCN.SHEETS.concat(out);
   // the request text: the style panels set the look; the character references (heroes, builders, gods, elder, children) set who looks how
   var b0=ZSCN.body; ZSCN.body=function(S){ if(!S||!S.sb)return b0.apply(ZSCN,arguments); var it=S.items[0];
-    return 'Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: '+S.title+' — one frame of a story cut-scene told in pictures, which will be animated into a short video.\n'+
+    return 'Create ONE image for a 2D action RPG called The Quests of Zola and Zoldor: '+S.title+' — one frame of a story cut-scene told in pictures, which will be animated into a short video.\n'+
       'The reference images: the painted story panels show the style, light and finish to match (not their scenes); the character sheets and model sheets show exactly how the named characters look — draw them exactly like that (faces, hair, outfits, proportions), in the same bold hand-drawn cartoon look, not a photo, not 3D.\n'+
       'Subject: '+it[2]+'.\nThe painting fills the whole image edge to edge like a wide film still, with room for the action to move. No text, no labels, no frame, no UI.'; };
 })();

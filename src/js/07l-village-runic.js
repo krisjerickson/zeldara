@@ -136,7 +136,7 @@ function villagePlan(stage,ok,water){
     // painted dressing (round 31): shown only when its picture is there; nothing blocks the way
     if(p.fx-2>=p.x)P('vdress',p.fx-2,p.fy+1,1,1,{id:'vp_bench'},false); if(p.fx+4<p.x+p.w)P('vdress',p.fx+4,p.fy+1,1,1,{id:'vp_bench'},false); P('vdress',p.x,p.y+p.h-1,1,1,{id:'vp_signpost'},false); P('vdress',p.x+p.w-1,p.y,1,1,{id:'vp_notice'},false); });
   // the runestone green: rune circle, standing stones, well; ley lines grow with the village
-  P('runecircle',-3,-3,7,7,{col:'#63f2dc',n:12,solid:false,logo:true,grow:2.12});   // round 14: the Zeldara logo is set into the plaza floor where the game begins; round 15: as wide as the ring of standing stones (grow)
+  P('runecircle',-3,-3,7,7,{col:'#63f2dc',n:12,solid:false,logo:true,grow:2.12});   // round 14: the Zola logo is set into the plaza floor where the game begins; round 15: as wide as the ring of standing stones (grow)
   var stones=[]; for(var k=0;k<8;k++){ var a=(k/8+1/16)*Math.PI*2, sx=Math.round(Math.cos(a)*7.4), sy=Math.round(Math.sin(a)*7.4); if(Math.abs(sx-4)<=1&&Math.abs(sy-3)<=1)continue; stones.push([sx,sy]); P('stone',sx,sy,1,1,{rune:'#6fe3f5',tall:44+(k%3)*8},true); }
   P('well',-6,3,1,1,{},true);
   if(st>=2)plan.ley.push({pts:stones.concat([stones[0]]),col:'#6fe3f5'});

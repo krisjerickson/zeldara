@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ ZELDARA BRAND, round 11 — the second pass Kris asked for:
+// ║ ZOLA BRAND, round 11 — the second pass Kris asked for:
 // ║  • Logos: his 8 picks redone at three levels of richness (A elaborate,
 // ║    B ornate with knotwork, C fractal) + 8 new ones — all light glowing teal.
 // ║  • Wordmarks: 10 gold ones built on his two picks, with war axes.
@@ -74,7 +74,7 @@ ZBrand.SYMBOLS.forEach(function(S){ S.gen=1; }); ZBrand.WORDS.forEach(function(S
   // ── 4 · REALM PEAKS ──
   var peaks=function(P){ P.w(1).ln([-0.62,0.3,-0.24,-0.24,-0.02,0.04,0.26,-0.46,0.64,0.3]); P.w(0.5).ln([-0.24,-0.24,-0.2,0.0,-0.3,0.3]).ln([0.26,-0.46,0.3,-0.1,0.18,0.3]).ln([0.2,-0.36,0.26,-0.3,0.32,-0.36]).ln([-0.28,-0.16,-0.24,-0.11,-0.2,-0.16]); P.w(0.8).ci(-0.32,-0.52,0.1); inC(P,-0.32,-0.52,1,function(){ P.w(0.4).ticks(0.14,0.2,10); }); P.w(0.7).ln([-0.7,0.3,0.7,0.3]); for(var i=0;i<3;i++){ var y=0.44+i*0.13, w=0.5-i*0.14; P.qd([-w,y,-w/2,y-0.06,0,y,w/2,y+0.06,w,y]); } };
   S2('peaks_a','Realm Peaks · Elaborate','realm_peak','A','gilded','Mountain, volcano, sun and sea in a double diamond, runes along every side and at every corner.',function(P){ P.w(1.2).ln([0,-0.98,0.98,0,0,0.98,-0.98,0],true); P.w(0.5).ln([0,-0.86,0.86,0,0,0.86,-0.86,0],true); peaks(P); P.w(0.5).ln([0,-1.26,1.26,0,0,1.26,-1.26,0],true); P.w(0.6).rot(4,function(){ for(var k=0;k<5;k++)P.rune(-0.4+k*0.2,-0.795,0.12,k*2+1); },PI/4); P.w(0.9).rot(4,function(i){ P.rune(0,-1.5,0.2,i+1); }); P.rot(4,function(){ P.star(0,-1.12,0.06,4,0.35); },PI/4); });
-  S2('peaks_b','Realm Peaks · Knotwork','realm_peak','B','bevel','The land of Zeldara framed by key borders and a braided ring.',function(P){ P.w(1).ln([0,-0.9,0.9,0,0,0.9,-0.9,0],true); inC(P,0,0,0.9,function(){ peaks(P); }); P.w(0.5).rot(4,function(){ P.meander(ZBrand.seg(-0.56,-0.5,0.5,-0.56-0.0),9,0.05); },PI/4); F.braid(P,1.26,28,0.08); F.dots(P,1.44,28); });
+  S2('peaks_b','Realm Peaks · Knotwork','realm_peak','B','bevel','The land of Zola framed by key borders and a braided ring.',function(P){ P.w(1).ln([0,-0.9,0.9,0,0,0.9,-0.9,0],true); inC(P,0,0,0.9,function(){ peaks(P); }); P.w(0.5).rot(4,function(){ P.meander(ZBrand.seg(-0.56,-0.5,0.5,-0.56-0.0),9,0.05); },PI/4); F.braid(P,1.26,28,0.08); F.dots(P,1.44,28); });
   S2('peaks_c','Realm Peaks · Fractal','realm_peak','C','neon','A mountain range where every ridge carries smaller ridges, and those carry smaller ones again.',function(P){ var koch=function(a,x0,y0,x1,y1,d,h){ if(d===0){ a.push(x1,y1); return; } var dx=(x1-x0)/3, dy=(y1-y0)/3, ax=x0+dx, ay=y0+dy, bx=x0+2*dx, by=y0+2*dy, mx=(x0+x1)/2+dy*h*1.5, my=(y0+y1)/2-dx*h*1.5; koch(a,x0,y0,ax,ay,d-1,h); koch(a,ax,ay,mx,my,d-1,h); koch(a,mx,my,bx,by,d-1,h); koch(a,bx,by,x1,y1,d-1,h); };
     [[-0.74,0.24,0.74,0.24,4,0.62,0.5],[-0.6,0.24,0.5,0.24,3,0.34,0.8]].forEach(function(r){ var a=[r[0],r[1]]; koch(a,r[0],r[1],r[2],r[3],r[4],r[5]); P.w(r[6]).ln(a); }); P.w(0.7).ln([-0.76,0.24,0.76,0.24]); P.w(0.7).ci(-0.46,-0.38,0.09); P.c.save(); P.c.translate(-0.46,-0.38); P.w(0.4).ticks(0.13,0.19,10); P.c.restore();
     for(var i=0;i<3;i++){ var y=0.38+i*0.13, w=0.5-i*0.14; P.w(0.6).qd([-w,y,-w/2,y-0.05,0,y,w/2,y+0.05,w,y]); } P.w(1.1).ln([0,-0.98,0.98,0,0,0.98,-0.98,0],true); F.key(P,1.16,32,0.06); P.w(0.8).rot(4,function(i){ P.rune(0,-1.38,0.16,i+1); },PI/4); P.rot(4,function(){ P.fc(0,-1.36,0.03); }); });
@@ -152,7 +152,7 @@ ZBrand.glyph=function(q,p,ch,x,y){ if(p[1]>1.05){ q.lineWidth=5*(p[1]-1)*3; q.li
   else { var g=q.createLinearGradient(0,y-72,0,y+4); g.addColorStop(0,'#fff3c0'); g.addColorStop(0.45,'#f2c14e'); g.addColorStop(1,'#b47a1e'); q.fillStyle=p.grad===false?q.fillStyle:g; q.fillText(ch,x,y); } };
 
 // ═══════════ WORDMARKS, round 11 — all gold, built on Engraved Capitals and Highland Wide, with war axes ═══════════
-(function(){ var PI=Math.PI, G=ZBrand.GOLD, FE='"Cinzel Decorative","Cinzel",Georgia,serif', FH='"Marcellus SC","Palatino Linotype",serif', FC='"Cinzel",Georgia,serif', Z='ZELDARA';
+(function(){ var PI=Math.PI, G=ZBrand.GOLD, FE='"Cinzel Decorative","Cinzel",Georgia,serif', FH='"Marcellus SC","Palatino Linotype",serif', FC='"Cinzel",Georgia,serif', Z='ZOLA';
   var W2=function(id,name,desc,o){ ZBrand.WORDS.push(Object.assign({id:id,name:name,col:G,style:'gilded',desc:desc,gen:2,kind:'custom'},o)); };
   var erase=function(q,f){ q.save(); q.globalCompositeOperation='destination-out'; f(); q.restore(); };
   var dia=function(P,x,y,r){ P.fp([x,y-r,x+r,y,x,y+r,x-r,y]); };
@@ -184,11 +184,11 @@ ZBrand.glyph=function(q,p,ch,x,y){ if(p[1]>1.05){ q.lineWidth=5*(p[1]-1)*3; q.li
       P.w(0.7).ar(0,cy,R+0.78,-PI/2-a,-PI/2+a).ar(0,cy,R-0.74,-PI/2-a,-PI/2+a); P.w(0.45).ar(0,cy,R+0.9,-PI/2-a,-PI/2+a);
       [-1,1].forEach(function(s){ var x=Math.sin(s*a), y=-Math.cos(a); P.w(0.7).ln([x*(R-0.74),cy+y*(R-0.74),x*(R+0.9),cy+y*(R+0.9)]); });
       P.axe(0,1.6,1.7,-0.8,true); P.axe(0,1.6,1.7,0.8); erase(q,function(){ q.beginPath(); q.arc(0,1.6,0.3,0,PI*2); q.fill(); }); P.w(0.9).ci(0,1.6,0.25); P.w(0.6).triq(0,1.61,0.17); }});
-  W2('ring_z','Ringed Z','A great Z in a knot ring over crossed axes, the rest of the name in engraved capitals beside it.',{paint:function(P,q,p){ var m=ZBrand.text(q,p,'ELDARA',FE,'700',1.2,0.12,0,0,{dry:true}), zx=-m.w/2-0.25, tx=0.95;
+  W2('ring_z','Ringed Z','A great Z in a knot ring over crossed axes, the rest of the name in engraved capitals beside it.',{paint:function(P,q,p){ var m=ZBrand.text(q,p,'OLA',FE,'700',1.2,0.12,0,0,{dry:true}), zx=-m.w/2-0.25, tx=0.95;
       P.axe(zx,0,2.9,-0.7,true); P.axe(zx,0,2.9,0.7); erase(q,function(){ q.beginPath(); q.arc(zx,0,1.2,0,PI*2); q.fill(); }); ZBrand.text(q,p,'Z',FC,'900',1.75,0,zx,0);
       P.w(0.45).ci(zx,0,0.9).ci(zx,0,1.14); q.save(); q.translate(zx,0); P.w(0.8).braid(ZBrand.ring(1.02),22,0.065); q.restore();
-      var pe=p.slice(); pe[1]=Math.max(p[1],1.5); erase(q,function(){ ZBrand.text(q,pe,'ELDARA',FE,'700',1.2,0.12,tx,-0.1); });      // round 47: the letters stand in front of the axes
-      var e=ZBrand.text(q,p,'ELDARA',FE,'700',1.2,0.12,tx,-0.1), x0=tx-e.w/2, x1=tx+e.w/2; P.w(0.7).ln([x0,0.7,x1,0.7]).ln([x0,1.14,x1,1.14]); P.w(0.55); runes(P,x0+0.1,x1-0.1,0.92,0.26,4); }});
+      var pe=p.slice(); pe[1]=Math.max(p[1],1.5); erase(q,function(){ ZBrand.text(q,pe,'OLA',FE,'700',1.2,0.12,tx,-0.1); });      // round 47: the letters stand in front of the axes
+      var e=ZBrand.text(q,p,'OLA',FE,'700',1.2,0.12,tx,-0.1), x0=tx-e.w/2, x1=tx+e.w/2; P.w(0.7).ln([x0,0.7,x1,0.7]).ln([x0,1.14,x1,1.14]); P.w(0.55); runes(P,x0+0.1,x1-0.1,0.92,0.26,4); }});
   var wl0=ZBrand.wordLayers;
   ZBrand.wordLayers=function(D,H){ if(!(D.gen>=2))return wl0(D,H); var fk=document.fonts?['700 20px "Cinzel Decorative"','20px "Marcellus SC"','900 20px Cinzel'].concat(D.fam?[(D.wt||'400')+' 20px "'+D.fam+'"']:[]).map(function(f){ try{ return document.fonts.check(f)?1:0; }catch(e){ return 0; } }).join(''):'', k='w_'+D.id+'_'+Math.round(H)+'_'+fk, o=ZBrand.cache[k]; if(o)return o;
     var w=Math.ceil(H*12.4), h=Math.ceil(H*5.6), main=ZBrand.passes(w,h,D.style,D.col,function(q){ q.translate(w/2,h/2+(D.oy||0)*H); q.scale(H,H); },function(P,q,p){ D.paint(P,q,p); });

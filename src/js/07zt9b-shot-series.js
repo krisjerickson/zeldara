@@ -7,10 +7,10 @@
 // ║    one camera move (push, pull, pan, tilt, crane, orbit, shake) and a cut between shots (hard cut, white or red flash, whip, dissolve,
 // ║    dip to black).
 // ║  · ZSS.TOP: the first series (round 112: ten, 63 shots; round 112d: Kris's cut — nine, 3 shots each, 26 pictures). Each shot is ONE picture: sheet sc_ss_<scene>_<nn>_<k> (+ _m when the hero is in it —
-// ║    Kris: Zeldor first, Zeldara once the look is right). Its first reference is the story frame it is cut from, so the place, the
+// ║    Kris: Zoldor first, Zola once the look is right). Its first reference is the story frame it is cut from, so the place, the
 // ║    light and the people stay the same; only the camera changes.
 // ║  · ZSS.PLAN: the rule that breaks every other frame into a series (the Lab's Shot series tab shows all 259 frames with their plan).
-// ║  · Shot fields: [who, lens, what we see, cut in, camera move, crop] — who 'h' (Zeldor) or 0 (no hero); crop [cx, cy, zoom] on the
+// ║  · Shot fields: [who, lens, what we see, cut in, camera move, crop] — who 'h' (Zoldor) or 0 (no hero); crop [cx, cy, zoom] on the
 // ║    story frame, for the Lab's rough animatic until the pictures are in.
 // ║ Wave 112. List for the painter: sprites/requests/r112.txt (.\tools\sprites\redo.ps1 -List r112).
 // ═══════════════════════════════════════════════════════════════════════
@@ -45,17 +45,17 @@ var ZSS={ WAVE:112,
    [0,'xwide','the end of the misty pier at sunrise: the small crowd round the basket glowing blue in their midst, Mirror Lake perfectly still, village roofs behind, the last of the aurora fading','dissolve','pull',[.5,.5,1]]]);
   T('spirit',5,'The first time your power wakes — the core of every spirit you will ever free. Inserts and extreme close-ups make the touch feel like ignition.',[
    [0,'macro','macro close-up of the single carved rune on the tall dark bindstone, its grooves flickering faint rune-blue, ember-red chains biting the stone beside it','cut','push',[.6,.4,2.6]],
-   ['h','ots','over Zeldor\'s shoulder: his open hand reaching slowly toward the rune, the pale chained spirit woman watching from beside the stone','cut','push',[.45,.5,1.5]],
-   ['h','ecu','Zeldor\'s palm pressed flat on the carved rune, fingers spread, the first rune-blue light seeping out between his fingers into the stone\'s grooves','cut','shake',[.55,.4,3]],
-   ['h','ecu','extreme close-up of Zeldor\'s eyes as they ignite: his teal irises blazing neon rune-blue, light spilling across his brow and spiky brown hair','flashblue','push',[.3,.35,3.5]],
+   ['h','ots','over Zoldor\'s shoulder: his open hand reaching slowly toward the rune, the pale chained spirit woman watching from beside the stone','cut','push',[.45,.5,1.5]],
+   ['h','ecu','Zoldor\'s palm pressed flat on the carved rune, fingers spread, the first rune-blue light seeping out between his fingers into the stone\'s grooves','cut','shake',[.55,.4,3]],
+   ['h','ecu','extreme close-up of Zoldor\'s eyes as they ignite: his teal irises blazing neon rune-blue, light spilling across his brow and spiky brown hair','flashblue','push',[.3,.35,3.5]],
    [0,'track','rune-blue light racing along the black chain links like fire along a fuse, each link lighting in turn, the ember-red glow pushed back before it','whip','track',[.7,.5,2.2]],
-   ['h','low','low angle: Zeldor braced against the towering bindstone with one hand on it, cape flaring, the whole stone lit with neon rune-blue lines, the spirit above him lifting her head, aurora overhead','cut','tiltU',[.5,.5,1.1]]]);
+   ['h','low','low angle: Zoldor braced against the towering bindstone with one hand on it, cape flaring, the whole stone lit with neon rune-blue lines, the spirit above him lifting her head, aurora overhead','cut','tiltU',[.5,.5,1.1]]]);
   T('spirit',6,'The chains breaking is pure action. Slowed down into a macro, a burst, a frozen moment and the aftermath, it reads like slow motion in a film.',[
    [0,'macro','macro: one black-iron chain link under strain, a hairline crack of rune-blue light splitting through it, ember sparks flaking off','cut','push',[.6,.45,3]],
-   ['h','wide','the burst: every chain exploding outward from the bindstone in a ring of rune-blue light, Zeldor thrown back a step with his arm across his eyes','flash','shake',[.5,.5,1]],
+   ['h','wide','the burst: every chain exploding outward from the bindstone in a ring of rune-blue light, Zoldor thrown back a step with his arm across his eyes','flash','shake',[.5,.5,1]],
    [0,'bullet','frozen moment: dozens of broken glowing chain links hanging in mid-air round the stone like a halo, each trailing light, the night meadow and aurora behind','cut','orbit',[.55,.4,1.3]],
    [0,'low','low angle on the pale spirit woman flinging up her arms as the last chain falls from her wrist, shawl and hair lifting, light pouring from where the chains were','cut','tiltU',[.55,.3,1.8]],
-   ['h','react','close on Zeldor lowering his arm from his eyes, rune-blue glow on his face, mouth open in awe, glowing link fragments drifting past','cut','push',[.3,.55,2.2]],
+   ['h','react','close on Zoldor lowering his arm from his eyes, rune-blue glow on his face, mouth open in awe, glowing link fragments drifting past','cut','push',[.3,.55,2.2]],
    [0,'insert','broken chain links falling into dewy grass and cooling from rune-blue to dull black, small white flowers round them','dissolve','tiltD',[.5,.85,2.4]]]);
   T('ashnight',4,'A disaster told as time-lapse: the same ridge in four stages, from a red glow to a wall of fire reaching the clouds — then the people running from it.',[
    [0,'wide','night in the Ashlands\' orchard country before the fall: a ridge of hills beyond a river and an old stone bridge, a faint red glow rising behind the ridge, '+FOLK+' with carts on the road, orchards in blossom','fade','panR',[.5,.5,1]],
@@ -66,10 +66,10 @@ var ZSS={ WAVE:112,
    [0,'close','close on a bearded man at the end of the bridge looking back over his shoulder, the wall of fire reflected in his eyes','cut','push',[.3,.45,2.6]]]);
   T('mira',8,'The lift is a machine waking. Hands, gears, chains and cage in sequence give the "it works!" beat that the Kling video kept garbling.',[
    [0,'insert','close on Mira the Mechanic\'s gloved hands (exactly as in her character reference) gripping a big brass lever with a rune-stone set in its knob, knuckles tightening','cut','push',[.45,.5,2.4]],
-   ['h','two','Mira and Zeldor at the foot of the lift tower on the cliff: Mira with goggles down, braced on the lever; Zeldor beside her holding a lantern; both looking up','cut','hold',[.5,.55,1.2]],
+   ['h','two','Mira and Zoldor at the foot of the lift tower on the cliff: Mira with goggles down, braced on the lever; Zoldor beside her holding a lantern; both looking up','cut','hold',[.5,.55,1.2]],
    [0,'macro','macro on the engine: brass gears beginning to turn, the rune-stone heart pulsing neon blue, sparks and steam from the joints','cut','orbit',[.6,.6,2.6]],
    [0,'low','looking straight up the Great Scar\'s torn cliff: chains snapping taut one after another up the rock face, rune-lanterns along them flaring blue in sequence, waterfalls beside','cut','tiltU',[.5,.3,1.4]],
-   ['h','low','the lift cage rising off the ground with Zeldor inside gripping the rail, Mira cheering below with a raised wrench, waterfalls behind','cut','crane',[.5,.45,1.3]],
+   ['h','low','the lift cage rising off the ground with Zoldor inside gripping the rail, Mira cheering below with a raised wrench, waterfalls behind','cut','crane',[.5,.45,1.3]],
    [0,'xwide','the whole Great Scar at dusk from afar: the tiny glowing lift climbing the cliff on its line of rune-lanterns, the Highlands above in the clouds, aurora overhead','dissolve','pull',[.5,.5,1]]]);
   T('lodestar',6,'Four colours, four realms: a whip-pan from Heartglass to Heartglass, then the top-down spiral and the lens filling with light — the biggest crafting moment in the game.',[
    [0,'insert','close on the green Heartglass with its leaf-rune hovering above the great anvil, a thick stream of green light pouring from it down toward the staff ('+HG+')'+HEARTH,'cut','push',[.3,.35,2.4]],
@@ -77,15 +77,15 @@ var ZSS={ WAVE:112,
    [0,'insert','close on the amber Heartglass with its mountain-rune, a stream of amber light pouring from it ('+HG+')'+HEARTH,'whip','push',[.6,.3,2.4]],
    [0,'insert','close on the red Heartglass with its flame-rune, a stream of red light pouring from it ('+HG+')'+HEARTH,'whip','push',[.75,.35,2.4]],
    [0,'top','seen from straight above: '+HG+' circling the anvil, four streams of green, blue, amber and red light spiralling down into the staff lying on it, which glows white along its twisted shaft'+HEARTH,'cut','orbit',[.5,.5,1.2]],
-   ['h','react','Zeldor beside the anvil shielding his eyes with one arm, the four colours of light washing over his face and cape'+HEARTH,'cut','push',[.25,.5,2]],
+   ['h','react','Zoldor beside the anvil shielding his eyes with one arm, the four colours of light washing over his face and cape'+HEARTH,'cut','push',[.25,.5,2]],
    [0,'ecu','extreme close-up of the staff\'s head as it becomes '+LODE+': the clear lens filling with swirling light of four colours that turns white, a tiny World Tree forming inside it'+HEARTH,'flash','push',[.55,.5,3.4]]]);
   T('bifrost',5,'The bridge of light builds outward — best told as a skim over the water and a crane up to the whole lake, ending on the hero\'s silhouette.',[
-   ['h','ots','over Zeldor\'s shoulder at the end of the old wooden pier (weathered planks on posts, never stone): '+LODE+' upright in the carved notch, its lens starting to blaze, Mirror Lake dark and still ahead, Asgard\'s golden gate far off on the water','cut','push',[.4,.5,1.3]],
+   ['h','ots','over Zoldor\'s shoulder at the end of the old wooden pier (weathered planks on posts, never stone): '+LODE+' upright in the carved notch, its lens starting to blaze, Mirror Lake dark and still ahead, Asgard\'s golden gate far off on the water','cut','push',[.4,.5,1.3]],
    [0,'insert','close on the Lodestar\'s blazing lens at the end of the wooden pier: a beam of rainbow light bursting out of it, level, over the water','flash','hold',[.45,.35,2.6]],
    [0,'track','skimming low over the dark water of Mirror Lake: the bridge of rainbow light building forward ahead of the viewer, reflections rippling below, spray lifting','cut','track',[.6,.5,1.6]],
    [0,'xwide','high above Mirror Lake at night: the rainbow bridge arcing from the small wooden village pier across the whole lake to Asgard\'s golden gate, aurora above, the village lanterns tiny','cut','crane',[.5,.5,1]],
    [0,'react','on the shore, pale translucent rune-blue spirits and '+FOLK+' looking up, faces lit in rainbow colours','cut','panR',[.2,.6,1.6]],
-   ['h','sil','Zeldor seen from behind as a silhouette at the foot of the bridge of light, the Lodestar glowing beside him, the bridge rising away toward the golden gate','dissolve','push',[.5,.55,1.2]]]);
+   ['h','sil','Zoldor seen from behind as a silhouette at the foot of the bridge of light, the Lodestar glowing beside him, the bridge rising away toward the golden gate','dissolve','push',[.5,.55,1.2]]]);
   T('sol2',2,'The villain\'s mask cracking is a reveal in slow stages: the perfect gold, the blow, the crack, and something looking out from behind it.',[
    [0,'ecu','extreme close-up of the full-face golden helm of '+SOL+': the single glowing white eye-slit, smooth polished gold reflecting the throne hall\'s light','cut','push',[.5,.25,3]],
    [0,'insert','the Lodestar\'s white beam striking the helm\'s brow in a starburst of light, flakes of gold flying ('+SOL+')','flash','shake',[.5,.25,2.4]],
@@ -142,7 +142,7 @@ var ZSS={ WAVE:112,
     var base=(P&&P.refs||[]).filter(function(r){ return r!=='hero_m.model'&&r!=='hero_f.model'; });
     S.parent=par;
     S.shots.forEach(function(x,i){ var who=x[0], id=ZSS.id(S.scene,S.n,x.k||i+1,who), L=ZSS.LENS[x[1]]||x[1];
-      var whoTxt=who==='h'?' Zeldor (the boy hero: spiky tousled brown hair with teal streaks, big teal eyes, a moss-green hooded short cape, cream tunic, big tan boots — exactly as in the hero reference) is in this shot.':
+      var whoTxt=who==='h'?' Zoldor (the boy hero: spiky tousled brown hair with teal streaks, big teal eyes, a moss-green hooded short cape, cream tunic, big tan boots — exactly as in the hero reference) is in this shot.':
         past?' This happens long before the twins were born: no young hero, no boy in a green cape, no girl with auburn braids anywhere'+(S.scene==='opening'&&S.n>=6?' (the twins appear only as the two newborn babes)':'')+'. No children anywhere apart from those described.':' Neither twin is in this shot — no young hero, no boy in a green cape, no girl with auburn braids; only what is described.';
       var d=STY+'. THE SHOT: '+L+' ('+(ZSS.MOVE[x[4]]||'')+' feel) — '+x[2]+'.'+whoTxt+EPIC+NO;
       var refs=[par].concat(base).slice(0,who==='h'?6:7).concat(who==='h'?['hero_m.model']:[]);
@@ -151,7 +151,7 @@ var ZSS={ WAVE:112,
       ZSS.SHEETS.push(sh); ZSCN.SHEETS.push(sh); }); });
   // ── round 113 (Kris: "the 2 or 3 images expansion is good, let's plan for all the new images needed now"): every other story frame
   // gets its three shots, by its pattern (ZSS.PAT) — the camera told in words, the moment from the frame itself (its first reference).
-  // Wave 114; one list per cut-scene (sprites/requests/r114_<NN>_<scene>.txt), made a cut-scene at a time. Zeldor first.
+  // Wave 114; one list per cut-scene (sprites/requests/r114_<NN>_<scene>.txt), made a cut-scene at a time. Zoldor first.
   ZSS.CAM={xwide:'an extreme wide view of the whole place from much further back and higher up, the people small in it',wide:'a wide establishing view of the whole scene from further back',
     med:'a medium shot of the main figures from the waist up, closer than the frame',two:'a two-shot: the two main figures together, closer than the frame',ots:'an over-the-shoulder view from just behind the main figure, looking at what they face',
     close:'a close-up of the main figure\'s face, its expression telling the moment',ecu:'an extreme close-up of the single most important detail of the moment — an eye, a hand, the glowing rune or the key object — filling the picture',
@@ -174,18 +174,18 @@ var ZSS={ WAVE:112,
         var row={scene:sc.id,n:b.n,k:pl.k,parent:par,shots:[]};
         var SIX=P.sh.slice(0,3); ZSS.MORE.forEach(function(l){ if(SIX.length<6&&SIX.indexOf(l)<0&&!(l==='wide'&&SIX.indexOf('xwide')>=0))SIX.push(l); });      /* round 113d: six to choose from (the first three as planned, ids kept) */
         SIX.forEach(function(lens,i){ var who=hero&&!ZSS.NOHERO[lens]&&b.ids.length>1?'h':0, id=ZSS.id(sc.id,b.n,i+1,who);
-          var gist=String(b.desc||'').replace(/\{H\}/g,'Zeldor').replace(/\{O\}/g,'Zeldara').replace(/\{T\}/g,'the twins').replace(/\{K\}/g,'the little twins');
-          var whoTxt=who==='h'?' Zeldor (the boy hero: spiky tousled brown hair with teal streaks, big teal eyes, a moss-green hooded short cape, cream tunic, big tan boots — exactly as in the hero reference) is in this shot.':past?' This happens long before the twins were born: no young hero, no boy in a green cape, no girl with auburn braids anywhere'+(sc.id==='opening'&&b.n>=6?' (the twins appear only as the two newborn babes)':'')+'.':(b.ids.length>1?' Neither twin is in this shot — only what is described.':'');
+          var gist=String(b.desc||'').replace(/\{H\}/g,'Zoldor').replace(/\{O\}/g,'Zola').replace(/\{T\}/g,'the twins').replace(/\{K\}/g,'the little twins');
+          var whoTxt=who==='h'?' Zoldor (the boy hero: spiky tousled brown hair with teal streaks, big teal eyes, a moss-green hooded short cape, cream tunic, big tan boots — exactly as in the hero reference) is in this shot.':past?' This happens long before the twins were born: no young hero, no boy in a green cape, no girl with auburn braids anywhere'+(sc.id==='opening'&&b.n>=6?' (the twins appear only as the two newborn babes)':'')+'.':(b.ids.length>1?' Neither twin is in this shot — only what is described.':'');
           var d=STY+'. THE SHOT: '+ZSS.LENS[lens]+' — '+ZSS.CAM[lens]+'. THE MOMENT (as in the first reference): '+gist+'.'+whoTxt+(ZSB.nokids?ZSB.nokids(sc.id,b.n).replace(/^\.\s*/,' '):'')+EPIC+NO;
           var models=b.who==='t'&&!ZSS.NOHERO[lens]?['hero_m.model','hero_f.model']:who==='h'?(b.who==='o'?['hero_m.model','hero_f.model']:['hero_m.model']):[];
-          if(b.who==='t'&&!ZSS.NOHERO[lens])whoTxt=' Both twins are in this shot as in the frame: '+ZSB.TWINS+'.'; else if(who==='h'&&b.who==='o')whoTxt+=' Zeldara, his twin, is with him as in the frame (exactly as in her reference).';
+          if(b.who==='t'&&!ZSS.NOHERO[lens])whoTxt=' Both twins are in this shot as in the frame: '+ZSB.TWINS+'.'; else if(who==='h'&&b.who==='o')whoTxt+=' Zola, his twin, is with him as in the frame (exactly as in her reference).';
           var refs=[par].concat(base).slice(0,8-models.length).concat(models);
           var sh={id:id,wave:ZSS.AUTO_WAVE,fam:'series',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',noStyle:true,refs:refs,title:'Shot series — '+sc.name+', frame '+b.n+' ('+b.title+'), shot '+(i+1)+' of 6: '+ZSS.LENS[lens],items:[[id.replace(/^sc_/,''),ZSS.LENS[lens],d,1536,1024]],ss:{scene:sc.id,n:b.n,k:i+1,who:who,auto:true}};
           row.shots.push({lens:lens,who:who,id:id}); ZSCN.SHEETS.push(sh); });
         ZSS.AUTO.push(row); }); }); }
   // the request text: cut from the story frame (the first reference), the camera changes, nothing else
   var b0=ZSCN.body; ZSCN.body=function(S){ if(!S||!S.ss)return b0.apply(ZSCN,arguments); var it=S.items[0];
-    return 'Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: '+S.title+'.\n'+
+    return 'Create ONE image for a 2D action RPG called The Quests of Zola and Zoldor: '+S.title+'.\n'+
       'This is one shot of a short film sequence cut from the FIRST reference image (a story frame). Keep that frame\'s place, people, clothes, colours, light and painted style exactly; change only the camera — its distance, angle and framing — as described. The other references show how the named characters and things look; draw them exactly like that, in the same bold hand-drawn cartoon look, not a photo, not 3D.\n'+
       'Subject: '+it[2]+'\nThe painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI, no comic panels.'; };
 })();

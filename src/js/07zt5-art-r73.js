@@ -2,21 +2,21 @@
 // ║ 07zt5-art-r73.js — round 73: THE MISSING SAGA IMAGES (Kris's saga feedback, Lab → The saga, end to end; "we should start with the
 // ║ missing images"; answers C1–C3 in docs/08). These panels are also the first frames of the cut-scene videos to come (C1: AI video clips).
 // ║  Wave 84 — the bound spirits freed (chains breaking), the three builders reopening the crossings (one each), the forges and the
-// ║            Lodestar, the soul-lines bringing life back, the other twin teaching Godsbane (a Zeldor and a Zeldara version), both twins
+// ║            Lodestar, the soul-lines bringing life back, the other twin teaching Godsbane (a Zoldor and a Zola version), both twins
 // ║            casting Godsbane together into the orbs, the orbs glimpse remade (the twins the same size), the World Tree under the lake;
 // ║            the twin at their books in the village (a picture for the game), and the World Tree's light for the lake.
 // ║ Order: .\tools\sprites\round78.ps1
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof ZSCN==='undefined')return;
   var STYLE='a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; ';
-  var TWINS='the twins Zeldor (the boy) and Zeldara (the girl), exactly as in the hero references: the SAME age (teenagers) and the SAME height, side by side, both in green cloaks';
-  var HERO={m:'Zeldor (the boy in the green cloak, exactly as in the hero reference)',f:'Zeldara (the girl in the green cloak, exactly as in the hero reference)'};
+  var TWINS='the twins Zoldor (the boy) and Zola (the girl), exactly as in the hero references: the SAME age (teenagers) and the SAME height, side by side, both in green cloaks';
+  var HERO={m:'Zoldor (the boy in the green cloak, exactly as in the hero reference)',f:'Zola (the girl in the green cloak, exactly as in the hero reference)'};
   var OTHER={m:HERO.f,f:HERO.m};
   var GODS='Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references';
   var NO='. NO lion, no centaur, no animal companion unless named. No text';
   ZSCN.WAVES[84]='Round 73 — the missing saga images: the bound spirits, the builders, the forges, the soul-lines, the twin and Godsbane, the World Tree';
   var PN=function(id,name,refs,desc){ return {id:'sc_'+id,wave:84,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_end_dawn_b','sc_pn_end_cast_a'].concat(refs||[]),title:'Saga panel — '+name,items:[[id,name,STYLE+desc+NO,1536,1024]]}; };
-  var HP=function(id,name,refs,desc){ return ['m','f'].map(function(k){ return PN(id+'_'+k,name+(k==='m'?' (you play Zeldor)':' (you play Zeldara)'),refs.concat(['hero_'+k+'.model','hero_'+(k==='m'?'f':'m')+'.model']),desc.replace(/\{H\}/g,HERO[k]).replace(/\{O\}/g,OTHER[k])); }); };
+  var HP=function(id,name,refs,desc){ return ['m','f'].map(function(k){ return PN(id+'_'+k,name+(k==='m'?' (you play Zoldor)':' (you play Zola)'),refs.concat(['hero_'+k+'.model','hero_'+(k==='m'?'f':'m')+'.model']),desc.replace(/\{H\}/g,HERO[k]).replace(/\{O\}/g,OTHER[k])); }); };
   ZSCN.SHEETS=ZSCN.SHEETS.filter(function(S){ return S.id!=='sc_pn_saga_orbs'; });      // remade below (wave 84)
   ZSCN.SHEETS=ZSCN.SHEETS.concat([
     // the bound spirits (Kris: "Need to make this cut scene image") — the first spirit freed
@@ -39,8 +39,8 @@
     PN('pn_world_tree','The World Tree under the Lake',[],'Mirror Lake seen from high above at twilight, calm and clear as glass; deep under its water a vast glowing World Tree of rune-blue and gold light — roots, trunk and spreading branches — shines up through the water like a tattoo beneath the surface, filling the whole lake; the little village on the shore with warm lights, tiny boats, and above in the clouds the faint golden road of a rainbow bridge'),
     // for the game: the twin at their books in the village (they study the old texts the whole game), one each
     {id:'sc_twin_study',wave:84,fam:'village',kind:'obj',cols:2,rows:1,size:'1536x1024',refs:['hero_m.model','hero_f.model'],title:'The other twin studying in the village, in the painted game style, seen from the front and a little above like the game, each alone and centred on a transparent background, no text',items:[
-      ['twin_study_m','Zeldor at his books','Zeldor (the boy in the green cloak, exactly as in the hero reference) seated on a stool at a small wooden desk piled with old books and scrolls, reading a big open saga by a candle, a rune tablet beside him',150,150],
-      ['twin_study_f','Zeldara at her books','Zeldara (the girl in the green cloak, exactly as in the hero reference) seated on a stool at a small wooden desk piled with old books and scrolls, reading a big open saga by a candle, a rune tablet beside her',150,150]]},
+      ['twin_study_m','Zoldor at his books','Zoldor (the boy in the green cloak, exactly as in the hero reference) seated on a stool at a small wooden desk piled with old books and scrolls, reading a big open saga by a candle, a rune tablet beside him',150,150],
+      ['twin_study_f','Zola at her books','Zola (the girl in the green cloak, exactly as in the hero reference) seated on a stool at a small wooden desk piled with old books and scrolls, reading a big open saga by a candle, a rune tablet beside her',150,150]]},
     // for the game: the World Tree's light, laid under Mirror Lake's water once all forty are free
     {id:'sc_fx_lake_tree',wave:84,fam:'fx',kind:'flat',cols:1,rows:1,size:'1024x1024',refs:['sc_fx_blast'],title:'The World Tree as light, painted on a PURE BLACK background (laid over the lake as glowing light, so the black must stay pure black), centred',items:[
       ['fx_lake_tree','The World Tree of light','a vast World Tree drawn in soft glowing rune-blue and gold light seen from straight above: a round crown of branches spreading out in every direction, a short trunk at the centre and roots reaching outward, all made of thin glowing lines like a tattoo, fading softly at the edges',900,900]]}]));

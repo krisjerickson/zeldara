@@ -7,7 +7,7 @@ def check(n, ok, info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ') + n + ('  ' + str(info)[:500] if info != '' else ''), flush=True)
 ROOT = os.path.join(os.path.dirname(__file__), '..', 'src', 'js')
 src = ''.join(open(os.path.join(ROOT, f), encoding='utf-8').read() for f in sorted(os.listdir(ROOT)) if f.endswith('.js') and f != '07zz-boss-designs.js')
-gone = [s for s in ("shieldmaiden's daughter", "woodcutter's son", 'Both play the same', 'hardly any children', 'captured spirit light', 'taught the Lodestar its one spell', 'teaches you Godsbane', '(Final Quest)', "'Volcano Lord'", 'I always have to be Zeldor', 'This one I wore') if s in src]
+gone = [s for s in ("shieldmaiden's daughter", "woodcutter's son", 'Both play the same', 'hardly any children', 'captured spirit light', 'taught the Lodestar its one spell', 'teaches you Godsbane', '(Final Quest)', "'Volcano Lord'", 'I always have to be Zoldor', 'This one I wore') if s in src]
 check('The old lines are gone from the game: %s' % (gone or 'none left'), not gone, gone)
 with game(painted=False) as g:
     g.wait(2500)

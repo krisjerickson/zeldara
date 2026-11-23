@@ -51,7 +51,7 @@
     panel('pn_asg_lake_a',61,'Story panel — Asgard on the lake (option A)','a wide cinematic painting: the white-and-gold walled city of Asgard now resting on the lake as an island, its walls ringed by calm water reflecting it, gold spires catching the sunrise, the village pier in the foreground pointing at its gate'),
     panel('pn_asg_lake_b',61,'Story panel — Asgard on the lake (option B)','a wide cinematic painting from above: a round walled island city of white stone and gold filling most of a lake, a central citadel of spires, mist on the water, the little village on the shore, the light warm and hopeful')]);
   // a story panel: one wide painting, edge to edge, no characters' faces close up (07zt roomBody is for dungeon floors)
-  var b0=ZSCN.body; ZSCN.body=function(S){ if(S.kind==='room'&&S.panel){ var it=S.items[0]; return 'Create ONE image for a 2D action RPG called The Quests of Zeldara and Zeldor: '+S.title+', a painted story panel shown during a cut-scene.\n'+
+  var b0=ZSCN.body; ZSCN.body=function(S){ if(S.kind==='room'&&S.panel){ var it=S.items[0]; return 'Create ONE image for a 2D action RPG called The Quests of Zola and Zoldor: '+S.title+', a painted story panel shown during a cut-scene.\n'+
       'The reference images show the game\'s characters; use them only for the art style (outline weight, flat cel shading, teal highlights, magenta rim) — a bold hand-drawn cartoon game look, not a photo, not 3D.\n'+
       'Subject: '+it[2]+'.\nThe painting fills the whole image edge to edge like a wide film still. No text, no labels, no frame, no UI.'; } return b0.apply(ZSCN,arguments); };
 })();

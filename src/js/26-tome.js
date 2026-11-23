@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ THE ZELDARA TOME (T) — a field guide that fills in as you play:
+// ║ THE ZOLA TOME (T) — a field guide that fills in as you play:
 // ║ monsters (with how to deal with them), mounts, familiars, spells,
 // ║ items, places and characters. Undiscovered entries show as ???
 // ║ silhouettes with a hint where to look. Saved in playerState.tome.

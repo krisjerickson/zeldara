@@ -1,11 +1,11 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ 10zt-twin.js — round 68: THE OTHER TWIN STAYS IN THE VILLAGE (doc 30; Kris's answer S1: "stays in the village").
-// ║ Zeldara and Zeldor: the one you do not play stands by the Home, keeps the village going and pieces the old sagas together — what they
+// ║ Zola and Zoldor: the one you do not play stands by the Home, keeps the village going and pieces the old sagas together — what they
 // ║ say follows how far you have come (doc 30 §10.1, first draft). Elder Runa tells of the storm and the basket.
 // ║ Drawn with the other hero's own painted sprite (its idle frames, front view). Talk with [Tab] as with the village folk.
 // ═══════════════════════════════════════════════════════════════════════
 var ZTWIN={ on:true,
-  other:function(ps){ var f=ps&&ps.hero==='f'; return {ch:f?'hero_m':'hero_f', name:f?'Zeldor':'Zeldara'}; },
+  other:function(ps){ var f=ps&&ps.hero==='f'; return {ch:f?'hero_m':'hero_f', name:f?'Zoldor':'Zola'}; },
   line:function(ps){ var n=(ps.spiritsFreed||[]).length, full=[1,2,3,4].some(function(q){ return typeof ZSPIRIT!=='undefined'&&ZSPIRIT.count(ps,q)>=10; });
     if(ps.spiritsHome)return 'We did it — both of us. Listen… the children are laughing again.';
     if(ps.asgardDown)return 'The basket came from the lake. Whatever is up there, it knows us.';

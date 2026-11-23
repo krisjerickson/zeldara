@@ -4,8 +4,8 @@
 // ║ after defeating Solmyrk. Go back into the saga and propose new images to inspire cut scenes for all the remaining items"; answers E1–E4).
 // ║  Wave 81 — the feast hall (a walk-in room, painted whole, dim and lit), the joined orbs (whole, cracking, bursting), the hall's doors and
 // ║            high seats, the gods' spells (Odin's lightning, Freya's vines, the shards) — the gods' own sheets are characters (07zg).
-// ║  Wave 82 — 26 saga panels: the two glimpses still missing (30th and 40th spirit), the feast hall (8, three of them in a Zeldara and a
-// ║            Zeldor version), the gods at the Bifröst (2), the village moment (7), the celebration, time passing, children again, the
+// ║  Wave 82 — 26 saga panels: the two glimpses still missing (30th and 40th spirit), the feast hall (8, three of them in a Zola and a
+// ║            Zoldor version), the gods at the Bifröst (2), the village moment (7), the celebration, time passing, children again, the
 // ║            credits backdrop and the last picture after the credits.
 // ║ Order: .\tools\sprites\round75.ps1 (the gods' sheets first — the orbs and panels use them as references).
 // ═══════════════════════════════════════════════════════════════════════
@@ -13,7 +13,7 @@
   var MIX=' The people are of many backgrounds: about half white, the rest a mix of Black, East Asian, South Asian, Middle Eastern, Indigenous, Latino and mixed heritage — varied skin tones, hair and features, all one community';
   var GODS='Odin (the old one-eyed god with the silver beard, wide grey hat, blue fur-lined cloak, rune spear and raven) and Freya (the goddess with red-gold flower-braided hair, the falcon-feather cloak and the glowing amber necklace), exactly as in the character references';
   var STYLE='a wide cinematic painting in exactly the style, light and finish of the reference panels (but NOT their scene). The land of Runeheim, a Norse fantasy world; ';
-  var HERO={m:'the young hero Zeldor — the boy in the green cloak, exactly as in the hero reference',f:'the young hero Zeldara — the girl in the green cloak, exactly as in the hero reference'};
+  var HERO={m:'the young hero Zoldor — the boy in the green cloak, exactly as in the hero reference',f:'the young hero Zola — the girl in the green cloak, exactly as in the hero reference'};
   ZSCN.WAVES[81]='Round 71 — the feast hall of Asgard: the room, the joined orbs, the doors and high seats, the gods\' spells';
   ZSCN.WAVES[82]='Round 71 — the last saga in panels: the feast hall, the gods, the village, the celebration, the credits';
   var ROOM='seen from above at the same angle as the game (top-down, a little from the front), painted whole as one picture, in the style of the reference';
@@ -38,7 +38,7 @@
   var PN=function(id,name,refs,desc,o){ o=o||{}; return {id:'sc_'+id,wave:82,fam:'panels',kind:'room',panel:true,cols:1,rows:1,size:'1536x1024',refs:['sc_pn_end_dawn_b','sc_pn_end_cast_a'].concat(refs||[]),title:'Saga panel — '+name,items:[[id,name,STYLE+desc+(o.mix?'.'+MIX:'')+'. NO lion, no centaur, no animal companion anywhere (round 72: the style reference\'s creature crept into two panels). No text',1536,1024]]}; };
   var G2=['god_odin.core.f','god_freya.core.f'];
   // a panel with the hero in front: one for each twin
-  var HP=function(id,name,refs,desc){ return ['m','f'].map(function(k){ return PN(id+'_'+k,name+(k==='m'?' (Zeldor)':' (Zeldara)'),refs.concat(['hero_'+k+'.model']),desc.replace(/\{H\}/g,HERO[k])); }); };
+  var HP=function(id,name,refs,desc){ return ['m','f'].map(function(k){ return PN(id+'_'+k,name+(k==='m'?' (Zoldor)':' (Zola)'),refs.concat(['hero_'+k+'.model']),desc.replace(/\{H\}/g,HERO[k])); }); };
   ZSCN.SHEETS=ZSCN.SHEETS.concat([
     // the glimpses still missing (doc 30 §11, 16–17)
     PN('pn_saga_orbs','Two Orbs in the Dark',G2,'a glimpse: in a vast dark hall of white and gold, two great spheres of pale light float side by side touching like an infinity sign; inside them, dim and asleep, '+GODS+'; golden chains of light round the join; far behind, small and blurred, a figure in a golden mask on a high seat'),

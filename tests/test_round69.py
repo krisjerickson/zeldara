@@ -1,4 +1,4 @@
-"""Round 69 — the hamlets after the gods (Kris's note: a small Zeldara rune, village lanes, roads joining the hamlets; grassland under them;
+"""Round 69 — the hamlets after the gods (Kris's note: a small Zola rune, village lanes, roads joining the hamlets; grassland under them;
 solid buildings; workshops to enter with [Tab]; the spirits' kin inside); the saga panels redone without the hero; the hamlet folk ordered;
 the fairies smaller and painted in their talk box; the Lab's Saga panels & hamlets tab.
 Run: python tests/test_round69.py"""

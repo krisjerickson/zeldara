@@ -1,5 +1,5 @@
 """Round 118: the first spirit freed, cut from its shot series as a video (tools/video/series_cut.py → assets/video/sb_spirit_m.mp4,
-16w3 ZSC.CLIPS): paced to the words, a camera move per shot, Zeldor's version; and the seasons' wave S2 (the village) requested.
+16w3 ZSC.CLIPS): paced to the words, a camera move per shot, Zoldor's version; and the seasons' wave S2 (the village) requested.
 python tests/test_round118.py   (after node build.mjs)"""
 import sys, os, time, json; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from harness import game
@@ -33,14 +33,14 @@ with game(painted=True, w=1280, h=720) as g:
     g.js("(()=>{ ZCUT.on=true; var ps=game.scene.getScene('World').playerState; ps.hero='m'; ZCUT.play('saga','firstfree'); })()")
     ok = until(g, "(()=>{ var v=document.querySelector('#zcut .zsc-vid'); return !!(v&&v.style.opacity==='1'&&!v.paused&&v.currentTime>0.3); })()", 20000)
     a = g.js(ST)
-    check('In the game (Zeldor): after its first line, the first spirit freed plays as the cut video (%s)' % a, ok and a and 'sb_spirit_m' in a['src'], a)
+    check('In the game (Zoldor): after its first line, the first spirit freed plays as the cut video (%s)' % a, ok and a and 'sb_spirit_m' in a['src'], a)
     ok2 = until(g, "(()=>{ var v=document.querySelector('#zcut .zsc-vid'); return v&&v.currentTime>%f; })()" % (ed['cuts'][1] + 0.5), 25000)
     g.wait(1500); b = g.js(ST)
     check('…frame 2 plays its part, its words building under it (%s)' % b, ok2 and b['words'] > 0 and 'Binder' in b['cap'], b)
     g.shot('/tmp/claude-0/r118_cut.png')
     g.js("(()=>{ if(ZCUT.isOpen())ZCUT.close&&ZCUT.close(); var el=document.getElementById('zcut'); if(el)el.remove(); ZCUT._open=false; })()"); g.wait(500)
     f = g.js("(()=>{ var ps=game.scene.getScene('World').playerState; ps.hero='f'; var L=ZSFR.frames(ZSFR.MAP['saga_firstfree']); return L?ZSC.seg(L[1][0]):'nolist'; })()")
-    check("Zeldara's frames are not given Zeldor's video (they stay paintings until hers is cut) (%s)" % f, f is None, f)
+    check("Zola's frames are not given Zoldor's video (they stay paintings until hers is cut) (%s)" % f, f is None, f)
     s = g.js("""(()=>{ var S=ZSCN.SHEETS.filter(function(x){ return x.wave===118||(x.wave===121&&/^sc_seas_wi_/.test(x.id)); }); return {n:S.length, bld:S.filter(function(x){ return x.season&&/vill_/.test(x.src); }).length, fest:S.filter(function(x){ return x.fam==='fest'; }).length, body:/A MILD WINTER in the village/.test(ZSCN.body(S.find(function(x){ return x.id==='sc_seas_wi_vill_core_1'; })))}; })()""")
     check('Seasons wave S2: %d sheets — %d village building repaints, %d festival dressings and set-pieces, the village look in the request (%s)' % (s['n'], s['bld'], s['fest'], s), s['n'] == 29 and s['bld'] == 10 and s['fest'] == 10 and s['body'], s)
     it = g.js("(()=>{ ZSEASON.set('wi'); var r=ZSEASON.item('vb_tavern'); ZSEASON.set('su'); return r; })()")

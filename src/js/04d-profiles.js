@@ -76,11 +76,11 @@ var ZProfilesUI={
     document.getElementById('zp-next').onclick=go; document.getElementById('zp-name').onkeydown=function(e){ e.stopPropagation(); if(e.key==='Enter')go(); if(e.key==='Escape')ZProfilesUI.close(); };
     document.getElementById('zp-cancel').onclick=ZProfilesUI.close; },
   // NEW GAME, last step (round 18): choose your hero — boy or girl. The girl is a recoloured stand-in until her sprites are painted.
-  pickHero:function(p,go,back){ ZProfilesUI.open('<h2>Choose your hero</h2><p>'+ZProfilesUI.esc(p.name)+', who will you play — Zeldara or Zeldor?</p><div class="zp-heroes">'+
-      [['f','Zeldara','Found in the storm-basket on Mirror Lake. The old runes wake for her.'],['m','Zeldor','Found beside her on the same dawn tide. The old stones answer his hand.']].map(function(h){ return '<button class="zp-hero" data-h="'+h[0]+'"><canvas width="100" height="168"></canvas><b>'+h[1]+'</b><small>'+h[2]+'</small></button>'; }).join('')+
+  pickHero:function(p,go,back){ ZProfilesUI.open('<h2>Choose your hero</h2><p>'+ZProfilesUI.esc(p.name)+', who will you play — Zola or Zoldor?</p><div class="zp-heroes">'+
+      [['f','Zola','Found in the storm-basket on Mirror Lake. The old runes wake for her.'],['m','Zoldor','Found beside her on the same dawn tide. The old stones answer his hand.']].map(function(h){ return '<button class="zp-hero" data-h="'+h[0]+'"><canvas width="100" height="168"></canvas><b>'+h[1]+'</b><small>'+h[2]+'</small></button>'; }).join('')+
       '</div><p class="zp-note">The twin you don\'t choose stays home to study the old sagas. You can\'t change this later in this save.</p><div id="zp-diff"></div><p class="zp-note">Choose your hero and how hard the journey is, then <b>Begin Quest</b>. You can change the difficulty later (❓ panel).</p><div class="zp-row"><button class="zp-btn" id="zp-hback">Back</button><button class="zp-btn zp-go" id="zp-begin" disabled>Begin Quest</button></div>');
     var E=ZProfilesUI.el, sel=null, bq=document.getElementById('zp-begin'), begin=function(){ if(sel)go(sel); },
-      upd=function(){ if(!bq)return; bq.disabled=!sel; var D=typeof ZDIFF!=='undefined'&&ZDIFF[ZSave.pendingDiff==null?1:ZSave.pendingDiff]; bq.textContent=sel?'Begin Quest — '+(sel==='f'?'Zeldara':'Zeldor')+(D?' · '+D.name:''):'Begin Quest'; };
+      upd=function(){ if(!bq)return; bq.disabled=!sel; var D=typeof ZDIFF!=='undefined'&&ZDIFF[ZSave.pendingDiff==null?1:ZSave.pendingDiff]; bq.textContent=sel?'Begin Quest — '+(sel==='f'?'Zola':'Zoldor')+(D?' · '+D.name:''):'Begin Quest'; };
     if(bq)bq.onclick=begin;
     E.querySelectorAll('.zp-hero').forEach(function(b){ var cv=b.querySelector('canvas'), c=cv.getContext('2d'), img=new Image(); c.imageSmoothingEnabled=false;
       img.onload=function(){ var src=b.dataset.h==='f'&&typeof _heroRecolour==='function'?_heroRecolour(img):img; c.clearRect(0,0,100,168); c.imageSmoothingEnabled=true; var sc=Math.min(100/src.width,160/src.height); c.drawImage(src,(100-src.width*sc)/2,164-src.height*sc,src.width*sc,src.height*sc); };
@@ -121,7 +121,7 @@ var ZProfilesUI={
         else if(a==='export'){ ZSave.download(p.id,s); var x=document.getElementById('zp-exp'); x.style.display='block'; var ta=x.querySelector('textarea'); ta.value=ZSave.exportCode(p.id,s); ta.onkeydown=function(e){ e.stopPropagation(); }; ta.focus(); ta.select(); }
         else if(a==='import'){ impSlot=s; document.getElementById('zp-imp').style.display='block'; }
         else if(a==='del'){ if(b.dataset.sure!=='1'){ b.dataset.sure='1'; b.textContent='Delete?'; return; } ZSave.store.remove(ZSave.slotKey(p.id,s)); ZProfilesUI.slots(p,start,false,'Slot '+s+' deleted.'); } }; });
-    var doImp=function(code){ if(ZSave.importCode(p.id,impSlot,code))ZProfilesUI.slots(p,start,false,'Imported into slot '+impSlot+'.'); else alert('That is not a save code/file from The Quests of Zeldara and Zeldor.'); };
+    var doImp=function(code){ if(ZSave.importCode(p.id,impSlot,code))ZProfilesUI.slots(p,start,false,'Imported into slot '+impSlot+'.'); else alert('That is not a save code/file from The Quests of Zola and Zoldor.'); };
     document.getElementById('zp-impgo').onclick=function(){ var f=document.getElementById('zp-file').files[0]; if(f){ f.text().then(doImp); } else doImp(document.getElementById('zp-code').value); };
     document.getElementById('zp-code').onkeydown=function(e){ e.stopPropagation(); };
     document.getElementById('zp-back').onclick=function(){ ZSave.players().length>1||!isNew?ZProfilesUI.returning(start):ZProfilesUI.close(); };

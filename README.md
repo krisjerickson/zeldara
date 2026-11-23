@@ -1,4 +1,4 @@
-# Quests of Zeldara (V4)
+# Quests of Zola (V4)
 
 A top-down action-adventure built with Phaser 3.60. The whole game is one self-contained `index.html`.
 

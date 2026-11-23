@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ 07zz-brand4.js — round 46: the E of ZELDARA.
-// ║ Kris: "the top of the E in Zeldara is too small. There are three horizontal lines in the E, with the top one that should be as long as the
-// ║ bottom one. Let's fix the overall Zeldara to have this, and propose new designs, as needed".
+// ║ 07zz-brand4.js — round 46: the E of ZOLA.
+// ║ Kris: "the top of the E in Zola is too small. There are three horizontal lines in the E, with the top one that should be as long as the
+// ║ bottom one. Let's fix the overall Zola to have this, and propose new designs, as needed".
 // ║ The wordmark's letters are the typeface's own (Cinzel Decorative draws its E with a short top arm). ZBrand.glyph now lengthens the arms of an
 // ║ E by drawing the arm again, shifted along itself and clipped to the arm's rows — so the tip, the serif and the gold all stay the typeface's own.
 // ║ ZBrand.E_STYLE: 'top' (the top arm as long as the bottom one — the game's default now), 'equal' (the middle arm too), 'font' (the typeface

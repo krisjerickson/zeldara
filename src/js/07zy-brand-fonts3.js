@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ Round 71 — Kris's font pick (Lab → Fonts, round two: "Scribe's names, uncial Z"), embedded (latin subset with the Nordic letters, SIL Open
-// ║ Font License, from @fontsource 5.3.0): Eagle Lake for ZELDARA / ZELDOR and Uncial Antiqua for the great Z (07zz-brand7, ZBrand.WORDMARK).
+// ║ Font License, from @fontsource 5.3.0): Eagle Lake for ZOLA / ZOLDOR and Uncial Antiqua for the great Z (07zz-brand7, ZBrand.WORDMARK).
 // ║ Answer F4 — round the game too (the round 14 variables in styles.css, and Phaser's text, 04e ZFONT): Uncial Antiqua for titles and headings
 // ║ (window and Tome titles, realm banners, the boss card), Eagle Lake for names and labels (buttons, tabs, world labels, talk-box names,
 // ║ [Tab] prompts); descriptions, talk lines and long text stay in the plain face.

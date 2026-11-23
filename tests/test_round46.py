@@ -2,7 +2,7 @@
 instead of repainted, the behind-things outline drawn on the GPU); behind buildings and trees only the covered part of the hero is hidden, with a
 thin outline; the blocked part of a building is 60% of it; doors only from the front; sleeping hides the hero and the sleep picture is sized to the
 bed; the roll's cooldown is 1.85 s; the site review (old designs once per type, the "this is bad" sites mixed from earlier picks, the asked-for
-changes); the old interiors furnished in the new sites; the E of ZELDARA; the Lab's new tabs.
+changes); the old interiors furnished in the new sites; the E of ZOLA; the Lab's new tabs.
 Run: python tests/test_round46.py"""
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
@@ -41,7 +41,7 @@ with game(new=True, painted=True) as g:
     check('Roll cooldown is 1.85 s (0.75 s added)', abs(r['cd'] - 1.85) < 1e-6, r)
     # ── the E ──
     r = g.js("""(async ()=>{ await document.fonts.ready; var f='700 100px "Cinzel Decorative"', M=ZBrand.eMetrics(f); ZBrand.setE('top'); return {st:ZBrand.E_STYLE, m:M?{t:M.top.x,b:M.bot.x}:null, set:typeof ZBrand.setE}; })()""")
-    check('The E of ZELDARA: the top arm drawn out to the bottom arm\'s length (style "top"; measured arms %s)' % r['m'], r['st'] == 'top' and r['set'] == 'function' and (r['m'] is None or r['m']['t'] < r['m']['b']), r)
+    check('The E of ZOLA: the top arm drawn out to the bottom arm\'s length (style "top"; measured arms %s)' % r['m'], r['st'] == 'top' and r['set'] == 'function' and (r['m'] is None or r['m']['t'] < r['m']['b']), r)
 
     # ── sites ──
     r = g.js("""(()=>{ var o={old:Object.keys(ZSP.OLD).sort(), hard:Object.keys(ZSP.HARD_OLD).sort(), bad:[], n:0};
