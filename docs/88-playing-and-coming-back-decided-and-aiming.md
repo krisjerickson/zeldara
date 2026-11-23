@@ -54,3 +54,29 @@ Every way uses one **target rule**, set in the controls: strongest, weakest, nea
 - **B** — arrows arc over cover; bolts fly straight and twice as far.
 - **C** — arrows carry the elements; darts become tools (rope, net, spike, smoke).
 - **D** — remove crossbows. Each one you own becomes the matching bow at the same strength, and darts become arrows one for one.
+
+## Built (round 129b): Kris's picks
+Kris picked **soft lock-on (2)** and **hold to charge (4)**, combined: "i like holding to gain power. think this can also work with option 2, let's see if we can combine". The target rule: "have all of these options available to set your default in the controls of the game". Bow and crossbow: **A, pierce**.
+
+What the game now does (`src/js/09s3-aim129.js`, ZAIM129):
+- **The gold ring** always sits on the best foe ahead of the hero: in front, in range (bow 340, spell 300) and in sight. It holds on that foe and looks again every 0.8 s.
+- **Tap Ctrl or X** to shoot or cast at the ringed foe at once. The old "X twice" rune circle and its steering are gone.
+- **Hold to charge:** ×1.5 at 0.4 s and ×2 at 0.8 s. A charged spell costs a quarter or a half more mana, or the most it can pay for.
+- **A direction pressed while holding** moves the ring to the best foe that way, and the hero stands still.
+- **The target rule** is in ❓ Controls → "Auto-aim" and is saved with the game (`ps.aimRule`): ⚠ most dangerous (the default: bosses, then champions, then foes that shoot), 💪 strongest, 🩸 weakest, 📍 nearest, 🔁 the last one I hit.
+- **The crossbow (A):**
+  - one heavy bolt, +35 %, with a 1.2 s reload (the bow now takes 0.45 s);
+  - the bolt goes through every foe in a line, in the world and in dungeons. In the world it used to stop at the first foe.
+  - It breaks plate as well as a guard (`MX._barHit` wrap).
+  - Darts cost 1.5× and come 6 or 3 to a bundle.
+- The Controls page wording is updated.
+- Tests: `tests/test_round129b.py` (14 checks). `test_round102`'s "X twice" check now expects a cast at once.
+
+## The Lab, tidied, and the checklist
+- **Only the tabs that still need Kris are buttons:** Checklist, World revamped 3, All the seasons, Sound effects, Music, Shot series, Cut-scene looks, Kling vs Flow. All the others are in the "Archived & earlier rounds" drop-down (`LAB_NOW` in `99-lab-sets.js`).
+- **📋 Checklist** (`79z5-lab-tracker.js`, TRK) is a row for everything we have talked about, grouped by area.
+  - Statuses: needs your input, Claude builds next, waiting outside, in the game, and later or not now.
+  - "In the game" rows carry a one-line summary of what was built.
+  - Open inputs are counted live from the Lab's own asks.
+  - Each row has a note box (`trk-<id>`), and there is one more for anything else (`trk-general`).
+- **Keep TRK current every round.**

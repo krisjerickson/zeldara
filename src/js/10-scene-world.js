@@ -2122,8 +2122,8 @@ class WorldScene extends Phaser.Scene{
         var hitR=mon.def.r+6;
         if(!_hbHit(mon,pr.x,pr.y,6))return;
         // Hit!
-        pr.hit=true;hitAny=true;
-        if(pr.pierceN>0){ pr.pierceN--; pr.hit=false; (pr._done=pr._done||[]).push(mon); }      // a crossbow dart goes on through one foe
+        pr.hit=true;hitAny=true; if(pr.xb&&typeof MX!=='undefined')MX._xbT=Date.now();      /* round 129: a bolt breaks plate (09s3) */
+        if(pr.pierceN>0){ pr.pierceN--; pr.hit=false; (pr._done=pr._done||[]).push(mon); }      // a crossbow bolt goes on through every foe in its line (round 129)
         var _pk=pr.spellId?'spell':'ranged', dmg=ZHit.dmg(self,mon,pr.dmg+Math.floor(Math.random()*3),_pk,{sub:pr.subtype,spell:pr.spellId});
         MX._src=_pk; mon.hp-=dmg; MX._src=null;
         self._floatText(mon.x,mon.y-mon.def.r-10,'-'+dmg,'#aaddff');
@@ -2185,7 +2185,7 @@ class WorldScene extends Phaser.Scene{
         });
       }
       // Auto-expire on any hit if not piercing
-      if(hitAny&&!pr.pierce){pr.vis.destroy();return false;}
+      if(hitAny&&!pr.pierce&&!(pr.pierceN>0)){pr.vis.destroy();return false;}      /* round 129: a crossbow bolt flies on (it was destroyed on its first hit here) */
       return true;
     });
     // Update ammo HUD

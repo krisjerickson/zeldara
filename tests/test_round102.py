@@ -25,10 +25,7 @@ with game(painted=True, w=1280, h=720) as g:
       m.x=ws.wd.spawnX; m.y=ws.wd.spawnY-110; if(m.cont)m.cont.setPosition(m.x,m.y); ws.worldMonsters.forEach(o=>{ if(o!==m&&Math.hypot(o.x-m.x,o.y-m.y)<500){ o.x+=900; if(o.cont)o.cont.x+=900; } }); m.hp=m.maxHp=99999; ws.player.x=m.x; ws.player.y=m.y+200; ws.player.dir='up'; window._m=m; var mx=m.x, my=m.y; window._pin=setInterval(function(){ m.x=mx; m.y=my; if(m.cont)m.cont.setPosition(mx,my); },16); })()""" % WS)
     g.wait(500); g.key('x', 60); g.wait(300)
     a = g.js("({armed:!!ZAIM.cur, mana:Math.round(%s.playerState.mana), at:ZAIM.cur&&[Math.round(ZAIM.cur.x-_m.x),Math.round(ZAIM.cur.y-_m.y),!!ZAIM.cur.mon], pl:[Math.round(%s.player.x-_m.x),Math.round(%s.player.y-_m.y)]})" % (WS,WS,WS))
-    check('X once: the rune circle shows, no mana spent (%s)' % a, a['armed'] and a['mana'] >= 83, a)
-    g.key('x', 60); g.wait(60)
-    b = g.js("""(()=>{ var ws=%s, A=ws._playerProj||[], p=A.filter(x=>x.spellId==='frost_bolt').pop()||A[A.length-1]; var a=p?Math.atan2(p.vy,p.vx):null, want=p?Math.atan2(_m.y-p.y,_m.x-p.x):0; return {armed:!!ZAIM.cur, log:ZAIM.log.slice(-3), spell:p&&p.spellId, seek:!!(p&&p.seek===_m), hitm:!!(_m._zst&&Object.keys(_m._zst).some(k=>_m._zst[k].t>0)), da:p?Math.abs(Math.atan2(Math.sin(a-want),Math.cos(a-want))):null}; })()""" % WS)
-    check('X again: it casts at the circle — the bolt leaves toward the marked foe and homes on it, 16 mana spent (%s)' % b, not b['armed'] and ((b['spell'] == 'frost_bolt' and b['seek']) or b['hitm']) and any('83→67' in x for x in b['log']), b)
+    check('X once (round 129: no more "X twice" — a tap casts at once, 16 mana) (%s)' % a, not a['armed'] and 66 <= a['mana'] <= 70, a)
     g.js("clearInterval(window._pin)")
     t = g.js("""(()=>{ var ws=%s, m=_m; m._zst=null; ZSTAT.apply(ws,m,'fireball',40); var burn=m._zst&&m._zst.burn&&m._zst.burn.max;
       var f={def:{r:10},x:m.x,y:m.y,hp:50,maxHp:50,isBoss:false}; var oe=ZSTAT.els; ZSTAT.els=function(x){ return x===f?['fire']:oe(x); }; ZSTAT.apply(ws,f,'fireball',40); var fireBurn=!!(f._zst&&f._zst.burn&&f._zst.burn.t>0);

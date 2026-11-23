@@ -177,7 +177,7 @@ function _fireSceneBow(scene, mode){
   var stats=ws.calcPlayerStats?ws.calcPlayerStats():{atk:ps.atk||3};
   var atkPow=Math.max(1,(rWeapon.atk||6)+Math.floor((stats.atk||0)*0.3));
   // Cooldown + bow animation timer
-  var _xb=rWeapon.cls==='xbow', _cdB=_xb?0.95:0.7; if(_xb)atkPow=Math.round(atkPow*1.15);      // crossbows: slower, harder, and the dart goes through one foe (round 37)
+  var _xb=rWeapon.cls==='xbow', _cdB=_xb?1.2:0.45; if(_xb)atkPow=Math.round(atkPow*1.35);      // round 129 (Kris ✓ A): the bow is quick (about two a second); the crossbow one heavy bolt, a 1.2 s reload, through every foe in a line, and it breaks plate
   scene[atkField]=_cdB;
   var bowField=mode==='dungeon'?'pBowTimer':'iBowTimer';
   scene[bowField]=_cdB;
@@ -193,7 +193,7 @@ function _fireSceneBow(scene, mode){
   var arrField=mode==='dungeon'?'_dngPlayerProj':'_islPlayerProj';
   if(!scene[arrField])scene[arrField]=[];
   scene[arrField].push({vis:vis,x:px,y:py,vx:nx*spd,vy:ny*spd,
-    dmg:atkPow,life:2.2,hit:false,subtype:sub,pierceN:_xb?1:0,
+    dmg:atkPow,life:2.2,hit:false,subtype:sub,pierceN:_xb?99:0,xb:_xb,
     tracking:sub==='heat',
     effect:sub==='cold'?'slow':sub==='fire'?'fire':'none',
     effectDur:2.0,splashR:sub==='fire'?70:0});
@@ -222,7 +222,7 @@ function _heroUpdateProjs(scene, mode, dt){
       if(typeof _hbHit==='function'?!_hbHit(mon,pr.x,pr.y,6):Math.hypot(mon.x-pr.x,mon.y-pr.y)>hitR)return;
       pr.hit=true;
       var dmg=ZHit.dmg(scene,mon,pr.dmg+Math.floor(Math.random()*3),'ranged',{sub:pr.subtype});
-      MX._src='ranged'; mon.hp-=dmg; MX._src=null;
+      MX._src='ranged'; if(pr.xb)MX._xbT=Date.now(); mon.hp-=dmg; MX._src=null;
       if(scene._floatText)scene._floatText(mon.x,mon.y-(mon.def.r||10)-10,'-'+dmg,'#aaddff');
       mon.body.setFillStyle(0xffffff);
       var dRef=mon.def;
@@ -232,7 +232,7 @@ function _heroUpdateProjs(scene, mode, dt){
         if(mode==='dungeon'&&scene._monsterDied)scene._monsterDied(mon);
         else _heroKillMonster(scene, mon);
       }
-      if(pr.pierceN>0){ pr.pierceN--; pr.hit=false; (pr._done=pr._done||[]).push(mon); }      // a crossbow dart goes on through one foe
+      if(pr.pierceN>0){ pr.pierceN--; pr.hit=false; (pr._done=pr._done||[]).push(mon); }      // a crossbow bolt goes on through every foe in its line (round 129)
     });
     if(pr.hit&&pr.vis){ pr.vis.destroy(); }
     return !pr.hit;

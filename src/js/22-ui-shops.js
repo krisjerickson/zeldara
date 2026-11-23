@@ -228,7 +228,7 @@ function _fireWorldBow(ws){
   var subtype=ammoItem?ammoItem.subtype:'normal';
   var stats=ws.calcPlayerStats();
   var atkPow=Math.max(1,(rWeapon.atk||6)+Math.floor(stats.atk*0.3));
-  var _xb=rWeapon.cls==='xbow', _cdB=_xb?0.95:0.7; if(_xb)atkPow=Math.round(atkPow*1.15);      // crossbows: slower, harder, and the dart goes through one foe (round 37)
+  var _xb=rWeapon.cls==='xbow', _cdB=_xb?1.2:0.45; if(_xb)atkPow=Math.round(atkPow*1.35);      // round 129 (Kris ✓ A): the bow is quick (about two a second); the crossbow one heavy bolt, a 1.2 s reload, through every foe in a line, and it breaks plate
   ws.worldAtkTimer=_cdB;ws.worldBowTimer=_cdB; if(ws._mountCombat)ws._mountCombat();
   var p=ws.player;
   // Direction-based aiming: facing direction + optional 45° modifier
@@ -242,7 +242,7 @@ function _fireWorldBow(ws){
     vis:vis,x:p.x,y:p.y,
     vx:nx*spd,vy:ny*spd,
     dmg:atkPow,life:2.2,hit:false,
-    type:'arrow',subtype:subtype,pierceN:_xb?1:0,
+    type:'arrow',subtype:subtype,pierceN:_xb?99:0,xb:_xb,
     tracking:subtype==='heat',
     effect:subtype==='cold'?'slow':subtype==='fire'?'fire':'none',
     effectDur:2.0,
