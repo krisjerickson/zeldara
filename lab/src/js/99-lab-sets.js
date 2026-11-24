@@ -4,9 +4,9 @@
 // ║ build.mjs writes lab/lab.artifact.html with LAB_SET='new' (the Lab Kris uses, with its picks) and lab/lab-old.artifact.html with
 // ║ LAB_SET='old' (the earlier rounds, to look back at). lab/index.html (local, and the tests) has no LAB_SET: every tab.
 // ═══════════════════════════════════════════════════════════════════════
-var LAB_NEW=['tracker','worldlook4','ceremony','names2','aim','engage2','seasonsall','sfxpick','storyb','teach','polish','guide','invorg','backdrop','npcs','npcarcs','trainrev','seasons','seasart','series','sagas5','serpick','seasdeco','economy','economy2','audio','cutlook','worldlook','seasons5','worldlook3','vidcompare','bossplan2','engage','publish','icons'];
+var LAB_NEW=['tracker','npcs2','worldlook4','ceremony','names2','aim','engage2','seasonsall','sfxpick','storyb','teach','polish','guide','invorg','backdrop','npcs','npcarcs','trainrev','seasons','seasart','series','sagas5','serpick','seasdeco','economy','economy2','audio','cutlook','worldlook','seasons5','worldlook3','vidcompare','bossplan2','engage','publish','icons'];
 // the tabs with work still open (buttons in the new Lab); the rest of LAB_NEW sit in the drop-down
-var LAB_NOW=['tracker','worldlook4','seasonsall','sfxpick','audio','serpick','cutlook','vidcompare'];      /* round 129: aim, names and engage2 decided → the drop-down */
+var LAB_NOW=['tracker','npcs2','worldlook4','seasonsall','sfxpick','audio','serpick','cutlook','vidcompare'];      /* round 129: aim, names and engage2 decided → the drop-down */
 (function(){ if(typeof LAB_SET==='undefined'||!LAB_SET||typeof LAB_TABS==='undefined')return;
   var keep=function(t){ return (LAB_NEW.indexOf(t.id)>=0)===(LAB_SET==='new'); }, K=LAB_TABS.filter(keep);
   LAB_TABS.length=0; K.forEach(function(t){ LAB_TABS.push(t); });

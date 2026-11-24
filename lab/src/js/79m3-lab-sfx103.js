@@ -31,7 +31,7 @@
   // the player (the joined preview files, tools/audio/sfx_preview.py), a piece at a time
   var AC=null, LOAD={}, cur=null;
   var load=function(k){ if(LOAD[k])return LOAD[k]; AC=AC||new (window.AudioContext||window.webkitAudioContext)();
-    LOAD[k]=fetch('preview/audio/s84_'+k+'.mp3').then(function(r){ if(!r.ok)throw new Error(r.status); return r.arrayBuffer(); }).then(function(b){ return new Promise(function(ok,no){ AC.decodeAudioData(b,ok,no); }); })
+    LOAD[k]=fetch((typeof VSFX131!=='undefined'&&VSFX131[k])||'preview/audio/s84_'+k+'.mp3')      /* round 132: the third remake's takes are in the asset store (as webm) */.then(function(r){ if(!r.ok)throw new Error(r.status); return r.arrayBuffer(); }).then(function(b){ return new Promise(function(ok,no){ AC.decodeAudioData(b,ok,no); }); })
       /* round 129 (Kris: "loads of sound effects that have a star that i never approved"): the Lab had the take lists of Nov 20 but the sound files of
          Nov 7, so most takes played a piece of another sound. Now a file that does not match its list is refused, never played wrong. */
       .then(function(d){ var end=0; Object.keys(ITEMS).forEach(function(i){ var g=ITEMS[i][k]; if(g)end=Math.max(end,g[0]+g[1]); }); if(end>d.duration+0.3||d.duration-end>3){ console.warn('sfx preview out of date',k,end,d.duration); throw new Error('stale'); } return d; });
