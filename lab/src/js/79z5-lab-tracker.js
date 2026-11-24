@@ -19,12 +19,15 @@ var TRK=[
   {id:'chip',n:'No chipping bosses from afar · invisible walls, pulls and safe zones',st:'done',doc:'39 · 41',did:'Bosses heal / shield against out-of-arena chip damage; pulls and safe zones at the arena edge.'},
   {id:'rhythm',n:'Combat rhythm (weave, follow-up shot) · slow-turning shield foes',st:'done',doc:'55 · 74',did:'Rune-weave and follow-up shots reward timing; shield monsters turn slowly so you can flank them.'},
   {id:'diff',n:'Difficulty levels',st:'done',doc:17,did:'Four levels on the new-game screen and in ❓ Controls.'},
+  {id:'ringgate',n:'The gold ring only with a bow, crossbow or spell in hand',st:'done',r:130,did:'No ring until a ranged weapon or spell is equipped; the first time, a short line explains tap · hold · switch (the stand-in until your ceremony pick).'},
+  {id:'ceremony',n:'Ceremonies: the mana arc and the gold ring — who teaches, where, and the looks',st:'you',tab:'ceremony',todo:['ceremony'],need:5,ask:'Pick the way for each, the shimmer, and how the arc and ring first appear.'},
   {id:'remap',n:'Controls page with key remapping',st:'next',doc:88,ask:'',did:'',note:'Wave 1 of "Playing and coming back".'},
   {id:'pad',n:'Gamepad ("zelda" layout) + full Steam Deck coverage',st:'next',doc:88,note:'Wave 3.'},
   {id:'coop',n:'Couch co-op (full, with the rebalance)',st:'later',doc:88,note:'After wave 3.'}]},
  {a:'engage',ic:'🔁',n:'Playing and coming back',items:[
   {id:'engage2',n:'Your picks on the 40 proposals',st:'done',doc:88,r:129,did:'Decided and written up: wave plan, what is cut (assist, raven), not now (tells, three paths, twin near), maybe (the village grows — six looks, never gating forging or services).'},
-  {id:'wave1',n:'Wave 1 — safe saves, fast start, stuck help, softer lessons, site timer, next-hook, fair pledge, playtest data, Controls + remap, one-click form before the intro',st:'next',doc:88},
+  {id:'w1built',n:'Wave 1, built: safety saves, soft lessons, the stuck hint, site times, the morning line, our promise, one-step new game',st:'done',doc:89,r:130,did:'A quiet safety save every minute and when the tab hides or closes (Continue takes the newer). Most lessons are a card under the little map — only five still pause. Ten minutes lost → Oswin offers a hint (once; three steps). The map and site doors show ≈ minutes and your own time. Waking in bed: one line of what is waiting. "Our promise" on the title. New game: name, hero and difficulty on one form.'},
+  {id:'wave1',n:'Wave 1, still to build: the Controls page with remapping, the opt-in play log, the fast first load',st:'next',doc:88},
   {id:'wave2',n:'Wave 2 — death story, challenge codes, share cards, photo mode, letters + "where you were" card, map stamps, the Tome book, rest at the hearth, game-day counter + festival days, first win',st:'later',doc:88},
   {id:'wave3',n:'Wave 3 — festivals, home trophies, loom, saga night, secrets, stream-ready, gamepad, crypt / new game+, landmark passes, light bonds, the village\'s six looks',st:'later',doc:88},
   {id:'cutengage',n:'Cut or not now: assist mode, the raven; tells, three paths (maybe a skill tree later), twin near',st:'cut',doc:88}]},
@@ -36,7 +39,9 @@ var TRK=[
   {id:'mapmarks',n:'Quest marks, camps and the current quest on the map',st:'done',doc:'62 · 64',did:'Map shows quests, camps and a "current quest"; fairy rings heal.'}]},
  {a:'seasons',ic:'🌸',n:'Seasons & festivals',items:[
   {id:'seasonsall',n:'All the seasons & festivals — ✓ or ↻ every group of paintings',st:'you',tab:'seasonsall',todo:['seasonsall'],live:'seasonsall',ask:'Open each season, look at each group full-screen, ✓ or ↻ with a note.'},
+  {id:'seasredo',n:'Seasons repainted where you asked (↻): autumn colour variety + green pines, thaw seedlings, harvested winter fields',st:'wait',tab:'seasonsall',need:1,ask:'On the PC: .\\tools\\sprites\\redo.ps1 -List r130_seasons_redo (9 sheets), then tell me they are in.'},
   {id:'seasturn',n:'The seasons turn as the realms are freed',st:'done',doc:'70 · 82',did:'The thaw → summer → harvest → Yule → Freya\'s spring, by realms freed (no clock). Trees, plants, village, props and land repainted per season; evergreens stay green in autumn.'},
+  {id:'manahide',n:'The mana arc hidden until your first spell, then it shimmers',st:'done',r:130,did:'No mana arc until you have a spell; the first time it draws itself in, glows and a pointer explains it (stand-in until your ceremony pick). The arc\'s colours now drift slowly along it.'},
   {id:'seasprops',n:'Thaw and spring village props repainted; spring festival set 2',st:'done',doc:87,r:129,did:'Repaints in (wave 131); the pole, crowns and cart moved to their own sheet.'},
   {id:'seasland',n:'Season land placement + a game-day counter for festival days',st:'later',note:'Festival = the first 3 in-game days of a new season (wave 2).'}]},
  {a:'story',ic:'📜',n:'Story, villagers & cut-scenes',items:[

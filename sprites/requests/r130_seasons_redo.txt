@@ -1,0 +1,12 @@
+# Round 130 — the seasons painted again where Kris asked (Lab › All the seasons & festivals, ↻): autumn's variety of colour and green
+# pines; seedlings in the thaw (fields and vegetable beds); harvested open fields in winter. 8 sheets.
+#   .\tools\sprites\redo.ps1 -List r130_seasons_redo
+sc_seas_au_trees_1
+sc_seas_au_trees_2
+sc_seas_au_trees_3
+sc_seas_au_plants_1
+sc_seas_au_plants_2
+sc_seas_au_plants_3
+sc_seas_th_plants_3
+sc_seas_th_vprops_3
+sc_seas_wi_plants_3

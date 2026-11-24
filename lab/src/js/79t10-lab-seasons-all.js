@@ -13,11 +13,11 @@
   var J=function(n){ var p='preview/seasons5b/'+n+'.jpg'; return (typeof R128A!=='undefined'&&R128A[p])||p; };
   var esc=function(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); };
   var P=function(k){ return LabApp.picks[k]||{}; }, V=function(k){ return P(k).verdict||null; };
-  var ST={in:['✓ painted','#8fe8a0'],part:['partly painted','#ffd76a'],ordered:['ordered — not painted yet','#9ab0c8'],new:['★ new request this round','#ffb0e0'],none:['not ordered','#888']};
+  var ST={in:['✓ painted','#8fe8a0'],part:['partly painted','#ffd76a'],ordered:['ordered — not painted yet','#9ab0c8'],new:['★ new request this round','#ffb0e0'],none:['not ordered','#888'],redo:['↻ being painted again — your note (round 130)','#ffb070']};
   var chip=function(x){ var s=ST[x.state]||ST.none; return '<span class="sa-chip" style="--c:'+s[1]+'" title="'+esc(x.title)+'">'+esc(x.id.replace(/^sc_/,''))+' · '+x.got+'/'+x.n+' · '+s[0]+'</span>'; };
-  var group=function(sk,G,col){ var k='seasonsall-'+sk+'-'+G.g, v=V(k), todo=G.sheets.some(function(x){ return x.state==='new'||x.state==='ordered'||x.state==='part'; });
+  var group=function(sk,G,col){ var k='seasonsall-'+sk+'-'+G.g, v=V(k), todo=G.sheets.some(function(x){ return x.state==='new'||x.state==='ordered'||x.state==='part'||x.state==='redo'; }), rd=G.sheets.some(function(x){ return x.state==='redo'; });
     return '<div class="sa-g'+(v?' v-'+v:'')+'" style="--c:'+col+'"><div class="sa-gh"><b>'+esc(G.n)+'</b><small>'+G.n_in+' of '+G.n_all+' painted'+(todo?' · more on the way':'')+'</small></div>'+
-      '<div class="sa-chips">'+G.sheets.map(chip).join('')+'</div>'+(G.ev&&G.ev.length?'<p class="sa-ev">🌲 Evergreens keep their summer green in autumn now (they had been painted orange): '+esc(G.ev.join(', '))+'.</p>':'')+
+      '<div class="sa-chips">'+G.sheets.map(chip).join('')+'</div>'+(rd?'<p class="sa-ev" style="color:#ffcf9a">↻ Your note went into a new request (round 130) — these sheets are being painted again: <code>redo.ps1 -List r130_seasons_redo</code>. The pictures here change when they are in.</p>':'')+(G.ev&&G.ev.length?'<p class="sa-ev">🌲 Evergreens keep their summer green in autumn now (they had been painted orange): '+esc(G.ev.join(', '))+'.</p>':'')+
       '<div class="sa-iw"><img class="sa-img" data-z="'+esc(G.img)+'" data-t="'+esc(G.n)+'" src="'+I(G.img)+'" alt="" loading="lazy"><button class="vbtn sa-zb" data-z="'+esc(G.img)+'" data-t="'+esc(G.n)+'">⤢ Full screen</button></div>'+
       '<div class="sa-f"><span class="wl-seg" data-k="'+k+'">'+[['pick','✓ Good'],['redo','↻ Needs work']].map(function(o){ return '<button class="vbtn wl-sg sa-sg'+(v===o[0]?' on '+o[0]:'')+'" data-v="'+o[0]+'">'+o[1]+'</button>'; }).join('')+'</span>'+
       '<input class="tl-n wl-n" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="Your note on '+esc(G.n.toLowerCase())+' — which piece, what to change…"></div></div>'; };

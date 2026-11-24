@@ -36,6 +36,8 @@ FEST['bl'].append('sc_fest_set_bl2')
 SHARED = [('air', 'The seasons\' air', ['sc_seas_air']), ('icons', 'Season marks, festival food and the year\'s icons', ['sc_seas_icons', 'sc_fest_food', 'sc_ic_r128_seasons'])]
 NEW = {'sc_seas_th_vprops_1', 'sc_seas_th_vprops_2', 'sc_seas_th_vprops_3', 'sc_seas_th_vprops_4', 'sc_seas_sp_vprops_1', 'sc_seas_sp_vprops_2',
        'sc_seas_sp_vprops_3', 'sc_seas_sp_vprops_4', 'sc_fest_set_bl2'}        # ordered this round (07zt23)
+REDO = {'sc_seas_au_trees_1', 'sc_seas_au_trees_2', 'sc_seas_au_trees_3', 'sc_seas_au_plants_1', 'sc_seas_au_plants_2', 'sc_seas_au_plants_3',
+        'sc_seas_th_plants_3', 'sc_seas_th_vprops_3', 'sc_seas_wi_plants_3'}        # round 130: Kris ↻ — painted again (07zt24, redo.ps1 -List r130_seasons_redo)
 EVER = re.compile(r'^tr_(pine|mangrove)|^pl_(hedge|topiary)|^ed_(ivy|moss_patch)')
 
 
@@ -57,7 +59,7 @@ def sheet_info(k):
     if not q: return {'id': k, 'title': '(not ordered)', 'n': 0, 'got': 0, 'state': 'none', 'items': []}
     its = [{'id': it['id'], 'n': it['name'], 'p': painted(it['id']), 'ev': bool(EVER.match(it['id'])) and k.startswith('sc_seas_au')} for it in q['items']]
     got = sum(1 for x in its if x['p'])
-    st = 'in' if its and got == len(its) else ('new' if k in NEW else 'part' if got else 'ordered')
+    st = 'redo' if k in REDO else 'in' if its and got == len(its) else ('new' if k in NEW else 'part' if got else 'ordered')
     return {'id': k, 'title': re.sub(r'\. Each piece.*$|Each piece.*$', '', q.get('title', '')).strip(), 'n': len(its), 'got': got, 'state': st, 'wave': q.get('wave'), 'tex': q['kind'] == 'tex', 'items': its}
 
 

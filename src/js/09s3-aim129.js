@@ -111,6 +111,11 @@ var ZAIM129={ on:true, HALF:0.96, RNG_BOW:340, RNG_SPELL:300, CH1:0.4, CH2:0.8, 
   if(typeof ITEMS!=='undefined')Object.keys(ITEMS).forEach(function(id){ var it=ITEMS[id]; if(!it||it.type!=='ammo'||it.ammoFor!=='xbow'||it._r129)return; it._r129=true;
     if(it.buy)it.buy=Math.round(it.buy*1.5); it.qty=it.qty>=10?6:3; if(it.desc)it.desc=it.desc.replace(/× \d+ per purchase/,'× '+it.qty+' per purchase'); });
   if(typeof ITEMS!=='undefined')Object.keys(ITEMS).forEach(function(id){ var it=ITEMS[id]; if(it&&it.cls==='xbow'&&it.desc)it.desc=it.desc.replace(/crossbow: slower, hits hard, the dart passes through one foe/,'crossbow: one heavy bolt, a slow reload — it goes through every foe in a line and breaks plate'); });
+  /* round 130: while charging, a direction only moves the ring — the key never reaches the scene, so the hero stands still
+     (09s-combat102 has already read it into ZAIM.mv; its listener was added first) */
+  if(typeof window!=='undefined'){ var MV={a:1,d:1,w:1,s:1,arrowleft:1,arrowright:1,arrowup:1,arrowdown:1};
+    window.addEventListener('keydown',function(e){ if(!ZAIM129.on)return; var ch=ZDRAW.cur||(ZAIM.cur&&ZAIM.cur.chg); if(!ch||!MV[String(e.key||'').toLowerCase()])return; e.stopImmediatePropagation();
+      try{ var sc=ch.sc, K=sc.keys||{}, cu=sc.cursors||{}; ['W','A','S','D','UP','DOWN','LEFT','RIGHT'].forEach(function(n){ if(K[n]&&K[n].reset)K[n].reset(); }); ['up','down','left','right'].forEach(function(n){ if(cu[n]&&cu[n].reset)cu[n].reset(); }); }catch(err){} },true); }
   // the controls box
   if(typeof ZDiff!=='undefined'&&ZDiff.render){ var dr0=ZDiff.render; ZDiff.render=function(){ dr0.apply(ZDiff,arguments); ZAIM129.render(); }; }
   if(typeof document!=='undefined'){ var st=document.createElement('style'); st.textContent='.zaim-row{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:6px 0}@media(max-width:560px){.zaim-row{grid-template-columns:repeat(2,1fr)}}'; (document.head||document.documentElement).appendChild(st); }

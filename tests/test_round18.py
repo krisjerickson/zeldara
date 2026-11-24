@@ -42,8 +42,7 @@ with game(new=None) as g:
     check('The engine helper matches the loaded engine ('+r['v']+')', r['z']==r['v'] and r['has'] and r['v4']==(ENGINE=='4'), r)
     # New game through the menus: name → slot → hero
     g.js("ZProfilesUI.newGame(function(isNew){ ZProfilesUI.close(); game.scene.getScene('Title').scene.start('Boot',{newGame:isNew}); })"); g.wait(200)
-    g.js("document.getElementById('zp-name').value='Rin'; document.getElementById('zp-next').click()"); g.wait(200)
-    g.js("document.querySelectorAll('.zp-slot')[0].querySelector('[data-a=new]').click()"); g.wait(400)
+    g.js("document.getElementById('zp-name').value='Rin'"); g.wait(400)      # round 130: name, hero and difficulty on one form
     r=g.js("({n:document.querySelectorAll('.zp-hero').length, t:[...document.querySelectorAll('.zp-hero b')].map(function(b){ return b.textContent; }), drawn:[...document.querySelectorAll('.zp-hero canvas')].map(function(cv){ var d=cv.getContext('2d').getImageData(0,0,100,168).data, n=0; for(var i=3;i<d.length;i+=4)if(d[i]>40)n++; return n; })})")
     check('New Game asks which hero: Zola (the girl) or Zoldor (the boy), each with a picture (round 53)', r['n']==2 and r['t']==['Zola','Zoldor'] and min(r['drawn'])>800, r)
     g.js("document.querySelector('.zp-hero[data-h=f]').click(); document.getElementById('zp-begin').click()")      # round 85: Begin Quest

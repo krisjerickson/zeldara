@@ -389,7 +389,7 @@ function _wmRenderSide(ws){
       if(W1){ var on=(ps.activatedWaystones||[]).indexOf(W1.id)>=0, from=WMAP.travel&&ws.wd.waystones.find(function(w){return w.id===WMAP.travel;});
         txt='<b>🔷 '+W1.name+'</b>'+(on?(from&&W1.id!==from.id?' <span>· click to travel ('+(_wmCost(ws,from,W1)||'free')+(_wmCost(ws,from,W1)?'g':'')+')</span>':''):' <span>· touch it to activate</span>'); }
       else if(G){ var C=CRAFTSMEN[G.craftsman]; txt='<b>'+(G.open?G.icon:'🔒')+' '+G.name+'</b> <span>· '+G.borderName+(G.open?'':' · free '+(C?C.n:'the craftsman'))+'</span>'; }
-      else if(S){ txt='<b>'+_siteLabel(S)+'</b>'; }
+      else if(S){ txt='<b>'+_siteLabel(S)+'</b>'+(typeof ZSITET!=='undefined'?'<span>'+ZSITET.tag(S,ps)+'</span>':''); }      /* round 130: site_time */
       else { var L=_wmZoneLabel(t[0],t[1]); txt='<b>'+L.name+'</b>'+(L.region?' <span>· '+L.region+'</span>':''); }
     }
     var rr=cv.getBoundingClientRect(); tip.innerHTML=txt; tip.style.display='block'; tip.style.left=Math.min(e.clientX-rr.left+14,rr.width-180)+'px'; tip.style.top=(e.clientY-rr.top+14)+'px';
