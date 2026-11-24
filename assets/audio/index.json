@@ -958,12 +958,6 @@
    },
    {
     "base": "sfx_boss_phase.d",
-    "le": 2.405,
-    "ls": 0,
-    "secs": 2.405
-   },
-   {
-    "base": "sfx_boss_phase.e",
     "le": 2.287,
     "ls": 0,
     "secs": 2.287
@@ -977,39 +971,27 @@
   "files": [
    {
     "base": "sfx_boss_roar",
-    "le": 3.461,
-    "ls": 0,
-    "secs": 3.461
-   },
-   {
-    "base": "sfx_boss_roar.b",
     "le": 1.666,
     "ls": 0,
     "secs": 1.666
    },
    {
-    "base": "sfx_boss_roar.c",
+    "base": "sfx_boss_roar.b",
     "le": 1.484,
     "ls": 0,
     "secs": 1.484
    },
    {
-    "base": "sfx_boss_roar.d",
+    "base": "sfx_boss_roar.c",
     "le": 1.321,
     "ls": 0,
     "secs": 1.321
    },
    {
-    "base": "sfx_boss_roar.e",
+    "base": "sfx_boss_roar.d",
     "le": 1.383,
     "ls": 0,
     "secs": 1.383
-   },
-   {
-    "base": "sfx_boss_roar.f",
-    "le": 1.816,
-    "ls": 0,
-    "secs": 1.816
    }
   ],
   "kind": "sfx",
@@ -1035,12 +1017,6 @@
     "le": 1.032,
     "ls": 0,
     "secs": 1.032
-   },
-   {
-    "base": "sfx_boss_slam.d",
-    "le": 1.347,
-    "ls": 0,
-    "secs": 1.347
    }
   ],
   "kind": "sfx",
@@ -1054,12 +1030,6 @@
     "le": 1.877,
     "ls": 0,
     "secs": 1.877
-   },
-   {
-    "base": "sfx_boss_stomp.b",
-    "le": 0.857,
-    "ls": 0,
-    "secs": 0.857
    }
   ],
   "kind": "sfx",
@@ -1085,18 +1055,19 @@
   "loop": false
  },
  "sfx_bow_shot": {
+  "eth": true,
   "files": [
    {
     "base": "sfx_bow_shot",
-    "le": 0.399,
+    "le": 0.395,
     "ls": 0,
-    "secs": 0.399
+    "secs": 0.395
    },
    {
     "base": "sfx_bow_shot.b",
-    "le": 0.6,
+    "le": 0.133,
     "ls": 0,
-    "secs": 0.6
+    "secs": 0.133
    }
   ],
   "kind": "sfx",
@@ -1132,9 +1103,21 @@
    },
    {
     "base": "sfx_chest.b",
-    "le": 0.696,
+    "le": 0.443,
     "ls": 0,
-    "secs": 0.696
+    "secs": 0.443
+   },
+   {
+    "base": "sfx_chest.c",
+    "le": 0.614,
+    "ls": 0,
+    "secs": 0.614
+   },
+   {
+    "base": "sfx_chest.d",
+    "le": 0.683,
+    "ls": 0,
+    "secs": 0.683
    }
   ],
   "kind": "sfx",
@@ -1189,24 +1172,12 @@
   "files": [
    {
     "base": "sfx_crossbow",
-    "le": 0.138,
-    "ls": 0,
-    "secs": 0.138
-   },
-   {
-    "base": "sfx_crossbow.b",
-    "le": 0.267,
-    "ls": 0,
-    "secs": 0.267
-   },
-   {
-    "base": "sfx_crossbow.c",
     "le": 0.285,
     "ls": 0,
     "secs": 0.285
    },
    {
-    "base": "sfx_crossbow.d",
+    "base": "sfx_crossbow.b",
     "le": 0.281,
     "ls": 0,
     "secs": 0.281
@@ -1254,6 +1225,12 @@
     "le": 0.63,
     "ls": 0,
     "secs": 0.63
+   },
+   {
+    "base": "sfx_dark.c",
+    "le": 0.786,
+    "ls": 0,
+    "secs": 0.786
    }
   ],
   "kind": "sfx",
@@ -1270,9 +1247,15 @@
    },
    {
     "base": "sfx_dig.b",
-    "le": 0.472,
+    "le": 0.54,
     "ls": 0,
-    "secs": 0.472
+    "secs": 0.54
+   },
+   {
+    "base": "sfx_dig.c",
+    "le": 0.411,
+    "ls": 0,
+    "secs": 0.411
    }
   ],
   "kind": "sfx",
@@ -1295,9 +1278,9 @@
    },
    {
     "base": "sfx_door.c",
-    "le": 1.214,
+    "le": 0.828,
     "ls": 0,
-    "secs": 1.214
+    "secs": 0.828
    }
   ],
   "kind": "sfx",
@@ -1317,6 +1300,18 @@
     "le": 0.664,
     "ls": 0,
     "secs": 0.664
+   },
+   {
+    "base": "sfx_drake.c",
+    "le": 2.603,
+    "ls": 0,
+    "secs": 2.603
+   },
+   {
+    "base": "sfx_drake.d",
+    "le": 1.28,
+    "ls": 0,
+    "secs": 1.28
    }
   ],
   "kind": "sfx",
@@ -1348,12 +1343,6 @@
     "le": 0.52,
     "ls": 0,
     "secs": 0.52
-   },
-   {
-    "base": "sfx_drink.e",
-    "le": 0.3,
-    "ls": 0,
-    "secs": 0.3
    }
   ],
   "kind": "sfx",
@@ -1364,9 +1353,15 @@
   "files": [
    {
     "base": "sfx_earth",
-    "le": 1.199,
+    "le": 0.979,
     "ls": 0,
-    "secs": 1.199
+    "secs": 0.979
+   },
+   {
+    "base": "sfx_earth.b",
+    "le": 0.892,
+    "ls": 0,
+    "secs": 0.892
    }
   ],
   "kind": "sfx",
@@ -1396,9 +1391,9 @@
   "files": [
    {
     "base": "sfx_fall",
-    "le": 0.711,
+    "le": 0.756,
     "ls": 0,
-    "secs": 0.711
+    "secs": 0.756
    }
   ],
   "kind": "sfx",
@@ -1409,15 +1404,21 @@
   "files": [
    {
     "base": "sfx_fam_call",
-    "le": 0.598,
+    "le": 0.618,
     "ls": 0,
-    "secs": 0.598
+    "secs": 0.618
    },
    {
     "base": "sfx_fam_call.b",
-    "le": 0.667,
+    "le": 0.832,
     "ls": 0,
-    "secs": 0.667
+    "secs": 0.832
+   },
+   {
+    "base": "sfx_fam_call.c",
+    "le": 0.676,
+    "ls": 0,
+    "secs": 0.676
    }
   ],
   "kind": "sfx",
@@ -1428,21 +1429,21 @@
   "files": [
    {
     "base": "sfx_fam_earth",
-    "le": 0.116,
-    "ls": 0,
-    "secs": 0.116
-   },
-   {
-    "base": "sfx_fam_earth.b",
     "le": 0.979,
     "ls": 0,
     "secs": 0.979
    },
    {
-    "base": "sfx_fam_earth.c",
+    "base": "sfx_fam_earth.b",
     "le": 0.181,
     "ls": 0,
     "secs": 0.181
+   },
+   {
+    "base": "sfx_fam_earth.c",
+    "le": 0.398,
+    "ls": 0,
+    "secs": 0.398
    }
   ],
   "kind": "sfx",
@@ -1459,15 +1460,15 @@
    },
    {
     "base": "sfx_fam_fire.b",
-    "le": 0.347,
-    "ls": 0,
-    "secs": 0.347
-   },
-   {
-    "base": "sfx_fam_fire.c",
     "le": 0.446,
     "ls": 0,
     "secs": 0.446
+   },
+   {
+    "base": "sfx_fam_fire.c",
+    "le": 0.415,
+    "ls": 0,
+    "secs": 0.415
    }
   ],
   "kind": "sfx",
@@ -1493,6 +1494,12 @@
     "le": 0.802,
     "ls": 0,
     "secs": 0.802
+   },
+   {
+    "base": "sfx_fam_grass.d",
+    "le": 0.478,
+    "ls": 0,
+    "secs": 0.478
    }
   ],
   "kind": "sfx",
@@ -1599,18 +1606,25 @@
   "loop": false
  },
  "sfx_gem": {
+  "eth": true,
   "files": [
    {
     "base": "sfx_gem",
-    "le": 0.6,
+    "le": 0.476,
     "ls": 0,
-    "secs": 0.6
+    "secs": 0.476
    },
    {
     "base": "sfx_gem.b",
-    "le": 0.6,
+    "le": 0.355,
     "ls": 0,
-    "secs": 0.6
+    "secs": 0.355
+   },
+   {
+    "base": "sfx_gem.c",
+    "le": 0.364,
+    "ls": 0,
+    "secs": 0.364
    }
   ],
   "kind": "sfx",
@@ -1630,6 +1644,18 @@
     "le": 0.918,
     "ls": 0,
     "secs": 0.918
+   },
+   {
+    "base": "sfx_goat.c",
+    "le": 0.825,
+    "ls": 0,
+    "secs": 0.825
+   },
+   {
+    "base": "sfx_goat.d",
+    "le": 0.892,
+    "ls": 0,
+    "secs": 0.892
    }
   ],
   "kind": "sfx",
@@ -1676,12 +1702,6 @@
    },
    {
     "base": "sfx_golem.d",
-    "le": 0.841,
-    "ls": 0,
-    "secs": 0.841
-   },
-   {
-    "base": "sfx_golem.e",
     "le": 0.827,
     "ls": 0,
     "secs": 0.827
@@ -1691,18 +1711,19 @@
   "loop": false
  },
  "sfx_great_door": {
+  "eth": true,
   "files": [
    {
     "base": "sfx_great_door",
-    "le": 2.16,
+    "le": 2.158,
     "ls": 0,
-    "secs": 2.16
+    "secs": 2.158
    },
    {
     "base": "sfx_great_door.b",
-    "le": 2.288,
+    "le": 2.426,
     "ls": 0,
-    "secs": 2.288
+    "secs": 2.426
    }
   ],
   "kind": "sfx",
@@ -1747,6 +1768,12 @@
     "le": 2.996,
     "ls": 0,
     "secs": 2.996
+   },
+   {
+    "base": "sfx_hooves.c",
+    "le": 2.999,
+    "ls": 0,
+    "secs": 2.999
    }
   ],
   "kind": "sfx",
@@ -1760,12 +1787,6 @@
     "le": 0.368,
     "ls": 0,
     "secs": 0.368
-   },
-   {
-    "base": "sfx_hurt.b",
-    "le": 0.261,
-    "ls": 0,
-    "secs": 0.261
    }
   ],
   "kind": "sfx",
@@ -1785,6 +1806,12 @@
     "le": 0.735,
     "ls": 0,
     "secs": 0.735
+   },
+   {
+    "base": "sfx_insect.c",
+    "le": 0.724,
+    "ls": 0,
+    "secs": 0.724
    }
   ],
   "kind": "sfx",
@@ -1814,12 +1841,6 @@
   "files": [
    {
     "base": "sfx_lava",
-    "le": 1.87,
-    "ls": 0,
-    "secs": 1.87
-   },
-   {
-    "base": "sfx_lava.b",
     "le": 1.881,
     "ls": 0,
     "secs": 1.881
@@ -1854,18 +1875,25 @@
   "loop": false
  },
  "sfx_light": {
+  "eth": true,
   "files": [
    {
     "base": "sfx_light",
-    "le": 1.0,
+    "le": 0.745,
     "ls": 0,
-    "secs": 1.0
+    "secs": 0.745
    },
    {
     "base": "sfx_light.b",
-    "le": 1.0,
+    "le": 0.869,
     "ls": 0,
-    "secs": 1.0
+    "secs": 0.869
+   },
+   {
+    "base": "sfx_light.c",
+    "le": 0.79,
+    "ls": 0,
+    "secs": 0.79
    }
   ],
   "kind": "sfx",
@@ -1897,6 +1925,12 @@
     "le": 1.873,
     "ls": 0,
     "secs": 1.873
+   },
+   {
+    "base": "sfx_line_trace.b",
+    "le": 2.47,
+    "ls": 0,
+    "secs": 2.47
    }
   ],
   "kind": "sfx",
@@ -1916,12 +1950,6 @@
     "le": 0.297,
     "ls": 0,
     "secs": 0.297
-   },
-   {
-    "base": "sfx_locked.c",
-    "le": 0.173,
-    "ls": 0,
-    "secs": 0.173
    }
   ],
   "kind": "sfx",
@@ -1948,12 +1976,6 @@
     "le": 0.505,
     "ls": 0,
     "secs": 0.505
-   },
-   {
-    "base": "sfx_mana.b",
-    "le": 0.64,
-    "ls": 0,
-    "secs": 0.64
    }
   ],
   "kind": "sfx",
@@ -1986,12 +2008,6 @@
     "le": 1.477,
     "ls": 0,
     "secs": 1.477
-   },
-   {
-    "base": "sfx_mon_die.b",
-    "le": 1.067,
-    "ls": 0,
-    "secs": 1.067
    }
   ],
   "kind": "sfx",
@@ -2002,15 +2018,15 @@
   "files": [
    {
     "base": "sfx_mon_hit",
-    "le": 0.271,
-    "ls": 0,
-    "secs": 0.271
-   },
-   {
-    "base": "sfx_mon_hit.b",
     "le": 0.476,
     "ls": 0,
     "secs": 0.476
+   },
+   {
+    "base": "sfx_mon_hit.b",
+    "le": 0.273,
+    "ls": 0,
+    "secs": 0.273
    }
   ],
   "kind": "sfx",
@@ -2055,6 +2071,12 @@
     "le": 0.664,
     "ls": 0,
     "secs": 0.664
+   },
+   {
+    "base": "sfx_mt_ash_salamander.c",
+    "le": 1.034,
+    "ls": 0,
+    "secs": 1.034
    }
   ],
   "kind": "sfx",
@@ -2074,6 +2096,12 @@
     "le": 0.961,
     "ls": 0,
     "secs": 0.961
+   },
+   {
+    "base": "sfx_mt_boar.c",
+    "le": 0.974,
+    "ls": 0,
+    "secs": 0.974
    }
   ],
   "kind": "sfx",
@@ -2093,6 +2121,12 @@
     "le": 1.045,
     "ls": 0,
     "secs": 1.045
+   },
+   {
+    "base": "sfx_mt_dragon.c",
+    "le": 1.154,
+    "ls": 0,
+    "secs": 1.154
    }
   ],
   "kind": "sfx",
@@ -2144,6 +2178,18 @@
     "le": 1.163,
     "ls": 0,
     "secs": 1.163
+   },
+   {
+    "base": "sfx_mt_lava_unicorn.b",
+    "le": 1.13,
+    "ls": 0,
+    "secs": 1.13
+   },
+   {
+    "base": "sfx_mt_lava_unicorn.c",
+    "le": 1.05,
+    "ls": 0,
+    "secs": 1.05
    }
   ],
   "kind": "sfx",
@@ -2182,6 +2228,12 @@
     "le": 1.044,
     "ls": 0,
     "secs": 1.044
+   },
+   {
+    "base": "sfx_mt_sky_glider.c",
+    "le": 0.71,
+    "ls": 0,
+    "secs": 0.71
    }
   ],
   "kind": "sfx",
@@ -2201,6 +2253,12 @@
     "le": 1.154,
     "ls": 0,
     "secs": 1.154
+   },
+   {
+    "base": "sfx_mt_storm_drake.c",
+    "le": 0.938,
+    "ls": 0,
+    "secs": 0.938
    }
   ],
   "kind": "sfx",
@@ -2211,9 +2269,9 @@
   "files": [
    {
     "base": "sfx_mt_void_serpent",
-    "le": 0.52,
+    "le": 0.929,
     "ls": 0,
-    "secs": 0.52
+    "secs": 0.929
    }
   ],
   "kind": "sfx",
@@ -2243,12 +2301,6 @@
   "files": [
    {
     "base": "sfx_nomana",
-    "le": 0.394,
-    "ls": 0,
-    "secs": 0.394
-   },
-   {
-    "base": "sfx_nomana.b",
     "le": 0.48,
     "ls": 0,
     "secs": 0.48
@@ -2281,18 +2333,12 @@
   "files": [
    {
     "base": "sfx_page",
-    "le": 0.904,
-    "ls": 0,
-    "secs": 0.904
-   },
-   {
-    "base": "sfx_page.b",
     "le": 0.507,
     "ls": 0,
     "secs": 0.507
    },
    {
-    "base": "sfx_page.c",
+    "base": "sfx_page.b",
     "le": 0.442,
     "ls": 0,
     "secs": 0.442
@@ -2416,6 +2462,12 @@
     "le": 0.944,
     "ls": 0,
     "secs": 0.944
+   },
+   {
+    "base": "sfx_sheep.c",
+    "le": 0.988,
+    "ls": 0,
+    "secs": 0.988
    }
   ],
   "kind": "sfx",
@@ -2438,21 +2490,9 @@
    },
    {
     "base": "sfx_shield_break.c",
-    "le": 0.667,
-    "ls": 0,
-    "secs": 0.667
-   },
-   {
-    "base": "sfx_shield_break.d",
     "le": 1.0,
     "ls": 0,
     "secs": 1.0
-   },
-   {
-    "base": "sfx_shield_break.e",
-    "le": 0.727,
-    "ls": 0,
-    "secs": 0.727
    }
   ],
   "kind": "sfx",
@@ -2472,6 +2512,19 @@
     "le": 2.585,
     "ls": 0,
     "secs": 2.585
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
+ "sfx_sk_berserker": {
+  "eth": true,
+  "files": [
+   {
+    "base": "sfx_sk_berserker",
+    "le": 0.99,
+    "ls": 0,
+    "secs": 0.99
    }
   ],
   "kind": "sfx",
@@ -2539,9 +2592,9 @@
    },
    {
     "base": "sfx_sk_phantom_veil.b",
-    "le": 0.657,
+    "le": 0.356,
     "ls": 0,
-    "secs": 0.657
+    "secs": 0.356
    }
   ],
   "kind": "sfx",
@@ -2552,18 +2605,12 @@
   "files": [
    {
     "base": "sfx_sk_roll",
-    "le": 0.315,
-    "ls": 0,
-    "secs": 0.315
-   },
-   {
-    "base": "sfx_sk_roll.b",
     "le": 0.451,
     "ls": 0,
     "secs": 0.451
    },
    {
-    "base": "sfx_sk_roll.c",
+    "base": "sfx_sk_roll.b",
     "le": 0.439,
     "ls": 0,
     "secs": 0.439
@@ -2577,9 +2624,9 @@
   "files": [
    {
     "base": "sfx_sk_second_wind",
-    "le": 0.369,
+    "le": 0.821,
     "ls": 0,
-    "secs": 0.369
+    "secs": 0.821
    }
   ],
   "kind": "sfx",
@@ -2593,6 +2640,12 @@
     "le": 0.552,
     "ls": 0,
     "secs": 0.552
+   },
+   {
+    "base": "sfx_sk_shield_bash.b",
+    "le": 0.619,
+    "ls": 0,
+    "secs": 0.619
    }
   ],
   "kind": "sfx",
@@ -2622,9 +2675,9 @@
    },
    {
     "base": "sfx_sk_sprint.b",
-    "le": 0.776,
+    "le": 0.775,
     "ls": 0,
-    "secs": 0.776
+    "secs": 0.775
    }
   ],
   "kind": "sfx",
@@ -2635,9 +2688,9 @@
   "files": [
    {
     "base": "sfx_sk_time_slow",
-    "le": 0.735,
+    "le": 0.737,
     "ls": 0,
-    "secs": 0.735
+    "secs": 0.737
    }
   ],
   "kind": "sfx",
@@ -2661,12 +2714,6 @@
   "files": [
    {
     "base": "sfx_sk_whirlwind",
-    "le": 0.757,
-    "ls": 0,
-    "secs": 0.757
-   },
-   {
-    "base": "sfx_sk_whirlwind.b",
     "le": 1.716,
     "ls": 0,
     "secs": 1.716
@@ -2718,27 +2765,15 @@
    },
    {
     "base": "sfx_slime.b",
-    "le": 0.961,
-    "ls": 0,
-    "secs": 0.961
-   },
-   {
-    "base": "sfx_slime.c",
     "le": 0.114,
     "ls": 0,
     "secs": 0.114
    },
    {
-    "base": "sfx_slime.d",
+    "base": "sfx_slime.c",
     "le": 0.351,
     "ls": 0,
     "secs": 0.351
-   },
-   {
-    "base": "sfx_slime.e",
-    "le": 0.38,
-    "ls": 0,
-    "secs": 0.38
    }
   ],
   "kind": "sfx",
@@ -2770,6 +2805,25 @@
   "kind": "sfx",
   "loop": false
  },
+ "sfx_sp_chain_lightning": {
+  "eth": true,
+  "files": [
+   {
+    "base": "sfx_sp_chain_lightning",
+    "le": 1.48,
+    "ls": 0,
+    "secs": 1.48
+   },
+   {
+    "base": "sfx_sp_chain_lightning.b",
+    "le": 1.243,
+    "ls": 0,
+    "secs": 1.243
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
  "sfx_sp_fireball": {
   "eth": true,
   "files": [
@@ -2790,6 +2844,12 @@
     "le": 0.711,
     "ls": 0,
     "secs": 0.711
+   },
+   {
+    "base": "sfx_sp_fireball.d",
+    "le": 0.751,
+    "ls": 0,
+    "secs": 0.751
    }
   ],
   "kind": "sfx",
@@ -2815,6 +2875,12 @@
     "le": 0.643,
     "ls": 0,
     "secs": 0.643
+   },
+   {
+    "base": "sfx_sp_flame_nova.d",
+    "le": 0.828,
+    "ls": 0,
+    "secs": 0.828
    }
   ],
   "kind": "sfx",
@@ -2872,6 +2938,25 @@
   "kind": "sfx",
   "loop": false
  },
+ "sfx_sp_starfall": {
+  "eth": true,
+  "files": [
+   {
+    "base": "sfx_sp_starfall",
+    "le": 1.395,
+    "ls": 0,
+    "secs": 1.395
+   },
+   {
+    "base": "sfx_sp_starfall.b",
+    "le": 1.028,
+    "ls": 0,
+    "secs": 1.028
+   }
+  ],
+  "kind": "sfx",
+  "loop": false
+ },
  "sfx_sp_stone_spikes": {
   "eth": true,
   "files": [
@@ -2880,6 +2965,12 @@
     "le": 1.219,
     "ls": 0,
     "secs": 1.219
+   },
+   {
+    "base": "sfx_sp_stone_spikes.b",
+    "le": 0.608,
+    "ls": 0,
+    "secs": 0.608
    }
   ],
   "kind": "sfx",
@@ -2893,6 +2984,12 @@
     "le": 0.616,
     "ls": 0,
     "secs": 0.616
+   },
+   {
+    "base": "sfx_sp_thorn_snare.b",
+    "le": 0.632,
+    "ls": 0,
+    "secs": 0.632
    }
   ],
   "kind": "sfx",
@@ -2906,6 +3003,18 @@
     "le": 0.638,
     "ls": 0,
     "secs": 0.638
+   },
+   {
+    "base": "sfx_sp_thunder_step.b",
+    "le": 0.785,
+    "ls": 0,
+    "secs": 0.785
+   },
+   {
+    "base": "sfx_sp_thunder_step.c",
+    "le": 0.558,
+    "ls": 0,
+    "secs": 0.558
    }
   ],
   "kind": "sfx",
@@ -2963,6 +3072,18 @@
     "le": 0.78,
     "ls": 0,
     "secs": 0.78
+   },
+   {
+    "base": "sfx_sp_void_rift.b",
+    "le": 0.748,
+    "ls": 0,
+    "secs": 0.748
+   },
+   {
+    "base": "sfx_sp_void_rift.c",
+    "le": 0.837,
+    "ls": 0,
+    "secs": 0.837
    }
   ],
   "kind": "sfx",
@@ -3014,6 +3135,12 @@
     "le": 0.44,
     "ls": 0,
     "secs": 0.44
+   },
+   {
+    "base": "sfx_spit.c",
+    "le": 0.318,
+    "ls": 0,
+    "secs": 0.318
    }
   ],
   "kind": "sfx",
@@ -3058,6 +3185,12 @@
     "le": 0.116,
     "ls": 0,
     "secs": 0.116
+   },
+   {
+    "base": "sfx_stairs.c",
+    "le": 0.769,
+    "ls": 0,
+    "secs": 0.769
    }
   ],
   "kind": "sfx",
@@ -3074,24 +3207,18 @@
    },
    {
     "base": "sfx_step_grass.b",
-    "le": 1.039,
-    "ls": 0,
-    "secs": 1.039
-   },
-   {
-    "base": "sfx_step_grass.c",
     "le": 0.529,
     "ls": 0,
     "secs": 0.529
    },
    {
-    "base": "sfx_step_grass.d",
+    "base": "sfx_step_grass.c",
     "le": 0.299,
     "ls": 0,
     "secs": 0.299
    },
    {
-    "base": "sfx_step_grass.e",
+    "base": "sfx_step_grass.d",
     "le": 0.192,
     "ls": 0,
     "secs": 0.192
@@ -3114,6 +3241,12 @@
     "le": 0.194,
     "ls": 0,
     "secs": 0.194
+   },
+   {
+    "base": "sfx_step_stone.c",
+    "le": 0.124,
+    "ls": 0,
+    "secs": 0.124
    }
   ],
   "kind": "sfx",
@@ -3136,24 +3269,18 @@
    },
    {
     "base": "sfx_step_water.c",
-    "le": 0.306,
-    "ls": 0,
-    "secs": 0.306
-   },
-   {
-    "base": "sfx_step_water.d",
     "le": 0.325,
     "ls": 0,
     "secs": 0.325
    },
    {
-    "base": "sfx_step_water.e",
+    "base": "sfx_step_water.d",
     "le": 0.319,
     "ls": 0,
     "secs": 0.319
    },
    {
-    "base": "sfx_step_water.f",
+    "base": "sfx_step_water.e",
     "le": 0.256,
     "ls": 0,
     "secs": 0.256
@@ -3281,24 +3408,6 @@
     "le": 0.451,
     "ls": 0,
     "secs": 0.451
-   },
-   {
-    "base": "sfx_sword_swing.d",
-    "le": 0.358,
-    "ls": 0,
-    "secs": 0.358
-   },
-   {
-    "base": "sfx_sword_swing.e",
-    "le": 0.264,
-    "ls": 0,
-    "secs": 0.264
-   },
-   {
-    "base": "sfx_sword_swing.f",
-    "le": 0.351,
-    "ls": 0,
-    "secs": 0.351
    }
   ],
   "kind": "sfx",
@@ -3337,6 +3446,12 @@
     "le": 2.214,
     "ls": 0,
     "secs": 2.214
+   },
+   {
+    "base": "sfx_thunder.d",
+    "le": 4.19,
+    "ls": 0,
+    "secs": 4.19
    }
   ],
   "kind": "sfx",
@@ -3356,6 +3471,12 @@
     "le": 0.375,
     "ls": 0,
     "secs": 0.375
+   },
+   {
+    "base": "sfx_trap.c",
+    "le": 0.163,
+    "ls": 0,
+    "secs": 0.163
    }
   ],
   "kind": "sfx",
@@ -3399,36 +3520,38 @@
   "loop": false
  },
  "sfx_ui_click": {
+  "eth": true,
   "files": [
    {
     "base": "sfx_ui_click",
-    "le": 0.144,
+    "le": 0.143,
     "ls": 0,
-    "secs": 0.144
+    "secs": 0.143
    },
    {
     "base": "sfx_ui_click.b",
-    "le": 0.48,
+    "le": 0.226,
     "ls": 0,
-    "secs": 0.48
+    "secs": 0.226
    }
   ],
   "kind": "sfx",
   "loop": false
  },
  "sfx_ui_close": {
+  "eth": true,
   "files": [
    {
     "base": "sfx_ui_close",
-    "le": 0.22,
+    "le": 0.219,
     "ls": 0,
-    "secs": 0.22
+    "secs": 0.219
    },
    {
     "base": "sfx_ui_close.b",
-    "le": 0.287,
+    "le": 0.164,
     "ls": 0,
-    "secs": 0.287
+    "secs": 0.164
    }
   ],
   "kind": "sfx",
@@ -3442,6 +3565,18 @@
     "le": 0.251,
     "ls": 0,
     "secs": 0.251
+   },
+   {
+    "base": "sfx_ui_equip.b",
+    "le": 0.317,
+    "ls": 0,
+    "secs": 0.317
+   },
+   {
+    "base": "sfx_ui_equip.c",
+    "le": 0.261,
+    "ls": 0,
+    "secs": 0.261
    }
   ],
   "kind": "sfx",
@@ -3470,12 +3605,6 @@
   "files": [
    {
     "base": "sfx_ui_note",
-    "le": 0.273,
-    "ls": 0,
-    "secs": 0.273
-   },
-   {
-    "base": "sfx_ui_note.b",
     "le": 0.45,
     "ls": 0,
     "secs": 0.45
@@ -3539,39 +3668,27 @@
   "files": [
    {
     "base": "sfx_undead",
-    "le": 0.418,
-    "ls": 0,
-    "secs": 0.418
-   },
-   {
-    "base": "sfx_undead.b",
     "le": 0.933,
     "ls": 0,
     "secs": 0.933
    },
    {
-    "base": "sfx_undead.c",
+    "base": "sfx_undead.b",
     "le": 1.79,
     "ls": 0,
     "secs": 1.79
    },
    {
-    "base": "sfx_undead.d",
+    "base": "sfx_undead.c",
     "le": 1.024,
     "ls": 0,
     "secs": 1.024
    },
    {
-    "base": "sfx_undead.e",
+    "base": "sfx_undead.d",
     "le": 0.873,
     "ls": 0,
     "secs": 0.873
-   },
-   {
-    "base": "sfx_undead.f",
-    "le": 0.851,
-    "ls": 0,
-    "secs": 0.851
    }
   ],
   "kind": "sfx",
@@ -3585,6 +3702,12 @@
     "le": 5.03,
     "ls": 0,
     "secs": 5.03
+   },
+   {
+    "base": "sfx_vines.b",
+    "le": 2.504,
+    "ls": 0,
+    "secs": 2.504
    }
   ],
   "kind": "sfx",

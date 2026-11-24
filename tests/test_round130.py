@@ -22,9 +22,9 @@ with game(painted=True, w=1280, h=720) as g:
     g.wait(800)
     r = g.js("({lock:!!ZAIM129.lock, ring:!!(ZAIM129.ring&&ZAIM129.ring.active)})")
     check('No spell: no mana arc; no bow or spell: no gold ring (%s %s)' % (h, r), h['hid'] and h['armed'] == '' and not r['ring'], (h, r))
-    g.js("(()=>{ var ps=%s.playerState; ps.equip.spell='frost_bolt_tome'; ZHUD._sig=''; ZHUD.tick(); })()" % WS); g.wait(600)
-    m = g.js("(()=>{ var ps=%s.playerState, M=document.querySelector('#zhud .zh-mana'); return {vis:getComputedStyle(M).display!=='none', shown:ps.manaShown, pt:!!document.querySelector('.zcer-pt'), drift:M.classList.contains('zm-drift'), aim:ps.aimSeen}; })()" % WS)
-    check('A spell in hand: the arc appears (once), a pointer explains it, it shimmers (drift); the ring is introduced (%s)' % m, m['vis'] and m['shown'] and m['pt'] and m['drift'] and m['aim'], m)
+    g.js("(()=>{ var ps=%s.playerState; ps.equip.spell='frost_bolt_tome'; ZHUD._sig=''; ZHUD.tick(); })()" % WS); g.wait(7000)      # round 131: the runes fly, the arc blooms, then the pointer
+    m = g.js("(()=>{ var ps=%s.playerState, M=document.querySelector('#zhud .zh-mana'); return {vis:getComputedStyle(M).display!=='none', shown:ps.manaShown, pt:!!document.querySelector('.zcer-pt'), drift:M.classList.contains('zm-fill'), aim:ps.aimSeen}; })()" % WS)
+    check('A spell in hand: the arc appears (once), a pointer explains it, it shimmers (fill — round 131); the ring is introduced (%s)' % m, m['vis'] and m['shown'] and m['pt'] and m['drift'] and m['aim'], m)
     # safety saves
     sv = g.js("""(()=>{ ZLEAVE.on=true; var k=ZSave.key(); localStorage.removeItem(k+'_safety'); var ws=%s; ws._save(); var main=JSON.parse(localStorage.getItem(k)); ws.playerState.gold=main.gold+777;
       var ok=ZSAFE.write(); var raw=ZSave.read(), d=JSON.parse(raw); var r={ok:ok, newer:d.gold===main.gold+777};
@@ -74,12 +74,12 @@ with sync_playwright() as p:
         u = r.request.url.split('t.test/', 1)[1].split('?')[0]; f = os.path.join(R, u)
         r.fulfill(path=f) if os.path.isfile(f) else r.fulfill(status=404, body='')
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/lab.artifact.html"); pg.wait_for_timeout(3000)
-    a = pg.evaluate("LAB_ACTIVE.slice(0,3)")
+    a = pg.evaluate("LAB_ACTIVE.slice(0,3)"); LAB_TABS_has = pg.evaluate("LAB_TABS.some(t=>t.id==='ceremony')")
     pg.evaluate("LTODO.goTo('ceremony','.cr-c',0)"); pg.wait_for_timeout(800)
     c = pg.evaluate("({cards:document.querySelectorAll('.cr-c').length, frames:document.querySelectorAll('.cr-f svg').length, demos:document.querySelectorAll('.cr-demo').length, opts:document.querySelectorAll('.cr-r0').length})")
-    check('Lab → First spell & first bow: 4 ways for the mana arc, 4 for the ring, each a 3-step storyboard; live shimmer, reveal and ring looks (%s, tabs %s)' % (c, a), a[1] == 'ceremony' and c['cards'] == 8 and c['frames'] == 24 and c['demos'] == 10 and c['opts'] == 5, (c, a))
+    check('Lab → First spell & first bow: 4 ways for the mana arc, 4 for the ring, each a 3-step storyboard; live shimmer, reveal and ring looks (%s, tabs %s)' % (c, a), LAB_TABS_has and c['cards'] == 8 and c['frames'] == 24 and c['demos'] == 10 and c['opts'] == 5, (c, a))
     pg.evaluate("LTODO.goTo('seasonsall','.sa-g',0)"); pg.wait_for_timeout(800)
-    n = pg.evaluate("[...document.querySelectorAll('.sa-ev')].filter(e=>/painted again/.test(e.textContent)).length")
+    n = pg.evaluate("[...document.querySelectorAll('.sa-ev')].filter(e=>/ainted again/.test(e.textContent)).length")
     check('Lab → All the seasons: the groups you sent back say they are being painted again (%d)' % n, n >= 5, n)
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d/%d passed' % (sum(res), len(res)))

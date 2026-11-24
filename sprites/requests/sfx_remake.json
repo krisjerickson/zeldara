@@ -1,42 +1,458 @@
 {
- "round": 118,
- "take": "y",
- "note": "Round 118: five more takes for the three effects Kris noted after round 104's remakes (audio\\incoming\\<id>.y1.mp3 … .y5.mp3). The words follow his notes.",
+ "round": 131,
+ "take": "z",
+ "note": "Round 131: new takes for the 42 effects Kris sent back (audio\\incoming\\<id>.z1.mp3 … ). The words follow his notes; for \"＋ Remake up to 5\" they are close cousins of what he ★.",
  "items": {
+  "sfx_block": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Shield block — blocking with the shield",
+   "secs": 0.5,
+   "words": [
+    "a sword blow striking a round wooden shield with an iron boss: a solid thud with a short metallic ring — game sound effect, clean and clear, no music, no voices",
+    "a heavy strike caught on a shield, deep wooden knock and a bright iron clang together, very short — game sound effect, clean and clear, no music, no voices",
+    "a parried hit on a reinforced shield, crisp impact with a little rattle of the iron rim — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_boss_charge": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Desperation charge — a boss's desperation move charging",
+   "secs": 2,
+   "words": [
+    "a huge creature gathering power: a low growling rumble swelling fast into a tense roaring whoosh — game sound effect, clean and clear, no music, no voices",
+    "ominous dark energy charging up, a deep drone rising in pitch with crackling sparks building to a peak — game sound effect, clean and clear, no music, no voices",
+    "a giant drawing breath before a charge: heavy rumble, rising wind and rattling stones, ending on a sharp intake — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_boss_stomp": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Stomp — heavy boss steps and slams",
+   "secs": 1,
+   "words": [
+    "a giant foot slamming into stone, deep earth-shaking boom with crumbling rubble after — game sound effect, clean and clear, no music, no voices",
+    "a colossal stomp: heavy low thud, the ground cracking and small rocks bouncing — game sound effect, clean and clear, no music, no voices",
+    "an enormous creature stamping, a deep resonant boom with a rolling rumble tail — game sound effect, clean and clear, no music, no voices",
+    "a massive foot crashing down on packed earth, punchy and heavy with a dust burst — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_bow_draw": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Bow draw — drawing the bow",
+   "secs": 0.6,
+   "words": [
+    "a wooden longbow drawn back slowly, the string creaking and the limbs flexing, close — game sound effect, clean and clear, no music, no voices",
+    "a bowstring pulled taut with a soft leather glove, a gentle creak rising in tension — game sound effect, clean and clear, no music, no voices",
+    "an arrow nocked and drawn on a yew bow, a quiet wooden creak and string stretch — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_camp": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Camp cleared — a camp's guards all beaten",
+   "secs": 2,
+   "words": [
+    "a short triumphant horn call on a cow horn with two drum hits, victorious and warm — game sound effect, clean and clear, no music, no voices",
+    "a bright little victory flourish of a hand drum and a wooden flute, rising and joyful — game sound effect, clean and clear, no music, no voices",
+    "a short folk fanfare: a deep frame drum roll and a bold horn note, a camp won — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_crossbow": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Crossbow — a crossbow shot",
+   "secs": 0.6,
+   "words": [
+    "a heavy crossbow firing: a sharp mechanical click, a hard string snap and a deep thunk of the bolt leaving — game sound effect, clean and clear, no music, no voices",
+    "a crossbow trigger release with a wooden clack and a powerful twang, punchy — game sound effect, clean and clear, no music, no voices",
+    "a war crossbow loosing a heavy bolt, metal latch click and a whip-crack of the string — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_earth": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Earth — earth spells, quakes",
+   "secs": 1.2,
+   "words": [
+    "rock bursting up out of the ground, a deep grinding crunch and scattering stones — game sound effect, clean and clear, no music, no voices",
+    "the earth heaving open: a low rumble, cracking stone and a heavy rocky boom — game sound effect, clean and clear, no music, no voices",
+    "stone spikes erupting from soil, a crunching rocky burst with dirt falling — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_eat": {
+   "why": "Kris: \"current sound just sounds like eating an apple. some other eating sounds shoudl be in there, too\"",
+   "meaning": "Eat — food",
+   "secs": 0.6,
+   "words": [
+    "tearing a chunk of crusty bread and chewing, soft crust crackle — game sound effect, clean and clear, no music, no voices",
+    "biting into a juicy roast meat leg, a tender tear and a satisfied chew — game sound effect, clean and clear, no music, no voices",
+    "slurping a spoonful of hot stew from a wooden bowl, a little spoon clink — game sound effect, clean and clear, no music, no voices",
+    "crunching a handful of nuts and berries, small crunchy chews — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_fall": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "The hero falls — the hero is knocked down",
+   "secs": 1.2,
+   "words": [
+    "an adventurer collapsing to the ground, a heavy body thud with leather and chainmail rattling — game sound effect, clean and clear, no music, no voices",
+    "a hero knocked down onto dirt, a dull thump, a clatter of a dropped sword and a sigh of armour — game sound effect, clean and clear, no music, no voices",
+    "falling onto stone floor, body hitting the ground with a muffled armour jangle and a slide — game sound effect, clean and clear, no music, no voices",
+    "a warrior crumpling down, knees then body hitting the ground, gear rattling, a final settling — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_fam_water": {
+   "why": "Kris: \"should be more like a wave or a big splash, this is too gentle\"",
+   "meaning": "Water familiar — the water familiar's attack",
+   "secs": 0.6,
+   "words": [
+    "a big wave crashing forward and slamming down, a powerful splash — game sound effect, clean and clear, no music, no voices",
+    "a heavy surge of water bursting out and smashing onto rocks, a loud splash — game sound effect, clean and clear, no music, no voices",
+    "a whirling water blast shooting forward and exploding into spray — game sound effect, clean and clear, no music, no voices",
+    "a swell of sea water rising and crashing, a deep whoosh then a big splash — game sound effect, clean and clear, no music, no voices",
+    "a jet of water fired hard, hitting with a thick splashing impact — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_feast": {
+   "why": "Kris: \"less specific cheering, probably some little music sounds as well\"",
+   "meaning": "The feast — the celebration (loop)",
+   "secs": 6,
+   "words": [
+    "a cosy village feast in a longhall: a warm general murmur of many people, mugs clinking, a fiddle and a hand drum playing a merry tune in the background, no clear words — game sound effect, clean and clear, no music, no voices",
+    "a festive gathering ambience: happy chatter blending together, a lute and a frame drum playing softly, cups and plates, a crackling hearth, no clear words — game sound effect, clean and clear, no music, no voices",
+    "a lively harvest celebration: an indistinct warm crowd hum, a jolly folk tune on a fiddle and flute nearby, occasional laughter, no clear words — game sound effect, clean and clear, no music, no voices",
+    "a midsummer feast outdoors: gentle hubbub, a bodhrán and whistle tune, tankards knocking, a bonfire crackle, no clear words — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_hurt": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Hurt — the hero is hit",
+   "secs": 0.4,
+   "words": [
+    "a heavy blow landing on a leather-armoured body, a dull punchy thump — game sound effect, clean and clear, no music, no voices",
+    "an impact on padded armour, a sharp thwack with a short leather creak — game sound effect, clean and clear, no music, no voices",
+    "a hit to the hero, a thick fleshy thud with a rattle of buckles — game sound effect, clean and clear, no music, no voices",
+    "a blunt strike on chain and leather, a short crunchy impact — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_lava": {
+   "why": "Kris: \"needs to sounds more like lava\"",
+   "meaning": "Lava burst — lava bursts, magma",
+   "secs": 1,
+   "words": [
+    "thick molten lava bubbling and bursting, deep viscous gloops with a hiss of heat and spitting embers — game sound effect, clean and clear, no music, no voices",
+    "a lava pool belching: a heavy slow glorp, a rumbling hiss and crackling cooling crust — game sound effect, clean and clear, no music, no voices",
+    "magma erupting in a gout, a deep roaring hiss, thick spattering molten rock and sizzling — game sound effect, clean and clear, no music, no voices",
+    "heavy molten rock flowing and popping, low rumbling sizzle with sticky bubbling bursts — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_lightning": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Lightning — lightning spells",
+   "secs": 1,
+   "words": [
+    "a sharp crackling lightning bolt striking close: a blinding snap, electric sizzle and a short thunder boom — game sound effect, clean and clear, no music, no voices",
+    "electric arc lightning, a whip-crack and buzzing crackle trailing off — game sound effect, clean and clear, no music, no voices",
+    "a lightning strike splitting the air with a bright crack and a rolling rumble — game sound effect, clean and clear, no music, no voices",
+    "a quick bolt of storm magic, a sizzling zap and a loud crack — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_mana": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Mana restored — mana restored",
+   "secs": 0.8,
+   "words": [
+    "a cool shimmering rise of magic, soft bell-like sparkles climbing in pitch — game sound effect, clean and clear, no music, no voices",
+    "mana flowing back in: a gentle airy whoosh with a glassy chime at the top — game sound effect, clean and clear, no music, no voices",
+    "a calm blue magical refill, twinkling tones rising and settling — game sound effect, clean and clear, no music, no voices",
+    "a soft crystalline swell with small sparkling glints, refreshing — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_mon_die": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Monster dies — a monster is defeated",
+   "secs": 0.8,
+   "words": [
+    "a monster collapsing with a last gurgle-free breath and a dusty thud fading out — game sound effect, clean and clear, no music, no voices",
+    "a creature falling and dissolving into dust, a soft whoosh and crumble — game sound effect, clean and clear, no music, no voices",
+    "a beast slumping to the ground with a heavy thump and a fading magical dissipate — game sound effect, clean and clear, no music, no voices",
+    "a defeated monster bursting into a puff of dust and sparks — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_mon_hit": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Monster hit — a monster takes a blow",
+   "secs": 0.3,
+   "words": [
+    "a sword hitting a creature, a meaty slap with a short crunch — game sound effect, clean and clear, no music, no voices",
+    "a blow landing on a monster hide, a thick thwack — game sound effect, clean and clear, no music, no voices",
+    "a quick fleshy impact with a little squelch — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_mt_ember_phoenix": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Ember Phoenix — climbing onto the Ember Phoenix",
+   "secs": 1.2,
+   "words": [
+    "a phoenix cry, a bright soaring bird call with a warm crackling burst of flame — game sound effect, clean and clear, no music, no voices",
+    "great fiery wings opening with a roar of fire and a high singing cry — game sound effect, clean and clear, no music, no voices",
+    "a firebird calling, a clear musical shriek over a whoosh of embers — game sound effect, clean and clear, no music, no voices",
+    "a phoenix taking flight: a crackling flame burst and a ringing call — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_mt_void_serpent": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Void Serpent — climbing onto the Void Serpent",
+   "secs": 1.2,
+   "words": [
+    "a great serpent hissing low, a deep breathy rumble with an eerie shimmering hum — game sound effect, clean and clear, no music, no voices",
+    "a void serpent rising: a long low hiss over a dark airy drone — game sound effect, clean and clear, no music, no voices",
+    "a huge snake coiling, scales sliding and a cold resonant hiss — game sound effect, clean and clear, no music, no voices",
+    "an otherworldly serpent call, a breathy hiss and a deep pulsing hum — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_nomana": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Can't cast — not enough mana, cooldown",
+   "secs": 0.5,
+   "words": [
+    "a soft magical fizzle that sputters out, a dull airy puff — game sound effect, clean and clear, no music, no voices",
+    "a failed spell: a short sputter and a descending muted tone — game sound effect, clean and clear, no music, no voices",
+    "a gentle magic misfire, a small crackle fading into nothing — game sound effect, clean and clear, no music, no voices",
+    "a cast that fails, a dry soft pop and a low falling hum — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_roll": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Roll — rolling (Alt)",
+   "secs": 0.6,
+   "words": [
+    "a quick dodge roll on grass, a soft cloth and leather tumble — game sound effect, clean and clear, no music, no voices",
+    "a combat roll on a dirt path, a body thud, a scuffle and gear jingle — game sound effect, clean and clear, no music, no voices",
+    "a fast evasive tumble, a whoosh of a cloak and a light landing — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_serpent": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Serpent — snakes, wyrms",
+   "secs": 0.8,
+   "words": [
+    "a large snake hissing, a long dry hiss with a rattle of scales — game sound effect, clean and clear, no music, no voices",
+    "a serpent striking, a sharp hiss and a quick slither — game sound effect, clean and clear, no music, no voices",
+    "a wyrm hissing menacingly, low breathy hiss with tongue flicks — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
   "sfx_sk_berserker": {
-   "why": "Kris: \"this should be more of a power-up sound, or getting excited or enraged\"",
-   "meaning": "the skill Berserker — the hero's battle rage takes hold",
+   "why": "Kris: \"these are still bad. should be more of a person that is feeling empowered and more alive, maybe a little crazy\"",
+   "meaning": "Berserker — using the skill Berserker",
+   "secs": 0.9,
+   "words": [
+    "a warrior's surge of wild power: a fast heartbeat drum pounding louder, a rushing roar of wind and a fierce exhilarated breath out, no words — game sound effect, clean and clear, no music, no voices",
+    "battle frenzy taking hold: a deep pulse quickening, crackling energy rising and a wild triumphant exhale, no words — game sound effect, clean and clear, no music, no voices",
+    "feeling invincible: a booming heartbeat, a rising rush of blood and a manic burst of crackling power — game sound effect, clean and clear, no music, no voices",
+    "a berserker rage awakening: a low growl-free surge, pounding drums speeding up and a bright explosive release of energy — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sk_blink": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Blink — using the skill Blink",
+   "secs": 0.9,
+   "words": [
+    "a quick teleport: a soft pop of air, a shimmer, and a reappearing whoosh — game sound effect, clean and clear, no music, no voices",
+    "vanishing and reappearing in a flash: a light zip and a glassy sparkle — game sound effect, clean and clear, no music, no voices",
+    "a short blink of magic, a crisp swoosh of displaced air and a tinkling glint — game sound effect, clean and clear, no music, no voices",
+    "a magical step through space, a muted pop and an airy shimmer tail — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sk_meteor": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Meteor — using the skill Meteor",
+   "secs": 0.9,
+   "words": [
+    "a meteor falling: a rising whistle from high above and a heavy fiery impact boom — game sound effect, clean and clear, no music, no voices",
+    "a burning rock streaking down with a roar and crashing into the ground — game sound effect, clean and clear, no music, no voices",
+    "a falling star whooshing in and exploding with crackling embers — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sk_second_wind": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Second Wind — using the skill Second Wind",
+   "secs": 0.9,
+   "words": [
+    "a deep refreshing breath in and a warm glowing healing swell — game sound effect, clean and clear, no music, no voices",
+    "catching your breath: a calm inhale turning into a bright restoring shimmer — game sound effect, clean and clear, no music, no voices",
+    "renewed strength: a soft rush of air and a rising warm chime — game sound effect, clean and clear, no music, no voices",
+    "a sigh of relief becoming a gentle healing glow sound — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sk_smoke_bomb": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Smoke Bomb — using the skill Smoke Bomb",
+   "secs": 0.9,
+   "words": [
+    "a smoke bomb thrown down: a sharp pop and a thick hissing billow of smoke — game sound effect, clean and clear, no music, no voices",
+    "a clay pot breaking and smoke whooshing out in a dense cloud — game sound effect, clean and clear, no music, no voices",
+    "a quick puff of smoke and a fading hiss as you vanish — game sound effect, clean and clear, no music, no voices",
+    "a muffled burst and swirling smoke spreading around — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sk_sprint": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Sprint — using the skill Sprint",
+   "secs": 0.9,
+   "words": [
+    "a burst of speed: quick footsteps and a rush of wind — game sound effect, clean and clear, no music, no voices",
+    "sprinting off: a whoosh of air and fast light steps — game sound effect, clean and clear, no music, no voices",
+    "a dash forward with a gust of wind and a cloak flapping — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sk_time_slow": {
+   "why": "Kris: \"make new ones similar to the single pick, that make it seem like things are slowing down\"",
+   "meaning": "Time Slow — using the skill Time Slow",
+   "secs": 0.9,
+   "words": [
+    "time slowing down: a deep tone bending downward, sounds stretching and a heavy slow heartbeat — game sound effect, clean and clear, no music, no voices",
+    "a ticking clock slowing and warping, a low drawn-out whoosh as the world drags — game sound effect, clean and clear, no music, no voices",
+    "a reversed swell then everything slurring down in pitch into a slow echoing pulse — game sound effect, clean and clear, no music, no voices",
+    "a bell tone stretching longer and lower, a dreamy time-warp drone — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sk_war_stomp": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "War Stomp — using the skill War Stomp",
+   "secs": 0.9,
+   "words": [
+    "a mighty war stomp: a heavy boot slamming down and a shockwave rumbling outward — game sound effect, clean and clear, no music, no voices",
+    "a ground-shaking stomp with a deep boom and stones rattling around — game sound effect, clean and clear, no music, no voices",
+    "a powerful stamp sending a thudding quake through the earth — game sound effect, clean and clear, no music, no voices",
+    "a warrior stomping, a punchy low impact and a rolling shock wave — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sk_whirlwind": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Whirlwind — using the skill Whirlwind",
+   "secs": 0.9,
+   "words": [
+    "a spinning blade attack: whooshing swings circling fast around — game sound effect, clean and clear, no music, no voices",
+    "a whirlwind of steel, rapid circular swooshes and wind — game sound effect, clean and clear, no music, no voices",
+    "spinning with a sword, three fast whooshes rising in a vortex — game sound effect, clean and clear, no music, no voices",
+    "a spinning axe sweep, heavy whirling whooshes and a gust of wind — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sleep": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Sleep — resting in a bed",
+   "secs": 2,
+   "words": [
+    "settling into bed: a soft blanket rustle, a calm yawn-free sigh and a gentle chime — game sound effect, clean and clear, no music, no voices",
+    "resting by the hearth: a soft straw mattress creak, a crackling fire and a quiet chime — game sound effect, clean and clear, no music, no voices",
+    "falling asleep: quiet linen rustle and a warm soft lullaby-like bell tone — game sound effect, clean and clear, no music, no voices",
+    "a peaceful rest: a blanket pulled up and a calm rising shimmer — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sp_arcane_burst": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Arcane Burst — casting Arcane Burst",
+   "secs": 0.9,
+   "words": [
+    "three quick arcane pulses, bright magical thumps with a shimmering tail — game sound effect, clean and clear, no music, no voices",
+    "a burst of arcane energy, a resonant pop and sparkling scatter — game sound effect, clean and clear, no music, no voices",
+    "a rapid arcane triple blast, crisp magic bursts and glints — game sound effect, clean and clear, no music, no voices",
+    "arcane power released in a bright shimmering whoomp — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sp_blizzard": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Blizzard — casting Blizzard",
    "secs": 1.4,
    "words": [
-    "a fast rising power-up swell, a low rumble climbing quickly in pitch into a bright fierce burst of energy with a crackle of sparks at the top — game sound effect, clean and clear, no music, no voices",
-    "an enraged beast's short deep snarl swelling into a surging roar of wind and fire, building fast, ending in a punchy boom — game sound effect, clean and clear, no music, no voices",
-    "a magical charging-up sound: a quick ascending whoosh of glowing energy, three rising pulses getting faster, then a powerful bright release — game sound effect, clean and clear, no music, no voices",
-    "a warrior's fury igniting: a sharp intake of breath, a deep heartbeat thump, then a red-hot flare of flame bursting up with crackling embers — game sound effect, clean and clear, no music, no voices",
-    "a heroic power-up: a shimmering metallic ring rising in pitch over a growing low thunder, bursting into an explosive surge of energy — game sound effect, clean and clear, no music, no voices"
+    "a howling icy wind swirling with stinging snow and crackling ice — game sound effect, clean and clear, no music, no voices",
+    "a sudden blizzard: rushing freezing wind and tinkling ice crystals — game sound effect, clean and clear, no music, no voices",
+    "a whirling snowstorm spell, a cold whoosh and sparkling frost — game sound effect, clean and clear, no music, no voices",
+    "a winter storm burst, a gust of freezing wind with ice shards hitting — game sound effect, clean and clear, no music, no voices"
    ]
   },
-  "sfx_sp_chain_lightning": {
-   "why": "Kris: \"this doesn't sound like lightning or thunder. should sound like a lightning strike\"",
-   "meaning": "casting Chain Lightning — a bolt that jumps from foe to foe",
-   "secs": 1.5,
+  "sfx_sp_frost_bolt": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Frost Bolt — casting Frost Bolt",
+   "secs": 0.9,
    "words": [
-    "a real lightning strike close by: an instant ear-splitting crack followed by a deep rolling thunder boom — game sound effect, clean and clear, no music, no voices",
-    "a lightning bolt hitting the ground: a sharp electric snap, a blinding crackling sizzle and a heavy thunder clap right after — game sound effect, clean and clear, no music, no voices",
-    "three quick lightning strikes one after another, each a loud whip-crack of thunder, the last one rolling away into the distance — game sound effect, clean and clear, no music, no voices",
-    "a thunderbolt striking a tree: a violent crackling tear of electricity, a booming thunderclap and the hiss of the air after — game sound effect, clean and clear, no music, no voices",
-    "a close lightning strike in a storm: a bright crackle of static, a split-second sizzle, then a huge crashing thunder that rumbles out — game sound effect, clean and clear, no music, no voices"
+    "an ice bolt shooting forward with a crystalline whoosh and a frosty crack on impact — game sound effect, clean and clear, no music, no voices",
+    "a frost shard flying, a sharp icy zip and a tinkling shatter — game sound effect, clean and clear, no music, no voices",
+    "a freezing magic bolt, a cold hiss and glassy chime — game sound effect, clean and clear, no music, no voices",
+    "a bolt of ice launched, a quick whoosh and crackling frost — game sound effect, clean and clear, no music, no voices"
    ]
   },
-  "sfx_sp_starfall": {
-   "why": "Kris: \"should sound like a meteors coming down or a firework crackling\"",
-   "meaning": "casting Starfall — stars falling from the sky",
-   "secs": 1.8,
+  "sfx_sp_ice_shards": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Ice Shards — casting Ice Shards",
+   "secs": 0.9,
    "words": [
-    "several small meteors whooshing down through the air one after another and hitting the ground with fiery thuds and crackling sparks — game sound effect, clean and clear, no music, no voices",
-    "a firework bursting overhead with a pop and a long glittering crackle of sparks falling down — game sound effect, clean and clear, no music, no voices",
-    "a blazing meteor screaming down from the sky with a rising whoosh and slamming into the earth with a deep booming impact and crackling embers — game sound effect, clean and clear, no music, no voices",
-    "a shower of crackling firework sparks raining down, popping and fizzing, with a soft whoosh of falling fire — game sound effect, clean and clear, no music, no voices",
-    "three falling stars streaking down with fiery whooshes, each landing with a crackling burst like a firework — game sound effect, clean and clear, no music, no voices"
+    "a spray of ice shards flying out and shattering like glass — game sound effect, clean and clear, no music, no voices",
+    "many small icicles whizzing past and tinkling — game sound effect, clean and clear, no music, no voices",
+    "a burst of ice crystals with a crisp crackle and chime — game sound effect, clean and clear, no music, no voices",
+    "ice splinters fanning out with sharp glassy pings — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sp_poison_mist": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Poison Mist — casting Poison Mist",
+   "secs": 0.9,
+   "words": [
+    "a bubbling cauldron hiss as green toxic mist drifts out — game sound effect, clean and clear, no music, no voices",
+    "a poison cloud spreading, a wet sizzling hiss and soft bubbling — game sound effect, clean and clear, no music, no voices",
+    "a toxic gas release, a low hiss and a sickly gurgle — game sound effect, clean and clear, no music, no voices",
+    "venomous mist puffing out, a hissing spray and drifting fizz — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_sp_spirit_drain": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Spirit Drain — casting Spirit Drain",
+   "secs": 0.9,
+   "words": [
+    "a ghostly drain: a hollow whispering inhale and a glowing hum flowing back — game sound effect, clean and clear, no music, no voices",
+    "drawing out life force, an eerie breathy pull and a warm shimmer — game sound effect, clean and clear, no music, no voices",
+    "a spirit siphon, an airy ghostly whoosh and a soft resonant hum — game sound effect, clean and clear, no music, no voices",
+    "a haunting suction of light, a low breath in and bright glints — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_spirit_free": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "A spirit rises — a spirit is freed from its stone",
+   "secs": 2,
+   "words": [
+    "a freed spirit rising: a soft relieved sigh-like whoosh becoming a bright ascending chime — game sound effect, clean and clear, no music, no voices",
+    "a chained soul released, a breaking clink and a luminous rising shimmer — game sound effect, clean and clear, no music, no voices",
+    "a ghost set free: a warm airy swell lifting into gentle bells — game sound effect, clean and clear, no music, no voices",
+    "a spirit soaring up, a gentle whoosh and a clear bright tone — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_spirit_mon": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Spirit — spirits and ghosts",
+   "secs": 1,
+   "words": [
+    "an eerie ghost moan, airy and hollow with a soft echo — game sound effect, clean and clear, no music, no voices",
+    "a spectral whisper-like wail drifting past, no words — game sound effect, clean and clear, no music, no voices",
+    "a haunting ghostly howl fading in and out — game sound effect, clean and clear, no music, no voices",
+    "a cold spirit hiss and a hollow echoing drone — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_summon": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Summon — a monster summons others",
+   "secs": 1,
+   "words": [
+    "a dark portal tearing open with a crackling whoosh and a deep hum — game sound effect, clean and clear, no music, no voices",
+    "a summoning circle flaring: a rising magical hum and a burst — game sound effect, clean and clear, no music, no voices",
+    "a rift opening with sizzling energy and a low rumble — game sound effect, clean and clear, no music, no voices",
+    "creatures called forth: a swirling vortex sound and a magical pop — game sound effect, clean and clear, no music, no voices"
+   ]
+  },
+  "sfx_wings": {
+   "why": "Kris: ＋ Remake up to 5 (keep my ★, more to choose from)",
+   "meaning": "Wings — a flying mount (loop)",
+   "secs": 3,
+   "words": [
+    "large leathery wings beating slowly and powerfully, a steady whoosh — game sound effect, clean and clear, no music, no voices",
+    "big feathered wings flapping in a rhythm, strong gusts of air — game sound effect, clean and clear, no music, no voices",
+    "a great flying beast's wings beating, heavy rhythmic whooshes — game sound effect, clean and clear, no music, no voices",
+    "a giant eagle's wings flapping steadily, airy feather rustles — game sound effect, clean and clear, no music, no voices"
    ]
   }
  }

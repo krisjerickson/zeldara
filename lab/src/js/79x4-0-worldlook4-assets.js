@@ -1,0 +1,9 @@
+// round 131: the take-4 pictures and clips (tools/world/world_looks4.py → lab/preview/worldlook4), in the Lab's asset store
+var VWL4={"auw4_a.jpg":"/_blob/f159c50bea8bfad08205f0b229509d6b","auw4_soft.jpg":"/_blob/bcdf1db479d2d1be33a048265d5194c1","auw4_soft.mp4":"/_blob/c280829cb37a7d55bcef27b6a388565a",
+"frame4_freed.jpg":"/_blob/6e9f86aa21e6cf7234147ab421a02522","frame4_freed.mp4":"/_blob/03cad357b3a860dac505a9d46e9d9d0c","frame4_realm.jpg":"/_blob/233cfa34014c24587da6bc892d3b7645","frame4_realm.mp4":"/_blob/94bb412d0a2bd8b1b3913f73bcbb52b0",
+"frame4_site.jpg":"/_blob/416b240ea131cda1b08c5417f0435f40","frame4_site.mp4":"/_blob/351e78a6683c1318f29e56affb90b322",
+"lm4_chasm_2_a.jpg":"/_blob/257a1886eec8c7455920a4b8b661f050","lm4_chasm_2_dunn_bridge.jpg":"/_blob/a4915552cb3c5cc6529ebb0521e889f0","lm4_ember_2_a.jpg":"/_blob/bf9f84a63eaac3e524be5a061a6c4a6f","lm4_ember_2_vela_pass.jpg":"/_blob/7eaf40f7f57f54a49f68c1a39105e7ca",
+"lm4_scarp_2_a.jpg":"/_blob/08d1bd700d349148d37466cce845d9c8","lm4_scarp_2_great_scar.jpg":"/_blob/842b5ef5b16196db706c178673f95af8","lm4_scarp_2_mira_lift.jpg":"/_blob/2cb4442cd884a4bcedb4c5dadea0c1dc",
+"lm4_silverrun_2_a.jpg":"/_blob/12dc2103ee009e372eb9ab3e62798a82","lm4_silverrun_2_bram_bridge.jpg":"/_blob/4be36a8e4866b2a2ff834a579ebe908a",
+"vista4_ember.mp4":"/_blob/739cccf9db142b794356889bc3e1d24c","vista4_ember_whole.jpg":"/_blob/ac893894a347f704cab18c868558cf8e","vista4_lilies.mp4":"/_blob/9c145a9339a0642b58b1ed795b433250","vista4_lilies_whole.jpg":"/_blob/58e51b7a86db09398be4e61f5997517a",
+"vista4_scar.mp4":"/_blob/04303296f6dab2112b4ee277a2740841","vista4_scar_whole.jpg":"/_blob/1d38f33a64bd851292eddca79de269ee","vista4_silverrun.mp4":"/_blob/d3413d95663ab035409552bc0030aecb","vista4_silverrun_whole.jpg":"/_blob/b7e5c1944b54b9c92778569ad8a85545"};

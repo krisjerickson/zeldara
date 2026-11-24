@@ -59,7 +59,7 @@ def sheet_info(k):
     if not q: return {'id': k, 'title': '(not ordered)', 'n': 0, 'got': 0, 'state': 'none', 'items': []}
     its = [{'id': it['id'], 'n': it['name'], 'p': painted(it['id']), 'ev': bool(EVER.match(it['id'])) and k.startswith('sc_seas_au')} for it in q['items']]
     got = sum(1 for x in its if x['p'])
-    st = 'redo' if k in REDO else 'in' if its and got == len(its) else ('new' if k in NEW else 'part' if got else 'ordered')
+    st = ('redone' if its and got == len(its) else 'redo') if k in REDO else 'in' if its and got == len(its) else ('new' if k in NEW else 'part' if got else 'ordered')
     return {'id': k, 'title': re.sub(r'\. Each piece.*$|Each piece.*$', '', q.get('title', '')).strip(), 'n': len(its), 'got': got, 'state': st, 'wave': q.get('wave'), 'tex': q['kind'] == 'tex', 'items': its}
 
 

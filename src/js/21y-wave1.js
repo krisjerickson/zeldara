@@ -21,7 +21,7 @@ var ZSAFE={ on:true, EVERY:60000, last:0,
     ZSave.write=function(json){ ok=ZSave.store.set(k,json); return ok; }; try{ ws._save(); }catch(e){} finally{ ZSave.write=w0; } if(ok)ZSAFE.last=Date.now(); return ok; },
   at:function(raw){ var m=/"_savedAt":(\d+)/.exec(raw||''); return m?+m[1]:0; } };
 (function(){ if(typeof ZSave==='undefined')return;
-  var r0=ZSave.read; ZSave.read=function(){ var m=r0.apply(ZSave,arguments); if(!ZSAFE.on)return m; var s=ZSave.store.get(ZSave.key()+'_safety'); if(!s)return m; if(!m)return s; return ZSAFE.at(s)>ZSAFE.at(m)?s:m; };
+  var r0=ZSave.read; ZSave.read=function(){ var m=r0.apply(ZSave,arguments); if(!ZSAFE.on)return m; var s=ZSave.store.get(ZSave.key()+'_safety'); if(!s)return m; if(!m)return s; return ZSAFE.at(s)>=ZSAFE.at(m)?s:m; };      /* a real save drops the safety copy, so one still here was written after it */
   var rm=ZSave.store.remove; ZSave.store.remove=function(k){ rm.call(ZSave.store,k); if(/^zeldara_save_/.test(k)&&!/_safety$/.test(k))rm.call(ZSave.store,k+'_safety'); };
   var cc=ZSave.clearCurrent; ZSave.clearCurrent=function(){ cc.apply(ZSave,arguments); ZSave.store.remove(ZSave.key()+'_safety'); };
   /* a real save is the newest: the safety copy behind it is dropped */

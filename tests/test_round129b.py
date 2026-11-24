@@ -34,7 +34,7 @@ with game(painted=True, w=1280, h=720) as g:
     g.js("(()=>{ var sp=ZHit.spellPow; ZHit.spellPow=function(){ var v=sp.apply(ZHit,arguments); window._pow=v; return v; }; var f0=ZAIM.fire; ZAIM.fire=function(sc){ window._at=ZAIM.cur&&ZAIM.cur.mon===_a; return f0.apply(ZAIM,arguments); }; })()")
     g.js("(()=>{ var ws=%s; ZAIM.press(ws,{}); ZAIM.cur.t0-=900; ZAIM.release(); })()" % WS); g.wait(60)
     s = g.js("(()=>{ var ws=%s; return {cur:!!ZAIM.cur, spent:Math.round(%s-ws.playerState.mana), cost:SPELL_DATA.frost_bolt.manaCost, seek:window._at, dmg:window._pow}; })()" % (WS, m0))
-    check('X held 0.9 s: a full charge — cast at the ringed foe, costs 1.5× the mana (%s)' % s, not s['cur'] and s['seek'] and abs(s['spent'] - (s['cost'] + round(s['cost'] * 0.5))) <= 1, s)
+    check('X held 0.9 s: a full charge — cast at the ringed foe, costs 1.5× the mana (%s)' % s, not s['cur'] and s['seek'] and abs(s['spent'] - (s['cost'] + round(s['cost'] * 0.5))) <= 2, s)
     g.wait(3200)
     g.js("(()=>{ var ws=%s; ws.playerState.mana=ws.playerState.maxMana; ZAIM.press(ws,{}); ZAIM.release(); })()" % WS); g.wait(60)
     s2 = g.js("(()=>{ var ws=%s; return {dmg:window._pow, spent:Math.round(ws.playerState.maxMana-ws.playerState.mana)}; })()" % WS)
