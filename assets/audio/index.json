@@ -209,6 +209,18 @@
   "kind": "music",
   "loop": true
  },
+ "mu_bifrost": {
+  "files": [
+   {
+    "base": "mu_bifrost",
+    "le": 239.764,
+    "ls": 0,
+    "secs": 239.764
+   }
+  ],
+  "kind": "music",
+  "loop": false
+ },
  "mu_boss": {
   "files": [
    {
@@ -263,6 +275,18 @@
   "kind": "music",
   "loop": true
  },
+ "mu_celebration": {
+  "files": [
+   {
+    "base": "mu_celebration",
+    "le": 239.2,
+    "ls": 0,
+    "secs": 239.2
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
  "mu_credits": {
   "files": [
    {
@@ -294,6 +318,18 @@
     "le": 254.72,
     "ls": 0,
     "secs": 254.72
+   }
+  ],
+  "kind": "music",
+  "loop": true
+ },
+ "mu_feast_hall": {
+  "files": [
+   {
+    "base": "mu_feast_hall",
+    "le": 239.48,
+    "ls": 0,
+    "secs": 239.48
    }
   ],
   "kind": "music",
@@ -342,6 +378,18 @@
     "le": 208.04,
     "ls": 0,
     "secs": 208.04
+   }
+  ],
+  "kind": "music",
+  "loop": false
+ },
+ "mu_gods_free": {
+  "files": [
+   {
+    "base": "mu_gods_free",
+    "le": 238.44,
+    "ls": 0,
+    "secs": 238.44
    }
   ],
   "kind": "music",
@@ -568,6 +616,18 @@
   ],
   "kind": "music",
   "loop": true
+ },
+ "mu_village_moment": {
+  "files": [
+   {
+    "base": "mu_village_moment",
+    "le": 238.48,
+    "ls": 0,
+    "secs": 238.48
+   }
+  ],
+  "kind": "music",
+  "loop": false
  },
  "mu_village_night": {
   "files": [

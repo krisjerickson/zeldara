@@ -51,6 +51,7 @@ def main():
         cid, take = m.group(1), (m.group(2) or '')
         if cid not in cues: print('? %s: no cue with that id (check Lab → Music & sound)' % f); continue
         if IDS and cid not in IDS: continue
+        if cid.startswith('st_') and '--stingers' not in args and not IDS: print('· %s: stingers wait for Kris in the Lab (Stingers or effects?) — --stingers to take them' % f); continue      # round 135
         c = cues[cid]; kind = 'sting' if c['group'] == 'sting' else c['kind']; base = cid + ('.' + take if take else '')
         if not FORCE and os.path.exists(os.path.join(OUT, base + '.ogg')) and any(x.get('base') == base for x in idx.get(cid, {}).get('files', [])): continue      # exact (am_ash.b is not am_ash)
         src = os.path.join(INC, f); shutil.copy2(src, os.path.join(MAS, f))

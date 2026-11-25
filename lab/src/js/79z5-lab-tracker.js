@@ -60,6 +60,8 @@ var TRK=[
  {a:'sound',ic:'🔊',n:'Sound & music',items:[
   {id:'sfx103',n:'Sound effects — the 158 new takes for the 42 you sent back are in the Lab (New 131·1–5)',st:'you',tab:'sfxpick',todo:['sfx103'],live:'sfx103',need:42,ask:'Listen in Sound effects › "Remake all": ★ the ones you want (they join your earlier ★), or ↻ again with a note.',did:'74 effects already play exactly your ★ (round 131).'},
   {id:'sfxfix',n:'Sound-effect picks restored',st:'done',doc:87,r:129,did:'Every ★ traced to your own clicks; 12 effects put back to what you chose; the preview mix-up fixed (the Lab now refuses a preview that doesn\'t match its file).'},
+  {id:'songs135',n:'The last five songs: the Bifröst, the feast hall, the gods free, the village moment, the celebration',st:'done',r:135,did:'Taken in from audio/incoming (evened, looped where they loop) and playing at their moments in the last saga.'},
+  {id:'stingers',n:'Stingers or effects? — your twelve stingers against the moments\' sound effects',st:'you',tab:'stingcmp',todo:['stingcmp'],need:8,note:'None is in the game. Each is shown whole and cut to its planned length (they came back two to three times longer), and played together with the effect.'},
   {id:'music121',n:'Music — 43 cues: ☆ to keep or make, notes on any to change',st:'you',tab:'audio',todo:['music121'],need:43},
   {id:'music123',n:'Music — two alternates (Castle halls, Ashlands by day) + four Skirmish prompts',st:'you',tab:'audio',todo:['music123'],need:6}]},
  {a:'econ',ic:'🪙',n:'Economy, items & shops',items:[
