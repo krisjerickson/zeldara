@@ -79,10 +79,25 @@
        'The beekeepers of Honeyhill: "The bees left the night the sky went quiet. We kept the hives clean for them anyway. Every spring. Just in case."'],
       ['C','Keep them light','No full stories; three varied lines each instead of one, so they feel alive without new writing weight.','The carver: "You do not carve wood. You find what is in it and let it out. Mostly it is a bear. It is nearly always a bear."']]]];
   var DEPTH=[['12','About 12 lines each (a backstory + a short voice)'],['20','About 20 lines each'],['40','At least 40 lines each, like the villagers']];
+  // round 133: what is written so far, readable here (LNPC, tools/voices/build_npcs.py), and the answer about the hamlets
+  var PLAN=[['fairies','The waystone fairies','A + B + C: the Keepers of the Stones, each fairy\'s little life, woven into the forty spirits — talk to her before and after you free them'],
+    ['mages','The mage-tower masters','A, hermits who stopped waiting — a backstory each and a painted scene of who they were, shown after the fight (16 paintings ordered: paint.ps1 -List r133_scenes)'],
+    ['monarchs','The fairy monarchs','A, the old courts, + B, the Monarchs\' Pact for more stories; and the fairy feast (to build)'],['familiars','The familiars','A, the realm\'s own heart'],
+    ['spirits','The forty spirits','A, a life in five lines — most from the lost towns of their own realm, some who knew the village'],['great','The great spirits','A, the founders, + B, the guardians who failed'],
+    ['castles','The island castles','A, the Warden\'s Bargain'],['binders','The Binders and the bosses','C, both lightly — and A: each Binder took Surtharn\'s reward and with it the power to bind souls'],
+    ['traders','The island traders','a backstory each (the hamlets: see below)']];
+  var written=function(){ var N=typeof LNPC!=='undefined'?LNPC.npcs:{}, T=(typeof LNPC!=='undefined'&&LNPC.target)||40, by={}; Object.keys(N).forEach(function(k){ (by[N[k].group]=by[N[k].group]||[]).push(k); });
+    var h='<div class="ns-w2"><h3 class="am-sec">✍️ Written so far — your picks, being built</h3><table class="ns-t"><tr><th>Group</th><th>Your pick</th><th>NPCs written</th><th>Lines (target '+T+' each)</th></tr>'+
+      PLAN.map(function(p){ var L=by[p[0]]||[], n=L.reduce(function(a,k){ return a+N[k].count; },0); return '<tr><td><b>'+esc(p[1])+'</b></td><td>'+esc(p[2])+'</td><td>'+(L.length||'—')+'</td><td>'+(L.length?n+' of '+(L.length*T):'next rounds')+'</td></tr>'; }).join('')+'</table>'+
+      '<p class="ns-hm"><b>The hamlets (your question):</b> yes — in the game the hamlets only appear after the end, once the spirits have gone home (the ring roads, the workshops and the hamlet folk all wait for it). Nothing of them is there before. They come back with the spring after Surtharn and Solmyrk are beaten; the hamlet folk are their returning families. So they get no backstories now — the island traders do.</p>';
+    Object.keys(by).forEach(function(g){ h+='<details class="ns-rd"><summary>📖 Read the '+esc(g)+' ('+by[g].length+')</summary>'+(LNPC.lore&&LNPC.lore[g]?'<pre class="ns-lore">'+esc(LNPC.lore[g])+'</pre>':'')+
+      by[g].map(function(k){ var n=N[k]; return '<details class="ns-one"><summary><b>'+esc(n.who)+'</b> — '+n.count+' lines'+(n.spirits?' · keeps '+esc(n.spirits):'')+'</summary><p class="ns-st">'+esc(n.story)+'</p>'+
+        Object.keys(n.lines).map(function(sec){ return '<h5>'+esc(sec)+'</h5><ul>'+n.lines[sec].map(function(t){ return '<li>'+esc(t)+'</li>'; }).join('')+'</ul>'; }).join('')+'</details>'; }).join('')+'</details>'; });
+    return h+'<input class="tl-n wl-n" data-k="npcs2-written" value="'+esc(P('npcs2-written').notes||'')+'" placeholder="Your note on what is written so far (a line to change, a voice that is off)…"></div><h3 class="am-sec">The proposals (your picks)</h3>'; };
   LAB_TABS.push({ id:'npcs2', name:'Backstories for everyone else',
     blurb:'<b>Round 132 — every NPC who is not yet one of the 34 villagers.</b> Group by group: who they are, what the game knows of them today, and three ways to give them a real story, each with a sample in their voice. Pick a way for each group (or mix — say so in the note), and how many lines each should have. The Saga\'s rules hold in every proposal.',
     designs:G.map(function(g){ return {id:'npcs2-'+g[0],name:'Stories: '+g[2]}; }),
-    render:function(){ var h='';
+    render:function(){ var h=written();
       G.forEach(function(g){ var k='npcs2-'+g[0], cur=(P(k).regions||[])[0];
         h+='<div class="ns-c"><h3>'+g[1]+' '+esc(g[2])+'</h3><p class="ns-w"><b>Who:</b> '+esc(g[3])+'</p><p class="ns-w"><b>Today:</b> '+esc(g[4])+'</p><div class="ns-g">'+
           g[5].map(function(o){ return '<div class="ns-o'+(cur===o[0]?' on':'')+'"><h4>'+o[0]+' · '+esc(o[1])+'</h4><p>'+esc(o[2])+'</p><blockquote>'+esc(o[3])+'</blockquote><button class="vbtn am-op'+(cur===o[0]?' on':'')+'" data-c="'+o[0]+'">'+(cur===o[0]?'✓ chosen':'Choose '+o[0])+'</button></div>'; }).join('').replace(/class="vbtn am-op/g,'data-k="'+k+'" class="vbtn ns-pick am-op')+
@@ -98,5 +113,7 @@
   var st=document.createElement('style'); st.textContent='.ns-c{background:#0b121c;border:1px solid #243246;border-left:5px solid #c9a0ff;border-radius:10px;padding:10px 12px;margin:0 0 14px}.ns-c h3{margin:0 0 6px;font:600 17px "Segoe UI";color:#ffe9a8}.ns-w{font:13px/1.5 "Segoe UI";color:#c8d4e4;margin:2px 0}'+
     '.ns-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin:8px 0}.ns-o{background:#101a28;border:1px solid #2a3a4e;border-radius:9px;padding:8px 10px}.ns-o.on{box-shadow:0 0 0 2px #ffd76a}.ns-o h4{margin:0 0 4px;font:600 14px "Segoe UI";color:#e8eef6}.ns-o p{font:12.5px/1.5 "Segoe UI";color:#c8d4e4;margin:0 0 6px}'+
     '.ns-o blockquote{margin:0 0 8px;padding:6px 10px;border-left:3px solid #c9a0ff;background:#161028;font:italic 12.5px/1.5 Georgia,serif;color:#e6dcff}';
+  st.textContent+='.ns-w2{background:#0d1420;border:1px solid #2a3a4e;border-radius:10px;padding:10px 12px;margin:0 0 14px}.ns-t{width:100%;border-collapse:collapse;font:13px "Segoe UI";color:#c8d4e4}.ns-t th,.ns-t td{border-bottom:1px solid #243246;padding:5px 6px;text-align:left;vertical-align:top}.ns-t th{color:#ffe9a8}'+
+    '.ns-hm{font:13px/1.5 "Segoe UI";color:#ffe0b0;background:#1a140a;border-radius:8px;padding:8px 10px}.ns-rd>summary,.ns-one>summary{cursor:pointer;font:13.5px "Segoe UI";color:#e8eef6;padding:4px 0}.ns-one{margin-left:14px}.ns-st{font:13px/1.55 Georgia,serif;color:#e6dcff}.ns-one h5{margin:6px 0 2px;color:#9fd0ff;font:600 12px "Segoe UI";text-transform:uppercase}.ns-one ul{margin:0 0 4px;padding-left:18px;font:12.5px/1.5 "Segoe UI";color:#c8d4e4}.ns-lore{white-space:pre-wrap;font:12.5px/1.5 Georgia,serif;color:#d8d0c0;background:#14110c;padding:8px;border-radius:8px}';
   document.head.appendChild(st);
 })();

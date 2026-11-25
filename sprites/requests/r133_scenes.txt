@@ -1,0 +1,18 @@
+# Round 133 — the mage-tower masters as they were, before the dark (one story panel each, shown after you beat them).
+#   .\tools\sprites\paint.ps1 -List r133_scenes
+sc_pn_mg_astral_spire
+sc_pn_mg_conductor
+sc_pn_mg_crimson_spire
+sc_pn_mg_drowned_lighthouse
+sc_pn_mg_ember_observatory
+sc_pn_mg_frostbitten_crown
+sc_pn_mg_frozen_belfry
+sc_pn_mg_hearthfire
+sc_pn_mg_hollow_spire
+sc_pn_mg_lightning_rod
+sc_pn_mg_mire_tower
+sc_pn_mg_monolith
+sc_pn_mg_rift_tower
+sc_pn_mg_rime_spire
+sc_pn_mg_rootspire
+sc_pn_mg_scriptorium
