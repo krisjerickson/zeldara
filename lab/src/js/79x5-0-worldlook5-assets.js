@@ -1,0 +1,5 @@
+// round 134: the take-5 pictures (vista elements cut from the four vista paintings; today's crossings) — in the Lab's asset store
+var VWL5={"v5_setpiece_a.jpg":"/_blob/4de00ce03be2e51eb47851746c45069c","v5_setpiece_b.jpg":"/_blob/431bf3779ad6751f17f8e8f3180f5b39","v5_cliffs.jpg":"/_blob/b02b9139c87e4d82ca1d4f519f27856b","v5_backdrop_a.jpg":"/_blob/f80c80ed414e41d8447641d527ae8f6c",
+"v5_backdrop_b.jpg":"/_blob/5e4860e7a5e083fa25327e88c2f6b972","v5_air.jpg":"/_blob/0337cdbc68cc00ddd7ec46f27f626593","v5_paths.jpg":"/_blob/8e31d77252ea393924773c4d4cb8c8f7","v5_vignette_a.jpg":"/_blob/500e998bb55286ae89a25f7944a4d254",
+"v5_vignette_b.jpg":"/_blob/57c2e14128dc088aee1c25b643c2cf01","v5_forest.jpg":"/_blob/6999d4d495bb30fd7c5eb9a6b91d4ef3","v5_water.jpg":"/_blob/4eaf64a7ec822597f2ad657b08c883eb","v5_skyline.jpg":"/_blob/67bd83ac6ae21062157984bc57bae02d",
+"today_silverrun_2_a.jpg":"/_blob/01ccf7112b1377799d65e03637339616","today_scarp_2_a.jpg":"/_blob/fd3b4cfb9be9dca498b92650992b2db5","today_chasm_2_a.jpg":"/_blob/01b885adf3c6ad5a35bfa5acd849fa8e","today_ember_2_a.jpg":"/_blob/af700012fdd4e458163ba90846ef1c23"};

@@ -1,0 +1,15 @@
+# Round 134 — the pieces for the engagement waves: map stamps, Tome stickers, the crypt, the hearth, the trophy shelf, the Saga Loom, keepsakes.
+#   .\tools\sprites\paint.ps1 -List r134_engage
+sc_e134_stamps
+sc_e134_stickers_1
+sc_e134_stickers_2
+sc_e134_stickers_3
+sc_e134_stickers_4
+sc_e134_crypt_door
+sc_e134_crypt_hall
+sc_e134_hearth
+sc_e134_dusk
+sc_e134_shelf
+sc_e134_loom
+sc_e134_trophies
+sc_e134_ribbons

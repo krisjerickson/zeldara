@@ -1,0 +1,6 @@
+# Round 134 — the four landmarks repainted the right way round (Bram's bridge and Dunn's bridge cross up the screen; Mira's lift rises right to left; Vela's pass goes left to right).
+#   .\tools\sprites\paint.ps1 -List r134_landmarks
+sc_wl_lm2_bram
+sc_wl_lm2_mira
+sc_wl_lm2_dunn
+sc_wl_lm2_vela

@@ -1,0 +1,22 @@
+# Round 134 — twenty thin saga banners to choose from (Lab › The world, revamped 5).
+#   .\tools\sprites\paint.ps1 -List r134_banners
+sc_wl_banner_01
+sc_wl_banner_02
+sc_wl_banner_03
+sc_wl_banner_04
+sc_wl_banner_05
+sc_wl_banner_06
+sc_wl_banner_07
+sc_wl_banner_08
+sc_wl_banner_09
+sc_wl_banner_10
+sc_wl_banner_11
+sc_wl_banner_12
+sc_wl_banner_13
+sc_wl_banner_14
+sc_wl_banner_15
+sc_wl_banner_16
+sc_wl_banner_17
+sc_wl_banner_18
+sc_wl_banner_19
+sc_wl_banner_20

@@ -61,7 +61,7 @@ with sync_playwright() as p:
     a = pg.evaluate("LAB_ACTIVE.slice()")
     pg.evaluate("LTODO.goTo('worldlook4','.w4-c',0)"); pg.wait_for_timeout(800)
     c = pg.evaluate("({cards:document.querySelectorAll('.w4-c').length, vids:document.querySelectorAll('.w4-c video').length, imgs:document.querySelectorAll('.w4-c img').length, blobs:[...document.querySelectorAll('.w4-c video')].every(v=>/_blob/.test(v.getAttribute('src')))})")
-    check('Lab → The world, revamped 4: four cards, 8 clips and 15 pictures from the asset store (%s; tabs %s)' % (c, a), c['cards'] == 4 and c['vids'] == 8 and c['imgs'] == 15 and c['blobs'] and a[1] == 'worldlook4' and 'worldlook3' not in a and 'ceremony' not in a, (c, a))
+    check('Lab → The world, revamped 4: four cards, 8 clips and 15 pictures from the asset store (decided round 134: in the drop-down) (%s; tabs %s)' % (c, a), c['cards'] == 4 and c['vids'] == 8 and c['imgs'] == 15 and c['blobs'] and 'worldlook4' not in a and 'worldlook3' not in a and 'ceremony' not in a, (c, a))
     k = pg.evaluate("Object.keys(ZAUD.REMAKE131.items).length")
     check('Lab → Sound effects knows the third remake (%s)' % k, k == 42, k)
     check('No Lab script errors', not errs, errs[:3])
