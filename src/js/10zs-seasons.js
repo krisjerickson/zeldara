@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ 10zs-seasons.js — round 115: THE SEASONS (Kris ✓ holistic, without the twins' winter mantle; doc 69, Lab "Seasons: the cost").
-// ║ Kris's order: a long mild winter before the game (the opening) → a mild spring as you set out (the Grasslands) → summer when the
-// ║ Wetlands open → autumn with the Highlands → a mild winter with the Ashlands → the real spring when Freya is free. "make the winter not
+// ║ Kris's order: a long mild winter before the game (the opening) → a mild spring as you set out (Gildenmark) → summer when the
+// ║ Fernheim open → autumn with Cragland → a mild winter with Cinderheim → the real spring when Freya is free. "make the winter not
 // ║ overly snowy". The season is worked out from your progress (nothing new in the save but the seasons you have seen).
 // ║ What turns, today (code — the painted seasonal pictures replace it as they come in, wave by wave):
 // ║  · the ground: each green kind of ground (grass, meadow, moss, heath, marsh, crops, soil) takes the season's colour (WK_REG _a/_b), in
@@ -17,7 +17,7 @@
 var ZSEASON={ on:true, cur:'su', force:null, _t:0, loaded:{},
   S:{sp:{n:'The thaw',ic:'🌱',col:'#c8dcb0',art:'th',ban:['The thaw','The first spring in twenty-eight years — grey snow in the shadows, buds on the birches, the first birds back.']},
      su:{n:'Summer',ic:'☀️',col:'#ffe27a',art:null,ban:['Summer','The Silverrun runs clear, and the nights are warm.']},
-     au:{n:'Autumn',ic:'🍂',col:'#ffb46a',art:'au',ban:['Autumn','The leaves turn gold along the Highlands\' road.']},
+     au:{n:'Autumn',ic:'🍂',col:'#ffb46a',art:'au',ban:['Autumn','The leaves turn gold along Cragland\'s road.']},
      wi:{n:'Winter',ic:'❄️',col:'#d8ecff',art:'wi',ban:['Winter','A mild one — frost on the grass and bright, low sun.']},
      bl:{n:'Freya\'s spring',ic:'🌸',col:'#ffd0e4',art:'sp',ban:['Freya\'s spring','The land bursts into flower — blossom runs out along the soul-lines.']}},
   ORDER:['sp','su','au','wi','bl'],

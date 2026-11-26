@@ -6,7 +6,7 @@
 // ║     Eitri and Loki's fly). A flawed key still opens the way, but it shatters — and the shards burn.
 // ║   · the Cinder Forge — THE LAVA TIDE: the forge breathes; lava channels across the way rise and fall. Pump the great bellows beside a channel
 // ║     to hold it drained and cross before it comes back.
-// ║   · the Slag Forge — ORE-CART RAILS: carts on mine rails; ride one through the deep workings (you cannot be hurt while it runs), throw the
+// ║   · the Clinker Forge — ORE-CART RAILS: carts on mine rails; ride one through the deep workings (you cannot be hurt while it runs), throw the
 // ║     switch to choose the shortcut to the way down or the spur to an ore-laden side gallery.
 // ║   · the Ash Forge — FREE THE TOILERS: the spirits mining for Surtharn; break a chain and the spirit follows you; three at your side open the
 // ║     spirit door that seals the way down.
@@ -93,7 +93,7 @@ var ZFI={ on:true,
   tideTick:function(sc,dt){ (sc._zfTide||[]).forEach(function(T){ T.t+=dt; if(T.hold>0){ T.hold-=dt; T.up=false; } else { var ph=T.t%11; T.up=ph<6; } var a=T.up?Math.min(1,(T.g.alpha||0)+dt*2):Math.max(0,(T.g.alpha||0)-dt*2); T.g.setAlpha(a);
       if(T.up&&a>0.6){ var tx=Math.floor(sc.px/TILE), ty=Math.floor(sc.py/TILE); if(T.set[ty*DW+tx]&&!(sc._zfRide&&sc._zfRide.on)){ T.burn=(T.burn||0)+dt; if(T.burn>=0.5){ T.burn=0; ZFI.hurt(sc,0.06,' 🌋'); } } } }); },
   pump:function(sc,o){ o.tide.hold=10; o.tide.t=6; showNotif('💨 You heave on the bellows — the channel drains for ten breaths. Cross!','#ffd0a0'); if(o.vis)sc.tweens.add({targets:o.vis,scaleY:0.85,duration:200,yoyo:true,repeat:3}); },
-  // ══ the Slag Forge: ore-cart rails ══
+  // ══ the Clinker Forge: ore-cart rails ══
   rails:function(sc){ var P=ZFI.path(sc); if(P.length<24||sc.isLastFloor)return; var a=Math.floor(P.length*0.15), b=Math.floor(P.length*0.85), seg=P.slice(a,b+1);
     var g=sc.add.graphics().setDepth(1.6); g.lineStyle(3,0x6a5040,1); for(var side=-1;side<=1;side+=2){ g.beginPath(); seg.forEach(function(t,i){ var p=ZFI.px(t); if(i)g.lineTo(p.x,p.y+side*6); else g.moveTo(p.x,p.y+side*6); }); g.strokePath(); }
     for(var i=0;i<seg.length;i+=1){ var p=ZFI.px(seg[i]); g.fillStyle(0x4a3424,1).fillRect(p.x-9,p.y-2,18,4); }
@@ -103,7 +103,7 @@ var ZFI={ on:true,
     // the switch: a spur to a side gallery with ore and a chest
     var mid=seg[Math.floor(seg.length*0.5)], sp=ZFI.near(sc,mid[0],mid[1],4,9,true); if(sp){ var lp=ZFI.px(mid), L={type:'zf_switch',x:lp.x+TILE,y:lp.y-TILE,opened:false,spur:sp,on:false};
       L.vis=ZFI.prop(sc,'fr_switch',L.x,L.y,function(gg,x,y){ gg.fillStyle(0x3a3a40,1).fillRect(x-6,y-4,12,10); gg.lineStyle(3,0x8a8a90,1).lineBetween(x,y,x-8,y-18); gg.fillStyle(0xd04020,1).fillCircle(x-8,y-18,4); }); sc.interactables.push(L); sc._zfSwitch=L; }
-    showNotif('⛏ The Slag Forge — mine rails run through the deep workings. Ride the ore-cart (you cannot be hurt while it runs); the switch sends it down a spur.','#ffb070'); },
+    showNotif('⛏ The Clinker Forge — mine rails run through the deep workings. Ride the ore-cart (you cannot be hurt while it runs); the switch sends it down a spur.','#ffb070'); },
   ride:function(sc,cart){ if(sc._zfRide&&sc._zfRide.on)return; var seg=cart.seg.slice(), S=sc._zfSwitch; if(S&&S.on){ var m=Math.floor(seg.length*0.5); seg=seg.slice(0,m+1); seg.push(S.spur); }
     var R=sc._zfRide={on:true,i:0,u:0,seg:seg,cart:cart}; sc.playerIFrames=999; showNotif(S&&S.on?'🛒 Down the spur!':'🛒 Hold on — the cart rattles off into the deep workings!','#ffd0a0'); },
   rideTick:function(sc,dt){ var R=sc._zfRide; if(!R||!R.on)return; var now=Date.now(); dt=Math.min(1,(now-(R.last||now))/1000); R.last=now; R.u+=dt*10;      /* real time: a slow frame must not slow the cart */ while(R.u>=1&&R.i<R.seg.length-1){ R.u-=1; R.i++; } var a=ZFI.px(R.seg[R.i]), b=ZFI.px(R.seg[Math.min(R.seg.length-1,R.i+1)]), u=Math.min(1,R.u);

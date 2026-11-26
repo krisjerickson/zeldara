@@ -3,13 +3,13 @@
 // ║ The ★ dungeon + tower guardians fight in phases: phase 1 on the site's
 // ║ last floor (their original attacks), then each defeat sends the fight
 // ║ to a new arena where the boss returns in an evolved form with new
-// ║ moves, more health, and (from the Wetlands on) extra kinds of health:
+// ║ moves, more health, and (from Fernheim on) extra kinds of health:
 // ║   ✨ ward  — only spells (and familiars) break it
 // ║   🏹 guard — only arrows break it
 // ║   🛡 plate — only melee blows break it
 // ║ (other attacks still chip it at 15%, so you can never get stuck).
-// ║ Phases: Grasslands 2 · Wetlands 3 · Highlands 4 · Ashlands 5.
-// ║ Summons from the Wetlands on; Highlands + Ashlands finales bring
+// ║ Phases: Gildenmark 2 · Fernheim 3 · Cragland 4 · Cinderheim 5.
+// ║ Summons from Fernheim on; Cragland + Cinderheim finales bring
 // ║ several bosses at once. Arenas have their own hazards and events.
 // ═══════════════════════════════════════════════════════════════════════
 

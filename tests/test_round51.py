@@ -34,7 +34,7 @@ with game(new=True, painted=True) as g:
     check('Each can be walked to from the village over its causeway', all(x['reach'] for x in s), [(x['id'], x['reach']) for x in s])
     check('The causeways and islands are walled off from the sea (%d wall faces, %d bits of open sea touching the walkways)' % (r['walls'], r['leak']), r['walls'] > 200 and r['leak'] == 0, r['leak'])
     m = [x for x in s if x['id'] == 'volcano_main'][0]
-    check('Muspelheim stands off the Ashlands coast (region %s), clear of the map\'s compass (tile %d, %d)' % (m['region'], m['x'], m['y']), m['region'] == 4 and (m['x'] > 214 or m['y'] < 980), m)
+    check('Muspelheim stands off Cinderheim coast (region %s), clear of the map\'s compass (tile %d, %d)' % (m['region'], m['x'], m['y']), m['region'] == 4 and (m['x'] > 214 or m['y'] < 980), m)
     check('Each forge is anchored on its own realm\'s coast', all(x['region'] == x['sec'] for x in s), [(x['id'], x['region'], x['sec']) for x in s])
     r = g.js("""(async ()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, site=ws.wd.sites.find(function(s){ return s.id==='volcano_e'; }), msg=null, n0=ws._showNotif; ws._showNotif=function(t){ msg=t; return n0.apply(ws,arguments); };
       ps.inventory=(ps.inventory||[]).filter(function(i){ return !/^volcano_key/.test(i); }); ws._enterSite(site); var sealed=msg, a1=game.scene.isActive('VolcanoBulletHell')||game.scene.isActive('Dungeon');

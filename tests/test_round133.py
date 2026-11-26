@@ -22,7 +22,7 @@ with game(painted=True, w=1280, h=720) as g:
       var b2=ZNPCT.bound(ws,ps,ZNPC[k].spirits); ps.npcHeard={}; var seen={}; for(var i=0;i<12;i++){ var t=ZNPCT.line(ws,k); seen[t]=1; }
       var hasAfter=ZNPC[k].lines.after.some(t=>seen[t]), hasBefore=ZNPC[k].lines.before.some(t=>seen[t]);
       return {k:k, b:b, b2:b2, hasAfter:hasAfter, hasBefore:hasBefore, n:Object.keys(seen).length}; })()""" % WS)
-    check('Primrose keeps Asa and Bersi: while bound she talks of them; once free, of them free — never her "before" lines then; no repeats (%s)' % a, a['k'] == 'primrose' and a['b'] == ['Asa', 'Bersi'] and a['b2'] == [] and a['hasAfter'] and not a['hasBefore'] and a['n'] >= 11, a)      # (11 lines open to her once they are free in the Grasslands' first part)
+    check('Primrose keeps Asa and Bersi: while bound she talks of them; once free, of them free — never her "before" lines then; no repeats (%s)' % a, a['k'] == 'primrose' and a['b'] == ['Asa', 'Bersi'] and a['b2'] == [] and a['hasAfter'] and not a['hasBefore'] and a['n'] >= 11, a)      # (11 lines open to her once they are free in Gildenmark's first part)
     t = g.js("""(()=>{ var ws=%s, f=ws._fairies.find(x=>x.q===1&&x.i===2); ws._talkFairy(f); var el=document.getElementById('fairy-talk'); return {open:el&&el.style.display, txt:el&&el.textContent.slice(0,200), btn:[...el.querySelectorAll('.ft-btns button')].map(b=>b.textContent)}; })()""" % WS)
     check('Tab at a fairy with no lesson for you: she talks, with "Tell me more" (%s)' % t, t['open'] == 'flex' and 'Tell me more' in t['btn'], t)
     g.js("FairyTalk.close()")

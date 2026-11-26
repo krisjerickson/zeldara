@@ -12,7 +12,7 @@ var ZSEAL={ on:true, RUNES:'ᚱᛉᚨᛟᛞᚹᛗᛇ', _t:0, _n:0,
   hit:function(sc,sec,x,y){ if(!ZSEAL.on||!sc||!sc.add)return; var now=Date.now();
     if(now-ZSEAL._t>260){ ZSEAL._t=now; try{ ZSEAL.ward(sc,x,y); }catch(e){} }
     if(now-ZSEAL._n>5000){ ZSEAL._n=now; var nm=(typeof SECTION_NAMES!=='undefined'&&SECTION_NAMES[sec])||'This land';
-      var who=['','','the Wetlands','the Highlands','the Ashlands'][sec]||'its';
+      var who=['','','Fernheim','Cragland','Cinderheim'][sec]||'its';
       if(typeof showNotif==='function')showNotif('🔒 '+nm+' is sealed by an old ward — free the master builder held in the tower before '+who+' to open it.','#9fe8ff'); } },
   // a curtain of light: soft aurora bands and three runes, rising and fading
   ward:function(sc,x,y){ var D=(typeof WR_DEPTH==='function'?WR_DEPTH(y+40):9000)+5, g=sc.add.graphics().setDepth(D).setBlendMode(Phaser.BlendModes.ADD);

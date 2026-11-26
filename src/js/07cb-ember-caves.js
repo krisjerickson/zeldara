@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ EMBER CAVE (round 6) — the Highlands familiar island's adventure used to
+// ║ EMBER CAVE (round 6) — Cragland familiar island's adventure used to
 // ║ be the old side-view Cave scene. It is now a normal 4-floor island
 // ║ dungeon built by the shared cavern builder (07c). Three looks to pick
 // ║ from in the Design Lab ("Ember Cave" tab); EMBER_CAVE_PICK is used.

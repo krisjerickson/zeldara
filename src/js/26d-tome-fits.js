@@ -11,7 +11,7 @@
 (function(){ if(typeof Tome==='undefined'||typeof ZEL==='undefined')return;
   TOME_CATS.push({k:'fits',n:'How it all fits',i:'✨',page:1});
   var _list=Tome.list; Tome.list=function(cat){ return cat==='fits'?[]:_list.call(Tome,cat); };
-  var F={pg:'stars',sel:null,el:'fire'}, QN=['','Grasslands','Wetlands','Highlands','Ashlands'], REL={1:'grass',2:'water',3:'earth',4:'fire'};
+  var F={pg:'stars',sel:null,el:'fire'}, QN=['','Gildenmark','Fernheim','Cragland','Cinderheim'], REL={1:'grass',2:'water',3:'earth',4:'fire'};
   var PAGES=[['stars','Stars','✦','Everything you can learn or win, one constellation per realm. Lit stars are yours; the next one in each line twinkles; the rest wait as "?".'],
     ['compass','Compass','🧭','The six elements. Inside: what you carry of each. Outside: the foes of each you have met. A red edge means nothing of yours beats that element yet.'],
     ['grid','Matchups','▦','Everything you carry, against each element of foe. Pick a column to see the foes of that element you have met.'],

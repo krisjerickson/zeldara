@@ -9,19 +9,19 @@
 // ║   resist el=fire red=0.75   takes 75% less familiar damage of that element
 // ║   banish r=300 t=12 cd=14   (attack) knocks your nearest familiar out
 // ║ (Monsters still on their original code — MON_LEGACY — have no kit.)
-// ║ Mostly Highlands + Ashlands monsters, plus every elite (at spawn) and
+// ║ Mostly Cragland + Cinderheim monsters, plus every elite (at spawn) and
 // ║ every mage-tower master (09e). Familiars can also be staggered by slams,
 // ║ sweeps, breath, rings, gusts and nets (09d) → knocked out 8–15 s.
 // ═══════════════════════════════════════════════════════════════════════
 var FAM_COUNTERS={
-  // ── Highlands ──
+  // ── Cragland ──
   shieldwall_dwarves:'spiritward n=3', dwarf_axeman:'spiritward n=2', cave_troll:'spiritward n=3', ridge_troll:'spiritward n=2', rune_statue:'spiritward n=4', chess_rook:'spiritward n=3',
   crystal_golemling:'mirror', geode_crab:'mirror', prism_eye:'mirror', crystal_resonator:'mirror', glass_wyvern:'mirror',
   astronomer_lich:'nullaura r=130', void_scholar:'nullaura r=150', orrery:'nullaura r=120', echo_sage:'nullaura r=110',
   rockslide_beetle:'resist el=earth', gargoyle_sentry:'resist el=earth', stone_druid:'resist el=earth',
   frost_cantor:'resist el=water', blizzard_witch:'resist el=water', glacier_wyrm:'resist el=water', frost_ghoul:'resist el=water',
   chessmaster:'banish r=300 t=12 cd=14', seraph:'banish r=280 t=10 cd=16',
-  // ── Ashlands ──
+  // ── Cinderheim ──
   magma_slug:'resist el=fire', cinder_hounds:'resist el=fire', lava_eel:'resist el=fire', salamander_wyrmling:'resist el=fire', magma_brute:'resist el=fire',
   slag_golem:'resist el=fire', salamander_warrior:'resist el=fire', magma_elemental:'resist el=fire', flame_djinn:'resist el=fire', flame_wisp:'resist el=fire', phoenix_chick:'resist el=fire',
   magma_vent:'resist el=fire', pit_serpent:'resist el=fire',

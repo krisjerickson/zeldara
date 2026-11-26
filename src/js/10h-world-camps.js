@@ -34,8 +34,8 @@ function campCelebrate(scene,x,y,title,sub){
 }
 
 /* round 110 (Kris: "chests in the overworld overall should be reviewed and updated, where needed, with painted images"): each realm's
-   chest camp gets its own painted chest (07zt13 sc_r110_chests) — the Wetlands' sunken chest, the Highlands' dwarven strongbox, the
-   Ashlands' obsidian coffer; the Grasslands keep the bandits' chest. Until they are in, all four wear that one. */
+   chest camp gets its own painted chest (07zt13 sc_r110_chests) — Fernheim's sunken chest, Cragland's dwarven strongbox, the
+   Cinderheim's obsidian coffer; Gildenmark keep the bandits' chest. Until they are in, all four wear that one. */
 var CAMP_CHEST_V={sunken_chest:'_sunken',dwarf_strongbox:'_dwarf',obsidian_coffer:'_obsidian'}, CACHE_CHEST_V={2:'_sunken',3:'_dwarf',4:'_obsidian'};
 Object.assign(WorldScene.prototype,{
   _campTex(kind,tint,tid){ var cv0=kind==='chest'?(CAMP_CHEST_V[tid]||''):'', key='camp_'+kind+cv0+(tint?'_'+tint.slice(1):''); if(this.textures.exists(key))return key;

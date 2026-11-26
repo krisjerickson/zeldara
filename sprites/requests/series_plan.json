@@ -614,7 +614,7 @@
     {
      "n": 2,
      "title": "Free",
-     "cap": "\"Free at last! I'll raise the bridge to the Wetlands.\"",
+     "cap": "\"Free at last! I'll raise the bridge to Fernheim.\"",
      "ids": [
       "sb_bram_02_m",
       "sb_bram_02_f"
@@ -755,7 +755,7 @@
     {
      "n": 5,
      "title": "Timber and stone",
-     "cap": "Timber from the Grasslands, stone from the riverbank.",
+     "cap": "Timber from Gildenmark, stone from the riverbank.",
      "ids": [
       "sb_bram_05_m",
       "sb_bram_05_f"
@@ -990,7 +990,7 @@
     {
      "n": 10,
      "title": "The first to cross",
-     "cap": "For the first time in years, the Grasslands and the Wetlands touch again.",
+     "cap": "For the first time in years, Gildenmark and Fernheim touch again.",
      "ids": [
       "sb_bram_10_m",
       "sb_bram_10_f"
@@ -1094,7 +1094,7 @@
     {
      "n": 2,
      "title": "Free",
-     "cap": "\"Thank you! My lift will carry you up to the Highlands.\"",
+     "cap": "\"Thank you! My lift will carry you up to Cragland.\"",
      "ids": [
       "sb_mira_02_m",
       "sb_mira_02_f"
@@ -1460,8 +1460,8 @@
     },
     {
      "n": 10,
-     "title": "The Highlands",
-     "cap": "The road to the Highlands is open.",
+     "title": "Cragland",
+     "cap": "The road to Cragland is open.",
      "ids": [
       "sb_mira_10_m",
       "sb_mira_10_f"
@@ -1565,7 +1565,7 @@
     {
      "n": 2,
      "title": "Free",
-     "cap": "\"Ha! Let me at my anvil — an iron bridge to the Ashlands it is!\"",
+     "cap": "\"Ha! Let me at my anvil — an iron bridge to Cinderheim it is!\"",
      "ids": [
       "sb_dunn_02_m",
       "sb_dunn_02_f"
@@ -1894,7 +1894,7 @@
     {
      "n": 9,
      "title": "Across",
-     "cap": "Across the Cinder Chasm lie the Ashlands.",
+     "cap": "Across the Cinder Chasm lie Cinderheim.",
      "ids": [
       "sb_dunn_09_m",
       "sb_dunn_09_f"
@@ -2092,7 +2092,7 @@
     {
      "n": 3,
      "title": "The Ember Wall",
-     "cap": "The Ember Wall had burned for thirty-six years.",
+     "cap": "The Ember Wall had burned for twenty-eight years.",
      "ids": [
       "sb_vela_03_m",
       "sb_vela_03_f"
@@ -2449,7 +2449,7 @@
     {
      "n": 3,
      "title": "Empty cradles",
-     "cap": "In the last village, the cradles stood empty — twenty winters, and not one child.",
+     "cap": "In the last village, the cradles stood empty — twelve winters, and not one child.",
      "ids": [
       "sb_opening_03"
      ],
@@ -2578,7 +2578,7 @@
     {
      "n": 1,
      "title": "The roads to every realm",
-     "cap": "Once, the roads of the Grasslands ran to every realm.",
+     "cap": "Once, the roads of Gildenmark ran to every realm.",
      "ids": [
       "sb_quiet_01"
      ],
@@ -2670,7 +2670,7 @@
     {
      "n": 3,
      "title": "The last village",
-     "cap": "Only the Grasslands were left.",
+     "cap": "Only Gildenmark was left.",
      "ids": [
       "sb_quiet_03"
      ],
@@ -2909,7 +2909,7 @@
     {
      "n": 1,
      "title": "Orchards and honey",
-     "cap": "Once the Ashlands were orchards and honey.",
+     "cap": "Once Cinderheim was orchards and honey.",
      "ids": [
       "sb_ashnight_01"
      ],
@@ -3001,7 +3001,7 @@
     {
      "n": 3,
      "title": "Fire and ash",
-     "cap": "Fire and ash fell on the Ashlands.",
+     "cap": "Fire and ash fell on Cinderheim.",
      "ids": [
       "sb_ashnight_03"
      ],
@@ -3121,7 +3121,7 @@
     {
      "n": 6,
      "title": "Grey morning",
-     "cap": "By morning, the Ashlands were grey.",
+     "cap": "By morning, Cinderheim was grey.",
      "ids": [
       "sb_ashnight_06"
      ],
@@ -3222,7 +3222,7 @@
     {
      "n": 1,
      "title": "The mines",
-     "cap": "The Highlands lived by the mines.",
+     "cap": "Cragland lived by the mines.",
      "ids": [
       "sb_stonefall_01"
      ],
@@ -3452,7 +3452,7 @@
     {
      "n": 6,
      "title": "Silence",
-     "cap": "Three years after the Ash Night, the Highlands fell.",
+     "cap": "Three years after the Ash Night, Cragland fell.",
      "ids": [
       "sb_stonefall_06"
      ],
@@ -3553,7 +3553,7 @@
     {
      "n": 1,
      "title": "Mills and boats",
-     "cap": "The Wetlands were mills and boats on the Silverrun.",
+     "cap": "Fernheim was mills and boats on the Silverrun.",
      "ids": [
       "sb_blacktide_01"
      ],
@@ -3829,7 +3829,7 @@
     {
      "n": 7,
      "title": "Mist",
-     "cap": "Five years after the Stone-Fall, the Wetlands were gone.",
+     "cap": "Three years after the Stone-Fall, Fernheim was gone.",
      "ids": [
       "sb_blacktide_07"
      ],
@@ -9558,7 +9558,7 @@
     {
      "n": 1,
      "title": "You came",
-     "cap": "\"You came. Thirty-six winters we slept in our own light — and still you came.\"",
+     "cap": "\"You came. Twenty-eight winters we slept in our own light — and still you came.\"",
      "ids": [
       "sb_truth_01"
      ],

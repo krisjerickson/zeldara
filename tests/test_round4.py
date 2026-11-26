@@ -1,4 +1,4 @@
-"""Round 4: no Home button, campfires + Ashlands magma burn (unless Lava Unicorn / Dragon / Ash Dragon),
+"""Round 4: no Home button, campfires + Cinderheim magma burn (unless Lava Unicorn / Dragon / Ash Dragon),
 Tome lists immunities, elite dens (one room, elite + plain kin, big named health bar, lots of HP).
 Run from the repo root after `node build.mjs`: python tests/test_round4.py"""
 import sys, os, json
@@ -28,7 +28,7 @@ with game(new=True) as g:
       ps.mount=null; ps.hp=200; ws._burnTime=0; ws.player.x=x0*TILE+16; ws.player.y=y0*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); ws._mag=[x0,y0]; return [x0,y0]; })()""")
     until(g, "ps.hp<200", 15000); mfoot = g.ws("200-ps.hp")
     g.ws("(()=>{ ps.hp=200; ps.mount='ash_salamander'; ws._burnTime=0; ws._lavaTime=0; ws.player.x=ws._mag[0]*TILE+16; ws.player.y=ws._mag[1]*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); })()"); g.wait(4000); mdrag = g.ws("200-ps.hp")
-    check('Ashlands magma burns you unless you ride the Lava Unicorn or a dragon', r[0] is not None and mfoot >= 10 and mdrag == 0, (r, mfoot, mdrag))
+    check('Cinderheim magma burns you unless you ride the Lava Unicorn or a dragon', r[0] is not None and mfoot >= 10 and mdrag == 0, (r, mfoot, mdrag))
     g.ws("(()=>{ ps.mount=null; ps.hp=ps.maxHp; ps.godMode=true; ws.player.x=CENTER_X*TILE; ws.player.y=CENTER_Y*TILE; ws.player.cont.setPosition(ws.player.x,ws.player.y); })()")
     # ── Tome immunities ──
     r = g.js("""(()=>{ var out={}; ['scarecrow_warden','clover_slime'].forEach(id=>{ var e=Tome.entry('monster',id); out[id]=e.lines.filter(l=>/Immune|Resists|Weak|Defences/.test(l[0])).map(l=>l[0]+': '+l[1]); });

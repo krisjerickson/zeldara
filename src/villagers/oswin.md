@@ -11,7 +11,7 @@ voice: Bluff, loud and fond of kennings; a drill-sergeant who grades your report
 ## Backstory
 Oswin Hrafnsson was the loudest of the Ravens, a company of five sell-swords and monster-hunters who kept the roads of Runeheim safe when there were still four realms to keep. Sigrid banged her shield like a drum, Ulf played his horn badly and loudly, Halla arm-wrestled trolls and sewed the company's feather cloaks, and Kettil laughed at all of them. Oswin did the talking. He was good at it.
 
-Twenty-eight winters ago, on the night the sky went red, word came that the Ashlands were burning. The Ravens rode west to bring people out. At the Emberford someone had to hold the horses and keep the road open behind them, and Sigrid chose Oswin — "because you'll talk the fire into waiting". He waited. The Ember Wall rose between him and his friends before dawn, and he rode home alone with four riderless horses. He has told every story of his life bigger every year since, except that one, which he does not tell at all.
+Twenty-eight winters ago, on the night the sky went red, word came that Cinderheim was burning. The Ravens rode west to bring people out. At the Emberford someone had to hold the horses and keep the road open behind them, and Sigrid chose Oswin — "because you'll talk the fire into waiting". He waited. The Ember Wall rose between him and his friends before dawn, and he rode home alone with four riderless horses. He has told every story of his life bigger every year since, except that one, which he does not tell at all.
 
 He turned the Ravens' empty hall into the Adventurers' Guild and began to keep "the list": every road out of the village that was shut by something — a tower, a dungeon, a thing in the dark. For twenty-eight years nobody was able to clear a single line of it. On the Ravens' shelf stand five tankards. Four are upside down, the old sign for a comrade who did not come home. He dusts them every morning.
 
@@ -20,7 +20,7 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 ## In the Saga
 - Leads the first walk and gives the first three tasks (his purse at the Bandit Stash, Old Nell's net, Pia's pins), then the guild's quests in every realm.
 - The Five Tankards: one keepsake of each lost Raven in each realm; each one turns a tankard right side up.
-- His story arc: the troll grows (Grasslands) → a Raven's shield goes quiet (Wetlands) → the true Ash Night (Highlands) → the Ravens remembered (Ashlands) → after the end he tells YOUR story instead, much bigger.
+- His story arc: the troll grows (Gildenmark) → a Raven's shield goes quiet (Fernheim) → the true Ash Night (Cragland) → the Ravens remembered (Cinderheim) → after the end he tells YOUR story instead, much bigger.
 - Carried the basket up from the pier the dawn the twins were found; he never says more about it than that.
 
 ## Ties
@@ -147,20 +147,20 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 - Did I ever tell you about the troll at the Silverrun? Big as a door. I put it down with a ladle.
 - Back in my day we cleared camps with a spoon and a stern look. You have a sword. No excuses.
 - That troll — did I say door? I meant barn door. Big barn. Very stern troll.
-- The Grasslands are the easy ones. Don't let that make you lazy. Easy roads have the best ambushes.
+- Gildenmark is the easy ones. Don't let that make you lazy. Easy roads have the best ambushes.
 - The bandits on the east road? Amateurs. Still — amateurs with crossbows. Duck.
 - Your first lines off my list. I had to sit down. Don't tell anyone I sat down.
 - That basket came out of the lake sixteen years ago, and look — now it's walking about clearing my list. Ha!
-- Get used to the weight of that sword. By the Wetlands you'll forget you're carrying it.
+- Get used to the weight of that sword. By Fernheim you'll forget you're carrying it.
 - The Silverrun's a wall these days. One day it'll be a river again. Mark my words. Bram will mark them for me.
 - There's a tower east of here with a builder in it. Bram. Insufferable. Brilliant. Bring him home.
 - Your first spirit freed! I saw the light run across the meadow from the guild window. Spilt my mead. Worth it.
-- Oswin's rule for the Grasslands: if it's got horns and it's charging, you're not the first to have this problem.
+- Oswin's rule for Gildenmark: if it's got horns and it's charging, you're not the first to have this problem.
 
 ## Stage 2
 - The Silverrun troll? Big as a house, that one. Two ladles. I was very tired afterwards.
-- The Wetlands, eh? I once wrestled a bog serpent there. It apologised to me. Twice.
-- The Wetlands drowned the year Ulf turned forty. We had a party planned. We had it anyway. On a roof.
+- Fernheim, eh? I once wrestled a bog serpent there. It apologised to me. Twice.
+- Fernheim drowned the year Ulf turned forty. We had a party planned. We had it anyway. On a roof.
 - Keep your boots dry and your eyes drier. The mist lies.
 - A Raven's shield in a sunken site. …Keep it in the guild, out of the rain. That's all. Thank you.
 - Bram's bridge. Never thought I'd cross the Silverrun again in my life. My knees did a little dance. Very little.
@@ -168,26 +168,26 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 - Bog serpent — I've remembered it differently. It was two bog serpents. Holding hands.
 - The marsh villages had the best eel pie in Runeheim. Now the eels have the villages. Fair trade, I suppose.
 - Watch the reeds. If they move against the wind, something's moving them.
-- You've got mud to the knees and a grin to the ears. That's the Wetlands done properly.
+- You've got mud to the knees and a grin to the ears. That's Fernheim done properly.
 - The second realm open. My list has a gap in it now. A beautiful gap.
 
 ## Stage 3
 - The troll at the Silverrun was the size of the longhouse, and it had a cousin. I handled them both. Mostly.
-- Up in the Highlands I outstared a stone giant. Took three days. I blinked first, but he didn't see.
+- Up in Cragland I outstared a stone giant. Took three days. I blinked first, but he didn't see.
 - Sit down. No — sit. I'm going to tell you the Ash Night, the true one, once. Sigrid told me to hold the horses. I held the horses. The wall came up. That's the story.
 - The troll story's done growing. It was a troll. It was big. I was lucky. There.
-- The Highlands dug too deep. Every miner I knew said the stone was singing that year. I wish they'd covered their ears.
+- Cragland dug too deep. Every miner I knew said the stone was singing that year. I wish they'd covered their ears.
 - Mira's lift up the Great Scar — I went up it with my eyes shut. Came down with them open. That was worse.
 - Dunn's in a tower in those mountains. Fetch him. He owes me an apology from 'the incident'. He'll say I owe him one. He's wrong.
 - Thin air up high. Breathe slow, fight slower. The mountains don't forgive a hurry.
 - Halla's ring… she wore it on a cord round her neck. Said rings got in the way of punching. Thank you for finding it.
-- The Highlands had the best steel and the worst songs. Mining songs. Forty verses about rocks.
+- Cragland had the best steel and the worst songs. Mining songs. Forty verses about rocks.
 - You're getting good. I don't say that. I said it. Forget I said it. Remember it on the hard days.
 - Three realms open. Twenty-eight years nothing, and now three. I keep checking the list in case I've misread it.
 
 ## Stage 4
 - The troll… well. It was a big troll. Let's leave it at big.
-- The Ashlands. I rode in there once, with four friends. I came back alone. That one I never tell bigger.
+- Cinderheim. I rode in there once, with four friends. I came back alone. That one I never tell bigger.
 - You'll pass the Emberford on the way in. Stand there a moment for me. Then keep going. That's what I didn't do.
 - A spirit on the Green remembered a woman with a shield, banging it like a drum, holding the road at the wall so others could run. That was Sigrid. That was my Sigrid.
 - Kettil's hood. He'd laugh at me. Let him. All five stand now.

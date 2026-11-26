@@ -3,8 +3,8 @@
 // ║ Kris: "the blacksmith should only be able to forge weapons when certain stages of the game are unlocked, so you can't get overpowered
 // ║ weapons and armor too early."
 // ║  · ZForge.lock(ps,id): the smith learns a new heat with every realm that opens (each freed master builder):
-// ║      T1 of every lane from the start · T2 and the element crossbows and bows with the Wetlands · T3, the arbalests and warbows with the
-// ║      Highlands · T4 and the two-element master-works with the Ashlands · the Elemental Sovereign once the Forges of Muspelheim rise.
+// ║      T1 of every lane from the start · T2 and the element crossbows and bows with Fernheim · T3, the arbalests and warbows with the
+// ║      Cragland · T4 and the two-element master-works with Cinderheim · the Elemental Sovereign once the Forges of Muspelheim rise.
 // ║    A locked node shows a padlock and what opens it, in the blacksmith's tree and in the Tome's. What you already own stays yours.
 // ║  · Ring and amulet element power is capped at +40 % per element (ZEL.POW_CAP) — ten gemmed rings no longer stack to +80 %.
 // ║  · Sovereign, the seventh element: the Sovereign pieces and the Elemental Sovereign strike with no element of the six (×1 against every
@@ -12,7 +12,7 @@
 // ║    ×2 from Sovereign and ×0.35 from everything else.
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof ZForge==='undefined'||typeof ZEL==='undefined')return;
-  var REALM=['','Grasslands','Wetlands','Highlands','Ashlands'];
+  var REALM=['','Gildenmark','Fernheim','Cragland','Cinderheim'];
   // the stage each forged piece needs: 2–4 = that many realms open; 'forges' = the Forges of Muspelheim risen
   var STAGE={}; ZForge.LANES.forEach(function(L){ L.nodes.forEach(function(id,i){ if(i>=2)STAGE[id]=Math.min(4,i); }); });      // T1 (i=1) is open from the start
   ZForge.XBOW.t1.concat(ZForge.BOW.t1).forEach(function(id){ STAGE[id]=2; }); ZForge.XBOW.t2.concat(ZForge.BOW.t2).forEach(function(id){ STAGE[id]=3; });

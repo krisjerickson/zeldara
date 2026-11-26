@@ -12,7 +12,7 @@ st = P['v2_story']
 check('Phases: with the picks and the fixes, a story player\'s kit costs 9–15 minutes in every realm (%s)' % [p['kitMin'] for p in st], all(9 <= p['kitMin'] <= 15 for p in st))
 check('…and reaches each level cap 60–95 %% of the way through the realm (%s)' % [round(p['need'] / p['xp'] * 100) for p in st], all(0.6 <= p['need'] / p['xp'] <= 0.95 for p in st))
 ap = P['after_explorer']
-check('…as picked, Valour floods the Ashlands (%s chests) — the reason for N2' % ap[3]['valour'], ap[3]['valour'] > 40 and P['v2_explorer'][3]['valour'] < 20)
+check('…as picked, Valour floods Cinderheim (%s chests) — the reason for N2' % ap[3]['valour'], ap[3]['valour'] > 40 and P['v2_explorer'][3]['valour'] < 20)
 lab = open(os.path.join(R, 'lab', 'lab.artifact.html'), encoding='utf8').read()
 ids = ['xpcurve', 'valour', 'prizetaper', 'pitystep', 'kits', 'storysinks', 'binders', 'endgame', 'alphaseen', 'traders', 'stalls', 'quarter', 'drops', 'relics', 'named', 'rings', 'trophies', 'stock']
 check('The Lab has Economy — round 2 with all %d proposals and the phase numbers' % len(ids), ('id:"economy2"' in lab or "id:'economy2'" in lab) and 'LECO2.M=' in lab and all(('id:"%s",grp:' % i) in lab or ("id:'%s',grp:" % i) in lab for i in ids))

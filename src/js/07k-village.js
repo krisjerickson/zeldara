@@ -1,9 +1,9 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ VILLAGE STYLES (Phase 3) — four looks for the home village, each in five
 // ║ growth stages. The village grows as craftsmen are freed:
-// ║   1 Start · 2 Bram (Wetlands open): builder's yard, stone bridge, paved
-// ║   streets · 3 Mira (Highlands): workshop + windmill, lamp posts ·
-// ║   4 Dunn (Ashlands): forge hall, statue, iron fences · 5 Vela (all four):
+// ║   1 Start · 2 Bram (Fernheim open): builder's yard, stone bridge, paved
+// ║   streets · 3 Mira (Cragland): workshop + windmill, lamp posts ·
+// ║   4 Dunn (Cinderheim): forge hall, statue, iron fences · 5 Vela (all four):
 // ║   sky dock, banners, festival lights, flower beds.
 // ║ Built with the world engine (07f) so it matches the rest of the world.
 // ═══════════════════════════════════════════════════════════════════════
@@ -21,7 +21,7 @@ var VILLAGE_STYLES=[
    blurb:'A snug stone town with slate roofs inside a low curtain wall with round towers and a gatehouse. Cobbled streets lead down to a stone quay where boats tie up on Mirror Lake.',
    ground:['#5a8a48','#6e9a56'], street:['#9a9486','#b0aa9a'], wall:'stone', roofs:['#4a5060','#5a5a6a','#3e4656'], trees:'pine', treeCol:'#2f5a34', fence:'stone'}
 ];
-var VILLAGE_STAGES=['Start','Bram freed: Wetlands open','Mira freed: Highlands open','Dunn freed: Ashlands open','Vela freed: the whole world'];
+var VILLAGE_STAGES=['Start','Bram freed: Fernheim open','Mira freed: Cragland open','Dunn freed: Cinderheim open','Vela freed: the whole world'];
 
 // ── Building painter (3/4 view): walls, roof, door, windows, chimney, sign ──
 function villBuilding(g,W,H,o,R){

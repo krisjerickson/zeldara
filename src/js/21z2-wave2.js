@@ -31,7 +31,7 @@ var Z2={ ws:function(){ try{ return game.scene.getScene('World'); }catch(e){ ret
   act:function(k){ try{ return game.scene.isActive(k); }catch(e){ return false; } },
   region:function(){ var r=document.getElementById('region-name'); return (r&&r.textContent.trim())||'the village'; },
   pic:function(id){ return typeof ZHUD!=='undefined'&&ZHUD.pic?ZHUD.pic(id):null; },      /* whole-picture paintings (rooms) too: see below */
-  REALM:['the village','the Grasslands','the Wetlands','the Highlands','the Ashlands'],
+  REALM:['the village','Gildenmark','Fernheim','Cragland','Cinderheim'],
   hero:function(ps){ return ps&&ps.hero==='zoldor'?'Zoldor':(ps&&ps.hero==='zola'?'Zola':((ps&&ps.heroName)||'our hero')); },
   overlay:function(cls,html){ var d=document.createElement('div'); d.className=cls; d.innerHTML=html; (document.getElementById('app')||document.body).appendChild(d); return d; } };
 
@@ -201,8 +201,8 @@ var ZBOOK={ on:true,
   ST:[['begin','🌄','Set out from the village',function(){ return true; }],['home','🛏','A bed of your own',function(){ return true; }],
     ['lamb','🐑','Saved the lamb',function(ps){ return (ps.firstWin||0)>=3; }],['boss1','🏆','First boss down',function(ps){ return (ps.zst||{}).boss; }],['spell1','✨','First spell',function(ps){ return (ps.spellsLearned||[]).length>0; }],
     ['fam1','🐾','A familiar at your side',function(ps){ return !!ps.familiar; }],['mount1','🐎','First ride',function(ps){ return (ps.mounts||[]).length>0||!!ps.mount; }],['spirit1','👻','A spirit set free',function(ps){ return (ps.spiritsFreed||[]).length>0; }],
-    ['spirit10','🕯','Ten spirits home',function(ps){ return (ps.spiritsFreed||[]).length>=10; }],['realm2','🌊','Into the Wetlands',function(ps){ return (ps.unlockedSections||[]).indexOf(2)>=0; }],['realm3','⛰','Into the Highlands',function(ps){ return (ps.unlockedSections||[]).indexOf(3)>=0; }],
-    ['realm4','🌋','Into the Ashlands',function(ps){ return (ps.unlockedSections||[]).indexOf(4)>=0; }],['end','🌸','The saga\'s end',function(ps){ return !!ps.spiritsHome; }],['lv10','⭐','Level 10',function(ps){ return (ps.level||1)>=10; }],['lv25','🌟','Level 25',function(ps){ return (ps.level||1)>=25; }],
+    ['spirit10','🕯','Ten spirits home',function(ps){ return (ps.spiritsFreed||[]).length>=10; }],['realm2','🌊','Into Fernheim',function(ps){ return (ps.unlockedSections||[]).indexOf(2)>=0; }],['realm3','⛰','Into Cragland',function(ps){ return (ps.unlockedSections||[]).indexOf(3)>=0; }],
+    ['realm4','🌋','Into Cinderheim',function(ps){ return (ps.unlockedSections||[]).indexOf(4)>=0; }],['end','🌸','The saga\'s end',function(ps){ return !!ps.spiritsHome; }],['lv10','⭐','Level 10',function(ps){ return (ps.level||1)>=10; }],['lv25','🌟','Level 25',function(ps){ return (ps.level||1)>=25; }],
     ['secret1','🔎','A first secret',function(ps){ return Object.keys(ps.secrets||{}).length>0; }],['secret30','🗝','Thirty secrets',function(ps){ return Object.keys(ps.secrets||{}).length>=30; }],['secret120','👑','Every secret',function(ps){ return Object.keys(ps.secrets||{}).length>=120; }],
     ['fest1','🎉','A festival kept',function(ps){ return (ps.zst||{}).fest; }],['fest5','🎪','All five festivals',function(ps){ return Object.keys(ps.ribbons||{}).length>=5; }],['echo1','🔔','First echo',function(ps){ return Object.keys(ps.medals||{}).length>0; }],
     ['gold1','🥇','A gold rune (no hit)',function(ps){ var M=ps.medals||{}; return Object.keys(M).some(function(k){ return M[k]>=3; }); }],['letter','✉','Letters from home',function(ps){ return (ps.zst||{}).letters; }],['photo','📷','A picture taken',function(ps){ return (ps.zst||{}).photo; }],

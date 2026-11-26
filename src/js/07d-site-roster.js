@@ -28,18 +28,18 @@ var SITE_ROSTER={
 };
 // Captive craftsmen held at the top of each boss tower
 var CRAFTSMEN={
-  1:{id:'builder', n:'Bram the Builder',     icon:'🔨', freed:'Bram: "Free at last! I\'ll raise the bridge to the Wetlands."',
-     village:'Bram: "The Wetlands bridge holds! Next I want to fix up this village."'},
-  2:{id:'mechanic',n:'Mira the Mechanic',    icon:'⚙️', freed:'Mira: "Thank you! My lift will carry you up to the Highlands."',
-     village:'Mira: "The Highland lift runs smooth. Gears never lie."'},
-  3:{id:'forger',  n:'Dunn the Dwarf Forger',icon:'⚒️', freed:'Dunn: "Ha! Let me at my anvil — an iron bridge to the Ashlands it is!"',
+  1:{id:'builder', n:'Bram the Builder',     icon:'🔨', freed:'Bram: "Free at last! I\'ll raise the bridge to Fernheim."',
+     village:'Bram: "Fernheim bridge holds! Next I want to fix up this village."'},
+  2:{id:'mechanic',n:'Mira the Mechanic',    icon:'⚙️', freed:'Mira: "Thank you! My lift will carry you up to Cragland."',
+     village:'Mira: "The Cragland lift runs smooth. Gears never lie."'},
+  3:{id:'forger',  n:'Dunn the Dwarf Forger',icon:'⚒️', freed:'Dunn: "Ha! Let me at my anvil — an iron bridge to Cinderheim it is!"',
      village:'Dunn: "That iron bridge will outlast us all."'},
   4:{id:'captain', n:'Captain Vela',         icon:'🧭', freed:'Vela: "You found me! The sky ports are yours to command."',
      village:'Vela: "The winds are kind today. The sky ports await you."'}
 };
 // Lore relic in each bonus site's treasure vault (+3 max HP each, kept forever)
 var SITE_RELICS={
-  rivendell:'Twilight Lantern', hyrule_keep:'White Keep Banner', moonglass:'Moonglass Prism', elven_library:'Leaf-bound Codex',
+  rivendell:'Twilight Lantern', hyrule_keep:'The Pale Keep Banner', moonglass:'Moonglass Prism', elven_library:'Leaf-bound Codex',
   sky_cloister:'Cloud Bell', silverwood:'Silverwood Circlet', frost_cathedral:'Frozen Hymnal', observatory:'Star Chart Fragment',
   reflecting_hall:'Mirror Shard', dawn_sanctum:'Dawn Sigil', boulder_field:'Miner\'s Charm', pillared_hall:'Column Keystone',
   crystal_grotto:'Singing Crystal', mushroom_forest:'Glowcap Spores', lava_archipelago:'Obsidian Idol', sunken_courtyard:'Temple Seal',

@@ -7,10 +7,10 @@ var ZSAGA_SETS={
       ['pn_saga_raised','The village named them Zola and Zoldor, and raised them on goat\'s milk and old songs.'],
       ['pn_saga_eyes','They read runes no one else could, and the old stones woke for them.'],
       ['pn_saga_sendoff','Now the village is old and tired. One twin goes out into Runeheim; the other stays to keep the village.']],
-    realm4:[['pn_saga_ashnight_b','The Ash Night: the night Asgard\'s gate shut, fire fell on the Ashlands and the Ember Wall rose.']],
-    realm3:[['pn_saga_stonefall_b','Three years on, the Highlands dug too deep for a voice in the stone — and the mountains broke.']],
+    realm4:[['pn_saga_ashnight_b','The Ash Night: the night Asgard\'s gate shut, fire fell on Cinderheim and the Ember Wall rose.']],
+    realm3:[['pn_saga_stonefall_b','Three years on, Cragland dug too deep for a voice in the stone — and the mountains broke.']],
     realm2:[['pn_saga_blacktide_b','Then the Black Tide: the Silverrun rose black, and the marshes drank the villages.']],
-    realm1:[['pn_saga_quiet_b','Only the Grasslands were left — and the Long Quiet, when the dead drifted at the edge of the light.']],
+    realm1:[['pn_saga_quiet_b','Only Gildenmark was left — and the Long Quiet, when the dead drifted at the edge of the light.']],
     gate:[['pn_saga_gate','High above, a golden gate had shut. On Odin\'s high seat sat someone in a golden mask.']] };
 // round 71 — the two glimpses still missing (doc 30 §11, 16–17): the 30th and the 40th spirit
 ZSAGA_SETS.orbs=[['pn_saga_orbs','In a dark hall far above, two great lights float side by side, asleep — and something in a golden mask keeps watch.']];

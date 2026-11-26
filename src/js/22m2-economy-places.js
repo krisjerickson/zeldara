@@ -130,8 +130,8 @@
   ZECO.bounties=function(ps){ var B=ps.bounty; if(B&&B.L&&Date.now()-B.at<ZECO.REFRESH&&B.L.some(function(x){ return !x.done; }))return B;
     var q=ZECO.realm(ps), ws=ZECO.ws(), sites=((ws&&ws.wd&&ws.wd.sites)||[]).filter(function(s){ return s.section<=q&&(s.type==='tower'||s.type==='dungeon'); }), seed=Date.now(), pick=function(L){ return L[Math.floor(Math.random()*L.length)]; };
     var S=pick(sites)||{id:'s1_tower',name:'Silverwood Palace',section:1}, gpm=[0,58,143,217,404], base=function(r){ return Math.round(gpm[r]*15/5)*5; };
-    B={at:seed,L:[{k:'alpha',q:q,need:2,have:0,t:'Hunt two Alphas in the '+['','Grasslands','Wetlands','Highlands','Ashlands'][q],g:base(q)},
-      {k:'site',id:S.id,need:1,have:0,t:'Clear '+S.name,g:base(S.section||q)},{k:'binder',q:q,need:1,have:0,t:'Beat a Binder in the '+['','Grasslands','Wetlands','Highlands','Ashlands'][q],g:base(q)}]}; ps.bounty=B; return B; };
+    B={at:seed,L:[{k:'alpha',q:q,need:2,have:0,t:'Hunt two Alphas in the '+['','Gildenmark','Fernheim','Cragland','Cinderheim'][q],g:base(q)},
+      {k:'site',id:S.id,need:1,have:0,t:'Clear '+S.name,g:base(S.section||q)},{k:'binder',q:q,need:1,have:0,t:'Beat a Binder in the '+['','Gildenmark','Fernheim','Cragland','Cinderheim'][q],g:base(q)}]}; ps.bounty=B; return B; };
   ZECO.bountyEvent=function(ps,k,o){ var B=ps.bounty; if(!B||!B.L)return; B.L.forEach(function(x){ if(x.done||x.k!==k)return; if(k==='site'&&o.id!==x.id)return; if((k==='alpha'||k==='binder')&&o.q!==x.q)return;
       x.have++; if(x.have>=x.need){ x.done=true; x.paid=false; showNotif('📜 Bounty done: '+x.t+' — collect it at Runa\'s board','#ffe9a8'); } }); };
   ZECO.board=function(){ var ws=ZECO.ws(), ps=ZECO.ps(); if(!ps)return; var B=ZECO.bounties(ps);

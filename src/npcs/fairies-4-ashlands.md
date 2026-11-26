@@ -7,31 +7,31 @@ fairy: 0
 kind: cinder pixie
 spirits: Mord, Njal
 ## Backstory
-Ember is the Ashlands fairy who stayed lit. She kept the stone at the gate of Askvald, the greatest of the ember-cities, and on the Ash Night
+Ember is Cinderheim fairy who stayed lit. She kept the stone at the gate of Askvald, the greatest of the ember-cities, and on the Ash Night
 she watched it go in a single night of red sky and then grey. She burned as hot as she could to keep the ash off her stone, and has never
 let herself go dim since — which is exhausting, and which she will never admit. Her two are Mord, a boy from Askvald who remembers only
 that the sky was red, then grey, and then he was here, and Njal, a young stonemason who was building the city wall on the night the Ember
 Wall rose — and was on the wrong side of it.
 ## Before
 - Mord was a boy in Askvald. He remembers red, then grey, then chains. That is all. I fill in the rest for him, gently. I leave out the worst.
-- Njal was on the wrong side of the Ember Wall when it rose. His family was on the other side. In the Grasslands. Alive, he hopes.
+- Njal was on the wrong side of the Ember Wall when it rose. His family was on the other side. In Gildenmark. Alive, he hopes.
 - I burn as bright as I can, all night, every night, so the ash cannot settle on them. If I go dim, the ash comes. I do not go dim.
 - Askvald had nine gates and a hundred towers. I kept the stone at the first gate. There are no gates now. There is ash.
-- If Njal asks you about Stonewick, in the Grasslands — tell him the truth, whatever it is. He has waited long enough.
+- If Njal asks you about Stonewick, in Gildenmark — tell him the truth, whatever it is. He has waited long enough.
 ## After
 - Mord asked what the sky looks like now. I told him to look. It was blue. He did not know skies could be blue. He has not stopped looking up.
-- Njal went to the Grasslands to look for his family. Bramble knew them. She flew him there herself.
+- Njal went to Gildenmark to look for his family. Bramble knew them. She flew him there herself.
 - I let myself go dim last night for the first time in twenty-eight winters. I slept for two days. The ash did not come. There is no more ash to come.
 - Askvald is still ash. But there is a green thing growing at the first gate. One. Mord found it. He guards it like a dragon.
 - They do not need me burning any more. I am trying to learn how to just be warm.
 ## Life
 - I am Ember because I stayed lit. That is the whole story. It took twenty-eight winters to tell.
 - I am tired in a way that sleep does not fix. I think it is the kind of tired that only stops when you are not needed. I hope I am not needed soon.
-- Cinder says I show off. Cinder is right. Somebody had to be the brightest thing in the Ashlands.
+- Cinder says I show off. Cinder is right. Somebody had to be the brightest thing in Cinderheim.
 - I have never seen a green field. Ashe has never seen anything green at all. I have seen one moss. I tell her about it.
 - Askvald's bells were bronze. They melted. I have a drop of one, cooled, in my stone. It still rings if you breathe on it.
 ## Stage 2
-- I heard there is a waystone in the Wetlands with a fairy who rang bells under water. I would like to meet her. We have a lot in common.
+- I heard there is a waystone in Fernheim with a fairy who rang bells under water. I would like to meet her. We have a lot in common.
 ## Stage 3
 - The ash on the plain is thinner. Underneath it is grey earth, not black. Grey is a start.
 ## Stage 4
@@ -49,7 +49,7 @@ kind: cinder pixie
 spirits: Orm, Ranveig
 ## Backstory
 Cinder is sharp-tongued, quick and proud, and she kept the stone at Brandhavn, the ember-city's harbour, where ships brought gems in from
-every realm to be cut. Her two are Orm, a midwife — the only man among the Ashlands' midwives — who was at a birth on the Ash Night when
+every realm to be cut. Her two are Orm, a midwife — the only man among Cinderheim's midwives — who was at a birth on the Ash Night when
 the babe never cried, and Ranveig, a potter who heard Surtharn say that a god had promised him the gems of Runeheim. Cinder argues with both
 of them constantly, because arguing is how cinder-pixies show love, and because if she stopped she would have to think about the babe.
 ## Before
@@ -59,7 +59,7 @@ of them constantly, because arguing is how cinder-pixies show love, and because 
 - Brandhavn was the harbour where the gems came in. Every realm's gems. Every ship. Now the harbour is glass.
 - I am not sad. I am cross. There is a difference. Sad sits down. Cross gets up.
 ## After
-- Orm walked to the Grasslands and sat outside the midwives' house for a long time. Nanna from the Wetlands sat with him. Neither of them spoke.
+- Orm walked to Gildenmark and sat outside the midwives' house for a long time. Nanna from Fernheim sat with him. Neither of them spoke.
 - Ranveig told you about the gems. Good. Now she says she wants to make something beautiful out of clay again, something nobody wants to buy.
 - I have nobody to argue with. I tried arguing with the stone. It agreed with everything. It was terrible.
 - Orm asked me if he did everything right, that night. I told him yes. I have never been so sure of anything.
@@ -71,7 +71,7 @@ of them constantly, because arguing is how cinder-pixies show love, and because 
 - Brandhavn had a thousand ships. I knew the name of every one. Some of them were very silly names.
 - I am afraid of nothing. Except water. And the dark. And being forgotten. That is three things. I said nothing. I am not good at counting.
 ## Stage 2
-- The Wetlands fairies sent a message by heron. It says "hello" and "the bells are ringing for you". The heron was rude. I argued with it. It was lovely.
+- Fernheim fairies sent a message by heron. It says "hello" and "the bells are ringing for you". The heron was rude. I argued with it. It was lovely.
 ## Stage 3
 - Ranveig made a bowl. It is crooked and lovely and nobody wants it. She gave it to me. I sleep in it.
 ## Stage 4
@@ -103,7 +103,7 @@ about the world before; they are the only teachers she has ever had.
 ## After
 - Thora took the chains off herself. Just held them, and they fell. She dropped them in the ash and walked away and did not look back. Good.
 - Sverri looked at the sky and said, "The lights will open again." I asked what lights. He just smiled.
-- They want to show me the Grasslands. I am afraid. What if green is not what the book said?
+- They want to show me Gildenmark. I am afraid. What if green is not what the book said?
 - Thora is forging again. Hinges and nails. "Things that hold doors open," she says. "Not shut."
 - I went through the Wall. I saw it. Green. I touched moss. It is soft. The book was right. I did not cry. I did. A lot.
 ## Life
@@ -119,7 +119,7 @@ about the world before; they are the only teachers she has ever had.
 ## Stage 4
 - I have seen green now. I go through the gap in the Wall every morning to look at it. It is still there every time. I check.
 ## Stage 5
-- Moss is growing on my stone. On my stone. In the Ashlands. I am not going to scrape it off. Primrose says I must. Primrose is wrong.
+- Moss is growing on my stone. On my stone. In Cinderheim. I am not going to scrape it off. Primrose says I must. Primrose is wrong.
 
 # Soot
 key: soot
@@ -130,7 +130,7 @@ fairy: 3
 kind: cinder pixie
 spirits: Unn, Vali
 ## Backstory
-Soot is the Ashlands' quiet watcher — small, dark, almost invisible against the ash, which is exactly how she likes it. She kept the stone in
+Soot is Cinderheim's quiet watcher — small, dark, almost invisible against the ash, which is exactly how she likes it. She kept the stone in
 the forest that burned outside Askvald, where only black trunks stand, and she has spent the dark years listening, because nobody notices a
 smudge of soot and everybody says things in front of it. Her two are Unn, a young forester who learned that Muspelheim and the sky are tied,
 and Vali, a brewer who once saw two thrones in a feast hall and now sees none. Between them they know a great deal; Soot knows more, and
@@ -143,7 +143,7 @@ will tell you a little of it if you are very patient.
 - The Binder at their stone is afraid of birds. I do not know why. I have watched him flinch at a sparrow. Use it.
 ## After
 - Unn walked into the burnt forest and found one seedling. A pine. She sat with it all night.
-- Vali brewed the first ale in the Ashlands for twenty-eight winters. It tasted of smoke. He says the next one will taste of barley.
+- Vali brewed the first ale in Cinderheim for twenty-eight winters. It tasted of smoke. He says the next one will taste of barley.
 - I do not have to listen to Binders any more. I listen to birds. They talk about much nicer things. Mostly worms.
 - Unn told you the thing about the fire and the sky? Good. Then you know what to do. I have nothing to add. That is a first.
 - When they rose, the black trunks creaked. As if the forest remembered being a forest. I think it did.
@@ -158,7 +158,7 @@ will tell you a little of it if you are very patient.
 ## Stage 3
 - Unn's pine seedling is knee-high to a fairy. That is tall for a fairy. Do not laugh.
 ## Stage 4
-- The fire-giant's servants are leaving the Ashlands. I watched them go. Some of them looked back. One waved at me. I did not wave back. I nearly did.
+- The fire-giant's servants are leaving Cinderheim. I watched them go. Some of them looked back. One waved at me. I did not wave back. I nearly did.
 ## Stage 5
 - The burnt forest is green at the bottom now. The black trunks are still standing, but there are birds in them. They talk about worms. I love it.
 
@@ -171,7 +171,7 @@ fairy: 4
 kind: cinder pixie
 spirits: Alfhild, Brand
 ## Backstory
-Pyra is the Ashlands' fierce storyteller, a flicker of a fairy who kept the stone by the skalds' hall in Askvald, where the sagas were sung
+Pyra is Cinderheim's fierce storyteller, a flicker of a fairy who kept the stone by the skalds' hall in Askvald, where the sagas were sung
 every winter night. Her two are Alfhild, a skald who sang that when the cycle breaks two will come from the water to mend it — and thought it
 was only a song — and Brand, an old baker who wants you to ask the Lady of the Fields where the spring went, if you ever find her. Pyra
 believes in prophecies with her whole small burning heart, and has spent twenty-eight winters making Alfhild sing the water-song again and

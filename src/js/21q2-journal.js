@@ -11,11 +11,11 @@
 // ║    minimap"); a click opens the map at it.
 // ║  · Extras picked: a "quest complete" banner when a Saga step is done (what it opened, what is next); the suggested level on every pin and
 // ║    quest (red when you are under it); Oswin's rumours as faint rings on the map (21u).
-// ║  · The quest texts approved (doc 52 §6): "Free Bram — his bridge opens the Wetlands", the dungeon's mount and soul gem, the islands'
+// ║  · The quest texts approved (doc 52 §6): "Free Bram — his bridge opens Fernheim", the dungeon's mount and soul gem, the islands'
 // ║    metal, the sky ports' reward, region names instead of "Section 1".
 // ═══════════════════════════════════════════════════════════════════════
 var ZJOUR={ on:true,
-  RN:['','the Grasslands','the Wetlands','the Highlands','the Ashlands'], RS:['','Grasslands','Wetlands','Highlands','Ashlands'],
+  RN:['','Gildenmark','Fernheim','Cragland','Cinderheim'], RS:['','Gildenmark','Fernheim','Cragland','Cinderheim'],
   LV:[0,1,6,11,16],      // the suggested level for a realm (its cap is 5 / 10 / 15 / 20)
   ws:function(){ try{ return game.scene.getScene('World'); }catch(e){ return null; } },
   inv:function(ps,id){ return (ps.inventory||[]).indexOf(id)>=0||(ps.equip&&Object.keys(ps.equip).some(function(k){ return ps.equip[k]===id; })); },
@@ -39,7 +39,7 @@ var ZJOUR={ on:true,
       add({id:'tray'+q,t:'Mira\'s '+ZJOUR.RS[q]+' hearth tray — '+(metal?metal.name:'the metal')+' from '+(M?M.ISLE[q]:'the island')+'\'s trader and '+(gem?gem.name:'the soul gem'),done:I(M?M.TRAY(q):'hearth_tray_'+q)||hg(q)}); })(q); }
     var forges=typeof _finalQuestUnlocked==='function'&&_finalQuestUnlocked(ps), fd=ps.forgesDone||[], FN=typeof VOLC_ORDER!=='undefined'?VOLC_ORDER:[];
     add({id:'sov',t:'The Sovereign staff from the apothecary (6,000 gold; it can be made once the forges rise)',done:I('sov_staff')||lode});
-    ['Ember','Cinder','Slag','Ash'].forEach(function(F,i){ var vid=FN[i]; add({id:'forge'+(i+1),t:'The '+F+' Forge — win its key, and make '+ZJOUR.RS[i+1]+' Heartglass at its hearth',done:(vid&&fd.indexOf(vid)>=0&&hg(i+1))||lode,S:vid?(wd.sites||[]).find(function(s){ return s.id===vid; }):null}); });
+    ['Ember','Cinder','Clinker','Ash'].forEach(function(F,i){ var vid=FN[i]; add({id:'forge'+(i+1),t:'The '+F+' Forge — win its key, and make '+ZJOUR.RS[i+1]+' Heartglass at its hearth',done:(vid&&fd.indexOf(vid)>=0&&hg(i+1))||lode,S:vid?(wd.sites||[]).find(function(s){ return s.id===vid; }):null}); });
     add({id:'musp',t:'Muspelheim — defeat Surtharn',done:has('volcano_lord')||lode});
     add({id:'lode',t:'Make the Lodestar at the great hearth: the Sovereign staff and the four Heartglasses',done:lode});
     add({id:'escape',t:'Escape Muspelheim',done:!!ps.asgardDown});
@@ -65,7 +65,7 @@ var ZJOUR={ on:true,
     var mg=(wd.sites||[]).filter(function(s){ return s.mage&&ex(s); }).map(function(s){ var MG=typeof MAGE_BY_KEY!=='undefined'&&MAGE_BY_KEY[s.mage], sp=MG&&ITEMS[MG.spell]; return {id:s.id,t:s.name||'A mage tower',sub:'a spell'+(sp?': '+sp.name:''),done:(ps.mageDone||[]).indexOf(s.mage)>=0,S:s,r:s.section}; });
     if(mg.length)G.push({n:'Mage towers',L:mg,all:typeof MAGE_TOWERS!=='undefined'?MAGE_TOWERS.length:16});
     if(cq.indexOf('s4_tower')>=0){ var sk=[]; [1,2,3,4].forEach(function(r){ var S=(wd.sites||[]).find(function(s){ return s.section===r&&s.type==='skyport'; }); if(S)sk.push({id:S.id,t:'The sky port of '+ZJOUR.RN[r],sub:'defend the city in the clouds: its flying mount, and a weapon or gems · all four → the Sky Eagle',done:cq.indexOf('s'+r+'_skyport')>=0,S:S,r:r}); }); if(sk.length)G.push({n:'Sky ports',L:sk}); }
-    var fam=(ps.ownedFamiliars||[]).length; if(fam)G.push({n:'Fairies',L:[{id:'fairies',t:'The fairies\' errands and trials',sub:'each lesson teaches your familiar a new skill — the Tome\'s quest page shows what they want',done:false},{id:'kings',t:'The Fairy Kings (3)',sub:'their henges in the Wetlands, Highlands and Ashlands — each adds a familiar slot',done:false}]});
+    var fam=(ps.ownedFamiliars||[]).length; if(fam)G.push({n:'Fairies',L:[{id:'fairies',t:'The fairies\' errands and trials',sub:'each lesson teaches your familiar a new skill — the Tome\'s quest page shows what they want',done:false},{id:'kings',t:'The Fairy Kings (3)',sub:'their henges in Fernheim, Cragland and Cinderheim — each adds a familiar slot',done:false}]});
     var d=typeof ALL_MAIN_QUESTS!=='undefined'?ALL_MAIN_QUESTS.filter(function(k){ return cq.indexOf(k)>=0; }).length:0;
     G.push({n:'The Dragon',L:[{id:'dragon',t:'Every tower, dungeon, island and sky port ('+d+' / 16)',sub:'the Dragon flies over all land and deep water',done:(ps.ownedMounts||[]).indexOf('dragon')>=0}]});
     if(ps.spiritsHome)G.push({n:'After the end',L:[{id:'tree',t:'All forty spirits free ('+(ps.spiritsFreed||[]).length+' / 40)',sub:'the World Tree under the lake',done:!!ps.worldTree}]});

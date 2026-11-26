@@ -1,4 +1,4 @@
-// ═══ SW Highlands ══════════════════════════════════════════════════════
+// ═══ Cragland ══════════════════════════════════════════════════════
 WPROP.geode=function(c,ctx,x,y,w,h,o){ var R=c.R, col=o.col||'#c080ff'; addSprite(c.m,x+w/2,y+h,70,70,function(g,W,H){ g.fillStyle='#5a5060'; g.beginPath(); g.ellipse(W/2,H-24,28,20,0,0,Math.PI*2); g.fill(); g.fillStyle='#2a2030'; g.beginPath(); g.ellipse(W/2,H-24,20,13,0,0,Math.PI*2); g.fill(); for(var i=0;i<14;i++){ var a=i/14*Math.PI*2, r=8+R.f()*8; g.fillStyle=R.chance(0.5)?col:shade(col,0.4); g.beginPath(); g.moveTo(W/2+Math.cos(a)*18,H-24+Math.sin(a)*11); g.lineTo(W/2+Math.cos(a+0.12)*(18-r),H-24+Math.sin(a+0.12)*(11-r*0.6)); g.lineTo(W/2+Math.cos(a-0.12)*(18-r),H-24+Math.sin(a-0.12)*(11-r*0.6)); g.fill(); } }); addLight(c.m,x+w/2,y+h-24,90,col,0.5,{pulse:0.3,period:2000+R.i(0,1500)}); };
 WPROP.dwarfdoor=function(c,ctx,x,y,w,h,o){ var R=c.R, rc=o.rune||'#ffc860'; addSprite(c.m,x+w/2,y+h-2,60,80,function(g,W,H){ g.fillStyle='#3a3230'; g.beginPath(); g.moveTo(8,H); g.lineTo(8,H-46); g.quadraticCurveTo(W/2,H-76,W-8,H-46); g.lineTo(W-8,H); g.fill(); g.fillStyle='#5a4a3a'; g.beginPath(); g.moveTo(14,H); g.lineTo(14,H-44); g.quadraticCurveTo(W/2,H-68,W-14,H-44); g.lineTo(W-14,H); g.fill(); g.fillStyle='#8a7a5a'; g.fillRect(W/2-1,H-60,2,60); g.fillRect(14,H-30,W-28,3); drawRune(g,W/2,H-50,14,rc,R.i(0,9)); drawRune(g,20,H-20,9,rc,R.i(0,9)); drawRune(g,W-20,H-20,9,rc,R.i(0,9)); }); addLight(c.m,x+w/2,y+h-40,80,rc,0.42,{react:true,rune:true}); };
 WPROP.brazier=function(c,ctx,x,y,w,h,o){ addSprite(c.m,x+w/2,y+h,30,50,function(g,W,H){ g.fillStyle='#3a3230'; g.fillRect(W/2-2,H-26,4,22); g.fillStyle='#5a4a3a'; g.beginPath(); g.moveTo(W/2-10,H-30); g.lineTo(W/2+10,H-30); g.lineTo(W/2+6,H-22); g.lineTo(W/2-6,H-22); g.fill(); g.fillStyle='#ffb040'; g.beginPath(); g.ellipse(W/2,H-34,6,8,0,0,Math.PI*2); g.fill(); g.fillStyle='#fff0a0'; g.beginPath(); g.ellipse(W/2,H-33,3,4,0,0,Math.PI*2); g.fill(); }); addLight(c.m,x+w/2,y+h-34,110,'#ffb060',0.45,{flicker:0.35}); };
@@ -15,7 +15,7 @@ WPROP.starcore=function(c,ctx,x,y,w,h,o){ var R=c.R; softShadow(ctx,x+w/2,y+h/2,
 
 var H_ROCK=function(top,face,o){ return WK('rock',shade(face,-0.2),face,Object.assign({solid:true,wall:{top:top,face:face,strata:true}},o||{})); };
 WORLD_DESIGNS.push(
-{ id:'runic_mesas', quad:3, seed:301, name:'Runic Mesas', tagline:'Red flat-topped mesas carved with runes', runeCol:'#ffb070',
+{ id:'runic_mesas', quad:3, seed:301, name:'The Rune Tables',was:'Runic Mesas', tagline:'Red flat-topped mesas carved with runes', runeCol:'#ffb070',
   blurb:'Dry red earth between steep flat-topped mesas. Their banded cliff faces are carved with runes that glow ember-orange as you pass beneath. Scrub bushes and dust devils; a rune circle sits in the widest canyon.',
   ground:WK('earth','#9a5a3a','#b8704a',{sc:0.12,deco:WDECO.dots(['#7a4028','#c88a60'],0.35)}), kinds:[H_ROCK('#c98a5a','#8a4a2a',{wall:{top:'#c98a5a',face:'#8a4a2a',strata:true,runes:0.1}}),WK('mesatop','#c07a4c','#d4905e',{sc:0.15,deco:WDECO.dots(['#a86a40','#e0a070'],0.35)}),WK('rim','#b07046','#b07046',{solid:true,wall:{top:'#b87a4e',face:'#8a4a2a',noFace:true}}),WK('stairs','#b08a64','#b08a64',{deco:WDECO.steps('#c49a70'),flat:true})],
   hills:{sc:0.06,k:0.8},
@@ -25,7 +25,7 @@ WORLD_DESIGNS.push(
     c.scatter('bush',20,{col:'#7a7a3a'}); c.scatter('rock',16,{col:'#a86a4a'}); c.scatter('pebbles',30,{solid:false,claim:false,cols:['#8a4a2a','#c88a60']}); },
   particles:[WPART.dust('#e0b080')] },
 
-{ id:'geode_canyons', quad:3, seed:303, name:'Crystal Geode Canyons', tagline:'Winding canyons lined with split geodes', runeCol:'#c080ff',
+{ id:'geode_canyons', quad:3, seed:303, name:'Glittergorge',was:'Crystal Geode Canyons', tagline:'Winding canyons lined with split geodes', runeCol:'#c080ff',
   blurb:'Narrow winding canyons between purple-grey rock walls. Split-open geodes line the walls, full of glowing violet and cyan crystal, and loose crystals litter the canyon floor.',
   ground:WK('floor','#6a5a70','#7a6a80',{sc:0.2,deco:WDECO.dots(['#5a4a60','#9a8aa0'],0.35)}), kinds:[H_ROCK('#8a7a96','#5a4a66'),WK('hightop','#7a6c86','#8a7c96',{sc:0.2,deco:WDECO.dots(['#6a5c76','#a898b8'],0.35)}),WK('rim','#7a6c86','#7a6c86',{solid:true,wall:{top:'#8a7c98',face:'#5a4a66',noFace:true}}),WK('stairs','#9a8aa8','#9a8aa8',{deco:WDECO.steps('#a898b8'),flat:true})],
   layout:function(c){ c.rect('hightop',0,0,60,60); var pts=[[0,30],[12,24],[22,34],[34,26],[46,34],[60,28]]; c.line('floor',pts,6.5,8); c.line('floor',[[22,34],[24,48],[30,60]],5.5,6); c.line('floor',[[34,26],[36,12],[30,0]],5.5,6); c.line('floor',[[12,24],[8,8],[20,2]],4.5,6); c.line('floor',[[46,34],[50,50],[40,58]],4.5,6); c.blob('floor',34,26,6,0.3); c.raise('hightop','rock','rim'); c.cutStairs('rock','stairs',14); },
@@ -34,7 +34,7 @@ WORLD_DESIGNS.push(
     c.scatter('crystal',12,{col:'#a0d8ff',on:'floor',s:0.7}); var p=c.randomOpen('floor'); c.landmark(31,23,6,6,'The Heart Geode chamber — the canyon widens around a cluster that hums.'); c.place('crystal',34,25,1,1,{col:'#e0b0ff',s:1.8}); [[31,23],[37,23],[31,29],[37,29]].forEach(function(q){ c.place('runeglyph',q[0],q[1],1,1,{solid:false,col:'#e0b0ff'}); }); },
   particles:[WPART.motes('#e0c0ff',130)], nightA:0.55 },
 
-{ id:'dwarven_stairs', quad:3, seed:307, name:'Dwarven Stair-cut Cliffs', tagline:'Cliff terraces cut with stairs and rune doors', runeCol:'#ffc860',
+{ id:'dwarven_stairs', quad:3, seed:307, name:'The Dwarrow Stair',was:'Dwarven Stair-cut Cliffs', tagline:'Cliff terraces cut with stairs and rune doors', runeCol:'#ffc860',
   blurb:'Stepped cliff terraces with broad stairways cut straight into the rock by dwarves. Rune-carved doors are set into the cliff faces, braziers burn beside the stairs, and the runes over each door glow gold.',
   ground:WK('ledge','#7a7064','#8a8074',{sc:0.2,deco:WDECO.cracks('rgba(40,35,30,.5)',0.2)}), kinds:[H_ROCK('#9a8e7e','#6a5e50'),WK('stairs','#a09484','#a09484',{deco:WDECO.steps('#aca090')})],
   layout:function(c){ for(var y=8;y<58;y+=10){ c.rect('rock',0,y,60,3); var gx=c.R.i(6,50); c.rect('stairs',gx,y,4,3); c.rect('stairs',(gx+26)%54+2,y,3,3); } },
@@ -44,7 +44,7 @@ WORLD_DESIGNS.push(
     c.scatter('rock',12,{col:'#8a8070'}); c.scatter('pebbles',30,{solid:false,claim:false}); },
   particles:[WPART.dust('#d8c8a8')], nightA:0.6 },
 
-{ id:'windharp_ridges', quad:3, seed:309, name:'Wind-harp Ridges', tagline:'Windswept ridges strung with singing harps', runeCol:'#bff4ff',
+{ id:'windharp_ridges', quad:3, seed:309, name:'Harpwind Ridge',was:'Wind-harp Ridges', tagline:'Windswept ridges strung with singing harps', runeCol:'#bff4ff',
   blurb:'High grassy ridges where the wind never stops. Tall wooden wind-harps stand along the crests, strings humming, runes on their frames glowing pale blue. Grass streams sideways in the gusts.',
   ground:WK('grass','#6a8a58','#88a46e',{sc:0.12,deco:WDECO.grass('rgba(60,80,40,.5)',0.45)}), kinds:[H_ROCK('#9a9a90','#6a6a64')],
   hills:{sc:0.05,k:2.2},
@@ -54,7 +54,7 @@ WORLD_DESIGNS.push(
     c.scatter('rock',14,{col:'#8a8a80',moss:'#6a8a48'}); c.scatter('tuft',50,{solid:false,claim:false,col:'#7a9a58'}); c.scatter('flowers',20,{solid:false,claim:false,cols:['#ffffff','#c8e0ff']}); },
   particles:[WPART.wind(),WPART.wind()] },
 
-{ id:'petrified_forest', quad:3, seed:311, name:'Petrified Forest', tagline:'A forest turned to stone', runeCol:'#ffd8a0',
+{ id:'petrified_forest', quad:3, seed:311, name:'Stonewood',was:'Petrified Forest', tagline:'A forest turned to stone', runeCol:'#ffd8a0',
   blurb:'A whole forest turned to grey stone, trunks and branches intact. Stone logs lie where they fell, dust drifts through, and in a clearing one tree is still alive, ringed by warm runes.',
   ground:WK('dust','#7a7266','#8e8678',{sc:0.15,deco:WDECO.dots(['#6a6256','#a09888'],0.4)}), kinds:[WK('grass','#5a7a44','#6a8a50',{deco:WDECO.grass('rgba(40,70,30,.5)',0.5)})],
   layout:function(c){ c.blob('grass',30,28,5,0.3); },
@@ -71,7 +71,7 @@ WORLD_DESIGNS.push(
     layout.forEach(function(p){ c.place('chess',6+p[1]*6+2,6+p[2]*6+3,2,2,{piece:p[0],dark:!!p[3]}); }); c.landmark(26,26,8,8,'The board is mid-game. Legend says a move is made each hundred years.'); },
   particles:[WPART.motes('#bff4ff',180)] },
 
-{ id:'glacier_peaks', quad:3, seed:317, name:'Glacier-veined Peaks', tagline:'Snowfields, rock and glowing blue ice veins', runeCol:'#9fe8ff',
+{ id:'glacier_peaks', quad:3, seed:317, name:'The Bluevein Peaks',was:'Glacier-veined Peaks', tagline:'Snowfields, rock and glowing blue ice veins', runeCol:'#9fe8ff',
   blurb:'High snowfields between grey peaks. Veins of old blue glacier ice run through the ground and rock, glowing from inside, and frosted pines cling to the slopes. Snow falls gently.',
   ground:WK('snow','#dfe7ef','#eef3f8',{sc:0.12,deco:WDECO.dots(['#c8d4e0','#ffffff'],0.3)}), kinds:[H_ROCK('#b8c0c8','#6a727c'),WK('ice','#7ab8e0','#a0d8f4',{sc:0.3,deco:WDECO.glowCracks('#dff8ff',0.35)}),WK('peak','#c8d2dc','#dde6ee',{sc:0.2,deco:WDECO.dots(['#aab6c2','#ffffff'],0.3)}),WK('rim','#b0bac4','#b0bac4',{solid:true,wall:{top:'#c0cad4',face:'#6a727c',noFace:true}}),WK('stairs','#aebcc8','#aebcc8',{deco:WDECO.steps('#c8d6e2'),flat:true})],
   hills:{sc:0.05,k:1.4},
@@ -80,7 +80,7 @@ WORLD_DESIGNS.push(
     for(var k=0,n=0;k<60&&n<5;k++){ var p=c.randomOpen(['ice','snow']); if(p&&c.place('stone',p.x,p.y,1,1,{rune:'#9fe8ff',col:'#a8c8e0'})){ if(!n)c.landmark(p.x-1,p.y-1,3,3,'Frozen waystone — the glacier grew around it.'); n++; } } },
   particles:[WPART.snow()], nightA:0.55 },
 
-{ id:'golem_graveyard', quad:3, seed:319, name:'Golem Graveyard', tagline:'Fallen stone golems with sleeping rune cores', runeCol:'#ffb060',
+{ id:'golem_graveyard', quad:3, seed:319, name:'The Sleeping Golems',was:'Golem Graveyard', tagline:'Fallen stone golems with sleeping rune cores', runeCol:'#ffb060',
   blurb:'Grassy slopes strewn with the broken bodies of ancient stone golems, overgrown with moss. Each still has a faint rune core in its chest that flickers when you come close, as if about to wake.',
   ground:WK('grass','#5e7a4a','#728e58',{sc:0.12,deco:WDECO.grass('rgba(40,60,30,.5)',0.4)}), kinds:[WK('scar','#7a7064','#8a8074',{sc:0.3,deco:WDECO.dots(['#6a6054','#9a9084'],0.4)})],
   hills:{sc:0.05,k:1.4},
@@ -89,7 +89,7 @@ WORLD_DESIGNS.push(
     c.scatter('rock',25,{col:'#8a8478',moss:'#5a8a48'}); c.place('golem',28,24,4,3,{col:'#9a9488',rune:'#ffd080'}); c.landmark(27,23,6,5,'The First Golem — its core still beats, very slowly.'); c.scatter('flowers',20,{solid:false,claim:false,cols:['#ffffff','#fff3a8']}); },
   particles:[WPART.motes('#ffd8a0',180)], nightA:0.6 },
 
-{ id:'herder_terraces', quad:3, seed:323, name:'Terraced Herder Slopes', tagline:'Mountain terraces, huts, sheep and banners', runeCol:'#fff0c0',
+{ id:'herder_terraces', quad:3, seed:323, name:'Shepherd\'s Stair',was:'Terraced Herder Slopes', tagline:'Mountain terraces, huts, sheep and banners', runeCol:'#fff0c0',
   blurb:'Mountain pastures cut into terraces with dry-stone walls. Herders\' huts, flocks of sheep and bright prayer banners with rune stitching snapping in the wind. Friendly and lived-in.',
   ground:WK('grass','#6a9a4a','#86b060',{sc:0.12,deco:WDECO.grass('rgba(50,80,30,.5)',0.35)}), kinds:[H_ROCK('#b0a490','#7a6e5c',{wall:{top:'#b0a490',face:'#7a6e5c',strata:false}}),WK('stairs','#a89c86','#a89c86',{deco:WDECO.steps('#b0a48e')}),WK('path','#9a8a68','#ac9c78',{sc:0.3})],
   hills:{sc:0.05,k:1},
@@ -98,7 +98,7 @@ WORLD_DESIGNS.push(
     var p=c.randomOpen('grass'); if(p){ c.place('runecircle',p.x-1,p.y-1,3,3,{solid:false,col:'#fff0c0',n:6}); c.landmark(p.x-1,p.y-1,3,3,'Shepherd\'s rune — flocks never stray past it.'); } },
   particles:[WPART.petals(['#ffe0a0','#ffffff','#ffb0b0'])] },
 
-{ id:'starfall_crater', quad:3, seed:329, name:'Starfall Crater Field', tagline:'Craters with glowing fallen-star cores', runeCol:'#bfe8ff',
+{ id:'starfall_crater', quad:3, seed:329, name:'Starfall',was:'Starfall Crater Field', tagline:'Craters with glowing fallen-star cores', runeCol:'#bfe8ff',
   blurb:'Scorched ground pocked with craters where stars fell. Raised rims circle each bowl, and at the centre the fallen star-metal still glows cold blue-white. Sparkles rise from the biggest crater.',
   ground:WK('scorch','#5a4a40','#6e5c50',{sc:0.15,deco:WDECO.dots(['#3a302a','#8a786a'],0.4)}), kinds:[WK('bowl','#3e3432','#4a3e3a',{sc:0.3,deco:WDECO.cracks('rgba(20,15,15,.5)',0.3)}),H_ROCK('#8a7a6a','#5a4a40',{wall:{top:'#8a7a6a',face:'#5a4a40'}})],
   layout:function(c){ var cr=[[30,26,8],[12,12,4],[48,14,5],[14,46,5],[46,46,6],[8,30,3],[52,32,3]]; cr.forEach(function(q){ c.blob('bowl',q[0],q[1],q[2],0.2); c.ring('rock',q[0],q[1],q[2]+1,1.3); c.rect('scorch',q[0]-1,q[1]+q[2],3,3,'rock'); }); c.cr=cr; },

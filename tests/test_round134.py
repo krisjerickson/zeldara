@@ -39,7 +39,7 @@ with game(painted=True, w=1280, h=720) as g:
       return new Promise(r=>{ var i=0; var step=()=>{ if(i>=order.length){ setTimeout(()=>r({rib:!!(ps.ribbons||{})[s], best:(ps.festBest||{})[s+'_memory']}),900); return; } B[order[i][0]].click(); B[order[i][1]].click(); i++; setTimeout(step,60); }; step(); }); })()""" % WS)
     check('Rune memory: six pairs in six turns win the festival ribbon and a best score (%s)' % m, m['rib'] and m['best'] == 6, m)
     # ── death story ──
-    t = g.js("""(()=>{ var ps=%s.playerState; ps.deathHeard=[]; var T=ZDeath.text(ZDeath.look(),{area:'the Grasslands',foe:'wolf',gold:12,level:3}); return {n:T.lines.length, last:T.lines[T.lines.length-1], wake:T.wake}; })()""" % WS)
+    t = g.js("""(()=>{ var ps=%s.playerState; ps.deathHeard=[]; var T=ZDeath.text(ZDeath.look(),{area:'Gildenmark',foe:'wolf',gold:12,level:3}); return {n:T.lines.length, last:T.lines[T.lines.length-1], wake:T.wake}; })()""" % WS)
     check('Dying tells you something (who found you, a word, lore) and the purse waits where you fell (%s)' % t, t['n'] >= 3 and len(t['last']) > 30 and 'purse' in t['wake'], t)
     # ── letters and recap ──
     lt = g.js("""(()=>{ var ps=%s.playerState; ps.recent=[{k:'boss',txt:'defeated the Goblin King'},{k:'spirit',txt:'freed a bound spirit (3 of 40)'}]; ps.letters=[]; var n=ZLETTER.write(ps); var g0=ps.gold||0, i0=(ps.inventory||[]).length;
@@ -85,7 +85,7 @@ with game(painted=True, w=1280, h=720) as g:
       try{ ZDLG._q=[]; if(ZDLG.cur)ZDLG.cur.close(); }catch(e){} return {p1:p1, h:ZBOND.hearts(ps,'benno'), L:L, L2:L2, L3:L3}; })()""" % WS)
     check('Bonds: one heart-point a day for talking; two hearts unlock two of their own lines, in order (%s)' % bd, bd['p1'] == 1 and bd['h'] == 2 and 'sailor' in (bd['L'] or '') and 'Old Mother' in (bd['L2'] or '') and bd['L3'] is None, bd)
     # ── banner and aurora ──
-    bn = g.js("""(()=>{ ZBANNER.show('The Wetlands','a new realm opens'); var el=document.querySelector('.zbanner'); return {el:!!el, img:!!(el&&el.querySelector('img'))}; })()""")
+    bn = g.js("""(()=>{ ZBANNER.show('Fernheim','a new realm opens'); var el=document.querySelector('.zbanner'); return {el:!!el, img:!!(el&&el.querySelector('img'))}; })()""")
     check('The saga frame at a big beat (the thin illuminated frame for now) (%s)' % bn, bn['el'] and bn['img'], bn)
     au = g.js("""(()=>{ var ws=%s; ws._night=0.9; ZAURORA.draw(ws); var g=ws._zauG; return {g:!!g, d:g&&g.depth, n:g&&g.commandBuffer?g.commandBuffer.length:-1}; })()""" % WS)
     check('Aurora in the water: drawn on the water layer, below every prop and person (depth %s)' % au, au['g'] and au['d'] < 10, au)
@@ -104,7 +104,7 @@ with sync_playwright() as p:
     pg.evaluate("LTODO.goTo('worldlook5','.w4-c',0)"); pg.wait_for_timeout(700)
     c = pg.evaluate("({ban:document.querySelectorAll('.w5-b').length, lm:document.querySelectorAll('.w5-lmp,.w4-c .w4-f').length, v:document.querySelectorAll('.w5-v').length, seg:document.querySelectorAll('.w5-v .wl-seg').length})")
     check('Lab → The world, revamped 5: 20 banners, the 4 landmarks, 9 vista ideas to pick (%s)' % c, c['ban'] == 20 and c['lm'] >= 4 and c['v'] == 9 and c['seg'] == 9, c)
-    log = json.dumps({'game': 'zeldara', 'v': 1, 'log': [{'k': 'session', 'place': 'the village'}, {'k': 'death', 'boss': 'Goblin King'}, {'k': 'death', 'boss': 'Goblin King'}, {'k': 'site', 'id': 's1_tower', 't': 420}, {'k': 'end', 'place': 'the Grasslands'}]})
+    log = json.dumps({'game': 'zeldara', 'v': 1, 'log': [{'k': 'session', 'place': 'the village'}, {'k': 'death', 'boss': 'Goblin King'}, {'k': 'death', 'boss': 'Goblin King'}, {'k': 'site', 'id': 's1_tower', 't': 420}, {'k': 'end', 'place': 'Gildenmark'}]})
     pg.evaluate("LTODO.goTo('playlog','#pl-in',0)"); pg.wait_for_timeout(700)
     has = pg.evaluate("!!document.getElementById('pl-in')")
     if has:

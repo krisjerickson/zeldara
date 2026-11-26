@@ -126,7 +126,7 @@ var BossRig={ keys:[], MAXTEX:8,
 // the engine rids that are painted bosses (phase forms + allies, wardens, masters)
 (function(){ Object.keys(BOSS_PHASES).forEach(function(k){ BOSS_PHASES[k].phases.forEach(function(P){ if(!P)return; if(MON_BY_ID[P.rid])MON_BY_ID[P.rid].chId=P.form; (P.allies||[]).forEach(function(a){ if(MON_BY_ID[a.rid])MON_BY_ID[a.rid].chId=a.form; }); }); });
   if(typeof CASTLE_ISLANDS!=='undefined')Object.keys(CASTLE_ISLANDS).forEach(function(k){ var C=CASTLE_ISLANDS[k]; if(C.rid&&MON_BY_ID[C.rid])MON_BY_ID[C.rid].chId=C.warden; });
-  if(typeof MAGE_TOWERS!=='undefined')MAGE_TOWERS.forEach(function(M){ if(M.rid&&MON_BY_ID[M.rid])MON_BY_ID[M.rid].chId=M.boss; var il=MON_BY_ID['mgi_'+M.key]; if(il)il.chId=M.boss; });      /* round 64 (Kris, fighting Xal'zor: the monsters he called up were old pixel art): a master's echoes wear the master's painting, as ghosts */
+  if(typeof MAGE_TOWERS!=='undefined')MAGE_TOWERS.forEach(function(M){ if(M.rid&&MON_BY_ID[M.rid])MON_BY_ID[M.rid].chId=M.boss; var il=MON_BY_ID['mgi_'+M.key]; if(il)il.chId=M.boss; });      /* round 64 (Kris, fighting Vargrim: the monsters he called up were old pixel art): a master's echoes wear the master's painting, as ghosts */
   BOSS_SLOT_LIST.forEach(function(sl){ if(CHAR_BY_ID[sl]&&CHAR_BY_ID[sl].spec)CHAR_BY_ID[sl].spec._bossSlot=sl; });   // the Tome paints them
   BossRig.applyNames(); })();
 

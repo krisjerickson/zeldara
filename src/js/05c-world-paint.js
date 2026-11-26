@@ -205,7 +205,7 @@ function _wpField(D,stage,r0,r1){
         else if(!isF&&d<14.5){
           var kL=KT.liquid[ki], eL=KT.liquid[e9], kH=KT.cls[ki]===4, eH=KT.cls[e9]===4, kW=KT.wall[ki], eW=KT.wall[e9], cl=kL?KT.cls[ki]:eL?KT.cls[e9]:0, st=Ec.st[cl], BL=Ec.bl[cl], OVR=(BL&14)!==0, i3s=ki*3, sr, sg, sb;
           if(kH){ sr=255; sg=236; sb=150; } else if(KT.hasShore[ki]){ sr=KT.shore[i3s]; sg=KT.shore[i3s+1]; sb=KT.shore[i3s+2]; } else { sr=r+(255-r)*0.5; sg=g+(255-g)*0.5; sb=b+(255-b)*0.5; }
-          // round 84c (invisible walls): deep water you cannot wade meets water you can (the Wetlands' deep pools in their shallows) — the two used to
+          // round 84c (invisible walls): deep water you cannot wade meets water you can (Fernheim's deep pools in their shallows) — the two used to
           // fade into each other with no line. Now the deep side darkens toward the edge and a pale lip of foam marks where the shallows end.
           if(kL&&eL&&KT.blk[ki]!==KT.blk[e9]){ if(KT.blk[ki]){ if(d<3.4)f*=0.6+0.118*d; } else if(d<1.9){ m=0.55; r+=(232-r)*m; g+=(244-g)*m; b+=(238-b)*m; } else if(d<3.2)f*=1.07; }
           else if(!(OVR&&!kW&&!eW)){

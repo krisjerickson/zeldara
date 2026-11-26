@@ -12,7 +12,7 @@
 var ZSTORY={
   // where on the (schematic) map of Runeheim: x, y in 0–1, and a name
   LOC:{village:[0.5,0.5,'the village'],green:[0.5,0.47,'the Runestone Green'],home:[0.47,0.53,'the Home and the library (the other twin)'],tavern:[0.53,0.53,'the tavern'],harbour:[0.56,0.6,'the harbour'],
-    grass:[0.74,0.28,'the NE Grasslands'],wet:[0.74,0.72,'the SE Wetlands'],high:[0.26,0.72,'the SW Highlands'],ash:[0.26,0.28,'the NW Ashlands'],
+    grass:[0.74,0.28,'Gildenmark'],wet:[0.74,0.72,'Fernheim'],high:[0.26,0.72,'Cragland'],ash:[0.26,0.28,'Cinderheim'],
     stones:[0.66,0.36,'a bindstone'],crossing:[0.62,0.5,'a realm crossing (a builder\'s tower)'],fairy:[0.8,0.4,'a fairy ring'],site:[0.34,0.6,'an adventure site'],
     forge:[0.09,0.5,'the forges of Muspelheim (at sea)'],musp:[0.07,0.1,'Muspelheim'],asgard:[0.6,0.64,'Asgard, on Mirror Lake'],citadel:[0.6,0.6,'the citadel of Asgard'],
     hall:[0.62,0.6,'the feast hall'],circle:[0.6,0.67,'the rune circle at Asgard\'s heart'],sky:[0.5,0.06,'the sky (a glimpse)'],any:[0.92,0.08,'anywhere (on a milestone)'],
@@ -31,18 +31,18 @@ var ZSTORY={
      O('hint','green','the first minutes, on the Green','Elder Runa, at the carved tree','"The tree on the Green is the road the dead walk home. Lately… it has been quiet."'),
      O('hint','stones','the first spirit you free','its memory, then its soul-line running into the land','Geir: "I carved the Green\'s tree when I was a boy. The roots go further than anyone thinks."','partly')],
     [O('hint','tome','from the start','the Tome\'s Saga page, first chapter: The Cycle','a short page with the World Tree drawing'),
-     O('hint','wet','a Wetlands spirit','Vigdis the skald\'s memory','"I knew all the sagas. One verse was always missing…"','built')]);
-  B(0,'quiet','The Long Quiet','For twelve winters before the twins, no child was born alive in the last village. The dead of the Grasslands drifted at the edge of the light — and lately the Binders came over the walls for them too.',
+     O('hint','wet','a Fernheim spirit','Vigdis the skald\'s memory','"I knew all the sagas. One verse was always missing…"','built')]);
+  B(0,'quiet','The Long Quiet','For twelve winters before the twins, no child was born alive in the last village. The dead of Gildenmark drifted at the edge of the light — and lately the Binders came over the walls for them too.',
     '','pn_saga_cradles',
     [O('cut','village','a new game — the opening, panel 1','the opening cut-scene','"In the last village the cradles stood empty. No child had been born alive in a lifetime."','built'),
-     O('cut','grass','the Grasslands\' tenth spirit','the realm\'s panel, The Long Quiet','"Only the Grasslands were left — and the Long Quiet, when the dead drifted at the edge of the light."','built'),
-     O('hint','stones','Grasslands and Wetlands spirits','their memories','Asa: "I wove twenty birth-shawls that no child ever wore." · Nanna: "For six years my hands had nothing to hold."','built')],
+     O('cut','grass','Gildenmark\'s tenth spirit','the realm\'s panel, The Long Quiet','"Only Gildenmark was left — and the Long Quiet, when the dead drifted at the edge of the light."','built'),
+     O('hint','stones','Gildenmark and Fernheim spirits','their memories','Asa: "I wove twenty birth-shawls that no child ever wore." · Nanna: "For six years my hands had nothing to hold."','built')],
     [O('hint','green','early, on the Green','Elder Runa','"Twelve winters, and not one cradle. Then the storm — and the lake brought you two."','built'),
      O('hint','tavern','any visit','the tavern keeper','"My mother sang lullabies to an empty room. Most did, back then."')]);
-  B(0,'storm','The storm and the basket','About sixteen years ago the worst storm anyone remembered struck runestone after runestone across the Grasslands. At dawn a floating basket drifted out of Mirror Lake to the harbour with two babes in it, their eyes glowing rune-blue.',
+  B(0,'storm','The storm and the basket','About sixteen years ago the worst storm anyone remembered struck runestone after runestone across Gildenmark. At dawn a floating basket drifted out of Mirror Lake to the harbour with two babes in it, their eyes glowing rune-blue.',
     'WHO sent the basket and WHY the lightning struck the stones stay a mystery until the feast hall.','pn_saga_basket',
     [O('cut','village','a new game — the opening, panels 2–3','the opening cut-scene: the storm on the runestones, the basket on the lake','"Then came the worst storm anyone remembered — and the lightning struck the runestones, one after another."','built'),
-     O('hint','stones','Grasslands spirits','their memories','Dagny: "The night of the storm I saw it from my stone: two little lights on the water, going home." · Eyvind: "That night it gave you."','built')],
+     O('hint','stones','Gildenmark spirits','their memories','Dagny: "The night of the storm I saw it from my stone: two little lights on the water, going home." · Eyvind: "That night it gave you."','built')],
     [O('hint','green','early','Elder Runa','"…Then the storm — and the lake brought you two."','built'),
      O('hint','harbour','the first visit to the harbour','the old fisher on the pier','"I pulled that basket in myself. It was warm, in all that rain."')]);
   B(0,'twins','The twins and their gift','The village raised them on goat\'s milk and old songs. They read runes no one else can, and runestones and gems light for them.',
@@ -50,7 +50,7 @@ var ZSTORY={
     [O('cut','village','a new game — the opening, panels 4–5','the opening cut-scene: raised by the village; the glowing eyes and the runes','"They read runes no one else could, and the old stones woke for them."','built'),
      O('hint','green','early','Elder Runa','"Your eyes shone like the old runes when you came. Goat\'s milk put the light out — or hid it."','built'),
      O('hint','stones','the first bindstone or waystone you touch','a one-line notice','"The stone wakes under your hand — as it never has for anyone else."')],
-    [O('hint','stones','Grasslands spirits','their memories','Jorunn: "Blue. Every rune in the old days was this blue. Like your eyes, they say." · Ketil: "Funny — goats raised you."','built'),
+    [O('hint','stones','Gildenmark spirits','their memories','Jorunn: "Blue. Every rune in the old days was this blue. Like your eyes, they say." · Ketil: "Funny — goats raised you."','built'),
      O('hint','home','any time early','the other twin','"Remember when the well-stone lit up for us? Nobody else could do that."')]);
   B(0,'sendoff','One goes, one stays','The village, old and tired, sends one twin out into Runeheim; the other stays to keep the village and studies the old sagas the whole game — and it is they who find the Lodestar\'s word.',
     '','pn_saga_sendoff',
@@ -63,9 +63,9 @@ var ZSTORY={
     'That the Binders serve Surtharn is a hint at first; it is plain by Muspelheim.',null,
     [O('hint','stones','the first bindstone','its Binder rises; the freed spirit\'s memory','Bersi: "I waited at the edge of the light so long… then the chains came."','built'),
      O('cut','stones','the first spirit you free','a panel (pn_binders_free, round 78): the chains break, the spirit rises','"The chains fall away — and for the first time in years, a soul of Runeheim is free."','built'),
-     O('hint','stones','the spirits of every realm','their memories','Ingolf: "The Binders don\'t come from the Ashlands. They come from under it."','built')],
+     O('hint','stones','the spirits of every realm','their memories','Ingolf: "The Binders don\'t come from Cinderheim. They come from under it."','built')],
     [O('hint','tome','the first Binder you meet','the Tome\'s monster entry','"Binders — chain-keepers of fire, who bind the wandering dead."','partly'),
-     O('hint','stones','a Wetlands spirit','Sigrid\'s memory','"The Binders paid in Muspelheim gold. Some of us took it. That\'s how it starts."','built')]);
+     O('hint','stones','a Fernheim spirit','Sigrid\'s memory','"The Binders paid in Muspelheim gold. Some of us took it. That\'s how it starts."','built')]);
   B(1,'lines','The soul-lines','Each freed spirit\'s soul-line traces into the land; together the forty draw the World Tree across Runeheim — the tattoo that will one day become roads.',
     'What the drawing is FOR stays open until the fortieth.',null,
     [O('cut','stones','every spirit you free','the line traces out of its stone while the camera eases back','(a short moment, no words — the light runs into the land)','built'),
@@ -73,36 +73,36 @@ var ZSTORY={
      O('hint','home','after the first spirit','the other twin','"The line it left — I\'ve seen that pattern before, cut into the oldest stone on the Green."','built'),
      O('hint','map','eight of a realm\'s ten','the map page: the missing pieces as faint ghosts','(the map shows the shape it wants to finish)','built')],
     [O('hint','home','twenty freed','the other twin','"Bring me the map. The lines… they\'re drawing something. Something that wants to be finished."','built')]);
-  B(1,'ashnight','The Ash Night','The night the gate shut (Year 0), Surtharn woke in Muspelheim: fire and ash fell on the Ashlands, the Ember Wall rose against the Grasslands and the Cinder Chasm split from the Highlands. The Ashlands\' people perished; their souls were bound to dig.',
+  B(1,'ashnight','The Ash Night','The night the gate shut (Year 0), Surtharn woke in Muspelheim: fire and ash fell on Cinderheim, the Ember Wall rose against Gildenmark and the Cinder Chasm split from Cragland. Cinderheim\'s people perished; their souls were bound to dig.',
     '','pn_saga_ashnight_b',
-    [O('cut','ash','the Ashlands\' first freed spirit','the realm\'s panel, The Ash Night','"The night Asgard\'s gate shut, fire fell on the Ashlands and the Ember Wall rose."','built'),
-     O('hint','crossing','freeing Vela (the Ember Wall passes)','the builder\'s line','"The Ember Wall is new, you know. Twenty-eight years. My grandfather walked to the Ashlands for honey."'),
-     O('hint','stones','Ashlands spirits','their memories','Mord: "It was night, but the sky was red, and then it was grey, and then I was here." · Njal: "The Ember Wall rose in one night."','built')],
-    [O('hint','home','the first realm complete','the other twin','"The Ashlands fell first, the sagas say. The same night the sky went quiet."','built'),
+    [O('cut','ash','Cinderheim\'s first freed spirit','the realm\'s panel, The Ash Night','"The night Asgard\'s gate shut, fire fell on Cinderheim and the Ember Wall rose."','built'),
+     O('hint','crossing','freeing Vela (the Ember Wall passes)','the builder\'s line','"The Ember Wall is new, you know. Twenty-eight years. My grandfather walked to Cinderheim for honey."'),
+     O('hint','stones','Cinderheim spirits','their memories','Mord: "It was night, but the sky was red, and then it was grey, and then I was here." · Njal: "The Ember Wall rose in one night."','built')],
+    [O('hint','home','the first realm complete','the other twin','"Cinderheim fell first, the sagas say. The same night the sky went quiet."','built'),
      O('hint','crossing','freeing Dunn (the Chasm bridges)','the builder\'s line','"The Cinder Chasm opened the night the sky went quiet."')]);
-  B(1,'stonefall','The Stone-Fall','Three years on, the Highlands\' mines were driven deeper after "a voice in the stone"; the mountains broke and the Great Scar tore open.',
+  B(1,'stonefall','The Stone-Fall','Three years on, Cragland\'s mines were driven deeper after "a voice in the stone"; the mountains broke and the Great Scar tore open.',
     '','pn_saga_stonefall_b',
-    [O('cut','high','the Highlands\' first freed spirit','the realm\'s panel, The Stone-Fall','"Three years on, the Highlands dug too deep for a voice in the stone — and the mountains broke."','built'),
+    [O('cut','high','Cragland\'s first freed spirit','the realm\'s panel, The Stone-Fall','"Three years on, Cragland dug too deep for a voice in the stone — and the mountains broke."','built'),
      O('hint','crossing','freeing Mira (the Scar lifts)','the builder\'s line','"Surtharn\'s wardens took me for my lifts — he wanted to lower his chains deeper into the mountains."'),
-     O('hint','stones','Highlands spirits','their memories','Arnor: "The miners said the stone was singing. They dug toward it. So did the mountain."','built')],
-    [O('hint','site','a Highlands mine or dungeon','a runic tablet only the twins can read','"Deeper, said the voice. Deeper, and the light is yours."')]);
-  B(1,'blacktide','The Black Tide','Five years after that, the Silverrun rose black from the south; the marshes drank the Wetlands\' villages and the river became a wall.',
+     O('hint','stones','Cragland spirits','their memories','Arnor: "The miners said the stone was singing. They dug toward it. So did the mountain."','built')],
+    [O('hint','site','a Cragland mine or dungeon','a runic tablet only the twins can read','"Deeper, said the voice. Deeper, and the light is yours."')]);
+  B(1,'blacktide','The Black Tide','Three years after that, the Silverrun rose black from the south; the marshes drank Fernheim\'s villages and the river became a wall.',
     '','pn_saga_blacktide_b',
-    [O('cut','wet','the Wetlands\' first freed spirit','the realm\'s panel, The Black Tide','"Then the Black Tide: the Silverrun rose black, and the marshes drank the villages."','built'),
-     O('hint','crossing','freeing Bram (the Silverrun bridges)','the builder\'s line','"The river wasn\'t always a wall. When the Wetlands fell it rose against us, black and fast."'),
-     O('hint','stones','Wetlands spirits','their memories','Liv: "The Silverrun ran black from the south, and the mill wheel turned backwards." · Magni: "It came up through."','built')],
-    [O('hint','fairy','befriending the Wetlands\' fairy monarch','the monarch\'s line','"The lady of the fields wept the day the orbs closed. Her tears are why the marsh is so deep."')]);
+    [O('cut','wet','Fernheim\'s first freed spirit','the realm\'s panel, The Black Tide','"Then the Black Tide: the Silverrun rose black, and the marshes drank the villages."','built'),
+     O('hint','crossing','freeing Bram (the Silverrun bridges)','the builder\'s line','"The river wasn\'t always a wall. When Fernheim fell it rose against us, black and fast."'),
+     O('hint','stones','Fernheim spirits','their memories','Liv: "The Silverrun ran black from the south, and the mill wheel turned backwards." · Magni: "It came up through."','built')],
+    [O('hint','fairy','befriending Fernheim\'s fairy monarch','the monarch\'s line','"The lady of the fields wept the day the orbs closed. Her tears are why the marsh is so deep."')]);
   B(1,'barriers','The barriers and the builders','The Ember Wall, the Great Scar, the Silverrun and the Cinder Chasm cut the realms apart. Four builders, taken by Surtharn\'s wardens, can reopen the crossings once freed.',
     '',null,
     [O('hint','crossing','freeing each builder','their line, then the crossing reopens','Bram, Mira, Dunn, Vela — one line each about how their barrier rose'),
-     O('cut','crossing','Bram freed — the Silverrun','a panel (pn_build_bram, round 78): Bram raises the bridge, the first travellers cross','"Bram raises the Silverrun bridge — for the first time in years, the Grasslands and the Wetlands touch again."','built'),
-     O('cut','crossing','Mira freed — the Great Scar','a panel (pn_build_mira): Mira\'s lift climbs the cliff','"Mira\'s lift climbs the Great Scar — the road to the Highlands is open."','built'),
-     O('cut','crossing','Dunn freed — the Cinder Chasm','a panel (pn_build_dunn): the last rivet in the iron bridge','"Dunn drives the last rivet into his iron bridge — across the Cinder Chasm lie the Ashlands."','built')],
-    [O('hint','any','the quest journal','the quest\'s text when a crossing opens','"Bram rebuilt the Silverrun bridge. The Wetlands are open."','partly')]);
+     O('cut','crossing','Bram freed — the Silverrun','a panel (pn_build_bram, round 78): Bram raises the bridge, the first travellers cross','"Bram raises the Silverrun bridge — for the first time in years, Gildenmark and Fernheim touch again."','built'),
+     O('cut','crossing','Mira freed — the Great Scar','a panel (pn_build_mira): Mira\'s lift climbs the cliff','"Mira\'s lift climbs the Great Scar — the road to Cragland is open."','built'),
+     O('cut','crossing','Dunn freed — the Cinder Chasm','a panel (pn_build_dunn): the last rivet in the iron bridge','"Dunn drives the last rivet into his iron bridge — across the Cinder Chasm lie Cinderheim."','built')],
+    [O('hint','any','the quest journal','the quest\'s text when a crossing opens','"Bram rebuilt the Silverrun bridge. Fernheim is open."','partly')]);
   B(1,'pact','The bargain of fire and false light','Surtharn and the one on the high seat made a pact: fire took the land, false light took the sky. Surtharn was promised gems from every realm; Muspelheim and Asgard are tied — break the fire and the sky will fall to you.',
     'Only hinted until Muspelheim; the false god\'s face stays hidden until the citadel.',null,
-    [O('hint','fairy','befriending the Ashlands\' fairy monarch','the monarch\'s line','"Fire and false light made a bargain. One took the land, the other the sky. Neither keeps a promise."'),
-     O('hint','stones','Ashlands spirits','their memories','Unn: "Muspelheim and Asgard are tied. Break the fire and the sky will fall to you." · Ranveig: "He said a god had promised him them."','built'),
+    [O('hint','fairy','befriending Cinderheim\'s fairy monarch','the monarch\'s line','"Fire and false light made a bargain. One took the land, the other the sky. Neither keeps a promise."'),
+     O('hint','stones','Cinderheim spirits','their memories','Unn: "Muspelheim and Asgard are tied. Break the fire and the sky will fall to you." · Ranveig: "He said a god had promised him them."','built'),
      O('cut','musp','Surtharn\'s throne','his intro boast, spoken over his first panel','"The bright one gave me the land for the sky. Every gem of Runeheim is mine by right!"','partly')],
     [O('hint','forge','a forge\'s hearth hall','a runic tablet','"Sky for land, light for fire. So it was sworn."')]);
   // ═══ III · THE HIDDEN SKY ═══
@@ -110,14 +110,14 @@ var ZSTORY={
     'That he is an impostor stays half-hidden until the citadel: here only "someone in a golden mask".','pn_saga_gate',
     [O('cut','sky','the twentieth spirit','a glimpse: the shut golden gate, a masked figure on the high seat','"High above, a golden gate had shut. On Odin\'s high seat sat someone in a golden mask."','built'),
      O('hint','stones','spirits of every realm','their memories','Vigdis: "One verse was always missing — the one about who sits on the high seat." · Kolbein: "The one on the high seat has one eye too. But his eye has never seen anything."','built'),
-     O('hint','fairy','befriending the Highlands\' fairy monarch','the monarch\'s line','"Two great lights went dark above the clouds. Something golden sat down where they had been."')],
+     O('hint','fairy','befriending Cragland\'s fairy monarch','the monarch\'s line','"Two great lights went dark above the clouds. Something golden sat down where they had been."')],
     [O('hint','tome','after the glimpse','the Tome\'s Saga page, chapter: The Gate','the glimpse panel kept in the tapestry'),
      O('hint','green','twenty freed','Elder Runa','"My grandmother said the Allfather had two eyes once, and a laugh like thunder. The one up there doesn\'t laugh."')]);
   B(2,'orbs','The gods in their prison','Solmyrk caught Odin and Freya in two great orbs of their own light, joined like an infinity sign, floating in the feast hall of Asgard.',
     'Who is in the orbs is shown (not named) at the thirtieth; named in the feast hall.','pn_saga_orbs',
     [O('cut','sky','the thirtieth spirit','a glimpse: two orbs in a dark hall, figures asleep inside','"In a dark hall far above, two great lights float side by side, asleep — and something in a golden mask keeps watch."','built'),
-     O('hint','stones','Ashlands spirits','their memories','Vali: "There were two thrones in the feast hall once. Now there are none, and two moons inside." · Sverri: "I saw two lights go out above the clouds that night, like a pair of eyes closing."','built'),
-     O('hint','fairy','befriending the Grasslands\' fairy monarch','the monarch\'s line','"Before the quiet, my court danced on the Bifröst. The one with the spear and the one with the falcon cloak laughed with us."')],
+     O('hint','stones','Cinderheim spirits','their memories','Vali: "There were two thrones in the feast hall once. Now there are none, and two moons inside." · Sverri: "I saw two lights go out above the clouds that night, like a pair of eyes closing."','built'),
+     O('hint','fairy','befriending Gildenmark\'s fairy monarch','the monarch\'s line','"Before the quiet, my court danced on the Bifröst. The one with the spear and the one with the falcon cloak laughed with us."')],
     [O('hint','home','thirty freed','the other twin','"I dreamed of two moons in a dark room. They were breathing."'),
      O('cut','hall','the feast hall','your twin walks in beside you and casts Godsbane with you — two beams into the orbs (pn_fh_cast_twins, round 78)','"Godsbane — the two of you together, into the very centre, where the two lights meet."','built')]);
   B(2,'tattoo','The World Tree complete','When all forty spirits are free — after the end — their lines join into one great World Tree across Runeheim, and it shines under Mirror Lake like a tattoo under the water, and stays.',

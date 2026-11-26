@@ -10,7 +10,7 @@ var ZTWIN={ on:true,
     if(ps.spiritsHome)return 'We did it — both of us. Listen… the children are laughing again.';
     if(ps.asgardDown)return 'The basket came from the lake. Whatever is up there, it knows us.';
     if(n>=20)return 'Bring me the map. The lines… they\'re drawing something. Something that wants to be finished.';
-    if(full)return 'The Ashlands fell first, the sagas say. The same night the sky went quiet.';
+    if(full)return 'Cinderheim fell first, the sagas say. The same night the sky went quiet.';
     if(n>=1)return 'The line it left — I\'ve seen that pattern before, cut into the oldest stone on the Green.';
     return 'I\'ll keep the village going — you bring them home. Come back and tell me everything you find.'; },
   elder:function(ps,base){ var n=(ps.spiritsFreed||[]).length; if(ps.spiritsHome)return base;

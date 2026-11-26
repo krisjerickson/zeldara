@@ -3,22 +3,22 @@ key: mira
 who: Mira the Mechanic
 meets: 16
 age: 36
-home: a Wetlands tower; then her workshop in the village
+home: a Fernheim tower; then her workshop in the village
 pick: The chaotic optimist
 voice: Fast, bright and fearless; talks in half-finished sentences because her hands have already moved on, and treats every disaster as an interesting design problem.
 
 ## Backstory
-Mira is the youngest grown woman in Runeheim. She was born in a Highland forge town six weeks before the gate shut, one of the very last children born anywhere; the baby next door, Joreid, born a week later, was the last in the Highlands. The two of them spent their first three summers in the same playpen of scrap. Then the Stone-Fall came, the Great Scar tore the valley open, and Mira's father carried her down the mountain. Joreid did not get out.
+Mira is the youngest grown woman in Runeheim. She was born in a Cragland forge town six weeks before the gate shut, one of the very last children born anywhere; the baby next door, Joreid, born a week later, was the last in Cragland. The two of them spent their first three summers in the same playpen of scrap. Then the Stone-Fall came, the Great Scar tore the valley open, and Mira's father carried her down the mountain. Joreid did not get out.
 
-Mira grew up in the Wetland mill-towns among wheels, sluices and lifts, the only child anyone had seen in years, spoiled rotten by a whole valley of engineers. At eight the Black Tide drowned that valley too. She has decided, she says, that the world has used up its bad luck on her early, and everything from now on is going to work.
+Mira grew up in the Fernheim mill-towns among wheels, sluices and lifts, the only child anyone had seen in years, spoiled rotten by a whole valley of engineers. At eight the Black Tide drowned that valley too. She has decided, she says, that the world has used up its bad luck on her early, and everything from now on is going to work.
 
-She has spent her life since building things that should not work and do: a clockwork heron, a self-stirring pot for Benno, a lift that once got three goats onto a roof. Surtharn's wardens took her two years ago to build lifts for the Binders' mines and locked her in a Wetlands tower when she refused. She spent the time designing a cage-lift for the Great Scar out of the tower's own bars, which is the first thing she shows you when you open the door.
+She has spent her life since building things that should not work and do: a clockwork heron, a self-stirring pot for Benno, a lift that once got three goats onto a roof. Surtharn's wardens took her two years ago to build lifts for the Binders' mines and locked her in a Fernheim tower when she refused. She spent the time designing a cage-lift for the Great Scar out of the tower's own bars, which is the first thing she shows you when you open the door.
 
 ## In the Saga
-- Rescued from the Wetlands tower; her lift climbs the Great Scar to the Highlands.
+- Rescued from Fernheim tower; her lift climbs the Great Scar to Cragland.
 - Her village workshop makes the four hearth trays that hold the soulglass in the forges' heat. "The forges were built to melt the gods' light into chains. We'll melt it back."
 - The Brass Bird side quest (the brass songbird that sings near treasure, mostly).
-- Joreid, her neighbour in the playpen, is one of the forty spirits (the Highlands child: "I was the last child born in the Highlands. I lived three summers.").
+- Joreid, her neighbour in the playpen, is one of the forty spirits (Cragland child: "I was the last child born in Cragland. I lived three summers.").
 
 ## Ties
 - Garrick: she uses his scrap; he pretends not to see.
@@ -31,21 +31,21 @@ key: bram
 who: Bram the Builder
 meets: 4
 age: 54
-home: a Grasslands tower; then the Silverrun bridge and the village
+home: a Gildenmark tower; then the Silverrun bridge and the village
 pick: Insufferably right
 voice: Calm, smug and correct; points out what's crooked, and is always, infuriatingly, right about it.
 
 ## Backstory
-Bram learned to build from Hakon, a Highland carver and engineer who said that every rune in the mountains was carved pointing toward the lake, "as if it was the middle of everything", and that a builder should always know where the middle is. Bram took the lesson literally. He can tell you to a finger's width how crooked your doorframe is, and he will.
+Bram learned to build from Hakon, a Cragland carver and engineer who said that every rune in the mountains was carved pointing toward the lake, "as if it was the middle of everything", and that a builder should always know where the middle is. Bram took the lesson literally. He can tell you to a finger's width how crooked your doorframe is, and he will.
 
-He was building bridges over the Silverrun when the Black Tide came, and he spent the next twenty-two years drawing the bridge he would build if anyone ever let him near the river again. Surtharn's wardens took him to their Grasslands tower to build ramps for their siege engines. He built them, slightly wrong, on purpose, so that every one of them would tip over in a strong wind. He is very proud of this.
+He was building bridges over the Silverrun when the Black Tide came, and he spent the next twenty-two years drawing the bridge he would build if anyone ever let him near the river again. Surtharn's wardens took him to their Gildenmark tower to build ramps for their siege engines. He built them, slightly wrong, on purpose, so that every one of them would tip over in a strong wind. He is very proud of this.
 
 When you free him, he walks to the river, looks at it for a long time, and says, "Right. That's going to take four days." It takes four days.
 
 ## In the Saga
-- Rescued from the Grasslands tower; raises the Silverrun bridge: "for the first time in years, the Grasslands and the Wetlands touch again."
+- Rescued from Gildenmark tower; raises the Silverrun bridge: "for the first time in years, Gildenmark and Fernheim touch again."
 - The Bench side quest (five logs).
-- His teacher Hakon is one of the forty spirits (the Highlands carver: "Every rune in the mountains was carved toward the lake.").
+- His teacher Hakon is one of the forty spirits (Cragland carver: "Every rune in the mountains was carved toward the lake.").
 
 ## Ties
 - Oswin: told him his guild's doorframe was crooked. It was.
@@ -57,21 +57,21 @@ key: dunn
 who: Dunn the Dwarf Forger
 meets: 4
 age: 211
-home: a Highlands tower; then the Cinder Chasm bridge and the village
+home: a Cragland tower; then the Cinder Chasm bridge and the village
 pick: Keeper of grudges
 voice: Gravelly, solemn and petty in the grandest way; keeps a book of grudges and reads from it.
 
 ## Backstory
-Dunn is a dwarf of the deep Highland halls, two hundred and eleven years old, and he has kept a Book of Grudges since he was forty. It is three volumes long. It lists every slight against him and his kin — the man who bent his best chisel (paid), the troll who ate his lunch (unpaid), the Highland mine-lords who dug toward "the singing in the stone" against every dwarf's advice (unpaid, underlined three times).
+Dunn is a dwarf of the deep Cragland halls, two hundred and eleven years old, and he has kept a Book of Grudges since he was forty. It is three volumes long. It lists every slight against him and his kin — the man who bent his best chisel (paid), the troll who ate his lunch (unpaid), the Cragland mine-lords who dug toward "the singing in the stone" against every dwarf's advice (unpaid, underlined three times).
 
 When the Stone-Fall came, Dunn's hall was cut off from the surface for a decade. His human friend Dalla, who mended the rope-nets on the deep-mine lifts, had told him before it fell that she'd seen a chamber under the mountains "where light is chained like hounds". He wrote that down too, as a grudge against whoever was doing the chaining. It is the first page of volume three.
 
 Surtharn's wardens took him to forge iron for their bridges. He forged it. He also kept careful notes on how they did their own iron, which is how he later built a better bridge than theirs over the Cinder Chasm, in record time, out of spite.
 
 ## In the Saga
-- Rescued from the Highlands tower; drives "the last rivet into his iron bridge — across the Cinder Chasm lie the Ashlands."
+- Rescued from Cragland tower; drives "the last rivet into his iron bridge — across the Cinder Chasm lie Cinderheim."
 - The forge-off with Garrick (a mini-game Kris picked).
-- His friend Dalla is one of the forty spirits (the Highlands net-mender: "There's a chamber under the mountains where light is chained like hounds.").
+- His friend Dalla is one of the forty spirits (Cragland net-mender: "There's a chamber under the mountains where light is chained like hounds.").
 
 ## Ties
 - Garrick: dwarf against human pride, then the best weapon they ever made together.
@@ -83,22 +83,22 @@ key: vela
 who: Captain Vela
 meets: 4
 age: 47
-home: an Ashlands tower; then the sky ports
+home: an Cinderheim tower; then the sky ports
 pick: Narrates her own legend
 voice: Swaggering and theatrical; narrates herself in the third person, in the style of a saga — "And then Captain Vela, unbowed…" — and backs every word up.
 
 ## Backstory
-Vela was eleven on the Ash Night, a girl on the Ashland coast whose mother built wind-kites and whose aunt Alfhild was a skald. As the sky went red, her mother strapped her into a glider and threw her off the sea cliffs. She flew over the rising Ember Wall in the firestorm's updraft and came down in a Grasslands barley field with a broken arm and a story she has been telling, in the third person, ever since.
+Vela was eleven on the Ash Night, a girl on the Cinderheim coast whose mother built wind-kites and whose aunt Alfhild was a skald. As the sky went red, her mother strapped her into a glider and threw her off the sea cliffs. She flew over the rising Ember Wall in the firestorm's updraft and came down in a Gildenmark barley field with a broken arm and a story she has been telling, in the third person, ever since.
 
-Alfhild used to sing that "when the cycle breaks, two will come from the water to mend it". Vela thought it was a song about her. She has spent her life making sure there's a saga worth singing: sky-sailing, wind-kites, a fleet of three small sky-ships out of the harbour islands, and a long feud with the Ember Wall's winds. Surtharn's wardens caught her charting a pass over the wall and locked her in an Ashlands tower, where she narrated her own imprisonment to the guards until they begged to be reassigned.
+Alfhild used to sing that "when the cycle breaks, two will come from the water to mend it". Vela thought it was a song about her. She has spent her life making sure there's a saga worth singing: sky-sailing, wind-kites, a fleet of three small sky-ships out of the harbour islands, and a long feud with the Ember Wall's winds. Surtharn's wardens caught her charting a pass over the wall and locked her in an Cinderheim tower, where she narrated her own imprisonment to the guards until they begged to be reassigned.
 
 When you free her, she builds the passes over the Ember Wall, opens the sky ports, and announces, to no one in particular: "And so the twin and Captain Vela, together at last…"
 
 ## In the Saga
-- Rescued from the Ashlands tower; builds the passes through the Ember Wall; opens the sky ports.
+- Rescued from Cinderheim tower; builds the passes through the Ember Wall; opens the sky ports.
 - The Spyglass riddle (Vela's spyglass).
 - Carries Brask's letter south to Miklagard when the sea roads open.
-- Her aunt Alfhild is one of the forty spirits (the Ashlands skald: "The skalds sang that when the cycle breaks, two will come from the water to mend it. We thought it was only a song.").
+- Her aunt Alfhild is one of the forty spirits (Cinderheim skald: "The skalds sang that when the cycle breaks, two will come from the water to mend it. We thought it was only a song.").
 
 ## Ties
 - Brask: the only one who can carry his letters.
@@ -115,7 +115,7 @@ pick: The singer to glass
 voice: Gentle, slow and musical; hums to her glass as she works and swears it hums back. Speaks to the shards as if they were people — because, she says, they were.
 
 ## Backstory
-Sólveig grew up in Glerhavn, a Wetlands glass-town on the sand flats where the Silverrun met the sea, apprenticed at twelve to Oddny, a potter and glass-burner who fired the urns for the village dead. Oddny taught her that glass remembers the fire that made it, and that if you hum to it at the right pitch, it will hum the memory back. Sólveig has never been able to stop hearing it since.
+Sólveig grew up in Glerhavn, a Fernheim glass-town on the sand flats where the Silverrun met the sea, apprenticed at twelve to Oddny, a potter and glass-burner who fired the urns for the village dead. Oddny taught her that glass remembers the fire that made it, and that if you hum to it at the right pitch, it will hum the memory back. Sólveig has never been able to stop hearing it since.
 
 In the years after the gate shut, Oddny's urns never cooled — the dead inside them, she said, were not rising — and in the eighth winter the Black Tide drowned Glerhavn and everyone in it. Sólveig was on the harbour islands selling glass and lived. She has spent twenty-two years in a shack on the isles, singing to bits of sea-glass and listening for voices in them, waiting for something she could not name.
 
@@ -124,7 +124,7 @@ When the first familiar island's guardian falls, she feels it in the glass. She 
 ## In the Saga
 - The Glimmerhall: turn in the soulglass shards; she fuses them into each realm's lattice, then the forge's heat makes a Heartglass.
 - The Mosaic side quest (ten pieces, each one sings a little).
-- Her teacher Oddny is one of the forty spirits (the Wetlands potter: "I fired urns for the dead and they never cooled. Something was keeping them from rising.").
+- Her teacher Oddny is one of the forty spirits (Fernheim potter: "I fired urns for the dead and they never cooled. Something was keeping them from rising.").
 - Her painted character sprite is ordered this round (she had only a still painting).
 
 ## Ties
@@ -144,7 +144,7 @@ voice: Breezy, winking and insistent about her honesty — "legal, mostly", "fou
 ## Backstory
 Coral was born on the harbour islands, a fisherman's daughter who learned early that a closed border is just a business opportunity with a fence round it. When the realms closed one by one she was the one who kept the four of them trading anyway — by sea, at night, round the walls, with cheese and medicine and letters going one way and metal and news coming the other. She calls it "logistics". Quill calls it smuggling. Both are correct.
 
-For thirty years her little black-sailed boats have been the only thread between the realms. She has carried Highland steel to the Grasslands, Wetland herbs to the islands, and once, she claims, a goat to a wedding in the Ashlands before the wall went up. She has a scar from an ash-warden's spear and a policy never to talk about it.
+For thirty years her little black-sailed boats have been the only thread between the realms. She has carried Cragland steel to Gildenmark, Fernheim herbs to the islands, and once, she claims, a goat to a wedding in Cinderheim before the wall went up. She has a scar from an ash-warden's spear and a policy never to talk about it.
 
 She deals in each realm's metal, which is why you come to her for Mira's hearth trays, and she sells at a fair price "because I like you", which she says to everyone. The odd thing about Coral is that every story she tells about herself is a little bit crooked and every deal she makes is perfectly straight.
 
@@ -170,7 +170,7 @@ voice: Oily, upbeat and relentless; sells everything as a "development opportuni
 ## Backstory
 Quill has been harbourmaster of the four harbour islands for thirty years, and for every one of those years he has been trying to sell them. Not the harbour — plots. "A charming cove, sea views, only the occasional kraken." He believes, with the faith of a true believer, that one day the realms will open and everyone will want a summer home on an island, and he intends to own all the islands when they do.
 
-He was a clerk in a Wetland land office before the Black Tide, which drowned every deed he had ever filed. He escaped with a single ledger and a deep conviction that land was the only thing worth owning, because land, he said, stays put — and then he watched the Wetlands sink. He has never quite made peace with that. So he owns rocks in the sea, which have the advantage of already being surrounded by water.
+He was a clerk in a Fernheim land office before the Black Tide, which drowned every deed he had ever filed. He escaped with a single ledger and a deep conviction that land was the only thing worth owning, because land, he said, stays put — and then he watched Fernheim sink. He has never quite made peace with that. So he owns rocks in the sea, which have the advantage of already being surrounded by water.
 
 He keeps the harbour lights, the boat lists and a box of signal flags he's very proud of. He is also, under the pitch, the reason anyone on the islands survived: he organised the fishing, the rationing and the night-signals for thirty years and has never let anyone thank him for it.
 
@@ -194,7 +194,7 @@ pick: The cheerfully morbid nurse
 voice: Brisk, bright and anatomically specific; tells you every way you could have died while patching you up, and means it kindly.
 
 ## Backstory
-Mael and her sister Nanna were the Wetlands' healers: Nanna the midwife, Mael the nurse. Nanna brought babes into the world; Mael patched up the people who'd been in it a while. When the gate shut the babes stopped coming, and Nanna, who had nothing to hold for six years, went to live with her and help with the sick, which was the one work there was more of.
+Mael and her sister Nanna were Fernheim's healers: Nanna the midwife, Mael the nurse. Nanna brought babes into the world; Mael patched up the people who'd been in it a while. When the gate shut the babes stopped coming, and Nanna, who had nothing to hold for six years, went to live with her and help with the sick, which was the one work there was more of.
 
 The Black Tide took Nanna in the eighth winter. Mael was on the harbour islands nursing a fever ward, and she stayed there, running the island wells as a healing station ever since. She has seen more wounds than anyone alive, and she has decided that the only sane way to talk about them is cheerfully. "Ooh, that's nearly an artery! Lucky you!" She keeps a ledger of every patient. She has lost very few.
 
@@ -203,7 +203,7 @@ She and Morwen write each other long, rude, admiring letters about each other's 
 ## In the Saga
 - Healing at the island wells.
 - The Herbs side quest ("The bleeding waits for no one.").
-- Her sister Nanna is one of the forty spirits (the Wetlands midwife: "My hands were for bringing babes into the world. For eight years they had nothing to hold.").
+- Her sister Nanna is one of the forty spirits (Fernheim midwife: "My hands were for bringing babes into the world. For eight years they had nothing to hold.").
 - After the end she sails to the village to help the midwives with the first cradles.
 
 ## Ties
@@ -221,7 +221,7 @@ pick: The paranoid survivalist
 voice: Low, clipped and suspicious; checks every shadow, trusts no tree, and gives the best practical advice in Runeheim.
 
 ## Backstory
-Holt was a Wetland forester with his wife Torvi before the Black Tide. Torvi loved the marsh trees; she said they whispered. In the last year before the Tide she came home pale and said the trees had started whispering a name — "not the old ones, a name like a sun going out" — and that the Binders' braziers had been seen in the deep marsh. Nobody listened. Then the Silverrun rose black and took her with the forest.
+Holt was a Fernheim forester with his wife Torvi before the Black Tide. Torvi loved the marsh trees; she said they whispered. In the last year before the Tide she came home pale and said the trees had started whispering a name — "not the old ones, a name like a sun going out" — and that the Binders' braziers had been seen in the deep marsh. Nobody listened. Then the Silverrun rose black and took her with the forest.
 
 Holt has trusted nothing since: not trees, not weather, not quiet, not anyone who says it'll be fine. He lives on the harbour islands in a hide he rebuilt three times, sleeps up a tree "because you don't", keeps three escape routes from every room, and has stashes of food, rope and arrows buried across all four isles. He is wrong about almost every threat he imagines, and right about the few that matter.
 
@@ -230,7 +230,7 @@ He gives you island tips the way other people give warnings — urgently, in a w
 ## In the Saga
 - Island guide: tips for each isle.
 - The Stag side quest.
-- His wife Torvi is one of the forty spirits (the Wetlands forester: "The marsh trees whispered a name. Not Odin's. A name that sounded like a sun going out.").
+- His wife Torvi is one of the forty spirits (Fernheim forester: "The marsh trees whispered a name. Not Odin's. A name that sounded like a sun going out.").
 
 ## Ties
 - Coral: guards her landing coves; is certain she's being followed (she is — by Quill).
@@ -247,7 +247,7 @@ pick: The hyperactive acrobat
 voice: Breathless, bouncing and enormous fun; talks while upside down, never walks if she can flip, and gets bored mid-sentence.
 
 ## Backstory
-Pia was six, the youngest tumbler in the Fair-Folk, a travelling troupe of acrobats who toured the four realms with a painted wagon and a bear named Sir. That summer the troupe played the last village's fair and moved on west to the Ashland harvest fair — all except Pia, who had a fever and was left with Morwen to mend. The Ash Night came. The troupe never came back. Her best friend in it, a little tumbler named Mord, was seven.
+Pia was six, the youngest tumbler in the Fair-Folk, a travelling troupe of acrobats who toured the four realms with a painted wagon and a bear named Sir. That summer the troupe played the last village's fair and moved on west to the Cinderheim harvest fair — all except Pia, who had a fever and was left with Morwen to mend. The Ash Night came. The troupe never came back. Her best friend in it, a little tumbler named Mord, was seven.
 
 Pia was raised by the whole village, which is to say by Morwen, Hana and whoever was nearest when she fell off something. She never stopped tumbling. She practises in the meadow north of the village every day, the full troupe routine, all the parts, alone — the bear's part included. She is the reason the twin you play can roll: she has been waiting twenty-eight years to teach somebody the troupe's tricks so they wouldn't die with her.
 
@@ -256,7 +256,7 @@ She is relentlessly, hyperactively happy. She does not talk about the Fair-Folk,
 ## In the Saga
 - The Tumbler's Lesson: find her pins and she teaches you to roll (one of Oswin's first three tasks).
 - The second Pins side quest (the juggling pins, three colours).
-- Her friend Mord is one of the forty spirits (the Ashlands child: "It was night, but the sky was red, and then it was grey, and then I was here.").
+- Her friend Mord is one of the forty spirits (Cinderheim child: "It was night, but the sky was red, and then it was grey, and then I was here.").
 
 ## Ties
 - Morwen: nursed her through the fever that saved her life; Pia calls her "Auntie Footnote".

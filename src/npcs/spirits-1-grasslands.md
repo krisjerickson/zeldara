@@ -26,7 +26,7 @@ until the Binders took him to a stone; Primrose let him draw his boats in the di
 ## Life
 - I was going to build a ship with a dragon on the front and sail it all the way round the world. I had the dragon drawn already.
 - My uncle mended carts in Fernby. He said a cart is just a boat that gave up. I thought that was very funny.
-- I drew a boat in the dirt every day at the stone. Primrose counted them. She says it is more boats than the whole Wetlands ever had.
+- I drew a boat in the dirt every day at the stone. Primrose counted them. She says it is more boats than the whole Fernheim ever had.
 - Being bound was like being stuck in the last minute before supper, forever. Being free is like supper.
 - Asa says I can still learn. She says spirits have all the time in the world. I am going to learn knots first. Boats need knots.
 
@@ -72,10 +72,10 @@ kind: a beekeeper
 A beekeeper in the orchards above Hollowmere, whose straw hives stood between the apple rows. Her bees left the year the sky went quiet; she
 followed them in a way, three winters later, and was bound at a stone in her own orchard.
 ## Life
-- Hollowmere honey was the best in Runeheim. Apple blossom and heather. The traders from the Wetlands used to come up the road just for it.
+- Hollowmere honey was the best in Runeheim. Apple blossom and heather. The traders from Fernheim used to come up the road just for it.
 - Bees talk to each other with dances. I used to dance back at them. My neighbours thought I was simple. The bees thought I was rude, but kind.
 - The bees left in one morning. Every hive. They knew something we did not. I have never been so lonely as that afternoon.
-- Clover counted the days for us. She told me once that I had hummed to myself for eleven thousand of them. I did not know I hummed.
+- Clover counted the days for us. She told me once that I had hummed to myself for nine thousand of them. I did not know I hummed.
 - If the orchards bloom again, the bees will come back. Bees always come back to good blossom. So will I.
 
 # Geir
@@ -104,7 +104,7 @@ kind: a cooper
 A cooper of the last village — Rolf's wife, and the only one of the forty who lived there. She walked out to the Barrow Downs to fetch staves
 in the second year of the quiet and did not come back; Linnet sang to her for twenty-eight winters.
 ## Life
-- I made every barrel in Rolf's cellar. If one leaks, it is not mine. It is from the Wetlands. Tell him I said so.
+- I made every barrel in Rolf's cellar. If one leaks, it is not mine. It is from Fernheim. Tell him I said so.
 - I went up the Downs road for oak staves. It was only a day's walk. I have been thinking about that day's walk for a long time.
 - Linnet sang me the old songs every night. Some of them are about going home. I asked her to stop singing those. She did not stop.
 - Rolf still sets two cups out. I saw it from the Green tonight, through the tavern window. I am going to sit by the second one, if he will let me.
@@ -123,7 +123,7 @@ else to do, and learned more about them than anyone should.
 - Tanning is a smelly trade. In Stonewick they made me work at the bottom of the hill, downwind of everyone. I liked it. Nobody bothered me.
 - The Binders met at my stone. They did not care that I could hear. You do not mind what a chained man hears.
 - They argue. You would not think it, but they argue like fishwives — about the gold, about who gets which stone, about the one who pays them.
-- They do not come from the Ashlands. They come from under it. I have said it before and I will keep saying it until someone writes it down.
+- They do not come from Cinderheim. They come from under it. I have said it before and I will keep saying it until someone writes it down.
 - Now that I am free, I want to tan one good hide and make a pair of boots for whoever freed me. Do you know your size?
 
 # Jorunn
@@ -133,14 +133,14 @@ group: spirits
 realm: 1
 kind: a dyer
 ## Backstory
-A dyer from the pools by the Fernby water, who could match any blue in the world and whose cloth went to every town of the Grasslands. Sorrel
+A dyer from the pools by the Fernby water, who could match any blue in the world and whose cloth went to every town of Gildenmark. Sorrel
 kept her stone, and the two of them argued about colours for twenty-eight winters.
 ## Life
 - The dye-pools of Fernby were blue, yellow and red, and on a sunny day the water steamed in three colours. Children used to dare each other to touch them.
 - Woad for blue, weld for yellow, madder for red. Everything else you make from those three, if you are patient and a little stubborn.
 - Every rune in the old days was carved and then painted this blue. My blue. Like your eyes, they say. I do not believe in coincidences.
 - Sorrel thinks the sky is grey-blue. It is not. It is cornflower in the morning and lapis at night. We will never agree.
-- When I get home I am going to dye one bolt of cloth the colour of the Green tonight, so the Grasslands remember what this looked like.
+- When I get home I am going to dye one bolt of cloth the colour of the Green tonight, so Gildenmark remember what this looked like.
 
 # Ketil
 key: sp_ketil
@@ -156,4 +156,4 @@ was bound at the stone by the Fernby water, beside Jorunn.
 - Goats are cleverer than people. A goat would never have let itself be chained to a stone. It would have eaten the chain.
 - When I died, the goats cried for three days. I heard them from the edge of the light. Then the chains came and I did not hear anything.
 - Up on the uplands you could see four towns' smoke at once — Fernby, Stonewick, Hollowmere and the village. I counted the chimneys every evening.
-- When my line reaches the uplands I am going to whistle. If there is a goat left anywhere in the Grasslands, it will come. Goats never forget a whistle.
+- When my line reaches the uplands I am going to whistle. If there is a goat left anywhere in Gildenmark, it will come. Goats never forget a whistle.

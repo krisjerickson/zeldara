@@ -15,8 +15,8 @@ she is afraid of — and the land healing around her stone.
 
 Where the spirits came from (Kris: "it isn't implied that all of the spirits came from the village … they usually came from a different
 quadrant and the lost cities from there"):
-- the Grasslands' ten — the outlying farms and hamlets that emptied in the Long Quiet: Fernby, Stonewick, Hollowmere, the Barrow Downs;
+- Gildenmark's ten — the outlying farms and hamlets that emptied in the Long Quiet: Fernby, Stonewick, Hollowmere, the Barrow Downs;
   several knew the last village well (Hallveig was Rolf's wife), most never lived in it;
-- the Wetlands' ten — the Silverrun towns the Black Tide drank: Millbrook, Reedhaven, Hverholm behind its dikes, the Lantern Isles;
-- the Highlands' ten — the mine-towns and the sea-road: Deepdelve, Kettlecrag, Highmark on the cliff road to the western sea;
-- the Ashlands' ten — the great ember-cities of the west, gone in one night: Askvald, Brandhavn, Emberhold under the Ember Wall.
+- Fernheim's ten — the Silverrun towns the Black Tide drank: Millbrook, Reedhaven, Hverholm behind its dikes, the Lantern Isles;
+- Cragland's ten — the mine-towns and the sea-road: Deepdelve, Kettlecrag, Highmark on the cliff road to the western sea;
+- Cinderheim's ten — the great ember-cities of the west, gone in one night: Askvald, Brandhavn, Emberhold under the Ember Wall.

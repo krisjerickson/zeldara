@@ -28,7 +28,7 @@ MON(4,'forge','',5,'quench_golem','Quench Golem',['golem','slam','#4a5a6a,#20282
  'Slams the floor: a sheet of scalding water spreads and you slip on it.',
  'Its plated front turns blows; it grows furious when hurt.',
  'Strike it from behind.');
-// ── the Slag Forge (Krag's; molten ore) ──
+// ── the Clinker Forge (Krag's; molten ore) ──
 MON(4,'forge','',5,'slag_crawler','Slag Crawler',['insect','lunge','#3a2a26,#140c0a,#ff8030,#ffd060','shell'],'pack|T:slag forge',
  'A beetle of cooling slag with a glowing orange underbelly and pincers of black glass.',
  'Scuttles straight at you.',

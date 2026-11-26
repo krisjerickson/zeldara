@@ -31,7 +31,7 @@ with sync_playwright() as p:
     r = pg.evaluate("""(()=>{ var cv=[...document.querySelectorAll('.sl-grid canvas')]; return {tab:LabApp.tab, n:cv.length, lit:cv.map(function(c){ var d=c.getContext('2d').getImageData(c.width/2-60,c.height/2-60,120,120).data, n=0; for(var i=0;i<d.length;i+=4)if(d[i+2]>200&&d[i+1]>180&&d[i]<190)n++; return n; })}; })()""")
     check('The "Soul-lines up close" tab shows Kris\'s vein + motes and the four styles, each drawing rune-blue light round the bindstone (%s)' % r, r['tab'] == 'soulstyle' and r['n'] == 5 and all(n > 20 for n in r['lit']), r)
     pg.evaluate("document.querySelector('.ss-q[data-q=\"3\"]').click()"); pg.wait_for_timeout(1500)
-    check('Each realm has its own window (Highlands: %s)' % pg.evaluate("LSS.window(3).z.r"), pg.evaluate("LSS.window(3).z.r") == 3)
+    check('Each realm has its own window (Cragland: %s)' % pg.evaluate("LSS.window(3).z.r"), pg.evaluate("LSS.window(3).z.r") == 3)
     check('No Lab script errors', not errs, errs[:3])
 with game(new=True) as g:
     g.wait(3500)

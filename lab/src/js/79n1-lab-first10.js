@@ -34,7 +34,7 @@
     ['twinWave','Your twin waves','Zoldor (or Zola) is seen at the library window as you pass with Oswin — the twin introduced in the world, not only in words.']];
   var tag=function(k){ var v=P(k).verdict; return '<span class="wl-seg" data-k="'+k+'">'+[['pick','✓ Do it'],['maybe','? Not sure'],['cut','✕ No']].map(function(b){ return '<button class="vbtn wl-sg'+(v===b[0]?' on '+b[0]:'')+'" data-v="'+b[0]+'">'+b[1]+'</button>'; }).join('')+'</span>'; };
   LAB_TABS.push({ id:'first10', name:'The first ten minutes',
-    blurb:'<b>Round 137 — the first ten minutes, as the game plays them now.</b> Each beat: what you do, who says what (their words), what it teaches, your options, and how the game points you there. Below: what was fixed this round, and proposals to ✓.',
+    blurb:'<div class="w4-in"><b>Round 138:</b> you ✓ all seven proposals — I build them next round (the wolf fight moves onto the walk to the guild, one voice at a time, the map stop, Runa by doing, a first goal card, fewer words, your twin at the window).</div><b>Round 137 — the first ten minutes, as the game plays them now.</b> Each beat: what you do, who says what (their words), what it teaches, your options, and how the game points you there. Below: what was fixed this round, and proposals to ✓.',
     designs:[{id:'first10',name:'The first ten minutes'}],
     render:function(){ var h='<table class="f10"><tr><th>When</th><th>Beat</th><th>You do</th><th>Who says what</th><th>It teaches</th><th>Your options</th><th>How you are pointed</th></tr>'+
         B.map(function(b){ return '<tr>'+b.map(function(c,i){ return '<td'+(i===3?' class="f10-say"':'')+'>'+(i===3?c:esc(c))+'</td>'; }).join('')+'</tr>'; }).join('')+'</table>';

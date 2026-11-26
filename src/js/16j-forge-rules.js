@@ -30,7 +30,7 @@ var ZFT={ on:true, ID:'modal-forgetrial',
     cinder:{t:'🌋 The Cinder Forge — the Lava Tide', lead:'The forge breathes. Lava channels across the way rise and fall.', steps:[
       [null,'<b>1 · Watch the channels.</b> A channel floods for about 6 seconds, then drains for about 5. Standing in it while it is up burns you.','🌊'],
       ['fr_bellows','<b>2 · Pump the bellows.</b> Each channel has great bellows beside it — press <b>Tab</b> to hold that channel drained for ten seconds. Then cross.','💨']]},
-    slag:{t:'⛏ The Slag Forge — the Ore-Cart Rails', lead:'Mine rails run through the deep workings.', steps:[
+    slag:{t:'⛏ The Clinker Forge — the Ore-Cart Rails', lead:'Mine rails run through the deep workings.', steps:[
       ['fr_cart','<b>1 · Ride the cart.</b> Press <b>Tab</b> at the ore-cart: it carries you along the rails toward the way down, and nothing can hurt you while it runs.','🛒'],
       ['fr_switch','<b>2 · Throw the switch</b> (Tab) before you ride, and the cart takes the spur to a side gallery with ore and a chest instead.','🔀']]},
     ash:{t:'⛓ The Ash Forge — Free the Toilers', lead:'The spirits toil here for Surtharn. A spirit door seals each way down.', steps:[

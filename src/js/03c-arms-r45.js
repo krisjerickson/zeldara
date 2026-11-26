@@ -50,14 +50,14 @@ var ITEMS_R45={
 // where each rare item comes from: castle wardens / tower masters of the pair (first win: always; later wins: 1 in 4), realm bosses (sec),
 // or the Alphas of either element (1 in 5). Shown in the Tome and the forge.
 var R45_RARE={
-  phoenix_ember: {els:['fire','grass'],  wardens:['q1_c'],masters:[],boss:[],alpha:true, how:'The Ember-and-Thorn warden of the Grasslands castle gives one the first time; fire and grass Alphas sometimes drop one.'},
-  lotus_pearl:   {els:['water','grass'], wardens:['q2_b','q2_d'],masters:['mire_tower'],boss:[],alpha:false, how:'The Wetlands castle wardens of water and grass, and the master of the Mire Tower.'},
-  abyss_pearl:   {els:['water','shadow'],wardens:['q2_c'],masters:['drowned_lighthouse'],boss:[],alpha:false, how:'The water-and-shadow warden of the Wetlands, and the master of the Drowned Lighthouse.'},
-  obsidian_heart:{els:['fire','shadow'], wardens:[],masters:[],boss:[4],alpha:true, how:'The Ashlands realm guardians (dungeon and tower) on their first defeat; fire and shadow Alphas sometimes drop one.'},
+  phoenix_ember: {els:['fire','grass'],  wardens:['q1_c'],masters:[],boss:[],alpha:true, how:'The Ember-and-Thorn warden of Gildenmark castle gives one the first time; fire and grass Alphas sometimes drop one.'},
+  lotus_pearl:   {els:['water','grass'], wardens:['q2_b','q2_d'],masters:['mire_tower'],boss:[],alpha:false, how:'Fernheim castle wardens of water and grass, and the master of the Mire Tower.'},
+  abyss_pearl:   {els:['water','shadow'],wardens:['q2_c'],masters:['drowned_lighthouse'],boss:[],alpha:false, how:'The water-and-shadow warden of Fernheim, and the master of the Drowned Lighthouse.'},
+  obsidian_heart:{els:['fire','shadow'], wardens:[],masters:[],boss:[4],alpha:true, how:'Cinderheim realm guardians (dungeon and tower) on their first defeat; fire and shadow Alphas sometimes drop one.'},
   thunderseed:   {els:['grass','storm'], wardens:[],masters:['rootspire','lightning_rod'],boss:[],alpha:true, how:'The masters of the Rootspire and the Lightning Rod; grass and storm Alphas sometimes drop one.'},
-  lodestone:     {els:['earth','storm'], wardens:['q1_d'],masters:[],boss:[3],alpha:false, how:'The earth-and-storm warden of the Grasslands castle, and the Highlands realm guardians.'},
+  lodestone:     {els:['earth','storm'], wardens:['q1_d'],masters:[],boss:[3],alpha:false, how:'The earth-and-storm warden of Gildenmark castle, and Cragland realm guardians.'},
   squall_pearl:  {els:['water','storm'], wardens:[],masters:['conductor','frozen_belfry'],boss:[],alpha:true, how:'The masters of the Conductor and the Frozen Belfry; water and storm Alphas sometimes drop one.'},
-  grave_amber:   {els:['earth','shadow'],wardens:['q4_b'],masters:['monolith'],boss:[],alpha:false, how:'The earth-and-shadow warden of the Ashlands castle, and the master of the Monolith.'}
+  grave_amber:   {els:['earth','shadow'],wardens:['q4_b'],masters:['monolith'],boss:[],alpha:false, how:'The earth-and-shadow warden of Cinderheim castle, and the master of the Monolith.'}
 };
 (function(){ if(typeof ITEMS==='undefined')return;
   Object.keys(ITEMS_R45).forEach(function(k){ var it=ITEMS_R45[k]; if(it.el&&typeof ZEL!=='undefined')it.element=it.el.map(function(e){ return ZEL.E[e].n.toLowerCase(); }).join(' & '); ITEMS[k]=it; });

@@ -151,7 +151,7 @@ ZBrand.glyph=function(q,p,ch,x,y){ if(p[1]>1.05){ q.lineWidth=5*(p[1]-1)*3; q.li
   else if(p[1]<0.5){ q.globalAlpha=0.5; q.lineWidth=1.3; q.strokeText(ch,x,y); }
   else { var g=q.createLinearGradient(0,y-72,0,y+4); g.addColorStop(0,'#fff3c0'); g.addColorStop(0.45,'#f2c14e'); g.addColorStop(1,'#b47a1e'); q.fillStyle=p.grad===false?q.fillStyle:g; q.fillText(ch,x,y); } };
 
-// ═══════════ WORDMARKS, round 11 — all gold, built on Engraved Capitals and Highland Wide, with war axes ═══════════
+// ═══════════ WORDMARKS, round 11 — all gold, built on Engraved Capitals and Cragland Wide, with war axes ═══════════
 (function(){ var PI=Math.PI, G=ZBrand.GOLD, FE='"Cinzel Decorative","Cinzel",Georgia,serif', FH='"Marcellus SC","Palatino Linotype",serif', FC='"Cinzel",Georgia,serif', Z='ZOLA';
   var W2=function(id,name,desc,o){ ZBrand.WORDS.push(Object.assign({id:id,name:name,col:G,style:'gilded',desc:desc,gen:2,kind:'custom'},o)); };
   var erase=function(q,f){ q.save(); q.globalCompositeOperation='destination-out'; f(); q.restore(); };
@@ -163,15 +163,15 @@ ZBrand.glyph=function(q,p,ch,x,y){ if(p[1]>1.05){ q.lineWidth=5*(p[1]-1)*3; q.li
       P.w(0.7); rule(P,-w,-1.05,-0.78); rule(P,1.05,w,-0.78); P.w(0.7).ln([-w,0.98,w,0.98]).ln([-w,1.5,w,1.5]); P.w(0.6); runes(P,-w+0.1,w-0.1,1.24,0.3,1); }});
   W2('axe_l','Axe for an L','Heavy capitals where a war axe stands in for the L: the haft is the stroke, the blade is the foot.',{oy:0.55,paint:function(P,q,p){ var adv=[]; adv[2]=1.08; var m=ZBrand.text(q,p,Z,FC,'900',1.4,0.13,0,0,{adv:adv,skip:{2:1}}), w=m.w/2;
       P.axe(m.xs[2]+0.14,-0.6,1.8,PI,true); P.w(0.7); rule(P,-w,w,0.92,true); P.w(0.5).ln([-w*0.6,1.08,w*0.6,1.08]); }});
-  W2('great_axe','Great Axe Underline','Wide Highland capitals resting on a long war axe, runes carved beneath its haft.',{oy:-0.45,paint:function(P,q,p){ var m=ZBrand.text(q,p,Z,FH,'400',1.22,0.34,0,-0.1), w=m.w/2, xr=w+0.55, y=0.92;
+  W2('great_axe','Great Axe Underline','Wide Cragland capitals resting on a long war axe, runes carved beneath its haft.',{oy:-0.45,paint:function(P,q,p){ var m=ZBrand.text(q,p,Z,FH,'400',1.22,0.34,0,-0.1), w=m.w/2, xr=w+0.55, y=0.92;
       P.axe(xr-0.25,y,1.9,PI/2,false); P.w(0.9).ln([-w-0.3,y-0.042,xr-1.2,y-0.042]).ln([-w-0.3,y+0.042,xr-1.2,y+0.042]); P.w(0.5); for(var i=0;i<7;i++){ var x=-w-0.2+i*0.11; P.ln([x,y-0.06,x+0.05,y+0.06]); } P.w(0.9).ci(-w-0.42,y,0.1); P.w(0.5); for(var k=0;k<3;k++){ var bx=-w*0.2+k*w*0.4; P.ln([bx,y-0.07,bx,y+0.07]).ln([bx+0.07,y-0.07,bx+0.07,y+0.07]); }
       P.w(0.55); runes(P,-w+0.1,xr-1.7,y+0.42,0.26,2); P.w(0.6).ln([-w,-0.92,w,-0.92]); dia(P,0,-0.92,0.08); }});
   W2('twin_axes','Twin Axes','Engraved capitals guarded by an upright war axe on each side.',{paint:function(P,q,p){ var m=ZBrand.text(q,p,Z,FE,'700',1.3,0.12,0,0), w=m.w/2;
       P.axe(-w-0.7,0.02,2.5,0,true); P.axe(w+0.7,0.02,2.5,0,false); P.w(0.7); rule(P,-w+0.1,w-0.1,-0.86,true); rule(P,-w+0.1,w-0.1,0.86,true); P.w(0.45).ln([-w*0.7,-1.0,w*0.7,-1.0]).ln([-w*0.7,1.0,w*0.7,1.0]); }});
-  W2('dragon_rule','Dragon Lines','Highland capitals between two braided lines; the upper one ends in dragon heads.',{paint:function(P,q,p){ var m=ZBrand.text(q,p,Z,FH,'400',1.22,0.34,0,0), w=m.w/2, f=ZBrand.seg(-w+0.2,-0.95,w-0.2,-0.95), g=ZBrand.seg(-w-0.2,0.95,w+0.2,0.95);
+  W2('dragon_rule','Dragon Lines','Cragland capitals between two braided lines; the upper one ends in dragon heads.',{paint:function(P,q,p){ var m=ZBrand.text(q,p,Z,FH,'400',1.22,0.34,0,0), w=m.w/2, f=ZBrand.seg(-w+0.2,-0.95,w-0.2,-0.95), g=ZBrand.seg(-w-0.2,0.95,w+0.2,0.95);
       P.w(0.4).rail(f,-0.12,2).rail(f,0.12,2).rail(g,-0.12,2).rail(g,0.12,2); P.w(0.75).braid(f,Math.round(w*7),0.065).braid(g,Math.round(w*7.4),0.065); P.dragon(w+0.14,-1.0,0.34,-0.1,false); P.dragon(-w-0.14,-1.0,0.34,0.1,true);
       P.w(0.8); [-1,1].forEach(function(s){ P.ln([s*(w+0.2),0.83,s*(w+0.5),0.95,s*(w+0.2),1.07],true); }); }});
-  W2('key_bands','Key-Border Bands','Highland capitals between two angular key borders, like a carved lintel.',{paint:function(P,q,p){ var m=ZBrand.text(q,p,Z,FH,'400',1.22,0.34,0,0), w=m.w/2+0.2, n=Math.round(w*2/0.36);
+  W2('key_bands','Key-Border Bands','Cragland capitals between two angular key borders, like a carved lintel.',{paint:function(P,q,p){ var m=ZBrand.text(q,p,Z,FH,'400',1.22,0.34,0,0), w=m.w/2+0.2, n=Math.round(w*2/0.36);
       P.w(0.6).meander(ZBrand.seg(-w,-0.98,w,-0.98),n,0.11).meander(ZBrand.seg(w,0.98,-w,0.98),n,0.11); P.w(0.8); [-1,1].forEach(function(s){ P.ln([s*w,-1.09,s*w,-0.87]).ln([s*w,1.09,s*w,0.87]); dia(P,s*(w+0.22),-0.98,0.09); dia(P,s*(w+0.22),0.98,0.09); P.axe(s*(w+0.75),0,1.5,0,s<0); }); }});
   W2('knot_plaque','Knotwork Plaque','Engraved capitals in a braided knot border, crossed axes set into the top.',{oy:0.2,paint:function(P,q,p){ var m=ZBrand.text(q,p,Z,FE,'700',1.24,0.12,0,0.05), w=m.w/2+0.55, t=-1.0, b=1.1, mx=Math.round(w*2/0.3), my=Math.round((b-t)/0.3);
       [[-w,t,w,t,mx],[w,t,w,b,my],[w,b,-w,b,mx],[-w,b,-w,t,my]].forEach(function(r){ var f=ZBrand.seg(r[0],r[1],r[2],r[3]); P.w(0.4).rail(f,-0.13,2).rail(f,0.13,2); P.w(0.75).braid(f,r[4],0.07); });

@@ -681,7 +681,7 @@ class WorldScene extends Phaser.Scene{
       boar:        {name:'Wild Boar',   icon:'🐗',hp:25, atk:14,r:16,spd:75, sec:1,color:0x704830,fleeR:160,safeType:T.SMALL_BOULDER},
       crocodile:   {name:'Crocodile',   icon:'🐊',hp:40, atk:16,r:18,spd:65, sec:2,color:0x2a6820,fleeR:180,safeType:T.DEEP_WATER},
       swamp_bear:  {name:'Swamp Bear',  icon:'🐻',hp:50, atk:20,r:18,spd:70, sec:2,color:0x3a2818,fleeR:140,safeType:T.SHALLOW_WATER},
-      highland_ram:{name:'Highland Ram',icon:'🐏',hp:60, atk:12,r:15,spd:90, sec:3,color:0xa89878,fleeR:190,safeType:T.LARGE_BOULDER},
+      highland_ram:{name:'Cragland Ram',icon:'🐏',hp:60, atk:12,r:15,spd:90, sec:3,color:0xa89878,fleeR:190,safeType:T.LARGE_BOULDER},
       cave_bear:   {name:'Cave Bear',   icon:'🐻',hp:72, atk:22,r:18,spd:60, sec:3,color:0x584838,fleeR:130,safeType:T.LARGE_BOULDER},
       lava_wyrm:   {name:'Lava Wyrm',   icon:'🦎',hp:80, atk:24,r:16,spd:80, sec:4,color:0xcc4400,fleeR:150,safeType:T.DEEP_MAGMA},
       ash_titan:   {name:'Ash Titan',   icon:'🦍',hp:92, atk:26,r:20,spd:55, sec:4,color:0x4a3028,fleeR:120,safeType:T.OBSIDIAN},
@@ -1515,7 +1515,7 @@ class WorldScene extends Phaser.Scene{
     var _spdMult=1;
     if(this._sprintTimer>0)_spdMult=2.0;
     else if(this._berserkerTimer>0)_spdMult=1.5;
-    // Wetlands shallow water: 20% slow unless mount can cross water
+    // Fernheim shallow water: 20% slow unless mount can cross water
     var _pTx=Math.floor(p.x/TILE),_pTy=Math.floor(p.y/TILE);
     var _curTile=this.tiles[_pTy]?this.tiles[_pTy][_pTx]:T.OCEAN;
     // Signature terrain: slow on foot (water, marsh, boulders, lava crust),

@@ -390,7 +390,7 @@ function extGarden(grassA,grassB,water){ return function(ctx,W,H,m,R){ ctx.fillS
 // ═══════════════════════════════════════════════════════════════════════
 function towerStyle(o){ return Object.assign({windowEvery:3,glass:0.25,ao:0.2},o); }
 var TOWER_STYLES=[
-  towerStyle({ id:'rivendell', name:'Rivendell Twilight Hall', plan:'grand', seed:11,
+  towerStyle({ id:'rivendell', name:'The Dusk Hall', plan:'grand', seed:11,
     tagline:'Warm white stone, arched glass, dusk light',
     blurb:'Honey-white stone under an evening sky. Tall arched windows pour amber light across leaf-inlaid floors, lanterns glow in the halls, and leaves drift in through open arches.',
     facts:['Plan: Grand floor (9 rooms around an atrium)','Centerpiece: fountain','Light: amber dusk shafts, lanterns'],
@@ -401,7 +401,7 @@ var TOWER_STYLES=[
     particles:[{tex:'leaf',tints:['#d9a55a','#b8c46a','#e08a4a'],freq:500,vx:{min:10,max:25},vy:{min:8,max:18},scale:{start:0.9,end:0.6},alpha:{start:0.9,end:0},life:{min:6000,max:9000},blend:false,rotate:{min:0,max:360},depth:6500},
                {col:'#ffd9a0',freq:180,scale:{start:0.35,end:0},alpha:{start:0.7,end:0}}] }),
 
-  towerStyle({ id:'hyrule_keep', name:'White Keep', plan:'gallery', seed:21, windowEvery:2, glass:0.1,
+  towerStyle({ id:'hyrule_keep', name:'The Pale Keep', plan:'gallery', seed:21, windowEvery:2, glass:0.1,
     tagline:'Limestone, royal blue runners, gold trim',
     blurb:'A royal keep in bright daylight: white limestone checkerboard floors, royal blue runners edged in gold, and banners carrying the winged-sword crest of the realm between tall windows.',
     facts:['Plan: Long hall (rooms off a central gallery)','Centerpiece: fountain','Light: crisp noon shafts'],
@@ -424,7 +424,7 @@ var TOWER_STYLES=[
     particles:[{col:'#bfe0ff',freq:90,scale:{start:0.45,end:0},alpha:{start:0.9,end:0},vy:{min:-14,max:-4}}],
     extra:function(m){ m.tick=function(scene){ if(!scene._floorGlow){ scene._floorGlow=scene.add.image(0,0,'glow').setBlendMode(Phaser.BlendModes.ADD).setTint(0xaee0ff).setAlpha(0.35).setScale(1.3).setDepth(-3);} scene._floorGlow.setPosition(scene.hero.x,scene.hero.y); }; } }),
 
-  towerStyle({ id:'elven_library', name:'Elven Library', plan:'grand', seed:41, glass:0.35, windowEvery:4,
+  towerStyle({ id:'elven_library', name:'The Leafbound Library', plan:'grand', seed:41, glass:0.35, windowEvery:4,
     tagline:'Carved white wood, skylights, floating lanterns',
     blurb:'Every room is a reading room. Pale carved-wood floors, shelves in every wing, square skylights dropping pools of light, and paper lanterns that float and bob above the tables.',
     facts:['Plan: Grand floor','Centerpiece: white tree growing through the atrium','Light: skylight pools, floating lanterns'],
@@ -461,7 +461,7 @@ var TOWER_STYLES=[
     particles:[{tex:'leaf',tints:['#b8d88a','#e8f0a0','#8fc070'],freq:600,vx:{min:-10,max:10},vy:{min:6,max:14},scale:{start:0.8,end:0.5},alpha:{start:0.9,end:0},life:{min:6000,max:9000},blend:false,rotate:{min:0,max:360},depth:6500},
                {col:'#f0ffc8',freq:300,scale:{start:0.35,end:0},alpha:{start:0.7,end:0}}] }),
 
-  towerStyle({ id:'frost_cathedral', name:'Frost Cathedral', plan:'grand', seed:71, windowEvery:2, glass:0.3,
+  towerStyle({ id:'frost_cathedral', name:'Rimehall', plan:'grand', seed:71, windowEvery:2, glass:0.3,
     tagline:'Ice-blue stone and stained glass',
     blurb:'Cool blue-white stone with a faint frost sheen. Stained-glass windows throw pools of blue, violet and teal light across the floor, chandeliers glitter, and a fine frost mist hangs in the air.',
     facts:['Plan: Grand floor','Centerpiece: moonglass crystal','Light: coloured stained-glass pools'],
@@ -485,7 +485,7 @@ var TOWER_STYLES=[
     particles:[{col:'#ffffff',freq:120,scale:{start:0.3,end:0},alpha:{start:1,end:0},vx:{min:-1,max:1},vy:{min:-1,max:1},life:{min:1200,max:2600}}],
     extra:function(m,ctx,W,H,R,info){ info.plan.rooms.forEach(function(r){ if(r.type==='study'||r.type==='library'){ TOWER_TALL.telescope(m,(r.x+info.pad+r.w-2)*LT,(r.y+info.pad+r.h-2)*LT,LT,LT,TOWER_STYLES_BY_ID.observatory); } }); } }),
 
-  towerStyle({ id:'reflecting_hall', name:'Reflecting Hall', plan:'gallery', seed:91, glass:0.15,
+  towerStyle({ id:'reflecting_hall', name:'The Still Hall', plan:'gallery', seed:91, glass:0.15,
     tagline:'Shallow pools mirroring white pillars',
     blurb:'Long shallow pools run through the halls and mirror the pillars and the sky. White stone and sky blue, with slow ripples of light moving over every surface.',
     facts:['Plan: Long hall','Centerpiece: reflecting pool','Light: rippling water caustics'],

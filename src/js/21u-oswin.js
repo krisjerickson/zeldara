@@ -45,7 +45,7 @@ var ZOSW={ on:true, NAME:'Master Oswin', ID:'npc_guild', PAY:50,
   // the net: on the shore of Mirror Lake, the side farthest from the village
   // round 110 (Kris: "the beginning quest of finding the fisher's net is not currently possible, as the skeleton dog standing over it is in
   // the highlands, and stuck there"): the net lies on a shore of Mirror Lake you can WALK to from the village without leaving the
-  // Grasslands — found by walking out from the Green over open ground of the village and the Grasslands only; the farthest such shore.
+  // Gildenmark — found by walking out from the Green over open ground of the village and Gildenmark only; the farthest such shore.
   // A save whose net lay somewhere else gets the new place.
   reach:function(ws){ if(ws._tqReach&&ws._tqReach.wd===ws.wd)return ws._tqReach; var W=WORLD_W, H=WORLD_H, seen=new Uint8Array(W*H), q=[CENTER_Y*W+CENTER_X], shore=[], L=(typeof ZASG!=='undefined'&&ZASG.LAKE)||{x:600,y:600}, tl=ws.tiles||ws.wd.tiles;
     var ok=function(x,y){ if(x<1||y<1||x>=W-1||y>=H-1)return false; if(Math.hypot(x-CENTER_X,y-CENTER_Y)>150)return false; var sc=getTileSection(x,y)||0; if(sc!==0&&sc!==1)return false; return !ws._canGo||ws._canGo(x*TILE+16,y*TILE+16,null); };
@@ -90,7 +90,7 @@ var ZOSW={ on:true, NAME:'Master Oswin', ID:'npc_guild', PAY:50,
         ws.textures.addCanvas('zosw_net',c); } im=ws.add.image(N.x,N.y+10,'zosw_net').setOrigin(0.5,1).setScale(0.9); }
     return im.setDepth(WR_DEPTH(N.y)); },
   netMake:function(ws,N){ try{ var im=ZOSW.netImage(ws,N); ws._tqNet=im; ws.events.once('shutdown',function(){ ws._tqNet=null; ws._tqNetG=null; ws._tqNetP=null; });
-      var pool=(typeof MON_ROSTER!=='undefined'?MON_ROSTER:[]).filter(function(R){ return R.q===1&&typeof MX!=='undefined'&&MX.kit(R.id)&&!(typeof MON_LEGACY!=='undefined'&&MON_LEGACY[R.id]); }), bones=pool.filter(function(R){ return /skelet|bone|barrow|wight|crypt|grave/.test(R.id); }), id=((bones.length?bones:pool)[0]||{}).id; ws._tqNetG=[]; if(!id)return;      /* the Grasslands' own skeletons (those the monster engine knows) */
+      var pool=(typeof MON_ROSTER!=='undefined'?MON_ROSTER:[]).filter(function(R){ return R.q===1&&typeof MX!=='undefined'&&MX.kit(R.id)&&!(typeof MON_LEGACY!=='undefined'&&MON_LEGACY[R.id]); }), bones=pool.filter(function(R){ return /skelet|bone|barrow|wight|crypt|grave/.test(R.id); }), id=((bones.length?bones:pool)[0]||{}).id; ws._tqNetG=[]; if(!id)return;      /* Gildenmark's own skeletons (those the monster engine knows) */
       [[-60,-20],[56,24]].forEach(function(o){ var gx=N.x+o[0], gy=N.y+o[1]; for(var t=0;t<16&&ws._canGo&&!ws._canGo(gx,gy,null);t++){ var a=t*0.9; gx=N.x+Math.cos(a)*(40+t*4); gy=N.y+Math.sin(a)*(30+t*3); }      /* round 110: on ground you can reach */
         var m=typeof MX!=='undefined'?MX.spawn(ws,id,gx,gy,{q:1,temp:true}):null; if(m){ m.section=1; m._guard=true; ws.worldMonsters.push(m); ws._tqNetG.push(m); } }); }catch(e){ console.warn('net',e); } },
   take:function(ws){ var T=ZOSW.tq(ws.playerState); if(T.net!==1||!ws._tqNet)return false; var N=ZOSW.netSpot(ws); if(Math.hypot(ws.player.x-N.x,ws.player.y-N.y)>TILE*1.6)return false;

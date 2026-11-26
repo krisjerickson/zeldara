@@ -37,7 +37,7 @@ need = set(re.findall(r"\['([a-z_]+)','([a-z_]+)','", open(os.path.join(R, 'lab'
 miss = [n for p in need for n in p if not os.path.exists(os.path.join(R, 'lab', 'preview', 'worldlook2', n + '.jpg'))]
 check('Lab › The world, revamped 2: every picture it shows exists (%d pairs)' % len(need), 'worldlook2' in lab and not miss, miss)
 s5 = [s for s in ('sp', 'su', 'au', 'wi', 'bl') for p in ('village', 'grass') if not os.path.exists(os.path.join(R, 'lab', 'preview', 'seasons5', 'season_%s_%s.jpg' % (s, p)))]
-check('Lab › The five seasons: the village and the Grasslands in all five', "id:'seasons5'" in lab.replace('"', "'") and not s5, s5)
+check('Lab › The five seasons: the village and Gildenmark in all five', "id:'seasons5'" in lab.replace('"', "'") and not s5, s5)
 # ── boss fights remade ──
 D = json.loads(open(os.path.join(R, 'lab', 'src', 'js', '79y-0-bossplan-data.js'), encoding='utf-8').read().split('var LBPLAN=', 1)[1].rstrip().rstrip(';'))
 T = {t['id']: t for t in D['types']}

@@ -5,7 +5,7 @@ group: mages
 realm: 1
 title: The Rime Spire
 ## Backstory
-Frostwhisper kept the winter herbs for the Grasslands farms: she knew which frost made the sweetest turnips and which would kill a lamb. When
+Frostwhisper kept the winter herbs for Gildenmark farms: she knew which frost made the sweetest turnips and which would kill a lamb. When
 the gate shut she climbed her spire with the Frost Bolt and pulled the ladder up after her, meaning to wait one winter for someone worthy.
 The winter never ended in her head. Twenty-eight years later the frost still creeps from her feet because she has forgotten how to stop it.
 ## Scene
@@ -26,7 +26,7 @@ on one page — the page that says the road up is closed — and wrote it again 
 Storm for "the next true thing", and has been reading the same page for twenty-eight years.
 ## Scene
 Quillon before the dark: a younger bearded wizard in violet at a high window of a tower full of floating books, the self-writing book open
-before him, filling with bright new lines as a sunrise floods the Grasslands below.
+before him, filling with bright new lines as a sunrise floods Gildenmark below.
 ## After
 - My book has turned a page. For the first time in twenty-eight years. Look — it is writing about you. Take the spell. I would like to read something new.
 
@@ -53,10 +53,10 @@ group: mages
 realm: 1
 title: The Rootspire
 ## Backstory
-Bramblebeard planted half the hedges of the Grasslands, and stood so long in his grove after the gate shut — listening for a season that
+Bramblebeard planted half the hedges of Gildenmark, and stood so long in his grove after the gate shut — listening for a season that
 never came — that his beard grew into the brambles. He kept the Thorn spell because thorns protect what grows, and nothing was growing.
 ## Scene
-Bramblebeard before the dark: an old druid planting a hedge along a Grasslands lane in spring, children of the farm handing him saplings,
+Bramblebeard before the dark: an old druid planting a hedge along a Gildenmark lane in spring, children of the farm handing him saplings,
 blossom on every bush; his beard long and white and only a little tangled with leaves.
 ## After
 - There. Do you feel that? Something in the roots. A season, coming. I have waited twenty-eight years to feel it. Take the Thorns — they guard growing things.
@@ -68,11 +68,11 @@ group: mages
 realm: 2
 title: The Conductor's Spire
 ## Backstory
-Voltara called the rain for the Wetland mills and turned the storms away from the harvest. On the night of the Black Tide she called every
+Voltara called the rain for the Fernheim mills and turned the storms away from the harvest. On the night of the Black Tide she called every
 storm she had to push the river back — and failed; the Tide came up from below. She has stood on her spire ever since with her hair full of
 lightning, guarding the Arc Lightning, unable to put the storm down.
 ## Scene
-Voltara before the dark: a storm sorceress on a mill-tower roof above the Silverrun, gently drawing a summer rain over golden Wetland
+Voltara before the dark: a storm sorceress on a mill-tower roof above the Silverrun, gently drawing a summer rain over golden Fernheim
 fields, millers waving from below, rainbows over the river.
 ## After
 - I can put it down. The storm. I did not know I could. Take the Arc Lightning — and call rain with it, sometimes, not only thunder.
@@ -101,7 +101,7 @@ realm: 2
 title: The Mire Tower
 ## Backstory
 Mother Morrow cursed cheats and blessed honest boats for every market on the Silverrun, and was the least trusted and most needed woman in
-the Wetlands. When the Tide came she hexed the Binders who came for her dead, and held them off for a year before the marsh took her
+Fernheim. When the Tide came she hexed the Binders who came for her dead, and held them off for a year before the marsh took her
 tower. She guards the Thunder Storm and trusts nobody — least of all anybody polite.
 ## Scene
 Mother Morrow before the dark: a crooked bog-witch at a busy floating market on the Silverrun, glaring at a cheating merchant while blessing
@@ -130,13 +130,13 @@ key: mg_ember_observatory
 who: Pyrrhia the Nova Sorceress
 group: mages
 realm: 3
-title: The Ember Observatory
+title: The Nova Dome
 ## Backstory
-Pyrrhia watched the stars from the highest observatory in the Highlands and wrote down every new light in the sky. On the night the gate
+Pyrrhia watched the stars from the highest observatory in Cragland and wrote down every new light in the sky. On the night the gate
 shut she watched two lights go out above the clouds and wrote it down, and never wrote another line. She keeps the Flame Wave and a sky-map
 that ends on that night.
 ## Scene
-Pyrrhia before the dark: a star-gazing mage at a great brass telescope in a domed observatory on a Highland peak, tiny suns orbiting her
+Pyrrhia before the dark: a star-gazing mage at a great brass telescope in a domed observatory on a Cragland peak, tiny suns orbiting her
 staff, apprentices around her pointing at a sky crowded with stars and a bright white city high in the clouds.
 ## After
 - I can see new stars again. Small ones. Coming back. I will start the map again tonight. Take the Flame Wave.
@@ -148,7 +148,7 @@ group: mages
 realm: 3
 title: The Hollow Spire
 ## Backstory
-Nihilus studied the dark between the stars so that others would not have to; the Highland miners went to him when they heard things in the
+Nihilus studied the dark between the stars so that others would not have to; the Cragland miners went to him when they heard things in the
 deep. When the stone began to sing he told them not to dig. They dug. After the Stone-Fall he turned his face to the dark completely,
 guarding the Lightning Bolt, until only his eyes were left.
 ## Scene
@@ -162,9 +162,9 @@ key: mg_lightning_rod
 who: Stormhelm the Thunder Magus
 group: mages
 realm: 3
-title: The Lightning Rod Tower
+title: Stormspike
 ## Backstory
-Stormhelm was the Highlands' battle-mage, captain of the guard on the cliff road to Highmark. When the Stone-Fall broke the road he held
+Stormhelm was Cragland's battle-mage, captain of the guard on the cliff road to Highmark. When the Stone-Fall broke the road he held
 the last stretch of it alone for three days while Highmark's people climbed to safety, and has stood guard in his tower ever since, guarding
 the Blizzard, waiting for orders that never came.
 ## Scene
@@ -175,15 +175,15 @@ raised, holding back a rockslide with crackling light while a line of townsfolk 
 
 # Thane
 key: mg_monolith
-who: Gravelord Thane the Stone Shaper
+who: Thane Gravelstone the Stone Shaper
 group: mages
 realm: 3
 title: The Monolith
 ## Backstory
-Thane shaped the Highlands' stone: stairs, bridges, the great lake-facing runes. When the mountains broke he held the Monolith together with
+Thane shaped Cragland's stone: stairs, bridges, the great lake-facing runes. When the mountains broke he held the Monolith together with
 his own body, and has been half stone ever since, guarding the Spikes, cracked through with glowing runes and unable to let go.
 ## Scene
-Thane before the dark: a strong earth-mage carving a great rune-stair up a Highland cliff, workers cheering on the steps below, the runes
+Thane before the dark: a strong earth-mage carving a great rune-stair up a Cragland cliff, workers cheering on the steps below, the runes
 glowing gold as they are finished, all of them pointing toward a distant lake.
 ## After
 - I can let go of the stone now. It will hold. You saw to that. Take the Spikes — and walk my stairs sometime. They still lead somewhere.
@@ -195,7 +195,7 @@ group: mages
 realm: 4
 title: The Frostbitten Crown
 ## Backstory
-Hiemal was the Ashlands' cooler: an ice-mage who kept Askvald's forges from burning the city, beloved in a land of fire. On the Ash Night he
+Hiemal was Cinderheim's cooler: an ice-mage who kept Askvald's forges from burning the city, beloved in a land of fire. On the Ash Night he
 put every bit of cold he had around the city — and it was not enough. He froze himself on his throne with the Frost Storm rather than feel
 the heat again.
 ## Scene
@@ -204,18 +204,18 @@ gathering round him as cool snow drifts from his hands; red forges and towers be
 ## After
 - It is cold, and it is enough. For the first time it is enough. Take the Frost Storm. Use it to cool things, not to stop them.
 
-# Xal'zor
+# Vargrim
 key: mg_rift_tower
-who: Xal'zor the Rift Lich
+who: Vargrim the Rift Lich
 group: mages
 realm: 4
 title: The Rift Tower
 ## Backstory
-Xal'zor was a scholar of the roads between places, who tried on the Ash Night to tear a way out of the burning Ashlands for its people. The
+Vargrim was a scholar of the roads between places, who tried on the Ash Night to tear a way out of the burning Cinderheim for its people. The
 rift opened, and it opened into nowhere, and it took him. He has guarded the Void Blast ever since as a thing of torn space, stars showing
 through the holes in his robe.
 ## Scene
-Xal'zor before the dark: a determined scholar in a dark robe in an Ashland city square at night, tearing open a shimmering doorway of starlight
+Vargrim before the dark: a determined scholar in a dark robe in a Cinderheim city square at night, tearing open a shimmering doorway of starlight
 with both hands as frightened families crowd toward it and fire glows on the horizon.
 ## After
 - The tear is closing. I can feel the edges of myself again. Take the Void Blast. And if you ever need a door — build one. Do not tear it.
@@ -227,11 +227,11 @@ group: mages
 realm: 4
 title: The Crimson Spire
 ## Backstory
-Vesperine was a healer who drew sickness out of people and bore it herself. When the Binders came for the Ashlands' dead, she drew the
+Vesperine was a healer who drew sickness out of people and bore it herself. When the Binders came for Cinderheim's dead, she drew the
 chains' cold into herself to spare them — and kept drawing, until she could not stop taking. She guards the Drain spell in her red tower,
 pale and hungry, hating what she has become.
 ## Scene
-Vesperine before the dark: a gentle healer in crimson velvet at the bedside of a sick old man in an Ashland home, a soft red light flowing
+Vesperine before the dark: a gentle healer in crimson velvet at the bedside of a sick old man in a Cinderheim home, a soft red light flowing
 from him into her hands, his family holding each other and smiling with relief.
 ## After
 - I am not hungry. For the first time — I am not hungry. Take the Drain. Use it gently. It was for healing, once.
@@ -243,10 +243,10 @@ group: mages
 realm: 4
 title: The Astral Spire
 ## Backstory
-Astraeus was the oldest mage in Runeheim, who sewed real stars into his robe — one for each child born in the Ashlands, so their light
+Astraeus was the oldest mage in Runeheim, who sewed real stars into his robe — one for each child born in Cinderheim, so their light
 would be kept. On the Ash Night the stars on his robe went cold one by one. He guards the Inferno in his dreaming loft, counting them.
 ## Scene
-Astraeus before the dark: an ancient star-sorcerer in a midnight robe sewn with glowing stars, sitting by a cradle in an Ashland home,
+Astraeus before the dark: an ancient star-sorcerer in a midnight robe sewn with glowing stars, sitting by a cradle in a Cinderheim home,
 gently sewing one new bright star onto his sleeve while the parents watch in the firelight.
 ## After
 - One of the stars on my robe is warm again. Only one. But it is warm. Take the Inferno. I will keep counting — upward now.

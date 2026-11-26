@@ -49,11 +49,11 @@ WPROP.floatrock=function(c,ctx,x,y,w,h,o){ var m=c.m,R=c.R, s=o.s||1, alt=o.alt|
 WPROP.arch=function(c,ctx,x,y,w,h,o){ var col=o.col||'#bdb4a2', R=c.R; addSprite(c.m,x+w/2,y+h,w+20,150,function(g,W,H){ softShadow(g,W/2,H-4,W/2-4,7,0.35); g.fillStyle=shade(col,-0.15); g.fillRect(8,H-120,20,116); g.fillRect(W-28,H-120,20,116); g.fillStyle=col; g.beginPath(); g.moveTo(4,H-116); g.lineTo(W-4,H-116); g.lineTo(W-4,H-136); g.lineTo(4,H-136); g.fill(); g.strokeStyle=shade(col,-0.35); g.lineWidth=2; g.beginPath(); g.arc(W/2,H-90,W/2-28,Math.PI,0); g.stroke(); drawRune(g,W/2,H-126,14,o.rune||'#6fe3f5',R.i(0,9)); if(o.moss){ g.fillStyle='rgba(95,150,80,.55)'; g.fillRect(8,H-60,20,10); g.fillRect(W-28,H-40,20,8);} });
   addLight(c.m,x+w/2,y+h-126,70,o.rune||'#6fe3f5',0.38,{react:true,rune:true}); };
 
-// ═══ NE Grasslands ═════════════════════════════════════════════════════
+// ═══ Gildenmark ═════════════════════════════════════════════════════
 var G_GRASS=WK('grass','#4f8f3e','#6fae52',{sc:0.12,deco:WDECO.grass('rgba(40,90,30,.55)',0.4)});
 var WORLD_DESIGNS=[];
 WORLD_DESIGNS.push(
-{ id:'fairy_rings', quad:1, seed:101, name:'Fairy-Ring Meadows', tagline:'Glowing mushroom rings in wildflower meadows', runeCol:'#e0a8ff',
+{ id:'fairy_rings', quad:1, seed:101, name:'Ringmeadow',was:'Fairy-Ring Meadows', tagline:'Glowing mushroom rings in wildflower meadows', runeCol:'#e0a8ff',
   blurb:'Rolling meadows dotted with fairy rings: circles of glowing toadstools around faint rune circles that brighten as you step inside. Wildflowers, lone oaks and violet motes. The largest, the Queen\'s Ring, is the landmark.',
   ground:G_GRASS, kinds:[WK('wild','#3f7a34','#5c9a44',{deco:WDECO.grass('rgba(30,70,25,.6)',0.6)}),WK_PATH('#8a7e68','#a4967a')],
   hills:{sc:0.06,k:1.2},
@@ -64,7 +64,7 @@ WORLD_DESIGNS.push(
     c.scatter('flowers',55,{solid:false,claim:false,cols:['#ffd6e8','#fff3a8','#d8c0ff','#ffffff']}); c.scatter('tuft',50,{solid:false,claim:false}); },
   particles:[WPART.motes('#e8b8ff',120)] },
 
-{ id:'standing_stones', quad:1, seed:103, name:'Runic Standing Stones', tagline:'Stone circles joined by ley lines on the heath', runeCol:'#7fe8ff',
+{ id:'standing_stones', quad:1, seed:103, name:'The Whispering Stones',was:'Runic Standing Stones', tagline:'Stone circles joined by ley lines on the heath', runeCol:'#7fe8ff',
   blurb:'Open heath and heather with three ancient stone circles. Each stone carries a rune; a rune circle is carved in the middle, and glowing ley lines run between the circles across the grass.',
   ground:WK('heath','#6b7d4a','#879454',{sc:0.14,deco:WDECO.grass('rgba(60,70,30,.5)',0.35)}), kinds:[WK('heather','#6f5480','#8c6a98',{sc:0.2,deco:WDECO.dots(['#b890d0','#d8b0e8'],0.6)})],
   hills:{sc:0.05,k:1.6},
@@ -76,7 +76,7 @@ WORLD_DESIGNS.push(
     c.scatter('rock',18,{col:'#8a8578',moss:'#6a8a48'}); c.scatter('bush',10,{col:'#5a6a3a'}); c.scatter('tuft',40,{solid:false,claim:false,col:'#7a8a4a'}); },
   particles:[WPART.motes('#bff4ff',160)] },
 
-{ id:'windmill_hills', quad:1, seed:107, name:'Windmill Hills', tagline:'Rolling hills, windmills and glyph kites', runeCol:'#ffd27a',
+{ id:'windmill_hills', quad:1, seed:107, name:'Millwind Downs',was:'Windmill Hills', tagline:'Rolling hills, windmills and glyph kites', runeCol:'#ffd27a',
   blurb:'Big rolling green hills with golden crop strips, three windmills with turning sails, and kites painted with glowing glyphs tugging at their strings high above. Rune marks on each windmill brighten as you pass.',
   ground:WK('grass','#5f9a45','#86b85a',{sc:0.1,deco:WDECO.grass('rgba(50,100,35,.5)',0.3)}), kinds:[WK('crop','#c9b35a','#dcc56c',{sc:0.3,deco:function(ctx,px,py){ ctx.fillStyle='rgba(140,110,40,.35)'; for(var i=0;i<LT;i+=6)ctx.fillRect(px,py+i,LT,2); }}),WK_PATH('#948870','#ae9f82')],
   hills:{sc:0.045,k:2.6},
@@ -86,7 +86,7 @@ WORLD_DESIGNS.push(
     c.scatter('tree',10,{kind:'round',col:'#3f7a3a'}); c.scatter('bush',12,{col:'#4a7a3a'}); c.scatter('flowers',30,{solid:false,claim:false,cols:['#fff3a8','#ffffff','#ffb0b0']}); },
   particles:[WPART.petals(['#fff6c8','#ffffff','#e8f0a0'])] },
 
-{ id:'firefly_river', quad:1, seed:109, name:'Firefly River Valley', tagline:'A winding river, willows and fireflies', runeCol:'#c8ff80',
+{ id:'firefly_river', quad:1, seed:109, name:'Glimmerdale',was:'Firefly River Valley', tagline:'A winding river, willows and fireflies', runeCol:'#c8ff80',
   blurb:'A lazy river winds down the valley between sandy banks and weeping willows. Two old bridges cross it; the stone one is carved with runes and hung with lanterns. Fireflies swarm over the water.',
   ground:WK('grass','#3e6e3a','#5a8a4a',{sc:0.12,deco:WDECO.grass('rgba(30,60,25,.55)',0.4)}),
   kinds:[WK('water','#23607f','#3a86a6',{solid:true,liquid:true,shore:'#d8f0e8',sc:0.08,deco:WDECO.ripple('#ffffff')}),WK('sand','#b8a57a','#cdb98c',{sc:0.3}),WK('bridge','#8a6a44','#9a7a50',{pattern:'planks',vert:false,flat:true}),WK('stonebridge','#a09a8a','#bab2a0',{pattern:'brick',grout:'#5a544a',flat:true})],
@@ -97,7 +97,7 @@ WORLD_DESIGNS.push(
     c.scatter('tree',16,{kind:'willow',col:'#4f8a44',col2:'#7ab860',on:'grass'}); c.scatter('reeds',30,{on:['sand','grass'],solid:false,n:8}); c.scatter('tree',8,{kind:'round',col:'#3a6e34',on:'grass'}); c.scatter('flowers',25,{solid:false,claim:false,on:'grass',cols:['#fff3a8','#c8e0ff']}); },
   particles:[WPART.fireflies({x:6*LT,y:4*LT,w:48*LT,h:56*LT})], nightA:0.55 },
 
-{ id:'giant_bones', quad:1, seed:113, name:'Moss-covered Giant Bones', tagline:'An ancient giant\'s skeleton under the grass', runeCol:'#9fffc8',
+{ id:'giant_bones', quad:1, seed:113, name:'The Sleeping Giant',was:'Moss-covered Giant Bones', tagline:'An ancient giant\'s skeleton under the grass', runeCol:'#9fffc8',
   blurb:'The bones of something enormous lie half-buried in the meadow, green with moss and wildflowers. You walk between its ribs and along its spine to a skull the size of a house, whose eye sockets glow faintly.',
   ground:WK('grass','#577a3c','#739850',{sc:0.12,deco:WDECO.grass('rgba(40,70,25,.55)',0.4)}), kinds:[WK('moss','#46703a','#5b8c44',{sc:0.25,deco:WDECO.dots(['#7ab860','#9ad070'],0.5)})],
   layout:function(c){ c.line('moss',[[6,48],[20,40],[34,32],[46,20]],7,3); },
@@ -108,7 +108,7 @@ WORLD_DESIGNS.push(
     c.scatter('flowers',45,{solid:false,claim:false,cols:['#ffffff','#fff3a8','#ffd6e8']}); c.scatter('tree',12,{kind:'round',col:'#3f7234'}); c.scatter('bush',14,{col:'#476e38'}); },
   particles:[WPART.motes('#b8ffd0',150)] },
 
-{ id:'blossom_terraces', quad:1, seed:127, name:'Blossom Orchard Terraces', tagline:'Stepped orchards of cherry blossom', runeCol:'#ffb0d8',
+{ id:'blossom_terraces', quad:1, seed:127, name:'Applestair',was:'Blossom Orchard Terraces', tagline:'Stepped orchards of cherry blossom', runeCol:'#ffb0d8',
   blurb:'Hillside terraces held up by low stone walls, each planted with rows of blossom trees. Stone stairs join the levels, lanterns line the steps, and pink petals drift across everything.',
   ground:WK('grass','#5d8f46','#78a85a',{sc:0.12,deco:WDECO.grass('rgba(40,80,30,.45)',0.3)}),
   kinds:[WK('terrace','#8a8070','#9a9080',{solid:true,wall:{top:'#a89c86',face:'#7a6e5e',strata:true,runes:0.03}}),WK('stairs','#a89c86','#a89c86',{deco:WDECO.steps('#b0a48e')})],
@@ -119,7 +119,7 @@ WORLD_DESIGNS.push(
     var p=c.randomOpen('grass'); if(p){ c.place('runecircle',p.x-1,p.y-1,3,3,{solid:false,col:'#ffb0d8',n:6}); c.landmark(p.x-1,p.y-1,3,3,'Blossom shrine — petals never settle inside the rune circle.'); } },
   particles:[WPART.petals()] },
 
-{ id:'amphitheatre', quad:1, seed:131, name:'Sunken Amphitheatre Ruins', tagline:'Grass-grown stone tiers around a rune stage', runeCol:'#8fe8ff',
+{ id:'amphitheatre', quad:1, seed:131, name:'Singer\'s Bowl',was:'Sunken Amphitheatre Ruins', tagline:'Grass-grown stone tiers around a rune stage', runeCol:'#8fe8ff',
   blurb:'A huge ruined amphitheatre sunk into the meadow: rings of stone seating step down to a round stage carved with a rune circle. Broken columns ring the top; grass and flowers have claimed the seats.',
   ground:WK('grass','#58884a','#72a05a',{sc:0.12,deco:WDECO.grass('rgba(40,80,30,.45)',0.3)}),
   kinds:[WK('tier','#a8a090','#bcb4a2',{pattern:'tier',flat:true}),WK('stage','#c4bcaa','#d6cebc',{pattern:'slab',flat:true}),WK('ruinwall','#8a8272','#9a9282',{solid:true,wall:{top:'#b0a896',face:'#80786a',runes:0.06}})],
@@ -130,7 +130,7 @@ WORLD_DESIGNS.push(
     c.scatter('flowers',40,{solid:false,claim:false,cols:['#fff3a8','#ffffff','#ffd6e8']}); c.scatter('tree',14,{kind:'round',col:'#3f7234',away:[30,28,22]}); c.scatter('rock',10,{col:'#b8b0a0',moss:'#6a9a50'}); },
   particles:[WPART.motes('#c8f4ff',150)] },
 
-{ id:'floating_rocks', quad:1, seed:137, name:'Floating-Rock Meadow', tagline:'Grassy islets drifting above the meadow', runeCol:'#9ff0ff',
+{ id:'floating_rocks', quad:1, seed:137, name:'Driftstone Meadow',was:'Floating-Rock Meadow', tagline:'Grassy islets drifting above the meadow', runeCol:'#9ff0ff',
   blurb:'Chunks of meadow float in the air above the grass, trailing roots, each marked with a rune. Some are chained to rune-anchors in the ground. Their shadows drift over the flowers below.',
   ground:WK('grass','#5a9448','#7cb45e',{sc:0.12,deco:WDECO.grass('rgba(40,85,30,.45)',0.35)}), kinds:[WK('meadow','#6aa452','#8cc46a',{sc:0.2,deco:WDECO.dots(['#fff3a8','#ffffff','#c8e0ff'],0.5)})],
   hills:{sc:0.05,k:1.2},
@@ -141,7 +141,7 @@ WORLD_DESIGNS.push(
     c.scatter('tree',12,{kind:'round',col:'#3f7a3a'}); c.scatter('flowers',40,{solid:false,claim:false}); },
   particles:[WPART.motes('#bff4ff',130)] },
 
-{ id:'crystal_grass', quad:1, seed:139, name:'Crystal-tipped Tallgrass', tagline:'Waist-high grass with glowing crystal tips', runeCol:'#9ff0ff',
+{ id:'crystal_grass', quad:1, seed:139, name:'Glintgrass',was:'Crystal-tipped Tallgrass', tagline:'Waist-high grass with glowing crystal tips', runeCol:'#9ff0ff',
   blurb:'Fields of tall grass whose tips have grown into little crystals that chime and glow. You wade through it (it hides you as you pass). Bigger crystal clusters break through the turf here and there.',
   ground:WK('grass','#4a8a6a','#62a47e',{sc:0.12,deco:WDECO.grass('rgba(30,80,60,.5)',0.35)}),kinds:[WK_PATH('#8a8a78','#a2a290')],
   layout:function(c){ c.line('path',[[0,30],[20,26],[40,34],[60,30]],2,4); },
@@ -151,7 +151,7 @@ WORLD_DESIGNS.push(
     var q=c.randomOpen('grass'); if(q){ c.place('crystal',q.x,q.y,1,1,{col:'#dff8ff',s:1.8}); c.landmark(q.x-1,q.y-1,3,3,'The Chiming Shard — the whole field hums in tune with it.'); } },
   particles:[WPART.motes('#dff8ff',110)] },
 
-{ id:'waystone_road', quad:1, seed:149, name:'Waystone Ancient Road', tagline:'An old paved road lined with rune waystones', runeCol:'#6fe3f5',
+{ id:'waystone_road', quad:1, seed:149, name:'Waystone Road',was:'Waystone Ancient Road', tagline:'An old paved road lined with rune waystones', runeCol:'#6fe3f5',
   blurb:'A broad paved road from an older age crosses the grassland, lined with waystones whose runes light up one after another as you walk. A ley line runs under the paving, and a ruined arch marks the old gate.',
   ground:G_GRASS, kinds:[WK('road','#a09a8a','#b8b2a0',{pattern:'flag',grout:'#4a443a',rim:'#6a6458',rimW:2,flat:true,moss:true}),WK('verge','#7a8a5a','#8a9a66',{sc:0.3})],
   hills:{sc:0.05,k:1},

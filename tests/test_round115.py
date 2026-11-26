@@ -1,5 +1,5 @@
 """Round 115: the seasons (Kris ✓ holistic, no winter mantle) — the engine and wave S1's requests.
-  The order: a mild spring as you set out (the Grasslands) → summer (Wetlands) → autumn (Highlands) → a mild winter (Ashlands) → Freya's spring.
+  The order: a mild spring as you set out (Gildenmark) → summer (Fernheim) → autumn (Cragland) → a mild winter (Cinderheim) → Freya's spring.
 python tests/test_round115.py   (after node build.mjs)"""
 import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from harness import game
@@ -22,7 +22,7 @@ with game(painted=True) as g:
         g.wait(1000)
     d = g.js("""(()=>{ var ws=%s, ps=ws.playerState; ps.unlockedSections=[1]; ps.spiritsHome=0; ZSEASON.tick(); var start=ZSEASON.cur; ps.unlockedSections=[1,2,3]; ZSEASON.tick();
       var ban=document.getElementById('zq-banner'), badge=document.getElementById('zseason'); return {start:start, now:ZSEASON.cur, seen:ps.seasonsSeen, ban:ban&&ban.textContent, badge:badge&&badge.textContent, rn:ZSEASON._rn, air:!!ws._zsAir, cfg:ZWP.cfg().season}; })()""" % WS)
-    check('Opening the Highlands turns the year to autumn: a banner, the mark by the little map, the world repainted, leaves in the air, and the workers told (%s)' % d,
+    check('Opening Cragland turns the year to autumn: a banner, the mark by the little map, the world repainted, leaves in the air, and the workers told (%s)' % d,
           d['start'] == 'sp' and d['now'] == 'au' and 'au' in d['seen'] and 'Autumn' in (d['ban'] or '') and 'Autumn' in (d['badge'] or '') and d['rn'] > 0 and d['air'] and d['cfg'] == 'au', d)
     def settle(n=60):
         for i in range(n):

@@ -47,7 +47,7 @@ Each villager has a backstory that fits the Saga (docs/agent-context/zeldara-sag
 
 Oswin Hrafnsson was the loudest of the Ravens, a company of five sell-swords and monster-hunters who kept the roads of Runeheim safe when there were still four realms to keep. Sigrid banged her shield like a drum, Ulf played his horn badly and loudly, Halla arm-wrestled trolls and sewed the company's feather cloaks, and Kettil laughed at all of them. Oswin did the talking. He was good at it.
 
-Twenty-eight winters ago, on the night the sky went red, word came that the Ashlands were burning. The Ravens rode west to bring people out. At the Emberford someone had to hold the horses and keep the road open behind them, and Sigrid chose Oswin — "because you'll talk the fire into waiting". He waited. The Ember Wall rose between him and his friends before dawn, and he rode home alone with four riderless horses. He has told every story of his life bigger every year since, except that one, which he does not tell at all.
+Twenty-eight winters ago, on the night the sky went red, word came that Cinderheim was burning. The Ravens rode west to bring people out. At the Emberford someone had to hold the horses and keep the road open behind them, and Sigrid chose Oswin — "because you'll talk the fire into waiting". He waited. The Ember Wall rose between him and his friends before dawn, and he rode home alone with four riderless horses. He has told every story of his life bigger every year since, except that one, which he does not tell at all.
 
 He turned the Ravens' empty hall into the Adventurers' Guild and began to keep "the list": every road out of the village that was shut by something — a tower, a dungeon, a thing in the dark. For twenty-eight years nobody was able to clear a single line of it. On the Ravens' shelf stand five tankards. Four are upside down, the old sign for a comrade who did not come home. He dusts them every morning.
 
@@ -57,7 +57,7 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 
 - Leads the first walk and gives the first three tasks (his purse at the Bandit Stash, Old Nell's net, Pia's pins), then the guild's quests in every realm.
 - The Five Tankards: one keepsake of each lost Raven in each realm; each one turns a tankard right side up.
-- His story arc: the troll grows (Grasslands) → a Raven's shield goes quiet (Wetlands) → the true Ash Night (Highlands) → the Ravens remembered (Ashlands) → after the end he tells YOUR story instead, much bigger.
+- His story arc: the troll grows (Gildenmark) → a Raven's shield goes quiet (Fernheim) → the true Ash Night (Cragland) → the Ravens remembered (Cinderheim) → after the end he tells YOUR story instead, much bigger.
 - Carried the basket up from the pier the dawn the twins were found; he never says more about it than that.
 
 **Ties**
@@ -73,9 +73,9 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 
 *Relentlessly cheery pun-maker* — Bright, quick and punning; the cheer is real, and it is also how he carries things he will not say.
 
-Benno was born above the bakery, the son of Yrsa, a Wetlands baker who married into the village and never stopped talking about the marsh. Every midsummer Yrsa baked a great braided loaf "for the feast in Asgard" and set it on the Runestone for the gods to take up. The last year anybody remembers, no one came for it. That was the year Benno turned twenty-one, the night the sky went red.
+Benno was born above the bakery, the son of Yrsa, a Fernheim baker who married into the village and never stopped talking about the marsh. Every midsummer Yrsa baked a great braided loaf "for the feast in Asgard" and set it on the Runestone for the gods to take up. The last year anybody remembers, no one came for it. That was the year Benno turned twenty-one, the night the sky went red.
 
-The day before the Ash Night, Yrsa had started a new sourdough and laughed that it would "outlive them all". Benno named it Old Mother. Eight years later Yrsa went home to the Wetlands to bury her sister, and the Black Tide took the marsh villages while she was there. She never came back. Benno has fed Old Mother every morning for twenty-eight years, because it is the one thing of hers that is still alive.
+The day before the Ash Night, Yrsa had started a new sourdough and laughed that it would "outlive them all". Benno named it Old Mother. Eight years later Yrsa went home to Fernheim to bury her sister, and the Black Tide took the marsh villages while she was there. She never came back. Benno has fed Old Mother every morning for twenty-eight years, because it is the one thing of hers that is still alive.
 
 He took over the shop, then the merchant's trade when the old merchant died in the Long Quiet, because someone had to buy what the few brave hunters brought home. He decided early that a village without children needed somebody to be silly in it, and he has been aggressively, exhaustingly cheerful ever since. He has a shelf of honey-cake moulds — stars, foxes, little boats — that have never been used. He dusts them on Sundays. He tells everyone it is for the shape of the shelf.
 
@@ -83,7 +83,7 @@ He took over the shop, then the merchant's trade when the old merchant died in t
 
 - The merchant: buys your loot after almost every trip home; sells bread and food.
 - Old Mother's Rescue: marsh rye, snow-honey and ember-salt to save the starter.
-- His mother Yrsa is one of the forty bound spirits (the Wetlands baker: "Bread for a feast in Asgard, every midsummer. The last year, no one came to take it up.").
+- His mother Yrsa is one of the forty bound spirits (Fernheim baker: "Bread for a feast in Asgard, every midsummer. The last year, no one came to take it up.").
 - After the end he bakes the first honey cakes in twenty-eight years, for the first newborns.
 
 **Ties**
@@ -139,7 +139,7 @@ They keep score of everything — monsters, spirits, who's ahead. They are ahead
 - Elder Runa: teacher, sparring partner, and the only person who can still surprise them.
 - Oswin: took three hours of notes on the Ravens; Oswin has never been so flattered.
 - Morwen: borrows her footnotes; she borrows their sagas.
-- Vigdis the skald (a Wetlands spirit) wrote the saga with the missing verse that the twin has been chasing for years.
+- Vigdis the skald (a Fernheim spirit) wrote the saga with the missing verse that the twin has been chasing for years.
 
 ## Tilda the Merchant
 
@@ -147,14 +147,14 @@ They keep score of everything — monsters, spirits, who's ahead. They are ahead
 
 Tilda took over the general shop from her father at nineteen and has run it with an iron ledger and an iron tongue ever since. She calls every customer "you" — not "dear", not "friend", just "you" — and has been known to refuse to sell a rope to someone because "you'll hang yourself with it, you idiot". She is, everyone agrees, the most honest person in the village. Her prices are fair. Her opinions are not.
 
-Twenty-eight years ago, on the evening of the Ash Night, a tall Ashlander in a grey cloak bought three days' supplies on credit and left her an iron key as surety: "I'll be back for it in a week." The Ember Wall rose that night. He never came back. Tilda has kept the key on a nail behind the counter all this time, partly out of principle — he still owes her eleven silver — and partly because she cannot bring herself to throw away the last thing an Ashlander ever gave anyone.
+Twenty-eight years ago, on the evening of the Ash Night, a tall Cinderheimer in a grey cloak bought three days' supplies on credit and left her an iron key as surety: "I'll be back for it in a week." The Ember Wall rose that night. He never came back. Tilda has kept the key on a nail behind the counter all this time, partly out of principle — he still owes her eleven silver — and partly because she cannot bring herself to throw away the last thing a Cinderheimer ever gave anyone.
 
 She never married. "Never met a man who could count." She keeps a list in the back of her ledger titled REGULARS. It has been empty for twenty years, since the last old trapper died.
 
 **In the Saga**
 
 - The general shop: supplies and ammunition all game.
-- Her arc: rude to you → grudging respect when you bring something rare → the merchants' rivalry with Benno → the mystery key opens something in the Ashlands (side quest) → after the end she writes your name on the REGULARS list, her highest honour.
+- Her arc: rude to you → grudging respect when you bring something rare → the merchants' rivalry with Benno → the mystery key opens something in Cinderheim (side quest) → after the end she writes your name on the REGULARS list, her highest honour.
 
 **Ties**
 
@@ -167,17 +167,17 @@ She never married. "Never met a man who could count." She keeps a list in the ba
 
 *The forgery hunter* — Gruff, few words, all of them about metal. Can tell bad steel by its ring and a lie by its pause. One rule: no chains.
 
-Garrick was born in the Highlands, in a forge town on the lip of the deep mines, and learned the trade from his elder sister Thora, the best smith in three valleys. When Garrick was twenty-three, Thora married an Ashlander and moved west. A year later the Ash Night came. Her last letter, sent before the wall rose, said that strangers with red gold had come to the Ashland forges wanting chains — "heavy ones, too heavy for any beast". She had refused. Then the letters stopped.
+Garrick was born in Cragland, in a forge town on the lip of the deep mines, and learned the trade from his elder sister Thora, the best smith in three valleys. When Garrick was twenty-three, Thora married a Cinderheimer and moved west. A year later the Ash Night came. Her last letter, sent before the wall rose, said that strangers with red gold had come to the Cinderheim forges wanting chains — "heavy ones, too heavy for any beast". She had refused. Then the letters stopped.
 
-Three winters on, the Highland mines dug deeper after "a voice in the stone", and the mountains broke. Garrick's wife Ingrid, a cooper, died in the Stone-Fall. He walked out of the Highlands with his hammer and his anvil-horn and nothing else, and came to the last village, where the old smith had just died.
+Three winters on, the Cragland mines dug deeper after "a voice in the stone", and the mountains broke. Garrick's wife Ingrid, a cooper, died in the Stone-Fall. He walked out of Cragland with his hammer and his anvil-horn and nothing else, and came to the last village, where the old smith had just died.
 
-He hunts forgeries the way other men hunt deer: fake Highland steel, false gold, swords that are paint over pig-iron. He says a lie in metal is the worst kind of lie, because a person trusts their life to it. And he will not forge a chain — not a dog's chain, not a well chain, not a chain for a gate. He has never explained why. Thora is one of the forty spirits, bound in the Ashlands: "We forged the Binders' chains ourselves. They made us. Then they put them on us."
+He hunts forgeries the way other men hunt deer: fake Cragland steel, false gold, swords that are paint over pig-iron. He says a lie in metal is the worst kind of lie, because a person trusts their life to it. And he will not forge a chain — not a dog's chain, not a well chain, not a chain for a gate. He has never explained why. Thora is one of the forty spirits, bound in Cinderheim: "We forged the Binders' chains ourselves. They made us. Then they put them on us."
 
 **In the Saga**
 
 - The forge: upgrades and crafting all game; the Coal side quest ("six lumps — honest ones").
 - His arc: grump → Dunn is freed and it's dwarf against human pride (the forge-off) → they team up on your best weapon → after the end he beats a sword into a ploughshare for the new hamlets. Throughout: no chains.
-- His sister Thora (an Ashlands spirit) and wife Ingrid (a Highlands spirit) are among the forty.
+- His sister Thora (an Cinderheim spirit) and wife Ingrid (a Cragland spirit) are among the forty.
 
 **Ties**
 
@@ -213,18 +213,18 @@ He writes a letter to the Emperor's guard every winter, reporting on the village
 
 *The chaotic optimist* — Fast, bright and fearless; talks in half-finished sentences because her hands have already moved on, and treats every disaster as an interesting design problem.
 
-Mira is the youngest grown woman in Runeheim. She was born in a Highland forge town six weeks before the gate shut, one of the very last children born anywhere; the baby next door, Joreid, born a week later, was the last in the Highlands. The two of them spent their first three summers in the same playpen of scrap. Then the Stone-Fall came, the Great Scar tore the valley open, and Mira's father carried her down the mountain. Joreid did not get out.
+Mira is the youngest grown woman in Runeheim. She was born in a Cragland forge town six weeks before the gate shut, one of the very last children born anywhere; the baby next door, Joreid, born a week later, was the last in Cragland. The two of them spent their first three summers in the same playpen of scrap. Then the Stone-Fall came, the Great Scar tore the valley open, and Mira's father carried her down the mountain. Joreid did not get out.
 
-Mira grew up in the Wetland mill-towns among wheels, sluices and lifts, the only child anyone had seen in years, spoiled rotten by a whole valley of engineers. At eight the Black Tide drowned that valley too. She has decided, she says, that the world has used up its bad luck on her early, and everything from now on is going to work.
+Mira grew up in the Fernheim mill-towns among wheels, sluices and lifts, the only child anyone had seen in years, spoiled rotten by a whole valley of engineers. At eight the Black Tide drowned that valley too. She has decided, she says, that the world has used up its bad luck on her early, and everything from now on is going to work.
 
-She has spent her life since building things that should not work and do: a clockwork heron, a self-stirring pot for Benno, a lift that once got three goats onto a roof. Surtharn's wardens took her two years ago to build lifts for the Binders' mines and locked her in a Wetlands tower when she refused. She spent the time designing a cage-lift for the Great Scar out of the tower's own bars, which is the first thing she shows you when you open the door.
+She has spent her life since building things that should not work and do: a clockwork heron, a self-stirring pot for Benno, a lift that once got three goats onto a roof. Surtharn's wardens took her two years ago to build lifts for the Binders' mines and locked her in a Fernheim tower when she refused. She spent the time designing a cage-lift for the Great Scar out of the tower's own bars, which is the first thing she shows you when you open the door.
 
 **In the Saga**
 
-- Rescued from the Wetlands tower; her lift climbs the Great Scar to the Highlands.
+- Rescued from Fernheim tower; her lift climbs the Great Scar to Cragland.
 - Her village workshop makes the four hearth trays that hold the soulglass in the forges' heat. "The forges were built to melt the gods' light into chains. We'll melt it back."
 - The Brass Bird side quest (the brass songbird that sings near treasure, mostly).
-- Joreid, her neighbour in the playpen, is one of the forty spirits (the Highlands child: "I was the last child born in the Highlands. I lived three summers.").
+- Joreid, her neighbour in the playpen, is one of the forty spirits (Cragland child: "I was the last child born in Cragland. I lived three summers.").
 
 **Ties**
 
@@ -239,7 +239,7 @@ She has spent her life since building things that should not work and do: a cloc
 
 Coral was born on the harbour islands, a fisherman's daughter who learned early that a closed border is just a business opportunity with a fence round it. When the realms closed one by one she was the one who kept the four of them trading anyway — by sea, at night, round the walls, with cheese and medicine and letters going one way and metal and news coming the other. She calls it "logistics". Quill calls it smuggling. Both are correct.
 
-For thirty years her little black-sailed boats have been the only thread between the realms. She has carried Highland steel to the Grasslands, Wetland herbs to the islands, and once, she claims, a goat to a wedding in the Ashlands before the wall went up. She has a scar from an ash-warden's spear and a policy never to talk about it.
+For thirty years her little black-sailed boats have been the only thread between the realms. She has carried Cragland steel to Gildenmark, Fernheim herbs to the islands, and once, she claims, a goat to a wedding in Cinderheim before the wall went up. She has a scar from an ash-warden's spear and a policy never to talk about it.
 
 She deals in each realm's metal, which is why you come to her for Mira's hearth trays, and she sells at a fair price "because I like you", which she says to everyone. The odd thing about Coral is that every story she tells about herself is a little bit crooked and every deal she makes is perfectly straight.
 
@@ -259,7 +259,7 @@ She deals in each realm's metal, which is why you come to her for Mira's hearth 
 
 *The singer to glass* — Gentle, slow and musical; hums to her glass as she works and swears it hums back. Speaks to the shards as if they were people — because, she says, they were.
 
-Sólveig grew up in Glerhavn, a Wetlands glass-town on the sand flats where the Silverrun met the sea, apprenticed at twelve to Oddny, a potter and glass-burner who fired the urns for the village dead. Oddny taught her that glass remembers the fire that made it, and that if you hum to it at the right pitch, it will hum the memory back. Sólveig has never been able to stop hearing it since.
+Sólveig grew up in Glerhavn, a Fernheim glass-town on the sand flats where the Silverrun met the sea, apprenticed at twelve to Oddny, a potter and glass-burner who fired the urns for the village dead. Oddny taught her that glass remembers the fire that made it, and that if you hum to it at the right pitch, it will hum the memory back. Sólveig has never been able to stop hearing it since.
 
 In the years after the gate shut, Oddny's urns never cooled — the dead inside them, she said, were not rising — and in the eighth winter the Black Tide drowned Glerhavn and everyone in it. Sólveig was on the harbour islands selling glass and lived. She has spent twenty-two years in a shack on the isles, singing to bits of sea-glass and listening for voices in them, waiting for something she could not name.
 
@@ -269,7 +269,7 @@ When the first familiar island's guardian falls, she feels it in the glass. She 
 
 - The Glimmerhall: turn in the soulglass shards; she fuses them into each realm's lattice, then the forge's heat makes a Heartglass.
 - The Mosaic side quest (ten pieces, each one sings a little).
-- Her teacher Oddny is one of the forty spirits (the Wetlands potter: "I fired urns for the dead and they never cooled. Something was keeping them from rising.").
+- Her teacher Oddny is one of the forty spirits (Fernheim potter: "I fired urns for the dead and they never cooled. Something was keeping them from rising.").
 - Her painted character sprite is ordered this round (she had only a still painting).
 
 **Ties**
@@ -284,7 +284,7 @@ When the first familiar island's guardian falls, she feels it in the glass. She 
 
 Rolf is the undefeated flyting champion of the last village — a flyting being a contest of insults in verse, traded across a table until one poet runs out of words. He has been undefeated for twenty-eight years. Before that, he lost exactly once, to a cooper named Hallveig, who called him "a beer-barrel with a beard, bung-holed and bubbling" and then married him.
 
-They ran the tavern together for ten years. Hallveig died in the eighth winter of the Long Quiet, of a fever Morwen could not break. With the gate shut she did not go anywhere; she drifted, as the Grasslands dead did, at the edge of the light, and then the Binders came over the walls for her too. Rolf does not know that last part. He only knows that every night, after closing, he sets two cups on the bar and fills them both.
+They ran the tavern together for ten years. Hallveig died in the eighth winter of the Long Quiet, of a fever Morwen could not break. With the gate shut she did not go anywhere; she drifted, as Gildenmark dead did, at the edge of the light, and then the Binders came over the walls for her too. Rolf does not know that last part. He only knows that every night, after closing, he sets two cups on the bar and fills them both.
 
 He brews Skald's Mead from honey, berries and salt, and claims it is the mead of poetry itself. He keeps Oswin's old Raven mug behind the bar and lets no one else drink from it. He has never let a stranger see him sad, and has never once, in twenty-eight years, flyted someone who was already down.
 
@@ -292,7 +292,7 @@ He brews Skald's Mead from honey, berries and salt, and claims it is the mead of
 
 - The tavern: meals, drink and rest.
 - The Mead side quest (honey, berries, salt — "even a troll could remember that").
-- His wife Hallveig is one of the forty spirits (the Grasslands cooper: "My husband still sets two cups out. Tell him I drink the light now.").
+- His wife Hallveig is one of the forty spirits (Gildenmark cooper: "My husband still sets two cups out. Tell him I drink the light now.").
 
 **Ties**
 
@@ -316,7 +316,7 @@ Then, sixteen years ago, she held a dull sapphire near a cradle in Runa's house 
 - The jeweller: gems and rings.
 - The Hoard riddle: "Where the river-wall broke, beside the first stone, look under the moss."
 - Gems and runestones light for the twins — she sees it more clearly than anyone, and keeps the secret that she doesn't understand.
-- Her mother Jorunn is one of the forty spirits (the Grasslands dyer: "Blue. Every rune in the old days was this blue. Like your eyes, they say.").
+- Her mother Jorunn is one of the forty spirits (Gildenmark dyer: "Blue. Every rune in the old days was this blue. Like your eyes, they say.").
 
 **Ties**
 
@@ -333,14 +333,14 @@ Runa is the oldest person in the last village and the keeper of the Runestone, t
 
 Her husband Geir carved the Green's tree into the Runestone when he was a boy, apprenticed to the old carvers; he used to say the roots went further than anyone thought. Geir died in the eleventh winter of the Quiet. Runa sat by the stone the next spring and noticed what nobody else wanted to notice: the tree on the Green had gone dim. The road was shut. The dead were not going home.
 
-For twelve years she said nothing about it, because a village with no children did not need to hear that its dead were stuck too. Then the storm came, the lightning walked from runestone to runestone across the Grasslands, and in the morning Oswin carried a basket up from the pier and put two glowing babes in her lap. She says that was the day she started cheating at hnefatafl again. "Hope makes you playful."
+For twelve years she said nothing about it, because a village with no children did not need to hear that its dead were stuck too. Then the storm came, the lightning walked from runestone to runestone across Gildenmark, and in the morning Oswin carried a basket up from the pier and put two glowing babes in her lap. She says that was the day she started cheating at hnefatafl again. "Hope makes you playful."
 
 **In the Saga**
 
 - The first walk ends with her: the waystone lesson.
 - Old lore through the whole game: "The tree on the Green is the road the dead walk home. Lately… it has been quiet."
 - Freed spirits gather on her Green in rings; she greets every one by name if she knew them.
-- Her husband Geir is one of the forty spirits (the Grasslands carver: "I carved the Green's tree when I was a boy. The roots go further than anyone thinks.").
+- Her husband Geir is one of the forty spirits (Gildenmark carver: "I carved the Green's tree when I was a boy. The roots go further than anyone thinks.").
 - Hnefatafl against Runa (a mini-game Kris picked).
 
 **Ties**
@@ -356,7 +356,7 @@ For twelve years she said nothing about it, because a village with no children d
 
 Quill has been harbourmaster of the four harbour islands for thirty years, and for every one of those years he has been trying to sell them. Not the harbour — plots. "A charming cove, sea views, only the occasional kraken." He believes, with the faith of a true believer, that one day the realms will open and everyone will want a summer home on an island, and he intends to own all the islands when they do.
 
-He was a clerk in a Wetland land office before the Black Tide, which drowned every deed he had ever filed. He escaped with a single ledger and a deep conviction that land was the only thing worth owning, because land, he said, stays put — and then he watched the Wetlands sink. He has never quite made peace with that. So he owns rocks in the sea, which have the advantage of already being surrounded by water.
+He was a clerk in a Fernheim land office before the Black Tide, which drowned every deed he had ever filed. He escaped with a single ledger and a deep conviction that land was the only thing worth owning, because land, he said, stays put — and then he watched Fernheim sink. He has never quite made peace with that. So he owns rocks in the sea, which have the advantage of already being surrounded by water.
 
 He keeps the harbour lights, the boat lists and a box of signal flags he's very proud of. He is also, under the pitch, the reason anyone on the islands survived: he organised the fishing, the rationing and the night-signals for thirty years and has never let anyone thank him for it.
 
@@ -376,7 +376,7 @@ He keeps the harbour lights, the boat lists and a box of signal flags he's very 
 
 *The cheerfully morbid nurse* — Brisk, bright and anatomically specific; tells you every way you could have died while patching you up, and means it kindly.
 
-Mael and her sister Nanna were the Wetlands' healers: Nanna the midwife, Mael the nurse. Nanna brought babes into the world; Mael patched up the people who'd been in it a while. When the gate shut the babes stopped coming, and Nanna, who had nothing to hold for six years, went to live with her and help with the sick, which was the one work there was more of.
+Mael and her sister Nanna were Fernheim's healers: Nanna the midwife, Mael the nurse. Nanna brought babes into the world; Mael patched up the people who'd been in it a while. When the gate shut the babes stopped coming, and Nanna, who had nothing to hold for six years, went to live with her and help with the sick, which was the one work there was more of.
 
 The Black Tide took Nanna in the eighth winter. Mael was on the harbour islands nursing a fever ward, and she stayed there, running the island wells as a healing station ever since. She has seen more wounds than anyone alive, and she has decided that the only sane way to talk about them is cheerfully. "Ooh, that's nearly an artery! Lucky you!" She keeps a ledger of every patient. She has lost very few.
 
@@ -386,7 +386,7 @@ She and Morwen write each other long, rude, admiring letters about each other's 
 
 - Healing at the island wells.
 - The Herbs side quest ("The bleeding waits for no one.").
-- Her sister Nanna is one of the forty spirits (the Wetlands midwife: "My hands were for bringing babes into the world. For eight years they had nothing to hold.").
+- Her sister Nanna is one of the forty spirits (Fernheim midwife: "My hands were for bringing babes into the world. For eight years they had nothing to hold.").
 - After the end she sails to the village to help the midwives with the first cradles.
 
 **Ties**
@@ -444,7 +444,7 @@ Sixteen years ago, at dawn after the great storm, that net came up heavy. In it,
 
 *The paranoid survivalist* — Low, clipped and suspicious; checks every shadow, trusts no tree, and gives the best practical advice in Runeheim.
 
-Holt was a Wetland forester with his wife Torvi before the Black Tide. Torvi loved the marsh trees; she said they whispered. In the last year before the Tide she came home pale and said the trees had started whispering a name — "not the old ones, a name like a sun going out" — and that the Binders' braziers had been seen in the deep marsh. Nobody listened. Then the Silverrun rose black and took her with the forest.
+Holt was a Fernheim forester with his wife Torvi before the Black Tide. Torvi loved the marsh trees; she said they whispered. In the last year before the Tide she came home pale and said the trees had started whispering a name — "not the old ones, a name like a sun going out" — and that the Binders' braziers had been seen in the deep marsh. Nobody listened. Then the Silverrun rose black and took her with the forest.
 
 Holt has trusted nothing since: not trees, not weather, not quiet, not anyone who says it'll be fine. He lives on the harbour islands in a hide he rebuilt three times, sleeps up a tree "because you don't", keeps three escape routes from every room, and has stashes of food, rope and arrows buried across all four isles. He is wrong about almost every threat he imagines, and right about the few that matter.
 
@@ -454,7 +454,7 @@ He gives you island tips the way other people give warnings — urgently, in a w
 
 - Island guide: tips for each isle.
 - The Stag side quest.
-- His wife Torvi is one of the forty spirits (the Wetlands forester: "The marsh trees whispered a name. Not Odin's. A name that sounded like a sun going out.").
+- His wife Torvi is one of the forty spirits (Fernheim forester: "The marsh trees whispered a name. Not Odin's. A name that sounded like a sun going out.").
 
 **Ties**
 
@@ -466,7 +466,7 @@ He gives you island tips the way other people give warnings — urgently, in a w
 
 *The fashion snob* — Withering, theatrical and exact; judges every outfit in the village and is right about all of them. Sighs as punctuation.
 
-Pell was twelve when old Asa the weaver took him in as an apprentice, the only boy in the village who wanted to learn. Asa wove the finest cloth in the Grasslands, and she was weaving birth-shawls — little white ones with blue runes along the hem — the year the gate shut. She kept weaving them. Twenty of them, for children who never came. She was buried in one.
+Pell was twelve when old Asa the weaver took him in as an apprentice, the only boy in the village who wanted to learn. Asa wove the finest cloth in Gildenmark, and she was weaving birth-shawls — little white ones with blue runes along the hem — the year the gate shut. She kept weaving them. Twenty of them, for children who never came. She was buried in one.
 
 Pell inherited her loom, her shears, her eye and none of her patience. He decided that if Runeheim had to be grey and grieving, it would at least be well-dressed, and he has spent thirty years trying to stop the village from looking like a pile of wet sacks. He fails. He keeps trying. He has opinions about Oswin's cloak (a tragedy), Brask's red one (magnificent, wasted in a chest), and the hero's moss-green cape (promising; badly hemmed).
 
@@ -488,7 +488,7 @@ He talks about Miklagard silk the way other men talk about first love. He has ne
 
 *The hyperactive acrobat* — Breathless, bouncing and enormous fun; talks while upside down, never walks if she can flip, and gets bored mid-sentence.
 
-Pia was six, the youngest tumbler in the Fair-Folk, a travelling troupe of acrobats who toured the four realms with a painted wagon and a bear named Sir. That summer the troupe played the last village's fair and moved on west to the Ashland harvest fair — all except Pia, who had a fever and was left with Morwen to mend. The Ash Night came. The troupe never came back. Her best friend in it, a little tumbler named Mord, was seven.
+Pia was six, the youngest tumbler in the Fair-Folk, a travelling troupe of acrobats who toured the four realms with a painted wagon and a bear named Sir. That summer the troupe played the last village's fair and moved on west to the Cinderheim harvest fair — all except Pia, who had a fever and was left with Morwen to mend. The Ash Night came. The troupe never came back. Her best friend in it, a little tumbler named Mord, was seven.
 
 Pia was raised by the whole village, which is to say by Morwen, Hana and whoever was nearest when she fell off something. She never stopped tumbling. She practises in the meadow north of the village every day, the full troupe routine, all the parts, alone — the bear's part included. She is the reason the twin you play can roll: she has been waiting twenty-eight years to teach somebody the troupe's tricks so they wouldn't die with her.
 
@@ -498,7 +498,7 @@ She is relentlessly, hyperactively happy. She does not talk about the Fair-Folk,
 
 - The Tumbler's Lesson: find her pins and she teaches you to roll (one of Oswin's first three tasks).
 - The second Pins side quest (the juggling pins, three colours).
-- Her friend Mord is one of the forty spirits (the Ashlands child: "It was night, but the sky was red, and then it was grey, and then I was here.").
+- Her friend Mord is one of the forty spirits (Cinderheim child: "It was night, but the sky was red, and then it was grey, and then I was here.").
 
 **Ties**
 
@@ -510,17 +510,17 @@ She is relentlessly, hyperactively happy. She does not talk about the Fair-Folk,
 
 *Insufferably right* — Calm, smug and correct; points out what's crooked, and is always, infuriatingly, right about it.
 
-Bram learned to build from Hakon, a Highland carver and engineer who said that every rune in the mountains was carved pointing toward the lake, "as if it was the middle of everything", and that a builder should always know where the middle is. Bram took the lesson literally. He can tell you to a finger's width how crooked your doorframe is, and he will.
+Bram learned to build from Hakon, a Cragland carver and engineer who said that every rune in the mountains was carved pointing toward the lake, "as if it was the middle of everything", and that a builder should always know where the middle is. Bram took the lesson literally. He can tell you to a finger's width how crooked your doorframe is, and he will.
 
-He was building bridges over the Silverrun when the Black Tide came, and he spent the next twenty-two years drawing the bridge he would build if anyone ever let him near the river again. Surtharn's wardens took him to their Grasslands tower to build ramps for their siege engines. He built them, slightly wrong, on purpose, so that every one of them would tip over in a strong wind. He is very proud of this.
+He was building bridges over the Silverrun when the Black Tide came, and he spent the next twenty-two years drawing the bridge he would build if anyone ever let him near the river again. Surtharn's wardens took him to their Gildenmark tower to build ramps for their siege engines. He built them, slightly wrong, on purpose, so that every one of them would tip over in a strong wind. He is very proud of this.
 
 When you free him, he walks to the river, looks at it for a long time, and says, "Right. That's going to take four days." It takes four days.
 
 **In the Saga**
 
-- Rescued from the Grasslands tower; raises the Silverrun bridge: "for the first time in years, the Grasslands and the Wetlands touch again."
+- Rescued from Gildenmark tower; raises the Silverrun bridge: "for the first time in years, Gildenmark and Fernheim touch again."
 - The Bench side quest (five logs).
-- His teacher Hakon is one of the forty spirits (the Highlands carver: "Every rune in the mountains was carved toward the lake.").
+- His teacher Hakon is one of the forty spirits (Cragland carver: "Every rune in the mountains was carved toward the lake.").
 
 **Ties**
 
@@ -532,7 +532,7 @@ When you free him, he walks to the river, looks at it for a long time, and says,
 
 *Keeper of grudges* — Gravelly, solemn and petty in the grandest way; keeps a book of grudges and reads from it.
 
-Dunn is a dwarf of the deep Highland halls, two hundred and eleven years old, and he has kept a Book of Grudges since he was forty. It is three volumes long. It lists every slight against him and his kin — the man who bent his best chisel (paid), the troll who ate his lunch (unpaid), the Highland mine-lords who dug toward "the singing in the stone" against every dwarf's advice (unpaid, underlined three times).
+Dunn is a dwarf of the deep Cragland halls, two hundred and eleven years old, and he has kept a Book of Grudges since he was forty. It is three volumes long. It lists every slight against him and his kin — the man who bent his best chisel (paid), the troll who ate his lunch (unpaid), the Cragland mine-lords who dug toward "the singing in the stone" against every dwarf's advice (unpaid, underlined three times).
 
 When the Stone-Fall came, Dunn's hall was cut off from the surface for a decade. His human friend Dalla, who mended the rope-nets on the deep-mine lifts, had told him before it fell that she'd seen a chamber under the mountains "where light is chained like hounds". He wrote that down too, as a grudge against whoever was doing the chaining. It is the first page of volume three.
 
@@ -540,9 +540,9 @@ Surtharn's wardens took him to forge iron for their bridges. He forged it. He al
 
 **In the Saga**
 
-- Rescued from the Highlands tower; drives "the last rivet into his iron bridge — across the Cinder Chasm lie the Ashlands."
+- Rescued from Cragland tower; drives "the last rivet into his iron bridge — across the Cinder Chasm lie Cinderheim."
 - The forge-off with Garrick (a mini-game Kris picked).
-- His friend Dalla is one of the forty spirits (the Highlands net-mender: "There's a chamber under the mountains where light is chained like hounds.").
+- His friend Dalla is one of the forty spirits (Cragland net-mender: "There's a chamber under the mountains where light is chained like hounds.").
 
 **Ties**
 
@@ -554,18 +554,18 @@ Surtharn's wardens took him to forge iron for their bridges. He forged it. He al
 
 *Narrates her own legend* — Swaggering and theatrical; narrates herself in the third person, in the style of a saga — "And then Captain Vela, unbowed…" — and backs every word up.
 
-Vela was eleven on the Ash Night, a girl on the Ashland coast whose mother built wind-kites and whose aunt Alfhild was a skald. As the sky went red, her mother strapped her into a glider and threw her off the sea cliffs. She flew over the rising Ember Wall in the firestorm's updraft and came down in a Grasslands barley field with a broken arm and a story she has been telling, in the third person, ever since.
+Vela was eleven on the Ash Night, a girl on the Cinderheim coast whose mother built wind-kites and whose aunt Alfhild was a skald. As the sky went red, her mother strapped her into a glider and threw her off the sea cliffs. She flew over the rising Ember Wall in the firestorm's updraft and came down in a Gildenmark barley field with a broken arm and a story she has been telling, in the third person, ever since.
 
-Alfhild used to sing that "when the cycle breaks, two will come from the water to mend it". Vela thought it was a song about her. She has spent her life making sure there's a saga worth singing: sky-sailing, wind-kites, a fleet of three small sky-ships out of the harbour islands, and a long feud with the Ember Wall's winds. Surtharn's wardens caught her charting a pass over the wall and locked her in an Ashlands tower, where she narrated her own imprisonment to the guards until they begged to be reassigned.
+Alfhild used to sing that "when the cycle breaks, two will come from the water to mend it". Vela thought it was a song about her. She has spent her life making sure there's a saga worth singing: sky-sailing, wind-kites, a fleet of three small sky-ships out of the harbour islands, and a long feud with the Ember Wall's winds. Surtharn's wardens caught her charting a pass over the wall and locked her in an Cinderheim tower, where she narrated her own imprisonment to the guards until they begged to be reassigned.
 
 When you free her, she builds the passes over the Ember Wall, opens the sky ports, and announces, to no one in particular: "And so the twin and Captain Vela, together at last…"
 
 **In the Saga**
 
-- Rescued from the Ashlands tower; builds the passes through the Ember Wall; opens the sky ports.
+- Rescued from Cinderheim tower; builds the passes through the Ember Wall; opens the sky ports.
 - The Spyglass riddle (Vela's spyglass).
 - Carries Brask's letter south to Miklagard when the sea roads open.
-- Her aunt Alfhild is one of the forty spirits (the Ashlands skald: "The skalds sang that when the cycle breaks, two will come from the water to mend it. We thought it was only a song.").
+- Her aunt Alfhild is one of the forty spirits (Cinderheim skald: "The skalds sang that when the cycle breaks, two will come from the water to mend it. We thought it was only a song.").
 
 **Ties**
 
@@ -620,7 +620,7 @@ After the end she comes down to the village to see the spring she sent along the
 
 *Writes awful love poems* — Earnest, hopeful and terrible at rhyme; reads his poems aloud to anyone who stands still at the gate.
 
-Corr was eight when the Ash Night came, a boy from the Ashlands' eastern edge visiting the last village with his big brother Njal for the summer fair. Njal went home ahead of him to fetch the cart. The Ember Wall rose that night, and Corr was on one side of it and his brother on the other. He has lived in the village ever since, raised by whoever had a spare bed, which was eventually Brask.
+Corr was eight when the Ash Night came, a boy from Cinderheim's eastern edge visiting the last village with his big brother Njal for the summer fair. Njal went home ahead of him to fetch the cart. The Ember Wall rose that night, and Corr was on one side of it and his brother on the other. He has lived in the village ever since, raised by whoever had a spare bed, which was eventually Brask.
 
 He joined the gate watch at sixteen because, he says, he wanted to be standing at the gate when somebody came back. Nobody ever did. So he started writing poems to pass the nights — love poems, all of them, to the light on the point: Ilsa, the lighthouse keeper, who has lit her lamp every night of the Quiet for ships that never came. He has watched that light from the gate for twenty-eight years. The poems are very bad. "O Ilsa, light of the lighthouse, you are brighter than a… fight mouse." He has three hundred of them.
 
@@ -630,7 +630,7 @@ He has never once left his post during a watch. He has never once climbed the hi
 
 - Lines at the gate.
 - The Poem side quest.
-- His brother Njal is one of the forty spirits (the Ashlands stonemason: "The Ember Wall rose in one night. I was on the wrong side of it.").
+- His brother Njal is one of the forty spirits (Cinderheim stonemason: "The Ember Wall rose in one night. I was on the wrong side of it.").
 
 **Ties**
 
@@ -643,16 +643,16 @@ He has never once left his post during a watch. He has never once climbed the hi
 
 *The river trader* — Brisk, salty and nostalgic; talks prices and currents in the same breath, and judges vegetables like a river pilot judges water.
 
-Before the Black Tide, Marta and her husband Magni ran a flat-bottomed trading boat up and down the Silverrun, from the Wetland mills to the Grassland fords — cheese up, eels down, gossip both ways. Magni was a stonemason by trade who built dikes in the off-season, and every year he built them higher.
+Before the Black Tide, Marta and her husband Magni ran a flat-bottomed trading boat up and down the Silverrun, from the Fernheim mills to the Gildenmark fords — cheese up, eels down, gossip both ways. Magni was a stonemason by trade who built dikes in the off-season, and every year he built them higher.
 
-In the eighth winter of the Quiet the Silverrun rose black from the south. "The water didn't come over the dikes," Magni had told her once, laughing, "if it ever does, it'll come up through." It came up through. Marta was on the boat at the Grassland ford; Magni was on the dike. The marshes drank the villages in a night, and the river became a wall.
+In the eighth winter of the Quiet the Silverrun rose black from the south. "The water didn't come over the dikes," Magni had told her once, laughing, "if it ever does, it'll come up through." It came up through. Marta was on the boat at the Gildenmark ford; Magni was on the dike. The marshes drank the villages in a night, and the river became a wall.
 
 She sold the boat, bought a cart, and has spent twenty-eight years selling vegetables in the last village — "a river trader with no river". She comes to the market square once the roads open enough to bring her goods, and she talks about the Silverrun as if it were a person who left without saying goodbye.
 
 **In the Saga**
 
-- Lines at the market carts (from the Highlands on).
-- Her husband Magni is one of the forty spirits (the Wetlands stonemason: "We built the dikes higher every year. The water didn't come over them. It came up through.").
+- Lines at the market carts (from Cragland on).
+- Her husband Magni is one of the forty spirits (Fernheim stonemason: "We built the dikes higher every year. The water didn't come over them. It came up through.").
 - When Bram's bridge rises, she is the first across with a cart.
 
 **Ties**
@@ -675,7 +675,7 @@ His most famous vegetable is Sigurd, a turnip of great size and dignity who has 
 
 - Lines in the fields.
 - The Crows side quest.
-- His wife Frida is one of the forty spirits (the Grasslands beekeeper: "The bees left the year the sky went quiet. They knew before we did.").
+- His wife Frida is one of the forty spirits (Gildenmark beekeeper: "The bees left the year the sky went quiet. They knew before we did.").
 - After the end — if the bees come back — he names every one of them.
 
 **Ties**
@@ -688,9 +688,9 @@ His most famous vegetable is Sigurd, a turnip of great size and dignity who has 
 
 *The wind superstitions* — Watchful and superstitious; reads every gust, spits to the west, and is never wrong about the weather, which only makes it worse.
 
-Greta was born in a Wetlands mill-town on the Silverrun, the elder of two miller's daughters. Her little sister Liv took over the family water-mill; Greta, who could not stand the damp, went north to run the last village's windmill. "Water mills are for people who trust rivers."
+Greta was born in a Fernheim mill-town on the Silverrun, the elder of two miller's daughters. Her little sister Liv took over the family water-mill; Greta, who could not stand the damp, went north to run the last village's windmill. "Water mills are for people who trust rivers."
 
-She was right. In the eighth winter of the Quiet the Silverrun ran black from the south and Liv's mill-wheel, by the account of the one cart that escaped, turned backwards before the water took it. Greta has trusted nothing since but the wind, and she trusts the wind with a passion. A north wind means news. An east wind means guests. A west wind — from the Ashlands — means trouble, and she spits at it.
+She was right. In the eighth winter of the Quiet the Silverrun ran black from the south and Liv's mill-wheel, by the account of the one cart that escaped, turned backwards before the water took it. Greta has trusted nothing since but the wind, and she trusts the wind with a passion. A north wind means news. An east wind means guests. A west wind — from Cinderheim — means trouble, and she spits at it.
 
 She judges the whole village by which way its chimneys smoke, and she has never once been caught in the rain.
 
@@ -698,7 +698,7 @@ She judges the whole village by which way its chimneys smoke, and she has never 
 
 - Lines at the windmill.
 - The Wheel riddle.
-- Her sister Liv is one of the forty spirits (the Wetlands miller: "The Silverrun ran black from the south, and the mill wheel turned backwards.").
+- Her sister Liv is one of the forty spirits (Fernheim miller: "The Silverrun ran black from the south, and the mill wheel turned backwards.").
 
 **Ties**
 
@@ -710,9 +710,9 @@ She judges the whole village by which way its chimneys smoke, and she has never 
 
 *Hears the planks sing* — Dreamy, patient and certain; hears a note in every plank and will not launch a boat that sings off-key.
 
-Hesk and his sister Bodil learned boatbuilding from their father in the Highlands, in a valley where shipwrights built boats for a sea they could only see from the peaks. Bodil believed one day they would sail to the end of the sea and up into the sky — "to sail to the gods". Hesk only wanted to build a boat that sang right.
+Hesk and his sister Bodil learned boatbuilding from their father in Cragland, in a valley where shipwrights built boats for a sea they could only see from the peaks. Bodil believed one day they would sail to the end of the sea and up into the sky — "to sail to the gods". Hesk only wanted to build a boat that sang right.
 
-He came down to the lake to work the year before the gate shut. Bodil stayed in the Highlands, and the Stone-Fall took her and the road to the sea together. Hesk has built every boat on Mirror Lake for forty years, and he says every plank has a note: oak hums low, pine sings high, and a good hull is a chord. He will tear down a boat that sings off-key, which has made him poor and very well respected.
+He came down to the lake to work the year before the gate shut. Bodil stayed in Cragland, and the Stone-Fall took her and the road to the sea together. Hesk has built every boat on Mirror Lake for forty years, and he says every plank has a note: oak hums low, pine sings high, and a good hull is a chord. He will tear down a boat that sings off-key, which has made him poor and very well respected.
 
 Since the gate shut, he says, the lake has been out of tune. He has been waiting twenty-eight years for it to come right.
 
@@ -720,7 +720,7 @@ Since the gate shut, he says, the lake has been out of tune. He has been waiting
 
 - Lines at the boathouse.
 - Oswin's Proper Paperwork: the "sea-steed's keeper" in the kenning is Hesk.
-- His sister Bodil is one of the forty spirits (the Highlands shipwright: "We built ships for a sea we could see from the peaks, to sail to the gods.").
+- His sister Bodil is one of the forty spirits (Cragland shipwright: "We built ships for a sea we could see from the peaks, to sail to the gods.").
 - When Asgard comes down onto the lake, he hears it in tune for the first time in twenty-eight years.
 
 **Ties**
@@ -733,16 +733,16 @@ Since the gate shut, he says, the lake has been out of tune. He has been waiting
 
 *Dark and dismal* — Slow, gloomy and grimly funny; expects the worst, describes it beautifully, and lights the lamps anyway.
 
-Fenwick has lit the village's lamps every dusk for sixty years. He was a cheerful man once, people say, though nobody can remember it clearly. He lost his wife to the Long Quiet, his son to the Stone-Fall (the boy had gone to the Highland mines for the wages), and his faith in most things somewhere in between.
+Fenwick has lit the village's lamps every dusk for sixty years. He was a cheerful man once, people say, though nobody can remember it clearly. He lost his wife to the Long Quiet, his son to the Stone-Fall (the boy had gone to the Cragland mines for the wages), and his faith in most things somewhere in between.
 
 Now he walks the streets at dusk with a long lighting pole and a running commentary on doom. "Every lamp I light is one less dark," he says. "The dark doesn't mind. It has more." He is convinced the village is ending, has been convinced for thirty years, and has never missed a single evening's round.
 
-He is the only villager who comes out once the Ashlands are open, because, he says, now that the worst has started he might as well watch it properly. When the land turns green he complains about the light. He is, secretly, delighted.
+He is the only villager who comes out once Cinderheim is open, because, he says, now that the worst has started he might as well watch it properly. When the land turns green he complains about the light. He is, secretly, delighted.
 
 **In the Saga**
 
-- Lines along the lamp-posts at dusk (from the Ashlands on).
-- He knows the Binders lately come over the walls for the Grasslands dead — "I've seen the embers at the edge of the light."
+- Lines along the lamp-posts at dusk (from Cinderheim on).
+- He knows the Binders lately come over the walls for Gildenmark dead — "I've seen the embers at the edge of the light."
 
 **Ties**
 
@@ -754,7 +754,7 @@ He is the only villager who comes out once the Ashlands are open, because, he sa
 
 *Lonely and poetic* — Quiet, lyrical and a little lost; speaks in images of water and light, and listens more than she talks.
 
-Ilsa came to the last village at fourteen, from a harbour town on the Ashland coast, sent away by her parents the summer before the Ash Night "to learn a trade". She learned lamp-keeping from the old lighthouse keeper on the point and never went home, because there was no home to go to. The lighthouse has guided no ships for twenty-eight years. She has lit it every night anyway.
+Ilsa came to the last village at fourteen, from a harbour town on the Cinderheim coast, sent away by her parents the summer before the Ash Night "to learn a trade". She learned lamp-keeping from the old lighthouse keeper on the point and never went home, because there was no home to go to. The lighthouse has guided no ships for twenty-eight years. She has lit it every night anyway.
 
 She writes poems to the dark water — not love poems like Corr's, but long, quiet ones to the people she can't see. She keeps them in a sea-chest. She has watched the lake every night of her adult life and has seen things nobody believes: two little lights on the water one stormy dawn, and, on still nights, a reflection of something golden in the sky that isn't there when you look up.
 

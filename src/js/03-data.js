@@ -1,5 +1,5 @@
 // Phase 3: the 1200 × 1200 continent (see 07e-world-map.js / 05b-world-build.js).
-// CENTER_X/Y is the VILLAGE centre (on the Grasslands shore of Mirror Lake),
+// CENTER_X/Y is the VILLAGE centre (on Gildenmark shore of Mirror Lake),
 // not the middle of the map.
 const WORLD_W=1200, WORLD_H=1200;
 const CENTER_X=690, CENTER_Y=520;
@@ -22,7 +22,7 @@ const ISL_ADV={
 };
 
 // Section names & accents (0=village, 1-4=quadrants)
-const SECTION_NAMES={0:'Village Center',1:'NE Grasslands',2:'SE Wetlands',3:'SW Highlands',4:'NW Ashlands'};
+const SECTION_NAMES={0:'The Green',1:'Gildenmark',2:'Fernheim',3:'Cragland',4:'Cinderheim'};
 const SECTION_ACCENTS={0:'#ffdd88',1:'#aaffaa',2:'#aaccff',3:'#ffddaa',4:'#ffaa88'};
 
 // Exploration fog: 1 cell = 8 tiles
@@ -78,7 +78,7 @@ const SECTION_TILE_COLORS={
     [T.BUILDING_WALL]:0xa07858,[T.DOOR]:0x703c18,
     [T.STABLES_FLOOR]:0xc09050,
   },
-  1:{ // NE Grasslands — vivid spring greens
+  1:{ // Gildenmark — vivid spring greens
     [T.GRASS]:0x3a9a18,[T.GRASS2]:0x4aaa28,
     [T.TREE]:0x1a6808,[T.DIRT]:0x8a6838,
     [T.PATH]:0xc8a848,[T.ROCK]:0x7a7260,
@@ -86,7 +86,7 @@ const SECTION_TILE_COLORS={
     [T.GRAVEL]:0xb8b098,[T.DRY_GRASS]:0xb0a848,
     [T.ROCKY_GROUND]:0x8a8068,
   },
-  2:{ // SE Wetlands — swampy murky greens
+  2:{ // Fernheim — swampy murky greens
     [T.GRASS]:0x2a6a28,[T.GRASS2]:0x386838,
     [T.TREE]:0x143818,[T.DIRT]:0x5a4828,
     [T.PATH]:0x8a7848,[T.ROCK]:0x4a4838,
@@ -94,7 +94,7 @@ const SECTION_TILE_COLORS={
     [T.REED]:0x4a8030,[T.MUD]:0x5a4428,[T.LILY]:0x2a7820,
     [T.SHALLOW_WATER]:0x3a7870,[T.DEEP_WATER]:0x1a4848,
   },
-  3:{ // SW Highlands — cool grey-brown rocky
+  3:{ // Cragland — cool grey-brown rocky
     [T.GRASS]:0x788858,[T.GRASS2]:0x889868,
     [T.TREE]:0x4a6838,[T.DIRT]:0x887060,
     [T.PATH]:0xa09078,[T.ROCK]:0x707068,
@@ -103,7 +103,7 @@ const SECTION_TILE_COLORS={
     [T.ROCKY_GROUND]:0x888070,
     [T.LARGE_BOULDER]:0x585048,[T.SMALL_BOULDER]:0x686058,
   },
-  4:{ // NW Ashlands — dark volcanic ashy
+  4:{ // Cinderheim — dark volcanic ashy
     [T.GRASS]:0x3a3028,[T.GRASS2]:0x4a3e30,
     [T.TREE]:0x281808,[T.DIRT]:0x4a3828,
     [T.PATH]:0x5a4838,[T.ROCK]:0x3a3030,
@@ -119,7 +119,7 @@ const ALWAYS_BLOCKED=new Set([T.ROCK,T.LARGE_BOULDER,T.DEEP_MAGMA,T.DEEP_WATER,T
 // Signature terrain (Phase 3): walkable on foot but slow; a mount that lists
 // the tile in canCross moves over it at full speed. (Deep water, large boulders
 // and deep lava stay in ALWAYS_BLOCKED for anyone without such a mount.)
-// Mounts that keep you safe from fire and magma (campfires, Ashlands lava crust)
+// Mounts that keep you safe from fire and magma (campfires, Cinderheim lava crust)
 // round 64 (Kris: "if you are on the lava unicorn or a flying mount in the ashlands and on top of ground that would burn you, you should not be affected"): every flying mount too
 var FIRE_SAFE_MOUNTS=['lava_unicorn','dragon','ash_salamander','sky_eagle','sky_glider','storm_drake','ember_phoenix','void_serpent'];
 function _fireSafeMount(ps){ return !!(ps&&ps.mount&&FIRE_SAFE_MOUNTS.indexOf(ps.mount)>=0); }
@@ -136,9 +136,9 @@ const MOUNTS={
   horse:      {n:'Horse',       icon:'🐎',spdMult:1.6,cost:200,sec:1,desc:'Fast land travel'},
   // Key mounts (one per region's boss dungeon) — each crosses the NEXT region's
   // signature terrain at full speed (on foot it is slow, its deepest parts blocked).
-  alligator:  {n:'Alligator',   icon:'🐊',spdMult:1.3,cost:0,  sec:1,canCross:[T.DEEP_WATER,T.SHALLOW_WATER,T.REED,T.MUD,T.LILY,T.REEF],desc:'Swims the Wetlands and the light coastal sea — water & marsh at full speed'},      // round 51: + the light ocean
-  boar:       {n:'Battle Boar', icon:'🐗',spdMult:1.4,cost:0,  sec:2,canCross:[T.SMALL_BOULDER,T.LARGE_BOULDER],desc:'Charges through Highland boulder fields at full speed'},
-  lava_unicorn:{n:'Lava Unicorn',icon:'🦄',spdMult:1.5,cost:0, sec:3,canCross:[T.THIN_MAGMA],desc:'Gallops over Ashland lava crust — no burns'},
+  alligator:  {n:'Alligator',   icon:'🐊',spdMult:1.3,cost:0,  sec:1,canCross:[T.DEEP_WATER,T.SHALLOW_WATER,T.REED,T.MUD,T.LILY,T.REEF],desc:'Swims Fernheim and the light coastal sea — water & marsh at full speed'},      // round 51: + the light ocean
+  boar:       {n:'Battle Boar', icon:'🐗',spdMult:1.4,cost:0,  sec:2,canCross:[T.SMALL_BOULDER,T.LARGE_BOULDER],desc:'Charges through Cragland boulder fields at full speed'},
+  lava_unicorn:{n:'Lava Unicorn',icon:'🦄',spdMult:1.5,cost:0, sec:3,canCross:[T.THIN_MAGMA],desc:'Gallops over Cinderheim lava crust — no burns'},
   // id kept as ash_salamander so saves keep it; it is the Ash Dragon now
   ash_salamander:{n:'Ash Dragon',icon:'🐲',spdMult:1.7,cost:0,sec:4,canCross:[T.DEEP_WATER,T.SHALLOW_WATER,T.REED,T.MUD,T.LILY,T.SMALL_BOULDER,T.LARGE_BOULDER,T.THIN_MAGMA,T.DEEP_MAGMA],desc:'Every region\'s terrain at full speed, and the deep-lava causeways to the volcano isles'},
   dragon:     {n:'Dragon',      icon:'🐉',spdMult:2.0,cost:0,  sec:4,canCross:'land_and_deep',desc:'Flies over all terrain except sea water'},
@@ -165,7 +165,7 @@ const MAIN_QUEST_DEFS={
   skyport:{title:'Sky Exploration', icon:'🎈',desc:'Defend the sky city through every wave. Reward: pick a weapon, sky mount or gem.'},
 };
 const MDEFS={
-  // ── Section 1: NE Grasslands ────────────────────────────────────────────
+  // ── Section 1: Gildenmark ────────────────────────────────────────────
   // Goblin: SWARM — fragile, fast, deals light damage. Glass cannon.
   goblin:      {name:'Goblin',       icon:'👺',hp:12, atk:5, def:0, xp:10,gMin:3, gMax:8,  sec:1,color:0x3a9a1a,r:10,spd:58, moveType:'pulse',    atkType:'melee',          lvMin:1, lvMax:3},
   // Skeleton: SOLDIER — moderate HP, ranged attacker, solid shield.
@@ -173,7 +173,7 @@ const MDEFS={
   // Goblin King: WARLORD — rush attacker, fires scatter arrows.
   goblin_king: {name:'Goblin King',  icon:'👑',hp:95, atk:9, def:4, xp:160,gMin:45,gMax:65,sec:1,color:0x228800,r:18,spd:50, moveType:'rush',     atkType:'scatter_arrow',boss:true,lvMin:4,lvMax:6},
 
-  // ── Section 2: SE Wetlands ───────────────────────────────────────────────
+  // ── Section 2: Fernheim ───────────────────────────────────────────────
   // Mud Troll: TANK — massive HP, slow, low ATK, tough to kill.
   mud_troll:   {name:'Mud Troll',    icon:'🧟',hp:55, atk:5, def:5, xp:22,gMin:6, gMax:14, sec:2,color:0x5a4a28,r:11,spd:34, moveType:'zigzag',   atkType:'stomp',          lvMin:4, lvMax:7},
   // Bog Serpent: STRIKER — low HP, very high ATK, zero defense. Fragile.
@@ -181,7 +181,7 @@ const MDEFS={
   // Swamp Witch: CASTER — orbits, lobs flame. Boss.
   swamp_witch: {name:'Swamp Witch',  icon:'🧙',hp:140,atk:12,def:6, xp:210,gMin:70,gMax:95,sec:2,color:0x446633,r:18,spd:44, moveType:'orbit',    atkType:'flame',boss:true,lvMin:6, lvMax:9},
 
-  // ── Section 3: SW Highlands ──────────────────────────────────────────────
+  // ── Section 3: Cragland ──────────────────────────────────────────────
   // Stone Golem: FORTRESS — ultra-high HP, very high DEF, slow, big stomp.
   stone_golem: {name:'Stone Golem',  icon:'🗿',hp:95, atk:7, def:9, xp:40,gMin:10,gMax:20, sec:3,color:0x7a7060,r:13,spd:24, moveType:'normal',   atkType:'stomp',          lvMin:7, lvMax:11},
   // Harpy: SKIRMISHER — very low HP, very high ATK, no defense. Hit-and-run.
@@ -189,7 +189,7 @@ const MDEFS={
   // Iron Sentinel: ARMORED CANNON — medium HP, extreme DEF, high scatter dmg. Boss.
   iron_sentinel:{name:'Iron Sentinel',icon:'🤖',hp:180,atk:18,def:12,xp:310,gMin:110,gMax:145,sec:3,color:0x778899,r:20,spd:30,moveType:'normal',  atkType:'scatter',boss:true,lvMin:10,lvMax:14},
 
-  // ── Section 4: NW Ashlands ───────────────────────────────────────────────
+  // ── Section 4: Cinderheim ───────────────────────────────────────────────
   // Fire Imp: BERSERKER — medium HP, very high ATK, low DEF. Aggressive zigzag.
   fire_imp:    {name:'Fire Imp',     icon:'😈',hp:52, atk:17,def:2, xp:50,gMin:15,gMax:28, sec:4,color:0xcc3300,r:10,spd:78, moveType:'zigzag',   atkType:'heat_seek',      lvMin:11, lvMax:15},
   // Ash Wraith: PHANTOM — high HP, moderate ATK, high DEF. Teleports.
@@ -256,10 +256,10 @@ var ITEMS={   // var: 03b-elements.js wraps it so gem-set ids (iron_helm~fire) r
   gem_emerald: {name:'Emerald',      icon:'🟢',goldVal:120,slot:'gem',desc:'Worth 120g — lightning crafting'},
   pearl:       {name:'Pearl',        icon:'💫',goldVal:60, slot:'gem',desc:'Worth 60g — harbor loot'},
   skystone:    {name:'Skystone',     icon:'✨',    goldVal:200,slot:'gem',desc:'Worth 200g — sky loot'},
-  volcano_key_n:{name:'Ember Key (N)',  icon:'🔥',slot:'key',sell:0,desc:'Won in the Ember Forge (Grasslands). Opens the Cinder Forge — and is one of the four keys to Muspelheim.'},
-  volcano_key_e:{name:'Magma Key (E)',  icon:'🟧',slot:'key',sell:0,desc:'Won in the Cinder Forge (Wetlands). Opens the Slag Forge — and is one of the four keys to Muspelheim.'},
-  volcano_key_s:{name:'Obsidian Key (S)',icon:'🟫',slot:'key',sell:0,desc:'Won in the Slag Forge (Highlands). Opens the Ash Forge — and is one of the four keys to Muspelheim.'},
-  volcano_key_w:{name:'Ashfire Key (W)',icon:'🌋',slot:'key',sell:0,desc:'Won in the Ash Forge (Ashlands). The last of the four keys to Muspelheim.'},
+  volcano_key_n:{name:'Ember Key (N)',  icon:'🔥',slot:'key',sell:0,desc:'Won in the Ember Forge (Gildenmark). Opens the Cinder Forge — and is one of the four keys to Muspelheim.'},
+  volcano_key_e:{name:'Magma Key (E)',  icon:'🟧',slot:'key',sell:0,desc:'Won in the Cinder Forge (Fernheim). Opens the Clinker Forge — and is one of the four keys to Muspelheim.'},
+  volcano_key_s:{name:'Obsidian Key (S)',icon:'🟫',slot:'key',sell:0,desc:'Won in the Clinker Forge (Cragland). Opens the Ash Forge — and is one of the four keys to Muspelheim.'},
+  volcano_key_w:{name:'Ashfire Key (W)',icon:'🌋',slot:'key',sell:0,desc:'Won in the Ash Forge (Cinderheim). The last of the four keys to Muspelheim.'},
   // ── Harbor / Sky Exclusive Weapons & Shields ─────────────────────────────
   sea_trident:      {name:'Sea Trident',      icon:'🔱',atk:12, slot:'lHand', sell:55, buy:0, secReq:2, desc:'+12 ATK — razor-tipped trident from Corsair Isle'},
   sea_shell_buckler:{name:'Sea Shell Buckler',icon:'🛡️',def:5, atk:2, slot:'shield',sell:40, buy:0, secReq:2, desc:'+5 DEF +2 ATK — crafted from giant shells'},
@@ -524,9 +524,9 @@ const BOSS_REWARDS={
   s2_dungeon:{mount:'boar',        message:'🐗 Battle Boar mount unlocked!',  color:'#ffaa44'},
   s3_dungeon:{mount:'lava_unicorn',message:'🦄 Lava Unicorn mount unlocked!', color:'#ff88ff'},
   s4_dungeon:{mount:'ash_salamander',message:'🐲 Ash Dragon mount unlocked — water, boulders and lava are all open road now!',color:'#ff8844'},
-  s1_tower:  {unlockSection:2,rings:['ruby_ring','speed_ring'],message:'🌿 SE Wetlands unlocked! Found 2 rings!',color:'#44aaff'},
-  s2_tower:  {unlockSection:3,rings:['sapphire_ring','power_ring'],message:'🏔️ SW Highlands unlocked! Found 2 rings!',color:'#ffddaa'},
-  s3_tower:  {unlockSection:4,rings:['emerald_ring','warding_ring'],message:'🌋 NW Ashlands unlocked! Found 2 rings!',color:'#ffaa66'},
+  s1_tower:  {unlockSection:2,rings:['ruby_ring','speed_ring'],message:'🌿 Fernheim unlocked! Found 2 rings!',color:'#44aaff'},
+  s2_tower:  {unlockSection:3,rings:['sapphire_ring','power_ring'],message:'🏔️ Cragland unlocked! Found 2 rings!',color:'#ffddaa'},
+  s3_tower:  {unlockSection:4,rings:['emerald_ring','warding_ring'],message:'🌋 Cinderheim unlocked! Found 2 rings!',color:'#ffaa66'},
   s4_tower:  {rings:['dragon_ring','celestial_ring'],message:'🗼 All tower quests cleared! Found 2 legendary rings!',color:'#ffdd44'},
 };
 

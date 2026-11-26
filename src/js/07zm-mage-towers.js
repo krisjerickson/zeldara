@@ -9,7 +9,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 // [key, q, tower name, spell tome, default look, boss id, boss name, title, sprite spec, kit, signature skills, look]
 var MAGE_TOWERS=[
- // ── Grasslands ──
+ // ── Gildenmark ──
  ['rime_spire',1,'The Rime Spire','frost_bolt_tome','frost_spire','mg_rime_witch','Frostwhisper','the Rime Witch',['person','cast','#bfe8ff,#3a6a9a,#e0f8ff,#2050c0,#e8f0f8,#f4f8ff','robe,long,staff,hood'],
    'kite range=170 | shoot p=ice n=3 sp=0.3 st=slow t=2 m=0.6 cd=2.2 | lob n=3 rad=42 t=1 zone=slip zt=6 col=#bfe8ff m=0.3 cd=5 | blink every=5 d=140',
    ['❄️ Frost bolts slow you','🧊 Rime floor — patches of ice you slide across','✨ Blinks away when you close in'],'A pale witch in frost-blue robes; frost creeps along the floor wherever she walks.'],
@@ -22,7 +22,7 @@ var MAGE_TOWERS=[
  ['rootspire',1,'The Rootspire','thorn_tome','druid_grove_spire','mg_thorn_druid','Old Bramblebeard','the Thorn Druid',['person','cast','#4a7a3a,#2a3a1a,#80d050,#ffe060,#c89868,#8ab070','robe,beard,long,staff'],
    'drift keep=140 | shoot p=thorn n=3 sp=0.3 st=root t=1.2 m=0.6 cd=2.6 | pull r=190 keep=30 m=0.4 cd=5 | regen r=0.5',
    ['🌿 Thorns root you in place','🪢 Vines pull you to him','💚 Slowly heals'],'An ancient druid whose beard has grown into brambles; flowers bloom where he stands.'],
- // ── Wetlands ──
+ // ── Fernheim ──
  ['conductor',2,'The Conductor\'s Spire','arc_lightning','storm_rod_tower','mg_storm_caller','Voltara','the Storm-Caller',['person','cast','#3a5a9a,#1a2a4a,#fff080,#ffffa0,#e8d0c0,#f0f0ff','robe,long,staff,crown'],
    'kite range=200 | beam wind=0.8 len=320 w=10 col=#fff080 m=0.9 cd=3 | strike still=1.1 col=#ffff80 m=0.9 | shoot p=spark n=4 sp=0.2 spd=260 m=0.5 cd=2.2',
    ['⚡ Lightning beams','⚡ Stand still and lightning finds you','⚡ Spark volleys'],'A storm sorceress crowned with crackling light; her hair floats as if underwater.'],
@@ -35,24 +35,24 @@ var MAGE_TOWERS=[
  ['drowned_lighthouse',2,'The Drowned Lighthouse','tidal_tome','tidal_aquarium','mg_sea_warlock','Tidelord Marenus','the Sea-Warlock',['person','cast','#2a6a8a,#0a2a3a,#60c0ff,#c0f0ff,#a8c8c0,#1a3a3a','robe,beard,staff,crown'],
    'drift keep=150 | gust r=220 dist=140 m=0.4 cd=4 | ring spd=140 max=240 gap=2 col=#60c0ff m=0.8 cd=4 | wall dur=5 col=#60c0ff cd=8 | shoot p=water n=3 sp=0.3 spd=200 m=0.5 cd=2.6',
    ['🌊 Waves shove you across the room','🌊 Rings of water','🧱 Walls of water block your path'],'A drowned warlock-king with a crown of coral and a beard of seaweed.'],
- // ── Highlands ──
- ['ember_observatory',3,'The Ember Observatory','flame_wave','astral_observatory','mg_nova_sorceress','Pyrrhia','the Nova Sorceress',['person','cast','#e05020,#5a1a0a,#ffd060,#fff0a0,#f0c8a0,#ff8030','robe,long,staff,crown'],
+ // ── Cragland ──
+ ['ember_observatory',3,'The Nova Dome','flame_wave','astral_observatory','mg_nova_sorceress','Pyrrhia','the Nova Sorceress',['person','cast','#e05020,#5a1a0a,#ffd060,#fff0a0,#f0c8a0,#ff8030','robe,long,staff,crown'],
    'chase s=0.8 | ring spd=160 max=220 gap=1 col=#ff7030 st=burn m=1 cd=3 | marks n=4 rad=28 delay=1.1 spread=150 col=#ff8040 m=0.9 cd=5 | blink every=4 d=160',
    ['💥 Novas of flame burst out of her','☄️ Burning star-marks rain on you','✨ Blinks away'],'A star-gazing fire mage whose robe glows like embers; tiny suns orbit her staff.'],
  ['hollow_spire',3,'The Hollow Spire','lightning_bolt','void_rift_hall','mg_void_warlock','Nihilus','the Void Warlock',['person','cast','#2a1a3a,#0a0614,#a040ff,#ff60ff,#9a90a8,#1a1020','robe,hood,staff'],
    'kite range=200 | cloud at=player rad=100 st=blind v=1 dur=4 cd=9 | shoot p=orb n=2 sp=0.3 homing=1 spd=110 st=slow t=2 m=0.8 cd=2.8 | blink every=3 d=170',
    ['🌑 Darkness — you go blind; only his glowing eyes show','🔮 Slow void orbs follow you','✨ Blinks in the dark'],'A hooded warlock made of shadow; only his violet eyes are ever clearly seen.'],
- ['lightning_rod',3,'The Lightning Rod Tower','blizzard_tome','storm_rod_tower','mg_thunder_magus','Stormhelm','the Thunder Magus',['person','cast','#6a7a9a,#2a3a5a,#ffff80,#ffffa0,#d8b090,#e8e8e8','armor,helmet,staff,beard,grey'],
+ ['lightning_rod',3,'Stormspike','blizzard_tome','storm_rod_tower','mg_thunder_magus','Stormhelm','the Thunder Magus',['person','cast','#6a7a9a,#2a3a5a,#ffff80,#ffffa0,#d8b090,#e8e8e8','armor,helmet,staff,beard,grey'],
    'chase | blink every=2.4 d=170 | slam r=80 m=1.2 cd=3 | strike still=1 col=#ffff80 m=1 | shoot p=spark n=5 sp=0.2 spd=280 st=root t=0.6 m=0.5 cd=3.2',
    ['⚡ Teleports next to you and slams','⚡ Stunning sparks','⚡ Lightning if you stand still'],'A battle-mage in storm-grey plate, a lightning rod for a staff.'],
- ['monolith',3,'The Monolith','spikes_tome','runic_scriptorium','mg_stone_shaper','Gravelord Thane','the Stone Shaper',['person','cast','#8a7a6a,#3a3028,#c0a080,#ffb040,#b0a090,#6a5a4a','robe,beard,staff,big'],
+ ['monolith',3,'The Monolith','spikes_tome','runic_scriptorium','mg_stone_shaper','Thane Gravelstone','the Stone Shaper',['person','cast','#8a7a6a,#3a3028,#c0a080,#ffb040,#b0a090,#6a5a4a','robe,beard,staff,big'],
    'lumber | marks n=6 rad=26 delay=1 spread=170 col=#b09070 m=1 cd=4 | wall dur=6 col=#8a7a6a cd=7 | shoot p=rock n=3 sp=0.25 st=shrink t=5 m=0.7 cd=6 | armor n=4 red=0.5',
    ['🪨 Earth spikes burst up under you','🧱 Raises stone walls','🔻 Shrinking curse (you deal less damage)','🛡 Stone armour'],'A hulking earth-mage whose skin is cracked granite; runes glow in the cracks.'],
- // ── Ashlands ──
+ // ── Cinderheim ──
  ['frostbitten_crown',4,'The Frostbitten Crown','frost_storm_tome','crystal_conservatory','mg_blizzard_king','Hiemal','the Blizzard King',['person','cast','#bfe8ff,#1a3a6a,#ffffff,#80e0ff,#b0c8d8,#e0f8ff','robe,crown,staff,beard,grey'],
    'kite range=200 | cloud at=player rad=110 st=slow v=0.5 dur=5 cd=6 | lob n=5 rad=50 t=1.2 zone=slip zt=8 col=#e0f8ff m=0.4 cd=5 | beam wind=0.8 len=340 w=12 col=#e0f8ff st=freeze t=1.2 m=1 cd=4.5 | ring spd=150 max=230 gap=1 col=#bfe8ff st=slow m=0.8 cd=5',
    ['🌨 Blizzards slow everything','🧊 Ice floors everywhere — you slide','❄️ Freezing beam','❄️ Rings of frost'],'An undying ice-king in a crown of icicles, a blizzard swirling around his throne.'],
- ['rift_tower',4,'The Rift Tower','void_blast','void_rift_hall','mg_rift_lich','Xal\'zor','the Rift Lich',['person','cast','#3a2a5a,#0a0614,#c040ff,#40ffa0,#c8c0b0,#1a1020','robe,hood,staff,crown'],
+ ['rift_tower',4,'The Rift Tower','void_blast','void_rift_hall','mg_rift_lich','Vargrim','the Rift Lich',['person','cast','#3a2a5a,#0a0614,#c040ff,#40ffa0,#c8c0b0,#1a1020','robe,hood,staff,crown'],
    'drift keep=170 | cloud at=player rad=110 st=blind dur=4 cd=10 | beam wind=1 len=360 w=12 col=#a040ff m=1.1 cd=3.4 | shoot p=orb n=3 sp=0.25 homing=1 spd=140 st=reverse t=3 m=0.7 cd=6 | summon id=mgi_rift_tower n=2 max=3 cd=12',
    ['🌑 Blinds you — the room goes dark','🔀 Hexes that reverse your controls','🟣 Void beams','🪞 Echo copies of himself'],'A skeletal lich wrapped in torn space; stars show through the holes in his robe.'],
  ['crimson_spire',4,'The Crimson Spire','drain_tome','blood_moon_chapel','mg_soul_drinker','Lady Vesperine','the Soul Drinker',['person','cast','#8a1a2a,#1a0a10,#ff4060,#ff2040,#e0d0d0,#1a1010','dress,long,crown,cape'],
@@ -66,7 +66,7 @@ var MAGE_TOWERS=[
 MAGE_TOWERS.forEach(function(M){ if(!/banish/.test(M.kit))M.kit+=' | banish r=300 t='+(8+M.q*2)+' cd=15'; });
 var MAGE_BY_KEY={}; MAGE_TOWERS.forEach(function(M){ MAGE_BY_KEY[M.key]=M; });
 // the boss sprites (Design Lab · Characters → Bosses, and the new Bosses tab)
-MAGE_TOWERS.forEach(function(M){ CH('boss','Mage-tower bosses',M.boss,M.bossName+', '+M.title,M.spec,M.name+' ('+['','Grasslands','Wetlands','Highlands','Ashlands'][M.q]+')',M.look,M.skills.join(' · ')); });
+MAGE_TOWERS.forEach(function(M){ CH('boss','Mage-tower bosses',M.boss,M.bossName+', '+M.title,M.spec,M.name+' ('+['','Gildenmark','Fernheim','Cragland','Cinderheim'][M.q]+')',M.look,M.skills.join(' · ')); });
 var MAGE_PICK={};   // tower key → background id (Kris picks in the Lab; falls back to M.bg)
 function _mageBg(M){ return MAGE_PICK[M.key]||M.bg; }
 

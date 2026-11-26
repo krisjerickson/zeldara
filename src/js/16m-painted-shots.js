@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ 16m-painted-shots.js — round 64d: PAINTED SHOTS (Kris, fighting Xal'zor: "a mix of updated painted images for the attacks and old pixel
+// ║ 16m-painted-shots.js — round 64d: PAINTED SHOTS (Kris, fighting Vargrim: "a mix of updated painted images for the attacks and old pixel
 // ║ effects, like a circle with a plus sign in the middle … we need to get all of these updated to painted images").
 // ║ Every shot in flight (09g ZShot: monster shots, and the spells and familiar shots that share the same looks) takes its painting from
 // ║ scenery wave 67 (07zt3: pj_*) as soon as it is in; the thrown stone uses the wave-51 painting (fx_pj_rock) already. The white paintings

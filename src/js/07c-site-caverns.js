@@ -86,7 +86,7 @@ function buildCavern(D, seed, opts){
   var _dfl=typeof ZScn!=='undefined'&&ZScn.detail&&ZScn.detail('tx_dng_floor',LT*4,1.25), _dwl=typeof ZScn!=='undefined'&&ZScn.detail&&ZScn.detail('tx_dng_wall',LT*2,1.2);
   if(_dfl){ try{ ctx.save(); ctx.globalCompositeOperation='overlay'; ctx.globalAlpha=0.85; ctx.fillStyle=ctx.createPattern(_dfl,'repeat'); ctx.beginPath(); for(var fy=0;fy<H;fy++)for(var fx=0;fx<W;fx++)if(!g[fy*W+fx])ctx.rect(fx*LT,fy*LT,LT,LT); ctx.fill(); ctx.restore(); }catch(e){ ctx.restore(); } }
   if(D.paintHazards)D.paintHazards(ctx,ctxInfo,nz);
-  // round 84c (invisible walls): a rock top the floor's own tone reads as floor (Bone Pit, the elite dens, every boss arena) — push it apart
+  // round 84c (invisible walls): a rock top the floor's own tone reads as floor (Bonedeep, the elite dens, every boss arena) — push it apart
   (function(){ var L=function(c){ var q=_scnRGB(c); return (q[0]*0.3+q[1]*0.59+q[2]*0.11)/255; }, lf=(L(P.floorA)+L(P.floorB||P.floorA))/2, top=P.rockTop, i=0;
     if(!top)return; while(i++<6&&Math.abs(L(top)-lf)<0.16)top=shade(top,lf<0.45?0.2:-0.2); if(top!==P.rockTop)P=Object.assign({},P,{rockTop:top}); })();
   // rock with 3/4 faces
@@ -182,7 +182,7 @@ var DNG_PAINTED={boulder:'dg_boulder',column:'dg_column',rubble:'dg_rubble',crys
   stalagmite:'dg_stalagmite',basalt:'dg_basalt',vent:'dg_vent',fcrystal:'dg_fcrystal',hoist:'dg_hoist',spire:'dg_obsidian',anvil:'vp_anvil',pillar:'ar_pillar',barricade:'ar_barricade',gear:'ar_gear',mirror:'ar_mirror',brazier:'cf_brazier'};
 function _dngNoCtx(){ return _dngNoCtx.c||(_dngNoCtx.c=mkCanvas(4,4).getContext('2d')); }
 var DUNGEON_DESIGNS=[
-  { id:'boulder_field', name:'Boulder Field', seed:3, tagline:'Wide cavern strewn with rock clusters',
+  { id:'boulder_field', name:'Tumblestone', seed:3, tagline:'Wide cavern strewn with rock clusters',
     blurb:'A huge open cavern floor broken up by boulder clusters of every size. Easy to read and good for big fights: you kite monsters around the rocks.',
     fill:0.37, iters:5, density:40,
     pal:{floorA:'#4a3f36',floorB:'#5d5046',floorC:'#2e2620',rockTop:'#6d6258',rockFace:'#4a4038',void:'#0a0806'},
@@ -191,7 +191,7 @@ var DUNGEON_DESIGNS=[
     extra:function(c){ var W=c.W,H=c.H,m=c.m; for(var i=0;i<14;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT+16,110,'#ffb060',0.45,{flicker:0.4,depth:-4}); } },
     particles:[{col:'#c8b090',freq:160,scale:{start:0.25,end:0},alpha:{start:0.5,end:0},vy:{min:-4,max:4}}] },
 
-  { id:'pillared_hall', name:'Pillared Hall', seed:5, tagline:'Grid of ancient columns, some fallen',
+  { id:'pillared_hall', name:'The Hundred Pillars', seed:5, tagline:'Grid of ancient columns, some fallen',
     blurb:'A vast underground hall held up by rows of stone columns. Some have collapsed into rubble, opening lanes and cover. Braziers burn along the aisles.',
     density:38,
     layout:function(W,H,R){ var g=new Uint8Array(W*H).fill(1); for(var y=3;y<H-3;y++)for(var x=3;x<W-3;x++){ var edge=(x<5||x>W-6||y<5||y>H-6)&&R.chance(0.35); g[y*W+x]=edge?1:0; } return g; },
@@ -202,7 +202,7 @@ var DUNGEON_DESIGNS=[
       rubble:function(m,ctx,x,y,w,h,R){ for(var i=0;i<4;i++)rockBlob(ctx,x+6+R.f()*(w-12),y+10+R.f()*10,7+R.f()*6,'#6a7288',R); } },
     particles:[{col:'#ffb070',freq:220,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:-18,max:-6}}] },
 
-  { id:'crystal_grotto', name:'Crystal Grotto', seed:7, tagline:'Glowing crystal clusters as cover',
+  { id:'crystal_grotto', name:'Glimmerdeep', seed:7, tagline:'Glowing crystal clusters as cover',
     blurb:'Cyan and violet crystal clusters grow out of the floor and light the cave from within. The glow makes this the brightest open dungeon, and the clusters make natural cover.',
     fill:0.4, iters:5, density:42, dark:0.72,
     pal:{floorA:'#252a45',floorB:'#2f3658',floorC:'#141830',rockTop:'#454c78',rockFace:'#2c3158',void:'#05060f'},
@@ -210,7 +210,7 @@ var DUNGEON_DESIGNS=[
     draw:{ crystal:function(m,ctx,x,y,w,h,R,o){ addSprite(m,x+w/2,y+h,50,80,function(c,cw,ch){ softShadow(c,cw/2,ch-4,14,4,0.4); for(var i=0;i<4;i++){ var ox=(i-1.5)*7, hh=26+R.f()*30; var g=c.createLinearGradient(cw/2+ox-5,0,cw/2+ox+5,0); g.addColorStop(0,rgba(o.col,0.95)); g.addColorStop(0.5,'rgba(255,255,255,.95)'); g.addColorStop(1,rgba(shade(o.col,-0.3),0.95)); c.fillStyle=g; c.beginPath(); c.moveTo(cw/2+ox,ch-4-hh); c.lineTo(cw/2+ox+6,ch-10); c.lineTo(cw/2+ox,ch-3); c.lineTo(cw/2+ox-6,ch-10); c.closePath(); c.fill(); } }); addLight(m,x+w/2,y,100,o.col,0.55,{pulse:0.35,period:1600+R.i(0,900),depth:-4}); } },
     particles:[{col:'#9fe8ff',freq:90,scale:{start:0.4,end:0},alpha:{start:0.9,end:0},vy:{min:-10,max:-2}}] },
 
-  { id:'mushroom_forest', name:'Mushroom Forest', seed:9, tagline:'Giant glowing fungi and spore light',
+  { id:'mushroom_forest', name:'The Toadstool Deep', seed:9, tagline:'Giant glowing fungi and spore light',
     blurb:'Giant mushrooms tower over a soft mossy floor. Their caps glow teal and violet, and spores drift everywhere. Walk between the stalks while monsters lurk under the caps.',
     fill:0.39, iters:5, density:44, dark:0.78,
     pal:{floorA:'#233224',floorB:'#2f4430',floorC:'#162016',rockTop:'#3e4a3a',rockFace:'#283224',void:'#050805'},
@@ -219,7 +219,7 @@ var DUNGEON_DESIGNS=[
     draw:{ shroom:function(m,ctx,x,y,w,h,R,o){ var s=o.big?1.7:1; addSprite(m,x+w/2,y+h,90*s,110*s,function(c,cw,ch){ softShadow(c,cw/2,ch-4,16*s,5*s,0.4); c.fillStyle='#e8e0cc'; c.beginPath(); c.moveTo(cw/2-6*s,ch-4); c.quadraticCurveTo(cw/2-2*s,ch-40*s,cw/2-5*s,ch-60*s); c.lineTo(cw/2+5*s,ch-60*s); c.quadraticCurveTo(cw/2+2*s,ch-40*s,cw/2+6*s,ch-4); c.fill(); var g=c.createRadialGradient(cw/2,ch-68*s,2,cw/2,ch-62*s,34*s); g.addColorStop(0,shade(o.col,0.4)); g.addColorStop(1,shade(o.col,-0.35)); c.fillStyle=g; c.beginPath(); c.ellipse(cw/2,ch-62*s,34*s,16*s,0,Math.PI,0); c.quadraticCurveTo(cw/2,ch-50*s,cw/2-34*s,ch-62*s); c.fill(); c.fillStyle='rgba(255,255,255,.6)'; for(var i=0;i<6;i++){ c.beginPath(); c.arc(cw/2-24*s+i*9*s,ch-68*s+Math.sin(i)*4,2*s,0,Math.PI*2); c.fill(); } }); addLight(m,x+w/2,y-30*s,90*s,o.col,0.45,{pulse:0.3,period:2200+R.i(0,1200),depth:-4}); } },
     particles:[{tints:['#7fffd0','#c8a0ff'],freq:50,scale:{start:0.35,end:0},alpha:{start:0.8,end:0},vx:{min:-6,max:6},vy:{min:-6,max:2},life:{min:4000,max:8000}}] },
 
-  { id:'lava_archipelago', name:'Lava Archipelago', seed:13, tagline:'Rock islands linked by bridges over lava',
+  { id:'lava_archipelago', name:'The Molten Isles', seed:13, tagline:'Rock islands linked by bridges over lava',
     blurb:'Islands of cooled rock float in a sea of lava, joined by narrow stone bridges. The lava lights everything orange; fights happen on the islands and the bridges are choke points.',
     density:40, dark:0.6,
     layout:function(W,H,R){ var g=new Uint8Array(W*H).fill(1); for(var y=2;y<H-2;y++)for(var x=2;x<W-2;x++)g[y*W+x]=0; return g; },
@@ -248,7 +248,7 @@ var DUNGEON_DESIGNS=[
     extra:function(c){ for(var i=0;i<10;i++){ var p=c.randomOpen(); if(p)addLight(c.m,p.x*LT+16,p.y*LT,95,'#ffbf70',0.4,{flicker:0.35,depth:-4}); } },
     particles:[{col:'#d8e0a0',freq:200,scale:{start:0.3,end:0},alpha:{start:0.5,end:0}}] },
 
-  { id:'lake_ring', name:'Underground Lake Ring', seed:19, tagline:'Walkable shore around a dark lake',
+  { id:'lake_ring', name:'The Ringmere', seed:19, tagline:'Walkable shore around a dark lake',
     blurb:'A still black lake fills the middle of the cavern, and the fight happens on the wide shore that rings it, with a few rocky islets you can reach by stepping stones. Fireflies drift over the water.',
     density:40, shape:'round', fill:0.36, iters:5,
     hazards:function(c){ var W=c.W,H=c.H,R=c.R; var cx=W/2,cy=H/2-1; for(var y=0;y<H;y++)for(var x=0;x<W;x++){ var d=Math.hypot((x-cx)/(W*0.27),(y-cy)/(H*0.26)); if(d<1+(R.f()-0.5)*0.12&&!c.g[y*W+x])c.hazard[y*W+x]=1; }
@@ -259,7 +259,7 @@ var DUNGEON_DESIGNS=[
     draw:{ rock:function(m,ctx,x,y,w,h,R){ addSprite(m,x+w/2,y+h,44,44,function(c,cw,ch){ rockBlob(c,cw/2,ch-18,14,'#6a7268',R); }); } },
     extra:function(c){ var m=c.m; m.particles.push({tints:['#e8ff80','#a8ff80'],freq:120,scale:{start:0.5,end:0.1},alpha:{start:1,end:0},vx:{min:-10,max:10},vy:{min:-10,max:10},life:{min:2500,max:5000},area:{x:c.W*LT*0.25,y:c.H*LT*0.25,w:c.W*LT*0.5,h:c.H*LT*0.5}}); addLight(m,c.W*LT/2,c.H*LT/2-LT,300,'#3a7aa8',0.3,{pulse:0.3,period:4000,depth:-4,noCut:true}); for(var i=0;i<10;i++){ var p=c.randomOpen(); if(p)addLight(m,p.x*LT+16,p.y*LT,90,'#ffc070',0.4,{flicker:0.35,depth:-4}); } } },
 
-  { id:'bone_pit', name:'Bone Pit', seed:23, tagline:'Giant rib cages and skulls as obstacles',
+  { id:'bone_pit', name:'Bonedeep', seed:23, tagline:'Giant rib cages and skulls as obstacles',
     blurb:'The graveyard of something enormous. Giant rib cages arch over the floor like fences and skulls the size of houses block the way. Pale ghost-lights drift between the bones.',
     fill:0.38, iters:5, density:40, dark:0.82,
     pal:{floorA:'#3a3630',floorB:'#4a443a',floorC:'#221e1a',rockTop:'#5a544a',rockFace:'#3a3630',void:'#060504'},
@@ -277,7 +277,7 @@ var DUNGEON_DESIGNS=[
     draw:{ root:function(m,ctx,x,y,w,h,R,o){ ctx.save(); ctx.translate(x+w/2,y+h/2); ctx.rotate(o.a); softShadow(ctx,0,8,20,6,0.35); var g=ctx.createLinearGradient(0,-10,0,10); g.addColorStop(0,'#8a6a44'); g.addColorStop(1,'#4a3420'); ctx.fillStyle=g; rr(ctx,-20,-11,40,22,11); ctx.fill(); ctx.strokeStyle='rgba(30,20,10,.6)'; ctx.lineWidth=1; for(var i=-15;i<15;i+=6){ ctx.beginPath(); ctx.moveTo(i,-9); ctx.lineTo(i+4,9); ctx.stroke(); } if(R.chance(0.15)){ ctx.fillStyle='#ffb040'; ctx.fillRect(-3,-3,6,3); } ctx.restore(); if(R.chance(0.08))addLight(m,x+w/2,y+h/2,50,'#ffb040',0.35,{pulse:0.5,depth:-4}); } },
     extra:function(c){ var m=c.m; for(var i=0;i<18;i++){ var p=c.randomOpen(); if(!p)continue; addSprite(m,p.x*LT+16,p.y*LT+10,20,70,function(cc,cw,ch){ cc.strokeStyle='#5a4028'; cc.lineWidth=3; cc.beginPath(); cc.moveTo(cw/2,0); cc.quadraticCurveTo(cw/2+6,ch/2,cw/2-2,ch-6); cc.stroke(); }); m.sprites[m.sprites.length-1].depth=8000; } m.particles.push({col:'#ffc060',freq:260,scale:{start:0.3,end:0},alpha:{start:0.7,end:0},vy:{min:4,max:12}}); } },
 
-  { id:'spiral_chasm', name:'Spiral Chasm', seed:31, tagline:'Open floor spiralling around a pit',
+  { id:'spiral_chasm', name:'The Winding Deep', seed:31, tagline:'Open floor spiralling around a pit',
     blurb:'A round chamber around a bottomless pit. The walkable floor spirals inward in a wide ramp to a central platform, where the guardian would stand. Wind howls up from below.',
     density:40, shape:'round', fill:0.3, iters:4, dark:0.78,
     hazards:function(c){ var W=c.W,H=c.H,cx=W/2,cy=H/2; for(var y=0;y<H;y++)for(var x=0;x<W;x++){ if(c.g[y*W+x])continue; var dx=x-cx,dy=(y-cy)*1.25, r=Math.hypot(dx,dy), a=Math.atan2(dy,dx); if(r<3.2||r>17)continue; var t=(a+Math.PI)/(Math.PI*2); var band=(r/4.2+t)%1; if(band<0.42)c.hazard[y*W+x]=1; } },

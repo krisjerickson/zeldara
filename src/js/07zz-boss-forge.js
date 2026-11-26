@@ -7,13 +7,13 @@
 // ═══════════════════════════════════════════════════════════════════════
 CH('boss','Forge-masters','fm_glodr','Brokk, the Bellows-Wyrm',['drake','breath','#8a2a10,#3a1008,#ff7020,#ffd040','crystals,glowcore'],'the Ember Forge','a great wyrm of riveted iron plates and living fire, a forge bellows built into its chest, smoke pouring from its jaws','breathing fire in sweeps, burrowing under the coals');
 CH('boss','Forge-masters','fm_eisa','Hissa, the Quench-Hag',['caster','cast','#3a5a7a,#1a2a3a,#9fe0ff,#ff8030','hood,staff,cauldron'],'the Cinder Forge','a hunched hag in steaming soaked rags, a quenching ladle for a staff, steam rising off her','hurling steam bolts, flooding the hall with scalding water');
-CH('boss','Forge-masters','fm_gjallr','Krag, the Slag Troll',['brute','slam','#5a3020,#2a1810,#ff8030,#ffd060','club,horns,moss'],'the Slag Forge','a huge troll crusted in cooling slag that glows in the cracks, a crucible ladle for a club','pouring slag and hurling molten boulders');
+CH('boss','Forge-masters','fm_gjallr','Krag, the Slag Troll',['brute','slam','#5a3020,#2a1810,#ff8030,#ffd060','club,horns,moss'],'the Clinker Forge','a huge troll crusted in cooling slag that glows in the cracks, a crucible ladle for a club','pouring slag and hurling molten boulders');
 CH('boss','Forge-masters','fm_eimyrja','Sinda, the Chainmistress',['wraith','cast','#3a1010,#10060a,#ff5030,#ffc060','chains,crown,flames'],'the Ash Forge','a tall fire-giantess in black iron, burning chains coiling from her arms like whips','lashing chains and dragging you in');
 
 var FORGE_FAMS=[      // the Lab's Forge-masters group: [key, forge, title, phase labels]
   ['glodr','Ember Forge','Brokk, the Bellows-Wyrm',['Breath sweeps from the bellows','Burrows — lava geysers rise under you','The bellows burst — the whole hall breathes fire']],
   ['eisa','Cinder Forge','Hissa, the Quench-Hag',['Steam bolts and cinder imps','Floods the hall — islands of rock in scalding water','Boils it all — stay in the dry']],
-  ['gjallr','Slag Forge','Krag, the Slag Troll',['Slag pours and walls you in','Molten boulders, ore shaken loose','Armoured in cooling slag — break the shell']],
+  ['gjallr','Clinker Forge','Krag, the Slag Troll',['Slag pours and walls you in','Molten boulders, ore shaken loose','Armoured in cooling slag — break the shell']],
   ['eimyrja','Ash Forge','Sinda, the Chainmistress',['Chain lashes that pull you in','Chains the hall into lanes','Wraps herself in chained spirits — free them']]];
 
 // ════════════ GLÓÐR, THE BELLOWS-WYRM (Ember Forge) ════════════
@@ -34,7 +34,7 @@ BD('fm_eisa_2.b','Hissa of the Flood','kraken',170,'pulse','#2a5a7a,#0a1a2a,#bff
 BD('fm_eisa_3.a','Hissa, the Boiling Mother','hum',180,'phase','#d8e8f0,#5a7a8a,#ffffff,#ffe0a0,#e0e8ee,#ffb040',{lower:'wraith',armor:'shadow',head:'hood',gear:'witch',cast:true,off:'flame',float:12,wings:'ice',motes:'smoke',moteN:24},'Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal.');
 BD('fm_eisa_3.b','Hissa, the Boiling Mother','orb',180,'pulse','#e0ecf4,#6a8a9a,#ffd080,#ffb040',{orb:'heart',orbR:44,motes:'smoke'},'A great boiling heart of steam and quench-water, throwing rings of scald.');
 
-// ════════════ GJALLR, THE SLAG TROLL (Slag Forge) ════════════
+// ════════════ GJALLR, THE SLAG TROLL (Clinker Forge) ════════════
 BD('fm_gjallr_1.a','Krag, the Slag Troll','hum',170,'lumber','#5a4030,#2a1810,#ff8030,#ffd060,#7a5a40,#ffb040',{build:'giant',head:'ogre',horns:'bull',hornCol:'#3a2a20',armor:'fur',torsoCol:'#4a3020',weapon:'hammer',wepCol:'#5a3a28',wepGlow:'#ff8030',cracks:true,motes:'embers'},'A huge troll crusted in slag that glows in the cracks, swinging a crucible-ladle like a hammer.');
 BD('fm_gjallr_1.b','Krag, the Slag Troll','hum',172,'lumber','#6a4a3a,#2a1a10,#d8a060,#ff9030,#8a6a50',{build:'giant',belly:true,head:'ogre',armor:'leather',torsoCol:'#5a3a28',weapon:'club',wepCol:'#4a3020',moss:true,cracks:true,motes:'smoke'},'A pot-bellied smelter-troll with a forge apron, slag dribbling from a ladle-club.');
 BD('fm_gjallr_1.c','Krag, the Slag Troll','golem',170,'lumber','#4a3a30,#1a1008,#ff9030,#ffb040',{mat:'iron',fistGlow:true,horns:true,hornCol:'#2a1a10',motes:'embers'},'A troll fused with his own crucible: an iron belly full of molten slag.');

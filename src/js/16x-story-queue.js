@@ -7,9 +7,9 @@
 // ║    waits (ps.sagaQ, kept in the save) and plays at the next calm moment:
 // ║      no cut-scene up, none ended in the last ZSQ.GAP (40 s), no menu or pop-up open, in the overworld (not a tower, dungeon or island),
 // ║      no fight near you, no soul-line being drawn.
-// ║  · Each realm's old disaster (Wetlands — the Black Tide, Highlands — the Stone-Fall, Ashlands — the Ash Night) plays the FIRST time you
-// ║    set foot in that realm (over its bridge or pass), no longer with its first freed spirit. The Grasslands' Long Quiet stays at its tenth
-// ║    freed spirit (you start in the Grasslands; the opening has just told the storm).
+// ║  · Each realm's old disaster (Fernheim — the Black Tide, Cragland — the Stone-Fall, Cinderheim — the Ash Night) plays the FIRST time you
+// ║    set foot in that realm (over its bridge or pass), no longer with its first freed spirit. Gildenmark' Long Quiet stays at its tenth
+// ║    freed spirit (you start in Gildenmark; the opening has just told the storm).
 // ║  · The first spirit freed: the cut-scene comes FIRST (the chains falling away), then the spirit's thanks pop-up, then its soul-line.
 // ║  · Not queued: the parts of one continuous scene (a boss changing form, the Asgard arrival, the feast hall, the ending) — those are
 // ║    one moment told in pieces, and they play where they happen.

@@ -9,7 +9,7 @@
 // ║ Familiars need line of sight, can be staggered by slams/sweeps/breath/
 // ║ shrieks/gusts/nets and knocked out (8–15 s), banished by some casters,
 // ║ silenced by null auras; their hits are source 'familiar' (07rb counters). Active familiars: 1, +1 for each
-// ║ Fairy King (Wetlands, Highlands, Ashlands) → up to 4 at once.
+// ║ Fairy King (Fernheim, Cragland, Cinderheim) → up to 4 at once.
 // ║ Movement (round 28): the familiars travel as a small pod behind you, never on top of you (they may brush
 // ║ each other); "hover" spirits bob as they float, "follow" spirits walk. They are drawn at half size (FAM_SC).
 // ═══════════════════════════════════════════════════════════════════════

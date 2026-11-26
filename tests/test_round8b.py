@@ -59,7 +59,7 @@ if only in (None,'game'):
        S.px=m.x+120; S.py=m.y; S.pCont.setPosition(S.px,S.py); var a=BossPat.run(S,m,'quake',B); var hits=0;
        // step into the ring's gap as soon as it exists
        for(var k=0;k<120&&S._bpAct.length;k++){ var A=S._bpAct.find(z=>z.boss===m); S.playerIFrames=0; var h=ps.hp; BossPat.tick(S,0.05); if(ps.hp<h)hits++; } ps.godMode=true; return hits; })()""")
-    check('Shockwave (Highlands: two rings): at most one hit per ring', q is not None and q<=2, q)
+    check('Shockwave (Cragland: two rings): at most one hit per ring', q is not None and q<=2, q)
     # punish window: after an attached move the boss holds still briefly
     r=g.js(RUN+'(["combo","near",12])')
     check('Punish window: after a big move the boss stays open (holds) for a moment', r['hold']>=0.5, r)

@@ -17,6 +17,10 @@ var ZNPCT={ on:true,
     return names.filter(function(nm){ var s=S.find(function(x){ return x.spirit===nm; }); return !(s&&free.indexOf(s.id)>=0); }); },
   // the next line: pools by where the story is; never the same line twice until all of them are heard
   line:function(ws,k){ var ps=ws.playerState, n=ZNPC[k], L=n.lines||{}, st=ZNPCT.stage(ps), still=ZNPCT.bound(ws,ps,n.spirits||[]), pools=[];
+    /* round 138 (Kris: "after you free it, you should be able to go back to the fairy and talk to it … additional unique storylines"): once both her
+       spirits are free, every other talk tells the next part of her own tale, in order, until it is told */
+    if(L.tale&&L.tale.length&&!still.length){ var TI=ps.npcTale||(ps.npcTale={}), ti=TI[k]||0, TT=ps.npcTaleTurn||(ps.npcTaleTurn={}); TT[k]=!TT[k];
+      if(ti<L.tale.length&&TT[k]){ TI[k]=ti+1; return L.tale[ti]; } }
     if(still.length)pools.push(['before',3]); if(still.length<(n.spirits||[]).length)pools.push(['after',3]);
     pools.push(['life',2]); if(L['stage'+st])pools.push(['stage'+st,3]);
     var H=(ps.npcHeard||(ps.npcHeard={}))[k]||(ps.npcHeard[k]=[]), cand=[];

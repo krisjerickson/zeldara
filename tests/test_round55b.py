@@ -29,14 +29,14 @@ with game(new=True, painted=True) as g:
     # III. the Glimmerhall
     g.js("SBSAGA.show()"); g.js(CLICK + "(2,1,1)"); g.wait(8000)
     r = g.js("(()=>{ var ws=game.scene.getScene('World'), D=ZSPIRIT.door(); return {door:!!D, d:D?Math.round(Math.hypot(ws.player.x-D.x,ws.player.y-D.y)):-1, sh:ws.playerState.inventory.filter(function(i){ return i==='soulglass_2'; }).length}; })()")
-    check('Ⅲ "6 shards → 2": the Glimmerhall stands, you are at its door with %d Wetlands shards' % r['sh'], r['door'] and 0 <= r['d'] < 80 and r['sh'] >= 6, r)
+    check('Ⅲ "6 shards → 2": the Glimmerhall stands, you are at its door with %d Fernheim shards' % r['sh'], r['door'] and 0 <= r['d'] < 80 and r['sh'] >= 6, r)
     # IV. Mira's workshop
     g.js("SBSAGA.show()"); g.js(CLICK + "(3,0,0)"); g.wait(8000)
     r = g.js("(()=>{ var ws=game.scene.getScene('World'), D=ZMIRA.door(); return {door:!!D, d:D?Math.round(Math.hypot(ws.player.x-D.x,ws.player.y-D.y)):-1}; })()")
     check('Ⅳ "Workshop": Mira\'s workshop is built and you are at its door', r['door'] and 0 <= r['d'] < 80, r)
     g.js("SBSAGA.show()"); g.js(CLICK + "(3,3,2)"); g.wait(3000)
     r = g.js("(()=>({tray:game.scene.getScene('World').playerState.inventory.indexOf('hearth_tray_3')>=0}))()")
-    check('Ⅳ "Hearth tray 3": the Slag Forge\'s tray is in the pack', r['tray'], r)
+    check('Ⅳ "Hearth tray 3": the Clinker Forge\'s tray is in the pack', r['tray'], r)
     # V. a forge-master's floor directly
     g.js("SBSAGA.show()"); g.js(CLICK + "(4,2,3)"); g.wait(12000)
     r = g.js("(()=>{ var D=game.scene.getScene('Dungeon'), ps=game.scene.getScene('World').playerState; return {run:game.scene.isActive('Dungeon'), forge:D._forge&&ZFORGE.of(D).k, last:D.isLastFloor, boss:D._bossGroup&&D._bossGroup[0]&&D._bossGroup[0].def.name, keyN:ps.inventory.indexOf('volcano_key_n')>=0, title:document.getElementById('dng-title').textContent}; })()")
@@ -45,7 +45,7 @@ with game(new=True, painted=True) as g:
     g.js("game.scene.getScene('World').playerState.godMode=true"); g.js("SBSAGA.show()"); g.js(CLICK + "(0,0,3)"); g.wait(6000)
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState, S=ZSPIRIT.shrines(ws).filter(function(s){ return s.q===4; }), n=S.reduce(function(b,s){ return Math.min(b,Math.hypot(ws.player.x-s.x,ws.player.y-s.y)); },1e9);
       return {world:game.scene.isActive('World'), dng:game.scene.isActive('Dungeon'), near:Math.round(n), open:(ps.unlockedSections||[]).indexOf(4)>=0}; })()""")
-    check('Ⅰ "Bindstone 4": out of the forge and beside an Ashlands bindstone (%d px), the realm open' % r['near'], r['world'] and not r['dng'] and r['near'] < 260 and r['open'], r)
+    check('Ⅰ "Bindstone 4": out of the forge and beside an Cinderheim bindstone (%d px), the realm open' % r['near'], r['world'] and not r['dng'] and r['near'] < 260 and r['open'], r)
     # II. the Green with all forty
     g.js("SBSAGA.show()"); g.js(CLICK + "(1,0,3)"); g.wait(7000)
     r = g.js("(()=>{ var ws=game.scene.getScene('World'), S=ws._zg; return {freed:ws.playerState.spiritsFreed.length, open:document.getElementById('modal-saga').style.display, d:Math.round(Math.hypot(ws.player.x-CENTER_X*TILE,ws.player.y-CENTER_Y*TILE)), live:S?Object.keys(S.sp).length:0, loops:S?S.groups.filter(function(G){ return G.im&&G.im.anims; }).length:0}; })()")

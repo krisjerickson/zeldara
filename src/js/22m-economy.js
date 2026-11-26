@@ -167,17 +167,17 @@ function _xpNeed(L){ L=Math.max(1,L||1); return L*(L>=15?400:300); }
   A('aurora_circlet',{name:'Aurora Circlet',icon:'👑',def:6,maxMana:20,manaRegen:0.5,slot:'head',sell:175,buy:0,secReq:4,isle:4,desc:'+6 DEF +20 mana +0.5mp/s — Frost Isle only'});
   // I6 · the named pieces (found only: a Binder captain, a named Alpha and a castle warden in each realm)
   var N=function(id,o){ o.named=1; o.buy=0; A(id,o); };
-  N('grimkell_hood',{name:"Grimkell's Hood",icon:'🪖',def:3,slot:'head',sell:150,secReq:1,from:'binder:1',desc:'+3 DEF, +10% XP from Binders — Grimkell, captain of the Grasslands Binders'});
-  N('brindle_charm',{name:"Old Brindle's Tusk",icon:'🦷',atk:2,slot:'neck',sell:150,secReq:1,from:'alpha:1',desc:'+2 ATK, +15% gold from Alphas — the named Alpha of the Grasslands'});
+  N('grimkell_hood',{name:"Grimkell's Hood",icon:'🪖',def:3,slot:'head',sell:150,secReq:1,from:'binder:1',desc:'+3 DEF, +10% XP from Binders — Grimkell, captain of Gildenmark Binders'});
+  N('brindle_charm',{name:"Old Brindle's Tusk",icon:'🦷',atk:2,slot:'neck',sell:150,secReq:1,from:'alpha:1',desc:'+2 ATK, +15% gold from Alphas — the named Alpha of Gildenmark'});
   N('thornwood_spurs',{name:'Thornwood Spurs',icon:'🥾',def:2,spdBonus:0.10,slot:'feet',sell:160,secReq:1,from:'castle:q1_b',desc:'+2 DEF +10% Spd — the Thorn Knight\'s, Thornwood Isle'});
-  N('mire_strider_boots',{name:"Mire-Strider's Boots",icon:'🥾',def:4,spdBonus:0.12,slot:'feet',sell:300,secReq:2,from:'alpha:2',desc:'+4 DEF +12% Spd — the named Alpha of the Wetlands'});
-  N('skuli_gloves',{name:"Skuli's Net-gloves",icon:'🧤',def:4,atk:2,slot:'gauntlets',sell:300,secReq:2,from:'binder:2',desc:'+4 DEF +2 ATK — Skuli, captain of the Wetlands Binders'});
+  N('mire_strider_boots',{name:"Mire-Strider's Boots",icon:'🥾',def:4,spdBonus:0.12,slot:'feet',sell:300,secReq:2,from:'alpha:2',desc:'+4 DEF +12% Spd — the named Alpha of Fernheim'});
+  N('skuli_gloves',{name:"Skuli's Net-gloves",icon:'🧤',def:4,atk:2,slot:'gauntlets',sell:300,secReq:2,from:'binder:2',desc:'+4 DEF +2 ATK — Skuli, captain of Fernheim Binders'});
   N('abbots_bell',{name:"The Abbot's Bell",icon:'🔔',def:3,manaRegen:0.8,slot:'neck',sell:320,secReq:2,from:'castle:q2_c',desc:'+3 DEF +0.8mp/s — the Drowned Abbot\'s, Abbey Isle'});
   N('anvil_bracers',{name:"The Thane's Anvil-bracers",icon:'🧤',def:6,atk:4,slot:'gauntlets',sell:450,secReq:3,from:'castle:q3_b',desc:'+6 DEF +4 ATK — the Forge-thane\'s, Anvil Isle'});
-  N('kolgrim_mantle',{name:"Kolgrim's Stone-mantle",icon:'🧥',def:7,res:{earth:0.1},slot:'back',sell:450,secReq:3,from:'binder:3',desc:'+7 DEF −10% earth — Kolgrim, captain of the Highlands Binders'});
-  N('greyhorn_helm',{name:'Greyhorn Helm',icon:'⛑️',def:7,atk:2,slot:'head',sell:460,secReq:3,from:'alpha:3',desc:'+7 DEF +2 ATK — the named Alpha of the Highlands'});
-  N('svarthof_cloak',{name:"Svarthof's Ash-cloak",icon:'🧥',def:9,res:{fire:0.2},slot:'back',sell:600,secReq:4,from:'binder:4',desc:'+9 DEF −20% fire — Svarthof, captain of the Ashlands Binders'});
-  N('cinderjaw_ring',{name:'Cinderjaw Ring',icon:'💍',atk:5,slot:'ring',sell:600,secReq:4,from:'alpha:4',desc:'+5 ATK — the named Alpha of the Ashlands'});
+  N('kolgrim_mantle',{name:"Kolgrim's Stone-mantle",icon:'🧥',def:7,res:{earth:0.1},slot:'back',sell:450,secReq:3,from:'binder:3',desc:'+7 DEF −10% earth — Kolgrim, captain of Cragland Binders'});
+  N('greyhorn_helm',{name:'Greyhorn Helm',icon:'⛑️',def:7,atk:2,slot:'head',sell:460,secReq:3,from:'alpha:3',desc:'+7 DEF +2 ATK — the named Alpha of Cragland'});
+  N('svarthof_cloak',{name:"Svarthof's Ash-cloak",icon:'🧥',def:9,res:{fire:0.2},slot:'back',sell:600,secReq:4,from:'binder:4',desc:'+9 DEF −20% fire — Svarthof, captain of Cinderheim Binders'});
+  N('cinderjaw_ring',{name:'Cinderjaw Ring',icon:'💍',atk:5,slot:'ring',sell:600,secReq:4,from:'alpha:4',desc:'+5 ATK — the named Alpha of Cinderheim'});
   N('bone_signet',{name:"The Bone King's Signet",icon:'💍',atk:4,def:4,slot:'ring',sell:620,secReq:4,from:'castle:q4_d',desc:'+4 ATK +4 DEF — the Bone King\'s, Bonefall Isle'});
   // I7 · four lesser rings at the jeweller (each takes a gem)
   A('copper_band',{name:'Copper Band',icon:'💍',def:1,slot:'ring',sell:50,buy:150,secReq:1,desc:'+1 DEF — takes a gem at the jeweller'});

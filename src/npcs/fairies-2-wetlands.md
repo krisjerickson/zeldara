@@ -7,7 +7,7 @@ fairy: 0
 kind: lily nymph
 spirits: Liv, Magni
 ## Backstory
-Lily rides a lotus petal and has a waterfall for hair, and she is the calmest creature in the Wetlands, which is saying something in a place
+Lily rides a lotus petal and has a waterfall for hair, and she is the calmest creature in Fernheim, which is saying something in a place
 that drowned. She kept the stone at Millbrook, where the Silverrun turned the great mill wheel, and she watched the wheel turn backwards on
 the night of the Black Tide. Her two are Liv, the young miller who was standing at the wheel when it happened, and Magni, the stonemason who
 built Millbrook's dikes higher every year — until the water came up through instead of over. Magni blames himself. Lily has spent
@@ -27,9 +27,9 @@ twenty-eight winters telling him, gently, every single day, that it was not his 
 ## Life
 - I ride a lotus petal. It is the most comfortable thing in the world, and it never sinks if you are kind to it.
 - My hair is a little waterfall. In winter it freezes and I am a very quiet fairy for a while.
-- I am calm because the Wetlands needed someone to be. Everyone else was busy drowning.
+- I am calm because Fernheim needed someone to be. Everyone else was busy drowning.
 - I have never raised my voice. I do not know if I can. I am a little afraid to find out.
-- The other Wetlands fairies call me "the Pond". I do not mind. Ponds are deep.
+- The other Fernheim fairies call me "the Pond". I do not mind. Ponds are deep.
 ## Stage 2
 - The Silverrun runs clear past Millbrook. There is a heron fishing where the mill-race was. I have asked him to move. He has not.
 ## Stage 3
@@ -57,7 +57,7 @@ grief.
 - Nanna was a midwife for six years with nothing to catch. Then the Tide came. You can imagine. Do not imagine too hard.
 - Oddny's urns never cooled. That is how I knew. The dead were not leaving. They were stuck, keeping the clay warm.
 - The Binder at their stone used to run the Reedhaven ferry, they say. He took the fire-giant's coin and stopped asking where the boat went.
-- I expect you will fail. I expect it of everyone. It is not personal. It is the Wetlands.
+- I expect you will fail. I expect it of everyone. It is not personal. It is Fernheim.
 - If you do free them, I will expect them to be miserable. If they are not, I will be very pleasantly surprised.
 ## After
 - You did it. I am very pleasantly surprised. Do not get used to it.
@@ -89,7 +89,7 @@ fairy: 2
 kind: lily nymph
 spirits: Ragna, Sigrid
 ## Backstory
-Ripple is the cheerful one, which in the Wetlands took real effort. She kept the stone on the dike-top at Hverholm, the town behind the great
+Ripple is the cheerful one, which in Fernheim took real effort. She kept the stone on the dike-top at Hverholm, the town behind the great
 walls, and her two are Ragna, a shepherd girl who died young and who decided the gods were not angry but sad, and Sigrid, a young smith who
 took the Binders' Muspelheim gold the year before the Tide and has never forgiven herself. Ripple made it her work to keep Ragna laughing and
 to keep Sigrid from hating herself, and she has managed one of those, most days. She hides her own fear by skipping across the water.
@@ -109,12 +109,12 @@ to keep Sigrid from hating herself, and she has managed one of those, most days.
 - I am the cheerful one. It is not easy. You have to practise every morning, like a song.
 - When I am frightened, I skip across the water. If you see ripples on a still pond, that was me, being brave.
 - Hverholm was a town of walls and bells and ducks. The ducks are back. The bells are Nixie's business.
-- I keep a pebble from every stone in the Wetlands. Fifty-three. They are all slightly wet.
+- I keep a pebble from every stone in Fernheim. Fifty-three. They are all slightly wet.
 - Marsh says I am ridiculously hopeful. I say Marsh is secretly hopeful and very bad at hiding it.
 ## Stage 2
 - The ducks of Hverholm have come home. They are as rude as ever. I am delighted.
 ## Stage 3
-- Sigrid's horseshoes are on every horse in the Wetlands. Hana says they are the best she has ever seen. Sigrid blushed. Smiths do not blush. She did.
+- Sigrid's horseshoes are on every horse in Fernheim. Hana says they are the best she has ever seen. Sigrid blushed. Smiths do not blush. She did.
 ## Stage 4
 - Ragna asked me what is past the Ember Wall. I said fire. She said, "And after that?" I did not know. You will find out.
 ## Stage 5
@@ -169,7 +169,7 @@ fairy: 4
 kind: lily nymph
 spirits: Vigdis, Yrsa
 ## Backstory
-Fenna is the scholar of the Wetlands fairies — she has read everything that ever floated past her stone, which, in a drowned land, is a great
+Fenna is the scholar of Fernheim fairies — she has read everything that ever floated past her stone, which, in a drowned land, is a great
 deal. She kept the stone where the Silverrun meets the lake road, and her two are Vigdis, an old skald who knew every saga except one verse,
 the one about who sits on the high seat, and Yrsa, a baker who sent bread up for the midsummer feast every year until the year no one came
 to take it. Fenna and Vigdis have spent twenty-eight winters arguing about verses; Yrsa has spent them describing bread, which Fenna has never
@@ -189,7 +189,7 @@ tasted and has strong opinions about.
 ## Life
 - I have read everything that ever floated past my stone. Recipes, letters, half a saga, three tax-rolls and a love poem to a goat.
 - Fenna is the fen — the wet, flat, patient land. I am patient. I am also usually right, which makes the patience hard.
-- I keep the floating pages in a dry hollow under the stone. It is the only library in the Wetlands. You may visit. Wipe your feet.
+- I keep the floating pages in a dry hollow under the stone. It is the only library in Fernheim. You may visit. Wipe your feet.
 - I do not like fire. I have too many pages.
 - The love poem to the goat is quite good. I think the goat said yes.
 ## Stage 2
@@ -197,6 +197,6 @@ tasted and has strong opinions about.
 ## Stage 3
 - Yrsa sent bread up the hill at midsummer and it was gone in the morning. She thinks it was a fox. I have my own theory. I am keeping it.
 ## Stage 4
-- I have started writing the Wetlands' own saga, from the pages I saved. Vigdis says my verses are too long. Vigdis is not wrong.
+- I have started writing Fernheim's own saga, from the pages I saved. Vigdis says my verses are too long. Vigdis is not wrong.
 ## Stage 5
 - Vigdis has the missing verse now. She recited it on the Green and nobody breathed. I cried on my lotus. Lily says I made the pond salty.

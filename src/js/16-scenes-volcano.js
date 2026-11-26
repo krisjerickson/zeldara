@@ -443,7 +443,7 @@ class VolcanoPuzzleScene extends Phaser.Scene {
     this.keys=this.input.keyboard.addKeys({UP:'UP',DOWN:'DOWN',LEFT:'LEFT',RIGHT:'RIGHT',W:'W',A:'A',S:'S',D:'D',SPACE:'SPACE',SHIFT:Phaser.Input.Keyboard.KeyCodes.SHIFT,TAB:Phaser.Input.Keyboard.KeyCodes.TAB});
     this.input.keyboard.on('keydown-TAB',function(e){e.preventDefault();});
     document.getElementById('dungeon-hud').style.display='block';
-    this.titleTxt=this.add.text(this.scale.width/2,18,'🟫 Slag Forge — push all 3 blocks onto plates',{fontSize:'14px',color:'#cc8866',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
+    this.titleTxt=this.add.text(this.scale.width/2,18,'🟫 Clinker Forge — push all 3 blocks onto plates',{fontSize:'14px',color:'#cc8866',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this.hintTxt=this.add.text(this.scale.width/2,this.scale.height-30,'WASD: move • Walk into a block to push it • TAB the chest • ESC: leave',{fontSize:'10px',color:'#cca988',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:2}).setOrigin(.5).setScrollFactor(0).setDepth(100);
     this._moveCD=0;
     this.gotKey=this.ps.inventory&&this.ps.inventory.indexOf(this.keyId)>=0;

@@ -69,7 +69,7 @@
     h+='</div><p class="ze-note">Each element\'s forging line runs from the rim (first step) to the middle (last step). Squares between two slices carry both elements; the further two elements are apart on the wheel, the nearer the middle. Lit squares: forged or owned. Pick a square: lines show the weapons it is forged from.</p></section>';
     h+=tips(ps)+'</div>'; return h; }
   // how the elements work — and what it means for what you carry now
-  function tips(ps){ var QN=['','Grasslands','Wetlands','Highlands','Ashlands'], hm=typeof ZHit!=='undefined'?ZHit.hero('melee'):{els:[]}, cur=hm&&hm.els&&hm.els!=='all'?hm.els:[], L=[];
+  function tips(ps){ var QN=['','Gildenmark','Fernheim','Cragland','Cinderheim'], hm=typeof ZHit!=='undefined'?ZHit.hero('melee'):{els:[]}, cur=hm&&hm.els&&hm.els!=='all'?hm.els:[], L=[];
     L.push('<b>The circle.</b> Water puts out Fire, Fire burns Grass, Grass splits Earth, Earth dams Water — each beats the next one round. Storm and Shadow beat each other. On the wheel an arrow points from the stronger to the weaker.');
     L.push('<b>Strike what you beat.</b> A weapon is half again as strong against the slice its arrow points to, and its effect (burn, slow, root, stagger, arc, drain) lands more often.');
     L.push('<b>Same element, or the one that beats you:</b> the foe resists — a good deal less damage. Fire on a fire beast does little.');

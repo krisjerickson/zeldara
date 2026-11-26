@@ -10,9 +10,9 @@
 // ║     its mount) is drawn with the zone's own water / boulders / lava
 // ║   • village, 32 sites, harbors, 17 waystones, 18 caches, 12 crossings
 // ═══════════════════════════════════════════════════════════════════════
-//   Wetlands  water & marsh  (deep water blocked)     → Alligator
-//   Highlands boulder fields (large boulders blocked) → Battle Boar
-//   Ashlands  lava crust     (deep lava blocked)      → Lava Unicorn
+//   Fernheim  water & marsh  (deep water blocked)     → Alligator
+//   Cragland boulder fields (large boulders blocked) → Battle Boar
+//   Cinderheim  lava crust     (deep lava blocked)      → Lava Unicorn
 // The Ash Dragon crosses all of it; the Horse is just faster.
 var WZ_SIGNATURE={2:{name:'water & marsh',tile:'SHALLOW_WATER',deep:'DEEP_WATER',cov:0.33,sc:17,mount:'alligator'},
   3:{name:'boulder fields',tile:'SMALL_BOULDER',deep:'LARGE_BOULDER',cov:0.4,sc:11,mount:'boar'},
@@ -107,7 +107,7 @@ function _buildGameWorld(){
     } }
   // bridges run along their road: vertical planks for north–south spans
   for(var y2=1;y2<H-1;y2++)for(var x2=1;x2<W-1;x2++){ var k2=y2*W+x2; if(cls[k2]!==WM.BRIDGE)continue; var hz=(cls[k2-1]===WM.BRIDGE)+(cls[k2+1]===WM.BRIDGE), vt=(cls[k2-W]===WM.BRIDGE)+(cls[k2+W]===WM.BRIDGE); if(vt>hz)kind[k2]=G(WSK.bridgev); }
-  // shallow rims on the Wetlands' inner lakes (never on Mirror Lake or the borders)
+  // shallow rims on Fernheim's inner lakes (never on Mirror Lake or the borders)
   for(var y3=1;y3<H-1;y3++)for(var x3=1;x3<W-1;x3++){ var k3=y3*W+x3; if(cls[k3]!==WM.LAKE||region[k3]!==2||zone[k3]===255)continue;
     if(cls[k3-1]===WM.LAND||cls[k3+1]===WM.LAND||cls[k3-W]===WM.LAND||cls[k3+W]===WM.LAND)setTK(x3,y3,T.SHALLOW_WATER,G(skins[zone[k3]].shallow)); }
   tm.terrain=Date.now()-t0;

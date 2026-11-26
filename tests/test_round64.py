@@ -110,7 +110,7 @@ with game(new=True, painted=True) as g:
       ps.inventory.push('soulglass_lattice_1','hearth_tray_1'); ZFORGE.hearth(D); await w(500); el=document.getElementById('modal-forgetrial'); o.okRows2=el.querySelectorAll('.zft-need.ok').length; el.querySelector('.zft-go').click(); await w(900); o.hg=ps.inventory.indexOf('heartglass_1')>=0; o.used=ps.inventory.indexOf('hearth_tray_1')<0;
       ZFT.hearth(D,true,function(){}); await w(300); el=document.getElementById('modal-forgetrial'); o.musp=el?el.querySelector('h3').textContent:''; o.muspRows=el?el.querySelectorAll('.zft-need').length:0; ZFT.close();
       D._exitToWorld(null); await w(1500); return o; })()""" % W)
-    check('Every freed spirit gives one shard of its own realm, however it was freed (Grasslands, Highlands, Ashlands: %s), and only once (%s)' % (r['sh'], r['again']), r['sh'] == [1, 1, 0] and r['again'] == [1, 1], r)
+    check('Every freed spirit gives one shard of its own realm, however it was freed (Gildenmark, Cragland, Cinderheim: %s), and only once (%s)' % (r['sh'], r['again']), r['sh'] == [1, 1, 0] and r['again'] == [1, 1], r)
     check('In a forge the corner map stays the forge\'s, even when the World tries to draw it (%r)' % r['zone'], 'Village' not in r['zone'], r)
     check('The forge\'s hearth: a paused pop-up lists what it needs with pictures (%d rows, %d done), forges only when all is there (%s), then makes the Heartglass (%s); Muspelheim\'s great hearth too (%s)' % (r['rows'], r['okRows'], r['canForge'], r['hg'], r['musp']),
           r['pop'] and r['paused'] and r['rows'] == 3 and r['okRows'] == 1 and not r['canForge'] and r['okRows2'] == 3 and r['hg'] and r['used'] and 'Great Hearth' in r['musp'] and r['muspRows'] == 3, r)

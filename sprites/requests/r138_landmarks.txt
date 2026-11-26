@@ -1,0 +1,7 @@
+# Round 138 — the landmarks again from Kris's notes (wider, spanning; Mira's lift and its cage) (5 sheets)
+#   .\tools\sprites\paint.ps1 -List r138_landmarks
+sc_wl_lm3_bram
+sc_wl_lm3_dunn
+sc_wl_lm3_vela
+sc_wl_lm3_mira
+sc_wl_lift_cage

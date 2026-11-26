@@ -28,7 +28,7 @@ night, and he was on the wrong side of it.
 - The Wall came up out of the ground in one night. Black rock, steaming. My wagon was on the outside. My family was on the inside.
 - I drove along it for three days looking for a gap. There was no gap. Then the Binders found me first.
 - Ember says the Wall has a pass in it now. A gate with a road through. I am going to walk through it the slow way and look at every stone.
-- If my horses had any sense they ran north. I like to think of them grazing in the Highlands, very old and very fat.
+- If my horses had any sense they ran north. I like to think of them grazing in Cragland, very old and very fat.
 
 # Orm
 key: sp_orm
@@ -37,7 +37,7 @@ group: spirits
 realm: 4
 kind: a midwife
 ## Backstory
-A midwife of Brandhavn, the ember-city's harbour — the only man among the Ashlands' midwives. On the Ash Night he was at a birth, and he does
+A midwife of Brandhavn, the ember-city's harbour — the only man among Cinderheim's midwives. On the Ash Night he was at a birth, and he does
 not speak of how it ended.
 ## Life
 - People laughed at a man midwife. Then they needed one at three in the morning and stopped laughing.
@@ -76,7 +76,7 @@ clouds, like a pair of eyes closing.
 - The slopes under the mountains were always warm from below. My sheep never needed a barn. They just lay down on the ground in winter.
 - That night I looked up and saw two lights above the clouds go out. One, then the other. Like eyes closing. I have never told anyone but Ashe.
 - Ashe was born on the Ash Night out of a spark. She has never seen grass. I describe it to her every day. She says I make it sound made up.
-- If there is a single ash-sheep left in the Ashlands, I will find her. They are very good at hiding in the grey.
+- If there is a single ash-sheep left in Cinderheim, I will find her. They are very good at hiding in the grey.
 
 # Thora
 key: sp_thora
@@ -120,7 +120,7 @@ kind: a brewer
 A brewer of Askvald who carried his ale to the great feasts in the far hall in the years before the gate shut. He remembers two thrones there,
 and the night they were gone.
 ## Life
-- Askvald ale was black and bitter and you drank it hot. Nobody outside the Ashlands could stand it. That was the point.
+- Askvald ale was black and bitter and you drank it hot. Nobody outside Cinderheim could stand it. That was the point.
 - Once a year I carried a cask up to the great feast. A long road. Worth every step. The hall was so bright you could not look at the roof.
 - There were two thrones in the feast hall once. Now there are none, and two moons inside. I do not know what it means. I know it is wrong.
 - Soot kept me company. She is so quiet that sometimes I forgot she was there, and then she would sneeze and I would jump out of my chains.
@@ -140,7 +140,7 @@ mend it — and thought it was only a song.
 - A skald must know every saga, but she is allowed one favourite. Mine was about a mountain that learned to fly. It never happened. It is still my favourite.
 - I sang the old verse a thousand times and never once thought about what it meant. That is the trouble with songs. They sound like songs.
 - Pyra tells the stories now, with sparks. She is better at it than I was. Do not tell her that. She already knows.
-- Vigdis of Millbrook was the best skald of the Wetlands. I would like to sing with her. Two skalds, one hall, every saga twice.
+- Vigdis of Millbrook was the best skald of Fernheim. I would like to sing with her. Two skalds, one hall, every saga twice.
 
 # Brand
 key: sp_brand
@@ -153,7 +153,7 @@ An old baker of Askvald whose ovens were heated by the warm ground. He asks ever
 ask her where the spring went.
 ## Life
 - In Askvald you could bake bread by burying it in the warm ground for a night. I did it properly, in an oven. I had standards.
-- Ash-bread is dark and a little smoky. The traders from the Grasslands said it tasted like a campfire. I took it as a compliment.
+- Ash-bread is dark and a little smoky. The traders from Gildenmark said it tasted like a campfire. I took it as a compliment.
 - Ask the Lady of the Fields where the spring went. If you ever find her. I have been asking for twenty-eight winters. Nobody has answered.
 - Pyra tells my story with sparks and I come out much braver than I was. I let her. A man can be braver in a story.
 - Yrsa of Millbrook and Benno in the last village — bakers, they tell me. Three bakers, three ovens, one long table. That is my idea of heaven.

@@ -11,11 +11,11 @@
 // ║  · The journal lists all of it under "⚙ Mira's Hearth Trays".
 // ═══════════════════════════════════════════════════════════════════════
 var ZMIRA={ on:true, COST:150,
-  REALM:['','Grasslands','Wetlands','Highlands','Ashlands'], FORGE:['','Ember','Cinder','Slag','Ash'],
+  REALM:['','Gildenmark','Fernheim','Cragland','Cinderheim'], FORGE:['','Ember','Cinder','Clinker','Ash'],
   GEM:['','grovesoul','tidesoul','stonesoul','embersoul'], METAL:['','sea_silver','bog_iron','fire_bronze','rime_steel'],
   ISLE:['','Corsair Isle','Bog Isle','Ember Isle','Frost Isle'],
   // the great spirits the dungeon bosses held
-  GREAT:['',{n:'Hildr of the Long Barrow',was:'the first queen of the Grasslands'},{n:'Ulfrun the Tide-Singer',was:'a ship-wife who sang the boats home'},{n:'Old Grimmar',was:'the stone-cutter who carved the first waystone'},{n:'Eldis Emberheart',was:'the last fire-keeper of the Ashlands'}],
+  GREAT:['',{n:'Hildr of the Long Barrow',was:'the first queen of Gildenmark'},{n:'Ulfrun the Tide-Singer',was:'a ship-wife who sang the boats home'},{n:'Old Grimmar',was:'the stone-cutter who carved the first waystone'},{n:'Eldis Emberheart',was:'the last fire-keeper of Cinderheim'}],
   TRAY:function(q){ return 'hearth_tray_'+q; },
   has:function(ps,id){ return (ps.inventory||[]).indexOf(id)>=0; },
   take:function(ps,id){ var i=(ps.inventory||[]).indexOf(id); if(i>=0)ps.inventory.splice(i,1); return i>=0; },
@@ -34,7 +34,7 @@ var ZMIRA={ on:true, COST:150,
     var t=ZMIRA.open(ps)?'[Tab] Enter Mira\'s Workshop':'Mira\'s Workshop (shut)';
     if(!ws._interactPrompt||ws._interactPrompt._zsp!=='mira'){ if(ws._interactPrompt)ws._interactPrompt.destroy(); ws._interactPrompt=domText(ws,D.x,D.y-40,t,{fontSize:'10px',color:'#ffd890',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3,align:'center'}).setOrigin(.5,1).setDepth(20); ws._interactPrompt._zsp='mira'; }
     if(Phaser.Input.Keyboard.JustDown(ws.keys.TAB)){ if(ZMIRA.open(ps))ws._enterBuilding({type:'workshop'});
-      else showNotif('⚙ A note on Mira\'s door: "Off fixing the Highland lift. Clear one of the island castles and come and see me — I have a job for you."','#ffd890'); }
+      else showNotif('⚙ A note on Mira\'s door: "Off fixing the Cragland lift. Clear one of the island castles and come and see me — I have a job for you."','#ffd890'); }
     return true; },
   // ── Mira at her bench ──
   talk:function(ws){ var ps=ws.playerState, rows='', btns=[], c=function(id){ return ZMIRA.has(ps,id); };

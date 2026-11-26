@@ -81,7 +81,7 @@ var ZLoot={
   MOUNTS.ember_phoenix.desc='Blazing phoenix that crosses lava unharmed — Sky Port 3';
   if(typeof FIRE_SAFE_MOUNTS!=='undefined'&&FIRE_SAFE_MOUNTS.indexOf('ember_phoenix')<0)FIRE_SAFE_MOUNTS.push('ember_phoenix');
   // where each one comes from (Tome, stables)
-  var SRC={horse:'Sold at the stables (200 g)',alligator:'Grasslands boss dungeon',boar:'Wetlands boss dungeon',lava_unicorn:'Highlands boss dungeon',ash_salamander:'Ashlands boss dungeon',dragon:'All sixteen great quests',
+  var SRC={horse:'Sold at the stables (200 g)',alligator:'Gildenmark boss dungeon',boar:'Fernheim boss dungeon',lava_unicorn:'Cragland boss dungeon',ash_salamander:'Cinderheim boss dungeon',dragon:'All sixteen great quests',
     sky_glider:'Sky Port 1 — first victory',storm_drake:'Sky Port 2 — first victory',ember_phoenix:'Sky Port 3 — first victory',void_serpent:'Sky Port 4 — first victory',sky_eagle:'All four Sky Ports defended'};
   Object.keys(SRC).forEach(function(k){ if(MOUNTS[k])MOUNTS[k].src=SRC[k]; });
 })();

@@ -17,7 +17,7 @@ TP = "(([x,y])=>{ var ws=game.scene.getScene('World'); ws.player.x=x; ws.player.
 with game(new=True) as g:
     g.wait(500)
     g.ws("(ps.godMode=true)")
-    # stand in the Grasslands (the village is a safe zone: monsters there don't fight)
+    # stand in Gildenmark (the village is a safe zone: monsters there don't fight)
     g.ws("(()=>{ var w=ws.wd.waystones.find(w=>w.region===1); var p=ws._fairySpot(w.x+6,w.y+6,2); ws.player.x=p.x*TILE+16; ws.player.y=p.y*TILE+16; ws.player.cont.setPosition(ws.player.x,ws.player.y); ws.cameras.main.centerOn(ws.player.x,ws.player.y); })()"); g.wait(800)
     # ── walls block melee ──
     r = g.ws("""(()=>{ var p=ws.player, tx=Math.floor(p.x/TILE), ty=Math.floor(p.y/TILE); ws.pdir='right'; ws.player.dir='right';
@@ -63,7 +63,7 @@ with game(new=True) as g:
     # ── fairies: chat → quest → dig → trial → skill ──
     g.ws("(()=>{ ps.ownedFamiliars=[]; ps.famLevels={}; ps.fairyKings=[]; ps.fairyQuests={}; ps.hasTrowel=false; ps.familiar=ps.familiar2=ps.familiar3=ps.familiar4=null; })()")
     r = g.ws("({f:ws._fairies.length, perQ:[1,2,3,4].map(q=>ws._fairies.filter(f=>f.q===q).length), k:ws._kings.map(k=>k.q), digs:Object.keys(ws._digSpots).length})")
-    check('5 fairies per quadrant, Fairy Kings in the Wetlands, Highlands, Ashlands, a dig spot for every object', r['perQ'] == [5,5,5,5] and r['k'] == [2,3,4] and r['digs'] == 29, r)
+    check('5 fairies per quadrant, Fairy Kings in Fernheim, Cragland, Cinderheim, a dig spot for every object', r['perQ'] == [5,5,5,5] and r['k'] == [2,3,4] and r['digs'] == 29, r)
     g.ws("ws._talkFairy(ws._fairies[0])"); g.wait(300)
     t = g.js("document.querySelector('#fairy-talk .ft-text').textContent")
     check('Before you have the familiar a fairy only chats (and hints at the island)', 'fairy companion' in t and 'island' in t, t[:120])
@@ -77,7 +77,7 @@ with game(new=True) as g:
     q = g.ws("JSON.stringify(ps.fairyQuests.q1_f0)")
     check('With the familiar: fairies teach in order; the first asks for an object (round 103: no trowel — it lies in the open)', 'first visit' in t2.lower() and 'Silver Acorn' in t and '"st":"seek"' in q and 'glint' in t and g.ws("!ps.hasTrowel"), (t2[:80], t[:80], q))
     tq = g.js("Tome.entry('quest','q1_f0').lines.map(l=>l[1]).join(' | ')")
-    check('The quest is in the Tome with a strong hint (zone, runes, direction from a waystone, walk over it)', 'Windmill Hills' in tq and 'head' in tq and 'Walk over it' in tq and 'G to dig' not in tq, tq[:200])
+    check('The quest is in the Tome with a strong hint (zone, runes, direction from a waystone, walk over it)', 'Millwind Downs' in tq and 'head' in tq and 'Walk over it' in tq and 'G to dig' not in tq, tq[:200])
     D = g.ws("(()=>{ var D=ws._digSpots.silver_acorn; return [D.x*TILE+16,D.y*TILE+16]; })()")
     g.js(TP + "([%d,%d])" % (D[0] + 32 * 6, D[1])); g.wait(900)
     miss = g.ws("ps.fairyQuests.q1_f0.got.length"); gl = g.ws("!!(ws._glints&&ws._glints.silver_acorn)")
@@ -113,7 +113,7 @@ with game(new=True) as g:
     g.key('t', 80); g.wait(500)
     g.js("document.querySelector('[data-tcat=quest]').click()"); g.wait(400)
     r = g.js("({secs:[...document.querySelectorAll('#tome-grid .tome-sec')].map(s=>s.querySelector('h4').textContent.split(' ')[0]), bg:[...document.querySelectorAll('#tome-grid .tome-sec')].map(s=>s.style.background)})")
-    check('Tome chapters are grouped by quadrant with their own light colour (Quests chapter added)', r['secs'][:4] == ['Grasslands','Wetlands','Highlands','Ashlands'] and len(set(r['bg'])) == len(r['bg']), r)
+    check('Tome chapters are grouped by quadrant with their own light colour (Quests chapter added)', r['secs'][:4] == ['Gildenmark','Fernheim','Cragland','Cinderheim'] and len(set(r['bg'])) == len(r['bg']), r)
     g.js("document.querySelector('[data-tcat=familiar]').click()"); g.wait(400)
     r = g.js("[...document.querySelectorAll('#tome-grid .tome-sec h4')].map(h=>h.textContent)")
     check('Familiars sit in their quadrants in the Tome', len(r) == 4, r)

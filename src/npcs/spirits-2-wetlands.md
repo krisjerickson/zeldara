@@ -28,7 +28,7 @@ it came up through the ground, and he has never stopped working out where his st
 - A good wall is a conversation between the stones. Each one leans a little on its neighbour. Like a town, if the town is any good.
 - The water did not come over. It came up through. Through the fields, through the floors, through the very road. No wall can stop that.
 - I have measured that night in my head a thousand times. I think now there was no stone I could have laid. That helps, a little.
-- When the Wetlands dry I will build something that is not a wall. A bridge, maybe. Something that lets people across instead of keeping things out.
+- When Fernheim dry I will build something that is not a wall. A bridge, maybe. Something that lets people across instead of keeping things out.
 
 # Nanna
 key: sp_nanna
@@ -40,7 +40,7 @@ kind: a midwife
 The midwife of Reedhaven in the reed-beds, whose hands had nothing to do for six long years before the Black Tide took the town. Marsh kept
 her stone and her company.
 ## Life
-- In Reedhaven every door knew my knock. Day or night, rain or ice. I had the warmest hands in the Wetlands, they said.
+- In Reedhaven every door knew my knock. Day or night, rain or ice. I had the warmest hands in Fernheim, they said.
 - For six years nobody needed me. I kept my bag packed anyway. A midwife who unpacks her bag has given up.
 - I helped the potters. I helped the reed-cutters. I sat with the old ones at the end. There is always someone who needs hands.
 - Marsh is gloomy, but she is kind. She said the worst things first so they could not jump out at us later. It works, you know.
@@ -56,7 +56,7 @@ kind: a potter
 An old potter of Reedhaven who fired the urns for the dead of the reed-beds. She noticed, years before anyone, that the urns never cooled —
 that something was keeping the dead from rising.
 ## Life
-- Reedhaven clay is grey and fine, and it fires the colour of the sky before rain. Every house in the Wetlands drank from my cups.
+- Reedhaven clay is grey and fine, and it fires the colour of the sky before rain. Every house in Fernheim drank from my cups.
 - An urn should cool by morning. Mine stayed warm for days, then weeks. I told the town. They said I was getting old. I was. I was also right.
 - Marsh says I am the only person who ever made her laugh. I said something about a pot. I have forgotten what. She has not.
 - The Tide filled my kiln with water. I expect it is full of fish now. That would be a fine thing for a kiln to have become.
@@ -76,7 +76,7 @@ they were sad, and Ripple made it her work to keep her laughing.
 - On top of the dike you could see all the way to the lake one side and all the way to the hills the other. That was my favourite place in the world.
 - Ripple tells the worst jokes in Runeheim. I laugh at all of them. Somebody has to.
 - Mother said the sky was angry. I don't think the sky gets angry. I think it gets lonely, like a sheep that is lost.
-- When the Wetlands dry I want to find where my sheep went. Sheep are very bad at staying put, but they are very good at being found.
+- When Fernheim dry I want to find where my sheep went. Sheep are very bad at staying put, but they are very good at being found.
 
 # Sigrid
 key: sp_sigrid
@@ -92,7 +92,7 @@ She has never forgiven herself, and does not want anyone to say she should.
 - They paid in Muspelheim gold. It was warm in the hand, even in winter. That should have told me everything.
 - I forged them rings. A hundred iron rings, heavy, with a hole for a pin. I did not ask what for. You know what for. I was chained by one.
 - Ripple tells me I was young and the gold was a lot. Both true. Neither one is an answer.
-- If there is a forge left in the Wetlands, I would like to make something that opens. Gates, locks, hinges. Things that open.
+- If there is a forge left in Fernheim, I would like to make something that opens. Gates, locks, hinges. Things that open.
 
 # Torvi
 key: sp_torvi
@@ -117,14 +117,14 @@ group: spirits
 realm: 2
 kind: a brewer
 ## Backstory
-The brewer of the Lantern Isles, whose mead was carried to every feast of the Wetlands. One year the first cup, poured for the one on the high
+The brewer of the Lantern Isles, whose mead was carried to every feast of Fernheim. One year the first cup, poured for the one on the high
 seat as it always was, turned to ash in his hand.
 ## Life
 - Lantern Isles mead was made with marsh honey and a little smoke. People said it tasted like a summer evening. They were right.
 - Every year we poured the first cup for the high seat. Every year it was the proudest moment of my life. Then the cup turned to ash.
 - I did not brew again after that. I thought the mead had done something wrong. It had not. The world had.
 - Nixie and I sang drinking songs to keep the dark away. Without the drinking. It is harder than it sounds.
-- Rolf's ale is not bad, for a Grasslander. Tell him I said so. Tell him also that I will show him how to do it properly.
+- Rolf's ale is not bad, for a Gildenmarker. Tell him I said so. Tell him also that I will show him how to do it properly.
 
 # Vigdis
 key: sp_vigdis

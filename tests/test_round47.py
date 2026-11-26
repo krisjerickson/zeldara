@@ -50,7 +50,7 @@ with game(new=True, painted=True) as g:
       var E=ZSP.design('mage_ember_observatory',3), EL=E.floors[2]; o.closed=EL.closedDoor||0; o.eok=EL.ok;
       var M=ZSP.design('mushroom_forest',4), diag=0; M.floors.forEach(function(F){ for(var i=0;i<F.w*F.h;i++){ if(F.g[i]!==4)continue; var x=i%F.w, y=(i/F.w)|0, n=0; [[1,0],[-1,0],[0,1],[0,-1]].forEach(function(d){ var v=F.g[(y+d[1])*F.w+x+d[0]]; if(v===1||v===4||v===5)n++; }); if(n===0)diag++; } }); o.lone=diag; o.mok=M.floors.every(function(F){ return F.ok; });
       return o; })()""")
-    check('Sites: Elven Library bookcases (%d; round 117: freestanding, not snaking rows); Boulder Field rocks (%d); Ember Observatory last floor loses its shortcut bridge; Mushroom Forest bridges all join up' % (r['shelves'], r['rocks']),
+    check('Sites: The Leafbound Library bookcases (%d; round 117: freestanding, not snaking rows); Tumblestone rocks (%d); Ember Observatory last floor loses its shortcut bridge; The Toadstool Deep bridges all join up' % (r['shelves'], r['rocks']),
           r['shelves'] > 100 and r['ok'] and r['rocks'] > 250 and r['closed'] > 0 and r['eok'] and r['lone'] == 0 and r['mok'], r)
     r = g.js("""(()=>{ var st={id:'mage_rime_spire',type:'tower',design:'frost_spire',mage:'rime_spire'}, sp=_siteFloorSpecOld(st,0,2), m=_buildSiteFloor(sp); var ex=m.site&&m.site.exit, H=m.h||m.H, sy=m.spawn?m.spawn.y/LT:H; return {hard:!!sp.hard, exit:ex?[ex.x,ex.y]:null, h:H, sy:Math.round(sy)}; })()""")
     check('Rime Spire: the first stairs sit in a back room, far side of the floor from the way in (%s of %d rows, in at row %d)' % (r['exit'], r['h'], r['sy']),

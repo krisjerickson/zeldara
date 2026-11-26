@@ -12,9 +12,9 @@
 // ═══════════════════════════════════════════════════════════════════════
 if(typeof ZSAGA_SETS!=='undefined'){
   ZSAGA_SETS.firstfree=[['pn_binders_free','The chains fall away — and for the first time in years, a soul of Runeheim is free.'],['pn_lines_life','Its soul-line runs out into the land… and where the light runs, life may one day follow.']];
-  ZSAGA_SETS.build1=[['pn_build_bram','Bram raises the Silverrun bridge — for the first time in years, the Grasslands and the Wetlands touch again.']];
-  ZSAGA_SETS.build2=[['pn_build_mira','Mira\'s lift climbs the Great Scar — the road to the Highlands is open.']];
-  ZSAGA_SETS.build3=[['pn_build_dunn','Dunn drives the last rivet into his iron bridge — across the Cinder Chasm lie the Ashlands.']];
+  ZSAGA_SETS.build1=[['pn_build_bram','Bram raises the Silverrun bridge — for the first time in years, Gildenmark and Fernheim touch again.']];
+  ZSAGA_SETS.build2=[['pn_build_mira','Mira\'s lift climbs the Great Scar — the road to Cragland is open.']];
+  ZSAGA_SETS.build3=[['pn_build_dunn','Dunn drives the last rivet into his iron bridge — across the Cinder Chasm lie Cinderheim.']];
   ZSAGA_SETS.lodestar=[['pn_forges_lodestar','At Muspelheim\'s great hearth the four heart-glasses pour their light into the staff — the Lodestar is made.']];
   ZSAGA_SETS.worldtree=[['pn_world_tree','And under Mirror Lake, where the twins were found, the World Tree shines — whole at last.']];
 }

@@ -119,7 +119,7 @@ ZBrand.TIER2=['crossed_axes','axes_serpent','axes_tree','blade_b','serpent_coil'
     ['rz_caesar','Caesar Dressing','400','Rune-cut','Angular strokes that read like carved runes.',0.12],
     ['rz_unicase','Cormorant Unicase','700','Elegant unicase','Fine, high-contrast letters that mix upper and lower shapes.',0.12],
     ['rz_medieval','MedievalSharp','400','Medieval pen','Broad-nib medieval lettering, friendly and readable.',0.12],
-    ['rz_marcellus','Marcellus SC','400','Roman inscription','Calm Roman capitals — the Highland Wide face from the first round.',0.16]];
+    ['rz_marcellus','Marcellus SC','400','Roman inscription','Calm Roman capitals — the Cragland Wide face from the first round.',0.16]];
   ZBrand.RZ_FONTS.forEach(function(F){ var font='"'+F[1]+'","Cinzel",Georgia,serif';
     ZBrand.WORDS.push({id:F[0],name:'Ringed Z · '+F[1],col:G,style:'gilded',gen:3,kind:'custom',fam:F[1],wt:F[2],tag:F[3],desc:F[4],paint:function(P,q,p){ var o={norm:true}, m=ZBrand.text(q,p,'OLA',font,F[2],1.2,F[5],0,0,{dry:true,norm:true}), zx=-m.w/2-0.25, tx=0.95;
       P.axe(zx,0,2.9,-0.7,true); P.axe(zx,0,2.9,0.7); erase(q,function(){ q.beginPath(); q.arc(zx,0,1.2,0,PI*2); q.fill(); }); ZBrand.text(q,p,'Z',font,F[2],1.7,0,zx,0,o);

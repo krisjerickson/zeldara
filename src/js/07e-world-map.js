@@ -4,10 +4,10 @@
 // ║ capes, offshore islets) whose four regions are divided by natural
 // ║ borders meeting at a central lake. Each border has THREE crossings
 // ║ (lakeside, middle, coast) that open together when its craftsman is freed:
-// ║   Grasslands↔Wetlands  Silverrun river   — Bram's bridges     (s1 tower)
-// ║   Wetlands↔Highlands   the Great Scar   — Mira's lifts       (s2 tower)
-// ║   Highlands↔Ashlands   Cinder Chasm      — Dunn's iron bridges(s3 tower)
-// ║   Ashlands↔Grasslands  Ember Wall ridge  — Vela's passes      (s4 tower)
+// ║   Gildenmark↔Fernheim  Silverrun river   — Bram's bridges     (s1 tower)
+// ║   Fernheim↔Cragland   the Great Scar   — Mira's lifts       (s2 tower)
+// ║   Cragland↔Cinderheim   Cinder Chasm      — Dunn's iron bridges(s3 tower)
+// ║   Cinderheim↔Gildenmark  Ember Wall ridge  — Vela's passes      (s4 tower)
 // ║ Each region holds its 10 Lab designs as hand-placed sub-zones, plus
 // ║ roads, rivers, sites, harbors and rune waystones (fast travel).
 // ║ Shared by the game (world generation) and the Design Lab (Map tab).
@@ -15,22 +15,22 @@
 var WMAP_W=1200, WMAP_H=1200, WMAP_CX=600, WMAP_CY=600;
 // terrain classes in the map grid
 var WM={OCEAN:0,SHALLOW:1,BEACH:2,LAND:3,LAKE:4,RIVER:5,CLIFF:6,CHASM:7,RIDGE:8,ROAD:9,BRIDGE:10,VILLAGE:11,PEAK:12,GATE:13};
-var WM_REGION_NAMES={0:'Village & Mirror Lake',1:'Grasslands',2:'Wetlands',3:'Highlands',4:'Ashlands'};
+var WM_REGION_NAMES={0:'Mirrowby & Mirror Lake',1:'Gildenmark',2:'Fernheim',3:'Cragland',4:'Cinderheim'};
 // Hand-placed sub-zones: every Lab design has a home (x,y = zone heart)
 var WMAP_ZONES=[
-  // Grasslands (NE)
+  // Gildenmark (NE)
   {id:'waystone_road',r:1,x:720,y:410},{id:'fairy_rings',r:1,x:840,y:450},{id:'firefly_river',r:1,x:960,y:540},
   {id:'windmill_hills',r:1,x:770,y:290},{id:'standing_stones',r:1,x:930,y:330},{id:'giant_bones',r:1,x:1070,y:440},
   {id:'blossom_terraces',r:1,x:700,y:160},{id:'amphitheatre',r:1,x:870,y:170},{id:'crystal_grass',r:1,x:1070,y:290},{id:'floating_rocks',r:1,x:1030,y:140},
-  // Wetlands (SE)
+  // Fernheim (SE)
   {id:'lantern_lilies',r:2,x:740,y:720},{id:'rune_stepping',r:2,x:1040,y:690},{id:'sunken_spires',r:2,x:900,y:770},
   {id:'glowfrog_pools',r:2,x:700,y:880},{id:'willow_cathedral',r:2,x:830,y:900},{id:'glow_mangroves',r:2,x:1060,y:860},
   {id:'wisp_cattails',r:2,x:700,y:1040},{id:'turtle_isles',r:2,x:830,y:1090},{id:'drowned_village',r:2,x:960,y:1010},{id:'stilt_walkways',r:2,x:1080,y:1010},
-  // Highlands (SW)
+  // Cragland (SW)
   {id:'dwarven_stairs',r:3,x:500,y:720},{id:'golem_graveyard',r:3,x:350,y:700},{id:'runic_mesas',r:3,x:180,y:760},
   {id:'petrified_forest',r:3,x:390,y:840},{id:'herder_terraces',r:3,x:530,y:900},{id:'windharp_ridges',r:3,x:170,y:930},
   {id:'geode_canyons',r:3,x:300,y:960},{id:'glacier_peaks',r:3,x:480,y:1060},{id:'giants_chessboard',r:3,x:320,y:1090},{id:'starfall_crater',r:3,x:150,y:1080},
-  // Ashlands (NW)
+  // Cinderheim (NW)
   {id:'emberflower_fields',r:4,x:430,y:510},{id:'burned_cathedral',r:4,x:520,y:420},{id:'obsidian_glass',r:4,x:300,y:470},
   {id:'sulfur_geysers',r:4,x:140,y:480},{id:'forge_ruins',r:4,x:360,y:320},{id:'ashsnow_forest',r:4,x:500,y:280},
   {id:'magma_channels',r:4,x:200,y:350},{id:'basalt_forest',r:4,x:450,y:170},{id:'dragon_valley',r:4,x:290,y:210},{id:'chained_rocks',r:4,x:150,y:230}
@@ -54,7 +54,7 @@ var WMAP_WAYSTONE_ZONES={1:['waystone_road','firefly_river','amphitheatre','gian
 // Endgame volcano islands stay offshore (raised when the final quest starts)
 // round 51 (Kris: "the big volcano is hidden below the compass … reposition the mega volcano to be attached somewhere to the magma land" and
 // "it doesn't seem like you can get to the mini volcanoes"): the four forges sit just off a reachable coast of their own region, Muspelheim
-// (the great volcano) off the Magma Channels on the Ashlands' west coast. Each is joined to the shore by a walled causeway (04-helpers).
+// (the great volcano) off the Magma Channels on Cinderheim's west coast. Each is joined to the shore by a walled causeway (04-helpers).
 var WMAP_VOLCANOES=[{id:'volcano_main',type:'volcano_main',section:4,x:101,y:325},{id:'volcano_n',type:'volcano_mini',section:1,x:1019,y:184},
   {id:'volcano_e',type:'volcano_mini',section:2,x:1102,y:958},{id:'volcano_s',type:'volcano_mini',section:3,x:111,y:879},{id:'volcano_w',type:'volcano_mini',section:4,x:255,y:76}];
 // the open bays the old volcano spots cut into the coast stay where they were, so the world itself does not change
@@ -114,7 +114,7 @@ function buildWorldMap(seed){
   for(var y6=CY+40;y6<H;y6++){ var xx6=armX(y6), c6=cls[y6*W+Math.round(xx6)]; if(c6===WM.OCEAN||c6===WM.SHALLOW)break; paint(xx6,y6,2.5,WM.CLIFF,true); armEnd.S=y6; }                     // south: Great Scar
   for(var x7=CX-40;x7>=0;x7--){ var yy7=armY(x7), c7=cls[Math.round(yy7)*W+x7]; if(c7===WM.OCEAN||c7===WM.SHALLOW)break; paint(x7,yy7,4+n2(x7/30,5)*2.5,WM.CHASM,true); armEnd.W=x7; }  // west: Cinder Chasm
   for(var y8=CY-40;y8>=0;y8--){ var xx8=armX(y8), c8=cls[y8*W+Math.round(xx8)]; if(c8===WM.OCEAN||c8===WM.SHALLOW)break; paint(xx8,y8,6+n2(3,y8/30)*4,WM.RIDGE,true); armEnd.N=y8; }     // north: Ember Wall
-  // ── 4. village on the Grasslands shore of the lake ──
+  // ── 4. village on Gildenmark shore of the lake ──
   var village={x:690,y:520,r:30};
   for(var y9=village.y-village.r;y9<=village.y+village.r;y9++)for(var x9=village.x-village.r;x9<=village.x+village.r;x9++){ if(Math.hypot(x9-village.x,y9-village.y)<=village.r){ var k9=y9*W+x9; cls[k9]=WM.VILLAGE; region[k9]=0; } }
   // harbour bay: Mirror Lake reaches into the village's south-west quarter (07l VR_BAY)
@@ -191,7 +191,7 @@ function buildWorldMap(seed){
         for(var st=0;st<400;st++){ hx+=Math.cos(ang); hy+=Math.sin(ang); var k=Math.round(hy)*W+Math.round(hx); if(k<0||k>=N)break; if(cls[k]===WM.OCEAN||cls[k]===WM.SHALLOW){ sea=true; break; } if((cls[k]===WM.BEACH||cls[k]===WM.LAND)&&reach[k])cand={x:Math.round(hx),y:Math.round(hy)}; }
         if(sea&&cand&&!sites.some(function(o){ return o.kind==='harbor'&&Math.hypot(o.x-cand.x,o.y-cand.y)<40; }))last=cand; }
       if(last)sites.push({kind:'harbor',section:sec,x:last.x,y:last.y,angle:ang,zone:hz.id,isle:'abcd'[hi]}); }); });
-  var waystones=[{id:'ws_village',name:'Village Waystone',region:0,x:village.x+4,y:village.y+3}];
+  var waystones=[{id:'ws_village',name:'Mirrowby Waystone',region:0,x:village.x+4,y:village.y+3}];
   [1,2,3,4].forEach(function(r){ WMAP_WAYSTONE_ZONES[r].forEach(function(zid,i){ var z=zoneById[zid], p=nearOpen(z.x,z.y,[-6,-10]); waystones.push({id:'ws_'+zid,name:_wmZoneName(zid)+' Waystone',region:r,x:p.x,y:p.y,zone:zid}); }); });
   // coast distance (for ocean depth colouring) — cheap 2-pass chamfer
   for(var i12=0;i12<N;i12++)coastDist[i12]=(cls[i12]===WM.OCEAN||cls[i12]===WM.SHALLOW)?1e6:0;
@@ -200,6 +200,8 @@ function buildWorldMap(seed){
   return {W:W,H:H,cls:cls,region:region,zone:zone,gateAt:gateAt,roadPts:roadPts,height:height,coastDist:coastDist,village:village,gates:gates,sites:sites,waystones:waystones,volcanoes:WMAP_VOLCANOES,zones:WMAP_ZONES,
     armX:armX, armY:armY};
 }
+// round 138: the lands have new names (Kris, Lab › Names); monsters still choose their land by its old words ("mangrove", "geyser" …)
+function _wmZoneWas(id){ if(typeof WORLD_DESIGNS!=='undefined'){ var d=WORLD_DESIGNS.find(function(z){return z.id===id;}); if(d)return d.was||d.name; } return _wmZoneName(id); }
 function _wmZoneName(id){ if(typeof WORLD_DESIGNS!=='undefined'){ var d=WORLD_DESIGNS.find(function(z){return z.id===id;}); if(d)return d.name; } return id.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();}); }
 // Walkability check used by tests / the Lab: flood fill from the village through
 // open land, roads, bridges and gates (ignores region locks). openGate(g) → false

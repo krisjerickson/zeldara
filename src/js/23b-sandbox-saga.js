@@ -7,7 +7,7 @@
 // ║ round it is planned for, and does nothing.
 // ═══════════════════════════════════════════════════════════════════════
 var SBSAGA={
-  REALM:['','Grasslands','Wetlands','Highlands','Ashlands'],
+  REALM:['','Gildenmark','Fernheim','Cragland','Cinderheim'],
   KEYS:['volcano_key_n','volcano_key_e','volcano_key_s','volcano_key_w'], VIDS:['volcano_n','volcano_e','volcano_s','volcano_w'],
   ws:function(){ var ws=typeof game!=='undefined'&&game.scene.getScene('World'); if(!ws||!ws.playerState||!ws.wd){ showNotif('Start or load a game first!','#ff4444'); return null; } return ws; },
   ps:function(ws){ var ps=ws.playerState; ps.completedQuests=ps.completedQuests||[]; ps.inventory=ps.inventory||[]; ps.spiritsFreed=ps.spiritsFreed||[]; return ps; },
@@ -92,14 +92,14 @@ var SBSAGA={
         {l:'⛏ Metal',b:Q(SBSAGA.metal,function(q){ return 'The '+ZMIRA.ISLE[q]+' trader\'s metal'; })},
         {l:'🔥 Hearth tray',b:Q(SBSAGA.tray,function(q){ return 'Mira\'s tray for the '+ZMIRA.FORGE[q]+' Forge'; })} ]},
       {n:'Ⅴ',name:'The Forges of Muspelheim',col:'#ffaa66',sub:'three floors each: the old challenge, the spirit galleries, the forge-master and the hearth',rows:[
-        {l:'🌋 The forges rise',b:[B('Go',SBSAGA.forgesRise,'Four boss dungeons + four builders\' towers done — to the Ember Forge')]}].concat(['Ember','Cinder','Slag','Ash'].map(function(nm,i){ return {l:'🔥 '+nm,b:[
+        {l:'🌋 The forges rise',b:[B('Go',SBSAGA.forgesRise,'Four boss dungeons + four builders\' towers done — to the Ember Forge')]}].concat(['Ember','Cinder','Clinker','Ash'].map(function(nm,i){ return {l:'🔥 '+nm,b:[
           B('1',function(){ SBSAGA.forge(i,1); },'Floor 1 — the Mouth (the forge\'s own monsters)'), B('2',function(){ SBSAGA.forge(i,2); },'Floor 2 — the spirit galleries (five chained spirits)'), B('3',function(){ SBSAGA.forge(i,3); },'Floor 3 — the deep workings (five more spirits)'),
           B('4 ☠',function(){ SBSAGA.forge(i,4); },'Floor 4 — the hearth hall: the forge-master and the hearth'), B('kit',function(){ SBSAGA.kit(i); },'Its lattice and tray, for the hearth')]}; }))},
       {n:'Ⅵ',name:'Muspelheim',col:'#ff7a5a',sub:'four halls of trial, then Surtharn\'s throne and the great hearth',rows:[
         {l:'🏔 Halls',b:ZMUSP.HALLS.map(function(nm,f){ return B(String(f+1)+(f===4?' ☠':''),function(){ SBSAGA.musp(f); },nm); })},
         {l:'👹 Surtharn',b:[B('Fight',function(){ SBSAGA.musp(4); },'Surtharn, Tyrant of Muspelheim — six phases')]},
         {l:'⭐ The Lodestar',b:[B('Kit',function(){ SBSAGA.musp(4,true); },'The throne, with the Sovereign staff and the four Heartglasses in your pack — beat Surtharn, then [Tab] the great hearth')]},
-        {l:'🎁 Give',b:[B('Lodestar',function(){ SBSAGA.give('lodestar'); },'The Lodestar, in your pack'),B('Staff',function(){ SBSAGA.give('sov_staff'); },'The Sovereign staff, in your pack')].concat([1,2,3,4].map(function(q){ return B('💎'+q,function(){ SBSAGA.give('heartglass_'+q); },'The '+((ITEMS['heartglass_'+q]||{}).name||('Heartglass '+q))+' (the '+['','Ember','Cinder','Slag','Ash'][q]+' Forge\'s hearth)'); }))} ]},
+        {l:'🎁 Give',b:[B('Lodestar',function(){ SBSAGA.give('lodestar'); },'The Lodestar, in your pack'),B('Staff',function(){ SBSAGA.give('sov_staff'); },'The Sovereign staff, in your pack')].concat([1,2,3,4].map(function(q){ return B('💎'+q,function(){ SBSAGA.give('heartglass_'+q); },'The '+((ITEMS['heartglass_'+q]||{}).name||('Heartglass '+q))+' (the '+['','Ember','Cinder','Clinker','Ash'][q]+' Forge\'s hearth)'); }))} ]},
       {n:'Ⅶ',name:'The Collapse & the Bifröst',col:'#c8a8ff',sub:'the escape, the sinking causeway, Asgard descends',rows:[
         {l:'🏃 Collapse',b:[B('Escape',function(){ SBSAGA.esc('climb'); },'The Lodestar made: Muspelheim falls — five collapsing floors, one timer'),B('Causeway',function(){ SBSAGA.esc('cw'); },'Out of the gate: the causeway sinks behind you')]},
         {l:'🌈 Bifröst',b:[B('Asgard descends',function(){ SBSAGA.esc('sink'); },'On the mainland: Muspelheim sinks, Asgard comes down onto Mirror Lake'),B('Pier notch',function(){ SBSAGA.esc('notch'); },'Asgard on the lake, the Lodestar in your pack, at the end of the pier — [Tab] the notch'),B('Godsbane',function(){ SBSAGA.esc('gods'); },'The Bifröst stands; Godsbane learned, the Lodestar in hand — on the bridge (press V)')]} ]},

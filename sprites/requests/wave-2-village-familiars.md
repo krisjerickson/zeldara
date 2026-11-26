@@ -1461,7 +1461,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hild — Hild, Asa's granddaughter: a grown woman of the Grasslands, a woven tunic with a patterned border, a distaff tucked in the belt; a sprig of meadow flowers at the belt. Main colours: blue (#3a5a9a), red (#8a2a2a), yellow (#e0b040), black (#201810). Size: about 1× the height of the hero.
+Subject: Hild — Hild, Asa's granddaughter: a grown woman of the Gildenmark, a woven tunic with a patterned border, a distaff tucked in the belt; a sprig of meadow flowers at the belt. Main colours: blue (#3a5a9a), red (#8a2a2a), yellow (#e0b040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1486,7 +1486,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Arni — Arni, Bersi's sister's grandson: a young man of the Grasslands, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a sprig of meadow flowers at the belt. Looks: dark brown skin and short tightly coiled black hair. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
+Subject: Arni — Arni, Bersi's sister's grandson: a young man of the Gildenmark, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a sprig of meadow flowers at the belt. Looks: dark brown skin and short tightly coiled black hair. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1511,7 +1511,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Gunnhild — Gunnhild, Dagny's niece: a grown woman of the Grasslands, a knitted cap, fingerless gloves and a netting needle behind one ear; a sprig of meadow flowers at the belt. Main colours: muted blue (#4a6a7a), muted yellow (#c8b890), dark blue (#2a3a4a), black (#201810). Size: about 1× the height of the hero.
+Subject: Gunnhild — Gunnhild, Dagny's niece: a grown woman of the Gildenmark, a knitted cap, fingerless gloves and a netting needle behind one ear; a sprig of meadow flowers at the belt. Main colours: muted blue (#4a6a7a), muted yellow (#c8b890), dark blue (#2a3a4a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1536,7 +1536,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Kari — Kari, Eyvind's son: a grown man of the Grasslands, an oilskin coat, tall boots and a woolly hat; a sprig of meadow flowers at the belt. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
+Subject: Kari — Kari, Eyvind's son: a grown man of the Gildenmark, an oilskin coat, tall boots and a woolly hat; a sprig of meadow flowers at the belt. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1561,7 +1561,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Solvi — Solvi, Frida's grandson: a young man of the Grasslands, a wide hat with a net veil pushed back, a smoker at the belt; a sprig of meadow flowers at the belt. Main colours: orange (#e8b030), olive (#6a5a2a), pale yellow (#f8f0d0), black (#201810). Size: about 1× the height of the hero.
+Subject: Solvi — Solvi, Frida's grandson: a young man of the Gildenmark, a wide hat with a net veil pushed back, a smoker at the belt; a sprig of meadow flowers at the belt. Main colours: orange (#e8b030), olive (#6a5a2a), pale yellow (#f8f0d0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1586,7 +1586,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Ottar — Ottar, Geir's great-grandson: a young man of the Grasslands, a leather apron full of chisels, wood shavings in the beard or hair; a sprig of meadow flowers at the belt. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
+Subject: Ottar — Ottar, Geir's great-grandson: a young man of the Gildenmark, a leather apron full of chisels, wood shavings in the beard or hair; a sprig of meadow flowers at the belt. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1611,7 +1611,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Steinar — Steinar, Hallveig's husband: an old, grey-haired man of the Grasslands, a leather apron, thick gloves, a hoop driver in hand; a sprig of meadow flowers at the belt. Main colours: brown (#7a5a3a), grey (#4a4a52), orange (#c8a868), black (#201810). Size: about 1× the height of the hero.
+Subject: Steinar — Steinar, Hallveig's husband: an old, grey-haired man of the Gildenmark, a leather apron, thick gloves, a hoop driver in hand; a sprig of meadow flowers at the belt. Main colours: brown (#7a5a3a), grey (#4a4a52), orange (#c8a868), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1636,7 +1636,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Halla — Halla, Ingolf's sister: a grown woman of the Grasslands, a stained leather apron, sleeves rolled to the elbow; a sprig of meadow flowers at the belt. Looks: olive-brown skin and dark curly hair. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
+Subject: Halla — Halla, Ingolf's sister: a grown woman of the Gildenmark, a stained leather apron, sleeves rolled to the elbow; a sprig of meadow flowers at the belt. Looks: olive-brown skin and dark curly hair. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1661,7 +1661,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Edda — Edda, Jorunn's daughter: a grown woman of the Grasslands, arms stained blue to the elbow, a patched apron of every colour; a sprig of meadow flowers at the belt. Main colours: blue (#2a4aa8), red (#a82a3a), yellow (#e8c030), black (#201810). Size: about 1× the height of the hero.
+Subject: Edda — Edda, Jorunn's daughter: a grown woman of the Gildenmark, arms stained blue to the elbow, a patched apron of every colour; a sprig of meadow flowers at the belt. Main colours: blue (#2a4aa8), red (#a82a3a), yellow (#e8c030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1686,7 +1686,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Gorm — Gorm, Ketil's nephew: a grown man of the Grasslands, a sheepskin vest, a crook and a horn at the belt; a sprig of meadow flowers at the belt. Looks: copper-brown skin and long straight black hair in braids. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
+Subject: Gorm — Gorm, Ketil's nephew: a grown man of the Gildenmark, a sheepskin vest, a crook and a horn at the belt; a sprig of meadow flowers at the belt. Looks: copper-brown skin and long straight black hair in braids. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1711,7 +1711,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Ylva — Ylva, Liv's apprentice: a young woman of the Wetlands, a flour-dusted cap and apron, white to the elbows; reed-green and river-blue cloth, marsh boots. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), muted blue (#4a6a8a), black (#201810). Size: about 1× the height of the hero.
+Subject: Ylva — Ylva, Liv's apprentice: a young woman of the Fernheim, a flour-dusted cap and apron, white to the elbows; reed-green and river-blue cloth, marsh boots. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), muted blue (#4a6a8a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1736,7 +1736,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Rurik — Rurik, Magni's son: a grown man of the Wetlands, a stone-dust cloak, a leather cap and heavy gloves; reed-green and river-blue cloth, marsh boots. Looks: light brown skin, freckles and loose dark curls. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
+Subject: Rurik — Rurik, Magni's son: a grown man of the Fernheim, a stone-dust cloak, a leather cap and heavy gloves; reed-green and river-blue cloth, marsh boots. Looks: light brown skin, freckles and loose dark curls. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1761,7 +1761,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Inga — Inga, Nanna's apprentice: a young woman of the Wetlands, a clean white apron over a warm dress, a pouch of herbs; reed-green and river-blue cloth, marsh boots. Main colours: white (#e8e0d8), muted green (#6a8a5a), muted red (#a85a6a), black (#201810). Size: about 1× the height of the hero.
+Subject: Inga — Inga, Nanna's apprentice: a young woman of the Fernheim, a clean white apron over a warm dress, a pouch of herbs; reed-green and river-blue cloth, marsh boots. Main colours: white (#e8e0d8), muted green (#6a8a5a), muted red (#a85a6a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1786,7 +1786,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Tova — Tova, Oddny's granddaughter: a grown woman of the Wetlands, clay to the elbows, a smock tied at the waist; reed-green and river-blue cloth, marsh boots. Looks: deep brown skin and black locs. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
+Subject: Tova — Tova, Oddny's granddaughter: a grown woman of the Fernheim, clay to the elbows, a smock tied at the waist; reed-green and river-blue cloth, marsh boots. Looks: deep brown skin and black locs. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1811,7 +1811,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Sigvald — Sigvald, Ragna's brother: an old, grey-haired man of the Wetlands, a hooded wool cloak, a crook, a lamb under one arm; reed-green and river-blue cloth, marsh boots. Main colours: pale orange (#e8e0d0), muted brown (#6a5a3a), muted green (#5a7a4a), black (#201810). Size: about 1× the height of the hero.
+Subject: Sigvald — Sigvald, Ragna's brother: an old, grey-haired man of the Fernheim, a hooded wool cloak, a crook, a lamb under one arm; reed-green and river-blue cloth, marsh boots. Main colours: pale orange (#e8e0d0), muted brown (#6a5a3a), muted green (#5a7a4a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1836,7 +1836,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hjalti — Hjalti, Sigrid's apprentice: a young man of the Wetlands, a scorched leather apron, bare arms, a hammer in hand; reed-green and river-blue cloth, marsh boots. Looks: golden-tan skin and dark brown hair. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
+Subject: Hjalti — Hjalti, Sigrid's apprentice: a young man of the Fernheim, a scorched leather apron, bare arms, a hammer in hand; reed-green and river-blue cloth, marsh boots. Looks: golden-tan skin and dark brown hair. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1861,7 +1861,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Asgerd — Asgerd, Torvi's daughter: a grown woman of the Wetlands, a green hood, a hatchet at the belt, bark on the sleeves; reed-green and river-blue cloth, marsh boots. Main colours: muted green (#3a6a3a), brown (#6a4a2a), green (#a8c870), black (#201810). Size: about 1× the height of the hero.
+Subject: Asgerd — Asgerd, Torvi's daughter: a grown woman of the Fernheim, a green hood, a hatchet at the belt, bark on the sleeves; reed-green and river-blue cloth, marsh boots. Main colours: muted green (#3a6a3a), brown (#6a4a2a), green (#a8c870), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1886,7 +1886,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Geirmund — Geirmund, Ulf's grandson: a young man of the Wetlands, a round belly, a leather apron and a ladle; reed-green and river-blue cloth, marsh boots. Looks: light olive skin, almond eyes and soft brown hair. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
+Subject: Geirmund — Geirmund, Ulf's grandson: a young man of the Fernheim, a round belly, a leather apron and a ladle; reed-green and river-blue cloth, marsh boots. Looks: light olive skin, almond eyes and soft brown hair. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1911,7 +1911,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Saga — Saga, Vigdis's pupil: a young woman of the Wetlands, a bright cloak with a silver brooch, a harp on the back; reed-green and river-blue cloth, marsh boots. Main colours: violet (#6a2a8a), yellow (#e8c040), blue (#2a4a6a), black (#201810). Size: about 1× the height of the hero.
+Subject: Saga — Saga, Vigdis's pupil: a young woman of the Fernheim, a bright cloak with a silver brooch, a harp on the back; reed-green and river-blue cloth, marsh boots. Main colours: violet (#6a2a8a), yellow (#e8c040), blue (#2a4a6a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1936,7 +1936,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Bodvar — Bodvar, Yrsa's son: a grown man of the Wetlands, a floury apron, a kerchief, a loaf under the arm; reed-green and river-blue cloth, marsh boots. Looks: medium brown skin and black hair with a silver streak. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
+Subject: Bodvar — Bodvar, Yrsa's son: a grown man of the Fernheim, a floury apron, a kerchief, a loaf under the arm; reed-green and river-blue cloth, marsh boots. Looks: medium brown skin and black hair with a silver streak. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1961,7 +1961,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Ragnhild — Ragnhild, Arnor's daughter: a grown woman of the Highlands, a woven tunic with a patterned border, a distaff tucked in the belt; a wool cloak against the mountain wind. Main colours: blue (#3a5a9a), red (#8a2a2a), yellow (#e0b040), black (#201810). Size: about 1× the height of the hero.
+Subject: Ragnhild — Ragnhild, Arnor's daughter: a grown woman of the Cragland, a woven tunic with a patterned border, a distaff tucked in the belt; a wool cloak against the mountain wind. Main colours: blue (#3a5a9a), red (#8a2a2a), yellow (#e0b040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -1986,7 +1986,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Ivar — Ivar, Bodil's grandson: a grown man of the Highlands, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a wool cloak against the mountain wind. Looks: dark brown skin and short tightly coiled black hair. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
+Subject: Ivar — Ivar, Bodil's grandson: a grown man of the Cragland, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a wool cloak against the mountain wind. Looks: dark brown skin and short tightly coiled black hair. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2011,7 +2011,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Freydis — Freydis, Dalla's niece: a young woman of the Highlands, a knitted cap, fingerless gloves and a netting needle behind one ear; a wool cloak against the mountain wind. Main colours: muted blue (#4a6a7a), muted yellow (#c8b890), dark blue (#2a3a4a), black (#201810). Size: about 1× the height of the hero.
+Subject: Freydis — Freydis, Dalla's niece: a young woman of the Cragland, a knitted cap, fingerless gloves and a netting needle behind one ear; a wool cloak against the mountain wind. Main colours: muted blue (#4a6a7a), muted yellow (#c8b890), dark blue (#2a3a4a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2036,7 +2036,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Leif — Leif, Einar's little brother, now grown: a grown man of the Highlands, an oilskin coat, tall boots and a woolly hat; a wool cloak against the mountain wind. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
+Subject: Leif — Leif, Einar's little brother, now grown: a grown man of the Cragland, an oilskin coat, tall boots and a woolly hat; a wool cloak against the mountain wind. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2061,7 +2061,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Alva — Alva, Gudrun's granddaughter: a young woman of the Highlands, a wide hat with a net veil pushed back, a smoker at the belt; a wool cloak against the mountain wind. Main colours: orange (#e8b030), olive (#6a5a2a), pale yellow (#f8f0d0), black (#201810). Size: about 1× the height of the hero.
+Subject: Alva — Alva, Gudrun's granddaughter: a young woman of the Cragland, a wide hat with a net veil pushed back, a smoker at the belt; a wool cloak against the mountain wind. Main colours: orange (#e8b030), olive (#6a5a2a), pale yellow (#f8f0d0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2086,7 +2086,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Sindri — Sindri, Hakon's apprentice: a young man of the Highlands, a leather apron full of chisels, wood shavings in the beard or hair; a wool cloak against the mountain wind. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
+Subject: Sindri — Sindri, Hakon's apprentice: a young man of the Cragland, a leather apron full of chisels, wood shavings in the beard or hair; a wool cloak against the mountain wind. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2111,7 +2111,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Thorkel — Thorkel, Ingrid's son: a grown man of the Highlands, a leather apron, thick gloves, a hoop driver in hand; a wool cloak against the mountain wind. Main colours: brown (#7a5a3a), grey (#4a4a52), orange (#c8a868), black (#201810). Size: about 1× the height of the hero.
+Subject: Thorkel — Thorkel, Ingrid's son: a grown man of the Cragland, a leather apron, thick gloves, a hoop driver in hand; a wool cloak against the mountain wind. Main colours: brown (#7a5a3a), grey (#4a4a52), orange (#c8a868), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2136,7 +2136,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hrefna — Hrefna, Joreid's cousin: a grown woman of the Highlands, a stained leather apron, sleeves rolled to the elbow; a wool cloak against the mountain wind. Looks: olive-brown skin and dark curly hair. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
+Subject: Hrefna — Hrefna, Joreid's cousin: a grown woman of the Cragland, a stained leather apron, sleeves rolled to the elbow; a wool cloak against the mountain wind. Looks: olive-brown skin and dark curly hair. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2161,7 +2161,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Signy — Signy, Kolbein's sweetheart, now grey: an old, grey-haired woman of the Highlands, arms stained blue to the elbow, a patched apron of every colour; a wool cloak against the mountain wind. Main colours: blue (#2a4aa8), red (#a82a3a), yellow (#e8c030), black (#201810). Size: about 1× the height of the hero.
+Subject: Signy — Signy, Kolbein's sweetheart, now grey: an old, grey-haired woman of the Cragland, arms stained blue to the elbow, a patched apron of every colour; a wool cloak against the mountain wind. Main colours: blue (#2a4aa8), red (#a82a3a), yellow (#e8c030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2186,7 +2186,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Starkad — Starkad, Lofn's son: a grown man of the Highlands, a sheepskin vest, a crook and a horn at the belt; a wool cloak against the mountain wind. Looks: copper-brown skin and long straight black hair in braids. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
+Subject: Starkad — Starkad, Lofn's son: a grown man of the Cragland, a sheepskin vest, a crook and a horn at the belt; a wool cloak against the mountain wind. Looks: copper-brown skin and long straight black hair in braids. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2211,7 +2211,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Grima — Grima, Mord's sister: a grown woman of the Ashlands, a flour-dusted cap and apron, white to the elbows; ash-grey cloth with a little ember-red trim. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), muted blue (#4a6a8a), black (#201810). Size: about 1× the height of the hero.
+Subject: Grima — Grima, Mord's sister: a grown woman of the Cinderheim, a flour-dusted cap and apron, white to the elbows; ash-grey cloth with a little ember-red trim. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), muted blue (#4a6a8a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2236,7 +2236,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Hogni — Hogni, Njal's brother: a grown man of the Ashlands, a stone-dust cloak, a leather cap and heavy gloves; ash-grey cloth with a little ember-red trim. Looks: light brown skin, freckles and loose dark curls. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
+Subject: Hogni — Hogni, Njal's brother: a grown man of the Cinderheim, a stone-dust cloak, a leather cap and heavy gloves; ash-grey cloth with a little ember-red trim. Looks: light brown skin, freckles and loose dark curls. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2261,7 +2261,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Birna — Birna, Orm's daughter: a grown woman of the Ashlands, a clean white apron over a warm dress, a pouch of herbs; ash-grey cloth with a little ember-red trim. Main colours: white (#e8e0d8), muted green (#6a8a5a), muted red (#a85a6a), black (#201810). Size: about 1× the height of the hero.
+Subject: Birna — Birna, Orm's daughter: a grown woman of the Cinderheim, a clean white apron over a warm dress, a pouch of herbs; ash-grey cloth with a little ember-red trim. Main colours: white (#e8e0d8), muted green (#6a8a5a), muted red (#a85a6a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2286,7 +2286,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Eldrid — Eldrid, Ranveig's apprentice: a young woman of the Ashlands, clay to the elbows, a smock tied at the waist; ash-grey cloth with a little ember-red trim. Looks: deep brown skin and black locs. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
+Subject: Eldrid — Eldrid, Ranveig's apprentice: a young woman of the Cinderheim, clay to the elbows, a smock tied at the waist; ash-grey cloth with a little ember-red trim. Looks: deep brown skin and black locs. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2311,7 +2311,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Aslak — Aslak, Sverri's grandson: a young man of the Ashlands, a hooded wool cloak, a crook, a lamb under one arm; ash-grey cloth with a little ember-red trim. Main colours: pale orange (#e8e0d0), muted brown (#6a5a3a), muted green (#5a7a4a), black (#201810). Size: about 1× the height of the hero.
+Subject: Aslak — Aslak, Sverri's grandson: a young man of the Cinderheim, a hooded wool cloak, a crook, a lamb under one arm; ash-grey cloth with a little ember-red trim. Main colours: pale orange (#e8e0d0), muted brown (#6a5a3a), muted green (#5a7a4a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2336,7 +2336,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Thorvald — Thorvald, Thora's son: a grown man of the Ashlands, a scorched leather apron, bare arms, a hammer in hand; ash-grey cloth with a little ember-red trim. Looks: golden-tan skin and dark brown hair. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
+Subject: Thorvald — Thorvald, Thora's son: a grown man of the Cinderheim, a scorched leather apron, bare arms, a hammer in hand; ash-grey cloth with a little ember-red trim. Looks: golden-tan skin and dark brown hair. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2361,7 +2361,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Vigi — Vigi, Unn's little brother, now grown: a grown man of the Ashlands, a green hood, a hatchet at the belt, bark on the sleeves; ash-grey cloth with a little ember-red trim. Main colours: muted green (#3a6a3a), brown (#6a4a2a), green (#a8c870), black (#201810). Size: about 1× the height of the hero.
+Subject: Vigi — Vigi, Unn's little brother, now grown: a grown man of the Cinderheim, a green hood, a hatchet at the belt, bark on the sleeves; ash-grey cloth with a little ember-red trim. Main colours: muted green (#3a6a3a), brown (#6a4a2a), green (#a8c870), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2386,7 +2386,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Gudny — Gudny, Vali's granddaughter: a young woman of the Ashlands, a round belly, a leather apron and a ladle; ash-grey cloth with a little ember-red trim. Looks: light olive skin, almond eyes and soft brown hair. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
+Subject: Gudny — Gudny, Vali's granddaughter: a young woman of the Cinderheim, a round belly, a leather apron and a ladle; ash-grey cloth with a little ember-red trim. Looks: light olive skin, almond eyes and soft brown hair. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2411,7 +2411,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Skuli — Skuli, Alfhild's son: a grown man of the Ashlands, a bright cloak with a silver brooch, a harp on the back; ash-grey cloth with a little ember-red trim. Main colours: violet (#6a2a8a), yellow (#e8c040), blue (#2a4a6a), black (#201810). Size: about 1× the height of the hero.
+Subject: Skuli — Skuli, Alfhild's son: a grown man of the Cinderheim, a bright cloak with a silver brooch, a harp on the back; ash-grey cloth with a little ember-red trim. Main colours: violet (#6a2a8a), yellow (#e8c040), blue (#2a4a6a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).
@@ -2436,7 +2436,7 @@ Attach: style_hero, style_centaur
 ```
 Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
-Subject: Helga — Helga, Brand's granddaughter: a young woman of the Ashlands, a floury apron, a kerchief, a loaf under the arm; ash-grey cloth with a little ember-red trim. Looks: medium brown skin and black hair with a silver streak. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
+Subject: Helga — Helga, Brand's granddaughter: a young woman of the Cinderheim, a floury apron, a kerchief, a loaf under the arm; ash-grey cloth with a little ember-red trim. Looks: medium brown skin and black hair with a silver streak. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
 1. standing at rest, relaxed and alert.
 2. the same stance with a small breathing motion (chest raised, weight shifted).

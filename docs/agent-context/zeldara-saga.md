@@ -16,7 +16,7 @@ Now about sixteen, one twin goes out into Runeheim and the other stays home to s
 
 ## 2. Canon at a glance (never contradict these)
 
-- **The world** is **Runeheim**. **Muspelheim** is only Surtharn's fire realm (a volcano island off the Ashlands' west coast). **Asgard** is the gods' city in the sky.
+- **The world** is **Runeheim**. **Muspelheim** is only Surtharn's fire realm (a volcano island off Cinderheim's west coast). **Asgard** is the gods' city in the sky.
 - **The heroes** are twins, **Zeldara** (the girl) and **Zeldor** (the boy). They are the **same age (about 16) and the same height**. The player chooses one; **the other stays in the village** and studies the old sagas the whole game.
 - **Solmyrk, the Black Sun**, is an **impostor**, not a corrupted Odin. He is "a thing of stolen light" wearing Odin's stolen face as a golden mask, and under the light there is only dark. In code and old notes he is sometimes still called *Grímnir*.
 - **Odin and Freya** are good, warm and wise. They are **never golden or masked**; that look belongs only to Solmyrk.
@@ -37,18 +37,18 @@ A round land of four realms around **Mirror Lake**, ringed by sea. Its **soul-li
 
 | Realm | Where | Its land | How it fell |
 |---|---|---|---|
-| **The Grasslands** | north-east | Green meadows, wildflowers, standing runestones, farms, the last village | It never fell. It was the last realm left, and it went through **the Long Quiet**. |
-| **The Wetlands** | south-east | Marsh, reeds, the wide **Silverrun** river, mist and mills | **The Black Tide** (year 6). The Silverrun rose black from the south, the marshes drank the villages, and the river became a wall. |
-| **The Highlands** | south-west | Mountains, cliffs, mines, snow and waterfalls | **The Stone-Fall** (about year 3). The mines dug deeper after "a voice in the stone", the mountains broke and **the Great Scar** tore open. |
-| **The Ashlands** | north-west | Ash-grey plains, lava channels, smoky orange skies | **The Ash Night** (year 0, the night the gate shut). Fire and ash fell, **the Ember Wall** rose against the Grasslands and **the Cinder Chasm** split from the Highlands. The people perished and their souls were bound to dig. |
+| **Gildenmark** | north-east | Green meadows, wildflowers, standing runestones, farms, the last village | It never fell. It was the last realm left, and it went through **the Long Quiet**. |
+| **Fernheim** | south-east | Marsh, reeds, the wide **Silverrun** river, mist and mills | **The Black Tide** (year 6). The Silverrun rose black from the south, the marshes drank the villages, and the river became a wall. |
+| **Cragland** | south-west | Mountains, cliffs, mines, snow and waterfalls | **The Stone-Fall** (about year 3). The mines dug deeper after "a voice in the stone", the mountains broke and **the Great Scar** tore open. |
+| **Cinderheim** | north-west | Ash-grey plains, lava channels, smoky orange skies | **The Ash Night** (year 0, the night the gate shut). Fire and ash fell, **the Ember Wall** rose against Gildenmark and **the Cinder Chasm** split from Cragland. The people perished and their souls were bound to dig. |
 
 **The four barriers** were the Ember Wall, the Great Scar, the Silverrun and the Cinder Chasm. Four master builders, taken by Surtharn's wardens, reopen them when the twin frees them:
 
 | Builder | Crossing | Look |
 |---|---|---|
-| **Bram the Builder** | raises the bridge over the Silverrun (Grasslands ↔ Wetlands) | A stocky, bearded man in a flat cap with a leather work-vest and a big hammer |
-| **Mira the Mechanic** | builds the cage-lift up the Great Scar to the Highlands. Later her workshop in the village makes the hearth trays for the forges. | A young woman with wild red hair, brass goggles, overalls and a tool belt |
-| **Dunn** | builds the iron bridge over the Cinder Chasm to the Ashlands | A dwarf forger with a big red beard, a leather apron and a hammer |
+| **Bram the Builder** | raises the bridge over the Silverrun (Gildenmark ↔ Fernheim) | A stocky, bearded man in a flat cap with a leather work-vest and a big hammer |
+| **Mira the Mechanic** | builds the cage-lift up the Great Scar to Cragland. Later her workshop in the village makes the hearth trays for the forges. | A young woman with wild red hair, brass goggles, overalls and a tool belt |
+| **Dunn** | builds the iron bridge over the Cinder Chasm to Cinderheim | A dwarf forger with a big red beard, a leather apron and a hammer |
 | **Vela** | builds the passes through the Ember Wall | — |
 
 ### 3.2 The village and Mirror Lake
@@ -68,11 +68,11 @@ A round land of four realms around **Mirror Lake**, ringed by sea. Its **soul-li
 
 ### 3.3 Muspelheim and the forges
 
-- **Muspelheim** is Surtharn's black volcano island off the Ashlands' west coast. Its deep halls are full of chained spirits, digging. Its **great hearth** is where the Lodestar is made.
+- **Muspelheim** is Surtharn's black volcano island off Cinderheim's west coast. Its deep halls are full of chained spirits, digging. Its **great hearth** is where the Lodestar is made.
 - **The four Forges of Muspelheim** rise from the sea on walled causeways. They are taken in order, and each forge-master holds the key to the next:
   1. **Ember Forge**, with **Brokk the Bellows-Wyrm**
   2. **Cinder Forge**, with **Hissa the Quench-Hag**
-  3. **Slag Forge**, with **Krag the Slag Troll**
+  3. **Clinker Forge**, with **Krag the Slag Troll**
   4. **Ash Forge**, with **Sinda the Chainmistress**
 - **The forges were built to melt the gods' light into chains.** Mira: "We'll melt it back."
 
@@ -93,7 +93,7 @@ A round land of four realms around **Mirror Lake**, ringed by sea. Its **soul-li
 | **Bindstone** | A tall dark runestone with a spirit chained to it by ember-glowing black chains. Its **Binder** (a chain-keeper of fire) guards it. |
 | **Soul-line** | The line of rune-blue light that runs out of a bindstone into the land when its spirit is freed. Forty of them draw the World Tree. Where the light runs, grass and paths will one day follow. |
 | **Soulglass** | Shards from freed spirits, made by the Glasswright into a lattice for each realm, then fused at a forge's hearth into a **Heartglass**. |
-| **The four soul gems** | Given by the great spirit each realm's cruellest Binder held: **Grovesoul** (green, Grasslands), **Tidesoul** (sea-blue, Wetlands), **Stonesoul** (amber, Highlands) and **Embersoul** (red, Ashlands). |
+| **The four soul gems** | Given by the great spirit each realm's cruellest Binder held: **Grovesoul** (green, Gildenmark), **Tidesoul** (sea-blue, Fernheim), **Stonesoul** (amber, Cragland) and **Embersoul** (red, Cinderheim). |
 | **Hearth tray** | Mira's metal tray that holds the glass in the forge's heat |
 | **The Lodestar** | A tall staff of silver and gold. Its crown is a ring set with four gems (green, blue, amber, red) around a blazing white star. Its name means the guiding star that leads the spirits home. |
 | **Godsbane** | The Lodestar's one word and spell. It frees gods and wakes the Bifröst. |
@@ -163,11 +163,11 @@ His other servants:
   - Arnor: "The miners said the stone was singing. They dug toward it. So did the mountain."
   - Unn: "Muspelheim and Asgard are tied. Break the fire and the sky will fall to you."
   - Kolbein: "The one on the high seat has one eye too. But his eye has never seen anything."
-- **Hildr of the Long Barrow** was the first queen of the Grasslands and the greatest spirit its cruellest Binder held. She gives the twin **Grovesoul**. Each realm has one such great spirit.
+- **Hildr of the Long Barrow** was the first queen of Gildenmark and the greatest spirit its cruellest Binder held. She gives the twin **Grovesoul**. Each realm has one such great spirit.
 
 ### 4.5 Others
 
-- **Fairies:** twenty of them, five per realm, plus **the fairy monarchs**, angelic and old. The monarchs remember the gods without ever naming them. The Grasslands monarch says: "The one with the spear and the one with the falcon cloak laughed with us."
+- **Fairies:** twenty of them, five per realm, plus **the fairy monarchs**, angelic and old. The monarchs remember the gods without ever naming them. Gildenmark monarch says: "The one with the spear and the one with the falcon cloak laughed with us."
 - **Familiars:** four elemental companions (fire, water, nature/grass, earth). They go with the spirits into legend at the end.
 - **After the end:**
   - forty hamlet folk, one kin per spirit, each with a trade;
@@ -185,12 +185,12 @@ thirty-six. Every "thirty-six winters" in the game now reads "twenty-eight".)
 | Year | Event |
 |---|---|
 | before | **The cycle of souls.** The dead rise along the World Tree to Asgard (Valhalla for the fallen, Fólkvangr for the rest), and new souls come down it into every newborn. |
-| 0 | **The gate shuts.** Solmyrk, in a golden mask, traps Odin and Freya in two orbs, takes the high seat and Odin's names, and shuts the gate. The same night is **the Ash Night**: Surtharn wakes, the Ashlands burn, the Ember Wall rises and the Cinder Chasm opens. The Binders start chaining the dead to dig. No child is born alive after this night. |
-| 3 | **The Stone-Fall.** The Highlands break and the Great Scar opens. |
-| 6 | **The Black Tide.** The Wetlands drown and the Silverrun becomes a wall. |
-| 9 | **The Grasslands fall quiet.** The last waystones go dark; Fernby, Stonewick, Hollowmere and the Downs empty; only the last village is left. |
+| 0 | **The gate shuts.** Solmyrk, in a golden mask, traps Odin and Freya in two orbs, takes the high seat and Odin's names, and shuts the gate. The same night is **the Ash Night**: Surtharn wakes, Cinderheim burn, the Ember Wall rises and the Cinder Chasm opens. The Binders start chaining the dead to dig. No child is born alive after this night. |
+| 3 | **The Stone-Fall.** Cragland break and the Great Scar opens. |
+| 6 | **The Black Tide.** Fernheim drown and the Silverrun becomes a wall. |
+| 9 | **Gildenmark fall quiet.** The last waystones go dark; Fernby, Stonewick, Hollowmere and the Downs empty; only the last village is left. |
 | 0–12 | **The Long Quiet.** No child is born alive. The dead drift at the edge of the light, and the Binders come for them. |
-| 12 | **The storm and the basket.** Lightning strikes runestone after runestone across the Grasslands. At dawn a floating basket drifts out of Mirror Lake with two babes whose eyes glow rune-blue. |
+| 12 | **The storm and the basket.** Lightning strikes runestone after runestone across Gildenmark. At dawn a floating basket drifts out of Mirror Lake with two babes whose eyes glow rune-blue. |
 | 28 | **Now.** The twins are sixteen. The game begins. |
 
 ---
@@ -219,15 +219,15 @@ Each beat below gives **the truth**, what stays a **mystery** and until when, an
 7. **The soul-lines.** Each freed spirit's line traces into the land, and together the forty draw the World Tree. What the drawing is *for* stays open until the fortieth.
    - **After the first spirit:** `pn_lines_life`, "Its soul-line runs out into the land… and where the light runs, life may one day follow."
    - *The twin at home, at twenty freed:* "Bring me the map. The lines… they're drawing something. Something that wants to be finished."
-8. **The Ash Night.** Played with the Ashlands' **first** freed spirit: `pn_saga_ashnight_b`, "The night Asgard's gate shut, fire fell on the Ashlands and the Ember Wall rose."
-9. **The Stone-Fall.** Played with the Highlands' **first** freed spirit: `pn_saga_stonefall_b`, "Three years on, the Highlands dug too deep for a voice in the stone — and the mountains broke."
-10. **The Black Tide.** Played with the Wetlands' **first** freed spirit: `pn_saga_blacktide_b`, "Then the Black Tide: the Silverrun rose black, and the marshes drank the villages."
-    - The Grasslands' panel, **The Long Quiet** (`pn_saga_quiet_b`), plays with that realm's **tenth** freed spirit: "Only the Grasslands were left — and the Long Quiet, when the dead drifted at the edge of the light."
+8. **The Ash Night.** Played with Cinderheim's **first** freed spirit: `pn_saga_ashnight_b`, "The night Asgard's gate shut, fire fell on Cinderheim and the Ember Wall rose."
+9. **The Stone-Fall.** Played with Cragland's **first** freed spirit: `pn_saga_stonefall_b`, "Three years on, Cragland dug too deep for a voice in the stone — and the mountains broke."
+10. **The Black Tide.** Played with Fernheim's **first** freed spirit: `pn_saga_blacktide_b`, "Then the Black Tide: the Silverrun rose black, and the marshes drank the villages."
+    - Gildenmark's panel, **The Long Quiet** (`pn_saga_quiet_b`), plays with that realm's **tenth** freed spirit: "Only Gildenmark was left — and the Long Quiet, when the dead drifted at the edge of the light."
 11. **The barriers and the builders.** One cut-scene per builder freed:
-    - `pn_build_bram`: "Bram raises the Silverrun bridge — for the first time in years, the Grasslands and the Wetlands touch again."
-    - `pn_build_mira`: "Mira's lift climbs the Great Scar — the road to the Highlands is open."
-    - `pn_build_dunn`: "Dunn drives the last rivet into his iron bridge — across the Cinder Chasm lie the Ashlands."
-12. **The bargain of fire and false light.** Surtharn and the one on the high seat made a pact. It is only hinted until Muspelheim, and the false god's face stays hidden until the citadel. *Ashlands fairy monarch:* "Fire and false light made a bargain. One took the land, the other the sky. Neither keeps a promise."
+    - `pn_build_bram`: "Bram raises the Silverrun bridge — for the first time in years, Gildenmark and Fernheim touch again."
+    - `pn_build_mira`: "Mira's lift climbs the Great Scar — the road to Cragland is open."
+    - `pn_build_dunn`: "Dunn drives the last rivet into his iron bridge — across the Cinder Chasm lie Cinderheim."
+12. **The bargain of fire and false light.** Surtharn and the one on the high seat made a pact. It is only hinted until Muspelheim, and the false god's face stays hidden until the citadel. *Cinderheim fairy monarch:* "Fire and false light made a bargain. One took the land, the other the sky. Neither keeps a promise."
 
 ### Act III — The Hidden Sky (the shut gate and the gods' prison)
 
@@ -315,7 +315,7 @@ The story is never told in one long speech. It arrives **in pieces, out of order
 | 5 | New game | `pn_saga_eyes` | Their eyes glow; runes wake for them |
 | 6 | New game | `pn_saga_sendoff` | The send-off at the gate |
 | 7 | First spirit freed | `pn_binders_free`, then `pn_lines_life` | The chains break; the line of light brings life |
-| 8 | A realm's first freed spirit (the Grasslands: its tenth) | `pn_saga_ashnight_b` / `stonefall_b` / `blacktide_b` / `quiet_b` | That realm's old disaster |
+| 8 | A realm's first freed spirit (Gildenmark: its tenth) | `pn_saga_ashnight_b` / `stonefall_b` / `blacktide_b` / `quiet_b` | That realm's old disaster |
 | 9 | Each builder freed | `pn_build_bram` / `_mira` / `_dunn` | A crossing reopens |
 | 10 | 20th spirit | `pn_saga_gate` | Glimpse: the shut gate, the mask on the high seat |
 | 11 | 30th spirit | `pn_saga_orbs` | Glimpse: the two orbs, the twins looking up |

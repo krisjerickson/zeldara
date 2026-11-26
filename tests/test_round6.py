@@ -143,7 +143,7 @@ with game(new=True) as g:
         ok = sail('2a')
         r = g.js(f"""(()=>{{ var I={IS}, p=I.player; return {{design:I.wd.design.id, pick:ISLAND_PICK['2a'], mx:I.worldMonsters.filter(m=>m.kit).length, all:I.worldMonsters.length, camps:I._camps.length, npcs:I._islNPCs.length, way:I.wd.waystones[0].id,
             sec:getTileSection(Math.floor(p.x/TILE),Math.floor(p.y/TILE)), site:I.sites[0].id, hud:document.getElementById('hud').style.display, mm:document.getElementById('minimap-hud').style.display}}; }})()""")
-        check('Sailing to Mangrove Isle opens the island on the world pipeline (Lab look, engine monsters, 2 camps, village, waystone)',
+        check('Sailing to Tangle Isle opens the island on the world pipeline (Lab look, engine monsters, 2 camps, village, waystone)',
               ok and r['design'] == r['pick'] and r['all'] >= 10 and r['mx'] == r['all'] and r['camps'] == 2 and r['npcs'] == 4 and r['way'] == 'wsi_2a' and r['site'] == 'isl_adv_2_volcano' and r['hud'] != 'none', r)
         painted = until(g, f"{IS}._wr&&{IS}._wr.chunks.size>0", 40000, js=True)
         check('The island is painted by the world renderer', painted)

@@ -7,7 +7,7 @@ fairy: 0
 kind: crystal pixie
 spirits: Arnor, Bodil
 ## Backstory
-Flint is hard, sparky and quick to strike — the Highlands fairy who kept the stone above Deepdelve, the deepest mine-town in Runeheim. She
+Flint is hard, sparky and quick to strike — Cragland fairy who kept the stone above Deepdelve, the deepest mine-town in Runeheim. She
 heard the stone singing in the year before the Stone-Fall, the same song the miners heard, and told them not to follow it. They did not
 listen to a fairy either. Her two are Arnor, a weaver who wove the miners' cloth and who heard the singing too, and Bodil, an old
 shipwright who built ships on the peaks for a sea she could see from the top of the world — until the Scar took the road to the sea. Flint
@@ -27,11 +27,11 @@ keeps them warm by striking sparks, one at a time, all night.
 ## Life
 - I am called Flint because I spark when I am cross, and I am cross a great deal.
 - I heard the singing first. I knew first. Being right first is lonely.
-- Crystal pixies are hard to break. That is a good thing to be, in the Highlands.
+- Crystal pixies are hard to break. That is a good thing to be, in Cragland.
 - I keep a piece of the old Deepdelve gate in my stone. Black iron. I do not know why. I cannot let go of it.
 - Aster says I should strike fewer sparks and talk more softly. Aster has never had to keep two people warm all night.
 ## Stage 2
-- The Highland lift runs. Mira's cage rattles past my stone every morning. I spark at it. It is our greeting.
+- The Cragland lift runs. Mira's cage rattles past my stone every morning. I spark at it. It is our greeting.
 ## Stage 3
 - Bodil's first new boat is finished. It is on top of a mountain. She says it is "waiting". I like her more every day.
 ## Stage 4
@@ -48,7 +48,7 @@ fairy: 1
 kind: crystal pixie
 spirits: Dalla, Einar
 ## Backstory
-Aster is the gentle Highlands fairy, a star-shaped little crystal who kept the stone above the mountain lakes of Kettlecrag, where on still
+Aster is the gentle Cragland fairy, a star-shaped little crystal who kept the stone above the mountain lakes of Kettlecrag, where on still
 nights you could see the great white city's reflection in the water. Her two are Dalla, a net-mender who knows of a chamber under the
 mountains where light is chained like hounds, and Einar, a young fisher who used to watch the city in the lake until, one night, all he saw
 was a golden mask. Aster has spent twenty-eight winters telling them stories with happy endings, because she believes — fiercely, the only
@@ -67,12 +67,12 @@ fierce thing about her — that ending a story well is a kind of magic.
 - I do not have to make up happy endings now. You are making one. Do not stop.
 ## Life
 - Aster means star. I am a very small star. I do my best.
-- Flint sparks. I glow. Between us, the Highlands are well lit.
+- Flint sparks. I glow. Between us, Cragland is well lit.
 - I believe that if you end a story well, the world listens. I have no proof. I do not need any.
 - I once tried to tell a Binder a story. He did not stop to listen. I told it anyway, to his back. I hope some of it got in.
 - I am afraid of the dark under the mountains. That is why I sit at the top of them.
 ## Stage 2
-- The Wetlands' bells rang all night when the Highland lift opened. Nixie, probably. I could hear them from here. I cried a little.
+- Fernheim's bells rang all night when the Cragland lift opened. Nixie, probably. I could hear them from here. I cried a little.
 ## Stage 3
 - Einar caught a fish today. He let it go. He says the lake has done enough giving for a while.
 ## Stage 4
@@ -89,10 +89,10 @@ fairy: 2
 kind: crystal pixie
 spirits: Gudrun, Hakon
 ## Backstory
-Quartz is the practical Highlands fairy, clear-headed and clear all through — you can see the light come out the other side of her. She
+Quartz is the practical Cragland fairy, clear-headed and clear all through — you can see the light come out the other side of her. She
 kept the stone at Highmark, the last town on the cliff road to the western sea, and her two are Gudrun, a beekeeper whose golden queen bee
 the Binders crushed first, and Hakon, a carver who noticed that every rune in the mountains was carved pointing toward the lake. Quartz spent
-the dark years making maps, with Hakon's help, of every rune in the Highlands, because she is the kind of fairy who answers fear with a list.
+the dark years making maps, with Hakon's help, of every rune in Cragland, because she is the kind of fairy who answers fear with a list.
 ## Before
 - Hakon says every rune in the mountains points to the lake. He is right. I have mapped all of them. Two hundred and eight, all pointing home.
 - Gudrun's queen bee was golden. The Binders crushed her first. Gudrun has not said a sharp word since. That is how I know how angry she is.
@@ -108,7 +108,7 @@ the dark years making maps, with Hakon's help, of every rune in the Highlands, b
 ## Life
 - You can see right through me. That makes me very bad at secrets and very good at windows.
 - Quartz is the commonest crystal in the mountains. Common things hold the world up.
-- I have a map of every rune in the Highlands, every stone, every spring and every hiding place. It took twenty-eight winters. Ask, if you get lost.
+- I have a map of every rune in Cragland, every stone, every spring and every hiding place. It took twenty-eight winters. Ask, if you get lost.
 - I do not like surprises. I like lists. Surprises are things that are not on lists yet.
 - Heather says I should feel things more. I do feel things. I just write them down first.
 ## Stage 2
@@ -116,7 +116,7 @@ the dark years making maps, with Hakon's help, of every rune in the Highlands, b
 ## Stage 3
 - Gudrun's wild bees have made honey that tastes of snow. I did not know honey could do that. It is now on my list of good things.
 ## Stage 4
-- The rune map shows a new line, faint, running from the lake to the Ashlands. It was not there before. It is a soul-line. Yours.
+- The rune map shows a new line, faint, running from the lake to Cinderheim. It was not there before. It is a soul-line. Yours.
 ## Stage 5
 - The sea-road to Highmark is open. I walked it with Bodil and Hakon. I crossed off the last thing on the list. I cried. That was not on the list.
 
@@ -129,13 +129,13 @@ fairy: 3
 kind: crystal pixie
 spirits: Ingrid, Joreid
 ## Backstory
-Heather is the soft one of the Highlands, all purple bloom and feeling, the fairy who kept the stone on the high moor where the Kettlecrag
+Heather is the soft one of Cragland, all purple bloom and feeling, the fairy who kept the stone on the high moor where the Kettlecrag
 families buried their own. Her two are Ingrid, an old cooper who saw the Great Scar split three winters after the gate shut and believes it
-was the mountain answering the fire, and Joreid, the last child born in the Highlands, who lived three summers. Heather has loved Joreid like
+was the mountain answering the fire, and Joreid, the last child born in Cragland, who lived three summers. Heather has loved Joreid like
 her own for twenty-eight winters and made her a world out of moor-flowers inside the stone's shadow. She is the fairy most afraid of the day
 the chains break, because Joreid might go up the Tree without her.
 ## Before
-- Joreid was the last child born in the Highlands. She lived three summers. She has been three summers old in chains for twenty-eight winters.
+- Joreid was the last child born in Cragland. She lived three summers. She has been three summers old in chains for twenty-eight winters.
 - I made her a garden in the shadow of the stone, out of moor-flowers. She names every one. Some of the names are very rude.
 - Ingrid saw the Scar split. She says the mountain was answering the fire. She is old and she is right about most things.
 - I am afraid of the day you free them. Joreid will be free to go up the Tree. I want that. I do not want it. Both.
@@ -170,7 +170,7 @@ fairy: 4
 kind: crystal pixie
 spirits: Kolbein, Lofn
 ## Backstory
-Tor is the oldest-seeming of the Highland fairies, a squat little crystal like a hilltop, slow to speak and never wrong about weather. He
+Tor is the oldest-seeming of the Cragland fairies, a squat little crystal like a hilltop, slow to speak and never wrong about weather. He
 kept the stone on the high pasture above Highmark, where the herders watched the sky. His two are Kolbein, a young dyer who has a strange
 thing to say about the one on the high seat, and Lofn, a herder who watched two ravens circle the hills crying the year the gate shut,
 after every other raven had left the sky. Tor has watched the sky with Lofn every evening for twenty-eight winters, waiting for the ravens to

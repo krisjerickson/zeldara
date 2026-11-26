@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ 09f-boss-rate.js — round 47 (Kris: "increase the attack rate for bosses in the higher level regions"). His card, stepped by region: the
-// ║ Grasslands as they were, the Wetlands 15 % faster, the Highlands 30 %, the Ashlands 45 % — every boss attack's wind-up and cooldown shortened by
+// ║ Gildenmark as they were, Fernheim 15 % faster, Cragland 30 %, Cinderheim 45 % — every boss attack's wind-up and cooldown shortened by
 // ║ that much (on top of the difficulty level's own). Their health is doubled in 04g (ZDiff.BOSS_HP).
 // ═══════════════════════════════════════════════════════════════════════
 (function(){ if(typeof MX==='undefined')return;

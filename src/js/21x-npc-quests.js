@@ -39,7 +39,7 @@ var ZNPCQ={ on:true, Q:[], BY:{},
   shoreNear:function(ws,x0,y0,R,sec){ var wd=ws.wd, W=[T.SHALLOW_WATER,T.DEEP_WATER]; for(var t=0;t<400;t++){ var a=R()*Math.PI*2, d=(2+R()*14)*TILE, tx=Math.floor((x0+Math.cos(a)*d)/TILE), ty=Math.floor((y0+Math.sin(a)*d)/TILE);
       if(!wd.tiles[ty]||W.indexOf(wd.tiles[ty][tx])>=0)continue; if(sec&&getTileSection(tx,ty)!==sec)continue; var wet=[[1,0],[-1,0],[0,1],[0,-1]].some(function(o){ var r=wd.tiles[ty+o[1]]; return r&&W.indexOf(r[tx+o[0]])>=0; });
       if(wet&&ZNPCQ.walk(ws,tx*TILE+TILE/2,ty*TILE+TILE/2))return {x:tx*TILE+TILE/2,y:ty*TILE+TILE/2}; } return ZNPCQ.near(ws,x0,y0,2,8,R,sec); },
-  // spec: 'site:r' near one of realm r's sites · 'shore:r' a shore by realm r's harbour · 'harbor:r' by the harbour · 'village:<kind>' (the folk's spots) · 'firefrost' the Ashlands nearest the Highlands
+  // spec: 'site:r' near one of realm r's sites · 'shore:r' a shore by realm r's harbour · 'harbor:r' by the harbour · 'village:<kind>' (the folk's spots) · 'firefrost' Cinderheim nearest Cragland
   spot:function(ws,spec,key){ ws._nqSp=ws._nqSp||{}; if(ws._nqSp[key])return ws._nqSp[key]; var R=ZNPCQ.rng(key+'|'+(ws.wd&&ws.wd.seed||0)), m=/^(\w+):?(\w*)$/.exec(spec)||[], k=m[1], a=m[2], S=(ws.wd.sites||[]), P=null;
     if(k==='village'){ var v=ws._villageFolkSpot?ws._villageFolkSpot(a,0):null; P=v?ZNPCQ.near(ws,v.x,v.y,1,3,R):{x:CENTER_X*TILE,y:CENTER_Y*TILE}; }
     else if(k==='site'||k==='woods'){ var r=+a||1, L=S.filter(function(s){ return s.section===r&&!s.castle&&s.type!=='harbor'&&s.type!=='skyport'; }); var s0=L[Math.floor(R()*L.length)]; P=s0?ZNPCQ.near(ws,(s0.tx+1.5)*TILE,(s0.ty+1.5)*TILE,5,12,R,r):ZNPCQ.near(ws,CENTER_X*TILE,CENTER_Y*TILE,20,40,R); }

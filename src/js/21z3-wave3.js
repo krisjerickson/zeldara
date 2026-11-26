@@ -112,8 +112,8 @@ ZEV.sub('boss',function(d,ps){ if(d.echo||!d.site)return; (ps.bossSites||(ps.bos
 
 // ── the Saga Loom in the guild hall ──
 var ZLOOM={ on:true,
-  P:[[1,'The Grasslands','the first realm opened, the Silverrun crossed',function(ps){ return (ps.unlockedSections||[]).indexOf(2)>=0; }],[2,'The Wetlands','the lantern lilies, the bridge that held',function(ps){ return (ps.unlockedSections||[]).indexOf(3)>=0; }],
-     [3,'The Highlands','the Great Scar and the halls beneath',function(ps){ return (ps.unlockedSections||[]).indexOf(4)>=0; }],[4,'The Ashlands','the ember wall, the forges lit again',function(ps){ return !!ps.spiritsHome||!!ps.grimnirDown; }],[5,'Home','the spirits home, the true spring',function(ps){ return !!ps.spiritsHome; }]],
+  P:[[1,'Gildenmark','the first realm opened, the Silverrun crossed',function(ps){ return (ps.unlockedSections||[]).indexOf(2)>=0; }],[2,'Fernheim','the lantern lilies, the bridge that held',function(ps){ return (ps.unlockedSections||[]).indexOf(3)>=0; }],
+     [3,'Cragland','the Great Scar and the halls beneath',function(ps){ return (ps.unlockedSections||[]).indexOf(4)>=0; }],[4,'Cinderheim','the ember wall, the forges lit again',function(ps){ return !!ps.spiritsHome||!!ps.grimnirDown; }],[5,'Home','the spirits home, the true spring',function(ps){ return !!ps.spiritsHome; }]],
   open:function(){ var ps=Z2.ps(); if(!ps)return; var d=Z2.overlay('zloom','<div class="zlm-box"><h2>🧵 The Saga Loom</h2><p>Every saga you finish, the weavers add a panel. The wall is yours.</p><div class="zlm-wall">'+ZLOOM.P.map(function(p){ var done=false; try{ done=!!p[3](ps); }catch(e){} var pic=done&&Z2.pic('loom_'+p[0]);
       return '<div class="zlm-p'+(done?' on':'')+'">'+(done?(pic?'<img src="'+pic+'" alt="">':'<span class="zlm-ph">'+['','🌾','🪷','⛰','🔥','🌸'][p[0]]+'</span>')+'<b>'+p[1]+'</b><small>'+p[2]+'</small>':'<span class="zlm-ph">…</span><b>Not yet woven</b>')+'</div>'; }).join('')+'</div>'+
       '<div class="zlm-b"><button class="zlm-card">📜 A card of the wall</button><button class="zlm-x">Close</button></div></div>');

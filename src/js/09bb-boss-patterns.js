@@ -7,7 +7,7 @@
 // ║ Also: stagger (enough hits → the boss reels and takes +50% damage), a
 // ║ punish window after each big move, and the last stand at 15% health.
 // ║ The boss holds still while it performs (mon._hold, read by the dungeon
-// ║ monster loop); in the Highlands and Ashlands it keeps fighting during
+// ║ monster loop); in Cragland and Cinderheim it keeps fighting during
 // ║ screen-wide patterns.
 // ═══════════════════════════════════════════════════════════════════════
 var BossPat={
@@ -22,7 +22,7 @@ var BossPat={
     if(v.width&&S.px>v.x+40&&S.px<v.x+v.width-40&&S.py>v.y+40&&S.py<v.y+v.height-40)return {x:v.x+16,y:v.y+16,w:v.width-32,h:v.height-110};   // the visible screen (minus the hotbar)
     return {x:S.px-w/2+16,y:S.py-h/2+16,w:w-32,h:h-32}; },
   P:function(S){ return {x:S.px,y:S.py}; },
-  /* round 102 (Kris, the Lava Archipelago: "some of the area attacks are still not possible to dodge … make a bit more open or safe areas … not
+  /* round 102 (Kris, the The Molten Isles: "some of the area attacks are still not possible to dodge … make a bit more open or safe areas … not
      considering places outside of the boss arena walls as suitable safe-spaces"): a safe lane only counts where the hero can stand */
   walk:function(S,x,y){ try{ if(S._canGoD)return !!S._canGoD(x,y); if(typeof _heroMonsterCanStand==='function')return !!_heroMonsterCanStand(S,x,y); }catch(e){} return true; },
   lane:function(S,F,cross,a0,a1){ var n=0, ok=0; for(var u=a0+8;u<a1-4;u+=Math.max(10,(a1-a0)/4))for(var v=(cross?F.x:F.y)+12;v<(cross?F.x+F.w:F.y+F.h)-6;v+=26){ n++; if(cross?BossPat.walk(S,v,u):BossPat.walk(S,u,v))ok++; } return n?ok/n:0; },

@@ -27,7 +27,7 @@ water no one had sailed in generations. The Great Scar took the road to the sea.
 - People laughed at a shipyard on a mountain. Then they saw the ships. Then they stopped laughing and started asking how we would get them down.
 - From the Highmark peaks you could see the western sea on a clear day, flat and silver. We meant to sail it to the edge of the world.
 - The Scar split the road in a single night. Our best ship was halfway down the cliff on ropes. It is still there, I think, hanging.
-- Flint keeps telling me Highlanders are not sailors. I tell her Highlanders are whatever they decide to be. She sparks at me. I like her.
+- Flint keeps telling me Craglanders are not sailors. I tell her Craglanders are whatever they decide to be. She sparks at me. I like her.
 - If the road to the sea opens again, I would like to finish that ship. She has waited long enough. So have I.
 
 # Dalla
@@ -72,7 +72,7 @@ kind: a beekeeper
 A beekeeper of Highmark, whose hives stood on the heather slopes below the cliff road. Her queen bee was golden, and the Binders crushed her
 first, before they came for the keeper.
 ## Life
-- Highland heather honey is dark as ale and you could taste the whole mountain in it. Frida in Hollowmere and I traded honey every summer by cart.
+- Cragland heather honey is dark as ale and you could taste the whole mountain in it. Frida in Hollowmere and I traded honey every summer by cart.
 - My queen was golden. Not yellow — golden, like a coin. The hive sang around her. I have never heard anything like it since.
 - The Binders crushed her first. They knew. A hive without its queen goes quiet. So did Highmark, soon after.
 - Quartz says I talk to the bees as if they could answer. They do answer. You just have to be very patient and very still.
@@ -85,10 +85,10 @@ group: spirits
 realm: 3
 kind: a carver
 ## Backstory
-A rune-carver of Highmark who noticed, carving the old mountain stones, that every rune in the Highlands was carved pointing toward the lake —
+A rune-carver of Highmark who noticed, carving the old mountain stones, that every rune in Cragland was carved pointing toward the lake —
 as if it were the middle of everything.
 ## Life
-- I carved runes for doorposts, graves, bridges, boundary stones. Highland granite is hard, and a rune in it lasts a thousand years.
+- I carved runes for doorposts, graves, bridges, boundary stones. Cragland granite is hard, and a rune in it lasts a thousand years.
 - Every old rune in the mountains points toward the lake. Every one. I measured them with string. Nobody wanted to hear it.
 - A rune is a word that does not need a mouth. That is why the Binders hate them, I think. You cannot chain a word.
 - Quartz helped me count the runes. You can see the sun through her. It made the counting easier.
@@ -108,7 +108,7 @@ after the gate shut, and believes it was the mountain answering the fire below.
 - Three winters after the gate shut, the ground cracked from the lakes to the sea in one night. The Scar. I felt it in my teeth.
 - I think it was the mountain answering. Something burned below it, far away south. The mountain cracked rather than give in.
 - Heather sits with me and Joreid on the moor. She is soft-hearted, Heather. She cries over everything. I let her. Someone has to.
-- Hallveig, the cooper in the Grasslands, and I wrote to each other about staves for thirty years. I would like to meet her at last.
+- Hallveig, the cooper in Gildenmark, and I wrote to each other about staves for thirty years. I would like to meet her at last.
 
 # Joreid
 key: sp_joreid
@@ -117,11 +117,11 @@ group: spirits
 realm: 3
 kind: a little one of the high moor
 ## Backstory
-The last little one born in the Highlands, who lived three summers on the high moor above Kettlecrag. Heather has loved Joreid like her own for
+The last little one born in Cragland, who lived three summers on the high moor above Kettlecrag. Heather has loved Joreid like her own for
 twenty-eight winters.
 ## Life
 - I like the purple flowers best. Heather says they are her. I say they are mine. We share.
-- Ingrid made me a little barrel to sit in. I sat in it every day. It is the best chair in the Highlands.
+- Ingrid made me a little barrel to sit in. I sat in it every day. It is the best chair in Cragland.
 - I don't remember much. I remember the lake was cold and Mother's hands were warm. That is enough to remember.
 - The chains were heavy, so Heather sat on them. She is very small but she is very stubborn. They were lighter after.
 - Now that I am free I am going to roll down the whole moor. Ingrid says it is undignified. Ingrid is old.

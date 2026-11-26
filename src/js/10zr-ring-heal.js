@@ -2,7 +2,7 @@
 // ║ 10zr-ring-heal.js — round 110 (Kris: "there's also the glowing mushroom rune glades. let's make these slowly heal you, and a pop-up the
 // ║ first time that tells you this").
 // ║  · Standing inside a fairy ring (the circles of glowing toadstools round a rune ring — the Queen's Ring and the small rings of the
-// ║    Fairy-Ring Meadows, the Glade isle's ring) slowly mends you: about 2.5 % of your health a second (at least 1), while you stay inside.
+// ║    Ringmeadow, the Glade isle's ring) slowly mends you: about 2.5 % of your health a second (at least 1), while you stay inside.
 // ║  · The first time, a pop-up says so; after that a soft "+n ❤" now and then shows it working.
 // ║ ZRING.on: the switch.
 // ═══════════════════════════════════════════════════════════════════════

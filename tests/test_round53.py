@@ -25,7 +25,7 @@ with game(new=True, painted=True) as g:
       ps.unlockedSections=[1,2]; o.t2b=L('inferno_edge'); o.t3b=L('magma_cleaver'); ps.unlockedSections=[1,2,3,4]; o.t4c=L('volcano_lord'); o.topc=L('elemental_sovereign'); ps.unlockedSections=[1]; return o; })()""")
     check('From the start only the first heat of each lane: T2+ (%s), crossbows and bows, arbalests, master-works and the Elemental Sovereign are locked' % r, not r['t1'] and r['t2'] and r['t3'] and r['t4'] and r['xb'] and r['ab'] and r['du'] and r['top'], r)
     check('A locked tile shows a padlock and what opens it, the Forge button is locked, and forging it is refused', r['node'] and r['det'] and r['made'] == 0, r)
-    check('Each realm that opens teaches the next heat (Wetlands → T2; Ashlands → T4); the Sovereign waits for the forges to rise', not r['t2b'] and r['t3b'] and not r['t4c'] and r['topc'], r)
+    check('Each realm that opens teaches the next heat (Fernheim → T2; Cinderheim → T4); the Sovereign waits for the forges to rise', not r['t2b'] and r['t3b'] and not r['t4c'] and r['topc'], r)
     # ── the ring cap and Sovereign ──
     r = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.equip=ps.equip||{}; var e0=JSON.stringify(ps.equip); for(var i=1;i<=10;i++)ps.equip['ring'+i]='band_ring~fire'; var pow=ZHit.sums(ps).pow.fire;
       var mon=(ws.worldMonsters||[]).find(function(m){ return !m.dead&&m.def; }); ps.equip.lHand='sov_axe'; var tierN=ZEL.tier(ZEL.item(ITEMS.sov_axe),ZEL.mon(mon),false), plain=ZHit.dmg(ws,mon,50,'melee',{pure:true,noProc:true});
@@ -36,7 +36,7 @@ with game(new=True, painted=True) as g:
     # ── soul gems, metals, Mira ──
     r = g.js("""(async()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.godMode=true; ps.completedQuests=(ps.completedQuests||[]).concat(['s1_dungeon']); await new Promise(function(r){ setTimeout(r,2500); });
       var el=document.getElementById('fairy-talk'), t=el&&el.style.display!=='none'?el.textContent:''; FairyTalk.close(); return {gem:ps.inventory.indexOf('grovesoul')>=0, t:t.slice(0,160), metals:[1,2,3,4].map(function(q){ return HARBOR_ISLANDS[q].shopItems.indexOf(ZMIRA.METAL[q])>=0; }), price:ITEMS.sea_silver.buy}; })()""")
-    check('Winning the Grasslands\' boss dungeon frees its great spirit, who gives the Grovesoul ("%s…")' % r['t'][:70], r['gem'] and 'Hildr' in r['t'] and 'Zoldor' in r['t'], r)
+    check('Winning Gildenmark\' boss dungeon frees its great spirit, who gives the Grovesoul ("%s…")' % r['t'][:70], r['gem'] and 'Hildr' in r['t'] and 'Zoldor' in r['t'], r)
     check('Each familiar island\'s trader sells its realm\'s metal (Sea-silver %dg …)' % r['price'], all(r['metals']), r)
     r = g.js("""(async()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.rescued=[1,2]; ps.unlockedSections=[1,2,3]; var st=villageStageOf(ps); villageApply(ws.wd,st).forEach(function(c){ ws._refreshChunkAt(c[0]*WCH,c[1]*WCH); }); ws.wd.villageStage=st;
       await new Promise(function(r){ setTimeout(r,1500); }); var D=ZMIRA.door(); ws.player.x=D.x; ws.player.y=D.y+20; ws.player.cont.setPosition(ws.player.x,ws.player.y); await new Promise(function(r){ setTimeout(r,800); });

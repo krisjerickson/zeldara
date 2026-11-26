@@ -62,11 +62,11 @@ function renderQuestList(unlockedSections,completed,active,scene){
     h+='<div class="qgrp-hdr" style="color:#ff8844">🌋 The Forges of Muspelheim '+(bossDone?'✓':'(the road to Asgard)')+'</div>';
     h+='<div class="qitem '+(keysDone?'qdone':'')+'"><div class="qico">🔑</div><div class="qinf">';
     h+='<div class="qtit">Win the key of each forge '+(keysDone?'✓':'')+'</div>';
-    h+='<div class="qdesc">The four forges rise off the coasts, one per realm, and open in turn — each key opens the next: Ember Forge (Grasslands) → Cinder Forge (Wetlands) → Slag Forge (Highlands) → Ash Forge (Ashlands). <b>'+keysHeld+' / 4 keys.</b></div>';
+    h+='<div class="qdesc">The four forges rise off the coasts, one per realm, and open in turn — each key opens the next: Ember Forge (Gildenmark) → Cinder Forge (Fernheim) → Clinker Forge (Cragland) → Ash Forge (Cinderheim). <b>'+keysHeld+' / 4 keys.</b></div>';
     h+='</div></div>';
     h+='<div class="qitem '+(bossDone?'qdone':'')+'" style="opacity:'+(keysDone?1:.55)+'"><div class="qico">⚔️</div><div class="qinf">';
     h+='<div class="qtit">Defeat Surtharn, Tyrant of Muspelheim '+(bossDone?'✓':'')+'</div>';
-    h+='<div class="qdesc">'+(keysDone?'Bring the four keys to Muspelheim, the great volcano off the Magma Channels on the Ashlands\' west coast.':'Win all four keys first.')+'</div>';
+    h+='<div class="qdesc">'+(keysDone?'Bring the four keys to Muspelheim, the great volcano off the Magma Channels on Cinderheim\'s west coast.':'Win all four keys first.')+'</div>';
     h+='</div></div>';
     h+='</div>';
   }
@@ -155,8 +155,8 @@ function _wmZoneLabel(tx,ty){
 var _WM_SITE_ICO={dungeon:'⚔',tower:'🗼',camp:'⛺',harbor:'⚓',skyport:'🎈',volcano_main:'🌋',volcano_mini:'🔥'};
 var _WM_BORDER_COL={silverrun:'#7fd0ff',scarp:'#ffd27a',chasm:'#ff8a5a',ember:'#e0a0ff'};
 // Draw a view (tile rect v={x,y,w,h}) of the world into ctx (cw×ch px).
-// round 45 (Kris picked "the realm map overlay" for How it all fits, and a switch on this map): each realm tinted by its element (Grasslands
-// grass, Wetlands water, Highlands earth, Ashlands fire), and under each place you have found, what it gives. The Tome draws the same view.
+// round 45 (Kris picked "the realm map overlay" for How it all fits, and a switch on this map): each realm tinted by its element (Gildenmark
+// grass, Fernheim water, Cragland earth, Cinderheim fire), and under each place you have found, what it gives. The Tome draws the same view.
 var _WM_REALM_EL={1:'grass',2:'water',3:'earth',4:'fire'}, _wmRealmCv=null;
 function _wmRealmTint(wd){ var R=wd.map&&wd.map.region; if(!R||typeof ZEL==='undefined')return null; if(_wmRealmCv&&_wmRealmCv._wd===wd)return _wmRealmCv;
   var W=Math.ceil(WORLD_W/4), H=Math.ceil(WORLD_H/4), cv=document.createElement('canvas'); cv.width=W; cv.height=H; var g=cv.getContext('2d'), img=g.createImageData(W,H), d=img.data, rgb={};
@@ -320,7 +320,7 @@ function _wmCost(ws,from,to){
   if(WM_FREE)return 0;
   if(!from||!to||from.id===to.id)return 0;
   if(to.region===0)return 0;                                   // going home is always free
-  var rf=from.region===0?1:from.region;                        // the village sits on the Grasslands shore
+  var rf=from.region===0?1:from.region;                        // the village sits on Gildenmark shore
   if(rf===to.region)return 0;                                  // same region: free
   return 10+Math.round(Math.hypot(to.x-from.x,to.y-from.y)/15); // across regions: gold by distance
 }

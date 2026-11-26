@@ -104,14 +104,14 @@ function _volcanoSiteDefs(){
 // Each volcano island is joined to the nearest shore you can walk to (wd.volcanoAnchors, 05b step 9) by a causeway: a walkway of cooled
 // magma (dark rock, glowing cracks) between two lines of molten lava, the whole walled off from the sea by a basalt rampart. The island
 // is ringed by the same rampart. Seeded, so it comes out the same every time; carved only once the forges are unlocked.
-var VOLC_NAMES={volcano_n:'Ember Forge',volcano_e:'Cinder Forge',volcano_s:'Slag Forge',volcano_w:'Ash Forge',volcano_main:'Muspelheim'};
+var VOLC_NAMES={volcano_n:'Ember Forge',volcano_e:'Cinder Forge',volcano_s:'Clinker Forge',volcano_w:'Ash Forge',volcano_main:'Muspelheim'};
 var VOLC_ORDER=['volcano_n','volcano_e','volcano_s','volcano_w'];      // his card: region order, each forge's key opens the next
 function _carveBigVolcanoTerrain(ws){
   if(!ws||!ws.wd||!ws.wd.tiles||ws.wd._volcCarved)return;
   var wd=ws.wd, tiles=wd.tiles, defs=_volcanoSiteDefs(), changed=[], R=rngOf(51051), mine=new Uint8Array(WORLD_W*WORLD_H);
   var sea=function(t){ return t===T.OCEAN||t===T.REEF; }, wet=function(t){ return sea(t)||t===T.SHALLOW_WATER||t===T.BEACH; };
   var KD={}; KD[T.DEEP_MAGMA]=WSK.lava; KD[T.THIN_MAGMA]=WSK.crust; KD[T.CLIFF]=WSK.ridge;
-  // the islands' ground: the Ashlands' own dark-rock ground (the commonest kind on dark rock round Muspelheim's shore), scree for the rubble
+  // the islands' ground: Cinderheim's own dark-rock ground (the commonest kind on dark rock round Muspelheim's shore), scree for the rubble
   var AG=(function(){ var an=wd.volcanoAnchors&&wd.volcanoAnchors.volcano_main, cnt={}, best=null, bn=0; if(an)for(var dy=-24;dy<=24;dy++)for(var dx=-24;dx<=24;dx++){ var x=an.x+dx, y=an.y+dy; if(!tiles[y]||tiles[y][x]!==T.DARK_ROCK)continue; var k=wd.kind[y*WORLD_W+x]; cnt[k]=(cnt[k]||0)+1; if(cnt[k]>bn){ bn=cnt[k]; best=k; } } return best; })();
   KD[T.DARK_ROCK]=KD[T.ASH_GROUND]=KD[T.OBSIDIAN]=AG!==null?{_gi:AG}:WSK.crust; KD[T.ROCKY_GROUND]=KD[T.GRAVEL]=WSK.scree;
   var put=function(x,y,t,k){ if(x<0||x>=WORLD_W||y<0||y>=WORLD_H)return; tiles[y][x]=t; if(wd.kind)wd.kind[y*WORLD_W+x]=(k||KD[t]||WSK.ashsand)._gi; mine[y*WORLD_W+x]=1; changed.push([x,y]); };

@@ -27,7 +27,7 @@ with game(painted=False) as g:
     check('A hero already standing in a wall (an old save) can still walk out', r.get('stuckMoves'), r)
     s = g.ws("""(()=>{ var p=ws.player, n0=ws.children.list.length, said=[]; var o=window.showNotif; window.showNotif=function(t){ said.push(t); return o.apply(this,arguments); };
       ZSEAL._n=0; ZSEAL._t=0; ZSEAL.hit(ws,3,p.x,p.y); window.showNotif=o; return {said:said, made:ws.children.list.length-n0}; })()""")
-    check('A sealed region shows its ward and says how to open it (%d pieces)' % s['made'], s['made'] >= 3 and s['said'] and 'sealed' in s['said'][0] and 'Highlands' in s['said'][0], s)
+    check('A sealed region shows its ward and says how to open it (%d pieces)' % s['made'], s['made'] >= 3 and s['said'] and 'sealed' in s['said'][0] and 'Cragland' in s['said'][0], s)
     u = g.ws("""(()=>{ var d={completedQuests:['s1_tower','s2_tower'],unlockedSections:[1,2]}; (d.completedQuests||[]).forEach(function(q){ var m=/^s([1-3])_tower$/.exec(q); if(m&&d.unlockedSections.indexOf(+m[1]+1)<0)d.unlockedSections.push(+m[1]+1); });
       var src=String(game.scene.getScene('World').constructor.prototype.loadGame||'')+String(ws.loadGame||''); return {secs:d.unlockedSections, repair:/s\\(\\[1-3\\]\\)_tower/.test(src)||/_tower\\$/.test(src)}; })()""")
     check('A save whose builder was freed but whose region stayed shut is opened (%s)' % u['secs'], u['secs'] == [1, 2, 3], u)

@@ -69,7 +69,7 @@ var ZForge={ sel:null,
     if(r){ var ok=!!ps; h+='<div class="fr-mats">'+Object.keys(r.needs).map(function(k){ var have=c[k]||0, good=have>=r.needs[k]; if(!good)ok=false; return '<span class="forge-mat '+(good?'have':'need')+'" data-fnode="'+k+'">'+ZIcon.item(k,1.2)+' '+ITEMS[k].name+(r.needs[k]>1?' ×'+r.needs[k]:'')+' ('+have+'/'+r.needs[k]+')</span>'; }).join('');
       var gok=ps&&ps.gold>=r.gold; if(!gok)ok=false; h+='<span class="forge-mat '+(gok?'have':'need')+'">'+r.gold+' g</span></div></div>';
       if(canForge)h+='<div class="zf-d-b"><button class="forge-btn'+(ok?'':' disabled-btn')+'"'+(ok?'':' disabled')+' onclick="window._craftItem(\''+id+'\')">⚒️ Forge</button></div>'; }
-    else h+='<div class="zf-d-s">'+(it.buy?'Sold at the armory for '+it.buy+' g'+(it.secReq>1?' (from the '+['','Grasslands','Wetlands','Highlands','Ashlands'][it.secReq]+')':''):'Not forged — a reward')+'</div></div>';
+    else h+='<div class="zf-d-s">'+(it.buy?'Sold at the armory for '+it.buy+' g'+(it.secReq>1?' (from the '+['','Gildenmark','Fernheim','Cragland','Cinderheim'][it.secReq]+')':''):'Not forged — a reward')+'</div></div>';
     return h+'</div>'; },
   render:function(){ var ps=ZForge.ps(), el=document.getElementById('camp-content'); if(!ps||!el)return;
     el.innerHTML='<p class="zf-intro">The forging tree. Every forged weapon carries an element — see <b>Elements</b> in the Tome for what beats what. Gems come from adventuring: guardians, vaults, strong monsters and chests.</p>'+ZForge.html(ps)+ZForge.detail(ps,ZForge.sel,true)+

@@ -8,16 +8,16 @@ pick: Relentlessly cheery pun-maker
 voice: Bright, quick and punning; the cheer is real, and it is also how he carries things he will not say.
 
 ## Backstory
-Benno was born above the bakery, the son of Yrsa, a Wetlands baker who married into the village and never stopped talking about the marsh. Every midsummer Yrsa baked a great braided loaf "for the feast in Asgard" and set it on the Runestone for the gods to take up. The last year anybody remembers, no one came for it. That was the year Benno turned twenty-one, the night the sky went red.
+Benno was born above the bakery, the son of Yrsa, a Fernheim baker who married into the village and never stopped talking about the marsh. Every midsummer Yrsa baked a great braided loaf "for the feast in Asgard" and set it on the Runestone for the gods to take up. The last year anybody remembers, no one came for it. That was the year Benno turned twenty-one, the night the sky went red.
 
-The day before the Ash Night, Yrsa had started a new sourdough and laughed that it would "outlive them all". Benno named it Old Mother. Eight years later Yrsa went home to the Wetlands to bury her sister, and the Black Tide took the marsh villages while she was there. She never came back. Benno has fed Old Mother every morning for twenty-eight years, because it is the one thing of hers that is still alive.
+The day before the Ash Night, Yrsa had started a new sourdough and laughed that it would "outlive them all". Benno named it Old Mother. Eight years later Yrsa went home to Fernheim to bury her sister, and the Black Tide took the marsh villages while she was there. She never came back. Benno has fed Old Mother every morning for twenty-eight years, because it is the one thing of hers that is still alive.
 
 He took over the shop, then the merchant's trade when the old merchant died in the Long Quiet, because someone had to buy what the few brave hunters brought home. He decided early that a village without children needed somebody to be silly in it, and he has been aggressively, exhaustingly cheerful ever since. He has a shelf of honey-cake moulds — stars, foxes, little boats — that have never been used. He dusts them on Sundays. He tells everyone it is for the shape of the shelf.
 
 ## In the Saga
 - The merchant: buys your loot after almost every trip home; sells bread and food.
 - Old Mother's Rescue: marsh rye, snow-honey and ember-salt to save the starter.
-- His mother Yrsa is one of the forty bound spirits (the Wetlands baker: "Bread for a feast in Asgard, every midsummer. The last year, no one came to take it up.").
+- His mother Yrsa is one of the forty bound spirits (Fernheim baker: "Bread for a feast in Asgard, every midsummer. The last year, no one came to take it up.").
 - After the end he bakes the first honey cakes in twenty-eight years, for the first newborns.
 
 ## Ties
@@ -66,13 +66,13 @@ voice: Blunt, quick and insulting in the friendliest possible way; she has never
 ## Backstory
 Tilda took over the general shop from her father at nineteen and has run it with an iron ledger and an iron tongue ever since. She calls every customer "you" — not "dear", not "friend", just "you" — and has been known to refuse to sell a rope to someone because "you'll hang yourself with it, you idiot". She is, everyone agrees, the most honest person in the village. Her prices are fair. Her opinions are not.
 
-Twenty-eight years ago, on the evening of the Ash Night, a tall Ashlander in a grey cloak bought three days' supplies on credit and left her an iron key as surety: "I'll be back for it in a week." The Ember Wall rose that night. He never came back. Tilda has kept the key on a nail behind the counter all this time, partly out of principle — he still owes her eleven silver — and partly because she cannot bring herself to throw away the last thing an Ashlander ever gave anyone.
+Twenty-eight years ago, on the evening of the Ash Night, a tall Cinderheimer in a grey cloak bought three days' supplies on credit and left her an iron key as surety: "I'll be back for it in a week." The Ember Wall rose that night. He never came back. Tilda has kept the key on a nail behind the counter all this time, partly out of principle — he still owes her eleven silver — and partly because she cannot bring herself to throw away the last thing a Cinderheimer ever gave anyone.
 
 She never married. "Never met a man who could count." She keeps a list in the back of her ledger titled REGULARS. It has been empty for twenty years, since the last old trapper died.
 
 ## In the Saga
 - The general shop: supplies and ammunition all game.
-- Her arc: rude to you → grudging respect when you bring something rare → the merchants' rivalry with Benno → the mystery key opens something in the Ashlands (side quest) → after the end she writes your name on the REGULARS list, her highest honour.
+- Her arc: rude to you → grudging respect when you bring something rare → the merchants' rivalry with Benno → the mystery key opens something in Cinderheim (side quest) → after the end she writes your name on the REGULARS list, her highest honour.
 
 ## Ties
 - Benno: who is the village's best merchant? (She is. Ask her.)
@@ -90,16 +90,16 @@ pick: The forgery hunter
 voice: Gruff, few words, all of them about metal. Can tell bad steel by its ring and a lie by its pause. One rule: no chains.
 
 ## Backstory
-Garrick was born in the Highlands, in a forge town on the lip of the deep mines, and learned the trade from his elder sister Thora, the best smith in three valleys. When Garrick was twenty-three, Thora married an Ashlander and moved west. A year later the Ash Night came. Her last letter, sent before the wall rose, said that strangers with red gold had come to the Ashland forges wanting chains — "heavy ones, too heavy for any beast". She had refused. Then the letters stopped.
+Garrick was born in Cragland, in a forge town on the lip of the deep mines, and learned the trade from his elder sister Thora, the best smith in three valleys. When Garrick was twenty-three, Thora married a Cinderheimer and moved west. A year later the Ash Night came. Her last letter, sent before the wall rose, said that strangers with red gold had come to the Cinderheim forges wanting chains — "heavy ones, too heavy for any beast". She had refused. Then the letters stopped.
 
-Three winters on, the Highland mines dug deeper after "a voice in the stone", and the mountains broke. Garrick's wife Ingrid, a cooper, died in the Stone-Fall. He walked out of the Highlands with his hammer and his anvil-horn and nothing else, and came to the last village, where the old smith had just died.
+Three winters on, the Cragland mines dug deeper after "a voice in the stone", and the mountains broke. Garrick's wife Ingrid, a cooper, died in the Stone-Fall. He walked out of Cragland with his hammer and his anvil-horn and nothing else, and came to the last village, where the old smith had just died.
 
-He hunts forgeries the way other men hunt deer: fake Highland steel, false gold, swords that are paint over pig-iron. He says a lie in metal is the worst kind of lie, because a person trusts their life to it. And he will not forge a chain — not a dog's chain, not a well chain, not a chain for a gate. He has never explained why. Thora is one of the forty spirits, bound in the Ashlands: "We forged the Binders' chains ourselves. They made us. Then they put them on us."
+He hunts forgeries the way other men hunt deer: fake Cragland steel, false gold, swords that are paint over pig-iron. He says a lie in metal is the worst kind of lie, because a person trusts their life to it. And he will not forge a chain — not a dog's chain, not a well chain, not a chain for a gate. He has never explained why. Thora is one of the forty spirits, bound in Cinderheim: "We forged the Binders' chains ourselves. They made us. Then they put them on us."
 
 ## In the Saga
 - The forge: upgrades and crafting all game; the Coal side quest ("six lumps — honest ones").
 - His arc: grump → Dunn is freed and it's dwarf against human pride (the forge-off) → they team up on your best weapon → after the end he beats a sword into a ploughshare for the new hamlets. Throughout: no chains.
-- His sister Thora (an Ashlands spirit) and wife Ingrid (a Highlands spirit) are among the forty.
+- His sister Thora (an Cinderheim spirit) and wife Ingrid (a Cragland spirit) are among the forty.
 
 ## Ties
 - Dunn: rival, then partner; they agree on nothing except steel.
@@ -146,14 +146,14 @@ voice: Loud, rhythmic and quick; insults in verse, with alliteration, for fun �
 ## Backstory
 Rolf is the undefeated flyting champion of the last village — a flyting being a contest of insults in verse, traded across a table until one poet runs out of words. He has been undefeated for twenty-eight years. Before that, he lost exactly once, to a cooper named Hallveig, who called him "a beer-barrel with a beard, bung-holed and bubbling" and then married him.
 
-They ran the tavern together for ten years. Hallveig died in the eighth winter of the Long Quiet, of a fever Morwen could not break. With the gate shut she did not go anywhere; she drifted, as the Grasslands dead did, at the edge of the light, and then the Binders came over the walls for her too. Rolf does not know that last part. He only knows that every night, after closing, he sets two cups on the bar and fills them both.
+They ran the tavern together for ten years. Hallveig died in the eighth winter of the Long Quiet, of a fever Morwen could not break. With the gate shut she did not go anywhere; she drifted, as Gildenmark dead did, at the edge of the light, and then the Binders came over the walls for her too. Rolf does not know that last part. He only knows that every night, after closing, he sets two cups on the bar and fills them both.
 
 He brews Skald's Mead from honey, berries and salt, and claims it is the mead of poetry itself. He keeps Oswin's old Raven mug behind the bar and lets no one else drink from it. He has never let a stranger see him sad, and has never once, in twenty-eight years, flyted someone who was already down.
 
 ## In the Saga
 - The tavern: meals, drink and rest.
 - The Mead side quest (honey, berries, salt — "even a troll could remember that").
-- His wife Hallveig is one of the forty spirits (the Grasslands cooper: "My husband still sets two cups out. Tell him I drink the light now.").
+- His wife Hallveig is one of the forty spirits (Gildenmark cooper: "My husband still sets two cups out. Tell him I drink the light now.").
 
 ## Ties
 - Oswin: his mug; the one flyting that took two hours and a stool.
@@ -181,7 +181,7 @@ Then, sixteen years ago, she held a dull sapphire near a cradle in Runa's house 
 - The jeweller: gems and rings.
 - The Hoard riddle: "Where the river-wall broke, beside the first stone, look under the moss."
 - Gems and runestones light for the twins — she sees it more clearly than anyone, and keeps the secret that she doesn't understand.
-- Her mother Jorunn is one of the forty spirits (the Grasslands dyer: "Blue. Every rune in the old days was this blue. Like your eyes, they say.").
+- Her mother Jorunn is one of the forty spirits (Gildenmark dyer: "Blue. Every rune in the old days was this blue. Like your eyes, they say.").
 
 ## Ties
 - Coral: sells her "beach silver"; Iva knows exactly which beaches.
@@ -226,7 +226,7 @@ pick: The fashion snob
 voice: Withering, theatrical and exact; judges every outfit in the village and is right about all of them. Sighs as punctuation.
 
 ## Backstory
-Pell was twelve when old Asa the weaver took him in as an apprentice, the only boy in the village who wanted to learn. Asa wove the finest cloth in the Grasslands, and she was weaving birth-shawls — little white ones with blue runes along the hem — the year the gate shut. She kept weaving them. Twenty of them, for children who never came. She was buried in one.
+Pell was twelve when old Asa the weaver took him in as an apprentice, the only boy in the village who wanted to learn. Asa wove the finest cloth in Gildenmark, and she was weaving birth-shawls — little white ones with blue runes along the hem — the year the gate shut. She kept weaving them. Twenty of them, for children who never came. She was buried in one.
 
 Pell inherited her loom, her shears, her eye and none of her patience. He decided that if Runeheim had to be grey and grieving, it would at least be well-dressed, and he has spent thirty years trying to stop the village from looking like a pile of wet sacks. He fails. He keeps trying. He has opinions about Oswin's cloak (a tragedy), Brask's red one (magnificent, wasted in a chest), and the hero's moss-green cape (promising; badly hemmed).
 

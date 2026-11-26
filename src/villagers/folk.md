@@ -24,7 +24,7 @@ They keep score of everything — monsters, spirits, who's ahead. They are ahead
 - Elder Runa: teacher, sparring partner, and the only person who can still surprise them.
 - Oswin: took three hours of notes on the Ravens; Oswin has never been so flattered.
 - Morwen: borrows her footnotes; she borrows their sagas.
-- Vigdis the skald (a Wetlands spirit) wrote the saga with the missing verse that the twin has been chasing for years.
+- Vigdis the skald (a Fernheim spirit) wrote the saga with the missing verse that the twin has been chasing for years.
 
 # Elder Runa
 key: runa
@@ -40,13 +40,13 @@ Runa is the oldest person in the last village and the keeper of the Runestone, t
 
 Her husband Geir carved the Green's tree into the Runestone when he was a boy, apprenticed to the old carvers; he used to say the roots went further than anyone thought. Geir died in the eleventh winter of the Quiet. Runa sat by the stone the next spring and noticed what nobody else wanted to notice: the tree on the Green had gone dim. The road was shut. The dead were not going home.
 
-For twelve years she said nothing about it, because a village with no children did not need to hear that its dead were stuck too. Then the storm came, the lightning walked from runestone to runestone across the Grasslands, and in the morning Oswin carried a basket up from the pier and put two glowing babes in her lap. She says that was the day she started cheating at hnefatafl again. "Hope makes you playful."
+For twelve years she said nothing about it, because a village with no children did not need to hear that its dead were stuck too. Then the storm came, the lightning walked from runestone to runestone across Gildenmark, and in the morning Oswin carried a basket up from the pier and put two glowing babes in her lap. She says that was the day she started cheating at hnefatafl again. "Hope makes you playful."
 
 ## In the Saga
 - The first walk ends with her: the waystone lesson.
 - Old lore through the whole game: "The tree on the Green is the road the dead walk home. Lately… it has been quiet."
 - Freed spirits gather on her Green in rings; she greets every one by name if she knew them.
-- Her husband Geir is one of the forty spirits (the Grasslands carver: "I carved the Green's tree when I was a boy. The roots go further than anyone thinks.").
+- Her husband Geir is one of the forty spirits (Gildenmark carver: "I carved the Green's tree when I was a boy. The roots go further than anyone thinks.").
 - Hnefatafl against Runa (a mini-game Kris picked).
 
 ## Ties
@@ -91,7 +91,7 @@ pick: Writes awful love poems
 voice: Earnest, hopeful and terrible at rhyme; reads his poems aloud to anyone who stands still at the gate.
 
 ## Backstory
-Corr was eight when the Ash Night came, a boy from the Ashlands' eastern edge visiting the last village with his big brother Njal for the summer fair. Njal went home ahead of him to fetch the cart. The Ember Wall rose that night, and Corr was on one side of it and his brother on the other. He has lived in the village ever since, raised by whoever had a spare bed, which was eventually Brask.
+Corr was eight when the Ash Night came, a boy from Cinderheim's eastern edge visiting the last village with his big brother Njal for the summer fair. Njal went home ahead of him to fetch the cart. The Ember Wall rose that night, and Corr was on one side of it and his brother on the other. He has lived in the village ever since, raised by whoever had a spare bed, which was eventually Brask.
 
 He joined the gate watch at sixteen because, he says, he wanted to be standing at the gate when somebody came back. Nobody ever did. So he started writing poems to pass the nights — love poems, all of them, to the light on the point: Ilsa, the lighthouse keeper, who has lit her lamp every night of the Quiet for ships that never came. He has watched that light from the gate for twenty-eight years. The poems are very bad. "O Ilsa, light of the lighthouse, you are brighter than a… fight mouse." He has three hundred of them.
 
@@ -100,7 +100,7 @@ He has never once left his post during a watch. He has never once climbed the hi
 ## In the Saga
 - Lines at the gate.
 - The Poem side quest.
-- His brother Njal is one of the forty spirits (the Ashlands stonemason: "The Ember Wall rose in one night. I was on the wrong side of it.").
+- His brother Njal is one of the forty spirits (Cinderheim stonemason: "The Ember Wall rose in one night. I was on the wrong side of it.").
 
 ## Ties
 - Ilsa: the poems' entire subject; A Poem for Ilsa is his side quest.
@@ -113,20 +113,20 @@ key: marta
 who: Marta the Cart Vendor
 meets: 3
 age: 61
-home: the market carts (from the Highlands on)
+home: the market carts (from Cragland on)
 pick: The river trader
 voice: Brisk, salty and nostalgic; talks prices and currents in the same breath, and judges vegetables like a river pilot judges water.
 
 ## Backstory
-Before the Black Tide, Marta and her husband Magni ran a flat-bottomed trading boat up and down the Silverrun, from the Wetland mills to the Grassland fords — cheese up, eels down, gossip both ways. Magni was a stonemason by trade who built dikes in the off-season, and every year he built them higher.
+Before the Black Tide, Marta and her husband Magni ran a flat-bottomed trading boat up and down the Silverrun, from the Fernheim mills to the Gildenmark fords — cheese up, eels down, gossip both ways. Magni was a stonemason by trade who built dikes in the off-season, and every year he built them higher.
 
-In the eighth winter of the Quiet the Silverrun rose black from the south. "The water didn't come over the dikes," Magni had told her once, laughing, "if it ever does, it'll come up through." It came up through. Marta was on the boat at the Grassland ford; Magni was on the dike. The marshes drank the villages in a night, and the river became a wall.
+In the eighth winter of the Quiet the Silverrun rose black from the south. "The water didn't come over the dikes," Magni had told her once, laughing, "if it ever does, it'll come up through." It came up through. Marta was on the boat at the Gildenmark ford; Magni was on the dike. The marshes drank the villages in a night, and the river became a wall.
 
 She sold the boat, bought a cart, and has spent twenty-eight years selling vegetables in the last village — "a river trader with no river". She comes to the market square once the roads open enough to bring her goods, and she talks about the Silverrun as if it were a person who left without saying goodbye.
 
 ## In the Saga
-- Lines at the market carts (from the Highlands on).
-- Her husband Magni is one of the forty spirits (the Wetlands stonemason: "We built the dikes higher every year. The water didn't come over them. It came up through.").
+- Lines at the market carts (from Cragland on).
+- Her husband Magni is one of the forty spirits (Fernheim stonemason: "We built the dikes higher every year. The water didn't come over them. It came up through.").
 - When Bram's bridge rises, she is the first across with a cart.
 
 ## Ties
@@ -153,7 +153,7 @@ His most famous vegetable is Sigurd, a turnip of great size and dignity who has 
 ## In the Saga
 - Lines in the fields.
 - The Crows side quest.
-- His wife Frida is one of the forty spirits (the Grasslands beekeeper: "The bees left the year the sky went quiet. They knew before we did.").
+- His wife Frida is one of the forty spirits (Gildenmark beekeeper: "The bees left the year the sky went quiet. They knew before we did.").
 - After the end — if the bees come back — he names every one of them.
 
 ## Ties
@@ -171,16 +171,16 @@ pick: The wind superstitions
 voice: Watchful and superstitious; reads every gust, spits to the west, and is never wrong about the weather, which only makes it worse.
 
 ## Backstory
-Greta was born in a Wetlands mill-town on the Silverrun, the elder of two miller's daughters. Her little sister Liv took over the family water-mill; Greta, who could not stand the damp, went north to run the last village's windmill. "Water mills are for people who trust rivers."
+Greta was born in a Fernheim mill-town on the Silverrun, the elder of two miller's daughters. Her little sister Liv took over the family water-mill; Greta, who could not stand the damp, went north to run the last village's windmill. "Water mills are for people who trust rivers."
 
-She was right. In the eighth winter of the Quiet the Silverrun ran black from the south and Liv's mill-wheel, by the account of the one cart that escaped, turned backwards before the water took it. Greta has trusted nothing since but the wind, and she trusts the wind with a passion. A north wind means news. An east wind means guests. A west wind — from the Ashlands — means trouble, and she spits at it.
+She was right. In the eighth winter of the Quiet the Silverrun ran black from the south and Liv's mill-wheel, by the account of the one cart that escaped, turned backwards before the water took it. Greta has trusted nothing since but the wind, and she trusts the wind with a passion. A north wind means news. An east wind means guests. A west wind — from Cinderheim — means trouble, and she spits at it.
 
 She judges the whole village by which way its chimneys smoke, and she has never once been caught in the rain.
 
 ## In the Saga
 - Lines at the windmill.
 - The Wheel riddle.
-- Her sister Liv is one of the forty spirits (the Wetlands miller: "The Silverrun ran black from the south, and the mill wheel turned backwards.").
+- Her sister Liv is one of the forty spirits (Fernheim miller: "The Silverrun ran black from the south, and the mill wheel turned backwards.").
 
 ## Ties
 - Benno: buys all her flour, and asks every morning which way the wind is blowing for the bread.
@@ -197,16 +197,16 @@ pick: Hears the planks sing
 voice: Dreamy, patient and certain; hears a note in every plank and will not launch a boat that sings off-key.
 
 ## Backstory
-Hesk and his sister Bodil learned boatbuilding from their father in the Highlands, in a valley where shipwrights built boats for a sea they could only see from the peaks. Bodil believed one day they would sail to the end of the sea and up into the sky — "to sail to the gods". Hesk only wanted to build a boat that sang right.
+Hesk and his sister Bodil learned boatbuilding from their father in Cragland, in a valley where shipwrights built boats for a sea they could only see from the peaks. Bodil believed one day they would sail to the end of the sea and up into the sky — "to sail to the gods". Hesk only wanted to build a boat that sang right.
 
-He came down to the lake to work the year before the gate shut. Bodil stayed in the Highlands, and the Stone-Fall took her and the road to the sea together. Hesk has built every boat on Mirror Lake for forty years, and he says every plank has a note: oak hums low, pine sings high, and a good hull is a chord. He will tear down a boat that sings off-key, which has made him poor and very well respected.
+He came down to the lake to work the year before the gate shut. Bodil stayed in Cragland, and the Stone-Fall took her and the road to the sea together. Hesk has built every boat on Mirror Lake for forty years, and he says every plank has a note: oak hums low, pine sings high, and a good hull is a chord. He will tear down a boat that sings off-key, which has made him poor and very well respected.
 
 Since the gate shut, he says, the lake has been out of tune. He has been waiting twenty-eight years for it to come right.
 
 ## In the Saga
 - Lines at the boathouse.
 - Oswin's Proper Paperwork: the "sea-steed's keeper" in the kenning is Hesk.
-- His sister Bodil is one of the forty spirits (the Highlands shipwright: "We built ships for a sea we could see from the peaks, to sail to the gods.").
+- His sister Bodil is one of the forty spirits (Cragland shipwright: "We built ships for a sea we could see from the peaks, to sail to the gods.").
 - When Asgard comes down onto the lake, he hears it in tune for the first time in twenty-eight years.
 
 ## Ties
@@ -219,20 +219,20 @@ key: fenwick
 who: Old Fenwick
 meets: 2
 age: 81
-home: the lamp-posts, at dusk (from the Ashlands on)
+home: the lamp-posts, at dusk (from Cinderheim on)
 pick: Dark and dismal
 voice: Slow, gloomy and grimly funny; expects the worst, describes it beautifully, and lights the lamps anyway.
 
 ## Backstory
-Fenwick has lit the village's lamps every dusk for sixty years. He was a cheerful man once, people say, though nobody can remember it clearly. He lost his wife to the Long Quiet, his son to the Stone-Fall (the boy had gone to the Highland mines for the wages), and his faith in most things somewhere in between.
+Fenwick has lit the village's lamps every dusk for sixty years. He was a cheerful man once, people say, though nobody can remember it clearly. He lost his wife to the Long Quiet, his son to the Stone-Fall (the boy had gone to the Cragland mines for the wages), and his faith in most things somewhere in between.
 
 Now he walks the streets at dusk with a long lighting pole and a running commentary on doom. "Every lamp I light is one less dark," he says. "The dark doesn't mind. It has more." He is convinced the village is ending, has been convinced for thirty years, and has never missed a single evening's round.
 
-He is the only villager who comes out once the Ashlands are open, because, he says, now that the worst has started he might as well watch it properly. When the land turns green he complains about the light. He is, secretly, delighted.
+He is the only villager who comes out once Cinderheim is open, because, he says, now that the worst has started he might as well watch it properly. When the land turns green he complains about the light. He is, secretly, delighted.
 
 ## In the Saga
-- Lines along the lamp-posts at dusk (from the Ashlands on).
-- He knows the Binders lately come over the walls for the Grasslands dead — "I've seen the embers at the edge of the light."
+- Lines along the lamp-posts at dusk (from Cinderheim on).
+- He knows the Binders lately come over the walls for Gildenmark dead — "I've seen the embers at the edge of the light."
 
 ## Ties
 - Oswin: avoids him at dusk.
@@ -249,7 +249,7 @@ pick: Lonely and poetic
 voice: Quiet, lyrical and a little lost; speaks in images of water and light, and listens more than she talks.
 
 ## Backstory
-Ilsa came to the last village at fourteen, from a harbour town on the Ashland coast, sent away by her parents the summer before the Ash Night "to learn a trade". She learned lamp-keeping from the old lighthouse keeper on the point and never went home, because there was no home to go to. The lighthouse has guided no ships for twenty-eight years. She has lit it every night anyway.
+Ilsa came to the last village at fourteen, from a harbour town on the Cinderheim coast, sent away by her parents the summer before the Ash Night "to learn a trade". She learned lamp-keeping from the old lighthouse keeper on the point and never went home, because there was no home to go to. The lighthouse has guided no ships for twenty-eight years. She has lit it every night anyway.
 
 She writes poems to the dark water — not love poems like Corr's, but long, quiet ones to the people she can't see. She keeps them in a sea-chest. She has watched the lake every night of her adult life and has seen things nobody believes: two little lights on the water one stormy dawn, and, on still nights, a reflection of something golden in the sky that isn't there when you look up.
 

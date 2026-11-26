@@ -114,7 +114,7 @@ var ZBrand={ cache:{},
     P.w(1.2).ln([-0.62,0.42,-0.62,-0.06,-0.32,0.2,0,-0.3,0.32,0.2,0.62,-0.06,0.62,0.42],true).w(1); P.ln([-0.62,0.62,0.62,0.62]); P.fc(0,-0.38,0.07); P.fc(-0.62,-0.14,0.06); P.fc(0.62,-0.14,0.06);
     var n=L===1?1:L===2?2:4; for(var k=0;k<n;k++)P.w(0.9-k*0.1).qd([-0.9+k*0.06,-0.5-k*0.14,-0.45,-0.78-k*0.14,0,-0.56-k*0.14,0.45,-0.34-k*0.14,0.9-k*0.06,-0.6-k*0.14]);
     if(L>=3){ P.w(0.6).rune(-0.36,0.52,0.1,2).rune(0,0.52,0.1,6).rune(0.36,0.52,0.1,5); [[-0.7,-1.12],[0.2,-1.2],[0.8,-1.0]].forEach(function(q){ P.star(q[0],q[1],0.06,4,0.35); }); P.w(0.5).ar(0,0.1,1.3,PI*0.12,PI*0.88); } });
-  S('stag_sun','Stag of the Sun','#ffb648','gilded','A stag\'s antlers holding the sun — the wild guardian of the Grasslands.',function(P,L){
+  S('stag_sun','Stag of the Sun','#ffb648','gilded','A stag\'s antlers holding the sun — the wild guardian of Gildenmark.',function(P,L){
     P.w(1.2).ci(0,-0.34,0.26).w(1); P.ln([-0.2,0.24,0,0.9,0.2,0.24]);
     P.mir(function(){ P.w(1.2).qd([0.14,0.26,0.52,0.1,0.6,-0.5,0.62,-0.74,0.48,-0.9]).w(1); P.ln([0.5,-0.1,0.78,-0.3]); if(L>=2){ P.ln([0.58,-0.4,0.86,-0.62]); P.ln([0.36,0.14,0.46,0.42]); } if(L>=3){ P.ln([0.6,-0.66,0.8,-0.92]); P.qd([0.2,0.24,0.42,0.3,0.5,0.5]); } });
     if(L>=3)c0(P); function c0(P){ P.c.save(); P.c.translate(0,-0.34); P.w(0.6).ticks(0.34,0.46,12,0.26); P.c.restore(); P.w(0.5).ci(0,0,1.22); P.w(0.7); for(var i=0;i<7;i++){ var a=PI*0.25+i/6*PI*0.5; P.rune(Math.cos(a)*1.36,Math.sin(a)*1.36,0.13,i,a-PI/2); } } });
@@ -125,7 +125,7 @@ var ZBrand={ cache:{},
   S('triskele','Triskele','#50e0c0','bevel','Three spirals turning as one — the old sign of motion, land, sea and sky.',function(P,L){ var turns=L===1?1.6:2.3;
     P.w(1.2).rot(3,function(){ var a=[]; for(var th=0;th<=turns*PI;th+=0.22){ var r=0.04+0.058*th; a.push(Math.cos(th-PI/2)*r,-0.46+Math.sin(th-PI/2)*r); } var e=a.length; a.push(0,0); P.ln(a); }).w(1);
     if(L>=2)P.ci(0,0,0.98); if(L>=3){ P.rot(3,function(){ P.fc(0,0.8,0.06); }); P.w(0.5).ci(0,0,1.14); P.w(0.7).rr(1.27,18,0.13,2); P.w(0.5).ci(0,0,1.4); } });
-  S('frost_star','Frost Star','#e0f8ff','neon','A six-armed snow-rune from the Highlands.',function(P,L){
+  S('frost_star','Frost Star','#e0f8ff','neon','A six-armed snow-rune from Cragland.',function(P,L){
     P.w(1.2).rot(6,function(){ P.ln([0,0,0,-0.94]); P.ln([-0.2,-0.52,0,-0.34,0.2,-0.52]); if(L>=2)P.ln([-0.16,-0.84,0,-0.68,0.16,-0.84]); if(L>=3){ P.ln([0,-1.04,0.07,-0.94,0,-0.84,-0.07,-0.94],true); } }).w(1);
     if(L>=2){ var h=[]; for(var i=0;i<6;i++)h.push(Math.cos(i/6*PI*2)*0.2,Math.sin(i/6*PI*2)*0.2); P.ln(h,true); }
     if(L>=3){ var o=[]; for(var j=0;j<6;j++)o.push(Math.cos(j/6*PI*2)*1.3,Math.sin(j/6*PI*2)*1.3); P.w(0.5).ln(o,true); P.rot(6,function(){ P.fc(0,-0.66,0.04); },PI/6); } });
@@ -155,9 +155,9 @@ var ZBrand={ cache:{},
   W('spirit_script','Spirit Script','#5ff0d0','neon','Flowing letters drawn in one thin line of light.',{kind:'staves',glyph:2,track:0.3,round:true,dots:true});
   W('knot_uncial','Knotwork Uncial','#b890ff','bevel','Round Celtic-manuscript letters with a knotted ring around the Z.',{kind:'font',font:'"Uncial Antiqua","Palatino Linotype",serif',track:0.08,ringZ:true});
   W('engraved','Engraved Capitals','#ffd070','gilded','Tall engraved capitals with a rune band beneath.',{kind:'font',font:'"Cinzel Decorative","Cinzel",Georgia,serif',track:0.12,band:true,weight:'700'});
-  W('highland','Highland Wide','#e0f8ff','carved','Wide-spaced capitals between two thin lines — calm and cold.',{kind:'font',font:'"Marcellus SC","Palatino Linotype",serif',track:0.34,rules:true});
+  W('highland','Cragland Wide','#e0f8ff','carved','Wide-spaced capitals between two thin lines — calm and cold.',{kind:'font',font:'"Marcellus SC","Palatino Linotype",serif',track:0.34,rules:true});
   W('world_tree_a','Tree-A','#ff9a50','bevel','Rune letters where each A is a little tree and the D holds a gem.',{kind:'staves',track:0.26,treeA:true,gemD:true});
-  W('blackstone','Blackstone','#ff7a7a','gilded','Heavy medieval lettering with ember glow — the Ashlands voice.',{kind:'font',font:'"Pirata One","MedievalSharp",Georgia,serif',track:0.06,sizeK:1.15});
+  W('blackstone','Blackstone','#ff7a7a','gilded','Heavy medieval lettering with ember glow — Cinderheim voice.',{kind:'font',font:'"Pirata One","MedievalSharp",Georgia,serif',track:0.06,sizeK:1.15});
   W('seal','Stacked Seal','#c8d0e0','carved','ZEL over DARA in a square seal with corner runes — for stamps and small spaces.',{kind:'staves',stack:true,track:0.22});
   var word='ZOLA';
   // returns layout width for a staves wordmark at cap height H

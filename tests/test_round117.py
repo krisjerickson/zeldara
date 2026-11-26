@@ -1,5 +1,5 @@
 """Round 117: Kris's fixes — no boss healing; Old Nell pays for her net; the sky port's guardian (seen, kinder, its own painting when in) and its
-sky bombs; the Elven Library redesigned; no text box opens by itself in the middle of a fight.
+sky bombs; the The Leafbound Library redesigned; no text box opens by itself in the middle of a fight.
 python tests/test_round117.py   (after node build.mjs)"""
 import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from harness import game
@@ -32,7 +32,7 @@ with game(painted=True) as g:
       for(var y=0;y<F.h;y++){ for(var x=0;x<W;x++){ if(F.g[y*W+x]===6){ run++; maxRun=Math.max(maxRun,run); } else run=0; } run=0; }
       for(var x2=0;x2<W;x2++){ for(var y2=0;y2<F.h;y2++){ if(F.g[y2*W+x2]===6){ run++; maxRun=Math.max(maxRun,run); } else run=0; } run=0; }
       out.maxRun=maxRun; var n=0; for(var i=0;i<W*F.h;i++)if(F.g[i]===6)n++; out.cases=n; return out; })()""")
-    check('Elven Library: every floor joins up; bookcases are short and freestanding (longest run %d), %d of them' % (L['maxRun'], L['cases']), L['ok'] and L['maxRun'] <= 5 and L['cases'] > 100, L)
+    check('The Leafbound Library: every floor joins up; bookcases are short and freestanding (longest run %d), %d of them' % (L['maxRun'], L['cases']), L['ok'] and L['maxRun'] <= 5 and L['cases'] > 100, L)
     # 3 · 4 · the sky port
     g.js("(()=>{ var ws=%s; ws.playerState.unlockedSections=[1,2,3,4]; ws.playerState.skyBriefSeen=true; var s=ws.wd.sites.find(x=>x.type==='skyport'&&x.section===1); ws._enterSite(s); })()" % WS)
     g.wait(3000)
@@ -48,7 +48,7 @@ with game(painted=True) as g:
       return {on:S.bossOn, name:B.name, hp:B.maxHp, tex:im.texture&&im.texture.key, vis:im.visible!==false&&im.alpha>0.3, w:Math.round(b.width), h:Math.round(b.height), bombs:S.bombs, hud:S.hud.text}; })()""")
     check('The guardian is seen (%s, %s×%s) with its name, and the port hands up fresh bombs (%s)' % (s['tex'], s['w'], s['h'], s),
           s['on'] and s['vis'] and s['tex'] != '__DEFAULT' and s['w'] > 40 and s['name'] in s['hud'] and s['bombs'] == 2, s)
-    check('The guardian is kinder: %d health at level 1 in the Grasslands (was 276)' % s['hp'], s['hp'] <= 160, s)
+    check('The guardian is kinder: %d health at level 1 in Gildenmark (was 276)' % s['hp'], s['hp'] <= 160, s)
     h0 = g.js("(()=>game.scene.getScene('Sky').enemies[0].hp)()")
     g.key('x', 60); g.wait(400)
     h1 = g.js("(()=>({hp:game.scene.getScene('Sky').enemies[0].hp, bombs:game.scene.getScene('Sky').bombs}))()")

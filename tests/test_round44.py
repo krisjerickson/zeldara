@@ -104,7 +104,7 @@ with sync_playwright() as p:
       o.picked=[0,1,2].filter(function(i){ return LBR.picked('asites','lava_archipelago__'+i); }); o.done=document.querySelectorAll('.as-site.done').length; return o; }""")
     pg.click('.lab-tab[data-tab="codex"]'); pg.wait_for_timeout(2000); r['codex'] = pg.evaluate("()=>document.querySelectorAll('.br-card[data-tab=codex]').length")
     check('Lab: Adventure sites — %d sites to pick from, three options each plus three painting approaches; one pick per site; How it all fits — %d ideas' % (r['chips'], r['codex']),
-          r['chips'] == 53 and r['cards'] == 6 and r['head'] == 'Lava Archipelago' and r['picked'] == [2] and r['done'] == 1 and r['codex'] == 6 and errs == [], [r, errs[:3]])
+          r['chips'] == 53 and r['cards'] == 6 and r['head'] == 'The Molten Isles' and r['picked'] == [2] and r['done'] == 1 and r['codex'] == 6 and errs == [], [r, errs[:3]])
     b.close()
 
 print('\n%d / %d passed' % (sum(res), len(res)))

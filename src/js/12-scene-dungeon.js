@@ -974,7 +974,7 @@ class DungeonScene extends Phaser.Scene{
       }
     }
   }
-  // the elite's kin: plain versions of the same monster (3 in the Grasslands … 6 in the Ashlands)
+  // the elite's kin: plain versions of the same monster (3 in Gildenmark … 6 in Cinderheim)
   _spawnEliteKin(ek,done){ var E=MDEFS[ek], base=E&&E._base; if(!base||!MDEFS[base])return; var n=2+this.siteSection+ZDiff.cur().kin, R=rngOf((this._labSpec&&this._labSpec.seed||7)*17+3), placed=0, bx=this.bossSpawnX/TILE, by=this.bossSpawnY/TILE, en=this.stairsUpTile||{x:bx,y:by+6};
     for(var t=0;t<2000&&placed<n;t++){ var x=R.i(2,DW-3), y=R.i(2,DH-3); if(this.dtiles[y][x]===DNG.WALL||(this._labReach&&!this._labReach[y*DW+x]))continue; if(Math.hypot(x-en.x,y-en.y)<6||Math.hypot(x-bx,y-by)<2.5)continue;
       var m=this._spawnMonster(base,x*TILE+TILE/2,y*TILE+TILE/2,false,done?1.25:1,true,E._rid); if(m){ m.eliteKin=true; placed++; } } }
@@ -1155,7 +1155,7 @@ class DungeonScene extends Phaser.Scene{
       pr.life-=dt;
       var prevX=pr.x,prevY=pr.y;
       pr.x+=pr.vx*dt;pr.y+=pr.vy*dt;
-      // Section 3 (SW Highlands): projectiles bounce off walls, max 4 bounces, lose 25% speed per bounce
+      // Section 3 (Cragland): projectiles bounce off walls, max 4 bounces, lose 25% speed per bounce
       if(self.siteSection===3){
         var _bptx=Math.floor(pr.x/TILE),_bpty=Math.floor(pr.y/TILE);
         if(_bptx>=0&&_bptx<DW&&_bpty>=0&&_bpty<DH&&self.dtiles[_bpty]&&self.dtiles[_bpty][_bptx]===DNG.WALL){

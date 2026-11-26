@@ -19,7 +19,7 @@ MON(4,'main','',5,'lava_titan','Lava Titan',['golem','slam','#4a3a38,#2a1a18,#ff
  'Slow; every step leaves a lava footprint.',
  'Stomp (existing) + lava pools.',
  'Cooling armor: ice/water hardens a section, then heavy hits break it.',
- 'Elite: drops the rarest Ashlands ore.','lava_titan');
+ 'Elite: drops the rarest Cinderheim ore.','lava_titan');
 MON(4,'main','',5,'rock_dragon','Rock Dragon',['drake','breath','#6a5a4a,#3a2a20,#ff8a30,#ffe040',''],'T:dragon skeleton valley (one)',
  'Rock-scaled young dragon (existing).',
  'Rushes (existing), takes short flights.',

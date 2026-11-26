@@ -4,7 +4,7 @@
 // ║ a translucent body, a luminous rim and drifting motes. 3 designs per
 // ║ element; Kris picks one per element in the Lab (FAMILIAR_PICK holds the
 // ║ current choice). Each quadrant's island gives its element's familiar:
-// ║   Grasslands = grass · Wetlands = water · Highlands = earth · Ashlands = fire
+// ║   Gildenmark = grass · Fernheim = water · Cragland = earth · Cinderheim = fire
 // ║ Fairies (10 designs per quadrant, pick one each) live around runestones
 // ║ and teach the familiar its skills.
 // ═══════════════════════════════════════════════════════════════════════
@@ -119,7 +119,7 @@ function spiritFrames(D){ if(D._fr)return D._fr; var E=SPIRIT_ELEMENTS[D.el];
 
 // ── fairies: 10 designs per quadrant ──
 var FAIRY_DESIGNS=[
-  // Grasslands
+  // Gildenmark
   ['clover_pixie','Clover Pixie','#8dff8a','#ffe060','leaf','A tiny pixie with four-leaf clover wings and a dandelion hat.'],
   ['bluebell_sprite','Bluebell Sprite','#a0b8ff','#e8e0ff','bell','Wears a bluebell flower as a skirt; rings softly when she flies.'],
   ['thistle_imp','Thistle Imp','#d090ff','#90d070','spiky','A cheeky purple imp with thistle-down hair and moth wings.'],
@@ -130,7 +130,7 @@ var FAIRY_DESIGNS=[
   ['meadow_moth','Meadow Moth-fae','#f0e0a0','#a0d080','moth','A soft moth-winged fae with feathery antennae.'],
   ['sunbeam_sylph','Sunbeam Sylph','#fff080','#ffffff','star','Made of a slanting sunbeam; hard to look straight at.'],
   ['rune_pixie','Rune Pixie','#80ffd0','#c0fff0','rune','Glowing runes circle her; she guards the old waystones.'],
-  // Wetlands
+  // Fernheim
   ['lily_nymph','Lily Nymph','#f0a0d0','#a0e0c0','petal','Rides a lotus petal; her hair is a waterfall.'],
   ['glowfrog_fae','Glowfrog Fae','#80ff90','#e0ff80','round','A frog-riding fairy with a lantern of swamp light.'],
   ['mist_maiden','Mist Maiden','#c0e0ff','#ffffff','mist','Half made of fog; fades in and out as she speaks.'],
@@ -141,7 +141,7 @@ var FAIRY_DESIGNS=[
   ['kelp_wisp','Kelp Wisp','#50c090','#b0ffd0','spiky','Streaming kelp-ribbon hair that floats as if underwater.'],
   ['pearl_fae','Pearl Fae','#f8f0ff','#c0e0ff','star','Wings of mother-of-pearl, shimmering pink and blue.'],
   ['rain_sprite','Rain Sprite','#80b0ff','#d0e8ff','rune','Brings a tiny rain cloud wherever she goes.'],
-  // Highlands
+  // Cragland
   ['crystal_pixie','Crystal Pixie','#c0a0ff','#ffffff','star','Wings of faceted crystal that throw rainbows.'],
   ['snowflake_fae','Snowflake Fae','#e0f4ff','#ffffff','spiky','Each wing is a perfect snowflake; she leaves frost.'],
   ['ember_moth','Hearth Moth','#ffb060','#fff0c0','moth','A warm moth-fae who keeps the herders\' fires lit.'],
@@ -152,7 +152,7 @@ var FAIRY_DESIGNS=[
   ['moss_hermit','Moss Hermit','#90b070','#d0e0a0','leaf','An old mossy fairy with a lichen beard and walking stick.'],
   ['aurora_fae','Aurora Fae','#80ffc0','#c080ff','rune','Trails ribbons of northern lights.'],
   ['geode_sprite','Geode Sprite','#a060e0','#e0c0ff','round','Lives in a split geode that opens like a clam.'],
-  // Ashlands
+  // Cinderheim
   ['cinder_pixie','Cinder Pixie','#ff8040','#ffd060','spiky','Hair of flickering flame, wings of cooling ash.'],
   ['obsidian_fae','Obsidian Fae','#302838','#ff6040','star','Wings of black glass with glowing lava veins.'],
   ['ash_moth','Ash Moth-fae','#b8b0a8','#ff9060','moth','Grey ash-wings that glow orange at the edges.'],
@@ -190,7 +190,7 @@ function fairyFrames(F){ if(F._fr)return F._fr;
     for(var k=0;k<5;k++){ x.fillStyle=rgba('#ffffff',0.8); x.fillRect(cx-10+((k*9+f*3)%20),cy+8+((k*5+f*2)%10),1,1); }
     return c; });
   return F._fr; }
-// the fairy king (Wetlands, Highlands, Ashlands) — a crowned fairy three times the size
+// the fairy king (Fernheim, Cragland, Cinderheim) — a crowned fairy three times the size
 function fairyKingFrames(q){ var key='_kfr'+q; if(fairyKingFrames[key])return fairyKingFrames[key]; var F=FAIRY_BY_ID[FAIRY_PICK[q]]||FAIRY_DESIGNS[(q-1)*10];
   fairyKingFrames[key]=fairyFrames(F).map(function(fr,i){ var c=mkCanvas(96,104), x=c.getContext('2d'); x.imageSmoothingEnabled=true; x.drawImage(fr,0,8,96,96);
     x.fillStyle='#ffd84a'; x.beginPath(); x.moveTo(38,28); x.lineTo(40,18); x.lineTo(44,24); x.lineTo(48,14); x.lineTo(52,24); x.lineTo(56,18); x.lineTo(58,28); x.closePath(); x.fill(); x.strokeStyle='#fff6c0'; x.lineWidth=1; x.stroke();

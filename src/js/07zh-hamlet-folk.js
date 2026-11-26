@@ -9,7 +9,7 @@
 // ║    on the wall (wave 79, hk_<spirit>), and what they say of the spirit.
 // ═══════════════════════════════════════════════════════════════════════
 var ZHAM={
-  REALM:['','Grasslands','Wetlands','Highlands','Ashlands'],
+  REALM:['','Gildenmark','Fernheim','Cragland','Cinderheim'],
   RLOOK:{1:'a sprig of meadow flowers at the belt',2:'reed-green and river-blue cloth, marsh boots',3:'a wool cloak against the mountain wind',4:'ash-grey cloth with a little ember-red trim'},
   // trade: [furniture ×4 (id suffix, name, look, w, h)], what the kin wears, what they do at work, the trade's line, palette, sprite plan anim
   TRADES:{
@@ -63,7 +63,7 @@ var ZHAM={
     ['frida','Solvi','her grandson','m','young','Grandmother said the bees knew before anyone. When they came back, I knew she was home.','a framed golden honeycomb with a dried meadow flower'],
     ['geir','Ottar','his great-grandson','m','young','Geir carved the tree on the village green when he was a boy. I carved this one, for the hamlet. Smaller. He\'d say too small.','a small carved wooden panel of the World-Tree, its roots reaching far'],
     ['hallveig','Steinar','her husband','m','old','I still set two cups out. Now I know she drinks the light. I pour hers anyway.','two wooden cups on a little shelf, one always full'],
-    ['ingolf','Halla','his sister','f','grown','My brother said the Binders came from under the Ashlands. He was right. He was always right, the pest.','a pair of small leather boots hung on a peg'],
+    ['ingolf','Halla','his sister','f','grown','My brother said the Binders came from under Cinderheim. He was right. He was always right, the pest.','a pair of small leather boots hung on a peg'],
     ['jorunn','Edda','her daughter','f','grown','Mother\'s blue — the rune blue. I\'ve dyed a thousand cloths to find it again. This is the closest.','a framed length of rune-blue cloth with a white knot pattern'],
     ['ketil','Gorm','his nephew','m','grown','When Uncle Ketil died the goats wouldn\'t stop crying. Goats raised you, they say. Small world.','a goat\'s bell on a red cord and a curly horn'],
     ['liv','Ylva','her apprentice','f','young','Liv saw the mill wheel turn backwards the day the Black Tide came. It only turns the right way now.','a little wooden mill-wheel on the wall'],
@@ -83,7 +83,7 @@ var ZHAM={
     ['gudrun','Alva','her granddaughter','f','young','The Binders crushed Grandmother\'s golden queen bee first. Her daughters\' daughters are in my skeps now.','a tiny golden bee pinned on a little velvet cushion'],
     ['hakon','Sindri','his apprentice','m','young','Hakon said every rune in the mountains was carved toward the lake. Toward the village. Toward you two.','a small rune carving with an arrow-rune pointing to the lake'],
     ['ingrid','Thorkel','her son','m','grown','Mother said the Scar was the mountain answering the fire. It\'s quiet now. Everything\'s answered.','an old cooper\'s hoop driver hung like a trophy'],
-    ['joreid','Hrefna','her cousin','f','grown','Joreid was the last child born in the Highlands. She lived three summers. Our children play where she used to.','a child\'s leather shoe and a little wooden horse'],
+    ['joreid','Hrefna','her cousin','f','grown','Joreid was the last child born in Cragland. She lived three summers. Our children play where she used to.','a child\'s leather shoe and a little wooden horse'],
     ['kolbein','Signy','his sweetheart, now grey','f','old','Kolbein said the one on the high seat had one eye and it had never seen anything. You saw everything. I waited for him fifty years. He\'s home.','a faded courting ribbon dyed blue, pinned in a frame'],
     ['lofn','Starkad','her son','m','grown','Mother watched two ravens circle the hills, crying, the year the gate shut. They came back to Asgard last spring. I saw them.','two black raven feathers crossed on a small plaque'],
     ['mord','Grima','his sister','f','grown','My brother Mord saw the sky go red, then grey. He was seven. I keep his little cart; children play with it now.','a child\'s small wooden flour cart'],
@@ -104,7 +104,7 @@ var ZHAM={
   tradeName:function(t){ return t==='netmender'?'net-mender':t; },
   spirit:function(i){ var k=ZHAM.KIN[i][0], t=ZHAM.trade(i); return {key:k,name:k.charAt(0).toUpperCase()+k.slice(1),trade:(/^[aeiou]/.test(t)?'an ':'a ')+ZHAM.tradeName(t),q:Math.floor(i/10)+1}; },
   // what the kin says: hello, the spirit, the trade, the realm
-  lines:function(i){ var K=ZHAM.KIN[i], S=ZHAM.spirit(i), T=ZHAM.TRADES[ZHAM.trade(i)]||{}, R=['','The Grasslands are green to the sea again. Like the old songs.','The Wetlands drained clean — the marsh flowers are back, and the frogs. So many frogs.','The Highlands are quiet now — the good quiet, birds and wind.','Grass on the Ashlands! Grass! My grandmother wouldn\'t believe it.'][S?S.q:1];
+  lines:function(i){ var K=ZHAM.KIN[i], S=ZHAM.spirit(i), T=ZHAM.TRADES[ZHAM.trade(i)]||{}, R=['','Gildenmark is green to the sea again. Like the old songs.','Fernheim drained clean — the marsh flowers are back, and the frogs. So many frogs.','Cragland is quiet now — the good quiet, birds and wind.','Grass on Cinderheim! Grass! My grandmother wouldn\'t believe it.'][S?S.q:1];
     return ['I\'m '+K[1]+', '+K[2].replace(/^(her|his) /,S.name+'\'s ')+'. Welcome to '+S.name+'\'s workshop.',K[5],T.line||'',R]; },
   look:function(i){ var K=ZHAM.KIN[i], S=ZHAM.spirit(i), T=ZHAM.TRADES[ZHAM.trade(i)]||{}, age={young:'a young',grown:'a grown',old:'an old, grey-haired'}[K[4]], who=K[3]==='f'?'woman':'man';
     return K[1]+', '+K[2].replace(/^(her|his) /,S.name+'\'s ')+' (the freed spirit was '+S.trade+'): '+age+' '+who+' of the '+(S?ZHAM.REALM[S.q]:'')+', '+T.wear+'; '+ZHAM.RLOOK[S?S.q:1]+'.'; }

@@ -4,7 +4,7 @@
 // ║ Each forge is now three floors:
 // ║   Floor 1 — its old challenge (the Ember Maze, the Steam Climb, the Slag Puzzle, the Ash Escape). Its chest no longer holds the key: it opens the
 // ║             way down into the forge.
-// ║   Floor 2 — the spirit galleries: a mine of rock and lava, monsters of the Ashlands, and five spirits chained at the rock faces, digging.
+// ║   Floor 2 — the spirit galleries: a mine of rock and lava, monsters of Cinderheim, and five spirits chained at the rock faces, digging.
 // ║   Floor 3 — the hearth hall: five more spirits, the FORGE-MASTER (three phases, fought where it stands — warded by Muspelheim: ×0.35 from every
 // ║             element, ×2 from Sovereign) and, once it falls, the forge's HEARTH.
 // ║ [Tab] by a chained spirit breaks its chains (it thanks you and rises away; ps.forgeFreed keeps them). [Tab] at the hearth with the realm's Soulglass
@@ -14,7 +14,7 @@
 var ZFORGE={ on:true,
   F:{ volcano_n:{k:'ember',q:1,name:'Ember Forge',scene:'VolcanoMaze',boss:'forge_glodr'},
       volcano_e:{k:'cinder',q:2,name:'Cinder Forge',scene:'VolcanoBulletHell',boss:'forge_eisa'},
-      volcano_s:{k:'slag',q:3,name:'Slag Forge',scene:'VolcanoPuzzle',boss:'forge_gjallr'},
+      volcano_s:{k:'slag',q:3,name:'Clinker Forge',scene:'VolcanoPuzzle',boss:'forge_gjallr'},
       volcano_w:{k:'ash',q:4,name:'Ash Forge',scene:'VolcanoEscape',boss:'forge_eimyrja'} },
   byK:function(k){ for(var id in ZFORGE.F)if(ZFORGE.F[id].k===k)return Object.assign({vid:id},ZFORGE.F[id]); return null; },
   // round 60 (Kris: "dropping challenges, but have 4 levels for each mini volcano, and come up with new monsters for the volcanos"): the old challenge
@@ -124,7 +124,7 @@ var ZFORGE={ on:true,
 })();
 
 // ── the items: the four Heartglasses ──
-(function(){ if(typeof ITEMS==='undefined')return; var F=['','Ember','Cinder','Slag','Ash'], R=['','Grasslands','Wetlands','Highlands','Ashlands'];
+(function(){ if(typeof ITEMS==='undefined')return; var F=['','Ember','Cinder','Clinker','Ash'], R=['','Gildenmark','Fernheim','Cragland','Cinderheim'];
   for(var q=1;q<=4;q++)ITEMS['heartglass_'+q]={name:F[q]+' Heartglass',icon:'💎',slot:'key',sell:0,tomeHint:'Made at the hearth of the '+F[q]+' Forge from the '+F[q]+' Soulglass Lattice laid in the '+F[q]+' Hearth Tray',desc:'The '+R[q]+'\' freed light, given its true form in the heart of the '+F[q]+' Forge. Four Heartglasses and the Sovereign staff become the Lodestar at Muspelheim\'s great hearth.'}; })();
 
 // ── hooks: floor 1 (the old challenge) leads down; the Dungeon learns the forge ──
@@ -156,7 +156,7 @@ setTimeout(function(){
     else if(near.type==='stairs_up'&&this.floor===0)this.interactPrompt.setText('[Tab] Climb out of the forge').setPosition(this.px,this.py-52).setVisible(true);
     return r; };
   var oc=D._openBossChest; D._openBossChest=function(){ if(this._forge)return ZFORGE.claim(this); return oc.apply(this,arguments); };
-  // round 60: the forge's own monsters — its two (55 %), the other forges' (20 %), the Ashlands' dungeon roster (25 %); the Mouth is theirs alone
+  // round 60: the forge's own monsters — its two (55 %), the other forges' (20 %), Cinderheim's dungeon roster (25 %); the Mouth is theirs alone
   var rs=D._spawnRosterMonster; D._spawnRosterMonster=function(mx,my){ var F=ZFORGE.of(this); if(!F||!ZFORGE.MONS[F.k])return rs.apply(this,arguments);
     var r=Math.random(), own=ZFORGE.MONS[F.k], all=[].concat.apply([],Object.keys(ZFORGE.MONS).map(function(k){ return ZFORGE.MONS[k]; })), id=null;
     if(r<0.55||this.floor===0)id=own[Math.floor(Math.random()*own.length)]; else if(r<0.75)id=all[Math.floor(Math.random()*all.length)];

@@ -5,5 +5,5 @@
 // ═══════════════════════════════════════════════════════════════════════
 var ZFORGEW={ tick:function(){ try{ if(typeof game==='undefined'||!game.scene)return; var ws=game.scene.getScene('World'); if(!ws||!ws.wd||!ws.playerState||!ws.siteObjs)return;
     if(ws.wd._volcSpawned)return; if(!_finalQuestUnlocked(ws.playerState))return; ws.wd._volcSpawned=true; _spawnVolcanoVisuals(ws);
-    if(!ws.playerState._forgesNoted){ ws.playerState._forgesNoted=true; showNotif('🌋 The ground shakes — four forges rise from the sea, and Muspelheim wakes in the Ashlands.','#ff8844'); } }catch(e){ console.warn('forges',e); } } };
+    if(!ws.playerState._forgesNoted){ ws.playerState._forgesNoted=true; showNotif('🌋 The ground shakes — four forges rise from the sea, and Muspelheim wakes in Cinderheim.','#ff8844'); } }catch(e){ console.warn('forges',e); } } };
 setInterval(ZFORGEW.tick,1000);

@@ -12,7 +12,7 @@
 (function(){ if(typeof Tome==='undefined'||typeof ZEL==='undefined')return;
   var PAGES={elements:{n:'Elements',i:'🔥',ic:'tm_elements'},forge:{n:'Forge tree',i:'⚒️',ic:'tm_forge'},paths:{n:'Paths',i:'🧭',ic:'tm_paths'}};
   Object.keys(PAGES).forEach(function(k){ TOME_CATS.push({k:k,n:PAGES[k].n,i:PAGES[k].i,page:1}); });
-  var QN=['','Grasslands','Wetlands','Highlands','Ashlands'], P={sel:{}};
+  var QN=['','Gildenmark','Fernheim','Cragland','Cinderheim'], P={sel:{}};
   var _list=Tome.list; Tome.list=function(cat){ return PAGES[cat]?[]:_list.call(Tome,cat); };
 
   // ── the elements of a Tome monster id ──
@@ -48,7 +48,7 @@
           L.push(['Set','The Sovereign set: one piece of every kind, each carrying all six elements. Each piece is the reward for finishing one whole part of the journey.']); if(SS)L.push(['Won by',SS.how+(pr?' — <b>'+pr.have+' / '+pr.of+'</b>'+(pr.got?' ✓':''):'')]); }
         if(I.old)L.push(['Note','No longer sold — the potions were cut to one of each strength.']);
         if(I.skillId&&ZEL.SKILL[I.skillId])L.push(['Element',ZElUI.chip(ZEL.SKILL[I.skillId])]);
-        if(id==='night_edge')e.hint='In the chest of the Ashlands boss tower.';
+        if(id==='night_edge')e.hint='In the chest of Cinderheim boss tower.';
         e.lines=e.lines.concat(L); }
       else if(cat==='spell'){ var se=ZEL.SPELL[id]; e.lines.push(['Element',se?ZElUI.chip(se)+' <small>— a staff of the same element makes it a quarter stronger</small>':ZElUI.none+' <small>— works the same on everything</small>']); if(se)e.lines=e.lines.concat(ZElUI.versus([ZEL.E[se].beats]).slice(0,0)); e.lines.push(['Grows','With your level (3% a level) and with mage gear.']);
         if(se)e.lines.push(['Best against',ZElUI.chip(ZEL.E[se].beats)+' foes']); }

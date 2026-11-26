@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 // ║ FAIRIES v2 (round 5) — 15 new looks per quadrant, every fairy in a
 // ║ quadrant looks different, and the Fairy Monarchs are tall, angel-like
-// ║ winged beings (3 to choose from in the Wetlands, Highlands, Ashlands).
+// ║ winged beings (3 to choose from in Fernheim, Cragland, Cinderheim).
 // ║ Shared with the Design Lab (Fairies + Fairy Monarchs tabs).
 // ║ • A v2 design is a recipe: body · wings · hair/hat · held item · aura ·
 // ║   colours. fairyFrames() paints any design (the 40 classic looks keep
@@ -11,7 +11,7 @@
 // ═══════════════════════════════════════════════════════════════════════
 // recipe: [id, name, body, wings, head, item, aura, skin, main, wing, hair, glow, animal?, look]
 var FAIRY_V2=[
- // ── Grasslands ──
+ // ── Gildenmark ──
  ['bumble_rider','Bumble Rider','rider','dragonfly','acorn','wand','pollen','#f4d0b0','#6a9a3a','#e8f4ff','#7a4a20','#ffe060','bee','A tiny fairy boy in an acorn cap riding a fat, fuzzy bumblebee.'],
  ['dandelion_drifter','Dandelion Drifter','pixie','feather','puff','none','seeds','#f8e0d0','#f4f0d8','#ffffff','#fffff0','#fff8c0',null,'White dandelion-puff hair and downy feather wings; seeds drift off her as she floats.'],
  ['ladybug_knight','Ladybug Knight','knight','beetle','helm','sword','sparks','#f4d0b0','#d02a20','#e04030','#202020','#ff8060',null,'A fearless knight in red-and-black spotted armour, ladybug wing-cases on his back.'],
@@ -27,7 +27,7 @@ var FAIRY_V2=[
  ['poppy_bard','Poppy Bard','pixie','butterfly','flowercrown','lute','petals','#f8dcc4','#e03040','#ff8080','#4a2020','#ffb0b0',null,'A red-dressed bard with a tiny lute, singing the meadow\'s old songs.'],
  ['thistle_warden','Thistle Warden','knight','bat','spiky','sword','sparks','#e8d0e0','#8a4ab0','#c090e0','#d0a0ff','#e0b0ff',null,'Purple thistle armour, spiky hair and a needle-sharp blade.'],
  ['glowworm_lamplighter','Lamplighter','rider','dragonfly','hood','lantern','sparks','#f4d0b0','#3a6a4a','#e0fff0','#2a3a2a','#c0ff60','glowworm','Rides a glowing caterpillar through the grass, lighting the paths at night.'],
- // ── Wetlands ──
+ // ── Fernheim ──
  ['frog_prince_fae','Frog Prince','rider','dragonfly','tiara','none','bubbles','#f4d0b0','#50a050','#c0fff0','#e8c040','#a0ff90','frog','A crowned fairy prince on his loyal frog steed.'],
  ['lotus_maiden','Lotus Maiden','flower','petal','long','none','drops','#f8e4e0','#ff90c0','#ffd0e8','#80c0a0','#ffc0e0',null,'Blooms from a pink lotus; her hair flows like water.'],
  ['jelly_drifter','Jelly Drifter','jelly','none','none','none','bubbles','#c0f0ff','#60d0e0','#ffffff','#60d0e0','#80f0ff',null,'A glowing jellyfish-fairy that swims through the air, trailing tentacles.'],
@@ -43,7 +43,7 @@ var FAIRY_V2=[
  ['kingfisher_scout','Kingfisher Scout','pixie','feather','spiky','bow','sparks','#f4d0b0','#2080d0','#40a0ff','#ff8030','#80c8ff',null,'Electric-blue feather wings and a tiny bow; never misses.'],
  ['turtle_rider','Turtle Rider','rider','petal','bun','none','bubbles','#f4d0b0','#3a8a5a','#c0f0d0','#5a3a2a','#a0ffc0','turtle','An old soul riding an even older turtle.'],
  ['fog_lantern','Fog Lantern','wisp','moth','none','lantern','mist','#d0d8e0','#8898a8','#c8d0d8','#8898a8','#ffe8a0',null,'A wisp of fog carrying a lantern — follow it home, not away.'],
- // ── Highlands ──
+ // ── Cragland ──
  ['quartz_knight','Quartz Knight','knight','crystal','helm','sword','sparks','#f0e0e8','#c0b0ff','#e8e0ff','#806ab0','#e0d0ff',null,'Faceted crystal armour and wings that ring like glass.'],
  ['goat_rider','Goat Rider','rider','feather','hood','none','snow','#f4d0b0','#c8a878','#f0e8d8','#5a3a20','#fff0d0','goat','Scales cliffs on a sure-footed mountain goat.'],
  ['edelweiss_sprite','Edelweiss Sprite','flower','petal','flowercrown','none','snow','#f8e8e0','#f4f4f0','#ffffff','#e0c080','#ffffff',null,'A star-white edelweiss fairy that grows only on the highest ledges.'],
@@ -59,7 +59,7 @@ var FAIRY_V2=[
  ['eagle_knight','Eagle Knight','knight','feather','helm','staff','sparks','#f4d0b0','#8a6a4a','#c8a070','#e8d8c0','#ffe0a0',null,'Brown eagle wings and a long spear; guards the high passes.'],
  ['icicle_wisp','Icicle Wisp','wisp','crystal','none','none','snow','#e0f8ff','#a0e8ff','#ffffff','#c0f0ff','#e0ffff',null,'A shard of living ice that chimes when it moves.'],
  ['beetle_rider','Beetle Rider','rider','butterfly','acorn','sword','sparks','#f4d0b0','#3a4a6a','#a0c0ff','#2a2030','#a0c8ff','beetle','Charges into battle on a shiny stag beetle.'],
- // ── Ashlands ──
+ // ── Cinderheim ──
  ['ember_newt_rider','Ember-Newt Rider','rider','flame','spiky','none','embers','#f4c0a0','#e04020','#ffb040','#ff6020','#ff9040','salamander','Rides a red fire-salamander through the ember fields.'],
  ['ember_imp','Ember Imp','imp','bat','horns','none','embers','#e05030','#a02010','#ff6040','#301010','#ff8040',null,'A red, grinning imp who snacks on hot coals.'],
  ['obsidian_knight','Obsidian Knight','knight','crystal','helm','sword','embers','#c0a0a0','#1a1418','#402830','#100808','#ff6030',null,'Black-glass armour cracked with glowing lava veins.'],
@@ -231,7 +231,7 @@ var _FV2={
 var _fairyFramesClassic=fairyFrames;
 fairyFrames=function(F){ if(!F)return _fairyFramesClassic(FAIRY_DESIGNS[0]); if(!F.v2)return _fairyFramesClassic(F); if(F._fr)return F._fr; F._fr=[0,1,2,3].map(function(f){ return _FV2.paint(F,f); }); return F._fr; };
 
-// ═══ FAIRY MONARCHS — tall angelic beings (Wetlands, Highlands, Ashlands) ═══
+// ═══ FAIRY MONARCHS — tall angelic beings (Fernheim, Cragland, Cinderheim) ═══
 // [id, q, name, title, robe, robe2, wings, wingCol, wingCol2, hair, halo, item, glow, look]
 var FAIRY_MONARCHS=[
  ['mere_queen',2,'Nerissa','Queen of the Mere','#3aa0b0','#a0f0f0','fin4','#80e0ff','#e0ffff','#f0f8ff','lily','trident','#80f0ff','A queen of living water: four translucent fin-wings, a lily crown and a coral trident. Her robe pours away into mist.'],

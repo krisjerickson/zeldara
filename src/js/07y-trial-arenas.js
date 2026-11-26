@@ -140,7 +140,7 @@ function _trialBuild(run){ var st=run.stages[run.stage], d=run.tier, R=rngOf(run
   if(L.dark!==undefined){ m.trialDark=L.dark; m.heroLight=L.heroLight||70; }
   m.trial=L; return m; }
 
-// how each theme gets harder, tier 1 (Grasslands) … 5 (Fairy Monarchs)
+// how each theme gets harder, tier 1 (Gildenmark) … 5 (Fairy Monarchs)
 function _trialScaleText(t,d){ return ({
   rune_targets:(6+2*d)+' stars, each lasts '+Math.max(3.2,7.5-0.8*d).toFixed(1)+' s, '+(60+10*d)+' s',
   echo_path:Math.min(10,5+d)+' tiles, sequences of '+(2+d)+' → '+(4+d),

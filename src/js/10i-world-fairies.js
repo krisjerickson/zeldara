@@ -6,7 +6,7 @@
 // ║   asks for (round 103: found lying at another rune space, picked up by walking over it — no more digging — the Tome quest page, the
 // ║   map ring and sparkles show where), bring it back, and your familiar
 // ║   passes her trial → it learns the skill.
-// ║ • Fairy Kings (Wetlands, Highlands, Ashlands) hold court in huge rune
+// ║ • Fairy Kings (Fernheim, Cragland, Cinderheim) hold court in huge rune
 // ║   henges: three objects + the hardest trial → one more active familiar.
 // ═══════════════════════════════════════════════════════════════════════
 // FAIRY_NAMES lives in 07y-trial-arenas.js (shared with the Lab)
@@ -66,7 +66,7 @@ Object.assign(WorldScene.prototype,{
   // a 15×15 open patch for the henge (search outward)
   // round 51 (Kris: "the fairy monarch at the top left corner below the chained floating rocks does not seem to be accessible"): the patch
   // must also be one you can walk to from the village (crossings open) — the nearest such patch to the court's spot, which for the
-  // Ashlands court is on the coast by the light sea, just below the Chained Rocks
+  // Cinderheim court is on the coast by the light sea, just below the Chained Rocks
   _hengeSpot(tx,ty){ var RCH=_footReach(this.wd), W=WORLD_W;
     for(var r=0;r<120;r+=2)for(var a=0;a<(r<40?16:32);a++){ var n=r<40?16:32, x=Math.round(tx+Math.cos(a/n*Math.PI*2)*r), y=Math.round(ty+Math.sin(a/n*Math.PI*2)*r), ok=!!(RCH&&RCH[y*W+x]);
       for(var dy=-7;dy<=7&&ok;dy+=2)for(var dx=-7;dx<=7;dx+=2){ var t=(this.tiles[y+dy]||[])[x+dx]; if(t===undefined||!canPassTile(t)){ ok=false; break; } } if(ok)return {x:x,y:y}; } return this._fairySpot(tx,ty); },

@@ -21,7 +21,7 @@ with game(painted=True, w=1280, h=720) as g:
     g.js("(()=>{ ZCUT.on=true; var ps=game.scene.getScene('World').playerState; ps.sagaSeen=['opening']; ps.sagaQ=[]; ps.realmsEntered=[1]; ZSQ.lastEnd=0; ZSQ.t0=1; })()")
     rd = g.js("(()=>({firstfree:ZSAGA.ready('firstfree'),realm2:ZSAGA.ready('realm2'),realm3:ZSAGA.ready('realm3'),gate:ZSAGA.ready('gate')}))()")
     check('The story cut-scenes are painted here (%s)' % rd, rd['firstfree'] and rd['realm2'], rd)
-    # ── the first spirit: in the Wetlands (the case Kris met) ──
+    # ── the first spirit: in Fernheim (the case Kris met) ──
     s = g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.spiritsFreed=[]; ps.shardsGiven=[]; var s=(ws.wd._shrines||[]).find(x=>x.q===2);
       ps.realmsEntered=[1,2,3,4];      /* already walked in: only the freeing is tested here */
       ws.player.x=s.x; ws.player.y=s.y+40; ZSPIRIT.free(ws,s); return {id:s.id, n:ps.spiritsFreed.length}; })()""")
@@ -35,21 +35,21 @@ with game(painted=True, w=1280, h=720) as g:
     traced = until(g, "(()=>{ var ws=game.scene.getScene('World'); return (ws.playerState.slSeen||[]).indexOf(%r)>=0&&!ws._zslT; })()" % s['id'], 25000)
     g.wait(2500)
     c = {'traced': traced, 'open': g.js(OPEN), 'q': g.js("game.scene.getScene('World').playerState.sagaQ"), 'seen': g.js("game.scene.getScene('World').playerState.sagaSeen")}
-    check('…then its soul-line; and the Wetlands\' old disaster does NOT follow it (%s)' % c, traced and not c['open'] and 'realm2' not in c['q'] and 'realm2' not in c['seen'], c)
+    check('…then its soul-line; and Fernheim\' old disaster does NOT follow it (%s)' % c, traced and not c['open'] and 'realm2' not in c['q'] and 'realm2' not in c['seen'], c)
     # ── the first steps into a realm: its old disaster ──
     g.js("""(()=>{ var ws=game.scene.getScene('World'), ps=ws.playerState; ps.realmsEntered=[1]; ZSQ.lastEnd=0; var s=(ws.wd._shrines||[]).find(x=>x.q===1)||{x:CENTER_X*TILE,y:(CENTER_Y-60)*TILE};
       ws.player.x=s.x; ws.player.y=s.y+40; })()""")
     g.wait(1200)
-    check('Walking in the Grasslands plays nothing', not g.js(OPEN))
+    check('Walking in Gildenmark plays nothing', not g.js(OPEN))
     g.js("""(()=>{ var ws=game.scene.getScene('World'), s=(ws.wd._shrines||[]).find(x=>x.q===2&&getTileSection(Math.floor(x.x/TILE),Math.floor(x.y/TILE))===2); ws.player.x=s.x; ws.player.y=s.y+60; })()""")
     ok = until(g, OPEN, 4000)
-    check('The first steps into the Wetlands play the Black Tide (%s)' % g.js(KEY), ok and str(g.js(KEY)).endswith('saga_realm2'), g.js(KEY))
+    check('The first steps into Fernheim play the Black Tide (%s)' % g.js(KEY), ok and str(g.js(KEY)).endswith('saga_realm2'), g.js(KEY))
     g.js(END); g.wait(900)
     # ── the queue: a second story cut-scene right after waits for a calm moment ──
     g.js("""(()=>{ var ws=game.scene.getScene('World'), s=(ws.wd._shrines||[]).find(x=>x.q===3&&getTileSection(Math.floor(x.x/TILE),Math.floor(x.y/TILE))===3); ws.player.x=s.x; ws.player.y=s.y+60; })()""")
     g.wait(1500)
     d = {'open': g.js(OPEN), 'q': g.js("game.scene.getScene('World').playerState.sagaQ")}
-    check('Stepping into the Highlands right after: the Stone-Fall waits in the queue, nothing plays back to back (%s)' % d, not d['open'] and d['q'] == ['realm3'], d)
+    check('Stepping into Cragland right after: the Stone-Fall waits in the queue, nothing plays back to back (%s)' % d, not d['open'] and d['q'] == ['realm3'], d)
     g.js("(()=>{ var e=document.getElementById('modal-map'); toggleModal('map'); ZSQ.lastEnd=Date.now()-ZSQ.GAP-10; })()"); g.wait(1500)
     check('…it still waits while a menu is open', not g.js(OPEN))
     g.js("(()=>{ toggleModal('map'); })()")

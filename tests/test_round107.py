@@ -1,7 +1,7 @@
 """Round 107: the story comes first again; sites keep at least four floors.
   The opening of a new game plays before the twin's greeting, even when the soul-lines are slow to start (they used to start it).
   A story cut-scene that is due holds back the lessons, Oswin's hints and the first walk, and plays as soon as the open box closes.
-  Floors: the Highlands boss dungeon, Boulder Field and Crystal Grotto keep 4; the Monolith mage tower keeps its 3 (test_round106).
+  Floors: Cragland boss dungeon, Tumblestone and Glimmerdeep keep 4; the Monolith mage tower keeps its 3 (test_round106).
 python tests/test_round107.py   (after node build.mjs)"""
 import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from harness import game
