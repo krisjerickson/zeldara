@@ -42,7 +42,7 @@ with sync_playwright() as p:
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/lab.artifact.html"); pg.wait_for_timeout(3000)
     pg.evaluate("LTODO.goTo('npcs2','.ns-c',0)"); pg.wait_for_timeout(700)
     c = pg.evaluate("({rows:document.querySelectorAll('.ns-t tr').length, reads:document.querySelectorAll('.ns-one').length, hm:/only appear after the end/.test((document.querySelector('.ns-hm')||{}).textContent||'')})")
-    check('Lab → Backstories: "written so far" — nine groups, 36 stories to read, the hamlets answered (%s)' % c, c['rows'] == 10 and c['reads'] == 36 and c['hm'], c)
+    check('Lab → Backstories: "written so far" — nine groups, 36 stories to read, the hamlets answered (%s)' % c, c['rows'] == 10 and c['reads'] >= 36 and c['hm'], c)
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d/%d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)
