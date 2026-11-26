@@ -19,7 +19,7 @@ var ZSPM={ CUT:0.5,
     scene.events.on('update',f); scene.events.once('shutdown',function(){ scene.events.off('update',f); scene._zspm=null; }); return L; },
   // the living spirit: container [shadow, body[low, upperPivot[up]], glow]
   make:function(scene,id,x,y,mode,o){ var Z=typeof _scn==='function'?_scn():null; if(!Z||!Z.has||!Z.has(id))return null; o=o||{};
-    var h=Z.size(id,0).h*(Z.K||1)*(o.k||1), T=Z.texture(scene,id,h,{shadow:false}); if(!T)return null; var tex=scene.textures.get(T.key), src=tex.getSourceImage(), fw=src.width, fh=src.height, s=T.scale, Hd=fh*s;
+    var h0=Z.size(id,0).h*(Z.K||1), h=o.h?o.h:h0*(o.k||1), T=Z.texture(scene,id,h,{shadow:false});      /* round 137: o.h — one height for every spirit (Kris: "the toiling spirits are all sort of different sizes") */ if(!T)return null; var tex=scene.textures.get(T.key), src=tex.getSourceImage(), fw=src.width, fh=src.height, s=T.scale, Hd=fh*s;
     var C=scene.add.container(x,y), cut=ZSPM.CUT, waistUp=(Hd-5)*(1-cut), wyF=Math.round((Hd-5-waistUp)/s);      // waist: cut fraction of the figure from the top
     var sh=scene.add.ellipse(0,0,T.w*0.5,Math.max(5,T.w*0.12),0x000000,0.28); C.add(sh);
     var B=scene.add.container(0,0); C.add(B);
@@ -126,13 +126,14 @@ var ZGREEN={
 
 // ── round 59: the bound groups work where Kris asked for them — the forges and Muspelheim's halls (never at the bindstones, never on the Green) ──
 // ZGANG.place(scene, n, avoid): n painted gang loops (Chain gang, The great haul) on open floor away from the stairs and the path, toiling.
-var ZGANG={ KINDS:['chaingang','haul'],
+var ZGANG={ KINDS:['chaingang','haul'], H:64,
   place:function(sc,n,ok){ if(typeof ZGREEN==='undefined'||!sc.dtiles)return []; var out=[], R=rngOf(5900+(sc.floor||0)*31+String(sc.siteId||'').length), up=sc.stairsUpTile||{x:-99,y:-99}, dn=sc.stairsDownTile||sc.bossChestTile||{x:-99,y:-99}, Z=_scn();
     for(var t=0;t<4000&&out.length<n;t++){ var x=R.i(3,DW-5), y=R.i(3,DH-4), good=true;
       for(var j=-1;j<=1&&good;j++)for(var i=-2;i<=2&&good;i++){ if((sc.dtiles[y+j]||[])[x+i]!==DNG.FLOOR||(ok&&!ok(x+i,y+j)))good=false; }
       if(!good||Math.hypot(x-up.x,y-up.y)<7||Math.hypot(x-dn.x,y-dn.y)<7||out.some(function(o){ return Math.hypot(o.tx-x,o.ty-y)<10; }))continue;
       var k=ZGANG.KINDS[out.length%2], px=x*TILE+TILE/2, py=y*TILE+TILE, A=ZGREEN.loop(sc,k), im=null;
       if(A){ im=sc.add.sprite(px,py,A.key,'0').setOrigin(A.ox,A.oy).setScale(A.scale*Z.K*0.9); try{ im.play(A.key); }catch(e){} }
+      if(im&&im.displayHeight>0)im.setScale(im.scaleX*ZGANG.H/im.displayHeight);      /* round 137: every gang the same height, whatever size it was painted at */
       else { var gid=k==='chaingang'?'sp_grp_chaingang':'sp_g2_haul'; if(Z.has&&Z.has(gid)){ im=Z.image(sc,gid,px,py,Z.K*0.9,0); if(im)sc.tweens.add({targets:im,x:im.x-3,duration:900,yoyo:true,repeat:-1,ease:'Sine.inOut'}); } }
       if(!im)continue; im.setDepth(py/1e4+5); out.push({tx:x,ty:y,im:im,k:k}); }
     return out; } };

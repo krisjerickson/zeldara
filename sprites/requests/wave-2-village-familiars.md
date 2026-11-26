@@ -9,7 +9,7 @@ Rolf the Bartender · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Rolf the Bartender — Barrel-chested, ginger beard, rolled sleeves, a leather apron and a foaming mug. Main colours: brown (#8a4a2a), dark brown (#3a2a20), orange (#e8b040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -34,7 +34,7 @@ Tilda the Merchant · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Tilda the Merchant — A brisk trader in a teal vest and head-scarf, a bulging coin sack on her hip. Looks: dark brown skin and short tightly coiled black hair. Main colours: teal (#3a8a9a), dark blue (#2a4a5a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -59,7 +59,7 @@ Master Oswin · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Master Oswin — An old scholar in a violet robe with a long grey beard, scroll and quill in hand. Main colours: violet (#5a3a7a), dark violet (#2a1a3a), yellow (#e8c040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -84,7 +84,7 @@ Hana the Stable Master · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hana the Stable Master — A cheerful rancher in a straw hat and braids, leaning on a pitchfork. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a6a3a), dark green (#3a4a2a), red (#c84030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -109,7 +109,7 @@ Sergeant Brask · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sergeant Brask — A retired soldier in dented plate, a red plume and a spear held at attention. Main colours: light grey (#9aa0aa), dark grey (#3a3a44), red (#c83030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -134,7 +134,7 @@ Pell the Tailor · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Pell the Tailor — A slender tailor in a rose coat with a gold sash and measuring tape. Main colours: red (#c86a8a), muted violet (#4a3a5a), pale orange (#ffe0a0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -159,7 +159,7 @@ Iva the Jeweler · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Iva the Jeweler — Blonde, brass loupe-goggles pushed over her eyes, a glowing gem between her fingers. Looks: olive-brown skin and dark curly hair. Main colours: teal (#2a5a6a), dark blue (#1a2a3a), teal (#60e0ff), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -184,7 +184,7 @@ Morwen the Sorcerer · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Morwen the Sorcerer — A tall sorceress in a starry pointed hat, violet robe and a bubbling potion. Looks: copper-brown skin and long straight black hair in braids. Main colours: dark violet (#3a2a5a), dark grey (#1a1a2a), violet (#b070ff), pale violet (#c0a0ff). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -209,7 +209,7 @@ Benno the Baker · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Benno the Baker — Round-cheeked, flour on his apron, a tall chef's hat and a fresh loaf. Main colours: pale orange (#f0e8d8), muted orange (#8a6a4a), orange (#d8a050), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -234,7 +234,7 @@ Bram the Builder · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Bram the Builder — A big-shouldered builder in a canvas cap, tool belt and mallet. Main colours: orange (#c89040), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -259,7 +259,7 @@ Mira the Mechanic · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Mira the Mechanic — A red-haired tinkerer with brass goggles and a big wrench, grease on her sleeves. Main colours: muted blue (#4a6a8a), dark blue (#2a3a4a), orange (#e8a030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -284,7 +284,7 @@ Dunn the Dwarf Forger · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · cor
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Dunn the Dwarf Forger — A stout dwarf with a braided copper beard, forge apron and a war hammer. Main colours: red (#7a3a2a), dark brown (#3a2a20), orange (#ff9030), black (#201810). Size: about 0.85× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -309,7 +309,7 @@ Captain Vela · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Captain Vela — A sky captain in a navy coat, feathered tricorn and cape, spyglass ready. Main colours: blue (#2a4a7a), dark blue (#1a2a3a), yellow (#e8c040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -334,7 +334,7 @@ Elder Runa · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Elder Runa — The village elder: silver hair to her waist, green robe, a staff with a glowing rune. Main colours: muted green (#5a7a5a), dark grey (#2a3a2a), teal (#60e0d0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -359,7 +359,7 @@ Elder Runa · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · cor
 Attach: style_hero, style_centaur, vf_elder.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Elder Runa — The village elder: silver hair to her waist, green robe, a staff with a glowing rune. Main colours: muted green (#5a7a5a), dark grey (#2a3a2a), teal (#60e0d0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -384,7 +384,7 @@ Tob the Farmer · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Tob the Farmer — Sun-browned farmer in a straw hat, green smock and pitchfork. Looks: light brown skin, freckles and loose dark curls. Main colours: green (#6a8a3a), dark brown (#5a4a2a), yellow (#e0c070), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -409,7 +409,7 @@ Tob the Farmer · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur, vf_farmer.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Tob the Farmer — Sun-browned farmer in a straw hat, green smock and pitchfork. Looks: light brown skin, freckles and loose dark curls. Main colours: green (#6a8a3a), dark brown (#5a4a2a), yellow (#e0c070), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -434,7 +434,7 @@ Old Nell the Fisher · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Old Nell the Fisher — A weathered fisherwoman in a blue oilskin and head-scarf, rod over the water. Looks: deep brown skin and black locs. Main colours: blue (#3a6a8a), dark blue (#2a3a4a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -459,7 +459,7 @@ Old Nell the Fisher · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x10
 Attach: style_hero, style_centaur, vf_fisher.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Old Nell the Fisher — A weathered fisherwoman in a blue oilskin and head-scarf, rod over the water. Looks: deep brown skin and black locs. Main colours: blue (#3a6a8a), dark blue (#2a3a4a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -484,7 +484,7 @@ Pip · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Pip — A small kid in a mustard shirt, bouncing a red ball. Looks: golden-tan skin and dark brown hair. Main colours: orange (#e0a030), muted blue (#3a4a6a), red (#ff6040), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -509,7 +509,7 @@ Pip · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, vf_kid1.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Pip — A small kid in a mustard shirt, bouncing a red ball. Looks: golden-tan skin and dark brown hair. Main colours: orange (#e0a030), muted blue (#3a4a6a), red (#ff6040), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -534,7 +534,7 @@ Hesk the Boatwright · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hesk the Boatwright — A wiry boat builder in a red bandana and leather apron. Main colours: muted brown (#6a5a4a), dark brown (#3a2a20), orange (#c8a060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -559,7 +559,7 @@ Hesk the Boatwright · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x10
 Attach: style_hero, style_centaur, vf_boatwright.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hesk the Boatwright — A wiry boat builder in a red bandana and leather apron. Main colours: muted brown (#6a5a4a), dark brown (#3a2a20), orange (#c8a060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -584,7 +584,7 @@ Watchman Corr · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Watchman Corr — A gate guard in blue livery and a steel cap, spear upright. Looks: light olive skin, almond eyes and soft brown hair. Main colours: muted blue (#4a5a7a), dark grey (#2a2a3a), yellow (#e8c040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -609,7 +609,7 @@ Watchman Corr · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · 
 Attach: style_hero, style_centaur, vf_guard.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Watchman Corr — A gate guard in blue livery and a steel cap, spear upright. Looks: light olive skin, almond eyes and soft brown hair. Main colours: muted blue (#4a5a7a), dark grey (#2a2a3a), yellow (#e8c040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -634,7 +634,7 @@ Greta the Miller · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Greta the Miller — Flour-dusted miller in a pale dress and scarf, a sack over her shoulder. Main colours: pale yellow (#e8dcc0), muted brown (#6a5a4a), orange (#c8a060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -659,7 +659,7 @@ Greta the Miller · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 
 Attach: style_hero, style_centaur, vf_miller.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Greta the Miller — Flour-dusted miller in a pale dress and scarf, a sack over her shoulder. Main colours: pale yellow (#e8dcc0), muted brown (#6a5a4a), orange (#c8a060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -684,7 +684,7 @@ Wren · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Wren — A quick kid with a black ponytail and a sky-blue tunic. Main colours: blue (#60a0e0), muted violet (#4a3a5a), yellow (#ffe060), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -709,7 +709,7 @@ Wren · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, vf_kid2.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Wren — A quick kid with a black ponytail and a sky-blue tunic. Main colours: blue (#60a0e0), muted violet (#4a3a5a), yellow (#ffe060), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -734,7 +734,7 @@ Marta the Cart Vendor · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · cor
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Marta the Cart Vendor — A vendor in a red dress and white apron holding up fresh produce. Looks: medium brown skin and black hair with a silver streak. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -759,7 +759,7 @@ Marta the Cart Vendor · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur, vf_vendor.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Marta the Cart Vendor — A vendor in a red dress and white apron holding up fresh produce. Looks: medium brown skin and black hair with a silver streak. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -784,7 +784,7 @@ Old Fenwick · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Old Fenwick — A stooped lamplighter in a grey coat carrying a long lighting pole. Main colours: dark grey (#3a3a4a), dark grey (#2a2a30), orange (#ffc060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -809,7 +809,7 @@ Old Fenwick · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur, vf_lamplighter.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Old Fenwick — A stooped lamplighter in a grey coat carrying a long lighting pole. Main colours: dark grey (#3a3a4a), dark grey (#2a2a30), orange (#ffc060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -834,7 +834,7 @@ Ilsa the Lighthouse Keeper · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ilsa the Lighthouse Keeper — A lighthouse keeper in a navy pea-coat, cap and spyglass. Looks: dark brown skin and short tightly coiled black hair. Main colours: dark blue (#2a3a5a), dark blue (#1a2a3a), pale yellow (#ffe080), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -859,7 +859,7 @@ Ilsa the Lighthouse Keeper · Walking (side, front, back) · 8 poses, 4 × 2 · 
 Attach: style_hero, style_centaur, vf_keeper.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ilsa the Lighthouse Keeper — A lighthouse keeper in a navy pea-coat, cap and spyglass. Looks: dark brown skin and short tightly coiled black hair. Main colours: dark blue (#2a3a5a), dark blue (#1a2a3a), pale yellow (#ffe080), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -884,7 +884,7 @@ Sólveig the Glasswright · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sólveig the Glasswright — A tall, kind glassmaker in her fifties with long silver-blond braids, a deep blue dress under a scorched leather apron, thick gloves tucked in her belt and a small glowing light-blue shard of glass in one hand. Main colours: blue (#3a5a8a), brown (#6a4a2a), pale teal (#9fe8ff), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -909,7 +909,7 @@ Sólveig the Glasswright · Walking (side, front, back) · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur, vf_glass.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sólveig the Glasswright — A tall, kind glassmaker in her fifties with long silver-blond braids, a deep blue dress under a scorched leather apron, thick gloves tucked in her belt and a small glowing light-blue shard of glass in one hand. Main colours: blue (#3a5a8a), brown (#6a4a2a), pale teal (#9fe8ff), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -934,7 +934,7 @@ Harbormaster Quill · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Harbormaster Quill — A grizzled harbormaster in a navy coat and tricorn, keys to the ferry on his belt. Main colours: blue (#2a4a6a), dark blue (#1a2a3a), yellow (#e8c040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -959,7 +959,7 @@ Coral the Island Trader · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · c
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Coral the Island Trader — A sun-browned trader with a coral scarf and a parrot on her shoulder. Main colours: red (#e07050), muted teal (#3a5a5a), teal (#60d0c0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -984,7 +984,7 @@ Sister Mael · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sister Mael — A healer in white hooded robes with a vial of green well-water. Main colours: white (#e8e4dc), muted teal (#8a9aa0), green (#60e090), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1009,7 +1009,7 @@ Ranger Holt · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ranger Holt — A hooded island ranger in moss green, leaning on a spear by the dungeon mouth. Main colours: muted green (#4a6a3a), dark grey (#3a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1034,7 +1034,7 @@ the running teacher · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: the running teacher — A slim, friendly messenger in a green tunic with a feathered cap and small decorative wings on the boots. Main colours: green (#4a9a5a), dark green (#2a4a2a), yellow (#ffe060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1059,7 +1059,7 @@ Tumbler Pia · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Tumbler Pia — An acrobat in a bright orange leotard and sash. Main colours: orange (#e07030), muted violet (#4a3a5a), yellow (#ffe060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1084,7 +1084,7 @@ Petal-dancer Senna · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Petal-dancer Senna — A dancer in a sunflower-gold gown with a crown of petals, a ribbon of yellow petals swirling round her. Main colours: yellow (#f0c040), green (#6a8a3a), pale yellow (#fff0a0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1109,7 +1109,7 @@ Blade-dancer Kestrel · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Blade-dancer Kestrel — A duelist in blue with a long braid and twin blades. Main colours: blue (#3a5a8a), dark blue (#1a2a4a), white (#c8ccd4), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1134,7 +1134,7 @@ Shade Mistress Nyx · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Shade Mistress Nyx — A cloaked spy with violet eyes and a belt of smoke pellets. Main colours: dark grey (#2a2a3a), black (#141420), light grey (#9a9aa4), pale violet (#c0a0ff). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1159,7 +1159,7 @@ Captain Borin · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Captain Borin — A broad shield-captain in blue-trimmed plate. Main colours: light grey (#8a8e96), dark grey (#3a3a44), blue (#3a6ac8), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1184,7 +1184,7 @@ Seer Ilyana · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Seer Ilyana — A silver-haired seer in a violet robe, eyes glowing blue. Main colours: violet (#6a4ab0), dark violet (#2a1a5a), pale teal (#bff6ff). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1209,7 +1209,7 @@ Stonefist Grom · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Stonefist Grom — A dwarf with stone-grey fists and a red beard. Main colours: brown (#7a5a3a), dark brown (#3a2a20), orange (#ffb040), black (#201810). Size: about 0.85× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1234,7 +1234,7 @@ Healer Maelis · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Healer Maelis — A frost-priestess in white and ice-blue. Main colours: white (#e8f0f8), muted blue (#8aa0c0), green (#80e0a0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1259,7 +1259,7 @@ Wild Ulfar · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Wild Ulfar — A wild-haired berserker in a wolf-pelt. Main colours: red (#8a3a2a), dark brown (#3a2a1a), pale yellow (#e8e0cc), red (#ff4020). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1284,7 +1284,7 @@ Wraithwalker Seren · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Wraithwalker Seren — A pale walker between worlds carrying a spirit lamp. Main colours: muted blue (#3a3a5a), dark grey (#1a1a2a), pale violet (#c0a0ff), pale blue (#e0d8ff). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1309,7 +1309,7 @@ Chronomancer Vex · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Chronomancer Vex — A brass-goggled time-mage in a gold robe covered in clock faces. Main colours: yellow (#c8a040), dark olive (#5a4a20), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1334,7 +1334,7 @@ Starfall Magus Orin · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Starfall Magus Orin — An ancient star-mage in a midnight robe, embers in his beard. Main colours: blue (#2a2a6a), dark blue (#0a0a2a), orange (#ff8040), yellow (#ffe060). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1359,7 +1359,7 @@ Odin, the Allfather · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Odin, the Allfather — Odin the Allfather, a god of a Norse fantasy world: a very tall, broad old man with a long silver-white beard braided with small gold rings, one eye covered by a plain dark leather patch and the other glowing soft rune-blue, weathered fair skin, a wide-brimmed grey traveller's hat over long white hair, a deep blue cloak lined with grey wolf fur and edged with gold knotwork, a mail shirt under a dark tunic, a tall spear of ash wood with a rune-carved leaf-shaped steel head, and a black raven perched on his shoulder; kind, wise and weary, NOT golden, NOT masked, nothing like the false god. Main colours: blue (#2a4a7a), grey (#4a4a52), yellow (#e8c860), black (#201810). Size: about 1.25× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1384,7 +1384,7 @@ Odin, the Allfather · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x10
 Attach: style_hero, style_centaur, god_odin.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Odin, the Allfather — Odin the Allfather, a god of a Norse fantasy world: a very tall, broad old man with a long silver-white beard braided with small gold rings, one eye covered by a plain dark leather patch and the other glowing soft rune-blue, weathered fair skin, a wide-brimmed grey traveller's hat over long white hair, a deep blue cloak lined with grey wolf fur and edged with gold knotwork, a mail shirt under a dark tunic, a tall spear of ash wood with a rune-carved leaf-shaped steel head, and a black raven perched on his shoulder; kind, wise and weary, NOT golden, NOT masked, nothing like the false god. Main colours: blue (#2a4a7a), grey (#4a4a52), yellow (#e8c860), black (#201810). Size: about 1.25× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1409,7 +1409,7 @@ Freya, the Lady of the Fields · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Freya, the Lady of the Fields — Freya, a goddess of a Norse fantasy world: a tall, radiant woman with warm golden-brown sun-kissed skin and long red-gold hair in loose braids woven with small white and yellow flowers, a flowing green-and-gold gown, a long cloak of brown and gold falcon feathers over her shoulders like folded wings, a glowing amber necklace of many linked gold pieces at her throat, bare green-vine bracelets; warm, strong and joyful, NOT golden-white, nothing like the false god. Main colours: green (#3a7a3a), brown (#8a6a3a), orange (#f0c060), black (#201810). Size: about 1.25× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1434,7 +1434,7 @@ Freya, the Lady of the Fields · Walking (side, front, back) · 8 poses, 4 × 2 
 Attach: style_hero, style_centaur, god_freya.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Freya, the Lady of the Fields — Freya, a goddess of a Norse fantasy world: a tall, radiant woman with warm golden-brown sun-kissed skin and long red-gold hair in loose braids woven with small white and yellow flowers, a flowing green-and-gold gown, a long cloak of brown and gold falcon feathers over her shoulders like folded wings, a glowing amber necklace of many linked gold pieces at her throat, bare green-vine bracelets; warm, strong and joyful, NOT golden-white, nothing like the false god. Main colours: green (#3a7a3a), brown (#8a6a3a), orange (#f0c060), black (#201810). Size: about 1.25× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1459,7 +1459,7 @@ Hild · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hild — Hild, Asa's granddaughter: a grown woman of the Grasslands, a woven tunic with a patterned border, a distaff tucked in the belt; a sprig of meadow flowers at the belt. Main colours: blue (#3a5a9a), red (#8a2a2a), yellow (#e0b040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1484,7 +1484,7 @@ Arni · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Arni — Arni, Bersi's sister's grandson: a young man of the Grasslands, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a sprig of meadow flowers at the belt. Looks: dark brown skin and short tightly coiled black hair. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1509,7 +1509,7 @@ Gunnhild · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Gunnhild — Gunnhild, Dagny's niece: a grown woman of the Grasslands, a knitted cap, fingerless gloves and a netting needle behind one ear; a sprig of meadow flowers at the belt. Main colours: muted blue (#4a6a7a), muted yellow (#c8b890), dark blue (#2a3a4a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1534,7 +1534,7 @@ Kari · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Kari — Kari, Eyvind's son: a grown man of the Grasslands, an oilskin coat, tall boots and a woolly hat; a sprig of meadow flowers at the belt. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1559,7 +1559,7 @@ Solvi · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Solvi — Solvi, Frida's grandson: a young man of the Grasslands, a wide hat with a net veil pushed back, a smoker at the belt; a sprig of meadow flowers at the belt. Main colours: orange (#e8b030), olive (#6a5a2a), pale yellow (#f8f0d0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1584,7 +1584,7 @@ Ottar · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ottar — Ottar, Geir's great-grandson: a young man of the Grasslands, a leather apron full of chisels, wood shavings in the beard or hair; a sprig of meadow flowers at the belt. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1609,7 +1609,7 @@ Steinar · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Steinar — Steinar, Hallveig's husband: an old, grey-haired man of the Grasslands, a leather apron, thick gloves, a hoop driver in hand; a sprig of meadow flowers at the belt. Main colours: brown (#7a5a3a), grey (#4a4a52), orange (#c8a868), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1634,7 +1634,7 @@ Halla · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Halla — Halla, Ingolf's sister: a grown woman of the Grasslands, a stained leather apron, sleeves rolled to the elbow; a sprig of meadow flowers at the belt. Looks: olive-brown skin and dark curly hair. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1659,7 +1659,7 @@ Edda · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Edda — Edda, Jorunn's daughter: a grown woman of the Grasslands, arms stained blue to the elbow, a patched apron of every colour; a sprig of meadow flowers at the belt. Main colours: blue (#2a4aa8), red (#a82a3a), yellow (#e8c030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1684,7 +1684,7 @@ Gorm · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Gorm — Gorm, Ketil's nephew: a grown man of the Grasslands, a sheepskin vest, a crook and a horn at the belt; a sprig of meadow flowers at the belt. Looks: copper-brown skin and long straight black hair in braids. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1709,7 +1709,7 @@ Ylva · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ylva — Ylva, Liv's apprentice: a young woman of the Wetlands, a flour-dusted cap and apron, white to the elbows; reed-green and river-blue cloth, marsh boots. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), muted blue (#4a6a8a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1734,7 +1734,7 @@ Rurik · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Rurik — Rurik, Magni's son: a grown man of the Wetlands, a stone-dust cloak, a leather cap and heavy gloves; reed-green and river-blue cloth, marsh boots. Looks: light brown skin, freckles and loose dark curls. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1759,7 +1759,7 @@ Inga · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Inga — Inga, Nanna's apprentice: a young woman of the Wetlands, a clean white apron over a warm dress, a pouch of herbs; reed-green and river-blue cloth, marsh boots. Main colours: white (#e8e0d8), muted green (#6a8a5a), muted red (#a85a6a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1784,7 +1784,7 @@ Tova · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Tova — Tova, Oddny's granddaughter: a grown woman of the Wetlands, clay to the elbows, a smock tied at the waist; reed-green and river-blue cloth, marsh boots. Looks: deep brown skin and black locs. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1809,7 +1809,7 @@ Sigvald · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sigvald — Sigvald, Ragna's brother: an old, grey-haired man of the Wetlands, a hooded wool cloak, a crook, a lamb under one arm; reed-green and river-blue cloth, marsh boots. Main colours: pale orange (#e8e0d0), muted brown (#6a5a3a), muted green (#5a7a4a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1834,7 +1834,7 @@ Hjalti · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hjalti — Hjalti, Sigrid's apprentice: a young man of the Wetlands, a scorched leather apron, bare arms, a hammer in hand; reed-green and river-blue cloth, marsh boots. Looks: golden-tan skin and dark brown hair. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1859,7 +1859,7 @@ Asgerd · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Asgerd — Asgerd, Torvi's daughter: a grown woman of the Wetlands, a green hood, a hatchet at the belt, bark on the sleeves; reed-green and river-blue cloth, marsh boots. Main colours: muted green (#3a6a3a), brown (#6a4a2a), green (#a8c870), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1884,7 +1884,7 @@ Geirmund · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Geirmund — Geirmund, Ulf's grandson: a young man of the Wetlands, a round belly, a leather apron and a ladle; reed-green and river-blue cloth, marsh boots. Looks: light olive skin, almond eyes and soft brown hair. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1909,7 +1909,7 @@ Saga · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Saga — Saga, Vigdis's pupil: a young woman of the Wetlands, a bright cloak with a silver brooch, a harp on the back; reed-green and river-blue cloth, marsh boots. Main colours: violet (#6a2a8a), yellow (#e8c040), blue (#2a4a6a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1934,7 +1934,7 @@ Bodvar · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Bodvar — Bodvar, Yrsa's son: a grown man of the Wetlands, a floury apron, a kerchief, a loaf under the arm; reed-green and river-blue cloth, marsh boots. Looks: medium brown skin and black hair with a silver streak. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1959,7 +1959,7 @@ Ragnhild · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ragnhild — Ragnhild, Arnor's daughter: a grown woman of the Highlands, a woven tunic with a patterned border, a distaff tucked in the belt; a wool cloak against the mountain wind. Main colours: blue (#3a5a9a), red (#8a2a2a), yellow (#e0b040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -1984,7 +1984,7 @@ Ivar · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ivar — Ivar, Bodil's grandson: a grown man of the Highlands, a leather apron over a rough shirt, sleeves rolled, an adze at the belt; a wool cloak against the mountain wind. Looks: dark brown skin and short tightly coiled black hair. Main colours: brown (#6a4a2a), blue (#3a5a7a), pale yellow (#e8d8b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2009,7 +2009,7 @@ Freydis · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Freydis — Freydis, Dalla's niece: a young woman of the Highlands, a knitted cap, fingerless gloves and a netting needle behind one ear; a wool cloak against the mountain wind. Main colours: muted blue (#4a6a7a), muted yellow (#c8b890), dark blue (#2a3a4a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2034,7 +2034,7 @@ Leif · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Leif — Leif, Einar's little brother, now grown: a grown man of the Highlands, an oilskin coat, tall boots and a woolly hat; a wool cloak against the mountain wind. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: blue (#2a5a7a), yellow (#e8c040), dark grey (#3a3a3a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2059,7 +2059,7 @@ Alva · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Alva — Alva, Gudrun's granddaughter: a young woman of the Highlands, a wide hat with a net veil pushed back, a smoker at the belt; a wool cloak against the mountain wind. Main colours: orange (#e8b030), olive (#6a5a2a), pale yellow (#f8f0d0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2084,7 +2084,7 @@ Sindri · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sindri — Sindri, Hakon's apprentice: a young man of the Highlands, a leather apron full of chisels, wood shavings in the beard or hair; a wool cloak against the mountain wind. Looks: brown skin and thick wavy black hair. Main colours: brown (#8a5a2a), dark green (#3a4a2a), pale orange (#d8c098), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2109,7 +2109,7 @@ Thorkel · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Thorkel — Thorkel, Ingrid's son: a grown man of the Highlands, a leather apron, thick gloves, a hoop driver in hand; a wool cloak against the mountain wind. Main colours: brown (#7a5a3a), grey (#4a4a52), orange (#c8a868), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2134,7 +2134,7 @@ Hrefna · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hrefna — Hrefna, Joreid's cousin: a grown woman of the Highlands, a stained leather apron, sleeves rolled to the elbow; a wool cloak against the mountain wind. Looks: olive-brown skin and dark curly hair. Main colours: brown (#7a4a2a), muted olive (#5a5a3a), orange (#c89068), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2159,7 +2159,7 @@ Signy · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Signy — Signy, Kolbein's sweetheart, now grey: an old, grey-haired woman of the Highlands, arms stained blue to the elbow, a patched apron of every colour; a wool cloak against the mountain wind. Main colours: blue (#2a4aa8), red (#a82a3a), yellow (#e8c030), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2184,7 +2184,7 @@ Starkad · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Starkad — Starkad, Lofn's son: a grown man of the Highlands, a sheepskin vest, a crook and a horn at the belt; a wool cloak against the mountain wind. Looks: copper-brown skin and long straight black hair in braids. Main colours: green (#6a7a3a), muted orange (#8a6a4a), pale yellow (#e8e0c8), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2209,7 +2209,7 @@ Grima · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Grima — Grima, Mord's sister: a grown woman of the Ashlands, a flour-dusted cap and apron, white to the elbows; ash-grey cloth with a little ember-red trim. Main colours: pale orange (#e8e0d0), muted orange (#8a6a4a), muted blue (#4a6a8a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2234,7 +2234,7 @@ Hogni · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hogni — Hogni, Njal's brother: a grown man of the Ashlands, a stone-dust cloak, a leather cap and heavy gloves; ash-grey cloth with a little ember-red trim. Looks: light brown skin, freckles and loose dark curls. Main colours: grey (#8a8a8a), muted brown (#5a4a3a), pale orange (#c8c0b0), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2259,7 +2259,7 @@ Birna · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Birna — Birna, Orm's daughter: a grown woman of the Ashlands, a clean white apron over a warm dress, a pouch of herbs; ash-grey cloth with a little ember-red trim. Main colours: white (#e8e0d8), muted green (#6a8a5a), muted red (#a85a6a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2284,7 +2284,7 @@ Eldrid · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Eldrid — Eldrid, Ranveig's apprentice: a young woman of the Ashlands, clay to the elbows, a smock tied at the waist; ash-grey cloth with a little ember-red trim. Looks: deep brown skin and black locs. Main colours: red (#a85a3a), muted brown (#6a4a3a), orange (#d8b890), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2309,7 +2309,7 @@ Aslak · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Aslak — Aslak, Sverri's grandson: a young man of the Ashlands, a hooded wool cloak, a crook, a lamb under one arm; ash-grey cloth with a little ember-red trim. Main colours: pale orange (#e8e0d0), muted brown (#6a5a3a), muted green (#5a7a4a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2334,7 +2334,7 @@ Thorvald · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Thorvald — Thorvald, Thora's son: a grown man of the Ashlands, a scorched leather apron, bare arms, a hammer in hand; ash-grey cloth with a little ember-red trim. Looks: golden-tan skin and dark brown hair. Main colours: dark grey (#3a3a3a), red (#a84a2a), orange (#e8a040), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2359,7 +2359,7 @@ Vigi · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Vigi — Vigi, Unn's little brother, now grown: a grown man of the Ashlands, a green hood, a hatchet at the belt, bark on the sleeves; ash-grey cloth with a little ember-red trim. Main colours: muted green (#3a6a3a), brown (#6a4a2a), green (#a8c870), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2384,7 +2384,7 @@ Gudny · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Gudny — Gudny, Vali's granddaughter: a young woman of the Ashlands, a round belly, a leather apron and a ladle; ash-grey cloth with a little ember-red trim. Looks: light olive skin, almond eyes and soft brown hair. Main colours: orange (#a86a2a), red (#6a3a2a), yellow (#e8c060), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2409,7 +2409,7 @@ Skuli · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Skuli — Skuli, Alfhild's son: a grown man of the Ashlands, a bright cloak with a silver brooch, a harp on the back; ash-grey cloth with a little ember-red trim. Main colours: violet (#6a2a8a), yellow (#e8c040), blue (#2a4a6a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2434,7 +2434,7 @@ Helga · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Helga — Helga, Brand's granddaughter: a young woman of the Ashlands, a floury apron, a kerchief, a loaf under the arm; ash-grey cloth with a little ember-red trim. Looks: medium brown skin and black hair with a silver streak. Main colours: pale yellow (#e8d8b0), orange (#a85a2a), brown (#6a4a2a), black (#201810). Size: about 1× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2459,7 +2459,7 @@ Ylva · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ylva — Ylva: a child, about nine, a girl, a red wool dress and a wooden sword; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2484,7 +2484,7 @@ Ylva · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_ylva.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ylva — Ylva: a child, about nine, a girl, a red wool dress and a wooden sword; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2509,7 +2509,7 @@ Little Bjorn · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Little Bjorn — Little Bjorn: a toddler, about three years old, a boy, a too-big knitted hat and a toy horse on a stick; cheerful and full of mischief. Looks: dark brown skin and short tightly coiled black hair. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2534,7 +2534,7 @@ Little Bjorn · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · c
 Attach: style_hero, style_centaur, ck_bjorn.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Little Bjorn — Little Bjorn: a toddler, about three years old, a boy, a too-big knitted hat and a toy horse on a stick; cheerful and full of mischief. Looks: dark brown skin and short tightly coiled black hair. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2559,7 +2559,7 @@ Saga · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Saga — Saga: a young teen, about thirteen, a girl, a blue tunic and a harp on her back; cheerful and full of mischief. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2584,7 +2584,7 @@ Saga · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_saga.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Saga — Saga: a young teen, about thirteen, a girl, a blue tunic and a harp on her back; cheerful and full of mischief. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2609,7 +2609,7 @@ Kai · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Kai — Kai: a child, about nine, a boy, a green tunic and a paper kite; cheerful and full of mischief. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2634,7 +2634,7 @@ Kai · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_kai.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Kai — Kai: a child, about nine, a boy, a green tunic and a paper kite; cheerful and full of mischief. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2659,7 +2659,7 @@ Amara · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Amara — Amara: a little child, about six, a girl, a yellow dress and flower crown; cheerful and full of mischief. Looks: dark brown skin and short tightly coiled black hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2684,7 +2684,7 @@ Amara · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_amara.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Amara — Amara: a little child, about six, a girl, a yellow dress and flower crown; cheerful and full of mischief. Looks: dark brown skin and short tightly coiled black hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2709,7 +2709,7 @@ Eirik · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Eirik — Eirik: a young teen, about thirteen, a boy, a leather vest and a fishing rod; cheerful and full of mischief. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2734,7 +2734,7 @@ Eirik · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_eirik.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Eirik — Eirik: a young teen, about thirteen, a boy, a leather vest and a fishing rod; cheerful and full of mischief. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2759,7 +2759,7 @@ Noor · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Noor — Noor: a child, about nine, a girl, an embroidered tunic and a basket of eggs; cheerful and full of mischief. Looks: olive-brown skin and dark curly hair. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2784,7 +2784,7 @@ Noor · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_noor.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Noor — Noor: a child, about nine, a girl, an embroidered tunic and a basket of eggs; cheerful and full of mischief. Looks: olive-brown skin and dark curly hair. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2809,7 +2809,7 @@ Tove · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Tove — Tove: a toddler, about three years old, a girl, a rabbit-ear hood and a rag doll; cheerful and full of mischief. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2834,7 +2834,7 @@ Tove · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_tove.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Tove — Tove: a toddler, about three years old, a girl, a rabbit-ear hood and a rag doll; cheerful and full of mischief. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2859,7 +2859,7 @@ Ravi · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ravi — Ravi: a child, about nine, a boy, a patched cloak and a slingshot; cheerful and full of mischief. Looks: brown skin and thick wavy black hair. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2884,7 +2884,7 @@ Ravi · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_ravi.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ravi — Ravi: a child, about nine, a boy, a patched cloak and a slingshot; cheerful and full of mischief. Looks: brown skin and thick wavy black hair. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2909,7 +2909,7 @@ Little Ingrid · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Little Ingrid — Little Ingrid: a little child, about six, a girl, a pinafore and two plaits; cheerful and full of mischief. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2934,7 +2934,7 @@ Little Ingrid · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · 
 Attach: style_hero, style_centaur, ck_ingrid.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Little Ingrid — Little Ingrid: a little child, about six, a girl, a pinafore and two plaits; cheerful and full of mischief. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2959,7 +2959,7 @@ Tariq · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Tariq — Tariq: a young teen, about thirteen, a boy, a smith's apron, too big for him; cheerful and full of mischief. Looks: olive-brown skin and dark curly hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -2984,7 +2984,7 @@ Tariq · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_tariq.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Tariq — Tariq: a young teen, about thirteen, a boy, a smith's apron, too big for him; cheerful and full of mischief. Looks: olive-brown skin and dark curly hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3009,7 +3009,7 @@ Mei · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Mei — Mei: a child, about nine, a girl, a blue coat and a spinning top; cheerful and full of mischief. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3034,7 +3034,7 @@ Mei · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_mei.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Mei — Mei: a child, about nine, a girl, a blue coat and a spinning top; cheerful and full of mischief. Looks: warm light-brown skin, monolid eyes and straight black hair. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3059,7 +3059,7 @@ Olaf · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Olaf — Olaf: a little child, about six, a boy, a round belly, a bun in each hand; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3084,7 +3084,7 @@ Olaf · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_olaf.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Olaf — Olaf: a little child, about six, a boy, a round belly, a bun in each hand; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3109,7 +3109,7 @@ Zuri · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Zuri — Zuri: a young teen, about thirteen, a girl, a beaded headband and a bow; cheerful and full of mischief. Looks: deep brown skin and black locs. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3134,7 +3134,7 @@ Zuri · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_zuri.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Zuri — Zuri: a young teen, about thirteen, a girl, a beaded headband and a bow; cheerful and full of mischief. Looks: deep brown skin and black locs. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3159,7 +3159,7 @@ Finn · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Finn — Finn: a child, about nine, a boy, a fox-fur hat and a wooden shield; cheerful and full of mischief. Looks: light brown skin, freckles and loose dark curls. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3184,7 +3184,7 @@ Finn · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_finn.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Finn — Finn: a child, about nine, a boy, a fox-fur hat and a wooden shield; cheerful and full of mischief. Looks: light brown skin, freckles and loose dark curls. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3209,7 +3209,7 @@ Asta · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Asta — Asta: a little child, about six, a girl, a green dress and a ball; cheerful and full of mischief. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3234,7 +3234,7 @@ Asta · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_asta.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Asta — Asta: a little child, about six, a girl, a green dress and a ball; cheerful and full of mischief. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3259,7 +3259,7 @@ Mateo · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Mateo — Mateo: a child, about nine, a boy, a red scarf and a little drum; cheerful and full of mischief. Looks: golden-tan skin and dark brown hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3284,7 +3284,7 @@ Mateo · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_mateo.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Mateo — Mateo: a child, about nine, a boy, a red scarf and a little drum; cheerful and full of mischief. Looks: golden-tan skin and dark brown hair. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3309,7 +3309,7 @@ Sunniva · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sunniva — Sunniva: a toddler, about three years old, a girl, a sheepskin wrap and a wooden spoon; cheerful and full of mischief. Looks: copper-brown skin and long straight black hair in braids. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3334,7 +3334,7 @@ Sunniva · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_sunniva.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sunniva — Sunniva: a toddler, about three years old, a girl, a sheepskin wrap and a wooden spoon; cheerful and full of mischief. Looks: copper-brown skin and long straight black hair in braids. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3359,7 +3359,7 @@ Little Leif · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Little Leif — Little Leif: a little child, about six, a boy, a too-long tunic and a toy boat; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3384,7 +3384,7 @@ Little Leif · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur, ck_leif.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Little Leif — Little Leif: a little child, about six, a boy, a too-long tunic and a toy boat; cheerful and full of mischief. Main colours: red (#c84030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3409,7 +3409,7 @@ Priya · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Priya — Priya: a young teen, about thirteen, a girl, a dyer's blue-stained hands and a scroll; cheerful and full of mischief. Looks: brown skin and thick wavy black hair. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3434,7 +3434,7 @@ Priya · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_priya.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Priya — Priya: a young teen, about thirteen, a girl, a dyer's blue-stained hands and a scroll; cheerful and full of mischief. Looks: brown skin and thick wavy black hair. Main colours: blue (#3a6a9a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3459,7 +3459,7 @@ Gunnar · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Gunnar — Gunnar: a child, about nine, a boy, a horned helmet made of a bucket; cheerful and full of mischief. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3484,7 +3484,7 @@ Gunnar · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_gunnar.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Gunnar — Gunnar: a child, about nine, a boy, a horned helmet made of a bucket; cheerful and full of mischief. Main colours: orange (#e0a030), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3509,7 +3509,7 @@ Hana · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hana — Hana: a child, about nine, a girl, a lantern and a shawl; cheerful and full of mischief. Looks: light olive skin, almond eyes and soft brown hair. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3534,7 +3534,7 @@ Hana · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_hana.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hana — Hana: a child, about nine, a girl, a lantern and a shawl; cheerful and full of mischief. Looks: light olive skin, almond eyes and soft brown hair. Main colours: green (#5a8a3a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3559,7 +3559,7 @@ Little Odin · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Little Odin — Little Odin: a toddler, about three years old, a boy, an eyepatch made of a leaf; cheerful and full of mischief. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3584,7 +3584,7 @@ Little Odin · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · co
 Attach: style_hero, style_centaur, ck_odin.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Little Odin — Little Odin: a toddler, about three years old, a boy, an eyepatch made of a leaf; cheerful and full of mischief. Main colours: muted magenta (#8a4a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3609,7 +3609,7 @@ Lena · Idle, Talk, Work · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Lena — Lena: a little child, about six, a girl, a patchwork cloak and a jar of fireflies; cheerful and full of mischief. Looks: medium brown skin and black hair with a silver streak. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3634,7 +3634,7 @@ Lena · Walking (side, front, back) · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur, ck_lena.core.f
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Lena — Lena: a little child, about six, a girl, a patchwork cloak and a jar of fireflies; cheerful and full of mischief. Looks: medium brown skin and black hair with a silver streak. Main colours: teal (#3a8a8a), dark brown (#4a3a2a), pale yellow (#e8e0c0), black (#201810). Size: about 0.75× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3659,7 +3659,7 @@ Tide Serpent (water familiar) · Hover, Ranged attack, Cast, Knocked out · 8 po
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Tide Serpent (water familiar) — A long water-dragon with fin crests that coils through the air around you as if it were the sea.  Size: about 0.77× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3684,7 +3684,7 @@ Stone Colossus (earth familiar) · Hover, Ranged attack, Cast, Knocked out · 8 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Stone Colossus (earth familiar) — A broad familiar of glowing stone and crystal veins that thuds along behind you and shakes the ground.  Size: about 0.8049999999999999× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -3709,7 +3709,7 @@ Phoenix (fire familiar) · Hover, Ranged attack, Cast, Knocked out · 8 poses, 4
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Phoenix (fire familiar) — A phoenix of gold and crimson flame with a long trailing tail of sparks.  Size: about 0.77× the height of the hero.
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):

@@ -39,38 +39,52 @@ var ZMUSP={ on:true, FLOORS:5,
     var lava=sc.add.graphics().setDepth(0.6), glow=sc.add.graphics().setDepth(0.61).setBlendMode(Phaser.BlendModes.ADD);
     C.tiles.forEach(function(k){ var p=ZMUSP.T2P(k); if(!held)M.lava[k]=1; lava.fillStyle(0xd84a10,1).fillRect(p.x-TILE/2,p.y-TILE/2,TILE,TILE); });      // one continuous channel of lava
     C.tiles.forEach(function(k,j){ var p=ZMUSP.T2P(k), r=((k*9301+49297)%233280)/233280; lava.fillStyle(0x7a1c06,0.55).fillEllipse(p.x-6+r*12,p.y-6+r*10,14+r*10,8+r*6); glow.fillStyle(0xffc040,0.35).fillEllipse(p.x+6-r*12,p.y+4-r*8,10+r*8,5+r*4); });
+    ZMUSP.lavaPaint(sc,C.tiles,lava);      /* round 137 (Kris: "the lava is weird pixel art in some places"): the painted lava under the glow */
     sc.tweens.add({targets:glow,alpha:{from:0.5,to:1},duration:700+i*90,yoyo:true,repeat:-1});
     var a=ZMUSP.T2P(C.a), b=ZMUSP.T2P(C.b), raft=C.k==='raft', w=TILE*2, h=TILE*2, v=sc.add.container(a.x,a.y).setDepth(0.9);
     var g=sc.add.graphics(); if(raft){ g.fillStyle(0x1a1416,1).fillRoundedRect(-w/2,-h/2+4,w,h-6,8); g.fillStyle(0x3a3034,1).fillRoundedRect(-w/2+3,-h/2+4,w-6,h-12,6); g.lineStyle(2,0xff7030,0.8).strokeRoundedRect(-w/2,-h/2+4,w,h-6,8); }
     else { g.fillStyle(0x2a2a30,1).fillRect(-w/2,-h/2,w,h); g.lineStyle(3,0x6a6a74,1).strokeRect(-w/2+2,-h/2+2,w-4,h-4); g.lineStyle(2,0x15151a,1); for(var s=1;s<4;s++)g.lineBetween(-w/2+s*w/4,-h/2+3,-w/2+s*w/4,h/2-3); g.fillStyle(0x8a8a94,1); [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(function(q){ g.fillCircle(q[0]*(w/2-5),q[1]*(h/2-5),3); }); }
-    v.add(g); var P={a:a,b:b,x:a.x,y:a.y,w:w,h:h,dir:1,u:0,wait:0.8,speed:raft?46:70,v:v,k:C.k,i:i,tiles:C.tiles,held:held};
+    v.add(g); var pim=ZMUSP.paint(sc,raft?'mh_raft_'+(i%2?'b':'a'):'mh_lift_'+(i%2?'b':'a'),0,0,w*1.25,null,true); if(pim){ g.setVisible(false); v.add(pim); }      /* round 137: the painted raft / lift (Kris: "ferries or ballast rafts need to become painted instead of pixel art") */
+    var P={a:a,b:b,x:a.x,y:a.y,w:w,h:h,dir:1,u:0,wait:0.8,speed:raft?46:70,v:v,k:C.k,i:i,tiles:C.tiles,held:held};
     if(!raft){ P.chain=sc.add.graphics().setDepth(0.95); }
     if(held){ ZMUSP.holdLift(sc,P,true); } M.plats.push(P); },
   holdLift:function(sc,P,quiet){ var M=sc._mm; P.held=true; P.tiles.forEach(function(k){ delete M.lava[k]; }); P.x=(P.a.x+P.b.x)/2; P.y=(P.a.y+P.b.y)/2; P.v.setPosition(P.x,P.y);
     var br=sc.add.graphics().setDepth(0.85); P.tiles.forEach(function(k){ var p=ZMUSP.T2P(k); br.fillStyle(0x3a3036,1).fillRect(p.x-TILE/2,p.y-TILE/2+3,TILE,TILE-6); br.lineStyle(1,0x1a1416,1).strokeRect(p.x-TILE/2,p.y-TILE/2+3,TILE,TILE-6); });
+    if(ZMUSP.has('mh_bridge_a')){ br.setVisible(false); var dx=P.b.x-P.a.x, dy=P.b.y-P.a.y, len=Math.hypot(dx,dy)+TILE*2, bi=ZMUSP.paint(sc,'mh_bridge_'+(P.i%2?'b':'a'),P.x,P.y,len,TILE*2.2,true); if(bi){ bi.setDepth(0.86); if(Math.abs(dy)>Math.abs(dx))bi.setAngle(90); } }
     if(!quiet)showNotif('⛓ The lift locks across the gap — a bridge now.','#9fe8ff'); },
   onPlat:function(sc,x,y){ var L=sc._mm&&sc._mm.plats||[]; for(var i=0;i<L.length;i++){ var P=L[i]; if(!P.held&&Math.abs(x-P.x)<=P.w/2+1&&Math.abs(y-P.y)<=P.h/2+1)return P; } return null; },
   // a gate: shut (it blocks) until its lever is pulled; the lever calls the ash-wardens
   mkGate:function(sc,G,i){ var M=sc._mm, tiles=[], open=(sc.worldScene.playerState.muspGates||[]).indexOf('g'+i)>=0;
     for(var y=G[1];y<G[1]+G[3];y++)for(var x=G[0];x<G[0]+G[2];x++){ var k=y*DW+x; tiles.push(k); if(!open)M.block[k]=1; }
     var x0=G[0]*TILE, y0=G[1]*TILE, gw=G[2]*TILE, gh=G[3]*TILE, v=sc.add.graphics().setDepth(y0/1e4+5.2); v.fillStyle(0x15121a,0.92).fillRect(x0,y0,gw,gh); v.lineStyle(4,0x3a3440,1); for(var s=4;s<gw;s+=10)v.lineBetween(x0+s,y0,x0+s,y0+gh); for(var t=6;t<gh;t+=14)v.lineBetween(x0,y0+t,x0+gw,y0+t); v.lineStyle(2,0xff7030,0.7).strokeRect(x0,y0,gw,gh);
+    var gim=ZMUSP.paint(sc,'mh_gate_'+(i%2?'b':'a'),x0+gw/2,y0+gh/2,gw,gh,true); if(gim){ v.clear(); gim.setDepth(y0/1e4+5.2); v=gim; }      /* round 137: the painted portcullis */
     if(open)v.setAlpha(0); var lp=G[4]?{x:G[4][0]*TILE+TILE/2,y:G[4][1]*TILE+TILE/2}:{x:x0-TILE*2,y:y0+gh/2};
     var lv=sc.add.graphics().setDepth(lp.y/1e4+5); lv.fillStyle(0x3a3440,1).fillRect(lp.x-6,lp.y-4,12,12); lv.lineStyle(4,0x8a8a94,1).lineBetween(lp.x,lp.y,lp.x+(open?10:-10),lp.y-18); lv.fillStyle(0xff7030,1).fillCircle(lp.x+(open?10:-10),lp.y-18,4);
+    var lim=ZMUSP.paint(sc,'dg_lever',lp.x,lp.y+10,null,TILE*1.5); if(lim){ lv.setVisible(false); lim.setDepth(lp.y/1e4+5); if(open)lim.setFlipX(true); lv._zim=lim; }      /* round 137 (Kris: "the lever … is still an old pixel art image") */
     var o={type:'musp_lever',gi:i,x:lp.x,y:lp.y,opened:open}; sc.interactables.push(o); M.gates.push({i:i,tiles:tiles,v:v,lever:o,lv:lv,open:open,x:x0+gw/2,y:y0+gh/2}); },
   pull:function(sc,o){ var M=sc._mm, G=M.gates[o.gi], ps=sc.worldScene.playerState; if(!G||G.open)return; G.open=true; o.opened=true; G.tiles.forEach(function(k){ delete M.block[k]; });
-    ps.muspGates=ps.muspGates||[]; ps.muspGates.push('g'+o.gi); sc.tweens.add({targets:G.v,alpha:0,duration:900}); G.lv.clear(); G.lv.lineStyle(4,0x8a8a94,1).lineBetween(o.x,o.y,o.x+10,o.y-18); G.lv.fillStyle(0xff7030,1).fillCircle(o.x+10,o.y-18,4);
+    ps.muspGates=ps.muspGates||[]; ps.muspGates.push('g'+o.gi); sc.tweens.add({targets:G.v,alpha:0,duration:900}); G.lv.clear(); G.lv.lineStyle(4,0x8a8a94,1).lineBetween(o.x,o.y,o.x+10,o.y-18); G.lv.fillStyle(0xff7030,1).fillCircle(o.x+10,o.y-18,4); if(G.lv._zim){ G.lv.setVisible(false); G.lv._zim.setFlipX(true); sc.tweens.add({targets:G.lv._zim,scaleY:G.lv._zim.scaleY*0.92,duration:120,yoyo:true}); }
     sc.cameras.main.shake(400,0.006); var n=3+o.gi; showNotif('⚙ The portcullis grinds up — and the horns sound: '+n+' ash-wardens come!','#ffb070');
     for(var j=0;j<n;j++){ var a=j/n*Math.PI*2, x=G.x+Math.cos(a)*TILE*3+TILE*2.5, y=G.y+Math.sin(a)*TILE*2.5; if(!sc._canGoD(x,y)){ x=G.x+TILE*(2+j%3); y=G.y; }
       var rid=ZMUSP.WARDENS[j%2], m=typeof MX!=='undefined'?(MX.spawn(sc,rid,x,y,{q:4,name:'Ash-warden'})||MX.spawn(sc,ZMUSP.WARDENS[(j+1)%2],x,y,{q:4,name:'Ash-warden'})):null; if(m){ if(m._m)m._m.aggro=true; sc.monsters.push(m); } } },
   // ── the chained spirits (five per hall); in the Chain Lifts the first ones haul the lifts ──
   spiritsFor:function(hall){ var L=typeof ZSPIRIT40!=='undefined'?ZSPIRIT40:[], out=[]; for(var i=0;i<5;i++){ var r=L[(hall*11+i*7+3)%40]; out.push({id:'musp_h'+hall+'_'+i,pic:r?r[0]:null,name:r?r[1]:'A spirit'}); } return out; },
+  // the painted lava ground, laid seamlessly over a channel's tiles (the drawn lava stays underneath where it is not in)
+  lavaPaint:function(sc,tiles,under){ var Z=typeof _scn==='function'?_scn():null, c=Z&&Z.tile?Z.tile('tx_lava',128):null; if(!c)return; if(!sc.textures.exists('zmusp_lava'))sc.textures.addCanvas('zmusp_lava',c);
+    tiles.forEach(function(k){ var p=ZMUSP.T2P(k), t=sc.add.tileSprite(p.x,p.y,TILE+1,TILE+1,'zmusp_lava').setDepth((under&&under.depth||0)+0.001); t.setTilePosition((p.x-TILE/2)%128,(p.y-TILE/2)%128); }); },
+  // round 137: a painted piece as a plain image — centred (mid) or standing on its foot — sized to w (and h when both are given)
+  has:function(id){ var Z=typeof _scn==='function'?_scn():null; return !!(Z&&Z.has&&Z.has(id)); },
+  paint:function(sc,id,x,y,w,h,mid){ if(!ZMUSP.has(id))return null; var Z=_scn(), t=Z.texture(sc,id,Z.size(id,0).h,{shadow:false}); if(!t)return null; var im=sc.add.image(x,y,t.key).setOrigin(0.5,mid?0.5:0.92);
+    var iw=im.width, ih=im.height; if(w&&h)im.setDisplaySize(w,h); else if(w)im.setScale(w/iw); else if(h)im.setScale(h/ih); return im; },
+  // round 137: one height for the toiling spirits (a child a little shorter), whatever size each was painted at
+  SPH:52, spH:function(S){ var e=typeof ZSPIRIT40!=='undefined'&&ZSPIRIT40.find(function(r){ return r[0]===S.pic; }); return e&&e[5]==='child'?40:ZMUSP.SPH; },
   placeSpirits:function(sc){ var M=sc._mm, ps=sc.worldScene.playerState, freed=ps.muspFreed||[], list=ZMUSP.spiritsFor(sc.floor), R=rngOf(9300+sc.floor*17), en=sc.stairsUpTile||{x:0,y:0}, placed=[];
     var ok=function(x,y){ var k=y*DW+x; return (sc.dtiles[y]||[])[x]===DNG.FLOOR&&!M.lava[k]&&!M.block[k]&&!M.crumb[k]&&(!sc._labReach||sc._labReach[k]); };
     if(sc.floor===0)M.plats.forEach(function(P,i){ if(placed.length>=list.length)return; var tx=Math.round((P.a.x-TILE/2)/TILE)-1, ty=Math.round((P.a.y-TILE/2)/TILE)-1;      // at the lift's winch, on the near shore
       for(var d=0;d<5;d++){ var x=tx-d, y=ty; if(ok(x,y)){ placed.push({x:x,y:y,lift:i}); return; } } });
     for(var t=0;t<5000&&placed.length<list.length;t++){ var x=R.i(3,DW-4), y=R.i(3,DH-4); if(!ok(x,y)||Math.hypot(x-en.x,y-en.y)<6)continue; if(placed.some(function(p){ return Math.hypot(p.x-x,p.y-y)<8; }))continue; placed.push({x:x,y:y}); }
     sc._muspSp=[]; placed.forEach(function(p,i){ var S=list[i], px=p.x*TILE+TILE/2, py=p.y*TILE+TILE/2, done=freed.indexOf(S.id)>=0, o={type:'musp_spirit',sid:S.id,name:S.name,x:px,y:py,opened:done,lift:p.lift};
-      if(!done){ var vis=typeof ZSPM!=='undefined'?ZSPM.make(sc,'sp_u_'+S.pic+'_bound',px,py+10,'bound',{depth:py+20}):null; if(vis)vis.setDepth(py/1e4+5); o.vis=vis;
+      if(!done){ var vis=typeof ZSPM!=='undefined'?ZSPM.make(sc,'sp_u_'+S.pic+'_bound',px,py+10,'bound',{depth:py+20,h:ZMUSP.spH(S)}):null; if(vis)vis.setDepth(py/1e4+5); o.vis=vis;
         var ch=sc.add.graphics().setDepth(py/1e4+4.9); ch.lineStyle(2,0x3a3a40,1); ch.beginPath(); ch.moveTo(px+6,py+10); ch.lineTo(px+30,py+16); ch.strokePath(); ch.fillStyle(0x2a2a30,1).fillRect(px+28,py+8,6,12); o.chain=ch;
         o.lbl=domText(sc,px,py-60,'⛓ '+S.name+(p.lift!==undefined?' (hauls the lift)':''),{fontSize:'9px',color:'#9fe8ff',fontFamily:'Segoe UI',stroke:'#000',strokeThickness:3}).setOrigin(.5).setDepth(9000); }
       sc.interactables.push(o); sc._muspSp.push(o); }); },

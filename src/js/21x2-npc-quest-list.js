@@ -30,12 +30,12 @@
     steps:[{k:'deliver',to:'hesk',sub:"for the steed-of-the-sea's keeper (a kenning)",wrong:{tob:"For me? Sigurd the turnip can't read. Neither can I, much.",nell:"Not mine. I keep fish, not steeds.",corr:"A report? I'm the gate, not the sea.",greta:"Sea? I'm a windmill woman."},done:["For me? From Oswin? (He reads, and laughs.) 'Report: the boatwright's planks are still singing off-key.' The old goat. Tell him the tenor's fine."]}],
     end:["Delivered? Good. Proper paperwork is the backbone of adventure. Here."],reward:{gold:150,items:[['mushroom_stew',1]]}});
   // ── Benno ──
-  A({id:'oldmother',giver:'benno',name:"Old Mother's Rescue",realm:2,offer:["Old Mother — my sourdough starter — is fading. Thirty-six years I've fed her! She needs marsh rye from the Wetlands, snow-honey from the Highlands and a pinch of ember-salt from the Ashlands. I knead your help! …Sorry. I'm upset."],
+  A({id:'oldmother',giver:'benno',name:"Old Mother's Rescue",realm:2,offer:["Old Mother — my sourdough starter — is fading. Twenty-eight years I've fed her! She needs marsh rye from the Wetlands, snow-honey from the Highlands and a pinch of ember-salt from the Ashlands. I knead your help! …Sorry. I'm upset."],
     steps:[{k:'fetch',each:{gold:80,items:[['runeloaf',2]]},sub:"marsh rye, snow-honey, ember-salt",remind:"How's the hunt going? Old Mother sends her love. Bubbles, mostly.",items:[
       {it:'q_rye',ic:'🌾',name:"marsh rye",r:2,at:'site:2',say:["Marsh rye! She's rising already! Take some Runeloaf — fresh from the heart of the oven."]},
       {it:'q_snowhoney',ic:'🍯',name:"snow-honey",r:3,at:'site:3',say:["Snow-honey! Sweet as a hero's smile. Here — more Runeloaf."]},
       {it:'q_embersalt',ic:'🧂',name:"ember-salt",r:4,at:'site:4',say:["Ember-salt! That's the crust sorted. Old Mother will outlive us all!"]}]}],
-    end:["She's saved! Thirty-six years and counting. You're the best thing since… well. Since me."],reward:{gold:100,items:[['runeloaf',3]]}});
+    end:["She's saved! Twenty-eight years and counting. You're the best thing since… well. Since me."],reward:{gold:100,items:[['runeloaf',3]]}});
   // ── Morwen ──
   A({id:'doom',giver:'morwen',name:"Ingredients of Doom",realm:2,offer:["I require five ingredients for a draught of considerable distinction. A list, in my own hand, with footnotes: bog-lantern moss, a cooled Binder's ember, crystal dew, an ash-lily and a raven's feather. Do read the footnotes."],
     steps:[{k:'fetch',sub:"moss, ember, dew, lily, feather",remind:"The list, my dear. Do consult the footnotes. Footnote three is particularly moving.",done:["All five! Splendid. The alembic shall sing tonight."],items:[

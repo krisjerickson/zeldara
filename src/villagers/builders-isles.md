@@ -38,7 +38,7 @@ voice: Calm, smug and correct; points out what's crooked, and is always, infuria
 ## Backstory
 Bram learned to build from Hakon, a Highland carver and engineer who said that every rune in the mountains was carved pointing toward the lake, "as if it was the middle of everything", and that a builder should always know where the middle is. Bram took the lesson literally. He can tell you to a finger's width how crooked your doorframe is, and he will.
 
-He was building bridges over the Silverrun when the Black Tide came, and he spent the next twenty-eight years drawing the bridge he would build if anyone ever let him near the river again. Surtharn's wardens took him to their Grasslands tower to build ramps for their siege engines. He built them, slightly wrong, on purpose, so that every one of them would tip over in a strong wind. He is very proud of this.
+He was building bridges over the Silverrun when the Black Tide came, and he spent the next twenty-two years drawing the bridge he would build if anyone ever let him near the river again. Surtharn's wardens took him to their Grasslands tower to build ramps for their siege engines. He built them, slightly wrong, on purpose, so that every one of them would tip over in a strong wind. He is very proud of this.
 
 When you free him, he walks to the river, looks at it for a long time, and says, "Right. That's going to take four days." It takes four days.
 
@@ -117,7 +117,7 @@ voice: Gentle, slow and musical; hums to her glass as she works and swears it hu
 ## Backstory
 Sólveig grew up in Glerhavn, a Wetlands glass-town on the sand flats where the Silverrun met the sea, apprenticed at twelve to Oddny, a potter and glass-burner who fired the urns for the village dead. Oddny taught her that glass remembers the fire that made it, and that if you hum to it at the right pitch, it will hum the memory back. Sólveig has never been able to stop hearing it since.
 
-In the years after the gate shut, Oddny's urns never cooled — the dead inside them, she said, were not rising — and in the eighth winter the Black Tide drowned Glerhavn and everyone in it. Sólveig was on the harbour islands selling glass and lived. She has spent twenty-eight years in a shack on the isles, singing to bits of sea-glass and listening for voices in them, waiting for something she could not name.
+In the years after the gate shut, Oddny's urns never cooled — the dead inside them, she said, were not rising — and in the eighth winter the Black Tide drowned Glerhavn and everyone in it. Sólveig was on the harbour islands selling glass and lived. She has spent twenty-two years in a shack on the isles, singing to bits of sea-glass and listening for voices in them, waiting for something she could not name.
 
 When the first familiar island's guardian falls, she feels it in the glass. She sails to the village, and the Glimmerhall rises on the Green around her — a hall of glass panes that glow rune-blue — and she sets up her bench as if she had always known it would be there. The soulglass the freed spirits leave behind sings to her louder than anything ever has. She can hear, faintly, who each shard was.
 
@@ -194,7 +194,7 @@ pick: The cheerfully morbid nurse
 voice: Brisk, bright and anatomically specific; tells you every way you could have died while patching you up, and means it kindly.
 
 ## Backstory
-Mael and her sister Nanna were the Wetlands' healers: Nanna the midwife, Mael the nurse. Nanna brought babes into the world; Mael patched up the people who'd been in it a while. When the gate shut the babes stopped coming, and Nanna, who had nothing to hold for eight years, went to live with her and help with the sick, which was the one work there was more of.
+Mael and her sister Nanna were the Wetlands' healers: Nanna the midwife, Mael the nurse. Nanna brought babes into the world; Mael patched up the people who'd been in it a while. When the gate shut the babes stopped coming, and Nanna, who had nothing to hold for six years, went to live with her and help with the sick, which was the one work there was more of.
 
 The Black Tide took Nanna in the eighth winter. Mael was on the harbour islands nursing a fever ward, and she stayed there, running the island wells as a healing station ever since. She has seen more wounds than anyone alive, and she has decided that the only sane way to talk about them is cheerfully. "Ooh, that's nearly an artery! Lucky you!" She keeps a ledger of every patient. She has lost very few.
 
@@ -249,7 +249,7 @@ voice: Breathless, bouncing and enormous fun; talks while upside down, never wal
 ## Backstory
 Pia was six, the youngest tumbler in the Fair-Folk, a travelling troupe of acrobats who toured the four realms with a painted wagon and a bear named Sir. That summer the troupe played the last village's fair and moved on west to the Ashland harvest fair — all except Pia, who had a fever and was left with Morwen to mend. The Ash Night came. The troupe never came back. Her best friend in it, a little tumbler named Mord, was seven.
 
-Pia was raised by the whole village, which is to say by Morwen, Hana and whoever was nearest when she fell off something. She never stopped tumbling. She practises in the meadow north of the village every day, the full troupe routine, all the parts, alone — the bear's part included. She is the reason the twin you play can roll: she has been waiting thirty-six years to teach somebody the troupe's tricks so they wouldn't die with her.
+Pia was raised by the whole village, which is to say by Morwen, Hana and whoever was nearest when she fell off something. She never stopped tumbling. She practises in the meadow north of the village every day, the full troupe routine, all the parts, alone — the bear's part included. She is the reason the twin you play can roll: she has been waiting twenty-eight years to teach somebody the troupe's tricks so they wouldn't die with her.
 
 She is relentlessly, hyperactively happy. She does not talk about the Fair-Folk, except to say "they'd have loved you" and then do a backflip.
 
@@ -275,7 +275,7 @@ voice: Deep, kind and tired; speaks in long slow sentences, wise ones, and then 
 ## Backstory
 Odin the Allfather kept the road of souls for longer than anyone can count: the dead rose along the World Tree to his hall and Freya's field, and new souls came down it into every newborn. He walked Runeheim in a grey traveller's hat, one eye under a leather patch, and told jokes at village fires that the villagers never knew were the god's own.
 
-Thirty-six winters ago a thing of stolen light that called itself by his names caught him and Freya in two orbs of their own light and took his high seat. In the last breath of light they had, the two of them made two sparks and sent them down through the storm, and the lightning woke the runestones so that one day they would wake for the sparks. Then they slept, joined like an infinity sign, for thirty-six years.
+Twenty-eight winters ago a thing of stolen light that called itself by his names caught him and Freya in two orbs of their own light and took his high seat. In the last breath of light they had, the two of them made two sparks and sent them down through the storm, and the lightning woke the runestones so that one day they would wake for the sparks. Then they slept, joined like an infinity sign, for twenty-eight years.
 
 Now he is free and very tired, and he has decided that a god who has slept that long has earned a few weeks in a village by a lake, sitting on a bench, telling jokes to a fisher, a lamplighter and an old woman who keeps beating him at hnefatafl.
 
@@ -300,7 +300,7 @@ voice: Warm, ringing and fierce; laughs like a bell and fights like a storm. Lov
 ## Backstory
 Freya, the Lady of the Fields, kept Fólkvangr, the field where the ordinary dead go to rest — the weavers, bakers, millers and mothers — and sent the spring down into Runeheim every year. She wore a cloak of falcon feathers and the amber necklace Brísingamen, and she was the one the midwives prayed to.
 
-When the false one took them, she spent the last of her light with Odin on two sparks for Runeheim, and for thirty-six winters she slept, joined to him in the orbs, dreaming of fields with no one in them. She woke to two children of her own light standing in the feast hall with a staff of four gems, and laughed so loudly the citadel shook a second time.
+When the false one took them, she spent the last of her light with Odin on two sparks for Runeheim, and for twenty-eight winters she slept, joined to him in the orbs, dreaming of fields with no one in them. She woke to two children of her own light standing in the feast hall with a staff of four gems, and laughed so loudly the citadel shook a second time.
 
 After the end she comes down to the village to see the spring she sent along the soul-lines, and stays longer than she meant to. The midwives' cradles, the honey cakes, Tob's returning bees — she is everywhere, laughing, and every so often she goes very quiet at the edge of the lake and remembers who did not come home.
 

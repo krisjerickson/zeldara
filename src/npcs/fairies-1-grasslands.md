@@ -10,11 +10,11 @@ spirits: Asa, Bersi
 The first fairy of the Grasslands and the bossiest. Primrose kept the stone by the Fernby crossroads, where farm carts once stopped to rest.
 When the farms emptied in the Long Quiet she was left with nobody to boss but the dead: Asa, an old weaver from Fernby who was buried in a
 birth-shawl, and Bersi, a boy who died the first winter and waited at the edge of the light. She made them a schedule. Morning: Asa tells a
-story. Noon: Bersi says what he would build. Dusk: everyone sings. She has kept it every day for thirty-six winters and is quietly terrified
+story. Noon: Bersi says what he would build. Dusk: everyone sings. She has kept it every day for twenty-eight winters and is quietly terrified
 that once they are free nobody will need a schedule at all.
 ## Before
 - Asa is chained at the old Fernby stone. Morning is her story time. Do not be late — she hates when I am late.
-- Bersi was going to be a shipwright. He drew boats in the dirt for me. Thirty-six winters of boats, and not one of them ever got wet.
+- Bersi was going to be a shipwright. He drew boats in the dirt for me. Twenty-eight winters of boats, and not one of them ever got wet.
 - They will not know you. Say my name first. Then say "Fernby". Then whatever else you like.
 - I tried to bite the chain once. Fairy teeth are for honey. I do not recommend it.
 - Asa wove twenty shawls for babies that never came. She is not sad about it any more. I am, a little, for her.
@@ -51,12 +51,12 @@ spirits: Dagny, Eyvind
 ## Backstory
 Bramble kept the stone on the lake path below Stonewick, where the fishing families walked down to Mirror Lake each morning. She is prickly,
 quick to anger and quicker to defend anyone she has decided is hers. Her two are Dagny, a net-mender, and Eyvind, a fisher — husband and wife
-from Stonewick, bound at stones a hill apart so they could see each other's light but never reach. For thirty-six winters Bramble flew
+from Stonewick, bound at stones a hill apart so they could see each other's light but never reach. For twenty-eight winters Bramble flew
 messages between them, one word at a time, because that is all a fairy can carry in the dark. Dagny saw something on the water the night of
 the storm; Bramble has never told anyone what Dagny said, and gets thorny if you ask.
 ## Before
 - Dagny and Eyvind. Married. Bound a hill apart, and each can see the other's light. That is the cruellest thing I know.
-- I carried one word a night between them. Thirty-six winters of words. Most of them were "still here".
+- I carried one word a night between them. Twenty-eight winters of words. Most of them were "still here".
 - Eyvind mended nets and told lies about fish. Dagny mended nets and told the truth about everything. They were very happy.
 - Free Dagny first, or Eyvind first — it does not matter. Just free them on the same day. Promise me.
 - Do not ask me what Dagny saw on the water that night. That is hers to tell.
@@ -172,13 +172,13 @@ fairy: 4
 kind: clover pixie
 spirits: Jorunn, Ketil
 ## Backstory
-Sorrel slept thirty-six winters in a clover and counted its leaves every morning to be sure she was still herself — four, always four. She is
+Sorrel slept twenty-eight winters in a clover and counted its leaves every morning to be sure she was still herself — four, always four. She is
 the smallest of the Grasslands fairies and the most matter-of-fact, the kind who says the frightening thing out loud so it gets smaller. She
 kept the stone by the dye-pools of the Fernby water, and her two are Jorunn, a dyer who could match any blue in the world, and Ketil, a
 goat-herder whose goats would not stop crying when he died. Sorrel kept Jorunn's blue alive by describing it to her every day, and Ketil's
 goats by imitating them, badly, until he laughed.
 ## Before
-- Thirty-six winters I slept in a clover. Do you know how small a clover is? I counted its leaves every morning to be sure I was still there.
+- Twenty-eight winters I slept in a clover. Do you know how small a clover is? I counted its leaves every morning to be sure I was still there.
 - Jorunn could match any blue in the world. I describe the sky to her every morning so she does not forget which one is hers.
 - Ketil's goats cried for a whole winter after he died. Then they wandered off. I do the goat voices for him. He says I am terrible at it.
 - They are tired, my two. Not sad. Tired is worse, I think. Sad still wants something.

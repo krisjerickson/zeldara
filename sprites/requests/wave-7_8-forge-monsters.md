@@ -9,7 +9,7 @@ Bellows Imp · Idle, Hover, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Bellows Imp — A wiry soot-black imp with a patched leather bellows strapped to its back and green forge-fire dancing on its horns. Main colours: red (#c84a20), dark red (#5a1a08), green (#7aff60), pale green (#e8ffb0). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Darts about in short hops and keeps away from you. Pumps its bellows: a gust that shoves you back, and a cloud of green embers dropped where you stand. Small and quick to dodge.
@@ -35,7 +35,7 @@ Bellows Imp · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 15
 Attach: style_hero, style_centaur, bellows_imp.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Bellows Imp — A wiry soot-black imp with a patched leather bellows strapped to its back and green forge-fire dancing on its horns. Main colours: red (#c84a20), dark red (#5a1a08), green (#7aff60), pale green (#e8ffb0). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Darts about in short hops and keeps away from you. Pumps its bellows: a gust that shoves you back, and a cloud of green embers dropped where you stand. Small and quick to dodge.
@@ -61,7 +61,7 @@ Bellows Imp · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, bellows_imp.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Bellows Imp — A wiry soot-black imp with a patched leather bellows strapped to its back and green forge-fire dancing on its horns. Main colours: red (#c84a20), dark red (#5a1a08), green (#7aff60), pale green (#e8ffb0). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Darts about in short hops and keeps away from you. Pumps its bellows: a gust that shoves you back, and a cloud of green embers dropped where you stand. Small and quick to dodge.
@@ -81,7 +81,7 @@ Coalback Tortoise · Idle, Move, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · c
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Coalback Tortoise — A great tortoise whose shell is a heap of glowing coal, green flame breathing between the lumps. Main colours: dark grey (#2a2422), black (#141010), green (#7aff60), orange (#ffb040). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Slow and heavy. The air round it scorches; when it falls the shell bursts in a ring of burning coal. Its coal shell turns most of every blow.
@@ -107,7 +107,7 @@ Coalback Tortoise · Front and back: idle, steps, main attack · 8 poses, 4 × 2
 Attach: style_hero, style_centaur, coalback.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Coalback Tortoise — A great tortoise whose shell is a heap of glowing coal, green flame breathing between the lumps. Main colours: dark grey (#2a2422), black (#141010), green (#7aff60), orange (#ffb040). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Slow and heavy. The air round it scorches; when it falls the shell bursts in a ring of burning coal. Its coal shell turns most of every blow.
@@ -133,7 +133,7 @@ Coalback Tortoise · Guard, Explode, Death · 6 poses, 3 × 2 · 1536x1024 · ex
 Attach: style_hero, style_centaur, coalback.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Coalback Tortoise — A great tortoise whose shell is a heap of glowing coal, green flame breathing between the lumps. Main colours: dark grey (#2a2422), black (#141010), green (#7aff60), orange (#ffb040). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Slow and heavy. The air round it scorches; when it falls the shell bursts in a ring of burning coal. Its coal shell turns most of every blow.
@@ -157,7 +157,7 @@ Scald Wraith · Idle, Hover, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Scald Wraith — A drifting shape of boiling steam with a hollow iron mask for a face. Main colours: pale teal (#d8eef8), muted blue (#6a8aa0), pale teal (#9fe0ff), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Drifts round you, never quite close. Breathes scalding steam clouds on you and spits three hissing droplets. Half made of steam: hard to hit.
@@ -183,7 +183,7 @@ Scald Wraith · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, scald_wraith.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Scald Wraith — A drifting shape of boiling steam with a hollow iron mask for a face. Main colours: pale teal (#d8eef8), muted blue (#6a8aa0), pale teal (#9fe0ff), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Drifts round you, never quite close. Breathes scalding steam clouds on you and spits three hissing droplets. Half made of steam: hard to hit.
@@ -209,7 +209,7 @@ Scald Wraith · Cast, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, scald_wraith.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Scald Wraith — A drifting shape of boiling steam with a hollow iron mask for a face. Main colours: pale teal (#d8eef8), muted blue (#6a8aa0), pale teal (#9fe0ff), white (#ffffff). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Drifts round you, never quite close. Breathes scalding steam clouds on you and spits three hissing droplets. Half made of steam: hard to hit.
@@ -231,7 +231,7 @@ Quench Golem · Idle, Move, Slam · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Quench Golem — A golem of black quenched iron, water streaming off it in hissing sheets. Main colours: muted blue (#4a5a6a), dark grey (#20282e), pale teal (#9fe0ff), pale blue (#e8f6ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Lumbers after you. Slams the floor: a sheet of scalding water spreads and you slip on it. Its plated front turns blows; it grows furious when hurt.
@@ -257,7 +257,7 @@ Quench Golem · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, quench_golem.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Quench Golem — A golem of black quenched iron, water streaming off it in hissing sheets. Main colours: muted blue (#4a5a6a), dark grey (#20282e), pale teal (#9fe0ff), pale blue (#e8f6ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Lumbers after you. Slams the floor: a sheet of scalding water spreads and you slip on it. Its plated front turns blows; it grows furious when hurt.
@@ -283,7 +283,7 @@ Quench Golem · Hurt, Guard, Enrage, Death · 6 poses, 3 × 2 · 1536x1024 · ex
 Attach: style_hero, style_centaur, quench_golem.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Quench Golem — A golem of black quenched iron, water streaming off it in hissing sheets. Main colours: muted blue (#4a5a6a), dark grey (#20282e), pale teal (#9fe0ff), pale blue (#e8f6ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Lumbers after you. Slams the floor: a sheet of scalding water spreads and you slip on it. Its plated front turns blows; it grows furious when hurt.
@@ -307,7 +307,7 @@ Slag Crawler · Idle, Move, Melee attack, Hurt · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Slag Crawler — A beetle of cooling slag with a glowing orange underbelly and pincers of black glass. Main colours: dark grey (#3a2a26), black (#140c0a), orange (#ff8030), yellow (#ffd060). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Scuttles straight at you. Pincer bites. Its crust cuts whoever strikes it; split it and two smaller ones crawl out.
@@ -333,7 +333,7 @@ Slag Crawler · Split copy, Death · 3 poses, 3 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, slag_crawler.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Slag Crawler — A beetle of cooling slag with a glowing orange underbelly and pincers of black glass. Main colours: dark grey (#3a2a26), black (#140c0a), orange (#ff8030), yellow (#ffd060). Size: about 0.5× the height of the hero (tiny).
 How it behaves in the game (for the poses): Scuttles straight at you. Pincer bites. Its crust cuts whoever strikes it; split it and two smaller ones crawl out.
@@ -354,7 +354,7 @@ Ore Hurler · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1024 ·
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ore Hurler — A hunched troll-miner with a basket of red-hot ore on its back and a sling of chain. Main colours: brown (#6a4a30), dark brown (#2a1a10), orange (#ff9040), pale yellow (#ffe080). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Keeps its distance. Hurls lumps of molten ore that leave burning pools, and sets snare-traps of chain. Thick hide.
@@ -380,7 +380,7 @@ Ore Hurler · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 153
 Attach: style_hero, style_centaur, ore_hurler.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ore Hurler — A hunched troll-miner with a basket of red-hot ore on its back and a sling of chain. Main colours: brown (#6a4a30), dark brown (#2a1a10), orange (#ff9040), pale yellow (#ffe080). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Keeps its distance. Hurls lumps of molten ore that leave burning pools, and sets snare-traps of chain. Thick hide.
@@ -406,7 +406,7 @@ Ore Hurler · Cast, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, ore_hurler.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ore Hurler — A hunched troll-miner with a basket of red-hot ore on its back and a sling of chain. Main colours: brown (#6a4a30), dark brown (#2a1a10), orange (#ff9040), pale yellow (#ffe080). Size: about 1.5× the height of the hero.
 How it behaves in the game (for the poses): Keeps its distance. Hurls lumps of molten ore that leave burning pools, and sets snare-traps of chain. Thick hide.
@@ -428,7 +428,7 @@ Chain Jailer · Idle, Move, Wide sweep, Hurt · 8 poses, 4 × 2 · 1536x1024 · 
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Chain Jailer — An ash-warden jailer in a soot-black hood, a great ring of keys and a hooked chain. Main colours: dark grey (#4a4040), black (#1a1414), red (#ff5030), orange (#ffb040). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Guards its post and chases you only so far. Hooks you with its chain and drags you in, then a wide sweep of the chain. Its armoured front turns blows.
@@ -454,7 +454,7 @@ Chain Jailer · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, chain_jailer.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Chain Jailer — An ash-warden jailer in a soot-black hood, a great ring of keys and a hooked chain. Main colours: dark grey (#4a4040), black (#1a1414), red (#ff5030), orange (#ffb040). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Guards its post and chases you only so far. Hooks you with its chain and drags you in, then a wide sweep of the chain. Its armoured front turns blows.
@@ -480,7 +480,7 @@ Chain Jailer · Grab, Guard, Death · 6 poses, 3 × 2 · 1536x1024 · extra
 Attach: style_hero, style_centaur, chain_jailer.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Chain Jailer — An ash-warden jailer in a soot-black hood, a great ring of keys and a hooked chain. Main colours: dark grey (#4a4040), black (#1a1414), red (#ff5030), orange (#ffb040). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Guards its post and chases you only so far. Hooks you with its chain and drags you in, then a wide sweep of the chain. Its armoured front turns blows.
@@ -504,7 +504,7 @@ Ember Banshee · Idle, Move, Cast, Hurt · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Ember Banshee — A wailing figure of grey ash, embers streaming from its open mouth and hair. Main colours: grey (#6a5a5a), black (#201818), red (#ff6040), pale orange (#ffd0a0). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Vanishes and reappears. A wail of burning rings, and it calls ash moths to its side. Weak to water.
@@ -530,7 +530,7 @@ Ember Banshee · Front and back: idle, steps, main attack · 8 poses, 4 × 2 · 
 Attach: style_hero, style_centaur, ash_banshee.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ember Banshee — A wailing figure of grey ash, embers streaming from its open mouth and hair. Main colours: grey (#6a5a5a), black (#201818), red (#ff6040), pale orange (#ffd0a0). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Vanishes and reappears. A wail of burning rings, and it calls ash moths to its side. Weak to water.
@@ -556,7 +556,7 @@ Ember Banshee · Blink, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, ash_banshee.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Ember Banshee — A wailing figure of grey ash, embers streaming from its open mouth and hair. Main colours: grey (#6a5a5a), black (#201818), red (#ff6040), pale orange (#ffd0a0). Size: about 1.1× the height of the hero.
 How it behaves in the game (for the poses): Vanishes and reappears. A wail of burning rings, and it calls ash moths to its side. Weak to water.

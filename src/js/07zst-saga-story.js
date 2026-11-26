@@ -32,12 +32,12 @@ var ZSTORY={
      O('hint','stones','the first spirit you free','its memory, then its soul-line running into the land','Geir: "I carved the Green\'s tree when I was a boy. The roots go further than anyone thinks."','partly')],
     [O('hint','tome','from the start','the Tome\'s Saga page, first chapter: The Cycle','a short page with the World Tree drawing'),
      O('hint','wet','a Wetlands spirit','Vigdis the skald\'s memory','"I knew all the sagas. One verse was always missing…"','built')]);
-  B(0,'quiet','The Long Quiet','For twenty winters before the twins, no child was born alive in the last village. The dead of the Grasslands drifted at the edge of the light — and lately the Binders came over the walls for them too.',
+  B(0,'quiet','The Long Quiet','For twelve winters before the twins, no child was born alive in the last village. The dead of the Grasslands drifted at the edge of the light — and lately the Binders came over the walls for them too.',
     '','pn_saga_cradles',
     [O('cut','village','a new game — the opening, panel 1','the opening cut-scene','"In the last village the cradles stood empty. No child had been born alive in a lifetime."','built'),
      O('cut','grass','the Grasslands\' tenth spirit','the realm\'s panel, The Long Quiet','"Only the Grasslands were left — and the Long Quiet, when the dead drifted at the edge of the light."','built'),
-     O('hint','stones','Grasslands and Wetlands spirits','their memories','Asa: "I wove twenty birth-shawls that no child ever wore." · Nanna: "For eight years my hands had nothing to hold."','built')],
-    [O('hint','green','early, on the Green','Elder Runa','"Twenty winters, and not one cradle. Then the storm — and the lake brought you two."','built'),
+     O('hint','stones','Grasslands and Wetlands spirits','their memories','Asa: "I wove twenty birth-shawls that no child ever wore." · Nanna: "For six years my hands had nothing to hold."','built')],
+    [O('hint','green','early, on the Green','Elder Runa','"Twelve winters, and not one cradle. Then the storm — and the lake brought you two."','built'),
      O('hint','tavern','any visit','the tavern keeper','"My mother sang lullabies to an empty room. Most did, back then."')]);
   B(0,'storm','The storm and the basket','About sixteen years ago the worst storm anyone remembered struck runestone after runestone across the Grasslands. At dawn a floating basket drifted out of Mirror Lake to the harbour with two babes in it, their eyes glowing rune-blue.',
     'WHO sent the basket and WHY the lightning struck the stones stay a mystery until the feast hall.','pn_saga_basket',
@@ -76,7 +76,7 @@ var ZSTORY={
   B(1,'ashnight','The Ash Night','The night the gate shut (Year 0), Surtharn woke in Muspelheim: fire and ash fell on the Ashlands, the Ember Wall rose against the Grasslands and the Cinder Chasm split from the Highlands. The Ashlands\' people perished; their souls were bound to dig.',
     '','pn_saga_ashnight_b',
     [O('cut','ash','the Ashlands\' first freed spirit','the realm\'s panel, The Ash Night','"The night Asgard\'s gate shut, fire fell on the Ashlands and the Ember Wall rose."','built'),
-     O('hint','crossing','freeing Vela (the Ember Wall passes)','the builder\'s line','"The Ember Wall is new, you know. Thirty-six years. My grandfather walked to the Ashlands for honey."'),
+     O('hint','crossing','freeing Vela (the Ember Wall passes)','the builder\'s line','"The Ember Wall is new, you know. Twenty-eight years. My grandfather walked to the Ashlands for honey."'),
      O('hint','stones','Ashlands spirits','their memories','Mord: "It was night, but the sky was red, and then it was grey, and then I was here." · Njal: "The Ember Wall rose in one night."','built')],
     [O('hint','home','the first realm complete','the other twin','"The Ashlands fell first, the sagas say. The same night the sky went quiet."','built'),
      O('hint','crossing','freeing Dunn (the Chasm bridges)','the builder\'s line','"The Cinder Chasm opened the night the sky went quiet."')]);

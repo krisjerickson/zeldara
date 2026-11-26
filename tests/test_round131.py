@@ -9,7 +9,7 @@ def check(n, ok, info=''):
     res.append(bool(ok)); print(('PASS ' if ok else 'FAIL ') + n + ('' if ok else '  ' + str(info)[:500]))
 WS = "game.scene.getScene('World')"
 RM = json.load(open(os.path.join(R, 'sprites', 'requests', 'sfx_remake.json'), encoding='utf-8'))
-check('Third remake: 42 effects, take "z", up to five to choose from each (%d takes)' % sum(len(v['words']) for v in RM['items'].values()), RM['take'] == 'z' and len(RM['items']) == 42 and all(2 <= len(v['words']) <= 5 for v in RM['items'].values()))
+check('Third remake: 42 effects, take "z", up to five to choose from each (%d takes)' % sum(len(v['words']) for v in RM['items'].values()), RM['take'] != 'z' or (len(RM['items']) == 42 and all(2 <= len(v['words']) <= 5 for v in RM['items'].values())))   # round 136 replaced the remake (take 'q'); this check is for take 'z'
 check('…the words follow Kris\'s notes (stew and bread, a big wave, little music, lava, a berserker feeling alive)', any('stew' in w for w in RM['items']['sfx_eat']['words']) and sum('wave' in w or 'splash' in w for w in RM['items']['sfx_fam_water']['words']) >= 4 and any('fiddle' in w for w in RM['items']['sfx_feast']['words']) and any('molten' in w for w in RM['items']['sfx_lava']['words']) and any('alive' in w or 'invincible' in w or 'exhilarated' in w for w in RM['items']['sfx_sk_berserker']['words']))
 SP = json.load(open(os.path.join(R, 'sprites', 'requests', 'sound_picks.json'))); WAS = json.load(open(os.path.join(R, 'sprites', 'requests', 'sound_picks_was131.json')))
 ch = [k for k in SP if SP[k] != WAS.get(k)]

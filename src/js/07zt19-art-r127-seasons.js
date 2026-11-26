@@ -6,7 +6,7 @@
 // ║ the spring that Freya brings is a flowery, lush celebration of spring. Look into how scandinavian and nordic cultures would show and
 // ║ celebrate all of these").
 // ║ The year, as the game now tells it (10zs):
-// ║   sp  THE THAW — the first spring after thirty-six winters: muted, grey-green, old snow in the shadows, mud, catkins and buds, the
+// ║   sp  THE THAW — the first spring after twenty-eight winters: muted, grey-green, old snow in the shadows, mud, catkins and buds, the
 // ║       first coltsfoot; boats tarred, bedding aired, the first furrow cut. Its own paintings: suffix _th (fam seas_th).
 // ║   su  SUMMER — as painted, Midsummer at its height.
 // ║   au  THE FIRST TRUE HARVEST — Haustblót and the Winter Nights: hay on drying racks, stooks in the stubble, carts and baskets heaped,
@@ -25,7 +25,7 @@
 (function(){ if(typeof ZSCN==='undefined'||typeof ZSEASART==='undefined')return;
   ZSCN.WAVES[127]='Round 127 — the five seasons: the thaw repainted, the land dressed for the harvest, Yule and Freya\'s spring';
   ZSEASART.NAME.th='the thaw (the first spring)'; ZSEASART.NAME.sp='Freya\'s spring';
-  ZSEASART.LOOK.th='THE THAW — the very first spring after thirty-six years of winter, and still MUTED: deciduous trees still bare, only tight buds and soft grey-silver catkins (pussy willow, birch catkins), no leaves open and NO blossom; pines and spruce dark green; grass flattened, straw-brown and grey-green from the long winter with only thin new green shoots; a few small grey patches of old, melting snow in shadows and at the foot of trunks, rocks and walls; wet dark earth and a little mud; at most a few tiny yellow coltsfoot flowers and white snowdrops; damp, misty, pale and cool light';
+  ZSEASART.LOOK.th='THE THAW — the very first spring after twenty-eight years of winter, and still MUTED: deciduous trees still bare, only tight buds and soft grey-silver catkins (pussy willow, birch catkins), no leaves open and NO blossom; pines and spruce dark green; grass flattened, straw-brown and grey-green from the long winter with only thin new green shoots; a few small grey patches of old, melting snow in shadows and at the foot of trunks, rocks and walls; wet dark earth and a little mud; at most a few tiny yellow coltsfoot flowers and white snowdrops; damp, misty, pale and cool light';
   ZSEASART.LOOK.sp='FREYA\'S SPRING — a lush celebration of life: trees in full fresh leaf and heavy with white and pink blossom; bright new green everywhere; flowers in drifts (wood anemones, lily of the valley, cowslips, bluebells, violets); warm golden light';
   var NO=' No pixel art. No text, no letters, no numbers.';
   // ── A · the thaw: repaints of the world sheets (as wave S1) and of the village buildings (as round 122) ──

@@ -20,7 +20,7 @@ with sync_playwright() as p:
     pg.evaluate("LTODO.goTo('stingcmp','.sc-c',0)"); pg.wait_for_timeout(700)
     c = pg.evaluate("""(()=>{ var B=[...document.querySelectorAll('.sc-b')], keys=[].concat(...B.map(b=>b.dataset.p.split(','))), miss=keys.filter(k=>!VSTG[k]);
       return {cards:document.querySelectorAll('.sc-c').length, seg:document.querySelectorAll('.sc-c .wl-seg').length, btn:B.length, cut:document.querySelectorAll('.sc-cut').length, both:document.querySelectorAll('.sc-both').length, miss:miss, first:LAB_ACTIVE[1]}; })()""")
-    check('Lab → Stingers or effects?: eight moments to pick (+ treasure to hear), every stinger whole, cut and with its effect, every sound in the asset store (%s)' % c, c['cards'] == 9 and c['seg'] == 8 and c['cut'] == 12 and c['both'] == 12 and not c['miss'] and c['first'] == 'stingcmp', c)
+    check('Lab → Stingers or effects?: eight moments to pick (+ treasure to hear), every stinger whole, cut and with its effect, every sound in the asset store (%s)' % c, c['cards'] == 9 and c['seg'] == 8 and c['cut'] == 12 and c['both'] == 12 and not c['miss'] and c['first'] in ('stingcmp', 'first10'), c)   # round 137: answered, so a newer ask leads
     pg.evaluate("document.querySelector('.sc-c .wl-sg[data-v=\"both\"]').click()"); pg.wait_for_timeout(300)
     v = pg.evaluate("(LabApp.picks['stingcmp-spirit']||{}).verdict")
     check('A pick is kept (%s)' % v, v == 'both', v)

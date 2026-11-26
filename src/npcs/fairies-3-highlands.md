@@ -51,7 +51,7 @@ spirits: Dalla, Einar
 Aster is the gentle Highlands fairy, a star-shaped little crystal who kept the stone above the mountain lakes of Kettlecrag, where on still
 nights you could see the great white city's reflection in the water. Her two are Dalla, a net-mender who knows of a chamber under the
 mountains where light is chained like hounds, and Einar, a young fisher who used to watch the city in the lake until, one night, all he saw
-was a golden mask. Aster has spent thirty-six winters telling them stories with happy endings, because she believes — fiercely, the only
+was a golden mask. Aster has spent twenty-eight winters telling them stories with happy endings, because she believes — fiercely, the only
 fierce thing about her — that ending a story well is a kind of magic.
 ## Before
 - Einar used to see the white city in the mountain lakes on still nights. Then one night only a golden mask, looking back up at him. He has not looked since.
@@ -108,7 +108,7 @@ the dark years making maps, with Hakon's help, of every rune in the Highlands, b
 ## Life
 - You can see right through me. That makes me very bad at secrets and very good at windows.
 - Quartz is the commonest crystal in the mountains. Common things hold the world up.
-- I have a map of every rune in the Highlands, every stone, every spring and every hiding place. It took thirty-six winters. Ask, if you get lost.
+- I have a map of every rune in the Highlands, every stone, every spring and every hiding place. It took twenty-eight winters. Ask, if you get lost.
 - I do not like surprises. I like lists. Surprises are things that are not on lists yet.
 - Heather says I should feel things more. I do feel things. I just write them down first.
 ## Stage 2
@@ -132,16 +132,16 @@ spirits: Ingrid, Joreid
 Heather is the soft one of the Highlands, all purple bloom and feeling, the fairy who kept the stone on the high moor where the Kettlecrag
 families buried their own. Her two are Ingrid, an old cooper who saw the Great Scar split three winters after the gate shut and believes it
 was the mountain answering the fire, and Joreid, the last child born in the Highlands, who lived three summers. Heather has loved Joreid like
-her own for thirty-six winters and made her a world out of moor-flowers inside the stone's shadow. She is the fairy most afraid of the day
+her own for twenty-eight winters and made her a world out of moor-flowers inside the stone's shadow. She is the fairy most afraid of the day
 the chains break, because Joreid might go up the Tree without her.
 ## Before
-- Joreid was the last child born in the Highlands. She lived three summers. She has been three summers old in chains for thirty-six winters.
+- Joreid was the last child born in the Highlands. She lived three summers. She has been three summers old in chains for twenty-eight winters.
 - I made her a garden in the shadow of the stone, out of moor-flowers. She names every one. Some of the names are very rude.
 - Ingrid saw the Scar split. She says the mountain was answering the fire. She is old and she is right about most things.
 - I am afraid of the day you free them. Joreid will be free to go up the Tree. I want that. I do not want it. Both.
 - Ingrid keeps Joreid warm with stories of barrels. Joreid finds barrels very boring. She listens anyway. That is love.
 ## After
-- Joreid ran. Three summers old and thirty-six winters chained, and the first thing she did was run, straight through my garden. I have never seen anything better.
+- Joreid ran. Three summers old and twenty-eight winters chained, and the first thing she did was run, straight through my garden. I have never seen anything better.
 - Ingrid sat on the moor and watched the Scar for a long time. Mira's lift went past. Ingrid said, "Well. The mountain answered. Now we have."
 - Joreid has not gone up the Tree yet. She says she is waiting for the road to be ready. I think she is waiting for me to be ready.
 - I am trying to be ready. It is the hardest thing I have ever tried.
@@ -173,12 +173,12 @@ spirits: Kolbein, Lofn
 Tor is the oldest-seeming of the Highland fairies, a squat little crystal like a hilltop, slow to speak and never wrong about weather. He
 kept the stone on the high pasture above Highmark, where the herders watched the sky. His two are Kolbein, a young dyer who has a strange
 thing to say about the one on the high seat, and Lofn, a herder who watched two ravens circle the hills crying the year the gate shut,
-after every other raven had left the sky. Tor has watched the sky with Lofn every evening for thirty-six winters, waiting for the ravens to
+after every other raven had left the sky. Tor has watched the sky with Lofn every evening for twenty-eight winters, waiting for the ravens to
 come back. He believes they will. He is very slow, and very sure.
 ## Before
 - Lofn saw two ravens circle the hills, crying, the year the gate shut. All the others had gone. Those two stayed. She watches for them still.
 - Kolbein will tell you something about the one on the high seat. Say nothing back. Remember it.
-- I watch the sky with Lofn every evening. Thirty-six winters. No ravens yet. They will come. I am slow but I am not wrong.
+- I watch the sky with Lofn every evening. Twenty-eight winters. No ravens yet. They will come. I am slow but I am not wrong.
 - The high pasture was the best grazing in Runeheim. Now it is the best view of the Scar. I would rather have the grass.
 - Weather. Tomorrow will be cold, then clear. You may trust me on weather. On everything else, trust Quartz.
 ## After
@@ -192,7 +192,7 @@ come back. He believes they will. He is very slow, and very sure.
 - I am never wrong about weather. I have been wrong about other things. Mostly about people. In their favour, usually.
 - I speak slowly. Thinking takes time and I like to do it properly.
 - Flint sparks, Aster glows, Quartz shines and Heather blooms. I sit. Somebody has to keep the hill down.
-- I have seen every sunset over the Scar for thirty-six winters. Two hundred of them were very good. Eleven were the best things I have ever seen.
+- I have seen every sunset over the Scar for twenty-eight winters. Two hundred of them were very good. Eleven were the best things I have ever seen.
 ## Stage 2
 - Rain coming. Good rain. The pasture will thank us.
 ## Stage 3

@@ -1,0 +1,3 @@
+# Round 137 — Muspelheim: the hint card's horn and the Ragnarök track (painted, replacing the pixel horn).
+#   .\tools\sprites\paint.ps1 -List r137_musp
+sc_ic_musp_hall

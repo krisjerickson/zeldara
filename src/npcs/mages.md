@@ -7,9 +7,9 @@ title: The Rime Spire
 ## Backstory
 Frostwhisper kept the winter herbs for the Grasslands farms: she knew which frost made the sweetest turnips and which would kill a lamb. When
 the gate shut she climbed her spire with the Frost Bolt and pulled the ladder up after her, meaning to wait one winter for someone worthy.
-The winter never ended in her head. Thirty-six years later the frost still creeps from her feet because she has forgotten how to stop it.
+The winter never ended in her head. Twenty-eight years later the frost still creeps from her feet because she has forgotten how to stop it.
 ## Scene
-Frostwhisper as she was thirty-six winters ago: a young woman in a farm kitchen in Fernby, frost-blue shawl, laughing, holding up a
+Frostwhisper as she was twenty-eight winters ago: a young woman in a farm kitchen in Fernby, frost-blue shawl, laughing, holding up a
 frost-sweetened turnip to a farmer's family around the table; a little frost pattern on the window behind her like lace.
 ## After
 - The frost stops at my feet now. Look. I had forgotten that it could. Take the Frost Bolt — and tell the Fernby farms the turnips will be sweet this year.
@@ -23,12 +23,12 @@ title: The Scriptorium Tower
 ## Backstory
 Quillon was the realm's record-keeper; his book wrote down whatever was true in Runeheim, by itself. When the gate shut the book got stuck
 on one page — the page that says the road up is closed — and wrote it again every day. Quillon locked himself in with it, guarding the Sky
-Storm for "the next true thing", and has been reading the same page for thirty-six years.
+Storm for "the next true thing", and has been reading the same page for twenty-eight years.
 ## Scene
 Quillon before the dark: a younger bearded wizard in violet at a high window of a tower full of floating books, the self-writing book open
 before him, filling with bright new lines as a sunrise floods the Grasslands below.
 ## After
-- My book has turned a page. For the first time in thirty-six years. Look — it is writing about you. Take the spell. I would like to read something new.
+- My book has turned a page. For the first time in twenty-eight years. Look — it is writing about you. Take the spell. I would like to read something new.
 
 # Cindra
 key: mg_hearthfire
@@ -59,7 +59,7 @@ never came — that his beard grew into the brambles. He kept the Thorn spell be
 Bramblebeard before the dark: an old druid planting a hedge along a Grasslands lane in spring, children of the farm handing him saplings,
 blossom on every bush; his beard long and white and only a little tangled with leaves.
 ## After
-- There. Do you feel that? Something in the roots. A season, coming. I have waited thirty-six years to feel it. Take the Thorns — they guard growing things.
+- There. Do you feel that? Something in the roots. A season, coming. I have waited twenty-eight years to feel it. Take the Thorns — they guard growing things.
 
 # Voltara
 key: mg_conductor
@@ -91,7 +91,7 @@ everything exactly as it was the moment before.
 Glacius before the dark: a young hooded sorcerer in a belfry ringing a great bronze bell for a wedding below in Hverholm, the town's
 dike-top streets full of people, flower petals in the air, frost sparkling only a little at his fingertips.
 ## After
-- The bell finished its swing. Did you hear it? Thirty-six years it has been waiting to ring. Take the Ice Storm. I am going to let things melt now.
+- The bell finished its swing. Did you hear it? Twenty-eight years it has been waiting to ring. Take the Ice Storm. I am going to let things melt now.
 
 # Mother Morrow
 key: mg_mire_tower
@@ -123,7 +123,7 @@ spell under the water and still trims a lamp nobody can see.
 Marenus before the dark: a broad-shouldered keeper at the top of a tall lighthouse on the Lantern Isles at night, trimming the great lamp
 whose beam sweeps across Mirror Lake, little boats with lanterns turning for home along it.
 ## After
-- The lamp is out. I can stop now. Thirty-six years I kept it lit under the water. Take the Tidal spell — and if you see a boat on the lake at night, wave it home for me.
+- The lamp is out. I can stop now. Twenty-eight years I kept it lit under the water. Take the Tidal spell — and if you see a boat on the lake at night, wave it home for me.
 
 # Pyrrhia
 key: mg_ember_observatory
@@ -171,7 +171,7 @@ the Blizzard, waiting for orders that never came.
 Stormhelm before the dark: a battle-mage in storm-grey plate standing on a narrow cliff road above the western sea, lightning-rod staff
 raised, holding back a rockslide with crackling light while a line of townsfolk climb past him to safety.
 ## After
-- Stand down, you say? Thirty-six years nobody has said it. Thank you. Take the Blizzard. I would like to sit down now.
+- Stand down, you say? Twenty-eight years nobody has said it. Thank you. Take the Blizzard. I would like to sit down now.
 
 # Thane
 key: mg_monolith

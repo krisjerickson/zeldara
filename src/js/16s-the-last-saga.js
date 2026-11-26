@@ -66,7 +66,7 @@ if(typeof ZCUT!=='undefined'&&ZCUT.LOOK&&!ZCUT.LOOK.last)ZCUT.LOOK.last={bg:['#1
 
 // ── the gods and the feast hall ──
 var ZFEAST={ W:1152, H:768,
-  LINES:[['odin','You came. Thirty-six winters we slept in our own light — and still you came.'],['freya','Do you know why the runestones light for you? Why your eyes shone on the lake?'],
+  LINES:[['odin','You came. Twenty-eight winters we slept in our own light — and still you came.'],['freya','Do you know why the runestones light for you? Why your eyes shone on the lake?'],
     ['odin','The night the false one took us, we had one breath of light left. We spent it on you — two sparks, one for each of you.'],['freya','We sent you down in the storm. The lightning woke the runestones, so that one day they would wake for you.'],
     ['odin','You are our last gift to Runeheim. And you have given it back to us.'],['freya','Come. The spirits have waited long enough. Meet us at the heart of the city — and bring the Lodestar.']],
   GOD:{odin:{id:'god_odin',n:'Odin, the Allfather',col:'#9fc8ff'},freya:{id:'god_freya',n:'Freya, the Lady of the Fields',col:'#a8e8a0'}},

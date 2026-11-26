@@ -11,9 +11,9 @@ voice: Bluff, loud and fond of kennings; a drill-sergeant who grades your report
 ## Backstory
 Oswin Hrafnsson was the loudest of the Ravens, a company of five sell-swords and monster-hunters who kept the roads of Runeheim safe when there were still four realms to keep. Sigrid banged her shield like a drum, Ulf played his horn badly and loudly, Halla arm-wrestled trolls and sewed the company's feather cloaks, and Kettil laughed at all of them. Oswin did the talking. He was good at it.
 
-Thirty-six winters ago, on the night the sky went red, word came that the Ashlands were burning. The Ravens rode west to bring people out. At the Emberford someone had to hold the horses and keep the road open behind them, and Sigrid chose Oswin — "because you'll talk the fire into waiting". He waited. The Ember Wall rose between him and his friends before dawn, and he rode home alone with four riderless horses. He has told every story of his life bigger every year since, except that one, which he does not tell at all.
+Twenty-eight winters ago, on the night the sky went red, word came that the Ashlands were burning. The Ravens rode west to bring people out. At the Emberford someone had to hold the horses and keep the road open behind them, and Sigrid chose Oswin — "because you'll talk the fire into waiting". He waited. The Ember Wall rose between him and his friends before dawn, and he rode home alone with four riderless horses. He has told every story of his life bigger every year since, except that one, which he does not tell at all.
 
-He turned the Ravens' empty hall into the Adventurers' Guild and began to keep "the list": every road out of the village that was shut by something — a tower, a dungeon, a thing in the dark. For thirty-six years nobody was able to clear a single line of it. On the Ravens' shelf stand five tankards. Four are upside down, the old sign for a comrade who did not come home. He dusts them every morning.
+He turned the Ravens' empty hall into the Adventurers' Guild and began to keep "the list": every road out of the village that was shut by something — a tower, a dungeon, a thing in the dark. For twenty-eight years nobody was able to clear a single line of it. On the Ravens' shelf stand five tankards. Four are upside down, the old sign for a comrade who did not come home. He dusts them every morning.
 
 Sixteen years ago he was on the pier at dawn when Old Nell's net brought a basket out of Mirror Lake. He carried the two babes up to Elder Runa himself, and he has had his eye on the pair of them ever since — the one who would go out, and the one who would stay. When the twin you play is old enough, he is waiting on the Green with a list, a wooden sword and far too many stories.
 
@@ -57,7 +57,7 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 - Never trust a quiet bridge, a smiling troll, or a merchant who says 'trust me'. Looking at you, Coral.
 - I once won a horse in a riddle-match. Lost it in the next one. The riddle was 'what goes away when you have it'. A horse, apparently.
 - Here. Sit. Tell me about the road. Leave out the boring parts. Leave in the bleeding.
-- Thirty-six years I kept that list. Do you know how good it feels to cross a line off? Of course you do. You did it.
+- Twenty-eight years I kept that list. Do you know how good it feels to cross a line off? Of course you do. You did it.
 - In my day there were no maps. You followed the smell of trouble and the sound of Ulf's horn.
 - You remind me of someone. Loud. Reckless. Wonderful. …Me, I mean. Obviously me.
 - A hero needs a name. 'Twin' won't do for the skalds. Think on it. Something with 'bane' in it.
@@ -135,7 +135,7 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 - Runa asked me to stop calling her 'old girl'. She threw an apple at me. She's got a good arm for a woman of a hundred and twelve.
 - Old Nell and I go back a long way. Back to before the lake was quiet. We don't talk about that much.
 - Rolf keeps my old Raven mug behind the bar. He won't let anyone else drink from it. He's a good man under the shouting.
-- Tilda's been holding a key for thirty-six years. Won't say whose. I don't ask. I've got a shelf of my own.
+- Tilda's been holding a key for twenty-eight years. Won't say whose. I don't ask. I've got a shelf of my own.
 - Benno's mother used to bake for the Ravens before every ride. He still bakes the same loaf. I can't eat it. I buy it anyway.
 - Brask's mother tongue is all hard edges and cold weather. He sings in it when he's polishing. I stop and listen.
 - Garrick won't forge a chain. Ever. Asked him why once. He gave me a look that could temper steel.
@@ -183,7 +183,7 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 - Halla's ring… she wore it on a cord round her neck. Said rings got in the way of punching. Thank you for finding it.
 - The Highlands had the best steel and the worst songs. Mining songs. Forty verses about rocks.
 - You're getting good. I don't say that. I said it. Forget I said it. Remember it on the hard days.
-- Three realms open. Thirty-six years nothing, and now three. I keep checking the list in case I've misread it.
+- Three realms open. Twenty-eight years nothing, and now three. I keep checking the list in case I've misread it.
 
 ## Stage 4
 - The troll… well. It was a big troll. Let's leave it at big.
@@ -205,7 +205,7 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 - And THEN the twin looked at the false god and said: 'You're on the wrong chair.' True story. I've improved it slightly.
 - The list is empty. I sat in front of it all night. Then I started a new one. 'Places to visit now that we can'.
 - Five tankards, all standing, and the Ravens gone home along the road of light. I raised mine to them. I think they raised theirs.
-- I heard a baby cry in the village this morning. Thirty-six years. I had to sit on the step for a while.
+- I heard a baby cry in the village this morning. Twenty-eight years. I had to sit on the step for a while.
 - Benno's making honey cakes. Real ones! For real babies! I'm told I'm not allowed one. I'm having one.
 - The guild's got nothing left to guard. So we'll teach. Somebody has to tell the little ones which end of a sword is the loud end.
 - Hamlets in every realm. I rode out to the Emberford yesterday. There's grass on it. Grass!

@@ -14,7 +14,7 @@ var LSEAS={
   PN:{scn:'scenery sheets',chr:'character sheets',frm:'story frames & backdrops',sht:'shots (cut-scene series)'},
   ORDER:[
     ['Before the game (the Long Quiet)','A long, mild, grey winter','Frost on the grass, bare trees (the evergreens stay green), low sun, breath in the air. At most a dusting on roofs and fence-tops. Lakes open, roads clear. The opening — your intro video — should show this.'],
-    ['The game begins','A mild spring (the Grasslands)','Cool and fresh: buds and first blossom, new grass through the old, birds back. The first walk is the first spring morning in thirty-six years.'],
+    ['The game begins','A mild spring (the Grasslands)','Cool and fresh: buds and first blossom, new grass through the old, birds back. The first walk is the first spring morning in twenty-eight years.'],
     ['Bram\'s bridge opens the Wetlands','Summer','Deep green, long light, warm nights, fireflies over the marsh. Closest to the world as it is painted today.'],
     ['Mira\'s lift opens the Highlands','Autumn','Gold and red trees, falling leaves, the harvest in, morning mist.'],
     ['Dunn\'s bridge opens the Ashlands','Winter (mild again)','Frost and bare branches, grey-blue skies, a thin flurry now and then; ash and frost together in the west. Never drifts.'],

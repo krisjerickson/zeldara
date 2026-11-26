@@ -11,7 +11,7 @@ Lily rides a lotus petal and has a waterfall for hair, and she is the calmest cr
 that drowned. She kept the stone at Millbrook, where the Silverrun turned the great mill wheel, and she watched the wheel turn backwards on
 the night of the Black Tide. Her two are Liv, the young miller who was standing at the wheel when it happened, and Magni, the stonemason who
 built Millbrook's dikes higher every year — until the water came up through instead of over. Magni blames himself. Lily has spent
-thirty-six winters telling him, gently, every single day, that it was not his fault, and has never once raised her voice.
+twenty-eight winters telling him, gently, every single day, that it was not his fault, and has never once raised her voice.
 ## Before
 - Liv was at the wheel when it turned backwards. She still hears it. I hum over the sound for her, every night.
 - Magni built the dikes. He thinks the Tide came because his wall was not high enough. It came up from under. Nothing would have been high enough.
@@ -20,10 +20,10 @@ thirty-six winters telling him, gently, every single day, that it was not his fa
 - They are kind to each other, my two. Liv brings Magni the songs of the river. Magni builds Liv little walls of pebbles. In chains. Still.
 ## After
 - Liv went straight to the river and put her hand in it. It ran the right way. She laughed until she cried.
-- Magni looked at the dikes for a long time. Then he said, "I could make them better." That is the first time in thirty-six winters he has wanted to build anything.
+- Magni looked at the dikes for a long time. Then he said, "I could make them better." That is the first time in twenty-eight winters he has wanted to build anything.
 - The mill wheel is coming up out of the reeds. Bram helped. Magni would not let him do the stonework.
 - I have nothing to hum over any more. I hum anyway. Habit.
-- When they rose, Magni said, "It was not my fault." Not to me. To himself. I have been waiting thirty-six winters for him to say that.
+- When they rose, Magni said, "It was not my fault." Not to me. To himself. I have been waiting twenty-eight winters for him to say that.
 ## Life
 - I ride a lotus petal. It is the most comfortable thing in the world, and it never sinks if you are kind to it.
 - My hair is a little waterfall. In winter it freezes and I am a very quiet fairy for a while.
@@ -49,12 +49,12 @@ kind: lily nymph
 spirits: Nanna, Oddny
 ## Backstory
 Marsh kept the stone in the reed-beds outside Reedhaven, and she is the gloomiest fairy in Runeheim and knows it. She says the worst thing
-first so it cannot ambush her later. Her two are Nanna, a midwife whose hands had nothing to hold for eight years before the Tide, and
+first so it cannot ambush her later. Her two are Nanna, a midwife whose hands had nothing to hold for six years before the Tide, and
 Oddny, an old potter who fired urns for the dead that never cooled. Marsh noticed that the urns never cooled; that is how she first knew the
 dead were not going home. She has been expecting the worst ever since, which has saved her a great deal of disappointment and none of the
 grief.
 ## Before
-- Nanna was a midwife for eight years with nothing to catch. Then the Tide came. You can imagine. Do not imagine too hard.
+- Nanna was a midwife for six years with nothing to catch. Then the Tide came. You can imagine. Do not imagine too hard.
 - Oddny's urns never cooled. That is how I knew. The dead were not leaving. They were stuck, keeping the clay warm.
 - The Binder at their stone used to run the Reedhaven ferry, they say. He took the fire-giant's coin and stopped asking where the boat went.
 - I expect you will fail. I expect it of everyone. It is not personal. It is the Wetlands.
@@ -130,11 +130,11 @@ kind: lily nymph
 spirits: Torvi, Ulf
 ## Backstory
 Nixie never slept. When the Black Tide drowned the Lantern Isles, their bell-towers went under still ringing, and Nixie decided they would
-not stop: for thirty-six winters she swam down every night and rang them by hand, so that the dead in the marsh would hear something that
+not stop: for twenty-eight winters she swam down every night and rang them by hand, so that the dead in the marsh would hear something that
 was not the Binders' chains. She is half wild from it, and very loud, and a little deaf. Her two are Torvi, a forester who heard the marsh
 trees whisper a name like a sun going out, and Ulf, a brewer from the isles whose offering-mead once turned to ash in the cup.
 ## Before
-- I rang the drowned bells every night. Every one. Thirty-six winters. My arms are very strong for a fairy. Feel. No, do not.
+- I rang the drowned bells every night. Every one. Twenty-eight winters. My arms are very strong for a fairy. Feel. No, do not.
 - Torvi heard the trees whisper a name. She will not say it to me. She says it is not a name for small creatures.
 - Ulf brewed the best mead on the Lantern Isles. One year the cup turned to ash. He has not trusted a cup since.
 - WHAT? Sorry. The bells. I do not hear very well. Say it again, louder, and with your hands.
@@ -143,7 +143,7 @@ trees whisper a name like a sun going out, and Ulf, a brewer from the isles whos
 - Torvi went into the marsh trees and listened. She says they are whispering something else now. A kinder thing. She will not say that either.
 - Ulf brewed a little mead and poured the first cup on the ground. It did not turn to ash. He sat with it a long time.
 - I do not have to ring the bells any more. I rang them anyway, once, to say they were free. The whole marsh heard.
-- My arms are tired for the first time in thirty-six winters. I am going to let them be tired.
+- My arms are tired for the first time in twenty-eight winters. I am going to let them be tired.
 - The Lantern Isles are coming up out of the water, one roof at a time. The bells were still there. Of course they were. I kept them.
 ## Life
 - I never slept. Not once. Lily slept on her petal. Marsh slept in fog. I rang bells.
@@ -172,7 +172,7 @@ spirits: Vigdis, Yrsa
 Fenna is the scholar of the Wetlands fairies — she has read everything that ever floated past her stone, which, in a drowned land, is a great
 deal. She kept the stone where the Silverrun meets the lake road, and her two are Vigdis, an old skald who knew every saga except one verse,
 the one about who sits on the high seat, and Yrsa, a baker who sent bread up for the midsummer feast every year until the year no one came
-to take it. Fenna and Vigdis have spent thirty-six winters arguing about verses; Yrsa has spent them describing bread, which Fenna has never
+to take it. Fenna and Vigdis have spent twenty-eight winters arguing about verses; Yrsa has spent them describing bread, which Fenna has never
 tasted and has strong opinions about.
 ## Before
 - Vigdis knows every saga ever sung, except one verse. The one about the high seat. It drives her mad. It drives me mad too, and I am very patient.

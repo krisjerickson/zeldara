@@ -39,19 +39,19 @@ var ZFT={ on:true, ID:'modal-forgetrial',
     hearth:{t:'🔥 The Hearth Hall', lead:'The forge-master waits at the hearth.', steps:[
       [null,'<b>The forge-master</b> fights in three phases. It is warded by Muspelheim: every element bites only a third as deep — <b>Sovereign</b> bites twice as deep.','⚔'],
       [null,'When it falls, press <b>Tab</b> at the <b>hearth</b> with the realm\'s Soulglass Lattice and Hearth Tray to make its Heartglass. Its chest holds the key to the next forge.','💎']]},
-    musp0:{t:'🌋 Muspelheim — the Chain Lifts', lead:'Rock shelves over a lava shaft.', steps:[
-      ['mh_lift_a','<b>1 · Ride the lifts.</b> Iron lifts on chains shuttle across each gap — step on as one arrives and it carries you.','⛓'],
-      ['sp_u_bersi_bound','<b>2 · Free the haulers.</b> A chained spirit hauls each lift — press <b>Tab</b> by it to break its chains and the lift locks into a bridge.','✨']]},
-    musp1:{t:'🌋 Muspelheim — the Lava Rafts', lead:'A river of fire between two banks and two islands.', steps:[
-      ['mh_raft_a','<b>Ride the basalt rafts.</b> They drift from shore to shore — step on when one touches your bank, step off on the far side. The fire burns if you miss.','🪨']]},
-    musp2:{t:'🌋 Muspelheim — the Ash-Warden Fortress', lead:'Three walled yards, each gate shut.', steps:[
-      ['dg_lever','<b>Pull each lever</b> (Tab) to raise its gate — and every lever sounds the horns and calls the ash-wardens. Be ready to fight.','⚙']]},
-    musp3:{t:'🌋 Muspelheim — the Falling Bridges', lead:'Stone islands over the abyss, joined by slab bridges.', steps:[
-      [null,'<b>Keep moving.</b> The slabs crack under you and fall behind you — stop on one and you fall back. Fallen bridges knit again after a while.','🌉']]},
-    musp4:{t:'👑 Muspelheim — the Throne Cavern', lead:'Surtharn waits on his throne of captured spirits.', steps:[
-      [null,'<b>Surtharn</b> fights in six phases, warded: <b>Sovereign</b> bites deep. Once he falls, the great hearth makes the <b>Lodestar</b> from the Sovereign staff and the four Heartglasses.','👑']]}
+    musp0:{t:'🌋 Muspelheim — the Chain Lifts', lead:'Shelves of rock over a shaft of fire.', steps:[
+      ['mh_lift_a','The lifts cross on their own. Someone in chains is working each one.','⛓']]},
+    musp1:{t:'🌋 Muspelheim — the Lava Rafts', lead:'A river of fire.', steps:[
+      ['mh_raft_a','Stone floats here, if you are patient.','🪨']]},
+    musp2:{t:'🌋 Muspelheim — the Ash-Warden Fortress', lead:'Three yards, three shut gates.', steps:[
+      ['dg_lever','Every gate has a lever. Every lever has a price.','⚙']]},
+    musp3:{t:'🌋 Muspelheim — the Falling Bridges', lead:'Islands of stone over nothing at all.', steps:[
+      ['mh_bridge_a','These bridges do not like to be stood on.','🌉']]},
+    musp4:{t:'👑 Muspelheim — the Throne Cavern', lead:'He waits on a throne of captured spirits.', steps:[
+      [null,'Little bites him. What you forged might.','👑']]}
   },
-  MUSP:[null,'<b>Each hall</b>: five chained spirits to free (Tab), and two old volcano bosses guarding the way down — the stairs open when both fall. The <b>Ragnarök track</b> rises with time and alarms: at 3, 6 and 9 the lava rises and fiercer foes walk in.','📯'],
+  MUSP:['ic_musp_hall','Five in chains. Two old guardians at the stairs. And a horn that counts the time you take.','📯'],      /* round 137: brief — Kris: "brief hints on what to do, and then you still have to figure out by playing" */
+  MUSPHEAT:['fr_quench','The deeper, the hotter. Water helps.','💧'],
   keyOf:function(sc){ if(!sc)return null; if(sc._escRun)return sc.floor===0?'escape':null; if(sc._asgc||(typeof ZCIT!=='undefined'&&ZCIT.is(sc)))return 'cit'+Math.max(0,Math.min(4,sc.floor||0)); if(sc._musp)return 'musp'+Math.max(0,Math.min(4,sc.floor||0)); var F=typeof ZFORGE!=='undefined'?ZFORGE.of(sc):null; if(!F)return null; if(sc.isLastFloor)return 'hearth'; return F.k; },
   isOpen:function(){ var el=document.getElementById(ZFT.ID); return !!(el&&el.style.display!=='none'); },
   close:function(){ var el=document.getElementById(ZFT.ID); if(el)el.remove(); if(ZFT._raf){ cancelAnimationFrame(ZFT._raf); ZFT._raf=0; } var f=ZFT._onClose; ZFT._onClose=null; ZFT._key=null; if(f)try{ f(); }catch(e){} },
@@ -62,8 +62,9 @@ var ZFT={ on:true, ID:'modal-forgetrial',
   // the rules of this place (auto on entering, or "? Rules")
   rules:function(sc,key,auto){ key=key||ZFT.keyOf(sc); var R=ZFT.RULES[key]; if(!R)return false; var ps=ZFI.ps(sc)||{};
     if(auto&&ps.zftOff&&ps.zftOff[key])return false;
+    if(auto&&/^musp/.test(key)&&typeof ZCARD!=='undefined'){ var hint=R.steps.map(function(x){ return x[1].replace(/<[^>]+>/g,''); }).join(' ')+(/^musp[0-3]$/.test(key)?' '+ZFT.MUSP[1]:''); ZCARD.show({who:R.t.replace(/^\S+\s/,''),icon:'🌋',title:R.lead,text:hint,keys:'? Rules on the heat bar',ms:16000}); return true; }      /* round 137: Muspelheim gives a hint, not a lesson */
     var el=ZFT._shell(R.t,R.lead), body=el.querySelector('.zft-body'), foot=el.querySelector('.zft-foot'); ZFT._key=key;
-    var st=R.steps.slice(); if(/^musp[0-3]$/.test(key))st.push(ZFT.MUSP); if(/^cit[0-3]$/.test(key)&&ZFT.DOOM)st.push(ZFT.DOOM); if(key!=='musp4'&&key!=='hearth'&&key!=='escape'&&!/^cit/.test(key))st.push(ZFT.HEAT); ZFT._steps(body,st);
+    var st=R.steps.slice(); if(/^musp[0-3]$/.test(key))st.push(ZFT.MUSP); if(/^cit[0-3]$/.test(key)&&ZFT.DOOM)st.push(ZFT.DOOM); if(key!=='musp4'&&key!=='hearth'&&key!=='escape'&&!/^cit/.test(key))st.push(/^musp/.test(key)?ZFT.MUSPHEAT:ZFT.HEAT); ZFT._steps(body,st);
     var lab=document.createElement('label'); lab.className='zft-off'; lab.innerHTML='<input type="checkbox"'+(ps.zftOff&&ps.zftOff[key]?' checked':'')+'> Don\'t show this again when I come in (the <b>? Rules</b> button on the heat bar still opens it)'; foot.appendChild(lab);
     lab.querySelector('input').onchange=function(){ ps.zftOff=ps.zftOff||{}; if(this.checked)ps.zftOff[key]=1; else delete ps.zftOff[key]; };
     ZFT._btn(foot,'Begin ▶','zft-go',ZFT.close).focus(); return true; },

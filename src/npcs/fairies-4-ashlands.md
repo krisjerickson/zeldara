@@ -21,11 +21,11 @@ Wall rose — and was on the wrong side of it.
 ## After
 - Mord asked what the sky looks like now. I told him to look. It was blue. He did not know skies could be blue. He has not stopped looking up.
 - Njal went to the Grasslands to look for his family. Bramble knew them. She flew him there herself.
-- I let myself go dim last night for the first time in thirty-six winters. I slept for two days. The ash did not come. There is no more ash to come.
+- I let myself go dim last night for the first time in twenty-eight winters. I slept for two days. The ash did not come. There is no more ash to come.
 - Askvald is still ash. But there is a green thing growing at the first gate. One. Mord found it. He guards it like a dragon.
 - They do not need me burning any more. I am trying to learn how to just be warm.
 ## Life
-- I am Ember because I stayed lit. That is the whole story. It took thirty-six winters to tell.
+- I am Ember because I stayed lit. That is the whole story. It took twenty-eight winters to tell.
 - I am tired in a way that sleep does not fix. I think it is the kind of tired that only stops when you are not needed. I hope I am not needed soon.
 - Cinder says I show off. Cinder is right. Somebody had to be the brightest thing in the Ashlands.
 - I have never seen a green field. Ashe has never seen anything green at all. I have seen one moss. I tell her about it.
@@ -53,7 +53,7 @@ every realm to be cut. Her two are Orm, a midwife — the only man among the Ash
 the babe never cried, and Ranveig, a potter who heard Surtharn say that a god had promised him the gems of Runeheim. Cinder argues with both
 of them constantly, because arguing is how cinder-pixies show love, and because if she stopped she would have to think about the babe.
 ## Before
-- Orm was at a birth on the Ash Night. The babe never cried. He has carried that for thirty-six winters. Do not make him tell it twice.
+- Orm was at a birth on the Ash Night. The babe never cried. He has carried that for twenty-eight winters. Do not make him tell it twice.
 - Ranveig heard the fire-giant say a god had promised him the gems. She is a potter. Potters notice what people say over a kiln. Ask her.
 - I argue with them every night. About pots. About the weather. About whether a Binder has ever had a bath. It keeps them talking.
 - Brandhavn was the harbour where the gems came in. Every realm's gems. Every ship. Now the harbour is glass.
@@ -143,7 +143,7 @@ will tell you a little of it if you are very patient.
 - The Binder at their stone is afraid of birds. I do not know why. I have watched him flinch at a sparrow. Use it.
 ## After
 - Unn walked into the burnt forest and found one seedling. A pine. She sat with it all night.
-- Vali brewed the first ale in the Ashlands for thirty-six winters. It tasted of smoke. He says the next one will taste of barley.
+- Vali brewed the first ale in the Ashlands for twenty-eight winters. It tasted of smoke. He says the next one will taste of barley.
 - I do not have to listen to Binders any more. I listen to birds. They talk about much nicer things. Mostly worms.
 - Unn told you the thing about the fire and the sky? Good. Then you know what to do. I have nothing to add. That is a first.
 - When they rose, the black trunks creaked. As if the forest remembered being a forest. I think it did.
@@ -174,7 +174,7 @@ spirits: Alfhild, Brand
 Pyra is the Ashlands' fierce storyteller, a flicker of a fairy who kept the stone by the skalds' hall in Askvald, where the sagas were sung
 every winter night. Her two are Alfhild, a skald who sang that when the cycle breaks two will come from the water to mend it — and thought it
 was only a song — and Brand, an old baker who wants you to ask the Lady of the Fields where the spring went, if you ever find her. Pyra
-believes in prophecies with her whole small burning heart, and has spent thirty-six winters making Alfhild sing the water-song again and
+believes in prophecies with her whole small burning heart, and has spent twenty-eight winters making Alfhild sing the water-song again and
 again, waiting for it to come true.
 ## Before
 - Alfhild sang that when the cycle breaks, two will come from the water to mend it. She thought it was only a song. I never did.

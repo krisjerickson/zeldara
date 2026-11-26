@@ -40,7 +40,7 @@ Runa is the oldest person in the last village and the keeper of the Runestone, t
 
 Her husband Geir carved the Green's tree into the Runestone when he was a boy, apprenticed to the old carvers; he used to say the roots went further than anyone thought. Geir died in the eleventh winter of the Quiet. Runa sat by the stone the next spring and noticed what nobody else wanted to notice: the tree on the Green had gone dim. The road was shut. The dead were not going home.
 
-For twenty years she said nothing about it, because a village with no children did not need to hear that its dead were stuck too. Then the storm came, the lightning walked from runestone to runestone across the Grasslands, and in the morning Oswin carried a basket up from the pier and put two glowing babes in her lap. She says that was the day she started cheating at hnefatafl again. "Hope makes you playful."
+For twelve years she said nothing about it, because a village with no children did not need to hear that its dead were stuck too. Then the storm came, the lightning walked from runestone to runestone across the Grasslands, and in the morning Oswin carried a basket up from the pier and put two glowing babes in her lap. She says that was the day she started cheating at hnefatafl again. "Hope makes you playful."
 
 ## In the Saga
 - The first walk ends with her: the waystone lesson.
@@ -93,7 +93,7 @@ voice: Earnest, hopeful and terrible at rhyme; reads his poems aloud to anyone w
 ## Backstory
 Corr was eight when the Ash Night came, a boy from the Ashlands' eastern edge visiting the last village with his big brother Njal for the summer fair. Njal went home ahead of him to fetch the cart. The Ember Wall rose that night, and Corr was on one side of it and his brother on the other. He has lived in the village ever since, raised by whoever had a spare bed, which was eventually Brask.
 
-He joined the gate watch at sixteen because, he says, he wanted to be standing at the gate when somebody came back. Nobody ever did. So he started writing poems to pass the nights — love poems, all of them, to the light on the point: Ilsa, the lighthouse keeper, who has lit her lamp every night of the Quiet for ships that never came. He has watched that light from the gate for twenty years. The poems are very bad. "O Ilsa, light of the lighthouse, you are brighter than a… fight mouse." He has three hundred of them.
+He joined the gate watch at sixteen because, he says, he wanted to be standing at the gate when somebody came back. Nobody ever did. So he started writing poems to pass the nights — love poems, all of them, to the light on the point: Ilsa, the lighthouse keeper, who has lit her lamp every night of the Quiet for ships that never came. He has watched that light from the gate for twenty-eight years. The poems are very bad. "O Ilsa, light of the lighthouse, you are brighter than a… fight mouse." He has three hundred of them.
 
 He has never once left his post during a watch. He has never once climbed the hill to the lighthouse.
 
@@ -144,7 +144,7 @@ pick: Names his vegetables
 voice: Gentle, slow and devoted; introduces his turnips by name and grieves at harvest.
 
 ## Backstory
-Tob has farmed the same three fields beside the village for fifty years, and for the last thirty-six of them he has named every vegetable he grows. It started the year the gate shut, when his wife Frida's bees left the hives all at once and the fields went quiet. Tob found that talking to the cabbages helped. Then naming them helped more.
+Tob has farmed the same three fields beside the village for fifty years, and for the last twenty-eight of them he has named every vegetable he grows. It started the year the gate shut, when his wife Frida's bees left the hives all at once and the fields went quiet. Tob found that talking to the cabbages helped. Then naming them helped more.
 
 Frida kept bees at the edge of the fields. She always said the bees knew things before people did. When they left that spring she cried for a week, and she was never quite well after; she died in the ninth winter of the Quiet. Tob kept her hives clean and empty for twenty-seven years, in case the bees came back.
 
@@ -201,13 +201,13 @@ Hesk and his sister Bodil learned boatbuilding from their father in the Highland
 
 He came down to the lake to work the year before the gate shut. Bodil stayed in the Highlands, and the Stone-Fall took her and the road to the sea together. Hesk has built every boat on Mirror Lake for forty years, and he says every plank has a note: oak hums low, pine sings high, and a good hull is a chord. He will tear down a boat that sings off-key, which has made him poor and very well respected.
 
-Since the gate shut, he says, the lake has been out of tune. He has been waiting thirty-six years for it to come right.
+Since the gate shut, he says, the lake has been out of tune. He has been waiting twenty-eight years for it to come right.
 
 ## In the Saga
 - Lines at the boathouse.
 - Oswin's Proper Paperwork: the "sea-steed's keeper" in the kenning is Hesk.
 - His sister Bodil is one of the forty spirits (the Highlands shipwright: "We built ships for a sea we could see from the peaks, to sail to the gods.").
-- When Asgard comes down onto the lake, he hears it in tune for the first time in thirty-six years.
+- When Asgard comes down onto the lake, he hears it in tune for the first time in twenty-eight years.
 
 ## Ties
 - Nell: builds her boats; she says they sing like gulls.
@@ -249,7 +249,7 @@ pick: Lonely and poetic
 voice: Quiet, lyrical and a little lost; speaks in images of water and light, and listens more than she talks.
 
 ## Backstory
-Ilsa came to the last village at fourteen, from a harbour town on the Ashland coast, sent away by her parents the summer before the Ash Night "to learn a trade". She learned lamp-keeping from the old lighthouse keeper on the point and never went home, because there was no home to go to. The lighthouse has guided no ships for thirty-six years. She has lit it every night anyway.
+Ilsa came to the last village at fourteen, from a harbour town on the Ashland coast, sent away by her parents the summer before the Ash Night "to learn a trade". She learned lamp-keeping from the old lighthouse keeper on the point and never went home, because there was no home to go to. The lighthouse has guided no ships for twenty-eight years. She has lit it every night anyway.
 
 She writes poems to the dark water — not love poems like Corr's, but long, quiet ones to the people she can't see. She keeps them in a sea-chest. She has watched the lake every night of her adult life and has seen things nobody believes: two little lights on the water one stormy dawn, and, on still nights, a reflection of something golden in the sky that isn't there when you look up.
 

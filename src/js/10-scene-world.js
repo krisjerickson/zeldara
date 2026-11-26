@@ -198,7 +198,11 @@ class WorldScene extends Phaser.Scene{
           var rm=dead[ri];
           rm.dead=false;rm.hp=rm.maxHp;rm.state='wander';rm.atkTimer=2;
           if(rm._md)rm._md={};
-          if(rm.cont)rm.cont.setActive(true).setVisible(true);
+          /* round 137 (Kris: "monsters are invisible, but still have hit boxes and deal damage … after going into an adventure site and leaving"): the
+             fall left the body at alpha 0 and scale 1.4 — this revival made it active again but never visible. It comes back whole, at its spawn. */
+          if(rm.spawnX!==undefined){ rm.x=rm.spawnX; rm.y=rm.spawnY; }
+          if(rm.cont){ rm.cont.setActive(true).setVisible(true).setAlpha(1).setScale(1); rm.cont.setPosition(rm.x,rm.y); rm.cont.setDepth(WR_DEPTH(rm.y)); }
+          if(rm.mx&&typeof MX!=='undefined'&&MX.reset)MX.reset(rm);
           if(rm.hpFill)rm.hpFill.displayWidth=28;
         }
         if(toRevive>0)showNotif('⚠️ Monsters have respawned while you were away!','#ff6644');
@@ -1133,7 +1137,7 @@ class WorldScene extends Phaser.Scene{
         if(mon.respawnTimer<=0&&Math.hypot(px-mon.spawnX,py-mon.spawnY)>TILE*30&&self.playerState.unlockedSections.includes(mon.section)){
           mon.dead=false; mon.hp=mon.maxHp;
           mon.x=mon.spawnX; mon.y=mon.spawnY;
-          mon.cont.setPosition(mon.x,mon.y); mon.cont.setDepth(WR_DEPTH(mon.y)); mon.cont.setAlpha(1);
+          mon.cont.setPosition(mon.x,mon.y); mon.cont.setDepth(WR_DEPTH(mon.y)); mon.cont.setAlpha(1).setScale(1);
           mon.hpFill.displayWidth=28; mon.state='wander';
           mon._md={}; if(mon.mx)MX.reset(mon);
         }

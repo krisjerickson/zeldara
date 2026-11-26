@@ -9,7 +9,7 @@ Brokk, the Bellows-Wyrm · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Brokk, the Bellows-Wyrm — A wingless wyrm of riveted iron plates, a forge bellows heaving in its chest; fire pours from its jaws in sweeps. Details: beast: dragon. Main colours: muted brown (#6a5a50), dark brown (#2a1810), orange (#ff7020), yellow (#ffd040). Size: about 3.9× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -34,7 +34,7 @@ Brokk, the Bellows-Wyrm · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4
 Attach: style_hero, style_centaur, fm_glodr_1.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Brokk, the Bellows-Wyrm — A wingless wyrm of riveted iron plates, a forge bellows heaving in its chest; fire pours from its jaws in sweeps. Details: beast: dragon. Main colours: muted brown (#6a5a50), dark brown (#2a1810), orange (#ff7020), yellow (#ffd040). Size: about 3.9× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -59,7 +59,7 @@ Brokk, the Burrowing Coal · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Brokk, the Burrowing Coal — Half-buried in the coals, its plates glowing — it dives under and bursts up where you stand. Main colours: dark red (#3a2a24), black (#140a08), orange (#ff8030), orange (#ffb040). Size: about 4.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -84,7 +84,7 @@ Brokk, the Burrowing Coal · Hurt, Cast, Enrage, Phase change, Death · 8 poses,
 Attach: style_hero, style_centaur, fm_glodr_2.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Brokk, the Burrowing Coal — Half-buried in the coals, its plates glowing — it dives under and bursts up where you stand. Main colours: dark red (#3a2a24), black (#140a08), orange (#ff8030), orange (#ffb040). Size: about 4.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -109,7 +109,7 @@ Brokk Unbound · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 · cor
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Brokk Unbound — The bellows burst open: wings of flame tear free and the whole wyrm burns white-hot. Details: beast: dragon. Main colours: red (#8a2a10), dark red (#3a0a04), orange (#ffb040), pale yellow (#fff0a0). Size: about 4.5× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -134,7 +134,7 @@ Brokk Unbound · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, fm_glodr_3.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Brokk Unbound — The bellows burst open: wings of flame tear free and the whole wyrm burns white-hot. Details: beast: dragon. Main colours: red (#8a2a10), dark red (#3a0a04), orange (#ffb040), pale yellow (#fff0a0). Size: about 4.5× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -159,7 +159,7 @@ Hissa, the Quench-Hag · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x102
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hissa, the Quench-Hag — A hunched hag in soaked, steaming rags, her quench-ladle staff dripping, cinder imps at her hem. Details: head: hood, gear: witch, weapon: staff, off: lantern, armor: rags, cape: tattered, build: lean. Main colours: muted blue (#4a6a7a), dark blue (#1a2a3a), pale teal (#9fe0ff), pale teal (#bff0ff). Size: about 3.6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -184,7 +184,7 @@ Hissa, the Quench-Hag · Front and back: idle, steps, main attack · 8 poses, 4 
 Attach: style_hero, style_centaur, fm_eisa_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hissa, the Quench-Hag — A hunched hag in soaked, steaming rags, her quench-ladle staff dripping, cinder imps at her hem. Details: head: hood, gear: witch, weapon: staff, off: lantern, armor: rags, cape: tattered, build: lean. Main colours: muted blue (#4a6a7a), dark blue (#1a2a3a), pale teal (#9fe0ff), pale teal (#bff0ff). Size: about 3.6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -209,7 +209,7 @@ Hissa, the Quench-Hag · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 �
 Attach: style_hero, style_centaur, fm_eisa_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hissa, the Quench-Hag — A hunched hag in soaked, steaming rags, her quench-ladle staff dripping, cinder imps at her hem. Details: head: hood, gear: witch, weapon: staff, off: lantern, armor: rags, cape: tattered, build: lean. Main colours: muted blue (#4a6a7a), dark blue (#1a2a3a), pale teal (#9fe0ff), pale teal (#bff0ff). Size: about 3.6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -234,7 +234,7 @@ Hissa of the Flood · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hissa of the Flood — Her lower half a coil of scalding water, she rides the flood that fills the hall. Details: head: hood, gear: coral, weapon: trident, armor: robe. Main colours: blue (#2a6a9a), dark blue (#0a2a44), pale teal (#bff0ff), pale teal (#9fe0ff). Size: about 3.9× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -259,7 +259,7 @@ Hissa of the Flood · Front and back: idle, steps, main attack · 8 poses, 4 × 
 Attach: style_hero, style_centaur, fm_eisa_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hissa of the Flood — Her lower half a coil of scalding water, she rides the flood that fills the hall. Details: head: hood, gear: coral, weapon: trident, armor: robe. Main colours: blue (#2a6a9a), dark blue (#0a2a44), pale teal (#bff0ff), pale teal (#9fe0ff). Size: about 3.9× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -284,7 +284,7 @@ Hissa of the Flood · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2
 Attach: style_hero, style_centaur, fm_eisa_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hissa of the Flood — Her lower half a coil of scalding water, she rides the flood that fills the hall. Details: head: hood, gear: coral, weapon: trident, armor: robe. Main colours: blue (#2a6a9a), dark blue (#0a2a44), pale teal (#bff0ff), pale teal (#9fe0ff). Size: about 3.9× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -309,7 +309,7 @@ Hissa, the Boiling Mother · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Hissa, the Boiling Mother — Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal. Details: head: hood, gear: witch, off: flame, armor: shadow. Main colours: pale blue (#d8e8f0), muted blue (#5a7a8a), white (#ffffff), pale orange (#ffe0a0). Size: about 4.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -334,7 +334,7 @@ Hissa, the Boiling Mother · Front and back: idle, steps, main attack · 8 poses
 Attach: style_hero, style_centaur, fm_eisa_3.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hissa, the Boiling Mother — Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal. Details: head: hood, gear: witch, off: flame, armor: shadow. Main colours: pale blue (#d8e8f0), muted blue (#5a7a8a), white (#ffffff), pale orange (#ffe0a0). Size: about 4.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -359,7 +359,7 @@ Hissa, the Boiling Mother · Hurt, Cast, Enrage, Phase change, Death · 8 poses,
 Attach: style_hero, style_centaur, fm_eisa_3.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Hissa, the Boiling Mother — Boiled into a wraith of white steam, a crown of scalding vapour, her heart glowing like a coal. Details: head: hood, gear: witch, off: flame, armor: shadow. Main colours: pale blue (#d8e8f0), muted blue (#5a7a8a), white (#ffffff), pale orange (#ffe0a0). Size: about 4.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -384,7 +384,7 @@ Krag, the Slag Troll · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Krag, the Slag Troll — A huge troll crusted in slag that glows in the cracks, swinging a crucible-ladle like a hammer. Details: head: ogre, weapon: hammer, armor: fur, build: giant. Main colours: dark brown (#5a4030), dark brown (#2a1810), orange (#ff8030), yellow (#ffd060). Size: about 4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -409,7 +409,7 @@ Krag, the Slag Troll · Front and back: idle, steps, main attack · 8 poses, 4 �
 Attach: style_hero, style_centaur, fm_gjallr_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Krag, the Slag Troll — A huge troll crusted in slag that glows in the cracks, swinging a crucible-ladle like a hammer. Details: head: ogre, weapon: hammer, armor: fur, build: giant. Main colours: dark brown (#5a4030), dark brown (#2a1810), orange (#ff8030), yellow (#ffd060). Size: about 4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -434,7 +434,7 @@ Krag, the Slag Troll · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 ×
 Attach: style_hero, style_centaur, fm_gjallr_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Krag, the Slag Troll — A huge troll crusted in slag that glows in the cracks, swinging a crucible-ladle like a hammer. Details: head: ogre, weapon: hammer, armor: fur, build: giant. Main colours: dark brown (#5a4030), dark brown (#2a1810), orange (#ff8030), yellow (#ffd060). Size: about 4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -459,7 +459,7 @@ Krag the Boulder-Hurler · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Krag the Boulder-Hurler — He tears molten boulders from the walls and hurls them; ore rains from the roof when he stamps. Details: head: ogre, weapon: millstone, armor: magma, build: giant. Main colours: dark brown (#5a3a2a), dark brown (#2a140a), orange (#ffa040), yellow (#ffd060). Size: about 4.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -484,7 +484,7 @@ Krag the Boulder-Hurler · Front and back: idle, steps, main attack · 8 poses, 
 Attach: style_hero, style_centaur, fm_gjallr_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Krag the Boulder-Hurler — He tears molten boulders from the walls and hurls them; ore rains from the roof when he stamps. Details: head: ogre, weapon: millstone, armor: magma, build: giant. Main colours: dark brown (#5a3a2a), dark brown (#2a140a), orange (#ffa040), yellow (#ffd060). Size: about 4.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -509,7 +509,7 @@ Krag the Boulder-Hurler · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4
 Attach: style_hero, style_centaur, fm_gjallr_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Krag the Boulder-Hurler — He tears molten boulders from the walls and hurls them; ore rains from the roof when he stamps. Details: head: ogre, weapon: millstone, armor: magma, build: giant. Main colours: dark brown (#5a3a2a), dark brown (#2a140a), orange (#ffa040), yellow (#ffd060). Size: about 4.3× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -534,7 +534,7 @@ Krag in the Slag Shell · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x10
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Krag in the Slag Shell — A walking crucible of half-cooled slag, glowing through every crack. Main colours: dark red (#5a2a1a), dark red (#1a0804), orange (#ff9030), yellow (#ffe060). Size: about 4.5× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -559,7 +559,7 @@ Krag in the Slag Shell · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 
 Attach: style_hero, style_centaur, fm_gjallr_3.core.q
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Krag in the Slag Shell — A walking crucible of half-cooled slag, glowing through every crack. Main colours: dark red (#5a2a1a), dark red (#1a0804), orange (#ff9030), yellow (#ffe060). Size: about 4.5× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -584,7 +584,7 @@ Sinda, the Chainmistress · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sinda, the Chainmistress — A tall fire-giantess in black iron, burning chains coiling from her arms like whips. Details: head: helm, gear: spikecrown, weapon: whip, off: chains, armor: plate, cape: flame, build: tall. Main colours: dark grey (#2a2224), black (#100a0c), red (#ff5030), orange (#ffc060). Size: about 4.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -609,7 +609,7 @@ Sinda, the Chainmistress · Front and back: idle, steps, main attack · 8 poses,
 Attach: style_hero, style_centaur, fm_eimyrja_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sinda, the Chainmistress — A tall fire-giantess in black iron, burning chains coiling from her arms like whips. Details: head: helm, gear: spikecrown, weapon: whip, off: chains, armor: plate, cape: flame, build: tall. Main colours: dark grey (#2a2224), black (#100a0c), red (#ff5030), orange (#ffc060). Size: about 4.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -634,7 +634,7 @@ Sinda, the Chainmistress · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 
 Attach: style_hero, style_centaur, fm_eimyrja_1.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sinda, the Chainmistress — A tall fire-giantess in black iron, burning chains coiling from her arms like whips. Details: head: helm, gear: spikecrown, weapon: whip, off: chains, armor: plate, cape: flame, build: tall. Main colours: dark grey (#2a2224), black (#100a0c), red (#ff5030), orange (#ffc060). Size: about 4.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -659,7 +659,7 @@ Sinda of the Lanes · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x1024 �
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sinda of the Lanes — She rises into the air and chains the hall into burning lanes. Details: head: helm, gear: spikecrown, weapon: whip, off: chains, armor: shadow. Main colours: dark red (#3a1010), black (#10060a), red (#ff6040), yellow (#ffd060). Size: about 4.4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -684,7 +684,7 @@ Sinda of the Lanes · Front and back: idle, steps, main attack · 8 poses, 4 × 
 Attach: style_hero, style_centaur, fm_eimyrja_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sinda of the Lanes — She rises into the air and chains the hall into burning lanes. Details: head: helm, gear: spikecrown, weapon: whip, off: chains, armor: shadow. Main colours: dark red (#3a1010), black (#10060a), red (#ff6040), yellow (#ffd060). Size: about 4.4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -709,7 +709,7 @@ Sinda of the Lanes · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 4 × 2
 Attach: style_hero, style_centaur, fm_eimyrja_2.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sinda of the Lanes — She rises into the air and chains the hall into burning lanes. Details: head: helm, gear: spikecrown, weapon: whip, off: chains, armor: shadow. Main colours: dark red (#3a1010), black (#10060a), red (#ff6040), yellow (#ffd060). Size: about 4.4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -734,7 +734,7 @@ Sinda, Shield of Spirits · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Sinda, Shield of Spirits — Chained spirits circle her as a living shield — free them with your magic to reach her. Details: head: helm, gear: spikecrown, off: chains, armor: shadow. Main colours: dark grey (#2a1a20), black (#0a0408), pale teal (#9fe8ff), red (#ff6040). Size: about 4.6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -759,7 +759,7 @@ Sinda, Shield of Spirits · Front and back: idle, steps, main attack · 8 poses,
 Attach: style_hero, style_centaur, fm_eimyrja_3.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sinda, Shield of Spirits — Chained spirits circle her as a living shield — free them with your magic to reach her. Details: head: helm, gear: spikecrown, off: chains, armor: shadow. Main colours: dark grey (#2a1a20), black (#0a0408), pale teal (#9fe8ff), red (#ff6040). Size: about 4.6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -784,7 +784,7 @@ Sinda, Shield of Spirits · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 
 Attach: style_hero, style_centaur, fm_eimyrja_3.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Sinda, Shield of Spirits — Chained spirits circle her as a living shield — free them with your magic to reach her. Details: head: helm, gear: spikecrown, off: chains, armor: shadow. Main colours: dark grey (#2a1a20), black (#0a0408), pale teal (#9fe8ff), red (#ff6040). Size: about 4.6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):

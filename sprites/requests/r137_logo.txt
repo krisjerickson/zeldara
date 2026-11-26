@@ -1,0 +1,22 @@
+# Round 137 — twenty painted logos for The Quests of Zola and Zoldor (Lab › The painted logo).
+#   .\tools\sprites\paint.ps1 -List r137_logo
+sc_logo_p01
+sc_logo_p02
+sc_logo_p03
+sc_logo_p04
+sc_logo_p05
+sc_logo_p06
+sc_logo_p07
+sc_logo_p08
+sc_logo_p09
+sc_logo_p10
+sc_logo_p11
+sc_logo_p12
+sc_logo_p13
+sc_logo_p14
+sc_logo_p15
+sc_logo_p16
+sc_logo_p17
+sc_logo_p18
+sc_logo_p19
+sc_logo_p20

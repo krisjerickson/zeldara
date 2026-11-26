@@ -10,7 +10,7 @@ voice: Bright, quick and punning; the cheer is real, and it is also how he carri
 ## Backstory
 Benno was born above the bakery, the son of Yrsa, a Wetlands baker who married into the village and never stopped talking about the marsh. Every midsummer Yrsa baked a great braided loaf "for the feast in Asgard" and set it on the Runestone for the gods to take up. The last year anybody remembers, no one came for it. That was the year Benno turned twenty-one, the night the sky went red.
 
-The day before the Ash Night, Yrsa had started a new sourdough and laughed that it would "outlive them all". Benno named it Old Mother. Eight years later Yrsa went home to the Wetlands to bury her sister, and the Black Tide took the marsh villages while she was there. She never came back. Benno has fed Old Mother every morning for thirty-six years, because it is the one thing of hers that is still alive.
+The day before the Ash Night, Yrsa had started a new sourdough and laughed that it would "outlive them all". Benno named it Old Mother. Eight years later Yrsa went home to the Wetlands to bury her sister, and the Black Tide took the marsh villages while she was there. She never came back. Benno has fed Old Mother every morning for twenty-eight years, because it is the one thing of hers that is still alive.
 
 He took over the shop, then the merchant's trade when the old merchant died in the Long Quiet, because someone had to buy what the few brave hunters brought home. He decided early that a village without children needed somebody to be silly in it, and he has been aggressively, exhaustingly cheerful ever since. He has a shelf of honey-cake moulds — stars, foxes, little boats — that have never been used. He dusts them on Sundays. He tells everyone it is for the shape of the shelf.
 
@@ -18,7 +18,7 @@ He took over the shop, then the merchant's trade when the old merchant died in t
 - The merchant: buys your loot after almost every trip home; sells bread and food.
 - Old Mother's Rescue: marsh rye, snow-honey and ember-salt to save the starter.
 - His mother Yrsa is one of the forty bound spirits (the Wetlands baker: "Bread for a feast in Asgard, every midsummer. The last year, no one came to take it up.").
-- After the end he bakes the first honey cakes in thirty-six years, for the first newborns.
+- After the end he bakes the first honey cakes in twenty-eight years, for the first newborns.
 
 ## Ties
 - Morwen: rivals — "your potions are liquid bread"; secretly each other's best customer.
@@ -66,7 +66,7 @@ voice: Blunt, quick and insulting in the friendliest possible way; she has never
 ## Backstory
 Tilda took over the general shop from her father at nineteen and has run it with an iron ledger and an iron tongue ever since. She calls every customer "you" — not "dear", not "friend", just "you" — and has been known to refuse to sell a rope to someone because "you'll hang yourself with it, you idiot". She is, everyone agrees, the most honest person in the village. Her prices are fair. Her opinions are not.
 
-Thirty-six years ago, on the evening of the Ash Night, a tall Ashlander in a grey cloak bought three days' supplies on credit and left her an iron key as surety: "I'll be back for it in a week." The Ember Wall rose that night. He never came back. Tilda has kept the key on a nail behind the counter all this time, partly out of principle — he still owes her eleven silver — and partly because she cannot bring herself to throw away the last thing an Ashlander ever gave anyone.
+Twenty-eight years ago, on the evening of the Ash Night, a tall Ashlander in a grey cloak bought three days' supplies on credit and left her an iron key as surety: "I'll be back for it in a week." The Ember Wall rose that night. He never came back. Tilda has kept the key on a nail behind the counter all this time, partly out of principle — he still owes her eleven silver — and partly because she cannot bring herself to throw away the last thing an Ashlander ever gave anyone.
 
 She never married. "Never met a man who could count." She keeps a list in the back of her ledger titled REGULARS. It has been empty for twenty years, since the last old trapper died.
 

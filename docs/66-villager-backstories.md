@@ -47,9 +47,9 @@ Each villager has a backstory that fits the Saga (docs/agent-context/zeldara-sag
 
 Oswin Hrafnsson was the loudest of the Ravens, a company of five sell-swords and monster-hunters who kept the roads of Runeheim safe when there were still four realms to keep. Sigrid banged her shield like a drum, Ulf played his horn badly and loudly, Halla arm-wrestled trolls and sewed the company's feather cloaks, and Kettil laughed at all of them. Oswin did the talking. He was good at it.
 
-Thirty-six winters ago, on the night the sky went red, word came that the Ashlands were burning. The Ravens rode west to bring people out. At the Emberford someone had to hold the horses and keep the road open behind them, and Sigrid chose Oswin — "because you'll talk the fire into waiting". He waited. The Ember Wall rose between him and his friends before dawn, and he rode home alone with four riderless horses. He has told every story of his life bigger every year since, except that one, which he does not tell at all.
+Twenty-eight winters ago, on the night the sky went red, word came that the Ashlands were burning. The Ravens rode west to bring people out. At the Emberford someone had to hold the horses and keep the road open behind them, and Sigrid chose Oswin — "because you'll talk the fire into waiting". He waited. The Ember Wall rose between him and his friends before dawn, and he rode home alone with four riderless horses. He has told every story of his life bigger every year since, except that one, which he does not tell at all.
 
-He turned the Ravens' empty hall into the Adventurers' Guild and began to keep "the list": every road out of the village that was shut by something — a tower, a dungeon, a thing in the dark. For thirty-six years nobody was able to clear a single line of it. On the Ravens' shelf stand five tankards. Four are upside down, the old sign for a comrade who did not come home. He dusts them every morning.
+He turned the Ravens' empty hall into the Adventurers' Guild and began to keep "the list": every road out of the village that was shut by something — a tower, a dungeon, a thing in the dark. For twenty-eight years nobody was able to clear a single line of it. On the Ravens' shelf stand five tankards. Four are upside down, the old sign for a comrade who did not come home. He dusts them every morning.
 
 Sixteen years ago he was on the pier at dawn when Old Nell's net brought a basket out of Mirror Lake. He carried the two babes up to Elder Runa himself, and he has had his eye on the pair of them ever since — the one who would go out, and the one who would stay. When the twin you play is old enough, he is waiting on the Green with a list, a wooden sword and far too many stories.
 
@@ -75,7 +75,7 @@ Sixteen years ago he was on the pier at dawn when Old Nell's net brought a baske
 
 Benno was born above the bakery, the son of Yrsa, a Wetlands baker who married into the village and never stopped talking about the marsh. Every midsummer Yrsa baked a great braided loaf "for the feast in Asgard" and set it on the Runestone for the gods to take up. The last year anybody remembers, no one came for it. That was the year Benno turned twenty-one, the night the sky went red.
 
-The day before the Ash Night, Yrsa had started a new sourdough and laughed that it would "outlive them all". Benno named it Old Mother. Eight years later Yrsa went home to the Wetlands to bury her sister, and the Black Tide took the marsh villages while she was there. She never came back. Benno has fed Old Mother every morning for thirty-six years, because it is the one thing of hers that is still alive.
+The day before the Ash Night, Yrsa had started a new sourdough and laughed that it would "outlive them all". Benno named it Old Mother. Eight years later Yrsa went home to the Wetlands to bury her sister, and the Black Tide took the marsh villages while she was there. She never came back. Benno has fed Old Mother every morning for twenty-eight years, because it is the one thing of hers that is still alive.
 
 He took over the shop, then the merchant's trade when the old merchant died in the Long Quiet, because someone had to buy what the few brave hunters brought home. He decided early that a village without children needed somebody to be silly in it, and he has been aggressively, exhaustingly cheerful ever since. He has a shelf of honey-cake moulds — stars, foxes, little boats — that have never been used. He dusts them on Sundays. He tells everyone it is for the shape of the shelf.
 
@@ -84,7 +84,7 @@ He took over the shop, then the merchant's trade when the old merchant died in t
 - The merchant: buys your loot after almost every trip home; sells bread and food.
 - Old Mother's Rescue: marsh rye, snow-honey and ember-salt to save the starter.
 - His mother Yrsa is one of the forty bound spirits (the Wetlands baker: "Bread for a feast in Asgard, every midsummer. The last year, no one came to take it up.").
-- After the end he bakes the first honey cakes in thirty-six years, for the first newborns.
+- After the end he bakes the first honey cakes in twenty-eight years, for the first newborns.
 
 **Ties**
 
@@ -147,7 +147,7 @@ They keep score of everything — monsters, spirits, who's ahead. They are ahead
 
 Tilda took over the general shop from her father at nineteen and has run it with an iron ledger and an iron tongue ever since. She calls every customer "you" — not "dear", not "friend", just "you" — and has been known to refuse to sell a rope to someone because "you'll hang yourself with it, you idiot". She is, everyone agrees, the most honest person in the village. Her prices are fair. Her opinions are not.
 
-Thirty-six years ago, on the evening of the Ash Night, a tall Ashlander in a grey cloak bought three days' supplies on credit and left her an iron key as surety: "I'll be back for it in a week." The Ember Wall rose that night. He never came back. Tilda has kept the key on a nail behind the counter all this time, partly out of principle — he still owes her eleven silver — and partly because she cannot bring herself to throw away the last thing an Ashlander ever gave anyone.
+Twenty-eight years ago, on the evening of the Ash Night, a tall Ashlander in a grey cloak bought three days' supplies on credit and left her an iron key as surety: "I'll be back for it in a week." The Ember Wall rose that night. He never came back. Tilda has kept the key on a nail behind the counter all this time, partly out of principle — he still owes her eleven silver — and partly because she cannot bring herself to throw away the last thing an Ashlander ever gave anyone.
 
 She never married. "Never met a man who could count." She keeps a list in the back of her ledger titled REGULARS. It has been empty for twenty years, since the last old trapper died.
 
@@ -261,7 +261,7 @@ She deals in each realm's metal, which is why you come to her for Mira's hearth 
 
 Sólveig grew up in Glerhavn, a Wetlands glass-town on the sand flats where the Silverrun met the sea, apprenticed at twelve to Oddny, a potter and glass-burner who fired the urns for the village dead. Oddny taught her that glass remembers the fire that made it, and that if you hum to it at the right pitch, it will hum the memory back. Sólveig has never been able to stop hearing it since.
 
-In the years after the gate shut, Oddny's urns never cooled — the dead inside them, she said, were not rising — and in the eighth winter the Black Tide drowned Glerhavn and everyone in it. Sólveig was on the harbour islands selling glass and lived. She has spent twenty-eight years in a shack on the isles, singing to bits of sea-glass and listening for voices in them, waiting for something she could not name.
+In the years after the gate shut, Oddny's urns never cooled — the dead inside them, she said, were not rising — and in the eighth winter the Black Tide drowned Glerhavn and everyone in it. Sólveig was on the harbour islands selling glass and lived. She has spent twenty-two years in a shack on the isles, singing to bits of sea-glass and listening for voices in them, waiting for something she could not name.
 
 When the first familiar island's guardian falls, she feels it in the glass. She sails to the village, and the Glimmerhall rises on the Green around her — a hall of glass panes that glow rune-blue — and she sets up her bench as if she had always known it would be there. The soulglass the freed spirits leave behind sings to her louder than anything ever has. She can hear, faintly, who each shard was.
 
@@ -333,7 +333,7 @@ Runa is the oldest person in the last village and the keeper of the Runestone, t
 
 Her husband Geir carved the Green's tree into the Runestone when he was a boy, apprenticed to the old carvers; he used to say the roots went further than anyone thought. Geir died in the eleventh winter of the Quiet. Runa sat by the stone the next spring and noticed what nobody else wanted to notice: the tree on the Green had gone dim. The road was shut. The dead were not going home.
 
-For twenty years she said nothing about it, because a village with no children did not need to hear that its dead were stuck too. Then the storm came, the lightning walked from runestone to runestone across the Grasslands, and in the morning Oswin carried a basket up from the pier and put two glowing babes in her lap. She says that was the day she started cheating at hnefatafl again. "Hope makes you playful."
+For twelve years she said nothing about it, because a village with no children did not need to hear that its dead were stuck too. Then the storm came, the lightning walked from runestone to runestone across the Grasslands, and in the morning Oswin carried a basket up from the pier and put two glowing babes in her lap. She says that was the day she started cheating at hnefatafl again. "Hope makes you playful."
 
 **In the Saga**
 
@@ -376,7 +376,7 @@ He keeps the harbour lights, the boat lists and a box of signal flags he's very 
 
 *The cheerfully morbid nurse* — Brisk, bright and anatomically specific; tells you every way you could have died while patching you up, and means it kindly.
 
-Mael and her sister Nanna were the Wetlands' healers: Nanna the midwife, Mael the nurse. Nanna brought babes into the world; Mael patched up the people who'd been in it a while. When the gate shut the babes stopped coming, and Nanna, who had nothing to hold for eight years, went to live with her and help with the sick, which was the one work there was more of.
+Mael and her sister Nanna were the Wetlands' healers: Nanna the midwife, Mael the nurse. Nanna brought babes into the world; Mael patched up the people who'd been in it a while. When the gate shut the babes stopped coming, and Nanna, who had nothing to hold for six years, went to live with her and help with the sick, which was the one work there was more of.
 
 The Black Tide took Nanna in the eighth winter. Mael was on the harbour islands nursing a fever ward, and she stayed there, running the island wells as a healing station ever since. She has seen more wounds than anyone alive, and she has decided that the only sane way to talk about them is cheerfully. "Ooh, that's nearly an artery! Lucky you!" She keeps a ledger of every patient. She has lost very few.
 
@@ -490,7 +490,7 @@ He talks about Miklagard silk the way other men talk about first love. He has ne
 
 Pia was six, the youngest tumbler in the Fair-Folk, a travelling troupe of acrobats who toured the four realms with a painted wagon and a bear named Sir. That summer the troupe played the last village's fair and moved on west to the Ashland harvest fair — all except Pia, who had a fever and was left with Morwen to mend. The Ash Night came. The troupe never came back. Her best friend in it, a little tumbler named Mord, was seven.
 
-Pia was raised by the whole village, which is to say by Morwen, Hana and whoever was nearest when she fell off something. She never stopped tumbling. She practises in the meadow north of the village every day, the full troupe routine, all the parts, alone — the bear's part included. She is the reason the twin you play can roll: she has been waiting thirty-six years to teach somebody the troupe's tricks so they wouldn't die with her.
+Pia was raised by the whole village, which is to say by Morwen, Hana and whoever was nearest when she fell off something. She never stopped tumbling. She practises in the meadow north of the village every day, the full troupe routine, all the parts, alone — the bear's part included. She is the reason the twin you play can roll: she has been waiting twenty-eight years to teach somebody the troupe's tricks so they wouldn't die with her.
 
 She is relentlessly, hyperactively happy. She does not talk about the Fair-Folk, except to say "they'd have loved you" and then do a backflip.
 
@@ -512,7 +512,7 @@ She is relentlessly, hyperactively happy. She does not talk about the Fair-Folk,
 
 Bram learned to build from Hakon, a Highland carver and engineer who said that every rune in the mountains was carved pointing toward the lake, "as if it was the middle of everything", and that a builder should always know where the middle is. Bram took the lesson literally. He can tell you to a finger's width how crooked your doorframe is, and he will.
 
-He was building bridges over the Silverrun when the Black Tide came, and he spent the next twenty-eight years drawing the bridge he would build if anyone ever let him near the river again. Surtharn's wardens took him to their Grasslands tower to build ramps for their siege engines. He built them, slightly wrong, on purpose, so that every one of them would tip over in a strong wind. He is very proud of this.
+He was building bridges over the Silverrun when the Black Tide came, and he spent the next twenty-two years drawing the bridge he would build if anyone ever let him near the river again. Surtharn's wardens took him to their Grasslands tower to build ramps for their siege engines. He built them, slightly wrong, on purpose, so that every one of them would tip over in a strong wind. He is very proud of this.
 
 When you free him, he walks to the river, looks at it for a long time, and says, "Right. That's going to take four days." It takes four days.
 
@@ -579,7 +579,7 @@ When you free her, she builds the passes over the Ember Wall, opens the sky port
 
 Odin the Allfather kept the road of souls for longer than anyone can count: the dead rose along the World Tree to his hall and Freya's field, and new souls came down it into every newborn. He walked Runeheim in a grey traveller's hat, one eye under a leather patch, and told jokes at village fires that the villagers never knew were the god's own.
 
-Thirty-six winters ago a thing of stolen light that called itself by his names caught him and Freya in two orbs of their own light and took his high seat. In the last breath of light they had, the two of them made two sparks and sent them down through the storm, and the lightning woke the runestones so that one day they would wake for the sparks. Then they slept, joined like an infinity sign, for thirty-six years.
+Twenty-eight winters ago a thing of stolen light that called itself by his names caught him and Freya in two orbs of their own light and took his high seat. In the last breath of light they had, the two of them made two sparks and sent them down through the storm, and the lightning woke the runestones so that one day they would wake for the sparks. Then they slept, joined like an infinity sign, for twenty-eight years.
 
 Now he is free and very tired, and he has decided that a god who has slept that long has earned a few weeks in a village by a lake, sitting on a bench, telling jokes to a fisher, a lamplighter and an old woman who keeps beating him at hnefatafl.
 
@@ -600,7 +600,7 @@ Now he is free and very tired, and he has decided that a god who has slept that 
 
 Freya, the Lady of the Fields, kept Fólkvangr, the field where the ordinary dead go to rest — the weavers, bakers, millers and mothers — and sent the spring down into Runeheim every year. She wore a cloak of falcon feathers and the amber necklace Brísingamen, and she was the one the midwives prayed to.
 
-When the false one took them, she spent the last of her light with Odin on two sparks for Runeheim, and for thirty-six winters she slept, joined to him in the orbs, dreaming of fields with no one in them. She woke to two children of her own light standing in the feast hall with a staff of four gems, and laughed so loudly the citadel shook a second time.
+When the false one took them, she spent the last of her light with Odin on two sparks for Runeheim, and for twenty-eight winters she slept, joined to him in the orbs, dreaming of fields with no one in them. She woke to two children of her own light standing in the feast hall with a staff of four gems, and laughed so loudly the citadel shook a second time.
 
 After the end she comes down to the village to see the spring she sent along the soul-lines, and stays longer than she meant to. The midwives' cradles, the honey cakes, Tob's returning bees — she is everywhere, laughing, and every so often she goes very quiet at the edge of the lake and remembers who did not come home.
 
@@ -622,7 +622,7 @@ After the end she comes down to the village to see the spring she sent along the
 
 Corr was eight when the Ash Night came, a boy from the Ashlands' eastern edge visiting the last village with his big brother Njal for the summer fair. Njal went home ahead of him to fetch the cart. The Ember Wall rose that night, and Corr was on one side of it and his brother on the other. He has lived in the village ever since, raised by whoever had a spare bed, which was eventually Brask.
 
-He joined the gate watch at sixteen because, he says, he wanted to be standing at the gate when somebody came back. Nobody ever did. So he started writing poems to pass the nights — love poems, all of them, to the light on the point: Ilsa, the lighthouse keeper, who has lit her lamp every night of the Quiet for ships that never came. He has watched that light from the gate for twenty years. The poems are very bad. "O Ilsa, light of the lighthouse, you are brighter than a… fight mouse." He has three hundred of them.
+He joined the gate watch at sixteen because, he says, he wanted to be standing at the gate when somebody came back. Nobody ever did. So he started writing poems to pass the nights — love poems, all of them, to the light on the point: Ilsa, the lighthouse keeper, who has lit her lamp every night of the Quiet for ships that never came. He has watched that light from the gate for twenty-eight years. The poems are very bad. "O Ilsa, light of the lighthouse, you are brighter than a… fight mouse." He has three hundred of them.
 
 He has never once left his post during a watch. He has never once climbed the hill to the lighthouse.
 
@@ -665,7 +665,7 @@ She sold the boat, bought a cart, and has spent twenty-eight years selling veget
 
 *Names his vegetables* — Gentle, slow and devoted; introduces his turnips by name and grieves at harvest.
 
-Tob has farmed the same three fields beside the village for fifty years, and for the last thirty-six of them he has named every vegetable he grows. It started the year the gate shut, when his wife Frida's bees left the hives all at once and the fields went quiet. Tob found that talking to the cabbages helped. Then naming them helped more.
+Tob has farmed the same three fields beside the village for fifty years, and for the last twenty-eight of them he has named every vegetable he grows. It started the year the gate shut, when his wife Frida's bees left the hives all at once and the fields went quiet. Tob found that talking to the cabbages helped. Then naming them helped more.
 
 Frida kept bees at the edge of the fields. She always said the bees knew things before people did. When they left that spring she cried for a week, and she was never quite well after; she died in the ninth winter of the Quiet. Tob kept her hives clean and empty for twenty-seven years, in case the bees came back.
 
@@ -714,14 +714,14 @@ Hesk and his sister Bodil learned boatbuilding from their father in the Highland
 
 He came down to the lake to work the year before the gate shut. Bodil stayed in the Highlands, and the Stone-Fall took her and the road to the sea together. Hesk has built every boat on Mirror Lake for forty years, and he says every plank has a note: oak hums low, pine sings high, and a good hull is a chord. He will tear down a boat that sings off-key, which has made him poor and very well respected.
 
-Since the gate shut, he says, the lake has been out of tune. He has been waiting thirty-six years for it to come right.
+Since the gate shut, he says, the lake has been out of tune. He has been waiting twenty-eight years for it to come right.
 
 **In the Saga**
 
 - Lines at the boathouse.
 - Oswin's Proper Paperwork: the "sea-steed's keeper" in the kenning is Hesk.
 - His sister Bodil is one of the forty spirits (the Highlands shipwright: "We built ships for a sea we could see from the peaks, to sail to the gods.").
-- When Asgard comes down onto the lake, he hears it in tune for the first time in thirty-six years.
+- When Asgard comes down onto the lake, he hears it in tune for the first time in twenty-eight years.
 
 **Ties**
 
@@ -754,7 +754,7 @@ He is the only villager who comes out once the Ashlands are open, because, he sa
 
 *Lonely and poetic* — Quiet, lyrical and a little lost; speaks in images of water and light, and listens more than she talks.
 
-Ilsa came to the last village at fourteen, from a harbour town on the Ashland coast, sent away by her parents the summer before the Ash Night "to learn a trade". She learned lamp-keeping from the old lighthouse keeper on the point and never went home, because there was no home to go to. The lighthouse has guided no ships for thirty-six years. She has lit it every night anyway.
+Ilsa came to the last village at fourteen, from a harbour town on the Ashland coast, sent away by her parents the summer before the Ash Night "to learn a trade". She learned lamp-keeping from the old lighthouse keeper on the point and never went home, because there was no home to go to. The lighthouse has guided no ships for twenty-eight years. She has lit it every night anyway.
 
 She writes poems to the dark water — not love poems like Corr's, but long, quiet ones to the people she can't see. She keeps them in a sea-chest. She has watched the lake every night of her adult life and has seen things nobody believes: two little lights on the water one stormy dawn, and, on still nights, a reflection of something golden in the sky that isn't there when you look up.
 

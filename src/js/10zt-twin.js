@@ -14,7 +14,7 @@ var ZTWIN={ on:true,
     if(n>=1)return 'The line it left — I\'ve seen that pattern before, cut into the oldest stone on the Green.';
     return 'I\'ll keep the village going — you bring them home. Come back and tell me everything you find.'; },
   elder:function(ps,base){ var n=(ps.spiritsFreed||[]).length; if(ps.spiritsHome)return base;
-    if(n<3)return 'Twenty winters, and not one cradle. Then the storm — and the lake brought you two.';
+    if(n<3)return 'Twelve winters, and not one cradle. Then the storm — and the lake brought you two.';
     if(n<12)return 'Your eyes shone like the old runes when you came. Goat\'s milk put the light out — or hid it.';
     return base; },
   // round 80 (Kris: "the other twin studying needs to be in a separate library building … the other twin sleeps there at night"; L4: the library

@@ -9,7 +9,7 @@ Surtharn, the Molten Colossus · Idle, Move, Melee attack · 8 poses, 4 × 2 · 
 Attach: style_hero, style_centaur, surt_ref_1
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Molten Colossus — A fire giant of cracked black basalt with rivers of glowing lava, a flaming greatsword; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, build: giant. Main colours: dark red (#2a1a14), black (#120806), orange (#ff7020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -34,7 +34,7 @@ Surtharn, the Molten Colossus · Front and back: idle, steps, main attack · 8 p
 Attach: style_hero, style_centaur, surt_1.core.s, surt_ref_1
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Molten Colossus — A fire giant of cracked black basalt with rivers of glowing lava, a flaming greatsword; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, build: giant. Main colours: dark red (#2a1a14), black (#120806), orange (#ff7020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -59,7 +59,7 @@ Surtharn, the Molten Colossus · Hurt, Cast, Enrage, Phase change, Death · 8 po
 Attach: style_hero, style_centaur, surt_1.core.s, surt_ref_1
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Molten Colossus — A fire giant of cracked black basalt with rivers of glowing lava, a flaming greatsword; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: magma, build: giant. Main colours: dark red (#2a1a14), black (#120806), orange (#ff7020), orange (#ffa030). Size: about 6× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -84,7 +84,7 @@ Surtharn, the Forge-king · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur, surt_ref_2
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Forge-king — Blackened iron plate, great bellows-chimneys on his back, an anvil-hammer; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: hammer, armor: plate, build: giant. Main colours: dark grey (#3a3030), black (#141010), orange (#ff8030), orange (#ffb040). Size: about 6.1× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -109,7 +109,7 @@ Surtharn, the Forge-king · Front and back: idle, steps, main attack · 8 poses,
 Attach: style_hero, style_centaur, surt_2.core.s, surt_ref_2
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Forge-king — Blackened iron plate, great bellows-chimneys on his back, an anvil-hammer; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: hammer, armor: plate, build: giant. Main colours: dark grey (#3a3030), black (#141010), orange (#ff8030), orange (#ffb040). Size: about 6.1× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -134,7 +134,7 @@ Surtharn, the Forge-king · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 
 Attach: style_hero, style_centaur, surt_2.core.s, surt_ref_2
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Forge-king — Blackened iron plate, great bellows-chimneys on his back, an anvil-hammer; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: hammer, armor: plate, build: giant. Main colours: dark grey (#3a3030), black (#141010), orange (#ff8030), orange (#ffb040). Size: about 6.1× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -159,7 +159,7 @@ Surtharn, the Ash Tyrant · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1536x
 Attach: style_hero, style_centaur, surt_ref_3
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Ash Tyrant — Tattered smouldering ash-grey robes over black armour, chains of pale-blue spirit-light with captured spirits trailing from his hands; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, off: chains, armor: robe, build: giant. Main colours: dark grey (#4a4444), black (#141010), pale teal (#9fe8ff), orange (#ff7030). Size: about 6.1× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -184,7 +184,7 @@ Surtharn, the Ash Tyrant · Front and back: idle, steps, main attack · 8 poses,
 Attach: style_hero, style_centaur, surt_3.core.s, surt_ref_3
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Ash Tyrant — Tattered smouldering ash-grey robes over black armour, chains of pale-blue spirit-light with captured spirits trailing from his hands; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, off: chains, armor: robe, build: giant. Main colours: dark grey (#4a4444), black (#141010), pale teal (#9fe8ff), orange (#ff7030). Size: about 6.1× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -209,7 +209,7 @@ Surtharn, the Ash Tyrant · Hurt, Cast, Enrage, Phase change, Death · 8 poses, 
 Attach: style_hero, style_centaur, surt_3.core.s, surt_ref_3
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Ash Tyrant — Tattered smouldering ash-grey robes over black armour, chains of pale-blue spirit-light with captured spirits trailing from his hands; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, off: chains, armor: robe, build: giant. Main colours: dark grey (#4a4444), black (#141010), pale teal (#9fe8ff), orange (#ff7030). Size: about 6.1× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -234,7 +234,7 @@ Surtharn, the Horned Jötunn · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, surt_ref_4
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Horned Jötunn — Great curved horns rising through the crown of flame, dark rune-etched armour, a sword of fire; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: plate, build: giant. Main colours: dark grey (#2a2220), black (#100806), red (#ff6020), orange (#ffb040). Size: about 6.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -259,7 +259,7 @@ Surtharn, the Horned Jötunn · Front and back: idle, steps, main attack · 8 po
 Attach: style_hero, style_centaur, surt_4.core.s, surt_ref_4
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Horned Jötunn — Great curved horns rising through the crown of flame, dark rune-etched armour, a sword of fire; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: plate, build: giant. Main colours: dark grey (#2a2220), black (#100806), red (#ff6020), orange (#ffb040). Size: about 6.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -284,7 +284,7 @@ Surtharn, the Horned Jötunn · Hurt, Cast, Enrage, Phase change, Death · 8 pos
 Attach: style_hero, style_centaur, surt_4.core.s, surt_ref_4
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Horned Jötunn — Great curved horns rising through the crown of flame, dark rune-etched armour, a sword of fire; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: greatsword, armor: plate, build: giant. Main colours: dark grey (#2a2220), black (#100806), red (#ff6020), orange (#ffb040). Size: about 6.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -309,7 +309,7 @@ Surtharn, the Obsidian Warlord · Idle, Move, Melee attack · 8 poses, 4 × 2 ·
 Attach: style_hero, style_centaur, surt_ref_5
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Obsidian Warlord — Jagged obsidian armour with glowing orange seams, a cage in his chest holding captured spirits glowing pale blue, a spiked flail; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: flail, armor: crystal, build: giant. Main colours: black (#1a1618), black (#080608), orange (#ff7030), pale teal (#9fe8ff). Size: about 6.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -334,7 +334,7 @@ Surtharn, the Obsidian Warlord · Front and back: idle, steps, main attack · 8 
 Attach: style_hero, style_centaur, surt_5.core.s, surt_ref_5
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Obsidian Warlord — Jagged obsidian armour with glowing orange seams, a cage in his chest holding captured spirits glowing pale blue, a spiked flail; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: flail, armor: crystal, build: giant. Main colours: black (#1a1618), black (#080608), orange (#ff7030), pale teal (#9fe8ff). Size: about 6.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -359,7 +359,7 @@ Surtharn, the Obsidian Warlord · Hurt, Cast, Enrage, Phase change, Death · 8 p
 Attach: style_hero, style_centaur, surt_5.core.s, surt_ref_5
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Obsidian Warlord — Jagged obsidian armour with glowing orange seams, a cage in his chest holding captured spirits glowing pale blue, a spiked flail; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Details: head: demon, gear: spikecrown, weapon: flail, armor: crystal, build: giant. Main colours: black (#1a1618), black (#080608), orange (#ff7030), pale teal (#9fe8ff). Size: about 6.2× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -384,7 +384,7 @@ Surtharn, the Living Volcano · Idle, Move, Melee attack · 8 poses, 4 × 2 · 1
 Attach: style_hero, style_centaur, surt_ref_6
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Living Volcano — His upper body rising out of a mound of molten rock and magma, arms of cooling lava; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Main colours: dark red (#3a1a10), black (#140604), orange (#ff8030), orange (#ffa030). Size: about 6.4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):
@@ -409,7 +409,7 @@ Surtharn, the Living Volcano · Hurt, Cast, Enrage, Phase change, Death · 8 pos
 Attach: style_hero, style_centaur, surt_6.core.q, surt_ref_6
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it. Reference image 4 = the approved painting of this exact boss form: copy its head (face, glowing eyes, ember beard, crown of flame), armour, weapon and colours exactly — only the poses change.
 Subject: Surtharn, the Living Volcano — His upper body rising out of a mound of molten rock and magma, arms of cooling lava; a dark cracked-basalt face with deep-set glowing orange eyes under a heavy brow, a long beard of smouldering orange embers and a spiked crown of living flame — the SAME head in every phase; dark armour, never bare skin. Main colours: dark red (#3a1a10), black (#140604), orange (#ff8030), orange (#ffa030). Size: about 6.4× the height of the hero (a towering boss).
 Layout: exactly 8 poses in a grid of 4 columns × 2 rows, evenly spaced, in this order (left to right, top row first):

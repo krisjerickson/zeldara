@@ -8,7 +8,7 @@
 
 ## 1. The story in one paragraph
 
-Runeheim is a Norse fantasy land of four realms around a great lake. The dead of Runeheim used to rise along the World Tree to the gods, and new souls came down the same road into every newborn. Thirty-six winters ago a false god, **Solmyrk**, wearing a golden mask, trapped **Odin** and **Freya** in two orbs of their own light. He sat on Odin's high seat and shut Asgard's gate, so no soul could rise and none came down. His ally **Surtharn**, the fire giant of **Muspelheim**, caught the wandering dead and chained them to bindstones to dig for him, and he broke three of the four realms one by one. Twenty years without a child passed in the last village. Then, on the night of a terrible storm, two babes with glowing rune-blue eyes drifted out of **Mirror Lake** in a floating basket: **Zeldara** and **Zeldor**.
+Runeheim is a Norse fantasy land of four realms around a great lake. The dead of Runeheim used to rise along the World Tree to the gods, and new souls came down the same road into every newborn. Twenty-eight winters ago a false god, **Solmyrk**, wearing a golden mask, trapped **Odin** and **Freya** in two orbs of their own light. He sat on Odin's high seat and shut Asgard's gate, so no soul could rise and none came down. His ally **Surtharn**, the fire giant of **Muspelheim**, caught the wandering dead and chained them to bindstones to dig for him, and he broke three of the four realms one by one. Twelve years without a child passed in the last village, one realm falling every three winters. Then, on the night of a terrible storm, two babes with glowing rune-blue eyes drifted out of **Mirror Lake** in a floating basket: **Zeldara** and **Zeldor**.
 
 Now about sixteen, one twin goes out into Runeheim and the other stays home to study the old sagas. The one who goes out frees the bound spirits, and each freed spirit's line of light draws part of a great World Tree across the land. They reopen the realms, break Surtharn's forges and Muspelheim itself, and forge the **Lodestar**. The twin at home finds the Lodestar's one word, **Godsbane**. Together the twins unmask Solmyrk, free Odin and Freya, and learn the truth: the twins are the gods' last gift, two sparks of their own light sent down in the storm. The gods lead the spirits home. Runeheim turns green, the monsters fade, and children are born again.
 
@@ -38,7 +38,7 @@ A round land of four realms around **Mirror Lake**, ringed by sea. Its **soul-li
 | Realm | Where | Its land | How it fell |
 |---|---|---|---|
 | **The Grasslands** | north-east | Green meadows, wildflowers, standing runestones, farms, the last village | It never fell. It was the last realm left, and it went through **the Long Quiet**. |
-| **The Wetlands** | south-east | Marsh, reeds, the wide **Silverrun** river, mist and mills | **The Black Tide** (about year 8). The Silverrun rose black from the south, the marshes drank the villages, and the river became a wall. |
+| **The Wetlands** | south-east | Marsh, reeds, the wide **Silverrun** river, mist and mills | **The Black Tide** (year 6). The Silverrun rose black from the south, the marshes drank the villages, and the river became a wall. |
 | **The Highlands** | south-west | Mountains, cliffs, mines, snow and waterfalls | **The Stone-Fall** (about year 3). The mines dug deeper after "a voice in the stone", the mountains broke and **the Great Scar** tore open. |
 | **The Ashlands** | north-west | Ash-grey plains, lava channels, smoky orange skies | **The Ash Night** (year 0, the night the gate shut). Fire and ash fell, **the Ember Wall** rose against the Grasslands and **the Cinder Chasm** split from the Highlands. The people perished and their souls were bound to dig. |
 
@@ -122,7 +122,7 @@ A round land of four realms around **Mirror Lake**, ringed by sea. Its **soul-li
   - Looks: tall and radiant, with warm golden-brown skin and long red-gold hair in loose braids woven with white and yellow flowers. She wears a green-and-gold gown, a cloak of brown-and-gold **falcon feathers**, the glowing amber necklace **Brísingamen**, and green-vine bracelets.
   - Manner: warm, strong and joyful.
   - Her magic: **green vines and spring flowers**.
-- For thirty-six winters they slept inside two great orbs of their own light, joined like an **infinity sign**.
+- For twenty-eight winters they slept inside two great orbs of their own light, joined like an **infinity sign**.
 
 ### 4.3 The enemies
 
@@ -178,15 +178,20 @@ His other servants:
 
 ## 5. Timeline (years from the night the gate shut)
 
+Round 137 (Kris): the realms close **three years apart** — twelve years from the gods' prison to their gift of the twins — and the twins
+take sixteen more to come of age: **twenty-eight years** since the last child was born. (Before round 137: twenty years, then sixteen —
+thirty-six. Every "thirty-six winters" in the game now reads "twenty-eight".)
+
 | Year | Event |
 |---|---|
 | before | **The cycle of souls.** The dead rise along the World Tree to Asgard (Valhalla for the fallen, Fólkvangr for the rest), and new souls come down it into every newborn. |
-| 0 | **The gate shuts.** Solmyrk, in a golden mask, traps Odin and Freya in two orbs, takes the high seat and Odin's names, and shuts the gate. The same night is **the Ash Night**: Surtharn wakes, the Ashlands burn, the Ember Wall rises and the Cinder Chasm opens. The Binders start chaining the dead to dig. |
-| ~3 | **The Stone-Fall.** The Highlands break and the Great Scar opens. |
-| ~8 | **The Black Tide.** The Wetlands drown and the Silverrun becomes a wall. Only the Grasslands are left. |
-| 0–20 | **The Long Quiet.** No child is born alive in the last village. The Grasslands' dead drift at the edge of the light, and lately the Binders come over the walls for them too. |
-| ~20 | **The storm and the basket.** Lightning strikes runestone after runestone across the Grasslands. At dawn a floating basket drifts out of Mirror Lake with two babes whose eyes glow rune-blue. |
-| ~36 | **Now.** The twins are about sixteen. One goes out and the other stays. The game begins. |
+| 0 | **The gate shuts.** Solmyrk, in a golden mask, traps Odin and Freya in two orbs, takes the high seat and Odin's names, and shuts the gate. The same night is **the Ash Night**: Surtharn wakes, the Ashlands burn, the Ember Wall rises and the Cinder Chasm opens. The Binders start chaining the dead to dig. No child is born alive after this night. |
+| 3 | **The Stone-Fall.** The Highlands break and the Great Scar opens. |
+| 6 | **The Black Tide.** The Wetlands drown and the Silverrun becomes a wall. |
+| 9 | **The Grasslands fall quiet.** The last waystones go dark; Fernby, Stonewick, Hollowmere and the Downs empty; only the last village is left. |
+| 0–12 | **The Long Quiet.** No child is born alive. The dead drift at the edge of the light, and the Binders come for them. |
+| 12 | **The storm and the basket.** Lightning strikes runestone after runestone across the Grasslands. At dawn a floating basket drifts out of Mirror Lake with two babes whose eyes glow rune-blue. |
+| 28 | **Now.** The twins are sixteen. The game begins. |
 
 ---
 
@@ -197,7 +202,7 @@ Each beat below gives **the truth**, what stays a **mystery** and until when, an
 ### Act I — The Quiet (the world and the twins: the opening)
 
 1. **The cycle of souls.** The dead rose along the World Tree to the gods, and new souls came down it. This is told as old lore; that the road is blocked comes later. *Elder Runa:* "The tree on the Green is the road the dead walk home. Lately… it has been quiet."
-2. **The Long Quiet.** Twenty winters without a child.
+2. **The Long Quiet.** Twelve winters without a child, a realm falling every three.
    - Opening panel `pn_saga_cradles`: "In the last village the cradles stood empty. No child had been born alive in a lifetime."
 3. **The storm and the basket.** WHO sent it and WHY the lightning struck the stones stay a mystery until the feast hall.
    - Opening panels `pn_saga_storm_b` and `pn_saga_basket`: "Then came the worst storm anyone remembered — and the lightning struck the runestones, one after another."
@@ -253,7 +258,7 @@ Each beat below gives **the truth**, what stays a **mystery** and until when, an
     - The other twin walks in beside the player, and **both twins cast Godsbane together** into the centre where the two lights meet (`pn_fh_cast_twins`).
     - The orbs burst into a million shards of light (`pn_fh_shards`), and Odin and Freya stand free (`pn_fh_gods`).
 22. **The truth about the twins.** This is the game's big secret, and nothing before it gives it away. Panel `pn_fh_truth_m`/`_f`. The gods' six lines:
-    1. Odin: "You came. Thirty-six winters we slept in our own light — and still you came."
+    1. Odin: "You came. Twenty-eight winters we slept in our own light — and still you came."
     2. Freya: "Do you know why the runestones light for you? Why your eyes shone on the lake?"
     3. Odin: "The night the false one took us, we had one breath of light left. We spent it on you — two sparks, one for each of you."
     4. Freya: "We sent you down in the storm. The lightning woke the runestones, so that one day they would wake for you."

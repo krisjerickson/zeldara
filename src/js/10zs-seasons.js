@@ -15,7 +15,7 @@
 // ║ Switch: ZSEASON.on. ?season=au (sp su au wi bl) forces one, for looking.
 // ═══════════════════════════════════════════════════════════════════════
 var ZSEASON={ on:true, cur:'su', force:null, _t:0, loaded:{},
-  S:{sp:{n:'The thaw',ic:'🌱',col:'#c8dcb0',art:'th',ban:['The thaw','The first spring in thirty-six years — grey snow in the shadows, buds on the birches, the first birds back.']},
+  S:{sp:{n:'The thaw',ic:'🌱',col:'#c8dcb0',art:'th',ban:['The thaw','The first spring in twenty-eight years — grey snow in the shadows, buds on the birches, the first birds back.']},
      su:{n:'Summer',ic:'☀️',col:'#ffe27a',art:null,ban:['Summer','The Silverrun runs clear, and the nights are warm.']},
      au:{n:'Autumn',ic:'🍂',col:'#ffb46a',art:'au',ban:['Autumn','The leaves turn gold along the Highlands\' road.']},
      wi:{n:'Winter',ic:'❄️',col:'#d8ecff',art:'wi',ban:['Winter','A mild one — frost on the grass and bright, low sun.']},

@@ -9,7 +9,7 @@ Einherjar Berserker · Idle, Move, Charge · 8 poses, 4 × 2 · 1536x1024 · cor
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Einherjar Berserker — A ghostly-pale warrior of Valhöll, bare-chested under a wolf pelt, a great two-handed axe rimmed with gold light; his eyes burn white. Main colours: muted orange (#c8b8a0), dark brown (#4a3a2a), pale yellow (#fff0b0), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Charges headlong. A roaring charge that knocks you back, then wide axe sweeps. Grows wilder as he is hurt.
@@ -35,7 +35,7 @@ Einherjar Berserker · Front and back: idle, steps, main attack · 8 poses, 4 ×
 Attach: style_hero, style_centaur, einherjar_berserker.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Einherjar Berserker — A ghostly-pale warrior of Valhöll, bare-chested under a wolf pelt, a great two-handed axe rimmed with gold light; his eyes burn white. Main colours: muted orange (#c8b8a0), dark brown (#4a3a2a), pale yellow (#fff0b0), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Charges headlong. A roaring charge that knocks you back, then wide axe sweeps. Grows wilder as he is hurt.
@@ -61,7 +61,7 @@ Einherjar Berserker · Hurt, Wide sweep, Enrage, Death · 6 poses, 3 × 2 · 153
 Attach: style_hero, style_centaur, einherjar_berserker.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Einherjar Berserker — A ghostly-pale warrior of Valhöll, bare-chested under a wolf pelt, a great two-handed axe rimmed with gold light; his eyes burn white. Main colours: muted orange (#c8b8a0), dark brown (#4a3a2a), pale yellow (#fff0b0), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Charges headlong. A roaring charge that knocks you back, then wide axe sweeps. Grows wilder as he is hurt.
@@ -85,7 +85,7 @@ Einherjar Shield-maiden · Idle, Move, Lunge, Hurt · 8 poses, 4 × 2 · 1536x10
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Einherjar Shield-maiden — A tall shield-maiden of Valhöll in white-and-gold mail, a round gold-bossed shield and a spear, her braids glowing faintly. Main colours: pale orange (#d8d0c0), muted brown (#5a4a3a), pale yellow (#ffe080), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Holds her ground and guards the others. Lunges with her spear from behind the shield. Her shield turns blows from the front.
@@ -111,7 +111,7 @@ Einherjar Shield-maiden · Front and back: idle, steps, main attack · 8 poses, 
 Attach: style_hero, style_centaur, einherjar_shieldmaiden.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Einherjar Shield-maiden — A tall shield-maiden of Valhöll in white-and-gold mail, a round gold-bossed shield and a spear, her braids glowing faintly. Main colours: pale orange (#d8d0c0), muted brown (#5a4a3a), pale yellow (#ffe080), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Holds her ground and guards the others. Lunges with her spear from behind the shield. Her shield turns blows from the front.
@@ -137,7 +137,7 @@ Einherjar Shield-maiden · Guard, Death · 4 poses, 4 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, einherjar_shieldmaiden.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Einherjar Shield-maiden — A tall shield-maiden of Valhöll in white-and-gold mail, a round gold-bossed shield and a spear, her braids glowing faintly. Main colours: pale orange (#d8d0c0), muted brown (#5a4a3a), pale yellow (#ffe080), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Holds her ground and guards the others. Lunges with her spear from behind the shield. Her shield turns blows from the front.
@@ -159,7 +159,7 @@ Einherjar Archer · Idle, Move, Ranged attack, Hurt · 8 poses, 4 × 2 · 1536x1
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Einherjar Archer — A lean hooded archer of Valhöll with a white-gold longbow and arrows of light. Main colours: light grey (#c0c8d0), muted blue (#3a4a5a), pale yellow (#fff0b0), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Keeps away from you, behind the others. Single arrows of light, then a fan of three. Quick on her feet.
@@ -185,7 +185,7 @@ Einherjar Archer · Front and back: idle, steps, main attack · 8 poses, 4 × 2 
 Attach: style_hero, style_centaur, einherjar_archer.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Einherjar Archer — A lean hooded archer of Valhöll with a white-gold longbow and arrows of light. Main colours: light grey (#c0c8d0), muted blue (#3a4a5a), pale yellow (#fff0b0), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Keeps away from you, behind the others. Single arrows of light, then a fan of three. Quick on her feet.
@@ -211,7 +211,7 @@ Einherjar Archer · Death · 2 poses, 2 × 1 · 1536x1024 · extra
 Attach: style_hero, style_centaur, einherjar_archer.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Einherjar Archer — A lean hooded archer of Valhöll with a white-gold longbow and arrows of light. Main colours: light grey (#c0c8d0), muted blue (#3a4a5a), pale yellow (#fff0b0), pale teal (#9fe8ff). Size: about 1× the height of the hero.
 How it behaves in the game (for the poses): Keeps away from you, behind the others. Single arrows of light, then a fan of three. Quick on her feet.
@@ -231,7 +231,7 @@ Gjallar Warden · Idle, Move, Slam · 8 poses, 4 × 2 · 1536x1024 · core
 Attach: style_hero, style_centaur
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon).
 Subject: Gjallar Warden — A tall white-stone guardian with a gold horn set in its chest and a lens for an eye — Heimdall's watchman. Main colours: pale yellow (#e8e0cc), muted orange (#8a7a5a), yellow (#ffd860), pale teal (#9fe8ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Stands watch, then lumbers to the alarm. A blast from its horn that stuns, and a heavy stone fist. Its stone hide turns most blows.
@@ -257,7 +257,7 @@ Gjallar Warden · Front and back: idle, steps, main attack · 8 poses, 4 × 2 ·
 Attach: style_hero, style_centaur, gjallar_warden.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Gjallar Warden — A tall white-stone guardian with a gold horn set in its chest and a lens for an eye — Heimdall's watchman. Main colours: pale yellow (#e8e0cc), muted orange (#8a7a5a), yellow (#ffd860), pale teal (#9fe8ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Stands watch, then lumbers to the alarm. A blast from its horn that stuns, and a heavy stone fist. Its stone hide turns most blows.
@@ -283,7 +283,7 @@ Gjallar Warden · Hurt, Cast, Guard, Death · 7 poses, 4 × 2 · 1536x1024 · ex
 Attach: style_hero, style_centaur, gjallar_warden.core.s
 
 ```
-Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zeldara and Zeldor.
+Create ONE sprite sheet image for a 2D top-down action RPG called The Quests of Zola and Zoldor.
 Reference image 1 = the hero boy (art style, proportions, outline weight, teal highlights). Reference image 2 = the teal-maned centaur (art style for creatures: teal highlight shapes, magenta rim light, glowing eyes and weapon). Reference image 3 = the first approved sheet of this same character: keep the character identical to it.
 Subject: Gjallar Warden — A tall white-stone guardian with a gold horn set in its chest and a lens for an eye — Heimdall's watchman. Main colours: pale yellow (#e8e0cc), muted orange (#8a7a5a), yellow (#ffd860), pale teal (#9fe8ff). Size: about 1.6× the height of the hero.
 How it behaves in the game (for the poses): Stands watch, then lumbers to the alarm. A blast from its horn that stuns, and a heavy stone fist. Its stone hide turns most blows.
