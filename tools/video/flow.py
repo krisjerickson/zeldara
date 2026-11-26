@@ -82,7 +82,8 @@ def plan():
 
 def make(only=None):
     from PIL import Image
-    pend, pt = pending(); made = kept = waits = 0; seen = set(); M = {}
+    pend, pt = pending(); made = kept = waits = 0; seen = set(); MF = os.path.join(OUT, 'manifest.json')
+    M = json.load(open(MF)) if only and os.path.isfile(MF) else {}      # one cut-scene at a time keeps the others in the manifest
     for p in plan():
         if only and p['id'] != only: continue
         M[p['id']] = {w: [[s['folder'], s['n'], s['secs']] for s in shots] for w, shots in p['versions'].items()}
@@ -146,5 +147,7 @@ def intake():
     print('%d Flow clip(s) taken in' % n)
 
 if __name__ == '__main__':
-    ap = argparse.ArgumentParser(); ap.add_argument('--scene'); ap.add_argument('--intake', action='store_true'); a = ap.parse_args()
-    intake() if a.intake else make(a.scene)
+    ap = argparse.ArgumentParser(); ap.add_argument('--scene', help='one cut-scene, or several: a,b,c'); ap.add_argument('--intake', action='store_true'); a = ap.parse_args()
+    if a.intake: intake()
+    elif a.scene and ',' in a.scene: [make(s) for s in a.scene.split(',')]
+    else: make(a.scene)
