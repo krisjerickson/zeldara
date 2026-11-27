@@ -150,6 +150,22 @@ with game(painted=True, w=1280, h=720) as g:
     # a tap on Pia talks to her
     pi = g.js("(()=>{ var ws=%s; if(!ZROLL.npc)return {none:true}; var n=ZCLICK.npcAt(ws,{x:ZROLL.npc.x,y:ZROLL.npc.y-14}); return {n:n&&n.n}; })()" % WS)
     check('A tap on Tumbler Pia finds her (%s)' % pi, pi.get('none') or pi['n'] == 'Tumbler Pia', pi)
+    # the new paintings play: Oswin walks, the sheep graze and amble, the cauldrons have their loops
+    mv = g.js("""(()=>{ var ws=%s; var r={oswin:ZAtlas.count('npc_guild','move','s'), sheep:ZAtlas.has('animal_sheep'), lamb:ZAtlas.has('animal_lamb'), caul:ZWE.frames('mv_if_cauldron'), camp:ZWE.frames('mv_cp_cauldron')};
+        var A=ZWE.animTex(ws,'mv_if_cauldron'); r.tex=!!A; var P=(ws.wd.props||[]).find(p=>p.prop==='sheep'); if(P){ ws.player.x=(P.x+1)*TILE; ws.player.y=(P.y+3)*TILE; ws.player.cont.setPosition(ws.player.x,ws.player.y); } return r; })()""" % WS)
+    g.wait(2500)
+    sh = g.js("(()=>{ var L=ZSHEEP.L, k=Object.keys(L); return {n:k.length, drawn:k.filter(x=>L[x]._zim&&L[x]._zim.scene&&L[x]._zim.visible).length}; })()")
+    check('The new paintings play: Oswin walks, sheep and lamb are animals, both cauldrons loop (%s; sheep %s)' % (mv, sh), mv['oswin'] == 4 and mv['sheep'] and mv['lamb'] and mv['caul'] == 4 and mv['camp'] == 4 and mv['tex'] and sh['drawn'] >= 2, [mv, sh])
+    # the fair greeter walks up and tells you about the fair
+    fg = g.js("""(()=>{ var ws=%s, ps=ws.playerState; ps.walk='done'; ps.firstWin=4; ps.seasNow='sp'; ps.seasStart=Math.floor(ps.gday||0); ps.festGreet={}; ZFEST.dress(ws,'sp'); var C=ZFEST.centre(ws); ws.player.x=C.x+TILE*3; ws.player.y=C.y+TILE*6; ws.player.cont.setPosition(ws.player.x,ws.player.y);
+        (ws.worldMonsters||[]).forEach(m=>{ if(m._m)m._m.aggro=false; }); ZR140._hurtT=0; window.__said=null; var d0=ZDLG.say; ZDLG.say=function(n,t){ if(!window.__said)window.__said=n+': '+t; return d0.apply(ZDLG,arguments); }; return {f:ZDAY.fest(ps)}; })()""" % WS)
+    for _ in range(14):
+        g.wait(1000)
+        if g.js("!!window.__said"): break
+    said = g.js("window.__said")
+    g.js("(()=>{ for(var q=0;q<8&&ZDLG.cur;q++){ ZDLG.cur.close(); } })()"); g.wait(600)
+    st = g.js("(()=>{ var ps=%s.playerState; return {done:Object.values(ps.festGreet||{}).indexOf('done')>=0, phase:ZFAIR.S&&ZFAIR.S.phase}; })()" % WS)
+    check('A fair begins: Marta walks up and tells you about it, once (%s; %s)' % (said and said[:90], st), fg['f'] == 'sp' and said and said.startswith('Marta') and 'Thaw-fair' in said and st['done'], [fg, said, st])
     # Oswin's line at the top waits during the first walk
     ob = g.js("(()=>{ var ps=%s.playerState, w0=ps.walk; ps.walk='runa'; var el=document.getElementById('zvoice-bub'); if(el)el.classList.remove('on'); ZVOICE.bubble('oswin',ps); var on=!!(document.getElementById('zvoice-bub')||{classList:{contains:()=>false}}).classList.contains('on'); ps.walk=w0; return on; })()" % WS)
     check('Oswin\'s line at the top waits while the first walk is on', ob is False, ob)
@@ -197,6 +213,9 @@ with sync_playwright() as pw:
     check('Lab → Health & mana bars: six looks, live (%s)' % bb, bb['opts'] == 6 and bb['bars'] == 12, bb)
     pg.evaluate("LTODO.goTo('flow138',null,0)"); pg.wait_for_timeout(600)
     check('Lab → Flow: why the repaints missed, and the third try', pg.evaluate("/third try/.test(document.body.innerText)"))
+    pg.evaluate("LTODO.goTo('fair140',null,0)"); pg.wait_for_timeout(600)
+    fr = pg.evaluate("({who:document.querySelectorAll('.wl-seg[data-k^=\"fair140-\"]').length, rows:document.querySelectorAll('.r40-t tr').length})")
+    check('Lab → The fair greeter: five to choose from and the words for each fair (%s)' % fr, fr['who'] == 5 and fr['rows'] >= 6, fr)
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d/%d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)

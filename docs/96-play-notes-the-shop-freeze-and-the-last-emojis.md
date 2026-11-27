@@ -119,3 +119,18 @@ Three ways it can grow: the long hall, the round chamber, the deeper stair. Each
 .\tools\sprites\paint.ps1 -List r140_crypt
 .\tools\sprites\paint.ps1 -List r140_motion
 ```
+
+### Paintings in (r140_crypt, r140_motion)
+- **Characters:** cut and packed into the atlases. Oswin walks; the sheep and the lamb are animals that graze and amble.
+- **Scenery:** cut and packed. Both cauldrons play their bubbling loops (ZMOVE). The six bar frames and the crypt paintings are in the Lab.
+- **Lab:** the crypt tab, the bars tab and "What should move" now show the paintings. The cauldrons and walks are shown animated.
+
+### The fair greeter (`ZFAIR`, Lab: The fair greeter)
+- **When:** the first time you come into the village after a fair begins, once per fair, and never during a fight, a story scene or the first walk.
+- **What happens:**
+  - The greeter finds a way round the houses to you (`ZWALK.route`).
+  - They say three lines: what this fair is, the three games at the board, and the ribbon.
+  - Then they walk back to the board and stand there while the fair lasts.
+- **The same at all five fairs;** only the first line and the closing remark change per fair.
+- **Who:** Marta the Cart Vendor for now. She brings her cart for every fair, even before she lives in the village. Every villager has walking frames, so any of them needs no new paintings.
+- **Proposed for Kris to pick:** Runa, Tob, Fenwick, or a new travelling fair-crier (2 new sheets).

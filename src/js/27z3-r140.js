@@ -347,3 +347,47 @@ var ZSHEEP={ on:true, R:22, HOME:0.9, SPD:16, L:{},
 if(typeof ZAtlas!=='undefined'&&ZAtlas.ANIMAL_H){ ZAtlas.ANIMAL_H.sheep=22; ZAtlas.ANIMAL_H.lamb=15; }
 if(typeof WPROP!=='undefined'&&WPROP.sheep){ var _wsh0=WPROP.sheep; WPROP.sheep=function(){ if(ZSHEEP.live())return; return _wsh0.apply(this,arguments); }; }
 if(typeof _heroStatusTick==='function'){ var _hst23=_heroStatusTick; _heroStatusTick=function(sc,dt){ _hst23(sc,dt); try{ ZSHEEP.tick(sc,dt); }catch(e){} }; }
+
+// ── 24. round 140c (Kris: "when the fair starts, there also needs to be some explanation about this, perhaps someone that meets you when you
+// first come back to the village to tell you about the fair once it starts … should be the same for all fairs"): ZFAIR — the first time you
+// come into the village after a fair begins (and no foe is on you), the fair's greeter walks up to you, tells you what the fair is, the three
+// games at the board and the ribbon, then walks back to the board and stands there while the fair lasts. Once per fair. The greeter is
+// Kris's pick in the Lab (The fair greeter); until then Marta the Cart Vendor, who brings her cart for every fair, from the very first.
+// Any villager works (they all have walking frames): if they live in the village, their own figure walks over and goes home after.
+var ZFAIR={ on:true, WHO:'vf_vendor', R:16, SPD:95, S:null,
+  NAME:function(){ var R=typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID[ZFAIR.WHO]; return R?R.name:'Marta the Cart Vendor'; },
+  WHAT:{sp:'the first fair since the long winter broke. We sweep out the old year and hang green on every door',su:'the longest day of the year. The bonfire on the Green burns all night and nobody sleeps',
+    au:'the harvest is in. We feast on what the land gave back to us',wi:'the longest night. We light the great log and keep each other warm till the sun comes back',bl:'spring in full flower: garlands on every post and dancing round the pole'},
+  MORE:{sp:'Twenty-eight winters without a fair — nobody remembers the old rules, so we are making them up.',su:'Bring a wish for the fire. Everyone does.',au:'Mind the barrels. Last time Rolf rolled one into the pond.',wi:'Stay by the fires, and listen for the old songs.',bl:'Wear a flower. You will be the only one without one otherwise.'},
+  lines:function(f){ var N=typeof ZDAY!=='undefined'?ZDAY.FNAME[f]:'the fair', n=N.charAt(0).toUpperCase()+N.slice(1);
+    return ['There you are! '+n+' has begun on the Green — '+(ZFAIR.WHAT[f]||'a fair for the whole village')+'.',
+      'For three days there are games at the fair board: the rune toss, rune memory, and a race round the Green. Play any one of them and the fair\'s ribbon is yours to keep.',
+      (ZFAIR.MORE[f]||'')+' Come and find me at the board — I will show you how they go.']; },
+  key:function(ps,f){ return f+'@'+ps.seasStart; },
+  tick:function(ws){ if(!ZFAIR.on||!ws||!ws.wd||!ws.player||ws.sys.settings.key!=='World'||ws.wd.islKey)return; var ps=ws.playerState; if(!ps||typeof ZDAY==='undefined')return;
+    var now=Date.now(), dt=Math.min(0.25,(now-(ZFAIR._t||now))/1000); ZFAIR._t=now;      /* by time: the frame hook runs at any rate */
+    var f=ZDAY.fest(ps), S=ZFAIR.S; if(S&&(S.ws!==ws||!S.im||!S.im.scene)){ ZFAIR.S=S=null; }
+    if(!f){ if(S)ZFAIR.end(S,true); return; }
+    var k=ZFAIR.key(ps,f), G=ps.festGreet||(ps.festGreet={});
+    if(G[k]==='done'){ if(S&&S.phase==='stand')return; if(S&&S.phase==='back')ZFAIR.walk(S,dt); return; }
+    var C=ZFEST.centre(ws), B=ws._zfestBoard;
+    if(!S){ if(!B||Math.hypot(ws.player.x-C.x,ws.player.y-C.y)>ZFAIR.R*TILE)return; if(ZR140.fight(ws)||ZR140.story()||(ps.walk&&ps.walk!=='done'))return;
+      if(typeof _openOverlays==='function'&&_openOverlays().length)return;
+      var own=(ws._folk||[]).find(function(o){ return o.F&&o.F.id===ZFAIR.WHO; }), im=own&&own.im, temp=false, npc=null;
+      if(own){ npc=(ws._villageNPCs||[]).find(function(n){ return n.id===ZFAIR.WHO; }); }
+      else { im=typeof CHX!=='undefined'?CHX.sprite(ws,ZFAIR.WHO,B.x+TILE,B.y+12,1.45):null; temp=true; if(!im)return; }
+      ZFAIR.S=S={ws:ws,im:im,own:own,npc:npc,temp:temp,f:f,k:k,x:im.x,y:im.y-12,home:{x:im.x,y:im.y-12},phase:'come',path:null,i:0,t:0}; }
+    if(S.phase==='come'&&Math.hypot(ws.player.x-C.x,ws.player.y-C.y)>(ZFAIR.R+8)*TILE){ if(S.temp)ZFAIR.end(S); else { S.x=S.home.x; S.y=S.home.y; S.im.setPosition(S.x,S.y+12); if(S.npc){ S.npc.x=S.x; S.npc.y=S.y; } ZFAIR.S=null; } return; }      /* you left again: try next time */
+    if(S.phase==='come'){ var H=ws.player, d=Math.hypot(H.x-S.x,H.y-S.y);
+      if(d<TILE*1.6){ S.phase='talk'; S.im.setFlipX(H.x<S.x); var L=ZFAIR.lines(f), nm=ZFAIR.NAME();
+        L.forEach(function(t,i){ ZDLG.say(nm,t,{id:ZFAIR.WHO,icon:typeof ZDAY!=='undefined'?ZDAY.FICON[f]:'🎀',done:i===L.length-1?function(){ G[k]='done'; ZFAIR.back(S); }:null}); }); return; }
+      if(!S.path||S.t>1.2){ S.t=0; S.path=(typeof ZWALK!=='undefined'&&ZWALK.route)?ZWALK.route(ws,{x:S.x,y:S.y},{x:H.x,y:H.y}):null; S.i=0; } S.t+=dt; ZFAIR.walk(S,dt,{x:H.x,y:H.y}); } },
+  // a step along the path (or straight at the goal if there is none); moving the figure is enough — its walking frames follow the movement
+  walk:function(S,dt,goal){ var tg=S.path&&S.path[S.i]||goal; if(!tg){ if(S.phase==='back')ZFAIR.arrive(S); return; } var dx=tg.x-S.x, dy=tg.y-S.y, L=Math.hypot(dx,dy), st=ZFAIR.SPD*dt;
+    if(L<=st){ S.x=tg.x; S.y=tg.y; if(S.path&&S.path[S.i])S.i++; else if(S.phase==='back')ZFAIR.arrive(S); } else { S.x+=dx/L*st; S.y+=dy/L*st; }
+    S.im.setPosition(S.x,S.y+12); S.im.setDepth(WR_DEPTH(S.y)); if(S.npc){ S.npc.x=S.x; S.npc.y=S.y; } },
+  back:function(S){ var ws=S.ws, B=ws._zfestBoard, to=S.temp&&B?{x:B.x+TILE,y:B.y}:S.home; S.goal=to; S.phase='back'; S.path=(typeof ZWALK!=='undefined'&&ZWALK.route)?ZWALK.route(ws,{x:S.x,y:S.y},to):null; S.i=0;
+    if(!S.path)S.path=[to]; else S.path.push(to); },
+  arrive:function(S){ S.phase='stand'; if(S.temp){ var ws=S.ws; S.im.setFlipX(ws.player.x<S.x); } else { ZFAIR.S=null; } },
+  end:function(S,gone){ try{ if(S.temp&&S.im&&S.im.scene)S.im.destroy(); }catch(e){} ZFAIR.S=null; } };
+if(typeof _heroStatusTick==='function'){ var _hst24=_heroStatusTick; _heroStatusTick=function(sc,dt){ _hst24(sc,dt); try{ ZFAIR.tick(sc); }catch(e){ if(!ZFAIR._err){ ZFAIR._err=1; console.warn('fair greeter',e); } } }; }
