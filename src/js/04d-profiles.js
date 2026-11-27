@@ -67,7 +67,7 @@ var ZProfilesUI={
   ago:function(t){ if(!t)return ''; var m=Math.round((Date.now()-t)/60000); return m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' days ago'; },
   slotLine:function(I){ if(!I)return '<span class="zp-empty">Empty</span>'; if(I.broken)return '<span class="zp-empty">Unreadable save</span>'; return '<b>Level '+I.level+'</b> · '+(typeof ZDIFF!=='undefined'&&ZDIFF[I.diff]&&I.diff!==1?ZDIFF[I.diff].name+' · ':'')+I.gold+' gold'+(I.saved?' · saved '+ZProfilesUI.ago(I.saved):''); },
   // NEW GAME: your name, then a slot
-  newGame:function(start,err,val){ ZProfilesUI.open('<h2>New game</h2><p>What\'s your name, adventurer?</p>'+
+  newGame:function(start,err,val){ ZProfilesUI.open('<h2>New player</h2><p>What\'s your name, adventurer?</p>'+
       '<input id="zp-name" maxlength="16" autofocus placeholder="Your name" value="'+ZProfilesUI.esc(val||'')+'">'+(err?'<p class="zp-err">'+ZProfilesUI.esc(err)+'</p>':'')+
       '<div class="zp-row"><button class="zp-btn zp-go" id="zp-next">Next →</button><button class="zp-btn" id="zp-cancel">Cancel</button></div>');
     var go=function(){ var v=document.getElementById('zp-name').value, ex=ZSave.byName(v);

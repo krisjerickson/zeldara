@@ -107,7 +107,7 @@ var ZDAY={ on:true, SEC:1200, FEST:3,
     var f=ZDAY.fest(ps); if(f&&ps.festSeen!==f+'@'+ps.seasStart){ ps.festSeen=f+'@'+ps.seasStart; ZEV.emit('festival',{s:f,txt:'kept '+ZDAY.FNAME[f]+' on the Green'}); }
     ZDAY.chip(ps); },
   chip:function(ps){ var mm=document.getElementById('minimap-hud'); if(!mm)return; var c=document.getElementById('zday'); if(!c){ c=document.createElement('div'); c.id='zday'; mm.appendChild(c); }
-    var s=ps.seasNow||ZDAY.season(ps), f=ZDAY.fest(ps), t='Day '+ZDAY.day(ps)+' · '+ZDAY.NAME[s]+(f?' · '+ZDAY.FICON[f]+' '+ZDAY.FNAME[f]:''); if(c.textContent!==t){ c.textContent=t; c.classList.toggle('fest',!!f); } } };
+    var s=ps.seasNow||ZDAY.season(ps), f=ZDAY.fest(ps), t='Day '+ZDAY.day(ps)+(f?' · '+ZDAY.FICON[f]+' '+ZDAY.FNAME[f]:''); if(c.textContent!==t){ c.textContent=t; c.classList.toggle('fest',!!f); } } };
 
 // ── dying tells you something ──
 var ZDSTORY={ on:true,
@@ -168,7 +168,7 @@ var ZRECAP={ on:true, AWAY:30*60*1000,
     var h=Math.round(away/3600000), when=h>=48?Math.round(h/24)+' days':h>=1?h+' hour'+(h===1?'':'s'):'a little while';
     var d=Z2.overlay('zrecap',(bg?'<img class="zr-bg" src="'+bg+'" alt="">':'')+'<div class="zr-box"><small>'+when+' away</small><h2>Last time, in your saga…</h2><p class="zr-where">'+Z2.esc(Z2.hero(ps))+' stands in <b>'+Z2.esc(Z2.region())+'</b> — day '+ZDAY.day(ps)+', '+Z2.esc(ZDAY.NAME[ps.seasNow||ZDAY.season(ps)])+'.</p>'+
       (R.length?'<ul class="zr-did">'+R.map(function(e){ return '<li>You '+Z2.esc(e.txt)+'.</li>'; }).join('')+'</ul>':'')+
-      '<h3>Three things for tonight</h3><ol class="zr-g">'+ZRECAP.goals(ws).map(function(g){ return '<li><span>'+g[0]+'</span>'+Z2.esc(g[1])+' <small>'+Z2.esc(g[2])+'</small></li>'; }).join('')+'</ol>'+
+      '<h3>Three things to do next</h3><ol class="zr-g">'+ZRECAP.goals(ws).map(function(g){ return '<li><span>'+g[0]+'</span>'+Z2.esc(g[1])+' <small>'+Z2.esc(g[2])+'</small></li>'; }).join('')+'</ol>'+
       ((ps.letters||[]).length?'<p class="zr-l">✉ '+ps.letters.length+' letter'+(ps.letters.length===1?'':'s')+' wait on your table at home.</p>':'')+'<button>Onward</button></div>');
     var close=function(){ d.classList.add('out'); setTimeout(function(){ d.remove(); },450); document.removeEventListener('keydown',kd,true); }, kd=function(e){ if(e.key===' '||e.key==='Enter'||e.key==='Escape'||e.key==='Tab'){ e.preventDefault(); e.stopPropagation(); close(); } };
     d.querySelector('button').onclick=close; setTimeout(function(){ document.addEventListener('keydown',kd,true); },700); } };
@@ -236,7 +236,7 @@ var ZHEARTH={ on:true,
     el.querySelector('.zh-on').onclick=close; el.querySelector('.zh-rest').onclick=function(){ close(); ZHEARTH.rest(); };
     var c=el.querySelector('.zh-card'); if(c)c.onclick=function(){ ZSHARE.card({kind:'boss',title:d.boss?(Z2.hero(ps)+' defeated '+d.boss):(Z2.hero(ps)+' cleared '+d.name),sub:'Day '+ZDAY.day(ps)+' · '+mm+':'+(ss<10?'0':'')+ss+(d.hits===0?' · not a scratch':''),pic:d.boss?null:null}); }; },
   rest:function(){ var ws=Z2.ws(), ps=ws&&ws.playerState; if(!ps)return; try{ if(ws._save)ws._save(); }catch(e){} (ps.zst||(ps.zst={})).hearth=1;
-    var bg=Z2.pic('hearth_dusk'), d=Z2.overlay('zdusk',(bg?'<img src="'+bg+'" alt="">':'')+'<div class="zd-c"><p>The lamps are lit along the Green. Smoke from every chimney. Your saga is saved and will wait for you.</p><div><button class="zd-k">Keep playing</button><button class="zd-q">Rest for tonight (to the title)</button></div></div>');
+    var bg=Z2.pic('hearth_dusk'), d=Z2.overlay('zdusk',(bg?'<img src="'+bg+'" alt="">':'')+'<div class="zd-c"><p>The lamps are lit along the Green. Smoke from every chimney. Your saga is saved and will wait for you.</p><div><button class="zd-k">Keep playing</button><button class="zd-q">Rest for now (to the title)</button></div></div>');
     d.querySelector('.zd-k').onclick=function(){ d.classList.add('out'); setTimeout(function(){ d.remove(); },600); };
     d.querySelector('.zd-q').onclick=function(){ d.remove(); if(typeof doReturnToTitle==='function')doReturnToTitle(); }; } };
 ZEV.sub('site',function(d){ setTimeout(function(){ if(Z2.act('World'))ZHEARTH.show(d); },1400); });
@@ -297,7 +297,7 @@ var ZCODE={ AL:'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
 
 if(typeof setInterval!=='undefined')setInterval(function(){ try{ ZEV.tick(); ZDAY.tick(); ZLETTER.tick(); ZBOOK.tick(); }catch(e){ if(typeof console!=='undefined')console.warn('wave2',e); } },1000);
 (function(){ if(typeof document==='undefined')return; var st=document.createElement('style'); st.textContent=
-  '#zday{position:absolute;left:4px;bottom:4px;z-index:3;padding:1px 7px;border-radius:8px;background:rgba(8,12,20,.72);color:#e8dcc0;font:600 10.5px "Segoe UI";pointer-events:none;white-space:nowrap}#zday.fest{color:#ffe27a;box-shadow:0 0 8px rgba(255,210,110,.5)}'+
+  '#zday{position:absolute;right:38px;top:7px;z-index:3;padding:1px 7px;border-radius:8px;background:rgba(8,12,20,.72);color:#e8dcc0;font:600 10.5px "Segoe UI";pointer-events:none;white-space:nowrap}#zday.fest{color:#ffe27a;box-shadow:0 0 8px rgba(255,210,110,.5)}'+
   '.zk-plb{display:flex;gap:6px;margin:4px 0 6px}.zk-plb button{padding:3px 9px;border-radius:6px;border:1px solid #445;background:#1a2230;color:#c8d4e4;font-size:12px;cursor:pointer}'+
   '#zletters-btn{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);z-index:60;padding:8px 16px;border-radius:10px;border:1px solid rgba(255,226,122,.6);background:rgba(40,28,10,.85);color:#ffe9a8;font:600 15px Georgia,serif;cursor:pointer;animation:zdPulse 2s infinite}'+
   '.zletters,.zrecap,.zhearth,.zdusk,.zshare{position:fixed;inset:0;z-index:140;display:flex;align-items:center;justify-content:center;background:rgba(4,6,10,.62);animation:zcpIn .5s ease-out;transition:opacity .45s}.zrecap.out,.zhearth.out,.zdusk.out{opacity:0}'+

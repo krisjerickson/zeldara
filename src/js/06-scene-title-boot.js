@@ -14,13 +14,13 @@ class TitleScene extends Phaser.Scene{
     var moved=ZSave.migrateLegacy(), start=function(isNew){ ZProfilesUI.close(); self.scene.start('Boot',{newGame:isNew}); };
     this.events.once('shutdown',function(){ ZProfilesUI.close(); });
     var has=ZSave.players().length>0, brand=(typeof ZBrand!=='undefined'&&ZBrand.HOME)?ZBrand.HOMES.find(function(x){ return x.id===ZBrand.HOME; }):null;
-    this._opts={sym:brand?ZBrand.LOGO:null,word:brand?ZBrand.WORDMARK:null,btns:has?['NEW GAME','RETURNING PLAYER']:['NEW GAME']};
+    this._opts={sym:brand?ZBrand.LOGO:null,word:brand?ZBrand.WORDMARK:null,btns:has?['NEW PLAYER','RETURNING PLAYER']:['NEW PLAYER']};
     this._brand=null; this._lt=-1e9;
     this.add.rectangle(w/2,h/2,w,h,0x000000);
     if(brand){ try{ if(this.textures.exists('title_bg'))this.textures.remove('title_bg'); this._tex=this.textures.createCanvas('title_bg',Math.max(2,Math.round(w)),Math.max(2,Math.round(h))); this.add.image(0,0,'title_bg').setOrigin(0); this._brand=brand; this._paint(0); }catch(e){ console.error('title brand',e); this._brand=null; } }
     var rects=this._brand?ZBrand.homeLayout(brand,w,h,this._opts):[{x:w/2-105,y:h*0.5-23,w:210,h:46},{x:w/2-105,y:h*0.5+47,w:210,h:46}];
     if(!this._brand)this.add.text(w/2,h*0.22,'THE QUESTS OF ZOLA AND ZOLDOR',{fontSize:'30px',color:'#63f2dc',fontFamily:'Segoe UI',fontStyle:'bold'}).setOrigin(.5);
-    var newBtn=this._mkBtn(rects[0],'NEW GAME');
+    var newBtn=this._mkBtn(rects[0],'NEW PLAYER');
     newBtn.on('pointerup',function(){ ZProfilesUI.newGame(start); });
     var foot=h-14, note=function(t,col){ self.add.text(w/2,foot,t,{fontSize:'11px',color:col,fontFamily:'Segoe UI'}).setOrigin(.5,1); foot-=16; };
     if(has){

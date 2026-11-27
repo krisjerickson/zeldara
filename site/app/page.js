@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 
 const BLURB = 'Four realms, one broken land. Free the spirits and unravel the fragmented past to liberate Runeheim.';
-const LINKS = { 'NEW GAME': '/play?start=new', 'RETURNING PLAYER': '/play?start=returning' };
+const LINKS = { 'NEW PLAYER': '/play?start=new', 'RETURNING PLAYER': '/play?start=returning' };
 
 export default function Home() {
   const canvas = useRef(null);
@@ -24,7 +24,7 @@ export default function Home() {
     if (!brand) return;
     const Z = window.ZBrand, cv = canvas.current, cfg = Z.HOMES.find((h) => h.id === Z.HOME);
     const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const opts = { sym: Z.LOGO, word: Z.WORDMARK, btns: players ? ['NEW GAME', 'RETURNING PLAYER'] : ['NEW GAME'] };
+    const opts = { sym: Z.LOGO, word: Z.WORDMARK, btns: players ? ['NEW PLAYER', 'RETURNING PLAYER'] : ['NEW PLAYER'] };
     let raf = 0, last = 0, W = 0, H = 0, dead = false;
     const size = () => {
       const w = window.innerWidth, h = window.innerHeight, dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -48,8 +48,8 @@ export default function Home() {
       {!brand && <div className="loading">ZOLA</div>}
       {rects.map((r) => (
         <a key={r.label} className="btn" href={LINKS[r.label]} style={{ left: r.x, top: r.y, width: r.w, height: r.h }}
-          onClick={() => { try { sessionStorage.setItem('zeldara_start', r.label === 'NEW GAME' ? 'new' : 'returning'); } catch (e) {} }}>
-          <span className="sr">{r.label === 'NEW GAME' ? 'New game' : 'Returning player'}</span>
+          onClick={() => { try { sessionStorage.setItem('zeldara_start', r.label === 'NEW PLAYER' ? 'new' : 'returning'); } catch (e) {} }}>
+          <span className="sr">{r.label === 'NEW PLAYER' ? 'New player' : 'Returning player'}</span>
         </a>
       ))}
       <p className={narrow ? 'blurb' : 'sr'}>{BLURB}</p>

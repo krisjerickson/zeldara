@@ -17,8 +17,8 @@ def to_world(g):
 with game(new=None) as g:
     g.js("localStorage.clear(); sessionStorage.clear(); game.scene.getScene('Title').scene.restart()"); g.wait(800)
     labels=g.js("game.scene.getScene('Title').children.list.filter(o=>o.type==='Text').map(o=>o.text)")
-    check('First visit: only NEW GAME (no Returning player yet)', 'NEW GAME' in labels and 'RETURNING PLAYER' not in labels, labels[:6])
-    click_title(g,'NEW GAME'); g.wait(300)
+    check('First visit: only NEW PLAYER (no Returning player yet)', 'NEW PLAYER' in labels and 'RETURNING PLAYER' not in labels, labels[:6])
+    click_title(g,'NEW PLAYER'); g.wait(300)
     check('New Game asks for your name', g.js("!!document.getElementById('zp-name')&&document.getElementById('zp-modal').style.display==='flex'"))
     nh=g.js("document.querySelectorAll('.zp-hero').length")
     check('…on the same one-step form as the hero (boy or girl) and the difficulty (round 130: play now)', nh==2, nh)
@@ -42,7 +42,7 @@ with game(new=None) as g:
     # back to the title: Returning player lists both names; Kris → Continue slot 2 loads it
     g.js("location.reload()"); g.wait(2500)
     labels=g.js("game.scene.getScene('Title').children.list.filter(o=>o.type==='Text').map(o=>o.text)")
-    check('Returning visit: NEW GAME + RETURNING PLAYER', 'RETURNING PLAYER' in labels, labels[:6])
+    check('Returning visit: NEW PLAYER + RETURNING PLAYER', 'RETURNING PLAYER' in labels, labels[:6])
     click_title(g,'RETURNING PLAYER'); g.wait(300)
     names=g.js("[...document.querySelectorAll('.zp-pl b')].map(b=>b.textContent)")
     check('Returning player lists the names (last played first)', names[:1]==['Maya'] and 'Kris' in names, names)

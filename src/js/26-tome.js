@@ -41,7 +41,7 @@ var Tome={ ui:{cat:'monster',sel:null,q:0}, _qT:0, _queue:[],
   has:function(cat,id){ var b=Tome.book(); return !!(b&&b[cat][id]); },
   see:function(cat,id){ var b=Tome.book(); if(!b||!id||b[cat][id])return false; var e=Tome.entry(cat,id); if(!e)return false; b[cat][id]=Date.now();
     Tome._queue.push(e.name); if(!Tome._flushT)Tome._flushT=setTimeout(Tome._flush,600); return true; },
-  _flush:function(){ Tome._flushT=null; var q=Tome._queue; Tome._queue=[]; if(!q.length)return; showNotif('📖 Tome: '+(q.length===1?q[0]:q.length+' new entries ('+q.slice(0,2).join(', ')+'…)'),'#e8d8a8'); var el=document.getElementById('tome-btn'); if(el){ el.classList.add('tome-new'); } },
+  _flush:function(){ Tome._flushT=null; var q=Tome._queue; Tome._queue=[]; if(!q.length)return; var el0=document.getElementById('tome-btn'); if(el0)el0.classList.add('tome-new'); if(Tome.QUIET!==false)return;      /* round 140 (Kris: "I was getting lag from and getting distracted by it telling me I had new tome entries"): no pop-up — the Tome button glows instead */ showNotif('📖 Tome: '+(q.length===1?q[0]:q.length+' new entries ('+q.slice(0,2).join(', ')+'…)'),'#e8d8a8'); var el=document.getElementById('tome-btn'); if(el){ el.classList.add('tome-new'); } },
   // everything we already own counts as found
   sync:function(){ var ps=Tome.ps(); if(!ps)return; var b=Tome.book(), mark=function(c,id){ if(id&&!b[c][id]&&Tome.entry(c,id))b[c][id]=Date.now(); };
     (ps.ownedMounts||[]).forEach(function(m){ mark('mount',m); }); if(ps.mount)mark('mount',ps.mount);

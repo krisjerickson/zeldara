@@ -98,7 +98,7 @@ if(typeof setInterval!=='undefined')setInterval(function(){ try{ ZPLEDGE.tick();
       var s=firstFree(p); ZSave.pendingHero=h; if(!s){ ZProfilesUI.slots(p,start,true,'All three of '+p.name+'\'s slots are full — choose one to replace.'); return; }
       ZSave.choose(p.id,s); ZSave.clearCurrent(); ZProfilesUI.close(); start(true); },ZProfilesUI.close);
     var box=ZProfilesUI.el&&ZProfilesUI.el.querySelector('.zp-box'); if(!box)return; var h2=box.querySelector('h2'), p1=box.querySelector('p');
-    if(h2)h2.textContent='New game'; if(p1)p1.outerHTML='<div class="zp-nm"><label>Your name <input id="zp-name" maxlength="16" placeholder="(optional)" value="'+ZProfilesUI.esc(val||'')+'"></label>'+(err?'<p class="zp-err">'+ZProfilesUI.esc(err)+'</p>':'')+'</div><p>Who will you play — Zola or Zoldor?</p>';
+    if(h2)h2.textContent='New player'; if(p1)p1.outerHTML='<div class="zp-nm"><label>Your name <input id="zp-name" maxlength="16" placeholder="(optional)" value="'+ZProfilesUI.esc(val||'')+'"></label>'+(err?'<p class="zp-err">'+ZProfilesUI.esc(err)+'</p>':'')+'</div><p>Who will you play — Zola or Zoldor?</p>';
     var hb=document.getElementById('zp-hback'); if(hb)hb.textContent='Cancel';
     var inp=document.getElementById('zp-name'); if(inp){ inp.onkeydown=function(e){ e.stopPropagation(); if(e.key==='Escape')ZProfilesUI.close(); }; setTimeout(function(){ inp.focus(); },30); } };
 })();

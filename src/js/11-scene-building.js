@@ -23,8 +23,8 @@ class BuildingScene extends Phaser.Scene{
     this.input.keyboard.on('keydown-TAB',function(e){e.preventDefault();});
     this.interactPrompt=domText(this,INT_W*TILE/2,INT_H*TILE/2,'',
       {fontSize:'8px',color:'#ffff88',stroke:'#000',strokeThickness:2,fontFamily:'Segoe UI',align:'center'}).setOrigin(.5).setDepth(9500);
-    domText(this,INT_W*TILE/2,(INT_H-1)*TILE-6,(m.theme&&m.theme.name)||type,
-      {fontSize:'9px',color:'#ffeecc',fontFamily:'Segoe UI',fontStyle:'bold',stroke:'#000',strokeThickness:3}).setOrigin(.5,1).setDepth(9600);
+    domText(this,INT_W*TILE/2,TILE*0.18,(m.theme&&m.theme.name)||type,      /* round 140 (Kris: text overlapping in the home): the room's name sits at the top of the room, clear of the action bar */
+      {fontSize:'9px',color:'#ffeecc',fontFamily:'Segoe UI',fontStyle:'bold',stroke:'#000',strokeThickness:3}).setOrigin(.5,0).setDepth(9600);
     document.getElementById('hud').style.display='';
     this.events.once('shutdown',function(){ var ks=self._texKeys||[]; setTimeout(function(){ ks.forEach(function(k){ try{ if(game.textures.exists(k))game.textures.remove(k); }catch(e){} }); },60); });
   }

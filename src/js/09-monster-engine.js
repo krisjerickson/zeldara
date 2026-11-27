@@ -141,12 +141,12 @@ MX.onHp=function(mon,v){ var m=mon._m, old=mon._hp, d=old-v; if(!m||d<=0){ mon._
     if(D.name==='spiritward'&&m.sward>0){ if(kind==='familiar'){ d=0; say('rune ward','#c8b0ff'); MX.ev(mon,'def_spiritward'); continue; } if(kind==='melee'){ m.sward--; say(m.sward>0?'ward cracks ('+m.sward+')':'rune ward shatters!','#c8b0ff'); if(m.sward<=0&&A)MX.fxRing(A,mon.x,mon.y,30,'#c8b0ff'); } continue; }
     if(D.name==='mirror'&&kind==='familiar'&&MX._famK==='proj'){ d=0; say('mirrored!','#e0f0ff'); if(MX.onFamReflect)MX.onFamReflect(sc,MX._famId,mon); MX.ev(mon,'def_mirror'); continue; }
     if(D.name==='resist'&&kind==='familiar'&&MX._famEl===(p.el||'fire')){ d*=1-(p.red===undefined?0.75:p.red); say('resists','#e0d0a0'); continue; }
-    if(D.name==='front'&&!_strip){ var a=Math.atan2(P.y-mon.y,P.x-mon.x), df=Math.abs(Math.atan2(Math.sin(a-m.face),Math.cos(a-m.face))); if(df<(p.arc||1.1)){ d*= (1-(p.red===undefined?1:p.red)); say(p.red<1?'glancing':'blocked!','#e0e0e0'); MX.ev(mon,'def_front'); } }
+    if(D.name==='front'&&!_strip){ var a=Math.atan2(P.y-mon.y,P.x-mon.x), df=Math.abs(Math.atan2(Math.sin(a-m.face),Math.cos(a-m.face))); if(df<(p.arc||1.1)){ d*= (1-Math.min(MX.FRONT_MAX,(p.red===undefined?1:p.red))); say('blocked — a glancing blow','#e0e0e0'); MX.ev(mon,'def_front'); } }      /* round 140 (Kris: "enemies that block from the front take no damage"): a shield takes at most MX.FRONT_MAX of a blow */
     else if(D.name==='reflect'&&kind==='ranged'){ d=0; say('reflected!','#c0f0ff'); MX.ev(mon,'def_reflect'); }
     else if(D.name==='immune'&&p.k===kind){ d*=MX.SHRUG; say('shrugs it off','#d8d0c0'); MX.shrugHint(mon,kind); }      // round 45 (Kris): "no effect" is now a quarter of the damage
     else if(D.name==='armor'&&m.armor>0&&!_strip){ m.armor--; d*=1-(p.red||0.7); say(m.armor>0?'armor ('+m.armor+')':'armor breaks!','#ffd080'); if(m.armor<=0)MX.ev(mon,'def_armor_break'); }
-    else if(D.name==='dodge'&&m.dodgeCd<=0){ m.dodgeCd=p.cd||4; d=0; say('dodged!','#ffffff'); MX.ev(mon,'def_dodge'); }
-    else if(D.name==='tiny'&&Math.random()<(p.c||0.25)){ d=0; say('missed','#ffffff'); }
+    else if(D.name==='dodge'&&m.dodgeCd<=0){ m.dodgeCd=p.cd||4; d*=MX.DODGE_KEEP; say('half-dodged','#ffffff'); MX.ev(mon,'def_dodge'); }      /* round 140 (Kris: "they should always take damage when the swing is on them"): a dodge is a graze, never a clean miss */
+    else if(D.name==='tiny'&&Math.random()<(p.c||0.25)){ d*=MX.DODGE_KEEP; say('grazed','#ffffff'); }
     else if(D.name==='thorns'&&kind==='melee'&&A){ A.hurt(p.d||1,'thorns','#c0e070',true); MX.ev(mon,'def_thorns'); }
     else if(D.name==='bubble'){ var now=m.t; m.hits=m.hits.filter(function(h){ return now-h<1.5; }); m.hits.push(now); if(m.hits.length>=(p.n||3)){ m.invuln=p.t||2; m.hits=[]; say('shielded!','#9fe8ff'); MX.ev(mon,'def_bubble'); } }
     else if(D.name==='weak'&&p.k===kind){ d*=p.m||2; }
@@ -307,7 +307,7 @@ MX.MOVE={
 MX.MOVE.float=MX.MOVE.drift;
 /* round 117 (Kris: "let's remove boss healing. it's too powerful"): a boss never mends — no regen, no drain-heal, no healer's touch, no second rising */
 MX.bossy=function(m){ return !!(m&&(m.isBoss||m.bossKey||(m.def&&m.def.boss))); };
-MX.TURN={track:1.8,arc:1.1,wait:0.5,slow:0.85};      /* round 119: front-guard turning: tracking speed in front, the out-of-front arc, the pause and the slow turn (rad/s) */
+MX.TURN={track:1.05,arc:1.1,wait:0.9,slow:0.5}; MX.FRONT_MAX=0.6; MX.DODGE_KEEP=0.5;      /* round 140 (Kris: "they always turn to block — turn slowly so you can get behind"): slower tracking (was 1.8 rad/s), a longer pause and a slower turn once you are behind; a guard takes 40 % at least; a dodge keeps half */      /* round 119: front-guard turning: tracking speed in front, the out-of-front arc, the pause and the slow turn (rad/s) */
 MX.DEF={spiritward:1,mirror:1,nullaura:1,resist:1,lure:1,front:1,reflect:1,immune:1,armor:1,dodge:1,tiny:1,thorns:1,bubble:1,weak:1,revive:1,enrage:1,flee:1,split:1,explode:1,regen:1,aura:1,heal:1};
 // ── visuals: telegraphs & small effects ───────────────────────────────
 MX.fx=function(A){ var s=A.scene; return s._mxFx||(s._mxFx={proj:[],zones:[],marks:[],tele:[],teth:[],walls:[],traps:[]}); };

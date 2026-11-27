@@ -10,7 +10,7 @@
 // ║ are in; until then the hearts, arc and banners are drawn in CSS.
 // ═══════════════════════════════════════════════════════════════════════
 var ZHUD={ on:true, _sig:'', _pics:{},
-  hearts:function(maxHp){ var per=maxHp>200?Math.ceil(maxHp/20/5)*5:10; return {per:per,n:Math.max(1,Math.ceil(maxHp/per))}; },
+  hearts:function(maxHp){ var per=maxHp>200?Math.ceil(maxHp/20/5)*5:10, n=Math.max(1,Math.round(maxHp/per)); return {per:maxHp/n,n:n}; },      /* round 140 (Kris: "you can have full health, but it shows a heart that is partially full"): the hearts share your whole health evenly, so full health is always full hearts */
   banners:function(level){ return Math.min(6,2+Math.floor((level||1)/4)); },
   manaW:function(mx){ return Math.round(90+Math.min(160,mx*1.2)); },
   // a painted piece as an image URL (cut once from its scenery page)
@@ -29,9 +29,9 @@ var ZHUD={ on:true, _sig:'', _pics:{},
       pf=ZHUD.pic('hud_heart_full'), pe=ZHUD.pic('hud_heart_empty'), sig=[hp,mh,mana,mm,lv,xp,gold,cap,!!pf].join('|');
     if(sig===ZHUD._sig)return; ZHUD._sig=sig;
     var H=ZHUD.hearts(mh), s='';
-    for(var i=0;i<H.n;i++){ var f=Math.max(0,Math.min(1,(hp-i*H.per)/H.per)); f=Math.floor(f*4)/4;
+    for(var i=0;i<H.n;i++){ var f=Math.max(0,Math.min(1,(hp-i*H.per)/H.per)); f=hp>=mh?1:(hp>0&&i===0&&f<0.25?0.25:Math.round(f*4)/4);
       s+='<span class="zh-h'+(pf?' pic':'')+(f<=0?' empty':'')+'"'+(pe?' style="background-image:url('+pe+')"':'')+'><i style="width:'+(f*100)+'%'+(pf?';background-image:url('+pf+')':'')+'"></i></span>'; }
-    var hh=h.querySelector('.zh-hearts'); hh.innerHTML=s; hh.title=hp+' / '+mh+' health'+(H.per>10?' — each heart '+H.per:''); hh.dataset.n=H.n;
+    var hh=h.querySelector('.zh-hearts'); hh.innerHTML=s; hh.title=hp+' / '+mh+' health'+(H.per>10?' — each heart '+Math.round(H.per):''); hh.dataset.n=H.n;
     var M=h.querySelector('.zh-mana'); M.style.width=ZHUD.manaW(mm)+'px'; M.querySelector('i').style.width=Math.min(100,mana/mm*100)+'%'; M.querySelector('b').textContent=mana+' / '+mm; M.title='Mana '+mana+' / '+mm;
     var nb=ZHUD.banners(lv), need=lv*100, capped=lv>=cap, bs='', mb=ZHUD.pic('hud_banner'), me=ZHUD.pic('hud_banner_empty');
     for(var k=0;k<nb;k++){ var ff=capped?1:Math.max(0,Math.min(1,xp/need*nb-k)); bs+='<span class="zh-b'+(mb?' pic':'')+'"'+(me?' style="background-image:url('+me+')"':'')+'><i style="height:'+Math.round(ff*100)+'%'+(mb?';background-image:url('+mb+')':'')+'"></i></span>'; }

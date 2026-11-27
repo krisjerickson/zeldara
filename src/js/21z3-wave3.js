@@ -121,7 +121,7 @@ var ZLOOM={ on:true,
 
 // ── home and the guild hall: buttons by the door ──
 var ZHOME={ tick:function(){ var B=game.scene.getScene('Building'), inB=B&&Z2.act('Building')&&B.building, t=inB&&B.building.type, bar=document.getElementById('zhome-bar');
-    var want=t==='house'?[['🏺 Trophy shelf',ZTROPHY.open]]:t==='guild'?[['🧵 The Saga Loom',ZLOOM.open]]:[];
+    var want=t==='house'?[['🏺 Trophy shelf',ZTROPHY.open]]:[];      /* round 140 (Kris: "in the guild hall something says 'the Saga Loom' over other text — remove it"): the guild hall's loom button is gone */
     if(!want.length){ if(bar)bar.style.display='none'; return; } if(!bar){ bar=document.createElement('div'); bar.id='zhome-bar'; (document.getElementById('app')||document.body).appendChild(bar); }
     var sig=want.map(function(w){ return w[0]; }).join('|'); if(bar._sig!==sig){ bar._sig=sig; bar.innerHTML=''; want.forEach(function(w){ var b=document.createElement('button'); b.textContent=w[0]; b.onclick=w[1]; bar.appendChild(b); }); } bar.style.display=''; } };
 
@@ -257,7 +257,7 @@ var ZBOND={ on:true, PER:3, MAX:5,
 ZEV.sub('quest',function(d,ps){ /* a finished favour counts for the one who asked (21x keeps who) */ try{ var q=ps._lastNpcQ; if(q&&ZBOND.WHO[q])ZBOND.gain(ps,q,2); }catch(e){} });
 
 // ── the saga frame at the big beats ──
-var ZBANNER={ on:true, PICKED:['wl_frame_saga'],      /* Kris picks from the 20 thin banners (Lab › The world, revamped 5); the chosen ones join this list */
+var ZBANNER={ on:true, PICKED:['wl_frame_saga','wl_banner_01','wl_banner_02','wl_banner_03','wl_banner_04','wl_banner_05','wl_banner_06','wl_banner_07','wl_banner_08','wl_banner_10','wl_banner_11','wl_banner_12','wl_banner_14','wl_banner_15','wl_banner_16','wl_banner_17','wl_banner_18','wl_banner_19','wl_banner_20'],      /* round 140: Kris ✓ 18 of the 20 (✗ 9 and 13) */      /* Kris picks from the 20 thin banners (Lab › The world, revamped 5); the chosen ones join this list */
   ids:function(){ return ZBANNER.PICKED.filter(function(id){ return typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has(id); }); },
   show:function(title,sub){ if(!ZBANNER.on||document.querySelector('.zbanner'))return; var I=ZBANNER.ids(); if(!I.length)return; var ps=Z2.ps(), k=((ps&&ps._bannerN)||0)%I.length; if(ps)ps._bannerN=k+1; var p=Z2.pic(I[k]);
     var d=Z2.overlay('zbanner','<img src="'+p+'" alt=""><div class="zb-t"><b>'+Z2.esc(title)+'</b><small>'+Z2.esc(sub||'')+'</small></div>');
@@ -293,7 +293,7 @@ if(typeof setInterval!=='undefined'){ setInterval(function(){ try{ if(!Z2.playin
   '.zt-pick{position:relative;display:flex;flex-wrap:wrap;gap:6px}.zt-pick button{padding:4px 10px;border-radius:8px;border:1px solid #445;background:#181a2a;color:#e8eef6;cursor:pointer;font:12.5px "Segoe UI"}.zt-pick .used{opacity:.5}'+
   '.zlm-wall{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0}.zlm-p{min-height:170px;border-radius:6px;padding:8px 4px;text-align:center;background:repeating-linear-gradient(90deg,#2a1a1a 0 3px,#321e1c 3px 6px);border:2px solid #5a3a20;color:#8a7a6a;display:flex;flex-direction:column;align-items:center;gap:4px}'+
   '.zlm-p.on{background:repeating-linear-gradient(90deg,#6a2020 0 3px,#7a2a24 3px 6px);border-color:#c8a040;color:#ffe9c8}.zlm-p img{width:100%;border-radius:3px}.zlm-ph{font-size:40px;margin-top:10px}.zlm-p b{font-size:13px}.zlm-p small{font:11px/1.3 "Segoe UI"}.zlm-b{display:flex;gap:8px}'+
-  '#zhome-bar{position:absolute;left:50%;bottom:136px;transform:translateX(-50%);z-index:60;display:flex;gap:8px}#zhome-bar button{padding:7px 14px;border-radius:10px;border:1px solid rgba(255,226,122,.6);background:rgba(40,28,10,.85);color:#ffe9a8;font:600 14px Georgia,serif;cursor:pointer}'+
+  '#zhome-bar{position:absolute;right:16px;top:42%;z-index:60;display:flex;flex-direction:column;gap:8px}#zhome-bar button{padding:7px 14px;border-radius:10px;border:1px solid rgba(255,226,122,.6);background:rgba(40,28,10,.85);color:#ffe9a8;font:600 14px Georgia,serif;cursor:pointer}'+
   '.zbanner{position:fixed;inset:0;z-index:125;pointer-events:none;animation:zcpIn .8s ease-out;transition:opacity .7s}.zbanner.out{opacity:0}.zbanner img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill}.zb-t{position:absolute;left:0;right:0;bottom:12%;text-align:center;color:#ffe9a8;text-shadow:0 2px 10px #000}.zb-t b{display:block;font:700 34px Georgia,serif}.zb-t small{font:italic 17px Georgia,serif;color:#e8dcc0}'+
   '@media (max-width:640px){.zlm-wall{grid-template-columns:repeat(3,1fr)}.zt-spots{grid-template-columns:repeat(2,1fr)}}';
   document.head.appendChild(st); })();

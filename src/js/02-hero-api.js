@@ -187,13 +187,13 @@ function _fireSceneBow(scene, mode){
   else {px=scene.player.x;py=scene.player.y;dir=(scene.player.dir)||'down';}
   var dirAng={right:0,left:Math.PI,up:-Math.PI/2,down:Math.PI/2}[dir]||0;
   var nx=Math.cos(dirAng),ny=Math.sin(dirAng);
-  var spd=sub==='heat'?220:360;
+  var spd=sub==='heat'?460:760;      /* round 140 (Kris: "arrows should travel much faster than the hero"): twice as fast */
   var col={normal:0xeedd88,cold:0x88ddff,fire:0xff6600,heat:0xff8800,thorn:0x7ad85a,shock:0xffe060}[sub]||0xeedd88;
   var vis=(typeof ZShot!=='undefined'&&ZShot.make(scene,ZShot.ammoKind(ammoId,sub),px,py,dirAng,15))||scene.add.rectangle(px,py,16,4,col).setDepth(15).setAngle(dirAng*180/Math.PI);
   var arrField=mode==='dungeon'?'_dngPlayerProj':'_islPlayerProj';
   if(!scene[arrField])scene[arrField]=[];
   scene[arrField].push({vis:vis,x:px,y:py,vx:nx*spd,vy:ny*spd,
-    dmg:atkPow,life:2.2,hit:false,subtype:sub,pierceN:_xb?99:0,xb:_xb,
+    dmg:atkPow,life:1.35,hit:false,subtype:sub,pierceN:_xb?99:0,xb:_xb,
     tracking:sub==='heat',
     effect:sub==='cold'?'slow':sub==='fire'?'fire':'none',
     effectDur:2.0,splashR:sub==='fire'?70:0});

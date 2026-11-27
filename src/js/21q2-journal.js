@@ -113,7 +113,7 @@ var ZJOUR={ on:true,
     var h=w?'<div class="zp-w"><b>▸ </b>'+e(w)+'</div>':'';      /* round 112: the Saga in teal, the side quest you chose in yellow */
     if(N&&N.t)h+='<div class="zp-m"><b>ᛉ Saga: </b>'+e(N.t)+'</div>'; if(S&&S.t&&!w)h+='<div class="zp-s"><b>★ </b>'+e(S.t)+'</div>';
     if(el._t!==h){ el._t=h; el.innerHTML=h; el.style.display=h?'':'none'; } },
-  // ── the arrows on the little map's rim (round 112: yellow = your side quest, runic teal = the Saga; no distance number) ──
+  // ── the arrows on the little map's rim (round 112: yellow = your side quest, runic teal = the Saga; round 140: the side quest's arrow shows the paces left) ──
   COL:{side:{f:'#ffd84a',s:'#2a1a00',g:'rgba(255,210,60,.9)',r:'255,224,90'},main:{f:'#3ff0d8',s:'#03302c',g:'rgba(60,240,215,.95)',r:'70,240,215'}},
   arrow:function(ws){ var cv=document.getElementById('minimap-hud-canvas'); if(!cv||!ws||!ws.player)return; var S=ZJOUR.sideT(ws), M=ZJOUR.mainT(ws);
     if(S&&M&&Math.hypot(S.x-M.x,S.y-M.y)<TILE*2)S=null;      /* the same place: the Saga's mark alone */
@@ -126,7 +126,9 @@ var ZJOUR={ on:true,
       ctx.beginPath(); ctx.moveTo(18,0); ctx.lineTo(2,-11); ctx.lineTo(-12,0); ctx.lineTo(2,11); ctx.closePath(); ctx.stroke(); ctx.fill();
       ctx.shadowBlur=0; ctx.strokeStyle=C.s; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(-6,0); ctx.lineTo(10,0); ctx.moveTo(3,0); ctx.lineTo(-2,-5); ctx.moveTo(3,0); ctx.lineTo(-2,5); ctx.stroke(); }
     else { ctx.beginPath(); ctx.moveTo(16,0); ctx.lineTo(-10,-12); ctx.lineTo(-4,0); ctx.lineTo(-10,12); ctx.closePath(); ctx.stroke(); ctx.fill(); }
-    ctx.restore(); },
+    ctx.restore();
+    /* round 140 (Kris: "the yellow arrow for your side-quest should show a number, to understand how close you are"): the paces left, just inside the arrow */
+    if(kind==='side'){ var n=Math.round(d), tx=cw/2+Math.cos(a)*(R-26), ty=ch/2+Math.sin(a)*(R-26), lbl=n>=1000?(Math.round(n/100)/10)+'k':String(n); ctx.save(); ctx.font='bold 15px "Segoe UI",sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.lineWidth=4; ctx.strokeStyle='rgba(30,18,0,.9)'; ctx.strokeText(lbl,tx,ty); ctx.fillStyle='#ffe27a'; ctx.fillText(lbl,tx,ty); ctx.restore(); } },
   // ── a Saga step done: the banner (what it opened, what is next) ──
   _done:null,
   watch:function(){ try{ if(!ZJOUR.on){ var zp=document.getElementById('zpath'); if(zp)zp.style.display='none'; return; } var ws=ZJOUR.ws(); if(!ws||!ws.playerState||!ws.player)return; ZJOUR.line(); var L=ZJOUR.steps(ws), D=L.filter(function(s){ return s.done; }).map(function(s){ return s.id; });

@@ -234,14 +234,14 @@ function _fireWorldBow(ws){
   // Direction-based aiming: facing direction + optional 45° modifier
   var _aimAng=ws._getAimAngle();
   var nx=Math.cos(_aimAng),ny=Math.sin(_aimAng);
-  var spd=subtype==='heat'?220:360;
+  var spd=subtype==='heat'?460:760;      /* round 140 (Kris: "arrows should travel much faster than the hero"): twice as fast */
   var col={normal:0xeedd88,cold:0x88ddff,fire:0xff6600,heat:0xff8800,thorn:0x7ad85a,shock:0xffe060}[subtype]||0xeedd88;
   var vis=(typeof ZShot!=='undefined'&&ZShot.make(ws,ZShot.ammoKind(ammoId,subtype),p.x,p.y,Math.atan2(ny,nx),15))||ws.add.rectangle(p.x,p.y,16,4,col).setDepth(15).setAngle(Math.atan2(ny,nx)*180/Math.PI);
   if(!ws._playerProj)ws._playerProj=[];
   ws._playerProj.push({
     vis:vis,x:p.x,y:p.y,
     vx:nx*spd,vy:ny*spd,
-    dmg:atkPow,life:2.2,hit:false,
+    dmg:atkPow,life:1.35,hit:false,
     type:'arrow',subtype:subtype,pierceN:_xb?99:0,xb:_xb,
     tracking:subtype==='heat',
     effect:subtype==='cold'?'slow':subtype==='fire'?'fire':'none',
@@ -654,7 +654,7 @@ function openCampModal(site,ps,worldScene){
     var stat=item.atk?'ATK +'+item.atk:item.def?'DEF +'+item.def:item.heal?'Heals '+item.heal+' HP':'';
     h+='<div class="shop-item"><div class="si-icon">'+ZIcon.of(item,1.5)+'</div><div class="si-info"><div class="si-name">'+item.name+'</div><div class="si-desc">'+stat+' &nbsp;•&nbsp; '+item.buy+'g'+_gearCmp(item)+'</div></div><button class="si-buy" '+(canAfford?'':'disabled')+' onclick="window._buyItem(\''+si.id+'\','+item.buy+')">'+(canAfford?'Buy':'No gold')+'</button></div>';
   });
-  h+='<p style="font-size:10px;color:#445;margin-top:8px;text-align:center">You have <span style="color:#ffd700">'+ps.gold+'g</span>'+(wood>0?' &nbsp;|&nbsp; 🪵 '+wood+'/99':'')+'</p>';
+  h+='<p style="font-size:10px;color:#445;margin-top:8px;text-align:center">You have <span style="color:#ffd700">'+ps.gold+'g</span></p>';
   document.getElementById('camp-content').innerHTML=h;
   toggleModal('camp');
 }

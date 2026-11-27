@@ -19,11 +19,11 @@ try:
     pg.goto(B+'/'); pg.wait_for_timeout(2500)
     r=pg.evaluate("""(()=>{ var cv=document.querySelector('.home canvas'), c=cv.getContext('2d'), d=c.getImageData(0,0,cv.width,cv.height).data, n=0, teal=0, gold=0; for(var i=0;i<d.length;i+=16){ if(d[i]+d[i+1]+d[i+2]>60)n++; if(d[i+1]>170&&d[i+2]>150&&d[i]<150)teal++; if(d[i]>190&&d[i+1]>140&&d[i+2]<110)gold++; }
       return {title:document.title, brand:!!window.ZBrand&&[ZBrand.LOGO,ZBrand.WORDMARK,ZBrand.HOME], lit:n, teal:teal, gold:gold, links:[...document.querySelectorAll('a.btn')].map(a=>a.getAttribute('href')), h1:document.querySelector('h1').textContent, fonts:[...document.fonts].filter(f=>f.status==='loaded').length}; })()""")
-    check('Home page paints the picked brand (World Tree logo in teal, Ringed Z in gold, World Tree Veil)', r['brand'][0]=='tree_c' and r['brand'][1] in ('ring_z','qz_shared','fz2_eag_unc') and r['brand'][2]=='veil_a' and r['teal']>300 and r['gold']>150 and r['title'] in ('Zeldara','The Quests of Zeldara and Zeldor') and r['fonts']>=3, r)
+    check('Home page paints the picked brand (World Tree logo in teal, Ringed Z in gold, World Tree Veil)', r['brand'][0]=='tree_c' and r['brand'][1] in ('ring_z','qz_shared','fz2_eag_unc') and r['brand'][2]=='veil_a' and r['teal']>300 and r['gold']>150 and r['title'] in ('Zeldara','The Quests of Zeldara and Zeldor','The Quests of Zola and Zoldor') and r['fonts']>=3, r)
     check('First visit: one button, New Game → /play?start=new', r['links']==['/play?start=new'], r['links'])
     if SHOT: pg.screenshot(path=os.path.join(SHOT,'home_wide.png'))
     box=pg.evaluate("(()=>{ var a=document.querySelector('a.btn').getBoundingClientRect(); return [a.left,a.top,a.width,a.height]; })()")
-    lay=pg.evaluate("ZBrand.homeLayout(ZBrand.HOMES.find(h=>h.id===ZBrand.HOME),innerWidth,innerHeight,{btns:['NEW GAME']})[0]")
+    lay=pg.evaluate("ZBrand.homeLayout(ZBrand.HOMES.find(h=>h.id===ZBrand.HOME),innerWidth,innerHeight,{btns:['NEW PLAYER']})[0]")
     check('The link sits exactly over the painted button', abs(box[0]-lay['x'])<1.5 and abs(box[1]-lay['y'])<1.5 and abs(box[2]-lay['w'])<1.5, [box,lay])
     pg.click('a.btn'); pg.wait_for_timeout(5000)
     r=pg.evaluate("({path:location.pathname+location.search, game:typeof game!=='undefined'&&game.scene.isActive('Title'), dlg:!!document.getElementById('zp-name')&&document.getElementById('zp-modal').style.display, hud:getComputedStyle(document.getElementById('hud')).display})")
@@ -40,7 +40,7 @@ try:
     if SHOT: pg.screenshot(path=os.path.join(SHOT,'home_two.png'))
     pg.click('a.btn[href="/play?start=returning"]'); pg.wait_for_timeout(5000)
     r=pg.evaluate("({dlg:document.getElementById('zp-modal').style.display, names:[...document.querySelectorAll('.zp-pl b')].map(b=>b.textContent), t:game.scene.getScene('Title').children.list.filter(o=>o.type==='Text').map(o=>o.text), brand:!!game.scene.getScene('Title')._brand})")
-    check('Returning Player opens the player list in the game; the title wears the same brand', r['dlg']=='flex' and 'Kris' in r['names'] and r['brand'] and 'NEW GAME' in r['t'] and 'RETURNING PLAYER' in r['t'], r)
+    check('Returning Player opens the player list in the game; the title wears the same brand', r['dlg']=='flex' and 'Kris' in r['names'] and r['brand'] and 'NEW PLAYER' in r['t'] and 'RETURNING PLAYER' in r['t'], r)
     if SHOT: pg.evaluate("ZProfilesUI.close()"); pg.wait_for_timeout(600); pg.screenshot(path=os.path.join(SHOT,'title_two.png'))
     # phone portrait: buttons stack, story line is real text
     ph=ctx.new_page(); ph.set_viewport_size({'width':390,'height':780}); ph.goto(B+'/'); ph.wait_for_timeout(2500)

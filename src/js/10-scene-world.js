@@ -2641,21 +2641,28 @@ class WorldScene extends Phaser.Scene{
   }
 
   _checkInteraction(){
-    if(this._checkFairy&&this._checkFairy())return;
-    if(this._checkWaystone&&this._checkWaystone())return;
     var px=this.player.x, py=this.player.y;
     var self=this;
-    var nearBuilding=null;
-    for(var i=0;i<this.buildings.length;i++){
+    /* round 140 (Kris: "it says to talk to Runa, but when you do there's just a pop-up about your gold and first quests"): Runa stands by her
+       board and the village waystone, and those took the Tab first. A villager with story business for you now (the first walk's Runa) is
+       answered before any door, board, waystone or fairy; and any villager you stand closer to than a door is answered before the door. */
+    var storyNPC=(this._villageNPCs||[]).find(function(n){ return n._walk&&Math.hypot(px-n.x,py-n.y)<TILE*2.2; });
+    if(!storyNPC){
+      if(this._checkFairy&&this._checkFairy())return;
+      if(this._checkWaystone&&this._checkWaystone())return;
+    }
+    var nearBuilding=null, nearBD=1e9;
+    for(var i=0;i<this.buildings.length&&!storyNPC;i++){
       var b=this.buildings[i];
       var doorCX=b.worldX+Math.floor(b.w/2)*TILE+TILE/2;
       var doorCY=b.worldY+(b.h-1)*TILE+TILE/2;
       // round 46 (Kris: "you should only be able to enter the building when you approach from the front"): standing at the door, on its outside
-      if(Math.abs(px-doorCX)<TILE*1.4&&py>doorCY-6&&py<doorCY+TILE*2){nearBuilding=b;break;}
+      if(Math.abs(px-doorCX)<TILE*1.4&&py>doorCY-6&&py<doorCY+TILE*2){nearBuilding=b;nearBD=Math.hypot(px-doorCX,py-doorCY-TILE*0.5);break;}
     }
+    if(nearBuilding&&this._villageNPCs&&this._villageNPCs.some(function(n){ var d=Math.hypot(px-n.x,py-n.y); return d<TILE*1.6&&d<nearBD; }))nearBuilding=null;
     // Rescued craftsmen in the village
     if(!nearBuilding&&this._villageNPCs){
-      var nearNPC=this._villageNPCs.find(function(n){return Math.hypot(px-n.x,py-n.y)<TILE*1.6;});
+      var nearNPC=storyNPC||this._villageNPCs.find(function(n){return Math.hypot(px-n.x,py-n.y)<TILE*1.6;});
       if(nearNPC){
         if(!this._interactPrompt||this._interactPrompt._npc!==nearNPC.id){
           if(this._interactPrompt)this._interactPrompt.destroy();

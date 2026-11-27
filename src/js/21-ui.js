@@ -221,7 +221,7 @@ function _wmDrawView(ctx,cw,ch,ws,v,o){
     if(on){ ctx.save(); ctx.shadowColor='#6fe3f5'; ctx.shadowBlur=big?10:6; ctx.fillStyle='#6fe3f5'; ctx.fillRect(px-w/2,py-h/2,w,h); ctx.restore(); } else { ctx.fillStyle='#50606a'; ctx.fillRect(px-w/2,py-h/2,w,h); }
     ctx.strokeStyle='#002830'; ctx.lineWidth=1.2; ctx.strokeRect(px-w/2,py-h/2,w,h); });
   // player arrow
-  if(ws.player){ var ptx=ws.player.x/TILE, pty=ws.player.y/TILE, a={up:-Math.PI/2,down:Math.PI/2,left:Math.PI,right:0}[ws.player.dir]||Math.PI/2;
+  if(ws.player){ var ptx=ws.player.x/TILE, pty=ws.player.y/TILE, a=({up:-Math.PI/2,down:Math.PI/2,left:Math.PI,right:0})[ws.player.dir]; if(a==null)a=Math.PI/2;      /* round 140 (Kris: "when you move right the arrow only points down"): right is 0, and 0||PI/2 fell through to down */
     var px2=X(ptx),py2=Y(pty), s2=big?13:9; ctx.save(); ctx.translate(px2,py2);      /* round 105 (Kris: "you should have yourself more prominently displayed"): a bigger arrow on a dark disc with a white rim */
     ctx.fillStyle='rgba(0,20,16,.75)'; ctx.beginPath(); ctx.arc(0,0,s2*1.25,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#ffffff'; ctx.lineWidth=2; ctx.stroke(); ctx.rotate(a);
     ctx.fillStyle='#00ffcc'; ctx.strokeStyle='#002a22'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(s2,0); ctx.lineTo(-s2*0.7,s2*0.65); ctx.lineTo(-s2*0.35,0); ctx.lineTo(-s2*0.7,-s2*0.65); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); }
