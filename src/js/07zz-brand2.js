@@ -223,7 +223,7 @@ ZBrand.glyph=function(q,p,ch,x,y){ if(p[1]>1.05){ q.lineWidth=5*(p[1]-1)*3; q.li
   var fitK=function(Wu){ return Math.max(0.5,Math.min(1,(Wu-10.4)/2/(BX+BW/2))); };
   // where the buttons sit (units: page height = 20). One button is centred; two sit side by side, or stacked on a narrow page.
   var layout=function(cfg,Wu,o){ var LB=(o&&o.btns)||['NEW PLAYER','RETURNING PLAYER'], by=cfg.by||14.8, cx=Wu/2, stack=LB.length>1&&Wu<24, bk=(stack||LB.length===1)?Math.max(0.45,Math.min(1,(Wu-2.6)/BW)):fitK(Wu), bs=cfg.bs||1;      // round 57: bs scales the buttons (Kris: "OK to make the new game and returning player and the intro text a bit smaller")
-    bk*=bs; return {LB:LB,bk:bk,bh:BH*bs,by:by,stack:stack,narrow:Wu<16,ts:cfg.ts||1,pts:LB.length===1?[[cx,by]]:stack?[[cx,by-1.3*bs],[cx,by+1.3*bs]]:[[cx-BX*bk,by],[cx+BX*bk,by]]}; };
+    bk*=bs; return {LB:LB,bk:bk,bh:BH*bs,by:by,stack:stack,narrow:Wu<16,ts:cfg.ts||1,pts:LB.length===0?[]:LB.length===1?[[cx,by]]:stack?[[cx,by-1.3*bs],[cx,by+1.3*bs]]:[[cx-BX*bk,by],[cx+BX*bk,by]]}; };
   ZBrand.homeLayout=function(cfg,W,H,o){ var u=H/20, L=layout(cfg,W/u,o); return L.pts.map(function(p,i){ return {label:L.LB[i],x:(p[0]-BW*L.bk/2)*u,y:(p[1]-L.bh/2)*u,w:BW*L.bk*u,h:L.bh*u}; }); };
   var buttons=function(P,L,kind){ var k=L.bk; L.pts.forEach(function(pt){ var bx=pt[0], y=pt[1], x0=bx-BW*k/2, x1=bx+BW*k/2, y0=y-L.bh/2, y1=y+L.bh/2; if(kind==='key')keyRect(P,x0,y0,x1,y1,0.15,0.52); else if(kind==='line')lineRect(P,x0,y0,x1,y1); else braidRect(P,x0,y0,x1,y1,0.1,0.44,kind==='knot'?'knot':''); }); };
   // the carved layer for one look, cached per size
