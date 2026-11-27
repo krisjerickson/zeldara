@@ -14,7 +14,7 @@ MKIT('tunnel_nipper','burrow near=30 pop=1.6 | melee m=1 wind=0.1');
 MKIT('scarecrow_warden','disguise r=90 then=chase | shoot p=feather n=3 sp=0.35 homing=1 spd=150 m=0.45 cd=3 | weak k=fire m=2 | immune k=ranged');
 MKIT('bumble_knight','orbit r=90 | lunge r=110 spd=380 m=1.1 kb=30 cd=4 fly=1');
 MKIT('dustwing_moth','drift keep=40 | cloud at=player rad=60 st=blind dur=3 cd=6 | tiny c=0.2');
-MKIT('runestone_crawler','disguise r=100 then=lumber | beam wind=1 len=300 w=10 col=#7fe8ff cd=4 | armor n=99 red=0.95');
+MKIT('runestone_crawler','disguise r=100 then=lumber | beam wind=1 len=300 w=10 col=#7fe8ff cd=4 | armor n=99 red=0.48');      // round 142 (Kris: "too much armor as an intro monster, let's half the armor"): a blow keeps 52% (was 5%)
 MKIT('jackalope','zigzag | melee m=0.8 kb=60 wind=0.15 | dodge cd=3 | flee');
 MKIT('kite_rider','orbit r=130 | lob n=1 rad=26 t=0.9 cd=1.6 col=#9a8a78 | immune k=melee');
 MKIT('bramble_wolf','chase s=1.1 | lunge r=90 m=1 cd=2.2 | thorns d=1');

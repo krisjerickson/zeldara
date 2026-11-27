@@ -37,8 +37,12 @@ if ($NewKey -or -not $env:OPENAI_API_KEY) {
 $joined = $todo -join ','
 Write-Host "`n1/2  Sending $($todo.Count) picture(s):" -ForegroundColor Cyan
 node tools/sprites/generate.mjs --set scenery --ids $joined --concurrency 3 --timeout 240
+node tools/sprites/generate.mjs --set characters --ids $joined --concurrency 3 --timeout 240 | Where-Object { $_ -notmatch '^0 request' }      # round 141: character sheets too (Vela's crafts_4 was moved aside and never sent)
 Write-Host "`n2/2  Second pass - retrying anything that failed:" -ForegroundColor Cyan
 node tools/sprites/generate.mjs --set scenery --ids $joined --concurrency 3 --timeout 240 | Select-String 'request\(s\) to send|^Done'
+node tools/sprites/generate.mjs --set characters --ids $joined --concurrency 3 --timeout 240 | Select-String 'request\(s\) to send|^Done'
 $line = node tools/sprites/generate.mjs --set scenery --ids $joined --dry-run | Select-Object -First 1
+$line2 = node tools/sprites/generate.mjs --set characters --ids $joined --dry-run | Select-Object -First 1
+if ($line2 -notmatch '^0 request') { $line = $line2 }
 if ($line -match '^0 request') { Write-Host "`nAll in. Tell Claude the redo pictures are in." -ForegroundColor Green }
 else { Write-Host "`n$line - run the same command again (it only sends what is missing)." -ForegroundColor Yellow }

@@ -234,7 +234,7 @@ var ZHEARTH={ on:true,
     var mm=Math.floor(d.t/60), ss=d.t%60;
     var el=Z2.overlay('zhearth',(bg?'<img class="zh-bg" src="'+bg+'" alt="">':'<div class="zh-fire">🔥</div>')+'<div class="zh-box"><small>'+(d.boss?'The guardian has fallen':'The site is quiet')+'</small><h2>'+Z2.esc(d.boss||d.name)+'</h2>'+
       '<table><tr><td>⏱ Time</td><td>'+mm+':'+(ss<10?'0':'')+ss+'</td></tr><tr><td>🪙 Gold</td><td>+'+d.gold+'</td></tr><tr><td>⭐ Experience</td><td>+'+d.xp+'</td></tr><tr><td>🎒 Found</td><td>'+(IT.length?Z2.esc(IT.join(', ')):'—')+'</td></tr>'+(d.hits===0?'<tr><td>🛡</td><td>Not a scratch!</td></tr>':'')+'</table>'+
-      '<div class="zh-b"><button class="zh-on">Onward</button><button class="zh-rest">🔥 Rest by the hearth</button>'+(typeof ZSHARE!=='undefined'?'<button class="zh-card">📜 Saga card</button>':'')+'</div></div>');
+      '<div class="zhh-b"><button class="zh-on">Onward</button><button class="zh-rest">🔥 Rest by the hearth</button>'+(typeof ZSHARE!=='undefined'?'<button class="zh-card">📜 Saga card</button>':'')+'</div></div>');
     var close=function(){ el.classList.add('out'); setTimeout(function(){ el.remove(); },400); };
     el.querySelector('.zh-on').onclick=close; el.querySelector('.zh-rest').onclick=function(){ close(); ZHEARTH.rest(); };
     var c=el.querySelector('.zh-card'); if(c)c.onclick=function(){ ZSHARE.card({kind:'boss',title:d.boss?(Z2.hero(ps)+' defeated '+d.boss):(Z2.hero(ps)+' cleared '+d.name),sub:'Day '+ZDAY.day(ps)+' · '+mm+':'+(ss<10?'0':'')+ss+(d.hits===0?' · not a scratch':''),pic:d.boss?null:null}); }; },
@@ -243,6 +243,30 @@ var ZHEARTH={ on:true,
     d.querySelector('.zd-k').onclick=function(){ d.classList.add('out'); setTimeout(function(){ d.remove(); },600); };
     d.querySelector('.zd-q').onclick=function(){ d.remove(); if(typeof doReturnToTitle==='function')doReturnToTitle(); }; } };
 ZEV.sub('site',function(d){ setTimeout(function(){ if(Z2.act('World'))ZHEARTH.show(d); },1400); });
+// round 142 (Kris: "we can't get out of the end screen for adventure sites. also, it doesn't seem like this pauses the game, but it needs to. it can
+// also be used as loading time for going back to the overworld" — and "~6 frames for this to be a little scene, with the fireplace and candles
+// flickering"). The buttons were squeezed into a 16-pixel ribbon by the HUD's own .zh-b style (now .zhh-b). The screen is a pause overlay
+// (the game waits behind it), Enter / Space / Esc go Onward, it comes up the moment you leave the site after its guardian falls (the walk back
+// happens behind it), and once the six hearth frames are painted (hearth_f1..6) the fire and candles flicker.
+(function(){ var s0=ZHEARTH.show;
+  ZHEARTH.FR=['hearth_f1','hearth_f2','hearth_f3','hearth_f4','hearth_f5','hearth_f6']; ZHEARTH.MS=170;
+  ZHEARTH.show=function(d){ if(!d)return; if(ZHEARTH._early&&ZHEARTH._early.id===d.id&&Date.now()-ZHEARTH._early.at<120000){ return; }
+    s0.apply(this,arguments); var el=document.querySelector('.zhearth:not(.out)'); if(!el)return; el.id='zhearth'; ZHEARTH._t0=Date.now();
+    try{ var F=ZHEARTH.FR.map(function(i){ return Z2.pic(i); }); if(F.every(function(x){ return !!x; })){ var bg=el.querySelector('.zh-bg'); var box=document.createElement('div'); box.className='zhh-fr';
+        box.innerHTML=F.map(function(u,i){ return '<img src="'+u+'" alt=""'+(i?'':' class="on"')+'>'; }).join(''); if(bg)bg.replaceWith(box); else el.insertBefore(box,el.firstChild);
+        var k=0, iv=setInterval(function(){ if(!el.isConnected){ clearInterval(iv); return; } var L=box.children; L[k].classList.remove('on'); k=(k+1+(Math.random()<0.25?1:0))%L.length; L[k].classList.add('on'); },ZHEARTH.MS); } }catch(e){} };
+  // the moment you walk out of a site whose guardian fell
+  ZHEARTH.early=function(){ try{ var R=typeof ZEV!=='undefined'&&ZEV.run, ps=Z2.ps(); if(!R||!ps||R.echo||!R.boss||!ZHEARTH.on)return;
+      var got=(ps.inventory||[]).slice(); R.inv0.forEach(function(i){ var k=got.indexOf(i); if(k>=0)got.splice(k,1); });
+      var d={id:R.id,name:R.name,boss:R.boss,t:R.t,gold:Math.max(0,(ps.gold||0)-R.g0),xp:Math.max(0,(ps.xp||0)-R.xp0),items:got,hits:R.hits};
+      ZHEARTH._early=null; ZHEARTH.show(d); ZHEARTH._early={id:R.id,at:Date.now()}; }catch(e){} };
+  if(typeof Phaser!=='undefined'&&Phaser.Scenes&&Phaser.Scenes.ScenePlugin){ var SP=Phaser.Scenes.ScenePlugin.prototype, w0=SP.wake;
+    SP.wake=function(key){ try{ if(this.key==='Dungeon'&&(key==='World'||key==='Island'))ZHEARTH.early(); }catch(e){} return w0.apply(this,arguments); }; }
+  if(typeof document!=='undefined'){ document.addEventListener('keydown',function(e){ var el=document.querySelector('.zhearth:not(.out)'); if(!el||e.repeat)return;
+      if(e.key==='Enter'||e.key===' '||e.key==='Escape'){ if(Date.now()-(ZHEARTH._t0||0)<500)return; var b=el.querySelector('.zh-on'); if(b){ e.preventDefault(); e.stopImmediatePropagation(); b.click(); } } },true);
+    var st=document.createElement('style'); st.textContent='.zhh-fr{position:absolute;inset:0;filter:brightness(.6) saturate(1.1)}.zhh-fr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .16s linear}.zhh-fr img.on{opacity:1}'; document.head.appendChild(st); }
+  setTimeout(function(){ if(typeof PAUSE_OVERLAYS!=='undefined'){ ['zhearth','zdusk'].forEach(function(k){ if(PAUSE_OVERLAYS.indexOf(k)<0)PAUSE_OVERLAYS.push(k); }); } },0);
+  var r0=ZHEARTH.rest; ZHEARTH.rest=function(){ var r=r0.apply(this,arguments); var d=document.querySelector('.zdusk'); if(d)d.id='zdusk'; return r; }; })();
 
 // ── photo mode ──
 var ZPHOTO={ on:true, frame:'wl_frame_saga', grade:'none',
@@ -305,10 +329,10 @@ if(typeof setInterval!=='undefined')setInterval(function(){ try{ ZEV.tick(); ZDA
   '#zletters-btn{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);z-index:60;padding:8px 16px;border-radius:10px;border:1px solid rgba(255,226,122,.6);background:rgba(40,28,10,.85);color:#ffe9a8;font:600 15px Georgia,serif;cursor:pointer;animation:zdPulse 2s infinite}'+
   '.zletters,.zrecap,.zhearth,.zdusk,.zshare{position:fixed;inset:0;z-index:140;display:flex;align-items:center;justify-content:center;background:rgba(4,6,10,.62);animation:zcpIn .5s ease-out;transition:opacity .45s}.zrecap.out,.zhearth.out,.zdusk.out{opacity:0}'+
   '.zl-box{width:min(560px,92vw);max-height:86vh;overflow:auto;padding:20px 26px;border-radius:6px;background:linear-gradient(180deg,#efe2c0,#d8c49a);color:#3a2812;font:16px/1.55 Georgia,serif;box-shadow:0 18px 60px rgba(0,0,0,.7)}.zl-box h2{margin:0 0 10px;font-size:22px;color:#6a2a10}'+
-  '.zl-l{border-top:1px dashed #8a6a3a;padding:10px 0}.zl-s{text-align:right;font-style:italic}.zl-g{font-size:13.5px;color:#5a3a12}.zl-box button,.zr-box button,.zh-b button,.zd-c button,.zs-b button{margin-top:10px;padding:7px 18px;border-radius:8px;border:1px solid #2a1404;background:linear-gradient(180deg,#8a4a1a,#5a2a0a);color:#f8e8c0;font:600 14px Georgia,serif;cursor:pointer}'+
+  '.zl-l{border-top:1px dashed #8a6a3a;padding:10px 0}.zl-s{text-align:right;font-style:italic}.zl-g{font-size:13.5px;color:#5a3a12}.zl-box button,.zr-box button,.zhh-b button,.zd-c button,.zs-b button{margin-top:10px;padding:7px 18px;border-radius:8px;border:1px solid #2a1404;background:linear-gradient(180deg,#8a4a1a,#5a2a0a);color:#f8e8c0;font:600 14px Georgia,serif;cursor:pointer}'+
   '.zr-bg,.zh-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.55) saturate(1.1);animation:zmsKen 18s ease-out both}.zr-box,.zh-box{position:relative;width:min(620px,92vw);padding:22px 28px;border-radius:14px;background:rgba(10,14,22,.78);border:1px solid rgba(255,226,122,.45);color:#e8eef6;font:15px/1.5 Georgia,serif;box-shadow:0 18px 60px rgba(0,0,0,.7)}'+
   '.zr-box small,.zh-box small{font:12px "Segoe UI";letter-spacing:.12em;text-transform:uppercase;color:#c8b8e8}.zr-box h2,.zh-box h2{margin:4px 0 10px;font-size:28px;color:#ffe27a}.zr-box h3{font-size:15px;color:#ffcf9a;margin:12px 0 4px}.zr-did{margin:4px 0;padding-left:20px;color:#d8e2ee}.zr-g{padding-left:4px;list-style:none;margin:0}.zr-g li{margin:4px 0}.zr-g span{display:inline-block;width:28px}.zr-g small{color:#9ab0c8;text-transform:none;letter-spacing:0;margin-left:6px}.zr-l{color:#ffe9a8}'+
-  '.zh-fire{position:absolute;font-size:120px;opacity:.35;filter:blur(1px);animation:zdPulse 2s infinite}.zh-box table{width:100%;border-collapse:collapse;margin:6px 0}.zh-box td{padding:4px 6px;border-bottom:1px dashed rgba(255,255,255,.18)}.zh-box td:last-child{text-align:right;color:#ffe9a8}.zh-b{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}'+
+  '.zh-fire{position:absolute;font-size:120px;opacity:.35;filter:blur(1px);animation:zdPulse 2s infinite}.zh-box table{width:100%;border-collapse:collapse;margin:6px 0}.zh-box td{padding:4px 6px;border-bottom:1px dashed rgba(255,255,255,.18)}.zh-box td:last-child{text-align:right;color:#ffe9a8}.zhh-b{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}'+
   '.zdusk{background:linear-gradient(180deg,rgba(40,20,60,.55),rgba(255,120,40,.35));backdrop-filter:sepia(.4) saturate(1.3) brightness(.7)}.zdusk img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.zd-c{position:relative;max-width:560px;text-align:center;color:#ffe9c8;font:italic 20px/1.5 Georgia,serif;text-shadow:0 2px 8px #000}.zd-c div{display:flex;gap:10px;justify-content:center}'+
   '.zstamp-bar{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:2px 0 6px;font:12px "Segoe UI";color:#9ab0c8}.zstamp-bar button{width:30px;height:28px;padding:0;border-radius:6px;border:1px solid #445;background:#141c28;font-size:16px;cursor:pointer}.zstamp-bar button.on{background:#5a4a14;border-color:#ffd76a}.zstamp-bar img{width:22px;height:22px;object-fit:contain}'+
   '.zbk h4{margin:12px 0 6px;font:600 15px Georgia,serif;color:#5a3a12}.zbk h4 small{font-weight:400;color:#8a6a3a}.zbk-r{display:grid;grid-template-columns:160px 1fr 70px;gap:8px;align-items:center;font:13px "Segoe UI";color:#3a2812;margin:2px 0}.zbk-r i{height:9px;border-radius:5px;background:rgba(90,60,20,.18);overflow:hidden}.zbk-r i b{display:block;height:100%;background:linear-gradient(90deg,#c8a040,#ffd76a)}.zbk-r em{font-style:normal;text-align:right}'+

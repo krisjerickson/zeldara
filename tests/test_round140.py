@@ -115,19 +115,20 @@ with game(painted=True, w=1280, h=720) as g:
     w = g.js("""(()=>{ var ws=%s, ps=ws.playerState; ps.oswin=ps.oswin||1; ps.equip.shield=null; ps.inventory=(ps.inventory||[]).filter(i=>!(ITEMS[i]&&ITEMS[i].slot==='shield')); delete ps.firstWin; ZFWIN.tick(); var P=ZFWIN.pen(ws); ws.player.x=P.x+TILE*3; ws.player.y=P.y+TILE*3; ws.player.cont.setPosition(ws.player.x,ws.player.y); ZFWIN.tick();
         var L=ZFWIN.lamb, m=ZFWIN.W&&ZFWIN.W.m; return {fw:ps.firstWin, lambH:L&&Math.round(L.displayHeight), gap:m&&L?Math.round(Math.hypot(m.x-L.x,m.y-L.y)):null}; })()""" % WS)
     check('First win: the wolf stands clear of a lamb-sized lamb (%s)' % w, w['fw'] == 2 and w['lambH'] and w['lambH'] <= 40 and w['gap'] and w['gap'] >= 120, w)
-    g.js("(()=>{ var ws=%s, ps=ws.playerState; ZFWIN.kill(ws,ZFWIN.W.m); ZFWIN.done(ws); })()" % WS); g.wait(2500)
+    g.js("(()=>{ for(var q=0;q<8&&ZDLG.cur;q++){ ZDLG._q=[]; ZDLG.cur.close(); } })()")      # round 142: the first fight's words are said in the dialogue box now — click through them
+    g.js("(()=>{ var ws=%s, ps=ws.playerState; ZFWIN.kill(ws,ZFWIN.W.m); ZFWIN.done(ws); })()" % WS); g.wait(300); g.js("(()=>{ for(var q=0;q<8&&ZDLG.cur;q++){ ZDLG._q=[]; ZDLG.cur.close(); } })()"); g.wait(2200)
     l = g.js("(()=>{ var ws=%s, L=ZFWIN.lamb, P=ZFWIN.pen(ws); return {d:Math.round(Math.hypot(L.x-(P.x+TILE*0.5),L.y-(P.y+TILE*1.5)))}; })()" % WS)
     g.js("(()=>{ var ws=%s; ws.player.x+=TILE*6; ws.player.cont.setPosition(ws.player.x,ws.player.y); })()" % WS); g.wait(1200)
     l2 = g.js("(()=>{ var ws=%s, L=ZFWIN.lamb, P=ZFWIN.pen(ws); return {d:Math.round(Math.hypot(L.x-(P.x+TILE*0.5),L.y-(P.y+TILE*1.5)))}; })()" % WS)
     check('…and the lamb runs back into its pen and stays, not following you (%s %s)' % (l, l2), l2['d'] < 30, [l, l2])
     # a lesson card waits while a foe hunts you, then comes
     q = g.js("""(()=>{ var ws=%s; ZCARD.close&&ZCARD.close(); ZR140._q=[]; var m=MX.spawn(ws,'bramble_wolf',ws.player.x+120,ws.player.y,{q:1,temp:true}); if(ws.worldMonsters.indexOf(m)<0)ws.worldMonsters.push(m); window.__wm=m; if(m._m)m._m.aggro=true;
-        ZCARD.show({who:'Master Oswin',text:'test lesson',cls:'zc-les'}); return {shown:!!(ZCARD.cur&&ZCARD.cur.isConnected&&/test lesson/.test(ZCARD.cur.textContent)), q:ZR140._q.length}; })()""" % WS)
-    g.js("(()=>{ var m=window.__wm; m.dead=true; if(m._m)m._m.aggro=false; ZR140._hurtT=0; })()"); g.wait(5200)
-    q2 = g.js("({shown:!!(ZCARD.cur&&ZCARD.cur.isConnected&&/test lesson/.test(ZCARD.cur.textContent)), q:ZR140._q.length})")
-    check('A lesson waits while a foe hunts you, then shows once it is calm (%s → %s)' % (q, q2), not q['shown'] and q['q'] == 1 and q2['shown'], [q, q2])
+        ZCARD.show({who:'Master Oswin',text:'test lesson',cls:'zc-les'}); return {shown:!!(ZCARD.cur&&ZCARD.cur.isConnected&&/test lesson/.test(ZCARD.cur.textContent)), help:ZHELP.L.some(x=>/test lesson/.test(x.text))}; })()""" % WS)
+    g.js("(()=>{ var m=window.__wm; m.dead=true; if(m._m)m._m.aggro=false; ZR140._hurtT=0; })()"); g.wait(500)
+    check('A lesson never pops up over a fight — round 142: it goes into the ? (%s)' % q, not q['shown'] and q['help'], q)
     check('No saga-card offers but the last', g.js("(()=>{ var n=0, s0=ZCARD.show; ZCARD.show=function(){ n++; }; ZSHARE.offer({kind:'festival',title:'x'}); ZCARD.show=s0; return n===0; })()"))
     # walking up to a wall: still in front of it
+    g.js("(()=>{ for(var q=0;q<8&&ZDLG.cur;q++){ ZDLG._q=[]; ZDLG.cur.close(); } })()")
     d = g.js("""(()=>{ var ws=%s, P=(ws.wd.props||[]).filter(o=>o.vill&&o.prop==='fence'&&o.o&&o.o.kind==='stone')[0]; var y=(P.y+P.h)*TILE; ws.player.y=y; ws.player.x=(P.x+P.w/2)*TILE; ws.player.cont.setPosition(ws.player.x,y); return {wall:WR_DEPTH(y)}; })()""" % WS); g.wait(300)
     d2 = g.js("%s.player.cont.depth" % WS)
     check('Right up against a wall you stay in front of it (hero %.6f, wall %.6f)' % (d2, d['wall']), d2 > d['wall'], [d2, d])

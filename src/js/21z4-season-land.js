@@ -13,9 +13,10 @@
 // ║    step piece; at night torches and braziers along the Green.
 // ║ Switch: ZSLAND.on.
 // ═══════════════════════════════════════════════════════════════════════
-var ZSLAND={ on:true,
+var ZSLAND={ on:true,      // round 142 (Kris): the meltwater puddle (lt_puddle) and the mud ruts (lt_mud) are out of the thaw set
+
   FLAT:{lt_snow_a:1,lt_snow_b:1,lt_puddle:1,lt_mud:1,lt_straw:1,lt_twigs:1,lb_meadow:1,lb_petals:1,lb_anemones:1,ly_spruce:1},
-  SET:{sp:['lt_snow_a','lt_snow_b','lt_puddle','lt_mud','lt_coltsfoot','lt_snowdrops','lt_straw','lt_twigs','lt_tar_boat','lt_airing','lt_plough','lt_seed','lt_catkins','lt_birdbox'],
+  SET:{sp:['lt_snow_a','lt_snow_b','lt_coltsfoot','lt_snowdrops','lt_straw','lt_twigs','lt_tar_boat','lt_airing','lt_plough','lt_seed','lt_catkins','lt_birdbox'],
     au:['lh_hesje','lh_hesje_s','lh_stook','lh_rauk','lh_wagon','lh_baskets','lh_barrels','lh_rack','lh_flail','lh_rowan','lh_berries','lh_lastsheaf'],
     wi:['ly_neg','ly_snowlantern','ly_icelantern','ly_spruce','ly_straw_star','ly_goat','ly_torch','ly_sled','ly_log','ly_bonfire','ly_tree','ly_himmeli'],
     bl:['lb_anemones','lb_lily','lb_cowslip','lb_meadow','lb_petals','lb_birch','lb_hawthorn','lb_arch','lb_stone','lb_hive','lb_pole'],su:[]},

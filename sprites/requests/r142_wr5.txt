@@ -1,0 +1,8 @@
+sc_wl_lm4_vela
+sc_wl_lm4_bram
+sc_wl_lm4_dunn
+sc_wl_cliffs
+sc_lift_ride_m
+sc_lift_ride_f
+sc_lift_ride_m_horse
+sc_lift_ride_f_horse

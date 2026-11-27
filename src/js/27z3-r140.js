@@ -333,7 +333,7 @@ if(typeof ZSLAND!=='undefined'&&typeof _dress140==='function'){ ZSLAND.DRESS=['b
 // ── 23. round 140c (Kris: "the sheep need sprites that make them move"): once the sheep and lamb are painted as animals (r140_motion:
 // animal_sheep, animal_lamb — idle (grazing) and a four-frame walk), every sheep of the village pens and the hamlets is alive: it grazes,
 // then ambles a step or two round its spot and grazes again. Until then the still paintings stay as they are.
-var ZSHEEP={ on:true, R:22, HOME:0.9, SPD:16, L:{},
+var ZSHEEP={ on:true, R:22, HOME:2.0, SPD:22, L:{},      /* round 142 (Kris: "i still don't see the sheep moving"): they roam further and graze less long */
   live:function(){ return ZSHEEP.on&&typeof ZAtlas!=='undefined'&&ZAtlas.has('animal_sheep'); },
   tick:function(sc,dt){ if(!ZSHEEP.live()||!sc||!sc.wd||!sc.player||sc.sys.settings.key!=='World')return; var wd=sc.wd, P=sc.player, R=ZSHEEP.R*TILE, L=ZSHEEP.L;
     if(ZSHEEP._wd!==wd){ ZSHEEP._wd=wd; ZSHEEP.L=L={}; ZSHEEP.S=(wd.props||[]).filter(function(p){ return p.prop==='sheep'; }).map(function(p,i){ var h=_wpHash?_wpHash(p.x,p.y,11):i*7; return {k:p.x+'_'+p.y,x:(p.x+p.w/2)*TILE,y:(p.y+p.h)*TILE-4,lamb:(Math.abs(h)%5)===0}; }); }
@@ -342,11 +342,13 @@ var ZSHEEP={ on:true, R:22, HOME:0.9, SPD:16, L:{},
       if(!a)a=L[s.k]={x:s.x,y:s.y,hx:s.x,hy:s.y,vx:0,vy:0,state:'idle',timer:1+Math.random()*4,type:s.lamb&&ZAtlas.has('animal_lamb')?'lamb':'sheep'};
       a.timer-=dt; if(a.timer<=0){ if(a.state==='idle'){ var an=Math.random()*Math.PI*2, r=Math.random()*ZSHEEP.HOME*TILE, tx=a.hx+Math.cos(an)*r, ty=a.hy+Math.sin(an)*r*0.6, d=Math.hypot(tx-a.x,ty-a.y)||1;
           a.vx=(tx-a.x)/d*ZSHEEP.SPD*(a.type==='lamb'?1.3:1); a.vy=(ty-a.y)/d*ZSHEEP.SPD*(a.type==='lamb'?1.3:1); a.state='wander'; a.timer=d/ZSHEEP.SPD; }
-        else { a.vx=a.vy=0; a.state='idle'; a.timer=3+Math.random()*6; } }
+        else { a.vx=a.vy=0; a.state='idle'; a.timer=1.5+Math.random()*3; } }
       a.x+=a.vx*dt; a.y+=a.vy*dt; try{ ZAtlas.animal(sc,a,a.type,false); }catch(e){} }); } };
 if(typeof ZAtlas!=='undefined'&&ZAtlas.ANIMAL_H){ ZAtlas.ANIMAL_H.sheep=22; ZAtlas.ANIMAL_H.lamb=15; }
 if(typeof WPROP!=='undefined'&&WPROP.sheep){ var _wsh0=WPROP.sheep; WPROP.sheep=function(){ if(ZSHEEP.live())return; return _wsh0.apply(this,arguments); }; }
-if(typeof _heroStatusTick==='function'){ var _hst23=_heroStatusTick; _heroStatusTick=function(sc,dt){ _hst23(sc,dt); try{ ZSHEEP.tick(sc,dt); }catch(e){} }; }
+/* round 142 (Kris: "i still don't see the sheep moving"): the hero's upkeep hook runs only a few times a second with a frame's dt, so the sheep crept a pixel a second —
+   they are moved every frame from the World's own update now, by the real time passed */
+setTimeout(function(){ if(typeof WorldScene==='undefined'||!WorldScene.prototype.update)return; var u0=WorldScene.prototype.update; WorldScene.prototype.update=function(t,ms){ var r=u0.apply(this,arguments); try{ if(!(typeof _gameBlocked==='function'&&_gameBlocked()))ZSHEEP.tick(this,Math.min(0.1,(ms||16)/1000)); }catch(e){} return r; }; },0);
 
 // ── 24. round 140c (Kris: "when the fair starts, there also needs to be some explanation about this, perhaps someone that meets you when you
 // first come back to the village to tell you about the fair once it starts … should be the same for all fairs"): ZFAIR — the first time you
@@ -403,3 +405,9 @@ if(typeof ZECHO!=='undefined'){ ZR140.CRYPT_ST=[[0,1],[1,2],[5,3],[13,4]];
     if(ws._zcryptO&&ws._zcryptO.scene)return; ws._zcryptSt=st;
     var im0=Z3.img; Z3.img=function(w,k){ var a=[].slice.call(arguments); if(k==='crypt_door'&&typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has(id))a[1]=id; return im0.apply(this,a); };
     try{ return _cb25.apply(this,arguments); } finally { Z3.img=im0; } }; }
+
+// ── 26. round 142 (Kris: "there's not a 'tab to read Runa's board' notice that pops up, like other interaction spaces. needs one added"):
+// the board has the same [Tab] tag over it as every other place you can use (the one-off message at the top is gone).
+if(typeof ZECO!=='undefined'&&ZECO.boardSpot&&typeof Z3!=='undefined'){ setInterval(function(){ try{ var ws=ZECO.ws&&ZECO.ws(); if(!ws||!ws.player||!ws.sys||!ws.sys.isActive()||ws.islKey||!ws.wd)return;
+    ws._zBoardHint=true; var P=ZECO.boardSpot(), d=Math.hypot(ws.player.x-P.x,ws.player.y-P.y), h=ws._zBoard&&ws._zBoard.displayHeight?ws._zBoard.displayHeight:64;
+    if(d<TILE*2.2&&!(typeof _anyModalOpen==='function'&&_anyModalOpen()))Z3.prompt(ws,'board',P.x,P.y-h-4,'[Tab] Read Runa\'s board'); else Z3.hide(ws,'board'); }catch(e){} },200); }

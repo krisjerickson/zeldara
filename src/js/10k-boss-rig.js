@@ -42,7 +42,7 @@ var BossRig={ keys:[], MAXTEX:8,
     if(cont){ [back,wb,body,pupil,wf].forEach(function(o){ if(o)cont.add(o); }); }
     body._ch=true; body._baseSc=sc;
     var R=body._rig={D:D,M:M,back:back,body:body,pupil:pupil,wb:wb,wf:wf,wr:P.wr,u:u,cont:cont,fy:fy,t:Math.random()*6,lx:null,ly:null,fade:0,trailT:0,ghosts:0,step:0,laid:false,mon:mon||null,scene:scene};
-    body.setFillStyle=function(c){ if(c===0xffffff)ZENG.tintFill(this,0xffffff); else if(c===undefined||c===null)this.clearTint(); else if(typeof c==='number'&&c!==(this._baseCol||-1))ZENG.tint(this,c); else this.clearTint(); return this; };
+    body.setFillStyle=function(c){ if(c===0xffffff){ this._zfl=Date.now(); ZENG.tintFill(this,0xffffff); } else if(c===undefined||c===null||(this._zfl&&Date.now()-this._zfl<600)||c===0x884422){ this._zfl=0; this.clearTint(); }      /* round 142 (Kris: Cindra "always red"): the colour a hit flash hands back is the old stand-in's colour (or a brown default) — on a painted figure that left a red-brown cast for good; a flash now always ends clean, and only a boss's own moves tint it */ else if(typeof c==='number'&&c!==(this._baseCol||-1))ZENG.tint(this,c); else this.clearTint(); return this; };
     body.setStrokeStyle=function(){ return this; };
     return body; },
   // grow the boss's footprint: hit radius + shadow (legacy defs are shared → copy first)
