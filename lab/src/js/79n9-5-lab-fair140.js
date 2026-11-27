@@ -27,3 +27,5 @@
       return h+'<textarea class="wl-n wl-all" data-k="fair140-all" placeholder="Changes to the words, or anything else…">'+esc(P('fair140-all').notes||'')+'</textarea>'; } });
   if(typeof LTODO!=='undefined')LTODO.add({id:'fair140',label:'🎀 The fair greeter: ✓ who meets you when a fair begins',where:'The fair greeter tab',done:function(){ return WHO.some(function(w){ return P('fair140-'+w[0]).verdict==='pick'; }); },go:function(){ LTODO.goTo('fair140',null,0); }});
 })();
+// the Flow third try is in: one more ask on the checklist
+if(typeof LTODO!=='undefined')LTODO.add({id:'flow141',label:'🎬 Flow: the third try is in — ✓ good now or ↻ paint again',where:'Flow: pictures & words tab',done:function(){ var V=typeof VFFA141!=='undefined'?VFFA141:{}; return Object.keys(V).filter(function(k){ return k!=='vela_ref'; }).every(function(k){ return !!(LabApp.picks['flow141-a_'+k]||{}).verdict; }); },go:function(){ LTODO.goTo('flow138','.fl-v3',0); }});
