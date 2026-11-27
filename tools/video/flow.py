@@ -101,9 +101,9 @@ def make(only=None):
                 wf = os.path.join(d, 'WAIT - being painted again (round 138).txt')
                 if s['sheet'] in pend and os.path.getmtime(s['img']) < pt:
                     open(wf, 'w').write('This painting is being painted again (round 138). Make this shot after .\\tools\\sprites\\redo.ps1 -List r138_flow and .\\tools\\video\\storyboards.ps1.\n'); waits += 1
-                elif os.path.isfile(wf): os.remove(wf)
+                elif os.path.isfile(wf): os.rename(wf, os.path.join(d, 'READY - painted again (round 138).txt')) if not os.path.isfile(os.path.join(d, 'READY - painted again (round 138).txt')) else None      # no deleting on the PC: the note is renamed
                 nw = os.path.join(d, 'WAIT - not painted yet.txt')
-                if os.path.isfile(nw): os.remove(nw)
+                if os.path.isfile(nw) and not os.path.isfile(os.path.join(d, 'READY - painted.txt')): os.rename(nw, os.path.join(d, 'READY - painted.txt'))
     json.dump(M, open(os.path.join(OUT, 'manifest.json'), 'w'), indent=0)
     open(os.path.join(OUT, 'README.txt'), 'w', encoding='utf-8').write(README)
     n = sum(1 for _ in seen); print('%d shot folders (%d pictures new, %d kept, %d waiting for a painting)  ->  %s' % (n, made, kept, waits, OUT))

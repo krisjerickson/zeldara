@@ -96,7 +96,7 @@ FOR = [('tall', 'Tall pine', 'a very tall dark-green pine, much taller than a ho
 for s, look in ((1, 'deep green, sunlit edges'), (2, 'cooler blue-green, misty')):
     sheet('wl_forest_%d' % s, 'forest', 'obj', 'Forests with depth %d of 2 — conifers in three sizes, darkest at the back.' % s,
           [('forest%d_%s' % (s, k), n, d + ', ' + look, 384, 640) for k, n, d in FOR], cols=3, rows=2, tail=GRID)
-sheet('wl_water', 'water', 'obj', 'Water that lives — dressing for lakes and marshes.',
+sheet('wl_water5', 'water', 'obj', 'Water that lives — dressing for lakes and marshes.',
       [('wat_lilies', 'Lantern lilies', 'a cluster of lily pads with softly glowing flowers'), ('wat_reeds', 'Reeds', 'a clump of tall reeds and cattails'),
        ('wat_walk', 'Boardwalk', 'a straight stretch of old plank boardwalk on posts'), ('wat_walkc', 'Boardwalk corner', 'a boardwalk turning a corner'),
        ('wat_walkl', 'Boardwalk lantern', 'a boardwalk post with a hanging lantern'), ('wat_glow', 'Mirror glow', 'a soft round glow reflected on dark water, as under a lantern'),

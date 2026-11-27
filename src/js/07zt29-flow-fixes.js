@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// ║ 07zt6z-flow-fixes.js — round 138 (Kris: "Analyze all of the images that are used to request the videos and look for discrepancies, such as …
+// ║ 07zt29-flow-fixes.js — round 138 (Kris: "Analyze all of the images that are used to request the videos and look for discrepancies, such as …
 // ║ the chains are massive and unrealistic … prep the request for new images if I approve"). Each frame flagged in Lab › Flow: the pictures gets
 // ║ its change added to its painting words. Painted again only with:   .\tools\sprites\redo.ps1 -List r138_flow   (Vela's new look: -List r138_vela)
 // ═══════════════════════════════════════════════════════════════════════
