@@ -23,8 +23,8 @@ var ZR140={ on:true, solidPad:4,
   solid:function(wd,x,y,w,h){ if(!wd)return; (wd._r140S||(wd._r140S=[])).push([x-w/2,y-h,x+w/2,y]); },
   unsolid:function(wd,tag){ if(wd&&wd._r140S)wd._r140S=wd._r140S.filter(function(r){ return r.tag!==tag; }); },
   hit:function(wd,x,y,fx,fy){ var L=wd&&wd._r140S; if(!L)return false; for(var i=0;i<L.length;i++){ var r=L[i]; if(x>r[0]&&x<r[2]&&y>r[1]&&y<r[3]){ if(fx>r[0]&&fx<r[2]&&fy>r[1]&&fy<r[3])continue; return true; } } return false; },
-  road:function(wd,x,y){ try{ if(!wd||!wd.tiles)return false; var tx=Math.floor(x/TILE), ty=Math.floor(y/TILE), KL=typeof WK_REG!=='undefined'&&WK_REG.list;
-      for(var j=-1;j<=1;j++)for(var i=-1;i<=1;i++){ var X=tx+i, Y=ty+j, t=wd.tiles[Y]&&wd.tiles[Y][X]; if(t===T.PATH||t===T.BRIDGE||t===T.VILLAGE_FLOOR||t===T.STONE_FLOOR)return true; var k=KL&&wd.kind&&KL[wd.kind[Y*WORLD_W+X]]; if(k&&(k.roadish||k.id==='road'||k.id==='path'))return true; } }catch(e){} return false; },
+  road:function(wd,x,y,r){ try{ if(!wd||!wd.tiles)return false; var tx=Math.floor(x/TILE), ty=Math.floor(y/TILE), KL=typeof WK_REG!=='undefined'&&WK_REG.list; r=r===undefined?1:r;
+      for(var j=-r;j<=r;j++)for(var i=-r;i<=r;i++){ var X=tx+i, Y=ty+j, t=wd.tiles[Y]&&wd.tiles[Y][X]; if(t===T.PATH||t===T.BRIDGE)return true;      /* village floor is built ground (its kind says grass or pavement), not a road by itself */ var k=KL&&wd.kind&&KL[wd.kind[Y*WORLD_W+X]]; if(k&&(k.roadish||k.id==='road'||k.id==='path'||k.id==='vpave'))return true; } }catch(e){} return false; },
   village:function(x,y){ try{ return getTileSection(Math.floor(x/TILE),Math.floor(y/TILE))===0; }catch(e){ return false; } },
   // ── the story first: does Oswin have something new to say? ──
   oswStory:function(ws){ try{ var ps=ws.playerState, T=ZOSW.tq(ps); if(T.net&&T.net<3)return true; if(T.camp===1)return true; if(ZOSW.stuck&&ZOSW.stuck(ws))return true;
@@ -212,3 +212,23 @@ if(typeof ZAUDIO!=='undefined'){ var _zp0=ZAUDIO.play; ZAUDIO.play=function(){ i
 ZR140.beds=function(){ try{ var ws=Z2.ws(), wd=ws&&ws.wd; if(!wd||!wd.props||wd._r140Beds===wd.props)return; wd._r140Beds=wd.props; wd._r140S=(wd._r140S||[]).filter(function(r){ return r.tag!=='bed'; });
     wd.props.forEach(function(p){ if(p.prop!=='vegplot')return; var x=p.x*TILE, y=p.y*TILE; (wd._r140S||(wd._r140S=[])).push(Object.assign([x+4,y+6,x+p.w*TILE-4,y+p.h*TILE-2],{tag:'bed'})); }); }catch(e){} };
 if(typeof setInterval!=='undefined')setInterval(ZR140.beds,1500);
+
+// ── 16. round 140b (Kris: "the festival sprites need to show up in the village. However, I don't want things on top of the main square with
+// the World Tree, and then it gets too cluttered there"): the season's village pieces come back — a few, beside the houses, never on the square
+// or a road — and the night torches stand just outside the square instead of on it. ZR140.SQUARE: the square's radius (tiles) kept clear.
+ZR140.SQUARE=8; ZR140.VMAX=6;
+ZR140.offSquare=function(x,y){ var C=ZFEST.centre(Z2.ws()); return Math.hypot(x-C.x,(y-C.y)/0.9)>ZR140.SQUARE*TILE; };
+if(typeof ZSLAND!=='undefined'){ var _land140=ZSLAND.land; ZSLAND.land=function(ws,s){ _land140.apply(this,arguments);
+    try{ var wd=ws.wd, L=ws._zsl||(ws._zsl=[]), V=(ZSLAND.SET[s]||[]).filter(function(id){ return ZR140.kind(id)==='village'&&ZSLAND.has(id); }); if(!V.length)return;
+      var B=((wd&&wd.buildings)||[]).filter(function(b){ return b.worldX!=null; }), R=Z3.rng(7001+s.charCodeAt(0)*13), n=0;
+      B.sort(function(a,b){ return R()-0.5; });
+      for(var i=0;i<B.length&&n<ZR140.VMAX;i++){ var b=B[i], dx=b.worldX+b.w*TILE/2, dy=b.worldY+b.h*TILE+TILE*0.6;
+        var spots=[[dx-TILE*2.2,dy],[dx+TILE*2.2,dy],[dx-TILE*2.2,dy+TILE],[dx+TILE*2.2,dy+TILE]];
+        for(var k=0;k<spots.length;k++){ var x=spots[k][0], y=spots[k][1]; if(!ZR140.village(x,y)||!ZR140.offSquare(x,y)||ZR140.road(wd,x,y,0)||!Z3.free(ws,x,y))continue;      /* in the village: off the paving itself (the paths to the doors run close by) */
+          if(L.some(function(o){ return Math.hypot(o.x-x,o.y-y)<TILE*3; }))continue;
+          var id=V[n%V.length], o=ZSLAND.put(ws,L,id,x,y); if(o){ o._zv140=1; ZR140.solid(wd,x,y,o.displayWidth*0.6,Math.min(o.displayHeight*0.3,TILE*0.9)); wd._r140S[wd._r140S.length-1].tag='zsl'; n++; } break; } } }catch(e){} };
+  var _dress140=ZSLAND.dress; ZSLAND.dress=function(ws,f){ _dress140.apply(this,arguments);
+    try{ if(!f||!ws._zsd)return; var C=ZFEST.centre(ws), L=ws._zsd;
+      L.filter(function(o){ return o._zNight&&!ZR140.offSquare(o.x,o.y); }).forEach(function(o){ var a=Math.atan2(o.y-C.y,o.x-C.x), placed=false;
+        for(var r=ZR140.SQUARE+0.6;r<ZR140.SQUARE+4&&!placed;r+=0.5){ for(var da=0;da<0.6&&!placed;da+=0.15){ var x=C.x+Math.cos(a+da)*r*TILE, y=C.y+Math.sin(a+da)*r*TILE*0.9; if(Z3.free(ws,x,y)&&!ZR140.road(ws.wd,x,y)){ o.setPosition(x,y); if(o.setDepth)o.setDepth(typeof WR_DEPTH==='function'?WR_DEPTH(y):10); placed=true; } } }
+        if(!placed)o.setVisible(false),o._zNight=0; }); }catch(e){} }; }

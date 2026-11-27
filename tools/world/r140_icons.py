@@ -36,7 +36,10 @@ def desc(e):
     except ValueError: n = 'symbol'
     return 'a small ' + n
 def eid(e): return 'em_' + '_'.join('%x' % ord(c) for c in e if c not in '️‍')
-items = [[eid(e), (OWN.get(e) or desc(e))[:40], desc(e) + STYLE, 48, 48] for e, n in UN]
+items, seen = [], set()
+for e, n in UN:      # ☀ and ☀️ are one icon (the variation selector is dropped from the id)
+    if eid(e) in seen: continue
+    seen.add(eid(e)); items.append([eid(e), (OWN.get(e) or desc(e))[:40], desc(e) + STYLE, 48, 48])
 sheets = []
 for i in range(0, len(items), 25):
     sheets.append({'id': 'sc_ic_r140_%d' % (i // 25 + 1), 'wave': 140, 'fam': 'icons', 'kind': 'icon', 'cols': 5, 'rows': 5, 'size': '1024x1024', 'refs': ['sc_ic_ui_1'],

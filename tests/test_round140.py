@@ -63,10 +63,10 @@ with game(painted=True, w=1280, h=720) as g:
     sv = g.js("""(()=>{ var ws=%s; ws._save&&ws._save(); var c=ZSave.current; if(!c)return {nocur:true}; ZSave.rename(c.pid,c.slot,'Testing saga'); var I=ZSave.info(c.pid,c.slot); return {name:I.name, where:I.where, line:ZProfilesUI.slotLine(I)}; })()""" % WS)
     check('A save can be named and shows where you are (%s)' % sv, sv.get('nocur') or (sv['name'] == 'Testing saga' and sv['where'] and 'Testing saga' in sv['line']), sv)
     # the season's ground pieces: none in the village, never on a road; the tarred boat by the pier, solid
-    zs = g.js("""(()=>{ var ws=%s; ZSLAND.has=function(){ return true; }; var put0=ZSLAND.put; ZSLAND.put=function(ws,L,id,x,y){ var o={id:id,x:x,y:y,displayWidth:60,displayHeight:50,setOrigin:function(){ return o; },setDepth:function(){ return o; },destroy:function(){}}; L.push(o); return o; };
-        ZSLAND.land(ws,'sp'); var L=ws._zsl||[]; ZSLAND.put=put0; delete ZSLAND.has; var inV=L.filter(o=>o.id!=='lt_tar_boat'&&ZR140.village(o.x,o.y)).length, onR=L.filter(o=>o.id!=='lt_tar_boat'&&ZR140.road(ws.wd,o.x,o.y)).length, boat=L.find(o=>o.id==='lt_tar_boat');
-        var solid=boat?_vbBlocked(ws.wd,boat.x,boat.y-4,boat.x,boat.y+200):null; var pier=ws._villageFolkSpot('pier',0); var d=boat&&pier?Math.hypot(boat.x-pier.x,boat.y-pier.y)/TILE:null; ZSLAND.clear(ws,'_zsl'); ws._zslS=null; return {n:L.length, inV:inV, onR:onR, boat:!!boat, solid:solid, pierD:d}; })()""" % WS)
-    check('Ground pieces: none in the village, none on a road; the tarred boat by the pier and solid (%s)' % zs, zs['n'] > 5 and zs['inV'] == 0 and zs['onR'] == 0 and zs['boat'] and zs['solid'] and zs['pierD'] < 12, zs)
+    zs = g.js("""(()=>{ var ws=%s; ZSLAND.has=function(){ return true; }; var put0=ZSLAND.put; ZSLAND.put=function(ws,L,id,x,y){ var o={id:id,x:x,y:y,displayWidth:60,displayHeight:50,setOrigin:function(){ return o; },setDepth:function(){ return o; },setPosition:function(x,y){ o.x=x; o.y=y; return o; },setVisible:function(){ return o; },destroy:function(){}}; L.push(o); return o; };
+        ZSLAND.dress(ws,'midsummer'); var D=(ws._zsd||[]).filter(o=>o._zNight), tOn=D.filter(o=>!ZR140.offSquare(o.x,o.y)).length, tN=D.length; ZSLAND.clear(ws,'_zsd'); ZSLAND.land(ws,'sp'); var L=ws._zsl||[]; ZSLAND.put=put0; delete ZSLAND.has; var inV=L.filter(o=>o.id!=='lt_tar_boat'&&ZR140.village(o.x,o.y)&&ZR140.kind(o.id)!=='village').length, vil=L.filter(o=>ZR140.kind(o.id)==='village').length, onSq=L.filter(o=>!ZR140.offSquare(o.x,o.y)).length, onR=L.filter(o=>o.id!=='lt_tar_boat'&&ZR140.road(ws.wd,o.x,o.y,ZR140.kind(o.id)==='village'?0:1)).length, boat=L.find(o=>o.id==='lt_tar_boat');
+        var solid=boat?_vbBlocked(ws.wd,boat.x,boat.y-4,boat.x,boat.y+200):null; var pier=ws._villageFolkSpot('pier',0); var d=boat&&pier?Math.hypot(boat.x-pier.x,boat.y-pier.y)/TILE:null; ZSLAND.clear(ws,'_zsl'); ws._zslS=null; return {n:L.length, torches:tN, torchOnSq:tOn, inV:inV, vil:vil, onSq:onSq, onR:onR, boat:!!boat, solid:solid, pierD:d}; })()""" % WS)
+    check('Ground pieces: only a few village pieces by the houses, none on the square or a road; the tarred boat by the pier and solid (%s)' % zs, zs['n'] > 5 and zs['inV'] == 0 and zs['onSq'] == 0 and zs['torchOnSq'] == 0 and 1 <= zs['vil'] <= 6 and zs['onR'] == 0 and zs['boat'] and zs['solid'] and zs['pierD'] < 12, zs)
     cr = g.js("""(()=>{ var ws=%s; ZECHO.on=true; ws._zcrypt=null; ZECHO.build(ws); var P=ZECHO.spot(ws), o=ws._zcryptO; var solid=_vbBlocked(ws.wd,P.x,P.y-10,P.x,P.y+200); return {h:o&&o.displayHeight, solid:solid}; })()""" % WS)
     check('The crypt of echoes: as tall as a hall, and solid (%s)' % cr, (cr['h'] is None or cr['h'] >= 140) and cr['solid'], cr)
     E = [x for x in g.errs if 'Failed to load resource' not in x and 'decode audio' not in x and 'test fault' not in x and 'frame fault' not in x]
@@ -115,6 +115,15 @@ with sync_playwright() as pw:
     check('Lab → Round 140: the feast mixer, the proposals, the emojis (%s)' % a, a['mix'] and a['takes'] >= 25 and a['props'] >= 20 and a['em'] >= 100, a)
     t = pg.evaluate("(()=>{ LTODO.goTo('tracker','body',0); return /Round 140/.test(document.body.innerText); })()")
     check('Lab → Checklist has round 140', t)
+    pg.evaluate("LTODO.goTo('worldlook5','#w5-r140',0)"); pg.wait_for_timeout(600)
+    w = pg.evaluate("({imgs:document.querySelectorAll('#w5-r140 img.lv-z').length})")
+    pg.evaluate("document.querySelector('#w5-r140 img.lv-z').click()"); pg.wait_for_timeout(300)
+    v = pg.evaluate("(()=>{ var o=document.getElementById('lv-full'), i=o&&o.querySelector('img'); return {open:o&&o.style.display, w:i&&Math.round(i.getBoundingClientRect().width)}; })()")
+    check('Lab → World revamped 5: the 30 round-138 paintings to review, full screen on a click (%s %s)' % (w, v), w['imgs'] == 30 and v['open'] == 'flex' and v['w'] >= 1300, [w, v])
+    pg.keyboard.press('Escape')
+    pg.evaluate("LTODO.goTo('flow138','.fl-ims',0)"); pg.wait_for_timeout(600)
+    f = pg.evaluate("({after:[...document.querySelectorAll('.fl-ims img')].filter(i=>/painted again/.test(i.alt)).length})")
+    check('Lab → Flow: before and after for the repainted problems (%s)' % f, f['after'] >= 25, f)
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d/%d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)
