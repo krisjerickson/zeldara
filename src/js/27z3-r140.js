@@ -391,3 +391,15 @@ var ZFAIR={ on:true, WHO:'vf_vendor', R:16, SPD:95, S:null,
   arrive:function(S){ S.phase='stand'; if(S.temp){ var ws=S.ws; S.im.setFlipX(ws.player.x<S.x); } else { ZFAIR.S=null; } },
   end:function(S,gone){ try{ if(S.temp&&S.im&&S.im.scene)S.im.destroy(); }catch(e){} ZFAIR.S=null; } };
 if(typeof _heroStatusTick==='function'){ var _hst24=_heroStatusTick; _heroStatusTick=function(sc,dt){ _hst24(sc,dt); try{ ZFAIR.tick(sc); }catch(e){ if(!ZFAIR._err){ ZFAIR._err=1; console.warn('fair greeter',e); } } }; }
+
+// ── 25. round 140c (Kris ✓ in the Lab: the crypt grows as a long hall, and its door on the Green grows with it): the door shows its stage —
+// cold and shut (no guardian beaten), its runes lit (1–4), a bigger mound with lanterns (5–12), ember runes and braziers (13–16), the stately
+// open arch after the end, and the same at night. It changes as soon as you beat the next one. (The hall inside: next, with its paintings.)
+if(typeof ZECHO!=='undefined'){ ZR140.CRYPT_ST=[[0,1],[1,2],[5,3],[13,4]];
+  ZR140.cryptStage=function(ws){ var ps=ws.playerState||{}, n=0; try{ n=ZECHO.bosses(ps).length; }catch(e){} var s=1; ZR140.CRYPT_ST.forEach(function(t){ if(n>=t[0])s=t[1]; });
+    if(ps.spiritsHome||ps.ended){ s=5; try{ if(ws._nightAmt&&ws._nightAmt()>0.5)s=6; }catch(e){} } return s; };
+  var _cb25=ZECHO.build; ZECHO.build=function(ws){ var st=ZR140.cryptStage(ws), id='crypt_door_s'+st;
+    if(ws._zcryptO&&ws._zcryptO.scene&&ws._zcryptSt!==st&&typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has(id)){ try{ ws._zcryptO.destroy(); }catch(e){} ws._zcryptO=null; }
+    if(ws._zcryptO&&ws._zcryptO.scene)return; ws._zcryptSt=st;
+    var im0=Z3.img; Z3.img=function(w,k){ var a=[].slice.call(arguments); if(k==='crypt_door'&&typeof ZScn!=='undefined'&&ZScn.has&&ZScn.has(id))a[1]=id; return im0.apply(this,a); };
+    try{ return _cb25.apply(this,arguments); } finally { Z3.img=im0; } }; }

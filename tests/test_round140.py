@@ -166,6 +166,13 @@ with game(painted=True, w=1280, h=720) as g:
     g.js("(()=>{ for(var q=0;q<8&&ZDLG.cur;q++){ ZDLG.cur.close(); } })()"); g.wait(600)
     st = g.js("(()=>{ var ps=%s.playerState; return {done:Object.values(ps.festGreet||{}).indexOf('done')>=0, phase:ZFAIR.S&&ZFAIR.S.phase}; })()" % WS)
     check('A fair begins: Marta walks up and tells you about it, once (%s; %s)' % (said and said[:90], st), fg['f'] == 'sp' and said and said.startswith('Marta') and 'Thaw-fair' in said and st['done'], [fg, said, st])
+    # round 140c picks: the roots bars, the crypt door's stage, things moving in code
+    g.js("(()=>{ var ps=%s.playerState; ps.spellsLearned=['x']; toggleModal('inventory'); })()" % WS); g.wait(1200)
+    bz = g.js("(()=>{ var v=document.getElementById('zvit'); var r=v&&v.querySelector('.zvit-hp em'); return {pt:!!(v&&v.classList.contains('zvit-pt')), size:r&&parseInt(getComputedStyle(r).fontSize), bg:!!(v&&/url/.test(v.querySelector('.zvit-r').style.backgroundImage))}; })()")
+    g.js("closeModal('inventory')")
+    check('Inventory bars in the painted roots frame, numbers big and clear (%s)' % bz, bz['pt'] and bz['bg'] and bz['size'] >= 15, bz)
+    cs = g.js("(()=>{ var ws=%s, ps=ws.playerState, b0=ps.bossSites; ps.bossSites={}; var a=ZR140.cryptStage(ws); ps.bossSites={a:1,b:1,c:1,d:1,e:1,f:1}; var b=ZR140.cryptStage(ws); ps.bossSites=b0; ZECHO.build(ws); return {a:a,b:b,img:ws._zcryptO&&ws._zcryptO.texture&&ws._zcryptO.texture.key, glow:!!ZMOVE.CODE.crypt_door_s1}; })()" % WS)
+    check('The crypt door shows its stage (none beaten → 1, six → 3) and its runes breathe (%s)' % cs, cs['a'] == 1 and cs['b'] == 3 and cs['glow'], cs)
     # Oswin's line at the top waits during the first walk
     ob = g.js("(()=>{ var ps=%s.playerState, w0=ps.walk; ps.walk='runa'; var el=document.getElementById('zvoice-bub'); if(el)el.classList.remove('on'); ZVOICE.bubble('oswin',ps); var on=!!(document.getElementById('zvoice-bub')||{classList:{contains:()=>false}}).classList.contains('on'); ps.walk=w0; return on; })()" % WS)
     check('Oswin\'s line at the top waits while the first walk is on', ob is False, ob)
@@ -174,6 +181,15 @@ with game(painted=True, w=1280, h=720) as g:
     check('The behind-something outline works with the phone camera zoom (%s)' % ol, not ol['err'], ol)
     E3 = [x for x in g.errs if 'Failed to load resource' not in x and 'decode audio' not in x]
     check('No page errors (140c)', not E3, E3[:3])
+
+# the Flow prompts match the final pictures
+sys.path.insert(0, os.path.join(R, 'tools', 'video')); import flow as FL
+P = {p['id']: p for p in FL.plan()}
+def fp(sid, n, w):
+    p = P[sid]; ww = w if w in p['versions'] else list(p['versions'])[0]; sh = next(x for x in p['versions'][ww] if x['n'] == n); return FL.prompt(p['sc'], sh['beat'], ww if ww != 'all' else 'zeldor')
+a1, a2, a3, a4 = fp('surt3', 5, 'all'), fp('asgard', 6, 'zeldor'), fp('opening', 4, 'all'), fp('celebrate', 6, 'all')
+check('Flow prompts: Surtharn underground with villager spirits; the Lodestar described; the opening\'s chains human-sized; children only after the first cry',
+      'no sky' in a1 and 'villager' in a1 and 'six coloured gems' in a2 and 'human-sized' in a3 and 'no children' not in a4 and 'no children' in fp('celebrate', 1, 'all'), [a1[:200], a3[:200]])
 
 with sync_playwright() as pw:
     PH = os.path.join(R, 'tests', '.phaser', 'package', 'dist', 'phaser.min.js')

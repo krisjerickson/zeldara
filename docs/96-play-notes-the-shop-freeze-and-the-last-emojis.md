@@ -134,3 +134,8 @@ Three ways it can grow: the long hall, the round chamber, the deeper stair. Each
 - **The same at all five fairs;** only the first line and the closing remark change per fair.
 - **Who:** Marta the Cart Vendor for now. She brings her cart for every fair, even before she lives in the village. Every villager has walking frames, so any of them needs no new paintings.
 - **Proposed for Kris to pick:** Runa, Tob, Fenwick, or a new travelling fair-crier (2 new sheets).
+
+### The Flow third try is in (r140_flow, 59 of 59)
+- The Lab's Flow tab now shows each of the 17 repainted problems three ways: before, the second try and the third. Picks are `flow141-a_<k>`.
+- Vela's new sky-captain sheet is shown for Kris to approve.
+- Noticed: in several Surtharn shots he still holds blue skull-fire. It comes from his own phase paintings, not from the spirits. It is flagged for Kris.

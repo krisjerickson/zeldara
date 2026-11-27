@@ -84,7 +84,9 @@ var ZSPR={
   // ── kit module → animation (every module used by a kit must appear here) ──
   // request wording that the image service refused, reworded (the game text is unchanged)
   WALKERS:['npc_guild'],
-  REWORD:{tc_sprint:{name:'the running teacher',look:'A slim, friendly messenger in a green tunic with a feathered cap and small decorative wings on the boots',doing:'showing how to run: stretching, a running start, jogging on the spot'}},
+  /* round 140c (Kris ✓ Vela's new sky-captain sheet): her game sheets are painted from it — REFX adds a character's extra references */
+  REFX:{crafts_4:['sc_vela_ref_140']},
+  REWORD:{crafts_4:{look:'Captain Vela, a grown woman Norse sky-captain exactly as in the Vela reference sheet: a fur-trimmed blue sea-cloak over a quilted brown leather jerkin, a leather flying cap with brass goggles and a raven-feather band, white-blond hair in one thick braid, teal eyes, a bronze spyglass, a glowing brass compass and a coil of rope at her belt; NO tricorn hat, NO naval admiral\'s coat, NO epaulettes, NO lace.'},tc_sprint:{name:'the running teacher',look:'A slim, friendly messenger in a green tunic with a feathered cap and small decorative wings on the boots',doing:'showing how to run: stretching, a running start, jogging on the spot'}},
   MOD:{
     // movement
     chase:'move',lumber:'move',kite:'move',zigzag:'move',flee:'move',swap:'move',rook:'move',chessL:'leap',orbit:'move',
@@ -375,6 +377,7 @@ var ZSPR={
     else if(e.group==='rider'||e.group==='vehicle')r.push('hero_'+(e.rider||e.id.split('_')[1])+'.model'); else if(sh!==e.sheets[0])r.push(e.sheets[0].id);
     if(e.group==='rider'&&typeof CHAR_BY_ID!=='undefined'&&CHAR_BY_ID['mt_'+e.mount])r.push('mt_'+e.mount+'.ride');
     if(e.group==='hero'&&/^lodestar/.test(sh.key||''))r.push('lodestar_ref');      // round 66: the picked painting of the Lodestar rides along
+    if(ZSPR.REFX&&ZSPR.REFX[e.id])r=r.concat(ZSPR.REFX[e.id]);
     if(/^grim_[23]$/.test(e.id)&&sh===e.sheets[0])r.push('grim_1.core.s');      /* round 64: Solmyrk's later forms are the same god — his first sheet rides along */
     var gm=/^grim_(\d)$/.exec(e.id); if(gm&&sh===e.sheets[0]){ r.push('sol_ref_'+gm[1]); if(gm[1]==='2')r.push('sol_ref_2d'); }      // round 65d: Kris's picked painting of this form rides along
     var sm=/^surt_(\d)$/.exec(e.id); if(sm)r.push('surt_ref_'+sm[1]);      // round 59: Kris's approved painting of this phase (cut from wave 60) rides along so the head stays the same

@@ -28,7 +28,7 @@ ORDER = ['opening', 'spirit', 'quiet', 'bram', 'blacktide', 'mira', 'stonefall',
          'surt1', 'surt2', 'surt3', 'surt4', 'surt5', 'surt6', 'lodestar', 'escape', 'asgard', 'twinteach', 'bifrost',
          'sol1', 'sol2', 'sol3', 'solfall', 'feasthall', 'truth', 'home', 'village', 'celebrate', 'credits', 'worldtree']
 NAME = {'zeldor': 'Zoldor', 'zeldara': 'Zola'}; LABEL = {'zeldor': 'zoldor', 'zeldara': 'zola', 'all': 'all', 'both': 'both'}
-FIXLIST = os.path.join(ROOT, 'sprites', 'requests', 'r138_flow.txt')
+FIXLIST = os.path.join(ROOT, 'sprites', 'requests', 'r141_flow.txt')      # round 140c: the one picture still being painted again (the opening's chains)
 VID = ('.mp4', '.mov', '.webm', '.m4v')
 
 # round 138: the actions for the frames being painted again, to match what they will show
@@ -41,6 +41,40 @@ ACT138 = {('blacktide', 6): "black water wells up between the floorboards and bu
           ('sol1', 3): "Solmyrk rises slowly from the high seat to stand, the light swelling round him, his folded wings stirring => Solmyrk standing before the high seat",
           ('sol2', 4): "one golden wing tears into black smoke and black feathers that drift away => the torn wing",
           ('stonefall', 5): "a red rift splits the mountain from its peak downward ; rock and dust fall away ; the two halves lean apart => the Great Scar torn open"}
+# round 140c (Kris: "feedbacks are all in, including for the new images. ready for all of the flow commands to be updated"): the actions for the
+# pictures painted a third time (r140_flow, and opening 4 once more), written from what each one now shows
+ACT141 = {('opening', 4): "the chained pale spirits shuffle slowly along the edge of the misty fields, the short iron chains on their wrists and ankles swaying ; at the far edge the hooded Binder tugs the chain-ends and his lantern swings ; the villagers at the palisade watch in silence => the spirits led away into the mist",
+          ('spirit', 2): "{H} walks steadily through the tall grass toward the bindstone, sword in hand ; beside {H} the Binder crumbles into ash and embers that blow away ; the chained spirit at the stone looks up => {H} nearing the stone, the Binder gone",
+          ('stonefall', 1): "miners with picks and lanterns walk along the rails and push their ore carts into the mine ; lantern light glows in the mine mouths ; the waterfalls spill quietly in the calm evening => the busy mining village at dusk",
+          ('surt1', 1): "rivers of lava flow through the deep cavern ; the giant of fire looms over his forge ; the pale spirits at its foot strain at their work in chains => the deep throne cavern",
+          ('surt1', 6): "{H} raises a sword against the towering giant of fire ; his molten body flares and the lava below him churns => {H} facing Surtharn",
+          ('surt3', 3): "the pale villager spirits are dragged into the ash storm by ember-red chains, reaching back ; the ash whirls round them => the spirits taken",
+          ('surt3', 5): "the Ash Tyrant draws the frightened villager spirits round himself like a living shield ; their chains glow ember-red ; they flicker and look away => the shield of souls",
+          ('surt4', 1): "the ash swirls upward into a towering column ; within it the giant's shape rises, his head bare ; embers spin round him => the column of ash",
+          ('surt4', 2): "the giant grows huge, filling the cavern ; rocks crack and fall from the cavern roof around him ; his hands burn with blue soul-fire => the giant filling the cavern",
+          ('surt5', 3): "a great hand of cracked black rock rises slowly out of the lava, molten light glowing between its fingers => the hand rising",
+          ('escape', 2): "{H} runs along the causeway with the Lodestar held high ; each chain on the wall bursts as {H} passes and the spirits pour free => the wall of freed spirits",
+          ('escape', 3): "{H} bursts out onto the causeway, Lodestar high ; the volcano erupts behind ; spirits stream after => {H} on the causeway",
+          ('escape', 5): "{H} turns on the rocks to look back, the Lodestar glowing ; the freed spirits gather round => {H} on the shore",
+          ('escape', 7): "the steam clears over the calm sea ; the aurora and shooting stars return ; {H} stands small on the rocks and lifts the Lodestar => the clear night sky",
+          ('asgard', 6): "{H} kneels beside the Lodestar standing in the notch of the stone ; its lens stays dark ; {H} frowns and lays a hand on the cold stone => the dark Lodestar in the notch",
+          ('sol1', 6): "{H} raises the Lodestar high before the golden figure ; its lens kindles with white light ; the golden figure turns toward {H} => {H} facing Solmyrk",
+          ('sol2', 1): "a beam of white light from the Lodestar strikes Solmyrk's golden helm ; he reels back in the air, wings flaring => Solmyrk reeling",
+          ('sol2', 2): "a jagged crack runs down the middle of the golden mask ; a cold blue eye glares through it => the cracked mask",
+          ('sol2', 3): "black light pours out of the crack ; black ash creeps into the edges of his golden wings and feathers fall => the darkening wings",
+          ('sol2', 5): "Solmyrk hovers over the hall, one side gold, the other black ash ; black feathers drift down => Wings of Ash",
+          ('solfall', 1): "{H} raises the Lodestar ; a beam of white star-light strikes the black storm-shape full in the chest ; it recoils => the beam striking",
+          ('solfall', 2): "the black storm splits down the middle and tears apart ; white light bursts through the gap and the thunderheads roll back => the storm torn open",
+          ('celebrate', 1): "lanterns sway over the long tables ; the grown-ups of the village raise their tankards to the twins and laugh ; the twins raise theirs back => the toast",
+          ('vela', 2): "Vela, free at last, stands at a deck rail and points her glowing compass out at the sky with a grin, her fur-trimmed cloak and white braid blowing ; {H} grips the rail beside her and smiles => Vela pointing the way",
+          ('vela', 5): "the sky skiff glides in to the cliffside landing, its sail filling, rune-lanterns glowing ; Vela waves from the bow and the people on the landing wave back => the skiff at the landing"}
+# the rules a scene carries into every one of its shots
+RULE141 = {'surt1': 'Deep underground in a lava cavern: no sky, no aurora, no stars.', 'surt2': 'Deep underground in a lava cavern: no sky, no aurora, no stars.',
+           'surt3': 'Deep underground in a lava cavern: no sky, no aurora, no stars. The spirits are pale villagers, not skulls or demons.',
+           'surt4': 'Deep underground in a lava cavern: no sky, no aurora, no stars.', 'surt5': 'Deep underground in a lava cavern: no sky, no aurora, no stars.',
+           'surt6': 'Deep underground in a lava cavern: no sky, no aurora, no stars.', 'celebrate': 'Only grown-ups: no children appear (the first child is born in shot 4).',
+           'opening': 'The chains are small, human-sized iron chains on the spirits only — none in the sky.'}
+LODESTAR = 'The Lodestar stays exactly as painted: a white-gold twisted staff whose head is a gold ring of six coloured gems round a glowing lens.'
 CAM = ['slow push-in', 'slow pan to the right', 'slow orbit around the subject', 'gentle crane up', 'slow dolly back to reveal', 'tracking shot to the left']
 
 def secs(cap):
@@ -48,16 +82,18 @@ def secs(cap):
 
 def prompt(sc, b, who):
     k = who if who in NAME else 'zeldor'; o = 'zeldara' if k == 'zeldor' else 'zeldor'
-    a = ACT138.get((sc['id'], b['n'])) or ACT[sc['id']][b['n'] - 1]
+    a = ACT141.get((sc['id'], b['n'])) or ACT138.get((sc['id'], b['n'])) or ACT[sc['id']][b['n'] - 1]
     a = a.replace('{H}', NAME[k]).replace('{O}', NAME[o]); act, _, end = a.partition('=>')
     acts = [x.strip() for x in act.split(';') if x.strip()]
-    if sc['id'] in ('escape', 'asgard') and b['n'] <= 7: acts.append('%s holds the Lodestar (the white-gold staff whose head is a gold ring of six coloured gems round a glowing lens) the whole time' % NAME[k])
+    hold = sc['id'] == 'escape' and b['n'] <= 7 and 'Lodestar' not in act
     cam = SPECIAL.get((sc['id'], b['n'])) or CAM[(b['n'] - 1) % len(CAM)]
     L = ['Animate this painting as ONE continuous shot that starts exactly on it. Keep its hand-painted storybook style, its colours and light, and every character exactly as painted (faces, hair, clothes, proportions); nobody new appears.',
          'What happens, in order: ' + '; then '.join(acts) + '.',
-         'It ends on: ' + end.strip() + '.',
+         'It ends on: ' + end.strip() + '.' + (' %s holds the Lodestar the whole time.' % NAME[k] if hold else ''),
          'Camera: ' + cam + '.',
          'Clear, strong motion from the first second. One shot, no cuts, no text, no captions, no speech, no music.']
+    if 'Lodestar' in a or sc['id'] == 'escape': L.insert(1, LODESTAR)
+    if sc['id'] in RULE141 and not (sc['id'] == 'celebrate' and b['n'] >= 4): L.insert(1, RULE141[sc['id']])
     return '\n\n'.join(L) + '\n'
 
 def pending():
@@ -98,17 +134,19 @@ def make(only=None):
                     Image.open(s['img']).convert('RGB').save(dst, quality=93); made += 1
                 else: kept += 1
                 open(os.path.join(d, 'PROMPT.txt'), 'w', encoding='utf-8').write(prompt(p['sc'], s['beat'], w if w != 'all' else 'zeldor'))
-                wf = os.path.join(d, 'WAIT - being painted again (round 138).txt')
+                wf = os.path.join(d, 'WAIT - being painted again (round 141).txt')
                 if s['sheet'] in pend and os.path.getmtime(s['img']) < pt:
-                    open(wf, 'w').write('This painting is being painted again (round 138). Make this shot after .\\tools\\sprites\\redo.ps1 -List r138_flow and .\\tools\\video\\storyboards.ps1.\n'); waits += 1
-                elif os.path.isfile(wf): os.rename(wf, os.path.join(d, 'READY - painted again (round 138).txt')) if not os.path.isfile(os.path.join(d, 'READY - painted again (round 138).txt')) else None      # no deleting on the PC: the note is renamed
+                    open(wf, 'w').write('This painting is being painted again (round 141). Make this shot after .\\tools\\sprites\\redo.ps1 -List r141_flow and python tools/video/storyboards.py.\n'); waits += 1
+                elif os.path.isfile(wf): os.rename(wf, os.path.join(d, 'READY - painted again (round 141).txt')) if not os.path.isfile(os.path.join(d, 'READY - painted again (round 141).txt')) else None      # no deleting on the PC: the note is renamed
+                o138 = os.path.join(d, 'WAIT - being painted again (round 138).txt')      # round 140c: the round-138 notes are long out of date
+                if os.path.isfile(o138) and not os.path.isfile(wf) and not os.path.isfile(os.path.join(d, 'READY - painted again (round 138).txt')): os.rename(o138, os.path.join(d, 'READY - painted again (round 138).txt'))
                 nw = os.path.join(d, 'WAIT - not painted yet.txt')
                 if os.path.isfile(nw) and not os.path.isfile(os.path.join(d, 'READY - painted.txt')): os.rename(nw, os.path.join(d, 'READY - painted.txt'))
     json.dump(M, open(os.path.join(OUT, 'manifest.json'), 'w'), indent=0)
     open(os.path.join(OUT, 'README.txt'), 'w', encoding='utf-8').write(README)
     n = sum(1 for _ in seen); print('%d shot folders (%d pictures new, %d kept, %d waiting for a painting)  ->  %s' % (n, made, kept, waits, OUT))
 
-README = """MAKING THE CUT-SCENES IN GOOGLE FLOW  (round 138, doc 95)
+README = """MAKING THE CUT-SCENES IN GOOGLE FLOW  (round 141: every prompt matches its final painting, doc 97)
 
 Every folder here is ONE cut-scene version; every numbered folder inside it is ONE shot (one clip).
   01_opening_both\\01\\   start.jpg  +  PROMPT.txt
