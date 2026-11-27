@@ -95,6 +95,9 @@ var ZDAY={ on:true, SEC:1200, FEST:3,
   FICON:{sp:'🌱',su:'🔥',au:'🍂',wi:'🕯️',bl:'🌸'},
   day:function(ps){ return Math.floor((ps&&ps.gday)||0)+1; },
   season:function(ps){ return typeof ZSEASON!=='undefined'&&ZSEASON.of?ZSEASON.of(ps):'su'; },
+  // round 140c (Kris: "the thaw fair games comes up way too quick, and is distracting"): the first festival waits until you have found your feet —
+  // the first win done AND a treasure site cleared, or three days gone
+  ready:function(ps){ var won=(ps.firstWin||0)>=4||ps.firstWin===0, site=(ps.completedQuests||[]).length>0||(ps.bonusCleared||[]).length>0||(ps.mageDone||[]).length>0; return won&&(site||(ps.gday||0)>=3); },
   // the festival running now (its season), or null
   fest:function(ps){ if(!ps||ps.seasStart==null)return null; var d=Math.floor(ps.gday||0)-ps.seasStart; return d>=0&&d<ZDAY.FEST?ps.seasNow:null; },
   tick:function(){ if(!ZDAY.on||!Z2.playing())return; var ps=Z2.ps(); if(ps.gday==null)ps.gday=0;
@@ -103,7 +106,7 @@ var ZDAY={ on:true, SEC:1200, FEST:3,
     if(n>ZDAY._slept){ ZDAY._slept=n; ps.gday=Math.floor(ps.gday)+1; }
     var s=ZDAY.season(ps); if(ps.seasNow!==s){ var first=ps.seasNow==null; ps.seasNow=s; ps.seasStart=first?null:Math.floor(ps.gday); if(!first){ ZEV.emit('season',{s:s,txt:'saw '+ZDAY.NAME[s]+' come'}); } }
     // the very first season's festival waits until the opening is over
-    if(ps.seasStart==null&&((ps.firstWin||0)>=4||ps.gday>=1)){ ps.seasStart=Math.floor(ps.gday); }
+    if(ps.seasStart==null&&ZDAY.ready(ps)){ ps.seasStart=Math.floor(ps.gday); }
     var f=ZDAY.fest(ps); if(f&&ps.festSeen!==f+'@'+ps.seasStart){ ps.festSeen=f+'@'+ps.seasStart; ZEV.emit('festival',{s:f,txt:'kept '+ZDAY.FNAME[f]+' on the Green'}); }
     ZDAY.chip(ps); },
   chip:function(ps){ var mm=document.getElementById('minimap-hud'); if(!mm)return; var c=document.getElementById('zday'); if(!c){ c=document.createElement('div'); c.id='zday'; mm.appendChild(c); }

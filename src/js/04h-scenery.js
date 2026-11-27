@@ -60,7 +60,7 @@ var ZScn={
     if(c&&c.width<=1)c=null;      // round 44: emptied after an upload somewhere — draw it again
     if(!c){ c=document.createElement('canvas'); c.width=W*RS; c.height=H*RS; var ctx=c.getContext('2d'); ctx.scale(RS,RS); if(o.shadow!==false)softShadow(ctx,W/2,H-5,Math.min(half,Z.w*(o.shw||0.42)),Math.max(4,Z.w*0.09),o.sha||0.38); ZScn.draw(ctx,id,W/2,H-4,h,o);
       c._zkeep=true; ZScn._sc[key]=c; ZScn._scq.push(key); if(ZScn._scq.length>260)delete ZScn._sc[ZScn._scq.shift()]; }
-    var sp={canvas:c,x:cx,y:footY+4,res:RS}; m.sprites.push(sp); if(o.sp)for(var k in o.sp)sp[k]=o.sp[k]; return Z; },
+    var sp={canvas:c,x:cx,y:footY+4,res:RS,zid:id,zh:Z.h}; m.sprites.push(sp);      /* zid, zh (round 140c): what was painted here, so a moving loop (ZMOVE) can take its place */ if(o.sp)for(var k in o.sp)sp[k]=o.sp[k]; return Z; },
   // a flat picture (rug, floor inlay) filling the rectangle x,y,w,h on the ground, turned a quarter when the rectangle runs the other way
   // o.strict (round 44, Kris: "rugs that are bad pixelated images that are stretched oddly"): refuse (false → the caller draws its own) when the picture
   // would be squashed or stretched by more than a third, or blown up past 1.6 × the pixels it was painted with

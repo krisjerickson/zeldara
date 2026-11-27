@@ -380,6 +380,7 @@ class DungeonScene extends Phaser.Scene{
       var tk=sprTex.get(sp.canvas); if(!tk&&!sp.flat&&!sp.under&&typeof ZOL!=='undefined'&&sp.canvas.height/(sp.res||1)>=30)ZOL.mask(sp.canvas); if(!tk){ tk=addTex('spr_'+tag+'_'+i,sp.canvas); sprTex.set(sp.canvas,tk); }
       var im=self.add.image(sp.x,sp.y,tk).setOrigin(sp.ox!==undefined?sp.ox:0.5,sp.oy!==undefined?sp.oy:1).setDepth(sp.under?-9:sp.flat?-6:self._ld(sp.depth!==undefined?sp.depth:sp.y)); if(sp.canvas&&sp.canvas._zm)im._zcv=sp.canvas;
       if(sp.res){ im.setScale(1/sp.res); try{ im.texture.setFilter(Phaser.Textures.FilterMode.LINEAR); }catch(e){} }      // painted scenery (04h)
+      if(sp.zid&&typeof ZMOVE!=='undefined')ZMOVE.on(self,im,sp);
       if(sp.bob)self.tweens.add({targets:im,y:sp.y-sp.bob,duration:1400+(i%7)*130,yoyo:true,repeat:-1,ease:'Sine.inOut'});
       if(sp.spin)self.tweens.add({targets:im,angle:360,duration:sp.spin,repeat:-1});
     });

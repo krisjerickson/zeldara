@@ -12,10 +12,12 @@ var ZVIT={ on:true, last:null,
       v.innerHTML='<div class="zvit-r zvit-hp"><span>❤️</span><i><b></b></i><em></em></div><div class="zvit-r zvit-mp"><span>💧</span><i><b></b></i><em></em></div>';
       var hd=box.querySelector('.mhdr'); if(hd&&hd.nextSibling)box.insertBefore(v,hd.nextSibling); else box.insertBefore(v,box.firstChild); }
     return v; },
+  spell:function(ps){ return !!(ps.equip&&ps.equip.spell)||(ps.spellsLearned||[]).length>0; },
   pop:function(row,n){ var p=document.createElement('span'); p.className='zvit-up'; p.textContent='+'+n; row.appendChild(p); setTimeout(function(){ p.remove(); },1300); },
   tick:function(){ if(!ZVIT.on)return; var v=ZVIT.el(); if(!v){ ZVIT.last=null; return; } var ps=ZVIT.ps(); if(!ps)return;
     var hp=Math.max(0,Math.round(ps.hp||0)), mh=ps.maxHp||1, mp=Math.floor(ps.mana||0), mm=ps.maxMana||0, R=v.querySelectorAll('.zvit-r');
     R[0].querySelector('b').style.width=Math.min(100,hp/mh*100)+'%'; R[0].querySelector('em').textContent=hp+' / '+mh;
+    if(!ZVIT.spell(ps))mm=0;      /* round 140c (Kris: "don't show mana until you have a spell") */
     R[1].style.display=mm>0?'':'none'; if(mm>0){ R[1].querySelector('b').style.width=Math.min(100,mp/mm*100)+'%'; R[1].querySelector('em').textContent=mp+' / '+mm; }
     var L=ZVIT.last; if(L){ if(hp>L.hp)ZVIT.pop(R[0],hp-L.hp); if(mm>0&&mp>L.mp+1)ZVIT.pop(R[1],mp-L.mp); } ZVIT.last={hp:hp,mp:mp}; } };
 if(typeof setInterval!=='undefined')setInterval(function(){ try{ ZVIT.tick(); }catch(e){} },150);

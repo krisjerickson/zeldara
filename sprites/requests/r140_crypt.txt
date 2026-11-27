@@ -1,0 +1,7 @@
+sc_crypt_hall_full
+sc_crypt_hall_grow
+sc_crypt_round_full
+sc_crypt_round_grow
+sc_crypt_deep_full
+sc_crypt_deep_grow
+sc_crypt_door_grow

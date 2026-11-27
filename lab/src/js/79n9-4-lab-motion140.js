@@ -1,0 +1,65 @@
+// ═══════════════════════════════════════════════════════════════════════
+// ║ 79n9-4-lab-motion140.js — round 140c. Two tabs:
+// ║  · motion140 (Kris: "do a full analysis of all painted images that should be moving and make a proposal of how to update these" — and the
+// ║    walkers: "master oswin needs to walk … look into if any other villagers or NPCs need walking sprites … the sheep need sprites that make
+// ║    them move"). What already moves; who walks without walking frames; every still painting that should move, with how (a painted 4-frame
+// ║    loop, or done in code with no painting) — ✓ each. Picks: motion140-<id> (pick|maybe|cut, notes), motion140-all.
+// ║  · bars140 (Kris: "both mana and health need to look more interesting, propose options on the lab for these, might need a painted outline
+// ║    for the bar"): six looks, live, each with its painted frame once r140_motion is in (VBARS140). Picks: bars140-<k>, bars140-all.
+// ═══════════════════════════════════════════════════════════════════════
+var VBARS140=typeof VBARS140!=='undefined'?VBARS140:{}, VMOVE140=typeof VMOVE140!=='undefined'?VMOVE140:{};
+(function(){ if(typeof LAB_TABS==='undefined')return;
+  var esc=function(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }, P=function(k){ return LabApp.picks[k]||{}; };
+  var tag=function(k,L){ var v=P(k).verdict; return '<span class="wl-seg" data-k="'+k+'">'+(L||[['pick','✓'],['maybe','?'],['cut','✕']]).map(function(b){ return '<button class="vbtn wl-sg'+(v===b[0]?' on '+b[0]:'')+'" data-v="'+b[0]+'">'+b[1]+'</button>'; }).join('')+'</span>'; };
+  var note=function(k,ph){ return '<input class="tl-n wl-n" data-k="'+k+'" value="'+esc(P(k).notes||'')+'" placeholder="'+(ph||'Note…')+'">'; };
+  var MOVES=[['The forge hearths (four forges, the great hearth)','4-frame painted loops'],['The windmill sails','turn in code'],['Reeds, grasses, ferns, flowers, ivy','sway with the wind'],['Steam vents, lava bubbles','4-frame loops'],
+    ['Crabs, frogs, fish, gulls, crows, dragonflies, butterflies, wisps, fireflies, falling leaves','4-frame loops'],['Rabbits, deer, goats, boars and the other animals','walk and idle frames'],['Every villager (12), the children (24), Odin and Freya','walk frames'],
+    ['Monsters, bosses, familiars, mounts','full frame sets'],['The hero asleep and waking','frames'],['Torches, braziers, candles, hearth fires','only their light flickers — the flames themselves stand still (see below)']];
+  var WALK=[['npc_guild','Master Oswin','Walks you round the village on the first walk; had only standing, talking and working frames — he slid along.','Asked now: his walk (side, front, back).'],
+    ['animal_sheep','The sheep','Still paintings in every pen.','Asked now: a sheep and a lamb as animals (grazing, and a four-frame walk). Then each sheep grazes and ambles round its spot.'],
+    ['tc_roll','Tumbler Pia','Stands at her camp; never walks.','No need.'],['keepers','The ten shop keepers','Stay behind their counters.','No need.'],['fairies','The twenty fairies','Float (their idle frames and a bob).','No need.']];
+  /* id, name, where, what should move, how ('frames' = a painted 4-frame loop · 'code' = moved by the game, no painting), priority 1–3, asked */
+  var STILL=[
+    ['if_cauldron','The apothecary\'s cauldron','apothecary','the brew bubbling, steam rising','frames',1,1],['cp_cauldron','The camp cauldron','monster camps','the fire and the stew bubbling','frames',1,1],
+    ['if_forgehearth','The blacksmith\'s forge hearth','blacksmith','the fire in the coals','frames',1],['if_crucible','Mira\'s smelting furnace','Mira\'s workshop','the molten glow and fire','frames',1],
+    ['if_oven','The bread oven','tavern, baker','the fire inside the mouth','frames',2],['iw_bellows','The bellows','blacksmith','pumping in and out','frames',2],
+    ['if_spinning','The spinning wheel','clothier','the wheel turning','code',2],['if_crystalball','The crystal ball','jeweller','mist swirling inside','frames',2],
+    ['it_candle','Candles','every room with candles','the flame flickering','frames',2],['vp_fountain','The village fountain','the village','water spilling and splashing','frames',1],
+    ['tf_c_fountain','The hall fountain','Asgard, the towers','water spilling','frames',3],['sp_frozen_fountain','Frozen and coral fountains','dungeon set-pieces','water, or the glint of the ice','frames',3],
+    ['vp_door_torch','Door torches','the village houses','the flame','frames',1],['lm_brazier','Braziers','landmarks','the fire','frames',2],
+    ['fd_night_torch','Festival night torches and braziers','the Green on festival nights','the flames','frames',2],['fs_su_fire_on','The midsummer bonfire','the Green, midsummer','the flames leaping, sparks','frames',1],
+    ['vp_banner_red','Banners (village, camps, festival, rooms)','everywhere','the cloth rippling in the wind','frames',2],['vp_laundry','The laundry line','the village','the washing flapping','frames',3],
+    ['fs_sp_pole','The maypoles','the Green, spring festivals','ribbons streaming round','frames',2],['fs_su_wheel','The sun wheel','the Green, midsummer','turning','code',3],
+    ['lm_chimney','Forge chimneys','landmarks','smoke rising','code',2],['vb_forge','The houses\' chimneys','the village','a thread of smoke from each chimney','code',2],
+    ['lm_kite','The rune kite','landmarks','bobbing on its line','code',3],['lm_harp','The wind harp','landmarks','strings shimmering','code',3],
+    ['pl_beehive','Beehives','meadows, camps','a few bees circling','code',2],['vp_boat','Boats','the shore','rocking on the water','code',2],
+    ['en_portal','The exit portal','every site','swirling light','frames',1],['crypt_door','The crypt door','the Green','the runes breathing light','code',2],
+    ['pl_lanternlily','Lantern lilies, wisp reeds, glow bushes','Fernheim, nights','glow pulsing','code',3],['tp_wisp','The trial wisps','trial realm','flickering','code',3]];
+  var BARS=[['runestone','Carved runestone','grey carved stone, knotwork bands, rune bosses at the ends','#c23b2b,#ff6b5a','#1e6fd0,#6fe3f5'],['iron','Gilded iron','dark hammered iron, gold trim, rivets, little axe-head ends','#a82424,#f05a4a','#1c5fb8,#59c8f0'],
+    ['braid','Braided gold','twisted gold rope, knot-rings at the ends','#b8302a,#ff8a5a','#2a64c8,#7fd8ff'],['oak','Oak and leather','carved oak, stitched leather, iron studs','#9e2a22,#e8553f','#215aa8,#5fb8e8'],
+    ['frost','Frost-silver','silver filigree with frost crystals','#c0392b,#ff8f86','#3b7fe0,#b8f0ff'],['roots','World Tree roots','dark roots and branches, tiny glowing leaves','#b0302a,#ff6b5a','#1aa08a,#6fe3f5']];
+  var bar=function(b,kind,pct){ var g=kind==='hp'?b[3]:b[4], im=VBARS140['bar_'+b[0]], ic=kind==='hp'?'❤️':'💧';
+    return '<div class="bb-bar bb-'+b[0]+(im?' bb-pt':'')+'"><span class="bb-ic">'+ic+'</span><div class="bb-slot"><i style="width:'+pct+'%;background:linear-gradient(180deg,rgba(255,255,255,.35),rgba(255,255,255,0) 45%),linear-gradient(90deg,'+g+')"></i>'+(kind==='mp'?'<em class="bb-bub"></em>':'')+'</div>'+(im?'<img class="bb-fr" src="'+im+'" alt="">':'')+'<span class="bb-n">'+(kind==='hp'?'54 / 80':'31 / 50')+'</span></div>'; };
+  LAB_TABS.push({ id:'motion140', name:'What should move',
+    blurb:'<b>Round 140 — what moves, and what should.</b> Everything painted was checked: what already moves, who walks without walking frames, and every still painting that ought to move — with how: a <b>painted loop</b> (four frames, like the forge hearths) or <b>in code</b> (a sway, a bob, a spin, smoke or glow — no painting). ✓ the ones you want; the painted loops go out as one list, the code ones I just do.',
+    designs:[{id:'motion140',name:'What should move'}],
+    render:function(){ var h='<div class="w4-in">Asked now (<code>.\\tools\\sprites\\paint.ps1 -List r140_motion</code>): <b>Oswin\'s walk</b>, <b>the sheep and the lamb</b>, <b>both cauldrons bubbling</b>, and the six bar frames (next tab). Each plays in the game as soon as it is in.</div>';
+      h+='<div class="w4-c"><h3>Already moving</h3><table class="r40-t"><tr><th>What</th><th>How</th></tr>'+MOVES.map(function(m){ return '<tr><td>'+esc(m[0])+'</td><td>'+esc(m[1])+'</td></tr>'; }).join('')+'</table></div>';
+      h+='<div class="w4-c"><h3>Who walks — and who needs walking frames</h3><table class="r40-t"><tr><th>Who</th><th>Today</th><th>What I did</th></tr>'+WALK.map(function(w){ return '<tr><td><b>'+esc(w[1])+'</b></td><td>'+esc(w[2])+'</td><td>'+esc(w[3])+'</td></tr>'; }).join('')+'</table></div>';
+      [1,2,3].forEach(function(pr){ var L=STILL.filter(function(s){ return s[5]===pr; });
+        h+='<div class="w4-c"><h3>'+['','First — you see these all the time','Next','Nice to have'][pr]+' ('+L.length+')</h3><table class="r40-t mv40"><tr><th>Painting</th><th>Where</th><th>What moves</th><th>How</th><th></th></tr>'+L.map(function(s){ var k='motion140-'+s[0], pic=VMOVE140[s[0]];
+          return '<tr><td>'+(pic?'<img class="lv-z mv40-im" data-g="motion140" src="'+pic+'" alt="">':'')+'<b>'+esc(s[1])+'</b>'+(s[6]?' <small class="mv40-ask">asked now</small>':'')+'</td><td>'+esc(s[2])+'</td><td>'+esc(s[3])+'</td><td>'+(s[4]==='frames'?'🖌 painted loop':'⚙ in code')+'</td><td>'+(s[6]?'':tag(k)+note(k))+'</td></tr>'; }).join('')+'</table></div>'; });
+      return h+'<textarea class="wl-n wl-all" data-k="motion140-all" placeholder="Anything else that should move…">'+esc(P('motion140-all').notes||'')+'</textarea>'; } });
+  LAB_TABS.push({ id:'bars140', name:'Health & mana bars',
+    blurb:'<b>Round 140 — the health and mana bars.</b> The inventory shows them (mana only once you have a spell, as you asked). Six looks, each a painted frame round a richer fill — glossy, with a soft shine, and the mana bar gently bubbling. They show here as plain frames until the paintings are in (<code>r140_motion</code>). ✓ one; it goes on the inventory and the bars in the corner.',
+    designs:[{id:'bars140',name:'Health & mana bars'}],
+    render:function(){ var have=Object.keys(VBARS140).length, h='<div class="w4-in">'+(have?have+' painted frames in.':'<b>Waiting for the painted frames</b> — the shapes below are stand-ins.')+'</div><div class="bb-grid">';
+      BARS.forEach(function(b){ var k='bars140-'+b[0]; h+='<div class="w4-c bb-c"><h3>'+esc(b[1])+'</h3><p class="w4-p">'+esc(b[2])+'</p>'+bar(b,'hp',68)+bar(b,'mp',62)+'<div class="w4-a">'+tag(k,[['pick','✓ This one'],['maybe','?'],['cut','✕']])+note(k)+'</div></div>'; });
+      return h+'</div><textarea class="wl-n wl-all" data-k="bars140-all" placeholder="Anything else about the bars…">'+esc(P('bars140-all').notes||'')+'</textarea>'; } });
+  if(typeof LTODO!=='undefined'){ LTODO.add({id:'motion140',label:'🌀 What should move: ✓ the paintings to bring to life',where:'What should move tab',done:function(){ return STILL.filter(function(s){ return !s[6]; }).some(function(s){ return !!P('motion140-'+s[0]).verdict; }); },go:function(){ LTODO.goTo('motion140',null,0); }});
+    LTODO.add({id:'bars140',label:'❤️ The health and mana bars: ✓ a look',where:'Health & mana bars tab',done:function(){ return BARS.some(function(b){ return P('bars140-'+b[0]).verdict==='pick'; }); },go:function(){ LTODO.goTo('bars140',null,0); }}); }
+  var st=document.createElement('style'); st.textContent='.mv40 td{font-size:12.5px}.mv40-im{height:40px;float:left;margin-right:8px;cursor:zoom-in}.mv40-ask{color:#8fe8a0}.bb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:10px}'+
+    '.bb-bar{position:relative;display:flex;align-items:center;gap:8px;margin:10px 0;height:34px;padding:0 10px;font:600 13px Segoe UI,sans-serif;color:#e8eef6}.bb-ic{font-size:18px;z-index:2}.bb-slot{position:relative;flex:1;height:14px;border-radius:7px;background:rgba(0,0,0,.55);overflow:hidden;box-shadow:inset 0 2px 3px rgba(0,0,0,.6)}.bb-slot i{display:block;height:100%;border-radius:7px}'+
+    '.bb-fr{position:absolute;left:0;top:-6px;width:100%;height:46px;object-fit:fill;pointer-events:none;z-index:1}.bb-n{min-width:62px;text-align:right;z-index:2}.bb-bub{position:absolute;inset:0;background:radial-gradient(circle at 20% 60%,rgba(255,255,255,.5) 0 1.5px,transparent 2px),radial-gradient(circle at 55% 40%,rgba(255,255,255,.45) 0 1px,transparent 1.5px);background-size:40px 14px;animation:bbB 3s linear infinite}@keyframes bbB{to{background-position:40px -14px}}'+
+    '.bb-runestone:not(.bb-pt) .bb-slot{outline:3px solid #7a7f86;outline-offset:2px}.bb-iron:not(.bb-pt) .bb-slot{outline:3px solid #3a3a40;box-shadow:0 0 0 5px #c9a24a}.bb-braid:not(.bb-pt) .bb-slot{outline:3px dashed #e0b84a;outline-offset:2px}.bb-oak:not(.bb-pt) .bb-slot{outline:4px solid #7a5230;outline-offset:1px}.bb-frost:not(.bb-pt) .bb-slot{outline:2px solid #d8f0ff;outline-offset:3px;box-shadow:0 0 8px #9fe8ff}.bb-roots:not(.bb-pt) .bb-slot{outline:3px solid #3a2a1a;outline-offset:2px;box-shadow:0 0 6px #6fe3f5}'; document.head.appendChild(st);
+})();

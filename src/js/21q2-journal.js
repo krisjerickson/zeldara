@@ -142,7 +142,7 @@ setTimeout(function(){
   // the journal: the Saga and the side quests (no more Accept)
   if(typeof renderQuestList==='function'){ var rq0=renderQuestList; renderQuestList=function(u,c,a,scene){ if(ZJOUR.on&&ZJOUR.render(scene))return; return rq0.apply(this,arguments); }; }
   document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.zj-trk'); if(!b)return; e.stopPropagation(); var ws=ZJOUR.ws(); if(!ws)return; var ps=ws.playerState, id=b.dataset.trk; ps.tracked=ps.tracked===id?null:id;
-    var m=/^s(\d)_(tower|dungeon|harbor|skyport)$/.exec(id); ps.activeQuest=m?id:null; var c=document.getElementById('quest-list-container'); if(c)c._qh=''; ZJOUR.render(ws); if(typeof ZQMAP!=='undefined')ZQMAP._c=null; });
+    var m=/^s(\d)_(tower|dungeon|harbor|skyport)$/.exec(id); ps.activeQuest=m?id:null; var c=document.getElementById('quest-list-container'); if(c)c._qh=''; ZJOUR.render(ws); if(typeof ZQMAP!=='undefined')ZQMAP._c=null; },true);      /* capture (round 140): the journal's .modal stops clicks bubbling, so ☆ Make current never answered */
   // "Next on your path" follows the Saga to the end
   if(typeof ZQMAP!=='undefined'){ var nx0=ZQMAP.next; ZQMAP.next=function(ws){ ws=ws||ZJOUR.ws(); if(!ZJOUR.on||!ws||!ws.playerState)return nx0.apply(this,arguments); var o=typeof ZOSW!=='undefined'?ZOSW.next(ws):null; if(o)return o; var c=ZJOUR.current(ws); return c?{t:c.t,S:c.S||null}:null; };
     // the suggested level on each pin; Oswin's rumours as faint rings

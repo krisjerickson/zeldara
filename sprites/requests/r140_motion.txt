@@ -1,0 +1,5 @@
+npc_guild.walk
+animal_sheep.core.q
+animal_lamb.core.q
+sc_mv_cauldron
+sc_bar_frames

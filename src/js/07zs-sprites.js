@@ -83,6 +83,7 @@ var ZSPR={
 
   // ── kit module → animation (every module used by a kit must appear here) ──
   // request wording that the image service refused, reworded (the game text is unchanged)
+  WALKERS:['npc_guild'],
   REWORD:{tc_sprint:{name:'the running teacher',look:'A slim, friendly messenger in a green tunic with a feathered cap and small decorative wings on the boots',doing:'showing how to run: stretching, a running start, jogging on the spot'}},
   MOD:{
     // movement
@@ -233,6 +234,8 @@ var ZSPR={
     ['deer','Deer',1,1.1,'A graceful red-brown deer with a pale belly; the stag has small antlers.',0,1],['boar','Wild Boar',1,1.0,'A stocky dark-brown wild boar with short tusks and a bristled spine.',0,1],
     ['crocodile','Crocodile',2,1.3,'A long low green crocodile with a ridged back and a pale jaw.',0,1],['swamp_bear','Swamp Bear',2,1.5,'A heavy dark-brown bear with moss on its shoulders and wet fur.',0,1],
     ['highland_ram','Highland Ram',3,1.0,'A sturdy cream-coloured ram with huge curled horns.',0,1],['cave_bear','Cave Bear',3,1.6,'A huge grey-brown cave bear with a pale muzzle and long claws.',0,1],
+    /* round 140c (Kris: "the sheep need sprites that make them move"): the village's sheep and the lamb, grazing and stepping about their pen */
+    ['sheep','Sheep',1,0.75,'A round fluffy cream-white sheep with a black face and black legs, soft and friendly, in the same look as the painted sheep already in the game.',0],['lamb','Lamb',1,0.5,'A small fluffy white lamb with a black face and black legs, big eyes, wobbly and sweet — the young of the sheep.',0],
     ['lava_wyrm','Lava Wyrm',4,1.1,'A low orange-red lizard-wyrm with cracked black scales and molten light between them.',0,1],['ash_titan','Ash Titan',4,1.8,'A hulking ape-like beast of dark ash-grey stone and fur with ember eyes.',0,1]
   ],
   VEHICLES:[['boat','Sailing boat','a small wooden sailing boat with a cream sail and a teal rune painted on the bow, sailing on open water',['idle','move']],
@@ -259,7 +262,7 @@ var ZSPR={
         gear:D.god?Z.godGear(D.god):['head','gear','weapon','off','armor','cape','beast','build'].filter(function(k){ return D[k]&&D[k]!==true; }).map(function(k){ return k+': '+D[k]; }).join(', '),
         kit:kit,specAnim:C&&C.spec&&C.spec.anim,humanoid:D.arch==='hum'||D.arch==='god'||(!D.arch&&C&&!!Z.HUMANOID[C.spec&&C.spec.plan]),scale:Math.round(((D.h||110)/42)*10)/10,big:true,form:/^bf_|^fm_\w+_[23]$/.test(slot),wave:/^fm_/.test(slot)?7.6:/^surt_/.test(slot)?7.7:/^grim_/.test(slot)?7.95:(q||5)+2.5}); });      /* round 64: Solmyrk's three forms, their own wave (front, side and back — Kris) */      // round 56: the forge-masters' twelve forms are their own wave (painted once Kris picks in the Lab)
     // NPCs
-    if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='npc')return; var walker=/Village folk|Gods/.test(C.sub);      /* round 71: Odin and Freya walk (they lead the spirits up the Bifröst) */
+    if(typeof CHAR_ROSTER!=='undefined')CHAR_ROSTER.forEach(function(C){ if(C.cat!=='npc')return; var walker=/Village folk|Gods/.test(C.sub)||(Z.WALKERS||[]).indexOf(C.id)>=0;      /* round 140c: Z.WALKERS — others who walk on screen (Master Oswin leads the first walk) */      /* round 71: Odin and Freya walk (they lead the spirits up the Bifröst) */
       var RW=Z.REWORD[C.id]||{};
       push({id:C.id,group:'npc',sub:C.sub,name:RW.name||C.name,q:0,look:(RW.look||C.look)+(C.heritage?' Looks: '+C.heritage+'.':''),doing:RW.doing||C.doing,where:C.where,pal:C.spec&&C.spec.pal,humanoid:true,scale:C.sub==='Gods'?1.25:/kid|child/.test(C.spec&&C.spec.feat||'')?0.75:/dwarf/.test(C.spec&&C.spec.feat||'')?0.85:1,npc:true,walker:walker,trade:C.spec&&C.spec.anim,facings:['f'],wave:2}); });
     // mounts on their own (parked, or waiting at the stables)

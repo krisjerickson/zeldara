@@ -1557,7 +1557,7 @@ class WorldScene extends Phaser.Scene{
     if(vx||vy)p._bobPhase+=dt*8;
     var bob=Math.sin(p._bobPhase)*2*(vx||vy?1:0);
     p.head.setY(-12+bob);
-    p.cont.setPosition(p.x,p.y); p.cont.setDepth(WR_DEPTH(p.y)); if(typeof ZOL!=='undefined')ZOL.tick(this,p.cont,10.95);      // round 45: outline when behind something
+    p.cont.setPosition(p.x,p.y); p.cont.setDepth(WR_DEPTH(p.y+12)); if(typeof ZOL!=='undefined')ZOL.tick(this,p.cont,10.95);      // round 45: outline when behind something · round 140c (Kris: walk right up to a wall and you were drawn behind it): sorted by the feet (+12), not the middle — at a wall your middle stops exactly on its line and the tie went to the wall
     if(typeof ZROLL!=='undefined'&&this.sys.settings.key==='World')ZROLL.tick(this);      // round 45: Tumbler Pia and her pins
     if(p.sprite){
       _heroAnimate(this, p.sprite, p, vx, vy, dt, this.worldAtkTimer, this.worldBowTimer);

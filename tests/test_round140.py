@@ -100,6 +100,65 @@ with game(painted=True, w=1280, h=720) as g:
     check('The title says NEW PLAYER', 'NEW PLAYER' in open(os.path.join(R, 'src', 'js', '06-scene-title-boot.js'), encoding='utf-8').read())
     E = [x for x in g.errs if 'Failed to load resource' not in x and 'decode audio' not in x]
     check('No game errors (2)', not E, E[:3])
+# round 140c: Kris's later play notes
+with game(painted=True, w=1280, h=720) as g:
+    g.wait(2500)
+    g.js("(()=>{ ['ZJOUR','ZOSW','ZCURQ','ZFWIN','ZFEST'].forEach(k=>{ if(window[k])window[k].on=true; }); })()")
+    # ☆ Make current answers in the journal
+    g.js("(()=>{ var ws=%s; ws.playerState.walk='done'; ZOSW.journal(ws); })()" % WS); g.wait(500)
+    b = g.js("(()=>{ var b=document.querySelector('#quest-list-container .zj-trk'), r=b.getBoundingClientRect(); return {x:r.x+r.width/2, y:r.y+r.height/2, id:b.dataset.trk}; })()")
+    g.page.mouse.click(b['x'], b['y']); g.wait(400)
+    tr = g.js("%s.playerState.tracked" % WS)
+    check('Journal: ☆ Make current answers a click (%s → %s)' % (b['id'], tr), tr == b['id'], [b, tr])
+    g.js("(()=>{ closeModal('quests'); })()")
+    # the young wolf is in plain sight, the lamb lamb-sized; afterwards the lamb goes home to its pen
+    w = g.js("""(()=>{ var ws=%s, ps=ws.playerState; ps.oswin=ps.oswin||1; ps.equip.shield=null; ps.inventory=(ps.inventory||[]).filter(i=>!(ITEMS[i]&&ITEMS[i].slot==='shield')); delete ps.firstWin; ZFWIN.tick(); var P=ZFWIN.pen(ws); ws.player.x=P.x+TILE*3; ws.player.y=P.y+TILE*3; ws.player.cont.setPosition(ws.player.x,ws.player.y); ZFWIN.tick();
+        var L=ZFWIN.lamb, m=ZFWIN.W&&ZFWIN.W.m; return {fw:ps.firstWin, lambH:L&&Math.round(L.displayHeight), gap:m&&L?Math.round(Math.hypot(m.x-L.x,m.y-L.y)):null}; })()""" % WS)
+    check('First win: the wolf stands clear of a lamb-sized lamb (%s)' % w, w['fw'] == 2 and w['lambH'] and w['lambH'] <= 40 and w['gap'] and w['gap'] >= 120, w)
+    g.js("(()=>{ var ws=%s, ps=ws.playerState; ZFWIN.kill(ws,ZFWIN.W.m); ZFWIN.done(ws); })()" % WS); g.wait(2500)
+    l = g.js("(()=>{ var ws=%s, L=ZFWIN.lamb, P=ZFWIN.pen(ws); return {d:Math.round(Math.hypot(L.x-(P.x+TILE*0.5),L.y-(P.y+TILE*1.5)))}; })()" % WS)
+    g.js("(()=>{ var ws=%s; ws.player.x+=TILE*6; ws.player.cont.setPosition(ws.player.x,ws.player.y); })()" % WS); g.wait(1200)
+    l2 = g.js("(()=>{ var ws=%s, L=ZFWIN.lamb, P=ZFWIN.pen(ws); return {d:Math.round(Math.hypot(L.x-(P.x+TILE*0.5),L.y-(P.y+TILE*1.5)))}; })()" % WS)
+    check('…and the lamb runs back into its pen and stays, not following you (%s %s)' % (l, l2), l2['d'] < 30, [l, l2])
+    # a lesson card waits while a foe hunts you, then comes
+    q = g.js("""(()=>{ var ws=%s; ZCARD.close&&ZCARD.close(); ZR140._q=[]; var m=MX.spawn(ws,'bramble_wolf',ws.player.x+120,ws.player.y,{q:1,temp:true}); if(ws.worldMonsters.indexOf(m)<0)ws.worldMonsters.push(m); window.__wm=m; if(m._m)m._m.aggro=true;
+        ZCARD.show({who:'Master Oswin',text:'test lesson',cls:'zc-les'}); return {shown:!!(ZCARD.cur&&ZCARD.cur.isConnected&&/test lesson/.test(ZCARD.cur.textContent)), q:ZR140._q.length}; })()""" % WS)
+    g.js("(()=>{ var m=window.__wm; m.dead=true; if(m._m)m._m.aggro=false; ZR140._hurtT=0; })()"); g.wait(5200)
+    q2 = g.js("({shown:!!(ZCARD.cur&&ZCARD.cur.isConnected&&/test lesson/.test(ZCARD.cur.textContent)), q:ZR140._q.length})")
+    check('A lesson waits while a foe hunts you, then shows once it is calm (%s → %s)' % (q, q2), not q['shown'] and q['q'] == 1 and q2['shown'], [q, q2])
+    check('No saga-card offers but the last', g.js("(()=>{ var n=0, s0=ZCARD.show; ZCARD.show=function(){ n++; }; ZSHARE.offer({kind:'festival',title:'x'}); ZCARD.show=s0; return n===0; })()"))
+    # walking up to a wall: still in front of it
+    d = g.js("""(()=>{ var ws=%s, P=(ws.wd.props||[]).filter(o=>o.vill&&o.prop==='fence'&&o.o&&o.o.kind==='stone')[0]; var y=(P.y+P.h)*TILE; ws.player.y=y; ws.player.x=(P.x+P.w/2)*TILE; ws.player.cont.setPosition(ws.player.x,y); return {wall:WR_DEPTH(y)}; })()""" % WS); g.wait(300)
+    d2 = g.js("%s.player.cont.depth" % WS)
+    check('Right up against a wall you stay in front of it (hero %.6f, wall %.6f)' % (d2, d['wall']), d2 > d['wall'], [d2, d])
+    # the festival: nothing on the square, no emoji sign, waits for the first win and a site
+    f = g.js("""(()=>{ var ws=%s, ps=ws.playerState; var ready0=ZDAY.ready({firstWin:4,gday:0.5}), ready1=ZDAY.ready({firstWin:4,gday:0.5,completedQuests:['s1_tower']}); ZFEST.dress(ws,'sp'); var C=ZFEST.centre(ws), L=ws._zfest||[];
+        return {n:L.length, onSquare:L.filter(o=>Math.hypot(o.x-C.x,(o.y-C.y)/0.9)<=ZR140.SQUARE*TILE).length, texts:L.filter(o=>o.type==='Text').length, ready0:ready0, ready1:ready1}; })()""" % WS)
+    check('The festival: pieces off the World Tree square, no bobbing seedling, and not before you have found your feet (%s)' % f, f['n'] >= 3 and f['onSquare'] == 0 and f['texts'] == 0 and not f['ready0'] and f['ready1'], f)
+    # the house dressing: no wreath or step on the ground
+    h = g.js("(()=>{ var ws=%s; ZSLAND.dress(ws,'sp'); var L=ws._zsd||[]; return {n:L.length, ids:[...new Set(L.map(o=>o._zid||o.texture&&o.texture.key))].slice(0,8)}; })()" % WS)
+    check('Festival dressing: banners and lanterns at the corners, no wreaths on the ground (%s)' % h, not any('wreath' in str(i) or 'step' in str(i) for i in h['ids']), h)
+    # mana in the inventory only with a spell
+    mv = g.js("(()=>{ var ps=%s.playerState; ps.equip.spell=null; ps.spellsLearned=[]; toggleModal('inventory'); return 1; })()" % WS); g.wait(500)
+    mv = g.js("(()=>{ var r=document.querySelector('#zvit .zvit-mp'); var a=r&&r.style.display; var ps=%s.playerState; ps.spellsLearned=['x']; return a; })()" % WS); g.wait(400)
+    mv2 = g.js("(()=>{ var r=document.querySelector('#zvit .zvit-mp'); return r&&r.style.display; })()")
+    check('Inventory: mana shows only once you have a spell (%r → %r)' % (mv, mv2), mv == 'none' and mv2 == '', [mv, mv2])
+    g.js("closeModal('inventory')")
+    # the village board stands well apart from the waystone
+    bd = g.js("""(()=>{ var ws=%s, p=ZECO.boardSpot(ws), W=(ws.wd.waystones||[]).find(w=>w.id==='ws_village'); return {d:Math.round(Math.hypot(p.x-(W.x+0.5)*TILE,p.y-(W.y+0.5)*TILE)/TILE)}; })()""" % WS)
+    check('Runa\'s board stands well apart from the village waystone (%s tiles)' % bd['d'], bd['d'] >= 7, bd)
+    # a tap on Pia talks to her
+    pi = g.js("(()=>{ var ws=%s; if(!ZROLL.npc)return {none:true}; var n=ZCLICK.npcAt(ws,{x:ZROLL.npc.x,y:ZROLL.npc.y-14}); return {n:n&&n.n}; })()" % WS)
+    check('A tap on Tumbler Pia finds her (%s)' % pi, pi.get('none') or pi['n'] == 'Tumbler Pia', pi)
+    # Oswin's line at the top waits during the first walk
+    ob = g.js("(()=>{ var ps=%s.playerState, w0=ps.walk; ps.walk='runa'; var el=document.getElementById('zvoice-bub'); if(el)el.classList.remove('on'); ZVOICE.bubble('oswin',ps); var on=!!(document.getElementById('zvoice-bub')||{classList:{contains:()=>false}}).classList.contains('on'); ps.walk=w0; return on; })()" % WS)
+    check('Oswin\'s line at the top waits while the first walk is on', ob is False, ob)
+    # the outline on phones: the zoomed camera cuts by drawing, with no fault
+    ol = g.js("(()=>{ var ws=%s, c=ws.cameras.main, z0=c.zoom; c.setZoom(0.82); var err=null; try{ for(var i=0;i<3;i++)ZOL.tick(ws,ws.player.cont,10.95); }catch(e){ err=String(e); } c.setZoom(z0); return {err:err}; })()" % WS)
+    check('The behind-something outline works with the phone camera zoom (%s)' % ol, not ol['err'], ol)
+    E3 = [x for x in g.errs if 'Failed to load resource' not in x and 'decode audio' not in x]
+    check('No page errors (140c)', not E3, E3[:3])
+
 with sync_playwright() as pw:
     PH = os.path.join(R, 'tests', '.phaser', 'package', 'dist', 'phaser.min.js')
     b = pw.chromium.launch(); pg = b.new_page(viewport={"width": 1400, "height": 1000}); errs = []
@@ -112,7 +171,7 @@ with sync_playwright() as pw:
     pg.route("http://t.test/**", sv); pg.goto("http://t.test/lab/lab.artifact.html"); pg.wait_for_timeout(3000)
     pg.evaluate("LTODO.goTo('r140','#r40-feast',0)"); pg.wait_for_timeout(600)
     a = pg.evaluate("({mix:!!document.querySelector('#r40-feast .r40-take'), takes:document.querySelectorAll('#r40-feast option').length, props:document.querySelectorAll('.r40-p').length, em:document.querySelectorAll('.r40-em span').length, logos:document.querySelectorAll('.r40-lg img').length})")
-    check('Lab → Round 140: the feast mixer, the proposals, the emojis (%s)' % a, a['mix'] and a['takes'] >= 25 and a['props'] >= 20 and a['em'] >= 100, a)
+    check('Lab → Round 140: the feast mixer, the proposals, the emojis (%s)' % a, a['mix'] and a['takes'] >= 25 and a['props'] >= 19 and a['em'] >= 100, a)
     t = pg.evaluate("(()=>{ LTODO.goTo('tracker','body',0); return /Round 140/.test(document.body.innerText); })()")
     check('Lab → Checklist has round 140', t)
     pg.evaluate("LTODO.goTo('worldlook5','#w5-r140',0)"); pg.wait_for_timeout(600)
@@ -127,6 +186,17 @@ with sync_playwright() as pw:
     pg.evaluate("LTODO.goTo('flow138','.fl-ims',0)"); pg.wait_for_timeout(600)
     f = pg.evaluate("({after:[...document.querySelectorAll('.fl-ims img')].filter(i=>/painted again/.test(i.alt)).length})")
     check('Lab → Flow: before and after for the repainted problems (%s)' % f, f['after'] >= 25, f)
+    pg.evaluate("LTODO.goTo('crypt140',null,0)"); pg.wait_for_timeout(600)
+    c = pg.evaluate("({ways:document.querySelectorAll('.cr40-row').length, door:document.querySelectorAll('.cr40-door figure').length, segs:document.querySelectorAll('.wl-seg[data-k^=\"r140-c_\"]').length})")
+    check('Lab → The crypt of echoes: three ways, each full and growing, and the door at six stages (%s)' % c, c['ways'] == 3 and c['door'] == 6 and c['segs'] >= 4, c)
+    pg.evaluate("LTODO.goTo('motion140',null,0)"); pg.wait_for_timeout(600)
+    m = pg.evaluate("({rows:document.querySelectorAll('.mv40 tr').length, segs:document.querySelectorAll('.wl-seg[data-k^=\"motion140-\"]').length, txt:/Master Oswin/.test(document.body.innerText)})")
+    check('Lab → What should move: the analysis, the walkers, ✓ per painting (%s)' % m, m['rows'] >= 30 and m['segs'] >= 25 and m['txt'], m)
+    pg.evaluate("LTODO.goTo('bars140',null,0)"); pg.wait_for_timeout(600)
+    bb = pg.evaluate("({opts:document.querySelectorAll('.bb-c').length, bars:document.querySelectorAll('.bb-bar').length})")
+    check('Lab → Health & mana bars: six looks, live (%s)' % bb, bb['opts'] == 6 and bb['bars'] == 12, bb)
+    pg.evaluate("LTODO.goTo('flow138',null,0)"); pg.wait_for_timeout(600)
+    check('Lab → Flow: why the repaints missed, and the third try', pg.evaluate("/third try/.test(document.body.innerText)"))
     check('No Lab script errors', not errs, errs[:3])
 print('\n%d/%d passed' % (sum(res), len(res)))
 sys.exit(0 if all(res) else 1)

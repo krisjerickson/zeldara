@@ -51,7 +51,7 @@ def prompt(sc, b, who):
     a = ACT138.get((sc['id'], b['n'])) or ACT[sc['id']][b['n'] - 1]
     a = a.replace('{H}', NAME[k]).replace('{O}', NAME[o]); act, _, end = a.partition('=>')
     acts = [x.strip() for x in act.split(';') if x.strip()]
-    if sc['id'] in ('escape', 'asgard') and b['n'] <= 7: acts.append('%s holds the Lodestar (the staff with the white star at its crown) the whole time' % NAME[k])
+    if sc['id'] in ('escape', 'asgard') and b['n'] <= 7: acts.append('%s holds the Lodestar (the white-gold staff whose head is a gold ring of six coloured gems round a glowing lens) the whole time' % NAME[k])
     cam = SPECIAL.get((sc['id'], b['n'])) or CAM[(b['n'] - 1) % len(CAM)]
     L = ['Animate this painting as ONE continuous shot that starts exactly on it. Keep its hand-painted storybook style, its colours and light, and every character exactly as painted (faces, hair, clothes, proportions); nobody new appears.',
          'What happens, in order: ' + '; then '.join(acts) + '.',

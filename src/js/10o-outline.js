@@ -40,7 +40,7 @@ var ZOL={ on:true, COL:0x7ff5e6, A:0.95, W:1.5, PAD:6,
     try{ ZOL._draw(scene,cont,parts,b,S,depth); }catch(e){ if(S.rt)S.rt.setVisible(false); ZOL._err=(ZOL._err||0)+1; if(ZOL._err>30)ZOL.on=false; if(typeof console!=='undefined')console.warn('outline:',e&&e.message); } },
   _draw:function(scene,cont,parts,b,S,depth){ var P=ZOL.PAD, x0=Math.floor(b.x-P), y0=Math.floor(b.y-P), w=Math.ceil(b.r-b.x+2*P), h=Math.ceil(b.bt-b.y+2*P);
     if(!S.rt||!S.rt.scene){ S.rt=scene.add.renderTexture(0,0,w,h).setOrigin(0,0); S.rt._zolSkip=true; S.mrt=scene.make.renderTexture({x:0,y:0,width:w,height:h,add:false}).setOrigin(0,0);
-      S.stamp=scene.make.image({x:0,y:0,key:parts[0].texture.key,add:false}); S.useMask=!!(S.rt.setMask&&S.mrt.createBitmapMask); if(S.useMask){ S.bmask=S.mrt.createBitmapMask(); S.rt.setMask(S.bmask); S.masked=true; } }
+      S.stamp=scene.make.image({x:0,y:0,key:parts[0].texture.key,add:false}); S.useMask=!!(S.rt.setMask&&S.mrt.createBitmapMask); S.manual=!!(scene.cameras&&scene.cameras.main&&Math.abs(scene.cameras.main.zoom-1)>0.001); if(S.useMask&&!S.manual){ S.bmask=S.mrt.createBitmapMask(); S.rt.setMask(S.bmask); S.masked=true; } }      /* round 140 (Kris: "on the mobile version the outline is always offset a bit"): a phone's camera is zoomed (0.82), and a bitmap mask does not follow a zoomed camera — there the covered part is cut by drawing instead (S.manual) */
     if(S.rt.width<w||S.rt.height<h){ S.rt.resize(Math.max(w,S.rt.width),Math.max(h,S.rt.height)); S.mrt.resize(Math.max(w,S.mrt.width),Math.max(h,S.mrt.height)); }
     S.rt.setPosition(x0,y0).setDepth(depth).setVisible(true).setAlpha(ZOL.A); S.mrt.setPosition(x0,y0);
     var rt=S.rt, st=S.stamp, sx=cont.scaleX, sy=cont.scaleY, W=ZOL.W;
@@ -66,12 +66,14 @@ var ZOL={ on:true, COL:0x7ff5e6, A:0.95, W:1.5, PAD:6,
       // a monster's pictures sit inside its container: each is stamped where it stands in the world
       if(parts2.length){ if(!S.stamp2||!S.stamp2.scene)S.stamp2=scene.make.image({x:0,y:0,key:parts2[0].texture.key,add:false}); var s2=S.stamp2, Mx=S._mx||(S._mx=new Phaser.GameObjects.Components.TransformMatrix());
         parts2.forEach(function(o){ try{ var w=o.getWorldTransformMatrix(Mx), d=w.decomposeMatrix(); if(s2.texture.key!==o.texture.key||s2.frame.name!==o.frame.name)s2.setTexture(o.texture.key,o.frame.name);
-          s2.setOrigin(o.originX,o.originY).setScale(d.scaleX,d.scaleY).setRotation(d.rotation).setFlip(o.flipX,o.flipY).setAlpha(1).setPosition(d.translateX-x0,d.translateY-y0); m.draw(s2); }catch(e){} }); } }
+          s2.setOrigin(o.originX,o.originY).setScale(d.scaleX,d.scaleY).setRotation(d.rotation).setFlip(o.flipX,o.flipY).setAlpha(1).setPosition(d.translateX-x0,d.translateY-y0); m.draw(s2); }catch(e){} }); }
+      if(S.manual){ var inv=S.inv; if(!inv||!inv.scene||inv.width<m.width||inv.height<m.height){ try{ if(inv)inv.destroy(); }catch(e){} inv=S.inv=scene.make.renderTexture({x:0,y:0,width:m.width,height:m.height,add:false}).setOrigin(0,0); }
+        inv.clear(); inv.fill(0xffffff,1); inv.erase(m,0,0); rt.erase(inv,0,0); } }
   }
 };
 // round 86c (Kris: "in the mobile version, i notice the outlines when you are behind things is offset, slightly above and right compared to
 // what it should be … it also went away after some playing"): the outline's mask is drawn in a buffer the size of the screen when it is
 // made; a phone resizes the game after it starts (the address bar slides away, the phone turns), and the mask stayed at the old size —
 // shifted — until the scene was rebuilt. On every resize the outline's buffers are dropped and made again at the new size.
-ZOL.reset=function(){ try{ (game.scene.scenes||[]).forEach(function(sc){ var S=sc._zol; if(!S||!S.rt)return; try{ if(S.rt.clearMask)S.rt.clearMask(true); }catch(e){} try{ S.rt.destroy(); }catch(e){} try{ S.mrt.destroy(); }catch(e){} try{ S.stamp.destroy(); }catch(e){} S.rt=null; S.mrt=null; S.stamp=null; S.bmask=null; S.masked=false; }); }catch(e){} };
+ZOL.reset=function(){ try{ (game.scene.scenes||[]).forEach(function(sc){ var S=sc._zol; if(!S||!S.rt)return; try{ if(S.rt.clearMask)S.rt.clearMask(true); }catch(e){} try{ S.rt.destroy(); }catch(e){} try{ S.mrt.destroy(); }catch(e){} try{ S.stamp.destroy(); }catch(e){} try{ if(S.inv)S.inv.destroy(); }catch(e){} S.inv=null; S.rt=null; S.mrt=null; S.stamp=null; S.bmask=null; S.masked=false; }); }catch(e){} };
 (function hook(){ if(typeof game==='undefined'||!game||!game.scale||!game.scale.on){ setTimeout(hook,500); return; } var t=null; game.scale.on('resize',function(){ clearTimeout(t); t=setTimeout(ZOL.reset,120); }); })();

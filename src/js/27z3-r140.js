@@ -191,7 +191,7 @@ if(typeof ZECHO!=='undefined'){ ZECHO.H=150;
     return (ws._zcrypt={x:C.x-14*TILE,y:C.y+8*TILE}); };
   var _cb0=ZECHO.build; ZECHO.build=function(ws){ if(ws._zcryptO&&ws._zcryptO.scene)return; var P=ZECHO.spot(ws), o=Z3.img(ws,'crypt_door',P.x,P.y,ZECHO.H);
     if(!o){ _cb0.apply(this,arguments); o=ws._zcryptO; } else ws._zcryptO=o;
-    try{ var wd=ws.wd; if(wd){ wd._r140S=(wd._r140S||[]).filter(function(r){ return r.tag!=='crypt'; }); var w=o&&o.displayWidth?o.displayWidth*0.7:64; ZR140.solid(wd,P.x,P.y-6,w,Math.min(ZECHO.H*0.42,TILE*2.4)); wd._r140S[wd._r140S.length-1].tag='crypt'; } }catch(e){} };
+    try{ var wd=ws.wd; if(wd){ wd._r140S=(wd._r140S||[]).filter(function(r){ return r.tag!=='crypt'; }); var w=o&&o.displayWidth?o.displayWidth*0.7:64; ZR140.solid(wd,P.x,P.y+6,w,Math.min(ZECHO.H*0.42,TILE*2.4)+12); if(o&&o.setDepth&&typeof WR_DEPTH==='function')o.setDepth(WR_DEPTH(P.y-10));      /* round 140c (Kris: "as you walk close to the crypt, you go from in front of it to being shown behind it"): its solid foot reaches past its drawn foot, and it sorts a little behind that line, so you are always drawn in front when you stand before it */ wd._r140S[wd._r140S.length-1].tag='crypt'; } }catch(e){} };
   var _ct0=ZECHO.tick; ZECHO.tick=function(){ if(!ZECHO.on)return; var ws=Z2.ws(); if(!ws||!ws.player||!ws.playerState||!Z2.act('World')||ws.wd&&ws.wd.islKey)return; ZECHO.build(ws); var P=ZECHO.spot(ws);
     if(Z3.near(ws,P.x,P.y+TILE*0.4,TILE*2.2)){ Z3.prompt(ws,'crypt',P.x,P.y-ZECHO.H-6,'[Tab] The crypt of echoes'); Z3.tab=ZECHO.open; } else Z3.hide(ws,'crypt'); };
   if(typeof document!=='undefined')setTimeout(function(){ var st=document.createElement('style'); st.textContent='.zecho-ui{background:rgba(4,6,10,.84)!important}.ze-box{background:#14121e!important;padding-top:0!important}.ze-box .ze-bg{position:relative!important;inset:auto!important;display:block;width:calc(100% + 48px)!important;height:190px!important;margin:0 -24px 12px!important;opacity:1!important;object-fit:cover;border-radius:14px 14px 0 0;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent);mask-image:linear-gradient(180deg,#000 70%,transparent)}.ze-box>h2{margin-top:14px}'; document.head.appendChild(st); },0); }
@@ -232,3 +232,118 @@ if(typeof ZSLAND!=='undefined'){ var _land140=ZSLAND.land; ZSLAND.land=function(
       L.filter(function(o){ return o._zNight&&!ZR140.offSquare(o.x,o.y); }).forEach(function(o){ var a=Math.atan2(o.y-C.y,o.x-C.x), placed=false;
         for(var r=ZR140.SQUARE+0.6;r<ZR140.SQUARE+4&&!placed;r+=0.5){ for(var da=0;da<0.6&&!placed;da+=0.15){ var x=C.x+Math.cos(a+da)*r*TILE, y=C.y+Math.sin(a+da)*r*TILE*0.9; if(Z3.free(ws,x,y)&&!ZR140.road(ws.wd,x,y)){ o.setPosition(x,y); if(o.setDepth)o.setDepth(typeof WR_DEPTH==='function'?WR_DEPTH(y):10); placed=true; } } }
         if(!placed)o.setVisible(false),o._zNight=0; }); }catch(e){} }; }
+
+// ── 17. round 140c (Kris: "the waystone at the village centre is still too close to Runa's board — they need to be further apart so you
+// choose the right thing"): the board stood on the very same spot as the village waystone (centre +4, +3), and its Tab listener took the key
+// first. It now stands on its own at the edge of the Green: off the square, off the paving, at least 7 tiles from the waystone, 5 from Runa
+// and 3 from any door — chosen once per world.
+if(typeof ZECO!=='undefined'&&ZECO.boardSpot){ var _bs0=ZECO.boardSpot;
+  ZECO.boardSpot=function(){ var ws=ZECO.ws&&ZECO.ws(); if(!ws||!ws.wd)return _bs0(); if(ws._zBoardP&&ws._zBoardFor===ws.wd)return ws._zBoardP;
+    try{ var C={x:CENTER_X*TILE+TILE/2,y:CENTER_Y*TILE+TILE/2}, W=(ws.wd.waystones||[]).find(function(w){ return w.id==='ws_village'; }), wp=W?{x:(W.x+0.5)*TILE,y:(W.y+0.5)*TILE}:_bs0(),
+        R=(ws._villageNPCs||[]).find(function(n){ return n.id==='vf_elder'; }), B=ws.wd.buildings||[], best=null;
+      for(var r=9;r<=14&&!best;r+=0.5){ for(var a=0;a<32&&!best;a++){ var an=Math.PI*0.62+a*(Math.PI*2/32), x=C.x+Math.cos(an)*r*TILE, y=C.y+Math.sin(an)*r*TILE*0.85;
+          if(!Z3.free(ws,x,y)||!Z3.free(ws,x,y-TILE)||ZR140.road(ws.wd,x,y,0)||Math.hypot(x-wp.x,y-wp.y)<TILE*7||(R&&Math.hypot(x-R.x,y-R.y)<TILE*5))continue;
+          if(B.some(function(b){ return b.worldX!=null&&Math.hypot(x-(b.worldX+b.w*TILE/2),y-(b.worldY+b.h*TILE))<TILE*3; }))continue; best={x:x,y:y}; } }
+      ws._zBoardP=best||{x:wp.x-TILE*8,y:wp.y+TILE*2}; ws._zBoardFor=ws.wd; if(ws._zBoard&&ws._zBoard.scene){ ws._zBoard.destroy(); ws._zBoard=null; }
+      try{ ZR140.solid(ws.wd,ws._zBoardP.x,ws._zBoardP.y,TILE*1.4,TILE*0.6); ws.wd._r140S[ws.wd._r140S.length-1].tag='board'; }catch(e){}
+      return ws._zBoardP; }catch(e){ return _bs0(); } }; }
+
+// ── 18. round 140c (Kris: "Tumbler Pia is behind the crypt, but on the mobile version I can't click on her to talk"): the crypt keeps clear of
+// Pia's camp (and Pia of the crypt), and a tap on Pia talks to her like a tap on any villager.
+if(typeof ZROLL!=='undefined'&&ZROLL.spot){ var _rs0=ZROLL.spot;
+  ZROLL.spot=function(ws){ var p=_rs0.apply(this,arguments); try{ var C=ws&&ws._zcrypt; if(p&&C&&Math.hypot(p.x-C.x,p.y-C.y)<TILE*6){ for(var k=1;k<10;k++){ var q={x:p.x+(k%2?1:-1)*Math.ceil(k/2)*TILE*3,y:p.y}; if(Z3.free(ws,q.x,q.y)&&Math.hypot(q.x-C.x,q.y-C.y)>=TILE*6)return q; } } }catch(e){} return p; }; }
+if(typeof ZECHO!=='undefined'){ var _es0=ZECHO.spot; ZECHO.spot=function(ws){ if(ws._zcrypt)return ws._zcrypt; var pia=null; try{ pia=typeof _rs0==='function'?_rs0(ws):null; }catch(e){}
+    var fr0=Z3.free; Z3.free=function(w,x,y){ if(pia&&Math.hypot(x-pia.x,y-pia.y)<TILE*7)return false; return fr0.apply(this,arguments); };
+    try{ return _es0.apply(this,arguments); } finally { Z3.free=fr0; } }; }
+if(typeof ZCLICK!=='undefined'){ var _na0=ZCLICK.npcAt; ZCLICK.npcAt=function(s,p){ var n=_na0.apply(this,arguments); if(n)return n; try{ var P=typeof ZROLL!=='undefined'&&ZROLL.npc; if(P&&s.sys.settings.key==='World'&&Math.hypot(P.x-p.x,(P.y-14)-p.y)<TILE*1.5)return {id:'tc_roll',n:'Tumbler Pia',x:P.x,y:P.y,talk:function(sc){ ZROLL.talk(sc); }}; }catch(e){} return null; }; }
+
+// ── 19. round 140c (Kris: "the wolf with the sheep doesn't seem to be showing up at the beginning" · "i don't know why there is a sheep
+// following me now, this shouldn't happen"): the lamb was painted far too big and stood right on top of the young wolf, hiding it. Now the
+// lamb is lamb-sized, the wolf comes at it from a little way off (in plain sight), and once the wolves are gone the lamb runs back into its
+// pen and stays there — it no longer follows you.
+if(typeof ZFWIN!=='undefined'){ ZR140.LAMB_H=34; ZR140.LAMB_SPD=90;
+  var _la0=ZFWIN.lambAt; ZFWIN.lambAt=function(ws,x,y){ var had=ZFWIN.lamb&&ZFWIN.lamb.active, L=_la0.apply(this,arguments); if(!had&&L&&L.setDisplaySize&&L.height){ var k=ZR140.LAMB_H/L.height; L.setDisplaySize(L.width*k,L.height*k); } try{ L.setDepth(WR_DEPTH(L.y)); }catch(e){} return L; };
+  var _wf0=ZFWIN.wolf; ZFWIN.wolf=function(ws,x,y,h){ var L=ZFWIN.lamb; if(L&&L.active&&Math.abs(x-L.x)<120){ x=L.x+150; y=L.y-20; } var m=_wf0.call(this,ws,x,y,h); try{ if(m&&m.spr){ m.spr.setVisible(true); m.spr.setAlpha(1); } }catch(e){} return m; };
+  ZFWIN.frame=function(sc){ var L=ZFWIN.lamb; if(!L||!L.active||L.scene!==sc)return; var ps=sc.playerState; if(!ps)return;
+    var P=ZFWIN.pen(sc), hx=P.x+TILE*0.5, hy=P.y+TILE*1.5;      /* inside the pen */
+    var now=Date.now(), dt=Math.min(0.25,(now-(L._t||now))/1000); L._t=now;      /* by time: the frame hook runs at any rate */
+    if(ps.firstWin>=3){ var dx=hx-L.x, dy=hy-L.y, d=Math.hypot(dx,dy); if(d>4){ var s=Math.min(d,ZR140.LAMB_SPD*dt); L.x+=dx/d*s; L.y+=dy/d*s; if(L.setFlipX)L.setFlipX(dx<0); } else { L.x+=Math.sin(Date.now()/1400)*0.12; } }
+    try{ L.setDepth(WR_DEPTH(L.y)); }catch(e){} };
+  var _ft0=ZFWIN.tick; ZFWIN.tick=function(){ try{ var ws=ZFWIN.ws(), ps=ws&&ws.playerState; if(ps&&ps.firstWin===4&&ps.lamb&&!(ZFWIN.lamb&&ZFWIN.lamb.active)&&ws.player){ var P=ZFWIN.pen(ws); ZFWIN.lambAt(ws,P.x+TILE*0.5,P.y+TILE*1.5); return; } }catch(e){} return _ft0.apply(this,arguments); };
+}
+
+// ── 20. round 140c (Kris, with a picture of the Green: "the thaw fair games comes up way too quick … there is also an old pixel art
+// seedling hovering over which needs to be removed"): the festival's pieces stand round the edge of the village by the houses, never on
+// the World Tree square, and the bobbing emoji sign over the games board is gone (the [Tab] prompt still shows when you stand by it).
+// The first festival now waits until you have found your feet (ZDAY.ready, in 21z2).
+if(typeof ZFEST!=='undefined'){ ZR140.FEST_R=[ZR140.SQUARE+2,ZR140.SQUARE+8];
+  ZFEST.dress=function(ws,s){ ZFEST.undress(ws); var C=ZFEST.centre(ws), L=ws._zfest=[], P=ZFEST.PIECES[s]||[], R=Z3.rng(77+s.length*13), board=null, used=[];
+    var ok=function(x,y){ if(!ZR140.offSquare(x,y)||!Z3.free(ws,x,y)||!Z3.free(ws,x,y-TILE))return false; if(ZR140.road&&ZR140.road(ws.wd,x,y,0))return false; for(var i=0;i<used.length;i++)if(Math.hypot(used[i].x-x,used[i].y-y)<TILE*3)return false;
+      try{ var ws0=(ws.wd.waystones||[]).find(function(w){ return w.id==='ws_village'; }); if(ws0&&Math.hypot(ws0.x*TILE-x,ws0.y*TILE-y)<TILE*4)return false; }catch(e){} return true; };
+    P.forEach(function(id,i){ for(var k=0;k<60;k++){ var a=(i/P.length)*Math.PI*2+R()*0.6+k*0.37, r=(ZR140.FEST_R[0]+R()*(ZR140.FEST_R[1]-ZR140.FEST_R[0]))*TILE, x=C.x+Math.cos(a)*r, y=C.y+Math.sin(a)*r*0.85; if(!ok(x,y))continue;
+      var o=Z3.img(ws,id,x,y,ZFEST.H[id]||64); if(o){ L.push(o); used.push({x:x,y:y}); if(!board&&/tafl|table|stage|log|banner/.test(id))board={x:x,y:y}; } break; } });
+    if(!board&&used.length)board=used[0];
+    if(!board)board={x:C.x+(ZR140.SQUARE+3)*TILE,y:C.y+2*TILE};
+    try{ var wd=ws.wd; wd._r140S=(wd._r140S||[]).filter(function(r){ return r.tag!=='fest'; }); used.forEach(function(u){ var r=[u.x-16,u.y-12,u.x+16,u.y]; r.tag='fest'; wd._r140S.push(r); }); }catch(e){}
+    ws._zfestBoard=board; ws._zfestS=s; };
+  var _ud0=ZFEST.undress; ZFEST.undress=function(ws){ try{ if(ws&&ws.wd&&ws.wd._r140S)ws.wd._r140S=ws.wd._r140S.filter(function(r){ return r.tag!=='fest'; }); }catch(e){} return _ud0.apply(this,arguments); };
+}
+
+// ── 21. round 140c (Kris, with a picture of a "Camps" card over a fight: "pop-ups at the beginning that are adding lag and not adding any value,
+// especially when in the middle of battle … find more opportune times … including things like a saga card - not helpful" · "i am also still
+// getting master oswin's talking lines at the top of the screen when i'm getting the initial instructions"):
+//  · lessons, hints and hooks wait while you fight (a foe hunting you within 10 tiles, or a blow taken in the last 6 s) and while a story
+//    dialogue is up; they come one at a time once things have been calm for 4 s. Only the first fight's own guidance (Oswin at the sheep pen) shows at once.
+//  · no "A saga card" offers, except the one at the very end of the saga.
+//  · Oswin's (and every keeper's) line at the top of the screen waits for the first walk and the first fight to be over, and never shows
+//    over a dialogue or a lesson card; it goes when a dialogue opens.
+ZR140.CALM_MS=4000; ZR140.HURT_MS=6000; ZR140.FOE_R=10; ZR140._q=[]; ZR140._hurtT=0; ZR140._busyT=0;
+ZR140.fight=function(ws){ try{ if(!ws||!ws.player)return false; if(Date.now()-ZR140._hurtT<ZR140.HURT_MS)return true; var R=TILE*ZR140.FOE_R, L=ws.worldMonsters||[];
+    for(var i=0;i<L.length;i++){ var m=L[i]; if(!m||m.dead)continue; var a=(m._m&&(m._m.aggro||m._m.chase))||m.state==='chase'||m.aggro; if(a&&Math.abs(m.x-ws.player.x)<R&&Math.abs(m.y-ws.player.y)<R)return true; } }catch(e){} return false; };
+ZR140.story=function(){ try{ return (typeof ZDLG!=='undefined'&&ZDLG.open)||(typeof ZDLG!=='undefined'&&ZDLG._closedAt&&Date.now()-ZDLG._closedAt<1500); }catch(e){ return false; } };
+if(typeof ZCARD!=='undefined'){ var _cs0=ZCARD.show;
+  ZCARD.show=function(o){ o=o||{}; var soft=/zc-(les|hint|hook)/.test(o.cls||'')&&!o.now, ws=null; try{ ws=game.scene.getScene('World'); }catch(e){}
+    if(soft&&(ZR140.fight(ws)||ZR140.story()||(ZCARD.cur&&ZCARD.cur.isConnected&&ZCARD.cur._now))){ if(!ZR140._q.some(function(x){ return x.text===o.text; }))ZR140._q.push(o); return null; }
+    var d=_cs0.apply(this,arguments); if(d&&o.now)d._now=1; return d; };
+  setInterval(function(){ try{ var ws=game.scene.getScene('World'); var ps=ws&&ws.playerState; if(ps){ if(ZR140._hp!=null&&ps.hp<ZR140._hp)ZR140._hurtT=Date.now(); ZR140._hp=ps.hp; }
+    if(ZR140.fight(ws)||ZR140.story())ZR140._busyT=Date.now();
+    if(!ZR140._q.length||Date.now()-ZR140._busyT<ZR140.CALM_MS||(ZCARD.cur&&ZCARD.cur.isConnected)||Date.now()-(ZR140._shownT||0)<8000)return;
+    if(typeof _openOverlays==='function'&&_openOverlays().length)return;
+    var o=ZR140._q.shift(); ZR140._shownT=Date.now(); _cs0.call(ZCARD,o); }catch(e){} },500); }
+if(typeof ZFWIN!=='undefined'){ ZFWIN.card=function(t,btn){ if(typeof ZCARD!=='undefined')ZCARD.show({who:'Master Oswin',icon:'⚔',text:t,cls:'zc-hint',ms:14000,btns:btn,now:true}); else if(typeof showNotif==='function')showNotif('Master Oswin: '+t,'#ffe9a8'); }; }
+if(typeof ZSHARE!=='undefined'&&ZSHARE.offer){ var _so0=ZSHARE.offer; ZSHARE.offer=function(o){ if(!o||o.kind!=='end')return; return _so0.apply(this,arguments); }; }
+if(typeof ZVOICE!=='undefined'&&ZVOICE.bubble){ var _vb0=ZVOICE.bubble;
+  ZVOICE.bubble=function(k,ps){ try{ var ws=game.scene.getScene('World'); ps=ps||(ws&&ws.playerState);
+      if(ps&&ps.walk&&ps.walk!=='done')return; if(ps&&ps.firstWin>=1&&ps.firstWin<=3)return; if(typeof ZWALK!=='undefined'&&ZWALK._ow)return;
+      if(ZR140.story()||(typeof ZCARD!=='undefined'&&ZCARD.cur&&ZCARD.cur.isConnected))return; if(ws&&ZR140.fight(ws))return;
+      if(k==='oswin'&&ws&&ZR140.oswStory&&ZR140.oswStory(ws))return; }catch(e){} return _vb0.apply(this,arguments); };
+  if(typeof ZDLG!=='undefined'&&ZDLG.say){ var _ds21=ZDLG.say; ZDLG.say=function(){ try{ var b=document.getElementById('zvoice-bub'); if(b)b.classList.remove('on'); }catch(e){} return _ds21.apply(this,arguments); }; } }
+
+// ── 22. round 140c (Kris, with a picture of the jeweller's: "for the festival, the wreaths and banners are not at the right places on the village
+// buildings, need to either be removed or moved to places it makes sense"): a painted house's door is not where the old tile door was, so
+// the wreath lay on the ground and the banner stood in the doorway. Now no wreath or step piece on the ground; each house gets one banner
+// and one lantern standing at its two front corners, clear of the door and the path to it. (Lab: wreaths painted on the houses themselves.)
+if(typeof ZSLAND!=='undefined'&&typeof _dress140==='function'){ ZSLAND.DRESS=['banner','lantern'];
+  _dress140=function(ws,f){ ZSLAND.clear(ws,'_zsd'); ws._zsdF=f; if(!f)return; var L=ws._zsd=[], B=(ws.wd&&ws.wd.buildings)||[];
+    B.forEach(function(b,i){ if(b.worldX==null)return; var y0=b.worldY+b.h*TILE+TILE*0.35, xl=b.worldX-TILE*0.15, xr=b.worldX+b.w*TILE+TILE*0.15, side=i%2;
+      [['banner',side?xr:xl],['lantern',side?xl:xr]].forEach(function(p){ var id='fd_'+f+'_'+p[0]; if(!ZSLAND.has(id))return;
+        for(var k=0;k<3;k++){ var y=y0+k*TILE*0.5; if(Z3.free(ws,p[1],y)&&!(ZR140.road&&ZR140.road(ws.wd,p[1],y,0))){ ZSLAND.put(ws,L,id,p[1],y); return; } } }); });
+    var C=ZFEST.centre(ws); for(var k=0;k<8;k++){ var a=k/8*Math.PI*2, x=C.x+Math.cos(a)*4.2*TILE, y=C.y+Math.sin(a)*3.4*TILE; if(Z3.free(ws,x,y)){ var o=ZSLAND.put(ws,L,k%2?'fd_night_torch':'fd_night_brazier',x,y); if(o)o._zNight=1; } } }; }
+
+// ── 23. round 140c (Kris: "the sheep need sprites that make them move"): once the sheep and lamb are painted as animals (r140_motion:
+// animal_sheep, animal_lamb — idle (grazing) and a four-frame walk), every sheep of the village pens and the hamlets is alive: it grazes,
+// then ambles a step or two round its spot and grazes again. Until then the still paintings stay as they are.
+var ZSHEEP={ on:true, R:22, HOME:0.9, SPD:16, L:{},
+  live:function(){ return ZSHEEP.on&&typeof ZAtlas!=='undefined'&&ZAtlas.has('animal_sheep'); },
+  tick:function(sc,dt){ if(!ZSHEEP.live()||!sc||!sc.wd||!sc.player||sc.sys.settings.key!=='World')return; var wd=sc.wd, P=sc.player, R=ZSHEEP.R*TILE, L=ZSHEEP.L;
+    if(ZSHEEP._wd!==wd){ ZSHEEP._wd=wd; ZSHEEP.L=L={}; ZSHEEP.S=(wd.props||[]).filter(function(p){ return p.prop==='sheep'; }).map(function(p,i){ var h=_wpHash?_wpHash(p.x,p.y,11):i*7; return {k:p.x+'_'+p.y,x:(p.x+p.w/2)*TILE,y:(p.y+p.h)*TILE-4,lamb:(Math.abs(h)%5)===0}; }); }
+    (ZSHEEP.S||[]).forEach(function(s){ var near=Math.abs(s.x-P.x)<R&&Math.abs(s.y-P.y)<R, a=L[s.k];
+      if(!near){ if(a){ if(a._zim&&a._zim.scene)a._zim.destroy(); delete L[s.k]; } return; }
+      if(!a)a=L[s.k]={x:s.x,y:s.y,hx:s.x,hy:s.y,vx:0,vy:0,state:'idle',timer:1+Math.random()*4,type:s.lamb&&ZAtlas.has('animal_lamb')?'lamb':'sheep'};
+      a.timer-=dt; if(a.timer<=0){ if(a.state==='idle'){ var an=Math.random()*Math.PI*2, r=Math.random()*ZSHEEP.HOME*TILE, tx=a.hx+Math.cos(an)*r, ty=a.hy+Math.sin(an)*r*0.6, d=Math.hypot(tx-a.x,ty-a.y)||1;
+          a.vx=(tx-a.x)/d*ZSHEEP.SPD*(a.type==='lamb'?1.3:1); a.vy=(ty-a.y)/d*ZSHEEP.SPD*(a.type==='lamb'?1.3:1); a.state='wander'; a.timer=d/ZSHEEP.SPD; }
+        else { a.vx=a.vy=0; a.state='idle'; a.timer=3+Math.random()*6; } }
+      a.x+=a.vx*dt; a.y+=a.vy*dt; try{ ZAtlas.animal(sc,a,a.type,false); }catch(e){} }); } };
+if(typeof ZAtlas!=='undefined'&&ZAtlas.ANIMAL_H){ ZAtlas.ANIMAL_H.sheep=22; ZAtlas.ANIMAL_H.lamb=15; }
+if(typeof WPROP!=='undefined'&&WPROP.sheep){ var _wsh0=WPROP.sheep; WPROP.sheep=function(){ if(ZSHEEP.live())return; return _wsh0.apply(this,arguments); }; }
+if(typeof _heroStatusTick==='function'){ var _hst23=_heroStatusTick; _heroStatusTick=function(sc,dt){ _hst23(sc,dt); try{ ZSHEEP.tick(sc,dt); }catch(e){} }; }

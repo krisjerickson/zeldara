@@ -58,7 +58,7 @@
     {
      "n": 2,
      "title": "You come closer",
-     "cap": "With its Binder gone, you came closer.",
+     "cap": "Its Binder was ash. You walked closer.",
      "ids": [
       "sb_spirit_02_m",
       "sb_spirit_02_f"
@@ -567,7 +567,7 @@
     {
      "n": 1,
      "title": "The cage",
-     "cap": "At the top of the tower, Surtharn's wardens had caged a builder.",
+     "cap": "At the top of the tower hung a cage — and in it a builder, still drawing bridges on the bars.",
      "ids": [
       "sb_bram_01_m",
       "sb_bram_01_f"
@@ -614,7 +614,7 @@
     {
      "n": 2,
      "title": "Free",
-     "cap": "\"Free at last! I'll raise the bridge to Fernheim.\"",
+     "cap": "\"Free! Give me timber and a few nights, and Fernheim is yours.\"",
      "ids": [
       "sb_bram_02_m",
       "sb_bram_02_f"
@@ -622,19 +622,19 @@
      "shots": [
       {
        "k": 1,
-       "lens": "two",
-       "who": "h",
-       "id": "sc_ss_bram_02_1_m"
+       "lens": "insert",
+       "who": 0,
+       "id": "sc_ss_bram_02_1"
       },
       {
        "k": 2,
-       "lens": "ots",
+       "lens": "wide",
        "who": "h",
        "id": "sc_ss_bram_02_2_m"
       },
       {
        "k": 3,
-       "lens": "close",
+       "lens": "xwide",
        "who": "h",
        "id": "sc_ss_bram_02_3_m"
       },
@@ -646,13 +646,13 @@
       },
       {
        "k": 5,
-       "lens": "xwide",
+       "lens": "low",
        "who": "h",
        "id": "sc_ss_bram_02_5_m"
       },
       {
        "k": 6,
-       "lens": "low",
+       "lens": "react",
        "who": "h",
        "id": "sc_ss_bram_02_6_m"
       }
@@ -849,7 +849,7 @@
     {
      "n": 7,
      "title": "Under the northern lights",
-     "cap": "They worked through the night under the northern lights.",
+     "cap": "They worked through the night, and the river worked against them.",
      "ids": [
       "sb_bram_07_m",
       "sb_bram_07_f"
@@ -943,7 +943,7 @@
     {
      "n": 9,
      "title": "The bridge",
-     "cap": "Bram built the Silverrun bridge.",
+     "cap": "Finally, the river which kept the realms apart now had a bridge connecting them.",
      "ids": [
       "sb_bram_09_m",
       "sb_bram_09_f"
@@ -990,7 +990,7 @@
     {
      "n": 10,
      "title": "The first to cross",
-     "cap": "For the first time in years, Gildenmark and Fernheim touch again.",
+     "cap": "Carts rolled from Gildenmark into Fernheim once again.",
      "ids": [
       "sb_bram_10_m",
       "sb_bram_10_f"
@@ -1047,7 +1047,7 @@
     {
      "n": 1,
      "title": "The cage",
-     "cap": "In a tower above the marsh, the wardens had caged a mechanic.",
+     "cap": "Above the marsh a cage swung in the wind. The mechanic inside had picked its lock twice; they kept changing it.",
      "ids": [
       "sb_mira_01_m",
       "sb_mira_01_f"
@@ -1094,7 +1094,7 @@
     {
      "n": 2,
      "title": "Free",
-     "cap": "\"Thank you! My lift will carry you up to Cragland.\"",
+     "cap": "\"Thank you! Now — who wants to scale a cliff?\"",
      "ids": [
       "sb_mira_02_m",
       "sb_mira_02_f"
@@ -1414,7 +1414,7 @@
     {
      "n": 9,
      "title": "Up the Scar",
-     "cap": "Mira's lift climbs the Great Scar.",
+     "cap": "Up it went — the first thing to climb the Scar in twenty-five years.",
      "ids": [
       "sb_mira_09_m",
       "sb_mira_09_f"
@@ -1518,7 +1518,7 @@
     {
      "n": 1,
      "title": "The cage",
-     "cap": "High in the mountains, the wardens had caged a dwarf forger.",
+     "cap": "Up in the peaks, a dwarf sat in an iron cage, counting its rivets out loud.",
      "ids": [
       "sb_dunn_01_m",
       "sb_dunn_01_f"
@@ -1998,7 +1998,7 @@
     {
      "n": 1,
      "title": "The cage",
-     "cap": "In a tower in the ash, the wardens had caged a sky captain.",
+     "cap": "In a tower in the ash, a sky captain watched the winds through the bars and dreamed of riding them once again.",
      "ids": [
       "sb_vela_01_m",
       "sb_vela_01_f"
@@ -2045,7 +2045,7 @@
     {
      "n": 2,
      "title": "Free",
-     "cap": "\"You found me! The sky ports are yours to command.\"",
+     "cap": "\"You found me! Now let's find a ship.\"",
      "ids": [
       "sb_vela_02_m",
       "sb_vela_02_f"
@@ -2233,7 +2233,7 @@
     {
      "n": 6,
      "title": "Over the fire",
-     "cap": "They sailed over the fire under the northern lights.",
+     "cap": "They sailed out over the fires, the rising heat billowing against their sails.",
      "ids": [
       "sb_vela_06_m",
       "sb_vela_06_f"
@@ -2327,7 +2327,7 @@
     {
      "n": 8,
      "title": "The pass",
-     "cap": "A pass through the Ember Wall.",
+     "cap": "Where the Ember Wall had stood: a road of cooled black stone.",
      "ids": [
       "sb_vela_08_m",
       "sb_vela_08_f"
@@ -2549,7 +2549,7 @@
     {
      "n": 11,
      "title": "The choice",
-     "cap": "One would go out into Runeheim; the other would stay and keep the village.",
+     "cap": "One would go out to face Runeheim; the other would stay to study her past.",
      "ids": [
       "sb_opening_11_m",
       "sb_opening_11_f"
@@ -2559,7 +2559,7 @@
     {
      "n": 12,
      "title": "The send-off",
-     "cap": "And so one twin went out — and the other stayed.",
+     "cap": "At dawn, {H} was ready for the quests that lay ahead.",
      "ids": [
       "sb_opening_12_m",
       "sb_opening_12_f"
@@ -3885,7 +3885,7 @@
     {
      "n": 1,
      "title": "The sky parts",
-     "cap": "Twenty spirits free — and the sky showed you something.",
+     "cap": "Twenty spirits home — and the sky opened a crack.",
      "ids": [
       "sb_gate_01_m",
       "sb_gate_01_f"
@@ -3893,19 +3893,19 @@
      "shots": [
       {
        "k": 1,
-       "lens": "xwide",
-       "who": "h",
-       "id": "sc_ss_gate_01_1_m"
+       "lens": "macro",
+       "who": 0,
+       "id": "sc_ss_gate_01_1"
       },
       {
        "k": 2,
-       "lens": "pov",
+       "lens": "flash",
        "who": 0,
        "id": "sc_ss_gate_01_2"
       },
       {
        "k": 3,
-       "lens": "sil",
+       "lens": "react",
        "who": "h",
        "id": "sc_ss_gate_01_3_m"
       },
@@ -3917,13 +3917,13 @@
       },
       {
        "k": 5,
-       "lens": "low",
+       "lens": "xwide",
        "who": "h",
        "id": "sc_ss_gate_01_5_m"
       },
       {
        "k": 6,
-       "lens": "react",
+       "lens": "low",
        "who": "h",
        "id": "sc_ss_gate_01_6_m"
       }
@@ -7275,7 +7275,7 @@
     {
      "n": 6,
      "title": "Tiny",
-     "cap": "The Horned Jötunn.",
+     "cap": "The Horned Jötunn — and you, so small below.",
      "ids": [
       "sb_surt4_06_m",
       "sb_surt4_06_f"
@@ -7850,7 +7850,7 @@
     {
      "n": 6,
      "title": "Amid the fire",
-     "cap": "Now — or never.",
+     "cap": "One blow left in you. One ember left in him.",
      "ids": [
       "sb_surt6_06_m",
       "sb_surt6_06_f"
@@ -7858,39 +7858,39 @@
      "shots": [
       {
        "k": 1,
-       "lens": "sil",
-       "who": "h",
-       "id": "sc_ss_surt6_06_1_m"
+       "lens": "macro",
+       "who": 0,
+       "id": "sc_ss_surt6_06_1"
       },
       {
        "k": 2,
-       "lens": "ecu",
-       "who": "h",
-       "id": "sc_ss_surt6_06_2_m"
+       "lens": "flash",
+       "who": 0,
+       "id": "sc_ss_surt6_06_2"
       },
       {
        "k": 3,
-       "lens": "low",
+       "lens": "react",
        "who": "h",
        "id": "sc_ss_surt6_06_3_m"
       },
       {
        "k": 4,
-       "lens": "xwide",
+       "lens": "ecu",
        "who": "h",
        "id": "sc_ss_surt6_06_4_m"
       },
       {
        "k": 5,
-       "lens": "react",
+       "lens": "xwide",
        "who": "h",
        "id": "sc_ss_surt6_06_5_m"
       },
       {
        "k": 6,
-       "lens": "macro",
-       "who": 0,
-       "id": "sc_ss_surt6_06_6"
+       "lens": "low",
+       "who": "h",
+       "id": "sc_ss_surt6_06_6_m"
       }
      ]
     }
@@ -8702,7 +8702,7 @@
     {
      "n": 6,
      "title": "The Lodestar raised",
-     "cap": "And what was left was the dark that had always been underneath.",
+     "cap": "Against the storm, one small white star.",
      "ids": [
       "sb_sol3_06_m",
       "sb_sol3_06_f"
@@ -9188,7 +9188,7 @@
     {
      "n": 2,
      "title": "The orbs",
-     "cap": "Two great orbs, joined like an infinity sign — and voices inside.",
+     "cap": "Two great orbs, joined in one ring of light — and voices inside.",
      "ids": [
       "sb_feasthall_02_m",
       "sb_feasthall_02_f"
@@ -9981,7 +9981,7 @@
     {
      "n": 3,
      "title": "Into the sky",
-     "cap": "Godsbane — into the sky.",
+     "cap": "The word rang out, up into the sky.",
      "ids": [
       "sb_home_03"
      ],
@@ -11388,7 +11388,7 @@
     {
      "n": 3,
      "title": "The hill",
-     "cap": "Runeheim is green again.",
+     "cap": "The roads are full again.",
      "ids": [
       "sb_credits_03"
      ],

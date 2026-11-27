@@ -39,7 +39,7 @@ var ZFWIN={ on:true, PEN:{tx:715,ty:529}, W:null, lamb:null,
     if(typeof ZSFX!=='undefined')try{ ZSFX.play('quest'); }catch(e){} if(typeof showNotif==='function')showNotif('🛡️ Master Oswin gives you a Wood Shield (+3 DEF) — it is on your arm.','#ffe9a8');
     ZFWIN.card((helped?'There — off it goes. ':'Ha! Look at it run. ')+'You stood your ground. Now learn to hold it: here, your first shield. Another is creeping up — hold Shift and let it bite the wood, then answer.');
     setTimeout(function(){ try{ var L=ZFWIN.lamb||{x:ws.player.x+60,y:ws.player.y}; ZFWIN.W={m:ZFWIN.wolf(ws,L.x+90,L.y+30,2),hp0:ps.hp,t0:Date.now()}; if(typeof ZLES!=='undefined')ZLES.teach('shield'); }catch(e){} },2500); },
-  done:function(ws){ var ps=ws.playerState; ps.firstWin=4; ps.lamb=1; ZFWIN.W=null; ZFWIN.card('Good. The wood takes the bite, you give it back. And look — that lamb has decided you are its mother. Take it home to the Green.');
+  done:function(ws){ var ps=ws.playerState; ps.firstWin=4; ps.lamb=1; ZFWIN.W=null; ZFWIN.card('Good. The wood takes the bite, you give it back. And look — the lamb is safe back in its pen, thanks to you.');
     try{ if(ws._save)ws._save(); }catch(e){} },
   // the lamb trots after you until you are back on the Green, then stays there
   frame:function(sc){ var L=ZFWIN.lamb; if(!L||!L.active||L.scene!==sc)return; var ps=sc.playerState; if(!ps)return; var tx, ty;

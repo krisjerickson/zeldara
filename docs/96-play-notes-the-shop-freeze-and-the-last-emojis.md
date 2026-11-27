@@ -73,3 +73,49 @@
 ```
 .\tools\sprites\paint.ps1 -List r140_icons
 ```
+
+## Round 140c: the Flow feedback, the crypt, and the later play notes
+### The Flow lab (`07zt32-flow-fix3.js`, list `r140_flow`, 59 pictures)
+Why the repaints missed:
+- The change was buried at the end of a long prompt. It now opens each prompt as "MOST IMPORTANT" and closes it again.
+- Old panel references pulled the old mistakes back. They are replaced by the right references.
+- The Lodestar shots never got Kris's Lodestar painting. Now every one gets `lodestar_ref`.
+- Underground Surtharn shots carried the aurora-sky line. They are now underground with no sky, each with its phase (`sc_ref_surth_p1..6`, cut from `sc_surth_phases`).
+- Vela's own sheet is the admiral. A new sky-captain sheet (`sc_vela_ref_140`) is painted first and used.
+- Several shots used the same camera. Each now has its own.
+- The feast keeps the picture Kris liked (`sc_ref_celebrate_01`), with grown-ups only.
+- 23 caption notes are in.
+
+### The crypt of echoes (Lab tab, list `r140_crypt`, 7 sheets)
+Three ways it can grow: the long hall, the round chamber, the deeper stair. Each is painted full and as a five-stage strip. The door on the Green is painted at six stages.
+
+### What should move (Lab tab) and the bars (Lab tab), list `r140_motion`
+- Asked now:
+  - Oswin's walk (`ZSPR.WALKERS`). He is the only one who walks without walking frames.
+  - The sheep and the lamb as animals (`ZSHEEP`: they graze and amble round their spots once painted).
+  - Both cauldrons bubbling (`ZMOVE` plays any `mv_<id>_1..4` loop in place of its still).
+  - Six painted bar frames.
+- Thirty more stills are listed, each as a painted loop or a code effect, for Kris to ✓.
+
+### Play notes
+| Note | Done |
+|---|---|
+| Waystone too close to Runa's board | The board stood on the waystone's own tile. It now stands 7+ tiles away, off the square. |
+| Walking up to the crypt or a wall puts you behind it | The hero is sorted by the feet (+12), not the middle. The crypt's depth and foot are fixed too. |
+| Can't tap Pia on phones | A tap on her talks to her. The crypt keeps 7 tiles from her camp. |
+| Outline offset on phones | Under the zoomed camera the outline is cut by drawing, not by a mask. |
+| Oswin's lines at the top during the instructions | They wait for the first walk and the first fight to be over, and never show over a dialogue or a card. |
+| Journal: can't choose quests | The journal's box swallowed the click. ☆ Make current answers again (capture). |
+| The wolf at the sheep pen doesn't show | The lamb was painted huge and stood on it. The lamb is now lamb-sized and the wolf comes from a little way off. |
+| A sheep following you | After the fight the lamb runs back into its pen and stays. |
+| Pop-ups in battle; the saga card | Lessons, hints and hooks wait until a fight has been over for 4 s, then come one at a time. There are no saga-card offers except at the very end. |
+| The thaw fair too soon; a pixel seedling | The first festival waits for the first win plus a cleared site (or day 3). Its pieces stand off the square, by the houses. The bobbing emoji sign is gone. |
+| Wreaths and banners in odd places on the houses | No wreath or step piece on the ground. Each house gets a banner and a lantern at its front corners. |
+| Mana in the inventory before a spell | Mana shows only once you have a spell. |
+
+### For Kris to run
+```
+.\tools\sprites\redo.ps1 -List r140_flow
+.\tools\sprites\paint.ps1 -List r140_crypt
+.\tools\sprites\paint.ps1 -List r140_motion
+```
