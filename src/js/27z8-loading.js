@@ -7,13 +7,13 @@
 // ║ entrance over its realm's vista; its name in gold, the realm and the floor; a turning ring of runes; and a tip. It fades away once the
 // ║ site is built (never sooner than ZLOADS.MIN ms, so a tip can be read). Switch: ZLOADS.on.
 // ═══════════════════════════════════════════════════════════════════════
-var ZLOADS={ on:true, MIN:1600, KEYS:{Dungeon:1,Sky:1,VolcanoMaze:1,VolcanoBulletHell:1,VolcanoPuzzle:1,VolcanoEscape:1,VolcanoBossRush:1}, _i:Math.floor(Math.random()*997),
+var ZLOADS={ on:true, MIN:1600,      /* round 143: the measured loads are 0.5–1.2 s — proposal L2 shortens this; kept until Kris ✓ */
+  KEYS:{Dungeon:1,Sky:1,VolcanoMaze:1,VolcanoBulletHell:1,VolcanoPuzzle:1,VolcanoEscape:1,VolcanoBossRush:1}, _i:Math.floor(Math.random()*997),
   VISTA:{1:'wl_vista_silverrun',2:'wl_vista_lilies',3:'wl_vista_scar',4:'wl_vista_ember'},
   TIPS:[
     'Your game saves itself as you go. To start over, choose NEW PLAYER on the title — your saves stay safe under RETURNING PLAYER.',
     'Each player has three save slots. A new slot is a fresh start without losing the others.',
-    'Fall in a site and you wake in the village with a quarter of your health. Walk back in — the floors you cleared stay cleared.',
-    'A cleared site stays cleared. Fall in battle and you can come back to it with fresh foes.',
+    'Fall in battle and you wake on the Runestone Green. A tenth of your gold stays where you fell — walk back for it.',
     'Away from a site for a while? It fills up again — a good place to come back to for gold and practice.',
     'Esc opens the pause panel: the map, your pack, the Tome, Training, and saving.',
     'Hold Shift and your shield takes the blow. A shield foe turns slowly — get behind it.',

@@ -112,6 +112,7 @@ with game(painted=True, w=1280, h=720) as g:
     check('Journal: ☆ Make current answers a click (%s → %s)' % (b['id'], tr), tr == b['id'], [b, tr])
     g.js("(()=>{ closeModal('quests'); })()")
     # the young wolf is in plain sight, the lamb lamb-sized; afterwards the lamb goes home to its pen
+    g.js("(()=>{ for(var q=0;q<8&&ZDLG.cur;q++){ ZDLG._q=[]; ZDLG.cur.close(); } })()")      # round 143: any line still being said (NPC lines are spoken in the box now)
     w = g.js("""(()=>{ var ws=%s, ps=ws.playerState; ps.oswin=ps.oswin||1; ps.equip.shield=null; ps.inventory=(ps.inventory||[]).filter(i=>!(ITEMS[i]&&ITEMS[i].slot==='shield')); delete ps.firstWin; ZFWIN.tick(); var P=ZFWIN.pen(ws); ws.player.x=P.x+TILE*3; ws.player.y=P.y+TILE*3; ws.player.cont.setPosition(ws.player.x,ws.player.y); ZFWIN.tick();
         var L=ZFWIN.lamb, m=ZFWIN.W&&ZFWIN.W.m; return {fw:ps.firstWin, lambH:L&&Math.round(L.displayHeight), gap:m&&L?Math.round(Math.hypot(m.x-L.x,m.y-L.y)):null}; })()""" % WS)
     check('First win: the wolf stands clear of a lamb-sized lamb (%s)' % w, w['fw'] == 2 and w['lambH'] and w['lambH'] <= 40 and w['gap'] and w['gap'] >= 120, w)
